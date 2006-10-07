@@ -904,7 +904,8 @@ msgstr "Vigane logimistase %d - \"%s\" \n"
 #: utility/log.c:92 utility/log.c:103
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr "Freeciv tuleb kompileerida DEBUG võtmega, et saaks kasutada silumistaset %d\n"
+msgstr ""
+"Freeciv tuleb kompileerida DEBUG võtmega, et saaks kasutada silumistaset %d\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
 #, c-format
@@ -1168,7 +1169,8 @@ msgstr[1] ""
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
-msgstr "*%s (AI)* Me ootame su abi selles asjas. Elagu meie kuulsusrikas liiit!"
+msgstr ""
+"*%s (AI)* Me ootame su abi selles asjas. Elagu meie kuulsusrikas liiit!"
 
 #: ai/advdiplomacy.c:1199
 #, c-format
@@ -1206,7 +1208,8 @@ msgstr[1] ""
 
 #: ai/advdiplomacy.c:1216
 #, c-format
-msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
+msgid ""
+"*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* Kui tahad ka rüüstada, löö kaasa!"
 
 #: ai/advdiplomacy.c:1220
@@ -1227,7 +1230,8 @@ msgstr[1] ""
 #: ai/advdiplomacy.c:1228
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr "*%s (AI)* Meie kuulsusrikka liidu pärast me ootame teie abi selles sõjas."
+msgstr ""
+"*%s (AI)* Meie kuulsusrikka liidu pärast me ootame teie abi selles sõjas."
 
 #: ai/advdiplomacy.c:1233
 #, c-format
@@ -1322,12 +1326,14 @@ msgstr ""
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
-msgstr "*%s (AI)* Tervist, sõber. Kas me tohiks soovitada ühiseid eesmärke ja liitu?"
+msgstr ""
+"*%s (AI)* Tervist, sõber. Kas me tohiks soovitada ühiseid eesmärke ja liitu?"
 
 #: ai/advdiplomacy.c:1564
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
-msgstr "*%s (AI)* Tervist, sõber. Kas me tohiks soovitada rahumeelsemaid suhteid?"
+msgstr ""
+"*%s (AI)* Tervist, sõber. Kas me tohiks soovitada rahumeelsemaid suhteid?"
 
 #: ai/advdiplomacy.c:1578
 #, c-format
@@ -1372,7 +1378,8 @@ msgstr "Viga kasutajabaasi lugemisel, logib sisse külalisena '%s'."
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
-msgstr "Esines viga kasutajabaasi lugemisel ning külalised pole lubatud. Juhtub."
+msgstr ""
+"Esines viga kasutajabaasi lugemisel ning külalised pole lubatud. Juhtub."
 
 #: server/auth.c:172
 #, c-format
@@ -1448,7 +1455,8 @@ msgstr ""
 
 #: server/barbarian.c:188
 #, c-format
-msgid "Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
+msgid ""
+"Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
 msgstr "Barbarid saavad juhi nimega %s. Asi võib ohtlikuks minna."
 
 #: server/barbarian.c:475
@@ -1523,8 +1531,10 @@ msgstr "Mäng: %s ei saa kasutada linna nimena. See on reserveeritud %s jaoks."
 
 #: server/citytools.c:328
 #, c-format
-msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr "%s ei ole lubatud nimi. Linna nimeks sobib ainult ASCII või standartne nimi."
+msgid ""
+"%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
+msgstr ""
+"%s ei ole lubatud nimi. Linna nimeks sobib ainult ASCII või standartne nimi."
 
 #: server/citytools.c:447
 #, c-format
@@ -1591,7 +1601,8 @@ msgstr "Viisin %s välja laiali saadetavast linnast %s, et ta kuivale ei jääks
 
 #: server/citytools.c:1101 server/citytools.c:1112
 #, c-format
-msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
+msgid ""
+"When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Kui %s saadeti laiali, su %s ei suutnud välja saada ja hukkus."
 
 #: server/citytools.c:1235
@@ -1679,7 +1690,8 @@ msgstr "Mäng: Tähelepanek: Ilmaime %s linnas %s saab valmis järgmisel käigul
 
 #: server/cityturn.c:336
 #, c-format
-msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
+msgid ""
+"Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr ""
 "Soovitatakse pidurdada kasvu %s's et kasutada %s (juba ehituses) "
 "efektiivsemalt."
@@ -1701,7 +1713,8 @@ msgstr "Mäng: HOIATAN, meie VARA on KAHANEMAS, härra."
 #: server/cityturn.c:470
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
-msgstr "Mäng: %s vajab edasikasvamiseks, et ehitataks %s (parasjagu ehitamisel)."
+msgstr ""
+"Mäng: %s vajab edasikasvamiseks, et ehitataks %s (parasjagu ehitamisel)."
 
 #: server/cityturn.c:475
 #, c-format
@@ -1730,7 +1743,8 @@ msgstr "Nälg hävitas linna %s täielikult."
 
 #: server/cityturn.c:639
 #, c-format
-msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
 "Mäng: %s ei saa ehitada tööde nimekirjast %s'i; pole veel "
 "tehnoloogiliseltvõimalik.  Lükkan edasi..."
@@ -1757,42 +1771,48 @@ msgstr ""
 
 #: server/cityturn.c:732
 #, c-format
-msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; need to have %s first.  Postponing..."
 msgstr ""
 "Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:745
 #, c-format
-msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
 "%s ei saa ehitada tööde nimekirjast %s'i - vajab %s valitsust.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:757
 #, c-format
-msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
 "%s ei saa ehitada tööde nimekirjast %s'i - enne peab olema %s.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:769
 #, c-format
-msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; %s terrain is required.  Postponing..."
 msgstr ""
 "%s ei saa ehitada tööde nimekirjast %s'i - maastikuks peab olema %s.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:783
 #, c-format
-msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
 "%s ei saa ehitada tööde nimekirjast %s'i - ainult %s võivad ehitada seda.  "
 "Lükkan edasi..."
 
 #: server/cityturn.c:802
 #, c-format
-msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
 "%s ei saa ehitada tööde nimekirjast %s'i - linna suurus peab olema %d.  "
 "Lükkan edasi..."
@@ -1976,7 +1996,8 @@ msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b  --bind ADDR\tootab kliente aadressil ADDR\n"
 
 #: server/civserver.c:215 client/civclient.c:200
-msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
+msgid ""
+"  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tMäära silumise logimistase (0 - 4 või 4:file1,min, "
 "max:...)\n"
@@ -2200,8 +2221,10 @@ msgid "Send message to all connections."
 msgstr "Saada sõnum kõigile ühendustele."
 
 #: server/commands.c:104
-msgid "For each connected client, pops up a window showing the message entered."
-msgstr "Iga ühendunud kliendi kohta hüppab välja kast, kus kirjas sisestatud sõnum."
+msgid ""
+"For each connected client, pops up a window showing the message entered."
+msgstr ""
+"Iga ühendunud kliendi kohta hüppab välja kast, kus kirjas sisestatud sõnum."
 
 #: server/commands.c:108
 msgid "vote yes|no [vote number]"
@@ -2417,7 +2440,8 @@ msgid "Create an AI player with a given name."
 msgstr "Loob selle nimega AI-mängija."
 
 #: server/commands.c:208
-msgid "The 'create' command is only available before the game has been started."
+msgid ""
+"The 'create' command is only available before the game has been started."
 msgstr "'create' käsk on kasutatav ainult enne mängu algust."
 
 #: server/commands.c:212
@@ -2682,7 +2706,8 @@ msgid ""
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Salvesta praegune mäng faili <failinimi>. Kui failinime mitte anda, salvestatakse faili \"<autosalvesuse nime prefix><aasta>m.sav[.gz]\".\n"
+"Salvesta praegune mäng faili <failinimi>. Kui failinime mitte anda, "
+"salvestatakse faili \"<autosalvesuse nime prefix><aasta>m.sav[.gz]\".\n"
 "Salvestatud mängu laadimiseks lase server käima käsureaargumendiga\n"
 "    --file <failinimi>\n"
 "ja lase käima käsk 'start', kui mängijad on ühendunud."
@@ -2702,7 +2727,9 @@ msgstr "Lae mäng failist."
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
-msgstr "Lae mäng failist <failinimi>. Kõik praegused andmed, sh. mängijad, reeglistikud ja serveri seaded on kaovad.\n"
+msgstr ""
+"Lae mäng failist <failinimi>. Kõik praegused andmed, sh. mängijad, "
+"reeglistikud ja serveri seaded on kaovad.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:346
@@ -2868,7 +2895,8 @@ msgstr "Mäng: Sul pole tehnoloogiat %s, ei saa lepingut sõlmida."
 
 #: server/diplhand.c:169
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr "Linna, mida püüad anda, enam ei eksisteeri. Sa ei saa lepingut sõlmida."
+msgstr ""
+"Linna, mida püüad anda, enam ei eksisteeri. Sa ei saa lepingut sõlmida."
 
 #: server/diplhand.c:175
 #, c-format
@@ -2964,8 +2992,12 @@ msgid ""
 msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
-msgstr[0] "Sinu ja %s vahel on nüüd relvarahu. %d käigu pärast muutub see rahuleppeks. Korista oma üksused %s-te territooriumilt ära."
-msgstr[1] "Sinu ja %s vahel on nüüd relvarahu. %d käigu pärast muutub see rahuleppeks. Korista oma üksused %s-te territooriumilt ära."
+msgstr[0] ""
+"Sinu ja %s vahel on nüüd relvarahu. %d käigu pärast muutub see rahuleppeks. "
+"Korista oma üksused %s-te territooriumilt ära."
+msgstr[1] ""
+"Sinu ja %s vahel on nüüd relvarahu. %d käigu pärast muutub see rahuleppeks. "
+"Korista oma üksused %s-te territooriumilt ära."
 
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
@@ -3209,7 +3241,8 @@ msgstr "Su %s elimineeriti kaitsva %s poolt."
 
 #: server/diplomats.c:1102
 #, c-format
-msgid "Eliminated %s %s while infiltrating %s. The defender became more experienced."
+msgid ""
+"Eliminated %s %s while infiltrating %s. The defender became more experienced."
 msgstr ""
 
 #: server/diplomats.c:1109
@@ -3238,7 +3271,8 @@ msgstr ""
 
 #: server/diplomats.c:1184
 #, c-format
-msgid "Your %s has successfully completed her mission and returned unharmed to %s."
+msgid ""
+"Your %s has successfully completed her mission and returned unharmed to %s."
 msgstr ""
 
 #: server/diplomats.c:1200
@@ -3365,7 +3399,8 @@ msgstr "Mäng: Tuumatalv!"
 
 #: server/maphand.c:299
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr "Mäng Märgalad on kuivanud ja tohutul hulgal rohumaad on muutunud tundraks."
+msgstr ""
+"Mäng Märgalad on kuivanud ja tohutul hulgal rohumaad on muutunud tundraks."
 
 #: server/maphand.c:320
 msgid ""
@@ -3479,7 +3514,8 @@ msgstr ""
 
 #: server/plrhand.c:568
 #, c-format
-msgid "The senate passes your bill because of the constant provocations of the %s."
+msgid ""
+"The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 
 #: server/plrhand.c:573
@@ -3503,7 +3539,8 @@ msgstr ""
 
 #: server/plrhand.c:628
 #, c-format
-msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
+msgid ""
+"%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
 
 #: server/plrhand.c:639
@@ -3534,7 +3571,8 @@ msgstr "Mäng: Lõid kontakti rahvusega %s, valitseja %s."
 
 #: server/plrhand.c:1177
 #, c-format
-msgid "%s and %s meet and go to instant war. You cancel your alliance with both."
+msgid ""
+"%s and %s meet and go to instant war. You cancel your alliance with both."
 msgstr ""
 
 #: server/plrhand.c:1656
@@ -4005,7 +4043,8 @@ msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Salvestatud mäng on liiga vana, vaja on vähemalt versiooni 1.9.0."
 
 #: server/savegame.c:3637
-msgid "The savegame uses the classic terrain ruleset which is no longer supported."
+msgid ""
+"The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Salvestatud mäng kasutab klassikalist maastiku reeglite seadistust, mis ei "
 "ole enam toetaud."
@@ -5052,7 +5091,8 @@ msgid "Time to cut a client"
 msgstr ""
 
 #: server/settings.c:924
-msgid "If a client doesn't reply to a PING in this time the client is disconnected."
+msgid ""
+"If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
 
 #: server/settings.c:930
@@ -5197,7 +5237,8 @@ msgstr "Mäng: Su kosmoselaeva ei saa veel välja saata!"
 msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
-msgstr "Mäng: %s saatsid välja kosmoselaeva!  See jõuab Alpha Centaurile aastaks %s."
+msgstr ""
+"Mäng: %s saatsid välja kosmoselaeva!  See jõuab Alpha Centaurile aastaks %s."
 
 #: server/spacerace.c:204
 msgid "Spaceship action received, but you don't have a spaceship!"
@@ -5280,7 +5321,8 @@ msgstr ""
 
 #: server/srv_main.c:482
 #, c-format
-msgid "Concerned citizens point out that the cease-fire with %s will run out soon."
+msgid ""
+"Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Mäng: Ärevuses kodanikud märgivad ära, et vaherahu %s'ga lõpeb varsti."
 
 #: server/srv_main.c:486
@@ -5640,7 +5682,8 @@ msgstr ""
 
 #: server/stdinhand.c:1228
 #, c-format
-msgid "Anyone can now become game organizer '%s' by issuing the 'first' command."
+msgid ""
+"Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 
 #: server/stdinhand.c:1261
@@ -5658,12 +5701,14 @@ msgid "Command access level for first player to take it: %s"
 msgstr ""
 
 #: server/stdinhand.c:1281
-msgid "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
+msgid ""
+"Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 
 #: server/stdinhand.c:1286
 #, c-format
-msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
+msgid ""
+"Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
 
 #: server/stdinhand.c:1313 server/stdinhand.c:1361
@@ -6297,7 +6342,8 @@ msgid "Game ended in a draw."
 msgstr ""
 
 #: server/stdinhand.c:3605
-msgid "Ending the game. The server will restart once all clients have disconnected."
+msgid ""
+"Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 
 #: server/stdinhand.c:3610
@@ -6319,7 +6365,8 @@ msgid "Not enough players, game will not start."
 msgstr "Pole piisavalt mängijaid, mäng ei alga."
 
 #: server/stdinhand.c:3694
-msgid "Cannot start the game: the game is waiting for all clients to disconnect."
+msgid ""
+"Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 
 #: server/stdinhand.c:3701
@@ -6724,7 +6771,8 @@ msgstr "Su %s aitab ehitada %s-t %s-s (%d jäi üle)."
 
 #: server/unithand.c:1217
 #, c-format
-msgid "Sorry, your %s cannot establish a trade route because it has no home city"
+msgid ""
+"Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr ""
 
 #: server/unithand.c:1227
@@ -6856,7 +6904,8 @@ msgstr ""
 
 #: server/unittools.c:1601
 #, c-format
-msgid "Your attacking %s succeeded against %s's %s%s and became more experienced!"
+msgid ""
+"Your attacking %s succeeded against %s's %s%s and became more experienced!"
 msgstr ""
 
 #: server/unittools.c:1609
@@ -6883,7 +6932,8 @@ msgstr[1] "Su %s ostis ära %s-te %s ja sai kogenumaks."
 #: server/unittools.c:1660
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
-msgid_plural "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
+msgid_plural ""
+"Your attacking %s succeeded against %s's %s (and %d other units)%s!"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -7121,7 +7171,8 @@ msgid ""
 msgstr ""
 
 #: client/attribute.c:241
-msgid "There has been a CMA error.  Your citizen governor settings may be broken."
+msgid ""
+"There has been a CMA error.  Your citizen governor settings may be broken."
 msgstr ""
 
 #: client/attribute.c:295
@@ -9023,7 +9074,8 @@ msgid "Borders layer"
 msgstr "Piir"
 
 #: client/options.c:242
-msgid "The borders layer of the overview shows which tiles are owned by each player."
+msgid ""
+"The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
 #: client/options.c:246
@@ -9880,7 +9932,8 @@ msgid "Can't find tileset \"%s\"."
 msgstr ""
 
 #: client/tilespec.c:1301
-msgid "Client does not support isometric tilesets. Using default tileset instead."
+msgid ""
+"Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 
 #: client/tilespec.c:1310
@@ -13524,7 +13577,8 @@ msgstr "Ehita raudtee"
 
 #: client/gui-mui/gui_main.c:1445
 #, c-format
-msgid "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
+msgid ""
+"Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
 
 #: client/gui-mui/helpdlg.c:562 data/Freeciv.in:859
@@ -14665,7 +14719,8 @@ msgstr "Ei suuda lugeda andmekataloogi %s: %s."
 
 #: client/gui-sdl/gui_string.c:264
 #, c-format
-msgid "Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
+msgid ""
+"Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
 msgstr ""
 
 #: client/gui-sdl/gui_string.c:285
@@ -14698,7 +14753,8 @@ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
 msgstr ""
 
 #: client/gui-sdl/gui_string.c:685
-msgid "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
+msgid ""
+"Error in unload_font: Trying unload Font which is not include in Font ARRAY"
 msgstr ""
 
 #: client/gui-sdl/helpdlg.c:191
@@ -17425,7 +17481,8 @@ msgid "Next, the defender's strength is modified."
 msgstr ""
 
 #: data/helpdata.txt:956
-msgid " - If the defender is a veteran, then its strength is multiplied by 1.5."
+msgid ""
+" - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr ""
 
 #: data/helpdata.txt:959
@@ -17795,7 +17852,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1218
-msgid " - A road may increase the trade resources produced by some types of terrain."
+msgid ""
+" - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 
 #: data/helpdata.txt:1221
@@ -17813,7 +17871,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1231
-msgid "You may also build Airbases, at which your air units may land and refuel."
+msgid ""
+"You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 
 #: data/helpdata.txt:1234
@@ -18511,7 +18570,8 @@ msgstr "Super kiirtee"
 
 #: data/default/buildings.ruleset:875 data/civ2/buildings.ruleset:864
 #, no-c-format
-msgid "Increases trade resources by 50% on all squares with roads or railroads."
+msgid ""
+"Increases trade resources by 50% on all squares with roads or railroads."
 msgstr ""
 
 #: data/default/buildings.ruleset:883 data/civ2/buildings.ruleset:870
@@ -19019,7 +19079,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1072
 #, no-c-format
-msgid "When built, every civilization's attitude toward you is improved by 25%."
+msgid ""
+"When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
 
 #: data/civ2/buildings.ruleset:1114 data/civ1/buildings.ruleset:768
@@ -20016,7 +20077,8 @@ msgstr "Mäed"
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
-msgstr "Mäed on äärmiselt kõrged, see teeb põllumajanduse ja kaubanduse väga raskeks."
+msgstr ""
+"Mäed on äärmiselt kõrged, see teeb põllumajanduse ja kaubanduse väga raskeks."
 
 #: data/default/terrain.ruleset:447 data/civ2/terrain.ruleset:392
 #: data/civ1/terrain.ruleset:379
@@ -20069,7 +20131,8 @@ msgstr "Tundra"
 
 #: data/default/terrain.ruleset:593 data/civ2/terrain.ruleset:517
 #: data/civ1/terrain.ruleset:503
-msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
+msgid ""
+"Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "Tundrad on suured külmad alad. Neil võib natuke põldu harida, muud eriti "
 "midagi."
@@ -20264,7 +20327,8 @@ msgstr "Sõdalased"
 
 #: data/default/units.ruleset:346 data/civ2/units.ruleset:200
 #: data/civ1/units.ruleset:167
-msgid "This unit may be built from the start of the game.  It is the weakest unit."
+msgid ""
+"This unit may be built from the start of the game.  It is the weakest unit."
 msgstr ""
 
 #: data/default/units.ruleset:352 data/civ2/units.ruleset:206
@@ -20916,7 +20980,8 @@ msgid "?plural:Assyrians"
 msgstr "venelased"
 
 #: data/nation/assyrian.ruleset:6
-msgid "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
+msgid ""
+"Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
 
 #: data/nation/assyrian.ruleset:21
@@ -21757,7 +21822,8 @@ msgid "?plural:Gauls"
 msgstr "itaallased"
 
 #: data/nation/gallic.ruleset:6
-msgid "The Gauls were a Celtic people occupying what is now France and Belgium."
+msgid ""
+"The Gauls were a Celtic people occupying what is now France and Belgium."
 msgstr ""
 
 #: data/nation/gallic.ruleset:23
@@ -22471,7 +22537,8 @@ msgid "?plural:Mexicans"
 msgstr "ameeriklased"
 
 #: data/nation/mexican.ruleset:6
-msgid "Mexico borrows its name from the Mexica people, another name for the Aztecs."
+msgid ""
+"Mexico borrows its name from the Mexica people, another name for the Aztecs."
 msgstr ""
 
 #: data/nation/mongol.ruleset:3
@@ -22516,28 +22583,24 @@ msgid ""
 msgstr ""
 
 #: data/nation/nigerian.ruleset:3
-#, fuzzy
 msgid "Nigerian"
-msgstr "serblane"
+msgstr "nigeerlane"
 
 #: data/nation/nigerian.ruleset:4
-#, fuzzy
 msgid "?plural:Nigerians"
-msgstr "pärslased"
+msgstr "nigeerlased"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
 msgstr ""
 
 #: data/nation/norwegian.ruleset:3
-#, fuzzy
 msgid "Norwegian"
-msgstr "korealane"
+msgstr "norralane"
 
 #: data/nation/norwegian.ruleset:4
-#, fuzzy
 msgid "?plural:Norwegians"
-msgstr "korealased"
+msgstr "norralased"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -22547,14 +22610,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ottoman.ruleset:3
-#, fuzzy
 msgid "Ottoman"
-msgstr "roomlane"
+msgstr "ottoman"
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "roomlased"
+msgstr "ottomanid"
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -22568,43 +22629,36 @@ msgid ""
 msgstr ""
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
-#, fuzzy
 msgid "Bey"
-msgstr "Osta"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:27
-#, fuzzy
 msgid "Hakan"
-msgstr "Mai"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:28
-#, fuzzy
 msgid "Padisah"
-msgstr "Partisan"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:29
-#, fuzzy
 msgid "Imparator"
-msgstr "Imperaator"
+msgstr "imperaator"
 
 #: data/nation/papuan.ruleset:3
-#, fuzzy
 msgid "Papuan"
-msgstr "Rahvaarv"
+msgstr "paapualane"
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "jaapanlased"
+msgstr "paapualased"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
-msgstr ""
+msgstr "Paapualased on Uus-Guinea saarel elava Melaneesia rahvus"
 
 #: data/nation/papuan.ruleset:19
-#, fuzzy
 msgid "Governor-General"
-msgstr "Valitsus"
+msgstr "Kindral-kuberner"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -22619,35 +22673,36 @@ msgid ""
 "The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; the second "
 "(Sassanid) from 226AD to 642AD."
 msgstr ""
+"Esimene Pärsia (Achaemenidi) impeerium eksisteeris aastast 550 e.m.a kuni "
+"330 e.m.a, teine (Sassaniidi) kestis aastast 226 m.a.j kuni 642 m.a.j."
 
 #: data/nation/persian.ruleset:21
 msgid "Shah"
-msgstr ""
+msgstr "šahh"
 
 #: data/nation/persian.ruleset:21
-#, fuzzy
 msgid "Shahbanu"
-msgstr "Maksukogujad"
+msgstr "keisrinna"
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr ""
+msgstr "ajatolla"
 
 #: data/nation/phoenician.ruleset:3
-#, fuzzy
 msgid "Phoenician"
-msgstr "sloveenlane"
+msgstr "foiniiklane"
 
 #: data/nation/phoenician.ruleset:4
-#, fuzzy
 msgid "?plural:Phoenicians"
-msgstr "sloveenlased"
+msgstr "foiniiklased"
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
 "Phoenicia was an ancient civilization, based in what is now the coastal "
 "regions of Lebanon and Syria."
 msgstr ""
+"Foniikia oli iidne tsivilisatsioon praeguste Liibanoni ja Süüria "
+"rannapiirkonnas."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
@@ -22666,11 +22721,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
-msgstr ""
+msgstr "diktaator"
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktatorka"
-msgstr ""
+msgstr "diktaator"
 
 #: data/nation/polish.ruleset:27
 msgid "Prymas"
@@ -22696,28 +22751,27 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr ""
+msgstr "quebeklane"
 
 #: data/nation/quebecois.ruleset:4
-#, fuzzy
 msgid "?plural:Quebecois"
-msgstr "šotlased"
+msgstr "quebeklased"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
 "Quebec is the largest province of Canada, housing the majority of the "
 "Francophone population of America."
 msgstr ""
+"Quebec on Kanada suurim provints, seal elab enamik prantsuse keelt "
+"rääkivatest Ameeriklastest"
 
 #: data/nation/romanian.ruleset:3
-#, fuzzy
 msgid "Romanian"
-msgstr "roomlane"
+msgstr "rumeenlane"
 
 #: data/nation/romanian.ruleset:4
-#, fuzzy
 msgid "?plural:Romanians"
-msgstr "roomlased"
+msgstr "rumeenlased"
 
 #: data/nation/romanian.ruleset:6
 msgid ""
@@ -22730,22 +22784,19 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
-msgstr ""
+msgstr "voevood"
 
 #: data/nation/romanian.ruleset:34
-#, fuzzy
 msgid "Doamna"
-msgstr "All"
+msgstr ""
 
 #: data/nation/romanian.ruleset:35
-#, fuzzy
 msgid "Rege"
-msgstr "Kustutatud"
+msgstr "Kuningas"
 
 #: data/nation/romanian.ruleset:35
-#, fuzzy
 msgid "Regina"
-msgstr "Tsarinna"
+msgstr "Kuninganna"
 
 #: data/nation/romanian.ruleset:36
 #, fuzzy
@@ -22753,9 +22804,8 @@ msgid "Presedinte"
 msgstr "President"
 
 #: data/nation/romanian.ruleset:37
-#, fuzzy
 msgid "Tovaras"
-msgstr "Kokku"
+msgstr ""
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovarasa"
@@ -22799,20 +22849,19 @@ msgstr ""
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
-msgstr ""
+msgstr "vürst"
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duchess"
-msgstr ""
+msgstr "vürstinna"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
-msgstr ""
+msgstr "tsaar"
 
 #: data/nation/russian.ruleset:48
-#, fuzzy
 msgid "Tsaritsa"
-msgstr "Partisan"
+msgstr "tsarinna"
 
 #: data/nation/russian.ruleset:49
 msgid "Matriarch"
@@ -22820,12 +22869,11 @@ msgstr "Matriarh"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr ""
+msgstr "ryukyu"
 
 #: data/nation/ryukyuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ryukyuans"
-msgstr "venelased"
+msgstr "ryukyud"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -22843,12 +22891,11 @@ msgstr ""
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr ""
+msgstr "saam"
 
 #: data/nation/sami.ruleset:4
-#, fuzzy
 msgid "?plural:Sami"
-msgstr "hispaanlased"
+msgstr "saamid"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -22856,11 +22903,13 @@ msgid ""
 "over the northernmost regions of the Scandinavian countries: Finnmark of "
 "Norway and Lapland of Sweden and Finland."
 msgstr ""
+"Saamid ehk laplased on Põhja-Skandinaavia rahvus. Nad elavad "
+"põhjapoolseimates skandinaavia riikide osades - Norra Finnmarki regioonis "
+"ning Rootsi ja Soome Laplandi regioonis."
 
 #: data/nation/sami.ruleset:21
-#, fuzzy
 msgid "Noaydde"
-msgstr "Ei"
+msgstr "noaiid"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -22895,20 +22944,23 @@ msgid ""
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
 "20th century it was part of the Yugoslav Federation."
 msgstr ""
+"Serbia on osa Lõuna-Slaavi piirkonnast, mis vallutati Ottomanide poolt "
+"pärast Bütsantsi impeeriumi lagunemist. Enamiku 20-ndast sajandist oli "
+"Serbia Jugoslaavia Föderatsiooni osa"
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr ""
+msgstr "sileeslane"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr ""
+msgstr "sileeslased"
 
 #: data/nation/silesian.ruleset:6
 msgid ""
 "Silesia is a region of southern Poland that was at one time an independent "
 "kingdom."
-msgstr ""
+msgstr "Sileesia on  piirkond Lõuna-Poolas, ta oli kunagi iseseisev kuningriik."
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
@@ -22922,7 +22974,7 @@ msgstr "singapurlased"
 msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula."
-msgstr ""
+msgstr "Singapur on peamiselt kaubandusega tegelev linnriik Malaisia poolsaare tipus."
 
 #: data/nation/singaporean.ruleset:37
 msgid "Ah"
@@ -22934,11 +22986,11 @@ msgstr ""
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr ""
+msgstr "siuu"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "siuud"
 
 #: data/nation/sioux.ruleset:6
 msgid ""
@@ -22946,6 +22998,9 @@ msgid ""
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
 msgstr ""
+"Siuud olid Põhja-Ameerika rahvus, kes pidas mitu otsustavat lahingut "
+"Ameerika Ühendriikide vastu. See rahvus koosnes kolmest erinevast hõimude "
+"grupist - Lakotad, Dakotad ja Nakotad."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -22959,43 +23014,39 @@ msgstr "sloveenlased"
 msgid ""
 "Slovenia was the most western and northern republic of the old Yugoslav "
 "Federation."
-msgstr ""
+msgstr "Sloveenia oli Jugoslaavi Föderatsiooni loodepoolseim osa."
 
 #: data/nation/slovakian.ruleset:3
-#, fuzzy
 msgid "Slovakian"
-msgstr "sloveenlane"
+msgstr "slovakk"
 
 #: data/nation/slovakian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovakians"
-msgstr "sloveenlased"
+msgstr "slovakid"
 
 #: data/nation/slovakian.ruleset:6
 msgid ""
 "Slovakia is a country in the heart of Europe. Formerly part of "
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
 msgstr ""
+"Slovakkia on riik Euroopa südames. Endine Tšehhoslovakkia osa, samuti oli ta "
+"kuni 1918. aastani Austria-Ungari impeeriumi osa."
 
 #: data/nation/slovakian.ruleset:29
-#, fuzzy
 msgid "Pope"
-msgstr "Hüpik"
+msgstr "Paavst"
 
 #: data/nation/slovakian.ruleset:29
-#, fuzzy
 msgid "Priestess"
-msgstr "Ülempreestrinna"
+msgstr "Preestrinna"
 
 #: data/nation/southafrican.ruleset:3
-#, fuzzy
 msgid "South African"
-msgstr "ameeriklane"
+msgstr "lõuna-aafriklane"
 
 #: data/nation/southafrican.ruleset:4
-#, fuzzy
 msgid "?plural:South Africans"
-msgstr "ameeriklased"
+msgstr "lõuna-aafriklased"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -23008,16 +23059,22 @@ msgid ""
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
 msgstr ""
+"Hollandi asunikud alustasid Aafrika lõunaosa koloniseerimist 17-ndal "
+"sajandil. Pärast mitmeid sõdu peamiselt Boeride (hollandi asunike "
+"järglaste), briti vägede ja suulude vahel loodi 1910.a. Lõuna-Aafrika Liit. "
+"Lõuna-Aafrika valitsus sai kurikuulsaks  oma \"apartheidi\"-poliitika tõttu "
+"- inimeste õigusi jagati vastavalt nahavärvile. Pärast riigi esimese mitte-"
+"rassistliku põhiseaduse vastuvõtmist 1994.a. valiti Nelson Mandela, "
+"pikaaegne poliitiline vang, esimeseks demokraatlikult valitud Lõuna-Aafrika "
+"presidendiks."
 
 #: data/nation/soviet.ruleset:3
-#, fuzzy
 msgid "Soviet"
-msgstr "Suurus"
+msgstr "sovjet"
 
 #: data/nation/soviet.ruleset:4
-#, fuzzy
 msgid "?plural:Soviets"
-msgstr "šotlased"
+msgstr "sovjetid"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -23027,6 +23084,11 @@ msgid ""
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
 msgstr ""
+"Nõukogude Liidu ajalugu sai alguse 1917. a. novembris, kui Lenini juhtimisel "
+"korraldasid bolševikud revolutsiooni. 1922. a. 31. detsembril ühinesid neli "
+"Nõukogude vabariiki üheks suureks riigiks. Nõukogude Liidust sai üks 20-nda "
+"sajandi võimsamaid riike. Aga 1991.a. lõpul lagunes Nõukogude Liit mitmete "
+"sotsiaalsete šokkide tagajärjel viietestkümneks iseseisvaks riigiks."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -23043,6 +23105,10 @@ msgid ""
 "Moslems.  The Reconquista was completed in 1492AD, the same year Columbus "
 "sailed."
 msgstr ""
+"Praegune Hispaania riik loodi, kui Castille'i ja Aragoni kuningriikide "
+"valitsejate juhtumisel vallutati moslemitelt tagasi Ibeeria poolsaar. "
+"Reconquista viidi lõpule aastal 1492 m.a.j, samal aastal, kui Kolumbus "
+"lahkus Euroopa kallastelt"
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudillo"
@@ -23057,30 +23123,26 @@ msgid "Cardinal"
 msgstr "Kardinal"
 
 #: data/nation/sudanese.ruleset:3
-#, fuzzy
 msgid "Sudanese"
-msgstr "Loenda"
+msgstr "sudaan"
 
 #: data/nation/sudanese.ruleset:4
-#, fuzzy
 msgid "?plural:Sudanese"
-msgstr "taanlased"
+msgstr "sudaanid"
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
 "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became "
 "independent in 1956."
-msgstr ""
+msgstr "sudaanid"
 
 #: data/nation/sumerian.ruleset:3
-#, fuzzy
 msgid "Sumerian"
-msgstr "serblane"
+msgstr "sumer"
 
 #: data/nation/sumerian.ruleset:4
-#, fuzzy
 msgid "?plural:Sumerians"
-msgstr "serblased"
+msgstr "sumerid"
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -23088,20 +23150,21 @@ msgid ""
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
 msgstr ""
+"Sumer valitses Mesopotaamia üle kuni Babüloonia tõusuni. Leitud on 5500 "
+"aasta vanuseid sumeri kirjadega savitahvleid , mis teeb sumeri kirjast kogu "
+"ajaloo vanima kirja ."
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
 msgstr ""
 
 #: data/nation/swazi.ruleset:3
-#, fuzzy
 msgid "Swazi"
-msgstr "rootslane"
+msgstr "svaas"
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
-msgstr "rootslased"
+msgstr "svaasid"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -23138,25 +23201,24 @@ msgid ""
 msgstr ""
 
 #: data/nation/swiss.ruleset:3
-#, fuzzy
 msgid "Swiss"
-msgstr "rootslane"
+msgstr "šveitslane"
 
 #: data/nation/swiss.ruleset:4
-#, fuzzy
 msgid "?plural:Swiss"
-msgstr "rootslased"
+msgstr "šveitslased"
 
 #: data/nation/swiss.ruleset:6
 msgid ""
 "Switzerland is a federation of cantons, some of which have more than 700 "
 "years of history as a confederacy."
 msgstr ""
+"Šveits on kantonitest koosnev föderatsioon, mõned kantonid on üle 700 aasta "
+"vanad"
 
 #: data/nation/swiss.ruleset:24
-#, fuzzy
 msgid "Bailiff"
-msgstr "brasiillane"
+msgstr "kohtutäitur"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
@@ -23167,9 +23229,8 @@ msgid "Elected Queen"
 msgstr ""
 
 #: data/nation/swiss.ruleset:26
-#, fuzzy
 msgid "Elected Priest"
-msgstr "Elekter"
+msgstr "Ülempreester"
 
 #: data/nation/swiss.ruleset:26
 #, fuzzy
@@ -23178,21 +23239,19 @@ msgstr "Ülempreestrinna"
 
 #: data/nation/swiss.ruleset:27 data/nation/swiss.ruleset:28
 msgid "President of the Confederation"
-msgstr ""
+msgstr "Konföderatsiooni president"
 
 #: data/nation/swiss.ruleset:29
 msgid "Federal Chancellor"
-msgstr ""
+msgstr "riiklik nõustaja"
 
 #: data/nation/taiwanese.ruleset:3
-#, fuzzy
 msgid "Taiwanese"
-msgstr "jaapanlane"
+msgstr "taiwanlane"
 
 #: data/nation/taiwanese.ruleset:4
-#, fuzzy
 msgid "?plural:Taiwanese"
-msgstr "jaapanlased"
+msgstr "taiwanlased"
 
 #: data/nation/taiwanese.ruleset:6
 msgid ""
@@ -23202,14 +23261,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/texan.ruleset:3
-#, fuzzy
 msgid "Texan"
-msgstr "ameeriklane"
+msgstr "teksaslane"
 
 #: data/nation/texan.ruleset:4
-#, fuzzy
 msgid "?plural:Texans"
-msgstr "ameeriklased"
+msgstr "teksaslased"
 
 #: data/nation/texan.ruleset:6
 msgid ""
@@ -23219,11 +23276,11 @@ msgstr ""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
-msgstr ""
+msgstr "tailane"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
-msgstr ""
+msgstr "tailased"
 
 #: data/nation/thai.ruleset:6
 msgid ""
@@ -23233,12 +23290,11 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr ""
+msgstr "tiibetlased"
 
 #: data/nation/tibetan.ruleset:4
-#, fuzzy
 msgid "?plural:Tibetans"
-msgstr "jaapanlased"
+msgstr "tiibetlased"
 
 #: data/nation/tibetan.ruleset:6
 msgid ""
@@ -23253,23 +23309,20 @@ msgid ""
 msgstr ""
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy
 msgid "Lama"
-msgstr "All"
+msgstr "Laama"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
-msgstr ""
+msgstr "Dalai Laama"
 
 #: data/nation/tunisian.ruleset:3
-#, fuzzy
 msgid "Tunisian"
-msgstr "venelane"
+msgstr "tuneeslane"
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "venelased"
+msgstr "tuneeslased"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -23298,6 +23351,10 @@ msgid ""
 "Powers.  The country was subsequently reformed and secularized by Kemal "
 "Mustapha, the hero of the defense of Gallipoli."
 msgstr ""
+"Praegune Türgi on järglane endisele Ottomani impeeriumile, mis kukkus kokku "
+"ja jagati Esimese Maailmasõja võitjate vahel pärast Keskjõudude toetamist. "
+"Järgnevalt viidi sisse reformid ja ilmalikustati Türgi Gallipoli kaitsmise "
+"kangelane Kemal Mustapha"
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -23312,6 +23369,8 @@ msgid ""
 "The Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
 msgstr ""
+"Ukraina on ulatuslik piirkond endise Nõukogude Liidu lääneservas. Seal on "
+"ühed Maa viljakaimatest mustmullaga põllumaadest"
 
 #: data/nation/ukrainian.ruleset:18
 msgid "Hetman"
@@ -23319,12 +23378,11 @@ msgstr ""
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr ""
+msgstr "uiguur"
 
 #: data/nation/uyghur.ruleset:4
-#, fuzzy
 msgid "?plural:Uyghurs"
-msgstr "türklased"
+msgstr "uiguurid"
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -23338,7 +23396,7 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
-msgstr ""
+msgstr "Venetsueellane"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
@@ -23398,11 +23456,11 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "Uelslane"
+msgstr "Ueilslane"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "?plural:Uelslased"
+msgstr "?plural:Ueilslased"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
