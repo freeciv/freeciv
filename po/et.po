@@ -1,3 +1,4 @@
+# translation of et.po to estonian
 # translation of et.po to
 # Estonian translation of Freeciv po file.
 # Copyright (C) 2002,2003,2004, 2006 Free Software Foundation, Inc.
@@ -11,14 +12,14 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-07 13:19+0300\n"
-"PO-Revision-Date: 2006-10-07 21:25+0300\n"
-"Last-Translator: \n"
-"Language-Team:  <en@li.org>\n"
+"PO-Revision-Date: 2006-10-08 19:29+0300\n"
+"Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
+"Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: KBabel 1.11.2\n"
 
 #: common/city.c:53 client/cityrepdata.c:483 client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-mui/citydlg.c:1596 client/gui-mui/repodlgs.c:668
@@ -20696,7 +20697,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:347
 msgid "Fanatics"
-msgstr ""
+msgstr "Fanaatikud"
 
 #: data/civ2/units.ruleset:374
 msgid ""
@@ -20762,14 +20763,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/aborigines.ruleset:3
-#, fuzzy
 msgid "Australian Aboriginal"
-msgstr "austraallane"
+msgstr "Aborigeen"
 
 #: data/nation/aborigines.ruleset:4
-#, fuzzy
 msgid "?plural:Aborigines"
-msgstr "argentiinlased"
+msgstr "?plural:Aborigeenid"
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -20798,7 +20797,7 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
-msgstr ""
+msgstr "Emiir"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:26
@@ -20807,7 +20806,7 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:27
 msgid "Mullah"
-msgstr ""
+msgstr "mulla"
 
 #: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:19
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:29
@@ -20827,64 +20826,60 @@ msgid "Prime Minister"
 msgstr "Peaminister"
 
 #: data/nation/algerian.ruleset:3
-#, fuzzy
 msgid "Algerian"
-msgstr "ameeriklane"
+msgstr "Alžeerlane"
 
 #: data/nation/algerian.ruleset:4
-#, fuzzy
 msgid "?plural:Algerians"
-msgstr "pärslased"
+msgstr "?plural:Alžeerlased"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
-msgstr ""
+msgstr "Alžeeria on Põhja-Aafrikas asuv araabia riik. Ajaloolisel on ælzeeria asunikeks olnud berberi rahvas"
 
 #: data/nation/american.ruleset:3
 msgid "American"
-msgstr "ameeriklane"
+msgstr "Ameeriklane"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
-msgstr "ameeriklased"
+msgstr "?plural:Ameeriklased"
 
 #: data/nation/american.ruleset:6
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
-msgstr ""
+msgstr "Ametliku nimetusega Ameerika Ühendriigid,  Suurbritannia võimu alt vabanes pärast revoutsiooni aastatel 1776 - 1783 m.a.j."
 
 #: data/nation/american.ruleset:56 data/nation/scottish.ruleset:25
 msgid "Speaker"
-msgstr ""
+msgstr "Spiiker"
 
 #: data/nation/american.ruleset:57 data/nation/texan.ruleset:20
 msgid "Reverend"
-msgstr ""
+msgstr "Pastor"
 
 #: data/nation/antarctican.ruleset:3
-#, fuzzy
 msgid "Antarctican"
-msgstr "Partisan"
+msgstr "Antarktiklane"
 
 #: data/nation/antarctican.ruleset:4
-#, fuzzy
 msgid "?plural:Antarcticans"
-msgstr "lätlased"
+msgstr "?plural:Antarktiklased"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "Iseseisev Lõunapoolus, pingviinide maa."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
-msgstr "araablane"
+msgstr "Araablane"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr "araablased"
+msgstr "?plural:Araablased"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -20895,14 +20890,12 @@ msgid "Caliph"
 msgstr ""
 
 #: data/nation/aramean.ruleset:3
-#, fuzzy
 msgid "Aramean"
-msgstr "ameeriklane"
+msgstr ""
 
 #: data/nation/aramean.ruleset:4
-#, fuzzy
 msgid "?plural:Arameans"
-msgstr "ameeriklased"
+msgstr ""
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -20911,14 +20904,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/armenian.ruleset:3
-#, fuzzy
 msgid "Armenian"
-msgstr "ameeriklane"
+msgstr "Armeenlane"
 
 #: data/nation/armenian.ruleset:4
-#, fuzzy
 msgid "?plural:Armenians"
-msgstr "ameeriklased"
+msgstr "?plural:Armeenlased"
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -20940,9 +20931,8 @@ msgid "Assyria was an empire in northern Mesopotamia, named after its capital As
 msgstr ""
 
 #: data/nation/assyrian.ruleset:21
-#, fuzzy
 msgid "Malka"
-msgstr "Mees"
+msgstr ""
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malikta"
@@ -20950,7 +20940,7 @@ msgstr ""
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
-msgstr "argentiinlane"
+msgstr "Argentiinlane"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
@@ -20984,7 +20974,7 @@ msgstr ""
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
-msgstr "austrialane"
+msgstr "Austrialane"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
@@ -20998,11 +20988,11 @@ msgstr ""
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
-msgstr "asteek"
+msgstr "Asteek"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
-msgstr "?plural:asteegid"
+msgstr "?plural:Asteegid"
 
 #: data/nation/aztec.ruleset:6
 msgid ""
@@ -21022,7 +21012,7 @@ msgstr ""
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr "babüloonlane"
+msgstr "Babüloonlane"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
@@ -21041,7 +21031,7 @@ msgstr ""
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
-msgstr "?plural:barbarid"
+msgstr "?plural:Barbarid"
 
 #: data/nation/barbarian.ruleset:5
 msgid ""
@@ -21051,11 +21041,11 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "bavaarlane"
+msgstr "Bavaarlane"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "?plural:bavaarlased"
+msgstr "?plural:Bavaarlased"
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
@@ -21065,11 +21055,11 @@ msgstr ""
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr "belglane"
+msgstr "Belglane"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
-msgstr "?plural:belglane"
+msgstr "?plural:Belglased"
 
 #: data/nation/belgian.ruleset:6
 msgid ""
@@ -21081,11 +21071,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr "bengaallane"
+msgstr "Bengaallane"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
-msgstr "?plural:bengaallased"
+msgstr "?plural:Bengaallased"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -21179,11 +21169,11 @@ msgstr ""
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr "britt"
+msgstr "Britt"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:Britons"
-msgstr "?plural:britid"
+msgstr "?plural:Britid"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -21236,11 +21226,11 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "birmalased"
+msgstr "Birmalased"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
-msgstr "?plural:birmalased"
+msgstr "?plural:Birmalased"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -21262,11 +21252,11 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr "bütsantslane"
+msgstr "Bütsantslane"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
-msgstr "?plural:bütsantslased"
+msgstr "?plural:Bütsantslased"
 
 #: data/nation/byzantium.ruleset:6
 msgid ""
@@ -21284,11 +21274,11 @@ msgstr ""
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr "kanadalane"
+msgstr "Kanadalane"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr "?plural:kanadalsed"
+msgstr "?plural:Kanadalsed"
 
 #: data/nation/canadian.ruleset:7
 msgid ""
@@ -21386,11 +21376,11 @@ msgstr ""
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr "hiinlane"
+msgstr "Hiinlane"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr "?plural:hiinlased"
+msgstr "?plural:Hiinlased"
 
 #: data/nation/chinese.ruleset:6
 msgid ""
@@ -21442,7 +21432,7 @@ msgstr ""
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr "koföderaat"
+msgstr "konföderaat"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
@@ -21478,11 +21468,11 @@ msgstr "Hõimupealik"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr "horvaat"
+msgstr "Horvaat"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr "?plural:horvaadid"
+msgstr "?plural:Horvaadid"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
@@ -21509,11 +21499,11 @@ msgstr ""
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr "tšehh"
+msgstr "Tšehh"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr "?plural:tšehhid"
+msgstr "?plural:Tšehhid"
 
 #: data/nation/czech.ruleset:6
 msgid ""
@@ -21523,7 +21513,7 @@ msgstr ""
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
-msgstr "Taan"
+msgstr "Vabamees"
 
 #: data/nation/czech.ruleset:36
 msgid "Prophetess"
@@ -21531,11 +21521,11 @@ msgstr "Prohvet"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr "taanlane"
+msgstr "Taanlane"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr "?plural:taanlased"
+msgstr "?plural:Taanlased"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
@@ -21548,11 +21538,11 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr "hollandlane"
+msgstr "Hollandlane"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr "?plural:hollandlased"
+msgstr "?plural:Hollandlased"
 
 #: data/nation/dutch.ruleset:6
 msgid ""
@@ -21564,11 +21554,11 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr "egiptlane"
+msgstr "Egiptlane"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr "?plural:egiptlased"
+msgstr "?plural:Egiptlased"
 
 #: data/nation/egyptian.ruleset:6
 msgid ""
@@ -21587,11 +21577,11 @@ msgstr ""
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr "inglane"
+msgstr "Inglane"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "?plural:inglased"
+msgstr "?plural:Inglased"
 
 #: data/nation/english.ruleset:6
 msgid ""
@@ -21666,7 +21656,7 @@ msgstr "?plural:Soomlased"
 msgid ""
 "Finland is a small, cold country on the northern fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
-msgstr ""
+msgstr "Soome on väike ja külm riik Euroopa põhjapiiril, tegeleb puidu ekspordi, mobiiltelefonide ja maailmaklassi operatsioonisüsteemidega."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -21750,17 +21740,17 @@ msgstr "Druiid"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr "Gruuslane"
+msgstr "Grusiin"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
-msgstr "?plural:Gruuslased"
+msgstr "?plural:Grusiinid"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s AD."
-msgstr ""
+msgstr "Grusiinid olid ühed esimestest, kes võtsid omaks kristluse, seda siis 4-ndal sajandil m.a.j"
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -21792,7 +21782,7 @@ msgstr "kreeklane"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr "kreeklased"
+msgstr "?plural:Kreeklased"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
@@ -21818,11 +21808,11 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr ""
+msgstr "Hitiit"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
-msgstr ""
+msgstr "?plural:Hitiidid"
 
 #: data/nation/hittite.ruleset:6
 msgid ""
@@ -21834,7 +21824,7 @@ msgstr ""
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr "ungarlane"
+msgstr "Ungarlane"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
@@ -21842,7 +21832,7 @@ msgstr "?plural:Ungarlased"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
-msgstr ""
+msgstr "Legendi kohaselt rajas Ungari 9-ndal sajandil Arpad."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -21897,7 +21887,7 @@ msgstr ""
 
 #: data/nation/inca.ruleset:22
 msgid "?title:Inca"
-msgstr ""
+msgstr "?title:Inka"
 
 #: data/nation/inca.ruleset:23
 msgid "Sapa Inca"
@@ -21915,7 +21905,7 @@ msgstr "?plural:indialased"
 msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
-msgstr ""
+msgstr "Iidse India tsivilisatsiooni juured asuvad Induse jõe orus tänapäeva Pakistani aladel"
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
@@ -21926,19 +21916,16 @@ msgid "Maharaja"
 msgstr "Maharadza"
 
 #: data/nation/indian.ruleset:21
-#, fuzzy
 msgid "Mahatma"
-msgstr "Maharadza"
+msgstr "Mahatma"
 
 #: data/nation/indonesian.ruleset:3
-#, fuzzy
 msgid "Indonesian"
-msgstr "indialane"
+msgstr "indoneeslane"
 
 #: data/nation/indonesian.ruleset:4
-#, fuzzy
 msgid "?plural:Indonesians"
-msgstr "?plural:indialased"
+msgstr "?plural:indoneeslased"
 
 #: data/nation/indonesian.ruleset:6
 msgid ""
@@ -21984,7 +21971,7 @@ msgid ""
 "Iraq was founded after the fall of the Ottoman empire. It is encompassing "
 "the ancient region of Mesopotamia at the confluence of the Tigris and "
 "Euphrates rivers."
-msgstr ""
+msgstr "Iraak rajati pärast Ottomani impeeriumi lagunemist. Iraak haarab enda alla iidse Mesopotaamia territooriumi Tigrise ja Eufrati kallastel."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -23195,7 +23182,7 @@ msgid ""
 "16th century. Tunisia became mostly autonomous from the Ottoman empire in "
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
-msgstr ""
+msgstr "Foiniiklased rajasid Kartaago praeguse Tuneesia aladele. Kartaagost sai üks mõjuvõimsamaid  Vahemere-äärseid riike, seda kuni roomlaste invasioonini aastal 146 e.m.a. Hilisem Kartaago vallutamine 7-ndal sajandil araabia moslemite poolt tõi kaasa sisserände Araabia ja Ottomani riikidest. 16. sajandi lõpus liikus sellele alale ka juute ja maoore. Tuneesia saavutas Ottomani impeeriumi koosseisus autonoomia aasal 1861. Aga 1881. a. vallutasid prantslased Tuneesia ja tegide sellest oma protektoraadi. Tuneesi iseseisvus 1956. a."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -23253,7 +23240,7 @@ msgid ""
 "1700s. Today, descendants of the Uyghur form the populations of the Central "
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
-msgstr ""
+msgstr "Uiguuria oli ida-Türgi impeerium ja tsivilisatsioon. Oma kõrghetkel 820. a. m.a.j kontrollis Uiguuria enamikku Kesk- ja Põhja-Aasiast. Pärast mitme sajandi vältel toimunud kokkupõrkeid hiinlastega alistusid nad Qingi dünastiale 18. sajandil. Tänapäeval asustavad uiguuride järeltulijad Kesk-Aasia riike, näiteks Usbekistan, Kasahstan ja Kõrgõstan. Uiguurid on samuti kõige arvukam vähemusrahvus Xinjiangi provintsis Hiinas."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
