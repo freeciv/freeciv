@@ -1,4 +1,3 @@
-# translation of et.po to estonian
 # translation of et.po to
 # Estonian translation of Freeciv po file.
 # Copyright (C) 2002,2003,2004, 2006 Free Software Foundation, Inc.
@@ -12,14 +11,14 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-07 13:19+0300\n"
-"PO-Revision-Date: 2006-10-08 19:29+0300\n"
-"Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
-"Language-Team: estonian <et@li.org>\n"
+"PO-Revision-Date: 2006-10-09 00:47+0300\n"
+"Last-Translator: \n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: common/city.c:53 client/cityrepdata.c:483 client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-mui/citydlg.c:1596 client/gui-mui/repodlgs.c:668
@@ -3430,12 +3429,12 @@ msgstr "Maksud"
 #: server/plrhand.c:219
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
-msgstr "Mäng: %s määr ületab %s maksimummäära."
+msgstr "%s määr ületab %s maksimummäära."
 
 #: server/plrhand.c:258
 #, c-format
 msgid "%s now governs the %s as a %s."
-msgstr "Mäng: %s käsutuses on nüüd %s. Valitseb %s."
+msgstr "%s valitseb %s-e kui %s."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
@@ -4071,7 +4070,7 @@ msgstr "Eluliselt vajalik"
 
 #: server/settings.c:43
 msgid "Situational"
-msgstr ""
+msgstr "Mõnikord kasutatav"
 
 #: server/settings.c:44
 msgid "Rare"
@@ -4684,14 +4683,13 @@ msgstr ""
 
 #: server/settings.c:613
 msgid "Number of turns between rapture effect"
-msgstr ""
+msgstr "Käikude arv joovastuse efekti vahel"
 
 #: server/settings.c:614
-#, fuzzy
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
-msgstr "Määra käikude arv, mis jääb "
+msgstr "Määra käikude arv, mis jääb linna joovastusest tuleneva kasvu vahele. Kui seatud n-iks, siis joovastuses linn kasvab iga n+1 käigu tagant."
 
 #: server/settings.c:623
 msgid "Chance for conquered building destruction"
@@ -4968,13 +4966,13 @@ msgid ""
 "4 = No controller allowed, observers allowed;\n"
 "\n"
 msgstr ""
-"Siin peab olema string märkidest, millest igaüks näitab "
-"The characters and their meanings are:\n"
-"    o,O = Global observer\n"
-"    b   = Barbarian players\n"
-"    d   = Dead players\n"
-"    a,A = AI players\n"
-"    h,H = Human players\n"
+"Siin peab olema string märkidest, millest igaüks näitab tsivilisatsiooni (mängija) tüüpi või olekut. Klientidel on lubatud võtta või vaadelda ainult neid mängijaid, mis on nende tähtedega märgitud."
+"Märgid ja nende tähendused:\n"
+"    o,O = Globaalne vaatleja\n"
+"    b   = Barbarid\n"
+"    d   = Surnud mängijad\n"
+"    a,A = Tehismõistused\n"
+"    h,H = Inimmängijad\n"
 "The first description on this list which matches a player is the one which "
 "applies. Thus 'd' does not include dead barbarians, 'a' does not include "
 "dead AI players, and so on. Upper case letters apply before the game has "
@@ -5158,28 +5156,21 @@ msgid "Turns per auto-save"
 msgstr "Käike automaatse salvestuse kohta"
 
 #: server/settings.c:972
-#, fuzzy
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
-msgstr ""
-"Mäng salvestatakse automaatselt iga selle arvu käikude järel.\n"
-"Null tähendab, et automaatselt ei salvestata."
+msgstr "Mäng salvestatakse automaatselt iga selle arvu käikude järel. Null tähendab, et automaatselt ei salvestata."
 
 #: server/settings.c:982 server/settings.c:993
 msgid "Savegame compression level"
 msgstr "Salvestatud mängu kokkupakkimise tase"
 
 #: server/settings.c:983 server/settings.c:994
-#, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format). Larger "
 "values will give better compression but take longer. If the maximum is zero "
 "this server was not compiled to use zlib."
-msgstr ""
-"Kui suurem kui null mängijad pakitakse zlibi abil (gzipi formaati).  "
-"Suuremad väärtuseda annavad väiksema faili, kuid võtavad kauema aega.  Kui "
-"maksimum on null ei kompileeritud serverit zlib toega."
+msgstr "Kui suurem kui null, pakitakse salvestatavad mängud zlibi abil (gzipi formaati). Suuremad väärtuseda annavad väiksema faili, kuid võtavad kauema aega. Kui maksimum on null, ei kompileeritud serverit zlib toega."
 
 #: server/settings.c:1005
 msgid "Auto-save name prefix"
@@ -5196,14 +5187,13 @@ msgid "Whether to log player statistics"
 msgstr "Kas logida mängijate statistika"
 
 #: server/settings.c:1014
-#, fuzzy
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn. These statistics can be used to create power graphs after "
 "the game."
 msgstr ""
-"Kui see on1 lisatakse faili \"civscore.log\" iga käigu järel mängijate "
-"statistika.  Selle abil saab peale mängu luua võimsuse graafikuid."
+"Kui see on 1, lisatakse faili \"civscore.log\" iga käigu järel mängijate "
+"statistika. Selle abil saab peale mängu luua võimsuse graafikuid."
 
 #: server/sernet.c:143
 msgid "Server cannot read standard input. Ignoring input."
@@ -5378,9 +5368,8 @@ msgid "Please choose a non-blank name."
 msgstr "Palun vali mittetühi nimi."
 
 #: server/srv_main.c:1200
-#, fuzzy
 msgid "That nation is already in use."
-msgstr "Mäng juba käib."
+msgstr "See rahvus on juba kasutusel."
 
 #: server/srv_main.c:1216
 #, c-format
@@ -5388,9 +5377,8 @@ msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Nimi '%s' on juba kasutusel. Palun vali mõni teine nimi."
 
 #: server/srv_main.c:1237
-#, fuzzy
 msgid "Please choose a name containing only ASCII characters."
-msgstr "Palun vali mittetühi nimi."
+msgstr "Palun vali nimi, mis sisaldab ainult ASCII märke."
 
 #: server/srv_main.c:1316
 #, c-format
@@ -5398,9 +5386,9 @@ msgid "%s nation is not available in this scenario."
 msgstr ""
 
 #: server/srv_main.c:1322
-#, fuzzy, c-format
+#, c-format
 msgid "%s nation is already in use."
-msgstr "Mäng juba käib."
+msgstr "%s rahvus on juba kasutuses."
 
 #: server/srv_main.c:1339
 #, c-format
@@ -5408,14 +5396,13 @@ msgid "%s is the %s ruler %s."
 msgstr "%s on rahvuse %s valitseja %s."
 
 #: server/srv_main.c:1400
-#, fuzzy, c-format
+#, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr "Mängu ei saa alustada, see juba käib."
+msgstr "Ootan mängu alustamist: %d %d-st mängijast on juba valmis alustama."
 
 #: server/srv_main.c:1405
-#, fuzzy
 msgid "All players are ready; starting game."
-msgstr "Sellise nimega mängija on juba olemas."
+msgstr "Kõik mängijad on valmis. Mäng algab."
 
 #: server/srv_main.c:1447 server/srv_main.c:1451
 #, c-format
@@ -5560,14 +5547,13 @@ msgid "Metaserver is now [%s]."
 msgstr ""
 
 #: server/stdinhand.c:656
-#, fuzzy, c-format
+#, c-format
 msgid "Server id: %s"
-msgstr "Maastik: %s"
+msgstr "Serveri ID: %s"
 
 #: server/stdinhand.c:752
-#, fuzzy
 msgid "You cannot save games manually on this server."
-msgstr "Lõpeta mäng ja pane server kinni."
+msgstr "Selles serveris ei saa mänge käsitsi salvestada."
 
 #: server/stdinhand.c:769
 msgid "Cannot toggle a barbarian player."
@@ -5857,24 +5843,20 @@ msgid "All options with non-default values"
 msgstr ""
 
 #: server/stdinhand.c:1931
-#, fuzzy
 msgid "All options"
-msgstr "Kaardi seaded"
+msgstr "Kõik seaded"
 
 #: server/stdinhand.c:1934
-#, fuzzy
 msgid "Vital options"
-msgstr "Linna seaded"
+msgstr "Eluliselt tähtsad seaded"
 
 #: server/stdinhand.c:1937
-#, fuzzy
 msgid "Situational options"
-msgstr "Seadista kohalikud valikud"
+msgstr "Mõnikord kasutatavad valikud"
 
 #: server/stdinhand.c:1940
-#, fuzzy
 msgid "Rarely used options"
-msgstr "Mängu seaded"
+msgstr "Harva kasutatavad seaded"
 
 #: server/stdinhand.c:1943
 msgid "+ means you may change the option"
@@ -6157,14 +6139,13 @@ msgid "%s now observes %s"
 msgstr ""
 
 #: server/stdinhand.c:2820
-#, fuzzy, c-format
+#, c-format
 msgid "%s now observes"
-msgstr " (pealtvaataja)"
+msgstr "%s on nüüd pealtvaataja"
 
 #: server/stdinhand.c:2859
-#, fuzzy
 msgid "Usage: take <connection-name> <player-name>"
-msgstr "Kasutamine: take <mängija nimi>"
+msgstr "Kasutamine: take <ühenduse-nimi> <mängija-nimi>"
 
 #: server/stdinhand.c:2864
 msgid "Usage: take <player-name>"
@@ -6247,9 +6228,8 @@ msgid "detaching from %s."
 msgstr ""
 
 #: server/stdinhand.c:3179
-#, fuzzy
 msgid "Usage: load <game name>"
-msgstr "Kasutamine: take <mängija nimi>"
+msgstr "Kasutamine: load <mängu nimi>"
 
 #: server/stdinhand.c:3199
 #, c-format
@@ -6257,12 +6237,11 @@ msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr ""
 
 #: server/stdinhand.c:3214
-#, fuzzy
 msgid "Cannot load a game while another is running."
-msgstr "Mängu ei saa lõpetada, mäng ei käi."
+msgstr "Mängu ei saa laadida, teine juba käib."
 
 #: server/stdinhand.c:3223
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load savefile: %s"
 msgstr "Ei suuda laadida salvestatud faili: %s"
 
@@ -6518,9 +6497,9 @@ msgid "The %s have researched Future Tech. %d."
 msgstr "%s on avastanud Tuleviku Tehnoloogia %d."
 
 #: server/techtools.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%s acquired from %s!"
-msgstr "%s saavad linna %s %s-lt"
+msgstr "Said %s %s-telt."
 
 #: server/techtools.c:218
 #, c-format
@@ -6571,9 +6550,9 @@ msgid "Technology goal is %s."
 msgstr "Tehnoloogiline eesmärk on %s."
 
 #: server/techtools.c:693
-#, fuzzy, c-format
+#, c-format
 msgid "You steal %s from the %s."
-msgstr "%s varastavad %s rahvuselt %s"
+msgstr "Varastad %s %s-telt."
 
 #: server/techtools.c:698
 #, c-format
@@ -6901,15 +6880,15 @@ msgid "%s lost to an attack by %s's %s%s."
 msgstr ""
 
 #: server/unittools.c:1648
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
 "more experienced!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
-msgstr[0] "Su %s ostis ära %s-te %s ja sai kogenumaks."
-msgstr[1] "Su %s ostis ära %s-te %s ja sai kogenumaks."
+msgstr[0] "Su ründav %s sai hakkama %s-te %s-iga (ja %d muu üksusega)%s ja sai kogenumaks!"
+msgstr[1] "Su ründav %s sai hakkama %s-te %s-iga (ja %d muu üksusega)%s ja sai kogenumaks!"
 
 #: server/unittools.c:1660
 #, c-format
@@ -6928,9 +6907,9 @@ msgstr ""
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
 #: server/unittools.c:1692
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
-msgstr "Auto-Attack: %s's %s ründab %s's %s"
+msgstr "Kaotati %s, kui %s-ide %s ründas %s-ide %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from John's Destroyer."
@@ -6953,11 +6932,11 @@ msgstr[1] ""
 #. * attacked Mark's Musketeers."  (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1725
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
-msgstr[0] "Auto-Attack: %s's %s ründab %s's %s"
-msgstr[1] "Auto-Attack: %s's %s ründab %s's %s"
+msgstr[0] "Kaotasime %d üksuse, kui %s-ide %s ründas %s-ide %s."
+msgstr[1] "Kaotasime %d üksust, kui %s-ide %s ründas %s-ide %s."
 
 #: server/unittools.c:1972
 #, c-format
@@ -7304,14 +7283,12 @@ msgid "Built"
 msgstr "Ehitatud"
 
 #: client/citydlg_common.c:345
-#, fuzzy
 msgid "Great Wonder"
 msgstr "Ilmaime"
 
 #: client/citydlg_common.c:349
-#, fuzzy
 msgid "Small Wonder"
-msgstr "Saadaolevad ilmaimed"
+msgstr "Väike ilmaime"
 
 #: client/citydlg_common.c:368
 #, c-format
@@ -7319,9 +7296,9 @@ msgid "%d/turn"
 msgstr ""
 
 #: client/citydlg_common.c:399
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Citizens\n"
-msgstr "Elanikud"
+msgstr "%+4d : Kodanikud\n"
 
 #: client/citydlg_common.c:406
 #, c-format
@@ -7329,9 +7306,9 @@ msgid "%+4d : Taxed from trade\n"
 msgstr ""
 
 #: client/citydlg_common.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr "Kaubateed : "
+msgstr "%+4d : Kaubatee %s-dega\n"
 
 #: client/citydlg_common.c:433
 #, c-format
@@ -7368,9 +7345,8 @@ msgid "%4d : Total surplus"
 msgstr ""
 
 #: client/cityrepdata.c:73
-#, fuzzy
 msgid "?city_state:Rapture"
-msgstr "?city_state:Vaimustav"
+msgstr "?city_state:Joovastus"
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Disorder"
@@ -7611,16 +7587,15 @@ msgstr "Kaubateede arv"
 #: client/cityrepdata.c:483 client/gui-sdl/citydlg.c:3031
 #: client/gui-sdl/citydlg.c:3141
 msgid "Stock"
-msgstr "laos"
+msgstr ""
 
 #: client/cityrepdata.c:483
-#, fuzzy
 msgid "Food Stock"
-msgstr "Toit"
+msgstr "Toiduvarud"
 
 #: client/cityrepdata.c:485
 msgid "?pollution:Pol"
-msgstr "Reo"
+msgstr "?pollution:Sst"
 
 #: client/cityrepdata.c:487
 msgid "Grow"
@@ -7637,7 +7612,7 @@ msgstr "Käike kasvamise/näljani"
 
 #: client/cityrepdata.c:489
 msgid "?corruption:Cor"
-msgstr "Kor"
+msgstr "?corruption:Kor"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
@@ -7653,14 +7628,13 @@ msgstr "Jäätmed"
 
 #: client/cityrepdata.c:493
 msgid "?cma:Governor"
-msgstr ""
+msgstr "?cma:Linnapea"
 
 #: client/cityrepdata.c:493 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1374
 #: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:777
-#, fuzzy
 msgid "Citizen Governor"
-msgstr "Linnade raport"
+msgstr "Kodanike linnapea"
 
 #: client/cityrepdata.c:495 client/cityrepdata.c:496
 msgid "Currently Building"
@@ -7668,26 +7642,24 @@ msgstr "Hetkel ehitamisel"
 
 #: client/cityrepdata.c:495
 msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Kaup,Sihtmärk,Käike,Osta)"
+msgstr "(StockTÕLGIMIND,Sihtmärk,Käike,Osta)"
 
 #: client/cityrepdata.c:554
-#, fuzzy
 msgid "?specialist:S"
-msgstr "Spetsiaalid"
+msgstr "?specialist:S"
 
 #: client/cityrepdata.c:557
-#, fuzzy, c-format
+#, c-format
 msgid "Specialists: %s"
-msgstr "Spetsiaalid"
+msgstr "Spetsialistid: %s"
 
 #: client/civclient.c:198
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
-msgstr ""
+msgstr "  -a, --autoconnect\tÄra näita ühendumisdialoogi\n"
 
 #: client/civclient.c:208
-#, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
-msgstr "  -l, --log FILE\tLogi faili FILE\n"
+msgstr "  -l, --log FILE\tKasuta FILE logimiseks (spawned server TÕLGIMIND kasutab ka seda)\n"
 
 #: client/civclient.c:210
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
@@ -7704,12 +7676,11 @@ msgstr "  -p, --port PORT\tÜhenda serveri porti PORT\n"
 #: client/civclient.c:216
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
-msgstr ""
+msgstr "  -P, --Plugin PLUGIN\tKasuta PLUGINat heli väljastamiseks %s\n"
 
 #: client/civclient.c:218
-#, fuzzy
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
-msgstr "  -r, --read FAIL\tLoe käivitusskript FAIL\n"
+msgstr "  -r, --read FILE\tLoe stardikäske FILE-st (ainult spawned serverite jaoks TÕLGIMIND)\n"
 
 #: client/civclient.c:221
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
@@ -8056,14 +8027,14 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s."
-msgstr "Lubab %s.\n"
+msgstr "Võimaldab %s."
 
 #: client/helpdata.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s (with %s)."
-msgstr "Lubab %s (kui on %s).\n"
+msgstr "Võimaldab  %s (kui on %s)."
 
 #. TRANS: preserve single space at beginning
 #: client/helpdata.c:408
@@ -8094,14 +8065,14 @@ msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr ""
 
 #: client/helpdata.c:691
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s (with %s).\n"
-msgstr "Lubab %s (kui on %s).\n"
+msgstr "* Võimaldab %s (kui on %s).\n"
 
 #: client/helpdata.c:694
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s.\n"
-msgstr "Lubab %s.\n"
+msgstr "* Võimaldab %s.\n"
 
 #: client/helpdata.c:759
 #, c-format
@@ -8204,9 +8175,9 @@ msgid "* Can build irrigation on tiles.\n"
 msgstr ""
 
 #: client/helpdata.c:838
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland.\n"
-msgstr "Raja põllumaa"
+msgstr "* Saab ehitada põllumaad.\n"
 
 #: client/helpdata.c:842
 #, c-format
@@ -8219,9 +8190,9 @@ msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr ""
 
 #: client/helpdata.c:854
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build fortresses.\n"
-msgstr "Ehita kindlus"
+msgstr "* Saab ehitada kindlusi.\n"
 
 #: client/helpdata.c:858
 #, c-format
@@ -8239,14 +8210,14 @@ msgid "* Can clean pollution from tiles.\n"
 msgstr ""
 
 #: client/helpdata.c:870
-#, fuzzy, c-format
+#, c-format
 msgid "* Can clean nuclear fallout from tiles.\n"
-msgstr "Puhasta tuumajääkidest"
+msgstr "* Suudab puhastada kaardiruute tuumajäätmetest.\n"
 
 #: client/helpdata.c:873
-#, fuzzy, c-format
+#, c-format
 msgid "* Can transform tiles.\n"
-msgstr "Muuda mägedeks"
+msgstr "* Suudab muuta kaardiruute.\n"
 
 #: client/helpdata.c:876
 #, c-format
@@ -8616,14 +8587,14 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:1372
-#, fuzzy, c-format
+#, c-format
 msgid "* Your units cannot be bribed.\n"
-msgstr "Mäng: %s ei suuda alal hoida %s't, üksus saadeti laiali."
+msgstr "* Su üksusi ei saa ära osta.\n"
 
 #: client/helpdata.c:1375
-#, fuzzy, c-format
+#, c-format
 msgid "* Your cities cannot be incited.\n"
-msgstr "Mäng: %s ei suuda alal hoida %s't, üksus saadeti laiali."
+msgstr "* Su linnu ei saa mässule õhutada.\n"
 
 #: client/helpdata.c:1378
 #, c-format
@@ -8655,9 +8626,9 @@ msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
 #: client/helpdata.c:1398
-#, fuzzy, c-format
+#, c-format
 msgid "* Has no unhappy citizens.\n"
-msgstr "%d uut õnnetut kodanikku."
+msgstr "* Pole õnnetuid kodanikke.\n"
 
 #: client/helpdata.c:1402 client/helpdata.c:1405
 #, c-format
@@ -8665,9 +8636,9 @@ msgid "* Veteran %s units.\n"
 msgstr ""
 
 #: client/helpdata.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "* Veteran units.\n"
-msgstr "Mereväed"
+msgstr "* Veteranid.\n"
 
 #: client/helpdata.c:1412
 #, c-format
@@ -8725,11 +8696,9 @@ msgstr ""
 
 #. TRANS: "2 Food" or ", 1 shield"
 #: client/helpdata.c:1482
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d %s"
-msgstr ""
-"%s\n"
-"%d %s"
+msgstr "%s%d %s"
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1490
@@ -8752,19 +8721,16 @@ msgid "Clipboard is empty."
 msgstr ""
 
 #: client/options.c:87
-#, fuzzy
 msgid "Graphics"
-msgstr "Demograafia"
+msgstr "Graafika"
 
 #: client/options.c:88
-#, fuzzy
 msgid "Overview"
-msgstr "_Linna ülevaade"
+msgstr "Ülevaade"
 
 #: client/options.c:89
-#, fuzzy
 msgid "Sound"
-msgstr "Loenda"
+msgstr "Heli"
 
 #: client/options.c:90
 msgid "Interface"
@@ -8775,9 +8741,8 @@ msgid "Network"
 msgstr ""
 
 #: client/options.c:96
-#, fuzzy
 msgid "Login name"
-msgstr "Ühine mänguga"
+msgstr ""
 
 #: client/options.c:97
 msgid ""
@@ -8818,9 +8783,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:121
-#, fuzzy
 msgid "Soundset"
-msgstr "Loenda"
+msgstr "Helikomplekt"
 
 #: client/options.c:122
 msgid ""
@@ -8829,9 +8793,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:127
-#, fuzzy
 msgid "Sound plugin"
-msgstr "Heli seaded"
+msgstr "Heliplugin"
 
 #: client/options.c:128
 msgid ""
@@ -8903,9 +8866,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:169
-#, fuzzy
 msgid "Draw the citybar"
-msgstr "Joonista kaardil linna piirid"
+msgstr "Joonista linnariba"
 
 #: client/options.c:170
 msgid ""
@@ -9050,36 +9012,32 @@ msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
 #: client/options.c:241
-#, fuzzy
 msgid "Borders layer"
-msgstr "Piir"
+msgstr "Piiride kiht"
 
 #: client/options.c:242
 msgid "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
 #: client/options.c:246
-#, fuzzy
 msgid "Units layer"
-msgstr "Üksuste leht"
+msgstr "Üksuste kiht"
 
 #: client/options.c:247
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
 #: client/options.c:250
-#, fuzzy
 msgid "Cities layer"
-msgstr "Linnad"
+msgstr "Linnade kiht"
 
 #: client/options.c:251
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
 #: client/options.c:254
-#, fuzzy
 msgid "Overview fog of war"
-msgstr "Ülevaate leht"
+msgstr "Sõjaudu ülevaade"
 
 #: client/options.c:255
 msgid "Enabling this will show fog of war on the overview."
@@ -9147,9 +9105,8 @@ msgid "R.I.P"
 msgstr "Puhkab rahus"
 
 #: client/plrdlg_common.c:202
-#, fuzzy
 msgid "waiting"
-msgstr "Ootan"
+msgstr "ootan"
 
 #: client/plrdlg_common.c:204 client/gui-mui/plrdlg.c:119
 #: client/gui-sdl/plrdlg.c:208 client/gui-sdl/plrdlg.c:643
@@ -9164,14 +9121,12 @@ msgid "moving"
 msgstr "käib"
 
 #: client/plrdlg_common.c:249
-#, fuzzy
 msgid "?Player:Name"
-msgstr "Mängija nimi :"
+msgstr "?Player:Nimi"
 
 #: client/plrdlg_common.c:250
-#, fuzzy
 msgid "Username"
-msgstr "Nimeta ümber"
+msgstr "Kasutajanimi"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
 #: client/gui-gtk-2.0/pages.c:2048
@@ -9191,18 +9146,16 @@ msgid "Border"
 msgstr "Piir"
 
 #: client/plrdlg_common.c:254 client/gui-gtk-2.0/repodlgs.c:1316
-#, fuzzy
 msgid "Score"
-msgstr "Vaata skoori"
+msgstr "Skoor"
 
 #: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1510
 msgid "Team"
 msgstr "Meeskond"
 
 #: client/plrdlg_common.c:257
-#, fuzzy
 msgid "Attitude"
-msgstr "Aktiveeri"
+msgstr "Suhtumine"
 
 #: client/plrdlg_common.c:258 client/gui-mui/plrdlg.c:168
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:659
@@ -9221,9 +9174,8 @@ msgid "Vision"
 msgstr "Vaateväli"
 
 #: client/plrdlg_common.c:262
-#, fuzzy
 msgid "?Player_dlg:Host"
-msgstr "Mängijaid"
+msgstr "?Player_dlg:Masin"
 
 #: client/plrdlg_common.c:263
 msgid "?Player_dlg:Idle"
@@ -9238,25 +9190,24 @@ msgid "You cannot sell improvements."
 msgstr "Sa ei saa müüa ehitisi."
 
 #: client/repodlgs_common.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "Sold %d %s for %d gold."
-msgstr "Mäng: Müüd %s %s-s %d raha eest."
+msgstr "Müüsid %d %s %d raha eest."
 
 #: client/repodlgs_common.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be sold."
-msgstr "%s ei saa müüa"
+msgstr "Ühtegi %s ei saanud müüa"
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:367
-#, fuzzy
 msgid "You cannot disband units."
-msgstr "Mäng: Sa ei osta ära %s!"
+msgstr "Sa ei saa üksusi laiali saata."
 
 #: client/repodlgs_common.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be disbanded."
-msgstr "Mäng: %s ei suuda alal hoida %s't, üksus saadeti laiali."
+msgstr "%s-t ei saa laiali saata.."
 
 #: client/repodlgs_common.c:393
 #, c-format
@@ -9264,14 +9215,13 @@ msgid "Disbanded %d %s."
 msgstr ""
 
 #: client/repodlgs_common.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be disbanded."
-msgstr "%s ei saa müüa"
+msgstr "Ühtegi %s ei saanud lahti lasta."
 
 #: client/servers.c:345
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "Ei suutnud laadida reeglistiku faili \"%s\""
+msgstr "Ei suutnud avada ajutist faili."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -9284,58 +9234,56 @@ msgstr ""
 #: client/text.c:83 client/text.c:84 client/text.c:89
 #: client/gui-sdl/mapview.c:537
 msgid "?nation:Neutral"
-msgstr "Neutraalsed"
+msgstr "?nation:Neutraalsed"
 
 #: client/text.c:83 client/gui-sdl/mapview.c:537
 msgid "?nation:Hostile"
-msgstr ""
+msgstr "?nation:Vaenulikud"
 
 #: client/text.c:85 client/gui-sdl/mapview.c:539
 msgid "?nation:Peaceful"
-msgstr ""
+msgstr "?nation:Rahumeelsed"
 
 #: client/text.c:85 client/gui-sdl/mapview.c:539
 msgid "?nation:Friendly"
-msgstr ""
+msgstr "?nation:Sõbralikud"
 
 #: client/text.c:86 client/gui-sdl/mapview.c:540
 msgid "?nation:Mysterious"
-msgstr ""
+msgstr "?nation:Saladuslikud"
 
 #: client/text.c:86
-#, fuzzy
 msgid "?nation:Friendly(team)"
-msgstr "Sõbralik"
+msgstr "?nation:Sõbralikud (meeskond)"
 
 #: client/text.c:88 client/gui-sdl/mapview.c:570
 msgid "?city:Neutral"
-msgstr "Neutraalne"
+msgstr "?city:Neutraalne"
 
 #: client/text.c:88 client/gui-sdl/mapview.c:570
 msgid "?city:Hostile"
-msgstr "Vaenulik"
+msgstr "?city:Vaenulik"
 
 #: client/text.c:90 client/gui-sdl/mapview.c:571
 msgid "?city:Peaceful"
-msgstr "Rahumeelne"
+msgstr "?city:Rahumeelne"
 
 #: client/text.c:90 client/gui-sdl/mapview.c:572
 msgid "?city:Friendly"
-msgstr "Sõbralik"
+msgstr "?city:Sõbralik"
 
 #: client/text.c:90 client/gui-sdl/mapview.c:572
 msgid "?city:Mysterious"
-msgstr "Kummaline"
+msgstr "?city:Saladuslik"
 
 #: client/text.c:91
-#, fuzzy
 msgid "?city:Friendly(team)"
-msgstr "Sõbralik"
+msgstr "?city:Sõbralik (meeskond)"
 
 #: client/text.c:98
 #, c-format
 msgid "Location: (%d, %d) [%d]"
-msgstr ""
+msgstr "Asukoht: (%d, %d) [%d]"
 
 #: client/text.c:101 client/gui-mui/mapclass.c:102
 #, c-format
@@ -9349,25 +9297,25 @@ msgstr "Toit/Tootm/Kaubandus: %s"
 
 #: client/text.c:105 client/gui-mui/mapclass.c:108
 msgid "Minor Tribe Village"
-msgstr ""
+msgstr "Väike höimu küla"
 
 #: client/text.c:111
 msgid "Our Territory"
-msgstr ""
+msgstr "Meie territoorium"
 
 #. TRANS: "Territory of the Polish"
 #: client/text.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of the %s"
-msgstr "Maaomanik %s %s"
+msgstr "%s-ide territoorium"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] "Üksus: %s (%s%s)"
-msgstr[1] "Üksus: %s (%s%s)"
+msgstr[0] "%s-ide territoorium (%d käik vaherahu)"
+msgstr[1] "%s-ide territoorium (%d käiku vaherahu)"
 
 #: client/text.c:132
 #, c-format
@@ -9386,15 +9334,15 @@ msgstr "Linn: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
 #: client/text.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
-msgstr[0] "Üksus: %s (%s%s)"
-msgstr[1] "Üksus: %s (%s%s)"
+msgstr[0] "Linn: %s (%s, %d käik vaherahu)"
+msgstr[1] "Linn: %s (%s, %d käik vaherahu)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %s)"
 msgstr "Linn: %s (%s, %s)"
 
@@ -9404,9 +9352,9 @@ msgstr " koos "
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "Trade from %s: %d"
-msgstr "Kaubandus: +%d"
+msgstr "Kaubandus linnast %s: %d"
 
 #: client/text.c:198
 #, c-format
@@ -9434,9 +9382,9 @@ msgstr[1] "Üksus: %s (%s, %d-käigune sõjategevuse peatamine)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr "Üksus: %s (%s%s)"
+msgstr "Üksus: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:263
@@ -9470,36 +9418,27 @@ msgstr "lähim %s"
 #: client/text.c:348
 #, c-format
 msgid "in %s"
-msgstr "%s's"
+msgstr "%s-s"
 
 #. TRANS: "from Warsaw"
 #: client/text.c:378
 #, c-format
 msgid "from %s"
-msgstr ""
+msgstr "%s-lt"
 
 #: client/text.c:441
-#, fuzzy
 msgid "Progress: no research"
-msgstr ""
-"\n"
-"(ei uurita)"
+msgstr "Progress: ei jaksa midagi uurida"
 
 #: client/text.c:445
-#, fuzzy
 msgid "Progress: no research target"
-msgstr ""
-"\n"
-"(ei uurita)"
+msgstr "Progress: pole teadustöö eesmärki"
 
 #: client/text.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] ""
-"\n"
-"(%d käik avastuseks)\n"
-"(%d käiku avastuseks)"
 
 #: client/text.c:455
 #, fuzzy, c-format
@@ -9659,9 +9598,8 @@ msgstr[0] "Üksuse valimine"
 msgstr[1] "Üksuse valimine"
 
 #: client/text.c:699
-#, fuzzy
 msgid "No units selected."
-msgstr "Mäng: Rahvus valitud"
+msgstr "Ühtegi üksust pole valitud."
 
 #: client/text.c:772
 #, c-format
@@ -10984,7 +10922,7 @@ msgstr ""
 #: client/gui-sdl/diplodlg.c:354 client/gui-win32/diplodlg.c:263
 #: client/gui-xaw/diplodlg.c:948
 msgid "Invalid amount of gold specified."
-msgstr "Mäng: Vigane kullahulk määratud."
+msgstr "Määratud vigane hulk kulda."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-mui/finddlg.c:96
 #: client/gui-sdl/finddlg.c:122 client/gui-win32/finddlg.c:116
@@ -12378,9 +12316,8 @@ msgid "More Game _Options..."
 msgstr "Rohkem mängu_valikuid..."
 
 #: client/gui-gtk-2.0/pages.c:1482
-#, fuzzy
 msgid "Record"
-msgstr "Mäng: Raport"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1487
 #, fuzzy
@@ -14092,7 +14029,7 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:1172
 msgid "Sorry, You have already bought here in this turn"
-msgstr "Mäng: Sa oled juba ostnud sellel käigul."
+msgstr "Vabanda, sa oled juba ostnud siin sellel käigul."
 
 #: client/gui-sdl/citydlg.c:1176
 msgid "Buy It?"
@@ -15630,7 +15567,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:698
 msgid "That's the same thing!"
-msgstr "Mäng: See on sama asi!"
+msgstr "See on sama asi!"
 
 #: client/gui-win32/cityrep.c:733 data/Freeciv.in:1739
 msgid "Change Production Everywhere"
