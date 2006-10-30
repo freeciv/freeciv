@@ -19,8 +19,8 @@
     email                : Rafał Bursig <bursig@poczta.fm>
  **********************************************************************/
 
-#ifndef FC__GUI_STUFF_H
-#define FC__GUI_STUFF_H
+#ifndef FC__WIDGET_H
+#define FC__WIDGET_H
 
 /* utility */
 #include "fc_types.h"
@@ -549,4 +549,4 @@ do {                                                                    \
 #define create_iconlabel_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \
 	create_iconlabel(pIcon, pDest, create_str16_from_char(pCharString, iPtsize), flags)
 
-#endif	/* FC__GUI_STUFF_H */
+#endif	/* FC__WIDGET_H */

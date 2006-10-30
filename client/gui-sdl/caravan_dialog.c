@@ -26,9 +26,9 @@
 /* gui-sdl */
 #include "gui_id.h"
 #include "graphics.h"
-#include "gui_stuff.h"
 #include "mapview.h"
 #include "gui_tilespec.h"
+#include "widget.h"
 
 #include "dialogs.h"
 

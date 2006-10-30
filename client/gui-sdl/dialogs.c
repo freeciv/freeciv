@@ -55,7 +55,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
 #include "helpdlg.h"
@@ -67,6 +66,7 @@
 #include "plrdlg.h"
 #include "repodlgs.h"
 #include "themespec.h"
+#include "widget.h"
 #include "wldlg.h"
 
 #include "dialogs.h"

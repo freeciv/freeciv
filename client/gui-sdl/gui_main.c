@@ -60,7 +60,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_mouse.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "inteldlg.h"
 #include "mapctrl.h"
@@ -71,6 +70,7 @@
 #include "repodlgs.h"
 #include "themespec.h"
 #include "spaceshipdlg.h"
+#include "widget.h"
 
 #include "gui_main.h"
 

@@ -22,7 +22,7 @@
 #include "graphics.h"
 #include "themespec.h"
 
-#include "gui_stuff.h"
+#include "widget.h"
 
 /* =================================================== */
 /* ===================== ICON ======================== */

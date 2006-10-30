@@ -16,7 +16,7 @@
 
 #include <SDL/SDL.h>
 
-#include "gui_stuff.h"
+#include "gui_string.h"
 
 #include "repodlgs_g.h"
 

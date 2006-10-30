@@ -31,11 +31,11 @@
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_id.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "repodlgs.h"
 #include "themespec.h"
+#include "widget.h"
 
 #include "dialogs_g.h"
 

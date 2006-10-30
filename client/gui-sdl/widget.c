@@ -39,7 +39,7 @@
 #include "unistring.h"
 #include "widget_p.h"
 
-#include "gui_stuff.h"
+#include "widget.h"
 
 struct widget *pSellected_Widget;
 SDL_Rect *pInfo_Area = NULL;

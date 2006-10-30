@@ -22,8 +22,6 @@
 #ifndef FC__CONNECTDLG_H
 #define FC__CONNECTDLG_H
 
-#include "gui_stuff.h"
-
 #include "connectdlg_g.h"
 
 void popup_connection_dialog(bool lan_scan);

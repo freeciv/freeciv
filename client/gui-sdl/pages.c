@@ -31,13 +31,13 @@
 #include "connectdlg.h"
 #include "graphics.h"
 #include "gui_id.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "themespec.h"
+#include "widget.h"
 
 #include "pages.h"
 

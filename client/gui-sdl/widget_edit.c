@@ -28,7 +28,8 @@
 #include "unistring.h"
 
 #include "widget_p.h"
-#include "gui_stuff.h"
+
+#include "widget.h"
 
 struct UniChar {
   struct UniChar *next;

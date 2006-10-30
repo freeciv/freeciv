@@ -49,7 +49,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_mouse.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "menu.h"
@@ -58,6 +57,7 @@
 #include "plrdlg.h"
 #include "repodlgs.h"
 #include "themespec.h"
+#include "widget.h"
 #include "wldlg.h"
 
 #include "mapctrl.h"

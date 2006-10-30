@@ -45,8 +45,6 @@ libguiclient_a_SOURCES = \
 	gui_mouse.h	\
 	gui_string.c	\
 	gui_string.h	\
-	gui_stuff.c	\
-	gui_stuff.h	\
 	gui_tilespec.c	\
 	gui_tilespec.h  \
 	gui_zoom.c	\
@@ -92,6 +90,8 @@ libguiclient_a_SOURCES = \
 	themespec.h	\
 	unistring.c	\
 	unistring.h	\
+	widget.c	\
+	widget.h	\
 	widget_button.c \
 	widget_checkbox.c \
 	widget_core.c	\
