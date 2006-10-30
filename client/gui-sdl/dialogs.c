@@ -2139,10 +2139,10 @@ static struct ADVANCED_DLG *pNationDlg = NULL;
 static struct SMALL_DLG *pHelpDlg = NULL;
   
 struct NAT {
-  Uint8 nation_city_style;	/* sellected city style */
-  Uint8 selected_leader;	/* if not unique -> sellected leader */
-  Sint8 nation;			/* sellected nation */
-  bool leader_sex;		/* sellected leader sex */
+  unsigned char nation_city_style; /* selected city style */
+  unsigned char selected_leader;   /* if not unique -> selected leader */
+  unsigned char nation;            /* selected nation */
+  bool leader_sex;                 /* selected leader sex */
   struct widget *pChange_Sex;
   struct widget *pName_Edit;
   struct widget *pName_Next;
@@ -2747,7 +2747,7 @@ void popup_races_dialog(struct player *pplayer)
 
     w = MAX(w, pWidget->size.w);
     h = MAX(h, pWidget->size.h);
-    
+
     add_to_gui_list(MAX_ID - pNation->index, pWidget);
     
     if (pNation->index > (TARGETS_ROW * TARGETS_COL - 1)) {
