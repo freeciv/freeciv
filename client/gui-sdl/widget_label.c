@@ -515,7 +515,7 @@ int redraw_label(struct widget *pLabel)
   SDL_Rect area = pLabel->size;
   SDL_Color bar_color = *get_game_colorRGB(COLOR_THEME_LABEL_BAR);
   SDL_Color backup_color = {0, 0, 0, 0};
-  
+
   fix_rect(pLabel->dst, &area);
   /* if label transparen then clear background under widget
    * or save this background */
@@ -524,7 +524,7 @@ int redraw_label(struct widget *pLabel)
       clear_surface(pLabel->dst, &area);
       alphablit(pLabel->gfx, NULL, pLabel->dst, &area);
     } else {
-      pLabel->gfx = crop_rect_from_surface(pLabel->dst, &pLabel->size);
+      pLabel->gfx = crop_rect_from_surface(pLabel->dst, &area);
     }
   }
 
@@ -534,7 +534,6 @@ int redraw_label(struct widget *pLabel)
   
   /* redraw sellect bar */
   if (get_wstate(pLabel) == FC_WS_SELLECTED) {
-    
     if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
       if (pLabel->string16) {
         backup_color = pLabel->string16->fgcol;
@@ -547,7 +546,7 @@ int redraw_label(struct widget *pLabel)
       }
     } else {
       SDL_FillRectAlpha(pLabel->dst, &area, &bar_color);
-            
+
       if (pLabel->string16 && (pLabel->string16->render == 3)) {
         backup_color = pLabel->string16->bgcol;
         SDL_GetRGBA(getpixel(pLabel->dst, area.x , area.y), pLabel->dst->format,
