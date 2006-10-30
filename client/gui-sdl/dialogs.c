@@ -260,7 +260,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   pStr = create_str16_from_char(caption, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   
   pWindow->action = notify_dialog_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -437,7 +437,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
 
   pWindow->action = upgrade_unit_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -637,7 +637,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   pStr = create_str16_from_char(cBuf , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   
   pWindow->action = unit_select_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -839,7 +839,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   /* ----------- */  
   my_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), ptile->x , ptile->y);
   
-  pWindow = create_window(NULL, create_str16_from_char(cBuf , adj_font(12)), adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, create_str16_from_char(cBuf , adj_font(12)), 1, 1, 0);
   pWindow->string16->style |= TTF_STYLE_BOLD;
   
   pWindow->action = terrain_info_window_dlg_callback;
@@ -1185,7 +1185,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   pStr = create_str16_from_char(_("Advanced Menu") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
     
   pWindow->action = advanced_terrain_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
@@ -1737,7 +1737,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   pStr = create_str16_from_char(_("What To Pillage") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr , adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
     
   pWindow->action = pillage_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1958,7 +1958,7 @@ static void popup_government_dialog(void)
   pStr = create_str16_from_char(_("Choose Your New Government"), 12);
   pStr->style |= TTF_STYLE_BOLD;
   /* this win. size is temp. */
-  pWindow = create_window(NULL, pStr, 10, 30, 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pWindow->action = move_government_dlg_callback;
   pGov_Dlg->pEndWidgetList = pWindow;
   max_w = pWindow->size.w;
@@ -2058,7 +2058,7 @@ void popup_revolution_dialog(void)
   pStr = create_str16_from_char(_("REVOLUTION!"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pWindow->action = move_revolution_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pWindow);
@@ -2450,7 +2450,7 @@ static int nation_button_callback(struct widget *pNationButton)
         pStr = create_str16_from_char("Nation's Legend", adj_font(12));
         pStr->style |= TTF_STYLE_BOLD;
     
-        pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+        pWindow = create_window(NULL, pStr, 1, 1, 0);
         pWindow->action = help_dlg_callback;
         w = pWindow->size.w;
         set_wstate(pWindow, FC_WS_NORMAL);

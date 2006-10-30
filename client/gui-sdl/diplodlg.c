@@ -424,7 +424,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), WF_FREE_DATA);
+  pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
 
   pWindow->action = dipomatic_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -825,7 +825,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
 
     pWindow->action = dipomatic_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -1042,7 +1042,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
                   FALSE,
                   pWindow->size.x + adj_size(12),
                   pdialog->pdialog->pScroll->pUp_Left_Button->size.y + adj_size(2));
-    
+
     /* find if there was scrollbar shown */
     if(scroll && pdialog->pdialog->pActiveWidgetList != NULL) {
       pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
@@ -1052,14 +1052,14 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
         FREESURFACE(pBuf->gfx);
       } while(pBuf != pdialog->pdialog->pBeginActiveWidgetList);
     }
-    
+
     /* redraw */
     if(redraw_all) {
       redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
-      flush_rect(pWindow->size, FALSE);
+      sdl_dirty_rect(pWindow->size);
     } else {
       redraw_widget(pBuf);
-      flush_rect(pBuf->size, FALSE);
+      sdl_dirty_rect(pBuf->size);
     }
     
   } clause_list_iterate_end;
@@ -1291,7 +1291,7 @@ static void popup_war_dialog(struct player *pPlayer)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
 
   pWindow->action = sdip_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1416,7 +1416,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
 
     pWindow->action = sdip_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);

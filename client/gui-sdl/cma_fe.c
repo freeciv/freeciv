@@ -282,7 +282,7 @@ static int save_cma_callback(struct widget *pWidget)
     pStr = create_str16_from_char(_("Name new preset"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
   
-    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
   
     pWindow->action = save_cma_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -449,7 +449,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pStr = create_str16_from_char(_("Presets"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
 
   pWindow->action = save_cma_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -857,7 +857,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   
   pWindow->action = cma_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);

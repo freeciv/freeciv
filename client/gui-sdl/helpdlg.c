@@ -198,7 +198,7 @@ void popup_impr_info(Impr_type_id impr)
     pStr = create_str16_from_char(_("Help : Improvement"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, adj_size(400), adj_size(400), WF_FREE_DATA);
+    pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
@@ -564,7 +564,7 @@ void popup_unit_info(Unit_type_id type_id)
     pStr = create_str16_from_char(_("Help : Units"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, adj_size(400), adj_size(400), WF_FREE_DATA);
+    pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
@@ -1900,7 +1900,7 @@ void popup_tech_info(Tech_type_id tech)
     pStr = create_str16_from_char(_("Help : Advances Tree"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, adj_size(400), adj_size(400), WF_FREE_DATA);
+    pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
     pWindow->data.ptr = (void *)pStore;
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);

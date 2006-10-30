@@ -674,7 +674,7 @@ static void popup_minimap_scale_dialog(void)
   /* create window */
   pStr = create_str16_from_char(_("Scale Minimap"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pWindow->action = move_scale_minmap_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   w = MAX(w, pWindow->size.w);
@@ -946,7 +946,7 @@ static void popup_unitinfo_scale_dialog(void)
   /* create window */
   pStr = create_str16_from_char(_("Scale Unit Info"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pWindow->action = move_scale_unitinfo_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   w = MAX(w, pWindow->size.w);

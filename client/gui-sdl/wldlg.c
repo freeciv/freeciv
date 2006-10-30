@@ -1066,7 +1066,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     
   /* ---------------- */
   /* Create Main Window */
-  pWindow = create_window(NULL, NULL, 10, 10, 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   pWindow->action = window_worklist_editor_callback;
   w = pWindow->size.w;
   h = pWindow->size.h;

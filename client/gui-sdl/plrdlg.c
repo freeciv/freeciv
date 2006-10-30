@@ -347,7 +347,7 @@ void popup_players_dialog(bool raise)
   pStr = create_str16_from_char(_("Players"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
     
   pWindow->action = players_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -626,7 +626,7 @@ void popup_players_nations_dialog(void)
   pStr = create_str16_from_char(_("Nations") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
     
   pWindow->action = players_nations_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);

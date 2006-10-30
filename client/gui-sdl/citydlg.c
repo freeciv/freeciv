@@ -1169,7 +1169,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   
   pStr = create_str16_from_char(_("Buy It?"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, 100, 100, 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pWindow->action = hurry_production_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   ww += pWindow->size.w;

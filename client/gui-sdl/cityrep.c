@@ -178,7 +178,7 @@ static void real_info_city_report_dialog_update(void)
   pStr = create_str16_from_char(_("Cities Report"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(40), adj_size(30), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pCityRep->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, FC_WS_NORMAL);

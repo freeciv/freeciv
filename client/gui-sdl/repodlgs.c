@@ -192,7 +192,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
   
-    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
   
     pWindow->action = upgrade_unit_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -362,7 +362,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pStr = create_str16_from_char(_("Units Report"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(40), adj_size(30), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pUnitsDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1494,7 +1494,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     pStr = create_str16_from_char(_("Sell It?"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
   
-    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
   
     pWindow->action = sell_impv_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -1704,7 +1704,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(_("Economy Report"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(40), adj_size(30), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pEconomyDlg->pEndWidgetList = pWindow;
   h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -2867,7 +2867,7 @@ static void popup_change_research_dialog()
   pStr = create_str16_from_char(_("What should we focus on now?"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(40), adj_size(30), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pChangeTechDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -3044,7 +3044,7 @@ static void popup_change_research_goal_dialog()
   pStr = create_str16_from_char(_("Sellect target :"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(40), adj_size(30), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
   pChangeTechDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, FC_WS_NORMAL);

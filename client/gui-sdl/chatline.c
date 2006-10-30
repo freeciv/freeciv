@@ -411,7 +411,7 @@ static void popup_conn_list_dialog(void)
   
   pConnDlg = fc_calloc(1, sizeof(struct CONNLIST));
     
-  pWindow = create_window(NULL, NULL, 10, 10, 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   pWindow->action = conn_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);

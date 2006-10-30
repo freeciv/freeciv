@@ -277,7 +277,7 @@ void popup_connection_dialog(bool lan_scan)
   /* Server list window */  
   pMeta_Severs = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
-  pWindow = create_window(NULL, NULL, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   pWindow->action = meta_severs_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
