@@ -49,6 +49,10 @@ if WINMM
 WINMM_FILES=$(ALL_WINMM_FILES)
 endif
 
+if MINGW32
+CLIENTICON=../win32/clienticon.o
+endif
+
 EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/autogroupclass.h         \
 		gui-mui/chatline.c               \
@@ -201,7 +205,7 @@ fc_civclient_libs =	../utility/libcivutility.a	\
 		 	@gui_sources@/libguiclient.a
 civclient_DEPENDENCIES = $(fc_civclient_libs)
 civclient_LDADD        = $(fc_civclient_libs) $(fc_civclient_libs) \
-	@INTLLIBS@ @CLIENT_LIBS@ @SOUND_LIBS@
+	@INTLLIBS@ @CLIENT_LIBS@ @SOUND_LIBS@ $(CLIENTICON)
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = \
 	freeciv.desktop

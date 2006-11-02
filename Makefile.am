@@ -29,7 +29,7 @@ DSUBDIRS =
 endif
 
 
-SUBDIRS=	$(DSUBDIRS) intl utility common tests $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS)
+SUBDIRS=	$(DSUBDIRS) intl utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS)
 
 EXTRA_DIST=	acconfig.old			\
 		autogen.sh 			\

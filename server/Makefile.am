@@ -9,6 +9,10 @@ AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai -I
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
+if MINGW32
+SERVERICON=../win32/servericon.o
+endif
+
 civserver_SOURCES = \
 		civserver.c	\
 		civserver.h
@@ -91,5 +95,5 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
       ../utility/libcivutility.a ./libcivserver.a ../utility/libcivutility.a \
       ../common/aicore/libaicore.a ./generator/libgenerator.a \
-      $(AUTH_LIBS) $(SERVER_LIBS)
+      $(AUTH_LIBS) $(SERVER_LIBS) $(SERVERICON)
 
