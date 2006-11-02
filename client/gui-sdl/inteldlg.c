@@ -356,9 +356,9 @@ void update_intel_dialog(struct player *p)
     FREESTRING16(pStr);
     
     /* ------------------------ */  
-    pWindow->size.x = (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - w) / 2);
-    pWindow->size.y = (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - h) / 2);
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    widget_set_position(pWindow,
+      (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - w) / 2),
+      (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - h) / 2));
     
     resize_window(pWindow, NULL, NULL, w, h);
     
@@ -409,7 +409,7 @@ void update_intel_dialog(struct player *p)
     }
 
     redraw_group(pdialog->pdialog->pBeginWidgetList, pdialog->pdialog->pEndWidgetList, 0);
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
   
     flush_dirty();
     

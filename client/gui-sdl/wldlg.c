@@ -216,7 +216,7 @@ static int rename_worklist_editor_callback(struct widget *pWidget)
       /* empty input -> restore previous content */
       copy_chars_to_string16(pWidget->string16, pEditor->pCopy_WorkList->name);
       redraw_edit(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
     }
   }  
@@ -237,7 +237,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  flush_rect(pTarget->size, FALSE);
+  widget_flush(pTarget);
   
   /* Deny adding currently building Impr/Wonder Target */ 
   if(pEditor->pCity && !prod.is_unit && !pEditor->currently_building.is_unit &&
@@ -372,7 +372,7 @@ static void add_target_to_production(struct widget *pTarget)
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  flush_rect(pTarget->size, FALSE);
+  widget_flush(pTarget);
   
   prod = cid_decode(MAX_ID - pTarget->ID);
   
@@ -393,7 +393,7 @@ static void add_target_to_production(struct widget *pTarget)
   pEditor->pWork->pEndActiveWidgetList->ID = MAX_ID - cid_encode(prod);
     
   redraw_widget(pEditor->pWork->pEndActiveWidgetList);
-  sdl_dirty_rect(pEditor->pWork->pEndActiveWidgetList->size);
+  widget_mark_dirty(pEditor->pWork->pEndActiveWidgetList);
   
   flush_dirty();    
   
@@ -408,7 +408,7 @@ static void get_target_help_data(struct widget *pTarget)
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  /*flush_rect(pTarget->size, FALSE);*/
+  /*widget_flush(pTarget);*/
   
   prod = cid_decode(MAX_ID - pTarget->ID);
 
@@ -946,12 +946,7 @@ static void refresh_production_label(int stock)
   }
   copy_chars_to_string16(pEditor->pProduction_Name->string16, cBuf);
 
-  area = pEditor->pProduction_Name->size;
-  fix_rect(pEditor->pProduction_Name->dst, &area);
-  blit_entire_src(pEditor->pProduction_Name->gfx,
-		  pEditor->pProduction_Name->dst,
-    		  area.x, area.y);
-  
+  widget_undraw(pEditor->pProduction_Name);
   remake_label_size(pEditor->pProduction_Name);
   
   pEditor->pProduction_Name->size.x = pEditor->pEndWidgetList->size.x +
@@ -974,7 +969,7 @@ static void refresh_production_label(int stock)
   my_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
   copy_chars_to_string16(pEditor->pProduction_Progres->string16, cBuf);
   redraw_label(pEditor->pProduction_Progres);
-  sdl_dirty_rect(pEditor->pProduction_Progres->size);
+  widget_mark_dirty(pEditor->pProduction_Progres);
 }
 
 
@@ -988,13 +983,7 @@ static void refresh_worklist_count_label(void)
   				worklist_length(pEditor->pCopy_WorkList));
   copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
 
-  area = pEditor->pWorkList_Counter->size;
-  fix_rect(pEditor->pWorkList_Counter->dst, &area);
-  clear_surface(pEditor->pWorkList_Counter->dst, &area);
-  blit_entire_src(pEditor->pWorkList_Counter->gfx,
-		  pEditor->pWorkList_Counter->dst,
-  		  area.x, area.y);
-
+  widget_undraw(pEditor->pWorkList_Counter);
   remake_label_size(pEditor->pWorkList_Counter);
   
   pEditor->pWorkList_Counter->size.x = pEditor->pEndWidgetList->size.x +
@@ -1598,10 +1587,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     pTheme->FR_Left->w + pTheme->FR_Right->w;
   h = MAX(h, widget_h * TARGETS_ROW) + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
   
-  
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
   
   pIcon = theme_get_background(theme, BACKGROUND_WLDLG);
   if(resize_window(pWindow, pIcon, NULL, w, h)) {
@@ -1741,7 +1729,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   FREESURFACE(pMain);
   
   redraw_group(pEditor->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
   
 void popdown_worklist_editor(void)

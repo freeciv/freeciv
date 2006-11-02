@@ -72,8 +72,6 @@ do {						\
   pAdd_Dock->next = pNew_Widget;		\
 } while(0)
 
-static void remove_buffer_layer(SDL_Surface *pBuffer);
-
 /**************************************************************************
   Correct backgroud size ( set min size ). Used in create widget
   functions.
@@ -244,8 +242,14 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
 **************************************************************************/
 struct widget * WidgetListScaner(const struct widget *pGUI_List, int x, int y)
 {
+  SDL_Rect area = {0, 0, 0, 0};
+  
   while (pGUI_List) {
-    if (is_in_rect_area(x, y, pGUI_List->size)
+    area.x = pGUI_List->dst->dest_rect.x + pGUI_List->size.x;
+    area.y = pGUI_List->dst->dest_rect.y + pGUI_List->size.y;
+    area.w = pGUI_List->size.w;
+    area.h = pGUI_List->size.h;
+    if (is_in_rect_area(x, y, area)
        && !((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
 	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
       return (struct widget *) pGUI_List;
@@ -336,7 +340,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {
       set_wstate(pWidget, FC_WS_PRESSED);
       real_redraw_tibutton(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
       set_wstate(pWidget, FC_WS_SELLECTED);
       SDL_Delay(300);
@@ -352,7 +356,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {
       set_wstate(pWidget, FC_WS_PRESSED);
       real_redraw_ibutton(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
       set_wstate(pWidget, FC_WS_SELLECTED);
       SDL_Delay(300);
@@ -368,7 +372,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {
       set_wstate(pWidget, FC_WS_PRESSED);
       real_redraw_icon(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
       set_wstate(pWidget, FC_WS_SELLECTED);
       SDL_Delay(300);
@@ -384,7 +388,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {
       set_wstate(pWidget, FC_WS_PRESSED);
       real_redraw_icon2(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
       set_wstate(pWidget, FC_WS_SELLECTED);
       SDL_Delay(300);
@@ -406,7 +410,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
         change = edit_field(pWidget);
         if (change != ED_FORCE_EXIT && (!loop || change != ED_RETURN)) {
           redraw_edit(pWidget);
-          sdl_dirty_rect(pWidget->size);
+          widget_mark_dirty(pWidget);
           flush_dirty();
         }
         if (change != ED_FORCE_EXIT && change != ED_ESC && pWidget->action) {
@@ -426,7 +430,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {
       set_wstate(pWidget, FC_WS_PRESSED);
       redraw_vert(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
     }
     ID = pWidget->ID;
@@ -440,7 +444,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {    
       set_wstate(pWidget, FC_WS_PRESSED);
       redraw_horiz(pWidget);
-      flush_rect(pWidget->size, FALSE);
+      widget_flush(pWidget);
     }
     ID = pWidget->ID;  
     if (pWidget->action) {
@@ -453,7 +457,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {
       set_wstate(pWidget, FC_WS_PRESSED);
       real_redraw_icon(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
       set_wstate(pWidget, FC_WS_SELLECTED);
       togle_checkbox(pWidget);
@@ -470,7 +474,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     if (Main.event.button.button == SDL_BUTTON_LEFT) {
       set_wstate(pWidget, FC_WS_PRESSED);
       redraw_textcheckbox(pWidget);
-      flush_rect(pWidget->size, FALSE);
+      widget_flush(pWidget);
       set_wstate(pWidget, FC_WS_SELLECTED);
       togle_checkbox(pWidget);
       SDL_Delay(300);
@@ -542,7 +546,7 @@ void unsellect_widget_action(void)
       break;
     }
 
-    flush_rect(pSellected_Widget->size, FALSE);
+    widget_flush(pSellected_Widget);
 
     /* turn off quick info timer/counter */ 
     widget_info_counter = 0;
@@ -613,7 +617,7 @@ void widget_sellected_action(struct widget *pWidget)
   }
 
   if (get_wstate(pWidget) == FC_WS_SELLECTED) {
-    flush_rect(pWidget->size, FALSE);
+    widget_flush(pWidget);
     pSellected_Widget = pWidget;
     if (get_wflags(pWidget) & WF_WIDGET_HAS_INFO_LABEL) {
       widget_info_counter = 1;
@@ -655,16 +659,16 @@ void redraw_widget_info_label(SDL_Rect *rect)
               SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO_BG), TRUE);
     
     /* calculate start position */
-    if (pWidget->size.y - pBcgd->h - adj_size(6) < 0) {
-      pInfo_Area->y = pWidget->size.y + pWidget->size.h + adj_size(3);
+    if ((pWidget->dst->dest_rect.y + pWidget->size.y) - pBcgd->h - adj_size(6) < 0) {
+      pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) + pWidget->size.h + adj_size(3);
     } else {
-      pInfo_Area->y = pWidget->size.y - pBcgd->h - adj_size(5);
+      pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) - pBcgd->h - adj_size(5);
     }
   
-    if (pWidget->size.x + pBcgd->w + adj_size(5) > Main.screen->w) {
-      pInfo_Area->x = pWidget->size.x - pBcgd->w - adj_size(5);
+    if ((pWidget->dst->dest_rect.x + pWidget->size.x) + pBcgd->w + adj_size(5) > Main.screen->w) {
+      pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) - pBcgd->w - adj_size(5);
     } else {
-      pInfo_Area->x = pWidget->size.x + adj_size(3);
+      pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) + adj_size(3);
     }
   
     pInfo_Area->w = pBcgd->w + adj_size(2);
@@ -711,6 +715,101 @@ void redraw_widget_info_label(SDL_Rect *rect)
   return;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
+inline void widget_set_area(struct widget *pwidget, SDL_Rect area)
+{
+  pwidget->area = area;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void widget_set_position(struct widget *pwidget, int x, int y)
+{
+  if (pwidget->set_position) {
+    pwidget->set_position(pwidget, x, y);
+  } else {
+    pwidget->size.x = x;
+    pwidget->size.y = y;    
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void widget_resize(struct widget *pwidget, int w, int h)
+{
+  /* common code for all widgets */
+  pwidget->size.w = w;
+  pwidget->size.h = h;    
+
+  /* additional, widget-specific code */
+  if (pwidget->resize) {
+    pwidget->resize(pwidget, w, h);
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void widget_draw_frame(struct widget *pwidget)
+{
+  if (pwidget->draw_frame) {
+    pwidget->draw_frame(pwidget);
+  } else {
+    draw_frame_inside_widget(pwidget);
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void widget_mark_dirty(struct widget *pwidget)
+{
+  SDL_Rect rect = {
+    pwidget->dst->dest_rect.x + pwidget->size.x,
+    pwidget->dst->dest_rect.y + pwidget->size.y,
+    pwidget->size.w,
+    pwidget->size.h
+  };
+
+  sdl_dirty_rect(rect);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void widget_flush(struct widget *pwidget)
+{
+  SDL_Rect rect = {
+    pwidget->dst->dest_rect.x + pwidget->size.x,
+    pwidget->dst->dest_rect.y + pwidget->size.y,
+    pwidget->size.w,
+    pwidget->size.h
+  };
+  
+  flush_rect(rect, FALSE);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void widget_undraw(struct widget *pwidget)
+{
+  if (get_wflags(pwidget) & WF_RESTORE_BACKGROUND) {
+    if (pwidget->gfx) {
+      clear_surface(pwidget->dst->surface, &pwidget->size);
+      blit_entire_src(pwidget->gfx, pwidget->dst->surface,
+                      pwidget->size.x, pwidget->size.y);
+    }
+  } else {
+    clear_surface(pwidget->dst->surface, &pwidget->size);
+    blit_entire_src(pwidget->gfx, pwidget->dst->surface,
+                    pwidget->size.x, pwidget->size.y);
+  }
+}
 
 /**************************************************************************
   Find ID in Widget's List ('pGUI_List') and return pointer to this
@@ -755,10 +854,15 @@ void init_gui_list(Uint16 ID, struct widget *pGUI)
 **************************************************************************/
 void add_to_gui_list(Uint16 ID, struct widget *pGUI)
 {
-  pGUI->next = pBeginMainWidgetList;
-  pGUI->ID = ID;
-  pBeginMainWidgetList->prev = pGUI;
-  pBeginMainWidgetList = pGUI;
+  if (pBeginMainWidgetList != NULL) {
+    pGUI->next = pBeginMainWidgetList;
+    pGUI->ID = ID;
+    pBeginMainWidgetList->prev = pGUI;
+    pBeginMainWidgetList = pGUI;
+  } else {
+    pBeginMainWidgetList = pGUI;
+    pBeginMainWidgetList->ID = ID;
+  }
 }
 
 /**************************************************************************
@@ -893,8 +997,7 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
 
     if ((get_wflags(pTmpWidget) & WF_HIDDEN) != WF_HIDDEN) {
 
-      if (!(pTmpWidget->gfx) &&
-	  (get_wflags(pTmpWidget) & WF_RESTORE_BACKGROUND)) {
+      if (!pTmpWidget->gfx && (get_wflags(pTmpWidget) & WF_RESTORE_BACKGROUND)) {
 	refresh_widget_background(pTmpWidget);
       }
 
@@ -902,14 +1005,14 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
 
       if (get_wflags(pTmpWidget) & WF_DRAW_FRAME_AROUND_WIDGET) {
 	if(get_wtype(pTmpWidget) & WT_WINDOW) {
-	  draw_frame_inside_widget_on_surface(pTmpWidget, pTmpWidget->dst);
+	  widget_draw_frame(pTmpWidget);
 	} else {
-	  draw_frame_around_widget_on_surface(pTmpWidget, pTmpWidget->dst);
+	  draw_frame_around_widget(pTmpWidget);
 	}
       }
 
       if (add_to_update) {
-	sdl_dirty_rect(pTmpWidget->size);
+	widget_mark_dirty(pTmpWidget);
       }
 
       count++;
@@ -937,9 +1040,9 @@ void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
 
   while (pTmpWidget) {
 
-    pTmpWidget->size.x += Xrel;
-    pTmpWidget->size.y += Yrel;
-
+    widget_set_position(pTmpWidget, pTmpWidget->size.x + Xrel,
+                                    pTmpWidget->size.y + Yrel);
+    
     if (get_wtype(pTmpWidget) == WT_VSCROLLBAR
       && pTmpWidget->private_data.adv_dlg
       && pTmpWidget->private_data.adv_dlg->pScroll) {
@@ -971,7 +1074,7 @@ void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
 				     struct widget *pEndGroupWidgetList)
 {
   struct widget *pTmpWidget = pEndGroupWidgetList , *pPrev = NULL;
-  struct gui_layer *gui_layer = get_gui_layer(pEndGroupWidgetList->dst);
+  struct gui_layer *gui_layer = get_gui_layer(pEndGroupWidgetList->dst->surface);
   
   /* Widget Pointer Menagment */
   while (pTmpWidget) {
@@ -1101,6 +1204,26 @@ void show_group(struct widget *pBeginGroupWidgetList,
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+void group_set_area(struct widget *pBeginGroupWidgetList,
+		    struct widget *pEndGroupWidgetList,
+                    SDL_Rect area)
+{
+  struct widget *pWidget = pEndGroupWidgetList;
+    
+  while (pWidget) {
+    widget_set_area(pWidget, area);
+    
+    if(pWidget == pBeginGroupWidgetList) {
+      break;
+    }
+
+    pWidget = pWidget->prev;
+  }
+}
+
+/**************************************************************************
   Universal redraw Widget function.
 **************************************************************************/
 int redraw_widget(struct widget *pWidget)
@@ -1157,22 +1280,8 @@ void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
 				 struct widget *pEndGroupWidgetList)
 {
   if ((pBeginGroupWidgetList) && (pEndGroupWidgetList)) {
-    if(pEndGroupWidgetList->dst == Main.gui) {
-      /* undraw window */
-      SDL_Rect dstrect;
-      dstrect.x = pEndGroupWidgetList->size.x;
-      dstrect.y = pEndGroupWidgetList->size.y;
-      dstrect.w = pEndGroupWidgetList->size.w;
-      dstrect.h = pEndGroupWidgetList->size.h;
-      clear_surface(pEndGroupWidgetList->dst, &dstrect);
-      blit_entire_src(pEndGroupWidgetList->gfx, pEndGroupWidgetList->dst,
-		    pEndGroupWidgetList->size.x,
-		    pEndGroupWidgetList->size.y);
-    } else {
-      remove_buffer_layer(pEndGroupWidgetList->dst);
-    }
-
-    sdl_dirty_rect(pEndGroupWidgetList->size);
+    widget_mark_dirty(pEndGroupWidgetList);
+    remove_gui_layer(pEndGroupWidgetList->dst);
 
     del_group(pBeginGroupWidgetList, pEndGroupWidgetList);
   }
@@ -1225,7 +1334,7 @@ bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
 void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow)
 {
   if (sellect_window_group_dialog(pBeginWidgetList, pWindow)) {
-    flush_rect(pWindow->size, FALSE);
+    widget_flush(pWindow);
   }
   
   move_window_group_dialog(pBeginWidgetList, pWindow);
@@ -1338,7 +1447,6 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       
     }
   } else {
-    SDL_Rect dst;
     /* down */
     count = active * step; /* row * col */
     
@@ -1396,11 +1504,8 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       count = count_step;
       while(count) {
 	/* hack - clear area under no exist list members */
-	dst = pTmp->size;
-        fix_rect(pTmp->dst, &dst);
-        clear_surface(pTmp->dst, &dst);
-        alphablit(pTmp->gfx, NULL, pTmp->dst, &dst);
-	sdl_dirty_rect(pTmp->size);
+        widget_undraw(pTmp);
+	widget_mark_dirty(pTmp);
 	FREESURFACE(pTmp->gfx);
 	if (active == 1) {
 	  set_wflag(pTmp, WF_HIDDEN);
@@ -1506,7 +1611,6 @@ static int get_position(struct ADVANCED_DLG *pDlg)
 static void inside_scroll_down_loop(void *pData)
 {
   struct UP_DOWN *pDown = (struct UP_DOWN *)pData;
-  SDL_Rect dest;  
   
   if (pDown->pEnd != pDown->pBeginWidgetLIST) {
       if (pDown->pVscroll->pScrollBar
@@ -1514,13 +1618,8 @@ static void inside_scroll_down_loop(void *pData)
 	  pDown->pVscroll->max - pDown->pVscroll->pScrollBar->size.h) {
             
 	/* draw bcgd */
-        dest = pDown->pVscroll->pScrollBar->size;
-        fix_rect(pDown->pVscroll->pScrollBar->dst, &dest);
-        clear_surface(pDown->pVscroll->pScrollBar->dst, &dest);
-	blit_entire_src(pDown->pVscroll->pScrollBar->gfx,
-	    		pDown->pVscroll->pScrollBar->dst,
-			dest.x, dest.y);
-	sdl_dirty_rect(pDown->pVscroll->pScrollBar->size);
+        widget_undraw(pDown->pVscroll->pScrollBar);
+	widget_mark_dirty(pDown->pVscroll->pScrollBar);
 
 	if (pDown->pVscroll->pScrollBar->size.y + pDown->step >
 	    pDown->pVscroll->max - pDown->pVscroll->pScrollBar->size.h) {
@@ -1544,7 +1643,7 @@ static void inside_scroll_down_loop(void *pData)
 	refresh_widget_background(pDown->pVscroll->pScrollBar);
 	redraw_vert(pDown->pVscroll->pScrollBar);
 
-	sdl_dirty_rect(pDown->pVscroll->pScrollBar->size);
+	widget_mark_dirty(pDown->pVscroll->pScrollBar);
       }
 
       flush_dirty();
@@ -1557,7 +1656,6 @@ static void inside_scroll_down_loop(void *pData)
 static void inside_scroll_up_loop(void *pData)
 {
   struct UP_DOWN *pUp = (struct UP_DOWN *)pData;
-  SDL_Rect dest;  
   
   if (pUp && pUp->pBegin != pUp->pEndWidgetLIST) {
 
@@ -1565,13 +1663,8 @@ static void inside_scroll_up_loop(void *pData)
       && (pUp->pVscroll->pScrollBar->size.y >= pUp->pVscroll->min)) {
 
       /* draw bcgd */
-      dest = pUp->pVscroll->pScrollBar->size;
-      fix_rect(pUp->pVscroll->pScrollBar->dst, &dest);
-      clear_surface(pUp->pVscroll->pScrollBar->dst, &dest);
-      blit_entire_src(pUp->pVscroll->pScrollBar->gfx,
-			pUp->pVscroll->pScrollBar->dst,
-			dest.x, dest.y);
-      sdl_dirty_rect(pUp->pVscroll->pScrollBar->size);
+      widget_undraw(pUp->pVscroll->pScrollBar);
+      widget_mark_dirty(pUp->pVscroll->pScrollBar);
 
       if (((pUp->pVscroll->pScrollBar->size.y - pUp->step) < pUp->pVscroll->min)) {
 	pUp->pVscroll->pScrollBar->size.y = pUp->pVscroll->min;
@@ -1590,7 +1683,7 @@ static void inside_scroll_up_loop(void *pData)
       /* redraw scroolbar */
       refresh_widget_background(pUp->pVscroll->pScrollBar);
       redraw_vert(pUp->pVscroll->pScrollBar);
-      sdl_dirty_rect(pUp->pVscroll->pScrollBar->size);
+      widget_mark_dirty(pUp->pVscroll->pScrollBar);
     }
 
     flush_dirty();
@@ -1603,7 +1696,6 @@ static void inside_scroll_up_loop(void *pData)
 static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
 {
   struct UP_DOWN *pMotion = (struct UP_DOWN *)pData;
-  SDL_Rect dest;  
   
   if (pMotion && pMotionEvent->yrel &&
     /*(old_y >= pMotion->pVscroll->min) && (old_y <= pMotion->pVscroll->max) &&*/
@@ -1613,13 +1705,8 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     div_t tmp;
       
     /* draw bcgd */
-    dest = pMotion->pVscroll->pScrollBar->size;
-    fix_rect(pMotion->pVscroll->pScrollBar->dst, &dest);
-    clear_surface(pMotion->pVscroll->pScrollBar->dst, &dest);
-    blit_entire_src(pMotion->pVscroll->pScrollBar->gfx,
-       			pMotion->pVscroll->pScrollBar->dst,
-			dest.x, dest.y);
-    sdl_dirty_rect(pMotion->pVscroll->pScrollBar->size);
+    widget_undraw(pMotion->pVscroll->pScrollBar);
+    widget_mark_dirty(pMotion->pVscroll->pScrollBar);
 
     if ((pMotion->pVscroll->pScrollBar->size.y + pMotionEvent->yrel) >
 	 (pMotion->pVscroll->max - pMotion->pVscroll->pScrollBar->size.h)) {
@@ -1671,7 +1758,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     /* redraw scroolbar */
     refresh_widget_background(pMotion->pVscroll->pScrollBar);
     redraw_vert(pMotion->pVscroll->pScrollBar);
-    sdl_dirty_rect(pMotion->pVscroll->pScrollBar->size);
+    widget_mark_dirty(pMotion->pVscroll->pScrollBar);
 
     flush_dirty();
   }				/* if (count) */
@@ -1789,7 +1876,6 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   struct widget *pEnd = NULL, *pOld_End = NULL;
   int count = 0;
   bool last = FALSE, seen = TRUE;
-  SDL_Rect dest;
   
   assert(pNew_Widget != NULL);
   assert(pDlg != NULL);
@@ -1946,13 +2032,9 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   }
   
   if(pDlg->pActiveWidgetList && pDlg->pScroll->pScrollBar) {
-    dest = pDlg->pScroll->pScrollBar->size;
-    fix_rect(pDlg->pScroll->pScrollBar->dst, &dest);
-    clear_surface(pDlg->pScroll->pScrollBar->dst, &dest);
-    blit_entire_src(pDlg->pScroll->pScrollBar->gfx,
-    		    pDlg->pScroll->pScrollBar->dst,
-		    dest.x, dest.y);
-    sdl_dirty_rect(pDlg->pScroll->pScrollBar->size);
+    widget_undraw(pDlg->pScroll->pScrollBar);
+    widget_mark_dirty(pDlg->pScroll->pScrollBar);    
+    
     pDlg->pScroll->pScrollBar->size.h = scrollbar_size(pDlg->pScroll);
     if(last) {
       pDlg->pScroll->pScrollBar->size.y = get_position(pDlg);
@@ -1978,7 +2060,6 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   struct widget *pBuf = pWidget;
   assert(pWidget != NULL);
   assert(pDlg != NULL);
-  SDL_Rect dst;
 
   /* if begin == end -> size = 1 */
   if (pDlg->pBeginActiveWidgetList ==
@@ -2004,11 +2085,9 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
       pDlg->pBeginWidgetList = NULL;
       pDlg->pEndWidgetList = NULL;
     }
-    dst = pWidget->size;
-    fix_rect(pWidget->dst, &dst);
-    clear_surface(pWidget->dst, &dst);
-    alphablit(pWidget->gfx, NULL, pWidget->dst, &dst);
-    sdl_dirty_rect(pWidget->size);
+    
+    widget_undraw(pWidget);
+    widget_mark_dirty(pWidget);
     del_widget_from_gui_list(pWidget);
     return FALSE;
   }
@@ -2050,11 +2129,8 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
       } else {
 	pBuf = pLast;
 	/* undraw last widget */
-        dst = pBuf->size;
-        fix_rect(pBuf->dst, &dst);
-        clear_surface(pBuf->dst, &dst);
-        blit_entire_src(pBuf->gfx, pBuf->dst, dst.x, dst.y);
-        sdl_dirty_rect(pBuf->size);
+        widget_undraw(pBuf);
+        widget_mark_dirty(pBuf);
         FREESURFACE(pBuf->gfx);
 	goto STD;
       }  
@@ -2086,11 +2162,8 @@ STD:  while (pBuf != pWidget) {
     pBuf = pDlg->pBeginActiveWidgetList;
     
     /* undraw last widget */
-    dst = pBuf->size;
-    fix_rect(pBuf->dst, &dst);
-    clear_surface(pBuf->dst, &dst);
-    blit_entire_src(pBuf->gfx, pBuf->dst, dst.x, dst.y);
-    sdl_dirty_rect(pBuf->size);
+    widget_undraw(pBuf);
+    widget_mark_dirty(pBuf);
     FREESURFACE(pBuf->gfx);
 
     while (pBuf != pWidget) {
@@ -2167,7 +2240,7 @@ static int std_up_advanced_dlg_callback(struct widget *pWidget)
     pSellected_Widget = pWidget;
     set_wstate(pWidget, FC_WS_SELLECTED);
     redraw_tibutton(pWidget);
-    flush_rect(pWidget->size, FALSE);
+    widget_flush(pWidget);
   }
   return -1;
 }
@@ -2193,7 +2266,7 @@ static int std_down_advanced_dlg_callback(struct widget *pWidget)
     pSellected_Widget = pWidget;
     set_wstate(pWidget, FC_WS_SELLECTED);
     redraw_tibutton(pWidget);
-    flush_rect(pWidget->size, FALSE);
+    widget_flush(pWidget);
   }
   return -1;
 }
@@ -2218,7 +2291,7 @@ static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
     set_wstate(pScrollBar, FC_WS_SELLECTED);
     pSellected_Widget = pScrollBar;
     redraw_vert(pScrollBar);
-    flush_rect(pScrollBar->size, FALSE);
+    widget_flush(pScrollBar);
   }
   return -1;
 }
@@ -2562,68 +2635,6 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
   will be draw.
 **************************************************************************/
 
-/**************************************************************************
-  Buffer allocation function.
-  This function is call by "create_window(...)" function and allocate 
-  buffer layer for this function.
-
-  Pointer for this buffer is put in buffer array on last position that 
-  flush functions will draw this layer last.
-**************************************************************************/
-SDL_Surface *get_buffer_layer(int width, int height)
-{
-  SDL_Surface *pBuffer;
-
-  pBuffer = create_surf_alpha(/*Main.screen->w*/width, /*Main.screen->h*/height, SDL_SWSURFACE);
-  
-  /* add to buffers array */
-  if (Main.guis) {
-    int i;
-    /* find NULL element */
-    for(i = 0; i < Main.guis_count; i++) {
-      if(!Main.guis[i]) {
-        Main.guis[i] = gui_layer_new(0, 0, pBuffer);
-	return pBuffer;
-      }
-    }
-    Main.guis_count++;
-    Main.guis = fc_realloc(Main.guis, Main.guis_count * sizeof(struct gui_layer *));
-    Main.guis[Main.guis_count - 1] = gui_layer_new(0, 0, pBuffer);
-  } else {
-    Main.guis = fc_calloc(1, sizeof(struct gui_layer *));
-    Main.guis[0] = gui_layer_new(0, 0, pBuffer);
-    Main.guis_count = 1;
-  }
-  
-  return pBuffer;
-}
-
-/**************************************************************************
-  Free buffer layer ( call by popdown_window_group_dialog(...) funct )
-  Funct. free buffer layer and cleare buffer array entry.
-**************************************************************************/
-static void remove_buffer_layer(SDL_Surface *pBuffer)
-{
-  int i;
-  
-  for(i = 0; i < Main.guis_count - 1; i++) {
-    if(Main.guis[i] && (Main.guis[i]->surface == pBuffer)) {
-      gui_layer_destroy(&Main.guis[i]);
-      Main.guis[i] = Main.guis[i + 1];
-      Main.guis[i + 1] = NULL;
-    } else {
-      if(!Main.guis[i]) {
-	Main.guis[i] = Main.guis[i + 1];
-        Main.guis[i + 1] = NULL;
-      }
-    }
-  }
-
-  if (Main.guis[Main.guis_count - 1]) {
-    gui_layer_destroy(&Main.guis[Main.guis_count - 1]);
-  }
-}
-
 /* =================================================== */
 /* ======================== MISC ===================== */
 /* =================================================== */
@@ -2671,19 +2682,14 @@ void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
 **************************************************************************/
 void refresh_widget_background(struct widget *pWidget)
 {
-  SDL_Rect dest;
-  
   if (pWidget) {
-    dest = pWidget->size;
-    fix_rect(pWidget->dst, &dest);    
-
     if (pWidget->gfx && pWidget->gfx->w == pWidget->size.w &&
       				pWidget->gfx->h == pWidget->size.h) {
       clear_surface(pWidget->gfx, NULL);
-      alphablit(pWidget->dst, &dest, pWidget->gfx, NULL);
+      alphablit(pWidget->dst->surface, &pWidget->size, pWidget->gfx, NULL);
     } else {
       FREESURFACE(pWidget->gfx);
-      pWidget->gfx = crop_rect_from_surface(pWidget->dst, &dest);
+      pWidget->gfx = crop_rect_from_surface(pWidget->dst->surface, &pWidget->size);
     }
   }
 }

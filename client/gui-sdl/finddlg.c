@@ -106,6 +106,7 @@ void popup_find_dialog(void)
   int i, n = 0, w = 0, h, /*owner = 0xffff,*/ units_h = 0;
   struct player *owner = NULL;
   struct tile *original;
+  int window_x = 0, window_y = 0;
   bool mouse = (Main.event.type == SDL_MOUSEBUTTONDOWN);
   
   /* check that there are any cities to find */
@@ -225,19 +226,19 @@ void popup_find_dialog(void)
   h = units_h;
 
   if(!mouse) {  
-    pWindow->size.x = adj_size(10);
-    pWindow->size.y = (Main.screen->h - h) / 2;
+    window_x = adj_size(10);
+    window_y = (Main.screen->h - h) / 2;
   } else {
-    pWindow->size.x = ((Main.event.motion.x + w < Main.screen->w) ?
+    window_x = ((Main.event.motion.x + w < Main.screen->w) ?
                      (Main.event.motion.x + adj_size(10)) : (Main.screen->w - w - adj_size(10)));
-    pWindow->size.y = 
+    window_y = 
       ((Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2)) + h < Main.screen->h) ?
              (Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2))) :
              (Main.screen->h - h - adj_size(10)));
     
   }
 
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+  widget_set_position(pWindow, window_x, window_y);
   
   resize_window(pWindow , NULL, NULL, w, h);
   
@@ -271,7 +272,7 @@ void popup_find_dialog(void)
   /* -------------------- */
   /* redraw */
   redraw_group(pFind_City_Dlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   
   flush_dirty();
 }

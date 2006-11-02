@@ -118,7 +118,7 @@ void popup_input_line(void)
     inputline_return_callback(pInput_Edit);
   }
   
-  sdl_dirty_rect(pInput_Edit->size);
+  widget_mark_dirty(pInput_Edit);
   FREEWIDGET(pInput_Edit);
   
   flush_dirty();
@@ -240,7 +240,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
     			pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
     } else {
       redraw_widget(pBuf);
-      sdl_dirty_rect(pBuf->size);
+      widget_mark_dirty(pBuf);
     }
   }
   
@@ -381,7 +381,7 @@ void update_conn_list_dialog(void)
       /* redraw */
       redraw_group(pConnDlg->pBeginWidgetList, pConnDlg->pEndWidgetList, 0);
 
-      flush_rect(pConnDlg->pEndWidgetList->size, FALSE);
+      widget_flush(pConnDlg->pEndWidgetList);
     } else {
       popup_conn_list_dialog();
     }
@@ -419,9 +419,7 @@ static void popup_conn_list_dialog(void)
   pConnDlg->pEndWidgetList = pWindow;
   add_to_gui_list(ID_WINDOW, pWindow);
   
-  pWindow->size.x = 0;
-  pWindow->size.y = 0;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow, 0, 0);
   
   /* create window background */
   {
@@ -559,7 +557,7 @@ static void popup_conn_list_dialog(void)
   add_to_gui_list(ID_EDIT, pBuf);
   
 #if 0  
-  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst->surface,
   				"?", 12, 0);
   pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + 7); 
   pBuf->size.x = pWindow->size.x + pWindow->size.w - (pBuf->size.w + 10) - 5;

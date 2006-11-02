@@ -104,7 +104,7 @@ static int connect_callback(struct widget *pWidget)
       set_wstate(pWidget, FC_WS_SELLECTED);
       pSellected_Widget = pWidget;
       redraw_tibutton(pWidget);
-      flush_rect(pWidget->size, FALSE);
+      widget_flush(pWidget);
     }
   }
   return -1;
@@ -228,7 +228,7 @@ void popup_connection_dialog(bool lan_scan)
   popdown_meswin_dialog();
 
   /* Text Label */  
-  pLabelWindow = create_window(Main.gui, NULL, 1, 1, 0);
+  pLabelWindow = create_window(NULL, NULL, 1, 1, 0);
   add_to_gui_list(ID_WINDOW, pLabelWindow);
   
   my_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
@@ -239,18 +239,23 @@ void popup_connection_dialog(bool lan_scan)
                 (WF_RESTORE_BACKGROUND | WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pNewWidget);
 
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h;
+  area.w = pNewWidget->size.w + (adj_size(60) - pTheme->FR_Left->w - pTheme->FR_Right->w);
+  area.h = pNewWidget->size.h + (adj_size(30) - pTheme->FR_Top->h - pTheme->FR_Bottom->h);
   
-  pLabelWindow->size.w = pNewWidget->size.w + adj_size(60);
-  pLabelWindow->size.h = pNewWidget->size.h + adj_size(30);
-  pLabelWindow->size.x = (Main.screen->w - pLabelWindow->size.w) / 2;
-  pLabelWindow->size.y = (Main.screen->h - pLabelWindow->size.h) / 2;
-  set_window_pos(pLabelWindow, pLabelWindow->size.x, pLabelWindow->size.y);
+  resize_window(pLabelWindow, NULL, &bg_color,
+                (area.x + area.w + pTheme->FR_Right->w),
+                (area.y + area.h + pTheme->FR_Bottom->h));
 
-  resize_window(pLabelWindow, NULL, &bg_color, pLabelWindow->size.w, 
-                                               pLabelWindow->size.h);
-  
-  pNewWidget->size.x = pLabelWindow->size.x + adj_size(30);
-  pNewWidget->size.y = pLabelWindow->size.y + adj_size(15);
+  widget_set_position(pLabelWindow,
+                      (Main.screen->w - pLabelWindow->size.w) / 2,
+                      (Main.screen->h - pLabelWindow->size.h) / 2);
+
+  widget_set_area(pNewWidget, area);
+  widget_set_position(pNewWidget,
+                      area.x + (area.w - pNewWidget->size.w)/2,
+                      area.y + (area.h - pNewWidget->size.h)/2);
   
   redraw_group(pNewWidget, pLabelWindow, TRUE);
   flush_dirty();
@@ -354,10 +359,10 @@ void popup_connection_dialog(bool lan_scan)
   area.h = meta_h;
   
   meta_h += pMeta_Severs->pEndWidgetList->prev->size.h + adj_size(10) + adj_size(20);
-  
-  pWindow->size.x = (Main.screen->w - w) /2;
-  pWindow->size.y = (Main.screen->h - meta_h) /2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) /2,
+                      (Main.screen->h - meta_h) /2);
   
   pLogo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
   if (resize_window(pWindow , pLogo , NULL , w , meta_h)) {
@@ -416,21 +421,21 @@ void popup_connection_dialog(bool lan_scan)
   
   area.x = pMeta_Severs->pEndActiveWidgetList->size.x;
   area.y = pMeta_Severs->pEndActiveWidgetList->size.y;
-  fix_rect(pWindow->dst, &area);
-  SDL_FillRectAlpha(pWindow->dst, &area, &bg_color);
+
+  SDL_FillRectAlpha(pWindow->dst->surface, &area, &bg_color);
   
-  putframe(pWindow->dst, area.x - 1, area.y - 1, 
+  putframe(pWindow->dst->surface, area.x - 1, area.y - 1, 
 	area.x + area.w , area.y + area.h,
-        map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_INNERFRAME)));
+        map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_INNERFRAME)));
   
   redraw_group(pMeta_Severs->pBeginWidgetList, pWindow->prev, 0);
 
-  putframe(pWindow->dst, pWindow->size.x , pWindow->size.y , 
+  putframe(pWindow->dst->surface, pWindow->size.x , pWindow->size.y , 
      pWindow->size.x + pWindow->size.w - 1,
      pWindow->size.y + pWindow->size.h - 1,
-     map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_FRAME)));
+     map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_FRAME)));
     
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /**************************************************************************
@@ -448,7 +453,7 @@ static int convert_playername_callback(struct widget *pWidget)
       /* empty input -> restore previous content */
       copy_chars_to_string16(pWidget->string16, user_name);
       redraw_edit(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
     }
   }  
@@ -470,7 +475,7 @@ static int convert_servername_callback(struct widget *pWidget)
       /* empty input -> restore previous content */
       copy_chars_to_string16(pWidget->string16, server_host);
       redraw_edit(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
     }
   }  
@@ -494,7 +499,7 @@ static int convert_portnr_callback(struct widget *pWidget)
       my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
       copy_chars_to_string16(pWidget->string16, pCharPort);
       redraw_edit(pWidget);
-      sdl_dirty_rect(pWidget->size);
+      widget_mark_dirty(pWidget);
       flush_dirty();
     }
   }  
@@ -530,7 +535,7 @@ void popup_join_game_dialog()
   pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* window */
-  pWindow = create_window(Main.gui, NULL, 1, 1, 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   add_to_gui_list(ID_WINDOW, pWindow);
   pConnectDlg->pEndWidgetList = pWindow;
   
@@ -610,9 +615,9 @@ void popup_join_game_dialog()
   dialog_h = 200;
   #endif
 
-  pWindow->size.x = (Main.screen->w - dialog_w)/ 2;
-  pWindow->size.y = (Main.screen->h - dialog_h)/ 2 + adj_size(40);
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow,
+                      (Main.screen->w - dialog_w)/ 2,
+                      (Main.screen->h - dialog_h)/ 2 + adj_size(40));
 
   pLogo = theme_get_background(theme, BACKGROUND_JOINGAMEDLG);
   if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
@@ -713,8 +718,8 @@ static int send_passwd_callback(struct widget *pWidget)
     redraw_tibutton(pWidget);
     redraw_tibutton(pWidget->prev);
     
-    sdl_dirty_rect(pWidget->size);
-    sdl_dirty_rect(pWidget->prev->size);
+    widget_mark_dirty(pWidget);
+    widget_mark_dirty(pWidget->prev);
     
     flush_dirty();
     
@@ -730,18 +735,17 @@ static void popup_user_passwd_dialog(char *pMessage)
 {
   struct widget *pBuf, *pWindow;
   SDL_String16 *pLabelStr = NULL, *pPasswdStr = NULL;
-  SDL_Surface *pLogo;
-  
+  SDL_Surface *pBackground;
   int start_x, start_y;
-  int dialog_w, dialog_h;
   int start_button_y;
+  SDL_Rect area;
         
   queue_flush();
   close_connection_dialog();
   
   pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
-  pWindow = create_window(Main.gui, NULL, 1, 1, 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   add_to_gui_list(ID_WINDOW, pWindow);
   pConnectDlg->pEndWidgetList = pWindow;
   
@@ -783,50 +787,60 @@ static void popup_user_passwd_dialog(char *pMessage)
   
   pConnectDlg->pBeginWidgetList = pBuf;
   
-  dialog_w = adj_size(40) + pBuf->size.w * 2;
-  dialog_w = MAX(dialog_w, adj_size(210));
-  dialog_w = MAX(dialog_w, pWindow->prev->size.w);
-  dialog_w += adj_size(80);
-  dialog_h = adj_size(170);
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h;
+  
+  area.w = pBuf->size.w * 2 + adj_size(40);
+  area.w = MAX(area.w, adj_size((210 - pTheme->FR_Left->w - pTheme->FR_Right->w)));
+  area.w = MAX(area.w, pWindow->prev->size.w);
+  area.w += adj_size(80);
+  area.h = (adj_size(170) - pTheme->FR_Top->h - pTheme->FR_Bottom->h);
 
-  pWindow->size.x = (Main.screen->w - dialog_w)/ 2;
-  pWindow->size.y = (Main.screen->h - dialog_h)/ 2 + adj_size(40);
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
-
-  pLogo = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
-    FREESURFACE(pLogo);
+  pBackground = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
+  if (resize_window(pWindow, pBackground, NULL,
+                    (pTheme->FR_Left->w + area.w + pTheme->FR_Right->w),
+                    (pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h))) {
+    FREESURFACE(pBackground);
   }
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w)/ 2,
+                      (Main.screen->h - pWindow->size.h)/ 2 + adj_size(40));
 
   /* text label */
   pBuf = pConnectDlg->pEndWidgetList;
   
-  start_x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-  start_y = pWindow->size.y + adj_size(50);
+  start_x = area.x + (area.w - pBuf->size.w) / 2;
+  start_y = area.y + adj_size(50);
 
-  pBuf->size.x = start_x;
-  pBuf->size.y = start_y;
+  widget_set_area(pBuf, area);
+  widget_set_position(pBuf, start_x, start_y);
   
   start_y += pBuf->size.h + adj_size(5);
 
   /* password edit */    
   pBuf = pBuf->prev;
-  start_x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-  pBuf->size.x = start_x;
-  pBuf->size.y = start_y;
+  start_x = area.x + (area.w - pBuf->size.w) / 2;
+
+  widget_set_area(pBuf, area);  
+  widget_set_position(pBuf, start_x, start_y);
   
   /* --------------------------------- */
   start_button_y = pBuf->size.y + pBuf->size.h + adj_size(25);
 
   /* connect button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + (dialog_w - (adj_size(40) + pBuf->size.w * 2)) / 2;
-  pBuf->size.y = start_button_y;
+  widget_set_area(pBuf, area);
+  widget_set_position(pBuf,
+                      area.x + (area.w - (adj_size(40) + pBuf->size.w * 2)) / 2,
+                      start_button_y);
   
   /* cancel button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->size.w + adj_size(40);
-  pBuf->size.y = start_button_y;
+  widget_set_area(pBuf, area);
+  widget_set_position(pBuf, 
+                      pBuf->next->size.x + pBuf->size.w + adj_size(40),
+                      start_button_y);
 
   redraw_group(pConnectDlg->pBeginWidgetList, pConnectDlg->pEndWidgetList, FALSE);
 
@@ -847,7 +861,7 @@ static int convert_first_passwd_callback(struct widget *pWidget)
       FC_FREE(tmp);
       set_wstate(pWidget->prev, FC_WS_NORMAL);
       redraw_edit(pWidget->prev);
-      flush_rect(pWidget->prev->size, FALSE);
+      widget_flush(pWidget->prev);
     }
   }
   return -1;
@@ -864,7 +878,7 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
     if (tmp && strncmp(password, tmp, MAX_LEN_NAME) == 0) {
       set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
       redraw_tibutton(pWidget->prev);
-      flush_rect(pWidget->prev->size, FALSE);
+      widget_flush(pWidget->prev);
     } else {
       memset(password, 0, MAX_LEN_NAME);
       password[0] = '\0';
@@ -877,8 +891,8 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
       redraw_edit(pWidget);
       redraw_edit(pWidget->next);
     
-      sdl_dirty_rect(pWidget->size);
-      sdl_dirty_rect(pWidget->next->size);
+      widget_mark_dirty(pWidget);
+      widget_mark_dirty(pWidget->next);
     
       flush_dirty();
     }
@@ -893,18 +907,17 @@ static void popup_new_user_passwd_dialog(char *pMessage)
 {
   struct widget *pBuf, *pWindow;
   SDL_String16 *pLabelStr = NULL, *pPasswdStr = NULL;
-  SDL_Surface *pLogo;
-
+  SDL_Surface *pBackground;
   int start_x, start_y;
-  int dialog_w, dialog_h;
   int start_button_y;
+  SDL_Rect area;
 
   queue_flush();
   close_connection_dialog();
 
   pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pWindow = create_window(Main.gui, NULL, 1, 1, 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   add_to_gui_list(ID_WINDOW, pWindow);
   pConnectDlg->pEndWidgetList = pWindow;
 
@@ -952,56 +965,66 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   
   pConnectDlg->pBeginWidgetList = pBuf;
 
-  dialog_w = adj_size(40) + pBuf->size.w * 2;
-  dialog_w = MAX(dialog_w, adj_size(210));
-  dialog_w = MAX(dialog_w, pWindow->prev->size.w);
-  dialog_w += adj_size(80);
-  dialog_h = adj_size(180);
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h;
+  
+  area.w = pBuf->size.w * 2 + adj_size(40);
+  area.w = MAX(area.w, adj_size((210 - pTheme->FR_Left->w - pTheme->FR_Right->w)));
+  area.w = MAX(area.w, pWindow->prev->size.w);
+  area.w += adj_size(80);
+  area.h = (adj_size(180) - pTheme->FR_Top->h - pTheme->FR_Bottom->h);
 
-  pWindow->size.x = (Main.screen->w - dialog_w)/ 2;
-  pWindow->size.y = (Main.screen->h - dialog_h)/ 2 + adj_size(40);
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
-
-  pLogo = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
-    FREESURFACE(pLogo);
+  pBackground = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
+  if (resize_window(pWindow, pBackground, NULL,
+                    (pTheme->FR_Left->w + area.w + pTheme->FR_Right->w),
+                    (pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h))) {
+    FREESURFACE(pBackground);
   }
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w)/ 2,
+                      (Main.screen->h - pWindow->size.h)/ 2 + adj_size(40));
 
   /* text label */
   pBuf = pConnectDlg->pEndWidgetList;
   
-  start_x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-  start_y = pWindow->size.y + adj_size(30);
+  start_x = area.x + (area.w - pBuf->size.w) / 2;
+  start_y = area.y + adj_size(30);
   
-  pBuf->size.x = start_y;
-  pBuf->size.y = start_y;
-
+  widget_set_area(pBuf, area);
+  widget_set_position(pBuf, start_x, start_y);
+  
   start_y += pBuf->size.h + adj_size(5);
   
   /* passwd edit */
   pBuf = pBuf->prev;
-  start_x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-  pBuf->size.x = start_x;
-  pBuf->size.y = start_y;
+  start_x = area.x + (area.w - pBuf->size.w) / 2;
+
+  widget_set_area(pBuf, area);  
+  widget_set_position(pBuf, start_x, start_y);
 
   start_y += pBuf->size.h + adj_size(5);
   
   /* retype passwd */
   pBuf = pBuf->prev;
-  pBuf->size.x = start_x;
-  pBuf->size.y = start_y;
+  widget_set_area(pBuf, area);  
+  widget_set_position(pBuf, start_x, start_y);
   
   start_button_y = pBuf->size.y + pBuf->size.h + adj_size(25);
 
   /* connect button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + (dialog_w - (adj_size(40) + pBuf->size.w * 2)) / 2;
-  pBuf->size.y = start_button_y;
+  widget_set_area(pBuf, area);
+  widget_set_position(pBuf,
+                      area.x + (area.w - (adj_size(40) + pBuf->size.w * 2)) / 2,
+                      start_button_y);
   
   /* cancel button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->size.w + adj_size(40);
-  pBuf->size.y = start_button_y;
+  widget_set_area(pBuf, area);
+  widget_set_position(pBuf, 
+                      pBuf->next->size.x + pBuf->size.w + adj_size(40),
+                      start_button_y);
 
   redraw_group(pConnectDlg->pBeginWidgetList, pConnectDlg->pEndWidgetList, FALSE);
 

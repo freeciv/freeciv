@@ -106,12 +106,10 @@ void flush_rect(SDL_Rect rect, bool force_flush)
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
       alphablit(Main.map, &rect, Main.screen, &dst);
-      dst = rect;
-      alphablit(Main.gui, &rect, Main.screen, &dst);
       if (Main.guis) {
         while((i < Main.guis_count) && Main.guis[i]) {
           src = rect;
-          fix_rect(Main.guis[i]->surface, &src);
+          screen_rect_to_layer_rect(Main.guis[i]->surface, &src);
           dst = rect;
           alphablit(Main.guis[i++]->surface, &src, Main.screen, &dst);
         }
@@ -217,7 +215,6 @@ void flush_dirty(void)
       refresh_overview();
     }
     alphablit(Main.map, NULL, Main.screen, NULL);
-    alphablit(Main.gui, NULL, Main.screen, NULL);
     if (Main.guis) {
       while((j < Main.guis_count) && Main.guis[j]) {
         SDL_Rect dst = Main.guis[j]->dest_rect;
@@ -241,12 +238,10 @@ void flush_dirty(void)
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
       alphablit(Main.map, &Main.rects[i], Main.screen, &dst);
-      dst = Main.rects[i];
-      alphablit(Main.gui, &Main.rects[i], Main.screen, &dst);
       if (Main.guis) {
         while((j < Main.guis_count) && Main.guis[j]) {
           src = Main.rects[i];
-          fix_rect(Main.guis[j]->surface, &src);
+          screen_rect_to_layer_rect(Main.guis[j]->surface, &src);
           dst = Main.rects[i];
           alphablit(Main.guis[j++]->surface, &src, Main.screen, &dst);
         }
@@ -315,7 +310,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   copy_chars_to_string16(pBuf->string16, cBuf);
       
   redraw_widget(pBuf);
-  sdl_dirty_rect(pBuf->size);
+  widget_mark_dirty(pBuf);
 
   
   pBuf = get_tax_rates_widget();
@@ -348,7 +343,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), FALSE);  
   
   redraw_widget(pBuf);
-  sdl_dirty_rect(pBuf->size);
+  widget_mark_dirty(pBuf);
   
 }
 
@@ -412,26 +407,26 @@ void update_info_label(void)
     copy_chars_to_string16(pText, buffer);
     pTmp = create_text_surf_from_str16(pText);
   
-    area.x = (Main.gui->w - pTmp->w) / 2 - adj_size(5);
+    area.x = (Main.screen->w - pTmp->w) / 2 - adj_size(5);
     area.w = pTmp->w + adj_size(8);
       area.h = pTmp->h + adj_size(4);
   
-    SDL_FillRect(Main.gui, &area , map_rgba(Main.gui->format, bg_color));
+    SDL_FillRect(Main.gui->surface, &area , map_rgba(Main.gui->surface->format, bg_color));
     
     /* Horizontal lines */
-    putline(Main.gui, area.x + 1, area.y,
-      area.x + area.w - 2, area.y , map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
-    putline(Main.gui, area.x + 1, area.y + area.h - 1,
-      area.x + area.w - 2, area.y + area.h - 1, map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
+    putline(Main.gui->surface, area.x + 1, area.y,
+      area.x + area.w - 2, area.y , map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
+    putline(Main.gui->surface, area.x + 1, area.y + area.h - 1,
+      area.x + area.w - 2, area.y + area.h - 1, map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
   
     /* vertical lines */
-    putline(Main.gui, area.x + area.w - 1, area.y + 1 ,
-      area.x + area.w - 1, area.y + area.h - 2, map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
-    putline(Main.gui, area.x, area.y + 1, area.x,
-      area.y + area.h - 2, map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
+    putline(Main.gui->surface, area.x + area.w - 1, area.y + 1 ,
+      area.x + area.w - 1, area.y + area.h - 2, map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
+    putline(Main.gui->surface, area.x, area.y + 1, area.x,
+      area.y + area.h - 2, map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
   
     /* blit text to screen */  
-    blit_entire_src(pTmp, Main.gui, area.x + adj_size(5), area.y + adj_size(2));
+    blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
     
     sdl_dirty_rect(area);
     
@@ -480,9 +475,8 @@ void redraw_unit_info_label(struct unit *pUnit)
     /* Unit Window is Show */
 
     /* blit theme surface */
-    fix_rect(pInfo_Window->dst, &area);
-    clear_surface(pInfo_Window->dst, &area);
-    alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
+    clear_surface(pInfo_Window->dst->surface, &area);
+    alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst->surface, &area);
 
     if (pUnit) {
       SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
@@ -662,15 +656,13 @@ void redraw_unit_info_label(struct unit *pUnit)
       area.x = pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W +
 	    (width - pName->w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 2;
       dest = area;
-      fix_rect(pInfo_Window->dst, &dest);
-      alphablit(pName, NULL, pInfo_Window->dst, &dest);
+      alphablit(pName, NULL, pInfo_Window->dst->surface, &dest);
       sy += pName->h;
       if(pVet_Name) {
 	area.y += pName->h - adj_size(3);
         area.x = pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W +
           (width - pVet_Name->w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 2;
-        fix_rect(pInfo_Window->dst, &area);
-        alphablit(pVet_Name, NULL, pInfo_Window->dst, &area);
+        alphablit(pVet_Name, NULL, pInfo_Window->dst->surface, &area);
 	sy += pVet_Name->h - adj_size(3);
         FREESURFACE(pVet_Name);
       }
@@ -689,15 +681,13 @@ void redraw_unit_info_label(struct unit *pUnit)
 	      ((DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - (sy - y) - pTheme->FR_Bottom->h - pInfo->h) / 2;
             
       /* blit unit info text */
-      fix_rect(pInfo_Window->dst, &area);
-      alphablit(pInfo, NULL, pInfo_Window->dst, &area);
+      alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area);
       FREESURFACE(pInfo);
       
       area.x = pInfo_Window->size.x + sx;
       area.y = pInfo_Window->size.y + y +
       		((DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - pTheme->FR_Top->h - pTheme->FR_Bottom->h - src.h) / 2;
-      fix_rect(pInfo_Window->dst, &area);
-      alphablit(pBuf_Surf, &src, pInfo_Window->dst, &area);
+      alphablit(pBuf_Surf, &src, pInfo_Window->dst->surface, &area);
       
       
       if (pInfo_II) {
@@ -714,8 +704,7 @@ void redraw_unit_info_label(struct unit *pUnit)
         }
       
         /* blit unit info text */
-        fix_rect(pInfo_Window->dst, &area);
-        alphablit(pInfo_II, NULL, pInfo_Window->dst, &area);
+        alphablit(pInfo_II, NULL, pInfo_Window->dst->surface, &area);
               
         if (right) {
           sy = (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h);
@@ -882,8 +871,7 @@ void redraw_unit_info_label(struct unit *pUnit)
         area.x = pInfo_Window->size.x + BLOCKU_W +
                           (pInfo_Window->size.w - BLOCKU_W - pBuf_Surf->w)/2;
         area.y = pInfo_Window->size.y + (pInfo_Window->size.h - pBuf_Surf->h)/2;
-        fix_rect(pInfo_Window->dst, &area);
-        alphablit(pBuf_Surf, NULL, pInfo_Window->dst, &area);
+        alphablit(pBuf_Surf, NULL, pInfo_Window->dst->surface, &area);
         FREESURFACE(pBuf_Surf);
       }
     }
@@ -896,12 +884,11 @@ void redraw_unit_info_label(struct unit *pUnit)
     /* draw hidden */
     area.x = Main.screen->w - pBuf_Surf->w - pTheme->FR_Right->w;
     area.y = Main.screen->h - pBuf_Surf->h - pTheme->FR_Bottom->h;
-    fix_rect(pInfo_Window->dst, &area); 
-    alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
+    alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst->surface, &area);
 #endif    
   }
   
-  sdl_dirty_rect(get_unit_info_window_widget()->size);
+  widget_mark_dirty(get_unit_info_window_widget());
 }
 
 static bool is_anim_enabled(void)
@@ -1045,7 +1032,7 @@ void refresh_overview(void)
 {
   struct widget *pMMap, *pBuf;
   SDL_Rect map_area;
-  SDL_Rect dst, dst2;
+  SDL_Rect dst;
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return;
@@ -1056,16 +1043,13 @@ void refresh_overview(void)
   pMMap = get_minimap_window_widget();
     
   map_area.x = 0;
-  map_area.y = Main.screen->h - pMMap->theme->h;
+  map_area.y = 0/*Main.screen->h - pMMap->theme->h*/;
     
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
     dst = (SDL_Rect){OVERVIEW_START_X, OVERVIEW_START_Y, 0, 0};
-    dst2 = pMMap->size;
-    fix_rect(pMMap->dst, &dst2);
-    fix_rect(pMMap->dst, &map_area);
-    clear_surface(pMMap->dst, &dst2);
+    clear_surface(pMMap->dst->surface, &pMMap->size);
     alphablit(overview_canvas->surf, NULL, pMMap->theme, &dst);
-    alphablit(pMMap->theme, NULL, pMMap->dst, &map_area);
+    alphablit(pMMap->theme, NULL, pMMap->dst->surface, &map_area);
     
 #if 0          
     map_area.x += OVERVIEW_START_X;
@@ -1076,7 +1060,7 @@ void refresh_overview(void)
 					    OVERVIEW_TILE_HEIGHT * map.ysize);
     
     if(OVERVIEW_START_X != pTheme->FR_Left->w || OVERVIEW_START_Y != pTheme->FR_Top->h) {
-      putframe(pMMap->dst , map_area.x - 1, map_area.y - 1,
+      putframe(pMMap->dst->surface , map_area.x - 1, map_area.y - 1,
 			map_area.x + map_area.w + 1,
     			map_area.y + map_area.h + 1, 0xFFFFFFFF);
     }
@@ -1091,9 +1075,7 @@ void refresh_overview(void)
     /* ID_NEW_TURN */
     pBuf = get_widget_pointer_form_ID(pMMap, ID_NEW_TURN, SCAN_BACKWARD);
     if (!pBuf->gfx) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
@@ -1102,9 +1084,7 @@ void refresh_overview(void)
     /* ID_PLAYERS */
     pBuf = get_widget_pointer_form_ID(pMMap, ID_PLAYERS, SCAN_BACKWARD);
     if (!pBuf->gfx) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
@@ -1114,9 +1094,7 @@ void refresh_overview(void)
     pBuf = get_widget_pointer_form_ID(pMMap, ID_CITIES, SCAN_BACKWARD);    
 
     if (!pBuf->gfx) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
@@ -1125,9 +1103,7 @@ void refresh_overview(void)
     /* ID_UNITS */
     pBuf = get_widget_pointer_form_ID(pMMap, ID_UNITS, SCAN_BACKWARD);        
     if (!pBuf->gfx) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
@@ -1137,9 +1113,7 @@ void refresh_overview(void)
     pBuf = get_widget_pointer_form_ID(pMMap, ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON,
                                                               SCAN_BACKWARD);        
     if (!pBuf->gfx) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
@@ -1149,9 +1123,7 @@ void refresh_overview(void)
     /* Toggle minimap mode */
     pBuf = get_widget_pointer_form_ID(pMMap, ID_TOGGLE_MINIMAP_MODE, SCAN_BACKWARD);        
     if (!pBuf->gfx) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
@@ -1160,9 +1132,7 @@ void refresh_overview(void)
     /* options */
     pBuf = get_widget_pointer_form_ID(pMMap, ID_CLIENT_OPTIONS, SCAN_BACKWARD); 
     if (!pBuf->gfx) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
@@ -1173,14 +1143,12 @@ void refresh_overview(void)
     pBuf = get_widget_pointer_form_ID(pMMap, ID_TOGGLE_MAP_WINDOW_BUTTON,
                                                                  SCAN_BACKWARD);        
     if (!pBuf->gfx && pBuf->theme) {
-      dst = pBuf->size;
-      fix_rect(pBuf->dst, &dst);
-      pBuf->gfx = crop_rect_from_surface(pBuf->dst, &dst);
+      pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
     real_redraw_icon(pBuf);
 
-    sdl_dirty_rect(pMMap->size);
+    widget_mark_dirty(pMMap);
   }
   
 }

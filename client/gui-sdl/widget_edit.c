@@ -170,16 +170,13 @@ static void redraw_edit_chain(struct EDIT *pEdt)
 
   /* blit backgroud ( if any ) */
   if (get_wflags(pEdt->pWidget) & WF_RESTORE_BACKGROUND) {
-    Dest = Dest_Copy;
-    fix_rect(pEdt->pWidget->dst, &Dest);
-    clear_surface(pEdt->pWidget->dst, &Dest);
-    alphablit(pEdt->pWidget->gfx, NULL, pEdt->pWidget->dst, &Dest);
+    widget_undraw(pEdt->pWidget);
   }
 
   /* blit theme */
   Dest = Dest_Copy;
-  fix_rect(pEdt->pWidget->dst, &Dest);
-  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst, &Dest);
+
+  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst->surface, &Dest);
 
   /* set start parametrs */
   pInputChain_TMP = pEdt->pBeginTextChain;
@@ -198,8 +195,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
 
     if (Dest_Copy.x > pEdt->pWidget->size.x) {
       Dest = Dest_Copy;
-      fix_rect(pEdt->pWidget->dst, &Dest);
-      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst, &Dest);
+      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst->surface, &Dest);
     }
 
     iStart_Mod_X = pInputChain_TMP->pTsurf->w;
@@ -207,11 +203,11 @@ static void redraw_edit_chain(struct EDIT *pEdt)
     /* draw cursor */
     if (pInputChain_TMP == pEdt->pInputChain) {
       Dest = Dest_Copy;
-      fix_rect(pEdt->pWidget->dst, &Dest);
-      putline(pEdt->pWidget->dst, Dest.x - 1,
+
+      putline(pEdt->pWidget->dst->surface, Dest.x - 1,
 		  Dest.y + (pEdt->pBg->h / 8), Dest.x - 1,
 		  Dest.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
-		  map_rgba(pEdt->pWidget->dst->format,
+		  map_rgba(pEdt->pWidget->dst->surface->format,
                   *get_game_colorRGB(COLOR_THEME_EDITFIELD_CARET)));
       /* save active element position */
       pEdt->InputChain_X = Dest_Copy.x;
@@ -220,7 +216,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
     pInputChain_TMP = pInputChain_TMP->next;
   }	/* while - draw loop */
 
-  flush_rect(pEdt->pWidget->size, FALSE);
+  widget_flush(pEdt->pWidget);
   
 }
 
@@ -239,7 +235,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
 
   function return pointer to allocated Edit Widget.
 **************************************************************************/
-struct widget * create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
+struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
 		SDL_String16 *pString16, Uint16 length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
@@ -270,7 +266,7 @@ struct widget * create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
   if(pDest) {
     pEdit->dst = pDest;
   } else {
-    pEdit->dst = get_buffer_layer(pEdit->size.w, pEdit->size.h);
+    pEdit->dst = add_gui_layer(pEdit->size.w, pEdit->size.h);
   }
 
   return pEdit;
@@ -314,8 +310,6 @@ int redraw_edit(struct widget *pEdit_Widget)
     SDL_Surface *pEdit = NULL;
     SDL_Surface *pText;
   
-    fix_rect(pEdit_Widget->dst, &rDest);
-    
     if (pEdit_Widget->string16->text &&
     	get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
       Uint16 *backup = pEdit_Widget->string16->text;
@@ -342,12 +336,11 @@ int redraw_edit(struct widget *pEdit_Widget)
     
     if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
       /* blit background */
-      clear_surface(pEdit_Widget->dst, &rDest);
-      alphablit(pEdit_Widget->gfx, NULL, pEdit_Widget->dst, &rDest);
+      widget_undraw(pEdit_Widget);
     }
 
     /* blit theme */
-    alphablit(pEdit, NULL, pEdit_Widget->dst, &rDest);
+    alphablit(pEdit, NULL, pEdit_Widget->dst->surface, &rDest);
 
     /* set position and blit text */
     if (pText) {
@@ -363,7 +356,7 @@ int redraw_edit(struct widget *pEdit_Widget)
         }
       }
 
-      alphablit(pText, NULL, pEdit_Widget->dst, &rDest);
+      alphablit(pText, NULL, pEdit_Widget->dst->surface, &rDest);
     }
     /* pText */
     iRet = pEdit->h;

@@ -94,7 +94,7 @@ static int players_window_dlg_callback(struct widget *pWindow)
       update_players_dialog();
     } else {
       if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-        flush_rect(pWindow->size, FALSE);
+        widget_flush(pWindow);
       }      
     }
   }
@@ -252,44 +252,43 @@ void update_players_dialog(void)
       if(pPlayer1 != pPlayers_Dlg->pBeginWidgetList) {
         dst0.x = pPlayer0->size.x + pPlayer0->size.w / 2;
         dst0.y = pPlayer0->size.y + pPlayer0->size.h / 2;
-        fix_rect(pPlayer0->dst, &dst0);
+
         do{
           pPlayer1 = pPlayer1->prev;
 	  if (have_diplomat_info_about(pPlayer) ||
 	     have_diplomat_info_about(pPlayer1->data.player)) {
             dst1.x = pPlayer1->size.x + pPlayer1->size.w / 2;
             dst1.y = pPlayer1->size.y + pPlayer1->size.h / 2;
-            fix_rect(pPlayer1->dst, &dst1);
                
             switch (pplayer_get_diplstate(pPlayer, pPlayer1->data.player)->type) {
 	      case DS_ARMISTICE:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
-	          putline(pPlayer1->dst, dst0.x, dst0.y, dst1.x, dst1.y,
-                    map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+                    map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE)));
 	        }
 	      break;
               case DS_WAR:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
-	          putline(pPlayer1->dst, dst0.x, dst0.y, dst1.x, dst1.y,
-                         map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR)));		  
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+                         map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR)));		  
 	        }
               break;
 	      case DS_CEASEFIRE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
-	          putline(pPlayer1->dst, dst0.x, dst0.y, dst1.x, dst1.y,
-	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE)));
 	        }
               break;
               case DS_PEACE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
-	          putline(pPlayer1->dst, dst0.x, dst0.y, dst1.x, dst1.y,
-	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE)));
 	        }
               break;
 	      case DS_ALLIANCE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-	          putline(pPlayer1->dst, dst0.x, dst0.y, dst1.x, dst1.y,
-	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE)));
 	        }
               break;
               default:
@@ -307,7 +306,7 @@ void update_players_dialog(void)
     /* redraw */
     redraw_group(pPlayers_Dlg->pBeginWidgetList,
     			pPlayers_Dlg->pEndWidgetList->prev, 0);
-    sdl_dirty_rect(pPlayers_Dlg->pEndWidgetList->size);
+    widget_mark_dirty(pPlayers_Dlg->pEndWidgetList);
   
     flush_dirty();
   }
@@ -463,10 +462,10 @@ void popup_players_dialog(bool raise)
   r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2) + WINDOW_TITLE_HEIGHT + pTheme->FR_Bottom->h);
   r /= 2;
   a = (2.0 * M_PI) / n;
-   
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
   
   resize_window(pWindow, NULL, NULL, w, h);
   
@@ -769,14 +768,12 @@ void popup_players_nations_dialog(void)
   
   h = units_h;
 
-  pWindow->size.x = ((Main.event.motion.x + w < Main.screen->w) ?
-                     (Main.event.motion.x + adj_size(10)) : (Main.screen->w - w - adj_size(10)));
-  pWindow->size.y = 
-      ((Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2)) + h < Main.screen->h) ?
-             (Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2))) :
-             (Main.screen->h - h - adj_size(10)));
-
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow,
+    ((Main.event.motion.x + w < Main.screen->w) ?
+      (Main.event.motion.x + adj_size(10)) : (Main.screen->w - w - adj_size(10))),
+    ((Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2)) + h < Main.screen->h) ?
+      (Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2))) :
+      (Main.screen->h - h - adj_size(10))));
   
   resize_window(pWindow, NULL, NULL, w, h);
   
@@ -809,7 +806,7 @@ void popup_players_nations_dialog(void)
   /* -------------------- */
   /* redraw */
   redraw_group(pShort_Players_Dlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   
   flush_dirty();
 }

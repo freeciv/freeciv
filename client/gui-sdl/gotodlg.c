@@ -205,7 +205,7 @@ static void update_goto_dialog(void)
     
   /* redraw */
   redraw_group(pGotoDlg->pBeginWidgetList, pGotoDlg->pEndWidgetList, 0);
-  flush_rect(pGotoDlg->pEndWidgetList->size, FALSE);
+  widget_flush(pGotoDlg->pEndWidgetList);
   
 }
 
@@ -301,10 +301,10 @@ static void popup_goto_airlift_dialog(void)
   
   w = MAX(w, adj_size(300));
   h = adj_size(300);
-  
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
   
   resize_window(pWindow, NULL, NULL, w, h);
   

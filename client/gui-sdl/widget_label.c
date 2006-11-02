@@ -17,6 +17,9 @@
 
 #include <SDL/SDL.h>
 
+/* utility */
+#include "log.h"
+
 /* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
@@ -91,7 +94,7 @@ void remake_label_size(struct widget *pLabel)
 /**************************************************************************
   ThemeLabel is String16 with Background ( pIcon ).
 **************************************************************************/
-struct widget * create_themelabel(SDL_Surface *pIcon, SDL_Surface *pDest,
+struct widget * create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   		SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags)
 {
   struct widget *pLabel = NULL;
@@ -122,7 +125,7 @@ struct widget * create_themelabel(SDL_Surface *pIcon, SDL_Surface *pDest,
 /**************************************************************************
   this Label is String16 with Icon.
 **************************************************************************/
-struct widget * create_iconlabel(SDL_Surface *pIcon, SDL_Surface *pDest,
+struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   		SDL_String16 *pText, Uint32 flags)
 {
   struct widget *pILabel = NULL;
@@ -145,7 +148,7 @@ struct widget * create_iconlabel(SDL_Surface *pIcon, SDL_Surface *pDest,
 /**************************************************************************
   ThemeLabel is String16 with Background ( pIcon ).
 **************************************************************************/
-struct widget * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
+struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   		SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags)
 {
   struct widget *pLabel = NULL;
@@ -189,11 +192,11 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   pLabel->size.x = 0;
   pLabel->size.y = 0;
   area = pLabel->size;
-  pLabel->dst = pTheme;
+  pLabel->dst = gui_layer_new(0, 0, pTheme);
   
   /* normal */
   redraw_iconlabel(pLabel);
-  
+
   /* sellected */
   area.x = 0;
   area.y = pLabel->size.h;
@@ -221,6 +224,7 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
     FREESURFACE(pLabel->theme);
   }
   pLabel->theme = pTheme;
+  FC_FREE(pLabel->dst);
   pLabel->dst = pDest;
   return pLabel;
 }
@@ -251,8 +255,8 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   pIconLabel->size.x = 0;
   pIconLabel->size.y = 0;
   area = start;
-  pDest = pIconLabel->dst;
-  pIconLabel->dst = pTheme;
+  pDest = pIconLabel->dst->surface;
+  pIconLabel->dst->surface = pTheme;
   
   /* normal */
   redraw_iconlabel(pIconLabel);
@@ -287,7 +291,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   if(flags & WF_FREE_STRING) {
     FREESTRING16(pIconLabel->string16);
   }
-  pIconLabel->dst = pDest;
+  pIconLabel->dst->surface = pDest;
   set_wtype(pIconLabel, WT_T2_LABEL);
   return pIconLabel;
 }
@@ -301,7 +305,6 @@ static int redraw_themelabel(struct widget *pLabel)
   int ret;
   Sint16 x, y;
   SDL_Surface *pText = NULL;
-  SDL_Rect dest;
 
   if (!pLabel) {
     return -3;
@@ -325,17 +328,13 @@ static int redraw_themelabel(struct widget *pLabel)
 
   /* redraw theme */
   if (pLabel->theme) {
-    dest = pLabel->size;
-    fix_rect(pLabel->dst, &dest);
-    ret = blit_entire_src(pLabel->theme, pLabel->dst, dest.x, dest.y);
+    ret = blit_entire_src(pLabel->theme, pLabel->dst->surface, pLabel->size.x, pLabel->size.y);
     if (ret) {
       return ret;
     }
   }
 
-  dest = pLabel->size;
-  fix_rect(pLabel->dst, &dest);
-  ret = blit_entire_src(pText, pLabel->dst, dest.x + x, dest.y + y);
+  ret = blit_entire_src(pText, pLabel->dst->surface, pLabel->size.x + x, pLabel->size.y + y);
 
   FREESURFACE(pText);
 
@@ -360,9 +359,7 @@ static inline int redraw_themelabel2(struct widget *pLabel)
     src.y = pLabel->size.h;
   }
 
-  fix_rect(pLabel->dst, &dst);
-  
-  return alphablit(pLabel->theme, &src, pLabel->dst, &dst);
+  return alphablit(pLabel->theme, &src, pLabel->dst->surface, &dst);
 }
 
 /**************************************************************************
@@ -381,10 +378,7 @@ int redraw_iconlabel(struct widget *pLabel)
     return -3;
   }
 
-  dst = pLabel->size;
-  fix_rect(pLabel->dst, &dst);
-
-  SDL_SetClipRect(pLabel->dst, &dst);
+  SDL_SetClipRect(pLabel->dst->surface, &pLabel->size);
   
   flags = get_wflags(pLabel);
 
@@ -433,8 +427,8 @@ int redraw_iconlabel(struct widget *pLabel)
 
     dst.x = pLabel->size.x + xI;
     dst.y = pLabel->size.y + yI;
-    fix_rect(pLabel->dst, &dst);
-    ret = alphablit(pLabel->theme, NULL, pLabel->dst, &dst);
+
+    ret = alphablit(pLabel->theme, NULL, pLabel->dst->surface, &dst);
     
     if (ret) {
       return ret - 10;
@@ -496,13 +490,13 @@ int redraw_iconlabel(struct widget *pLabel)
 
     dst.x = pLabel->size.x + x;
     dst.y = pLabel->size.y + y;
-    fix_rect(pLabel->dst, &dst);
-    ret = alphablit(pText, NULL, pLabel->dst, &dst);
+
+    ret = alphablit(pText, NULL, pLabel->dst->surface, &dst);
     FREESURFACE(pText);
 
   }
 
-  SDL_SetClipRect(pLabel->dst, NULL);
+  SDL_SetClipRect(pLabel->dst->surface, NULL);
   return ret;
 }
 
@@ -516,22 +510,20 @@ int redraw_label(struct widget *pLabel)
   SDL_Color bar_color = *get_game_colorRGB(COLOR_THEME_LABEL_BAR);
   SDL_Color backup_color = {0, 0, 0, 0};
 
-  fix_rect(pLabel->dst, &area);
   /* if label transparen then clear background under widget
    * or save this background */
   if (get_wflags(pLabel) & WF_RESTORE_BACKGROUND) {
     if (pLabel->gfx) {
-      clear_surface(pLabel->dst, &area);
-      alphablit(pLabel->gfx, NULL, pLabel->dst, &area);
+      widget_undraw(pLabel);
     } else {
-      pLabel->gfx = crop_rect_from_surface(pLabel->dst, &area);
+      pLabel->gfx = crop_rect_from_surface(pLabel->dst->surface, &area);
     }
   }
 
   if(get_wtype(pLabel) == WT_T2_LABEL) {
     return redraw_themelabel2(pLabel);
   }
-  
+
   /* redraw sellect bar */
   if (get_wstate(pLabel) == FC_WS_SELLECTED) {
     if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
@@ -545,11 +537,11 @@ int redraw_label(struct widget *pLabel)
 	}
       }
     } else {
-      SDL_FillRectAlpha(pLabel->dst, &area, &bar_color);
+      SDL_FillRectAlpha(pLabel->dst->surface, &area, &bar_color);
 
       if (pLabel->string16 && (pLabel->string16->render == 3)) {
         backup_color = pLabel->string16->bgcol;
-        SDL_GetRGBA(getpixel(pLabel->dst, area.x , area.y), pLabel->dst->format,
+        SDL_GetRGBA(getpixel(pLabel->dst->surface, area.x , area.y), pLabel->dst->surface->format,
 	      &pLabel->string16->bgcol.r, &pLabel->string16->bgcol.g,
       		&pLabel->string16->bgcol.b, &pLabel->string16->bgcol.unused);
       }

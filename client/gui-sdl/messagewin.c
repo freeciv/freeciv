@@ -120,11 +120,10 @@ void real_update_meswin_dialog(void)
   struct message *pMsg = NULL;
   struct widget *pBuf = NULL, *pWindow = pMsg_Dlg->pEndWidgetList;
   SDL_String16 *pStr = NULL;
-
+  SDL_Rect area = {0, 0, 0, 0};
   bool create;
-  int w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w -
-                   pMsg_Dlg->pScroll->pUp_Left_Button->size.w - adj_size(3);
-  
+  int label_width;
+
   if ((i > 0) && (msg_count <= i)) {
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
 					pMsg_Dlg->pEndActiveWidgetList);
@@ -138,6 +137,13 @@ void real_update_meswin_dialog(void)
   }
   create = (i == 0);
 
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
+  area.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
+  area.h = pWindow->size.h - pTheme->FR_Top->h - pTheme->FR_Bottom->h;
+
+  label_width = area.w - pMsg_Dlg->pScroll->pUp_Left_Button->size.w - adj_size(3);
+  
   if (msg_count > 0) {
     for(; i<msg_count; i++)
     {
@@ -149,7 +155,7 @@ void real_update_meswin_dialog(void)
     
       pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-      pBuf->size.w = w;
+      pBuf->size.w = label_width;
       pBuf->data.ptr = (void *)pMsg;	
       pBuf->action = msg_callback;
       if(pMsg->tile) {
@@ -158,19 +164,19 @@ void real_update_meswin_dialog(void)
       }
       
       pBuf->ID = ID_LABEL;
+
+      widget_set_area(pBuf, area);
       
       /* add to widget list */
       if(create) {
         add_widget_to_vertical_scroll_widget_list(pMsg_Dlg,
 				pBuf, pWindow, FALSE,
-				pWindow->size.x + pTheme->FR_Left->w,
-		      		pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2));
+				area.x, area.y);
 	 create = FALSE;
       } else {
 	add_widget_to_vertical_scroll_widget_list(pMsg_Dlg,
 				pBuf, pMsg_Dlg->pBeginActiveWidgetList, FALSE,
-				pWindow->size.x + pTheme->FR_Left->w,
-		      		pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2));
+				area.x, area.y);
       }
       
       
@@ -178,7 +184,7 @@ void real_update_meswin_dialog(void)
   } /* if */
 
   redraw_group(pMsg_Dlg->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /**************************************************************************
@@ -187,15 +193,12 @@ void real_update_meswin_dialog(void)
 void popup_meswin_dialog(bool raise)
 {
   SDL_String16 *pStr = create_str16_from_char("M", PTSIZE_LOG_FONT);
-  Sint16 start_x = (Main.screen->w - adj_size(520)) / 2;
-  Sint16 start_y = adj_size(25);
-  Uint16 w = adj_size(520);
-  Uint16 h = adj_size(8) + WINDOW_TITLE_HEIGHT + N_MSG_VIEW * str16size(pStr).h;
-  int len, i = 0;
+  SDL_Rect area = {0, 0, 0, 0};
+  int label_width, scrollbar_width, i = 0;
   struct message *pMsg = NULL;
   struct widget *pWindow = NULL, *pBuf = NULL;
   int msg_count = get_num_messages();
-  SDL_Surface *pSurf;
+  SDL_Surface *pBackground;
   
   FREESTRING16(pStr);
   
@@ -211,21 +214,26 @@ void popup_meswin_dialog(bool raise)
   /* create window */
   pWindow = create_window(NULL, pStr, 1, 1, 0);
 
-  pWindow->size.x = start_x;
-  pWindow->size.y = start_y;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
-
-  /* create window background */
-  pSurf = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
-  if (resize_window(pWindow, pSurf, NULL, w, h)) {
-    FREESURFACE(pSurf);
-  }
-
   pWindow->action = move_msg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_CHATLINE_WINDOW, pWindow);
   pMsg_Dlg->pEndWidgetList = pWindow;
+
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
+  area.w = (adj_size(520) - pTheme->FR_Right->w - pTheme->FR_Left->w);
+  area.h = N_MSG_VIEW * str16size(pStr).h;
+
+  /* create window background */
+  pBackground = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
+  if (resize_window(pWindow, pBackground, NULL,
+      (area.x + area.w + pTheme->FR_Right->w),
+      (area.y + area.h + pTheme->FR_Bottom->h))) {
+    FREESURFACE(pBackground);
+  }
   
+  widget_set_position(pWindow, (pWindow->area.w - pWindow->size.w)/2, adj_size(25));
+
   /* ------------------------------- */
   
   if (msg_count) {
@@ -238,8 +246,9 @@ void popup_meswin_dialog(bool raise)
     		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
-      pBuf->size.x = start_x;
-      pBuf->size.w = w;
+      pBuf->size.w = area.w;      
+      widget_set_area(pBuf, area);
+      widget_set_position(pBuf, area.x, pBuf->size.y);
       pBuf->data.ptr = (void *)pMsg;	
       pBuf->action = msg_callback;
       if(pMsg->tile) {
@@ -261,10 +270,10 @@ void popup_meswin_dialog(bool raise)
     pMsg_Dlg->pBeginWidgetList = pWindow;
   }
   
-  len = create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
+  scrollbar_width = create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
   setup_vertical_scrollbar_area(pMsg_Dlg->pScroll,
-		start_x + w - 1, start_y + WINDOW_TITLE_HEIGHT + 1,
-                h - WINDOW_TITLE_HEIGHT - adj_size(2), TRUE);
+		area.x + area.w - 1, area.y,
+                area.h, TRUE);
   
   if(i>N_MSG_VIEW-1) {
     /* find pActiveWidgetList to draw last seen part of list */
@@ -291,11 +300,11 @@ void popup_meswin_dialog(bool raise)
   if (msg_count > 0) {
 
     /* correct label widths */
-    len = w - pTheme->FR_Left->w - pTheme->FR_Right->w - adj_size(3) - len;        
+    label_width = area.w - scrollbar_width - adj_size(3);        
     
     pBuf = pMsg_Dlg->pEndActiveWidgetList;
     while (pBuf) {
-      pBuf->size.w = len;
+      pBuf->size.w = label_width;
       if (pBuf == pMsg_Dlg->pBeginActiveWidgetList) {
         break;
       }
@@ -310,7 +319,7 @@ void popup_meswin_dialog(bool raise)
     }
     
     setup_vertical_widgets_position(1,
-	start_x + pTheme->FR_Left->w, start_y + WINDOW_TITLE_HEIGHT + adj_size(2), 0, 0,
+	area.x, area.y, 0, 0,
 	pMsg_Dlg->pBeginActiveWidgetList, pBuf);
   }
 

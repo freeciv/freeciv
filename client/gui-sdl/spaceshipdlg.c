@@ -119,7 +119,7 @@ void refresh_spaceship_dialog(struct player *pPlayer)
   
     /* redraw */
   redraw_group(pSpaceShp->pBeginWidgetList, pSpaceShp->pEndWidgetList, 0);
-  sdl_dirty_rect(pSpaceShp->pEndWidgetList->size);
+  widget_mark_dirty(pSpaceShp->pEndWidgetList);
   
   flush_dirty();
 }
@@ -186,10 +186,10 @@ void popup_spaceship_dialog(struct player *pPlayer)
     /* -------------------------------------------------------- */
   
     w = MAX(w, adj_size(300));
-      
-    pWindow->size.x = (Main.screen->w - w) / 2;
-    pWindow->size.y = (Main.screen->h - h) / 2;
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+    widget_set_position(pWindow,
+                        (Main.screen->w - w) / 2,
+                        (Main.screen->h - h) / 2);
     
     resize_window(pWindow, NULL, NULL, w, h);
      
@@ -214,7 +214,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
   } else {
     if (sellect_window_group_dialog(pSpaceShp->pBeginWidgetList,
 				   pSpaceShp->pEndWidgetList)) {
-      flush_rect(pSpaceShp->pEndWidgetList->size, FALSE);
+      widget_flush(pSpaceShp->pEndWidgetList);
     }
   }
   

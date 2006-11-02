@@ -224,7 +224,7 @@ static int city_dlg_callback(struct widget *pWindow)
     
     if(!pCityDlg->lock &&
           sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
-      flush_rect(pWindow->size, FALSE);
+      widget_flush(pWindow);
     }      
   }
   return -1;
@@ -436,9 +436,11 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     pWindow = create_window(NULL, pStr, 1, 1, 0);
-    pWindow->size.x = pButton->size.x + adj_size(2);
-    pWindow->size.y = pButton->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
+    widget_set_position(pWindow,
+                        pButton->size.x + adj_size(2),
+                        pButton->size.y + WINDOW_TITLE_HEIGHT + adj_size(2));
+    
     ww = MAX(ww, pWindow->size.w);
     pWindow->action = units_orders_dlg_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -480,7 +482,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     
     if (pCityDlg->page == ARMY_PAGE) {
       /* Sentry unit */
-      pBuf = create_icon_button_from_chars(NULL, pWindow->dst, 
+      pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
                                           _("Sentry unit"), adj_font(12), 0);
       i++;
       ww = MAX(ww, pBuf->size.w);
@@ -605,7 +607,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     /* ================================================== */
     /* redraw */
     redraw_group(pCityDlg->pBeginCityMenuWidgetList, pWindow, 0);
-    flush_rect(pWindow->size, FALSE);
+    widget_flush(pWindow);
   }
   return -1;
 }
@@ -807,7 +809,7 @@ static int army_city_dlg_callback(struct widget *pButton)
       flush_dirty();
     } else {
       redraw_icon(pButton);
-      flush_rect(pButton->size, FALSE);
+      widget_flush(pButton);
     }
   }
   return -1;
@@ -826,7 +828,7 @@ static int supported_unit_city_dlg_callback(struct widget *pButton)
       flush_dirty();
     } else {
       redraw_icon(pButton);
-      flush_rect(pButton->size, FALSE);
+      widget_flush(pButton);
     }
   }
   return -1;
@@ -847,7 +849,7 @@ static int info_city_dlg_callback(struct widget *pButton)
       flush_dirty();
     } else {
       redraw_icon(pButton);
-      flush_rect(pButton->size, FALSE);
+      widget_flush(pButton);
     }
   }
   return -1;
@@ -867,7 +869,7 @@ static int happy_city_dlg_callback(struct widget *pButton)
       flush_dirty();
     } else {
       redraw_icon(pButton);
-      flush_rect(pButton->size, FALSE);
+      widget_flush(pButton);
     }
   }
   return -1;
@@ -903,7 +905,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
       pWidget->ID = MAX_ID - 0x40;
       redraw_ibutton(pWidget);
-      flush_rect(pWidget->size, FALSE);
+      widget_flush(pWidget);
       break;
     case 0x40:
       BV_CLR(new_options, CITYO_NEW_EINSTEIN);
@@ -911,7 +913,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
       pWidget->ID = MAX_ID - 0x60;
       redraw_ibutton(pWidget);
-      flush_rect(pWidget->size, FALSE);
+      widget_flush(pWidget);
       break;
     case 0x60:
       if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN))
@@ -921,7 +923,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
       pWidget->ID = MAX_ID - 0x20;
       redraw_ibutton(pWidget);
-      flush_rect(pWidget->size, FALSE);
+      widget_flush(pWidget);
       break;
     }
   
@@ -1007,7 +1009,7 @@ static int options_city_dlg_callback(struct widget *pButton)
       flush_dirty();
     } else {
       redraw_icon(pButton);
-      flush_rect(pButton->size, FALSE);
+      widget_flush(pButton);
     }
   }
   return -1;
@@ -1089,9 +1091,9 @@ static int buy_prod_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     redraw_icon(pButton);
-    flush_rect(pButton->size, FALSE);
+    widget_flush(pButton);
     disable_city_dlg_widgets();
-    popup_hurry_production_dialog(pCityDlg->pCity, pButton->dst);
+    popup_hurry_production_dialog(pCityDlg->pCity, pButton->dst->surface);
   }
   return -1;
 }
@@ -1133,6 +1135,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   SDL_String16 *pStr;
   SDL_Surface *pText;
   SDL_Rect dst;
+  int window_x = 0, window_y = 0;
   
   if (pHurry_Prod_Dlg) {
     return;
@@ -1221,25 +1224,25 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   
   if (city_dialog_is_open(pCity))
   {
-    pWindow->size.x = pCityDlg->pBuy_Button->size.x;
-    pWindow->size.y = pCityDlg->pBuy_Button->size.y - hh;
+    window_x = pCityDlg->pBuy_Button->size.x;
+    window_y = pCityDlg->pBuy_Button->size.y - hh;
   } else {
     if(is_city_report_open()) {
       assert(pSellected_Widget != NULL);
       if (pSellected_Widget->size.x + tileset_tile_width(tileset) + ww > Main.screen->w)
       {
-        pWindow->size.x = pSellected_Widget->size.x - ww;
+        window_x = pSellected_Widget->size.x - ww;
       } else {
-        pWindow->size.x = pSellected_Widget->size.x + tileset_tile_width(tileset);
+        window_x = pSellected_Widget->size.x + tileset_tile_width(tileset);
       }
     
-      pWindow->size.y = pSellected_Widget->size.y + (pSellected_Widget->size.h - hh) / 2;
-      if (pWindow->size.y + hh > Main.screen->h)
+      window_y = pSellected_Widget->size.y + (pSellected_Widget->size.h - hh) / 2;
+      if (window_y + hh > Main.screen->h)
       {
-	pWindow->size.y = Main.screen->h - hh - 1;
+	window_y = Main.screen->h - hh - 1;
       } else {
-        if (pWindow->size.y < 0) {
-	  pWindow->size.y = 0;
+        if (window_y < 0) {
+	  window_y = 0;
 	}
       }
     } else {
@@ -1248,7 +1251,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
     
   }
 
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow, window_x, window_y);
   
   resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
@@ -1281,7 +1284,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   /* ================================================== */
   /* redraw */
   redraw_group(pHurry_Prod_Dlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   flush_dirty();
 }
 
@@ -1296,7 +1299,7 @@ static int change_prod_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     redraw_icon(pButton);
-    flush_rect(pButton->size, FALSE);
+    widget_flush(pButton);
   
     disable_city_dlg_widgets();
     popup_worklist_editor(pCityDlg->pCity, &pCityDlg->pCity->worklist);
@@ -1428,10 +1431,9 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TITLE_HEIGHT + 25;
   
     /* set start positions */
-    pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
-    pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2 + 10;
-  
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    widget_set_position(pWindow,
+                        (Main.screen->w - pWindow->size.w) / 2,
+                        (Main.screen->h - pWindow->size.h) / 2 + 10);
   
     pOK_Button->size.x = pWindow->size.x + 10;
     pOK_Button->size.y = pWindow->size.y + pWindow->size.h -
@@ -1455,7 +1457,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     redraw_group(pCityDlg->pBeginCityMenuWidgetList,
                  pCityDlg->pEndCityMenuWidgetList, 0);
   
-    flush_rect(pWindow->size, FALSE);
+    widget_flush(pWindow);
   #endif
   
     redraw_city_dialog(pCityDlg->pCity);
@@ -1682,7 +1684,7 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
       /* empty input -> restore previous content */
       copy_chars_to_string16(pEdit->string16, pCityDlg->pCity->name);
       redraw_edit(pEdit);
-      sdl_dirty_rect(pEdit->size);
+      widget_mark_dirty(pEdit);
       flush_dirty();
     }  
   } 
@@ -1734,9 +1736,8 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
-  fix_rect(pCityWindow->dst, &dest);
 
-  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -1781,9 +1782,8 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
-  fix_rect(pCityWindow->dst, &dest);
   
-  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -1841,9 +1841,8 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
-  fix_rect(pCityWindow->dst, &dest);
   
-  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -1879,7 +1878,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   int step, i, xx;
   SDL_String16 *pStr = NULL;
   SDL_Surface *pSurf = NULL;
-  SDL_Rect dest, dest2;
+  SDL_Rect dest;
 
   my_snprintf(cBuf, sizeof(cBuf), _("Info Panel"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
@@ -1891,9 +1890,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
   
-  dest2 = dest;
-  fix_rect(pCityWindow->dst, &dest2);
-  alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
   dest.x = pCityWindow->size.x + adj_size(10);
   dest.y += pSurf->h + 1;
@@ -1911,9 +1908,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     
     pSurf = create_text_surf_from_str16(pStr);
 
-    dest2 = dest;
-    fix_rect(pCityWindow->dst, &dest2);
-    alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
     dest.y += pSurf->h + adj_size(3);
 
@@ -1926,9 +1921,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     }
 
     for (i = 0; i < pCity->pollution; i++) {
-      dest2 = dest;
-      fix_rect(pCityWindow->dst, &dest2);
-      alphablit(pIcons->pPollution, NULL, pCityWindow->dst, &dest);
+      alphablit(pIcons->pPollution, NULL, pCityWindow->dst->surface, &dest);
       dest.x += step;
     }
 
@@ -1942,9 +1935,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     pSurf = create_text_surf_from_str16(pStr);
 
-    dest2 = dest;
-    fix_rect(pCityWindow->dst, &dest2);
-    alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
     dest.y += pSurf->h + adj_size(3);
 
@@ -1957,9 +1948,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
   pSurf = create_text_surf_from_str16(pStr);
 
-  dest2 = dest;
-  fix_rect(pCityWindow->dst, &dest2);
-  alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
   xx = dest.x + pSurf->w;
   dest.y += pSurf->h + adj_size(3);
@@ -1986,16 +1975,12 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
       pSurf = create_text_surf_from_str16(pStr);
 
-      dest2 = dest;
-      fix_rect(pCityWindow->dst, &dest2);
-      alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+      alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
       /* blit trade icon */
       dest.x += pSurf->w + adj_size(3);
       dest.y += adj_size(4);
-      dest2 = dest;
-      fix_rect(pCityWindow->dst, &dest2);
-      alphablit(pIcons->pTrade, NULL, pCityWindow->dst, &dest2);
+      alphablit(pIcons->pTrade, NULL, pCityWindow->dst->surface, &dest);
       dest.x = pCityWindow->size.x + adj_size(10);
       dest.y -= adj_size(4);
 
@@ -2010,15 +1995,11 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     copy_chars_to_string16(pStr, cBuf);
     pSurf = create_text_surf_from_str16(pStr);
-    dest2 = dest;
-    fix_rect(pCityWindow->dst, &dest2);
-    alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
     dest.x += pSurf->w + adj_size(3);
     dest.y += adj_size(4);
-    dest2 = dest;
-    fix_rect(pCityWindow->dst, &dest2);
-    alphablit(pIcons->pTrade, NULL, pCityWindow->dst, &dest2);
+    alphablit(pIcons->pTrade, NULL, pCityWindow->dst->surface, &dest);
 
     FREESURFACE(pSurf);
   } else {
@@ -2030,9 +2011,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     dest.x = xx;
     dest.y -= pSurf->h + adj_size(3);
-    dest2 = dest;
-    fix_rect(pCityWindow->dst, &dest2);
-    alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
     FREESURFACE(pSurf);
   }
@@ -2055,7 +2034,6 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
   SDL_String16 *pStr = NULL;
   SDL_Surface *pSurf = NULL;
   SDL_Rect dest = {0, 0, 0, 0};
-  SDL_Rect dest2;
   struct effect_list *sources = effect_list_new();   
 
   my_snprintf(cBuf, sizeof(cBuf), _("Happiness panel"));
@@ -2068,9 +2046,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
-  dest2 = dest;
-  fix_rect(pCityWindow->dst, &dest2);
-  alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
   
   dest.x = pCityWindow->size.x + adj_size(10);
   dest.y += pSurf->h + 1;
@@ -2096,19 +2072,15 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	|| pCity->ppl_angry[j - 1] != pCity->ppl_angry[j]) {
 
       if (j != 0) {
-        dest2 = dest;
-        fix_rect(pCityWindow->dst, &dest2);
-	putline(pCityWindow->dst, dest2.x, dest2.y, dest2.x + adj_size(195), dest2.y,
-          map_rgba(pCityWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
+	putline(pCityWindow->dst->surface, dest.x, dest.y, dest.x + adj_size(195), dest.y,
+          map_rgba(pCityWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 	dest.y += adj_size(5);
       }
 
       if (pCity->ppl_happy[j]) {
 	pSurf = pIcons->pMale_Happy;
 	for (i = 0; i < pCity->ppl_happy[j]; i++) {
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Happy) {
 	    pSurf = pIcons->pFemale_Happy;
@@ -2121,9 +2093,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
       if (pCity->ppl_content[j]) {
 	pSurf = pIcons->pMale_Content;
 	for (i = 0; i < pCity->ppl_content[j]; i++) {
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Content) {
 	    pSurf = pIcons->pFemale_Content;
@@ -2136,9 +2106,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
       if (pCity->ppl_unhappy[j]) {
 	pSurf = pIcons->pMale_Unhappy;
 	for (i = 0; i < pCity->ppl_unhappy[j]; i++) {
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Unhappy) {
 	    pSurf = pIcons->pFemale_Unhappy;
@@ -2151,9 +2119,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
       if (pCity->ppl_angry[j]) {
 	pSurf = pIcons->pMale_Angry;
 	for (i = 0; i < pCity->ppl_angry[j]; i++) {
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pSurf, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Angry) {
 	    pSurf = pIcons->pFemale_Angry;
@@ -2165,27 +2131,21 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
       if (pCity->specialists[SP_ELVIS]) {
 	for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pIcons->pSpec_Lux, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pIcons->pSpec_Lux, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	}
       }
 
       if (pCity->specialists[SP_TAXMAN]) {
 	for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pIcons->pSpec_Tax, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pIcons->pSpec_Tax, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	}
       }
 
       if (pCity->specialists[SP_SCIENTIST]) {
 	for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pIcons->pSpec_Sci, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pIcons->pSpec_Sci, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	}
       }
@@ -2196,9 +2156,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	count = dest.y;
 	dest.y += (pIcons->pMale_Happy->h -
 		   pIcons->pBIG_Luxury->h) / 2;
-        dest2 = dest;
-        fix_rect(pCityWindow->dst, &dest2);
-	alphablit(pIcons->pBIG_Luxury, NULL, pCityWindow->dst, &dest2);
+	alphablit(pIcons->pBIG_Luxury, NULL, pCityWindow->dst->surface, &dest);
 	dest.y = count;
       }
 
@@ -2234,9 +2192,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
           pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
 
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2290,23 +2246,17 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
 
 	if (pTmp1) { /* Temple */
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp1, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp1, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp1->h + 1);
 	}
 
 	if (pTmp2) { /* Colosseum */
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp2, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp2, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp2->h + 1);
 	}
 
 	if (pTmp3) { /* Cathedral */
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp3, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp3, NULL, pCityWindow->dst->surface, &dest);
 	  /*dest.y += (pTmp3->h + 1); */
 	}
 
@@ -2323,9 +2273,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	i = dest.y;
 	dest.y +=
 	    (pIcons->pMale_Happy->h - pIcons->pPolice->h) / 2;
-        dest2 = dest;
-        fix_rect(pCityWindow->dst, &dest2);
-	alphablit(pIcons->pPolice, NULL, pCityWindow->dst, &dest2);
+	alphablit(pIcons->pPolice, NULL, pCityWindow->dst->surface, &dest);
 	dest.y = i;
       }
 
@@ -2397,9 +2345,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
           pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
 
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp, NULL, pCityWindow->dst, &dest2);
+          alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2414,9 +2360,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
           pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
 
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2431,9 +2375,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
           pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
 
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2497,30 +2439,22 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
 
 	if (pTmp1) { /* Cure of Cancer */
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp1, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp1, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp1->h + 1);
 	}
 
 	if (pTmp2) { /* Shakespeare Theater */
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp2, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp2, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp2->h + 1);
 	}
 
 	if (pTmp3) { /* J. S. Bach ... */
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp3, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp3, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp3->h + 1);
 	}
 
 	if (pTmp4) { /* Hanging Gardens */
-          dest2 = dest;
-          fix_rect(pCityWindow->dst, &dest2);
-	  alphablit(pTmp4, NULL, pCityWindow->dst, &dest2);
+	  alphablit(pTmp4, NULL, pCityWindow->dst->surface, &dest);
 	  /*dest.y += (pTmp4->h + 1); */
 	}
 
@@ -2549,7 +2483,7 @@ static void redraw_city_dialog(struct city *pCity)
   char cBuf[40];
   int i, step, count, limit;
   int cost = 0;
-  SDL_Rect dest, dest2, src;
+  SDL_Rect dest, src;
   struct widget *pWindow = pCityDlg->pEndCityWidgetList;
   SDL_Surface *pBuf = NULL;
   SDL_String16 *pStr = NULL;
@@ -2592,8 +2526,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(222) + (adj_size(115) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(69) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2606,8 +2540,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(354) + (adj_size(147) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(67) + (adj_size(13) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2620,8 +2554,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(517) + (adj_size(115) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(69) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
   /* ================================================================= */
@@ -2637,15 +2571,14 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(228) + (adj_size(16) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
   /* draw food income */
   dest.y = pWindow->size.y + adj_size(246) + (adj_size(16) - pIcons->pBIG_Food->h) / 2;
   dest.x = pWindow->size.x + adj_size(203);
-  fix_rect(pWindow->dst, &dest);
 
   if (pCity->surplus[O_FOOD] >= 0) {
     count = pCity->prod[O_FOOD] - pCity->surplus[O_FOOD];
@@ -2660,7 +2593,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   for (i = 0; i < count; i++) {
-    alphablit(pIcons->pBIG_Food, NULL, pWindow->dst, &dest);
+    alphablit(pIcons->pBIG_Food, NULL, pWindow->dst->surface, &dest);
     dest.x += step;
   }
 
@@ -2674,8 +2607,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(228) + (adj_size(16) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2692,7 +2625,6 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + adj_size(423);
     dest.y = pWindow->size.y + adj_size(246) + (adj_size(16) - pBuf->h) / 2;
-    fix_rect(pWindow->dst, &dest);
 
     /*if ( ((pBuf->w + 1) * count ) > 30 ) */
     if (count > 2) {
@@ -2707,7 +2639,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x -= step;
     }
   }
@@ -2724,8 +2656,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(263) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2742,7 +2674,6 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.y = pWindow->size.y + adj_size(281) + (adj_size(16) - pBuf->h) / 2;
     dest.x = pWindow->size.x + adj_size(203);
-    fix_rect(pWindow->dst, &dest);
     
     if ((pBuf->w * count) > adj_size(200)) {
       step = (adj_size(200) - pBuf->w) / (count - 1);
@@ -2751,7 +2682,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
       if(i > pCity->surplus[O_SHIELD]) {
 	pBuf = pIcons->pBIG_Shield_Corr;
@@ -2770,8 +2701,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(263) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2780,7 +2711,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x = pWindow->size.x + adj_size(423);
     dest.y =
 	pWindow->size.y + adj_size(281) + (adj_size(16) - pIcons->pBIG_Shield->h) / 2;
-    fix_rect(pWindow->dst, &dest);    
+
     if ((pIcons->pBIG_Shield->w + 1) * (pCity->prod[O_SHIELD] -
 					    pCity->surplus[O_SHIELD]) > adj_size(30)) {
       step =
@@ -2791,7 +2722,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < (pCity->prod[O_SHIELD] - pCity->surplus[O_SHIELD]); i++) {
-      alphablit(pIcons->pBIG_Shield, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Shield, NULL, pWindow->dst->surface, &dest);
       dest.x -= step;
     }
   }
@@ -2808,8 +2739,8 @@ static void redraw_city_dialog(struct city *pCity)
   
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(298) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2818,7 +2749,6 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y =
 	pWindow->size.y + adj_size(316) + (adj_size(16) - pIcons->pBIG_Trade->h) / 2;
     dest.x = pWindow->size.x + adj_size(203);
-    fix_rect(pWindow->dst, &dest);
     
     if (((pIcons->pBIG_Trade->w + 1) * pCity->surplus[O_TRADE]) > adj_size(200)) {
       step = (adj_size(200) - pIcons->pBIG_Trade->w) / (pCity->surplus[O_TRADE] - 1);
@@ -2827,7 +2757,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < pCity->surplus[O_TRADE]; i++) {
-      alphablit(pIcons->pBIG_Trade, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Trade, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
   }
@@ -2843,8 +2773,8 @@ static void redraw_city_dialog(struct city *pCity)
   
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(298) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2853,7 +2783,6 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x = pWindow->size.x + adj_size(423);
     dest.y =
 	pWindow->size.y + adj_size(316) + (adj_size(16) - pIcons->pBIG_Trade->h) / 2;
-    fix_rect(pWindow->dst, &dest);
     
     if (((pIcons->pBIG_Trade_Corr->w + 1) * pCity->waste[O_TRADE]) > adj_size(30)) {
       step =
@@ -2863,7 +2792,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < pCity->waste[O_TRADE]; i++) {
-      alphablit(pIcons->pBIG_Trade_Corr, NULL, pWindow->dst,
+      alphablit(pIcons->pBIG_Trade_Corr, NULL, pWindow->dst->surface,
 		      &dest);
       dest.x -= step;
     }
@@ -2881,8 +2810,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(342) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2899,7 +2828,6 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.y = pWindow->size.y + adj_size(359) + (adj_size(16) - pBuf->h) / 2;
     dest.x = pWindow->size.x + adj_size(203);
-    fix_rect(pWindow->dst, &dest);
     
     if ((pBuf->w * count) > adj_size(110)) {
       step = (adj_size(110) - pBuf->w) / (count - 1);
@@ -2912,7 +2840,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
 
@@ -2929,8 +2857,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(342) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2941,7 +2869,6 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x = pWindow->size.x + adj_size(423);
     dest.y = pWindow->size.y + adj_size(359)
       + (adj_size(16) - pIcons->pBIG_Coin_UpKeep->h) / 2;
-    fix_rect(pWindow->dst, &dest);
     
     if (((pIcons->pBIG_Coin_UpKeep->w + 1) *
 	 (pCity->prod[O_GOLD] - count)) > adj_size(110)) {
@@ -2952,7 +2879,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < (pCity->prod[O_GOLD] - count); i++) {
-      alphablit(pIcons->pBIG_Coin_UpKeep, NULL, pWindow->dst,
+      alphablit(pIcons->pBIG_Coin_UpKeep, NULL, pWindow->dst->surface,
 		      &dest);
       dest.x -= step;
     }
@@ -2969,8 +2896,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(376) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2981,7 +2908,6 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y =
 	pWindow->size.y + adj_size(394) + (adj_size(16) - pIcons->pBIG_Colb->h) / 2;
     dest.x = pWindow->size.x + adj_size(203);
-    fix_rect(pWindow->dst, &dest);
     
     if ((pIcons->pBIG_Colb->w * count) > adj_size(235)) {
       step = (adj_size(235) - pIcons->pBIG_Colb->w) / (count - 1);
@@ -2994,7 +2920,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      alphablit(pIcons->pBIG_Colb, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Colb, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
   }
@@ -3010,8 +2936,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(412) + (adj_size(15) - pBuf->h) / 2;
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -3021,7 +2947,6 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y =
 	pWindow->size.y + adj_size(429) + (adj_size(16) - pIcons->pBIG_Luxury->h) / 2;
     dest.x = pWindow->size.x + adj_size(203);
-    fix_rect(pWindow->dst, &dest);
     
     if ((pIcons->pBIG_Luxury->w * pCity->prod[O_LUXURY]) > adj_size(235)) {
       step =
@@ -3031,7 +2956,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < pCity->prod[O_LUXURY]; i++) {
-      alphablit(pIcons->pBIG_Luxury, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Luxury, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
   }
@@ -3061,8 +2986,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   dest.x = pWindow->size.x + adj_size(445) + (adj_size(192) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(227);
-  fix_rect(pWindow->dst, &dest);
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
 
@@ -3093,8 +3018,8 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + adj_size(461) + (adj_size(76) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
-    fix_rect(pWindow->dst, &dest);
-    alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+    alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
     FREESURFACE(pBuf);
 
@@ -3104,8 +3029,8 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + adj_size(549) + (adj_size(76) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
-    fix_rect(pWindow->dst, &dest);
-    alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+    alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
     FREESURFACE(pBuf);
 
@@ -3114,21 +3039,20 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y = pWindow->size.y + adj_size(260);
     dest.w = 70 + 4;
     dest.h = i + 4;
-    fix_rect(pWindow->dst, &dest);    
-    SDL_FillRectAlpha(pWindow->dst, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_GRANARY));
 
-    putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
+    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_GRANARY));
+
+    putframe(pWindow->dst->surface, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
+      map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 		
     /* draw bcgd stocks*/
     dest.x = pWindow->size.x + adj_size(550);
     dest.y = pWindow->size.y + adj_size(260);
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    SDL_FillRectAlpha(pWindow->dst, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_STOCKS));
 
-    putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
+    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_STOCKS));
+
+    putframe(pWindow->dst->surface, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
+      map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 
     /* draw stocks icons */
     cost = city_granary_size(pCity->size);
@@ -3157,9 +3081,7 @@ static void redraw_city_dialog(struct city *pCity)
     i = 0;
     pBuf = pIcons->pBIG_Food;
     while (count && cost) {
-      dest2 = dest;
-      fix_rect(pWindow->dst, &dest2);
-      alphablit(pBuf, NULL, pWindow->dst, &dest2);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += pBuf->w;
       count--;
       cost--;
@@ -3182,9 +3104,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y = pWindow->size.y + adj_size(260) + adj_size(2);
         
     while (count) {
-      dest2 = dest;
-      fix_rect(pWindow->dst, &dest2);
-      alphablit(pBuf, NULL, pWindow->dst, &dest2);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += pBuf->w;
       count--;
       i++;
@@ -3210,8 +3130,8 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + adj_size(461) + (adj_size(144) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
-    fix_rect(pWindow->dst, &dest);    
-    alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+    alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
     FREESURFACE(pBuf);
     
     /* food stock */
@@ -3221,12 +3141,11 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y = pWindow->size.y + adj_size(260);
     dest.w = adj_size(144);
     dest.h = i + adj_size(4);
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    SDL_FillRectAlpha(pWindow->dst, &dest2, get_game_colorRGB(COLOR_THEME_CITYDLG_FOODSTOCK));
 
-    putframe(pWindow->dst, dest2.x - 1, dest2.y - 1, dest2.x + dest2.w, dest2.y + dest2.h,
-      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
+    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_FOODSTOCK));
+
+    putframe(pWindow->dst->surface, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
+      map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 
     /* draw icons */
     cost = city_granary_size(pCity->size);
@@ -3254,9 +3173,7 @@ static void redraw_city_dialog(struct city *pCity)
     i = 0;
     pBuf = pIcons->pBIG_Food;
     while (count) {
-      dest2 = dest;
-      fix_rect(pWindow->dst, &dest2);
-      alphablit(pBuf, NULL, pWindow->dst, &dest2);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += pBuf->w;
       count--;
       i++;
@@ -3289,11 +3206,10 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - (pBuf->w + src.w + adj_size(5))) / 2;
     dest.y = pWindow->size.y + adj_size(233);
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
+
     /* blit unit icon */
     alphablit(GET_SURF(get_unittype_sprite(tileset,
-        get_unit_type(pCity->production.value))), &src, pWindow->dst, &dest2);
+        get_unit_type(pCity->production.value))), &src, pWindow->dst->surface, &dest);
 
     dest.y += (src.h - pBuf->h) / 2;
     dest.x += src.w + adj_size(5);
@@ -3333,9 +3249,8 @@ static void redraw_city_dialog(struct city *pCity)
     /* blit impr icon */
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(230);
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    alphablit(pBuf, NULL, pWindow->dst, &dest2);
+
+    alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
     
     dest.y += (pBuf->h + adj_size(2));
 
@@ -3347,8 +3262,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* blit unit/impr name */
-  fix_rect(pWindow->dst, &dest);  
-  alphablit(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
   
@@ -3369,10 +3283,10 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y = pWindow->size.y + adj_size(270);
     dest.w = adj_size(144);
     dest.h = i + adj_size(4);
-    fix_rect(pWindow->dst, &dest);
-    SDL_FillRectAlpha(pWindow->dst, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_SHIELDSTOCK));
-    putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
+
+    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_SHIELDSTOCK));
+    putframe(pWindow->dst->surface, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
+      map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
     
     /* draw production progres text */
     dest.y = pWindow->size.y + adj_size(270) + dest.h + 1;
@@ -3398,8 +3312,8 @@ static void redraw_city_dialog(struct city *pCity)
     pBuf = create_text_surf_from_str16(pStr);
 
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
-    fix_rect(pWindow->dst, &dest);
-    alphablit(pBuf, NULL, pWindow->dst, &dest);
+
+    alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
     FREESTRING16(pStr);
     FREESURFACE(pBuf);
@@ -3416,9 +3330,7 @@ static void redraw_city_dialog(struct city *pCity)
     
     pBuf = pIcons->pBIG_Shield;
     while (count > 0) {
-      dest2 = dest;
-      fix_rect(pWindow->dst, &dest2);
-      alphablit(pBuf, NULL, pWindow->dst, &dest2);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += pBuf->w;
       count--;
       if (dest.x > pWindow->size.x + adj_size(170)) {
@@ -3451,13 +3363,12 @@ static void redraw_city_dialog(struct city *pCity)
   dest.y =
       pWindow->size.y + adj_size(26) + (adj_size(42) - pBuf->h) / 2;
   dest.x = pWindow->size.x + adj_size(227);
-  fix_rect(pWindow->dst, &dest);
   
   if (pCity->ppl_happy[4]) {
     for (i = 0; i < pCity->ppl_happy[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_HAPPY, i));
       
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
   }
@@ -3466,7 +3377,7 @@ static void redraw_city_dialog(struct city *pCity)
     for (i = 0; i < pCity->ppl_content[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_CONTENT, i));
       
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
   }
@@ -3475,7 +3386,7 @@ static void redraw_city_dialog(struct city *pCity)
     for (i = 0; i < pCity->ppl_unhappy[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, i));
       
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
   }
@@ -3483,7 +3394,7 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->ppl_angry[4]) {
     for (i = 0; i < pCity->ppl_angry[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_ANGRY, i));
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
   }
@@ -3500,7 +3411,7 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs_area[0].w = pBuf->w;
     pCityDlg->specs_area[0].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
       pCityDlg->specs_area[0].w += step;
     }
@@ -3516,7 +3427,7 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs_area[1].w = pBuf->w;
     pCityDlg->specs_area[1].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
       pCityDlg->specs_area[1].w += step;
     }
@@ -3532,7 +3443,7 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs_area[2].w = pBuf->w;
     pCityDlg->specs_area[2].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
-      alphablit(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
       pCityDlg->specs_area[2].w += step;
     }
@@ -3573,7 +3484,7 @@ static void redraw_city_dialog(struct city *pCity)
   redraw_group(pCityDlg->pBeginCityMenuWidgetList,
 	       pCityDlg->pEndCityMenuWidgetList, 0);
  
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
 }
 
 /* ============================================================== */
@@ -3731,9 +3642,9 @@ void popup_city_dialog(struct city *pCity)
   
   rebuild_citydlg_title_str(pWindow, pCity);
 
-  pWindow->size.x = (Main.screen->w - adj_size(640)) / 2;
-  pWindow->size.y = (Main.screen->h - adj_size(480)) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow,
+                      (Main.screen->w - adj_size(640)) / 2,
+                      (Main.screen->h - adj_size(480)) / 2);
   
   pWindow->size.w = adj_size(640);
   pWindow->size.h = adj_size(480);
@@ -3756,7 +3667,7 @@ void popup_city_dialog(struct city *pCity)
 
 #if 0  
   /* in title bar */
-  pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst->surface,
 			  (WF_WIDGET_HAS_INFO_LABEL |
 			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Cancel"), adj_font(12));

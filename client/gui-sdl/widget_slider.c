@@ -17,6 +17,9 @@
 
 #include <SDL/SDL.h>
 
+/* utility */
+#include "log.h"
+
 /* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
@@ -112,7 +115,7 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
 
   function return pointer to allocated Widget.
 **************************************************************************/
-struct widget * create_vertical(SDL_Surface *pVert_theme, SDL_Surface *pDest,
+struct widget * create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest,
   			Uint16 high, Uint32 flags)
 {
   struct widget *pVer = fc_calloc(1, sizeof(struct widget));
@@ -135,16 +138,13 @@ struct widget * create_vertical(SDL_Surface *pVert_theme, SDL_Surface *pDest,
 int redraw_vert(struct widget *pVert)
 {
   int ret;
-  SDL_Rect dest;
-  
-  dest = pVert->size;
-  fix_rect(pVert->dst, &dest);
+  SDL_Rect dest = pVert->size;
   
   SDL_Surface *pVert_Surf = create_vertical_surface(pVert->theme,
 						    get_wstate(pVert),
 						    pVert->size.h);
   ret =
-      blit_entire_src(pVert_Surf, pVert->dst, dest.x, dest.y);
+      blit_entire_src(pVert_Surf, pVert->dst->surface, dest.x, dest.y);
   
   FREESURFACE(pVert_Surf);
 
@@ -158,7 +158,7 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
 {
   pVert->size.x = x;
   pVert->size.y = y;
-  pVert->gfx = crop_rect_from_surface(pVert->dst, &pVert->size);
+  pVert->gfx = crop_rect_from_surface(pVert->dst->surface, &pVert->size);
   return redraw_vert(pVert);
 }
 
@@ -247,7 +247,7 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
 
   function return pointer to allocated Widget.
 **************************************************************************/
-struct widget * create_horizontal(SDL_Surface *pHoriz_theme, SDL_Surface *pDest,
+struct widget * create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *pDest,
   		Uint16 width, Uint32 flags)
 {
   struct widget *pHor = fc_calloc(1, sizeof(struct widget));
@@ -269,15 +269,13 @@ struct widget * create_horizontal(SDL_Surface *pHoriz_theme, SDL_Surface *pDest,
 **************************************************************************/
 int redraw_horiz(struct widget *pHoriz)
 {
-  SDL_Rect dest;
-  
-  dest = pHoriz->size;
-  fix_rect(pHoriz->dst, &dest);
+  SDL_Rect dest = pHoriz->size;
   
   SDL_Surface *pHoriz_Surf = create_horizontal_surface(pHoriz->theme,
 						       get_wstate(pHoriz),
 						       pHoriz->size.w);
-  int ret = blit_entire_src(pHoriz_Surf, pHoriz->dst, dest.x, dest.y);
+  int ret = blit_entire_src(pHoriz_Surf, pHoriz->dst->surface, dest.x, dest.y);
+  
   FREESURFACE(pHoriz_Surf);
 
   return ret;
@@ -290,6 +288,6 @@ int draw_horiz(struct widget *pHoriz, Sint16 x, Sint16 y)
 {
   pHoriz->size.x = x;
   pHoriz->size.y = y;
-  pHoriz->gfx = crop_rect_from_surface(pHoriz->dst, &pHoriz->size);
+  pHoriz->gfx = crop_rect_from_surface(pHoriz->dst->surface, &pHoriz->size);
   return redraw_horiz(pHoriz);
 }

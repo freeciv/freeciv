@@ -89,18 +89,13 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
 {
   struct hmove *pMotion = (struct hmove *)pData;
   char cBuf[4];
-  SDL_Rect dest;
   
   if (pMotion && pMotionEvent->xrel &&
     (pMotionEvent->x >= pMotion->min) && (pMotionEvent->x <= pMotion->max)) {
 
     /* draw bcgd */
-    dest = pMotion->pScrollBar->size;
-    fix_rect(pMotion->pScrollBar->dst, &dest);
-    blit_entire_src(pMotion->pScrollBar->gfx,
-       			pMotion->pScrollBar->dst,
-			dest.x, dest.y);
-    sdl_dirty_rect(pMotion->pScrollBar->size);
+    widget_undraw(pMotion->pScrollBar);
+    widget_mark_dirty(pMotion->pScrollBar);
        
     if ((pMotion->pScrollBar->size.x + pMotionEvent->xrel) >
 	 (pMotion->max - pMotion->pScrollBar->size.w)) {
@@ -121,12 +116,12 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     
     /* redraw label */
     redraw_label(pMotion->pScrollBar->next);
-    sdl_dirty_rect(pMotion->pScrollBar->next->size);
+    widget_mark_dirty(pMotion->pScrollBar->next);
     
     /* redraw scroolbar */
     refresh_widget_background(pMotion->pScrollBar);
     redraw_horiz(pMotion->pScrollBar);
-    sdl_dirty_rect(pMotion->pScrollBar->size);
+    widget_mark_dirty(pMotion->pScrollBar);
 
     flush_dirty();
   }				/* if (count) */
@@ -340,10 +335,10 @@ static int save_cma_callback(struct widget *pWidget)
     /* setup window size and start position */
     ww += adj_size(20);
     hh += adj_size(15);
-    
-    pWindow->size.x = pWidget->size.x - (pTheme->FR_Left->w + ww + pTheme->FR_Right->w) / 2;
-    pWindow->size.y = pWidget->size.y - (hh + pTheme->FR_Bottom->h);
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+    widget_set_position(pWindow,
+                        pWidget->size.x - (pTheme->FR_Left->w + ww + pTheme->FR_Right->w) / 2,
+                        pWidget->size.y - (hh + pTheme->FR_Bottom->h));
   
     resize_window(pWindow, NULL,
                   get_game_colorRGB(COLOR_THEME_BACKGROUND),
@@ -378,7 +373,7 @@ static int save_cma_callback(struct widget *pWidget)
     /* ================================================== */
     /* redraw */
     redraw_group(pCma->pAdv->pBeginWidgetList, pWindow, 0);
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
     flush_dirty();
   }
   return -1;
@@ -519,10 +514,10 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   }
   
   /* ----------------------------------- */
-    
-  pWindow->size.x = pButton->size.x - ww / 2;
-  pWindow->size.y = pButton->size.y - hh;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+  widget_set_position(pWindow,
+                      pButton->size.x - ww / 2,
+                      pButton->size.y - hh);
   
   resize_window(pWindow, NULL, NULL, ww, hh);
   
@@ -550,7 +545,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   /* redraw */
   redraw_group(pCma->pAdv->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 static int load_cma_callback(struct widget *pWidget)
@@ -689,7 +684,7 @@ void update_city_cma_dialog(void)
     /* redraw resources */
     pCma->pResult = &result;
 #if 0    
-    refresh_city_resource_map(pBuf->dst, pBuf->size.x + 25,
+    refresh_city_resource_map(pBuf->dst->surface, pBuf->size.x + 25,
 	  pBuf->size.y + WINDOW_TITLE_HEIGHT + 35, pCma->pCity, is_worker);
 #endif    
     pCma->pResult = NULL;
@@ -707,32 +702,31 @@ void update_city_cma_dialog(void)
 
     dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + 1;
     dst.x = pBuf->size.x + adj_size(10);
-    fix_rect(pBuf->dst, &dst);
 
     for (i = 0;
       i < count - (result.specialists[SP_ELVIS]
 		   + result.specialists[SP_SCIENTIST]
 		   + result.specialists[SP_TAXMAN]); i++) {
       pText = get_citizen_surface(CITIZEN_CONTENT, i);
-      alphablit(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
     
     pText = GET_SURF(get_tax_sprite(tileset, O_LUXURY));
     for (i = 0; i < result.specialists[SP_ELVIS]; i++) {
-      alphablit(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
 
     pText = GET_SURF(get_tax_sprite(tileset, O_GOLD));
     for (i = 0; i < result.specialists[SP_TAXMAN]; i++) {
-      alphablit(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
 
     pText = GET_SURF(get_tax_sprite(tileset, O_SCIENCE));
     for (i = 0; i < result.specialists[SP_SCIENTIST]; i++) {
-      alphablit(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
   }
@@ -749,14 +743,13 @@ void update_city_cma_dialog(void)
   dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + adj_size(150);
   dst.w = pText->w + adj_size(10);
   dst.h = pText->h + adj_size(10);
-  fix_rect(pBuf->dst, &dst);
-  SDL_FillRectAlpha(pBuf->dst, &dst, &bg_color);
-  putframe(pBuf->dst, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           map_rgba(pBuf->dst->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
+  SDL_FillRectAlpha(pBuf->dst->surface, &dst, &bg_color);
+  putframe(pBuf->dst->surface, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+           map_rgba(pBuf->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
   
   dst.x += adj_size(5);
   dst.y += adj_size(5);
-  alphablit(pText, NULL, pBuf->dst, &dst);
+  alphablit(pText, NULL, pBuf->dst->surface, &dst);
   FREESURFACE(pText);
   
   /* happy factor scrollbar */
@@ -819,7 +812,7 @@ void update_city_cma_dialog(void)
   redraw_group(pCma->pDlg->pBeginWidgetList,
   		pCma->pDlg->pEndWidgetList->prev->prev, 0);
   
-  flush_rect(pCma->pDlg->pEndWidgetList->size, FALSE);
+  widget_flush(pCma->pDlg->pEndWidgetList);
 }
 
 void popup_city_cma_dialog(struct city *pCity)
@@ -1021,10 +1014,10 @@ void popup_city_cma_dialog(struct city *pCity)
 	  (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
 			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
   h = adj_size(320);
-  
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
 
   pLogo = theme_get_background(theme, BACKGROUND_CITYGOVDLG);
   if(resize_window(pWindow, pLogo, NULL, w, h)) {

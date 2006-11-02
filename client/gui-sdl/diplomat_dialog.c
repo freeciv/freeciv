@@ -359,9 +359,10 @@ static int spy_steal_popup(struct widget *pWidget)
 
   w = MAX(w, (col * pBuf->size.w + adj_size(2) + pTheme->FR_Left->w + pTheme->FR_Right->w + i));
   h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Bottom->h;
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
   
   /* alloca window theme and win background buffer */
   pSurf = theme_get_background(theme, BACKGROUND_SPYSTEALDLG);
@@ -388,7 +389,7 @@ static int spy_steal_popup(struct widget *pWidget)
   }
 
   redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, FALSE);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   
   return -1;
 }
@@ -748,7 +749,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   /* redraw */
   redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
   
 }
 
@@ -1015,7 +1016,7 @@ void popup_sabotage_dialog(struct city *pCity)
   /* redraw */
   redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
   
 }
 
@@ -1261,7 +1262,7 @@ void popup_incite_dialog(struct city *pCity)
   /* redraw */
   redraw_group(pIncite_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
   
 }
 
@@ -1464,5 +1465,5 @@ void popup_bribe_dialog(struct unit *pUnit)
   /* redraw */
   redraw_group(pBribe_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }

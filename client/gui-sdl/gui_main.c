@@ -857,11 +857,9 @@ void ui_init(void)
   copy_chars_to_string16(pInit_String->string16,
   			_("Waiting for the beginning of the game"));
 
-  init_gui_list(ID_WAITING_LABEL, pInit_String);
 #endif    
 
   flush_all();
-  init_gui_list(ID_WAITING_LABEL, fc_calloc(1, sizeof(struct widget)));
 }
 
 /**************************************************************************
@@ -985,7 +983,7 @@ void ui_main(int argc, char *argv[])
     center_main_window_on_screen();
 #endif
   }
-    
+
   /* SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv"); */
 
   /* this need correct Main.screen size */
@@ -995,8 +993,6 @@ void ui_main(int argc, char *argv[])
   #ifndef SMALL_SCREEN
   init_options_button();
   #endif
-  
-  set_new_order_widgets_dest_buffers();
   
   set_client_state(CLIENT_PRE_GAME_STATE);
 

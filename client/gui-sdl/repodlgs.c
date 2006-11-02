@@ -174,7 +174,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
     redraw_label(pWidget);
-    sdl_dirty_rect(pWidget->size);
+    widget_mark_dirty(pWidget);
     
     pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
@@ -242,13 +242,12 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     /* ============================================ */
     
     pUnits_Upg_Dlg->pBeginWidgetList = pBuf;
-    
-    pWindow->size.x = pUnitsDlg->pEndWidgetList->size.x +
-                  (pUnitsDlg->pEndWidgetList->size.w - ww) / 2;
-    pWindow->size.y = pUnitsDlg->pEndWidgetList->size.y +
-                  (pUnitsDlg->pEndWidgetList->size.h - hh) / 2;
-  
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+    widget_set_position(pWindow, 
+                        pUnitsDlg->pEndWidgetList->size.x +
+                          (pUnitsDlg->pEndWidgetList->size.w - ww) / 2,
+                        pUnitsDlg->pEndWidgetList->size.y +
+                          (pUnitsDlg->pEndWidgetList->size.h - hh) / 2);
     
     resize_window(pWindow, NULL,
                   get_game_colorRGB(COLOR_THEME_BACKGROUND),
@@ -284,7 +283,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     /* redraw */
     redraw_group(pUnits_Upg_Dlg->pBeginWidgetList, pWindow, 0);
       
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
     flush_dirty();
   }
   return -1;
@@ -591,10 +590,10 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   h += pText1->h + adj_size(10);
   w += pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2);
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
   
   pLogo = theme_get_background(theme, BACKGROUND_UNITSREP);
   resize_window(pWindow, pLogo,	NULL, w, h);
@@ -818,7 +817,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   }
   /* ----------------------------------- */
   redraw_group(pUnitsDlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
     
   flush_dirty();  
 }
@@ -965,7 +964,7 @@ UPD:	  upgrade = can_upgrade_unittype(game.player_ptr, i)->index;
 
     /* -------------------------------------- */
     redraw_group(pUnitsDlg->pBeginWidgetList, pUnitsDlg->pEndWidgetList, 0);
-    sdl_dirty_rect(pUnitsDlg->pEndWidgetList->size);
+    widget_mark_dirty(pUnitsDlg->pEndWidgetList);
     
     flush_dirty();
   }
@@ -1040,7 +1039,7 @@ static int exit_economy_dialog_callback(struct widget *pWidget)
       FC_FREE(pEconomyDlg);
       set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
       redraw_icon2(get_tax_rates_widget());
-      sdl_dirty_rect(get_tax_rates_widget()->size);
+      widget_mark_dirty(get_tax_rates_widget());
       flush_dirty();
     }
   }
@@ -1089,7 +1088,6 @@ static Uint16 report_scroll_mouse_motion_handler(
   struct widget *pBuf = NULL;
   char cBuf[8];
   int dir, inc, x, *buf_rate = NULL;
-  SDL_Rect dest;
   
   if ((abs(pMotionEvent->x - pMotion->x) > 7) &&
      (pMotionEvent->x >= pMotion->min) && (pMotionEvent->x <= pMotion->max)) {
@@ -1132,19 +1130,13 @@ static Uint16 report_scroll_mouse_motion_handler(
 	}
       }
 
-      /* undraw scrollbars */    
-      dest = pMotion->pHoriz_Src->size;
-      fix_rect(pMotion->pHoriz_Src->dst, &dest);
-      blit_entire_src(pMotion->pHoriz_Src->gfx, pMotion->pHoriz_Src->dst,
-		                                           dest.x, dest.y);
-      sdl_dirty_rect(pMotion->pHoriz_Src->size);
+      /* undraw scrollbars */
+      widget_undraw(pMotion->pHoriz_Src);
+      widget_mark_dirty(pMotion->pHoriz_Src);
 	    
       if(pMotion->pHoriz_Dst) {
-        dest = pMotion->pHoriz_Dst->size;
-        fix_rect(pMotion->pHoriz_Dst->dst, &dest);
-        blit_entire_src(pMotion->pHoriz_Dst->gfx, pMotion->pHoriz_Dst->dst,
-		                                            dest.x, dest.y);
-        sdl_dirty_rect(pMotion->pHoriz_Dst->size);
+        widget_undraw(pMotion->pHoriz_Dst);
+        widget_mark_dirty(pMotion->pHoriz_Dst);
       }
 	  
       pMotion->pHoriz_Src->size.x += dir;
@@ -1162,20 +1154,20 @@ static Uint16 report_scroll_mouse_motion_handler(
       		      
       /* redraw label */
       redraw_label(pMotion->pLabel_Src);
-      sdl_dirty_rect(pMotion->pLabel_Src->size);
+      widget_mark_dirty(pMotion->pLabel_Src);
 
       redraw_label(pMotion->pLabel_Dst);
-      sdl_dirty_rect(pMotion->pLabel_Dst->size);
+      widget_mark_dirty(pMotion->pLabel_Dst);
 
       /* redraw scroolbar */
       refresh_widget_background(pMotion->pHoriz_Src);
       redraw_horiz(pMotion->pHoriz_Src);
-      sdl_dirty_rect(pMotion->pHoriz_Src->size);
+      widget_mark_dirty(pMotion->pHoriz_Src);
 	  
       if(pMotion->pHoriz_Dst) {
         refresh_widget_background(pMotion->pHoriz_Dst);
         redraw_horiz(pMotion->pHoriz_Dst);
-        sdl_dirty_rect(pMotion->pHoriz_Dst->size);
+        widget_mark_dirty(pMotion->pHoriz_Dst);
       }
 
       flush_dirty();
@@ -1277,7 +1269,7 @@ END:
     pSellected_Widget = pHoriz_Src;
     set_wstate(pHoriz_Src, FC_WS_SELLECTED);
     redraw_horiz(pHoriz_Src);
-    flush_rect(pHoriz_Src->size, FALSE);
+    widget_flush(pHoriz_Src);
   }
   return -1;
 }
@@ -1313,7 +1305,7 @@ static int apply_taxrates_callback(struct widget *pButton)
     }
   
     redraw_tibutton(pButton);
-    flush_rect(pButton->size, FALSE);
+    widget_flush(pButton);
   }
   return -1;
 }
@@ -1463,7 +1455,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
     redraw_icon2(pWidget);
-    sdl_dirty_rect(pWidget->size);
+    widget_mark_dirty(pWidget);
     
     pEconomy_Sell_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
@@ -1546,11 +1538,11 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     
     pEconomy_Sell_Dlg->pBeginWidgetList = pBuf;
     
-    pWindow->size.x = pEconomyDlg->pEndWidgetList->size.x +
-                  (pEconomyDlg->pEndWidgetList->size.w - ww) / 2;
-    pWindow->size.y = pEconomyDlg->pEndWidgetList->size.y +
-                  (pEconomyDlg->pEndWidgetList->size.h - hh) / 2;
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    widget_set_position(pWindow,
+                        pEconomyDlg->pEndWidgetList->size.x +
+                          (pEconomyDlg->pEndWidgetList->size.w - ww) / 2,
+                        pEconomyDlg->pEndWidgetList->size.y +
+                          (pEconomyDlg->pEndWidgetList->size.h - hh) / 2);
     
     resize_window(pWindow, NULL,
                   get_game_colorRGB(COLOR_THEME_BACKGROUND),
@@ -1587,7 +1579,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     redraw_group(pEconomy_Sell_Dlg->pBeginWidgetList, pWindow, 0);
     disable_economy_dlg();
     
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
     flush_dirty();
   }
   return -1;
@@ -1639,7 +1631,7 @@ void economy_report_dialog_update(void)
   
     /* ---------------- */
     redraw_group(pEconomyDlg->pBeginWidgetList, pEconomyDlg->pEndWidgetList, 0);
-    flush_rect(pEconomyDlg->pEndWidgetList->size, FALSE);
+    widget_flush(pEconomyDlg->pEndWidgetList);
   }
 }
 
@@ -1660,7 +1652,7 @@ void popdown_economy_report_dialog(void)
     FC_FREE(pEconomyDlg);
     set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
     redraw_icon2(get_tax_rates_widget());
-    sdl_dirty_rect(get_tax_rates_widget()->size);
+    widget_mark_dirty(get_tax_rates_widget());
   }
 }
 
@@ -1694,7 +1686,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   set_wstate(pBuf, FC_WS_DISABLED);
   redraw_icon2(pBuf);
-  sdl_dirty_rect(pBuf->size);
+  widget_mark_dirty(pBuf);
   
   pEconomyDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
@@ -2034,10 +2026,10 @@ void popup_economy_report_dialog(bool make_modal)
   w3 = MAX(w3, pText2->w);
   
   w = MAX(pTheme->FR_Left->w + adj_size(10) + w3 + w + w2 + pTheme->FR_Right->w, count);
-  
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
 
   pMain = theme_get_background(theme, BACKGROUND_ECONOMYDLG);
   if(resize_window(pWindow, pMain, NULL, w, h)) {
@@ -2208,7 +2200,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* ------------------------ */
   redraw_group(pEconomyDlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   flush_dirty();
 }
 
@@ -2508,7 +2500,7 @@ void science_dialog_update(void)
     SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
     int step, i, cost;
     SDL_Rect dest = {0, 0, 0, 0};
-    SDL_Rect dest2, src;
+    SDL_Rect src;
     struct impr_type *pImpr;
     struct unit_type *pUnit;
     int turns_to_advance, turns_to_next_tech, steps;
@@ -2529,8 +2521,7 @@ void science_dialog_update(void)
     redraw_group(pScienceDlg->pBeginWidgetList, pWindow, 0);  
     
     dest = pWindow->size;
-    fix_rect(pWindow->dst, &dest);
-    putframe(pWindow->dst, dest.x, dest.y, dest.x + pWindow->size.w - 1,
+    putframe(pWindow->dst->surface, dest.x, dest.y, dest.x + pWindow->size.w - 1,
 		  	   dest.y + pWindow->size.h - 1, 0xffffffff);
   
     /* ------------------------------------- */
@@ -2570,9 +2561,7 @@ void science_dialog_update(void)
     dest.x = pWindow->size.x + (pWindow->size.w - pSurf->w) / 2;
     dest.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
     
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    alphablit(pSurf, NULL, pWindow->dst, &dest2);
+    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
 
     dest.y += pSurf->h + adj_size(2);
     FREESURFACE(pSurf);
@@ -2580,10 +2569,8 @@ void science_dialog_update(void)
     /* ------------------------------------- */
     dest.x = pWindow->prev->size.x;
     /* separator */
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    putline(pWindow->dst, dest2.x, dest2.y, dest2.x + adj_size(365), dest2.y,
-      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
+    putline(pWindow->dst->surface, dest.x, dest.y, dest.x + adj_size(365), dest.y,
+      map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
 
     dest.y += 6;
     /* ------------------------------------- */
@@ -2599,9 +2586,7 @@ void science_dialog_update(void)
     
     dest.x = pWindow->prev->size.x + pWindow->prev->size.w + adj_size(10);
     
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    alphablit(pSurf, NULL, pWindow->dst, &dest2);
+    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
 
     dest.y += pSurf->h;
     FREESURFACE(pSurf);
@@ -2619,12 +2604,10 @@ void science_dialog_update(void)
     }
 
     dest.h = pColb_Surface->h + adj_size(4);
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    SDL_FillRectAlpha(pWindow->dst, &dest2, &bg_color);
+    SDL_FillRectAlpha(pWindow->dst->surface, &dest, &bg_color);
   
-    putframe(pWindow->dst, dest2.x - 1, dest2.y - 1, dest2.x + dest2.w,
-      dest2.y + dest2.h, map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
+    putframe(pWindow->dst->surface, dest.x - 1, dest.y - 1, dest.x + dest.w,
+      dest.y + dest.h, map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
   
     if (cost > adj_size(286))
     {
@@ -2639,9 +2622,7 @@ void science_dialog_update(void)
   
     dest.y += adj_size(2);
     for (i = 0; i < cost; i++) {
-      dest2 = dest;
-      fix_rect(pWindow->dst, &dest2);
-      alphablit(pColb_Surface, NULL, pWindow->dst, &dest2);
+      alphablit(pColb_Surface, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
     }
 
@@ -2656,9 +2637,7 @@ void science_dialog_update(void)
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if (preq->source.value.tech == get_player_research(game.player_ptr)->researching) {		  
           pSurf = adj_surf(GET_SURF(get_building_sprite(tileset, imp)));
-          dest2 = dest;
-          fix_rect(pWindow->dst, &dest2);
-          alphablit(pSurf, NULL, pWindow->dst, &dest2);
+          alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + 1;
       }
       } requirement_vector_iterate_end;
@@ -2674,16 +2653,12 @@ void science_dialog_update(void)
 	  SDL_Surface *pZoomed =
 	  	ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1);
 	  src = get_smaller_surface_rect(pZoomed);
-          dest2 = dest;
-          fix_rect(pWindow->dst, &dest2);
-	  alphablit(pZoomed, &src, pWindow->dst, &dest2);
+	  alphablit(pZoomed, &src, pWindow->dst->surface, &dest);
 	  FREESURFACE(pZoomed);
           dest.x += src.w + adj_size(2);
 	} else {
           src = get_smaller_surface_rect(GET_SURF(get_unittype_sprite(tileset, un)));
-          dest2 = dest;
-          fix_rect(pWindow->dst, &dest2);
-          alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst, &dest2);
+          alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst->surface, &dest);
           dest.x += src.w + adj_size(2);
 	}
       }
@@ -2694,10 +2669,8 @@ void science_dialog_update(void)
     dest.x = pWindow->prev->size.x;
     dest.y = pWindow->prev->size.y + pWindow->prev->size.h + adj_size(35);
 
-    dest2 = dest;
-    fix_rect(pWindow->dst, &dest2);
-    putline(pWindow->dst, dest2.x, dest2.y, dest2.x + adj_size(365), dest2.y,
-      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
+    putline(pWindow->dst->surface, dest.x, dest.y, dest.x + adj_size(365), dest.y,
+      map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
     
     dest.y += adj_size(10);
     /* -------------------------------- */
@@ -2718,9 +2691,7 @@ void science_dialog_update(void)
       
       dest.x = pWindow->prev->size.x + pWindow->prev->size.w + adj_size(10);
       
-      dest2 = dest;
-      fix_rect(pWindow->dst, &dest2);
-      alphablit(pSurf, NULL, pWindow->dst, &dest2);
+      alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
 
       dest.y += pSurf->h + adj_size(4);
       FREESURFACE(pSurf);
@@ -2730,9 +2701,7 @@ void science_dialog_update(void)
 	requirement_vector_iterate(&pImpr->reqs, preq) {  
           if (preq->source.value.tech == get_player_research(game.player_ptr)->tech_goal) {			
             pSurf = adj_surf(GET_SURF(get_building_sprite(tileset, imp)));
-            dest2 = dest;
-            fix_rect(pWindow->dst, &dest2);
-            alphablit(pSurf, NULL, pWindow->dst, &dest2);
+            alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + 1;
         }
         } requirement_vector_iterate_end;
@@ -2748,16 +2717,12 @@ void science_dialog_update(void)
 	    SDL_Surface *pZoomed =
 	  	ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1);
 	    src = get_smaller_surface_rect(pZoomed);
-            dest2 = dest;
-            fix_rect(pWindow->dst, &dest2);
-	    alphablit(pZoomed, &src, pWindow->dst, &dest2);
+	    alphablit(pZoomed, &src, pWindow->dst->surface, &dest);
 	    FREESURFACE(pZoomed);
             dest.x += src.w + adj_size(2);
 	  } else {
             src = get_smaller_surface_rect(GET_SURF(get_unittype_sprite(tileset, un)));
-            dest2 = dest;
-            fix_rect(pWindow->dst, &dest2);
-            alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst, &dest2);
+            alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst->surface, &dest);
             dest.x += src.w + adj_size(2);
 	  }
         }
@@ -2765,7 +2730,7 @@ void science_dialog_update(void)
     }
   
     /* -------------------------------- */
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
     flush_dirty();
   
     FREESTRING16(pStr);
@@ -2783,7 +2748,7 @@ static void popdown_science_dialog()
     FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
     redraw_icon2(get_research_widget());
-    sdl_dirty_rect(get_research_widget()->size);
+    widget_mark_dirty(get_research_widget());
     flush_dirty();
   }
 }
@@ -2829,7 +2794,7 @@ static int change_research_goal_dialog_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if(sellect_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pWindow)) {
-        flush_rect(pWindow->size, FALSE);
+        widget_flush(pWindow);
     }
   }
   return -1;
@@ -2959,9 +2924,11 @@ static void popup_change_research_dialog()
 
   w = MAX(w, (col * pBuf->size.w + adj_size(2) + pTheme->FR_Left->w + pTheme->FR_Right->w + i));
   h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Bottom->h;
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
+
   disable_science_dialog();
   
   /* alloca window theme and win background buffer */
@@ -2988,7 +2955,7 @@ static void popup_change_research_dialog()
 
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /**************************************************************************
@@ -3142,9 +3109,11 @@ static void popup_change_research_goal_dialog()
 
   w = MAX(w, (col * pBuf->size.w + adj_size(2) + pTheme->FR_Left->w + pTheme->FR_Right->w + i));
   h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Bottom->h;
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
+
   disable_science_dialog();
   
   /* alloca window theme and win background buffer */
@@ -3171,7 +3140,7 @@ static void popup_change_research_goal_dialog()
 
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 static int science_dialog_callback(struct widget *pWindow)
@@ -3179,7 +3148,7 @@ static int science_dialog_callback(struct widget *pWindow)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (!pChangeTechDlg) {
       if (sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
-        flush_rect(pWindow->size, FALSE);
+        widget_flush(pWindow);
       }
       if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
         science_dialog_update();
@@ -3195,7 +3164,7 @@ static int popup_change_research_dialog_callback(struct widget *pWidget)
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
     redraw_icon2(pWidget);
-    flush_rect(pWidget->size, FALSE);
+    widget_flush(pWidget);
     
     popup_change_research_dialog();
   }  
@@ -3208,7 +3177,7 @@ static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
     redraw_icon2(pWidget);
-    flush_rect(pWidget->size, FALSE);
+    widget_flush(pWidget);
     
     popup_change_research_goal_dialog();
   }  
@@ -3239,7 +3208,7 @@ void popup_science_dialog(bool raise)
 
   set_wstate(pBuf, FC_WS_DISABLED);
   redraw_icon2(pBuf);
-  sdl_dirty_rect(pBuf->size);
+  widget_mark_dirty(pBuf);
   
   pScienceDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
@@ -3251,9 +3220,11 @@ void popup_science_dialog(bool raise)
 
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = science_dialog_callback;
-  pWindow->size.x = (Main.screen->w - adj_size(400)) / 2;
-  pWindow->size.y = (Main.screen->h - adj_size(260)) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - adj_size(400)) / 2,
+                      (Main.screen->h - adj_size(260)) / 2);
+
   pWindow->size.w = adj_size(400);
   pWindow->size.h = adj_size(260);
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -3343,7 +3314,7 @@ void popdown_all_science_dialogs(void)
     FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
     redraw_icon2(get_research_widget());
-    sdl_dirty_rect(get_research_widget()->size);
+    widget_mark_dirty(get_research_widget());
   }  
 }
   

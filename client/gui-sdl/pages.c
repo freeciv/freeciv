@@ -125,14 +125,16 @@ static void show_main_page()
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   
-  int w = 0 , h = 0, count = 0;
+  int count = 0;
   struct widget *pWidget = NULL, *pWindow = NULL;
-  SDL_Surface *pLogo;
+  SDL_Surface *pBackground;
+  int h = 0;
+  SDL_Rect area = {0, 0, 0, 0};
     
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pWindow = create_window(Main.gui, NULL, 1, 1, 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   add_to_gui_list(ID_WINDOW, pWindow);
   pStartMenu->pEndWidgetList = pWindow;
   
@@ -145,8 +147,8 @@ static void show_main_page()
   pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
   
-  w = MAX(w, pWidget->size.w);
-  h = MAX(h, pWidget->size.h);
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
   count++;
   
   add_to_gui_list(ID_START_NEW_GAME, pWidget);
@@ -161,8 +163,8 @@ static void show_main_page()
   
   add_to_gui_list(ID_LOAD_GAME, pWidget);
   
-  w = MAX(w, pWidget->size.w);
-  h = MAX(h, pWidget->size.h);
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
   count++;
   
   /* Join Game */
@@ -175,8 +177,8 @@ static void show_main_page()
   
   add_to_gui_list(ID_JOIN_GAME, pWidget);
   
-  w = MAX(w, pWidget->size.w);
-  h = MAX(h, pWidget->size.h);
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
   count++;
     
   /* Join Pubserver */  
@@ -189,8 +191,8 @@ static void show_main_page()
   
   add_to_gui_list(ID_JOIN_META_GAME, pWidget);
   
-  w = MAX(w, pWidget->size.w);
-  h = MAX(h, pWidget->size.h);
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
   count++;
   
   /* Join LAN Server */  
@@ -203,8 +205,8 @@ static void show_main_page()
   
   add_to_gui_list(ID_JOIN_GAME, pWidget);
   
-  w = MAX(w, pWidget->size.w);
-  h = MAX(h, pWidget->size.h);
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
   count++;
   
   /* Options */  
@@ -217,8 +219,8 @@ static void show_main_page()
   
   add_to_gui_list(ID_CLIENT_OPTIONS_BUTTON, pWidget);
   
-  w = MAX(w, pWidget->size.w);
-  h = MAX(h, pWidget->size.h);
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
   count++;
   
   /* Quit */  
@@ -231,35 +233,41 @@ static void show_main_page()
   set_wstate(pWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_QUIT, pWidget);
   
-  w = MAX(w, pWidget->size.w);
-  h = MAX(h, pWidget->size.h);
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
   count++;
   
   pStartMenu->pBeginWidgetList = pWidget;
 
   /* ------*/
 
-  w+=adj_size(30);
-  h+=adj_size(6);
-   
-  setup_vertical_widgets_position(1,
-    (Main.screen->w - pTheme->FR_Right->w - w) - adj_size(20),
-    (Main.screen->h - pTheme->FR_Bottom->h - (h * count)) - adj_size(20),
-    w, h, pWidget, pWindow->prev);
+  area.w += adj_size(30);
+  area.h += adj_size(6);
 
-  pWindow->size.x = (Main.screen->w - pTheme->FR_Right->w - w - pTheme->FR_Left->w) - adj_size(20);
-  pWindow->size.y = (Main.screen->h - pTheme->FR_Bottom->h - (h * count) - pTheme->FR_Top->h) - adj_size(20);
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
-  
+  h = area.h;
+  area.h *= count;
+
+  /* ------*/
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h;
+
+  group_set_area(pWidget, pWindow->prev, area);
+
+  setup_vertical_widgets_position(1, area.x, area.y, area.w, h, pWidget, pWindow->prev);
+
+  widget_set_position(pWindow,
+    (pWindow->area.w - pTheme->FR_Right->w - area.w - pTheme->FR_Left->w) - adj_size(20),
+    (pWindow->area.h - pTheme->FR_Bottom->h - area.h - pTheme->FR_Top->h) - adj_size(20));
+
   draw_intro_gfx();
   
-  pLogo = theme_get_background(theme, BACKGROUND_STARTMENU);
-  SDL_FillRectAlpha(pLogo, NULL, &bg_color);
+  pBackground = theme_get_background(theme, BACKGROUND_STARTMENU);
+  SDL_FillRectAlpha(pBackground, NULL, &bg_color);
   
-  if (resize_window(pWindow, pLogo, NULL,
-        pTheme->FR_Left->w + w + pTheme->FR_Right->w,
-        pTheme->FR_Top->h + (h * count) + pTheme->FR_Bottom->h)) {
-    FREESURFACE(pLogo);
+  if (resize_window(pWindow, pBackground, NULL,
+        pTheme->FR_Left->w + area.w + pTheme->FR_Right->w,
+        pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h)) {
+    FREESURFACE(pBackground);
   }
 
   redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
@@ -296,13 +304,16 @@ static void popdown_start_menu()
 **************************************************************************/
 void set_client_page(enum client_pages page)
 {
-
+freelog(LOG_NORMAL, "set_client_page(): %d", page);
   switch (old_page) {
     case PAGE_MAIN:
       popdown_start_menu();
       break;
     case PAGE_GAME:
       disable_main_widgets();
+      popdown_minimap_window();
+      popdown_unitinfo_window();
+      SDL_Client_Flags &= ~CF_MAP_UNIT_W_CREATED;
       break;
     default: 
       break;
@@ -312,6 +323,10 @@ void set_client_page(enum client_pages page)
     case PAGE_MAIN:
       show_main_page();
       break;
+    case PAGE_START:
+      popup_minimap_window();
+      popup_unitinfo_window();
+      SDL_Client_Flags |= CF_MAP_UNIT_W_CREATED;
     case PAGE_GAME:
       enable_main_widgets();
     default:

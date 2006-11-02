@@ -89,16 +89,78 @@ struct gui_layer *get_gui_layer(SDL_Surface *surface)
   return NULL;
 }
 
-void fix_rect(SDL_Surface *dest_surf, SDL_Rect *dest_rect)
+/**************************************************************************
+  Buffer allocation function.
+  This function is call by "create_window(...)" function and allocate 
+  buffer layer for this function.
+
+  Pointer for this buffer is put in buffer array on last position that 
+  flush functions will draw this layer last.
+**************************************************************************/
+struct gui_layer *add_gui_layer(int width, int height)
+{
+  struct gui_layer *gui_layer = NULL;
+  SDL_Surface *pBuffer;
+
+  pBuffer = create_surf_alpha(/*Main.screen->w*/width, /*Main.screen->h*/height, SDL_SWSURFACE);
+  gui_layer = gui_layer_new(0, 0, pBuffer);
+  
+  /* add to buffers array */
+  if (Main.guis) {
+    int i;
+    /* find NULL element */
+    for(i = 0; i < Main.guis_count; i++) {
+      if(!Main.guis[i]) {
+        Main.guis[i] = gui_layer;
+	return gui_layer;
+      }
+    }
+    Main.guis_count++;
+    Main.guis = fc_realloc(Main.guis, Main.guis_count * sizeof(struct gui_layer *));
+    Main.guis[Main.guis_count - 1] = gui_layer;
+  } else {
+    Main.guis = fc_calloc(1, sizeof(struct gui_layer *));
+    Main.guis[0] = gui_layer;
+    Main.guis_count = 1;
+  }
+  
+  return gui_layer;
+}
+
+/**************************************************************************
+  Free buffer layer ( call by popdown_window_group_dialog(...) funct )
+  Funct. free buffer layer and cleare buffer array entry.
+**************************************************************************/
+void remove_gui_layer(struct gui_layer *gui_layer)
+{
+  int i;
+  
+  for(i = 0; i < Main.guis_count - 1; i++) {
+    if(Main.guis[i] && (Main.guis[i]== gui_layer)) {
+      gui_layer_destroy(&Main.guis[i]);
+      Main.guis[i] = Main.guis[i + 1];
+      Main.guis[i + 1] = NULL;
+    } else {
+      if(!Main.guis[i]) {
+	Main.guis[i] = Main.guis[i + 1];
+        Main.guis[i + 1] = NULL;
+      }
+    }
+  }
+
+  if (Main.guis[Main.guis_count - 1]) {
+    gui_layer_destroy(&Main.guis[Main.guis_count - 1]);
+  }
+}
+
+void screen_rect_to_layer_rect(SDL_Surface *layer_surface, SDL_Rect *dest_rect)
 {
   struct gui_layer *gui_layer;
 
-  if (dest_surf != Main.gui) {
-    gui_layer = get_gui_layer(dest_surf);
-    if (gui_layer) {
-      dest_rect->x = dest_rect->x - gui_layer->dest_rect.x;
-      dest_rect->y = dest_rect->y - gui_layer->dest_rect.y;
-    }
+  gui_layer = get_gui_layer(layer_surface);
+  if (gui_layer) {
+    dest_rect->x = dest_rect->x - gui_layer->dest_rect.x;
+    dest_rect->y = dest_rect->y - gui_layer->dest_rect.y;
   }
 }
 
@@ -959,7 +1021,7 @@ void init_sdl(int iFlags)
 void quit_sdl(void)
 {
   FC_FREE(Main.guis);
-  FREESURFACE(Main.gui);
+  gui_layer_destroy(&Main.gui);
   FREESURFACE(Main.map);
 }
 
@@ -968,7 +1030,6 @@ void quit_sdl(void)
 **************************************************************************/
 int set_video_mode(int iWidth, int iHeight, int iFlags)
 {
-
   /* find best bpp */
   int iDepth = SDL_GetVideoInfo()->vfmt->BitsPerPixel;
 
@@ -1007,10 +1068,14 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   FREESURFACE(Main.map);
   Main.map = SDL_DisplayFormat(Main.screen);
   
-  FREESURFACE(Main.gui);
-  Main.gui = SDL_DisplayFormatAlpha(Main.screen);
+  if (Main.gui) {
+    FREESURFACE(Main.gui->surface);
+    Main.gui->surface = create_surf_alpha(Main.screen->w, Main.screen->h, SDL_SWSURFACE);
+  } else {
+    Main.gui = add_gui_layer(Main.screen->w, Main.screen->h);
+  }
   
-  clear_surface(Main.gui, NULL);
+  clear_surface(Main.gui->surface, NULL);
  
   return 0;
 }

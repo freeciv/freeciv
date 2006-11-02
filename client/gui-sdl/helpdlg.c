@@ -153,14 +153,14 @@ static void redraw_impr_info_dlg(void)
   dst.y = pStore->pDock->prev->size.y - adj_size(10);
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10);
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
-  fix_rect(pWindow->dst, &dst);
-  SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
-  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+
+  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
+    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 
@@ -413,9 +413,10 @@ void popup_impr_info(Impr_type_id impr)
   {
     w = adj_size(640);
     h = adj_size(480);
-    pWindow->size.x = (Main.screen->w - w) / 2;
-    pWindow->size.y = (Main.screen->h - h) / 2;
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);    
+
+    widget_set_position(pWindow,
+                        (Main.screen->w - w) / 2,
+                        (Main.screen->h - h) / 2);
     
     /* alloca window theme and win background buffer */
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
@@ -519,14 +520,14 @@ static void redraw_unit_info_dlg(void)
   dst.y = pStore->pDock->prev->size.y - adj_size(10);
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
-  fix_rect(pWindow->dst, &dst);
-  SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
-  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+
+  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
+    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 
@@ -806,9 +807,10 @@ void popup_unit_info(Unit_type_id type_id)
   {
     w = adj_size(640);
     h = adj_size(480);
-    pWindow->size.x = (Main.screen->w - w) / 2;
-    pWindow->size.y = (Main.screen->h - h) / 2;
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
+    widget_set_position(pWindow,
+                        (Main.screen->w - w) / 2,
+                        (Main.screen->h - h) / 2);
     
     /* alloca window theme and win background buffer */
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
@@ -921,10 +923,10 @@ static void redraw_tech_info_dlg(void)
   dst.y = pStore->pDock->prev->prev->size.y - adj_size(10);
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
-  fix_rect(pWindow->dst, &dst);
-  SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
-  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+
+  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
+    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
   
   /* -------------------------- */
   pStr = create_str16_from_char(_("Allows"), adj_font(14));
@@ -939,8 +941,8 @@ static void redraw_tech_info_dlg(void)
     dst.y = pStore->pDock->prev->prev->size.y 
 	      + pStore->pDock->prev->prev->size.h + adj_size(10);
   }
-  fix_rect(pWindow->dst, &dst);
-  alphablit(pText0, NULL, pWindow->dst, &dst);
+
+  alphablit(pText0, NULL, pWindow->dst->surface, &dst);
   FREESURFACE(pText0);
 
   if (pStore->pSub_Targets[0])
@@ -959,12 +961,12 @@ static void redraw_tech_info_dlg(void)
     {
       dst.x = pStore->pSub_Targets[i]->size.x - pText0->w;
       dst.y = pStore->pSub_Targets[i]->size.y;
-      fix_rect(pWindow->dst, &dst);
-      alphablit(pText0, NULL, pWindow->dst, &dst);
+
+      alphablit(pText0, NULL, pWindow->dst->surface, &dst);
       dst.x = pStore->pSub_Targets[i]->size.x + pStore->pSub_Targets[i]->size.w;
       dst.y = pStore->pSub_Targets[i]->size.y;
-      fix_rect(pWindow->dst, &dst);
-      alphablit(pText1, NULL, pWindow->dst, &dst);
+
+      alphablit(pText1, NULL, pWindow->dst->surface, &dst);
       i++;
     }
       
@@ -974,7 +976,7 @@ static void redraw_tech_info_dlg(void)
   FREESTRING16(pStr);
   
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 static struct widget * create_tech_info(Tech_type_id tech, int width, struct widget *pWindow, struct TECHS_BUTTONS *pStore)
@@ -989,16 +991,16 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   
   start_x = (pTheme->FR_Left->w + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
-  pBuf = create_icon2(pTheme->Tech_Tree_Icon, pWindow->dst,
-      		   WF_RESTORE_BACKGROUND);
-
+  /* tech tree icon */
+  pBuf = create_icon2(pTheme->Tech_Tree_Icon, pWindow->dst, WF_RESTORE_BACKGROUND);
+  
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = show_help_callback;
   pBuf->ID = MAX_ID - tech;
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  /* ----------------------------------- */
+  /* tech name (heading) */
   pBuf= create_iconlabel_from_chars(get_tech_icon(tech),
 		    pWindow->dst, advances[tech].name, adj_font(24), 0);
 
@@ -1006,11 +1008,12 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
+  /* target techs */
   targets_count = 0;
   for(i=A_FIRST; i<game.control.num_tech_types; i++)
   {
-    if ((targets_count<6)
-      && (advances[i].req[0] == tech || advances[i].req[1] == tech))
+    if ((targets_count < 6) &&
+        (advances[i].req[0] == tech || advances[i].req[1] == tech))
     {
       pBuf= create_iconlabel_from_chars(NULL, pWindow->dst, advances[i].name,
                                     adj_font(12), WF_RESTORE_BACKGROUND);
@@ -1024,16 +1027,15 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       pStore->pTargets[targets_count++] = pBuf;
     }
   }
-  if (targets_count<6)
-  {
+  if (targets_count < 6) {
     pStore->pTargets[targets_count] = NULL;
   }
   
   sub_targets_count = 0;
-  if (targets_count)
+  if (targets_count > 0)
   {
     int sub_tech;
-    for(i = 0; i < targets_count; i++)
+    for(i = 0; i < targets_count; i++) 
     {
       sub_tech = MAX_ID - pStore->pTargets[i]->ID;
       if (advances[sub_tech].req[0] == tech
@@ -1060,7 +1062,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       pStore->pSub_Targets[sub_targets_count++] = pBuf;
     }
   }
-  if (sub_targets_count<6)
+  if (sub_targets_count < 6)
   {
     pStore->pSub_Targets[sub_targets_count] = NULL;
   }
@@ -1068,10 +1070,11 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   /* fill array with iprvm. icons */
   pBudynki = pBuf;
   
+  /* target governments */
   gov_count = 0;
   government_iterate(gov) {
-    requirement_vector_iterate(&gov->reqs, preq) {
-      if ((preq->source.type == REQ_TECH) && preq->source.value.tech == tech) {
+    requirement_vector_iterate(&(gov->reqs), preq) {
+      if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
                   
         pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
                 pWindow->dst, gov->name, adj_font(14),
@@ -1084,42 +1087,15 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
         gov_count++;
       }
     } requirement_vector_iterate_end;		
-
-  /* TODO: check if code replacement above is correct */
-#if 0
-    int j;
-
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-
-      if ((gov->req[j].source.type == REQ_TECH) &&
-           (gov->req[j].source.value.tech == tech)) {
-        pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
-	      pWindow->dst, gov->name, 14,
-	      WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
-      set_wstate(pBuf, FC_WS_NORMAL);
-      pBuf->action = change_gov_callback;
-      pBuf->ID = MAX_ID - gov->index;
-      DownAdd(pBuf, pDock);
-      pDock = pBuf;
-      gov_count++;
-    }
-        
-    }        
-#endif
-	
   } government_iterate_end;
   
-  
+  /* target improvements */
   imp_count = 0;
   impr_type_iterate(imp) {
-
-    struct impr_type *pImpr = get_improvement_type(imp);
-
     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    requirement_vector_iterate(&pImpr->reqs, preq) {
-  
+    requirement_vector_iterate(&(get_improvement_type(imp)->reqs), preq) {
       if (preq->source.value.tech == tech) {
         pSurf = GET_SURF(get_building_sprite(tileset, imp));
         pBuf = create_iconlabel_from_chars(
@@ -1140,27 +1116,6 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       
       break;
     } requirement_vector_iterate_end;	
-	  
-    /* TODO: check if code replacement above is correct */
-#if 0
-    if (pImpr->req[0].source.value.tech == tech) {
-      pSurf = GET_SURF(get_building_sprite(tileset, imp));
-      pBuf = create_iconlabel_from_chars(
-              ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1),
-	      pWindow->dst, get_improvement_name(imp), 14,
-	      WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
-      set_wstate(pBuf, FC_WS_NORMAL);
-      if (is_wonder(imp))
-      {
-	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_LUX);
-      }
-      pBuf->action = change_impr_callback;
-      pBuf->ID = MAX_ID - imp;
-      DownAdd(pBuf, pDock);
-      pDock = pBuf;
-      imp_count++;
-    }
-#endif	
   } impr_type_iterate_end;
   
   unit_count = 0;
@@ -1318,7 +1273,7 @@ static void redraw_tech_tree_dlg(void)
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
   struct widget *pTech = pStore->pDock->prev;
   int i,j, tech, count, step, mod;
-  SDL_Rect dst, dst_store, dst_tech, dst_sub0, dst_sub1;
+  SDL_Rect dst;
   SDL_Surface *pSurf;
   
   /* Redraw Window with exit button */ 
@@ -1328,12 +1283,11 @@ static void redraw_tech_tree_dlg(void)
                                                             adj_size(420), 1);
   SDL_SetAlpha(pSurf, SDL_SRCALPHA, 164);
   dst.x = pWindow->size.x + pWindow->size.w - pSurf->w - adj_size(50);
-  dst.y = pWindow->size.y + (pWindow->size.h - pSurf->h) / 2;;
-  fix_rect(pWindow->dst, &dst);
-  alphablit(pSurf, NULL, pWindow->dst, &dst);
+  dst.y = pWindow->size.y + (pWindow->size.h - pSurf->h) / 2;
+
+  alphablit(pSurf, NULL, pWindow->dst->surface, &dst);
   FREESURFACE(pSurf);
-  
-  
+
   /* Draw Req arrows */
   i = 0;
   while(i < 4 && pStore->pSub_Req[i])
@@ -1390,65 +1344,56 @@ static void redraw_tech_tree_dlg(void)
         }
       }
     }
-    
+
     /* draw main Arrow */
-    dst_store = pStore->pReq[i]->size;
-    dst_tech = pTech->size;
-    dst_sub0 = pSub0->size;
-    dst_sub1 = pSub1->size;
-    fix_rect(pStore->pReq[i]->dst, &dst_store);
-    fix_rect(pTech->dst, &dst_tech);
-    fix_rect(pSub0->dst, &dst_sub0);
-    fix_rect(pSub1->dst, &dst_sub1);
-    
-    putline(pStore->pReq[i]->dst,
-        dst_store.x + pStore->pReq[i]->size.w,
-        dst_store.y + pStore->pReq[i]->size.h / 2,
-        dst_tech.x,
-        dst_store.y + pStore->pReq[i]->size.h / 2,
-        map_rgba(pStore->pReq[i]->dst->format, line_color));
+    putline(pStore->pReq[i]->dst->surface,
+        pStore->pReq[i]->size.x + pStore->pReq[i]->size.w,
+        pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
+        pTech->size.x,
+        pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
+        map_rgba(pStore->pReq[i]->dst->surface->format, line_color));
     
     /* Draw Sub_Req arrows */
     if (pSub0 || pSub1)
     {
-      putline(pStore->pReq[i]->dst,
-        dst_store.x - adj_size(10),
-        dst_store.y + pStore->pReq[i]->size.h / 2,
-        dst_store.x ,
-        dst_store.y + pStore->pReq[i]->size.h / 2,
-        map_rgba(pStore->pReq[i]->dst->format, line_color));
+      putline(pStore->pReq[i]->dst->surface,
+        pStore->pReq[i]->size.x - adj_size(10),
+        pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
+        pStore->pReq[i]->size.x ,
+        pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
+        map_rgba(pStore->pReq[i]->dst->surface->format, line_color));
     }
     
     if(pSub0)
     {
-      putline(pStore->pReq[i]->dst,
-        dst_store.x - adj_size(10),
-        dst_sub0.y + pSub0->size.h / 2,
-        dst_store.x - adj_size(10),
-        dst_store.y + pStore->pReq[i]->size.h / 2,
-        map_rgba(pStore->pReq[i]->dst->format, line_color));
-      putline(pStore->pReq[i]->dst,
-        dst_sub0.x + pSub0->size.w,
-        dst_sub0.y + pSub0->size.h / 2,
-        dst_store.x - adj_size(10),
-        dst_sub0.y + pSub0->size.h / 2,
-        map_rgba(pStore->pReq[i]->dst->format, line_color));
+      putline(pStore->pReq[i]->dst->surface,
+        pStore->pReq[i]->size.x - adj_size(10),
+        pSub0->size.y + pSub0->size.h / 2,
+        pStore->pReq[i]->size.x - adj_size(10),
+        pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
+        map_rgba(pStore->pReq[i]->dst->surface->format, line_color));
+      putline(pStore->pReq[i]->dst->surface,
+        pSub0->size.x + pSub0->size.w,
+        pSub0->size.y + pSub0->size.h / 2,
+        pStore->pReq[i]->size.x - adj_size(10),
+        pSub0->size.y + pSub0->size.h / 2,
+        map_rgba(pStore->pReq[i]->dst->surface->format, line_color));
     }
     
     if(pSub1)
     {
-      putline(pStore->pReq[i]->dst,
-        dst_store.x - adj_size(10),
-        dst_sub1.y + pSub1->size.h / 2,
-        dst_store.x - adj_size(10),
-        dst_store.y + pStore->pReq[i]->size.h / 2,
-        map_rgba(pStore->pReq[i]->dst->format, line_color));
-      putline(pStore->pReq[i]->dst,
-        dst_sub1.x + pSub1->size.w,
-        dst_sub1.y + pSub1->size.h / 2,
-        dst_store.x - adj_size(10),
-        dst_sub1.y + pSub1->size.h / 2,
-        map_rgba(pStore->pReq[i]->dst->format, line_color));
+      putline(pStore->pReq[i]->dst->surface,
+        pStore->pReq[i]->size.x - adj_size(10),
+        pSub1->size.y + pSub1->size.h / 2,
+        pStore->pReq[i]->size.x - adj_size(10),
+        pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
+        map_rgba(pStore->pReq[i]->dst->surface->format, line_color));
+      putline(pStore->pReq[i]->dst->surface,
+        pSub1->size.x + pSub1->size.w,
+        pSub1->size.y + pSub1->size.h / 2,
+        pStore->pReq[i]->size.x - adj_size(10),
+        pSub1->size.y + pSub1->size.h / 2,
+        map_rgba(pStore->pReq[i]->dst->surface->format, line_color));
     }
     i++;
   }
@@ -1484,8 +1429,7 @@ static void redraw_tech_tree_dlg(void)
         line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
       break;
     }
-    
-    
+
     /*find Sub_Req's */
     if (advances[tech].req[0] == MAX_ID - pTech->ID)
     {
@@ -1516,76 +1460,70 @@ static void redraw_tech_tree_dlg(void)
         }
       }
     }
-    
+
     /* Draw Sub_Targets arrows */
     if (pSub0 || pSub1)
     {
-      dst_store = pStore->pTargets[i]->size;
-      fix_rect(pStore->pTargets[i]->dst, &dst_store);
-      putline(pStore->pTargets[i]->dst,
-        dst_store.x - ((i % mod) + 1) * 6,
-        dst_store.y + pStore->pTargets[i]->size.h / 2,
-        dst_store.x ,
-        dst_store.y + pStore->pTargets[i]->size.h / 2,
-        map_rgba(pStore->pTargets[i]->dst->format, line_color));
+      putline(pStore->pTargets[i]->dst->surface,
+        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+        pStore->pTargets[i]->size.x ,
+        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
     }
-    
+
     if(pSub0)
     {
-      dst_store = pStore->pTargets[i]->size;
-      dst_sub0 = pSub0->size;
+      int y;
       if (pSub0 == pTech)
       {
-	dst_sub0.y = pSub0->size.y + step * (i + 1);
+	y = pSub0->size.y + step * (i + 1);
       } else {
-	dst_sub0.y = pSub0->size.y + pSub0->size.h / 2;
+	y = pSub0->size.y + pSub0->size.h / 2;
       }
       
-      fix_rect(pSub0->dst, &dst_sub0);
-
-      putline(pStore->pTargets[i]->dst,
-        dst_store.x - ((i % mod) + 1) * 6,
-        dst_sub0.y,
-        dst_store.x - ((i % mod) + 1) * 6,
-        dst_store.y + pStore->pTargets[i]->size.h / 2,
-        map_rgba(pStore->pTargets[i]->dst->format, line_color));
-      putline(pStore->pTargets[i]->dst,
-        dst_sub0.x + pSub0->size.w,
-        dst_sub0.y,
-        dst_store.x - ((i % mod) + 1) * 6,
-        dst_sub0.y,
-        map_rgba(pStore->pTargets[i]->dst->format, line_color));
+      putline(pStore->pTargets[i]->dst->surface,
+        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+        y,
+        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
+      putline(pStore->pTargets[i]->dst->surface,
+        pSub0->size.x + pSub0->size.w,
+        y,
+        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+        y,
+        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
     }
-    
+
     if(pSub1)
     {
-      dst_store = pStore->pTargets[i]->size;
-      dst_sub1 = pSub1->size;
+      int y;
       if (pSub1 == pTech)
       {
-	dst_sub1.y = pSub1->size.y + step * (i + 1);
+	y = pSub1->size.y + step * (i + 1);
       } else {
-	dst_sub1.y = pSub1->size.y + pSub1->size.h / 2;
+	y = pSub1->size.y + pSub1->size.h / 2;
       }
-      putline(pStore->pTargets[i]->dst,
-        dst_store.x - ((i % mod) + 1) * 6,
-        dst_sub1.y,
-        dst_store.x - ((i % mod) + 1) * 6,
-        dst_store.y + pStore->pTargets[i]->size.h / 2,
-        map_rgba(pStore->pTargets[i]->dst->format, line_color));
-      putline(pStore->pTargets[i]->dst,
-        dst_sub1.x + pSub1->size.w,
-        dst_sub1.y,
-        dst_store.x - ((i % mod) + 1) * 6,
-        dst_sub1.y,
-        map_rgba(pStore->pTargets[i]->dst->format, line_color));
+      putline(pStore->pTargets[i]->dst->surface,
+        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+        y,
+        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+        pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
+        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
+      putline(pStore->pTargets[i]->dst->surface,
+        pSub1->size.x + pSub1->size.w,
+        y,
+        pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+        y,
+        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
     }
   }
-  
+
   /* Redraw rest */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
   
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pWidget)
@@ -1616,7 +1554,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
     
   pStr = create_string16(NULL, 0, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
-  
+
   copy_chars_to_string16(pStr, advances[tech].name);
   pSurf = create_sellect_tech_icon(pStr, tech, FULL_MODE);
   pBuf = create_icon2(pSurf, pWindow->dst,
@@ -1763,7 +1701,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
 
   pTech->size.x = pWindow->size.x + w;
   pTech->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + (pWindow->size.h - pTech->size.h - WINDOW_TITLE_HEIGHT) / 2;
-    
+
   if(req_count)
   {
     h = (req_count == 1 ? pStore->pReq[0]->size.h : 
@@ -2021,9 +1959,10 @@ void popup_tech_info(Tech_type_id tech)
   {
     w = adj_size(640);
     h = adj_size(480);
-    pWindow->size.x = (Main.screen->w - w) / 2;
-    pWindow->size.y = (Main.screen->h - h) / 2;
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
+    widget_set_position(pWindow,
+                        (Main.screen->w - w) / 2,
+                        (Main.screen->h - h) / 2);
     
     /* alloca window theme and win background buffer */
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);

@@ -39,7 +39,7 @@
 
   function return pointer to allocated Button Widget.
 **************************************************************************/
-struct widget * create_icon_button(SDL_Surface *pIcon, SDL_Surface *pDest,
+struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
 			  SDL_String16 *pStr, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
@@ -115,7 +115,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, SDL_Surface *pDest,
   function return pointer to allocated Button Widget.
 **************************************************************************/
 struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
-		SDL_Surface *pDest, SDL_String16 *pString16, Uint32 flags)
+		struct gui_layer *pDest, SDL_String16 *pString16, Uint32 flags)
 {
   SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
   struct widget *pButton = create_icon_button(pIcon, pDest, pString16, flags);
@@ -223,10 +223,8 @@ int real_redraw_ibutton(struct widget *pIButton)
   pButton = create_bcgnd_surf(pIButton->theme, get_wstate(pIButton),
 			      pIButton->size.w, pIButton->size.h);
 
-  dest = pIButton->size;
-  fix_rect(pIButton->dst, &dest);  
-  clear_surface(pIButton->dst, &dest);
-  alphablit(pButton, NULL, pIButton->dst, &dest);
+  clear_surface(pIButton->dst->surface, &pIButton->size);
+  alphablit(pButton, NULL, pIButton->dst->surface, &pIButton->size);
   FREESURFACE(pButton);
 
   if (pIcon) {			/* Icon */
@@ -267,8 +265,8 @@ int real_redraw_ibutton(struct widget *pIButton)
 
     dest.x = pIButton->size.x + Ix;
     dest.y = pIButton->size.y + Iy;
-    fix_rect(pIButton->dst, &dest);
-    ret = alphablit(pIcon, NULL, pIButton->dst, &dest);
+
+    ret = alphablit(pIcon, NULL, pIButton->dst->surface, &dest);
     if (ret) {
       FREESURFACE(pText);
       return ret - 10;
@@ -338,8 +336,8 @@ int real_redraw_ibutton(struct widget *pIButton)
 
     dest.x = pIButton->size.x + x;
     dest.y = pIButton->size.y + y;
-    fix_rect(pIButton->dst, &dest);
-    ret = alphablit(pText, NULL, pIButton->dst, &dest);
+
+    ret = alphablit(pText, NULL, pIButton->dst->surface, &dest);
   }
 
   FREESURFACE(pText);

@@ -219,7 +219,7 @@ static Uint16 redraw_order_widgets(void)
 
       refresh_widget_background(pTmpWidget);
       real_redraw_icon(pTmpWidget);
-      sdl_dirty_rect(pTmpWidget->size);
+      widget_mark_dirty(pTmpWidget);
       count++;
     }
 
@@ -233,20 +233,6 @@ static Uint16 redraw_order_widgets(void)
   return count;
 }
 
-
-void set_new_order_widgets_dest_buffers(void)
-{
-  struct widget *pTmpWidget = pBeginOrderWidgetList;
-  if(!pEndOrderWidgetList) return;
-  while (pTmpWidget) {
-    pTmpWidget->dst = Main.gui;
-    if (pTmpWidget == pEndOrderWidgetList) {
-      break;
-    }
-    pTmpWidget = pTmpWidget->next;
-  }
-}
-
 /**************************************************************************
   ...
 **************************************************************************/
@@ -258,17 +244,17 @@ static void set_new_order_widget_start_pos(void)
   Sint16 sx, sy, xx, yy = 0;
   int count = 0, lines = 1, w = 0, count_on_line;
   
-  xx = pMiniMap->size.x + pMiniMap->size.w + adj_size(10);
-  w = (pInfoWind->size.x - adj_size(10)) - xx;
+  xx = pMiniMap->dst->dest_rect.x + pMiniMap->size.w + adj_size(10);
+  w = (pInfoWind->dst->dest_rect.x - adj_size(10)) - xx;
   
   if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
     if(pMiniMap->size.h == pInfoWind->size.h) {
       xx = 0;
-      w = Main.gui->w;
+      w = Main.screen->w;
       yy = pInfoWind->size.h;
     } else {
       if (pMiniMap->size.h > pInfoWind->size.h) {
-        w = Main.gui->w - xx - adj_size(20);
+        w = Main.screen->w - xx - adj_size(20);
         if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
 	  xx = 0;
 	  w = pMiniMap->size.w;
@@ -277,9 +263,9 @@ static void set_new_order_widget_start_pos(void)
           yy = pInfoWind->size.h;
         }
       } else {
-	w = pInfoWind->size.x - adj_size(20);
+	w = pInfoWind->dst->dest_rect.x - adj_size(20);
         if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
-	  xx = pInfoWind->size.x;
+	  xx = pInfoWind->dst->dest_rect.x;
 	  w = pInfoWind->size.w;
 	  yy = pInfoWind->size.h;
         } else {
@@ -319,7 +305,7 @@ static void set_new_order_widget_start_pos(void)
 
   sx = xx + (w - count * (pTmpWidget->size.w + adj_size(5))) / 2;
 
-  sy = pTmpWidget->dst->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
+  sy = pTmpWidget->dst->surface->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
 
   while (TRUE) {
 
@@ -336,7 +322,7 @@ static void set_new_order_widget_start_pos(void)
 
 	sx = xx + (w - count * (pTmpWidget->size.w + adj_size(5))) / 2;
 
-	sy = pTmpWidget->dst->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
+	sy = pTmpWidget->dst->surface->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
       }
 
     }
@@ -814,22 +800,12 @@ void update_order_widget(void)
 void undraw_order_widgets(void)
 {
   struct widget *pTmpWidget = pBeginOrderWidgetList;
-  SDL_Rect dest;
 
   while (TRUE) {
 
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN) && (pTmpWidget->gfx)) {
-
-      dest.x = pTmpWidget->size.x;
-      dest.y = pTmpWidget->size.y;
-      dest.w = pTmpWidget->size.w;
-      dest.h = pTmpWidget->size.h;
-      fix_rect(pTmpWidget->dst, &dest);
-      clear_surface(pTmpWidget->dst, &dest);
-      alphablit(pTmpWidget->gfx, NULL, pTmpWidget->dst, &dest);
-      
-      sdl_dirty_rect(pTmpWidget->size);
-
+      widget_undraw(pTmpWidget);
+      widget_mark_dirty(pTmpWidget);
     }
 
     if (pTmpWidget == pEndOrderWidgetList) {
@@ -897,7 +873,7 @@ void update_menus(void)
       
       /* ------------------------------------ */
       /* mini map window */
-      pWidget = pWidget->prev;
+      pWidget = get_minimap_window_widget();
       
       /* new turn button */
       pWidget = pWidget->prev;
@@ -940,7 +916,7 @@ void update_menus(void)
           
       clear_wflag(pOptions_Button, WF_HIDDEN);
       real_redraw_icon(pOptions_Button);
-      sdl_dirty_rect(pOptions_Button->size);
+      widget_mark_dirty(pOptions_Button);
 	
       /* economy button */
       pWidget = pWidget->prev;
@@ -964,7 +940,7 @@ void update_menus(void)
       
       /* ------------------------------------ */
       /* mini map window */
-      pWidget = pWidget->prev;
+      pWidget = get_minimap_window_widget();
       
       /* new turn button */
       pWidget = pWidget->prev;
@@ -1022,7 +998,7 @@ void update_menus(void)
 
       clear_wflag(pOptions_Button, WF_HIDDEN);
       real_redraw_icon(pOptions_Button);
-      sdl_dirty_rect(pOptions_Button->size);
+      widget_mark_dirty(pOptions_Button);
       
       /* economy button */
       pWidget = pWidget->prev;
@@ -1042,7 +1018,7 @@ void update_menus(void)
       
       /* ------------------------------------ */
       /* mini map window */
-      pWidget = pWidget->prev;
+      pWidget = get_minimap_window_widget();
       
       /* new turn button */
       pWidget = pWidget->prev;
@@ -1058,19 +1034,19 @@ void update_menus(void)
       
       /* units button */
       pWidget = pWidget->prev;
-      if (pWidget->size.y < pWidget->dst->h - pWidget->size.h * 2) {
+      if (pWidget->size.y < pWidget->dst->surface->h - pWidget->size.h * 2) {
         clear_wflag(pWidget, WF_HIDDEN);
       }
       
       /* show/hide log window button */
       pWidget = pWidget->prev;
-      if (pWidget->size.y < pWidget->dst->h - pWidget->size.h * 2) {
+      if (pWidget->size.y < pWidget->dst->surface->h - pWidget->size.h * 2) {
         clear_wflag(pWidget, WF_HIDDEN);
       }
       
       /* toggle minimap mode button */
       pWidget = pWidget->prev;
-      if (pWidget->size.y < pWidget->dst->h - pWidget->size.h * 2) {
+      if (pWidget->size.y < pWidget->dst->surface->h - pWidget->size.h * 2) {
         clear_wflag(pWidget, WF_HIDDEN);
       }
       

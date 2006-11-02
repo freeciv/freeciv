@@ -28,7 +28,7 @@
 /**************************************************************************
   ...
 **************************************************************************/
-struct widget *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags)
+struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags)
 {
   struct widget *pCBox = fc_calloc(1, sizeof(struct widget));
   struct CHECKBOX *pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
@@ -58,7 +58,7 @@ struct widget *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags)
 /**************************************************************************
   ...
 **************************************************************************/
-struct widget * create_textcheckbox(SDL_Surface *pDest, bool state,
+struct widget * create_textcheckbox(struct gui_layer *pDest, bool state,
 		  SDL_String16 *pStr, Uint32 flags)
 {
   struct widget *pCBox;
@@ -140,7 +140,6 @@ int redraw_textcheckbox(struct widget *pCBox)
 {
   int ret;
   SDL_Surface *pTheme_Surface, *pIcon;
-  SDL_Rect dest;
 
   if(!pCBox->string16) {
     return redraw_icon(pCBox);
@@ -157,13 +156,10 @@ int redraw_textcheckbox(struct widget *pCBox)
 
   /* if label transparen then clear background under widget or save this background */
   if (get_wflags(pCBox) & WF_RESTORE_BACKGROUND) {
-    dest = pCBox->size;
-    fix_rect(pCBox->dst, &dest);
     if (pCBox->gfx) {
-      clear_surface(pCBox->dst, &dest);
-      blit_entire_src(pCBox->gfx, pCBox->dst, dest.x, dest.y);
+      widget_undraw(pCBox);
     } else {
-      pCBox->gfx = crop_rect_from_surface(pCBox->dst, &dest);
+      pCBox->gfx = crop_rect_from_surface(pCBox->dst->surface, &pCBox->size);
     }
   }
 

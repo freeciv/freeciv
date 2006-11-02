@@ -100,38 +100,38 @@ void put_window_near_map_tile(struct widget *pWindow,
   		int window_width, int window_height, struct tile *ptile)
 {
   int canvas_x, canvas_y;
+  int window_x = 0, window_y = 0;
   
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     if (canvas_x + tileset_tile_width(tileset) + window_width >= Main.screen->w)
     {
       if (canvas_x - window_width < 0) {
-	pWindow->size.x = (Main.screen->w - window_width) / 2;
+	window_x = (Main.screen->w - window_width) / 2;
       } else {
-	pWindow->size.x = canvas_x - window_width;
+	window_x = canvas_x - window_width;
       }
     } else {
-      pWindow->size.x = canvas_x + tileset_tile_width(tileset);
+      window_x = canvas_x + tileset_tile_width(tileset);
     }
     
     canvas_y += (tileset_tile_height(tileset) - window_height) / 2;
     if (canvas_y + window_height >= Main.screen->h)
     {
-      pWindow->size.y = Main.screen->h - window_height - 1;
+      window_y = Main.screen->h - window_height - 1;
     } else {
       if (canvas_y < 0)
       {
-	pWindow->size.y = 0;
+	window_y = 0;
       } else {
-        pWindow->size.y = canvas_y;
+        window_y = canvas_y;
       }
     }
   } else {
-    pWindow->size.x = (Main.screen->w - window_width) / 2;
-    pWindow->size.y = (Main.screen->h - window_height) / 2;
+    window_x = (Main.screen->w - window_width) / 2;
+    window_y = (Main.screen->h - window_height) / 2;
   }
   
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y); 
-  
+  widget_set_position(pWindow, window_x, window_y);
 }
 
 
@@ -168,7 +168,7 @@ void popdown_all_game_dialogs(void)
   
   /* clear gui buffer */
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
-    SDL_FillRect(Main.gui, NULL, 0x0);
+    clear_surface(Main.gui->surface, NULL);
   }
 }
 
@@ -306,9 +306,10 @@ void popup_notify_dialog(const char *caption, const char *headline,
   if(pLines) {
     h += pLines->h + adj_size(10);
   }
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
   
   resize_window(pWindow, NULL,
   	get_game_colorRGB(COLOR_THEME_BACKGROUND), w, h);
@@ -336,7 +337,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
     
   /* redraw */
   redraw_group(pNotifyDlg->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /* =======================================================================*/
@@ -398,6 +399,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   SDL_String16 *pStr;
   SDL_Surface *pText;
   SDL_Rect dst;
+  int window_x = 0, window_y = 0;
   
   ut1 = pUnit->type;
   
@@ -488,14 +490,14 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   
   pUnit_Upgrade_Dlg->pBeginWidgetList = pBuf;
   if(city) {
-    pWindow->size.x = Main.event.motion.x;
-    pWindow->size.y = Main.event.motion.y;
+    window_x = Main.event.motion.x;
+    window_y = Main.event.motion.y;
   } else {
     put_window_near_map_tile(pWindow,
   		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh, pUnit->tile);
   }
-    
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
+  widget_set_position(pWindow, window_x, window_y);
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
@@ -531,7 +533,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   /* redraw */
   redraw_group(pUnit_Upgrade_Dlg->pBeginWidgetList, pWindow, 0);
     
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   flush_dirty();
   
 }
@@ -755,7 +757,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   /* redraw */
   redraw_group(pUnit_Select_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /* ====================================================================== */
@@ -885,7 +887,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   /* --------------------------------- */
   /* redraw */
   redraw_group(pTerrain_Info_Dlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   flush_dirty();
 }
 /* ====================================================================== */
@@ -1317,7 +1319,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
 #if 0 /* FIXME: specific connect buttons */
     if(unit_flag(pFocus_Unit, F_SETTLERS)) {
-      create_active_iconlabel(pBuf, pWindow->dst, pStr, _("Connect here"),
+      create_active_iconlabel(pBuf, pWindow->dst->surface, pStr, _("Connect here"),
 						    connect_here_callback);
       pBuf->data.cont = pCont;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -1577,10 +1579,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   w += (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   
   h += units_h;
+
+  widget_set_position(pWindow, pos_x, pos_y);
   
-  pWindow->size.x = pos_x;
-  pWindow->size.y = pos_y;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   resize_window(pWindow, NULL, NULL, w, h);
   
   w -= (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
@@ -1657,7 +1658,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   /* redraw */
   redraw_group(pAdvanced_Terrain_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /* ====================================================================== */
@@ -1810,7 +1811,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   /* redraw */
   redraw_group(pPillage_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /* ======================================================================= */
@@ -1996,9 +1997,9 @@ static void popup_government_dialog(void)
   max_h += 4;
 
   /* set window start positions */
-  pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
-  pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
   
   /* create window background */
   pLogo = theme_get_background(theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
@@ -2028,7 +2029,7 @@ static void popup_government_dialog(void)
   /* redraw */
   redraw_group(pGov_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /**************************************************************************
@@ -2103,9 +2104,9 @@ void popup_revolution_dialog(void)
   pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TITLE_HEIGHT + adj_size(25);
 
   /* set start positions */
-  pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
-  pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
   
   pOK_Button->size.x = pWindow->size.x + adj_size(10);
   pOK_Button->size.y = pWindow->size.y + pWindow->size.h -
@@ -2128,7 +2129,7 @@ void popup_revolution_dialog(void)
   
   /* redraw */
   redraw_group(pOK_Button, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   flush_dirty();
 }
 
@@ -2166,7 +2167,7 @@ static int nations_dialog_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if(sellect_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size, FALSE);
+      widget_flush(pWindow);
     }      
   }
   return -1;
@@ -2187,7 +2188,7 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
       pSellected_Widget = pStart_Button;
       set_wstate(pStart_Button, FC_WS_SELLECTED);
       redraw_tibutton(pStart_Button);
-      flush_rect(pStart_Button->size, FALSE);
+      widget_flush(pStart_Button);
       return (-1);
     }
   
@@ -2222,7 +2223,7 @@ static int change_sex_callback(struct widget *pSex)
       set_wstate(pSex, FC_WS_SELLECTED);
   
       redraw_ibutton(pSex);
-      flush_rect(pSex->size, FALSE);
+      widget_flush(pSex);
     }
   }
   return -1;
@@ -2276,7 +2277,7 @@ static int next_name_callback(struct widget *pNext)
                   pSetup->pName_Next->size.w, pSetup->pName_Edit->size.h);
     
     redraw_ibutton(pSetup->pChange_Sex);
-    sdl_dirty_rect(pSetup->pChange_Sex->size);
+    widget_mark_dirty(pSetup->pChange_Sex);
     
     flush_dirty();
   }
@@ -2331,7 +2332,7 @@ static int prev_name_callback(struct widget *pPrev)
                   pSetup->pName_Edit->size.h);
     
     redraw_ibutton(pSetup->pChange_Sex);
-    sdl_dirty_rect(pSetup->pChange_Sex->size);
+    widget_mark_dirty(pSetup->pChange_Sex);
     
     flush_dirty();
   }
@@ -2361,11 +2362,11 @@ static int city_style_callback(struct widget *pWidget)
                                               pSetup->nation_city_style);
     set_wstate(pGUI, FC_WS_NORMAL);
     redraw_icon2(pGUI);
-    sdl_dirty_rect(pGUI->size);
+    widget_mark_dirty(pGUI);
     
     set_wstate(pWidget, FC_WS_DISABLED);
     redraw_icon2(pWidget);
-    sdl_dirty_rect(pWidget->size);
+    widget_mark_dirty(pWidget);
     
     pSetup->nation_city_style = MAX_ID - 1000 - pWidget->ID;
     
@@ -2415,7 +2416,7 @@ static int nation_button_callback(struct widget *pNationButton)
         
       if (pSetup->nation == MAX_ID - pNationButton->ID) {
         redraw_widget(pNationButton);
-        flush_rect(pNationButton->size, FALSE);
+        widget_flush(pNationButton);
         return -1;
       }
     
@@ -2430,7 +2431,7 @@ static int nation_button_callback(struct widget *pNationButton)
       select_random_leader(pSetup->nation);
       
       redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-      flush_rect(pNationDlg->pEndWidgetList->size, FALSE);
+      widget_flush(pNationDlg->pEndWidgetList);
     } else {
       /* pop up legend info */
       int w = 0, h;
@@ -2441,7 +2442,7 @@ static int nation_button_callback(struct widget *pNationButton)
       struct nation_type *pNation = get_nation_by_idx(MAX_ID - pNationButton->ID);
         
       redraw_widget(pNationButton);
-      sdl_dirty_rect(pNationButton->size);
+      widget_mark_dirty(pNationButton);
     
       if (!pHelpDlg) {
       
@@ -2469,10 +2470,8 @@ static int nation_button_callback(struct widget *pNationButton)
         pWindow = pHelpDlg->pEndWidgetList;
         pCancel = pHelpDlg->pBeginWidgetList;
         /* undraw window */
-        area = pWindow->size;
-        fix_rect(pWindow->dst, &area);
-        blit_entire_src(pWindow->gfx, pWindow->dst, area.x, area.y);
-        sdl_dirty_rect(pWindow->size);
+        widget_undraw(pWindow);
+        widget_mark_dirty(pWindow);
       }
       
       if (pNation->legend && *(pNation->legend) != '\0') {
@@ -2495,10 +2494,10 @@ static int nation_button_callback(struct widget *pNationButton)
       w = MAX(w, pCancel->size.w + adj_size(20));
       h = WINDOW_TITLE_HEIGHT + adj_size(10) + pText2->h + adj_size(10) + pText->h
          + adj_size(10) + pCancel->size.h + adj_size(10) + pTheme->FR_Bottom->h;
-    
-      pWindow->size.x = (Main.screen->w - w) / 2;
-      pWindow->size.y = (Main.screen->h - h) / 2;
-      set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+      widget_set_position(pWindow,
+                          (Main.screen->w - w) / 2,
+                          (Main.screen->h - h) / 2);
       
       resize_window(pWindow, NULL,
           get_game_colorRGB(COLOR_THEME_BACKGROUND), w, h);
@@ -2519,7 +2518,7 @@ static int nation_button_callback(struct widget *pNationButton)
       /* redraw */
       redraw_group(pCancel, pWindow, 0);
   
-      sdl_dirty_rect(pWindow->size);
+      widget_mark_dirty(pWindow);
     
       flush_dirty();
   
@@ -2542,7 +2541,7 @@ static int leader_name_edit_callback(struct widget *pEdit)
       /* empty input -> restore previous content */
       copy_chars_to_string16(pEdit->string16, pLeaderName);
       redraw_edit(pEdit);
-      sdl_dirty_rect(pEdit->size);
+      widget_mark_dirty(pEdit);
       flush_dirty();
     }
   }  
@@ -2885,10 +2884,9 @@ void popup_races_dialog(struct player *pplayer)
   pNationDlg->pBeginWidgetList = pWidget;
   /* ---------------------------------------------------------- */
       
-  
-  pWindow->size.x = (Main.screen->w - adj_size(640)) / 2;
-  pWindow->size.y = (Main.screen->h - adj_size(480)) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  widget_set_position(pWindow,
+                      (Main.screen->w - adj_size(640)) / 2,
+                      (Main.screen->h - adj_size(480)) / 2);
 
   pMain_Bg = theme_get_background(theme, BACKGROUND_NATIONDLG);
   if(resize_window(pWindow, pMain_Bg, NULL, adj_size(640), adj_size(480))) {
@@ -2982,7 +2980,7 @@ void popup_races_dialog(struct player *pplayer)
   
   redraw_group(pNationDlg->pBeginWidgetList, pWindow, 0);
   
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /**************************************************************************
@@ -3050,5 +3048,5 @@ void races_toggles_set_sensitive()
     select_random_leader(pSetup->nation);
   }
   redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-  flush_rect(pNationDlg->pEndWidgetList->size, FALSE);
+  widget_flush(pNationDlg->pEndWidgetList);
 }

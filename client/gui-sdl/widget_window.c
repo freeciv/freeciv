@@ -17,6 +17,9 @@
 
 #include <SDL/SDL.h>
 
+/* utility */
+#include "log.h"
+
 /* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
@@ -55,14 +58,31 @@ struct MOVE {
 **************************************************************************/
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static void window_set_position(struct widget *pWindow, int x, int y)
+{
+  struct gui_layer *gui_layer;
+
+  pWindow->size.x = 0;
+  pWindow->size.y = 0;
+  
+  gui_layer = get_gui_layer(pWindow->dst->surface);
+  gui_layer->dest_rect.x = x;
+  gui_layer->dest_rect.y = y;
+}
+
+/**************************************************************************
   Allocate Widow Widget Structute.
   Text to titelbar is taken from 'pTitle'.
 **************************************************************************/
-struct widget * create_window(SDL_Surface *pDest, SDL_String16 *pTitle, 
+struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle, 
   			Uint16 w, Uint16 h, Uint32 flags)
 {
   struct widget *pWindow = fc_calloc(1, sizeof(struct widget));
 
+  pWindow->set_position = window_set_position;
+  
   pWindow->string16 = pTitle;
   set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME |
 				  WF_DRAW_FRAME_AROUND_WIDGET| flags);
@@ -72,7 +92,7 @@ struct widget * create_window(SDL_Surface *pDest, SDL_String16 *pTitle,
   if(pDest) {
     pWindow->dst = pDest;
   } else {
-    pWindow->dst = get_buffer_layer(w, h);
+    pWindow->dst = add_gui_layer(w, h);
   }
 
   if (pTitle) {
@@ -85,6 +105,8 @@ struct widget * create_window(SDL_Surface *pDest, SDL_String16 *pTitle,
   pWindow->size.w = w;
   pWindow->size.h = h;
 
+  widget_set_area(pWindow, (SDL_Rect){0, 0, Main.screen->w, Main.screen->h});
+  
   return pWindow;
 }
 
@@ -116,19 +138,16 @@ int resize_window(struct widget *pWindow,
 
   refresh_widget_background(pWindow);
 
-  /* allocate new buffer */
-  if (pWindow->dst != Main.gui) {
-    gui_layer = get_gui_layer(pWindow->dst);
-    FREESURFACE(gui_layer->surface);
-    gui_layer->surface = create_surf_alpha(/*Main.screen->w*/pWindow->size.w,
-                                           /*Main.screen->h*/pWindow->size.h,
-                                                               SDL_SWSURFACE);
-    /* assign new buffer to all widgets on this window */
-    pWidget = pWindow;
-    while(pWidget) {
-      pWidget->dst = gui_layer->surface;
-      pWidget = pWidget->prev;
-    }
+  gui_layer = get_gui_layer(pWindow->dst->surface);
+  FREESURFACE(gui_layer->surface);
+  gui_layer->surface = create_surf_alpha(/*Main.screen->w*/pWindow->size.w,
+                                         /*Main.screen->h*/pWindow->size.h,
+                                                             SDL_SWSURFACE);
+  /* assign new buffer to all widgets on this window */
+  pWidget = pWindow;
+  while(pWidget) {
+    pWidget->dst->surface = gui_layer->surface;
+    pWidget = pWidget->prev;
   }
 
   if (pWindow->theme != pBcgd) {
@@ -159,19 +178,6 @@ int resize_window(struct widget *pWindow,
   return 1;
 }
 
-void set_window_pos(struct widget *pWindow, int x, int y)
-{
-  struct gui_layer *gui_layer;
-  
-  pWindow->size.x = x;
-  pWindow->size.y = y;
-  
-  if (pWindow->dst != Main.gui) {
-    gui_layer = get_gui_layer(pWindow->dst);
-    gui_layer->dest_rect = pWindow->size;
-  }
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -183,14 +189,13 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData
     pMove->moved = TRUE;
   }
   
-  sdl_dirty_rect(pMove->pWindow->size);
+  widget_mark_dirty(pMove->pWindow);
   
-  pMove->pWindow->size.x += pMotionEvent->xrel;
-  pMove->pWindow->size.y += pMotionEvent->yrel;
-  set_window_pos(pMove->pWindow, pMove->pWindow->size.x,
-                                 pMove->pWindow->size.y);
+  widget_set_position(pMove->pWindow,
+                      pMove->pWindow->dst->dest_rect.x + pMove->pWindow->size.x + pMotionEvent->xrel,
+                      pMove->pWindow->dst->dest_rect.y + pMove->pWindow->size.y + pMotionEvent->yrel);
   
-  sdl_dirty_rect(pMove->pWindow->size);
+  widget_mark_dirty(pMove->pWindow);
   flush_dirty();
   
   return ID_ERROR;
@@ -239,35 +244,32 @@ int redraw_window(struct widget *pWindow)
   SDL_Surface *pTmp = NULL;
   SDL_Rect dst = pWindow->size;
 
-  fix_rect(pWindow->dst, &dst);
-
   /* Draw theme */
-  clear_surface(pWindow->dst, &dst);
-  alphablit(pWindow->theme, NULL, pWindow->dst, &dst);
+  clear_surface(pWindow->dst->surface, &dst);
+  alphablit(pWindow->theme, NULL, pWindow->dst->surface, &dst);
 
   /* window has title string == has title bar */
   if (pWindow->string16) {
     /* Draw Window's TitelBar */
     dst.h = WINDOW_TITLE_HEIGHT;
-    SDL_FillRectAlpha(pWindow->dst, &dst, &title_bg_color);
+    SDL_FillRectAlpha(pWindow->dst->surface, &dst, &title_bg_color);
     
     /* Draw Text on Window's TitelBar */
     pTmp = create_text_surf_from_str16(pWindow->string16);
     dst.x += 10;
     if(pTmp) {
       dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
-      alphablit(pTmp, NULL, pWindow->dst, &dst);
+      alphablit(pTmp, NULL, pWindow->dst->surface, &dst);
       FREESURFACE(pTmp);
     }
 
     dst = pWindow->size;    
-    fix_rect(pWindow->dst, &dst);
     
-    putline(pWindow->dst, dst.x + pTheme->FR_Left->w,
+    putline(pWindow->dst->surface, dst.x + pTheme->FR_Left->w,
 	  dst.y + WINDOW_TITLE_HEIGHT,
 	  dst.x + pWindow->size.w - pTheme->FR_Right->w,
 	  dst.y + WINDOW_TITLE_HEIGHT, 
-          map_rgba(pWindow->dst->format, 
+          map_rgba(pWindow->dst->surface->format, 
            *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
   }
   

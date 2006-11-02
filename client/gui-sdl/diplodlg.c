@@ -372,7 +372,7 @@ static int gold_callback(struct widget *pWidget)
     if(amount || !pWidget->string16->text) {
       copy_chars_to_string16(pWidget->string16, "0");
       redraw_widget(pWidget);
-      flush_rect(pWidget->size, FALSE);
+      widget_flush(pWidget);
     }
   }  
   return -1;
@@ -413,6 +413,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   char cBuf[128];
   struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
+  int window_x = 0, window_y = 0;
   
   enum diplstate_type type =
 		  pplayer_get_diplstate(pPlayer0, pPlayer1)->type;
@@ -738,13 +739,13 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   hh = Main.screen->h - adj_size(100);
   
   if(L_R) {
-    pWindow->size.x = pMainWindow->size.x + pMainWindow->size.w + adj_size(20);
+    window_x = pMainWindow->dst->dest_rect.x + pMainWindow->size.w + adj_size(20);
   } else {
-    pWindow->size.x = pMainWindow->size.x - adj_size(20) - ww;
+    window_x = pMainWindow->dst->dest_rect.x - adj_size(20) - ww;
   }
-  pWindow->size.y = (Main.screen->h - hh) / 2;
-
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  window_y = (Main.screen->h - hh) / 2;
+  
+  widget_set_position(pWindow, window_x, window_y);
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
@@ -901,10 +902,10 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     /* ============================================================= */
     ww = adj_size(250);
     hh = adj_size(300);
-    
-    pWindow->size.x = (Main.screen->w - ww) / 2;
-    pWindow->size.y = (Main.screen->h - hh) / 2;
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+    widget_set_position(pWindow,
+                        (Main.screen->w - ww) / 2,
+                        (Main.screen->h - hh) / 2);
 
     resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
@@ -946,13 +947,13 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     /* ============================================================= */
     /* redraw */
     redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
     
     redraw_group(pdialog->poffers->pBeginWidgetList, pdialog->poffers->pEndWidgetList, 0);
-    sdl_dirty_rect(pdialog->poffers->pEndWidgetList->size);
+    widget_mark_dirty(pdialog->poffers->pEndWidgetList);
     
     redraw_group(pdialog->pwants->pBeginWidgetList, pdialog->pwants->pEndWidgetList, 0);
-    sdl_dirty_rect(pdialog->pwants->pEndWidgetList->size);
+    widget_mark_dirty(pdialog->pwants->pEndWidgetList);
     
     flush_dirty();
   }
@@ -984,7 +985,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
   
   redraw_widget(pLabel);
-  flush_rect(pLabel->size, FALSE);
+  widget_flush(pLabel);
   
   /* updates other player's acceptance status */
   pLabel = pdialog->pdialog->pEndWidgetList->prev->prev;
@@ -1002,7 +1003,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   alphablit(pThm, &src, pLabel->theme, NULL);
   
   redraw_widget(pLabel);
-  flush_rect(pLabel->size, FALSE);
+  widget_flush(pLabel);
 }
 
 /****************************************************************
@@ -1056,10 +1057,10 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     /* redraw */
     if(redraw_all) {
       redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
-      sdl_dirty_rect(pWindow->size);
+      widget_mark_dirty(pWindow);
     } else {
       redraw_widget(pBuf);
-      sdl_dirty_rect(pBuf->size);
+      widget_mark_dirty(pBuf);
     }
     
   } clause_list_iterate_end;
@@ -1345,10 +1346,10 @@ static void popup_war_dialog(struct player *pPlayer)
   
   ww += (pTheme->FR_Left->w + pTheme->FR_Right->w);
   hh += pTheme->FR_Bottom->h + adj_size(5);
-  
-  pWindow->size.x = (Main.screen->w - ww) / 2;
-  pWindow->size.y = (Main.screen->h - hh) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - ww) / 2,
+                      (Main.screen->h - hh) / 2);
 
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
@@ -1377,7 +1378,7 @@ static void popup_war_dialog(struct player *pPlayer)
   /* ================================================== */
   /* redraw */
   redraw_group(pSDip_Dlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   flush_dirty();
 }
 
@@ -1532,10 +1533,10 @@ void popup_diplomacy_dialog(struct player *pPlayer)
   
     ww += (pTheme->FR_Left->w + pTheme->FR_Right->w);
     hh += pTheme->FR_Bottom->h + adj_size(5);
-   
-    pWindow->size.x = (Main.screen->w - ww) / 2;
-    pWindow->size.y = (Main.screen->h - hh) / 2;
-    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
+    widget_set_position(pWindow,
+                        (Main.screen->w - ww) / 2,
+                        (Main.screen->h - hh) / 2);
     
     resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
@@ -1598,7 +1599,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     /* ================================================== */
     /* redraw */
     redraw_group(pSDip_Dlg->pBeginWidgetList, pWindow, 0);
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
   
     flush_dirty();
   }
