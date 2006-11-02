@@ -8,7 +8,7 @@ Name = Freeciv
 Version = @VERSION@
 
 [LaunchInfo]
-ExecutablePath = @prefix@/bin/civserver -z -q 180 -e
+ExecutablePath = @prefix@/bin/civserver -q 180 -e
 
 [Protocol]
 Engine = Freeciv
