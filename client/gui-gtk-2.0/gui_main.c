@@ -452,17 +452,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     return FALSE;
   }
 
-  if (ev->keyval == GDK_Page_Up) {
-    g_signal_emit_by_name(main_message_area, "move_cursor",
-			  GTK_MOVEMENT_PAGES, -1, FALSE);
-    return TRUE;
-  }
-  if (ev->keyval == GDK_Page_Down) {
-    g_signal_emit_by_name(main_message_area, "move_cursor",
-			  GTK_MOVEMENT_PAGES, 1, FALSE);
-    return TRUE;
-  }
-
   if (!client_is_observer()) { /* FIXME: is this check right? */
     if ((ev->state & GDK_SHIFT_MASK)) {
       switch (ev->keyval) {
@@ -490,6 +479,16 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	case GDK_KP_Enter:
 	  key_end_turn();
 	  return TRUE;
+
+        case GDK_Page_Up:
+          g_signal_emit_by_name(main_message_area, "move_cursor",
+			  GTK_MOVEMENT_PAGES, -1, FALSE);
+          return TRUE;
+
+        case GDK_Page_Down:
+          g_signal_emit_by_name(main_message_area, "move_cursor",
+			  GTK_MOVEMENT_PAGES, 1, FALSE);
+          return TRUE;
   
 	default:
 	  break;
@@ -498,20 +497,36 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 
     if (GTK_WIDGET_HAS_FOCUS(map_canvas)) {
       switch (ev->keyval) {
-	case GDK_Left:
-	  key_unit_move(DIR8_WEST);
-	  return TRUE;
+        case GDK_Up:
+          key_unit_move(DIR8_NORTH);
+          return TRUE;
 
-	case GDK_Right:
-	  key_unit_move(DIR8_EAST);
-	  return TRUE;
+        case GDK_Page_Up:
+          key_unit_move(DIR8_NORTHEAST);
+          return TRUE;
 
-	case GDK_Up:
-	  key_unit_move(DIR8_NORTH);
-	  return TRUE;
+        case GDK_Right:
+          key_unit_move(DIR8_EAST);
+          return TRUE;
 
-	case GDK_Down:
-	  key_unit_move(DIR8_SOUTH);
+        case GDK_Page_Down:
+          key_unit_move(DIR8_SOUTHEAST);
+          return TRUE;
+
+        case GDK_Down:
+          key_unit_move(DIR8_SOUTH);
+          return TRUE;
+
+        case GDK_End:
+          key_unit_move(DIR8_SOUTHWEST);
+          return TRUE;
+      
+        case GDK_Left:
+          key_unit_move(DIR8_WEST);
+          return TRUE;
+
+        case GDK_Home:		
+          key_unit_move(DIR8_NORTHWEST);
 	  return TRUE;
 
 	default:
