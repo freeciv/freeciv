@@ -12,6 +12,10 @@ AM_CPPFLAGS = \
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
+if MINGW32
+SERVERICON=../win32/servericon.o
+endif
+
 civserver_SOURCES = \
 		civserver.c	\
 		civserver.h
@@ -103,7 +107,7 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/liblua.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
-      $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD)
+      $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
 
 
