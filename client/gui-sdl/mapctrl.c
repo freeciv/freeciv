@@ -1183,7 +1183,7 @@ void set_new_mini_map_window_pos(void)
   area.x = pMiniMap_Window->size.w - pTheme->FR_Right->w - BLOCKM_W;
   area.y = pTheme->FR_Top->h;
   area.w = BLOCKM_W;
-  area.h = DEFAULT_OVERVIEW_H;
+  area.h = pMiniMap_Window->size.h - pTheme->FR_Top->h - pTheme->FR_Bottom->h;
 
   widget_set_position(pMiniMap_Window,
                       0, 
@@ -1250,10 +1250,6 @@ void set_new_mini_map_window_pos(void)
 
 void Remake_MiniMap(int w, int h)
 {
-  SDL_Surface *pSurf;
-  struct widget *pWidget = pMiniMap_Window;
-  SDL_Rect area;
-    
   w += (pTheme->FR_Left->w + BLOCKM_W + pTheme->FR_Right->w);
   
   if(h < DEFAULT_OVERVIEW_H) {
@@ -1261,102 +1257,12 @@ void Remake_MiniMap(int w, int h)
   } else {
     h += (pTheme->FR_Top->h + pTheme->FR_Bottom->h);
   }
-  
-  if(pWidget->size.w > w || pWidget->size.h > h) {
-    /* clear area under old map window */
-    widget_undraw(pWidget);
-    widget_mark_dirty(pWidget);
-  }
-  
-  pWidget->size.y = Main.screen->h - h;
-  pWidget->size.w = w;
-  pWidget->size.h = h;
 
-  area.x = pTheme->FR_Left->w;
-  area.y = pTheme->FR_Top->h;
-  area.w = w - pTheme->FR_Left->w - pTheme->FR_Right->w;
-  area.h = h - pTheme->FR_Top->h - pTheme->FR_Bottom->h;
-  
-  FREESURFACE(pWidget->theme);
-  pWidget->theme = create_surf_alpha(w, h, SDL_SWSURFACE);  
-     
-  draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
-  
-  pSurf = ResizeSurface(pTheme->Block, BLOCKM_W,
-    pWidget->size.h - pTheme->FR_Top->h - pTheme->FR_Bottom->h, 1);
-  
-  blit_entire_src(pSurf, pWidget->theme,
-	pWidget->size.w - pTheme->FR_Right->w - pSurf->w, pTheme->FR_Top->h);
-  FREESURFACE(pSurf);  
-  
-  /* new turn button */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
-                      area.y + 2);
-   
-  /* players */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
-                      area.y + pWidget->size.h + 2);
-  
-  /* find city */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
-                      area.y + pWidget->size.h * 2 + 2);
-
-  /* units */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2),
-                      area.y + 2);
-
-  /* show/hide log */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2),
-                      area.y + pWidget->size.h + 2);
-  
-  /* toggle minimap mode */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2),
-                      area.y + pWidget->size.h * 2 + 2);
-  
-  #ifdef SMALL_SCREEN
-  /* options */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2),
-                      area.y + area.h - pWidget->size.h - 2);
-  #endif
-  
-  /* hide/show mini map */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
-                      area.y + area.h - pWidget->size.h - 2);
-  
   MINI_MAP_W = w;
   MINI_MAP_H = h;
+  
+  popdown_minimap_window();
+  popup_minimap_window();
 }
 
 static void Remake_UnitInfo(int w, int h)
@@ -1557,8 +1463,10 @@ void popup_minimap_window() {
   struct widget *pWidget, *pWindow;
   SDL_Surface *pIcon_theme = NULL;
 
-  MINI_MAP_W = DEFAULT_OVERVIEW_W + BLOCKM_W + pTheme->FR_Left->w + pTheme->FR_Right->w;
-  MINI_MAP_H = DEFAULT_OVERVIEW_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
+  if (MINI_MAP_W == 0) {
+    MINI_MAP_W = DEFAULT_OVERVIEW_W + BLOCKM_W + pTheme->FR_Left->w + pTheme->FR_Right->w;
+    MINI_MAP_H = DEFAULT_OVERVIEW_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
+  }
 
   pMiniMap_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   

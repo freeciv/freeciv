@@ -304,7 +304,7 @@ static void popdown_start_menu()
 **************************************************************************/
 void set_client_page(enum client_pages page)
 {
-freelog(LOG_NORMAL, "set_client_page(): %d", page);
+
   switch (old_page) {
     case PAGE_MAIN:
       popdown_start_menu();
