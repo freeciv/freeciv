@@ -488,6 +488,7 @@ AM_CONDITIONAL(FTWL, test "$ftwl" != "no")
 AM_CONDITIONAL(FTWL_X11, test "$ftwl" = "x11")
 AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
 AM_CONDITIONAL(FTWL_OPENGL, test "$ftwl" = "opengl")
+AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
 dnl Checks for additional server libraries:
 if test x$server = xtrue; then
@@ -725,6 +726,7 @@ AC_CONFIG_FILES([Makefile
 	  common/aicore/Makefile
 	  ai/Makefile
 	  tests/Makefile
+  	  win32/Makefile
 	  client/Makefile
 	  client/agents/Makefile
 	  client/include/Makefile
