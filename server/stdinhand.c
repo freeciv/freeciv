@@ -2244,7 +2244,7 @@ static bool debug_command(struct connection *caller, char *str,
 			"<player> | city <x> <y> | units <x> <y> | "
 			"unit <id> | tech <player> | timing | info>.");
 
-  if (server_state != RUN_GAME_STATE) {
+  if (game.info.is_new_game) {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
               _("Can only use this command once game has begun."));
     return FALSE;
