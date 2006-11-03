@@ -2038,7 +2038,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
-      freelog(LOG_ERROR, "%p %s at (%d,%d) %s", punit,
+      freelog(LOG_ERROR, "%p %d %s at (%d,%d) %s", punit, punit->id,
 	      unit_type(punit)->name, TILE_XY(punit->tile),
 	      unit_owner(punit)->name);
     } unit_list_iterate_end;
