@@ -802,13 +802,13 @@ bool section_file_save(struct section_file *my_section_file,
 	       * format without an error message. */
 	      freelog(LOG_ERROR,
 		      "In file %s, there is no entry in the registry for \n"
-		      "%s (or the entries are out of order. This means a \n"
+		      "%s.%s (or the entries are out of order. This means a \n"
 		      "less efficient non-tabular format will be used. To\n"
 		      "avoid this make sure all rows of a table are filled\n"
 		      "out with an entry for every column.  This is surely\n"
 		      "a bug so if you're reading this message, report it\n"
 		      "to bugs@freeciv.org.",
-		      real_filename, expect);
+		      real_filename, psection->name, expect);
 	      fz_fprintf(fs, "\n");
 	    }
 	    fz_fprintf(fs, "}\n");
