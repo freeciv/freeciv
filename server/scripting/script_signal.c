@@ -212,7 +212,6 @@ static void internal_signal_free(const char *signal_name)
   const void *psignal;
 
   if (hash_lookup(signals, signal_name, &pname, &psignal)) {
-    char *name = (char *)pname;
     struct signal *signal = (struct signal *)psignal;
 
     signal_callback_list_iterate(signal->callbacks, pcallback) {
@@ -222,8 +221,6 @@ static void internal_signal_free(const char *signal_name)
     signal_callback_list_unlink_all(signal->callbacks);
     signal_callback_list_free(signal->callbacks);
     free(signal);
-
-    free(name);
   } else {
     freelog(LOG_ERROR, "Signal \"%s\" does not exist, so cannot be freed.",
 	    signal_name);
