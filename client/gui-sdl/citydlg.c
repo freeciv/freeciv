@@ -808,7 +808,7 @@ static int army_city_dlg_callback(struct widget *pButton)
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
-      redraw_icon(pButton);
+      widget_redraw(pButton);
       widget_flush(pButton);
     }
   }
@@ -827,7 +827,7 @@ static int supported_unit_city_dlg_callback(struct widget *pButton)
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
-      redraw_icon(pButton);
+      widget_redraw(pButton);
       widget_flush(pButton);
     }
   }
@@ -848,7 +848,7 @@ static int info_city_dlg_callback(struct widget *pButton)
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
-      redraw_icon(pButton);
+      widget_redraw(pButton);
       widget_flush(pButton);
     }
   }
@@ -868,7 +868,7 @@ static int happy_city_dlg_callback(struct widget *pButton)
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
-      redraw_icon(pButton);
+      widget_redraw(pButton);
       widget_flush(pButton);
     }
   }
@@ -904,7 +904,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
     
       pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
       pWidget->ID = MAX_ID - 0x40;
-      redraw_ibutton(pWidget);
+      widget_redraw(pWidget);
       widget_flush(pWidget);
       break;
     case 0x40:
@@ -912,7 +912,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       BV_CLR(new_options, CITYO_NEW_TAXMAN);
       pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
       pWidget->ID = MAX_ID - 0x60;
-      redraw_ibutton(pWidget);
+      widget_redraw(pWidget);
       widget_flush(pWidget);
       break;
     case 0x60:
@@ -922,7 +922,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
         BV_SET(new_options, CITYO_NEW_EINSTEIN);
       pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
       pWidget->ID = MAX_ID - 0x20;
-      redraw_ibutton(pWidget);
+      widget_redraw(pWidget);
       widget_flush(pWidget);
       break;
     }
@@ -1008,7 +1008,7 @@ static int options_city_dlg_callback(struct widget *pButton)
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
-      redraw_icon(pButton);
+      widget_redraw(pButton);
       widget_flush(pButton);
     }
   }
@@ -1090,7 +1090,7 @@ static int ok_buy_prod_city_dlg_callback(struct widget *pButton)
 static int buy_prod_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pButton);
+    widget_redraw(pButton);
     widget_flush(pButton);
     disable_city_dlg_widgets();
     popup_hurry_production_dialog(pCityDlg->pCity, pButton->dst->surface);
@@ -1298,7 +1298,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 static int change_prod_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pButton);
+    widget_redraw(pButton);
     widget_flush(pButton);
   
     disable_city_dlg_widgets();
@@ -1683,7 +1683,7 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
     } else {
       /* empty input -> restore previous content */
       copy_chars_to_string16(pEdit->string16, pCityDlg->pCity->name);
-      redraw_edit(pEdit);
+      widget_redraw(pEdit);
       widget_mark_dirty(pEdit);
       flush_dirty();
     }  
@@ -3223,7 +3223,7 @@ static void redraw_city_dialog(struct city *pCity)
       if (pCityDlg->pBuy_Button
 	 && get_wstate(pCityDlg->pBuy_Button) != FC_WS_DISABLED) {
 	set_wstate(pCityDlg->pBuy_Button, FC_WS_DISABLED);
-	redraw_widget(pCityDlg->pBuy_Button);
+	widget_redraw(pCityDlg->pBuy_Button);
       }
 
       /* You can't see capitalization progres */
@@ -3234,7 +3234,7 @@ static void redraw_city_dialog(struct city *pCity)
       if (!pCity->did_buy && pCityDlg->pBuy_Button
 	 && (get_wstate(pCityDlg->pBuy_Button) == FC_WS_DISABLED)) {
 	set_wstate(pCityDlg->pBuy_Button, FC_WS_NORMAL);
-	redraw_widget(pCityDlg->pBuy_Button);
+	widget_redraw(pCityDlg->pBuy_Button);
       }
 
       cost = impr_build_shield_cost(pCity->production.value);

@@ -31,6 +31,98 @@
 /* ===================== ICON ======================== */
 /* =================================================== */
 
+int redraw_icon(struct widget *pIcon);
+
+/**************************************************************************
+  ...
+**************************************************************************/
+int redraw_icon(struct widget *pIcon)
+{
+  SDL_Rect src, area = pIcon->size;
+  
+  if (!pIcon->theme) {
+    return -3;
+  }
+
+  if (pIcon->gfx) {
+    widget_undraw(pIcon);
+  }
+
+  src.x = (pIcon->theme->w / 4) * (Uint8) (get_wstate(pIcon));
+  src.y = 0;
+  src.w = (pIcon->theme->w / 4);
+  src.h = pIcon->theme->h;
+
+  if (pIcon->size.w != src.w) {
+    area.x += (pIcon->size.w - src.w) / 2;
+  }
+
+  if (pIcon->size.h != src.h) {
+    area.y += (pIcon->size.h - src.h) / 2;
+  }
+
+  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int redraw_icon2(struct widget *pIcon)
+{
+  int ret;
+  SDL_Rect dest;
+  Uint32 state;
+
+  if(!pIcon) {
+    return -3;
+  }
+  
+  if(!pIcon->theme) {
+    return -4;
+  }
+  
+  state = get_wstate(pIcon);
+    
+  if (pIcon->gfx) {
+    widget_undraw(pIcon);
+  }
+
+  dest.x = pIcon->size.x;
+  dest.y = pIcon->size.y;
+  dest.w = pIcon->theme->w;
+  dest.h = pIcon->theme->h;
+
+  if (state == FC_WS_SELLECTED) {
+    putframe(pIcon->dst->surface, dest.x + 1, dest.y + 1,
+      dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
+      map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME)));
+  }
+
+  if (state == FC_WS_PRESSED) {
+    putframe(pIcon->dst->surface, dest.x + 1, dest.y + 1,
+      dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
+      map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME)));
+
+    putframe(pIcon->dst->surface, dest.x, dest.y,
+	     dest.x + dest.w + adj_size(3), dest.y + dest.h + adj_size(3),
+	     map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME)));
+  }
+
+  if (state == FC_WS_DISABLED) {
+    putframe(pIcon->dst->surface, dest.x + 1, dest.y + 1,
+	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
+	     map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT)));
+  }
+  dest.x += adj_size(2);
+  dest.y += adj_size(2);
+  ret = alphablit(pIcon->theme, NULL, pIcon->dst->surface, &dest);
+  if (ret) {
+    return ret;
+  }
+
+  return 0;
+}
+
 /**************************************************************************
   set new theme and callculate new size.
 **************************************************************************/
@@ -105,6 +197,8 @@ struct widget * create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDe
   pIcon_Widget->mod = KMOD_NONE;
   pIcon_Widget->dst = pDest;
   
+  pIcon_Widget->redraw = redraw_icon;
+  
   if (pIcon_theme) {
     pIcon_Widget->size.w = pIcon_theme->w / 4;
     pIcon_Widget->size.h = pIcon_theme->h;
@@ -127,37 +221,6 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
 
   return draw_icon_from_theme(pIcon->theme, get_wstate(pIcon), pIcon->dst,
 			      pIcon->size.x, pIcon->size.y);
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-int real_redraw_icon(struct widget *pIcon)
-{
-  SDL_Rect src, area = pIcon->size;
-  
-  if (!pIcon->theme) {
-    return -3;
-  }
-
-  if (pIcon->gfx) {
-    widget_undraw(pIcon);
-  }
-
-  src.x = (pIcon->theme->w / 4) * (Uint8) (get_wstate(pIcon));
-  src.y = 0;
-  src.w = (pIcon->theme->w / 4);
-  src.h = pIcon->theme->h;
-
-  if (pIcon->size.w != src.w) {
-    area.x += (pIcon->size.w - src.w) / 2;
-  }
-
-  if (pIcon->size.h != src.h) {
-    area.y += (pIcon->size.h - src.h) / 2;
-  }
-
-  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area);
 }
 
 /**************************************************************************
@@ -256,69 +319,12 @@ struct widget * create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32
   pIcon_Widget->mod = KMOD_NONE;
   pIcon_Widget->dst = pDest;
   
+  pIcon_Widget->redraw = redraw_icon2;
+  
   if (pIcon) {
     pIcon_Widget->size.w = pIcon->w + adj_size(4);
     pIcon_Widget->size.h = pIcon->h + adj_size(4);
   }
 
   return pIcon_Widget;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-int real_redraw_icon2(struct widget *pIcon)
-{
-  int ret;
-  SDL_Rect dest;
-  Uint32 state;
-
-  if(!pIcon) {
-    return -3;
-  }
-  
-  if(!pIcon->theme) {
-    return -4;
-  }
-  
-  state = get_wstate(pIcon);
-    
-  if (pIcon->gfx) {
-    widget_undraw(pIcon);
-  }
-
-  dest.x = pIcon->size.x;
-  dest.y = pIcon->size.y;
-  dest.w = pIcon->theme->w;
-  dest.h = pIcon->theme->h;
-
-  if (state == FC_WS_SELLECTED) {
-    putframe(pIcon->dst->surface, dest.x + 1, dest.y + 1,
-      dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-      map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME)));
-  }
-
-  if (state == FC_WS_PRESSED) {
-    putframe(pIcon->dst->surface, dest.x + 1, dest.y + 1,
-      dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-      map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME)));
-
-    putframe(pIcon->dst->surface, dest.x, dest.y,
-	     dest.x + dest.w + adj_size(3), dest.y + dest.h + adj_size(3),
-	     map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME)));
-  }
-
-  if (state == FC_WS_DISABLED) {
-    putframe(pIcon->dst->surface, dest.x + 1, dest.y + 1,
-	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-	     map_rgba(pIcon->dst->surface->format, *get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT)));
-  }
-  dest.x += adj_size(2);
-  dest.y += adj_size(2);
-  ret = alphablit(pIcon->theme, NULL, pIcon->dst->surface, &dest);
-  if (ret) {
-    return ret;
-  }
-
-  return 0;
 }

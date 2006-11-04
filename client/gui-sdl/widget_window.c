@@ -38,6 +38,48 @@ struct MOVE {
 };
 
 /**************************************************************************
+  Redraw Window Graphic ( without other Widgets )
+**************************************************************************/
+static int redraw_window(struct widget *pWindow)
+{
+  SDL_Color title_bg_color = {255, 255, 255, 200};
+  
+  SDL_Surface *pTmp = NULL;
+  SDL_Rect dst = pWindow->size;
+
+  /* Draw theme */
+  clear_surface(pWindow->dst->surface, &dst);
+  alphablit(pWindow->theme, NULL, pWindow->dst->surface, &dst);
+
+  /* window has title string == has title bar */
+  if (pWindow->string16) {
+    /* Draw Window's TitelBar */
+    dst.h = WINDOW_TITLE_HEIGHT;
+    SDL_FillRectAlpha(pWindow->dst->surface, &dst, &title_bg_color);
+    
+    /* Draw Text on Window's TitelBar */
+    pTmp = create_text_surf_from_str16(pWindow->string16);
+    dst.x += 10;
+    if(pTmp) {
+      dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
+      alphablit(pTmp, NULL, pWindow->dst->surface, &dst);
+      FREESURFACE(pTmp);
+    }
+
+    dst = pWindow->size;    
+    
+    putline(pWindow->dst->surface, dst.x + pTheme->FR_Left->w,
+	  dst.y + WINDOW_TITLE_HEIGHT,
+	  dst.x + pWindow->size.w - pTheme->FR_Right->w,
+	  dst.y + WINDOW_TITLE_HEIGHT, 
+          map_rgba(pWindow->dst->surface->format, 
+           *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
+  }
+  
+  return 0;
+}
+
+/**************************************************************************
 	Window mechanism.
 
 	Active Window schould be first on list (All Widgets on this
@@ -73,6 +115,22 @@ static void window_set_position(struct widget *pWindow, int x, int y)
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static void window_select(struct widget *pWindow)
+{
+  /* nothing */
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void window_unselect(struct widget *pWindow)
+{
+  /* nothing */
+}
+
+/**************************************************************************
   Allocate Widow Widget Structute.
   Text to titelbar is taken from 'pTitle'.
 **************************************************************************/
@@ -82,6 +140,9 @@ struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
   struct widget *pWindow = fc_calloc(1, sizeof(struct widget));
 
   pWindow->set_position = window_set_position;
+  pWindow->redraw = redraw_window;
+  pWindow->select = window_select;
+  pWindow->unselect = window_unselect;
   
   pWindow->string16 = pTitle;
   set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME |
@@ -232,46 +293,4 @@ bool move_window(struct widget *pWindow)
   /* Turn off Filter mouse motion events */
   SDL_SetEventFilter(NULL);
   return ret;
-}
-
-/**************************************************************************
-  Redraw Window Graphic ( without other Widgets )
-**************************************************************************/
-int redraw_window(struct widget *pWindow)
-{
-  SDL_Color title_bg_color = {255, 255, 255, 200};
-  
-  SDL_Surface *pTmp = NULL;
-  SDL_Rect dst = pWindow->size;
-
-  /* Draw theme */
-  clear_surface(pWindow->dst->surface, &dst);
-  alphablit(pWindow->theme, NULL, pWindow->dst->surface, &dst);
-
-  /* window has title string == has title bar */
-  if (pWindow->string16) {
-    /* Draw Window's TitelBar */
-    dst.h = WINDOW_TITLE_HEIGHT;
-    SDL_FillRectAlpha(pWindow->dst->surface, &dst, &title_bg_color);
-    
-    /* Draw Text on Window's TitelBar */
-    pTmp = create_text_surf_from_str16(pWindow->string16);
-    dst.x += 10;
-    if(pTmp) {
-      dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
-      alphablit(pTmp, NULL, pWindow->dst->surface, &dst);
-      FREESURFACE(pTmp);
-    }
-
-    dst = pWindow->size;    
-    
-    putline(pWindow->dst->surface, dst.x + pTheme->FR_Left->w,
-	  dst.y + WINDOW_TITLE_HEIGHT,
-	  dst.x + pWindow->size.w - pTheme->FR_Right->w,
-	  dst.y + WINDOW_TITLE_HEIGHT, 
-          map_rgba(pWindow->dst->surface->format, 
-           *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
-  }
-  
-  return 0;
 }

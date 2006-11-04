@@ -28,150 +28,6 @@
 #include "widget.h"
 
 /**************************************************************************
-  Create ( malloc ) Icon (theme)Button Widget structure.
-
-  Icon graphic is taken from 'pIcon' surface (don't change with button
-  changes );  Button Theme graphic is taken from pTheme->Button surface;
-  Text is taken from 'pString16'.
-
-  This function determinate future size of Button ( width, high ) and
-  save this in: pWidget->size rectangle ( SDL_Rect )
-
-  function return pointer to allocated Button Widget.
-**************************************************************************/
-struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
-			  SDL_String16 *pStr, Uint32 flags)
-{
-  SDL_Rect buf = {0, 0, 0, 0};
-  Uint16 w = 0, h = 0;
-  struct widget *pButton;
-
-  if (!pIcon && !pStr) {
-    return NULL;
-  }
-
-  pButton = fc_calloc(1, sizeof(struct widget));
-
-  pButton->theme = pTheme->Button;
-  pButton->gfx = pIcon;
-  pButton->string16 = pStr;
-  set_wflag(pButton, (WF_FREE_STRING | flags));
-  set_wstate(pButton, FC_WS_DISABLED);
-  set_wtype(pButton, WT_I_BUTTON);
-  pButton->mod = KMOD_NONE;
-  pButton->dst = pDest;
-  
-  if (pStr && !(flags & WF_WIDGET_HAS_INFO_LABEL)) {
-    pButton->string16->style |= SF_CENTER;
-    /* if BOLD == true then longest wight */
-    if (!(pStr->style & TTF_STYLE_BOLD)) {
-      pStr->style |= TTF_STYLE_BOLD;
-      buf = str16size(pStr);
-      pStr->style &= ~TTF_STYLE_BOLD;
-    } else {
-      buf = str16size(pStr);
-    }
-
-    w = MAX(w, buf.w);
-    h = MAX(h, buf.h);
-  }
-
-  if (pIcon) {
-    if (pStr) {
-      if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
-	w = MAX(w, pIcon->w + adj_size(2));
-	h = MAX(h, buf.h + pIcon->h + adj_size(4));
-      } else {
-	w = MAX(w, buf.w + pIcon->w + adj_size(20));
-	h = MAX(h, pIcon->h + adj_size(2));
-      }
-    } else {
-      w = MAX(w, pIcon->w + adj_size(2));
-      h = MAX(h, pIcon->h + adj_size(2));
-    }
-  } else {
-    w += adj_size(10);
-    h += adj_size(2);
-  }
-
-  correct_size_bcgnd_surf(pTheme->Button, &w, &h);
-
-  pButton->size.w = w;
-  pButton->size.h = h;
-
-  return pButton;
-}
-
-/**************************************************************************
-  Create ( malloc ) Theme Icon (theme)Button Widget structure.
-
-  Icon Theme graphic is taken from 'pIcon_theme' surface ( change with
-  button changes ); Button Theme graphic is taken from pTheme->Button
-  surface; Text is taken from 'pString16'.
-
-  This function determinate future size of Button ( width, high ) and
-  save this in: pWidget->size rectangle ( SDL_Rect )
-
-  function return pointer to allocated Button Widget.
-**************************************************************************/
-struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
-		struct gui_layer *pDest, SDL_String16 *pString16, Uint32 flags)
-{
-  SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
-  struct widget *pButton = create_icon_button(pIcon, pDest, pString16, flags);
-
-  FREESURFACE(pButton->gfx);	/* pButton->gfx == pIcon */
-  pButton->gfx = pIcon_theme;
-  set_wtype(pButton, WT_TI_BUTTON);
-
-  return pButton;
-}
-
-/**************************************************************************
-  Steate Button image with text and Icon.  Then blit to Main.screen on
-  positon start_x , start_y.
-
-  Text with atributes is taken from pButton->string16 parameter.
-
-  Graphic for button is taken from pButton->theme surface and blit to new
-  created image.
-
-  Graphic for Icon theme is taken from pButton->gfx surface and blit to
-  new created image.
-
-  function return (-1) if there are no Icon and Text.
-  Else return 0.
-**************************************************************************/
-int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
-{
-  pButton->size.x = start_x;
-  pButton->size.y = start_y;
-  return real_redraw_tibutton(pButton);
-}
-
-/**************************************************************************
-  Create Button image with text and Icon.
-  Then blit to Main.screen on positon start_x , start_y.
-
-   Text with atributes is taken from pButton->string16 parameter.
-
-   Graphic for button is taken from pButton->theme surface 
-   and blit to new created image.
-
-  Graphic for Icon is taken from pButton->gfx surface 
-  and blit to new created image.
-
-  function return (-1) if there are no Icon and Text.
-  Else return 0.
-**************************************************************************/
-int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
-{
-  pButton->size.x = start_x;
-  pButton->size.y = start_y;
-  return real_redraw_ibutton(pButton);
-}
-
-/**************************************************************************
   Create Icon Button image with text and Icon then blit to Dest(ination)
   on positon pIButton->size.x , pIButton->size.y.
   WARRING: pDest must exist.
@@ -187,7 +43,7 @@ int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
   function return (-1) if there are no Icon and Text.
   Else return 0.
 **************************************************************************/
-int real_redraw_ibutton(struct widget *pIButton)
+static int redraw_ibutton(struct widget *pIButton)
 {
   SDL_Rect dest = { 0, 0, 0, 0 };
   SDL_String16 TMPString;
@@ -360,7 +216,7 @@ int real_redraw_ibutton(struct widget *pIButton)
 
   function return (-1) if there are no Icon and Text.  Else return 0.
 **************************************************************************/
-int real_redraw_tibutton(struct widget *pTIButton)
+static int redraw_tibutton(struct widget *pTIButton)
 {
   int iRet = 0;
   SDL_Surface *pIcon = create_icon_from_theme(pTIButton->gfx,
@@ -369,10 +225,158 @@ int real_redraw_tibutton(struct widget *pTIButton)
 
   pTIButton->gfx = pIcon;
 
-  iRet = real_redraw_ibutton(pTIButton);
+  iRet = redraw_ibutton(pTIButton);
 
   FREESURFACE(pTIButton->gfx);
   pTIButton->gfx = pCopy_Of_Icon_Theme;
 
   return iRet;
+}
+
+/**************************************************************************
+  Create ( malloc ) Icon (theme)Button Widget structure.
+
+  Icon graphic is taken from 'pIcon' surface (don't change with button
+  changes );  Button Theme graphic is taken from pTheme->Button surface;
+  Text is taken from 'pString16'.
+
+  This function determinate future size of Button ( width, high ) and
+  save this in: pWidget->size rectangle ( SDL_Rect )
+
+  function return pointer to allocated Button Widget.
+**************************************************************************/
+struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
+			  SDL_String16 *pStr, Uint32 flags)
+{
+  SDL_Rect buf = {0, 0, 0, 0};
+  Uint16 w = 0, h = 0;
+  struct widget *pButton;
+
+  if (!pIcon && !pStr) {
+    return NULL;
+  }
+
+  pButton = fc_calloc(1, sizeof(struct widget));
+
+  pButton->theme = pTheme->Button;
+  pButton->gfx = pIcon;
+  pButton->string16 = pStr;
+  set_wflag(pButton, (WF_FREE_STRING | flags));
+  set_wstate(pButton, FC_WS_DISABLED);
+  set_wtype(pButton, WT_I_BUTTON);
+  pButton->mod = KMOD_NONE;
+  pButton->dst = pDest;
+  
+  pButton->redraw = redraw_ibutton;
+  
+  if (pStr && !(flags & WF_WIDGET_HAS_INFO_LABEL)) {
+    pButton->string16->style |= SF_CENTER;
+    /* if BOLD == true then longest wight */
+    if (!(pStr->style & TTF_STYLE_BOLD)) {
+      pStr->style |= TTF_STYLE_BOLD;
+      buf = str16size(pStr);
+      pStr->style &= ~TTF_STYLE_BOLD;
+    } else {
+      buf = str16size(pStr);
+    }
+
+    w = MAX(w, buf.w);
+    h = MAX(h, buf.h);
+  }
+
+  if (pIcon) {
+    if (pStr) {
+      if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
+	w = MAX(w, pIcon->w + adj_size(2));
+	h = MAX(h, buf.h + pIcon->h + adj_size(4));
+      } else {
+	w = MAX(w, buf.w + pIcon->w + adj_size(20));
+	h = MAX(h, pIcon->h + adj_size(2));
+      }
+    } else {
+      w = MAX(w, pIcon->w + adj_size(2));
+      h = MAX(h, pIcon->h + adj_size(2));
+    }
+  } else {
+    w += adj_size(10);
+    h += adj_size(2);
+  }
+
+  correct_size_bcgnd_surf(pTheme->Button, &w, &h);
+
+  pButton->size.w = w;
+  pButton->size.h = h;
+
+  return pButton;
+}
+
+/**************************************************************************
+  Create ( malloc ) Theme Icon (theme)Button Widget structure.
+
+  Icon Theme graphic is taken from 'pIcon_theme' surface ( change with
+  button changes ); Button Theme graphic is taken from pTheme->Button
+  surface; Text is taken from 'pString16'.
+
+  This function determinate future size of Button ( width, high ) and
+  save this in: pWidget->size rectangle ( SDL_Rect )
+
+  function return pointer to allocated Button Widget.
+**************************************************************************/
+struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
+		struct gui_layer *pDest, SDL_String16 *pString16, Uint32 flags)
+{
+  SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
+  struct widget *pButton = create_icon_button(pIcon, pDest, pString16, flags);
+
+  FREESURFACE(pButton->gfx);	/* pButton->gfx == pIcon */
+  pButton->gfx = pIcon_theme;
+  set_wtype(pButton, WT_TI_BUTTON);
+  
+  pButton->redraw = redraw_tibutton;
+
+  return pButton;
+}
+
+/**************************************************************************
+  Steate Button image with text and Icon.  Then blit to Main.screen on
+  positon start_x , start_y.
+
+  Text with atributes is taken from pButton->string16 parameter.
+
+  Graphic for button is taken from pButton->theme surface and blit to new
+  created image.
+
+  Graphic for Icon theme is taken from pButton->gfx surface and blit to
+  new created image.
+
+  function return (-1) if there are no Icon and Text.
+  Else return 0.
+**************************************************************************/
+int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
+{
+  pButton->size.x = start_x;
+  pButton->size.y = start_y;
+  return redraw_tibutton(pButton);
+}
+
+/**************************************************************************
+  Create Button image with text and Icon.
+  Then blit to Main.screen on positon start_x , start_y.
+
+   Text with atributes is taken from pButton->string16 parameter.
+
+   Graphic for button is taken from pButton->theme surface 
+   and blit to new created image.
+
+  Graphic for Icon is taken from pButton->gfx surface 
+  and blit to new created image.
+
+  function return (-1) if there are no Icon and Text.
+  Else return 0.
+**************************************************************************/
+int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
+{
+  pButton->size.x = start_x;
+  pButton->size.y = start_y;
+  return redraw_ibutton(pButton);
 }

@@ -117,7 +117,7 @@ static int info_city_report_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     real_info_city_report_dialog_update();
   }

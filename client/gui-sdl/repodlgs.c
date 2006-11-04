@@ -173,7 +173,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
-    redraw_label(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     
     pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
@@ -1038,7 +1038,7 @@ static int exit_economy_dialog_callback(struct widget *pWidget)
       FC_FREE(pEconomyDlg->pScroll);
       FC_FREE(pEconomyDlg);
       set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
-      redraw_icon2(get_tax_rates_widget());
+      widget_redraw(get_tax_rates_widget());
       widget_mark_dirty(get_tax_rates_widget());
       flush_dirty();
     }
@@ -1153,20 +1153,20 @@ static Uint16 report_scroll_mouse_motion_handler(
       copy_chars_to_string16(pMotion->pLabel_Dst->string16, cBuf);
       		      
       /* redraw label */
-      redraw_label(pMotion->pLabel_Src);
+      widget_redraw(pMotion->pLabel_Src);
       widget_mark_dirty(pMotion->pLabel_Src);
 
-      redraw_label(pMotion->pLabel_Dst);
+      widget_redraw(pMotion->pLabel_Dst);
       widget_mark_dirty(pMotion->pLabel_Dst);
 
       /* redraw scroolbar */
       refresh_widget_background(pMotion->pHoriz_Src);
-      redraw_horiz(pMotion->pHoriz_Src);
+      widget_redraw(pMotion->pHoriz_Src);
       widget_mark_dirty(pMotion->pHoriz_Src);
 	  
       if(pMotion->pHoriz_Dst) {
         refresh_widget_background(pMotion->pHoriz_Dst);
-        redraw_horiz(pMotion->pHoriz_Dst);
+        widget_redraw(pMotion->pHoriz_Dst);
         widget_mark_dirty(pMotion->pHoriz_Dst);
       }
 
@@ -1268,7 +1268,7 @@ END:
     unsellect_widget_action();
     pSellected_Widget = pHoriz_Src;
     set_wstate(pHoriz_Src, FC_WS_SELLECTED);
-    redraw_horiz(pHoriz_Src);
+    widget_redraw(pHoriz_Src);
     widget_flush(pHoriz_Src);
   }
   return -1;
@@ -1304,7 +1304,7 @@ static int apply_taxrates_callback(struct widget *pButton)
       dsend_packet_player_rates(&aconnection, tax, luxury, science);
     }
   
-    redraw_tibutton(pButton);
+    widget_redraw(pButton);
     widget_flush(pButton);
   }
   return -1;
@@ -1454,7 +1454,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
-    redraw_icon2(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     
     pEconomy_Sell_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
@@ -1651,7 +1651,7 @@ void popdown_economy_report_dialog(void)
     FC_FREE(pEconomyDlg->pScroll);
     FC_FREE(pEconomyDlg);
     set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
-    redraw_icon2(get_tax_rates_widget());
+    widget_redraw(get_tax_rates_widget());
     widget_mark_dirty(get_tax_rates_widget());
   }
 }
@@ -1685,7 +1685,7 @@ void popup_economy_report_dialog(bool make_modal)
   }
   
   set_wstate(pBuf, FC_WS_DISABLED);
-  redraw_icon2(pBuf);
+  widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
   
   pEconomyDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -2747,7 +2747,7 @@ static void popdown_science_dialog()
 				  pScienceDlg->pEndWidgetList);
     FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
-    redraw_icon2(get_research_widget());
+    widget_redraw(get_research_widget());
     widget_mark_dirty(get_research_widget());
     flush_dirty();
   }
@@ -3163,7 +3163,7 @@ static int popup_change_research_dialog_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
-    redraw_icon2(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     
     popup_change_research_dialog();
@@ -3176,7 +3176,7 @@ static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
-    redraw_icon2(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     
     popup_change_research_goal_dialog();
@@ -3207,7 +3207,7 @@ void popup_science_dialog(bool raise)
   }
 
   set_wstate(pBuf, FC_WS_DISABLED);
-  redraw_icon2(pBuf);
+  widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
   
   pScienceDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
@@ -3313,7 +3313,7 @@ void popdown_all_science_dialogs(void)
 				  pScienceDlg->pEndWidgetList);
     FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
-    redraw_icon2(get_research_widget());
+    widget_redraw(get_research_widget());
     widget_mark_dirty(get_research_widget());
   }  
 }

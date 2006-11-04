@@ -2187,7 +2187,7 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
       append_output_window(_("You must type a legal name."));
       pSellected_Widget = pStart_Button;
       set_wstate(pStart_Button, FC_WS_SELLECTED);
-      redraw_tibutton(pStart_Button);
+      widget_redraw(pStart_Button);
       widget_flush(pStart_Button);
       return (-1);
     }
@@ -2222,7 +2222,7 @@ static int change_sex_callback(struct widget *pSex)
       pSellected_Widget = pSex;
       set_wstate(pSex, FC_WS_SELLECTED);
   
-      redraw_ibutton(pSex);
+      widget_redraw(pSex);
       widget_flush(pSex);
     }
   }
@@ -2268,15 +2268,15 @@ static int next_name_callback(struct widget *pNext)
       set_wstate(pSetup->pName_Next, FC_WS_SELLECTED);
     }
   
-    redraw_edit(pSetup->pName_Edit);
-    redraw_tibutton(pSetup->pName_Prev);
-    redraw_tibutton(pSetup->pName_Next);
+    widget_redraw(pSetup->pName_Edit);
+    widget_redraw(pSetup->pName_Prev);
+    widget_redraw(pSetup->pName_Next);
     dirty_rect(pSetup->pName_Edit->size.x - pSetup->pName_Prev->size.w,
                   pSetup->pName_Edit->size.y,
                   pSetup->pName_Edit->size.w + pSetup->pName_Prev->size.w +
                   pSetup->pName_Next->size.w, pSetup->pName_Edit->size.h);
     
-    redraw_ibutton(pSetup->pChange_Sex);
+    widget_redraw(pSetup->pChange_Sex);
     widget_mark_dirty(pSetup->pChange_Sex);
     
     flush_dirty();
@@ -2323,15 +2323,15 @@ static int prev_name_callback(struct widget *pPrev)
       set_wstate(pSetup->pName_Prev, FC_WS_SELLECTED);
     }
   
-    redraw_edit(pSetup->pName_Edit);
-    redraw_tibutton(pSetup->pName_Prev);
-    redraw_tibutton(pSetup->pName_Next);
+    widget_redraw(pSetup->pName_Edit);
+    widget_redraw(pSetup->pName_Prev);
+    widget_redraw(pSetup->pName_Next);
     dirty_rect(pSetup->pName_Edit->size.x - pSetup->pName_Prev->size.w,
                   pSetup->pName_Edit->size.y, pSetup->pName_Edit->size.w +
                   pSetup->pName_Prev->size.w + pSetup->pName_Next->size.w,
                   pSetup->pName_Edit->size.h);
     
-    redraw_ibutton(pSetup->pChange_Sex);
+    widget_redraw(pSetup->pChange_Sex);
     widget_mark_dirty(pSetup->pChange_Sex);
     
     flush_dirty();
@@ -2361,11 +2361,11 @@ static int city_style_callback(struct widget *pWidget)
     struct widget *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
                                               pSetup->nation_city_style);
     set_wstate(pGUI, FC_WS_NORMAL);
-    redraw_icon2(pGUI);
+    widget_redraw(pGUI);
     widget_mark_dirty(pGUI);
     
     set_wstate(pWidget, FC_WS_DISABLED);
-    redraw_icon2(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     
     pSetup->nation_city_style = MAX_ID - 1000 - pWidget->ID;
@@ -2415,7 +2415,7 @@ static int nation_button_callback(struct widget *pNationButton)
       struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
         
       if (pSetup->nation == MAX_ID - pNationButton->ID) {
-        redraw_widget(pNationButton);
+        widget_redraw(pNationButton);
         widget_flush(pNationButton);
         return -1;
       }
@@ -2441,7 +2441,7 @@ static int nation_button_callback(struct widget *pNationButton)
       SDL_Rect area;
       struct nation_type *pNation = get_nation_by_idx(MAX_ID - pNationButton->ID);
         
-      redraw_widget(pNationButton);
+      widget_redraw(pNationButton);
       widget_mark_dirty(pNationButton);
     
       if (!pHelpDlg) {
@@ -2540,7 +2540,7 @@ static int leader_name_edit_callback(struct widget *pEdit)
     } else {
       /* empty input -> restore previous content */
       copy_chars_to_string16(pEdit->string16, pLeaderName);
-      redraw_edit(pEdit);
+      widget_redraw(pEdit);
       widget_mark_dirty(pEdit);
       flush_dirty();
     }

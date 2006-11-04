@@ -56,6 +56,152 @@ static struct UniChar * text2chain(const Uint16 *pInText);
 static Uint16 * chain2text(const struct UniChar *pInChain, size_t len);
 
 /**************************************************************************
+...
+**************************************************************************/
+static void redraw_edit_chain(struct EDIT *pEdt)
+{
+  struct UniChar *pInputChain_TMP;
+  SDL_Rect Dest, Dest_Copy = {0, 0, 0, 0};
+  int iStart_Mod_X;
+
+  Dest_Copy.x = pEdt->pWidget->size.x;
+  Dest_Copy.y = pEdt->pWidget->size.y;
+
+  /* blit backgroud ( if any ) */
+  if (get_wflags(pEdt->pWidget) & WF_RESTORE_BACKGROUND) {
+    widget_undraw(pEdt->pWidget);
+  }
+
+  /* blit theme */
+  Dest = Dest_Copy;
+
+  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst->surface, &Dest);
+
+  /* set start parametrs */
+  pInputChain_TMP = pEdt->pBeginTextChain;
+  iStart_Mod_X = 0;
+
+  Dest_Copy.y += (pEdt->pBg->h - pInputChain_TMP->pTsurf->h) / 2;
+  Dest_Copy.x += pEdt->Start_X;
+
+  /* draw loop */
+  while (pInputChain_TMP) {
+    Dest_Copy.x += iStart_Mod_X;
+    /* chech if we draw inside of edit rect */
+    if (Dest_Copy.x > pEdt->pWidget->size.x + pEdt->pBg->w - 4) {
+      break;
+    }
+
+    if (Dest_Copy.x > pEdt->pWidget->size.x) {
+      Dest = Dest_Copy;
+      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst->surface, &Dest);
+    }
+
+    iStart_Mod_X = pInputChain_TMP->pTsurf->w;
+
+    /* draw cursor */
+    if (pInputChain_TMP == pEdt->pInputChain) {
+      Dest = Dest_Copy;
+
+      putline(pEdt->pWidget->dst->surface, Dest.x - 1,
+		  Dest.y + (pEdt->pBg->h / 8), Dest.x - 1,
+		  Dest.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
+		  map_rgba(pEdt->pWidget->dst->surface->format,
+                  *get_game_colorRGB(COLOR_THEME_EDITFIELD_CARET)));
+      /* save active element position */
+      pEdt->InputChain_X = Dest_Copy.x;
+    }
+	
+    pInputChain_TMP = pInputChain_TMP->next;
+  }	/* while - draw loop */
+
+  widget_flush(pEdt->pWidget);
+  
+}
+
+/**************************************************************************
+  Create Edit Field surface ( with Text) and blit them to Main.screen,
+  on position 'pEdit_Widget->size.x , pEdit_Widget->size.y'
+
+  Graphic is taken from 'pEdit_Widget->theme'
+  Text is taken from	'pEdit_Widget->sting16'
+
+  if flag 'FW_DRAW_THEME_TRANSPARENT' is set theme will be blit
+  transparent ( Alpha = 128 )
+
+  function return Hight of created surfaces or (-1) if theme surface can't
+  be created.
+**************************************************************************/
+static int redraw_edit(struct widget *pEdit_Widget)
+{
+  if (get_wstate(pEdit_Widget) == FC_WS_PRESSED) {
+    redraw_edit_chain((struct EDIT *)pEdit_Widget->data.ptr);
+  } else {
+    int iRet = 0;
+    SDL_Rect rDest = {pEdit_Widget->size.x, pEdit_Widget->size.y, 0, 0};
+    SDL_Surface *pEdit = NULL;
+    SDL_Surface *pText;
+  
+    if (pEdit_Widget->string16->text &&
+    	get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
+      Uint16 *backup = pEdit_Widget->string16->text;
+      size_t len = unistrlen(backup) + 1;
+      char *cBuf = fc_calloc(1, len);
+    
+      memset(cBuf, '*', len - 1);
+      cBuf[len - 1] = '\0';
+      pEdit_Widget->string16->text = convert_to_utf16(cBuf);
+      pText = create_text_surf_from_str16(pEdit_Widget->string16);
+      FC_FREE(pEdit_Widget->string16->text);
+      FC_FREE(cBuf);
+      pEdit_Widget->string16->text = backup;
+    } else {
+      pText = create_text_surf_from_str16(pEdit_Widget->string16);
+    }
+  
+    pEdit = create_bcgnd_surf(pEdit_Widget->theme, get_wstate(pEdit_Widget),
+                              pEdit_Widget->size.w, pEdit_Widget->size.h);
+
+    if (!pEdit) {
+      return -1;
+    }
+    
+    if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
+      /* blit background */
+      widget_undraw(pEdit_Widget);
+    }
+
+    /* blit theme */
+    alphablit(pEdit, NULL, pEdit_Widget->dst->surface, &rDest);
+
+    /* set position and blit text */
+    if (pText) {
+      rDest.y += (pEdit->h - pText->h) / 2;
+      /* blit centred text to botton */
+      if (pEdit_Widget->string16->style & SF_CENTER) {
+        rDest.x += (pEdit->w - pText->w) / 2;
+      } else {
+        if (pEdit_Widget->string16->style & SF_CENTER_RIGHT) {
+	  rDest.x += pEdit->w - pText->w - adj_size(5);
+        } else {
+	  rDest.x += adj_size(5);		/* cennter left */
+        }
+      }
+
+      alphablit(pText, NULL, pEdit_Widget->dst->surface, &rDest);
+    }
+    /* pText */
+    iRet = pEdit->h;
+
+    /* Free memory */
+    FREESURFACE(pText);
+    FREESURFACE(pEdit);
+    return iRet;
+  }
+  return 0;
+}
+
+/**************************************************************************
   Return length of UniChar chain.
   WARRNING: if struct UniChar has 1 member and UniChar->chr == 0 then
   this function return 1 ( not 0 like in strlen )
@@ -156,70 +302,6 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
   return pOutText;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static void redraw_edit_chain(struct EDIT *pEdt)
-{
-  struct UniChar *pInputChain_TMP;
-  SDL_Rect Dest, Dest_Copy = {0, 0, 0, 0};
-  int iStart_Mod_X;
-
-  Dest_Copy.x = pEdt->pWidget->size.x;
-  Dest_Copy.y = pEdt->pWidget->size.y;
-
-  /* blit backgroud ( if any ) */
-  if (get_wflags(pEdt->pWidget) & WF_RESTORE_BACKGROUND) {
-    widget_undraw(pEdt->pWidget);
-  }
-
-  /* blit theme */
-  Dest = Dest_Copy;
-
-  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst->surface, &Dest);
-
-  /* set start parametrs */
-  pInputChain_TMP = pEdt->pBeginTextChain;
-  iStart_Mod_X = 0;
-
-  Dest_Copy.y += (pEdt->pBg->h - pInputChain_TMP->pTsurf->h) / 2;
-  Dest_Copy.x += pEdt->Start_X;
-
-  /* draw loop */
-  while (pInputChain_TMP) {
-    Dest_Copy.x += iStart_Mod_X;
-    /* chech if we draw inside of edit rect */
-    if (Dest_Copy.x > pEdt->pWidget->size.x + pEdt->pBg->w - 4) {
-      break;
-    }
-
-    if (Dest_Copy.x > pEdt->pWidget->size.x) {
-      Dest = Dest_Copy;
-      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst->surface, &Dest);
-    }
-
-    iStart_Mod_X = pInputChain_TMP->pTsurf->w;
-
-    /* draw cursor */
-    if (pInputChain_TMP == pEdt->pInputChain) {
-      Dest = Dest_Copy;
-
-      putline(pEdt->pWidget->dst->surface, Dest.x - 1,
-		  Dest.y + (pEdt->pBg->h / 8), Dest.x - 1,
-		  Dest.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
-		  map_rgba(pEdt->pWidget->dst->surface->format,
-                  *get_game_colorRGB(COLOR_THEME_EDITFIELD_CARET)));
-      /* save active element position */
-      pEdt->InputChain_X = Dest_Copy.x;
-    }
-	
-    pInputChain_TMP = pInputChain_TMP->next;
-  }	/* while - draw loop */
-
-  widget_flush(pEdt->pWidget);
-  
-}
-
 /* =================================================== */
 
 /**************************************************************************
@@ -249,6 +331,8 @@ struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   set_wstate(pEdit, FC_WS_DISABLED);
   set_wtype(pEdit, WT_EDIT);
   pEdit->mod = KMOD_NONE;
+  
+  pEdit->redraw = redraw_edit;
   
   if (pString16) {
     pEdit->string16->style |= SF_CENTER;
@@ -285,88 +369,6 @@ int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
   }
 
   return redraw_edit(pEdit);
-}
-
-/**************************************************************************
-  Create Edit Field surface ( with Text) and blit them to Main.screen,
-  on position 'pEdit_Widget->size.x , pEdit_Widget->size.y'
-
-  Graphic is taken from 'pEdit_Widget->theme'
-  Text is taken from	'pEdit_Widget->sting16'
-
-  if flag 'FW_DRAW_THEME_TRANSPARENT' is set theme will be blit
-  transparent ( Alpha = 128 )
-
-  function return Hight of created surfaces or (-1) if theme surface can't
-  be created.
-**************************************************************************/
-int redraw_edit(struct widget *pEdit_Widget)
-{
-  if (get_wstate(pEdit_Widget) == FC_WS_PRESSED) {
-    redraw_edit_chain((struct EDIT *)pEdit_Widget->data.ptr);
-  } else {
-    int iRet = 0;
-    SDL_Rect rDest = {pEdit_Widget->size.x, pEdit_Widget->size.y, 0, 0};
-    SDL_Surface *pEdit = NULL;
-    SDL_Surface *pText;
-  
-    if (pEdit_Widget->string16->text &&
-    	get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
-      Uint16 *backup = pEdit_Widget->string16->text;
-      size_t len = unistrlen(backup) + 1;
-      char *cBuf = fc_calloc(1, len);
-    
-      memset(cBuf, '*', len - 1);
-      cBuf[len - 1] = '\0';
-      pEdit_Widget->string16->text = convert_to_utf16(cBuf);
-      pText = create_text_surf_from_str16(pEdit_Widget->string16);
-      FC_FREE(pEdit_Widget->string16->text);
-      FC_FREE(cBuf);
-      pEdit_Widget->string16->text = backup;
-    } else {
-      pText = create_text_surf_from_str16(pEdit_Widget->string16);
-    }
-  
-    pEdit = create_bcgnd_surf(pEdit_Widget->theme, get_wstate(pEdit_Widget),
-                              pEdit_Widget->size.w, pEdit_Widget->size.h);
-
-    if (!pEdit) {
-      return -1;
-    }
-    
-    if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
-      /* blit background */
-      widget_undraw(pEdit_Widget);
-    }
-
-    /* blit theme */
-    alphablit(pEdit, NULL, pEdit_Widget->dst->surface, &rDest);
-
-    /* set position and blit text */
-    if (pText) {
-      rDest.y += (pEdit->h - pText->h) / 2;
-      /* blit centred text to botton */
-      if (pEdit_Widget->string16->style & SF_CENTER) {
-        rDest.x += (pEdit->w - pText->w) / 2;
-      } else {
-        if (pEdit_Widget->string16->style & SF_CENTER_RIGHT) {
-	  rDest.x += pEdit->w - pText->w - adj_size(5);
-        } else {
-	  rDest.x += adj_size(5);		/* cennter left */
-        }
-      }
-
-      alphablit(pText, NULL, pEdit_Widget->dst->surface, &rDest);
-    }
-    /* pText */
-    iRet = pEdit->h;
-
-    /* Free memory */
-    FREESURFACE(pText);
-    FREESURFACE(pEdit);
-    return iRet;
-  }
-  return 0;
 }
 
 /**************************************************************************

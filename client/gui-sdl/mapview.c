@@ -292,11 +292,11 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   pBuf->theme = adj_surf(GET_SURF(sol));
-  redraw_label(pBuf);
+  widget_redraw(pBuf);
     
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
   pBuf->theme = adj_surf(GET_SURF(flake));
-  redraw_label(pBuf);
+  widget_redraw(pBuf);
     
   pBuf = get_revolution_widget();
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), FALSE);    
@@ -309,7 +309,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   }        
   copy_chars_to_string16(pBuf->string16, cBuf);
       
-  redraw_widget(pBuf);
+  widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
 
   
@@ -342,7 +342,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), FALSE);  
   
-  redraw_widget(pBuf);
+  widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
   
 }
@@ -1078,7 +1078,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
 
     /* ===== */
     /* ID_PLAYERS */
@@ -1087,7 +1087,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
 
     /* ===== */
     /* ID_CITIES */
@@ -1097,7 +1097,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
 
     /* ===== */
     /* ID_UNITS */
@@ -1106,7 +1106,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
     
     /* ===== */
     /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
@@ -1116,7 +1116,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
     
     /* ===== */
     
@@ -1126,7 +1126,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
 
     #ifdef SMALL_SCREEN
     /* options */
@@ -1135,7 +1135,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
     #endif
     
     /* ===== */
@@ -1146,7 +1146,7 @@ void refresh_overview(void)
       pBuf->gfx = crop_rect_from_surface(pBuf->dst->surface, &pBuf->size);
     }
 
-    real_redraw_icon(pBuf);
+    widget_redraw(pBuf);
 
     widget_mark_dirty(pMMap);
   }

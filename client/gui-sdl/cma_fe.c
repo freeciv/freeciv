@@ -115,12 +115,12 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     copy_chars_to_string16(pMotion->pScrollBar->next->string16, cBuf);
     
     /* redraw label */
-    redraw_label(pMotion->pScrollBar->next);
+    widget_redraw(pMotion->pScrollBar->next);
     widget_mark_dirty(pMotion->pScrollBar->next);
     
     /* redraw scroolbar */
     refresh_widget_background(pMotion->pScrollBar);
-    redraw_horiz(pMotion->pScrollBar);
+    widget_redraw(pMotion->pScrollBar);
     widget_mark_dirty(pMotion->pScrollBar);
 
     flush_dirty();

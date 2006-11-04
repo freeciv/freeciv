@@ -257,12 +257,12 @@ static int add_new_worklist_callback(struct widget *pWidget)
       if (!pWidget->gfx) {
         refresh_widget_background(pWidget);
       }
-      redraw_widget(pWidget);
+      widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
       if (!pNew_WorkList_Widget->gfx) {
         refresh_widget_background(pNew_WorkList_Widget);
       }
-      redraw_widget(pNew_WorkList_Widget);
+      widget_redraw(pNew_WorkList_Widget);
       widget_mark_dirty(pNew_WorkList_Widget);
     }
     flush_dirty();
@@ -445,9 +445,11 @@ static int change_mode_callback(struct widget *pWidget)
     }
     copy_chars_to_string16(
           pOption_Dlg->pBeginMainOptionsWidgetList->prev->string16, cBuf);
-      
+
+    center_optiondlg();
+
+    
     /* move cooling/warming icons to botton-right corrner */
-  
     pTmpWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
     widget_set_position(pTmpWidget, (Main.screen->w - 10 - (pTmpWidget->size.w * 2)), pTmpWidget->size.y);
   
@@ -455,14 +457,12 @@ static int change_mode_callback(struct widget *pWidget)
     pTmpWidget = pTmpWidget->next;
     widget_set_position(pTmpWidget, (Main.screen->w - 10 - pTmpWidget->size.w), pTmpWidget->size.y);
   
-    center_optiondlg();
-    
-    /* move units window to botton-right corrner */
-    set_new_units_window_pos();
-    /* move minimap window to botton-left corrner */
-    set_new_mini_map_window_pos();
-    
     if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+      /* move units window to botton-right corrner */
+      set_new_units_window_pos();
+      /* move minimap window to botton-left corrner */
+      set_new_mini_map_window_pos();
+      
       map_canvas_resized(Main.screen->w, Main.screen->h); 
     }      
   
@@ -528,7 +528,7 @@ static int toggle_fullscreen_callback(struct widget *pWidget)
     SDL_Rect **pModes_Rect =
         SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
   
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
   
     gui_sdl_fullscreen = !gui_sdl_fullscreen;
@@ -547,7 +547,7 @@ static int toggle_fullscreen_callback(struct widget *pWidget)
         set_wstate(pTmp, FC_WS_DISABLED);
       }
   
-      redraw_ibutton(pTmp);
+      widget_redraw(pTmp);
       
       if (!pModes_Rect[i+1] && pTmp->prev)
       {
@@ -557,7 +557,7 @@ static int toggle_fullscreen_callback(struct widget *pWidget)
         } else {
           set_wstate(pTmp->prev, FC_WS_NORMAL);
         }
-        redraw_ibutton(pTmp->prev);
+        widget_redraw(pTmp->prev);
         widget_mark_dirty(pTmp->prev);
         flush_dirty();
       } else {
@@ -573,7 +573,7 @@ static int toggle_fullscreen_callback(struct widget *pWidget)
         set_wstate(pTmp, FC_WS_NORMAL);
       }
   
-      redraw_ibutton(pTmp);
+      widget_redraw(pTmp);
       widget_flush(pTmp);
     }
   }  
@@ -774,7 +774,7 @@ static int video_callback(struct widget *pWidget)
 static int sound_bell_at_new_turn_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     sound_bell_at_new_turn ^= 1;
   }
@@ -800,7 +800,7 @@ static int smooth_move_unit_msec_callback(struct widget *pWidget)
 static int do_combat_animation_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     do_combat_animation ^= 1;
   }
@@ -813,7 +813,7 @@ static int do_combat_animation_callback(struct widget *pWidget)
 static int do_focus_animation_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     do_focus_animation ^= 1;
   }
@@ -826,7 +826,7 @@ static int do_focus_animation_callback(struct widget *pWidget)
 static int do_cursor_animation_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     do_cursor_animation ^= 1;
   }
@@ -839,7 +839,7 @@ static int do_cursor_animation_callback(struct widget *pWidget)
 static int use_color_cursors_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     use_color_cursors ^= 1;
   }
@@ -852,7 +852,7 @@ static int use_color_cursors_callback(struct widget *pWidget)
 static int auto_center_on_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     auto_center_on_unit ^= 1;
   }
@@ -865,7 +865,7 @@ static int auto_center_on_unit_callback(struct widget *pWidget)
 static int auto_center_on_combat_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     auto_center_on_combat ^= 1;
   }
@@ -878,7 +878,7 @@ static int auto_center_on_combat_callback(struct widget *pWidget)
 static int wakeup_focus_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     wakeup_focus ^= 1;
   }
@@ -891,7 +891,7 @@ static int wakeup_focus_callback(struct widget *pWidget)
 static int popup_new_cities_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     popup_new_cities ^= 1;
   }
@@ -904,7 +904,7 @@ static int popup_new_cities_callback(struct widget *pWidget)
 static int ask_city_names_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     ask_city_name ^= 1;
   }
@@ -917,7 +917,7 @@ static int ask_city_names_callback(struct widget *pWidget)
 static int auto_turn_done_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     auto_turn_done ^= 1;
   }
@@ -1277,7 +1277,7 @@ static int local_setting_callback(struct widget *pWidget)
 static int draw_city_names_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_city_names ^= 1;
     update_map_canvas_visible();
@@ -1291,7 +1291,7 @@ static int draw_city_names_callback(struct widget *pWidget)
 static int draw_city_productions_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_city_productions ^= 1;
     update_map_canvas_visible();
@@ -1305,7 +1305,7 @@ static int draw_city_productions_callback(struct widget *pWidget)
 static int borders_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_borders ^= 1;
     update_map_canvas_visible();
@@ -1319,7 +1319,7 @@ static int borders_callback(struct widget *pWidget)
 static int draw_terrain_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     draw_terrain ^= 1;
     update_map_canvas_visible();
@@ -1333,7 +1333,7 @@ static int draw_terrain_callback(struct widget *pWidget)
 static int map_grid_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     draw_map_grid ^= 1;
     
@@ -1342,7 +1342,7 @@ static int map_grid_callback(struct widget *pWidget)
     } else {
       set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
     }
-    redraw_icon(pWidget->prev->prev);
+    widget_redraw(pWidget->prev->prev);
     widget_mark_dirty(pWidget->prev->prev);
     
     if (draw_map_grid
@@ -1351,7 +1351,7 @@ static int map_grid_callback(struct widget *pWidget)
     } else {
       set_wstate(pWidget->prev->prev->prev->prev, FC_WS_DISABLED);
     }
-    redraw_icon(pWidget->prev->prev->prev->prev);
+    widget_redraw(pWidget->prev->prev->prev->prev);
     widget_mark_dirty(pWidget->prev->prev->prev->prev);
     
     flush_dirty();
@@ -1366,7 +1366,7 @@ static int map_grid_callback(struct widget *pWidget)
 static int draw_city_map_grid_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     SDL_Client_Flags ^= CF_DRAW_CITY_GRID;
     if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
@@ -1374,7 +1374,7 @@ static int draw_city_map_grid_callback(struct widget *pWidget)
     } else {
       set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
     }
-    redraw_icon(pWidget->prev->prev);
+    widget_redraw(pWidget->prev->prev);
     widget_mark_dirty(pWidget->prev->prev);
     
     flush_dirty();
@@ -1389,7 +1389,7 @@ static int draw_city_map_grid_callback(struct widget *pWidget)
 static int draw_city_worker_map_grid_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     SDL_Client_Flags ^= CF_DRAW_CITY_WORKER_GRID;
   }
@@ -1402,7 +1402,7 @@ static int draw_city_worker_map_grid_callback(struct widget *pWidget)
 static int draw_specials_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_specials ^= 1;
     update_map_canvas_visible();
@@ -1416,7 +1416,7 @@ static int draw_specials_callback(struct widget *pWidget)
 static int draw_pollution_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_pollution ^= 1;
     update_map_canvas_visible();
@@ -1430,7 +1430,7 @@ static int draw_pollution_callback(struct widget *pWidget)
 static int draw_cities_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_cities ^= 1;
     update_map_canvas_visible();
@@ -1444,7 +1444,7 @@ static int draw_cities_callback(struct widget *pWidget)
 static int draw_units_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_units ^= 1;
     update_map_canvas_visible();
@@ -1458,7 +1458,7 @@ static int draw_units_callback(struct widget *pWidget)
 static int draw_fog_of_war_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_fog_of_war ^= 1;
     update_map_canvas_visible();
@@ -1472,7 +1472,7 @@ static int draw_fog_of_war_callback(struct widget *pWidget)
 static int draw_roads_rails_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_roads_rails ^= 1;
     update_map_canvas_visible();
@@ -1486,7 +1486,7 @@ static int draw_roads_rails_callback(struct widget *pWidget)
 static int draw_irrigation_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_irrigation ^= 1;
     update_map_canvas_visible();
@@ -1500,7 +1500,7 @@ static int draw_irrigation_callback(struct widget *pWidget)
 static int draw_mines_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_mines ^= 1;
     update_map_canvas_visible();
@@ -1514,7 +1514,7 @@ static int draw_mines_callback(struct widget *pWidget)
 static int draw_fortress_airbase_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_flush(pWidget);
     draw_fortress_airbase ^= 1;
     update_map_canvas_visible();
@@ -2037,7 +2037,7 @@ static int back_callback(struct widget *pWidget)
       popdown_optiondlg();
       if(aconnection.established) {
         set_wstate(pOptions_Button, FC_WS_NORMAL);
-        redraw_icon(pOptions_Button);
+        widget_redraw(pOptions_Button);
         widget_mark_dirty(pOptions_Button);
         flush_dirty();
       } else {
@@ -2076,7 +2076,7 @@ int optiondlg_callback(struct widget *pButton)
     set_wstate(pButton, FC_WS_DISABLED);
     dest = pButton->size;
     clear_surface(pButton->dst->surface, &pButton->size);
-    real_redraw_icon(pButton);
+    widget_redraw(pButton);
     widget_flush(pButton);
   
     popup_optiondlg();

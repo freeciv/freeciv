@@ -371,7 +371,7 @@ static int gold_callback(struct widget *pWidget)
     
     if(amount || !pWidget->string16->text) {
       copy_chars_to_string16(pWidget->string16, "0");
-      redraw_widget(pWidget);
+      widget_redraw(pWidget);
       widget_flush(pWidget);
     }
   }  
@@ -984,7 +984,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   alphablit(pThm, &src, pLabel->theme, NULL);
   SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
   
-  redraw_widget(pLabel);
+  widget_redraw(pLabel);
   widget_flush(pLabel);
   
   /* updates other player's acceptance status */
@@ -1002,7 +1002,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
     
   alphablit(pThm, &src, pLabel->theme, NULL);
   
-  redraw_widget(pLabel);
+  widget_redraw(pLabel);
   widget_flush(pLabel);
 }
 
@@ -1059,7 +1059,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
       redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
       widget_mark_dirty(pWindow);
     } else {
-      redraw_widget(pBuf);
+      widget_redraw(pBuf);
       widget_mark_dirty(pBuf);
     }
     

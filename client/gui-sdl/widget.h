@@ -172,6 +172,10 @@ struct widget {
   void (*set_position) (struct widget *pwidget, int x, int y);
   void (*resize) (struct widget *pwidget, int w, int h);
   void (*draw_frame) (struct widget *pwidget);
+  int (*redraw) (struct widget *pwidget);
+  void (*select) (struct widget *pwidget);
+  void (*unselect) (struct widget *pwidget);
+  void (*press) (struct widget *pwidget);
 };
 
 #define scrollbar_size(pScroll)				\
@@ -267,7 +271,7 @@ void group_set_area(struct widget *pBeginGroupWidgetList,
 		    struct widget *pEndGroupWidgetList,
                     SDL_Rect area);
 
-int redraw_widget(struct widget *pWidget);
+int widget_redraw(struct widget *pWidget);
 void free_widget(struct widget *pGUI);
   
 /* Window Group */
@@ -315,13 +319,11 @@ SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme,
 int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
 			 struct gui_layer *pDest, Sint16 start_x,
 			 Sint16 start_y);
-int real_redraw_icon(struct widget *pIcon);
 int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y);
 
 /* ICON2 */
 void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
 			  bool free_old_theme);
-int real_redraw_icon2(struct widget *pIcon);
 struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32 flags);
 
 /* BUTTON */
@@ -331,9 +333,6 @@ struct widget *create_icon_button(SDL_Surface *pIcon,
 struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
 		struct gui_layer *pDest, SDL_String16 *pString, Uint32 flags);
 
-int real_redraw_ibutton(struct widget *pTIButton);
-int real_redraw_tibutton(struct widget *pTIButton);
-
 int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y);
 int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y);
 
@@ -342,8 +341,6 @@ struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
 			SDL_String16 *pString16, Uint16 lenght,
 			Uint32 flags);
 enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget);
-int redraw_edit(struct widget *pEdit_Widget);
-
 int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y);
 
 /* VERTICAL */
@@ -355,7 +352,6 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y);
 /* HORIZONTAL */
 struct widget *create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *pDest,
   			Uint16 width, Uint32 flags);
-int redraw_horiz(struct widget *pHoriz);
 int draw_horiz(struct widget *pHoriz, Sint16 x, Sint16 y);
 
 /* WINDOW */
@@ -365,7 +361,6 @@ struct widget *create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
 int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
 		  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);
 
-int redraw_window(struct widget *pWindow);
 bool move_window(struct widget *pWindow);
 
 /* misc */
@@ -385,7 +380,6 @@ struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
 struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel);
 int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y);
 
-int redraw_label(struct widget *pLabel);
 int redraw_iconlabel(struct widget *pLabel);
 void remake_label_size(struct widget *pLabel);
 
@@ -395,7 +389,6 @@ struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
 struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags);
 void togle_checkbox(struct widget *pCBox);
 bool get_checkbox_state(struct widget *pCBox);
-int redraw_textcheckbox(struct widget *pCBox);
 int set_new_checkbox_theme(struct widget *pCBox ,
 				SDL_Surface *pTrue, SDL_Surface *pFalse);
 
@@ -436,7 +429,7 @@ do {								\
 } while(0)
 
 #define redraw_ID(ID) \
-	redraw_widget(get_widget_pointer_form_main_list(ID))
+	widget_redraw(get_widget_pointer_form_main_list(ID))
 
 #define refresh_ID_background(ID) \
 	refresh_widget_background(get_widget_pointer_form_main_list(ID))
@@ -520,12 +513,6 @@ do {								\
 						       iPtsize),    \
 				flags)
 
-#define redraw_tibutton(pButton)	\
-	real_redraw_tibutton(pButton)
-
-#define redraw_ibutton(pButton)	\
-	real_redraw_ibutton(pButton)
-
 /* EDIT */
 #define create_edit_from_chars(pBackground, pDest, pCharString, iPtsize, length, flags)                                                                 \
 	create_edit(pBackground, pDest,                                 \
@@ -554,13 +541,6 @@ do {                                                                    \
 
 #define draw_frame_around_widget(pWidget)				\
 	draw_frame_around_widget_on_surface(pWidget , pWidget->dst->surface)
-
-/* ICON */
-#define redraw_icon(pIcon)	\
-	real_redraw_icon(pIcon)
-
-#define redraw_icon2(pIcon)	\
-	real_redraw_icon2(pIcon)
 
 /* LABEL */
 #define create_iconlabel_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \

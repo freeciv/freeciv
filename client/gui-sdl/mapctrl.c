@@ -103,7 +103,7 @@ static void Remake_UnitInfo(int w, int h);
 static int players_action_callback(struct widget *pWidget)
 {
   set_wstate(pWidget, FC_WS_NORMAL);
-  redraw_icon(pWidget);
+  widget_redraw(pWidget);
   widget_mark_dirty(pWidget);
   if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
     switch(Main.event.button.button) {
@@ -133,7 +133,7 @@ static int units_action_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pWidget, FC_WS_NORMAL);
-    redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     popup_activeunits_report_dialog(FALSE);
   }
@@ -146,7 +146,7 @@ static int units_action_callback(struct widget *pWidget)
 static int cities_action_callback(struct widget *pButton)
 {
   set_wstate(pButton, FC_WS_DISABLED);
-  redraw_icon(pButton);
+  widget_redraw(pButton);
   widget_mark_dirty(pButton);
   if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
     switch(Main.event.button.button) {
@@ -178,7 +178,7 @@ static int cities_action_callback(struct widget *pButton)
 static int end_turn_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_icon(pButton);
+    widget_redraw(pButton);
     widget_flush(pButton);
     disable_focus_animation();
     key_end_turn();
@@ -193,7 +193,7 @@ static int revolution_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_wstate(pButton, FC_WS_DISABLED);
-    redraw_icon2(pButton);
+    widget_redraw(pButton);
     widget_mark_dirty(pButton);
     popup_revolution_dialog();
   }
@@ -291,22 +291,22 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       
       /* ID_ECONOMY */
       pBuf = pUnits_Info_Window->prev;
-      real_redraw_icon2(pBuf);
+      widget_redraw(pBuf);
   
       /* ===== */
       /* ID_RESEARCH */
       pBuf = pBuf->prev;
-      real_redraw_icon2(pBuf);
+      widget_redraw(pBuf);
       
       /* ===== */
       /* ID_REVOLUTION */
       pBuf = pBuf->prev;
-      real_redraw_icon2(pBuf);
+      widget_redraw(pBuf);
   
       /* ===== */
       /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
       pBuf = pBuf->prev;
-      real_redraw_icon(pBuf);
+      widget_redraw(pBuf);
       
       popdown_scale_unitinfo_dlg_callback(NULL);
     } else {
@@ -330,7 +330,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
         redraw_unit_info_label(pFocus);
       } else {
         alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
-        real_redraw_icon(pIcon_Widget);
+        widget_redraw(pIcon_Widget);
         widget_mark_dirty(pIcon_Widget);
       }
     }
@@ -405,45 +405,45 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       /* redraw widgets */  
       /* ID_NEW_TURN */
       pWidget = pMiniMap_Window->prev;
-      real_redraw_icon(pWidget);
+      widget_redraw(pWidget);
   
       /* ID_PLAYERS */
       pWidget = pWidget->prev;
-      real_redraw_icon(pWidget);
+      widget_redraw(pWidget);
   
       /* ID_CITIES */
       pWidget = pWidget->prev;
-      real_redraw_icon(pWidget);
+      widget_redraw(pWidget);
   
       /* ID_UNITS */
       pWidget = pWidget->prev;
       if ((get_wflags(pWidget) & WF_HIDDEN) != WF_HIDDEN) {
-        real_redraw_icon(pWidget);
+        widget_redraw(pWidget);
       }
       
       /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
       pWidget = pWidget->prev;
       if ((get_wflags(pWidget) & WF_HIDDEN) != WF_HIDDEN) {
-        real_redraw_icon(pWidget);
+        widget_redraw(pWidget);
       }
   
       /* Toggle Minimap mode */
       pWidget = pWidget->prev;
       if ((get_wflags(pWidget) & WF_HIDDEN) != WF_HIDDEN) {
-        real_redraw_icon(pWidget);
+        widget_redraw(pWidget);
       }
       
       #ifdef SMALL_SCREEN
       /* options */
       pWidget = pWidget->prev;
       if ((get_wflags(pWidget) & WF_HIDDEN) != WF_HIDDEN) {
-        real_redraw_icon(pWidget);
+        widget_redraw(pWidget);
       }
       #endif
       
       /* ID_TOGGLE_MAP_WINDOW_BUTTON */
       pWidget = pWidget->prev;
-      real_redraw_icon(pWidget);
+      widget_redraw(pWidget);
   
 #ifdef SCALE_MINIMAP
       popdown_scale_minmap_dlg_callback(NULL);
@@ -466,7 +466,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         widget_mark_dirty(pMiniMap_Window);
       } else {
         alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
-        real_redraw_icon(pMap_Button);
+        widget_redraw(pMap_Button);
         widget_mark_dirty(pMap_Button);
       }
     }
@@ -510,7 +510,7 @@ static int toggle_msg_window_callback(struct widget *pWidget)
   
     pSellected_Widget = pWidget;
     set_wstate(pWidget, FC_WS_SELLECTED);
-    real_redraw_icon(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     
     flush_dirty();
@@ -565,14 +565,14 @@ static int popdown_scale_minmap_dlg_callback(struct widget *pWidget)
 static int up_width_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (((OVERVIEW_TILE_WIDTH + 1) * map.xsize + pTheme->FR_Left->w + BLOCKM_W + 
            pTheme->FR_Right->w) <= pUnits_Info_Window->size.x) {
       char cBuf[4];
       my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
       copy_chars_to_string16(pWidget->next->string16, cBuf);
-      redraw_label(pWidget->next);
+      widget_redraw(pWidget->next);
       widget_mark_dirty(pWidget->next);
       
       resize_minimap();
@@ -585,14 +585,14 @@ static int up_width_callback(struct widget *pWidget)
 static int down_width_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (OVERVIEW_TILE_WIDTH > 1) {
       char cBuf[4];
       
       my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
       copy_chars_to_string16(pWidget->prev->string16, cBuf);
-      redraw_label(pWidget->prev);
+      widget_redraw(pWidget->prev);
       widget_mark_dirty(pWidget->prev);
       
       resize_minimap();
@@ -605,7 +605,7 @@ static int down_width_callback(struct widget *pWidget)
 static int up_height_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (Main.screen->h -
       ((OVERVIEW_TILE_HEIGHT + 1) * map.ysize + (pTheme->FR_Bottom->h * 2)) >= 40) {
@@ -614,7 +614,7 @@ static int up_height_callback(struct widget *pWidget)
       OVERVIEW_TILE_HEIGHT++;
       my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
       copy_chars_to_string16(pWidget->next->string16, cBuf);
-      redraw_label(pWidget->next);
+      widget_redraw(pWidget->next);
       widget_mark_dirty(pWidget->next);
       resize_minimap();
     }
@@ -626,7 +626,7 @@ static int up_height_callback(struct widget *pWidget)
 static int down_height_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (OVERVIEW_TILE_HEIGHT > 1) {
       char cBuf[4];
@@ -634,7 +634,7 @@ static int down_height_callback(struct widget *pWidget)
       OVERVIEW_TILE_HEIGHT--;
       my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
       copy_chars_to_string16(pWidget->prev->string16, cBuf);
-      redraw_label(pWidget->prev);
+      widget_redraw(pWidget->prev);
       widget_mark_dirty(pWidget->prev);
       
       resize_minimap();
@@ -849,7 +849,7 @@ int resize_unit_info(void)
 static int up_info_width_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (Main.screen->w -
       ((INFO_WIDTH + 1) * map.xsize + BLOCKU_W + pTheme->FR_Left->w + pTheme->FR_Right->w) >=
@@ -865,7 +865,7 @@ static int up_info_width_callback(struct widget *pWidget)
 static int down_info_width_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if(INFO_WIDTH > INFO_WIDTH_MIN) {
       INFO_WIDTH--;
@@ -879,7 +879,7 @@ static int down_info_width_callback(struct widget *pWidget)
 static int up_info_height_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if(Main.screen->h -
       ((INFO_HEIGHT + 1) * map.ysize + pTheme->FR_Top->h + pTheme->FR_Bottom->h) >= 40) {
@@ -894,7 +894,7 @@ static int up_info_height_callback(struct widget *pWidget)
 static int down_info_height_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    redraw_widget(pWidget);
+    widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if(INFO_HEIGHT > INFO_HEIGHT_MIN) {
       INFO_HEIGHT--;    
@@ -1781,14 +1781,14 @@ struct widget * get_revolution_widget(void)
 void enable_and_redraw_find_city_button(void)
 {
   set_wstate(pFind_City_Button, FC_WS_NORMAL);
-  redraw_icon(pFind_City_Button);
+  widget_redraw(pFind_City_Button);
   widget_mark_dirty(pFind_City_Button);
 }
 
 void enable_and_redraw_revolution_button(void)
 {
   set_wstate(pRevolution_Button, FC_WS_NORMAL);
-  redraw_icon2(pRevolution_Button);
+  widget_redraw(pRevolution_Button);
   widget_mark_dirty(pRevolution_Button);
 }
 
@@ -2147,7 +2147,7 @@ static int newcity_ok_edit_callback(struct widget *pEdit) {
     } else {
       /* empty input -> restore previous content */
       copy_chars_to_string16(pEdit->string16, pSuggestedCityName);
-      redraw_edit(pEdit);
+      widget_redraw(pEdit);
       widget_mark_dirty(pEdit);
       flush_dirty();
     }
@@ -2359,7 +2359,7 @@ void set_turn_done_button_state(bool state)
     } else {
       set_wstate(pNew_Turn_Button, FC_WS_DISABLED);
     }
-    redraw_icon(pNew_Turn_Button);
+    widget_redraw(pNew_Turn_Button);
     widget_flush(pNew_Turn_Button);
   }
 }

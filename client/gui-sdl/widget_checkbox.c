@@ -25,6 +25,48 @@
 
 #include "widget.h"
 
+/* from widget_icon.c */
+extern int redraw_icon(struct widget *pIcon);
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int redraw_textcheckbox(struct widget *pCBox)
+{
+  int ret;
+  SDL_Surface *pTheme_Surface, *pIcon;
+
+  if(!pCBox->string16) {
+    return widget_redraw(pCBox);
+  }
+
+  pTheme_Surface = pCBox->theme;
+  pIcon = create_icon_from_theme(pTheme_Surface, get_wstate(pCBox));
+  
+  if (!pIcon) {
+    return -3;
+  }
+  
+  pCBox->theme = pIcon;
+
+  /* if label transparen then clear background under widget or save this background */
+  if (get_wflags(pCBox) & WF_RESTORE_BACKGROUND) {
+    if (pCBox->gfx) {
+      widget_undraw(pCBox);
+    } else {
+      pCBox->gfx = crop_rect_from_surface(pCBox->dst->surface, &pCBox->size);
+    }
+  }
+
+  /* redraw icon label */
+  ret = redraw_iconlabel(pCBox);
+
+  FREESURFACE(pIcon);
+  pCBox->theme = pTheme_Surface;
+
+  return ret;
+}
+
 /**************************************************************************
   ...
 **************************************************************************/
@@ -48,6 +90,8 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags
   pTmp->pTRUE_Theme = pTheme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
   pCBox->private_data.cbox = pTmp;
+
+  pCBox->redraw = redraw_icon;
   
   pCBox->size.w = pCBox->theme->w / 4;
   pCBox->size.h = pCBox->theme->h;
@@ -90,6 +134,8 @@ struct widget * create_textcheckbox(struct gui_layer *pDest, bool state,
   pTmp->pTRUE_Theme = pTheme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
   pCBox->private_data.cbox = pTmp;
+  
+  pCBox->redraw = redraw_textcheckbox;
   
   return pCBox;
 }
@@ -134,40 +180,4 @@ void togle_checkbox(struct widget *pCBox)
 bool get_checkbox_state(struct widget *pCBox)
 {
   return pCBox->private_data.cbox->state;
-}
-
-int redraw_textcheckbox(struct widget *pCBox)
-{
-  int ret;
-  SDL_Surface *pTheme_Surface, *pIcon;
-
-  if(!pCBox->string16) {
-    return redraw_icon(pCBox);
-  }
-
-  pTheme_Surface = pCBox->theme;
-  pIcon = create_icon_from_theme(pTheme_Surface, get_wstate(pCBox));
-  
-  if (!pIcon) {
-    return -3;
-  }
-  
-  pCBox->theme = pIcon;
-
-  /* if label transparen then clear background under widget or save this background */
-  if (get_wflags(pCBox) & WF_RESTORE_BACKGROUND) {
-    if (pCBox->gfx) {
-      widget_undraw(pCBox);
-    } else {
-      pCBox->gfx = crop_rect_from_surface(pCBox->dst->surface, &pCBox->size);
-    }
-  }
-
-  /* redraw icon label */
-  ret = redraw_iconlabel(pCBox);
-
-  FREESURFACE(pIcon);
-  pCBox->theme = pTheme_Surface;
-
-  return ret;
 }

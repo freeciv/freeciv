@@ -103,7 +103,7 @@ static int connect_callback(struct widget *pWidget)
       unsellect_widget_action();
       set_wstate(pWidget, FC_WS_SELLECTED);
       pSellected_Widget = pWidget;
-      redraw_tibutton(pWidget);
+      widget_redraw(pWidget);
       widget_flush(pWidget);
     }
   }
@@ -417,7 +417,7 @@ void popup_connection_dialog(bool lan_scan)
   /* -------------------- */
   /* redraw */
   
-  redraw_window(pWindow);
+  widget_redraw(pWindow);
   
   area.x = pMeta_Severs->pEndActiveWidgetList->size.x;
   area.y = pMeta_Severs->pEndActiveWidgetList->size.y;
@@ -452,7 +452,7 @@ static int convert_playername_callback(struct widget *pWidget)
     } else {
       /* empty input -> restore previous content */
       copy_chars_to_string16(pWidget->string16, user_name);
-      redraw_edit(pWidget);
+      widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
       flush_dirty();
     }
@@ -474,7 +474,7 @@ static int convert_servername_callback(struct widget *pWidget)
     } else {
       /* empty input -> restore previous content */
       copy_chars_to_string16(pWidget->string16, server_host);
-      redraw_edit(pWidget);
+      widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
       flush_dirty();
     }
@@ -498,7 +498,7 @@ static int convert_portnr_callback(struct widget *pWidget)
       /* empty input -> restore previous content */
       my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
       copy_chars_to_string16(pWidget->string16, pCharPort);
-      redraw_edit(pWidget);
+      widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
       flush_dirty();
     }
@@ -715,8 +715,8 @@ static int send_passwd_callback(struct widget *pWidget)
     set_wstate(pWidget, FC_WS_DISABLED);
     set_wstate(pWidget->prev, FC_WS_DISABLED);
     
-    redraw_tibutton(pWidget);
-    redraw_tibutton(pWidget->prev);
+    widget_redraw(pWidget);
+    widget_redraw(pWidget->prev);
     
     widget_mark_dirty(pWidget);
     widget_mark_dirty(pWidget->prev);
@@ -860,7 +860,7 @@ static int convert_first_passwd_callback(struct widget *pWidget)
       my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
       FC_FREE(tmp);
       set_wstate(pWidget->prev, FC_WS_NORMAL);
-      redraw_edit(pWidget->prev);
+      widget_redraw(pWidget->prev);
       widget_flush(pWidget->prev);
     }
   }
@@ -877,7 +877,7 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
     
     if (tmp && strncmp(password, tmp, MAX_LEN_NAME) == 0) {
       set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
-      redraw_tibutton(pWidget->prev);
+      widget_redraw(pWidget->prev);
       widget_flush(pWidget->prev);
     } else {
       memset(password, 0, MAX_LEN_NAME);
@@ -888,8 +888,8 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
       
       set_wstate(pWidget, FC_WS_DISABLED);
       
-      redraw_edit(pWidget);
-      redraw_edit(pWidget->next);
+      widget_redraw(pWidget);
+      widget_redraw(pWidget->next);
     
       widget_mark_dirty(pWidget);
       widget_mark_dirty(pWidget->next);

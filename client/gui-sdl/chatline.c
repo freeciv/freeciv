@@ -239,7 +239,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
       redraw_group(pConnDlg->pChat_Dlg->pBeginWidgetList,
     			pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
     } else {
-      redraw_widget(pBuf);
+      widget_redraw(pBuf);
       widget_mark_dirty(pBuf);
     }
   }

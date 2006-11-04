@@ -215,7 +215,7 @@ static int rename_worklist_editor_callback(struct widget *pWidget)
     } else {
       /* empty input -> restore previous content */
       copy_chars_to_string16(pWidget->string16, pEditor->pCopy_WorkList->name);
-      redraw_edit(pWidget);
+      widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
       flush_dirty();
     }
@@ -236,7 +236,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   struct city_production prod = cid_decode(MAX_ID - pTarget->ID);
   
   set_wstate(pTarget, FC_WS_SELLECTED);
-  redraw_widget(pTarget);
+  widget_redraw(pTarget);
   widget_flush(pTarget);
   
   /* Deny adding currently building Impr/Wonder Target */ 
@@ -371,7 +371,7 @@ static void add_target_to_production(struct widget *pTarget)
   
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
-  redraw_widget(pTarget);
+  widget_redraw(pTarget);
   widget_flush(pTarget);
   
   prod = cid_decode(MAX_ID - pTarget->ID);
@@ -392,7 +392,7 @@ static void add_target_to_production(struct widget *pTarget)
   
   pEditor->pWork->pEndActiveWidgetList->ID = MAX_ID - cid_encode(prod);
     
-  redraw_widget(pEditor->pWork->pEndActiveWidgetList);
+  widget_redraw(pEditor->pWork->pEndActiveWidgetList);
   widget_mark_dirty(pEditor->pWork->pEndActiveWidgetList);
   
   flush_dirty();    
@@ -407,7 +407,7 @@ static void get_target_help_data(struct widget *pTarget)
   
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
-  redraw_widget(pTarget);
+  widget_redraw(pTarget);
   /*widget_flush(pTarget);*/
   
   prod = cid_decode(MAX_ID - pTarget->ID);
@@ -959,7 +959,7 @@ static void refresh_production_label(int stock)
   
   refresh_widget_background(pEditor->pProduction_Name);
   
-  redraw_label(pEditor->pProduction_Name);
+  widget_redraw(pEditor->pProduction_Name);
   sdl_dirty_rect(area);
   
   FREESURFACE(pEditor->pProduction_Progres->theme);
@@ -968,7 +968,7 @@ static void refresh_production_label(int stock)
     
   my_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
   copy_chars_to_string16(pEditor->pProduction_Progres->string16, cBuf);
-  redraw_label(pEditor->pProduction_Progres);
+  widget_redraw(pEditor->pProduction_Progres);
   widget_mark_dirty(pEditor->pProduction_Progres);
 }
 
@@ -991,7 +991,7 @@ static void refresh_worklist_count_label(void)
   
   refresh_widget_background(pEditor->pWorkList_Counter);
   
-  redraw_label(pEditor->pWorkList_Counter);
+  widget_redraw(pEditor->pWorkList_Counter);
 
   area.x = pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w;
   area.y = pEditor->pWorkList_Counter->size.y;

@@ -198,7 +198,7 @@ void update_players_dialog(void)
     SDL_Rect dst0, dst1;
           
     /* redraw window */
-    redraw_widget(pPlayers_Dlg->pEndWidgetList);
+    widget_redraw(pPlayers_Dlg->pEndWidgetList);
     
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     pPlayer0 = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;

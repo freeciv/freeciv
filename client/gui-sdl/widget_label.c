@@ -30,6 +30,95 @@
 /**************************************************************************
   ...
 **************************************************************************/
+static inline int redraw_themelabel2(struct widget *pLabel)
+{
+    
+  SDL_Rect src = {0,0, pLabel->size.w, pLabel->size.h};
+  SDL_Rect dst = {pLabel->size.x, pLabel->size.y, 0, 0};
+/* 
+  if (!pLabel) {
+    return -3;
+  }
+*/
+  if(get_wstate(pLabel) == FC_WS_SELLECTED) {
+    src.y = pLabel->size.h;
+  }
+
+  return alphablit(pLabel->theme, &src, pLabel->dst->surface, &dst);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int redraw_label(struct widget *pLabel)
+{
+  int ret;
+  SDL_Rect area = pLabel->size;
+  SDL_Color bar_color = *get_game_colorRGB(COLOR_THEME_LABEL_BAR);
+  SDL_Color backup_color = {0, 0, 0, 0};
+
+  /* if label transparen then clear background under widget
+   * or save this background */
+  if (get_wflags(pLabel) & WF_RESTORE_BACKGROUND) {
+    if (pLabel->gfx) {
+      widget_undraw(pLabel);
+    } else {
+      pLabel->gfx = crop_rect_from_surface(pLabel->dst->surface, &area);
+    }
+  }
+
+  if(get_wtype(pLabel) == WT_T2_LABEL) {
+    return redraw_themelabel2(pLabel);
+  }
+
+  /* redraw sellect bar */
+  if (get_wstate(pLabel) == FC_WS_SELLECTED) {
+    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
+      if (pLabel->string16) {
+        backup_color = pLabel->string16->fgcol;
+        pLabel->string16->fgcol = bar_color;
+	if(pLabel->string16->style & TTF_STYLE_BOLD) {
+	  pLabel->string16->style |= TTF_STYLE_UNDERLINE;
+	} else {
+	  pLabel->string16->style |= TTF_STYLE_BOLD;
+	}
+      }
+    } else {
+      SDL_FillRectAlpha(pLabel->dst->surface, &area, &bar_color);
+
+      if (pLabel->string16 && (pLabel->string16->render == 3)) {
+        backup_color = pLabel->string16->bgcol;
+        SDL_GetRGBA(getpixel(pLabel->dst->surface, area.x , area.y), pLabel->dst->surface->format,
+	      &pLabel->string16->bgcol.r, &pLabel->string16->bgcol.g,
+      		&pLabel->string16->bgcol.b, &pLabel->string16->bgcol.unused);
+      }
+    }
+  }
+
+  /* redraw icon label */
+  ret = redraw_iconlabel(pLabel);
+  
+  if ((get_wstate(pLabel) == FC_WS_SELLECTED) && (pLabel->string16)) {
+    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
+      if (pLabel->string16->style & TTF_STYLE_UNDERLINE) {
+	pLabel->string16->style &= ~TTF_STYLE_UNDERLINE;
+      } else {
+	pLabel->string16->style &= ~TTF_STYLE_BOLD;
+      }
+      pLabel->string16->fgcol = backup_color;
+    } else {
+      if(pLabel->string16->render == 3) {
+	pLabel->string16->bgcol = backup_color;
+      }
+    } 
+  }
+  
+  return ret;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 void remake_label_size(struct widget *pLabel)
 {
   SDL_Surface *pIcon = pLabel->theme;
@@ -114,6 +203,8 @@ struct widget * create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   pLabel->mod = KMOD_NONE;
   pLabel->dst = pDest;
   
+  pLabel->redraw = redraw_label;
+  
   remake_label_size(pLabel);
 
   pLabel->size.w = MAX(pLabel->size.w, w);
@@ -139,6 +230,8 @@ struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wtype(pILabel, WT_I_LABEL);
   pILabel->mod = KMOD_NONE;
   pILabel->dst = pDest;
+  
+  pILabel->redraw = redraw_label;
   
   remake_label_size(pILabel);
 
@@ -169,7 +262,7 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wstate(pLabel, FC_WS_DISABLED);
   set_wtype(pLabel, WT_T2_LABEL);
   pLabel->mod = KMOD_NONE;
-  
+  pLabel->redraw = redraw_label;
   
   remake_label_size(pLabel);
 
@@ -293,6 +386,9 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   }
   pIconLabel->dst->surface = pDest;
   set_wtype(pIconLabel, WT_T2_LABEL);
+  
+  pIconLabel->redraw = redraw_label;
+  
   return pIconLabel;
 }
 
@@ -341,26 +437,6 @@ static int redraw_themelabel(struct widget *pLabel)
   return ret;
 }
 #endif
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static inline int redraw_themelabel2(struct widget *pLabel)
-{
-    
-  SDL_Rect src = {0,0, pLabel->size.w, pLabel->size.h};
-  SDL_Rect dst = {pLabel->size.x, pLabel->size.y, 0, 0};
-/* 
-  if (!pLabel) {
-    return -3;
-  }
-*/
-  if(get_wstate(pLabel) == FC_WS_SELLECTED) {
-    src.y = pLabel->size.h;
-  }
-
-  return alphablit(pLabel->theme, &src, pLabel->dst->surface, &dst);
-}
 
 /**************************************************************************
   ...
@@ -497,75 +573,6 @@ int redraw_iconlabel(struct widget *pLabel)
   }
 
   SDL_SetClipRect(pLabel->dst->surface, NULL);
-  return ret;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-int redraw_label(struct widget *pLabel)
-{
-  int ret;
-  SDL_Rect area = pLabel->size;
-  SDL_Color bar_color = *get_game_colorRGB(COLOR_THEME_LABEL_BAR);
-  SDL_Color backup_color = {0, 0, 0, 0};
-
-  /* if label transparen then clear background under widget
-   * or save this background */
-  if (get_wflags(pLabel) & WF_RESTORE_BACKGROUND) {
-    if (pLabel->gfx) {
-      widget_undraw(pLabel);
-    } else {
-      pLabel->gfx = crop_rect_from_surface(pLabel->dst->surface, &area);
-    }
-  }
-
-  if(get_wtype(pLabel) == WT_T2_LABEL) {
-    return redraw_themelabel2(pLabel);
-  }
-
-  /* redraw sellect bar */
-  if (get_wstate(pLabel) == FC_WS_SELLECTED) {
-    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
-      if (pLabel->string16) {
-        backup_color = pLabel->string16->fgcol;
-        pLabel->string16->fgcol = bar_color;
-	if(pLabel->string16->style & TTF_STYLE_BOLD) {
-	  pLabel->string16->style |= TTF_STYLE_UNDERLINE;
-	} else {
-	  pLabel->string16->style |= TTF_STYLE_BOLD;
-	}
-      }
-    } else {
-      SDL_FillRectAlpha(pLabel->dst->surface, &area, &bar_color);
-
-      if (pLabel->string16 && (pLabel->string16->render == 3)) {
-        backup_color = pLabel->string16->bgcol;
-        SDL_GetRGBA(getpixel(pLabel->dst->surface, area.x , area.y), pLabel->dst->surface->format,
-	      &pLabel->string16->bgcol.r, &pLabel->string16->bgcol.g,
-      		&pLabel->string16->bgcol.b, &pLabel->string16->bgcol.unused);
-      }
-    }
-  }
-
-  /* redraw icon label */
-  ret = redraw_iconlabel(pLabel);
-  
-  if ((get_wstate(pLabel) == FC_WS_SELLECTED) && (pLabel->string16)) {
-    if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
-      if (pLabel->string16->style & TTF_STYLE_UNDERLINE) {
-	pLabel->string16->style &= ~TTF_STYLE_UNDERLINE;
-      } else {
-	pLabel->string16->style &= ~TTF_STYLE_BOLD;
-      }
-      pLabel->string16->fgcol = backup_color;
-    } else {
-      if(pLabel->string16->render == 3) {
-	pLabel->string16->bgcol = backup_color;
-      }
-    } 
-  }
-  
   return ret;
 }
 

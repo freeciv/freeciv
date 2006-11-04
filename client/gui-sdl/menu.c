@@ -218,7 +218,7 @@ static Uint16 redraw_order_widgets(void)
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
 
       refresh_widget_background(pTmpWidget);
-      real_redraw_icon(pTmpWidget);
+      widget_redraw(pTmpWidget);
       widget_mark_dirty(pTmpWidget);
       count++;
     }
@@ -915,7 +915,7 @@ void update_menus(void)
       struct widget *pWidget = get_unit_info_window_widget();
           
       clear_wflag(pOptions_Button, WF_HIDDEN);
-      real_redraw_icon(pOptions_Button);
+      widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
 	
       /* economy button */
@@ -997,7 +997,7 @@ void update_menus(void)
       SDL_Client_Flags &= ~CF_GANE_JUST_STARTED;
 
       clear_wflag(pOptions_Button, WF_HIDDEN);
-      real_redraw_icon(pOptions_Button);
+      widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
       
       /* economy button */
