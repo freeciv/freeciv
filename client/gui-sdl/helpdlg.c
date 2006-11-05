@@ -247,6 +247,7 @@ void popup_impr_info(Impr_type_id impr)
       dst.x = adj_size(5);
       dst.y = (pBack->h - pText->h) / 2;
       alphablit(pText, NULL, pBack, &dst);
+      FREESURFACE(pText);
       
       pBuf = create_icon2(pBack, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
