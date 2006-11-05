@@ -1268,7 +1268,7 @@ msgstr[1] ""
 "Κρατήσου γερά - ερχόμαστε!"
 
 #: ai/advdiplomacy.c:1240
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
