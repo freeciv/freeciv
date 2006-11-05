@@ -216,8 +216,9 @@ static Uint16 redraw_order_widgets(void)
   while (TRUE) {
 
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
-
-      refresh_widget_background(pTmpWidget);
+      if (get_wflags(pTmpWidget) & WF_RESTORE_BACKGROUND) {
+        refresh_widget_background(pTmpWidget);
+      }
       widget_redraw(pTmpWidget);
       widget_mark_dirty(pTmpWidget);
       count++;
@@ -788,6 +789,14 @@ void create_units_order_widgets(void)
 /**************************************************************************
   ...
 **************************************************************************/
+void delete_units_order_widgets(void)
+{
+  del_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 void update_order_widget(void)
 {
   set_new_order_widget_start_pos();
@@ -851,8 +860,10 @@ void update_menus(void)
 
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;
 	
-    set_wflag(pOptions_Button, WF_HIDDEN);
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
+      
+      set_wflag(pOptions_Button, WF_HIDDEN);      
+      
       struct widget *pWidget = get_unit_info_window_widget();
 	
       /* economy button */

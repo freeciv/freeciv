@@ -119,7 +119,9 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     widget_mark_dirty(pMotion->pScrollBar->next);
     
     /* redraw scroolbar */
-    refresh_widget_background(pMotion->pScrollBar);
+    if (get_wflags(pMotion->pScrollBar) & WF_RESTORE_BACKGROUND) {
+      refresh_widget_background(pMotion->pScrollBar);
+    }
     widget_redraw(pMotion->pScrollBar);
     widget_mark_dirty(pMotion->pScrollBar);
 

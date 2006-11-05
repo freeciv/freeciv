@@ -310,10 +310,7 @@ void set_client_page(enum client_pages page)
       popdown_start_menu();
       break;
     case PAGE_GAME:
-      disable_main_widgets();
-      popdown_minimap_window();
-      popdown_unitinfo_window();
-      SDL_Client_Flags &= ~CF_MAP_UNIT_W_CREATED;
+      close_game_page();
       break;
     default: 
       break;
@@ -323,11 +320,8 @@ void set_client_page(enum client_pages page)
     case PAGE_MAIN:
       show_main_page();
       break;
-    case PAGE_START:
-      popup_minimap_window();
-      popup_unitinfo_window();
-      SDL_Client_Flags |= CF_MAP_UNIT_W_CREATED;
     case PAGE_GAME:
+/*      show_game_page();*/
       enable_main_widgets();
     default:
       break;

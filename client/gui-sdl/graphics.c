@@ -261,6 +261,8 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
     FREESURFACE(pMask);
   }
 
+  FREESURFACE(pSrc); /* result of SDL_DisplayFormatAlpha() */
+  
   return pDest;
 }
 /**************************************************************************

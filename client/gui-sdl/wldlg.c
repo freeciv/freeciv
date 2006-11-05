@@ -956,8 +956,10 @@ static void refresh_production_label(int stock)
   area.y = pEditor->pProduction_Name->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pProduction_Name->size.h;
-  
-  refresh_widget_background(pEditor->pProduction_Name);
+
+  if (get_wflags(pEditor->pProduction_Name) & WF_RESTORE_BACKGROUND) {
+    refresh_widget_background(pEditor->pProduction_Name);
+  }
   
   widget_redraw(pEditor->pProduction_Name);
   sdl_dirty_rect(area);
@@ -989,7 +991,9 @@ static void refresh_worklist_count_label(void)
   pEditor->pWorkList_Counter->size.x = pEditor->pEndWidgetList->size.x +
     (adj_size(130) - pEditor->pWorkList_Counter->size.w)/2 + pTheme->FR_Left->w;
   
-  refresh_widget_background(pEditor->pWorkList_Counter);
+  if (get_wflags(pEditor->pWorkList_Counter) & WF_RESTORE_BACKGROUND) {
+    refresh_widget_background(pEditor->pWorkList_Counter);
+  }
   
   widget_redraw(pEditor->pWorkList_Counter);
 

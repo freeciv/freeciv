@@ -941,8 +941,6 @@ void ui_main(int argc, char *argv[])
 
   clear_double_messages_call();
     
-  create_units_order_widgets();
-
   setup_auxiliary_tech_icons();
   
   if (gui_sdl_fullscreen) {
@@ -988,11 +986,6 @@ void ui_main(int argc, char *argv[])
 
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();    
-  Init_MapView();
-  
-  #ifndef SMALL_SCREEN
-  init_options_button();
-  #endif
   
   set_client_state(CLIENT_PRE_GAME_STATE);
 

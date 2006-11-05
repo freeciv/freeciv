@@ -859,7 +859,9 @@ static void inside_scroll_down_loop(void *pData)
 
       if (pDown->pVscroll->pScrollBar) {
 	/* redraw scrollbar */
-	refresh_widget_background(pDown->pVscroll->pScrollBar);
+        if (get_wflags(pDown->pVscroll->pScrollBar) & WF_RESTORE_BACKGROUND) {
+	  refresh_widget_background(pDown->pVscroll->pScrollBar);
+        }
 	redraw_vert(pDown->pVscroll->pScrollBar);
 
 	widget_mark_dirty(pDown->pVscroll->pScrollBar);

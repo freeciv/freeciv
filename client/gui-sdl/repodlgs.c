@@ -1160,12 +1160,16 @@ static Uint16 report_scroll_mouse_motion_handler(
       widget_mark_dirty(pMotion->pLabel_Dst);
 
       /* redraw scroolbar */
-      refresh_widget_background(pMotion->pHoriz_Src);
+      if (get_wflags(pMotion->pHoriz_Src) & WF_RESTORE_BACKGROUND) {      
+        refresh_widget_background(pMotion->pHoriz_Src);
+      }
       widget_redraw(pMotion->pHoriz_Src);
       widget_mark_dirty(pMotion->pHoriz_Src);
 	  
       if(pMotion->pHoriz_Dst) {
-        refresh_widget_background(pMotion->pHoriz_Dst);
+        if (get_wflags(pMotion->pHoriz_Dst) & WF_RESTORE_BACKGROUND) {
+          refresh_widget_background(pMotion->pHoriz_Dst);
+        }
         widget_redraw(pMotion->pHoriz_Dst);
         widget_mark_dirty(pMotion->pHoriz_Dst);
       }

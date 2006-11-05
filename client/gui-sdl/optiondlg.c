@@ -254,12 +254,14 @@ static int add_new_worklist_callback(struct widget *pWidget)
       widget_mark_dirty(pOption_Dlg->pEndOptionsWidgetList);
     } else {
       /* redraw only new widget and dock widget */
-      if (!pWidget->gfx) {
+      if (!pWidget->gfx && (get_wflags(pWidget) & WF_RESTORE_BACKGROUND)) {
         refresh_widget_background(pWidget);
       }
       widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
-      if (!pNew_WorkList_Widget->gfx) {
+      
+      if (!pNew_WorkList_Widget->gfx &&
+          (get_wflags(pNew_WorkList_Widget) & WF_RESTORE_BACKGROUND)) {
         refresh_widget_background(pNew_WorkList_Widget);
       }
       widget_redraw(pNew_WorkList_Widget);
@@ -471,7 +473,9 @@ static int change_mode_callback(struct widget *pWidget)
     
     if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
       draw_intro_gfx();
-      refresh_widget_background(pTmpWidget);
+      if (get_wflags(pWidget) & WF_RESTORE_BACKGROUND) {
+        refresh_widget_background(pTmpWidget);
+      }
       redraw_group(pOption_Dlg->pBeginOptionsWidgetList, 
                                   pOption_Dlg->pEndOptionsWidgetList, 0);
     } else {

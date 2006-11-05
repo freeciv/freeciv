@@ -197,7 +197,9 @@ int resize_window(struct widget *pWindow,
   pWindow->size.w = new_w;
   pWindow->size.h = new_h;
 
-  refresh_widget_background(pWindow);
+  if (get_wflags(pWindow) & WF_RESTORE_BACKGROUND) {
+    refresh_widget_background(pWindow);
+  }
 
   gui_layer = get_gui_layer(pWindow->dst->surface);
   FREESURFACE(gui_layer->surface);

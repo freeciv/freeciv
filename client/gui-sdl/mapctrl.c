@@ -1250,17 +1250,14 @@ void set_new_mini_map_window_pos(void)
 
 void Remake_MiniMap(int w, int h)
 {
-  w += (pTheme->FR_Left->w + BLOCKM_W + pTheme->FR_Right->w);
+  MINI_MAP_W = w + (pTheme->FR_Left->w + BLOCKM_W + pTheme->FR_Right->w);
   
   if(h < DEFAULT_OVERVIEW_H) {
-    h = DEFAULT_OVERVIEW_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
+    MINI_MAP_H = DEFAULT_OVERVIEW_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
   } else {
-    h += (pTheme->FR_Top->h + pTheme->FR_Bottom->h);
+    MINI_MAP_H = h + (pTheme->FR_Top->h + pTheme->FR_Bottom->h);
   }
 
-  MINI_MAP_W = w;
-  MINI_MAP_H = h;
-  
   popdown_minimap_window();
   popup_minimap_window();
 }
@@ -1599,24 +1596,19 @@ void popdown_minimap_window()
   }
 }
 
-/**************************************************************************
-  Init MiniMap window and Unit's Info Window.
-**************************************************************************/
-void Init_MapView(void)
+void show_game_page()
 {
   struct widget *pWidget;
   SDL_Surface *pIcon_theme = NULL;
 
-#if 0
-/* FIXME: Init_MapView() should be replaced by a function show_game_page()
-          or similar which includes this code */
-  popup_unitinfo_window();
   popup_minimap_window();
+  popup_unitinfo_window();
   SDL_Client_Flags |= CF_MAP_UNIT_W_CREATED;
-#endif
-  
-  /* ========================= Cooling/Warming ========================== */
 
+  #ifndef SMALL_SCREEN
+  init_options_button();
+  #endif
+  
   /* cooling icon */
   pIcon_theme = adj_surf(GET_SURF(client_cooling_sprite()));
   assert(pIcon_theme != NULL);
@@ -1639,6 +1631,31 @@ void Init_MapView(void)
                       adj_size(10));
 
   add_to_gui_list(ID_WARMING_ICON, pWidget);
+
+  /* create order buttons */
+  create_units_order_widgets();
+
+
+
+}
+
+void close_game_page()
+{
+  struct widget *pWidget;
+
+  del_widget_from_gui_list(pOptions_Button);
+  
+  pWidget = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+  del_widget_from_gui_list(pWidget);
+  
+  pWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+  del_widget_from_gui_list(pWidget);
+  
+  delete_units_order_widgets();
+  
+  popdown_minimap_window();
+  popdown_unitinfo_window();
+  SDL_Client_Flags &= ~CF_MAP_UNIT_W_CREATED;
 }
 
 void disable_main_widgets(void)

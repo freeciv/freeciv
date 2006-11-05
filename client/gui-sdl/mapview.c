@@ -40,6 +40,7 @@
 #include "civclient.h"
 #include "climisc.h"
 #include "overview_common.h"
+#include "pages_g.h"
 #include "text.h"
 
 /* gui-sdl */
@@ -355,6 +356,11 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 ****************************************************************************/
 void overview_size_changed(void)
 {
+  /* FIXME */
+  if (get_client_page() == PAGE_START) {
+    show_game_page();
+  }
+  
   map_canvas_resized(Main.screen->w, Main.screen->h);  	
   
   if (overview_canvas) {
@@ -362,7 +368,7 @@ void overview_size_changed(void)
   }      
   
   overview_canvas = canvas_create(overview.width, overview.height);
-  
+
   resize_minimap();
 }
 

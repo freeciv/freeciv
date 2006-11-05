@@ -223,7 +223,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
 struct widget * WidgetListScaner(const struct widget *pGUI_List, int x, int y)
 {
   SDL_Rect area = {0, 0, 0, 0};
-  
+
   while (pGUI_List) {
     area.x = pGUI_List->dst->dest_rect.x + pGUI_List->size.x;
     area.y = pGUI_List->dst->dest_rect.y + pGUI_List->size.y;
@@ -740,10 +740,10 @@ void del_widget_pointer_from_gui_list(struct widget *pGUI)
     return;
   }
 
-  if (pGUI == pBeginMainWidgetList && pBeginMainWidgetList->next) {
+  if (pGUI == pBeginMainWidgetList) {
     pBeginMainWidgetList = pBeginMainWidgetList->next;
   }
-
+  
   if (pGUI->prev && pGUI->next) {
     pGUI->prev->next = pGUI->next;
     pGUI->next->prev = pGUI->prev;

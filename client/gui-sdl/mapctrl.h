@@ -59,7 +59,9 @@ void popup_minimap_window(void);
 void popdown_minimap_window(void);
 void popup_unitinfo_window(void);
 void popdown_unitinfo_window(void);
-void Init_MapView(void);
+
+void show_game_page(void);
+void close_game_page(void);
 
 void Remake_MiniMap(int w, int h);
 void set_new_units_window_pos(void);
