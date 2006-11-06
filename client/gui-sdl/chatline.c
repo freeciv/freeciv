@@ -99,25 +99,19 @@ static int inputline_return_callback(struct widget *pWidget)
 **************************************************************************/
 void popup_input_line(void)
 {
-  int w = adj_size(400);
-  int h = adj_size(30);
   struct widget *pInput_Edit;
-    
-  pInput_Edit = create_edit_from_unichars(NULL, NULL, NULL, 0, adj_font(18), w, 0);
   
-  pInput_Edit->size.x = (Main.screen->w - w) / 2;
+  pInput_Edit = create_edit_from_unichars(NULL, Main.gui, NULL, 0, adj_font(12),
+                                          adj_size(400), 0);
   
-  if (h > pInput_Edit->size.h) {
-    pInput_Edit->size.h = h;
-  }
-
-  pInput_Edit->size.y = Main.screen->h - 2 * pInput_Edit->size.h;
-  
+  pInput_Edit->size.x = (Main.screen->w - pInput_Edit->size.w) / 2;
+  pInput_Edit->size.y = (Main.screen->h - pInput_Edit->size.h) / 2;
   
   if(edit(pInput_Edit) != ED_ESC) {
     inputline_return_callback(pInput_Edit);
   }
   
+  widget_undraw(pInput_Edit);
   widget_mark_dirty(pInput_Edit);
   FREEWIDGET(pInput_Edit);
   
