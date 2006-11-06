@@ -79,8 +79,8 @@ static struct ADVANCED_DLG *pUnitInfo_Dlg = NULL;
 
 static struct ADVANCED_DLG *pMiniMap_Dlg = NULL;
 
-int MINI_MAP_W = 0;
-int MINI_MAP_H = 0;
+int MINI_MAP_W = DEFAULT_OVERVIEW_W;
+int MINI_MAP_H = DEFAULT_OVERVIEW_H;
 int UNITS_W = 0;
 int UNITS_H = 0;
 
@@ -97,6 +97,10 @@ static struct widget *pResearch_Button = NULL;
 
 static int popdown_scale_unitinfo_dlg_callback(struct widget *pWidget);
 static void Remake_UnitInfo(int w, int h);
+static void enable_minimap_widgets(void);
+static void disable_minimap_widgets(void);
+static void enable_unitinfo_widgets(void);
+static void disable_unitinfo_widgets(void);
 
 /* ================================================================ */
 
@@ -449,7 +453,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       popdown_scale_minmap_dlg_callback(NULL);
 #endif
     } else {
-      if (MINI_MAP_W <= pUnits_Info_Window->dst->dest_rect.x) {
+      if ((MINI_MAP_W + pTheme->FR_Left->w + BLOCKM_W + pTheme->FR_Right->w) <= pUnits_Info_Window->dst->dest_rect.x) {
         
         set_wstate(pMap_Button, FC_WS_NORMAL);
         pSellected_Widget = NULL;
@@ -459,7 +463,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
           
         alphablit(pTheme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL);
         SDL_Client_Flags |= CF_MINI_MAP_SHOW;
-        pMiniMap_Window->size.w = MINI_MAP_W;
+        pMiniMap_Window->size.w = MINI_MAP_W + pTheme->FR_Left->w + BLOCKM_W + pTheme->FR_Right->w;
         set_new_mini_map_window_pos();
       
         refresh_overview(); /* Is a full refresh needed? */
@@ -520,13 +524,13 @@ static int toggle_msg_window_callback(struct widget *pWidget)
 
 int resize_minimap(void)
 {
-  int w = OVERVIEW_TILE_WIDTH * map.xsize;
-  int h = OVERVIEW_TILE_HEIGHT * map.ysize;
-  int current_w = pMiniMap_Window->size.w - BLOCKM_W - pTheme->FR_Left->w - pTheme->FR_Right->w;
-  int current_h = pMiniMap_Window->size.h - pTheme->FR_Top->h - pTheme->FR_Bottom->h;
-  
+  int w = overview.width;
+  int h = overview.height;
+  int current_w = MINI_MAP_W;
+  int current_h = MINI_MAP_H;
+
   if ((((current_w > DEFAULT_OVERVIEW_W) || (w > DEFAULT_OVERVIEW_W)) && (current_w != w)) ||
-     (((current_h > DEFAULT_OVERVIEW_H)  || (h > DEFAULT_OVERVIEW_H)) && (current_h != h))) {
+   (((current_h > DEFAULT_OVERVIEW_H)  || (h > DEFAULT_OVERVIEW_H)) && (current_h != h))) {
     Remake_MiniMap(w, h);
   }
   
@@ -1250,12 +1254,12 @@ void set_new_mini_map_window_pos(void)
 
 void Remake_MiniMap(int w, int h)
 {
-  MINI_MAP_W = w + (pTheme->FR_Left->w + BLOCKM_W + pTheme->FR_Right->w);
+  MINI_MAP_W = w;
   
   if(h < DEFAULT_OVERVIEW_H) {
-    MINI_MAP_H = DEFAULT_OVERVIEW_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
+    MINI_MAP_H = DEFAULT_OVERVIEW_H;
   } else {
-    MINI_MAP_H = h + (pTheme->FR_Top->h + pTheme->FR_Bottom->h);
+    MINI_MAP_H = h;
   }
 
   popdown_minimap_window();
@@ -1345,6 +1349,10 @@ void popup_unitinfo_window() {
   struct widget *pWidget, *pWindow;
   SDL_Surface *pIcon_theme = NULL;
   
+  if (pUnitInfo_Dlg) {
+    return;
+  }    
+  
 #if 0  
   SDL_Rect unit_info_area = {pTheme->FR_Left->w + BLOCKU_W, pTheme->FR_Top->h ,
                  UNITS_W - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w,
@@ -1379,7 +1387,7 @@ void popup_unitinfo_window() {
   pWindow->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
   
   pWindow->action = unit_info_window_callback;
-  set_wstate(pWindow, FC_WS_DISABLED);
+
   add_to_gui_list(ID_UNITS_WINDOW, pWindow);
 
   pUnits_Info_Window = pWindow;
@@ -1394,7 +1402,7 @@ void popup_unitinfo_window() {
   pWidget->string16 = create_str16_from_char(_("Economy (F5)"), adj_font(12));
   pWidget->action = economy_callback;
   pWidget->key = SDLK_F5;
-  set_wstate(pWidget, FC_WS_DISABLED);  
+
   add_to_gui_list(ID_ECONOMY, pWidget);
   
   pTax_Button = pWidget; 
@@ -1405,7 +1413,7 @@ void popup_unitinfo_window() {
   pWidget->string16 = create_str16_from_char(_("Research (F6)"), adj_font(12));
   pWidget->action = research_callback;
   pWidget->key = SDLK_F6;
-  set_wstate(pWidget, FC_WS_DISABLED);
+
   add_to_gui_list(ID_RESEARCH, pWidget);
 
   pResearch_Button = pWidget;
@@ -1417,7 +1425,7 @@ void popup_unitinfo_window() {
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
   pWidget->mod = KMOD_SHIFT;
-  set_wstate(pWidget, FC_WS_DISABLED);
+
   add_to_gui_list(ID_REVOLUTION, pWidget);
 
   pRevolution_Button = pWidget;
@@ -1437,7 +1445,7 @@ void popup_unitinfo_window() {
   pWidget->string16 = create_str16_from_char(_("Hide Unit Info Window"), adj_font(12));
   
   pWidget->action = toggle_unit_info_window_callback;
-  set_wstate(pWidget, FC_WS_DISABLED);  
+
   add_to_gui_list(ID_TOGGLE_UNITS_WINDOW_BUTTON, pWidget);
   
   pUnitInfo_Dlg->pBeginWidgetList = pWidget;
@@ -1445,6 +1453,8 @@ void popup_unitinfo_window() {
   SDL_Client_Flags |= CF_UNIT_INFO_SHOW;
 
   set_new_units_window_pos();
+  
+  enable_unitinfo_widgets();  
 }
 
 void popdown_unitinfo_window()
@@ -1459,18 +1469,21 @@ void popdown_unitinfo_window()
 void popup_minimap_window() {
   struct widget *pWidget, *pWindow;
   SDL_Surface *pIcon_theme = NULL;
+  int w, h;
 
-  if (MINI_MAP_W == 0) {
-    MINI_MAP_W = DEFAULT_OVERVIEW_W + BLOCKM_W + pTheme->FR_Left->w + pTheme->FR_Right->w;
-    MINI_MAP_H = DEFAULT_OVERVIEW_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
+  if (pMiniMap_Dlg) {
+    return;
   }
+
+  w = MINI_MAP_W + pTheme->FR_Left->w + BLOCKM_W + pTheme->FR_Right->w;
+  h = MINI_MAP_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
 
   pMiniMap_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   /* pMiniMap_Window */
-  pWindow = create_window(NULL, NULL, MINI_MAP_W, MINI_MAP_H, 0);
+  pWindow = create_window(NULL, NULL, w, h, 0);
   
-  pWindow->theme = create_surf_alpha(MINI_MAP_W, MINI_MAP_H, SDL_SWSURFACE);
+  pWindow->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
   
   draw_frame(pWindow->theme, 0, 0, pWindow->size.w, pWindow->size.h);
   
@@ -1481,7 +1494,7 @@ void popup_minimap_window() {
   FREESURFACE(pIcon_theme);  
   
   pWindow->action = minimap_window_callback;
-  set_wstate(pWindow, FC_WS_DISABLED);
+
   add_to_gui_list(ID_MINI_MAP_WINDOW, pWindow);
 
   pMiniMap_Window = pWindow;
@@ -1494,7 +1507,7 @@ void popup_minimap_window() {
   pWidget->action = end_turn_callback;
   pWidget->key = SDLK_RETURN;
   pWidget->mod = KMOD_LCTRL;
-  set_wstate(pWidget, FC_WS_DISABLED);
+
   add_to_gui_list(ID_NEW_TURN, pWidget);
 
   pNew_Turn_Button = pWidget;
@@ -1505,7 +1518,7 @@ void popup_minimap_window() {
   pWidget->string16 = create_str16_from_char(_("Players (F3)"), adj_font(12));
   pWidget->action = players_action_callback;
   pWidget->key = SDLK_F3;
-  set_wstate(pWidget, FC_WS_DISABLED);  
+
   add_to_gui_list(ID_PLAYERS, pWidget);
 
   /* find city button */
@@ -1517,7 +1530,7 @@ void popup_minimap_window() {
   pWidget->action = cities_action_callback;
   pWidget->key = SDLK_f;
   pWidget->mod = KMOD_SHIFT;
-  set_wstate(pWidget, FC_WS_DISABLED);
+
   add_to_gui_list(ID_CITIES, pWidget);
   
   pFind_City_Button = pWidget;
@@ -1528,7 +1541,7 @@ void popup_minimap_window() {
   pWidget->string16 = create_str16_from_char(_("Units (F2)"), adj_font(12));
   pWidget->action = units_action_callback;
   pWidget->key = SDLK_F2;
-  set_wstate(pWidget, FC_WS_DISABLED);  
+
   add_to_gui_list(ID_UNITS, pWidget);
 
   /* show/hide log window button */
@@ -1537,7 +1550,7 @@ void popup_minimap_window() {
   pWidget->string16 = create_str16_from_char(_("Hide Log (F10)"), adj_font(12));
   pWidget->action = toggle_msg_window_callback;
   pWidget->key = SDLK_F10;
-  set_wstate(pWidget, FC_WS_DISABLED);  
+
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pWidget);
 
   /* toggle minimap mode button */
@@ -1548,7 +1561,7 @@ void popup_minimap_window() {
   pWidget->action = toggle_minimap_mode_callback;
   pWidget->key = SDLK_BACKSLASH;
   pWidget->mod = KMOD_SHIFT;
-  set_wstate(pWidget, FC_WS_DISABLED);  
+
   add_to_gui_list(ID_TOGGLE_MINIMAP_MODE, pWidget);
 
   #ifdef SMALL_SCREEN
@@ -1559,7 +1572,7 @@ void popup_minimap_window() {
   
   pOptions_Button->action = optiondlg_callback;  
   pOptions_Button->key = SDLK_TAB;
-  set_wstate(pOptions_Button, FC_WS_DISABLED);
+
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
   #endif
 
@@ -1577,7 +1590,7 @@ void popup_minimap_window() {
 
   pWidget->string16 = create_str16_from_char(_("Hide MiniMap"), adj_font(12));
   pWidget->action = toggle_map_window_callback;
-  set_wstate(pWidget, FC_WS_DISABLED);  
+
   add_to_gui_list(ID_TOGGLE_MAP_WINDOW_BUTTON, pWidget);
 
   pMiniMap_Dlg->pBeginWidgetList = pWidget;
@@ -1585,6 +1598,8 @@ void popup_minimap_window() {
   SDL_Client_Flags |= CF_MINI_MAP_SHOW;
   
   set_new_mini_map_window_pos();
+  
+  enable_minimap_widgets();
 }
 
 void popdown_minimap_window()
@@ -1601,6 +1616,10 @@ void show_game_page()
   struct widget *pWidget;
   SDL_Surface *pIcon_theme = NULL;
 
+  if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
+    return;
+  }
+  
   popup_minimap_window();
   popup_unitinfo_window();
   SDL_Client_Flags |= CF_MAP_UNIT_W_CREATED;
@@ -1635,8 +1654,9 @@ void show_game_page()
   /* create order buttons */
   create_units_order_widgets();
 
-
-
+  /* enable options button and order widgets */
+  enable_options_button();
+  enable_order_buttons();
 }
 
 void close_game_page()
@@ -1658,115 +1678,145 @@ void close_game_page()
   SDL_Client_Flags &= ~CF_MAP_UNIT_W_CREATED;
 }
 
+static void disable_minimap_widgets()
+{
+  struct widget *pBuf, *pEnd;
+
+  pBuf = pMiniMap_Window;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  /* new turn button */
+  pBuf = pBuf->prev;
+  pEnd = pBuf;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  /* players button */
+  pBuf = pBuf->prev;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  /* find city button */
+  pBuf = pBuf->prev;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  /* units button */
+  pBuf = pBuf->prev;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  /* show/hide log window button */
+  pBuf = pBuf->prev;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  /* toggle minimap mode button */
+  pBuf = pBuf->prev;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  #ifdef SMALL_SCREEN
+  /* options button */
+  pBuf = pBuf->prev;
+  set_wstate(pBuf, FC_WS_DISABLED);
+  #endif
+
+  /* show/hide minimap button */
+  pBuf = pBuf->prev;
+  set_wstate(pBuf, FC_WS_DISABLED);
+
+  redraw_group(pBuf, pEnd, TRUE);
+}
+
+static void disable_unitinfo_widgets()
+{
+  struct widget *pBuf = pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList;
+  struct widget *pEnd = pUnits_Info_Window->private_data.adv_dlg->pEndWidgetList;
+      
+  set_group_state(pBuf, pEnd, FC_WS_DISABLED);    
+  pEnd = pEnd->prev;
+  redraw_group(pBuf, pEnd, TRUE);
+}
+
 void disable_main_widgets(void)
 {
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    struct widget *pEnd = pUnits_Info_Window->private_data.adv_dlg->pEndWidgetList;
-    struct widget *pBuf = pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList;
-        
-    /* =================== Units Window ======================= */
-    set_group_state(pBuf, pEnd, FC_WS_DISABLED);    
-    pEnd = pEnd->prev;
-    redraw_group(pBuf, pEnd, TRUE);
-    /* ========================= Mini map ========================== */
+    disable_minimap_widgets();
+    disable_unitinfo_widgets();
+    
+    disable_options_button();
 
+    disable_order_buttons();
+  }
+}
+
+static void enable_minimap_widgets()
+{
+  struct widget *pBuf, *pEnd;
+
+  if (can_client_issue_orders()) {
+  
     pBuf = pMiniMap_Window;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
 
     /* new turn button */
     pBuf = pBuf->prev;
     pEnd = pBuf;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
   
     /* players button */
     pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
   
     /* find city button */
     pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
   
     /* units button */
     pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
 
     /* show/hide log window button */
     pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
 
     /* toggle minimap mode button */
     pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
 
     #ifdef SMALL_SCREEN
     /* options button */
     pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_DISABLED);
+    set_wstate(pBuf, FC_WS_NORMAL);
     #endif
 
     /* show/hide minimap button */
     pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_DISABLED);
-  
+    set_wstate(pBuf, FC_WS_NORMAL);
+
     redraw_group(pBuf, pEnd, TRUE);
-    disable_order_buttons();
+  }
+}
+
+static void enable_unitinfo_widgets()
+{
+  struct widget *pBuf, *pEnd;
+
+  if (can_client_issue_orders()) {
+    pBuf = pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList;    
+    pEnd = pUnits_Info_Window->private_data.adv_dlg->pEndWidgetList;
+        
+    set_group_state(pBuf, pEnd, FC_WS_NORMAL);
+    pEnd = pEnd->prev;
+    redraw_group(pBuf, pEnd, TRUE);
   }
 }
 
 void enable_main_widgets(void)
 {
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    struct widget *pEnd = pUnits_Info_Window->private_data.adv_dlg->pEndWidgetList;
-    struct widget *pBuf = pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList;
-        
-    /* =================== Units Window ======================= */
-    set_group_state(pBuf, pEnd, FC_WS_NORMAL);
-    pEnd = pEnd->prev;
-    redraw_group(pBuf, pEnd, TRUE);
-    /* ========================= Mini map ========================== */
 
-    pBuf = pMiniMap_Window;
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    /* new turn button */
-    pBuf = pBuf->prev;
-    pEnd = pBuf;
-    set_wstate(pBuf, FC_WS_NORMAL);
-  
-    /* players button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-  
-    /* find city button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-  
-    /* units button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    /* show/hide log window button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    /* toggle minimap mode button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    #ifdef SMALL_SCREEN
-    /* options button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    #endif
-
-    /* show/hide minimap button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-  
-    redraw_group(pBuf, pEnd, TRUE);
+    enable_minimap_widgets();
+    enable_unitinfo_widgets();
+    
+    enable_options_button();
     
     enable_order_buttons();
-    
   }
 }
 

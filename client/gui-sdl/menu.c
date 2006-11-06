@@ -27,6 +27,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* common */
 #include "unitlist.h"
@@ -244,10 +245,10 @@ static void set_new_order_widget_start_pos(void)
   struct widget *pTmpWidget = pBeginOrderWidgetList;
   Sint16 sx, sy, xx, yy = 0;
   int count = 0, lines = 1, w = 0, count_on_line;
-  
+
   xx = pMiniMap->dst->dest_rect.x + pMiniMap->size.w + adj_size(10);
   w = (pInfoWind->dst->dest_rect.x - adj_size(10)) - xx;
-  
+
   if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
     if(pMiniMap->size.h == pInfoWind->size.h) {
       xx = 0;
@@ -1350,7 +1351,7 @@ void update_menus(void)
       } else {
 	local_hide(ID_UNIT_ORDER_UPGRADE);
       }
-            
+
       set_new_order_widget_start_pos();
       counter = redraw_order_widgets();
 
@@ -1373,7 +1374,9 @@ void disable_order_buttons(void)
 
 void enable_order_buttons(void)
 {
-  undraw_order_widgets();
-  enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
-  redraw_order_widgets();
+  if (can_client_issue_orders()) {
+    undraw_order_widgets();
+    enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+    redraw_order_widgets();
+  }
 }

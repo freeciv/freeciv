@@ -450,20 +450,19 @@ static int change_mode_callback(struct widget *pWidget)
 
     center_optiondlg();
 
-    
-    /* move cooling/warming icons to botton-right corrner */
-    pTmpWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-    widget_set_position(pTmpWidget, (Main.screen->w - 10 - (pTmpWidget->size.w * 2)), pTmpWidget->size.y);
-  
-    /* ID_COOLING_ICON */
-    pTmpWidget = pTmpWidget->next;
-    widget_set_position(pTmpWidget, (Main.screen->w - 10 - pTmpWidget->size.w), pTmpWidget->size.y);
-  
     if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
       /* move units window to botton-right corrner */
       set_new_units_window_pos();
       /* move minimap window to botton-left corrner */
       set_new_mini_map_window_pos();
+
+      /* move cooling/warming icons to botton-right corrner */
+      pTmpWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+      widget_set_position(pTmpWidget, (Main.screen->w - 10 - (pTmpWidget->size.w * 2)), pTmpWidget->size.y);
+    
+      /* ID_COOLING_ICON */
+      pTmpWidget = pTmpWidget->next;
+      widget_set_position(pTmpWidget, (Main.screen->w - 10 - pTmpWidget->size.w), pTmpWidget->size.y);
       
       map_canvas_resized(Main.screen->w, Main.screen->h); 
     }      
@@ -2020,7 +2019,7 @@ static int disconnect_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_optiondlg();
-    set_wstate(pOptions_Button, FC_WS_NORMAL);
+    enable_options_button();
     disconnect_from_server();
   }
   return -1;
@@ -2040,7 +2039,7 @@ static int back_callback(struct widget *pWidget)
     if (SDL_Client_Flags & CF_OPTION_MAIN) {
       popdown_optiondlg();
       if(aconnection.established) {
-        set_wstate(pOptions_Button, FC_WS_NORMAL);
+        enable_options_button();
         widget_redraw(pOptions_Button);
         widget_mark_dirty(pOptions_Button);
         flush_dirty();
@@ -2092,6 +2091,16 @@ int optiondlg_callback(struct widget *pButton)
 /* =================================== Public ========================== */
 /* ===================================================================== */
 
+void enable_options_button(void)
+{
+  set_wstate(pOptions_Button, FC_WS_NORMAL);
+}
+
+void disable_options_button(void)
+{
+  set_wstate(pOptions_Button, FC_WS_DISABLED);
+}
+
 void init_options_button(void)
 {
   pOptions_Button = create_themeicon(pTheme->Options_Icon, Main.gui,
@@ -2100,13 +2109,14 @@ void init_options_button(void)
   pOptions_Button->action = optiondlg_callback;
   pOptions_Button->string16 = create_str16_from_char(_("Options"), adj_font(12));
   pOptions_Button->key = SDLK_TAB;
-  set_wstate(pOptions_Button, FC_WS_NORMAL);
   set_wflag(pOptions_Button, WF_HIDDEN);
   widget_set_position(pOptions_Button, adj_size(5), adj_size(5));
   
   #ifndef SMALL_SCREEN
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
   #endif
+  
+  enable_options_button();
 }
 
 static int exit_callback(struct widget *pWidget)

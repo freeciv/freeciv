@@ -321,7 +321,7 @@ void set_client_page(enum client_pages page)
       show_main_page();
       break;
     case PAGE_GAME:
-/*      show_game_page();*/
+      show_game_page();
       enable_main_widgets();
     default:
       break;

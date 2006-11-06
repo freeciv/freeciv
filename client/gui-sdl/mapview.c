@@ -356,11 +356,6 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 ****************************************************************************/
 void overview_size_changed(void)
 {
-  /* FIXME */
-  if (get_client_page() == PAGE_START) {
-    show_game_page();
-  }
-  
   map_canvas_resized(Main.screen->w, Main.screen->h);  	
   
   if (overview_canvas) {
@@ -370,6 +365,11 @@ void overview_size_changed(void)
   overview_canvas = canvas_create(overview.width, overview.height);
 
   resize_minimap();
+  
+  /* FIXME */
+  if (get_client_page() != PAGE_GAME) {
+    show_game_page();
+  }
 }
 
 /**************************************************************************
@@ -992,11 +992,8 @@ void update_city_descriptions(void)
 **************************************************************************/
 void center_minimap_on_minimap_window(void)
 {
-  int width, height;
-  get_overview_area_dimensions(&width, &height);
-
-  OVERVIEW_START_X = pTheme->FR_Left->w + (width - overview.width)/2;
-  OVERVIEW_START_Y = pTheme->FR_Top->h + (height - overview.height)/2;
+  OVERVIEW_START_X = pTheme->FR_Left->w + (MINI_MAP_W - overview.width)/2;
+  OVERVIEW_START_Y = pTheme->FR_Top->h + (MINI_MAP_H - overview.height)/2;
 }
 
 /**************************************************************************
@@ -1026,8 +1023,8 @@ struct canvas *get_overview_window(void)
 ****************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
-  *width = MINI_MAP_W - pTheme->FR_Left->w - BLOCKM_W - pTheme->FR_Right->w;
-  *height = MINI_MAP_H - pTheme->FR_Top->h - pTheme->FR_Bottom->h;  
+  *width = DEFAULT_OVERVIEW_W;
+  *height = DEFAULT_OVERVIEW_H;
 }
 
 /**************************************************************************
