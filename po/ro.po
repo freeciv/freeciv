@@ -13085,7 +13085,7 @@ msgstr "Nu există schimburi comerciale."
 
 #: client/gui-mui/citydlg.c:2051
 #: client/gui-win32/citydlg.c:1271
-#, c-format
+#, c-format, fuzzy
 msgid "Total trade from trade routes: %d"
 msgstr "Comerţ total din rute comerciale"
 
