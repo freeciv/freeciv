@@ -603,7 +603,7 @@ if test x"$MINGW32" = xyes; then
 else
   DEFAULT_DATA_PATH=".:data:~/.freeciv:$datadir/freeciv"
 fi
-CPPFLAGS="$CPPFLAGS -DDEFAULT_DATA_PATH=\\\"$DEFAULT_DATA_PATH\\\""
+CPPFLAGS="$CPPFLAGS -DDEFAULT_DATA_PATH=\"\\\"$DEFAULT_DATA_PATH\\\"\""
 
 dnl This has to be last library
 if test -n "$WITH_EFENCE"; then
