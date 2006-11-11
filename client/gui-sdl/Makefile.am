@@ -93,14 +93,21 @@ libguiclient_a_SOURCES = \
 	widget.c	\
 	widget.h	\
 	widget_button.c \
+	widget_button.h \
 	widget_checkbox.c \
+	widget_checkbox.h \
 	widget_core.c	\
 	widget_edit.c	\
+	widget_edit.h	\
 	widget_icon.c	\
+	widget_icon.h	\
 	widget_label.c  \
+	widget_label.h  \
 	widget_p.h	\
-	widget_slider.c	\
+	widget_scrollbar.c	\
+	widget_scrollbar.h	\
 	widget_window.c \
+	widget_window.h \
 	wldlg.c		\
 	wldlg.h
 

@@ -37,9 +37,9 @@
 #include "mapview.h"
 #include "themespec.h"
 #include "unistring.h"
-#include "widget_p.h"
 
 #include "widget.h"
+#include "widget_p.h"
 
 struct widget *pSellected_Widget;
 SDL_Rect *pInfo_Area = NULL;
@@ -562,102 +562,6 @@ void redraw_widget_info_label(SDL_Rect *rect)
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-inline void widget_set_area(struct widget *pwidget, SDL_Rect area)
-{
-  pwidget->area = area;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void widget_set_position(struct widget *pwidget, int x, int y)
-{
-  if (pwidget->set_position) {
-    pwidget->set_position(pwidget, x, y);
-  } else {
-    pwidget->size.x = x;
-    pwidget->size.y = y;    
-  }
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void widget_resize(struct widget *pwidget, int w, int h)
-{
-  /* common code for all widgets */
-  pwidget->size.w = w;
-  pwidget->size.h = h;    
-
-  /* additional, widget-specific code */
-  if (pwidget->resize) {
-    pwidget->resize(pwidget, w, h);
-  }
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void widget_draw_frame(struct widget *pwidget)
-{
-  if (pwidget->draw_frame) {
-    pwidget->draw_frame(pwidget);
-  } else {
-    draw_frame_inside_widget(pwidget);
-  }
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void widget_mark_dirty(struct widget *pwidget)
-{
-  SDL_Rect rect = {
-    pwidget->dst->dest_rect.x + pwidget->size.x,
-    pwidget->dst->dest_rect.y + pwidget->size.y,
-    pwidget->size.w,
-    pwidget->size.h
-  };
-
-  sdl_dirty_rect(rect);
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void widget_flush(struct widget *pwidget)
-{
-  SDL_Rect rect = {
-    pwidget->dst->dest_rect.x + pwidget->size.x,
-    pwidget->dst->dest_rect.y + pwidget->size.y,
-    pwidget->size.w,
-    pwidget->size.h
-  };
-  
-  flush_rect(rect, FALSE);
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void widget_undraw(struct widget *pwidget)
-{
-  if (get_wflags(pwidget) & WF_RESTORE_BACKGROUND) {
-    if (pwidget->gfx) {
-      clear_surface(pwidget->dst->surface, &pwidget->size);
-      blit_entire_src(pwidget->gfx, pwidget->dst->surface,
-                      pwidget->size.x, pwidget->size.y);
-    }
-  } else {
-    clear_surface(pwidget->dst->surface, &pwidget->size);
-    blit_entire_src(pwidget->gfx, pwidget->dst->surface,
-                    pwidget->size.x, pwidget->size.y);
-  }
-}
-
-/**************************************************************************
   Find ID in Widget's List ('pGUI_List') and return pointer to this
   Widgets.
 **************************************************************************/
@@ -1066,22 +970,6 @@ void group_set_area(struct widget *pBeginGroupWidgetList,
     }
 
     pWidget = pWidget->prev;
-  }
-}
-
-/**************************************************************************
-  Universal redraw Widget function.
-**************************************************************************/
-int widget_redraw(struct widget *pWidget)
-{
-  if (!pWidget || (get_wflags(pWidget) & WF_HIDDEN)) {
-    return -1;
-  }
-
-  if (pWidget->redraw) {
-    return pWidget->redraw(pWidget);
-  } else {
-    return -2;
   }
 }
 

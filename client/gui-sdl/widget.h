@@ -96,39 +96,15 @@ enum widget_state {
   FC_WS_DISABLED	= 3
 };
 
-enum Edit_Return_Codes {
-  ED_RETURN = 1,
-  ED_ESC = 2,
-  ED_MOUSE = 3,
-  ED_FORCE_EXIT = 4
-};
-
 struct CONTAINER {
   int id0;
   int id1;
   int value;
 };
 
-struct ScrollBar {
-  struct widget *pUp_Left_Button;
-  struct widget *pScrollBar;
-  struct widget *pDown_Right_Button;  
-  Uint8 active;		/* used by scroll: numbers of displayed rows */
-  Uint8 step;		/* used by scroll: numbers of displayed columns */
-  /* total dispalyed widget = active * step */
-  Uint16 count;		/* total size of scroll list */
-  Sint16 min;		/* used by scroll: min pixel position */
-  Sint16 max;		/* used by scroll: max pixel position */
-};
-
-struct CHECKBOX {
-  SDL_Surface *pTRUE_Theme;
-  SDL_Surface *pFALSE_Theme;
-  bool state;
-};
-
 struct SMALL_DLG;
 struct ADVANCED_DLG;
+struct CHECKBOX;
   
 struct widget {
   struct widget *next;
@@ -168,19 +144,19 @@ struct widget {
   Uint16 ID;			/* ID in widget list */
 
   int (*action) (struct widget *);	/* default callback action */  
-    
+
+  void (*set_area) (struct widget *pwidget, SDL_Rect area);  
   void (*set_position) (struct widget *pwidget, int x, int y);
   void (*resize) (struct widget *pwidget, int w, int h);
   void (*draw_frame) (struct widget *pwidget);
   int (*redraw) (struct widget *pwidget);
+  void (*mark_dirty) (struct widget *pwidget);
+  void (*flush) (struct widget *pwidget);
+  void (*undraw) (struct widget *pwidget);
   void (*select) (struct widget *pwidget);
   void (*unselect) (struct widget *pwidget);
   void (*press) (struct widget *pwidget);
 };
-
-#define scrollbar_size(pScroll)				\
-        ((float)((float)(pScroll->active * pScroll->step) /	\
-        (float)pScroll->count) * (pScroll->max - pScroll->min))
 
 /* Struct of basic window group dialog ( without scrollbar ) */
 struct SMALL_DLG {
@@ -204,9 +180,6 @@ enum scan_direction {
   SCAN_BACKWARD
 };
 
-SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
-                               Uint16 Width, Uint16 High);
-
 void init_gui_list(Uint16 ID, struct widget *pGUI);
 void add_to_gui_list(Uint16 ID, struct widget *pGUI);
 void del_widget_pointer_from_gui_list(struct widget *pGUI);
@@ -229,6 +202,33 @@ struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List, Uint16
 
 struct widget *get_widget_pointer_form_main_list(Uint16 ID);
 
+#define set_action(ID, action_callback)	\
+	get_widget_pointer_form_main_list(ID)->action = action_callback
+
+#define set_key(ID, keyb)	\
+	get_widget_pointer_form_main_list(ID)->key = keyb
+
+#define set_mod(ID, mod)	\
+	get_widget_pointer_form_main_list(ID)->mod = mod
+
+#define enable(ID)						\
+do {								\
+  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  set_wstate(____pGUI, FC_WS_NORMAL);				\
+} while(0)
+
+#define disable(ID)						\
+do {								\
+  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  set_wstate(____pGUI , FC_WS_DISABLED);				\
+} while(0)
+
+#define show(ID)	\
+  clear_wflag( get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+
+#define hide(ID)	\
+  set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+
 void widget_sellected_action(struct widget *pWidget);
 Uint16 widget_pressed_action(struct widget *pWidget);
 
@@ -237,13 +237,76 @@ void unsellect_widget_action(void);
 #define draw_widget_info_label() redraw_widget_info_label(NULL);
 void redraw_widget_info_label(SDL_Rect *area);
 
-void widget_set_area(struct widget *pwidget, SDL_Rect area);
-void widget_set_position(struct widget *pwidget, int x, int y);
-void widget_resize(struct widget *pwidget, int w, int h);
-void widget_draw_frame(struct widget *pwidget);
-void widget_mark_dirty(struct widget *pwidget);
-void widget_flush(struct widget *pwidget);
-void widget_undraw(struct widget *pwidget);
+/* Widget */
+void set_wstate(struct widget *pWidget, enum widget_state state);
+enum widget_state get_wstate(const struct widget *pWidget);
+  
+void set_wtype(struct widget *pWidget, enum widget_type type);
+enum widget_type get_wtype(const struct widget *pWidget);
+  
+void set_wflag(struct widget *pWidget, enum widget_flag flag);
+void clear_wflag(struct widget *pWidget, enum widget_flag flag);
+  
+enum widget_flag get_wflags(const struct widget *pWidget);
+
+static inline void widget_set_area(struct widget *pwidget, SDL_Rect area) {
+  pwidget->set_area(pwidget, area);
+}
+
+static inline void widget_set_position(struct widget *pwidget, int x, int y) {
+  pwidget->set_position(pwidget, x, y);
+}
+
+static inline void widget_resize(struct widget *pwidget, int w, int h) {
+  pwidget->resize(pwidget, w, h);
+}
+
+static inline int widget_redraw(struct widget *pWidget) {
+  return pWidget->redraw(pWidget);
+}
+
+static inline void widget_draw_frame(struct widget *pwidget) {
+  pwidget->draw_frame(pwidget);
+}
+
+static inline void widget_mark_dirty(struct widget *pwidget) {
+  pwidget->mark_dirty(pwidget);
+}
+
+static inline void widget_flush(struct widget *pwidget) {
+  pwidget->flush(pwidget);
+}
+
+static inline void widget_undraw(struct widget *pwidget) {
+  pwidget->undraw(pwidget);
+}
+
+void widget_free(struct widget **pGUI);
+
+void refresh_widget_background(struct widget *pWidget);
+
+#define FREEWIDGET(pWidget)					\
+do {								\
+  widget_free(&pWidget);                                        \
+} while(0)
+
+#define draw_frame_inside_widget_on_surface(pWidget , pDest)		\
+do {                                                                    \
+  draw_frame(pDest, pWidget->size.x, pWidget->size.y, pWidget->size.w, pWidget->size.h);  \
+} while(0);
+
+#define draw_frame_inside_widget(pWidget)				\
+	draw_frame_inside_widget_on_surface(pWidget , pWidget->dst->surface)
+
+#define draw_frame_around_widget_on_surface(pWidget , pDest)		\
+do {                                                                    \
+  draw_frame(pDest, pWidget->size.x - pTheme->FR_Left->w, pWidget->size.y - pTheme->FR_Top->h, \
+             pWidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
+             pWidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
+} while(0);
+
+#define draw_frame_around_widget(pWidget)				\
+	draw_frame_around_widget_on_surface(pWidget , pWidget->dst->surface)
 
 /* Group */
 Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
@@ -271,9 +334,6 @@ void group_set_area(struct widget *pBeginGroupWidgetList,
 		    struct widget *pEndGroupWidgetList,
                     SDL_Rect area);
 
-int widget_redraw(struct widget *pWidget);
-void free_widget(struct widget *pGUI);
-  
 /* Window Group */
 void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
 				 struct widget *pEndGroupWidgetList);
@@ -284,155 +344,9 @@ bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
 			     struct widget *pEndGroupWidgetList);
 void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow);
 				      
-Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
-	Uint8 step, Uint8 active, bool create_scrollbar, bool create_buttons);
-void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
-	Sint16 start_x, Sint16 start_y, Uint16 hight, bool swap_start_x);
-void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll);
-  
 int setup_vertical_widgets_position(int step,
 	Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
 				struct widget *pBegin, struct widget *pEnd);
-
-
-bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
-				      struct widget *pNew_Widget,
-				      struct widget *pAdd_Dock, bool dir,
-					Sint16 start_x, Sint16 start_y);
-				      
-bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
-  						struct widget *pWidget);
-				      
-/* Horizontal scrolling */
-Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
-	  Sint16 start_x, Sint16 start_y, Uint16 width, Uint16 active,
-	  bool create_scrollbar, bool create_buttons, bool swap_start_y);
-
-/* ICON */
-void set_new_icon_theme(struct widget *pIcon_Widget,
-			SDL_Surface *pNew_Theme);
-SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon);
-struct widget *create_themeicon(SDL_Surface *pIcon_theme,
-			  struct gui_layer *pDest ,Uint32 flags);
-SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme,
-				    Uint8 state);
-int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
-			 struct gui_layer *pDest, Sint16 start_x,
-			 Sint16 start_y);
-int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y);
-
-/* ICON2 */
-void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
-			  bool free_old_theme);
-struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32 flags);
-
-/* BUTTON */
-struct widget *create_icon_button(SDL_Surface *pIcon,
-	  struct gui_layer *pDest, SDL_String16 *pString, Uint32 flags);
-
-struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
-		struct gui_layer *pDest, SDL_String16 *pString, Uint32 flags);
-
-int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y);
-int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y);
-
-/* EDIT */
-struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
-			SDL_String16 *pString16, Uint16 lenght,
-			Uint32 flags);
-enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget);
-int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y);
-
-/* VERTICAL */
-struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest,
-  				Uint16 high, Uint32 flags);
-int redraw_vert(struct widget *pVert);
-int draw_vert(struct widget *pVert, Sint16 x, Sint16 y);
-
-/* HORIZONTAL */
-struct widget *create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *pDest,
-  			Uint16 width, Uint32 flags);
-int draw_horiz(struct widget *pHoriz, Sint16 x, Sint16 y);
-
-/* WINDOW */
-struct widget *create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
-	  Uint16 w, Uint16 h, Uint32 flags);
-
-int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
-		  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);
-
-bool move_window(struct widget *pWindow);
-
-/* misc */
-void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
-		Uint16 w, Uint16 h);
-void refresh_widget_background(struct widget *pWidget);
-void draw_menubuttons(struct widget *pFirstButtonOnList);
-
-/* LABEL */
-struct widget *create_themelabel(SDL_Surface *pBackground, struct gui_layer *pDest,
-			      SDL_String16 *pText, Uint16 w, Uint16 h,
-			      Uint32 flags);
-struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
-  		SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags);
-struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest, 
-  	SDL_String16 *pText, Uint32 flags);
-struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel);
-int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y);
-
-int redraw_iconlabel(struct widget *pLabel);
-void remake_label_size(struct widget *pLabel);
-
-/* CHECKBOX */
-struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
-			  SDL_String16 *pStr, Uint32 flags);
-struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags);
-void togle_checkbox(struct widget *pCBox);
-bool get_checkbox_state(struct widget *pCBox);
-int set_new_checkbox_theme(struct widget *pCBox ,
-				SDL_Surface *pTrue, SDL_Surface *pFalse);
-
-void set_wstate(struct widget *pWidget, enum widget_state state);
-void set_wtype(struct widget *pWidget, enum widget_type type);
-void set_wflag(struct widget *pWidget, enum widget_flag flag);
-void clear_wflag(struct widget *pWidget, enum widget_flag flag);
-enum widget_state get_wstate(const struct widget *pWidget);
-enum widget_type get_wtype(const struct widget *pWidget);
-enum widget_flag get_wflags(const struct widget *pWidget);
-
-#define hide_scrollbar(scrollbar)				\
-do {								\
-  if (scrollbar->pUp_Left_Button) {				\
-    set_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
-    set_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
-  }								\
-  if (scrollbar->pScrollBar) {					\
-    set_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
-  }								\
-} while(0)
-
-#define show_scrollbar(scrollbar)				\
-do {								\
-  if (scrollbar->pUp_Left_Button) {				\
-    clear_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
-    clear_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
-  }								\
-  if (scrollbar->pScrollBar) {					\
-    clear_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
-  }								\
-} while(0)
-
-#define FREEWIDGET(pGUI)					\
-do {								\
-  free_widget(pGUI);                                            \
-  FC_FREE(pGUI);						\
-} while(0)
-
-#define redraw_ID(ID) \
-	widget_redraw(get_widget_pointer_form_main_list(ID))
-
-#define refresh_ID_background(ID) \
-	refresh_widget_background(get_widget_pointer_form_main_list(ID))
 
 #define del_widget_from_gui_list(__pGUI)	\
 do {						\
@@ -467,83 +381,27 @@ do {									\
 	set_group_state(pBeginGroupWidgetList,	pEndGroupWidgetList,	\
 			FC_WS_DISABLED)
 
-#define set_action(ID, action_callback)	\
-	get_widget_pointer_form_main_list(ID)->action = action_callback
+/* Advanced Dialog */
+bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
+				      struct widget *pNew_Widget,
+				      struct widget *pAdd_Dock, bool dir,
+					Sint16 start_x, Sint16 start_y);
+				      
+bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
+  						struct widget *pWidget);
 
-#define set_key(ID, keyb)	\
-	get_widget_pointer_form_main_list(ID)->key = keyb
+/* misc */
+SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
+                               Uint16 Width, Uint16 High);
+void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
+		Uint16 w, Uint16 h);
 
-#define set_mod(ID, mod)	\
-	get_widget_pointer_form_main_list(ID)->mod = mod
-
-#define enable(ID)						\
-do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
-  set_wstate(____pGUI, FC_WS_NORMAL);				\
-} while(0)
-
-#define disable(ID)						\
-do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
-  set_wstate(____pGUI , FC_WS_DISABLED);				\
-} while(0)
-
-#define show(ID)	\
-  clear_wflag( get_widget_pointer_form_main_list(ID), WF_HIDDEN)
-
-#define hide(ID)	\
-  set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
-
-/* BUTTON */
-#define create_icon_button_from_unichar(pIcon, pDest, pUniChar, pUniCharSize, iPtsize, flags) \
-	create_icon_button(pIcon, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), flags)
-
-#define create_icon_button_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \
-	create_icon_button(pIcon, pDest,                                        \
-			   create_str16_from_char(pCharString, iPtsize),  \
-			   flags)
-
-#define create_themeicon_button_from_unichar(pIcon_theme, pDest, pUniChar, pUniCharSize, iPtsize, flags) \
-	create_themeicon_button(pIcon, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), \
-				flags)
-
-#define create_themeicon_button_from_chars(pIcon_theme, pDest, pCharString, iPtsize, flags) \
-	create_themeicon_button(pIcon_theme, pDest,                 \
-				create_str16_from_char(pCharString, \
-						       iPtsize),    \
-				flags)
-
-/* EDIT */
-#define create_edit_from_chars(pBackground, pDest, pCharString, iPtsize, length, flags)                                                                 \
-	create_edit(pBackground, pDest,                                 \
-		    create_str16_from_char(pCharString, iPtsize), \
-		    length, flags)
-
-#define create_edit_from_unichars(pBackground, pDest, pUniChar, pUniCharSize, iPtsize, length, flags) \
-	create_edit(pBackground, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), length, flags )
-
-#define edit(pEdit) edit_field(pEdit)
-
-#define draw_frame_inside_widget_on_surface(pWidget , pDest)		\
-do {                                                                    \
-  draw_frame(pDest, pWidget->size.x, pWidget->size.y, pWidget->size.w, pWidget->size.h);  \
-} while(0);
-
-#define draw_frame_inside_widget(pWidget)				\
-	draw_frame_inside_widget_on_surface(pWidget , pWidget->dst->surface)
-
-#define draw_frame_around_widget_on_surface(pWidget , pDest)		\
-do {                                                                    \
-  draw_frame(pDest, pWidget->size.x - pTheme->FR_Left->w, pWidget->size.y - pTheme->FR_Top->h, \
-             pWidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
-             pWidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
-} while(0);
-
-#define draw_frame_around_widget(pWidget)				\
-	draw_frame_around_widget_on_surface(pWidget , pWidget->dst->surface)
-
-/* LABEL */
-#define create_iconlabel_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \
-	create_iconlabel(pIcon, pDest, create_str16_from_char(pCharString, iPtsize), flags)
+#include "widget_button.h"
+#include "widget_checkbox.h"
+#include "widget_edit.h"
+#include "widget_icon.h"
+#include "widget_label.h"
+#include "widget_scrollbar.h"
+#include "widget_window.h"
 
 #endif	/* FC__WIDGET_H */

@@ -11,19 +11,15 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__WIDGET_P_H
-#define FC__WIDGET_P_H
+#ifndef FC__WIDGET_WINDOW_H
+#define FC__WIDGET_WINDOW_H
 
-#define STATE_MASK		0x03       /* 0..0000000000000011 */
-#define TYPE_MASK		0x03FC     /* 0..0000001111111100 */
-#define FLAG_MASK		0xFFFFFC00 /* 1..1111110000000000 */
+struct widget *create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
+	  Uint16 w, Uint16 h, Uint32 flags);
 
-struct widget *widget_new(void);
+int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
+		  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);
 
-void correct_size_bcgnd_surf(SDL_Surface *pTheme,
-				    Uint16 *pWidth, Uint16 *pHigh);
-SDL_Surface *get_buffer_layer(int width, int height);
+bool move_window(struct widget *pWindow);
 
-int redraw_iconlabel(struct widget *pLabel);
-  
-#endif /* FC__WIDGET_P_H */
+#endif /* FC__WIDGET_WINDOW_H */

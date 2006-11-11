@@ -29,6 +29,7 @@
 #include "themespec.h"
 
 #include "widget.h"
+#include "widget_p.h"
 
 struct UP_DOWN {
   struct widget *pBegin;
@@ -49,6 +50,8 @@ do {						\
   }						\
   pAdd_Dock->next = pNew_Widget;		\
 } while(0)
+
+static int (*baseclass_redraw)(struct widget *pwidget);
 
 /* =================================================== */
 /* ===================== VSCROOLBAR ================== */
@@ -126,6 +129,30 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static int redraw_vert(struct widget *pVert)
+{
+  int ret;
+  SDL_Rect dest = pVert->size;
+
+  ret = (*baseclass_redraw)(pVert);
+  if (ret != 0) {
+    return ret;
+  }
+  
+  SDL_Surface *pVert_Surf = create_vertical_surface(pVert->theme,
+						    get_wstate(pVert),
+						    pVert->size.h);
+  ret =
+      blit_entire_src(pVert_Surf, pVert->dst->surface, dest.x, dest.y);
+  
+  FREESURFACE(pVert_Surf);
+
+  return ret;
+}
+
+/**************************************************************************
   Create ( malloc ) VSrcrollBar Widget structure.
 
   Theme graphic is taken from pVert_theme surface;
@@ -139,7 +166,7 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
 struct widget * create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest,
   			Uint16 high, Uint32 flags)
 {
-  struct widget *pVer = fc_calloc(1, sizeof(struct widget));
+  struct widget *pVer = widget_new();
 
   pVer->theme = pVert_theme;
   pVer->size.w = pVert_theme->w;
@@ -149,29 +176,11 @@ struct widget * create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDes
   set_wtype(pVer, WT_VSCROLLBAR);
   pVer->mod = KMOD_NONE;
   pVer->dst = pDest;
-  
+
+  baseclass_redraw = pVer->redraw;  
   pVer->redraw = redraw_vert;
 
   return pVer;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-int redraw_vert(struct widget *pVert)
-{
-  int ret;
-  SDL_Rect dest = pVert->size;
-  
-  SDL_Surface *pVert_Surf = create_vertical_surface(pVert->theme,
-						    get_wstate(pVert),
-						    pVert->size.h);
-  ret =
-      blit_entire_src(pVert_Surf, pVert->dst->surface, dest.x, dest.y);
-  
-  FREESURFACE(pVert_Surf);
-
-  return ret;
 }
 
 /**************************************************************************
@@ -264,12 +273,18 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
 **************************************************************************/
 static int redraw_horiz(struct widget *pHoriz)
 {
+  int ret;
   SDL_Rect dest = pHoriz->size;
+
+  ret = (*baseclass_redraw)(pHoriz);
+  if (ret != 0) {
+    return ret;
+  }
   
   SDL_Surface *pHoriz_Surf = create_horizontal_surface(pHoriz->theme,
 						       get_wstate(pHoriz),
 						       pHoriz->size.w);
-  int ret = blit_entire_src(pHoriz_Surf, pHoriz->dst->surface, dest.x, dest.y);
+  ret = blit_entire_src(pHoriz_Surf, pHoriz->dst->surface, dest.x, dest.y);
   
   FREESURFACE(pHoriz_Surf);
 
@@ -290,7 +305,7 @@ static int redraw_horiz(struct widget *pHoriz)
 struct widget * create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *pDest,
   		Uint16 width, Uint32 flags)
 {
-  struct widget *pHor = fc_calloc(1, sizeof(struct widget));
+  struct widget *pHor = widget_new();
 
   pHor->theme = pHoriz_theme;
   pHor->size.w = width;
@@ -300,7 +315,8 @@ struct widget * create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *p
   set_wtype(pHor, WT_HSCROLLBAR);
   pHor->mod = KMOD_NONE;
   pHor->dst = pDest;
-  
+
+  baseclass_redraw = pHor->redraw;
   pHor->redraw = redraw_horiz;
   
   return pHor;

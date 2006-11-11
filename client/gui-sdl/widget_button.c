@@ -23,9 +23,10 @@
 #include "gui_tilespec.h"
 #include "themespec.h"
 
+#include "widget.h"
 #include "widget_p.h"
 
-#include "widget.h"
+static int (*baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
   Create Icon Button image with text and Icon then blit to Dest(ination)
@@ -51,6 +52,11 @@ static int redraw_ibutton(struct widget *pIButton)
   Uint16 Ix, Iy, x;
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
+
+  ret = (*baseclass_redraw)(pIButton);
+  if (ret != 0) {
+    return ret;
+  }
 
   if (pIButton->string16 && !(get_wflags(pIButton) & WF_WIDGET_HAS_INFO_LABEL)) {
 
@@ -219,7 +225,14 @@ static int redraw_ibutton(struct widget *pIButton)
 static int redraw_tibutton(struct widget *pTIButton)
 {
   int iRet = 0;
-  SDL_Surface *pIcon = create_icon_from_theme(pTIButton->gfx,
+  SDL_Surface *pIcon;
+
+  iRet = (*baseclass_redraw)(pTIButton);
+  if (iRet != 0) {
+    return iRet;
+  }
+  
+  pIcon = create_icon_from_theme(pTIButton->gfx,
 					      get_wstate(pTIButton));
   SDL_Surface *pCopy_Of_Icon_Theme = pTIButton->gfx;
 
@@ -256,7 +269,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
     return NULL;
   }
 
-  pButton = fc_calloc(1, sizeof(struct widget));
+  pButton = widget_new();
 
   pButton->theme = pTheme->Button;
   pButton->gfx = pIcon;
@@ -266,7 +279,8 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wtype(pButton, WT_I_BUTTON);
   pButton->mod = KMOD_NONE;
   pButton->dst = pDest;
-  
+
+  baseclass_redraw = pButton->redraw;  
   pButton->redraw = redraw_ibutton;
   
   if (pStr && !(flags & WF_WIDGET_HAS_INFO_LABEL)) {
@@ -331,7 +345,7 @@ struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
   FREESURFACE(pButton->gfx);	/* pButton->gfx == pIcon */
   pButton->gfx = pIcon_theme;
   set_wtype(pButton, WT_TI_BUTTON);
-  
+
   pButton->redraw = redraw_tibutton;
 
   return pButton;

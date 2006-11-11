@@ -27,9 +27,8 @@
 #include "themespec.h"
 #include "unistring.h"
 
-#include "widget_p.h"
-
 #include "widget.h"
+#include "widget_p.h"
 
 struct UniChar {
   struct UniChar *next;
@@ -54,6 +53,8 @@ static size_t chainlen(const struct UniChar *pChain);
 static void del_chain(struct UniChar *pChain);
 static struct UniChar * text2chain(const Uint16 *pInText);
 static Uint16 * chain2text(const struct UniChar *pInChain, size_t len);
+
+static int (*baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
 ...
@@ -322,7 +323,7 @@ struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
 {
   SDL_Rect buf = {0, 0, 0, 0};
 
-  struct widget *pEdit = fc_calloc(1, sizeof(struct widget));
+  struct widget *pEdit = widget_new();
 
   pEdit->theme = pTheme->Edit;
   pEdit->gfx = pBackground;
@@ -332,6 +333,7 @@ struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   set_wtype(pEdit, WT_EDIT);
   pEdit->mod = KMOD_NONE;
   
+  baseclass_redraw = pEdit->redraw;
   pEdit->redraw = redraw_edit;
   
   if (pString16) {

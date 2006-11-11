@@ -24,9 +24,12 @@
 #include "themespec.h"
 
 #include "widget.h"
+#include "widget_p.h"
 
 /* from widget_icon.c */
 extern int redraw_icon(struct widget *pIcon);
+
+static int (*baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
   ...
@@ -35,6 +38,11 @@ static int redraw_textcheckbox(struct widget *pCBox)
 {
   int ret;
   SDL_Surface *pTheme_Surface, *pIcon;
+
+  ret = (*baseclass_redraw)(pCBox);
+  if (ret != 0) {
+    return ret;
+  }
 
   if(!pCBox->string16) {
     return widget_redraw(pCBox);
@@ -72,7 +80,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
 **************************************************************************/
 struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags)
 {
-  struct widget *pCBox = fc_calloc(1, sizeof(struct widget));
+  struct widget *pCBox = widget_new();
   struct CHECKBOX *pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
     
   if (state) {
@@ -91,6 +99,7 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
   pCBox->private_data.cbox = pTmp;
 
+  baseclass_redraw = pCBox->redraw;
   pCBox->redraw = redraw_icon;
   
   pCBox->size.w = pCBox->theme->w / 4;
@@ -134,7 +143,8 @@ struct widget * create_textcheckbox(struct gui_layer *pDest, bool state,
   pTmp->pTRUE_Theme = pTheme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
   pCBox->private_data.cbox = pTmp;
-  
+
+  baseclass_redraw = pCBox->redraw;
   pCBox->redraw = redraw_textcheckbox;
   
   return pCBox;

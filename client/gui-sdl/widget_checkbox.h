@@ -11,19 +11,21 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__WIDGET_P_H
-#define FC__WIDGET_P_H
+#ifndef FC__WIDGET_CHECKBOX_H
+#define FC__WIDGET_CHECKBOX_H
 
-#define STATE_MASK		0x03       /* 0..0000000000000011 */
-#define TYPE_MASK		0x03FC     /* 0..0000001111111100 */
-#define FLAG_MASK		0xFFFFFC00 /* 1..1111110000000000 */
+struct CHECKBOX {
+  SDL_Surface *pTRUE_Theme;
+  SDL_Surface *pFALSE_Theme;
+  bool state;
+};
 
-struct widget *widget_new(void);
+struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
+                                   SDL_String16 *pStr, Uint32 flags);
+struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags);
+void togle_checkbox(struct widget *pCBox);
+bool get_checkbox_state(struct widget *pCBox);
+int set_new_checkbox_theme(struct widget *pCBox ,
+                           SDL_Surface *pTrue, SDL_Surface *pFalse);
 
-void correct_size_bcgnd_surf(SDL_Surface *pTheme,
-				    Uint16 *pWidth, Uint16 *pHigh);
-SDL_Surface *get_buffer_layer(int width, int height);
-
-int redraw_iconlabel(struct widget *pLabel);
-  
-#endif /* FC__WIDGET_P_H */
+#endif /* FC__WIDGET_CHECKBOX_H */

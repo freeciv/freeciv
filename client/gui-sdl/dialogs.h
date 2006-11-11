@@ -37,13 +37,4 @@ void put_window_near_map_tile(struct widget *pWindow,
 void popup_unit_upgrade_dlg(struct unit *pUnit, bool city);
 void popup_revolution_dialog(void);
 
-#define create_active_iconlabel(pBuf, pDest, pStr, pString, pCallback)   \
-do { 									 \
-  pStr = create_str16_from_char(pString, 10);				 \
-  pStr->style |= TTF_STYLE_BOLD;					 \
-  pBuf = create_iconlabel(NULL, pDest, pStr, 				 \
-    	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
-  pBuf->action = pCallback;						 \
-} while(0)
-
 #endif	/* FC__DIALOGS_H */

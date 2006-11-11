@@ -20,16 +20,16 @@
 /* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
+#include "mapview.h"
 #include "themespec.h"
 
-#include "widget_p.h"
-
 #include "widget.h"
+#include "widget_p.h"
 
 /**************************************************************************
   ...
 **************************************************************************/
-inline void set_wstate(struct widget *pWidget, enum widget_state state)
+void set_wstate(struct widget *pWidget, enum widget_state state)
 {
   pWidget->state_types_flags &= ~STATE_MASK;
   pWidget->state_types_flags |= state;
@@ -38,7 +38,7 @@ inline void set_wstate(struct widget *pWidget, enum widget_state state)
 /**************************************************************************
   ...
 **************************************************************************/
-inline void set_wtype(struct widget *pWidget, enum widget_type type)
+void set_wtype(struct widget *pWidget, enum widget_type type)
 {
   pWidget->state_types_flags &= ~TYPE_MASK;
   pWidget->state_types_flags |= type;
@@ -47,7 +47,7 @@ inline void set_wtype(struct widget *pWidget, enum widget_type type)
 /**************************************************************************
   ...
 **************************************************************************/
-inline void set_wflag(struct widget *pWidget, enum widget_flag flag)
+void set_wflag(struct widget *pWidget, enum widget_flag flag)
 {
   (pWidget)->state_types_flags |= ((flag) & FLAG_MASK);
 }
@@ -55,7 +55,7 @@ inline void set_wflag(struct widget *pWidget, enum widget_flag flag)
 /**************************************************************************
   ...
 **************************************************************************/
-inline void clear_wflag(struct widget *pWidget, enum widget_flag flag)
+void clear_wflag(struct widget *pWidget, enum widget_flag flag)
 {
   (pWidget)->state_types_flags &= ~((flag) & FLAG_MASK);
 }
@@ -63,7 +63,7 @@ inline void clear_wflag(struct widget *pWidget, enum widget_flag flag)
 /**************************************************************************
   ...
 **************************************************************************/
-inline enum widget_state get_wstate(const struct widget *pWidget)
+enum widget_state get_wstate(const struct widget *pWidget)
 {
   return ((enum widget_state)(pWidget->state_types_flags & STATE_MASK));
 }
@@ -71,7 +71,7 @@ inline enum widget_state get_wstate(const struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-inline enum widget_type get_wtype(const struct widget *pWidget)
+enum widget_type get_wtype(const struct widget *pWidget)
 {
   return ((enum widget_type)(pWidget->state_types_flags & TYPE_MASK));
 }
@@ -79,7 +79,7 @@ inline enum widget_type get_wtype(const struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-inline enum widget_flag get_wflags(const struct widget *pWidget)
+enum widget_flag get_wflags(const struct widget *pWidget)
 {
   return ((enum widget_flag)(pWidget->state_types_flags & FLAG_MASK));
 }
@@ -87,8 +87,10 @@ inline enum widget_flag get_wflags(const struct widget *pWidget)
 /**************************************************************************
    ...
 **************************************************************************/
-void free_widget(struct widget *pGUI)
+void widget_free(struct widget **pWidget)
 {
+  struct widget *pGUI = *pWidget;
+  
   if ((get_wflags(pGUI) & WF_FREE_STRING) == WF_FREE_STRING) {
     FREESTRING16(pGUI->string16);
   }
@@ -109,4 +111,119 @@ void free_widget(struct widget *pGUI)
   if ((get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) == WF_FREE_PRIVATE_DATA) {
     FC_FREE(pGUI->private_data.ptr);
   }
+  
+  FC_FREE(*pWidget);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_set_area(struct widget *pwidget, SDL_Rect area)
+{
+  pwidget->area = area;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_set_position(struct widget *pwidget, int x, int y)
+{
+  pwidget->size.x = x;
+  pwidget->size.y = y;    
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_resize(struct widget *pwidget, int w, int h)
+{
+  pwidget->size.w = w;
+  pwidget->size.h = h;    
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int widget_core_redraw(struct widget *pwidget)
+{
+  if (!pwidget || (get_wflags(pwidget) & WF_HIDDEN)) {
+    return -1;
+  }
+  
+  return 0;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_draw_frame(struct widget *pwidget)
+{
+  draw_frame_inside_widget(pwidget);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_mark_dirty(struct widget *pwidget)
+{
+  SDL_Rect rect = {
+    pwidget->dst->dest_rect.x + pwidget->size.x,
+    pwidget->dst->dest_rect.y + pwidget->size.y,
+    pwidget->size.w,
+    pwidget->size.h
+  };
+
+  sdl_dirty_rect(rect);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_flush(struct widget *pwidget)
+{
+  SDL_Rect rect = {
+    pwidget->dst->dest_rect.x + pwidget->size.x,
+    pwidget->dst->dest_rect.y + pwidget->size.y,
+    pwidget->size.w,
+    pwidget->size.h
+  };
+  
+  flush_rect(rect, FALSE);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_undraw(struct widget *pwidget)
+{
+  if (get_wflags(pwidget) & WF_RESTORE_BACKGROUND) {
+    if (pwidget->gfx) {
+      clear_surface(pwidget->dst->surface, &pwidget->size);
+      blit_entire_src(pwidget->gfx, pwidget->dst->surface,
+                      pwidget->size.x, pwidget->size.y);
+    }
+  } else {
+    clear_surface(pwidget->dst->surface, &pwidget->size);
+    blit_entire_src(pwidget->gfx, pwidget->dst->surface,
+                    pwidget->size.x, pwidget->size.y);
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+struct widget *widget_new()
+{
+  struct widget *pWidget = fc_calloc(1, sizeof(struct widget));
+
+  pWidget->set_area = widget_core_set_area;
+  pWidget->set_position = widget_core_set_position;
+  pWidget->resize = widget_core_resize;
+  pWidget->redraw = widget_core_redraw;
+  pWidget->draw_frame = widget_core_draw_frame;
+  pWidget->mark_dirty = widget_core_mark_dirty;
+  pWidget->flush = widget_core_flush;
+  pWidget->undraw = widget_core_undraw;
+  
+  return pWidget;
 }

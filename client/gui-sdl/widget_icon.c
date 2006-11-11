@@ -26,6 +26,9 @@
 #include "themespec.h"
 
 #include "widget.h"
+#include "widget_p.h"
+
+static int (*baseclass_redraw)(struct widget *pwidget);
 
 /* =================================================== */
 /* ===================== ICON ======================== */
@@ -38,7 +41,13 @@ int redraw_icon(struct widget *pIcon);
 **************************************************************************/
 int redraw_icon(struct widget *pIcon)
 {
+  int ret;
   SDL_Rect src, area = pIcon->size;
+
+  ret = (*baseclass_redraw)(pIcon);
+  if (ret != 0) {
+    return ret;
+  }
   
   if (!pIcon->theme) {
     return -3;
@@ -187,7 +196,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 struct widget * create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDest,
 							  Uint32 flags)
 {
-  struct widget *pIcon_Widget = fc_calloc(1, sizeof(struct widget));
+  struct widget *pIcon_Widget = widget_new();
 
   pIcon_Widget->theme = pIcon_theme;
 
@@ -196,7 +205,8 @@ struct widget * create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDe
   set_wtype(pIcon_Widget, WT_ICON);
   pIcon_Widget->mod = KMOD_NONE;
   pIcon_Widget->dst = pDest;
-  
+
+  baseclass_redraw = pIcon_Widget->redraw;
   pIcon_Widget->redraw = redraw_icon;
   
   if (pIcon_theme) {
@@ -309,7 +319,7 @@ void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
 struct widget * create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32 flags)
 {
 
-  struct widget *pIcon_Widget = fc_calloc(1, sizeof(struct widget));
+  struct widget *pIcon_Widget = widget_new();
 
   pIcon_Widget->theme = pIcon;
 
@@ -318,7 +328,8 @@ struct widget * create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32
   set_wtype(pIcon_Widget, WT_ICON2);
   pIcon_Widget->mod = KMOD_NONE;
   pIcon_Widget->dst = pDest;
-  
+
+  baseclass_redraw = pIcon_Widget->redraw;  
   pIcon_Widget->redraw = redraw_icon2;
   
   if (pIcon) {

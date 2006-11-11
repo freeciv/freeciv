@@ -28,25 +28,32 @@
 #include "mapview.h"
 #include "themespec.h"
 
-#include "widget_p.h"
-
 #include "widget.h"
+#include "widget_p.h"
 
 struct MOVE {
   bool moved;
   struct widget *pWindow;
 };
 
+static int (*baseclass_redraw)(struct widget *pwidget);
+
 /**************************************************************************
   Redraw Window Graphic ( without other Widgets )
 **************************************************************************/
 static int redraw_window(struct widget *pWindow)
 {
+  int ret;
   SDL_Color title_bg_color = {255, 255, 255, 200};
   
   SDL_Surface *pTmp = NULL;
   SDL_Rect dst = pWindow->size;
 
+  ret = (*baseclass_redraw)(pWindow);
+  if (ret != 0) {
+    return ret;
+  }
+  
   /* Draw theme */
   clear_surface(pWindow->dst->surface, &dst);
   alphablit(pWindow->theme, NULL, pWindow->dst->surface, &dst);
@@ -69,9 +76,9 @@ static int redraw_window(struct widget *pWindow)
     dst = pWindow->size;    
     
     putline(pWindow->dst->surface, dst.x + pTheme->FR_Left->w,
-	  dst.y + WINDOW_TITLE_HEIGHT,
-	  dst.x + pWindow->size.w - pTheme->FR_Right->w,
-	  dst.y + WINDOW_TITLE_HEIGHT, 
+          dst.y + WINDOW_TITLE_HEIGHT,
+          dst.x + pWindow->size.w - pTheme->FR_Right->w,
+          dst.y + WINDOW_TITLE_HEIGHT, 
           map_rgba(pWindow->dst->surface->format, 
            *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
   }
@@ -137,9 +144,11 @@ static void window_unselect(struct widget *pWindow)
 struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle, 
   			Uint16 w, Uint16 h, Uint32 flags)
 {
-  struct widget *pWindow = fc_calloc(1, sizeof(struct widget));
+  struct widget *pWindow = widget_new();
 
   pWindow->set_position = window_set_position;
+  
+  baseclass_redraw = pWindow->redraw;
   pWindow->redraw = redraw_window;
   pWindow->select = window_select;
   pWindow->unselect = window_unselect;

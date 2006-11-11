@@ -26,7 +26,10 @@
 #include "themespec.h"
 
 #include "widget.h"
+#include "widget_p.h"
 
+static int (*baseclass_redraw)(struct widget *pwidget);
+  
 /**************************************************************************
   ...
 **************************************************************************/
@@ -57,6 +60,11 @@ static int redraw_label(struct widget *pLabel)
   SDL_Color bar_color = *get_game_colorRGB(COLOR_THEME_LABEL_BAR);
   SDL_Color backup_color = {0, 0, 0, 0};
 
+  ret = (*baseclass_redraw)(pLabel);
+  if (ret != 0) {
+    return ret;
+  }
+  
   /* if label transparen then clear background under widget
    * or save this background */
   if (get_wflags(pLabel) & WF_RESTORE_BACKGROUND) {
@@ -192,7 +200,7 @@ struct widget * create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
     return NULL;
   }
 
-  pLabel = fc_calloc(1, sizeof(struct widget));
+  pLabel = widget_new();
   pLabel->theme = pIcon;
   pLabel->string16 = pText;
   set_wflag(pLabel,
@@ -202,7 +210,8 @@ struct widget * create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wtype(pLabel, WT_T_LABEL);
   pLabel->mod = KMOD_NONE;
   pLabel->dst = pDest;
-  
+
+  baseclass_redraw = pLabel->redraw;
   pLabel->redraw = redraw_label;
   
   remake_label_size(pLabel);
@@ -221,7 +230,7 @@ struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
 {
   struct widget *pILabel = NULL;
 
-  pILabel = fc_calloc(1, sizeof(struct widget));
+  pILabel = widget_new();
 
   pILabel->theme = pIcon;
   pILabel->string16 = pText;
@@ -231,6 +240,7 @@ struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   pILabel->mod = KMOD_NONE;
   pILabel->dst = pDest;
   
+  baseclass_redraw = pILabel->redraw;
   pILabel->redraw = redraw_label;
   
   remake_label_size(pILabel);
@@ -255,13 +265,14 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
     return NULL;
   }
 
-  pLabel = fc_calloc(1, sizeof(struct widget));
+  pLabel = widget_new();
   pLabel->theme = pIcon;
   pLabel->string16 = pText;
   set_wflag(pLabel, (WF_FREE_THEME | WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pLabel, FC_WS_DISABLED);
   set_wtype(pLabel, WT_T2_LABEL);
   pLabel->mod = KMOD_NONE;
+  baseclass_redraw = pLabel->redraw;
   pLabel->redraw = redraw_label;
   
   remake_label_size(pLabel);
