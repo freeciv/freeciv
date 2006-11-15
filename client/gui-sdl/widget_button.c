@@ -17,6 +17,9 @@
 
 #include <SDL/SDL.h>
 
+/* utility */
+#include "log.h"
+
 /* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
@@ -282,7 +285,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
 
   baseclass_redraw = pButton->redraw;  
   pButton->redraw = redraw_ibutton;
-  
+
   if (pStr && !(flags & WF_WIDGET_HAS_INFO_LABEL)) {
     pButton->string16->style |= SF_CENTER;
     /* if BOLD == true then longest wight */

@@ -34,12 +34,10 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 /* ===================== ICON ======================== */
 /* =================================================== */
 
-int redraw_icon(struct widget *pIcon);
-
 /**************************************************************************
   ...
 **************************************************************************/
-int redraw_icon(struct widget *pIcon)
+static int redraw_icon(struct widget *pIcon)
 {
   int ret;
   SDL_Rect src, area = pIcon->size;
@@ -81,6 +79,11 @@ static int redraw_icon2(struct widget *pIcon)
   int ret;
   SDL_Rect dest;
   Uint32 state;
+
+  ret = (*baseclass_redraw)(pIcon);
+  if (ret != 0) {
+    return ret;
+  }
 
   if(!pIcon) {
     return -3;

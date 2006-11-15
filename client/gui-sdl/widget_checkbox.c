@@ -26,10 +26,44 @@
 #include "widget.h"
 #include "widget_p.h"
 
-/* from widget_icon.c */
-extern int redraw_icon(struct widget *pIcon);
-
 static int (*baseclass_redraw)(struct widget *pwidget);
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int redraw_icon(struct widget *pIcon)
+{
+  int ret;
+  SDL_Rect src, area = pIcon->size;
+
+  ret = (*baseclass_redraw)(pIcon);
+  if (ret != 0) {
+    return ret;
+  }
+  
+  if (!pIcon->theme) {
+    return -3;
+  }
+
+  if (pIcon->gfx) {
+    widget_undraw(pIcon);
+  }
+
+  src.x = (pIcon->theme->w / 4) * (Uint8) (get_wstate(pIcon));
+  src.y = 0;
+  src.w = (pIcon->theme->w / 4);
+  src.h = pIcon->theme->h;
+
+  if (pIcon->size.w != src.w) {
+    area.x += (pIcon->size.w - src.w) / 2;
+  }
+
+  if (pIcon->size.h != src.h) {
+    area.y += (pIcon->size.h - src.h) / 2;
+  }
+
+  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area);
+}
 
 /**************************************************************************
   ...
