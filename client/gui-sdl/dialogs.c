@@ -2872,11 +2872,10 @@ void popup_races_dialog(struct player *pplayer)
 
   /* create start button */
   pWidget =
-      create_themeicon_button_from_chars(pTheme->FORWARD_Icon, pWindow->dst,
+      create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 				_("OK"), adj_font(12), WF_ICON_CENTER_RIGHT);
   pWidget->action = races_dialog_ok_callback;
 
-  pWidget->size.w += adj_size(60);
   set_wstate(pWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_NATION_WIZARD_START_BUTTON, pWidget);
   pWidget->size.w = MAX(pWidget->size.w, pWidget->next->size.w);
@@ -2897,7 +2896,7 @@ void popup_races_dialog(struct player *pplayer)
   /* nations */
   
   h = pNationDlg->pEndActiveWidgetList->size.h * TARGETS_ROW;
-  i = (pWindow->size.h - WINDOW_TITLE_HEIGHT - h) / 2;
+  i = (pWindow->size.h - adj_size(50) - WINDOW_TITLE_HEIGHT - h) / 2;
   setup_vertical_widgets_position(TARGETS_COL,
 	pWindow->size.x + pTheme->FR_Left->w + adj_size(10),
 	pWindow->size.y + WINDOW_TITLE_HEIGHT + i,
@@ -2964,16 +2963,22 @@ void popup_races_dialog(struct player *pplayer)
     } while (pLast_City_Style != pBuf);
   }
   
+  putline(pWindow->theme,
+          pTheme->FR_Left->w,
+          pWindow->size.h - adj_size(10) - pBuf->prev->size.h - adj_size(10),
+          pWindow->size.w - 1, 
+          pWindow->size.h - adj_size(10) - pBuf->prev->size.h - adj_size(10),
+          map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME)));
+  
   /* Disconnect Button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
-  				(pWindow->size.w/2 - pBuf->size.w) / 2;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(20);
+  pBuf->size.x = pTheme->FR_Left->w + adj_size(10);
+  pBuf->size.y = pWindow->size.h - adj_size(10) - pBuf->size.h;
   
   /* Start Button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(10);
+  pBuf->size.x = pWindow->size.w - adj_size(10) - pBuf->size.w;
+  pBuf->size.y = pBuf->next->size.y;
   
   /* -------------------------------------------------------------------- */
   
