@@ -128,7 +128,6 @@ static SDL_Event *pMap_Scroll_User_Event = NULL;
 
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
-static void game_focused_unit_anim(void);
 static int check_scroll_area(int x, int y);
       
 enum USER_EVENT_ID {
@@ -410,49 +409,8 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
  this is called every TIMER_INTERVAL milliseconds whilst we are in 
  gui_main_loop() (which is all of the time) TIMER_INTERVAL needs to be .5s
 **************************************************************************/
-static void game_focused_unit_anim(void)
+static void update_button_hold_state(void)
 {
-/* FIXME: this can probably be removed */
-#if 0
-  static int flip;
-
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-
-    if (game.player_ptr && game.player_ptr->is_connected && game.player_ptr->is_alive
-	&& !game.player_ptr->phase_done) {
-      int i, is_waiting, is_moving;
-
-      for (i = 0, is_waiting = 0, is_moving = 0; i < game.info.nplayers; i++)
-	if (game.players[i].is_alive && game.players[i].is_connected) {
-	  if (game.players[i].phase_done) {
-	    is_waiting++;
-	  } else {
-	    is_moving++;
-	  }
-	}
-
-      if (is_moving == 1 && is_waiting) {
-	update_turn_done_button(0);	/* stress the slow player! */
-      }
-    }
-
-    if(do_focus_animation) {
-      blink_active_unit();
-    }
-
-    if (flip) {
-      update_timeout_label();
-      if (get_seconds_to_turndone() > 0) {
-	set_seconds_to_turndone(get_seconds_to_turndone() - 1);
-      } else {
-	set_seconds_to_turndone(0);
-      }
-    }
-
-    flip = !flip;
-  }
-#endif
-  
   /* button pressed */
   if (button_behavior.button_down_ticks) {
     if (((SDL_GetTicks() - button_behavior.button_down_ticks) >= MB_MEDIUM_HOLD_DELAY)
@@ -733,7 +691,7 @@ Uint16 gui_event_loop(void *pData,
             input_from_server(net_socket);
 	  break;
 	  case ANIM:
-	    game_focused_unit_anim();
+	    update_button_hold_state();
 	    animate_mouse_cursor();
             draw_mouse_cursor();
 	  break;

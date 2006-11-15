@@ -26,6 +26,7 @@
 /* gui-sdl */
 #include "graphics.h"
 #include "mapview.h"
+#include "sprite.h"
 
 #include "gui_mouse.h"
 

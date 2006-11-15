@@ -34,6 +34,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "repodlgs.h"
+#include "sprite.h"
 #include "themespec.h"
 #include "widget.h"
 #include "wldlg.h"

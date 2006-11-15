@@ -33,9 +33,12 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_zoom.h"
+#include "sprite.h"
 #include "themespec.h"
 
 #include "gui_tilespec.h"
+
+static SDL_Surface *pCity_Surf;
 
 #ifdef SMALL_SCREEN
   #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
@@ -261,18 +264,24 @@ void tilespec_setup_theme(void)
   struct sprite *pBuf = NULL;
   
   pTheme = fc_calloc(1, sizeof(struct Theme));
-  
-  load_theme_surface(pBuf, Button, "theme.button");
-  load_theme_surface(pBuf, Edit, "theme.edit");
-  load_theme_surface(pBuf, Vertic, "theme.vertic_scrollbar");
-  load_theme_surface(pBuf, Horiz, "theme.horiz_scrollbar");
-  load_theme_surface(pBuf, CBOX_Sell_Icon, "theme.sbox");
-  load_theme_surface(pBuf, CBOX_Unsell_Icon, "theme.ubox");
-  load_theme_surface(pBuf, Block, "theme.block");
+
   load_theme_surface(pBuf, FR_Left, "theme.left_frame");
   load_theme_surface(pBuf, FR_Right, "theme.right_frame");
   load_theme_surface(pBuf, FR_Top, "theme.top_frame");
   load_theme_surface(pBuf, FR_Bottom, "theme.bottom_frame");
+  load_theme_surface(pBuf, Button, "theme.button");
+  load_theme_surface(pBuf, Edit, "theme.edit");
+  load_theme_surface(pBuf, CBOX_Sell_Icon, "theme.sbox");
+  load_theme_surface(pBuf, CBOX_Unsell_Icon, "theme.ubox");
+  load_theme_surface(pBuf, UP_Icon, "theme.UP_scroll");
+  load_theme_surface(pBuf, DOWN_Icon, "theme.DOWN_scroll");
+#if 0
+  load_theme_surface(pBuf, LEFT_Icon, "theme.LEFT_scroll");
+  load_theme_surface(pBuf, RIGHT_Icon, "theme.RIGHT_scroll");
+#endif
+  load_theme_surface(pBuf, Vertic, "theme.vertic_scrollbar");
+  load_theme_surface(pBuf, Horiz, "theme.horiz_scrollbar");
+  
   /* ------------------- */
   load_theme_surface(pBuf, OK_PACT_Icon, "theme.pact_ok");
   load_theme_surface(pBuf, CANCEL_PACT_Icon, "theme.pact_cancel");
@@ -286,13 +295,13 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, BACK_Icon, "theme.BACK_button");
   load_theme_surface(pBuf, L_ARROW_Icon, "theme.LEFT_ARROW_button");
   load_theme_surface(pBuf, R_ARROW_Icon, "theme.RIGHT_ARROW_button");
-  load_theme_surface(pBuf, META_Icon, "theme.META_button");
   load_theme_surface(pBuf, MAP_Icon, "theme.MAP_button");
   load_theme_surface(pBuf, FindCity_Icon, "theme.FIND_CITY_button");
   load_theme_surface(pBuf, NEW_TURN_Icon, "theme.NEW_TURN_button");
   load_theme_surface(pBuf, LOG_Icon, "theme.LOG_button");
   load_theme_surface(pBuf, UNITS_Icon, "theme.UNITS_INFO_button");
   load_theme_surface(pBuf, Options_Icon, "theme.OPTIONS_button");
+  load_theme_surface(pBuf, Block, "theme.block");
   load_theme_surface(pBuf, INFO_Icon, "theme.INFO_button");
   load_theme_surface(pBuf, Army_Icon, "theme.ARMY_button");
   load_theme_surface(pBuf, Happy_Icon, "theme.HAPPY_button");
@@ -311,13 +320,6 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, BORDERS_Icon, "theme.BORDERS_button");
   /* ------------------------------ */
   load_theme_surface(pBuf, Tech_Tree_Icon, "theme.tech_tree");
-  /* ------------------------------ */
-  load_theme_surface(pBuf, UP_Icon, "theme.UP_scroll");
-  load_theme_surface(pBuf, DOWN_Icon, "theme.DOWN_scroll");
-#if 0
-  load_theme_surface(pBuf, LEFT_Icon, "theme.LEFT_scroll");
-  load_theme_surface(pBuf, RIGHT_Icon, "theme.RIGHT_button");
-#endif
   /* ------------------------------ */
 
   load_order_theme_surface(pBuf, Order_Icon, "theme.order_empty");  
@@ -371,18 +373,28 @@ void tilespec_free_theme(void)
   if (!pTheme) {
     return;
   }
-  
-  FREESURFACE(pTheme->Button);
-  FREESURFACE(pTheme->Edit);
-  FREESURFACE(pTheme->Vertic);
-  FREESURFACE(pTheme->Horiz);
-  FREESURFACE(pTheme->CBOX_Sell_Icon);
-  FREESURFACE(pTheme->CBOX_Unsell_Icon);
-  FREESURFACE(pTheme->Block);
+
   FREESURFACE(pTheme->FR_Left);
   FREESURFACE(pTheme->FR_Right);
   FREESURFACE(pTheme->FR_Top);
   FREESURFACE(pTheme->FR_Bottom);
+  
+  FREESURFACE(pTheme->Button);
+  
+  FREESURFACE(pTheme->Edit);
+
+  FREESURFACE(pTheme->CBOX_Sell_Icon);
+  FREESURFACE(pTheme->CBOX_Unsell_Icon);
+
+  FREESURFACE(pTheme->UP_Icon);
+  FREESURFACE(pTheme->DOWN_Icon);
+#if 0
+  FREESURFACE(pTheme->LEFT_Icon);
+  FREESURFACE(pTheme->RIGHT_Icon);
+#endif
+  FREESURFACE(pTheme->Vertic);
+  FREESURFACE(pTheme->Horiz);
+  
   /* ------------------- */
   
   FREESURFACE(pTheme->OK_Icon);
@@ -393,7 +405,6 @@ void tilespec_free_theme(void)
   FREESURFACE(pTheme->BACK_Icon);
   FREESURFACE(pTheme->L_ARROW_Icon);
   FREESURFACE(pTheme->R_ARROW_Icon);
-  FREESURFACE(pTheme->META_Icon);
   FREESURFACE(pTheme->MAP_Icon);
   FREESURFACE(pTheme->FindCity_Icon);
   FREESURFACE(pTheme->NEW_TURN_Icon);
@@ -402,6 +413,7 @@ void tilespec_free_theme(void)
   FREESURFACE(pTheme->UNITS2_Icon);
   FREESURFACE(pTheme->PLAYERS_Icon);
   FREESURFACE(pTheme->Options_Icon);
+  FREESURFACE(pTheme->Block);
   FREESURFACE(pTheme->INFO_Icon);
   FREESURFACE(pTheme->Army_Icon);
   FREESURFACE(pTheme->Happy_Icon);
@@ -420,13 +432,6 @@ void tilespec_free_theme(void)
   FREESURFACE(pTheme->BORDERS_Icon);
   /* ------------------------------ */
   FREESURFACE(pTheme->Tech_Tree_Icon);
-  /* ------------------------------ */
-  FREESURFACE(pTheme->UP_Icon);
-  FREESURFACE(pTheme->DOWN_Icon);
-#if 0
-  FREESURFACE(pTheme->LEFT_Icon);
-  FREESURFACE(pTheme->RIGHT_Icon);
-#endif
   /* ------------------------------ */
 
   FREESURFACE(pTheme->Order_Icon);
@@ -467,12 +472,6 @@ void tilespec_free_theme(void)
   FREESURFACE(pTheme->OReturn_Icon);
   FREESURFACE(pTheme->OAirLift_Icon);
 
-  /* Map Borders */
-  FREESURFACE(pTheme->NWEST_BORDER_Icon);
-  FREESURFACE(pTheme->NNORTH_BORDER_Icon);
-  FREESURFACE(pTheme->NSOUTH_BORDER_Icon);
-  FREESURFACE(pTheme->NEAST_BORDER_Icon);
-	
   FC_FREE(pTheme);
   return;
 }
@@ -495,4 +494,24 @@ SDL_Surface * get_citizen_surface(enum citizen_category type,
 SDL_Surface * get_city_gfx(void)
 {
   return pCity_Surf;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void draw_intro_gfx(void)
+{
+  SDL_Surface *pIntro = theme_get_background(theme, BACKGROUND_MAINPAGE);
+
+  if(pIntro->w != Main.screen->w)
+  {
+    SDL_Surface *pTmp = ResizeSurface(pIntro, Main.screen->w, Main.screen->h,1);
+    FREESURFACE(pIntro);
+    pIntro = pTmp;
+  }
+  
+  /* draw intro gfx center in screen */
+  alphablit(pIntro, NULL, Main.map, NULL);
+  
+  FREESURFACE(pIntro);
 }

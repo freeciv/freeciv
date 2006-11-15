@@ -55,8 +55,6 @@
 
 struct main Main;
 
-static SDL_Surface *pIntro_gfx = NULL;
-
 struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface)
 {
   struct gui_layer *result;
@@ -3308,6 +3306,62 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect)
 	  && (y >= rect.y) && (y < rect.y + rect.h));
 }
 
+/**************************************************************************
+  Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
+  off and colorkey is set to 0 this black color is trasparent.
+  To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
+  (first collor != 0 in 16 bit coding).
+**************************************************************************/
+bool correct_black(SDL_Surface * pSrc)
+{
+  bool ret = 0;
+  register int x;
+  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
+    
+    register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
+    Uint32 Amask = pSrc->format->Amask;
+    
+    Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
+    Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
+
+    int end = pSrc->w * pSrc->h;
+    
+    /* for 32 bit color coding */
+
+    lock_surf(pSrc);
+
+    for (x = 0; x < end; x++, pPixels++) {
+      if (*pPixels == black) {
+	*pPixels = new_black;
+      } else {
+	if (!ret) {
+	  alpha = *pPixels & Amask;
+	  if (alpha && (alpha != Amask)) {
+	    ret = 1;
+	  }
+	}
+      }
+    }
+
+    unlock_surf(pSrc);
+  } else {
+    if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
+      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
+	if (x != pSrc->format->colorkey &&
+	  pSrc->format->palette->colors[x].r < 4 &&
+	  pSrc->format->palette->colors[x].g < 4 &&
+	  pSrc->format->palette->colors[x].b < 4) {
+	    pSrc->format->palette->colors[x].r = 4;
+	    pSrc->format->palette->colors[x].g = 4;
+	    pSrc->format->palette->colors[x].b = 4;
+	  }
+      }
+    }
+  }
+
+  return ret;
+}
+
 /* ===================================================================== */
 
 /**************************************************************************
@@ -3597,52 +3651,6 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
   return crop_rect_from_surface(pSrc, &src);
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-SDL_Surface * get_intro_gfx(void)
-{
-  if(!pIntro_gfx) {
-   pIntro_gfx = theme_get_background(theme, BACKGROUND_MAINPAGE);
-  }
-  return pIntro_gfx;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-SDL_Surface * get_logo_gfx(void)
-{
-  SDL_Surface *pLogo;
-        
-  SDL_Surface *pLogo_Surf = adj_surf(GET_SURF(theme_lookup_sprite_tag_alt(
-                                  theme, "theme.logo", "", TRUE, "", "")));
-  assert(pLogo_Surf != NULL);
-  
-  pLogo = SDL_DisplayFormatAlpha(pLogo_Surf);
-  
-  return pLogo;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void draw_intro_gfx(void)
-{
-  SDL_Surface *pIntro = get_intro_gfx();
-
-  if(pIntro->w != Main.screen->w)
-  {
-    SDL_Surface *pTmp = ResizeSurface(pIntro, Main.screen->w, Main.screen->h,1);
-    FREESURFACE(pIntro);
-    pIntro = pTmp;
-    pIntro_gfx = pTmp;
-  }
-  
-  /* draw intro gfx center in screen */
-  alphablit(pIntro, NULL, Main.map, NULL);
-}
-
 /* ============ FreeCiv game graphics function =========== */
 
 /**************************************************************************
@@ -3670,65 +3678,9 @@ void load_intro_gfx(void)
 }
 
 /**************************************************************************
-  Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
-  off and colorkey is set to 0 this black color is trasparent.
-  To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
-  (first collor != 0 in 16 bit coding).
-**************************************************************************/
-bool correct_black(SDL_Surface * pSrc)
-{
-  bool ret = 0;
-  register int x;
-  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
-    
-    register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
-    Uint32 Amask = pSrc->format->Amask;
-    
-    Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
-    Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
-
-    int end = pSrc->w * pSrc->h;
-    
-    /* for 32 bit color coding */
-
-    lock_surf(pSrc);
-
-    for (x = 0; x < end; x++, pPixels++) {
-      if (*pPixels == black) {
-	*pPixels = new_black;
-      } else {
-	if (!ret) {
-	  alpha = *pPixels & Amask;
-	  if (alpha && (alpha != Amask)) {
-	    ret = 1;
-	  }
-	}
-      }
-    }
-
-    unlock_surf(pSrc);
-  } else {
-    if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
-      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
-	if (x != pSrc->format->colorkey &&
-	  pSrc->format->palette->colors[x].r < 4 &&
-	  pSrc->format->palette->colors[x].g < 4 &&
-	  pSrc->format->palette->colors[x].b < 4) {
-	    pSrc->format->palette->colors[x].r = 4;
-	    pSrc->format->palette->colors[x].g = 4;
-	    pSrc->format->palette->colors[x].b = 4;
-	  }
-      }
-    }
-  }
-
-  return ret;
-}
-
-/**************************************************************************
   Frees the introductory sprites.
 **************************************************************************/
 void free_intro_radar_sprites(void)
 {
-  FREESURFACE(pIntro_gfx);
+  /* nothing */
 }

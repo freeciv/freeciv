@@ -46,6 +46,7 @@
 #include "helpdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "sprite.h"
 #include "themespec.h"
 #include "widget.h"
 

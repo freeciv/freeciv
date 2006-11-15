@@ -180,7 +180,6 @@ enum scan_direction {
   SCAN_BACKWARD
 };
 
-void init_gui_list(Uint16 ID, struct widget *pGUI);
 void add_to_gui_list(Uint16 ID, struct widget *pGUI);
 void del_widget_pointer_from_gui_list(struct widget *pGUI);
 void DownAdd(struct widget *pNew_Widget, struct widget *pAdd_Dock);

@@ -39,6 +39,7 @@
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
 #include "mapview.h"
+#include "sprite.h"
 #include "widget.h"
 
 #include "gotodlg.h"

@@ -34,6 +34,7 @@
 #include "gui_main.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
+#include "sprite.h"
 #include "themespec.h"
 #include "widget.h"
 

@@ -34,6 +34,7 @@
 #include "gui_zoom.h"
 #include "inteldlg.h"
 #include "mapview.h"
+#include "sprite.h"
 #include "themespec.h"
 #include "widget.h"
 

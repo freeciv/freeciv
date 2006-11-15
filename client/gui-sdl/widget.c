@@ -43,7 +43,6 @@
 
 struct widget *pSellected_Widget;
 SDL_Rect *pInfo_Area = NULL;
-SDL_Surface *pInfo_Label = NULL;
 
 extern Uint32 widget_info_counter;
 
@@ -51,6 +50,8 @@ extern Uint32 widget_info_counter;
 
 static struct widget *pBeginMainWidgetList;
 /* static struct widget *pEndMainWidgetList; */
+
+static SDL_Surface *pInfo_Label = NULL;
 
 /**************************************************************************
   Correct backgroud size ( set min size ). Used in create widget
@@ -418,14 +419,7 @@ void unsellect_widget_action(void)
       set_wstate(pSellected_Widget, FC_WS_NORMAL);
   
       if (!(get_wflags(pSellected_Widget) & WF_HIDDEN)) {
-        
-        if (pSellected_Widget->unselect) {
-          pSellected_Widget->unselect(pSellected_Widget);
-        } else {
-          /* default action */
-          widget_redraw(pSellected_Widget);    
-          widget_flush(pSellected_Widget);
-        }
+        pSellected_Widget->unselect(pSellected_Widget);
         
         /* turn off quick info timer/counter */ 
         widget_info_counter = 0;
@@ -456,13 +450,7 @@ void widget_sellected_action(struct widget *pWidget)
 
   set_wstate(pWidget, FC_WS_SELLECTED);  
   
-  if (pWidget->select) {
-    pWidget->select(pWidget);
-  } else {
-    /* default action */
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-  }
+  pWidget->select(pWidget);
   
   pSellected_Widget = pWidget;
   
@@ -587,16 +575,6 @@ struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
 struct widget *get_widget_pointer_form_main_list(Uint16 ID)
 {
   return get_widget_pointer_form_ID(pBeginMainWidgetList, ID, SCAN_FORWARD);
-}
-
-/**************************************************************************
-  INIT Main Widget's List ( pBeginWidgetList )
-**************************************************************************/
-void init_gui_list(Uint16 ID, struct widget *pGUI)
-{
-  /* pEndWidgetList = pBeginWidgetList = pGUI; */
-  pBeginMainWidgetList = pGUI;
-  pBeginMainWidgetList->ID = ID;
 }
 
 /**************************************************************************

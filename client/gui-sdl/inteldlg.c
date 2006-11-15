@@ -33,6 +33,7 @@
 #include "mapview.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
+#include "sprite.h"
 #include "widget.h"
 
 #include "inteldlg.h"

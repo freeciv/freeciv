@@ -53,6 +53,7 @@
 #include "gui_zoom.h"
 #include "mapview.h"
 #include "menu.h"
+#include "sprite.h"
 #include "themespec.h"
 #include "widget.h"
 #include "wldlg.h"

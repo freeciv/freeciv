@@ -27,28 +27,39 @@
 #include "tilespec.h"
 
 struct Theme {
+
+        /* Frame */  
+	SDL_Surface *FR_Left;
+        SDL_Surface *FR_Right;
+	SDL_Surface *FR_Top;
+        SDL_Surface *FR_Bottom;
+
+        /* Button */
 	SDL_Surface *Button;
+  
+        /* Edit */
 	SDL_Surface *Edit;
+  
+        /* Checkbox */
 	SDL_Surface *CBOX_Sell_Icon;
 	SDL_Surface *CBOX_Unsell_Icon;
-	SDL_Surface *OK_Icon;
-	SDL_Surface *CANCEL_Icon;
-        SDL_Surface *Small_OK_Icon;
-	SDL_Surface *Small_CANCEL_Icon;
-	SDL_Surface *FORWARD_Icon;
-	SDL_Surface *BACK_Icon;
-	SDL_Surface *META_Icon;
-	SDL_Surface *INFO_Icon;
+  
+        /* Scrollbar */
 	SDL_Surface *UP_Icon;
 	SDL_Surface *DOWN_Icon;
 	SDL_Surface *LEFT_Icon;
 	SDL_Surface *RIGHT_Icon;
 	SDL_Surface *Vertic;
 	SDL_Surface *Horiz;
-	SDL_Surface *FR_Left;
-        SDL_Surface *FR_Right;
-	SDL_Surface *FR_Top;
-        SDL_Surface *FR_Bottom;
+
+        /* Game */
+	SDL_Surface *OK_Icon;
+	SDL_Surface *CANCEL_Icon;
+        SDL_Surface *Small_OK_Icon;
+	SDL_Surface *Small_CANCEL_Icon;
+	SDL_Surface *FORWARD_Icon;
+	SDL_Surface *BACK_Icon;
+	SDL_Surface *INFO_Icon;
 	SDL_Surface *R_ARROW_Icon;
 	SDL_Surface *L_ARROW_Icon;
 	SDL_Surface *LOCK_Icon;
@@ -83,12 +94,6 @@ struct Theme {
         /* diplomacy */
         SDL_Surface *OK_PACT_Icon;
 	SDL_Surface *CANCEL_PACT_Icon;
-	
-	/* borders */
-        SDL_Surface *NWEST_BORDER_Icon;
-	SDL_Surface *NNORTH_BORDER_Icon;
-	SDL_Surface *NSOUTH_BORDER_Icon;
-	SDL_Surface *NEAST_BORDER_Icon;
 	
 	/* orders icons */
 	SDL_Surface *Order_Icon;
@@ -130,17 +135,6 @@ struct Theme {
 	SDL_Surface *OAirLift_Icon;
 			
 } *pTheme;
-
-void tilespec_setup_theme(void);
-void tilespec_free_theme(void);
-
-enum DirScrolling {
-  SCROLL_NORTH = 0,
-  SCROLL_SOUTH = 1,
-  SCROLL_EAST  = 2,
-  SCROLL_WEST  = 3,
-  SCROLL_LAST
-};
 
 struct City_Icon {
   int style;
@@ -188,7 +182,8 @@ struct City_Icon {
 
 } *pIcons;
 
-SDL_Surface *pCity_Surf;
+void tilespec_setup_theme(void);
+void tilespec_free_theme(void);
 
 void tilespec_setup_city_gfx(void);
   
@@ -199,5 +194,7 @@ void reload_citizens_icons(int style);
 SDL_Surface * get_city_gfx(void);
 SDL_Surface * get_citizen_surface(enum citizen_category type,
 				  int citizen_index);
+
+void draw_intro_gfx(void);
 
 #endif  /* FC__GUI_TILESPEC_H */

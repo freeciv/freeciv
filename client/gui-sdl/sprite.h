@@ -16,5 +16,10 @@
 
 #include "sprite_g.h"
 
+struct sprite {
+  struct SDL_Surface *psurface;
+};
+
+#define GET_SURF(m_sprite)	(m_sprite->psurface)
 
 #endif				/* FC__SPRITE_H */

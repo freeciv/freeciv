@@ -19,4 +19,6 @@
 void animate_mouse_cursor(void);
 void draw_mouse_cursor(void);
 
+void unload_cursors(void);
+
 #endif /* FC__GUI_MOUSE_H */

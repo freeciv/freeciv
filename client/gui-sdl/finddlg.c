@@ -33,6 +33,7 @@
 #include "gui_tilespec.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "sprite.h"
 #include "widget.h"
 
 #include "finddlg.h"

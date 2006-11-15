@@ -212,6 +212,24 @@ static void widget_core_undraw(struct widget *pwidget)
 /**************************************************************************
   ...
 **************************************************************************/
+static void widget_core_select(struct widget *pwidget)
+{
+  widget_redraw(pwidget);
+  widget_flush(pwidget);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void widget_core_unselect(struct widget *pwidget)
+{
+  widget_redraw(pwidget);
+  widget_flush(pwidget);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 struct widget *widget_new()
 {
   struct widget *pWidget = fc_calloc(1, sizeof(struct widget));
@@ -224,6 +242,8 @@ struct widget *widget_new()
   pWidget->mark_dirty = widget_core_mark_dirty;
   pWidget->flush = widget_core_flush;
   pWidget->undraw = widget_core_undraw;
+  pWidget->select = widget_core_select;
+  pWidget->unselect = widget_core_unselect;
   
   return pWidget;
 }
