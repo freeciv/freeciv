@@ -83,6 +83,11 @@ static int redraw_window(struct widget *pWindow)
            *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
   }
   
+  /* draw frame */
+  if (get_wflags(pWindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
+    widget_draw_frame(pWindow);
+  }
+  
   return 0;
 }
 

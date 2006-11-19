@@ -46,6 +46,7 @@
 #include "gui_tilespec.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "pages.h"
 #include "widget.h"
 
 #include "menu.h"
@@ -793,6 +794,10 @@ void create_units_order_widgets(void)
 void delete_units_order_widgets(void)
 {
   del_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+  
+  pBeginOrderWidgetList = NULL;
+  pEndOrderWidgetList = NULL;
+  SDL_Client_Flags &= ~CF_ORDERS_WIDGETS_CREATED;
 }
 
 /**************************************************************************
@@ -857,64 +862,15 @@ void update_menus(void)
   struct unit *pUnit = NULL;
   static char cBuf[128];
   
-  if ((get_client_state() != CLIENT_GAME_RUNNING_STATE)) {
+  if ((get_client_state() != CLIENT_GAME_RUNNING_STATE) ||
+      (get_client_page() != PAGE_GAME)) {
 
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;
 	
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
-      
-      set_wflag(pOptions_Button, WF_HIDDEN);      
-      
-      struct widget *pWidget = get_unit_info_window_widget();
-	
-      /* economy button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* research button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-            
-      /* revolution button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* show/hide unit's window button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* ------------------------------------ */
-      /* mini map window */
-      pWidget = get_minimap_window_widget();
-      
-      /* new turn button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* players button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* find city button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* units button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* show/hide log window button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* toggle minimap mode button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
-      /* show/hide minimap button */
-      pWidget = pWidget->prev;
-      set_wflag(pWidget, WF_HIDDEN);
-      
+      set_wflag(pOptions_Button, WF_HIDDEN);
+      hide_minimap_window_buttons();            
+      hide_unitinfo_window_buttons();      
     }
 
     if (SDL_Client_Flags & CF_ORDERS_WIDGETS_CREATED) {
@@ -922,79 +878,28 @@ void update_menus(void)
     }
 
   } else if (!game.player_ptr) {
-      
+    
+    /* running state, but AI is playing */
+    
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
-      struct widget *pWidget = get_unit_info_window_widget();
-          
+      /* show options button */
       clear_wflag(pOptions_Button, WF_HIDDEN);
       widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
-	
-      /* economy button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);      
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* research button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-            
-      /* revolution button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* show/hide unit's window button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_NORMAL);
-      
-      /* ------------------------------------ */
-      /* mini map window */
-      pWidget = get_minimap_window_widget();
-      
-      /* new turn button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* players button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* find city button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* units button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* show/hide log window button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* toggle minimap mode button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      /* show/hide minimap button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      set_wstate(pWidget, FC_WS_NORMAL);
-      
+      /* show minimap buttons and unitinfo buttons */ 
+      show_minimap_window_buttons();
+      show_unitinfo_window_buttons();      
+      /* disable minimap buttons and unitinfo buttons */
+      disable_minimap_window_buttons();
+      disable_unitinfo_window_buttons();
     }
 
     return;   
     
   } else {
       
+    /* running state with human player */
+    
     if (get_wstate(pEndOrderWidgetList) == FC_WS_DISABLED) {
       enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
     }
@@ -1004,68 +909,17 @@ void update_menus(void)
     }
 
     if (SDL_Client_Flags & CF_GANE_JUST_STARTED) {
-      struct widget *pWidget = get_unit_info_window_widget();
-	
       SDL_Client_Flags &= ~CF_GANE_JUST_STARTED;
 
+      /* show options button */
       clear_wflag(pOptions_Button, WF_HIDDEN);
       widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
       
-      /* economy button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      
-      /* research button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
+      /* show minimap buttons and unitinfo buttons */
+      show_minimap_window_buttons();      
+      show_unitinfo_window_buttons();
             
-      /* revolution button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      
-      /* show/hide unit's window button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      
-      /* ------------------------------------ */
-      /* mini map window */
-      pWidget = get_minimap_window_widget();
-      
-      /* new turn button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      
-      /* players button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      
-      /* find city button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      
-      /* units button */
-      pWidget = pWidget->prev;
-      if (pWidget->size.y < pWidget->dst->surface->h - pWidget->size.h * 2) {
-        clear_wflag(pWidget, WF_HIDDEN);
-      }
-      
-      /* show/hide log window button */
-      pWidget = pWidget->prev;
-      if (pWidget->size.y < pWidget->dst->surface->h - pWidget->size.h * 2) {
-        clear_wflag(pWidget, WF_HIDDEN);
-      }
-      
-      /* toggle minimap mode button */
-      pWidget = pWidget->prev;
-      if (pWidget->size.y < pWidget->dst->surface->h - pWidget->size.h * 2) {
-        clear_wflag(pWidget, WF_HIDDEN);
-      }
-      
-      /* show/hide minimap button */
-      pWidget = pWidget->prev;
-      clear_wflag(pWidget, WF_HIDDEN);
-      
       counter = 0;
     }
 

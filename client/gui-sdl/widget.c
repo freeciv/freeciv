@@ -731,14 +731,6 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
 
       widget_redraw(pTmpWidget);
 
-      if (get_wflags(pTmpWidget) & WF_DRAW_FRAME_AROUND_WIDGET) {
-	if(get_wtype(pTmpWidget) & WT_WINDOW) {
-	  widget_draw_frame(pTmpWidget);
-	} else {
-	  draw_frame_around_widget(pTmpWidget);
-	}
-      }
-
       if (add_to_update) {
 	widget_mark_dirty(pTmpWidget);
       }

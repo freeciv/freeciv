@@ -115,15 +115,18 @@ static int move_msg_window_callback(struct widget *pWindow)
 **************************************************************************/
 void real_update_meswin_dialog(void)
 {
-  int msg_count = get_num_messages();
-  int i = pMsg_Dlg->pScroll->count;
+  int msg_count;
+  int i;
   struct message *pMsg = NULL;
-  struct widget *pBuf = NULL, *pWindow = pMsg_Dlg->pEndWidgetList;
+  struct widget *pBuf = NULL, *pWindow = NULL;
   SDL_String16 *pStr = NULL;
   SDL_Rect area = {0, 0, 0, 0};
   bool create;
   int label_width;
 
+  msg_count = get_num_messages();
+  i = pMsg_Dlg->pScroll->count;
+  
   if ((i > 0) && (msg_count <= i)) {
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
 					pMsg_Dlg->pEndActiveWidgetList);
@@ -137,6 +140,8 @@ void real_update_meswin_dialog(void)
   }
   create = (i == 0);
 
+  pWindow = pMsg_Dlg->pEndWidgetList;
+  
   area.x = pTheme->FR_Left->w;
   area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
   area.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
@@ -192,15 +197,13 @@ void real_update_meswin_dialog(void)
 **************************************************************************/
 void popup_meswin_dialog(bool raise)
 {
-  SDL_String16 *pStr = create_str16_from_char("M", PTSIZE_LOG_FONT);
+  SDL_String16 *pStr;
   SDL_Rect area = {0, 0, 0, 0};
   int label_width, scrollbar_width, i = 0;
   struct message *pMsg = NULL;
   struct widget *pWindow = NULL, *pBuf = NULL;
-  int msg_count = get_num_messages();
+  int msg_count;
   SDL_Surface *pBackground;
-  
-  FREESTRING16(pStr);
   
   if(pMsg_Dlg) {
     return;
@@ -235,6 +238,8 @@ void popup_meswin_dialog(bool raise)
   widget_set_position(pWindow, (pWindow->area.w - pWindow->size.w)/2, adj_size(25));
 
   /* ------------------------------- */
+  
+  msg_count = get_num_messages();
   
   if (msg_count) {
     for(i=0; i<msg_count; i++)
@@ -324,8 +329,8 @@ void popup_meswin_dialog(bool raise)
   }
 
   redraw_group(pMsg_Dlg->pBeginWidgetList,
-		  pMsg_Dlg->pEndWidgetList, 0);
-  flush_all();
+		  pMsg_Dlg->pEndWidgetList, 1);
+  flush_dirty();
 }
 
 /**************************************************************************

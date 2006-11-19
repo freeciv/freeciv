@@ -396,7 +396,7 @@ static void popup_conn_list_dialog(void)
 {
   SDL_Color window_bg_color = {255, 255, 255, 96};
  
-  struct widget *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL, *pLabel = NULL;
   struct widget* pBackButton = NULL;
   struct widget *pStartGameButton = NULL;
   struct widget *pSelectNationButton = NULL;
@@ -404,6 +404,7 @@ static void popup_conn_list_dialog(void)
 
   SDL_String16 *pStr = NULL;
   int n;
+  SDL_Rect area;
     
   if (pConnDlg || !aconnection.established) {
     return;
@@ -422,42 +423,38 @@ static void popup_conn_list_dialog(void)
   add_to_gui_list(ID_WINDOW, pWindow);
   
   widget_set_position(pWindow, 0, 0);
-  
+
   /* create window background */
-  {
-    SDL_Rect area;
-    SDL_Surface *pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
-    if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
-      FREESURFACE(pSurf);
-    }
-        
-    #ifdef SMALL_SCREEN
-    n = 263;
-    #else
-    n = pWindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);
-    #endif
-    pConnDlg->text_width = n;
-    
-    /* chat area background */
-    area.x = adj_size(10);
-    area.y = adj_size(14);
-    area.w = n + adj_size(20);
-    area.h = pWindow->size.h - adj_size(44) - adj_size(40);
-    SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
-    putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-             area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
-    
-    /* user list background */
-    area.x = pWindow->size.w - adj_size(130);
-    area.y = adj_size(14);
-    area.w = adj_size(120);
-    area.h = pWindow->size.h - adj_size(44) - adj_size(40);
-    SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
-    putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-             area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
-    
-    draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
+  SDL_Surface *pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
+  if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
+    FREESURFACE(pSurf);
   }
+  
+  #ifdef SMALL_SCREEN
+  pConnDlg->text_width = 263;
+  #else
+  pConnDlg->text_width = pWindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);
+  #endif
+  
+  /* chat area background */
+  area.x = adj_size(10);
+  area.y = adj_size(14);
+  area.w = pConnDlg->text_width + adj_size(20);
+  area.h = pWindow->size.h - adj_size(44) - adj_size(40);
+  SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
+  putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
+           area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
+  
+  /* user list background */
+  area.x = pWindow->size.w - adj_size(130);
+  area.y = adj_size(14);
+  area.w = adj_size(120);
+  area.h = pWindow->size.h - adj_size(44) - adj_size(40);
+  SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
+  putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
+           area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
+  
+  draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
     
   /* -------------------------------- */
   
@@ -475,33 +472,31 @@ static void popup_conn_list_dialog(void)
   
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   
-  pBuf = create_themelabel2(NULL, pWindow->dst,
+  pLabel = create_themelabel2(NULL, pWindow->dst,
   		pStr, pConnDlg->text_width, 0,
 		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-        
-  pBuf->size.x = pWindow->size.x + adj_size(10);
-  pBuf->size.y = pWindow->size.y + adj_size(14);
-  pBuf->size.w = pConnDlg->text_width;
+
+  widget_set_position(pLabel, adj_size(10), adj_size(14));  
   
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, pLabel);
       
-  pConnDlg->pChat_Dlg->pBeginWidgetList = pBuf;
-  pConnDlg->pChat_Dlg->pEndWidgetList = pBuf;
-  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pBuf;
-  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pBuf;
+  pConnDlg->pChat_Dlg->pBeginWidgetList = pLabel;
+  pConnDlg->pChat_Dlg->pEndWidgetList = pLabel;
+  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pLabel;
+  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pLabel;
   
   pConnDlg->pChat_Dlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pConnDlg->pChat_Dlg->pScroll->count = 1;
   
-  n = (pWindow->size.h - adj_size(44) - adj_size(40)) / pBuf->size.h;
+  n = (pWindow->size.h - adj_size(44) - adj_size(40)) / pLabel->size.h;
   pConnDlg->active = n;
   
   create_vertical_scrollbar(pConnDlg->pChat_Dlg, 1,
   					pConnDlg->active, TRUE, TRUE);	
       
   setup_vertical_scrollbar_area(pConnDlg->pChat_Dlg->pScroll,
-  		pWindow->size.x + adj_size(10) + pConnDlg->text_width + 1,
-		pWindow->size.y + adj_size(14), pWindow->size.h - adj_size(44) - adj_size(40), FALSE);
+  		adj_size(10) + pConnDlg->text_width + 1,
+		adj_size(14), pWindow->size.h - adj_size(44) - adj_size(40), FALSE);
   hide_scrollbar(pConnDlg->pChat_Dlg->pScroll);  
   
   /* -------------------------------- */
@@ -509,11 +504,11 @@ static void popup_conn_list_dialog(void)
   /* input field */
   
   pBuf = create_edit_from_unichars(NULL, pWindow->dst,
-  		NULL, 0, adj_font(12), pWindow->size.w - adj_size(10 + 10),
+  		NULL, 0, adj_font(12), pWindow->size.w - adj_size(10) - adj_size(10),
 			(WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
     
   pBuf->size.x = adj_size(10);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + adj_size(5)) - adj_size(40);
+  pBuf->size.y = pWindow->size.h - adj_size(40) - adj_size(5) - pBuf->size.h;
   pBuf->action = input_edit_conn_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pConnDlg->pEdit = pBuf;

@@ -2862,18 +2862,18 @@ void popup_races_dialog(struct player *pplayer)
   pLast_City_Style = pWidget;
   /* ---------------------------------------------------------- */
   
-  /* create disconnection button */
-  pWidget = create_themeicon_button_from_chars(pTheme->BACK_Icon, pWindow->dst,
+  /* create Cancel button */
+  pWidget = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
 					 _("Cancel"), adj_font(12), 0);
   pWidget->action = races_dialog_cancel_callback;
   set_wstate(pWidget, FC_WS_NORMAL);
   
   add_to_gui_list(ID_NATION_WIZARD_DISCONNECT_BUTTON, pWidget);
 
-  /* create start button */
+  /* create OK button */
   pWidget =
       create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-				_("OK"), adj_font(12), WF_ICON_CENTER_RIGHT);
+				_("OK"), adj_font(12), 0);
   pWidget->action = races_dialog_ok_callback;
 
   set_wstate(pWidget, FC_WS_NORMAL);

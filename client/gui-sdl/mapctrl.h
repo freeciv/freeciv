@@ -56,8 +56,16 @@ extern int MINI_MAP_H;
 void popdown_newcity_dialog(void);
 
 void popup_minimap_window(void);
+void show_minimap_window_buttons(void);
+void hide_minimap_window_buttons(void);
+void disable_minimap_window_buttons(void);
+void redraw_minimap_window_buttons(void);
 void popdown_minimap_window(void);
+
 void popup_unitinfo_window(void);
+void show_unitinfo_window_buttons(void);
+void hide_unitinfo_window_buttons(void);
+void disable_unitinfo_window_buttons(void);
 void popdown_unitinfo_window(void);
 
 void show_game_page(void);
