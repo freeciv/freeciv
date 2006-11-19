@@ -752,6 +752,25 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
 /**************************************************************************
   ...
 **************************************************************************/
+void undraw_group(struct widget *pBeginGroupWidgetList,
+	          struct widget *pEndGroupWidgetList)
+{
+  struct widget *pTmpWidget = pEndGroupWidgetList;
+
+  while (pTmpWidget) {
+    widget_undraw(pTmpWidget);
+
+    if (pTmpWidget == pBeginGroupWidgetList) {
+      break;
+    }
+
+    pTmpWidget = pTmpWidget->prev;
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
 			     const struct widget *pEndGroupWidgetList,
 			     Sint16 Xrel, Sint16 Yrel)

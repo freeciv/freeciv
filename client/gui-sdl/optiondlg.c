@@ -52,6 +52,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
+#include "messagewin.h"
 #include "pages.h"
 #include "themespec.h"
 #include "widget.h"
@@ -71,6 +72,8 @@ struct widget *pOptions_Button = NULL;
 static struct widget *pEdited_WorkList_Name = NULL;
 extern bool do_cursor_animation;
 extern bool use_color_cursors;
+
+static bool restore_meswin_dialog = FALSE;
 
 /**************************************************************************
   ...
@@ -352,11 +355,13 @@ static int work_lists_callback(struct widget *pWidget)
     pOption_Dlg->pADlg->pBeginActiveWidgetList = pBuf;
     pOption_Dlg->pADlg->pBeginWidgetList = pBuf;
     
-    
+/* FIXME: this can probably be removed */
+#if 0
     pOption_Dlg->pADlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
     pOption_Dlg->pADlg->pScroll->count = count;
     pOption_Dlg->pADlg->pScroll->active = 13;
     pOption_Dlg->pADlg->pScroll->step = 1;
+#endif
     
     scrollbar_width = create_vertical_scrollbar(pOption_Dlg->pADlg,
                                                 1, 13, TRUE, TRUE);
@@ -2144,6 +2149,7 @@ void popup_optiondlg(void)
     return;
   }
   
+  restore_meswin_dialog = is_meswin_open();
   popdown_all_game_dialogs();
   flush_dirty();
   
@@ -2334,6 +2340,10 @@ void popdown_optiondlg(void)
     
     FC_FREE(pOption_Dlg);
     enable_main_widgets();
+    
+    if (restore_meswin_dialog) {
+      popup_meswin_dialog(TRUE);
+    }
   }
 }
 

@@ -768,10 +768,13 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   
   if (i > NUM_UNITS_SHOWN * NUM_UNITS_SHOWN) {
     
+/* FIXME: this can probably be removed */
+#if 0
     pCityDlg->pPanel->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
     pCityDlg->pPanel->pScroll->active = NUM_UNITS_SHOWN;
     pCityDlg->pPanel->pScroll->step = NUM_UNITS_SHOWN;
     pCityDlg->pPanel->pScroll->count = i;
+#endif
     
     create_vertical_scrollbar(pCityDlg->pPanel,
 	NUM_UNITS_SHOWN, NUM_UNITS_SHOWN, TRUE, TRUE);
@@ -3568,10 +3571,14 @@ static void rebuild_imprm_list(struct city *pCity)
     if (count > 8) {
       pCityDlg->pImprv->pActiveWidgetList =
 		    pCityDlg->pImprv->pEndActiveWidgetList;
+      
+/* FIXME: this can probably be removed */
+#if 0
       pCityDlg->pImprv->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
       pCityDlg->pImprv->pScroll->step = 1;  
       pCityDlg->pImprv->pScroll->active = 8;
       pCityDlg->pImprv->pScroll->count = count;
+#endif
     
       create_vertical_scrollbar(pCityDlg->pImprv, 1, 8, TRUE, TRUE);
     

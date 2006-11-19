@@ -293,10 +293,14 @@ static void popup_goto_airlift_dialog(void)
   }
     
   pGotoDlg->pBeginWidgetList = pBuf;
-  
+
+/* FIXME: this can probably be removed */
+#if 0
   pGotoDlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pGotoDlg->pScroll->step = 1;
   pGotoDlg->pScroll->active = 17;
+#endif
+  
   create_vertical_scrollbar(pGotoDlg, 1, 17, TRUE, TRUE);
   hide_scrollbar(pGotoDlg->pScroll);
   

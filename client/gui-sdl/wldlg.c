@@ -1176,10 +1176,18 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   */
   
   pEditor->pWork = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+
+  
   pEditor->pWork->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pEditor->pWork->pScroll->count = 0;
   pEditor->pWork->pScroll->active = MAX_LEN_WORKLIST;
   pEditor->pWork->pScroll->step = 1;
+
+/* FIXME: this should replace the 4 lines above, but
+ *        pEditor->pWork->pEndWidgetList is not set yet */
+#if 0  
+  create_vertical_scrollbar(pEditor->pWork, 1, MAX_LEN_WORKLIST, TRUE, TRUE);
+#endif
   
   if(pCity) {
    /* Production Widget Label */ 
@@ -1305,10 +1313,14 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     
       if(count > 6) {
         pEditor->pGlobal->pActiveWidgetList = pLast->prev;
+
+/* FIXME: this can probably be removed */
+#if 0
         pEditor->pGlobal->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
         pEditor->pGlobal->pScroll->count = count;
         pEditor->pGlobal->pScroll->active = 4;
         pEditor->pGlobal->pScroll->step = 1;
+#endif
       	
         create_vertical_scrollbar(pEditor->pGlobal, 1,
                              pEditor->pGlobal->pScroll->active, FALSE, TRUE);

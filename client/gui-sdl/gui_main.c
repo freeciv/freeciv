@@ -280,10 +280,8 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	  case SDLK_F10:
             if(is_meswin_open()) {
               popdown_meswin_dialog();
-	      /* copy_chars_to_string16(pWidget->string16, _("Show Log (F10)")); */
             } else {
               popup_meswin_dialog(true);
-	      /* copy_chars_to_string16(pWidget->string16, _("Hide Log (F10)")); */
             }
 	    flush_dirty();
           return ID_ERROR;

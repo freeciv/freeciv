@@ -801,11 +801,14 @@ void redraw_unit_info_label(struct unit *pUnit)
 	if (n > num_w * num_h) {
     
 	  if (!pDlg->pScroll) {
-	      
+            
+/* FIXME: this can probably be removed */
+#if 0
             pDlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
             pDlg->pScroll->active = num_h;
             pDlg->pScroll->step = num_w;
             pDlg->pScroll->count = n;
+#endif
 	      
             create_vertical_scrollbar(pDlg, num_w, num_h, FALSE, TRUE);
           

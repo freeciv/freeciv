@@ -311,6 +311,9 @@ do {                                                                    \
 Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
 		    const struct widget *pEndGroupWidgetList,
 		    int add_to_update);
+
+void undraw_group(struct widget *pBeginGroupWidgetList,
+                  struct widget *pEndGroupWidgetList);
 		    
 void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
 			     const struct widget *pEndGroupWidgetList,
