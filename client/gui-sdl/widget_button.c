@@ -55,7 +55,7 @@ static int redraw_ibutton(struct widget *pIButton)
   Uint16 Ix, Iy, x;
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
-
+  
   ret = (*baseclass_redraw)(pIButton);
   if (ret != 0) {
     return ret;
@@ -342,6 +342,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
 struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
 		struct gui_layer *pDest, SDL_String16 *pString16, Uint32 flags)
 {
+  /* extract a single icon */
   SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
   struct widget *pButton = create_icon_button(pIcon, pDest, pString16, flags);
 

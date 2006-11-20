@@ -150,6 +150,10 @@ static int widget_core_redraw(struct widget *pwidget)
     return -1;
   }
   
+  if (!pwidget->gfx && (get_wflags(pwidget) & WF_RESTORE_BACKGROUND)) {
+    refresh_widget_background(pwidget);
+  }
+  
   return 0;
 }
 
@@ -204,8 +208,6 @@ static void widget_core_undraw(struct widget *pwidget)
     }
   } else {
     clear_surface(pwidget->dst->surface, &pwidget->size);
-    blit_entire_src(pwidget->gfx, pwidget->dst->surface,
-                    pwidget->size.x, pwidget->size.y);
   }
 }
 

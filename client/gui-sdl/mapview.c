@@ -212,7 +212,8 @@ void flush_dirty(void)
 
   if(Main.rects_count >= RECT_LIMIT) {
     
-    if (get_client_page() == PAGE_GAME) {
+    if ((get_client_state() == CLIENT_GAME_RUNNING_STATE) &&
+        (get_client_page() == PAGE_GAME)) {
       flush_mapcanvas(0, 0, Main.screen->w, Main.screen->h);
       refresh_overview();
     }

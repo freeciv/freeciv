@@ -35,11 +35,23 @@ struct ScrollBar {
 #define hide_scrollbar(scrollbar)				\
 do {								\
   if (scrollbar->pUp_Left_Button) {				\
-    set_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
-    set_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+    if (!(get_wflags(scrollbar->pUp_Left_Button) & WF_HIDDEN)) {\
+      widget_undraw(scrollbar->pUp_Left_Button);                \
+      widget_mark_dirty(scrollbar->pUp_Left_Button);            \
+      set_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
+    }                                                           \
+    if (!(get_wflags(scrollbar->pDown_Right_Button) & WF_HIDDEN)) {\
+      widget_undraw(scrollbar->pDown_Right_Button);             \
+      widget_mark_dirty(scrollbar->pDown_Right_Button);         \
+      set_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+    }                                                           \
   }								\
   if (scrollbar->pScrollBar) {					\
-    set_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
+    if (!(get_wflags(scrollbar->pScrollBar) & WF_HIDDEN)) {     \
+      widget_undraw(scrollbar->pScrollBar);                     \
+      widget_mark_dirty(scrollbar->pScrollBar);                 \
+      set_wflag(scrollbar->pScrollBar, WF_HIDDEN);	        \
+    }                                                           \
   }								\
 } while(0)
 

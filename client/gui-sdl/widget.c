@@ -724,11 +724,7 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
   while (pTmpWidget) {
 
     if ((get_wflags(pTmpWidget) & WF_HIDDEN) != WF_HIDDEN) {
-
-      if (!pTmpWidget->gfx && (get_wflags(pTmpWidget) & WF_RESTORE_BACKGROUND)) {
-	refresh_widget_background(pTmpWidget);
-      }
-
+      
       widget_redraw(pTmpWidget);
 
       if (add_to_update) {
@@ -759,6 +755,7 @@ void undraw_group(struct widget *pBeginGroupWidgetList,
 
   while (pTmpWidget) {
     widget_undraw(pTmpWidget);
+    widget_mark_dirty(pTmpWidget);
 
     if (pTmpWidget == pBeginGroupWidgetList) {
       break;
