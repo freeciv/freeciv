@@ -62,37 +62,15 @@ static struct ADVANCED_DLG *pMsg_Dlg = NULL;
 static int msg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct message *pMsg = (struct message *)pWidget->data.ptr;
+    int message_index = *(int*)pWidget->data.ptr;
       
-    pWidget->string16->fgcol.r += 128;
+    pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
     unsellect_widget_action();
-    
-    if (pMsg->city_ok
-        && is_city_event(pMsg->event)) {
-          
-      struct city *pCity = tile_get_city(pMsg->tile);
-  
-      if (center_when_popup_city) {
-        center_tile_mapcanvas(pMsg->tile);
-      }
-  
-      if (pCity) {
-        /* If the event was the city being destroyed, pcity will be NULL
-         * and we'd better not try to pop it up.  In this case, it would
-         * be better if the popup button weren't highlighted at all, but
-         * that's OK. */
-        popup_city_dialog(pCity);
-      }
-      
-      if (center_when_popup_city || pCity) {
-        flush_dirty();
-      }
-          
-    } else if (pMsg->location_ok) {
-      center_tile_mapcanvas(pMsg->tile);
-      flush_dirty();
-    }
+
+    meswin_double_click(message_index);
+    set_message_visited_state(message_index, TRUE);
   }
+  
   return -1;
 }
 
@@ -128,7 +106,7 @@ void real_update_meswin_dialog(void)
   msg_count = get_num_messages();
   current_count = pMsg_Dlg->pScroll->count;
   
-  if ((current_count > 0) && (msg_count <= current_count)) {
+  if (current_count > 0) {
     undraw_group(pMsg_Dlg->pBeginActiveWidgetList, pMsg_Dlg->pEndActiveWidgetList);
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
 					pMsg_Dlg->pEndActiveWidgetList);
@@ -168,18 +146,23 @@ void real_update_meswin_dialog(void)
       			          unistrlen(UniTexts[count]) + 1, PTSIZE_LOG_FONT);
         
           pBuf = create_iconlabel(NULL, pWindow->dst, pStr2, 
-                    (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                    (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
 
           /* this block is duplicated in the "else" branch */
           {
             pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
       
             pBuf->size.w = label_width;
-            pBuf->data.ptr = (void *)pMsg;	
+            pBuf->data.ptr = fc_calloc(1, sizeof(int));
+            *(int*)pBuf->data.ptr = current_count;	
             pBuf->action = msg_callback;
             if(pMsg->tile) {
               set_wstate(pBuf, FC_WS_NORMAL);
-              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+              if (pMsg->visited) {
+                pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+              } else {
+                pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+              }
             }
             
             pBuf->ID = ID_LABEL;
@@ -203,18 +186,23 @@ void real_update_meswin_dialog(void)
         FREESTRING16(pStr);
       } else {          
         pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
-                  (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                  (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
         
         /* duplicated block */
         {    
           pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     
           pBuf->size.w = label_width;
-          pBuf->data.ptr = (void *)pMsg;	
+          pBuf->data.ptr = fc_calloc(1, sizeof(int));
+          *(int*)pBuf->data.ptr = current_count;	
           pBuf->action = msg_callback;
           if(pMsg->tile) {
             set_wstate(pBuf, FC_WS_NORMAL);
-            pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+            if (pMsg->visited) {
+              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+            } else {
+              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+            }
           }
           
           pBuf->ID = ID_LABEL;
