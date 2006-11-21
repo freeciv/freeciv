@@ -452,7 +452,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     my_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pBuf = create_iconlabel(GET_SURF(get_unittype_sprite(tileset, pUnit->type)),
+    pBuf = create_iconlabel(adj_surf(GET_SURF(get_unittype_sprite(tileset, pUnit->type))),
                             pWindow->dst, pStr, 0);
     ww = MAX(ww, pBuf->size.w);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -1556,10 +1556,10 @@ SDL_Surface * get_scaled_city_map(struct city *pCity)
 {
   SDL_Surface *pBuf = create_city_map(pCity);
   
-  if (pBuf->w > adj_size(192) || pBuf->h > adj_size(134)) {
+  if ((pBuf->w > adj_size(192)) || (pBuf->h > adj_size(134))) {
     city_map_zoom = ((pBuf->w > pBuf->h) ?
-                       (float)adj_size(192) / adj_size(pBuf->w) 
-                     : (float)adj_size(134) / adj_size(pBuf->h));
+                       (float)adj_size(192) / pBuf->w
+                     : (float)adj_size(134) / pBuf->h);
     
     SDL_Surface *pRet = ZoomSurface(pBuf, city_map_zoom, city_map_zoom, 1);
     return pRet;
@@ -2173,7 +2173,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
-          pTmp = ZoomSurface(pTmp, 18 / pTmp->w, 18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, 18 / pTmp->w, 18 / pTmp->w, 1));
           
 	  count += (pTmp->h + 1);
 
@@ -2194,7 +2194,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
-          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
 
 	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2288,7 +2288,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
-          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
           
 	  count += (pTmp->h + 1);
 
@@ -2307,7 +2307,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
 	  count += (pTmp->h + 1);
 
           if (!pSurf) {
@@ -2325,7 +2325,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
             
 	  count += (pTmp->h + 1);
 
@@ -2347,7 +2347,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
 
           alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2362,7 +2362,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
 
 	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2377,7 +2377,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         effect_list_iterate(sources, psource) {
 
           pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
 
 	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2487,9 +2487,9 @@ static void redraw_city_dialog(struct city *pCity)
   char cBuf[40];
   int i, step, count, limit;
   int cost = 0;
-  SDL_Rect dest, src;
+  SDL_Rect dest;
   struct widget *pWindow = pCityDlg->pEndCityWidgetList;
-  SDL_Surface *pBuf = NULL;
+  SDL_Surface *pBuf = NULL, *pBuf2 = NULL;
   SDL_String16 *pStr = NULL;
 
   refresh_city_names(pCity);
@@ -3204,19 +3204,19 @@ static void redraw_city_dialog(struct city *pCity)
     count = cost / 10;
         
     copy_chars_to_string16(pStr, pUnit->name);
-    src = get_smaller_surface_rect(GET_SURF(get_unittype_sprite(tileset, get_unit_type(pCity->production.value))));
-
     pBuf = create_text_surf_from_str16(pStr);
-
-    dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - (pBuf->w + src.w + adj_size(5))) / 2;
-    dest.y = pWindow->size.y + adj_size(233);
+    
+    pBuf2 = GET_SURF(get_unittype_sprite(tileset, get_unit_type(pCity->production.value)));
+    pBuf2 = adj_surf(ZoomSurface(pBuf2, (float)32 / pBuf2->h, (float)32 / pBuf2->h, 1));
 
     /* blit unit icon */
-    alphablit(GET_SURF(get_unittype_sprite(tileset,
-        get_unit_type(pCity->production.value))), &src, pWindow->dst->surface, &dest);
+    dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - (pBuf->w + pBuf2->w + adj_size(5))) / 2;
+    dest.y = pWindow->size.y + adj_size(233);
+    
+    alphablit(pBuf2, NULL, pWindow->dst->surface, &dest);
 
-    dest.y += (src.h - pBuf->h) / 2;
-    dest.x += src.w + adj_size(5);
+    dest.y += (pBuf2->h - pBuf->h) / 2;
+    dest.x += pBuf2->w + adj_size(5);
 
   } else {
     struct impr_type *pImpr =
@@ -3247,28 +3247,26 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     copy_chars_to_string16(pStr, pImpr->name);
-    pBuf = GET_SURF(get_building_sprite(tileset, pCity->production.value));
-    pBuf = ZoomSurface(pBuf, (float)20 / pBuf->h, (float)20 / pBuf->h, 1);
+    pBuf = create_text_surf_from_str16(pStr);
+    
+    pBuf2 = GET_SURF(get_building_sprite(tileset, pCity->production.value));
+    pBuf2 = adj_surf(ZoomSurface(pBuf2, (float)32 / pBuf2->h, (float)32 / pBuf2->h, 1));
 
     /* blit impr icon */
-    dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
-    dest.y = pWindow->size.y + adj_size(230);
+    dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - (pBuf->w + pBuf2->w + adj_size(5))) / 2;
+    dest.y = pWindow->size.y + adj_size(233);
 
-    alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
+    alphablit(pBuf2, NULL, pWindow->dst->surface, &dest);
     
-    dest.y += (pBuf->h + adj_size(2));
-
-    FREESURFACE(pBuf);    
-    
-    pBuf = create_text_surf_from_str16(pStr);
-
-    dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
+    dest.y += (pBuf2->h - pBuf->h) / 2;
+    dest.x += pBuf2->w + adj_size(5);
   }
 
   /* blit unit/impr name */
   alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
 
   FREESURFACE(pBuf);
+  FREESURFACE(pBuf2);
   
   if (count) {
     if (count > 11) {
@@ -3505,6 +3503,7 @@ static void rebuild_imprm_list(struct city *pCity)
   SDL_String16 *pStr = NULL;
   struct impr_type *pImpr = NULL;
   struct player *pOwner = city_owner(pCity);
+  int prev_y = 0;
     
   if(!pCityDlg->pImprv) {
     pCityDlg->pImprv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -3534,15 +3533,17 @@ static void rebuild_imprm_list(struct city *pCity)
     pStr->style |= TTF_STYLE_BOLD;
 
     pLogo = GET_SURF(get_building_sprite(tileset, imp));
-    pLogo = ZoomSurface(pLogo, (float)22 / pLogo->w, (float)22 / pLogo->w, 1);
+    pLogo = adj_surf(ZoomSurface(pLogo, (float)22 / pLogo->w, (float)22 / pLogo->w, 1));
     
     pBuf = create_iconlabel(pLogo, pWindow->dst, pStr,
 			 (WF_FREE_THEME | WF_RESTORE_BACKGROUND));
 
-    pBuf->size.x = pWindow->size.x + 428;
-    pBuf->size.y = pWindow->size.y + 91 + count * pBuf->size.h;
+    pBuf->size.x = pWindow->size.x + adj_size(428);
+    pBuf->size.y = pWindow->size.y + adj_size(91) + prev_y;
     
-    pBuf->size.w = 182;
+    prev_y += pBuf->size.h;
+    
+    pBuf->size.w = adj_size(182);
     pBuf->action = sell_imprvm_dlg_callback;
 
     if (!pCityDlg->pCity->did_sell
@@ -3583,7 +3584,7 @@ static void rebuild_imprm_list(struct city *pCity)
       create_vertical_scrollbar(pCityDlg->pImprv, 1, 8, TRUE, TRUE);
     
       setup_vertical_scrollbar_area(pCityDlg->pImprv->pScroll,
-	pWindow->size.x + 629, pWindow->size.y + 90, 130, TRUE);
+	pWindow->size.x + adj_size(629), pWindow->size.y + adj_size(90), adj_size(130), TRUE);
     }
   }
 }
@@ -3693,6 +3694,7 @@ void popup_city_dialog(struct city *pCity)
 			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Cancel"), adj_font(12));
   pBuf->action = exit_city_dlg_callback;
+  pBuf->key = SDLK_ESCAPE;
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - adj_size(10);
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(9);
   set_wstate(pBuf, FC_WS_NORMAL);

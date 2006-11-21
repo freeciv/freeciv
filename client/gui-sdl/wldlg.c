@@ -1024,14 +1024,14 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   SDL_String16 *pStr = NULL;
   struct widget *pBuf = NULL, *pWindow, *pLast;
   SDL_Surface *pText = NULL, *pText_Name = NULL, *pZoom = NULL;
-  SDL_Surface *pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
+  SDL_Surface *pMain;
   SDL_Surface *pIcon;
   SDL_Rect dst;
   char cBuf[128];
   struct unit_type *pUnit = NULL;
   struct impr_type *pImpr = NULL;  
   char *state = NULL;
-  bool advanced_tech = pCity == NULL;
+  bool advanced_tech;
   bool can_build, can_eventually_build;
   
   if(pEditor) {
@@ -1039,6 +1039,8 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   }
   
   assert(pWorkList != NULL);
+  
+  advanced_tech = (pCity == NULL);
   
   pEditor = fc_calloc(1, sizeof(struct EDITOR));
   
@@ -1054,6 +1056,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* --------------- */
   /* create Target Background Icon */
+  pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
   SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
   putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1,
     map_rgba(pMain->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
@@ -1613,11 +1616,6 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     FREESURFACE(pIcon);
   }
   
-  pIcon = SDL_DisplayFormatAlpha(pWindow->theme);
-  FREESURFACE(pWindow->theme);
-  pWindow->theme = pIcon;
-  pIcon = NULL;
-  
   /* Backgrounds */
   dst.x = pTheme->FR_Left->w;
   dst.y = pTheme->FR_Top->h + 1;
@@ -1632,7 +1630,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
      map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
   
   dst.x = pTheme->FR_Left->w;
-  dst.y = pTheme->FR_Top->h + adj_size(150);
+  dst.y += dst.h + adj_size(2);
   dst.w = adj_size(130);
   dst.h = adj_size(228);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
@@ -1641,9 +1639,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   if(pEditor->pGlobal) {
     dst.x = pTheme->FR_Left->w;
-    dst.y = pTheme->FR_Top->h + adj_size(380);
+    dst.y += dst.h + adj_size(2);
     dst.w = adj_size(130);
-    dst.h = adj_size(99);
+    dst.h = pWindow->size.h - dst.y - adj_size(4);
 
     SDL_FillRect(pWindow->theme, &dst,
       map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_BACKGROUND)));

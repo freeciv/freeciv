@@ -106,7 +106,7 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
 
 /* shrink sizes for 320x240 screen */
 #ifdef SMALL_SCREEN
-  #define adj_size(size) (size) / 2
+  #define adj_size(size) ((size) / 2)
 #else
   #define adj_size(size) (size)
 #endif

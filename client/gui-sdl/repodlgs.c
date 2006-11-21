@@ -25,6 +25,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* common */
 #include "game.h"
@@ -34,6 +35,7 @@
 /* client */
 #include "civclient.h"
 #include "clinet.h"
+#include "text.h"
 
 /* gui-sdl */
 #include "colors.h"
@@ -2317,19 +2319,20 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   switch (mode)
   {
     case SMALL_MODE:
-      h = 40;
-      w = 135;
+      h = adj_size(40);
+      w = adj_size(135);
       break;
     case MED_MODE:
       color = *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_MED_TECHICON_BG);
     default:
-      h = 200;
-      w = 100;
+      h = adj_size(200);
+      w = adj_size(100);
     break;
   }
 
-  pText = create_text_surf_smaller_that_w(pStr, 100 - 4);  
+  pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
   
+  /* create label surface */
   pSurf = create_surf_alpha(w, h, SDL_SWSURFACE);
   
   if (get_player_research(game.player_ptr)->researching == tech_id)
@@ -2348,14 +2351,14 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   if (mode == SMALL_MODE)
   {
     /* draw name tech text */ 
-    dst.x = 35 + (pSurf->w - pText->w - 35) / 2;
+    dst.x = adj_size(35) + (pSurf->w - pText->w - adj_size(35)) / 2;
     dst.y = (pSurf->h - pText->h) / 2;
     alphablit(pText, NULL, pSurf, &dst);
     FREESURFACE(pText);
     
     /* draw tech icon */
-    pText = ResizeSurface(pTmp, 25, 25, 1);
-    dst.x = (35 - pText->w) / 2;;
+    pText = ResizeSurface(pTmp, adj_size(25), adj_size(25), 1);
+    dst.x = (adj_size(35) - pText->w) / 2;
     dst.y = (pSurf->h - pText->h) / 2;
     alphablit(pText, NULL, pSurf, &dst);
     FREESURFACE(pText);
@@ -2364,15 +2367,15 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   
     /* draw name tech text */ 
     dst.x = (pSurf->w - pText->w) / 2;
-    dst.y = 20;
+    dst.y = adj_size(20);
     alphablit(pText, NULL, pSurf, &dst);
-    dst.y += pText->h + 10;
+    dst.y += pText->h + adj_size(10);
     FREESURFACE(pText);
     
     /* draw tech icon */
     dst.x = (pSurf->w - pTmp->w) / 2;
     alphablit(pTmp, NULL, pSurf, &dst);
-    dst.y += pTmp->w + 10;
+    dst.y += pTmp->w + adj_size(10);
 
     /* fill array with iprvm. icons */
     w = 0;
@@ -2382,7 +2385,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if (preq->source.value.tech == tech_id) {
           pTmp2 = GET_SURF(get_building_sprite(tileset, imp));
-          Surf_Array[w++] = ZoomSurface(pTmp2, (float)36 / pTmp2->w, (float)36 / pTmp2->w, 1);
+          Surf_Array[w++] = adj_surf(ZoomSurface(pTmp2, (float)36 / pTmp2->w, (float)36 / pTmp2->w, 1));
       }
       } requirement_vector_iterate_end;
     } impr_type_iterate_end;
@@ -2413,14 +2416,14 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         }	/* h == 2 */
         pBuf_Array++;
       }	/* while */
-      dst.y += Surf_Array[0]->h + 5;
+      dst.y += Surf_Array[0]->h + adj_size(5);
     } /* if (w) */
   /* -------------------------------------------------------- */
     w = 0;
     unit_type_iterate(un) {
       pUnit = un;
       if (pUnit->tech_requirement == tech_id) {
-        Surf_Array[w++] = GET_SURF(get_unittype_sprite(tileset, un));
+        Surf_Array[w++] = adj_surf(GET_SURF(get_unittype_sprite(tileset, un)));
       }
     } unit_type_iterate_end;
 
@@ -2429,7 +2432,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         /* w == 1 */
         if (Surf_Array[0]->w > 64) {
 	  float zoom = 64.0 / Surf_Array[0]->w;
-	  SDL_Surface *pZoomed = ZoomSurface(Surf_Array[0], zoom, zoom, 1);
+	  SDL_Surface *pZoomed = adj_surf(ZoomSurface(Surf_Array[0], zoom, zoom, 1));
 	
 	  dst.x = (pSurf->w - pZoomed->w) / 2;
 	  alphablit(pZoomed, NULL, pSurf, &dst);
@@ -2450,7 +2453,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         pBuf_Array = Surf_Array;
         h = 0;
         while (w) {
-	  SDL_Surface *pZoomed = ZoomSurface((*pBuf_Array), zoom, zoom, 1);
+	  SDL_Surface *pZoomed = adj_surf(ZoomSurface((*pBuf_Array), zoom, zoom, 1));
           alphablit(pZoomed, NULL, pSurf, &dst);
           dst.x += pZoomed->w + 2;
           w--;
@@ -2502,110 +2505,92 @@ void science_dialog_update(void)
   if(pScienceDlg && !is_report_dialogs_frozen()) {
     char cBuf[128];
     SDL_String16 *pStr;
-    SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
+    SDL_Surface *pSurf;
+    SDL_Surface *pColb_Surface = pIcons->pBIG_Colb;
     int step, i, cost;
-    SDL_Rect dest = {0, 0, 0, 0};
-    SDL_Rect src;
+    SDL_Rect dest;
     struct impr_type *pImpr;
     struct unit_type *pUnit;
-    int turns_to_advance, turns_to_next_tech, steps;
-    int curent_output = 0;
-          
+    
+    struct widget *pChangeResearchButton;
+    struct widget *pChangeResearchGoalButton;
+    SDL_Rect area;
+    
     struct widget *pWindow = pScienceDlg->pEndWidgetList;
 
+    area = pWindow->area;
+    pChangeResearchButton = pWindow->prev;
+    pChangeResearchGoalButton = pWindow->prev->prev;
+    
     if (get_player_research(game.player_ptr)->researching != A_UNSET) {
       cost = total_bulbs_required(game.player_ptr);
     } else {
       cost = 0;
     }        
-      
-    pWindow->prev->theme = get_tech_icon(get_player_research(game.player_ptr)->researching);
-    pWindow->prev->prev->theme = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
+    
+    /* update current research icons */    
+    pChangeResearchButton->theme = get_tech_icon(get_player_research(game.player_ptr)->researching);
+    pChangeResearchGoalButton->theme = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
     
     /* redraw Window */
-    redraw_group(pScienceDlg->pBeginWidgetList, pWindow, 0);  
-    
-    dest = pWindow->size;
-    putframe(pWindow->dst->surface, dest.x, dest.y, dest.x + pWindow->size.w - 1,
-		  	   dest.y + pWindow->size.h - 1, 0xffffffff);
+    widget_redraw(pWindow);
   
     /* ------------------------------------- */
 
-    city_list_iterate(game.player_ptr->cities, pCity) {
-      curent_output += pCity->prod[O_SCIENCE];
-    } city_list_iterate_end;
-
-    if (curent_output <= 0) {
-      my_snprintf(cBuf, sizeof(cBuf),
-		_("Current output : 0\nResearch speed : "
-		  "none\nNext's advance time : never"));
-    } else {
-      char cBiernikujemy[64];
-      turns_to_advance = (cost + curent_output - 1) / curent_output;
-      turns_to_next_tech =
-	    (cost - get_player_research(game.player_ptr)->bulbs_researched +
-		    curent_output - 1) / curent_output;
-      
-      my_snprintf(cBiernikujemy, sizeof(cBiernikujemy),
-                 PL_("Next advance in %d turn",
-                     "Next advance in %d turns",
-                     turns_to_next_tech), turns_to_next_tech);
-      my_snprintf(cBuf, sizeof(cBuf),
-		_("Current output : %d per turn\nResearch speed "
-		  ": %d %s/advance\n%s"),
-	  	  curent_output, turns_to_advance,
-		  PL_("turn", "turns", turns_to_advance), cBiernikujemy);
-    }
-
-    pStr = create_str16_from_char(cBuf, adj_font(12));
+    /* research progress text */
+    pStr = create_str16_from_char(science_dialog_text(), adj_font(12));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_TEXT);
   
     pSurf = create_text_surf_from_str16(pStr);
       
-    dest.x = pWindow->size.x + (pWindow->size.w - pSurf->w) / 2;
-    dest.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
-    
+    dest.x = area.x + (area.w - pSurf->w) / 2;
+    dest.y = area.y + adj_size(2);
     alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
 
-    dest.y += pSurf->h + adj_size(2);
+    dest.y += pSurf->h + adj_size(4);
+
     FREESURFACE(pSurf);
 
-    /* ------------------------------------- */
-    dest.x = pWindow->prev->size.x;
+    dest.x = area.x + adj_size(16);
+    
     /* separator */
-    putline(pWindow->dst->surface, dest.x, dest.y, dest.x + adj_size(365), dest.y,
+    putline(pWindow->dst->surface,
+      dest.x, dest.y,
+      (area.x + area.w - adj_size(16)), dest.y,
       map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
 
-    dest.y += 6;
-    /* ------------------------------------- */
-
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%d/%d)",
-	      get_tech_name(game.player_ptr,
-			    get_player_research(game.player_ptr)->researching),
-	      get_player_research(game.player_ptr)->bulbs_researched, cost);
+    dest.y += adj_size(6);
+    
+    widget_set_position(pChangeResearchButton, dest.x, dest.y + adj_size(8));
+    
+    /* current research text */
+    my_snprintf(cBuf, sizeof(cBuf), "%s: %s",
+      get_tech_name(game.player_ptr, get_player_research(game.player_ptr)->researching),
+      get_science_target_text(NULL));
 
     copy_chars_to_string16(pStr, cBuf);
     
     pSurf = create_text_surf_from_str16(pStr);
     
-    dest.x = pWindow->prev->size.x + pWindow->prev->size.w + adj_size(10);
+    dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
     
     alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
 
-    dest.y += pSurf->h;
+    dest.y += pSurf->h + adj_size(4);
+    
     FREESURFACE(pSurf);
 
+    /* progress bar */
     dest.w = cost * pColb_Surface->w;
     step = pColb_Surface->w;
-    if (dest.w > adj_size(300)) {
-      dest.w = adj_size(300);
-      step = (adj_size(300) - pColb_Surface->w) / (cost - 1);
+    if (dest.w > (area.w - dest.x - adj_size(16))) {
+      dest.w = (area.w - dest.x - adj_size(16));
+      step = ((area.w - dest.x - adj_size(16)) - pColb_Surface->w) / (cost - 1);
 
       if (step == 0) {
         step = 1;
       }
-
     }
 
     dest.h = pColb_Surface->h + adj_size(4);
@@ -2631,11 +2616,12 @@ void science_dialog_update(void)
       dest.x += step;
     }
 
-    /* ----------------------- */
-
+    /* improvement icons */
+    
     dest.y += dest.h + adj_size(4);
-    dest.x = pWindow->prev->size.x + pWindow->prev->size.w + adj_size(10);
+    dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
 
+    /* buildings */
     impr_type_iterate(imp) {
       pImpr = get_improvement_type(imp);
 		
@@ -2644,63 +2630,76 @@ void science_dialog_update(void)
           pSurf = adj_surf(GET_SURF(get_building_sprite(tileset, imp)));
           alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + 1;
-      }
+        }
       } requirement_vector_iterate_end;
+      
     } impr_type_iterate_end;
 
     dest.x += adj_size(5);
 
+    /* units */
     unit_type_iterate(un) {
       pUnit = un;
       if (pUnit->tech_requirement == get_player_research(game.player_ptr)->researching) {
 	if (GET_SURF(get_unittype_sprite(tileset, un))->w > 64) {
 	  float zoom = 64.0 / GET_SURF(get_unittype_sprite(tileset, un))->w;
-	  SDL_Surface *pZoomed =
-	  	ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1);
-	  src = get_smaller_surface_rect(pZoomed);
-	  alphablit(pZoomed, &src, pWindow->dst->surface, &dest);
-	  FREESURFACE(pZoomed);
-          dest.x += src.w + adj_size(2);
+	  pSurf = adj_surf(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1));
+	  alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+          dest.x += pSurf->w + adj_size(2);          
+	  FREESURFACE(pSurf);
 	} else {
-          src = get_smaller_surface_rect(GET_SURF(get_unittype_sprite(tileset, un)));
-          alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst->surface, &dest);
-          dest.x += src.w + adj_size(2);
+          pSurf = adj_surf(GET_SURF(get_unittype_sprite(tileset, un)));
+          alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+          dest.x += pSurf->w + adj_size(2);
 	}
       }
     } unit_type_iterate_end;
   
     /* -------------------------------- */
     /* draw separator line */
-    dest.x = pWindow->prev->size.x;
-    dest.y = pWindow->prev->size.y + pWindow->prev->size.h + adj_size(35);
+    dest.x = area.x + adj_size(16);
+    dest.y += adj_size(30) + adj_size(6);
 
-    putline(pWindow->dst->surface, dest.x, dest.y, dest.x + adj_size(365), dest.y,
+    putline(pWindow->dst->surface,
+      dest.x, dest.y,
+      (area.x + area.w - adj_size(16)), dest.y,
       map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
     
-    dest.y += adj_size(10);
+    dest.x = pChangeResearchButton->size.x;
+    dest.y += adj_size(6);
+
+    widget_set_position(pChangeResearchGoalButton, dest.x, dest.y + adj_size(8));    
+    
     /* -------------------------------- */
+    
     /* Goals */
     if (get_player_research(game.player_ptr)->tech_goal != A_UNSET)
     {
-      steps =
-        num_unknown_techs_for_goal(game.player_ptr,
-				 get_player_research(game.player_ptr)->tech_goal);
-      my_snprintf(cBuf, sizeof(cBuf), "%s ( %d %s )",
-	      get_tech_name(game.player_ptr,
-			    get_player_research(game.player_ptr)->tech_goal), steps,
-	      PL_("step", "steps", steps));
-
+      /* current goal text */
+      my_snprintf(cBuf, sizeof(cBuf), "%s",
+        get_tech_name(game.player_ptr, get_player_research(game.player_ptr)->tech_goal));
+      
       copy_chars_to_string16(pStr, cBuf);
-
       pSurf = create_text_surf_from_str16(pStr);
       
-      dest.x = pWindow->prev->size.x + pWindow->prev->size.w + adj_size(10);
-      
+      dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
       alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
 
-      dest.y += pSurf->h + adj_size(4);
+      dest.y += pSurf->h;
+      
+      FREESURFACE(pSurf);
+      
+      copy_chars_to_string16(pStr, get_science_goal_text(get_player_research(game.player_ptr)->tech_goal));
+      pSurf = create_text_surf_from_str16(pStr);
+      
+      dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
+      alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+
+      dest.y += pSurf->h + adj_size(6);
+      
       FREESURFACE(pSurf);
 
+      /* buildings */
       impr_type_iterate(imp) {
         pImpr = get_improvement_type(imp);
 	requirement_vector_iterate(&pImpr->reqs, preq) {  
@@ -2712,30 +2711,30 @@ void science_dialog_update(void)
         } requirement_vector_iterate_end;
       } impr_type_iterate_end;
 
-      dest.x += 5;
+      dest.x += adj_size(6);
 
+      /* units */
       unit_type_iterate(un) {
         pUnit = un;
         if (pUnit->tech_requirement == get_player_research(game.player_ptr)->tech_goal) {
 	  if (GET_SURF(get_unittype_sprite(tileset, un))->w > 64) {
 	    float zoom = 64.0 / GET_SURF(get_unittype_sprite(tileset, un))->w;
-	    SDL_Surface *pZoomed =
-	  	ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1);
-	    src = get_smaller_surface_rect(pZoomed);
-	    alphablit(pZoomed, &src, pWindow->dst->surface, &dest);
-	    FREESURFACE(pZoomed);
-            dest.x += src.w + adj_size(2);
+	    pSurf = adj_surf(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1));
+	    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+            dest.x += pSurf->w + adj_size(2);
+	    FREESURFACE(pSurf);
 	  } else {
-            src = get_smaller_surface_rect(GET_SURF(get_unittype_sprite(tileset, un)));
-            alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst->surface, &dest);
-            dest.x += src.w + adj_size(2);
+            pSurf = adj_surf(GET_SURF(get_unittype_sprite(tileset, un)));
+            alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
+            dest.x += pSurf->w + adj_size(2);
 	  }
         }
       } unit_type_iterate_end;
     }
   
     /* -------------------------------- */
-    widget_mark_dirty(pWindow);
+    widget_mark_dirty(pWindow);    
+    redraw_group(pScienceDlg->pBeginWidgetList, pWindow->prev, 1);  
     flush_dirty();
   
     FREESTRING16(pStr);
@@ -2821,8 +2820,8 @@ static void popup_change_research_dialog()
   }
     
   for (i = A_FIRST; i < game.control.num_tech_types; i++) {
-    if (!tech_is_available(game.player_ptr, i)
-       || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
+    if (!tech_is_available(game.player_ptr, i) ||
+        (get_invention(game.player_ptr, i) != TECH_REACHABLE)) {
       continue;
     }
     count++;
@@ -2857,9 +2856,9 @@ static void popup_change_research_dialog()
 
   /* ------------------------- */
   /* max col - 104 is sellect tech widget width */
-  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - 2) / 104;
+  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - 2) / adj_size(104);
   /* max row - 204 is sellect tech widget height */
-  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / 204;
+  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / adj_size(204);
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -2886,12 +2885,14 @@ static void popup_change_research_dialog()
   count = 0;
   h = col * max_row;
   for (i = A_FIRST; i < game.control.num_tech_types; i++) {
+    
     if (!tech_is_available(game.player_ptr, i)
        || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
       continue;
     }
     
     count++;  
+    
     copy_chars_to_string16(pStr, advances[i].name);
     pSurf = create_sellect_tech_icon(pStr, i, MED_MODE);
     pBuf = create_icon2(pSurf, pWindow->dst,
@@ -3036,9 +3037,9 @@ static void popup_change_research_goal_dialog()
 
   /* ------------------------- */
   /* max col - 104 is goal tech widget width */
-  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - 2) / 104;
+  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - 2) / adj_size(104);
   /* max row - 204 is goal tech widget height */
-  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / 204;
+  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / adj_size(204);
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -3202,102 +3203,108 @@ static int popdown_science_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 void popup_science_dialog(bool raise)
 {
-  struct widget *pBuf = get_research_widget(), *pWindow = NULL;
+  struct widget *pWidget, *pWindow;
+  struct widget *pChangeResearchButton;
+  struct widget *pChangeResearchGoalButton;
+  struct widget *pExitButton;
+  
   SDL_String16 *pStr;
-  SDL_Surface *pLogo;
+  SDL_Surface *pBackground, *pTechIcon;
   int count, i;
+  SDL_Rect area;
   
   if (pScienceDlg) {
     return;
   }
 
-  set_wstate(pBuf, FC_WS_DISABLED);
-  widget_redraw(pBuf);
-  widget_mark_dirty(pBuf);
+  /* disable research button */
+  pWidget = get_research_widget();
+  set_wstate(pWidget, FC_WS_DISABLED);
+  widget_redraw(pWidget);
+  widget_mark_dirty(pWidget);
   
   pScienceDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   pStr = create_str16_from_char(_("Science"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(400), adj_size(260), 0);
-  pScienceDlg->pEndWidgetList = pWindow;
-
-  clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
+#ifdef SMALL_SCREEN
+  pWindow = create_window(NULL, pStr, 200, 115, 0);
+#else
+  pWindow = create_window(NULL, pStr, 400, 210, 0);
+#endif
+  set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = science_dialog_callback;
+
+  pScienceDlg->pEndWidgetList = pWindow;
   
   widget_set_position(pWindow,
-                      (Main.screen->w - adj_size(400)) / 2,
-                      (Main.screen->h - adj_size(260)) / 2);
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
 
-  pWindow->size.w = adj_size(400);
-  pWindow->size.h = adj_size(260);
-  set_wstate(pWindow, FC_WS_NORMAL);
-  
-  pLogo = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
-  pWindow->theme = ResizeSurface(pLogo, pWindow->size.w, pWindow->size.h, 1);
-  FREESURFACE(pLogo);
+  pBackground = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
+  pWindow->theme = ResizeSurface(pBackground, pWindow->size.w, pWindow->size.h, 1);
+  FREESURFACE(pBackground);
     
-/* FIXME: is this needed here? */
-/*  refresh_widget_background(pWindow); */
-
   add_to_gui_list(ID_SCIENCE_DLG_WINDOW, pWindow);
-  /* ------ */
-
+  
+  /* define content area */
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
+  area.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
+  area.h = pWindow->size.h - area.y - pTheme->FR_Bottom->h;
+  
+  widget_set_area(pWindow, area);
+  
+  /* count number of researchable techs */
   count = 0;
   for (i = A_FIRST; i < game.control.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i)
-        && get_invention(game.player_ptr, i) != TECH_KNOWN
-        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST) {
+    if (tech_is_available(game.player_ptr, i) &&
+        (get_invention(game.player_ptr, i) != TECH_KNOWN) &&
+        (advances[i].req[0] != A_LAST) && (advances[i].req[1] != A_LAST)) {
 	count++;	  
     }
   }
 
-  pLogo = get_tech_icon(get_player_research(game.player_ptr)->researching);
-  
-  pBuf = create_icon2(pLogo, pWindow->dst, WF_RESTORE_BACKGROUND);
+  /* current research icon */
+  pTechIcon = get_tech_icon(get_player_research(game.player_ptr)->researching);
+  pChangeResearchButton = create_icon2(pTechIcon, pWindow->dst, WF_RESTORE_BACKGROUND);
 
-  pBuf->action = popup_change_research_dialog_callback;
-  if(count) {
-    set_wstate(pBuf, FC_WS_NORMAL);
+  pChangeResearchButton->action = popup_change_research_dialog_callback;
+  if (count > 0) {
+    set_wstate(pChangeResearchButton, FC_WS_NORMAL);
   }
   
-  pBuf->size.x = pWindow->size.x + adj_size(16);
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(60);
+  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pChangeResearchButton);
 
-  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pBuf);
-
-  /* ------ */
-  pLogo = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
+  /* current research goal icon */
+  pTechIcon = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
+  pChangeResearchGoalButton = create_icon2(pTechIcon, pWindow->dst, WF_RESTORE_BACKGROUND);
   
-  pBuf = create_icon2(pLogo, pWindow->dst, WF_RESTORE_BACKGROUND);
-  pBuf->action = popup_change_research_goal_dialog_callback;
-  if(count) {
-    set_wstate(pBuf, FC_WS_NORMAL);
+  pChangeResearchGoalButton->action = popup_change_research_goal_dialog_callback;
+  if (count > 0) {
+    set_wstate(pChangeResearchGoalButton, FC_WS_NORMAL);
   }
 
-  pBuf->size.x = pWindow->size.x + adj_size(16);
-  pBuf->size.y =
-      pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(60) + pBuf->size.h + adj_size(45);
-
-  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, pBuf);
+  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, pChangeResearchGoalButton);
 
   /* ------ */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+  pExitButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                                                    WF_RESTORE_BACKGROUND);
   
-  pBuf->action = popdown_science_dialog_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
+  pExitButton->action = popdown_science_dialog_callback;
+  set_wstate(pExitButton, FC_WS_NORMAL);
+  pExitButton->key = SDLK_ESCAPE;
   
-  add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, pBuf);
-  
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, pExitButton);
+
+  widget_set_position(pExitButton, 
+    pWindow->size.x + pWindow->size.w - adj_size(1 + 1) - pExitButton->size.w,
+    pWindow->size.y + adj_size(1));
     
   /* ======================== */
-  pScienceDlg->pBeginWidgetList = pBuf;
+  pScienceDlg->pBeginWidgetList = pExitButton;
 
   science_dialog_update();
 }

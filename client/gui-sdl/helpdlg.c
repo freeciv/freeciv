@@ -313,7 +313,7 @@ void popup_impr_info(Impr_type_id impr)
   
   pSurf = GET_SURF(get_building_sprite(tileset, impr));
   pBuf= create_iconlabel_from_chars(
-	  ZoomSurface(pSurf, (float)108 / pSurf->w, (float)108 / pSurf->w, 1),
+	  adj_surf(ZoomSurface(pSurf, (float)108 / pSurf->w, (float)108 / pSurf->w, 1)),
 	  pWindow->dst, get_impr_name_ex(NULL, impr),
           adj_font(24), WF_FREE_THEME);
 
@@ -615,7 +615,7 @@ void popup_unit_info(Unit_type_id type_id)
       /* draw tech icon */
       {
 	float zoom = 25.0 / GET_SURF(get_unittype_sprite(tileset, type))->h;
-        pText = ZoomSurface(GET_SURF(get_unittype_sprite(tileset, type)), zoom, zoom, 1);
+        pText = adj_surf(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, type)), zoom, zoom, 1));
       }
       dst.x = (adj_size(35) - pText->w) / 2;;
       dst.y = (pBack->h - pText->h) / 2;
@@ -682,8 +682,9 @@ void popup_unit_info(Unit_type_id type_id)
   }
   
   pUnit = get_unit_type(type_id);
-  pBuf= create_iconlabel_from_chars(GET_SURF(get_unittype_sprite(tileset,
-                  get_unit_type(type_id))), pWindow->dst, pUnit->name, 24, 0);
+  pBuf= create_iconlabel_from_chars(
+          adj_surf(GET_SURF(get_unittype_sprite(tileset, get_unit_type(type_id)))),
+          pWindow->dst, pUnit->name, adj_font(24), 0);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -1078,7 +1079,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
     requirement_vector_iterate(&(gov->reqs), preq) {
       if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
                   
-        pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
+        pBuf = create_iconlabel_from_chars(adj_surf(GET_SURF(get_government_sprite(tileset, gov))),
                 pWindow->dst, gov->name, adj_font(14),
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1101,7 +1102,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       if (preq->source.value.tech == tech) {
         pSurf = GET_SURF(get_building_sprite(tileset, imp));
         pBuf = create_iconlabel_from_chars(
-                ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1),
+                adj_surf(ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1)),
                 pWindow->dst, get_improvement_name(imp), adj_font(14),
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1127,11 +1128,11 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       if (GET_SURF(get_unittype_sprite(tileset, un))->w > 64)
       {
 	float zoom = 64.0 / GET_SURF(get_unittype_sprite(tileset, un))->w;
-        pBuf = create_iconlabel_from_chars(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1),
-	      pWindow->dst, pUnit->name, 14, 
+        pBuf = create_iconlabel_from_chars(adj_surf(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1)),
+	      pWindow->dst, pUnit->name, adj_font(14),
 	      (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       } else {
-	pBuf = create_iconlabel_from_chars(GET_SURF(get_unittype_sprite(tileset, un)),
+	pBuf = create_iconlabel_from_chars(adj_surf(GET_SURF(get_unittype_sprite(tileset, un))),
 	      pWindow->dst, pUnit->name, adj_font(14),
 	      (WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       }
@@ -1269,6 +1270,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 static void redraw_tech_tree_dlg(void)
 {
   SDL_Color line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
+  SDL_Color bg_color = {255, 255, 255, 64};
 
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct widget *pSub0, *pSub1;
@@ -1276,20 +1278,19 @@ static void redraw_tech_tree_dlg(void)
   struct widget *pTech = pStore->pDock->prev;
   int i,j, tech, count, step, mod;
   SDL_Rect dst;
-  SDL_Surface *pSurf;
   
   /* Redraw Window with exit button */ 
   redraw_group(pWindow->prev, pWindow, FALSE);
-    
-  pSurf = ResizeSurface(get_tech_icon(MAX_ID - pTech->ID), adj_size(420),
-                                                            adj_size(420), 1);
-  SDL_SetAlpha(pSurf, SDL_SRCALPHA, 164);
-  dst.x = pWindow->size.x + pWindow->size.w - pSurf->w - adj_size(50);
-  dst.y = pWindow->size.y + (pWindow->size.h - pSurf->h) / 2;
+  
+  dst.x = pWindow->size.x + pWindow->size.w - adj_size(459) - adj_size(10);
+  dst.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(10);
+  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
+  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
 
-  alphablit(pSurf, NULL, pWindow->dst->surface, &dst);
-  FREESURFACE(pSurf);
-
+  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
+    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+   
   /* Draw Req arrows */
   i = 0;
   while(i < 4 && pStore->pSub_Req[i])

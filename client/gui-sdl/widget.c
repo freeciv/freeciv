@@ -513,8 +513,8 @@ void redraw_widget_info_label(SDL_Rect *rect)
     FREESURFACE(pBcgd);
     
     /* draw text */
-    dstrect.x = 6;
-    dstrect.y = 3;
+    dstrect.x = adj_size(6);
+    dstrect.y = adj_size(3);
     
     alphablit(pText, NULL, pInfo_Label, &dstrect);
     

@@ -2829,8 +2829,8 @@ void popup_races_dialog(struct player *pplayer)
   int i = 0;
   while (i < game.control.styles_count) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pWidget = create_icon2(adj_surf(ZoomSurface(
-            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0)),
+      pWidget = create_icon2(ZoomSurface(
+            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0),
                                     pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {
@@ -2848,8 +2848,8 @@ void popup_races_dialog(struct player *pplayer)
 
   for (; (i < game.control.styles_count && i < 64); i++) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pWidget = create_icon2(adj_surf(ZoomSurface(
-            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0)),
+      pWidget = create_icon2(ZoomSurface(
+            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0),
                                     pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {

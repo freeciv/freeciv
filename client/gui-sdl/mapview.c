@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -398,6 +398,15 @@ void update_info_label(void)
   pText->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (game.player_ptr) {
+#ifdef SMALL_SCREEN
+    my_snprintf(buffer, sizeof(buffer),
+                _("%s Population: %s  Year: %s  "
+                  "Gold %d "),
+                get_nation_name(game.player_ptr->nation),
+                population_to_text(civ_population(game.player_ptr)),
+                textyear(game.info.year),
+                game.player_ptr->economic.gold);
+#else
     my_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
@@ -408,11 +417,11 @@ void update_info_label(void)
                 game.player_ptr->economic.tax,
                 game.player_ptr->economic.luxury,
                 game.player_ptr->economic.science);
-    
+#endif
     /* convert to unistr and create text surface */
     copy_chars_to_string16(pText, buffer);
     pTmp = create_text_surf_from_str16(pText);
-  
+
     area.x = (Main.screen->w - pTmp->w) / 2 - adj_size(5);
     area.w = pTmp->w + adj_size(8);
       area.h = pTmp->h + adj_size(4);
@@ -1099,7 +1108,7 @@ SDL_Surface *create_city_map(struct city *pCity)
   }
 
   city_map_canvas = canvas_create(get_citydlg_canvas_width(), 
-             get_citydlg_canvas_height() + tileset_tile_height(tileset) / 2);
+                                  get_citydlg_canvas_height());
 
   city_dialog_redraw_map(pCity, city_map_canvas);  
 

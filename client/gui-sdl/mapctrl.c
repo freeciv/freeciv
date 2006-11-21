@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1613,7 +1613,7 @@ void popup_minimap_window() {
 
   #ifdef SMALL_SCREEN
   /* options button */
-  pOptions_Button = create_themeicon(pTheme->Options_Icon, pMiniMap_Window->dst->surface,
+  pOptions_Button = create_themeicon(pTheme->Options_Icon, pMiniMap_Window->dst,
  			             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pOptions_Button->string16 = create_str16_from_char(_("Options"), adj_font(12));
   
@@ -1827,9 +1827,15 @@ void show_game_page()
   assert(pIcon_theme != NULL);
   pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, 0);
 
+#ifdef SMALL_SCREEN
+  widget_set_position(pWidget,
+                      pWidget->dst->surface->w - pWidget->size.w - adj_size(10),
+                      0);
+#else
   widget_set_position(pWidget,
                       pWidget->dst->surface->w - pWidget->size.w - adj_size(10),
                       adj_size(10));
+#endif
 
   add_to_gui_list(ID_COOLING_ICON, pWidget);
 
@@ -1839,9 +1845,15 @@ void show_game_page()
 
   pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, 0);
 
+#ifdef SMALL_SCREEN
+  widget_set_position(pWidget,
+                      pWidget->dst->surface->w - pWidget->size.w * 2 - adj_size(10),
+                      0);
+#else
   widget_set_position(pWidget,
                       pWidget->dst->surface->w - pWidget->size.w * 2 - adj_size(10),
                       adj_size(10));
+#endif
 
   add_to_gui_list(ID_WARMING_ICON, pWidget);
 

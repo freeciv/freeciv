@@ -544,7 +544,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
   if(create_scrollbar) {
     /* create vsrollbar */
     pBuf = create_vertical(pTheme->Vertic, pWindow->dst,
-				10, WF_RESTORE_BACKGROUND);
+				adj_size(10), WF_RESTORE_BACKGROUND);
     
     pBuf->ID = ID_SCROLLBAR;
     pBuf->private_data.adv_dlg = pDlg;

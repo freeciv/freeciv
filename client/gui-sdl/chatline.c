@@ -434,11 +434,7 @@ static void popup_conn_list_dialog(void)
     FREESURFACE(pSurf);
   }
   
-  #ifdef SMALL_SCREEN
-  pConnDlg->text_width = 263;
-  #else
   pConnDlg->text_width = pWindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);
-  #endif
   
   /* chat area background */
   area.x = adj_size(10);
