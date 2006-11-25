@@ -13,7 +13,7 @@ artists = "
     Open Clip Art Library http://www.openclipart.org/
 
    Aborigines		Brett Roper
-   Afghanistan		Andrew Duhan
+   Afghanistan		Andrew Duhan and Reisio
    Algeria 		Lauris Kaplinski
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
