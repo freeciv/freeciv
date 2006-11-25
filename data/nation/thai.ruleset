@@ -23,7 +23,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="vietnamese", "kampuchean"
+civilwar_nations="vietnamese", "cambodian"
 
 cities =
   "Bangkok", "Thon Buri", "Nakhon Rachasima", "Chiang Mai", "Khon Kaen",
