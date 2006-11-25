@@ -32,6 +32,7 @@ pkgdata_DATA = \
 		bulgarian.ruleset \
 		burmese.ruleset \
 		byzantium.ruleset \
+		cambodian.ruleset \
 		canadian.ruleset \
 		carthaginian.ruleset \
 		catalan.ruleset \
@@ -76,7 +77,6 @@ pkgdata_DATA = \
 		israeli.ruleset \
 		italian.ruleset \
 		japanese.ruleset \
-		kampuchean.ruleset \
 		kenyan.ruleset \
 		korean.ruleset \
 		lankese.ruleset \
