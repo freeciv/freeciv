@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-08 13:37-0400\n"
-"PO-Revision-Date: 2006-11-05 22:49+0200\n"
+"PO-Revision-Date: 2006-11-19 10:41+0200\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -9260,16 +9260,8 @@ msgstr "Nici una din unităţi nu poate fi modernizată."
 
 #: client/text.c:838
 #, c-format
-msgid ""
-"Upgrade %d unit for %d gold?\n"
-"Treasury contains %d gold."
-"Upgrade %d units for %d gold?\n"
-"Treasury contains %d gold."
-msgstr ""
-"Modernizează %d unităţi pentru %d galbeni?\n"
-"Trezoreria conţine %d galbeni."
-"Modernizează %d unităţi pentru %d galbeni?\n"
-"Trezoreria conţine %d galbeni."
+msgid "Upgrade %d unit for %d gold?\nTreasury contains %d gold.Upgrade %d units for %d gold?\nTreasury contains %d gold."
+msgstr "Modernizează %d unităţi pentru %d galbeni?\nTrezoreria conţine %d galbeni.Modernizează %d unităţi pentru %d galbeni?\nTrezoreria conţine %d galbeni."
 
 #: client/text.c:859
 msgid "Shows your progress in researching the current technology."
@@ -11442,7 +11434,7 @@ msgstr "Cum să denumim noul nostru oraş?"
 
 #: client/gui-gtk-2.0/mapview.c:147
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
-msgstr ""
+msgstr "Afişează ratele curente pentru lux/ştiinţă/taxe; clic pentru a le schimba starea."
 
 #: client/gui-gtk-2.0/mapview.c:688
 #: client/gui-win32/canvas.c:275
@@ -11451,7 +11443,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:248
 msgid "Leaving a local game will end it!"
-msgstr ""
+msgstr "Dacă părăsiţi un joc local îl veţi încheia!"
 
 #: client/gui-gtk-2.0/menu.c:685
 #: client/gui-win32/menu.c:302
@@ -11634,7 +11626,7 @@ msgstr "_Grilă"
 #: client/gui-gtk-2.0/menu.c:759
 #: client/gui-win32/menu.c:335
 msgid "National _Borders"
-msgstr ""
+msgstr "Graniţe naţionale"
 
 #: client/gui-gtk-2.0/menu.c:761
 #: client/gui-win32/menu.c:336
@@ -11912,7 +11904,7 @@ msgstr "Mergi\\transportă aerian la oraşul"
 #: client/gui-win32/menu.c:386
 #: client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
-msgstr ""
+msgstr "Înapoiere la cel mai apropiat oraş"
 
 #: client/gui-gtk-2.0/menu.c:871
 #: client/gui-mui/gui_main.c:280
@@ -12095,22 +12087,22 @@ msgstr "Editor plan de lucru"
 #: client/gui-gtk-2.0/menu.c:929
 #: client/gui-win32/menu.c:418
 msgid "Citizen _Management"
-msgstr ""
+msgstr "Ad_ministrarea cetăţenilor"
 
 #: client/gui-gtk-2.0/menu.c:931
 #: client/gui-win32/menu.c:419
 msgid "_Playing"
-msgstr ""
+msgstr "în joc"
 
 #: client/gui-gtk-2.0/menu.c:935
 #: client/gui-win32/menu.c:421
 msgid "City _Improvements"
-msgstr "_Înbunătăţiri oraş"
+msgstr "Înbunătăţ_iri oraş"
 
 #: client/gui-gtk-2.0/menu.c:939
 #: client/gui-win32/menu.c:423
 msgid "Com_bat"
-msgstr "Lu_ptă"
+msgstr "Luptă"
 
 #: client/gui-gtk-2.0/menu.c:941
 #: client/gui-win32/menu.c:424
@@ -12145,7 +12137,7 @@ msgstr "_Cursa în Spaţiu"
 #: client/gui-gtk-2.0/menu.c:957
 #: client/gui-win32/menu.c:432
 msgid "_Copying"
-msgstr ""
+msgstr "_copiez"
 
 #: client/gui-gtk-2.0/menu.c:959
 #: client/gui-win32/menu.c:433
@@ -12155,7 +12147,7 @@ msgstr "_Despre"
 #: client/gui-gtk-2.0/menu.c:1241
 #, c-format
 msgid "%s..."
-msgstr ""
+msgstr "%s..."
 
 #: client/gui-gtk-2.0/menu.c:1312
 #, c-format
@@ -12182,15 +12174,15 @@ msgstr "Adaugă la oraş (_B)"
 
 #: client/gui-gtk-2.0/menu.c:1408
 msgid "Make Trade _Route"
-msgstr ""
+msgstr "Stabileşte rută comercială"
 
 #: client/gui-gtk-2.0/menu.c:1422
 msgid "Build _Railroad"
-msgstr "Fă Cale Fe_rată"
+msgstr "Crează cale fe_rată"
 
 #: client/gui-gtk-2.0/menu.c:1445
 msgid "Bu_ild Farmland"
-msgstr "Fă teren agricol"
+msgstr "Crează teren agricol"
 
 #: client/gui-gtk-2.0/menu.c:1465
 msgid "_Fortify"
@@ -12490,11 +12482,11 @@ msgstr "Conducător"
 
 #: client/gui-gtk-2.0/pages.c:1628
 msgid "Choose Saved Game to Load"
-msgstr ""
+msgstr "Alegeţi jocul pentru încărcat"
 
 #: client/gui-gtk-2.0/pages.c:1720
 msgid "Choose Saved Game to _Load:"
-msgstr ""
+msgstr "Alegeţi jocu_l pentru încărcat"
 
 #: client/gui-gtk-2.0/pages.c:1740
 #: client/gui-gtk-2.0/pages.c:1928
@@ -12606,7 +12598,7 @@ msgstr "Vinde _tot"
 #: client/gui-gtk-2.0/repodlgs.c:795
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr ""
+msgstr "Chiar doriţi să vindeţi %s?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
 msgid "Sell Improvements"
@@ -12663,7 +12655,8 @@ msgstr "Moderni_zează"
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
-msgstr ""
+msgstr "Modernizeaz cât mai mulţi %s în %s pentru %d galbeni fiecare?\n"
+"Trezoreria conţine %d galbeni."
 
 #: client/gui-gtk-2.0/repodlgs.c:1257
 msgid "Totals:"
@@ -12802,7 +12795,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:1146
 msgid "Show _Future Targets"
-msgstr ""
+msgstr "Arată obiective viitoare"
 
 #: client/gui-gtk-2.0/wldlg.c:1233
 msgid "Target _Worklist:"
@@ -12818,7 +12811,7 @@ msgstr "Schimbă producţia"
 
 #: client/gui-mui/chatline.c:79
 msgid "Cleared output window.\n"
-msgstr ""
+msgstr "S-a şters fereastra de ieşire.\n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:551
@@ -13023,7 +13016,7 @@ msgstr "Sc_himbă permanent"
 
 #: client/gui-mui/citydlg.c:1630
 msgid "_Release city"
-msgstr ""
+msgstr "Elibe_rează oraş"
 
 #: client/gui-mui/citydlg.c:1644
 msgid "Auto attack vs"
@@ -13113,7 +13106,7 @@ msgstr "Configurează Raportul Oraşului"
 #: client/gui-win32/cityrep.c:127
 #: data/Freeciv.in:1725
 msgid "Set columns shown"
-msgstr ""
+msgstr "Setaţi coloanele pentru afişat"
 
 #: client/gui-mui/cityrep.c:282
 #: client/gui-mui/dialogs.c:1657
@@ -13309,11 +13302,11 @@ msgstr "_Ajuta la construcţia Minuni"
 
 #: client/gui-mui/dialogs.c:1116
 msgid "Freeciv - Pillage"
-msgstr ""
+msgstr "Freeciv - pustieşte"
 
 #: client/gui-mui/dialogs.c:1206
 msgid "Freeciv - Connect"
-msgstr ""
+msgstr "Freeciv - conectează"
 
 #: client/gui-mui/dialogs.c:1207
 #: data/Freeciv.in:2512
@@ -13322,7 +13315,7 @@ msgstr "Alegeţi activitatea unităţi"
 
 #: client/gui-mui/dialogs.c:1361
 msgid "Freeciv - Select an unit"
-msgstr ""
+msgstr "Freeciv - selectează o unitate"
 
 #: client/gui-mui/dialogs.c:1365
 msgid "_Ready All"
@@ -13351,7 +13344,7 @@ msgstr "Feminin"
 
 #: client/gui-mui/dialogs.c:1612
 msgid "Freeciv - Select a Nation"
-msgstr ""
+msgstr "Freeciv - selectează o naţiune"
 
 #: client/gui-mui/dialogs.c:1635
 msgid "_Leader Name"
@@ -13489,6 +13482,12 @@ msgid ""
 "and\n"
 "The %s %s %s"
 msgstr ""
+"Acest tratat Etern\n"
+"marchează rezultatul\n"
+"eforturilor diplomatice între\n"
+"%s %s %s\n"
+"şi\n"
+"%s %s %s"
 
 #: client/gui-mui/finddlg.c:99
 msgid "Select a city"
@@ -13505,7 +13504,7 @@ msgstr "Transportă _aerian"
 #: client/gui-mui/graphics.c:192
 #, c-format
 msgid "Could not get the mask although there must be one (%s)! Graphics may look corrupt.\n"
-msgstr ""
+msgstr "Nu am putut obţine masca deşi trebuie să fie una (%s)! Grafica poate arăta coruptă. \n"
 
 #: client/gui-mui/gui_main.c:209
 msgid "Options..."
@@ -13887,7 +13886,7 @@ msgstr "Construieşte Cale Ferată"
 #: client/gui-mui/gui_main.c:1445
 #, c-format
 msgid "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
-msgstr ""
+msgstr "Nu s-a putut deschide fereastra principală (problemă de memorie Gfx sau mărimea ecranului este prea mică)\n"
 
 #: client/gui-mui/helpdlg.c:562
 #: data/Freeciv.in:859
@@ -13967,7 +13966,7 @@ msgstr ""
 #: client/gui-xaw/inteldlg.c:182
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr ""
+msgstr "Informaţii de la spioni despre Imperiul %s"
 
 #: client/gui-mui/inteldlg.c:139
 #: client/gui-win32/inteldlg.c:99
@@ -14036,12 +14035,12 @@ msgstr "Unitate: %s(%s%s)"
 #: client/gui-mui/mapclass.c:160
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr ""
+msgstr "A:%d D:%d FP:%d HP:%d/%d%s%s"
 
 #: client/gui-mui/mapclass.c:172
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
-msgstr ""
+msgstr "A:%d D:%d FP:%d HP:%d0%%"
 
 #: client/gui-mui/mapclass.c:1633
 #, c-format
@@ -14120,7 +14119,8 @@ msgstr "Imp:%d Lux:%d Sti:%d"
 msgid ""
 "Where to Display Messages\n"
 "Out = Output window, Mes = Messages window, Pop = Popup individual window"
-msgstr ""
+msgstr "Unde să fie afişate mesajele\n"
+"Out = fereastră ieşire, Mes = fereastră mesager, Pop = fereastră popup individuală"
 
 #: client/gui-mui/messagedlg.c:100
 #: client/gui-win32/messagedlg.c:138
@@ -14185,24 +14185,22 @@ msgid ""
 "%s\n"
 "(no research)"
 msgstr ""
+"%s\n"
+"(nimic de cercetat)"
 
 #: client/gui-mui/repodlgs.c:309
 #, c-format
 msgid ""
-"%s\n"
-"(%d turn/advance)"
-"%s\n"
+"%s\n(%d turn/advance)%s\n"
 "(%d turns/advance)"
 msgstr ""
-"%s\n"
-"(%d rundă/avans)"
-"%s\n"
+"%s\n(%d rundă/avans)%s\n"
 "(%d runde/avans)"
 
 #: client/gui-mui/repodlgs.c:326
 #: client/gui-mui/repodlgs.c:327
 msgid "_Goal"
-msgstr "Ţin_ta"
+msgstr "Ţin_tă"
 
 #: client/gui-mui/repodlgs.c:331
 #: client/gui-mui/repodlgs.c:332
@@ -14218,7 +14216,7 @@ msgstr "Numele edificiului"
 #: client/gui-win32/repodlgs.c:377
 #: client/gui-xaw/repodlgs.c:757
 msgid "Sell-Off:"
-msgstr ""
+msgstr "Vânzare"
 
 #: client/gui-mui/repodlgs.c:505
 #: client/gui-win32/repodlgs.c:435
@@ -14276,6 +14274,13 @@ msgid ""
 "Success prob.:\n"
 "Year of arrival:"
 msgstr ""
+"Populaţie:\n"
+"Suport:\n"
+"Energie:\n"
+"Masă:\n"
+"Durată călătorie:\n"
+"Şansă de succes:\n"
+"Anul sosirii:"
 
 #: client/gui-mui/spaceshipdlg.c:268
 #, c-format
@@ -14348,17 +14353,17 @@ msgstr "Acceptă"
 
 #: client/gui-mui/worklistclass.c:731
 msgid "Current Targets"
-msgstr ""
+msgstr "Obiective curente"
 
 #: client/gui-mui/worklistclass.c:746
 msgid "Available Targets"
-msgstr ""
+msgstr "Obiective disponibile"
 
 #: client/gui-mui/worklistclass.c:754
 #: client/gui-mui/worklistclass.c:755
 #: client/gui-win32/wldlg.c:844
 msgid "Show future targets"
-msgstr ""
+msgstr "Arată obiectivele viitoare"
 
 #: client/gui-mui/worklistclass.c:816
 msgid "Worklist for city"
@@ -14376,7 +14381,7 @@ msgstr "Caravana dumneavoastră a ajuns la %s"
 #: client/gui-sdl/caravan_dialog.c:145
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr ""
+msgstr "Stabileşte rută comercială cu %s ( %d R&G + %d comerţ )"
 
 #: client/gui-sdl/caravan_dialog.c:151
 #, c-format
@@ -14399,7 +14404,7 @@ msgstr "Continuă drumul"
 #: client/gui-sdl/chatline.c:463
 #, c-format
 msgid "Total users logged in : %d"
-msgstr ""
+msgstr "Număr total de utilizatori autentificaţi : %d"
 
 #: client/gui-sdl/chatline.c:500
 msgid ""
@@ -14550,7 +14555,7 @@ msgstr "Panou opţiuni"
 #: client/gui-sdl/citydlg.c:1790
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
-msgstr ""
+msgstr "Panoul cu întreţinerea unităţilor (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1791
 #: client/gui-sdl/citydlg.c:1850
@@ -14562,7 +14567,7 @@ msgstr[1] "unităţi"
 #: client/gui-sdl/citydlg.c:1849
 #, c-format
 msgid "Garrison Panel (%d %s)"
-msgstr ""
+msgstr "Panoul garnizoanelor (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1899
 msgid "Info Panel"
@@ -14608,12 +14613,12 @@ msgstr "?food:Surplus : %d"
 #: client/gui-sdl/citydlg.c:2664
 #, c-format
 msgid "Production : %d (%d) per turn"
-msgstr ""
+msgstr "Producţie : %d (%d) pe rundă"
 
 #: client/gui-sdl/citydlg.c:2710
 #, c-format
 msgid "?production:Support : %d"
-msgstr ""
+msgstr "?production:Suport : %d"
 
 #: client/gui-sdl/citydlg.c:2747
 #, c-format
@@ -14708,7 +14713,7 @@ msgstr "terminat"
 #: client/gui-sdl/citydlg.c:3600
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr ""
+msgstr "Oraşul %s (Populaţie %s cetăţeni)"
 
 #: client/gui-sdl/citydlg.c:3616
 msgid " - under CMA control."
@@ -14741,7 +14746,7 @@ msgstr "Grabeşte producţia"
 #: client/gui-sdl/citydlg.c:3810
 #: client/gui-sdl/cma_fe.c:828
 msgid "Citizen Management Agent"
-msgstr ""
+msgstr "Agentul pentru administrarea cetăţenilor"
 
 #: client/gui-sdl/citydlg.c:3824
 msgid "Prev city"
@@ -14808,7 +14813,7 @@ msgstr "Presetări"
 #: client/gui-sdl/cma_fe.c:826
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
-msgstr ""
+msgstr "Oraşul %s (Populaţia %s cetăţeni) : %s"
 
 #: client/gui-sdl/cma_fe.c:941
 msgid "Save settings as..."
@@ -14863,7 +14868,7 @@ msgstr "Următorul"
 #: client/gui-sdl/dialogs.c:649
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-msgstr ""
+msgstr "Contactează %s (%d / %d) %s(%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:650
 #: client/gui-sdl/dialogs.c:662
@@ -14924,7 +14929,7 @@ msgstr "Paraşutează aici"
 #: client/gui-sdl/dialogs.c:1459
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Activează %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1361
 #: client/gui-sdl/dialogs.c:1486
@@ -14996,7 +15001,7 @@ msgstr "Acceptă tratatul"
 #: client/gui-sdl/diplodlg.c:1268
 #, c-format
 msgid "%s incident !"
-msgstr ""
+msgstr "Incident %s!"
 
 #: client/gui-sdl/diplodlg.c:1284
 msgid "Shall we declare WAR on them?"
@@ -15011,7 +15016,8 @@ msgstr "Ministrul afacerilor externe"
 msgid ""
 "Sir!, %s ambassador has arrived\n"
 "What are your wishes?"
-msgstr ""
+msgstr "Sire!, ambasadorul %s a sosit\n"
+"Care vă sunt dorinţele?"
 
 #: client/gui-sdl/diplodlg.c:1425
 msgid "Declare WAR"
@@ -15034,7 +15040,7 @@ msgstr "Organizează o întrunire diplomatică"
 
 #: client/gui-sdl/diplodlg.c:1481
 msgid "Send him back"
-msgstr ""
+msgstr "Trimite-l înapoi"
 
 #: client/gui-sdl/diplomat_dialog.c:558
 #: data/Freeciv.in:2278
@@ -15071,37 +15077,37 @@ msgstr "Saboteaza Unitatea Inamică"
 #: client/gui-sdl/graphics.c:170
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
-msgstr ""
+msgstr "load_surf: a eşuat încărcarea fişierului de grafică %s!"
 
 #: client/gui-sdl/graphics.c:178
 #, c-format
 msgid "load_surf: Unable to convert file %s into screen's format!"
-msgstr ""
+msgstr "load_surf: Nu s-a reuşit conversia fişierului %s în formatul ecranului!"
 
 #: client/gui-sdl/graphics.c:200
 #, c-format
 msgid "load_surf_with_flags: Unable to load file %s."
-msgstr ""
+msgstr "load_surf_with_flags: Nu s-a putut încărca fişierul %s."
 
 #: client/gui-sdl/graphics.c:206
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
-msgstr ""
+msgstr "Nu s-a putut converti imaginea din fişierul %s în formatul %d."
 
 #: client/gui-sdl/graphics.c:231
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-msgstr ""
+msgstr "Nu s-a putut crea Sprite (suprafaţă) de mărimea %d x %d %d biţi în format %d"
 
 #: client/gui-sdl/graphics.c:893
 #, c-format
 msgid "Unable to initialize SDL library: %s"
-msgstr ""
+msgstr "Nu s-a putut iniţializa biblioteca SDL: %s"
 
 #: client/gui-sdl/graphics.c:902
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
-msgstr ""
+msgstr "Nu s-a putut iniţializa biblioteca SDL_ttf: %s"
 
 #: client/gui-sdl/graphics.c:940
 #, c-format
@@ -20317,9 +20323,8 @@ msgid "green"
 msgstr "verde"
 
 #: data/default/units.ruleset:24
-#, fuzzy
 msgid "hardened"
-msgstr "greu"
+msgstr "întărit"
 
 #: data/default/units.ruleset:24
 #, fuzzy
@@ -20388,7 +20393,6 @@ msgstr "Această unitate poate fi construită de la începutul jocului.  Este ce
 #: data/default/units.ruleset:352
 #: data/civ2/units.ruleset:206
 #: data/civ1/units.ruleset:173
-#, fuzzy
 msgid "Phalanx"
 msgstr "Falancie"
 
@@ -20860,14 +20864,12 @@ msgid "When barbarian leader is killed on a tile without any defending units, th
 msgstr "Dacă conducătorul barbarilor este ucis pe un pătrat fără să fie apărat de o unitate militară, se primesc 100 de galbeni ca răscumpărare. Acest fapt este valabil dacă atacul a fost condus de o unitate terestră."
 
 #: data/nation/aborigines.ruleset:3
-#, fuzzy
 msgid "Australian Aboriginal"
-msgstr "australian"
+msgstr "aborigen australian"
 
 #: data/nation/aborigines.ruleset:4
-#, fuzzy
 msgid "?plural:Aborigines"
-msgstr "Argentinieni"
+msgstr "?plural:aborigeni"
 
 #: data/nation/aborigines.ruleset:6
 msgid "Australian Aborigines is a collective term for the original inhabitants of the Australian continent. Aborigines from different parts of Australia refer to themselves with different names, including Koori, Yamaji, Nunga, and Murri."
@@ -20878,9 +20880,8 @@ msgid "Afghani"
 msgstr "afgani"
 
 #: data/nation/afghani.ruleset:4
-#, fuzzy
 msgid "?plural:Afghanis"
-msgstr "Tailandezi"
+msgstr "?plural:afgani"
 
 #: data/nation/afghani.ruleset:6
 msgid "Afghanistan, often called the crossroads of Central Asia, has had a very turbulent history. Through the ages, the country has been occupied by many forces including the Persian Empire, Genghis Khan and Alexander the Great. The Afghanistan nation-state as it is known today came into existence in 1746 when Ahmad Shah founded the Durrani Empire."
@@ -20893,9 +20894,8 @@ msgstr "Emir"
 #: data/nation/afghani.ruleset:26
 #: data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:26
-#, fuzzy
 msgid "General Secretary"
-msgstr "Primul Secretar"
+msgstr "Secretar general"
 
 #: data/nation/afghani.ruleset:27
 msgid "Mullah"
@@ -20932,14 +20932,12 @@ msgid "Prime Minister"
 msgstr "Prim ministru"
 
 #: data/nation/algerian.ruleset:3
-#, fuzzy
 msgid "Algerian"
-msgstr "american"
+msgstr "algerian"
 
 #: data/nation/algerian.ruleset:4
-#, fuzzy
 msgid "?plural:Algerians"
-msgstr "Perşi"
+msgstr "?plural:algerieni"
 
 #: data/nation/algerian.ruleset:6
 msgid "Algeria is an Arabic nation in North Africa. It is historically inhabited by the Berber people."
@@ -20959,7 +20957,6 @@ msgstr ""
 
 #: data/nation/american.ruleset:56
 #: data/nation/scottish.ruleset:25
-#, fuzzy
 msgid "Speaker"
 msgstr "Difuzor"
 
@@ -20969,14 +20966,12 @@ msgid "Reverend"
 msgstr "Preot"
 
 #: data/nation/antarctican.ruleset:3
-#, fuzzy
 msgid "Antarctican"
-msgstr "Arctic"
+msgstr "antarctic"
 
 #: data/nation/antarctican.ruleset:4
-#, fuzzy
 msgid "?plural:Antarcticans"
-msgstr "Letonieni"
+msgstr "?plural:antarctici"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
@@ -20999,42 +20994,36 @@ msgid "Caliph"
 msgstr "Calif"
 
 #: data/nation/aramean.ruleset:3
-#, fuzzy
 msgid "Aramean"
-msgstr "american"
+msgstr "aramean"
 
 #: data/nation/aramean.ruleset:4
-#, fuzzy
 msgid "?plural:Arameans"
-msgstr "Americani"
+msgstr "?plural:arameni"
 
 #: data/nation/aramean.ruleset:6
 msgid "According to legend, the Aramean people are the descendants of Aram, the grandson of Noah."
 msgstr ""
 
 #: data/nation/armenian.ruleset:3
-#, fuzzy
 msgid "Armenian"
-msgstr "american"
+msgstr "armean"
 
 #: data/nation/armenian.ruleset:4
-#, fuzzy
 msgid "?plural:Armenians"
-msgstr "Americani"
+msgstr "?plural:armeni"
 
 #: data/nation/armenian.ruleset:6
 msgid "According to legend, the Armenian people are the descendants of Haik - the great-great-grandson of Noah. The modern Republic of Armenia gained independence from Soviet in 1991 AD"
 msgstr ""
 
 #: data/nation/assyrian.ruleset:3
-#, fuzzy
 msgid "Assyrian"
-msgstr "Asiat"
+msgstr "asirian"
 
 #: data/nation/assyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Assyrians"
-msgstr "Ruşi"
+msgstr "?plural:asirieni"
 
 #: data/nation/assyrian.ruleset:6
 msgid "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
@@ -21180,9 +21169,8 @@ msgid "Nabob"
 msgstr "Nabob"
 
 #: data/nation/bengali.ruleset:27
-#, fuzzy
 msgid "Major"
-msgstr "Partisan"
+msgstr "maior"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -21259,9 +21247,8 @@ msgid "Director-President"
 msgstr "Director-Preşedinte"
 
 #: data/nation/british.ruleset:3
-#, fuzzy
 msgid "British"
-msgstr "irlandez"
+msgstr "britanic"
 
 #: data/nation/british.ruleset:4
 #, fuzzy
@@ -21278,9 +21265,8 @@ msgid "Bulgarian"
 msgstr "ungur"
 
 #: data/nation/bulgarian.ruleset:4
-#, fuzzy
 msgid "?plural:Bulgarians"
-msgstr "Unguri"
+msgstr "?plural:bulgari"
 
 #: data/nation/bulgarian.ruleset:6
 msgid "Bulgar leader Khan Asparukh led his people into the northern Balkans, and founded Bulgaria in 681. This was the first Slavic nation-state in history."
@@ -22509,12 +22495,10 @@ msgid "Hakan"
 msgstr "Mai"
 
 #: data/nation/ottoman.ruleset:28
-#, fuzzy
 msgid "Padisah"
-msgstr "Partisan"
+msgstr "Padisah"
 
 #: data/nation/ottoman.ruleset:29
-#, fuzzy
 msgid "Imparator"
 msgstr "Împărat"
 
@@ -22642,9 +22626,8 @@ msgid "Voievod"
 msgstr "Voievod"
 
 #: data/nation/romanian.ruleset:34
-#, fuzzy
 msgid "Doamna"
-msgstr "Jos"
+msgstr "Doamna"
 
 #: data/nation/romanian.ruleset:35
 #, fuzzy
@@ -22657,14 +22640,12 @@ msgid "Regina"
 msgstr "Reina"
 
 #: data/nation/romanian.ruleset:36
-#, fuzzy
 msgid "Presedinte"
 msgstr "Preşedinte"
 
 #: data/nation/romanian.ruleset:37
-#, fuzzy
 msgid "Tovaras"
-msgstr "Tatal"
+msgstr "tovarăş"
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovarasa"
@@ -22701,9 +22682,8 @@ msgstr "Duce"
 
 #: data/nation/russian.ruleset:47
 #: data/nation/serbian.ruleset:36
-#, fuzzy
 msgid "Duchess"
-msgstr "Mare ducesă"
+msgstr "ducesă"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
@@ -22843,9 +22823,8 @@ msgid "Slovenia was the most western and northern republic of the old Yugoslav F
 msgstr "Slovenia a fost cea mai din nord-vest republică din vechea Federaţie Yugoslavă."
 
 #: data/nation/slovakian.ruleset:3
-#, fuzzy
 msgid "Slovakian"
-msgstr "slovenian"
+msgstr "slovac"
 
 #: data/nation/slovakian.ruleset:4
 #, fuzzy
@@ -22857,19 +22836,16 @@ msgid "Slovakia is a country in the heart of Europe. Formerly part of Czechoslov
 msgstr ""
 
 #: data/nation/slovakian.ruleset:29
-#, fuzzy
 msgid "Pope"
-msgstr "Pop"
+msgstr "Papă"
 
 #: data/nation/slovakian.ruleset:29
-#, fuzzy
 msgid "Priestess"
-msgstr "Presetări"
+msgstr "preoteasă"
 
 #: data/nation/southafrican.ruleset:3
-#, fuzzy
 msgid "South African"
-msgstr "american"
+msgstr "sud african"
 
 #: data/nation/southafrican.ruleset:4
 #, fuzzy
@@ -22881,9 +22857,8 @@ msgid "Dutch settlers began colonizing southern Africa in the 17th century. Afte
 msgstr ""
 
 #: data/nation/soviet.ruleset:3
-#, fuzzy
 msgid "Soviet"
-msgstr "nimic"
+msgstr "soviet"
 
 #: data/nation/soviet.ruleset:4
 #, fuzzy
@@ -22919,28 +22894,24 @@ msgid "Cardinal"
 msgstr "Cardinal"
 
 #: data/nation/sudanese.ruleset:3
-#, fuzzy
 msgid "Sudanese"
-msgstr "Runde"
+msgstr "sudanez"
 
 #: data/nation/sudanese.ruleset:4
-#, fuzzy
 msgid "?plural:Sudanese"
-msgstr "Danezi"
+msgstr "?plural:sudanezi"
 
 #: data/nation/sudanese.ruleset:6
 msgid "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became independent in 1956."
 msgstr ""
 
 #: data/nation/sumerian.ruleset:3
-#, fuzzy
 msgid "Sumerian"
-msgstr "sîrb"
+msgstr "sumerian"
 
 #: data/nation/sumerian.ruleset:4
-#, fuzzy
 msgid "?plural:Sumerians"
-msgstr "Sîrbi"
+msgstr "?plural:sumerieni"
 
 #: data/nation/sumerian.ruleset:6
 msgid "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets of Sumerian writing some 5500 years old have been found, pre-dating every other writing in history."
@@ -22985,14 +22956,12 @@ msgid "The Kingdom of Sweden was christianized and consolidated as a political e
 msgstr ""
 
 #: data/nation/swiss.ruleset:3
-#, fuzzy
 msgid "Swiss"
 msgstr "suedez"
 
 #: data/nation/swiss.ruleset:4
-#, fuzzy
 msgid "?plural:Swiss"
-msgstr "Suedezi"
+msgstr "?plural:suedezi"
 
 #: data/nation/swiss.ruleset:6
 msgid "Switzerland is a federation of cantons, some of which have more than 700 years of history as a confederacy."
@@ -23027,33 +22996,28 @@ msgid "President of the Confederation"
 msgstr ""
 
 #: data/nation/swiss.ruleset:29
-#, fuzzy
 msgid "Federal Chancellor"
-msgstr "Cancelar"
+msgstr "Cancelar federal"
 
 #: data/nation/taiwanese.ruleset:3
-#, fuzzy
 msgid "Taiwanese"
-msgstr "japonez"
+msgstr "taivanez"
 
 #: data/nation/taiwanese.ruleset:4
-#, fuzzy
 msgid "?plural:Taiwanese"
-msgstr "Japonezi"
+msgstr "?plural:taivanezi"
 
 #: data/nation/taiwanese.ruleset:6
 msgid "When the Chinese nationalists lost the armed struggle against the Chinese communists, the nationalist government evacuated to the island of Taiwan where they formed the Republic of China."
 msgstr ""
 
 #: data/nation/texan.ruleset:3
-#, fuzzy
 msgid "Texan"
-msgstr "cilean"
+msgstr "texan"
 
 #: data/nation/texan.ruleset:4
-#, fuzzy
 msgid "?plural:Texans"
-msgstr "Americani"
+msgstr "?plural:texani"
 
 #: data/nation/texan.ruleset:6
 msgid "Texas is second largest and second most populous state of the USA, famous for it's \"larger than life\" cowboy mentality."
@@ -23072,14 +23036,12 @@ msgid "The Thai kingdom was the only country in Southeast Asia to preserve its i
 msgstr ""
 
 #: data/nation/tibetan.ruleset:3
-#, fuzzy
 msgid "Tibetan"
-msgstr "cilean"
+msgstr "tibetan"
 
 #: data/nation/tibetan.ruleset:4
-#, fuzzy
 msgid "?plural:Tibetans"
-msgstr "Cileni"
+msgstr "?plural:tibetani"
 
 #: data/nation/tibetan.ruleset:6
 msgid "The Tibetan homeland is sometimes called the \"Roof of the World\", the highest elevated region in the world. In the 7th century, Tibet emerged as a formidable empire under the leadership of king Songtsen Gampo, being recognized by both China and India. This dynasty lasted until the 11th century, when Tibet was overrun by the Mongols. Centuries later when Mongol rule had weakened, Lozang Gyatso - born 1617 and the 5th Dalai Lama - established a buddhist religious state under the control of the Gelugpa school of Tibetan Buddhism."
@@ -23095,14 +23057,12 @@ msgid "Dalai Lama"
 msgstr ""
 
 #: data/nation/tunisian.ruleset:3
-#, fuzzy
 msgid "Tunisian"
-msgstr "rus"
+msgstr "tunisian"
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "Ruşi"
+msgstr "?plural:tunisieni"
 
 #: data/nation/tunisian.ruleset:6
 msgid "The Phoenicians founded Carthage in the area where Tunisia is today. Carthage later became a major power in the Mediterranean region until it was defeated by the Romans in 146 BC. Later the Arab Muslim conquest in the 7th century led to migration from the Arab and Ottoman countries. But there where also a lot of Jews and Spanish Moors who moved there at the end of the 16th century. Tunisia became mostly autonomous from the Ottoman empire in 1861. But in 1881 Tunisia was invaded by the French and was made a French protectorate. The country became independent in 1956."
@@ -23154,9 +23114,8 @@ msgid "Venezuela"
 msgstr ""
 
 #: data/nation/venezuelan.ruleset:4
-#, fuzzy
 msgid "?plural:Venezuelans"
-msgstr "Kenieni"
+msgstr "?plural:venezuelezi"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -23280,9 +23239,8 @@ msgid "Large classic-style map of the Iberian Peninsula (modern-day Spain and Po
 msgstr ""
 
 #: data/scenario/tutorial.sav:3
-#, fuzzy
 msgid "Tutorial"
-msgstr "Istoric"
+msgstr "Tutorial"
 
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
