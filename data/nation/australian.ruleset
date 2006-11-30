@@ -7,10 +7,16 @@ legend=_("Australia was founded as a British penal colony in 1788AD. It is\
  the only country on earth to occupy an entire continent.")
 leader =
  "Robert Menzies",
- "Helen Leonard",
+ "Mary Reibey",
  "John Curtin",
- "Edna Lyon"
-leader_sex = "Male", "Female", "Male", "Female"
+ "Enid Lyons",
+ "Harold Holt",
+ "Edmond Barton",
+ "Elizabeth Nicholls",
+ "Edith Cowan"
+leader_sex = "Male", "Female", "Male", "Female", "Male", "Male", "Female",
+ "Female"
+
 flag="australia"
 flag_alt = "-"
 city_style = "Tropical"
