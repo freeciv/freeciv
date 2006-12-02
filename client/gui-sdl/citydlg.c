@@ -452,8 +452,8 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     my_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pBuf = create_iconlabel(adj_surf(GET_SURF(get_unittype_sprite(tileset, pUnit->type))),
-                            pWindow->dst, pStr, 0);
+    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUnit->type)),
+                            pWindow->dst, pStr, WF_FREE_THEME);
     ww = MAX(ww, pBuf->size.w);
     add_to_gui_list(ID_LABEL, pBuf);
     
@@ -625,7 +625,7 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
   int i, step;
   SDL_Rect dest;
 /*  SDL_Surface *pSurf =
-    SDL_DisplayFormatAlpha(GET_SURF(get_unittype_sprite(tileset, pUnit->type))); */
+    SDL_DisplayFormatAlpha(get_unittype_surface(pUnit->type)); */
 
   SDL_Surface *pSurf = create_surf_alpha(tileset_full_tile_width(tileset),
                         tileset_full_tile_height(tileset), SDL_SWSURFACE);
@@ -906,7 +906,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       else
         BV_SET(new_options, CITYO_NEW_TAXMAN);
     
-      pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
+      pWidget->gfx = get_tax_surface(O_GOLD);
       pWidget->ID = MAX_ID - 0x40;
       widget_redraw(pWidget);
       widget_flush(pWidget);
@@ -914,7 +914,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
     case 0x40:
       BV_CLR(new_options, CITYO_NEW_EINSTEIN);
       BV_CLR(new_options, CITYO_NEW_TAXMAN);
-      pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
+      pWidget->gfx = get_tax_surface(O_LUXURY);
       pWidget->ID = MAX_ID - 0x60;
       widget_redraw(pWidget);
       widget_flush(pWidget);
@@ -924,7 +924,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
         BV_CLR(new_options, CITYO_NEW_EINSTEIN);
       else
         BV_SET(new_options, CITYO_NEW_EINSTEIN);
-      pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
+      pWidget->gfx = get_tax_surface(O_SCIENCE);
       pWidget->ID = MAX_ID - 0x20;
       widget_redraw(pWidget);
       widget_flush(pWidget);
@@ -974,19 +974,19 @@ static void create_city_options_widget_list(struct city *pCity)
   change_ptsize16(pStr, adj_font(13));
 
   if (BV_ISSET(pCity->city_options, CITYO_NEW_EINSTEIN)) {
-    pSurf = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
-    pBuf = create_icon_button(pSurf, pWindow->dst, pStr, WF_ICON_CENTER_RIGHT);
+    pSurf = get_tax_surface(O_SCIENCE);
+    pBuf = create_icon_button(pSurf, pWindow->dst, pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME);
     add_to_gui_list(MAX_ID - 0x20, pBuf);
   } else {
     if (BV_ISSET(pCity->city_options, CITYO_NEW_TAXMAN)) {
-      pSurf = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
+      pSurf = get_tax_surface(O_GOLD);
       pBuf = create_icon_button(pSurf, pWindow->dst,
-				      pStr, WF_ICON_CENTER_RIGHT);
+				      pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME);
       add_to_gui_list(MAX_ID - 0x40, pBuf);
     } else {
-      pSurf = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
+      pSurf = get_tax_surface(O_LUXURY);
       pBuf = create_icon_button(pSurf, pWindow->dst,
-				pStr, WF_ICON_CENTER_RIGHT);
+				pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME);
       add_to_gui_list(MAX_ID - 0x60, pBuf);
     }
   }
@@ -2172,8 +2172,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, 18 / pTmp->w, 18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect(psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
           
 	  count += (pTmp->h + 1);
 
@@ -2193,8 +2193,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect(psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
 	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2287,8 +2287,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_HAPPY);          
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect( psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
           
 	  count += (pTmp->h + 1);
 
@@ -2306,8 +2306,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
         
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect(psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 	  count += (pTmp->h + 1);
 
           if (!pSurf) {
@@ -2324,8 +2324,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect(psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
             
 	  count += (pTmp->h + 1);
 
@@ -2346,8 +2346,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect(psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
           alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2361,8 +2361,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect(psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
 	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2376,8 +2376,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
-          pTmp = adj_surf(ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1));
+          pTmp = get_building_surface(get_building_for_effect(psource->type));
+          pTmp = ZoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 
 	  alphablit(pTmp, NULL, pCityWindow->dst->surface, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -3206,8 +3206,8 @@ static void redraw_city_dialog(struct city *pCity)
     copy_chars_to_string16(pStr, pUnit->name);
     pBuf = create_text_surf_from_str16(pStr);
     
-    pBuf2 = GET_SURF(get_unittype_sprite(tileset, get_unit_type(pCity->production.value)));
-    pBuf2 = adj_surf(ZoomSurface(pBuf2, (float)32 / pBuf2->h, (float)32 / pBuf2->h, 1));
+    pBuf2 = get_unittype_surface(get_unit_type(pCity->production.value));
+    pBuf2 = ZoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h), DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
 
     /* blit unit icon */
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - (pBuf->w + pBuf2->w + adj_size(5))) / 2;
@@ -3249,8 +3249,8 @@ static void redraw_city_dialog(struct city *pCity)
     copy_chars_to_string16(pStr, pImpr->name);
     pBuf = create_text_surf_from_str16(pStr);
     
-    pBuf2 = GET_SURF(get_building_sprite(tileset, pCity->production.value));
-    pBuf2 = adj_surf(ZoomSurface(pBuf2, (float)32 / pBuf2->h, (float)32 / pBuf2->h, 1));
+    pBuf2 = get_building_surface(pCity->production.value);
+    pBuf2 = ZoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h), DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
 
     /* blit impr icon */
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - (pBuf->w + pBuf2->w + adj_size(5))) / 2;
@@ -3354,7 +3354,7 @@ static void redraw_city_dialog(struct city *pCity)
 	   + pCity->specialists[SP_ELVIS] + pCity->specialists[SP_SCIENTIST]
 	   + pCity->specialists[SP_TAXMAN]);
 
-  pBuf = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
+  pBuf = get_tax_surface(O_LUXURY);
   
   if (count > 13) {
     step = (adj_size(400) - pBuf->w) / (adj_size(12 + count - 13));
@@ -3362,9 +3362,10 @@ static void redraw_city_dialog(struct city *pCity)
     step = pBuf->w;
   }
 
-  dest.y =
-      pWindow->size.y + adj_size(26) + (adj_size(42) - pBuf->h) / 2;
+  dest.y = pWindow->size.y + adj_size(26) + (adj_size(42) - pBuf->h) / 2;
   dest.x = pWindow->size.x + adj_size(227);
+
+  FREESURFACE(pBuf);
   
   if (pCity->ppl_happy[4]) {
     for (i = 0; i < pCity->ppl_happy[4]; i++) {
@@ -3372,6 +3373,7 @@ static void redraw_city_dialog(struct city *pCity)
       
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
+      FREESURFACE(pBuf);
     }
   }
 
@@ -3381,6 +3383,7 @@ static void redraw_city_dialog(struct city *pCity)
       
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
+      FREESURFACE(pBuf);
     }
   }
 
@@ -3390,6 +3393,7 @@ static void redraw_city_dialog(struct city *pCity)
       
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
+      FREESURFACE(pBuf);
     }
   }
 
@@ -3398,6 +3402,7 @@ static void redraw_city_dialog(struct city *pCity)
       pBuf = adj_surf(get_citizen_surface(CITIZEN_ANGRY, i));
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;
+      FREESURFACE(pBuf);
     }
   }
     
@@ -3406,7 +3411,7 @@ static void redraw_city_dialog(struct city *pCity)
   pCityDlg->specs[2] = FALSE;
   
   if (pCity->specialists[SP_ELVIS]) {
-    pBuf = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
+    pBuf = get_tax_surface(O_LUXURY);
     
     pCityDlg->specs_area[0].x = dest.x;
     pCityDlg->specs_area[0].y = dest.y;
@@ -3417,12 +3422,13 @@ static void redraw_city_dialog(struct city *pCity)
       dest.x += step;
       pCityDlg->specs_area[0].w += step;
     }
+    FREESURFACE(pBuf);
     pCityDlg->specs_area[0].w -= step;
     pCityDlg->specs[0] = TRUE;
   }
 
   if (pCity->specialists[SP_TAXMAN]) {
-    pBuf = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
+    pBuf = get_tax_surface(O_GOLD);
     
     pCityDlg->specs_area[1].x = dest.x;
     pCityDlg->specs_area[1].y = dest.y;
@@ -3433,12 +3439,13 @@ static void redraw_city_dialog(struct city *pCity)
       dest.x += step;
       pCityDlg->specs_area[1].w += step;
     }
+    FREESURFACE(pBuf);
     pCityDlg->specs_area[1].w -= step;
     pCityDlg->specs[1] = TRUE;
   }
 
   if (pCity->specialists[SP_SCIENTIST]) {
-    pBuf = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
+    pBuf = get_tax_surface(O_SCIENCE);
     
     pCityDlg->specs_area[2].x = dest.x;
     pCityDlg->specs_area[2].y = dest.y;
@@ -3449,6 +3456,7 @@ static void redraw_city_dialog(struct city *pCity)
       dest.x += step;
       pCityDlg->specs_area[2].w += step;
     }
+    FREESURFACE(pBuf);
     pCityDlg->specs_area[2].w -= step;
     pCityDlg->specs[2] = TRUE;
   }
@@ -3532,8 +3540,8 @@ static void rebuild_imprm_list(struct city *pCity)
 
     pStr->style |= TTF_STYLE_BOLD;
 
-    pLogo = GET_SURF(get_building_sprite(tileset, imp));
-    pLogo = adj_surf(ZoomSurface(pLogo, (float)22 / pLogo->w, (float)22 / pLogo->w, 1));
+    pLogo = get_building_surface(imp);
+    pLogo = ZoomSurface(pLogo, DEFAULT_ZOOM * ((float)22 / pLogo->w), DEFAULT_ZOOM * ((float)22 / pLogo->w), 1);
     
     pBuf = create_iconlabel(pLogo, pWindow->dst, pStr,
 			 (WF_FREE_THEME | WF_RESTORE_BACKGROUND));

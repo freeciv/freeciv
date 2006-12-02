@@ -26,38 +26,39 @@
 #include <SDL/SDL.h>
 
 /* utility */
+#include "fcintl.h"
 #include "log.h"
+
+/* common */
+#include "game.h"
 
 /* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
+#include "gui_string.h"
 #include "gui_zoom.h"
 #include "sprite.h"
 #include "themespec.h"
 
 #include "gui_tilespec.h"
 
+struct Theme *pTheme;
+struct City_Icon *pIcons;
+
 static SDL_Surface *pCity_Surf;
 
-#ifdef SMALL_SCREEN
-  #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
-  do {								  \
-    pSpr = theme_lookup_sprite_tag_alt(theme, tag, "", TRUE, "", ""); \
-  pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		\
-  assert(pStruct->pSurf != NULL);				\
-    pStruct->pSurf = ZoomSurface(pStruct->pSurf, 0.5, 0.5, 0);    \
-  pSpr->psurface = NULL;					\
-  } while(0)
-#else
-  #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
-  do {								  \
-    pSpr = theme_lookup_sprite_tag_alt(theme, tag, "", TRUE, "", ""); \
-    pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		  \
-    assert(pStruct->pSurf != NULL);				  \
-    pSpr->psurface = NULL;					  \
-  } while(0)
-#endif
+static SDL_Surface *pNeutral_Tech_Icon;
+static SDL_Surface *pNone_Tech_Icon;
+static SDL_Surface *pFuture_Tech_Icon;
+
+#define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
+do {								  \
+  pSpr = theme_lookup_sprite_tag_alt(theme, tag, "", TRUE, "", ""); \
+  assert(pSpr != NULL);				                  \
+  pStruct->pSurf = adj_surf(GET_SURF(pSpr));            	  \
+  FREESURFACE(GET_SURF(pSpr));                                    \
+} while(0)
 
 #define load_theme_surface(pSpr, pSurf, tag)		\
 	load_GUI_surface(pSpr, pTheme, pSurf, tag)
@@ -75,9 +76,6 @@ do {							\
  *******************************************************************************/
 static void reload_small_citizens_icons(int style)
 {
-
-/* free these icons only if they are zoomed copies of the tileset sprites */
-#ifdef SMALL_SCREEN
   /* free info icons */
   FREESURFACE(pIcons->pMale_Content);
   FREESURFACE(pIcons->pFemale_Content);
@@ -87,11 +85,10 @@ static void reload_small_citizens_icons(int style)
   FREESURFACE(pIcons->pFemale_Unhappy);
   FREESURFACE(pIcons->pMale_Angry);
   FREESURFACE(pIcons->pFemale_Angry);
-	
+  
   FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
   FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
-#endif
   
   /* allocate icons */
   pIcons->pMale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
@@ -102,9 +99,9 @@ static void reload_small_citizens_icons(int style)
   pIcons->pFemale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
   pIcons->pMale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
   pIcons->pFemale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
-  pIcons->pSpec_Lux = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
-  pIcons->pSpec_Tax = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
-  pIcons->pSpec_Sci = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
+  pIcons->pSpec_Lux = get_tax_surface(O_LUXURY);
+  pIcons->pSpec_Tax = get_tax_surface(O_GOLD);
+  pIcons->pSpec_Sci = get_tax_surface(O_SCIENCE);
 }
 
 /* ================================================================================= */
@@ -230,8 +227,6 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pPolice);
   FREESURFACE(pIcons->pWorklist);
 
-/* free these icons only if they are zoomed copies of the tileset sprites */
-#ifdef SMALL_SCREEN
   /* small citizens */
   FREESURFACE(pIcons->pMale_Content);
   FREESURFACE(pIcons->pFemale_Content);
@@ -245,7 +240,6 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
   FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
-#endif  
 
   FC_FREE(pIcons);
   
@@ -477,15 +471,102 @@ void tilespec_free_theme(void)
 }
 
 /**************************************************************************
-  Return a surface for the given citizen.  The citizen's type is given,
-  as well as their index (in the range [0..pcity->size)).
+  ...
 **************************************************************************/
-SDL_Surface * get_citizen_surface(enum citizen_category type,
-				  int citizen_index)
+void setup_auxiliary_tech_icons(void)
 {
-  struct citizen_type ctype = {.type = type};
+  SDL_Color bg_color = {255, 255, 255, 136};
 
-  return GET_SURF(get_citizen_sprite(tileset, ctype, 0, NULL));
+  SDL_Surface *pSurf;
+  SDL_String16 *pStr = create_str16_from_char(_("None"), adj_font(10));
+  
+  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+    
+  /* create icons */
+  pSurf = create_surf_alpha(adj_size(50), adj_size(50), SDL_SWSURFACE);
+  SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
+  putframe(pSurf, 0 , 0, pSurf->w - 1, pSurf->h - 1,
+         map_rgba(pSurf->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
+
+  pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
+  pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);    
+  pFuture_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
+  
+  FREESURFACE(pSurf);
+    
+  /* None */
+  pSurf = create_text_surf_from_str16(pStr);
+  blit_entire_src(pSurf, pNone_Tech_Icon ,
+	  (adj_size(50) - pSurf->w) / 2 , (adj_size(50) - pSurf->h) / 2);
+  
+  FREESURFACE(pSurf);
+  
+  /* FT */ 
+  copy_chars_to_string16(pStr, _("FT"));
+  pSurf = create_text_surf_from_str16(pStr);
+  blit_entire_src(pSurf, pFuture_Tech_Icon,
+	  (adj_size(50) - pSurf->w) / 2 , (adj_size(50) - pSurf->h) / 2);
+  
+  FREESURFACE(pSurf);
+  
+  FREESTRING16(pStr);
+    
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void free_auxiliary_tech_icons(void)
+{
+  FREESURFACE(pNeutral_Tech_Icon);
+  FREESURFACE(pNone_Tech_Icon);
+  FREESURFACE(pFuture_Tech_Icon);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_Surface * get_tech_icon(Tech_type_id tech)
+{
+  switch(tech)
+  {
+    case A_NONE:
+    case A_UNSET:
+    case A_NOINFO:
+    case A_LAST:
+      return SDL_DisplayFormatAlpha(pNone_Tech_Icon);
+    case A_FUTURE:
+      return pFuture_Tech_Icon;
+    default:
+      if (get_tech_sprite(tileset, tech)) {
+        return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
+      } else {
+        return SDL_DisplayFormatAlpha(pNeutral_Tech_Icon);
+      }
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_Color * get_tech_color(Tech_type_id tech_id)
+{
+  if (tech_is_available(game.player_ptr, tech_id))
+  {
+    switch (get_invention(game.player_ptr, tech_id))
+    {
+      case TECH_UNKNOWN:
+        return get_game_colorRGB(COLOR_REQTREE_UNREACHABLE);	  
+      case TECH_KNOWN:
+        return get_game_colorRGB(COLOR_REQTREE_KNOWN);
+      case TECH_REACHABLE:
+        return get_game_colorRGB(COLOR_REQTREE_REACHABLE);
+      default:
+        return get_game_colorRGB(COLOR_REQTREE_BACKGROUND);
+    }
+  }
+  return get_game_colorRGB(COLOR_REQTREE_UNREACHABLE);
 }
 
 /**************************************************************************

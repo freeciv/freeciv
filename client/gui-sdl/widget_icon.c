@@ -203,7 +203,7 @@ struct widget * create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDe
 
   pIcon_Widget->theme = pIcon_theme;
 
-  set_wflag(pIcon_Widget, (WF_FREE_STRING | flags));
+  set_wflag(pIcon_Widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pIcon_Widget, FC_WS_DISABLED);
   set_wtype(pIcon_Widget, WT_ICON);
   pIcon_Widget->mod = KMOD_NONE;
@@ -326,7 +326,7 @@ struct widget * create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32
 
   pIcon_Widget->theme = pIcon;
 
-  set_wflag(pIcon_Widget, (WF_FREE_STRING | flags));
+  set_wflag(pIcon_Widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pIcon_Widget, FC_WS_DISABLED);
   set_wtype(pIcon_Widget, WT_ICON2);
   pIcon_Widget->mod = KMOD_NONE;

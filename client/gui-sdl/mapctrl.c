@@ -1384,8 +1384,8 @@ void popup_unitinfo_window() {
   pUnits_Info_Window->private_data.adv_dlg = pUnitInfo_Dlg;
 
   /* economy button */
-  pWidget = create_icon2(adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD))), pUnits_Info_Window->dst, WF_FREE_GFX
-                      | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pWidget = create_icon2(get_tax_surface(O_GOLD), pUnits_Info_Window->dst, WF_FREE_GFX
+                      | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   pWidget->string16 = create_str16_from_char(_("Economy (F5)"), adj_font(12));
   pWidget->action = economy_callback;
@@ -1397,7 +1397,7 @@ void popup_unitinfo_window() {
 
   /* research button */
   pWidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())), pUnits_Info_Window->dst, WF_FREE_GFX
-		       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+		       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   pWidget->string16 = create_str16_from_char(_("Research (F6)"), adj_font(12));
   pWidget->action = research_callback;
   pWidget->key = SDLK_F6;
@@ -1408,7 +1408,7 @@ void popup_unitinfo_window() {
 
   /* revolution button */
   pWidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())), pUnits_Info_Window->dst, (WF_FREE_GFX
-			| WF_WIDGET_HAS_INFO_LABEL| WF_RESTORE_BACKGROUND));
+			| WF_WIDGET_HAS_INFO_LABEL| WF_RESTORE_BACKGROUND | WF_FREE_THEME));
   pWidget->string16 = create_str16_from_char(_("Revolution (Shift + R)"), adj_font(12));
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
@@ -1825,7 +1825,7 @@ void show_game_page()
   /* cooling icon */
   pIcon_theme = adj_surf(GET_SURF(client_cooling_sprite()));
   assert(pIcon_theme != NULL);
-  pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, 0);
+  pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
   widget_set_position(pWidget,
@@ -1843,7 +1843,7 @@ void show_game_page()
   pIcon_theme = adj_surf(GET_SURF(client_warming_sprite()));
   assert(pIcon_theme != NULL);
 
-  pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, 0);
+  pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
   widget_set_position(pWidget,

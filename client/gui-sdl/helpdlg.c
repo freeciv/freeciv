@@ -243,8 +243,8 @@ void popup_impr_info(Impr_type_id impr)
       FREESURFACE(pText);
     
       /* draw tech icon */
-      pText = GET_SURF(get_building_sprite(tileset, type));
-      pText = adj_surf(ZoomSurface(pText, (float)36 / pText->w, (float)36 / pText->w, 1));
+      pText = get_building_surface(type);
+      pText = ZoomSurface(pText, DEFAULT_ZOOM * ((float)36 / pText->w), DEFAULT_ZOOM * ((float)36 / pText->w), 1);
       dst.x = adj_size(5);
       dst.y = (pBack->h - pText->h) / 2;
       alphablit(pText, NULL, pBack, &dst);
@@ -311,9 +311,9 @@ void popup_impr_info(Impr_type_id impr)
   
   pImpr_type = get_improvement_type(impr);
   
-  pSurf = GET_SURF(get_building_sprite(tileset, impr));
+  pSurf = get_building_surface(impr);
   pBuf= create_iconlabel_from_chars(
-	  adj_surf(ZoomSurface(pSurf, (float)108 / pSurf->w, (float)108 / pSurf->w, 1)),
+	  ZoomSurface(pSurf, DEFAULT_ZOOM * ((float)108 / pSurf->w), DEFAULT_ZOOM * ((float)108 / pSurf->w), 1),
 	  pWindow->dst, get_impr_name_ex(NULL, impr),
           adj_font(24), WF_FREE_THEME);
 
@@ -614,8 +614,8 @@ void popup_unit_info(Unit_type_id type_id)
     
       /* draw tech icon */
       {
-	float zoom = 25.0 / GET_SURF(get_unittype_sprite(tileset, type))->h;
-        pText = adj_surf(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, type)), zoom, zoom, 1));
+	float zoom = DEFAULT_ZOOM * (25.0 / get_unittype_surface(type)->h);
+        pText = ZoomSurface(get_unittype_surface(type), zoom, zoom, 1);
       }
       dst.x = (adj_size(35) - pText->w) / 2;;
       dst.y = (pBack->h - pText->h) / 2;
@@ -683,8 +683,8 @@ void popup_unit_info(Unit_type_id type_id)
   
   pUnit = get_unit_type(type_id);
   pBuf= create_iconlabel_from_chars(
-          adj_surf(GET_SURF(get_unittype_sprite(tileset, get_unit_type(type_id)))),
-          pWindow->dst, pUnit->name, adj_font(24), 0);
+          adj_surf(get_unittype_surface(get_unit_type(type_id))),
+          pWindow->dst, pUnit->name, adj_font(24), WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -1005,7 +1005,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   
   /* tech name (heading) */
   pBuf= create_iconlabel_from_chars(get_tech_icon(tech),
-		    pWindow->dst, advances[tech].name, adj_font(24), 0);
+		    pWindow->dst, advances[tech].name, adj_font(24), WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -1079,9 +1079,9 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
     requirement_vector_iterate(&(gov->reqs), preq) {
       if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
                   
-        pBuf = create_iconlabel_from_chars(adj_surf(GET_SURF(get_government_sprite(tileset, gov))),
+        pBuf = create_iconlabel_from_chars(adj_surf(get_government_surface(gov)),
                 pWindow->dst, gov->name, adj_font(14),
-                WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
+                WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR | WF_FREE_THEME);
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->action = change_gov_callback;
         pBuf->ID = MAX_ID - gov->index;
@@ -1100,9 +1100,9 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
      * definition. */
     requirement_vector_iterate(&(get_improvement_type(imp)->reqs), preq) {
       if (preq->source.value.tech == tech) {
-        pSurf = GET_SURF(get_building_sprite(tileset, imp));
+        pSurf = get_building_surface(imp);
         pBuf = create_iconlabel_from_chars(
-                adj_surf(ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1)),
+                ZoomSurface(pSurf, DEFAULT_ZOOM * ((float)36 / pSurf->w), DEFAULT_ZOOM * ((float)36 / pSurf->w), 1),
                 pWindow->dst, get_improvement_name(imp), adj_font(14),
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1125,16 +1125,16 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   unit_type_iterate(un) {
     struct unit_type *pUnit = un;
     if (pUnit->tech_requirement == tech) {
-      if (GET_SURF(get_unittype_sprite(tileset, un))->w > 64)
+      if (get_unittype_surface(un)->w > 64)
       {
-	float zoom = 64.0 / GET_SURF(get_unittype_sprite(tileset, un))->w;
-        pBuf = create_iconlabel_from_chars(adj_surf(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1)),
+	float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
+        pBuf = create_iconlabel_from_chars(ZoomSurface(get_unittype_surface(un), zoom, zoom, 1),
 	      pWindow->dst, pUnit->name, adj_font(14),
 	      (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       } else {
-	pBuf = create_iconlabel_from_chars(adj_surf(GET_SURF(get_unittype_sprite(tileset, un))),
+	pBuf = create_iconlabel_from_chars(adj_surf(get_unittype_surface(un)),
 	      pWindow->dst, pUnit->name, adj_font(14),
-	      (WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
+	      (WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR | WF_FREE_THEME));
       }
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_unit_callback;

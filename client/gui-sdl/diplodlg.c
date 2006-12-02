@@ -706,9 +706,8 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
         add_to_gui_list(MAX_ID - city_list_ptrs[j]->id, pBuf);
 	count++;      
       }
-      
-      FC_FREE(city_list_ptrs);
     }
+    FC_FREE(city_list_ptrs);    
   } /* Cities */
   
   pDlg->pBeginWidgetList = pBuf;

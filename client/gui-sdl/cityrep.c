@@ -489,12 +489,12 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     if(pCity->production.is_unit) {
       struct unit_type *pUnit = get_unit_type(pCity->production.value);
-      pLogo = ResizeSurface(GET_SURF(get_unittype_sprite(tileset, get_unit_type(pCity->production.value))), adj_size(36), adj_size(24), 1);      
+      pLogo = ResizeSurface(get_unittype_surface(get_unit_type(pCity->production.value)), adj_size(36), adj_size(24), 1);      
       togrow = unit_build_shield_cost(get_unit_type(pCity->production.value));
       pName = pUnit->name;
     } else {
       struct impr_type *pImprv = get_improvement_type(pCity->production.value);
-      pLogo = ResizeSurface(GET_SURF(get_building_sprite(tileset, pCity->production.value)), adj_size(36), adj_size(24), 1);
+      pLogo = ResizeSurface(get_building_surface(pCity->production.value), adj_size(36), adj_size(24), 1);
       togrow = impr_build_shield_cost(pCity->production.value);
       pName = pImprv->name;
     }
@@ -1008,14 +1008,13 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
   /* change production */
   if(pCity->production.is_unit) {
     struct unit_type *pUnit = get_unit_type(pCity->production.value);
-    pLogo = ResizeSurface(GET_SURF(get_unittype_sprite(tileset,
-              get_unit_type(pCity->production.value))), adj_size(36), adj_size(24), 1);
+    pLogo = ResizeSurface(get_unittype_surface(get_unit_type(pCity->production.value)),
+              adj_size(36), adj_size(24), 1);
     togrow = unit_build_shield_cost(get_unit_type(pCity->production.value));
     pName = pUnit->name;
   } else {
     struct impr_type *pImprv = get_improvement_type(pCity->production.value);
-    pLogo = ResizeSurface(GET_SURF(get_building_sprite(tileset,
-              pCity->production.value)), adj_size(36), adj_size(24), 1);
+    pLogo = ResizeSurface(get_building_surface(pCity->production.value), adj_size(36), adj_size(24), 1);
     togrow = impr_build_shield_cost(pCity->production.value);
     pName = pImprv->name;
   }

@@ -196,7 +196,7 @@ void update_intel_dialog(struct player *p)
   struct intel_dialog *pdialog = get_intel_dialog(p);
       
   struct widget *pWindow = NULL, *pBuf = NULL, *pLast;
-  SDL_Surface *pLogo = NULL;
+  SDL_Surface *pLogo = NULL, *pTmpSurf = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   SDL_String16 *pStr;
   SDL_Rect dst;
@@ -242,8 +242,8 @@ void update_intel_dialog(struct player *p)
     add_to_gui_list(ID_BUTTON, pBuf);
     /* ---------- */
     
-    pLogo = GET_SURF(get_nation_flag_sprite(tileset, p->nation));
-    pText1 = adj_surf(ZoomSurface(pLogo, 4.0 , 4.0, 1));
+    pLogo = get_nation_flag_surface(p->nation);
+    pText1 = ZoomSurface(pLogo, DEFAULT_ZOOM * 4.0 , DEFAULT_ZOOM * 4.0, 1);
     pLogo = pText1;
           
     pBuf = create_icon2(pLogo, pWindow->dst,
@@ -304,7 +304,9 @@ void update_intel_dialog(struct player *p)
     h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
       
     /* ---------- */
-    col = w / (get_tech_icon(A_FIRST)->w + adj_size(4));
+    pTmpSurf = get_tech_icon(A_FIRST);
+    col = w / (pTmpSurf->w + adj_size(4));
+    FREESURFACE(pTmpSurf);
     n = 0;
     pLast = pBuf;
     for(i = A_FIRST; i<game.control.num_tech_types; i++) {
@@ -313,7 +315,7 @@ void update_intel_dialog(struct player *p)
         get_invention(game.player_ptr, i) != TECH_KNOWN) {
         
         pBuf = create_icon2(get_tech_icon(i), pWindow->dst,
-          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
+          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING | WF_FREE_THEME));
         pBuf->action = tech_callback;
         set_wstate(pBuf, FC_WS_NORMAL);
   

@@ -294,15 +294,17 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   char cBuf[128];
   
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+  FREESURFACE(pBuf->theme);
   pBuf->theme = adj_surf(GET_SURF(sol));
   widget_redraw(pBuf);
     
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+  FREESURFACE(pBuf->theme);
   pBuf->theme = adj_surf(GET_SURF(flake));
   widget_redraw(pBuf);
     
   pBuf = get_revolution_widget();
-  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), FALSE);    
+  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);    
   
   if (game.player_ptr) {
     my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"),
@@ -318,8 +320,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   
   pBuf = get_tax_rates_widget();
   if(!pBuf->theme) {
-    set_new_icon2_theme(pBuf,
-                 adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD))), FALSE);
+    set_new_icon2_theme(pBuf, get_tax_surface(O_GOLD), TRUE);
   }
   
   pBuf = get_research_widget();
@@ -343,7 +344,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 
   copy_chars_to_string16(pBuf->string16, cBuf);
   
-  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), FALSE);  
+  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), TRUE);  
   
   widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
@@ -480,7 +481,7 @@ void redraw_unit_info_label(struct unit *pUnit)
   struct widget *pInfo_Window;
   SDL_Rect src, area;
   SDL_Rect dest;
-  SDL_Surface *pBuf_Surf;
+  SDL_Surface *pBuf_Surf, *pTmpSurf;
   SDL_String16 *pStr;
   struct canvas *destcanvas;
   int infra_count;
@@ -682,7 +683,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       FREESURFACE(pName);
       
       /* draw unit sprite */
-      pBuf_Surf = adj_surf(GET_SURF(get_unittype_sprite(tileset, pUnit->type)));
+      pBuf_Surf = adj_surf(get_unittype_surface(pUnit->type));
       src = get_smaller_surface_rect(pBuf_Surf);
       sx = pTheme->FR_Left->w + BLOCKU_W + adj_size(3) +
           (width / 2 - src.w - adj_size(3) - BLOCKU_W - pTheme->FR_Right->w) / 2;
@@ -701,7 +702,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       area.y = pInfo_Window->size.y + y +
       		((DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - pTheme->FR_Top->h - pTheme->FR_Bottom->h - src.h) / 2;
       alphablit(pBuf_Surf, &src, pInfo_Window->dst->surface, &area);
-      
+      FREESURFACE(pBuf_Surf);
       
       if (pInfo_II) {
         if (right) {
@@ -764,8 +765,12 @@ void redraw_unit_info_label(struct unit *pUnit)
           destcanvas = canvas_create(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   
           put_unit(aunit, destcanvas, 0, 0);
-          alphablit(adj_surf(destcanvas->surf), NULL, pBuf_Surf, NULL);
-
+          
+          pTmpSurf = adj_surf(destcanvas->surf);
+          
+          alphablit(pTmpSurf, NULL, pBuf_Surf, NULL);
+          
+          FREESURFACE(pTmpSurf);
           canvas_free(destcanvas);
 
           if (pBuf_Surf->w > 64) {

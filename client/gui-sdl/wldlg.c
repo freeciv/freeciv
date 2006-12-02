@@ -1451,8 +1451,8 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 
       /*-----------------*/
       
-      pZoom = GET_SURF(get_building_sprite(tileset, imp));
-      pZoom = adj_surf(ZoomSurface(pZoom, (float)54 / pZoom->w, (float)54 / pZoom->w, 1));
+      pZoom = get_building_surface(imp);
+      pZoom = ZoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
       dst.x = (pIcon->w - pZoom->w)/2;
       dst.y = (pIcon->h/2 - pZoom->h)/2;
       alphablit(pZoom, NULL, pIcon, &dst);
@@ -1547,7 +1547,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
       pText = create_text_surf_from_str16(pStr);
   
-      pZoom = make_flag_surface_smaler(adj_surf(GET_SURF(get_unittype_sprite(tileset, un))));
+      pZoom = adj_surf(get_unittype_surface(un));
       dst.x = (pIcon->w - pZoom->w)/2;
       dst.y = (pIcon->h/2 - pZoom->h)/2;
       alphablit(pZoom, NULL, pIcon, &dst);

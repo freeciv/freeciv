@@ -422,8 +422,8 @@ void popup_players_dialog(bool raise)
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
-    pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
-    pZoomed = adj_surf(ZoomSurface(pLogo, 3.0 - n * 0.05, 3.0 - n * 0.05 , 1));
+    pLogo = get_nation_flag_surface(pPlayer->nation);
+    pZoomed = ZoomSurface(pLogo, DEFAULT_ZOOM * (3.0 - n * 0.05), DEFAULT_ZOOM * (3.0 - n * 0.05), 1);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
     	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));
@@ -682,7 +682,7 @@ void popup_players_nations_dialog(void)
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= TTF_STYLE_BOLD;
    
-      pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
+      pLogo = get_nation_flag_surface(pPlayer->nation);
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
     	(/*WF_FREE_THEME|*/WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));

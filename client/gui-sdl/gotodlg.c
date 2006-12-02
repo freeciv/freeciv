@@ -140,8 +140,7 @@ static void update_goto_dialog(void)
       pStr->style |= TTF_STYLE_BOLD;
    
       if(pCity->owner != owner) {
-        pLogo = GET_SURF(get_nation_flag_sprite(tileset, 
-			get_player(pCity->owner->player_no)->nation));
+        pLogo = get_nation_flag_surface(get_player(pCity->owner->player_no)->nation);
         pLogo = make_flag_surface_smaler(pLogo);
       }
       
@@ -262,8 +261,7 @@ static void popup_goto_airlift_dialog(void)
       continue;
     }
     
-    pFlag = make_flag_surface_smaler(
-    	GET_SURF(get_nation_flag_sprite(tileset, game.players[i].nation)));
+    pFlag = make_flag_surface_smaler(get_nation_flag_surface(game.players[i].nation));
   
     if (pFlag->w > 15 || pFlag->h > 15) {
       float zoom = (float)(MAX(pFlag->w, pFlag->h)) / 15;

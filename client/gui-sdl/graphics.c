@@ -188,7 +188,7 @@ SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
 					      pRect ? pRect->w : pSource->w,
 					      pRect ? pRect->h : pSource->h,
 					      SDL_SWSURFACE);
-  if (alphablit(pSource, pRect, pNew, NULL)) {
+  if (alphablit(pSource, pRect, pNew, NULL) != 0) {
     FREESURFACE(pNew);
   }
   

@@ -174,7 +174,7 @@ struct widget * create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDes
   pVer->theme = pVert_theme;
   pVer->size.w = pVert_theme->w;
   pVer->size.h = high;
-  set_wflag(pVer, (WF_FREE_STRING | flags));
+  set_wflag(pVer, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pVer, FC_WS_DISABLED);
   set_wtype(pVer, WT_VSCROLLBAR);
   pVer->mod = KMOD_NONE;

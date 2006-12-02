@@ -162,8 +162,7 @@ void popup_find_dialog(void)
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
       if(pCity->owner != owner) {
-        pLogo = GET_SURF(get_nation_flag_sprite(tileset, 
-			get_player(pCity->owner->player_no)->nation));
+        pLogo = get_nation_flag_surface(get_player(pCity->owner->player_no)->nation);
         pLogo = make_flag_surface_smaler(pLogo);
       }
       

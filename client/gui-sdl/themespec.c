@@ -1002,7 +1002,7 @@ void theme_free_sprites(struct theme *t)
 {
   int i;
 
-  freelog(LOG_DEBUG, "themespec_free_tiles");
+  freelog(LOG_DEBUG, "theme_free_sprites");
 
   unload_all_sprites(t);
 

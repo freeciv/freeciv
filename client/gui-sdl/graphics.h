@@ -170,9 +170,11 @@
 
 /* shrink surface on 320x240 screen*/
 #ifdef SMALL_SCREEN
-#define adj_surf(surf) ZoomSurface(surf, 0.5, 0.5, 0)
+#define DEFAULT_ZOOM 0.5
+#define adj_surf(surf) ZoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
 #else
-#define adj_surf(surf) surf
+#define DEFAULT_ZOOM 1.0
+#define adj_surf(surf) SDL_DisplayFormatAlpha((surf))
 #endif
 
 struct gui_layer;

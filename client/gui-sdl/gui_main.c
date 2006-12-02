@@ -765,7 +765,15 @@ void ui_init(void)
 	  SDL_VideoDriverName(device, sizeof(device)));
   
   /* create splash screen */  
-  pBgd = adj_surf(load_surf(datafilename("misc/intro.png")));
+#ifdef SMALL_SCREEN
+  {
+    SDL_Surface *pTmpSurf = load_surf(datafilename("misc/intro.png"));
+    pBgd = ZoomSurface(pTmpSurf, DEFAULT_ZOOM, DEFAULT_ZOOM, 0);
+    FREESURFACE(pTmpSurf);
+  }
+#else
+  pBgd = load_surf(datafilename("misc/intro.png"));
+#endif
   
   if(pBgd && SDL_GetVideoInfo()->wm_available) {
     set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
@@ -976,7 +984,7 @@ void ui_exit()
   intel_dialog_done();  
 
   callback_list_unlink_all(callbacks);
-  free(callbacks);
+  callback_list_free(callbacks);
   
   unload_cursors();
 

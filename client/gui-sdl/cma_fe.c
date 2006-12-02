@@ -695,7 +695,7 @@ void update_city_cma_dialog(void)
     /* redraw Citizens */
     count = pCma->pCity->size;
     
-    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
+    pText = get_tax_surface(O_LUXURY);
     step = (pBuf->size.w - adj_size(20)) / pText->w;
     if (count > step) {
       step = (pBuf->size.w - adj_size(20) - pText->w) / (count - 1);
@@ -715,19 +715,19 @@ void update_city_cma_dialog(void)
       dst.x += step;
     }
     
-    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
+    pText = get_tax_surface(O_LUXURY);
     for (i = 0; i < result.specialists[SP_ELVIS]; i++) {
       alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
 
-    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
+    pText = get_tax_surface(O_GOLD);
     for (i = 0; i < result.specialists[SP_TAXMAN]; i++) {
       alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
 
-    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
+    pText = get_tax_surface(O_SCIENCE);
     for (i = 0; i < result.specialists[SP_SCIENTIST]; i++) {
       alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;

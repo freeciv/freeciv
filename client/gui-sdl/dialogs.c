@@ -1979,7 +1979,7 @@ static void popup_government_dialog(void)
       pGov = get_government(i);
       pStr = create_str16_from_char(pGov->name, 12);
       pGov_Button =
-          create_icon_button(GET_SURF(get_government_sprite(tileset, pGov)), pWindow->dst, pStr, 0);
+          create_icon_button(get_government_surface(pGov), pWindow->dst, pStr, 0);
       pGov_Button->action = government_dlg_callback;
 
       max_w = MAX(max_w, pGov_Button->size.w);
@@ -2561,15 +2561,9 @@ static void change_nation_label(void)
   struct widget *pLabel = pSetup->pName_Edit->next;
   struct nation_type *pNation = get_nation_by_idx(pSetup->nation);
     
-  pTmp_Surf = adj_surf(GET_SURF(get_nation_flag_sprite(tileset,
-                                       get_nation_by_idx(pSetup->nation))));
-  pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 1.0, 1.0, 1);  
+  pTmp_Surf = get_nation_flag_surface(get_nation_by_idx(pSetup->nation));
+  pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);  
 
-/* only free the flag sprite if it is a copy created by the adj_surf() macro */
-#ifdef SMALL_SCREEN
-  FREESURFACE(pTmp_Surf);
-#endif
-  
   FREESURFACE(pLabel->theme);
   pLabel->theme = pTmp_Surf_zoomed;
   
@@ -2705,7 +2699,7 @@ void popup_races_dialog(struct player *pplayer)
       continue;
     }
 
-    pTmp_Surf_zoomed = adj_surf(GET_SURF(get_nation_flag_sprite(tileset, pNation)));    
+    pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(pNation));
 
     pTmp_Surf = crop_rect_from_surface(pMain_Bg, NULL);
           
@@ -2781,7 +2775,7 @@ void popup_races_dialog(struct player *pplayer)
   pStr->render = 2;
   pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_TEXT);
   
-  pTmp_Surf_zoomed = adj_surf(GET_SURF(get_nation_flag_sprite(tileset, get_nation_by_idx(pSetup->nation))));
+  pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(get_nation_by_idx(pSetup->nation)));
   
   pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,
   			(WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
@@ -2828,17 +2822,16 @@ void popup_races_dialog(struct player *pplayer)
 
   /* ---------------------------------------------------------- */
   int i = 0;
-  zoom = 1.0;
+  zoom = DEFAULT_ZOOM * 1.0;
   while (i < game.control.styles_count) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pTmp_Surf = GET_SURF(get_sample_city_sprite(tileset, i));
+      pTmp_Surf = get_sample_city_surface(i);
 
       if (pTmp_Surf->w > 48) {
-        zoom = 48.0 / pTmp_Surf->w;
+        zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
       }
       
-      pTmp_Surf_zoomed = 
-          adj_surf(ZoomSurface(GET_SURF(get_sample_city_sprite(tileset, i)), zoom, zoom, 0));
+      pTmp_Surf_zoomed = ZoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
       pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
@@ -2854,18 +2847,17 @@ void popup_races_dialog(struct player *pplayer)
   }
 
   len += adj_size(3);
-  zoom = 1.0;
+  zoom = DEFAULT_ZOOM * 1.0;
   
   for (; (i < game.control.styles_count && i < 64); i++) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pTmp_Surf = GET_SURF(get_sample_city_sprite(tileset, i));
+      pTmp_Surf = get_sample_city_surface(i);
       
       if (pTmp_Surf->w > 48) {
-        zoom = 48.0 / pTmp_Surf->w;
+        zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
       }
       
-      pTmp_Surf_zoomed = 
-          adj_surf(ZoomSurface(GET_SURF(get_sample_city_sprite(tileset, i)), zoom, zoom, 0));
+      pTmp_Surf_zoomed = ZoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
       pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
