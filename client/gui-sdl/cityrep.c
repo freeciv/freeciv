@@ -49,6 +49,9 @@ static void real_info_city_report_dialog_update(void);
 
 static int city_report_windows_callback(struct widget *pWindow)
 {
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pCityRep->pBeginWidgetList, pWindow);
+  }
   return -1;
 }
 

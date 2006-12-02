@@ -423,7 +423,7 @@ void popup_players_dialog(bool raise)
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
     pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
-    pZoomed = ZoomSurface(pLogo, 3.0 - n * 0.05, 3.0 - n * 0.05 , 1);
+    pZoomed = adj_surf(ZoomSurface(pLogo, 3.0 - n * 0.05, 3.0 - n * 0.05 , 1));
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
     	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));

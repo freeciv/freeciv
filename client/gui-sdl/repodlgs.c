@@ -1256,7 +1256,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
       pMotion.pLabel_Dst = pEconomyDlg->pEndWidgetList->prev->prev;
     }
   
-    pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + 2;
+    pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + adj_size(2);
     pMotion.gov_max = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
     pMotion.max = pMotion.min + pMotion.gov_max * 1.5;
     pMotion.x = pHoriz_Src->size.x;
@@ -1675,22 +1675,40 @@ void popup_economy_report_dialog(bool make_modal)
   SDL_Color bg_color2 = {255,255,255,136};
   SDL_Color bg_color3 = {255,255,255,64};
 
-  struct widget *pBuf = get_tax_rates_widget();
+  struct widget *pBuf;
   struct widget *pWindow , *pLast;
-  SDL_String16 *pStr;
-  SDL_Surface *pSurf, *pText_Name, *pText, *pZoom, *pText2;
-  SDL_Surface *pMain;
-  int i, w = 0 , count , h, w2 = 0, w3;
+  SDL_String16 *pStr, *pStr2;
+  SDL_Surface *pSurf, *pText_Name, *pText, *pZoom;
+  SDL_Surface *pBackground;
+  int i, count , h = 0;
+  int w = 0; /* left column values */
+  int w2 = 0; /* right column: lock + scrollbar + ... */
+  int w3 = 0; /* left column text without values */
   int tax, total, entries_used = 0;
   char cBuf[128];
   struct improvement_entry entries[B_LAST];
   SDL_Rect dst;
+  SDL_Rect area;
   struct government *pGov = get_gov_pplayer(game.player_ptr);
-    
+
+  SDL_Surface *pTreasuryText;
+  struct widget *pTreasuryValue;
+  SDL_Surface *pTaxRateText;
+  struct widget *pTaxRateValue;
+  SDL_Surface *pTotalIncomeText;
+  struct widget *pTotalIncomeValue;
+  SDL_Surface *pTotalCostText;
+  struct widget *pTotalCostValue;
+  SDL_Surface *pNetIncomeText;
+  struct widget *pNetIncomeValue;
+  SDL_Surface *pMaxRateText;
+  
   if(pEconomyDlg) {
     return;
   }
   
+  /* disable "Economy" button */
+  pBuf = get_tax_rates_widget();
   set_wstate(pBuf, FC_WS_DISABLED);
   widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
@@ -1705,27 +1723,45 @@ void popup_economy_report_dialog(bool make_modal)
 
   pWindow = create_window(NULL, pStr, 1, 1, 0);
   pEconomyDlg->pEndWidgetList = pWindow;
-  h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = economy_dialog_callback;
   
   add_to_gui_list(ID_ECONOMY_DIALOG_WINDOW, pWindow);
+
+  area.x = pTheme->FR_Left->w;
+  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
   
   /* ------------------------- */
-  /* Total Treasury */
+  
+  /* "Treasury" text surface */
+  my_snprintf(cBuf, sizeof(cBuf), _("Treasury: "));
+  pStr2 = create_str16_from_char(cBuf, adj_font(12));
+  pStr2->style |= TTF_STYLE_BOLD;
+  pTreasuryText = create_text_surf_from_str16(pStr2);
+  w3 = MAX(w3, pTreasuryText->w);
+  
+  /* "Treasury" value label*/
   my_snprintf(cBuf, sizeof(cBuf), "%d", game.player_ptr->economic.gold);
-
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(pIcons->pBIG_Coin, pWindow->dst, pStr,
   			(WF_RESTORE_BACKGROUND|WF_ICON_CENTER_RIGHT));
   
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
   add_to_gui_list(ID_LABEL, pBuf);
 
-  /* Tax Rate */
+  pTreasuryValue = pBuf;
+
+  w = MAX(w, pBuf->size.w);
+  h += pBuf->size.h;
+  
+  /* "Tax Rate" text surface */
+  my_snprintf(cBuf, sizeof(cBuf), _("Tax Rate: "));
+  copy_chars_to_string16(pStr2, cBuf);
+  pTaxRateText = create_text_surf_from_str16(pStr2);
+  w3 = MAX(w3, pTaxRateText->w);
+  
+  /* "Tax Rate" value label */
   /* it is important to leave 1 space at ending of this string */
   my_snprintf(cBuf, sizeof(cBuf), "%d%% " , game.player_ptr->economic.tax);
   pStr = create_str16_from_char(cBuf, adj_font(12));
@@ -1733,33 +1769,59 @@ void popup_economy_report_dialog(bool make_modal)
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
-  h += pBuf->size.h;
   add_to_gui_list(ID_LABEL, pBuf);
+
+  pTaxRateValue = pBuf;
+
   w = MAX(w, pBuf->size.w + pBuf->next->size.w);
-  
-  /* Total Icome Label */
+  h += pBuf->size.h;
+
+  /* "Total Income" text surface */
+  my_snprintf(cBuf, sizeof(cBuf), _("Total Income: "));
+  copy_chars_to_string16(pStr2, cBuf);
+  pTotalIncomeText = create_text_surf_from_str16(pStr2);
+  w3 = MAX(w3, pTotalIncomeText->w);
+
+  /* "Total Icome" value label */
   my_snprintf(cBuf, sizeof(cBuf), "%d", tax);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
+  add_to_gui_list(ID_LABEL, pBuf);
+
+  pTotalIncomeValue = pBuf;
+
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
-  add_to_gui_list(ID_LABEL, pBuf);
+
+  /* "Total Cost" text surface */
+  my_snprintf(cBuf, sizeof(cBuf), _("Total Cost: "));
+  copy_chars_to_string16(pStr2, cBuf);
+  pTotalCostText = create_text_surf_from_str16(pStr2);
   
-  /* Total Cost Label */
+  /* "Total Cost" value label */
   my_snprintf(cBuf, sizeof(cBuf), "%d", total);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
   add_to_gui_list(ID_LABEL, pBuf);
   
-  /* Net Icome */
+  pTotalCostValue = pBuf;
+  
+  w = MAX(w, pBuf->size.w);
+  h += pBuf->size.h;
+  
+  /* "Net Income" text surface */
+  my_snprintf(cBuf, sizeof(cBuf), _("Net Income: "));
+  copy_chars_to_string16(pStr2, cBuf);
+  pNetIncomeText = create_text_surf_from_str16(pStr2);
+  w3 = MAX(w3, pNetIncomeText->w);
+  
+  /* "Net Icome" value label */
   my_snprintf(cBuf, sizeof(cBuf), "%d", tax - total);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -1770,13 +1832,25 @@ void popup_economy_report_dialog(bool make_modal)
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
 			  
+  add_to_gui_list(ID_LABEL, pBuf);
+  
+  pNetIncomeValue = pBuf;
+  
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
-  add_to_gui_list(ID_LABEL, pBuf);
-    
+
+  /* gov and taxrate */
+  my_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
+    pGov->name, get_player_bonus(game.player_ptr, EFT_MAX_RATES));
+  copy_chars_to_string16(pStr2, cBuf);
+  pMaxRateText = create_text_surf_from_str16(pStr2);
+  
+  FREESTRING16(pStr2);
+  
   /* ------------------------- */
   /* lux rate */
   
+  /* lux rate lock */
   my_snprintf(cBuf, sizeof(cBuf), _("Lock"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
@@ -1784,27 +1858,29 @@ void popup_economy_report_dialog(bool make_modal)
   pBuf = create_checkbox(pWindow->dst, 
       		(SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK),
       		(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL));
-
   set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
-  w2 = adj_size(10) + pBuf->size.w;  
   pBuf->string16 = pStr;
   pBuf->action = toggle_block_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX, pBuf);
-  
-  /* ---- */
+
+  w2 = adj_size(10) + pBuf->size.w;  
+
+  /* lux rate slider */
   pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
 			(WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = fc_calloc(1, sizeof(int));
   *(int *)pBuf->data.ptr = game.player_ptr->economic.luxury;
-  w2 += adj_size(184);
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR, pBuf);
-  /* ---- */
+  
+  w2 += adj_size(184);  
+  
+  /* lux rate iconlabel */
   
   /* it is important to leave 1 space at ending of this string */
   my_snprintf(cBuf, sizeof(cBuf), "%d%% ", game.player_ptr->economic.luxury);
@@ -1813,11 +1889,14 @@ void popup_economy_report_dialog(bool make_modal)
 
   pBuf = create_iconlabel(pIcons->pBIG_Luxury, pWindow->dst, pStr,
 					      WF_RESTORE_BACKGROUND);
-  w2 += (adj_size(5) + pBuf->size.w + adj_size(10));
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_LABEL, pBuf);
+  
+  w2 += (adj_size(5) + pBuf->size.w + adj_size(10));
+  
   /* ------------------------- */
   /* science rate */
-  
+
+  /* science rate lock */
   my_snprintf(cBuf, sizeof(cBuf), _("Lock"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
@@ -1833,8 +1912,8 @@ void popup_economy_report_dialog(bool make_modal)
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX, pBuf);
-  /* ---- */
   
+  /* science rate slider */
   pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
 				(WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
@@ -1845,8 +1924,8 @@ void popup_economy_report_dialog(bool make_modal)
   set_wstate(pBuf, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR, pBuf);
-  /* ---- */
   
+  /* science rate iconlabel */
   /* it is important to leave 1 space at ending of this string */
   my_snprintf(cBuf, sizeof(cBuf), "%d%% ", game.player_ptr->economic.science);
   pStr = create_str16_from_char(cBuf, adj_font(11));
@@ -1856,6 +1935,7 @@ void popup_economy_report_dialog(bool make_modal)
 					      WF_RESTORE_BACKGROUND);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_LABEL, pBuf);
+  
   /* ---- */
   
   my_snprintf(cBuf, sizeof(cBuf), _("Update"));
@@ -1876,21 +1956,24 @@ void popup_economy_report_dialog(bool make_modal)
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_CANCEL_BUTTON, pBuf);
+  
+  /* make both buttons have the same width */
   pBuf->size.w = MAX(pBuf->size.w , pBuf->next->size.w);
   pBuf->next->size.w = pBuf->size.w;
   
-  w2 = MAX(w2 , adj_size(10) + 2 * pBuf->size.w + adj_size(10) + adj_size(10));
+  w2 = MAX(w2 , adj_size(10) + pBuf->size.w + adj_size(10) + pBuf->size.w + adj_size(10));
   h += adj_size(5);
+  
   /* ------------------------- */
   pLast = pBuf;
-  if(entries_used) {
+  if(entries_used > 0) {
     
     /* Create Imprv Background Icon */
-    pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
+    pBackground = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
     
-    SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
-    putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1,
-        map_rgba(pMain->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
+    SDL_FillRect(pBackground, NULL, map_rgba(pBackground->format, bg_color));
+    putframe(pBackground, 0, 0, pBackground->w - 1, pBackground->h - 1,
+        map_rgba(pBackground->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
     
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -1899,7 +1982,7 @@ void popup_economy_report_dialog(bool make_modal)
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
 	
-      pSurf = crop_rect_from_surface(pMain, NULL);
+      pSurf = crop_rect_from_surface(pBackground, NULL);
       
       my_snprintf(cBuf, sizeof(cBuf), "%s", get_improvement_name(p->type));
       
@@ -1979,13 +2062,13 @@ void popup_economy_report_dialog(bool make_modal)
     }
   
     FREESTRING16(pStr);
-    FREESURFACE(pMain);
+    FREESURFACE(pBackground);
     
     pEconomyDlg->pEndActiveWidgetList = pLast->prev;
     pEconomyDlg->pBeginActiveWidgetList = pBuf;
     pEconomyDlg->pBeginWidgetList = pBuf;
     
-    if(entries_used > TARGETS_ROW * TARGETS_COL) {
+    if(entries_used > (TARGETS_ROW * TARGETS_COL)) {
       pEconomyDlg->pActiveWidgetList = pEconomyDlg->pEndActiveWidgetList;
       count = create_vertical_scrollbar(pEconomyDlg,
 		    		TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
@@ -1997,91 +2080,71 @@ void popup_economy_report_dialog(bool make_modal)
       }
       h += (adj_size(10) + pBuf->size.h);
     }
-    count = TARGETS_COL * pBuf->size.w + count + pTheme->FR_Left->w + pTheme->FR_Right->w;  
+    count = TARGETS_COL * pBuf->size.w + count;  
   } else {
     pEconomyDlg->pBeginWidgetList = pBuf;
     h += adj_size(10);
     count = 0;
   }
   
-  /* tresure */
-  my_snprintf(cBuf, sizeof(cBuf), _("Treasury: "));
-  pStr = create_str16_from_char(cBuf, adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-  pText = create_text_surf_from_str16(pStr);
-  w3 = pText->w;
-  
-  /* tax rate label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Tax Rate: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pText_Name = create_text_surf_from_str16(pStr);
-  w3 = MAX(w3, pText_Name->w);
-  /* total icome */
-  my_snprintf(cBuf, sizeof(cBuf), _("Total Income: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pSurf = create_text_surf_from_str16(pStr);
-  w3 = MAX(w3, pSurf->w);
-  /* total cost */
-  my_snprintf(cBuf, sizeof(cBuf), _("Total Cost: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pZoom = create_text_surf_from_str16(pStr);
+  area.w = MAX(adj_size(10) + w3 + w + w2, count);
+  area.h = h;
 
-  /* net icome */
-  my_snprintf(cBuf, sizeof(cBuf), _("Net Income: "));
-  copy_chars_to_string16(pStr, cBuf);
-  pText2 = create_text_surf_from_str16(pStr);
-  w3 = MAX(w3, pText2->w);
-  
-  w = MAX(pTheme->FR_Left->w + adj_size(10) + w3 + w + w2 + pTheme->FR_Right->w, count);
+  pBackground = theme_get_background(theme, BACKGROUND_ECONOMYDLG);
+  if(resize_window(pWindow, pBackground, NULL,
+       pTheme->FR_Left->w + area.w + pTheme->FR_Right->w,
+       pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1 + area.h + pTheme->FR_Bottom->h)) {
+    FREESURFACE(pBackground);
+  }
 
   widget_set_position(pWindow,
-                      (Main.screen->w - w) / 2,
-                      (Main.screen->h - h) / 2);
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
 
-  pMain = theme_get_background(theme, BACKGROUND_ECONOMYDLG);
-  if(resize_window(pWindow, pMain, NULL, w, h)) {
-    FREESURFACE(pMain);
-  }
-  
-  pMain = SDL_DisplayFormat(pWindow->theme);
-  FREESURFACE(pWindow->theme);
-  pWindow->theme = pMain;
-  pMain = NULL;
-      
+  /* "Treasury" value label */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pText->w;
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(5);
+  pBuf->size.x = area.x + adj_size(10) + pTreasuryText->w;
+  pBuf->size.y = area.y + adj_size(5);
+  
+  w = pTreasuryText->w + pBuf->size.w;
   h = pBuf->size.h;
-  w = pBuf->size.w + pText->w;
-      
+  
+  /* "Tax Rate" value label */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pText_Name->w;
+  pBuf->size.x = area.x + adj_size(10) + pTaxRateText->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+  
+  w = MAX(w, pTaxRateText->w + pBuf->size.w);
   h += pBuf->size.h;
-  w = MAX(w, pBuf->size.w + pText_Name->w);
-      
+
+  /* "Total Income" value label */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pSurf->w;
+  pBuf->size.x = area.x + adj_size(10) + pTotalIncomeText->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+
+  w = MAX(w, pTotalIncomeText->w + pBuf->size.w);
   h += pBuf->size.h;
-  w = MAX(w, pBuf->size.w + pSurf->w);
-   
+
+ /* "Total Cost" value label */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pZoom->w;
+  pBuf->size.x = area.x + adj_size(10) + pTotalCostText->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+
+  w = MAX(w, pTotalCostText->w + pBuf->size.w);
   h += pBuf->size.h;
-  w = MAX(w, pBuf->size.w + pZoom->w);
-      
+
+  /* "Net Income" value label */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pText2->w;
+  pBuf->size.x = area.x + adj_size(10) + pNetIncomeText->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+
+  w = MAX(w, pNetIncomeText->w + pBuf->size.w);
   h += pBuf->size.h;
-  w = MAX(w, pBuf->size.w + pText2->w);
   
   /* Backgrounds */
-  dst.x = pTheme->FR_Left->w;
-  dst.y = WINDOW_TITLE_HEIGHT + 1;
-  dst.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
+  dst.x = area.x;
+  dst.y = area.y;
+  dst.w = area.w;
   dst.h = h + adj_size(15);
   h = dst.y + dst.h;
   
@@ -2091,47 +2154,46 @@ void popup_economy_report_dialog(bool make_modal)
     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
   
   /* draw statical strings */
-  dst.x = pTheme->FR_Left->w + adj_size(10);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(1 + 5);
-  alphablit(pText, NULL, pWindow->theme, &dst);
-  dst.y += pText->h;
-  FREESURFACE(pText);
-
-  alphablit(pText_Name, NULL, pWindow->theme, &dst);
-  dst.y += pText_Name->h;
-  FREESURFACE(pText_Name);
-
-  alphablit(pSurf, NULL, pWindow->theme, &dst);
-  dst.y += pSurf->h;
-  FREESURFACE(pSurf);
-
-  alphablit(pZoom, NULL, pWindow->theme, &dst);
-  dst.y += pZoom->h;
-  FREESURFACE(pZoom);
+  dst.x = area.x + adj_size(10);
+  dst.y = area.y + adj_size(5);
   
-  alphablit(pText2, NULL, pWindow->theme, &dst);
-  dst.y += pText2->h;
-  FREESURFACE(pText2);
+  /* "Treasury */
+  alphablit(pTreasuryText, NULL, pWindow->theme, &dst);
+  dst.y += pTreasuryText->h;  
+  FREESURFACE(pTreasuryText);
+
+  /* Tax Rate */
+  alphablit(pTaxRateText, NULL, pWindow->theme, &dst);
+  dst.y += pTaxRateText->h;
+  FREESURFACE(pTaxRateText);
+
+  /* Total Income */
+  alphablit(pTotalIncomeText, NULL, pWindow->theme, &dst);
+  dst.y += pTotalIncomeText->h;
+  FREESURFACE(pTotalIncomeText);
+
+  /* Total Cost */
+  alphablit(pTotalCostText, NULL, pWindow->theme, &dst);
+  dst.y += pTotalCostText->h;
+  FREESURFACE(pTotalCostText);
+  
+  /* Net Income */
+  alphablit(pNetIncomeText, NULL, pWindow->theme, &dst);
+  dst.y += pNetIncomeText->h;
+  FREESURFACE(pNetIncomeText);
 
   /* gov and taxrate */
-  my_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
-	      				pGov->name, get_player_bonus(game.player_ptr, EFT_MAX_RATES));
-  copy_chars_to_string16(pStr, cBuf);
-  pMain = create_text_surf_from_str16(pStr);
-  FREESTRING16(pStr);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(1 + 5);
-  dst.x = pTheme->FR_Left->w + adj_size(10) + w +
-	(pWindow->size.w - (w + pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(10)) - pMain->w) / 2;
+  dst.x = area.x + adj_size(10) + w + ((area.w - (w + adj_size(10)) - pMaxRateText->w) / 2);
+  dst.y = area.y + adj_size(5);
 	
-  alphablit(pMain, NULL, pWindow->theme, &dst);
-  dst.y += (pMain->h + 1);
-  FREESURFACE(pMain);
+  alphablit(pMaxRateText, NULL, pWindow->theme, &dst);
+  dst.y += (pMaxRateText->h + 1);
+  FREESURFACE(pMaxRateText);
   
   /* Luxuries Horizontal Scrollbar Background */
-  dst.x = pTheme->FR_Left->w + adj_size(10) + w +
-	(pWindow->size.w - (w + pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(10)) - adj_size(184)) / 2;
+  dst.x = area.x + adj_size(10) + w + (area.w - (w + adj_size(10)) - adj_size(184)) / 2;
   dst.w = adj_size(184);
-  dst.h = pTheme->Horiz->h - 2;
+  dst.h = pTheme->Horiz->h - adj_size(2);
   
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
   
@@ -2140,19 +2202,18 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* lock icon */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + dst.x - pBuf->size.w;
-  pBuf->size.y = pWindow->size.y + dst.y - adj_size(2);
+  pBuf->size.x = dst.x - pBuf->size.w;
+  pBuf->size.y = dst.y - adj_size(2);
   
   /* lux scrollbar */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + dst.x + adj_size(2)
-		  + (game.player_ptr->economic.luxury * 3) / 2;
-  pBuf->size.y = pWindow->size.y + dst.y -1;
+  pBuf->size.x = dst.x + adj_size(2) + (game.player_ptr->economic.luxury * 3) / 2;
+  pBuf->size.y = dst.y -1;
   
   /* lux rate */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + dst.x + dst.w + adj_size(5);
-  pBuf->size.y = pWindow->size.y + dst.y + 1;
+  pBuf->size.x = dst.x + dst.w + adj_size(5);
+  pBuf->size.y = dst.y + 1;
   
   
   /* Science Horizontal Scrollbar Background */
@@ -2164,44 +2225,42 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* science lock icon */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + dst.x - pBuf->size.w;
-  pBuf->size.y = pWindow->size.y + dst.y - adj_size(2);
+  pBuf->size.x = dst.x - pBuf->size.w;
+  pBuf->size.y = dst.y - adj_size(2);
   
   /* science scrollbar */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + dst.x + adj_size(2)
-		  + (game.player_ptr->economic.science * 3) / 2;
-  pBuf->size.y = pWindow->size.y + dst.y -1;
+  pBuf->size.x = dst.x + adj_size(2) + (game.player_ptr->economic.science * 3) / 2;
+  pBuf->size.y = dst.y -1;
   
   /* science rate */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + dst.x + dst.w + adj_size(5);
-  pBuf->size.y = pWindow->size.y + dst.y + 1;
+  pBuf->size.x = dst.x + dst.w + adj_size(5);
+  pBuf->size.y = dst.y + 1;
 
   /* update */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + w +
-	(pWindow->size.w - (w + pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(10))
-					- (2 * pBuf->size.w + adj_size(10))) / 2;
-  pBuf->size.y = pWindow->size.y + dst.y + dst.h + adj_size(3);
+  pBuf->size.x = area.x + adj_size(10) + w +
+	(area.w - (w + adj_size(10)) - (2 * pBuf->size.w + adj_size(10))) / 2;
+  pBuf->size.y = dst.y + dst.h + adj_size(3);
     
   /* cancel */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = pWindow->size.y + dst.y + dst.h + adj_size(3); 
+  pBuf->size.y = dst.y + dst.h + adj_size(3); 
   /* ------------------------------- */
   
-  if(entries_used) {
+  if (entries_used > 0) {
     setup_vertical_widgets_position(TARGETS_COL,
-	pWindow->size.x + pTheme->FR_Left->w,
-	pWindow->size.y + h,
+	area.x,
+	h,
 	  0, 0, pEconomyDlg->pBeginActiveWidgetList,
 			  pEconomyDlg->pEndActiveWidgetList);
-    if(pEconomyDlg->pScroll) {
+    if (pEconomyDlg->pScroll) {
       setup_vertical_scrollbar_area(pEconomyDlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
-    	pWindow->size.y + h,
-    	pWindow->size.h - (h + pTheme->FR_Bottom->h + 1), TRUE);
+	area.x + area.w - 1,
+    	h,
+    	area.h - h - 1, TRUE);
     }
   }
   
@@ -2562,7 +2621,7 @@ void science_dialog_update(void)
 
     dest.y += adj_size(6);
     
-    widget_set_position(pChangeResearchButton, dest.x, dest.y + adj_size(8));
+    widget_set_position(pChangeResearchButton, dest.x, dest.y + adj_size(18));
     
     /* current research text */
     my_snprintf(cBuf, sizeof(cBuf), "%s: %s",
@@ -2658,7 +2717,7 @@ void science_dialog_update(void)
     /* -------------------------------- */
     /* draw separator line */
     dest.x = area.x + adj_size(16);
-    dest.y += adj_size(30) + adj_size(6);
+    dest.y += adj_size(48) + adj_size(6);
 
     putline(pWindow->dst->surface,
       dest.x, dest.y,
@@ -2668,7 +2727,7 @@ void science_dialog_update(void)
     dest.x = pChangeResearchButton->size.x;
     dest.y += adj_size(6);
 
-    widget_set_position(pChangeResearchGoalButton, dest.x, dest.y + adj_size(8));    
+    widget_set_position(pChangeResearchGoalButton, dest.x, dest.y + adj_size(16));    
     
     /* -------------------------------- */
     
@@ -3229,9 +3288,9 @@ void popup_science_dialog(bool raise)
   pStr->style |= TTF_STYLE_BOLD;
   
 #ifdef SMALL_SCREEN
-  pWindow = create_window(NULL, pStr, 200, 115, 0);
+  pWindow = create_window(NULL, pStr, 200, 132, 0);
 #else
-  pWindow = create_window(NULL, pStr, 400, 210, 0);
+  pWindow = create_window(NULL, pStr, 400, 246, 0);
 #endif
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = science_dialog_callback;
@@ -3253,8 +3312,6 @@ void popup_science_dialog(bool raise)
   area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
   area.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
   area.h = pWindow->size.h - area.y - pTheme->FR_Bottom->h;
-  
-  widget_set_area(pWindow, area);
   
   /* count number of researchable techs */
   count = 0;

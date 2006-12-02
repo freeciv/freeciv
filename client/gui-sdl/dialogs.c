@@ -2656,6 +2656,7 @@ void popup_races_dialog(struct player *pplayer)
   SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed = NULL;
   SDL_Surface *pMain_Bg, *pText_Name, *pText_Class;
   SDL_Rect dst;
+  float zoom;
   struct NAT *pSetup;
     
   #define TARGETS_ROW 5
@@ -2827,11 +2828,19 @@ void popup_races_dialog(struct player *pplayer)
 
   /* ---------------------------------------------------------- */
   int i = 0;
+  zoom = 1.0;
   while (i < game.control.styles_count) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pWidget = create_icon2(ZoomSurface(
-            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0),
-                                    pWindow->dst, WF_RESTORE_BACKGROUND);
+      pTmp_Surf = GET_SURF(get_sample_city_sprite(tileset, i));
+
+      if (pTmp_Surf->w > 48) {
+        zoom = 48.0 / pTmp_Surf->w;
+      }
+      
+      pTmp_Surf_zoomed = 
+          adj_surf(ZoomSurface(GET_SURF(get_sample_city_sprite(tileset, i)), zoom, zoom, 0));
+
+      pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {
         set_wstate(pWidget, FC_WS_NORMAL);
@@ -2845,12 +2854,20 @@ void popup_races_dialog(struct player *pplayer)
   }
 
   len += adj_size(3);
-
+  zoom = 1.0;
+  
   for (; (i < game.control.styles_count && i < 64); i++) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pWidget = create_icon2(ZoomSurface(
-            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0),
-                                    pWindow->dst, WF_RESTORE_BACKGROUND);
+      pTmp_Surf = GET_SURF(get_sample_city_sprite(tileset, i));
+      
+      if (pTmp_Surf->w > 48) {
+        zoom = 48.0 / pTmp_Surf->w;
+      }
+      
+      pTmp_Surf_zoomed = 
+          adj_surf(ZoomSurface(GET_SURF(get_sample_city_sprite(tileset, i)), zoom, zoom, 0));
+
+      pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {
         set_wstate(pWidget, FC_WS_NORMAL);

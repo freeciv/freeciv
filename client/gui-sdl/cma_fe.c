@@ -451,8 +451,8 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 
   pWindow->action = save_cma_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  ww = pWindow->size.w;
-  hh = pWindow->size.h;
+  ww = pTheme->FR_Left->w + pTheme->FR_Right->w;
+  hh = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
   pCma->pAdv->pEndWidgetList = pWindow;
 
   add_to_gui_list(ID_WINDOW, pWindow);
@@ -470,7 +470,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   /* ---------- */
   
   for(i = 0; i < count; i++) {
-    pStr = create_str16_from_char(cmafec_preset_get_descr(i), 10);
+    pStr = create_str16_from_char(cmafec_preset_get_descr(i), adj_font(10));
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
     	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -533,7 +533,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   ww -= (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
   setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + 1,
-		  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + hh, ww, 0,
+		  pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1 + adj_size(2) + hh, ww, 0,
 		  pCma->pAdv->pBeginActiveWidgetList, pBuf);
   if(pCma->pAdv->pScroll) {
     pCma->pAdv->pScroll->pUp_Left_Button->size.x = pWindow->size.x + pTheme->FR_Left->w;
@@ -695,7 +695,7 @@ void update_city_cma_dialog(void)
     /* redraw Citizens */
     count = pCma->pCity->size;
     
-    pText = GET_SURF(get_tax_sprite(tileset, O_LUXURY));
+    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
     step = (pBuf->size.w - adj_size(20)) / pText->w;
     if (count > step) {
       step = (pBuf->size.w - adj_size(20) - pText->w) / (count - 1);
@@ -703,31 +703,31 @@ void update_city_cma_dialog(void)
       step = pText->w;
     }
 
-    dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + 1;
+    dst.y = pBuf->size.y + pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1 + adj_size(4);
     dst.x = pBuf->size.x + adj_size(10);
 
     for (i = 0;
       i < count - (result.specialists[SP_ELVIS]
 		   + result.specialists[SP_SCIENTIST]
 		   + result.specialists[SP_TAXMAN]); i++) {
-      pText = get_citizen_surface(CITIZEN_CONTENT, i);
+      pText = adj_surf(get_citizen_surface(CITIZEN_CONTENT, i));
       alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
     
-    pText = GET_SURF(get_tax_sprite(tileset, O_LUXURY));
+    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
     for (i = 0; i < result.specialists[SP_ELVIS]; i++) {
       alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
 
-    pText = GET_SURF(get_tax_sprite(tileset, O_GOLD));
+    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
     for (i = 0; i < result.specialists[SP_TAXMAN]; i++) {
       alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
     }
 
-    pText = GET_SURF(get_tax_sprite(tileset, O_SCIENCE));
+    pText = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
     for (i = 0; i < result.specialists[SP_SCIENTIST]; i++) {
       alphablit(pText, NULL, pBuf->dst->surface, &dst);
       dst.x += step;
@@ -736,14 +736,14 @@ void update_city_cma_dialog(void)
   
   /* create result text surface */
   pStr = create_str16_from_char(
-  	cmafec_get_result_descr(pCma->pCity, &result, &pCma->edited_cm_parm), 12);
+  	cmafec_get_result_descr(pCma->pCity, &result, &pCma->edited_cm_parm), adj_font(12));
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   
   /* fill result text background */  
   dst.x = pBuf->size.x + adj_size(10);
-  dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + adj_size(150);
+  dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + adj_size(190);
   dst.w = pText->w + adj_size(10);
   dst.h = pText->h + adj_size(10);
   SDL_FillRectAlpha(pBuf->dst->surface, &dst, &bg_color);
@@ -1012,11 +1012,18 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* -------------------------------- */
   pCma->pDlg->pBeginWidgetList = pBuf;
-  
-  w = MAX(pCity_Map->w + adj_size(70) + text_w + adj_size(10) +
+
+#ifdef SMALL_SCREEN
+  w = MAX(pCity_Map->w + adj_size(220) + text_w + adj_size(10) +
 	  (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
 			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
-  h = adj_size(320);
+  h = adj_size(390);
+#else
+  w = MAX(pCity_Map->w + adj_size(150) + text_w + adj_size(10) +
+	  (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
+			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
+  h = adj_size(360);
+#endif
 
   widget_set_position(pWindow,
                       (Main.screen->w - w) / 2,
@@ -1037,10 +1044,15 @@ void popup_city_cma_dialog(struct city *pCity)
   pBuf->size.y = pWindow->size.y + 1;
   
   /* ---------- */
-  dst.x = pCity_Map->w + adj_size(50) +
+  dst.x = pCity_Map->w + adj_size(80) +
 	  (pWindow->size.w - (pCity_Map->w + adj_size(40)) -
   	    (text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
 		pWindow->prev->prev->size.w + adj_size(5 + 55))) / 2;
+  
+#ifdef SMALL_SCREEN
+  dst.x += 22;  
+#endif
+  
   dst.y =  adj_size(75);
   
   x = area.x = dst.x - adj_size(10);

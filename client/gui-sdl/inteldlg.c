@@ -243,7 +243,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     
     pLogo = GET_SURF(get_nation_flag_sprite(tileset, p->nation));
-    pText1 = ZoomSurface(pLogo, 4.0 , 4.0, 1);
+    pText1 = adj_surf(ZoomSurface(pLogo, 4.0 , 4.0, 1));
     pLogo = pText1;
           
     pBuf = create_icon2(pLogo, pWindow->dst,

@@ -278,7 +278,7 @@ int resize_window(struct widget *pWindow,
     pWindow->theme = pBcgd;
     
     if (!pColor) {
-      SDL_Color color = { 255, 255, 255, 128 };
+      SDL_Color color = *get_game_colorRGB(COLOR_THEME_BACKGROUND);
       pColor = &color;
     }
   
