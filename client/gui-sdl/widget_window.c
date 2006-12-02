@@ -34,6 +34,8 @@
 struct MOVE {
   bool moved;
   struct widget *pWindow;
+  int prev_x;
+  int prev_y;
 };
 
 static int (*baseclass_redraw)(struct widget *pwidget);
@@ -60,7 +62,10 @@ static int redraw_window(struct widget *pWindow)
 
   /* window has title string == has title bar */
   if (pWindow->string16) {
+    
     /* Draw Window's TitelBar */
+    dst = pWindow->area;
+    dst.y -= (WINDOW_TITLE_HEIGHT + 1);
     dst.h = WINDOW_TITLE_HEIGHT;
     SDL_FillRectAlpha(pWindow->dst->surface, &dst, &title_bg_color);
     
@@ -73,14 +78,13 @@ static int redraw_window(struct widget *pWindow)
       FREESURFACE(pTmp);
     }
 
-    dst = pWindow->size;    
+    dst = pWindow->area;    
     
-    putline(pWindow->dst->surface, dst.x + pTheme->FR_Left->w,
-          dst.y + WINDOW_TITLE_HEIGHT,
-          dst.x + pWindow->size.w - pTheme->FR_Right->w,
-          dst.y + WINDOW_TITLE_HEIGHT, 
-          map_rgba(pWindow->dst->surface->format, 
-           *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
+    putline(pWindow->dst->surface,
+            dst.x, dst.y - 1,
+            dst.x + dst.w - 1, dst.y - 1,
+            map_rgba(pWindow->dst->surface->format, 
+              *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
   }
   
   /* draw frame */
@@ -143,6 +147,30 @@ static void window_unselect(struct widget *pWindow)
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static void set_client_area(struct widget *pWindow)
+{
+  SDL_Rect area;
+  
+  if (get_wflags(pWindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
+    area.x = pTheme->FR_Left->w;
+    area.y = pTheme->FR_Top->h;
+    area.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
+    area.h = pWindow->size.h - pTheme->FR_Top->h - pTheme->FR_Bottom->h;
+  } else {
+    area = pWindow->size;
+  }
+    
+  if (pWindow->string16) {
+    area.y += (WINDOW_TITLE_HEIGHT + 1);
+    area.h -= (WINDOW_TITLE_HEIGHT + 1);
+  }
+  
+  widget_set_area(pWindow, area);
+}
+
+/**************************************************************************
   Allocate Widow Widget Structute.
   Text to titelbar is taken from 'pTitle'.
 **************************************************************************/
@@ -164,24 +192,27 @@ struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
   set_wstate(pWindow, FC_WS_DISABLED);
   set_wtype(pWindow, WT_WINDOW);
   pWindow->mod = KMOD_NONE;
-  if(pDest) {
-    pWindow->dst = pDest;
-  } else {
-    pWindow->dst = add_gui_layer(w, h);
-  }
 
+#if 0
   if (pTitle) {
     SDL_Rect size = str16size(pTitle);
     w = MAX(w, size.w + adj_size(10));
     h = MAX(h, size.h);
     h = MAX(h, WINDOW_TITLE_HEIGHT + 1);
   }
-
+#endif
+  
   pWindow->size.w = w;
   pWindow->size.h = h;
 
-  widget_set_area(pWindow, (SDL_Rect){0, 0, Main.screen->w, Main.screen->h});
+  set_client_area(pWindow);
   
+  if(pDest) {
+    pWindow->dst = pDest;
+  } else {
+    pWindow->dst = add_gui_layer(w, h);
+  }
+
   return pWindow;
 }
 
@@ -211,6 +242,8 @@ int resize_window(struct widget *pWindow,
   pWindow->size.w = new_w;
   pWindow->size.h = new_h;
 
+  set_client_area(pWindow);
+  
   if (get_wflags(pWindow) & WF_RESTORE_BACKGROUND) {
     refresh_widget_background(pWindow);
   }
@@ -239,20 +272,20 @@ int resize_window(struct widget *pWindow,
       pWindow->theme = pBcgd;
       return 0;
     }
-  }
-
-  pBcgd = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
+  } else {
+    pBcgd = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
+    
+    pWindow->theme = pBcgd;
+    
+    if (!pColor) {
+      SDL_Color color = { 255, 255, 255, 128 };
+      pColor = &color;
+    }
   
-  pWindow->theme = pBcgd;
-  
-  if (!pColor) {
-    SDL_Color color = { 255, 255, 255, 128 };
-    pColor = &color;
+    SDL_FillRect(pWindow->theme, NULL, map_rgba(pWindow->theme->format, *pColor));
+    
+    return 1;
   }
-
-  SDL_FillRect(pWindow->theme, NULL, map_rgba(pWindow->theme->format, *pColor));
-
-  return 1;
 }
 
 /**************************************************************************
@@ -261,16 +294,22 @@ int resize_window(struct widget *pWindow,
 static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData)
 {
   struct MOVE *pMove = (struct MOVE *)pData;
+  int xrel, yrel;
   
   if (!pMove->moved) {
     pMove->moved = TRUE;
   }
-  
+
   widget_mark_dirty(pMove->pWindow);
-  
+
+  xrel = pMotionEvent->x - pMove->prev_x;
+  yrel = pMotionEvent->y - pMove->prev_y;
+  pMove->prev_x = pMotionEvent->x;
+  pMove->prev_y = pMotionEvent->y;
+
   widget_set_position(pMove->pWindow,
-                      pMove->pWindow->dst->dest_rect.x + pMove->pWindow->size.x + pMotionEvent->xrel,
-                      pMove->pWindow->dst->dest_rect.y + pMove->pWindow->size.y + pMotionEvent->yrel);
+                      (pMove->pWindow->dst->dest_rect.x + pMove->pWindow->size.x) + xrel,
+                      (pMove->pWindow->dst->dest_rect.y + pMove->pWindow->size.y) + yrel);
   
   widget_mark_dirty(pMove->pWindow);
   flush_dirty();
@@ -302,6 +341,7 @@ bool move_window(struct widget *pWindow)
   struct MOVE pMove;
   pMove.pWindow = pWindow;
   pMove.moved = FALSE;
+  SDL_GetMouseState(&pMove.prev_x, &pMove.prev_y);
   /* Filter mouse motion events */
   SDL_SetEventFilter(FilterMouseMotionEvents);
   ret = (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL,

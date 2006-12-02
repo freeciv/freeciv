@@ -501,10 +501,8 @@ int FilterMouseMotionEvents(const SDL_Event *event)
 {
   if (event->type == SDL_MOUSEMOTION) {
     static int x = 0, y = 0;
-    if((MOVE_STEP_X && (event->motion.x - x > MOVE_STEP_X
-      			|| x - event->motion.x > MOVE_STEP_X)) ||
-      (MOVE_STEP_Y && (event->motion.y - y > MOVE_STEP_Y
-    			|| y - event->motion.y > MOVE_STEP_Y))) {
+    if ( ((MOVE_STEP_X > 0) && (abs(event->motion.x - x) >= MOVE_STEP_X)) ||
+         ((MOVE_STEP_Y > 0) && (abs(event->motion.y - y) >= MOVE_STEP_Y)) ) {
       x = event->motion.x;
       y = event->motion.y;
       return(1);    /* Catch it */
@@ -546,7 +544,7 @@ Uint16 gui_event_loop(void *pData,
       tv.tv_usec = 10000;/* 10ms*/
     
       result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
-      if(result < 0) {
+      if (result < 0) {
         if (errno != EINTR) {
 	  break;
         } else {
@@ -591,130 +589,138 @@ Uint16 gui_event_loop(void *pData,
     
     /* ========================================= */
     
-    if(loop_action) {
+    if (loop_action) {
       loop_action(pData);
     }
     
     /* ========================================= */
     
-    while(SDL_PollEvent(&Main.event) == 1) {
+    while (SDL_PollEvent(&Main.event) == 1) {
+      
       switch (Main.event.type) {
-      case SDL_QUIT:
-	abort();
-      break;
-    
-      case SDL_KEYUP:
-        switch (Main.event.key.keysym.sym) {
-	  /* find if Shifts are released */
-	  case SDLK_RSHIFT:
-	    RSHIFT = FALSE;
-	  break;
-	  case SDLK_LSHIFT:
-	    LSHIFT = FALSE;
-	  break;
-	  case SDLK_LCTRL:
-	    LCTRL = FALSE;
-	  break;
-	  case SDLK_RCTRL:
-	    RCTRL = FALSE;
-	  break;
-	  case SDLK_LALT:
-	    LALT = FALSE;
-	  break;
-	  default:
-	    if(key_up_handler) {
-	      ID = key_up_handler(Main.event.key.keysym, pData);
-	    }
-	  break;
-	}
+        
+        case SDL_QUIT:
+          abort();
         break;
-      case SDL_KEYDOWN:
-	switch(Main.event.key.keysym.sym) {
-	  case SDLK_PRINT:
-	    freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
-	    my_snprintf(schot, sizeof(schot), "schot0%d.bmp", schot_nr++);
-	    SDL_SaveBMP(Main.screen, schot);
-	  break;
-	  
-  	  case SDLK_RSHIFT:
-	    /* Right Shift is Pressed */
-	    RSHIFT = TRUE;
-	  break;
-	    
-	  case SDLK_LSHIFT:
-	    /* Left Shift is Pressed */
-	    LSHIFT = TRUE;
-	  break;
-	    
-	  case SDLK_LCTRL:
-	    /* Left CTRL is Pressed */
-	    LCTRL = TRUE;
-	  break;
-	   
-          case SDLK_RCTRL:
-	    /* Right CTRL is Pressed */
-	    RCTRL = TRUE;
-	  break;
-	  
-	  case SDLK_LALT:
-	    /* Left ALT is Pressed */
-	    LALT = TRUE;
-	  break;
-	  
-          default:
-	    if(key_down_handler) {
-	      ID = key_down_handler(Main.event.key.keysym, pData);
-	    }
-	  break;
-	}
-      break;
-      case SDL_MOUSEBUTTONDOWN:
-        if(mouse_button_down_handler) {
-	  ID = mouse_button_down_handler(&Main.event.button, pData);
-	}	
-      break;
-      case SDL_MOUSEBUTTONUP:
-	if(mouse_button_up_handler) {
-	  ID = mouse_button_up_handler(&Main.event.button, pData);
-	}
-      break;
-      case SDL_MOUSEMOTION:
-	if(mouse_motion_handler) {
-	  ID = mouse_motion_handler(&Main.event.motion, pData);
-	}	
-      break;
-      case SDL_USEREVENT:
-        switch(Main.event.user.code) {
-	  case NET:
-            input_from_server(net_socket);
-	  break;
-	  case ANIM:
-	    update_button_hold_state();
-	    animate_mouse_cursor();
-            draw_mouse_cursor();
-	  break;
-	  case SHOW_WIDGET_INFO_LABBEL:
-	    draw_widget_info_label();
-	  break;
-	  case TRY_AUTO_CONNECT:
-	    if (try_to_autoconnect()) {
-	      pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
-	      autoconnect = FALSE;
-	    }
-	  break;
-          case FLUSH:
-	    unqueue_flush();
-	  break;
-	  case MAP_SCROLL:
-	      scroll_mapview(scroll_dir);
-	  break;
-          case EXIT_FROM_EVENT_LOOP:
-	    return MAX_ID;
-	  default:
-	  break;
-        }    
-      break;
-	
+    
+        case SDL_KEYUP:
+          switch (Main.event.key.keysym.sym) {
+            /* find if Shifts are released */
+            case SDLK_RSHIFT:
+              RSHIFT = FALSE;
+            break;
+            case SDLK_LSHIFT:
+              LSHIFT = FALSE;
+            break;
+            case SDLK_LCTRL:
+              LCTRL = FALSE;
+            break;
+            case SDLK_RCTRL:
+              RCTRL = FALSE;
+            break;
+            case SDLK_LALT:
+              LALT = FALSE;
+            break;
+            default:
+              if(key_up_handler) {
+                ID = key_up_handler(Main.event.key.keysym, pData);
+              }
+            break;
+          }
+          break;
+          
+        case SDL_KEYDOWN:
+          switch(Main.event.key.keysym.sym) {
+            case SDLK_PRINT:
+              freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
+              my_snprintf(schot, sizeof(schot), "schot0%d.bmp", schot_nr++);
+              SDL_SaveBMP(Main.screen, schot);
+            break;
+            
+            case SDLK_RSHIFT:
+              /* Right Shift is Pressed */
+              RSHIFT = TRUE;
+            break;
+              
+            case SDLK_LSHIFT:
+              /* Left Shift is Pressed */
+              LSHIFT = TRUE;
+            break;
+              
+            case SDLK_LCTRL:
+              /* Left CTRL is Pressed */
+              LCTRL = TRUE;
+            break;
+             
+            case SDLK_RCTRL:
+              /* Right CTRL is Pressed */
+              RCTRL = TRUE;
+            break;
+            
+            case SDLK_LALT:
+              /* Left ALT is Pressed */
+              LALT = TRUE;
+            break;
+            
+            default:
+              if(key_down_handler) {
+                ID = key_down_handler(Main.event.key.keysym, pData);
+              }
+            break;
+          }
+        break;
+          
+        case SDL_MOUSEBUTTONDOWN:
+          if(mouse_button_down_handler) {
+            ID = mouse_button_down_handler(&Main.event.button, pData);
+          }	
+        break;
+          
+        case SDL_MOUSEBUTTONUP:
+          if(mouse_button_up_handler) {
+            ID = mouse_button_up_handler(&Main.event.button, pData);
+          }
+        break;
+          
+        case SDL_MOUSEMOTION:
+          if(mouse_motion_handler) {
+            ID = mouse_motion_handler(&Main.event.motion, pData);
+          }	
+        break;
+          
+        case SDL_USEREVENT:
+          switch(Main.event.user.code) {
+            case NET:
+              input_from_server(net_socket);
+            break;
+            case ANIM:
+              update_button_hold_state();
+              animate_mouse_cursor();
+              draw_mouse_cursor();
+            break;
+            case SHOW_WIDGET_INFO_LABBEL:
+              draw_widget_info_label();
+            break;
+            case TRY_AUTO_CONNECT:
+              if (try_to_autoconnect()) {
+                pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
+                autoconnect = FALSE;
+              }
+            break;
+            case FLUSH:
+              unqueue_flush();
+            break;
+            case MAP_SCROLL:
+                scroll_mapview(scroll_dir);
+            break;
+            case EXIT_FROM_EVENT_LOOP:
+              return MAX_ID;
+            break;
+            default:
+            break;
+          }    
+        break;
+          
       }
     }
     

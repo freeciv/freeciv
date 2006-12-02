@@ -282,7 +282,7 @@ void popup_meswin_dialog(bool raise)
     FREESURFACE(pBackground);
   }
   
-  widget_set_position(pWindow, (pWindow->area.w - pWindow->size.w)/2, adj_size(25));
+  widget_set_position(pWindow, (Main.screen->w - pWindow->size.w)/2, adj_size(25));
 
   widget_redraw(pWindow);
   

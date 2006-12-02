@@ -151,11 +151,8 @@ void remove_gui_layer(struct gui_layer *gui_layer)
   }
 }
 
-void screen_rect_to_layer_rect(SDL_Surface *layer_surface, SDL_Rect *dest_rect)
+void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
 {
-  struct gui_layer *gui_layer;
-
-  gui_layer = get_gui_layer(layer_surface);
   if (gui_layer) {
     dest_rect->x = dest_rect->x - gui_layer->dest_rect.x;
     dest_rect->y = dest_rect->y - gui_layer->dest_rect.y;

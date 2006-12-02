@@ -256,8 +256,8 @@ static void show_main_page()
   setup_vertical_widgets_position(1, area.x, area.y, area.w, h, pWidget, pWindow->prev);
 
   widget_set_position(pWindow,
-    (pWindow->area.w - pTheme->FR_Right->w - area.w - pTheme->FR_Left->w) - adj_size(20),
-    (pWindow->area.h - pTheme->FR_Bottom->h - area.h - pTheme->FR_Top->h) - adj_size(20));
+    (Main.screen->w - pTheme->FR_Right->w - area.w - pTheme->FR_Left->w) - adj_size(20),
+    (Main.screen->h - pTheme->FR_Bottom->h - area.h - pTheme->FR_Top->h) - adj_size(20));
 
   draw_intro_gfx();
   

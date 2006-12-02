@@ -111,7 +111,7 @@ void flush_rect(SDL_Rect rect, bool force_flush)
       if (Main.guis) {
         while((i < Main.guis_count) && Main.guis[i]) {
           src = rect;
-          screen_rect_to_layer_rect(Main.guis[i]->surface, &src);
+          screen_rect_to_layer_rect(Main.guis[i], &src);
           dst = rect;
           alphablit(Main.guis[i++]->surface, &src, Main.screen, &dst);
         }
@@ -244,7 +244,7 @@ void flush_dirty(void)
       if (Main.guis) {
         while((j < Main.guis_count) && Main.guis[j]) {
           src = Main.rects[i];
-          screen_rect_to_layer_rect(Main.guis[j]->surface, &src);
+          screen_rect_to_layer_rect(Main.guis[j], &src);
           dst = Main.rects[i];
           alphablit(Main.guis[j++]->surface, &src, Main.screen, &dst);
         }

@@ -2210,8 +2210,8 @@ void popup_optiondlg(void)
   group_set_area(pOption_Dlg->pBeginOptionsWidgetList, pWindow->prev, area);
 
   widget_set_position(pWindow,
-    (pWindow->area.w - (pTheme->FR_Left->w + area.w + pTheme->FR_Right->w)) / 2,
-    (pWindow->area.h - (pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h)) / 2);
+    (Main.screen->w - (pTheme->FR_Left->w + area.w + pTheme->FR_Right->w)) / 2,
+    (Main.screen->h - (pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h)) / 2);
   
   if (resize_window(pWindow, pLogo, NULL,
       pTheme->FR_Left->w + area.w + pTheme->FR_Right->w,
