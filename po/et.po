@@ -1,3 +1,4 @@
+# translation of et.po to Estonian
 # translation of et.po to
 # Estonian translation of Freeciv po file.
 # Copyright (C) 2002,2003,2004, 2006 Free Software Foundation, Inc.
@@ -10,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-07 13:19+0300\n"
-"PO-Revision-Date: 2006-10-10 23:15+0300\n"
-"Last-Translator: \n"
-"Language-Team:  <en@li.org>\n"
+"POT-Creation-Date: 2006-12-05 14:39+0200\n"
+"PO-Revision-Date: 2006-12-05 16:02+0200\n"
+"Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
+"Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -190,7 +191,7 @@ msgstr "Civ: Raha on vähe"
 
 #: common/events.c:66
 msgid "Civ: Pollution"
-msgstr "Civ: Reostus"
+msgstr "Civ: Saast"
 
 #: common/events.c:67
 msgid "Civ: Revolt Ended"
@@ -671,7 +672,7 @@ msgstr "Kaevandus"
 #: common/terrain.c:290 common/unit.c:540 server/report.c:123
 #: client/cityrepdata.c:485 client/gui-sdl/optiondlg.c:1733
 msgid "Pollution"
-msgstr "Reostus"
+msgstr "Saast"
 
 #: common/terrain.c:291
 msgid "Hut"
@@ -954,7 +955,7 @@ msgstr "Puudu argument võtmele \"%s\".\n"
 #: utility/shared.c:463
 #, c-format
 msgid "%d BC"
-msgstr "%d e.m.a."
+msgstr "%d eKr"
 
 #: utility/shared.c:465
 #, c-format
@@ -1079,7 +1080,7 @@ msgstr "*%s (AI)* Ma ei tunne sellist linna."
 #: ai/advdiplomacy.c:444
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "*%s (AI)* Vabanda, aga sinuga vaate jagamine ei ole ohutu"
+msgstr "*%s (AI)* Vabanda, aga sinuga vaate jagamine ei ole ohutu."
 
 #: ai/advdiplomacy.c:552
 #, c-format
@@ -1373,7 +1374,7 @@ msgstr "Viga kasutajabaasi lugemisel, logib sisse külalisena '%s'."
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
-msgstr "Esines viga kasutajabaasi lugemisel ning külalised pole lubatud. Juhtub."
+msgstr "Kasutajate andmebaasi lugemisel juhtus mingi viga ja külalisi ei lubata seetõttu sisse. Vabanda"
 
 #: server/auth.c:172
 #, c-format
@@ -1477,7 +1478,7 @@ msgstr "Müüd %s %s-s %d raha eest."
 
 #: server/cityhand.c:222
 msgid "Cannot buy in city created this turn."
-msgstr "Ei ole võimalik osta sellel käigul loodud linnas"
+msgstr "Ei ole võimalik osta sellel käigul loodud linnas."
 
 #: server/cityhand.c:228
 msgid "You have already bought this turn."
@@ -1515,7 +1516,7 @@ msgstr "Sul on juba linn nimega %s."
 #: server/citytools.c:282
 #, c-format
 msgid "A city called %s already exists."
-msgstr "Linn nimega %s on juba olemas"
+msgstr "Linn nimega %s on juba olemas."
 
 #: server/citytools.c:309
 #, c-format
@@ -1539,7 +1540,7 @@ msgstr "Halvasti nimetatud linn"
 #: server/citytools.c:504
 #, c-format
 msgid "Changed homecity of %s to %s."
-msgstr "%s uus kodulinn on %s"
+msgstr "%s uus kodulinn on %s."
 
 #: server/citytools.c:515
 #, c-format
@@ -1640,8 +1641,8 @@ msgstr[1] "Vabastasid oma linna %s! Saagiks %d raha."
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
-msgstr[0] "%s vabastas %s ja sai linnast %d raha."
-msgstr[1] "%s vabastas %s ja sai linnast %d raha"
+msgstr[0] "%s vabastas %s ja röövis linnast %d raha."
+msgstr[1] "%s vabastas %s ja sai linnast %d raha."
 
 #: server/citytools.c:1287
 #, c-format
@@ -1733,13 +1734,13 @@ msgstr "Nälg hävitas linna %s täielikult."
 #, c-format
 msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
-"%s ei saa ehitada tööde nimekirjast %s'i; pole veel "
-"tehnoloogiliselt võimalik.  Lükkan edasi..."
+"%s ei saa ehitada tööde nimekirjast %s'i; pole veel tehnoloogiliselt "
+"võimalik.  Lükkan edasi..."
 
 #: server/cityturn.c:651 server/cityturn.c:687
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
-msgstr "%s ei saa ehitada tööde nimekirjast %s'i.  Eemaldan.."
+msgstr "%s ei saa ehitada tööde nimekirjast %s'i.  Eemaldan..."
 
 #: server/cityturn.c:671 server/cityturn.c:833 server/cityturn.c:932
 #: server/cityturn.c:980
@@ -1801,9 +1802,7 @@ msgstr ""
 #: server/cityturn.c:824
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
-msgstr ""
-"%s ei saa ehitada tööde nimekirjast %s'i; põhjust ei tea!  Lükkan "
-"edasi..."
+msgstr "%s ei saa ehitada tööde nimekirjast %s'i; põhjust ei tea!  Lükkan edasi..."
 
 #: server/cityturn.c:858
 #, c-format
@@ -1891,7 +1890,7 @@ msgstr "'Me Armastame %s Päev' linnas %s jäeti ära."
 #: server/cityturn.c:1493
 #, c-format
 msgid "Civil disorder in %s."
-msgstr "Rahutused linnas %s"
+msgstr "Rahutused linnas %s."
 
 #: server/cityturn.c:1496
 #, c-format
@@ -1901,7 +1900,7 @@ msgstr "RAHUTUSED JÄTKUVAD linnas %s."
 #: server/cityturn.c:1502
 #, c-format
 msgid "Order restored in %s."
-msgstr "Kord taastatud linnas %s"
+msgstr "Kord taastatud linnas %s."
 
 #: server/cityturn.c:1511
 #, c-format
@@ -1911,9 +1910,7 @@ msgstr "Rahvas on su %s kukutanud, riigis lokkab mäss."
 #: server/cityturn.c:1536
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
-msgstr ""
-"%s ei saa veel %s't ehitada, ja me ei saa oma ainsat linna laiali "
-"saata."
+msgstr "%s ei saa veel %s't ehitada, ja me ei saa oma ainsat linna laiali saata."
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1559
@@ -2574,6 +2571,7 @@ msgid "Query or set command access level access."
 msgstr "Päri või määra käsutaseme ligipääsu."
 
 #: server/commands.c:272
+#, fuzzy
 msgid ""
 "The command access level controls which server commands are available\n"
 "to users via the client chatline.  The available levels are:\n"
@@ -2593,7 +2591,18 @@ msgid ""
 "Command access levels do not persist if a client disconnects, because some "
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
-msgstr "Käsutase määrab, milliseid serveri käske saavad\t"
+msgstr ""
+"Käsutase määrab, milliseid serveri käske saavad\n"
+"kasutajad kliendi lobisemiserea kaudu käivitada.  "
+"Võimalikud tasemed on:\n"
+"    none  -  midagi ei saa\n"
+"    info  -  saavad infot pärida\n"
+"    ctrl  -  käsud, mis mõjutavad mängu ja kasutajaid\n"
+"    hack  -  *kõik* käsud - ohtlik!\n"
+"Kui argumente mitte anda, näidatakse praegust käsutaset.\n"
+"Ühe argumendiga seatakse käsutase kõigile olemasolevatele ühendustele\n"
+"ja tulevastele ühendustele seatakse vaikimisi käsutase.\n"
+"Kui anda argument 'new', seatakse käsutase uutele ühenduvatele klientidele.\n"
 
 #: server/commands.c:293
 msgid "If there is none, become the game organizer with increased permissions."
@@ -3033,7 +3042,9 @@ msgstr ""
 msgid ""
 "You executed a %s the %s had sent to establish an embassy in %s for being "
 "untrustworthy"
-msgstr "Sa võtsid pea maha %s-l, kelle %s saatis sinu juurde %s-sse saatkonda rajama, sest ta pole usaldatav."
+msgstr ""
+"Sa võtsid pea maha %s-l, kelle %s saatis sinu juurde %s-sse saatkonda "
+"rajama, sest ta pole usaldatav."
 
 #: server/diplomats.c:278
 #, c-format
@@ -3099,7 +3110,9 @@ msgstr "Su %s osteti ära %s poolt."
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
-msgstr "%s arvas ära, et sa võid veel korra tehnoloogiat varastada üritada. Su %s püüti kinni ja tehti peajagu lühemaks."
+msgstr ""
+"%s arvas ära, et sa võid veel korra tehnoloogiat varastada üritada. Su %s "
+"püüti kinni ja tehti peajagu lühemaks."
 
 #: server/diplomats.c:609
 #, c-format
@@ -3225,7 +3238,9 @@ msgstr "Elimineeriti %s-de %s, kes üritas hiilida %s-sse. Kaitsja sai kogenumak
 msgid ""
 "Eliminated %s %s while infiltrating our troops. The defender became more "
 "experienced."
-msgstr "Elimineeriti %s-te %s, kes üritas meie üksustega midagi teha. Kaitsja sai kogenumaks."
+msgstr ""
+"Elimineeriti %s-te %s, kes üritas meie üksustega midagi teha. Kaitsja sai "
+"kogenumaks."
 
 #: server/diplomats.c:1119
 #, c-format
@@ -3242,7 +3257,9 @@ msgstr "Elimineeriti %s-te %s, kes üritas me üksustega midagi teha."
 msgid ""
 "Your %s has successfully completed her mission and returned unharmed to %s "
 "and has become more experienced."
-msgstr "Su %s lõpetas edukalt oma missiooni ja naases vigastamatult %s-sse, muutudes vahepeal kogenumaks."
+msgstr ""
+"Su %s lõpetas edukalt oma missiooni ja naases vigastamatult %s-sse, muutudes "
+"vahepeal kogenumaks."
 
 #: server/diplomats.c:1184
 #, c-format
@@ -3306,7 +3323,7 @@ msgstr "Aasta: %s"
 
 #: server/gamehand.c:377
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
-msgstr ""
+msgstr "Käigu ajalimiit läks üle maksimaalse lubatud väärtuse. Fikseerin ta maksimumile."
 
 #: server/gamehand.c:385
 msgid "The turn timeout is smaller than zero, fixing at zero."
@@ -3363,9 +3380,7 @@ msgstr "Globaalne soojenemine!"
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr ""
-"Rannaalad on üleujutatud ja tohutul hulgal rohumaid on muutunud "
-"kõrbeks."
+msgstr "Rannaalad on üleujutatud ja tohutul hulgal rohumaid on muutunud kõrbeks."
 
 #: server/maphand.c:297
 msgid "Nuclear winter has occurred!"
@@ -3446,8 +3461,12 @@ msgid ""
 msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
-msgstr[0] "%s algatasid mässu! %d käik anarhiat ootab ees. Eesmärgiks saada valitsuseks %s."
-msgstr[1] "%s algatasid mässu! %d käiku anarhiat ootab ees. Eesmärgiks saada valitsuseks %s."
+msgstr[0] ""
+"%s algatasid mässu! %d käik anarhiat ootab ees. Eesmärgiks saada valitsuseks "
+"%s."
+msgstr[1] ""
+"%s algatasid mässu! %d käiku anarhiat ootab ees. Eesmärgiks saada "
+"valitsuseks %s."
 
 #: server/plrhand.c:349
 msgid "Revolution: returning to anarchy."
@@ -3482,7 +3501,9 @@ msgstr "%s ei anna enam meile jagatud vaatevälja!"
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
-msgstr "Senat ei luba sul murda lepet %s-dega.  Sa pead kas senati laiali saatma või ootama paremat aega."
+msgstr ""
+"Senat ei luba sul murda lepet %s-dega.  Sa pead kas senati laiali saatma või "
+"ootama paremat aega."
 
 #: server/plrhand.c:568
 #, c-format
@@ -3494,7 +3515,9 @@ msgstr "Senat nõustub su ettepanekuga, kuna %s käib pidevalt närvidele."
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
-msgstr "Senat keeldub murdmast lepet %s-dega, kuid ega uue senati leidmine polegi nii raske.."
+msgstr ""
+"Senat keeldub murdmast lepet %s-dega, kuid ega uue senati leidmine polegi "
+"nii raske.."
 
 #: server/plrhand.c:605
 #, c-format
@@ -3506,19 +3529,19 @@ msgstr " %s ja %s diplomaatiline suhe on nüüd %s."
 msgid ""
 " %s cancelled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
-msgstr ""
+msgstr " %s lõpetasid leppe! %s ja %s diplomaatiline suhe on nüüd %s."
 
 #: server/plrhand.c:628
 #, c-format
 msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
-msgstr ""
+msgstr "%s ründasid su liitlast %s! Sa lõpetad oma liidu agressoriga."
 
 #: server/plrhand.c:639
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
-msgstr ""
+msgstr "Su meeskonnakaaslane %s kuulutas sõja %s-le. Sa oled kohustatud lõpetama liidu %s-ga."
 
 #: server/plrhand.c:1108
 #, c-format
@@ -3542,12 +3565,12 @@ msgstr "Lõid kontakti rahvusega %s, valitseja %s."
 #: server/plrhand.c:1177
 #, c-format
 msgid "%s and %s meet and go to instant war. You cancel your alliance with both."
-msgstr ""
+msgstr "%s ja %s kohtuvad ja hakkavad kohe sõdima. Sa lõpetad liidu mõlemaga."
 
 #: server/plrhand.c:1656
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr ""
+msgstr "Ei saanud %s kodusõtta ajada - liiga palju mängijaid"
 
 #: server/plrhand.c:1678
 #, c-format
@@ -3570,8 +3593,7 @@ msgid ""
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
-"%s'i pealinna vallutamine ja riigi administratiivstruktuuride "
-"hävitamine\n"
+"%s'i pealinna vallutamine ja riigi administratiivstruktuuride hävitamine\n"
 "      on käivitanud kodusõja.  Oportunistid on liikunud ülestõusnute "
 "ridadesse,\n"
 "      ja %s omab nüüd võimu %d-s mässajate provintsis."
@@ -3740,7 +3762,7 @@ msgstr "Viis parimat linna maailmas!"
 #: server/report.c:298
 #, c-format
 msgid "%s in %s (%s)\n"
-msgstr ""
+msgstr "%s %s-s (%s)\n"
 
 #: server/report.c:302
 #, c-format
@@ -3771,7 +3793,7 @@ msgstr ""
 
 #: server/report.c:561
 msgid " bulbs"
-msgstr ""
+msgstr " lampi"
 
 #: server/report.c:566
 msgid " month"
@@ -4022,7 +4044,9 @@ msgstr ""
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
-msgstr "Hoiatus: Erinevad reeglistike kataloogid ('%s' ja '%s') ei ole enam toetatud. Kasutan '%s'."
+msgstr ""
+"Hoiatus: Erinevad reeglistike kataloogid ('%s' ja '%s') ei ole enam "
+"toetatud. Kasutan '%s'."
 
 #: server/savegame.c:3870
 #, c-format
@@ -4417,7 +4441,10 @@ msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
 "try to connect will be rejected."
-msgstr "Maksimaalne inimeste ja tehismõistuste arv, kes saavad mängida. Kui nii mitu mängijat on ühendunud mängueelses seisus, ei anta edaspidi uutele üritajatele võimalust ühenduda."
+msgstr ""
+"Maksimaalne inimeste ja tehismõistuste arv, kes saavad mängida. Kui nii mitu "
+"mängijat on ühendunud mängueelses seisus, ei anta edaspidi uutele "
+"üritajatele võimalust ühenduda."
 
 #: server/settings.c:420
 msgid "Total number of players (including AI players)"
@@ -4566,8 +4593,8 @@ msgid ""
 msgstr ""
 "Iga leituse eest, mille sa saad \"tasuta\" (peale nende mida ei kata "
 "diplcost või conquercost: täpsemalt onnidest või Suurest Raamatukogust "
-"saadud), kaotad teaduspunkte see protsent korda uue leiutise hind. Kui "
-"see väärtus ei ole null, võid omada negatiivseid teaduspunkte."
+"saadud), kaotad teaduspunkte see protsent korda uue leiutise hind. Kui see "
+"väärtus ei ole null, võid omada negatiivseid teaduspunkte."
 
 #: server/settings.c:527
 msgid "Food required for a city to grow"
@@ -4592,7 +4619,10 @@ msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
 "has a Granary)."
-msgstr "Kui linn kasvaks, kuid ei saa (sest vajab akvedukti või kanalisatsiooni), siis kaotab ta nii mitu protsenti oma toiduvarust. Kui linnal on viljaait, kaotab ta poole sellest arvust."
+msgstr ""
+"Kui linn kasvaks, kuid ei saa (sest vajab akvedukti või kanalisatsiooni), "
+"siis kaotab ta nii mitu protsenti oma toiduvarust. Kui linnal on viljaait, "
+"kaotab ta poole sellest arvust."
 
 #: server/settings.c:546
 msgid "Multiplier percentage for production costs"
@@ -4689,7 +4719,9 @@ msgstr "Käikude arv joovastuse efekti vahel"
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
-msgstr "Määra käikude arv, mis jääb linna joovastusest tuleneva kasvu vahele. Kui seatud n-iks, siis joovastuses linn kasvab iga n+1 käigu tagant."
+msgstr ""
+"Määra käikude arv, mis jääb linna joovastusest tuleneva kasvu vahele. Kui "
+"seatud n-iks, siis joovastuses linn kasvab iga n+1 käigu tagant."
 
 #: server/settings.c:623
 msgid "Chance for conquered building destruction"
@@ -4699,7 +4731,9 @@ msgstr "Võimalus vallutatud ehitise hävitamisele"
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
-msgstr "Kui mängija vallutab linna on igal linna ehitisel nii mitu protsenti šanssi saada hävitatud."
+msgstr ""
+"Kui mängija vallutab linna on igal linna ehitisel nii mitu protsenti šanssi "
+"saada hävitatud."
 
 #: server/settings.c:630
 msgid "Chance of moving into tile after attack"
@@ -4713,10 +4747,10 @@ msgid ""
 "value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
 msgstr ""
-"Kui seade on 0, käib võitlus Civ1/2 stiilis (kui ründad, jääd omale kohale). Kui "
-"100, /iiguvad ründavad üksused ruutu, kuhu nad ründasid kui nad võidavad "
-"lahingu (ruutu ei jää ühtegi vastase üksust). Kui arv on 0 ja 100 vahel, näitab "
-"see protsendilist võimalust territooriumi \"hõivamiseks\"."
+"Kui seade on 0, käib võitlus Civ1/2 stiilis (kui ründad, jääd omale kohale). "
+"Kui 100, /iiguvad ründavad üksused ruutu, kuhu nad ründasid kui nad võidavad "
+"lahingu (ruutu ei jää ühtegi vastase üksust). Kui arv on 0 ja 100 vahel, "
+"näitab see protsendilist võimalust territooriumi \"hõivamiseks\"."
 
 #: server/settings.c:642
 msgid "Turn on/off server-side autoattack"
@@ -4726,7 +4760,9 @@ msgstr "Lülita serveripoolne automaatne ründamine sisse/välja"
 msgid ""
 "If set to on, units with move left will automatically consider attacking "
 "enemy units that move adjacent to them."
-msgstr "Kui see on sisse lülitatud, kaaluvad üksused, mil on ülejäänud käike automaatselt, kas rünnata vaenlase üksusi, mis nende kõrval liiguvad."
+msgstr ""
+"Kui see on sisse lülitatud, kaaluvad üksused, mil on ülejäänud käike "
+"automaatselt, kas rünnata vaenlase üksusi, mis nende kõrval liiguvad."
 
 #: server/settings.c:649
 msgid "Reduce city population after attack"
@@ -4757,7 +4793,10 @@ msgid ""
 "If this is set to greater than 0, then any land tiles within the given "
 "radius of a city will be owned by that nation. Special rules apply for ocean "
 "tiles or tiles within range of more than one nation's cities."
-msgstr "Kui see seade > 0, siis kaardiruudud, mis on selle raadiuse kaugusel linnast, on linna rahvuse omad. Ookeani kaardiruutude ja kaardiruutude, mis on rohkem kui ühe rahvuse linna mõjusfääris, kohta käivad eraldi reeglid."
+msgstr ""
+"Kui see seade > 0, siis kaardiruudud, mis on selle raadiuse kaugusel "
+"linnast, on linna rahvuse omad. Ookeani kaardiruutude ja kaardiruutude, mis "
+"on rohkem kui ühe rahvuse linna mõjusfääris, kohta käivad eraldi reeglid."
 
 #: server/settings.c:673
 msgid "Units inside borders cause no unhappiness"
@@ -4767,7 +4806,9 @@ msgstr "Territooriumil asuvad üksused ei põhjusta rahulolematust."
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
-msgstr "Kui see on seatud, ei põhjusta kodumaa territooriumil asuvad üksused rahulolematust."
+msgstr ""
+"Kui see on seatud, ei põhjusta kodumaa territooriumil asuvad üksused "
+"rahulolematust."
 
 #: server/settings.c:680
 msgid "Ability to do diplomacy with other players"
@@ -4807,11 +4848,14 @@ msgid ""
 msgstr ""
 "0 = Piiranguid pole - mängijatel võb olla mitu linna sama nimega.\n"
 "\n"
-"1 = Linnanimed peavad olema unikaalsed mängija piires, teisel mängijal võib olla sama nimega linn.\n"
+"1 = Linnanimed peavad olema unikaalsed mängija piires, teisel mängijal võib "
+"olla sama nimega linn.\n"
 "\n"
-"2 = Linnanimed peavad olema unikaalsed - kõik mängu linnad peavad olema eri nimedega.\n"
+"2 = Linnanimed peavad olema unikaalsed - kõik mängu linnad peavad olema eri "
+"nimedega.\n"
 "\n"
-"3 = Nagu valik 2, ainult mängijad ei tohi valida võõra rahvuse vaikimisi linnanime, kui see ei ole samas ka nende enda vaikimisi linnanimi."
+"3 = Nagu valik 2, ainult mängijad ei tohi valida võõra rahvuse vaikimisi "
+"linnanime, kui see ei ole samas ka nende enda vaikimisi linnanimi."
 
 #: server/settings.c:719
 msgid "Barbarian appearance frequency"
@@ -4828,8 +4872,8 @@ msgstr ""
 "0 - barbareid pole\n"
 "1 - barbarid ilmuvad ainult onnidest\n"
 "2 - normaalne barbarite ilmumise määr\n"
-"3 - sagedased barbarite ülestõusud"
-"4 - märatsevad barbarite hordid, palju-palju"
+"3 - sagedased barbarite ülestõusud4 - märatsevad barbarite hordid, palju-"
+"palju"
 
 #: server/settings.c:730
 msgid "Barbarian onset year"
@@ -4847,7 +4891,9 @@ msgstr "Revolutsiooni pikkus käikudes"
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-6 turns."
-msgstr "Valitsust vahetades on nii mitu käiku kestev anarhia. Seade 0 tähendab, et valitakse juhuslik arv 1 ja 6 vahel."
+msgstr ""
+"Valitsust vahetades on nii mitu käiku kestev anarhia. Seade 0 tähendab, et "
+"valitakse juhuslik arv 1 ja 6 vahel."
 
 #: server/settings.c:747
 msgid "Whether to enable fog of war"
@@ -4872,7 +4918,9 @@ msgstr "Diplomaatide ja spioonide edu baasšanss"
 msgid ""
 "The chance of a spy returning from a successful mission and the base chance "
 "of success for diplomats and spies."
-msgstr "Tõenäosus, et spioon jõuab edukalt missioonilt tagasi ja diplomaatide ja spioonide edu baasšanss."
+msgstr ""
+"Tõenäosus, et spioon jõuab edukalt missioonilt tagasi ja diplomaatide ja "
+"spioonide edu baasšanss."
 
 #: server/settings.c:765
 msgid "Whether to allow space race"
@@ -4904,7 +4952,10 @@ msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even if they do not have an embassy. If set to zero then players "
 "cannot meet unless they have an embassy."
-msgstr "Mängijad võivad diplomaatilisi kohtumisi teha nii mitu käiku pärast nende viimast kohtumist - isegi, kui neil saatkonda pole. Kui seade on 0, siis mängijad ei saa kohtuda, kui neil pole saatkonda."
+msgstr ""
+"Mängijad võivad diplomaatilisi kohtumisi teha nii mitu käiku pärast nende "
+"viimast kohtumist - isegi, kui neil saatkonda pole. Kui seade on 0, siis "
+"mängijad ei saa kohtuda, kui neil pole saatkonda."
 
 #: server/settings.c:793
 msgid "Rebuild palace if capital is conquered"
@@ -4916,7 +4967,10 @@ msgid ""
 "automatically rebuilt for free in another randomly choosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
-msgstr "Kui seatud 1-ks, siis pealinna vallutamisel ehitatakse automaatselt tasuta palee juhuslikult valitud linnas. See on oluline, kuna nii ignoreeritakse palee tehnoloogilisi nõudmisi."
+msgstr ""
+"Kui seatud 1-ks, siis pealinna vallutamisel ehitatakse automaatselt tasuta "
+"palee juhuslikult valitud linnas. See on oluline, kuna nii ignoreeritakse "
+"palee tehnoloogilisi nõudmisi."
 
 #: server/settings.c:804
 msgid "Whether to use natural city names"
@@ -4933,7 +4987,6 @@ msgid "Players that users are allowed to take"
 msgstr "Mängijad ,mida kasutajad võivad võtta"
 
 #: server/settings.c:819
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -4966,24 +5019,21 @@ msgid ""
 "4 = No controller allowed, observers allowed;\n"
 "\n"
 msgstr ""
-"Siin peab olema string märkidest, millest igaüks näitab tsivilisatsiooni (mängija) tüüpi või olekut. Klientidel on lubatud võtta või vaadelda ainult neid mängijaid, mis on nende tähtedega märgitud."
-"Märgid ja nende tähendused:\n"
+"Siin peab olema string märkidest, millest igaüks näitab tsivilisatsiooni "
+"(mängija) tüüpi või olekut. Klientidel on lubatud võtta või vaadelda ainult "
+"neid mängijaid, mis on nende tähtedega märgitud. See mõjutab ainult tulevasi 'take' ja 'observe' käske ega ole retroaktiivne. Märgid ja nende tähendused:\n"
 "    o,O = Globaalne vaatleja\n"
 "    b   = Barbarid\n"
 "    d   = Surnud mängijad\n"
 "    a,A = Tehismõistused\n"
 "    h,H = Inimmängijad\n"
-"The first description on this list which matches a player is the one which "
-"applies. Thus 'd' does not include dead barbarians, 'a' does not include "
-"dead AI players, and so on. Upper case letters apply before the game has "
-"started, lower case letters afterwards.\n"
+"Esimene kirjeldus, mis sobib antud mängijaga, läheb käiku. Seega, 'd' ei hõlma surnud barbareid, 'a' ei hõlma surnud tehismõistusi jne. Suurtähed mõjuvad enne mängu algust, väiketähed pärast.\n"
 "\n"
-"Each character above may be followed by one of the following numbers to "
-"allow or restrict the manner of connection:\n"
+"Iga sellise tähe järele võib panna ühe järgnevatest numbritest, see lubab või keelab ühendusviise:\n"
 "\n"
-"(none) = Controller allowed, observers allowed, can displace connections. "
+"(mitte midagi) = Controller allowed, observers allowed, can displace connections. "
 "(Displacing a connection means that you may take over a player, even if "
-"another user already controls that player.)\n"
+"another user already controls that player.) TÕLGIMIND\n"
 "\n"
 "1 = Controller allowed, observers allowed, can't displace connections;\n"
 "\n"
@@ -5027,7 +5077,9 @@ msgid ""
 msgstr ""
 "Kui kõik mängijad pole vajutanud \"Käik sooritatud\" enne kui see aeg saab "
 "otsa, siis käik lõpeb automaatselt. Null tähendab ajalimiidi puudumist. "
-"Serveritel, mis kompileeritud silumise toega tähendab ajalimiit -1 automaatse mängu testrežiimi sisse lülitamist. Kasuta seda seadet koostöös käsuga \"timeoutincrease\", et saada dünaamiline taimer."
+"Serveritel, mis kompileeritud silumise toega tähendab ajalimiit -1 "
+"automaatse mängu testrežiimi sisse lülitamist. Kasuta seda seadet koostöös "
+"käsuga \"timeoutincrease\", et saada dünaamiline taimer."
 
 #: server/settings.c:878
 msgid "Timeout at least n seconds when enemy moved"
@@ -5037,7 +5089,9 @@ msgstr "Vähemalt n sekundit ajalimiiti kui vaenlane käis"
 msgid ""
 "Any time a unit moves when in sight of an enemy player, the remaining "
 "timeout is set to this value if it was lower."
-msgstr "Iga kord, kui nähtav vaenlane liigub, seatakse taimer selle väärtuse peale, kui taimer oli allpool seda."
+msgstr ""
+"Iga kord, kui nähtav vaenlane liigub, seatakse taimer selle väärtuse peale, "
+"kui taimer oli allpool seda."
 
 #: server/settings.c:888
 msgid "Whether to have simultaneous player phases."
@@ -5047,7 +5101,9 @@ msgstr "Kas lubada mängijate samaaegsed käigud"
 msgid ""
 "If true, all players' movement phases will occur simultaneously; if false "
 "then players will alternate movement."
-msgstr "Kui lubatud, kõigi mängijate käigud toimuvad korraga. Kui mitte, siis mängijad käivad järjestikku."
+msgstr ""
+"Kui lubatud, kõigi mängijate käigud toimuvad korraga. Kui mitte, siis "
+"mängijad käivad järjestikku."
 
 #: server/settings.c:896
 msgid "Seconds to let a client's network connection block"
@@ -5087,7 +5143,7 @@ msgstr ""
 
 #: server/settings.c:924
 msgid "If a client doesn't reply to a PING in this time the client is disconnected."
-msgstr ""
+msgstr "Kui klient ei vasta pingile selle aja jooksul, katkestatakse ta ühendus."
 
 #: server/settings.c:930
 msgid "Turn-blocking game play mode"
@@ -5118,7 +5174,6 @@ msgid "What is in the Demographics report"
 msgstr "Mida näidata Demograafilises rapordis"
 
 #: server/settings.c:947
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -5139,17 +5194,23 @@ msgid ""
 "    b = display \"best nation\" column\n"
 "The order of characters is not significant, but their capitalization is."
 msgstr ""
-"See on tähtede sõne, millest igaüks tähendab selle info lisamist.\n"
+"See on tähtede sõne, millest igaüks tähendab selle info lisamist demograafia raportisse.\n"
 "Tähtede tähendused on:\n"
-"    N = näita Rahvaarvu             P = näita Toodangut\n"
-"    A = näita Maaala                E = näita Ökonoomikat\n"
-"    S = näita Asustatud Ala         M = näita Sõjaväe Teenistust\n"
-"    R = näita Teadustöö Kiirust     O = näita Reostust\n"
-"    L = näita Kirjaoskust\n"
-"Lisaks tähistavad need tähed kas vastavaid tulpi näidatakse või mitte:\n"
-"    q = näita hulka                 r = näita positsiooni\n"
-"    b = näita esikohta\n"
-"(tähtede järjekord pole oluline, kuid suurus on)"
+"    N = näita rahvaarvu\n"
+"    P = näita toodangut\n"
+"    A = näita riigi pindala\n"
+"    L = näita kirjaoskust\n"
+"    R = näita teadustöö kiirust\n"
+"    S = näita asustatud pindala\n"
+"    R = näita teadustöö kiirust\n"
+"    E = näita majandust\n"
+"    M = näita sõjaväeteenistust\n"
+"    O = näita reostust\n"
+"Lisaks tähistavad järgnevad tähed, kas vastavaid tulpi näidatakse või mitte:\n"
+"    q = näita \"hulk\"-tulpa\n"
+"    r = näita \"koht\"-tulpa\n"
+"    b = näita \"parim\"-tulpa\n"
+"Tähtede järekord ei ole oluline, aga suur- ja väiketähed on."
 
 #: server/settings.c:971
 msgid "Turns per auto-save"
@@ -5159,7 +5220,9 @@ msgstr "Käike automaatse salvestuse kohta"
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
-msgstr "Mäng salvestatakse automaatselt iga selle arvu käikude järel. Null tähendab, et automaatselt ei salvestata."
+msgstr ""
+"Mäng salvestatakse automaatselt iga selle arvu käikude järel. Null tähendab, "
+"et automaatselt ei salvestata."
 
 #: server/settings.c:982 server/settings.c:993
 msgid "Savegame compression level"
@@ -5170,7 +5233,10 @@ msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format). Larger "
 "values will give better compression but take longer. If the maximum is zero "
 "this server was not compiled to use zlib."
-msgstr "Kui suurem kui null, pakitakse salvestatavad mängud zlibi abil (gzipi formaati). Suuremad väärtuseda annavad väiksema faili, kuid võtavad kauema aega. Kui maksimum on null, ei kompileeritud serverit zlib toega."
+msgstr ""
+"Kui suurem kui null, pakitakse salvestatavad mängud zlibi abil (gzipi "
+"formaati). Suuremad väärtuseda annavad väiksema faili, kuid võtavad kauema "
+"aega. Kui maksimum on null, ei kompileeritud serverit zlib toega."
 
 #: server/settings.c:1005
 msgid "Auto-save name prefix"
@@ -5317,7 +5383,9 @@ msgstr "Vaherahu %s'ga on lõpenud. Oled nüüd %s-ga sõjas."
 msgid ""
 "Ceasefire between %s and %s has run out. They are at war. You cancel "
 "alliance with %s."
-msgstr "Vaherahu %s-te ja %s-te vahel on lõppenud. Nad on nüüd sõjas. Sa katkestad liidu %s-tega."
+msgstr ""
+"Vaherahu %s-te ja %s-te vahel on lõppenud. Nad on nüüd sõjas. Sa katkestad "
+"liidu %s-tega."
 
 #: server/srv_main.c:836
 #, c-format
@@ -6542,7 +6610,9 @@ msgstr "%s selgeks saadud.  Teadlased ei tea, mida edasi uurida."
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
-msgstr "Suured teadlased üle kogu maa ühinevad sinu tsivilisatsiooniga ja saad kohe uue tehnoloogia."
+msgstr ""
+"Suured teadlased üle kogu maa ühinevad sinu tsivilisatsiooniga ja saad kohe "
+"uue tehnoloogia."
 
 #: server/techtools.c:565
 #, c-format
@@ -6887,8 +6957,12 @@ msgid ""
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
-msgstr[0] "Su ründav %s sai hakkama %s-te %s-iga (ja %d muu üksusega)%s ja sai kogenumaks!"
-msgstr[1] "Su ründav %s sai hakkama %s-te %s-iga (ja %d muu üksusega)%s ja sai kogenumaks!"
+msgstr[0] ""
+"Su ründav %s sai hakkama %s-te %s-iga (ja %d muu üksusega)%s ja sai "
+"kogenumaks!"
+msgstr[1] ""
+"Su ründav %s sai hakkama %s-te %s-iga (ja %d muu üksusega)%s ja sai "
+"kogenumaks!"
 
 #: server/unittools.c:1660
 #, c-format
@@ -7659,7 +7733,9 @@ msgstr "  -a, --autoconnect\tÄra näita ühendumisdialoogi\n"
 
 #: client/civclient.c:208
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
-msgstr "  -l, --log FILE\tKasuta FILE logimiseks (spawned server TÕLGIMIND kasutab ka seda)\n"
+msgstr ""
+"  -l, --log FILE\tKasuta FILE logimiseks (spawned server TÕLGIMIND kasutab "
+"ka seda)\n"
 
 #: client/civclient.c:210
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
@@ -7680,7 +7756,9 @@ msgstr "  -P, --Plugin PLUGIN\tKasuta PLUGINat heli väljastamiseks %s\n"
 
 #: client/civclient.c:218
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
-msgstr "  -r, --read FILE\tLoe stardikäske FILE-st (ainult spawned serverite jaoks TÕLGIMIND)\n"
+msgstr ""
+"  -r, --read FILE\tLoe stardikäske FILE-st (ainult spawned serverite jaoks "
+"TÕLGIMIND)\n"
 
 #: client/civclient.c:221
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
@@ -7838,39 +7916,39 @@ msgstr ""
 msgid "%s costs %d gold and you only have %d gold."
 msgstr ""
 
-#: client/clinet.c:140
+#: client/clinet.c:137
 msgid "Lost connection to server!"
 msgstr "Kadus ühendus serveriga!"
 
-#: client/clinet.c:183
+#: client/clinet.c:180
 msgid "Failed looking up host."
 msgstr ""
 
-#: client/clinet.c:207
+#: client/clinet.c:204
 msgid "Connection in progress."
 msgstr "Ühendumine..."
 
-#: client/clinet.c:281
+#: client/clinet.c:278
 msgid "Disconnected from server."
 msgstr "Ühendus serveriga katkestati."
 
-#: client/clinet.c:463
+#: client/clinet.c:460
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
 
-#: client/clinet.c:478 client/clinet.c:480
+#: client/clinet.c:475 client/clinet.c:477
 msgid "Connection to server refused. Please start the server."
 msgstr ""
 
-#: client/clinet.c:489 client/clinet.c:517
+#: client/clinet.c:486 client/clinet.c:514
 #, c-format
 msgid ""
 "Error contacting server \"%s\" at port %d as \"%s\":\n"
 " %s\n"
 msgstr ""
 
-#: client/clinet.c:508
+#: client/clinet.c:505
 #, c-format
 msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for "
@@ -8393,7 +8471,7 @@ msgstr[1] ""
 #: client/helpdata.c:1094
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
-msgstr ""
+msgstr "Kui me nüüd %s-ga pihta hakkaks, oleks meil tarvis %d lampi."
 
 #: client/helpdata.c:1099
 #, c-format
@@ -8401,6 +8479,8 @@ msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
 "will require %d bulbs to complete."
 msgstr ""
+"Et jõuda %s-ini, peame me enne %d muud tehnoloogiat saama. Kogu selle projekti "
+"peale läheb %d lampi."
 
 #: client/helpdata.c:1107
 #, c-format
@@ -9451,39 +9531,39 @@ msgstr[1] "%d pirni käigu kohta"
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d lamp/käigus meeskonnalt"
+msgstr[1] ", %d lampi/käigus meeskonnalt"
 
 #: client/text.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "%d/- (never)"
-msgstr "(iialgi)"
+msgstr "%d/- (iialgi)"
 
 #: client/text.c:499
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
-msgstr[0] "%d/%d %d käiku"
-msgstr[1] "%d/%d %d käiku"
+msgstr[0] "%d/%d (%d käik)"
+msgstr[1] "%d/%d (%d käiku)"
 
 #: client/text.c:502
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (never)"
-msgstr "(iialgi)"
+msgstr "%d/%d (iialgi)"
 
 #: client/text.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "%d step"
 msgid_plural "%d steps"
-msgstr[0] "(%d samm)"
-msgstr[1] "(%d sammu)"
+msgstr[0] "%d samm"
+msgstr[1] "%d sammu"
 
 #: client/text.c:541
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d lamp"
+msgstr[1] "%d lampi"
 
 #: client/text.c:545 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
 #: client/gui-gtk-2.0/citydlg.c:1419 client/gui-mui/citydlg.c:125
@@ -9506,33 +9586,33 @@ msgid "Year: %s (T%d)"
 msgstr "Aasta: %s (K%d)"
 
 #: client/text.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%+d)"
-msgstr "Kulda: %d"
+msgstr "Kulda: %d (%+d)"
 
 #: client/text.c:575
-#, fuzzy, c-format
+#, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Maksud:%d Hüved:%d Teadus:%d"
 
 #: client/text.c:581
-#, fuzzy, c-format
+#, c-format
 msgid "Moving: %s"
-msgstr "%s's"
+msgstr "Liigub: %s"
 
 #: client/text.c:583
 msgid "(Click for more info)"
 msgstr ""
 
 #: client/text.c:600
-#, fuzzy, c-format
+#, c-format
 msgid "%s People"
-msgstr "Tervist, %s"
+msgstr "%s Rahvas"
 
 #: client/text.c:604
-#, fuzzy, c-format
+#, c-format
 msgid "Turn: %d"
-msgstr "Maastik: %s"
+msgstr "Käik: %d"
 
 #: client/text.c:606 client/gui-mui/inteldlg.c:141
 #: client/gui-mui/mapview.c:193 client/gui-win32/inteldlg.c:110
@@ -9542,20 +9622,20 @@ msgid "Gold: %d"
 msgstr "Kulda: %d"
 
 #: client/text.c:607
-#, fuzzy, c-format
+#, c-format
 msgid "Net Income: %d"
-msgstr "Sissetulek: "
+msgstr "Kogusissetulek: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:610
-#, fuzzy, c-format
+#, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "Maksud:%d Hüved:%d Teadus:%d"
+msgstr "Maksumäärad: Kuld:%d%% Hüved:%d%% Teadus:%d%%"
 
 #: client/text.c:614
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %s"
-msgstr "Uuritakse %s: %d/%d"
+msgstr "Uuritakse %s: %s"
 
 #: client/text.c:621
 #, c-format
@@ -9574,11 +9654,11 @@ msgid "Government: %s"
 msgstr "Riigikord: %s"
 
 #: client/text.c:653
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] " üksus"
-msgstr[1] " üksus"
+msgstr[0] "%d üksus"
+msgstr[1] "%d üksust"
 
 #: client/text.c:686
 #, c-format
@@ -9591,11 +9671,11 @@ msgid "Turns to target: %d to %d"
 msgstr ""
 
 #: client/text.c:694
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] "Üksuse valimine"
-msgstr[1] "Üksuse valimine"
+msgstr[0] "%d üksus valitud"
+msgstr[1] "%d üksust valitud"
 
 #: client/text.c:699
 msgid "No units selected."
@@ -9625,7 +9705,7 @@ msgid "None of these units may be upgraded."
 msgstr ""
 
 #: client/text.c:838
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9633,10 +9713,10 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Kas uuendada %s %s-ks %d raha eest?\n"
+"Kas uuendada %d üksuse %d raha eest?\n"
 "Meil on hetkel %d raha."
 msgstr[1] ""
-"Kas uuendada %s %s-ks %d raha eest?\n"
+"Kas uuendada %d üksust %d raha eest?\n"
 "Meil on hetkel %d raha."
 
 #: client/text.c:859
@@ -9657,9 +9737,9 @@ msgid "Shows the progress of global warming:"
 msgstr ""
 
 #: client/text.c:889
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Reostus: %d"
+msgstr "Reostuse määr: %d%%"
 
 #: client/text.c:891
 #, c-format
@@ -9671,9 +9751,9 @@ msgid "Shows the progress of nuclear winter:"
 msgstr ""
 
 #: client/text.c:908
-#, fuzzy, c-format
+#, c-format
 msgid "Fallout rate: %d%%"
-msgstr "%s maksimaalne määr: %d%%"
+msgstr "Tuumajäätmete määr: %d%%"
 
 #: client/text.c:910
 #, c-format
@@ -9681,15 +9761,14 @@ msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr ""
 
 #: client/text.c:925
-#, fuzzy
 msgid "Shows your current government:"
-msgstr "Vali uus valitsus"
+msgstr "Näitab su praegust valitsus:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:949
-#, fuzzy, c-format
+#, c-format
 msgid "Population:      %5d"
-msgstr "Rahvaarv: %s"
+msgstr "Rahvaarv:      %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:952
@@ -9769,15 +9848,15 @@ msgstr ""
 
 #. TRANS: "Republic of the Polish"
 #: client/text.c:1095
-#, fuzzy, c-format
+#, c-format
 msgid "%s of the %s"
-msgstr "%s %s"
+msgstr "%s %s-te hulgast"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid "Observer: %s"
-msgstr " (pealtvaataja)"
+msgstr "Pealtvaataja: %s"
 
 #: client/text.c:1125
 msgid "Buildings: "
@@ -9792,9 +9871,8 @@ msgid "None. "
 msgstr ""
 
 #: client/text.c:1143 client/text.c:1181
-#, fuzzy
 msgid "."
-msgstr ". "
+msgstr "."
 
 #: client/text.c:1161
 msgid "Wonders: "
@@ -9810,13 +9888,17 @@ msgid ""
 msgstr ""
 
 #: client/tilespec.c:737
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s file requires option(s) which client doesn't support:\n"
 "file: \"%s\"\n"
 "file options: %s\n"
 "supported options: %s"
-msgstr "Reeglistiku andmefail nõuab valikuid, mida me ei toeta:"
+msgstr ""
+"%s fail nõuab seadet/seadeid, mida klient ei toeta:\n"
+"fail: \"%s\"\n"
+"faili seaded: %s\n"
+"toetatud seaded: %s"
 
 #: client/tilespec.c:858
 msgid "No usable default tileset found, aborting!"
@@ -9871,14 +9953,14 @@ msgid ""
 msgstr ""
 
 #: client/tilespec.c:1581
-#, fuzzy, c-format
+#, c-format
 msgid "Can't find spec file \"%s\"."
-msgstr "Ei suutnud laadida reeglistiku faili \"%s\""
+msgstr "Ei suutnud laadida spetsifikatsiooni faili \"%s\""
 
 #: client/tilespec.c:1701 client/gui-sdl/themespec.c:836
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
-msgstr "Ei suuda lisamiseks avada logifaili %s.\n"
+msgstr ""
 
 #: client/tilespec.c:1838
 #, c-format
@@ -9897,9 +9979,9 @@ msgstr ""
 
 #. TRANS: obscure tileset error.
 #: client/tilespec.c:2631
-#, fuzzy, c-format
+#, c-format
 msgid "Missing base sprite tag \"%s1\"."
-msgstr "Puudu argument võtmele \"%s\".\n"
+msgstr ""
 
 #: client/tilespec.c:3884
 msgid ""
@@ -9957,18 +10039,16 @@ msgid "?cma:Max food"
 msgstr ""
 
 #: client/agents/cma_fec.c:420
-#, fuzzy
 msgid "?cma:Max production"
-msgstr "Masstootmine"
+msgstr "?cma:Max toodang"
 
 #: client/agents/cma_fec.c:421
 msgid "?cma:Max gold"
-msgstr ""
+msgstr "?cma:Max raha"
 
 #: client/agents/cma_fec.c:422
-#, fuzzy
 msgid "?cma:Max science"
-msgstr "Majandus: Teadus"
+msgstr "?cma:Max teadus"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:83 client/gui-win32/dialogs.c:1369
 msgid "Ooops..."
@@ -10025,9 +10105,8 @@ msgid "Select Advance to Steal"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:266
-#, fuzzy
 msgid "_Advances:"
-msgstr "Leiutised"
+msgstr "_Leiutised:"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:306
 #: client/gui-gtk-2.0/diplomat_dialog.c:439 client/gui-mui/dialogs.c:298
@@ -10321,9 +10400,8 @@ msgid "_Happiness"
 msgstr "_Rahulolu"
 
 #: client/gui-gtk-2.0/citydlg.c:1002
-#, fuzzy
 msgid "_Governor"
-msgstr "_Valitsus"
+msgstr "_Valitseja"
 
 #: client/gui-gtk-2.0/citydlg.c:1025
 msgid "_Settings"
@@ -10360,9 +10438,8 @@ msgid "Happiness page"
 msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1039 client/gui-mui/citydlg.c:1382
-#, fuzzy
 msgid "Governor page"
-msgstr "Ülevaate leht"
+msgstr "Valitseja leht"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "This Settings page"
@@ -10402,9 +10479,9 @@ msgid "_Next city"
 msgstr "_Järgmine linn"
 
 #: client/gui-gtk-2.0/citydlg.c:1316
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> - %s citizens"
-msgstr "%s - %s linnaelanikku"
+msgstr "<b>%s</b> - %s kodanikud"
 
 #: client/gui-gtk-2.0/citydlg.c:1321 client/gui-mui/citydlg.c:2065
 #: client/gui-sdl/citydlg.c:3604
@@ -10457,14 +10534,12 @@ msgid "_Disband unit"
 msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:2050
-#, fuzzy
 msgid "_Load unit"
-msgstr "Maaväed"
+msgstr "_Lae üksus"
 
 #: client/gui-gtk-2.0/citydlg.c:2060
-#, fuzzy
 msgid "_Unload unit"
-msgstr "Lae maha"
+msgstr "L_ae üksus maha"
 
 #: client/gui-gtk-2.0/citydlg.c:2071 client/gui-win32/citydlg.c:1520
 msgid "_Sentry unit"
@@ -10479,9 +10554,8 @@ msgid "Make new _homecity"
 msgstr "Määra _uus kodulinn"
 
 #: client/gui-gtk-2.0/citydlg.c:2106
-#, fuzzy
 msgid "U_pgrade unit"
-msgstr "Uuenda üksust"
+msgstr "_Uuenda üksust"
 
 #: client/gui-gtk-2.0/citydlg.c:2424 client/gui-mui/citydlg.c:960
 #: client/gui-sdl/citydlg.c:1161 client/gui-win32/citydlg.c:909
@@ -10696,9 +10770,8 @@ msgid "Celebrate"
 msgstr "Pühitse"
 
 #: client/gui-gtk-2.0/cma_fe.c:463
-#, fuzzy
 msgid "Governor Enabl_ed"
-msgstr "Lugupeetud"
+msgstr "_Valitseja sisse lülitatud"
 
 #: client/gui-gtk-2.0/cma_fe.c:468
 msgid "Governor Disabl_ed"
@@ -10756,9 +10829,8 @@ msgid "Select what to pillage:"
 msgstr "Vali mida röövida:"
 
 #: client/gui-gtk-2.0/dialogs.c:506
-#, fuzzy
 msgid "Unit"
-msgstr "Üksused"
+msgstr "Üksus"
 
 #: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:1478
 #: client/gui-gtk-2.0/pages.c:2046 client/gui-gtk-2.0/wldlg.c:1030
@@ -10789,9 +10861,8 @@ msgstr "Mis rahvusest sa oled?"
 
 #: client/gui-gtk-2.0/dialogs.c:765 client/gui-win32/connectdlg.c:1036
 #: data/Freeciv.in:3371
-#, fuzzy
 msgid "Pick Nation"
-msgstr "Politseimaja"
+msgstr "Vali rahvus"
 
 #: client/gui-gtk-2.0/dialogs.c:774
 msgid "Random Nation"
@@ -10881,18 +10952,17 @@ msgid "_Give shared vision"
 msgstr "Jaga vaadet"
 
 #: client/gui-gtk-2.0/diplodlg.c:346
-#, fuzzy
 msgid "Give _embassy"
-msgstr "Saatkond"
+msgstr "Anna _saatkond"
 
 #: client/gui-gtk-2.0/diplodlg.c:376
 msgid "_Pacts"
 msgstr "_Paktid"
 
 #: client/gui-gtk-2.0/diplodlg.c:469
-#, fuzzy, c-format
+#, c-format
 msgid "Diplomacy: %s"
-msgstr "Diplomaat"
+msgstr "Diplomaatia: %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:476 client/gui-mui/diplodlg.c:535
 msgid "_Cancel meeting"
@@ -11034,29 +11104,28 @@ msgid ""
 "is not any slower but will consume about twice as much memory."
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:611 client/gui-gtk-2.0/gui_main.c:1233
+#: client/gui-gtk-2.0/gui_main.c:626 client/gui-gtk-2.0/gui_main.c:1248
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:977 client/gui-gtk-2.0/gui_main.c:991
+#: client/gui-gtk-2.0/gui_main.c:992 client/gui-gtk-2.0/gui_main.c:1006
 #: client/gui-win32/gui_main.c:481 data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Käigud käidud"
 
-#: client/gui-gtk-2.0/gui_main.c:991
+#: client/gui-gtk-2.0/gui_main.c:1006
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1023
-#, fuzzy
+#: client/gui-gtk-2.0/gui_main.c:1038
 msgid "_Map"
-msgstr "_Kaardid"
+msgstr "_Kaart"
 
-#: client/gui-gtk-2.0/gui_main.c:1100
+#: client/gui-gtk-2.0/gui_main.c:1115
 msgid "_Chat"
 msgstr "_Loba"
 
-#: client/gui-gtk-2.0/gui_main.c:1116 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1131 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11067,73 +11136,72 @@ msgstr ""
 "arvestades teatud tingimusi; Loe Abi menüüst \"Koopiate tegemine\".\n"
 "Aga nüüd mine ja tiri nendel närakatel tsivilisatsioon üle kõrvade!"
 
-#: client/gui-gtk-2.0/gui_main.c:1373
+#: client/gui-gtk-2.0/gui_main.c:1388
 msgid "Not _ready"
 msgstr "Pole _valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/pages.c:1573
+#: client/gui-gtk-2.0/gui_main.c:1399 client/gui-gtk-2.0/pages.c:1573
 msgid "_Ready"
 msgstr "_Valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1388 client/gui-gtk-2.0/gui_main.c:1394
+#: client/gui-gtk-2.0/gui_main.c:1403 client/gui-gtk-2.0/gui_main.c:1409
 #: client/gui-gtk-2.0/pages.c:2095
 msgid "_Start"
 msgstr "_Alusta"
 
-#: client/gui-gtk-2.0/gui_main.c:1399 client/gui-gtk-2.0/pages.c:1563
+#: client/gui-gtk-2.0/gui_main.c:1414 client/gui-gtk-2.0/pages.c:1563
 msgid "Pick _Nation"
 msgstr "Vali _Rahvus"
 
-#: client/gui-gtk-2.0/gui_main.c:1401
-#, fuzzy
+#: client/gui-gtk-2.0/gui_main.c:1416
 msgid "Create _player"
-msgstr "create <mängija nimi>"
+msgstr "Loo _mängija"
 
-#: client/gui-gtk-2.0/gui_main.c:1406
+#: client/gui-gtk-2.0/gui_main.c:1421
 msgid "_Release player"
 msgstr "_Vabasta mängija"
 
-#: client/gui-gtk-2.0/gui_main.c:1408 client/gui-gtk-2.0/pages.c:1568
+#: client/gui-gtk-2.0/gui_main.c:1423 client/gui-gtk-2.0/pages.c:1568
 msgid "_Observe"
 msgstr "_Vaatle"
 
-#: client/gui-gtk-2.0/gui_main.c:1410
+#: client/gui-gtk-2.0/gui_main.c:1425
 msgid "_Do not observe"
 msgstr "_Ära vaatle"
 
-#: client/gui-gtk-2.0/gui_main.c:1432
+#: client/gui-gtk-2.0/gui_main.c:1447
 msgid "<AI>"
 msgstr "<tehisintellekt>"
 
-#: client/gui-gtk-2.0/gui_main.c:1435
+#: client/gui-gtk-2.0/gui_main.c:1450
 msgid "<Novice AI>"
 msgstr "<Algaja tehisintellekt>"
 
-#: client/gui-gtk-2.0/gui_main.c:1438
+#: client/gui-gtk-2.0/gui_main.c:1453
 msgid "<Easy AI>"
 msgstr "<Kerge tehisintellekt>"
 
-#: client/gui-gtk-2.0/gui_main.c:1441
+#: client/gui-gtk-2.0/gui_main.c:1456
 msgid "<Normal AI>"
 msgstr "<Normaalne tehisintellekt>"
 
-#: client/gui-gtk-2.0/gui_main.c:1444
+#: client/gui-gtk-2.0/gui_main.c:1459
 msgid "<Hard AI>"
 msgstr "<Raske tehisintellekt>"
 
-#: client/gui-gtk-2.0/gui_main.c:1454 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1469 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr "Juhuslik"
 
-#: client/gui-gtk-2.0/gui_main.c:1516
+#: client/gui-gtk-2.0/gui_main.c:1531
 msgid "Observer"
 msgstr "Vaatleja"
 
-#: client/gui-gtk-2.0/gui_main.c:1516
+#: client/gui-gtk-2.0/gui_main.c:1531
 msgid "Detached"
 msgstr "Lahti ühenduund"
 
-#: client/gui-gtk-2.0/gui_main.c:1786
+#: client/gui-gtk-2.0/gui_main.c:1801
 msgid "Are you sure you want to quit?"
 msgstr "Ära välju veel, kogu maailm polegi sinu ideoloogiat täis."
 
@@ -11404,43 +11472,37 @@ msgid "+%d Res. / %d"
 msgstr "+ %d Res. / %d"
 
 #: client/gui-gtk-2.0/inteldlg.c:41
-#, fuzzy
 msgid "Ruler:"
-msgstr "Valitseja: %s %s"
+msgstr "Juht:"
 
 #: client/gui-gtk-2.0/inteldlg.c:42
-#, fuzzy
 msgid "Government:"
-msgstr "Valitsus"
+msgstr "Valitsus:"
 
 #: client/gui-gtk-2.0/inteldlg.c:43
-#, fuzzy
 msgid "Capital:"
-msgstr "Pealinn: %s"
+msgstr "Pealinn:"
 
 #: client/gui-gtk-2.0/inteldlg.c:46 client/gui-mui/gamedlgs.c:214
 msgid "Tax:"
 msgstr "Maksud:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50
-#, fuzzy
 msgid "Researching:"
-msgstr "Uuritakse %s."
+msgstr "Uurimisel:"
 
 #: client/gui-gtk-2.0/inteldlg.c:239
-#, fuzzy
 msgid "_Diplomacy"
-msgstr "Diplomaat"
+msgstr "_Diplomaatia"
 
 #: client/gui-gtk-2.0/inteldlg.c:274
-#, fuzzy
 msgid "_Techs"
-msgstr "Jah"
+msgstr "_Tehnoloogiad"
 
 #: client/gui-gtk-2.0/inteldlg.c:299
-#, fuzzy, c-format
+#, c-format
 msgid "Foreign Intelligence: %s Empire"
-msgstr "Välisluure Raport"
+msgstr ""
 
 #: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2411
 #: client/gui-sdl/menu.c:783 client/gui-sdl/menu.c:1110
@@ -11490,9 +11552,8 @@ msgid "Local _Options"
 msgstr "Lokaalsed _Seaded"
 
 #: client/gui-gtk-2.0/menu.c:691 client/gui-win32/menu.c:305
-#, fuzzy
 msgid "_Message Options"
-msgstr "Teadete valikud"
+msgstr "_Teadete seaded"
 
 #: client/gui-gtk-2.0/menu.c:696
 msgid "_Reload Tileset"
@@ -11536,9 +11597,8 @@ msgid "_Quit"
 msgstr "_Välju"
 
 #: client/gui-gtk-2.0/menu.c:729
-#, fuzzy
 msgid "Gover_nment"
-msgstr "Valitsus"
+msgstr "_Valitsus"
 
 #: client/gui-gtk-2.0/menu.c:731 client/gui-gtk-2.0/menu.c:733
 #: client/gui-gtk-2.0/menu.c:735 client/gui-gtk-2.0/menu.c:737
@@ -11557,20 +11617,17 @@ msgid "_Find City"
 msgstr "_Leia linn"
 
 #: client/gui-gtk-2.0/menu.c:739
-#, fuzzy
 msgid "_Worklists"
-msgstr "Tööde nimekirjad"
+msgstr "_Tööde nimekirjad"
 
 #: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
 #: client/gui-gtk-2.0/menu.c:748 client/gui-win32/menu.c:327
-#, fuzzy
 msgid "_Change Government"
-msgstr "_Valitsus"
+msgstr "_Muuda valitsust"
 
 #: client/gui-gtk-2.0/menu.c:745
-#, fuzzy
 msgid "_Revolution..."
-msgstr "_Revolutsioon"
+msgstr "_Revolutsioon..."
 
 #: client/gui-gtk-2.0/menu.c:748 client/gui-gtk-2.0/menu.c:949
 #: client/gui-win32/menu.c:429
@@ -11599,9 +11656,8 @@ msgid "View"
 msgstr "Vaade"
 
 #: client/gui-gtk-2.0/menu.c:755
-#, fuzzy
 msgid "City Outlines"
-msgstr "Linna suvandid"
+msgstr "Linna piirid KONTROLLIMIND"
 
 #: client/gui-gtk-2.0/menu.c:757 client/gui-win32/menu.c:335
 msgid "Map _Grid"
@@ -11672,9 +11728,8 @@ msgid "Fog of War"
 msgstr "Sõjaudu"
 
 #: client/gui-gtk-2.0/menu.c:800
-#, fuzzy
 msgid "_Full Screen"
-msgstr "Täisekraan"
+msgstr "_Täisekraan"
 
 #: client/gui-gtk-2.0/menu.c:804
 msgid "_Center View"
@@ -11747,7 +11802,7 @@ msgstr "_Puhasta reostus"
 
 #: client/gui-gtk-2.0/menu.c:827 client/gui-win32/menu.c:367
 msgid "Clean _Nuclear Fallout"
-msgstr "Puhasta _tuumajääkidest"
+msgstr "Puhasta _tuumajäätmetest"
 
 #: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:369
 msgid "_Sentry"
@@ -11758,9 +11813,8 @@ msgid "Make _Homecity"
 msgstr "Tee kodulinnaks"
 
 #: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:373
-#, fuzzy
 msgid "_Load"
-msgstr "Lae maha"
+msgstr "_Lae"
 
 #: client/gui-gtk-2.0/menu.c:841
 msgid "_Unload Transporter"
@@ -11788,27 +11842,22 @@ msgid "_Connect"
 msgstr "Ü_henda"
 
 #: client/gui-gtk-2.0/menu.c:853 client/gui-win32/menu.c:380
-#, fuzzy
 msgid "_Road"
-msgstr "Tee"
+msgstr "_Tee"
 
 #: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:381
-#, fuzzy
 msgid "Rai_l"
-msgstr "Raudtee"
+msgstr "_Raudtee"
 
 #: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:382
-#, fuzzy
 msgid "_Irrigate"
-msgstr "Niisuta "
+msgstr "_Niisuta"
 
 #: client/gui-gtk-2.0/menu.c:859
-#, fuzzy
 msgid "Go _to"
-msgstr "Mine"
+msgstr "_Mine"
 
 #: client/gui-gtk-2.0/menu.c:859
-#, fuzzy
 msgid "_Build city"
 msgstr "Raja _linn"
 
@@ -11850,9 +11899,8 @@ msgid "Explode Nuclear"
 msgstr "Lõhka tuumapea"
 
 #: client/gui-gtk-2.0/menu.c:881
-#, fuzzy
 msgid "Select same type"
-msgstr "Vali linn"
+msgstr "Vali sama tüüp"
 
 #: client/gui-gtk-2.0/menu.c:883 client/gui-win32/menu.c:393
 msgid "_Wait"
@@ -12007,9 +12055,9 @@ msgid "_About"
 msgstr "_Info"
 
 #: client/gui-gtk-2.0/menu.c:1241
-#, fuzzy, c-format
+#, c-format
 msgid "%s..."
-msgstr "Ups..."
+msgstr "%s..."
 
 #: client/gui-gtk-2.0/menu.c:1312
 #, c-format
@@ -12091,9 +12139,8 @@ msgid "Messages"
 msgstr "Teated"
 
 #: client/gui-gtk-2.0/messagewin.c:186
-#, fuzzy
 msgid "Goto _location"
-msgstr "Mine teise kohta"
+msgstr "Mine _kohta"
 
 #: client/gui-gtk-2.0/plrdlg.c:329
 msgid "?show:Dead Players"
@@ -12128,9 +12175,8 @@ msgid "_Spaceship"
 msgstr "Ko_smoselaev"
 
 #: client/gui-gtk-2.0/plrdlg.c:493
-#, fuzzy
 msgid "_AI"
-msgstr "Tehisintellekt"
+msgstr "_Tehismõistus"
 
 #: client/gui-gtk-2.0/plrdlg.c:499
 msgid "_Toggle AI Mode"
@@ -12153,9 +12199,8 @@ msgid "C_onnect to Network Game"
 msgstr "Ühendu võrgumängu"
 
 #: client/gui-gtk-2.0/pages.c:236
-#, fuzzy
 msgid "Connect to Gaming _Zone"
-msgstr "Ühenda siia"
+msgstr "Ühendu Gaming _Zone'sse"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
@@ -12190,14 +12235,12 @@ msgid "Comment"
 msgstr "Kommentaar"
 
 #: client/gui-gtk-2.0/pages.c:743
-#, fuzzy
 msgid "Local _Area Network"
-msgstr "Kohtvõrk"
+msgstr "_Kohtvõrk"
 
 #: client/gui-gtk-2.0/pages.c:779
-#, fuzzy
 msgid "Internet _Metaserver"
-msgstr "Metaserver"
+msgstr "Interneti _metaserver"
 
 #: client/gui-gtk-2.0/pages.c:813
 msgid "_Host:"
@@ -12212,78 +12255,68 @@ msgid "_Login:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:865
-#, fuzzy
 msgid "Pass_word:"
-msgstr "Parool:"
+msgstr "_Parool:"
 
 #: client/gui-gtk-2.0/pages.c:883
-#, fuzzy
 msgid "Conf_irm Password:"
-msgstr "Parool:"
+msgstr "Kinnita _parool:"
 
 #: client/gui-gtk-2.0/pages.c:908
-#, fuzzy
 msgid "C_onnect"
-msgstr "Ühenda"
+msgstr "_Ühendu"
 
 #: client/gui-gtk-2.0/pages.c:1112
-#, fuzzy, c-format
+#, c-format
 msgid "Connection name: %s"
-msgstr "Kadus ühendus: %s."
+msgstr "Ühenduse nimi: %s"
 
 #: client/gui-gtk-2.0/pages.c:1115
-#, fuzzy, c-format
+#, c-format
 msgid "Player name: %s"
-msgstr "Mängija nimi :"
+msgstr "Mängija nimi: %s"
 
 #: client/gui-gtk-2.0/pages.c:1120
-#, fuzzy, c-format
+#, c-format
 msgid "Host: %s"
-msgstr "Server:"
+msgstr "Masin: %s"
 
 #: client/gui-gtk-2.0/pages.c:1127
 msgid "Player/conn info"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1154
-#, fuzzy, c-format
+#, c-format
 msgid "%s info"
-msgstr "Linna info"
+msgstr "%s info"
 
 #: client/gui-gtk-2.0/pages.c:1165
-#, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <mängija nimi>"
+msgstr "Lülita mängija valmidust"
 
 #: client/gui-gtk-2.0/pages.c:1173
-#, fuzzy
 msgid "Pick nation"
-msgstr "Politseimaja"
+msgstr "Vali rahvus"
 
 #: client/gui-gtk-2.0/pages.c:1183
-#, fuzzy
 msgid "Observe this player"
-msgstr "Peale sinu on üks mängija:"
+msgstr "Vaatle seda mängijat"
 
 #: client/gui-gtk-2.0/pages.c:1190
-#, fuzzy
 msgid "Take this player"
-msgstr "Peale sinu on üks mängija:"
+msgstr "Vali see mängija"
 
 #: client/gui-gtk-2.0/pages.c:1207
-#, fuzzy
 msgid "Cut connection"
-msgstr " 1 ühendus:"
+msgstr "Katkesta ühendus"
 
 #: client/gui-gtk-2.0/pages.c:1217
-#, fuzzy
 msgid "Aitoggle player"
-msgstr "aitoggle <mängija nimi>"
+msgstr "Lülita tehismõistusele"
 
 #: client/gui-gtk-2.0/pages.c:1226
-#, fuzzy
 msgid "Remove player"
-msgstr "Eemaldan mängija %s."
+msgstr "Eemalda mängija"
 
 #: client/gui-gtk-2.0/pages.c:1237
 msgid "Give info access"
@@ -12295,9 +12328,9 @@ msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "Put on %s"
-msgstr "Rahvaarv: %s"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1410
 msgid "_Number of Players (including AI):"
@@ -12320,9 +12353,8 @@ msgid "Record"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1487
-#, fuzzy
 msgid "Rating"
-msgstr "Ootan"
+msgstr "Reiting"
 
 #: client/gui-gtk-2.0/pages.c:1493
 msgid "Ready"
@@ -12363,33 +12395,28 @@ msgid "Type"
 msgstr "Tüüp"
 
 #: client/gui-gtk-2.0/pages.c:2064
-#, fuzzy
 msgid "Choose a _nation to play:"
-msgstr "Vali üksuse tegevus:"
+msgstr "Vali _rahvus, mida mängida:"
 
 #: client/gui-gtk-2.0/pages.c:2084
-#, fuzzy
 msgid "Game _Options..."
-msgstr "Mängu seaded"
+msgstr "Mängu _seaded..."
 
 #: client/gui-gtk-2.0/pages.c:2250 client/gui-win32/menu.c:579
-#, fuzzy
 msgid "Select Location to Save"
-msgstr "Vali rahvus ja nimi"
+msgstr "Vali koht salvestamiseks"
 
 #: client/gui-gtk-2.0/pages.c:2335
 msgid "Save Game"
 msgstr "Salvesta mäng"
 
 #: client/gui-gtk-2.0/pages.c:2376
-#, fuzzy
 msgid "Saved _Games:"
-msgstr "Salvesta mäng"
+msgstr "_Salvestatud mängud:"
 
 #: client/gui-gtk-2.0/pages.c:2403
-#, fuzzy
 msgid "Save _Filename:"
-msgstr "Salvesta mäng"
+msgstr "Salvestise _failinimi:"
 
 #: client/gui-gtk-2.0/repodlgs.c:293 client/gui-win32/repodlgs.c:281
 msgid "Researching"
@@ -12401,9 +12428,8 @@ msgid "Goal"
 msgstr "Eesmärk"
 
 #: client/gui-gtk-2.0/repodlgs.c:633
-#, fuzzy
 msgid "?Building:Name"
-msgstr "Ehituse nimi"
+msgstr "?Building: Nimi"
 
 #: client/gui-gtk-2.0/repodlgs.c:634 client/gui-mui/repodlgs.c:460
 #: client/gui-win32/repodlgs.c:460
@@ -12436,14 +12462,13 @@ msgid "Sell _All"
 msgstr "Müü kõik"
 
 #: client/gui-gtk-2.0/repodlgs.c:795
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr "Kas tõesti tahad eemaldada '%s'?"
+msgstr "Kas tõesti tahad müüa oma %s?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
-#, fuzzy
 msgid "Sell Improvements"
-msgstr "Ehitised"
+msgstr "Müü ehitisi"
 
 #: client/gui-gtk-2.0/repodlgs.c:824
 msgid "Sell-Off: Results"
@@ -12609,9 +12634,8 @@ msgid "_Worklists:"
 msgstr "Tööde nimekirjad"
 
 #: client/gui-gtk-2.0/wldlg.c:543
-#, fuzzy
 msgid "Edit Global _Worklists"
-msgstr "_Lisa üldine tööde nimekiri"
+msgstr "_Muuda üldiseid tööde nimekirju"
 
 #: client/gui-gtk-2.0/wldlg.c:1141
 msgid "Source _Tasks:"
@@ -13333,7 +13357,7 @@ msgstr "Puhasta reostusest"
 #: client/gui-mui/gui_main.c:262 client/gui-mui/mapclass.c:1676
 #: client/gui-sdl/menu.c:617 client/gui-xaw/menu.c:181
 msgid "Clean Nuclear Fallout"
-msgstr "Puhasta tuumajääkidest"
+msgstr "Puhasta tuumajäätmetest"
 
 #: client/gui-mui/gui_main.c:264 client/gui-mui/mapclass.c:1678
 #: client/gui-mui/mapclass.c:2947 client/gui-sdl/menu.c:665
@@ -13536,12 +13560,15 @@ msgstr "Kaitse: %ld.%ld"
 
 #: client/gui-mui/helpdlg.c:872 client/gui-mui/helpdlg.c:891
 #: client/gui-mui/helpdlg.c:911
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Food:   %d\n"
 "Shield: %d\n"
 "Trade:  %d"
-msgstr "Toit"
+msgstr ""
+"Toit:   %d\n"
+"Toodang: %d\n"
+"Kaubandus:  %d"
 
 #: client/gui-mui/inteldlg.c:111 client/gui-sdl/inteldlg.c:213
 #: client/gui-win32/inteldlg.c:85 data/Freeciv.in:173 data/Freeciv.in:223
@@ -13748,7 +13775,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-mui/repodlgs.c:309
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "(%d turn/advance)"
@@ -13756,9 +13783,6 @@ msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
 msgstr[0] ""
-"\n"
-"(%d käik avastuseks)\n"
-"(%d käiku avastuseks)"
 
 #: client/gui-mui/repodlgs.c:326 client/gui-mui/repodlgs.c:327
 msgid "_Goal"
@@ -13925,9 +13949,9 @@ msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
 msgstr ""
 
 #: client/gui-sdl/caravan_dialog.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr "Mine turule"
+msgstr ""
 
 #: client/gui-sdl/caravan_dialog.c:169 data/Freeciv.in:2263
 msgid "Help build Wonder"
@@ -13952,18 +13976,20 @@ msgstr ""
 "mängu"
 
 #: client/gui-sdl/chatline.c:511
-#, fuzzy
 msgid ""
 "Select\n"
 "Nation"
-msgstr "Vali rahvus"
+msgstr ""
+"Vali\n"
+"rahvus"
 
 #: client/gui-sdl/chatline.c:523
-#, fuzzy
 msgid ""
 "Server\n"
 "Settings"
-msgstr "Salvesta seaded"
+msgstr ""
+"Serveri\n"
+"seaded"
 
 #: client/gui-sdl/citydlg.c:435 client/gui-win32/citydlg.c:1483
 #: client/gui-win32/citydlg.c:1514 data/Freeciv.in:1160 data/Freeciv.in:1196
@@ -14044,9 +14070,8 @@ msgid "Sell It?"
 msgstr "Müüd?"
 
 #: client/gui-sdl/citydlg.c:1745 client/gui-sdl/citydlg.c:3771
-#, fuzzy
 msgid "Options panel"
-msgstr "Seaded"
+msgstr "Seadete paneel"
 
 #: client/gui-sdl/citydlg.c:1790
 #, c-format
@@ -14054,11 +14079,10 @@ msgid "Unit maintenance panel (%d %s)"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:1791 client/gui-sdl/citydlg.c:1850
-#, fuzzy
 msgid "unit"
 msgid_plural "units"
-msgstr[0] " üksus"
-msgstr[1] " üksus"
+msgstr[0] "üksus"
+msgstr[1] "üksused"
 
 #: client/gui-sdl/citydlg.c:1849
 #, c-format
@@ -14070,48 +14094,45 @@ msgid "Info Panel"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:1920
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution : %d"
-msgstr "Reostus:   %3d"
+msgstr "Saast : %d"
 
 #: client/gui-sdl/citydlg.c:1948
 msgid "Pollution : none"
 msgstr "Reostus: puudub"
 
 #: client/gui-sdl/citydlg.c:1961
-#, fuzzy
 msgid "Trade routes : "
-msgstr "Kaubandusteed"
+msgstr "Kaubateed : "
 
 #: client/gui-sdl/citydlg.c:2010
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : +%d"
-msgstr "Kaubandus: +%d"
+msgstr "Kaubandus : +%d"
 
 #: client/gui-sdl/citydlg.c:2055 client/gui-sdl/citydlg.c:3714
-#, fuzzy
 msgid "Happiness panel"
-msgstr "Rahulolu"
+msgstr "Rahulolu paneel"
 
 #: client/gui-sdl/citydlg.c:2550
-#, fuzzy
 msgid "Citizens"
-msgstr "Linnad"
+msgstr "Kodanikud"
 
 #: client/gui-sdl/citydlg.c:2579
-#, fuzzy, c-format
+#, c-format
 msgid "Food : %d per turn"
-msgstr "%d kulda käigus"
+msgstr "Toit : %d käigus"
 
 #: client/gui-sdl/citydlg.c:2616
-#, fuzzy, c-format
+#, c-format
 msgid "?food:Surplus : %d"
-msgstr "T+"
+msgstr "?food:Ülejääk : %d"
 
 #: client/gui-sdl/citydlg.c:2664
-#, fuzzy, c-format
+#, c-format
 msgid "Production : %d (%d) per turn"
-msgstr "Teadus: %d käigus"
+msgstr "Toodang : %d (%d) käigus"
 
 #: client/gui-sdl/citydlg.c:2710
 #, c-format
@@ -14119,9 +14140,9 @@ msgid "?production:Support : %d"
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:2747
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : %d per turn"
-msgstr "Hüved: %d käigus"
+msgstr "Kaubandus : %d käigus"
 
 #: client/gui-sdl/citydlg.c:2781
 #, c-format
@@ -14174,11 +14195,10 @@ msgstr "Linn kahaneb : %d %s"
 #: client/gui-sdl/repodlgs.c:2536 client/gui-sdl/wldlg.c:938
 #: client/gui-sdl/wldlg.c:1115 client/gui-sdl/wldlg.c:1401
 #: client/gui-sdl/wldlg.c:1407 client/gui-sdl/wldlg.c:1521
-#, fuzzy
 msgid "turn"
 msgid_plural "turns"
-msgstr[0] "käik"
-msgstr[1] "käik"
+msgstr[0] "käiku"
+msgstr[1] "käiku"
 
 #: client/gui-sdl/citydlg.c:2992
 #, c-format
@@ -14221,9 +14241,8 @@ msgid "Change Production"
 msgstr "Muuda tootmist"
 
 #: client/gui-sdl/citydlg.c:3795 client/gui-sdl/dialogs.c:1218
-#, fuzzy
 msgid "Hurry production"
-msgstr "Linna toodang"
+msgstr "Kiirusta tootmisega"
 
 #: client/gui-sdl/citydlg.c:3810 client/gui-sdl/cma_fe.c:828
 msgid "Citizen Management Agent"
@@ -14266,9 +14285,8 @@ msgid "Happiness Report"
 msgstr "Rahulolu raport"
 
 #: client/gui-sdl/cityrep.c:217
-#, fuzzy
 msgid "Garrison Report"
-msgstr "Üksuste raport"
+msgstr "Garnisoni raport"
 
 #: client/gui-sdl/cityrep.c:228
 msgid "Maintenance Report"
@@ -14359,9 +14377,9 @@ msgstr ""
 
 #: client/gui-sdl/dialogs.c:672 client/gui-sdl/dialogs.c:1373
 #: client/gui-sdl/dialogs.c:1498
-#, fuzzy, c-format
+#, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr "Võiduvõimalus: R: %d%% K: %d%%"
+msgstr " CtWTÕLGIMIND: Rün:%d%% Kts:%d%%"
 
 #: client/gui-sdl/dialogs.c:818 client/gui-sdl/dialogs.c:1164
 msgid "Terrain Info"
@@ -14776,9 +14794,8 @@ msgid "Height"
 msgstr "Kõrgus"
 
 #: client/gui-sdl/mapctrl.c:908
-#, fuzzy
 msgid "Scale Unit Info"
-msgstr "Näita üksuse infot"
+msgstr "Skaalaühiku info"
 
 #: client/gui-sdl/mapctrl.c:1465
 msgid "Economy (F5)"
@@ -14991,9 +15008,8 @@ msgid "Find Homecity"
 msgstr "Leia kodulinn"
 
 #: client/gui-sdl/menu.c:689
-#, fuzzy
 msgid "Transform Tile"
-msgstr "Muuda"
+msgstr "Muuda kaardiruutu"
 
 #: client/gui-sdl/menu.c:730
 msgid "Form Traderoute"
@@ -15014,16 +15030,14 @@ msgid "Cut Down to"
 msgstr ""
 
 #: client/gui-sdl/menu.c:1180 client/gui-sdl/menu.c:1204
-#, fuzzy
 msgid "Irrigate to"
-msgstr "Niisuta "
+msgstr "Niisuta kuni"
 
 #: client/gui-sdl/menu.c:1214
 msgid "Plant Forest"
 msgstr "Istuta mets"
 
 #: client/gui-sdl/menu.c:1235
-#, fuzzy
 msgid "Transform to"
 msgstr "Muuda"
 
@@ -15087,12 +15101,11 @@ msgstr "Riigipiirid"
 
 #: client/gui-sdl/optiondlg.c:1649
 msgid "Draw city map grid"
-msgstr "Joonista kaardil linna piirid"
+msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1679
-#, fuzzy
 msgid "Draw city worker map grid"
-msgstr "Joonista kaardil linna piirid"
+msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1706
 msgid "Special Resources"
@@ -15637,7 +15650,6 @@ msgid "Local Area Network"
 msgstr "Kohtvõrk"
 
 #: client/gui-win32/connectdlg.c:947
-#, fuzzy
 msgid "Welcome to Freeciv"
 msgstr "Tere tulemast Freecivi"
 
@@ -15720,7 +15732,6 @@ msgid ""
 msgstr ""
 
 #: client/gui-win32/diplodlg.c:667
-#, fuzzy
 msgid "Erase Clause"
 msgstr "Kustuta klausel"
 
@@ -16302,7 +16313,7 @@ msgstr "Puhasta reostus"
 
 #: manual/civmanual.c:227
 msgid "Clean fallout"
-msgstr "Puhasta tuumajäätmed"
+msgstr "Puhasta tuumajäätmetest"
 
 #: manual/civmanual.c:259 manual/civmanual.c:268
 msgid "impossible"
@@ -17685,7 +17696,13 @@ msgid ""
 "west.  Irrigating a square causes it to produce some extra food each turn.  "
 "In addition, given sufficient technology, you may irrigate a square a second "
 "time, turning it into even more productive Farmland."
-msgstr "Sobivat tüüpi pinnast saab niisutada. Selleks on vaja, et lähedal asuks mõni veevõtukoht. Ookeani, jõe ruut või mõni muu niisutatud ruut peab asuma niisutatava ruudu vahetus läheduses - põhjas, lõunas, idas või läänes. Niisutamine tõstab ruudu toidutoodangut. Kui sul on vastav tehnoloogia olemas, võid ruutu niisutada ka teistkordselt, mis teeb sellest ruudust veel viljakama põllumaa."
+msgstr ""
+"Sobivat tüüpi pinnast saab niisutada. Selleks on vaja, et lähedal asuks mõni "
+"veevõtukoht. Ookeani, jõe ruut või mõni muu niisutatud ruut peab asuma "
+"niisutatava ruudu vahetus läheduses - põhjas, lõunas, idas või läänes. "
+"Niisutamine tõstab ruudu toidutoodangut. Kui sul on vastav tehnoloogia "
+"olemas, võid ruutu niisutada ka teistkordselt, mis teeb sellest ruudust veel "
+"viljakama põllumaa."
 
 #: data/helpdata.txt:1204
 msgid ""
@@ -17699,7 +17716,10 @@ msgid ""
 "road or railroad on a River square, though, you must know Bridge Building.)  "
 "Roads and railroads allow your units to move more quickly, and they increase "
 "the resources produced in cities."
-msgstr "Sõidu- ja raudteid saab ehitada kõikjale, välja arvatud ookeani. (Siiski pead oskama ehitada Silda, et teed ehitada üle jõe.) Teed võimaldavad su üksustel liikuda kiiremini, samuti tõstavad need linnade tootlikkust."
+msgstr ""
+"Sõidu- ja raudteid saab ehitada kõikjale, välja arvatud ookeani. (Siiski "
+"pead oskama ehitada Silda, et teed ehitada üle jõe.) Teed võimaldavad su "
+"üksustel liikuda kiiremini, samuti tõstavad need linnade tootlikkust."
 
 #: data/helpdata.txt:1212
 msgid ""
@@ -18166,9 +18186,14 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
-"Vähendab linnas tootmisest tulenevat reostust 50%. Samutis suurendab linna käsitöövabriku või tehase kogutoodangut: tehas ja hüdroelektrijaam annavad 100% boonuse, kuid tehas, käsitöövabrik ja hüdroelektrijaam üheskoos annavad 150%-lise toodanguboonuse.\n"
+"Vähendab linnas tootmisest tulenevat reostust 50%. Samutis suurendab linna "
+"käsitöövabriku või tehase kogutoodangut: tehas ja hüdroelektrijaam annavad "
+"100% boonuse, kuid tehas, käsitöövabrik ja hüdroelektrijaam üheskoos annavad "
+"150%-lise toodanguboonuse.\n"
 "\n"
-"Linnas saab olla ainult üks hüdroelektrijaam, elektrijaam või tuumaelektrijaam. Linn saab ehitada hüdroelektrijaama ainult siis, kui ta vahetus läheduses asuvad mäed või jõgi."
+"Linnas saab olla ainult üks hüdroelektrijaam, elektrijaam või "
+"tuumaelektrijaam. Linn saab ehitada hüdroelektrijaama ainult siis, kui ta "
+"vahetus läheduses asuvad mäed või jõgi."
 
 #: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:373
 #: data/civ1/buildings.ruleset:297
@@ -18835,7 +18860,6 @@ msgid ""
 msgstr ""
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
-#:fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -18847,9 +18871,14 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
-"Vähendab linnas tootmisest tulenevat reostust 50%. Samutis suurendab linna käsitöövabriku või tehase kogutoodangut: tehas ja hüdroelektrijaam annavad 100% boonuse, kuid tehas, käsitöövabrik ja hüdroelektrijaam üheskoos annavad 150%-lise toodanguboonuse.\n"
+"Vähendab linnas tootmisest tulenevat reostust 50%. Samutis suurendab linna "
+"käsitöövabriku või tehase kogutoodangut: tehas ja hüdroelektrijaam annavad "
+"100% boonuse, kuid tehas, käsitöövabrik ja hüdroelektrijaam üheskoos annavad "
+"150%-lise toodanguboonuse.\n"
 "\n"
-"Linnas saab olla ainult üks hüdroelektrijaam, elektrijaam või tuumaelektrijaam. Linn saab ehitada hüdroelektrijaama ainult siis, kui ta vahetus läheduses asuvad mäed või jõgi."
+"Linnas saab olla ainult üks hüdroelektrijaam, elektrijaam või "
+"tuumaelektrijaam. Linn saab ehitada hüdroelektrijaama ainult siis, kui ta "
+"vahetus läheduses asuvad mäed või jõgi."
 
 #: data/civ2/buildings.ruleset:388 data/civ1/buildings.ruleset:312
 #, no-c-format
@@ -20110,9 +20139,17 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
-"Asunikud on mängu üks tähtsamaid üksusi.  Nad võivad asustada uusi linnu, rajada niisutuskanaleid, ehitada sõidu- ja raudteid, rajada kindlustusi ja kaevandusi ning koristada saasta ning tuumajäätmeid.\n"
+"Asunikud on mängu üks tähtsamaid üksusi.  Nad võivad asustada uusi linnu, "
+"rajada niisutuskanaleid, ehitada sõidu- ja raudteid, rajada kindlustusi ja "
+"kaevandusi ning koristada saasta ning tuumajäätmeid.\n"
 "\n"
-"Asunikud ja insenerid võivad teha koostööd, et vähendada pikkadele projektidele kuluvat aega. Kui kaks või enam asunikku ja/või inseneri töötavad sama asja kallal samal ruudul, nende pingutused liituvad iga käigu lõpus kuni lõpuks ülesanne valmis saab. Aga vaata ette, et liiga palju töölisi sama ülesannet tegema poleks pandud, kuna liigsed pingutused võivad raisku minna, samuti on asunike ja/või inseneride grupid vaenlase rünnakutele heaks sihtmärgiks."
+"Asunikud ja insenerid võivad teha koostööd, et vähendada pikkadele "
+"projektidele kuluvat aega. Kui kaks või enam asunikku ja/või inseneri "
+"töötavad sama asja kallal samal ruudul, nende pingutused liituvad iga käigu "
+"lõpus kuni lõpuks ülesanne valmis saab. Aga vaata ette, et liiga palju "
+"töölisi sama ülesannet tegema poleks pandud, kuna liigsed pingutused võivad "
+"raisku minna, samuti on asunike ja/või inseneride grupid vaenlase "
+"rünnakutele heaks sihtmärgiks."
 
 #: data/default/units.ruleset:264
 msgid ""
@@ -20506,7 +20543,9 @@ msgstr "Rändur on väga kasulik kaardistamata territooriumi avastamiseks."
 
 #: data/default/units.ruleset:1766
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr "See oled sina. Kui sa selle üksuse kaotad, oled mängu kaotanud. Nii et ära kaota!"
+msgstr ""
+"See oled sina. Kui sa selle üksuse kaotad, oled mängu kaotanud. Nii et ära "
+"kaota!"
 
 #: data/default/units.ruleset:1771 data/civ2/units.ruleset:1681
 #: data/civ1/units.ruleset:962
@@ -20675,7 +20714,7 @@ msgstr ""
 msgid "Mullah"
 msgstr "mulla"
 
-#: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:19
+#: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:25
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:29
 #: data/nation/canadian.ruleset:20 data/nation/danish.ruleset:37
 #: data/nation/dutch.ruleset:21 data/nation/english.ruleset:25
@@ -20704,7 +20743,9 @@ msgstr "?plural:Alžeerlased"
 msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
-msgstr "Alžeeria on Põhja-Aafrikas asuv araabia riik. Ajaloolisel on ælzeeria asunikeks olnud berberi rahvas"
+msgstr ""
+"Alžeeria on Põhja-Aafrikas asuv araabia riik. Ajaloolisel on ælzeeria "
+"asunikeks olnud berberi rahvas"
 
 #: data/nation/american.ruleset:3
 msgid "American"
@@ -20718,7 +20759,9 @@ msgstr "?plural:Ameeriklased"
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
-msgstr "Ametliku nimetusega Ameerika Ühendriigid,  Suurbritannia võimu alt vabanes pärast revoutsiooni aastatel 1776 - 1783 m.a.j."
+msgstr ""
+"Ametliku nimetusega Ameerika Ühendriigid,  Suurbritannia võimu alt vabanes "
+"pärast revoutsiooni aastatel 1776 - 1783 m.a.j."
 
 #: data/nation/american.ruleset:56 data/nation/scottish.ruleset:25
 msgid "Speaker"
@@ -21065,7 +21108,6 @@ msgid ""
 msgstr ""
 
 #: data/nation/bulgarian.ruleset:31
-#, fuzzy
 msgid "Tzar"
 msgstr "Tsaar"
 
@@ -21522,7 +21564,9 @@ msgstr "?plural:Soomlased"
 msgid ""
 "Finland is a small, cold country on the northern fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
-msgstr "Soome on väike ja külm riik Euroopa põhjapiiril, tegeleb puidu ekspordi, mobiiltelefonide ja maailmaklassi operatsioonisüsteemidega."
+msgstr ""
+"Soome on väike ja külm riik Euroopa põhjapiiril, tegeleb puidu ekspordi, "
+"mobiiltelefonide ja maailmaklassi operatsioonisüsteemidega."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -21613,7 +21657,9 @@ msgstr "?plural:Grusiinid"
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s AD."
-msgstr "Grusiinid olid ühed esimestest, kes võtsid omaks kristluse, seda siis 4-ndal sajandil m.a.j"
+msgstr ""
+"Grusiinid olid ühed esimestest, kes võtsid omaks kristluse, seda siis 4-ndal "
+"sajandil m.a.j"
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -21768,7 +21814,9 @@ msgstr "?plural:indialased"
 msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
-msgstr "Iidse India tsivilisatsiooni juured asuvad Induse jõe orus tänapäeva Pakistani aladel"
+msgstr ""
+"Iidse India tsivilisatsiooni juured asuvad Induse jõe orus tänapäeva "
+"Pakistani aladel"
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
@@ -21834,7 +21882,9 @@ msgid ""
 "Iraq was founded after the fall of the Ottoman empire. It is encompassing "
 "the ancient region of Mesopotamia at the confluence of the Tigris and "
 "Euphrates rivers."
-msgstr "Iraak rajati pärast Ottomani impeeriumi lagunemist. Iraak haarab enda alla iidse Mesopotaamia territooriumi Tigrise ja Eufrati kallastel."
+msgstr ""
+"Iraak rajati pärast Ottomani impeeriumi lagunemist. Iraak haarab enda alla "
+"iidse Mesopotaamia territooriumi Tigrise ja Eufrati kallastel."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -21854,12 +21904,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/irish.ruleset:56
-#, fuzzy
 msgid "High King"
 msgstr "Kuningas"
 
 #: data/nation/irish.ruleset:56
-#, fuzzy
 msgid "High Queen"
 msgstr "Kuninganna"
 
@@ -23045,7 +23093,15 @@ msgid ""
 "16th century. Tunisia became mostly autonomous from the Ottoman empire in "
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
-msgstr "Foiniiklased rajasid Kartaago praeguse Tuneesia aladele. Kartaagost sai üks mõjuvõimsamaid  Vahemere-äärseid riike, seda kuni roomlaste invasioonini aastal 146 e.m.a. Hilisem Kartaago vallutamine 7-ndal sajandil araabia moslemite poolt tõi kaasa sisserände Araabia ja Ottomani riikidest. 16. sajandi lõpus liikus sellele alale ka juute ja maoore. Tuneesia saavutas Ottomani impeeriumi koosseisus autonoomia aasal 1861. Aga 1881. a. vallutasid prantslased Tuneesia ja tegide sellest oma protektoraadi. Tuneesi iseseisvus 1956. a."
+msgstr ""
+"Foiniiklased rajasid Kartaago praeguse Tuneesia aladele. Kartaagost sai üks "
+"mõjuvõimsamaid  Vahemere-äärseid riike, seda kuni roomlaste invasioonini "
+"aastal 146 e.m.a. Hilisem Kartaago vallutamine 7-ndal sajandil araabia "
+"moslemite poolt tõi kaasa sisserände Araabia ja Ottomani riikidest. 16. "
+"sajandi lõpus liikus sellele alale ka juute ja maoore. Tuneesia saavutas "
+"Ottomani impeeriumi koosseisus autonoomia aasal 1861. Aga 1881. a. "
+"vallutasid prantslased Tuneesia ja tegide sellest oma protektoraadi. Tuneesi "
+"iseseisvus 1956. a."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -23103,7 +23159,13 @@ msgid ""
 "1700s. Today, descendants of the Uyghur form the populations of the Central "
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
-msgstr "Uiguuria oli ida-Türgi impeerium ja tsivilisatsioon. Oma kõrghetkel 820. a. m.a.j kontrollis Uiguuria enamikku Kesk- ja Põhja-Aasiast. Pärast mitme sajandi vältel toimunud kokkupõrkeid hiinlastega alistusid nad Qingi dünastiale 18. sajandil. Tänapäeval asustavad uiguuride järeltulijad Kesk-Aasia riike, näiteks Usbekistan, Kasahstan ja Kõrgõstan. Uiguurid on samuti kõige arvukam vähemusrahvus Xinjiangi provintsis Hiinas."
+msgstr ""
+"Uiguuria oli ida-Türgi impeerium ja tsivilisatsioon. Oma kõrghetkel 820. a. "
+"m.a.j kontrollis Uiguuria enamikku Kesk- ja Põhja-Aasiast. Pärast mitme "
+"sajandi vältel toimunud kokkupõrkeid hiinlastega alistusid nad Qingi "
+"dünastiale 18. sajandil. Tänapäeval asustavad uiguuride järeltulijad Kesk-"
+"Aasia riike, näiteks Usbekistan, Kasahstan ja Kõrgõstan. Uiguurid on samuti "
+"kõige arvukam vähemusrahvus Xinjiangi provintsis Hiinas."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
