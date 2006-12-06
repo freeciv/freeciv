@@ -1050,16 +1050,18 @@ void refresh_overview(void)
   struct widget *pMMap;
   SDL_Rect overview_area;
 
-  pMMap = get_minimap_window_widget();
-    
-  overview_area = (SDL_Rect) {
-    OVERVIEW_START_X, OVERVIEW_START_Y, 
-    overview_canvas->surf->w, overview_canvas->surf->h
-  };
-
-  alphablit(overview_canvas->surf, NULL, pMMap->dst->surface, &overview_area);
+  if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
+    pMMap = get_minimap_window_widget();
+      
+    overview_area = (SDL_Rect) {
+      OVERVIEW_START_X, OVERVIEW_START_Y, 
+      overview_canvas->surf->w, overview_canvas->surf->h
+    };
   
-  widget_mark_dirty(pMMap);
+    alphablit(overview_canvas->surf, NULL, pMMap->dst->surface, &overview_area);
+    
+    widget_mark_dirty(pMMap);
+  }
 }
 
 /**************************************************************************
