@@ -102,26 +102,7 @@ static int window_worklist_editor_callback(struct widget *pWidget)
 static int popdown_worklist_editor_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if(pEditor) {
-      popdown_window_group_dialog(pEditor->pBeginWidgetList,
-                                              pEditor->pEndWidgetList);
-      FC_FREE(pEditor->pTargets->pScroll);
-      FC_FREE(pEditor->pWork->pScroll);
-      if(pEditor->pGlobal) {
-        FC_FREE(pEditor->pGlobal->pScroll);
-        FC_FREE(pEditor->pGlobal);
-      }
-      FC_FREE(pEditor->pTargets);
-      FC_FREE(pEditor->pWork);
-      FC_FREE(pEditor->pCopy_WorkList);
-          
-      if(city_dialog_is_open(pEditor->pCity)) {
-        enable_city_dlg_widgets();
-      }
-    
-      FC_FREE(pEditor);
-      flush_dirty();
-    }
+    popdown_worklist_editor();
   }
   return -1;
 }
@@ -177,29 +158,10 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
       update_worklist_report_dialog();
     }  
     
-    /* popdown dlg */
-    popdown_window_group_dialog(pEditor->pBeginWidgetList,
-                                              pEditor->pEndWidgetList);
-    FC_FREE(pEditor->pTargets->pScroll);
-    FC_FREE(pEditor->pWork->pScroll);
-    if(pEditor->pGlobal) {
-      FC_FREE(pEditor->pGlobal->pScroll);
-      FC_FREE(pEditor->pGlobal);
-    }
-    FC_FREE(pEditor->pTargets);
-    FC_FREE(pEditor->pWork);
-    FC_FREE(pEditor->pCopy_WorkList);
-    FC_FREE(pEditor);
-    
-    if(city_dialog_is_open(pCity)) {
-      enable_city_dlg_widgets();
-      if(same_prod) {
-        flush_dirty();
-      }
-    } else {
-      flush_dirty();
-    }
+    /* popdown dialog */
+    popdown_worklist_editor();
   }
+  
   return -1;
 }
 
@@ -1749,17 +1711,28 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
 void popdown_worklist_editor(void)
 {
-    if(pEditor) {
+  if(pEditor) {
     popdown_window_group_dialog(pEditor->pBeginWidgetList,
-					    pEditor->pEndWidgetList);
+                                            pEditor->pEndWidgetList);
     FC_FREE(pEditor->pTargets->pScroll);
-    FC_FREE(pEditor->pWork->pScroll);
-    FC_FREE(pEditor->pGlobal->pScroll);
-    FC_FREE(pEditor->pGlobal);
     FC_FREE(pEditor->pTargets);
+    
+    FC_FREE(pEditor->pWork->pScroll);
     FC_FREE(pEditor->pWork);
-    FC_FREE(pEditor->pCopy_WorkList);
-    FC_FREE(pEditor);
-  }
+    
+    if(pEditor->pGlobal) {
+      FC_FREE(pEditor->pGlobal->pScroll);
+      FC_FREE(pEditor->pGlobal);
+    }
 
+    FC_FREE(pEditor->pCopy_WorkList);
+        
+    if(city_dialog_is_open(pEditor->pCity)) {
+      enable_city_dlg_widgets();
+    }
+  
+    FC_FREE(pEditor);
+    
+    flush_dirty();
+  }
 }
