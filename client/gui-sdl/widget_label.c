@@ -65,16 +65,6 @@ static int redraw_label(struct widget *pLabel)
     return ret;
   }
   
-  /* if label transparen then clear background under widget
-   * or save this background */
-  if (get_wflags(pLabel) & WF_RESTORE_BACKGROUND) {
-    if (pLabel->gfx) {
-      widget_undraw(pLabel);
-    } else {
-      pLabel->gfx = crop_rect_from_surface(pLabel->dst->surface, &area);
-    }
-  }
-
   if(get_wtype(pLabel) == WT_T2_LABEL) {
     return redraw_themelabel2(pLabel);
   }

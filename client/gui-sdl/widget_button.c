@@ -41,7 +41,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
   Graphic for button is taken from pIButton->theme surface 
   and blit to new created image.
 
-  Graphic for Icon is taken from pIButton->gfx surface and blit to new
+  Graphic for Icon is taken from pIButton->theme2 surface and blit to new
   created image.
 
   function return (-1) if there are no Icon and Text.
@@ -51,7 +51,7 @@ static int redraw_ibutton(struct widget *pIButton)
 {
   SDL_Rect dest = { 0, 0, 0, 0 };
   SDL_String16 TMPString;
-  SDL_Surface *pButton = NULL, *pText = NULL, *pIcon = pIButton->gfx;
+  SDL_Surface *pButton = NULL, *pText = NULL, *pIcon = pIButton->theme2;
   Uint16 Ix, Iy, x;
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
@@ -220,7 +220,7 @@ static int redraw_ibutton(struct widget *pIButton)
   Graphic for button is taken from pTIButton->theme surface 
   and blit to new created image.
 
-  Graphic for Icon Theme is taken from pTIButton->gfx surface 
+  Graphic for Icon Theme is taken from pTIButton->theme2 surface 
   and blit to new created image.
 
   function return (-1) if there are no Icon and Text.  Else return 0.
@@ -235,16 +235,15 @@ static int redraw_tibutton(struct widget *pTIButton)
     return iRet;
   }
   
-  pIcon = create_icon_from_theme(pTIButton->gfx,
-					      get_wstate(pTIButton));
-  SDL_Surface *pCopy_Of_Icon_Theme = pTIButton->gfx;
+  pIcon = create_icon_from_theme(pTIButton->theme2, get_wstate(pTIButton));
+  SDL_Surface *pCopy_Of_Icon_Theme = pTIButton->theme2;
 
-  pTIButton->gfx = pIcon;
+  pTIButton->theme2 = pIcon;
 
   iRet = redraw_ibutton(pTIButton);
 
-  FREESURFACE(pTIButton->gfx);
-  pTIButton->gfx = pCopy_Of_Icon_Theme;
+  FREESURFACE(pTIButton->theme2);
+  pTIButton->theme2 = pCopy_Of_Icon_Theme;
 
   return iRet;
 }
@@ -275,7 +274,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   pButton = widget_new();
 
   pButton->theme = pTheme->Button;
-  pButton->gfx = pIcon;
+  pButton->theme2 = pIcon;
   pButton->string16 = pStr;
   set_wflag(pButton, (WF_FREE_STRING | flags));
   set_wstate(pButton, FC_WS_DISABLED);
@@ -346,8 +345,8 @@ struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
   SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
   struct widget *pButton = create_icon_button(pIcon, pDest, pString16, flags);
 
-  FREESURFACE(pButton->gfx);	/* pButton->gfx == pIcon */
-  pButton->gfx = pIcon_theme;
+  FREESURFACE(pButton->theme2);
+  pButton->theme2 = pIcon_theme;
   set_wtype(pButton, WT_TI_BUTTON);
 
   pButton->redraw = redraw_tibutton;
@@ -364,7 +363,7 @@ struct widget * create_themeicon_button(SDL_Surface *pIcon_theme,
   Graphic for button is taken from pButton->theme surface and blit to new
   created image.
 
-  Graphic for Icon theme is taken from pButton->gfx surface and blit to
+  Graphic for Icon theme is taken from pButton->theme2 surface and blit to
   new created image.
 
   function return (-1) if there are no Icon and Text.
@@ -386,7 +385,7 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
    Graphic for button is taken from pButton->theme surface 
    and blit to new created image.
 
-  Graphic for Icon is taken from pButton->gfx surface 
+  Graphic for Icon is taken from pButton->theme2 surface 
   and blit to new created image.
 
   function return (-1) if there are no Icon and Text.

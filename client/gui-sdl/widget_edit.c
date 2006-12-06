@@ -59,18 +59,19 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 /**************************************************************************
 ...
 **************************************************************************/
-static void redraw_edit_chain(struct EDIT *pEdt)
+static int redraw_edit_chain(struct EDIT *pEdt)
 {
   struct UniChar *pInputChain_TMP;
   SDL_Rect Dest, Dest_Copy = {0, 0, 0, 0};
   int iStart_Mod_X;
+  int ret;
 
   Dest_Copy.x = pEdt->pWidget->size.x;
   Dest_Copy.y = pEdt->pWidget->size.y;
 
-  /* blit backgroud ( if any ) */
-  if (get_wflags(pEdt->pWidget) & WF_RESTORE_BACKGROUND) {
-    widget_undraw(pEdt->pWidget);
+  ret = (*baseclass_redraw)(pEdt->pWidget);
+  if (ret != 0) {
+    return ret;
   }
 
   /* blit theme */
@@ -118,6 +119,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
 
   widget_flush(pEdt->pWidget);
   
+  return 0;
 }
 
 /**************************************************************************
@@ -135,14 +137,21 @@ static void redraw_edit_chain(struct EDIT *pEdt)
 **************************************************************************/
 static int redraw_edit(struct widget *pEdit_Widget)
 {
+  int ret;
+  
   if (get_wstate(pEdit_Widget) == FC_WS_PRESSED) {
-    redraw_edit_chain((struct EDIT *)pEdit_Widget->data.ptr);
+    return redraw_edit_chain((struct EDIT *)pEdit_Widget->data.ptr);
   } else {
     int iRet = 0;
     SDL_Rect rDest = {pEdit_Widget->size.x, pEdit_Widget->size.y, 0, 0};
     SDL_Surface *pEdit = NULL;
     SDL_Surface *pText;
-  
+
+    ret = (*baseclass_redraw)(pEdit_Widget);
+    if (ret != 0) {
+      return ret;
+    }
+    
     if (pEdit_Widget->string16->text &&
     	get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
       Uint16 *backup = pEdit_Widget->string16->text;
@@ -167,11 +176,6 @@ static int redraw_edit(struct widget *pEdit_Widget)
       return -1;
     }
     
-    if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
-      /* blit background */
-      widget_undraw(pEdit_Widget);
-    }
-
     /* blit theme */
     alphablit(pEdit, NULL, pEdit_Widget->dst->surface, &rDest);
 
@@ -326,7 +330,7 @@ struct widget * create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   struct widget *pEdit = widget_new();
 
   pEdit->theme = pTheme->Edit;
-  pEdit->gfx = pBackground;
+  pEdit->theme2 = pBackground; /* FIXME: make somewhere use of it */
   pEdit->string16 = pString16;
   set_wflag(pEdit, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pEdit, FC_WS_DISABLED);

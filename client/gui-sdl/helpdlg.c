@@ -266,12 +266,12 @@ void popup_impr_info(Impr_type_id impr)
     
     FREESURFACE(pTmp);
     
-    pHelpDlg->pBeginActiveWidgetList = pBuf;
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
     pHelpDlg->pBeginWidgetList = pBuf;/* IMPORTANT */
+    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
     
     if (h > 10) {
-      pHelpDlg->pActiveWidgetList = pDock->prev;
+      pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
       width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
         
@@ -637,13 +637,13 @@ void popup_unit_info(Unit_type_id type_id)
     } unit_type_iterate_end;
     
     FREESURFACE(pTmp);
-    
-    pHelpDlg->pBeginActiveWidgetList = pBuf;
+
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
     pHelpDlg->pBeginWidgetList = pBuf;/* IMPORTANT */
+    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
     
     if (h > 10) {
-      pHelpDlg->pActiveWidgetList = pDock->prev;
+      pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
       width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
         
@@ -903,7 +903,7 @@ static int show_help_callback(struct widget *pWidget)
     if (!pStore->show_tree)
     {
       pStore->show_full_tree = FALSE;
-      pStore->pDock->gfx = pTheme->UP_Icon;
+      pStore->pDock->theme2 = pTheme->UP_Icon;
     }
     popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
   }
@@ -1535,9 +1535,9 @@ static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pWidget)
     struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
     if (pStore->show_full_tree)
     {
-      pWidget->gfx = pTheme->UP_Icon;
+      pWidget->theme2 = pTheme->UP_Icon;
     } else {
-      pWidget->gfx = pTheme->DOWN_Icon;
+      pWidget->theme2 = pTheme->DOWN_Icon;
     }
     pStore->show_full_tree = !pStore->show_full_tree;
     popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
@@ -1888,13 +1888,13 @@ void popup_tech_info(Tech_type_id tech)
     }
     
     FREESTRING16(pStr);  
-    
-    pHelpDlg->pBeginActiveWidgetList = pBuf;
+
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
     pHelpDlg->pBeginWidgetList = pBuf;/* IMPORTANT */
+    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
     
     if (h > 10) {
-      pHelpDlg->pActiveWidgetList = pDock->prev;
+      pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
       width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
         

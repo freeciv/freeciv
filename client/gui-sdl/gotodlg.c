@@ -175,12 +175,14 @@ static void update_goto_dialog(void)
     } city_list_iterate_end;
   }
 
-  if(n) {
-    pGotoDlg->pBeginActiveWidgetList = pBuf;
+  if (n > 0) {
     pGotoDlg->pBeginWidgetList = pBuf;
+    
+    pGotoDlg->pBeginActiveWidgetList = pGotoDlg->pBeginWidgetList;
     pGotoDlg->pEndActiveWidgetList = pLast->prev;
-    pGotoDlg->pActiveWidgetList = pLast->prev;
+    pGotoDlg->pActiveWidgetList = pGotoDlg->pEndActiveWidgetList;
     pGotoDlg->pScroll->count = n;
+    
     if (n > 17)
     {
       show_scrollbar(pGotoDlg->pScroll);

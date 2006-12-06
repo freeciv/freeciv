@@ -742,7 +742,7 @@ void popup_players_nations_dialog(void)
     }
   }
   pShort_Players_Dlg->pBeginWidgetList = pBuf;
-  pShort_Players_Dlg->pBeginActiveWidgetList = pBuf;
+  pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->pBeginWidgetList;
   pShort_Players_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
   pShort_Players_Dlg->pActiveWidgetList = pShort_Players_Dlg->pEndActiveWidgetList;
   

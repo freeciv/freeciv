@@ -1206,8 +1206,8 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     
     pEditor->pWork->pEndWidgetList = pBuf;
     pEditor->pWork->pBeginWidgetList = pBuf;
-    pEditor->pWork->pEndActiveWidgetList = pBuf;
-    pEditor->pWork->pBeginActiveWidgetList = pBuf;
+    pEditor->pWork->pEndActiveWidgetList = pEditor->pWork->pEndWidgetList;
+    pEditor->pWork->pBeginActiveWidgetList = pEditor->pWork->pBeginWidgetList;
     pEditor->pWork->pScroll->count++;
   }
   
@@ -1250,10 +1250,10 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   if(count) {
     if(!pCity) {
       pEditor->pWork->pEndWidgetList = pLast->prev;
-      pEditor->pWork->pEndActiveWidgetList = pLast->prev;
+      pEditor->pWork->pEndActiveWidgetList = pEditor->pWork->pEndWidgetList;
     }
     pEditor->pWork->pBeginWidgetList = pBuf;
-    pEditor->pWork->pBeginActiveWidgetList = pBuf;
+    pEditor->pWork->pBeginActiveWidgetList = pEditor->pWork->pBeginWidgetList;
   } else {
     if(!pCity) {
       pEditor->pWork->pEndWidgetList = pLast;
@@ -1263,7 +1263,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
 /* FIXME */
 #if 0  
-  pEditor->pWork->pActiveWidgetList = pLast;
+  pEditor->pWork->pActiveWidgetList = pEditor->pWork->pEndActiveWidgetList;
   create_vertical_scrollbar(pEditor->pWork, 1,
                            pEditor->pWork->pScroll->active, FALSE, TRUE);
   pEditor->pWork->pScroll->pUp_Left_Button->size.w = adj_size(122);
@@ -1310,12 +1310,12 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     if(count) {
       pEditor->pGlobal = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       pEditor->pGlobal->pEndWidgetList = pLast->prev;
-      pEditor->pGlobal->pEndActiveWidgetList = pLast->prev;
+      pEditor->pGlobal->pEndActiveWidgetList = pEditor->pGlobal->pEndWidgetList;
       pEditor->pGlobal->pBeginWidgetList = pBuf;
-      pEditor->pGlobal->pBeginActiveWidgetList = pBuf;
+      pEditor->pGlobal->pBeginActiveWidgetList = pEditor->pGlobal->pBeginWidgetList;
     
       if(count > 6) {
-        pEditor->pGlobal->pActiveWidgetList = pLast->prev;
+        pEditor->pGlobal->pActiveWidgetList = pEditor->pGlobal->pEndActiveWidgetList;
 
 /* FIXME: this can probably be removed */
 #if 0
@@ -1587,9 +1587,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   pEditor->pTargets->pEndWidgetList = pLast->prev;
   pEditor->pTargets->pBeginWidgetList = pBuf;
-  pEditor->pTargets->pEndActiveWidgetList = pLast->prev;
-  pEditor->pTargets->pBeginActiveWidgetList = pBuf;
-  pEditor->pTargets->pActiveWidgetList = pLast->prev;
+  pEditor->pTargets->pEndActiveWidgetList = pEditor->pTargets->pEndWidgetList;
+  pEditor->pTargets->pBeginActiveWidgetList = pEditor->pTargets->pBeginWidgetList;
+  pEditor->pTargets->pActiveWidgetList = pEditor->pTargets->pEndActiveWidgetList;
     
   /* --------------- */
   if(count > (TARGETS_ROW * TARGETS_COL - 1)) {

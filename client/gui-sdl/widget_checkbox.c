@@ -45,10 +45,6 @@ static int redraw_icon(struct widget *pIcon)
     return -3;
   }
 
-  if (pIcon->gfx) {
-    widget_undraw(pIcon);
-  }
-
   src.x = (pIcon->theme->w / 4) * (Uint8) (get_wstate(pIcon));
   src.y = 0;
   src.w = (pIcon->theme->w / 4);
@@ -90,15 +86,6 @@ static int redraw_textcheckbox(struct widget *pCBox)
   }
   
   pCBox->theme = pIcon;
-
-  /* if label transparen then clear background under widget or save this background */
-  if (get_wflags(pCBox) & WF_RESTORE_BACKGROUND) {
-    if (pCBox->gfx) {
-      widget_undraw(pCBox);
-    } else {
-      pCBox->gfx = crop_rect_from_surface(pCBox->dst->surface, &pCBox->size);
-    }
-  }
 
   /* redraw icon label */
   ret = redraw_iconlabel(pCBox);

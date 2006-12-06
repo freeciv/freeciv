@@ -482,8 +482,8 @@ static void popup_conn_list_dialog(void)
       
   pConnDlg->pChat_Dlg->pBeginWidgetList = pLabel;
   pConnDlg->pChat_Dlg->pEndWidgetList = pLabel;
-  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pLabel;
-  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pLabel;
+  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pConnDlg->pChat_Dlg->pBeginWidgetList;
+  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pConnDlg->pChat_Dlg->pEndWidgetList;
 
 /* FIXME: this can probably be removed */
 #if 0

@@ -755,10 +755,10 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   
   pCityDlg->pPanel = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   pCityDlg->pPanel->pEndWidgetList = pEnd;
-  pCityDlg->pPanel->pEndActiveWidgetList = pEnd;
-  pCityDlg->pPanel->pBeginWidgetList = pBuf;
-  pCityDlg->pPanel->pBeginActiveWidgetList = pBuf;
-  pCityDlg->pPanel->pActiveWidgetList = pEnd;
+  pCityDlg->pPanel->pBeginWidgetList = pBuf;  
+  pCityDlg->pPanel->pEndActiveWidgetList = pCityDlg->pPanel->pEndWidgetList;
+  pCityDlg->pPanel->pBeginActiveWidgetList = pCityDlg->pPanel->pBeginWidgetList;
+  pCityDlg->pPanel->pActiveWidgetList = pCityDlg->pPanel->pEndActiveWidgetList;
   
   setup_vertical_widgets_position(NUM_UNITS_SHOWN,
 	pWindow->size.x + adj_size(7),
@@ -906,7 +906,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
       else
         BV_SET(new_options, CITYO_NEW_TAXMAN);
     
-      pWidget->gfx = get_tax_surface(O_GOLD);
+      pWidget->theme2 = get_tax_surface(O_GOLD);
       pWidget->ID = MAX_ID - 0x40;
       widget_redraw(pWidget);
       widget_flush(pWidget);
@@ -914,7 +914,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
     case 0x40:
       BV_CLR(new_options, CITYO_NEW_EINSTEIN);
       BV_CLR(new_options, CITYO_NEW_TAXMAN);
-      pWidget->gfx = get_tax_surface(O_LUXURY);
+      pWidget->theme2 = get_tax_surface(O_LUXURY);
       pWidget->ID = MAX_ID - 0x60;
       widget_redraw(pWidget);
       widget_flush(pWidget);
@@ -924,7 +924,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
         BV_CLR(new_options, CITYO_NEW_EINSTEIN);
       else
         BV_SET(new_options, CITYO_NEW_EINSTEIN);
-      pWidget->gfx = get_tax_surface(O_SCIENCE);
+      pWidget->theme2 = get_tax_surface(O_SCIENCE);
       pWidget->ID = MAX_ID - 0x20;
       widget_redraw(pWidget);
       widget_flush(pWidget);
@@ -3573,13 +3573,12 @@ static void rebuild_imprm_list(struct city *pCity)
 
   if (count) {
     pCityDlg->pImprv->pEndWidgetList = pLast->prev;
-    pCityDlg->pImprv->pEndActiveWidgetList = pLast->prev;
+    pCityDlg->pImprv->pEndActiveWidgetList = pCityDlg->pImprv->pEndWidgetList;
     pCityDlg->pImprv->pBeginWidgetList = pBuf;
-    pCityDlg->pImprv->pBeginActiveWidgetList = pBuf;
+    pCityDlg->pImprv->pBeginActiveWidgetList = pCityDlg->pImprv->pBeginWidgetList;
 
     if (count > 8) {
-      pCityDlg->pImprv->pActiveWidgetList =
-		    pCityDlg->pImprv->pEndActiveWidgetList;
+      pCityDlg->pImprv->pActiveWidgetList = pCityDlg->pImprv->pEndActiveWidgetList;
       
 /* FIXME: this can probably be removed */
 #if 0

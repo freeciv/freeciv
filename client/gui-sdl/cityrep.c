@@ -566,8 +566,8 @@ static void real_info_city_report_dialog_update(void)
 	pUnits_Icon->w + adj_size(6) + prod_w + adj_size(170);
   
   if(count) {
-    pCityRep->pBeginActiveWidgetList = pBuf;
     pCityRep->pEndActiveWidgetList = pLast->prev;
+    pCityRep->pBeginActiveWidgetList = pCityRep->pBeginWidgetList;
     if(count > 10 * COL) {
       pCityRep->pActiveWidgetList = pCityRep->pEndActiveWidgetList;
       if(pCityRep->pScroll) {

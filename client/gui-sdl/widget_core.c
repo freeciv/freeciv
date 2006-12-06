@@ -150,6 +150,10 @@ static int widget_core_redraw(struct widget *pwidget)
     return -1;
   }
   
+  if (pwidget->gfx) {
+    widget_undraw(pwidget);
+  }
+  
   if (!pwidget->gfx && (get_wflags(pwidget) & WF_RESTORE_BACKGROUND)) {
     refresh_widget_background(pwidget);
   }

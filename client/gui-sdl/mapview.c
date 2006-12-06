@@ -811,7 +811,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 	    
 	pDlg->pBeginActiveWidgetList = pBuf;
 	pDlg->pEndActiveWidgetList = pEnd;
-	pDlg->pActiveWidgetList = pEnd;
+	pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
 	  	  	  
 	if (n > num_w * num_h) {
     

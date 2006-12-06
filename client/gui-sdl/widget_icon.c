@@ -51,10 +51,6 @@ static int redraw_icon(struct widget *pIcon)
     return -3;
   }
 
-  if (pIcon->gfx) {
-    widget_undraw(pIcon);
-  }
-
   src.x = (pIcon->theme->w / 4) * (Uint8) (get_wstate(pIcon));
   src.y = 0;
   src.w = (pIcon->theme->w / 4);
@@ -95,10 +91,6 @@ static int redraw_icon2(struct widget *pIcon)
   
   state = get_wstate(pIcon);
     
-  if (pIcon->gfx) {
-    widget_undraw(pIcon);
-  }
-
   dest.x = pIcon->size.x;
   dest.y = pIcon->size.y;
   dest.w = pIcon->theme->w;

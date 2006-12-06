@@ -333,11 +333,11 @@ void update_intel_dialog(struct player *p)
     
     pdialog->pdialog->pBeginWidgetList = pBuf;
     
-    if(n) {
-      pdialog->pdialog->pBeginActiveWidgetList = pBuf;
+    if (n > 0) {
       pdialog->pdialog->pEndActiveWidgetList = pLast->prev;
+      pdialog->pdialog->pBeginActiveWidgetList = pdialog->pdialog->pBeginWidgetList;
       if(n > 2 * col) {
-        pdialog->pdialog->pActiveWidgetList = pLast->prev;
+        pdialog->pdialog->pActiveWidgetList = pdialog->pdialog->pEndActiveWidgetList;
         count = create_vertical_scrollbar(pdialog->pdialog, col, 2, TRUE, TRUE);
         h += (2 * pBuf->size.h + adj_size(10));
       } else {

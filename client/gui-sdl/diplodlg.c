@@ -711,15 +711,15 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   } /* Cities */
   
   pDlg->pBeginWidgetList = pBuf;
-  pDlg->pBeginActiveWidgetList = pBuf;
-  pDlg->pEndActiveWidgetList = pWindow->prev;
+  pDlg->pBeginActiveWidgetList = pDlg->pBeginWidgetList;
+  pDlg->pEndActiveWidgetList = pDlg->pEndWidgetList->prev;
   pDlg->pScroll = NULL;
   
   hh = (Main.screen->h - adj_size(100) - WINDOW_TITLE_HEIGHT - adj_size(4) - pTheme->FR_Bottom->h);
   ww = hh < (count * height);
   
   if(ww) {
-    pDlg->pActiveWidgetList = pWindow->prev;
+    pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
     count = hh / height;
     scroll_w = create_vertical_scrollbar(pDlg, 1, count, TRUE, TRUE);
     pBuf = pWindow;
@@ -1012,7 +1012,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
   SDL_String16 *pStr;
   struct widget *pBuf, *pWindow = pdialog->pdialog->pEndWidgetList;
   char cBuf[64];
-  bool redraw_all, scroll = pdialog->pdialog->pActiveWidgetList == NULL;
+  bool redraw_all, scroll = (pdialog->pdialog->pActiveWidgetList != NULL);
   int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
   
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
@@ -1035,7 +1035,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     pBuf->action = remove_clause_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     
-    pBuf->size.w = pWindow->size.w - adj_size(24) - (scroll ? 0 : len);
+    pBuf->size.w = pWindow->size.w - adj_size(24) - (scroll ? len : 0);
     
     redraw_all = add_widget_to_vertical_scroll_widget_list(pdialog->pdialog,
                   pBuf, pdialog->pdialog->pBeginWidgetList,
@@ -1043,14 +1043,16 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
                   pWindow->size.x + adj_size(12),
                   pdialog->pdialog->pScroll->pUp_Left_Button->size.y + adj_size(2));
 
-    /* find if there was scrollbar shown */
-    if(scroll && pdialog->pdialog->pActiveWidgetList != NULL) {
+    if(!scroll && (pdialog->pdialog->pActiveWidgetList != NULL)) {
+      /* -> the scrollbar has been activated */
       pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
       do {
         pBuf = pBuf->prev;
         pBuf->size.w -= len;
+        /* we need to save a new background because the width has changed */
         FREESURFACE(pBuf->gfx);
       } while(pBuf != pdialog->pdialog->pBeginActiveWidgetList);
+      scroll = TRUE;
     }
 
     /* redraw */
@@ -1081,31 +1083,36 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
   
   /* find widget with clause */
   pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
+  
   do {
     pBuf = pBuf->prev;
-  } while(!(pBuf->data.cont->id0 == giver &&
-            ((pBuf->data.cont->value >> 16) & 0xFFFF) == (int)type &&
-            (pBuf->data.cont->value & 0xFFFF) == value) &&
-  		pBuf != pdialog->pdialog->pBeginActiveWidgetList);
+  } while(!((pBuf->data.cont->id0 == giver) &&
+            (((pBuf->data.cont->value >> 16) & 0xFFFF) == (int)type) &&
+            ((pBuf->data.cont->value & 0xFFFF) == value)) &&
+          (pBuf != pdialog->pdialog->pBeginActiveWidgetList));
   
   if(!(pBuf->data.cont->id0 == giver &&
             ((pBuf->data.cont->value >> 16) & 0xFFFF) == (int)type &&
             (pBuf->data.cont->value & 0xFFFF) == value)) {
      return;
   }
-    
-  scroll = pdialog->pdialog->pActiveWidgetList != NULL;
+  
+  scroll = (pdialog->pdialog->pActiveWidgetList != NULL);
   del_widget_from_vertical_scroll_widget_list(pdialog->pdialog, pBuf);
 
-  /* find if there was scrollbar hide */
-  if(scroll && pdialog->pdialog->pActiveWidgetList == NULL) {
+  if(scroll && (pdialog->pdialog->pActiveWidgetList == NULL)) {
+    /* -> the scrollbar has been deactivated */
+    
     int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
     pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
     do {
       pBuf = pBuf->prev;
+      widget_undraw(pBuf);
       pBuf->size.w += len;
+      /* we need to save a new background because the width has changed */
       FREESURFACE(pBuf->gfx);
     } while(pBuf != pdialog->pdialog->pBeginActiveWidgetList);
+    scroll = FALSE;
   }
     
   /* update state icons */

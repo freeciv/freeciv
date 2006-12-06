@@ -340,8 +340,8 @@ static int spy_steal_popup(struct widget *pWidget)
   /* --------------------------------------------------------- */
   FREESTRING16(pStr);
   pDiplomat_Dlg->pdialog->pBeginWidgetList = pBuf;
-  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
-  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pWindow->prev->prev;
+  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pDiplomat_Dlg->pdialog->pBeginWidgetList;
+  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pDiplomat_Dlg->pdialog->pEndWidgetList->prev->prev;
   
   /* -------------------------------------------------------------- */
   
@@ -349,7 +349,7 @@ static int spy_steal_popup(struct widget *pWidget)
   if (count > col) {
     count = (count + (col - 1)) / col;
     if (count > max_row) {
-      pDiplomat_Dlg->pdialog->pActiveWidgetList = pWindow->prev->prev;
+      pDiplomat_Dlg->pdialog->pActiveWidgetList = pDiplomat_Dlg->pdialog->pEndActiveWidgetList;
       count = max_row;
       i = create_vertical_scrollbar(pDiplomat_Dlg->pdialog, col, count, TRUE, TRUE);  
     }
@@ -897,9 +897,10 @@ void popup_sabotage_dialog(struct city *pCity)
       /* ----------- */
     }  
   } built_impr_iterate_end;
+
   pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
   
-  if(n) {
+  if (n > 0) {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
     
@@ -920,9 +921,8 @@ void popup_sabotage_dialog(struct city *pCity)
   /* ----------- */
   
   pLast = pBuf;
-  pDiplomat_Dlg->pdialog->pBeginWidgetList = pBuf;
-  pDiplomat_Dlg->pdialog->pActiveWidgetList =
-			      pDiplomat_Dlg->pdialog->pEndActiveWidgetList;
+  pDiplomat_Dlg->pdialog->pBeginWidgetList = pLast;
+  pDiplomat_Dlg->pdialog->pActiveWidgetList = pDiplomat_Dlg->pdialog->pEndActiveWidgetList;
   
   /* ---------- */
   if (n > 10)

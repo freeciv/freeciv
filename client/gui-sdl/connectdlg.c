@@ -342,9 +342,9 @@ void popup_connection_dialog(bool lan_scan)
   }
   
   pMeta_Severs->pBeginWidgetList = pNewWidget;
-  pMeta_Severs->pBeginActiveWidgetList = pNewWidget;
-  pMeta_Severs->pEndActiveWidgetList = pWindow->prev->prev;
-  pMeta_Severs->pActiveWidgetList = pWindow->prev->prev;
+  pMeta_Severs->pBeginActiveWidgetList = pMeta_Severs->pBeginWidgetList;
+  pMeta_Severs->pEndActiveWidgetList = pMeta_Severs->pEndWidgetList->prev->prev;
+  pMeta_Severs->pActiveWidgetList = pMeta_Severs->pEndActiveWidgetList;
     
   if (count > 10) {
     meta_h = 10 * h;

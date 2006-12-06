@@ -113,7 +113,8 @@ struct widget {
   struct gui_layer *dst;      /* destination buffer layer */
 
   SDL_Surface *theme;
-  SDL_Surface *gfx;		/* Icon, background or theme2 */
+  SDL_Surface *theme2;        /* Icon or theme2 */
+  SDL_Surface *gfx;           /* saved background */
   SDL_String16 *string16;
   
   /* data/information/transport pointers */

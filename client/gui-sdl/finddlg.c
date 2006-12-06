@@ -198,7 +198,7 @@ void popup_find_dialog(void)
     } city_list_iterate_end;
   }
   pFind_City_Dlg->pBeginWidgetList = pBuf;
-  pFind_City_Dlg->pBeginActiveWidgetList = pBuf;
+  pFind_City_Dlg->pBeginActiveWidgetList = pFind_City_Dlg->pBeginWidgetList;
   pFind_City_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
   pFind_City_Dlg->pActiveWidgetList = pFind_City_Dlg->pEndActiveWidgetList;
   

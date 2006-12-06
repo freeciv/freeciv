@@ -569,9 +569,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   w = (tileset_full_tile_width(tileset) * 2 + name_w + adj_size(15)) +
 		(adj_size(4) * pText1->w + adj_size(46)) + (pText2->w + adj_size(16))
                                  + (pText5->w + adj_size(6)) + adj_size(2);
-  if(count) {
-    pUnitsDlg->pBeginActiveWidgetList = pBuf;
+  if (count > 0) {
     pUnitsDlg->pEndActiveWidgetList = pLast->prev;
+    pUnitsDlg->pBeginActiveWidgetList = pUnitsDlg->pBeginWidgetList;
     if(count > adj_size(80)) {
       pUnitsDlg->pActiveWidgetList = pUnitsDlg->pEndActiveWidgetList;
       if(pUnitsDlg->pScroll) {
@@ -2061,8 +2061,8 @@ void popup_economy_report_dialog(bool make_modal)
     FREESURFACE(pBackground);
     
     pEconomyDlg->pEndActiveWidgetList = pLast->prev;
-    pEconomyDlg->pBeginActiveWidgetList = pBuf;
     pEconomyDlg->pBeginWidgetList = pBuf;
+    pEconomyDlg->pBeginActiveWidgetList = pEconomyDlg->pBeginWidgetList;
     
     if(entries_used > (TARGETS_ROW * TARGETS_COL)) {
       pEconomyDlg->pActiveWidgetList = pEconomyDlg->pEndActiveWidgetList;
@@ -2882,9 +2882,10 @@ static void popup_change_research_dialog()
   }
   
   FREESTRING16(pStr);
+  
   pChangeTechDlg->pBeginWidgetList = pBuf;
-  pChangeTechDlg->pBeginActiveWidgetList = pBuf;
-  pChangeTechDlg->pEndActiveWidgetList = pWindow->prev->prev;
+  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->pBeginWidgetList;
+  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->pEndWidgetList->prev->prev;
   
   /* -------------------------------------------------------------- */
   
@@ -2892,7 +2893,7 @@ static void popup_change_research_dialog()
   if (count > col) {
     count = (count + (col - 1)) / col;
     if (count > max_row) {
-      pChangeTechDlg->pActiveWidgetList = pWindow->prev->prev;
+      pChangeTechDlg->pActiveWidgetList = pChangeTechDlg->pEndActiveWidgetList;
       count = max_row;
       i = create_vertical_scrollbar(pChangeTechDlg, col, count, TRUE, TRUE);  
     }
@@ -3067,9 +3068,10 @@ static void popup_change_research_goal_dialog()
   }
   
   FREESTRING16(pStr);
+  
   pChangeTechDlg->pBeginWidgetList = pBuf;
-  pChangeTechDlg->pBeginActiveWidgetList = pBuf;
-  pChangeTechDlg->pEndActiveWidgetList = pWindow->prev->prev;
+  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->pBeginWidgetList;
+  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->pEndWidgetList->prev->prev;
   
   /* -------------------------------------------------------------- */
   
@@ -3077,7 +3079,7 @@ static void popup_change_research_goal_dialog()
   if (count > col) {
     count = (count + (col-1)) / col;
     if (count > max_row) {
-      pChangeTechDlg->pActiveWidgetList = pWindow->prev->prev;
+      pChangeTechDlg->pActiveWidgetList = pChangeTechDlg->pEndActiveWidgetList;
       count = max_row;
       i = create_vertical_scrollbar(pChangeTechDlg, col, count, TRUE, TRUE);  
     }

@@ -495,9 +495,9 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
     }
   }
   pCma->pAdv->pBeginWidgetList = pBuf;
-  pCma->pAdv->pBeginActiveWidgetList = pBuf;
+  pCma->pAdv->pBeginActiveWidgetList = pCma->pAdv->pBeginWidgetList;
   pCma->pAdv->pEndActiveWidgetList = pWindow->prev->prev;
-  pCma->pAdv->pActiveWidgetList = pWindow->prev->prev;
+  pCma->pAdv->pActiveWidgetList = pCma->pAdv->pEndActiveWidgetList;
   
   ww += pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2);
   hh += pTheme->FR_Bottom->h + 1;

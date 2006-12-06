@@ -351,9 +351,9 @@ static int work_lists_callback(struct widget *pWidget)
     
     pOption_Dlg->pADlg->pEndActiveWidgetList =
                     pOption_Dlg->pBeginMainOptionsWidgetList->prev->prev;
-    
-    pOption_Dlg->pADlg->pBeginActiveWidgetList = pBuf;
-    pOption_Dlg->pADlg->pBeginWidgetList = pBuf;
+
+    pOption_Dlg->pADlg->pBeginWidgetList = pBuf;    
+    pOption_Dlg->pADlg->pBeginActiveWidgetList = pOption_Dlg->pADlg->pBeginWidgetList;
     
 /* FIXME: this can probably be removed */
 #if 0
@@ -369,8 +369,7 @@ static int work_lists_callback(struct widget *pWidget)
           area.x + area.w - 1, area.y + 1, area.h - adj_size(32), TRUE);
     
     if(count>13) {
-      pOption_Dlg->pADlg->pActiveWidgetList =
-                                  pOption_Dlg->pADlg->pEndActiveWidgetList;
+      pOption_Dlg->pADlg->pActiveWidgetList = pOption_Dlg->pADlg->pEndActiveWidgetList;
     } else {
       hide_scrollbar(pOption_Dlg->pADlg->pScroll);
       scrollbar_width = 0;

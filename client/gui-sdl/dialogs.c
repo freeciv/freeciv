@@ -713,9 +713,9 @@ void popup_unit_select_dialog(struct tile *ptile)
     
   }
   pUnit_Select_Dlg->pBeginWidgetList = pBuf;
-  pUnit_Select_Dlg->pBeginActiveWidgetList = pBuf;
+  pUnit_Select_Dlg->pBeginActiveWidgetList = pUnit_Select_Dlg->pBeginWidgetList;
   pUnit_Select_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
-  pUnit_Select_Dlg->pActiveWidgetList = pWindow->prev->prev;
+  pUnit_Select_Dlg->pActiveWidgetList = pUnit_Select_Dlg->pEndActiveWidgetList;
   
   w += (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   if (n > NUM_SEEN)
@@ -1453,9 +1453,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       }
       
       pAdvanced_Terrain_Dlg->pEndActiveWidgetList = pLast->prev;
-      pAdvanced_Terrain_Dlg->pActiveWidgetList = pLast->prev;
+      pAdvanced_Terrain_Dlg->pActiveWidgetList = pAdvanced_Terrain_Dlg->pEndActiveWidgetList;
       pAdvanced_Terrain_Dlg->pBeginWidgetList = pBuf;
-      pAdvanced_Terrain_Dlg->pBeginActiveWidgetList = pBuf;
+      pAdvanced_Terrain_Dlg->pBeginActiveWidgetList = pAdvanced_Terrain_Dlg->pBeginWidgetList;
             
       if(n > ADV_NUM_SEEN)
       {
@@ -2754,8 +2754,8 @@ void popup_races_dialog(struct player *pplayer)
   FREESURFACE(pMain_Bg);
     
   pNationDlg->pEndActiveWidgetList = pWindow->prev;
-  pNationDlg->pBeginActiveWidgetList = pWidget;
   pNationDlg->pBeginWidgetList = pWidget;
+  pNationDlg->pBeginActiveWidgetList = pNationDlg->pBeginWidgetList;
     
   if(get_playable_nation_count() > TARGETS_ROW * TARGETS_COL) {
       pNationDlg->pActiveWidgetList = pNationDlg->pEndActiveWidgetList;
