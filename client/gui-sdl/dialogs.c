@@ -158,7 +158,6 @@ void popdown_all_game_dialogs(void)
   popdown_all_science_dialogs();
   popdown_meswin_dialog();
   popdown_worklist_editor();
-  popdown_all_city_dialogs();
   popdown_economy_report_dialog();
   popdown_activeunits_report_dialog();
   popdown_intel_dialogs();
