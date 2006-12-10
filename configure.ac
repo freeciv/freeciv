@@ -693,11 +693,15 @@ AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/vers
 dnl Make sure that config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
 dnl change so everything gets rebuilt. LDFLAGS is not handled here
 dnl since change in it should not cause recompilation, only relinking.
-dnl Note: Variables are named FC_STORE_* instead of FC_*_STORE in order to make them
-dnl       appear next to each other in config.h.
-AC_DEFINE_UNQUOTED([FC_STORE_CPPFLAGS], ["$CPPFLAGS"], [These are the CPPFLAGS used in compilation])
-AC_DEFINE_UNQUOTED([FC_STORE_CFLAGS], ["$CFLAGS"], [These are the CFLAGS used in compilation])
-AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ["$CXXFLAGS"], [These are the CXXFLAGS used in compilation])
+dnl Note: Variables are named FC_STORE_* instead of FC_*_STORE in order to
+dnl make them appear next to each other in config.h.  Also single-quotes are
+dnl used because some " may appear unescaped within the flag strings.
+AC_DEFINE_UNQUOTED([FC_STORE_CPPFLAGS], ['$CPPFLAGS'],
+                   [These are the CPPFLAGS used in compilation])
+AC_DEFINE_UNQUOTED([FC_STORE_CFLAGS], ['$CFLAGS'],
+                   [These are the CFLAGS used in compilation])
+AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ['$CXXFLAGS'],
+                   [These are the CXXFLAGS used in compilation])
 
 AC_CONFIG_FILES([Makefile
           data/Makefile
