@@ -4786,20 +4786,19 @@ msgstr ""
 
 #: server/settings.c:582
 msgid "City size before people become unhappy"
-msgstr "Bystrrelse fr folk bliver ulykkelige"
+msgstr "Bystørrelse før folk bliver ulykkelige"
 
 #: server/settings.c:583
-#, fuzzy
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy. See also cityfactor."
 msgstr ""
-"Fr andre faktorer har indvirkning er de frste unhappysize indbyggere i en by "
-"glade, derefter er indbyggerne tilfredse. Se ogs cityfactor."
+"Før andre faktorer har indvirkning er de første unhappysize indbyggere i en "
+"by glade, derefter er indbyggerne tilfredse. Se også cityfactor."
 
 #: server/settings.c:591
 msgid "Number of cities for higher unhappiness"
-msgstr "Antal byer for get ulyksalighed"
+msgstr "Antal byer for øget ulyksalighed"
 
 #: server/settings.c:592
 msgid ""
@@ -4808,10 +4807,10 @@ msgid ""
 "This assumes a Democracy; for other governments the effect occurs at smaller "
 "numbers of cities."
 msgstr ""
-"Nr antal byer som en spiller ejer er strre end cityfactor, bliver yderligere "
-"en indbygger utilfreds fr andre faktorer har indvirkning. Se ogs "
-"unhappysize. Dette forudstter et Demokrati, for andre styreformer er "
-"indtrffer effekten ved frre antal byer."
+"Når antal byer som en spiller ejer er større end cityfactor, bliver "
+"yderligere en indbygger utilfreds før andre faktorer har indvirkning. Se "
+"også unhappysize. Dette forudsætter et Demokrati, for andre styreformer er "
+"indtræffer effekten ved færre antal byer."
 
 #: server/settings.c:601
 msgid "Minimum distance between cities"
@@ -5655,12 +5654,12 @@ msgstr "Accepterer nu nye klient-tilslutninger."
 #: server/stdinhand.c:247
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
-msgstr ""
+msgstr "Stemmeafgivning \"%s\" afgjordes med %d til %d med %d blanke."
 
 #: server/stdinhand.c:254
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
-msgstr ""
+msgstr "Stemmeafgivning \"%s\" faldt med %d imod, %d for og %d blanke."
 
 #: server/stdinhand.c:363
 msgid "(ambiguous)"
@@ -6517,8 +6516,7 @@ msgstr "Beklager, du har ikke rettigheder til at benytte serverkommandoer."
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
-"Advarsel: '%s' tolket som '%s', men dette er ikke nødv. rigtigt.  Forsøg '%"
-"shelp'."
+"Advarsel: '%s' tolket som '%s', men dette er tvetydigt.  Forsøg '%shelp'."
 
 #: server/stdinhand.c:3426
 #, c-format
@@ -6527,7 +6525,7 @@ msgstr "Ukendt kommando. Prøv '%shelp'."
 
 #: server/stdinhand.c:3441
 msgid "Your new vote cancelled your previous vote."
-msgstr ""
+msgstr "Din nye stemmeafgivning afløser din tidligere. "
 
 #: server/stdinhand.c:3450
 #, c-format
@@ -8436,25 +8434,25 @@ msgid "* Requires %d population to build.\n"
 msgstr "* Kræver %d befolkning for at du kan bygge.\n"
 
 #: client/helpdata.c:784
-#, fuzzy, c-format
+#, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
-msgstr[0] "* Kan angribe fjendtlige luftenheder.\n"
-msgstr[1] "* Kan angribe fjendtlige luftenheder.\n"
+msgstr[0] "* Kan transportere og tanke %d luftenheder.\n"
+msgstr[1] "* Kan transportere og tanke %d luftenheder.\n"
 
 #: client/helpdata.c:789
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "* Kan transportere og tanke %d missilenheder.\n"
+msgstr[1] "* Kan transportere og tanke %d missilenheder.\n"
 
 #: client/helpdata.c:794
 #, c-format
 msgid "* Can carry %d ground unit across water.\n"
 msgid_plural "* Can carry %d ground units across water.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "* Kan transportere %d landenheder over vand.\n"
+msgstr[1] "* Kan transportere %d landenheder over vand.\n"
 
 #. TRANS: "Manhattan" distance is the distance along gridlines, with
 #. * no diagonals allowed.
@@ -8903,6 +8901,8 @@ msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
+"* Efter den første utilfredse indbygger på baggrund af bystørrelse, vil for "
+"hver %d ekstra byer, endnu en utilfreds indbygger opstå.\n"
 
 #: client/helpdata.c:1341
 #, c-format
@@ -14543,24 +14543,22 @@ msgid "Info Panel"
 msgstr "For information om"
 
 #: client/gui-sdl/citydlg.c:1920
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution : %d"
-msgstr "Forurening:   %3d"
+msgstr "Forurening: %d"
 
 #: client/gui-sdl/citydlg.c:1948
-#, fuzzy
 msgid "Pollution : none"
-msgstr "Forurening:"
+msgstr "Forurening: Ingen"
 
 #: client/gui-sdl/citydlg.c:1961
-#, fuzzy
 msgid "Trade routes : "
-msgstr "Handelsruter"
+msgstr "Handelsruter :"
 
 #: client/gui-sdl/citydlg.c:2010
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : +%d"
-msgstr "+%d handel / %d"
+msgstr "Handel : +%d"
 
 #: client/gui-sdl/citydlg.c:2055 client/gui-sdl/citydlg.c:3714
 msgid "Happiness panel"
@@ -14571,34 +14569,34 @@ msgid "Citizens"
 msgstr "Byboere"
 
 #: client/gui-sdl/citydlg.c:2579
-#, fuzzy, c-format
+#, c-format
 msgid "Food : %d per turn"
-msgstr "%3d guld per runde"
+msgstr "Mad : %d per runde"
 
 #: client/gui-sdl/citydlg.c:2616
-#, fuzzy, c-format
+#, c-format
 msgid "?food:Surplus : %d"
-msgstr "?Food surplus:M+"
+msgstr "?food:Overskud : %d"
 
 #: client/gui-sdl/citydlg.c:2664
-#, fuzzy, c-format
+#, c-format
 msgid "Production : %d (%d) per turn"
-msgstr "%3d guld per runde"
+msgstr "Produktion : %d (%d) per runde"
 
 #: client/gui-sdl/citydlg.c:2710
 #, c-format
 msgid "?production:Support : %d"
-msgstr ""
+msgstr "?production:Support : %d"
 
 #: client/gui-sdl/citydlg.c:2747
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : %d per turn"
-msgstr "%3d guld per runde"
+msgstr "Handel : %d per runde"
 
 #: client/gui-sdl/citydlg.c:2781
-#, fuzzy, c-format
+#, c-format
 msgid "Corruption : %d"
-msgstr "Korruption:"
+msgstr "Korruption: %d"
 
 #: client/gui-sdl/citydlg.c:2818
 #, c-format
@@ -14606,9 +14604,9 @@ msgid "Gold: %d (%d) per turn"
 msgstr "Guld: %d (%d) per runde"
 
 #: client/gui-sdl/citydlg.c:2865
-#, fuzzy, c-format
+#, c-format
 msgid "Upkeep : %d"
-msgstr "Vedligehold:"
+msgstr "Vedligehold: %d"
 
 #: client/gui-sdl/citydlg.c:2904
 #, c-format
@@ -14621,19 +14619,17 @@ msgid "Luxury: %d per turn"
 msgstr "Luksus: %d per runde"
 
 #: client/gui-sdl/citydlg.c:2982
-#, fuzzy
 msgid "City growth : blocked"
-msgstr "Byvkst:"
+msgstr "Byvækst: Blokeret"
 
 #: client/gui-sdl/citydlg.c:2984
-#, fuzzy
 msgid "City growth : never"
-msgstr "Byvkst:"
+msgstr "Byvækst: Aldrig"
 
 #: client/gui-sdl/citydlg.c:2988
-#, fuzzy, c-format
+#, c-format
 msgid "City shrinks : %d %s"
-msgstr "Byvkst:"
+msgstr "Byen formindskes: %d %s"
 
 #: client/gui-sdl/citydlg.c:2989 client/gui-sdl/citydlg.c:2993
 #: client/gui-sdl/citydlg.c:3310 client/gui-sdl/cityrep.c:512
@@ -14654,9 +14650,9 @@ msgstr[0] "Runde"
 msgstr[1] "Runder"
 
 #: client/gui-sdl/citydlg.c:2992
-#, fuzzy, c-format
+#, c-format
 msgid "City growth : %d %s"
-msgstr "Byvkst:"
+msgstr "Byvækst: %d %s"
 
 #: client/gui-sdl/citydlg.c:3042 data/default/buildings.ruleset:317
 #: data/civ2/buildings.ruleset:296 data/civ1/buildings.ruleset:243
@@ -22630,6 +22626,8 @@ msgid ""
 "Australia was founded as a British penal colony in 1788AD. It is the only "
 "country on earth to occupy an entire continent."
 msgstr ""
+"Australien blev grundlagt som en britisk fangekoloni i 1788 e.Kr. Det er det "
+"eneste land i verden som rækker over et helt kontinent."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -22759,6 +22757,10 @@ msgid ""
 "eastern part of the region, while the western part is the Indian state of "
 "West Bengal."
 msgstr ""
+"Bengal er et område i den østligste del af det indiske underkontinent. Den "
+"første registrerede uafhængige konge var Shashanka som var ved magten "
+"omkring 606 e.Kr. I dag er områdets østlige del en del af Bangladesh og den "
+"vestlige del en del af Indien. "
 
 #: data/nation/bengali.ruleset:26
 msgid "Nabob"
@@ -22789,7 +22791,7 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
-msgstr ""
+msgstr "Bosnien & Herzegovina"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
@@ -23418,6 +23420,9 @@ msgid ""
 "Napoleon and Charlemagne each united large parts of Europe under the French "
 "flag."
 msgstr ""
+"Frankrig har længe været en indflydelsesrig magt i Europa. Franske erobrere "
+"som Napoleon og kong Charlemagne forenede store dele af Europa under det "
+"franske flag."
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
@@ -23890,6 +23895,8 @@ msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
 msgstr ""
+"Ifølge den traditionelle japanske mytologi blev Japan grundlagt i det 7. "
+"århundrede af den fædrene kejser Jimmu."
 
 #: data/nation/japanese.ruleset:37 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
@@ -24516,9 +24523,8 @@ msgid "Regina"
 msgstr "Regina"
 
 #: data/nation/romanian.ruleset:36
-#, fuzzy
 msgid "Presedinte"
-msgstr "Prsident"
+msgstr "Præsident"
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovaras"
@@ -24968,21 +24974,19 @@ msgstr "Bailiff"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
-msgstr ""
+msgstr "Valgt konge"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected Queen"
-msgstr ""
+msgstr "Valgt dronning"
 
 #: data/nation/swiss.ruleset:26
-#, fuzzy
 msgid "Elected Priest"
-msgstr "Slet forhndsvalg"
+msgstr "Valgt præst"
 
 #: data/nation/swiss.ruleset:26
-#, fuzzy
 msgid "Elected Priestess"
-msgstr "Yppersteprstinde"
+msgstr "Valgt ypperstepræstinde"
 
 #: data/nation/swiss.ruleset:27 data/nation/swiss.ruleset:28
 msgid "President of the Confederation"
@@ -25168,7 +25172,7 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
