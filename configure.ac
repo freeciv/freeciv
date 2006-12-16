@@ -343,11 +343,9 @@ fi
 
 dnl note this has to match the path installed by po/Makefile
 if test x"$MINGW32" != "xyes"; then
-  FC_EXPAND_DIR(LOCALEDIR, "$datadir/locale")
-  AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
+  CPPFLAGS="$CFLAGS -DLOCALEDIR=\"\\\"$localedir\"\\\""
 else
-  FC_EXPAND_DIR(LOCALEDIR, './share/locale')
-  AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
+  AC_DEFINE_UNQUOTED(LOCALEDIR, "./share/locale", [Locale directory (windows)])
 fi  
 
 dnl Check libUTF8
