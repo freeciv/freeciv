@@ -269,8 +269,7 @@ fi
 
 
 dnl note this has to match the path installed by po/Makefile
-FC_EXPAND_DIR(LOCALEDIR, "$datadir/locale")
-AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
+CPPFLAGS="$CFLAGS -DLOCALEDIR=\"\\\"$datadir/locale\"\\\""
 
 EXTRA_GCC_DEBUG_CFLAGS=""
 
