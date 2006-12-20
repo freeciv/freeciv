@@ -172,6 +172,14 @@ if test "$am_cv_func_iconv" != yes; then
 fi
 LIBS="$LIBS $LIBICONV"
 
+dnl Autoconf >= 2.60 defines localedir. For older versions of autoconf, we
+dnl have to define it here, so that it can be used in po/Makefile.
+dnl You cannot use localedir above this line or it will fail for old ac's.
+if test -z "$localedir"; then
+  localedir="$datadir/locale"
+  AC_SUBST(localedir)
+fi
+
 dnl I18n support
 ALL_LINGUAS="ar cs ca da de el en_GB es et fa fi fr he hu it ja lt nl nb 
 no pl pt pt_BR ro ru sv uk zh_CN"
