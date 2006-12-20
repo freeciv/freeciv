@@ -343,7 +343,7 @@ fi
 
 dnl note this has to match the path installed by po/Makefile
 if test x"$MINGW32" != "xyes"; then
-  CPPFLAGS="$CFLAGS -DLOCALEDIR=\"\\\"$localedir\"\\\""
+  CPPFLAGS="$CFLAGS -DLOCALEDIR=\"\\\"$localedir\\\"\""
 else
   AC_DEFINE_UNQUOTED(LOCALEDIR, "./share/locale", [Locale directory (windows)])
 fi  
