@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-08 13:37-0400\n"
-"PO-Revision-Date: 2006-11-19 10:41+0200\n"
+"PO-Revision-Date: 2006-12-16 06:07+0200\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;X-Generator: KBabel 1.11.2"
+"Plural-Forms: nplurals=2; plural=n != 1;X-Generator: KBabel 1.11.2X-Generator: KBabel 1.11.4\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: common/city.c:53
 #: client/cityrepdata.c:483
@@ -2473,9 +2474,8 @@ msgid "surrender"
 msgstr "surrender"
 
 #: server/commands.c:312
-#, fuzzy
 msgid "Concede the game."
-msgstr "Sfîrşeşte jocul."
+msgstr "Abandonează jocul."
 
 #: server/commands.c:313
 msgid "This tells everyone else that you concede the game, and if all but one player (or one team) have conceded the game in this way then the game ends."
@@ -5412,7 +5412,6 @@ msgid "Vital options"
 msgstr "Opţiuni vitale"
 
 #: server/stdinhand.c:1937
-#, fuzzy
 msgid "Situational options"
 msgstr "Stabileşte opţiunile locale"
 
@@ -10107,7 +10106,7 @@ msgstr "Perceptori de taxe"
 #: client/gui-gtk-2.0/citydlg.c:1033
 #: client/gui-win32/citydlg.c:1999
 msgid "Disband if build settler at size 1"
-msgstr ""
+msgstr "Dizolvă dacă colonizatorul este la mărimea 1"
 
 #: client/gui-gtk-2.0/citydlg.c:1036
 msgid "Overview page"
@@ -10580,7 +10579,7 @@ msgstr "Mer_gi la locul"
 #: client/gui-gtk-2.0/messagewin.c:190
 #: client/gui-mui/messagewin.c:210
 msgid "_Popup City"
-msgstr ""
+msgstr "Afişează oraşul"
 
 #: client/gui-gtk-2.0/dialogs.c:256
 #: client/gui-mui/dialogs.c:1043
@@ -10908,7 +10907,7 @@ msgstr "Arată pictogramele sarcinilor în planul de lucru"
 
 #: client/gui-gtk-2.0/gui_main.c:166
 msgid "Disabling this will turn off the unit and building icons in the worklist dialog and the production tab of the city dialog."
-msgstr ""
+msgstr "Dezactivând această opţiune va ascunde pictogramele unităţilor şi clădirilor din fereastra de dialog a listei de lucru şi a filei cu producţia oraşului."
 
 #: client/gui-gtk-2.0/gui_main.c:170
 msgid "Enable status report tabs"
@@ -10916,7 +10915,7 @@ msgstr "Activaţi filele de raport a stării"
 
 #: client/gui-gtk-2.0/gui_main.c:171
 msgid "If this option is enabled then report dialogs will be shown as separate tabs rather than in popup dialogs."
-msgstr ""
+msgstr "Dacă această opţiune este activată atunci rapoartele vor fi afişate ca file separate în loc de dialoguri popup."
 
 #: client/gui-gtk-2.0/gui_main.c:176
 #: client/gui-win32/gui_main.c:109
@@ -10926,7 +10925,7 @@ msgstr "Desenare mai bună a ceţii de război"
 #: client/gui-gtk-2.0/gui_main.c:177
 #: client/gui-win32/gui_main.c:110
 msgid "If this is enabled then a better method is used for drawing fog-of-war.  It is not any slower but will consume about twice as much memory."
-msgstr ""
+msgstr "Dacă această opţiune este activată atunci se va folosi o metodă mai bună pentru desenarea ceţei de război.  Metoda nu încetineşte jocul dar consumă de două ori mai multă memorie."
 
 #: client/gui-gtk-2.0/gui_main.c:611
 #: client/gui-gtk-2.0/gui_main.c:1233
@@ -11414,7 +11413,7 @@ msgstr "_Tehnologii"
 #: client/gui-gtk-2.0/inteldlg.c:299
 #, c-format
 msgid "Foreign Intelligence: %s Empire"
-msgstr ""
+msgstr "Raport de spionaj: Imperiul %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:194
 #: client/gui-sdl/mapctrl.c:2411
@@ -11439,7 +11438,7 @@ msgstr "Afişează ratele curente pentru lux/ştiinţă/taxe; clic pentru a le s
 #: client/gui-gtk-2.0/mapview.c:688
 #: client/gui-win32/canvas.c:275
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr ""
+msgstr "Ceaţa de război mai bună merge doar în modul truecolor.  Se dezactivează"
 
 #: client/gui-gtk-2.0/menu.c:248
 msgid "Leaving a local game will end it!"
@@ -12205,6 +12204,8 @@ msgid ""
 "Where to display messages?\n"
 "<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual window"
 msgstr ""
+"Unde să fie afişate mesajele?\n"
+"Fereastra de <Out>put ; fereastra de <mes>aje ; fereastra <pop>up individuală"
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -12655,7 +12656,8 @@ msgstr "Moderni_zează"
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
-msgstr "Modernizeaz cât mai mulţi %s în %s pentru %d galbeni fiecare?\n"
+msgstr ""
+"Modernizeaz cât mai mulţi %s în %s pentru %d galbeni fiecare?\n"
 "Trezoreria conţine %d galbeni."
 
 #: client/gui-gtk-2.0/repodlgs.c:1257
@@ -12952,7 +12954,7 @@ msgstr "Pagina schimburilor comerciale"
 
 #: client/gui-mui/citydlg.c:1384
 msgid "This Misc. Settings page"
-msgstr ""
+msgstr "Pagina pentru setări diverse"
 
 #: client/gui-mui/citydlg.c:1406
 msgid "Freeciv - Cityview"
@@ -13045,7 +13047,7 @@ msgstr "Unităţi aeriene"
 #: client/gui-mui/citydlg.c:1660
 #: client/gui-mui/citydlg.c:1661
 msgid "_Disband if build settler at size 1"
-msgstr ""
+msgstr "_Dizolvă dacă colonizatorul este la mărimea 1"
 
 #: client/gui-mui/citydlg.c:1678
 #: client/gui-mui/cityrep.c:366
@@ -13078,9 +13080,9 @@ msgstr "Nu există schimburi comerciale."
 
 #: client/gui-mui/citydlg.c:2051
 #: client/gui-win32/citydlg.c:1271
-#, c-format, fuzzy
+#, c-format
 msgid "Total trade from trade routes: %d"
-msgstr "Comerţ total din rute comerciale"
+msgstr "Comerţ total din rute comerciale: %d"
 
 #: client/gui-mui/citydlg.c:2075
 #, c-format
@@ -13529,11 +13531,11 @@ msgstr "Mesaj..."
 
 #: client/gui-mui/gui_main.c:215
 msgid "Server opt initial..."
-msgstr ""
+msgstr "Opţiuni iniţiale ale serverului"
 
 #: client/gui-mui/gui_main.c:216
 msgid "Server opt ongoing..."
-msgstr ""
+msgstr "Opţiuni în derulare ale serverului "
 
 #: client/gui-mui/gui_main.c:217
 #: client/gui-xaw/menu.c:117
@@ -13958,7 +13960,7 @@ msgstr ""
 #: data/Freeciv.in:173
 #: data/Freeciv.in:223
 msgid "Foreign Intelligence Report"
-msgstr ""
+msgstr "Raportul Ministerului de Externe"
 
 #: client/gui-mui/inteldlg.c:138
 #: client/gui-sdl/inteldlg.c:257
@@ -14061,11 +14063,11 @@ msgstr "Pătratul %s"
 #: client/gui-win32/messagewin.c:151
 #: data/Freeciv.in:3322
 msgid "Popup City"
-msgstr ""
+msgstr "Fereastră oraş"
 
 #: client/gui-mui/mapclass.c:1696
 msgid "Wake up"
-msgstr "Scoală"
+msgstr "Trezeşte"
 
 #: client/gui-mui/mapclass.c:1698
 #: client/gui-mui/mapclass.c:2931
@@ -14119,7 +14121,8 @@ msgstr "Imp:%d Lux:%d Sti:%d"
 msgid ""
 "Where to Display Messages\n"
 "Out = Output window, Mes = Messages window, Pop = Popup individual window"
-msgstr "Unde să fie afişate mesajele\n"
+msgstr ""
+"Unde să fie afişate mesajele\n"
 "Out = fereastră ieşire, Mes = fereastră mesager, Pop = fereastră popup individuală"
 
 #: client/gui-mui/messagedlg.c:100
@@ -14245,10 +14248,10 @@ msgstr "Raport militar"
 #: client/gui-sdl/repodlgs.c:3298
 #: client/gui-win32/repodlgs.c:754
 #: client/gui-xaw/repodlgs.c:1153
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] "%2d: Conducătorul %s %s a obţinut %d punct\n"
+msgstr[0] "%2d: Conducătorul %s %s a obţinut %d puncte\n"
 
 #: client/gui-mui/repodlgs.c:869
 #: client/gui-sdl/repodlgs.c:3306
@@ -14314,7 +14317,7 @@ msgstr "Freeciv - Editare Plan de Lucru"
 
 #: client/gui-mui/wldlg.c:257
 msgid "Available Worklists"
-msgstr ""
+msgstr "Liste de lucru disponibile"
 
 #: client/gui-mui/wldlg.c:262
 msgid "_Edit"
@@ -14340,7 +14343,7 @@ msgstr "intrare"
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:229
 msgid "u8Worklistsn"
-msgstr ""
+msgstr "\033u\0338Liste de lucru\088n"
 
 #: client/gui-mui/worklistclass.c:710
 #: client/gui-win32/wldlg.c:852
@@ -14528,6 +14531,8 @@ msgid ""
 "Disband if build\n"
 "settler at size 1"
 msgstr ""
+"Dizolvă dacă\n"
+"colonizatorul este de mărimea 1"
 
 #: client/gui-sdl/citydlg.c:1172
 msgid "Sorry, You have already bought here in this turn"
@@ -14944,9 +14949,8 @@ msgid "Ready all"
 msgstr "Activează tot"
 
 #: client/gui-sdl/dialogs.c:1431
-#, fuzzy
 msgid "Sentry idle"
-msgstr "_Ţine poziţia"
+msgstr ""
 
 #: client/gui-sdl/dialogs.c:1517
 #, c-format
@@ -15016,7 +15020,8 @@ msgstr "Ministrul afacerilor externe"
 msgid ""
 "Sir!, %s ambassador has arrived\n"
 "What are your wishes?"
-msgstr "Sire!, ambasadorul %s a sosit\n"
+msgstr ""
+"Sire!, ambasadorul %s a sosit\n"
 "Care vă sunt dorinţele?"
 
 #: client/gui-sdl/diplodlg.c:1425
@@ -15112,34 +15117,34 @@ msgstr "Nu s-a putut iniţializa biblioteca SDL_ttf: %s"
 #: client/gui-sdl/graphics.c:940
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
-msgstr ""
+msgstr "Nu există mod grafic pentru această rezoluţie : %d x %d %d bpp"
 
 #: client/gui-sdl/graphics.c:943
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
-msgstr ""
+msgstr "Se stabileşte rezoluţia implicită la : 640 x 480 16 bpp SW"
 
 #: client/gui-sdl/graphics.c:950
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
-msgstr ""
+msgstr "Nu s-a putut stabili rezoluţia : %d x %d %d bpp %s"
 
 #: client/gui-sdl/graphics.c:957
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
-msgstr ""
+msgstr "Se stabileşte rezoluţia la: %d x %d %d bpp"
 
 #: client/gui-sdl/gui_main.c:171
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
-msgstr ""
+msgstr "  -f,  --fullscreen\tPorneşte clientul în modul „pe întreg ecranul”\n"
 
 #: client/gui-sdl/gui_main.c:172
 msgid "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and BeOS)\n"
-msgstr ""
+msgstr "  -e,  --eventthread\tIniţializează subsistemul de evenimente în alt fir de execuţie (doar în Linux şi BeOS)\n"
 
 #: client/gui-sdl/gui_main.c:773
 #, c-format
 msgid "Using Video Output: %s"
-msgstr ""
+msgstr "Se foloseşte ieşirea video: %s"
 
 #: client/gui-sdl/gui_main.c:819
 msgid "Initializing Client"
@@ -15147,11 +15152,11 @@ msgstr "Se iniţializează clientul"
 
 #: client/gui-sdl/gui_main.c:830
 msgid "Waiting for the beginning of the game"
-msgstr ""
+msgstr "Se aşteaptă începutul jocului"
 
 #: client/gui-sdl/gui_string.c:174
 msgid "Error in create_string16: Aborting ..."
-msgstr ""
+msgstr "Eroare în create_string16: Se abandonează ..."
 
 #: client/gui-sdl/gui_string.c:226
 #, c-format
@@ -15161,38 +15166,38 @@ msgstr "Nu am putut desena textul pe ecran: %s"
 #: client/gui-sdl/gui_string.c:264
 #, c-format
 msgid "Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
-msgstr ""
+msgstr "Eroare în SDL_create_str16_surf: Nu s-a putut converti textul în formatul ecranului: %s"
 
 #: client/gui-sdl/gui_string.c:285
 #, c-format
 msgid "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-msgstr ""
+msgstr "SDL_create_str16_surf: Fontul este în general de mărimea %d big, iar sirul de caractere are mărimea %hd"
 
 #: client/gui-sdl/gui_string.c:287
 #, c-format
 msgid "SDL_create_str16_surf: String is %d lenght"
-msgstr ""
+msgstr "SDL_create_str16_surf: Şirul de caractere are lungimea %d"
 
 #: client/gui-sdl/gui_string.c:582
 msgid "Error in change_ptsize: Change ptsize failed"
-msgstr ""
+msgstr "Eroare în change_ptsize: Modificarea ptsize a eşuat"
 
 #: client/gui-sdl/gui_string.c:618
 msgid "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font to data dir as stdfont.ttf"
-msgstr ""
+msgstr "Nu a fost găsit fişierul stdfont.ttf. Copiaţi/mutaţi/creaţi o legătură simbolică la orice font ttf unicode ca stdfont.ttf în directorul data"
 
 #: client/gui-sdl/gui_string.c:630
 #, c-format
 msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-msgstr ""
+msgstr "Eroare în load_font: Nu s-a putut încărca fontul de %d pt din %s: %s"
 
 #: client/gui-sdl/gui_string.c:671
 msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-msgstr ""
+msgstr "Eroare în unload_font: Încercare de scoatere din memorie din şir gol de fonturi"
 
 #: client/gui-sdl/gui_string.c:685
 msgid "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
-msgstr ""
+msgstr "Eroare în unload_font: Încercare de a scoate din memorie un font care nu este inclus în şirul de fonturi"
 
 #: client/gui-sdl/helpdlg.c:191
 msgid "Help : Improvement"
@@ -15226,18 +15231,16 @@ msgstr[0] "cetăţean"
 msgstr[1] "cetăţeni"
 
 #: client/gui-sdl/helpdlg.c:704
-#, fuzzy
 msgid "food"
 msgid_plural "foods"
-msgstr[0] "Hrană"
-msgstr[1] "Hrană"
+msgstr[0] "hrană"
+msgstr[1] "hrană"
 
 #: client/gui-sdl/helpdlg.c:709
-#, fuzzy
 msgid "gold"
 msgid_plural "golds"
-msgstr[0] "Aur"
-msgstr[1] "Aur"
+msgstr[0] "galben"
+msgstr[1] "galbeni"
 
 #: client/gui-sdl/helpdlg.c:936
 msgid "( witch "
@@ -15249,12 +15252,12 @@ msgstr " )"
 
 #: client/gui-sdl/helpdlg.c:1863
 msgid "Help : Advances Tree"
-msgstr ""
+msgstr "Ajutor : arborele descoperirilor"
 
 #: client/gui-sdl/inteldlg.c:249
 #, c-format
 msgid "Intelligence Information about %s Spaceship"
-msgstr ""
+msgstr "Raport de spionaj despre Nava spatială %s"
 
 #: client/gui-sdl/inteldlg.c:276
 #, c-format
@@ -15264,6 +15267,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
+"Conducător: %s %s  Formă de guvernământ: %s\n"
+"Capitală: %s  Galbeni: %d\n"
+"Taxe: %d%% Ştiinţă: %d%% Lux: %d%%\n"
+"Cercetează: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:286
 #, c-format
@@ -15273,10 +15280,14 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: Unknown"
 msgstr ""
+"Conducător: %s %s  Formă de guvernare: %s\n"
+"Capitală: %s  Galbeni: %d\n"
+"Taxe: %d%% Ştiinţă: %d%% Lux: %d%%\n"
+"Cercetează: necunoscut"
 
 #: client/gui-sdl/inteldlg.c:344
 msgid "Their techs that we don't have :"
-msgstr ""
+msgstr "Tehnologiile lor pe care nu le avem:"
 
 #: client/gui-sdl/mapctrl.c:252
 msgid "Show Unit Info Window"
@@ -15307,11 +15318,11 @@ msgstr "Ascunde jurnalul (F10)"
 
 #: client/gui-sdl/mapctrl.c:632
 msgid "Single Tile Width"
-msgstr ""
+msgstr "Lăţime de o formă geometrică"
 
 #: client/gui-sdl/mapctrl.c:636
 msgid "Single Tile Height"
-msgstr ""
+msgstr "Înălţimea de o formă geometrică"
 
 #: client/gui-sdl/mapctrl.c:644
 msgid "Scale Minimap"
@@ -15343,9 +15354,8 @@ msgid "Research (F6)"
 msgstr "Cercetare (F6)"
 
 #: client/gui-sdl/mapctrl.c:1513
-#, fuzzy
 msgid "Revolution (Shift + R)"
-msgstr "Revoluţie"
+msgstr "Revoluţie (shift + R)"
 
 #: client/gui-sdl/mapctrl.c:1586
 msgid "End Turn (Enter)"
@@ -15361,6 +15371,9 @@ msgid ""
 "or\n"
 "Find City (Shift + F)"
 msgstr ""
+"Raportul oraşelor(F1)\n"
+"sau\n"
+"Găseşte oraş (shift + F)"
 
 #: client/gui-sdl/mapctrl.c:1634
 msgid "Units (F2)"
@@ -15368,7 +15381,7 @@ msgstr "Unităţi (F2)"
 
 #: client/gui-sdl/mapctrl.c:1660
 msgid "Toggle Minimap Mode (Shift + \\)"
-msgstr ""
+msgstr "Comută modul minimap (shift + \\)"
 
 #: client/gui-sdl/mapctrl.c:1674
 #: client/gui-sdl/optiondlg.c:2075
@@ -15383,6 +15396,9 @@ msgid ""
 "as a result.  If you see this message often, please\n"
 "report it to freeciv-dev@freeciv.org."
 msgstr ""
+"Zona de memorie tampon pentru evenimente SDL este plină, este \n"
+"posibil să observaţi erori de desenare. Dacă observaţi acest mesaj\n"
+"prea des raportaţi acest lucru la freeciv-dev@freeciv.org."
 
 #: client/gui-sdl/mapview.c:303
 #: client/gui-sdl/mapview.c:306
@@ -15391,24 +15407,24 @@ msgid ""
 "Revolution (Shift + R)\n"
 "%s"
 msgstr ""
+"Revoluţie (shift + R)\n"
+"%s"
 
 #: client/gui-sdl/mapview.c:323
 #: client/gui-sdl/mapview.c:326
 #: client/gui-sdl/mapview.c:332
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Research (F6)\n"
 "%s (%d/%d)"
-msgstr "Cercetând: %s(%d/%d)"
+msgstr ""
+"Cercetare (F6)\n"
+"%s(%d/%d)"
 
 #: client/gui-sdl/mapview.c:394
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr ""
-"Populaţia: %s\n"
-"Anul: %s\n"
-"Galbeni: %d\n"
-"Imp: %d Lux: %d Sti: %d"
+msgstr "%s Populaţie: %s  Anul: %s  Galbeni %d Taxe: %d Lux: %d Ştiinţă: %d "
 
 #: client/gui-sdl/mapview.c:507
 #: data/default/units.ruleset:24
@@ -15426,30 +15442,38 @@ msgstr "NIMIC"
 msgid ""
 "\n"
 "Our Territory"
-msgstr "\n"
+msgstr ""
+"\n"
 "Teritoriul nostru"
 
 #: client/gui-sdl/mapview.c:548
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "%s territory (%d turn ceasefire)"
 "\n"
 "%s territory (%d turn ceasefire)"
-msgstr "Unitate: %s(%s%s)"
+msgstr ""
+"\n"
+"teritoriul %s (%d runde de încetare a focului)"
+"\n"
+"teritoriul %s (%d runde de încetare a focului)"
 
 #: client/gui-sdl/mapview.c:552
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Territory of the %s %s"
-msgstr "%s %slor"
+msgstr ""
+"\n"
+"Teritoriul %s %s"
 
 #: client/gui-sdl/mapview.c:558
 msgid ""
 "\n"
 "Unclaimed territory"
-msgstr "\n"
+msgstr ""
+"\n"
 "Teritoriu nerevendicat"
 
 #: client/gui-sdl/mapview.c:574
@@ -15457,7 +15481,8 @@ msgstr "\n"
 msgid ""
 "\n"
 "City of %s"
-msgstr "\n"
+msgstr ""
+"\n"
 "Oraşul %s"
 
 #: client/gui-sdl/mapview.c:588
@@ -15491,17 +15516,21 @@ msgstr ""
 "(%s,%s)"
 
 #: client/gui-sdl/mapview.c:623
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
-msgstr "Hrană/Prod/Negoţ: %s"
+msgstr ""
+"\n"
+"Hrană/Prod/Comerţ: %s"
 
 #: client/gui-sdl/mapview.c:862
 msgid ""
 "End of Turn\n"
 "(Press Enter)"
 msgstr ""
+"Termină runda\n"
+"(Apasă Enter)"
 
 #: client/gui-sdl/menu.c:370
 msgid "No orders"
@@ -15560,16 +15589,16 @@ msgstr "stabileşte rută comercială"
 #: client/gui-sdl/menu.c:1153
 #, c-format
 msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
-msgstr ""
+msgstr "Stabileşte rută comercială cu %s ( %d R&G + %d comerţ ) (R)"
 
 #: client/gui-sdl/menu.c:1159
 #, c-format
 msgid "Trade with %s ( %d R&G bonus ) (R)"
-msgstr ""
+msgstr "Comerţ cu %s (bonus %d R&G ) (R)"
 
 #: client/gui-sdl/menu.c:1174
 msgid "Cut Down to"
-msgstr ""
+msgstr "Defrişează până la "
 
 #: client/gui-sdl/menu.c:1180
 #: client/gui-sdl/menu.c:1204
@@ -15589,9 +15618,8 @@ msgid "Log"
 msgstr "Jurnal"
 
 #: client/gui-sdl/optiondlg.c:343
-#, fuzzy
 msgid "Add new worklist"
-msgstr "Redenumeşte planul de lucru"
+msgstr "Adaugă plan nou de lucru"
 
 #: client/gui-sdl/optiondlg.c:460
 #: client/gui-sdl/optiondlg.c:646
@@ -15600,6 +15628,8 @@ msgid ""
 "Current Setup\n"
 "Fullscreen %dx%d"
 msgstr ""
+"Setări curente\n"
+"Modul pe întreg ecranul %dx%d"
 
 #: client/gui-sdl/optiondlg.c:463
 #: client/gui-sdl/optiondlg.c:649
@@ -15608,11 +15638,12 @@ msgid ""
 "Current Setup\n"
 "%dx%d"
 msgstr ""
+"Setări curente\n"
+"%dx%d"
 
 #: client/gui-sdl/optiondlg.c:625
-#, fuzzy
 msgid "No modes available!"
-msgstr "Nici o minune disponibilă"
+msgstr "Nu este disponibil nici un mod grafic"
 
 #: client/gui-sdl/optiondlg.c:631
 msgid "All resolutions available."
@@ -15624,17 +15655,15 @@ msgstr "Mod pe întreg ecranul"
 
 #: client/gui-sdl/optiondlg.c:982
 msgid "Smooth unit move steps"
-msgstr ""
+msgstr "Deplasare netedă a unităţilor"
 
 #: client/gui-sdl/optiondlg.c:1036
-#, fuzzy
 msgid "Show focus animation"
-msgstr "Animează lupta"
+msgstr "Arată butonul de focalizare animaţie"
 
 #: client/gui-sdl/optiondlg.c:1063
-#, fuzzy
 msgid "Show cursors animation"
-msgstr "Animează lupta"
+msgstr "Arată cursor animat"
 
 #: client/gui-sdl/optiondlg.c:1090
 msgid "Use color cursors"
@@ -15651,7 +15680,7 @@ msgstr "Desenează grila pe harta oraşului"
 
 #: client/gui-sdl/optiondlg.c:1679
 msgid "Draw city worker map grid"
-msgstr ""
+msgstr "Desenează harta de lucru a oraşului"
 
 #: client/gui-sdl/optiondlg.c:1706
 msgid "Special Resources"
@@ -15713,6 +15742,12 @@ msgid ""
 "State : %s\n"
 "Idle : %d %s"
 msgstr ""
+"Nume : %s\n"
+"Naţiune : %s\n"
+"echipă : %s\n"
+"Ambasadă :%s\n"
+"Stare : %s\n"
+"Disponibil : %d %s"
 
 #: client/gui-sdl/plrdlg.c:605
 msgid "Nations"
@@ -15726,7 +15761,8 @@ msgstr "activi"
 msgid ""
 "under\n"
 "construction"
-msgstr "în\n"
+msgstr ""
+"în\n"
 "construcţie"
 
 #: client/gui-sdl/repodlgs.c:339
@@ -15734,6 +15770,8 @@ msgid ""
 "soonest\n"
 "completion"
 msgstr ""
+"cea mai rapidă\n"
+"terminare"
 
 #: client/gui-sdl/repodlgs.c:343
 msgid "Total"
@@ -15750,11 +15788,14 @@ msgid ""
 "(total value is : %d)\n"
 "We can sell %d of them for %d gold"
 msgstr ""
+"Dispunem de %d de %s\n"
+"(în valoare de  : %d)\n"
+"Putem vinde %d pentru %d galbeni"
 
 #: client/gui-sdl/repodlgs.c:1462
 #, c-format
 msgid "We can't sell any %s in this turn"
-msgstr ""
+msgstr "Putem vinde orice %s în această rundă"
 
 #: client/gui-sdl/repodlgs.c:1677
 msgid "Economy Report"
@@ -15788,13 +15829,13 @@ msgid "Net Income: "
 msgstr "Venit net: "
 
 #: client/gui-sdl/repodlgs.c:2094
-#, fuzzy, c-format
+#, c-format
 msgid "%s max rate : %d%%"
 msgstr "%s rată maximă: %d%%"
 
 #: client/gui-sdl/repodlgs.c:2227
 msgid "FT"
-msgstr ""
+msgstr "FT"
 
 #: client/gui-sdl/repodlgs.c:2519
 msgid ""
@@ -15802,11 +15843,14 @@ msgid ""
 "Research speed : none\n"
 "Next's advance time : never"
 msgstr ""
+"Producţia curentă : 0\n"
+"Viteza de cercetare : niciuna\n"
+"Următoarea descoperire : niciodată"
 
 #: client/gui-sdl/repodlgs.c:2529
 #, c-format
 msgid "Next advance in %d turn"
-msgstr ""
+msgstr "Următoarea descoperire în %d runde"
 
 #: client/gui-sdl/repodlgs.c:2533
 #, c-format
@@ -15815,6 +15859,9 @@ msgid ""
 "Research speed : %d %s/advance\n"
 "%s"
 msgstr ""
+"Producţia curentă : %d pe rundă\n"
+"Viteza de cercetare : %d %s/avans\n"
+"%s"
 
 #: client/gui-sdl/repodlgs.c:2665
 #: client/gui-sdl/repodlgs.c:3060
@@ -15824,18 +15871,17 @@ msgstr[0] "(%d pas)"
 msgstr[1] "paşi"
 
 #: client/gui-sdl/repodlgs.c:2813
-#, fuzzy
 msgid "What should we focus on now?"
-msgstr "Cum să denumim noul nostru oraş?"
+msgstr "Ce să cercetăm în continuare?"
 
 #: client/gui-sdl/repodlgs.c:2997
 msgid "Sellect target :"
 msgstr "Alegeţi ţinta:"
 
 #: client/gui-sdl/spaceshipdlg.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "%s's SpaceShip"
-msgstr "Navă spaţială"
+msgstr "Navă spaţială a lui %s"
 
 #: client/gui-sdl/spaceshipdlg.c:165
 #: client/gui-win32/spaceshipdlg.c:240
@@ -15846,7 +15892,7 @@ msgstr "Lansează"
 #: client/gui-sdl/sprite.c:60
 #, c-format
 msgid "load_gfxfile: Unable to load graphic file %s!"
-msgstr ""
+msgstr "load_gfxfile : Nu s-a putut încărca fişierul grafic %s!"
 
 #: client/gui-sdl/themespec.c:281
 #, c-format
@@ -15856,23 +15902,29 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"fişierul %s pretinde opţiuni nesuportate:\n"
+"fişierul: \"%s\"\n"
+"opţiuni fişier: %s\n"
+"opţiuni suportate: %s"
 
 #: client/gui-sdl/themespec.c:361
 msgid "No usable default theme found, aborting!"
-msgstr ""
+msgstr "Nu s-a găsit nici o temă utilizabilă, se abandonează!"
 
 #: client/gui-sdl/themespec.c:365
 #, c-format
 msgid "Trying \"%s\" theme."
-msgstr ""
+msgstr "Se încearcă tema \"%s\"."
 
 #: client/gui-sdl/wldlg.c:928
 #: client/gui-sdl/wldlg.c:1106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d gold per turn"
-msgstr "%3d galbeni pe rundă"
+msgstr ""
+"%s\n"
+"%d galbeni pe rundă"
 
 #: client/gui-sdl/wldlg.c:935
 #: client/gui-sdl/wldlg.c:1112
@@ -15901,6 +15953,8 @@ msgid ""
 "%s\n"
 "finished!"
 msgstr ""
+"%s\n"
+"a terminat!"
 
 #: client/gui-sdl/wldlg.c:983
 #: client/gui-sdl/wldlg.c:1089
@@ -15958,9 +16012,9 @@ msgstr ""
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1412
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold per turn"
-msgstr "%3d galbeni pe rundă"
+msgstr "%d galbeni pe rundă"
 
 #: client/gui-sdl/wldlg.c:1419
 #, c-format
@@ -15978,7 +16032,7 @@ msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1430
 msgid "shields into gold"
-msgstr ""
+msgstr "resurse în galbeni"
 
 #: client/gui-sdl/wldlg.c:1509
 #, c-format
@@ -15987,6 +16041,9 @@ msgid ""
 "%d/%d %s\n"
 "never"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"niciodată"
 
 #: client/gui-sdl/wldlg.c:1516
 #, c-format
@@ -15995,6 +16052,9 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1525
 #, c-format
@@ -16127,9 +16187,8 @@ msgid "Select a unit or improvement to change production to."
 msgstr "Joc: Alegeţi o unitate sau îmbunătăţire în care să se schimbe producţia."
 
 #: client/gui-win32/cityrep.c:698
-#, fuzzy
 msgid "That's the same thing!"
-msgstr "Joc: %si au fost extinşi!"
+msgstr "Reprezintă acelaşi lucru!"
 
 #: client/gui-win32/cityrep.c:733
 #: data/Freeciv.in:1739
@@ -16184,15 +16243,15 @@ msgstr "Pentru mai multe informaţii despre:"
 
 #: client/gui-win32/cma_fe.c:309
 msgid "CMA and presets"
-msgstr ""
+msgstr "Setări şi CMA"
 
 #: client/gui-win32/cma_fe.c:310
 msgid "including sample presets,"
-msgstr ""
+msgstr "se includ şi exemplele de setări"
 
 #: client/gui-win32/cma_fe.c:311
 msgid "see README.cma."
-msgstr ""
+msgstr "citiţi README.cma."
 
 #: client/gui-win32/cma_fe.c:467
 msgid "New"
@@ -16211,7 +16270,7 @@ msgstr "Parola:"
 
 #: client/gui-win32/connectdlg.c:167
 msgid "Couldn't load the savegame"
-msgstr ""
+msgstr "Nu s-a putut încărca jocul salvat."
 
 #: client/gui-win32/connectdlg.c:282
 #: client/gui-xaw/connectdlg.c:311
@@ -16252,9 +16311,8 @@ msgid "Choose a nation to play"
 msgstr "Alegeţi o naţiune pentru a juca"
 
 #: client/gui-win32/connectdlg.c:959
-#, fuzzy
 msgid "Number of players (Including AI):"
-msgstr "Număr de jucători până la care se umple cu jucători AI."
+msgstr "Numărul de jucători (inclusiv AI)."
 
 #: client/gui-win32/connectdlg.c:967
 msgid "AI skill level:"
@@ -16335,11 +16393,11 @@ msgstr "Alege un oraş:"
 
 #: client/gui-win32/gui_main.c:115
 msgid "Enable alpha blending"
-msgstr ""
+msgstr "Activează îmbinarea alfa"
 
 #: client/gui-win32/gui_main.c:116
 msgid "If this is enabled, then alpha blending will be used in rendering, instead of an ordered dither.  If there is no hardware support for alpha blending, this is much slower."
-msgstr ""
+msgstr "Dacă este activată, la redare se va folosi îmbinarea alfa, în locul efectului de tremur ordonat.  Dacă nu există suport în placa video pentru pentru îmbinarea alfa, aceasta va fi foarte înceată."
 
 #: client/gui-win32/helpdlg.c:99
 msgid "Sp1 F/R/T:"
@@ -16403,9 +16461,8 @@ msgid "_Revolution"
 msgstr "_Revoluţie"
 
 #: client/gui-win32/menu.c:362
-#, fuzzy
 msgid "Transf_orm to Hills"
-msgstr "Transf_ormează în %s"
+msgstr "Transf_ormă în Dealuri"
 
 #: client/gui-win32/menu.c:1101
 #: client/gui-xaw/menu.c:176
@@ -16428,7 +16485,7 @@ msgstr "Ok"
 #: client/gui-win32/plrdlg.c:352
 #: data/Freeciv.in:3230
 msgid "Intelligence"
-msgstr ""
+msgstr "Informaţii"
 
 #: client/gui-win32/plrdlg.c:353
 #: data/Freeciv.in:3238
@@ -16506,9 +16563,8 @@ msgid "Remove"
 msgstr "Sterge"
 
 #: client/gui-win32/wldlg.c:838
-#, fuzzy
 msgid "Available items"
-msgstr "Planuri de lucru disponibile"
+msgstr "Elemente disponibile"
 
 #: client/gui-xaw/citydlg.c:204
 #, c-format
@@ -16553,7 +16609,7 @@ msgstr "(în prog.)"
 #: client/gui-xaw/citydlg.c:1410
 #, c-format
 msgid "These trade routes have been established with %s:\n"
-msgstr ""
+msgstr "Aceste rute comerciale au fost stabilite cu %s:\n"
 
 #: client/gui-xaw/citydlg.c:1420
 #: client/gui-xaw/citydlg.c:1424
@@ -16571,21 +16627,22 @@ msgid ""
 "\n"
 "Total trade %d Trade/Year\n"
 msgstr ""
+"\n"
+"Comerţ total %d comerţ/an\n"
 
 #: client/gui-xaw/citydlg.c:1769
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens  Governor: %s"
-msgstr "%s - %s cetăţeni%s"
+msgstr "%s - %s guvernatorul cetăţenilor: %s"
 
 #: client/gui-xaw/cma_fe.c:431
-#, fuzzy
 msgid "What should we name the new preset?"
-msgstr "Care să fie numele oraşului?"
+msgstr "Cum să se numească noa configuraţie?"
 
 #: client/gui-xaw/cma_fe.c:448
 #, c-format
 msgid "Do you really want to remove %s?"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi să ştergeţi %s?"
 
 #: client/gui-xaw/connectdlg.c:178
 msgid "Pass"
@@ -16596,37 +16653,36 @@ msgid "You must select a nation."
 msgstr "Trebuie să alegeţi o naţiune."
 
 #: client/gui-xaw/graphics.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "Failed reading PNG file: %s"
-msgstr "Nu pot citi fişierul XPM: %s"
+msgstr "Nu pot citi fişierul PNG: %s"
 
 #: client/gui-xaw/graphics.c:348
 #: client/gui-xaw/graphics.c:354
-#, fuzzy
 msgid "Failed creating PNG struct"
-msgstr "Nu pot citi fişierul XPM: %s"
+msgstr "A eşuat crearea structurii PNG"
 
 #: client/gui-xaw/graphics.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "Failed while reading PNG file: %s"
-msgstr "Nu pot citi fişierul XPM: %s"
+msgstr "A eşuat citirea fişierului PNG: %s"
 
 #: client/gui-xaw/graphics.c:396
 #, c-format
 msgid "PNG file has no palette: %s"
-msgstr ""
+msgstr "Fişierul PNG nu are paletă: %s"
 
 #: client/gui-xaw/gui_main.c:321
 msgid "No version number in resources."
-msgstr ""
+msgstr "Nu există numărul versiunii în fişierele de resurse."
 
 #: client/gui-xaw/gui_main.c:322
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
-msgstr ""
+msgstr "Probabil aveţi un fişier de resurse Freeciv vechi (circa V1.0) pe undeva."
 
 #: client/gui-xaw/gui_main.c:330
 msgid "Game version does not match Resource version."
-msgstr ""
+msgstr "Versiunea jocului nu se potriveşte cu versiunea resurselor."
 
 #: client/gui-xaw/gui_main.c:331
 #, c-format
@@ -16635,32 +16691,32 @@ msgstr "Versiunea jocului: %s - Versiunea resursei: %s"
 
 #: client/gui-xaw/gui_main.c:333
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr ""
+msgstr "Probabil aveţi un fişier vechi de resurse Freeciv în /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:339
 msgid "Using fallback resources - which is OK"
-msgstr ""
+msgstr "Se folosesc resursele de siguranţa - ceea ce este acceptabil"
 
 #: client/gui-xaw/gui_main.c:350
 msgid "Only color displays are supported for now..."
-msgstr ""
+msgstr "Deocamdată sunt suportate doar afişajele color."
 
 #: client/gui-xaw/gui_main.c:373
 #: client/gui-xaw/gui_main.c:394
 #, c-format
 msgid "Unable to open fontset: %s"
-msgstr ""
+msgstr "Nu s-a putut deschide setul de fonturi: %s"
 
 #: client/gui-xaw/gui_main.c:376
 #: client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "Probabil puteţi rezolva temporar problema dacă executaţi comanda „xset fp rehash”."
 
 #: client/gui-xaw/gui_main.c:380
 #: client/gui-xaw/gui_main.c:401
 #, c-format
 msgid "Font for charset %s is lacking"
-msgstr ""
+msgstr "Lipseşte fontul pentru setul de caractere %s"
 
 #: client/gui-xaw/helpdlg.c:915
 #: client/gui-xaw/helpdlg.c:926
@@ -16681,23 +16737,22 @@ msgid "Allows %s (with %s).\n"
 msgstr "Permite %s (cu %s).\n"
 
 #: client/gui-xaw/inteldlg.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr "Cercetând: %s(%d/%d)"
+msgstr "Cercetând: Necunost (%d/-)"
 
 #: client/gui-xaw/inteldlg.c:420
 #, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
-msgstr ""
+msgstr "Informaţii diplomatice secrete despre Imperiul %s"
 
 #: client/gui-xaw/menu.c:111
 msgid "Local Options"
 msgstr "Opţiuni Locale"
 
 #: client/gui-xaw/menu.c:115
-#, fuzzy
 msgid "Server Options"
-msgstr "Arată opţiunile serverului."
+msgstr "Opţiunile serverului"
 
 #: client/gui-xaw/menu.c:131
 msgid "Revolution"
@@ -16708,9 +16763,8 @@ msgid "City Growth"
 msgstr "Creşterea oraşului"
 
 #: client/gui-xaw/menu.c:188
-#, fuzzy
 msgid "Unload Transporter"
-msgstr "Transportor"
+msgstr "Descarcă transportor"
 
 #: client/gui-xaw/menu.c:190
 msgid "Load"
@@ -16777,9 +16831,9 @@ msgstr "Copiere"
 
 #: client/gui-xaw/repodlgs.c:230
 #: client/gui-xaw/repodlgs.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %d/%s"
-msgstr "Cercetând %s: %d/%d"
+msgstr "Cercetând %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:233
 #: client/gui-xaw/repodlgs.c:495
@@ -16810,48 +16864,52 @@ msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Total:                       %9d%9d%9d%9d"
 
 #: manual/civmanual.c:120
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write manual file %s."
-msgstr "N-am putut deschide \"%s\"."
+msgstr "Nu s-a putut scrie fişierul manual %s."
 
 #: manual/civmanual.c:128
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
-msgstr "Selectarea Serverului Freeciv"
+msgstr ""
+"<h1> Opţiunile serverului Freeciv %s </h1>\n"
+"\n"
 
 #: manual/civmanual.c:144
 #, c-format
 msgid "Level: %s.<br>"
-msgstr ""
+msgstr "Nivel: %s <br>"
 
 #: manual/civmanual.c:145
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "Categorie: %s.<br>"
 
 #: manual/civmanual.c:148
 #, c-format
 msgid "Can only be used in server console. "
-msgstr ""
+msgstr "Poate fi folosit(ă) doar in consola serverului."
 
 #: manual/civmanual.c:151
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "Poate fi modificat(ă) în timpul jocului. "
 
 #: manual/civmanual.c:153
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "<b>Nu</b> poate fi modificat(ă) în timpul jocului. "
 
 #: manual/civmanual.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
-msgstr "Valoare: %d, Minim: 0, Implicit: %d, Maxim: 1"
+msgstr ""
+"<p class=\"bounds\">Minim: 0, Implicit: %d, Maxim: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:162
 #: manual/civmanual.c:172
@@ -16860,13 +16918,17 @@ msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Valoare stabilită la %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
-msgstr "Valoare: %d, Minim: %d, Implicit: %d, Maxim: %d"
+msgstr ""
+"<p class=\"bounds\">Minim: %d, Implicit: %d, Maxim: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -16874,6 +16936,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Implicit: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:180
 #, c-format
@@ -16881,6 +16945,8 @@ msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Valoare stabilită la %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:189
 #, c-format
@@ -16888,13 +16954,17 @@ msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr ""
+"<h1>Comenzile disponibile pe serverul Freeciv %s </h1>\n"
+"\n"
 
 #: manual/civmanual.c:195
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s%s  -  %s%s\n"
 "\n"
-msgstr "%s în %s (%s)\n"
+msgstr ""
+"%s%s  -  %s%s\n"
+"\n"
 
 #: manual/civmanual.c:198
 #, c-format
@@ -16904,6 +16974,10 @@ msgid ""
 "<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
 "<td>"
 msgstr ""
+"<table>\n"
+"<tr>\n"
+"<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
+"<td>"
 
 #: manual/civmanual.c:202
 #, c-format
@@ -16911,13 +16985,17 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">Nivel: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:211
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "Descriere:"
+msgstr ""
+"<p>Descriere:</p>\n"
+"\n"
 
 #: manual/civmanual.c:218
 #, c-format
@@ -16925,6 +17003,8 @@ msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Ajutor pentru tipurile de teren din Freeciv %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:221
 #: data/default/terrain.ruleset:636
@@ -16964,7 +17044,7 @@ msgstr "Curăţa poluarea radioactivă"
 #: manual/civmanual.c:259
 #: manual/civmanual.c:268
 msgid "impossible"
-msgstr ""
+msgstr "imposibil"
 
 #: manual/civmanual.c:289
 #, c-format
@@ -16972,6 +17052,8 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Ajutor pentru tipurile de clădiri din Freeciv %s </h1>\n"
+"\n"
 
 #: manual/civmanual.c:291
 #, c-format
@@ -16979,6 +17061,8 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Ajutor pentru tipurile de minuni din Freeciv %s </h1>\n"
+"\n"
 
 #: manual/civmanual.c:297
 msgid "Requirement"
@@ -16990,7 +17074,7 @@ msgstr "Învechit de"
 
 #: manual/civmanual.c:297
 msgid "More info"
-msgstr ""
+msgstr "Informaţii suplimentare"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
@@ -17002,7 +17086,7 @@ msgstr "Listă servere Freeciv"
 
 #: data/Freeciv.in:132
 msgid "Server Name                         Port  Version     Status  Players  Comment"
-msgstr ""
+msgstr "Nume server                         Port  Versiune    Stare   Jucători  Comentarii"
 
 #: data/Freeciv.in:215
 msgid "Diplomacy"
@@ -17010,7 +17094,7 @@ msgstr "Diplomaţie"
 
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
-msgstr ""
+msgstr "S-a dat acordul ambelor părţi pentru clauzele următoare:"
 
 #: data/Freeciv.in:474
 #: data/Freeciv.in:483
@@ -17056,7 +17140,7 @@ msgstr "Alege destinaţia:"
 
 #: data/Freeciv.in:1264
 msgid "Where to Display Messages"
-msgstr ""
+msgstr "Unde să fie afişate mesajele"
 
 #: data/Freeciv.in:1265
 msgid ""
