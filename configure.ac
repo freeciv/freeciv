@@ -269,7 +269,7 @@ fi
 
 
 dnl note this has to match the path installed by po/Makefile
-CPPFLAGS="$CFLAGS -DLOCALEDIR=\"\\\"$datadir/locale\"\\\""
+CPPFLAGS="$CFLAGS -DLOCALEDIR=\"\\\"$datadir/locale\\\"\""
 
 EXTRA_GCC_DEBUG_CFLAGS=""
 
