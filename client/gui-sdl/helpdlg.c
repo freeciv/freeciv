@@ -1099,7 +1099,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
     requirement_vector_iterate(&(get_improvement_type(imp)->reqs), preq) {
-      if (preq->source.value.tech == tech) {
+      if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
         pSurf = get_building_surface(imp);
         pBuf = create_iconlabel_from_chars(
                 ZoomSurface(pSurf, DEFAULT_ZOOM * ((float)36 / pSurf->w), DEFAULT_ZOOM * ((float)36 / pSurf->w), 1),
