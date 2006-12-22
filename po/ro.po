@@ -14248,7 +14248,7 @@ msgstr "Raport militar"
 #: client/gui-sdl/repodlgs.c:3298
 #: client/gui-win32/repodlgs.c:754
 #: client/gui-xaw/repodlgs.c:1153
-#, c-format
+#, fuzzy, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: Conducătorul %s %s a obţinut %d puncte\n"
