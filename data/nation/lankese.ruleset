@@ -10,9 +10,8 @@ leader=
  "Vijaya",
  "Parakramabahu I",
  "Kasyapa",
- "J.R. Jayewardene",
- "Chandrika Kumaratunga"
-leader_sex="Male", "Male", "Male", "Male", "Female"
+ "J.R. Jayewardene"
+leader_sex="Male", "Male", "Male", "Male"
 flag="srilanka"
 flag_alt = "-"
 city_style = "Asian"

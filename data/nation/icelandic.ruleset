@@ -10,13 +10,12 @@ legend=_("Iceland was long one of the largest uninhabited islands in the\
 leader=
  "Jón Sigurdsson",
  "Ingólfur Arnarson",
- "Davíð Oddsson",
  "Sveinn Björnsson",
  "Ásgeir Ásgeirsson",
  "Kristján Eldjárn",
  "Vigdís Finnbogadóttir"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
 
 flag="iceland"
 flag_alt = "norway"

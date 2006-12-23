@@ -14,9 +14,8 @@ leader=
  "Timour-i-Lang",
  "Ahmad Shah",
  "Zahir Shah",
- "Daoud Khan",
- "Mohammad Omar"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+ "Daoud Khan"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="afghanistan"
 flag_alt = "-"
 city_style = "Classical"

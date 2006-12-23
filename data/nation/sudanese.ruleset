@@ -7,13 +7,10 @@ legend=_("In 1820 Sudan came under Egyptian rule and later British rule.\
  Sudan became independent in 1956.")
 leader=
  "Muhammad ibn Abdalla",
- "Gaadar Muhammad Nimeiri",
+ "Gaafar Nimeiry",
  "Suwar al-Dahab",
- "Ibrahim Abboud",
- "Sadiq el-Mahdi",
- "Jaafar el-Nemery",
- "Abdul Rahman Swaredahab"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+ "Ibrahim Abboud"
+leader_sex="Male", "Male", "Male", "Male"
 flag="sudan"
 flag_alt = "-"
 city_style = "Classical"

@@ -10,12 +10,10 @@ legend=_("Australian Aborigines is a collective term for the original\
 leader=
  "Yagan",
  "Neville Bonner",
- "Galarrwuy Yunupingu",
- "Isabell Coe",
  "Beruk",		; Also known as William Barak
  "Gatjil Djerrkura",
  "Pearl Gibbs"
-leader_sex="Male", "Male", "Male", "Female", "Male", "Male", "Female"
+leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="aborigines"
 flag_alt = "-"
 city_style = "Tropical"

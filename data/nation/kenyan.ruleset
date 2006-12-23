@@ -5,14 +5,18 @@ plural = _("?plural:Kenyans")
 groups="Modern", "African"
 legend=_("Kenya gained independence from Britain in December 1963.")
 leader =
- "Jomo Kenyatta",
- "Nabongo",
- "Wangari Maathai",
- "Ezekiel Apindi"
-leader_sex = "Male", "Male", "Female", "Male"
+ "Shiundu",
+ "Mumia",
+ "Ezekiel Apindi",
+ "Jomo Kenyatta"
+leader_sex = "Male", "Male", "Male", "Male"
 flag = "kenya"
 flag_alt = "-"
 city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Nabongo"),      _("Nabongo")
+}
 
 init_techs=""
 init_buildings=""

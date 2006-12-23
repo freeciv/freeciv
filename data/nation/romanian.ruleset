@@ -22,10 +22,9 @@ leader=
  "Carol I",			; First and second king of the house of
  "Ferdinand I",			; Hohenzollern-Sigmaringen
  "Nicolae Antonescu",
- "Nicolae Ceausescu",
- "Ion Iliescu"
+ "Nicolae Ceausescu"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male"
+           "Male", "Male", "Male", "Male"
 flag="romania"
 flag_alt = "-"
 city_style = "Classical"

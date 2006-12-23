@@ -9,12 +9,8 @@ leader=
  "Wilhelm Tell",
  "Arnold von Winkelried",
  "Hermann Gessler",
- "Henri Guisan",
- "Adolf Ogi",
- "Ruth Dreifuss",
- "Christoph Blocher"
-leader_sex="Male", "Male", "Male", "Male", "Male",
-  "Female", "Male"
+ "Henri Guisan"
+leader_sex="Male", "Male", "Male", "Male"
 flag="switzerland"
 flag_alt = "-"
 city_style = "European"

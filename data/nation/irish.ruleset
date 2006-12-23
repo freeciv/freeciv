@@ -36,17 +36,6 @@ leader_sex = "Male", "Male", "Female", "Male", "Male", "Male", "Female",
  "Male", "Female", "Male", "Female", "Male", "Male", "Male", "Male", "Male",
  "Male", "Male", "Male", "Female", "Male", "Male"
 
-; See doc/README.nations for the current Freeciv policy on leaders
-
-; "Hanna Sheehy-Skeffington", "Padraig Pearse", "Jim Larkin",
-; "Augusta Gregory", "Maud Gonne", "Michael Davitt", "James Connolly",
-; "O'Sullivan Beara", "Robert Emmett", "Anne Devlin", "Kathleen Lynn", 
-; "W.B. Yeats", "Kathleen Clarke", "Anne Bonny", "Alice Kyteler"
-
-; "Female", "Male", "Male", "Female", "Female",
-; "Male", "Male", "Male", "Male", "Female", "Female", "Male", 
-; "Female", "Female", "Female"
-
 flag="ireland"
 flag_alt = "-"
 city_style = "Celtic"

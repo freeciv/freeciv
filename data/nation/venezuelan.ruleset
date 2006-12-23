@@ -13,16 +13,12 @@ legend=_("Venezuela is the most northern country in South America. Having\
 leader=
  "Ambrosio Alfinger",
  "Simón Bolivar",
- "Cristobal Mendoza",
- "Jose Antonio Páez",
+ "Cristóbal Mendoza",
+ "José Antonio Páez",
  "Juan Vicente Gómez",
- "Carlos Andrés Pérez",
- "Rafael Caldera",
  "Rómulo Betancourt",
  "Marcos Pérez Jiménez"
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male"
-
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="venezuela"
 flag_alt = "-"
 city_style = "Tropical"

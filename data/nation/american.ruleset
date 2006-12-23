@@ -34,19 +34,14 @@ leader="George Washington",
        "John F. Kennedy", 
        "Lyndon Johnson",
        "Richard Nixon",
-       "Gerald W. Ford",
-       "Jimmy Carter",
        "Ronald Reagan",
-       "George H. W. Bush",
-       "Bill Clinton",
        "Eleanor Roosevelt"
 leader_sex="Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male",
+           "Male", "Male", "Male", "Male", "Male",
            "Female"
 flag="usa"
 flag_alt = "-"

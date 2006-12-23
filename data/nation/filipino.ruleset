@@ -8,13 +8,12 @@ legend=_("After centuries of Spanish rule, the Philippines were ceded to\
  the Americans in 1898. They attained home rule in 1935 and independence in\
  1946.")
 leader=
- "Ramon Magsagay",
+ "Ramon Magsaysay",
  "Jose Rizal",
  "Luis Taruc",
- "Sergio Osmena", 
- "Ferdinand Marcos",
- "Corazon Aquino"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
+ "Sergio Osmeña", 
+ "Ferdinand Marcos"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="philippines"
 flag_alt = "-"
 city_style = "Tropical"

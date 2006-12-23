@@ -12,14 +12,11 @@ legend=_("Dutch settlers began colonizing southern Africa in the 17th\
  in 1994, long-time political prisoner Nelson Mandela was elected the\
  first truly democratically elected president of South Africa.")
 leader=
- "F.W. de Klerk",
  "Nelson Mandela",
- "Winnie Mandela",
- "Desmond Tutu",
+ "P.W. Botha",
  "J.C. Smuts",
- "Mangosuthu Buthelezi",
  "H.F. Verwoerd"
-leader_sex="Male", "Male", "Female", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male"
 flag="south_africa"
 flag_alt = "-"
 city_style = "Tropical"

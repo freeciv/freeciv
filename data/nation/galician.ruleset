@@ -6,12 +6,12 @@ groups="Medieval", "European"
 legend=_("Galicia is a region in the northwest of Spain, just above\
  Portugal.")
 leader=
- "Don Afonso",
+ "Afonso",
  "Diego Xelmírez",
  "Hermerico",
- "Pedro Pardo de Cela",
+ "Pero Pardo de Cela",
  "Rosalía de Castro",
- "Don Manuel"
+ "Manuel"
 leader_sex="Male", "Male", "Male", "Male",
            "Female", "Male"
 flag="galicia"

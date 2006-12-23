@@ -10,14 +10,9 @@ leader=
  "Alaungpaya",
  "Mindon",
  "Supayalatt",
- "Khin Nyunt",
  "Ne Win",
- "U Nu",
- "Aung San Suu Kyi",
- "Maung Aye"
-leader_sex="Male", "Male", "Male", "Female",
-           "Male", "Male", "Male", "Female", "Male"
-
+ "U Nu"
+leader_sex="Male", "Male", "Male", "Female",  "Male", "Male"
 flag="myanmar"
 flag_alt = "taiwan"	; similar design
 city_style = "Asian"

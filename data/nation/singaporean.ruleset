@@ -18,23 +18,16 @@ groups="Modern", "Asian"
 legend=_("Singapore is a mercantile city-state located at the southernmost\
  tip of the Malaysian Peninsula.")
 leader=
- "Tengku Long",
  "Stamford Raffles",
  "W.A. Pickering",
  "Ong Teng Cheong",
- "S.R. Nathan",
- "Lee Kuan Yew",
- "Yusof bin Ishak",
- "Ah Beng",
- "Ah Lian"
-leader_sex="Male", "Male", "Male", "Male",
-  "Male", "Male", "Male", "Male", "Female"
+ "Lee Kuan Yew"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="singapore"
 flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",	"male_title",		"female_title"
-		 "Despotism",	_("Ah"),		_("Ah")
 		 "Monarchy",	_("Sultan"),		_("Sultan")
 		 "Communism",	_("Encik"),		_("Encik")
 		 "Republic",	_("President"),		_("President")
