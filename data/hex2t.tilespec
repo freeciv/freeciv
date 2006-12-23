@@ -96,6 +96,7 @@ files =
   "misc/shields.spec",
   "misc/cursors.spec",
   "misc/space.spec",
+  "misc/techs.spec",
   "misc/treaty.spec",
   "misc/icons.spec",
   "amplio/nuke.spec"

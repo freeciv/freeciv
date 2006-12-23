@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="200"
+   height="200"
+   id="svg1923"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="labor_union.svg"
+   sodipodi:docbase="C:\freeciv\sources"
+   inkscape:export-filename="C:\freeciv\sources\labor_union.png"
+   inkscape:export-xdpi="21.6"
+   inkscape:export-ydpi="21.6">
+  <metadata
+     id="metadata97">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="579"
+     inkscape:window-width="853"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="1.1725114"
+     inkscape:cx="288.61559"
+     inkscape:cy="139.85437"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg1923"
+     width="200px"
+     height="200px" />
+  <defs
+     id="defs1926" />
+  <rect
+     width="200"
+     height="200"
+     x="-0.000359375"
+     y="0"
+     style="fill:#de0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="rect4088" />
+  <path
+     d="M 46.720608,152.68709 C 54.277728,151.76551 65.152128,136.46717 65.152128,136.46717 C 80.919408,143.80101 93.003168,154.81833 125.60837,145.31438 C 125.60837,145.31438 132.98093,156.37344 141.09101,156.37344 C 149.20085,156.37344 153.44021,152.13413 155.09909,145.31438 C 156.75797,138.49464 145.51469,132.04353 145.51469,132.04353 C 145.51469,132.04353 166.49645,109.05266 165.42077,87.807382 C 164.15309,62.774206 133.97717,39.29179 102.01565,44.30851 C 87.638928,45.045766 75.474048,50.94391 75.474048,50.94391 C 117.15989,44.838022 172.22141,77.047702 133.71821,118.77271 L 93.905808,81.171958 L 112.33757,66.426574 L 109.38845,62.002966 L 84.321168,62.002966 L 81.372288,64.952038 L 76.211328,64.214758 L 68.101248,70.112926 L 68.101248,74.536534 L 54.830448,85.59559 L 66.626688,102.55277 L 82.109328,89.281918 L 116.02373,130.569 C 104.42693,134.72069 91.455168,135.6642 73.999488,126.14539 C 73.999488,126.14539 77.870208,119.69429 73.999488,117.29815 C 70.128768,114.90204 63.309168,113.98044 58.516848,116.56089 C 53.724528,119.14135 54.830448,127.61993 54.830448,127.61993 C 54.830448,127.61993 36.951648,133.88673 34.924128,140.15352 C 32.896608,146.4203 39.163488,153.60869 46.720608,152.68709 z "
+     style="fill:white;fill-opacity:1;fill-rule:evenodd;stroke:white;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="path1932" />
+</svg>

@@ -69,7 +69,7 @@ files =
   "amplio/buildings.spec",
   "amplio/wonders.spec",
   "misc/space.spec",
-;  "misc/techs.spec",
+  "misc/techs.spec",
   "misc/treaty.spec",
   "amplio/nuke.spec",
   "amplio/explosions.spec",
