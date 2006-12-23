@@ -18,11 +18,8 @@ leader=
  "Bernardino Rivadavia",
  "Domingo Sarmiento",
  "Juan Domingo Perón",
- "Eva Duarte de Perón",
- "Carlos Saúl Menem"
-leader_sex="Male", "Male", "Male",
-           "Male", "Male", "Male",
-           "Female", "Male"
+ "Eva Duarte de Perón"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="argentina"
 flag_alt = "-"
 city_style = "European"

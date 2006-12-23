@@ -9,12 +9,9 @@ legend=_("The Inuit people inhabit northern Canada and Greenland.\
  of today are descendents of the Thule culture.")
 leader=
  "Qitdlarssuaq",
- "Nakasuk",
- "Jonathan Motzfeldt",
- "Paul Okalik",
- "Nancy Karetak-Lindell"
+ "Nakasuk"
 
-leader_sex="Male", "Male", "Male", "Male", "Female"
+leader_sex="Male", "Male"
 flag="greenland"
 flag_alt = "-"
 city_style = "European"

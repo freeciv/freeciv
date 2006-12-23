@@ -10,16 +10,10 @@ leader=
  "Johan Nygaardsvold",
  "Einar Gerhardsen",
  "Trygve Bratteli",
- "Odvar Nordli",
  "Gro Harlem Brundtland",
- "Kåre Willoch",
  "Jan P. Syse",
- "Torbjørn Jagland",
- "Kjell Magne Bondevik",
  "Haakon VII"
-leader_sex="Male", "Male", "Male", "Male", "Female",
-	   "Male", "Male", "Male", "Male", "Male"
-
+leader_sex="Male", "Male", "Male", "Female", "Male", "Male"
 flag="norway"
 flag_alt = "denmark"  ; Now used by Danish
 city_style = "European"

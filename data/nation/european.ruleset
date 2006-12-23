@@ -13,14 +13,8 @@ leader=
  "Jean Rey",
  "Franco Maria Malfatti",
  "Sicco L. Mansholt",
- "François-Xavier Ortoli",
- "Roy Jenkins",
- "Gaston Edmont Thorn",
- "Jacques Delors",
- "Jacques Santer",
- "Romano Prodi"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male"
+ "Roy Jenkins"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="europe"
 flag_alt = "-"
 city_style = "European"

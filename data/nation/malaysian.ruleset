@@ -11,11 +11,9 @@ leader =
  "Perak",
  "Hang Tuah",
  "Abdul Rahman",
- "Abdul Razak",
- "Mahathir bin Mohamad",
- "Anwar Ibrahim"
+ "Abdul Razak"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
 flag = "malaysia"
 flag_alt = "-"
 city_style = "Tropical"

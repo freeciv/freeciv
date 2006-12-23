@@ -6,12 +6,12 @@ groups="Medieval", "European"
 legend=_("Galicia is a region in the northwest of Spain, just above\
  Portugal.")
 leader=
- "Don Afonso",
+ "Afonso",
  "Diego Xelmírez",
  "Hermerico",
- "Pedro Pardo de Cela",
+ "Pero Pardo de Cela",
  "Rosalía de Castro",
- "Don Manuel"
+ "Manuel"
 leader_sex="Male", "Male", "Male", "Male",
            "Female", "Male"
 flag="galicia"
@@ -20,9 +20,9 @@ city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",          "female_title"
                  "Democracy", _("Primeiro Ministro"),  _("Primeira Ministra")
-                 "Despotism",       _("Dictador"),         _("Dictadora")
+                 "Despotism",       _("Don"),              _("Doña")
                  "Monarchy",        _("Rei"),              _("Raina")
-                 "Republic",        _("Presidente"),        _("Presidenta")
+                 "Republic",        _("Presidente"),       _("Presidenta")
                  "Fundamentalism",  _("Gran Bardo"),      _("Grande Bardesa")
                }
 

@@ -1,22 +1,5 @@
 [nation_japanese]
 
-; For cities and leaders, we use ASCII transliterations of the Japanese
-; characters.  Using true Japanese (Kanji or Hiragana) is overkill for
-; those used to latin characters (but would be desirable for Japanese
-; players).  Other transliterations that use accented latin characters
-; are also unnecessary.  Here we stick to ascii using the Hepburn
-; romanization.
-;
-; This is a serious problem for Japanese players since they would obviously
-; want to see these names using their native alphabet.  The only ways to
-; solve this would be to allow translation of city names (forcing translators
-; to translate or at least wade through all of the thousands of available
-; names) or to distribute a separate Japanese ruleset for Japanese
-; players to use (which would not be that hard; just substitute in the
-; correct native characters, in UTF-8, into this file).
-;
-; This is also a problem for many other nations that use non-latin alphabets.
-
 name=_("Japanese")
 plural=_("?plural:Japanese")
 groups="Medieval", "Modern", "Asian"

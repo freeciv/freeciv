@@ -25,20 +25,15 @@ leader=
  "José Antonio Aguirre",
  "Sabino Arana",
  "Fernando Buesa",
- "Carlos Garaikoetxea",
- "Jon Idigoras",
  "Patxi Iturrioz",
  "Federico Krutwig",
- "Begoña Lasagabaster",
  "Jesús María de Leizaola",
- "María San Gil",
  "Mario Onaindia",
  "Ramón Rubial Cavia",
  "Tomas Zumalakarregi Imaz"
 
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Female",
-           "Male", "Female", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Male", "Male", "Male", "Male"
 flag="euskadi"
 flag_alt = "-"
 city_style = "Celtic"

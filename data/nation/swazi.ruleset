@@ -12,9 +12,8 @@ leader=
  "Mswati II",
  "Labotsibeni",
  "Sobhuza II",
- "Ntombi",
- "Mswati III"
-leader_sex="Male", "Male", "Male", "Female", "Male", "Female", "Male"
+ "Ntombi"
+leader_sex="Male", "Male", "Male", "Female", "Male", "Female"
 flag="swaziland"
 flag_alt = "rwanda"
 city_style = "Tropical"

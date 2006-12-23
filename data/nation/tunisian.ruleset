@@ -14,13 +14,12 @@ legend=_("The Phoenicians founded Carthage in the area where Tunisia is\
  1956.")
 leader=
  "Hussein bin Ali Agha",
- "Khair al-Din",
- "Mustafa Khaznadar",
+ "Khair ad-Din",
+ "Mustapha Khaznadar",
  "Muhammad al-Munsif",
  "Habib Bourguiba",
- "Hedi Amira Nouira",
- "Muhammad Mzali"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+ "Hedi Amara Nouira"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="tunisia"
 flag_alt = "-"
 city_style = "Classical"

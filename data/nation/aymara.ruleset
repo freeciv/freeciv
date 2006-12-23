@@ -8,7 +8,7 @@ legend=_("After the collapse of the Tiwanaku civilization in the\
  Aymara kingdoms that thrived around the Titicaca lake until they\
  were conquered by the Incas.")
 leader=
- "Tupax Katari",	; a.k.a. Julián Apasa
+ "Tupax Katari",	; born Julián Apasa
  "Pawlu Sarati",
  "Santos Marka Thula",
  "Wartulina Sisa",
@@ -19,7 +19,7 @@ leader=
  "Apasa Tuqi",
  "Rumi Maki",
  "Qhawiri",
- "Fausto Reynaga"
+ "Fausto Reynaga"	; born José Félix
 leader_sex="Male", "Male", "Male", "Female", "Male",
  "Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="aymara"

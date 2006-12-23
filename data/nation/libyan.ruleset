@@ -11,11 +11,10 @@ leader=
  "Muammar al-Qadhafi",
  "Omar al-Moktar",
  "Suleiman Safar",
- "Ahmad ash Sharif", 
- "Suleiman Baruni",
+ "Ahmad ash-Sharif",
  "Muhammad Idris",
  "Ramadan as Suwaythi"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag ="libya"
 flag_alt = "-"
 city_style = "Classical"

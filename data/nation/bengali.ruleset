@@ -15,9 +15,8 @@ leader=
  "Devapala",
  "Jagat Malla",
  "Siraj Ud Daulah",
- "Ziaur Rahman",
- "Sheikh Hasina"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
+ "Ziaur Rahman"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="bangladesh"
 flag_alt = "-"
 city_style = "Asian"

@@ -8,10 +8,8 @@ legend=_("When the Chinese nationalists lost the armed struggle against the\
  Taiwan where they formed the Republic of China.")
 leader=
  "Sun Yat Sen",
- "Chiang Kai Shek",
- "Lee Teng Hui",
- "Kung Fu Tse"
-leader_sex="Male", "Male", "Male", "Male"
+ "Chiang Kai Shek"
+leader_sex="Male", "Male"
 flag="taiwan"
 flag_alt = "-"
 city_style = "Asian"

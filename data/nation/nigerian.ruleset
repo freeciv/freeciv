@@ -6,9 +6,8 @@ groups="Modern", "African"
 legend=_("Nigeria won full independence from British rule in 1960.")
 leader=
  "Abubakar Tafawa Balewa",
- "Shehu Shagari",
  "Nnamdi Azikiwe"
-leader_sex="Male", "Male", "Male"
+leader_sex="Male", "Male"
 flag="nigeria"
 flag_alt = "-"
 city_style = "Tropical"
