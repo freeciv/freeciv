@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-08 13:37-0400\n"
-"PO-Revision-Date: 2006-12-16 06:07+0200\n"
+"PO-Revision-Date: 2006-12-29 20:47+0200\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -17152,7 +17152,7 @@ msgstr ""
 
 #: data/Freeciv.in:1276
 msgid " Out Mes Pop"
-msgstr ""
+msgstr "Out Mes Pop"
 
 #: data/Freeciv.in:1287
 msgid "Rates"
@@ -17358,7 +17358,7 @@ msgstr " Ok "
 
 #: data/Freeciv.in:3209
 msgid "Name             Nation       Embassy  Dipl.State      Vision   Reputation    State    Host"
-msgstr ""
+msgstr "Nume            Naţiune         Ambasadă Statut diplomatic      Vedere  Reputaţie       Stare   Gazdă"
 
 #: data/Freeciv.in:3246
 msgid "Cancel pact"
@@ -17372,7 +17372,7 @@ msgstr "Premier"
 
 #: data/Freeciv.in:3350
 msgid "Name              Ready Leader          Nation          "
-msgstr ""
+msgstr "Nume            Pregătit        Conducător      Naţiune "
 
 #: data/Freeciv.in:3379
 msgid "Start"
@@ -17380,13 +17380,15 @@ msgstr "Porneşte"
 
 #: data/helpdata.txt:38
 msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization, fighting to obtain the ultimate goal: the extinction of all other civilizations."
-msgstr ""
+msgstr "Freeciv este un joc de strategie pe runde, în care fiecare jucător este conducătorul unei civilizaţii care se luptă pentru ţelul suprem: înfrângerea celorlalte civilizaţii."
 
 #: data/helpdata.txt:42
 msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
 msgstr ""
+"  Autorii iniţiali:\\n\n"
+"    (Nu mai sunt implcaţi în proiect, nu le trimiteţi e-mailuri!)"
 
 #: data/helpdata.txt:49
 msgid "  Present administrators: "
@@ -17400,14 +17402,19 @@ msgid ""
 "\n"
 "or by sending email to:  bugs@freeciv.org"
 msgstr ""
+"Dacă descoperiţi erori, trimiteţi un raport de eroare.  Puteţi face acest lucru cel mai uşor vizitând Sistemul Freeciv de urmărire a erorilor, la:\\n\n"
+"\\n\n"
+"   http://bugs.freeciv.org/\\n\n"
+"\\n\n"
+"sau trimiţând un email la: bugs@freeciv.org"
 
 #: data/helpdata.txt:63
 msgid "For more information about submitting bug reports see the file BUGS in the Freeciv distribution.  For more information in general, visit the Freeciv website, at:"
-msgstr ""
+msgstr "Pentru informaţii suplimentare despre raportarea erorilor citiţi fişierul BUGS din distribuţia Freeciv. Pentru informaţii generale, vizitaţi saitul Freeciv la adresa:"
 
 #: data/helpdata.txt:80
 msgid "Freeciv is covered by the GPL, which is included here: "
-msgstr ""
+msgstr "Freeciv este distribuit sub licenţa GPL, pe  care o găsiţi aici: "
 
 #: data/helpdata.txt:382
 #, fuzzy
@@ -17436,7 +17443,7 @@ msgstr ""
 
 #: data/helpdata.txt:405
 msgid "Before a game is started, anyone can connect to the server by supplying its hostname and port number (5555 by default). If the server is started with the -m flag, it will report to the metaserver,"
-msgstr ""
+msgstr "Înainte de începerea jocului, oricine se poate conecta la server dacă ştie numele sau adresa sistemului şi portul (implicit 5555). Dacă serverul este pornit cu parametrul -m, acesta va trimite rapoarte către metaserver,"
 
 #: data/helpdata.txt:412
 msgid ""
@@ -17446,10 +17453,15 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
+"Şi clientul poate obţine această pagină prin intermediul butonului Metaserver din dialogul conexiune.  Dacă nu afişează nici un rezultat, verificaţi dacă browserul dumneavoastră foloseşte HTTP proxy şi modificaţi astfel încăt clientul Freeciv să folosească acelaşi proxy stabilind variabilei de sistem $http_proxy la valoarea\\n\n"
+"\\n\n"
+"   http://adresăgazđăproxy:numărportproxy/\\n\n"
+"\\n\n"
+"înainte de pornirea jocului."
 
 #: data/helpdata.txt:421
 msgid "When the game has started, everyone can connect as any player who isn't already connected, including AI players.  Merely connecting to an AI player doesn't make it human controlled; this is an independent server setting.  If you lose connection early in the game and reconnect, use the name you chose for your ruler, not your original nickname!  If the server is reporting on the metaserver, the player names can be found there."
-msgstr ""
+msgstr "Când jocul a început, oricine se poate conecta ca orice jucător care nu este deja conectat, inclusiv ca AI. Doar prin conectarea la AI, nu înseamnă că acesta este controlat de jucător; aceasta este o setare independentă a serverului. Dacă pierdeţi conexiunea la începutul jocului şi vă reconectaţi, folosiţi numele ales pentru conducătorul dvs, nu porecla aleasă iniţial! Dacă serverul trimite rapoarte către metaserver, puteţi găsi acolo numele jucătorilor."
 
 #: data/helpdata.txt:433
 msgid ""
@@ -17581,7 +17593,7 @@ msgstr ""
 
 #: data/helpdata.txt:550
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
-msgstr ""
+msgstr "Clientul are o interfaţă primitivă de discuţii. Ceea ce tastaţi va ajunge la toţi jucătorii, mai puţin:"
 
 #: data/helpdata.txt:553
 msgid "  - Messages starting with '/' are interpreted as server commands and executed, if you have the required access level."
