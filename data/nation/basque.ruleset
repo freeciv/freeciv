@@ -3,22 +3,17 @@
 name=_("Basque")
 plural=_("?plural:Basques")
 groups="Medieval", "European"
-legend=_("The human being and his quest came to the western foothills\
- of the Pyrenees in search of a place to settle and live.\
- Close to the natural border formed by the mountains that stretch across\
- the land joining the Iberian peninsula to the rest of Europe, he found\
- what he was looking for.\n\n\
- The Basques have lived since the immemorial times in this small region,\
- by maintaining their age-old cultural traditions, and keeping their\
+legend=_("
+ The Basques have lived since the immemorial times by the western\
+ foothills of the Pyrenees.\
+ By maintaining their age-old cultural traditions, and keeping their\
  historic identity alive, the Basques provide a link with man's distant\
- past. Euskara , the language spoken by the Basque people, is probably the\
+ past. Euskara, the language spoken by the Basque people, is probably the\
  oldest living language in Europe.\n\n\
- Actually, the Basque Country (Euskadi) covers a surface area of 20,664\
+ The Basque Country (Euskadi) covers a surface area of 20,664\
  square kilometres and consists of seven \"herrialdes,\" or districts:\
  Araba, Bizkaia, Gipuzkoa and Nafarroa situated in the Iberian peninsula,\
- and Lapurdi, Zuberoa and Benafarroa in French territory.\
- This is the place, the people, the tradition.\n\n\
- 'Ongi etorri Euskadira, eta zorte on!' (Welcome to Euskadi and good luck!)")
+ and Lapurdi, Zuberoa and Benafarroa in French territory.")
 leader=
  "Antso III.a Gartzes Nagusia",
  "Eneko Aritza",
