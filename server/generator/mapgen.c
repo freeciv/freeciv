@@ -1127,7 +1127,7 @@ FIXME: Some continent numbers are unused at the end of this function, fx
   based on the map.size server parameter and the specified topology.  If
   not map.xsize and map.ysize will be used.
 **************************************************************************/
-void map_fractal_generate(bool autosize)
+void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 {
   /* save the current random state: */
   RANDOM_STATE rstate = get_myrand_state();
@@ -1232,7 +1232,7 @@ void map_fractal_generate(bool autosize)
     }
     
     for(;;) {
-      success = create_start_positions(mode);
+      success = create_start_positions(mode, initial_unit);
       if (success) {
         break;
       }

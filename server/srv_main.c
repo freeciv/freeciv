@@ -1878,7 +1878,9 @@ static void srv_loop(void)
   /* If we have a tile map, and map.generator==0, call map_fractal_generate
    * anyway to make the specials, huts and continent numbers. */
   if (map_is_empty() || (map.generator == 0 && game.info.is_new_game)) {
-    map_fractal_generate(TRUE);
+    struct unit_type *utype = crole_to_unit_type(game.info.start_units[0], NULL);
+
+    map_fractal_generate(TRUE, utype);
   }
 
   /* start the game */
