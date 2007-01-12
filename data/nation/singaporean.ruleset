@@ -22,7 +22,7 @@ leader=
  "W.A. Pickering",
  "Ong Teng Cheong",
  "Lee Kuan Yew"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male"
 flag="singapore"
 flag_alt = "-"
 city_style = "Asian"
