@@ -677,6 +677,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   /* Our favourite unit. */
   int best = -1;
   struct unit_type *best_unit_type = NULL;
+  int best_unit_cost = 1;
 
   memset(tech_desire, 0, sizeof(tech_desire));
   
@@ -709,18 +710,26 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     if (can_build_unit(pcity, punittype)) {
       /* We can build the unit now... */
 
+      int build_cost = unit_build_shield_cost(punittype);
+      int limit_cost = pcity->shield_stock + 40;
+
       if (walls && move_type == LAND_MOVING) {
 	desire *= pcity->ai.wallvalue;
 	/* TODO: More use of POWER_FACTOR ! */
 	desire /= POWER_FACTOR;
       }
 
-      if ((desire > best ||
-	   (desire == best && unit_build_shield_cost(punittype) <=
-	    unit_build_shield_cost(best_unit_type)))
-	  && unit_build_shield_cost(punittype) <= pcity->shield_stock + 40) {
+
+      if ((best_unit_cost > limit_cost
+           && build_cost < best_unit_cost)
+          || ((desire > best ||
+               (desire == best && build_cost <= best_unit_cost))
+              && (best_unit_type == NULL
+                  /* In case all units are more expensive than limit_cost */
+                  || limit_cost <= pcity->shield_stock + 40))) {
 	best = desire;
 	best_unit_type = punittype;
+	best_unit_cost = build_cost;
       }
     } else if (can_eventually_build_unit(pcity, punittype)) {
       /* We first need to develop the tech required by the unit... */
