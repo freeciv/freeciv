@@ -463,6 +463,7 @@ static void update_diplomatics(void)
   players_iterate(plr1) {
     players_iterate(plr2) {
       struct player_diplstate *state = &plr1->diplstates[plr2->player_no];
+      struct player_diplstate *state2 = &plr2->diplstates[plr1->player_no];
 
       state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
       state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
@@ -471,22 +472,35 @@ static void update_diplomatics(void)
         state->turns_left--;
         if (state->turns_left <= 0) {
           state->type = DS_PEACE;
+          state2->type = DS_PEACE;
+          state->turns_left = 0;
+          state2->turns_left = 0;
           remove_illegal_armistice_units(plr1, plr2);
         }
       }
 
       if (state->type == DS_CEASEFIRE) {
-        switch(--state->turns_left) {
+        state->turns_left--;
+        switch(state->turns_left) {
         case 1:
           notify_player(plr1, NULL, E_DIPLOMACY,
                         _("Concerned citizens point out that the cease-fire "
                           "with %s will run out soon."), plr2->name);
+          notify_player(plr2, NULL, E_DIPLOMACY,
+                        _("Concerned citizens point out that the cease-fire "
+                          "with %s will run out soon."), plr1->name);
           break;
         case 0:
           notify_player(plr1, NULL, E_DIPLOMACY, _("The cease-fire with "
                         "%s has run out. You are now at war with the %s."),
                         plr2->name, get_nation_name_plural(plr2->nation));
+          notify_player(plr2, NULL, E_DIPLOMACY, _("The cease-fire with "
+                        "%s has run out. You are now at war with the %s."),
+                        plr1->name, get_nation_name_plural(plr1->nation));
           state->type = DS_WAR;
+          state2->type = DS_WAR;
+          state->turns_left = 0;
+          state2->turns_left = 0;
           check_city_workers(plr1);
           check_city_workers(plr2);
 
@@ -497,10 +511,12 @@ static void update_diplomatics(void)
                 && pplayers_allied(plr3, plr2)) {
               notify_player(plr3, NULL, E_TREATY_BROKEN,
                             _("Ceasefire between %s and %s has run out. "
-                              "They are at war. You cancel alliance with %s."),
-                            plr1->name, plr2->name, plr1->name);
+                              "They are at war. You cancel your alliance "
+                              "with both."), plr1->name, plr2->name);
               plr3->diplstates[plr1->player_no].has_reason_to_cancel = TRUE;
+              plr3->diplstates[plr2->player_no].has_reason_to_cancel = TRUE;
               handle_diplomacy_cancel_pact(plr3, plr1->player_no, CLAUSE_ALLIANCE);
+              handle_diplomacy_cancel_pact(plr3, plr2->player_no, CLAUSE_ALLIANCE);
             }
           } players_iterate_end;
           break;
