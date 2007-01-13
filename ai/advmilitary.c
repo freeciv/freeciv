@@ -1306,8 +1306,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
              "our_def=%d", urgency, danger, num_defenders, our_def);
 
     /* FIXME: 1. Will tend to build walls beofre coastal irrespectfully what
-     * type of danger we are facing
-     * 2. (80 - pcity->shield_stock) * 2 below is hardcoded price of walls */
+     * type of danger we are facing */
     /* We will build walls if we can and want and (have "enough" defenders or
      * can just buy the walls straight away) */
 
@@ -1320,7 +1319,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
         && can_build_improvement(pcity, wall_id)
         && (danger < 101 || num_defenders > 1
             || (pcity->ai.grave_danger == 0 
-                && pplayer->economic.gold > (80 - pcity->shield_stock) * 2)) 
+                && pplayer->economic.gold > impr_buy_gold_cost(wall_id, pcity->shield_stock)))
         && ai_fuzzy(pplayer, TRUE)) {
       /* NB: great wall is under domestic */
       choice->choice = wall_id;
