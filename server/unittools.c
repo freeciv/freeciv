@@ -1440,6 +1440,7 @@ struct unit *create_unit(struct player *pplayer, struct tile *ptile,
 /**************************************************************************
   Creates a unit, and set it's initial values, and put it into the right 
   lists.
+  If moves_left is less than zero, unit will get max moves.
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 			      Unit_Type_id type, int veteran_level, 
