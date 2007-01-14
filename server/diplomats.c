@@ -404,12 +404,13 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   int diplomat_id;
   struct tile *victim_tile;
   bool vet = FALSE;
+  struct unit *gained_unit = NULL;
   
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim)
     return;
   uplayer = unit_owner(pvictim);
-  /* We might make it allowable in peace with a liss of reputaion */
+  /* We might make it allowable in peace with a loss of reputation */
   if (!uplayer || pplayers_allied(pplayer, uplayer))
     return;
 
@@ -450,10 +451,18 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "bribe-unit: succeeded");
 
   /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
-  (void) create_unit_full(pplayer, pvictim->tile,
-			  pvictim->type, pvictim->veteran,
-			  pdiplomat->homecity, pvictim->moves_left,
-			  pvictim->hp, NULL);
+  gained_unit = create_unit_full(pplayer, pvictim->tile,
+                                 pvictim->type, pvictim->veteran,
+                                 pdiplomat->homecity, pvictim->moves_left,
+                                 pvictim->hp, NULL);
+
+  /* Copy some more unit fields */
+  gained_unit->fuel        = pvictim->fuel;
+  gained_unit->foul        = pvictim->foul;
+  gained_unit->paradropped = pvictim->paradropped;
+
+  /* Inform owner about less than full fuel */
+  send_unit_info(pplayer, gained_unit);
 
   /* Check if the unit gained veteran level */
   vet = maybe_make_veteran(pdiplomat);
@@ -514,7 +523,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   - The thief may be captured and executed, or escape to its home town.
 
-  FIXME: It should give a loss of reputaion to steal from a player you are
+  FIXME: It should give a loss of reputation to steal from a player you are
   not at war with
 ****************************************************************************/
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
