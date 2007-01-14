@@ -1338,6 +1338,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   wipe_unit(punit);
   pplayer->economic.gold += revenue;
   update_tech(pplayer, revenue);
+
+  /* Inform everyone about tech changes */
+  send_player_info(pplayer, NULL);
   
   if (can_establish) {
     /* Refresh the cities. */

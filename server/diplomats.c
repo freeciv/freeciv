@@ -640,7 +640,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Update stealing player's science progress and research fields */
-  send_player_info(pplayer, pplayer);
+  send_player_info(pplayer, NULL);
  
   /* Record the theft. */
   (pcity->steal)++;
