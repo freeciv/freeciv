@@ -270,10 +270,12 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
 {
   int move_cost;
   struct tile *orig_tile;
-  bool igter;
+  bool igter, terrain_speed;
   int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
   struct tile *ptile;
   struct player *pplayer;
+  struct unit_class *pclass = NULL;
+  int unit_speed = SINGLE_MOVE;
 
   if (pcity) {
     orig_tile = pcity->tile;
@@ -286,10 +288,24 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
   init_warmap(orig_tile, move_type);
   add_to_mapqueue(0, orig_tile);
 
-  if (punit && unit_flag(punit, F_IGTER))
-    igter = TRUE;
-  else
-    igter = FALSE;
+  igter = FALSE;
+  if (punit) {
+    pclass = get_unit_class(unit_type(punit));
+
+    terrain_speed = unit_class_flag(get_unit_class(unit_type(punit)), UCF_TERRAIN_SPEED);
+    if (!terrain_speed /* Igter meaningless without terrain_speed */
+        && unit_flag(punit, F_IGTER)) {
+      igter = TRUE;
+    }
+    unit_speed = unit_move_rate(punit);
+  } else {
+    /* Guess - can result in bad city warmaps with custom rulesets */
+    if (move_type == LAND_MOVING || move_type == SEA_MOVING) {
+      terrain_speed = TRUE;
+    } else {
+      terrain_speed = FALSE;
+    }
+  }
 
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
   if (punit
@@ -305,71 +321,97 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
 			  ? WARMAP_SEACOST(ptile) : WARMAP_COST(ptile));
 
     adjc_dir_iterate(ptile, tile1, dir) {
-      switch (move_type) {
-      case LAND_MOVING:
-	if (WARMAP_COST(tile1) <= cost)
-	  continue; /* No need for all the calculations */
+      if ((move_type == LAND_MOVING && WARMAP_COST(tile1) <= cost)
+          || (move_type == SEA_MOVING && WARMAP_SEACOST(tile1) <= cost)) {
+        continue; /* No need for calculations */
+      }
+  
+      if (!terrain_speed) {
+        if (punit) {
+          if (!can_unit_exist_at_tile(punit, tile1)) {
 
-        if (is_ocean(tile_get_terrain(tile1))) {
-          if (punit &&
-              unit_class_transporter_capacity(tile1, pplayer,
-                                              get_unit_class(unit_type(punit))) > 0)
-	    move_cost = SINGLE_MOVE;
-          else
-	    continue;
-	} else if (is_ocean(ptile->terrain)) {
-	  int base_cost
-	    = tile_get_terrain(tile1)->movement_cost * SINGLE_MOVE;
+	    if (can_attack_non_native(unit_type(punit))
+		&& is_native_tile(unit_type(punit), ptile)) {
+	      /* Able to shore bombardment or similar activity,
+	       * but not from city in non-native terrain. */
 
-	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_move_rate(punit));
-        } else if (igter)
-	  /* NOT c = 1 (Syela) [why not? - Thue] */
-	  move_cost = (map_move_cost_ai(ptile, tile1) != 0
-		       ? SINGLE_MOVE : 0);
-        else if (punit) {
-	  const int tmp1 = map_move_cost_ai(ptile, tile1);
-	  const int tmp2 = unit_move_rate(punit);
-
-	  move_cost = MIN(tmp1, tmp2);
-#if 0
-	} else {
-	  c = ptile->move_cost[k]; 
-	  /* This led to a bad bug where a unit in a swamp was considered
-	   * too far away. */
-#endif
+	      /* Attack cost is SINGLE_MOVE */
+	      move_cost = SINGLE_MOVE;
+	    } else if (unit_class_transporter_capacity(tile1, pplayer, pclass) > 0) {
+	      /* Enters transport */
+	      move_cost = SINGLE_MOVE;
+	    } else {
+	      /* Can't enter tile */
+	      continue;
+	    }
+          } else {
+            /* Punit can_exist_at_tile() */
+            move_cost = SINGLE_MOVE;
+          }
         } else {
-	  /* we have a city */
-	  const int tmp1 = map_move_cost_ai(tile1, ptile);
-	  const int tmp2 = map_move_cost_ai(ptile, tile1);
-
-          move_cost = (tmp2 + tmp1 + (tmp2 > tmp1 ? 1 : 0)) / 2;
+          /* No punit. Crude guess */
+          if ((move_type == SEA_MOVING && !is_ocean(tile1->terrain))
+              || (move_type == LAND_MOVING && is_ocean(tile1->terrain))) {
+            /* Can't enter tile */
+            continue;
+          }
+          move_cost = SINGLE_MOVE;
         }
-
-        move_cost += cost;
+      } else {
+  
+        /* Speed determined by terrain */
+        if (punit) {
+          if (!can_unit_exist_at_tile(punit, tile1)) {
+	    if (can_attack_non_native(unit_type(punit))
+		&& is_native_tile(unit_type(punit), ptile)) {
+	      /* Shore bombardment. Impossible if already in city
+	       * in non-native terrain. */
+	      move_cost = SINGLE_MOVE;
+	      
+	    } else if (unit_class_transporter_capacity(tile1, pplayer, pclass) > 0) {
+	      /* Go on board */
+              move_cost = SINGLE_MOVE;
+            } else {
+	      /* Can't enter tile */
+              continue;
+            }
+          } else if (is_native_tile(unit_type(punit), tile1)) {
+            /* can_exist_at_tile() */ 
+            int base_cost = map_move_cost(ptile, tile1);
+  
+            base_cost = base_cost > unit_speed ? unit_speed : base_cost;
+            move_cost = igter ? MIN(MOVE_COST_ROAD, base_cost) : base_cost;
+          } else {
+            /* can_exist_at_tile(), but !is_native_tile() -> entering port */
+            move_cost = SINGLE_MOVE;
+          }
+        } else if ((move_type == LAND_MOVING && is_ocean(tile1->terrain))
+                   || (move_type == SEA_MOVING && !is_ocean(tile1->terrain))) {
+          continue;     /* City warmap ignores possible transports */
+        } else {
+          move_cost = map_move_cost(ptile, tile1);
+        }
+      }
+  
+      move_cost += cost;
+ 
+      if (move_type != SEA_MOVING) {
         if (WARMAP_COST(tile1) > move_cost && move_cost < maxcost) {
           warmap.cost[tile1->index] = move_cost;
           add_to_mapqueue(move_cost, tile1);
         }
-	break;
-
-
-      case SEA_MOVING:
-        move_cost = SINGLE_MOVE;
-        move_cost += cost;
+      } else if (move_type == SEA_MOVING) {
         if (WARMAP_SEACOST(tile1) > move_cost && move_cost < maxcost) {
-	  /* by adding the move_cost to the warmap regardless if we
-	     can move between we allow for shore bombardment/transport
-	     to inland positions/etc. */
+          /* by adding the move_cost to the warmap regardless if we
+           * can move between we allow for shore bombardment/transport
+           * to inland positions/etc. */
           warmap.seacost[tile1->index] = move_cost;
-	  if (map_move_cost_ai(ptile, tile1)
-	      == MOVE_COST_FOR_VALID_SEA_STEP) {
-	    add_to_mapqueue(move_cost, tile1);
-	  }
-	}
-	break;
-      default:
-	move_cost = 0; /* silence compiler warning */
-	die("Bad/unimplemented move_type in really_generate_warmap().");
+          if ((punit && can_unit_exist_at_tile(punit, tile1))
+              || (!punit && (is_ocean(tile1->terrain) || tile1->city))) {
+            /* Unit can actually move to tile */
+            add_to_mapqueue(move_cost, tile1);
+  	  }
+        }
       }
     } adjc_dir_iterate_end;
   }
