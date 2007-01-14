@@ -1895,9 +1895,24 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
     if ((!pplayer && pconn->observer) || pplayer == punit->owner) {
       send_packet_unit_info(pconn, &info);
     } else if (pplayer) {
-      if (can_player_see_unit_at(pplayer, punit, punit->tile)
-	  || can_player_see_unit_at(pplayer, punit, ptile)) {
+      bool see_in_old;
+      bool see_in_new = can_player_see_unit_at(pplayer, punit, punit->tile);
+
+      if (punit->tile == ptile) {
+	/* This is not about movement */
+	see_in_old = see_in_new;
+      } else {
+	see_in_old = can_player_see_unit_at(pplayer, punit, ptile);
+      }
+
+      if (see_in_new || see_in_old) {
+	/* First send movement */
 	send_packet_unit_short_info(pconn, &sinfo);
+
+	if (!see_in_new) {
+	  /* Then remove unit if necessary */
+	  unit_goes_out_of_sight(pplayer, punit);
+	}
       } else {
 	if (remove_unseen) {
 	  dsend_packet_unit_remove(pconn, punit->id);
@@ -2810,17 +2825,6 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   vision_clear_sight(old_vision);
   vision_free(old_vision);
 
-  /*
-   * Let the unit goes out of sight for the players which doesn't see
-   * the unit anymore.
-   */
-  players_iterate(pplayer) {
-    if (can_player_see_unit_at(pplayer, punit, psrctile)
-	&& !can_player_see_unit_at(pplayer, punit, pdesttile)) {
-      unit_goes_out_of_sight(pplayer, punit);
-    }
-  } players_iterate_end;
-  
   /* Remove hidden units (like submarines) which aren't seen anymore. */
   square_iterate(psrctile, 1, tile1) {
     players_iterate(pplayer) {
