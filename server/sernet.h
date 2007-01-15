@@ -15,7 +15,7 @@
 
 struct connection;
 
-#define DEFAULT_SOCK_PORT 5555
+#define DEFAULT_SOCK_PORT 5556
 #define BUF_SIZE 512
 
 #define SERVER_LAN_PORT 4555

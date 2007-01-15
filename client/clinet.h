@@ -13,7 +13,7 @@
 #ifndef FC__CLINET_H
 #define FC__CLINET_H
 
-#define DEFAULT_SOCK_PORT 5555
+#define DEFAULT_SOCK_PORT 5556
 
 /* In autoconnect mode, try to connect to once a second */
 #define AUTOCONNECT_INTERVAL		500
