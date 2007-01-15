@@ -404,7 +404,7 @@ mailing list:\
 name = _("Connecting")
 text = _("\
 Before a game is started, anyone can connect to the server \
-by supplying its hostname and port number (5555 by default). \
+by supplying its hostname and port number (5556 by default). \
 If the server is started with the -m flag, it will report to \
 the metaserver,\
 "), "\
