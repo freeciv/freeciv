@@ -30,10 +30,10 @@ artists = "
 
  NASA
  a.rocketry           a.space_flight
- 
- Zach Harden
- a.labor_union
- 
+
+ Tobias Jakobs
+ a.horseback_riding   a.labor_union
+
  Dan Gerhards
  a.astronomy
  
@@ -45,9 +45,6 @@ artists = "
 
  Jim Fitzpatrick
  a.guerilla_warfare
-
- Tobias Jakobs
- a.horseback_riding
 
  Michelangelo
  a.monotheism 
