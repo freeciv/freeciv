@@ -367,7 +367,9 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
   pentry = sbuf_malloc(sb, sizeof(struct entry));
   pentry->name = sbuf_strdup(sb, name);
   pentry->comment = NULL;
-  if (tok[0] == '\"') {
+  if (tok[0] != '-' && !my_isdigit(tok[0])) {
+    /* It is not integer, but string with some border character.
+     * We don't care what that border character is, we just skip it. */
     pentry->svalue = minstrdup(sb, tok+1);
     pentry->ivalue = 0;
     if (SECF_DEBUG_ENTRIES) {

@@ -779,6 +779,7 @@ static const char *get_token_value(struct inputfile *inf)
   char *c, *start;
   char trailing;
   bool has_i18n_marking = FALSE;
+  char border_character = '\"';
   
   assert(have_line(inf));
 
@@ -823,8 +824,13 @@ static const char *get_token_value(struct inputfile *inf)
       return NULL;
   }
 
-  if (!(*c == '\"'))
+  border_character = *c;
+
+  if (border_character != '\"'
+      && border_character != '\''
+      && border_character != '$') {
     return NULL;
+  }
 
   /* From here, we know we have a string, we just have to find the
      trailing (un-escaped) double-quote.  We read in extra lines if
@@ -852,7 +858,7 @@ static const char *get_token_value(struct inputfile *inf)
   for(;;) {
     int pos;
     
-    while(*c != '\0' && *c != '\"') {
+    while(*c != '\0' && *c != border_character) {
       /* skip over escaped chars, including backslash-doublequote,
 	 and backslash-backslash: */
       if (*c == '\\' && *(c+1) != '\0') {  
@@ -860,8 +866,11 @@ static const char *get_token_value(struct inputfile *inf)
       }
       c++;
     }
-    if (*c == '\"') 
-      break;      /* found end of string */
+
+    if (*c == border_character) {
+      /* Found end of string */
+      break;
+    }
 
     /* Accumulate to partial string and try more lines;
      * note partial->n must be _exactly_ the right size, so we
