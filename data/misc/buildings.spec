@@ -9,6 +9,7 @@ artists = "
     Tim F. Smith <yoohootim@hotmail.com>
     Frederic Rodrigo <f.rodrigo@tuxfamily.org>
     Dusan Hukuv <dusan@mirc.cz>
+    Eleazar / J. W. Bjerk <www.jwbjerk.com>
 "
 
 [file]
@@ -20,7 +21,7 @@ x_top_left = 0
 y_top_left = 0
 dx = 36
 dy = 20
-pixel_border = 0
+pixel_border = 1
 
 tiles = { "row", "column", "tag"
   0,  0, "b.palace"
@@ -41,7 +42,7 @@ tiles = { "row", "column", "tag"
   1,  6, "b.factory"
   1,  7, "b.mfg_plant"
 
-  2,  0, "b.sdi_defense"
+;  2,  0, "b.sdi_defense"
   2,  1, "b.recycling_center"
   2,  2, "b.power_plant"
   2,  3, "b.hydro_plant"
@@ -61,16 +62,16 @@ tiles = { "row", "column", "tag"
 
   4,  0, "b.police_station"
   4,  1, "b.port_facility"
-;  4,  2, "b.space_structural"
-;  4,  3, "b.space_component"
-;  4,  4, "b.space_modules"
-;  4,  5, "b.capitalization"
-;  4,  6, ""
-;  4,  7, ""
+  4,  2, "b.sdi_defense"
+;  4,  3, "a.alphabet"
+;  4,  4, "a.bridge_building"
+  4,  5, "b.capitalization"
+;  4,  6, "a.philosphy"
+;  4,  7, "a.chemistry"
 
   5,  0, "b.apollo_program"
   5,  1, "b.asmiths_trading_co"
-  5,  2, "b.capitalization"
+;  5,  2, "b.capitalization"
   5,  3, "b.colossus"
   5,  4, "b.copernicus_observatory"
   5,  5, "b.cure_for_cancer"
