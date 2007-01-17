@@ -148,6 +148,19 @@ static bool startunits_callback(const char *value, const char **error_string)
 }
 
 /*************************************************************************
+  Verify that a given endyear is valid.
+*************************************************************************/
+static bool endyear_callback(int value, const char **error_string)
+{
+  if (value < game.info.year) {
+    /* Tried to set endyear earlier than current year */
+    *error_string = _("Cannot set endyear earlier than current year.");
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/*************************************************************************
   Verify that a given maxplayers string is valid.
 *************************************************************************/
 static bool maxplayers_callback(int value, const char **error_string)
@@ -839,9 +852,10 @@ struct settings_s settings[] = {
 
   GEN_INT("endyear", game.info.end_year,
 	  SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Year the game ends"), 
-	  N_("The game will end at the end of the given year."), NULL,
-	  GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR)
+	  N_("Year the game ends"),
+          N_("The game will end at the end of the given year."),
+          endyear_callback,
+          GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR)
 
   GEN_INT("timeout", game.info.timeout,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
