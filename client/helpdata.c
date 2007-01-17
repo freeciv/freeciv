@@ -772,6 +772,11 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 	    _("  * Gets used up in making an attack.\n"));
   }
 
+  if (utype->impr_requirement != B_LAST) {
+    sprintf(buf + strlen(buf),
+	    _("* Can only be built if there is %s in the city.\n"), 
+            get_improvement_name(utype->impr_requirement));
+  }
   if (utype->gov_requirement) {
     sprintf(buf + strlen(buf),
 	    _("* Can only be built with %s as government.\n"), 
