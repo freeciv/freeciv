@@ -2424,7 +2424,7 @@ static bool debug_command(struct connection *caller, char *str,
 static bool set_command(struct connection *caller, char *str, bool check)
 {
   char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
-  int val, cmd;
+  int val, cmd, i;
   struct settings_s *op;
   bool do_update;
   char buffer[500];
@@ -2481,7 +2481,20 @@ static bool set_command(struct connection *caller, char *str, bool check)
     if (sscanf(arg, "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
       return FALSE;
-    } else if (val != 0 && val != 1) {
+    }
+    /* make sure the input string only contains digits */
+    for (i = 0;; i++) {
+      if (arg[i] == '\0' ) {
+        break;
+      }
+      if (arg[i] < '0' || arg[i] > '1') {
+        cmd_reply(CMD_SET, caller, C_SYNTAX,
+                  _("The parameter %s should only contain digits 0-1."),
+                  op->name);
+        return FALSE;
+      }
+    }
+    if (val != 0 && val != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("Value out of range (minimum: 0, maximum: 1)."));
       return FALSE;
@@ -2507,7 +2520,21 @@ static bool set_command(struct connection *caller, char *str, bool check)
     if (sscanf(arg, "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
       return FALSE;
-    } else if (val < op->int_min_value || val > op->int_max_value) {
+    }
+	/* make sure the input string only contains digits */
+    for (i = 0;; i++) {
+      if (arg[i] == '\0' ) {
+        break;
+      }
+      if ((arg[i] < '0' || arg[i] > '9')
+	  && (i != 0 || (arg[i] != '-' && arg[i] != '+'))) {
+        cmd_reply(CMD_SET, caller, C_SYNTAX,
+                  _("The parameter %s should only contain +- and 0-9."),
+                  op->name);
+        return FALSE;
+      }
+    }
+    if (val < op->int_min_value || val > op->int_max_value) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("Value out of range (minimum: %d, maximum: %d)."),
 		op->int_min_value, op->int_max_value);
