@@ -49,6 +49,7 @@ pkgdata_DATA = \
 		dutch.ruleset \
 		egyptian.ruleset \
 		english.ruleset \
+		esperant.ruleset \
 		estonian.ruleset \
 		ethiopian.ruleset \
 		european.ruleset \
@@ -83,6 +84,7 @@ pkgdata_DATA = \
 		latvian.ruleset \
 		libyan.ruleset \
 		lithuanian.ruleset \
+		lojbanistani.ruleset \
 		malagasy.ruleset \
 		malaysian.ruleset \
 		malian.ruleset \
@@ -100,6 +102,7 @@ pkgdata_DATA = \
 		persian.ruleset \
 		phoenician.ruleset \
 		polish.ruleset \
+		polynesian.ruleset \
 		portuguese.ruleset \
 		quebecois.ruleset \
 		romanian.ruleset \
@@ -130,6 +133,7 @@ pkgdata_DATA = \
 		tunisian.ruleset \
 		turk.ruleset \
 		ukrainian.ruleset \
+		un.ruleset \
 		uruguayan.ruleset \
 		uyghur.ruleset \
 		venezuelan.ruleset \

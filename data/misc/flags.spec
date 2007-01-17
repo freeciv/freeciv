@@ -52,7 +52,8 @@ artists = "
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
    England		Thom Sanders
-   Estonia		Daniel McRae
+   Esperanto		Gabriel Ehrnst Grundin
+   Estonia		Daniel Markstedt
    Ethiopia		Lauris Kaplinski and Christian Schaller
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
@@ -83,6 +84,7 @@ artists = "
    Israel		John C Meuser
    Italy		Lauris Kaplinski
    Japan		Lauris Kaplinski
+   Jbonai		Elmo Todurov
    Kampuchea		Caleb Moore
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
@@ -113,6 +115,7 @@ artists = "
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
    Poland		Cezary Biele
+   Polynesian		Daniel Markstedt
    Portugal		Diogo Mamede
    Qing			Caleb Moore
    Quebec		Patrick Guimond
@@ -206,6 +209,7 @@ sprites =
 		"f.egypt_ancient", "flags/egypt_ancient"
 		"f.egypt", "flags/egypt"
 		"f.england", "flags/england"
+		"f.esperanto", "flags/esperanto"
 		"f.estonia", "flags/estonia"
 		"f.ethiopia", "flags/ethiopia"
 		"f.europe", "flags/europe"
@@ -238,6 +242,7 @@ sprites =
 		"f.israel", "flags/israel"
 		"f.italy", "flags/italy"
 		"f.japan", "flags/japan"
+		"f.jbonai", "flags/jbonai"
 		"f.kampuchea", "flags/kampuchea"
 		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"
@@ -268,6 +273,7 @@ sprites =
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"
 		"f.poland", "flags/poland"
+		"f.polynesian", "flags/polynesian"
 		"f.portugal", "flags/portugal"
 		"f.qing", "flags/qing"			; Manchu empire flag
 		"f.quebec", "flags/quebec"

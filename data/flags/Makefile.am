@@ -44,6 +44,7 @@ flag_files =				\
 		egypt_ancient.png	\
 		egypt.png		\
 		england.png		\
+		esperanto.png		\
 		estonia.png		\
 		ethiopia.png		\
 		europe.png		\
@@ -75,6 +76,7 @@ flag_files =				\
 		israel.png		\
 		italy.png		\
 		japan.png		\
+		jbonai.png		\
 		kampuchea.png		\
 		keetoowah.png		\
 		kenya.png		\
@@ -105,6 +107,7 @@ flag_files =				\
 		philippines.png		\
 		phoenicia.png		\
 		poland.png		\
+		polynesian.png		\
 		portugal.png		\
 		qing.png		\
 		quebec.png		\
@@ -194,6 +197,7 @@ shield_files =					\
 		egypt_ancient-shield.png	\
 		egypt-shield.png		\
 		england-shield.png		\
+		esperanto-shield.png		\
 		estonia-shield.png		\
 		ethiopia-shield.png		\
 		europe-shield.png		\
@@ -225,6 +229,7 @@ shield_files =					\
 		israel-shield.png		\
 		italy-shield.png		\
 		japan-shield.png		\
+		jbonai-shield.png		\
 		kampuchea-shield.png		\
 		keetoowah-shield.png		\
 		kenya-shield.png		\
@@ -255,6 +260,7 @@ shield_files =					\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
 		poland-shield.png		\
+		polynesian-shield.png		\
 		portugal-shield.png		\
 		qing-shield.png			\
 		quebec-shield.png		\
@@ -344,6 +350,7 @@ svg_files = 				\
 		egypt_ancient.svg	\
 		egypt.svg		\
 		england.svg		\
+		esperanto.svg		\
 		estonia.svg		\
 		ethiopia.svg		\
 		europe.svg		\
@@ -375,6 +382,7 @@ svg_files = 				\
 		israel.svg		\
 		italy.svg		\
 		japan.svg		\
+		jbonai.svg		\
 		kampuchea.svg		\
 		keetoowah.svg		\
 		kenya.svg		\
@@ -405,6 +413,7 @@ svg_files = 				\
 		philippines.svg		\
 		phoenicia.svg		\
 		poland.svg		\
+		polynesian.svg		\
 		portugal.svg		\
 		qing.svg		\
 		quebec.svg		\
