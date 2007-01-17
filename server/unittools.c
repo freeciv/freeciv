@@ -40,6 +40,9 @@
 #include "unit.h"
 #include "unitlist.h"
 
+#include "path_finding.h"
+#include "pf_tools.h"
+
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -393,31 +396,69 @@ void player_restore_units(struct player *pplayer)
         if (carrier) {
           put_unit_onto_transporter(punit, carrier);
         } else {
-          iterate_outward(punit->tile, punit->moves_left / SINGLE_MOVE, itr_tile) {
-            if (is_airunit_refuel_point(itr_tile, unit_owner(punit),
-                                        punit->type, FALSE)
-                &&(air_can_move_between(punit->moves_left / SINGLE_MOVE, punit->tile,
-                                        itr_tile, unit_owner(punit)) >= 0)) {
-	      /* Client orders may already be running for this unit - if so
-	       * we free them before engaging server goto. */
-              free_unit_orders(punit);
-              punit->goto_tile = itr_tile;
-              set_unit_activity(punit, ACTIVITY_GOTO);
-              (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+          bool alive;
 
-              if (!is_unit_being_refueled(punit)) {
-                carrier = find_transport_from_tile(punit, punit->tile);
-                if (carrier) {
-                  put_unit_onto_transporter(punit, carrier);
-                }
-              }
+          struct pf_map *map;
+          struct pf_parameter parameter;
 
-              notify_player(pplayer, punit->tile, E_UNIT_ORDERS, 
-                            _("Your %s has returned to refuel."),
-                            unit_name(punit->type));
+          pft_fill_unit_parameter(&parameter, punit);
+          map = pf_create_map(&parameter);
+
+          pf_iterator(map, pos) {
+            if (pos.total_MC > punit->moves_left) {
+              /* Too far */
               break;
             }
-          } iterate_outward_end;
+
+            if (is_airunit_refuel_point(pos.tile, pplayer, punit->type, FALSE)) {
+
+              struct pf_path *path;
+              int id = punit->id;
+
+              /* Client orders may be running for this unit - if so
+               * we free them before engaging goto. */
+              free_unit_orders(punit);
+
+              path = pf_get_path(map, pos.tile);
+
+	      alive = ai_follow_path(punit, path, pos.tile);
+
+	      if (!alive) {
+                freelog(LOG_ERROR, "rescue plane: unit %d died enroute!", id);
+              } else if (!same_pos(punit->tile, pos.tile)) {
+                  /* Something odd happened */
+                  freelog(LOG_ERROR,
+                          "rescue plane: unit %d could not move to refuel point!",
+                          punit->id);
+              }
+
+              if (alive) {
+                /* Clear activity. Unit info will be sent in the end of
+	         * the function. */
+                handle_unit_activity_request(punit, ACTIVITY_IDLE);
+                punit->goto_tile = NULL;
+
+                if (!is_unit_being_refueled(punit)) {
+                  carrier = find_transport_from_tile(punit, punit->tile);
+                  if (carrier) {
+                    put_unit_onto_transporter(punit, carrier);
+                  }
+                }
+
+                notify_player(pplayer, punit->tile, E_UNIT_ORDERS, 
+                              _("Your %s has returned to refuel."),
+                              unit_name(punit->type));
+	      }
+              pf_destroy_path(path);
+              break;
+            }
+          } pf_iterator_end;
+          pf_destroy_map(map);
+
+          if (!alive) {
+            /* Unit died trying to move to refuel point. */
+            return;
+	  }
         }
       }
 
