@@ -19,8 +19,6 @@
 
 struct connection;
 
-BV_DEFINE(bv_draw, MAX_NUM_PLAYERS);
-
 struct server_arguments {
   /* metaserver information */
   bool metaserver_no_send;
