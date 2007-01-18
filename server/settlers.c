@@ -33,6 +33,9 @@
 #include "packets.h"
 #include "unitlist.h"
 
+#include "path_finding.h"
+#include "pf_tools.h"
+
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"
@@ -1060,47 +1063,68 @@ static void auto_settler_findwork(struct player *pplayer,
 
   /* Run the "autosettler" program */
   if (punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
-    /* Mark the square as taken. */
-    if (best_tile) {
-      struct unit *displaced
-	= player_find_unit_by_id(pplayer, state[best_tile->index].enroute);
+    struct pf_map *map;
+    struct pf_path *path;
+    struct pf_parameter parameter;
 
-      if (displaced) {
-	assert(state[best_tile->index].enroute == displaced->id);
-	assert(state[best_tile->index].eta > completion_time
-	       || (state[best_tile->index].eta == completion_time
-		   && (real_map_distance(best_tile, punit->tile)
-		       < real_map_distance(best_tile, displaced->tile))));
-	UNIT_LOG(LOG_DEBUG, punit,
-		 "%d (%d,%d) has displaced %d (%d,%d) on %d,%d",
-		punit->id, completion_time,
-		real_map_distance(best_tile, punit->tile),
-		displaced->id, state[best_tile->index].eta,
-		real_map_distance(best_tile, displaced->tile),
-		TILE_XY(best_tile));
-      }
+    struct unit *displaced;
 
-      state[best_tile->index].enroute = punit->id;
-      state[best_tile->index].eta = completion_time;
-      
-      if (displaced) {
-	displaced->goto_tile = NULL;
-	auto_settler_findwork(pplayer, displaced, state, recursion + 1);
-      }
-    } else {
+    if (!best_tile) {
       UNIT_LOG(LOG_DEBUG, punit, "giving up trying to improve terrain");
       return; /* We cannot do anything */
     }
-    punit->goto_tile = best_tile; /* TMP */
-    if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
-      return;
+
+    /* Mark the square as taken. */
+    displaced = player_find_unit_by_id(pplayer, state[best_tile->index].enroute);
+
+    if (displaced) {
+      assert(state[best_tile->index].enroute == displaced->id);
+      assert(state[best_tile->index].eta > completion_time
+             || (state[best_tile->index].eta == completion_time
+                 && (real_map_distance(best_tile, punit->tile)
+                     < real_map_distance(best_tile, displaced->tile))));
+      UNIT_LOG(LOG_DEBUG, punit,
+               "%d (%d,%d) has displaced %d (%d,%d) on %d,%d",
+               punit->id, completion_time,
+               real_map_distance(best_tile, punit->tile),
+               displaced->id, state[best_tile->index].eta,
+               real_map_distance(best_tile, displaced->tile),
+               TILE_XY(best_tile));
     }
-    if (punit->moves_left > 0
-        && same_pos(best_tile, punit->tile)) {
-      handle_unit_activity_request(punit, best_act);
-      send_unit_info(NULL, punit);
-      return;
+
+    state[best_tile->index].enroute = punit->id;
+    state[best_tile->index].eta = completion_time;
+      
+    if (displaced) {
+      displaced->goto_tile = NULL;
+      auto_settler_findwork(pplayer, displaced, state, recursion + 1);
     }
+
+    pft_fill_unit_parameter(&parameter, punit);
+    map = pf_create_map(&parameter);
+    path = pf_get_path(map, best_tile);
+
+    if (path) {
+      bool alive;
+
+      alive = ai_follow_path(punit, path, best_tile);
+
+      if (alive && same_pos(punit->tile, best_tile)
+	  && punit->moves_left > 0) {
+	/* Reached destination and can start working immediately */
+        handle_unit_activity_request(punit, best_act);
+        send_unit_info(NULL, punit);
+      }
+
+      pf_destroy_path(path);
+    } else {
+      freelog(LOG_DEBUG, "Autosettler does not find path (%d,%d) -> (%d,%d)",
+              punit->tile->x, punit->tile->y, best_tile->x, best_tile->y);
+    }
+
+    pf_destroy_map(map);
+
+    return;
   }
 
   /*** Recurse if we want to found a city ***/
