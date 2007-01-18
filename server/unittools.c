@@ -396,7 +396,7 @@ void player_restore_units(struct player *pplayer)
         if (carrier) {
           put_unit_onto_transporter(punit, carrier);
         } else {
-          bool alive;
+          bool alive = true;
 
           struct pf_map *map;
           struct pf_parameter parameter;
