@@ -27,7 +27,7 @@ struct fz_FILE_s;		  /* opaque */
 typedef struct fz_FILE_s fz_FILE;
 
 /* (possibly) supported methods (depending on config.h) */
-enum fz_method { FZ_PLAIN, FZ_ZLIB, FZ_LAST };
+enum fz_method { FZ_PLAIN = 0, FZ_ZLIB = 1, FZ_BZIP2 = 2, FZ_LAST };
 #define FZ_NOT_USED FZ_LAST
 
 fz_FILE *fz_from_file(const char *filename, const char *in_mode,

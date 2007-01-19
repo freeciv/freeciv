@@ -17,6 +17,7 @@
 
 #include "fcintl.h"
 #include "game.h"
+#include "ioz.h"
 #include "log.h"
 
 #include "map.h"
@@ -968,31 +969,30 @@ struct settings_s settings[] = {
 	     "turns. Zero means never auto-save."), NULL, 
 	  0, 200, GAME_DEFAULT_SAVETURNS)
 
-  /* Could undef entire option if !HAVE_LIBZ, but this way users get to see
-   * what they're missing out on if they didn't compile with zlib?  --dwp
-   */
-#ifdef HAVE_LIBZ
   GEN_INT("compress", game.info.save_compress_level,
 	  SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("Savegame compression level"),
 	  N_("If non-zero, saved games will be compressed using zlib "
-	     "(gzip format). Larger values will give better "
-	     "compression but take longer. If the maximum is zero "
-	     "this server was not compiled to use zlib."), NULL,
+	     "(gzip format) or bzip2. Larger values will give better "
+	     "compression but take longer."), NULL,
 
 	  GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
 	  GAME_DEFAULT_COMPRESS_LEVEL)
-#else
-  GEN_INT("compress", game.info.save_compress_level,
-	  SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
-	  N_("Savegame compression level"),
-	  N_("If non-zero, saved games will be compressed using zlib "
-	     "(gzip format). Larger values will give better "
-	     "compression but take longer. If the maximum is zero "
-	     "this server was not compiled to use zlib."), NULL, 
 
-	  GAME_NO_COMPRESS_LEVEL, GAME_NO_COMPRESS_LEVEL, 
-	  GAME_NO_COMPRESS_LEVEL)
+  GEN_INT("compresstype", game.info.save_compress_type,
+          SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
+          N_("Savegame compression algorithm"),
+          N_("Compression library to use for savegames.\n"
+             " 0 - none\n"
+             " 1 - zlib (gzip format)\n"
+             " 2 - bzip2\n"
+             "Not all servers support all compression methods."), NULL,
+#if !defined(HAVE_LIBBZ2) && !defined(HAVE_LIBZ)
+          FZ_PLAIN, FZ_PLAIN, FZ_PLAIN)
+#elif !defined(HAVE_LIBBZ2) && defined(HAVE_LIBZ)
+          FZ_PLAIN, FZ_ZLIB, FZ_ZLIB)
+#else
+          FZ_PLAIN, FZ_BZIP2, FZ_BZIP2)
 #endif
 
   GEN_STRING("savename", game.save_name,

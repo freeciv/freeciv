@@ -343,9 +343,8 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_DEFAULT_ALLOW_TAKE      "HAhadOo"
 
 #define GAME_DEFAULT_COMPRESS_LEVEL 6    /* if we have compression */
-#define GAME_MIN_COMPRESS_LEVEL     0
+#define GAME_MIN_COMPRESS_LEVEL     1
 #define GAME_MAX_COMPRESS_LEVEL     9
-#define GAME_NO_COMPRESS_LEVEL      0
 
 #define GAME_DEFAULT_ALLOWED_CITY_NAMES 1
 #define GAME_MIN_ALLOWED_CITY_NAMES 0

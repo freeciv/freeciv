@@ -379,6 +379,10 @@ if test "$GZIP" = "no"; then
   AC_MSG_ERROR([You need the gzip program for compilation.])
 fi
 
+dnl Check for libbzip2
+AC_CHECK_LIB(bz2, BZ2_bzReadOpen)
+AC_CHECK_HEADERS(bzlib.h)
+
 dnl Check and compile ftwl
 if test "$ftwl" = x11 ; then
      FTWL_CFLAGS=`freetype-config --cflags`

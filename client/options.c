@@ -21,6 +21,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
+#include "ioz.h"
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
@@ -644,7 +645,7 @@ void save_options(void)
   }
 
   /* save to disk */
-  if (!section_file_save(&sf, name, 0)) {
+  if (!section_file_save(&sf, name, 0, FZ_PLAIN)) {
     my_snprintf(output_buffer, sizeof(output_buffer),
 		_("Save failed, cannot write to file %s"), name);
   } else {

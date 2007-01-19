@@ -701,7 +701,8 @@ bool section_file_load_from_stream(struct section_file *my_section_file,
 **************************************************************************/
 bool section_file_save(struct section_file *my_section_file,
                        const char *filename,
-		       int compression_level)
+                       int compression_level,
+                       enum fz_method compression_method)
 {
   char real_filename[1024];
   fz_FILE *fs;
@@ -710,7 +711,7 @@ bool section_file_save(struct section_file *my_section_file,
   int i;
   
   interpret_tilde(real_filename, sizeof(real_filename), filename);
-  fs = fz_from_file(real_filename, "w", FZ_ZLIB, compression_level);
+  fs = fz_from_file(real_filename, "w", compression_method, compression_level);
 
   if (!fs)
     return FALSE;

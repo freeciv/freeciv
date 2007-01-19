@@ -39,6 +39,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 
 #include "capability.h"
 #include "fcintl.h"
+#include "ioz.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
@@ -466,7 +467,7 @@ void send_client_wants_hack(const char *filename)
 
     section_file_init(&file);
     secfile_insert_str(&file, req.token, "challenge.token");
-    if (!section_file_save(&file, challenge_fullname, 0)) {
+    if (!section_file_save(&file, challenge_fullname, 0, FZ_PLAIN)) {
       freelog(LOG_ERROR, "Couldn't write token to temporary file: %s",
 	      challenge_fullname);
     }

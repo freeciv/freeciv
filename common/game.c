@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "government.h"
 #include "idex.h"
+#include "ioz.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -239,10 +240,13 @@ void game_init(void)
   game.info.cooling       = 0;
   game.info.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;
   game.info.save_nturns   = GAME_DEFAULT_SAVETURNS;
-#ifdef HAVE_LIBZ
   game.info.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
+#ifdef HAVE_LIBBZ2
+  game.info.save_compress_type = FZ_BZIP2;
+#elif defined (HAVE_LIBZ)
+  game.info.save_compress_type = FZ_ZLIB;
 #else
-  game.info.save_compress_level = GAME_NO_COMPRESS_LEVEL;
+  game.info.save_compress_type = FZ_PLAIN;
 #endif
   game.info.government_when_anarchy_id = G_MAGIC;   /* flag */
 

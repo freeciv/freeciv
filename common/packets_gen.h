@@ -200,6 +200,7 @@ struct packet_game_info {
   int ransom_gold;
   int save_nturns;
   int save_compress_level;
+  int save_compress_type;
   char start_units[MAX_LEN_STARTUNIT];
   int num_teams;
   char team_names_orig[MAX_NUM_TEAMS][MAX_LEN_NAME];

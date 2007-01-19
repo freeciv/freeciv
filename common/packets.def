@@ -453,6 +453,7 @@ PACKET_GAME_INFO=15; sc
 
   UINT8 save_nturns;
   UINT8 save_compress_level;
+  UINT8 save_compress_type;
 
   STRING start_units[MAX_LEN_STARTUNIT];
 

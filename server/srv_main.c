@@ -853,8 +853,26 @@ void save_game(char *orig_filename, const char *save_reason)
   sz_strlcat(filename, ".sav");
 
   if (game.info.save_compress_level > 0) {
-    /* Append ".gz" to filename. */
-    sz_strlcat(filename, ".gz");
+    switch (game.info.save_compress_type) {
+#ifdef HAVE_LIBZ
+    case FZ_ZLIB:
+      /* Append ".gz" to filename. */
+      sz_strlcat(filename, ".gz");
+      break;
+#endif
+#ifdef HAVE_LIBBZ2
+    case FZ_BZIP2:
+      /* Append ".bz2" to filename. */
+      sz_strlcat(filename, ".bz2");
+      break;
+#endif
+    case FZ_PLAIN:
+      break;
+    default:
+      freelog(LOG_NORMAL, "Unsupported compression type %d",
+              game.info.save_compress_type);
+      break;
+    }
   }
 
   if (!path_is_absolute(filename)) {
@@ -871,7 +889,8 @@ void save_game(char *orig_filename, const char *save_reason)
     sz_strlcpy(filename, tmpname);
   }
 
-  if(!section_file_save(&file, filename, game.info.save_compress_level))
+  if (!section_file_save(&file, filename, game.info.save_compress_level,
+                         game.info.save_compress_type))
     con_write(C_FAIL, _("Failed saving game as %s"), filename);
   else
     con_write(C_OK, _("Game saved as %s"), filename);
