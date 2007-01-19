@@ -1734,6 +1734,8 @@ static void load_ruleset_terrain(struct section_file *file)
         BV_SET(pterrain->native_to, class->id);
       }
     }
+    free(slist);
+
     pterrain->helptext = lookup_helptext(file, tsec[i]);
   } terrain_type_iterate_end;
 
