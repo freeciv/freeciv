@@ -655,7 +655,7 @@ static void help_draw_unit(HDC hdc, struct unit_type *utype)
   
   /* Give tile a background color, based on the type of unit
    * FIXME: make a new set of colors for this.               */
-  switch (utype->move_type) {
+  switch (get_unit_move_type(utype)) {
   case LAND_MOVING: bg_color = COLOR_OVERVIEW_LAND;       break;
   case SEA_MOVING:  bg_color = COLOR_OVERVIEW_OCEAN;      break;
   case HELI_MOVING: bg_color = COLOR_OVERVIEW_MY_UNIT;    break;
