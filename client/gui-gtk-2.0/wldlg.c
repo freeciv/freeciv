@@ -1464,7 +1464,11 @@ static void commit_worklist(struct worklist_data *ptr)
 
   /* dance around worklist braindamage. */
   if (ptr->pcity) {
-    city_set_queue(ptr->pcity, &queue);
+    if (!city_set_queue(ptr->pcity, &queue)) {
+      /* Failed to change worklist. This means worklist visible
+       * on screen is not true. */
+      refresh_worklist(ptr->editor);
+    }
   } else {
     copy_worklist(pwl, &queue);
   }
