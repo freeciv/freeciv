@@ -26,7 +26,7 @@
 
 static snd_pcm_t *sound_handle = NULL;
 static snd_async_handler_t *ah;
-static snd_pcm_sframes_t period_size;
+static snd_pcm_uframes_t period_size;
 
 static AFfilehandle file_handle = AF_NULL_FILEHANDLE;
 static double file_rate;
@@ -131,8 +131,9 @@ static int set_hw_params(void)
             (unsigned) file_rate, rrate);
   }
   snd_pcm_hw_params_set_period_time_near(sound_handle, hwparams,
-                                         &period_time, &rrate);
-  if (snd_pcm_hw_params_get_period_size(hwparams, &period_size, &rrate)
+                                         &period_time, (int *) &rrate);
+  if (snd_pcm_hw_params_get_period_size(hwparams, &period_size,
+                                        (int *) &rrate)
       < 0) {
     return -1;
   }
