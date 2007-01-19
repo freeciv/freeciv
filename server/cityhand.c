@@ -218,7 +218,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if (pcity->did_buy) {
+  if (!city_can_change_build(pcity)) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
 		  _("Game: You have already bought this turn."));
     return;

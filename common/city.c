@@ -477,6 +477,14 @@ bool city_can_use_specialist(const struct city *pcity,
   return pcity->size >= game.rgame.specialists[type].min_size;
 }
 
+/****************************************************************************
+  Returns TRUE iff if the given city can change what it is building
+****************************************************************************/
+bool city_can_change_build(const struct city *pcity)
+{
+  return !pcity->did_buy || pcity->shield_stock <= 0;
+}
+
 /**************************************************************************
  Returns how many thousand citizen live in this city.
 **************************************************************************/

@@ -82,7 +82,8 @@ bool worklist_peek(const struct worklist *pwl, int *id, bool *is_unit)
 
 /****************************************************************
   Fill in the id and is_unit values for the ith element in the
-  worklist.  If the worklist has fewer than i elements, return 0.
+  worklist. If the worklist has fewer than idx elements,
+  return FALSE.
 ****************************************************************/
 bool worklist_peek_ith(const struct worklist *pwl, int *id, bool *is_unit,
 		      int idx)
