@@ -58,7 +58,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ;
 ; name          = Name as used in other rulesets
 ; move_type     = Where unit moves; Land, Sea, Both or Air. Air is special value for
-;                 units which can only be attacked by units with "Fighter" flag
+;                 airplanes
 ; min_speed     = Minimum speed after damage and effects
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
 ; flags         = List of unit class flags
@@ -71,13 +71,15 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "Missile"       = Unit is destroyed when it attacks
 ; "RoadNative"    = Road tiles are always considered native terrain
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
+; "Unreachable"   = Unit can be attacked only by units with "Fighter" flag or on
+;                   city or airbase
 
 [unitclass_missile]
 name          = _("Missile")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Missile"
+flags         = "Missile", "Unreachable"
 
 [unitclass_land]
 name          = _("Land")
@@ -105,7 +107,7 @@ name          = _("Air")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = ""
+flags         = "Unreachable"
 
 ; Below: The individual units, one per section.
 ;
@@ -164,7 +166,7 @@ flags         = ""
 ; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "AEGIS"	= fivefold increased defence against "AirUnit" attacks
-; "Fighter"	= can attack air units (no other units can normally do this)
+; "Fighter"	= can attack unreachable units
 ; "Marines"	= (land only) can attack from transports
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported
 ;		  units other than missiles

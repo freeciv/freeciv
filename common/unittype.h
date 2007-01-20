@@ -32,6 +32,7 @@ enum unit_class_flag_id {
   UCF_MISSILE,
   UCF_ROAD_NATIVE,
   UCF_BUILD_ANYWHERE,
+  UCF_UNREACHABLE,
   UCF_LAST
 };
 

@@ -771,6 +771,10 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("  * Gets used up in making an attack.\n"));
   }
+  if (unit_class_flag(get_unit_class(utype), UCF_UNREACHABLE)) {
+    sprintf(buf + strlen(buf),
+	    _("  * Is unreachable. Most units cannot attack this one.\n"));
+  }
 
   if (utype->impr_requirement != B_LAST) {
     sprintf(buf + strlen(buf),
@@ -915,7 +919,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf), _("* May not be bribed.\n"));
   }
   if (unit_type_flag(utype, F_FIGHTER)) {
-    sprintf(buf + strlen(buf), _("* Can attack enemy air units.\n"));
+    sprintf(buf + strlen(buf), _("* Can attack otherwise unreachable enemy units.\n"));
   }
   if (unit_type_flag(utype, F_PARTIAL_INVIS)) {
     sprintf(buf + strlen(buf), _("* Is invisible except when next to an"

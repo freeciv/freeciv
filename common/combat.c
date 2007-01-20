@@ -93,7 +93,8 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   }
 
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
-  if (!unit_flag(punit, F_FIGHTER) && is_air_unit(pdefender)
+  if (!unit_flag(punit, F_FIGHTER)
+      && unit_class_flag(get_unit_class(unit_type(pdefender)), UCF_UNREACHABLE)
       && !(pcity || tile_has_special(dest_tile, S_AIRBASE))) {
     return FALSE;
   }
