@@ -2142,7 +2142,6 @@ void city_refresh_vision(struct city *pcity)
 {
   int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
 
-  vision_layer_iterate(v) {
-    vision_change_sight(pcity->server.vision, v, radius_sq);
-  } vision_layer_iterate_end;
+  vision_change_sight(pcity->server.vision, V_MAIN, radius_sq);
+  vision_change_sight(pcity->server.vision, V_INVIS, 2);
 }
