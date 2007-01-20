@@ -125,7 +125,9 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
     struct city *homecity
       = player_find_city_by_id(pplayer, packet->homecity);
 
-    if (is_non_allied_unit_tile(ptile, pplayer)) {
+    if (is_non_allied_unit_tile(ptile, pplayer)
+        || (ptile->city
+            && !pplayers_allied(pplayer, city_owner(ptile->city)))) {
       notify_player(pplayer, ptile, E_BAD_COMMAND,
                     _("Cannot create unit on enemy tile."));
       return;
