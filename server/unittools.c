@@ -2309,6 +2309,9 @@ static void hut_get_city(struct unit *punit)
       initialize_infrastructure_cache(pplayer);
     }
 
+    /* Init ai.choice. Handling ferryboats might use it. */
+    init_choice(&punit->tile->city->ai.choice);
+
   } else {
     notify_player(pplayer, punit->tile, E_HUT_SETTLER,
 		     _("Friendly nomads are impressed by you,"
