@@ -85,6 +85,9 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   assert(pplayer == city_owner(pcity));
   initialize_infrastructure_cache(pplayer);
 
+  /* Init ai.choice. Handling ferryboats might use it. */
+  init_choice(&pcity->ai.choice);
+
   return TRUE;
 }
 
