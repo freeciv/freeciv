@@ -602,7 +602,7 @@ void handle_menu(int code)
       popup_find_dialog();
       break;
     case IDM_GOVERNMENT_WORKLISTS:
-      popup_worklists_report(game.player_ptr);
+      popup_worklists_report();
       break;
     case IDM_GOVERNMENT_REVOLUTION:
       popup_revolution_dialog(NULL);
