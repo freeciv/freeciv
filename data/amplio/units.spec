@@ -29,6 +29,7 @@ artists = "
     Tanelorn (T)
     Vodvakov
     Eleazar / J. W. Bjerk <www.jwbjerk.com>
+    qwm
 "
 
 [file]
@@ -97,6 +98,8 @@ tiles = { "row", "column", "tag"
   2, 13, "u.awacs"
   2, 14, "u.worker"
   2, 15, "u.leader"
+;  2, 17, "u.refugee"
+;  3, 15, "u.train"
 
 ; Veteran Levels: up to 9 military honors for experienced units
 

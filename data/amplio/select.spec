@@ -8,6 +8,7 @@ options = "+spec3"
 artists = "
     Jason Dorje Short <jdorje@freeciv.org>
     Eleazar / J. W. Bjerk <www.jwbjerk.com>
+    qwm
 "
 
 [file]
