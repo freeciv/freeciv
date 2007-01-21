@@ -327,8 +327,9 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
 #ifdef UNDER_CE
     if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
 #endif        
-    if (!button_behavior.button_down_ticks) {
+    if (!button_behavior.counting) {
       /* start counting */
+      button_behavior.counting = TRUE;
       button_behavior.button_down_ticks = SDL_GetTicks();   
       *button_behavior.event = *pButtonEvent;
       button_behavior.hold_state = MB_HOLD_SHORT;
@@ -349,6 +350,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
     button_up_on_map(&button_behavior);
   }
 
+  button_behavior.counting = FALSE;
   button_behavior.button_down_ticks = 0;  
   
 #ifdef UNDER_CE
@@ -374,7 +376,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
     ptile = canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y);
     if ((ptile->x != button_behavior.ptile->x)
         || (ptile->y != button_behavior.ptile->y)) {
-      button_behavior.button_down_ticks = 0;
+      button_behavior.counting = FALSE;
     }
   }
   
@@ -410,7 +412,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 static void update_button_hold_state(void)
 {
   /* button pressed */
-  if (button_behavior.button_down_ticks) {
+  if (button_behavior.counting) {
     if (((SDL_GetTicks() - button_behavior.button_down_ticks) >= MB_MEDIUM_HOLD_DELAY)
       && ((SDL_GetTicks() - button_behavior.button_down_ticks) < MB_LONG_HOLD_DELAY)) {
       
@@ -749,6 +751,7 @@ void ui_init(void)
   SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
 
+  button_behavior.counting = FALSE;
   button_behavior.button_down_ticks = 0;
   button_behavior.hold_state = MB_HOLD_SHORT;
   button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));

@@ -66,6 +66,7 @@ enum mouse_button_hold_state {
 };
 
 struct mouse_button_behavior {
+  bool counting;
   Uint32 button_down_ticks;
   enum mouse_button_hold_state hold_state;
   SDL_MouseButtonEvent *event;
