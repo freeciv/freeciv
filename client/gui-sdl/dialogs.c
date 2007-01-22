@@ -394,49 +394,26 @@ static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 *****************************************************************/
 void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
 {
-  struct unit_type *ut1, *ut2;
-  int value = 9999, hh, ww = 0;
+  int hh, ww = 0;
   char cBuf[128];
   struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pText;
   SDL_Rect dst;
   int window_x = 0, window_y = 0;
-  
-  ut1 = pUnit->type;
+  enum unit_upgrade_result unit_upgrade_result;
   
   if (pUnit_Upgrade_Dlg) {
     /* just in case */
     flush_dirty();
     return;
   }
-  CHECK_UNIT_TYPE(ut1);
+  CHECK_UNIT_TYPE(pUnit->type);
     
   pUnit_Upgrade_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  ut2 = can_upgrade_unittype(game.player_ptr, ut1);
-  
-  if (ut2) {
-    value = unit_upgrade_price(game.player_ptr, ut1, ut2);
-  
-    if (game.player_ptr->economic.gold >= value) {
-      my_snprintf(cBuf, sizeof(cBuf),
-    	      _("Upgrade %s to %s for %d gold?\n"
-                "Treasury contains %d gold."),
-	  get_unit_type(ut1->index)->name, get_unit_type(ut2->index)->name,
-	  value, game.player_ptr->economic.gold);
-    } else {
-      my_snprintf(cBuf, sizeof(cBuf),
-          _("Upgrading %s to %s costs %d gold.\n"
-            "Treasury contains %d gold."),
-          get_unit_type(ut1->index)->name, get_unit_type(ut2->index)->name,
-          value, game.player_ptr->economic.gold);
-    }
-  } else {
-    my_snprintf(cBuf, sizeof(cBuf),
-        _("Sorry: cannot upgrade %s."), get_unit_type(ut1->index)->name);
-  }
-  
+  unit_upgrade_result = get_unit_upgrade_info(cBuf, sizeof(cBuf), pUnit);
+ 
   hh = WINDOW_TITLE_HEIGHT + 1;
   pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -474,7 +451,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   
   add_to_gui_list(ID_BUTTON, pBuf);
   
-  if ((ut2) && (game.player_ptr->economic.gold >= value)) {
+  if (unit_upgrade_result == UR_OK) {
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Upgrade"), adj_font(12), 0);
         
@@ -516,7 +493,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   pBuf = pWindow->prev;
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
   
-  if ((ut2) && (game.player_ptr->economic.gold >= value)) {
+  if (unit_upgrade_result == UR_OK) {
     /* sell button */
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + (ww - (2 * pBuf->size.w + adj_size(10))) / 2;
