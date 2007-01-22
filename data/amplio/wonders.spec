@@ -9,6 +9,7 @@ artists = "
     Tim F. Smith <yoohootim@hotmail.com>
     Frederic Rodrigo <f.rodrigo@tuxfamily.org>
     Dusan Hukuv <dusan@mirc.cz>
+    Eleazar / J. W. Bjerk <www.jwbjerk.com>
 "
 
 [file]
@@ -20,7 +21,7 @@ x_top_left = 0
 y_top_left = 0
 dx = 36
 dy = 20
-pixel_border = 0
+pixel_border = 1
 
 tiles = { "row", "column", "tag"
 ;  0,  0, "b.palace"
