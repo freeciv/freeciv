@@ -2740,7 +2740,10 @@ void tileset_setup_tile_type(struct tileset *t,
 				       x[dir], y[dir], W / 2, H / 2,
 				       t->sprites.mask.tile,
 				       xo[dir], yo[dir]);
-		}
+		} else {
+                  freelog(LOG_ERROR, _("Terrain graphics tag %s missing."),
+                          buffer1);
+                }
 
 		draw->layer[l].cells[i] = sprite;
 		break;
