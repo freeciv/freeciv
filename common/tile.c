@@ -99,6 +99,17 @@ bool tile_has_any_specials(const struct tile *ptile)
 }
 
 /****************************************************************************
+  Check if tile contains base providing effect
+****************************************************************************/
+bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
+{
+  return (tile_has_special(ptile, S_FORTRESS)
+          && base_flag(BASE_FORTRESS, flag))
+    || (tile_has_special(ptile, S_AIRBASE)
+        && base_flag(BASE_AIRBASE, flag));
+}
+
+/****************************************************************************
   Add the given special or specials to the tile.
 
   Note that this does not erase any existing specials already on the tile

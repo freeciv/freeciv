@@ -43,7 +43,6 @@ double unit_win_chance(const struct unit *attacker,
 		       const struct unit *defender);
 
 bool unit_really_ignores_citywalls(const struct unit *punit);
-bool unit_on_fortress(const struct unit *punit);
 struct city *sdi_try_defend(const struct player *owner,
 			       const struct tile *ptile);
 

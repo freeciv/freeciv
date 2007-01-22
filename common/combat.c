@@ -20,6 +20,7 @@
 
 #include "rand.h"
 
+#include "base.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -95,7 +96,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
   if (!unit_flag(punit, F_FIGHTER)
       && unit_class_flag(get_unit_class(unit_type(pdefender)), UCF_UNREACHABLE)
-      && !(pcity || tile_has_special(dest_tile, S_AIRBASE))) {
+      && !(pcity || tile_has_base_flag(dest_tile, BF_ATTACK_UNREACHABLE))) {
     return FALSE;
   }
 
@@ -326,14 +327,6 @@ bool unit_really_ignores_citywalls(const struct unit *punit)
 }
 
 /**************************************************************************
- a wrapper function returns 1 if the unit is on a square with fortress
-**************************************************************************/
-bool unit_on_fortress(const struct unit *punit)
-{
-  return tile_has_special(punit->tile, S_FORTRESS);
-}
-
-/**************************************************************************
   Try defending against nuclear attack, if succed return a city which 
   had enough luck and EFT_NUKE_PROOF.
   If the attack was succesful return NULL.
@@ -461,7 +454,7 @@ static int defense_multiplication(const struct unit_type *att_type,
     }
   }
 
-  if (tile_has_special(ptile, S_FORTRESS) && !pcity) {
+  if (tile_has_base_flag(ptile, BF_DEFENSE_BONUS) && !pcity) {
     defensepower +=
 	(defensepower * terrain_control.fortress_defense_bonus) / 100;
   }
@@ -643,7 +636,6 @@ struct unit *get_attacker(const struct unit *defender,
 bool is_stack_vulnerable(const struct tile *ptile)
 {
   return !(ptile->city != NULL
-           || tile_has_special(ptile, S_FORTRESS)
-           || tile_has_special(ptile, S_AIRBASE)
+           || tile_has_base_flag(ptile, BF_NO_STACK_DEATH)
            || !game.info.killstack);
 }

@@ -23,6 +23,7 @@
 #include "rand.h"
 #include "support.h"
 
+#include "base.h"
 #include "events.h"
 #include "game.h"
 #include "map.h"
@@ -1565,7 +1566,8 @@ void map_calculate_borders()
         && ptile->owner_source
         && ptile->owner_source->owner != ptile->owner
         && (ptile->owner_source->city
-            || tile_has_special(ptile->owner_source, S_FORTRESS))) {
+            || tile_has_base_flag(ptile->owner_source,
+                                  BF_CLAIM_TERRITORY))) {
       /* Claim ownership of tiles previously owned by someone else */
       map_claim_ownership(ptile, ptile->owner_source->owner, 
                           ptile->owner_source);
@@ -1606,7 +1608,8 @@ void map_calculate_borders()
             || !ptile->owner->is_alive
             || ptile->owner != ptile->owner_source->owner
             || (!ptile->owner_source->city
-                && !tile_has_special(ptile->owner_source, S_FORTRESS)))) {
+                && !tile_has_base_flag(ptile->owner_source,
+                                       BF_CLAIM_TERRITORY)))) {
       /* Ownership source gone */
       map_claim_ownership(ptile, NULL, NULL);
     }
@@ -1617,7 +1620,8 @@ void map_calculate_borders()
    * to better visually display expansion. */
   whole_map_iterate(ptile) {
     if (ptile->owner
-        && (ptile->city || tile_has_special(ptile, S_FORTRESS))) {
+        && (ptile->city
+            || tile_has_base_flag(ptile, BF_CLAIM_TERRITORY))) {
       /* We have an ownership source */
       int expand_range = 99;
       int found_unclaimed = 99;

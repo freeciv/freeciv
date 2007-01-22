@@ -21,6 +21,7 @@
 #include "log.h"
 #include "rand.h"
 
+#include "base.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -1045,8 +1046,7 @@ static bool diplomat_success_vs_defender (struct unit *pattacker,
     chance -= chance * get_city_bonus(pdefender_tile->city,
                                       EFT_SPY_RESISTANT) / 100;
   } else {
-    if (tile_has_special(pdefender_tile, S_FORTRESS)
-       || tile_has_special(pdefender_tile, S_AIRBASE)) {
+    if (tile_has_base_flag(pdefender_tile, BF_DIPLOMAT_DEFENSE)) {
 	chance -= chance * 25 / 100; /* 25% penalty */
     }
   }

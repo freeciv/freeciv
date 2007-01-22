@@ -27,6 +27,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "base.h"
 #include "city.h"
 #include "events.h"
 #include "government.h"
@@ -1006,9 +1007,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
   city_refresh(pcity);
   auto_arrange_workers(pcity);
 
-  /* Put vision back to normal, if fortress acted as a watchtower */
-  if (tile_has_special(ptile, S_FORTRESS)) {
+  /* Put vision back to normal, if base acted as a watchtower */
+  if (tile_has_base_flag(ptile, BF_WATCHTOWER)) {
     tile_clear_special(ptile, S_FORTRESS);
+    tile_clear_special(ptile, S_AIRBASE);
     unit_list_refresh_vision(ptile->units);
   }
 

@@ -21,6 +21,7 @@
 #include "log.h"
 #include "mem.h"
 
+#include "base.h"
 #include "game.h"
 #include "movement.h"
 
@@ -571,7 +572,7 @@ static bool air_is_pos_dangerous(const struct tile *ptile,
     return FALSE;
   }
 
-  if (tile_has_special(ptile, S_AIRBASE)) {
+  if (tile_has_base_flag(ptile, BF_REFUEL)) {
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;

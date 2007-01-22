@@ -22,6 +22,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "base.h"
 #include "fc_types.h"
 #include "map.h"
 #include "movement.h"
@@ -282,7 +283,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return TRUE;
   case AIR_MOVING:
   case HELI_MOVING:
-    return tile_has_special(punit->tile, S_AIRBASE);
+    return tile_has_base_flag(punit->tile, BF_REFUEL);
   default:
     die("Invalid move type");
   }

@@ -700,7 +700,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
     }
 
     if (!is_air_unit(pdefender)
-	|| (pcity || tile_has_special(ptile, S_AIRBASE))) {
+	|| (pcity || tile_has_base_flag(ptile, BF_ATTACK_UNREACHABLE))) {
       see_combat(punit, pdefender);
 
       unit_versus_unit(punit, pdefender, TRUE);

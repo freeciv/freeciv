@@ -162,7 +162,7 @@ static void make_list_of_refuel_points(struct player *pplayer,
 	&& !is_non_allied_unit_tile(ptile, pplayer) ) {
       add_refuel_point(ptile, FUEL_CITY, 
                        MAP_MAX_HEIGHT + MAP_MAX_WIDTH, 0, FALSE);
-    } else if (tile_has_special(ptile, S_AIRBASE)
+    } else if (tile_has_base_flag(ptile, BF_REFUEL)
                && !is_non_allied_unit_tile(ptile, pplayer)
                && !cities_only) {
       add_refuel_point(ptile, FUEL_AIRBASE, 

@@ -14,6 +14,7 @@
 #ifndef FC__TILE_H
 #define FC__TILE_H
 
+#include "base.h"
 #include "fc_types.h"
 #include "player.h"
 #include "terrain.h"
@@ -62,6 +63,7 @@ bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
 bool tile_has_any_specials(const struct tile *ptile);
 void tile_set_special(struct tile *ptile, enum tile_special_type spe);
+bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag);
 const struct resource *tile_get_resource(const struct tile *ptile);
 void tile_set_resource(struct tile *ptile, const struct resource *presource);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);

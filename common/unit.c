@@ -22,6 +22,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "base.h"
 #include "city.h"
 #include "game.h"
 #include "log.h"
@@ -634,7 +635,7 @@ bool can_unit_paradrop(const struct unit *punit)
   if(punit->moves_left < utype->paratroopers_mr_req)
     return FALSE;
 
-  if (tile_has_special(punit->tile, S_AIRBASE)) {
+  if (tile_has_base_flag(punit->tile, BF_PARADROP_FROM)) {
     return TRUE;
   }
 
@@ -1255,7 +1256,7 @@ bool unit_being_aggressive(const struct unit *punit)
     return FALSE;
   }
   if (is_ground_unit(punit) &&
-      tile_has_special(punit->tile, S_FORTRESS)) {
+      tile_has_base_flag(punit->tile, BF_NOT_AGGRESSIVE)) {
     return !is_unit_near_a_friendly_city (punit);
   }
   

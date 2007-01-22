@@ -27,6 +27,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "base.h"
 #include "city.h"
 #include "combat.h"
 #include "events.h"
@@ -512,7 +513,7 @@ static void unit_restore_hitpoints(struct unit *punit)
   /* Bonus recovery HP (traditionally from the United Nations) */
   punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
 
-  if (!pcity && !tile_has_special(punit->tile, S_AIRBASE)
+  if (!pcity && !tile_has_base_flag(punit->tile, BF_NO_HP_LOSS)
       && punit->transported_by == -1) {
     punit->hp -= unit_type(punit)->hp * class->hp_loss_pct / 100;
   }
@@ -645,6 +646,7 @@ static void update_unit_activity(struct unit *punit)
   enum unit_activity activity = punit->activity;
   struct tile *ptile = punit->tile;
   bool check_adjacent_units = FALSE;
+  bool new_base = FALSE;
   
   if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
       && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE) {
@@ -744,10 +746,7 @@ static void update_unit_activity(struct unit *punit)
       tile_set_special(ptile, S_FORTRESS);
       map_claim_ownership(ptile, unit_owner(punit), ptile);
       unit_activity_done = TRUE;
-
-      /* watchtower becomes effective
-       * FIXME: Reqs on other specials will not be updated immediately. */
-      unit_list_refresh_vision(ptile->units);
+      new_base = TRUE;
     }
   }
 
@@ -756,6 +755,7 @@ static void update_unit_activity(struct unit *punit)
 	>= tile_activity_time(ACTIVITY_AIRBASE, ptile)) {
       tile_set_special(ptile, S_AIRBASE);
       unit_activity_done = TRUE;
+      new_base = TRUE;
     }
   }
   
@@ -809,6 +809,12 @@ static void update_unit_activity(struct unit *punit)
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
     }
+  }
+
+  if (new_base) {
+    /* watchtower becomes effective
+     * FIXME: Reqs on other specials will not be updated immediately. */
+    unit_list_refresh_vision(ptile->units);
   }
 
   if (unit_activity_done) {
@@ -1232,7 +1238,7 @@ bool is_unit_being_refueled(const struct unit *punit)
 {
   return (punit->transported_by != -1                   /* Carrier */
           || punit->tile->city                          /* City    */
-          || tile_has_special(punit->tile, S_AIRBASE)); /* Airbase */
+          || tile_has_base_flag(punit->tile, BF_REFUEL)); /* Airbase */
 }
 
 /**************************************************************************
@@ -1247,7 +1253,10 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 
   if ((is_allied_city_tile(ptile, pplayer)
        && !is_non_allied_unit_tile(ptile, pplayer))
-      || (contains_special(plrtile->special, S_AIRBASE)
+      || (((contains_special(plrtile->special, S_FORTRESS)
+            && base_flag(BASE_FORTRESS, BF_REFUEL))
+           || (contains_special(plrtile->special, S_AIRBASE)
+               && base_flag(BASE_AIRBASE, BF_REFUEL)))
 	  && !is_non_allied_unit_tile(ptile, pplayer)))
     return TRUE;
 
@@ -2662,10 +2671,10 @@ static void handle_unit_move_consequences(struct unit *punit,
     if (homecity) {
       if ((game.info.happyborders > 0 && src_tile->owner != dst_tile->owner)
           ||
-	  (tile_has_special(dst_tile, S_FORTRESS)
+	  (tile_has_base_flag(dst_tile, BF_NOT_AGGRESSIVE)
 	   && is_friendly_city_near(unit_owner(punit), dst_tile))
 	  ||
-          (tile_has_special(src_tile, S_FORTRESS) 
+          (tile_has_base_flag(src_tile, BF_NOT_AGGRESSIVE)
 	   && is_friendly_city_near(unit_owner(punit), src_tile))) {
         refresh_homecity = TRUE;
       }
@@ -2790,7 +2799,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   } vision_layer_iterate_end;
 
   /* Claim ownership of fortress? */
-  if (tile_has_special(pdesttile, S_FORTRESS)
+  if (tile_has_base_flag(pdesttile, BF_CLAIM_TERRITORY)
       && (!pdesttile->owner || pplayers_at_war(pdesttile->owner, pplayer))) {
     map_claim_ownership(pdesttile, pplayer, pdesttile);
   }
