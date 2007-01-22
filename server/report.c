@@ -52,11 +52,11 @@ enum historian_type {
 #define HISTORIAN_LAST 		HISTORIAN_LARGEST
 
 static const char *historian_message[]={
-    N_("%s report on the RICHEST Civilizations in the World."),
-    N_("%s report on the most ADVANCED Civilizations in the World."),
-    N_("%s report on the most MILITARIZED Civilizations in the World."),
-    N_("%s report on the HAPPIEST Civilizations in the World."),
-    N_("%s report on the LARGEST Civilizations in the World.")
+    N_("%s report on the RICHEST Civilizations in the World %s."),
+    N_("%s report on the most ADVANCED Civilizations in the World %s."),
+    N_("%s report on the most MILITARIZED Civilizations in the World %s."),
+    N_("%s report on the HAPPIEST Civilizations in the World %s."),
+    N_("%s report on the LARGEST Civilizations in the World %s.")
 };
 
 static const char *historian_name[]={
@@ -201,7 +201,8 @@ static void historian_generic(enum historian_type which_news)
 		 get_nation_name_plural(size[i].player->nation));
   }
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
-    _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
+              _(historian_name[myrand(ARRAY_SIZE(historian_name))]),
+              textyear(game.info.year));
   page_conn_etype(game.est_connections, _("Historian Publishes!"),
 		  title, buffer, E_BROADCAST_REPORT);
 }
