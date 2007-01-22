@@ -454,6 +454,7 @@ if test x$client != xno; then
 
     if test "x$found_client" = "xyes"; then
       client=stub
+      CLIENT_LIBS="-lm"
     elif test "$client" = "stub"; then
       AC_MSG_ERROR(specified client 'stub' not configurable)
     fi
