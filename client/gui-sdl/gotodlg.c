@@ -37,7 +37,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "mapview.h"
 #include "sprite.h"
 #include "widget.h"
@@ -267,7 +266,7 @@ static void popup_goto_airlift_dialog(void)
   
     if (pFlag->w > 15 || pFlag->h > 15) {
       float zoom = (float)(MAX(pFlag->w, pFlag->h)) / 15;
-      pEnabled = ZoomSurface(pFlag, zoom, zoom, 1);
+      pEnabled = zoomSurface(pFlag, zoom, zoom, 1);
       FREESURFACE(pFlag);
       pFlag = pEnabled;
     }

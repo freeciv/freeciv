@@ -31,7 +31,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "inteldlg.h"
 #include "mapview.h"
 #include "sprite.h"
@@ -423,7 +422,7 @@ void popup_players_dialog(bool raise)
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
     pLogo = get_nation_flag_surface(pPlayer->nation);
-    pZoomed = ZoomSurface(pLogo, DEFAULT_ZOOM * (3.0 - n * 0.05), DEFAULT_ZOOM * (3.0 - n * 0.05), 1);
+    pZoomed = zoomSurface(pLogo, DEFAULT_ZOOM * (3.0 - n * 0.05), DEFAULT_ZOOM * (3.0 - n * 0.05), 1);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
     	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));

@@ -34,7 +34,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "mapview.h"
 #include "repodlgs.h"
 #include "sprite.h"
@@ -244,7 +243,7 @@ void popup_impr_info(Impr_type_id impr)
     
       /* draw tech icon */
       pText = get_building_surface(type);
-      pText = ZoomSurface(pText, DEFAULT_ZOOM * ((float)36 / pText->w), DEFAULT_ZOOM * ((float)36 / pText->w), 1);
+      pText = zoomSurface(pText, DEFAULT_ZOOM * ((float)36 / pText->w), DEFAULT_ZOOM * ((float)36 / pText->w), 1);
       dst.x = adj_size(5);
       dst.y = (pBack->h - pText->h) / 2;
       alphablit(pText, NULL, pBack, &dst);
@@ -313,7 +312,7 @@ void popup_impr_info(Impr_type_id impr)
   
   pSurf = get_building_surface(impr);
   pBuf= create_iconlabel_from_chars(
-	  ZoomSurface(pSurf, DEFAULT_ZOOM * ((float)108 / pSurf->w), DEFAULT_ZOOM * ((float)108 / pSurf->w), 1),
+	  zoomSurface(pSurf, DEFAULT_ZOOM * ((float)108 / pSurf->w), DEFAULT_ZOOM * ((float)108 / pSurf->w), 1),
 	  pWindow->dst, get_impr_name_ex(NULL, impr),
           adj_font(24), WF_FREE_THEME);
 
@@ -615,7 +614,7 @@ void popup_unit_info(Unit_type_id type_id)
       /* draw tech icon */
       {
 	float zoom = DEFAULT_ZOOM * (25.0 / get_unittype_surface(type)->h);
-        pText = ZoomSurface(get_unittype_surface(type), zoom, zoom, 1);
+        pText = zoomSurface(get_unittype_surface(type), zoom, zoom, 1);
       }
       dst.x = (adj_size(35) - pText->w) / 2;;
       dst.y = (pBack->h - pText->h) / 2;
@@ -1102,7 +1101,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
         pSurf = get_building_surface(imp);
         pBuf = create_iconlabel_from_chars(
-                ZoomSurface(pSurf, DEFAULT_ZOOM * ((float)36 / pSurf->w), DEFAULT_ZOOM * ((float)36 / pSurf->w), 1),
+                zoomSurface(pSurf, DEFAULT_ZOOM * ((float)36 / pSurf->w), DEFAULT_ZOOM * ((float)36 / pSurf->w), 1),
                 pWindow->dst, get_improvement_name(imp), adj_font(14),
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1128,7 +1127,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       if (get_unittype_surface(un)->w > 64)
       {
 	float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
-        pBuf = create_iconlabel_from_chars(ZoomSurface(get_unittype_surface(un), zoom, zoom, 1),
+        pBuf = create_iconlabel_from_chars(zoomSurface(get_unittype_surface(un), zoom, zoom, 1),
 	      pWindow->dst, pUnit->name, adj_font(14),
 	      (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       } else {

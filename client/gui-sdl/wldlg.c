@@ -46,7 +46,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "helpdlg.h"
 #include "mapview.h"
 #include "sprite.h"
@@ -1414,7 +1413,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       /*-----------------*/
       
       pZoom = get_building_surface(imp);
-      pZoom = ZoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
+      pZoom = zoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
       dst.x = (pIcon->w - pZoom->w)/2;
       dst.y = (pIcon->h/2 - pZoom->h)/2;
       alphablit(pZoom, NULL, pIcon, &dst);

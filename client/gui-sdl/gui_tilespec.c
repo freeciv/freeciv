@@ -37,7 +37,6 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_string.h"
-#include "gui_zoom.h"
 #include "sprite.h"
 #include "themespec.h"
 

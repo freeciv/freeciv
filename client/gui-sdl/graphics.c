@@ -40,7 +40,6 @@
 /* gui-sdl */
 #include "SDL_ttf.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "mapview.h"
 #include "themebackgrounds.h"
 #include "themespec.h"
@@ -3652,6 +3651,22 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
 {
   SDL_Rect src = get_smaller_surface_rect(pSrc);
   return crop_rect_from_surface(pSrc, &src);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
+			   Uint16 new_height, int smooth)
+{
+  if (pSrc == NULL) {
+    return NULL;
+  }
+  
+  return zoomSurface((SDL_Surface*)pSrc,
+                     (double)new_width / pSrc->w,
+                     (double)new_height / pSrc->h,
+                     smooth);
 }
 
 /* ============ FreeCiv game graphics function =========== */

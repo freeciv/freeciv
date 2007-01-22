@@ -7,6 +7,8 @@ AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(
 ## Above, note -I../../intl instead of -I$(top_srdir/intl) is deliberate.
 
 libguiclient_a_SOURCES = \
+	SDL_rotozoom.c	\
+	SDL_rotozoom.h	\
 	SDL_ttf.c	\
 	SDL_ttf.h	\
 	alphablit.c	\
@@ -47,8 +49,6 @@ libguiclient_a_SOURCES = \
 	gui_string.h	\
 	gui_tilespec.c	\
 	gui_tilespec.h  \
-	gui_zoom.c	\
-	gui_zoom.h	\
 	happiness.c	\
 	happiness.h	\
 	helpdlg.c	\

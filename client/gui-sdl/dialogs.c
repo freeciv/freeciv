@@ -56,7 +56,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "helpdlg.h"
 #include "inteldlg.h"
 #include "mapctrl.h"
@@ -2540,7 +2539,7 @@ static void change_nation_label(void)
   struct nation_type *pNation = get_nation_by_idx(pSetup->nation);
     
   pTmp_Surf = get_nation_flag_surface(get_nation_by_idx(pSetup->nation));
-  pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);  
+  pTmp_Surf_zoomed = zoomSurface(pTmp_Surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);  
 
   FREESURFACE(pLabel->theme);
   pLabel->theme = pTmp_Surf_zoomed;
@@ -2809,7 +2808,7 @@ void popup_races_dialog(struct player *pplayer)
         zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
       }
       
-      pTmp_Surf_zoomed = ZoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
+      pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
       pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
@@ -2835,7 +2834,7 @@ void popup_races_dialog(struct player *pplayer)
         zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
       }
       
-      pTmp_Surf_zoomed = ZoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
+      pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
       pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;

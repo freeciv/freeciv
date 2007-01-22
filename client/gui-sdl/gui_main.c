@@ -771,7 +771,7 @@ void ui_init(void)
 #ifdef SMALL_SCREEN
   {
     SDL_Surface *pTmpSurf = load_surf(datafilename("misc/intro.png"));
-    pBgd = ZoomSurface(pTmpSurf, DEFAULT_ZOOM, DEFAULT_ZOOM, 0);
+    pBgd = zoomSurface(pTmpSurf, DEFAULT_ZOOM, DEFAULT_ZOOM, 0);
     FREESURFACE(pTmpSurf);
   }
 #else

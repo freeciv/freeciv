@@ -44,7 +44,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "helpdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
@@ -1996,7 +1995,7 @@ void popup_economy_report_dialog(bool make_modal)
       /*-----------------*/
   
       pZoom = get_building_surface(p->type);
-      pZoom = ZoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
+      pZoom = zoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
 
       dst.x = (pSurf->w - pZoom->w)/2;
       dst.y = (pSurf->h/2 - pZoom->h)/2;
@@ -2353,7 +2352,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech_id)) {
           pTmp2 = get_building_surface(imp);
-          Surf_Array[w++] = ZoomSurface(pTmp2, DEFAULT_ZOOM * ((float)36 / pTmp2->w), DEFAULT_ZOOM * ((float)36 / pTmp2->w), 1);
+          Surf_Array[w++] = zoomSurface(pTmp2, DEFAULT_ZOOM * ((float)36 / pTmp2->w), DEFAULT_ZOOM * ((float)36 / pTmp2->w), 1);
       }
       } requirement_vector_iterate_end;
     } impr_type_iterate_end;
@@ -2400,7 +2399,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         /* w == 1 */
         if (Surf_Array[0]->w > 64) {
 	  float zoom = DEFAULT_ZOOM * (64.0 / Surf_Array[0]->w);
-	  SDL_Surface *pZoomed = ZoomSurface(Surf_Array[0], zoom, zoom, 1);
+	  SDL_Surface *pZoomed = zoomSurface(Surf_Array[0], zoom, zoom, 1);
 	
 	  dst.x = (pSurf->w - pZoomed->w) / 2;
 	  alphablit(pZoomed, NULL, pSurf, &dst);
@@ -2421,7 +2420,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         pBuf_Array = Surf_Array;
         h = 0;
         while (w) {
-	  SDL_Surface *pZoomed = ZoomSurface((*pBuf_Array), zoom, zoom, 1);
+	  SDL_Surface *pZoomed = zoomSurface((*pBuf_Array), zoom, zoom, 1);
           alphablit(pZoomed, NULL, pSurf, &dst);
           dst.x += pZoomed->w + 2;
           w--;
@@ -2615,7 +2614,7 @@ void science_dialog_update(void)
       if (pUnit->tech_requirement == get_player_research(game.player_ptr)->researching) {
 	if (get_unittype_surface(un)->w > 64) {
 	  float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
-	  pSurf = ZoomSurface(get_unittype_surface(un), zoom, zoom, 1);
+	  pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
 	  alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + adj_size(2);          
 	  FREESURFACE(pSurf);
@@ -2691,7 +2690,7 @@ void science_dialog_update(void)
         if (pUnit->tech_requirement == get_player_research(game.player_ptr)->tech_goal) {
 	  if (get_unittype_surface(un)->w > 64) {
 	    float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
-	    pSurf = ZoomSurface(get_unittype_surface(un), zoom, zoom, 1);
+	    pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
 	    alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + adj_size(2);
 	    FREESURFACE(pSurf);

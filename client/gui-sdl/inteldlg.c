@@ -29,7 +29,6 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "mapview.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
@@ -243,7 +242,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     
     pLogo = get_nation_flag_surface(p->nation);
-    pText1 = ZoomSurface(pLogo, DEFAULT_ZOOM * 4.0 , DEFAULT_ZOOM * 4.0, 1);
+    pText1 = zoomSurface(pLogo, DEFAULT_ZOOM * 4.0 , DEFAULT_ZOOM * 4.0, 1);
     pLogo = pText1;
           
     pBuf = create_icon2(pLogo, pWindow->dst,

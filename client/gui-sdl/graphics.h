@@ -26,9 +26,9 @@
 
 #include "graphics_g.h"
 
+#include "SDL_rotozoom.h"
 #include "canvas.h"
 #include "gui_main.h"
-#include "gui_zoom.h"
 
 #define	RECT_LIMIT	80
 /* #define	HAVE_MMX1 */
@@ -171,7 +171,7 @@
 /* shrink surface on 320x240 screen*/
 #ifdef SMALL_SCREEN
 #define DEFAULT_ZOOM 0.5
-#define adj_surf(surf) ZoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
+#define adj_surf(surf) zoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
 #else
 #define DEFAULT_ZOOM 1.0
 #define adj_surf(surf) SDL_DisplayFormatAlpha((surf))
@@ -267,6 +267,9 @@ int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
 int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
   
 /* ================================================================= */
+
+SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
+			   Uint16 new_height, int smooth);
 
 SDL_Surface *make_flag_surface_smaler(SDL_Surface *pSrc);
 SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);

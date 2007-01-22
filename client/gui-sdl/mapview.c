@@ -51,7 +51,6 @@
 #include "gui_main.h"
 #include "gui_mouse.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "mapctrl.h"
 #include "sprite.h"
 #include "themespec.h"
@@ -775,7 +774,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 
           if (pBuf_Surf->w > 64) {
             float zoom = 64.0 / pBuf_Surf->w;    
-            SDL_Surface *pZoomed = ZoomSurface(pBuf_Surf, zoom, zoom, 1);
+            SDL_Surface *pZoomed = zoomSurface(pBuf_Surf, zoom, zoom, 1);
             FREESURFACE(pBuf_Surf);
             pBuf_Surf = pZoomed;
           }
