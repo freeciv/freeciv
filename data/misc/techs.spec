@@ -105,6 +105,12 @@ artists = "
  
  Adrian Pingstone
  a.conscription
+
+ US Navy
+ a.environmentalism
+
+ Oliver Wolters
+ a.fundamentalism
  
  PD - Unknown author
  a.communism         a.flight             a.refining
