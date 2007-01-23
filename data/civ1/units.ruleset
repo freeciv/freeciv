@@ -65,7 +65,7 @@ veteran_move_bonus = 0, 0
 ; "Missile"       = Unit is destroyed when it attacks
 ; "RoadNative"    = Road tiles are always considered native terrain
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
-; "Unreachable"   = Unit can be attacked only by units with "Fighter" flag or on
+; "Unreachable"   = Unit can be attacked only by units with "AttackAny" flag or on
 ;                   city or airbase
 
 [unitclass_land]
@@ -597,7 +597,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Fighter", "AirUnit"
+flags         = "FieldUnit", "Fighter", "AirUnit", "AttackAny"
 roles         = ""
 
 [unit_bomber]

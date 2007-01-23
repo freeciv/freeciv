@@ -71,7 +71,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "Missile"       = Unit is destroyed when it attacks
 ; "RoadNative"    = Road tiles are always considered native terrain
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
-; "Unreachable"   = Unit can be attacked only by units with "Fighter" flag or on
+; "Unreachable"   = Unit can be attacked only by units with "AttackAny" flag or on
 ;                   city or airbase
 
 [unitclass_missile]
@@ -166,7 +166,7 @@ flags         = "Unreachable"
 ; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "AEGIS"	= fivefold increased defence against "AirUnit" attacks
-; "Fighter"	= can attack unreachable units
+; "AttackAny"   = can attack unreachable units
 ; "Marines"	= (land only) can attack from transports
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported
 ;		  units other than missiles
@@ -214,6 +214,7 @@ flags         = "Unreachable"
 ;                 rule)
 ; "Helicopter"  = defends very badly against "Fighter" units
 ; "AirUnit"     = very bad at attacking "AEGIS" units
+; "Fighter"     = good attacker against "Helicopter" units
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
@@ -1050,7 +1051,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Fighter", "AirUnit"
+flags         = "AttackAny", "AirUnit", "Fighter"
 roles         = ""
 
 [unit_bomber]
@@ -1140,7 +1141,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Partial_Invis", "Fighter", "AirUnit"
+flags         = "Partial_Invis", "AttackAny", "AirUnit", "Fighter"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\

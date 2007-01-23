@@ -68,7 +68,7 @@ enum unit_flag_id {
   F_IGWALL,      
   F_FIELDUNIT,   
   F_AEGIS,       
-  F_FIGHTER,     
+  F_ATTACK_ANY,       /* Can attack even unreachable units */
   F_MARINES,     
   F_PARTIAL_INVIS,    /* Invisibile except when adjacent (Submarine) */   
   F_SETTLERS,         /* Does not include ability to found cities */
@@ -98,6 +98,7 @@ enum unit_flag_id {
   F_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
   F_HELICOPTER,       /* Defends badly against F_FIGHTER units */
   F_AIRUNIT,          /* Bad at attacking F_AEGIS units */
+  F_FIGHTER,          /* Good at attacking F_HELICOPTER units */
   F_LAST
 };
 #define F_MAX 64

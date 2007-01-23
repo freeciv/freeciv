@@ -918,7 +918,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (unit_type_flag(utype, F_UNBRIBABLE)) {
     sprintf(buf + strlen(buf), _("* May not be bribed.\n"));
   }
-  if (unit_type_flag(utype, F_FIGHTER)) {
+  if (unit_type_flag(utype, F_ATTACK_ANY)) {
     sprintf(buf + strlen(buf), _("* Can attack otherwise unreachable enemy units.\n"));
   }
   if (unit_type_flag(utype, F_PARTIAL_INVIS)) {
@@ -949,7 +949,11 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   }
   if (unit_type_flag(utype, F_HELICOPTER)) {
     sprintf(buf + strlen(buf),
-            _("* Defends very badly agains fighter type units.\n"));
+            _("* Counts as 'helicopter' against certain attackers.\n"));
+  }
+  if (unit_type_flag(utype, F_FIGHTER)) {
+    sprintf(buf + strlen(buf),
+            _("* Very good at attacking 'helicopter' units.\n"));
   }
   if (unit_type_flag(utype, F_AIRUNIT)) {
     sprintf(buf + strlen(buf),

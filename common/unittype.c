@@ -46,13 +46,13 @@ static const char *unit_class_flag_names[] = {
 static const char *flag_names[] = {
   "TradeRoute" ,"HelpWonder", "IgZOC", "NonMil", "IgTer", 
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
-  "AEGIS", "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
+  "AEGIS", "AttackAny", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
   "Airbase", "Cities", "No_Land_Attack",
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
-  "Helicopter", "AirUnit"
+  "Helicopter", "AirUnit", "Fighter"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
