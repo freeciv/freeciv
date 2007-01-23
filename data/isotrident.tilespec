@@ -147,6 +147,13 @@ layer0_match_style = "bool"
 layer0_match_type = "ocean"
 layer0_cell_type = "rect"
 
+[terrain_deep]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "ocean"
+layer0_cell_type = "rect"
+
 [terrain_plains]
 is_blended = 1
 num_layers = 1
