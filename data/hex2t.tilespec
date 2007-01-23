@@ -109,7 +109,7 @@ files =
 
 [layer0]
 match_style = "BOOL"
-match_types = "ocean", "other"
+match_types = "ocean", "land"
 
 [layer1]
 match_style = "BOOL"
@@ -118,31 +118,31 @@ match_types = "forest", "hills", "mountains", "jungle", "steep"
 [terrain_arctic]
 is_blended = 1
 num_layers = 1
-layer0_match_type = "other"
+layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
 [terrain_desert]
 is_blended = 1
 num_layers = 1
-layer0_match_type = "other"
+layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
 [terrain_forest]
 is_blended = 1
 num_layers = 2
-layer0_match_type = "other"
+layer0_match_type = "land"
 layer1_match_style = "bool"
 layer1_match_type = "forest"
 
 [terrain_grassland]
 is_blended = 1
 num_layers = 1
-layer0_match_type = "other"
+layer0_match_type = "land"
 
 [terrain_hills]
 is_blended = 1
 num_layers = 2
-layer0_match_type = "other"
+layer0_match_type = "land"
 layer1_match_style = "bool"
 layer1_match_type = "steep"
 mine_sprite = "tx.mine"
@@ -150,14 +150,14 @@ mine_sprite = "tx.mine"
 [terrain_jungle]
 is_blended = 1
 num_layers = 2
-layer0_match_type = "other"
+layer0_match_type = "land"
 layer1_match_style = "none"
 layer1_match_type = "jungle"
 
 [terrain_mountains]
 is_blended = 1
 num_layers = 2
-layer0_match_type = "other"
+layer0_match_type = "land"
 layer1_match_style = "bool"
 layer1_match_type = "steep"
 mine_sprite = "tx.mine"
@@ -172,14 +172,14 @@ layer0_cell_type = "rect"
 [terrain_plains]
 is_blended = 1
 num_layers = 1
-layer0_match_type = "other"
+layer0_match_type = "land"
 
 [terrain_swamp]
 is_blended = 1
 num_layers = 1
-layer0_match_type = "other"
+layer0_match_type = "land"
 
 [terrain_tundra]
 is_blended = 1
 num_layers = 1
-layer0_match_type = "other"
+layer0_match_type = "land"
