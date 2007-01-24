@@ -467,7 +467,12 @@ static unsigned int assess_danger(struct city *pcity)
 
   generate_warmap(pcity, NULL);	/* generates both land and sea maps */
 
-  pcity->ai.grave_danger = 0;
+  if (ai_handicap(pplayer, H_DANGER)) {
+    /* Always thinks that city is in grave danger */
+    pcity->ai.grave_danger = 1;
+  } else {
+    pcity->ai.grave_danger = 0;
+  }
   pcity->ai.diplomat_threat = FALSE;
   pcity->ai.has_diplomat = FALSE;
 
@@ -594,7 +599,14 @@ static unsigned int assess_danger(struct city *pcity)
 	urgency, danger[1], assess_defense_igwall(pcity));
   }
 
-  pcity->ai.danger = danger[0];
+  if (ai_handicap(pplayer, H_DANGER)
+      && danger[0] == 0) {
+    /* Has to have some danger
+     * Otherwise grave_danger will be ignored. */
+    pcity->ai.danger = 1;
+  } else {
+    pcity->ai.danger = danger[0];
+  }
   pcity->ai.urgency = urgency;
 
   TIMING_LOG(AIT_DANGER, TIMER_STOP);
