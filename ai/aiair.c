@@ -198,7 +198,8 @@ static int find_something_to_bomb(struct unit *punit, struct tile *ptile)
 
     if (is_enemy_unit_tile(tile1, pplayer)
         && ai_should_we_air_attack_tile(punit, tile1)
-	&& (air_can_move_between (max_dist, ptile, tile1, pplayer) >= 0)){
+	&& (air_can_move_between (max_dist, ptile, tile1, pplayer) >= 0)
+        && can_unit_attack_all_at_tile(punit, ptile)) {
       int new_best = ai_evaluate_tile_for_air_attack(punit, tile1);
       if (new_best > best) {
 	punit->goto_tile = tile1;
