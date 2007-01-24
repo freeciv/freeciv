@@ -964,7 +964,7 @@ static void log_civ_score(void)
       fprintf(fp, 
 	      "\n"
 	      "# For a specification of the format of this see doc/README.scorelog or \n"
-	      "# <http://www.freeciv.org/lxr/source/doc/README.scorelog?v=cvs>.\n"
+	      "# <http://svn.gna.org/viewcvs/freeciv/trunk/doc/README.scorelog?view=auto>.\n"
 	      "\n");
 
       fprintf(fp, "id %s\n", game.id);
