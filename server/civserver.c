@@ -73,9 +73,15 @@ static void sigint_handler(int sig)
   }
   if (timer && read_timer_seconds(timer) <= 1.0) {
     exit(EXIT_SUCCESS);
-  } else if (!timer) {
-    freelog(LOG_NORMAL, _("You must interrupt Freeciv twice"
-			  " within one second to make it exit.\n"));
+  } else {
+    if (game.info.timeout == -1) {
+      freelog(LOG_NORMAL, _("Setting timeout to 0. Autogame will stop.\n"));
+      game.info.timeout = 0;
+    }
+    if (!timer) {
+      freelog(LOG_NORMAL, _("You must interrupt Freeciv twice"
+                            " within one second to make it exit.\n"));
+    }
   }
   timer = renew_timer_start(timer, TIMER_USER, TIMER_ACTIVE);
 }
