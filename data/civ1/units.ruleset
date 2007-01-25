@@ -67,6 +67,7 @@ veteran_move_bonus = 0, 0
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
 ; "Unreachable"   = Unit can be attacked only by units with "AttackAny" flag or on
 ;                   city or airbase
+; "AlwaysSafe"    = Unit is safe even on unsafe terrain
 
 [unitclass_land]
 name          = _("Land")
@@ -87,14 +88,14 @@ name          = _("Air")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Unreachable"
+flags         = "Unreachable", "AlwaysSafe"
 
 [unitclass_missile]
 name          = _("Missile")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Missile", "Unreachable"
+flags         = "Missile", "Unreachable", "AlwaysSafe"
 
 ; Below: The individual units, one per section.
 ;

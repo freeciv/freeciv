@@ -1198,8 +1198,8 @@ int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
     }
   }
 
-  /* All units may be lost on unsafe terrain.  (Actually air units are
-   * exempt; see base_unsafe_terrain_loss_pct.) */
+  /* All units may be lost on unsafe terrain.  (Actually units with
+   * class flag UCF_ALWAYS_SAFE are exempt; see base_unsafe_terrain_loss_pct.) */
   if (terrain_has_flag(tile_get_terrain(ptile), TER_UNSAFE)) {
     return loss_pct + base_unsafe_terrain_loss_pct(pplayer, punit);
   }
@@ -1226,12 +1226,14 @@ int base_trireme_loss_pct(const struct player *pplayer,
 }
 
 /**************************************************************************
-  All units except air units have a flat 15% chance of being lost.
+  All units without unit class flag UCF_ALWAYS_SAFE have a flat 15% chance
+  of being lost.
 **************************************************************************/
 int base_unsafe_terrain_loss_pct(const struct player *pplayer,
 				 const struct unit *punit)
 {
-  return (is_air_unit(punit) || is_heli_unit(punit)) ? 0 : 15;
+  return unit_class_flag(get_unit_class(unit_type(punit)), UCF_ALWAYS_SAFE)
+    ? 0 : 15;
 }
 
 /**************************************************************************
