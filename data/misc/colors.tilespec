@@ -29,7 +29,8 @@ terrains = {"r", "g", "b", "terrain"
    43, 107,  19, "Forest"
   142, 121,  63, "Hills"
   167,  77,  38, "Mountains"
-    0,   0, 200, "Ocean"
+    0,   0, 220, "Ocean"
+    0,   0, 170, "Deep Ocean"
 }
 
 ; Mapview
