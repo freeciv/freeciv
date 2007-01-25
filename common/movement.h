@@ -28,7 +28,6 @@ bool is_heli_unit(const struct unit *punit);
 bool is_ground_unit(const struct unit *punit);
 bool is_sailing_unittype(const struct unit_type *punittype);
 bool is_air_unittype(const struct unit_type *punittype);
-bool is_heli_unittype(const struct unit_type *punittype);
 bool is_ground_unittype(const struct unit_type *punittype);
 
 bool is_native_tile(const struct unit_type *punittype,
