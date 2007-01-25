@@ -118,4 +118,12 @@ void common_taxrates_callback(int i);
 bool can_units_do_connect(struct unit_list *punits,
 			  enum unit_activity activity);
 
+enum unit_bg_color_type { UNIT_BG_HP_LOSS,
+                          UNIT_BG_LAND,
+                          UNIT_BG_SEA,
+                          UNIT_BG_AMPHIBIOUS,
+                          UNIT_BG_FLYING };
+
+enum unit_bg_color_type unit_color_type(const struct unit_type *punittype);
+
 #endif  /* FC__CLIMISC_H */

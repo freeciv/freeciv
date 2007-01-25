@@ -1097,3 +1097,36 @@ bool can_units_do_connect(struct unit_list *punits,
 
   return FALSE;
 }
+
+/****************************************************************************
+  Determines which color type should be used for unit background.
+  This is only guesswork based on unit properties. One should not
+  take UNIT_BG_FLYING seriously meaning that unit can fly - custom
+  ruleset might have units with similar properties but explains these
+  properties by some other means than by flying. 
+****************************************************************************/
+enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
+{
+  struct unit_class *pclass = get_unit_class(punittype);
+
+  if (pclass->hp_loss_pct > 0) {
+    return UNIT_BG_HP_LOSS;
+  }
+
+  if (pclass->move_type == LAND_MOVING) {
+    return UNIT_BG_LAND;
+  }
+  if (pclass->move_type == SEA_MOVING) {
+    return UNIT_BG_SEA;
+  }
+
+  assert(pclass->move_type == HELI_MOVING
+         || pclass->move_type == AIR_MOVING);
+
+  if (unit_class_flag(pclass, UCF_TERRAIN_SPEED)) {
+    /* Unit moves on both sea and land by speed determined by terrain */
+    return UNIT_BG_AMPHIBIOUS;
+  }
+
+  return UNIT_BG_FLYING;
+}
