@@ -96,7 +96,7 @@ match_types = "ocean", "land"
 
 [layer1]
 match_style = "BOOL"
-match_types = "forest", "hills", "mountains"
+match_types = "forest", "hills", "mountains", "deep"
 
 [terrain_arctic]
 is_blended = 1
@@ -150,12 +150,30 @@ layer0_match_style = "bool"
 layer0_match_type = "ocean"
 layer0_cell_type = "rect"
 
+; Deep Ocean is currently quite a hack:
+; - Blending is disabled so there will be no blending
+;   between Ocean and Deep Ocean. Ocean blending tile
+;   is of land colour and we don't want that to appear
+;   in the middle of the ocean.
+; - Deep Ocean is in two layers. Layer0 is setup just
+;   for match_type = "ocean". Ocean will match this
+;   and will not draw coast sprites between Ocean and
+;   Deep Ocean. Layer1 is for actual Deep Ocean drawing.
+;   Ocean will not match this, so Deep Ocean to Ocean
+;   sprites will be drawn.
+;
+; Problems:
+; - There is no blending between Deep Ocean and land tiles
+; - There is no coast drawn beteen Deep Ocean and land tiles
 [terrain_deep]
 is_blended = 0
-num_layers = 1
+num_layers = 2
 layer0_match_style = "bool"
 layer0_match_type  = "ocean"
 layer0_cell_type   = "rect"
+layer1_match_style = "bool"
+layer1_match_type  = "deep"
+layer1_cell_type   = "rect"
 
 [terrain_plains]
 is_blended = 1
