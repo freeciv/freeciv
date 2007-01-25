@@ -1304,7 +1304,7 @@ void handle_nation_select_req(struct player *requestor,
 			      Nation_type_id nation_no, bool is_male,
 			      char *name, int city_style)
 {
-  struct nation_type *old_nation, *new_nation;
+  struct nation_type *new_nation;
   struct player *pplayer = get_player(player_no);
 
   if (server_state != PRE_GAME_STATE || !pplayer) {
@@ -1315,7 +1315,6 @@ void handle_nation_select_req(struct player *requestor,
     return;
   }
 
-  old_nation = pplayer->nation;
   new_nation = get_nation_by_idx(nation_no);
 
   if (new_nation != NO_NATION_SELECTED) {
@@ -1362,10 +1361,6 @@ void handle_nation_select_req(struct player *requestor,
 
   (void) player_set_nation(pplayer, new_nation);
   send_player_info_c(pplayer, game.est_connections);
-
-  if (old_nation != NO_NATION_SELECTED) {
-    old_nation->player = NULL;
-  }
 }
 
 /****************************************************************************
