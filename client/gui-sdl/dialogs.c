@@ -790,7 +790,7 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
   if(tile_has_special(ptile, S_RIVER)) {
     bonus += terrain_control.river_defense_bonus;
   }
-  if(tile_has_special(ptile, S_FORTRESS)) {
+  if(tile_has_base_flag(ptile, BF_DEFENSE_BONUS)) {
     bonus += terrain_control.fortress_defense_bonus;
   }
   my_snprintf(buffer, sizeof(buffer), "Terrain Defense Bonus: +%d%% ", bonus);
