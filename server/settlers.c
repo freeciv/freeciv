@@ -658,18 +658,6 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
   }
 }
 
-/**************************************************************************
-  Returns TRUE if there are (other) ground units than punit stacked on
-  punit's tile.
-**************************************************************************/
-struct unit *other_passengers(struct unit *punit)
-{
-  unit_list_iterate(punit->tile->units, aunit)
-    if (is_ground_unit(aunit) && aunit != punit) return aunit;
-  unit_list_iterate_end;
-  return NULL;
-}
-
 /****************************************************************************
   Compares the best known tile improvement action with improving the tile
   at (x,y) with activity act.  Calculates the value of improving the tile

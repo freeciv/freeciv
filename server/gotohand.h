@@ -30,9 +30,6 @@ enum goto_result {
 };
 
 bool is_dist_finite(int dist);
-enum goto_result do_unit_goto(struct unit *punit,
-			      enum goto_move_restriction restriction,
-			      bool trigger_special_ability);
 void generate_warmap(struct city *pcity, struct unit *punit);
 int air_can_move_between(int moves, struct tile *src_tile,
 			 struct tile *dst_tile, struct player *pplayer);
