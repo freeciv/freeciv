@@ -425,13 +425,13 @@ static int aiferry_find_boat_nearby(struct unit *punit, int cap)
 **************************************************************************/
 static void ai_activate_passengers(struct unit *ferry)
 {
-  unit_list_iterate(ferry->tile->units, aunit) {
+  unit_list_iterate_safe(ferry->tile->units, aunit) {
     if (aunit->transported_by == ferry->id) {
       handle_unit_activity_request(aunit, ACTIVITY_IDLE);
       aunit->ai.done = FALSE;
       ai_manage_unit(unit_owner(aunit), aunit);
     }
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
