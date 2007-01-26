@@ -68,13 +68,15 @@ veteran_move_bonus = 0, 0
 ; "Unreachable"   = Unit can be attacked only by units with "AttackAny" flag or on
 ;                   city or airbase
 ; "AlwaysSafe"    = Unit is safe even on unsafe terrain
+; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
 
 [unitclass_land]
 name          = _("Land")
 move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere"
+flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere",
+                "CollectRansom"
 
 [unitclass_sea]
 name          = _("Sea")

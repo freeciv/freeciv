@@ -1619,7 +1619,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   /* barbarian leader ransom hack */
   if( is_barbarian(pplayer) && unit_has_role(punit->type, L_BARBARIAN_LEADER)
       && (unit_list_size(punit->tile->units) == 1)
-      && (is_ground_unit(pkiller) || is_heli_unit(pkiller)) ) {
+      && unit_class_flag(get_unit_class(unit_type(pkiller)),
+                         UCF_COLLECT_RANSOM)) {
+    /* Occupying units can collect ransom if leader is alone in the tile */
     ransom = (pplayer->economic.gold >= game.info.ransom_gold) 
              ? game.info.ransom_gold : pplayer->economic.gold;
     notify_player(destroyer, pkiller->tile, E_UNIT_WIN_ATT,

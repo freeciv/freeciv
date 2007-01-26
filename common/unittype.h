@@ -28,12 +28,13 @@
 enum unit_class_flag_id {
   UCF_TERRAIN_SPEED = 0,
   UCF_DAMAGE_SLOWS,
-  UCF_CAN_OCCUPY,
+  UCF_CAN_OCCUPY,         /* Can occupy enemy cities */
   UCF_MISSILE,
   UCF_ROAD_NATIVE,
   UCF_BUILD_ANYWHERE,
   UCF_UNREACHABLE,
   UCF_ALWAYS_SAFE,
+  UCF_COLLECT_RANSOM,     /* Can collect ransom from barbarian leader */
   UCF_LAST
 };
 
