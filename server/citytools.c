@@ -1054,6 +1054,7 @@ void remove_city(struct city *pcity)
   bv_imprs had_small_wonders;
   char *city_name = mystrdup(pcity->name);
   struct vision *old_vision;
+  int id = pcity->id; /* We need this even after memory has been freed */
 
   BV_CLR_ALL(had_small_wonders);
   built_impr_iterate(pcity, i) {
@@ -1153,7 +1154,7 @@ void remove_city(struct city *pcity)
       /* For detached observers we have to send a specific packet.  This is
        * a hack necessitated by the private map that exists for players but
        * not observers. */
-      dsend_packet_city_remove(pconn, pcity->id);
+      dsend_packet_city_remove(pconn, id);
     }
   } conn_list_iterate_end;
 
