@@ -60,7 +60,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_mouse.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "inteldlg.h"
 #include "mapctrl.h"
@@ -71,6 +70,7 @@
 #include "repodlgs.h"
 #include "themespec.h"
 #include "spaceshipdlg.h"
+#include "widget.h"
 
 #include "gui_main.h"
 
@@ -86,6 +86,18 @@ const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
 Uint32 SDL_Client_Flags = 0;
+
+bool gui_sdl_fullscreen = FALSE;
+
+/* default screen resolution */
+#ifdef SMALL_SCREEN
+int gui_sdl_screen_width = 320;
+int gui_sdl_screen_height = 240;
+#else
+int gui_sdl_screen_width = 640;
+int gui_sdl_screen_height = 480;
+#endif
+
 Uint32 widget_info_counter = 0;
 int MOVE_STEP_X = DEFAULT_MOVE_STEP;
 int MOVE_STEP_Y = DEFAULT_MOVE_STEP;
@@ -116,7 +128,6 @@ static SDL_Event *pMap_Scroll_User_Event = NULL;
 
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
-static void game_focused_unit_anim(void);
 static int check_scroll_area(int x, int y);
       
 enum USER_EVENT_ID {
@@ -131,8 +142,26 @@ enum USER_EVENT_ID {
 };
 
 client_option gui_options[] = {
-  /* None. */
+  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"), 
+                  N_("If this option is set the client will use the "
+                     "whole screen area for drawing"),
+                  COC_INTERFACE),
+  GEN_INT_OPTION(gui_sdl_screen_width, N_("Screen width"),
+                 N_("This option saves the width of the selected screen "
+                    "resolution"),
+                 COC_INTERFACE),
+  GEN_INT_OPTION(gui_sdl_screen_height, N_("Screen height"),
+                 N_("This option saves the height of the selected screen "
+                    "resolution"),
+                 COC_INTERFACE),
+  GEN_STR_OPTION(gui_sdl_theme_name, N_("Theme"),
+		 N_("By changing this option you change the active theme. "
+		    "This is the same as using the -- --theme command-line "
+		    "parameter."),
+		 COC_GRAPHICS,
+		 get_theme_list, themespec_reread_callback),
 };
+
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
 struct callback {
@@ -171,6 +200,7 @@ static void print_usage(const char *argv0)
 	     _("  -f,  --fullscreen\tStart Client in Fulscreen mode\n"));
   fc_fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in "
 		       "other thread (only Linux and BeOS)\n"));
+  fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 }
 
 /**************************************************************************
@@ -180,20 +210,19 @@ static void print_usage(const char *argv0)
 static void parse_options(int argc, char **argv)
 {
   int i = 1;
+  char *option = NULL;
     
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
-    } else {
-      if (is_option("--fullscreen",argv[i])) {
-	SDL_Client_Flags |= CF_TOGGLED_FULLSCREEN;
-      } else {
-	if (is_option("--eventthread",argv[i])) {
-	  /* init events in other thread ( only linux and BeOS ) */  
-          SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
-        }
-      }
+    } else if (is_option("--fullscreen",argv[i])) {
+      gui_sdl_fullscreen = TRUE;
+    } else if (is_option("--eventthread",argv[i])) {
+      /* init events in other thread ( only linux and BeOS ) */  
+      SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
+    } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
+      sz_strlcpy(gui_sdl_theme_name, option);
     }
     i++;
   }
@@ -205,7 +234,7 @@ static void parse_options(int argc, char **argv)
 **************************************************************************/
 static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 {
-  static struct GUI *pWidget;
+  static struct widget *pWidget;
   if ((pWidget = MainWidgetListKeyScaner(Key)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
@@ -251,10 +280,8 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	  case SDLK_F10:
             if(is_meswin_open()) {
               popdown_meswin_dialog();
-	      /* copy_chars_to_string16(pWidget->string16, _("Show Log (F10)")); */
             } else {
               popup_meswin_dialog(true);
-	      /* copy_chars_to_string16(pWidget->string16, _("Hide Log (F10)")); */
             }
 	    flush_dirty();
           return ID_ERROR;
@@ -293,15 +320,16 @@ static Uint16 main_key_up_handler(SDL_keysym Key, void *pData)
 **************************************************************************/
 static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
-  static struct GUI *pWidget;
+  static struct widget *pWidget;
   if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
 #ifdef UNDER_CE
     if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
 #endif        
-    if (!button_behavior.button_down_ticks) {
+    if (!button_behavior.counting) {
       /* start counting */
+      button_behavior.counting = TRUE;
       button_behavior.button_down_ticks = SDL_GetTicks();   
       *button_behavior.event = *pButtonEvent;
       button_behavior.hold_state = MB_HOLD_SHORT;
@@ -311,7 +339,6 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
     }
 #endif    
   }
-  
   return ID_ERROR;
 }
 
@@ -323,6 +350,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
     button_up_on_map(&button_behavior);
   }
 
+  button_behavior.counting = FALSE;
   button_behavior.button_down_ticks = 0;  
   
 #ifdef UNDER_CE
@@ -339,7 +367,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
 **************************************************************************/
 static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
 {
-  static struct GUI *pWidget;
+  static struct widget *pWidget;
   struct tile *ptile;
 
   /* stop evaluating button hold time when moving to another tile in medium
@@ -348,7 +376,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
     ptile = canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y);
     if ((ptile->x != button_behavior.ptile->x)
         || (ptile->y != button_behavior.ptile->y)) {
-      button_behavior.button_down_ticks = 0;
+      button_behavior.counting = FALSE;
     }
   }
   
@@ -381,51 +409,10 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
  this is called every TIMER_INTERVAL milliseconds whilst we are in 
  gui_main_loop() (which is all of the time) TIMER_INTERVAL needs to be .5s
 **************************************************************************/
-static void game_focused_unit_anim(void)
+static void update_button_hold_state(void)
 {
-/* FIXME: this can probably be removed */
-#if 0
-  static int flip;
-
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-
-    if (game.player_ptr && game.player_ptr->is_connected && game.player_ptr->is_alive
-	&& !game.player_ptr->phase_done) {
-      int i, is_waiting, is_moving;
-
-      for (i = 0, is_waiting = 0, is_moving = 0; i < game.info.nplayers; i++)
-	if (game.players[i].is_alive && game.players[i].is_connected) {
-	  if (game.players[i].phase_done) {
-	    is_waiting++;
-	  } else {
-	    is_moving++;
-	  }
-	}
-
-      if (is_moving == 1 && is_waiting) {
-	update_turn_done_button(0);	/* stress the slow player! */
-      }
-    }
-
-    if(do_focus_animation) {
-      blink_active_unit();
-    }
-
-    if (flip) {
-      update_timeout_label();
-      if (get_seconds_to_turndone() > 0) {
-	set_seconds_to_turndone(get_seconds_to_turndone() - 1);
-      } else {
-	set_seconds_to_turndone(0);
-      }
-    }
-
-    flip = !flip;
-  }
-#endif
-  
   /* button pressed */
-  if (button_behavior.button_down_ticks) {
+  if (button_behavior.counting) {
     if (((SDL_GetTicks() - button_behavior.button_down_ticks) >= MB_MEDIUM_HOLD_DELAY)
       && ((SDL_GetTicks() - button_behavior.button_down_ticks) < MB_LONG_HOLD_DELAY)) {
       
@@ -516,10 +503,8 @@ int FilterMouseMotionEvents(const SDL_Event *event)
 {
   if (event->type == SDL_MOUSEMOTION) {
     static int x = 0, y = 0;
-    if((MOVE_STEP_X && (event->motion.x - x > MOVE_STEP_X
-      			|| x - event->motion.x > MOVE_STEP_X)) ||
-      (MOVE_STEP_Y && (event->motion.y - y > MOVE_STEP_Y
-    			|| y - event->motion.y > MOVE_STEP_Y))) {
+    if ( ((MOVE_STEP_X > 0) && (abs(event->motion.x - x) >= MOVE_STEP_X)) ||
+         ((MOVE_STEP_Y > 0) && (abs(event->motion.y - y) >= MOVE_STEP_Y)) ) {
       x = event->motion.x;
       y = event->motion.y;
       return(1);    /* Catch it */
@@ -561,7 +546,7 @@ Uint16 gui_event_loop(void *pData,
       tv.tv_usec = 10000;/* 10ms*/
     
       result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
-      if(result < 0) {
+      if (result < 0) {
         if (errno != EINTR) {
 	  break;
         } else {
@@ -584,14 +569,9 @@ Uint16 gui_event_loop(void *pData,
     }
     
     if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
-      if (widget_info_counter || autoconnect) {
-        if(widget_info_counter > 8) {
-          SDL_PushEvent(pInfo_User_Event);
-          widget_info_counter = 0;
-        } else {
-          widget_info_counter++;
-          SDL_PushEvent(pAnim_User_Event);
-        }
+      if (autoconnect) {
+        widget_info_counter++;
+        SDL_PushEvent(pAnim_User_Event);
       } else {
         SDL_PushEvent(pAnim_User_Event);
       }
@@ -603,133 +583,146 @@ Uint16 gui_event_loop(void *pData,
       
       t1 = SDL_GetTicks();
     }
+
+    if (widget_info_counter > 0) {
+      SDL_PushEvent(pInfo_User_Event);
+      widget_info_counter = 0;
+    }
     
     /* ========================================= */
     
-    if(loop_action) {
+    if (loop_action) {
       loop_action(pData);
     }
     
     /* ========================================= */
     
-    while(SDL_PollEvent(&Main.event) == 1) {
+    while (SDL_PollEvent(&Main.event) == 1) {
+      
       switch (Main.event.type) {
-      case SDL_QUIT:
-	abort();
-      break;
-    
-      case SDL_KEYUP:
-        switch (Main.event.key.keysym.sym) {
-	  /* find if Shifts are released */
-	  case SDLK_RSHIFT:
-	    RSHIFT = FALSE;
-	  break;
-	  case SDLK_LSHIFT:
-	    LSHIFT = FALSE;
-	  break;
-	  case SDLK_LCTRL:
-	    LCTRL = FALSE;
-	  break;
-	  case SDLK_RCTRL:
-	    RCTRL = FALSE;
-	  break;
-	  case SDLK_LALT:
-	    LALT = FALSE;
-	  break;
-	  default:
-	    if(key_up_handler) {
-	      ID = key_up_handler(Main.event.key.keysym, pData);
-	    }
-	  break;
-	}
+        
+        case SDL_QUIT:
+          abort();
         break;
-      case SDL_KEYDOWN:
-	switch(Main.event.key.keysym.sym) {
-	  case SDLK_PRINT:
-	    freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
-	    my_snprintf(schot, sizeof(schot), "schot0%d.bmp", schot_nr++);
-	    SDL_SaveBMP(Main.screen, schot);
-	  break;
-	  
-  	  case SDLK_RSHIFT:
-	    /* Right Shift is Pressed */
-	    RSHIFT = TRUE;
-	  break;
-	    
-	  case SDLK_LSHIFT:
-	    /* Left Shift is Pressed */
-	    LSHIFT = TRUE;
-	  break;
-	    
-	  case SDLK_LCTRL:
-	    /* Left CTRL is Pressed */
-	    LCTRL = TRUE;
-	  break;
-	   
-          case SDLK_RCTRL:
-	    /* Right CTRL is Pressed */
-	    RCTRL = TRUE;
-	  break;
-	  
-	  case SDLK_LALT:
-	    /* Left ALT is Pressed */
-	    LALT = TRUE;
-	  break;
-	  
-          default:
-	    if(key_down_handler) {
-	      ID = key_down_handler(Main.event.key.keysym, pData);
-	    }
-	  break;
-	}
-      break;
-      case SDL_MOUSEBUTTONDOWN:
-        if(mouse_button_down_handler) {
-	  ID = mouse_button_down_handler(&Main.event.button, pData);
-	}	
-      break;
-      case SDL_MOUSEBUTTONUP:
-	if(mouse_button_up_handler) {
-	  ID = mouse_button_up_handler(&Main.event.button, pData);
-	}
-      break;
-      case SDL_MOUSEMOTION:
-	if(mouse_motion_handler) {
-	  ID = mouse_motion_handler(&Main.event.motion, pData);
-	}	
-      break;
-      case SDL_USEREVENT:
-        switch(Main.event.user.code) {
-	  case NET:
-            input_from_server(net_socket);
-	  break;
-	  case ANIM:
-	    game_focused_unit_anim();
-	    animate_mouse_cursor();
-            draw_mouse_cursor();
-	  break;
-	  case SHOW_WIDGET_INFO_LABBEL:
-	    draw_widget_info_label();
-	  break;
-	  case TRY_AUTO_CONNECT:
-	    if (try_to_autoconnect()) {
-	      pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
-	      autoconnect = FALSE;
-	    }
-	  break;
-          case FLUSH:
-	    unqueue_flush();
-	  break;
-	  case MAP_SCROLL:
-	      scroll_mapview(scroll_dir);
-	  break;
-          case EXIT_FROM_EVENT_LOOP:
-	    return MAX_ID;
-	  default:
-	  break;
-        }    
-      break;
-	
+    
+        case SDL_KEYUP:
+          switch (Main.event.key.keysym.sym) {
+            /* find if Shifts are released */
+            case SDLK_RSHIFT:
+              RSHIFT = FALSE;
+            break;
+            case SDLK_LSHIFT:
+              LSHIFT = FALSE;
+            break;
+            case SDLK_LCTRL:
+              LCTRL = FALSE;
+            break;
+            case SDLK_RCTRL:
+              RCTRL = FALSE;
+            break;
+            case SDLK_LALT:
+              LALT = FALSE;
+            break;
+            default:
+              if(key_up_handler) {
+                ID = key_up_handler(Main.event.key.keysym, pData);
+              }
+            break;
+          }
+          break;
+          
+        case SDL_KEYDOWN:
+          switch(Main.event.key.keysym.sym) {
+            case SDLK_PRINT:
+              freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
+              my_snprintf(schot, sizeof(schot), "schot0%d.bmp", schot_nr++);
+              SDL_SaveBMP(Main.screen, schot);
+            break;
+            
+            case SDLK_RSHIFT:
+              /* Right Shift is Pressed */
+              RSHIFT = TRUE;
+            break;
+              
+            case SDLK_LSHIFT:
+              /* Left Shift is Pressed */
+              LSHIFT = TRUE;
+            break;
+              
+            case SDLK_LCTRL:
+              /* Left CTRL is Pressed */
+              LCTRL = TRUE;
+            break;
+             
+            case SDLK_RCTRL:
+              /* Right CTRL is Pressed */
+              RCTRL = TRUE;
+            break;
+            
+            case SDLK_LALT:
+              /* Left ALT is Pressed */
+              LALT = TRUE;
+            break;
+            
+            default:
+              if(key_down_handler) {
+                ID = key_down_handler(Main.event.key.keysym, pData);
+              }
+            break;
+          }
+        break;
+          
+        case SDL_MOUSEBUTTONDOWN:
+          if(mouse_button_down_handler) {
+            ID = mouse_button_down_handler(&Main.event.button, pData);
+          }	
+        break;
+          
+        case SDL_MOUSEBUTTONUP:
+          if(mouse_button_up_handler) {
+            ID = mouse_button_up_handler(&Main.event.button, pData);
+          }
+        break;
+          
+        case SDL_MOUSEMOTION:
+          if(mouse_motion_handler) {
+            ID = mouse_motion_handler(&Main.event.motion, pData);
+          }	
+        break;
+          
+        case SDL_USEREVENT:
+          switch(Main.event.user.code) {
+            case NET:
+              input_from_server(net_socket);
+            break;
+            case ANIM:
+              update_button_hold_state();
+              animate_mouse_cursor();
+              draw_mouse_cursor();
+            break;
+            case SHOW_WIDGET_INFO_LABBEL:
+              draw_widget_info_label();
+            break;
+            case TRY_AUTO_CONNECT:
+              if (try_to_autoconnect()) {
+                pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
+                autoconnect = FALSE;
+              }
+            break;
+            case FLUSH:
+              unqueue_flush();
+            break;
+            case MAP_SCROLL:
+                scroll_mapview(scroll_dir);
+            break;
+            case EXIT_FROM_EVENT_LOOP:
+              return MAX_ID;
+            break;
+            default:
+            break;
+          }    
+        break;
+          
       }
     }
     
@@ -754,10 +747,11 @@ Uint16 gui_event_loop(void *pData,
 void ui_init(void)
 {
   char device[20];
-/*  struct GUI *pInit_String = NULL;*/
+/*  struct widget *pInit_String = NULL;*/
   SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
 
+  button_behavior.counting = FALSE;
   button_behavior.button_down_ticks = 0;
   button_behavior.hold_state = MB_HOLD_SHORT;
   button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));
@@ -774,7 +768,15 @@ void ui_init(void)
 	  SDL_VideoDriverName(device, sizeof(device)));
   
   /* create splash screen */  
-  pBgd = adj_surf(load_surf(datafilename("misc/intro.png")));
+#ifdef SMALL_SCREEN
+  {
+    SDL_Surface *pTmpSurf = load_surf(datafilename("misc/intro.png"));
+    pBgd = zoomSurface(pTmpSurf, DEFAULT_ZOOM, DEFAULT_ZOOM, 0);
+    FREESURFACE(pTmpSurf);
+  }
+#else
+  pBgd = load_surf(datafilename("misc/intro.png"));
+#endif
   
   if(pBgd && SDL_GetVideoInfo()->wm_available) {
     set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
@@ -801,7 +803,6 @@ void ui_init(void)
       blit_entire_src(pBgd, Main.map, (Main.map->w - pBgd->w) / 2,
     				      (Main.map->h - pBgd->h) / 2);
       FREESURFACE(pBgd);
-      SDL_Client_Flags |= CF_TOGGLED_FULLSCREEN;
     } else {
       SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
       SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
@@ -829,11 +830,9 @@ void ui_init(void)
   copy_chars_to_string16(pInit_String->string16,
   			_("Waiting for the beginning of the game"));
 
-  init_gui_list(ID_WAITING_LABEL, pInit_String);
 #endif    
 
   flush_all();
-  init_gui_list(ID_WAITING_LABEL, fc_calloc(1, sizeof(struct GUI)));
 }
 
 /**************************************************************************
@@ -902,7 +901,7 @@ void ui_main(int argc, char *argv[])
                        CF_DRAW_PLAYERS_CEASEFIRE_STATUS|
                        CF_DRAW_PLAYERS_PEACE_STATUS|
                        CF_DRAW_PLAYERS_ALLIANCE_STATUS);
-  
+                       
   tileset_load_tiles(tileset);
   tileset_use_prefered_theme(tileset);
       
@@ -915,34 +914,37 @@ void ui_main(int argc, char *argv[])
 
   clear_double_messages_call();
     
-  create_units_order_widgets();
-
   setup_auxiliary_tech_icons();
   
-  if((SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) == CF_TOGGLED_FULLSCREEN) {
+  if (gui_sdl_fullscreen) {
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE
         /* set 320x240 fullscreen */
-        set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
+        set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+                       SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
       #else
         /* small screen on desktop -> don't set 320x240 fullscreen mode */
-        set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+        set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+                       SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
       #endif
     #else
-    set_video_mode(800, 600, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
-    SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
+      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+                     SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     #endif
     
   } else {
     
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE    
-      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
+      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+                     SDL_SWSURFACE | SDL_ANYFORMAT);
       #else
-      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+                     SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
       #endif
     #else
-    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+    set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
     #endif
     
 #if 0    
@@ -952,18 +954,11 @@ void ui_main(int argc, char *argv[])
     center_main_window_on_screen();
 #endif
   }
-    
+
   /* SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv"); */
 
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();    
-  Init_MapView();
-  
-  #ifndef SMALL_SCREEN
-  init_options_button();
-  #endif
-  
-  set_new_order_widgets_dest_buffers();
   
   set_client_state(CLIENT_PRE_GAME_STATE);
 
@@ -992,7 +987,7 @@ void ui_exit()
   intel_dialog_done();  
 
   callback_list_unlink_all(callbacks);
-  free(callbacks);
+  callback_list_free(callbacks);
   
   unload_cursors();
 
@@ -1004,7 +999,7 @@ void ui_exit()
   
   free_font_system();
   theme_free(theme);
-  
+
   quit_sdl();
 }
 

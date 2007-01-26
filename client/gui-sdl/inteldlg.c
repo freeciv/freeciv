@@ -28,12 +28,12 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "mapview.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
+#include "sprite.h"
+#include "widget.h"
 
 #include "inteldlg.h"
 
@@ -87,33 +87,39 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 /****************************************************************
 ...
 *****************************************************************/
-static int intel_window_dlg_callback(struct GUI *pWindow)
+static int intel_window_dlg_callback(struct widget *pWindow)
 {
-  struct intel_dialog *pSelectedDialog = get_intel_dialog(pWindow->data.player);
-
-  return std_move_window_group_callback(pSelectedDialog->pdialog->pBeginWidgetList,
-                                                                     pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct intel_dialog *pSelectedDialog = get_intel_dialog(pWindow->data.player);
+  
+    move_window_group(pSelectedDialog->pdialog->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
-static int tech_callback(struct GUI *pWidget)
+static int tech_callback(struct widget *pWidget)
 {
   /* get tech help - PORT ME */
   return -1;
 }
 
-static int spaceship_callback(struct GUI *pWidget)
+static int spaceship_callback(struct widget *pWidget)
 {
-  struct player *pPlayer = pWidget->data.player;
-  popdown_intel_dialog(pPlayer);
-  popup_spaceship_dialog(pPlayer);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct player *pPlayer = pWidget->data.player;
+    popdown_intel_dialog(pPlayer);
+    popup_spaceship_dialog(pPlayer);
+  }
   return -1;
 }
 
 
-static int exit_intel_dlg_callback(struct GUI *pWidget)
+static int exit_intel_dlg_callback(struct widget *pWidget)
 {
-  popdown_intel_dialog(pWidget->data.player);
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_intel_dialog(pWidget->data.player);
+    flush_dirty();
+  }
   return -1;
 }
 
@@ -188,8 +194,8 @@ void update_intel_dialog(struct player *p)
 {
   struct intel_dialog *pdialog = get_intel_dialog(p);
       
-  struct GUI *pWindow = NULL, *pBuf = NULL, *pLast;
-  SDL_Surface *pLogo = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL, *pLast;
+  SDL_Surface *pLogo = NULL, *pTmpSurf = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   SDL_String16 *pStr;
   SDL_Rect dst;
@@ -208,12 +214,12 @@ void update_intel_dialog(struct player *p)
                                             pdialog->pdialog->pEndWidgetList);
     }
         
-    h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
+    h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
   
     pStr = create_str16_from_char(_("Foreign Intelligence Report") , adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     
-    pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
       
     pWindow->action = intel_window_dlg_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
@@ -225,7 +231,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                                  WF_DRAW_THEME_TRANSPARENT);
+                                                  WF_RESTORE_BACKGROUND);
     w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_intel_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -235,12 +241,12 @@ void update_intel_dialog(struct player *p)
     add_to_gui_list(ID_BUTTON, pBuf);
     /* ---------- */
     
-    pLogo = GET_SURF(get_nation_flag_sprite(tileset, p->nation));
-    pText1 = ZoomSurface(pLogo, 4.0 , 4.0, 1);
+    pLogo = get_nation_flag_surface(p->nation);
+    pText1 = zoomSurface(pLogo, DEFAULT_ZOOM * 4.0 , DEFAULT_ZOOM * 4.0, 1);
     pLogo = pText1;
           
     pBuf = create_icon2(pLogo, pWindow->dst,
-          (WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|
+          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|
                                           WF_FREE_STRING|WF_FREE_THEME));
     pBuf->action = spaceship_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -297,7 +303,9 @@ void update_intel_dialog(struct player *p)
     h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
       
     /* ---------- */
-    col = w / (get_tech_icon(A_FIRST)->w + adj_size(4));
+    pTmpSurf = get_tech_icon(A_FIRST);
+    col = w / (pTmpSurf->w + adj_size(4));
+    FREESURFACE(pTmpSurf);
     n = 0;
     pLast = pBuf;
     for(i = A_FIRST; i<game.control.num_tech_types; i++) {
@@ -306,7 +314,7 @@ void update_intel_dialog(struct player *p)
         get_invention(game.player_ptr, i) != TECH_KNOWN) {
         
         pBuf = create_icon2(get_tech_icon(i), pWindow->dst,
-          (WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
+          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING | WF_FREE_THEME));
         pBuf->action = tech_callback;
         set_wstate(pBuf, FC_WS_NORMAL);
   
@@ -324,11 +332,11 @@ void update_intel_dialog(struct player *p)
     
     pdialog->pdialog->pBeginWidgetList = pBuf;
     
-    if(n) {
-      pdialog->pdialog->pBeginActiveWidgetList = pBuf;
+    if (n > 0) {
       pdialog->pdialog->pEndActiveWidgetList = pLast->prev;
+      pdialog->pdialog->pBeginActiveWidgetList = pdialog->pdialog->pBeginWidgetList;
       if(n > 2 * col) {
-        pdialog->pdialog->pActiveWidgetList = pLast->prev;
+        pdialog->pdialog->pActiveWidgetList = pdialog->pdialog->pEndActiveWidgetList;
         count = create_vertical_scrollbar(pdialog->pdialog, col, 2, TRUE, TRUE);
         h += (2 * pBuf->size.h + adj_size(10));
       } else {
@@ -339,7 +347,7 @@ void update_intel_dialog(struct player *p)
         h += (adj_size(10) + pBuf->size.h);
       }
       
-      w = MAX(w, col * pBuf->size.w + count + DOUBLE_FRAME_WH);
+      w = MAX(w, col * pBuf->size.w + count + pTheme->FR_Left->w + pTheme->FR_Right->w);
       
       my_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
       copy_chars_to_string16(pStr, cBuf);
@@ -350,18 +358,19 @@ void update_intel_dialog(struct player *p)
     FREESTRING16(pStr);
     
     /* ------------------------ */  
-    pWindow->size.x = (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - w) / 2);
-    pWindow->size.y = (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - h) / 2);
+    widget_set_position(pWindow,
+      (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - w) / 2),
+      (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - h) / 2));
     
     resize_window(pWindow, NULL, NULL, w, h);
     
     /* exit button */
     pBuf = pWindow->prev; 
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
     
     dst.x = (pWindow->size.w - pText1->w) / 2;
-    dst.y = WINDOW_TILE_HIGH + adj_size(12);
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(12);
     
     alphablit(pText1, NULL, pWindow->theme, &dst);
     dst.y += pText1->h + adj_size(10);
@@ -382,27 +391,27 @@ void update_intel_dialog(struct player *p)
       
     if(n) {
       
-      dst.x = FRAME_WH + adj_size(5);
+      dst.x = pTheme->FR_Left->w + adj_size(5);
       alphablit(pText2, NULL, pWindow->theme, &dst);
       dst.y += pText2->h + adj_size(2);
       FREESURFACE(pText2);
       
       setup_vertical_widgets_position(col,
-          pWindow->size.x + FRAME_WH,
+          pWindow->size.x + pTheme->FR_Left->w,
           pWindow->size.y + dst.y,
             0, 0, pdialog->pdialog->pBeginActiveWidgetList,
                             pdialog->pdialog->pEndActiveWidgetList);
       
       if(pdialog->pdialog->pScroll) {
         setup_vertical_scrollbar_area(pdialog->pdialog->pScroll,
-          pWindow->size.x + pWindow->size.w - FRAME_WH,
+          pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
           pWindow->size.y + dst.y,
-          pWindow->size.h - (dst.y + FRAME_WH + 1), TRUE);
+          pWindow->size.h - (dst.y + pTheme->FR_Bottom->h + 1), TRUE);
       }
     }
 
     redraw_group(pdialog->pdialog->pBeginWidgetList, pdialog->pdialog->pEndWidgetList, 0);
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
   
     flush_dirty();
     

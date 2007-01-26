@@ -41,7 +41,6 @@
 #define CF_OPTION_MAIN			(1<<5)
 #define CF_GANE_JUST_STARTED		(1<<6)
 
-#define CF_TOGGLED_FULLSCREEN		(1<<8)
 #define CF_FOCUS_ANIMATION		(1<<9)
 #define CF_CHANGED_PROD			(1<<10)
 #define CF_CHANGED_CITY_NAME		(1<<11)
@@ -67,14 +66,19 @@ enum mouse_button_hold_state {
 };
 
 struct mouse_button_behavior {
+  bool counting;
   Uint32 button_down_ticks;
   enum mouse_button_hold_state hold_state;
   SDL_MouseButtonEvent *event;
   struct tile *ptile;
 };
 
+/* client options */
+extern bool gui_sdl_fullscreen;
+extern int gui_sdl_screen_width, gui_sdl_screen_height;
+extern char gui_sdl_theme_name[512];
 
-extern struct GUI *pSellected_Widget;
+extern struct widget *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 extern bool LSHIFT;
 extern bool RSHIFT;
@@ -103,7 +107,7 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
 
 /* shrink sizes for 320x240 screen */
 #ifdef SMALL_SCREEN
-  #define adj_size(size) (size) / 2
+  #define adj_size(size) ((size) / 2)
 #else
   #define adj_size(size) (size)
 #endif

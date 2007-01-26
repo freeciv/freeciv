@@ -26,9 +26,9 @@
 
 #include "graphics_g.h"
 
+#include "SDL_rotozoom.h"
 #include "canvas.h"
 #include "gui_main.h"
-#include "gui_zoom.h"
 
 #define	RECT_LIMIT	80
 /* #define	HAVE_MMX1 */
@@ -168,19 +168,17 @@
 
 #endif /* USE_DUFFS_LOOP */
 
-struct sprite {
-  struct SDL_Surface *psurface;
-};
-
-#define GET_SURF(m_sprite)	(m_sprite->psurface)
-
 /* shrink surface on 320x240 screen*/
 #ifdef SMALL_SCREEN
-#define adj_surf(surf) ZoomSurface(surf, 0.5, 0.5, 0)
+#define DEFAULT_ZOOM 0.5
+#define adj_surf(surf) zoomSurface((surf), DEFAULT_ZOOM, DEFAULT_ZOOM, 0)
 #else
-#define adj_surf(surf) surf
+#define DEFAULT_ZOOM 1.0
+#define adj_surf(surf) SDL_DisplayFormatAlpha((surf))
 #endif
 
+struct gui_layer;
+  
 struct main {
   int rects_count;		/* update rect. array counter */
   int guis_count;		/* gui buffers array counter */
@@ -188,10 +186,31 @@ struct main {
   SDL_Surface *screen;		/* main screen buffer */
   SDL_Surface *map;		/* map buffer */
   struct canvas map_canvas;
-  SDL_Surface *gui;		/* gui buffer */
-  SDL_Surface **guis;		/* gui buffers used by sdlclient widgets window menager */
+  struct gui_layer *gui;        /* gui buffer */
+  struct gui_layer **guis;      /* gui buffers used by sdlclient widgets window menager */
   SDL_Event event;		/* main event struct */
 };
+
+extern struct main Main;
+
+/* GUI layer */
+
+struct gui_layer {
+  SDL_Rect dest_rect;  /* only x and y are used */
+  SDL_Surface *surface;  
+};
+
+struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface);
+void gui_layer_destroy(struct gui_layer **gui_layer);
+  
+struct gui_layer *get_gui_layer(SDL_Surface *surface);
+  
+struct gui_layer *add_gui_layer(int width, int height);  
+void remove_gui_layer(struct gui_layer *gui_layer);
+
+void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect);
+
+/* ---------- */
 
 int pygame_AlphaBlit(SDL_Surface *src, SDL_Rect *srcrect, 
                      SDL_Surface *dst, SDL_Rect *dstrect);
@@ -249,13 +268,8 @@ int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
   
 /* ================================================================= */
 
-extern struct main Main;
-  
-void unload_cursors(void);
-
-SDL_Surface *get_logo_gfx(void);
-SDL_Surface *get_intro_gfx(void);
-void draw_intro_gfx(void);
+SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
+			   Uint16 new_height, int smooth);
 
 SDL_Surface *make_flag_surface_smaler(SDL_Surface *pSrc);
 SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);

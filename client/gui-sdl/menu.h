@@ -25,10 +25,10 @@
 #include "menu_g.h"
 
 void create_units_order_widgets(void);
+void delete_units_order_widgets(void);
 void update_order_widget(void);
 void undraw_order_widgets(void);
 void free_bcgd_order_widgets(void);
-void set_new_order_widgets_dest_buffers(void);
 void disable_order_buttons(void);
 void enable_order_buttons(void);
 

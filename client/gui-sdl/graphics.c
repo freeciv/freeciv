@@ -40,8 +40,8 @@
 /* gui-sdl */
 #include "SDL_ttf.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "mapview.h"
+#include "themebackgrounds.h"
 #include "themespec.h"
 
 #include "graphics.h"
@@ -54,7 +54,109 @@
 
 struct main Main;
 
-static SDL_Surface *pIntro_gfx = NULL;
+struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface)
+{
+  struct gui_layer *result;
+    
+  result = fc_calloc(1, sizeof(struct gui_layer));
+    
+  result->dest_rect = (SDL_Rect){x, y, 0, 0};
+  result->surface = surface;
+  
+  return result;
+}
+
+void gui_layer_destroy(struct gui_layer **gui_layer)
+{
+  FREESURFACE((*gui_layer)->surface);
+  FC_FREE(*gui_layer);
+}
+
+struct gui_layer *get_gui_layer(SDL_Surface *surface)
+{
+  int i = 0;
+  
+  while ((i < Main.guis_count) && Main.guis[i]) {
+    if(Main.guis[i]->surface == surface) {
+      return Main.guis[i];
+    }
+    i++;
+  }
+  
+  return NULL;
+}
+
+/**************************************************************************
+  Buffer allocation function.
+  This function is call by "create_window(...)" function and allocate 
+  buffer layer for this function.
+
+  Pointer for this buffer is put in buffer array on last position that 
+  flush functions will draw this layer last.
+**************************************************************************/
+struct gui_layer *add_gui_layer(int width, int height)
+{
+  struct gui_layer *gui_layer = NULL;
+  SDL_Surface *pBuffer;
+
+  pBuffer = create_surf_alpha(/*Main.screen->w*/width, /*Main.screen->h*/height, SDL_SWSURFACE);
+  gui_layer = gui_layer_new(0, 0, pBuffer);
+  
+  /* add to buffers array */
+  if (Main.guis) {
+    int i;
+    /* find NULL element */
+    for(i = 0; i < Main.guis_count; i++) {
+      if(!Main.guis[i]) {
+        Main.guis[i] = gui_layer;
+	return gui_layer;
+      }
+    }
+    Main.guis_count++;
+    Main.guis = fc_realloc(Main.guis, Main.guis_count * sizeof(struct gui_layer *));
+    Main.guis[Main.guis_count - 1] = gui_layer;
+  } else {
+    Main.guis = fc_calloc(1, sizeof(struct gui_layer *));
+    Main.guis[0] = gui_layer;
+    Main.guis_count = 1;
+  }
+  
+  return gui_layer;
+}
+
+/**************************************************************************
+  Free buffer layer ( call by popdown_window_group_dialog(...) funct )
+  Funct. free buffer layer and cleare buffer array entry.
+**************************************************************************/
+void remove_gui_layer(struct gui_layer *gui_layer)
+{
+  int i;
+  
+  for(i = 0; i < Main.guis_count - 1; i++) {
+    if(Main.guis[i] && (Main.guis[i]== gui_layer)) {
+      gui_layer_destroy(&Main.guis[i]);
+      Main.guis[i] = Main.guis[i + 1];
+      Main.guis[i + 1] = NULL;
+    } else {
+      if(!Main.guis[i]) {
+	Main.guis[i] = Main.guis[i + 1];
+        Main.guis[i + 1] = NULL;
+      }
+    }
+  }
+
+  if (Main.guis[Main.guis_count - 1]) {
+    gui_layer_destroy(&Main.guis[Main.guis_count - 1]);
+  }
+}
+
+void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
+{
+  if (gui_layer) {
+    dest_rect->x = dest_rect->x - gui_layer->dest_rect.x;
+    dest_rect->y = dest_rect->y - gui_layer->dest_rect.y;
+  }
+}
 
 /* ============ FreeCiv sdl graphics function =========== */
 
@@ -85,7 +187,7 @@ SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
 					      pRect ? pRect->w : pSource->w,
 					      pRect ? pRect->h : pSource->h,
 					      SDL_SWSURFACE);
-  if (alphablit(pSource, pRect, pNew, NULL)) {
+  if (alphablit(pSource, pRect, pNew, NULL) != 0) {
     FREESURFACE(pNew);
   }
   
@@ -153,6 +255,8 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
     FREESURFACE(pMask);
   }
 
+  FREESURFACE(pSrc); /* result of SDL_DisplayFormatAlpha() */
+  
   return pDest;
 }
 /**************************************************************************
@@ -174,7 +278,7 @@ SDL_Surface *load_surf(const char *pFname)
   
   if(Main.screen) {
     SDL_Surface *pNew_sur;
-    if ((pNew_sur = SDL_DisplayFormat(pBuf)) == NULL) {
+    if ((pNew_sur = SDL_DisplayFormatAlpha(pBuf)) == NULL) {
       freelog(LOG_ERROR, _("load_surf: Unable to convert file %s "
 			 "into screen's format!"), pFname);
     } else {
@@ -291,7 +395,13 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
   the per pixel alpha
 **************************************************************************/
 int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect) {
-  return SDL_FillRect(pSurf, dstrect, SDL_MapRGBA(pSurf->format, 0, 0, 0, 0));
+  /* SDL_FillRect might change the rectangle, so we create a copy */
+  if (dstrect) {
+    SDL_Rect _dstrect = *dstrect;
+    return SDL_FillRect(pSurf, &_dstrect, SDL_MapRGBA(pSurf->format, 0, 0, 0, 0));
+  } else {
+    return SDL_FillRect(pSurf, NULL, SDL_MapRGBA(pSurf->format, 0, 0, 0, 0));
+  }
 }
 
 /**************************************************************************
@@ -913,7 +1023,7 @@ void init_sdl(int iFlags)
 void quit_sdl(void)
 {
   FC_FREE(Main.guis);
-  FREESURFACE(Main.gui);
+  gui_layer_destroy(&Main.gui);
   FREESURFACE(Main.map);
 }
 
@@ -922,7 +1032,6 @@ void quit_sdl(void)
 **************************************************************************/
 int set_video_mode(int iWidth, int iHeight, int iFlags)
 {
-
   /* find best bpp */
   int iDepth = SDL_GetVideoInfo()->vfmt->BitsPerPixel;
 
@@ -961,11 +1070,15 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   FREESURFACE(Main.map);
   Main.map = SDL_DisplayFormat(Main.screen);
   
-  FREESURFACE(Main.gui);
-  Main.gui = SDL_DisplayFormatAlpha(Main.screen);
+  if (Main.gui) {
+    FREESURFACE(Main.gui->surface);
+    Main.gui->surface = create_surf_alpha(Main.screen->w, Main.screen->h, SDL_SWSURFACE);
+  } else {
+    Main.gui = add_gui_layer(Main.screen->w, Main.screen->h);
+  }
   
-  clear_surface(Main.gui, NULL);
-
+  clear_surface(Main.gui->surface, NULL);
+ 
   return 0;
 }
 
@@ -3195,6 +3308,62 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect)
 	  && (y >= rect.y) && (y < rect.y + rect.h));
 }
 
+/**************************************************************************
+  Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
+  off and colorkey is set to 0 this black color is trasparent.
+  To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
+  (first collor != 0 in 16 bit coding).
+**************************************************************************/
+bool correct_black(SDL_Surface * pSrc)
+{
+  bool ret = 0;
+  register int x;
+  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
+    
+    register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
+    Uint32 Amask = pSrc->format->Amask;
+    
+    Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
+    Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
+
+    int end = pSrc->w * pSrc->h;
+    
+    /* for 32 bit color coding */
+
+    lock_surf(pSrc);
+
+    for (x = 0; x < end; x++, pPixels++) {
+      if (*pPixels == black) {
+	*pPixels = new_black;
+      } else {
+	if (!ret) {
+	  alpha = *pPixels & Amask;
+	  if (alpha && (alpha != Amask)) {
+	    ret = 1;
+	  }
+	}
+      }
+    }
+
+    unlock_surf(pSrc);
+  } else {
+    if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
+      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
+	if (x != pSrc->format->colorkey &&
+	  pSrc->format->palette->colors[x].r < 4 &&
+	  pSrc->format->palette->colors[x].g < 4 &&
+	  pSrc->format->palette->colors[x].b < 4) {
+	    pSrc->format->palette->colors[x].r = 4;
+	    pSrc->format->palette->colors[x].g = 4;
+	    pSrc->format->palette->colors[x].b = 4;
+	  }
+      }
+    }
+  }
+
+  return ret;
+}
+
 /* ===================================================================== */
 
 /**************************************************************************
@@ -3487,47 +3656,17 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Surface * get_intro_gfx(void)
+SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
+			   Uint16 new_height, int smooth)
 {
-  if(!pIntro_gfx) {
-   pIntro_gfx = load_surf(tileset_main_intro_filename(tileset));
-  }
-  return pIntro_gfx;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-SDL_Surface * get_logo_gfx(void)
-{
-  SDL_Surface *pLogo;
-        
-  SDL_Surface *pLogo_Surf = adj_surf(GET_SURF(theme_lookup_sprite_tag_alt(
-                                  theme, "theme.logo", "", TRUE, "", "")));
-  assert(pLogo_Surf != NULL);
-  
-  pLogo = SDL_DisplayFormatAlpha(pLogo_Surf);
-  
-  return pLogo;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void draw_intro_gfx(void)
-{
-  SDL_Surface *pIntro = get_intro_gfx();
-
-  if(pIntro->w != Main.screen->w)
-  {
-    SDL_Surface *pTmp = ResizeSurface(pIntro, Main.screen->w, Main.screen->h,1);
-    FREESURFACE(pIntro);
-    pIntro = pTmp;
-    pIntro_gfx = pTmp;
+  if (pSrc == NULL) {
+    return NULL;
   }
   
-  /* draw intro gfx center in screen */
-  alphablit(pIntro, NULL, Main.map, NULL);
+  return zoomSurface((SDL_Surface*)pSrc,
+                     (double)new_width / pSrc->w,
+                     (double)new_height / pSrc->h,
+                     smooth);
 }
 
 /* ============ FreeCiv game graphics function =========== */
@@ -3549,67 +3688,11 @@ bool overhead_view_supported(void)
 }
 
 /**************************************************************************
-    Now it setup only paths to those files.
+  ...
  **************************************************************************/
 void load_intro_gfx(void)
 {
-  
-}
-
-/**************************************************************************
-  Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
-  off and colorkey is set to 0 this black color is trasparent.
-  To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
-  (first collor != 0 in 16 bit coding).
-**************************************************************************/
-bool correct_black(SDL_Surface * pSrc)
-{
-  bool ret = 0;
-  register int x;
-  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
-    
-    register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
-    Uint32 Amask = pSrc->format->Amask;
-    
-    Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
-    Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
-
-    int end = pSrc->w * pSrc->h;
-    
-    /* for 32 bit color coding */
-
-    lock_surf(pSrc);
-
-    for (x = 0; x < end; x++, pPixels++) {
-      if (*pPixels == black) {
-	*pPixels = new_black;
-      } else {
-	if (!ret) {
-	  alpha = *pPixels & Amask;
-	  if (alpha && (alpha != Amask)) {
-	    ret = 1;
-	  }
-	}
-      }
-    }
-
-    unlock_surf(pSrc);
-  } else {
-    if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
-      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
-	if (x != pSrc->format->colorkey &&
-	  pSrc->format->palette->colors[x].r < 4 &&
-	  pSrc->format->palette->colors[x].g < 4 &&
-	  pSrc->format->palette->colors[x].b < 4) {
-	    pSrc->format->palette->colors[x].r = 4;
-	    pSrc->format->palette->colors[x].g = 4;
-	    pSrc->format->palette->colors[x].b = 4;
-	  }
-      }
-    }
-  }
-
-  return ret;
+  /* nothing */
 }
 
 /**************************************************************************
@@ -3617,5 +3700,5 @@ bool correct_black(SDL_Surface * pSrc)
 **************************************************************************/
 void free_intro_radar_sprites(void)
 {
-  FREESURFACE(pIntro_gfx);
+  /* nothing */
 }

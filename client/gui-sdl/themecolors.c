@@ -135,6 +135,7 @@ static char *color_names[] = {
   "sciencedlg_med_techicon_bg",
   "sciencedlg_text",
   "sellimpr_text",
+  "unitsrep_frame",
   "unitsrep_text",
   "unitupgrade_text",
   "userpasswddlg_frame",  

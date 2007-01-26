@@ -25,8 +25,10 @@
 
 /* gui-sdl */
 #include "gui_id.h"
-#include "gui_stuff.h"
+#include "graphics.h"
 #include "mapview.h"
+#include "gui_tilespec.h"
+#include "widget.h"
 
 #include "dialogs.h"
 
@@ -42,19 +44,24 @@ static int caravan_unit_id;
 /* ====================================================================== */
 static struct SMALL_DLG *pCaravan_Dlg = NULL;
 
-static int caravan_dlg_window_callback(struct GUI *pWindow)
+static int caravan_dlg_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pCaravan_Dlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pCaravan_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-static int caravan_establish_trade_callback(struct GUI *pWidget)
+static int caravan_establish_trade_callback(struct widget *pWidget)
 {
-  dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
-  
-  popdown_caravan_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
+    
+    popdown_caravan_dialog();
+  }
   return -1;
 }
 
@@ -62,18 +69,22 @@ static int caravan_establish_trade_callback(struct GUI *pWidget)
 /****************************************************************
 ...
 *****************************************************************/
-static int caravan_help_build_wonder_callback(struct GUI *pWidget)
+static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
-  dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
-  
-  popdown_caravan_dialog();  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
+    
+    popdown_caravan_dialog();  
+  }
   return -1;
 }
 
-static int exit_caravan_dlg_callback(struct GUI *pWidget)
+static int exit_caravan_dlg_callback(struct widget *pWidget)
 {
-  popdown_caravan_dialog();
-  process_caravan_arrival(NULL);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_caravan_dialog();
+    process_caravan_arrival(NULL);
+  }
   return -1;
 }
   
@@ -98,7 +109,7 @@ void popdown_caravan_dialog(void)
 void popup_caravan_dialog(struct unit *pUnit,
 			  struct city *pHomecity, struct city *pDestcity)
 {
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   int w = 0, h;
   struct CONTAINER *pCont;
@@ -117,7 +128,7 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   pCaravan_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   is_unit_move_blocked = TRUE;
-  h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   my_snprintf(cBuf, sizeof(cBuf), _("Your caravan has arrived at %s"),
 							  pDestcity->name);
@@ -126,7 +137,7 @@ void popup_caravan_dialog(struct unit *pUnit,
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
     
   pWindow->action = caravan_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -195,26 +206,26 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   /* setup window size and start position */
   
-  pWindow->size.w = w + DOUBLE_FRAME_WH;
+  pWindow->size.w = pTheme->FR_Left->w + w + pTheme->FR_Right->w;
   pWindow->size.h = h;
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow,
-  		w + DOUBLE_FRAME_WH, h, pUnit->tile);
+  		pTheme->FR_Left->w + w + pTheme->FR_Right->w, h, pUnit->tile);
   resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
   
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + FRAME_WH,
-  	pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2), w, 0,
+	pWindow->size.x + pTheme->FR_Left->w,
+  	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
 	pCaravan_Dlg->pBeginWidgetList, pBuf);
   /* --------------------- */
   /* redraw */
   redraw_group(pCaravan_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size, FALSE);
+  widget_flush(pWindow);
 }
 
 /**************************************************************************

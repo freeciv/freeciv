@@ -30,12 +30,12 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
 #include "inteldlg.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "sprite.h"
+#include "themespec.h"
+#include "widget.h"
 
 #include "plrdlg.h"
 
@@ -48,14 +48,16 @@
 
 static struct SMALL_DLG  *pPlayers_Dlg = NULL;
 
-static int exit_players_dlg_callback(struct GUI *pWidget)
+static int exit_players_dlg_callback(struct widget *pWidget)
 {
-  popdown_players_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_players_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 
-static int player_callback(struct GUI *pWidget)
+static int player_callback(struct widget *pWidget)
 {
   struct player *pPlayer = pWidget->data.player;
   switch(Main.event.button.button) {
@@ -84,82 +86,94 @@ static int player_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int players_window_dlg_callback(struct GUI *pWindow)
+static int players_window_dlg_callback(struct widget *pWindow)
 {
-  if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-    sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
-    update_players_dialog();
-  } else {
-    if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size, FALSE);
-    }      
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
+      sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
+      update_players_dialog();
+    } else {
+      if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
+        widget_flush(pWindow);
+      }      
+    }
   }
   return -1;
 }
 
-static int toggle_draw_war_status_callback(struct GUI *pWidget)
+static int toggle_draw_war_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
-static int toggle_draw_ceasefire_status_callback(struct GUI *pWidget)
+static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
-static int toggle_draw_pease_status_callback(struct GUI *pWidget)
+static int toggle_draw_pease_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
-static int toggle_draw_alliance_status_callback(struct GUI *pWidget)
+static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
-static int toggle_draw_neutral_status_callback(struct GUI *pWidget)
+static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct GUI *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
@@ -177,13 +191,14 @@ static bool have_diplomat_info_about(struct player *pPlayer)
 void update_players_dialog(void)
 {
   if(pPlayers_Dlg) {
-    struct GUI *pPlayer0, *pPlayer1;
+    struct widget *pPlayer0, *pPlayer1;
     struct player *pPlayer;
     char cBuf[128], *state, *team;
-    int idle, x0, y0, x1, y1;
+    int idle;
+    SDL_Rect dst0, dst1;
           
     /* redraw window */
-    redraw_widget(pPlayers_Dlg->pEndWidgetList);
+    widget_redraw(pPlayers_Dlg->pEndWidgetList);
     
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     pPlayer0 = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
@@ -235,43 +250,45 @@ void update_players_dialog(void)
           
       /* now add some eye candy ... */
       if(pPlayer1 != pPlayers_Dlg->pBeginWidgetList) {
-	x0 = pPlayer0->size.x + pPlayer0->size.w / 2;
-        y0 = pPlayer0->size.y + pPlayer0->size.h / 2;
+        dst0.x = pPlayer0->size.x + pPlayer0->size.w / 2;
+        dst0.y = pPlayer0->size.y + pPlayer0->size.h / 2;
+
         do{
           pPlayer1 = pPlayer1->prev;
 	  if (have_diplomat_info_about(pPlayer) ||
 	     have_diplomat_info_about(pPlayer1->data.player)) {
-            x1 = pPlayer1->size.x + pPlayer1->size.w / 2;
-            y1 = pPlayer1->size.y + pPlayer1->size.h / 2;
+            dst1.x = pPlayer1->size.x + pPlayer1->size.w / 2;
+            dst1.y = pPlayer1->size.y + pPlayer1->size.h / 2;
+               
             switch (pplayer_get_diplstate(pPlayer, pPlayer1->data.player)->type) {
 	      case DS_ARMISTICE:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
-	          putline(pPlayer1->dst, x0, y0, x1, y1,
-                    map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+                    map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE)));
 	        }
 	      break;
               case DS_WAR:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
-	          putline(pPlayer1->dst, x0, y0, x1, y1, 
-                         map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR)));		  
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+                         map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR)));		  
 	        }
               break;
 	      case DS_CEASEFIRE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
-	          putline(pPlayer1->dst, x0, y0, x1, y1,
-	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE)));
 	        }
               break;
               case DS_PEACE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
-	          putline(pPlayer1->dst, x0, y0, x1, y1,
-	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE)));
 	        }
               break;
 	      case DS_ALLIANCE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-	          putline(pPlayer1->dst, x0, y0, x1, y1,
-	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE)));
+	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
+	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE)));
 	        }
               break;
               default:
@@ -289,7 +306,7 @@ void update_players_dialog(void)
     /* redraw */
     redraw_group(pPlayers_Dlg->pBeginWidgetList,
     			pPlayers_Dlg->pEndWidgetList->prev, 0);
-    sdl_dirty_rect(pPlayers_Dlg->pEndWidgetList->size);
+    widget_mark_dirty(pPlayers_Dlg->pEndWidgetList);
   
     flush_dirty();
   }
@@ -300,7 +317,7 @@ void update_players_dialog(void)
 **************************************************************************/
 void popup_players_dialog(bool raise)
 {
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL, *pZoomed = NULL;
   SDL_String16 *pStr;
   SDL_Rect dst;
@@ -329,7 +346,7 @@ void popup_players_dialog(bool raise)
   pStr = create_str16_from_char(_("Players"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
     
   pWindow->action = players_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -339,7 +356,7 @@ void popup_players_dialog(bool raise)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -352,35 +369,35 @@ void popup_players_dialog(bool raise)
       case DS_ARMISTICE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_neutral_status_callback;
 	pBuf->key = SDLK_n;
       break;
       case DS_WAR:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_war_status_callback;
 	pBuf->key = SDLK_w;
       break;
       case DS_CEASEFIRE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_ceasefire_status_callback;
 	pBuf->key = SDLK_c;
       break;
       case DS_PEACE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_pease_status_callback;
 	pBuf->key = SDLK_p;
       break;
       case DS_ALLIANCE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_alliance_status_callback;
 	pBuf->key = SDLK_a;
       break;
@@ -404,11 +421,11 @@ void popup_players_dialog(bool raise)
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
-    pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
-    pZoomed = ZoomSurface(pLogo, 3.0 - n * 0.05, 3.0 - n * 0.05 , 1);
+    pLogo = get_nation_flag_surface(pPlayer->nation);
+    pZoomed = zoomSurface(pLogo, DEFAULT_ZOOM * (3.0 - n * 0.05), DEFAULT_ZOOM * (3.0 - n * 0.05), 1);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
-    	(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));
+    	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));
     
     pBuf->string16 = pStr;
       
@@ -442,12 +459,13 @@ void popup_players_dialog(bool raise)
   w = adj_size(500);
   h = adj_size(400);
   r = MIN(w,h);
-  r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2) + WINDOW_TILE_HIGH + FRAME_WH);
+  r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2) + WINDOW_TITLE_HEIGHT + pTheme->FR_Bottom->h);
   r /= 2;
   a = (2.0 * M_PI) / n;
-   
-  pWindow->size.x = (Main.screen->w - w) / 2;
-  pWindow->size.y = (Main.screen->h - h) / 2;
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - w) / 2,
+                      (Main.screen->h - h) / 2);
   
   resize_window(pWindow, NULL, NULL, w, h);
   
@@ -456,10 +474,10 @@ void popup_players_dialog(bool raise)
   /* exit button */
   pBuf = pWindow->prev;
   
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
     
-  n = WINDOW_TILE_HIGH + adj_size(4);
+  n = WINDOW_TITLE_HEIGHT + adj_size(4);
   pStr = create_string16(NULL, 0, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -539,19 +557,21 @@ void popdown_players_dialog(void)
 /* ============================== SHORT =============================== */
 static struct ADVANCED_DLG  *pShort_Players_Dlg = NULL;
 
-static int players_nations_window_dlg_callback(struct GUI *pWindow)
+static int players_nations_window_dlg_callback(struct widget *pWindow)
 {
   return -1;
 }
 
-static int exit_players_nations_dlg_callback(struct GUI *pWidget)
+static int exit_players_nations_dlg_callback(struct widget *pWidget)
 {
-  popdown_players_nations_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_players_nations_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 
-static int player_nation_callback(struct GUI *pWidget)
+static int player_nation_callback(struct widget *pWidget)
 {
   struct player *pPlayer = pWidget->data.player;
   popdown_players_nations_dialog();
@@ -586,7 +606,7 @@ static int player_nation_callback(struct GUI *pWidget)
 **************************************************************************/
 void popup_players_nations_dialog(void)
 {
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128], *state;
@@ -598,14 +618,14 @@ void popup_players_nations_dialog(void)
     return;
   }
      
-  h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pStr = create_str16_from_char(_("Nations") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
     
   pWindow->action = players_nations_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -616,7 +636,7 @@ void popup_players_nations_dialog(void)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -661,10 +681,10 @@ void popup_players_nations_dialog(void)
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= TTF_STYLE_BOLD;
    
-      pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
+      pLogo = get_nation_flag_surface(pPlayer->nation);
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
-    	(/*WF_FREE_THEME|*/WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    	(/*WF_FREE_THEME|*/WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
                       
       /* now add some eye candy ... */
       switch (pDS->type) {
@@ -721,7 +741,7 @@ void popup_players_nations_dialog(void)
     }
   }
   pShort_Players_Dlg->pBeginWidgetList = pBuf;
-  pShort_Players_Dlg->pBeginActiveWidgetList = pBuf;
+  pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->pBeginWidgetList;
   pShort_Players_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
   pShort_Players_Dlg->pActiveWidgetList = pShort_Players_Dlg->pEndActiveWidgetList;
   
@@ -736,7 +756,7 @@ void popup_players_nations_dialog(void)
     n = units_h;
     w += n;
     
-    units_h = 20 * pBuf->size.h + WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
+    units_h = 20 * pBuf->size.h + WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
     
   } else {
     units_h = h;
@@ -744,20 +764,20 @@ void popup_players_nations_dialog(void)
         
   /* ---------- */
   
-  w += DOUBLE_FRAME_WH;
+  w += (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   h = units_h;
 
-  pWindow->size.x = ((Main.event.motion.x + w < pWindow->dst->w) ?
-                     (Main.event.motion.x + adj_size(10)) : (pWindow->dst->w - w - adj_size(10)));
-  pWindow->size.y = 
-      ((Main.event.motion.y - (WINDOW_TILE_HIGH + adj_size(2)) + h < pWindow->dst->h) ?
-             (Main.event.motion.y - (WINDOW_TILE_HIGH + adj_size(2))) :
-             (pWindow->dst->h - h - adj_size(10)));
-      
+  widget_set_position(pWindow,
+    ((Main.event.motion.x + w < Main.screen->w) ?
+      (Main.event.motion.x + adj_size(10)) : (Main.screen->w - w - adj_size(10))),
+    ((Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2)) + h < Main.screen->h) ?
+      (Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2))) :
+      (Main.screen->h - h - adj_size(10))));
+  
   resize_window(pWindow, NULL, NULL, w, h);
   
-  w -= DOUBLE_FRAME_WH;
+  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   if (pShort_Players_Dlg->pScroll)
   {
@@ -766,27 +786,27 @@ void popup_players_nations_dialog(void)
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* cities */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + FRAME_WH, pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2),
+	pWindow->size.x + pTheme->FR_Left->w, pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
 	w, 0, pShort_Players_Dlg->pBeginActiveWidgetList, pBuf);
   
   if (pShort_Players_Dlg->pScroll)
   {
     setup_vertical_scrollbar_area(pShort_Players_Dlg->pScroll,
-	pWindow->size.x + pWindow->size.w - FRAME_WH,
-    	pWindow->size.y + WINDOW_TILE_HIGH + 1,
-    	pWindow->size.h - (FRAME_WH + WINDOW_TILE_HIGH + 1), TRUE);
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
+    	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
+    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
   }
   
   /* -------------------- */
   /* redraw */
   redraw_group(pShort_Players_Dlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   
   flush_dirty();
 }

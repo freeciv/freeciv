@@ -20,6 +20,9 @@
 
 #include "options.h"
 
+#include "themebackgrounds.h"
+#include "themecolors.h"
+
 struct sprite;			/* opaque; gui-dep */
 
 struct theme;
@@ -45,10 +48,13 @@ struct sprite* theme_lookup_sprite_tag_alt(struct theme *t,
 struct theme_color_system;
 struct theme_color_system *theme_get_color_system(const struct theme *t);
 
+struct theme_background_system;
+struct theme_background_system *theme_get_background_system(const struct theme *t);  
+
+char *themespec_gfx_filename(const char *gfx_filename);
+
 /* theme accessor functions. */
 const char *theme_get_name(const struct theme *t);
-const char *theme_main_intro_filename(const struct theme *t);
-const char *theme_mini_intro_filename(const struct theme *t);
 const char *theme_font_filename(const struct theme *t);
 int theme_default_font_size(const struct theme *t);
 

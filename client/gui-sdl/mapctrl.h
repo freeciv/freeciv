@@ -34,42 +34,53 @@
 
 #define BLOCKM_W		28
 #define BLOCKU_W                15
-#define DEFAULT_MINI_MAP_W	78 + BLOCKM_W + DOUBLE_FRAME_WH
-#define DEFAULT_MINI_MAP_H	52 + DOUBLE_FRAME_WH
-#define DEFAULT_UNITS_W		78 + BLOCKU_W + DOUBLE_FRAME_WH
-#define DEFAULT_UNITS_H		52 + DOUBLE_FRAME_WH
+#define DEFAULT_OVERVIEW_W	78
+#define DEFAULT_OVERVIEW_H	52
+#define DEFAULT_UNITS_W		(78 + BLOCKU_W)
+#define DEFAULT_UNITS_H		52
 
 #else
 
 #define BLOCKM_W		52
 #define BLOCKU_W                30
-#define DEFAULT_MINI_MAP_W	156 + BLOCKM_W + DOUBLE_FRAME_WH
-#define DEFAULT_MINI_MAP_H	104 + DOUBLE_FRAME_WH
-#define DEFAULT_UNITS_W		156 + BLOCKU_W + DOUBLE_FRAME_WH
-#define DEFAULT_UNITS_H		104 + DOUBLE_FRAME_WH
+#define DEFAULT_OVERVIEW_W	156
+#define DEFAULT_OVERVIEW_H	104
+#define DEFAULT_UNITS_W		(156 + BLOCKU_W)
+#define DEFAULT_UNITS_H		104
 
 #endif
-
-#define HIDDEN_MINI_MAP_W	BLOCKM_W + DOUBLE_FRAME_WH
-#define HIDDEN_UNITS_W		BLOCKU_W + DOUBLE_FRAME_WH
 
 extern int MINI_MAP_W;
 extern int MINI_MAP_H;
 
 void popdown_newcity_dialog(void);
 
-void Init_MapView(void);
+void popup_minimap_window(void);
+void show_minimap_window_buttons(void);
+void hide_minimap_window_buttons(void);
+void disable_minimap_window_buttons(void);
+void redraw_minimap_window_buttons(void);
+void popdown_minimap_window(void);
+
+void popup_unitinfo_window(void);
+void show_unitinfo_window_buttons(void);
+void hide_unitinfo_window_buttons(void);
+void disable_unitinfo_window_buttons(void);
+void popdown_unitinfo_window(void);
+
+void show_game_page(void);
+void close_game_page(void);
+
 void Remake_MiniMap(int w, int h);
-void reset_main_widget_dest_buffer(void);
 void set_new_units_window_pos(void);
 void set_new_mini_map_window_pos(void);
 int resize_minimap(void);
 int resize_unit_info(void);
-struct GUI * get_unit_info_window_widget(void);
-struct GUI * get_minimap_window_widget(void);
-struct GUI * get_tax_rates_widget(void);
-struct GUI * get_research_widget(void);
-struct GUI * get_revolution_widget(void);
+struct widget * get_unit_info_window_widget(void);
+struct widget * get_minimap_window_widget(void);
+struct widget * get_tax_rates_widget(void);
+struct widget * get_research_widget(void);
+struct widget * get_revolution_widget(void);
 void enable_and_redraw_find_city_button(void);
 void enable_and_redraw_revolution_button(void);
 void enable_main_widgets(void);

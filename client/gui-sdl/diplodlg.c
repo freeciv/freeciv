@@ -39,10 +39,10 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "themespec.h"
+#include "widget.h"
 
 #include "diplodlg.h"
 
@@ -137,20 +137,22 @@ void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 }
 /* ----------------------------------------------------------------------- */
 
-static int remove_clause_callback(struct GUI *pWidget)
+static int remove_clause_callback(struct widget *pWidget)
 {
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    dsend_packet_diplomacy_remove_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             (enum clause_type) ((pWidget->data.
+                                             cont->value >> 16) & 0xFFFF),
+                                             pWidget->data.cont->value & 0xFFFF);
   }
-  
-  dsend_packet_diplomacy_remove_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   (enum clause_type) ((pWidget->data.
-					   cont->value >> 16) & 0xFFFF),
-					   pWidget->data.cont->value & 0xFFFF);
   return -1;
 }
 
@@ -200,203 +202,218 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 
 /* ================================================================= */
 
-static int cancel_meeting_callback(struct GUI *pWidget)
+static int cancel_meeting_callback(struct widget *pWidget)
 {
-  dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
 					    pWidget->data.cont->id1);
+  }
   return -1;
 }
 
-static int accept_treaty_callback(struct GUI *pWidget)
+static int accept_treaty_callback(struct widget *pWidget)
 {
-  dsend_packet_diplomacy_accept_treaty_req(&aconnection,
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_diplomacy_accept_treaty_req(&aconnection,
 					   pWidget->data.cont->id1);
+  }
   return -1;
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int pact_callback(struct GUI *pWidget)
+static int pact_callback(struct widget *pWidget)
 {
-  int clause_type;
-  
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int clause_type;
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  switch(MAX_ID - pWidget->ID) {
-    case 2:
-      clause_type = CLAUSE_CEASEFIRE;
-    break;
-    case 1:
-      clause_type = CLAUSE_PEACE;
-    break;
-    default:
-      clause_type = CLAUSE_ALLIANCE;
-    break;
-  }
-  
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   clause_type, 0);
-  
-  return -1;
-}
-
-static int vision_callback(struct GUI *pWidget)
-{
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   CLAUSE_VISION, 0);
-  return -1;
-}
-
-static int embassy_callback(struct GUI *pWidget)
-{
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   CLAUSE_EMBASSY, 0);
-  return -1;
-}
-
-static int maps_callback(struct GUI *pWidget)
-{
-  int clause_type;
-  
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  switch(MAX_ID - pWidget->ID) {
-    case 1:
-      clause_type = CLAUSE_MAP;
-    break;
-    default:
-      clause_type = CLAUSE_SEAMAP;
-    break;
-  }
-
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   clause_type, 0);
-  return -1;
-}
-
-static int techs_callback(struct GUI *pWidget)
-{
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   CLAUSE_ADVANCE,
-					   (MAX_ID - pWidget->ID));
-  
-  return -1;
-}
-
-static int gold_callback(struct GUI *pWidget)
-{
-  int amount;
-  
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  if(pWidget->string16->text) {
-    char cBuf[16];
-    
-    convertcopy_to_chars(cBuf, sizeof(cBuf), pWidget->string16->text);
-    sscanf(cBuf, "%d", &amount);
-    
-    if(amount > pWidget->data.cont->value) {
-      /* max player gold */
-      amount = pWidget->data.cont->value;
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
     
-  } else {
-    amount = 0;
-  }
-  
-  if (amount > 0) {
+    switch(MAX_ID - pWidget->ID) {
+      case 2:
+        clause_type = CLAUSE_CEASEFIRE;
+      break;
+      case 1:
+        clause_type = CLAUSE_PEACE;
+      break;
+      default:
+        clause_type = CLAUSE_ALLIANCE;
+      break;
+    }
+    
     dsend_packet_diplomacy_create_clause_req(&aconnection,
-    					     pdialog->treaty.plr1->player_no,
-					     pWidget->data.cont->id0,
-					     CLAUSE_GOLD, amount);
-    
-  } else {
-    append_output_window(_("Invalid amount of gold specified."));
-  }
-  
-  if(amount || !pWidget->string16->text) {
-    copy_chars_to_string16(pWidget->string16, "0");
-    redraw_widget(pWidget);
-    flush_rect(pWidget->size, FALSE);
-  }
-  
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             clause_type, 0);
+  }  
   return -1;
 }
 
-
-static int cities_callback(struct GUI *pWidget)
+static int vision_callback(struct widget *pWidget)
 {
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+  
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_VISION, 0);
   }
+  return -1;
+}
+
+static int embassy_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
   
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,  
-					   pWidget->data.cont->id0,
-					   CLAUSE_CITY,
-					   (MAX_ID - pWidget->ID));
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_EMBASSY, 0);
+  }
+  return -1;
+}
+
+static int maps_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int clause_type;
+    
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+    
+    switch(MAX_ID - pWidget->ID) {
+      case 1:
+        clause_type = CLAUSE_MAP;
+      break;
+      default:
+        clause_type = CLAUSE_SEAMAP;
+      break;
+    }
   
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             clause_type, 0);
+  }
+  return -1;
+}
+
+static int techs_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+    
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_ADVANCE,
+                                             (MAX_ID - pWidget->ID));
+  }  
+  return -1;
+}
+
+static int gold_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int amount;
+    
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+    
+    if(pWidget->string16->text) {
+      char cBuf[16];
+      
+      convertcopy_to_chars(cBuf, sizeof(cBuf), pWidget->string16->text);
+      sscanf(cBuf, "%d", &amount);
+      
+      if(amount > pWidget->data.cont->value) {
+        /* max player gold */
+        amount = pWidget->data.cont->value;
+      }
+      
+    } else {
+      amount = 0;
+    }
+    
+    if (amount > 0) {
+      dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                               pdialog->treaty.plr1->player_no,
+                                               pWidget->data.cont->id0,
+                                               CLAUSE_GOLD, amount);
+      
+    } else {
+      append_output_window(_("Invalid amount of gold specified."));
+    }
+    
+    if(amount || !pWidget->string16->text) {
+      copy_chars_to_string16(pWidget->string16, "0");
+      widget_redraw(pWidget);
+      widget_flush(pWidget);
+    }
+  }  
   return -1;
 }
 
 
-static int dipomatic_window_callback(struct GUI *pWindow)
+static int cities_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+    
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,  
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_CITY,
+                                             (MAX_ID - pWidget->ID));
+  }  
+  return -1;
+}
+
+
+static int dipomatic_window_callback(struct widget *pWindow)
 {
   return -1;
 }
 
 static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   				struct player *pPlayer1,
-  				struct GUI *pMainWindow, bool L_R)
+  				struct widget *pMainWindow, bool L_R)
 {
   struct ADVANCED_DLG *pDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
   int hh, ww = 0, width, height, count = 0, scroll_w = 0;
   char cBuf[128];
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
+  int window_x = 0, window_y = 0;
   
   enum diplstate_type type =
 		  pplayer_get_diplstate(pPlayer0, pPlayer1)->type;
@@ -404,11 +421,11 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pCont->id0 = pPlayer0->player_no;
   pCont->id1 = pPlayer1->player_no;
   
-  hh = WINDOW_TILE_HIGH + adj_size(2);
+  hh = WINDOW_TITLE_HEIGHT + adj_size(2);
   pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(pMainWindow->dst, pStr, adj_size(100), adj_size(100), WF_FREE_DATA);
+  pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
 
   pWindow->action = dipomatic_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -425,7 +442,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   if (game.player_ptr == pPlayer0 && type != DS_ALLIANCE) {
     
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-			  _("Pacts"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+			  _("Pacts"), adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
     width = pBuf->size.w;
     height = pBuf->size.h;
@@ -436,7 +453,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     if(type != DS_CEASEFIRE) {
       my_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Cease-fire"));
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
@@ -451,7 +468,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       my_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Peace"));
   
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
@@ -466,7 +483,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       my_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Alliance"));
       
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
@@ -484,7 +501,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	_("Give shared vision"), adj_font(12),
-    		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
@@ -497,7 +514,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     /* ---------------------------- */
     /* you can't give maps if you give shared vision */
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-		_("Maps"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+		_("Maps"), adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
@@ -508,7 +525,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     my_snprintf(cBuf, sizeof(cBuf), "  %s", _("World map"));
   
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
@@ -522,7 +539,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     my_snprintf(cBuf, sizeof(cBuf), "  %s", _("Sea map"));
   
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
@@ -536,7 +553,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   if (!player_has_embassy(pPlayer1, pPlayer0)) {  
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
         _("Give embassy"), adj_font(12),
-                (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
@@ -553,7 +570,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
     my_snprintf(cBuf, sizeof(cBuf), _("Gold(max %d)"), pPlayer0->economic.gold);
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-			  cBuf, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+			  cBuf, adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
@@ -562,7 +579,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
     pBuf = create_edit(NULL, pWindow->dst,
     	create_str16_from_char("0", adj_font(10)), 0,
-    		(WF_DRAW_THEME_TRANSPARENT|WF_FREE_STRING));
+    		(WF_RESTORE_BACKGROUND|WF_FREE_STRING));
     pBuf->data.cont = pCont;
     pBuf->action = gold_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -585,7 +602,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	 get_invention(pPlayer1, i) == TECH_REACHABLE)) {
 	     
 	     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-		_("Advances"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+		_("Advances"), adj_font(12), WF_RESTORE_BACKGROUND);
              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
@@ -595,7 +612,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advances[i].name);
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
-	         (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
@@ -620,7 +637,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advances[i].name);
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
-	         (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
@@ -663,7 +680,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     if(i > 0) {
       
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-		_("Cities"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+		_("Cities"), adj_font(12), WF_RESTORE_BACKGROUND);
       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
       pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
@@ -677,7 +694,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	my_snprintf(cBuf, sizeof(cBuf), "  %s", city_list_ptrs[j]->name);
   
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
-	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 	width = MAX(width, pBuf->size.w);
 	height = MAX(height, pBuf->size.h);
@@ -689,21 +706,20 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
         add_to_gui_list(MAX_ID - city_list_ptrs[j]->id, pBuf);
 	count++;      
       }
-      
-      FC_FREE(city_list_ptrs);
     }
+    FC_FREE(city_list_ptrs);    
   } /* Cities */
   
   pDlg->pBeginWidgetList = pBuf;
-  pDlg->pBeginActiveWidgetList = pBuf;
-  pDlg->pEndActiveWidgetList = pWindow->prev;
+  pDlg->pBeginActiveWidgetList = pDlg->pBeginWidgetList;
+  pDlg->pEndActiveWidgetList = pDlg->pEndWidgetList->prev;
   pDlg->pScroll = NULL;
   
-  hh = (Main.screen->h - adj_size(100) - WINDOW_TILE_HIGH - adj_size(4) - FRAME_WH);
+  hh = (Main.screen->h - adj_size(100) - WINDOW_TITLE_HEIGHT - adj_size(4) - pTheme->FR_Bottom->h);
   ww = hh < (count * height);
   
   if(ww) {
-    pDlg->pActiveWidgetList = pWindow->prev;
+    pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
     count = hh / height;
     scroll_w = create_vertical_scrollbar(pDlg, 1, count, TRUE, TRUE);
     pBuf = pWindow;
@@ -718,28 +734,30 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     } while(pBuf != pDlg->pBeginActiveWidgetList);
   }
   
-  ww = MAX(width + DOUBLE_FRAME_WH + adj_size(4) + scroll_w, adj_size(150));
+  ww = MAX(pTheme->FR_Left->w + width + pTheme->FR_Right->w + adj_size(4) + scroll_w, adj_size(150));
   hh = Main.screen->h - adj_size(100);
   
   if(L_R) {
-    pWindow->size.x = pMainWindow->size.x + pMainWindow->size.w + adj_size(20);
+    window_x = pMainWindow->dst->dest_rect.x + pMainWindow->size.w + adj_size(20);
   } else {
-    pWindow->size.x = pMainWindow->size.x - adj_size(20) - ww;
+    window_x = pMainWindow->dst->dest_rect.x - adj_size(20) - ww;
   }
-  pWindow->size.y = (Main.screen->h - hh) / 2;
+  window_y = (Main.screen->h - hh) / 2;
+  
+  widget_set_position(pWindow, window_x, window_y);
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
   
   setup_vertical_widgets_position(1,
-     pWindow->size.x + FRAME_WH + adj_size(2), pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2),
+     pWindow->size.x + pTheme->FR_Left->w + adj_size(2), pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
 	width, height, pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
   
   if(pDlg->pScroll) {
     setup_vertical_scrollbar_area(pDlg->pScroll,
-	pWindow->size.x + pWindow->size.w - FRAME_WH,
-    	pWindow->size.y + WINDOW_TILE_HIGH + 1,
-    	pWindow->size.h - WINDOW_TILE_HIGH - FRAME_WH - 1, TRUE);
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
+    	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
+    	pWindow->size.h - WINDOW_TITLE_HEIGHT - pTheme->FR_Bottom->h - 1, TRUE);
   }
   
   return pDlg;
@@ -773,7 +791,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
   struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
   int hh, ww = 0;
   char cBuf[128];
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   SDL_Rect dst;
   
@@ -781,8 +799,6 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     /* delete old content */
     if (pdialog->pdialog->pEndWidgetList) {
-      lock_buffer(pdialog->pdialog->pEndWidgetList->dst);
-  
       popdown_window_group_dialog(pdialog->poffers->pBeginWidgetList,
                                   pdialog->poffers->pEndWidgetList);
       FC_FREE(pdialog->poffers->pScroll);
@@ -792,8 +808,6 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
                                   pdialog->pwants->pEndWidgetList);
       FC_FREE(pdialog->pwants->pScroll);
       FC_FREE(pdialog->pwants);
-      
-      unlock_buffer();
       
       popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
                                             pdialog->pdialog->pEndWidgetList);
@@ -807,11 +821,11 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     my_snprintf(cBuf, sizeof(cBuf), _("Diplomacy meeting"));
     
-    hh = WINDOW_TILE_HIGH + adj_size(2);
+    hh = WINDOW_TITLE_HEIGHT + adj_size(2);
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
 
     pWindow->action = dipomatic_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -830,7 +844,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
 		pWindow->dst, pStr,
 		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
-						WF_DRAW_THEME_TRANSPARENT));
+						WF_RESTORE_BACKGROUND));
 						
     pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     pBuf->private_data.cbox->state = FALSE;
@@ -847,7 +861,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
 		pWindow->dst, pStr,
 		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
-    						WF_DRAW_THEME_TRANSPARENT));
+    						WF_RESTORE_BACKGROUND));
     pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     pBuf->private_data.cbox->state = FALSE;
     pBuf->private_data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
@@ -856,7 +870,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     /* ============================================================= */
     
     pBuf = create_themeicon(pTheme->CANCEL_PACT_Icon, pWindow->dst, 
-    	(WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING|WF_DRAW_THEME_TRANSPARENT));
+    	(WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING|WF_RESTORE_BACKGROUND));
 	
     pBuf->string16 = create_str16_from_char(_("Cancel meeting"), adj_font(12));
     
@@ -868,7 +882,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     pBuf = create_themeicon(pTheme->OK_PACT_Icon, pWindow->dst, 
     	(WF_FREE_DATA|WF_WIDGET_HAS_INFO_LABEL|
-				WF_FREE_STRING|WF_DRAW_THEME_TRANSPARENT));
+				WF_FREE_STRING|WF_RESTORE_BACKGROUND));
 	
     pBuf->string16 = create_str16_from_char(_("Accept treaty"), adj_font(12));
     
@@ -887,24 +901,25 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     /* ============================================================= */
     ww = adj_size(250);
     hh = adj_size(300);
-    
-    pWindow->size.x = (Main.screen->w - ww) / 2;
-    pWindow->size.y = (Main.screen->h - hh) / 2;
-  
+
+    widget_set_position(pWindow,
+                        (Main.screen->w - ww) / 2,
+                        (Main.screen->h - hh) / 2);
+
     resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
     pBuf = pWindow->prev;
     pBuf->size.x = pWindow->size.x + adj_size(20);
-    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(10);
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(10);
     
-    dst.y = WINDOW_TILE_HIGH + adj_size(10) + pBuf->size.h + adj_size(10);
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(10) + pBuf->size.h + adj_size(10);
     dst.x = adj_size(10);
     dst.w = pWindow->size.w - adj_size(20);
         
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - adj_size(20);
-    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(10);
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(10);
     
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + (pWindow->size.w - (2 * pBuf->size.w + adj_size(40))) / 2;
@@ -931,13 +946,13 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     /* ============================================================= */
     /* redraw */
     redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
     
     redraw_group(pdialog->poffers->pBeginWidgetList, pdialog->poffers->pEndWidgetList, 0);
-    sdl_dirty_rect(pdialog->poffers->pEndWidgetList->size);
+    widget_mark_dirty(pdialog->poffers->pEndWidgetList);
     
     redraw_group(pdialog->pwants->pBeginWidgetList, pdialog->pwants->pEndWidgetList, 0);
-    sdl_dirty_rect(pdialog->pwants->pEndWidgetList->size);
+    widget_mark_dirty(pdialog->pwants->pEndWidgetList);
     
     flush_dirty();
   }
@@ -948,7 +963,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 *****************************************************************/
 static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
 {
-  struct GUI *pLabel;
+  struct widget *pLabel;
   SDL_Surface *pThm;
   SDL_Rect src = {0, 0, 0, 0};
 
@@ -968,8 +983,8 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   alphablit(pThm, &src, pLabel->theme, NULL);
   SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
   
-  redraw_widget(pLabel);
-  flush_rect(pLabel->size, FALSE);
+  widget_redraw(pLabel);
+  widget_flush(pLabel);
   
   /* updates other player's acceptance status */
   pLabel = pdialog->pdialog->pEndWidgetList->prev->prev;
@@ -986,8 +1001,8 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
     
   alphablit(pThm, &src, pLabel->theme, NULL);
   
-  redraw_widget(pLabel);
-  flush_rect(pLabel->size, FALSE);
+  widget_redraw(pLabel);
+  widget_flush(pLabel);
 }
 
 /****************************************************************
@@ -995,9 +1010,9 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
 *****************************************************************/
 static void update_clauses_list(struct diplomacy_dialog *pdialog) {
   SDL_String16 *pStr;
-  struct GUI *pBuf, *pWindow = pdialog->pdialog->pEndWidgetList;
+  struct widget *pBuf, *pWindow = pdialog->pdialog->pEndWidgetList;
   char cBuf[64];
-  bool redraw_all, scroll = pdialog->pdialog->pActiveWidgetList == NULL;
+  bool redraw_all, scroll = (pdialog->pdialog->pActiveWidgetList != NULL);
   int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
   
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
@@ -1006,7 +1021,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-     (WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT));
+     (WF_FREE_DATA|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND));
         
     if(pclause->from->player_no != game.info.player_idx) {
        pBuf->string16->style |= SF_CENTER_RIGHT;  
@@ -1020,31 +1035,33 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     pBuf->action = remove_clause_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     
-    pBuf->size.w = pWindow->size.w - adj_size(24) - (scroll ? 0 : len);
+    pBuf->size.w = pWindow->size.w - adj_size(24) - (scroll ? len : 0);
     
     redraw_all = add_widget_to_vertical_scroll_widget_list(pdialog->pdialog,
                   pBuf, pdialog->pdialog->pBeginWidgetList,
                   FALSE,
                   pWindow->size.x + adj_size(12),
                   pdialog->pdialog->pScroll->pUp_Left_Button->size.y + adj_size(2));
-    
-    /* find if there was scrollbar shown */
-    if(scroll && pdialog->pdialog->pActiveWidgetList != NULL) {
+
+    if(!scroll && (pdialog->pdialog->pActiveWidgetList != NULL)) {
+      /* -> the scrollbar has been activated */
       pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
       do {
         pBuf = pBuf->prev;
         pBuf->size.w -= len;
+        /* we need to save a new background because the width has changed */
         FREESURFACE(pBuf->gfx);
       } while(pBuf != pdialog->pdialog->pBeginActiveWidgetList);
+      scroll = TRUE;
     }
-    
+
     /* redraw */
     if(redraw_all) {
       redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
-      flush_rect(pWindow->size, FALSE);
+      widget_mark_dirty(pWindow);
     } else {
-      redraw_widget(pBuf);
-      flush_rect(pBuf->size, FALSE);
+      widget_redraw(pBuf);
+      widget_mark_dirty(pBuf);
     }
     
   } clause_list_iterate_end;
@@ -1058,7 +1075,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
 static void remove_clause_widget_from_list(int counterpart, int giver,
                                            enum clause_type type, int value)
 {
-  struct GUI *pBuf;
+  struct widget *pBuf;
   SDL_Rect src = {0, 0, 0, 0};
   bool scroll = TRUE;
 
@@ -1066,31 +1083,36 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
   
   /* find widget with clause */
   pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
+  
   do {
     pBuf = pBuf->prev;
-  } while(!(pBuf->data.cont->id0 == giver &&
-            ((pBuf->data.cont->value >> 16) & 0xFFFF) == (int)type &&
-            (pBuf->data.cont->value & 0xFFFF) == value) &&
-  		pBuf != pdialog->pdialog->pBeginActiveWidgetList);
+  } while(!((pBuf->data.cont->id0 == giver) &&
+            (((pBuf->data.cont->value >> 16) & 0xFFFF) == (int)type) &&
+            ((pBuf->data.cont->value & 0xFFFF) == value)) &&
+          (pBuf != pdialog->pdialog->pBeginActiveWidgetList));
   
   if(!(pBuf->data.cont->id0 == giver &&
             ((pBuf->data.cont->value >> 16) & 0xFFFF) == (int)type &&
             (pBuf->data.cont->value & 0xFFFF) == value)) {
      return;
   }
-    
-  scroll = pdialog->pdialog->pActiveWidgetList != NULL;
+  
+  scroll = (pdialog->pdialog->pActiveWidgetList != NULL);
   del_widget_from_vertical_scroll_widget_list(pdialog->pdialog, pBuf);
 
-  /* find if there was scrollbar hide */
-  if(scroll && pdialog->pdialog->pActiveWidgetList == NULL) {
+  if(scroll && (pdialog->pdialog->pActiveWidgetList == NULL)) {
+    /* -> the scrollbar has been deactivated */
+    
     int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
     pBuf = pdialog->pdialog->pEndActiveWidgetList->next;
     do {
       pBuf = pBuf->prev;
+      widget_undraw(pBuf);
       pBuf->size.w += len;
+      /* we need to save a new background because the width has changed */
       FREESURFACE(pBuf->gfx);
     } while(pBuf != pdialog->pdialog->pBeginActiveWidgetList);
+    scroll = FALSE;
   }
     
   /* update state icons */
@@ -1141,8 +1163,6 @@ static void popdown_diplomacy_dialog(int counterpart)
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
     
   if (pdialog) {
-    lock_buffer(pdialog->pdialog->pEndWidgetList->dst);
-
     popdown_window_group_dialog(pdialog->poffers->pBeginWidgetList,
 			        pdialog->poffers->pEndWidgetList);
     FC_FREE(pdialog->poffers->pScroll);
@@ -1152,8 +1172,6 @@ static void popdown_diplomacy_dialog(int counterpart)
 			        pdialog->pwants->pEndWidgetList);
     FC_FREE(pdialog->pwants->pScroll);
     FC_FREE(pdialog->pwants);
-    
-    unlock_buffer();
     
     popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
 			                  pdialog->pdialog->pEndWidgetList);
@@ -1199,52 +1217,62 @@ static void popdown_sdip_dialog(void)
   }
 }
 
-static int sdip_window_callback(struct GUI *pWindow)
+static int sdip_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pSDip_Dlg->pBeginWidgetList,
-								pWindow);
-}
-
-static int withdraw_vision_dlg_callback(struct GUI *pWidget)
-{
-  popdown_sdip_dialog();
-
-  dsend_packet_diplomacy_cancel_pact(&aconnection,
-				     pWidget->data.player->player_no,
-				     CLAUSE_VISION);
-  
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pSDip_Dlg->pBeginWidgetList, pWindow);
+  }
   return -1;
 }
 
-static int cancel_pact_dlg_callback(struct GUI *pWidget)
+static int withdraw_vision_dlg_callback(struct widget *pWidget)
 {
-  popdown_sdip_dialog();
-
-  dsend_packet_diplomacy_cancel_pact(&aconnection,
-				     pWidget->data.player->player_no,
-				     CLAUSE_CEASEFIRE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_sdip_dialog();
   
-  flush_dirty();
+    dsend_packet_diplomacy_cancel_pact(&aconnection,
+                                       pWidget->data.player->player_no,
+                                       CLAUSE_VISION);
+    
+    flush_dirty();
+  }
   return -1;
 }
 
-static int call_meeting_dlg_callback(struct GUI *pWidget)
+static int cancel_pact_dlg_callback(struct widget *pWidget)
 {
-  popdown_sdip_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_sdip_dialog();
   
-  dsend_packet_diplomacy_init_meeting_req(&aconnection,
-					  pWidget->data.player->player_no);
-  
-  flush_dirty();
+    dsend_packet_diplomacy_cancel_pact(&aconnection,
+                                       pWidget->data.player->player_no,
+                                       CLAUSE_CEASEFIRE);
+    
+    flush_dirty();
+  }
+  return -1;
+}
+
+static int call_meeting_dlg_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_sdip_dialog();
+    
+    dsend_packet_diplomacy_init_meeting_req(&aconnection,
+                                            pWidget->data.player->player_no);
+    
+    flush_dirty();
+  }
   return -1;
 }
 
 
-static int cancel_sdip_dlg_callback(struct GUI *pWidget)
+static int cancel_sdip_dlg_callback(struct widget *pWidget)
 {
-  popdown_sdip_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {  
+    popdown_sdip_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 
@@ -1252,7 +1280,7 @@ static void popup_war_dialog(struct player *pPlayer)
 {
   int hh, ww = 0;
   char cBuf[128];
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pText;
   SDL_Rect dst;
@@ -1266,11 +1294,11 @@ static void popup_war_dialog(struct player *pPlayer)
     
   my_snprintf(cBuf, sizeof(cBuf),
        _("%s incident !"), get_nation_name(pPlayer->nation));
-  hh = WINDOW_TILE_HIGH + 2;
+  hh = WINDOW_TITLE_HEIGHT + 2;
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
 
   pWindow->action = sdip_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1296,7 +1324,6 @@ static void popup_war_dialog(struct player *pPlayer)
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
 			    pWindow->dst, _("No"), adj_font(12), 0);
 
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_sdip_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -1307,7 +1334,6 @@ static void popup_war_dialog(struct player *pPlayer)
   pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Yes"), adj_font(12), 0);
 
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_pact_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->data.player = pPlayer;
@@ -1324,19 +1350,20 @@ static void popup_war_dialog(struct player *pPlayer)
 
   pBuf = pWindow->prev;
   
-  ww += DOUBLE_FRAME_WH;
-  hh += FRAME_WH + adj_size(5);
-  
-  pWindow->size.x = (Main.screen->w - ww) / 2;
-  pWindow->size.y = (Main.screen->h - hh) / 2;
-  
+  ww += (pTheme->FR_Left->w + pTheme->FR_Right->w);
+  hh += pTheme->FR_Bottom->h + adj_size(5);
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - ww) / 2,
+                      (Main.screen->h - hh) / 2);
+
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
   /* setup rest of widgets */
   /* label */
-  dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
-  dst.y = WINDOW_TILE_HIGH + adj_size(5);
+  dst.x = pTheme->FR_Left->w + (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
+  dst.y = WINDOW_TITLE_HEIGHT + adj_size(5);
   alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + adj_size(5);
   FREESURFACE(pText);
@@ -1348,7 +1375,7 @@ static void popup_war_dialog(struct player *pPlayer)
   /* yes */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (2 * pBuf->size.w + adj_size(20))) / 2;
+	    (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (2 * pBuf->size.w + adj_size(20))) / 2;
   pBuf->size.y = pWindow->size.y + dst.y;
     
   /* no */
@@ -1357,7 +1384,7 @@ static void popup_war_dialog(struct player *pPlayer)
   /* ================================================== */
   /* redraw */
   redraw_group(pSDip_Dlg->pBeginWidgetList, pWindow, 0);
-  sdl_dirty_rect(pWindow->size);
+  widget_mark_dirty(pWindow);
   flush_dirty();
 }
 
@@ -1379,7 +1406,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
   } else {
     int hh, ww = 0, button_w = 0, button_h = 0;
     char cBuf[128];
-    struct GUI *pBuf = NULL, *pWindow;
+    struct widget *pBuf = NULL, *pWindow;
     SDL_String16 *pStr;
     SDL_Surface *pText;
     SDL_Rect dst;
@@ -1392,11 +1419,11 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
           
     my_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
-    hh = WINDOW_TILE_HIGH + adj_size(2);
+    hh = WINDOW_TITLE_HEIGHT + adj_size(2);
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
 
     pWindow->action = sdip_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -1510,19 +1537,21 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
     pBuf = pWindow->prev;
   
-    ww += DOUBLE_FRAME_WH;
-    hh += FRAME_WH + adj_size(5);
-   
-    pWindow->size.x = (Main.screen->w - ww) / 2;
-    pWindow->size.y = (Main.screen->h - hh) / 2;
-  
+    ww += (pTheme->FR_Left->w + pTheme->FR_Right->w);
+    hh += pTheme->FR_Bottom->h + adj_size(5);
+
+    widget_set_position(pWindow,
+                        (Main.screen->w - ww) / 2,
+                        (Main.screen->h - hh) / 2);
+    
     resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
     /* setup rest of widgets */
     /* label */
-    dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
-    dst.y = WINDOW_TILE_HIGH + adj_size(5);
+    dst.x = pTheme->FR_Left->w +
+      (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(5);
     alphablit(pText, NULL, pWindow->theme, &dst);
     dst.y += pText->h + adj_size(15);
     FREESURFACE(pText);
@@ -1535,7 +1564,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
       pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (pBuf->size.w)) / 2;
+        (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (pBuf->size.w)) / 2;
       pBuf->size.y = pWindow->size.y + dst.y;
       
       if(shared) {
@@ -1561,7 +1590,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
       pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (pBuf->size.w)) / 2;
+        (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (pBuf->size.w)) / 2;
       pBuf->size.y = pWindow->size.y + dst.y;
       
     }
@@ -1576,7 +1605,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     /* ================================================== */
     /* redraw */
     redraw_group(pSDip_Dlg->pBeginWidgetList, pWindow, 0);
-    sdl_dirty_rect(pWindow->size);
+    widget_mark_dirty(pWindow);
   
     flush_dirty();
   }

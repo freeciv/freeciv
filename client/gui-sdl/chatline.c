@@ -43,11 +43,12 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_stuff.h"
+#include "gui_tilespec.h"
 #include "mapview.h"
 #include "messagewin.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "unistring.h"
+#include "widget.h"
 
 #include "chatline.h"
 
@@ -56,11 +57,11 @@
 struct CONNLIST {
   struct ADVANCED_DLG *pUsers_Dlg;
   struct ADVANCED_DLG *pChat_Dlg;
-  struct GUI *pBeginWidgetList;
-  struct GUI *pEndWidgetList;
-  struct GUI *pStart;
-  struct GUI *pConfigure;
-  struct GUI *pEdit;
+  struct widget *pBeginWidgetList;
+  struct widget *pEndWidgetList;
+  struct widget *pStart;
+  struct widget *pConfigure;
+  struct widget *pEdit;
   int text_width;
   int active;
 } *pConnDlg = NULL;
@@ -72,23 +73,24 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc);
 /**************************************************************************
   Sent msg/command from imput dlg to server
 **************************************************************************/
-static int inputline_return_callback(struct GUI *pWidget)
+static int inputline_return_callback(struct widget *pWidget)
 {
-  char *theinput = NULL;
-
-  if (!pWidget->string16->text) {
-    return -1;
-  }
-
-  theinput = convert_to_chars(pWidget->string16->text);
-
-  if (theinput && *theinput) {
-    send_chat(theinput);
-
-    append_output_window(theinput);
-    FC_FREE(theinput);
-  }
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *theinput = NULL;
   
+    if (!pWidget->string16->text) {
+      return -1;
+    }
+  
+    theinput = convert_to_chars(pWidget->string16->text);
+  
+    if (theinput && *theinput) {
+      send_chat(theinput);
+  
+      append_output_window(theinput);
+      FC_FREE(theinput);
+    }
+  }  
   return -1;
 }
 
@@ -97,29 +99,21 @@ static int inputline_return_callback(struct GUI *pWidget)
 **************************************************************************/
 void popup_input_line(void)
 {
-  int w = adj_size(400);
-  int h = adj_size(30);
-  struct GUI *pInput_Edit;
-    
-  pInput_Edit = create_edit_from_unichars(NULL, NULL, NULL, 0, adj_font(18), w, 0);
-  lock_buffer(pInput_Edit->dst);/* always on top */
+  struct widget *pInput_Edit;
   
-  pInput_Edit->size.x = (Main.screen->w - w) / 2;
+  pInput_Edit = create_edit_from_unichars(NULL, Main.gui, NULL, 0, adj_font(12),
+                                          adj_size(400), 0);
   
-  if (h > pInput_Edit->size.h) {
-    pInput_Edit->size.h = h;
-  }
-
-  pInput_Edit->size.y = Main.screen->h - 2 * pInput_Edit->size.h;
-  
+  pInput_Edit->size.x = (Main.screen->w - pInput_Edit->size.w) / 2;
+  pInput_Edit->size.y = (Main.screen->h - pInput_Edit->size.h) / 2;
   
   if(edit(pInput_Edit) != ED_ESC) {
     inputline_return_callback(pInput_Edit);
   }
   
-  sdl_dirty_rect(pInput_Edit->size);
+  widget_undraw(pInput_Edit);
+  widget_mark_dirty(pInput_Edit);
   FREEWIDGET(pInput_Edit);
-  remove_locked_buffer();
   
   flush_dirty();
 }
@@ -170,7 +164,7 @@ void clear_output_window(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static int conn_dlg_callback(struct GUI *pWindow)
+static int conn_dlg_callback(struct widget *pWindow)
 {
   return -1;
 }
@@ -178,11 +172,13 @@ static int conn_dlg_callback(struct GUI *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-static int disconnect_conn_callback(struct GUI *pWidget)
+static int disconnect_conn_callback(struct widget *pWidget)
 {
-  popdown_conn_list_dialog();
-  flush_dirty();
-  disconnect_from_server();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_conn_list_dialog();
+    flush_dirty();
+    disconnect_from_server();
+  }
   return -1;
 }
 
@@ -192,7 +188,7 @@ static int disconnect_conn_callback(struct GUI *pWidget)
 static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 {
   SDL_String16 *pStr;
-  struct GUI *pBuf, *pWindow = pConnDlg->pEndWidgetList;
+  struct widget *pBuf, *pWindow = pConnDlg->pEndWidgetList;
   
   assert(pUniStr != NULL);
   assert(n_alloc != 0);
@@ -210,7 +206,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
       pStr2->bgcol = (SDL_Color) {0, 0, 0, 0};
       pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr2, pConnDlg->text_width, 0,
-		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       
       pBuf->size.w = pConnDlg->text_width;
       add_widget_to_vertical_scroll_widget_list(pConnDlg->pChat_Dlg, pBuf,
@@ -226,7 +222,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr, pConnDlg->text_width, 0,
-		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
     pBuf->size.w = pConnDlg->text_width;
   
@@ -237,8 +233,8 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
       redraw_group(pConnDlg->pChat_Dlg->pBeginWidgetList,
     			pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
     } else {
-      redraw_widget(pBuf);
-      sdl_dirty_rect(pBuf->size);
+      widget_redraw(pBuf);
+      widget_mark_dirty(pBuf);
     }
   }
   
@@ -249,22 +245,23 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 /**************************************************************************
   ...
 **************************************************************************/
-static int input_edit_conn_callback(struct GUI *pWidget)
+static int input_edit_conn_callback(struct widget *pWidget)
 {
- 
-  if (pWidget->string16->text) {
-    char theinput[256];
+  if (Main.event.button.button == SDL_BUTTON_LEFT) { 
+    if (pWidget->string16->text) {
+      char theinput[256];
+      
+      convertcopy_to_chars(theinput, sizeof(theinput), pWidget->string16->text);
     
-    convertcopy_to_chars(theinput, sizeof(theinput), pWidget->string16->text);
-  
-  
-    if (*theinput != '\0') {
-      send_chat(theinput);
-      /*real_append_output_window(theinput);*/
+    
+      if (*theinput != '\0') {
+        send_chat(theinput);
+        /*real_append_output_window(theinput);*/
+      }
+      
+      FC_FREE(pWidget->string16->text);
+      pWidget->string16->n_alloc = 0;
     }
-    
-    FC_FREE(pWidget->string16->text);
-    pWidget->string16->n_alloc = 0;
   }
   return -1;
 }
@@ -272,16 +269,18 @@ static int input_edit_conn_callback(struct GUI *pWidget)
 /**************************************************************************
  ...
 **************************************************************************/
-static int start_game_callback(struct GUI *pWidget)
+static int start_game_callback(struct widget *pWidget)
 {
-  send_chat("/start");
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    send_chat("/start");
+  }
   return -1;
 }
 
 /**************************************************************************
  ...
 **************************************************************************/
-static int server_config_callback(struct GUI *pWidget)
+static int server_config_callback(struct widget *pWidget)
 {
 
   return -1;
@@ -290,10 +289,11 @@ static int server_config_callback(struct GUI *pWidget)
 /**************************************************************************
 ...
 **************************************************************************/
-static int select_nation_callback(struct GUI *pWidget)
+static int select_nation_callback(struct widget *pWidget)
 {
-  popup_races_dialog(game.player_ptr);
-    
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_races_dialog(game.player_ptr);
+  }  
   return -1;
 }
 
@@ -305,7 +305,7 @@ void update_conn_list_dialog(void)
 {
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     if (pConnDlg) {
-      struct GUI *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
+      struct widget *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
       SDL_String16 *pStr = create_string16(NULL, 0, adj_font(12));
       bool create;
       
@@ -322,16 +322,20 @@ void update_conn_list_dialog(void)
         pConnDlg->pUsers_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
         pConnDlg->pUsers_Dlg->pEndWidgetList = pConnDlg->pBeginWidgetList;
         pConnDlg->pUsers_Dlg->pBeginWidgetList = pConnDlg->pBeginWidgetList;
-      
+
+/* FIXME: this can probably be removed */
+#if 0
         pConnDlg->pUsers_Dlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
         pConnDlg->pUsers_Dlg->pScroll->count = 0;
+#endif
+        
         create_vertical_scrollbar(pConnDlg->pUsers_Dlg, 1,
 					pConnDlg->active, TRUE, TRUE);	
         pConnDlg->pUsers_Dlg->pEndWidgetList =
 				pConnDlg->pUsers_Dlg->pEndWidgetList->prev;
         setup_vertical_scrollbar_area(pConnDlg->pUsers_Dlg->pScroll,
-			pWindow->size.x + pWindow->size.w - adj_size(29) - FRAME_WH,
-        		pWindow->size.y + adj_size(14), pWindow->size.h - adj_size(44), FALSE);
+	  pWindow->size.x + pWindow->size.w - adj_size(30),
+          pWindow->size.y + adj_size(14), pWindow->size.h - adj_size(44) - adj_size(40), FALSE);
       }
     
       hide_scrollbar(pConnDlg->pUsers_Dlg->pScroll);
@@ -341,7 +345,7 @@ void update_conn_list_dialog(void)
         copy_chars_to_string16(pStr, pconn->username);
       
         pBuf = create_themelabel2(NULL, pWindow->dst, pStr, adj_size(100), 0,
-		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         clear_wflag(pBuf, WF_FREE_STRING);
       
         pBuf->ID = ID_LABEL;
@@ -349,14 +353,14 @@ void update_conn_list_dialog(void)
         /* add to widget list */
         if(create) {
           add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
-			pBuf, pConnDlg->pUsers_Dlg->pBeginWidgetList, FALSE,
-			pWindow->size.x + pWindow->size.w - adj_size(130) - FRAME_WH,
+            pBuf, pConnDlg->pUsers_Dlg->pBeginWidgetList, FALSE,
+            pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Right->w,
 		      		pWindow->size.y + adj_size(14));
 	  create = FALSE;
         } else {
 	  add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
 		pBuf, pConnDlg->pUsers_Dlg->pBeginActiveWidgetList, FALSE,
-		pWindow->size.x + pWindow->size.w - adj_size(130) - FRAME_WH,
+		pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Right->w,
 	      		pWindow->size.y + adj_size(14));
         }
             
@@ -365,17 +369,20 @@ void update_conn_list_dialog(void)
       pConnDlg->pBeginWidgetList = pConnDlg->pUsers_Dlg->pBeginWidgetList;
       FREESTRING16(pStr);
 
+/* FIXME: implement the server settings dialog and then reactivate this part */
+#if 0
       if (aconnection.access_level == ALLOW_CTRL
          || aconnection.access_level == ALLOW_HACK) {
 	set_wstate(pConnDlg->pConfigure, FC_WS_NORMAL);
       } else {
 	set_wstate(pConnDlg->pConfigure, FC_WS_DISABLED);
       }
+#endif
           
       /* redraw */
       redraw_group(pConnDlg->pBeginWidgetList, pConnDlg->pEndWidgetList, 0);
 
-      flush_rect(pConnDlg->pEndWidgetList->size, FALSE);
+      widget_flush(pConnDlg->pEndWidgetList);
     } else {
       popup_conn_list_dialog();
     }
@@ -393,9 +400,15 @@ static void popup_conn_list_dialog(void)
 {
   SDL_Color window_bg_color = {255, 255, 255, 96};
  
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL, *pLabel = NULL;
+  struct widget* pBackButton = NULL;
+  struct widget *pStartGameButton = NULL;
+  struct widget *pSelectNationButton = NULL;
+  struct widget *pServerSettingsButton = NULL;
+
   SDL_String16 *pStr = NULL;
   int n;
+  SDL_Rect area;
     
   if (pConnDlg || !aconnection.established) {
     return;
@@ -405,7 +418,7 @@ static void popup_conn_list_dialog(void)
   
   pConnDlg = fc_calloc(1, sizeof(struct CONNLIST));
     
-  pWindow = create_window(NULL, NULL, 10, 10, 0);
+  pWindow = create_window(NULL, NULL, 1, 1, 0);
   pWindow->action = conn_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
@@ -413,46 +426,39 @@ static void popup_conn_list_dialog(void)
   pConnDlg->pEndWidgetList = pWindow;
   add_to_gui_list(ID_WINDOW, pWindow);
   
-  pWindow->size.x = 0;
-  pWindow->size.y = 0;
-  
+  widget_set_position(pWindow, 0, 0);
+
   /* create window background */
-  {
-    SDL_Rect area;
-    SDL_Surface *pSurf = adj_surf(get_logo_gfx());
-    
-    if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
-      FREESURFACE(pSurf);
-    }
-        
-    #ifdef SMALL_SCREEN
-    n = 263;
-    #else
-    n = pWindow->size.w - adj_size(130) - FRAME_WH - adj_size(10 + 60 + 10 + 30);
-    #endif
-    pConnDlg->text_width = n;
-    
-    /* draw lists backgrounds */
-    area.x = adj_size(10 + 60 + 10);
-    area.y = adj_size(14);
-    area.w = n + adj_size(20);
-    area.h = pWindow->size.h - adj_size(44);
-    SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
-    putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-             area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
-    
-    area.x = pWindow->size.w - adj_size(130) - FRAME_WH;
-    area.y = adj_size(14);
-    area.w = adj_size(120);
-    area.h = pWindow->size.h - adj_size(44);
-    SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
-    putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-             area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
-    
-    draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
+  SDL_Surface *pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
+  if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
+    FREESURFACE(pSurf);
   }
+  
+  pConnDlg->text_width = pWindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);
+  
+  /* chat area background */
+  area.x = adj_size(10);
+  area.y = adj_size(14);
+  area.w = pConnDlg->text_width + adj_size(20);
+  area.h = pWindow->size.h - adj_size(44) - adj_size(40);
+  SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
+  putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
+           area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
+  
+  /* user list background */
+  area.x = pWindow->size.w - adj_size(130);
+  area.y = adj_size(14);
+  area.w = adj_size(120);
+  area.h = pWindow->size.h - adj_size(44) - adj_size(40);
+  SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
+  putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
+           area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
+  
+  draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
     
   /* -------------------------------- */
+  
+  /* chat area */
   
   pConnDlg->pChat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
@@ -466,94 +472,97 @@ static void popup_conn_list_dialog(void)
   
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   
-  pBuf = create_themelabel2(NULL, pWindow->dst,
+  pLabel = create_themelabel2(NULL, pWindow->dst,
   		pStr, pConnDlg->text_width, 0,
-		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-        
-  pBuf->size.x = pWindow->size.x + adj_size(10 + 60 + 10);
-  pBuf->size.y = pWindow->size.y + adj_size(14);
-  pBuf->size.w = pConnDlg->text_width;
+		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+
+  widget_set_position(pLabel, adj_size(10), adj_size(14));  
   
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, pLabel);
       
-  pConnDlg->pChat_Dlg->pBeginWidgetList = pBuf;
-  pConnDlg->pChat_Dlg->pEndWidgetList = pBuf;
-  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pBuf;
-  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pBuf;
-  
+  pConnDlg->pChat_Dlg->pBeginWidgetList = pLabel;
+  pConnDlg->pChat_Dlg->pEndWidgetList = pLabel;
+  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pConnDlg->pChat_Dlg->pBeginWidgetList;
+  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pConnDlg->pChat_Dlg->pEndWidgetList;
+
+/* FIXME: this can probably be removed */
+#if 0
   pConnDlg->pChat_Dlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pConnDlg->pChat_Dlg->pScroll->count = 1;
+#endif
   
-  n = (pWindow->size.h - adj_size(44)) / pBuf->size.h;
+  n = (pWindow->size.h - adj_size(44) - adj_size(40)) / pLabel->size.h;
   pConnDlg->active = n;
   
   create_vertical_scrollbar(pConnDlg->pChat_Dlg, 1,
   					pConnDlg->active, TRUE, TRUE);	
       
   setup_vertical_scrollbar_area(pConnDlg->pChat_Dlg->pScroll,
-  		pWindow->size.x + adj_size(10 + 60 + 10) + pConnDlg->text_width + 1,
-		pWindow->size.y + adj_size(14), pWindow->size.h - adj_size(44), FALSE);
+  		adj_size(10) + pConnDlg->text_width + 1,
+		adj_size(14), pWindow->size.h - adj_size(44) - adj_size(40), FALSE);
   hide_scrollbar(pConnDlg->pChat_Dlg->pScroll);  
+  
   /* -------------------------------- */
   
-  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
-  				_("Start\nGame"), adj_font(12), 0);
-  pBuf->size.w = adj_size(60);
-  pBuf->size.h = adj_size(60);
-  pBuf->size.x = pWindow->size.x + adj_size(10);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - 4 * (pBuf->size.h + adj_size(10));
-  pConnDlg->pStart = pBuf;
-  pBuf->action = start_game_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
+  /* input field */
   
-  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
-  				_("Select\nNation"), adj_font(12), 0);
-  pBuf->size.w = adj_size(60);
-  pBuf->size.h = adj_size(60);
-  pBuf->size.x = pWindow->size.x + adj_size(10);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - 3 * (pBuf->size.h + adj_size(10));
-
-  pBuf->action = select_nation_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-
-  add_to_gui_list(ID_BUTTON, pBuf);
-  
-  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
-  				_("Server\nSettings"), adj_font(12), 0);
-  pBuf->size.w = adj_size(60);
-  pBuf->size.h = adj_size(60);
-  pBuf->size.x = pWindow->size.x + adj_size(10);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - 2 * (pBuf->size.h + adj_size(10));
-  pConnDlg->pConfigure = pBuf;
-  pBuf->action = server_config_callback;
-  set_wstate(pBuf, FC_WS_DISABLED);  
-  add_to_gui_list(ID_BUTTON, pBuf);
-  
-  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
-  				_("Quit"), adj_font(12), 0);
-  pBuf->size.w = adj_size(60);
-  pBuf->size.h = adj_size(60);
-  pBuf->size.x = pWindow->size.x + adj_size(10);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + adj_size(10));
-  pBuf->action = disconnect_conn_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
-  add_to_gui_list(ID_BUTTON, pBuf);
-
   pBuf = create_edit_from_unichars(NULL, pWindow->dst,
-  		NULL, 0, adj_font(12), pConnDlg->text_width + adj_size(155),
-			(WF_DRAW_THEME_TRANSPARENT|WF_EDIT_LOOP));
+  		NULL, 0, adj_font(12), pWindow->size.w - adj_size(10) - adj_size(10),
+			(WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
     
-  pBuf->size.x = adj_size(10 + 60 + 10 - 3);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + adj_size(5));
+  pBuf->size.x = adj_size(10);
+  pBuf->size.y = pWindow->size.h - adj_size(40) - adj_size(5) - pBuf->size.h;
   pBuf->action = input_edit_conn_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pConnDlg->pEdit = pBuf;
   add_to_gui_list(ID_EDIT, pBuf);
+
+  /* buttons */
+
+  pBuf = create_themeicon_button_from_chars(pTheme->BACK_Icon, pWindow->dst,
+  				_("Back"), adj_font(12), 0);
+  pBuf->size.x = adj_size(10);
+  pBuf->size.y = pWindow->size.h - adj_size(10) - pBuf->size.h;
+  pBuf->action = disconnect_conn_callback;
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->key = SDLK_ESCAPE;
+  add_to_gui_list(ID_BUTTON, pBuf);
+  pBackButton = pBuf;
+
+  pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+  				_("Start"), adj_font(12), 0);
+  pBuf->size.x = pWindow->size.w - adj_size(10) - pBuf->size.w;
+  pBuf->size.y = pBackButton->size.y;
+  pConnDlg->pStart = pBuf;
+  pBuf->action = start_game_callback;
+  set_wstate(pBuf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, pBuf);
+  pStartGameButton = pBuf;
+  
+  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
+  				_("Pick Nation"), adj_font(12), 0);
+  pBuf->size.h = pStartGameButton->size.h;
+  pBuf->size.x = pStartGameButton->size.x - adj_size(10) - pBuf->size.w;
+  pBuf->size.y = pStartGameButton->size.y;
+
+  pBuf->action = select_nation_callback;
+  set_wstate(pBuf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, pBuf);
+  pSelectNationButton = pBuf;
+  
+  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
+  				_("Server Settings"), adj_font(12), 0);
+  pBuf->size.h = pSelectNationButton->size.h;
+  pBuf->size.x = pSelectNationButton->size.x - adj_size(10) - pBuf->size.w;
+  pBuf->size.y = pSelectNationButton->size.y;
+  pConnDlg->pConfigure = pBuf;
+  pBuf->action = server_config_callback;
+  set_wstate(pBuf, FC_WS_DISABLED);  
+  add_to_gui_list(ID_BUTTON, pBuf);
+  pServerSettingsButton = pBuf;
   
 #if 0  
-  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst->surface,
   				"?", 12, 0);
   pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + 7); 
   pBuf->size.x = pWindow->size.x + pWindow->size.w - (pBuf->size.w + 10) - 5;

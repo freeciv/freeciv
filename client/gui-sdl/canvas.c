@@ -26,6 +26,7 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_string.h"
+#include "sprite.h"
 
 #include "canvas.h"
 
