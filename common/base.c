@@ -19,52 +19,59 @@
 
 #include "base.h"
 
+static struct base_type base_types[BASE_LAST];
+
+static const char *base_type_flag_names[] = {
+  "NoAggressive", "DefenseBonus", "NoStackDeath", "Watchtower",
+  "ClaimTerritory", "DiplomatDefense", "Refuel", "NoHPLoss",
+  "AttackUnreachable", "ParadropFrom"
+};
+
 /****************************************************************************
   Check if base provides effect
 ****************************************************************************/
-bool base_flag(Base_type_id base_type, enum base_flag_id flag)
+bool base_flag(const struct base_type *pbase, enum base_flag_id flag)
 {
-  switch(base_type) {
-  case BASE_FORTRESS:
-    /* Fortress */
-    switch(flag) {
-    case BF_NOT_AGGRESSIVE:
-    case BF_DEFENSE_BONUS:
-    case BF_WATCHTOWER:
-    case BF_CLAIM_TERRITORY:
-    case BF_NO_STACK_DEATH:
-    case BF_DIPLOMAT_DEFENSE:
-      return TRUE;
+  return BV_ISSET(pbase->flags, flag);
+}
 
-    case BF_REFUEL:
-    case BF_NO_HP_LOSS:
-    case BF_ATTACK_UNREACHABLE:
-    case BF_PARADROP_FROM:
-    case BF_LAST:
-      return FALSE;
+/**************************************************************************
+  Convert base flag names to enum; case insensitive;
+  returns BF_LAST if can't match.
+**************************************************************************/
+enum base_flag_id base_flag_from_str(const char *s)
+{
+  enum base_flag_id i;
+  
+  assert(ARRAY_SIZE(base_type_flag_names) == BF_LAST);
+  
+  for(i = 0; i < BF_LAST; i++) {
+    if (mystrcasecmp(base_type_flag_names[i], s)==0) {
+      return i;
     }
-    break;
-
-  case BASE_AIRBASE:
-    /* Airbase */
-    switch(flag) {
-    case BF_NO_STACK_DEATH:
-    case BF_DIPLOMAT_DEFENSE:
-    case BF_REFUEL:
-    case BF_NO_HP_LOSS:
-    case BF_ATTACK_UNREACHABLE:
-    case BF_PARADROP_FROM:
-      return TRUE;
-
-    case BF_NOT_AGGRESSIVE:
-    case BF_DEFENSE_BONUS:
-    case BF_WATCHTOWER:
-    case BF_CLAIM_TERRITORY:
-    case BF_LAST:
-      return FALSE;
-    }
-    break;
   }
+  return BF_LAST;
+}
+  
+/****************************************************************************
+  Returns base type structure for an ID value.
+****************************************************************************/
+struct base_type *base_type_get_by_id(Base_type_id id)
+{
+  if (id < 0 || id >= BASE_LAST) {
+    return NULL;
+  }
+  return &base_types[id];
+}
 
-  return FALSE;
+/****************************************************************************
+  Inialize base_type structures.
+****************************************************************************/
+void base_types_init(void)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(base_types); i++) {
+    base_types[i].id = i;
+  }
 }

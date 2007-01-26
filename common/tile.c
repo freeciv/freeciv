@@ -104,9 +104,9 @@ bool tile_has_any_specials(const struct tile *ptile)
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
 {
   return (tile_has_special(ptile, S_FORTRESS)
-          && base_flag(BASE_FORTRESS, flag))
+          && base_flag(base_type_get_by_id(BASE_FORTRESS), flag))
     || (tile_has_special(ptile, S_AIRBASE)
-        && base_flag(BASE_AIRBASE, flag));
+        && base_flag(base_type_get_by_id(BASE_AIRBASE), flag));
 }
 
 /****************************************************************************

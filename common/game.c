@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+#include "base.h"
 #include "capstr.h"
 #include "city.h"
 #include "cm.h"
@@ -288,6 +289,7 @@ void game_init(void)
   init_our_capability();    
   map_init();
   terrains_init();
+  base_types_init();
   improvements_init();
   techs_init();
   unit_classes_init();

@@ -2441,6 +2441,26 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
   tileset_setup_resource(tileset, presource);
 }
 
+/****************************************************************************
+  Handle a packet about a particular base type.
+****************************************************************************/
+void handle_ruleset_base(struct packet_ruleset_base *p)
+{
+  struct base_type *pbase = base_type_get_by_id(p->id);
+
+  if (!pbase) {
+    freelog(LOG_ERROR,
+            "Received bad base id %d in handle_ruleset_base",
+            p->id);
+    return;
+  }
+
+  sz_strlcpy(pbase->name_orig, p->name);
+  pbase->name = Q_(pbase->name_orig);
+
+  pbase->flags = p->flags;
+}
+
 /**************************************************************************
   Handle the terrain control ruleset packet sent by the server.
 **************************************************************************/

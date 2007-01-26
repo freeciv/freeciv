@@ -963,6 +963,12 @@ struct packet_ruleset_unit_class {
   bv_unit_class_flags flags;
 };
 
+struct packet_ruleset_base {
+  int id;
+  char name[MAX_LEN_NAME];
+  bv_base_flags flags;
+};
+
 struct packet_ruleset_control {
   int num_unit_classes;
   int num_unit_types;
@@ -1243,6 +1249,7 @@ enum packet_type {
   PACKET_UNIT_BATTLEGROUP,
   PACKET_RULESET_NATION_GROUPS,
   PACKET_RULESET_UNIT_CLASS,
+  PACKET_RULESET_BASE,                   /* 120 */
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
   PACKET_RULESET_RESOURCE,
@@ -1700,6 +1707,10 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 struct packet_ruleset_unit_class *receive_packet_ruleset_unit_class(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_unit_class(struct connection *pc, const struct packet_ruleset_unit_class *packet);
 void lsend_packet_ruleset_unit_class(struct conn_list *dest, const struct packet_ruleset_unit_class *packet);
+
+struct packet_ruleset_base *receive_packet_ruleset_base(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_base(struct connection *pc, const struct packet_ruleset_base *packet);
+void lsend_packet_ruleset_base(struct conn_list *dest, const struct packet_ruleset_base *packet);
 
 struct packet_ruleset_control *receive_packet_ruleset_control(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_control(struct connection *pc, const struct packet_ruleset_control *packet);

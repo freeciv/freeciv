@@ -592,3 +592,29 @@ graphic     = "ts.seals"
 graphic_alt = "-"
 identifier  = "S"
 food        = 2
+
+; Below has to be definition for exactly two base types:
+; fortress and airbase.
+;
+; name                    = Name of the base type. Not yet used
+; flags
+;   - "NoAggressive"      = Units inside are not considered aggressive
+;   - "DefenseBonus"      = Units inside gain defense bonus
+;   - "NoStackDeath"      = Units inside do not die all at once when attacked
+;   - "Watchtower"        = Units inside see further if required tech known
+;   - "ClaimTerritory"    = Base will claim land ownership
+;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
+;   - "Refuel"            = Units can refuel at base
+;   - "NoHPLoss"          = Units inside avoid HP loss over time
+;   - "AttackUnreachable" = Unreachable units inside can be attacked
+;   - "ParadropFrom"      = Paradrop can be initiated from base
+
+[fortress]
+name        = _("Fortress")
+flags       = "NoAggressive", "DefenseBonus", "Watchtower", "ClaimTerritory",
+              "NoStackDeath", "DiplomatDefense"
+
+[airbase]
+name        = _("Airbase")
+flags       = "NoStackDeath", "DiplomatDefense", "Refuel", "NoHPLoss",
+              "AttackUnreachable", "ParadropFrom"

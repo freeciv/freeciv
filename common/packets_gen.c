@@ -365,6 +365,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_RULESET_UNIT_CLASS:
     return receive_packet_ruleset_unit_class(pc, type);
 
+  case PACKET_RULESET_BASE:
+    return receive_packet_ruleset_base(pc, type);
+
   case PACKET_RULESET_CONTROL:
     return receive_packet_ruleset_control(pc, type);
 
@@ -748,6 +751,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_RULESET_UNIT_CLASS:
     return "PACKET_RULESET_UNIT_CLASS";
+
+  case PACKET_RULESET_BASE:
+    return "PACKET_RULESET_BASE";
 
   case PACKET_RULESET_CONTROL:
     return "PACKET_RULESET_CONTROL";
@@ -26284,6 +26290,186 @@ void lsend_packet_ruleset_unit_class(struct conn_list *dest, const struct packet
 {
   conn_list_iterate(dest, pconn) {
     send_packet_ruleset_unit_class(pconn, packet);
+  } conn_list_iterate_end;
+}
+
+#define hash_packet_ruleset_base_100 hash_const
+
+#define cmp_packet_ruleset_base_100 cmp_const
+
+BV_DEFINE(packet_ruleset_base_100_fields, 3);
+
+static struct packet_ruleset_base *receive_packet_ruleset_base_100(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_base_100_fields fields;
+  struct packet_ruleset_base *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_base *clone;
+  RECEIVE_PACKET_START(packet_ruleset_base, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_base_100, cmp_packet_ruleset_base_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+  }
+  if (BV_ISSET(fields, 2)) {
+    DIO_BV_GET(&din, real_packet->flags);
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_base_100(struct connection *pc, const struct packet_ruleset_base *packet)
+{
+  const struct packet_ruleset_base *real_packet = packet;
+  packet_ruleset_base_100_fields fields;
+  struct packet_ruleset_base *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_BASE];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_BASE);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_base_100, cmp_packet_ruleset_base_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->id != real_packet->id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (strcmp(old->name, real_packet->name) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_string(&dout, real_packet->name);
+  }
+  if (BV_ISSET(fields, 2)) {
+  DIO_BV_PUT(&dout, packet->flags);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_ruleset_base(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_RULESET_BASE] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_RULESET_BASE] = variant;
+}
+
+struct packet_ruleset_base *receive_packet_ruleset_base(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_ruleset_base at the server.");
+  }
+  ensure_valid_variant_packet_ruleset_base(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_BASE]) {
+    case 100: return receive_packet_ruleset_base_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_ruleset_base(struct connection *pc, const struct packet_ruleset_base *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_ruleset_base from the client.");
+  }
+  ensure_valid_variant_packet_ruleset_base(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_BASE]) {
+    case 100: return send_packet_ruleset_base_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_ruleset_base(struct conn_list *dest, const struct packet_ruleset_base *packet)
+{
+  conn_list_iterate(dest, pconn) {
+    send_packet_ruleset_base(pconn, packet);
   } conn_list_iterate_end;
 }
 

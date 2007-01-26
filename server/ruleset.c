@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "base.h"
 #include "capability.h"
 #include "city.h"
 #include "fcintl.h"
@@ -100,6 +101,7 @@ static void send_ruleset_units(struct conn_list *dest);
 static void send_ruleset_buildings(struct conn_list *dest);
 static void send_ruleset_terrain(struct conn_list *dest);
 static void send_ruleset_resources(struct conn_list *dest);
+static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
@@ -1515,6 +1517,26 @@ static void load_names(struct section_file *file)
 
   free(sec);
 
+  base_type_iterate(pbase) {
+    char *name;
+    char *section;
+
+    if (pbase->id == BASE_FORTRESS) {
+      section = "fortress";
+    } else if (pbase->id == BASE_AIRBASE) {
+      section = "airbase";
+    } else {
+      freelog(LOG_ERROR, "Unhandled base type in load_names()");
+      exit(EXIT_FAILURE);
+    }
+    name = secfile_lookup_str(file, "%s.name", section);
+    if (name == NULL) {
+      freelog(LOG_ERROR, "Base section [%s] missing.", section);
+      exit(EXIT_FAILURE);
+    }
+
+    name_strlcpy(pbase->name_orig, name);
+  } base_type_iterate_end;
 }
 
 /**************************************************************************
@@ -1738,6 +1760,7 @@ static void load_ruleset_terrain(struct section_file *file)
 
     pterrain->helptext = lookup_helptext(file, tsec[i]);
   } terrain_type_iterate_end;
+  free(tsec);
 
   rsec = secfile_get_secnames_prefix(file, "resource_", &nval);
   resource_type_iterate(presource) {
@@ -1771,8 +1794,41 @@ static void load_ruleset_terrain(struct section_file *file)
       }
     }
   } resource_type_iterate_end;
-  free(tsec);
   free(rsec);
+
+  base_type_iterate(pbase) {
+    char **slist;
+    int j;
+    char *section;
+
+    pbase->name = Q_(pbase->name_orig);
+
+    if (pbase->id == BASE_FORTRESS) {
+      section = "fortress";
+    } else if (pbase->id == BASE_AIRBASE) {
+      section = "airbase";
+    } else {
+      freelog(LOG_ERROR, "Unhandled base type in loas_ruleset_terrain()");
+      exit(EXIT_FAILURE);
+    }
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+    BV_CLR_ALL(pbase->flags);
+    for (j = 0; j < nval; j++) {
+      const char *sval = slist[j];
+      enum base_flag_id flag = base_flag_from_str(sval);
+
+      if (flag == BF_LAST) {
+        /* TRANS: message for an obscure ruleset error. */
+        freelog(LOG_FATAL, _("Base %s has unknown flag %s"),
+                pbase->name, sval);
+        exit(EXIT_FAILURE);
+      } else {
+        BV_SET(pbase->flags, flag);
+      }
+    }
+    
+    free(slist);
+  } base_type_iterate_end;
 
   section_file_check_unused(file, filename);
   section_file_free(file);
@@ -2990,6 +3046,23 @@ static void send_ruleset_resources(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the base ruleset information (all individual base types) to the
+  specified connections.
+**************************************************************************/
+static void send_ruleset_bases(struct conn_list *dest)
+{
+  struct packet_ruleset_base packet;
+
+  base_type_iterate(b) {
+    packet.id = b->id;
+    sz_strlcpy(packet.name, b->name);
+    packet.flags = b->flags;
+
+    lsend_packet_ruleset_base(dest, &packet);
+  } base_type_iterate_end;
+}
+
+/**************************************************************************
   Send the government ruleset information to the specified connections.
   One packet per government type, and for each type one per ruler title.
 **************************************************************************/
@@ -3245,6 +3318,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_specialists(dest);
   send_ruleset_resources(dest);
   send_ruleset_terrain(dest);
+  send_ruleset_bases(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);

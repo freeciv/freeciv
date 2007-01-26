@@ -199,6 +199,7 @@ type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
 type BV_FLAGS		= bitvector(bv_flags)
 type BV_ROLES		= bitvector(bv_roles)
 type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
+type BV_BASE_FLAGS      = bitvector(bv_base_flags)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_SPECIAL         = bitvector(bv_special)
 type BV_PLAYER          = bitvector(bv_player)
@@ -1265,6 +1266,12 @@ PACKET_RULESET_UNIT_CLASS=119;sc,lsend
   UINT8 min_speed;
   UINT8 hp_loss_pct;
   BV_UCLASS_FLAGS flags;
+end
+
+PACKET_RULESET_BASE=120;sc,lsend
+  UINT8 id;
+  STRING name[MAX_LEN_NAME];
+  BV_BASE_FLAGS flags;
 end
 
 /*********************************************************

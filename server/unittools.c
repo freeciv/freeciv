@@ -1254,9 +1254,9 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
   if ((is_allied_city_tile(ptile, pplayer)
        && !is_non_allied_unit_tile(ptile, pplayer))
       || (((contains_special(plrtile->special, S_FORTRESS)
-            && base_flag(BASE_FORTRESS, BF_REFUEL))
+            && base_flag(base_type_get_by_id(BASE_FORTRESS), BF_REFUEL))
            || (contains_special(plrtile->special, S_AIRBASE)
-               && base_flag(BASE_AIRBASE, BF_REFUEL)))
+               && base_flag(base_type_get_by_id(BASE_AIRBASE), BF_REFUEL)))
 	  && !is_non_allied_unit_tile(ptile, pplayer)))
     return TRUE;
 

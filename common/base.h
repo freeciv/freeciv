@@ -15,7 +15,7 @@
 
 #include "fc_types.h"
 
-enum base_type_id { BASE_FORTRESS, BASE_AIRBASE };
+enum base_type_id { BASE_FORTRESS = 0, BASE_AIRBASE, BASE_LAST };
 
 typedef enum base_type_id Base_type_id;
 
@@ -34,6 +34,31 @@ enum base_flag_id {
   BF_LAST                /* This has to be last */
 };
 
-bool base_flag(Base_type_id base_type, enum base_flag_id flag);
+BV_DEFINE(bv_base_flags, BF_LAST);
+
+struct base_type {
+  const char *name;
+  char name_orig[MAX_LEN_NAME];
+  int id;
+  bv_base_flags flags;
+};
+
+bool base_flag(const struct base_type *pbase, enum base_flag_id flag);
+enum base_flag_id base_flag_from_str(const char *s);
+struct base_type *base_type_get_by_id(Base_type_id id);
+
+void base_types_init(void);
+
+#define base_type_iterate(pbase)                                            \
+{                                                                           \
+  int _index;                                                               \
+                                                                            \
+  for (_index = 0; _index < BASE_LAST; _index++) {                          \
+    struct base_type *pbase = base_type_get_by_id(_index);
+
+#define base_type_iterate_end                                               \
+  }                                                                         \
+}
+
 
 #endif  /* FC__BASE_H */

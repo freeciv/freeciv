@@ -299,6 +299,10 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_ruleset_unit_class(packet);
     return TRUE;
 
+  case PACKET_RULESET_BASE:
+    handle_ruleset_base(packet);
+    return TRUE;
+
   case PACKET_RULESET_CONTROL:
     handle_ruleset_control(packet);
     return TRUE;
