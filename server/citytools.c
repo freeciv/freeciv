@@ -1085,7 +1085,7 @@ void remove_city(struct city *pcity)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
     moved = FALSE;
     adjc_iterate(ptile, tile1) {
-      if (is_ocean(tile_get_terrain(tile1))) {
+      if (!moved && is_ocean(tile_get_terrain(tile1))) {
 	if (could_unit_move_to_tile(punit, tile1) == 1) {
 	  moved = handle_unit_move_request(punit, tile1, FALSE, TRUE);
 	  if (moved) {
@@ -1093,6 +1093,7 @@ void remove_city(struct city *pcity)
 			     _("Moved %s out of disbanded city %s "
 			       "to avoid being landlocked."),
 			     unit_type(punit)->name, pcity->name);
+            break;
 	  }
 	}
       }
