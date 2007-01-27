@@ -1079,38 +1079,30 @@ void remove_city(struct city *pcity)
   /* make sure ships are not left on land when city is removed. */
   unit_list_iterate_safe(ptile->units, punit) {
     bool moved;
+    struct unit_type *punittype = unit_type(punit);
 
-    if (!is_sailing_unit(punit)) {
+    if (is_native_tile(punittype, ptile)) {
       continue;
     }
 
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
     moved = FALSE;
     adjc_iterate(ptile, tile1) {
-      if (is_ocean(tile_get_terrain(tile1))) {
+      if (!moved && is_native_tile(punittype, tile1)) {
 	if (could_unit_move_to_tile(punit, tile1) == 1) {
 	  moved = handle_unit_move_request(punit, tile1, FALSE, TRUE);
 	  if (moved) {
 	    notify_player(unit_owner(punit), NULL, E_UNIT_RELOCATED,
-			     _("Moved %s out of disbanded city %s "
-			       "to avoid being landlocked."),
-			     unit_type(punit)->name, pcity->name);
+                          _("Moved %s out of disbanded city %s "
+                            "since it cannot stay on %s."),
+                          unit_type(punit)->name, pcity->name,
+                          get_name(tile_get_terrain(ptile)));
+            break;
 	  }
 	}
       }
     } adjc_iterate_end;
     if (!moved) {
-      notify_player(unit_owner(punit), NULL, E_UNIT_LOST,
-		       _("When %s was disbanded your %s could not "
-			 "get out, and it was therefore lost."),
-		       pcity->name, unit_type(punit)->name);
-      wipe_unit(punit);
-    }
-  } unit_list_iterate_safe_end;
-
-  /* Destroy final ineligible units (land units in ocean city) */
-  unit_list_iterate_safe(ptile->units, punit) {
-    if (is_ocean(tile_get_terrain(ptile)) && is_ground_unit(punit)) {
       notify_player(unit_owner(punit), NULL, E_UNIT_LOST,
 		       _("When %s was disbanded your %s could not "
 			 "get out, and it was therefore lost."),
