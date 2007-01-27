@@ -20,6 +20,7 @@ player = {"r", "g", "b"
 
 terrains = {"r", "g", "b", "terrain"
   255, 255, 255, "Glacier"
+  255, 255, 255, "Arctic"
    10, 123,   2, "Grassland"
   138, 168,  60, "Plains"
    74,  74,  74, "Tundra"
