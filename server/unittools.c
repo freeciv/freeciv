@@ -62,6 +62,7 @@
 
 #include "advdiplomacy.h"
 #include "aiexplorer.h"
+#include "aiferry.h"
 #include "aitools.h"
 #include "aiunit.h"
 
@@ -1399,6 +1400,9 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   } map_city_radius_iterate_end;
 
   sync_cities();
+
+  /* Initialize aiferry stuff for new unit */
+  aiferry_init_ferry(punit);
 
   return punit;
 }

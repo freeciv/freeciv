@@ -128,6 +128,29 @@ static void aiferry_print_stats(struct player *pplayer)
 #endif /* DEBUG_FERRY_STATS */
 
 /**************************************************************************
+  Initialize new ferry when player gets it
+**************************************************************************/
+void aiferry_init_ferry(struct unit *ferry)
+{
+  if (is_sailing_unit(ferry)) {
+    unit_class_iterate(punitclass) {
+      if (punitclass->move_type == LAND_MOVING
+          && can_unit_type_transport(ferry->type, punitclass)) {
+        /* Can transport some land units, so is consider ferry */
+        struct ai_data *ai = ai_data_get(unit_owner(ferry));
+
+        ferry->ai.passenger = FERRY_AVAILABLE;
+        ai->stats.boats++;
+        ai->stats.available_boats++;
+
+        break;
+      }
+    } unit_class_iterate_end;
+  }
+}
+
+
+/**************************************************************************
   Use on a unit which no longer needs a boat. 
 **************************************************************************/
 void aiferry_clear_boat(struct unit *punit)
