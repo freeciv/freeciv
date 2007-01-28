@@ -293,14 +293,6 @@ flags    = "Build_Airborne"
 graphic     = "a.flight"
 graphic_alt = "-"
 
-[advance_fundamentalism]
-name     = _("Fundamentalism")
-req1     = "Never";		; "Theology"
-req2     = "Never"		; "Conscription"
-flags    = ""
-graphic     = "a.fundamentalism"
-graphic_alt = "-"
-
 [advance_fusion_power]
 name     = _("Fusion Power")
 req1     = "Nuclear Power"

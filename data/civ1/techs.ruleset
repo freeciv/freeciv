@@ -54,14 +54,6 @@ flags    = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
 
-[advance_amphibious_warfare]
-name     = _("Amphibious Warfare")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.amphibious_warfare"
-graphic_alt = "-"
-
 [advance_astronomy]
 name     = _("Astronomy")
 req1     = "Mysticism"
@@ -142,14 +134,6 @@ flags    = ""
 graphic     = "a.code_of_laws"
 graphic_alt = "-"
 
-[advance_combined_arms]
-name     = _("Combined Arms")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.combined_arms"
-graphic_alt = "-"
-
 [advance_combustion]
 name     = _("Combustion")
 req1     = "Refining"
@@ -206,14 +190,6 @@ flags    = ""
 graphic     = "a.democracy"
 graphic_alt = "-"
 
-[advance_economics]
-name     = _("Economics")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.economics"
-graphic_alt = "-"
-
 [advance_electricity]
 name     = _("Electricity")
 req1     = "Metallurgy"
@@ -236,22 +212,6 @@ req1     = "The Wheel"
 req2     = "Construction"
 flags    = ""
 graphic     = "a.engineering"
-graphic_alt = "-"
-
-[advance_environmentalism]
-name     = _("Environmentalism")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.environmentalism"
-graphic_alt = "-"
-
-[advance_espionage]
-name     = _("Espionage")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.espionage"
 graphic_alt = "-"
 
 [advance_explosives]
@@ -278,14 +238,6 @@ flags    = ""
 graphic     = "a.flight"
 graphic_alt = "-"
 
-[advance_fundamentalism]
-name     = _("Fundamentalism")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.fundamentalism"
-graphic_alt = "-"
-
 [advance_fusion_power]
 name     = _("Fusion Power")
 req1     = "Nuclear Power"
@@ -300,14 +252,6 @@ req1     = "Medicine"
 req2     = "The Corporation"
 flags    = ""
 graphic     = "a.genetic_engineering"
-graphic_alt = "-"
-
-[advance_guerilla_warfare]
-name     = _("Guerilla Warfare")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.guerilla_warfare"
 graphic_alt = "-"
 
 [advance_gunpowder]
@@ -358,36 +302,12 @@ flags    = ""
 graphic     = "a.labor_union"
 graphic_alt = "-"
 
-[advance_laser]
-name     = _("Laser")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.laser"
-graphic_alt = "-"
-
-[advance_leadership]
-name     = _("Leadership")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.leadership"
-graphic_alt = "-"
-
 [advance_literacy]
 name     = _("Literacy")
 req1     = "Writing"
 req2     = "Code of Laws"
 flags    = ""
 graphic     = "a.literacy"
-graphic_alt = "-"
-
-[advance_machine_tools]
-name     = _("Machine Tools")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.machine_tools"
 graphic_alt = "-"
 
 [advance_magnetism]
@@ -446,36 +366,12 @@ flags    = ""
 graphic     = "a.metallurgy"
 graphic_alt = "-"
 
-[advance_miniaturization]
-name     = _("Miniaturization")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.miniaturization"
-graphic_alt = "-"
-
-[advance_mobile_warfare]
-name     = _("Mobile Warfare")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.mobile_warfare"
-graphic_alt = "-"
-
 [advance_monarchy]
 name     = _("Monarchy")
 req1     = "Ceremonial Burial"
 req2     = "Code of Laws"
 flags    = ""
 graphic     = "a.monarchy"
-graphic_alt = "-"
-
-[advance_monotheism]
-name     = _("Monotheism")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.monotheism"
 graphic_alt = "-"
 
 [advance_mysticism]
@@ -535,28 +431,12 @@ flags    = "Population_Pollution_Inc"
 graphic     = "a.plastics"
 graphic_alt = "-"
 
-[advance_polytheism]
-name     = _("Polytheism")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.polytheism"
-graphic_alt = "-"
-
 [advance_pottery]
 name     = _("Pottery")
 req1     = "None"
 req2     = "None"
 flags    = ""
 graphic     = "a.pottery"
-graphic_alt = "-"
-
-[advance_radio]
-name     = _("Radio")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.radio"
 graphic_alt = "-"
 
 [advance_railroad]
@@ -583,13 +463,13 @@ flags    = ""
 graphic     = "a.refining"
 graphic_alt = "-"
 
-[advance_refrigeration]
-name     = _("Refrigeration")
-req1     = "Never"
-req2     = "Never"
-flags    = "Farmland"
-graphic     = "a.refrigeration"
-graphic_alt = "-"
+[advance_religion]
+name     = _("Religion")
+req1     = "Philosophy"
+req2     = "Writing"
+flags    = ""
+graphic     = "a.religion"
+graphic_alt = "a.monotheism"
 
 [advance_robotics]
 name     = _("Robotics")
@@ -607,36 +487,12 @@ flags    = ""
 graphic     = "a.rocketry"
 graphic_alt = "-"
 
-[advance_sanitation]
-name     = _("Sanitation")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.sanitation"
-graphic_alt = "-"
-
-[advance_seafaring]
-name     = _("Seafaring")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.seafaring"
-graphic_alt = "-"
-
 [advance_space_flight]
 name     = _("Space Flight")
 req1     = "Computers"
 req2     = "Rocketry"
 flags    = ""
 graphic     = "a.space_flight"
-graphic_alt = "-"
-
-[advance_stealth]
-name     = _("Stealth")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.stealth"
 graphic_alt = "-"
 
 [advance_steam_engine]
@@ -663,14 +519,6 @@ flags    = ""
 graphic     = "a.superconductors"
 graphic_alt = "-"
 
-[advance_tactics]
-name     = _("Tactics")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.tactics"
-graphic_alt = "-"
-
 [advance_the_corporation]
 name     = _("The Corporation")
 req1     = "Banking"
@@ -695,14 +543,6 @@ flags    = ""
 graphic     = "a.the_wheel"
 graphic_alt = "-"
 
-[advance_religion]		; for Civ2 Theology
-name     = _("Religion")
-req1     = "Philosophy"
-req2     = "Writing"
-flags    = ""
-graphic     = "a.theology"
-graphic_alt = "-"
-
 [advance_theory_of_gravity]
 name     = _("Theory of Gravity")
 req1     = "Astronomy"
@@ -725,14 +565,6 @@ req1     = "Mathematics"
 req2     = "Philosophy"
 flags    = ""
 graphic     = "a.university"
-graphic_alt = "-"
-
-[advance_warrior_code]
-name     = _("Warrior Code")
-req1     = "Never"
-req2     = "Never"
-flags    = ""
-graphic     = "a.warrior_code"
 graphic_alt = "-"
 
 [advance_writing]
