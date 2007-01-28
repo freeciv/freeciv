@@ -68,7 +68,7 @@ files =
   "misc/flags.spec",
   "misc/buildings.spec",
   "misc/space.spec",
-;  "misc/techs.spec",
+  "misc/techs.spec",
   "misc/treaty.spec",
   "amplio/nuke.spec",
   "amplio/explosions.spec",

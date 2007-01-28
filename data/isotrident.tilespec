@@ -72,7 +72,7 @@ files =
   "misc/cursors.spec",
   "misc/buildings.spec",
   "misc/space.spec",
-;  "misc/techs.spec",
+  "misc/techs.spec",
   "misc/treaty.spec",
   "misc/icons.spec",
   "isotrident/fog.spec",

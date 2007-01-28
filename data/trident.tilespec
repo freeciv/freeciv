@@ -70,7 +70,7 @@ files =
   "trident/roads.spec",
   "misc/buildings.spec",
   "misc/space.spec",
-;  "misc/techs.spec",
+  "misc/techs.spec",
   "misc/treaty.spec",
   "misc/icons.spec",
   "trident/fog.spec",

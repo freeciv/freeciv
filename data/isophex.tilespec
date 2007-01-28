@@ -83,6 +83,7 @@ files =
   "misc/flags.spec",
   "misc/shields.spec",
   "misc/cursors.spec",
+  "misc/techs.spec",
   "misc/space.spec",
   "misc/treaty.spec",
   "misc/icons.spec",
