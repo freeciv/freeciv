@@ -757,7 +757,7 @@ identifier  = "u"
 ; Below has to be definition for exactly two base types:
 ; fortress and airbase.
 ;
-; name                    = Name of the base type. Not yet used
+; name                    = Name of the base type.
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "DefenseBonus"      = Units inside gain defense bonus

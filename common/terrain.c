@@ -490,11 +490,13 @@ const char *get_infrastructure_text(bv_special spe)
   }
 
   if (contains_special(spe, S_FORTRESS)) {
-    cat_snprintf(s, sizeof(s), "%s/", _("Fortress"));
+    cat_snprintf(s, sizeof(s), "%s/",
+                 base_name(base_type_get_by_id(BASE_FORTRESS)));
   }
 
   if (contains_special(spe, S_AIRBASE)) {
-    cat_snprintf(s, sizeof(s), "%s/", _("Airbase"));
+    cat_snprintf(s, sizeof(s), "%s/",
+                 base_name(base_type_get_by_id(BASE_AIRBASE)));
   }
 
   p = s + strlen(s) - 1;

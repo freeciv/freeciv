@@ -36,6 +36,14 @@ bool base_flag(const struct base_type *pbase, enum base_flag_id flag)
 }
 
 /**************************************************************************
+  Return the translated name of the base type.
+**************************************************************************/
+const char *base_name(const struct base_type *pbase)
+{
+  return pbase->name;
+}
+
+/**************************************************************************
   Convert base flag names to enum; case insensitive;
   returns BF_LAST if can't match.
 **************************************************************************/
