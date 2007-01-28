@@ -380,7 +380,7 @@ static void meta_read_response(struct server_scan *scan)
       scan->meta.state = META_DONE;
       return;
     } else {
-      if (fwrite(buf, 1, result, scan->meta.fp) < 0) {
+      if (fwrite(buf, 1, result, scan->meta.fp) != result) {
 	(scan->error_func)(scan, mystrerror());
       }
     }
