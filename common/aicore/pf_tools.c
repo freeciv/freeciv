@@ -818,19 +818,37 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 					    struct unit *punit)
 {
   parameter->turn_mode = TM_CAPPED;
-  if (is_air_unit(punit) || is_heli_unit(punit)) {
-    parameter->unknown_MC = SINGLE_MOVE;
-  } else if (is_sailing_unit(punit)) {
-    parameter->unknown_MC = 2 * SINGLE_MOVE;
-  } else {
-    assert(is_ground_unit(punit));
-    parameter->unknown_MC = SINGLE_MOVE;
-    terrain_type_iterate(pterrain) {
-      int mr = 2 * pterrain->movement_cost;
 
-      parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
+  parameter->unknown_MC = SINGLE_MOVE;
+  if (unit_class_flag(get_unit_class(unit_type(punit)), UCF_TERRAIN_SPEED)) {
+    /* Unit is subject to terrain movement costs */
+    struct unit_type *punittype = unit_type(punit);
+    bv_special specials;
+
+    BV_CLR_ALL(specials); /* This works at the moment, since road is
+                           * only special that affects is_native_terrain()
+                           * Even if tile contains road, we can safely
+                           * ignore it since movement cost for it is
+                           * certainly less than SINGLE_MOVE. */
+
+    terrain_type_iterate(pterrain) {
+      if (is_native_terrain(punittype, pterrain, specials)) {
+        /* Exact movement cost matters only if we can enter
+         * the tile. */
+        int mr = 2 * pterrain->movement_cost;
+
+        parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
+      } else {
+        /* FIXME: We might be unable to enter tile at all.
+                  This should have some cost too? */
+      }
     } terrain_type_iterate_end;
   }
+  if (is_sailing_unit(punit)) {
+    /* Sailing units explore less */
+    parameter->unknown_MC *= 2;
+  }
+
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;
