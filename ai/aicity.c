@@ -1237,6 +1237,7 @@ void ai_manage_buildings(struct player *pplayer)
   so can be a bigger bother to cache it.
 **************************************************************************/
 static void ai_barbarian_choose_build(struct player *pplayer, 
+                                      struct city *pcity,
 				      struct ai_choice *choice)
 {
   struct unit_type *bestunit = NULL;
@@ -1246,7 +1247,8 @@ static void ai_barbarian_choose_build(struct player *pplayer,
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD, i);
 
-    if (iunit->attack_strength > bestattack) {
+    if (iunit->attack_strength > bestattack
+        && can_build_unit(pcity, iunit)) {
       bestunit = iunit;
       bestattack = iunit->attack_strength;
     }
@@ -1256,8 +1258,8 @@ static void ai_barbarian_choose_build(struct player *pplayer,
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
     struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
-    if (game.info.global_advances[iunit->tech_requirement]
-	&& iunit->attack_strength > bestattack) {
+    if (iunit->attack_strength > bestattack
+        && can_build_unit(pcity, iunit)) {
       bestunit = iunit;
       bestattack = iunit->attack_strength;
     }
@@ -1297,7 +1299,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   }
 
   if( is_barbarian(pplayer) ) {
-    ai_barbarian_choose_build(pplayer, &(pcity->ai.choice));
+    ai_barbarian_choose_build(pplayer, pcity, &(pcity->ai.choice));
   } else {
     /* FIXME: 101 is the "overriding military emergency" indicator */
     if ((pcity->ai.choice.want <= 100 || pcity->ai.urgency == 0)

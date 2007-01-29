@@ -455,6 +455,14 @@ bool can_player_build_unit_direct(const struct player *p,
   Impr_type_id impr_req;
 
   CHECK_UNIT_TYPE(punittype);
+
+  if (is_barbarian(p)
+      && !unit_has_role(punittype, L_BARBARIAN_BUILD)
+      && !unit_has_role(punittype, L_BARBARIAN_BUILD_TECH)) {
+    /* Barbarians can build only role units */
+    return FALSE;
+  }
+
   if (unit_type_flag(punittype, F_NUCLEAR)
       && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0) {
     return FALSE;
@@ -467,7 +475,32 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
   if (get_invention(p,punittype->tech_requirement) != TECH_KNOWN) {
-    return FALSE;
+    if (!is_barbarian(p)) {
+      /* Normal players can never build units without knowing tech
+       * requirements. */
+      return FALSE;
+    }
+    if (!unit_has_role(punittype, L_BARBARIAN_BUILD)) {
+      /* Even barbarian cannot build this unit without tech */
+
+      /* Unit has to have L_BARBARIAN_BUILD_TECH role
+       * In the beginning of this function we checked that
+       * barbarian player tries to build only role
+       * L_BARBARIAN_BUILD or L_BARBARIAN_BUILD_TECH units. */
+      assert(unit_has_role(punittype, L_BARBARIAN_BUILD_TECH));
+
+      /* Client does not know all the advances other players have
+       * got. So following gives wrong answer in the client.
+       * This is called at the client when received create_city
+       * packet for a barbarian city. City initialization tries
+       * to find L_FIRSTBUILD unit. */
+
+      if (!game.info.global_advances[punittype->tech_requirement]) {
+        /* Nobody knows required tech */
+        return FALSE;
+      }
+    }
+    
   }
   if (unit_type_flag(punittype, F_UNIQUE)) {
     /* FIXME: This could be slow if we have lots of units. We could
@@ -494,7 +527,7 @@ bool can_player_build_unit_direct(const struct player *p,
 
 /**************************************************************************
 Whether player can build given unit somewhere;
-returns 0 if unit is obsolete.
+returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_build_unit(const struct player *p,
 			   const struct unit_type *punittype)
@@ -512,8 +545,8 @@ bool can_player_build_unit(const struct player *p,
 
 /**************************************************************************
 Whether player can _eventually_ build given unit somewhere -- ie,
-returns 1 if unit is available with current tech OR will be available
-with future tech.  returns 0 if unit is obsolete.
+returns TRUE if unit is available with current tech OR will be available
+with future tech. Returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_eventually_build_unit(const struct player *p,
 				      const struct unit_type *punittype)

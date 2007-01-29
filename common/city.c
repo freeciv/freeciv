@@ -483,7 +483,7 @@ bool can_build_unit_direct(const struct city *pcity,
 }
 
 /**************************************************************************
-  Return whether given city can build given unit; returns 0 if unit is 
+  Return whether given city can build given unit; returns FALSE if unit is 
   obsolete.
 **************************************************************************/
 bool can_build_unit(const struct city *pcity,
@@ -502,7 +502,7 @@ bool can_build_unit(const struct city *pcity,
 
 /**************************************************************************
   Return whether player can eventually build given unit in the city;
-  returns 0 if unit can never possibly be built in this city.
+  returns FALSE if unit can never possibly be built in this city.
 **************************************************************************/
 bool can_eventually_build_unit(const struct city *pcity,
 			       const struct unit_type *punittype)
