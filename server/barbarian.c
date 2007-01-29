@@ -116,7 +116,7 @@ static struct player *create_barbarian_player(bool land)
 {
   int newplayer = game.info.nplayers;
   struct player *barbarians;
-  struct nation_type *nation = pick_barbarian_nation();
+  struct nation_type *nation;
 
   players_iterate(barbarians) {
     if ((land && is_land_barbarian(barbarians))
@@ -125,7 +125,7 @@ static struct player *create_barbarian_player(bool land)
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
         barbarians->is_dying = FALSE;
-        pick_random_player_name(nation, barbarians->name);
+        pick_random_player_name(barbarians->nation, barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
@@ -140,6 +140,8 @@ static struct player *create_barbarian_player(bool land)
   if (newplayer >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
     die("Too many players in server/barbarian.c");
   }
+
+  nation = pick_barbarian_nation();
 
   barbarians = &game.players[newplayer];
 
