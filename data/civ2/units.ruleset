@@ -69,6 +69,8 @@ veteran_move_bonus = 0, 0
 ;                   city or airbase
 ; "AlwaysSafe"    = Unit is safe even on unsafe terrain
 ; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
+; "ZOC"           = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
+;                   override this
 
 [unitclass_missile]
 name          = _("Missile")
@@ -83,7 +85,7 @@ move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere",
-                "CollectRansom"
+                "CollectRansom", "ZOC"
 
 [unitclass_sea]
 name          = _("Sea")

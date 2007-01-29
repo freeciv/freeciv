@@ -75,6 +75,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                   city or airbase
 ; "AlwaysSafe"    = Unit is safe even on unsafe terrain
 ; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
+; "ZOC"           = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
+;                   override this
 
 [unitclass_missile]
 name          = _("Missile")
@@ -89,7 +91,7 @@ move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere",
-                "CollectRansom"
+                "CollectRansom", "ZOC"
 
 [unitclass_sea]
 name          = _("Sea")
@@ -160,7 +162,7 @@ flags         = "Unreachable", "AlwaysSafe"
 ;
 ; "HelpWonder"	= can help build wonders
 ; "TradeRoute"	= can establish trade routes
-; "IgZOC"	= (land only) ignore Zones of Control (ZOC)
+; "IgZOC"	= ignore Zones of Control (ZOC) even if unit class has "ZOC" flag
 ; "NonMil"	= a non-military unit, does not cause unhappiness
 ; "IgTer"	= ignore terrain/road/rail, treat every tile as 1/3 move cost
 ; "OneAttack"	= can only make a single attack, regardless of movement points

@@ -1165,11 +1165,11 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 }
 
 /**************************************************************************
-  Takes into account unit move_type as well as IGZOC
+  Takes into account unit class flag UCF_ZOC as well as IGZOC
 **************************************************************************/
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
 {
-  return (!is_ground_unittype(punittype)
+  return (!unit_class_flag(get_unit_class(punittype), UCF_ZOC)
 	  || unit_type_flag(punittype, F_IGZOC));
 }
 
