@@ -11,6 +11,7 @@ artists = "
     Tim F. Smith <yoohootim@hotmail.com>
     Yautja
     Daniel Speyer
+    Eleazar
 "
 
 [file]
@@ -178,4 +179,41 @@ tiles = { "row", "column","tag"
  2, 11, "t.ocean_cell_r101"
  2, 13, "t.ocean_cell_r011"
  2, 15, "t.ocean_cell_r111"
+
+; Deep Ocean sprites.
+; 3, 0,  "t.deep_cell_u000"
+; 3, 2,  "t.deep_cell_u100"
+; 3, 4,  "t.deep_cell_u010"
+; 3, 6,  "t.deep_cell_u110"
+; 3, 8,  "t.deep_cell_u001"
+; 3, 10, "t.deep_cell_u101"
+; 3, 12, "t.deep_cell_u011"
+; 3, 14, "t.deep_cell_u111"
+ 
+; 4, 0,  "t.deep_cell_d000"
+; 4, 2,  "t.deep_cell_d100"
+; 4, 4,  "t.deep_cell_d010"
+; 4, 6,  "t.deep_cell_d110"
+; 4, 8,  "t.deep_cell_d001"
+; 4, 10, "t.deep_cell_d101"
+; 4, 12, "t.deep_cell_d011"
+; 4, 14, "t.deep_cell_d111"
+
+; 5, 0,  "t.deep_cell_l000"
+; 5, 2,  "t.deep_cell_l100"
+; 5, 4,  "t.deep_cell_l010"
+; 5, 6,  "t.deep_cell_l110"
+; 5, 8,  "t.deep_cell_l001"
+; 5, 10, "t.deep_cell_l101"
+; 5, 12, "t.deep_cell_l011"
+; 5, 14, "t.deep_cell_l111"
+
+; 5, 1,  "t.deep_cell_r000"
+; 5, 3,  "t.deep_cell_r100"
+; 5, 5,  "t.deep_cell_r010"
+; 5, 7,  "t.deep_cell_r110"
+; 5, 9,  "t.deep_cell_r001"
+; 5, 11, "t.deep_cell_r101"
+; 5, 13, "t.deep_cell_r011"
+; 5, 15, "t.deep_cell_r111"
 }
