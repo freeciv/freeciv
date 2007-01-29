@@ -43,7 +43,11 @@
 /* 
  * This one is used only by ferryboats in ai.passenger field 
  */
-#define FERRY_AVAILABLE   -1      /* Boat is looking for a passenger */
+#define FERRY_AVAILABLE    -1     /* Boat is looking for a passenger */
+#define FERRY_ABANDON_BOSS  0     /* Passenger is assigned for boat, but boat
+                                   * might take another passenger. Probably
+                                   * passenger already left the boat*/
+
 /* 
  * The below is used only by passengers in ai.ferryboat field 
  */ 
@@ -911,11 +915,12 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 	UNIT_LOG(LOGLEVEL_FERRY, punit, 
 		 "recorded passenger[%d] is not on board, checking for others",
 		 punit->ai.passenger);
-	punit->ai.passenger = 0;
+	punit->ai.passenger = FERRY_ABANDON_BOSS;
       }
     }
 
-    if (punit->ai.passenger <= 0) {
+    if (punit->ai.passenger == FERRY_AVAILABLE
+        || punit->ai.passenger == FERRY_ABANDON_BOSS) {
       struct unit *candidate = NULL;
     
       /* Try to select passanger-in-charge from among our passengers */
@@ -973,7 +978,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 	} else if (get_transporter_occupancy(punit) != 0) {
 	  /* The boss isn't on the ferry, and we have other passengers?
 	   * Forget about him. */
-	  punit->ai.passenger = 0;
+	  punit->ai.passenger = FERRY_ABANDON_BOSS;
 	}
       }
     } else {
