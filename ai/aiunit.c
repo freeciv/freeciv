@@ -1314,8 +1314,24 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   generate_warmap(tile_get_city(*dest_tile), punit);
 
   if (is_ground_unit(punit)) {
-    int boatid = aiferry_find_boat(punit, 2, NULL);
-    ferryboat = player_find_unit_by_id(pplayer, boatid);
+
+    /* First check if we can use the boat we are currently loaded to */
+    if (punit->transported_by != -1) {
+      ferryboat = player_find_unit_by_id(unit_owner(punit),
+                                         punit->transported_by);
+
+      /* We are already in, so don't ask for free capacity */
+      if (ferryboat == NULL || !is_boat_free(ferryboat, punit, 0)) {
+        /* No, we cannot control current boat */
+        ferryboat = NULL;
+      }
+    }
+
+    if (ferryboat == NULL) {
+      /* Try to find new boat */
+      int boatid = aiferry_find_boat(punit, 1, NULL);
+      ferryboat = player_find_unit_by_id(pplayer, boatid);
+    }
   }
 
   if (ferryboat) {
