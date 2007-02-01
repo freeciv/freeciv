@@ -1628,28 +1628,52 @@ static void ai_military_attack_barbarian(struct player *pplayer,
 					 struct unit *punit)
 {
   struct city *pc;
+  bool any_continent = FALSE;
 
-  if ((pc = dist_nearest_city(pplayer, punit->tile, FALSE, TRUE))) {
+  if (punit->transported_by != -1) {
+    /* If we are in transport, we can go to any continent.
+     * Actually, we are not currently in a continent where to stay. */
+    any_continent = TRUE;
+  }
+
+  if ((pc = dist_nearest_city(pplayer, punit->tile, any_continent, TRUE))) {
     if (can_unit_exist_at_tile(punit, punit->tile)) {
       UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s", pc->name);
       (void) ai_gothere(pplayer, punit, pc->tile);
     } else {
       struct unit *ferry = NULL;
 
-      unit_list_iterate(punit->tile->units, aunit) {
-	if (is_boat_free(aunit, punit, 2)) {
-	  ferry = aunit;
-	  break;
-	}
-      } unit_list_iterate_end;
+      if (punit->transported_by != -1) {
+        ferry = find_unit_by_id(punit->transported_by);
+
+        /* We already are in a boat so it needs no
+         * free capacity */
+        if (!is_boat_free(ferry, punit, 0)) {
+          /* We cannot control our ferry. */
+          ferry = NULL;
+        }
+      } else {
+        /* We are not in a boat yet. Search for one. */
+        unit_list_iterate(punit->tile->units, aunit) {
+          if (is_boat_free(aunit, punit, 1)) {
+            ferry = aunit;
+            punit->transported_by = ferry->id;
+            break;
+          }
+        } unit_list_iterate_end;
+      }
       if (ferry) {
 	UNIT_LOG(LOG_DEBUG, punit, "Barbarian sailing to conquer %s",
 		 pc->name);
 	(void)aiferry_goto_amphibious(ferry, punit, pc->tile);
       } else {
-	UNIT_LOG(LOG_ERROR, punit, "unable to find barbarian ferry");
+        /* This is not an error. Somebody else might be in charge
+         * of the ferry. */
+	UNIT_LOG(LOG_DEBUG, punit, "unable to find barbarian ferry");
       }
     }
+  } else {
+    UNIT_LOG(LOG_DEBUG, punit, "Barbarian find no target city");
   }
 }
 
