@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-02 23:12+0300\n"
+"POT-Creation-Date: 2007-02-03 15:28-0500\n"
 "PO-Revision-Date: 2006-02-03 19:42+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -617,7 +617,7 @@ msgstr "Требования для выживания поддерживают�
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1002 common/team.c:131
 #: client/gui-gtk-2.0/helpdlg.c:1058 client/gui-win32/helpdlg.c:585
-#: client/gui-xaw/helpdlg.c:1000
+#: client/gui-xaw/helpdlg.c:993
 #, c-format
 msgid "(none)"
 msgstr "(нет)"
@@ -655,8 +655,8 @@ msgstr "(Неизвестно)"
 #: client/gui-sdl/helpdlg.c:775 client/gui-sdl/mapview.c:759
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:714 client/gui-win32/helpdlg.c:734
-#: client/gui-xaw/helpdlg.c:821 client/gui-xaw/helpdlg.c:865
-#: client/gui-xaw/helpdlg.c:884 manual/civmanual.c:318 manual/civmanual.c:323
+#: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
+#: client/gui-xaw/helpdlg.c:882 manual/civmanual.c:318 manual/civmanual.c:323
 msgid "None"
 msgstr "Ничего"
 
@@ -11953,19 +11953,19 @@ msgstr "Транс. Резлт/Время:"
 #: client/gui-mui/helpdlg.c:226 client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:501 client/gui-win32/helpdlg.c:544
 #: client/gui-win32/helpdlg.c:708 client/gui-win32/helpdlg.c:732
-#: client/gui-xaw/helpdlg.c:763 client/gui-xaw/helpdlg.c:812
-#: client/gui-xaw/helpdlg.c:820 client/gui-xaw/helpdlg.c:857
-#: client/gui-xaw/helpdlg.c:882
+#: client/gui-xaw/helpdlg.c:761 client/gui-xaw/helpdlg.c:810
+#: client/gui-xaw/helpdlg.c:818 client/gui-xaw/helpdlg.c:855
+#: client/gui-xaw/helpdlg.c:880
 msgid "(Never)"
 msgstr "(Никогда)"
 
 #: client/gui-gtk-2.0/helpdlg.c:132 client/gui-mui/helpdlg.c:117
-#: client/gui-xaw/helpdlg.c:127 client/gui-xaw/menu.c:251 data/helpdata.txt:37
+#: client/gui-xaw/helpdlg.c:125 client/gui-xaw/menu.c:251 data/helpdata.txt:37
 msgid "About"
 msgstr "О программе"
 
 #: client/gui-gtk-2.0/helpdlg.c:199 client/gui-mui/helpdlg.c:394
-#: client/gui-xaw/helpdlg.c:273
+#: client/gui-xaw/helpdlg.c:271
 msgid "Removed"
 msgstr "Удален"
 
@@ -12001,13 +12001,13 @@ msgid "?techhelp:"
 msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1063 client/gui-win32/helpdlg.c:590
-#: client/gui-xaw/helpdlg.c:1005
+#: client/gui-xaw/helpdlg.c:998
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Торговли / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-win32/helpdlg.c:594
-#: client/gui-xaw/helpdlg.c:1009
+#: client/gui-xaw/helpdlg.c:1002
 #, c-format
 msgid "no extra / %d"
 msgstr "так же / %d"
@@ -12015,20 +12015,20 @@ msgstr "так же / %d"
 #: client/gui-gtk-2.0/helpdlg.c:1070 client/gui-gtk-2.0/helpdlg.c:1074
 #: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:597
 #: client/gui-win32/helpdlg.c:601 client/gui-win32/helpdlg.c:615
-#: client/gui-win32/helpdlg.c:634 client/gui-xaw/helpdlg.c:1011
-#: client/gui-xaw/helpdlg.c:1015 client/gui-xaw/helpdlg.c:1029
-#: client/gui-xaw/helpdlg.c:1048
+#: client/gui-win32/helpdlg.c:634 client/gui-xaw/helpdlg.c:1004
+#: client/gui-xaw/helpdlg.c:1008 client/gui-xaw/helpdlg.c:1022
+#: client/gui-xaw/helpdlg.c:1041
 msgid "n/a"
 msgstr "н/д"
 
 #: client/gui-gtk-2.0/helpdlg.c:1077 client/gui-win32/helpdlg.c:604
-#: client/gui-xaw/helpdlg.c:1018
+#: client/gui-xaw/helpdlg.c:1011
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Еды / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1091 client/gui-win32/helpdlg.c:618
-#: client/gui-xaw/helpdlg.c:1032
+#: client/gui-xaw/helpdlg.c:1025
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Рес. / %d"
@@ -16671,18 +16671,18 @@ msgstr "Выполнение 'xset fp rehash' может временно реш
 msgid "Font for charset %s is lacking"
 msgstr "Отсустствует шрифт для кодировки %s"
 
-#: client/gui-xaw/helpdlg.c:919 client/gui-xaw/helpdlg.c:930
-#: client/gui-xaw/helpdlg.c:936
+#: client/gui-xaw/helpdlg.c:915 client/gui-xaw/helpdlg.c:926
+#: client/gui-xaw/helpdlg.c:932
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Позволяет %s.\n"
 
-#: client/gui-xaw/helpdlg.c:924
+#: client/gui-xaw/helpdlg.c:920
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Упраздняет %s.\n"
 
-#: client/gui-xaw/helpdlg.c:939 client/gui-xaw/helpdlg.c:943
+#: client/gui-xaw/helpdlg.c:935 client/gui-xaw/helpdlg.c:939
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Позволяет %s (с %s).\n"
