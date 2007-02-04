@@ -9385,7 +9385,7 @@ msgid "Government: %s"
 msgstr "Zřízení: %s"
 
 #: client/text.c:653
-#, c-format
+#, c-format, fuzzy
 msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] " jednotka"
@@ -9403,7 +9403,7 @@ msgid "Turns to target: %d to %d"
 msgstr "Tahů k cíli: %d"
 
 #: client/text.c:694
-#, c-format
+#, c-format, fuzzy
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] " jednotka vybrána"
