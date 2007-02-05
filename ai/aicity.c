@@ -647,7 +647,8 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
 
   requirement_vector_iterate(&pimpr->reqs, preq) {
     const bool active = is_req_active(pplayer, pcity, pimpr,
-                                      NULL, NULL, NULL, NULL, preq);
+                                      pcity->tile, NULL, NULL, NULL, preq);
+
     if (preq->source.type == REQ_TECH && !active) {
       /* Found a missing technology requirement for this improvement. */
       tech_vector_append(&needed_techs, &preq->source.value.tech);
