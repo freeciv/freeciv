@@ -669,6 +669,9 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
 
     built_impr_iterate(pcity, id) {
       want += impr_build_shield_cost(id);
+      if (improvement_obsolete(pplayer, id)) {
+        continue;
+      }
       if (is_great_wonder(id)) {
         want += impr_build_shield_cost(id) * 2;
       } else if (is_small_wonder(id)) {
@@ -912,8 +915,10 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
 
     /* Increase the love if aplayer has got a building that makes 
      * us love him more. Typically it's Eiffel Tower */
-    pplayer->ai.love[aplayer->player_no] +=
-      get_player_bonus(aplayer, EFT_GAIN_AI_LOVE) * MAX_AI_LOVE / 1000;
+    if (!NEVER_MET(pplayer, aplayer)) {
+      pplayer->ai.love[aplayer->player_no] +=
+        get_player_bonus(aplayer, EFT_GAIN_AI_LOVE) * MAX_AI_LOVE / 1000;
+    }
   } players_iterate_end;
 
   /* Can we win by space race? */
