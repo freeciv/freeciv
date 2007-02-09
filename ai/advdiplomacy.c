@@ -1495,15 +1495,13 @@ void ai_diplomacy_actions(struct player *pplayer)
       } players_iterate_end;
 
       if ((players_on_same_team(pplayer, aplayer)
-          || pplayer->ai.love[aplayer->player_no] > MAX_AI_LOVE / 2)
-          && !target) {
+          || pplayer->ai.love[aplayer->player_no] > MAX_AI_LOVE / 2)) {
         /* Share techs only with team mates and allies we really like. */
         ai_share(pplayer, aplayer);
+      }
+      if (!target || !target->is_alive) {
         adip->ally_patience = 0;
-        break;
-      } else if (!target) {
-        adip->ally_patience = 0;
-        break;
+        break; /* No need to nag our ally */
       }
 
       switch (adip->ally_patience--) {
