@@ -715,6 +715,10 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
   distance = player_distance_to_player(pplayer, target);
   ai->diplomacy.player_intel[target->player_no].distance = distance;
 
+  /* Worry a bit if the other player has extreme amounts of wealth
+   * that can be used in cities to quickly buy an army. */
+  fear += (target->economic.gold / 5000) * city_list_size(target->cities);
+
   /* Tech lead is worrisome. FIXME: Only consider 'military' techs. */
   fear += MAX(get_player_research(target)->techs_researched
               - get_player_research(pplayer)->techs_researched, 0) * 100;
