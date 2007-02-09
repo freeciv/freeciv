@@ -142,9 +142,9 @@ static enum cursor_type editor_unit(struct tile *ptile, bool testing)
     packet.type = selected_unit->type->index;
     packet.transported_by = selected_unit->transported_by;
 
-    packet.movesleft = selected_unit->moves_left;
-    packet.hp = selected_unit->hp;
-    packet.fuel = selected_unit->fuel;
+    packet.movesleft = unit_type(selected_unit)->move_rate;
+    packet.hp = unit_type(selected_unit)->hp;
+    packet.fuel = unit_type(selected_unit)->fuel;
 
     packet.activity_count = selected_unit->activity_count;
 

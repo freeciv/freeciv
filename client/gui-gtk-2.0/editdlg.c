@@ -42,7 +42,6 @@
 #define TOOL_WIDTH 5
 
 enum unit_param {
-  UPARAM_MOVES,
   UPARAM_ACTIVITY,
   UPARAM_ACTIVITY_TARGET,
   UPARAM_ACTIVITY_COUNT,
@@ -189,9 +188,6 @@ static void unit_callback(GtkSpinButton *spinbutton, gpointer data)
   enum unit_param param = GPOINTER_TO_INT(data);
 
   switch (param) {
-  case UPARAM_MOVES:
-    punit->moves_left = gtk_spin_button_get_value_as_int(spinbutton);
-    return;
   case UPARAM_ACTIVITY:
     punit->activity = gtk_spin_button_get_value_as_int(spinbutton);
     return;
@@ -327,12 +323,10 @@ static GtkWidget *create_units_palette(void)
   int i;
   struct unit *punit = editor_get_selected_unit();
 
-  const char *names[UPARAM_LAST] = { _("Moves Left"),
-				     _("Activity"),
+  const char *names[UPARAM_LAST] = { _("Activity"),
 				     _("Activity Target"),
 				     _("Activity Count") };
   int inits[UPARAM_LAST][3] = {
-    {punit->moves_left, 0, 200},
     {punit->activity, 0, ACTIVITY_LAST},
     {punit->activity_target, 0, S_LAST},
     {punit->activity_count, 0, 200}
