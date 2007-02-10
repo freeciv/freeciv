@@ -28,7 +28,7 @@
 #include "mapview_common.h"
 
 void center_minimap_on_minimap_window(void);
-void redraw_unit_info_label(struct unit *pUnit);
+void redraw_unit_info_label(struct unit_list *punitlist);
 SDL_Surface * create_city_map(struct city *pCity);
 SDL_Surface * get_terrain_surface(struct tile *ptile);  
 void toggle_overview_mode(void);

@@ -232,6 +232,8 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
                           int mask_offset_x, int mask_offset_y);
 
+SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha); 
+
 bool correct_black(SDL_Surface * pSrc);
 
 int blit_entire_src(SDL_Surface *pSrc,
@@ -271,7 +273,11 @@ int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
 SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
 			   Uint16 new_height, int smooth);
 
-SDL_Surface *make_flag_surface_smaler(SDL_Surface *pSrc);
+SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
+                              Uint16 new_width, Uint16 new_height, int smooth,
+                              bool scale_up, bool absolute_dimensions);
+
+SDL_Surface *crop_visible_part_from_surface(SDL_Surface *pSrc);
 SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 
 #define create_surf(w, h, f) \

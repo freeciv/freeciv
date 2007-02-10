@@ -140,7 +140,7 @@ static void update_goto_dialog(void)
    
       if(pCity->owner != owner) {
         pLogo = get_nation_flag_surface(get_player(pCity->owner->player_no)->nation);
-        pLogo = make_flag_surface_smaler(pLogo);
+        pLogo = crop_visible_part_from_surface(pLogo);
       }
       
       pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pStr, 
@@ -262,7 +262,7 @@ static void popup_goto_airlift_dialog(void)
       continue;
     }
     
-    pFlag = make_flag_surface_smaler(get_nation_flag_surface(game.players[i].nation));
+    pFlag = crop_visible_part_from_surface(get_nation_flag_surface(game.players[i].nation));
   
     if (pFlag->w > 15 || pFlag->h > 15) {
       float zoom = (float)(MAX(pFlag->w, pFlag->h)) / 15;

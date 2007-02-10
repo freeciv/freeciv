@@ -28,11 +28,13 @@
 #include <SDL/SDL.h>
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 
 /* common */
 #include "game.h"
+#include "goto.h"
 #include "government.h"
 #include "unitlist.h"
 
@@ -472,10 +474,203 @@ static int fucus_units_info_callback(struct widget *pWidget)
   return -1;
 }
 
+/****************************************************************************
+  Return a (static) string with tile name describing terrain and specials.
+  Same as tile_get_info_text() from client/text.c, but with an additional
+  line break
+
+  Examples:
+    "Hills"
+    "Hills (Coals)"
+    "Hills (Coals)
+     [Pollution]"
+****************************************************************************/
+static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
+{
+  static char s[256];
+  bool first;
+
+  sz_strlcpy(s, ptile->terrain->name);
+  if (tile_has_special(ptile, S_RIVER)) {
+    sz_strlcat(s, "/");
+    sz_strlcat(s, get_special_name(S_RIVER));
+  }
+
+  if (ptile->resource) {
+    cat_snprintf(s, sizeof(s), " (%s)", ptile->resource->name);
+  }
+
+  first = TRUE;
+  if (tile_has_special(ptile, S_POLLUTION)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, "\n[");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, get_special_name(S_POLLUTION));
+  }
+  if (tile_has_special(ptile, S_FALLOUT)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, "\n[");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, get_special_name(S_FALLOUT));
+  }
+  if (!first) {
+    sz_strlcat(s, "]");
+  }
+
+  return s;
+}
+
+/****************************************************************************
+  Return the text body for the unit info shown in the info panel.
+  Same as get_unit_info_label_text2() from client/text.c, but calls
+  gui_sdl_tile_get_info_text() instead.
+
+  FIXME: this should be renamed.
+****************************************************************************/
+static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
+{
+  static struct astring str = ASTRING_INIT;
+  int count;
+
+  astr_clear(&str);
+
+  if (!punits) {
+    return "";
+  }
+
+  count = unit_list_size(punits);
+
+  /* This text should always have the same number of lines.  Otherwise the
+   * GUI widgets may be confused and try to resize themselves. */
+
+  /* Line 1. Goto or activity text. */
+  if (count > 0 && unit_list_size(hover_units) > 0) {
+    int min, max;
+
+    goto_get_turns(&min, &max);
+    if (min == max) {
+      astr_add_line(&str, _("Turns to target: %d"), max);
+    } else {
+      astr_add_line(&str, _("Turns to target: %d to %d"), min, max);
+    }
+  } else if (count == 1) {
+    astr_add_line(&str, "%s",
+      unit_activity_text(unit_list_get(punits, 0)));
+  } else if (count > 1) {
+    astr_add_line(&str, PL_("%d unit selected",
+          "%d units selected",
+          count),
+      count);
+  } else {
+    astr_add_line(&str, _("No units selected."));
+  }
+
+  /* Lines 2, 3, and 4 vary. */
+  if (count == 1) {
+    struct unit *punit = unit_list_get(punits, 0);
+    struct city *pcity =
+  player_find_city_by_id(punit->owner, punit->homecity);
+    int infracount;
+    bv_special infrastructure =
+      get_tile_infrastructure_set(punit->tile, &infracount);
+
+    astr_add_line(&str, "%s", gui_sdl_tile_get_info_text(punit->tile));
+    if (infracount > 0) {
+      astr_add_line(&str, "%s", get_infrastructure_text(infrastructure));
+    } else {
+      astr_add_line(&str, " ");
+    }
+    if (pcity) {
+      astr_add_line(&str, "%s", pcity->name);
+    } else {
+      astr_add_line(&str, " ");
+    }
+  } else if (count > 1) {
+    int mil = 0, nonmil = 0;
+    int types_count[U_LAST], i;
+    struct unit_type *top[3];
+
+    memset(types_count, 0, sizeof(types_count));
+    unit_list_iterate(punits, punit) {
+      if (unit_flag(punit, F_NONMIL)) {
+  nonmil++;
+      } else {
+  mil++;
+      }
+      types_count[punit->type->index]++;
+    } unit_list_iterate_end;
+
+    top[0] = top[1] = top[2] = NULL;
+    unit_type_iterate(utype) {
+      if (!top[2]
+    || types_count[top[2]->index] < types_count[utype->index]) {
+  top[2] = utype;
+
+  if (!top[1]
+      || types_count[top[1]->index] < types_count[top[2]->index]) {
+    top[2] = top[1];
+    top[1] = utype;
+
+    if (!top[0]
+        || types_count[top[0]->index] < types_count[utype->index]) {
+      top[1] = top[0];
+      top[0] = utype;
+    }
+  }
+      }
+    } unit_type_iterate_end;
+
+    for (i = 0; i < 3; i++) {
+      if (top[i] && types_count[top[i]->index] > 0) {
+  if (unit_type_flag(top[i], F_NONMIL)) {
+    nonmil -= types_count[top[i]->index];
+  } else {
+    mil -= types_count[top[i]->index];
+  }
+  astr_add_line(&str, "%d: %s",
+          types_count[top[i]->index], top[i]->name);
+      } else {
+  astr_add_line(&str, " ");
+      }
+    }
+
+    if (nonmil > 0 && mil > 0) {
+      astr_add_line(&str, _("Others: %d civil; %d military"), nonmil, mil);
+    } else if (nonmil > 0) {
+      astr_add_line(&str, _("Others: %d civilian"), nonmil);
+    } else if (mil > 0) {
+      astr_add_line(&str, _("Others: %d military"), mil);
+    } else {
+      astr_add_line(&str, " ");
+    }
+  } else {
+    astr_add_line(&str, " ");
+    astr_add_line(&str, " ");
+    astr_add_line(&str, " ");
+  }
+
+  /* Line 5. Debug text. */
+#ifdef DEBUG
+  if (count == 1) {
+    astr_add_line(&str, "(Unit ID %d)", unit_list_get(punits, 0)->id);
+  } else {
+    astr_add_line(&str, " ");
+  }
+#endif
+
+  return str.str;
+}
+
 /**************************************************************************
   Read Function Name :)
 **************************************************************************/
-void redraw_unit_info_label(struct unit *pUnit)
+void redraw_unit_info_label(struct unit_list *punitlist)
 {
   struct widget *pInfo_Window;
   SDL_Rect src, area;
@@ -483,7 +678,7 @@ void redraw_unit_info_label(struct unit *pUnit)
   SDL_Surface *pBuf_Surf, *pTmpSurf;
   SDL_String16 *pStr;
   struct canvas *destcanvas;
-  int infra_count;
+  struct unit *pUnit = unit_list_get(punitlist, 0);
 
   if (SDL_Client_Flags & CF_UNIT_INFO_SHOW) {
     
@@ -493,21 +688,19 @@ void redraw_unit_info_label(struct unit *pUnit)
     widget_redraw(pInfo_Window);
 
     if (pUnit) {
+
       SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
       int sy, y, sx, width, height, n;
       bool right;
       char buffer[512];
-      struct city *pCity = player_find_city_by_id(game.player_ptr,
-						  pUnit->homecity);
       struct tile *pTile = pUnit->tile;
-      bv_special infrastructure = get_tile_infrastructure_set(pTile, &infra_count);
 
       /* get and draw unit name (with veteran status) */
       pStr = create_str16_from_char(unit_type(pUnit)->name, adj_font(12));
-            
       pStr->style |= TTF_STYLE_BOLD;
       pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
       pName = create_text_surf_from_str16(pStr);
+      
       pStr->style &= ~TTF_STYLE_BOLD;
       
       if (pInfo_Window->size.w > 1.8 * (pTheme->FR_Left->w + DEFAULT_UNITS_W + pTheme->FR_Right->w)) {
@@ -528,16 +721,9 @@ void redraw_unit_info_label(struct unit *pUnit)
 
       /* get and draw other info (MP, terran, city, etc.) */
       change_ptsize16(pStr, adj_font(10));
+      pStr->style |= SF_CENTER;
 
-      my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
-		  (unit_list_get(hover_units, 0) == pUnit) ? _("Select destination") :
-		  unit_activity_text(pUnit),
-		  tile_get_info_text(pTile),
-		  (infra_count > 0) ?
-		  get_infrastructure_text(infrastructure) : "",
-		  (infra_count > 0) ? "\n" : "", pCity ? pCity->name : _("NONE"));
-
-      copy_chars_to_string16(pStr, buffer);
+      copy_chars_to_string16(pStr, gui_sdl_get_unit_info_label_text2(punitlist));
       pInfo = create_text_surf_from_str16(pStr);
       
       if (pInfo_Window->size.h > (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) || right) {
@@ -574,7 +760,7 @@ void redraw_unit_info_label(struct unit *pUnit)
               }
 	    }
           } /* game.info.borders > 0 && !pTile->city */
-	  
+          
           if (pTile->city) {
             /* Look at city owner, not tile owner (the two should be the same, if
              * borders are in use). */
@@ -664,7 +850,7 @@ void redraw_unit_info_label(struct unit *pUnit)
         }
       }
       
-      sy = pTheme->FR_Top->h + y + pTheme->FR_Bottom->h;
+      sy = pTheme->FR_Top->h + y + adj_size(3);
       area.y = pInfo_Window->size.y + sy;
       area.x = pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W +
 	    (width - pName->w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 2;
@@ -682,24 +868,27 @@ void redraw_unit_info_label(struct unit *pUnit)
       FREESURFACE(pName);
       
       /* draw unit sprite */
-      pBuf_Surf = adj_surf(get_unittype_surface(pUnit->type));
-      src = get_smaller_surface_rect(pBuf_Surf);
-      sx = pTheme->FR_Left->w + BLOCKU_W + adj_size(3) +
-          (width / 2 - src.w - adj_size(3) - BLOCKU_W - pTheme->FR_Right->w) / 2;
+      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(pUnit->type),
+                                  adj_size(80), adj_size(80), 1, TRUE, TRUE);
+      pBuf_Surf = blend_surface(pTmpSurf, 32);
+      FREESURFACE(pTmpSurf);
+      src = (SDL_Rect){0, 0, pBuf_Surf->w, pBuf_Surf->h};
+
+      sx = pTheme->FR_Left->w + BLOCKU_W + adj_size(3) + 
+           ((width - pTheme->FR_Left->w - BLOCKU_W - adj_size(3) - pInfo->w)/2);
+
+      area.x = pInfo_Window->size.x + sx;
+      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h)/2;
                   
-      area.x = pInfo_Window->size.x + sx + src.w +
-      		(width - (sx + src.w) - pTheme->FR_Right->w - pInfo->w) / 2;
-      
-      area.y = pInfo_Window->size.y + sy +
-	      ((DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - (sy - y) - pTheme->FR_Bottom->h - pInfo->h) / 2;
-            
       /* blit unit info text */
       alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area);
       FREESURFACE(pInfo);
-      
+
+      /* blit unit sprite */
+      sx = pTheme->FR_Left->w + adj_size(3) + 
+           ((width - pTheme->FR_Left->w - adj_size(3) - src.w)/2);
       area.x = pInfo_Window->size.x + sx;
-      area.y = pInfo_Window->size.y + y +
-      		((DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - pTheme->FR_Top->h - pTheme->FR_Bottom->h - src.h) / 2;
+      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - src.h)/2;
       alphablit(pBuf_Surf, &src, pInfo_Window->dst->surface, &area);
       FREESURFACE(pBuf_Surf);
       
@@ -951,21 +1140,16 @@ void set_unit_icons_more_arrow(bool onoff)
 **************************************************************************/
 void update_unit_info_label(struct unit_list *punitlist)
 {
-  struct unit *pUnit = unit_list_get(punitlist, 0);
-    
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return;
   }
   
   /* draw unit info window */
-  redraw_unit_info_label(pUnit);
+  redraw_unit_info_label(punitlist);
   
-  if (pUnit) {
+  if (punitlist) {
     if(!is_anim_enabled()) {
       enable_focus_animation();
-    }
-    if (unit_list_get(hover_units, 0) != pUnit) {
-      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     }
   } else {
     disable_focus_animation();
