@@ -105,6 +105,9 @@ void widget_free(struct widget **pWidget)
       FREESURFACE(pGUI->theme);
     }
   }
+  if ((get_wflags(pGUI) & WF_FREE_THEME2) == WF_FREE_THEME2) {
+    FREESURFACE(pGUI->theme2);
+  }
   if ((get_wflags(pGUI) & WF_FREE_DATA) == WF_FREE_DATA) {
     FC_FREE(pGUI->data.ptr);
   }

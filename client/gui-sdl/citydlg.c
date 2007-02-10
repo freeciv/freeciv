@@ -974,18 +974,18 @@ static void create_city_options_widget_list(struct city *pCity)
 
   if (BV_ISSET(pCity->city_options, CITYO_NEW_EINSTEIN)) {
     pSurf = get_tax_surface(O_SCIENCE);
-    pBuf = create_icon_button(pSurf, pWindow->dst, pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME);
+    pBuf = create_icon_button(pSurf, pWindow->dst, pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
     add_to_gui_list(MAX_ID - 0x20, pBuf);
   } else {
     if (BV_ISSET(pCity->city_options, CITYO_NEW_TAXMAN)) {
       pSurf = get_tax_surface(O_GOLD);
       pBuf = create_icon_button(pSurf, pWindow->dst,
-				      pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME);
+				      pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
       add_to_gui_list(MAX_ID - 0x40, pBuf);
     } else {
       pSurf = get_tax_surface(O_LUXURY);
       pBuf = create_icon_button(pSurf, pWindow->dst,
-				pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME);
+				pStr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
       add_to_gui_list(MAX_ID - 0x60, pBuf);
     }
   }
