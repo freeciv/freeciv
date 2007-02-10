@@ -2233,7 +2233,7 @@ static bool vote_command(struct connection *caller, char *str,
 }
 
 /******************************************************************
-  ...
+  Turn on selective debugging.
 ******************************************************************/
 static bool debug_command(struct connection *caller, char *str, 
                           bool check)
@@ -2241,9 +2241,10 @@ static bool debug_command(struct connection *caller, char *str,
   char buf[MAX_LEN_CONSOLE_LINE];
   char *arg[3];
   int ntokens = 0, i;
-  const char *usage = _("Undefined arguments. Usage: debug <diplomacy "
+  const char *usage = _("Undefined arguments. Usage: debug < diplomacy "
 			"<player> | city <x> <y> | units <x> <y> | "
-			"unit <id> | tech <player> | timing | info>.");
+			"unit <id> | tech <player> | timing | info | "
+			"ferries >.");
 
   if (game.info.is_new_game) {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
@@ -2384,6 +2385,15 @@ static bool debug_command(struct connection *caller, char *str,
     } unit_list_iterate_end;
   } else if (ntokens > 0 && strcmp(arg[0], "timing") == 0) {
     TIMING_RESULTS();
+  } else if (strcmp(arg[0], "ferries") == 0) {
+    if (game.debug[DEBUG_FERRIES]) {
+      game.debug[DEBUG_FERRIES] = FALSE;
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("Ferry system is no longer "
+                "in debug mode."));
+    } else {
+      game.debug[DEBUG_FERRIES] = TRUE;
+      cmd_reply(CMD_DEBUG, caller, C_OK, _("Ferry system in debug mode."));
+    }
   } else if (ntokens > 0 && strcmp(arg[0], "unit") == 0) {
     int id;
     struct unit *punit;

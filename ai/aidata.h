@@ -101,6 +101,9 @@ struct ai_data {
     bool sea_done;    /* nothing more to explore at sea */
   } explore;
 
+  /* Keep track of available ocean channels */
+  bool *channels;
+
   /* This struct is used for statistical unit building, eg to ensure
    * that we don't build too few or too many units of a given type. */
   struct {
@@ -171,5 +174,7 @@ void ai_data_analyze_rulesets(struct player *pplayer);
 struct ai_data *ai_data_get(struct player *pplayer);
 const struct ai_dip_intel *ai_diplomacy_get(const struct player *pplayer,
 					    const struct player *aplayer);
+
+bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2);
 
 #endif

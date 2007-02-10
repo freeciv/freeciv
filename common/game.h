@@ -29,6 +29,11 @@
 #include "packets.h"
 #include "specialist.h"
 
+enum debug_globals {
+  DEBUG_FERRIES,
+  DEBUG_LAST
+};
+
 enum server_states { 
   PRE_GAME_STATE, 
   UNUSED_STATE, /* Have to keep this around for savegame compatibility. */
@@ -59,6 +64,7 @@ struct civ_game {
   struct government *government_when_anarchy;
 
   struct packet_ruleset_control control;
+  bool debug[DEBUG_LAST];
   int version;
   char id[MAX_ID_LEN];		/* server only */
   int timeoutint;     /* increase timeout every N turns... */

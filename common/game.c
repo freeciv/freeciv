@@ -298,7 +298,10 @@ void game_init(void)
   teams_init();
   idex_init();
   cm_init();
-  
+
+  for (i = 0; i < DEBUG_LAST; i++) {
+    game.debug[i] = FALSE;
+  }
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */

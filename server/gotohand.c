@@ -36,6 +36,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
+#include "aidata.h"
 #include "aitools.h"
 
 #include "gotohand.h"
@@ -506,6 +507,9 @@ static int straightest_direction(struct tile *src_tile,
 bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
 {  
   struct player *pplayer = unit_owner(punit);
+  struct city *pcity = tile_get_city(ptile);
+  Continent_id my_cont = tile_get_continent(punit->tile);
+  Continent_id target_cont = tile_get_continent(ptile);
 
   if (same_pos(punit->tile, ptile)) {
     return TRUE;
@@ -525,20 +529,21 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
       if (unit_class_transporter_capacity(ptile, pplayer,
                                           get_unit_class(unit_type(punit))) > 0) {
         adjc_iterate(ptile, tmp_tile) {
-          if (tile_get_continent(tmp_tile) == tile_get_continent(punit->tile))
+          if (tile_get_continent(tmp_tile) == my_cont) {
             /* The target is adjacent to our continent! */
             return TRUE;
+          }
         } adjc_iterate_end;
       }
     } else {
       /* Going to a land tile: better be our continent */
-      if (tile_get_continent(punit->tile) == tile_get_continent(ptile)) {
+      if (my_cont == target_cont) {
         return TRUE;
       } else {
         /* Well, it's not our continent, but maybe we are on a boat
          * adjacent to the target continent? */
 	adjc_iterate(punit->tile, tmp_tile) {
-	  if (tile_get_continent(tmp_tile) == tile_get_continent(ptile)) {
+	  if (tile_get_continent(tmp_tile) == target_cont) {
 	    return TRUE;
           }
 	} adjc_iterate_end;
@@ -548,13 +553,33 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     return FALSE;
 
   case SEA_MOVING:
-    if (is_ocean(tile_get_terrain(ptile))
-        || is_ocean_near_tile(ptile)) {
-      /* The target is sea or is accessible from sea 
-       * (allow for bombardment and visiting ports) */
-      return TRUE;
+    if (!is_ocean(tile_get_terrain(punit->tile))) {
+      /* Oops, we are not in the open waters.  Pick an ocean that we have
+       * access to.  We can assume we are in a city, and any oceans adjacent
+       * are connected, so it does not matter which one we pick. */
+      adjc_iterate(punit->tile, tmp_tile) {
+        if (is_ocean(tile_get_terrain(tmp_tile))) {
+          my_cont = tile_get_continent(tmp_tile);
+          break;
+        }
+      } adjc_iterate_end;
     }
-    return FALSE;
+    if (is_ocean(tile_get_terrain(ptile))) {
+      if (ai_channel(pplayer, target_cont, my_cont)) {
+        return TRUE; /* Ocean -> Ocean travel ok. */
+      }
+    } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
+               || !unit_flag(punit, F_NO_LAND_ATTACK)) {
+      /* Not ocean, but allied city or can bombard, checking if there is
+       * good ocean adjacent */
+      adjc_iterate(ptile, tmp_tile) {
+        if (is_ocean(tile_get_terrain(tmp_tile))
+            && ai_channel(pplayer, my_cont, tile_get_continent(tmp_tile))) {
+          return TRUE;
+        }
+      } adjc_iterate_end;
+    }
+    return FALSE; /* Not ok. */
 
   default:
     return TRUE;
