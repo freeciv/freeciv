@@ -85,6 +85,12 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   /* Free city reservations */
   ai_unit_new_role(punit, AIUNIT_NONE, NULL);
 
+  pcity = tile_get_city(ptile);
+  if (pcity) {
+    freelog(LOG_ERROR, "%s: There is already a city at (%d, %d)!", 
+            pplayer->name, TILE_XY(ptile));
+    return FALSE;
+  }
   handle_unit_build_city(pplayer, punit->id,
 			 city_name_suggestion(pplayer, ptile));
   pcity = tile_get_city(ptile);
@@ -988,6 +994,7 @@ static void auto_settler_findwork(struct player *pplayer,
           UNIT_LOG(LOG_ERROR, punit, "could not make city on %s",
                    tile_get_info_text(punit->tile));
           ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+          return; /* Avoid infinite recursion at all costs! */
         } else {
           return; /* We came, we saw, we built... */
         }
