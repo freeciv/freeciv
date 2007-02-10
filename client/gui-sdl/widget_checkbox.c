@@ -17,6 +17,9 @@
 
 #include <SDL/SDL.h>
 
+/* utility */
+#include "log.h"
+
 /* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
@@ -26,7 +29,8 @@
 #include "widget.h"
 #include "widget_p.h"
 
-static int (*baseclass_redraw)(struct widget *pwidget);
+static int (*checkbox_baseclass_redraw)(struct widget *pwidget);
+static int (*textcheckbox_baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
   ...
@@ -36,7 +40,7 @@ static int redraw_icon(struct widget *pIcon)
   int ret;
   SDL_Rect src, area = pIcon->size;
 
-  ret = (*baseclass_redraw)(pIcon);
+  ret = (*checkbox_baseclass_redraw)(pIcon);
   if (ret != 0) {
     return ret;
   }
@@ -69,7 +73,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
   int ret;
   SDL_Surface *pTheme_Surface, *pIcon;
 
-  ret = (*baseclass_redraw)(pCBox);
+  ret = (*textcheckbox_baseclass_redraw)(pCBox);
   if (ret != 0) {
     return ret;
   }
@@ -120,7 +124,7 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
   pCBox->private_data.cbox = pTmp;
 
-  baseclass_redraw = pCBox->redraw;
+  checkbox_baseclass_redraw = pCBox->redraw;
   pCBox->redraw = redraw_icon;
   
   pCBox->size.w = pCBox->theme->w / 4;
@@ -165,7 +169,10 @@ struct widget * create_textcheckbox(struct gui_layer *pDest, bool state,
   pTmp->pFALSE_Theme = pTheme->CBOX_Unsell_Icon;
   pCBox->private_data.cbox = pTmp;
 
-  baseclass_redraw = pCBox->redraw;
+  struct widget *pTmpWidget = widget_new();
+  /* we can't use pCBox->redraw here, because it is of type iconlabel */
+  textcheckbox_baseclass_redraw = pTmpWidget->redraw;
+  FREEWIDGET(pTmpWidget);
   pCBox->redraw = redraw_textcheckbox;
   
   return pCBox;

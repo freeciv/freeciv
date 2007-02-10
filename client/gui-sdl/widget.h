@@ -64,28 +64,30 @@ enum widget_type {			/* allow 64 widgets type */
 /* Widget FLAGS -> allowed 20 flags */
 /* default: ICON_CENTER_Y, ICON_ON_LEFT */
 enum widget_flag {
-  WF_HIDDEN				= (1<<10),	/* 1024 */
-  /* widget->gfx may be freed */
-  WF_FREE_GFX	 			= (1<<11),	/* 2048 */
-  /* widget->theme may be freed */
-  WF_FREE_THEME				= (1<<12),	/* 4096 */
-  /* widget->string may be freed */
-  WF_FREE_STRING			= (1<<13),	/* 8192 */
-  /* widget->data may be freed */
-  WF_FREE_DATA			 	= (1<<14),	/* 16384 */
-  /* widget->private_data may be freed */
-  WF_FREE_PRIVATE_DATA			= (1<<15),	/* 32768 */
-  WF_ICON_ABOVE_TEXT			= (1<<16),	/* 32768 */
-  WF_ICON_UNDER_TEXT			= (1<<17),	/* 65536 */
-  WF_ICON_CENTER			= (1<<18),	/* 131072 */
-  WF_ICON_CENTER_RIGHT			= (1<<19),	/* 262144 */
-  WF_RESTORE_BACKGROUND		= (1<<20),	/* 524288 */
-  WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<21),	/* 1048576 */
-  WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<22),	/* 2097152 */
-  WF_WIDGET_HAS_INFO_LABEL		= (1<<23),	/* 4194304 */
-  WF_SELLECT_WITHOUT_BAR		= (1<<24),	/* 8388608 */
-  WF_PASSWD_EDIT			= (1<<25),
-  WF_EDIT_LOOP				= (1<<26)
+  WF_HIDDEN				= (1<<10),
+  /* widget->gfx may be freed together with the widget */
+  WF_FREE_GFX	 			= (1<<11),
+  /* widget->theme may be freed  together with the widget*/
+  WF_FREE_THEME				= (1<<12),
+  /* widget->theme2 may be freed  together with the widget*/
+  WF_FREE_THEME2                        = (1<<13),
+  /* widget->string may be freed  together with the widget*/
+  WF_FREE_STRING			= (1<<14),
+  /* widget->data may be freed  together with the widget*/
+  WF_FREE_DATA			 	= (1<<15),
+  /* widget->private_data may be freed  together with the widget*/
+  WF_FREE_PRIVATE_DATA			= (1<<16),
+  WF_ICON_ABOVE_TEXT			= (1<<17),
+  WF_ICON_UNDER_TEXT			= (1<<18),
+  WF_ICON_CENTER			= (1<<19),
+  WF_ICON_CENTER_RIGHT			= (1<<20),
+  WF_RESTORE_BACKGROUND	                = (1<<21),
+  WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<22),
+  WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<23),
+  WF_WIDGET_HAS_INFO_LABEL		= (1<<24),
+  WF_SELLECT_WITHOUT_BAR		= (1<<25),
+  WF_PASSWD_EDIT			= (1<<26),
+  WF_EDIT_LOOP				= (1<<27)
 };
 
 /* Widget states */
