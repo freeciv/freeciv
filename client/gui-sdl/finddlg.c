@@ -163,7 +163,7 @@ void popup_find_dialog(void)
    
       if(pCity->owner != owner) {
         pLogo = get_nation_flag_surface(get_player(pCity->owner->player_no)->nation);
-        pLogo = make_flag_surface_smaler(pLogo);
+        pLogo = crop_visible_part_from_surface(pLogo);
       }
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 

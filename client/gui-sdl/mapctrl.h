@@ -42,10 +42,10 @@
 #else
 
 #define BLOCKM_W		52
-#define BLOCKU_W                30
+#define BLOCKU_W                28
 #define DEFAULT_OVERVIEW_W	156
 #define DEFAULT_OVERVIEW_H	104
-#define DEFAULT_UNITS_W		(156 + BLOCKU_W)
+#define DEFAULT_UNITS_W		(158 + BLOCKU_W)
 #define DEFAULT_UNITS_H		104
 
 #endif

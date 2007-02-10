@@ -235,13 +235,12 @@ static int economy_callback(struct widget *pButton)
 static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct unit *pFocus = unit_list_get(get_units_in_focus(), 0);
     struct widget *pBuf = NULL;
   
     clear_surface(pIcon_Widget->theme, NULL);
     alphablit(pTheme->MAP_Icon, NULL, pIcon_Widget->theme, NULL);
   
-    if (pFocus) {
+    if (get_num_units_in_focus() > 0) {
       undraw_order_widgets();
     }
     
@@ -332,7 +331,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
   
         widget_mark_dirty(pUnits_Info_Window);
       
-        redraw_unit_info_label(pFocus);
+        redraw_unit_info_label(get_units_in_focus());
       } else {
         alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
         widget_redraw(pIcon_Widget);
@@ -340,7 +339,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       }
     }
     
-    if (pFocus) {
+    if (get_num_units_in_focus() > 0) {
       update_order_widget();
     }
   

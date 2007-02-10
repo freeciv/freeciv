@@ -259,6 +259,15 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
   
   return pDest;
 }
+
+SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha)
+{
+  SDL_Surface *pMask = SDL_DisplayFormatAlpha(pSrc);
+  SDL_Color c = {255, 255, 255, alpha}; 
+  SDL_FillRect(pMask, NULL, map_rgba(pMask->format, c));
+  return mask_surface(pSrc, pMask, 0, 0);   
+}
+
 /**************************************************************************
   Load a surface from file putting it in software mem.
 **************************************************************************/
@@ -3645,9 +3654,9 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
 }
 
 /**************************************************************************
-  ...
+  ... 
 **************************************************************************/
-SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
+SDL_Surface *crop_visible_part_from_surface(SDL_Surface * pSrc)
 {
   SDL_Rect src = get_smaller_surface_rect(pSrc);
   return crop_rect_from_surface(pSrc, &src);
@@ -3667,6 +3676,60 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
                      (double)new_width / pSrc->w,
                      (double)new_height / pSrc->h,
                      smooth);
+}
+
+/**************************************************************************
+  Resize a surface to fit into a box with the dimensions 'new_width' and a
+  'new_height'. If 'scale_up' is FALSE, a surface that already fits into
+  the box will not be scaled up to the boundaries of the box.
+  If 'absolute_dimensions' is TRUE, the function returns a surface with the
+  dimensions of the box and the scaled/original surface centered in it. 
+**************************************************************************/
+SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
+                              Uint16 new_width, Uint16 new_height, int smooth,
+                              bool scale_up, bool absolute_dimensions)
+{
+  if (pSrc == NULL) {
+    return NULL;
+  }
+
+  SDL_Surface *tmpSurface, *result;
+
+  if (!((scale_up == FALSE) && ((new_width >= pSrc->w) && (new_height >= pSrc->h)))) {
+    if ((new_width - pSrc->w) <= (new_height - pSrc->h)) {
+      /* horizontal limit */
+      tmpSurface = zoomSurface((SDL_Surface*)pSrc,
+                               (double)new_width / pSrc->w,
+                               (double)new_width / pSrc->w,
+                               smooth);
+    } else {
+      /* vertical limit */
+      tmpSurface = zoomSurface((SDL_Surface*)pSrc,
+                               (double)new_height / pSrc->h,
+                               (double)new_height / pSrc->h,
+                               smooth);
+    }
+  } else {
+    tmpSurface = zoomSurface((SDL_Surface*)pSrc,
+                             1.0,
+                             1.0,
+                             smooth);
+  }
+  
+  if (absolute_dimensions) {
+    result = create_surf_alpha(new_width, new_height, SDL_SWSURFACE);
+    SDL_Rect area = {
+      (new_width - tmpSurface->w) / 2,
+      (new_height - tmpSurface->h) / 2,
+      0, 0
+    };
+    alphablit(tmpSurface, NULL, result, &area);
+    FREESURFACE(tmpSurface);
+  } else {
+    result = tmpSurface;
+  }
+
+  return result;  
 }
 
 /* ============ FreeCiv game graphics function =========== */
