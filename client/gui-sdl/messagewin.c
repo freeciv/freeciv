@@ -247,7 +247,7 @@ void popup_meswin_dialog(bool raise)
   pMsg_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
   /* create window */
-  pStr = create_str16_from_char(_("Log"), adj_font(12));
+  pStr = create_str16_from_char(_("Messages"), adj_font(12));
   pStr->style = TTF_STYLE_BOLD;
   
   pWindow = create_window(NULL, pStr, 1, 1, 0);
