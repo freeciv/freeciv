@@ -589,12 +589,18 @@ static void reports_menu_callback(gpointer callback_data,
   }
 }
 
+static int menu_updating = FALSE;
+
 /****************************************************************************
   Callback function for when an item is chosen from the "editor" menu.
 ****************************************************************************/
 static void editor_menu_callback(gpointer callback_data,
                                  guint callback_action, GtkWidget *widget)
 {   
+  if (menu_updating) {
+    return;
+  }
+
   switch(callback_action) {
   case MENU_EDITOR_TOGGLE:
     key_editor_toggle();
@@ -1337,6 +1343,8 @@ void update_menus(void)
 
     menus_set_active("<main>/_View/_Full Screen", fullscreen_mode);
 
+    menu_updating = TRUE;
+
     menus_set_sensitive("<main>/_Editor",
 			can_conn_enable_editing(&aconnection));
     menus_set_sensitive("<main>/_Editor/_Tools",
@@ -1345,6 +1353,8 @@ void update_menus(void)
 			can_conn_edit(&aconnection));
     menus_set_active("<main>/_Editor/Editing Mode",
 		     can_conn_edit(&aconnection));
+
+    menu_updating = FALSE;
 
     /* Remaining part of this function: Update Orders menu */
 
