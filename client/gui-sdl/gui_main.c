@@ -602,7 +602,7 @@ Uint16 gui_event_loop(void *pData,
       switch (Main.event.type) {
         
         case SDL_QUIT:
-          abort();
+          return MAX_ID;
         break;
     
         case SDL_KEYUP:
