@@ -2,13 +2,25 @@
 Welcome to Freeciv 2.0
 ======================
 
-This is release 2.0.8.
+This is release 2.0.9.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 2.0.8
+ - Fix memory leaks in AI code (PR#34145, PR#18758).
+ - Client worklist fix (PR#18773).
+ - Several compilation fixes.
+ - Fix for status of bribed units (PR#9568).
+ - Fix client crashes (PR#21843, PR#19822).
+ - Fxi server crashes (PR#10459, PR#1725, PR#17775).
+ - Extra checks against starting position on poles (PR#17617).
+ - Fix security problem in attributes code.
+ - Helicopters no longer lose hitpoints when on a carrier (PR#14769).
+ - Fix bug causing some pregame messages to be lost (PR#15852).
 
 WHAT'S CHANGED SINCE 2.0.7
  - Simplification of pubserver authentication system, and other
