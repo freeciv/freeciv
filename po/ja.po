@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 20:42-0500\n"
+"POT-Creation-Date: 2007-02-11 17:47-0500\n"
 "PO-Revision-Date: 2004-09-23 11:47+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -537,7 +537,7 @@ msgstr "贅沢"
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:91
 #: client/gui-xaw/menu.c:219 client/gui-xaw/repodlgs.c:255
-#: client/gui-xaw/repodlgs.c:479 data/Freeciv.in:1393
+#: client/gui-xaw/repodlgs.c:464 data/Freeciv.in:1393
 msgid "Science"
 msgstr "科学"
 
@@ -1447,7 +1447,7 @@ msgstr "  -r, --read FILE\t起動スクリプト FILE を読む\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tバージョン番号を表示する\n"
 
-#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:210
+#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:209
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
@@ -2549,284 +2549,284 @@ msgid "Game: Your %s was sabotaged by %s!"
 msgstr "Game: あなたの%sは%sに暗殺されました!"
 
 # yasu
-#: server/diplomats.c:427
+#: server/diplomats.c:428
 msgid "Game: You can't bribe a unit from this nation."
 msgstr "Game: この国の部隊は買収できません。"
 
 # yasu
-#: server/diplomats.c:436
+#: server/diplomats.c:437
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
 msgstr "Game: %sの%sを買収するお金がありません。"
 
 # yasu
-#: server/diplomats.c:445
+#: server/diplomats.c:446
 #, fuzzy, c-format
 msgid "Game: You cannot bribe %s!"
 msgstr "Game: %sは買えません!"
 
 # yasu, ama, ntaka
-#: server/diplomats.c:463
+#: server/diplomats.c:472
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Game: %sは、%sの%sの買収に成功し、練度が増しました。"
 
 # yasu, ama
-#: server/diplomats.c:469
+#: server/diplomats.c:478
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
 msgstr "Game: %sは、%sの%sの買収に成功しました。"
 
 # yasu
-#: server/diplomats.c:473
+#: server/diplomats.c:482
 #, c-format
 msgid "Game: Your %s was bribed by %s."
 msgstr "Game: あなたの%sは%sにより買収されました。"
 
 # yasu
-#: server/diplomats.c:570
+#: server/diplomats.c:579
 #, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Game: あなたの%sは%sから科学を盗もうとして捕まりました。"
 
 # yasu
-#: server/diplomats.c:574
+#: server/diplomats.c:583
 #, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
 msgstr "Game: %sの%sは%sの科学を盗もうとして失敗しました。"
 
-#: server/diplomats.c:607
+#: server/diplomats.c:616
 #, c-format
 msgid "Game: No new technology found in %s."
 msgstr "Game: %sに目新しい技術はありませんでした。"
 
 # yasu
-#: server/diplomats.c:644
+#: server/diplomats.c:653
 #, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
 msgstr "Game: あなたの %s は盗もうとした %s 科学を %s で発見できませんでした。"
 
 # yasu, ama
-#: server/diplomats.c:665
+#: server/diplomats.c:674
 #, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
 msgstr "Game: あなたの %s は先端技術 %d を%sから盗みました。"
 
-#: server/diplomats.c:669
+#: server/diplomats.c:678
 #, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
 msgstr "Game: 先端技術 %d が %s の %s によって %s から盗まれました。"
 
 # yasu, ama
-#: server/diplomats.c:682
+#: server/diplomats.c:691
 #, c-format
 msgid "Game: Your %s stole %s from %s."
 msgstr "Game: あなたの%1$sは%3$sから%2$sを盗みました。"
 
 # yasu, ama
-#: server/diplomats.c:686
+#: server/diplomats.c:695
 #, c-format
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Game: %1$sの%2$sは%4$sから%3$sを盗みました。"
 
 # yasu, ama
-#: server/diplomats.c:690 server/plrhand.c:830
+#: server/diplomats.c:699 server/plrhand.c:830
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Game: %1$sは%3$sから%2$sを盗みました。"
 
 # yasu
-#: server/diplomats.c:749
+#: server/diplomats.c:758
 msgid "Game: You can't subvert a city from this nation."
 msgstr "Game: この国から都市は陥落できません。"
 
 # yasu
-#: server/diplomats.c:757
+#: server/diplomats.c:766
 #, fuzzy
 msgid "Game: You can't subvert this city."
 msgstr "Game: この国から都市は陥落できません。"
 
 # yasu
-#: server/diplomats.c:768
+#: server/diplomats.c:777
 #, c-format
 msgid "Game: You don't have enough gold to subvert %s."
 msgstr "Game: %sを陥落するのに十分なお金がありません。"
 
 # yasu
-#: server/diplomats.c:785
+#: server/diplomats.c:794
 #, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Game: あなたの%sは革命煽動のため捕まりました。"
 
 # yasu, ama
-#: server/diplomats.c:789
+#: server/diplomats.c:798
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Game: %3$sで%1$sの%2$sを革命煽動の容疑で逮捕しました。"
 
 # yasu
-#: server/diplomats.c:813
+#: server/diplomats.c:822
 #, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
 msgstr "Game: %sで革命が煽動されました。今その都市を支配しました。"
 
 # yasu
-#: server/diplomats.c:816
+#: server/diplomats.c:825
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr "Game: %sが反逆しました。%sの関与が疑われます。"
 
-#: server/diplomats.c:896
+#: server/diplomats.c:905
 #, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Game: %sは建造物破壊で捕まりました。"
 
-#: server/diplomats.c:900
+#: server/diplomats.c:909
 #, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
 msgstr "Game: %3$sで破壊工作を行なっている%1$sの%2$sを捕まえました。"
 
-#: server/diplomats.c:934
+#: server/diplomats.c:943
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
 msgstr "Game: %sは破壊する対象を%sで見つけれませんでした。"
 
-#: server/diplomats.c:976
+#: server/diplomats.c:985
 #, fuzzy, c-format
 msgid "Game: You cannot sabotage a %s!"
 msgstr "Game: 不思議や%sは破壊できません!"
 
-#: server/diplomats.c:986
+#: server/diplomats.c:995
 #, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
 msgstr "Game: %1$sは%3$sで破壊するつもりの%2$sを見つけられませんでした。"
 
-#: server/diplomats.c:1011
+#: server/diplomats.c:1020
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
 msgstr "Game: %1$sは%3$sにある%2$s建造物の破壊に成功しました。"
 
-#: server/diplomats.c:1015
+#: server/diplomats.c:1024
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
 msgstr "Game: %2$sにある%1$s建造物が破壊されました。%3$sが疑わしいです。"
 
-#: server/diplomats.c:1036
+#: server/diplomats.c:1045
 #, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr "Game: %sは破壊しようとして捕まりました!"
 
-#: server/diplomats.c:1040
+#: server/diplomats.c:1049
 #, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Game: %4$sで%3$sを破壊しようとした%1$sの%2$sを捕まえました!"
 
-#: server/diplomats.c:1052
+#: server/diplomats.c:1061
 #, c-format
 msgid "Game: Your %s destroyed the %s in %s."
 msgstr "Game: %1$sは%3$sの%2$sを破壊しました。"
 
-#: server/diplomats.c:1056
+#: server/diplomats.c:1065
 #, c-format
 msgid "Game: The %s destroyed the %s in %s."
 msgstr "Game: %1$sは%3$sの%2$sを破壊しました。"
 
-#: server/diplomats.c:1160
+#: server/diplomats.c:1169
 #, fuzzy, c-format
 msgid "Game: Your %s has been eliminated defending %s against a %s."
 msgstr "Game: %1$sは%2$sから%3$sを守ろうとして消されました。"
 
-#: server/diplomats.c:1164
+#: server/diplomats.c:1173
 #, fuzzy, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
 msgstr "Game: %1$sは%2$sから%3$sを守ろうとして消されました。"
 
-#: server/diplomats.c:1178
+#: server/diplomats.c:1187
 #, fuzzy, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
 msgstr "Game: %1$sは%3$sで守っている%2$sによって消されました。"
 
-#: server/diplomats.c:1185
+#: server/diplomats.c:1194
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
 "experienced."
 msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
 
-#: server/diplomats.c:1192
+#: server/diplomats.c:1201
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
 "more experienced."
 msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
 
-#: server/diplomats.c:1202
+#: server/diplomats.c:1211
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
 
-#: server/diplomats.c:1208
+#: server/diplomats.c:1217
 #, fuzzy, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
 
-#: server/diplomats.c:1261
+#: server/diplomats.c:1270
 #, fuzzy, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s and has become more experienced."
 msgstr "Game: %sは任務を完了して無事%sへ戻り、練度が増しました。"
 
-#: server/diplomats.c:1267
+#: server/diplomats.c:1276
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr "Game: %sは任務を完了し、無事%sへ戻りました。"
 
-#: server/diplomats.c:1283
+#: server/diplomats.c:1292
 #, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr "Game: %sは%sで任務を完了した後、逮捕されました。"
 
-#: server/diplomats.c:1288
+#: server/diplomats.c:1297
 #, c-format
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "Game: %sは任務を完了した後、逮捕されました。"
 
 # clefs
 # 'incident' => '事変'で訳してみました
-#: server/diplomats.c:1323
+#: server/diplomats.c:1332
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr "Game: %sの%sを買収する試みは事変に発展しました。"
 
 # clefs
-#: server/diplomats.c:1328
+#: server/diplomats.c:1337
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
 msgstr "Game: %sは%sを買収しようとして事変を引き起こしました。"
 
 # clefs
-#: server/diplomats.c:1335
+#: server/diplomats.c:1344
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
 msgstr "Game: %sから技術を盗む試みは事変に発展しました。"
 
 # clefs
-#: server/diplomats.c:1339
+#: server/diplomats.c:1348
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
 msgstr "Game: %sはあなたから技術を盗もうとして事変を引き起こしました。"
 
 # clefs
-#: server/diplomats.c:1345
+#: server/diplomats.c:1354
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr "Game: %sで革命を煽動する試みは事変に発展しました。"
 
 # clefs
-#: server/diplomats.c:1348
+#: server/diplomats.c:1357
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Game: %sは%sで革命を煽動しようとして事変を引き起こしました。"
@@ -3458,7 +3458,7 @@ msgstr "発展スコア:"
 
 #: server/report.c:1111 client/gui-gtk/repodlgs.c:1127
 #: client/gui-mui/repodlgs.c:870 client/gui-win32/repodlgs.c:754
-#: client/gui-xaw/repodlgs.c:1153
+#: client/gui-xaw/repodlgs.c:1138
 msgid "The Greatest Civilizations in the world."
 msgstr "世界の偉大な文明。"
 
@@ -3706,25 +3706,25 @@ msgstr "サポートされるオプション: %s"
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr ""
 
-#: server/savegame.c:1901
+#: server/savegame.c:1903
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
 msgstr ""
 
-#: server/savegame.c:3068
+#: server/savegame.c:3070
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "savegame は古過ぎます。1.9.0 以上が必要です。"
 
-#: server/savegame.c:3257
+#: server/savegame.c:3259
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "savegame はもうサポートされていない classic terrain ルールセットを使っていま"
 "す。"
 
-#: server/savegame.c:3266
+#: server/savegame.c:3268
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -6413,7 +6413,7 @@ msgstr "Game: %sだけが海から攻撃できます。"
 msgid "Game: Cannot attack from sea."
 msgstr "Game: 海から攻撃できません。"
 
-#: server/unithand.c:932 server/unittools.c:2220
+#: server/unithand.c:932 server/unittools.c:2237
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Game: 戦争を宣言しなければ攻撃できません。"
 
@@ -6540,268 +6540,268 @@ msgstr "Game: %sは外洋でも耐え、練度が増しました。"
 msgid "Game: Your %s has been lost on unsafe terrain."
 msgstr "Game: %sを外洋で失いました。"
 
-#: server/unittools.c:375
+#: server/unittools.c:376
 #, c-format
 msgid "Game: Your %s has returned to refuel."
 msgstr "Game: %s は補給のため帰還しました。"
 
-#: server/unittools.c:401
+#: server/unittools.c:402
 #, c-format
 msgid "Game: Your %s has run out of fuel."
 msgstr "Game: %s の燃料が切れました。"
 
-#: server/unittools.c:582
+#: server/unittools.c:583
 #, c-format
 msgid "Game: Your %s became more experienced!"
 msgstr "Game: %s の練度が増しました。"
 
-#: server/unittools.c:862
+#: server/unittools.c:863
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr "Game: (%2$d, %3$d)で陸地から海へ変更したため%1$sを移動しました。"
 
-#: server/unittools.c:883
+#: server/unittools.c:884
 #, fuzzy, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr "Game: (%2$d, %3$d)で陸地から海へ変更したため%1$sを乗船させました。"
 
-#: server/unittools.c:898
+#: server/unittools.c:899
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr "Game: (%2$d, %3$d)で陸地から海へ変更したため%1$sを解散しました。"
 
-#: server/unittools.c:920
+#: server/unittools.c:921
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr "Game: (%2$d, %3$d)で海から陸地へ変更したため%1$sを移動しました。"
 
-#: server/unittools.c:940
+#: server/unittools.c:941
 #, fuzzy, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr "Game: (%2$d, %3$d)で海から陸地へ変更したため%1$sをドックに入れました。"
 
-#: server/unittools.c:955
+#: server/unittools.c:956
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr "Game: (%2$d, %3$d)で海から陸地へ変更したため%1$sを解散しました。"
 
-#: server/unittools.c:987
+#: server/unittools.c:988
 #, c-format
 msgid " at %s"
 msgstr "%sの中にいる"
 
-#: server/unittools.c:989
+#: server/unittools.c:990
 #, c-format
 msgid " in %s"
 msgstr "%sの"
 
-#: server/unittools.c:996
+#: server/unittools.c:997
 #, c-format
 msgid " outside %s"
 msgstr "%sの外にいる"
 
-#: server/unittools.c:999
+#: server/unittools.c:1000
 #, c-format
 msgid " near %s"
 msgstr "%sの近くにいる"
 
-#: server/unittools.c:1209
+#: server/unittools.c:1210
 #, fuzzy, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "Game: %sを(%d, %d)から%sへテレポートしました。"
 
-#: server/unittools.c:1238
+#: server/unittools.c:1239
 #, c-format
 msgid "Game: Disbanded your %s."
 msgstr "Game: %sを解散しました。"
 
-#: server/unittools.c:1562
+#: server/unittools.c:1564
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr ""
 
-#: server/unittools.c:1564
+#: server/unittools.c:1566
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 
-#: server/unittools.c:1668
+#: server/unittools.c:1670
 #, fuzzy, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr "Game: %1$sは%3$sにある%2$s建造物の破壊に成功しました。"
 
-#: server/unittools.c:1675
+#: server/unittools.c:1677
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Game: %2$sを失った時に%1$sを失いました。"
 
 # ama, clefs
-#: server/unittools.c:1734
+#: server/unittools.c:1736
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Game: バーバリアンの指導者が捕えられ、身代金%dが支払われました。"
 
-#: server/unittools.c:1751
+#: server/unittools.c:1753
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Game: %2$sの%3$sによる攻撃で%4$s%1$sを失いました。"
 
 # Game: You lost 2 units to an attack from Lluis Company's チャリオット Fukuokaの外にいる.
-#: server/unittools.c:1777
+#: server/unittools.c:1779
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Game: %4$s%2$sの%3$sからの攻撃で%1$d部隊を失いました。"
 
 # 射手 lost to an attack from Lluis Companys's チャリオット.
-#: server/unittools.c:1792
+#: server/unittools.c:1794
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Game: %2$sの%3$sからの攻撃で%1$sを失いました。"
 
-#: server/unittools.c:2065
+#: server/unittools.c:2082
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Game: %sは%sによって核攻撃されました。"
 
-#: server/unittools.c:2067 server/unittools.c:2083
+#: server/unittools.c:2084 server/unittools.c:2100
 msgid "yourself"
 msgstr "あなた自身"
 
-#: server/unittools.c:2071
+#: server/unittools.c:2088
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Game: %sの%sは核攻撃されました。"
 
-#: server/unittools.c:2081
+#: server/unittools.c:2098
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Game: %sは%sによって核攻撃されました。"
 
-#: server/unittools.c:2088
+#: server/unittools.c:2105
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Game: %sを核攻撃しました。"
 
-#: server/unittools.c:2126
+#: server/unittools.c:2143
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Game: %sは核を爆発させました。"
 
-#: server/unittools.c:2166
+#: server/unittools.c:2183
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Game: %sは首尾よく輸送しました。"
 
-#: server/unittools.c:2189
+#: server/unittools.c:2206
 msgid "Game: This unit type can not be paradropped."
 msgstr "Game: この部隊のタイプは落下傘降下させられません。"
 
-#: server/unittools.c:2199
+#: server/unittools.c:2216
 #, fuzzy
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Game: 海へは落下傘降下できません。"
 
-#: server/unittools.c:2204
+#: server/unittools.c:2221
 msgid "Game: The destination location is not known."
 msgstr "Game: 目的地は知られていません。"
 
-#: server/unittools.c:2211
+#: server/unittools.c:2228
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Game: 海へは落下傘降下できません。"
 
-#: server/unittools.c:2229
+#: server/unittools.c:2246
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Game: 目的への距離(%i)は、部隊の行動範囲(%i)を越えています。"
 
-#: server/unittools.c:2243
+#: server/unittools.c:2260
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Game: %sは海に落下傘降下し消滅しました。"
 
-#: server/unittools.c:2256
+#: server/unittools.c:2273
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Game: %sは落下傘降下目標の敵部隊によって殺されました。"
 
-#: server/unittools.c:2278
+#: server/unittools.c:2295
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Game: 金%dを見つけました。"
 
-#: server/unittools.c:2295
+#: server/unittools.c:2312
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Game: %sを古代の知識の巻物の中から見つけました。"
 
-#: server/unittools.c:2298
+#: server/unittools.c:2315
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Game: %sは古代の知識の巻物から%sを得ました。"
 
-#: server/unittools.c:2311
+#: server/unittools.c:2328
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Game: 友好的な部隊が加わりました。"
 
-#: server/unittools.c:2329
+#: server/unittools.c:2346
 msgid "Game: An abandoned village is here."
 msgstr "Game: 廃虚の村があります。"
 
-#: server/unittools.c:2339
+#: server/unittools.c:2356
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Game: バーバリアンの大群を解放してしまいました!"
 
-#: server/unittools.c:2342
+#: server/unittools.c:2359
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Game: %s はバーバリアンによって殺されました。"
 
-#: server/unittools.c:2358
+#: server/unittools.c:2375
 msgid "Game: You found a friendly city."
 msgstr "Game: 友好的な都市を見つけました。"
 
-#: server/unittools.c:2363
+#: server/unittools.c:2389
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Game: 友好的な放浪者があなたに感銘し、部隊に加わりました。"
 
-#: server/unittools.c:2388
+#: server/unittools.c:2414
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Game: 飛行物体を見て部族は驚き、逃走しました。"
 
-#: server/unittools.c:2509
+#: server/unittools.c:2535
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "Game: 外国の部隊に遭遇したため、%sはパトロールを中断しました。"
 
-#: server/unittools.c:2946
+#: server/unittools.c:2961
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
-#: server/unittools.c:2995
+#: server/unittools.c:3010
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
-#: server/unittools.c:3009
+#: server/unittools.c:3024
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr ""
 
-#: server/unittools.c:3019
+#: server/unittools.c:3034
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "Game: 道をふさいでいる部隊がいるので、%sは移動を中断しました。"
 
-#: server/unittools.c:3045
+#: server/unittools.c:3060
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "Game: 移動に失敗したため、%sは移動を中断しました。"
 
-#: server/unittools.c:3078
+#: server/unittools.c:3093
 #, fuzzy, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Game: %s は補給のため帰還しました。"
@@ -6825,7 +6825,7 @@ msgstr "Generator 3 は大きな島のいくつかを配置できません。"
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 は配置しなかった%liの島を残しました。"
 
-#: server/generator/startpos.c:358
+#: server/generator/startpos.c:377
 #, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
@@ -7176,7 +7176,7 @@ msgstr "防御に適した部隊"
 #: client/gui-win32/repodlgs.c:611 client/gui-win32/repodlgs.c:691
 #: client/gui-win32/repodlgs.c:700 client/gui-xaw/menu.c:155
 #: client/gui-xaw/menu.c:216 client/gui-xaw/menu.c:237
-#: client/gui-xaw/repodlgs.c:875 client/gui-xaw/repodlgs.c:1062
+#: client/gui-xaw/repodlgs.c:860 client/gui-xaw/repodlgs.c:1047
 #: data/Freeciv.in:1922 data/helpdata.txt:859
 msgid "Units"
 msgstr "部隊"
@@ -7235,8 +7235,8 @@ msgstr "黒字: 交易"
 
 #: client/cityrepdata.c:459 client/gui-gtk-2.0/repodlgs.c:657
 #: client/gui-gtk/repodlgs.c:599 client/gui-win32/repodlgs.c:334
-#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:639
-#: client/gui-xaw/repodlgs.c:768 data/Freeciv.in:1846
+#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:624
+#: client/gui-xaw/repodlgs.c:753 data/Freeciv.in:1846
 msgid "Economy"
 msgstr "経済"
 
@@ -7510,29 +7510,29 @@ msgstr "%sは共有視野を与える"
 msgid "The %s gives an embassy"
 msgstr "%sは大使館の開設を許可する"
 
-#: client/climisc.c:869
+#: client/climisc.c:873
 msgid "Popup Request"
 msgstr "ポップアップ要求"
 
-#: client/climisc.c:899
+#: client/climisc.c:903
 msgid "Exporting output window to civgame.log ..."
 msgstr "出力ウィンドウを civgame.log へ保存しています ..."
 
-#: client/climisc.c:903
+#: client/climisc.c:907
 msgid "Export complete."
 msgstr "保存完了。"
 
-#: client/climisc.c:905
+#: client/climisc.c:909
 msgid "Export failed, couldn't write to file."
 msgstr "保存が失敗しました。ファイルへ書き込めません。"
 
 # yasu
-#: client/climisc.c:1017
+#: client/climisc.c:1021
 #, fuzzy, c-format
 msgid "Game: You don't buy %s in %s!"
 msgstr "Game: %sは買えません!"
 
-#: client/climisc.c:1037
+#: client/climisc.c:1041
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Game: %sには金%dかかりますが、金%dしか持っていません。"
@@ -9057,7 +9057,7 @@ msgid "Progress: no research"
 msgstr "研究: なし"
 
 #: client/text.c:490
-#, c-format,fuzzy
+#, fuzzy, c-format
 msgid "Progress: %d turn/advance (%d pts/turn)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn)"
 msgstr[0] "研究: %dターン/発見 (%dポイント/ターン)"
@@ -10002,7 +10002,7 @@ msgstr "プリセット(_P):"
 #: client/gui-gtk-2.0/cma_fe.c:297 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
 #: client/gui-mui/repodlgs.c:491 client/gui-win32/cma_fe.c:482
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 msgid "Results"
 msgstr "結果"
 
@@ -10607,75 +10607,75 @@ msgstr "行き先の選択"
 msgid "Show _All Cities"
 msgstr "全ての都市を表示(_A)"
 
-#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:128
+#: client/gui-gtk-2.0/gui_main.c:139 client/gui-gtk/gui_main.c:128
 msgid "Use Alt/Meta for accelerators"
 msgstr "Alt/Meta でアクセラレータ"
 
-#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:129
+#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:129
 msgid "Show Map Scrollbars"
 msgstr "地図のスクロールバーを表示"
 
 # ntaka
-#: client/gui-gtk-2.0/gui_main.c:142 client/gui-gtk/gui_main.c:130
+#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:130
 #, fuzzy
 msgid "Keyboardless goto"
 msgstr "ダイアログをトップレベルに保つ"
 
 # ntaka
-#: client/gui-gtk-2.0/gui_main.c:143
+#: client/gui-gtk-2.0/gui_main.c:142
 msgid "Keep dialogs on top"
 msgstr "ダイアログをトップレベルに保つ"
 
-#: client/gui-gtk-2.0/gui_main.c:144
+#: client/gui-gtk-2.0/gui_main.c:143
 msgid "Show worklist task icons"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:145
+#: client/gui-gtk-2.0/gui_main.c:144
 msgid "Fullscreen Mode"
 msgstr "フルスクリーン表示"
 
-#: client/gui-gtk-2.0/gui_main.c:146
+#: client/gui-gtk-2.0/gui_main.c:145
 msgid "Enable status report tabs"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:148
+#: client/gui-gtk-2.0/gui_main.c:147
 #, fuzzy
 msgid "Solid unit icon background color in city dialog"
 msgstr "単一の部隊背景色           "
 
-#: client/gui-gtk-2.0/gui_main.c:150 client/gui-win32/gui_main.c:100
+#: client/gui-gtk-2.0/gui_main.c:149 client/gui-win32/gui_main.c:100
 msgid "Better fog-of-war drawing"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:490 client/gui-gtk-2.0/gui_main.c:1082
+#: client/gui-gtk-2.0/gui_main.c:489 client/gui-gtk-2.0/gui_main.c:1081
 #: client/gui-gtk/gui_main.c:385 client/gui-gtk/gui_main.c:857
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:849 client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:848 client/gui-gtk-2.0/gui_main.c:862
 #: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:406
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "ターン終了"
 
-#: client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:862
 msgid "Shift+Return"
 msgstr ""
 
 # Daniel
-#: client/gui-gtk-2.0/gui_main.c:895
+#: client/gui-gtk-2.0/gui_main.c:894
 msgid "_Map"
 msgstr "地図(_M)"
 
 # Daniel
-#: client/gui-gtk-2.0/gui_main.c:969
+#: client/gui-gtk-2.0/gui_main.c:968
 msgid "_Chat"
 msgstr "チャット(_C)"
 
 # ama, clefs
 # was "さぁ、地獄へ落ちろ!"
 # 変更には抵抗感がありますが…
-#: client/gui-gtk-2.0/gui_main.c:985 client/gui-gtk/gui_main.c:783
+#: client/gui-gtk-2.0/gui_main.c:984 client/gui-gtk/gui_main.c:783
 #: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:462
 #: data/Freeciv.in:2836
 msgid ""
@@ -10687,16 +10687,16 @@ msgstr ""
 "を配布することを歓迎します。ヘルプメニューの\"著作権\"の項目を見て下さい。\n"
 "…さぁ、コテンパンにしてやれ!"
 
-#: client/gui-gtk-2.0/gui_main.c:1241 client/gui-mui/citydlg.c:1557
+#: client/gui-gtk-2.0/gui_main.c:1240 client/gui-mui/citydlg.c:1557
 msgid "Name:"
 msgstr "名前:"
 
-#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-gtk/connectdlg.c:433
+#: client/gui-gtk-2.0/gui_main.c:1247 client/gui-gtk/connectdlg.c:433
 #: client/gui-win32/connectdlg.c:1080
 msgid "Host:"
 msgstr "ホスト:"
 
-#: client/gui-gtk-2.0/gui_main.c:1385 client/gui-gtk/gui_main.c:1090
+#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk/gui_main.c:1090
 #: client/gui-xaw/gui_main.c:709
 #, c-format
 msgid ""
@@ -10717,7 +10717,7 @@ msgstr ""
 "政治体制: %s"
 
 # Daniel
-#: client/gui-gtk-2.0/gui_main.c:1510
+#: client/gui-gtk-2.0/gui_main.c:1509
 msgid "Are you sure you want to quit?"
 msgstr "ゲームを終了してよろしいですか？"
 
@@ -12116,7 +12116,7 @@ msgstr "新型へ(_U)"
 # clefs
 #: client/gui-gtk-2.0/repodlgs.c:1155 client/gui-gtk/repodlgs.c:960
 #: client/gui-mui/repodlgs.c:718 client/gui-win32/repodlgs.c:564
-#: client/gui-xaw/repodlgs.c:1000
+#: client/gui-xaw/repodlgs.c:985
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -13152,17 +13152,17 @@ msgid "Sell All"
 msgstr "全て売る"
 
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/repodlgs.c:491
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 msgid "Sell-Off:"
 msgstr "売却:"
 
 #: client/gui-gtk/repodlgs.c:787 client/gui-mui/repodlgs.c:569
-#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:793
+#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:778
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "収入:%6d    経費の合計: %6d"
 
-#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:898
+#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:883
 msgid "Totals: ..."
 msgstr "合計: ..."
 
@@ -14092,14 +14092,14 @@ msgstr "軍事報告"
 
 #  1: The 雄大な 日本人 scored 165 points
 #: client/gui-mui/repodlgs.c:861 client/gui-win32/repodlgs.c:745
-#: client/gui-xaw/repodlgs.c:1144
+#: client/gui-xaw/repodlgs.c:1129
 #, fuzzy, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: %s%s %d点\n"
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:753
-#: client/gui-xaw/repodlgs.c:1152
+#: client/gui-xaw/repodlgs.c:1137
 msgid "Final Report:"
 msgstr "最終報告:"
 
@@ -14670,20 +14670,18 @@ msgid "Copying"
 msgstr "著作権"
 
 #: client/gui-xaw/repodlgs.c:209 client/gui-xaw/repodlgs.c:215
-#: client/gui-xaw/repodlgs.c:392 client/gui-xaw/repodlgs.c:485
-#: client/gui-xaw/repodlgs.c:491
+#: client/gui-xaw/repodlgs.c:470 client/gui-xaw/repodlgs.c:476
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "研究中 %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:224 client/gui-xaw/repodlgs.c:229
-#: client/gui-xaw/repodlgs.c:416 client/gui-xaw/repodlgs.c:502
-#: client/gui-xaw/repodlgs.c:507
+#: client/gui-xaw/repodlgs.c:487 client/gui-xaw/repodlgs.c:492
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "目標: %s (%dステップ)"
 
-#: client/gui-xaw/repodlgs.c:1115
+#: client/gui-xaw/repodlgs.c:1100
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "合計:                       %9d%9d%9d%9d"
@@ -18993,7 +18991,7 @@ msgstr "民主制"
 #: data/nation/icelandic.ruleset:17 data/nation/polish.ruleset:28
 #: data/nation/polish.ruleset:29 data/nation/quebecois.ruleset:15
 #: data/nation/serbian.ruleset:21 data/nation/serbian.ruleset:22
-#: data/nation/singaporean.ruleset:32 data/nation/slovenian.ruleset:15
+#: data/nation/singaporean.ruleset:31 data/nation/slovenian.ruleset:15
 #: data/nation/slovenian.ruleset:16
 msgid "President"
 msgstr "大統領"
@@ -21166,7 +21164,7 @@ msgstr "アフガン人"
 #: data/nation/finnish.ruleset:19 data/nation/greek.ruleset:13
 #: data/nation/israeli.ruleset:16 data/nation/japanese.ruleset:15
 #: data/nation/kampuchean.ruleset:14 data/nation/portuguese.ruleset:18
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:33
+#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:32
 #: data/nation/spanish.ruleset:21 data/nation/swedish.ruleset:16
 #: data/nation/viking.ruleset:32 data/nation/welsh.ruleset:22
 msgid "Prime Minister"
@@ -22393,18 +22391,13 @@ msgid ""
 "Malaysian Peninsula"
 msgstr ""
 
-# ntaka 何と訳せばよいやら、 Yap Ah Loy という人がいたらしいが、、、
-#: data/nation/singaporean.ruleset:29
-msgid "Ah"
-msgstr "アー"
-
-#: data/nation/singaporean.ruleset:30 data/nation/turk.ruleset:19
+#: data/nation/singaporean.ruleset:29 data/nation/turk.ruleset:19
 msgid "Sultan"
 msgstr "サルタン"
 
 # clefs
 # "様""さん"らしいが…
-#: data/nation/singaporean.ruleset:31
+#: data/nation/singaporean.ruleset:30
 msgid "Encik"
 msgstr "閣下"
 
@@ -22626,6 +22619,10 @@ msgid ""
 "into southern Africa beginning in the early 1700s, conquering the native "
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
+
+# ntaka 何と訳せばよいやら、 Yap Ah Loy という人がいたらしいが、、、
+#~ msgid "Ah"
+#~ msgstr "アー"
 
 # yasu
 #~ msgid "Rejected connection from %s with invalid name."

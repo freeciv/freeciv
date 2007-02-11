@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 20:42-0500\n"
+"POT-Creation-Date: 2007-02-11 17:47-0500\n"
 "PO-Revision-Date: 2005-01-28 11:42+0100\n"
 "Last-Translator: Per I. Mathisen <per@freeciv.org>\n"
 "Language-Team: Norwegian <andrearo@stud.ntnu.no>\n"
@@ -505,7 +505,7 @@ msgstr "Luksus"
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:91
 #: client/gui-xaw/menu.c:219 client/gui-xaw/repodlgs.c:255
-#: client/gui-xaw/repodlgs.c:479 data/Freeciv.in:1393
+#: client/gui-xaw/repodlgs.c:464 data/Freeciv.in:1393
 msgid "Science"
 msgstr "Forskning"
 
@@ -1399,7 +1399,7 @@ msgstr "  -r, --read FILE\tLes oppstartsmanus i FILE\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tSkriv ut versjonsnummeret\n"
 
-#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:210
+#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:209
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
@@ -2491,190 +2491,190 @@ msgstr "Spill: Din %s lyktes i å sabotere %ss %s."
 msgid "Game: Your %s was sabotaged by %s!"
 msgstr "Spill: Din %s ble sabotert av %s!"
 
-#: server/diplomats.c:427
+#: server/diplomats.c:428
 msgid "Game: You can't bribe a unit from this nation."
 msgstr "Spill: Du kan ikke bestikke en enhet fra denne nasjonen."
 
-#: server/diplomats.c:436
+#: server/diplomats.c:437
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
 msgstr "Spill: Du har ikke nok gull til å bestikke %ss %s."
 
-#: server/diplomats.c:445
+#: server/diplomats.c:446
 #, c-format
 msgid "Game: You cannot bribe %s!"
 msgstr "Spill: Du kan ikke bestikke %s!"
 
-#: server/diplomats.c:463
+#: server/diplomats.c:472
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Spill: Din %s lyktes i å bestikke %ss %s og ble med erfaren."
 
-#: server/diplomats.c:469
+#: server/diplomats.c:478
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
 msgstr "Spill: Din %s lyktes i å bestikke %ss %s."
 
-#: server/diplomats.c:473
+#: server/diplomats.c:482
 #, c-format
 msgid "Game: Your %s was bribed by %s."
 msgstr "Spill: Din %s ble bestukket av %s."
 
-#: server/diplomats.c:570
+#: server/diplomats.c:579
 #, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Spill: Din %s ble fanget i forsøket på å stjele teknologi fra %s."
 
-#: server/diplomats.c:574
+#: server/diplomats.c:583
 #, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
 msgstr "Spill: %ss %s mislyktes på å stjele teknologi fra %s."
 
-#: server/diplomats.c:607
+#: server/diplomats.c:616
 #, c-format
 msgid "Game: No new technology found in %s."
 msgstr "Spill: Ingen ny teknologi funnet i %s."
 
-#: server/diplomats.c:644
+#: server/diplomats.c:653
 #, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
 msgstr "Spill: Din %s kunne ikke finne %s teknologien den skulle stjele i %s."
 
-#: server/diplomats.c:665
+#: server/diplomats.c:674
 #, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
 msgstr "Spill: Din %s stjal Framtidsteknologi %d fra %s."
 
-#: server/diplomats.c:669
+#: server/diplomats.c:678
 #, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
 msgstr "Spill: Fremtidsteknologi %d stjålet av %s %s fra %s."
 
-#: server/diplomats.c:682
+#: server/diplomats.c:691
 #, c-format
 msgid "Game: Your %s stole %s from %s."
 msgstr "Spill: Din %s stjal %s fra %s."
 
-#: server/diplomats.c:686
+#: server/diplomats.c:695
 #, c-format
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spill: %ss %s stjal %s fra %s."
 
-#: server/diplomats.c:690 server/plrhand.c:830
+#: server/diplomats.c:699 server/plrhand.c:830
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spill: Din %s stjal %s fra %s."
 
-#: server/diplomats.c:749
+#: server/diplomats.c:758
 msgid "Game: You can't subvert a city from this nation."
 msgstr "Spill: Du kan ikke vende byer fra denne nasjonen til din side."
 
-#: server/diplomats.c:757
+#: server/diplomats.c:766
 msgid "Game: You can't subvert this city."
 msgstr "Spill: Du kan ikke vende denne byen til din side."
 
-#: server/diplomats.c:768
+#: server/diplomats.c:777
 #, c-format
 msgid "Game: You don't have enough gold to subvert %s."
 msgstr "Spill: Du har ikke nok gull til å vende %s til din side."
 
-#: server/diplomats.c:785
+#: server/diplomats.c:794
 #, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Spill: Din %s ble fanget i forsøket på å lage opprør!"
 
 # problem
-#: server/diplomats.c:789
+#: server/diplomats.c:798
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Spill: Du avslørte og fanget %s %s som forsøkte å lage opprør i %s!"
 
-#: server/diplomats.c:813
+#: server/diplomats.c:822
 #, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
 msgstr "Spill: Opprør startet i %s, du styrer nå byen!"
 
-#: server/diplomats.c:816
+#: server/diplomats.c:825
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr ""
 "Spill: %s gjør opprør, %s er mistenkt for å ha en finger med i spillet."
 
-#: server/diplomats.c:896
+#: server/diplomats.c:905
 #, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Spill: Din %s ble fanget i forsøket på industriell sabotasje!"
 
 # problem
-#: server/diplomats.c:900
+#: server/diplomats.c:909
 #, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
 msgstr "Spill: Du avslørte og fanget en %s %s som forsøkte på sabotasje i %s!"
 
-#: server/diplomats.c:934
+#: server/diplomats.c:943
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
 msgstr "Spill: Din %s kunne ikke finne noe å sabotere i %s."
 
-#: server/diplomats.c:976
+#: server/diplomats.c:985
 #, c-format
 msgid "Game: You cannot sabotage a %s!"
 msgstr "Spill: Du kan ikke sabotere %s!"
 
-#: server/diplomats.c:986
+#: server/diplomats.c:995
 #, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
 msgstr "Spill: Din %s kunne ikke finne %s som skulle saboteres i %s."
 
-#: server/diplomats.c:1011
+#: server/diplomats.c:1020
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
 msgstr ""
 "Spill: Din %ss forsøk på å ødelegge produksjonen av %s i %s var vellykket. "
 
-#: server/diplomats.c:1015
+#: server/diplomats.c:1024
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
 msgstr "Spill: Produksjonen av %s i %s ble ødelagt, %s er mistenkt."
 
-#: server/diplomats.c:1036
+#: server/diplomats.c:1045
 #, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr "Spill: Din %s ble avslørt og fanget i et forsøk på sabotasje!"
 
 # problem
-#: server/diplomats.c:1040
+#: server/diplomats.c:1049
 #, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Spill: Du avslørte og fanget en %s %s som forsøkte å sabotere %s i %s!"
 
-#: server/diplomats.c:1052
+#: server/diplomats.c:1061
 #, c-format
 msgid "Game: Your %s destroyed the %s in %s."
 msgstr "Spill: Din %s ødela %s i %s."
 
-#: server/diplomats.c:1056
+#: server/diplomats.c:1065
 #, c-format
 msgid "Game: The %s destroyed the %s in %s."
 msgstr "Spill: %s ødela %s i %s."
 
-#: server/diplomats.c:1160
+#: server/diplomats.c:1169
 #, c-format
 msgid "Game: Your %s has been eliminated defending %s against a %s."
 msgstr "Spill: Din %s har blitt eliminert idet den forsvarte %s mot en %s."
 
-#: server/diplomats.c:1164
+#: server/diplomats.c:1173
 #, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
 msgstr "Spill: En fiendtlig %s har blitt eliminert da den forsvarte %s."
 
-#: server/diplomats.c:1178
+#: server/diplomats.c:1187
 #, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
 msgstr "Spill: Din %s ble eliminert av en forsvarende %s."
 
 # problem
-#: server/diplomats.c:1185
+#: server/diplomats.c:1194
 #, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
@@ -2684,7 +2684,7 @@ msgstr ""
 "ble med erfaren."
 
 # problem
-#: server/diplomats.c:1192
+#: server/diplomats.c:1201
 #, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
@@ -2694,19 +2694,19 @@ msgstr ""
 "Forsvareren ble mer erfaren."
 
 # problem
-#: server/diplomats.c:1202
+#: server/diplomats.c:1211
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr "Spill: En %s %s ble eliminert i et forsøk på å infiltrere %s."
 
 # problem
-#: server/diplomats.c:1208
+#: server/diplomats.c:1217
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr ""
 "Spill: En %s %s ble eliminert i et forsøk på å infiltrere våre tropper."
 
-#: server/diplomats.c:1261
+#: server/diplomats.c:1270
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
@@ -2715,51 +2715,51 @@ msgstr ""
 "Spill: Din %s har klart sitt oppdrag og har returnert uskadet og mer erfaren "
 "til %s."
 
-#: server/diplomats.c:1267
+#: server/diplomats.c:1276
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr "Spill: Din %s har klart sitt oppdrag og har returnert uskadet til %s."
 
-#: server/diplomats.c:1283
+#: server/diplomats.c:1292
 #, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr "Spill: Din %s ble fanget etter å ha fullført sitt oppdrag i %s."
 
-#: server/diplomats.c:1288
+#: server/diplomats.c:1297
 #, c-format
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "Spill: Din %s ble fanget etter å ha fullført sitt oppdrag."
 
-#: server/diplomats.c:1323
+#: server/diplomats.c:1332
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr "Spill: Du har forårsaket en skandale ved å bestikke %ss %s."
 
-#: server/diplomats.c:1328
+#: server/diplomats.c:1337
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
 msgstr "Spill: %s har forårsaket en skandale ved å bestikke din %s."
 
-#: server/diplomats.c:1335
+#: server/diplomats.c:1344
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
 msgstr "Spill: Du har skapt en skandale ved teknologityveriet fra %s."
 
-#: server/diplomats.c:1339
+#: server/diplomats.c:1348
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
 msgstr "Spill: %s har forårsaket en skandale ved å stjele teknologi fra deg."
 
 # problem
-#: server/diplomats.c:1345
+#: server/diplomats.c:1354
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr "Spill: Du har forårsaket en skandale ved å oppmuntre til opprør i %s."
 
 # problem
-#: server/diplomats.c:1348
+#: server/diplomats.c:1357
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Spill: %s har forårsaket en skandale ved å oppmuntre til opprør i %s."
@@ -3386,7 +3386,7 @@ msgstr "Utviklingspoeng:"
 
 #: server/report.c:1111 client/gui-gtk/repodlgs.c:1127
 #: client/gui-mui/repodlgs.c:870 client/gui-win32/repodlgs.c:754
-#: client/gui-xaw/repodlgs.c:1153
+#: client/gui-xaw/repodlgs.c:1138
 msgid "The Greatest Civilizations in the world."
 msgstr "De mektigste sivilisasjonene i verden."
 
@@ -3629,7 +3629,7 @@ msgstr "Ikke støttet styresett funnet (%s)"
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr "Ikke støttet by-stil finnet i spiller%d seksjon. Endret til %s"
 
-#: server/savegame.c:1901
+#: server/savegame.c:1903
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -3637,19 +3637,19 @@ msgid ""
 msgstr ""
 "Ulovlig allianser oppdaget: %ss allianse med %s redusert til fredsavtale."
 
-#: server/savegame.c:3068
+#: server/savegame.c:3070
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr ""
 "Den lagrede filen er for gammel, versjoner fra og med 1.9.0 er støttet."
 
-#: server/savegame.c:3257
+#: server/savegame.c:3259
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Den lagrede filen bruker det klassiske terreng regeloppsettet som ikke "
 "lenger er støttet."
 
-#: server/savegame.c:3266
+#: server/savegame.c:3268
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -6376,7 +6376,7 @@ msgstr "Spill: Kun %s kan angripe fra sjøen."
 msgid "Game: Cannot attack from sea."
 msgstr "Spill: Kan ikke angripe fra sjøen."
 
-#: server/unithand.c:932 server/unittools.c:2220
+#: server/unithand.c:932 server/unittools.c:2237
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spill: Kan ikke angripe hvis du ikke erklærer krig først."
 
@@ -6506,117 +6506,117 @@ msgstr "Spill: Din %s overlevde på havet og ble mer erfaren!"
 msgid "Game: Your %s has been lost on unsafe terrain."
 msgstr "Spill: Din %s har gått tapt på usikkert terreng."
 
-#: server/unittools.c:375
+#: server/unittools.c:376
 #, c-format
 msgid "Game: Your %s has returned to refuel."
 msgstr "Spill: Din %s har returnert for drivstoffpåfyll."
 
-#: server/unittools.c:401
+#: server/unittools.c:402
 #, c-format
 msgid "Game: Your %s has run out of fuel."
 msgstr "Spill: Din %s har gått tom for drivstoff."
 
-#: server/unittools.c:582
+#: server/unittools.c:583
 #, c-format
 msgid "Game: Your %s became more experienced!"
 msgstr "Spill: Din %s ble mer erfaren!"
 
-#: server/unittools.c:862
+#: server/unittools.c:863
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr "Spill: Flyttet din %s pga transformasjon fra land til sjø."
 
-#: server/unittools.c:883
+#: server/unittools.c:884
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr "Spill: Sjøsatte din %s på grunn av transformasjon fra land til sjø."
 
-#: server/unittools.c:898
+#: server/unittools.c:899
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr "Spill: Oppløste din %s på grunn av transformasjon fra land til sjø."
 
-#: server/unittools.c:920
+#: server/unittools.c:921
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr "Spill: Flyttet din %s på grunn av transformasjon fra sjø til land."
 
-#: server/unittools.c:940
+#: server/unittools.c:941
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr "Spill: Landsatte din %s på grunn av transformasjon fra sjø til land."
 
-#: server/unittools.c:955
+#: server/unittools.c:956
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr "Spill: Oppløste din %s pga transformasjonen fra sjø til land."
 
 # problem
-#: server/unittools.c:987
+#: server/unittools.c:988
 #, c-format
 msgid " at %s"
 msgstr " ved %s"
 
 # problem
-#: server/unittools.c:989
+#: server/unittools.c:990
 #, c-format
 msgid " in %s"
 msgstr " i %s"
 
 # problem
-#: server/unittools.c:996
+#: server/unittools.c:997
 #, c-format
 msgid " outside %s"
 msgstr " utenfor %s"
 
 # problem
-#: server/unittools.c:999
+#: server/unittools.c:1000
 #, c-format
 msgid " near %s"
 msgstr " nær %s"
 
-#: server/unittools.c:1209
+#: server/unittools.c:1210
 #, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "Spill: Teleportet din %s til %s."
 
-#: server/unittools.c:1238
+#: server/unittools.c:1239
 #, c-format
 msgid "Game: Disbanded your %s."
 msgstr "Spill: Oppløste din %s."
 
-#: server/unittools.c:1562
+#: server/unittools.c:1564
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Kan ikke forsvare %s, %s har tapt spillet."
 
-#: server/unittools.c:1564
+#: server/unittools.c:1566
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Ved å miste %s, så taper du spillet! Vær mer forsiktig neste gang!"
 
-#: server/unittools.c:1668
+#: server/unittools.c:1670
 #, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr "Spill: %s unnslapp ødeleggelsen av %s, og flyktet til %s."
 
 # problem
-#: server/unittools.c:1675
+#: server/unittools.c:1677
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Spill: %s gikk tapt da %s gikk tapt."
 
-#: server/unittools.c:1734
+#: server/unittools.c:1736
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spill: Barbarleder fanget, %d gull betalt i løsepenger."
 
-#: server/unittools.c:1751
+#: server/unittools.c:1753
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Spill: %s gikk tapt i et angrep fra %ss %s%s."
 
-#: server/unittools.c:1777
+#: server/unittools.c:1779
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
@@ -6624,128 +6624,128 @@ msgstr[0] "Spill: Du mistet %d enhet under angrep fra %ss %s%s."
 msgstr[1] "Spill: Du mistet %d enhet under angrep fra %ss %s%s."
 
 # problem
-#: server/unittools.c:1792
+#: server/unittools.c:1794
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spill: %s gikk tapt i et angrep fra %ss %s."
 
-#: server/unittools.c:2065
+#: server/unittools.c:2082
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Spill: Din %s ble utsatt for atomangrep fra %s."
 
-#: server/unittools.c:2067 server/unittools.c:2083
+#: server/unittools.c:2084 server/unittools.c:2100
 msgid "yourself"
 msgstr "deg selv"
 
 # problem
-#: server/unittools.c:2071
+#: server/unittools.c:2088
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Spill: %ss %s ble utsatt for atomangrep."
 
-#: server/unittools.c:2081
+#: server/unittools.c:2098
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Spill: %s ble utsatt for atomangrep fra %s."
 
-#: server/unittools.c:2088
+#: server/unittools.c:2105
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Spill: Du utførte et atomangrep mot %s."
 
-#: server/unittools.c:2126
+#: server/unittools.c:2143
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Spill: %s detonerte en atombombe!"
 
-#: server/unittools.c:2166
+#: server/unittools.c:2183
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spill: %s ble transportert trygt fram."
 
-#: server/unittools.c:2189
+#: server/unittools.c:2206
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spill: Denne enheten kan ikke gjøre fallskjermhopp."
 
-#: server/unittools.c:2199
+#: server/unittools.c:2216
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Spill: Du kan ikke sende en transport-enhet med fallskjerm."
 
-#: server/unittools.c:2204
+#: server/unittools.c:2221
 msgid "Game: The destination location is not known."
 msgstr "Spill: Bestemmelsesstedet er ukjent."
 
-#: server/unittools.c:2211
+#: server/unittools.c:2228
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Spill: Denne enheten kan ikke ta fallskjermhopp ut i havet."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2246
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Spill: Lengden til målet (%i) er større enn enhetens rekkevidde (%i)."
 
-#: server/unittools.c:2243
+#: server/unittools.c:2260
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr ""
 "Spill: Dine %s utførte et fallskjermhopp ut i øde hav og druknet alle sammen."
 
-#: server/unittools.c:2256
+#: server/unittools.c:2273
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spill: Dine %s ble slaktet på hoppstedet."
 
-#: server/unittools.c:2278
+#: server/unittools.c:2295
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spill: Du fant %d gull."
 
-#: server/unittools.c:2295
+#: server/unittools.c:2312
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spill: Du fant %s i eldgamle skriftruller med kunnskap."
 
-#: server/unittools.c:2298
+#: server/unittools.c:2315
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Spill: %s har tilegnet seg %s fra eldgamle skriftruller med kunnskap."
 
-#: server/unittools.c:2311
+#: server/unittools.c:2328
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr ""
 "Spill: En gjeng med leiesoldater som ikke har sett penger på lenge slutter "
 "seg til dine rekker."
 
-#: server/unittools.c:2329
+#: server/unittools.c:2346
 msgid "Game: An abandoned village is here."
 msgstr "Spill: En forlatt landsby er her."
 
-#: server/unittools.c:2339
+#: server/unittools.c:2356
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spill: Du har fremprovosert en fiendtlig barbarhorde!"
 
-#: server/unittools.c:2342
+#: server/unittools.c:2359
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spill: Dine %s har blitt slaktet av en gjeng med pinglete barbarer."
 
-#: server/unittools.c:2358
+#: server/unittools.c:2375
 msgid "Game: You found a friendly city."
 msgstr "Spill: Du fant en vennlig by."
 
-#: server/unittools.c:2363
+#: server/unittools.c:2389
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spill: Vennligsinnede nomader er imponert av at du kan spille munnspill "
 "under vann og slutter seg til dine rekker."
 
-#: server/unittools.c:2388
+#: server/unittools.c:2414
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Spill: Din overflyvning skremmer stammen; de sprer seg i frykt."
 
-#: server/unittools.c:2509
+#: server/unittools.c:2535
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6753,32 +6753,32 @@ msgstr ""
 "Spill: Din %s avsluttet patruljeringsordren da den støtte på en fremmed "
 "enhet."
 
-#: server/unittools.c:2946
+#: server/unittools.c:2961
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "Spill: Ordre for %s avbrutt, da der er enheter i veien."
 
-#: server/unittools.c:2995
+#: server/unittools.c:3010
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Spill: Ordre for %s avbrutt, da da der er enheter i veien."
 
-#: server/unittools.c:3009
+#: server/unittools.c:3024
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr "Spill: Ordre for %s avbrutt siden de angir en ugyldig plassering."
 
-#: server/unittools.c:3019
+#: server/unittools.c:3034
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "Spill: %s avbrøt ordre da der er enheter i veien."
 
-#: server/unittools.c:3045
+#: server/unittools.c:3060
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "Spill: Ordre for %s ble avbrutt på grunn av et feilet flytt."
 
-#: server/unittools.c:3078
+#: server/unittools.c:3093
 #, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Spill: Din %s har ugyldige ordre."
@@ -6801,7 +6801,7 @@ msgstr "Generator 3 plasserte ikke alle de store øyene."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 forlot %li landmasse uplassert."
 
-#: server/generator/startpos.c:358
+#: server/generator/startpos.c:377
 #, fuzzy, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
@@ -7149,7 +7149,7 @@ msgstr "Beste forsvarende enheter"
 #: client/gui-win32/repodlgs.c:611 client/gui-win32/repodlgs.c:691
 #: client/gui-win32/repodlgs.c:700 client/gui-xaw/menu.c:155
 #: client/gui-xaw/menu.c:216 client/gui-xaw/menu.c:237
-#: client/gui-xaw/repodlgs.c:875 client/gui-xaw/repodlgs.c:1062
+#: client/gui-xaw/repodlgs.c:860 client/gui-xaw/repodlgs.c:1047
 #: data/Freeciv.in:1922 data/helpdata.txt:859
 msgid "Units"
 msgstr "Enheter"
@@ -7208,8 +7208,8 @@ msgstr "Overskudd: Handel"
 
 #: client/cityrepdata.c:459 client/gui-gtk-2.0/repodlgs.c:657
 #: client/gui-gtk/repodlgs.c:599 client/gui-win32/repodlgs.c:334
-#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:639
-#: client/gui-xaw/repodlgs.c:768 data/Freeciv.in:1846
+#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:624
+#: client/gui-xaw/repodlgs.c:753 data/Freeciv.in:1846
 msgid "Economy"
 msgstr "Økonomi"
 
@@ -7479,28 +7479,28 @@ msgstr "%s gir deg utsyn"
 msgid "The %s gives an embassy"
 msgstr "%s gir en ambassade"
 
-#: client/climisc.c:869
+#: client/climisc.c:873
 msgid "Popup Request"
 msgstr "Popup spørsmål"
 
-#: client/climisc.c:899
+#: client/climisc.c:903
 msgid "Exporting output window to civgame.log ..."
 msgstr "Eksporterer utskriftsvindu til civgame.log ..."
 
-#: client/climisc.c:903
+#: client/climisc.c:907
 msgid "Export complete."
 msgstr "Eksport fullført."
 
-#: client/climisc.c:905
+#: client/climisc.c:909
 msgid "Export failed, couldn't write to file."
 msgstr "Klarer ikke skrive til fil."
 
-#: client/climisc.c:1017
+#: client/climisc.c:1021
 #, c-format
 msgid "Game: You don't buy %s in %s!"
 msgstr "Spill: Du kjøper ikke %s i %s!"
 
-#: client/climisc.c:1037
+#: client/climisc.c:1041
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spill: %s koster %d gull og du har kun %d gull."
@@ -9950,7 +9950,7 @@ msgstr "_Forhåndsvalg:"
 #: client/gui-gtk-2.0/cma_fe.c:297 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
 #: client/gui-mui/repodlgs.c:491 client/gui-win32/cma_fe.c:482
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 msgid "Results"
 msgstr "Resultat"
 
@@ -10546,66 +10546,66 @@ msgstr "Velg destinasjon"
 msgid "Show _All Cities"
 msgstr "Vis _alle byer"
 
-#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:128
+#: client/gui-gtk-2.0/gui_main.c:139 client/gui-gtk/gui_main.c:128
 msgid "Use Alt/Meta for accelerators"
 msgstr "Bruker Alt/Meta for hurtigtaster"
 
-#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:129
+#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:129
 msgid "Show Map Scrollbars"
 msgstr "Vis scrollbar på kart"
 
-#: client/gui-gtk-2.0/gui_main.c:142 client/gui-gtk/gui_main.c:130
+#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:130
 msgid "Keyboardless goto"
 msgstr "Tastaturløs gå-til"
 
-#: client/gui-gtk-2.0/gui_main.c:143
+#: client/gui-gtk-2.0/gui_main.c:142
 msgid "Keep dialogs on top"
 msgstr "Hold dialoger øverst"
 
-#: client/gui-gtk-2.0/gui_main.c:144
+#: client/gui-gtk-2.0/gui_main.c:143
 msgid "Show worklist task icons"
 msgstr "Vis arbeidsliste ikoner"
 
-#: client/gui-gtk-2.0/gui_main.c:145
+#: client/gui-gtk-2.0/gui_main.c:144
 msgid "Fullscreen Mode"
 msgstr "Fullskjerm vindu"
 
-#: client/gui-gtk-2.0/gui_main.c:146
+#: client/gui-gtk-2.0/gui_main.c:145
 msgid "Enable status report tabs"
 msgstr "Gjør statusrapportark tilgjengelig"
 
-#: client/gui-gtk-2.0/gui_main.c:148
+#: client/gui-gtk-2.0/gui_main.c:147
 msgid "Solid unit icon background color in city dialog"
 msgstr "Helfarget bakgrunn for enheter i byvinduet"
 
-#: client/gui-gtk-2.0/gui_main.c:150 client/gui-win32/gui_main.c:100
+#: client/gui-gtk-2.0/gui_main.c:149 client/gui-win32/gui_main.c:100
 msgid "Better fog-of-war drawing"
 msgstr "Bedre krigståke kvalitet"
 
-#: client/gui-gtk-2.0/gui_main.c:490 client/gui-gtk-2.0/gui_main.c:1082
+#: client/gui-gtk-2.0/gui_main.c:489 client/gui-gtk-2.0/gui_main.c:1081
 #: client/gui-gtk/gui_main.c:385 client/gui-gtk/gui_main.c:857
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:849 client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:848 client/gui-gtk-2.0/gui_main.c:862
 #: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:406
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Runde over"
 
-#: client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:862
 msgid "Shift+Return"
 msgstr "Skift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:895
+#: client/gui-gtk-2.0/gui_main.c:894
 msgid "_Map"
 msgstr "_Kart"
 
-#: client/gui-gtk-2.0/gui_main.c:969
+#: client/gui-gtk-2.0/gui_main.c:968
 msgid "_Chat"
 msgstr "_Beskjeder"
 
-#: client/gui-gtk-2.0/gui_main.c:985 client/gui-gtk/gui_main.c:783
+#: client/gui-gtk-2.0/gui_main.c:984 client/gui-gtk/gui_main.c:783
 #: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:462
 #: data/Freeciv.in:2836
 msgid ""
@@ -10620,16 +10620,16 @@ msgstr ""
 "Besøk http://www.freeciv.org/ for oppdaterte versjoner av Freeciv, \n"
 "og for å rapportere feil ved Freeciv eller den norske oversettelsen."
 
-#: client/gui-gtk-2.0/gui_main.c:1241 client/gui-mui/citydlg.c:1557
+#: client/gui-gtk-2.0/gui_main.c:1240 client/gui-mui/citydlg.c:1557
 msgid "Name:"
 msgstr "Navn:"
 
-#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-gtk/connectdlg.c:433
+#: client/gui-gtk-2.0/gui_main.c:1247 client/gui-gtk/connectdlg.c:433
 #: client/gui-win32/connectdlg.c:1080
 msgid "Host:"
 msgstr "Tjener:"
 
-#: client/gui-gtk-2.0/gui_main.c:1385 client/gui-gtk/gui_main.c:1090
+#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk/gui_main.c:1090
 #: client/gui-xaw/gui_main.c:709
 #, c-format
 msgid ""
@@ -10649,7 +10649,7 @@ msgstr ""
 "Forsker på %s: %d/%d\n"
 "Styresett: %s"
 
-#: client/gui-gtk-2.0/gui_main.c:1510
+#: client/gui-gtk-2.0/gui_main.c:1509
 msgid "Are you sure you want to quit?"
 msgstr "Er du sikker på at du vil avslutte?"
 
@@ -12026,7 +12026,7 @@ msgstr "_Oppgrader"
 
 #: client/gui-gtk-2.0/repodlgs.c:1155 client/gui-gtk/repodlgs.c:960
 #: client/gui-mui/repodlgs.c:718 client/gui-win32/repodlgs.c:564
-#: client/gui-xaw/repodlgs.c:1000
+#: client/gui-xaw/repodlgs.c:985
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -13057,17 +13057,17 @@ msgid "Sell All"
 msgstr "Selg alle"
 
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/repodlgs.c:491
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 msgid "Sell-Off:"
 msgstr "Salg:"
 
 #: client/gui-gtk/repodlgs.c:787 client/gui-mui/repodlgs.c:569
-#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:793
+#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:778
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Inntekt: %6d   Total Kostnad: %6d"
 
-#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:898
+#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:883
 msgid "Totals: ..."
 msgstr "Totalt: ..."
 
@@ -13993,7 +13993,7 @@ msgid "Military Report"
 msgstr "Militærrapport"
 
 #: client/gui-mui/repodlgs.c:861 client/gui-win32/repodlgs.c:745
-#: client/gui-xaw/repodlgs.c:1144
+#: client/gui-xaw/repodlgs.c:1129
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -14001,7 +14001,7 @@ msgstr[0] "%2d: Den %s herskeren %s verdsettes til %d poeng\n"
 msgstr[1] "%2d: Den %s herskeren %s verdsettes til %d poeng\n"
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:753
-#: client/gui-xaw/repodlgs.c:1152
+#: client/gui-xaw/repodlgs.c:1137
 msgid "Final Report:"
 msgstr "Endelig rapport:"
 
@@ -14569,20 +14569,18 @@ msgid "Copying"
 msgstr "Kopiering"
 
 #: client/gui-xaw/repodlgs.c:209 client/gui-xaw/repodlgs.c:215
-#: client/gui-xaw/repodlgs.c:392 client/gui-xaw/repodlgs.c:485
-#: client/gui-xaw/repodlgs.c:491
+#: client/gui-xaw/repodlgs.c:470 client/gui-xaw/repodlgs.c:476
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "Forsker på %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:224 client/gui-xaw/repodlgs.c:229
-#: client/gui-xaw/repodlgs.c:416 client/gui-xaw/repodlgs.c:502
-#: client/gui-xaw/repodlgs.c:507
+#: client/gui-xaw/repodlgs.c:487 client/gui-xaw/repodlgs.c:492
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "Mål: %s (%d steg)"
 
-#: client/gui-xaw/repodlgs.c:1115
+#: client/gui-xaw/repodlgs.c:1100
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totalt:                     %9d%9d%9d%9d"
@@ -18998,7 +18996,7 @@ msgstr "Demokrati"
 #: data/nation/icelandic.ruleset:17 data/nation/polish.ruleset:28
 #: data/nation/polish.ruleset:29 data/nation/quebecois.ruleset:15
 #: data/nation/serbian.ruleset:21 data/nation/serbian.ruleset:22
-#: data/nation/singaporean.ruleset:32 data/nation/slovenian.ruleset:15
+#: data/nation/singaporean.ruleset:31 data/nation/slovenian.ruleset:15
 #: data/nation/slovenian.ruleset:16
 msgid "President"
 msgstr "President"
@@ -21213,7 +21211,7 @@ msgstr "?plural:afghanerne"
 #: data/nation/finnish.ruleset:19 data/nation/greek.ruleset:13
 #: data/nation/israeli.ruleset:16 data/nation/japanese.ruleset:15
 #: data/nation/kampuchean.ruleset:14 data/nation/portuguese.ruleset:18
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:33
+#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:32
 #: data/nation/spanish.ruleset:21 data/nation/swedish.ruleset:16
 #: data/nation/viking.ruleset:32 data/nation/welsh.ruleset:22
 msgid "Prime Minister"
@@ -22458,15 +22456,11 @@ msgid ""
 msgstr ""
 "Singapor er en merkantil by-stat plassert på den sørligste enden av Malaysia."
 
-#: data/nation/singaporean.ruleset:29
-msgid "Ah"
-msgstr "Ah"
-
-#: data/nation/singaporean.ruleset:30 data/nation/turk.ruleset:19
+#: data/nation/singaporean.ruleset:29 data/nation/turk.ruleset:19
 msgid "Sultan"
 msgstr "Sultan"
 
-#: data/nation/singaporean.ruleset:31
+#: data/nation/singaporean.ruleset:30
 msgid "Encik"
 msgstr "Encik"
 
@@ -22699,6 +22693,9 @@ msgstr ""
 "Afrika\n"
 "på begynnelsen av 1700-tallet. De erobret det innfødte Khosiske folket og \n"
 "hadde sammenstøt med de europeiske nybyggerne."
+
+#~ msgid "Ah"
+#~ msgstr "Ah"
 
 #~ msgid "Rejected connection from %s with invalid name."
 #~ msgstr "Viste bort forbindelse fra %s med ugyldig brukernavn."

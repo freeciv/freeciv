@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 20:42-0500\n"
+"POT-Creation-Date: 2007-02-11 17:47-0500\n"
 "PO-Revision-Date: 2005-09-03 19:25+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -496,7 +496,7 @@ msgstr "Luxus"
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:91
 #: client/gui-xaw/menu.c:219 client/gui-xaw/repodlgs.c:255
-#: client/gui-xaw/repodlgs.c:479 data/Freeciv.in:1393
+#: client/gui-xaw/repodlgs.c:464 data/Freeciv.in:1393
 msgid "Science"
 msgstr "Věda, výzkum"
 
@@ -1402,7 +1402,7 @@ msgstr "  -r, --read SOUBOR\tPřečte spouštěc skript ze souboru SOUBOR\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tVypiš číslo verze\n"
 
-#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:210
+#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:209
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
@@ -2475,185 +2475,185 @@ msgstr "Hra: Váš %1$s uspěl při sabotáži jednotky %3$s hráče %2$s."
 msgid "Game: Your %s was sabotaged by %s!"
 msgstr "Hra: Váš %s byl sabotován hráčem %s!"
 
-#: server/diplomats.c:427
+#: server/diplomats.c:428
 msgid "Game: You can't bribe a unit from this nation."
 msgstr "Hra: Nemůžete uplácet jednotky tohoto národa."
 
-#: server/diplomats.c:436
+#: server/diplomats.c:437
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
 msgstr "Hra: Nemáte dostatek peněz na uplacení jednotky %2$s hráče %1$s."
 
-#: server/diplomats.c:445
+#: server/diplomats.c:446
 #, c-format
 msgid "Game: You cannot bribe %s!"
 msgstr "Hra: %s nemůžete uplatit!"
 
-#: server/diplomats.c:463
+#: server/diplomats.c:472
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr ""
 "Hra: Váš %s uspěl při uplácení jednotky %s %s a získal více zkušeností."
 
-#: server/diplomats.c:469
+#: server/diplomats.c:478
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
 msgstr "Hra: Váš %1$s uspěl při uplácení jednotky %3$s hráče %2$s."
 
-#: server/diplomats.c:473
+#: server/diplomats.c:482
 #, c-format
 msgid "Game: Your %s was bribed by %s."
 msgstr "Hra: Jednotka %s byla uplacena hráčem %s."
 
-#: server/diplomats.c:570
+#: server/diplomats.c:579
 #, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Hra: Váš %s byl chycen při pokusu o krádež technologie ve městě %s."
 
-#: server/diplomats.c:574
+#: server/diplomats.c:583
 #, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
 msgstr "Hra: %2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
 
-#: server/diplomats.c:607
+#: server/diplomats.c:616
 #, c-format
 msgid "Game: No new technology found in %s."
 msgstr "Hra: Ve městě %s nabyla nalezena žádná nová technologie."
 
-#: server/diplomats.c:644
+#: server/diplomats.c:653
 #, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
 msgstr "Hra: Váš %s nenašel kradenou technologii %s ve městě %s."
 
-#: server/diplomats.c:665
+#: server/diplomats.c:674
 #, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
 msgstr "Hra: Váš %s ukradl technologii budoucnosti %d hráči %s."
 
-#: server/diplomats.c:669
+#: server/diplomats.c:678
 #, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
 msgstr "Hra: %3$s hráče %2$s ukradl technologii budoucnosti %1$d od %4$s."
 
-#: server/diplomats.c:682
+#: server/diplomats.c:691
 #, c-format
 msgid "Game: Your %s stole %s from %s."
 msgstr "Hra: Váš %s ukradl %s od %s."
 
-#: server/diplomats.c:686
+#: server/diplomats.c:695
 #, c-format
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Hra: %2$s (%1$s) ukradl %3$s ve městě %4$s."
 
-#: server/diplomats.c:690 server/plrhand.c:830
+#: server/diplomats.c:699 server/plrhand.c:830
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Hra: %s ukradli %s od %s."
 
-#: server/diplomats.c:749
+#: server/diplomats.c:758
 msgid "Game: You can't subvert a city from this nation."
 msgstr "Hra: Nemůžete rozvrátit město tohoto národa."
 
-#: server/diplomats.c:757
+#: server/diplomats.c:766
 msgid "Game: You can't subvert this city."
 msgstr "Hra: Nemůžete rozvrátit toto město."
 
-#: server/diplomats.c:768
+#: server/diplomats.c:777
 #, c-format
 msgid "Game: You don't have enough gold to subvert %s."
 msgstr "Hra: Nemáte dostatek zlata na rozvrácení města %s."
 
-#: server/diplomats.c:785
+#: server/diplomats.c:794
 #, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Hra: Váš %s byl chycen při pokusu o vyvolání převratu!"
 
-#: server/diplomats.c:789
+#: server/diplomats.c:798
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Hra: Chytili jsme %s %s podněcující povstání v %s!"
 
-#: server/diplomats.c:813
+#: server/diplomats.c:822
 #, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
 msgstr "Hra: Ve městě %s došlo k převratu a Vy jste převzal(a) kontrolu!"
 
-#: server/diplomats.c:816
+#: server/diplomats.c:825
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr "Hra: Převrat ve městě %s. %s jej pravděpodobně podporovali."
 
-#: server/diplomats.c:896
+#: server/diplomats.c:905
 #, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Hra: Váš %s byl chycen při pokusu o sabotáž!"
 
-#: server/diplomats.c:900
+#: server/diplomats.c:909
 #, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
 msgstr "Hra: %2$s (%1$s) chycen při pokusu o sabotáž ve městě %3$s!"
 
-#: server/diplomats.c:934
+#: server/diplomats.c:943
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
 msgstr "Hra: Váš %s nenalezl ve městě %s nic, co by stálo za sabotáž."
 
-#: server/diplomats.c:976
+#: server/diplomats.c:985
 #, c-format
 msgid "Game: You cannot sabotage a %s!"
 msgstr "Hra: Nemůžete sabotovat %s!"
 
-#: server/diplomats.c:986
+#: server/diplomats.c:995
 #, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
 msgstr "Hra: Váš %s nemohl sabotovat %s, protože ve městě %s není."
 
-#: server/diplomats.c:1011
+#: server/diplomats.c:1020
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
 msgstr "Hra: Váš %s byl úspěšný a zničil probíhající stavbu %s ve městě %s."
 
-#: server/diplomats.c:1015
+#: server/diplomats.c:1024
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
 msgstr "Hra: Stavba %s ve městě %s byla zničena, podezřelý je %s."
 
-#: server/diplomats.c:1036
+#: server/diplomats.c:1045
 #, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr "Hra: Váš %s byl chycen při pokusu o sabotáž!"
 
-#: server/diplomats.c:1040
+#: server/diplomats.c:1049
 #, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Hra: Byl chycen %2$s (%1$s) při pokusu o sabotáž %3$s ve městě %4$s!\""
 
-#: server/diplomats.c:1052
+#: server/diplomats.c:1061
 #, c-format
 msgid "Game: Your %s destroyed the %s in %s."
 msgstr "Hra: Váš %s zničil %s ve městě %s."
 
-#: server/diplomats.c:1056
+#: server/diplomats.c:1065
 #, c-format
 msgid "Game: The %s destroyed the %s in %s."
 msgstr "Hra: %s zničili %s ve městě %s."
 
-#: server/diplomats.c:1160
+#: server/diplomats.c:1169
 #, c-format
 msgid "Game: Your %s has been eliminated defending %s against a %s."
 msgstr "Hra: Váš %s byl zlikvidován při obraně města %s proti %s."
 
-#: server/diplomats.c:1164
+#: server/diplomats.c:1173
 #, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
 msgstr "Hra: Nepřátelský %s byl zlikvidován při obraně %s."
 
-#: server/diplomats.c:1178
+#: server/diplomats.c:1187
 #, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
 msgstr "Hra: Váš %s byl zlikvidován při obraně %s."
 
-#: server/diplomats.c:1185
+#: server/diplomats.c:1194
 #, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
@@ -2662,7 +2662,7 @@ msgstr ""
 "Hra: Byl zlikvidován %s %s při pokusu o infiltrování města %s. Obránce je "
 "nyní zkušenější."
 
-#: server/diplomats.c:1192
+#: server/diplomats.c:1201
 #, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
@@ -2671,17 +2671,17 @@ msgstr ""
 "Hra: Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek. "
 "Obránce je nyní zkušenější."
 
-#: server/diplomats.c:1202
+#: server/diplomats.c:1211
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr "Hra: Byl zlikvidován %2$s (%1$s) při pokusu o infiltrování města %3$s."
 
-#: server/diplomats.c:1208
+#: server/diplomats.c:1217
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr "Hra: Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek."
 
-#: server/diplomats.c:1261
+#: server/diplomats.c:1270
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
@@ -2690,49 +2690,49 @@ msgstr ""
 "Hra: Váš %s úspěšně spnil misi a vrátil se nezraněn do města %s. Stal se "
 "zkušenějším."
 
-#: server/diplomats.c:1267
+#: server/diplomats.c:1276
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr "Hra: Váš %s úspěšně spnil misi a vrátil se nezraněn do města %s."
 
-#: server/diplomats.c:1283
+#: server/diplomats.c:1292
 #, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr "Hra: Váš %s byl zajat poté co dokončil svoji misi ve městě %s."
 
-#: server/diplomats.c:1288
+#: server/diplomats.c:1297
 #, c-format
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "Hra: Váš %s byl zajat poté co dokončil svoji misi."
 
-#: server/diplomats.c:1323
+#: server/diplomats.c:1332
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr "Hra: Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
 
-#: server/diplomats.c:1328
+#: server/diplomats.c:1337
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
 msgstr "Hra: Hráč %s vyvolal incident svým pokusem o uplacení Vašeho %s."
 
-#: server/diplomats.c:1335
+#: server/diplomats.c:1344
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
 msgstr "Hra: Při pokusu o krádež technologie hráči %s došlo k incidentu."
 
-#: server/diplomats.c:1339
+#: server/diplomats.c:1348
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
 msgstr "Hra: Hráč %s vyvolal incident svým pokusem o krádež technologie."
 
-#: server/diplomats.c:1345
+#: server/diplomats.c:1354
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr "Hra: Způsobil jste incident při pokusu vyvolat povstání ve městě %s."
 
-#: server/diplomats.c:1348
+#: server/diplomats.c:1357
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Hra: %s způsobil incident při pokusu vyvolat povstání ve městě %s."
@@ -3360,7 +3360,7 @@ msgstr "Průběžný přehled:"
 
 #: server/report.c:1111 client/gui-gtk/repodlgs.c:1127
 #: client/gui-mui/repodlgs.c:870 client/gui-win32/repodlgs.c:754
-#: client/gui-xaw/repodlgs.c:1153
+#: client/gui-xaw/repodlgs.c:1138
 msgid "The Greatest Civilizations in the world."
 msgstr "Největší civilizace světa"
 
@@ -3602,24 +3602,24 @@ msgstr "Nalezeno nepodporované státní zřízení (%s)"
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr "Nepodporovaný styl měst nalezen v player%d sekci. Změněno na %s"
 
-#: server/savegame.c:1901
+#: server/savegame.c:1903
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
 msgstr "Neplatná struktura aliance: Aliance %s s %s byla redukována na mír."
 
-#: server/savegame.c:3068
+#: server/savegame.c:3070
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Uložená hra je příliš stará. Nutná je alespoň verze 1.9.0."
 
-#: server/savegame.c:3257
+#: server/savegame.c:3259
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Uložená hra používá soubor pravidel pro terén, který již není podporován."
 
-#: server/savegame.c:3266
+#: server/savegame.c:3268
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -6348,7 +6348,7 @@ msgstr "Hra: Pouze %s může útočit z moře."
 msgid "Game: Cannot attack from sea."
 msgstr "Hra: Nelze útočit z moře."
 
-#: server/unithand.c:932 server/unittools.c:2220
+#: server/unithand.c:932 server/unittools.c:2237
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Hra: Nelze útočit dokud nevyhlásíte válku."
 
@@ -6477,112 +6477,112 @@ msgstr "Hra: Vaše %s přežila na moři a stala se zkušenější!"
 msgid "Game: Your %s has been lost on unsafe terrain."
 msgstr "Hra: Jednotka %s se ztratila v nebezpečném terénu."
 
-#: server/unittools.c:375
+#: server/unittools.c:376
 #, c-format
 msgid "Game: Your %s has returned to refuel."
 msgstr "Hra: Jednotka %s se vrátila dotankovat."
 
-#: server/unittools.c:401
+#: server/unittools.c:402
 #, c-format
 msgid "Game: Your %s has run out of fuel."
 msgstr "Hra: Jednotce %s došlo palivo."
 
-#: server/unittools.c:582
+#: server/unittools.c:583
 #, c-format
 msgid "Game: Your %s became more experienced!"
 msgstr "Hra: Váš %s se stal zkušenější!"
 
-#: server/unittools.c:862
+#: server/unittools.c:863
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr "Hra: Přesunuta naše %s kvůli změně pobřeží na moře."
 
-#: server/unittools.c:883
+#: server/unittools.c:884
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr "Hra: Naložena naše %s kvůli změně pobřeží na moře."
 
-#: server/unittools.c:898
+#: server/unittools.c:899
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr "Hra: Rozpuštěna naše %s kvůli změně pobřeží na moře."
 
-#: server/unittools.c:920
+#: server/unittools.c:921
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr "Hra: Přesunuta naše %s kvůli změně moře na pobřeží."
 
-#: server/unittools.c:940
+#: server/unittools.c:941
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr "Hra: Naše %s přesunuta do do doku kvůli změně moře na pobřeží."
 
-#: server/unittools.c:955
+#: server/unittools.c:956
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr "Hra: Rozpuštěna naše %s kvůli změně moře na pobřeží."
 
-#: server/unittools.c:987
+#: server/unittools.c:988
 #, c-format
 msgid " at %s"
 msgstr " na %s"
 
-#: server/unittools.c:989
+#: server/unittools.c:990
 #, c-format
 msgid " in %s"
 msgstr " v %s"
 
-#: server/unittools.c:996
+#: server/unittools.c:997
 #, c-format
 msgid " outside %s"
 msgstr " poblíž %s"
 
-#: server/unittools.c:999
+#: server/unittools.c:1000
 #, c-format
 msgid " near %s"
 msgstr " poblíž %s"
 
-#: server/unittools.c:1209
+#: server/unittools.c:1210
 #, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "Hra: Teleportována jednotka %s do %s."
 
-#: server/unittools.c:1238
+#: server/unittools.c:1239
 #, c-format
 msgid "Game: Disbanded your %s."
 msgstr "Hra: Rozpuštěn náš %s."
 
-#: server/unittools.c:1562
+#: server/unittools.c:1564
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Nelze bránit %s, %s prohrál hru."
 
-#: server/unittools.c:1564
+#: server/unittools.c:1566
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Ztráta %s znamená prohru ve hře! Buďte příště více opatrnější!"
 
-#: server/unittools.c:1668
+#: server/unittools.c:1670
 #, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr "Hra: Jednotka %s unikla před zničením %s a stáhla se do %s."
 
-#: server/unittools.c:1675
+#: server/unittools.c:1677
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Hra: Jednotka %s ztracena spolu s jednotkou %s."
 
-#: server/unittools.c:1734
+#: server/unittools.c:1736
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Hra: Vůdce barbarů byl zajat a prodán za výkupné %d zlatých."
 
-#: server/unittools.c:1751
+#: server/unittools.c:1753
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Hra: %s ztracena při útoku %s %s%s."
 
-#: server/unittools.c:1777
+#: server/unittools.c:1779
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
@@ -6590,156 +6590,156 @@ msgstr[0] "Hra: Ztratili jsme %d jednotku při útoku %s %s%s."
 msgstr[1] "Hra: Ztratili jsme %d jednotky při útoku %s %s%s."
 msgstr[2] "Hra: Ztratili jsme %d jednotek při útoku %s %s%s."
 
-#: server/unittools.c:1792
+#: server/unittools.c:1794
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Hra: %s ztracena při útoku %s %s."
 
-#: server/unittools.c:2065
+#: server/unittools.c:2082
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Hra: Na náš %s podnikli %s jaderný útok!"
 
-#: server/unittools.c:2067 server/unittools.c:2083
+#: server/unittools.c:2084 server/unittools.c:2100
 msgid "yourself"
 msgstr "Vy"
 
-#: server/unittools.c:2071
+#: server/unittools.c:2088
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Hra: Na %s %s byl proveden jaderný útok."
 
-#: server/unittools.c:2081
+#: server/unittools.c:2098
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Hra: Na %s podnikli %s jaderný útok!"
 
-#: server/unittools.c:2088
+#: server/unittools.c:2105
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Hra: Při atomovém útoku jste ozářil(a) město %s."
 
-#: server/unittools.c:2126
+#: server/unittools.c:2143
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Hra: %s odpálili atomovou zbraň."
 
-#: server/unittools.c:2166
+#: server/unittools.c:2183
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Hra: Jednotka %s byla úspěšně transportována."
 
-#: server/unittools.c:2189
+#: server/unittools.c:2206
 msgid "Game: This unit type can not be paradropped."
 msgstr "Hra: Tento typ jednotky nemůže provést výsadek."
 
-#: server/unittools.c:2199
+#: server/unittools.c:2216
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Hra: Nelze provést výsadek transportní jednotky."
 
-#: server/unittools.c:2204
+#: server/unittools.c:2221
 msgid "Game: The destination location is not known."
 msgstr "Hra: Cílová oblast není prozkoumána."
 
-#: server/unittools.c:2211
+#: server/unittools.c:2228
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Hra: Tato jednotka nemůže provést výsadek do oceánu."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2246
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Hra: Vzdálenost k cíli (%i) je větší než dosah jednotky (%i)."
 
-#: server/unittools.c:2243
+#: server/unittools.c:2260
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Hra: Jednotka %s vysazena do oceánu a ztracena."
 
-#: server/unittools.c:2256
+#: server/unittools.c:2273
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Hra: Jednotka %s byla zabita nepřátelskými jednotkami v místě výsadku."
 
-#: server/unittools.c:2278
+#: server/unittools.c:2295
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Hra: Nalezl(a) jste %d zlatých."
 
-#: server/unittools.c:2295
+#: server/unittools.c:2312
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Hra: Nalezl(a) jste %s ve starodávných svitcích moudrosti."
 
-#: server/unittools.c:2298
+#: server/unittools.c:2315
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Hra: %s Nalezli %s ve starodávných svitcích moudrosti."
 
-#: server/unittools.c:2311
+#: server/unittools.c:2328
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Hra: Připojila se k vám skupina žoldáků."
 
-#: server/unittools.c:2329
+#: server/unittools.c:2346
 msgid "Game: An abandoned village is here."
 msgstr "Hra: Nalezla(a) jste opuštěnou osadu."
 
-#: server/unittools.c:2339
+#: server/unittools.c:2356
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Hra: Vyrušil(a) jste skupinu barbarů!"
 
-#: server/unittools.c:2342
+#: server/unittools.c:2359
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Hra: Jednotka %s byla zničena barbary!"
 
-#: server/unittools.c:2358
+#: server/unittools.c:2375
 msgid "Game: You found a friendly city."
 msgstr "Hra: Nalezl(a) jste přátelské město."
 
-#: server/unittools.c:2363
+#: server/unittools.c:2389
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Hra: Udělal(a) jste dojem na skupinu kočovných nomádů, kteří se k Vám "
 "rozhodli připojit."
 
-#: server/unittools.c:2388
+#: server/unittools.c:2414
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Hra: Přelet nad osadou vyděsil její obyvatele, kteří se v hrůze rozprchli."
 
-#: server/unittools.c:2509
+#: server/unittools.c:2535
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "Hra: Jednotka %s přerušila hlídku neboť narazila na cizí jednotku."
 
-#: server/unittools.c:2946
+#: server/unittools.c:2961
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "Hra: Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 
-#: server/unittools.c:2995
+#: server/unittools.c:3010
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Hra: Rozkazy pro %s zrušeny, protože určují neplatnou činnost."
 
-#: server/unittools.c:3009
+#: server/unittools.c:3024
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr "Hra: Rozkazy pro %s zrušeny, protože určují neplatnou polohu."
 
-#: server/unittools.c:3019
+#: server/unittools.c:3034
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "Hra: Rozkazy pro %s zrušeny, v cestě jsou jednotky."
 
-#: server/unittools.c:3045
+#: server/unittools.c:3060
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "Hra: Rozkazy pro %s zrušeny kvůli selhání pohybu."
 
-#: server/unittools.c:3078
+#: server/unittools.c:3093
 #, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Hra: Jednotka %s má neplatné rozkazy."
@@ -6762,7 +6762,7 @@ msgstr "Generátoru 3 se nepodařilo rozmístit všechny velké ostrovy."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generátor 3 nezozmístil %li pevniny."
 
-#: server/generator/startpos.c:358
+#: server/generator/startpos.c:377
 #, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
@@ -7113,7 +7113,7 @@ msgstr "Nejlepší obranné jednotky"
 #: client/gui-win32/repodlgs.c:611 client/gui-win32/repodlgs.c:691
 #: client/gui-win32/repodlgs.c:700 client/gui-xaw/menu.c:155
 #: client/gui-xaw/menu.c:216 client/gui-xaw/menu.c:237
-#: client/gui-xaw/repodlgs.c:875 client/gui-xaw/repodlgs.c:1062
+#: client/gui-xaw/repodlgs.c:860 client/gui-xaw/repodlgs.c:1047
 #: data/Freeciv.in:1922 data/helpdata.txt:859
 msgid "Units"
 msgstr "Jednotky"
@@ -7172,8 +7172,8 @@ msgstr "Přebytek: Obchod"
 
 #: client/cityrepdata.c:459 client/gui-gtk-2.0/repodlgs.c:657
 #: client/gui-gtk/repodlgs.c:599 client/gui-win32/repodlgs.c:334
-#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:639
-#: client/gui-xaw/repodlgs.c:768 data/Freeciv.in:1846
+#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:624
+#: client/gui-xaw/repodlgs.c:753 data/Freeciv.in:1846
 msgid "Economy"
 msgstr "Ekonomika"
 
@@ -7443,28 +7443,28 @@ msgstr "%s dovolí nahlížet do svých map"
 msgid "The %s gives an embassy"
 msgstr "%s dají ambasádu"
 
-#: client/climisc.c:869
+#: client/climisc.c:873
 msgid "Popup Request"
 msgstr "Požadavek samostatně"
 
-#: client/climisc.c:899
+#: client/climisc.c:903
 msgid "Exporting output window to civgame.log ..."
 msgstr "Exportuji obsah výstupního okna do civgame.log ..."
 
-#: client/climisc.c:903
+#: client/climisc.c:907
 msgid "Export complete."
 msgstr "Export dokončen."
 
-#: client/climisc.c:905
+#: client/climisc.c:909
 msgid "Export failed, couldn't write to file."
 msgstr "Export se nepovedl, nelze psát do souboru."
 
-#: client/climisc.c:1017
+#: client/climisc.c:1021
 #, c-format
 msgid "Game: You don't buy %s in %s!"
 msgstr "Hra: Nemůžete si koupit %s v %s!"
 
-#: client/climisc.c:1037
+#: client/climisc.c:1041
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Hra: %s stojí %d zlatých a vy máte pouze %d zlatých."
@@ -9914,7 +9914,7 @@ msgstr "_Předvolby:"
 #: client/gui-gtk-2.0/cma_fe.c:297 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
 #: client/gui-mui/repodlgs.c:491 client/gui-win32/cma_fe.c:482
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 msgid "Results"
 msgstr "Přehledy"
 
@@ -10508,66 +10508,66 @@ msgstr "Zvolte místo určení"
 msgid "Show _All Cities"
 msgstr "Zobrazit _Všechna města"
 
-#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:128
+#: client/gui-gtk-2.0/gui_main.c:139 client/gui-gtk/gui_main.c:128
 msgid "Use Alt/Meta for accelerators"
 msgstr "Použít Alt/Meta pro akcelerátory"
 
-#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:129
+#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:129
 msgid "Show Map Scrollbars"
 msgstr "Zobrazit posuvníky mapy"
 
-#: client/gui-gtk-2.0/gui_main.c:142 client/gui-gtk/gui_main.c:130
+#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:130
 msgid "Keyboardless goto"
 msgstr "Pohyb bez klávesnice"
 
-#: client/gui-gtk-2.0/gui_main.c:143
+#: client/gui-gtk-2.0/gui_main.c:142
 msgid "Keep dialogs on top"
 msgstr "Nechat dialogy navrchu"
 
-#: client/gui-gtk-2.0/gui_main.c:144
+#: client/gui-gtk-2.0/gui_main.c:143
 msgid "Show worklist task icons"
 msgstr "Zobrazovat ikony v seznamu prací"
 
-#: client/gui-gtk-2.0/gui_main.c:145
+#: client/gui-gtk-2.0/gui_main.c:144
 msgid "Fullscreen Mode"
 msgstr "Fullscreen mód"
 
-#: client/gui-gtk-2.0/gui_main.c:146
+#: client/gui-gtk-2.0/gui_main.c:145
 msgid "Enable status report tabs"
 msgstr "Povolit záložky s hlášením stavu"
 
-#: client/gui-gtk-2.0/gui_main.c:148
+#: client/gui-gtk-2.0/gui_main.c:147
 msgid "Solid unit icon background color in city dialog"
 msgstr "Neprůhledná barva pozadí jednotky v dialogu města"
 
-#: client/gui-gtk-2.0/gui_main.c:150 client/gui-win32/gui_main.c:100
+#: client/gui-gtk-2.0/gui_main.c:149 client/gui-win32/gui_main.c:100
 msgid "Better fog-of-war drawing"
 msgstr "Lepší vykreslování clony války"
 
-#: client/gui-gtk-2.0/gui_main.c:490 client/gui-gtk-2.0/gui_main.c:1082
+#: client/gui-gtk-2.0/gui_main.c:489 client/gui-gtk-2.0/gui_main.c:1081
 #: client/gui-gtk/gui_main.c:385 client/gui-gtk/gui_main.c:857
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:849 client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:848 client/gui-gtk-2.0/gui_main.c:862
 #: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:406
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Konec tahu"
 
-#: client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:862
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:895
+#: client/gui-gtk-2.0/gui_main.c:894
 msgid "_Map"
 msgstr "_Mapa"
 
-#: client/gui-gtk-2.0/gui_main.c:969
+#: client/gui-gtk-2.0/gui_main.c:968
 msgid "_Chat"
 msgstr "_Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:985 client/gui-gtk/gui_main.c:783
+#: client/gui-gtk-2.0/gui_main.c:984 client/gui-gtk/gui_main.c:783
 #: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:462
 #: data/Freeciv.in:2836
 msgid ""
@@ -10580,16 +10580,16 @@ msgstr ""
 "Nápovědy.\n"
 "Tak.. Jdeme na to!"
 
-#: client/gui-gtk-2.0/gui_main.c:1241 client/gui-mui/citydlg.c:1557
+#: client/gui-gtk-2.0/gui_main.c:1240 client/gui-mui/citydlg.c:1557
 msgid "Name:"
 msgstr "Jméno:"
 
-#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-gtk/connectdlg.c:433
+#: client/gui-gtk-2.0/gui_main.c:1247 client/gui-gtk/connectdlg.c:433
 #: client/gui-win32/connectdlg.c:1080
 msgid "Host:"
 msgstr "Host:"
 
-#: client/gui-gtk-2.0/gui_main.c:1385 client/gui-gtk/gui_main.c:1090
+#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk/gui_main.c:1090
 #: client/gui-xaw/gui_main.c:709
 #, c-format
 msgid ""
@@ -10609,7 +10609,7 @@ msgstr ""
 "Zkoumáme %s: %d/%d\n"
 "Zřízení: %s"
 
-#: client/gui-gtk-2.0/gui_main.c:1510
+#: client/gui-gtk-2.0/gui_main.c:1509
 msgid "Are you sure you want to quit?"
 msgstr "Opravdu to chcete ukončit?"
 
@@ -11981,7 +11981,7 @@ msgstr "_Vylepšit"
 
 #: client/gui-gtk-2.0/repodlgs.c:1155 client/gui-gtk/repodlgs.c:960
 #: client/gui-mui/repodlgs.c:718 client/gui-win32/repodlgs.c:564
-#: client/gui-xaw/repodlgs.c:1000
+#: client/gui-xaw/repodlgs.c:985
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -13002,17 +13002,17 @@ msgid "Sell All"
 msgstr "Prodat vše"
 
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/repodlgs.c:491
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 msgid "Sell-Off:"
 msgstr "Odprodej:"
 
 #: client/gui-gtk/repodlgs.c:787 client/gui-mui/repodlgs.c:569
-#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:793
+#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:778
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Příjmy:%6d    Celkem výdaje: %6d"
 
-#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:898
+#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:883
 msgid "Totals: ..."
 msgstr "Celkem: ..."
 
@@ -13941,7 +13941,7 @@ msgid "Military Report"
 msgstr "Vojenský přehled"
 
 #: client/gui-mui/repodlgs.c:861 client/gui-win32/repodlgs.c:745
-#: client/gui-xaw/repodlgs.c:1144
+#: client/gui-xaw/repodlgs.c:1129
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -13950,7 +13950,7 @@ msgstr[1] "%2d: %s vládce %s získal %d body\n"
 msgstr[2] "%2d: %s vládce %s získal %d bodů\n"
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:753
-#: client/gui-xaw/repodlgs.c:1152
+#: client/gui-xaw/repodlgs.c:1137
 msgid "Final Report:"
 msgstr "Konečný přehled:"
 
@@ -14510,20 +14510,18 @@ msgid "Copying"
 msgstr "Licenční ujednání"
 
 #: client/gui-xaw/repodlgs.c:209 client/gui-xaw/repodlgs.c:215
-#: client/gui-xaw/repodlgs.c:392 client/gui-xaw/repodlgs.c:485
-#: client/gui-xaw/repodlgs.c:491
+#: client/gui-xaw/repodlgs.c:470 client/gui-xaw/repodlgs.c:476
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "Zkoumá se %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:224 client/gui-xaw/repodlgs.c:229
-#: client/gui-xaw/repodlgs.c:416 client/gui-xaw/repodlgs.c:502
-#: client/gui-xaw/repodlgs.c:507
+#: client/gui-xaw/repodlgs.c:487 client/gui-xaw/repodlgs.c:492
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "Cíl: %s (%d kroků)"
 
-#: client/gui-xaw/repodlgs.c:1115
+#: client/gui-xaw/repodlgs.c:1100
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Celkem:                     %9d%9d%9d%9d"
@@ -18879,7 +18877,7 @@ msgstr "Kapitalismus"
 #: data/nation/icelandic.ruleset:17 data/nation/polish.ruleset:28
 #: data/nation/polish.ruleset:29 data/nation/quebecois.ruleset:15
 #: data/nation/serbian.ruleset:21 data/nation/serbian.ruleset:22
-#: data/nation/singaporean.ruleset:32 data/nation/slovenian.ruleset:15
+#: data/nation/singaporean.ruleset:31 data/nation/slovenian.ruleset:15
 #: data/nation/slovenian.ruleset:16
 msgid "President"
 msgstr "Prezident"
@@ -21092,7 +21090,7 @@ msgstr "?plural:Afgánský"
 #: data/nation/finnish.ruleset:19 data/nation/greek.ruleset:13
 #: data/nation/israeli.ruleset:16 data/nation/japanese.ruleset:15
 #: data/nation/kampuchean.ruleset:14 data/nation/portuguese.ruleset:18
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:33
+#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:32
 #: data/nation/spanish.ruleset:21 data/nation/swedish.ruleset:16
 #: data/nation/viking.ruleset:32 data/nation/welsh.ruleset:22
 msgid "Prime Minister"
@@ -22341,15 +22339,11 @@ msgstr ""
 "Singapur je městským státem, žijícím převážně z obchodu a nachází se na jihu "
 "Malajského poloostrova."
 
-#: data/nation/singaporean.ruleset:29
-msgid "Ah"
-msgstr "Ah"
-
-#: data/nation/singaporean.ruleset:30 data/nation/turk.ruleset:19
+#: data/nation/singaporean.ruleset:29 data/nation/turk.ruleset:19
 msgid "Sultan"
 msgstr "Sultán"
 
-#: data/nation/singaporean.ruleset:31
+#: data/nation/singaporean.ruleset:30
 msgid "Encik"
 msgstr "Tovaryš"
 
@@ -22579,6 +22573,9 @@ msgstr ""
 "Zuluové jsou válečnickým národem, který migroval ze západu střední Afriky na "
 "do jižní části začátkem roku 1700, podrobil si původní obyvatele a zápolil s "
 "Evropskými osadníky."
+
+#~ msgid "Ah"
+#~ msgstr "Ah"
 
 #~ msgid "Rejected connection from %s with invalid name."
 #~ msgstr "Odmítnuté spojení od %s s neplatným jménem."

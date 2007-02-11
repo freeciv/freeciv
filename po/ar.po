@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-17 11:06+0000\n"
+"POT-Creation-Date: 2007-02-11 17:47-0500\n"
 "PO-Revision-Date: 2006-05-02 10:26+0000\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
@@ -491,7 +491,7 @@ msgstr "الرفاهية"
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:91
 #: client/gui-xaw/menu.c:219 client/gui-xaw/repodlgs.c:255
-#: client/gui-xaw/repodlgs.c:479 data/Freeciv.in:1393
+#: client/gui-xaw/repodlgs.c:464 data/Freeciv.in:1393
 msgid "Science"
 msgstr "العلوم"
 
@@ -513,7 +513,8 @@ msgstr "حدود السجل خاطئة %d في \"%s\".\n"
 #: utility/log.c:92 utility/log.c:103
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr "يجب ترجمة برنامج Freeciv مع علامة DEBUG لاستعمال مستوى اكتشاف الأخطاء %d.\n"
+msgstr ""
+"يجب ترجمة برنامج Freeciv مع علامة DEBUG لاستعمال مستوى اكتشاف الأخطاء %d.\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
 #, c-format
@@ -573,7 +574,8 @@ msgstr "%d بعد الميلاد"
 
 #: utility/shared.c:828
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr "المتغير FREECIV_PATH محدد ولكنه فارغ; جاري استعمال الدليل الافتراضي بدلا عنه."
+msgstr ""
+"المتغير FREECIV_PATH محدد ولكنه فارغ; جاري استعمال الدليل الافتراضي بدلا عنه."
 
 #: utility/shared.c:932
 #, c-format
@@ -597,7 +599,8 @@ msgstr "الملف \"%s\" مطلوب ... جاري الغاء العملية!"
 #: utility/shared.c:1312
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr "ال %s: خطأ قاتل: أنت تحاول تشغيلي كمستخدم الكومبيوتر ذو الصلاحيات العليا  !\n"
+msgstr ""
+"ال %s: خطأ قاتل: أنت تحاول تشغيلي كمستخدم الكومبيوتر ذو الصلاحيات العليا  !\n"
 
 #: utility/shared.c:1314
 msgid "Use a non-privileged account instead.\n"
@@ -676,12 +679,14 @@ msgstr "ال *%s (ذ.ا)* انصرف أيها الوغد، نحن نعرف كل�
 
 #: ai/advdiplomacy.c:291
 #, c-format
-msgid "*%s (AI)* I will not let you go that easy, %s. The current treaty stands."
+msgid ""
+"*%s (AI)* I will not let you go that easy, %s. The current treaty stands."
 msgstr "ال *%s (ذ.ا)* لن اترك تذهب بهذه السهولة، %s. المعاهدة الحالية سارية."
 
 #: ai/advdiplomacy.c:308
 #, c-format
-msgid "*%s (AI)* %s recommended that I give you a ceasefire. This is your lucky day."
+msgid ""
+"*%s (AI)* %s recommended that I give you a ceasefire. This is your lucky day."
 msgstr "ال *%s (ذ.ا)* أوصى %s بأن أعطيك وقف إطلاق النار. هذا هو يوم سعدك."
 
 #: ai/advdiplomacy.c:331
@@ -743,7 +748,8 @@ msgstr ""
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
-msgstr "ال *%s (ذ.ا)* تعبر محاولتك للسيطرة الفردية على الفضاء الخارجي مهينة جدا."
+msgstr ""
+"ال *%s (ذ.ا)* تعبر محاولتك للسيطرة الفردية على الفضاء الخارجي مهينة جدا."
 
 #: ai/advdiplomacy.c:1012
 #, c-format
@@ -784,7 +790,8 @@ msgstr "ال *%s (ذ.ا)* آسف، الرؤية المشتركة معاك ليس
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally, we call upon you to destroy "
 "our enemy, %s"
-msgstr "ال *%s (ذ.ا)* تحياتي يا أكثر حليف جدير بالثقة. نطلب منك تدمير عدونا، %s"
+msgstr ""
+"ال *%s (ذ.ا)* تحياتي يا أكثر حليف جدير بالثقة. نطلب منك تدمير عدونا، %s"
 
 #: ai/advdiplomacy.c:1158
 #, c-format
@@ -808,19 +815,23 @@ msgstr ""
 #: ai/advdiplomacy.c:1192
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest a joint campaign against %s?"
-msgstr "ال *%s (ذ.ا)* تحياتي أيها الصديق، هل من الممكن أن نقترح حملة مشتركة ضد %s?"
+msgstr ""
+"ال *%s (ذ.ا)* تحياتي أيها الصديق، هل من الممكن أن نقترح حملة مشتركة ضد %s?"
 
 #: ai/advdiplomacy.c:1207
 #, c-format
-msgid "*%s (AI)* Greetings neighbour, may we suggest a joint campaign against %s?"
-msgstr "ال *%s (ذ.ا)* تحياتي أيها الجار، هل من الممكن أن نقترح حملة مشتركة ضد %s?"
+msgid ""
+"*%s (AI)* Greetings neighbour, may we suggest a joint campaign against %s?"
+msgstr ""
+"ال *%s (ذ.ا)* تحياتي أيها الجار، هل من الممكن أن نقترح حملة مشتركة ضد %s?"
 
 #: ai/advdiplomacy.c:1221
 #, c-format
 msgid ""
 "*%s (AI)* %s is threatening us both, may we suggest a cessation of "
 "hostilities?"
-msgstr "ال *%s (ذ.ا)* يهدد %s ;كلانا. هل من الممكن أن نقترح التوقف عن العداوات?"
+msgstr ""
+"ال *%s (ذ.ا)* يهدد %s ;كلانا. هل من الممكن أن نقترح التوقف عن العداوات?"
 
 #: server/autoattack.c:166
 #, c-format
@@ -834,8 +845,10 @@ msgstr "اللعبة : هجوم تلقائي: يهاجم %s %s وحدة %s %s"
 
 #: server/barbarian.c:158
 #, c-format
-msgid "Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
-msgstr "حصل البرابرة على قائد اسمه %s. يمكن أن تكون هناك أوقات صعبة في المستقبل."
+msgid ""
+"Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
+msgstr ""
+"حصل البرابرة على قائد اسمه %s. يمكن أن تكون هناك أوقات صعبة في المستقبل."
 
 #: server/barbarian.c:435
 #, c-format
@@ -910,7 +923,8 @@ msgstr "لا يمكن استخدام %s كاسم مدينة. فهو محجوز �
 
 #: server/citytools.c:322
 #, c-format
-msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
+msgid ""
+"%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr "ب%s اسم غير مقبول. فقط اسماء ASCII or ruleset مسموحة للمدن."
 
 #: server/citytools.c:439
@@ -1049,7 +1063,9 @@ msgstr "اللعبة : ملاحظة: الأعجوبة %s في %s سينتهي ب
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
-msgstr "اللعبة : اقتراح تخفيف سرعة النمو في %s لاستعمال %s (جاري البناء) بشكل فعال أكثر."
+msgstr ""
+"اللعبة : اقتراح تخفيف سرعة النمو في %s لاستعمال %s (جاري البناء) بشكل فعال "
+"أكثر."
 
 #: server/cityturn.c:365
 #, c-format
@@ -1101,8 +1117,8 @@ msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
-"اللعبة : لا يستطيع %s بناء %s من قائمة العمل; التكنولوجيا غير متوفرة حتى اﻵن!  سيتم "
-"التأجيل..."
+"اللعبة : لا يستطيع %s بناء %s من قائمة العمل; التكنولوجيا غير متوفرة حتى "
+"اﻵن!  سيتم التأجيل..."
 
 #: server/cityturn.c:677 server/cityturn.c:734 server/cityturn.c:801
 #: server/cityturn.c:846
@@ -1116,13 +1132,15 @@ msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
-"اللعبة : لا يستطيع %s بناء %s من قائمة العمل; يجب أن يكون %s موجودا أولا.  سيتم "
-"التأجيل..."
+"اللعبة : لا يستطيع %s بناء %s من قائمة العمل; يجب أن يكون %s موجودا أولا.  "
+"سيتم التأجيل..."
 
 #: server/cityturn.c:725
 #, c-format
-msgid "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
-msgstr "اللعبة : لا يستطيع %s بناء %s من قائمة العمل; السبب مجهول!  سيتم التأجيل..."
+msgid ""
+"Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+msgstr ""
+"اللعبة : لا يستطيع %s بناء %s من قائمة العمل; السبب مجهول!  سيتم التأجيل..."
 
 #: server/cityturn.c:759
 #, c-format
@@ -1231,7 +1249,8 @@ msgstr "اللعبة : أطاح الشعب ب %s, بلدك في صراع."
 #: server/cityturn.c:1409
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
-msgstr "اللعبة : لا يستطيع %s بناء %s حتى اﻵن، ولا نستطيع تسريح مدينتنا الوحيدة."
+msgstr ""
+"اللعبة : لا يستطيع %s بناء %s حتى اﻵن، ولا نستطيع تسريح مدينتنا الوحيدة."
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1427
@@ -1285,7 +1304,8 @@ msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b  --bind ADDR\tانتظار العملاء على العنوان ADDR\n"
 
 #: server/civserver.c:169 client/civclient.c:195
-msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
+msgid ""
+"  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tتحديد مستوى سجل التنقيح (0 إلى 4, أو 4:file1,min,"
 "max:...)\n"
@@ -1328,7 +1348,8 @@ msgstr "  -q, --quitidle TIME\tقم الخروج إذا يوجد لاعبين خ
 
 #: server/civserver.c:190
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr "  -e, --exit-on-end\tعند انتهاء اللعبة، قم بالخروج بدلا من اعادة التشغيل\n"
+msgstr ""
+"  -e, --exit-on-end\tعند انتهاء اللعبة، قم بالخروج بدلا من اعادة التشغيل\n"
 
 #: server/civserver.c:193
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
@@ -1372,7 +1393,8 @@ msgid ""
 "and then the game will begin.  This command is also required after loading a "
 "savegame for the game to recommence.  Once the game is running this command "
 "is no longer available, since it would have no effect."
-msgstr "هذا متى جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة فيما بعد هذا عندما."
+msgstr ""
+"هذا متى جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة فيما بعد هذا عندما."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:42
@@ -1504,7 +1526,8 @@ msgstr "بعث رسالة إلى كل الاتصالات."
 
 #: server/commands.c:107
 #, fuzzy
-msgid "For each connected client, pops up a window showing the message entered."
+msgid ""
+"For each connected client, pops up a window showing the message entered."
 msgstr "لـ."
 
 #: server/commands.c:111
@@ -1526,7 +1549,8 @@ msgid ""
 "for it, or fail immediately if at least half of the players vote against "
 "it.  If one full turn elapses the vote may pass in any case if nobody votes "
 "against it."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة مع جديد الـ إذا أنت الـ إذا دوران."
+msgstr ""
+"أي - الحرف الأوّل في الأبجديّة اللّاتينيّة مع جديد الـ إذا أنت الـ إذا دوران."
 
 #: server/commands.c:125
 #, fuzzy
@@ -1709,7 +1733,8 @@ msgid "Create an AI player with a given name."
 msgstr "انشاء لاعب ذ.ا باسم معطى."
 
 #: server/commands.c:213
-msgid "The 'create' command is only available before the game has been started."
+msgid ""
+"The 'create' command is only available before the game has been started."
 msgstr "يتوفر الأمر 'create' فقط قبل بداية اللعبة."
 
 #: server/commands.c:217
@@ -1918,7 +1943,8 @@ msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
 "with the option \"timeout\". Defaults are 0 0 0 1"
-msgstr "كلّ<turn> أدوار<value><turninc><turn><value><valuemult> الإستعمال مع التقصيرات"
+msgstr ""
+"كلّ<turn> أدوار<value><turninc><turn><value><valuemult> الإستعمال مع التقصيرات"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:313
@@ -2164,7 +2190,9 @@ msgstr "اللعبة : ليس لديك تكنولوجيا %s ، لا يمكنك 
 
 #: server/diplhand.c:161
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr "اللعبة : المدينة التي تحاول إعطائها غير موجودة بعد اﻵن ، لا يمكنك قبول المعاهدة."
+msgstr ""
+"اللعبة : المدينة التي تحاول إعطائها غير موجودة بعد اﻵن ، لا يمكنك قبول "
+"المعاهدة."
 
 #: server/diplhand.c:167
 #, c-format
@@ -2204,7 +2232,8 @@ msgstr[2] "اللعبة: تم الاتفاق على معاهدة  من %d بنو
 
 #: server/diplhand.c:251 server/diplhand.c:255
 #, c-format
-msgid "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid ""
+"Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
 
 #: server/diplhand.c:262 server/diplhand.c:267
@@ -2360,262 +2389,260 @@ msgstr "ملكك."
 msgid "Game: Your %s was sabotaged by %s!"
 msgstr "تم تخريب وحدتك %s من قبل %s!"
 
-#: server/diplomats.c:427
+#: server/diplomats.c:428
 #, fuzzy
 msgid "Game: You can't bribe a unit from this nation."
 msgstr "لا تستطيع رشوة أي وحدة من هذه الأمة."
 
-#: server/diplomats.c:436
+#: server/diplomats.c:437
 #, fuzzy, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
 msgstr "لا تملك الكفاية من الذهب لرشوة %s %s."
 
-#: server/diplomats.c:445
+#: server/diplomats.c:446
 #, fuzzy, c-format
 msgid "Game: You cannot bribe %s!"
 msgstr "لا تستطيع رشوة %s!"
 
-#: server/diplomats.c:463
+#: server/diplomats.c:472
 #, fuzzy, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "نجحت وحدتك %s برشوة %s %s وأصبحت أكثر خبرة."
 
-#: server/diplomats.c:469
+#: server/diplomats.c:478
 #, fuzzy, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
 msgstr "نجحت وحدتك %s برشوة %s %s."
 
-#: server/diplomats.c:473
+#: server/diplomats.c:482
 #, fuzzy, c-format
 msgid "Game: Your %s was bribed by %s."
 msgstr "تم رشو وحدتك %s من قبل %s."
 
-#: server/diplomats.c:570
+#: server/diplomats.c:579
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
 msgstr "تم القبض على وحدتك %s عند محاولة سرقة التكنولوجيا من %s."
 
-#: server/diplomats.c:574
+#: server/diplomats.c:583
 #, fuzzy, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
 msgstr "فشل %s %s بسرقة التكنولوجيا من %s."
 
-#: server/diplomats.c:607
+#: server/diplomats.c:616
 #, fuzzy, c-format
 msgid "Game: No new technology found in %s."
 msgstr "لا توجد تكنولوجيا جديدة في %s."
 
-#: server/diplomats.c:644
+#: server/diplomats.c:653
 #, fuzzy, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
 msgstr "لم تستطع وحدتك %s العثور على %s للتخريب في %s."
 
-#: server/diplomats.c:665
-#, c-format
-#, fuzzy
+#: server/diplomats.c:674
+#, fuzzy, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
 msgstr "اللعبة ملكك المستقبل التقنية."
 
-#: server/diplomats.c:669
-#, c-format
-#, fuzzy
+#: server/diplomats.c:678
+#, fuzzy, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
 msgstr "اللعبة المستقبل التقنية."
 
-#: server/diplomats.c:682
+#: server/diplomats.c:691
 #, fuzzy, c-format
 msgid "Game: Your %s stole %s from %s."
 msgstr "لقد سرقت %s من ال %s."
 
-#: server/diplomats.c:686
+#: server/diplomats.c:695
 #, fuzzy, c-format
 msgid "Game: %s's %s stole %s from %s."
 msgstr "سرق %s  %s من ال %s."
 
-#: server/diplomats.c:690 server/plrhand.c:830
+#: server/diplomats.c:699 server/plrhand.c:830
 #, fuzzy, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "سرق %s  %s من ال %s."
 
-#: server/diplomats.c:749
+#: server/diplomats.c:758
 #, fuzzy
 msgid "Game: You can't subvert a city from this nation."
 msgstr "لا تستطيع رشوة أي وحدة من هذه الأمة."
 
-#: server/diplomats.c:757
+#: server/diplomats.c:766
 #, fuzzy
 msgid "Game: You can't subvert this city."
 msgstr "لا تستطيع تخريب هذه المدينة."
 
-#: server/diplomats.c:768
+#: server/diplomats.c:777
 #, fuzzy, c-format
 msgid "Game: You don't have enough gold to subvert %s."
 msgstr "لا تملك الذهب الكافي لتخريب %s."
 
-#: server/diplomats.c:785
+#: server/diplomats.c:794
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
 msgstr "تم القبض على وحدتك %s عند محاولة التحريض على ثورة!"
 
-#: server/diplomats.c:789
+#: server/diplomats.c:798
 #, fuzzy, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
 msgstr "لقد قبضت على وحدة %s %s عند محاولة التحريض على ثورة في %s!"
 
-#: server/diplomats.c:813
+#: server/diplomats.c:822
 #, fuzzy, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
 msgstr "تم التحريض على ثورة في %s، أنت اﻵن تحكم المدينة!"
 
-#: server/diplomats.c:816
+#: server/diplomats.c:825
 #, fuzzy, c-format
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr "ثورة في%s ، المشتبه بالتحريض على الثورة هو %s."
 
-#: server/diplomats.c:896
+#: server/diplomats.c:905
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr "تم القبض على وحدتك  %s عند محاولة التخريب الصناعي!"
 
-#: server/diplomats.c:900
+#: server/diplomats.c:909
 #, fuzzy, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
 msgstr "لقد قبضت على وحدة %s %s عند محاولة التخريب في %s!"
 
-#: server/diplomats.c:934
+#: server/diplomats.c:943
 #, fuzzy, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
 msgstr "لم تستطع وحدتك %s العثور على أي شئ قابل للتخريب في %s."
 
-#: server/diplomats.c:976
+#: server/diplomats.c:985
 #, fuzzy, c-format
 msgid "Game: You cannot sabotage a %s!"
 msgstr "لا تستطيع تخريب %s!"
 
-#: server/diplomats.c:986
+#: server/diplomats.c:995
 #, fuzzy, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
 msgstr "لم تستطع وحدتك %s العثور على %s للتخريب في %s."
 
-#: server/diplomats.c:1011
+#: server/diplomats.c:1020
 #, fuzzy, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
 msgstr "لقد نجحت وحدتك %s في تدمير انتاج ال of %s في %s."
 
-#: server/diplomats.c:1015
+#: server/diplomats.c:1024
 #, fuzzy, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
 msgstr "تم تدمير انتاج ال %s في %s, المشتبه به هو %s."
 
-#: server/diplomats.c:1036
+#: server/diplomats.c:1045
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr "تم القبض على وحدتك %s عند محاولة التخريب!"
 
-#: server/diplomats.c:1040
+#: server/diplomats.c:1049
 #, fuzzy, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "لقد قبضت على وحدة %s %s عند محاولة تخريب %s في %s!"
 
-#: server/diplomats.c:1052
+#: server/diplomats.c:1061
 #, fuzzy, c-format
 msgid "Game: Your %s destroyed the %s in %s."
 msgstr "لقد دمرت وحدتك %s ال %s في %s."
 
-#: server/diplomats.c:1056
+#: server/diplomats.c:1065
 #, fuzzy, c-format
 msgid "Game: The %s destroyed the %s in %s."
 msgstr "دمر %s ال %s في %s."
 
-#: server/diplomats.c:1160
+#: server/diplomats.c:1169
 #, fuzzy, c-format
 msgid "Game: Your %s has been eliminated defending %s against a %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن %s ضد %s."
 
-#: server/diplomats.c:1164
+#: server/diplomats.c:1173
 #, fuzzy, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
 msgstr "تم تدمير وحدة العدو %s عند الدفاع عن %s."
 
-#: server/diplomats.c:1178
+#: server/diplomats.c:1187
 #, fuzzy, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
 msgstr "تم تدمير وحدتك %s عند الدفاع عن %s."
 
-#: server/diplomats.c:1185
+#: server/diplomats.c:1194
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
 "experienced."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق %s. أصبح المدافع أكثر خبرة."
 
-#: server/diplomats.c:1192
+#: server/diplomats.c:1201
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
 "more experienced."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق قواتنا. أصبح المدافع أكثر خبرة."
 
-#: server/diplomats.c:1202
+#: server/diplomats.c:1211
 #, fuzzy, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق %s."
 
-#: server/diplomats.c:1208
+#: server/diplomats.c:1217
 #, fuzzy, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr "تم تدمير وحدة %s %s عند محاولة اختراق قواتنا."
 
-#: server/diplomats.c:1261
+#: server/diplomats.c:1270
 #, fuzzy, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s and has become more experienced."
 msgstr "أتمت وحدتك %s مهمتها بنجاح ورجعت سالمة إلى %s وأصبحت أكثر خبرة."
 
-#: server/diplomats.c:1267
+#: server/diplomats.c:1276
 #, fuzzy, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr "أتمت وحدتك %s مهمتها بنجاح ورجعت سالمة إلى %s."
 
-#: server/diplomats.c:1283
+#: server/diplomats.c:1292
 #, fuzzy, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr "تم القبض على وحدتك %s بعد اتمام مهمتها في %s."
 
-#: server/diplomats.c:1288
+#: server/diplomats.c:1297
 #, fuzzy, c-format
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "تم القبض على وحدتك %s بعد اتمام مهمتها."
 
-#: server/diplomats.c:1323
+#: server/diplomats.c:1332
 #, fuzzy, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr "لقد سببت حادثا عند رشوة وحدة %s%s."
 
-#: server/diplomats.c:1328
+#: server/diplomats.c:1337
 #, fuzzy, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
 msgstr "لقد سبب %s حادثا عند رشوة وحدتك %s."
 
-#: server/diplomats.c:1335
+#: server/diplomats.c:1344
 #, fuzzy, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
 msgstr "لقد سببت حادثا عند محاولة سرقة تكنولوجيا من %s."
 
-#: server/diplomats.c:1339
+#: server/diplomats.c:1348
 #, fuzzy, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
 msgstr "لقد سبب %s حادثا عند محاولة سرقة تكنولوجيا منك."
 
-#: server/diplomats.c:1345
+#: server/diplomats.c:1354
 #, fuzzy, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr "لقد سببت حادثا عند محاولة التحريض على ثورة في %s."
 
-#: server/diplomats.c:1348
+#: server/diplomats.c:1357
 #, fuzzy, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "لقد سبب %s حادثا عند محاولة التحريض على ثورة في %s."
@@ -2628,7 +2655,8 @@ msgstr "الوحدات البحرية البادئة غير مدعومة حتى 
 #: server/gamehand.c:132
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
-msgstr "الوحدات البحرية البادئة غير مدعومة حتى اﻵن, لا يستطيع أي أحد الحصول على %s."
+msgstr ""
+"الوحدات البحرية البادئة غير مدعومة حتى اﻵن, لا يستطيع أي أحد الحصول على %s."
 
 #: server/gamehand.c:283 client/text.c:514 client/gui-mui/mapview.c:192
 #, c-format
@@ -2709,7 +2737,8 @@ msgstr "حدث الشتاء النووي!"
 
 #: server/maphand.c:280
 #, fuzzy
-msgid "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
+msgid ""
+"Game: Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr "الأهوار."
 
 #: server/maphand.c:301
@@ -2798,7 +2827,8 @@ msgstr "ينضم علماء عظماء من كل العالم إلى حضارت�
 
 #: server/plrhand.c:494
 #, fuzzy, c-format
-msgid "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
+msgid ""
+"Game: Learned %s in cooperation with %s. Scientists choose to research %s."
 msgstr "تم تعلم %s.  يختار علمائنا بحث %s."
 
 #: server/plrhand.c:500
@@ -2854,8 +2884,7 @@ msgid "Game: %s now governs the %s as a %s."
 msgstr "يحكم %s الآن %s ك %s."
 
 #: server/plrhand.c:1028
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "اللعبة الـ!"
 
@@ -2885,7 +2914,8 @@ msgstr "لا يعطينا %s رؤية مشتركة بعد اﻵن!"
 
 #: server/plrhand.c:1300
 #, c-format
-msgid "The senate passes your bill because of the constant provocations of the %s."
+msgid ""
+"The senate passes your bill because of the constant provocations of the %s."
 msgstr "وافق مجلس الشيوخ على مشروع قانونك بسبب الاستفزازات المستمرة من %s."
 
 #: server/plrhand.c:1312
@@ -3237,7 +3267,7 @@ msgstr "التقدّم: بلا بحث علمي"
 
 #: server/report.c:1111 client/gui-gtk/repodlgs.c:1127
 #: client/gui-mui/repodlgs.c:870 client/gui-win32/repodlgs.c:754
-#: client/gui-xaw/repodlgs.c:1153
+#: client/gui-xaw/repodlgs.c:1138
 msgid "The Greatest Civilizations in the world."
 msgstr "أعظم حضارات في العالم."
 
@@ -3298,8 +3328,7 @@ msgstr "لدى القسم %s نوع مؤثرات مجهول: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1206
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Group %s lists bad range: \"%s\" (%s)"
 msgstr "المجموعة"
 
@@ -3329,8 +3358,7 @@ msgstr "لدي القسم %s متطلب مجهول: \"%s\" \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1402
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Building %s has missing requirement data (%s)"
 msgstr "المبنى :: صناعة البناء"
 
@@ -3348,8 +3376,7 @@ msgstr "لا يستطيع"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1478
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Bad value \"%s\" for b_special.default (%s)"
 msgstr "سيّئ"
 
@@ -3415,7 +3442,8 @@ msgstr "تحذير: أمة مجهولة %s في رقم وضع البدء %d"
 
 #: server/savegame.c:542
 #, fuzzy, c-format
-msgid "Number of starts (%d) are lower than max_players (%d), lowering max_players."
+msgid ""
+"Number of starts (%d) are lower than max_players (%d), lowering max_players."
 msgstr ""
 "عدد البدايات (%d) أقل من الحد الأعلى من عدد اللاعبيين (%d), جاري تخفيض قيمة "
 "rules. max_players."
@@ -3456,8 +3484,7 @@ msgid "Unknown improvement type '%s' in worklist"
 msgstr "نوع وحدة مجهول '%s' في قسم اللاعب %d"
 
 #: server/savegame.c:1407
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
 msgstr "الخطأ"
 
@@ -3485,24 +3512,26 @@ msgstr "عثر على حكومة غير مدعومة (%s)"
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr "أسلوب مدينة غير مدعوم في قسم اللاعب %d. تم التغيير إلى %s"
 
-#: server/savegame.c:1901
+#: server/savegame.c:1903
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
-msgstr "تم الكشف عن هيكل تحالف غير قانوني: تم تخفيض تحالف %sمع  %s إلى معاهدة سلام."
+msgstr ""
+"تم الكشف عن هيكل تحالف غير قانوني: تم تخفيض تحالف %sمع  %s إلى معاهدة سلام."
 
-#: server/savegame.c:3068
+#: server/savegame.c:3070
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "ملف اللعبة المحفوظة قديم جدا، يشترط على الأقل 1.9.0."
 
-#: server/savegame.c:3257
-msgid "The savegame uses the classic terrain ruleset which is no longer supported."
+#: server/savegame.c:3259
+msgid ""
+"The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "تستخدم اللعبة المحفوظة مجموعة قواعد التضاريص الكلاسيكية وهذا غير مدعوم بعد "
 "اﻵن."
 
-#: server/savegame.c:3266
+#: server/savegame.c:3268
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4121,7 +4150,8 @@ msgstr "فرصة تدمير المباني المحتلة"
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
-msgstr "عند احتلال لاعب لمدينة، يحصل كل تحسين مدني هذه النسبة المئوية لفرصة التدمير."
+msgstr ""
+"عند احتلال لاعب لمدينة، يحصل كل تحسين مدني هذه النسبة المئوية لفرصة التدمير."
 
 #: server/settings.c:602
 msgid "civstyle is an obsolete setting"
@@ -4320,8 +4350,7 @@ msgid "Chance in diplomat/spy contests"
 msgstr "الفرصة"
 
 #: server/settings.c:756
-#, no-c-format
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "A diplomatic unit acting against a city which has one or more defending "
 "diplomatic units has a diplchance (percent) chance to defeat each such "
@@ -4330,7 +4359,9 @@ msgid ""
 "chance of success for diplomats and spies. Defending spies are generally "
 "twice as capable as diplomats; veteran units are 50% more capable than non-"
 "veteran ones."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات أيضًا مستحيل هذا الدفاع خيير خيير."
+msgstr ""
+"أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات أيضًا مستحيل هذا الدفاع خيير "
+"خيير."
 
 #: server/settings.c:769
 msgid "Whether to allow space race"
@@ -4385,7 +4416,8 @@ msgstr "السماح باستعمال اسماء مدن طبيعية"
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
-msgstr "إذا كان مفعلا، فستحدد اسماء المدن الافتراضية بناء على التضاريص المحيطة."
+msgstr ""
+"إذا كان مفعلا، فستحدد اسماء المدن الافتراضية بناء على التضاريص المحيطة."
 
 #: server/settings.c:822
 msgid "Players that users are allowed to take"
@@ -4466,7 +4498,8 @@ msgid ""
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
 "with debugging, a timeout of -1 sets the autogame test mode. Use this with "
 "the command \"timeoutincrease\" to have a dynamic timer."
-msgstr "إذا الدور معمول دوران الصّفر :: النّكرة - شخص عديم الشّأن في مع الإستعمال مع."
+msgstr ""
+"إذا الدور معمول دوران الصّفر :: النّكرة - شخص عديم الشّأن في مع الإستعمال مع."
 
 #: server/settings.c:882
 msgid "Timeout at least n seconds when enemy moved"
@@ -4520,7 +4553,8 @@ msgid "Time to cut a client"
 msgstr "الوقت لقطع اتصال عميل"
 
 #: server/settings.c:917
-msgid "If a client doesn't reply to a PING in this time the client is disconnected."
+msgid ""
+"If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr "إذا لم يرد العميل إلى PING خلال هذا الوقت، سيفصل اتصاله."
 
 #: server/settings.c:923
@@ -4710,7 +4744,8 @@ msgstr "تحتوي سفينتك الفضائية على الحد الأعلى م
 
 #: server/spacerace.c:257
 #, fuzzy
-msgid "Game: Your spaceship already has the maximum number of Propulsion Components!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Propulsion Components!"
 msgstr "تحتوي سفينتك الفضائية على الحد الأعلى من مكوّنات الدفع!"
 
 #: server/spacerace.c:272 server/spacerace.c:292 server/spacerace.c:312
@@ -4720,17 +4755,20 @@ msgstr "ليس عندك أي وحدات فضائية غير موضوعة!"
 
 #: server/spacerace.c:277
 #, fuzzy
-msgid "Game: Your spaceship already has the maximum number of Habitation Modules!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "تملك سفينتك الفضائية أصلا الحد الأعلى من وحدات المعيشة!"
 
 #: server/spacerace.c:297
 #, fuzzy
-msgid "Game: Your spaceship already has the maximum number of Life Support Modules!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Life Support Modules!"
 msgstr "تملك سفينتك الفضائية أصلا الحد الأعلى من وحدات الدعم!"
 
 #: server/spacerace.c:317
 #, fuzzy
-msgid "Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "تحتوي سفينتك الفضائية على أعلى عدد من وحدات اللوحات الشمسية!"
 
 #: server/spacerace.c:336
@@ -4775,7 +4813,8 @@ msgstr "يوضح المواطنون القلقون أن وقف اطلاق الن
 
 #: server/srv_main.c:427
 #, fuzzy, c-format
-msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+msgid ""
+"Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "انتهى وقف إطلاق النار مع %s. أنت اﻵن في حرب مع %s."
 
 #: server/srv_main.c:747
@@ -4857,14 +4896,12 @@ msgid "Game: Sorry, there are no nations left."
 msgstr "اللعبة آسف."
 
 #: server/srv_main.c:1337
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "ركض الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
 
 #: server/srv_main.c:1372
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "الأمة."
 
@@ -5163,12 +5200,15 @@ msgid "Command access level for first player to take it: %s"
 msgstr "مستوى صلاحيات الأوامر لأول لاعب يأخذها: %s"
 
 #: server/stdinhand.c:1245
-msgid "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
-msgstr "خطأ: يجب أن يكون مستوى صلاحيات الأوامر 'none'أو  'info' أو 'ctrl', أو 'hack'."
+msgid ""
+"Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
+msgstr ""
+"خطأ: يجب أن يكون مستوى صلاحيات الأوامر 'none'أو  'info' أو 'ctrl', أو 'hack'."
 
 #: server/stdinhand.c:1250
 #, c-format
-msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
+msgid ""
+"Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "لا يمكن زيادة مستوى صلاحيات الأوامر إلى '%s'; لديك فقط '%s' لنفسك."
 
 #: server/stdinhand.c:1277 server/stdinhand.c:1325
@@ -5218,7 +5258,8 @@ msgstr "باراميتر خاطئ %d."
 
 #: server/stdinhand.c:1425
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
-msgstr "Usage: timeoutincrease <الدور> <إضافة إلى الدور> <القيمة> <مضاعف القيمة>."
+msgstr ""
+"Usage: timeoutincrease <الدور> <إضافة إلى الدور> <القيمة> <مضاعف القيمة>."
 
 #: server/stdinhand.c:1433
 #, c-format
@@ -5791,13 +5832,13 @@ msgid "The game must be running before you can see the score."
 msgstr "الـ."
 
 #: server/stdinhand.c:3573
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "But %s is dead!"
 msgstr "لكنّ!"
 
 #: server/stdinhand.c:3592
-msgid "Ending the game. The server will restart once all clients have disconnected."
+msgid ""
+"Ending the game. The server will restart once all clients have disconnected."
 msgstr "جاري انهاء اللعبة. سيعاد تشغيل الخادم بعد انفصال كل العملاء."
 
 #: server/stdinhand.c:3602
@@ -5818,7 +5859,8 @@ msgid "All players are ready; starting game."
 msgstr "كل اللاعبيين جاهزين، جاري بدء اللعبة."
 
 #: server/stdinhand.c:3692
-msgid "Cannot start the game: the game is waiting for all clients to disconnect."
+msgid ""
+"Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "لا يمكن بدء اللعبة: تنتظر اللعبة كل العملاء أن ينفصلوا."
 
 #: server/stdinhand.c:3698
@@ -6103,7 +6145,7 @@ msgstr "يستطيع  %s فقط الهجوم من البحر."
 msgid "Game: Cannot attack from sea."
 msgstr "لا تستطيع الهجوم من البحر."
 
-#: server/unithand.c:932 server/unittools.c:2220
+#: server/unithand.c:932 server/unittools.c:2237
 #, fuzzy
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "لا تستطيع الهجوم إلا بعد إعلانك الحرب أولا."
@@ -6155,7 +6197,8 @@ msgstr "لا يستطيع هذا النوع من القوات الاستيلاء
 
 #: server/unithand.c:1125
 #, fuzzy
-msgid "Game: A transported unit is not allied to all units or city on target tile."
+msgid ""
+"Game: A transported unit is not allied to all units or city on target tile."
 msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات."
 
 #: server/unithand.c:1169
@@ -6232,112 +6275,112 @@ msgstr "نجت وحدتك %s الأمواج العارمة وأصبحت أكثر
 msgid "Game: Your %s has been lost on unsafe terrain."
 msgstr "تم فقد %s على تضاريص خطرة."
 
-#: server/unittools.c:375
+#: server/unittools.c:376
 #, fuzzy, c-format
 msgid "Game: Your %s has returned to refuel."
 msgstr "رجعت وحدتك %s للتزود بالوقود."
 
-#: server/unittools.c:401
+#: server/unittools.c:402
 #, fuzzy, c-format
 msgid "Game: Your %s has run out of fuel."
 msgstr "انتهي الوقود لوحدتك %s."
 
-#: server/unittools.c:582
+#: server/unittools.c:583
 #, fuzzy, c-format
 msgid "Game: Your %s became more experienced!"
 msgstr "أصبحت وحدتك %s أكثر خبرة!"
 
-#: server/unittools.c:862
+#: server/unittools.c:863
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr "تم تحريك وحدتك %s لتغير التضاريص."
 
-#: server/unittools.c:883
+#: server/unittools.c:884
 #, fuzzy, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr "تم تسريح وحدتك %s لتغير التضاريص."
 
-#: server/unittools.c:898
+#: server/unittools.c:899
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr "تم تسريح وحدتك %s لتغير التضاريص."
 
-#: server/unittools.c:920
+#: server/unittools.c:921
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr "تم تحريك وحدتك %s لتغير التضاريص."
 
-#: server/unittools.c:940
+#: server/unittools.c:941
 #, fuzzy, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr "تم تحريك وحدتك %s لتغير التضاريص."
 
-#: server/unittools.c:955
+#: server/unittools.c:956
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr "تم تسريح وحدتك %s لتغير التضاريص."
 
-#: server/unittools.c:987
+#: server/unittools.c:988
 #, c-format
 msgid " at %s"
 msgstr " على %s"
 
-#: server/unittools.c:989
+#: server/unittools.c:990
 #, c-format
 msgid " in %s"
 msgstr " في %s"
 
-#: server/unittools.c:996
+#: server/unittools.c:997
 #, c-format
 msgid " outside %s"
 msgstr " خارج %s"
 
-#: server/unittools.c:999
+#: server/unittools.c:1000
 #, c-format
 msgid " near %s"
 msgstr " قرب %s"
 
-#: server/unittools.c:1209
+#: server/unittools.c:1210
 #, fuzzy, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "تم نقل %s إلى %s."
 
-#: server/unittools.c:1238
+#: server/unittools.c:1239
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s."
 msgstr "تم تسريح وحدتك %s."
 
-#: server/unittools.c:1562
+#: server/unittools.c:1564
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "لا يمكن الدفاع عن %s، خسر %s اللعبة."
 
-#: server/unittools.c:1564
+#: server/unittools.c:1566
 #, fuzzy, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "الخسران كن!"
 
-#: server/unittools.c:1668
+#: server/unittools.c:1670
 #, fuzzy, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr "هرب %s من دمار %s إلى %s."
 
-#: server/unittools.c:1675
+#: server/unittools.c:1677
 #, fuzzy, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "خسر %s عند خسارة %s."
 
-#: server/unittools.c:1734
+#: server/unittools.c:1736
 #, fuzzy, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "تم القبض على القائد البربري، ودفع فدية ذهب بقيمة %d."
 
-#: server/unittools.c:1751
+#: server/unittools.c:1753
 #, fuzzy, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "الهجوم."
 
-#: server/unittools.c:1777
+#: server/unittools.c:1779
 #, fuzzy, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
@@ -6345,162 +6388,163 @@ msgstr[0] "الهجوم."
 msgstr[1] "الهجوم."
 msgstr[2] "الهجوم."
 
-#: server/unittools.c:1792
+#: server/unittools.c:1794
 #, fuzzy, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "الهجوم."
 
-#: server/unittools.c:2065
+#: server/unittools.c:2082
 #, fuzzy, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "تم قصف وحدتك %s بالسلاح النووي من قبل %s."
 
-#: server/unittools.c:2067 server/unittools.c:2083
+#: server/unittools.c:2084 server/unittools.c:2100
 msgid "yourself"
 msgstr "نفسك"
 
-#: server/unittools.c:2071
+#: server/unittools.c:2088
 #, fuzzy, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "تم قصف وحدة %s %s بالسلاح النووي."
 
-#: server/unittools.c:2081
+#: server/unittools.c:2098
 #, fuzzy, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "تم قصف %s بالسلاح النووي من قبل %s."
 
-#: server/unittools.c:2088
+#: server/unittools.c:2105
 #, fuzzy, c-format
 msgid "Game: You nuked %s."
 msgstr "لقد قصفت %s بالسلاح النووي."
 
-#: server/unittools.c:2126
+#: server/unittools.c:2143
 #, fuzzy, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "فجر %s سلاحا نوويا!"
 
-#: server/unittools.c:2166
+#: server/unittools.c:2183
 #, fuzzy, c-format
 msgid "Game: %s transported succesfully."
 msgstr "تم نقل %s بنجاح."
 
-#: server/unittools.c:2189
+#: server/unittools.c:2206
 #, fuzzy
 msgid "Game: This unit type can not be paradropped."
 msgstr "لا يمكن اسقاط نوع هذه الوحدة بالمظلة."
 
-#: server/unittools.c:2199
+#: server/unittools.c:2216
 #, fuzzy
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "لا تستطيع اسقاط وحدة منقولة بالمظلة."
 
-#: server/unittools.c:2204
+#: server/unittools.c:2221
 #, fuzzy
 msgid "Game: The destination location is not known."
 msgstr "موقع الاتجاه مجهول."
 
-#: server/unittools.c:2211
+#: server/unittools.c:2228
 #, fuzzy
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "لا تستطيع اسقاط هذه الوحدة بالمظلة على %s."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2246
 #, fuzzy, c-format
-msgid "Game: The distance to the target (%i) is greater than the unit's range (%i)."
+msgid ""
+"Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "المسافة إلى الهدف (%i) أكبر من مدى تحرك الوحدة (%i)."
 
-#: server/unittools.c:2243
+#: server/unittools.c:2260
 #, fuzzy, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "تم اسقاط وحدتك %s بالمظلة على %s، وفقدانها."
 
-#: server/unittools.c:2256
+#: server/unittools.c:2273
 #, fuzzy, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "تم قتل وحدتك %s من قبل وحدات العدو عند موقع اسقاط المظليين."
 
-#: server/unittools.c:2278
+#: server/unittools.c:2295
 #, fuzzy, c-format
 msgid "Game: You found %d gold."
 msgstr "لقد عثرت على %d من الذهب."
 
-#: server/unittools.c:2295
+#: server/unittools.c:2312
 #, fuzzy, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "لقد عثرت على %s في مخطوطات قديمة للحكمة."
 
-#: server/unittools.c:2298
+#: server/unittools.c:2315
 #, fuzzy, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "الـ."
 
-#: server/unittools.c:2311
+#: server/unittools.c:2328
 #, fuzzy
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "تنضم زمرة من المرتزقة إلى قضيتك."
 
-#: server/unittools.c:2329
+#: server/unittools.c:2346
 #, fuzzy
 msgid "Game: An abandoned village is here."
 msgstr "توجد قرية مهجورة هنا."
 
-#: server/unittools.c:2339
+#: server/unittools.c:2356
 #, fuzzy
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "لقد أطلقت العنان لحشود من البرابرة!"
 
-#: server/unittools.c:2342
+#: server/unittools.c:2359
 #, fuzzy, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "تم قتل وحدتك %s من قبل البرابرة!"
 
-#: server/unittools.c:2358
+#: server/unittools.c:2375
 #, fuzzy
 msgid "Game: You found a friendly city."
 msgstr "لقد عثرت على مدينة صديقة."
 
-#: server/unittools.c:2363
+#: server/unittools.c:2389
 #, fuzzy
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "أعجب بدو وديون بك، وانضموا إليك."
 
-#: server/unittools.c:2388
+#: server/unittools.c:2414
 #, fuzzy
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "ملكك."
 
-#: server/unittools.c:2509
-#, c-format
-#, fuzzy
-msgid "Game: Your %s cancelled patrol order because it encountered a foreign unit."
+#: server/unittools.c:2535
+#, fuzzy, c-format
+msgid ""
+"Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "اللعبة ملكك وحدات."
 
-#: server/unittools.c:2946
+#: server/unittools.c:2961
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "تم الغاء الأوامر ل %s عن العمل لوجود وحدات قريبة."
 
-#: server/unittools.c:2995
+#: server/unittools.c:3010
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "تم الغاء الأوامر ل %s عن العمل لاعطائهم نشاط خاطئ."
 
-#: server/unittools.c:3009
+#: server/unittools.c:3024
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr "تم الغاء الأوامر ل %s عن العمل لاعطائهم موقع خاطئ."
 
-#: server/unittools.c:3019
+#: server/unittools.c:3034
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "تم الغاء الأوامر ل %s عن العمل لوجود وحدات على الطريق."
 
-#: server/unittools.c:3045
+#: server/unittools.c:3060
 #, fuzzy, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "تم الغاء الأوامر ل %s عن العمل لحركة فاشلة."
 
-#: server/unittools.c:3078
+#: server/unittools.c:3093
 #, fuzzy, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "لدى وحدتك %s أوامر خاطئة."
@@ -6523,7 +6567,7 @@ msgstr "لم يضع المولّد 3 كل الجزر الكبيرة."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "ترك المولّد 3 %li كتل أرضية بدون مكان."
 
-#: server/generator/startpos.c:358
+#: server/generator/startpos.c:377
 #, fuzzy, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
@@ -6631,14 +6675,12 @@ msgid "Cannot find audio file %s"
 msgstr "فشل العثور على ملف الصوت %s"
 
 #: client/audio_esd.c:121
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error while caching sample <%d>: confirm value != music_id\n"
 msgstr "الخطأ"
 
 #: client/audio_esd.c:148
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error while caching sample <%d>: confirm value != samples[].id\n"
 msgstr "الخطأ"
 
@@ -6872,7 +6914,7 @@ msgstr "أفضل الوحدات الدفاعية"
 #: client/gui-win32/repodlgs.c:611 client/gui-win32/repodlgs.c:691
 #: client/gui-win32/repodlgs.c:700 client/gui-xaw/menu.c:155
 #: client/gui-xaw/menu.c:216 client/gui-xaw/menu.c:237
-#: client/gui-xaw/repodlgs.c:875 client/gui-xaw/repodlgs.c:1062
+#: client/gui-xaw/repodlgs.c:860 client/gui-xaw/repodlgs.c:1047
 #: data/Freeciv.in:1922 data/helpdata.txt:859
 msgid "Units"
 msgstr "الوحدات"
@@ -6931,8 +6973,8 @@ msgstr "الفائض: التجارة"
 
 #: client/cityrepdata.c:459 client/gui-gtk-2.0/repodlgs.c:657
 #: client/gui-gtk/repodlgs.c:599 client/gui-win32/repodlgs.c:334
-#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:639
-#: client/gui-xaw/repodlgs.c:768 data/Freeciv.in:1846
+#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:624
+#: client/gui-xaw/repodlgs.c:753 data/Freeciv.in:1846
 msgid "Economy"
 msgstr "الاقتصاد"
 
@@ -7047,7 +7089,8 @@ msgstr "  -a, --autoconnect\tتخطي مربع حوار الاتصال\n"
 
 #: client/civclient.c:203
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
-msgstr "  -l, --log FILE\tستعمل FILE كملف السجل (يمكن أن يستعمله الخادم أيضا)\n"
+msgstr ""
+"  -l, --log FILE\tستعمل FILE كملف السجل (يمكن أن يستعمله الخادم أيضا)\n"
 
 #: client/civclient.c:205
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
@@ -7665,8 +7708,7 @@ msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "يهمل"
 
 #: client/helpdata.c:859
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr "الهجمات مع"
 
@@ -7751,8 +7793,7 @@ msgid " This number may vary depending on what other players will research.\n"
 msgstr "هذا الرقم متغيير حسب أبحاث اللاعبيين اﻵخرين.\n"
 
 #: client/helpdata.c:1008
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "* Allows changing government to %s.\n"
 msgstr "يسمح"
 
@@ -8767,8 +8808,7 @@ msgstr[1] "التقدّم: %d دوران/تقدّم"
 msgstr[2] "التقدّم: %d أدوار/تقدّم"
 
 #: client/text.c:495
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
 msgstr[0] "التقدّم دوران دوران دوران"
@@ -8982,7 +9022,8 @@ msgstr ""
 
 #: client/tilespec.c:798
 #, fuzzy
-msgid "Client does not support isometric tilesets. Using default tileset instead."
+msgid ""
+"Client does not support isometric tilesets. Using default tileset instead."
 msgstr "الزبون الإستعمال."
 
 #: client/tilespec.c:806
@@ -9031,25 +9072,24 @@ msgid "Couldn't load gfx file %s for sprite %s"
 msgstr ""
 
 #: client/agents/cma_core.c:182
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "أنت الفصل."
 
 #: client/agents/cma_core.c:400
 #, fuzzy, c-format
-msgid "CMA: The agent can't fulfill the requirements for %s. Passing back control."
+msgid ""
+"CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr "الـ مواطنيين المرور."
 
 #: client/agents/cma_core.c:409
-#, c-format
-#, fuzzy
-msgid "CMA: %s has changed and the calculated result can't be applied. Will retry."
+#, fuzzy, c-format
+msgid ""
+"CMA: %s has changed and the calculated result can't be applied. Will retry."
 msgstr "سوف."
 
 #: client/agents/cma_core.c:429
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in Freeciv or bad "
 "luck. The CMA will detach itself from the city now."
@@ -9677,7 +9717,7 @@ msgstr "ال_تجهيزات المسبقة:"
 #: client/gui-gtk-2.0/cma_fe.c:297 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
 #: client/gui-mui/repodlgs.c:491 client/gui-win32/cma_fe.c:482
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 msgid "Results"
 msgstr "النتائج"
 
@@ -10356,8 +10396,7 @@ msgstr "الخادم:"
 
 #: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk/gui_main.c:1090
 #: client/gui-xaw/gui_main.c:709
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "%s People\n"
 "Year: %s Turn: %d\n"
@@ -11754,7 +11793,7 @@ msgstr "ت_طوير"
 
 #: client/gui-gtk-2.0/repodlgs.c:1155 client/gui-gtk/repodlgs.c:960
 #: client/gui-mui/repodlgs.c:718 client/gui-win32/repodlgs.c:564
-#: client/gui-xaw/repodlgs.c:1000
+#: client/gui-xaw/repodlgs.c:985
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -12774,18 +12813,18 @@ msgid "Sell All"
 msgstr "بيع الكل"
 
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/repodlgs.c:491
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
 #, fuzzy
 msgid "Sell-Off:"
 msgstr "بيع من:"
 
 #: client/gui-gtk/repodlgs.c:787 client/gui-mui/repodlgs.c:569
-#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:793
+#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:778
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "الدخل:%6d    التكاليف الكلية: %6d"
 
-#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:898
+#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:883
 msgid "Totals: ..."
 msgstr "المجاميع: ..."
 
@@ -13496,7 +13535,8 @@ msgstr "بناء سكة حديد"
 
 #: client/gui-mui/gui_main.c:1433
 #, c-format
-msgid "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
+msgid ""
+"Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
 
 #: client/gui-mui/helpdlg.c:561 data/Freeciv.in:859
@@ -13713,7 +13753,7 @@ msgid "Military Report"
 msgstr "التقرير العسكري"
 
 #: client/gui-mui/repodlgs.c:861 client/gui-win32/repodlgs.c:745
-#: client/gui-xaw/repodlgs.c:1144
+#: client/gui-xaw/repodlgs.c:1129
 #, fuzzy, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -13722,7 +13762,7 @@ msgstr[1] "الـ"
 msgstr[2] "الـ"
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:753
-#: client/gui-xaw/repodlgs.c:1152
+#: client/gui-xaw/repodlgs.c:1137
 msgid "Final Report:"
 msgstr "التقرير النهائي:"
 
@@ -14138,7 +14178,8 @@ msgstr "إصدار اللعبة: %s - إصدار مصادر اللعبة: %s"
 
 #: client/gui-xaw/gui_main.c:316
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr "لديك نسخة قديمة من ملف Freeciv resourcefile في /usr/lib/X11/app-defaults"
+msgstr ""
+"لديك نسخة قديمة من ملف Freeciv resourcefile في /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:322
 #, fuzzy
@@ -14284,20 +14325,18 @@ msgid "Copying"
 msgstr "النسخ"
 
 #: client/gui-xaw/repodlgs.c:209 client/gui-xaw/repodlgs.c:215
-#: client/gui-xaw/repodlgs.c:392 client/gui-xaw/repodlgs.c:485
-#: client/gui-xaw/repodlgs.c:491
+#: client/gui-xaw/repodlgs.c:470 client/gui-xaw/repodlgs.c:476
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "جاري البحث العلمي %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:224 client/gui-xaw/repodlgs.c:229
-#: client/gui-xaw/repodlgs.c:416 client/gui-xaw/repodlgs.c:502
-#: client/gui-xaw/repodlgs.c:507
+#: client/gui-xaw/repodlgs.c:487 client/gui-xaw/repodlgs.c:492
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "الهدف: %s (%d خطوات)"
 
-#: client/gui-xaw/repodlgs.c:1115
+#: client/gui-xaw/repodlgs.c:1100
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "المجموع:                     %9d%9d%9d%9d"
@@ -14453,32 +14492,27 @@ msgid "<table border=1><tr><th>Terrain</th>"
 msgstr "<table border=1><tr><th>التضاريس</th>"
 
 #: manual/civmanual.c:226
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Food/ Shield/ Trade</th>"
 msgstr "<th> الطعام الدرع التجارة</th>"
 
 #: manual/civmanual.c:227
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Special 1</th><th>Food/ Shield/ Trade</th>"
 msgstr "<th> خاصّ</th><th> الطعام الدرع التجارة</th>"
 
 #: manual/civmanual.c:228
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
 msgstr "<th> خاصّ</th><th> الطعام الدرع التجارة</th>"
 
 #: manual/civmanual.c:229
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
 msgstr "<th> التحرّك</th><th> الدفاع</th><th> الطريق</th>"
 
 #: manual/civmanual.c:231
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
 msgstr "<th> الريّ الطعام</th><th> التعدين</th>"
 
@@ -14493,8 +14527,7 @@ msgid "</table><br><br><br><table border=1>"
 msgstr ""
 
 #: manual/civmanual.c:270
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<caption>Time to perform action</caption>"
 msgstr "<caption> الوقت</caption>"
 
@@ -14509,8 +14542,7 @@ msgid "<th>Road</th><th>Irrigation</th>\n"
 msgstr "<th>الطريق</th><th>الريّ</th>\n"
 
 #: manual/civmanual.c:273
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Mining</th><th>Rail</th>\n"
 msgstr "<th> التعدين</th><th> السكّة</th>"
 
@@ -14520,14 +14552,12 @@ msgid "<th>Airbase</th><th>Fortress</th>\n"
 msgstr "<th>قاعدة جوية</th><th>القلعة</th>\n"
 
 #: manual/civmanual.c:275
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
 msgstr "<th> نظيف</th><th> نظيف</th>"
 
 #: manual/civmanual.c:276
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<th>Transform</th></tr>\n"
 msgstr "<th> تحوّل</th></tr>"
 
@@ -14544,20 +14574,17 @@ msgid "<tr><td>Cost: <td>%d</tr>\n"
 msgstr "<tr><td>الكلفة: <td>%d</tr>\n"
 
 #: manual/civmanual.c:316 manual/civmanual.c:345
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<tr><td>Upkeep: <td>%d</tr>\n"
 msgstr "<tr><td> الصيانة<td></tr>"
 
 #: manual/civmanual.c:318 manual/civmanual.c:347
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<tr><td>Tech required: <td>%s</tr>\n"
 msgstr "<tr><td> التقنية<td></tr>"
 
 #: manual/civmanual.c:322 manual/civmanual.c:351
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
 msgstr "<tr><td> ملغى<td></tr>"
 
@@ -15690,7 +15717,8 @@ msgstr "البحث جديد."
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
-msgstr "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد."
+msgstr ""
+"كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد."
 
 #: data/helpdata.txt:860
 #, fuzzy
@@ -15763,7 +15791,8 @@ msgid ""
 "health for every turn not spent in a city or an Airbase, unless you have the "
 "United Nations wonder.  Unlike other air units, Helicopters can capture "
 "enemy cities."
-msgstr "مثل المروحيات وحدات المروحيات دوران قاعدة جوية متّحد الأمم على خلاف المروحيات."
+msgstr ""
+"مثل المروحيات وحدات المروحيات دوران قاعدة جوية متّحد الأمم على خلاف المروحيات."
 
 #: data/helpdata.txt:909
 #, fuzzy
@@ -15834,7 +15863,8 @@ msgid "Next, the defender's strength is modified."
 msgstr "التالي، يتم تغيير قوة المدافع ."
 
 #: data/helpdata.txt:955
-msgid " - If the defender is a veteran, then its strength is multiplied by 1.5."
+msgid ""
+" - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - إذا كان المدافع خبيرا, فإن قوته تضرب ب 1.5."
 
 #: data/helpdata.txt:958
@@ -15945,7 +15975,8 @@ msgid ""
 "defender loses hit points equal to the attacker's firepower.  Otherwise, the "
 "attacker loses hit points equal to the defender's firepower. The first unit "
 "to reach 0 hit points (or negative hit points) loses. "
-msgstr "فيما بعد كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد إذا ما عدا ذلك الـ وحدات "
+msgstr ""
+"فيما بعد كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد إذا ما عدا ذلك الـ وحدات "
 
 #: data/helpdata.txt:1018
 #, fuzzy, no-c-format
@@ -16142,7 +16173,8 @@ msgid ""
 "enemy occupied square.  Here an enemy occupied square means a land square "
 "with an enemy unit on it.  Adjacency means any of the eight squares "
 "surrounding a unit."
-msgstr "الـ وحدات هنا مع وحدات المتاخمة :: التّجاور :: التّماس :: المحاذاة وحدات."
+msgstr ""
+"الـ وحدات هنا مع وحدات المتاخمة :: التّجاور :: التّماس :: المحاذاة وحدات."
 
 #: data/helpdata.txt:1138
 #, fuzzy
@@ -16272,7 +16304,8 @@ msgstr "الوحدات متحرك أنت."
 
 #: data/helpdata.txt:1220
 #, fuzzy
-msgid " - A road may increase the trade resources produced by some types of terrain."
+msgid ""
+" - A road may increase the trade resources produced by some types of terrain."
 msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
 
 #: data/helpdata.txt:1223
@@ -16293,7 +16326,8 @@ msgstr "المستوطنون المهندسون الوحدات عادي شاهد
 
 #: data/helpdata.txt:1233
 #, fuzzy
-msgid "You may also build Airbases, at which your air units may land and refuel."
+msgid ""
+"You may also build Airbases, at which your air units may land and refuel."
 msgstr "أنت."
 
 #: data/helpdata.txt:1236
@@ -16315,7 +16349,8 @@ msgid ""
 "irrigation, although they are not actually irrigated. Finally the city "
 "center may have a ruleset-dependent minimum for food, shield, and trade "
 "output."
-msgstr "المدينة أي - الحرف الأوّل في الأبجديّة اللّاتينيّة متى المدينة أخيرا الطعام درع."
+msgstr ""
+"المدينة أي - الحرف الأوّل في الأبجديّة اللّاتينيّة متى المدينة أخيرا الطعام درع."
 
 #: data/helpdata.txt:1253
 msgid "  Pillaging"
@@ -16394,7 +16429,8 @@ msgid ""
 "will be lost to waste.  (If you do not have a capital, your cities will "
 "suffer extremely high levels of waste.)  A Courthouse will reduce the level "
 "of waste in a city. Waste can result in your cities not building anything."
-msgstr "النفاية تحت إذا أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دار العدل النفاية."
+msgstr ""
+"النفاية تحت إذا أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دار العدل النفاية."
 
 #: data/helpdata.txt:1304
 #, fuzzy
@@ -16538,7 +16574,8 @@ msgid ""
 "After converting all content citizens to happy citizens, unhappy citizens "
 "are converted to happy and/or content.  Some wonders of the world have also "
 "effects on citizens' happiness (see the appropriate sections for details)."
-msgstr "في المعبد استاد الكاثدرائية دار العدل الديمقراطية لـ مواطنيين فيما بعد البعض."
+msgstr ""
+"في المعبد استاد الكاثدرائية دار العدل الديمقراطية لـ مواطنيين فيما بعد البعض."
 
 #: data/helpdata.txt:1405
 #, fuzzy
@@ -16645,7 +16682,8 @@ msgstr "قناة مائية"
 msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
-msgstr "يسمح الحجم أي - الحرف الأوّل في الأبجديّة اللّاتينيّة البالوعة النظام الحجم."
+msgstr ""
+"يسمح الحجم أي - الحرف الأوّل في الأبجديّة اللّاتينيّة البالوعة النظام الحجم."
 
 #: data/default/buildings.ruleset:210 data/civ2/buildings.ruleset:159
 #: data/civ1/buildings.ruleset:134 data/history/buildings.ruleset:159
@@ -17138,8 +17176,10 @@ msgstr "الطرق السريعة"
 #: data/default/buildings.ruleset:1267 data/civ2/buildings.ruleset:1195
 #: data/history/buildings.ruleset:1213
 #, no-c-format
-msgid "Increases trade resources by 50% on all squares with roads or railroads."
-msgstr "زيادة مصادر التجارة ب50% على كل المربعات التي تحتوي على طرق أو سكك حديدية."
+msgid ""
+"Increases trade resources by 50% on all squares with roads or railroads."
+msgstr ""
+"زيادة مصادر التجارة ب50% على كل المربعات التي تحتوي على طرق أو سكك حديدية."
 
 #: data/default/buildings.ruleset:1275 data/civ2/buildings.ruleset:1201
 #: data/history/buildings.ruleset:1221
@@ -17635,7 +17675,8 @@ msgstr "هذا مواطنيين."
 #: data/civ2/buildings.ruleset:1470 data/civ1/buildings.ruleset:1120
 #: data/history/buildings.ruleset:1492
 #, fuzzy, no-c-format
-msgid "When built, every civilization's attitude toward you is improved by 25%."
+msgid ""
+"When built, every civilization's attitude toward you is improved by 25%."
 msgstr "متى."
 
 #: data/civ2/buildings.ruleset:1527 data/civ1/buildings.ruleset:1177
@@ -17896,7 +17937,10 @@ msgid ""
 "You may impose martial law under Anarchy: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
-msgstr "الفوضويّة المواطنيين الإستبداد الطعام دوران الفوضويّة المربعات الطعام وحدات الطعام الطعام الفوضويّة هذا السعادة الفوضويّة الحجم إضافيّ درع الفوضويّة وحدات مواطنيين"
+msgstr ""
+"الفوضويّة المواطنيين الإستبداد الطعام دوران الفوضويّة المربعات الطعام وحدات "
+"الطعام الطعام الفوضويّة هذا السعادة الفوضويّة الحجم إضافيّ درع الفوضويّة وحدات "
+"مواطنيين"
 
 #: data/default/governments.ruleset:183 data/civ2/governments.ruleset:182
 #: data/civ1/governments.ruleset:185 data/history/governments.ruleset:183
@@ -17938,7 +17982,10 @@ msgid ""
 "You may impose martial law under Despotism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
-msgstr "تحت الإستبداد ملكك الطعام دوران الإستبداد المربعات الطعام وحدات الطعام الطعام إستبدادي هذا السعادة الإستبداد الحجم إضافيّ درع الإستبداد وحدات مواطنيين"
+msgstr ""
+"تحت الإستبداد ملكك الطعام دوران الإستبداد المربعات الطعام وحدات الطعام "
+"الطعام إستبدادي هذا السعادة الإستبداد الحجم إضافيّ درع الإستبداد وحدات "
+"مواطنيين"
 
 #: data/default/governments.ruleset:258 data/civ2/governments.ruleset:257
 #: data/civ1/governments.ruleset:258 data/history/governments.ruleset:258
@@ -17986,7 +18033,9 @@ msgid ""
 "\n"
 "You may impose limited martial law under Monarchy: each military unit in a "
 "city, up to a maximum of 3, will keep one unhappy citizen content."
-msgstr "تحت الحكم الملكي الجمهورية الطعام دوران الحكم الملكي الحكم الملكي شاهد السعادة الحكم الملكي إضافيّ درع الحكم الملكي وحدات مواطنيين."
+msgstr ""
+"تحت الحكم الملكي الجمهورية الطعام دوران الحكم الملكي الحكم الملكي شاهد "
+"السعادة الحكم الملكي إضافيّ درع الحكم الملكي وحدات مواطنيين."
 
 #: data/default/governments.ruleset:332 data/civ2/governments.ruleset:331
 #: data/civ1/governments.ruleset:329 data/history/governments.ruleset:332
@@ -18032,7 +18081,11 @@ msgid ""
 "You impose limited but efficient martial law under Communism.  Each military "
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي شاهد الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس الشيوعية الشيوعية إضافيّ درع الشيوعية كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات."
+msgstr ""
+"أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي "
+"شاهد الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس "
+"الشيوعية الشيوعية إضافيّ درع الشيوعية كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد "
+"وحدات."
 
 #: data/default/governments.ruleset:414 data/civ2/governments.ruleset:497
 #: data/civ1/governments.ruleset:408 data/history/governments.ruleset:413
@@ -18076,7 +18129,10 @@ msgid ""
 "\n"
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
-msgstr "تحت الجمهوري المواطنيين الجمهورية الجمهورية الطعام دوران الجمهورية المربعات مع الجمهورية مواطنيين دوران السعادة الجمهورية درع في مع الهجوم مع الهجوم وحدات مواطنيين."
+msgstr ""
+"تحت الجمهوري المواطنيين الجمهورية الجمهورية الطعام دوران الجمهورية المربعات "
+"مع الجمهورية مواطنيين دوران السعادة الجمهورية درع في مع الهجوم مع الهجوم "
+"وحدات مواطنيين."
 
 #: data/default/governments.ruleset:498 data/civ2/governments.ruleset:582
 #: data/civ1/governments.ruleset:490 data/history/governments.ruleset:497
@@ -18097,7 +18153,7 @@ msgstr "الحكم الديقراطي"
 #: data/nation/icelandic.ruleset:17 data/nation/polish.ruleset:28
 #: data/nation/polish.ruleset:29 data/nation/quebecois.ruleset:15
 #: data/nation/serbian.ruleset:21 data/nation/serbian.ruleset:22
-#: data/nation/singaporean.ruleset:32 data/nation/slovenian.ruleset:15
+#: data/nation/singaporean.ruleset:31 data/nation/slovenian.ruleset:15
 #: data/nation/slovenian.ruleset:16
 msgid "President"
 msgstr "الرئيس"
@@ -18137,7 +18193,11 @@ msgid ""
 "their loyalty is unswerving.  Military units of Democratic civilizations "
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
-msgstr "تحت الديمقراطية الديمقراطية هناك الديمقراطية الطعام دوران الديمقراطية المربعات مع الديمقراطية مواطنيين دوران السعادة الديمقراطية الديمقراطية درع في الوحدات مع الهجوم الهواء مع الهجوم مواطنيين المقاتلون أدوار الديمقراطي الفوضويّة الديمقراطية الجيش الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
+msgstr ""
+"تحت الديمقراطية الديمقراطية هناك الديمقراطية الطعام دوران الديمقراطية "
+"المربعات مع الديمقراطية مواطنيين دوران السعادة الديمقراطية الديمقراطية درع "
+"في الوحدات مع الهجوم الهواء مع الهجوم مواطنيين المقاتلون أدوار الديمقراطي "
+"الفوضويّة الديمقراطية الجيش الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
 
 #: data/civ2/governments.ruleset:155 data/history/governments.ruleset:156
 #, fuzzy
@@ -18162,7 +18222,10 @@ msgid ""
 "You may impose martial law under Anarchy: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
-msgstr "الفوضويّة المواطنيين الإستبداد الطعام دوران الفوضويّة المربعات الطعام وحدات الطعام الطعام الفوضويّة هذا السعادة الفوضويّة الحجم إضافيّ درع الفوضويّة وحدات مواطنيين"
+msgstr ""
+"الفوضويّة المواطنيين الإستبداد الطعام دوران الفوضويّة المربعات الطعام وحدات "
+"الطعام الطعام الفوضويّة هذا السعادة الفوضويّة الحجم إضافيّ درع الفوضويّة وحدات "
+"مواطنيين"
 
 #: data/civ2/governments.ruleset:229 data/history/governments.ruleset:230
 #, fuzzy
@@ -18188,7 +18251,10 @@ msgid ""
 "You may impose martial law under Despotism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
-msgstr "تحت الإستبداد ملكك الطعام دوران الإستبداد المربعات الطعام وحدات الطعام الطعام إستبدادي هذا السعادة الإستبداد الحجم إضافيّ درع الإستبداد وحدات مواطنيين"
+msgstr ""
+"تحت الإستبداد ملكك الطعام دوران الإستبداد المربعات الطعام وحدات الطعام "
+"الطعام إستبدادي هذا السعادة الإستبداد الحجم إضافيّ درع الإستبداد وحدات "
+"مواطنيين"
 
 #: data/civ2/governments.ruleset:304 data/history/governments.ruleset:305
 #, fuzzy
@@ -18213,7 +18279,9 @@ msgid ""
 "\n"
 "You may impose limited martial law under Monarchy: each military unit in a "
 "city, up to a maximum of 3, will keep one unhappy citizen content."
-msgstr "تحت الحكم الملكي الجمهورية الطعام دوران الحكم الملكي الحكم الملكي شاهد السعادة الحكم الملكي إضافيّ درع الحكم الملكي وحدات مواطنيين."
+msgstr ""
+"تحت الحكم الملكي الجمهورية الطعام دوران الحكم الملكي الحكم الملكي شاهد "
+"السعادة الحكم الملكي إضافيّ درع الحكم الملكي وحدات مواطنيين."
 
 #: data/civ2/governments.ruleset:378
 #, fuzzy
@@ -18245,7 +18313,11 @@ msgid ""
 "You impose limited but efficient martial law under Communism.  Each military "
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس الشيوعية الشيوعية إضافيّ درع الشيوعية كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات."
+msgstr ""
+"أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي "
+"الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس "
+"الشيوعية الشيوعية إضافيّ درع الشيوعية كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد "
+"وحدات."
 
 #: data/civ2/governments.ruleset:412 data/default/techs.ruleset:299
 #: data/civ2/techs.ruleset:222 data/civ1/techs.ruleset:222
@@ -18323,7 +18395,10 @@ msgid ""
 "\n"
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
-msgstr "تحت الجمهوري المواطنيين الجمهورية الجمهورية الطعام دوران الجمهورية المربعات مع الجمهورية مواطنيين دوران السعادة الجمهورية درع في مع الهجوم مع الهجوم وحدات مواطنيين."
+msgstr ""
+"تحت الجمهوري المواطنيين الجمهورية الجمهورية الطعام دوران الجمهورية المربعات "
+"مع الجمهورية مواطنيين دوران السعادة الجمهورية درع في مع الهجوم مع الهجوم "
+"وحدات مواطنيين."
 
 #: data/civ2/governments.ruleset:630 data/history/governments.ruleset:545
 #, fuzzy
@@ -18360,7 +18435,11 @@ msgid ""
 "their loyalty is unswerving.  Military units of Democratic civilizations "
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
-msgstr "تحت الديمقراطية الديمقراطية هناك الديمقراطية الطعام دوران الديمقراطية المربعات مع الديمقراطية مواطنيين دوران السعادة الديمقراطية الديمقراطية درع في الوحدات مع الهجوم الهواء مع الهجوم مواطنيين المقاتلون أدوار الديمقراطي الفوضويّة الديمقراطية الجيش الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
+msgstr ""
+"تحت الديمقراطية الديمقراطية هناك الديمقراطية الطعام دوران الديمقراطية "
+"المربعات مع الديمقراطية مواطنيين دوران السعادة الديمقراطية الديمقراطية درع "
+"في الوحدات مع الهجوم الهواء مع الهجوم مواطنيين المقاتلون أدوار الديمقراطي "
+"الفوضويّة الديمقراطية الجيش الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
 
 #: data/civ1/governments.ruleset:232
 #, fuzzy
@@ -18384,7 +18463,10 @@ msgid ""
 "You may impose martial law under Despotism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
-msgstr "تحت الإستبداد ملكك الطعام دوران الإستبداد المربعات الطعام وحدات الطعام الطعام إستبدادي هذا السعادة الإستبداد الحجم إضافيّ درع الإستبداد وحدات مواطنيين"
+msgstr ""
+"تحت الإستبداد ملكك الطعام دوران الإستبداد المربعات الطعام وحدات الطعام "
+"الطعام إستبدادي هذا السعادة الإستبداد الحجم إضافيّ درع الإستبداد وحدات "
+"مواطنيين"
 
 #: data/civ1/governments.ruleset:305
 #, fuzzy
@@ -18407,7 +18489,9 @@ msgid ""
 "\n"
 "You may impose martial law under Monarchy: each military unit in a city will "
 "keep one unhappy citizen content."
-msgstr "تحت الحكم الملكي الجمهورية الطعام دوران الحكم الملكي الحكم الملكي شاهد السعادة الحكم الملكي إضافيّ درع الحكم الملكي وحدات مواطنيين."
+msgstr ""
+"تحت الحكم الملكي الجمهورية الطعام دوران الحكم الملكي الحكم الملكي شاهد "
+"السعادة الحكم الملكي إضافيّ درع الحكم الملكي وحدات مواطنيين."
 
 #: data/civ1/governments.ruleset:376
 #, fuzzy
@@ -18437,7 +18521,10 @@ msgid ""
 "You may impose martial law under Communism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس الشيوعية الشيوعية إضافيّ درع الشيوعية وحدات مواطنيين"
+msgstr ""
+"أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي "
+"الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس "
+"الشيوعية الشيوعية إضافيّ درع الشيوعية وحدات مواطنيين"
 
 #: data/civ1/governments.ruleset:455
 #, fuzzy
@@ -18467,7 +18554,10 @@ msgid ""
 "\n"
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
-msgstr "تحت الجمهوري المواطنيين الجمهورية الجمهورية الطعام دوران الجمهورية المربعات مع الجمهورية مواطنيين دوران السعادة الجمهورية درع في مع الهجوم مع الهجوم وحدات مواطنيين."
+msgstr ""
+"تحت الجمهوري المواطنيين الجمهورية الجمهورية الطعام دوران الجمهورية المربعات "
+"مع الجمهورية مواطنيين دوران السعادة الجمهورية درع في مع الهجوم مع الهجوم "
+"وحدات مواطنيين."
 
 #: data/civ1/governments.ruleset:537
 #, fuzzy
@@ -18501,7 +18591,11 @@ msgid ""
 "their loyalty is unswerving.  Military units of Democratic civilizations "
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
-msgstr "تحت الديمقراطية الديمقراطية هناك الديمقراطية الطعام دوران الديمقراطية المربعات مع الديمقراطية مواطنيين دوران السعادة الديمقراطية درع في الوحدات مع الهجوم الهواء مع الهجوم مواطنيين أدوار الديمقراطي الفوضويّة الديمقراطية الجيش الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
+msgstr ""
+"تحت الديمقراطية الديمقراطية هناك الديمقراطية الطعام دوران الديمقراطية "
+"المربعات مع الديمقراطية مواطنيين دوران السعادة الديمقراطية درع في الوحدات مع "
+"الهجوم الهواء مع الهجوم مواطنيين أدوار الديمقراطي الفوضويّة الديمقراطية الجيش "
+"الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
 
 #: data/history/governments.ruleset:379
 #, fuzzy
@@ -18533,7 +18627,11 @@ msgid ""
 "You impose limited but efficient martial law under Communism.  Each military "
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس الشيوعية الشيوعية إضافيّ درع الشيوعية كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات."
+msgstr ""
+"أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية في شيوعي "
+"الوحدات الدبلوماسي الطعام دوران الشيوعية الشيوعية شاهد السعادة الجواسيس "
+"الشيوعية الشيوعية إضافيّ درع الشيوعية كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد "
+"وحدات."
 
 #: data/default/techs.ruleset:59 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42 data/history/techs.ruleset:42
@@ -19200,7 +19298,8 @@ msgstr "الصوف"
 #: data/default/terrain.ruleset:697 data/civ2/terrain.ruleset:634
 #: data/civ1/terrain.ruleset:622 data/history/terrain.ruleset:689
 #, fuzzy
-msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
+msgid ""
+"Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr "التندرا."
 
 #: data/civ1/terrain.ruleset:168
@@ -19314,7 +19413,8 @@ msgstr "محاربين"
 #: data/default/units.ruleset:347 data/civ2/units.ruleset:200
 #: data/civ1/units.ruleset:195 data/history/units.ruleset:273
 #, fuzzy
-msgid "This unit may be built from the start of the game.  It is the weakest unit."
+msgid ""
+"This unit may be built from the start of the game.  It is the weakest unit."
 msgstr "هذا وحدات هو وحدات."
 
 #: data/default/units.ruleset:353 data/civ2/units.ruleset:206
@@ -19884,7 +19984,7 @@ msgstr "?plural:أفغانيين"
 #: data/nation/finnish.ruleset:19 data/nation/greek.ruleset:13
 #: data/nation/israeli.ruleset:16 data/nation/japanese.ruleset:15
 #: data/nation/kampuchean.ruleset:14 data/nation/portuguese.ruleset:18
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:33
+#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:32
 #: data/nation/spanish.ruleset:21 data/nation/swedish.ruleset:16
 #: data/nation/viking.ruleset:32 data/nation/welsh.ruleset:22
 msgid "Prime Minister"
@@ -20069,7 +20169,8 @@ msgid ""
 "mainly characterized by its movement from a unified state to a federal one. "
 "This is the result of the Flemish and the Walloon's nationalist (almost) "
 "peaceful fights."
-msgstr "بلجيكا هولندي المملكة بلجيكا هذا فلمنكي والوون - من أحد اللهجات الفرنسية."
+msgstr ""
+"بلجيكا هولندي المملكة بلجيكا هذا فلمنكي والوون - من أحد اللهجات الفرنسية."
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -20085,7 +20186,8 @@ msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
-msgstr "الـ هولندي بريطانيّ الجنوب إفريقيا هم البرتقال حرّ الحالة، الدولة، يقرّ بريطانيّ."
+msgstr ""
+"الـ هولندي بريطانيّ الجنوب إفريقيا هم البرتقال حرّ الحالة، الدولة، يقرّ بريطانيّ."
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
@@ -20377,7 +20479,9 @@ msgstr "خيالي"
 #: data/nation/dunedain.ruleset:10
 #, fuzzy
 msgid "The Men of the West from J.R.R. Tolkien's Middle Earth fantasies."
-msgstr "الـ الرجال الغرب جي - الحرف العاشر في اللغة الإنجليزية آر - الحرف الثامن عشر في اللغة الإنجليزية آر - الحرف الثامن عشر في اللغة الإنجليزية المنتصف الأرض."
+msgstr ""
+"الـ الرجال الغرب جي - الحرف العاشر في اللغة الإنجليزية آر - الحرف الثامن عشر "
+"في اللغة الإنجليزية آر - الحرف الثامن عشر في اللغة الإنجليزية المنتصف الأرض."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -20889,7 +20993,10 @@ msgstr "?plural:المغول"
 msgid ""
 "The armies of the Dark Lord Sauron, from J.R.R. Tolkien's Middle Earth "
 "fantasies."
-msgstr "الـ الظلام اللورد جي - الحرف العاشر في اللغة الإنجليزية آر - الحرف الثامن عشر في اللغة الإنجليزية آر - الحرف الثامن عشر في اللغة الإنجليزية المنتصف الأرض."
+msgstr ""
+"الـ الظلام اللورد جي - الحرف العاشر في اللغة الإنجليزية آر - الحرف الثامن "
+"عشر في اللغة الإنجليزية آر - الحرف الثامن عشر في اللغة الإنجليزية المنتصف "
+"الأرض."
 
 #: data/nation/mordor.ruleset:15
 #, fuzzy
@@ -21119,15 +21226,11 @@ msgid ""
 "Malaysian Peninsula"
 msgstr "سنغافورة الماليزي شبه الجزيرة."
 
-#: data/nation/singaporean.ruleset:29
-msgid "Ah"
-msgstr "آه"
-
-#: data/nation/singaporean.ruleset:30 data/nation/turk.ruleset:19
+#: data/nation/singaporean.ruleset:29 data/nation/turk.ruleset:19
 msgid "Sultan"
 msgstr "سلطان"
 
-#: data/nation/singaporean.ruleset:31
+#: data/nation/singaporean.ruleset:30
 msgid "Encik"
 msgstr ""
 
@@ -21349,3 +21452,5 @@ msgstr ""
 "الـ قوم الزّولو المتواجدون في جنوب أفريقيا :: زولوويّون البانتو إفريقيا "
 "إفريقيا مع أوروبي."
 
+#~ msgid "Ah"
+#~ msgstr "آه"
