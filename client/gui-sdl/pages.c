@@ -123,7 +123,8 @@ static int quit_callback(struct widget *pWidget)
 **************************************************************************/
 static void show_main_page()
 {
-  SDL_Color bg_color = {255, 255, 255, 136};
+  SDL_Color bg_color = {255, 255, 255, 96};
+  SDL_Color line_color = {128, 128, 128, 255};
   
   int count = 0;
   struct widget *pWidget = NULL, *pWindow = NULL;
@@ -137,6 +138,20 @@ static void show_main_page()
   pWindow = create_window(NULL, NULL, 1, 1, 0);
   add_to_gui_list(ID_WINDOW, pWindow);
   pStartMenu->pEndWidgetList = pWindow;
+  
+  /* Freeciv version */
+  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, "Freeciv "VERSION,
+            adj_font(12),
+            (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+
+   
+  pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
+  
+  area.w = MAX(area.w, pWidget->size.w);
+  area.h = MAX(area.h, pWidget->size.h);
+  count++;
+  
+  add_to_gui_list(ID_LABEL, pWidget);
   
   /* Start New Game */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Start New Game"),
@@ -262,16 +277,22 @@ static void show_main_page()
   draw_intro_gfx();
   
   pBackground = theme_get_background(theme, BACKGROUND_STARTMENU);
-  SDL_FillRectAlpha(pBackground, NULL, &bg_color);
-  
   if (resize_window(pWindow, pBackground, NULL,
         pTheme->FR_Left->w + area.w + pTheme->FR_Right->w,
         pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h)) {
     FREESURFACE(pBackground);
   }
 
+  area.h = h;
+  SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+  
   redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
 
+  putline(pWindow->dst->surface,
+          area.x, area.y + (h - 1),
+          area.x + area.w - 1, area.y + (h - 1),
+	  map_rgba(pWindow->dst->surface->format, line_color));
+  
   set_output_window_text(_("SDLClient welcomes you..."));
   set_output_window_text(_("Freeciv is free software and you are welcome "
 			   "to distribute copies of "
