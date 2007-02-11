@@ -160,8 +160,7 @@ bool units_are_occupied(const struct unit_list *punits)
 bool units_can_load(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (can_unit_load(punit,
-		      find_transporter_for_unit(punit, punit->tile))) {
+    if (find_transporter_for_unit(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;

@@ -499,9 +499,7 @@ enum unit_move_type move_type_from_str(const char *s)
 struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile)
 {
   unit_list_iterate(ptile->units, ptransport) {
-    if (get_transporter_capacity(ptransport) > get_transporter_occupancy(ptransport)
-        && can_unit_transport(ptransport, punit)
-        && is_native_tile(unit_type(ptransport), ptile)) {
+    if (could_unit_load(ptransport, punit)) {
       return ptransport;
     }
   } unit_list_iterate_end;

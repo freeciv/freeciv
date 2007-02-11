@@ -543,19 +543,12 @@ const char *get_activity_text(enum unit_activity activity)
 }
 
 /****************************************************************************
-  Return TRUE iff the given unit can be loaded into the transporter.
+  Return TRUE iff the given unit could be loaded into the transporter
+  if we moved there.
 ****************************************************************************/
-bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
+bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
 {
-  /* This function needs to check EVERYTHING. */
-
   if (!pcargo || !ptrans) {
-    return FALSE;
-  }
-
-  /* Check positions of the units.  Of course you can't load a unit onto
-   * a transporter on a different tile... */
-  if (!same_pos(pcargo->tile, ptrans->tile)) {
     return FALSE;
   }
 
@@ -576,13 +569,34 @@ bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Make sure this transporter can carry this type of unit. */
-  if(!can_unit_transport(ptrans, pcargo)) {
+  if (!can_unit_transport(ptrans, pcargo)) {
+    return FALSE;
+  }
+
+  /* Transporter must be native to the tile it is on. */
+  if (!can_unit_exist_at_tile(ptrans, ptrans->tile)) {
     return FALSE;
   }
 
   /* Make sure there's room in the transporter. */
   return (get_transporter_occupancy(ptrans)
 	  < get_transporter_capacity(ptrans));
+}
+
+/****************************************************************************
+  Return TRUE iff the given unit can be loaded into the transporter.
+****************************************************************************/
+bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
+{
+  /* This function needs to check EVERYTHING. */
+
+  /* Check positions of the units.  Of course you can't load a unit onto
+   * a transporter on a different tile... */
+  if (!same_pos(pcargo->tile, ptrans->tile)) {
+    return FALSE;
+  }
+
+  return could_unit_load(pcargo, ptrans);
 }
 
 /****************************************************************************
@@ -1392,9 +1406,10 @@ int get_transporter_occupancy(const struct unit *ptrans)
 /****************************************************************************
   Find a transporter at the given location for the unit.
 ****************************************************************************/
-struct unit *find_transporter_for_unit(const struct unit *pcargo,
-				       const struct tile *ptile)
-{ 
+struct unit *find_transporter_for_unit(const struct unit *pcargo)
+{
+  struct tile *ptile = pcargo->tile;
+
   unit_list_iterate(ptile->units, ptrans) {
     if (can_unit_load(pcargo, ptrans)) {
       return ptrans;

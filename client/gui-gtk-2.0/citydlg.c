@@ -2063,7 +2063,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-    if (!can_unit_load(punit, find_transporter_for_unit(punit, punit->tile))) {
+    if (!find_transporter_for_unit(punit)) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 

@@ -1305,7 +1305,7 @@ void request_unit_autosettlers(const struct unit *punit)
 void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 {
   if (!ptrans) {
-    ptrans = find_transporter_for_unit(pcargo, pcargo->tile);
+    ptrans = find_transporter_for_unit(pcargo);
   }
 
   if (can_client_issue_orders()

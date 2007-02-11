@@ -1155,9 +1155,7 @@ update_menus(void)
 		     !unit_flag(punit, F_UNDISBANDABLE));
       my_enable_menu(menu, IDM_ORDERS_HOMECITY,
 		     can_unit_change_homecity(punit));
-      my_enable_menu(menu, IDM_ORDERS_LOAD,
-	can_unit_load(punit, find_transporter_for_unit(punit,
-						       punit->tile)));
+      my_enable_menu(menu, IDM_ORDERS_LOAD, find_transporter_for_unit(punit));
       my_enable_menu(menu, IDM_ORDERS_UNLOAD,
 	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
 	 && can_unit_exist_at_tile(punit, punit->tile)) 

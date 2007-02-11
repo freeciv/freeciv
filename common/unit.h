@@ -216,6 +216,7 @@ bool unit_can_est_traderoute_here(const struct unit *punit);
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity);
 bool unit_has_orders(const struct unit *punit);
 
+bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans);
 bool can_unit_load(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_unload(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_paradrop(const struct unit *punit);
@@ -297,8 +298,7 @@ void destroy_unit_virtual(struct unit *punit);
 void free_unit_orders(struct unit *punit);
 
 int get_transporter_occupancy(const struct unit *ptrans);
-struct unit *find_transporter_for_unit(const struct unit *pcargo,
-				       const struct tile *ptile);
+struct unit *find_transporter_for_unit(const struct unit *pcargo);
 
 enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 					   bool is_free);

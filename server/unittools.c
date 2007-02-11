@@ -2844,7 +2844,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     
   /* Special checks for ground units in the ocean. */
   if (!can_unit_survive_at_tile(punit, pdesttile)) {
-    ptransporter = find_transporter_for_unit(punit, pdesttile);
+    ptransporter = find_transporter_for_unit(punit);
     if (ptransporter) {
       put_unit_onto_transporter(punit, ptransporter);
     }
