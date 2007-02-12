@@ -733,6 +733,9 @@ AC_CONFIG_FILES([Makefile
 	  data/civ2/Makefile
 	  data/scenario/Makefile
 	  data/nation/Makefile
+	  data/themes/Makefile
+	  data/themes/gui-sdl/Makefile
+	  data/themes/gui-sdl/human/Makefile
 	  utility/Makefile
 	  utility/ftwl/Makefile
 	  dependencies/Makefile
