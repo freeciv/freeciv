@@ -163,9 +163,15 @@ bool is_ground_unittype(const struct unit_type *punittype)
 bool can_unit_exist_at_tile(const struct unit *punit,
                             const struct tile *ptile)
 {
-  if (ptile->city && !(is_sailing_unit(punit)
-      && !is_ocean_near_tile(ptile))) {
+  /* Cities are safe havens except for sea units without ocean access. */
+  if (ptile->city
+      && !(is_sailing_unit(punit) && !is_ocean_near_tile(ptile))) {
     return TRUE;
+  }
+
+  /* A trireme unit cannot exist in an ocean tile without access to land. */
+  if (unit_flag(punit, F_TRIREME) && !is_safe_ocean(ptile)) {
+    return FALSE;
   }
 
   return is_native_tile(punit->type, ptile);
@@ -373,6 +379,7 @@ bool can_unit_move_to_tile(const struct unit *punit,
     6) There are no peaceful but un-allied units on the target tile.
     7) There is not a peaceful but un-allied city on the target tile.
     8) There is no non-allied unit blocking (zoc) [or igzoc is true].
+    9) Triremes cannot move out of sight from land.
 **************************************************************************/
 enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 					     const struct player *unit_owner,
@@ -449,6 +456,11 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   if (!zoc) {
     /* The move is illegal because of zones of control. */
     return MR_ZOC;
+  }
+
+  /* 9) */
+  if (unit_type_flag(punittype, F_TRIREME) && !is_safe_ocean(dst_tile)) {
+    return MR_TRIREME;
   }
 
   return MR_OK;

@@ -616,7 +616,7 @@ static void map_tiles_load(struct section_file *file)
 		secfile_lookup_str(file, "map.t%03d", line),
 		ptile->terrain = char2terrain(ch));
 
-  assign_continent_numbers(FALSE);
+  assign_continent_numbers();
 
   whole_map_iterate(ptile) {
     ptile->spec_sprite = secfile_lookup_str_default(file, NULL,

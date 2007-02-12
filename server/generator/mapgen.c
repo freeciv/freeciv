@@ -390,7 +390,7 @@ static bool ok_for_separate_poles(struct tile *ptile)
 ****************************************************************************/
 static void make_polar_land(void)
 {
-  assign_continent_numbers(FALSE);
+  assign_continent_numbers();
   whole_map_iterate(ptile) {
     if ((tmap_is(ptile, TT_FROZEN ) &&
 	ok_for_separate_poles(ptile))
@@ -1256,7 +1256,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 
   }
 
-  assign_continent_numbers(FALSE);
+  assign_continent_numbers();
   game_map_init();
 
   print_mapgen_map();

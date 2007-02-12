@@ -553,8 +553,13 @@ bool is_cardinally_adj_to_ocean(const struct tile *ptile)
 ****************************************************************************/
 bool is_safe_ocean(const struct tile *ptile)
 {
-  return count_terrain_flag_near_tile(ptile, FALSE, TRUE,
-				      TER_UNSAFE_COAST) < 100;
+  adjc_iterate(ptile, adjc_tile) {
+    if (adjc_tile->terrain != T_UNKNOWN
+        && !terrain_has_flag(adjc_tile->terrain, TER_UNSAFE_COAST)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+  return FALSE;
 }
 
 /***************************************************************

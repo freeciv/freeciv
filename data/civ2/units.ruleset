@@ -67,7 +67,6 @@ veteran_move_bonus = 0, 0
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
 ; "Unreachable"   = Unit can be attacked only by units with "AttackAny" flag or on
 ;                   city or airbase
-; "AlwaysSafe"    = Unit is safe even on unsafe terrain
 ; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
 ; "ZOC"           = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                   override this
@@ -77,7 +76,7 @@ name          = _("Missile")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Missile", "Unreachable", "AlwaysSafe"
+flags         = "Missile", "Unreachable"
 
 [unitclass_land]
 name          = _("Land")
@@ -99,14 +98,14 @@ name          = _("Helicopter")
 move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 10
-flags         = "CanOccupy", "AlwaysSafe", "CollectRansom"
+flags         = "CanOccupy", "CollectRansom"
 
 [unitclass_air]
 name          = _("Air")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Unreachable", "AlwaysSafe"
+flags         = "Unreachable"
 
 ; Below: The individual units, one per section.
 ;

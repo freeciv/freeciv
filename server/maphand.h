@@ -50,7 +50,7 @@ struct player_tile {
   short last_updated;
 };
 
-void assign_continent_numbers(bool skip_unsafe);
+void assign_continent_numbers(void);
 
 void global_warming(int effect);
 void nuclear_winter(int effect);

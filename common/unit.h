@@ -73,7 +73,7 @@ enum unit_move_result {
   MR_BAD_ACTIVITY, MR_BAD_DESTINATION, MR_BAD_MAP_POSITION,
   MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT,
   MR_NO_TRANSPORTER_CAPACITY,
-  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY
+  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY, MR_TRIREME
 };
 
 enum add_build_city_result {
@@ -277,13 +277,6 @@ struct unit *is_non_allied_unit_tile(const struct tile *ptile,
 				     const struct player *pplayer);
 struct unit *is_non_attack_unit_tile(const struct tile *ptile,
 				     const struct player *pplayer);
-
-int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
-		  const struct unit *punit);
-int base_trireme_loss_pct(const struct player *pplayer,
-			  const struct unit *punit);
-int base_unsafe_terrain_loss_pct(const struct player *pplayer,
-				 const struct unit *punit);
 
 bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile);
 bool unit_being_aggressive(const struct unit *punit);

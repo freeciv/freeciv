@@ -317,15 +317,13 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
 
   3. Kill dead units.
 
-  4. Randomly kill units on unsafe terrain or unsafe-ocean.
+  4. Rescue airplanes by returning them to base automatically.
 
-  5. Rescue airplanes by returning them to base automatically.
+  5. Decrease fuel of planes in the air.
 
-  6. Decrease fuel of planes in the air.
+  6. Refuel planes that are in bases.
 
-  7. Refuel planes that are in bases.
-
-  8. Kill planes that are out of fuel.
+  7. Kill planes that are out of fuel.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
@@ -349,41 +347,7 @@ void player_restore_units(struct player *pplayer)
       continue; /* Continue iterating... */
     }
 
-    /* 4) Check for units on unsafe terrains. */
-    if (unit_flag(punit, F_TRIREME)) {
-      /* Triremes away from coast have a chance of death. */
-      /* Note if a trireme died on a TER_UNSAFE terrain, this would
-       * erronously give the high seas message.  This is impossible under
-       * the current rulesets. */
-      int loss_chance = unit_loss_pct(pplayer, punit->tile, punit);
-
-      if (myrand(100) < loss_chance) {
-        notify_player(pplayer, punit->tile, E_UNIT_LOST, 
-                         _("Your %s has been lost on the high seas."),
-                         unit_name(punit->type));
-        wipe_unit(punit);
-        continue; /* Continue iterating... */
-      } else if (loss_chance > 0) {
-        if (maybe_make_veteran(punit)) {
-	  notify_player(pplayer, punit->tile, E_UNIT_BECAME_VET,
-                           _("Your %s survived on the high seas "
-	                   "and became more experienced!"), 
-                           unit_name(punit->type));
-        }
-      }
-    } else if (!unit_class_flag(get_unit_class(unit_type(punit)), UCF_ALWAYS_SAFE)
-	       && (myrand(100) < unit_loss_pct(pplayer,
-					       punit->tile, punit))) {
-      /* Units without unit class flag UCF_ALWAYS_SAFE have a chance of
-       * dying if they are on TER_UNSAFE terrain. */
-      notify_player(pplayer, punit->tile, E_UNIT_LOST,
-		       _("Your %s has been lost on unsafe terrain."),
-		       unit_name(punit->type));
-      wipe_unit(punit);
-      continue;			/* Continue iterating... */
-    }
-
-    /* 5) Rescue planes if needed */
+    /* 4) Rescue planes if needed */
     if (is_air_unit(punit)) {
       /* Shall we emergency return home on the last vapors? */
 
@@ -464,10 +428,10 @@ void player_restore_units(struct player *pplayer)
         }
       }
 
-      /* 6) Update fuel */
+      /* 5) Update fuel */
       punit->fuel--;
 
-      /* 7) Automatically refuel air units in cities, airbases, and
+      /* 6) Automatically refuel air units in cities, airbases, and
        *    transporters (carriers). */
       if (is_unit_being_refueled(punit)) {
 	punit->fuel=unit_type(punit)->fuel;
@@ -475,7 +439,7 @@ void player_restore_units(struct player *pplayer)
     }
   } unit_list_iterate_safe_end;
 
-  /* 8) Check if there are air units without fuel */
+  /* 7) Check if there are air units without fuel */
   unit_list_iterate_safe(pplayer->units, punit) {
     if (is_air_unit(punit) && punit->fuel <= 0
         && unit_type(punit)->fuel > 0) {

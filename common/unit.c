@@ -1188,69 +1188,6 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
 }
 
 /**************************************************************************
-  Calculate the chance of losing (as a percentage) if it were to spend a
-  turn at the given location.
-
-  Note this function isn't really useful for AI planning, since it needs
-  to know more.  The AI code uses base_trireme_loss_pct and
-  base_unsafe_terrain_loss_pct directly.
-**************************************************************************/
-int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
-		  const struct unit *punit)
-{
-  int loss_pct = 0;
-
-  /* Units are never lost if they're inside cities. */
-  if (tile_get_city(ptile)) {
-    return 0; 
-  }
-
-  /* Trireme units may be lost if they stray from coastline. */
-  if (unit_flag(punit, F_TRIREME)) {
-    if (!is_safe_ocean(ptile)) {
-      loss_pct = base_trireme_loss_pct(pplayer, punit);
-    }
-  }
-
-  /* All units may be lost on unsafe terrain.  (Actually units with
-   * class flag UCF_ALWAYS_SAFE are exempt; see base_unsafe_terrain_loss_pct.) */
-  if (terrain_has_flag(tile_get_terrain(ptile), TER_UNSAFE)) {
-    return loss_pct + base_unsafe_terrain_loss_pct(pplayer, punit);
-  }
-
-  return loss_pct;
-}
-
-/**************************************************************************
-  Triremes have a varying loss percentage based on tech and veterancy
-  level.
-**************************************************************************/
-int base_trireme_loss_pct(const struct player *pplayer,
-			  const struct unit *punit)
-{
-  if (get_unit_bonus(punit, EFT_NO_SINK_DEEP) > 0) {
-    return 0;
-  } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS2)) {
-    return game.trireme_loss_chance[punit->veteran] / 4;
-  } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS1)) {
-    return game.trireme_loss_chance[punit->veteran] / 2;
-  } else {
-    return game.trireme_loss_chance[punit->veteran];
-  }
-}
-
-/**************************************************************************
-  All units without unit class flag UCF_ALWAYS_SAFE have a flat 15% chance
-  of being lost.
-**************************************************************************/
-int base_unsafe_terrain_loss_pct(const struct player *pplayer,
-				 const struct unit *punit)
-{
-  return unit_class_flag(get_unit_class(unit_type(punit)), UCF_ALWAYS_SAFE)
-    ? 0 : 15;
-}
-
-/**************************************************************************
 An "aggressive" unit is a unit which may cause unhappiness
 under a Republic or Democracy.
 A unit is *not* aggressive if one or more of following is true:

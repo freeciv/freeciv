@@ -223,10 +223,7 @@ bool create_start_positions(enum start_mode mode,
     create_tmap(FALSE);
   }
 
-  /* Unsafe terrains separate continents, otherwise small areas of green
-   * near the poles could be populated by a civilization if that pole
-   * was part of a larger continent. */
-  assign_continent_numbers(TRUE);
+  assign_continent_numbers();
 
   /* If the default is given, just use MT_VARIABLE. */
   if (mode == MT_DEFAULT) {

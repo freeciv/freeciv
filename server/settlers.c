@@ -811,8 +811,7 @@ static int evaluate_improvements(struct unit *punit,
     city_map_checked_iterate(pcity->tile, cx, cy, ptile) {
       bool consider = TRUE;
 
-      if (get_worker_city(pcity, cx, cy) == C_TILE_UNAVAILABLE
-	  || terrain_has_flag(pcity->tile->terrain, TER_UNSAFE)) {
+      if (get_worker_city(pcity, cx, cy) == C_TILE_UNAVAILABLE) {
 	/* Don't risk bothering with this tile. */
 	continue;
       }

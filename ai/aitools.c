@@ -544,9 +544,6 @@ static int stack_risk(const struct tile *ptile,
   const double p_killed = chance_killed_at(ptile, risk_cost, param);
   double danger = value * p_killed;
 
-  if (terrain_has_flag(ptile->terrain, TER_UNSAFE)) {
-    danger += risk_cost->unsafe_terrain_cost;
-  }
   if (is_ocean(ptile->terrain) && !is_safe_ocean(ptile)) {
     danger += risk_cost->ocean_cost;
   }
@@ -591,7 +588,6 @@ void ai_avoid_risks(struct pf_parameter *parameter,
 		    struct unit *punit,
 		    const double fearfulness)
 {
-  const struct player *pplayer = unit_owner(punit);
   /* If we stay a short time on each tile, the danger of each individual tile
    * is reduced. If we do not do this,
    * we will not favour longer but faster routs. */
@@ -603,15 +599,6 @@ void ai_avoid_risks(struct pf_parameter *parameter,
   risk_cost->base_value = unit_build_shield_cost(punit->type);
   risk_cost->fearfulness = fearfulness * linger_fraction;
 
-  if (unit_flag(punit, F_TRIREME)) {
-    risk_cost->ocean_cost = risk_cost->base_value
-      * (double)base_trireme_loss_pct(pplayer, punit)
-      / 100.0;
-  } else {
-    risk_cost->ocean_cost = 0;
-  }
-  risk_cost->unsafe_terrain_cost = risk_cost->base_value
-    * (double)base_unsafe_terrain_loss_pct(pplayer, punit) / 100.0;
   risk_cost->enemy_zoc_cost = PF_TURN_FACTOR * 20;
 }
 

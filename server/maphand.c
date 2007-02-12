@@ -63,24 +63,14 @@ static int *continent_sizes, *ocean_sizes;
 
   is_land tells us whether we are assigning continent numbers or ocean 
   numbers.
-
-  if skip_unsafe is specified then "unsafe" terrains are skipped.  This
-  is useful for mapgen algorithms.
 **************************************************************************/
-static void assign_continent_flood(struct tile *ptile, bool is_land,
-				   int nr, bool skip_unsafe)
+static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 {
   if (tile_get_continent(ptile) != 0) {
     return;
   }
 
   if (ptile->terrain == T_UNKNOWN) {
-    return;
-  }
-
-  if (skip_unsafe && terrain_has_flag(tile_get_terrain(ptile), TER_UNSAFE)) {
-    /* FIXME: This should check a specialized flag, not the TER_UNSAFE
-     * flag which may not even be present. */
     return;
   }
 
@@ -98,7 +88,7 @@ static void assign_continent_flood(struct tile *ptile, bool is_land,
   }
 
   adjc_iterate(ptile, tile1) {
-    assign_continent_flood(tile1, is_land, nr, skip_unsafe);
+    assign_continent_flood(tile1, is_land, nr);
   } adjc_iterate_end;
 }
 
@@ -136,12 +126,8 @@ static void recalculate_lake_surrounders(void)
 
   Continents have numbers 1 to map.num_continents _inclusive_.
   Oceans have (negative) numbers -1 to -map.num_oceans _inclusive_.
-
-  If skip_unsafe is specified then unsafe terrains are not used to
-  connect continents.  This is useful for generator code so that polar
-  regions don't connect landmasses.
 **************************************************************************/
-void assign_continent_numbers(bool skip_unsafe)
+void assign_continent_numbers(void)
 {
   
   /* Initialize */
@@ -165,22 +151,18 @@ void assign_continent_numbers(bool skip_unsafe)
       continue; /* Can't assign this. */
     }
 
-    if (!skip_unsafe || !terrain_has_flag(pterrain, TER_UNSAFE)) {
-      if (!is_ocean(pterrain)) {
-	map.num_continents++;
-	continent_sizes
-	  = fc_realloc(continent_sizes,
+    if (!is_ocean(pterrain)) {
+      map.num_continents++;
+      continent_sizes = fc_realloc(continent_sizes,
 		       (map.num_continents + 1) * sizeof(*continent_sizes));
-	continent_sizes[map.num_continents] = 0;
-	assign_continent_flood(ptile, TRUE, map.num_continents, skip_unsafe);
-      } else {
-	map.num_oceans++;
-	ocean_sizes
-	  = fc_realloc(ocean_sizes,
+      continent_sizes[map.num_continents] = 0;
+      assign_continent_flood(ptile, TRUE, map.num_continents);
+    } else {
+      map.num_oceans++;
+      ocean_sizes = fc_realloc(ocean_sizes,
 		       (map.num_oceans + 1) * sizeof(*ocean_sizes));
-	ocean_sizes[map.num_oceans] = 0;
-	assign_continent_flood(ptile, FALSE, -map.num_oceans, skip_unsafe);
-      }
+      ocean_sizes[map.num_oceans] = 0;
+      assign_continent_flood(ptile, FALSE, -map.num_oceans);
     }
   } whole_map_iterate_end;
 
@@ -1420,7 +1402,7 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 
   if (ocean_toggled) {
     bounce_units_on_terrain_change(ptile);
-    assign_continent_numbers(FALSE);
+    assign_continent_numbers();
 
     /* New continent numbers for all tiles to all players */
     send_all_known_tiles(NULL);

@@ -38,7 +38,11 @@ static inline int single_move_cost(const struct pf_parameter *param,
                                    const struct tile *src_tile,
                                    const struct tile *dest_tile)
 {
-  if (unit_class_flag(param->class, UCF_TERRAIN_SPEED)) {
+  if (!dest_tile->city
+      && BV_ISSET(param->unit_flags, F_TRIREME)
+      && !is_safe_ocean(dest_tile)) {
+    return PF_IMPOSSIBLE_MC;
+  } else if (unit_class_flag(param->class, UCF_TERRAIN_SPEED)) {
     return map_move_cost(src_tile, dest_tile);
   } else {
     return SINGLE_MOVE;
@@ -535,30 +539,6 @@ static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
 
 /* =====================  Postion Dangerous Callbacks ================ */
 
-/**********************************************************************
-  An example of position-dangerous callback.  For triremes.
-  FIXME: it cheats.
-  Allow one move onto land (for use for ferries and land
-  bombardment)
-***********************************************************************/
-static bool trireme_is_pos_dangerous(const struct tile *ptile,
-				     enum known_type known,
-				     struct pf_parameter *param)
-{
-  /* Assume that unknown tiles are unsafe. */
-  if (known == TILE_UNKNOWN) {
-    return TRUE;
-  }
-
-  /* We test TER_UNSAFE even though under the current ruleset there is no
-   * way for a trireme to be on a TER_UNSAFE tile. */
-  /* Unsafe or unsafe-ocean tiles without cities are dangerous. */
-  /* Pretend all land tiles are safe. */
-  return (ptile->city == NULL
-	  && is_ocean(ptile->terrain)
-	  && (terrain_has_flag(ptile->terrain, TER_UNSAFE) 
-	      || (is_ocean(ptile->terrain) && !is_safe_ocean(ptile))));
-}
 /****************************************************************************
   Position-dangerous callback for air units.
 ****************************************************************************/
@@ -580,34 +560,6 @@ static bool air_is_pos_dangerous(const struct tile *ptile,
 
   /* Carriers are ignored since they are likely to move. */
   return TRUE;
-}
-
-/**********************************************************************
-  Position-dangerous callback for sea units other than triremes.
-  Allow one move onto land (for use for ferries and land
-  bombardment)
-***********************************************************************/
-static bool is_overlap_pos_dangerous(const struct tile *ptile,
-				     enum known_type known,
-				     struct pf_parameter *param)
-{
-  /* Unsafe tiles without cities are dangerous. */
-  /* Pretend all land tiles are safe. */
-  return (ptile->city == NULL
-	  && is_native_tile_to_class(param->class, ptile)
-	  && terrain_has_flag(ptile->terrain, TER_UNSAFE));
-}
-
-/**********************************************************************
-  Position-dangerous callback for typical units.
-***********************************************************************/
-static bool is_pos_dangerous(const struct tile *ptile, enum known_type known,
-			     struct pf_parameter *param)
-{
-  /* Unsafe tiles without cities are dangerous. */
-  return (ptile->terrain != T_UNKNOWN
-	  && terrain_has_flag(ptile->terrain, TER_UNSAFE)
-	  && ptile->city == NULL);
 }
 
 /****************************************************************************
@@ -687,15 +639,6 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   } else {
     parameter->get_zoc = NULL;
   }
-
-  if (unit_flag(punit, F_TRIREME)
-      && base_trireme_loss_pct(unit_owner(punit), punit) > 0) {
-    parameter->turn_mode = TM_WORST_TIME;
-    parameter->is_pos_dangerous = trireme_is_pos_dangerous;
-  } else if (base_unsafe_terrain_loss_pct(unit_owner(punit), punit) > 0) {
-    parameter->turn_mode = TM_WORST_TIME;
-    parameter->is_pos_dangerous = is_pos_dangerous;
-  }
 }
 
 /**********************************************************************
@@ -705,35 +648,18 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 struct unit *punit)
 {
-  const bool trireme_danger = unit_flag(punit, F_TRIREME)
-                     && base_trireme_loss_pct(unit_owner(punit), punit) > 0;
-  const bool danger
-    = base_unsafe_terrain_loss_pct(unit_owner(punit), punit) > 0;
-
   pft_fill_unit_default_parameter(parameter, punit);
 
   switch (get_unit_move_type(unit_type(punit))) {
   case LAND_MOVING:
     parameter->get_MC = land_overlap_move;
     parameter->get_TB = dont_cross_ocean;
-
-    assert(!trireme_danger);
-    if (danger) {
-      parameter->is_pos_dangerous = is_pos_dangerous;
-    }
     break;
   case SEA_MOVING:
     parameter->get_MC = sea_overlap_move;
-
-    if (trireme_danger) {
-      parameter->is_pos_dangerous = trireme_is_pos_dangerous;
-    } else if (danger) {
-      parameter->is_pos_dangerous = is_overlap_pos_dangerous;
-    }
     break;
   case AIR_MOVING:
   case HELI_MOVING:
-    assert(!danger && !trireme_danger);
     parameter->get_MC = single_airmove; /* very crude */
     break;
   default:
@@ -800,7 +726,7 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   parameter->sea_scale = move_rate / parameter->sea.move_rate;
   parameter->combined.moves_left_initially *= parameter->sea_scale;
   parameter->combined.move_rate = move_rate;
-  /* To ensure triremes behave correctly: */
+  /* To ensure triremes behave correctly: FIXME: Probably incorrect now */
   parameter->combined.turn_mode = TM_WORST_TIME;
   parameter->combined.get_MC = amphibious_move;
   parameter->combined.get_TB = amphibious_behaviour;

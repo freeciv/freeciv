@@ -154,8 +154,6 @@ fallout_trade_penalty=50
 ;                        separately).
 ;   - UnsafeCoast      = This terrain does not provide a safe coast for
 ;                        F_TRIRIEME units.
-;   - Unsafe           = This terrain is unsafe for alll units that travel
-;                        on it.
 ;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
 ;                        on gameplay.  Naval units can move on oceanic terrain,
 ;                        while land units cannot.  Oceanic tiles can be used

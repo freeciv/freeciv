@@ -951,6 +951,10 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
 		     _("%s can only move into your own zone of control."),
 		     unit_type(punit)->name);
+  } else if (reason == MR_TRIREME) {
+    notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
+		     _("%s cannot move that far from the coast line."),
+		     unit_type(punit)->name);
   }
   return FALSE;
 }
