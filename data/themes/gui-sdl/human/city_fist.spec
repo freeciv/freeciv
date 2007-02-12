@@ -6,7 +6,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    Rafal Bursig <bursig@poczta.fm>
+    Daniel Markstedt <himasaram@spray.se>
 "
 
 [file]
