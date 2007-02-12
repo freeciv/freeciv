@@ -26,7 +26,7 @@
 #include "themes_common.h"
 #include "themes_g.h"
 
-char gui_sdl_theme_name[512] = "deluxe2";
+char gui_sdl_theme_name[512] = "human";
 
 /*****************************************************************************
   Loads a gui-sdl theme directory/theme_name
