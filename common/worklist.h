@@ -53,8 +53,8 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
 		   const char *path, ...)
   fc__attribute((__format__ (__printf__, 3, 4)));
 void worklist_save(struct section_file *file, struct worklist *pwl,
-		   const char *path, ...)
-  fc__attribute((__format__ (__printf__, 3, 4)));
+                   int max_length, const char *path, ...)
+  fc__attribute((__format__ (__printf__, 4, 5)));
 
 /* Iterate over all entries in the worklist. */
 #define worklist_iterate(worklist, prod)				    \

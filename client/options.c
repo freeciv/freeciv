@@ -627,7 +627,7 @@ void save_options(void)
   if (game.player_ptr) {
     for(i = 0; i < MAX_NUM_WORKLISTS; i++){
       if (client.worklists[i].is_valid) {
-	worklist_save(&sf, &client.worklists[i],
+	worklist_save(&sf, &client.worklists[i], client.worklists[i].length,
 		      "worklists.worklist%d", i);
       }
     }

@@ -272,7 +272,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
   path and ... give the prefix to load from, printf-style.
 ****************************************************************************/
 void worklist_save(struct section_file *file, struct worklist *pwl,
-		   const char *path, ...)
+                   int max_length, const char *path, ...)
 {
   char path_str[1024];
   int i;
@@ -298,5 +298,14 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
 			"%s.wl_is_unit%d", path_str, i);
     secfile_insert_str(file, name,
 		       "%s.wl_value%d", path_str, i);
+  }
+
+  assert(max_length <= MAX_LEN_WORKLIST);
+
+  /* We want to keep savegame in tabular format, so each line has to be
+   * of equal length. Fill table up to maximum worklist size. */
+  for (i = pwl->length ; i < max_length; i++) {
+    secfile_insert_bool(file, false, "%s.wl_is_unit%d", path_str, i);
+    secfile_insert_str(file, "", "%s.wl_value%d", path_str, i);
   }
 }
