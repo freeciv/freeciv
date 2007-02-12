@@ -2691,6 +2691,7 @@ static void player_save(struct player *plr, int plrno,
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
   struct ai_data *ai = ai_data_get(plr);
+  int wlist_max_length = 0;
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
@@ -3007,6 +3008,14 @@ static void player_save(struct player *plr, int plrno,
   unit_list_iterate_end;
 
   i = -1;
+
+  /* First determine lenght of longest worklist */
+  city_list_iterate(plr->cities, pcity) {
+    if (pcity->worklist.length > wlist_max_length) {
+      wlist_max_length = pcity->worklist.length;
+    }
+  } city_list_iterate_end;
+
   city_list_iterate(plr->cities, pcity) {
     int j, x, y;
     char citymap_buf[CITY_MAP_SIZE * CITY_MAP_SIZE + 1];
@@ -3147,7 +3156,8 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_str(file, impr_buf,
 		       "player%d.c%d.improvements_new", plrno, i);    
 
-    worklist_save(file, &pcity->worklist, "player%d.c%d", plrno, i);
+    worklist_save(file, &pcity->worklist, wlist_max_length,
+                  "player%d.c%d", plrno, i);
 
     /* FIXME: remove this when the urgency is properly recalculated. */
     secfile_insert_int(file, pcity->ai.urgency,
