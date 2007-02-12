@@ -92,7 +92,7 @@ static void start_new_game_callback(GtkWidget *w, gpointer data)
     /* Send new game defaults. */
     send_chat("/set aifill 5");
 
-    my_snprintf(buf, sizeof(buf), "/%s", skill_level_names[0]);
+    my_snprintf(buf, sizeof(buf), "/%s", ai_level_cmd(AI_LEVEL_DEFAULT));
     send_chat(buf);
   }
 }
@@ -934,8 +934,13 @@ static void ai_skill_callback(GtkWidget *w, gpointer data)
 {
   const char *name;
   char buf[512];
+  enum ai_level level = GPOINTER_TO_UINT(data);
 
-  name = skill_level_names[GPOINTER_TO_UINT(data)];
+  if (level == AI_LEVEL_LAST) {
+    level = AI_LEVEL_DEFAULT;
+  }
+
+  name = ai_level_cmd(level);
 
   my_snprintf(buf, sizeof(buf), "/%s", name);
   send_chat(buf);
@@ -1254,9 +1259,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
   if (aconnection.access_level >= ALLOW_CTRL
       && pplayer && pplayer->ai.control) {
-    char *difficulty[] = {N_("novice"), N_("easy"),
-			  N_("normal"), N_("hard")};
-    int i;
+    enum ai_level level;
 
     entry = gtk_separator_menu_item_new();
     g_object_set_data_full(G_OBJECT(menu),
@@ -1264,18 +1267,24 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 			   (GtkDestroyNotify) gtk_widget_unref);
     gtk_container_add(GTK_CONTAINER(menu), entry);
 
-    for (i = 0; i < ARRAY_SIZE(difficulty); i++) {
-      char text[128];
+    for (level = 0; level < AI_LEVEL_LAST; level++) {
+      if (is_settable_ai_level(level)) {
+        const char *level_name = ai_level_name(level);
+        const char *level_cmd = ai_level_cmd(level);
+        static char lvl_cmd_tmp[AI_LEVEL_LAST][50];
 
-      my_snprintf(text, sizeof(text), "%s", _(difficulty[i]));
-      entry = gtk_menu_item_new_with_label(text);
-      g_object_set_data_full(G_OBJECT(menu),
-			     difficulty[i], entry,
-			     (GtkDestroyNotify) gtk_widget_unref);
-      gtk_container_add(GTK_CONTAINER(menu), entry);
-      g_signal_connect(GTK_OBJECT(entry), "activate",
-		       GTK_SIGNAL_FUNC(conn_menu_player_command),
-		       difficulty[i]);
+        /* Copy to non-const string */
+        mystrlcpy(lvl_cmd_tmp[level], level_cmd, sizeof(lvl_cmd_tmp[level]));
+
+        entry = gtk_menu_item_new_with_label(level_name);
+        g_object_set_data_full(G_OBJECT(menu),
+                               lvl_cmd_tmp[level], entry,
+                               (GtkDestroyNotify) gtk_widget_unref);
+        gtk_container_add(GTK_CONTAINER(menu), entry);
+        g_signal_connect(GTK_OBJECT(entry), "activate",
+                         GTK_SIGNAL_FUNC(conn_menu_player_command),
+                         lvl_cmd_tmp[level]);
+      }
     }
   }
 
@@ -1373,7 +1382,7 @@ GtkWidget *create_start_page(void)
   GtkWidget *label, *menu, *item;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
-  int i;
+  enum ai_level level;
 
   box = gtk_vbox_new(FALSE, 8);
   gtk_container_set_border_width(GTK_CONTAINER(box), 4);
@@ -1416,13 +1425,17 @@ GtkWidget *create_start_page(void)
   option = gtk_option_menu_new();
 
   menu = gtk_menu_new();
-  for (i = 0; i < NUM_SKILL_LEVELS; i++) {
-    item = gtk_menu_item_new_with_label(_(skill_level_names[i]));
-    g_signal_connect(item, "activate",
-	G_CALLBACK(ai_skill_callback), GUINT_TO_POINTER(i));
+  for (level = 0; level < AI_LEVEL_LAST; level++) {
+    if (is_settable_ai_level(level)) {
+      const char *level_name = ai_level_name(level);
 
-    gtk_widget_show(item);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      item = gtk_menu_item_new_with_label(level_name);
+      g_signal_connect(item, "activate",
+                       G_CALLBACK(ai_skill_callback), GUINT_TO_POINTER(level));
+
+      gtk_widget_show(item);
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    }
   }
   gtk_option_menu_set_menu(GTK_OPTION_MENU(option), menu);
   gtk_table_attach_defaults(GTK_TABLE(table), option, 1, 2, 1, 2);
@@ -1439,7 +1452,8 @@ GtkWidget *create_start_page(void)
   ruleset_combo = gtk_combo_new();
   gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(ruleset_combo)->entry), "default");
   g_signal_connect(GTK_COMBO(ruleset_combo)->entry, "changed",
-		   G_CALLBACK(ruleset_callback), GUINT_TO_POINTER(i));
+                   G_CALLBACK(ruleset_callback),
+                   GUINT_TO_POINTER(AI_LEVEL_LAST));
 
   gtk_table_attach_defaults(GTK_TABLE(table), ruleset_combo, 1, 2, 2, 3);
 

@@ -34,6 +34,14 @@
 
 #include "player.h"
 
+/* Names of AI levels. These must correspond to enum ai_level in
+ * player.h. Also commands to set AI level in server/commands.c
+ * must match these. */
+static const char *ai_level_names[] = {
+  NULL, N_("Away"), N_("Novice"), N_("Easy"), NULL, N_("Normal"),
+  NULL, N_("Hard"), NULL, NULL, N_("Experimental")
+};
+
 /***************************************************************
   Returns true iff p1 can cancel treaty on p2.
 
@@ -833,4 +841,66 @@ struct player_research *get_player_research(const struct player *plr)
     return NULL;
   }
   return &(plr->team->research);
+}
+
+/****************************************************************************
+  Returns AI level associated with level name
+****************************************************************************/
+enum ai_level find_ai_level_by_name(const char *name)
+{
+  enum ai_level level;
+
+  for (level = 0; level < AI_LEVEL_LAST; level++) {
+    if (ai_level_names[level] != NULL) {
+      /* Only consider levels that really have names */
+      if (mystrcasecmp(ai_level_names[level], name) == 0) {
+        return level;
+      }
+    }
+  }
+
+  /* No level matches name */
+  return AI_LEVEL_LAST;
+}
+
+/***************************************************************
+  Return localized name of the AI level
+***************************************************************/
+const char *ai_level_name(enum ai_level level)
+{
+  assert(level >= 0 && level < AI_LEVEL_LAST);
+
+  if (ai_level_names[level] == NULL) {
+    return NULL;
+  }
+
+  return _(ai_level_names[level]);
+}
+
+/***************************************************************
+  Return cmd that sets given ai level
+***************************************************************/
+const char *ai_level_cmd(enum ai_level level)
+{
+  assert(level >= 0 && level < AI_LEVEL_LAST);
+
+  if (ai_level_names[level] == NULL) {
+    return NULL;
+  }
+
+  return ai_level_names[level];
+}
+
+/***************************************************************
+  Return is AI can be set to given level
+***************************************************************/
+bool is_settable_ai_level(enum ai_level level)
+{
+  if (level == AI_LEVEL_AWAY) {
+    /* Cannot set away level for AI */
+    return FALSE;
+  }
+
+  /* It's usable if it has name */
+  return ai_level_cmd(level) != NULL;
 }

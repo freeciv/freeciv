@@ -349,6 +349,7 @@ void create_players_dialog(void)
   int i;
   GtkWidget *sep, *sw;
   GtkWidget *menubar, *menu, *item, *vbox;
+  enum ai_level level;
 
   gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(players_dialog_shell, _("Players"));
@@ -510,11 +511,16 @@ void create_players_dialog(void)
   sep = gtk_separator_menu_item_new();
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 
-  for (i = 0; i < NUM_SKILL_LEVELS; i++) {
-    item = gtk_menu_item_new_with_label(_(skill_level_names[i]));
-    g_signal_connect(item, "activate",
-	G_CALLBACK(players_ai_skill_callback), GUINT_TO_POINTER(i));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  for (level = 0; level < AI_LEVEL_LAST; level++) {
+    if (is_settable_ai_level(level)) {
+      const char *level_name = ai_level_name(level);
+
+      item = gtk_menu_item_new_with_label(level_name);
+      g_signal_connect(item, "activate",
+                       G_CALLBACK(players_ai_skill_callback),
+                       GUINT_TO_POINTER(level));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    }
   }
   gtk_widget_show_all(menu);
 
@@ -849,8 +855,8 @@ static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
     my_snprintf(buf, sizeof(buf), "/%s %s",
-	skill_level_names[GPOINTER_TO_UINT(data)],
-	get_player(plrno)->name);
+                ai_level_cmd(GPOINTER_TO_UINT(data)),
+                get_player(plrno)->name);
     send_chat(buf);
   }
 }

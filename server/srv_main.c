@@ -1500,11 +1500,11 @@ void aifill(int amount)
     freelog(LOG_NORMAL,
 	    _("%s has been added as %s level AI-controlled player."),
             pplayer->name,
-	    name_of_skill_level(pplayer->ai.skill_level));
+	    ai_level_name(pplayer->ai.skill_level));
     notify_conn(NULL, NULL, E_SETTING,
 		_("%s has been added as %s level AI-controlled player."),
 		pplayer->name,
-		name_of_skill_level(pplayer->ai.skill_level));
+		ai_level_name(pplayer->ai.skill_level));
 
     game.info.nplayers++;
 

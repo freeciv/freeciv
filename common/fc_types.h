@@ -162,4 +162,15 @@ enum direction8 {
 #define DIR8_LAST 8
 #define DIR8_COUNT DIR8_LAST
 
+/* AI levels. This must correspond to ai_level_names[] in player.c */
+enum ai_level { AI_LEVEL_AWAY         = 1,
+                AI_LEVEL_NOVICE       = 2,
+                AI_LEVEL_EASY         = 3,
+                AI_LEVEL_NORMAL       = 5,
+                AI_LEVEL_HARD         = 7,
+                AI_LEVEL_EXPERIMENTAL = 10,
+                AI_LEVEL_LAST};
+
+#define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
+
 #endif /* FC__FC_TYPES_H */

@@ -85,8 +85,10 @@ static bool show_list(struct connection *caller, char *arg);
 static void show_teams(struct connection *caller);
 static void show_connections(struct connection *caller);
 static void show_scenarios(struct connection *caller);
-static bool set_ai_level(struct connection *caller, char *name, int level, 
-                         bool check);
+static bool set_ai_level_named(struct connection *caller, char *name,
+                               const char *level_name, bool check);
+static bool set_ai_level(struct connection *caller, char *name,
+                         enum ai_level level, bool check);
 static bool set_away(struct connection *caller, char *name, bool check);
 
 static bool observe_command(struct connection *caller, char *name, bool check);
@@ -659,20 +661,6 @@ static bool show_serverid(struct connection *caller, char *arg)
 }
 
 /***************************************************************
- This could be in common/player if the client ever gets
- told the ai player skill levels.
-***************************************************************/
-const char *name_of_skill_level(int level)
-{
-  const char *nm[11] = { "UNUSED", "away", "novice", "easy",
-			 "UNKNOWN", "normal", "UNKNOWN", "hard",
-			 "UNKNOWN", "UNKNOWN", "experimental" };
-  
-  assert(level>0 && level<=10);
-  return nm[level];
-}
-
-/***************************************************************
 ...
 ***************************************************************/
 static int handicap_of_skill_level(int level)
@@ -1087,12 +1075,7 @@ static void write_init_script(char *script_filename)
 	cmdlevel_name(first_access_level));
 
     fprintf(script_file, "%s\n",
-        (game.info.skill_level == 1) ?       "away" :
-	(game.info.skill_level == 2) ?	"novice" :
-	(game.info.skill_level == 3) ?	"easy" :
-	(game.info.skill_level == 5) ?	"medium" :
-	(game.info.skill_level < 10) ?	"hard" :
-					"experimental");
+            ai_level_cmd(game.info.skill_level));
 
     if (*srvarg.metaserver_addr != '\0' &&
 	((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)))) {
@@ -1735,7 +1718,7 @@ void send_server_settings(struct conn_list *dest)
 /******************************************************************
   Set an AI level and related quantities, with no feedback.
 ******************************************************************/
-void set_ai_level_directer(struct player *pplayer, int level)
+void set_ai_level_directer(struct player *pplayer, enum ai_level level)
 {
   pplayer->ai.handicap = handicap_of_skill_level(level);
   pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
@@ -1765,21 +1748,31 @@ static enum command_id cmd_of_level(int level)
 /******************************************************************
   Set an AI level from the server prompt.
 ******************************************************************/
-void set_ai_level_direct(struct player *pplayer, int level)
+void set_ai_level_direct(struct player *pplayer, enum ai_level level)
 {
   set_ai_level_directer(pplayer,level);
   send_player_info(pplayer, NULL);
   cmd_reply(cmd_of_level(level), NULL, C_OK,
 	_("Player '%s' now has AI skill level '%s'."),
-	pplayer->name, name_of_skill_level(level));
+	pplayer->name, ai_level_name(level));
   
 }
 
 /******************************************************************
   Handle a user command to set an AI level.
 ******************************************************************/
+static bool set_ai_level_named(struct connection *caller, char *name,
+                               const char *level_name, bool check)
+{
+  enum ai_level level = find_ai_level_by_name(level_name);
+  return set_ai_level(caller, name, level, check);
+}
+
+/******************************************************************
+  Set AI level
+******************************************************************/
 static bool set_ai_level(struct connection *caller, char *name, 
-                         int level, bool check)
+                         enum ai_level level, bool check)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -1797,7 +1790,7 @@ static bool set_ai_level(struct connection *caller, char *name,
       send_player_info(pplayer, NULL);
       cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
-		pplayer->name, name_of_skill_level(level));
+		pplayer->name, ai_level_name(level));
     } else {
       cmd_reply(cmd_of_level(level), caller, C_FAIL,
 		_("%s is not controlled by the AI."), pplayer->name);
@@ -1813,13 +1806,13 @@ static bool set_ai_level(struct connection *caller, char *name,
 	send_player_info(pplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
-		pplayer->name, name_of_skill_level(level));
+                  pplayer->name, ai_level_name(level));
       }
     } players_iterate_end;
     game.info.skill_level = level;
     cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Default AI skill level set to '%s'."),
-		name_of_skill_level(level));
+              ai_level_name(level));
   } else {
     cmd_reply_no_such_player(cmd_of_level(level), caller, name, match_result);
     return FALSE;
@@ -1848,7 +1841,7 @@ static bool set_away(struct connection *caller, char *name, bool check)
 		_("%s set to away mode."), 
                 caller->player->name);
     send_player_info(caller->player, NULL);
-    set_ai_level_directer(caller->player, 1);
+    set_ai_level_directer(caller->player, AI_LEVEL_AWAY);
     caller->player->ai.control = TRUE;
     cancel_all_meetings(caller->player);
   } else if (!check) {
@@ -3566,15 +3559,11 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   case CMD_AWAY:
     return set_away(caller, arg, check);
   case CMD_NOVICE:
-    return set_ai_level(caller, arg, 2, check);
   case CMD_EASY:
-    return set_ai_level(caller, arg, 3, check);
   case CMD_NORMAL:
-    return set_ai_level(caller, arg, 5, check);
   case CMD_HARD:
-    return set_ai_level(caller, arg, 7, check);
   case CMD_EXPERIMENTAL:
-    return set_ai_level(caller, arg, 10, check);
+    return set_ai_level_named(caller, arg, commands[cmd].name, check);
   case CMD_QUIT:
     return quit_game(caller, check);
   case CMD_CUT:
@@ -4083,7 +4072,7 @@ void show_players(struct connection *caller)
       }
       if(pplayer->ai.control) {
 	cat_snprintf(buf2, sizeof(buf2), _(", difficulty level %s"),
-		     name_of_skill_level(pplayer->ai.skill_level));
+                     ai_level_name(pplayer->ai.skill_level));
       }
       if (!game.info.is_new_game) {
 	cat_snprintf(buf2, sizeof(buf2), _(", nation %s"),

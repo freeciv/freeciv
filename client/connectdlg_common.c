@@ -75,14 +75,6 @@ static bool client_has_hack = FALSE;
 
 int internal_server_port;
 
-const char *skill_level_names[NUM_SKILL_LEVELS] = { 
-  N_("novice"),
-  N_("easy"), 
-  N_("normal"), 
-  N_("hard")
- ,N_("experimental")
-};
-
 /************************************************************************** 
 The general chain of events:
 

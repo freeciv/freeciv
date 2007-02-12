@@ -1522,21 +1522,9 @@ void update_conn_list_dialog(void)
       } conn_list_iterate_end;
 
       if (pplayer->ai.control) {
-	sz_strlcpy(name, _("<AI>"));
-	switch (pplayer->ai.skill_level) {
-	case 2:
-	  sz_strlcpy(name, _("<Novice AI>"));
-	  break;
-	case 3:
-	  sz_strlcpy(name, _("<Easy AI>"));
-	  break;
-	case 5:
-	  sz_strlcpy(name, _("<Normal AI>"));
-	  break;
-	case 7:
-	  sz_strlcpy(name, _("<Hard AI>"));
-	  break;
-	}
+        /* TRANS: "<Novice AI>" */
+        my_snprintf(name, sizeof(name), _("<%s AI>"),
+                    ai_level_name(pplayer->ai.skill_level));
       } else if (access_level <= ALLOW_INFO) {
 	sz_strlcpy(name, pplayer->username);
       } else {

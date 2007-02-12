@@ -104,7 +104,7 @@ struct player_ai {
   /* The units of tech_want seem to be shields */
   int tech_want[A_LAST+1];
   int handicap;			/* sum of enum handicap_type */
-  int skill_level;		/* 0-10 value for save/load/display */
+  enum ai_level skill_level;   	/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */
   int expand;			/* percentage factor to value new cities */
   int science_cost;             /* Cost in bulbs to get new tech, relative
@@ -304,5 +304,9 @@ struct player_research *get_player_research(const struct player *p1);
 /* User functions. */
 bool is_valid_username(const char *name);
 
+enum ai_level find_ai_level_by_name(const char *name);
+const char *ai_level_name(enum ai_level level);
+const char *ai_level_cmd(enum ai_level level);
+bool is_settable_ai_level(enum ai_level level);
 
 #endif  /* FC__PLAYER_H */

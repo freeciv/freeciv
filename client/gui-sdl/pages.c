@@ -62,7 +62,7 @@ static int start_new_game_callback(struct widget *pWidget)
       /* Send new game defaults. */
       send_chat("/set aifill 5");
   
-      my_snprintf(buf, sizeof(buf), "/%s", skill_level_names[0]);
+      my_snprintf(buf, sizeof(buf), "/%s", ai_level_cmd(AI_LEVEL_DEFAULT));
       send_chat(buf);
     }
   }

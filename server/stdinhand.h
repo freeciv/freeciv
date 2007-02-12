@@ -26,8 +26,8 @@ void stdinhand_free(void);
 bool handle_stdin_input(struct connection *caller, char *str, bool check);
 void report_server_options(struct conn_list *dest, int which);
 void send_server_settings(struct conn_list *dest);
-void set_ai_level_direct(struct player *pplayer, int level);
-void set_ai_level_directer(struct player *pplayer, int level);
+void set_ai_level_direct(struct player *pplayer, enum ai_level level);
+void set_ai_level_directer(struct player *pplayer, enum ai_level level);
 bool read_init_script(struct connection *caller, char *script_filename,
                       bool from_cmdline);
 void show_players(struct connection *caller);
@@ -37,8 +37,6 @@ bool load_command(struct connection *caller, char *arg, bool check);
 
 void toggle_ai_player_direct(struct connection *caller,
 			     struct player *pplayer);
-
-const char *name_of_skill_level(int level);
 
 /* for sernet.c in initing a new connection */
 enum cmdlevel_id access_level_for_next_connection(void);
