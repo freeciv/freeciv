@@ -7,20 +7,23 @@ legend=_("The Inca were an Amerind people of the Northern Andes who\
  conquered an empire stretching along the west coast of South America\
  from what is now southern Chile nearly to the Equator. They had the bad\
  timing to do it just a few decades before the Spanish conquistadors\
- arrived in their part of the world in the mid-1500s AD.")
+ arrived in their part of the world in the 1530s CE.")
 leader=
- "Túpac Amaru",
- "Manco Capac",
- "Atahualpa",
- "Pachacuti"
-leader_sex="Male", "Male", "Male", "Male"
+ "Túpaq Amaru",
+ "Manqo Qhapaq",
+ "Atawallpa",
+ "Pachakuti Inka Yupanki",
+ "Thupa Inka Yupanki"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="inca"
 flag_alt = "peru"	; Used previously
 city_style = "Tropical"
 
+; The title of a queen (if female rulers are ever added) would be Qoya.
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("?title:Inca"),  _("?title:Inca")
-                 "Monarchy",        _("Sapa Inca"),    _("Sapa Inca")
+                 "Despotism",       _("Inka"),         _("Inka")
+                 "Monarchy",        _("Sapa Inka"),    _("Sapa Inka")
+                 "Fundamentalism",  _("Willaq Umu"),   _("Willaq Umu")
                }
 
 init_techs=""
@@ -30,52 +33,57 @@ init_units=""
 civilwar_nations="aztec", "mayan"
 
 cities =
- "Cuzco",
- "Machu Picchu",
- "Quito",
+ "Qosqo",
+ "Kitu",
  "Chan Chan",
- "Pucara",
- "Chimbote",
- "Cupisnique",
- "Paracas",
- "Huari",
- "Pachacamac",
- "Paramonga",
- "Supe",
- "Ancon",
- "Cajamarquilla",
- "Ocucaje",
- "Cahauchi",
- "Arequipa",
- "Tihuanaco",
- "Chiripa",
- "Ollantaytambo",
+ "Pachakamaq",
+ "Ullantaytampu",
+ "Chimputi",
+ "Paramunka",
+ "Supi",
+ "Anqon",
  "Pikillacta",
- "Lauricocha",
- "Chavin de Huantar",
- "Cerro Sechin",
- "Moche",
- "Huamachuchu",
- "Cajamara",
- "Lambayeque",
- "Pacasmayo",
- "Huaca Prieta",
- "Pampa de Paijan",
- "Latacunga",
- "Ambato",
- "Quevedo",
- "Ingapirca",
- "Saraguro",
- "Tomebamba",
- "Tumbes",
- "Piura",
- "Huanco",
- "Jauja",
- "Urubamba",
- "Ayacucho",
- "Pica",
- "Tupiza",
- "Tilcara",
- "Talca",
- "Pisac",
- "Vitcos"
+ "Kashamarka",
+ "Lampalliqi",
+ "Pakasmayu",
+ "Chiklayu",
+ "Llaqtakunka",
+ "Ampatu",
+ "Inkapirka",
+ "Sarakuru",
+ "Pumapunqo",
+ "Tumipampa",
+ "Tunpis",
+ "Pirwa",
+ "Wanku",
+ "Hatun Xauxa",
+ "Urupampa",
+ "Wamanqa",
+ "Wankayu",
+ "Pika",
+ "Tupisa",
+ "Tilkara",
+ "Talqa",
+ "P'isaq",
+ "Witqos",
+ "Wilkaswaman",
+ "Milliraya",
+ "Waras",
+ "Inkawasi",
+ "Machu Pikchu",
+ "Pukallaqta",
+ "Katarpi",
+ "Chilisitu",
+ "Tipun",
+ "Pumu Urqo",
+ "Paumartampu",
+ "Amankay",
+ "Antawaylas",
+ "Samaipata",
+ "Tukumi",
+ "Sallana",
+ "Hatun Qolla",
+ "Yanamarka",
+ "Pumpu",
+ "Ariqipa",
+ "Wari"
