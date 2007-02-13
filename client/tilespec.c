@@ -3573,20 +3573,23 @@ static int fill_terrain_sprite_array(struct tileset *t,
 
   if (draw->layer[l].match_style == MATCH_NONE) {
     int count = sprite_vector_size(&draw->layer[l].base);
-    int ox = draw->layer[l].offset_x, oy = draw->layer[l].offset_y;
 
-    /* Pseudo-random reproducable algorithm to pick a sprite. */
-#define LARGE_PRIME 10007
-#define SMALL_PRIME 1009
-    assert(count < SMALL_PRIME);
-    assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
-    count = ((ptile->index
-	      * LARGE_PRIME) % SMALL_PRIME) % count;
-    if (draw->layer[l].is_tall) {
-      ox += FULL_TILE_X_OFFSET;
-      oy += FULL_TILE_Y_OFFSET;
+    if (count > 0) {
+      /* Pseudo-random reproducable algorithm to pick a sprite. */
+      const int LARGE_PRIME = 10007;
+      const int SMALL_PRIME = 1009;
+      int ox = draw->layer[l].offset_x, oy = draw->layer[l].offset_y;
+
+      assert(count < SMALL_PRIME);
+      assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
+      count = ((ptile->index
+		* LARGE_PRIME) % SMALL_PRIME) % count;
+      if (draw->layer[l].is_tall) {
+	ox += FULL_TILE_X_OFFSET;
+	oy += FULL_TILE_Y_OFFSET;
+      }
+      ADD_SPRITE(draw->layer[l].base.p[count], TRUE, ox, oy);
     }
-    ADD_SPRITE(draw->layer[l].base.p[count], TRUE, ox, oy);
   } else {
     int match_type = draw->layer[l].match_type;
 
