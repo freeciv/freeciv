@@ -7,7 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    Hogne Håskjold
+    Hogne HÃ¥skjold
     Daniel Speyer
     Yautja
     CapTVK

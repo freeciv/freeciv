@@ -8,7 +8,7 @@ options = "+spec3"
 
 artists = "
     Rafal Bursig <bursig@poczta.fm>
-    Hogne Håskjold <haskjold@gmail.com>
+    Hogne HÃ¥skjold <haskjold@gmail.com>
 "
 
 [file]

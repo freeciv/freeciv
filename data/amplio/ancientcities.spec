@@ -23,7 +23,7 @@ artists = "
     Polynesian style by CapTVK
     Celtic style by Erwan, adapted to 96x48 by CapTVK
     Roman style by CapTVK
-    City walls by Hogne Håskjold
+    City walls by Hogne HÃ¥skjold
 "
 
 [file]
