@@ -21,7 +21,7 @@ options = "+spec3"
 artists = "
     Medieval by CapTVK
     Steam Age by Smiley, www.firstcultural.com
-    City walls by Hogne Håskjold
+    City walls by Hogne HÃ¥skjold
 "
 
 [file]

@@ -7,7 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    Hogne Håskjold <hogne@freeciv.org>
+    Hogne HÃ¥skjold <hogne@freeciv.org>
     civicon: Made from the globe in the intro picture
     cityicon: City gfx by smiley
 "

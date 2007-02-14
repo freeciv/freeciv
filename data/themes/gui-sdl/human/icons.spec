@@ -6,7 +6,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    Hogne Håskjold <haskjold@gmail.com>
+    Hogne HÃ¥skjold <haskjold@gmail.com>
     Light bulb and sign from Ubuntu Human theme
     Skull from Battle for Wesnoth
 "

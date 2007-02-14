@@ -7,7 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    Hogne Håskjold <haskjold@gmail.com>
+    Hogne HÃ¥skjold <haskjold@gmail.com>
 "
 
 [file]

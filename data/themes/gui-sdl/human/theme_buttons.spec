@@ -7,13 +7,13 @@ options = "+spec3"
 [info]
 
 artists = "
-    Delete icon by Michael Speck <kulkanie@gmx.net>, modified by Hogne Håskjold
+    Delete icon by Michael Speck <kulkanie@gmx.net>, modified by Hogne HÃ¥skjold
     Rafal Bursig <bursig@poczta.fm>
     Christian Prochaska <cp.ml.freeciv.dev@googlemail.com>
-    Hogne Håskjold <haskjold@gmail.com>
+    Hogne HÃ¥skjold <haskjold@gmail.com>
     Icons from Ubuntu Human Theme: next arrow, back arrow, left arrow, right arrow,
     up arrow, down arrow, new turn gear, CMA monitor
-    lock icon and floppy disk (modified by Hogne Håskjold) from gnome-icon-theme 
+    lock icon and floppy disk (modified by Hogne HÃ¥skjold) from gnome-icon-theme 
     (http://ftp.gnome.org/pub/GNOME/sources/gnome-icon-theme/)
 "
 

@@ -19,9 +19,9 @@ options = "+spec3"
 [info]
 
 artists = "
-    Airfield, city walls and misc stuff Hogne Håskjold <hogne@freeciv.org>
+    Airfield, city walls and misc stuff Hogne HÃ¥skjold <hogne@freeciv.org>
     Modern, Post Modern and Electric Age by Smiley, www.firstcultural.com
-    City walls by Hogne Håskjold
+    City walls by Hogne HÃ¥skjold
 "
 
 [file]

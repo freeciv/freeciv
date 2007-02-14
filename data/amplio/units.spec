@@ -17,7 +17,7 @@ options = "+spec3"
 
 artists = "
     Alex Mor (Alex)
-    Allard H.S. Höfelt (AHS)
+    Allard H.S. HÃ¶felt (AHS)
     Bebro (BB)
     Captain Nemo (Nemo)(MHN)
     CapTVK (CT) <thomas@worldonline.nl>

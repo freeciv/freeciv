@@ -7,7 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    Hogne Håskjold
+    Hogne HÃ¥skjold
     Tim F. Smith <yoohootim@hotmail.com>
     Yautja
     Daniel Speyer
