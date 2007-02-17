@@ -17,7 +17,9 @@ city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
 		 ; /* TRANS: Ajaw = Lord */
-                 "Republic",        _("Ajaw"),         _("?female:Ajaw")
+                 "Monarchy",        _("Ajaw"),         _("?female:Ajaw")
+		 ; /* TRANS: Ah kin = Priest */
+                 "Fundamentalism",  _("Ah kin"),       _("?female:Ah kin")
                }
 
 init_techs=""
