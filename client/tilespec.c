@@ -106,6 +106,7 @@ struct terrain_drawing_data {
   } layer[MAX_NUM_LAYERS];
 
   bool is_blended;
+  bool is_reversed;
   struct sprite *blend[4]; /* indexed by a direction4 */
 
   struct sprite *mine;
@@ -1444,6 +1445,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     terr->name = mystrdup(terrains[i] + strlen("terrain_"));
     terr->is_blended = secfile_lookup_bool(file, "%s.is_blended",
 					    terrains[i]);
+    terr->is_reversed = secfile_lookup_bool_default(file, FALSE,
+						    "%s.is_reversed",
+						    terrains[i]);
     terr->num_layers = secfile_lookup_int(file, "%s.num_layers",
 					  terrains[i]);
     terr->num_layers = CLIP(1, terr->num_layers, MAX_NUM_LAYERS);
@@ -3539,7 +3543,7 @@ static int fill_fog_sprite_array(const struct tileset *t,
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct tileset *t,
 				     struct drawn_sprite *sprs,
-				     int layer,
+				     int layer_num,
 				     const struct tile *ptile,
 				     struct terrain **tterrain_near)
 {
@@ -3547,7 +3551,8 @@ static int fill_terrain_sprite_array(struct tileset *t,
   struct sprite *sprite;
   struct terrain *pterrain = ptile->terrain;
   struct terrain_drawing_data *draw = t->sprites.terrain[pterrain->index];
-  const int l = layer;
+  const int l = (draw->is_reversed
+		 ? (draw->num_layers - layer_num - 1) : layer_num);
   int i, tileno;
   struct tile *adjc_tile;
 
@@ -3559,7 +3564,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
   /* FIXME: this should avoid calling load_sprite since it's slow and
    * increases the refcount without limit. */
   if (ptile->spec_sprite && (sprite = load_sprite(t, ptile->spec_sprite))) {
-    if (layer == 0) {
+    if (l == 0) {
       ADD_SPRITE_SIMPLE(sprite);
       return 1;
     } else {
