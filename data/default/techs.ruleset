@@ -498,7 +498,7 @@ helptext = _("Improves the effect of Temples.")
 name     = _("Navigation")
 req1     = "Seafaring"
 req2     = "Astronomy"
-flags    = "Reduce_Trireme_Loss2"
+flags    = ""
 graphic     = "a.navigation"
 graphic_alt = "-"
 
@@ -629,7 +629,7 @@ graphic_alt = "-"
 name     = _("Seafaring")
 req1     = "Pottery"
 req2     = "Map Making"
-flags    = "Reduce_Trireme_Loss1"
+flags    = ""
 graphic     = "a.seafaring"
 graphic_alt = "-"
 

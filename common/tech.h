@@ -59,8 +59,6 @@ enum tech_flag_id {
   TF_POPULATION_POLLUTION_INC,  /* Increase the pollution factor created by popultaion by one */
   TF_AIRBASE,   /* "Airbase" unit types can build Airbases */
   TF_FARMLAND,  /* "Settler" unit types can build farmland */
-  TF_REDUCE_TRIREME_LOSS1, /* Reduces chance of Trireme being lost at sea */
-  TF_REDUCE_TRIREME_LOSS2, /* Reduces chance of Trireme being lost at sea */
   TF_BUILD_AIRBORNE, /* Player can build air units */
   TF_LAST
 };
