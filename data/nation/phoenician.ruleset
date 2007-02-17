@@ -26,49 +26,65 @@ civilwar_nations="turk", "carthaginian", "israeli"
 
 cities =
  "Sur", 	; English: "Tyre"
- "Sidon",
- "Birot",	; Greek: "Berytos"; Modern "Beirut"
+ "Saidoon", ; English: "Sidon", modern "Sayda"
+ "Berut",	; Greek: "Berytos"; Modern "Beirut"
  "Gebal",	; Greek: "Byblos"
- "Arados",
  "Batrun", 
- "Tripoli",
+ "Athar",   ; Greek: "Tripoli" in Lebanon
+ "Sarepta", ; modern "Sarafand"
  "Ugarit",
- "Baalbeck",
- "Arvad",
- "Joppa",
- "Kition",
- "Leptis",	; Same as "Leptis Magna"?
- "Oia",		; alt.spelling "Oea"
- "Sebrata",
- "Massalia",
- "Carthago",	; Phoenician: "Kart-Hadasht"
- "Gadir",
- "Ebusos",
- "Hadrumetum",
+ "Baalbek",
+ "Arvad",   ; Greek: " "Arados"
+ "Yafo",    ; modern "Jaffa"
+ "Kition",  ; modern "Larnaka"
+ "Amathus",
+ "Zemar",
+ "Safita",
+ "Leptis",	; Latin: "Leptis Magna"
+ "Oia",     ; modern "Tarabulus" (English: "Tripoli" in Lybia), alt.spelling "Oea"
+ "Sabratha",
+ "Lilibeo",   ; Latin: "Lilybaeum", modern "Marsala"
+ "Qart Hadasht",	; Latin: "Carthago"
+ "Gadir",         ; modern "Cadiz"
+ "Ibshim",     ; Latin: "Ebusos", modern "Ibiza"
+ "Hadrumetum",     ; modern "Sousse"
  "Tipasa",
- "Siga",
- "Lixus",
- "Mogador",
+ "Siga",     ; modern "Rachgoun"
+ "Lixus",     ; modern "Larache"
+ "Har Anbin",  ; Portuguese: "Mogador", modern "Essaouira"
  "Nora",
  "Sulcis",
  "Tharros",
- "Malaca",
- "Sexi",
+ "Malaka",   ; modern "Malaga"
+ "Sexi",    ; modern "Almuñecár"
  "Utica", 
  "Karalis",
  "Zili",
- "Tingis",
- "Onoba",
- "Icosium",
- "Hippo",
+ "Tingis",   ; modern "Tangier"
+ "Melita",  ; modern "Malta"
+ "Onoba",    ; modern "Huelva"
+ "Ikosim",  ; Latin: "Icosium", modern "Algiers"
+ "Hippo",   ; Latin: "Hippo Regius", modern "Annaba"
  "Acholla",
  "Kossyra",
- "Abdera",
+ "Abdera",   ; modern "Almeria"
  "Solus",
  "Motye",
- "Gaulos",
- "Melita",
- "Sulci",
+ "Gaulos",  ; modern "Gozo"
+ "Sulcis",
  "Karteia",
- "Panormos",
- "Hippo Diarrhytos"
+ "Ziz",       ; Latin: "Panormos", modern "Palermo"
+ "Hippo Diarrhytos",   ; modern "Bizerte"
+ "Kerkouane",
+ "Thapsus",
+ "Rusicade",  ; modern "Skikda"
+ "Theveste",
+ "Iol",
+ "Rusadir",    ; modern "Melilla"
+ "Akra Leuke", ; modern "Alicante"
+ "Ligs",
+ "Agadir",
+ "Kir Chares", ; modern "Azzemour"
+ "Rash",
+ "Gytte",
+ "Kossyra"   ; modern "Pantelleria"
