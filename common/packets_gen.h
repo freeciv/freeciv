@@ -803,7 +803,6 @@ struct packet_ruleset_unit {
 struct packet_ruleset_game {
   int default_specialist;
   int global_init_techs[MAX_NUM_TECH_LIST];
-  int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
 };

@@ -112,7 +112,6 @@ struct civ_game {
     bool save_private_map; /* FoW map; will be created if not saved */
   } save_options;
 
-  int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
 

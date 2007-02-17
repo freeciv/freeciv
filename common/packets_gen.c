@@ -22378,7 +22378,7 @@ void lsend_packet_ruleset_unit(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_game_100 cmp_const
 
-BV_DEFINE(packet_ruleset_game_100_fields, 5);
+BV_DEFINE(packet_ruleset_game_100_fields, 4);
 
 static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connection *pc, enum packet_type type)
 {
@@ -22423,27 +22423,12 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->trireme_loss_chance[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 3)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < MAX_VET_LEVELS; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
       real_packet->work_veteran_chance[i] = readin;
     }
       }
     }
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
     
     {
       int i;
@@ -22518,7 +22503,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       if(!differ) {
         int i;
         for (i = 0; i < MAX_VET_LEVELS; i++) {
-          if (old->trireme_loss_chance[i] != real_packet->trireme_loss_chance[i]) {
+          if (old->work_veteran_chance[i] != real_packet->work_veteran_chance[i]) {
             differ = TRUE;
             break;
           }
@@ -22534,22 +22519,6 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       if(!differ) {
         int i;
         for (i = 0; i < MAX_VET_LEVELS; i++) {
-          if (old->work_veteran_chance[i] != real_packet->work_veteran_chance[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-
-    {
-      differ = (MAX_VET_LEVELS != MAX_VET_LEVELS);
-      if(!differ) {
-        int i;
-        for (i = 0; i < MAX_VET_LEVELS; i++) {
           if (old->veteran_chance[i] != real_packet->veteran_chance[i]) {
             differ = TRUE;
             break;
@@ -22558,7 +22527,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
+  if(differ) {BV_SET(fields, 3);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22578,21 +22547,11 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       int i;
 
       for (i = 0; i < MAX_VET_LEVELS; i++) {
-        dio_put_uint8(&dout, real_packet->trireme_loss_chance[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 3)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < MAX_VET_LEVELS; i++) {
         dio_put_uint8(&dout, real_packet->work_veteran_chance[i]);
       }
     } 
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
   
     {
       int i;

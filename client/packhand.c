@@ -2590,7 +2590,6 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   DEFAULT_SPECIALIST = packet->default_specialist;
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
-    game.trireme_loss_chance[i] = packet->trireme_loss_chance[i];
     game.work_veteran_chance[i] = packet->work_veteran_chance[i];
     game.veteran_chance[i] = packet->work_veteran_chance[i];
   }

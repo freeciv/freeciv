@@ -1092,7 +1092,6 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 default_specialist;
 
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
-  UINT8 trireme_loss_chance[MAX_VET_LEVELS];
   UINT8 work_veteran_chance[MAX_VET_LEVELS];
   UINT8 veteran_chance[MAX_VET_LEVELS];
 end

@@ -1014,19 +1014,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     free(def_vblist);
   }
 
-  /* highseas loss pct */
-  def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
-  		  	"veteran_system.veteran_highseas_loss_pct");
-  for (i = 0; i < vet_levels_default; i++) {
-    game.trireme_loss_chance[i] = def_vblist[i];
-  }
-  for (; i < MAX_VET_LEVELS; i++) {
-    game.trireme_loss_chance[i] = 50; /* default */
-  }
-  if (def_vblist) {
-    free(def_vblist);
-  }
-  
   /* move bonus */
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_move_bonus");
@@ -3205,8 +3192,6 @@ static void send_ruleset_game(struct conn_list *dest)
 {
   struct packet_ruleset_game misc_p;
 
-  memcpy(misc_p.trireme_loss_chance, game.trireme_loss_chance, 
-         sizeof(game.trireme_loss_chance));
   memcpy(misc_p.work_veteran_chance, game.work_veteran_chance, 
          sizeof(game.work_veteran_chance));
   memcpy(misc_p.veteran_chance, game.veteran_chance, 

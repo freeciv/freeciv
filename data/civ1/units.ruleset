@@ -28,10 +28,6 @@ veteran_power_fact = 100, 150
 ; performing useful work (per turn)
 veteran_work_raise_chance = 0, 0
 
-; The chances of a trireme being lost at sea when not adjacent to a
-; land tile.
-veteran_highseas_loss_pct = 50, 50
-
 ; The additional number of movement points granted for different veteran
 ; levels.  These are thirds of points, so to increase movement
 ; by a whole point 3 must be specified.
