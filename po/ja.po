@@ -144,7 +144,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-03 15:28-0500\n"
+"POT-Creation-Date: 2007-02-17 00:30-0500\n"
 "PO-Revision-Date: 2004-09-23 11:47+0900\n"
 "Last-Translator: MITA Yuusuke <clefs@mail.goo.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -787,7 +787,7 @@ msgstr "(なし)"
 #: client/gui-mui/helpdlg.c:693 client/gui-mui/repodlgs.c:181
 #: client/gui-sdl/citydlg.c:716 client/gui-sdl/helpdlg.c:349
 #: client/gui-sdl/helpdlg.c:379 client/gui-sdl/helpdlg.c:752
-#: client/gui-sdl/helpdlg.c:775 client/gui-sdl/mapview.c:759
+#: client/gui-sdl/helpdlg.c:775 client/gui-sdl/mapview.c:948
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:714 client/gui-win32/helpdlg.c:734
 #: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
@@ -1291,7 +1291,7 @@ msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (AI)* 同意した。%sよ，もはや敵対関係を止めよう。"
 
 # clefs
-#: ai/advdiplomacy.c:797
+#: ai/advdiplomacy.c:800
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
@@ -1302,14 +1302,14 @@ msgstr ""
 
 # clefs
 # 宇宙船を打ち上げると首都を奪いにくる
-#: ai/advdiplomacy.c:1073
+#: ai/advdiplomacy.c:1078
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (AI)* 宇宙は貴国のものにはさせない。"
 
 # clefs
 # XXX `vicious antics'
-#: ai/advdiplomacy.c:1077
+#: ai/advdiplomacy.c:1082
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (AI)* 貴様の悪ふざけにはもう我慢の限界だ。戦争だ！"
@@ -1317,13 +1317,13 @@ msgstr "*%s (AI)* 貴様の悪ふざけにはもう我慢の限界だ。戦争�
 # clefs
 # was "*%s (AI)* 平和な時は...終わりだ!"
 # some other timeというのは過去でなく未来のいつか、今ではないということでは?
-#: ai/advdiplomacy.c:1082
+#: ai/advdiplomacy.c:1087
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (AI)* 平和を……いつの日にか，な。"
 
 # clefs
-#: ai/advdiplomacy.c:1087
+#: ai/advdiplomacy.c:1092
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -1333,20 +1333,20 @@ msgstr ""
 "いたわけではあるまいな？"
 
 # clefs
-#: ai/advdiplomacy.c:1093
+#: ai/advdiplomacy.c:1098
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (AI)* おまえの隠然たる敵対行為がこの戦争をもたらしたのだ！"
 
 # clefs
 # was "*%s (AI)* 貴国の我が同盟国に対する行いは、貴国の最後の過ちだ!"
-#: ai/advdiplomacy.c:1099
+#: ai/advdiplomacy.c:1104
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)* 貴国の%sに対する行いは，貴国の最後の過ちだ!"
 
 # clefs
-#: ai/advdiplomacy.c:1182
+#: ai/advdiplomacy.c:1187
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -1359,7 +1359,7 @@ msgstr[0] ""
 "争に突入する。"
 
 # clefs
-#: ai/advdiplomacy.c:1190
+#: ai/advdiplomacy.c:1195
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -1369,7 +1369,7 @@ msgstr ""
 "かんことを！"
 
 # clefs
-#: ai/advdiplomacy.c:1195
+#: ai/advdiplomacy.c:1200
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -1384,7 +1384,7 @@ msgstr[0] ""
 "る，貴国も同盟を尊重し我々に続くように！"
 
 # clefs
-#: ai/advdiplomacy.c:1206
+#: ai/advdiplomacy.c:1211
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -1396,14 +1396,14 @@ msgstr[0] ""
 "*%s (AI)* 我々は%sの豊かな文明を略奪してやるつもりだ。%dターン後に宣戦する。"
 
 # clefs
-#: ai/advdiplomacy.c:1212
+#: ai/advdiplomacy.c:1217
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* 戦利品の分け前が欲しいなら，遠慮なく参加してくれたまえ！"
 
 # clefs
-#: ai/advdiplomacy.c:1216
+#: ai/advdiplomacy.c:1221
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -1416,7 +1416,7 @@ msgstr[0] ""
 "れようではないか。%dターン後に宣戦する。"
 
 # clefs
-#: ai/advdiplomacy.c:1224
+#: ai/advdiplomacy.c:1229
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
@@ -1424,7 +1424,7 @@ msgstr ""
 "る。"
 
 # clefs
-#: ai/advdiplomacy.c:1229
+#: ai/advdiplomacy.c:1234
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
@@ -1437,7 +1437,7 @@ msgstr[0] ""
 "我々もすぐ駆けつける！"
 
 # clefs
-#: ai/advdiplomacy.c:1236
+#: ai/advdiplomacy.c:1241
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
@@ -1450,7 +1450,7 @@ msgstr[0] ""
 "我々に続くものと期待する。"
 
 # clefs
-#: ai/advdiplomacy.c:1303
+#: ai/advdiplomacy.c:1308
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
@@ -1459,7 +1459,7 @@ msgstr ""
 "*%s (AI)* 貴国が単独で宇宙を征服しようとしているのを見れば貴国の意図は明らか"
 "だ。同盟は破棄させてもらう！"
 
-#: ai/advdiplomacy.c:1317
+#: ai/advdiplomacy.c:1322
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -1468,7 +1468,7 @@ msgstr ""
 "*%s(AI)* 貴国の一方的に宇宙空間を支配しようとする試みは大変攻撃的なものであ"
 "る。"
 
-#: ai/advdiplomacy.c:1319
+#: ai/advdiplomacy.c:1324
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -1477,14 +1477,14 @@ msgstr ""
 "*%s (AI)* もし貴国が宇宙船の建設を中止しないならば，我が国は何らかの行動にで"
 "ることも辞さない!"
 
-#: ai/advdiplomacy.c:1430
+#: ai/advdiplomacy.c:1435
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (AI)* すまないが，貴国と視野を共有することは我が国にとってもはや安全な事"
 "ではない。"
 
-#: ai/advdiplomacy.c:1507
+#: ai/advdiplomacy.c:1510
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -1493,7 +1493,7 @@ msgstr ""
 "*%s (AI)* 我が最も信頼のおける同盟国諸君よ，我々は%sを打倒するために貴国の力"
 "を必要としている。"
 
-#: ai/advdiplomacy.c:1512
+#: ai/advdiplomacy.c:1515
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -1504,7 +1504,7 @@ msgstr ""
 "らんのだ?"
 
 # clefs
-#: ai/advdiplomacy.c:1517
+#: ai/advdiplomacy.c:1520
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -1516,7 +1516,7 @@ msgstr ""
 "だ！"
 
 # clefs
-#: ai/advdiplomacy.c:1545
+#: ai/advdiplomacy.c:1548
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -1524,13 +1524,13 @@ msgid ""
 msgstr "*%s (AI)* 親愛なる友人よ，大義を共有し同盟を結ぼうではないか？"
 
 # clefs
-#: ai/advdiplomacy.c:1560
+#: ai/advdiplomacy.c:1563
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr "*%s (AI)* 親愛なる隣人よ，より平和的な関係を持とうではないか？"
 
 # clefs
-#: ai/advdiplomacy.c:1574
+#: ai/advdiplomacy.c:1577
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -1539,7 +1539,7 @@ msgstr "*%s (AI)* 相続く流血にはうんざりです。停戦を結ぼう�
 
 # clefs
 # msgstr "*%s (AI)* %sは我々両国を脅かしている。我々は停戦をすべきではないか?"
-#: ai/advdiplomacy.c:1694
+#: ai/advdiplomacy.c:1697
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
@@ -4460,18 +4460,18 @@ msgstr "サポートしていない政治体制(%s)"
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr ""
 
-#: server/savegame.c:3424
+#: server/savegame.c:3434
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "savegame は古過ぎます。1.9.0 以上が必要です。"
 
-#: server/savegame.c:3637
+#: server/savegame.c:3647
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "savegame はもうサポートされていない classic terrain ルールセットを使っていま"
 "す。"
 
-#: server/savegame.c:3646
+#: server/savegame.c:3656
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4481,7 +4481,7 @@ msgstr ""
 "使います。"
 
 # clefs
-#: server/savegame.c:3870
+#: server/savegame.c:3880
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -10133,17 +10133,17 @@ msgstr "ホームディレクトリが見つかりません。"
 msgid "Save failed, cannot find a filename."
 msgstr "保存は失敗しました。ファイル名を見つけれません。"
 
-#: client/options.c:635
+#: client/options.c:636
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "手でプリセットを追加するなら， \"number_of_presets\" もアップデートして下さい"
 
-#: client/options.c:646
+#: client/options.c:647
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "保存が失敗しました。ファイル %s へ書き込めません"
 
-#: client/options.c:649
+#: client/options.c:650
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "設定をファイル %s へ保存しました。"
@@ -10323,25 +10323,25 @@ msgid "Failed looking up metaserver's host"
 msgstr "メタサーバのホストのルックアップに失敗しました。"
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
-#: client/gui-sdl/mapview.c:552
+#: client/gui-sdl/mapview.c:738
 msgid "?nation:Neutral"
 msgstr "中立国"
 
-#: client/text.c:83 client/gui-sdl/mapview.c:552
+#: client/text.c:83 client/gui-sdl/mapview.c:738
 msgid "?nation:Hostile"
 msgstr "敵国"
 
 # ntaka なんて訳せばよいか悩んだが、和平を結んだ国では長いので友好国
 # clefs 友好通商条約あたりを結んでいるような関係ですね
-#: client/text.c:85 client/gui-sdl/mapview.c:554
+#: client/text.c:85 client/gui-sdl/mapview.c:740
 msgid "?nation:Peaceful"
 msgstr "友好国"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:554
+#: client/text.c:85 client/gui-sdl/mapview.c:740
 msgid "?nation:Friendly"
 msgstr "同盟国"
 
-#: client/text.c:86 client/gui-sdl/mapview.c:555
+#: client/text.c:86 client/gui-sdl/mapview.c:741
 msgid "?nation:Mysterious"
 msgstr "未接触の国"
 
@@ -10349,23 +10349,23 @@ msgstr "未接触の国"
 msgid "?nation:Friendly(team)"
 msgstr "同盟国(チーム)"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:585
+#: client/text.c:88 client/gui-sdl/mapview.c:771
 msgid "?city:Neutral"
 msgstr "?city:中立"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:585
+#: client/text.c:88 client/gui-sdl/mapview.c:771
 msgid "?city:Hostile"
 msgstr "?city:敵対"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:586
+#: client/text.c:90 client/gui-sdl/mapview.c:772
 msgid "?city:Peaceful"
 msgstr "和平"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:587
+#: client/text.c:90 client/gui-sdl/mapview.c:773
 msgid "?city:Friendly"
 msgstr "同盟"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:587
+#: client/text.c:90 client/gui-sdl/mapview.c:773
 msgid "?city:Mysterious"
 msgstr "未接触"
 
@@ -10441,7 +10441,7 @@ msgstr[0] "都市: %s (%s,%dターンの停戦中)"
 msgid "City: %s (%s, %s)"
 msgstr "都市: %s (%s, %s)"
 
-#: client/text.c:176 client/gui-sdl/mapview.c:601
+#: client/text.c:176 client/gui-sdl/mapview.c:787
 #, fuzzy
 msgid " with "
 msgstr " (共同 "
@@ -10689,43 +10689,43 @@ msgid_plural "%d units"
 msgstr[0] "%d 部隊"
 
 # clefs
-#: client/text.c:686
+#: client/text.c:686 client/gui-sdl/mapview.c:558
 #, c-format
 msgid "Turns to target: %d"
 msgstr "目的地までのターン数: %d"
 
 # clefs
-#: client/text.c:688
+#: client/text.c:688 client/gui-sdl/mapview.c:560
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "目的地までのターン数: %d から %d"
 
 # clefs
-#: client/text.c:694
+#: client/text.c:694 client/gui-sdl/mapview.c:566
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d部隊が選択されています"
 
 # clefs
-#: client/text.c:699
+#: client/text.c:699 client/gui-sdl/mapview.c:571
 msgid "No units selected."
 msgstr "部隊が選択されていません"
 
 # clefs
-#: client/text.c:772
+#: client/text.c:772 client/gui-sdl/mapview.c:644
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "その他: %d 民間人; %d 軍人"
 
 # clefs
-#: client/text.c:774
+#: client/text.c:774 client/gui-sdl/mapview.c:646
 #, c-format
 msgid "Others: %d civilian"
 msgstr "その他: %d 民間人"
 
 # clefs
-#: client/text.c:776
+#: client/text.c:776 client/gui-sdl/mapview.c:648
 #, c-format
 msgid "Others: %d military"
 msgstr "その他: %d 軍人"
@@ -11041,7 +11041,7 @@ msgid "Missing base sprite tag \"%s1\"."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
 # clefs
-#: client/tilespec.c:3884
+#: client/tilespec.c:3887
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -12163,7 +12163,7 @@ msgid "Air_lift"
 msgstr "空輸(_L)"
 
 #: client/gui-gtk-2.0/gotodlg.c:140 client/gui-mui/mapview.c:247
-#: client/gui-sdl/gotodlg.c:233 client/gui-sdl/mapview.c:533
+#: client/gui-sdl/gotodlg.c:233
 msgid "Select destination"
 msgstr "行き先の選択"
 
@@ -12673,14 +12673,14 @@ msgstr "技術(_T)"
 msgid "Foreign Intelligence: %s Empire"
 msgstr "諜報: %sの国"
 
-#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2510
+#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2509
 #: client/gui-sdl/menu.c:768 client/gui-sdl/menu.c:948
 #: client/gui-win32/mapctrl.c:357
 msgid "Build New City"
 msgstr "新しい都市を作る"
 
 #: client/gui-gtk-2.0/mapctrl.c:195 client/gui-mui/mapctrl.c:80
-#: client/gui-sdl/mapctrl.c:2537 client/gui-win32/mapctrl.c:358
+#: client/gui-sdl/mapctrl.c:2536 client/gui-win32/mapctrl.c:358
 #: client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
 msgstr "新しい都市を何と呼びますか?"
@@ -13321,9 +13321,9 @@ msgid "Pop"
 msgstr "ポ"
 
 #: client/gui-gtk-2.0/messagewin.c:155 client/gui-mui/messagewin.c:130
-#: client/gui-mui/messagewin.c:197 client/gui-win32/messagewin.c:132
-#: client/gui-xaw/menu.c:226 data/Freeciv.in:3273 data/Freeciv.in:3274
-#: data/Freeciv.in:3283
+#: client/gui-mui/messagewin.c:197 client/gui-sdl/messagewin.c:250
+#: client/gui-win32/messagewin.c:132 client/gui-xaw/menu.c:226
+#: data/Freeciv.in:3273 data/Freeciv.in:3274 data/Freeciv.in:3283
 msgid "Messages"
 msgstr "メッセージ"
 
@@ -13408,7 +13408,7 @@ msgid "Server Name"
 msgstr "サーバ名"
 
 #: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:161
-#: client/gui-sdl/mapview.c:609 client/gui-win32/connectdlg.c:914
+#: client/gui-sdl/mapview.c:795 client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "ポート"
@@ -15283,7 +15283,7 @@ msgstr "部隊解散"
 #: client/gui-sdl/connectdlg.c:778 client/gui-sdl/connectdlg.c:956
 #: client/gui-sdl/dialogs.c:444 client/gui-sdl/dialogs.c:2057
 #: client/gui-sdl/dialogs.c:2441 client/gui-sdl/dialogs.c:2853
-#: client/gui-sdl/diplomat_dialog.c:718 client/gui-sdl/mapctrl.c:2528
+#: client/gui-sdl/diplomat_dialog.c:718 client/gui-sdl/mapctrl.c:2527
 #: client/gui-sdl/repodlgs.c:1946 client/gui-win32/citydlg.c:1080
 #: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1039
 #: client/gui-win32/dialogs.c:1775 client/gui-win32/finddlg.c:128
@@ -15300,7 +15300,7 @@ msgstr "部隊解散"
 msgid "Cancel"
 msgstr "取り消し"
 
-#: client/gui-sdl/citydlg.c:713 client/gui-sdl/mapview.c:756
+#: client/gui-sdl/citydlg.c:713 client/gui-sdl/mapview.c:945
 #, fuzzy
 msgid ""
 "\n"
@@ -15735,7 +15735,7 @@ msgstr "革命!"
 msgid "What nation will you be?"
 msgstr "あなたがなりたい民族は?"
 
-#: client/gui-sdl/dialogs.c:2862 client/gui-sdl/mapctrl.c:2518
+#: client/gui-sdl/dialogs.c:2862 client/gui-sdl/mapctrl.c:2517
 #: client/gui-win32/dialogs.c:598 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:979
 msgid "OK"
@@ -15832,56 +15832,56 @@ msgstr "叛乱を煽る"
 msgid "Sabotage Enemy Unit"
 msgstr "敵部隊の暗殺"
 
-#: client/gui-sdl/graphics.c:274
+#: client/gui-sdl/graphics.c:283
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:282
+#: client/gui-sdl/graphics.c:291
 #, c-format
 msgid "load_surf: Unable to convert file %s into screen's format!"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:304
+#: client/gui-sdl/graphics.c:313
 #, c-format
 msgid "load_surf_with_flags: Unable to load file %s."
 msgstr ""
 
-#: client/gui-sdl/graphics.c:310
+#: client/gui-sdl/graphics.c:319
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
 msgstr ""
 
-#: client/gui-sdl/graphics.c:335
+#: client/gui-sdl/graphics.c:344
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:1003
+#: client/gui-sdl/graphics.c:1012
 #, c-format
 msgid "Unable to initialize SDL library: %s"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:1012
+#: client/gui-sdl/graphics.c:1021
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:1049
+#: client/gui-sdl/graphics.c:1058
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:1052
+#: client/gui-sdl/graphics.c:1061
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:1059
+#: client/gui-sdl/graphics.c:1068
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
 msgstr ""
 
-#: client/gui-sdl/graphics.c:1066
+#: client/gui-sdl/graphics.c:1075
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr ""
@@ -16085,124 +16085,124 @@ msgstr ""
 msgid "Their techs that we don't have :"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:271
+#: client/gui-sdl/mapctrl.c:270
 msgid "Show Unit Info Window"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:325 client/gui-sdl/mapctrl.c:1433
+#: client/gui-sdl/mapctrl.c:324 client/gui-sdl/mapctrl.c:1432
 msgid "Hide Unit Info Window"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:379
+#: client/gui-sdl/mapctrl.c:378
 msgid "Show MiniMap"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:455 client/gui-sdl/mapctrl.c:1638
+#: client/gui-sdl/mapctrl.c:454 client/gui-sdl/mapctrl.c:1637
 msgid "Hide MiniMap"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:503
+#: client/gui-sdl/mapctrl.c:502
 msgid "Show Log (F10)"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:506 client/gui-sdl/mapctrl.c:1597
+#: client/gui-sdl/mapctrl.c:505 client/gui-sdl/mapctrl.c:1596
 msgid "Hide Log (F10)"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:661
+#: client/gui-sdl/mapctrl.c:660
 msgid "Single Tile Width"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:665
+#: client/gui-sdl/mapctrl.c:664
 msgid "Single Tile Height"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:673
+#: client/gui-sdl/mapctrl.c:672
 msgid "Scale Minimap"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:723 client/gui-sdl/mapctrl.c:976
+#: client/gui-sdl/mapctrl.c:722 client/gui-sdl/mapctrl.c:975
 #, fuzzy
 msgid "Exit"
 msgstr "編集"
 
-#: client/gui-sdl/mapctrl.c:928
+#: client/gui-sdl/mapctrl.c:927
 #, fuzzy
 msgid "Width"
 msgstr "共同"
 
-#: client/gui-sdl/mapctrl.c:932
+#: client/gui-sdl/mapctrl.c:931
 #, fuzzy
 msgid "Height"
 msgstr "貨物運送車"
 
-#: client/gui-sdl/mapctrl.c:941
+#: client/gui-sdl/mapctrl.c:940
 msgid "Scale Unit Info"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:1390
+#: client/gui-sdl/mapctrl.c:1389
 msgid "Economy (F5)"
 msgstr "経済(F5)"
 
-#: client/gui-sdl/mapctrl.c:1401
+#: client/gui-sdl/mapctrl.c:1400
 msgid "Research (F6)"
 msgstr "研究(F6)"
 
-#: client/gui-sdl/mapctrl.c:1412
+#: client/gui-sdl/mapctrl.c:1411
 msgid "Revolution (Shift + R)"
 msgstr "革命(Shift + R)"
 
-#: client/gui-sdl/mapctrl.c:1553
+#: client/gui-sdl/mapctrl.c:1552
 msgid "End Turn (Enter)"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:1565
+#: client/gui-sdl/mapctrl.c:1564
 msgid "Players (F3)"
 msgstr "プレイヤー(F3)"
 
-#: client/gui-sdl/mapctrl.c:1575
+#: client/gui-sdl/mapctrl.c:1574
 msgid ""
 "Cities Report (F1)\n"
 "or\n"
 "Find City (Shift + F)"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:1588
+#: client/gui-sdl/mapctrl.c:1587
 msgid "Units (F2)"
 msgstr "部隊(F2)"
 
-#: client/gui-sdl/mapctrl.c:1607
+#: client/gui-sdl/mapctrl.c:1606
 msgid "Toggle Minimap Mode (Shift + \\)"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:1618 client/gui-sdl/optiondlg.c:2115
+#: client/gui-sdl/mapctrl.c:1617 client/gui-sdl/optiondlg.c:2115
 #: client/gui-sdl/optiondlg.c:2161 data/Freeciv.in:1217
 msgid "Options"
 msgstr "オプション"
 
-#: client/gui-sdl/mapview.c:152
+#: client/gui-sdl/mapview.c:154
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
 "report it to freeciv-dev@freeciv.org."
 msgstr ""
 
-#: client/gui-sdl/mapview.c:309 client/gui-sdl/mapview.c:312
+#: client/gui-sdl/mapview.c:311 client/gui-sdl/mapview.c:314
 #, fuzzy, c-format
 msgid ""
 "Revolution (Shift + R)\n"
 "%s"
 msgstr "革命(Shift + R)"
 
-#: client/gui-sdl/mapview.c:328 client/gui-sdl/mapview.c:331
-#: client/gui-sdl/mapview.c:337
+#: client/gui-sdl/mapview.c:330 client/gui-sdl/mapview.c:333
+#: client/gui-sdl/mapview.c:339
 #, fuzzy, c-format
 msgid ""
 "Research (F6)\n"
 "%s (%d/%d)"
 msgstr "研究中: %s(%d/%d)"
 
-#: client/gui-sdl/mapview.c:403
+#: client/gui-sdl/mapview.c:405
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr ""
@@ -16211,7 +16211,7 @@ msgstr ""
 "金 %d\n"
 "税: %d 贅沢: %d 科学: %d"
 
-#: client/gui-sdl/mapview.c:411
+#: client/gui-sdl/mapview.c:413
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr ""
@@ -16220,24 +16220,20 @@ msgstr ""
 "金 %d\n"
 "税: %d 贅沢: %d 科学: %d"
 
-#: client/gui-sdl/mapview.c:522 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:715 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "ベテラン"
 
-#: client/gui-sdl/mapview.c:538 client/gui-win32/dialogs.c:1203
-msgid "NONE"
-msgstr "なし"
-
 # ntaka 領域(または国土)とは、領土、領海、領空の３つを含む概念だそうな。
-#: client/gui-sdl/mapview.c:557
+#: client/gui-sdl/mapview.c:743
 #, fuzzy
 msgid ""
 "\n"
 "Our Territory"
 msgstr "我が国の領域"
 
-#: client/gui-sdl/mapview.c:563
+#: client/gui-sdl/mapview.c:749
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -16247,7 +16243,7 @@ msgid_plural ""
 "%s territory (%d turn ceasefire)"
 msgstr[0] "都市: %s (%s,%s)"
 
-#: client/gui-sdl/mapview.c:567
+#: client/gui-sdl/mapview.c:753
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -16255,51 +16251,51 @@ msgid ""
 msgstr "%sの%s"
 
 # ntaka
-#: client/gui-sdl/mapview.c:573
+#: client/gui-sdl/mapview.c:759
 #, fuzzy
 msgid ""
 "\n"
 "Unclaimed territory"
 msgstr "公海 もしくは 未占有地"
 
-#: client/gui-sdl/mapview.c:589
+#: client/gui-sdl/mapview.c:775
 #, fuzzy, c-format
 msgid ""
 "\n"
 "City of %s"
 msgstr "%sの都市"
 
-#: client/gui-sdl/mapview.c:603 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:789 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "兵舍"
 
-#: client/gui-sdl/mapview.c:615 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:801 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "空港"
 
-#: client/gui-sdl/mapview.c:621 data/default/buildings.ruleset:209
+#: client/gui-sdl/mapview.c:807 data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189 data/civ1/buildings.ruleset:158
 msgid "City Walls"
 msgstr "城壁"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:628
+#: client/gui-sdl/mapview.c:814
 #, fuzzy, c-format
 msgid ""
 "\n"
 "(%s,%s)"
 msgstr "%s"
 
-#: client/gui-sdl/mapview.c:638
+#: client/gui-sdl/mapview.c:824
 #, fuzzy, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
 msgstr "食料/資源/交易: %s"
 
-#: client/gui-sdl/mapview.c:886
+#: client/gui-sdl/mapview.c:1075
 msgid ""
 "End of Turn\n"
 "(Press Enter)"
@@ -16393,11 +16389,6 @@ msgstr "植林する"
 #: client/gui-sdl/menu.c:1073
 msgid "Transform to"
 msgstr "地形変更する"
-
-# Daniel, clefs
-#: client/gui-sdl/messagewin.c:250
-msgid "Log"
-msgstr "ログ"
 
 # clefs
 #: client/gui-sdl/optiondlg.c:336
@@ -17015,6 +17006,10 @@ msgstr "都市スタイル:"
 #: client/gui-win32/dialogs.c:784
 msgid "Unit Selection"
 msgstr "部隊の選択"
+
+#: client/gui-win32/dialogs.c:1203
+msgid "NONE"
+msgstr "なし"
 
 #: client/gui-win32/dialogs.c:1299 data/Freeciv.in:2366
 msgid "Steal"
@@ -24675,13 +24670,13 @@ msgstr ""
 # clefs
 # "Inca"はもともとは王の名前だったのが，後に王の総称に，さらに後には
 # 部族全体の名称になったのだそうです。
-#: data/nation/inca.ruleset:22
+#: data/nation/inca.ruleset:23
 msgid "?title:Inca"
 msgstr "インカ"
 
 # clefs
 # alt.「唯一のインカ」
-#: data/nation/inca.ruleset:23
+#: data/nation/inca.ruleset:24
 msgid "Sapa Inca"
 msgstr "サパ・インカ"
 
@@ -26991,6 +26986,10 @@ msgstr "チーム31"
 #: data/default/game.ruleset:160
 msgid "Team 32"
 msgstr "チーム32"
+
+# Daniel, clefs
+#~ msgid "Log"
+#~ msgstr "ログ"
 
 #, fuzzy
 #~ msgid ""

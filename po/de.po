@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-28 14:33+0100\n"
+"POT-Creation-Date: 2007-02-17 00:30-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -62,8 +62,8 @@ msgid "Shield"
 msgstr "Schild"
 
 #: common/city.c:55 client/gui-mui/citydlg.c:1604 data/Freeciv.in:3060
-#: data/default/techs.ruleset:734 data/civ2/techs.ruleset:551
-#: data/civ1/techs.ruleset:547
+#: data/default/techs.ruleset:734 data/civ2/techs.ruleset:719
+#: data/civ1/techs.ruleset:715
 msgid "Trade"
 msgstr "Handel"
 
@@ -657,7 +657,7 @@ msgstr "(Unbekannt)"
 #: client/gui-mui/helpdlg.c:693 client/gui-mui/repodlgs.c:181
 #: client/gui-sdl/citydlg.c:716 client/gui-sdl/helpdlg.c:349
 #: client/gui-sdl/helpdlg.c:379 client/gui-sdl/helpdlg.c:752
-#: client/gui-sdl/helpdlg.c:775 client/gui-sdl/mapview.c:759
+#: client/gui-sdl/helpdlg.c:775 client/gui-sdl/mapview.c:948
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:714 client/gui-win32/helpdlg.c:734
 #: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
@@ -687,8 +687,8 @@ msgid "Irrigation"
 msgstr "Bewässerung"
 
 #: common/terrain.c:288 common/terrain.c:468 common/unit.c:556
-#: data/default/techs.ruleset:581 data/civ2/techs.ruleset:436
-#: data/civ1/techs.ruleset:433
+#: data/default/techs.ruleset:581 data/civ2/techs.ruleset:566
+#: data/civ1/techs.ruleset:563
 msgid "Railroad"
 msgstr "Eisenbahn"
 
@@ -1140,7 +1140,7 @@ msgstr "*%s (KI)* Ja, wir brauchen Frieden!"
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (KI)* Einverstanden. Keine Feindseligkeiten mehr, %s."
 
-#: ai/advdiplomacy.c:797
+#: ai/advdiplomacy.c:800
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
@@ -1149,23 +1149,23 @@ msgstr ""
 "*%s (KI)* Sei gegrüßt, %s! Dürfen wir eine Feuerpause vorschlagen, damit wir "
 "uns besser kennenlernen können?"
 
-#: ai/advdiplomacy.c:1073
+#: ai/advdiplomacy.c:1078
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (KI)* Der Weltraum wird Dir niemals gehören. "
 
-#: ai/advdiplomacy.c:1077
+#: ai/advdiplomacy.c:1082
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr ""
 "*%s (KI)* Ich habe Deine feindseligen Aktionen lange genug toleriert! Krieg!"
 
-#: ai/advdiplomacy.c:1082
+#: ai/advdiplomacy.c:1087
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (KI)* Frieden ... vielleicht ein anderes Mal."
 
-#: ai/advdiplomacy.c:1087
+#: ai/advdiplomacy.c:1092
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -1174,18 +1174,18 @@ msgstr ""
 "*%s (KI)* Endlich kriege ich Dich! Dachtest Du wirklich, Du könntest mit "
 "Deinen Verbrechen davonkommen?"
 
-#: ai/advdiplomacy.c:1093
+#: ai/advdiplomacy.c:1098
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr ""
 "*%s (KI)* Deine verdeckten Feindseligkeiten haben Dir diesen Krieg gebracht!"
 
-#: ai/advdiplomacy.c:1099
+#: ai/advdiplomacy.c:1104
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (KI)* Deine Aggression gegen %s war Dein letzter Fehler!"
 
-#: ai/advdiplomacy.c:1182
+#: ai/advdiplomacy.c:1187
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -1200,7 +1200,7 @@ msgstr[1] ""
 "*%s (KI)* Wir werden einen gemeinsamen Krieg gegen %s in %d Runden beginnen, "
 "um den Start des Raumschiffes zu verhindern."
 
-#: ai/advdiplomacy.c:1190
+#: ai/advdiplomacy.c:1195
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -1209,7 +1209,7 @@ msgstr ""
 "*%s (KI) Wir erwarten in dieser Angelegenheit Deine Hilfe. Lang lebe unsere "
 "glorreiche Allianz!"
 
-#: ai/advdiplomacy.c:1195
+#: ai/advdiplomacy.c:1200
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -1228,7 +1228,7 @@ msgstr[1] ""
 "Wir werden darauf in %d Runden gemeinsam reagieren und erwarten, daß Du Dich "
 "als unser Verbündeter anschließt!"
 
-#: ai/advdiplomacy.c:1206
+#: ai/advdiplomacy.c:1211
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -1243,7 +1243,7 @@ msgstr[1] ""
 "*%s (KI)* Wir beabsichtigen, die reiche Zivilisation des %s zu plündern und "
 "auszurauben. Wir erklären den Krieg in %d Runden."
 
-#: ai/advdiplomacy.c:1212
+#: ai/advdiplomacy.c:1217
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
@@ -1251,7 +1251,7 @@ msgstr ""
 "*%s (KI)* Wenn Du einen Teil der Beute möchtest, kannst Du Dich gerne daran "
 "beteiligen!"
 
-#: ai/advdiplomacy.c:1216
+#: ai/advdiplomacy.c:1221
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -1266,14 +1266,14 @@ msgstr[1] ""
 "*%s (KI)* Wir haben es satt mit %s. Laßt uns diese niedrige Zivilisation "
 "auseinanderreißen. Wir erklären den Krieg in %d Runden."
 
-#: ai/advdiplomacy.c:1224
+#: ai/advdiplomacy.c:1229
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (KI)* Als unsere glorreichen Verbündeten, erwarten wir Eure Hilfe in "
 "diesem Krieg."
 
-#: ai/advdiplomacy.c:1229
+#: ai/advdiplomacy.c:1234
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
@@ -1288,7 +1288,7 @@ msgstr[1] ""
 "*%s (KI)* Wir werden unsere Allianz hochhalten und %s in %d Runden den Krieg "
 "erklären. Halte aus - wir kommen!"
 
-#: ai/advdiplomacy.c:1236
+#: ai/advdiplomacy.c:1241
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
@@ -1303,7 +1303,7 @@ msgstr[1] ""
 "*%s (KI)* Wir werden unsere Allianz mit %s hochhalten und %s in %d Runden "
 "den Krieg erklären. Wir erwarten, das Du ebenso handelst."
 
-#: ai/advdiplomacy.c:1303
+#: ai/advdiplomacy.c:1308
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
@@ -1312,7 +1312,7 @@ msgstr ""
 "*%s (KI)* Dein Versuch, allein den Weltraum zu erobern, zeigt Deine wahren "
 "Absichten. Unsere Allianz ist beendet!"
 
-#: ai/advdiplomacy.c:1317
+#: ai/advdiplomacy.c:1322
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -1321,7 +1321,7 @@ msgstr ""
 "*%s (KI)* Dein Versuch, einseitig den Weltraum zu beherrschen, ist äußerst "
 "bedrohlich."
 
-#: ai/advdiplomacy.c:1319
+#: ai/advdiplomacy.c:1324
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -1330,14 +1330,14 @@ msgstr ""
 "*%s (KI)* Wenn Du nicht den Raumschiffbau beendest, könnte ich gezwungen "
 "sein zu reagieren!"
 
-#: ai/advdiplomacy.c:1430
+#: ai/advdiplomacy.c:1435
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir länger Karteneinsicht "
 "zu geben"
 
-#: ai/advdiplomacy.c:1507
+#: ai/advdiplomacy.c:1510
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -1346,7 +1346,7 @@ msgstr ""
 "*%s (KI)* Sei gegrüßt, ehrenwerter Verbündeter, wir zählen auf Dich, unseren "
 "Feind %s zu vernichten."
 
-#: ai/advdiplomacy.c:1512
+#: ai/advdiplomacy.c:1515
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -1356,7 +1356,7 @@ msgstr ""
 "keinen Krieg gegen unseren Feind %s. Warum müssen wir Dich an Deine "
 "Versprechen erinnern?"
 
-#: ai/advdiplomacy.c:1517
+#: ai/advdiplomacy.c:1520
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -1367,7 +1367,7 @@ msgstr ""
 "und immer noch bist Du im Frieden mit unserem Todfeind %s! Das ist "
 "unakzeptabel, unsere Allianz ist beendet!"
 
-#: ai/advdiplomacy.c:1545
+#: ai/advdiplomacy.c:1548
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -1376,14 +1376,14 @@ msgstr ""
 "*%s (KI)* Sei gegrüßt, Freund, dürfen wir vorschlagen, unsere Anstrengungen "
 "zu bündeln, und eine Allianz zu bilden?"
 
-#: ai/advdiplomacy.c:1560
+#: ai/advdiplomacy.c:1563
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr ""
 "*%s (KI)* Sei gegrüßt, Nachbar, dürfen wir friedlichere Beziehungen "
 "vorschlagen?"
 
-#: ai/advdiplomacy.c:1574
+#: ai/advdiplomacy.c:1577
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -1392,7 +1392,7 @@ msgstr ""
 "*%s (KI)* Wir sind des andauernden Blutvergießens müde. Dürfen wir eine "
 "Einstellung der Feindseligkeiten vorschlagen?"
 
-#: ai/advdiplomacy.c:1694
+#: ai/advdiplomacy.c:1697
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
@@ -1511,19 +1511,19 @@ msgstr ""
 "Das Paßwort muß mindestens %d Großbuchstaben und %d Ziffern enthalten, sowie "
 "mindestens %d (druckbare) Zeichen lang. Versuche es nochmals."
 
-#: server/barbarian.c:188
+#: server/barbarian.c:190
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
 msgstr ""
-"Die %s haben einen neuen Anführer namens %s. Gefährliche Zeiten liegen "
-"vor uns."
+"Die %s haben einen neuen Anführer namens %s. Gefährliche Zeiten liegen vor "
+"uns."
 
-#: server/barbarian.c:476
+#: server/barbarian.c:478
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Barbarenaufstand bei %s; Anführer ist %s."
 
-#: server/barbarian.c:480
+#: server/barbarian.c:482
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Piraten in der Nähe von %s entdeckt!"
@@ -3832,7 +3832,7 @@ msgid "Research Speed"
 msgstr "Forschungstempo"
 
 #: server/report.c:119 data/default/techs.ruleset:393
-#: data/civ2/techs.ruleset:296 data/civ1/techs.ruleset:294
+#: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:378
 msgid "Literacy"
 msgstr "Bildung"
 
@@ -3842,7 +3842,7 @@ msgid "Production"
 msgstr "Produktion"
 
 #: server/report.c:121 data/default/techs.ruleset:224
-#: data/civ2/techs.ruleset:169 data/civ1/techs.ruleset:168
+#: data/civ2/techs.ruleset:211 data/civ1/techs.ruleset:210
 msgid "Economics"
 msgstr "Wirtschaft"
 
@@ -4211,18 +4211,18 @@ msgstr "Unsupported government found (%s)"
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr "Stadtbild in player%d Sektion kann nicht angezeigt werden, wähle %s"
 
-#: server/savegame.c:3424
+#: server/savegame.c:3434
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 
-#: server/savegame.c:3637
+#: server/savegame.c:3647
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Das abgespeicherte Spiel verwendet Gelände-Regeln, die nicht mehr "
 "unterstützt werden."
 
-#: server/savegame.c:3646
+#: server/savegame.c:3656
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4232,7 +4232,7 @@ msgstr ""
 "Stattdessen wird das Verzeichnis '%s' benutzt."
 
 # CK: TECHNICAL
-#: server/savegame.c:3870
+#: server/savegame.c:3880
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -9594,18 +9594,18 @@ msgstr "Cannot find your home directory"
 msgid "Save failed, cannot find a filename."
 msgstr "NICHT GESPEICHERT: Kein Dateiname."
 
-#: client/options.c:635
+#: client/options.c:636
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Wenn manuell eine Vorgabe hinzugefügt wird, muß auch 'number_of_presets' "
 "geändert werden."
 
-#: client/options.c:646
+#: client/options.c:647
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "NICHT GESPEICHERT: Kann nicht in Datei '%s' schreiben."
 
-#: client/options.c:649
+#: client/options.c:650
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Einstellungen in Datei %s gespeichert."
@@ -9782,23 +9782,23 @@ msgid "Failed looking up metaserver's host"
 msgstr "Metaserver nicht gefunden"
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
-#: client/gui-sdl/mapview.c:552
+#: client/gui-sdl/mapview.c:738
 msgid "?nation:Neutral"
 msgstr "neutral"
 
-#: client/text.c:83 client/gui-sdl/mapview.c:552
+#: client/text.c:83 client/gui-sdl/mapview.c:738
 msgid "?nation:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:554
+#: client/text.c:85 client/gui-sdl/mapview.c:740
 msgid "?nation:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:554
+#: client/text.c:85 client/gui-sdl/mapview.c:740
 msgid "?nation:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:86 client/gui-sdl/mapview.c:555
+#: client/text.c:86 client/gui-sdl/mapview.c:741
 msgid "?nation:Mysterious"
 msgstr "unbekannt"
 
@@ -9806,23 +9806,23 @@ msgstr "unbekannt"
 msgid "?nation:Friendly(team)"
 msgstr "befreundet (Team)"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:585
+#: client/text.c:88 client/gui-sdl/mapview.c:771
 msgid "?city:Neutral"
 msgstr "neutral"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:585
+#: client/text.c:88 client/gui-sdl/mapview.c:771
 msgid "?city:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:586
+#: client/text.c:90 client/gui-sdl/mapview.c:772
 msgid "?city:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:587
+#: client/text.c:90 client/gui-sdl/mapview.c:773
 msgid "?city:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:587
+#: client/text.c:90 client/gui-sdl/mapview.c:773
 msgid "?city:Mysterious"
 msgstr "unbekannt"
 
@@ -9896,7 +9896,7 @@ msgstr[1] "Stadt: %s (%s, %d Runden Feuerpause)"
 msgid "City: %s (%s, %s)"
 msgstr "Stadt: %s (%s, %s)"
 
-#: client/text.c:176 client/gui-sdl/mapview.c:601
+#: client/text.c:176 client/gui-sdl/mapview.c:787
 msgid " with "
 msgstr " mit "
 
@@ -10131,38 +10131,38 @@ msgid_plural "%d units"
 msgstr[0] "%d Einheit"
 msgstr[1] "%d Einheiten"
 
-#: client/text.c:686
+#: client/text.c:686 client/gui-sdl/mapview.c:558
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Runden zum Ziel: %d"
 
-#: client/text.c:688
+#: client/text.c:688 client/gui-sdl/mapview.c:560
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Runden zum Ziel: %d bis %d"
 
-#: client/text.c:694
+#: client/text.c:694 client/gui-sdl/mapview.c:566
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d Einheit ausgewählt"
 msgstr[1] "%d Einheiten ausgewählt"
 
-#: client/text.c:699
+#: client/text.c:699 client/gui-sdl/mapview.c:571
 msgid "No units selected."
 msgstr "Keine ausgewählt"
 
-#: client/text.c:772
+#: client/text.c:772 client/gui-sdl/mapview.c:644
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Andere: %d zivil, %d militärisch"
 
-#: client/text.c:774
+#: client/text.c:774 client/gui-sdl/mapview.c:646
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Andere: %d zivil"
 
-#: client/text.c:776
+#: client/text.c:776 client/gui-sdl/mapview.c:648
 #, c-format
 msgid "Others: %d military"
 msgstr "Andere: %d militärisch"
@@ -10477,7 +10477,7 @@ msgstr "Don't have graphics tags %s or %s for %s %s"
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "Missing base sprite tag \"%s1\"."
 
-#: client/tilespec.c:3884
+#: client/tilespec.c:3887
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -11565,7 +11565,7 @@ msgid "Air_lift"
 msgstr "_Lufttransport"
 
 #: client/gui-gtk-2.0/gotodlg.c:140 client/gui-mui/mapview.c:247
-#: client/gui-sdl/gotodlg.c:233 client/gui-sdl/mapview.c:533
+#: client/gui-sdl/gotodlg.c:233
 msgid "Select destination"
 msgstr "Bestimmungsort wählen"
 
@@ -12041,14 +12041,14 @@ msgstr "_Fortschritte"
 msgid "Foreign Intelligence: %s Empire"
 msgstr "Nachrichtendienst: Das %se Imperium"
 
-#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2510
+#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2509
 #: client/gui-sdl/menu.c:768 client/gui-sdl/menu.c:948
 #: client/gui-win32/mapctrl.c:357
 msgid "Build New City"
 msgstr "Neue Stadt gründen"
 
 #: client/gui-gtk-2.0/mapctrl.c:195 client/gui-mui/mapctrl.c:80
-#: client/gui-sdl/mapctrl.c:2537 client/gui-win32/mapctrl.c:358
+#: client/gui-sdl/mapctrl.c:2536 client/gui-win32/mapctrl.c:358
 #: client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
 msgstr "Wie soll die neue Stadt heißen?"
@@ -12672,9 +12672,9 @@ msgid "Pop"
 msgstr "Eig:"
 
 #: client/gui-gtk-2.0/messagewin.c:155 client/gui-mui/messagewin.c:130
-#: client/gui-mui/messagewin.c:197 client/gui-win32/messagewin.c:132
-#: client/gui-xaw/menu.c:226 data/Freeciv.in:3273 data/Freeciv.in:3274
-#: data/Freeciv.in:3283
+#: client/gui-mui/messagewin.c:197 client/gui-sdl/messagewin.c:250
+#: client/gui-win32/messagewin.c:132 client/gui-xaw/menu.c:226
+#: data/Freeciv.in:3273 data/Freeciv.in:3274 data/Freeciv.in:3283
 msgid "Messages"
 msgstr "Nachrichtenfenster"
 
@@ -12753,7 +12753,7 @@ msgid "Server Name"
 msgstr "Server"
 
 #: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:161
-#: client/gui-sdl/mapview.c:609 client/gui-win32/connectdlg.c:914
+#: client/gui-sdl/mapview.c:795 client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
@@ -14583,7 +14583,7 @@ msgstr "Einheit auflösen"
 #: client/gui-sdl/connectdlg.c:778 client/gui-sdl/connectdlg.c:956
 #: client/gui-sdl/dialogs.c:444 client/gui-sdl/dialogs.c:2057
 #: client/gui-sdl/dialogs.c:2441 client/gui-sdl/dialogs.c:2853
-#: client/gui-sdl/diplomat_dialog.c:718 client/gui-sdl/mapctrl.c:2528
+#: client/gui-sdl/diplomat_dialog.c:718 client/gui-sdl/mapctrl.c:2527
 #: client/gui-sdl/repodlgs.c:1946 client/gui-win32/citydlg.c:1080
 #: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1039
 #: client/gui-win32/dialogs.c:1775 client/gui-win32/finddlg.c:128
@@ -14600,7 +14600,7 @@ msgstr "Einheit auflösen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: client/gui-sdl/citydlg.c:713 client/gui-sdl/mapview.c:756
+#: client/gui-sdl/citydlg.c:713 client/gui-sdl/mapview.c:945
 msgid ""
 "\n"
 "veteran"
@@ -15011,7 +15011,7 @@ msgstr "REVOLUTION!"
 msgid "What nation will you be?"
 msgstr "Welche Nation nimmst du?"
 
-#: client/gui-sdl/dialogs.c:2862 client/gui-sdl/mapctrl.c:2518
+#: client/gui-sdl/dialogs.c:2862 client/gui-sdl/mapctrl.c:2517
 #: client/gui-win32/dialogs.c:598 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:979
 msgid "OK"
@@ -15109,62 +15109,62 @@ msgid "Sabotage Enemy Unit"
 msgstr "Feindliche Einheit sabotieren"
 
 # CK: TECHNICAL
-#: client/gui-sdl/graphics.c:274
+#: client/gui-sdl/graphics.c:283
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
 msgstr "load_surf: Failed to load graphic file %s!"
 
 # CK: TECHNICAL
-#: client/gui-sdl/graphics.c:282
+#: client/gui-sdl/graphics.c:291
 #, c-format
 msgid "load_surf: Unable to convert file %s into screen's format!"
 msgstr "load_surf: Unable to convert file %s into screen's format!"
 
 # CK: TECHNICAL
-#: client/gui-sdl/graphics.c:304
+#: client/gui-sdl/graphics.c:313
 #, c-format
 msgid "load_surf_with_flags: Unable to load file %s."
 msgstr "load_surf_with_flags: Unable to load file %s."
 
 # CK: TECHNICAL
-#: client/gui-sdl/graphics.c:310
+#: client/gui-sdl/graphics.c:319
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
 msgstr "Unable to convert image from file %s into format %d."
 
 # CK: TECHNICAL
-#: client/gui-sdl/graphics.c:335
+#: client/gui-sdl/graphics.c:344
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 
 # CK: TECHNICAL
-#: client/gui-sdl/graphics.c:1003
+#: client/gui-sdl/graphics.c:1012
 #, c-format
 msgid "Unable to initialize SDL library: %s"
 msgstr "Unable to initialize SDL library: %s"
 
 # CK: TECHNICAL
-#: client/gui-sdl/graphics.c:1012
+#: client/gui-sdl/graphics.c:1021
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
 msgstr "Unable to initialize  SDL_ttf library: %s"
 
-#: client/gui-sdl/graphics.c:1049
+#: client/gui-sdl/graphics.c:1058
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
 msgstr "Kein Modus verfügbar für die Auflösung: %d x %d %d bpp"
 
-#: client/gui-sdl/graphics.c:1052
+#: client/gui-sdl/graphics.c:1061
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
 msgstr "Setze Standardauflösung auf: 640 x 480 16 bpp SW"
 
-#: client/gui-sdl/graphics.c:1059
+#: client/gui-sdl/graphics.c:1068
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
 msgstr "Kann Auflösung %d x %d %d bpp %s nicht setzen"
 
-#: client/gui-sdl/graphics.c:1066
+#: client/gui-sdl/graphics.c:1075
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr "Setze Auflösung auf: %d x %d %d bpp"
@@ -15176,8 +15176,7 @@ msgstr "Vollbildmodus"
 #: client/gui-sdl/gui_main.c:146
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
-msgstr ""
-"Der ganze Bildschirm wird zur Darstellung verwendet."
+msgstr "Der ganze Bildschirm wird zur Darstellung verwendet."
 
 #: client/gui-sdl/gui_main.c:149
 msgid "Screen width"
@@ -15207,7 +15206,6 @@ msgstr ""
 "Mit dieser Option wird das Thema eingestellt. Dies kann auch mit dem "
 "Kommendozeilenparameter -- --theme geschehen."
 
-
 #: client/gui-sdl/gui_main.c:200
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
 msgstr "  -f,  --fullscreen\tStart Client im Vollbildmodus\n"
@@ -15222,7 +15220,8 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:203
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
-msgstr "  -t,  --theme THEMA\tVerwendet THEMA als Thema der Benutzeroberfläche.\n"
+msgstr ""
+"  -t,  --theme THEMA\tVerwendet THEMA als Thema der Benutzeroberfläche.\n"
 
 #: client/gui-sdl/gui_main.c:767
 #, c-format
@@ -15385,79 +15384,79 @@ msgstr ""
 msgid "Their techs that we don't have :"
 msgstr "Diese Fortschritte haben sie uns voraus: "
 
-#: client/gui-sdl/mapctrl.c:271
+#: client/gui-sdl/mapctrl.c:270
 msgid "Show Unit Info Window"
 msgstr "Zeige Einheitenfenster"
 
-#: client/gui-sdl/mapctrl.c:325 client/gui-sdl/mapctrl.c:1433
+#: client/gui-sdl/mapctrl.c:324 client/gui-sdl/mapctrl.c:1432
 msgid "Hide Unit Info Window"
 msgstr "Verstecke Einheitenfenster"
 
-#: client/gui-sdl/mapctrl.c:379
+#: client/gui-sdl/mapctrl.c:378
 msgid "Show MiniMap"
 msgstr "Zeige Übersichtskarte"
 
-#: client/gui-sdl/mapctrl.c:455 client/gui-sdl/mapctrl.c:1638
+#: client/gui-sdl/mapctrl.c:454 client/gui-sdl/mapctrl.c:1637
 msgid "Hide MiniMap"
 msgstr "Verstecke Übersichtskarte"
 
-#: client/gui-sdl/mapctrl.c:503
+#: client/gui-sdl/mapctrl.c:502
 msgid "Show Log (F10)"
 msgstr "Zeige Logausgabe (F10)"
 
-#: client/gui-sdl/mapctrl.c:506 client/gui-sdl/mapctrl.c:1597
+#: client/gui-sdl/mapctrl.c:505 client/gui-sdl/mapctrl.c:1596
 msgid "Hide Log (F10)"
 msgstr "Verstecke Logausgabe (F10)"
 
-#: client/gui-sdl/mapctrl.c:661
+#: client/gui-sdl/mapctrl.c:660
 msgid "Single Tile Width"
 msgstr "Feldbreite"
 
-#: client/gui-sdl/mapctrl.c:665
+#: client/gui-sdl/mapctrl.c:664
 msgid "Single Tile Height"
 msgstr "Feldhöhe"
 
-#: client/gui-sdl/mapctrl.c:673
+#: client/gui-sdl/mapctrl.c:672
 msgid "Scale Minimap"
 msgstr "Skaliere Übersichtskarte"
 
-#: client/gui-sdl/mapctrl.c:723 client/gui-sdl/mapctrl.c:976
+#: client/gui-sdl/mapctrl.c:722 client/gui-sdl/mapctrl.c:975
 msgid "Exit"
 msgstr "Beenden"
 
-#: client/gui-sdl/mapctrl.c:928
+#: client/gui-sdl/mapctrl.c:927
 msgid "Width"
 msgstr "Breite"
 
-#: client/gui-sdl/mapctrl.c:932
+#: client/gui-sdl/mapctrl.c:931
 msgid "Height"
 msgstr "Höhe"
 
-#: client/gui-sdl/mapctrl.c:941
+#: client/gui-sdl/mapctrl.c:940
 msgid "Scale Unit Info"
 msgstr "Skaliere Einheitenanzeige"
 
-#: client/gui-sdl/mapctrl.c:1390
+#: client/gui-sdl/mapctrl.c:1389
 msgid "Economy (F5)"
 msgstr "Wirtschaft (F5)"
 
-#: client/gui-sdl/mapctrl.c:1401
+#: client/gui-sdl/mapctrl.c:1400
 msgid "Research (F6)"
 msgstr "Forschung (F6)"
 
-#: client/gui-sdl/mapctrl.c:1412
+#: client/gui-sdl/mapctrl.c:1411
 msgid "Revolution (Shift + R)"
 msgstr "Revolution (Shift + R)"
 
-#: client/gui-sdl/mapctrl.c:1553
+#: client/gui-sdl/mapctrl.c:1552
 msgid "End Turn (Enter)"
 msgstr "Fertig! (Eingabe)"
 
-#: client/gui-sdl/mapctrl.c:1565
+#: client/gui-sdl/mapctrl.c:1564
 msgid "Players (F3)"
 msgstr "Spieler (F3)"
 
-#: client/gui-sdl/mapctrl.c:1575
+#: client/gui-sdl/mapctrl.c:1574
 msgid ""
 "Cities Report (F1)\n"
 "or\n"
@@ -15467,21 +15466,21 @@ msgstr ""
 "oder\n"
 "Finde Stadt (Shift + F)"
 
-#: client/gui-sdl/mapctrl.c:1588
+#: client/gui-sdl/mapctrl.c:1587
 msgid "Units (F2)"
 msgstr "Einheiten (F2)"
 
-#: client/gui-sdl/mapctrl.c:1607
+#: client/gui-sdl/mapctrl.c:1606
 msgid "Toggle Minimap Mode (Shift + \\)"
 msgstr "Übersichtskarte umschalten (Shift + \\)"
 
-#: client/gui-sdl/mapctrl.c:1618 client/gui-sdl/optiondlg.c:2115
+#: client/gui-sdl/mapctrl.c:1617 client/gui-sdl/optiondlg.c:2115
 #: client/gui-sdl/optiondlg.c:2161 data/Freeciv.in:1217
 msgid "Options"
 msgstr "Optionen"
 
 # CK: TECHNICAL
-#: client/gui-sdl/mapview.c:152
+#: client/gui-sdl/mapview.c:154
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
@@ -15491,7 +15490,7 @@ msgstr ""
 "as a result.  If you see this message often, please\n"
 "report it to freeciv-dev@freeciv.org."
 
-#: client/gui-sdl/mapview.c:309 client/gui-sdl/mapview.c:312
+#: client/gui-sdl/mapview.c:311 client/gui-sdl/mapview.c:314
 #, c-format
 msgid ""
 "Revolution (Shift + R)\n"
@@ -15500,8 +15499,8 @@ msgstr ""
 "Revolution (Shift + R)\n"
 "%s"
 
-#: client/gui-sdl/mapview.c:328 client/gui-sdl/mapview.c:331
-#: client/gui-sdl/mapview.c:337
+#: client/gui-sdl/mapview.c:330 client/gui-sdl/mapview.c:333
+#: client/gui-sdl/mapview.c:339
 #, c-format
 msgid ""
 "Research (F6)\n"
@@ -15510,26 +15509,22 @@ msgstr ""
 "Forschung (F6)\n"
 "%s (%d/%d)"
 
-#: client/gui-sdl/mapview.c:403
+#: client/gui-sdl/mapview.c:405
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d "
 
-#: client/gui-sdl/mapview.c:411
+#: client/gui-sdl/mapview.c:413
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d St: %d Lux: %d For: %d "
 
-#: client/gui-sdl/mapview.c:522 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:715 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "Veteran"
 
-#: client/gui-sdl/mapview.c:538 client/gui-win32/dialogs.c:1203
-msgid "NONE"
-msgstr "NICHTS"
-
-#: client/gui-sdl/mapview.c:557
+#: client/gui-sdl/mapview.c:743
 msgid ""
 "\n"
 "Our Territory"
@@ -15537,7 +15532,7 @@ msgstr ""
 "\n"
 "Unser Gebiet"
 
-#: client/gui-sdl/mapview.c:563
+#: client/gui-sdl/mapview.c:749
 #, c-format
 msgid ""
 "\n"
@@ -15552,7 +15547,7 @@ msgstr[1] ""
 "\n"
 "%ses Gebiet (%d Runden Feuerpause)"
 
-#: client/gui-sdl/mapview.c:567
+#: client/gui-sdl/mapview.c:753
 #, c-format
 msgid ""
 "\n"
@@ -15561,7 +15556,7 @@ msgstr ""
 "\n"
 "Gebiet der %2$s, %1$s"
 
-#: client/gui-sdl/mapview.c:573
+#: client/gui-sdl/mapview.c:759
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -15569,7 +15564,7 @@ msgstr ""
 "\n"
 "Neutrales Gebiet"
 
-#: client/gui-sdl/mapview.c:589
+#: client/gui-sdl/mapview.c:775
 #, c-format
 msgid ""
 "\n"
@@ -15578,23 +15573,23 @@ msgstr ""
 "\n"
 "Stadt %s"
 
-#: client/gui-sdl/mapview.c:603 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:789 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Kasernen"
 
-#: client/gui-sdl/mapview.c:615 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:801 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "Flughafen"
 
-#: client/gui-sdl/mapview.c:621 data/default/buildings.ruleset:209
+#: client/gui-sdl/mapview.c:807 data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189 data/civ1/buildings.ruleset:158
 msgid "City Walls"
 msgstr "Stadtmauer"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:628
+#: client/gui-sdl/mapview.c:814
 #, c-format
 msgid ""
 "\n"
@@ -15603,7 +15598,7 @@ msgstr ""
 "\n"
 "(%s, %s)"
 
-#: client/gui-sdl/mapview.c:638
+#: client/gui-sdl/mapview.c:824
 #, c-format
 msgid ""
 "\n"
@@ -15612,7 +15607,7 @@ msgstr ""
 "\n"
 "Nahrung/Produktion/Handel: %s"
 
-#: client/gui-sdl/mapview.c:886
+#: client/gui-sdl/mapview.c:1075
 msgid ""
 "End of Turn\n"
 "(Press Enter)"
@@ -15696,10 +15691,6 @@ msgstr "aufforsten"
 #: client/gui-sdl/menu.c:1073
 msgid "Transform to"
 msgstr "Verändern zu"
-
-#: client/gui-sdl/messagewin.c:250
-msgid "Log"
-msgstr "Logausgabe"
 
 #: client/gui-sdl/optiondlg.c:336
 msgid "Add new worklist"
@@ -16344,6 +16335,10 @@ msgstr "Bauweise:"
 #: client/gui-win32/dialogs.c:784
 msgid "Unit Selection"
 msgstr "Einheit auswählen"
+
+#: client/gui-win32/dialogs.c:1203
+msgid "NONE"
+msgstr "NICHTS"
 
 #: client/gui-win32/dialogs.c:1299 data/Freeciv.in:2366
 msgid "Steal"
@@ -20001,7 +19996,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:926 data/civ2/buildings.ruleset:913
 #: data/civ1/buildings.ruleset:612 data/default/techs.ruleset:742
-#: data/civ2/techs.ruleset:557 data/civ1/techs.ruleset:553
+#: data/civ2/techs.ruleset:727 data/civ1/techs.ruleset:723
 msgid "University"
 msgstr "Universität"
 
@@ -20864,7 +20859,7 @@ msgstr ""
 
 #: data/default/governments.ruleset:92 data/civ2/governments.ruleset:90
 #: data/civ1/governments.ruleset:92 data/default/techs.ruleset:481
-#: data/civ2/techs.ruleset:362 data/civ1/techs.ruleset:360
+#: data/civ2/techs.ruleset:468 data/civ1/techs.ruleset:466
 msgid "Monarchy"
 msgstr "Monarchie"
 
@@ -20898,7 +20893,7 @@ msgstr ""
 
 #: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
 #: data/civ1/governments.ruleset:114 data/default/techs.ruleset:175
-#: data/civ2/techs.ruleset:132 data/civ1/techs.ruleset:132
+#: data/civ2/techs.ruleset:162 data/civ1/techs.ruleset:162
 msgid "Communism"
 msgstr "Kommunismus"
 
@@ -20961,7 +20956,7 @@ msgstr ""
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:216
-#: data/civ2/techs.ruleset:163 data/civ1/techs.ruleset:162
+#: data/civ2/techs.ruleset:203 data/civ1/techs.ruleset:202
 msgid "Democracy"
 msgstr "Demokratie"
 
@@ -21061,7 +21056,7 @@ msgstr ""
 "abhängig ist. Auch der Müll hängt nicht von der Hauptstadtentfernung ab."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:297
-#: data/civ2/techs.ruleset:224 data/civ1/techs.ruleset:222
+#: data/civ2/techs.ruleset:284 data/civ1/techs.ruleset:282
 msgid "Fundamentalism"
 msgstr "Fundamentalismus"
 
@@ -21144,285 +21139,285 @@ msgstr ""
 msgid "Advanced Flight"
 msgstr "Moderne Flugtechnik"
 
-#: data/default/techs.ruleset:63 data/civ2/techs.ruleset:48
-#: data/civ1/techs.ruleset:48
+#: data/default/techs.ruleset:63 data/civ2/techs.ruleset:50
+#: data/civ1/techs.ruleset:50
 msgid "Alphabet"
 msgstr "Alphabet"
 
-#: data/default/techs.ruleset:71 data/civ2/techs.ruleset:54
-#: data/civ1/techs.ruleset:54
+#: data/default/techs.ruleset:71 data/civ2/techs.ruleset:58
+#: data/civ1/techs.ruleset:58
 msgid "Amphibious Warfare"
 msgstr "Amphibische Kriegführung"
 
-#: data/default/techs.ruleset:79 data/civ2/techs.ruleset:60
-#: data/civ1/techs.ruleset:60
+#: data/default/techs.ruleset:79 data/civ2/techs.ruleset:66
+#: data/civ1/techs.ruleset:66
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: data/default/techs.ruleset:87 data/civ2/techs.ruleset:66
-#: data/civ1/techs.ruleset:66
+#: data/default/techs.ruleset:87 data/civ2/techs.ruleset:74
+#: data/civ1/techs.ruleset:74
 msgid "Atomic Theory"
 msgstr "Atomtheorie"
 
-#: data/default/techs.ruleset:95 data/civ2/techs.ruleset:72
-#: data/civ1/techs.ruleset:72
+#: data/default/techs.ruleset:95 data/civ2/techs.ruleset:82
+#: data/civ1/techs.ruleset:82
 msgid "Automobile"
 msgstr "Automobil"
 
-#: data/default/techs.ruleset:103 data/civ2/techs.ruleset:78
-#: data/civ1/techs.ruleset:78
+#: data/default/techs.ruleset:103 data/civ2/techs.ruleset:90
+#: data/civ1/techs.ruleset:90
 msgid "Banking"
 msgstr "Bankwesen"
 
-#: data/default/techs.ruleset:111 data/civ2/techs.ruleset:84
-#: data/civ1/techs.ruleset:84
+#: data/default/techs.ruleset:111 data/civ2/techs.ruleset:98
+#: data/civ1/techs.ruleset:98
 msgid "Bridge Building"
 msgstr "Brückenbau"
 
-#: data/default/techs.ruleset:119 data/civ2/techs.ruleset:90
-#: data/civ1/techs.ruleset:90
+#: data/default/techs.ruleset:119 data/civ2/techs.ruleset:106
+#: data/civ1/techs.ruleset:106
 msgid "Bronze Working"
 msgstr "Bronzeverarbeitung"
 
-#: data/default/techs.ruleset:127 data/civ2/techs.ruleset:96
-#: data/civ1/techs.ruleset:96
+#: data/default/techs.ruleset:127 data/civ2/techs.ruleset:114
+#: data/civ1/techs.ruleset:114
 msgid "Ceremonial Burial"
 msgstr "Zeremonielle Bestattung"
 
-#: data/default/techs.ruleset:135 data/civ2/techs.ruleset:102
-#: data/civ1/techs.ruleset:102
+#: data/default/techs.ruleset:135 data/civ2/techs.ruleset:122
+#: data/civ1/techs.ruleset:122
 msgid "Chemistry"
 msgstr "Chemie"
 
-#: data/default/techs.ruleset:143 data/civ2/techs.ruleset:108
-#: data/civ1/techs.ruleset:108
+#: data/default/techs.ruleset:143 data/civ2/techs.ruleset:130
+#: data/civ1/techs.ruleset:130
 msgid "Chivalry"
 msgstr "Rittertum"
 
-#: data/default/techs.ruleset:151 data/civ2/techs.ruleset:114
-#: data/civ1/techs.ruleset:114
+#: data/default/techs.ruleset:151 data/civ2/techs.ruleset:138
+#: data/civ1/techs.ruleset:138
 msgid "Code of Laws"
 msgstr "Gesetzbuch"
 
-#: data/default/techs.ruleset:159 data/civ2/techs.ruleset:120
-#: data/civ1/techs.ruleset:120
+#: data/default/techs.ruleset:159 data/civ2/techs.ruleset:146
+#: data/civ1/techs.ruleset:146
 msgid "Combined Arms"
 msgstr "Kombinierte Waffen"
 
-#: data/default/techs.ruleset:167 data/civ2/techs.ruleset:126
-#: data/civ1/techs.ruleset:126
+#: data/default/techs.ruleset:167 data/civ2/techs.ruleset:154
+#: data/civ1/techs.ruleset:154
 msgid "Combustion"
 msgstr "Verbrennung"
 
-#: data/default/techs.ruleset:181 data/civ2/techs.ruleset:136
+#: data/default/techs.ruleset:181 data/civ2/techs.ruleset:168
 msgid "Reduces the effect of Cathedrals."
 msgstr "Vermindert den Effekt von Kathedralen."
 
-#: data/default/techs.ruleset:184 data/civ2/techs.ruleset:139
-#: data/civ1/techs.ruleset:138
+#: data/default/techs.ruleset:184 data/civ2/techs.ruleset:171
+#: data/civ1/techs.ruleset:170
 msgid "Computers"
 msgstr "Computer"
 
-#: data/default/techs.ruleset:192 data/civ2/techs.ruleset:145
-#: data/civ1/techs.ruleset:144
+#: data/default/techs.ruleset:192 data/civ2/techs.ruleset:179
+#: data/civ1/techs.ruleset:178
 msgid "Conscription"
 msgstr "Wehrpflicht"
 
-#: data/default/techs.ruleset:200 data/civ2/techs.ruleset:151
-#: data/civ1/techs.ruleset:150
+#: data/default/techs.ruleset:200 data/civ2/techs.ruleset:187
+#: data/civ1/techs.ruleset:186
 msgid "Construction"
 msgstr "Konstruktion"
 
-#: data/default/techs.ruleset:208 data/civ2/techs.ruleset:157
-#: data/civ1/techs.ruleset:156
+#: data/default/techs.ruleset:208 data/civ2/techs.ruleset:195
+#: data/civ1/techs.ruleset:194
 msgid "Currency"
 msgstr "Währung"
 
-#: data/default/techs.ruleset:232 data/civ2/techs.ruleset:175
-#: data/civ1/techs.ruleset:174
+#: data/default/techs.ruleset:232 data/civ2/techs.ruleset:219
+#: data/civ1/techs.ruleset:218
 msgid "Electricity"
 msgstr "Elektrizität"
 
-#: data/default/techs.ruleset:238 data/civ2/techs.ruleset:179
+#: data/default/techs.ruleset:238 data/civ2/techs.ruleset:225
 msgid "Improves the effect of Colosseums."
 msgstr "Vergrößert den Effekt von Kolosseen."
 
-#: data/default/techs.ruleset:241 data/civ2/techs.ruleset:182
-#: data/civ1/techs.ruleset:180
+#: data/default/techs.ruleset:241 data/civ2/techs.ruleset:228
+#: data/civ1/techs.ruleset:226
 msgid "Electronics"
 msgstr "Elektronik"
 
-#: data/default/techs.ruleset:249 data/civ2/techs.ruleset:188
-#: data/civ1/techs.ruleset:186
+#: data/default/techs.ruleset:249 data/civ2/techs.ruleset:236
+#: data/civ1/techs.ruleset:234
 msgid "Engineering"
 msgstr "Technik"
 
-#: data/default/techs.ruleset:257 data/civ2/techs.ruleset:194
-#: data/civ1/techs.ruleset:192
+#: data/default/techs.ruleset:257 data/civ2/techs.ruleset:244
+#: data/civ1/techs.ruleset:242
 msgid "Environmentalism"
 msgstr "Umweltschutz"
 
-#: data/default/techs.ruleset:265 data/civ2/techs.ruleset:200
-#: data/civ1/techs.ruleset:198
+#: data/default/techs.ruleset:265 data/civ2/techs.ruleset:252
+#: data/civ1/techs.ruleset:250
 msgid "Espionage"
 msgstr "Spionage"
 
-#: data/default/techs.ruleset:273 data/civ2/techs.ruleset:206
-#: data/civ1/techs.ruleset:204
+#: data/default/techs.ruleset:273 data/civ2/techs.ruleset:260
+#: data/civ1/techs.ruleset:258
 msgid "Explosives"
 msgstr "Sprengstoff"
 
-#: data/default/techs.ruleset:281 data/civ2/techs.ruleset:212
-#: data/civ1/techs.ruleset:210
+#: data/default/techs.ruleset:281 data/civ2/techs.ruleset:268
+#: data/civ1/techs.ruleset:266
 msgid "Feudalism"
 msgstr "Feudalismus"
 
-#: data/default/techs.ruleset:289 data/civ2/techs.ruleset:218
-#: data/civ1/techs.ruleset:216
+#: data/default/techs.ruleset:289 data/civ2/techs.ruleset:276
+#: data/civ1/techs.ruleset:274
 msgid "Flight"
 msgstr "Flug"
 
-#: data/default/techs.ruleset:305 data/civ2/techs.ruleset:230
-#: data/civ1/techs.ruleset:228
+#: data/default/techs.ruleset:305 data/civ2/techs.ruleset:292
+#: data/civ1/techs.ruleset:290
 msgid "Fusion Power"
 msgstr "Kernfusion"
 
-#: data/default/techs.ruleset:313 data/civ2/techs.ruleset:236
-#: data/civ1/techs.ruleset:234
+#: data/default/techs.ruleset:313 data/civ2/techs.ruleset:300
+#: data/civ1/techs.ruleset:298
 msgid "Genetic Engineering"
 msgstr "Gentechnik"
 
-#: data/default/techs.ruleset:321 data/civ2/techs.ruleset:242
-#: data/civ1/techs.ruleset:240
+#: data/default/techs.ruleset:321 data/civ2/techs.ruleset:308
+#: data/civ1/techs.ruleset:306
 msgid "Guerilla Warfare"
 msgstr "Guerillakrieg"
 
-#: data/default/techs.ruleset:329 data/civ2/techs.ruleset:248
-#: data/civ1/techs.ruleset:246
+#: data/default/techs.ruleset:329 data/civ2/techs.ruleset:316
+#: data/civ1/techs.ruleset:314
 msgid "Gunpowder"
 msgstr "Schießpulver"
 
-#: data/default/techs.ruleset:337 data/civ2/techs.ruleset:254
-#: data/civ1/techs.ruleset:252
+#: data/default/techs.ruleset:337 data/civ2/techs.ruleset:324
+#: data/civ1/techs.ruleset:322
 msgid "Horseback Riding"
 msgstr "Reiten"
 
-#: data/default/techs.ruleset:345 data/civ2/techs.ruleset:260
-#: data/civ1/techs.ruleset:258
+#: data/default/techs.ruleset:345 data/civ2/techs.ruleset:332
+#: data/civ1/techs.ruleset:330
 msgid "Industrialization"
 msgstr "Industrialisierung"
 
-#: data/default/techs.ruleset:353 data/civ2/techs.ruleset:266
-#: data/civ1/techs.ruleset:264
+#: data/default/techs.ruleset:353 data/civ2/techs.ruleset:340
+#: data/civ1/techs.ruleset:338
 msgid "Invention"
 msgstr "Patentierung"
 
-#: data/default/techs.ruleset:361 data/civ2/techs.ruleset:272
-#: data/civ1/techs.ruleset:270
+#: data/default/techs.ruleset:361 data/civ2/techs.ruleset:348
+#: data/civ1/techs.ruleset:346
 msgid "Iron Working"
 msgstr "Eisenverarbeitung"
 
-#: data/default/techs.ruleset:369 data/civ2/techs.ruleset:278
-#: data/civ1/techs.ruleset:276
+#: data/default/techs.ruleset:369 data/civ2/techs.ruleset:356
+#: data/civ1/techs.ruleset:354
 msgid "Labor Union"
 msgstr "Gewerkschaft"
 
-#: data/default/techs.ruleset:377 data/civ2/techs.ruleset:284
-#: data/civ1/techs.ruleset:282
+#: data/default/techs.ruleset:377 data/civ2/techs.ruleset:364
+#: data/civ1/techs.ruleset:362
 msgid "Laser"
 msgstr "Laser"
 
-#: data/default/techs.ruleset:385 data/civ2/techs.ruleset:290
-#: data/civ1/techs.ruleset:288
+#: data/default/techs.ruleset:385 data/civ2/techs.ruleset:372
+#: data/civ1/techs.ruleset:370
 msgid "Leadership"
 msgstr "Führerschaft"
 
-#: data/default/techs.ruleset:401 data/civ2/techs.ruleset:302
-#: data/civ1/techs.ruleset:300
+#: data/default/techs.ruleset:401 data/civ2/techs.ruleset:388
+#: data/civ1/techs.ruleset:386
 msgid "Machine Tools"
 msgstr "Werkzeugmaschinen"
 
-#: data/default/techs.ruleset:409 data/civ2/techs.ruleset:308
-#: data/civ1/techs.ruleset:306
+#: data/default/techs.ruleset:409 data/civ2/techs.ruleset:396
+#: data/civ1/techs.ruleset:394
 msgid "Magnetism"
 msgstr "Magnetismus"
 
-#: data/default/techs.ruleset:417 data/civ2/techs.ruleset:314
-#: data/civ1/techs.ruleset:312
+#: data/default/techs.ruleset:417 data/civ2/techs.ruleset:404
+#: data/civ1/techs.ruleset:402
 msgid "Map Making"
 msgstr "Kartographie"
 
-#: data/default/techs.ruleset:425 data/civ2/techs.ruleset:320
-#: data/civ1/techs.ruleset:318
+#: data/default/techs.ruleset:425 data/civ2/techs.ruleset:412
+#: data/civ1/techs.ruleset:410
 msgid "Masonry"
 msgstr "Mauerbau"
 
-#: data/default/techs.ruleset:433 data/civ2/techs.ruleset:326
-#: data/civ1/techs.ruleset:324
+#: data/default/techs.ruleset:433 data/civ2/techs.ruleset:420
+#: data/civ1/techs.ruleset:418
 msgid "Mass Production"
 msgstr "Massenproduktion"
 
-#: data/default/techs.ruleset:441 data/civ2/techs.ruleset:332
-#: data/civ1/techs.ruleset:330
+#: data/default/techs.ruleset:441 data/civ2/techs.ruleset:428
+#: data/civ1/techs.ruleset:426
 msgid "Mathematics"
 msgstr "Mathematik"
 
-#: data/default/techs.ruleset:449 data/civ2/techs.ruleset:338
-#: data/civ1/techs.ruleset:336
+#: data/default/techs.ruleset:449 data/civ2/techs.ruleset:436
+#: data/civ1/techs.ruleset:434
 msgid "Medicine"
 msgstr "Medizin"
 
-#: data/default/techs.ruleset:457 data/civ2/techs.ruleset:344
-#: data/civ1/techs.ruleset:342
+#: data/default/techs.ruleset:457 data/civ2/techs.ruleset:444
+#: data/civ1/techs.ruleset:442
 msgid "Metallurgy"
 msgstr "Metallurgie"
 
-#: data/default/techs.ruleset:465 data/civ2/techs.ruleset:350
-#: data/civ1/techs.ruleset:348
+#: data/default/techs.ruleset:465 data/civ2/techs.ruleset:452
+#: data/civ1/techs.ruleset:450
 msgid "Miniaturization"
 msgstr "Miniaturisierung"
 
-#: data/default/techs.ruleset:473 data/civ2/techs.ruleset:356
-#: data/civ1/techs.ruleset:354
+#: data/default/techs.ruleset:473 data/civ2/techs.ruleset:460
+#: data/civ1/techs.ruleset:458
 msgid "Mobile Warfare"
 msgstr "Mobile Kriegführung"
 
-#: data/default/techs.ruleset:489 data/civ2/techs.ruleset:368
-#: data/civ1/techs.ruleset:366
+#: data/default/techs.ruleset:489 data/civ2/techs.ruleset:476
+#: data/civ1/techs.ruleset:474
 msgid "Monotheism"
 msgstr "Monotheismus"
 
-#: data/default/techs.ruleset:497 data/civ2/techs.ruleset:374
-#: data/civ1/techs.ruleset:372
+#: data/default/techs.ruleset:497 data/civ2/techs.ruleset:484
+#: data/civ1/techs.ruleset:482
 msgid "Mysticism"
 msgstr "Mystik"
 
-#: data/default/techs.ruleset:503 data/civ2/techs.ruleset:378
-#: data/civ1/techs.ruleset:376
+#: data/default/techs.ruleset:503 data/civ2/techs.ruleset:490
+#: data/civ1/techs.ruleset:488
 msgid "Improves the effect of Temples."
 msgstr "Vergrößert den Effekt von Tempeln."
 
-#: data/default/techs.ruleset:506 data/civ2/techs.ruleset:381
-#: data/civ1/techs.ruleset:379
+#: data/default/techs.ruleset:506 data/civ2/techs.ruleset:493
+#: data/civ1/techs.ruleset:491
 msgid "Navigation"
 msgstr "Navigation"
 
-#: data/default/techs.ruleset:514 data/civ2/techs.ruleset:387
-#: data/civ1/techs.ruleset:385
+#: data/default/techs.ruleset:514 data/civ2/techs.ruleset:501
+#: data/civ1/techs.ruleset:499
 msgid "Nuclear Fission"
 msgstr "Kernspaltung"
 
-#: data/default/techs.ruleset:522 data/civ2/techs.ruleset:393
-#: data/civ1/techs.ruleset:391
+#: data/default/techs.ruleset:522 data/civ2/techs.ruleset:509
+#: data/civ1/techs.ruleset:507
 msgid "Nuclear Power"
 msgstr "Atomkraft"
 
-#: data/default/techs.ruleset:528 data/civ2/techs.ruleset:397
+#: data/default/techs.ruleset:528 data/civ2/techs.ruleset:515
 msgid "Gives sea units one extra move."
 msgstr "Marine-Einheiten erhalten einen zusätzlichen Bewegungspunkt."
 
-#: data/default/techs.ruleset:531 data/civ2/techs.ruleset:400
-#: data/civ1/techs.ruleset:397
+#: data/default/techs.ruleset:531 data/civ2/techs.ruleset:518
+#: data/civ1/techs.ruleset:515
 msgid "Philosophy"
 msgstr "Philosophie"
 
@@ -21435,135 +21430,135 @@ msgstr ""
 "angeschlossen:\n"
 "       Ein direkter Fortschritt ist die Folge."
 
-#: data/default/techs.ruleset:541 data/civ2/techs.ruleset:406
-#: data/civ1/techs.ruleset:403
+#: data/default/techs.ruleset:541 data/civ2/techs.ruleset:526
+#: data/civ1/techs.ruleset:523
 msgid "Physics"
 msgstr "Physik"
 
-#: data/default/techs.ruleset:549 data/civ2/techs.ruleset:412
-#: data/civ1/techs.ruleset:409
+#: data/default/techs.ruleset:549 data/civ2/techs.ruleset:534
+#: data/civ1/techs.ruleset:531
 msgid "Plastics"
 msgstr "Kunststoffe"
 
-#: data/default/techs.ruleset:557 data/civ2/techs.ruleset:418
-#: data/civ1/techs.ruleset:415
+#: data/default/techs.ruleset:557 data/civ2/techs.ruleset:542
+#: data/civ1/techs.ruleset:539
 msgid "Polytheism"
 msgstr "Polytheismus"
 
-#: data/default/techs.ruleset:565 data/civ2/techs.ruleset:424
-#: data/civ1/techs.ruleset:421
+#: data/default/techs.ruleset:565 data/civ2/techs.ruleset:550
+#: data/civ1/techs.ruleset:547
 msgid "Pottery"
 msgstr "Töpferei"
 
-#: data/default/techs.ruleset:573 data/civ2/techs.ruleset:430
-#: data/civ1/techs.ruleset:427
+#: data/default/techs.ruleset:573 data/civ2/techs.ruleset:558
+#: data/civ1/techs.ruleset:555
 msgid "Radio"
 msgstr "Radio"
 
-#: data/default/techs.ruleset:589 data/civ2/techs.ruleset:442
-#: data/civ1/techs.ruleset:439
+#: data/default/techs.ruleset:589 data/civ2/techs.ruleset:574
+#: data/civ1/techs.ruleset:571
 msgid "Recycling"
 msgstr "Recycling"
 
-#: data/default/techs.ruleset:597 data/civ2/techs.ruleset:448
-#: data/civ1/techs.ruleset:445
+#: data/default/techs.ruleset:597 data/civ2/techs.ruleset:582
+#: data/civ1/techs.ruleset:579
 msgid "Refining"
 msgstr "Raffination"
 
-#: data/default/techs.ruleset:605 data/civ2/techs.ruleset:454
-#: data/civ1/techs.ruleset:451
+#: data/default/techs.ruleset:605 data/civ2/techs.ruleset:590
+#: data/civ1/techs.ruleset:587
 msgid "Refrigeration"
 msgstr "Kältetechnik"
 
-#: data/default/techs.ruleset:613 data/civ2/techs.ruleset:460
-#: data/civ1/techs.ruleset:457
+#: data/default/techs.ruleset:613 data/civ2/techs.ruleset:598
+#: data/civ1/techs.ruleset:595
 msgid "Robotics"
 msgstr "Robotik"
 
-#: data/default/techs.ruleset:621 data/civ2/techs.ruleset:466
-#: data/civ1/techs.ruleset:463
+#: data/default/techs.ruleset:621 data/civ2/techs.ruleset:606
+#: data/civ1/techs.ruleset:603
 msgid "Rocketry"
 msgstr "Raketentechnik"
 
-#: data/default/techs.ruleset:629 data/civ2/techs.ruleset:472
-#: data/civ1/techs.ruleset:469
+#: data/default/techs.ruleset:629 data/civ2/techs.ruleset:614
+#: data/civ1/techs.ruleset:611
 msgid "Sanitation"
 msgstr "Hygiene"
 
-#: data/default/techs.ruleset:637 data/civ2/techs.ruleset:478
-#: data/civ1/techs.ruleset:475
+#: data/default/techs.ruleset:637 data/civ2/techs.ruleset:622
+#: data/civ1/techs.ruleset:619
 msgid "Seafaring"
 msgstr "Seefahrt"
 
-#: data/default/techs.ruleset:645 data/civ2/techs.ruleset:484
-#: data/civ1/techs.ruleset:481
+#: data/default/techs.ruleset:645 data/civ2/techs.ruleset:630
+#: data/civ1/techs.ruleset:627
 msgid "Space Flight"
 msgstr "Weltraumflug"
 
-#: data/default/techs.ruleset:653 data/civ2/techs.ruleset:490
-#: data/civ1/techs.ruleset:487
+#: data/default/techs.ruleset:653 data/civ2/techs.ruleset:638
+#: data/civ1/techs.ruleset:635
 msgid "Stealth"
 msgstr "Stealth-Technologie"
 
-#: data/default/techs.ruleset:661 data/civ2/techs.ruleset:496
-#: data/civ1/techs.ruleset:493
+#: data/default/techs.ruleset:661 data/civ2/techs.ruleset:646
+#: data/civ1/techs.ruleset:643
 msgid "Steam Engine"
 msgstr "Dampfmaschine"
 
-#: data/default/techs.ruleset:669 data/civ2/techs.ruleset:502
-#: data/civ1/techs.ruleset:499
+#: data/default/techs.ruleset:669 data/civ2/techs.ruleset:654
+#: data/civ1/techs.ruleset:651
 msgid "Steel"
 msgstr "Stahl"
 
-#: data/default/techs.ruleset:677 data/civ2/techs.ruleset:508
-#: data/civ1/techs.ruleset:505
+#: data/default/techs.ruleset:677 data/civ2/techs.ruleset:662
+#: data/civ1/techs.ruleset:659
 msgid "Superconductors"
 msgstr "Supraleiter"
 
-#: data/default/techs.ruleset:685 data/civ2/techs.ruleset:514
-#: data/civ1/techs.ruleset:511
+#: data/default/techs.ruleset:685 data/civ2/techs.ruleset:670
+#: data/civ1/techs.ruleset:667
 msgid "Tactics"
 msgstr "Taktik"
 
-#: data/default/techs.ruleset:693 data/civ2/techs.ruleset:520
-#: data/civ1/techs.ruleset:517
+#: data/default/techs.ruleset:693 data/civ2/techs.ruleset:678
+#: data/civ1/techs.ruleset:675
 msgid "The Corporation"
 msgstr "Die Firma"
 
-#: data/default/techs.ruleset:701 data/civ2/techs.ruleset:526
-#: data/civ1/techs.ruleset:523
+#: data/default/techs.ruleset:701 data/civ2/techs.ruleset:686
+#: data/civ1/techs.ruleset:683
 msgid "The Republic"
 msgstr "Die Republik"
 
-#: data/default/techs.ruleset:709 data/civ2/techs.ruleset:532
-#: data/civ1/techs.ruleset:529
+#: data/default/techs.ruleset:709 data/civ2/techs.ruleset:694
+#: data/civ1/techs.ruleset:691
 msgid "The Wheel"
 msgstr "Das Rad"
 
-#: data/default/techs.ruleset:717 data/civ2/techs.ruleset:538
+#: data/default/techs.ruleset:717 data/civ2/techs.ruleset:702
 msgid "Theology"
 msgstr "Theologie"
 
-#: data/default/techs.ruleset:723 data/civ2/techs.ruleset:542
+#: data/default/techs.ruleset:723 data/civ2/techs.ruleset:708
 msgid "Improves the effect of Cathedrals."
 msgstr "Vergrößert den Effekt von Kathedralen."
 
-#: data/default/techs.ruleset:726 data/civ2/techs.ruleset:545
-#: data/civ1/techs.ruleset:541
+#: data/default/techs.ruleset:726 data/civ2/techs.ruleset:711
+#: data/civ1/techs.ruleset:707
 msgid "Theory of Gravity"
 msgstr "Gravitationstheorie"
 
-#: data/default/techs.ruleset:750 data/civ2/techs.ruleset:563
-#: data/civ1/techs.ruleset:559
+#: data/default/techs.ruleset:750 data/civ2/techs.ruleset:735
+#: data/civ1/techs.ruleset:731
 msgid "Warrior Code"
 msgstr "Kriegerkodex"
 
-#: data/default/techs.ruleset:758 data/civ2/techs.ruleset:569
-#: data/civ1/techs.ruleset:565
+#: data/default/techs.ruleset:758 data/civ2/techs.ruleset:743
+#: data/civ1/techs.ruleset:739
 msgid "Writing"
 msgstr "Schrift"
 
-#: data/civ1/techs.ruleset:535
+#: data/civ1/techs.ruleset:699
 msgid "Religion"
 msgstr "Religion"
 
@@ -23833,11 +23828,11 @@ msgstr ""
 "Jahrzehnte bevor die spanischen Eroberer Mitte des 15. Jahrhunderts in ihrem "
 "Teil der Welt eintrafen."
 
-#: data/nation/inca.ruleset:22
+#: data/nation/inca.ruleset:23
 msgid "?title:Inca"
 msgstr "Inka"
 
-#: data/nation/inca.ruleset:23
+#: data/nation/inca.ruleset:24
 msgid "Sapa Inca"
 msgstr "Sapa Inka"
 
@@ -23902,10 +23897,10 @@ msgid ""
 "coast of Greenland in the 10th century. All Inuit of today are descendents "
 "of the Thule culture."
 msgstr ""
-"Die Inuit bewohnen Nordkanada und Grönland. Nach der Legende "
-"führte der Große Schamane Qitdlarssuaq sein Volk im 10. Jahrhundert nach "
-"Thule (Qaanaaq) an der Westküste Grönlands. Alle heutigen Inuit sind "
-"Nachfahren der Thule-Kultur."
+"Die Inuit bewohnen Nordkanada und Grönland. Nach der Legende führte der "
+"Große Schamane Qitdlarssuaq sein Volk im 10. Jahrhundert nach Thule "
+"(Qaanaaq) an der Westküste Grönlands. Alle heutigen Inuit sind Nachfahren "
+"der Thule-Kultur."
 
 #: data/nation/inuit.ruleset:20
 msgid "Shaman"
@@ -25540,11 +25535,11 @@ msgid ""
 "explorer,\\nand using your settlers to find a good place to build\\na city.  "
 "Use the number pad to move units around."
 msgstr ""
-"Willkommen bei Freeciv. Du lenkst eine Zivilisation. Deine Aufgabe\\n"
-"ist es, die Welt zu erobern! Du solltest damit beginnen, das Land\\n"
-"um Dich herum mit Deinem Kundschafter zu erkunden, und für Deine\\n"
-"Siedler einen guten Platz für eine Stadtgründung zu finden.\\n"
-"Benutze den Ziffernblock, um Deine Einheiten zu bewegen."
+"Willkommen bei Freeciv. Du lenkst eine Zivilisation. Deine Aufgabe\\nist es, "
+"die Welt zu erobern! Du solltest damit beginnen, das Land\\num Dich herum "
+"mit Deinem Kundschafter zu erkunden, und für Deine\\nSiedler einen guten "
+"Platz für eine Stadtgründung zu finden.\\nBenutze den Ziffernblock, um Deine "
+"Einheiten zu bewegen."
 
 #: data/scenario/tutorial.sav:27
 msgid ""
@@ -25553,11 +25548,11 @@ msgid ""
 "to build cities on open ground near water.  Food\\nis the most important "
 "resource for any city.  Grassland and plains\\nprovide plenty of food."
 msgstr ""
-"Dies sieht nach einem guten Platz für eine Stadtgründung aus. Wenn\\n"
-"diese Einheit das nächste Mal am Zug ist, drücke (b) um eine Stadt zu\\n"
-"bauen. Am besten baust Du Deine Städte auf offenem Gelände in der Nähe\\n"
-"von Wasser. Nahrung ist die wichtigste Ressource für eine Stadt.\\n"
-"Grasland und Ebenen liefern viel Nahrung."
+"Dies sieht nach einem guten Platz für eine Stadtgründung aus. Wenn\\ndiese "
+"Einheit das nächste Mal am Zug ist, drücke (b) um eine Stadt zu\\nbauen. Am "
+"besten baust Du Deine Städte auf offenem Gelände in der Nähe\\nvon Wasser. "
+"Nahrung ist die wichtigste Ressource für eine Stadt.\\nGrasland und Ebenen "
+"liefern viel Nahrung."
 
 #: data/scenario/tutorial.sav:42
 msgid ""
@@ -25572,17 +25567,16 @@ msgid ""
 "\\ndialog.  If all goes well the city should display the settler"
 "\\nproduction on the map view."
 msgstr ""
-"Nun hast Du Deine erste Stadt gebaut. Das Stadtfenster sollte sich\\n"
-"automatisch geöffnet haben; falls nicht, klicke auf die Stadt um es zu\\n"
-"öffnen. Städte sind ein grundlegendes Konzept von Freeciv, also\\n"
-"solltest Du Dich mit dem Stadtfenster etwas vertraut machen. In der\\n"
-"Hilfe findest Du weitere Hinweise.\\n\\n"
-"Am Anfang willst Du wahrscheinlich Siedler bauen, um Deine Zivilisation\\n"
-"weiter ausdehnen zu können. Klicke auf den Produktion-Reiter, dann auf\\n"
-"die Siedlereinheit in der Liste, und auf den Ändern-Knopf, um mit dem\\n"
-"Bau zu beginnen. Wenn Du fertig bist, schließe das Stadtfenster. Wenn\\n"
-"alles gut geht, sollte die Siedlerproduktion für die Stadt auf der\\n"
-"Karte angezeigt werden."
+"Nun hast Du Deine erste Stadt gebaut. Das Stadtfenster sollte sich"
+"\\nautomatisch geöffnet haben; falls nicht, klicke auf die Stadt um es zu"
+"\\nöffnen. Städte sind ein grundlegendes Konzept von Freeciv, also"
+"\\nsolltest Du Dich mit dem Stadtfenster etwas vertraut machen. In der"
+"\\nHilfe findest Du weitere Hinweise.\\n\\nAm Anfang willst Du "
+"wahrscheinlich Siedler bauen, um Deine Zivilisation\\nweiter ausdehnen zu "
+"können. Klicke auf den Produktion-Reiter, dann auf\\ndie Siedlereinheit in "
+"der Liste, und auf den Ändern-Knopf, um mit dem\\nBau zu beginnen. Wenn Du "
+"fertig bist, schließe das Stadtfenster. Wenn\\nalles gut geht, sollte die "
+"Siedlerproduktion für die Stadt auf der\\nKarte angezeigt werden."
 
 #: data/scenario/tutorial.sav:55
 msgid ""
@@ -25590,10 +25584,9 @@ msgid ""
 "almost exactly like the first one - it will be slightly different\\nbecause "
 "of the terrain around it.  You probably want to build\\nsettlers here too."
 msgstr ""
-"Gratulation, Du hast Deine zweite Stadt gebaut. Diese Stadt wird sich\\n"
-"fast genauso berhalten wie die erste - ein wenig unterschiedlich\\n"
-"wegen des Geländes drumherum. Du willst hier wahrscheinlich ebenfalls\\n"
-"Siedler bauen."
+"Gratulation, Du hast Deine zweite Stadt gebaut. Diese Stadt wird sich\\nfast "
+"genauso berhalten wie die erste - ein wenig unterschiedlich\\nwegen des "
+"Geländes drumherum. Du willst hier wahrscheinlich ebenfalls\\nSiedler bauen."
 
 #: data/scenario/tutorial.sav:61
 msgid ""
@@ -25998,6 +25991,9 @@ msgstr "Team 31"
 #: data/default/game.ruleset:160
 msgid "Team 32"
 msgstr "Team 32"
+
+#~ msgid "Log"
+#~ msgstr "Logausgabe"
 
 #~ msgid ""
 #~ "Start\n"
