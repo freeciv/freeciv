@@ -1686,14 +1686,6 @@ reqs	=
       "UnitClass", "Sea", "Local"
     }
 
-[effect_lighthouse_1]
-name	= "No_Sink_Deep"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Lighthouse", "Player"
-    }
-
 [effect_lighthouse_2]
 name	= "Veteran_Build"
 value	= 1

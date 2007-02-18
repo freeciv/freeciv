@@ -879,7 +879,7 @@ Gives all sea units 1 additional movement point and eliminates the\
  veterans (for all cities).\
 ")
 ; NOTE:
-; Civ1 docs do not mention "No_Sink_Deep" and "Unit_Veteran"/"Sea" effecets.
+; Civ1 docs do not mention "No_Sink_Deep" and "Unit_Veteran"/"Sea" effects.
 
 [building_magellans_expedition]
 name		= _("Magellan's Expedition")
