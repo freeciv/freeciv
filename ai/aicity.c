@@ -462,9 +462,6 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_REVEAL_CITIES:
   case EFT_NO_ANARCHY:
     break;  /* Useless for AI */
-  case EFT_NO_SINK_DEEP:
-    v += 15 + ai->stats.units.triremes * 5;
-    break;
   case EFT_NUKE_PROOF:
     if (ai->threats.nuclear) {
       v += pcity->size * unit_list_size(pcity->tile->units) * (capital + 1)

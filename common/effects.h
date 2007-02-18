@@ -48,7 +48,6 @@ enum effect_type {
   /* TODO: EFT_MAKE_CONTENT_PCT, */
   EFT_MAKE_HAPPY,
   EFT_NO_ANARCHY,
-  EFT_NO_SINK_DEEP,
   EFT_NUKE_PROOF,
   /* TODO: EFT_POLLU_ADJ, */
   /* TODO: EFT_POLLU_PCT, */

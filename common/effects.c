@@ -61,7 +61,6 @@ static const char *effect_type_names[EFT_LAST] = {
   /* TODO: "Make_Content_Pct", */
   "Make_Happy",
   "No_Anarchy",
-  "No_Sink_Deep",
   "Nuke_Proof",
   /* TODO: "Pollu_Adj", */
   /* TODO: "Pollu_Pct", */
