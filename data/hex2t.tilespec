@@ -83,7 +83,7 @@ minimap_intro_file = "misc/radar"
 files = 
   "misc/colors.spec",
   "misc/overlays.spec",
-  "misc/citybar.spec",  "hex2t/tiles.spec",
+  "misc/citybar.spec",  "hex2t/tiles.spec",
   "hex2t/overlays.spec",
   "trident/units.spec",
   "hex2t/select.spec",
