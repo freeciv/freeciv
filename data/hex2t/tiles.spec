@@ -59,22 +59,25 @@ tiles = { "row", "column","tag"
 ;      as the second ocean layer is drawn over the top of them
 ;      but it's useful to know ...
 
-  2, 0, "t.desert1"
-  6, 6, "t.desert2"
-  6, 7, "t.desert3"
+  2, 0, "t.l0.desert1"
+  6, 6, "t.l0.desert2"
+  6, 7, "t.l0.desert3"
 
-  2, 1, "t.plains1"
-  2, 2, "t.grassland1"
-  2, 3, "t.forest1"
-  2, 4, "t.hills1"
-  2, 5, "t.mountains1"
-  2, 6, "t.tundra1"
-  2, 7, "t.arctic1"
-  2, 8, "t.swamp1"
-  2, 9, "t.jungle1"
+  2, 1, "t.l0.plains1"
+  2, 2, "t.l0.grassland1"
+  2, 3, "t.l0.forest1"
+  2, 4, "t.l0.hills1"
+  2, 5, "t.l0.mountains1"
+  2, 6, "t.l0.tundra1"
+  2, 7, "t.l0.arctic1"
+  2, 8, "t.l0.swamp1"
 
-  2, 10, "t.ocean1"
-  6, 8, "t.ocean2"
+; FIXME: The same sprite is drawn twice on top of each other here.
+  2, 9, "t.l0.jungle1"
+  2, 9, "t.l1.jungle1"
+
+  2, 10, "t.l0.ocean1"
+  6, 8, "t.l0.ocean2"
 
 ; Terrain special resources:
 

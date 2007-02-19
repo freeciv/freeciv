@@ -27,27 +27,27 @@ pixel_border = 1
 tiles = { "row", "column","tag"
 
 ; terrain
- 0,  0, "t.desert1"
+ 0,  0, "t.l0.desert1"
 
- 1,  0, "t.plains1"
+ 1,  0, "t.l0.plains1"
 
- 2,  0, "t.grassland1"
+ 2,  0, "t.l0.grassland1"
 
- 2,  0, "t.t_river1"
+ 2,  0, "t.l0.t_river1"
 
- 3,  0, "t.forest1"
+ 3,  0, "t.l0.forest1"
 
- 4,  0, "t.hills1"
+ 4,  0, "t.l0.hills1"
 
- 5,  0, "t.mountains1"
+ 5,  0, "t.l0.mountains1"
 
- 6,  0, "t.tundra1"
+ 6,  0, "t.l0.tundra1"
 
- 7,  0, "t.arctic1"
+ 7,  0, "t.l0.arctic1"
 
- 8,  0, "t.swamp1"
+ 8,  0, "t.l0.swamp1"
 
- 9,  0, "t.jungle1"
+ 9,  0, "t.l0.jungle1"
 
 ; Terrain special resources:
 
@@ -122,8 +122,8 @@ tiles = { "row", "column","tag"
  15,  0, "tx.darkness"
  15,  2, "mask.tile"
  15,  2, "t.unknown1"
- 15,  3, "t.ocean1"
- 15,  3, "t.deep1"
+ 15,  3, "t.l0.ocean1"
+ 15,  3, "t.l0.deep1"
  15,  4, "user.attention"
  15,  5, "tx.fog"
 }

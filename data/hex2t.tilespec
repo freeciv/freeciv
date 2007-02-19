@@ -2,8 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-
-options = "+tilespec4"
+options = "+tilespec4.2007.Feb.18"
 
 ; A simple name for the tileset specified by this file:
 

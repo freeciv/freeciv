@@ -407,7 +407,7 @@ struct tileset {
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec4 duplicates_ok"
+#define TILESPEC_CAPSTR "+tilespec4.2007.Feb.18 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -2619,13 +2619,13 @@ void tileset_setup_tile_type(struct tileset *t,
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
     sprite_vector_init(&draw->layer[l].base);
-    sprite_vector_reserve(&draw->layer[l].base, 1);
     if (draw->layer[l].match_style == MATCH_NONE) {
       /* Load single sprite for this terrain. */
       for (i = 0; ; i++) {
 	struct sprite *sprite;
 
-	my_snprintf(buffer1, sizeof(buffer1), "t.%s%d", draw->name, i + 1);
+	my_snprintf(buffer1, sizeof(buffer1),
+		    "t.l%d.%s%d", l, draw->name, i + 1);
 	sprite = load_sprite(t, buffer1);
 	if (!sprite) {
 	  break;
@@ -2635,8 +2635,8 @@ void tileset_setup_tile_type(struct tileset *t,
       }
       if (i == 0) {
 	/* TRANS: obscure tileset error. */
-	freelog(LOG_FATAL, _("Missing base sprite tag \"%s1\"."),
-		draw->name);
+	freelog(LOG_FATAL, _("Missing base sprite tag \"%s\"."),
+		buffer1);
 	exit(EXIT_FAILURE);
       }
     } else {
@@ -2645,12 +2645,12 @@ void tileset_setup_tile_type(struct tileset *t,
 	/* Load 16 cardinally-matched sprites. */
 	for (i = 0; i < t->num_index_cardinal; i++) {
 	  my_snprintf(buffer1, sizeof(buffer1),
-		      "t.%s_%s", draw->name, cardinal_index_str(t, i));
+		      "t.l%d.%s_%s", l,
+		      draw->name, cardinal_index_str(t, i));
 	  draw->layer[l].match[i] = lookup_sprite_tag_alt(t, buffer1, "", TRUE,
 							  "tile_type",
 							  pterrain->name);
 	}
-	draw->layer[l].base.p[0] = draw->layer[l].match[0];
 	break;
       case CELL_RECT:
 	{
@@ -2672,7 +2672,8 @@ void tileset_setup_tile_type(struct tileset *t,
 	      assert(0); /* Impossible. */
 	      break;
 	    case MATCH_BOOLEAN:
-	      my_snprintf(buffer1, sizeof(buffer1), "t.%s_cell_%c%d%d%d",
+	      my_snprintf(buffer1, sizeof(buffer1), "t.l%d.%s_cell_%c%d%d%d",
+			  l,
 			  draw->name, dirs[dir],
 			  (value >> 0) & 1,
 			  (value >> 1) & 1,
@@ -2724,7 +2725,8 @@ void tileset_setup_tile_type(struct tileset *t,
 		  break;
 		}
 		my_snprintf(buffer1, sizeof(buffer1),
-			    "t.cellgroup_%s_%s_%s_%s",
+			    "t.l%d.cellgroup_%s_%s_%s_%s",
+			    l,
 			    t->layers[l].match_types[n],
 			    t->layers[l].match_types[e],
 			    t->layers[l].match_types[s],
@@ -2755,10 +2757,6 @@ void tileset_setup_tile_type(struct tileset *t,
 	    }
 	  }
 	}
-	my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
-	draw->layer[l].base.p[0]
-	  = lookup_sprite_tag_alt(t, buffer1, "", FALSE, "tile_type",
-				  pterrain->name);
 	break;
       }
     }
@@ -2771,6 +2769,14 @@ void tileset_setup_tile_type(struct tileset *t,
       {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
     };
     enum direction4 dir;
+
+    if (draw->layer[0].base.size < 1) {
+      my_snprintf(buffer1, sizeof(buffer1), "t.l0.%s1", draw->name);
+      sprite_vector_reserve(&draw->layer[0].base, 1);
+      draw->layer[0].base.p[0]
+	= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "tile_type",
+				pterrain->name);
+    }
 
     for (dir = 0; dir < 4; dir++) {
       assert(sprite_vector_size(&draw->layer[0].base) > 0);
