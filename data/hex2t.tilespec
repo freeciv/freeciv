@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec4.2007.Feb.18"
+options = "+tilespec4.2007.Feb.20"
 
 ; A simple name for the tileset specified by this file:
 
@@ -42,6 +42,9 @@ city_flag_offset_y = 51
 
 unit_offset_x = 4
 unit_offset_y = 57
+
+; The layer in which blending is used (see terrains below)
+blend_layer = 0
 
 ; offset the citybar text by this amount (from the city tile origin)
 

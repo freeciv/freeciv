@@ -84,7 +84,7 @@ enum cell_type {
   CELL_SINGLE, CELL_RECT
 };
 
-#define MAX_NUM_LAYERS 2
+#define MAX_NUM_LAYERS 3
 
 struct terrain_drawing_data {
   char *name;
@@ -372,6 +372,8 @@ struct tileset {
   int city_flag_offset_x, city_flag_offset_y;
   int unit_offset_x, unit_offset_y;
 
+  int blend_layer;
+
   int citybar_offset_y;
 
 #define NUM_CORNER_DIRS 4
@@ -407,7 +409,7 @@ struct tileset {
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec4.2007.Feb.18 duplicates_ok"
+#define TILESPEC_CAPSTR "+tilespec4.2007.Feb.20 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -785,11 +787,9 @@ static void tileset_free_toplevel(struct tileset *t)
       if (draw->mine_tag) {
 	free(draw->mine_tag);
       }
-      if (draw->is_blended && t->is_isometric) {
-	for (i = 0; i < 4; i++) {
-	  if (draw->blend[i]) {
-	    free_sprite(draw->blend[i]);
-	  }
+      for (i = 0; i < 4; i++) {
+	if (draw->blend[i]) {
+	  free_sprite(draw->blend[i]);
 	}
       }
       for (i = 0; i < draw->num_layers; i++) {
@@ -1379,6 +1379,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   t->unit_offset_x = secfile_lookup_int(file, "tilespec.unit_offset_x");
   t->unit_offset_y = secfile_lookup_int(file, "tilespec.unit_offset_y");
 
+  t->blend_layer = secfile_lookup_int(file, "tilespec.blend_layer");
+
   t->citybar_offset_y
     = secfile_lookup_int(file, "tilespec.citybar_offset_y");
 
@@ -1400,7 +1402,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   /* Terrain layer info. */
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
-    char *style = secfile_lookup_str(file, "layer%d.match_style", i);
+    char *style = secfile_lookup_str_default(file, "none",
+					     "layer%d.match_style", i);
     int j;
 
     if (mystrcasecmp(style, "full") == 0) {
@@ -2762,25 +2765,26 @@ void tileset_setup_tile_type(struct tileset *t,
     }
   }
 
-  if (draw->is_blended && t->is_isometric) {
+  if (t->blend_layer >= 0 && t->blend_layer < MAX_NUM_LAYERS) {
     /* Set up blending sprites. This only works in iso-view! */
     const int W = t->normal_tile_width, H = t->normal_tile_height;
     const int offsets[4][2] = {
       {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
     };
     enum direction4 dir;
+    const int l = t->blend_layer;
 
-    if (draw->layer[0].base.size < 1) {
-      my_snprintf(buffer1, sizeof(buffer1), "t.l0.%s1", draw->name);
-      sprite_vector_reserve(&draw->layer[0].base, 1);
-      draw->layer[0].base.p[0]
+    if (draw->layer[l].base.size < 1) {
+      my_snprintf(buffer1, sizeof(buffer1), "t.l%d.%s1", l, draw->name);
+      sprite_vector_reserve(&draw->layer[l].base, 1);
+      draw->layer[l].base.p[0]
 	= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "tile_type",
 				pterrain->name);
     }
 
     for (dir = 0; dir < 4; dir++) {
-      assert(sprite_vector_size(&draw->layer[0].base) > 0);
-      draw->blend[dir] = crop_sprite(draw->layer[0].base.p[0],
+      assert(sprite_vector_size(&draw->layer[l].base) > 0);
+      draw->blend[dir] = crop_sprite(draw->layer[l].base.p[0],
 				     offsets[dir][0], offsets[dir][1],
 				     W / 2, H / 2,
 				     t->sprites.dither_tile, 0, 0);
@@ -3459,33 +3463,31 @@ static int fill_blending_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
   struct terrain *pterrain = tile_get_terrain(ptile);
+  enum direction4 dir;
+  const int W = t->normal_tile_width, H = t->normal_tile_height;
+  const int offsets[4][2] = {
+    {W/2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
+  };
 
-  if (t->is_isometric && t->sprites.terrain[pterrain->index]->is_blended) {
-    enum direction4 dir;
-    const int W = t->normal_tile_width, H = t->normal_tile_height;
-    const int offsets[4][2] = {
-      {W/2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
-    };
+  /*
+   * We want to mark unknown tiles so that an unreal tile will be
+   * given the same marking as our current tile - that way we won't
+   * get the "unknown" dither along the edge of the map.
+   */
+  for (dir = 0; dir < 4; dir++) {
+    struct tile *tile1 = mapstep(ptile, DIR4_TO_DIR8[dir]);
+    struct terrain *other = tterrain_near[DIR4_TO_DIR8[dir]];
 
-    /*
-     * We want to mark unknown tiles so that an unreal tile will be
-     * given the same marking as our current tile - that way we won't
-     * get the "unknown" dither along the edge of the map.
-     */
-    for (dir = 0; dir < 4; dir++) {
-      struct tile *tile1 = mapstep(ptile, DIR4_TO_DIR8[dir]);
-      struct terrain *other = tterrain_near[DIR4_TO_DIR8[dir]];
-
-      if (!tile1
-	  || client_tile_get_known(tile1) == TILE_UNKNOWN
-	  || other == pterrain
-	  || !t->sprites.terrain[other->index]->is_blended) {
-	continue;
-      }
-
-      ADD_SPRITE(t->sprites.terrain[other->index]->blend[dir], TRUE,
-		 offsets[dir][0], offsets[dir][1]);
+    if (!tile1
+	|| client_tile_get_known(tile1) == TILE_UNKNOWN
+	|| other == pterrain
+	|| !(t->sprites.terrain[pterrain->index]->is_blended
+	     || t->sprites.terrain[other->index]->is_blended)) {
+      continue;
     }
+
+    ADD_SPRITE(t->sprites.terrain[other->index]->blend[dir], TRUE,
+	       offsets[dir][0], offsets[dir][1]);
   }
 
   return sprs - saved_sprs;
@@ -3578,10 +3580,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
     }
   }
 
-  if (l >= draw->num_layers) {
-    return 0;
-  }
-
+  if (l < draw->num_layers) {
   if (draw->layer[l].match_style == MATCH_NONE) {
     int count = sprite_vector_size(&draw->layer[l].base);
 
@@ -3684,9 +3683,10 @@ static int fill_terrain_sprite_array(struct tileset *t,
     }
 #undef MATCH
   }
+  }
 
   /* Add blending on top of the first layer. */
-  if (l == 0 && draw->is_blended) {
+  if (l == t->blend_layer) {
     sprs += fill_blending_sprite_array(t, sprs, ptile, tterrain_near);
   }
 
@@ -4008,12 +4008,15 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_TERRAIN1:
   case LAYER_TERRAIN2:
+  case LAYER_TERRAIN3:
     /* Terrain and specials.  These are drawn in multiple layers so that
      * upper layers will cover layers underneath. */
     if (ptile && !solid_bg && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      assert(MAX_NUM_LAYERS == 2);
-      sprs += fill_terrain_sprite_array(t, sprs,
-					(layer == LAYER_TERRAIN1) ? 0 : 1,
+      int l = (layer == LAYER_TERRAIN1)
+	? 0 : ((layer == LAYER_TERRAIN2) ? 1 : 2);
+
+      assert(MAX_NUM_LAYERS == 3);
+      sprs += fill_terrain_sprite_array(t, sprs, l,
 					ptile, tterrain_near);
     }
     break;

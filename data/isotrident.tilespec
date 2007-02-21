@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec4.2007.Feb.18"
+options = "+tilespec4.2007.Feb.20"
 
 ; A simple name for the tileset specified by this file:
 name = "MacroIsoTrident"
@@ -38,6 +38,9 @@ city_flag_offset_y = 11
 ; offset the units by this amount when drawing units
 unit_offset_x = 21
 unit_offset_y = 13
+
+; The layer in which blending is used (see terrains below)
+blend_layer = 0
 
 ; offset the citybar text by this amount (from the city tile origin)
 citybar_offset_y = 20
