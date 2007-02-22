@@ -7,7 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    ???
+    Finer (civicon)
 "
 
 [extra]
