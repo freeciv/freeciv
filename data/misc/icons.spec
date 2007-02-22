@@ -7,7 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    ???
+    James Blewitt (civicon)
 "
 
 [extra]
