@@ -63,6 +63,7 @@ files =
   "misc/overlays.spec",
   "misc/citybar.spec",
   "trident/tiles.spec",
+  "trident/earth.spec",
   "misc/small.spec",
   "trident/units.spec",
   "trident/select.spec",

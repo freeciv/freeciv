@@ -312,15 +312,6 @@ tiles = { "row", "column", "tag"
   8, 18, "tx.river_outlet_s"
   8, 19, "tx.river_outlet_e"
 
-; Denmark tiles, two rows:
-
- 10, 12, "tx.denmark_00"
- 10, 13, "tx.denmark_01"
- 10, 14, "tx.denmark_02"
- 10, 15, "tx.denmark_10"
- 10, 16, "tx.denmark_11"
- 10, 17, "tx.denmark_12"
-
 ; Terrain special resources:
 
  11,  0, "ts.seals"
