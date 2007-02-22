@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-11 17:47-0500\n"
-"PO-Revision-Date: 2006-07-11 14:31+0200\n"
+"POT-Creation-Date: 2007-02-22 21:15+0100\n"
+"PO-Revision-Date: 2007-02-22 21:39+0100\n"
 "Last-Translator: Jelle Pelfrene <jelle.pelfrene@student.kuleuven.ac.be>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -492,7 +492,7 @@ msgstr "Luxe"
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:91
 #: client/gui-xaw/menu.c:219 client/gui-xaw/repodlgs.c:255
-#: client/gui-xaw/repodlgs.c:464 data/Freeciv.in:1393
+#: client/gui-xaw/repodlgs.c:479 data/Freeciv.in:1393
 msgid "Science"
 msgstr "Wetenschap"
 
@@ -2498,185 +2498,185 @@ msgstr "Spel: Uw %s heeft %s's %s met succes gesaboteerd."
 msgid "Game: Your %s was sabotaged by %s!"
 msgstr "Spel: Uw %s is gesaboteerd door %s!"
 
-#: server/diplomats.c:428
+#: server/diplomats.c:427
 msgid "Game: You can't bribe a unit from this nation."
 msgstr "Spel: U kunt eenheden van deze natie niet omkopen."
 
-#: server/diplomats.c:437
+#: server/diplomats.c:436
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
 msgstr "Spel: U hebt niet genoeg goud om %s's %s om te kopen."
 
-#: server/diplomats.c:446
+#: server/diplomats.c:445
 #, c-format
 msgid "Game: You cannot bribe %s!"
 msgstr "Spel: U kunt %s niet omkopen!"
 
-#: server/diplomats.c:472
+#: server/diplomats.c:463
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Spel: Uw %s heeft %s's %s met succes omgekocht en kreeg meer ervaring."
 
-#: server/diplomats.c:478
+#: server/diplomats.c:469
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
 msgstr "Spel: Uw %s heeft %s's %s met succes omgekocht."
 
-#: server/diplomats.c:482
+#: server/diplomats.c:473
 #, c-format
 msgid "Game: Your %s was bribed by %s."
 msgstr "Spel Uw %s is omgekocht door %s."
 
-#: server/diplomats.c:579
+#: server/diplomats.c:570
 #, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Spel: Uw %s werd betrapt bij een poging technologie te stelen van %s."
 
-#: server/diplomats.c:583
+#: server/diplomats.c:574
 #, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
 msgstr "Spel: %s's %s kon geen technologie stelen van %s."
 
-#: server/diplomats.c:616
+#: server/diplomats.c:607
 #, c-format
 msgid "Game: No new technology found in %s."
 msgstr "Spel: Geen nieuwe technologie gevonden in %s."
 
-#: server/diplomats.c:653
+#: server/diplomats.c:644
 #, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
 msgstr "Spel: Uw %s kon de %s technologie niet vinden in %s."
 
-#: server/diplomats.c:674
+#: server/diplomats.c:665
 #, c-format
 msgid "Game: Your %s stole Future Tech. %d from %s."
 msgstr "Spel: Uw %s stal Toekomst Tech. %d van %s."
 
-#: server/diplomats.c:678
+#: server/diplomats.c:669
 #, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
 msgstr "Spel: Toekomst Tech. %d is gestolen door %s %s van %s."
 
-#: server/diplomats.c:691
+#: server/diplomats.c:682
 #, c-format
 msgid "Game: Your %s stole %s from %s."
 msgstr "Spel: Uw %s stal %s van %s."
 
-#: server/diplomats.c:695
+#: server/diplomats.c:686
 #, c-format
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spel: %s's %s stal %s van %s."
 
-#: server/diplomats.c:699 server/plrhand.c:830
+#: server/diplomats.c:690 server/plrhand.c:830
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spel: De %s hebben %s gestolen van de %s."
 
-#: server/diplomats.c:758
+#: server/diplomats.c:749
 msgid "Game: You can't subvert a city from this nation."
 msgstr "Spel: U kunt steden van deze natie niet omkopen."
 
-#: server/diplomats.c:766
+#: server/diplomats.c:757
 msgid "Game: You can't subvert this city."
 msgstr "Spel: U kan deze stad niet omkopen."
 
-#: server/diplomats.c:777
+#: server/diplomats.c:768
 #, c-format
 msgid "Game: You don't have enough gold to subvert %s."
 msgstr "Spel: U hebt niet genoeg goud om %s om te kopen."
 
-#: server/diplomats.c:794
+#: server/diplomats.c:785
 #, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Spel: Uw %s werd betrapt bij een poging een opstand te ontketenen!"
 
-#: server/diplomats.c:798
+#: server/diplomats.c:789
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
 "Spel: U betrapte een %s %s in een poging een opstand te ontketenen in %s!"
 
-#: server/diplomats.c:822
+#: server/diplomats.c:813
 #, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
 msgstr "Spel: Opstand ontketend in %s, u regeert nu de stad!"
 
-#: server/diplomats.c:825
+#: server/diplomats.c:816
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr "Spel: %s is in opstand, vermoed %s invloed."
 
-#: server/diplomats.c:905
+#: server/diplomats.c:896
 #, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Spel: Uw %s werd betrapt bij een poging van industri�le sabotage!"
 
-#: server/diplomats.c:909
+#: server/diplomats.c:900
 #, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
 msgstr "Spel: U betrapte een %s %s tijdens een sabotagepoging in %s!"
 
-#: server/diplomats.c:943
+#: server/diplomats.c:934
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
 msgstr "Spel: Uw %s kon niets vinden om te saboteren in %s."
 
-#: server/diplomats.c:985
+#: server/diplomats.c:976
 #, c-format
 msgid "Game: You cannot sabotage a %s!"
 msgstr "Spel: U kan geen %s saboteren!"
 
-#: server/diplomats.c:995
+#: server/diplomats.c:986
 #, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
 msgstr "Spel: Uw %s kon de %s niet vinden om te saboteren in %s."
 
-#: server/diplomats.c:1020
+#: server/diplomats.c:1011
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
 msgstr "Spel: Uw %s heeft de productie van %s in %s met succes vernietigd."
 
-#: server/diplomats.c:1024
+#: server/diplomats.c:1015
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
 msgstr "Spel: De productie van %s is vernietigd in %s, %s worden verdacht."
 
-#: server/diplomats.c:1045
+#: server/diplomats.c:1036
 #, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr "Spel: Uw %s werd betrapt bij een sabotagepoging!"
 
-#: server/diplomats.c:1049
+#: server/diplomats.c:1040
 #, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Spel: U betrapte %s %s in een sabotagepoging van %s in %s!"
 
-#: server/diplomats.c:1061
+#: server/diplomats.c:1052
 #, c-format
 msgid "Game: Your %s destroyed the %s in %s."
 msgstr "Spel: Uw %s vernietigde de %s in %s."
 
-#: server/diplomats.c:1065
+#: server/diplomats.c:1056
 #, c-format
 msgid "Game: The %s destroyed the %s in %s."
 msgstr "Spel: De %s vernietigden de %s in %s."
 
-#: server/diplomats.c:1169
+#: server/diplomats.c:1160
 #, c-format
 msgid "Game: Your %s has been eliminated defending %s against a %s."
 msgstr "Spel: Uw %s is ge-elimineerd bij de verdediging van %s tegen %s."
 
-#: server/diplomats.c:1173
+#: server/diplomats.c:1164
 #, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
 msgstr "Spel: Uw vijand %s is ge-elimineerd bij de verdediging van %s."
 
-#: server/diplomats.c:1187
+#: server/diplomats.c:1178
 #, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
 msgstr "Spel: Uw %s is ge-elimineerd bij een verdedigende %s."
 
-#: server/diplomats.c:1194
+#: server/diplomats.c:1185
 #, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
@@ -2685,7 +2685,7 @@ msgstr ""
 "Spel: Elimineerde %s %s tijdens het infiltreren van %s. De verdediger kreeg "
 "meer ervaring."
 
-#: server/diplomats.c:1201
+#: server/diplomats.c:1192
 #, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
@@ -2694,17 +2694,17 @@ msgstr ""
 "Spel: Elimineerde %s %s tijdens het infiltreren van onze troepen. De "
 "verdediger kreeg meer ervaring."
 
-#: server/diplomats.c:1211
+#: server/diplomats.c:1202
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr "Spel: Elimineerde %s %s tijdens het infiltreren van %s."
 
-#: server/diplomats.c:1217
+#: server/diplomats.c:1208
 #, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr "Spel: Elimineerde %s %s tijdens het infiltreren van onze troepen."
 
-#: server/diplomats.c:1270
+#: server/diplomats.c:1261
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
@@ -2713,7 +2713,7 @@ msgstr ""
 "Spel: Uw %s heeft haar missie met succes afgerond en keert ongedeerd terug "
 "naar %s en heeft ervaring opgedaan."
 
-#: server/diplomats.c:1276
+#: server/diplomats.c:1267
 #, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
@@ -2722,46 +2722,46 @@ msgstr ""
 "Spel: Uw %s heeft haar missie met succes afgerond en keert ongedeerd terug "
 "naar %s."
 
-#: server/diplomats.c:1292
+#: server/diplomats.c:1283
 #, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr "Spel: Uw %s is gevangengenomen na afronding van haar missie in %s."
 
-#: server/diplomats.c:1297
+#: server/diplomats.c:1288
 #, c-format
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "Spel: Uw %s is gevangengenomen na afronding van haar missie."
 
-#: server/diplomats.c:1332
+#: server/diplomats.c:1323
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr "Spel: U hebt een schandaal veroorzaakt met het omkopen van %s's %s."
 
-#: server/diplomats.c:1337
+#: server/diplomats.c:1328
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
 msgstr "Spel: %s heeft een schandaal veroorzaakt met het omkopen van uw %s."
 
-#: server/diplomats.c:1344
+#: server/diplomats.c:1335
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
 msgstr ""
 "Spel: U hebt een schandaal veroorzaakt met het stelen van technologie van %s."
 
-#: server/diplomats.c:1348
+#: server/diplomats.c:1339
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
 msgstr ""
 "Spel: %s heeft een schandaal veroorzaakt met het stelen van uw technologie."
 
-#: server/diplomats.c:1354
+#: server/diplomats.c:1345
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr ""
 "Spel: U hebt een schandaal veroorzaakt met uw poging een opstand te "
 "ontketenen in %s."
 
-#: server/diplomats.c:1357
+#: server/diplomats.c:1348
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr ""
@@ -3394,7 +3394,7 @@ msgstr "Tussenscores:"
 
 #: server/report.c:1111 client/gui-gtk/repodlgs.c:1127
 #: client/gui-mui/repodlgs.c:870 client/gui-win32/repodlgs.c:754
-#: client/gui-xaw/repodlgs.c:1138
+#: client/gui-xaw/repodlgs.c:1153
 msgid "The Greatest Civilizations in the world."
 msgstr "De Grootste Beschavingen ter wereld."
 
@@ -6410,7 +6410,7 @@ msgstr "Spel: Alleen %s kunnen aanvallen vanuit zee."
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan niet aanvallen vanuit zee."
 
-#: server/unithand.c:932 server/unittools.c:2237
+#: server/unithand.c:932 server/unittools.c:2220
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: U kunt niet aanvallen voordat u de oorlog verklaard heeft."
 
@@ -6537,178 +6537,178 @@ msgstr "Spel: Uw %s overleefde de diepzee en werd meer ervaren!"
 msgid "Game: Your %s has been lost on unsafe terrain."
 msgstr "Spel: Uw %s is verloren gegaan op onveilig terrein."
 
-#: server/unittools.c:376
+#: server/unittools.c:375
 #, c-format
 msgid "Game: Your %s has returned to refuel."
 msgstr "Spel: Uw %s is teruggekeerd om te tanken."
 
-#: server/unittools.c:402
+#: server/unittools.c:401
 #, c-format
 msgid "Game: Your %s has run out of fuel."
 msgstr "Spel: Uw %s heeft geen brandstof meer."
 
-#: server/unittools.c:583
+#: server/unittools.c:582
 #, c-format
 msgid "Game: Your %s became more experienced!"
 msgstr "Spel: Uw %s werd meer ervaren!"
 
-#: server/unittools.c:863
+#: server/unittools.c:862
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea."
 msgstr ""
 "Spel: Verplaatste uw %s in verband met het veranderen van land naar zee."
 
-#: server/unittools.c:884
+#: server/unittools.c:883
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
 msgstr ""
 "Spel: Uw %s aan boord gestuurd vanwege de verandering van land naar zee."
 
-#: server/unittools.c:899
+#: server/unittools.c:898
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
 msgstr "Spel: Ontbond uw %s vanwege de verandering van land naar zee."
 
-#: server/unittools.c:921
+#: server/unittools.c:920
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land."
 msgstr "Spel: Verplaatste uw %s vanwege de verandering van zee naar land."
 
-#: server/unittools.c:941
+#: server/unittools.c:940
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land."
 msgstr "Spel: Uw %s afgemeerd vanwege de verandering van zee naar land."
 
-#: server/unittools.c:956
+#: server/unittools.c:955
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
 msgstr "Spel: Ontbond uw %s vanwege de verandering van zee naar land."
 
-#: server/unittools.c:988
+#: server/unittools.c:987
 #, c-format
 msgid " at %s"
 msgstr " bij %s"
 
-#: server/unittools.c:990
+#: server/unittools.c:989
 #, c-format
 msgid " in %s"
 msgstr " in %s"
 
-#: server/unittools.c:997
+#: server/unittools.c:996
 #, c-format
 msgid " outside %s"
 msgstr " buiten %s"
 
-#: server/unittools.c:1000
+#: server/unittools.c:999
 #, c-format
 msgid " near %s"
 msgstr " bij %s"
 
-#: server/unittools.c:1210
+#: server/unittools.c:1209
 #, c-format
 msgid "Game: Teleported your %s to %s."
 msgstr "Spel: Teleporteerde uw %s naar %s."
 
-#: server/unittools.c:1239
+#: server/unittools.c:1238
 #, c-format
 msgid "Game: Disbanded your %s."
 msgstr "Spel: Ontbond uw %s."
 
-#: server/unittools.c:1564
+#: server/unittools.c:1562
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Niet in staat %s te verdedigen - %s heeft het spel verloren."
 
-#: server/unittools.c:1566
+#: server/unittools.c:1564
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Het verliezen van %s betekent het einde van het spel! Wees voorzichtiger "
 "volgende keer!"
 
-#: server/unittools.c:1670
+#: server/unittools.c:1668
 #, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
 msgstr "Spel: %s ontsnapte aan de vernietiging van %s en vluchtte naar %s"
 
-#: server/unittools.c:1677
+#: server/unittools.c:1675
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Spel: %s verloren toen %s verloren ging."
 
-#: server/unittools.c:1736
+#: server/unittools.c:1734
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spel: Barbaarse leider gevangengenomen, %d goud losgeld betaald."
 
-#: server/unittools.c:1753
+#: server/unittools.c:1751
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1779
+#: server/unittools.c:1777
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Spel: U verloor %d eenheid onder een aanval van %s's %s%s."
 msgstr[1] "Spel: U verloor %d eenheden onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1794
+#: server/unittools.c:1792
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s."
 
-#: server/unittools.c:2082
+#: server/unittools.c:2065
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Spel: Uw %s is geatomiseerd door %s."
 
-#: server/unittools.c:2084 server/unittools.c:2100
+#: server/unittools.c:2067 server/unittools.c:2083
 msgid "yourself"
 msgstr "uzelf"
 
-#: server/unittools.c:2088
+#: server/unittools.c:2071
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Spel: %s's %s is geatomiseerd."
 
-#: server/unittools.c:2098
+#: server/unittools.c:2081
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Spel: %s is geatomiseerd door %s."
 
-#: server/unittools.c:2105
+#: server/unittools.c:2088
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Spel: U atomiseerde %s."
 
-#: server/unittools.c:2143
+#: server/unittools.c:2126
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Spel: %s heeft een kernraket tot ontploffing gebracht."
 
-#: server/unittools.c:2183
+#: server/unittools.c:2166
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spel: %s succesvol overgeplaatst."
 
-#: server/unittools.c:2206
+#: server/unittools.c:2189
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spel: Deze eenheid kan niet worden geparadropt."
 
-#: server/unittools.c:2216
+#: server/unittools.c:2199
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Spel: Deze eenheid kan niet paradroppen op een transporteenheid."
 
-#: server/unittools.c:2221
+#: server/unittools.c:2204
 msgid "Game: The destination location is not known."
 msgstr "Spel: De plaats van bestemming is onbekend."
 
-#: server/unittools.c:2228
+#: server/unittools.c:2211
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Spel: Deze eenheid kan niet paradroppen in de oceaan."
 
-#: server/unittools.c:2246
+#: server/unittools.c:2229
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -6716,64 +6716,64 @@ msgstr ""
 "Spel: De afstand naar het doel (%i) is groter dan het bereik van de eenheid "
 "(%i)."
 
-#: server/unittools.c:2260
+#: server/unittools.c:2243
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spel: Uw %s is in de oceaan geland en ging verloren."
 
-#: server/unittools.c:2273
+#: server/unittools.c:2256
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spel: Uw %s is vermoord door vijandelijke eenheden in de landingszone."
 
-#: server/unittools.c:2295
+#: server/unittools.c:2278
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spel: U vond %d goud."
 
-#: server/unittools.c:2312
+#: server/unittools.c:2295
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spel: U hebt %s ontdekt in oude boekrollen met wijsheid."
 
-#: server/unittools.c:2315
+#: server/unittools.c:2298
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Spel: De %s hebben %s verkregen van oude boekrollen met wijsheid."
 
-#: server/unittools.c:2328
+#: server/unittools.c:2311
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spel: Een troep vriendelijke huurlingen sluit zich bij u aan."
 
-#: server/unittools.c:2346
+#: server/unittools.c:2329
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Hier is een verlaten dorp."
 
-#: server/unittools.c:2356
+#: server/unittools.c:2339
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: U hebt een horde barbaren ontketend!"
 
-#: server/unittools.c:2359
+#: server/unittools.c:2342
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spel: Uw %s is vermoord door barbaren!"
 
-#: server/unittools.c:2375
+#: server/unittools.c:2358
 msgid "Game: You found a friendly city."
 msgstr "Spel: U heeft een bevriende stad gevonden."
 
-#: server/unittools.c:2389
+#: server/unittools.c:2363
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spel: Vriendelijke nomaden zijn door u ge�mponeerd en sluiten zich bij u aan."
 
-#: server/unittools.c:2414
+#: server/unittools.c:2388
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Spel: Uw verkenningsvlucht beangstigt de stam; zij verspreiden zich in "
 "terreur."
 
-#: server/unittools.c:2535
+#: server/unittools.c:2509
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6781,35 +6781,35 @@ msgstr ""
 "Spel: Uw %s brak zijn patrouille af omdat hij een buitenlandse eenheid "
 "ontmoette."
 
-#: server/unittools.c:2961
+#: server/unittools.c:2946
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr ""
 "Spel: Orders voor %s afgebroken aangezien er eenheden in de buurt zijn."
 
-#: server/unittools.c:3010
+#: server/unittools.c:2995
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Spel: Orders voor %s afgebroken aangezien de activiteit ongeldig is."
 
-#: server/unittools.c:3024
+#: server/unittools.c:3009
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Spel: Orderds voor %s afgebroken aangezien ze een ongeldige locatie "
 "aanduiden."
 
-#: server/unittools.c:3034
+#: server/unittools.c:3019
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "Spel: Orders voor %s afgebroken aangezien er eenheden in de weg staan."
 
-#: server/unittools.c:3060
+#: server/unittools.c:3045
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "Spel: Orders voor %s afgebroken door een gefaalde verplaatsing."
 
-#: server/unittools.c:3093
+#: server/unittools.c:3078
 #, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Spel: Uw %s heeft ongeldige orders."
@@ -6832,7 +6832,7 @@ msgstr "Generator 3 kon niet alle grote eilanden plaatsen."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 liet %li landmassa ongeplaatst."
 
-#: server/generator/startpos.c:377
+#: server/generator/startpos.c:358
 #, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
@@ -7182,7 +7182,7 @@ msgstr "Beste verdedigende eenheden"
 #: client/gui-win32/repodlgs.c:611 client/gui-win32/repodlgs.c:691
 #: client/gui-win32/repodlgs.c:700 client/gui-xaw/menu.c:155
 #: client/gui-xaw/menu.c:216 client/gui-xaw/menu.c:237
-#: client/gui-xaw/repodlgs.c:860 client/gui-xaw/repodlgs.c:1047
+#: client/gui-xaw/repodlgs.c:875 client/gui-xaw/repodlgs.c:1062
 #: data/Freeciv.in:1922 data/helpdata.txt:859
 msgid "Units"
 msgstr "Eenheden"
@@ -7241,8 +7241,8 @@ msgstr "Overcapaciteit: Handel"
 
 #: client/cityrepdata.c:459 client/gui-gtk-2.0/repodlgs.c:657
 #: client/gui-gtk/repodlgs.c:599 client/gui-win32/repodlgs.c:334
-#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:624
-#: client/gui-xaw/repodlgs.c:753 data/Freeciv.in:1846
+#: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:639
+#: client/gui-xaw/repodlgs.c:768 data/Freeciv.in:1846
 msgid "Economy"
 msgstr "Economie"
 
@@ -9984,7 +9984,7 @@ msgstr "Snelkeuzen:"
 #: client/gui-gtk-2.0/cma_fe.c:297 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
 #: client/gui-mui/repodlgs.c:491 client/gui-win32/cma_fe.c:482
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
 msgid "Results"
 msgstr "Resultaten"
 
@@ -12050,7 +12050,7 @@ msgstr "Waardeer _op"
 
 #: client/gui-gtk-2.0/repodlgs.c:1155 client/gui-gtk/repodlgs.c:960
 #: client/gui-mui/repodlgs.c:718 client/gui-win32/repodlgs.c:564
-#: client/gui-xaw/repodlgs.c:985
+#: client/gui-xaw/repodlgs.c:1000
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -13070,17 +13070,17 @@ msgid "Sell All"
 msgstr "Verkoop Alles"
 
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/repodlgs.c:491
-#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:735
+#: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:750
 msgid "Sell-Off:"
 msgstr "Uitverkoop:"
 
 #: client/gui-gtk/repodlgs.c:787 client/gui-mui/repodlgs.c:569
-#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:778
+#: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:793
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Inkomen:%6d   Totale Kosten: %6d"
 
-#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:883
+#: client/gui-gtk/repodlgs.c:870 client/gui-xaw/repodlgs.c:898
 msgid "Totals: ..."
 msgstr "Totalen: ..."
 
@@ -14007,7 +14007,7 @@ msgid "Military Report"
 msgstr "Militair Rapport"
 
 #: client/gui-mui/repodlgs.c:861 client/gui-win32/repodlgs.c:745
-#: client/gui-xaw/repodlgs.c:1129
+#: client/gui-xaw/repodlgs.c:1144
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -14015,7 +14015,7 @@ msgstr[0] "%2d: De %s heerser %s behaalde %d punt\n"
 msgstr[1] "%2d: De %s heerser %s behaalden %d punten\n"
 
 #: client/gui-mui/repodlgs.c:869 client/gui-win32/repodlgs.c:753
-#: client/gui-xaw/repodlgs.c:1137
+#: client/gui-xaw/repodlgs.c:1152
 msgid "Final Report:"
 msgstr "Eindrapport:"
 
@@ -14572,18 +14572,20 @@ msgid "Copying"
 msgstr "Kopi�ren"
 
 #: client/gui-xaw/repodlgs.c:209 client/gui-xaw/repodlgs.c:215
-#: client/gui-xaw/repodlgs.c:470 client/gui-xaw/repodlgs.c:476
+#: client/gui-xaw/repodlgs.c:392 client/gui-xaw/repodlgs.c:485
+#: client/gui-xaw/repodlgs.c:491
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "Onderzoek: %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:224 client/gui-xaw/repodlgs.c:229
-#: client/gui-xaw/repodlgs.c:487 client/gui-xaw/repodlgs.c:492
+#: client/gui-xaw/repodlgs.c:416 client/gui-xaw/repodlgs.c:502
+#: client/gui-xaw/repodlgs.c:507
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "Doel: %s (%d stappen)"
 
-#: client/gui-xaw/repodlgs.c:1100
+#: client/gui-xaw/repodlgs.c:1115
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totalen:                    %9d%9d%9d%9d"
@@ -19122,7 +19124,7 @@ msgstr "Democratie"
 #: data/nation/icelandic.ruleset:17 data/nation/polish.ruleset:28
 #: data/nation/polish.ruleset:29 data/nation/quebecois.ruleset:15
 #: data/nation/serbian.ruleset:21 data/nation/serbian.ruleset:22
-#: data/nation/singaporean.ruleset:31 data/nation/slovenian.ruleset:15
+#: data/nation/singaporean.ruleset:32 data/nation/slovenian.ruleset:15
 #: data/nation/slovenian.ruleset:16
 msgid "President"
 msgstr "President"
@@ -21412,7 +21414,7 @@ msgstr "?plural:Afghanen"
 #: data/nation/finnish.ruleset:19 data/nation/greek.ruleset:13
 #: data/nation/israeli.ruleset:16 data/nation/japanese.ruleset:15
 #: data/nation/kampuchean.ruleset:14 data/nation/portuguese.ruleset:18
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:32
+#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:33
 #: data/nation/spanish.ruleset:21 data/nation/swedish.ruleset:16
 #: data/nation/viking.ruleset:32 data/nation/welsh.ruleset:22
 msgid "Prime Minister"
@@ -22676,11 +22678,15 @@ msgstr ""
 "Singapore is een handels-stadstaat gesitueerd aan het zuidelijkste puntje "
 "van het Maleisische schiereiland."
 
-#: data/nation/singaporean.ruleset:29 data/nation/turk.ruleset:19
+#: data/nation/singaporean.ruleset:29
+msgid "Ah"
+msgstr "Ah"
+
+#: data/nation/singaporean.ruleset:30 data/nation/turk.ruleset:19
 msgid "Sultan"
 msgstr "Sultan"
 
-#: data/nation/singaporean.ruleset:30
+#: data/nation/singaporean.ruleset:31
 msgid "Encik"
 msgstr "Encik"
 
@@ -22914,2217 +22920,3 @@ msgstr ""
 "Afrika naar zuidelijk Afrika in het begin van de 18e eeuw AD, waarbij ze de "
 "inheemse Khoisan veroverden en in botsing kwamen met Europese kolonisten."
 
-#~ msgid "Ah"
-#~ msgstr "Ah"
-
-#~ msgid "Rejected connection from %s with invalid name."
-#~ msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
-
-#~ msgid "Rejected connection from %s with duplicate login name."
-#~ msgstr "Weigerde verbinding vanaf %s met dubbele login naam."
-
-#~ msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
-#~ msgstr ""
-#~ "Waarchuwing: de gastnaam '%s' is al in gebruik, hernoem tot gebruiker '%"
-#~ "s'."
-
-#~ msgid "Guests are not allowed on this server. Sorry."
-#~ msgstr "Gasten zijn niet toegestaan op deze server. Sorry."
-
-#~ msgid ""
-#~ "There was an error reading the user database, logging in as guest "
-#~ "connection '%s'."
-#~ msgstr ""
-#~ "Er trad een fout op bij het lezen van de gebruikersdatabase, log in als "
-#~ "gast-verbinding '%s'."
-
-#~ msgid ""
-#~ "There was an error reading the user database and guest logins are not "
-#~ "allowed. Sorry"
-#~ msgstr ""
-#~ "Er trad een fout op bij het lezen van de gebruikersdatabase en gast-"
-#~ "logins zijn niet toegestaan. Sorry"
-
-#~ msgid "Enter password for %s:"
-#~ msgstr "Geef wachtwoord voor %s:"
-
-#~ msgid "Enter a new password (and remember it)."
-#~ msgstr "Geef een nieuw wachtwoord (en onthoud het)."
-
-#~ msgid "This server allows only preregistered users. Sorry."
-#~ msgstr ""
-#~ "Deze server staat alleen vooraf geregistreerde gebruikers toe. Sorry."
-
-#~ msgid "Sorry, too many wrong tries..."
-#~ msgstr "Sorry, teveel mislukte pogingen..."
-
-#~ msgid "Your password is incorrect. Try again."
-#~ msgstr "Uw wachtwoord is onjuist. Probeer opnieuw."
-
-#~ msgid ""
-#~ "Warning: There was an error in saving to the database. Continuing, but "
-#~ "your stats will not be saved."
-#~ msgstr ""
-#~ "Waarschuwing: Er trad een fout op bij het opslaan in de database. Ik ga "
-#~ "door, maar uw statistieken zullen niet bewaard worden."
-
-#~ msgid "Your password is too short, the minimum length is %d. Try again."
-#~ msgstr "Uw wachtwoord is te kort, de minimum lengte is %d. Probeer opnieuw."
-
-#~ msgid ""
-#~ "The password must have at least %d capital letters, %d numbers, and be at "
-#~ "minimum %d [printable] characters long. Try again."
-#~ msgstr ""
-#~ "Het wachtwoord moet tenminste %d hoofdletters en %d cijfers bevatten en "
-#~ "dient tenminste %d [afdrukbare] tekens lang te zijn. Probeer opnieuw"
-
-#~ msgid ""
-#~ "The server you tried to connect is too old (1.12.0 or earlier). Please "
-#~ "choose another server next time. Good bye."
-#~ msgstr ""
-#~ "De server waarmee u verbinding probeerde te maken is te oud (1.12.0 of "
-#~ "eerder). Probeert u volgende keer alstublieft een andere server. Tot "
-#~ "ziens."
-
-#~ msgid "Game: %s aborted GOTO as there are units in the way."
-#~ msgstr "Spel: %s brak GA NAAR af aangezien er eenheden in de weg staan."
-
-#~ msgid " V"
-#~ msgstr " V"
-
-#~ msgid "Game: Your %s has been eliminated defending against a %s in %s."
-#~ msgstr "Spel: Uw %s is ge-elimineerd bij de verdediging tegen %s in %s."
-
-#~ msgid ""
-#~ "Maximum: 1</p>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Maximum: 1</p>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Maximum: %d</p>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Maximum: %d</p>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "<table>\n"
-#~ "<tr>\n"
-#~ "<td valign=\"top\">"
-#~ msgstr ""
-#~ "<table>\n"
-#~ "<tr>\n"
-#~ "<td valign=\"top\">"
-
-#~ msgid "+trade</th>\n"
-#~ msgstr "+handel</th>\n"
-
-#~ msgid ""
-#~ "You are running Freeciv without using iconv.  Unless\n"
-#~ "you are using the latin1 character set, some characters\n"
-#~ "may not be displayed properly.  You can download iconv\n"
-#~ "at http://gnu.org/.\n"
-#~ msgstr ""
-#~ "U draait Freeciv zonder iconv te gebruiken. Tenzij u\n"
-#~ "de latin1 karakterset gebruikt, worden sommige tekens\n"
-#~ "misschien niet goed weergegeven. Iconv kan u downloaden\n"
-#~ " op http://gnu.org/.\n"
-
-#~ msgid "The %s have stopped building The %s in %s."
-#~ msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
-
-#~ msgid "The %s have started building The %s in %s."
-#~ msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
-
-#~ msgid "%d gold required.  You only have %d gold."
-#~ msgstr "%d goud nodig, maar u hebt slechts %d goud."
-
-#~ msgid ""
-#~ "You must interrupt Freeciv twice within one second to make it exit.\n"
-#~ msgstr ""
-#~ "Om Freeciv te stoppen moet u het twee maal binnen een seconde "
-#~ "onderbreken.\n"
-
-#~ msgid "Turn on/off server-side autoattack"
-#~ msgstr "Auto-aanval bestuurd door de server aan/af zetten"
-
-#~ msgid ""
-#~ "If set to on, units with move left will automatically consider attacking "
-#~ "enemy units that move adjacent to them."
-#~ msgstr ""
-#~ "Als dit aan staat zullen eenheden die nog kunnen bewegen zelf overwegen "
-#~ "een vijandelijke eenheid die ernaast komt aantal te vallen."
-
-#~ msgid "Whether to have simultaneous player phases."
-#~ msgstr "Of er wel of niet gedeelde spelersbeurten gebruikt worden."
-
-#~ msgid ""
-#~ "If true, all players' movement phases will occur simultaneously; if false "
-#~ "then players will alternate movement."
-#~ msgstr ""
-#~ "Als dit waar is gebeurt de beweging van alle spelers tegelijk. Anders "
-#~ "wisselen de spelers af wie kan bewegen."
-
-#~ msgid "%s has been added as %s level AI-controlled player."
-#~ msgstr "%s is toegevoegd als een niveau %s KI-gestuurde speler."
-
-#~ msgid "%s diplomacy no longer debugged"
-#~ msgstr "%s diplomatie wordt niet langer gedebugged"
-
-#~ msgid "%s diplomacy debugged"
-#~ msgstr "%s diplomatie wordt gedebugged"
-
-#~ msgid "%s tech no longer debugged"
-#~ msgstr "%s tech wordt niet langer gedebugged"
-
-#~ msgid "You must declare war on %s first.  Try using players dialog (F3)."
-#~ msgstr ""
-#~ "U moet eerst oorlog verklaren aan %s.  Gebruik het spelers venster (F3)."
-
-#~ msgid "Game: Orders for %s aborted because building of city failed."
-#~ msgstr ""
-#~ "Spel: Orders voor %s afgebroken omdat het stichten van een stad mislukte."
-
-#~ msgid "Great Wonder"
-#~ msgstr "Wereldwonder"
-
-#~ msgid "Small Wonder"
-#~ msgstr "Klein Wonder"
-
-#~ msgid "%+4d : Citizens\n"
-#~ msgstr "%+4dÂ·:Â·Stedelingen\n"
-
-#~ msgid "%+4d : Taxed from trade\n"
-#~ msgstr "%+4d : Handelsbelasting\n"
-
-#~ msgid "%+4d : Trade route with %s\n"
-#~ msgstr "%+4dÂ·:Â·Handelsroute met %s\n"
-
-#~ msgid "%+4d : Building tithes\n"
-#~ msgstr "%+4dÂ·: In belastingen\n"
-
-#~ msgid "%+4d : Bonus from %s (%+d%%)\n"
-#~ msgstr "%+4d : Bonus van %s (%+d%%)\n"
-
-#~ msgid "%+4d : Waste\n"
-#~ msgstr "%+4d : Verspilling\n"
-
-#~ msgid "%+4d : Disorder\n"
-#~ msgstr "%+4d : Onrust\n"
-
-#~ msgid "%+4d : Used\n"
-#~ msgstr "%+4d : Gebruikt\n"
-
-#~ msgid "==== : Adds up to\n"
-#~ msgstr "==== : In totaal\n"
-
-#~ msgid "%4d : Total surplus"
-#~ msgstr "%4d : Totaal overschot"
-
-#~ msgid "?cma:Governor"
-#~ msgstr "?cma:Gouverneur"
-
-#~ msgid "Citizen Governor"
-#~ msgstr "Stedeling Gouverneur"
-
-#~ msgid "?specialist:S"
-#~ msgstr "?specialist:S"
-
-#~ msgid "Specialists: %s"
-#~ msgstr "Specialisten: %s"
-
-#~ msgid "Failed looking up metaserver's host"
-#~ msgstr "Kon metaserver host niet vinden"
-
-#~ msgid "* Can only be built with %s as government.\n"
-#~ msgstr "* Kan alleen gebouwd worden met %s als overheid.\n"
-
-#~ msgid ""
-#~ "Requires the %s technology.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Dit heeft de %s technologie nodig.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "De maximum hoeveelheid die u kan instellen voor wetenschap, goud of "
-#~ "luxegoederen is %d%%.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Has unlimited science/gold/luxuries rates.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Heeft onbeperkte wetenschap/goud/luxegoederen normen.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Chance of civil war is %d%% if you lose your capital.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "De kans op burgeroorlog is %d%% als u uw hoofdstad kwijtraakt.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The first unhappy citizen in each city due to civilization size will "
-#~ "appear when you have %d cities."
-#~ msgstr ""
-#~ "De eerste ontevreden burger in elke stad door de overmatige grootte van "
-#~ "uw land zal verschijnen als u %d steden heeft."
-
-#~ msgid ""
-#~ "  Every %d cities after this will result in one more unhappy citizen in "
-#~ "each city."
-#~ msgstr ""
-#~ "  Elke %d steden hierna zullen een extra ontevreden burger in elke stad "
-#~ "veroorzaken."
-
-#~ msgid ""
-#~ "One unhappy citizen in each city due to civilization size will appear "
-#~ "when you have %d cities."
-#~ msgstr ""
-#~ "Een ontevreden burger zal in elke stad verschijnen door overmatige "
-#~ "landsgrootte wanneer u %d steden heeft."
-
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "Features:\n"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "Mogelijkheden:\n"
-
-#~ msgid ""
-#~ "* You may impose martial law.  Each military unit inside a city, up to a "
-#~ "maximum of %d, will force %d unhappy citizens to become content.\n"
-#~ msgstr ""
-#~ "* U mag krijgswet toepassen.  Elke militaire eenheid in een stad, met een "
-#~ "maximum van %d, zal %d ontevreden burgers dwingen tevreden te zijn.\n"
-
-#~ msgid ""
-#~ "* Military units away from home and field units will cause unhappiness.\n"
-#~ msgstr ""
-#~ "* Militaire eenheden in het veld zullen ontevredenheid veroorzaken.\n"
-
-#~ msgid ""
-#~ "* Each of your cities will avoid as much unhappiness caused by units as "
-#~ "its city size.\n"
-#~ msgstr ""
-#~ "* Elk van uw steden zal evenveel eenheid-gerelateerde ontevredenheid "
-#~ "vermijden als de grootte van de stad.\n"
-
-#~ msgid ""
-#~ "* Each of your cities will avoid %d unhappiness that would otherwise be "
-#~ "caused by units.\n"
-#~ msgstr ""
-#~ "* Elk van uw steden zal %d ontevredenheid vermijden die anders door "
-#~ "eenheden zou veroorzaakt worden.\n"
-
-#~ msgid ""
-#~ "* Each of your cities will avoid paying for as much %s upkeep as their "
-#~ "city size.\n"
-#~ msgstr ""
-#~ "* Elk van uw steden zal evenveel %d onderhoud vermijden als de grootte "
-#~ "van de stad.\n"
-
-#~ msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
-#~ msgstr ""
-#~ "* Elk van uw steden zal vermijden %d %s voor onderhoud te betalen.\n"
-
-#~ msgid "* Military units cause %d times normal unhappiness.\n"
-#~ msgstr ""
-#~ "* Militaire eenheden veroorzaken %d keer het normale niveau van "
-#~ "ontevredenheid.\n"
-
-#~ msgid "* You pay normal %s upkeep for your units.\n"
-#~ msgstr "* U betaalt normaal %s onderhoud voor uw eenheden.\n"
-
-#~ msgid "* You pay %d times normal %s upkeep for your units.\n"
-#~ msgstr "* U betaalt %d keer normale %s onderhoudskost voor uw eenheden.\n"
-
-#~ msgid "* You do not pay %s upkeep for any of your units.\n"
-#~ msgstr "* Elk van uw eenheden kost u %s onderhoud minder.\n"
-
-#~ msgid ""
-#~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
-#~ msgstr ""
-#~ "* Elk bewerkt vakje dat meer dan %d %s geeft krijgt een -1 beperking.\n"
-
-#~ msgid ""
-#~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
-#~ "when not celebrating.\n"
-#~ msgstr ""
-#~ "* Elk bewerkt vaksje dat meer dan %d %s geeft krijgt een -1 beperking "
-#~ "wanneer er niet gevierd wordt.\n"
-
-#~ msgid ""
-#~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
-#~ "when celebrating.\n"
-#~ msgstr ""
-#~ "* Elk bewerkt vakje dat meer dan %d %s geeft krijgt een -1 beperking "
-#~ "wanneer er gevierd wordt.\n"
-
-#~ msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
-#~ msgstr ""
-#~ "* Elk bewerkt vakje met tenminste 1 %s zal %d bijkomende %s geven.\n"
-
-#~ msgid ""
-#~ "* Each worked tile with at least 1 %s will yield %d additional %s when "
-#~ "not celebrating.\n"
-#~ msgstr ""
-#~ "* Elk bewerkt vakje met tenminste 1 %s zal een extra %d %s geven wanneer "
-#~ "er niet gevierd wordt.\n"
-
-#~ msgid ""
-#~ "* Each worked tile with at least 1 %s will yield %d additional %s when "
-#~ "celebrating.\n"
-#~ msgstr ""
-#~ "* Elk bewerkt vakje met ten minste 1 %s zal %d extra %s geven wanneer er "
-#~ "gevierd wordt.\n"
-
-#~ msgid "* %s production will suffer waste.\n"
-#~ msgstr "* %s productie wordt spijtig genoeg verspild.\n"
-
-#~ msgid ""
-#~ "* You may grow your cities by means of celebrations.  Your cities must be "
-#~ "at least size %d before they can grown in this manner.\n"
-#~ msgstr ""
-#~ "* U kan uw steden laten groeien door te vieren.  Uw steden moeten "
-#~ "tenminste grootte %d hebben voor ze met deze techniek kunnen "
-#~ "snelgroeien.\n"
-
-#~ msgid "* Diplomatic units will be veteran when built.\n"
-#~ msgstr "* Diplomatische eenheden krijgen bij aanmaak al veteranenstatus.\n"
-
-#~ msgid ""
-#~ "* Government will fall into anarchy if any city is in disorder for more "
-#~ "than two turns in a row.\n"
-#~ msgstr ""
-#~ "* De overheid vervalt tot anarchie wanneer eender welke stad meer dan "
-#~ "twee beurten op rij burgerlijke onrust kent.\n"
-
-#~ msgid "* Your units and cities cannot be bribed or incited.\n"
-#~ msgstr ""
-#~ "* Uw eenheden en steden kunnen niet omgekocht of in oproer gebracht "
-#~ "worden.\n"
-
-#~ msgid "* Partisans appear when cities are taken by the enemy.  "
-#~ msgstr ""
-#~ "* Partisanen verschijnen wanneer steden door de vijand ingenomen worden.  "
-
-#~ msgid "Requires %s technology.  "
-#~ msgstr "Heeft %s technologie nodig.  "
-
-#~ msgid "* Pays no upkeep for fanatics.\n"
-#~ msgstr "*  Betaalt geen onderhoudskost voor fanatici.\n"
-
-#~ msgid ""
-#~ "* Has a senate that may throw the government into anarchy if war is "
-#~ "declared while reputation is low.\n"
-#~ msgstr ""
-#~ "* Heeft een senaat die de overheid in anarchie kan doen storten als eer "
-#~ "oorlog verklaard wordt terwijl uw reputatie slecht is.\n"
-
-#~ msgid "* Has no unhappy citizens.\n"
-#~ msgstr "* Heeft geen ontevreden burgers.\n"
-
-#~ msgid ""
-#~ "* Buildings that normally confer bonuses against unhappiness will instead "
-#~ "give gold.\n"
-#~ msgstr ""
-#~ "* Gebouwen die normaal bonussen tegen ontevredenheid geven , geven nu "
-#~ "extra goud.\n"
-
-#~ msgid "* Research costs doubled.\n"
-#~ msgstr "* Onderzoekskosten verdubbeld.\n"
-
-#~ msgid "* Allows you to build %s.\n"
-#~ msgstr "* Maakt het mogelijk om %s te bouwen.\n"
-
-#~ msgid "%s%d %s"
-#~ msgstr "%s%d %s"
-
-#, fuzzy
-#~ msgid "Graphics"
-#~ msgstr "Afbeeldingen"
-
-#~ msgid "Sound"
-#~ msgstr "Geluid"
-
-#~ msgid "Interface"
-#~ msgstr "Interface"
-
-#~ msgid "Network"
-#~ msgstr "Netwerk"
-
-#~ msgid "Login name"
-#~ msgstr "Login naam"
-
-#~ msgid ""
-#~ "This is the default login username that will be used in the connection "
-#~ "dialogs or with the -a command-line parameter."
-#~ msgstr ""
-#~ "Dit is de standaard login gebruikersnaam die gebruikt wordt in de "
-#~ "verbindingsvenster of met de -a parameter."
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid ""
-#~ "This is the default server hostname that will be used in the connection "
-#~ "dialogs or with the -a command-line parameter."
-#~ msgstr ""
-#~ "Dit is de standaard server hostnaam die gebruikt wordt in de "
-#~ "verbindingsvensters of met da -a parameter."
-
-#~ msgid "Server port"
-#~ msgstr "Server poort"
-
-#~ msgid ""
-#~ "This is the default server port that will be used in the connection "
-#~ "dialogs or with the -a command-line parameter."
-#~ msgstr ""
-#~ "DitÂ·isÂ·deÂ·standaardÂ·serverÂ·poortÂ·dieÂ·gebruiktÂ·wordtÂ·inÂ·deÂ·verbindingsvenstersÂ·ofÂ·metÂ·deÂ·-"
-#~ "aÂ·parameter."
-
-#~ msgid ""
-#~ "The metaserver is a host that the client contacts to find out about games "
-#~ "on the internet.  Don't change this from its default value unless you "
-#~ "know what you're doing."
-#~ msgstr ""
-#~ "De metaserver is een server die informatie geeft over welke spelletjes "
-#~ "bezig zijn op internet. Verander dit niet tenzij je zeker bent dat je "
-#~ "weet wat je doet."
-
-#~ msgid "Soundset"
-#~ msgstr "Geluidenset"
-
-#~ msgid ""
-#~ "This is the soundset that will be used.  Changing this is the same as "
-#~ "using the -S command-line parameter."
-#~ msgstr ""
-#~ "Dit is het geluidspakket dat gebruikt zal worden.  Dit veranderen is "
-#~ "hetzelfde als de -S opdrachtlijn parameter gebruiken."
-
-#~ msgid "Sound plugin"
-#~ msgstr "Geluidsplugin"
-
-#~ msgid ""
-#~ "If you have a problem with sound, try changing the sound plugin.  The new "
-#~ "plugin won't take effect until you restart Freeciv.  Changing this is the "
-#~ "same as using the -P command-line option."
-#~ msgstr ""
-#~ "Als u een probleem met het geluid heeft, probeer dan de geluidsplugin te "
-#~ "veranderen. De nieuwe plugin is pas geactiveerd vanaf u Freeciv "
-#~ "herstart.  Dit veranderen is hetzelfde als de -P opdrachtlijn parameter "
-#~ "gebruiken."
-
-#~ msgid ""
-#~ "By changing this option you change the active tileset. This is the same "
-#~ "as using the -t command-line parameter."
-#~ msgstr ""
-#~ "Door deze optie te wijzigen verandert de actieve vlakkenset. Dit is "
-#~ "hetzelfde als de -t opdractlijn parameter gebruiken."
-
-#~ msgid ""
-#~ "Setting this option will cause units on the map view to be drawn with a "
-#~ "solid background color instead of the flag backdrop."
-#~ msgstr ""
-#~ "Als deze optie aan staat worden eenheden op de kaart met volle "
-#~ "achtergrondkleur in plaats van met een vlag getekend."
-
-#~ msgid ""
-#~ "Set this option to have a \"bell\" event be generated at the start of a "
-#~ "new turn.  You can control the behavior of the \"bell\" event by editing "
-#~ "the message options."
-#~ msgstr ""
-#~ "Zet deze optie aan om een 'bel' te krijgen bij het begin van een nieuwe "
-#~ "beurt. Het gedrag van de 'bel' kan ingesteld worden bij de boodschap "
-#~ "opties."
-
-#~ msgid ""
-#~ "This option controls how long unit \"animation\" takes when a unit moves "
-#~ "on the map view.  Set it to 0 to disable animation entirely."
-#~ msgstr ""
-#~ "Deze optie geeft aan hoe lang de 'beweging' duurt wanneer een eenheid "
-#~ "zich op de kaart verplaatst.  Zet dit op 0 om het bewegingseffect "
-#~ "volledig uit te schakelen."
-
-#~ msgid ""
-#~ "When the map view is recentered, it will slide smoothly over the map to "
-#~ "its new position.  This option controls how long this slide lasts.  Set "
-#~ "it to 0 to disable mapview sliding entirely."
-#~ msgstr ""
-#~ "Wanneer de kaart gehercentreerd wordt, glijdt ze zacht naar haar nieuwe "
-#~ "positie.  Deze optie geeft de duur van deze beweging.  Zet dit op 0 om "
-#~ "het glij-effect volledig uit te schakelen."
-
-#~ msgid ""
-#~ "If this option is disabled them combat animation between units on the "
-#~ "mapview will be turned off."
-#~ msgstr ""
-#~ "Als deze optie uit staat, worden er geen gevechtsbewegingen tussen "
-#~ "eenheden getoond."
-
-#~ msgid ""
-#~ "If this option is disabled, then you will not have to press the turn done "
-#~ "button manually when watching an AI player."
-#~ msgstr ""
-#~ "Als deze optie uitgeschakeld staat, moet je niet zelf de 'beurt klaar' "
-#~ "knop induwen wanneer je een KI speler bekijkt."
-
-#~ msgid ""
-#~ "Set this option to have the active unit centered automatically when the "
-#~ "unit focus changes."
-#~ msgstr ""
-#~ "Zet deze optie aan om het zicht automatisch op de actieve eenheid te "
-#~ "centreren wanneer een nieuwe eenheid actief wordt."
-
-#~ msgid ""
-#~ "Set this option to have any combat be centered automatically.  Disabled "
-#~ "this will speed up the time between turns but may cause you to miss "
-#~ "combat entirely."
-#~ msgstr ""
-#~ "Zet deze optie aan om elk gevecht automatisch te laten centreren. Als dit "
-#~ "uitgeschakeld is duren overgangen tussen beurten minder lang, maar kan u "
-#~ "misschien een gevecht volledig missen."
-
-#~ msgid "Set this option to have newly awoken units be focused automatically."
-#~ msgstr ""
-#~ "Zet deze optie aan om pas wakker geworden eenheden automatisch de focus "
-#~ "te geven."
-
-#~ msgid ""
-#~ "If this option is set then when a city dialog is popped up, the city will "
-#~ "be centered automatically."
-#~ msgstr ""
-#~ "Als deze optie aan staat zal een stad automatisch gecentreerd worden "
-#~ "wanneer er een stadsvenster verschijnt."
-
-#~ msgid ""
-#~ "Set this option to make the city production (as shown in the city dialog) "
-#~ "to be more compact."
-#~ msgstr ""
-#~ "Zet deze optie aan om de stadsproductie in het stadsvenster compacter "
-#~ "weer te geven."
-
-#~ msgid ""
-#~ "If this option is set then when all your units are done moving the turn "
-#~ "will be ended for you automatically."
-#~ msgstr ""
-#~ "Als deze optie aanstaat zal uw beurt automatisch eindigen op het moment "
-#~ "dat al uw eenheden bewogen hebben."
-
-#~ msgid ""
-#~ "If this option is disabled then city names will be chosen for you "
-#~ "automatically by the server."
-#~ msgstr ""
-#~ "Als deze optie uitstaat worden stadsnamen automatisch voor u gekozen door "
-#~ "de server."
-
-#~ msgid ""
-#~ "If this option is set then a newly-founded city will havce its city "
-#~ "dialog popped up automatically."
-#~ msgstr ""
-#~ "Als deze optie aan staat dan zal bij het stichten van een nieuwe stad, "
-#~ "automatisch het stadsvenster verschijnen."
-
-#~ msgid "waiting"
-#~ msgstr "wachten..."
-
-#~ msgid "Year: %s (T%d)"
-#~ msgstr "Jaar: %s (T%d)"
-
-#~ msgid "Gold: %d (%+d)"
-#~ msgstr "Goud: %d (%+d)"
-
-#~ msgid "Moving: %s"
-#~ msgstr "Beweging: %s"
-
-#~ msgid "Pollution rate: %d%%"
-#~ msgstr "Vervuiling : %d%%"
-
-#~ msgid "Chance of catastrophic warming each turn: %d%%"
-#~ msgstr "Kans op rampzalige opwarming per beurt: %d%%"
-
-#~ msgid "Fallout rate: %d%%"
-#~ msgstr "Nucleaire Fallout waarde: %d%%"
-
-#~ msgid "Chance of catastrophic winter each turn: %d%%"
-#~ msgstr "Kans op rampzalige winter per beurt: %d%%"
-
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid "."
-#~ msgstr ". "
-
-#~ msgid ""
-#~ "The citizen governor has gotten confused dealing with %s.  You may want "
-#~ "to have a look."
-#~ msgstr ""
-#~ "De burgemeester is in de war geraakt ivm %s.  U wil er waarschijnlijk "
-#~ "zelf eens naar kijken."
-
-#~ msgid "_Governor"
-#~ msgstr "_Gouverneur"
-
-#~ msgid "Governor page"
-#~ msgstr "Gouverneur"
-
-#~ msgid "Help build _Wonder (%d remaining)"
-#~ msgstr "Help _Wonder te bouwen (nog %d te gaan)"
-
-#~ msgid "Disable this option to hide the scrollbars on the map view."
-#~ msgstr "Zet deze optie af om de schuifbalken op de kaart te verbergen."
-
-#~ msgid ""
-#~ "If this option is set then a goto may be initiated by left-clicking and "
-#~ "then holding down the mouse button while dragging the mouse onto a "
-#~ "different tile."
-#~ msgstr ""
-#~ "Als deze optie aanstaat dan kan u een ga-naar-opdracht beginnen door "
-#~ "links-klikken en dan met de muisknop ingedrukt de cursor naar een doelvak "
-#~ "te bewegen."
-
-#~ msgid ""
-#~ "If this option is set then dialog windows will always remain in front of "
-#~ "the main Freeciv window. Disabling this has no effect in fullscreen mode."
-#~ msgstr ""
-#~ "Als deze optie aanstaat dan zullen extra vensters altijd voor het "
-#~ "hoofdvenster blijven hangen en kan u ze niet per ongeluk uit het oog "
-#~ "verliezen. Dit uitschakelen heeft geen effect in vol-scherm modus."
-
-#~ msgid ""
-#~ "Disabling this will turn off the unit and building icons in the worklist "
-#~ "dialog and the production tab of the city dialog."
-#~ msgstr ""
-#~ "Dit uitschakelen zet de eenheid en gebouw prentjes uit in het werklijst "
-#~ "venster en de productie tab van het stadsvenster."
-
-#~ msgid ""
-#~ "If this option is enabled then report dialogs will be shown as separate "
-#~ "tabs rather than in popup dialogs."
-#~ msgstr ""
-#~ "Als deze optie aanstaat zullen rapport-vensters getoond worden in aparte "
-#~ "tabs ipv in opspringende vensters."
-
-#~ msgid ""
-#~ "If this is enabled then a better method is used for drawing fog-of-war.  "
-#~ "It is not any slower but will consume about twice as much memory."
-#~ msgstr ""
-#~ "Als dit aanstaat wordt er een betere manier gebruikt om de onbekend-"
-#~ "gebied-schaduw te tekenen. Dit is niet trager maar verbruikt wel twee "
-#~ "keer zoveel geheugen."
-
-#~ msgid "_Reload Tileset"
-#~ msgstr "Vlakkenset Herladen"
-
-#~ msgid "Save Options on _Exit"
-#~ msgstr "Bewaar Opties bij Einde"
-
-#~ msgid "Sa_ve Options"
-#~ msgstr "Bewaar Opties"
-
-#~ msgid "City Outlines"
-#~ msgstr "Stadsgrenzen"
-
-#~ msgid "Go _to"
-#~ msgstr "Ga naar"
-
-#~ msgid "_Build city"
-#~ msgstr "_Bouw Stad"
-
-#~ msgid "_Ruleset:"
-#~ msgstr "Regelset:"
-
-#~ msgid "?Building:Name"
-#~ msgstr "?Building:Naam"
-
-#~ msgid "Uses the Alt or Meta keys for keyboard accelerators."
-#~ msgstr "Gebruik Alt/Meta voor sneltoetsen"
-
-#~ msgid "You need an embassy to establish a diplomatic meeting."
-#~ msgstr ""
-#~ "Spel: U hebt een ambassade nodig om een diplomatieke ontmoeting te "
-#~ "regelen."
-
-#~ msgid "%s - %s citizens  Governor: %s"
-#~ msgstr "%s - %s inwoners  Burg: %s"
-
-#~ msgid "Citizen governor..."
-#~ msgstr "Burgemeester"
-
-#~ msgid ""
-#~ "The amount of stored food lost when one of your cities grows or shrinks "
-#~ "is reduced by 25%.  This helps a city to grow faster and more easily "
-#~ "withstand famine.  Cumulative with Granary."
-#~ msgstr ""
-#~ "De hoeveelheid voedsel die verloren gaat wanneer een stad groeit of "
-#~ "krimpt vermindert met 25%. Dit helpt een stad om sneller en gemakkelijker "
-#~ "te groeien zonder angst voor hongersnood.  Cumulatief met een Graanopslag"
-
-#~ msgid "elvis"
-#~ msgstr "elvis"
-
-#~ msgid "scientist"
-#~ msgstr "wetenschapper"
-
-#~ msgid "taxman"
-#~ msgstr "belastingscontroleur"
-
-#~ msgid "?Elvis:E"
-#~ msgstr "?Elvis:E"
-
-#~ msgid ""
-#~ "Anarchy is simply the absence of any recognizable government. Citizens "
-#~ "are disorganized and unproductive, and will spend all income as quickly "
-#~ "as possible, rather than paying taxes or conducting research.\n"
-#~ "\n"
-#~ "Anarchy offers slightly less corruption than Despotism, but slightly more "
-#~ "unhappiness."
-#~ msgstr ""
-#~ "Anarchie is eenvoudigweg het ontbreken van een herkenbare overheid. "
-#~ "Burgers zijn niet georganiseerd en onproductief, en spenderen elk inkomen "
-#~ "onmiddellijk , in plaats van belastingen te betalen of onderzoek te "
-#~ "verrichten.\n"
-#~ "\n"
-#~ "Anarchie geeft iets minder corruptie dan Despotisme, maar iets meer "
-#~ "ontevredenheid."
-
-#~ msgid ""
-#~ "Under Despotism, you are the absolute ruler of your people.  Your control "
-#~ "over your citizens is maintained largely by martial law.\n"
-#~ "\n"
-#~ "Despotism suffers the highest level of corruption of all forms of "
-#~ "government."
-#~ msgstr ""
-#~ "Onder Despotisme, hebt u de alleenheerschappij over uw volk.  Uw controle "
-#~ "over uw burgers gebeurt voornamelijk door het opleggen van strijdstucht.\n"
-#~ "\n"
-#~ "Despotisme heeft het allerhoogste niveau van corruptie."
-
-#~ msgid ""
-#~ "Under Monarchy, a king or queen serves as a hereditary figurehead for "
-#~ "your government.\n"
-#~ "\n"
-#~ "Monarchy suffers the same small amount of corruption that the Republic "
-#~ "does."
-#~ msgstr ""
-#~ "Onder Monarchie is een koning of koningin het door erfopvolging bepaalde "
-#~ "staatshoofd.\n"
-#~ "\n"
-#~ "Monarchie heeft dezelfde kleine hoeveelheid corruptie als een republiek."
-
-#~ msgid ""
-#~ "A Communist government is based on the ideal that all people are equal.  "
-#~ "All goods are owned by the state, rather than by private citizens.  "
-#~ "Communism gives a balance between military and commercial styles of "
-#~ "government.\n"
-#~ "\n"
-#~ "Under Communism, corruption does not vary by distance from the capital; "
-#~ "all cities (including the capital) have a modest amount of corruption.  "
-#~ "In addition, Communist cities more than 10 squares away from the capital "
-#~ "are considered to be only 10 squares away when computing the cost of "
-#~ "inciting a revolt.  See Units, Diplomat."
-#~ msgstr ""
-#~ "Een Communistische regering is gebaseerd op het ideaal dat alle mensen "
-#~ "gelijk zijn. All goederen zijn eigendom van de staat, in plaats van "
-#~ "privÃ© personen. Communisme houdt het midden tussen een militaire en een "
-#~ "commerciÃ«le regeringsvorm.\n"
-#~ "\n"
-#~ "Onder Communisme varieert de corruptie niet op basis van de afstand tot "
-#~ "de hoofdstad; alle steden (inclusief de hoofdstad) hebben een lichte mate "
-#~ "van corruptie. Daarnaast worden steden die zich meer dan 10 vlakken van "
-#~ "de hoofdstad bevinden, beschouwd alsof ze 10 vlakken afstand van de "
-#~ "hoofdstad waren wanneer de kosten van het starten van een revolutie "
-#~ "moeten worden berekend (zie Eenheden, Diplomaat)."
-
-#~ msgid ""
-#~ "Under a Republican government, citizens hold an election to select a "
-#~ "representative who will govern them; since elected leaders must remain "
-#~ "popular to remain in control, citizens are given a greater degree of "
-#~ "freedom.  Citizens under the Republic become unhappy easily, but the self-"
-#~ "sufficiency of your citizens allows high levels of trade.\n"
-#~ "\n"
-#~ "Cities under the Republic suffer a small amount of corruption."
-#~ msgstr ""
-#~ "In een Republiek houden de burgers verkiezingen voor hun "
-#~ "vertegenwoordigers. Aangezien de verkozen leiders populair moeten blijven "
-#~ "om de macht te behouden krijgen burgers een grotere hoeveelheid "
-#~ "vrijheid.  Burgers in een Republiek worden makkelijk ontevreden, maar hun "
-#~ "persoonlijke vrijheid laat grote hoeveelheden handel toe.\n"
-#~ "\n"
-#~ "Steden in een republiek hebben weinig last van corruptie."
-
-#~ msgid ""
-#~ "Under Democracy, citizens govern directly by voting on issues. Democracy "
-#~ "offers the highest possible level of trade, but also offers the most "
-#~ "potential for unhappiness.  There is no corruption during Democracy, but "
-#~ "citizens become very upset during wars."
-#~ msgstr ""
-#~ "In een Democratie regeren de burgers zelf door referendum. Democratie "
-#~ "laat het hoogste niveau van handel toe, maar heeft ook het grootste "
-#~ "potentieel voor ontevredenheid.  Er is geen corruptie in een Democratie, "
-#~ "maar burgers worden heel ontevreden tijdens oorlogen."
-
-#~ msgid "Byzantine"
-#~ msgstr "ByzantiÃ«"
-
-#, fuzzy
-#~ msgid "?plural:Byzantines"
-#~ msgstr "?plural:ByzantiÃ«rs"
-
-#~ msgid ""
-#~ "At the time of the decline of the old Roman empire, the Emperor "
-#~ "Constanine moved the empire's capital to Byzantium and formed a new "
-#~ "empire mostly known as the Eastern Roman empire or the Byzantine empire. "
-#~ "This empire lasted until 1453 when its capital fall to Ottomans. At the "
-#~ "time of Justinian I, the Byzanines controlled nearly all of Middle East, "
-#~ "nothern Africa, Italy and parts of Spain."
-#~ msgstr ""
-#~ "Ten tijde van de achteruitgang van het oude Romeinse Rijk, verplaatste "
-#~ "keizer Constantijn de hoofdstad naar Byzantium en vormde hij een nieuw "
-#~ "rijk: het Oost-Romeinse of Byzantijnse Rijk. Dit overleefde tot 1453 "
-#~ "wanneer de hoofdstad onder de Ottomanen viel. Tijdens de heerschappij van "
-#~ "Justinianus I beheerste het rijk bijna heel het Midden-Oosten, Noord-"
-#~ "Afrika, ItaliÃ« en delen van Spanje."
-
-#~ msgid "Basileus"
-#~ msgstr "Basileus"
-
-#~ msgid "Venezuela"
-#~ msgstr "Venezuela"
-
-#, fuzzy
-#~ msgid "?plural:Venezolanos"
-#~ msgstr "?plural:Venezuelanen"
-
-#~ msgid "Governador"
-#~ msgstr "Gouverneur"
-
-#~ msgid "Governadora"
-#~ msgstr "Mevrouw Gouverneur"
-
-#~ msgid "Terrateniente"
-#~ msgstr "Terrateniente"
-
-#~ msgid ""
-#~ "notradesize must be always smaller than fulltradesize; keeping old value."
-#~ msgstr ""
-#~ "notradesize moet altijd kleiner zijn dan fulltradesize. Oude waarde "
-#~ "blijft."
-
-#~ msgid ""
-#~ "fulltradesize must be always bigger than notradesize; keeping old value."
-#~ msgstr ""
-#~ "fulltradesize moet altijd groter zijn dan notradesize. Oude waarde blijft."
-
-#~ msgid "%s lose %s (%i,%i)"
-#~ msgstr "%s verliest %s (%i,%i)"
-
-#~ msgid "%s (%i, %i) founded by the %s"
-#~ msgstr "%s (%i, %i) gesticht door de %s"
-
-#~ msgid "%s (%s) (%i,%i) destroyed by %s"
-#~ msgstr "%s (%s) (%i,%i) vernietigd door %s"
-
-#~ msgid "%s (%s) (%i,%i) conquered by %s"
-#~ msgstr "%s (%s) (%i,%i) veroverd door %s"
-
-#~ msgid "%s (%s) (%i,%i) liberated by %s"
-#~ msgstr "%s (%s) (%i,%i) bevrijdt door %s"
-
-#~ msgid "%s lose %s (famine)"
-#~ msgstr "%s verliezen %s (hongersnood)"
-
-#~ msgid "%s build %s in %s"
-#~ msgstr "%s hebben %s in %s gebouwd"
-
-#~ msgid "%s build %s in %s (%i,%i)"
-#~ msgstr "%s heeft %s in %s (%i,%i) gebouwd"
-
-#~ msgid "%s (%i, %i) disbanded into %s by the %s"
-#~ msgstr "%s (%i, %i) ontbonden in %s door de %s"
-
-#~ msgid "  -i, --info INFO\tExtra info for the metaserver\n"
-#~ msgstr "  -i, --info INFO\t\tExtra info voor de metaserver\n"
-
-#~ msgid "%s and %s agree to a treaty"
-#~ msgstr "%s en %s sluiten een verdrag"
-
-#~ msgid "%s acquire %s (Treaty) from %s"
-#~ msgstr "%s verwerven %s (Verdrag) van %s"
-
-#~ msgid "%s acquire the city %s from %s"
-#~ msgstr "De %s verwerven de stad %s van %s"
-
-#~ msgid "%s agree on an alliance with %s"
-#~ msgstr "De %s gaan akkoord met het sluiten van een alliantie met %s."
-
-#~ msgid "You start a research pool with %s."
-#~ msgstr "Spel: U begint een onderzoeksproject met %s."
-
-#~ msgid "%s share vision with %s"
-#~ msgstr "De %s delen hun waarneming met de %s"
-
-#~ msgid "%s establish an embassy in %s (%s) (%i,%i)"
-#~ msgstr "%s hebben een ambassade gevestigd in %s (%s) (%i,%i)"
-
-#~ msgid "%s steals Future Tech. %d from the %s"
-#~ msgstr "%s stal Toekomst Tech. %d van %s."
-
-#~ msgid "%s steals %s from the %s"
-#~ msgstr "%s hebben %s gestolen van de %s"
-
-#~ msgid "(%d,%d) land created from ocean"
-#~ msgstr "(%d,%d) land gemaakt uit oceaan"
-
-#~ msgid "(%d,%d) ocean created from land"
-#~ msgstr "(%d,%d) oceaan gemaakt van land"
-
-#~ msgid "%s acquired from a building!"
-#~ msgstr "Spel: %s verkregen van een gebouw!"
-
-#~ msgid "%s discover %s (building)"
-#~ msgstr "%s ontdekken %s (gebouw)"
-
-#~ msgid "The %s have acquired %s from a building."
-#~ msgstr "Spel: De %s hebben %s verkregen van een gebouw."
-
-#~ msgid "The feared barbarian leader %s is no more"
-#~ msgstr "De gevreesde barbaarse leider %s is niet meer."
-
-#~ msgid "%s civilization destroyed"
-#~ msgstr "%s beschaving vernietigd"
-
-#~ msgid "%s are first to learn %s"
-#~ msgstr "%s zijn de eersten die %s leren"
-
-#~ msgid "%s discover %s"
-#~ msgstr "%s ontdekken %s"
-
-#~ msgid "%s discover Future Tech %d"
-#~ msgstr "%s ontdekken Toekomst Tech. %d"
-
-#~ msgid "%s steal %s from %s"
-#~ msgstr "%s stelen %s van de %s"
-
-#~ msgid "RATE CHANGE: %s %i %i %i"
-#~ msgstr "WIJZIGING WAARDEN: %s %i %i %i"
-
-#~ msgid "%s form a %s"
-#~ msgstr "%s vormen een %s"
-
-#~ msgid "The %s revolt!"
-#~ msgstr "De %s komen in opstand!"
-
-#~ msgid "Style of Civ rules"
-#~ msgstr "Stijl van Civ regels"
-
-#~ msgid ""
-#~ "Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
-#~ "Currently this option affects the following rules:\n"
-#~ "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
-#~ "See also README.rulesets."
-#~ msgstr ""
-#~ "Stelt wat basis-spelregels; 1 betekent stijl van Civ1, 2 betekent Civ2.\n"
-#~ "Op dit moment heeft deze optie effect op de volgende regels:\n"
-#~ "  - Apollo toont hele kaart in Civ2, alleen steden in Civ1.\n"
-#~ "Zie ook README.rulesets."
-
-#~ msgid "Starting new log"
-#~ msgstr "Begin nieuw log"
-
-#~ msgid "The game is over!"
-#~ msgstr "Het spel is voorbij!"
-
-#~ msgid "%s lose a %s (out of hp)"
-#~ msgstr "%s verliezen een %s (geen kracht meer)"
-
-#~ msgid "%s's %s lost at sea"
-#~ msgstr "%s's %s verloren op diepzee"
-
-#~ msgid "%s unit lost on unsafe terrain"
-#~ msgstr "%s eenheid verloren op onveilig terrein"
-
-#~ msgid "%s lose a %s (fuel)"
-#~ msgstr "%s verliest een %s (brandstof)"
-
-#~ msgid "Player %s lost a game loss unit and died"
-#~ msgstr "Speler %s verloor een spel-over eenheid en stierf"
-
-#~ msgid "%s lose %s when %s lost"
-#~ msgstr "%s verloren %s toen %s verloren ging"
-
-#~ msgid "%s lose %s to the %s"
-#~ msgstr "De %s verliezen %s aan de %s"
-
-#~ msgid "%s discover %s (Hut)"
-#~ msgstr "%s ontdekken %s (Hut)"
-
-#~ msgid "The parties resume the research pool"
-#~ msgstr "De partijen gaan verder met het onderzoeksproject"
-
-#~ msgid "Save the options when exiting the game"
-#~ msgstr "Bewaar de opties wanneer het spel gestopt wordt"
-
-#~ msgid "Pollution:   %3d"
-#~ msgstr "Vervuiling: %3d"
-
-#~ msgid "Granary: %3d/%-3d"
-#~ msgstr "Graanvoorraad: %3d/%-3d"
-
-#~ msgid ""
-#~ "Food:    %2d (%+2d)\n"
-#~ "Prod:    %2d (%+2d)\n"
-#~ "Trade:   %2d (%+2d)"
-#~ msgstr ""
-#~ "Voeding:   %2d (%+2d)\n"
-#~ "Productie: %2d (%+2d)\n"
-#~ "Handel:    %2d (%+2d)"
-
-#~ msgid ""
-#~ "Gold:    %2d (%+2d)\n"
-#~ "Luxury:  %2d\n"
-#~ "Science: %2d"
-#~ msgstr ""
-#~ "Goud:       %2d (%+2d)\n"
-#~ "Luxe:       %2d\n"
-#~ "Wetenschap: %2d"
-
-#~ msgid "(veteran)"
-#~ msgstr "(veteraan)"
-
-#~ msgid "Doubles the effect of Temples, in all your cities."
-#~ msgstr "Verdubbelt het effect van Tempels, in al uw steden."
-
-#~ msgid "Pregame"
-#~ msgstr "Voorspel"
-
-#~ msgid "Running"
-#~ msgstr "Draaiend"
-
-#~ msgid "Game over"
-#~ msgstr "Spel afgelopen"
-
-#~ msgid "Map size in 1,000 tiles units"
-#~ msgstr "Kaartgrootte per 1,000 vakjes"
-
-#~ msgid ""
-#~ "Two-dimensional maps can wrap at the north-south or \n"
-#~ "east-west edges, and use a cartesian or isometric \n"
-#~ "rectangular grid.  See the manual for further explanation.\n"
-#~ "  0 Flat Earth (unwrapped)\n"
-#~ "  1 Earth (wraps E-W)\n"
-#~ "  2 Uranus (wraps N-S)\n"
-#~ "  3 Donut World (wraps N-S, E-W)\n"
-#~ "  4 Flat Earth (isometric)\n"
-#~ "  5 Earth (isometric)\n"
-#~ "  6 Uranus (isometric)\n"
-#~ "  7 Donut World (isometric)\n"
-#~ "  8 Flat Earth (hexagonal)\n"
-#~ "  9 Earth (hexagonal)\n"
-#~ " 10 Uranus (hexagonal)\n"
-#~ " 11 Donut World (hexagonal)\n"
-#~ " 12 Flat Earth (iso-hex)\n"
-#~ " 13 Earth (iso-hex)\n"
-#~ " 14 Uranus (iso-hex)\n"
-#~ " 15 Donut World (iso-hex)"
-#~ msgstr ""
-#~ "Twee-dimensionale kaarten kunnen doorlopen via de noord-zuid as of \n"
-#~ "via de oost-west as en kunnen een cartesisch of isometrisch raster \n"
-#~ "hebben. Zie de handleiding voor meer informatie.\n"
-#~ "  0 Platte aarde (niet doorlopend)\n"
-#~ "  1 Aarde (doorlopend O-W)\n"
-#~ "  2 Uranus (doorlopend N-Z)-n  3 Donutwereld (overal doorlopend)\n"
-#~ "  4 Platte aarde (isometrisch)\n"
-#~ "  5 Aarde (isometrisch)\n"
-#~ "  6 Uranus (isometrisch)\n"
-#~ "  7 Donutwereld (isometrisch)  8 Platte aarde (hexagonaal)\n"
-#~ "  9 Aarde (hexagonaal)\n"
-#~ "  10 Uranus (hexagonaal)-n  11 Donutwereld (hexagonaal)\n"
-#~ "  12 Platte aarde (iso-hex)\n"
-#~ "  13 Aarde (iso-hex)\n"
-#~ "  14 Uranus (iso-hex)\n"
-#~ "  15 Donutwereld (iso-hex)"
-
-#~ msgid ""
-#~ "1 = standard, with random continents;\n"
-#~ "\n"
-#~ "2 = equally sized large islands with one player each, and twice that many "
-#~ "smaller islands;\n"
-#~ "\n"
-#~ "3 = equally sized large islands with one player each, and a number of "
-#~ "other islands of similar size;\n"
-#~ "\n"
-#~ "4 = equally sized large islands with two players on every island (or one "
-#~ "with three players for an odd number of players), and additional smaller "
-#~ "islands;\n"
-#~ "\n"
-#~ "5 = one or more large earthlike continents with some scatter.\n"
-#~ "\n"
-#~ "Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
-#~ "(Zero indicates a scenario map.)"
-#~ msgstr ""
-#~ "1 = standaard, met willekeurige continenten;\n"
-#~ "\n"
-#~ "2 = eilanden van gelijke grootte voor elke speler en tweemaal zoveel\n"
-#~ "    kleinere eilanden;\n"
-#~ "\n"
-#~ "3 = eilanden van gelijke grootte voor elke speler en een aantal andere\n"
-#~ "    eilanden van gelijkwaardige grootte;\n"
-#~ "\n"
-#~ "4 = eilanden van gelijke grootte met twee spelers per eiland (of "
-#~ "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©n "
-#~ "met\n"
-#~ "    drie spelers in het geval van een oneven aantal spelers) en een "
-#~ "aantal\n"
-#~ "    kleinere eilanden;\n"
-#~ "\n"
-#~ "5 = "
-#~ "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©n "
-#~ "of meer grote aarde-achtige continenten met enige 'spikkels'.\n"
-#~ "\n"
-#~ "Noot: waardes 2, 3 en 4 genereren \"eerlijker\" (maar saaiere) kaarten.\n"
-#~ "(Nul geeft een scenario-kaart aan.)"
-
-#~ msgid "Amount of land vs ocean"
-#~ msgstr "Hoeveelheid land versus oceaan"
-
-#~ msgid "Number of players to fill to with AI's"
-#~ msgstr "Aantal spelers om aan te vullen met KI's"
-
-#~ msgid ""
-#~ "If this is set to greater than 0, nations will have territory delineated "
-#~ "by borders placed on the loci between cities, with the maximum distance "
-#~ "from any city specified."
-#~ msgstr ""
-#~ "Indien deze een waarde groter dan 0 heeft, dan zullen naties een grens "
-#~ "aangegeven hebben tussen de lokaties tussen de steden met de maximum "
-#~ "aangegeven afstand van enige aangegeven stad."
-
-#~ msgid "Not reporting to the metaserver."
-#~ msgstr "Rapporteer niet aan de metaserver."
-
-#~ msgid "Invalid metaserver URL, must start with 'http://'"
-#~ msgstr "Ongeldige metaserver URL, moet met 'http://' beginnen"
-
-#~ msgid "Invalid $http_proxy value, cannot find separating '/'"
-#~ msgstr "Ongeldige $http_proxy waarde, kan geen scheidend '/' vinden"
-
-#~ msgid ""
-#~ "Couldn't connect to the server. We probably couldn't start it from here. "
-#~ "You'll have to start one manually. Sorry..."
-#~ msgstr ""
-#~ "Kon geen contact maken met de server. Waarschijnlijk konden we er lokaal "
-#~ "geen starten. U zal manueel een server moeten opstarten. Sorry..."
-
-#~ msgid "* Can establish trade routes.\n"
-#~ msgstr "* Kan handelsroutes vestigen.\n"
-
-#~ msgid "Revolution finished"
-#~ msgstr ""
-#~ "Spel: Revolutie "
-#~ "beÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ«indigd"
-
-#~ msgid "Loading..."
-#~ msgstr "Laden..."
-
-#, fuzzy
-#~ msgid "_Resume"
-#~ msgstr "_Verwijderd"
-
-#, fuzzy
-#~ msgid "_Start New Game"
-#~ msgstr "Begin nieuw spel"
-
-#, fuzzy
-#~ msgid "_Connect to Network Game"
-#~ msgstr "Maak verbinding naar hier"
-
-#~ msgid "_Connected Users:"
-#~ msgstr "_Verbonden gebruikers:"
-
-#~ msgid "Total users logged in : %d"
-#~ msgstr "Totaal aantal ingelogde gebruikers: %d"
-
-#~ msgid ""
-#~ "Start\n"
-#~ "Game"
-#~ msgstr ""
-#~ "Begin\n"
-#~ "Spel"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "Settings"
-#~ msgstr ""
-#~ "Server\n"
-#~ "Instellingen"
-
-#~ msgid "Tabs"
-#~ msgstr "Tabbladen"
-
-#~ msgid ""
-#~ "\n"
-#~ "veteran"
-#~ msgstr ""
-#~ "\n"
-#~ "veteraan"
-
-#~ msgid "land units"
-#~ msgstr "landeenheden"
-
-#~ msgid "sea units"
-#~ msgstr "zee-eenheden"
-
-#~ msgid "heli units"
-#~ msgstr "helicoptereenheden"
-
-#~ msgid "air units"
-#~ msgstr "luchteenheden"
-
-#~ msgid ""
-#~ "Disband if build\n"
-#~ "settler at size 1"
-#~ msgstr ""
-#~ "Verlaat als kolonisten\n"
-#~ "gebouwd bij grootte 1"
-
-#~ msgid "Sorry, You have already bought here in this turn"
-#~ msgstr "Spel: U hebt hier deze beurt al gekocht."
-
-#~ msgid "Buy It?"
-#~ msgstr "Kopen?"
-
-#~ msgid "Sell It?"
-#~ msgstr "Verkopen?"
-
-#~ msgid "Options panel"
-#~ msgstr "Optiespagina"
-
-#~ msgid "Unit maintenance panel (%d %s)"
-#~ msgstr "Eenheden-onderhoudspagina (%d %s)"
-
-#~ msgid "unit"
-#~ msgid_plural "units"
-#~ msgstr[0] " eenheid"
-#~ msgstr[1] " eenheden"
-
-#~ msgid "Garrison Panel (%d %s)"
-#~ msgstr "Garnizoenspagina (%d %s)"
-
-#~ msgid "Info Panel"
-#~ msgstr "Infopagina"
-
-#~ msgid "Pollution : none"
-#~ msgstr "Verontreiniging : geen"
-
-#~ msgid "Trade : +%d"
-#~ msgstr "Handel : +%d"
-
-#~ msgid "Happiness panel"
-#~ msgstr "Geluk-pagina"
-
-#~ msgid "Food : %d per turn"
-#~ msgstr "Voeding : %d per beurt"
-
-#~ msgid "?food:Surplus : %d"
-#~ msgstr "?food:Overschot: %d"
-
-#~ msgid "Production : %d (%d) per turn"
-#~ msgstr "Productie : %d (%d) per beurt"
-
-#~ msgid "?production:Support : %d"
-#~ msgstr "?production:Onderhoud : %d"
-
-#~ msgid "Trade : %d per turn"
-#~ msgstr "Handel : %d per beurt"
-
-#~ msgid "Corruption : %d"
-#~ msgstr "Corruptie : %d"
-
-#~ msgid "Gold: %d (%d) per turn"
-#~ msgstr "Goud: %d (%d) per beurt"
-
-#~ msgid "Upkeep : %d"
-#~ msgstr "Onderhoud: %d"
-
-#~ msgid "Science: %d per turn"
-#~ msgstr "Wetenschap: %d per beurt"
-
-#~ msgid "Luxury: %d per turn"
-#~ msgstr "Luxe: %d per beurt"
-
-#~ msgid "City growth : blocked"
-#~ msgstr "Stadsgroei : geblokkeerd"
-
-#~ msgid "City growth : never"
-#~ msgstr "Stadsgroei : nooit"
-
-#~ msgid "City shrinks : %d %s"
-#~ msgstr "Stadsslinking : %d %s"
-
-#~ msgid "turn"
-#~ msgid_plural "turns"
-#~ msgstr[0] "beurt"
-#~ msgstr[1] "beurten"
-
-#~ msgid "City growth : %d %s"
-#~ msgstr "Stadsgroei : %d %s"
-
-#~ msgid "finished"
-#~ msgstr "Gereed"
-
-#~ msgid "City of %s (Population %s citizens)"
-#~ msgstr "Stad van %s (Bevolking %s inwoners)"
-
-#~ msgid " - under CMA control."
-#~ msgstr " - onder KI-besturing."
-
-#~ msgid "Information panel"
-#~ msgstr "Informatiepagina"
-
-#~ msgid "Garrison panel"
-#~ msgstr "Garnizoenspagina"
-
-#~ msgid "Maintenance panel"
-#~ msgstr "Onderhoudspagina"
-
-#~ msgid "Hurry production"
-#~ msgstr "Versnelde productie"
-
-#~ msgid "Prev city"
-#~ msgstr "Vorige stad"
-
-#~ msgid "Next city"
-#~ msgstr "Volgende stad"
-
-#~ msgid "size"
-#~ msgstr "grootte"
-
-#~ msgid ""
-#~ "time\n"
-#~ "to grow"
-#~ msgstr ""
-#~ "tijdsbestek\n"
-#~ "voor groei"
-
-#~ msgid "Cities Report"
-#~ msgstr "Stedenrapport"
-
-#~ msgid "Exit Report"
-#~ msgstr "Eindrapport"
-
-#~ msgid "Information Report"
-#~ msgstr "Informatierapport"
-
-#~ msgid "Happiness Report"
-#~ msgstr "Gelukrapport"
-
-#~ msgid "Garrison Report"
-#~ msgstr "Garnizoensrapport"
-
-#~ msgid "Maintenance Report"
-#~ msgstr "Onderhoudsrapport"
-
-#~ msgid "worklist"
-#~ msgstr "werklijst"
-
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr ""
-#~ "\n"
-#~ "gereed"
-
-#~ msgid "City of %s (Population %s citizens) : %s"
-#~ msgstr "Stad van %s (Bevolking %s inwoners) : %s"
-
-#~ msgid "Save settings as..."
-#~ msgstr "Bewaar instellingen als..."
-
-#~ msgid "Load settings"
-#~ msgstr "Lees instellingen"
-
-#~ msgid "Delete settings"
-#~ msgstr "Verwijder instellingen"
-
-#~ msgid "Creating Server List..."
-#~ msgstr "Maak serverlijst"
-
-#~ msgid "Player Name :"
-#~ msgstr "Spelersnaam :"
-
-#~ msgid "Freeciv Server :"
-#~ msgstr "Freeciv Server :"
-
-#~ msgid "Port :"
-#~ msgstr "Poort :"
-
-#~ msgid "Join Pubserver"
-#~ msgstr "Doe mee met Pubserver"
-
-#~ msgid "Join LAN Server"
-#~ msgstr "Verbind met LAN servers"
-
-#~ msgid "SDLClient welcomes you..."
-#~ msgstr "SDLClient heet u welkom..."
-
-#~ msgid ""
-#~ "Freeciv is free software and you are welcome to distribute copies of it "
-#~ "under certain conditions;"
-#~ msgstr ""
-#~ "Freeciv is vrije software en u bent vrij om onder bepaalde "
-#~ "voorwaardennkopieÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ«n "
-#~ "ervan te verspreiden;"
-
-#~ msgid "See the \"Copying\" item on the Help menu."
-#~ msgstr ""
-#~ "Zie het "
-#~ "\"KopieÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ«ren"
-#~ "\" gedeelte in het Help menu."
-
-#~ msgid "Now.. Go give'em hell!"
-#~ msgstr "Nu.. Geef ze van katoen!"
-
-#~ msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-#~ msgstr "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-
-#~ msgid "Veteran"
-#~ msgstr "Veteraan"
-
-#~ msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
-#~ msgstr "%s %s %s(A:%d V:%d O:%d VK:%d) SP:%d%%"
-
-#~ msgid " CtW: Att:%d%% Def:%d%%"
-#~ msgstr "KoW: Aanv:%d%% Verd:%d%%"
-
-#~ msgid "Terrain Info"
-#~ msgstr "Terreininfo"
-
-#~ msgid ""
-#~ "Terrain: %s\n"
-#~ "Food/Prod/Trade: %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Terrein: %s\n"
-#~ "Voeding/Hulp/Handel: %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Minor Tribe Village"
-#~ msgstr ""
-#~ "\n"
-#~ "Klein Inboorlingendorp"
-
-#~ msgid ""
-#~ "\n"
-#~ "Infrastructure: %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Infrastructuur: %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Our Territory"
-#~ msgstr ""
-#~ "\n"
-#~ "Ons gebied"
-
-#~ msgid ""
-#~ "\n"
-#~ "Territory of the %s %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Gebied van de %s %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Unclaimed territory"
-#~ msgstr ""
-#~ "\n"
-#~ "Vrij gebied"
-
-#~ msgid ""
-#~ "\n"
-#~ "City of %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Stad van %s"
-
-#~ msgid "Terrain : UNKNOWN"
-#~ msgstr "Terrein: ONBEKEND"
-
-#~ msgid "Advanced Menu"
-#~ msgstr "Geavanceerd menu"
-
-#~ msgid "Zoom to : %s"
-#~ msgstr "Zoom naar : %s"
-
-#~ msgid "Change C.M.A Settings"
-#~ msgstr "Wijzig instellingen burgemeester"
-
-#~ msgid "Goto here"
-#~ msgstr "Ga naar hier"
-
-#~ msgid "Patrol here"
-#~ msgstr "Patrouilleer hier"
-
-#~ msgid "Connect here"
-#~ msgstr "Maak verbinding naar hier"
-
-#~ msgid "Paradrop here"
-#~ msgstr "Drop para's hier"
-
-#~ msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-#~ msgstr "Activeer %s (%d / %d) %s (%d,%d,%d) %s"
-
-#~ msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
-#~ msgstr "%s %s %s (A:%d V:%d O:%d VK:%d) SP:%d%%"
-
-#~ msgid "Sentry idle"
-#~ msgstr "Zet ongebruikte eenheden op wacht"
-
-#~ msgid "View Civiliopedia entry for %s"
-#~ msgstr "Bekijk Civiliopedie voor %s"
-
-#~ msgid "Your caravan has arrived at %s"
-#~ msgstr "Uw karavaan is aangekomen bij %s"
-
-#~ msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-#~ msgstr "Vestig handelsroute met %s ( %d R&G + %d handel )"
-
-#~ msgid "Enter Marketplace ( %d R&G bonus )"
-#~ msgstr "Ga marktplein op ( %d R&G bonus )"
-
-#~ msgid "REVOLUTION!"
-#~ msgstr "REVOLUTIE!"
-
-#~ msgid "Start"
-#~ msgstr "Begin"
-
-#~ msgid "World map"
-#~ msgstr "Wereldkaart"
-
-#~ msgid "Sea map"
-#~ msgstr "Zeekaart"
-
-#~ msgid "%s incident !"
-#~ msgstr "%s voorval !"
-
-#~ msgid "Shall we declare WAR on them?"
-#~ msgstr "Zullen we ze de OORLOG verklaren?"
-
-#~ msgid "Foreign Minister"
-#~ msgstr "Minister van Buitenlandse Zaken"
-
-#~ msgid ""
-#~ "Sir!, %s ambassador has arrived\n"
-#~ "What are your wishes?"
-#~ msgstr ""
-#~ "Heer!, %s ambassadeur is aangekomen\n"
-#~ "Wat zijn uw wensen?"
-
-#~ msgid "Declare WAR"
-#~ msgstr "Verklaar de OORLOG"
-
-#~ msgid "Call Diplomatic Meeting"
-#~ msgstr "Beleg Diplomatieke ontmoeting"
-
-#~ msgid "Send him back"
-#~ msgstr "Stuur hem terug"
-
-#~ msgid "load_surf: Failed to load graphic file %s!"
-#~ msgstr "load_surf: Niet in staat graphic bestand %s te laden!"
-
-#~ msgid "load_surf: Unable to convert file %s into screen's format!"
-#~ msgstr "load_surf: Niet in staat bestand %s te vertalen naar schermformaat!"
-
-#~ msgid "load_surf_with_flags: Unable to load file %s."
-#~ msgstr "load_surf_with_flags: Niet in staat bestand %s te laden."
-
-#~ msgid "Unable to convert image from file %s into format %d."
-#~ msgstr "Niet in staat plaatje in bestand %s te vertalen naar formaat %d."
-
-#~ msgid ""
-#~ "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-#~ msgstr ""
-#~ "Niet in staat sprite (oppervlak) van grootte %d x %d %d Bits te maken in "
-#~ "formaat %d"
-
-#~ msgid "Unable to initialize SDL library: %s"
-#~ msgstr "Niet in staat SDL-bibliotheek te initialiseren: %s"
-
-#~ msgid "Unable to initialize  SDL_ttf library: %s"
-#~ msgstr "Niet in staat SDL_ttf-bibliotheek te initialiseren: %s"
-
-#~ msgid "No available mode for this resolution : %d x %d %d bpp"
-#~ msgstr "Geen beschikbare modus voor deze resolutie : %d x %d %d bpp"
-
-#~ msgid "Setting default resolution to : 640 x 480 16 bpp SW"
-#~ msgstr "Stel default resolutie in op : 640 x 480 16 bpp SW"
-
-#~ msgid "Unable to set this resolution: %d x %d %d bpp %s"
-#~ msgstr "Niet in staat deze resolutie in te stellen: %d x %d %d bpp %s"
-
-#~ msgid "Setting resolution to: %d x %d %d bpp"
-#~ msgstr "Stel resolutie in op: %d x %d %d bpp"
-
-#~ msgid "load_surf: Unable to load graphic file %s!"
-#~ msgstr "load_surf: Niet in staat graphics-bestand %s te laden!"
-
-#~ msgid "%s load with own %d bpp format !"
-#~ msgstr "%s laden met eigen %d bpp formaat!"
-
-#~ msgid "%s (%d bpp) load with screen (%d bpp) format !"
-#~ msgstr "%s (%d bpp) laden met scherm (%d bpp) formaat!"
-
-#~ msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
-#~ msgstr "  -f,  --fullscreen\tStart client met volledig scherm modus\n"
-
-#~ msgid ""
-#~ "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux "
-#~ "and BeOS)\n"
-#~ msgstr ""
-#~ "-e, --eventthread\tPlaats event subsysteem in andere thread (alleen Linux "
-#~ "en BeOS)\n"
-
-#~ msgid "Using Video Output: %s"
-#~ msgstr "Gebruik video output: %s"
-
-#~ msgid "Initializing Client"
-#~ msgstr "Initialiseer client"
-
-#~ msgid "Waiting for the beginning of the game"
-#~ msgstr "Wacht op het begin van het spel"
-
-#~ msgid "Error in create_string16: Aborting ..."
-#~ msgstr "Fout in create_string16: Afbreken..."
-
-#~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
-#~ "s"
-#~ msgstr ""
-#~ "Fout in SDL_create_str16_surf: Kon tekst niet naar schermformaat "
-#~ "converteren: %s"
-
-#~ msgid ""
-#~ "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-#~ msgstr ""
-#~ "SDL_create_str16_surf: Font is meestal %d groot, en string is %hd groot"
-
-#~ msgid "SDL_create_str16_surf: String is %d lenght"
-#~ msgstr "SDL_create_str16_surf: String is %d lang"
-
-#~ msgid "Error in change_ptsize: Change ptsize failed"
-#~ msgstr "Fout in change_ptsize: Wijzigen ptsize faalde"
-
-#~ msgid ""
-#~ "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font "
-#~ "to data dir as stdfont.ttf"
-#~ msgstr ""
-#~ "Kon stdfont.ttf bestand niet vinden. link/kopieer/verplaats enig unicode "
-#~ "ttf-font naar data map als stdfont.ttf"
-
-#~ msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-#~ msgstr "Fout in load_font: Kon %d pt font van %s niet laden: %s"
-
-#~ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-#~ msgstr "Fout in unload_font: Probeer unload van lege Font ARRAY"
-
-#~ msgid ""
-#~ "Error in unload_font: Trying unload Font which is not include in Font "
-#~ "ARRAY"
-#~ msgstr "Fout in unload_font: Probeer unload Font die niet in Font ARRAY zit"
-
-#~ msgid "Intelligence Information about %s Spaceship"
-#~ msgstr "Spionage Informatie betreffende %s Ruimteschip"
-
-#~ msgid ""
-#~ "Ruler: %s %s  Government: %s\n"
-#~ "Capital: %s  Gold: %d\n"
-#~ "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#~ "Researching: %s(%d/%d)"
-#~ msgstr ""
-#~ "Heerser: %s %s  Regering: %s\n"
-#~ "Hoofdstad: %s Goud: %d\n"
-#~ "Bel. %d%% Wetensch.: %d%% Luxe: %d%%\n"
-#~ "Onderzoeken: %s(%d/%d)"
-
-#~ msgid "Their techs that we don't have :"
-#~ msgstr "Hun vooruitgangen die wij niet hebben :"
-
-#~ msgid "Show Unit Info Window"
-#~ msgstr "Toon eenheidsinfo-venster"
-
-#~ msgid "Hide Unit Info Window"
-#~ msgstr "Verberg eenheidsinfo-venster"
-
-#~ msgid "Show MiniMap"
-#~ msgstr "Toon minikaart"
-
-#~ msgid "Hide MiniMap"
-#~ msgstr "Verberg minikaart"
-
-#~ msgid "Show Log (F10)"
-#~ msgstr "Toon log (F10)"
-
-#~ msgid "Hide Log (F10)"
-#~ msgstr "Verberg log (F10)"
-
-#~ msgid "Single Tile Width"
-#~ msgstr "Breedte enkel vlak"
-
-#~ msgid "Single Tile Height"
-#~ msgstr "Hoogte enkel vlak"
-
-#~ msgid "Scale Minimap"
-#~ msgstr "Schaal minikaart"
-
-#~ msgid "Exit"
-#~ msgstr "Verlaat"
-
-#~ msgid "Width"
-#~ msgstr "Breedte"
-
-#~ msgid "Height"
-#~ msgstr "Hoogte"
-
-#~ msgid "Scale Unit Info"
-#~ msgstr "Schaal eenheid info"
-
-#~ msgid "Economy (F5)"
-#~ msgstr "Economie (F5)"
-
-#~ msgid "Research (F6)"
-#~ msgstr "Onderzoek (F6)"
-
-#~ msgid "Revolution (Shift + R)"
-#~ msgstr "Revolutie (Shift + R)"
-
-#~ msgid "End Turn (Enter)"
-#~ msgstr "Einde beurt (Enter)"
-
-#~ msgid "Players (F3)"
-#~ msgstr "Spelers (F3)"
-
-#~ msgid ""
-#~ "Cities Report (F1)\n"
-#~ "or\n"
-#~ "Find City (Shift + F)"
-#~ msgstr ""
-#~ "Stedenrapport (F1)\n"
-#~ "of\n"
-#~ "Zoek stad (Shift + F)"
-
-#~ msgid "Units (F2)"
-#~ msgstr "Eenheden (F2)"
-
-#~ msgid "Toggle Minimap Mode (Shift + \\)"
-#~ msgstr "Wissel minikaart modus (Shift + \\)"
-
-#~ msgid ""
-#~ "The SDL event buffer is full; you may see drawing errors\n"
-#~ "as a result.  If you see this message often, please\n"
-#~ "report it to freeciv-dev@freeciv.org."
-#~ msgstr ""
-#~ "De SDL-eventbuffer is vol; u kunt tekenfouten zien als\n"
-#~ "resultaat. Als u dit vaak ziet, rapporteer dit dan a.u.b.\n"
-#~ "aan freeciv-dev@freeciv.org."
-
-#~ msgid ""
-#~ "Revolution (Shift + R)\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Revolutie (Shift + R)\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Research (F6)\n"
-#~ "%s (%d/%d)"
-#~ msgstr ""
-#~ "Onderzoek (F6)\n"
-#~ "%s (%d/%d)"
-
-#~ msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-#~ msgstr "%s Bevolking: %s Jaartal: %s Goud: %d Bel.: %d Luxe: %d Wet.: %d"
-
-#~ msgid " with "
-#~ msgstr " met "
-
-#~ msgid ""
-#~ "\n"
-#~ "Food/Prod/Trade: %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Voeding/Prod/Handel: %s"
-
-#~ msgid ""
-#~ "End of Turn\n"
-#~ "(Press Enter)"
-#~ msgstr ""
-#~ "Einde beurt\n"
-#~ "(Druk op Enter)"
-
-#~ msgid "sprite is NULL"
-#~ msgstr "sprite is NULL"
-
-#~ msgid "No orders"
-#~ msgstr "Geen opdrachten"
-
-#~ msgid "Goto City"
-#~ msgstr "Ga naar stad"
-
-#~ msgid "Auto-Explore"
-#~ msgstr "Auto Onderzoek"
-
-#~ msgid "Auto-Attack"
-#~ msgstr "Auto Aanval"
-
-#~ msgid "Auto-Settler"
-#~ msgstr "Auto Kolonist"
-
-#~ msgid "Wake Up Others"
-#~ msgstr "Wek anderen"
-
-#~ msgid "Find Homecity"
-#~ msgstr "Zoek thuisstad"
-
-#~ msgid "Transform Tile"
-#~ msgstr "Transformeer vlak"
-
-#~ msgid "Form Traderoute"
-#~ msgstr "Vestig Handelsroute"
-
-#~ msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
-#~ msgstr "Vestig handelsroute met %s ( %d R&G + %d handel ) (R)"
-
-#~ msgid "Trade with %s ( %d R&G bonus ) (R)"
-#~ msgstr "Handel met %s ( %d R&G bonus ) (R)"
-
-#~ msgid "Cut Down to"
-#~ msgstr "Kap tot"
-
-#~ msgid "Irrigate to"
-#~ msgstr "Irrigateer naar"
-
-#~ msgid "Plant Forest"
-#~ msgstr "Plant Bossen"
-
-#~ msgid "Log"
-#~ msgstr "Log"
-
-#~ msgid "Add new worklist"
-#~ msgstr "Nieuwe werklijst"
-
-#~ msgid ""
-#~ "Current Setup\n"
-#~ "Fullscreen %dx%d"
-#~ msgstr ""
-#~ "Huidige instellingen\n"
-#~ "Volledig scherm %dx%d"
-
-#~ msgid ""
-#~ "Current Setup\n"
-#~ "%dx%d"
-#~ msgstr ""
-#~ "Huidige instellingen\n"
-#~ "%dx%d"
-
-#~ msgid "No modes available!"
-#~ msgstr "Geen modi Beschikbaar!"
-
-#~ msgid "All resolutions available."
-#~ msgstr "Alle resoluties beschikbaar."
-
-#~ msgid "Smooth unit moves"
-#~ msgstr "Vloeiende bewegingen eenheid"
-
-#~ msgid "Smooth unit move steps"
-#~ msgstr "Vloeiende bewegingen eenheid"
-
-#~ msgid "Show focus animation"
-#~ msgstr "Toon focus animatie"
-
-#~ msgid "Show cursors animation"
-#~ msgstr "Toon cursor animatie"
-
-#~ msgid "Draw city map grid"
-#~ msgstr "Teken stadskaartraster"
-
-#~ msgid "Draw city worker map grid"
-#~ msgstr "Teken stadswerkerskaartraster"
-
-#~ msgid "Special Resources"
-#~ msgstr "Speciale Hulpbronnen"
-
-#~ msgid "Civ3 city text style"
-#~ msgstr "Civ3-stijl text"
-
-#~ msgid "Video options"
-#~ msgstr "Video-opties"
-
-#~ msgid "Game options"
-#~ msgstr "Spelopties"
-
-#~ msgid "Map options"
-#~ msgstr "Kaartopties"
-
-#~ msgid "disconnected"
-#~ msgstr "geen verbinding"
-
-#~ msgid ""
-#~ "Name : %s\n"
-#~ "Nation : %s\n"
-#~ "Team : %s\n"
-#~ "Reputation : %s\n"
-#~ "Embassy :%s\n"
-#~ "State : %s\n"
-#~ "Idle : %d %s"
-#~ msgstr ""
-#~ "Naam : %s\n"
-#~ "Natie : %s\n"
-#~ "Team : %s\n"
-#~ "Reputatie : %s\n"
-#~ "Ambassade :%s\n"
-#~ "Status : %s\n"
-#~ "Idle : %d %s"
-
-#~ msgid "Nations"
-#~ msgstr "Naties"
-
-#~ msgid "active"
-#~ msgstr "actief"
-
-#~ msgid ""
-#~ "under\n"
-#~ "construction"
-#~ msgstr ""
-#~ "wordt\n"
-#~ "gebouwd"
-
-#~ msgid ""
-#~ "soonest\n"
-#~ "completion"
-#~ msgstr ""
-#~ "snelste\n"
-#~ "voltooÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ng"
-
-#~ msgid "Total"
-#~ msgstr "Totaal"
-
-#~ msgid "Units Report"
-#~ msgstr "Eenhedenrapport"
-
-#~ msgid ""
-#~ "We have %d of %s\n"
-#~ "(total value is : %d)\n"
-#~ "We can sell %d of them for %d gold"
-#~ msgstr ""
-#~ "We hebben %d %s\n"
-#~ "(totale waarde : %d)\n"
-#~ "We kunnen er %d van verkopen voor %d goud"
-
-#~ msgid "We can't sell any %s in this turn"
-#~ msgstr "We kunnen geen %s verkopen in deze beurt"
-
-#~ msgid "Economy Report"
-#~ msgstr "Economisch rapport"
-
-#~ msgid "Treasury: "
-#~ msgstr "Verdrag: "
-
-#~ msgid "Tax Rate: "
-#~ msgstr "Belastingswaarde: "
-
-#~ msgid "Total Income: "
-#~ msgstr "Totaal Inkomen: "
-
-#~ msgid "Total Cost: "
-#~ msgstr "Totale Kosten: "
-
-#~ msgid "Net Income: "
-#~ msgstr "Netto inkomen: "
-
-#~ msgid "%s max rate : %d%%"
-#~ msgstr "%s max waarde: %d%%"
-
-#~ msgid "FT"
-#~ msgstr "FT"
-
-#~ msgid ""
-#~ "Current output : 0\n"
-#~ "Research speed : none\n"
-#~ "Next's advance time : never"
-#~ msgstr ""
-#~ "Huidige uitvoer : 0\n"
-#~ "Onderzoeksenelheid : geen\n"
-#~ "Volgende vooruitgang : nooit"
-
-#~ msgid "Next advance in %d turn"
-#~ msgid_plural "Next advance in %d turns"
-#~ msgstr[0] "Volgende vooruitgang in %d beurt"
-#~ msgstr[1] "Volgende vooruitgang in %d beurten"
-
-#~ msgid ""
-#~ "Current output : %d per turn\n"
-#~ "Research speed : %d %s/advance\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Huidige uitvoer : %d per beurt\n"
-#~ "Onderzoekssnelheid : %d %s/vooruitgang\n"
-#~ "%s"
-
-#~ msgid "step"
-#~ msgid_plural "steps"
-#~ msgstr[0] "stap"
-#~ msgstr[1] "stappen"
-
-#~ msgid "What should we focus on now?"
-#~ msgstr "Waar zullen we ons nu op richten?"
-
-#~ msgid "Sellect target :"
-#~ msgstr "Kies doel :"
-
-#~ msgid "%s's SpaceShip"
-#~ msgstr "%s's Ruimteschip"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "%d gold per turn"
-#~ msgstr ""
-#~ "%s\n"
-#~ "%d goud per beurt"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "blocked!"
-#~ msgstr ""
-#~ "%s\n"
-#~ "geblokkeerd!"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "finished!"
-#~ msgstr ""
-#~ "%s\n"
-#~ "klaar!"
-
-#~ msgid "( %d elements )"
-#~ msgstr "( %d elementen )"
-
-#~ msgid ""
-#~ "Worklist of\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Werklijst van\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%s"
-
-#~ msgid "shield"
-#~ msgid_plural "shields"
-#~ msgstr[0] "schild"
-#~ msgstr[1] "schilden"
-
-#~ msgid ""
-#~ "%d/%d %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "%d/%d %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-
-#~ msgid ""
-#~ "%d/%d %s\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "%d/%d %s\n"
-#~ "%d %s"
-
-#~ msgid "%d gold per turn"
-#~ msgstr "%d goud per beurt"
-
-#~ msgid ""
-#~ "(%s)\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%s)\n"
-#~ "%d %s"
-
-#~ msgid "%d %s"
-#~ msgstr "%d %s"
-
-#~ msgid "shields into gold"
-#~ msgstr "schilden in goud"
-
-#~ msgid ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "never"
-#~ msgstr ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "nooit"
-
-#~ msgid ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-
-#~ msgid ""
-#~ "(%d/%d/%d)\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%d/%d/%d)\n"
-#~ "%d %s"
-
-#~ msgid "China has the largest population of any nation on earth."
-#~ msgstr "China heeft de grootste bevolking van alle naties op aarde."
-
-#~ msgid ""
-#~ "\n"
-#~ "%s territory (%d turn ceasefire)\n"
-#~ "%s territory (%d turn ceasefire)"
-#~ msgstr ""
-#~ "\n"
-#~ "%s gebied (%d beurt staakt-het-vuren)\n"
-#~ "%s gebied (%d beurten staakt-het-vuren)"
-
-#~ msgid ""
-#~ "\n"
-#~ "(%s, %d turn ceasefire)\n"
-#~ "(%s, %d turn ceasefire)"
-#~ msgstr ""
-#~ "\n"
-#~ "(%s, %d beurt staakt-het-vuren)\n"
-#~ "(%s, %d beurten staakt-het-vuren)"
