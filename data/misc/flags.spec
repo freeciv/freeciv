@@ -14,6 +14,8 @@ artists = "
 
    Aborigines		Brett Roper
    Afghanistan		Andrew Duhan and Reisio
+   Ainu			Daniel Markstedt
+   Akwe			Dan Cottrell and Daniel Markstedt
    Algeria 		Lauris Kaplinski
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
@@ -35,6 +37,7 @@ artists = "
    Bosnia		Daniel McRae
    Brasil		Cezary Biele
    Bulgaria		Daniel McRae
+   Burundi		Sebastian Koppehel
    Byzantium		Nikos Mavrogiannopoulos
    Canada		James Leigh
    Cartago		Daniel Markstedt and Matt Jecrell
@@ -42,6 +45,7 @@ artists = "
    Cheyenne		Arturo Espinosa-Aldama
    Chile		Mario Fuentes
    China		Stephen Silver
+   Chola		Dan Cottrell and Daniel Markstedt
    Colombia		Lauris Kaplinski
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
@@ -49,6 +53,7 @@ artists = "
    Cuba			Lauris Kaplinski
    Czech		Lauris Kaplinski
    Denmark		Jens Bech Madsen
+   Dominica		Caleb Moore and Christian Schaller
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
    England		Thom Sanders
@@ -67,14 +72,19 @@ artists = "
    Greece (ancient)	Daniel Markstedt and Vzb83 (Wikipedia)
    Greece		Daniel McRae
    Greenland		Daniel McRae
+   Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
+   Hawaii		Rob Adams
+   Himyar		Daniel Markstedt
    Hittite		Daniel Markstedt
+   Hopi			Daniel Markstedt
    Hungary		Laszlo Dvornik
    Iceland		Áki G. Karlsson
    Illyria		William Allen Simpson
    Inca			Daniel Markstedt
    India		Lauris Kaplinski
    Indonesia		Kuswanto
+   Innu			Daniel Markstedt
    Iran (ancient)	Daniel Markstedt
    Iran			Cezary Biele
    Iraq (old)		AnonMoos
@@ -86,27 +96,36 @@ artists = "
    Japan		Lauris Kaplinski
    Jbonai		Elmo Todurov
    Kampuchea		Caleb Moore
+   Kanem-Bornu		Daniel Markstedt
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
+   Khwarezm		Dan Cottrell and Daniel Markstedt
+   Kongo		Daniel Markstedt
    Korea		Stephen Silver
    Latvia		Lauris Bukšis
    Libya		Cezary Biele
    Lithuania		Christian Schaller
    Macedonia		Sigge Kotliar
    Madagascar		Russell Cloran
+   Majapahit		Dan Cottrell and Daniel Markstedt
    Malaysia		Lauris Kaplinski
    Mali			Brett Roper
    Maori		Daniel Markstedt
+   Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
    Mexico		Cezary Biele
    Mongolia		Sebastian Koppehel
+   Muskogee		Daniel Markstedt
    Myanmar		Caleb Moore
    NATO			Christian Schaller
    Netherlands		Marc Maurer
    New Zealand		Daniel McRae
    Nigeria		Brett Roper
    Norway		Christian Schaller
+   Nubia		Daniel Markstedt
+   Numidia		Osgoodelawyer and Dan Cottrell
+   Nuu-chah-nulth	Daniel Markstedt
    Ottoman		Daniel Markstedt
    Pakistan		Lauris Kaplinski
    Palmyra		JB Grout
@@ -117,6 +136,8 @@ artists = "
    Poland		Cezary Biele
    Polynesian		Daniel Markstedt
    Portugal		Diogo Mamede
+   Prussia		Daniel Markstedt
+   Purhepecha		Daniel Markstedt
    Qing			Caleb Moore
    Quebec		Patrick Guimond
    Romania		Daniel McRae
@@ -137,6 +158,7 @@ artists = "
    Soviet		Sigge Kotliar
    Spain		Pedro A. Gracia Fajardo
    Sri Lanka		Tobias Jakobs
+   Sri Vijaya		Dan Cottrell and Daniel Markstedt
    St. Patrick		Vasco Alexandre Da Silva Costa
    Sudan		Tobias Jakobs
    Sumeria		Franz Mach, Jason Short, Daniel Markstedt
@@ -144,11 +166,16 @@ artists = "
    Sweden		Richard Torkar
    Swiss		Philipp Frauenfelder
    Syria		Craig Kacinko
+   Taino		Daniel Markstedt
+   Tairona		Dan Cottrell and Daniel Markstedt
    Taiwan		Cezary Biele
    Texas		Paul B. Joiner
    Thailand		Lauris Kaplinski
+   Thrace		William Allen Simpson and Daniel Markstedt
    Tibet		Tobias Jakobs
+   Tocharian		Dan Cottrell and Daniel Markstedt
    Tunisia		Tobias Jakobs
+   Tupi			Dan Cottrell and Daniel Markstedt
    Turkey		Onur Yalaz
    Ukraine		Lauris Kaplinski
    United Kingdom	Daniel McRae
