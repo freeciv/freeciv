@@ -29,7 +29,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "chilean"
+civilwar_nations = "chilean", "akwe", "tupi"
 
 cities =
     "São Paulo", "Rio de Janeiro (river)", "Salvador", "Fortaleza",

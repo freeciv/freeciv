@@ -32,7 +32,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="israeli", "sudanese"
+civilwar_nations="nubian"
 
 ; Source: http://www.narmer.pl/map/nomy_en.htm
 ; Alternative names in comment

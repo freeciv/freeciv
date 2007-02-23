@@ -34,7 +34,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "iroquois", "american", "canadian"
+civilwar_nations = "iroquois", "hopi", "cree"
 
 ; City names are tribes. List based on data from this page:
 ; http://www.accessgenealogy.com/native/tribes/siouan/siouanfamilyhist.htm

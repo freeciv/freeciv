@@ -22,13 +22,23 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-conflicts_with = "maori"
-civilwar_nations = "maori"
+conflicts_with = "maori", "hawaiian"
+civilwar_nations = "maori", "hawaiian"
 
-cities = "Apia",	; Samoa "Nukualofa",	; Tonga "Lautoka",	; Fiji "Papeete",	; Tahiti, French Polynesia "Hanga Roa",	; Easter Islands
- "Honolulu",	; Hawaii "Hilo",	; Hawaii "Lihue",	; Hawaii "Hookena",	; Hawaii
- "Fongafale",	; Tuvalu "Honiara",	; Solomon Islands
-; Islands "Kapingamarangi",
+cities =
+ "Apia",	; Samoa
+ "Nukualofa",	; Tonga
+ "Lautoka",	; Fiji
+ "Papeete",	; Tahiti, French Polynesia
+ "Hanga Roa",	; Easter Islands
+ "Honolulu",	; Hawaii
+ "Hilo",	; Hawaii
+ "Lihue",	; Hawaii
+ "Hookena",	; Hawaii
+ "Fongafale",	; Tuvalu
+ "Honiara",	; Solomon Islands
+; Islands
+ "Kapingamarangi",
  "Anuta",
  "Emae",
  "Mele",

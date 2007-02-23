@@ -26,8 +26,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="ryukyuan"
-; Reducing to ryukyuan only: This is a "true" Japanese civil war nation
+civilwar_nations="ryukyuan", "ainu"
 
 cities =
   "Tokyo (ocean)",

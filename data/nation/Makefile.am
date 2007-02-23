@@ -7,6 +7,8 @@ pkgdatadir = $(datadir)/$(PACKAGE)/nation
 pkgdata_DATA = \
 		aborigines.ruleset \
 		afghani.ruleset \
+		ainu.ruleset \
+		akwe.ruleset \
 		algerian.ruleset \
 		american.ruleset \
 		antarctican.ruleset \
@@ -31,6 +33,7 @@ pkgdata_DATA = \
 		british.ruleset \
 		bulgarian.ruleset \
 		burmese.ruleset \
+		burundi.ruleset \
 		byzantium.ruleset \
 		cambodian.ruleset \
 		canadian.ruleset \
@@ -39,13 +42,16 @@ pkgdata_DATA = \
 		cherokee.ruleset \
 		chilean.ruleset \
 		chinese.ruleset \
+		chola.ruleset \
 		colombian.ruleset \
 		confederate.ruleset \
 		cornish.ruleset \
+		cree.ruleset \
 		croatian.ruleset \
 		cuban.ruleset \
 		czech.ruleset \
 		danish.ruleset \
+		dominican.ruleset \
 		dutch.ruleset \
 		egyptian.ruleset \
 		english.ruleset \
@@ -61,9 +67,13 @@ pkgdata_DATA = \
 		georgian.ruleset \
 		german.ruleset \
 		greek.ruleset \
+		gupta.ruleset \
 		hacker.ruleset \
+		hawaiian.ruleset \
 		hellenic.ruleset \
+		himyarite.ruleset \
 		hittite.ruleset \
+		hopi.ruleset \
 		hungarian.ruleset \
 		icelandic.ruleset \
 		illyrian.ruleset \
@@ -78,36 +88,50 @@ pkgdata_DATA = \
 		israeli.ruleset \
 		italian.ruleset \
 		japanese.ruleset \
+		kanem-bornu.ruleset \
 		kenyan.ruleset \
+		khwarezmian.ruleset \
+		kongo.ruleset \
 		korean.ruleset \
 		lankese.ruleset \
 		latvian.ruleset \
 		libyan.ruleset \
 		lithuanian.ruleset \
 		lojbanistani.ruleset \
+		majapahit.ruleset \
 		malagasy.ruleset \
 		malaysian.ruleset \
 		malian.ruleset \
 		manchu.ruleset \
 		maori.ruleset \
+		mapuche.ruleset \
 		martian.ruleset \
 		mayan.ruleset \
 		mexican.ruleset \
 		mongol.ruleset \
+		muskogee.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \
 		norwegian.ruleset \
+		nubian.ruleset \
+		numidian.ruleset \
+		nuu-chah-nulth.ruleset \
 		ottoman.ruleset \
+		pakistani.ruleset \
 		papuan.ruleset \
 		persian.ruleset \
+		peruvian.ruleset \
 		phoenician.ruleset \
 		polish.ruleset \
 		polynesian.ruleset \
 		portuguese.ruleset \
+		prussian.ruleset \
+		purhepecha.ruleset \
 		quebecois.ruleset \
 		romanian.ruleset \
 		roman.ruleset \
 		russian.ruleset \
+		rwandan.ruleset \
 		ryukyuan.ruleset \
 		sami.ruleset \
 		samogitian.ruleset \
@@ -121,16 +145,23 @@ pkgdata_DATA = \
 		southafrican.ruleset \
 		soviet.ruleset \
 		spanish.ruleset \
+		srivijaya.ruleset \
 		sudanese.ruleset \
 		sumerian.ruleset \
 		swazi.ruleset \
 		swedish.ruleset \
 		swiss.ruleset \
+		syrian.ruleset \
+		taino.ruleset \
+		tairona.ruleset \
 		taiwanese.ruleset \
 		texan.ruleset \
 		thai.ruleset \
+		thracian.ruleset \
 		tibetan.ruleset \
+		tocharian.ruleset \
 		tunisian.ruleset \
+		tupi.ruleset \
 		turk.ruleset \
 		ukrainian.ruleset \
 		un.ruleset \
