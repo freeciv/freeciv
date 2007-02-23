@@ -941,11 +941,12 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       }
     }
     if (strlen(buf)) strcat(buf, "\n");
+/*
     if (advances[i].helptext) {
       sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
     }
-  }
-  else {
+*/
+  } else {
     create_help_page(HELP_TECH);
     create_tech_tree(help_tech_tree, 0, game.control.num_tech_types, 3);
     strcpy(buf, pitem->text);
