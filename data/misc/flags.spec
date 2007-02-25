@@ -176,7 +176,7 @@ artists = "
    Tocharian		Dan Cottrell and Daniel Markstedt
    Tunisia		Tobias Jakobs
    Tupi			Dan Cottrell and Daniel Markstedt
-   Turkey		Onur Yalaz
+   Turkey		David Benbennick
    Ukraine		Lauris Kaplinski
    United Kingdom	Daniel McRae
    United Nations	Tobias Jakobs
