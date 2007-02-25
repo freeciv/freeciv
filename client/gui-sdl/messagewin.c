@@ -235,10 +235,10 @@ void real_update_meswin_dialog(void)
 void popup_meswin_dialog(bool raise)
 {
   SDL_String16 *pStr;
-  SDL_Rect area;
   int scrollbar_width;
   struct widget *pWindow = NULL;
   SDL_Surface *pBackground;
+  SDL_Rect area;
   
   if(pMsg_Dlg) {
     return;
@@ -250,7 +250,7 @@ void popup_meswin_dialog(bool raise)
   pStr = create_str16_from_char(_("Messages"), adj_font(12));
   pStr->style = TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   
   pWindow->action = move_msg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -259,29 +259,31 @@ void popup_meswin_dialog(bool raise)
   pMsg_Dlg->pEndWidgetList = pWindow;
   pMsg_Dlg->pBeginWidgetList = pWindow;
 
+/*  area = pWindow->area;*/
+  
   /* create scrollbar */
   scrollbar_width = create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
 
   /* define content area */
-  area.x = pTheme->FR_Left->w;
-  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
-  area.w = (adj_size(520) - pTheme->FR_Right->w - pTheme->FR_Left->w);
+  area.w = (adj_size(520) - (pWindow->size.w - pWindow->area.w));
   area.h = N_MSG_VIEW * str16size(pStr).h;
-
-  setup_vertical_scrollbar_area(pMsg_Dlg->pScroll,
-		area.x + area.w - 1, area.y,
-                area.h, TRUE);
-  
-  hide_scrollbar(pMsg_Dlg->pScroll);
 
   /* create window background */
   pBackground = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
   if (resize_window(pWindow, pBackground, NULL,
-      (area.x + area.w + pTheme->FR_Right->w),
-      (area.y + area.h + pTheme->FR_Bottom->h))) {
+                    (pWindow->size.w - pWindow->area.w) + area.w,
+                    (pWindow->size.h - pWindow->area.h) + area.h)) {
     FREESURFACE(pBackground);
   }
+
+  area = pWindow->area;
   
+  setup_vertical_scrollbar_area(pMsg_Dlg->pScroll,
+		area.x + area.w, area.y,
+                area.h, TRUE);
+  
+  hide_scrollbar(pMsg_Dlg->pScroll);
+
   widget_set_position(pWindow, (Main.screen->w - pWindow->size.w)/2, adj_size(25));
 
   widget_redraw(pWindow);

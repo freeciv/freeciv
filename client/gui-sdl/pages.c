@@ -130,14 +130,16 @@ static void show_main_page()
   struct widget *pWidget = NULL, *pWindow = NULL;
   SDL_Surface *pBackground;
   int h = 0;
-  SDL_Rect area = {0, 0, 0, 0};
+  SDL_Rect area;
     
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pWindow = create_window(NULL, NULL, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pWindow);
   pStartMenu->pEndWidgetList = pWindow;
+
+  area = pWindow->area;
   
   /* Freeciv version */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, "Freeciv "VERSION,
@@ -148,7 +150,7 @@ static void show_main_page()
   pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
   
   add_to_gui_list(ID_LABEL, pWidget);
@@ -163,7 +165,7 @@ static void show_main_page()
   set_wstate(pWidget, FC_WS_NORMAL);
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
   
   add_to_gui_list(ID_START_NEW_GAME, pWidget);
@@ -179,7 +181,7 @@ static void show_main_page()
   add_to_gui_list(ID_LOAD_GAME, pWidget);
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
   
   /* Join Game */
@@ -193,7 +195,7 @@ static void show_main_page()
   add_to_gui_list(ID_JOIN_GAME, pWidget);
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
     
   /* Join Pubserver */  
@@ -207,7 +209,7 @@ static void show_main_page()
   add_to_gui_list(ID_JOIN_META_GAME, pWidget);
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
   
   /* Join LAN Server */  
@@ -221,7 +223,7 @@ static void show_main_page()
   add_to_gui_list(ID_JOIN_GAME, pWidget);
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
   
   /* Options */  
@@ -235,7 +237,7 @@ static void show_main_page()
   add_to_gui_list(ID_CLIENT_OPTIONS_BUTTON, pWidget);
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
   
   /* Quit */  
@@ -249,7 +251,7 @@ static void show_main_page()
   add_to_gui_list(ID_QUIT, pWidget);
   
   area.w = MAX(area.w, pWidget->size.w);
-  area.h = MAX(area.h, pWidget->size.h);
+  h = MAX(h, pWidget->size.h);
   count++;
   
   pStartMenu->pBeginWidgetList = pWidget;
@@ -257,34 +259,33 @@ static void show_main_page()
   /* ------*/
 
   area.w += adj_size(30);
-  area.h += adj_size(6);
+  h += adj_size(6);
 
-  h = area.h;
-  area.h *= count;
+  area.h = MAX(area.h, h * count);
 
   /* ------*/
-  area.x = pTheme->FR_Left->w;
-  area.y = pTheme->FR_Top->h;
+  
+  pBackground = theme_get_background(theme, BACKGROUND_STARTMENU);
+  if (resize_window(pWindow, pBackground, NULL,
+                    (pWindow->size.w - pWindow->area.w) + area.w,
+                    (pWindow->size.h - pWindow->area.h) + area.h)) {
+    FREESURFACE(pBackground);
+  }
+
+  area = pWindow->area;
 
   group_set_area(pWidget, pWindow->prev, area);
 
   setup_vertical_widgets_position(1, area.x, area.y, area.w, h, pWidget, pWindow->prev);
-
-  widget_set_position(pWindow,
-    (Main.screen->w - pTheme->FR_Right->w - area.w - pTheme->FR_Left->w) - adj_size(20),
-    (Main.screen->h - pTheme->FR_Bottom->h - area.h - pTheme->FR_Top->h) - adj_size(20));
-
-  draw_intro_gfx();
   
-  pBackground = theme_get_background(theme, BACKGROUND_STARTMENU);
-  if (resize_window(pWindow, pBackground, NULL,
-        pTheme->FR_Left->w + area.w + pTheme->FR_Right->w,
-        pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h)) {
-    FREESURFACE(pBackground);
-  }
-
   area.h = h;
   SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) - adj_size(20),
+                      (Main.screen->h - pWindow->size.h) - adj_size(20));
+
+  draw_intro_gfx();
   
   redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
 

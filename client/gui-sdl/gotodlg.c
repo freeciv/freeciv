@@ -21,6 +21,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* common */
 #include "game.h"
@@ -135,7 +136,7 @@ static void update_goto_dialog(void)
       
       my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", pCity->name, pCity->size);
       
-      pStr = create_str16_from_char(cBuf, 12);
+      pStr = create_str16_from_char(cBuf, adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
    
       if(pCity->owner != owner) {
@@ -165,7 +166,7 @@ static void update_goto_dialog(void)
       DownAdd(pBuf, pAdd_Dock);
       pAdd_Dock = pBuf;
       
-      if (n > 16)
+      if (n > (pGotoDlg->pScroll->active - 1))
       {
         set_wflag(pBuf, WF_HIDDEN);
       }
@@ -182,28 +183,27 @@ static void update_goto_dialog(void)
     pGotoDlg->pActiveWidgetList = pGotoDlg->pEndActiveWidgetList;
     pGotoDlg->pScroll->count = n;
     
-    if (n > 17)
+    if (n > pGotoDlg->pScroll->active)
     {
       show_scrollbar(pGotoDlg->pScroll);
-      pGotoDlg->pScroll->pScrollBar->size.y =
-	      pGotoDlg->pEndWidgetList->size.y + WINDOW_TITLE_HEIGHT + 1 +
-				   pGotoDlg->pScroll->pUp_Left_Button->size.h;
+      pGotoDlg->pScroll->pScrollBar->size.y = pGotoDlg->pEndWidgetList->area.y +
+        pGotoDlg->pScroll->pUp_Left_Button->size.h;
       pGotoDlg->pScroll->pScrollBar->size.h = scrollbar_size(pGotoDlg->pScroll);
     } else {
       hide_scrollbar(pGotoDlg->pScroll);
     }
   
     setup_vertical_widgets_position(1,
-	pGotoDlg->pEndWidgetList->size.x + pTheme->FR_Left->w + 1,
-        pGotoDlg->pEndWidgetList->size.y + WINDOW_TITLE_HEIGHT + 1,
+	pGotoDlg->pEndWidgetList->area.x,
+        pGotoDlg->pEndWidgetList->area.y,
         pGotoDlg->pScroll->pUp_Left_Button->size.x -
-          pGotoDlg->pEndWidgetList->size.x - pTheme->FR_Right->w - adj_size(2),
+          pGotoDlg->pEndWidgetList->area.x - adj_size(2),
         0, pGotoDlg->pBeginActiveWidgetList, pGotoDlg->pEndActiveWidgetList);
         
   } else {
     hide_scrollbar(pGotoDlg->pScroll);
   }
-    
+  
   /* redraw */
   redraw_group(pGotoDlg->pBeginWidgetList, pGotoDlg->pEndWidgetList, 0);
   widget_flush(pGotoDlg->pEndWidgetList);
@@ -222,7 +222,8 @@ static void popup_goto_airlift_dialog(void)
   SDL_String16 *pStr;
   SDL_Surface *pFlag, *pEnabled, *pDisabled;
   SDL_Rect dst;
-  int w = 0, h, i, col, block_x;
+  int i, col, block_x, x, y;
+  SDL_Rect area;
   
   if (pGotoDlg) {
     return;
@@ -233,14 +234,15 @@ static void popup_goto_airlift_dialog(void)
   pStr = create_str16_from_char(_("Select destination"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   
   pWindow->action = goto_dialog_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  w = MAX(w, pWindow->size.w);
   
   add_to_gui_list(ID_WINDOW, pWindow);
   pGotoDlg->pEndWidgetList = pWindow;
+
+  area = pWindow->area;
   
   /* ---------- */
   /* create exit button */
@@ -249,7 +251,7 @@ static void popup_goto_airlift_dialog(void)
   pBuf->action = exit_goto_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-  w += (pBuf->size.w + adj_size(10));
+  area.w = MAX(area.w, pBuf->size.w) + adj_size(10);
   
   add_to_gui_list(ID_BUTTON, pBuf);
   
@@ -262,15 +264,9 @@ static void popup_goto_airlift_dialog(void)
       continue;
     }
     
-    pFlag = crop_visible_part_from_surface(get_nation_flag_surface(game.players[i].nation));
+    pFlag = ResizeSurfaceBox(get_nation_flag_surface(game.players[i].nation),
+                             adj_size(30), adj_size(30), 1, TRUE, FALSE);
   
-    if (pFlag->w > 15 || pFlag->h > 15) {
-      float zoom = (float)(MAX(pFlag->w, pFlag->h)) / 15;
-      pEnabled = zoomSurface(pFlag, zoom, zoom, 1);
-      FREESURFACE(pFlag);
-      pFlag = pEnabled;
-    }
-    
     pEnabled = create_icon_theme_surf(pFlag);
     SDL_FillRectAlpha(pFlag, NULL, &bg_color);
     pDisabled = create_icon_theme_surf(pFlag);
@@ -300,48 +296,50 @@ static void popup_goto_airlift_dialog(void)
   pGotoDlg->pScroll->active = 17;
 #endif
   
-  create_vertical_scrollbar(pGotoDlg, 1, 17, TRUE, TRUE);
+  create_vertical_scrollbar(pGotoDlg, 1, 16, TRUE, TRUE);
   hide_scrollbar(pGotoDlg->pScroll);
   
-  w = MAX(w, adj_size(300));
-  h = adj_size(300);
+  area.w = MAX(area.w, adj_size(300));
+  area.h = adj_size(320);
 
-  widget_set_position(pWindow,
-                      (Main.screen->w - w) / 2,
-                      (Main.screen->h - h) / 2);
+  resize_window(pWindow, NULL, NULL,
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
+
+  /* background */
+  col = (col + 15) / 16; /* number of flag columns */
   
-  resize_window(pWindow, NULL, NULL, w, h);
+  pFlag = ResizeSurface(pTheme->Block,
+    (col * pBuf->size.w + (col - 1) * adj_size(5) + adj_size(10)), area.h, 1);
   
-  col = (col + adj_size(10)) / adj_size(11);
-  w = col * pBuf->size.w + (col - 1) * 5 + adj_size(10);
-  h = pWindow->size.h - WINDOW_TITLE_HEIGHT - 1 - pTheme->FR_Bottom->h;
-  
-  pFlag = ResizeSurface(pTheme->Block, w, h, 1);
-  
-  block_x = dst.x = pWindow->theme->w - pTheme->FR_Right->w - pFlag->w;
-  dst.y = WINDOW_TITLE_HEIGHT + 1;
+  block_x = dst.x = area.x + area.w - pFlag->w;
+  dst.y = area.y;
   alphablit(pFlag, NULL, pWindow->theme, &dst);
   FREESURFACE(pFlag);
 
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
+
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + 1;
 
   /* nations buttons */
   pBuf = pBuf->prev;
   i = 0;
-  w = pWindow->size.x + block_x + adj_size(5);
-  h = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
+  x = block_x + adj_size(5);
+  y = area.y + adj_size(1);
   while(pBuf) {
-    pBuf->size.x = w;
-    pBuf->size.y = h;
+    pBuf->size.x = x;
+    pBuf->size.y = y;
        
     if(!((i + 1) % col)) {
-      h += pBuf->size.h + adj_size(5);
-      w = pWindow->size.x + block_x + adj_size(5);
+      x = block_x + adj_size(5);
+      y += pBuf->size.h + adj_size(1);
     } else {
-      w += pBuf->size.w + adj_size(5);
+      x += pBuf->size.w + adj_size(5);
     }
     
     if(pBuf == pGotoDlg->pBeginWidgetList) {
@@ -353,9 +351,8 @@ static void popup_goto_airlift_dialog(void)
   }
 
   setup_vertical_scrollbar_area(pGotoDlg->pScroll,
-	pWindow->size.x + block_x,
-  	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-  	pWindow->size.h - (WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h), TRUE);
+	                        block_x, area.y,
+  	                        area.h, TRUE);
     
   update_goto_dialog();
 }

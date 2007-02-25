@@ -264,11 +264,11 @@ static int cancel_SLD_cma_callback(struct widget *pWidget)
 static int save_cma_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    int hh, ww = 0;
     struct widget *pBuf, *pWindow;
     SDL_String16 *pStr;
     SDL_Surface *pText;
     SDL_Rect dst;
+    SDL_Rect area;
     
     if (pCma->pAdv) {
       return 1;
@@ -276,19 +276,20 @@ static int save_cma_callback(struct widget *pWidget)
     
     pCma->pAdv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
         
-    hh = WINDOW_TITLE_HEIGHT + adj_size(2);
     pStr = create_str16_from_char(_("Name new preset"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
   
-    pWindow = create_window(NULL, pStr, 1, 1, 0);
+    pWindow = create_window_skeleton(NULL, pStr, 0);
   
     pWindow->action = save_cma_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
-    ww = pWindow->size.w;
     pCma->pAdv->pEndWidgetList = pWindow;
   
     add_to_gui_list(ID_WINDOW, pWindow);
-  
+    
+    area = pWindow->area;
+    area.h = MAX(area.h, 1);
+    
     /* ============================================================= */
     /* label */
     pStr = create_str16_from_char(_("What should we name the preset?"), adj_font(10));
@@ -297,16 +298,16 @@ static int save_cma_callback(struct widget *pWidget)
     
     pText = create_text_surf_from_str16(pStr);
     FREESTRING16(pStr);
-    ww = MAX(ww, pText->w);
-    hh += pText->h + adj_size(5);
+    area.w = MAX(area.w, pText->w);
+    area.h += pText->h + adj_size(5);
     /* ============================================================= */
     
     pBuf = create_edit(NULL, pWindow->dst,
                   create_str16_from_char(_("new preset"), adj_font(12)), adj_size(100),
                           (WF_RESTORE_BACKGROUND|WF_FREE_STRING));
     set_wstate(pBuf, FC_WS_NORMAL);
-    hh += pBuf->size.h;
-    ww = MAX(ww, pBuf->size.w);
+    area.h += pBuf->size.h;
+    area.w = MAX(area.w, pBuf->size.w);
     
     add_to_gui_list(ID_EDIT, pBuf);
     /* ============================================================= */
@@ -328,45 +329,46 @@ static int save_cma_callback(struct widget *pWidget)
     
     add_to_gui_list(ID_BUTTON, pBuf);
     
-    hh += pBuf->size.h;
+    area.h += pBuf->size.h;
     pBuf->size.w = MAX(pBuf->next->size.w, pBuf->size.w);
     pBuf->next->size.w = pBuf->size.w;
-    ww = MAX(ww, 2 * pBuf->size.w + adj_size(20));
+    area.w = MAX(area.w, 2 * pBuf->size.w + adj_size(20));
       
     pCma->pAdv->pBeginWidgetList = pBuf;
     
     /* setup window size and start position */
-    ww += adj_size(20);
-    hh += adj_size(15);
+    area.w += adj_size(20);
+    area.h += adj_size(15);
+
+    resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+                  (pWindow->size.w - pWindow->area.w) + area.w,
+                  (pWindow->size.h - pWindow->area.h) + area.h);
+
+    area = pWindow->area;
 
     widget_set_position(pWindow,
-                        pWidget->size.x - (pTheme->FR_Left->w + ww + pTheme->FR_Right->w) / 2,
-                        pWidget->size.y - (hh + pTheme->FR_Bottom->h));
-  
-    resize_window(pWindow, NULL,
-                  get_game_colorRGB(COLOR_THEME_BACKGROUND),
-                  pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh + pTheme->FR_Bottom->h);
+                        pWidget->size.x - pWindow->size.w / 2,
+                        pWidget->size.y - pWindow->size.h);
   
     /* setup rest of widgets */
     /* label */
-    dst.x = pTheme->FR_Left->w + (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
-    dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
+    dst.x = area.x + (area.w - pText->w) / 2;
+    dst.y = area.y + 1;
     alphablit(pText, NULL, pWindow->theme, &dst);
     dst.y += pText->h + adj_size(5);
     FREESURFACE(pText);
     
     /* edit */
     pBuf = pWindow->prev;
-    pBuf->size.w = pWindow->size.w - adj_size(10);
-    pBuf->size.x = pWindow->size.x + adj_size(5);
-    pBuf->size.y = pWindow->size.y + dst.y;
+    pBuf->size.w = area.w - adj_size(10);
+    pBuf->size.x = area.x + adj_size(5);
+    pBuf->size.y = dst.y;
     dst.y += pBuf->size.h + adj_size(5);
     
     /* yes */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x +
-      (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (2 * pBuf->size.w + adj_size(20))) / 2;
-    pBuf->size.y = pWindow->size.y + dst.y;
+    pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(20))) / 2;
+    pBuf->size.y = dst.y;
     
     /* no */
     pBuf = pBuf->prev;
@@ -415,9 +417,10 @@ static int LD_cma_callback(struct widget *pWidget)
 
 static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 {
-  int hh, ww, count, i;
+  int hh, count, i;
   struct widget *pBuf, *pWindow;
   SDL_String16 *pStr;
+  SDL_Rect area;
   
   if (pCma->pAdv) {
     return;
@@ -447,15 +450,15 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pStr = create_str16_from_char(_("Presets"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
 
   pWindow->action = save_cma_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  ww = pTheme->FR_Left->w + pTheme->FR_Right->w;
-  hh = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
   pCma->pAdv->pEndWidgetList = pWindow;
 
   add_to_gui_list(ID_WINDOW, pWindow);
+
+  area = pWindow->area;
   
   /* ---------- */
   /* create exit button */
@@ -464,7 +467,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pBuf->action = cancel_SLD_cma_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-  ww += (pBuf->size.w + adj_size(10));
+  area.w += (pBuf->size.w + adj_size(10));
   
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ---------- */
@@ -477,8 +480,8 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
     pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf->action = LD_cma_callback;
     
-    ww = MAX(ww, pBuf->size.w);
-    hh += pBuf->size.h;
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
     set_wstate(pBuf , FC_WS_NORMAL);
     
     if(load) {
@@ -499,49 +502,49 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pCma->pAdv->pEndActiveWidgetList = pWindow->prev->prev;
   pCma->pAdv->pActiveWidgetList = pCma->pAdv->pEndActiveWidgetList;
   
-  ww += pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2);
-  hh += pTheme->FR_Bottom->h + 1;
+  area.w += adj_size(2);
+  area.h += 1;
   
   if (count > 11)
   {
     create_vertical_scrollbar(pCma->pAdv, 1, 11, FALSE, TRUE);
         
     /* ------- window ------- */
-    hh = WINDOW_TITLE_HEIGHT + 1 +
-	    11 * pWindow->prev->prev->size.h + pTheme->FR_Bottom->h + 1 
-    		+ 2 * pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1;
-    pCma->pAdv->pScroll->pUp_Left_Button->size.w = 
-                               ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.w = 
-                               ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
+    area.h = 11 * pWindow->prev->prev->size.h + adj_size(2) 
+    		+ 2 * pCma->pAdv->pScroll->pUp_Left_Button->size.h;
+    pCma->pAdv->pScroll->pUp_Left_Button->size.w = area.w;
+    pCma->pAdv->pScroll->pDown_Right_Button->size.w = area.w;
   }
   
   /* ----------------------------------- */
 
-  widget_set_position(pWindow,
-                      pButton->size.x - ww / 2,
-                      pButton->size.y - hh);
+  resize_window(pWindow, NULL, NULL, 
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
   
-  resize_window(pWindow, NULL, NULL, ww, hh);
+  area = pWindow->area;
+  
+  widget_set_position(pWindow,
+                      pButton->size.x - (pWindow->size.w / 2),
+                      pButton->size.y - pWindow->size.h);
   
   /* exit button */
   pBuf = pWindow->prev; 
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   pBuf = pBuf->prev;
-  ww -= (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
-  setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + 1,
-		  pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1 + adj_size(2) + hh, ww, 0,
+  setup_vertical_widgets_position(1, area.x + 1,
+		  area.y + 1 + hh, area.w - 1, 0,
 		  pCma->pAdv->pBeginActiveWidgetList, pBuf);
+                  
   if(pCma->pAdv->pScroll) {
-    pCma->pAdv->pScroll->pUp_Left_Button->size.x = pWindow->size.x + pTheme->FR_Left->w;
-    pCma->pAdv->pScroll->pUp_Left_Button->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.x = pWindow->size.x + pTheme->FR_Left->w;
+    pCma->pAdv->pScroll->pUp_Left_Button->size.x = area.x;
+    pCma->pAdv->pScroll->pUp_Left_Button->size.y = area.y;
+    pCma->pAdv->pScroll->pDown_Right_Button->size.x = area.x;
     pCma->pAdv->pScroll->pDown_Right_Button->size.y =
-      pWindow->size.y + pWindow->size.h -
-      pTheme->FR_Bottom->h - pCma->pAdv->pScroll->pDown_Right_Button->size.h;
+      area.y + area.h - pCma->pAdv->pScroll->pDown_Right_Button->size.h;
   }
     
   /* ==================================================== */
@@ -827,7 +830,7 @@ void popup_city_cma_dialog(struct city *pCity)
   SDL_Surface *pCity_Map;
   SDL_String16 *pStr;
   char cBuf[128];
-  int w, h, text_w, x, cs;
+  int w, text_w, x, cs;
   SDL_Rect dst, area;
   
   if (pCma) {
@@ -853,14 +856,14 @@ void popup_city_cma_dialog(struct city *pCity)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   
   pWindow->action = cma_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_WINDOW, pWindow);
   pCma->pDlg->pEndWidgetList = pWindow;
-  w = pWindow->size.w;
-  h = pWindow->size.h;
+  
+  area = pWindow->area;
   
   /* ---------- */
   /* create exit button */
@@ -869,7 +872,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pBuf->action = exit_cma_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-  w += (pBuf->size.w + adj_size(10));
+  area.w += (pBuf->size.w + adj_size(10));
   
   add_to_gui_list(ID_BUTTON, pBuf);
 
@@ -1014,33 +1017,37 @@ void popup_city_cma_dialog(struct city *pCity)
   pCma->pDlg->pBeginWidgetList = pBuf;
 
 #ifdef SMALL_SCREEN
-  w = MAX(pCity_Map->w + adj_size(220) + text_w + adj_size(10) +
+  area.w = MAX(pCity_Map->w + adj_size(220) + text_w + adj_size(10) +
 	  (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
 			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
-  h = adj_size(390);
+  area.h = adj_size(390) - (pWindow->size.w - pWindow->area.w);
 #else
-  w = MAX(pCity_Map->w + adj_size(150) + text_w + adj_size(10) +
+  area.w = MAX(pCity_Map->w + adj_size(150) + text_w + adj_size(10) +
 	  (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
-			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
-  h = adj_size(360);
+			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), area.w);
+  area.h = adj_size(360) - (pWindow->size.w - pWindow->area.w);
 #endif
 
-  widget_set_position(pWindow,
-                      (Main.screen->w - w) / 2,
-                      (Main.screen->h - h) / 2);
-
   pLogo = theme_get_background(theme, BACKGROUND_CITYGOVDLG);
-  if(resize_window(pWindow, pLogo, NULL, w, h)) {
+  if(resize_window(pWindow, pLogo, NULL,
+                    (pWindow->size.w - pWindow->area.w) + area.w,
+                    (pWindow->size.w - pWindow->area.w) + area.h)) {
     FREESURFACE(pLogo);
   }
   
   pLogo = SDL_DisplayFormat(pWindow->theme);
   FREESURFACE(pWindow->theme);
   pWindow->theme = pLogo;
+
+  area = pWindow->area;
+  
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* ---------- */

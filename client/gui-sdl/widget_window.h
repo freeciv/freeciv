@@ -15,7 +15,10 @@
 #define FC__WIDGET_WINDOW_H
 
 struct widget *create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
-	  Uint16 w, Uint16 h, Uint32 flags);
+                             Uint16 w, Uint16 h, Uint32 flags);
+
+struct widget *create_window_skeleton(struct gui_layer *pDest,
+                                      SDL_String16 *pTitle, Uint32 flags);
 
 int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
 		  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);

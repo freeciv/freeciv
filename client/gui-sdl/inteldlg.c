@@ -200,8 +200,9 @@ void update_intel_dialog(struct player *p)
   SDL_String16 *pStr;
   SDL_Rect dst;
   char cBuf[256];
-  int i, n = 0, w = 0, h, count = 0, col;
+  int i, n = 0, count = 0, col;
   struct city *pCapital;
+  SDL_Rect area;
       
   if (pdialog) {
 
@@ -214,25 +215,25 @@ void update_intel_dialog(struct player *p)
                                             pdialog->pdialog->pEndWidgetList);
     }
         
-    h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
-  
     pStr = create_str16_from_char(_("Foreign Intelligence Report") , adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     
-    pWindow = create_window(NULL, pStr, 1, 1, 0);
+    pWindow = create_window_skeleton(NULL, pStr, 0);
       
     pWindow->action = intel_window_dlg_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.player = p;
-    w = MAX(w , pWindow->size.w);
     
     add_to_gui_list(ID_WINDOW, pWindow);
     pdialog->pdialog->pEndWidgetList = pWindow;
+    
+    area = pWindow->area;
+    
     /* ---------- */
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                                                   WF_RESTORE_BACKGROUND);
-    w += pBuf->size.w + adj_size(10);
+    area.w = MAX(area.w, pBuf->size.w + adj_size(10));
     pBuf->action = exit_intel_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.player = p;  
@@ -268,8 +269,8 @@ void update_intel_dialog(struct player *p)
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     
     pText1 = create_text_surf_from_str16(pStr);
-    w = MAX(w, pText1->w + adj_size(20));
-    h += pText1->h + adj_size(20);
+    area.w = MAX(area.w, pText1->w + adj_size(20));
+    area.h += pText1->h + adj_size(20);
       
     /* ---------- */
     
@@ -299,12 +300,12 @@ void update_intel_dialog(struct player *p)
     
     copy_chars_to_string16(pStr, cBuf);
     pInfo = create_text_surf_from_str16(pStr);
-    w = MAX(w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
-    h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
+    area.w = MAX(area.w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
+    area.h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
       
     /* ---------- */
     pTmpSurf = get_tech_icon(A_FIRST);
-    col = w / (pTmpSurf->w + adj_size(4));
+    col = area.w / (pTmpSurf->w + adj_size(4));
     FREESURFACE(pTmpSurf);
     n = 0;
     pLast = pBuf;
@@ -338,16 +339,16 @@ void update_intel_dialog(struct player *p)
       if(n > 2 * col) {
         pdialog->pdialog->pActiveWidgetList = pdialog->pdialog->pEndActiveWidgetList;
         count = create_vertical_scrollbar(pdialog->pdialog, col, 2, TRUE, TRUE);
-        h += (2 * pBuf->size.h + adj_size(10));
+        area.h += (2 * pBuf->size.h + adj_size(10));
       } else {
         count = 0;
         if(n > col) {
-          h += pBuf->size.h;
+          area.h += pBuf->size.h;
         }
-        h += (adj_size(10) + pBuf->size.h);
+        area.h += (adj_size(10) + pBuf->size.h);
       }
       
-      w = MAX(w, col * pBuf->size.w + count + pTheme->FR_Left->w + pTheme->FR_Right->w);
+      area.w = MAX(area.w, col * pBuf->size.w + count);
       
       my_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
       copy_chars_to_string16(pStr, cBuf);
@@ -356,21 +357,25 @@ void update_intel_dialog(struct player *p)
     }
     
     FREESTRING16(pStr);
+
+    resize_window(pWindow, NULL, NULL,
+                  (pWindow->size.w - pWindow->area.w) + area.w,
+                  (pWindow->size.h - pWindow->area.h) + area.h);
+    
+    area = pWindow->area;
     
     /* ------------------------ */  
     widget_set_position(pWindow,
-      (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - w) / 2),
-      (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - h) / 2));
-    
-    resize_window(pWindow, NULL, NULL, w, h);
+      (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - pWindow->size.w) / 2),
+      (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - pWindow->size.h) / 2));
     
     /* exit button */
     pBuf = pWindow->prev; 
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+    pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
     pBuf->size.y = pWindow->size.y + 1;
     
-    dst.x = (pWindow->size.w - pText1->w) / 2;
-    dst.y = WINDOW_TITLE_HEIGHT + adj_size(12);
+    dst.x = area.x + (area.w - pText1->w) / 2;
+    dst.y = area.y + adj_size(8);
     
     alphablit(pText1, NULL, pWindow->theme, &dst);
     dst.y += pText1->h + adj_size(10);
@@ -378,9 +383,9 @@ void update_intel_dialog(struct player *p)
     
     /* space ship button */
     pBuf = pBuf->prev;
-    dst.x = (pWindow->size.w - (pBuf->size.w + adj_size(10) + pInfo->w)) / 2;
-    pBuf->size.x = pWindow->size.x + dst.x;
-    pBuf->size.y = pWindow->size.y + dst.y;
+    dst.x = area.x + (area.w - (pBuf->size.w + adj_size(10) + pInfo->w)) / 2;
+    pBuf->size.x = dst.x;
+    pBuf->size.y = dst.y;
     
     dst.x += pBuf->size.w + adj_size(10);  
     alphablit(pInfo, NULL, pWindow->theme, &dst);
@@ -391,22 +396,20 @@ void update_intel_dialog(struct player *p)
       
     if(n) {
       
-      dst.x = pTheme->FR_Left->w + adj_size(5);
+      dst.x = area.x + adj_size(5);
       alphablit(pText2, NULL, pWindow->theme, &dst);
       dst.y += pText2->h + adj_size(2);
       FREESURFACE(pText2);
       
       setup_vertical_widgets_position(col,
-          pWindow->size.x + pTheme->FR_Left->w,
-          pWindow->size.y + dst.y,
+          area.x, dst.y,
             0, 0, pdialog->pdialog->pBeginActiveWidgetList,
                             pdialog->pdialog->pEndActiveWidgetList);
       
       if(pdialog->pdialog->pScroll) {
         setup_vertical_scrollbar_area(pdialog->pdialog->pScroll,
-          pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
-          pWindow->size.y + dst.y,
-          pWindow->size.h - (dst.y + pTheme->FR_Bottom->h + 1), TRUE);
+          area.x + area.w, dst.y,
+          area.h - (dst.y + 1), TRUE);
       }
     }
 

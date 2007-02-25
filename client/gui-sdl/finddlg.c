@@ -109,6 +109,7 @@ void popup_find_dialog(void)
   struct tile *original;
   int window_x = 0, window_y = 0;
   bool mouse = (Main.event.type == SDL_MOUSEBUTTONDOWN);
+  SDL_Rect area;
   
   /* check that there are any cities to find */
   h = 0;
@@ -121,8 +122,6 @@ void popup_find_dialog(void)
     return;
   }
      
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
-  
   original = canvas_pos_to_tile(Main.map->w/2, Main.map->h/2);
   
   pFind_City_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -130,19 +129,21 @@ void popup_find_dialog(void)
   pStr = create_str16_from_char(_("Find City") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
     
   pWindow->action = find_city_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
-  w = MAX(w , pWindow->size.w);
   
   add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pWindow);
   pFind_City_Dlg->pEndWidgetList = pWindow;
+  
+  area = pWindow->area;
+  
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
   			  	(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-  w += pBuf->size.w + adj_size(10);
+  area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_find_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -186,8 +187,8 @@ void popup_find_dialog(void)
   
       add_to_gui_list(ID_LABEL , pBuf);
     
-      w = MAX(w , pBuf->size.w);
-      h += pBuf->size.h;
+      area.w = MAX(area.w , pBuf->size.w);
+      area.h += pBuf->size.h;
     
       if (n > 19)
       {
@@ -211,38 +212,40 @@ void popup_find_dialog(void)
     pFind_City_Dlg->pScroll->count = n;
     
     n = units_h;
-    w += n;
+    area.w += n;
     
-    units_h = 20 * pBuf->size.h + WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
+    units_h = 20 * pBuf->size.h + adj_size(2);
     
   } else {
-    units_h = h;
+    units_h = area.h;
   }
         
   /* ---------- */
   
-  w += (pTheme->FR_Left->w + pTheme->FR_Right->w);
-  
-  h = units_h;
+  area.h = units_h;
 
+  resize_window(pWindow , NULL, NULL,
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
+  
+  area = pWindow->area;
+  
   if(!mouse) {  
     window_x = adj_size(10);
-    window_y = (Main.screen->h - h) / 2;
+    window_y = (Main.screen->h - pWindow->size.h) / 2;
   } else {
-    window_x = ((Main.event.motion.x + w < Main.screen->w) ?
-                     (Main.event.motion.x + adj_size(10)) : (Main.screen->w - w - adj_size(10)));
-    window_y = 
-      ((Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2)) + h < Main.screen->h) ?
-             (Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2))) :
-             (Main.screen->h - h - adj_size(10)));
+    window_x = (Main.event.motion.x + pWindow->size.w + adj_size(10) < Main.screen->w) ?
+                (Main.event.motion.x + adj_size(10)) :
+                (Main.screen->w - pWindow->size.w - adj_size(10));
+    window_y = (Main.event.motion.y - adj_size(2) + pWindow->size.h < Main.screen->h) ?
+             (Main.event.motion.y - adj_size(2)) :
+             (Main.screen->h - pWindow->size.h - adj_size(10));
     
   }
 
   widget_set_position(pWindow, window_x, window_y);
   
-  resize_window(pWindow , NULL, NULL, w, h);
-  
-  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
+  w = area.w;
   
   if (pFind_City_Dlg->pScroll)
   {
@@ -252,21 +255,20 @@ void popup_find_dialog(void)
   /* exit button */
   pBuf = pWindow->prev;
   
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* cities */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Left->w, pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
+	area.x, area.y,
 	w, 0, pFind_City_Dlg->pBeginActiveWidgetList, pBuf);
   
   if (pFind_City_Dlg->pScroll)
   {
     setup_vertical_scrollbar_area(pFind_City_Dlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
-    	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+	area.x + area.w, area.y,
+    	area.h, TRUE);
   }
   
   /* -------------------- */

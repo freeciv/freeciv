@@ -321,9 +321,10 @@ void popup_players_dialog(bool raise)
   SDL_Surface *pLogo = NULL, *pZoomed = NULL;
   SDL_String16 *pStr;
   SDL_Rect dst;
-  int i, n, w = 0, h;
+  int i, n, h;
   double a, b, r;
   struct player *pPlayer;
+  SDL_Rect area;
   
   if (pPlayers_Dlg) {
     return;
@@ -346,7 +347,7 @@ void popup_players_dialog(bool raise)
   pStr = create_str16_from_char(_("Players"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
     
   pWindow->action = players_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -456,28 +457,26 @@ void popup_players_dialog(bool raise)
   
   pPlayers_Dlg->pBeginWidgetList = pBuf;
 
-  w = adj_size(500);
-  h = adj_size(400);
-  r = MIN(w,h);
-  r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2) + WINDOW_TITLE_HEIGHT + pTheme->FR_Bottom->h);
+  resize_window(pWindow, NULL, NULL, adj_size(500), adj_size(400));
+
+  area = pWindow->area;
+  
+  r = MIN(area.w, area.h);
+  r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2));
   r /= 2;
   a = (2.0 * M_PI) / n;
-
+  
   widget_set_position(pWindow,
-                      (Main.screen->w - w) / 2,
-                      (Main.screen->h - h) / 2);
-  
-  resize_window(pWindow, NULL, NULL, w, h);
-  
-  putframe(pWindow->theme, 0, 0, w - 1, h - 1, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_FRAME)));
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
   
   /* exit button */
   pBuf = pWindow->prev;
   
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + 1;
     
-  n = WINDOW_TITLE_HEIGHT + adj_size(4);
+  n = area.y;
   pStr = create_string16(NULL, 0, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -510,8 +509,8 @@ void popup_players_dialog(bool raise)
   
       pBuf = pBuf->prev;
       h = MAX(pBuf->size.h, pLogo->h);
-      pBuf->size.x = pWindow->size.x + adj_size(5);
-      pBuf->size.y = pWindow->size.y + n + (h - pBuf->size.h) / 2;
+      pBuf->size.x = area.x + adj_size(5);
+      pBuf->size.y = n + (h - pBuf->size.h) / 2;
       
       dst.x = adj_size(5) + pBuf->size.w + adj_size(6);
       dst.y = n + (h - pLogo->h) / 2;
@@ -520,19 +519,19 @@ void popup_players_dialog(bool raise)
       FREESURFACE(pLogo);
   }
   FREESTRING16(pStr);
-     
+
   /* first player shield */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 - pBuf->size.w / 2;
-  pBuf->size.y = pWindow->size.y + pWindow->size.h / 2 - r;
+  pBuf->size.x = area.x + area.w / 2 - pBuf->size.w / 2;
+  pBuf->size.y = area.y + area.h / 2 - r - pBuf->size.h / 2;
   
   n = 1;
   if(pBuf != pPlayers_Dlg->pBeginWidgetList) {
     do{
       pBuf = pBuf->prev;
       b = M_PI_2 + n * a;
-      pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 - r * cos(b) - pBuf->size.w / 2;
-      pBuf->size.y = pWindow->size.y + pWindow->size.h / 2 - r * sin(b);
+      pBuf->size.x = area.x + area.w / 2 - r * cos(b) - pBuf->size.w / 2;
+      pBuf->size.y = area.y + area.h / 2 - r * sin(b) - pBuf->size.h / 2;
       n++;
     } while(pBuf != pPlayers_Dlg->pBeginWidgetList);
   }
@@ -610,34 +609,35 @@ void popup_players_nations_dialog(void)
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128], *state;
-  int i, n = 0, w = 0, h, units_h = 0;
+  int i, n = 0, w = 0, units_h = 0;
   struct player *pPlayer;
   const struct player_diplstate *pDS;
+  SDL_Rect area;
   
   if (pShort_Players_Dlg) {
     return;
   }
      
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
-      
   pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pStr = create_str16_from_char(_("Nations") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
     
   pWindow->action = players_nations_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  w = MAX(w, pWindow->size.w);
   
   add_to_gui_list(ID_WINDOW, pWindow);
   pShort_Players_Dlg->pEndWidgetList = pWindow;
+  
+  area = pWindow->area;
+  
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
   			  			WF_RESTORE_BACKGROUND);
-  w += pBuf->size.w + adj_size(10);
+  area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -729,8 +729,8 @@ void popup_players_nations_dialog(void)
   
       add_to_gui_list(ID_LABEL, pBuf);
     
-      w = MAX(w, pBuf->size.w);
-      h += pBuf->size.h;
+      area.w = MAX(w, pBuf->size.w);
+      area.h += pBuf->size.h;
     
       if (n > 19)
       {
@@ -754,30 +754,33 @@ void popup_players_nations_dialog(void)
     pShort_Players_Dlg->pScroll->count = n;
     
     n = units_h;
-    w += n;
+    area.w += n;
     
-    units_h = 20 * pBuf->size.h + WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
+    units_h = 20 * pBuf->size.h;
     
   } else {
-    units_h = h;
+    units_h = area.h;
   }
         
   /* ---------- */
   
-  w += (pTheme->FR_Left->w + pTheme->FR_Right->w);
-  
-  h = units_h;
+  area.h = units_h;
 
+  resize_window(pWindow, NULL, NULL,
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h + pWindow->area.h) + area.h);
+  
+  area = pWindow->area;
+  
   widget_set_position(pWindow,
-    ((Main.event.motion.x + w < Main.screen->w) ?
-      (Main.event.motion.x + adj_size(10)) : (Main.screen->w - w - adj_size(10))),
-    ((Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2)) + h < Main.screen->h) ?
-      (Main.event.motion.y - (WINDOW_TITLE_HEIGHT + adj_size(2))) :
-      (Main.screen->h - h - adj_size(10))));
+    ((Main.event.motion.x + pWindow->size.w + adj_size(10) < Main.screen->w) ?
+      (Main.event.motion.x + adj_size(10)) :
+      (Main.screen->w - pWindow->size.w - adj_size(10))),
+    ((Main.event.motion.y - adj_size(2) + pWindow->size.h < Main.screen->h) ?
+      (Main.event.motion.y - adj_size(2)) :
+      (Main.screen->h - pWindow->size.h - adj_size(10))));
   
-  resize_window(pWindow, NULL, NULL, w, h);
-  
-  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
+  w = area.w;
   
   if (pShort_Players_Dlg->pScroll)
   {
@@ -786,21 +789,20 @@ void popup_players_nations_dialog(void)
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* cities */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Left->w, pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
+	area.x, area.y,
 	w, 0, pShort_Players_Dlg->pBeginActiveWidgetList, pBuf);
   
   if (pShort_Players_Dlg->pScroll)
   {
     setup_vertical_scrollbar_area(pShort_Players_Dlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
-    	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+	area.x + area.w, area.y,
+    	area.h, TRUE);
   }
   
   /* -------------------- */

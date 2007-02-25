@@ -418,7 +418,7 @@ static void popup_conn_list_dialog(void)
   
   pConnDlg = fc_calloc(1, sizeof(struct CONNLIST));
     
-  pWindow = create_window(NULL, NULL, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, NULL, 0);
   pWindow->action = conn_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
@@ -563,7 +563,7 @@ static void popup_conn_list_dialog(void)
   
 #if 0  
   pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst->surface,
-  				"?", 12, 0);
+  				"?", adj_font(12), 0);
   pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + 7); 
   pBuf->size.x = pWindow->size.x + pWindow->size.w - (pBuf->size.w + 10) - 5;
   

@@ -174,11 +174,12 @@ void popup_impr_info(Impr_type_id impr)
   struct UNITS_BUTTONS *pStore;
   SDL_String16 *pStr;
   SDL_Surface *pSurf;
-  int w, h, start_x, start_y;
+  int h, start_x, start_y;
   bool created, text = FALSE;
   int width = 0;
   struct impr_type *pImpr_type;
   char buffer[64000];
+  SDL_Rect area;
   
   if(current_help_dlg != HELP_IMPROVEMENT)
   {
@@ -198,12 +199,14 @@ void popup_impr_info(Impr_type_id impr)
     pStr = create_str16_from_char(_("Help : Improvement"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
     add_to_gui_list(ID_WINDOW, pWindow);
     pHelpDlg->pEndWidgetList = pWindow;
+    
+    area = pWindow->area;
     /* ------------------ */
     
     /* exit button */
@@ -277,7 +280,7 @@ void popup_impr_info(Impr_type_id impr)
     
     /* toggle techs list button */
     pBuf = create_themeicon_button_from_chars(pTheme->UP_Icon,
-	      pWindow->dst,  _("Improvements"), 10, 0);
+	      pWindow->dst,  _("Improvements"), adj_font(10), 0);
     /*pBuf->action = toggle_full_tree_mode_in_help_dlg_callback;
    if (pStore->show_tree)
     {
@@ -298,6 +301,8 @@ void popup_impr_info(Impr_type_id impr)
     pWindow = pHelpDlg->pEndWidgetList;
     pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
     pDock = pStore->pDock;
+    
+    area = pWindow->area;
     
     /* del. all usless widget */
     if (pDock  != pHelpDlg->pBeginWidgetList)
@@ -391,7 +396,7 @@ void popup_impr_info(Impr_type_id impr)
   pDock = pBuf;
   pStore->pObs = pBuf;
     
-  start_x = (pTheme->FR_Left->w + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
+  start_x = (area.x + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), impr, NULL);
@@ -412,53 +417,51 @@ void popup_impr_info(Impr_type_id impr)
   /* --------------------------------------------------------- */ 
   if (created)
   {
-    w = adj_size(640);
-    h = adj_size(480);
-
-    widget_set_position(pWindow,
-                        (Main.screen->w - w) / 2,
-                        (Main.screen->h - h) / 2);
-    
     /* alloca window theme and win background buffer */
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pWindow, pSurf, NULL, w, h))
+    if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480)))
     {
       FREESURFACE(pSurf);
     }
 
+    area = pWindow->area;
+    
+    widget_set_position(pWindow,
+                        (Main.screen->w - pWindow->size.w) / 2,
+                        (Main.screen->h - pWindow->size.h) / 2);
+    
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+    pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   
     /* toggle button */
-    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Left->w;
-    pStore->pDock->size.y = pWindow->size.y +  WINDOW_TITLE_HEIGHT + 1;
+    pStore->pDock->size.x = area.x;
+    pStore->pDock->size.y = area.y;
     
-    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + width,
-		  pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17), 0, 0,
+    h = setup_vertical_widgets_position(1, area.x + width,
+		  area.y + adj_size(13), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
     
     if (pHelpDlg->pScroll)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-	pWindow->size.x + pTheme->FR_Left->w,
-    	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17),
+	area.x,	area.y + adj_size(13),
     	h, FALSE);
     }
   }
   
   /* unittype  icon and label */
   pBuf = pStore->pDock->prev;
-  pBuf->size.x = pWindow->size.x + start_x;
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(20);
+  pBuf->size.x = start_x;
+  pBuf->size.y = area.y + adj_size(16);
   start_y = pBuf->size.y + pBuf->size.h + adj_size(10);
   
   if (!impr_flag(impr, IF_GOLD))
   {
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + start_x;
+    pBuf->size.x = start_x;
     pBuf->size.y = start_y;
     if (!is_wonder(impr))
     {
@@ -470,7 +473,7 @@ void popup_impr_info(Impr_type_id impr)
   }
   
   pBuf = pStore->pReq->next;
-  pBuf->size.x = pWindow->size.x + start_x;
+  pBuf->size.x = start_x;
   pBuf->size.y = start_y;
   
   pStore->pReq->size.x = pBuf->size.x + pBuf->size.w + adj_size(5);
@@ -490,7 +493,7 @@ void popup_impr_info(Impr_type_id impr)
   start_y += adj_size(30);
   if (text)
   {
-    pHelpText->size.x = pWindow->size.x + start_x;
+    pHelpText->size.x = start_x;
     pHelpText->size.y = start_y;
   }
     
@@ -542,11 +545,12 @@ void popup_unit_info(Unit_type_id type_id)
   struct UNITS_BUTTONS *pStore;
   SDL_String16 *pStr;
   SDL_Surface *pSurf;
-  int w, h, start_x, start_y;
+  int h, start_x, start_y;
   bool created, text = FALSE;
   int width = 0;
   struct unit_type *pUnit;
   char buffer[bufsz];
+  SDL_Rect area;
   
   if(current_help_dlg != HELP_UNIT)
   {
@@ -566,12 +570,15 @@ void popup_unit_info(Unit_type_id type_id)
     pStr = create_str16_from_char(_("Help : Units"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
     add_to_gui_list(ID_WINDOW, pWindow);
     pHelpDlg->pEndWidgetList = pWindow;
+    
+    area = pWindow->area;
+    
     /* ------------------ */
     
     /* exit button */
@@ -670,6 +677,8 @@ void popup_unit_info(Unit_type_id type_id)
     pWindow = pHelpDlg->pEndWidgetList;
     pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
     pDock = pStore->pDock;
+    
+    area = pWindow->area;
     
     /* del. all usless widget */
     if (pDock  != pHelpDlg->pBeginWidgetList)
@@ -787,7 +796,7 @@ void popup_unit_info(Unit_type_id type_id)
   pDock = pBuf;
   pStore->pObs = pBuf;
  
-  start_x = (pTheme->FR_Left->w + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
+  start_x = (area.x + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
   helptext_unit(buffer, get_unit_type(type_id), "");
@@ -807,56 +816,54 @@ void popup_unit_info(Unit_type_id type_id)
   /* --------------------------------------------------------- */ 
   if (created)
   {
-    w = adj_size(640);
-    h = adj_size(480);
-    
-    widget_set_position(pWindow,
-                        (Main.screen->w - w) / 2,
-                        (Main.screen->h - h) / 2);
-    
     /* alloca window theme and win background buffer */
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pWindow, pSurf, NULL, w, h))
+    if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480)))
     {
       FREESURFACE(pSurf);
     }
 
+    area = pWindow->area;
+    
+    widget_set_position(pWindow,
+                        (Main.screen->w - pWindow->size.w) / 2,
+                        (Main.screen->h - pWindow->size.h) / 2);
+    
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+    pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   
     /* toggle button */
-    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Left->w;
-    pStore->pDock->size.y = pWindow->size.y +  WINDOW_TITLE_HEIGHT + 1;
+    pStore->pDock->size.x = area.x;
+    pStore->pDock->size.y = area.y;
     
-    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + width,
-		  pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17), 0, 0,
+    h = setup_vertical_widgets_position(1, area.x + width,
+		  area.y + adj_size(13), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
     
     if (pHelpDlg->pScroll)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-	pWindow->size.x + pTheme->FR_Left->w,
-    	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17),
+	area.x,	area.y + adj_size(13),
     	h, FALSE);
     }
   }
   
   /* unittype  icon and label */
   pBuf = pStore->pDock->prev;
-  pBuf->size.x = pWindow->size.x + start_x;
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(20);
+  pBuf->size.x = start_x;
+  pBuf->size.y = area.y + adj_size(16);
   start_y = pBuf->size.y + pBuf->size.h + adj_size(10);
   
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + start_x;
+  pBuf->size.x = start_x;
   pBuf->size.y = start_y;
   start_y += pBuf->size.h;
     
   pBuf = pStore->pReq->next;
-  pBuf->size.x = pWindow->size.x + start_x;
+  pBuf->size.x = start_x;
   pBuf->size.y = start_y;
   
   pStore->pReq->size.x = pBuf->size.x + pBuf->size.w + adj_size(5);
@@ -873,7 +880,7 @@ void popup_unit_info(Unit_type_id type_id)
   if (text)
   {
     pBuf = pStore->pObs->prev;
-    pBuf->size.x = pWindow->size.x + start_x;
+    pBuf->size.x = start_x;
     pBuf->size.y = start_y;
   }
     
@@ -1816,9 +1823,10 @@ void popup_tech_info(Tech_type_id tech)
   struct TECHS_BUTTONS *pStore;
   SDL_String16 *pStr;
   SDL_Surface *pSurf;
-  int i, w, h;
+  int i, h;
   bool created;
   int width = 0;
+  SDL_Rect area;
   
   if(current_help_dlg != HELP_TECH)
   {
@@ -1840,13 +1848,16 @@ void popup_tech_info(Tech_type_id tech)
     pStr = create_str16_from_char(_("Help : Advances Tree"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, 1, 1, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);
     pWindow->data.ptr = (void *)pStore;
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
       
     add_to_gui_list(ID_WINDOW, pWindow);
     pHelpDlg->pEndWidgetList = pWindow;
+    
+    area = pWindow->area;
+    
     /* ------------------ */
     
     /* exit button */
@@ -1922,6 +1933,8 @@ void popup_tech_info(Tech_type_id tech)
     pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
     pDock = pStore->pDock;
     
+    area = pWindow->area;
+    
     /* del. all usless widget */
     if (pDock  != pHelpDlg->pBeginWidgetList)
     {
@@ -1959,39 +1972,37 @@ void popup_tech_info(Tech_type_id tech)
   /* --------------------------------------------------------- */ 
   if (created)
   {
-    w = adj_size(640);
-    h = adj_size(480);
-    
-    widget_set_position(pWindow,
-                        (Main.screen->w - w) / 2,
-                        (Main.screen->h - h) / 2);
-    
     /* alloca window theme and win background buffer */
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pWindow, pSurf, NULL, w, h))
+    if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480)))
     {
       FREESURFACE(pSurf);
     }
 
+    area = pWindow->area;
+    
+    widget_set_position(pWindow,
+                        (Main.screen->w - pWindow->size.w) / 2,
+                        (Main.screen->h - pWindow->size.h) / 2);
+    
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+    pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   
     /* toggle button */
-    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Left->w;
-    pStore->pDock->size.y = pWindow->size.y +  WINDOW_TITLE_HEIGHT + 1;
+    pStore->pDock->size.x = area.x;
+    pStore->pDock->size.y = area.y;
     
-    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + width,
-		  pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17), 0, 0,
+    h = setup_vertical_widgets_position(1, area.x + width,
+		  area.y + adj_size(13), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
     
     if (pHelpDlg->pScroll)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-	pWindow->size.x + pTheme->FR_Left->w,
-    	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17),
+	area.x, area.y + adj_size(13),
     	h, FALSE);
     }
   }
