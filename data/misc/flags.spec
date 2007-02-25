@@ -142,7 +142,7 @@ artists = "
    Thailand		Lauris Kaplinski
    Tibet		Tobias Jakobs
    Tunisia		Tobias Jakobs
-   Turkey		Onur Yalaz
+   Turkey		David Benbennick
    Ukraine		Lauris Kaplinski
    United Kingdom	Daniel McRae
    United Nations	Tobias Jakobs
