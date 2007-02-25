@@ -111,9 +111,9 @@ void popup_caravan_dialog(struct unit *pUnit,
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
-  int w = 0, h;
   struct CONTAINER *pCont;
   char cBuf[128];
+  SDL_Rect area;
   
   if (pCaravan_Dlg) {
     return;
@@ -128,7 +128,6 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   pCaravan_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   is_unit_move_blocked = TRUE;
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   my_snprintf(cBuf, sizeof(cBuf), _("Your caravan has arrived at %s"),
 							  pDestcity->name);
@@ -137,15 +136,17 @@ void popup_caravan_dialog(struct unit *pUnit,
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
     
   pWindow->action = caravan_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  w = MAX(w, pWindow->size.w);
   
   add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
   pCaravan_Dlg->pEndWidgetList = pWindow;
-    
+
+  area = pWindow->area;
+  area.h = MAX(area.h, adj_size(2));
+  
   /* ---------- */
   if (can_cities_trade(pHomecity, pDestcity))
   {
@@ -169,8 +170,8 @@ void popup_caravan_dialog(struct unit *pUnit,
   
     add_to_gui_list(ID_LABEL, pBuf);
     
-    w = MAX(w, pBuf->size.w);
-    h += pBuf->size.h;
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
   }
   
   /* ---------- */
@@ -184,8 +185,8 @@ void popup_caravan_dialog(struct unit *pUnit,
   
     add_to_gui_list(ID_LABEL, pBuf);
     
-    w = MAX(w, pBuf->size.w);
-    h += pBuf->size.h;
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
   }
   /* ---------- */
   
@@ -199,27 +200,29 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   add_to_gui_list(ID_LABEL, pBuf);
     
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
+  area.w = MAX(area.w, pBuf->size.w);
+  area.h += pBuf->size.h;
   /* ---------- */
   pCaravan_Dlg->pBeginWidgetList = pBuf;
   
   /* setup window size and start position */
   
-  pWindow->size.w = pTheme->FR_Left->w + w + pTheme->FR_Right->w;
-  pWindow->size.h = h;
+  resize_window(pWindow, NULL, NULL,
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
+  
+  area = pWindow->area;
   
   auto_center_on_focus_unit();
-  put_window_near_map_tile(pWindow,
-  		pTheme->FR_Left->w + w + pTheme->FR_Right->w, h, pUnit->tile);
-  resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
+  put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
+                           pUnit->tile);
   
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Left->w,
-  	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
+	area.x,
+  	area.y + 1, area.w, 0,
 	pCaravan_Dlg->pBeginWidgetList, pBuf);
   /* --------------------- */
   /* redraw */

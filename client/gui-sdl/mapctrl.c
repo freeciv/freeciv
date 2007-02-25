@@ -650,35 +650,36 @@ static void popup_minimap_scale_dialog(void)
   struct widget *pWindow = NULL;
   struct widget *pBuf = NULL;
   char cBuf[4];
-  int h = WINDOW_TITLE_HEIGHT + pTheme->FR_Bottom->h + 1, w = 0;
   int window_x = 0, window_y = 0;
+  SDL_Rect area;
   
   if (pScall_MiniMap_Dlg || !(SDL_Client_Flags & CF_MINI_MAP_SHOW)) {
     return;
   }
-  
-  pStr = create_str16_from_char(_("Single Tile Width"), adj_font(12));
-  pText1 = create_text_surf_from_str16(pStr);
-  w = MAX(w, pText1->w + adj_size(30));
-    
-  copy_chars_to_string16(pStr, _("Single Tile Height"));
-  pText2 = create_text_surf_from_str16(pStr);
-  w = MAX(w, pText2->w + adj_size(30));
-  FREESTRING16(pStr);
   
   pScall_MiniMap_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* create window */
   pStr = create_str16_from_char(_("Scale Minimap"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   pWindow->action = move_scale_minmap_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  w = MAX(w, pWindow->size.w);
   add_to_gui_list(ID_WINDOW, pWindow);
   pScall_MiniMap_Dlg->pEndWidgetList = pWindow;
+
+  area = pWindow->area;
+
+  /* ----------------- */  
+  pStr = create_str16_from_char(_("Single Tile Width"), adj_font(12));
+  pText1 = create_text_surf_from_str16(pStr);
+  area.w = MAX(area.w, pText1->w + adj_size(30));
+    
+  copy_chars_to_string16(pStr, _("Single Tile Height"));
+  pText2 = create_text_surf_from_str16(pStr);
+  area.w = MAX(area.w, pText2->w + adj_size(30));
+  FREESTRING16(pStr);
   
-  /* ----------------- */
   pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst->surface, NULL, 0);
   pBuf->action = down_width_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -689,7 +690,7 @@ static void popup_minimap_scale_dialog(void)
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pBuf = create_iconlabel(NULL, pWindow->dst->surface, pStr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
-  h += pBuf->size.h + adj_size(5);
+  area.h += pBuf->size.h + adj_size(5);
   add_to_gui_list(ID_LABEL, pBuf);
   
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst->surface, NULL, 0);
@@ -709,14 +710,14 @@ static void popup_minimap_scale_dialog(void)
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pBuf = create_iconlabel(NULL, pWindow->dst->surface, pStr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
-  h += pBuf->size.h + adj_size(20);
+  area.h += pBuf->size.h + adj_size(20);
   add_to_gui_list(ID_LABEL, pBuf);
   
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst->surface, NULL, 0);
   pBuf->action = up_height_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
-  w = MAX(w , pBuf->size.w * 2 + pBuf->next->size.w + adj_size(20));
+  area.w = MAX(area.w , pBuf->size.w * 2 + pBuf->next->size.w + adj_size(20));
   
   /* ------------ */
   pStr = create_str16_from_char(_("Exit"), adj_font(12));
@@ -726,27 +727,33 @@ static void popup_minimap_scale_dialog(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   pScall_MiniMap_Dlg->pBeginWidgetList = pBuf;
   add_to_gui_list(ID_BUTTON, pBuf);
-  h += pBuf->size.h + adj_size(10);
-  w = MAX(w, pBuf->size.w + adj_size(20));
+  area.h += pBuf->size.h + adj_size(10);
+  area.w = MAX(area.w, pBuf->size.w + adj_size(20));
   /* ------------ */
   
-  h += adj_size(20); 
-  
-  if (Main.event.motion.x + w > Main.screen->w) {
-    if (Main.event.motion.x - w >= 0) {
-      window_x = Main.event.motion.x - w;
+  area.h += adj_size(20); 
+
+  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN),
+                (pWindow->size.w - pWindow->area.w) + area.w)
+                (pWindow->size.h - pWindow->area.h) + area.h);
+
+  area = pWindow->area;
+
+  if (Main.event.motion.x + pWindow->size.w > Main.screen->w) {
+    if (Main.event.motion.x - pWindow->size.w >= 0) {
+      window_x = Main.event.motion.x - pWindow->size.w;
     } else {
-      window_x = (Main.screen->w - w) / 2;
+      window_x = (Main.screen->w -pWindow->size. w) / 2;
     }
   } else {
     window_x = Main.event.motion.x;
   }
     
-  if (Main.event.motion.y + h >= Main.screen->h) {
-    if (Main.event.motion.y - h >= 0) {
-      window_y = Main.event.motion.y - h;
+  if (Main.event.motion.y + pWindow->size.h >= Main.screen->h) {
+    if (Main.event.motion.y - pWindow->size.h >= 0) {
+      window_y = Main.event.motion.y - pWindow->size.h;
     } else {
-      window_y = (Main.screen->h - h) / 2;
+      window_y = (Main.screen->h - pWindow->size.h) / 2;
     }
   } else {
     window_y = Main.event.motion.y;
@@ -754,16 +761,13 @@ static void popup_minimap_scale_dialog(void)
 
   widget_set_position(pWindow, window_x, window_y);
 
-  resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
-
-  blit_entire_src(pText1, pWindow->theme, 15, WINDOW_TITLE_HEIGHT + adj_size(5));
+  blit_entire_src(pText1, pWindow->theme, 15, area.y + 1);
   FREESURFACE(pText1);
-  
+
   /* width label */
   pBuf = pWindow->prev->prev;
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(20);
-  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
+  pBuf->size.y = area.y + adj_size(16);
+  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
   
   /* width left button */
   pBuf->next->size.y = pBuf->size.y + pBuf->size.h - pBuf->next->size.h;
@@ -776,9 +780,9 @@ static void popup_minimap_scale_dialog(void)
   /* height label */
   pBuf = pBuf->prev->prev->prev;
   pBuf->size.y = pBuf->next->next->next->size.y + pBuf->next->next->next->size.h + adj_size(20);
-  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
+  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
   
-  blit_entire_src(pText2, pWindow->theme, adj_size(15), pBuf->size.y - pWindow->size.y - pText2->h - adj_size(2));
+  blit_entire_src(pText2, pWindow->theme, adj_size(15), pBuf->size.y - pText2->h - adj_size(2));
   FREESURFACE(pText2);
     
   /* height left button */
@@ -791,8 +795,8 @@ static void popup_minimap_scale_dialog(void)
   
   /* exit button */
   pBuf = pBuf->prev->prev;
-  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
+  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
+  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
   
   /* -------------------- */
   redraw_group(pScall_MiniMap_Dlg->pBeginWidgetList, pWindow, 0);
@@ -917,41 +921,42 @@ static void popup_unitinfo_scale_dialog(void)
   SDL_String16 *pStr = NULL;
   struct widget *pWindow = NULL;
   struct widget *pBuf = NULL;
-  int h = WINDOW_TITLE_HEIGHT + pTheme->FR_Bottom->h + 1, w = 0;
   int window_x = 0, window_y = 0;
+  SDL_Rect area;
   
   if(pScall_UnitInfo_Dlg || !(SDL_Client_Flags & CF_UNIT_INFO_SHOW)) {
     return;
   }
-  
-  pStr = create_str16_from_char(_("Width"), adj_font(12));
-  pText1 = create_text_surf_from_str16(pStr);
-  w = MAX(w, pText1->w + adj_size(30));
-  h += MAX(adj_size(20), pText1->h + adj_size(4));
-  copy_chars_to_string16(pStr, _("Height"));
-  pText2 = create_text_surf_from_str16(pStr);
-  w = MAX(w, pText2->w + adj_size(30));
-  h += MAX(adj_size(20), pText2->h + adj_size(4));
-  FREESTRING16(pStr);
   
   pScall_UnitInfo_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* create window */
   pStr = create_str16_from_char(_("Scale Unit Info"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   pWindow->action = move_scale_unitinfo_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  w = MAX(w, pWindow->size.w);
   add_to_gui_list(ID_WINDOW, pWindow);
   pScall_UnitInfo_Dlg->pEndWidgetList = pWindow;
+
+  area = pWindow->area;
+  
+  pStr = create_str16_from_char(_("Width"), adj_font(12));
+  pText1 = create_text_surf_from_str16(pStr);
+  area.w = MAX(area.w, pText1->w + adj_size(30));
+  area.h += MAX(adj_size(20), pText1->h + adj_size(4));
+  copy_chars_to_string16(pStr, _("Height"));
+  pText2 = create_text_surf_from_str16(pStr);
+  area.w = MAX(area.w, pText2->w + adj_size(30));
+  area.h += MAX(adj_size(20), pText2->h + adj_size(4));
+  FREESTRING16(pStr);
   
   /* ----------------- */
   pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = down_info_width_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
-  h += pBuf->size.h;  
+  area.h += pBuf->size.h;  
   
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = up_info_width_callback;
@@ -963,13 +968,13 @@ static void popup_unitinfo_scale_dialog(void)
   pBuf->action = down_info_height_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
-  h += pBuf->size.h + adj_size(10);
+  area.h += pBuf->size.h + adj_size(10);
   
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = up_info_height_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
-  w = MAX(w , pBuf->size.w * 2 + adj_size(20));
+  area.w = MAX(area.w , pBuf->size.w * 2 + adj_size(20));
     
   /* ------------ */
   pStr = create_str16_from_char(_("Exit"), adj_font(12));
@@ -979,25 +984,32 @@ static void popup_unitinfo_scale_dialog(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   pScall_UnitInfo_Dlg->pBeginWidgetList = pBuf;
   add_to_gui_list(ID_BUTTON, pBuf);
-  h += pBuf->size.h + adj_size(10);
-  w = MAX(w, pBuf->size.w + adj_size(20));
+  area.h += pBuf->size.h + adj_size(10);
+  area.w = MAX(area.w, pBuf->size.w + adj_size(20));
+  
+  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
+
+  area = pWindow->area;
+
   /* ------------ */
   
-  if (Main.event.motion.x + w > Main.screen->w) {
-    if (Main.event.motion.x - w >= 0) {
-      window_x = Main.event.motion.x - w;
+  if (Main.event.motion.x + pWindow->size.w > Main.screen->w) {
+    if (Main.event.motion.x - pWindow->size.w >= 0) {
+      window_x = Main.event.motion.x - pWindow->size.w;
     } else {
-      window_x = (Main.screen->w - w) / 2;
+      window_x = (Main.screen->w - pWindow->size.w) / 2;
     }
   } else {
     window_x = Main.event.motion.x;
   }
     
-  if (Main.event.motion.y + h >= Main.screen->h) {
-    if (Main.event.motion.y - h >= 0) {
-      window_y = Main.event.motion.y - h;
+  if (Main.event.motion.y + pWindow->size.h >= Main.screen->h) {
+    if (Main.event.motion.y - pWindow->size.h >= 0) {
+      window_y = Main.event.motion.y - pWindow->size.h;
     } else {
-      window_y = (pWindow->dst->surface->h - h) / 2;
+      window_y = (pWindow->dst->surface->h - pWindow->size.h) / 2;
     }
   } else {
     window_y = Main.event.motion.y;
@@ -1005,15 +1017,12 @@ static void popup_unitinfo_scale_dialog(void)
   
   widget_set_position(pWindow, window_x, window_y);
   
-  resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND), w, h);
-    
   /* width left button */
   pBuf = pWindow->prev;
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + MAX(adj_size(20), pText1->h + adj_size(4));
-  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w * 2) / 2;
+  pBuf->size.y = area.y + MAX(adj_size(20), pText1->h + adj_size(4));
+  pBuf->size.x = area.x + (area.w - pBuf->size.w * 2) / 2;
   blit_entire_src(pText1, pWindow->theme, adj_size(15), pBuf->size.y
-					  - pWindow->size.y - pText1->h - adj_size(2));
+					  - area.y - pText1->h - adj_size(2));
   FREESURFACE(pText1);
   
   /* width right button */
@@ -1024,9 +1033,9 @@ static void popup_unitinfo_scale_dialog(void)
   pBuf = pBuf->prev->prev;
   pBuf->size.y = pBuf->next->next->size.y +
   			pBuf->next->next->size.h + MAX(adj_size(20), pText2->h + adj_size(4));
-  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w * 2) / 2;
+  pBuf->size.x = area.x + (area.w - pBuf->size.w * 2) / 2;
   
-  blit_entire_src(pText2, pWindow->theme, adj_size(15), pBuf->size.y - pWindow->size.y - pText2->h - adj_size(2));
+  blit_entire_src(pText2, pWindow->theme, adj_size(15), pBuf->size.y - area.y - pText2->h - adj_size(2));
   FREESURFACE(pText2);
     
   /* height right button */
@@ -1035,8 +1044,8 @@ static void popup_unitinfo_scale_dialog(void)
   
   /* exit button */
   pBuf = pBuf->prev->prev;
-  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
+  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
+  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
     
   if (!INFO_HEIGHT) {
     INFO_WIDTH_MIN = (DEFAULT_UNITS_W - BLOCKU_W) / map.xsize;
@@ -2494,7 +2503,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   struct widget *pCancel_Button = NULL;
   struct widget *pOK_Button;
   struct widget *pEdit;
-  SDL_Rect area = {0, 0, 0, 0};
+  SDL_Rect area;
 
   if(pNewCity_Dlg) {
     return;
@@ -2508,8 +2517,10 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   /* create window */
   pStr = create_str16_from_char(_("Build New City"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   pWindow->action = move_new_city_dlg_callback;
+
+  area = pWindow->area;
   
   /* create ok button */
   pOK_Button =
@@ -2544,7 +2555,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
      (pOK_Button->size.w + pCancel_Button->size.w + adj_size(15)), WF_RESTORE_BACKGROUND);
   pEdit->action = newcity_ok_edit_callback;
 
-  area.w = pEdit->size.w + adj_size(20);
+  area.w = MAX(area.w, pEdit->size.w + adj_size(20));
   area.h += pEdit->size.h + adj_size(25);
 
   /* I make this hack to center label on window */
@@ -2552,18 +2563,25 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   {
     pLabel->size.w = area.w;
   } else { 
-    area.w = pLabel->size.w + adj_size(10);
+    area.w = MAX(pWindow->area.w, pLabel->size.w + adj_size(10));
   }
   
   pEdit->size.w = area.w - adj_size(20);
+
+  /* create window background */
+  pBackground = theme_get_background(theme, BACKGROUND_NEWCITYDLG);
+  if (resize_window(pWindow, pBackground, NULL,
+                    (pWindow->size.w - pWindow->area.w) + area.w,
+                    (pWindow->size.h - pWindow->area.h) + area.h)) {
+    FREESURFACE(pBackground);
+  }
   
-  area.x = pTheme->FR_Left->w;
-  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
+  area = pWindow->area;
   
   /* set start positions */
   widget_set_position(pWindow,
-    (Main.screen->w - (area.x + area.w + pTheme->FR_Right->w)) / 2,
-    (Main.screen->h - (area.y + area.h + pTheme->FR_Bottom->h)) / 2);
+    (Main.screen->w - pWindow->size.w) / 2,
+    (Main.screen->h - pWindow->size.h) / 2);
 
   pOK_Button->size.x = area.x + adj_size(10);
   pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
@@ -2576,14 +2594,6 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
 
   pLabel->size.x = area.x + pTheme->FR_Left->w;
   pLabel->size.y = area.y + adj_size(4);
-
-  /* create window background */
-  pBackground = theme_get_background(theme, BACKGROUND_NEWCITYDLG);
-  if (resize_window(pWindow, pBackground, NULL,
-       (area.x + area.w + pTheme->FR_Right->w),
-       (area.y + area.h + pTheme->FR_Bottom->h))) {
-    FREESURFACE(pBackground);
-  }
 
   /* enable widgets */
   set_wstate(pCancel_Button, FC_WS_NORMAL);

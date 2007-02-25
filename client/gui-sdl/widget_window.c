@@ -71,7 +71,7 @@ static int redraw_window(struct widget *pWindow)
     
     /* Draw Text on Window's TitelBar */
     pTmp = create_text_surf_from_str16(pWindow->string16);
-    dst.x += 10;
+    dst.x += adj_size(4);
     if(pTmp) {
       dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
       alphablit(pTmp, NULL, pWindow->dst->surface, &dst);
@@ -174,9 +174,10 @@ static void set_client_area(struct widget *pWindow)
   Allocate Widow Widget Structute.
   Text to titelbar is taken from 'pTitle'.
 **************************************************************************/
-struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle, 
-  			Uint16 w, Uint16 h, Uint32 flags)
+struct widget *create_window_skeleton(struct gui_layer *pDest,
+                                      SDL_String16 *pTitle, Uint32 flags)
 {
+  int w = 0, h = 0;
   struct widget *pWindow = widget_new();
 
   pWindow->set_position = window_set_position;
@@ -193,14 +194,16 @@ struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
   set_wtype(pWindow, WT_WINDOW);
   pWindow->mod = KMOD_NONE;
 
-#if 0
+  if (get_wflags(pWindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
+    w += pTheme->FR_Left->w + pTheme->FR_Right->w;
+    h += pTheme->FR_Top->h + pTheme->FR_Bottom->h;
+  }
+  
   if (pTitle) {
     SDL_Rect size = str16size(pTitle);
-    w = MAX(w, size.w + adj_size(10));
-    h = MAX(h, size.h);
-    h = MAX(h, WINDOW_TITLE_HEIGHT + 1);
+    w += size.w + adj_size(10);
+    h += MAX(size.h, WINDOW_TITLE_HEIGHT + 1);
   }
-#endif
   
   pWindow->size.w = w;
   pWindow->size.h = h;
@@ -213,6 +216,16 @@ struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle,
     pWindow->dst = add_gui_layer(w, h);
   }
 
+  return pWindow;
+}
+
+struct widget * create_window(struct gui_layer *pDest, SDL_String16 *pTitle, 
+                              Uint16 w, Uint16 h, Uint32 flags)
+{
+  struct widget *pWindow = create_window_skeleton(pDest, pTitle, flags);
+
+  resize_window(pWindow, NULL, NULL, w, h);
+  
   return pWindow;
 }
 
@@ -238,29 +251,31 @@ int resize_window(struct widget *pWindow,
   struct widget *pWidget;
 
   /* window */
+
+  if ((new_w != pWindow->size.w) || (new_h != pWindow->size.h)) {
+    pWindow->size.w = new_w;
+    pWindow->size.h = new_h;
   
-  pWindow->size.w = new_w;
-  pWindow->size.h = new_h;
-
-  set_client_area(pWindow);
+    set_client_area(pWindow);
+    
+    if (get_wflags(pWindow) & WF_RESTORE_BACKGROUND) {
+      refresh_widget_background(pWindow);
+    }
   
-  if (get_wflags(pWindow) & WF_RESTORE_BACKGROUND) {
-    refresh_widget_background(pWindow);
+    gui_layer = get_gui_layer(pWindow->dst->surface);
+    FREESURFACE(gui_layer->surface);
+    gui_layer->surface = create_surf_alpha(/*Main.screen->w*/pWindow->size.w,
+                                           /*Main.screen->h*/pWindow->size.h,
+                                                               SDL_SWSURFACE);
+    /* assign new buffer to all widgets on this window */
+    pWidget = pWindow;
+    while(pWidget) {
+      pWidget->dst->surface = gui_layer->surface;
+      pWidget = pWidget->prev;
+    }
   }
-
-  gui_layer = get_gui_layer(pWindow->dst->surface);
-  FREESURFACE(gui_layer->surface);
-  gui_layer->surface = create_surf_alpha(/*Main.screen->w*/pWindow->size.w,
-                                         /*Main.screen->h*/pWindow->size.h,
-                                                             SDL_SWSURFACE);
-  /* assign new buffer to all widgets on this window */
-  pWidget = pWindow;
-  while(pWidget) {
-    pWidget->dst->surface = gui_layer->surface;
-    pWidget = pWidget->prev;
-  }
-
-  if (pWindow->theme != pBcgd) {
+  
+  if (pBcgd != pWindow->theme) {
     FREESURFACE(pWindow->theme);
   }
 
@@ -273,9 +288,7 @@ int resize_window(struct widget *pWindow,
       return 0;
     }
   } else {
-    pBcgd = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
-    
-    pWindow->theme = pBcgd;
+    pWindow->theme = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
     
     if (!pColor) {
       SDL_Color color = *get_game_colorRGB(COLOR_THEME_BACKGROUND);

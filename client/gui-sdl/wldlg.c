@@ -981,7 +981,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   SDL_Color bg_color2 = {255,255,255,136};
 
   int count = 0, turns;
-  int i, w, h, widget_w = 0, widget_h = 0;
+  int i, widget_w = 0, widget_h = 0;
   SDL_String16 *pStr = NULL;
   struct widget *pBuf = NULL, *pWindow, *pLast;
   SDL_Surface *pText = NULL, *pText_Name = NULL, *pZoom = NULL;
@@ -994,6 +994,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   char *state = NULL;
   bool advanced_tech;
   bool can_build, can_eventually_build;
+  SDL_Rect area;
   
   if(pEditor) {
     return;
@@ -1024,14 +1025,14 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     
   /* ---------------- */
   /* Create Main Window */
-  pWindow = create_window(NULL, NULL, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, NULL, 0);
   pWindow->action = window_worklist_editor_callback;
-  w = pWindow->size.w;
-  h = pWindow->size.h;
   set_wstate(pWindow, FC_WS_NORMAL);
   
   add_to_gui_list(ID_WINDOW, pWindow);
   pEditor->pEndWidgetList = pWindow;
+
+  area = pWindow->area;
   
   /* ---------------- */
   if(pCity) {
@@ -1564,22 +1565,21 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   pEditor->pBeginWidgetList = pEditor->pTargets->pBeginWidgetList;
   
   /* Window */
-  w = MAX(w, widget_w * TARGETS_COL + count + adj_size(130)) +
-    pTheme->FR_Left->w + pTheme->FR_Right->w;
-  h = MAX(h, widget_h * TARGETS_ROW) + pTheme->FR_Top->h + pTheme->FR_Bottom->h;
-  
-  widget_set_position(pWindow,
-                      (Main.screen->w - w) / 2,
-                      (Main.screen->h - h) / 2);
+  area.w = MAX(area.w, widget_w * TARGETS_COL + count + adj_size(130));
+  area.h = MAX(area.h, widget_h * TARGETS_ROW);
   
   pIcon = theme_get_background(theme, BACKGROUND_WLDLG);
-  if(resize_window(pWindow, pIcon, NULL, w, h)) {
+  if(resize_window(pWindow, pIcon, NULL,
+                   (pWindow->size.w - pWindow->area.w) + area.w,
+                   (pWindow->size.h - pWindow->area.h) + area.h)) {
     FREESURFACE(pIcon);
   }
   
+  area = pWindow->area;
+  
   /* Backgrounds */
-  dst.x = pTheme->FR_Left->w;
-  dst.y = pTheme->FR_Top->h + 1;
+  dst.x = area.x;
+  dst.y = area.y;
   dst.w = adj_size(130);
   dst.h = adj_size(145);
   
@@ -1590,7 +1590,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   putframe(pWindow->theme, dst.x + 2, dst.y + 2, dst.x + dst.w - 3, dst.y + dst.h - 3,
      map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
   
-  dst.x = pTheme->FR_Left->w;
+  dst.x = area.x;
   dst.y += dst.h + adj_size(2);
   dst.w = adj_size(130);
   dst.h = adj_size(228);
@@ -1599,7 +1599,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
      map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
   
   if(pEditor->pGlobal) {
-    dst.x = pTheme->FR_Left->w;
+    dst.x = area.x;
     dst.y += dst.h + adj_size(2);
     dst.w = adj_size(130);
     dst.h = pWindow->size.h - dst.y - adj_size(4);
@@ -1612,65 +1612,69 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       dst.x + dst.w - adj_size(3), dst.y + dst.h - adj_size(3),
       map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
   }
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
   
   /* name */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + (adj_size(130) - pBuf->size.w)/2 + pTheme->FR_Left->w;
-  pBuf->size.y = pWindow->size.y + pTheme->FR_Top->h + adj_size(4);
+  pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w)/2;
+  pBuf->size.y = area.y + adj_size(4);
   
   /* size of worklist (without production) */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + (adj_size(130) - pBuf->size.w)/2 + pTheme->FR_Left->w;
+  pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w)/2;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   
   if(pCity) {
     /* current build and proggrse bar */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + (adj_size(130) - pBuf->size.w)/2 + pTheme->FR_Left->w;
+    pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w)/2;
     pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(5);
     
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + (adj_size(130) - pBuf->size.w)/2 + pTheme->FR_Left->w;
+    pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w)/2;
     pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   } else {
     /* rename worklist */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + (adj_size(130) - pBuf->size.w)/2 + pTheme->FR_Left->w;
-    pBuf->size.y = pWindow->size.y + pTheme->FR_Top->h + 1 + (adj_size(145) - pBuf->size.h)/2;
+    pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w)/2;
+    pBuf->size.y = area.y + 1 + (adj_size(145) - pBuf->size.h)/2;
   }
   
   /* ok button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + (adj_size(65) - pBuf->size.w)/2 + pTheme->FR_Left->w;
-  pBuf->size.y = pWindow->size.y + pTheme->FR_Top->h + adj_size(135) - pBuf->size.h;
+  pBuf->size.x = area.x + (adj_size(65) - pBuf->size.w)/2;
+  pBuf->size.y = area.y + adj_size(135) - pBuf->size.h;
   
   /* exit button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + adj_size(65) + (adj_size(65) - pBuf->size.w)/2 + pTheme->FR_Left->w;
-  pBuf->size.y = pWindow->size.y + pTheme->FR_Top->h + adj_size(135) - pBuf->size.h;
+  pBuf->size.x = area.x + adj_size(65) + (adj_size(65) - pBuf->size.w)/2;
+  pBuf->size.y = area.y + adj_size(135) - pBuf->size.h;
   
   /* worklist */
   /* pEditor->pWork->pScroll->count: including production */
   if(pCity || (worklist_length(pWorkList) > 0)) {
     /* FIXME */
     setup_vertical_widgets_position(1,
-      pWindow->size.x + pTheme->FR_Left->w + adj_size(2), pWindow->size.y + pTheme->FR_Top->h + adj_size(152)/* +
+      area.x + adj_size(2), area.y + adj_size(152)/* +
 	((pEditor->pWork->pScroll->count > pEditor->pWork->pScroll->active + 2) ?
 	    pEditor->pWork->pScroll->pUp_Left_Button->size.h + 1 : 0)*/,
 	adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
 		  pEditor->pWork->pEndWidgetList);
 
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
-	pWindow->size.x + pTheme->FR_Left->w + adj_size(2),
-    	pWindow->size.y + pTheme->FR_Top->h + adj_size(152),
+	area.x + adj_size(2),
+    	area.y + adj_size(152),
     	adj_size(225), FALSE);
   }
   
   /* global worklists */
   if(pEditor->pGlobal) {
     setup_vertical_widgets_position(1,
-      pWindow->size.x + pTheme->FR_Left->w + adj_size(4),
-      pWindow->size.y + pTheme->FR_Top->h + adj_size(384) +
+      area.x + adj_size(4),
+      area.y + adj_size(384) +
 	(pEditor->pGlobal->pScroll ?
 	    pEditor->pGlobal->pScroll->pUp_Left_Button->size.h + 1 : 0),
 		adj_size(122), 0, pEditor->pGlobal->pBeginWidgetList,
@@ -1678,8 +1682,8 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     
     if(pEditor->pGlobal->pScroll) {
       setup_vertical_scrollbar_area(pEditor->pGlobal->pScroll,
-	pWindow->size.x + pTheme->FR_Left->w + adj_size(4),
-    	pWindow->size.y + pTheme->FR_Top->h + adj_size(384),
+	area.x + adj_size(4),
+    	area.y + adj_size(384),
     	adj_size(93), FALSE);
     }
     
@@ -1687,16 +1691,15 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* Targets */  
   setup_vertical_widgets_position(TARGETS_COL,
-	pWindow->size.x + pTheme->FR_Left->w + adj_size(130),
-	pWindow->size.y + pTheme->FR_Top->h,
+	area.x + adj_size(130), area.y,
 	  0, 0, pEditor->pTargets->pBeginWidgetList,
 			  pEditor->pTargets->pEndWidgetList);
     
   if(pEditor->pTargets->pScroll) {
     setup_vertical_scrollbar_area(pEditor->pTargets->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
-    	pWindow->size.y + pTheme->FR_Top->h + 1,
-    	pWindow->size.h - (pTheme->FR_Top->h + pTheme->FR_Bottom->h + 1), TRUE);
+	area.x + area.w,
+    	area.y + 1,
+    	area.h - 1, TRUE);
     
   }
     

@@ -143,10 +143,11 @@ static void real_info_city_report_dialog_update(void)
   SDL_String16 *pStr;
   SDL_Surface *pText1, *pText2, *pText3, *pUnits_Icon, *pCMA_Icon, *pText4;
   SDL_Surface *pLogo;
-  int togrow, w = 0 , count , h = 0, ww = 0, hh = 0, name_w = 0, prod_w = 0, H;
+  int togrow, w = 0 , count, ww = 0, hh = 0, name_w = 0, prod_w = 0, H;
   char cBuf[128];
   const char *pName;
   SDL_Rect dst;
+  SDL_Rect area;
 
   if(pCityRep) {
     popdown_window_group_dialog(pCityRep->pBeginWidgetList,
@@ -182,13 +183,14 @@ static void real_info_city_report_dialog_update(void)
   pStr = create_str16_from_char(_("Cities Report"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   pCityRep->pEndWidgetList = pWindow;
-  w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = city_report_windows_callback;
   
   add_to_gui_list(ID_WINDOW, pWindow);
+  
+  area = pWindow->area;  
   
   /* ------------------------- */
   /* exit button */
@@ -555,13 +557,13 @@ static void real_info_city_report_dialog_update(void)
     pBuf->action = popup_buy_production_from_city_report_callback;
     
     count += COL;
-    h += (hh + adj_size(2));
+    area.h += (hh + adj_size(2));
   } city_list_iterate_end;
   
   H = hh;
   pCityRep->pBeginWidgetList = pBuf;
   /* setup window width */
-  w = name_w + adj_size(6) + pText1->w + adj_size(8) + pCMA_Icon->w +
+  area.w = name_w + adj_size(6) + pText1->w + adj_size(8) + pCMA_Icon->w +
 	(pIcons->pBIG_Food->w + adj_size(6)) * 10 + pText2->w + adj_size(6) +
 	pUnits_Icon->w + adj_size(6) + prod_w + adj_size(170);
   
@@ -574,37 +576,35 @@ static void real_info_city_report_dialog_update(void)
 	pCityRep->pScroll->count = count;
       }
       ww = create_vertical_scrollbar(pCityRep, COL, 10, TRUE, TRUE);
-      w += ww;
-      h = (10 * (hh + adj_size(2))) + WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
-    } else {
-      h += WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
+      area.w += ww;
+      area.h = MAX(area.h, (10 * (hh + adj_size(2))));
     }
-  } else {
-    h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
   }
   
-  h += pText2->h + adj_size(40);
-  w += pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2);
-  
-  widget_set_position(pWindow,
-                      (Main.screen->w - w) / 2,
-                      (Main.screen->h - h) / 2);
+  area.h += pText2->h + adj_size(40);
+  area.w += adj_size(2);
   
   pLogo = theme_get_background(theme, BACKGROUND_CITYREP);
-  resize_window(pWindow, pLogo,	NULL, w, h);
+  resize_window(pWindow, pLogo,	NULL,
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
   FREESURFACE(pLogo);
 
   pLogo = SDL_DisplayFormat(pWindow->theme);
   FREESURFACE(pWindow->theme);
   pWindow->theme = pLogo;
   pLogo = NULL;
+
+  area = pWindow->area;
   
-  ww -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - adj_size(25);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - pTheme->FR_Bottom->h - adj_size(5);
+  pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(25);
+  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
 
   /* info button */
   pBuf = pBuf->prev;
@@ -627,10 +627,10 @@ static void real_info_city_report_dialog_update(void)
   pBuf->size.y = pBuf->next->size.y;
   
   /* cities background and labels */
-  dst.x = pTheme->FR_Left->w + adj_size(2);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
+  dst.x = area.x + adj_size(2);
+  dst.y = area.y + 1;
   dst.w = (name_w + adj_size(6)) + (pText1->w + adj_size(8)) + adj_size(5);
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(32);
+  dst.h = area.h - adj_size(33);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
@@ -642,14 +642,14 @@ static void real_info_city_report_dialog_update(void)
   FREESURFACE(pText3);
   
   /* city size background and label */    
-  dst.x = pTheme->FR_Left->w + adj_size(5) + name_w + adj_size(5 + 4);
+  dst.x = area.x + adj_size(5) + name_w + adj_size(5 + 4);
   alphablit(pText1, NULL, pWindow->theme, &dst);
   ww = pText1->w;
   FREESURFACE(pText1);
   
   /* cma icon */
   dst.x += (ww + adj_size(9));
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (pText2->h - pCMA_Icon->h) / 2;
+  dst.y = area.y + 1 + (pText2->h - pCMA_Icon->h) / 2;
   alphablit(pCMA_Icon, NULL, pWindow->theme, &dst);
   ww = pCMA_Icon->w;
   FREESURFACE(pCMA_Icon);
@@ -657,18 +657,18 @@ static void real_info_city_report_dialog_update(void)
   /* -------------- */
   /* populations food unkeep background and label */
   dst.x += (ww + 1);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
+  dst.y = area.y + 1;
   w = dst.x + adj_size(2);
   dst.w = (pIcons->pBIG_Food->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10) +
 	  			pText2->w + adj_size(6 + 2);
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(32);
+  dst.h = area.h - adj_size(33);
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_FOODSTOCK));
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (pText2->h - pIcons->pBIG_Food->h) / 2;
+  dst.y = area.y + 1 + (pText2->h - pIcons->pBIG_Food->h) / 2;
   dst.x += adj_size(5);
   alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst);
   
@@ -680,7 +680,7 @@ static void real_info_city_report_dialog_update(void)
   /* to grow label */
   w += (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
+  dst.y = area.y + 1;
   alphablit(pText2, NULL, pWindow->theme, &dst);
   hh = pText2->h;
   ww = pText2->w;
@@ -689,21 +689,21 @@ static void real_info_city_report_dialog_update(void)
   
   /* trade, corruptions, gold, science, luxury income background and label */
   dst.x = w + (ww + adj_size(8));
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
+  dst.y = area.y + 1;
   w = dst.x + adj_size(2);
   dst.w = (pIcons->pBIG_Trade->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Trade_Corr->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Coin->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Colb->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Luxury->w + adj_size(6)) + adj_size(4);
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(32);
+  dst.h = area.h - adj_size(33);
   
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_TRADE));
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
            map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (hh - pIcons->pBIG_Trade->h) / 2;
+  dst.y = area.y + 1 + (hh - pIcons->pBIG_Trade->h) / 2;
   dst.x += adj_size(5);
   alphablit(pIcons->pBIG_Trade, NULL, pWindow->theme, &dst);
   
@@ -728,19 +728,19 @@ static void real_info_city_report_dialog_update(void)
   w += (pIcons->pBIG_Luxury->w + adj_size(6)) + adj_size(4);
   dst.x = w;
   w += adj_size(2);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
+  dst.y = area.y + 1;
   dst.w = (pIcons->pBIG_Shield->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Shield_Corr->w + adj_size(6)) + adj_size(10) +
 	  (pUnits_Icon->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Shield_Surplus->w + adj_size(6)) + adj_size(4);
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(32);
+  dst.h = area.h - adj_size(33);
   
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_PROD));
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (hh - pIcons->pBIG_Shield->h) / 2;
+  dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield->h) / 2;
   dst.x += adj_size(5);
   alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst);
   
@@ -750,20 +750,20 @@ static void real_info_city_report_dialog_update(void)
   
   w += (pIcons->pBIG_Shield_Corr->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (hh - pUnits_Icon->h) / 2;
+  dst.y = area.y + 1 + (hh - pUnits_Icon->h) / 2;
   alphablit(pUnits_Icon, NULL, pWindow->theme, &dst);
   
   w += (pUnits_Icon->w + adj_size(6)) + adj_size(10);
   FREESURFACE(pUnits_Icon);
   dst.x = w + adj_size(3);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (hh - pIcons->pBIG_Shield_Surplus->h) / 2;
+  dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield_Surplus->h) / 2;
   alphablit(pIcons->pBIG_Shield_Surplus, NULL, pWindow->theme, &dst);
   /* ------------------------------- */ 
   
   w += (pIcons->pBIG_Shield_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w;
   w += adj_size(2);
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
+  dst.y = area.y + 1;
   dst.w = adj_size(36) + adj_size(5) + prod_w;
   dst.h = hh + adj_size(2);
     
@@ -772,14 +772,14 @@ static void real_info_city_report_dialog_update(void)
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (hh - pText4->h) / 2;
+  dst.y = area.y + 1 + (hh - pText4->h) / 2;
   dst.x += (dst.w - pText4->w) / 2;;
   alphablit(pText4, NULL, pWindow->theme, &dst);
   FREESURFACE(pText4);
   
   if(count) {
-    int start_x = pWindow->size.x + pTheme->FR_Left->w + adj_size(5);
-    int start_y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2) + hh + adj_size(2);
+    int start_x = area.x + adj_size(5);
+    int start_y = area.y + hh + adj_size(3);
     H += adj_size(2);
     pBuf = pBuf->prev;
     while(TRUE) {
@@ -880,9 +880,8 @@ static void real_info_city_report_dialog_update(void)
     
     if(pCityRep->pScroll) {
       setup_vertical_scrollbar_area(pCityRep->pScroll,
-	  pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
-    	  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	  pWindow->size.h - (WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h + 1), TRUE);      
+	  area.x + area.w, area.y,
+    	  area.h, TRUE);      
     }
     
   }

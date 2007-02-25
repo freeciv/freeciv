@@ -462,11 +462,11 @@ static int change_mode_callback(struct widget *pWidget)
 
       /* move cooling/warming icons to botton-right corrner */
       pTmpWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-      widget_set_position(pTmpWidget, (Main.screen->w - 10 - (pTmpWidget->size.w * 2)), pTmpWidget->size.y);
+      widget_set_position(pTmpWidget, (Main.screen->w - adj_size(10) - (pTmpWidget->size.w * 2)), pTmpWidget->size.y);
     
       /* ID_COOLING_ICON */
       pTmpWidget = pTmpWidget->next;
-      widget_set_position(pTmpWidget, (Main.screen->w - 10 - pTmpWidget->size.w), pTmpWidget->size.y);
+      widget_set_position(pTmpWidget, (Main.screen->w - adj_size(10) - pTmpWidget->size.w), pTmpWidget->size.y);
       
       map_canvas_resized(Main.screen->w, Main.screen->h); 
     }      
@@ -2142,7 +2142,7 @@ void popup_optiondlg(void)
   SDL_String16 *pStr;
   SDL_Surface *pLogo;
   int longest = 0;
-  SDL_Rect area = {0, 0, 0, 0};
+  SDL_Rect area;
   
   if(pOption_Dlg) {
     return;
@@ -2160,13 +2160,15 @@ void popup_optiondlg(void)
   pStr = create_str16_from_char(_("Options"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
+  pWindow = create_window_skeleton(NULL, pStr, 0);
   pWindow->action = main_optiondlg_callback;
   
   set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_WINDOW, pWindow);
   pOption_Dlg->pEndOptionsWidgetList = pWindow;
 
+  area = pWindow->area;
+  
   /* create exit button */
   pQuit = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
 				pWindow->dst, _("Quit"), adj_font(12), 0);
@@ -2201,23 +2203,23 @@ void popup_optiondlg(void)
   pOption_Dlg->pBeginCoreOptionsWidgetList = pBack;
   /* ------------------------------------------------------ */
   
-  area.w = MAX(area.w, (adj_size(360) - pTheme->FR_Right->w - pTheme->FR_Left->w));
-  area.h = adj_size(350) - pTheme->FR_Bottom->h - pTheme->FR_Top->h;
-  area.x = pTheme->FR_Left->w;
-  area.y = pTheme->FR_Top->h;
+  area.w = MAX(area.w, (adj_size(360) - (pWindow->size.w - pWindow->area.w)));
+  area.h = adj_size(350) - (pWindow->size.h - pWindow->area.h);
 
   group_set_area(pOption_Dlg->pBeginOptionsWidgetList, pWindow->prev, area);
 
-  widget_set_position(pWindow,
-    (Main.screen->w - (pTheme->FR_Left->w + area.w + pTheme->FR_Right->w)) / 2,
-    (Main.screen->h - (pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h)) / 2);
-  
   if (resize_window(pWindow, pLogo, NULL,
-      pTheme->FR_Left->w + area.w + pTheme->FR_Right->w,
-      pTheme->FR_Top->h + area.h + pTheme->FR_Bottom->h)) {
+      (pWindow->size.w - pWindow->area.w) + area.w,
+      (pWindow->size.h - pWindow->area.h) + area.h)) {
     FREESURFACE(pLogo);
   }
-      
+
+  area = pWindow->area;
+  
+  widget_set_position(pWindow,
+    (Main.screen->w - pWindow->size.w) / 2,
+    (Main.screen->h - pWindow->size.h) / 2);
+  
   if(aconnection.established) {
     widget_set_position(pDisconnect,
                         area.x + (area.w - pDisconnect->size.w) / 2,

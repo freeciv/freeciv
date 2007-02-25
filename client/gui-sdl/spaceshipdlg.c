@@ -135,7 +135,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     struct widget *pBuf, *pWindow;
     SDL_String16 *pStr;
     char cBuf[128];
-    int w = 0, h = 0;
+    SDL_Rect area;
   
     pSpaceShp = fc_calloc(1, sizeof(struct SMALL_DLG));
     
@@ -144,17 +144,17 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
   
-    pWindow = create_window(NULL, pStr, 1, 1, 0);
+    pWindow = create_window_skeleton(NULL, pStr, 0);
   
     pWindow->action = space_dialog_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
-    w = MAX(w, pWindow->size.w);
-    h = WINDOW_TITLE_HEIGHT + 1;
     pWindow->data.player = pPlayer;
     pWindow->private_data.small_dlg = pSpaceShp;
     add_to_gui_list(ID_WINDOW, pWindow);
     pSpaceShp->pEndWidgetList = pWindow;
-  
+
+    area = pWindow->area;
+    
     /* ---------- */
     /* create exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
@@ -163,7 +163,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pBuf->action = exit_space_dialog_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->key = SDLK_ESCAPE;
-    w += (pBuf->size.w + adj_size(10));
+    area.w = MAX(area.w, (pBuf->size.w + adj_size(10)));
   
     add_to_gui_list(ID_BUTTON, pBuf);
   
@@ -171,42 +171,46 @@ void popup_spaceship_dialog(struct player *pPlayer)
 					      _("Launch"), adj_font(12), 0);
         
     pBuf->action = launch_spaceship_callback;
-    w = MAX(w, pBuf->size.w);
-    h += pBuf->size.h + adj_size(20);
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h + adj_size(20);
     add_to_gui_list(ID_BUTTON, pBuf);
     
     pStr = create_str16_from_char(get_spaceship_descr(NULL), adj_font(12));
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
-    w = MAX(w, pBuf->size.w);
-    h += pBuf->size.h + adj_size(20);
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h + adj_size(20);
     add_to_gui_list(ID_LABEL, pBuf);
 
     pSpaceShp->pBeginWidgetList = pBuf;
     /* -------------------------------------------------------- */
   
-    w = MAX(w, adj_size(300));
+    area.w = MAX(area.w, adj_size(300) - (pWindow->size.w - pWindow->area.w));
 
-    widget_set_position(pWindow,
-                        (Main.screen->w - w) / 2,
-                        (Main.screen->h - h) / 2);
+    resize_window(pWindow, NULL, NULL,
+                  (pWindow->size.w - pWindow->area.w) + area.w,
+                  (pWindow->size.h - pWindow->area.h) + area.h);
     
-    resize_window(pWindow, NULL, NULL, w, h);
-     
+    area = pWindow->area;
+    
+    widget_set_position(pWindow,
+                        (Main.screen->w - pWindow->size.w) / 2,
+                        (Main.screen->h - pWindow->size.h) / 2);
+    
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
+    pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
     pBuf->size.y = pWindow->size.y + 1;
 
     /* launch button */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + (pWindow->size.w  - pBuf->size.w) / 2;
-    pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
+    pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
+    pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
   
     /* info label */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(10);
+    pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
+    pBuf->size.y = area.y + adj_size(7);
 
     dialog_list_prepend(dialog_list, pSpaceShp);
     
