@@ -553,8 +553,10 @@ static void real_info_city_report_dialog_update(void)
     prod_w = MAX(prod_w, pBuf->size.w);
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
     pBuf->data.city = pCity;
-    set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = popup_buy_production_from_city_report_callback;
+    if (!pCity->did_buy) {
+      set_wstate(pBuf, FC_WS_NORMAL);    
+    }
     
     count += COL;
     area.h += (hh + adj_size(2));
