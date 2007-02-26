@@ -17,6 +17,7 @@ pkgdata_DATA =          	\
 	dip_icons.spec		\
 	icons.png		\
 	icons.spec		\
+	intro.png		\
 	options_bg.png		\
 	small_theme_buttons.png		\
 	small_theme_buttons.spec	\
