@@ -15,8 +15,9 @@ leader=
  "Nikita Khruschov",
  "Leonid Brezhnev",
  "Yuriy Andropov",
- "Nadezhda Krupskaya"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
+ "Nadezhda Krupskaya",
+ "Alexandra Kollontai"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female", "Female"
 flag="soviet"
 flag_alt = "-"
 city_style = "European"
