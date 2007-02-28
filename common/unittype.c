@@ -53,7 +53,7 @@ static const char *flag_names[] = {
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
-  "Helicopter", "AirUnit", "Fighter"
+  "Helicopter", "AirUnit", "Fighter", "BarbarianOnly"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -470,6 +470,14 @@ bool can_player_build_unit_direct(const struct player *p,
   if (unit_type_flag(punittype, F_NOBUILD)) {
     return FALSE;
   }
+
+  if (unit_type_flag(punittype, F_BARBARIAN_ONLY)
+      && !is_barbarian(p)) {
+    /* Unit can be built by barbarians only and this player is
+     * not barbarian */
+    return FALSE;
+  }
+
   if (punittype->gov_requirement
       && punittype->gov_requirement != p->government) {
     return FALSE;

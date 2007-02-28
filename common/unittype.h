@@ -101,6 +101,7 @@ enum unit_flag_id {
   F_HELICOPTER,       /* Defends badly against F_FIGHTER units */
   F_AIRUNIT,          /* Bad at attacking F_AEGIS units */
   F_FIGHTER,          /* Good at attacking F_HELICOPTER units */
+  F_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
   F_LAST
 };
 #define F_MAX 64

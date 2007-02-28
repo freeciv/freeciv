@@ -790,6 +790,10 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* May not be built in cities.\n"));
   }
+  if (unit_type_flag(utype, F_BARBARIAN_ONLY)) {
+    sprintf(buf + strlen(buf),
+	    _("* Only barbarians may build this.\n"));
+  }
   if (unit_type_flag(utype, F_NOHOME)) {
     sprintf(buf + strlen(buf), _("* Never has a home city.\n"));
   }

@@ -215,6 +215,7 @@ flags         = "Unreachable"
 ; "Helicopter"  = defends very badly against "Fighter" units
 ; "AirUnit"     = very bad at attacking "AEGIS" units
 ; "Fighter"     = good attacker against "Helicopter" units
+; "BarbarianOnly" = only barbarians can build this unit
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
