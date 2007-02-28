@@ -672,6 +672,9 @@ static void update_unit_activity(struct unit *punit)
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
 
+      /* FIXME: If pillaging some kind of base, should not
+       *        touch specials directly but to use base related
+       *        functions. */
       tile_clear_special(ptile, what_pillaged);
       unit_list_iterate (ptile->units, punit2) {
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
@@ -708,7 +711,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity == ACTIVITY_FORTRESS) {
     if (total_activity (ptile, ACTIVITY_FORTRESS)
 	>= tile_activity_time(ACTIVITY_FORTRESS, ptile)) {
-      tile_set_special(ptile, S_FORTRESS);
+      tile_add_base(ptile, base_type_get_by_id(BASE_FORTRESS));
       map_claim_ownership(ptile, unit_owner(punit), ptile);
       unit_activity_done = TRUE;
       new_base = TRUE;
@@ -718,7 +721,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity == ACTIVITY_AIRBASE) {
     if (total_activity (ptile, ACTIVITY_AIRBASE)
 	>= tile_activity_time(ACTIVITY_AIRBASE, ptile)) {
-      tile_set_special(ptile, S_AIRBASE);
+      tile_add_base(ptile, base_type_get_by_id(BASE_AIRBASE));
       unit_activity_done = TRUE;
       new_base = TRUE;
     }
@@ -1215,13 +1218,11 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 {
   int cap;
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+  struct base_type *pbase = base_type_get_from_special(plrtile->special);
 
   if ((is_allied_city_tile(ptile, pplayer)
        && !is_non_allied_unit_tile(ptile, pplayer))
-      || (((contains_special(plrtile->special, S_FORTRESS)
-            && base_flag(base_type_get_by_id(BASE_FORTRESS), BF_REFUEL))
-           || (contains_special(plrtile->special, S_AIRBASE)
-               && base_flag(base_type_get_by_id(BASE_AIRBASE), BF_REFUEL)))
+      || ((pbase != NULL && base_flag(pbase, BF_REFUEL))
 	  && !is_non_allied_unit_tile(ptile, pplayer)))
     return TRUE;
 

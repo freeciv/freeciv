@@ -3946,6 +3946,11 @@ int fill_sprite_array(struct tileset *t,
   int tileno, dir;
   struct drawn_sprite *save_sprs = sprs;
   struct player *owner = NULL;
+  struct base_type *pbase = NULL;
+
+  if (ptile != NULL) {
+    pbase = tile_get_base(ptile);
+  }
 
   /* Unit drawing is disabled if the view options is turned off, but only
    * if we're drawing on the mapview. */
@@ -4067,7 +4072,8 @@ int fill_sprite_array(struct tileset *t,
 	}
       }
 
-      if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)
+      if (draw_fortress_airbase
+          && pbase != NULL && pbase->id == BASE_FORTRESS
 	  && t->sprites.tx.fortress_back) {
 	ADD_SPRITE_FULL(t->sprites.tx.fortress_back);
       }
@@ -4121,7 +4127,8 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL2:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
+      if (draw_fortress_airbase
+          && pbase != NULL && pbase->id == BASE_AIRBASE) {
 	ADD_SPRITE_FULL(t->sprites.tx.airbase);
       }
 
@@ -4170,7 +4177,7 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_SPECIAL3:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (t->is_isometric && draw_fortress_airbase
-	  && contains_special(tspecial, S_FORTRESS)) {
+          && pbase != NULL && pbase->id == BASE_FORTRESS) {
 	/* Draw fortress front in iso-view (non-iso view only has a fortress
 	 * back). */
 	ADD_SPRITE_FULL(t->sprites.tx.fortress);

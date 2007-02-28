@@ -467,6 +467,7 @@ const char *get_infrastructure_text(bv_special spe)
 {
   static char s[256];
   char *p;
+  struct base_type *pbase;
   
   s[0] = '\0';
 
@@ -488,14 +489,10 @@ const char *get_infrastructure_text(bv_special spe)
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
   }
 
-  if (contains_special(spe, S_FORTRESS)) {
-    cat_snprintf(s, sizeof(s), "%s/",
-                 base_name(base_type_get_by_id(BASE_FORTRESS)));
-  }
+  pbase = base_type_get_from_special(spe);
 
-  if (contains_special(spe, S_AIRBASE)) {
-    cat_snprintf(s, sizeof(s), "%s/",
-                 base_name(base_type_get_by_id(BASE_AIRBASE)));
+  if (pbase != NULL) {
+    cat_snprintf(s, sizeof(s), "%s/", base_name(pbase));
   }
 
   p = s + strlen(s) - 1;

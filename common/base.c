@@ -43,6 +43,21 @@ const char *base_name(const struct base_type *pbase)
   return pbase->name;
 }
 
+/****************************************************************************
+  Determine base type from specials. Returns NULL if there is no base
+****************************************************************************/
+struct base_type *base_type_get_from_special(bv_special spe)
+{
+  if (contains_special(spe, S_FORTRESS)) {
+    return base_type_get_by_id(BASE_FORTRESS);
+  }
+  if (contains_special(spe, S_AIRBASE)) {
+    return base_type_get_by_id(BASE_AIRBASE);
+  }
+
+  return NULL;
+}
+
 /**************************************************************************
   Convert base flag names to enum; case insensitive;
   returns BF_LAST if can't match.

@@ -1009,8 +1009,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Put vision back to normal, if base acted as a watchtower */
   if (tile_has_base_flag(ptile, BF_WATCHTOWER)) {
-    tile_clear_special(ptile, S_FORTRESS);
-    tile_clear_special(ptile, S_AIRBASE);
+    tile_remove_base(ptile);
     unit_list_refresh_vision(ptile->units);
   }
 

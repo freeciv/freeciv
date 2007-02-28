@@ -14,13 +14,14 @@
 #define FC__BASE_H
 
 #include "fc_types.h"
+#include "terrain.h"
 
 enum base_type_id { BASE_FORTRESS = 0, BASE_AIRBASE, BASE_LAST };
 
 typedef enum base_type_id Base_type_id;
 
 enum base_flag_id {
-  BF_NOT_AGGRESSIVE,     /* Unit inside are not considered aggressive
+  BF_NOT_AGGRESSIVE = 0, /* Unit inside are not considered aggressive
                           * if base is close to city */
   BF_DEFENSE_BONUS,      /* Base provides defense bonus for units inside */
   BF_NO_STACK_DEATH,     /* Units inside will not die all at once */
@@ -45,6 +46,8 @@ struct base_type {
 
 bool base_flag(const struct base_type *pbase, enum base_flag_id flag);
 const char *base_name(const struct base_type *pbase);
+
+struct base_type *base_type_get_from_special(bv_special spe);
 
 enum base_flag_id base_flag_from_str(const char *s);
 struct base_type *base_type_get_by_id(Base_type_id id);

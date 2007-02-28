@@ -740,6 +740,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 {
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = ptile->terrain;
+  struct base_type *pbase;
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -829,16 +830,18 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_FORTRESS:
+    pbase = tile_get_base(ptile);
     return (unit_flag(punit, F_SETTLERS)
 	    && !tile_get_city(ptile)
 	    && player_knows_techs_with_flag(pplayer, TF_FORTRESS)
-	    && !tile_has_special(ptile, S_FORTRESS)
+	    && (pbase == NULL || pbase->id != BASE_FORTRESS)
 	    && !is_ocean(ptile->terrain));
 
   case ACTIVITY_AIRBASE:
+    pbase = tile_get_base(ptile);
     return (unit_flag(punit, F_AIRBASE)
 	    && player_knows_techs_with_flag(pplayer, TF_AIRBASE)
-	    && !tile_has_special(ptile, S_AIRBASE)
+	    && (pbase == NULL || pbase->id != BASE_AIRBASE)
 	    && !is_ocean(ptile->terrain));
 
   case ACTIVITY_SENTRY:

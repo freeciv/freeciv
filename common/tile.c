@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+#include "log.h"
 #include "support.h"
 
 #include "tile.h"
@@ -99,14 +100,59 @@ bool tile_has_any_specials(const struct tile *ptile)
 }
 
 /****************************************************************************
+  Returns base at tile or NULL if no base
+****************************************************************************/
+struct base_type *tile_get_base(const struct tile *ptile)
+{
+  return base_type_get_from_special(ptile->special);
+}
+
+/****************************************************************************
+  Adds base to tile.
+  FIXME: Currently this asserts that tile contains no old base.
+         Instead should remove old base and return bool indicating that.
+****************************************************************************/
+void tile_add_base(struct tile *ptile, const struct base_type *pbase)
+{
+  assert(pbase != NULL);
+
+  if (pbase->id == BASE_FORTRESS) {
+    assert(!tile_has_special(ptile, S_AIRBASE));
+    tile_set_special(ptile, S_FORTRESS);
+  } else if (pbase->id == BASE_AIRBASE) {
+    assert(!tile_has_special(ptile, S_FORTRESS));
+    tile_set_special(ptile, S_AIRBASE);
+  } else {
+    freelog(LOG_ERROR, "Impossible base type %d in tile_set_base()",
+            pbase->id);
+  }
+}
+
+/****************************************************************************
+  Removes base from tile if such exist
+****************************************************************************/
+void tile_remove_base(struct tile *ptile)
+{
+  tile_clear_special(ptile, S_FORTRESS);
+  tile_clear_special(ptile, S_AIRBASE);
+}
+
+/****************************************************************************
   Check if tile contains base providing effect
 ****************************************************************************/
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
 {
-  return (tile_has_special(ptile, S_FORTRESS)
-          && base_flag(base_type_get_by_id(BASE_FORTRESS), flag))
-    || (tile_has_special(ptile, S_AIRBASE)
-        && base_flag(base_type_get_by_id(BASE_AIRBASE), flag));
+  struct base_type *pbase;
+
+  pbase = tile_get_base(ptile);
+
+  if (pbase != NULL) {
+    /* Some base at tile, check its flags */
+    return base_flag(pbase, flag);
+  }
+
+  /* No base at tile */
+  return FALSE;
 }
 
 /****************************************************************************
