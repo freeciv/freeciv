@@ -1943,9 +1943,11 @@ static void send_ruleset_control(struct conn_list *dest)
 /**************************************************************************
 This checks if nations[pos] leader names are not already defined in any 
 previous nation, or twice in its own leader name table.
-If not return NULL, if yes return pointer to name which is repeated.
+If not return NULL, if yes return pointer to name which is repeated
+and id of a conflicting nation as second parameter.
 **************************************************************************/
-static char *check_leader_names(Nation_type_id nation)
+static char *check_leader_names(Nation_type_id nation,
+             Nation_type_id *conflict_nation)
 {
   int k;
   struct nation_type *pnation = get_nation_by_idx(nation);
@@ -1957,6 +1959,7 @@ static char *check_leader_names(Nation_type_id nation)
 
     for (i = 0; i < k; i++) {
       if (0 == strcmp(leader, pnation->leaders[i].name)) {
+        *conflict_nation = nation;
 	return leader;
       }
     }
@@ -1966,6 +1969,7 @@ static char *check_leader_names(Nation_type_id nation)
 
       for (i = 0; i < pnation2->leader_count; i++) {
 	if (0 == strcmp(leader, pnation2->leaders[i].name)) {
+	  *conflict_nation = nation2;
 	  return leader;
 	}
       }
@@ -2158,9 +2162,9 @@ Load nations.ruleset file
 static void load_ruleset_nations(struct section_file *file)
 {
   char *bad_leader, *g;
-  struct nation_type *pl;
+  struct nation_type *pl, *pl2;
   struct government *gov;
-  int dim, i, j, k, nval, numgroups;
+  int dim, i, i2, j, k, nval, numgroups;
   char temp_name[MAX_LEN_NAME];
   char **leaders, **sec, **civilwar_nations, **groups, **conflicts;
   char* name;
@@ -2230,9 +2234,15 @@ static void load_ruleset_nations(struct section_file *file)
     free(leaders);
 
     /* check if leader name is not already defined */
-    if( (bad_leader=check_leader_names(i)) ) {
-        freelog(LOG_FATAL, "Nation %s: leader %s defined more than once",
-		pl->name, bad_leader);
+    if ((bad_leader = check_leader_names(i, &i2))) {
+        if (i == i2) {
+          freelog(LOG_FATAL, "Nation %s: leader %s defined more than once",
+                  pl->name, bad_leader);
+        } else {
+          pl2 = get_nation_by_idx(i2);
+          freelog(LOG_FATAL, "Nations %s and %s share the same leader %s",
+                  pl->name, pl2->name, bad_leader);
+        }
         exit(EXIT_FAILURE);
     }
     /* read leaders'sexes */
