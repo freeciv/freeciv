@@ -1094,6 +1094,8 @@ static Uint16 report_scroll_mouse_motion_handler(
   char cBuf[8];
   int dir, inc, x, *buf_rate = NULL;
   
+  pMotionEvent->x -= pMotion->pHoriz_Src->dst->dest_rect.x;
+  
   if ((abs(pMotionEvent->x - pMotion->x) > 7) &&
      (pMotionEvent->x >= pMotion->min) && (pMotionEvent->x <= pMotion->max)) {
 	

@@ -151,11 +151,14 @@ static int unit_order_callback(struct widget *pOrder_Widget)
     case ID_UNIT_ORDER_AUTO_EXPLORE:
       key_unit_auto_explore();
       break;
-    case ID_UNIT_ORDER_CONNECT:
-#if 0
-      /* TODO: different connect types */
-      key_unit_connect();
-#endif
+    case ID_UNIT_ORDER_CONNECT_IRRIGATE:
+      key_unit_connect(ACTIVITY_IRRIGATE);
+      break;
+    case ID_UNIT_ORDER_CONNECT_ROAD:
+      key_unit_connect(ACTIVITY_ROAD);
+      break;
+    case ID_UNIT_ORDER_CONNECT_RAILROAD:
+      key_unit_connect(ACTIVITY_RAILROAD);
       break;
     case ID_UNIT_ORDER_PATROL:
       key_unit_patrol();
@@ -489,17 +492,43 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_PATROL, pBuf);
   /* --------- */
 
-  /* Connect */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect"), " (Shift + C)");
+  /* Connect irrigation */
+  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect irrigation"), " (Shift + I)");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
-  pBuf->key = SDLK_c;
+  pBuf->key = SDLK_i;
   pBuf->mod = KMOD_SHIFT;
-  add_to_gui_list(ID_UNIT_ORDER_CONNECT, pBuf);
+  add_to_gui_list(ID_UNIT_ORDER_CONNECT_IRRIGATE, pBuf);
+  /* --------- */
+
+  /* Connect road */
+  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect road"), " (Shift + R)");
+  pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
+			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
+			   WF_WIDGET_HAS_INFO_LABEL));
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = unit_order_callback;
+  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->key = SDLK_r;
+  pBuf->mod = KMOD_SHIFT;
+  add_to_gui_list(ID_UNIT_ORDER_CONNECT_ROAD, pBuf);
+  /* --------- */
+
+  /* Connect railroad */
+  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect railroad"), " (Shift + L)");
+  pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
+			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
+			   WF_WIDGET_HAS_INFO_LABEL));
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = unit_order_callback;
+  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->key = SDLK_l;
+  pBuf->mod = KMOD_SHIFT;
+  add_to_gui_list(ID_UNIT_ORDER_CONNECT_RAILROAD, pBuf);
   /* --------- */
 
   /* Auto-Explore */
@@ -1172,10 +1201,22 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_AUTO_EXPLORE);
       }
 
-      if (can_unit_do_connect(pUnit, ACTIVITY_IDLE)) {
-	local_show(ID_UNIT_ORDER_CONNECT);
+      if (can_unit_do_connect(pUnit, ACTIVITY_IRRIGATE)) {
+	local_show(ID_UNIT_ORDER_CONNECT_IRRIGATE);
       } else {
-	local_hide(ID_UNIT_ORDER_CONNECT);
+	local_hide(ID_UNIT_ORDER_CONNECT_IRRIGATE);
+      }
+
+      if (can_unit_do_connect(pUnit, ACTIVITY_ROAD)) {
+	local_show(ID_UNIT_ORDER_CONNECT_ROAD);
+      } else {
+	local_hide(ID_UNIT_ORDER_CONNECT_ROAD);
+      }
+
+      if (can_unit_do_connect(pUnit, ACTIVITY_RAILROAD)) {
+	local_show(ID_UNIT_ORDER_CONNECT_RAILROAD);
+      } else {
+	local_hide(ID_UNIT_ORDER_CONNECT_RAILROAD);
       }
 
       if (is_diplomat_unit(pUnit) &&
