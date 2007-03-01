@@ -1579,8 +1579,8 @@ static int resource_map_city_dlg_callback(struct widget *pMap)
     int col, row;
   
     if (canvas_to_city_pos(&col, &row,
-                     1/city_map_zoom * (Main.event.motion.x - pMap->size.x),
-                     1/city_map_zoom * (Main.event.motion.y - pMap->size.y))) {
+      1/city_map_zoom * (Main.event.motion.x - pMap->dst->dest_rect.x - pMap->size.x),
+      1/city_map_zoom * (Main.event.motion.y - pMap->dst->dest_rect.y - pMap->size.y))) {
   
       city_toggle_worker(pCityDlg->pCity, col, row);
     }
