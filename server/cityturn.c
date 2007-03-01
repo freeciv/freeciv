@@ -835,6 +835,21 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_minsize");
 	      break;
+            case REQ_AI:
+              /* FIXME: we should skip rather than postpone, since we'll
+               * never be able to meet this req... */
+              notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
+                            _("%s can't build %s from the worklist; "
+                              "only AI of level %s may build this.  "
+                              "Postponing..."),
+                            pcity->name,
+                            get_impr_name_ex(pcity, building->index),
+                            ai_level_name(preq->source.value.level));
+              script_signal_emit("building_cant_be_built", 3,
+                                 API_TYPE_BUILDING_TYPE, building,
+                                 API_TYPE_CITY, pcity,
+                                 API_TYPE_STRING, "need_ai_level");
+	      break;
 	    case REQ_NONE:
 	    case REQ_LAST:
 	      assert(0);

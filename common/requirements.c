@@ -41,7 +41,8 @@ static const char *req_source_type_names[] = {
   "UnitClass",
   "OutputType",
   "Specialist",
-  "MinSize"
+  "MinSize",
+  "AI"
 };
 
 /* Names of requirement ranges. These must correspond to enum req_range in
@@ -174,6 +175,12 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_AI:
+    source.value.level = find_ai_level_by_name(value);
+    if (source.value.level != AI_LEVEL_LAST) {
+      return source;
+    }
+    break;
   case REQ_LAST:
     break;
   }
@@ -231,6 +238,9 @@ struct req_source req_source_from_values(int type, int value)
     return source;
   case REQ_MINSIZE:
     source.value.minsize = value;
+    return source;
+  case REQ_AI:
+    source.value.level = value;
     return source;
   case REQ_LAST:
     return source;
@@ -291,6 +301,9 @@ void req_source_get_values(const struct req_source *source,
   case REQ_MINSIZE:
     *value = source->value.minsize;
     return;
+  case REQ_AI:
+    *value = source->value.level;
+    return;
   case REQ_LAST:
     break;
   }
@@ -339,6 +352,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case REQ_GOV:
     case REQ_TECH:
     case REQ_NATION:
+    case REQ_AI:
       req.range = REQ_RANGE_PLAYER;
       break;
     }
@@ -359,6 +373,7 @@ struct requirement req_from_str(const char *type, const char *range,
     invalid = (req.range < REQ_RANGE_PLAYER);
     break;
   case REQ_GOV:
+  case REQ_AI:
     invalid = (req.range != REQ_RANGE_PLAYER);
     break;
   case REQ_BUILDING:
@@ -860,6 +875,11 @@ bool is_req_active(const struct player *target_player,
   case REQ_MINSIZE:
     eval = target_city && target_city->size >= req->source.value.minsize;
     break;
+  case REQ_AI:
+    eval = target_player
+      && target_player->ai.control
+      && target_player->ai.skill_level == req->source.value.level;
+    break;
   case REQ_LAST:
     assert(0);
     return FALSE;
@@ -922,6 +942,7 @@ bool is_req_unchanging(const struct requirement *req)
   case REQ_NONE:
   case REQ_OUTPUTTYPE:
   case REQ_SPECIALIST: /* Only so long as it's at local range only */
+  case REQ_AI:
     return TRUE;
   case REQ_TECH:
   case REQ_GOV:
@@ -982,6 +1003,8 @@ bool are_req_sources_equal(const struct req_source *psource1,
     return psource1->value.specialist == psource2->value.specialist;
   case REQ_MINSIZE:
     return psource1->value.minsize == psource2->value.minsize;
+  case REQ_AI:
+    return psource1->value.level == psource2->value.level;
   case REQ_LAST:
     break;
   }
@@ -1039,6 +1062,11 @@ char *get_req_source_text(const struct req_source *psource,
   case REQ_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),
 		 psource->value.minsize);
+    break;
+  case REQ_AI:
+    /* TRANS: "Hard AI" */
+    cat_snprintf(buf, bufsz, _("%s AI"),
+                 ai_level_name(psource->value.level));
     break;
   case REQ_LAST:
     assert(0);

@@ -210,6 +210,10 @@ static void insert_requirement(struct requirement *req,
     cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n\n"),
 		 req->source.value.minsize);
     return;
+  case REQ_AI:
+    cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n\n"),
+                 ai_level_name(req->source.value.level));
+    return;
   }
   assert(0);
 }
