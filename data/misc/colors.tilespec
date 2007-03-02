@@ -90,23 +90,23 @@ overview_viewrect = {"r", "g", "b"
 }
 
 ; Reqtree
-reqtree_researching = {"r", "g", "b"
-    0, 255, 200
-}
 reqtree_known = {"r", "g", "b"
-    0, 200,   0
-}
-reqtree_reachablegoal = {"r", "g", "b"
-    255, 128, 128
-}
-reqtree_unreachablegoal = {"r", "g", "b"
-    255,   0, 128
+    255, 255, 255
 }
 reqtree_reachable = {"r", "g", "b"
-    255, 255,   0
+    210, 180, 140
 }
 reqtree_unreachable = {"r", "g", "b"
-    255,   0,   0
+    190, 150, 110
+}
+reqtree_researching = {"r", "g", "b"
+    255, 250, 70
+}
+reqtree_reachablegoal = {"r", "g", "b"
+    95,  160, 190
+}
+reqtree_unreachablegoal = {"r", "g", "b"
+    85,  120, 180
 }
 reqtree_background = {"r", "g", "b"
     0,   0,   0
