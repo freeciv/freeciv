@@ -625,10 +625,8 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   }
 
   if (!parameter->is_pos_dangerous
-      && get_player_bonus(unit_owner(punit), EFT_UNIT_RECOVER)
-      < (unit_type(punit)->hp *
-         get_unit_class(unit_type(punit))->hp_loss_pct / 100)) {
-    /* United nations cancels out helicoptor fuel loss. */
+      && is_losing_hp(punit)) {
+    /* Unit loses hitpoints each turn when not in city/safe base/carrier */
     parameter->is_pos_dangerous = air_is_pos_dangerous;
     parameter->turn_mode = TM_WORST_TIME;
   }

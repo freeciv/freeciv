@@ -1453,3 +1453,13 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
 
   return result;
 }
+
+/**************************************************************************
+  Does unit lose hitpoints each turn?
+**************************************************************************/
+bool is_losing_hp(const struct unit *punit)
+{
+  return get_player_bonus(unit_owner(punit), EFT_UNIT_RECOVER)
+    < (unit_type(punit)->hp *
+       get_unit_class(unit_type(punit))->hp_loss_pct / 100);
+}

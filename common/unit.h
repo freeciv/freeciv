@@ -298,4 +298,6 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
 					       const struct unit *punit);
 
+bool is_losing_hp(const struct unit *punit);
+
 #endif  /* FC__UNIT_H */
