@@ -137,6 +137,7 @@ artists = "
    Peru			Brett Roper
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
+   Pirate		Tobias Jakobs
    Poland		Cezary Biele
    Polynesian		Daniel Markstedt
    Portugal		Diogo Mamede
@@ -329,6 +330,7 @@ sprites =
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"
+		"f.pirate", "flags/pirate"
 		"f.poland", "flags/poland"
 		"f.polynesian", "flags/polynesian"
 		"f.portugal", "flags/portugal"

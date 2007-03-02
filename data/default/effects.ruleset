@@ -30,6 +30,14 @@ reqs    =
       "Nation", "Barbarian", "Player"
     }
 
+[effect_barb2]
+name    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Pirate", "Player"
+    }
+
 ; Specialist output bonuses
 
 [effect_elvis]
