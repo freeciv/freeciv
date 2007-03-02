@@ -20,11 +20,13 @@ pkgdata_DATA = \
 		australian.ruleset \
 		austrian.ruleset \
 		aymara.ruleset \
+		azeri.ruleset \
 		aztec.ruleset \
 		babylonian.ruleset \
 		barbarian.ruleset \
 		basque.ruleset \
 		bavarian.ruleset \
+		belarusian.ruleset \
 		belgian.ruleset \
 		bengali.ruleset \
 		boer.ruleset \
@@ -89,10 +91,12 @@ pkgdata_DATA = \
 		italian.ruleset \
 		japanese.ruleset \
 		kanem-bornu.ruleset \
+		kazakh.ruleset \
 		kenyan.ruleset \
 		khwarezmian.ruleset \
 		kongo.ruleset \
 		korean.ruleset \
+		kyrgyz.ruleset \
 		lankese.ruleset \
 		latvian.ruleset \
 		libyan.ruleset \
@@ -108,6 +112,7 @@ pkgdata_DATA = \
 		martian.ruleset \
 		mayan.ruleset \
 		mexican.ruleset \
+		moldovan.ruleset \
 		mongol.ruleset \
 		muskogee.ruleset \
 		newzealand.ruleset \
@@ -155,6 +160,7 @@ pkgdata_DATA = \
 		taino.ruleset \
 		tairona.ruleset \
 		taiwanese.ruleset \
+		tajik.ruleset \
 		texan.ruleset \
 		thai.ruleset \
 		thracian.ruleset \
@@ -162,11 +168,13 @@ pkgdata_DATA = \
 		tocharian.ruleset \
 		tunisian.ruleset \
 		tupi.ruleset \
+		turkmen.ruleset \
 		turk.ruleset \
 		ukrainian.ruleset \
 		un.ruleset \
 		uruguayan.ruleset \
 		uyghur.ruleset \
+		uzbek.ruleset \
 		venezuelan.ruleset \
 		vietnamese.ruleset \
 		viking.ruleset \

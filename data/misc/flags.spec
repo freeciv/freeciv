@@ -32,6 +32,7 @@ artists = "
    Bangladesh		Cezary Biele
    Barbarian		Tobias Jakobs
    Bavarian		Jörgen Scheibengruber
+   Belarus		Gregory Maxwell and Zachary Harden
    Belgium		Daniel McRae
    Boer			Caleb Moore
    Bosnia		Daniel McRae
@@ -97,11 +98,13 @@ artists = "
    Jbonai		Elmo Todurov
    Kampuchea		Caleb Moore
    Kanem-Bornu		Daniel Markstedt
+   Kazakhstan		-xfi-
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
    Khwarezm		Dan Cottrell and Daniel Markstedt
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
+   Kyrgyzstan		-xfi-
    Latvia		Lauris Bukšis
    Libya		Cezary Biele
    Lithuania		Christian Schaller
@@ -115,6 +118,7 @@ artists = "
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
    Mexico		Cezary Biele
+   Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
    Muskogee		Daniel Markstedt
    Myanmar		Caleb Moore
@@ -169,6 +173,7 @@ artists = "
    Taino		Daniel Markstedt
    Tairona		Dan Cottrell and Daniel Markstedt
    Taiwan		Cezary Biele
+   Tajikistan		Matthew Gatto and Daniil Ivanov
    Texas		Paul B. Joiner
    Thailand		Lauris Kaplinski
    Thrace		William Allen Simpson and Daniel Markstedt
@@ -177,6 +182,7 @@ artists = "
    Tunisia		Tobias Jakobs
    Tupi			Dan Cottrell and Daniel Markstedt
    Turkey		David Benbennick
+   Turkmenistan		Caleb Moore
    Ukraine		Lauris Kaplinski
    United Kingdom	Daniel McRae
    United Nations	Tobias Jakobs
@@ -184,6 +190,7 @@ artists = "
    Uruguay		Guillermo Romero
    USA			Daniel McRae
    Uyghur		Daniel Markstedt
+   Uzbekistan		Zachary Harden
    Venezuela		Sigge Kotliar
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
@@ -215,6 +222,7 @@ sprites =
 		"f.bangladesh", "flags/bangladesh"
 		"f.barbarian", "flags/barbarian"
 		"f.bavarian", "flags/bavarian"
+		"f.belarus", "flags/belarus"
 		"f.belgium", "flags/belgium"
 		"f.boer", "flags/boer"			; old south african
 		"f.bosnia", "flags/bosnia"
@@ -247,8 +255,8 @@ sprites =
 		"f.europe", "flags/europe"
 		"f.euskadi", "flags/euskadi"
 		"f.finland", "flags/finland"
-		"f.france_old", "flags/france_old"	; alt Gallic
 		"f.france", "flags/france"
+		"f.france_old", "flags/france_old"	; alt Gallic
 		"f.galicia", "flags/galicia"
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"
@@ -266,14 +274,14 @@ sprites =
 		"f.hungary", "flags/hungary"
 		"f.iceland", "flags/iceland"
 		"f.illyria", "flags/illyria"
-		"f.india", "flags/india"
 		"f.inca", "flags/inca"
+		"f.india", "flags/india"
 		"f.indonesia", "flags/indonesia"
 		"f.innu", "flags/innu"
 		"f.iran_ancient", "flags/iran_ancient"
 		"f.iran", "flags/iran"
-		"f.iraq_old", "flags/iraq_old"		; used by Babylonian
 		"f.iraq", "flags/iraq"
+		"f.iraq_old", "flags/iraq_old"		; used by Babylonian
 		"f.ireland", "flags/ireland"
 		"f.iroquois", "flags/iroquois"
 		"f.israel", "flags/israel"
@@ -282,11 +290,13 @@ sprites =
 		"f.jbonai", "flags/jbonai"
 		"f.kampuchea", "flags/kampuchea"
 		"f.kanem-bornu", "flags/kanem-bornu"
+		"f.kazakhstan", "flags/kazakhstan"
 		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"
 		"f.khwarezm", "flags/khwarezm"
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
+		"f.kyrgyzstan", "flags/kyrgyzstan"
 		"f.latvia", "flags/latvia"
 		"f.libya", "flags/libya"
 		"f.lithuania", "flags/lithuania"
@@ -300,6 +310,7 @@ sprites =
 		"f.mars", "flags/mars"
 		"f.maya", "flags/maya"
 		"f.mexico", "flags/mexico"
+		"f.moldova", "flags/moldova"
 		"f.mongolia", "flags/mongolia"
 		"f.muskogee", "flags/muskogee"
 		"f.myanmar", "flags/myanmar"
@@ -307,14 +318,14 @@ sprites =
 		"f.netherlands", "flags/netherlands"
 		"f.newzealand", "flags/newzealand"
 		"f.nigeria", "flags/nigeria"
+		"f.norway", "flags/norway"
 		"f.nubia", "flags/nubia"
 		"f.numidia", "flags/numidia"
 		"f.nuu-chah-nulth", "flags/nuu-chah-nulth"
-		"f.norway", "flags/norway"
 		"f.ottoman", "flags/ottoman"
-		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.pakistan", "flags/pakistan"
 		"f.palmyra", "flags/palmyra"
+		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"
@@ -354,6 +365,7 @@ sprites =
 		"f.taino", "flags/taino"
 		"f.tairona", "flags/tairona"
 		"f.taiwan", "flags/taiwan"
+		"f.tajikistan", "flags/tajikistan"
 		"f.texas", "flags/texas"
 		"f.thailand", "flags/thailand"
 		"f.thrace", "flags/thrace"
@@ -362,6 +374,7 @@ sprites =
 		"f.tunisia", "flags/tunisia"
 		"f.tupi", "flags/tupi"
 		"f.turkey", "flags/turkey"
+		"f.turkmenistan", "flags/turkmenistan"
 		"f.ukraine", "flags/ukraine"
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"
@@ -369,6 +382,7 @@ sprites =
 		"f.uruguay", "flags/uruguay"
 		"f.usa", "flags/usa"
 		"f.uyghur", "flags/uyghur"
+		"f.uzbekistan", "flags/uzbekistan"
 		"f.venezuela", "flags/venezuela"
 		"f.vietnam", "flags/vietnam"
 		"f.viking", "flags/viking"

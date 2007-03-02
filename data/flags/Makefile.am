@@ -24,6 +24,7 @@ flag_files =				\
 		bangladesh.png		\
 		barbarian.png		\
 		bavarian.png		\
+		belarus.png		\
 		belgium.png		\
 		boer.png		\
 		bosnia.png		\
@@ -89,24 +90,27 @@ flag_files =				\
 		jbonai.png		\
 		kampuchea.png		\
 		kanem-bornu.png		\
+		kazakhstan.png		\
 		keetoowah.png		\
 		kenya.png		\
 		khwarezm.png		\
 		kongo.png		\
 		korea.png		\
+		kyrgyzstan.png		\
 		latvia.png		\
 		libya.png		\
 		lithuania.png		\
+		macedonia.png		\
 		madagascar.png		\
 		majapahit.png		\
 		malaysia.png		\
 		mali.png		\
-		macedonia.png		\
 		maori.png		\
 		mapuche.png		\
 		mars.png		\
 		maya.png		\
 		mexico.png		\
+		moldova.png		\
 		mongolia.png		\
 		muskogee.png		\
 		myanmar.png		\
@@ -161,6 +165,7 @@ flag_files =				\
 		taino.png		\
 		tairona.png		\
 		taiwan.png		\
+		tajikistan.png		\
 		texas.png		\
 		thailand.png		\
 		thrace.png		\
@@ -169,6 +174,7 @@ flag_files =				\
 		tunisia.png		\
 		tupi.png		\
 		turkey.png		\
+		turkmenistan.png		\
 		ukraine.png		\
 		united_kingdom.png	\
 		united_nations.png	\
@@ -176,6 +182,7 @@ flag_files =				\
 		uruguay.png		\
 		usa.png			\
 		uyghur.png		\
+		uzbekistan.png		\
 		venezuela.png		\
 		vietnam.png		\
 		viking.png		\
@@ -200,10 +207,11 @@ shield_files =					\
 		aymara-shield.png		\
 		azerbaijan-shield.png		\
 		aztec-shield.png		\
+		babylon-shield.png		\
 		bangladesh-shield.png		\
 		barbarian-shield.png		\
 		bavarian-shield.png		\
-		babylon-shield.png		\
+		belarus-shield.png		\
 		belgium-shield.png		\
 		boer-shield.png			\
 		bosnia-shield.png		\
@@ -269,24 +277,27 @@ shield_files =					\
 		jbonai-shield.png		\
 		kampuchea-shield.png		\
 		kanem-bornu-shield.png		\
+		kazakhstan-shield.png		\
 		keetoowah-shield.png		\
 		kenya-shield.png		\
 		khwarezm-shield.png		\
 		kongo-shield.png		\
 		korea-shield.png		\
+		kyrgyzstan-shield.png		\
 		latvia-shield.png		\
 		libya-shield.png		\
 		lithuania-shield.png		\
+		macedonia-shield.png		\
 		madagascar-shield.png		\
 		majapahit-shield.png		\
 		malaysia-shield.png		\
 		mali-shield.png			\
-		macedonia-shield.png		\
 		maori-shield.png		\
 		mapuche-shield.png		\
 		mars-shield.png			\
 		maya-shield.png			\
 		mexico-shield.png		\
+		moldova-shield.png		\
 		mongolia-shield.png		\
 		muskogee-shield.png		\
 		myanmar-shield.png		\
@@ -341,6 +352,7 @@ shield_files =					\
 		taino-shield.png		\
 		tairona-shield.png		\
 		taiwan-shield.png		\
+		tajikistan-shield.png		\
 		texas-shield.png		\
 		thailand-shield.png		\
 		thrace-shield.png		\
@@ -349,6 +361,7 @@ shield_files =					\
 		tunisia-shield.png		\
 		tupi-shield.png			\
 		turkey-shield.png		\
+		turkmenistan-shield.png		\
 		ukraine-shield.png		\
 		united_kingdom-shield.png	\
 		united_nations-shield.png	\
@@ -356,6 +369,7 @@ shield_files =					\
 		uruguay-shield.png		\
 		usa-shield.png			\
 		uyghur-shield.png		\
+		uzbekistan-shield.png		\
 		venezuela-shield.png		\
 		vietnam-shield.png		\
 		viking-shield.png		\
@@ -365,9 +379,9 @@ shield_files =					\
 
 svg_files = 				\
 		aborigines.svg		\
+		afghanistan.svg		\
 		ainu.svg		\
 		akwe.svg		\
-		afghanistan.svg		\
 		algeria.svg		\
 		antarctica.svg		\
 		arab.svg		\
@@ -384,6 +398,7 @@ svg_files = 				\
 		bangladesh.svg		\
 		barbarian.svg		\
 		bavarian.svg		\
+		belarus.svg		\
 		belgium.svg		\
 		boer.svg		\
 		bosnia.svg		\
@@ -449,11 +464,13 @@ svg_files = 				\
 		jbonai.svg		\
 		kampuchea.svg		\
 		kanem-bornu.svg		\
+		kazakhstan.svg		\
 		keetoowah.svg		\
 		kenya.svg		\
 		khwarezm.svg		\
 		kongo.svg		\
 		korea.svg		\
+		kyrgyzstan.svg		\
 		latvia.svg		\
 		libya.svg		\
 		lithuania.svg		\
@@ -467,6 +484,7 @@ svg_files = 				\
 		mars.svg		\
 		maya.svg		\
 		mexico.svg		\
+		moldova.svg		\
 		mongolia.svg		\
 		muskogee.svg		\
 		myanmar.svg		\
@@ -521,6 +539,7 @@ svg_files = 				\
 		taino.svg		\
 		tairona.svg		\
 		taiwan.svg		\
+		tajikistan.svg		\
 		texas.svg		\
 		thailand.svg		\
 		thrace.svg		\
@@ -529,6 +548,7 @@ svg_files = 				\
 		tunisia.svg		\
 		tupi.svg		\
 		turkey.svg		\
+		turkmenistan.svg		\
 		ukraine.svg		\
 		united_kingdom.svg	\
 		united_nations.svg	\
@@ -536,6 +556,7 @@ svg_files = 				\
 		uruguay.svg		\
 		usa.svg			\
 		uyghur.svg		\
+		uzbekistan.svg		\
 		venezuela.svg		\
 		vietnam.svg		\
 		viking.svg		\
