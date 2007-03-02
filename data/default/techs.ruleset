@@ -45,10 +45,8 @@ options="1.9"
 ; "Bridge"   = "Settler" unit types can build bridges over rivers
 ; "Railroad" = "Settler" unit types can build rail roads
 ; "Farmland" = "Settler" unit types can build farmland
-; "Fortress" = "Settler" unit types can build fortress
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
 ;                              popultaion by one
-; "Airbase" = "Airbase" unit types can build Airbases
 ; "Build_Airborne" = from now on can build air units (for use by AI)
 
 [advance_advanced_flight]
@@ -200,7 +198,7 @@ graphic_alt = "-"
 name     = _("Construction")
 req1     = "Masonry"
 req2     = "Currency"
-flags    = "Fortress"
+flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
 
@@ -565,7 +563,7 @@ graphic_alt = "-"
 name     = _("Radio")
 req1     = "Flight"
 req2     = "Electricity"
-flags    = "Airbase"
+flags    = ""
 graphic     = "a.radio"
 graphic_alt = "-"
 

@@ -831,16 +831,13 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_FORTRESS:
     pbase = tile_get_base(ptile);
-    return (unit_flag(punit, F_SETTLERS)
-	    && !tile_get_city(ptile)
-	    && player_knows_techs_with_flag(pplayer, TF_FORTRESS)
+    return (can_build_base(punit, base_type_get_by_id(BASE_FORTRESS), ptile)
 	    && (pbase == NULL || pbase->id != BASE_FORTRESS)
 	    && !is_ocean(ptile->terrain));
 
   case ACTIVITY_AIRBASE:
     pbase = tile_get_base(ptile);
-    return (unit_flag(punit, F_AIRBASE)
-	    && player_knows_techs_with_flag(pplayer, TF_AIRBASE)
+    return (can_build_base(punit, base_type_get_by_id(BASE_AIRBASE), ptile)
 	    && (pbase == NULL || pbase->id != BASE_AIRBASE)
 	    && !is_ocean(ptile->terrain));
 

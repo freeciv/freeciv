@@ -170,7 +170,7 @@ graphic_alt = "-"
 name     = _("Construction")
 req1     = "Masonry"
 req2     = "Currency"
-flags    = "Fortress"
+flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
 

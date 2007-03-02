@@ -187,7 +187,7 @@ graphic_alt = "-"
 name     = _("Construction")
 req1     = "Masonry"
 req2     = "Currency"
-flags    = "Fortress"
+flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
 
@@ -560,7 +560,7 @@ graphic_alt = "-"
 name     = _("Radio")
 req1     = "Flight"
 req2     = "Electricity"
-flags    = "Airbase"
+flags    = ""
 graphic     = "a.radio"
 graphic_alt = "-"
 

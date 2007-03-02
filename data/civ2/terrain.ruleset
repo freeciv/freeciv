@@ -689,6 +689,8 @@ identifier  = "u"
 ; fortress and airbase.
 ;
 ; name                    = Name of the base type.
+; reqs 	                  = requirements to build the base (see effects.ruleset
+;                           and README.effects for help on requirements)
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "DefenseBonus"      = Units inside gain defense bonus
@@ -703,10 +705,18 @@ identifier  = "u"
 
 [fortress]
 name        = _("Fortress")
+reqs        =
+    { "type", "name", "range"
+      "Tech", "Construction", "Player"
+    }
 flags       = "NoAggressive", "DefenseBonus", "Watchtower", "ClaimTerritory",
               "NoStackDeath", "DiplomatDefense"
 
 [airbase]
 name        = _("Airbase")
+reqs        =
+    { "type", "name", "range"
+      "Tech", "Radio", "Player"
+    }
 flags       = "NoStackDeath", "DiplomatDefense", "Refuel", "NoHPLoss",
               "AttackUnreachable", "ParadropFrom"

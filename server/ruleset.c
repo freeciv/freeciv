@@ -1787,6 +1787,7 @@ static void load_ruleset_terrain(struct section_file *file)
     char **slist;
     int j;
     char *section;
+    struct requirement_vector *reqs;
 
     pbase->name = Q_(pbase->name_orig);
 
@@ -1795,9 +1796,12 @@ static void load_ruleset_terrain(struct section_file *file)
     } else if (pbase->id == BASE_AIRBASE) {
       section = "airbase";
     } else {
-      freelog(LOG_ERROR, "Unhandled base type in loas_ruleset_terrain()");
+      freelog(LOG_ERROR, "Unhandled base type in load_ruleset_terrain()");
       exit(EXIT_FAILURE);
     }
+    reqs = lookup_req_list(file, section, "reqs");
+    requirement_vector_copy(&pbase->reqs, reqs);
+
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
     BV_CLR_ALL(pbase->flags);
     for (j = 0; j < nval; j++) {
@@ -3051,8 +3055,17 @@ static void send_ruleset_bases(struct conn_list *dest)
   struct packet_ruleset_base packet;
 
   base_type_iterate(b) {
+    int j;
+
     packet.id = b->id;
     sz_strlcpy(packet.name, b->name);
+
+    j = 0;
+    requirement_vector_iterate(&b->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
+
     packet.flags = b->flags;
 
     lsend_packet_ruleset_base(dest, &packet);

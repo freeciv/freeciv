@@ -26256,7 +26256,7 @@ void lsend_packet_ruleset_unit_class(struct conn_list *dest, const struct packet
 
 #define cmp_packet_ruleset_base_100 cmp_const
 
-BV_DEFINE(packet_ruleset_base_100_fields, 3);
+BV_DEFINE(packet_ruleset_base_100_fields, 5);
 
 static struct packet_ruleset_base *receive_packet_ruleset_base_100(struct connection *pc, enum packet_type type)
 {
@@ -26292,6 +26292,28 @@ static struct packet_ruleset_base *receive_packet_ruleset_base_100(struct connec
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
   if (BV_ISSET(fields, 2)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->reqs_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 3)) {
+    
+    {
+      int i;
+    
+      if(real_packet->reqs_count > MAX_NUM_REQS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->reqs_count = MAX_NUM_REQS;
+      }
+      for (i = 0; i < real_packet->reqs_count; i++) {
+        dio_get_requirement(&din, &real_packet->reqs[i]);
+      }
+    }
+  }
+  if (BV_ISSET(fields, 4)) {
     DIO_BV_GET(&din, real_packet->flags);
   }
 
@@ -26336,9 +26358,29 @@ static int send_packet_ruleset_base_100(struct connection *pc, const struct pack
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  differ = (old->reqs_count != real_packet->reqs_count);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
+
+
+    {
+      differ = (old->reqs_count != real_packet->reqs_count);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->reqs_count; i++) {
+          if (!are_requirements_equal(&old->reqs[i], &real_packet->reqs[i])) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26353,6 +26395,19 @@ static int send_packet_ruleset_base_100(struct connection *pc, const struct pack
     dio_put_string(&dout, real_packet->name);
   }
   if (BV_ISSET(fields, 2)) {
+    dio_put_uint8(&dout, real_packet->reqs_count);
+  }
+  if (BV_ISSET(fields, 3)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->reqs_count; i++) {
+        dio_put_requirement(&dout, &real_packet->reqs[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 4)) {
   DIO_BV_PUT(&dout, packet->flags);
   }
 

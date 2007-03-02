@@ -877,21 +877,8 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     }
 
     /* Fortress. */
-    switch (techs_with_flag_string(TF_FORTRESS, buf2, sizeof(buf2))) {
-    case 0:
-      sprintf(buf + strlen(buf), _("* Can build fortresses.\n"));
-      break;
-    case 1:
-      sprintf(buf + strlen(buf),
-	      _("* Can build fortresses (if %s is known).\n"), buf2);
-      break;
-    default:
-      sprintf(buf + strlen(buf),
-	      _("* Can build fortresses (if any of the following are "
-		"known: %s).\n"), buf2);
-      break;
-    }
-
+    sprintf(buf + strlen(buf), _("* Can build fortresses.\n"));
+ 
     /* Pollution, fallout. */
     sprintf(buf + strlen(buf), _("* Can clean pollution from tiles.\n"));
     sprintf(buf + strlen(buf),
@@ -1140,22 +1127,6 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
     sprintf(buf + strlen(buf), _("* Allows %s to build roads on river "
 				 "squares.\n"), units_str);
     free((void *) units_str);
-  }
-
-  if (tech_flag(i, TF_FORTRESS)) {
-    const char *units_str = get_units_with_flag_string(F_SETTLERS);
-    sprintf(buf + strlen(buf), _("* Allows %s to build fortresses.\n"),
-	    units_str);
-    free((void *) units_str);
-  }
-
-  if (tech_flag(i, TF_AIRBASE)) {
-    const char *units_str = get_units_with_flag_string(F_AIRBASE);
-    if (units_str) {
-      sprintf(buf + strlen(buf), _("* Allows %s to build airbases.\n"),
-	      units_str);
-      free((void *) units_str);
-    }
   }
 
   if (tech_flag(i, TF_RAILROAD)) {

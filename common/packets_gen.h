@@ -965,6 +965,8 @@ struct packet_ruleset_unit_class {
 struct packet_ruleset_base {
   int id;
   char name[MAX_LEN_NAME];
+  int reqs_count;
+  struct requirement reqs[MAX_NUM_REQS];
   bv_base_flags flags;
 };
 

@@ -14,6 +14,7 @@
 #define FC__BASE_H
 
 #include "fc_types.h"
+#include "requirements.h"
 #include "terrain.h"
 
 enum base_type_id { BASE_FORTRESS = 0, BASE_AIRBASE, BASE_LAST };
@@ -41,11 +42,15 @@ struct base_type {
   const char *name;
   char name_orig[MAX_LEN_NAME];
   int id;
+  struct requirement_vector reqs;
   bv_base_flags flags;
 };
 
 bool base_flag(const struct base_type *pbase, enum base_flag_id flag);
 const char *base_name(const struct base_type *pbase);
+
+bool can_build_base(const struct unit *punit, const struct base_type *pbase,
+                    const struct tile *ptile);
 
 struct base_type *base_type_get_from_special(bv_special spe);
 

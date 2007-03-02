@@ -2447,6 +2447,7 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
 void handle_ruleset_base(struct packet_ruleset_base *p)
 {
   struct base_type *pbase = base_type_get_by_id(p->id);
+  int i;
 
   if (!pbase) {
     freelog(LOG_ERROR,
@@ -2457,6 +2458,11 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
 
   sz_strlcpy(pbase->name_orig, p->name);
   pbase->name = Q_(pbase->name_orig);
+
+  for (i = 0; i < p->reqs_count; i++) {
+    requirement_vector_append(&pbase->reqs, &p->reqs[i]);
+  }
+  assert(pbase->reqs.size == p->reqs_count);
 
   pbase->flags = p->flags;
 }

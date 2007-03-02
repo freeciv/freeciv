@@ -18,6 +18,8 @@
 #include <assert.h>
 
 #include "base.h"
+#include "tile.h"
+#include "unit.h"
 
 static struct base_type base_types[BASE_LAST];
 
@@ -41,6 +43,27 @@ bool base_flag(const struct base_type *pbase, enum base_flag_id flag)
 const char *base_name(const struct base_type *pbase)
 {
   return pbase->name;
+}
+
+/**************************************************************************
+  Can unit build base to given tile?
+**************************************************************************/
+bool can_build_base(const struct unit *punit, const struct base_type *pbase,
+                    const struct tile *ptile)
+{
+  if ((pbase->id == BASE_FORTRESS && !unit_flag(punit, F_SETTLERS)) ||
+      (pbase->id == BASE_AIRBASE && !unit_flag(punit, F_AIRBASE))) {
+    /* This unit cannot build this kind of base */
+    return FALSE;
+  }
+
+  if (tile_get_city(ptile)) {
+    /* Bases cannot be built inside cities */
+    return FALSE;
+  }
+
+  return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
+                         unit_type(punit), NULL, NULL, &pbase->reqs);
 }
 
 /****************************************************************************
@@ -96,5 +119,6 @@ void base_types_init(void)
 
   for (i = 0; i < ARRAY_SIZE(base_types); i++) {
     base_types[i].id = i;
+    requirement_vector_init(&base_types[i].reqs);
   }
 }
