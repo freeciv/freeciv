@@ -740,8 +740,8 @@ other players.\
     If you have recently contacted (or established an embassy \
 with) another player, then you can arrange a diplomatic meeting. \
 This is done by going to the `Reports' menu, selecting `Players', \
-clicking on the player with whom you wish to meet, and selecting \
-`Meet' from the `Player' menu.  If the entry under the embassy \
+clicking on the player with whom you wish to meet, and finally \
+clicking the `Meet' button below.  If the entry under the embassy \
 column is not blank and the other player is connected (or is a \
 server AI) then a diplomacy menu will pop up.\
 "), _("\
@@ -749,9 +749,15 @@ server AI) then a diplomacy menu will pop up.\
 \n\n\
    - Trade Maps (Sea or entire map),\
 \n\n\
-   - Trade advances,\
+   - Trade Advances,\
 \n\n\
    - Trade Cities,\
+\n\n\
+   - Trade Shared Vision,\
+\n\n\
+   - Exchange Embassies,\
+\n\n\
+   - Create Treaties,\
 \n\n\
    - and Give Gold.\
 "), _("\
@@ -771,6 +777,46 @@ on your map.  One important thing to note: any units \
 in the field and supported by that city are also transferred \
 (but not those sitting in other cities).  So make sure the \
 other player isn't getting a better deal than you expect.\
+"), _("\
+     There are five diplomatic states between players: War, \
+Cease-fire, Armistice, Peace, and Alliance. The first is the default state, \
+while the others can be achieved by signing diplomatic treaties.
+"), _("\
+     To have a diplomatic relationship with another player, you must fist \
+establish first contact with that player. To establish first contact, you \
+have to move one of your units next to a city or unit belonging to that \
+player, or vice versa. Unless you establish an embassy with that player, \
+you may again lose contact with them after a set number of turns without \
+direct physical contact.
+"), _("\
+     The diplomatic state between players defaults to War. \
+During War, you can freely move you units inside enemy territory and \
+attack their units and cities at will.\
+"), _("\
+     When two players decide to end hostilities between them, they can \
+agree on a Cease-fire treaty. After a set number of turns, the Cease-fire \
+will lead back to War. Upon first contact with an AI player, it will \
+automatically offer you a Cease-fire treaty.\
+"), _("\
+     If you wish for a more permanent peaceful coexistence with another \
+player, you may enter an Armistice, that after another set number of turns \
+will turn into a permanent Peace treaty. Breaking an Armistice will drop \
+you directly back to War.\
+"), _("\
+     At the moment two players enter into the diplomatic state of Peace, \
+all units belonging to either player that happen to be within the other's \
+borders, will be automatically disbanded according to the treaty. After \
+this, you may not move units into the other's territory until you either \
+declare War, or forge an Alliance. Breaking a Peace treaty will drop you \
+directly back to War.\
+"), _("\
+     An Alliance is the ultimate diplomatic relationship between two \
+players. In this state, you may move units into each other's cities and \
+your units may share the same square. An allied AI player will freely give \
+you its world maps, shared vision, as well as seriously consider trading \
+technologies and cities. The only drawback with an alliance, is that it \
+will draw you into to any wars your ally enters against other players. \
+Breaking an Alliance will drop you to an Armistice treaty.\
 ")
 
 [help_governor]
