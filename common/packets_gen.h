@@ -975,6 +975,7 @@ struct packet_ruleset_control {
   int num_unit_types;
   int num_impr_types;
   int num_tech_types;
+  int num_base_types;
   int government_count;
   int nation_count;
   int styles_count;
