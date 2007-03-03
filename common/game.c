@@ -274,6 +274,7 @@ void game_init(void)
   game.control.num_unit_types = 0;
   game.control.num_impr_types = 0;
   game.control.num_tech_types = 0;
+  game.control.num_base_types = 0;
   game.control.nation_count = 0;
   game.control.government_count = 0;
 

@@ -2446,8 +2446,12 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
 ****************************************************************************/
 void handle_ruleset_base(struct packet_ruleset_base *p)
 {
-  struct base_type *pbase = base_type_get_by_id(p->id);
+  struct base_type *pbase;
   int i;
+
+  assert(p->id < game.control.num_base_types);
+
+  pbase = base_type_get_by_id(p->id);
 
   if (!pbase) {
     freelog(LOG_ERROR,

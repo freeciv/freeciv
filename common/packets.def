@@ -1288,6 +1288,7 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 num_unit_types;
   UINT8 num_impr_types;
   UINT8 num_tech_types;
+  UINT8 num_base_types;
   UINT8 government_count;
   UINT8 nation_count;
   UINT8 styles_count;

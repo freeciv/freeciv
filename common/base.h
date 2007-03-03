@@ -63,7 +63,7 @@ void base_types_init(void);
 {                                                                           \
   int _index;                                                               \
                                                                             \
-  for (_index = 0; _index < BASE_LAST; _index++) {                          \
+  for (_index = 0; _index < game.control.num_base_types; _index++) {        \
     struct base_type *pbase = base_type_get_by_id(_index);
 
 #define base_type_iterate_end                                               \
