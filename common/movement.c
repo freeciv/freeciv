@@ -272,17 +272,16 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return TRUE;
   }
 
-  switch (get_unit_move_type(unit_type(punit))) {
-  case LAND_MOVING:
-  case SEA_MOVING:
-    return TRUE;
-  case AIR_MOVING:
-    return tile_has_base_flag(punit->tile, BF_REFUEL);
-  case HELI_MOVING:
-    return tile_has_base_flag(punit->tile, BF_NO_HP_LOSS);
-  default:
-    die("Invalid move type");
+  if (unit_type(punit)->fuel > 0
+      && !tile_has_base_flag(punit->tile, BF_REFUEL)) {
+    return FALSE;
   }
+
+  if (is_losing_hp(punit)
+      && !tile_has_base_flag(punit->tile, BF_NO_HP_LOSS)) {
+    return FALSE;
+  }
+
   return TRUE;
 }
 
