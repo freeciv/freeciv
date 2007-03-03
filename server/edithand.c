@@ -198,6 +198,9 @@ void handle_edit_create_city(struct connection *pc,
     return;
   }
 
+  /* Reveal tile to city owner */
+  map_show_tile(pplayer, ptile);
+
   /* new city */
   create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
   pcity = tile_get_city(ptile);
