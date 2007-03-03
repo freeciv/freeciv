@@ -42,7 +42,8 @@ static const char *req_source_type_names[] = {
   "OutputType",
   "Specialist",
   "MinSize",
-  "AI"
+  "AI",
+  "TerrainClass"
 };
 
 /* Names of requirement ranges. These must correspond to enum req_range in
@@ -181,6 +182,12 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_TERRAINCLASS:
+    source.value.terrainclass = get_terrain_class_by_name(value);
+    if (source.value.terrainclass != TC_LAST) {
+      return source;
+    }
+    break;
   case REQ_LAST:
     break;
   }
@@ -241,6 +248,9 @@ struct req_source req_source_from_values(int type, int value)
     return source;
   case REQ_AI:
     source.value.level = value;
+    return source;
+  case REQ_TERRAINCLASS:
+    source.value.terrainclass = value;
     return source;
   case REQ_LAST:
     return source;
@@ -304,6 +314,9 @@ void req_source_get_values(const struct req_source *source,
   case REQ_AI:
     *value = source->value.level;
     return;
+  case REQ_TERRAINCLASS:
+    *value = source->value.terrainclass;
+    return;
   case REQ_LAST:
     break;
   }
@@ -344,6 +357,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case REQ_UNITCLASS:
     case REQ_OUTPUTTYPE:
     case REQ_SPECIALIST:
+    case REQ_TERRAINCLASS:
       req.range = REQ_RANGE_LOCAL;
       break;
     case REQ_MINSIZE:
@@ -366,6 +380,7 @@ struct requirement req_from_str(const char *type, const char *range,
   switch (req.source.type) {
   case REQ_SPECIAL:
   case REQ_TERRAIN:
+  case REQ_TERRAINCLASS:
     invalid = (req.range != REQ_RANGE_LOCAL
 	       && req.range != REQ_RANGE_ADJACENT);
     break;
@@ -712,6 +727,35 @@ static bool is_terrain_in_range(const struct tile *target_tile,
 }
 
 /****************************************************************************
+  Is there a source terrain class within range of the target?
+****************************************************************************/
+static bool is_terrain_class_in_range(const struct tile *target_tile,
+                                      enum req_range range, bool survives,
+                                      enum terrain_class class)
+{
+  if (!target_tile) {
+    return FALSE;
+  }
+
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* The requirement is filled if the tile has the terrain of correct class. */
+    return terrain_belongs_to_class(target_tile->terrain, class);
+  case REQ_RANGE_ADJACENT:
+    return is_terrain_class_near_tile(target_tile, class);
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_WORLD:
+  case REQ_RANGE_LAST:
+    break;
+  }
+
+  assert(0);
+  return FALSE;
+}
+
+/****************************************************************************
   Is there a nation within range of the target?
 ****************************************************************************/
 static bool is_nation_in_range(const struct player *target_player,
@@ -880,6 +924,11 @@ bool is_req_active(const struct player *target_player,
       && target_player->ai.control
       && target_player->ai.skill_level == req->source.value.level;
     break;
+  case REQ_TERRAINCLASS:
+    eval = is_terrain_class_in_range(target_tile,
+                                     req->range, req->survives,
+                                     req->source.value.terrainclass);
+    break;
   case REQ_LAST:
     assert(0);
     return FALSE;
@@ -954,6 +1003,7 @@ bool is_req_unchanging(const struct requirement *req)
     return FALSE;
   case REQ_SPECIAL:
   case REQ_TERRAIN:
+  case REQ_TERRAINCLASS:
     /* Terrains and specials aren't really unchanging; in fact they're
      * practically guaranteed to change.  We return TRUE here for historical
      * reasons and so that the AI doesn't get confused (since the AI
@@ -1005,6 +1055,8 @@ bool are_req_sources_equal(const struct req_source *psource1,
     return psource1->value.minsize == psource2->value.minsize;
   case REQ_AI:
     return psource1->value.level == psource2->value.level;
+  case REQ_TERRAINCLASS:
+    return psource1->value.terrainclass == psource2->value.terrainclass;
   case REQ_LAST:
     break;
   }
@@ -1068,6 +1120,10 @@ char *get_req_source_text(const struct req_source *psource,
     cat_snprintf(buf, bufsz, _("%s AI"),
                  ai_level_name(psource->value.level));
     break;
+   case REQ_TERRAINCLASS:
+     cat_snprintf(buf, bufsz, _("%s terrain"),
+                  terrain_class_name(psource->value.terrainclass));
+     break;
   case REQ_LAST:
     assert(0);
     break;

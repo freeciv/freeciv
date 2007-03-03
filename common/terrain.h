@@ -39,6 +39,8 @@ enum tile_special_type {
   S_LAST
 };
 
+enum terrain_class { TC_LAND, TC_OCEAN, TC_LAST };
+
 /* S_LAST-terminated */
 extern enum tile_special_type infrastructure_specials[];
 
@@ -233,6 +235,13 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
 int count_terrain_flag_near_tile(const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag);
+
+/* Functions to operate on a terrain class. */
+bool terrain_belongs_to_class(const struct terrain *pterrain,
+                              enum terrain_class class);
+bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class class);
+enum terrain_class get_terrain_class_by_name(const char *name);
+const char *terrain_class_name(enum terrain_class class);
 
 /* Special helper functions */
 const char *get_infrastructure_text(bv_special pset);

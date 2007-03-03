@@ -975,7 +975,7 @@ name	= "Output_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
-      "Terrain", "Ocean", "Local"
+      "TerrainClass", "Oceanic", "Local"
       "Building", "Harbour", "City"
       "OutputType", "Food", "Local"
     }
@@ -1146,7 +1146,7 @@ name	= "Output_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
-      "Terrain", "Ocean", "Local"
+      "TerrainClass", "Oceanic", "Local"
       "Building", "Offshore Platform", "City"
       "OutputType", "Shield", "Local"
     }

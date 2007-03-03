@@ -34,8 +34,9 @@ enum req_source_type {
   REQ_UNITCLASS,
   REQ_OUTPUTTYPE,
   REQ_SPECIALIST,
-  REQ_MINSIZE, /* Minimum size: at city range means city size */
-  REQ_AI,      /* AI level of the player */
+  REQ_MINSIZE,      /* Minimum size: at city range means city size */
+  REQ_AI,           /* AI level of the player */
+  REQ_TERRAINCLASS, /* More generic terrain type, currently "Land" or "Ocean" */
   REQ_LAST
 };
 
@@ -69,6 +70,7 @@ struct req_source {
     Specialist_type_id specialist;      /* specialist type */
     int minsize;                        /* source minsize type */
     enum ai_level level;                /* source AI level */
+    enum terrain_class terrainclass;    /* source generic terrain type */
   } value;                              /* source value */
 };
 

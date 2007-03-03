@@ -214,6 +214,10 @@ static void insert_requirement(struct requirement *req,
     cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n\n"),
                  ai_level_name(req->source.value.level));
     return;
+   case REQ_TERRAINCLASS:
+     cat_snprintf(buf, bufsz, _("Requires %s terrain.\n\n"),
+                  terrain_class_name(req->source.value.terrainclass));
+     return;
   }
   assert(0);
 }

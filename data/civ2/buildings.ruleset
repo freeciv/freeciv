@@ -215,7 +215,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Metallurgy", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic		= "b.coastal_defense"
 graphic_alt	= "-"
@@ -322,7 +322,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Seafaring", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic		= "b.harbour"
 graphic_alt	= "-"
@@ -333,7 +333,7 @@ sabotage	= 100
 sound		= "b_harbour"
 sound_alt	= "b_generic"
 helptext	= _("\
-Gives one extra food resource on all Ocean squares.  The city needs\
+Gives one extra food resource on all Oceanic squares.  The city needs\
  to be coastal to build this improvement.\
 ")
 
@@ -490,7 +490,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Miniaturization", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic		= "b.offshore_platform"
 graphic_alt	= "-"
@@ -501,7 +501,7 @@ sabotage	= 100
 sound		= "b_offshore_platform"
 sound_alt	= "b_generic"
 helptext	= _("\
-Adds 1 extra shield resource on all Ocean squares in a city.  The\
+Adds 1 extra shield resource on all Oceanic squares in a city.  The\
  city needs to be coastal to build this improvement.\
 ")
 
@@ -561,7 +561,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Amphibious Warfare", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic		= "b.port_facility"
 graphic_alt	= "-"

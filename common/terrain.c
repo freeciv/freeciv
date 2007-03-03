@@ -41,6 +41,9 @@ enum tile_special_type infrastructure_specials[] = {
   S_LAST
 };
 
+static const char *terrain_class_names[] = {
+  N_("Land"), N_("Oceanic") };
+
 /* T_UNKNOWN isn't allowed here. */
 #define SANITY_CHECK_TERRAIN(pterrain)					    \
   assert((pterrain)->index >= 0						    \
@@ -546,4 +549,80 @@ enum tile_special_type get_preferred_pillage(bv_special pset)
     return S_ROAD;
   }
   return S_LAST;
+}
+
+/****************************************************************************
+  Does terrain type belong to terrain class?
+****************************************************************************/
+bool terrain_belongs_to_class(const struct terrain *pterrain,
+                              enum terrain_class class)
+{
+  switch(class) {
+   case TC_LAND:
+     return !is_ocean(pterrain);
+   case TC_OCEAN:
+     return is_ocean(pterrain);
+   case TC_LAST:
+     return FALSE;
+  }
+
+  assert(FALSE);
+  return FALSE;
+}
+
+/****************************************************************************
+  Is there terrain of the given class near tile?
+****************************************************************************/
+bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class class)
+{
+  switch(class) {
+   case TC_LAND:
+     adjc_iterate(ptile, adjc_tile) {
+       struct terrain* pterrain = tile_get_terrain(adjc_tile);
+       if (pterrain == NULL) {
+         continue;
+       }
+    
+       if (!is_ocean(pterrain)) {
+         return TRUE;
+       }
+     } adjc_iterate_end;
+     return FALSE;
+   case TC_OCEAN:
+     return is_ocean_near_tile(ptile);
+   case TC_LAST:
+     return FALSE;
+  }
+
+  assert(FALSE);
+  return FALSE;
+}
+
+
+/****************************************************************************
+  Return the terrain class value matching name, or TC_LAST if none matches.
+****************************************************************************/
+enum terrain_class get_terrain_class_by_name(const char *name)
+{
+  int i;
+
+  for (i = 0; i < TC_LAST; i++) {
+    if (!strcmp(terrain_class_names[i], name)) {
+      return i;
+    }
+  }
+
+  return TC_LAST;
+}
+
+/****************************************************************************
+  Return localized name of the terrain class
+****************************************************************************/
+const char *terrain_class_name(enum terrain_class class)
+{
+  if (class < 0 || class >= TC_LAST) {
+    return NULL;
+  }
+
+  return _(terrain_class_names[class]);
 }
