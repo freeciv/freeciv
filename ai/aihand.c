@@ -66,6 +66,10 @@
 
 #define LOGLEVEL_TAX LOG_DEBUG
 
+/* When setting rates, we accept negative balance if we have a lot of
+ * gold reserves. This is how long time gold reserves should last */
+#define AI_GOLD_RESERVE_MIN_TURNS 35
+
 /**************************************************************************
  handle spaceship related stuff
 **************************************************************************/
@@ -102,6 +106,8 @@ static void ai_manage_taxes(struct player *pplayer)
   int can_celebrate = 0, total_cities = 0;
   int trade = 0; /* total amount of trade generated */
   int expenses = 0; /* total amount of gold upkeep */
+  int min_reserve = ai_gold_reserve(pplayer);
+  bool refill_coffers = pplayer->economic.gold < min_reserve;
 
   if (!game.info.changable_tax) {
     return; /* This ruleset does not support changing tax rates. */
@@ -127,7 +133,8 @@ static void ai_manage_taxes(struct player *pplayer)
   pplayer->economic.luxury = (100 - pplayer->economic.science
                              - pplayer->economic.tax); /* Spillover */
 
-  /* Now find the minimum tax with positive balance */
+  /* Now find the minimum tax with positive balance
+   * Negative balance is acceptable if we have a lot of gold. */
   while(pplayer->economic.tax < maxrate
         && (pplayer->economic.science > 0
             || pplayer->economic.luxury > 0)) {
@@ -142,7 +149,11 @@ static void ai_manage_taxes(struct player *pplayer)
     rates[TAX] = 100 - rates[SCIENCE] - rates[LUXURY];
     distribute(trade, 3, rates, result);
 
-    if (expenses - result[TAX] > 0) {
+    if (expenses - result[TAX] > 0
+        && (refill_coffers
+            || expenses - result[TAX] >
+               pplayer->economic.gold / AI_GOLD_RESERVE_MIN_TURNS)) {
+      /* Clearly negative balance. Unacceptable */
       pplayer->economic.tax += 10;
       if (pplayer->economic.luxury > 0) {
         pplayer->economic.luxury -= 10;
@@ -150,8 +161,9 @@ static void ai_manage_taxes(struct player *pplayer)
         pplayer->economic.science -= 10;
       }
     } else {
-      /* Ok, got positive balance */
-      if (pplayer->economic.gold < ai_gold_reserve(pplayer)) {
+      /* Ok, got positive balance
+       * Or just slightly negative, if we can afford that for a while */
+      if (refill_coffers) {
         /* Need to refill coffers, increase tax a bit */
         pplayer->economic.tax += 10;
         if (pplayer->economic.luxury > 0) {
