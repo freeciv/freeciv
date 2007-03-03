@@ -81,30 +81,6 @@ static bool is_sea_barbarian(struct player *pplayer)
   return (pplayer->ai.barbarian_type == SEA_BARBARIAN);
 }
 
-/****************************************************************************
-  Return an available barbarian nation.  This simply returns the first
-  available nation, or the first nation already in use by another barbarian
-  player.
-****************************************************************************/
-struct nation_type *pick_barbarian_nation(void)
-{
-  nations_iterate(pnation) {
-    if (is_nation_barbarian(pnation) && !pnation->player) {
-      return pnation;
-    }
-  } nations_iterate_end;
-
-  players_iterate(pplayer) {
-    if (is_barbarian(pplayer)) {
-      assert(is_nation_barbarian(pplayer->nation));
-      return pplayer->nation;
-    }
-  } players_iterate_end;
-
-  assert(0);
-  return NO_NATION_SELECTED;
-}
-
 /**************************************************************************
   Creates the land/sea barbarian player and inits some stuff. If 
   barbarian player already exists, return player pointer. If barbarians 
@@ -112,20 +88,20 @@ struct nation_type *pick_barbarian_nation(void)
 
   Dead barbarians forget the map and lose the money.
 **************************************************************************/
-static struct player *create_barbarian_player(bool land)
+static struct player *create_barbarian_player(enum barbarian_type type)
 {
   int newplayer = game.info.nplayers;
   struct player *barbarians;
-  struct nation_type *nation = pick_barbarian_nation();
+  struct nation_type *nation;
 
   players_iterate(barbarians) {
-    if ((land && is_land_barbarian(barbarians))
-        || (!land && is_sea_barbarian(barbarians))) {
+    if ((type == LAND_BARBARIAN && is_land_barbarian(barbarians))
+        || (type == SEA_BARBARIAN && is_sea_barbarian(barbarians))) {
       if (!barbarians->is_alive) {
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
         barbarians->is_dying = FALSE;
-        pick_random_player_name(nation, barbarians->name);
+        pick_random_player_name(barbarians->nation, barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
@@ -147,6 +123,7 @@ static struct player *create_barbarian_player(bool land)
 
   server_player_init(barbarians, TRUE, TRUE);
 
+  nation = pick_a_nation(NULL, FALSE, TRUE, type);
   player_set_nation(barbarians, nation);
   pick_random_player_name(nation, barbarians->name);
 
@@ -165,11 +142,7 @@ static struct player *create_barbarian_player(bool land)
 
   /* Do the ai */
   barbarians->ai.control = TRUE;
-  if (land) {
-    barbarians->ai.barbarian_type = LAND_BARBARIAN;
-  } else {
-    barbarians->ai.barbarian_type = SEA_BARBARIAN;
-  }
+  barbarians->ai.barbarian_type = type;
   set_ai_level_directer(barbarians, game.info.skill_level);
   init_tech(barbarians);
   give_initial_techs(barbarians);
@@ -240,7 +213,7 @@ bool unleash_barbarians(struct tile *ptile)
     return FALSE;
   }
 
-  barbarians = create_barbarian_player(TRUE);
+  barbarians = create_barbarian_player(LAND_BARBARIAN);
   if (!barbarians) {
     return FALSE;
   }
@@ -427,7 +400,7 @@ static void try_summon_barbarians(void)
     int rand_factor = myrand(3);
 
     /* land (disembark) barbarians */
-    barbarians = create_barbarian_player(TRUE);
+    barbarians = create_barbarian_player(LAND_BARBARIAN);
     if (city_list_size(victim->cities) > UPRISE_CIV_MOST) {
       uprise = 3;
     }
@@ -444,7 +417,7 @@ static void try_summon_barbarians(void)
     struct unit *ptrans;
     struct unit_type *boat;
 
-    barbarians = create_barbarian_player(FALSE);
+    barbarians = create_barbarian_player(SEA_BARBARIAN);
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
     ptrans = create_unit(barbarians, utile, boat, 0, 0, -1);
     cap = get_transporter_capacity(unit_list_get(utile->units, 0));

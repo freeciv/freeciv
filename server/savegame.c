@@ -1916,8 +1916,14 @@ static void player_load(struct player *plr, int plrno,
    * necessary.  The savegame should already mark those techs as known.
    * give_initial_techs will crash if the nation is unset. */
 
+  /* It is important that barbarian_type is loaded before
+   * calling is_barbarian() and is_land_barbarian() */
   if (is_barbarian(plr) && plr->nation == NO_NATION_SELECTED) {
-    plr->nation = pick_barbarian_nation();
+    if (is_land_barbarian(plr)) {
+      plr->nation = pick_a_nation(NULL, FALSE, TRUE, LAND_BARBARIAN);
+    } else {
+      plr->nation = pick_a_nation(NULL, FALSE, TRUE, SEA_BARBARIAN);
+    }
   }
 
   /* government */
@@ -3849,7 +3855,8 @@ void game_load(struct section_file *file)
       /* Some players may have invalid nations in the ruleset.  Pick new
        * nations for them. */
       if (pplayer->nation == NO_NATION_SELECTED) {
-	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE));
+	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
+                                                 NOT_A_BARBARIAN));
 	freelog(LOG_NORMAL, "%s had invalid nation; changing to %s.",
 		pplayer->name, pplayer->nation->name);
       }

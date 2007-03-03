@@ -1346,7 +1346,8 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2,
 ****************************************************************************/
 struct nation_type *pick_a_nation(struct nation_type **choices,
                                   bool ignore_conflicts,
-				  bool only_available)
+                                  bool only_available,
+                                  enum barbarian_type barb_type)
 {
   enum {
     UNAVAILABLE, AVAILABLE, PREFERRED, UNWANTED
@@ -1361,9 +1362,12 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
    * 3: unwanted - we can used this nation, but we really don't want to
    */
   nations_iterate(pnation) {
-    if (!is_nation_playable(pnation)
-	|| pnation->player
-	|| (only_available && !pnation->is_available)) {
+    if (pnation->player
+        || (only_available && !pnation->is_available)
+        || (barb_type != NOT_A_BARBARIAN && !is_nation_barbarian(pnation))
+        || (barb_type == NOT_A_BARBARIAN
+            && (is_nation_barbarian(pnation)
+                || !is_nation_playable(pnation)))) {
       /* Nation is unplayable or already used: don't consider it. */
       nations_used[pnation->index] = UNAVAILABLE;
       match[pnation->index] = 0;
@@ -1464,7 +1468,8 @@ static struct player *split_player(struct player *pplayer)
 
   /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
-  player_set_nation(cplayer, pick_a_nation(civilwar_nations, TRUE, FALSE));
+  player_set_nation(cplayer, pick_a_nation(civilwar_nations, TRUE, FALSE,
+                                           NOT_A_BARBARIAN));
   pick_random_player_name(cplayer->nation, cplayer->name);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
