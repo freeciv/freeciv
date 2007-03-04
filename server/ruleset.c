@@ -1504,6 +1504,8 @@ static void load_names(struct section_file *file)
 
   free(sec);
 
+  game.control.num_base_types = BASE_LAST;
+
   base_type_iterate(pbase) {
     char *name;
     char *section;
@@ -1524,8 +1526,6 @@ static void load_names(struct section_file *file)
 
     name_strlcpy(pbase->name_orig, name);
   } base_type_iterate_end;
-
-  game.control.num_base_types = BASE_LAST;
 }
 
 /**************************************************************************
