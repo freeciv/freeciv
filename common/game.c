@@ -367,6 +367,7 @@ void ruleset_data_free()
   nations_free();
   unit_types_free();
   improvements_free();
+  base_types_free();
   city_styles_free();
   terrains_free();
   ruleset_cache_free();

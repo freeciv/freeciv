@@ -58,6 +58,7 @@ enum base_flag_id base_flag_from_str(const char *s);
 struct base_type *base_type_get_by_id(Base_type_id id);
 
 void base_types_init(void);
+void base_types_free(void);
 
 #define base_type_iterate(pbase)                                            \
 {                                                                           \

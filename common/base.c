@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "base.h"
+#include "game.h"
 #include "tile.h"
 #include "unit.h"
 
@@ -121,4 +122,14 @@ void base_types_init(void)
     base_types[i].id = i;
     requirement_vector_init(&base_types[i].reqs);
   }
+}
+
+/****************************************************************************
+  Free the memory associated with base types
+****************************************************************************/
+void base_types_free(void)
+{
+  base_type_iterate(pbase) {
+    requirement_vector_free(&pbase->reqs);
+  } base_type_iterate_end;
 }
