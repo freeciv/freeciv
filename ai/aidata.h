@@ -87,7 +87,6 @@ struct ai_data {
     bool invasions;   /* check if we need to consider invasions */
     bool *continent;  /* non-allied cities on continent? */
     bool *ocean;      /* non-allied offensive ships in ocean? */
-    bool air;         /* check for non-allied offensive aircraft */
     bool missile;     /* check for non-allied missiles */
     int nuclear;      /* nuke check: 0=no, 1=capability, 2=built */
     bool igwall;      /* enemies have igwall units */

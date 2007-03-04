@@ -2196,7 +2196,9 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     ai_manage_airunit(pplayer, punit);
     TIMING_LOG(AIT_AIRUNIT, TIMER_STOP);
     return;
-  } else if (is_heli_unit(punit)) {
+  } else if (is_losing_hp(punit)) {
+    /* This unit is losing hitpoints over time */
+
     /* TODO: We can try using air-unit code for helicopters, just
      * pretend they have fuel = HP / 3 or something. */
     punit->ai.done = TRUE; /* we did our best, which was ... nothing */

@@ -243,7 +243,6 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->num_oceans        = map.num_oceans;
   ai->threats.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
   ai->threats.invasions = FALSE;
-  ai->threats.air       = FALSE;
   ai->threats.nuclear   = 0; /* none */
   ai->threats.ocean     = fc_calloc(ai->num_oceans + 1, sizeof(bool));
   ai->threats.igwall    = FALSE;
@@ -297,13 +296,6 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 	  }
         } 
         continue;
-      }
-
-      /* The next idea is that if our enemies don't have any offensive
-       * airborne units, we don't have to worry. Go on the offensive! */
-      if ((is_air_unit(punit) || is_heli_unit(punit))
-           && unit_type(punit)->attack_strength > 1) {
-        ai->threats.air = TRUE;
       }
 
       /* If our enemy builds missiles, worry about missile defence. */

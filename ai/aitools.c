@@ -734,7 +734,8 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     parameter->get_TB = no_fights;
   } else if (is_air) {
     /* Default tile behaviour */
-  } else if (is_heli_unit(punit)) {
+  } else if (is_losing_hp(punit)) {
+    /* Losing hitpoints over time (helicopter in default rules) */
     /* Default tile behaviour */
   } else if (is_military_unit(punit)) {
     switch (punit->ai.ai_role) {
