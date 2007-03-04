@@ -250,6 +250,15 @@ const struct command commands[] = {
       "sets the default level for any new AI players to 'hard'.  With an "
       "argument, sets the skill level for that player only.")
   },
+  {"cheating",  ALLOW_CTRL,
+   /* TRANS: translate text between <> only */
+   N_("cheating\n"
+      "cheating <player-name>"),
+   N_("Set one or all AI players to 'cheating'."),
+   N_("With no arguments, sets all AI players to skill level 'cheating', and "
+      "sets the default level for any new AI players to 'cheating'.  With an "
+      "argument, sets the skill level for that player only.")
+  },
   {"experimental",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("experimental\n"

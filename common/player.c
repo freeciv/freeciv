@@ -39,7 +39,7 @@
  * must match these. */
 static const char *ai_level_names[] = {
   NULL, N_("Away"), N_("Novice"), N_("Easy"), NULL, N_("Normal"),
-  NULL, N_("Hard"), NULL, NULL, N_("Experimental")
+  NULL, N_("Hard"), N_("Cheating"), NULL, N_("Experimental")
 };
 
 /***************************************************************

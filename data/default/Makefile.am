@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/default
 
 pkgdata_DATA =          \
+	ai_effects.ruleset \
 	buildings.ruleset \
 	cities.ruleset	\
 	effects.ruleset	\

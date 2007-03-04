@@ -168,6 +168,7 @@ enum ai_level { AI_LEVEL_AWAY         = 1,
                 AI_LEVEL_EASY         = 3,
                 AI_LEVEL_NORMAL       = 5,
                 AI_LEVEL_HARD         = 7,
+                AI_LEVEL_CHEATING     = 8,
                 AI_LEVEL_EXPERIMENTAL = 10,
                 AI_LEVEL_LAST};
 

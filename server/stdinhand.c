@@ -679,7 +679,7 @@ static int handicap_of_skill_level(int level)
  /* medium */	H_RATES | H_TARGETS | H_HUTS | H_DIPLOMAT,
 		H_NONE,
  /* hard */	H_NONE,
-		H_NONE,
+ /* cheating */ H_NONE,
 		H_NONE,
  /* testing */	H_EXPERIMENTAL,
 		};
@@ -1739,6 +1739,7 @@ static enum command_id cmd_of_level(int level)
     case 3 : return CMD_EASY;
     case 5 : return CMD_NORMAL;
     case 7 : return CMD_HARD;
+    case 8 : return CMD_CHEATING;
     case 10 : return CMD_EXPERIMENTAL;
   }
   assert(FALSE);
@@ -3562,6 +3563,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   case CMD_EASY:
   case CMD_NORMAL:
   case CMD_HARD:
+  case CMD_CHEATING:
   case CMD_EXPERIMENTAL:
     return set_ai_level_named(caller, arg, commands[cmd].name, check);
   case CMD_QUIT:
@@ -4435,6 +4437,7 @@ static const int player_cmd[] = {
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
+  CMD_CHEATING,
   CMD_EXPERIMENTAL,
   CMD_REMOVE,
   CMD_TEAM,

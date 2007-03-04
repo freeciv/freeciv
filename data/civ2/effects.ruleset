@@ -16,6 +16,9 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+; Cheating AI effects are in separate file
+*include "default/ai_effects.ruleset"
+
 [effect_gov_tile_bonus_0]
 name    = "Output_Penalty_Tile"
 value   = 2
