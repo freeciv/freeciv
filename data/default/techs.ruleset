@@ -253,8 +253,8 @@ graphic_alt = "-"
 
 [advance_environmentalism]
 name     = _("Environmentalism")
-req1     = "Never"		; "Recycling"
-req2     = "Never"		; "Space Flight"
+req1     = "Recycling"
+req2     = "Space Flight"
 flags    = ""
 graphic     = "a.environmentalism"
 graphic_alt = "-"
