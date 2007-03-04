@@ -26,8 +26,9 @@ enum editor_tool_type {
 };
 
 enum editor_paint_type {
-  EPAINT_TERRAIN,
+  EPAINT_TERRAIN = 0,
   EPAINT_SPECIAL,
+  EPAINT_RESOURCE,
   EPAINT_LAST
 };
 
@@ -40,6 +41,7 @@ void editor_set_selected_tool_type(enum editor_tool_type type);
 void editor_set_selected_paint_type(enum editor_paint_type type);
 void editor_set_selected_terrain(struct terrain *pterrain);
 void editor_set_selected_special(enum tile_special_type special);
+void editor_set_selected_resource(struct resource *presource);
 
 struct unit *editor_get_selected_unit(void);
 struct city *editor_get_selected_city(void);

@@ -70,6 +70,8 @@ static paint_item specials[] = {
   { NULL, S_FALLOUT }
 };
 
+static paint_item *resources;
+
 static char *tool_names[ETOOL_LAST] = {
   N_("Paint"), N_("Unit"), N_("City"), N_("Player"), N_("Delete")
 };
@@ -173,6 +175,13 @@ static void set_selected_paint(GtkWidget *w, gpointer data)
   case EPAINT_SPECIAL:
     editor_set_selected_special(specials[id].paint);
     break;
+  case EPAINT_RESOURCE:
+    if (id == 0) {
+      editor_set_selected_resource(NULL);
+    } else {
+      editor_set_selected_resource(get_resource(resources[id - 1].paint));
+    }
+    break;   
   case EPAINT_LAST:
     break;
   }
@@ -255,13 +264,19 @@ static GtkWidget *create_map_palette(void)
   GtkWidget *button, *vbox;
   GtkWidget *table = gtk_table_new(12, TABLE_WIDTH, TRUE);
   int i, j, sig; 
-  int magic[3] = { 0, 5, 11 }; /* magic numbers to make the table look good */
-  int types_num[] = { game.control.terrain_count, SPECIALS_NUM };
-  paint_item *ptype[EPAINT_LAST] = { NULL, specials };
+  int magic[4] = { 0, 5, 10, 16 }; /* magic numbers to make the table look good */
+  int types_num[] = { game.control.terrain_count, SPECIALS_NUM,
+                      game.control.resource_count + 1 };
+  paint_item *ptype[EPAINT_LAST] = { NULL, specials, NULL };
   
   terrains = fc_realloc(terrains,
 			game.control.terrain_count * sizeof(*terrains));
-  ptype[0] = terrains;
+  ptype[EPAINT_TERRAIN] = terrains;
+
+  resources = fc_realloc(resources,
+                         (game.control.resource_count + 1) * sizeof(*resources));
+  ptype[EPAINT_RESOURCE] = resources;
+
   
   vbox = gtk_vbox_new(TRUE, 5);
   
@@ -278,6 +293,14 @@ static GtkWidget *create_map_palette(void)
         if (!item->name) {
 	  item->name = get_special_name(item->paint);
 	}
+        break;
+      case EPAINT_RESOURCE:
+        item->paint = j;
+        if (j == 0) {
+          item->name = _("None");
+        } else {
+          item->name = get_resource(item->paint - 1)->name;
+        } 
         break;
       }
 

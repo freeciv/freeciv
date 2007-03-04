@@ -36,6 +36,7 @@
 static enum editor_tool_type selected_tool = ETOOL_PAINT;
 static enum tile_special_type selected_special = S_LAST;
 static struct terrain *selected_terrain = NULL;
+static struct resource *selected_resource = NULL;
 static enum editor_paint_type selected_paint_type = EPAINT_LAST;
 static struct unit *selected_unit;
 static struct city *selected_city;
@@ -64,6 +65,7 @@ void editor_init_tools(void)
   selected_special = S_LAST;
   selected_paint_type = EPAINT_LAST;
   selected_terrain = NULL;
+  selected_resource = NULL;
 }
 
 /****************************************************************************
@@ -96,6 +98,14 @@ void editor_set_selected_terrain(struct terrain *pterrain)
 void editor_set_selected_special(enum tile_special_type special)
 {
   selected_special = special;
+}
+
+/****************************************************************************
+  Sets the selected editor resource.
+****************************************************************************/
+void editor_set_selected_resource(struct resource *presource)
+{
+  selected_resource = presource;
 }
 
 /****************************************************************************
@@ -211,6 +221,16 @@ static enum cursor_type editor_paint(struct tile *ptile, bool testing)
     } else if (selected_special != S_LAST
 	       && !tile_has_special(&tile, selected_special)) {
       tile_add_special(&tile, selected_special);
+    } else {
+      return CURSOR_INVALID;
+    }
+    break;
+  case EPAINT_RESOURCE:
+    /* Replace tile resource with new one */
+    if (selected_resource) {
+      tile_set_resource(&tile, selected_resource);
+    } else if (tile_get_resource(&tile)) {
+      tile_set_resource(&tile, NULL);
     } else {
       return CURSOR_INVALID;
     }

@@ -64,8 +64,6 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 /****************************************************************************
   Handles new tile information from the client, to make local edits to
   the map.
-
-  TODO: Handle resources.
 ****************************************************************************/
 void handle_edit_tile(struct connection *pc, int x, int y,
                       Terrain_type_id terrain, Resource_type_id resource,

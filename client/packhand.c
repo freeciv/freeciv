@@ -1954,6 +1954,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 {
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   enum known_type old_known = client_tile_get_known(ptile);
+  int old_resource;
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
   enum tile_special_type spe;
@@ -1974,6 +1975,16 @@ void handle_tile_info(struct packet_tile_info *packet)
 	tile_changed = TRUE;
       }
     }
+  }
+
+  if (ptile->resource) {
+    old_resource = ptile->resource->index;
+  } else {
+    old_resource = -1;
+  }
+
+  if (old_resource != packet->resource) {
+    tile_changed = TRUE;
   }
 
   ptile->resource = get_resource(packet->resource);
