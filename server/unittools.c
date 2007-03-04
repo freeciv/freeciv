@@ -672,10 +672,11 @@ static void update_unit_activity(struct unit *punit)
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
 
-      /* FIXME: If pillaging some kind of base, should not
-       *        touch specials directly but to use base related
-       *        functions. */
-      tile_clear_special(ptile, what_pillaged);
+      if (what_pillaged == S_FORTRESS || what_pillaged == S_AIRBASE) {
+        tile_remove_base(ptile);
+      } else {
+        tile_clear_special(ptile, what_pillaged);
+      }
       unit_list_iterate (ptile->units, punit2) {
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
