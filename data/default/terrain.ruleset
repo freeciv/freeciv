@@ -775,6 +775,7 @@ name        = _("Fortress")
 reqs        =
     { "type", "name", "range"
       "Tech", "Construction", "Player"
+      "TerrainClass", "Land", "Local"
     }
 flags       = "NoAggressive", "DefenseBonus", "Watchtower", "ClaimTerritory",
               "NoStackDeath", "DiplomatDefense"
@@ -784,6 +785,7 @@ name        = _("Airbase")
 reqs        =
     { "type", "name", "range"
       "Tech", "Radio", "Player"
+      "TerrainClass", "Land", "Local"
     }
 flags       = "NoStackDeath", "DiplomatDefense", "Refuel", "NoHPLoss",
               "AttackUnreachable", "ParadropFrom"
