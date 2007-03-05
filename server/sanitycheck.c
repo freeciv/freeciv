@@ -466,6 +466,8 @@ static void check_players(void)
       continue;
     }
 
+    SANITY_CHECK(!pplayer->nation || pplayer->nation->player == pplayer);
+
     city_list_iterate(pplayer->cities, pcity) {
       if (is_capital(pcity)) {
 	found_palace++;

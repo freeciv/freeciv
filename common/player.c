@@ -240,9 +240,11 @@ bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
 {
   if (pplayer->nation != pnation) {
     if (pplayer->nation) {
+      assert(pplayer->nation->player == pplayer);
       pplayer->nation->player = NULL;
     }
     if (pnation) {
+      assert(pnation->player == NULL);
       pnation->player = pplayer;
     }
     pplayer->nation = pnation;
