@@ -41,6 +41,8 @@ enum unit_class_flag_id {
 BV_DEFINE(bv_unit_classes, UCL_LAST);
 BV_DEFINE(bv_unit_class_flags, UCF_LAST);
 
+enum move_level { MOVE_NONE, MOVE_PARTIAL, MOVE_FULL };
+
 struct unit_class {
   Unit_Class_id id;
   const char *name;        /* Translated name */
@@ -49,6 +51,11 @@ struct unit_class {
   int min_speed;           /* Minimum speed after damage and effects */
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
   bv_unit_class_flags flags;
+
+  struct {
+    enum move_level land_move;
+    enum move_level sea_move;
+  } ai;
 };
 
 /* Unit "special effects" flags:

@@ -98,6 +98,9 @@ bool is_on_unit_upgrade_path(const struct unit_type *test,
 
 void update_simple_ai_types(void);
 
+/* Call this after rulesets are loaded */
+void unit_class_ai_init(void);
+
 #define simple_ai_unit_type_iterate(m_i)                                    \
 {                                                                           \
   int m_c;                                                                  \

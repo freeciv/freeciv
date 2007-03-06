@@ -2513,3 +2513,56 @@ void update_simple_ai_types(void)
 
   simple_ai_types[i] = NULL;
 }
+
+/****************************************************************************
+  Build cached values about unit classes for AI
+****************************************************************************/
+void unit_class_ai_init(void)
+{
+  bv_special special;
+  BV_CLR_ALL(special); /* Can it move even without road */
+
+  unit_class_iterate(pclass) {
+    bool move_land_enabled  = FALSE; /* Can move at some land terrains */
+    bool move_land_disabled = FALSE; /* Cannot move at some land terrains */
+    bool move_sea_enabled   = FALSE; /* Can move at some ocean terrains */
+    bool move_sea_disabled  = FALSE; /* Cannot move at some ocean terrains */
+
+    terrain_type_iterate(pterrain) {
+      if (is_native_to_class(pclass, pterrain, special)) {
+        /* Can move at terrain */
+        if (is_ocean(pterrain)) {
+          move_sea_enabled = TRUE;
+        } else {
+          move_land_enabled = TRUE;
+        }
+      } else {
+        /* Cannot move at terrain */
+        if (is_ocean(pterrain)) {
+          move_sea_disabled = TRUE;
+        } else {
+          move_land_disabled = TRUE;
+        }
+      }
+    } terrain_type_iterate_end;
+
+    if (move_land_enabled && !move_land_disabled) {
+      pclass->ai.land_move = MOVE_FULL;
+    } else if (move_land_enabled && move_land_disabled) {
+      pclass->ai.land_move = MOVE_PARTIAL;
+    } else {
+      assert(!move_land_enabled);
+      pclass->ai.land_move = MOVE_NONE;
+    }
+
+    if (move_sea_enabled && !move_sea_disabled) {
+      pclass->ai.sea_move = MOVE_FULL;
+    } else if (move_sea_enabled && move_sea_disabled) {
+      pclass->ai.sea_move = MOVE_PARTIAL;
+    } else {
+      assert(!move_sea_enabled);
+      pclass->ai.sea_move = MOVE_NONE;
+    }
+
+  } unit_class_iterate_end;
+}

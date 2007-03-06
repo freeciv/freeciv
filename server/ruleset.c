@@ -3326,6 +3326,9 @@ void load_rulesets(void)
      * connected clients. */
     send_rulesets(game.all_connections);
   }
+
+  /* Build AI unit class cache corresponding to loaded rulesets */
+  unit_class_ai_init();
 }
 
 /**************************************************************************
