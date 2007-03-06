@@ -26256,7 +26256,7 @@ void lsend_packet_ruleset_unit_class(struct conn_list *dest, const struct packet
 
 #define cmp_packet_ruleset_base_100 cmp_const
 
-BV_DEFINE(packet_ruleset_base_100_fields, 5);
+BV_DEFINE(packet_ruleset_base_100_fields, 6);
 
 static struct packet_ruleset_base *receive_packet_ruleset_base_100(struct connection *pc, enum packet_type type)
 {
@@ -26314,6 +26314,9 @@ static struct packet_ruleset_base *receive_packet_ruleset_base_100(struct connec
     }
   }
   if (BV_ISSET(fields, 4)) {
+    DIO_BV_GET(&din, real_packet->native_to);
+  }
+  if (BV_ISSET(fields, 5)) {
     DIO_BV_GET(&din, real_packet->flags);
   }
 
@@ -26378,9 +26381,13 @@ static int send_packet_ruleset_base_100(struct connection *pc, const struct pack
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  differ = !BV_ARE_EQUAL(old->native_to, real_packet->native_to);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
+
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26408,6 +26415,9 @@ static int send_packet_ruleset_base_100(struct connection *pc, const struct pack
     } 
   }
   if (BV_ISSET(fields, 4)) {
+  DIO_BV_PUT(&dout, packet->native_to);
+  }
+  if (BV_ISSET(fields, 5)) {
   DIO_BV_PUT(&dout, packet->flags);
   }
 
