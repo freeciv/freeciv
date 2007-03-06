@@ -603,12 +603,8 @@ food        = 2
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "DefenseBonus"      = Units inside gain defense bonus
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
-;   - "Watchtower"        = Units inside see further if required tech known
 ;   - "ClaimTerritory"    = Base will claim land ownership
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
-;   - "Refuel"            = Units can refuel at base
-;   - "NoHPLoss"          = Units inside avoid HP loss over time
-;   - "AttackUnreachable" = Unreachable units inside can be attacked
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 
 [fortress]
@@ -618,7 +614,8 @@ reqs        =
       "Tech", "Construction", "Player"
       "TerrainClass", "Land", "Local"
     }
-flags       = "NoAggressive", "DefenseBonus", "Watchtower", "ClaimTerritory",
+native_to   = "Land"
+flags       = "NoAggressive", "DefenseBonus", "ClaimTerritory",
               "NoStackDeath", "DiplomatDefense"
 
 [airbase]
@@ -627,5 +624,5 @@ reqs        =
     { "type", "name", "range"
       "Tech", "Never", "Player"
     }
-flags       = "NoStackDeath", "DiplomatDefense", "Refuel", "NoHPLoss",
-              "AttackUnreachable", "ParadropFrom"
+native_to   = "Air", "Missile"
+flags       = "NoStackDeath", "DiplomatDefense", "ParadropFrom"

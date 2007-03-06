@@ -927,6 +927,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct city *pcity;
   int x_itr, y_itr;
   struct nation_type *nation = get_nation_by_plr(pplayer);
+  struct base_type *pbase;
 
   freelog(LOG_DEBUG, "Creating city %s", name);
 
@@ -1008,7 +1009,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
   auto_arrange_workers(pcity);
 
   /* Put vision back to normal, if base acted as a watchtower */
-  if (tile_has_base_flag(ptile, BF_WATCHTOWER)) {
+  pbase = tile_get_base(ptile);
+  if (pbase) {
     tile_remove_base(ptile);
     unit_list_refresh_vision(ptile->units);
   }

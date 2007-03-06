@@ -67,6 +67,11 @@ struct base_type *tile_get_base(const struct tile *ptile);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile);
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag);
+bool tile_has_base_flag_for_unit(const struct tile *ptile,
+                                 const struct unit_type *punittype,
+                                 enum base_flag_id flag);
+bool tile_has_native_base(const struct tile *ptile,
+                          const struct unit_type *punittype);
 const struct resource *tile_get_resource(const struct tile *ptile);
 void tile_set_resource(struct tile *ptile, const struct resource *presource);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);

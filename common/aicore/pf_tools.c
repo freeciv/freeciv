@@ -546,13 +546,17 @@ static bool air_is_pos_dangerous(const struct tile *ptile,
 				 enum known_type known,
 				 struct pf_parameter *param)
 {
+  struct base_type *pbase;
+
   /* FIXME: bombers with fuel remaining should not worry about danger. */
 
   if (is_allied_city_tile(ptile, param->owner)) {
     return FALSE;
   }
 
-  if (tile_has_base_flag(ptile, BF_REFUEL)) {
+  pbase = tile_get_base(ptile);
+
+  if (pbase && is_native_base_to_class(param->class, pbase)) {
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;

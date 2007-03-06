@@ -1804,6 +1804,22 @@ static void load_ruleset_terrain(struct section_file *file)
     reqs = lookup_req_list(file, section, "reqs");
     requirement_vector_copy(&pbase->reqs, reqs);
 
+    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
+    BV_CLR_ALL(pbase->native_to);
+    for (j = 0; j < nval; j++) {
+      struct unit_class *class = unit_class_from_str(slist[j]);
+
+      if (!class) {
+        /* TRANS: message for an obscure ruleset error. */
+        freelog(LOG_FATAL, _("Base %s is native to unknown unit class %s"),
+                pbase->name, slist[j]);
+        exit(EXIT_FAILURE);
+      } else {
+        BV_SET(pbase->native_to, class->id);
+      }
+    }
+    free(slist);
+
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
     BV_CLR_ALL(pbase->flags);
     for (j = 0; j < nval; j++) {
@@ -3067,6 +3083,7 @@ static void send_ruleset_bases(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
+    packet.native_to = b->native_to;
 
     packet.flags = b->flags;
 

@@ -96,7 +96,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
   if (!unit_flag(punit, F_ATTACK_ANY)
       && unit_class_flag(get_unit_class(unit_type(pdefender)), UCF_UNREACHABLE)
-      && !(pcity || tile_has_base_flag(dest_tile, BF_ATTACK_UNREACHABLE))) {
+      && !(pcity || tile_has_native_base(dest_tile, unit_type(pdefender)))) {
     return FALSE;
   }
 
@@ -454,7 +454,7 @@ static int defense_multiplication(const struct unit_type *att_type,
     }
   }
 
-  if (tile_has_base_flag(ptile, BF_DEFENSE_BONUS) && !pcity) {
+  if (tile_has_base_flag_for_unit(ptile, def_type, BF_DEFENSE_BONUS) && !pcity) {
     defensepower +=
 	(defensepower * terrain_control.fortress_defense_bonus) / 100;
   }

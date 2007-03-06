@@ -1046,7 +1046,8 @@ static bool diplomat_success_vs_defender (struct unit *pattacker,
     chance -= chance * get_city_bonus(pdefender_tile->city,
                                       EFT_SPY_RESISTANT) / 100;
   } else {
-    if (tile_has_base_flag(pdefender_tile, BF_DIPLOMAT_DEFENSE)) {
+    if (tile_has_base_flag_for_unit(pdefender_tile, unit_type(pdefender),
+                                    BF_DIPLOMAT_DEFENSE)) {
 	chance -= chance * 25 / 100; /* 25% penalty */
     }
   }

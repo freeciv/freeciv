@@ -272,13 +272,18 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return TRUE;
   }
 
-  if (unit_type(punit)->fuel > 0
-      && !tile_has_base_flag(punit->tile, BF_REFUEL)) {
+  if (tile_has_native_base(ptile, unit_type(punit))) {
+    /* Unit can always survive at native base */
+    return TRUE;
+  }
+
+  if (unit_type(punit)->fuel > 0) {
+    /* Unit requires fuel and this is not refueling tile */
     return FALSE;
   }
 
-  if (is_losing_hp(punit)
-      && !tile_has_base_flag(punit->tile, BF_NO_HP_LOSS)) {
+  if (is_losing_hp(punit)) {
+    /* Unit is losing HP over time in this tile (no city or native base) */
     return FALSE;
   }
 

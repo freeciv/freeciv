@@ -2479,6 +2479,8 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   }
   assert(pbase->reqs.size == p->reqs_count);
 
+  pbase->native_to = p->native_to;
+
   pbase->flags = p->flags;
 }
 

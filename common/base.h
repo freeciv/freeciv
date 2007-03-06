@@ -26,12 +26,8 @@ enum base_flag_id {
                           * if base is close to city */
   BF_DEFENSE_BONUS,      /* Base provides defense bonus for units inside */
   BF_NO_STACK_DEATH,     /* Units inside will not die all at once */
-  BF_WATCHTOWER,         /* Base can act as watchtower */
   BF_CLAIM_TERRITORY,    /* Base claims tile ownership */
   BF_DIPLOMAT_DEFENSE,   /* Base provides bonus for defending diplomat */
-  BF_REFUEL,             /* Base refuels units */
-  BF_NO_HP_LOSS,         /* Units do not lose hitpoints when in base */
-  BF_ATTACK_UNREACHABLE, /* Unreachable units inside base can be attacked */
   BF_PARADROP_FROM,      /* Paratroopers can use base for paradrop */
   BF_LAST                /* This has to be last */
 };
@@ -43,10 +39,19 @@ struct base_type {
   char name_orig[MAX_LEN_NAME];
   int id;
   struct requirement_vector reqs;
+  bv_unit_classes native_to;
+
   bv_base_flags flags;
 };
 
 bool base_flag(const struct base_type *pbase, enum base_flag_id flag);
+bool is_native_base(const struct unit_type *punittype,
+                    const struct base_type *pbase);
+bool is_native_base_to_class(const struct unit_class *pclass,
+                             const struct base_type *pbase);
+bool base_flag_affects_unit(const struct unit_type *punittype,
+                            const struct base_type *pbase,
+                            enum base_flag_id flag);
 const char *base_name(const struct base_type *pbase);
 
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,

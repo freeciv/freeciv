@@ -22,7 +22,9 @@ struct refuel;
 struct tile *get_refuel_tile(struct refuel *pRefuel);
 unsigned int get_turns_to_refuel(struct refuel *pRefuel);
 
-struct pqueue *refuel_iterate_init(struct player *pplayer, struct tile *ptile,
+struct pqueue *refuel_iterate_init(struct player *pplayer,
+                                   const struct unit_type *punittype,
+                                   struct tile *ptile,
 				   struct tile *dst_tile,
                                    bool cities_only, int moves_left, 
                                    int moves_per_turn, int max_moves);

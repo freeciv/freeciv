@@ -25,9 +25,8 @@
 static struct base_type base_types[BASE_LAST];
 
 static const char *base_type_flag_names[] = {
-  "NoAggressive", "DefenseBonus", "NoStackDeath", "Watchtower",
-  "ClaimTerritory", "DiplomatDefense", "Refuel", "NoHPLoss",
-  "AttackUnreachable", "ParadropFrom"
+  "NoAggressive", "DefenseBonus", "NoStackDeath",
+  "ClaimTerritory", "DiplomatDefense", "ParadropFrom"
 };
 
 /****************************************************************************
@@ -36,6 +35,35 @@ static const char *base_type_flag_names[] = {
 bool base_flag(const struct base_type *pbase, enum base_flag_id flag)
 {
   return BV_ISSET(pbase->flags, flag);
+}
+
+/****************************************************************************
+  Is base native to unit class?
+****************************************************************************/
+bool is_native_base_to_class(const struct unit_class *pclass,
+                             const struct base_type *pbase)
+{
+  return BV_ISSET(pbase->native_to, pclass->id);
+}
+
+/****************************************************************************
+  Is base native to unit?
+****************************************************************************/
+bool is_native_base(const struct unit_type *punittype,
+                    const struct base_type *pbase)
+{
+  return is_native_base_to_class(get_unit_class(punittype), pbase);
+}
+
+/****************************************************************************
+  Base provides base flag for unit? Checks if base provides flag and if
+  base is native to unit.
+****************************************************************************/
+bool base_flag_affects_unit(const struct unit_type *punittype,
+                            const struct base_type *pbase,
+                            enum base_flag_id flag)
+{
+  return base_flag(pbase, flag) && is_native_base(punittype, pbase);
 }
 
 /**************************************************************************

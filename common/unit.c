@@ -650,6 +650,8 @@ bool can_unit_paradrop(const struct unit *punit)
     return FALSE;
 
   if (tile_has_base_flag(punit->tile, BF_PARADROP_FROM)) {
+    /* Paradrop has to be possible from non-native base.
+     * Paratroopers are "Land" units, but they can paradrom from Airbase. */
     return TRUE;
   }
 
@@ -1207,7 +1209,9 @@ bool unit_being_aggressive(const struct unit *punit)
     return FALSE;
   }
   if (is_ground_unit(punit) &&
-      tile_has_base_flag(punit->tile, BF_NOT_AGGRESSIVE)) {
+      tile_has_base_flag_for_unit(punit->tile,
+                                  unit_type(punit),
+                                  BF_NOT_AGGRESSIVE)) {
     return !is_unit_near_a_friendly_city (punit);
   }
   

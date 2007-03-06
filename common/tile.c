@@ -156,6 +156,45 @@ bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
 }
 
 /****************************************************************************
+  Check if tile contains base providing effect for unit
+****************************************************************************/
+bool tile_has_base_flag_for_unit(const struct tile *ptile,
+                                 const struct unit_type *punittype,
+                                 enum base_flag_id flag)
+{
+  struct base_type *pbase;
+
+  pbase = tile_get_base(ptile);
+
+  if (pbase != NULL) {
+    /* Some base at tile, check its flags */
+    return base_flag_affects_unit(punittype, pbase, flag);
+  }
+
+  /* No base at tile */
+  return FALSE;
+}
+
+/****************************************************************************
+  Check if tile contains base native for unit
+****************************************************************************/
+bool tile_has_native_base(const struct tile *ptile,
+                          const struct unit_type *punittype)
+{
+  struct base_type *pbase;
+
+  pbase = tile_get_base(ptile);
+
+  if (pbase != NULL) {
+    /* Some base at tile, check if it's native */
+    return is_native_base(punittype, pbase);
+  }
+
+  /* No base at tile */
+  return FALSE;
+}
+
+/****************************************************************************
   Add the given special or specials to the tile.
 
   Note that this does not erase any existing specials already on the tile
