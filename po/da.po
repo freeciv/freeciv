@@ -62,40 +62,30 @@ msgstr " (spiller %s)"
 msgid " (observer)"
 msgstr " (observatør)"
 
-#. TRANS: Obscure ruleset error.
 #: common/effects.c:547
 #, c-format
 msgid "for building %s: bad effect requirement data '%s'"
-msgstr ""
+msgstr "for bygning %s: Ikke egnet effekt kravdata '%s'"
 
-#. TRANS: Obscure ruleset error.
 #: common/effects.c:795 common/effects.c:810
-#, fuzzy
 msgid "World-ranged effects are only supported for wonders."
 msgstr "Verdensomspændende krav understøttes kun for vidundere."
 
-#. TRANS: Obscure ruleset error.
 #: common/effects.c:830
-#, fuzzy
 msgid "Player-ranged effects are only supported for wonders."
 msgstr "Spilleromspændende krav understøttes kun for vidundere."
 
-#. TRANS: Obscure ruleset error.
 #: common/effects.c:851
-#, fuzzy
 msgid "Island-ranged effects are only supported for wonders."
 msgstr "Øomspændende krav understøttes kun for vidundere."
 
-#. TRANS: Obscure ruleset error.
 #: common/effects.c:925
-#, fuzzy
 msgid "Surviving effects are only supported at world range."
-msgstr "Overlevelseskrav kunderstøttes kun for vidundere."
+msgstr "Overlevelseskrav er kun understøttet for hele kortet."
 
 #: common/map.c:62
-#, fuzzy
 msgid "Special1"
-msgstr "Speciel"
+msgstr "Speciel1"
 
 #: common/map.c:63 common/map.c:767 common/unit.c:620
 msgid "Road"
@@ -132,9 +122,8 @@ msgid "Fortress"
 msgstr "Befæstning"
 
 #: common/map.c:70
-#, fuzzy
 msgid "Special2"
-msgstr "Speciel"
+msgstr "Speciel2"
 
 #: common/map.c:71
 msgid "River"
@@ -197,45 +186,40 @@ msgid "?attitude:Worshipful"
 msgstr "?attitude:Ærværdig"
 
 #: common/player.c:573
-#, fuzzy
 msgid "Spotless"
-msgstr "værdiløse"
+msgstr "Værdiløs"
 
 #: common/player.c:575
 msgid "Excellent"
-msgstr "udmrket"
+msgstr "Udmærket"
 
 #: common/player.c:577
-#, fuzzy
 msgid "Honorable"
-msgstr "normal"
+msgstr "Ærefuld"
 
 #: common/player.c:579
-#, fuzzy
 msgid "Questionable"
-msgstr "Situationsbestemte"
+msgstr "Usikker"
 
 #: common/player.c:581
 msgid "Dishonorable"
-msgstr "urlig"
+msgstr "Uærlig"
 
 #: common/player.c:583
-#, fuzzy
 msgid "Poor"
-msgstr "Port"
+msgstr "Fattig"
 
 #: common/player.c:585
 msgid "Despicable"
-msgstr "modbydelig"
+msgstr "Modbydelig"
 
 #: common/player.c:587
 msgid "Atrocious"
-msgstr "grusom"
+msgstr "Grusom"
 
 #: common/player.c:597
-#, fuzzy
 msgid "?diplomatic_state:Neutral"
-msgstr "?diplomatic_state:Hold"
+msgstr "?diplomatic_state:Neutral"
 
 #: common/player.c:598
 msgid "?diplomatic_state:War"
@@ -555,9 +539,9 @@ msgid "Empty filename in log level argument \"%s\".\n"
 msgstr "Tomt filnavn i logniveauparameter \"%s\".\n"
 
 #: utility/log.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't open logfile: %s for appending.\n"
-msgstr "Kunne ikke åbne logfil: %s for tilføjelse \"%s\".\n"
+msgstr "Kunne ikke åbne logfil: %s for tilføjelse.\n"
 
 #: utility/log.c:285 utility/log.c:304
 #, c-format
@@ -661,25 +645,26 @@ msgid "error %d (compiled without strerror)"
 msgstr "fejl %d (oversat uden 'strerror')"
 
 #: ai/aicity.c:712 server/citytools.c:1828
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spil: %s har stoppet bygningen af %s i %s."
 
 #: ai/aicity.c:722 server/citytools.c:1875
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spil: %s har startet bygningen af %s i %s."
 
 #: ai/aicity.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spil: %s sælger %s (ikke nødv.) for %d."
 
 #: ai/advdiplomacy.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty"
 msgstr ""
-"*%s (AI)* I automatisk indstilling kan AI ikke underskrive en sådan traktat."
+"*%s (Computer)* I automatisk indstilling kan computeren ikke underskrive "
+"en sådan traktat."
 
 #: ai/advdiplomacy.c:254
 #, c-format
