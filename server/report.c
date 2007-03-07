@@ -607,7 +607,7 @@ static void dem_line_item(char *outptr, size_t out_size,
 
     cat_snprintf(outptr, out_size, " %s", text);
     cat_snprintf(outptr, out_size, "%*s",
-		 18 - get_internal_string_length(text), "");
+                 18 - (int) get_internal_string_length(text), "");
   }
 
   if (BV_ISSET(selcols, DEM_COL_RANK)) {
@@ -750,7 +750,7 @@ void report_demographics(struct connection *pconn)
 
       cat_snprintf(buffer, sizeof(buffer), "%s", name);
       cat_snprintf(buffer, sizeof(buffer), "%*s",
-		   18 - get_internal_string_length(name), "");
+                   18 - (int) get_internal_string_length(name), "");
       dem_line_item(buffer, sizeof(buffer), pplayer, &rowtable[i], selcols);
       sz_strlcat(buffer, "\n");
     }
