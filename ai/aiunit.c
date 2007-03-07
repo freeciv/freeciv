@@ -260,35 +260,25 @@ static int unit_move_turns(struct unit *punit, struct tile *ptile)
 {
   int move_time;
   int move_rate = unit_move_rate(punit);
+  struct unit_class *pclass = get_unit_class(unit_type(punit));
 
-  switch (get_unit_move_type(unit_type(punit))) {
-  case LAND_MOVING:
-  
-   /* FIXME: IGTER units should have their move rates multiplied by 
-    * igter_speedup. Note: actually, igter units should never have their 
-    * move rates multiplied. The correct behaviour is to have every tile 
-    * they cross cost 1/3 of a movement point. ---RK */
- 
+  if (!unit_class_flag(pclass, UCF_TERRAIN_SPEED)) {
+    /* Unit does not care about terrain */
+    move_time = real_map_distance(punit->tile, ptile) * SINGLE_MOVE / move_rate;
+  } else {
     if (unit_flag(punit, F_IGTER)) {
+      /* FIXME: IGTER units should have their move rates multiplied by 
+       * igter_speedup. Note: actually, igter units should never have their 
+       * move rates multiplied. The correct behaviour is to have every tile 
+       * they cross cost 1/3 of a movement point. ---RK */
       move_rate *= 3;
     }
-    move_time = WARMAP_COST(ptile) / move_rate;
-    break;
- 
-  case SEA_MOVING:
-    move_time = WARMAP_SEACOST(ptile) / move_rate;
-    break;
- 
-  case HELI_MOVING:
-  case AIR_MOVING:
-     move_time = real_map_distance(punit->tile, ptile) 
-                   * SINGLE_MOVE / move_rate;
-     break;
- 
-  default:
-    die("ai/aiunit.c:unit_move_turns: illegal move type %d",
-	get_unit_move_type(unit_type(punit)));
-    move_time = 0;
+
+    if (get_unit_move_type(unit_type(punit)) == SEA_MOVING) {
+      move_time = WARMAP_SEACOST(ptile) / move_rate;
+    } else {
+      move_time = WARMAP_COST(ptile) / move_rate;
+    }
   }
   return move_time;
 }
