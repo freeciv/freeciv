@@ -283,6 +283,49 @@ static void want_tech_for_improvement_effect(struct player *pplayer,
 }
 
 /************************************************************************** 
+  How desirable particular effect making people content is for a
+  particular city?
+**************************************************************************/
+static int content_effect_value(const struct player *pplayer,
+                                const struct city *pcity,
+                                int amount,
+                                int num_cities,
+                                int happiness_step)
+{
+  int v = 0;
+
+  if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
+    int i;
+    int max_converted = pcity->ppl_unhappy[4];
+
+    /* See if some step of happiness calculation gets capped */
+    for (i = happiness_step; i < 4; i++) {
+      max_converted = MIN(max_converted, pcity->ppl_unhappy[i]);
+    }
+
+    v = MIN(amount, max_converted + get_entertainers(pcity)) * 35;
+  }
+
+  if (num_cities > 1) {
+    int factor = 2;
+
+    /* Try to build wonders to offset empire size unhappiness */
+    if (city_list_size(pplayer->cities) 
+        > get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
+      if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE) > 0) {
+        factor += city_list_size(pplayer->cities) 
+          / MAX(get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP), 1);
+      }
+      factor += 2;
+    }
+    v += factor * num_cities * amount;
+  }
+
+  return v;
+}
+
+
+/************************************************************************** 
   How desirable is a particular effect for a particular city?
   Expressed as an adjustment of the base value (v)
   given the number of cities in range (c).
@@ -348,23 +391,10 @@ static int improvement_effect_value(struct player *pplayer,
     v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 30;
     break;
   case EFT_FORCE_CONTENT:
+    v += content_effect_value(pplayer, pcity, amount, c, 4);
+    break;
   case EFT_MAKE_CONTENT:
-    if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
-      int factor = 2;
-
-      v += MIN(amount, pcity->ppl_unhappy[4] + get_entertainers(pcity)) * 35;
-
-      /* Try to build wonders to offset empire size unhappiness */
-      if (city_list_size(pplayer->cities) 
-	  > get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
-	if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE) > 0) {
-	  factor += city_list_size(pplayer->cities) 
-	    / MAX(get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP), 1);
-	}
-	factor += 2;
-      }
-      v += factor * c * amount;
-    }
+    v += content_effect_value(pplayer, pcity, amount, c, 2);
     break;
   case EFT_MAKE_CONTENT_MIL_PER:
     if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
