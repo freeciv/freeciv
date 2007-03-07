@@ -635,8 +635,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     parameter->turn_mode = TM_WORST_TIME;
   }
 
-  if (get_unit_move_type(unit_type(punit)) == LAND_MOVING 
-      && !unit_flag(punit, F_IGZOC)) {
+  if (!unit_type_really_ignores_zoc(unit_type(punit))) {
     parameter->get_zoc = is_my_zoc;
   } else {
     parameter->get_zoc = NULL;
@@ -669,7 +668,11 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     break;
   }
 
-  parameter->get_zoc = NULL;
+  if (!unit_type_really_ignores_zoc(unit_type(punit))) {
+    parameter->get_zoc = is_my_zoc;
+  } else {
+    parameter->get_zoc = NULL;
+  }
 }
 
 /**********************************************************************
@@ -696,8 +699,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
     break;
   }
 
-  if (get_unit_move_type(unit_type(punit)) == LAND_MOVING 
-      && !unit_flag(punit, F_IGZOC)) {
+  if (!unit_type_really_ignores_zoc(unit_type(punit))) {
     parameter->get_zoc = is_my_zoc;
   } else {
     parameter->get_zoc = NULL;
