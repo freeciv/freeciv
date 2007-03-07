@@ -27,6 +27,7 @@
 #include <string.h>
 
 #include "astring.h"
+#include "base.h"
 #include "capability.h"
 #include "fcintl.h"
 #include "game.h" /* for fill_xxx */
@@ -241,9 +242,6 @@ struct named_sprites {
       *irrigation[MAX_INDEX_CARDINAL],
       *pollution,
       *village,
-      *fortress,
-      *fortress_back,
-      *airbase,
       *fallout,
       *fog,
       **fullfog,
@@ -251,6 +249,12 @@ struct named_sprites {
       *darkness[MAX_INDEX_CARDINAL],         /* first unused */
       *river_outlet[4];		/* indexed by enum direction4 */
   } tx;				/* terrain extra */
+  struct {
+    struct sprite
+      *background,
+      *middleground,
+      *foreground;
+  } bases[BASE_LAST];
   struct {
     struct sprite
       *main[EDGE_COUNT],
@@ -947,6 +951,9 @@ void tilespec_reread(const char *new_tileset_name)
   government_iterate(gov) {
     tileset_setup_government(tileset, gov->index);
   } government_iterate_end;
+  base_type_iterate(pbase) {
+    tileset_setup_base(tileset, pbase);
+  } base_type_iterate_end;
   for (id = 0; id < game.control.nation_count; id++) {
     tileset_setup_nation_flag(tileset, id);
   }
@@ -2259,9 +2266,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(tx.fallout,    "tx.fallout");
   SET_SPRITE(tx.pollution,  "tx.pollution");
   SET_SPRITE(tx.village,    "tx.village");
-  SET_SPRITE(tx.fortress,   "tx.fortress");
-  SET_SPRITE_ALT(tx.fortress_back, "tx.fortress_back", "tx.fortress");
-  SET_SPRITE(tx.airbase,    "tx.airbase");
   SET_SPRITE(tx.fog,        "tx.fog");
 
   /* Load color sprites. */
@@ -2494,9 +2498,9 @@ void tileset_load_tiles(struct tileset *t)
   or else return NULL, and emit log message.
 ***********************************************************************/
 struct sprite* lookup_sprite_tag_alt(struct tileset *t,
-					    const char *tag, const char *alt,
-					    bool required, const char *what,
-					    const char *name)
+                                     const char *tag, const char *alt,
+                                     bool required, const char *what,
+                                     const char *name)
 {
   struct sprite *sp;
   
@@ -2591,6 +2595,59 @@ void tileset_setup_resource(struct tileset *t,
 			    presource->name);
 }
 
+/****************************************************************************
+  Set base sprite values; should only happen after
+  tilespec_load_tiles().
+****************************************************************************/
+void tileset_setup_base(struct tileset *t,
+                        const struct base_type *pbase)
+{
+  char full_tag_name[MAX_LEN_NAME + strlen("_fg")];
+  const int id = pbase->id;
+
+  assert(id >= 0 && id < game.control.num_base_types);
+
+  sz_strlcpy(full_tag_name, pbase->graphic_str);
+  strcat(full_tag_name, "_bg");
+  t->sprites.bases[id].background = load_sprite(t, full_tag_name);
+
+  sz_strlcpy(full_tag_name, pbase->graphic_str);
+  strcat(full_tag_name, "_mg");
+  t->sprites.bases[id].middleground = load_sprite(t, full_tag_name);
+
+  sz_strlcpy(full_tag_name, pbase->graphic_str);
+  strcat(full_tag_name, "_fg");
+  t->sprites.bases[id].foreground = load_sprite(t, full_tag_name);
+
+  if (t->sprites.bases[id].background == NULL
+      && t->sprites.bases[id].middleground == NULL
+      && t->sprites.bases[id].foreground == NULL) {
+    /* No primary graphics at all. Try alternative */
+    freelog(LOG_VERBOSE,
+	    _("Using alternate graphic %s (instead of %s) for base %s"),
+            pbase->graphic_alt, pbase->graphic_str, base_name(pbase));
+
+    sz_strlcpy(full_tag_name, pbase->graphic_alt);
+    strcat(full_tag_name, "_bg");
+    t->sprites.bases[id].background = load_sprite(t, full_tag_name);
+
+    sz_strlcpy(full_tag_name, pbase->graphic_alt);
+    strcat(full_tag_name, "_mg");
+    t->sprites.bases[id].middleground = load_sprite(t, full_tag_name);
+
+    sz_strlcpy(full_tag_name, pbase->graphic_alt);
+    strcat(full_tag_name, "_fg");
+    t->sprites.bases[id].foreground = load_sprite(t, full_tag_name);
+
+    if (t->sprites.bases[id].background == NULL
+        && t->sprites.bases[id].middleground == NULL
+        && t->sprites.bases[id].foreground == NULL) {
+      /* Cannot find alternative graphics either */
+      freelog(LOG_ERROR, _("No graphics for base %s at all!"), pbase->name);
+      exit(EXIT_FAILURE);
+    }
+  }
+}
 
 
 /**********************************************************************
@@ -4072,10 +4129,9 @@ int fill_sprite_array(struct tileset *t,
 	}
       }
 
-      if (draw_fortress_airbase
-          && pbase != NULL && pbase->id == BASE_FORTRESS
-	  && t->sprites.tx.fortress_back) {
-	ADD_SPRITE_FULL(t->sprites.tx.fortress_back);
+      if (draw_fortress_airbase && pbase != NULL
+          && t->sprites.bases[pbase->id].background) {
+        ADD_SPRITE_FULL(t->sprites.bases[pbase->id].background);
       }
 
       if (draw_mines && contains_special(tspecial, S_MINE)
@@ -4127,9 +4183,9 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL2:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      if (draw_fortress_airbase
-          && pbase != NULL && pbase->id == BASE_AIRBASE) {
-	ADD_SPRITE_FULL(t->sprites.tx.airbase);
+      if (draw_fortress_airbase && pbase != NULL
+          && t->sprites.bases[pbase->id].middleground) {
+        ADD_SPRITE_FULL(t->sprites.bases[pbase->id].middleground);
       }
 
       if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
@@ -4176,11 +4232,11 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_SPECIAL3:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      if (t->is_isometric && draw_fortress_airbase
-          && pbase != NULL && pbase->id == BASE_FORTRESS) {
+      if (draw_fortress_airbase && pbase != NULL
+          && t->sprites.bases[pbase->id].foreground) {
 	/* Draw fortress front in iso-view (non-iso view only has a fortress
 	 * back). */
-	ADD_SPRITE_FULL(t->sprites.tx.fortress);
+	ADD_SPRITE_FULL(t->sprites.bases[pbase->id].foreground);
       }
     }
     break;

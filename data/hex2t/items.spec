@@ -32,10 +32,10 @@ tiles = { "row", "column", "tag"
 ; used by all city styles
 
  1,  0, "city.disorder"
- 1,  1, "tx.airbase"
+ 1,  1, "base.airbase_mg"
  1,  2, "tx.airbase_full"
- 1,  3, "tx.fortress"
- 1,  4, "tx.fortress_back"
+ 1,  3, "base.fortress_fg"
+ 1,  4, "base.fortress_bg"
 
 ; default city tiles
  2,  2, "cd.city"

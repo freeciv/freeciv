@@ -25,6 +25,8 @@
 
 struct sprite;			/* opaque; gui-dep */
 
+struct base_type;
+
 /* Create the sprite_vector type. */
 #define SPECVEC_TAG sprite
 #define SPECVEC_TYPE struct sprite *
@@ -130,6 +132,8 @@ void tileset_setup_tile_type(struct tileset *t,
 			     const struct terrain *pterrain);
 void tileset_setup_resource(struct tileset *t,
 			    const struct resource *presource);
+void tileset_setup_base(struct tileset *t,
+                        const struct base_type *pbase);
 void tileset_setup_government(struct tileset *t, int id);
 void tileset_setup_nation_flag(struct tileset *t, int id);
 void tileset_setup_city_tiles(struct tileset *t, int style);

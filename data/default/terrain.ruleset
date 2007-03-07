@@ -756,6 +756,9 @@ identifier  = "u"
 ; fortress and airbase.
 ;
 ; name                    = Name of the base type.
+; graphic                 = tag specifing preferred graphic
+; graphic_alt	          = tag for alternate garphic if preferred graphic is not 
+;                           present. Can use eg "-" for no alternate graphic.
 ; reqs 	                  = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; flags
@@ -768,6 +771,8 @@ identifier  = "u"
 
 [fortress]
 name        = _("Fortress")
+graphic     = "base.fortress"
+graphic_alt = "-"
 reqs        =
     { "type", "name", "range"
       "Tech", "Construction", "Player"
@@ -779,6 +784,8 @@ flags       = "NoAggressive", "DefenseBonus", "ClaimTerritory",
 
 [airbase]
 name        = _("Airbase")
+graphic     = "base.airbase"
+graphic_alt = "-"
 reqs        =
     { "type", "name", "range"
       "Tech", "Radio", "Player"

@@ -609,6 +609,8 @@ food        = 2
 
 [fortress]
 name        = _("Fortress")
+graphic     = "base.fortress"
+graphic_alt = "-"
 reqs        =
     { "type", "name", "range"
       "Tech", "Construction", "Player"
@@ -620,6 +622,8 @@ flags       = "NoAggressive", "DefenseBonus", "ClaimTerritory",
 
 [airbase]
 name        = _("Airbase")
+graphic     = "base.airbase"
+graphic_alt = "-"
 reqs        =
     { "type", "name", "range"
       "Tech", "Never", "Player"

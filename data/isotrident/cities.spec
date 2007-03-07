@@ -47,10 +47,10 @@ tiles = { "row", "column", "tag"
 ; used by all city styles
 
  0,  0, "city.disorder"
- 0,  1, "tx.airbase"
+ 0,  1, "base.airbase_mg"
  0,  2, "tx.airbase_full"
- 0,  4, "tx.fortress"
- 0,  5, "tx.fortress_back"
+ 0,  4, "base.fortress_fg"
+ 0,  5, "base.fortress_bg"
 ;
 ; city tiles
 ;

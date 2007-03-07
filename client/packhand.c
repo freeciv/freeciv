@@ -2473,6 +2473,8 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
 
   sz_strlcpy(pbase->name_orig, p->name);
   pbase->name = Q_(pbase->name_orig);
+  sz_strlcpy(pbase->graphic_str, p->graphic_str);
+  sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
 
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&pbase->reqs, &p->reqs[i]);
@@ -2482,6 +2484,8 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->native_to = p->native_to;
 
   pbase->flags = p->flags;
+
+  tileset_setup_base(tileset, pbase);
 }
 
 /**************************************************************************
