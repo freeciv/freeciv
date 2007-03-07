@@ -713,7 +713,6 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity (ptile, ACTIVITY_FORTRESS)
 	>= tile_activity_time(ACTIVITY_FORTRESS, ptile)) {
       tile_add_base(ptile, base_type_get_by_id(BASE_FORTRESS));
-      map_claim_ownership(ptile, unit_owner(punit), ptile);
       unit_activity_done = TRUE;
       new_base = TRUE;
     }
@@ -784,6 +783,11 @@ static void update_unit_activity(struct unit *punit)
     /* watchtower becomes effective
      * FIXME: Reqs on other specials will not be updated immediately. */
     unit_list_refresh_vision(ptile->units);
+
+    /* Claim base if it has "ClaimTerritory" flag */
+    if (tile_has_base_flag(ptile, BF_CLAIM_TERRITORY)) {
+      map_claim_ownership(ptile, unit_owner(punit), ptile);
+    }
   }
 
   if (unit_activity_done) {
