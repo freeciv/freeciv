@@ -438,6 +438,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 tech_leakage;
   YEAR tech_cost_double_year;
   BOOL killstack;
+  UINT8 upgrade_veteran_loss;
   UINT8 autoupgrade_veteran_loss;
   UINT16 incite_improvement_factor;
   UINT16 incite_unit_factor;

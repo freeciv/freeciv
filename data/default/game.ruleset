@@ -42,6 +42,8 @@ min_city_center_food	= 1
 min_city_center_shield	= 1
 min_city_center_trade	= 0
 
+; Number of veteran levels lost when upgrading a unit
+upgrade_veteran_loss     = 0
 ; Number of veteran levels lost when auto-upgrading a unit
 autoupgrade_veteran_loss = 0
 

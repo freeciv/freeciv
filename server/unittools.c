@@ -259,17 +259,6 @@ static void do_upgrade_effects(struct player *pplayer)
 		  unit_type(punit)->name,
 		  upgrade_type->name,
 		  get_location_str_in(pplayer, punit->tile));
-
-    /* For historical reasons some veteran status may be lost while
-     * upgrading.  Note that the upgraded unit may have the NoVeteran
-     * flag set. */
-    if (unit_type_flag(upgrade_type, F_NO_VETERAN)) {
-      punit->veteran = 0;
-    } else {
-      punit->veteran = MAX(punit->veteran
-			   - game.info.autoupgrade_veteran_loss, 0);
-    }
-    assert(test_unit_upgrade(punit, TRUE) == UR_OK);
     upgrade_unit(punit, upgrade_type, TRUE);
     unit_list_unlink(candidates, punit);
     upgrades--;
@@ -1272,6 +1261,16 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
    * global effects like Magellan's Expedition. */
   punit->hp = MAX(punit->hp * unit_type(punit)->hp / old_hp, 1);
   punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
+
+  if (unit_type_flag(to_unit, F_NO_VETERAN)) {
+    punit->veteran = 0;
+  } else if (is_free) {
+    punit->veteran = MAX(punit->veteran
+                         - game.info.autoupgrade_veteran_loss, 0);
+  } else {
+    punit->veteran = MAX(punit->veteran
+                         - game.info.upgrade_veteran_loss, 0);
+  }
 
   conn_list_do_buffer(pplayer->connections);
 
