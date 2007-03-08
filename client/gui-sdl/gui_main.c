@@ -50,6 +50,7 @@
 /* client */
 #include "civclient.h"
 #include "clinet.h"
+#include "ggzclient.h"
 #include "tilespec.h"
 
 /* gui-sdl */
@@ -115,6 +116,7 @@ int city_productions_font_size = 12;
 
 /* ================================ Private ============================ */
 static int net_socket = -1;
+static int ggz_socket = -1;
 static bool autoconnect = FALSE;
 static bool is_map_scrolling = FALSE;
 static enum direction8 scroll_dir;
@@ -122,6 +124,7 @@ static enum direction8 scroll_dir;
 static struct mouse_button_behavior button_behavior;
   
 static SDL_Event *pNet_User_Event = NULL;
+static SDL_Event *pGGZ_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
 static SDL_Event *pMap_Scroll_User_Event = NULL;
@@ -132,13 +135,14 @@ static int check_scroll_area(int x, int y);
       
 enum USER_EVENT_ID {
   EVENT_ERROR = 0,
-  NET = 1,
-  ANIM = 2,
-  TRY_AUTO_CONNECT = 3,
-  SHOW_WIDGET_INFO_LABBEL = 4,
-  FLUSH = 5,
-  MAP_SCROLL = 6,
-  EXIT_FROM_EVENT_LOOP = 7
+  NET,
+  GGZ,
+  ANIM,
+  TRY_AUTO_CONNECT,
+  SHOW_WIDGET_INFO_LABBEL,
+  FLUSH,
+  MAP_SCROLL,
+  EXIT_FROM_EVENT_LOOP
 };
 
 client_option gui_options[] = {
@@ -539,13 +543,20 @@ Uint16 gui_event_loop(void *pData,
   while (ID == ID_ERROR) {
     /* ========================================= */
     /* net check with 10ms delay event loop */
-    if (net_socket >= 0) {
+    if ((net_socket >= 0) || (ggz_socket >= 0)) {
       FD_ZERO(&civfdset);
-      FD_SET(net_socket, &civfdset);
+      
+      if (net_socket >= 0) {
+        FD_SET(net_socket, &civfdset);
+      }
+      if (ggz_socket >= 0) {
+        FD_SET(ggz_socket, &civfdset);
+      }
+      
       tv.tv_sec = 0;
       tv.tv_usec = 10000;/* 10ms*/
     
-      result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
+      result = select(MAX(net_socket, ggz_socket) + 1, &civfdset, NULL, NULL, &tv);
       if (result < 0) {
         if (errno != EINTR) {
 	  break;
@@ -553,8 +564,13 @@ Uint16 gui_event_loop(void *pData,
 	  continue;
         }
       } else {
-        if (result > 0 && FD_ISSET(net_socket, &civfdset)) {
-	  SDL_PushEvent(pNet_User_Event);
+        if (result > 0) {
+	  if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
+	    SDL_PushEvent(pNet_User_Event);
+	  }
+	  if ((ggz_socket >= 0) && FD_ISSET(ggz_socket, &civfdset)) {
+	    SDL_PushEvent(pGGZ_User_Event);
+	  }
 	}
       }
     } else { /* if connection is not establish */
@@ -694,6 +710,9 @@ Uint16 gui_event_loop(void *pData,
           switch(Main.event.user.code) {
             case NET:
               input_from_server(net_socket);
+            break;
+            case GGZ:
+              input_from_ggz(ggz_socket);
             break;
             case ANIM:
               update_button_hold_state();
@@ -857,6 +876,7 @@ static void clear_double_messages_call(void)
 void ui_main(int argc, char *argv[])
 {
   SDL_Event __Net_User_Event;
+  SDL_Event __GGZ_User_Event;
   SDL_Event __Anim_User_Event;
   SDL_Event __Info_User_Event;
   SDL_Event __Flush_User_Event;
@@ -869,6 +889,12 @@ void ui_main(int argc, char *argv[])
   __Net_User_Event.user.data1 = NULL;
   __Net_User_Event.user.data2 = NULL;
   pNet_User_Event = &__Net_User_Event;
+
+  __GGZ_User_Event.type = SDL_USEREVENT;
+  __GGZ_User_Event.user.code = GGZ;
+  __GGZ_User_Event.user.data1 = NULL;
+  __GGZ_User_Event.user.data2 = NULL;
+  pGGZ_User_Event = &__GGZ_User_Event;
 
   __Anim_User_Event.type = SDL_USEREVENT;
   __Anim_User_Event.user.code = EVENT_ERROR;
@@ -1046,8 +1072,8 @@ void add_net_input(int sock)
 **************************************************************************/
 void remove_net_input(void)
 {
-  net_socket = (-1);
   freelog(LOG_DEBUG, "Connection DOWN... ");
+  net_socket = (-1);
   disable_focus_animation();
   draw_goto_patrol_lines = FALSE;
   update_mouse_cursor(CURSOR_DEFAULT);
@@ -1058,7 +1084,8 @@ void remove_net_input(void)
 **************************************************************************/
 void add_ggz_input(int sock)
 {
-  /* PORTME */
+  freelog(LOG_DEBUG, "GGZ Connection UP (%d)", sock);
+  ggz_socket = sock;
 }
 
 /**************************************************************************
@@ -1067,7 +1094,8 @@ void add_ggz_input(int sock)
 **************************************************************************/
 void remove_ggz_input(void)
 {
-  /* PORTME */
+  freelog(LOG_DEBUG, "GGZ Connection DOWN... ");
+  ggz_socket = (-1);
 }
 
 /****************************************************************************
