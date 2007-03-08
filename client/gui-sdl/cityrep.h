@@ -17,5 +17,6 @@
 #include "cityrep_g.h"
 
 bool is_city_report_open(void);
+void popdown_city_report_dialog(void);
 
 #endif	/* FC__CITYREP_H */
