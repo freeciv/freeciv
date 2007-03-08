@@ -422,7 +422,7 @@ void send_all_known_tiles(struct conn_list *dest)
       conn_list_do_buffer(dest);
     }
 
-    send_tile_info(dest, ptile);
+    send_tile_info(dest, ptile, FALSE);
   } whole_map_iterate_end;
 
   conn_list_do_unbuffer(dest);
@@ -437,7 +437,8 @@ void send_all_known_tiles(struct conn_list *dest)
   Note that this function does not update the playermap.  For that call
   update_tile_knowledge().
 **************************************************************************/
-void send_tile_info(struct conn_list *dest, struct tile *ptile)
+void send_tile_info(struct conn_list *dest, struct tile *ptile,
+                    bool send_unknown)
 {
   struct packet_tile_info info;
 
@@ -482,6 +483,15 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
       info.resource = plrtile->resource ? plrtile->resource->index : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
+    } else if (send_unknown) {
+      info.known = TILE_UNKNOWN;
+      info.type  = -1;
+      for (spe = 0; spe < S_LAST; spe++) {
+        info.special[spe] = FALSE;
+      }
+      info.resource  = -1;
+      info.continent = 0;
+      send_packet_tile_info(pconn, &info);
     }
   }
   conn_list_iterate_end;
@@ -517,7 +527,7 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile,
      * continent number before it can handle following packets
      */
     update_player_tile_knowledge(pplayer, ptile);
-    send_tile_info(pplayer->connections, ptile);
+    send_tile_info(pplayer->connections, ptile, FALSE);
     /* NOTE: because the V_INVIS case doesn't fall into this if statement,
      * changes to V_INVIS fogging won't send a new info packet to the client
      * and the client's tile_seen[V_INVIS] bitfield may end up being out
@@ -598,7 +608,7 @@ static void really_fog_tile(struct player *pplayer, struct tile *ptile,
 
   if (vlayer == V_MAIN) {
     update_player_tile_last_seen(pplayer, ptile);
-    send_tile_info(pplayer->connections, ptile);
+    send_tile_info(pplayer->connections, ptile, FALSE);
   }
 }
 
@@ -706,7 +716,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 	update_player_tile_knowledge(pplayer, ptile);
 	update_player_tile_last_seen(pplayer, ptile);
 
-	send_tile_info(pplayer->connections, ptile);
+	send_tile_info(pplayer->connections, ptile, FALSE);
 
 	/* remove old cities that exist no more */
 	reality_check_city(pplayer, ptile);
@@ -1018,7 +1028,7 @@ void update_tile_knowledge(struct tile *ptile)
   players_iterate(pplayer) {
     if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       if (update_player_tile_knowledge(pplayer, ptile)) {
-        send_tile_info(pplayer->connections, ptile);
+        send_tile_info(pplayer->connections, ptile, FALSE);
       }
     }
   } players_iterate_end;
@@ -1027,7 +1037,7 @@ void update_tile_knowledge(struct tile *ptile)
   conn_list_iterate(game.est_connections, pconn) {
     struct player *pplayer = pconn->player;
     if (!pplayer && pconn->observer) {
-      send_tile_info(pconn->self, ptile);
+      send_tile_info(pconn->self, ptile, FALSE);
     }
   } conn_list_iterate_end;
 }
@@ -1069,7 +1079,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->special = from_tile->special;
       dest_tile->resource = from_tile->resource;
       dest_tile->last_updated = from_tile->last_updated;
-      send_tile_info(pdest->connections, ptile);
+      send_tile_info(pdest->connections, ptile, FALSE);
 	
       /* update and send city knowledge */
       /* remove outdated cities */
@@ -1501,7 +1511,7 @@ void map_claim_ownership(struct tile *ptile, struct player *owner,
 {
   ptile->owner_source = source;
   tile_set_owner(ptile, owner);
-  send_tile_info(NULL, ptile);
+  send_tile_info(NULL, ptile, FALSE);
   tile_update_owner(ptile);
 }
 

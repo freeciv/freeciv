@@ -72,8 +72,14 @@ static paint_item specials[] = {
 
 static paint_item *resources;
 
+static paint_item vision_items[] = {
+  { N_("Known"),   EVISION_ADD },
+  { N_("Unknown"), EVISION_REMOVE },
+  { N_("Toggle"),  EVISION_TOGGLE }
+};
+
 static char *tool_names[ETOOL_LAST] = {
-  N_("Paint"), N_("Unit"), N_("City"), N_("Player"), N_("Delete")
+  N_("Paint"), N_("Unit"), N_("City"), N_("Player"), N_("Vision"), N_("Delete")
 };
 
 #define SPECIALS_NUM ARRAY_SIZE(specials)
@@ -83,6 +89,7 @@ static GtkWidget *notebook;
 
 static GList *tool_group;
 static GList *map_group;
+static GList *vision_group;
 
 /****************************************************************************
   handle the toggle buttons' toggle events
@@ -187,6 +194,13 @@ static void set_selected_paint(GtkWidget *w, gpointer data)
   }
 }
 
+static void set_selected_vision_paint(GtkWidget *w, gpointer data)
+{
+  enum editor_vision_mode edit_type = GPOINTER_TO_INT(data);
+
+  editor_set_vision_mode(edit_type);
+}
+
 /****************************************************************************
   FIXME: this is for demonstration purposes only (and not demonstration of
           coding goodness to be sure!)
@@ -244,6 +258,16 @@ static void city_callback(GtkWidget *button, gpointer data)
   struct city *pcity = editor_get_selected_city();
 
   pcity->owner = get_player(to);
+}
+
+/****************************************************************************
+  Set whose vision we are editing.
+****************************************************************************/
+static void vision_callback(GtkWidget *button, gpointer data)
+{
+  size_t to = (size_t) data;
+
+  editor_set_selected_player(get_player(to));
 }
 
 #if 0
@@ -481,7 +505,6 @@ static GtkWidget *create_city_palette(void)
   return vbox;
 }
 
-#if 0
 /****************************************************************************
   Create the tab for the player editor tool.
 ****************************************************************************/
@@ -493,7 +516,75 @@ static GtkWidget *create_player_palette(void)
 
   return vbox;
 }
-#endif
+
+/****************************************************************************
+  Create the tab for the vision editor tool.
+****************************************************************************/
+static GtkWidget *create_vision_palette(void)
+{
+  GtkWidget *vbox, *hbox, *bbox, *label, *button;
+  GtkWidget *playermenu, *popupmenu;
+  int i, sig;
+
+  vbox = gtk_vbox_new(FALSE, 5);
+  hbox = gtk_hbox_new(FALSE, 5);
+  bbox = gtk_hbox_new(FALSE, 5);
+
+  label = gtk_label_new(_("Player"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+
+  playermenu = gtk_option_menu_new();
+  popupmenu = gtk_menu_new();
+  gtk_option_menu_set_menu(GTK_OPTION_MENU(playermenu), popupmenu);
+  players_iterate(pplayer) {
+    char data[1024];
+    GtkWidget *item;
+
+    if (pplayer->nation) {
+      my_snprintf(data, sizeof(data), "%s (%s)",
+		  pplayer->name, pplayer->nation->name);
+    } else {
+      my_snprintf(data, sizeof(data), "%s", pplayer->name);
+
+    }
+    item = gtk_menu_item_new_with_label(data);
+
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(vision_callback),
+                     GINT_TO_POINTER(pplayer->player_no));
+    gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
+  } players_iterate_end;
+  gtk_box_pack_start(GTK_BOX(hbox), playermenu, TRUE, TRUE, 0);
+
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+
+  for(i = 0; i < EVISION_LAST; i++) {
+    paint_item *item = &vision_items[i];
+
+    button = gtk_toggle_button_new_with_label(item->name);
+
+    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
+                                (i == EVISION_ADD) ? TRUE : FALSE);
+    sig = g_signal_connect(button, "toggled",
+                           G_CALLBACK(set_selected_vision_paint),
+                           GINT_TO_POINTER(i));
+
+    /* add this button to a group */
+    vision_group = g_list_append(vision_group, button);
+
+    /* add this group and the signal id to widget internal data */
+    g_signal_connect(button, "toggled", G_CALLBACK(toggle_group_callback),
+                     (gpointer)vision_group);
+    g_object_set_data(G_OBJECT(button), "sigid", GINT_TO_POINTER(sig));
+
+    gtk_box_pack_start(GTK_BOX(bbox), button, FALSE, FALSE, 0);
+  }
+
+  gtk_box_pack_start(GTK_BOX(vbox), bbox, FALSE, FALSE, 0);
+
+  return vbox;
+}
 
 /****************************************************************************
   Create the tools dialog.
@@ -539,10 +630,10 @@ static void create_toolsdlg(void)
 			   create_units_palette(), NULL);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
 			   create_city_palette(), NULL);
-#if 0
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
 			   create_player_palette(), NULL);
-#endif
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+                           create_vision_palette(), NULL);
 
   gtk_widget_show_all(toolwin);
 }

@@ -174,4 +174,11 @@ enum ai_level { AI_LEVEL_AWAY         = 1,
 
 #define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
 
+enum editor_vision_mode {
+  EVISION_ADD,
+  EVISION_REMOVE,
+  EVISION_TOGGLE,
+  EVISION_LAST
+};
+
 #endif /* FC__FC_TYPES_H */

@@ -40,6 +40,8 @@ static struct resource *selected_resource = NULL;
 static enum editor_paint_type selected_paint_type = EPAINT_LAST;
 static struct unit *selected_unit;
 static struct city *selected_city;
+static struct player *selected_player;
+static enum editor_vision_mode selected_vision_mode;
 
 /****************************************************************************
   Initialize the editor tools data.
@@ -66,6 +68,8 @@ void editor_init_tools(void)
   selected_paint_type = EPAINT_LAST;
   selected_terrain = NULL;
   selected_resource = NULL;
+  selected_player = NULL;
+  selected_vision_mode = EVISION_LAST;
 }
 
 /****************************************************************************
@@ -106,6 +110,22 @@ void editor_set_selected_special(enum tile_special_type special)
 void editor_set_selected_resource(struct resource *presource)
 {
   selected_resource = presource;
+}
+
+/****************************************************************************
+  Sets the selected editor player.
+****************************************************************************/
+void editor_set_selected_player(struct player *pplayer)
+{
+  selected_player = pplayer;
+}
+
+/****************************************************************************
+  Sets the selected editor vision modifying tool.
+****************************************************************************/
+void editor_set_vision_mode(enum editor_vision_mode mode)
+{
+  selected_vision_mode = mode;
 }
 
 /****************************************************************************
@@ -182,6 +202,21 @@ static enum cursor_type editor_city(struct tile *ptile, bool testing)
   }
 
   return CURSOR_EDIT_ADD;
+}
+
+/****************************************************************************
+  Edit vision
+****************************************************************************/
+static enum cursor_type editor_vision(struct tile *ptile, bool testing)
+{
+  if (!testing) {
+    if (selected_player) {
+      dsend_packet_edit_vision(&aconnection, selected_player->player_no,
+                               ptile->x, ptile->y, selected_vision_mode);
+    }
+  }
+
+  return CURSOR_EDIT_PAINT;
 }
 
 #if 0
@@ -263,7 +298,8 @@ static enum cursor_type editor_click(struct tile *ptile, bool testing)
 {
   /* Editing tiles that we can't see (or are fogged) will only lead to
    * problems. */
-  if (client_tile_get_known(ptile) != TILE_KNOWN) {
+  if (selected_tool != ETOOL_VISION &&
+      client_tile_get_known(ptile) != TILE_KNOWN) {
     return CURSOR_INVALID;
   }
 
@@ -281,6 +317,9 @@ static enum cursor_type editor_click(struct tile *ptile, bool testing)
     }
     return editor_city(ptile, testing);
   case ETOOL_PLAYER:
+    break;
+  case ETOOL_VISION:
+    return editor_vision(ptile, testing);
   case ETOOL_DELETE:
   case ETOOL_LAST:
     break;

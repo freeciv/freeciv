@@ -1462,3 +1462,9 @@ end
 
 PACKET_EDIT_RECALCULATE_BORDERS=131;cs,handle-per-conn
 end
+
+PACKET_EDIT_VISION=132;cs,handle-per-conn,dsend
+  PLAYER player;
+  COORD x, y;
+  UINT8 mode;
+end

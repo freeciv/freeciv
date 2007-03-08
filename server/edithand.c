@@ -28,6 +28,7 @@
 #include "map.h"
 #include "movement.h"
 #include "terrain.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "cityturn.h"
@@ -96,7 +97,7 @@ void handle_edit_tile(struct connection *pc, int x, int y,
 
   /* update playertiles and send updates to the clients */
   update_tile_knowledge(ptile);
-  send_tile_info(NULL, ptile);
+  send_tile_info(NULL, ptile, FALSE);
 }
 
 /****************************************************************************
@@ -404,6 +405,53 @@ void handle_edit_player(struct connection *pc,
 
   /* send update back to client */
   send_player_info(NULL, pplayer);  
+}
+
+/****************************************************************************
+  Handles vision editing requests from client
+****************************************************************************/
+void handle_edit_vision(struct connection *pc, int plr_no, int x, int y,
+                        int mode)
+{
+  struct player *pplayer = get_player(plr_no);
+  struct tile *ptile = map_pos_to_tile(x, y);
+  bool remove_knowledge = FALSE;
+
+  if (!can_conn_edit(pc) || !pplayer || !ptile) {
+    return;
+  }
+
+  if (mode == EVISION_REMOVE
+      || (mode == EVISION_TOGGLE && map_is_known(ptile, pplayer))) {
+    remove_knowledge = TRUE;
+  }
+
+  if (remove_knowledge) {
+    struct city *pcity = tile_get_city(ptile);
+
+    if (pcity && pcity->owner == pplayer) {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                  _("Cannot remove knowledde about own city."));
+      return;
+    }
+
+    unit_list_iterate(ptile->units, punit) {
+      if (punit->owner == pplayer) {
+        notify_conn(pc->self, NULL, E_BAD_COMMAND,
+                    _("Cannot remove knowledde about own unit."));
+        return;
+      }
+    } unit_list_iterate_end;
+  }
+
+  if (!remove_knowledge) {
+    map_set_known(ptile, pplayer);
+    update_player_tile_knowledge(pplayer, ptile);
+  } else {
+    map_clear_known(ptile, pplayer);
+  }
+
+  send_tile_info(pplayer->connections, ptile, TRUE);
 }
 
 /****************************************************************************

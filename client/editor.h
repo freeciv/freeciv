@@ -21,6 +21,7 @@ enum editor_tool_type {
   ETOOL_UNIT,
   ETOOL_CITY,
   ETOOL_PLAYER,
+  ETOOL_VISION,
   ETOOL_DELETE,
   ETOOL_LAST
 };
@@ -42,6 +43,8 @@ void editor_set_selected_paint_type(enum editor_paint_type type);
 void editor_set_selected_terrain(struct terrain *pterrain);
 void editor_set_selected_special(enum tile_special_type special);
 void editor_set_selected_resource(struct resource *presource);
+void editor_set_selected_player(struct player *pplayer);
+void editor_set_vision_mode(enum editor_vision_mode mode);
 
 struct unit *editor_get_selected_unit(void);
 struct city *editor_get_selected_city(void);

@@ -946,7 +946,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
    * to some players, but we don't want to make any special handling for
    * those cases.  The network code may prevent asecond packet from being
    * sent anyway. */
-  send_tile_info(NULL, ptile);
+  send_tile_info(NULL, ptile, FALSE);
 
   pcity = create_city_virtual(pplayer, ptile, name);
   pcity->ai.trade_want = TRADE_WEIGHTING;
