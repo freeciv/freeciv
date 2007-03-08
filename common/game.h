@@ -121,6 +121,10 @@ struct civ_game {
   } callbacks;
 };
 
+bool is_server(void);
+void i_am_server(void);
+void i_am_client(void);
+
 void game_init(void);
 void game_map_init(void);
 void game_free(void);
@@ -152,7 +156,6 @@ bool is_player_phase(const struct player *pplayer, int phase);
 const char *population_to_text(int thousand_citizen);
 
 extern struct civ_game game;
-extern bool is_server;
 
 bool setting_class_is_changeable(enum sset_class class);
 

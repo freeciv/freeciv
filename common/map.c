@@ -705,7 +705,7 @@ int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
 {
   const int maxcost = 72; /* Arbitrary. */
 
-  assert(!is_server
+  assert(!is_server()
 	 || (tile0->terrain != T_UNKNOWN && tile1->terrain != T_UNKNOWN));
 
   /* A ship can take the step if:

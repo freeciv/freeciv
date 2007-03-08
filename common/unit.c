@@ -1163,7 +1163,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
       return FALSE;
     }
     
-    if (!is_server) {
+    if (!is_server()) {
       struct city *pcity = is_non_allied_city_tile(ptile, pplayer);
 
       if (pcity 

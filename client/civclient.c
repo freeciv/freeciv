@@ -73,10 +73,6 @@
 
 #include "civclient.h"
 
-/* this is used in strange places, and is 'extern'd where
-   needed (hence, it is not 'extern'd in civclient.h) */
-bool is_server = FALSE;
-
 char *logfile = NULL;
 char *scriptfile = NULL;
 static char tileset_name[512] = "\0";
@@ -180,6 +176,8 @@ int main(int argc, char *argv[])
   }
 # endif
 #endif
+
+  i_am_client(); /* Tell to libcivcommon that we are client */
 
   init_nls();
   audio_init();

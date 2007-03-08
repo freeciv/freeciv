@@ -114,11 +114,6 @@ static void end_turn(void);
 static void announce_player(struct player *pplayer);
 static void srv_loop(void);
 
-
-/* this is used in strange places, and is 'extern'd where
-   needed (hence, it is not 'extern'd in srv_main.h) */
-bool is_server = TRUE;
-
 /* command-line arguments to server */
 struct server_arguments srvarg;
 
@@ -162,6 +157,8 @@ void init_game_seed(void)
 **************************************************************************/
 void srv_init(void)
 {
+  i_am_server(); /* Tell to libcivcommon that we are server */
+
   /* NLS init */
   init_nls();
 
