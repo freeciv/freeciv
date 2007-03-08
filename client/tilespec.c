@@ -189,8 +189,6 @@ struct named_sprites {
       *fallout,
       *fortified,
       *fortifying,
-      *fortress,
-      *airbase,
       *go_to,			/* goto is a C keyword :-) */
       *irrigate,
       *mine,
@@ -253,7 +251,8 @@ struct named_sprites {
     struct sprite
       *background,
       *middleground,
-      *foreground;
+      *foreground,
+      *activity;
   } bases[BASE_LAST];
   struct {
     struct sprite
@@ -2165,8 +2164,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.fallout,	"unit.fallout");
   SET_SPRITE(unit.fortified,	"unit.fortified");     
   SET_SPRITE(unit.fortifying,	"unit.fortifying");     
-  SET_SPRITE(unit.fortress,     "unit.fortress");
-  SET_SPRITE(unit.airbase,      "unit.airbase");
   SET_SPRITE(unit.go_to,	"unit.goto");     
   SET_SPRITE(unit.irrigate,     "unit.irrigate");
   SET_SPRITE(unit.mine,	        "unit.mine");
@@ -2647,6 +2644,13 @@ void tileset_setup_base(struct tileset *t,
       exit(EXIT_FAILURE);
     }
   }
+
+  t->sprites.bases[id].activity = load_sprite(t, pbase->activity_gfx);
+  if (t->sprites.bases[id].activity == NULL) {
+    freelog(LOG_ERROR, _("Missing %s building activity tag %s"),
+            base_name(pbase), pbase->activity_gfx);
+    exit(EXIT_FAILURE);
+  }
 }
 
 
@@ -3044,10 +3048,10 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.unit.fortifying;
       break;
     case ACTIVITY_FORTRESS:
-      s = t->sprites.unit.fortress;
+      s = t->sprites.bases[BASE_FORTRESS].activity;
       break;
     case ACTIVITY_AIRBASE:
-      s = t->sprites.unit.airbase;
+      s = t->sprites.bases[BASE_AIRBASE].activity;
       break;
     case ACTIVITY_SENTRY:
       s = t->sprites.unit.sentry;

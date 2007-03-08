@@ -759,6 +759,7 @@ identifier  = "u"
 ; graphic                 = tag specifing preferred graphic
 ; graphic_alt	          = tag for alternate garphic if preferred graphic is not 
 ;                           present. Can use eg "-" for no alternate graphic.
+; activity_gfx            = tag specifing graphic for unit building base
 ; reqs 	                  = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; flags
@@ -770,26 +771,28 @@ identifier  = "u"
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 
 [fortress]
-name        = _("Fortress")
-graphic     = "base.fortress"
-graphic_alt = "-"
-reqs        =
+name         = _("Fortress")
+graphic      = "base.fortress"
+graphic_alt  = "-"
+activity_gfx = "unit.fortress"
+reqs         =
     { "type", "name", "range"
       "Tech", "Construction", "Player"
       "TerrainClass", "Land", "Local"
     }
-native_to   = "Land"
-flags       = "NoAggressive", "DefenseBonus", "ClaimTerritory",
-              "NoStackDeath", "DiplomatDefense"
+native_to    = "Land"
+flags        = "NoAggressive", "DefenseBonus", "ClaimTerritory",
+               "NoStackDeath", "DiplomatDefense"
 
 [airbase]
-name        = _("Airbase")
-graphic     = "base.airbase"
-graphic_alt = "-"
-reqs        =
+name         = _("Airbase")
+graphic      = "base.airbase"
+graphic_alt  = "-"
+activity_gfx = "unit.airbase"
+reqs         =
     { "type", "name", "range"
       "Tech", "Radio", "Player"
       "TerrainClass", "Land", "Local"
     }
-native_to   = "Air", "Helicopter", "Missile"
-flags       = "NoStackDeath", "DiplomatDefense", "ParadropFrom"
+native_to    = "Air", "Helicopter", "Missile"
+flags        = "NoStackDeath", "DiplomatDefense", "ParadropFrom"

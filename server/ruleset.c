@@ -1807,6 +1807,9 @@ static void load_ruleset_terrain(struct section_file *file)
     sz_strlcpy(pbase->graphic_alt,
                secfile_lookup_str_default(file, "-",
                                           "%s.graphic_alt", section));
+    sz_strlcpy(pbase->activity_gfx,
+               secfile_lookup_str_default(file, "-",
+                                          "%s.activity_gfx", section));
 
     reqs = lookup_req_list(file, section, "reqs");
     requirement_vector_copy(&pbase->reqs, reqs);
@@ -3089,6 +3092,7 @@ static void send_ruleset_bases(struct conn_list *dest)
     sz_strlcpy(packet.name, b->name);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
+    sz_strlcpy(packet.activity_gfx, b->activity_gfx);
 
     j = 0;
     requirement_vector_iterate(&b->reqs, preq) {

@@ -40,6 +40,7 @@ struct base_type {
   char name_orig[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  char activity_gfx[MAX_LEN_NAME];
   struct requirement_vector reqs;
   bv_unit_classes native_to;
 

@@ -2475,6 +2475,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->name = Q_(pbase->name_orig);
   sz_strlcpy(pbase->graphic_str, p->graphic_str);
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
+  sz_strlcpy(pbase->activity_gfx, p->activity_gfx);
 
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&pbase->reqs, &p->reqs[i]);
