@@ -47,6 +47,19 @@ static void real_info_city_report_dialog_update(void);
 
 /* ==================================================================== */
 
+void popdown_city_report_dialog()
+{
+  if (pCityRep) {
+    popdown_window_group_dialog(pCityRep->pBeginWidgetList,
+                                      pCityRep->pEndWidgetList);
+    FC_FREE(pCityRep->pScroll);
+    FC_FREE(pCityRep);
+  
+    enable_and_redraw_find_city_button();
+    flush_dirty();
+  }
+}
+
 static int city_report_windows_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -58,19 +71,7 @@ static int city_report_windows_callback(struct widget *pWindow)
 static int exit_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (pCityRep) {
-  /*    if (pUnits_Upg_Dlg) {
-         del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
-                                pUnits_Upg_Dlg->pEndWidgetList);
-         FC_FREE(pUnits_Upg_Dlg); 
-      } */
-      popdown_window_group_dialog(pCityRep->pBeginWidgetList,
-                                        pCityRep->pEndWidgetList);
-      FC_FREE(pCityRep->pScroll);
-      FC_FREE(pCityRep);
-      enable_and_redraw_find_city_button();
-      flush_dirty();
-    }
+    popdown_city_report_dialog();
   }
   return -1;
 }
