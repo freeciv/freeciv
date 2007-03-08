@@ -2070,14 +2070,14 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
 }
 
 /**************************************************************************
-  Barbarian units may disband spontaneously if their age is more then 5,
-  they are not in cities, and they are far from any enemy units. It is to 
-  remove barbarians that do not engage into any activity for a long time.
+  Barbarian units may disband spontaneously if their age is more than
+  BARBARIAN_MIN_LIFESPAN, they are not in cities, and they are far from
+  any enemy units. It is to remove barbarians that do not engage into any
+  activity for a long time.
 **************************************************************************/
 static bool unit_can_be_retired(struct unit *punit)
 {
-  if (punit->fuel > 0) {	/* fuel abused for barbarian life span */
-    punit->fuel--;
+  if (punit->birth_turn + BARBARIAN_MIN_LIFESPAN > game.info.turn) {
     return FALSE;
   }
 
@@ -2421,7 +2421,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   } players_iterate_end;
 
   /* Disappearance - 33% chance on coast, when older than barbarian life span */
-  if (is_ocean_near_tile(leader->tile) && leader->fuel == 0) {
+  if (is_ocean_near_tile(leader->tile)
+      && leader->birth_turn + BARBARIAN_MIN_LIFESPAN < game.info.turn) {
     if(myrand(3) == 0) {
       UNIT_LOG(LOG_DEBUG, leader, "barbarian leader disappearing...");
       wipe_unit(leader);

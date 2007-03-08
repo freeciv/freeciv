@@ -1683,6 +1683,8 @@ static void load_player_units(struct player *plr, int plrno,
     punit->moves_left
       = secfile_lookup_int(file, "player%d.u%d.moves", plrno, i);
     punit->fuel = secfile_lookup_int(file, "player%d.u%d.fuel", plrno, i);
+    punit->birth_turn = secfile_lookup_int_default(file, game.info.turn,
+                                                   "player%d.u%d.born", plrno, i);
     activity = secfile_lookup_int(file, "player%d.u%d.activity", plrno, i);
     if (activity == ACTIVITY_PATROL_UNUSED) {
       /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
@@ -2922,6 +2924,8 @@ static void player_save(struct player *plr, int plrno,
 		                plrno, i);
     secfile_insert_int(file, punit->fuel, "player%d.u%d.fuel",
 		                plrno, i);
+    secfile_insert_int(file, punit->birth_turn, "player%d.u%d.born",
+                       plrno, i);
     secfile_insert_int(file, punit->battlegroup,
 		       "player%d.u%d.battlegroup", plrno, i);
 

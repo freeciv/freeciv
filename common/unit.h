@@ -133,6 +133,7 @@ struct unit {
   int unhappiness;
   int upkeep[O_MAX];
   int fuel;
+  int birth_turn;
   int bribe_cost;
   struct unit_ai ai;
   enum unit_activity activity;

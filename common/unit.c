@@ -1268,6 +1268,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->foul = FALSE;
   punit->debug = FALSE;
   punit->fuel = unit_type(punit)->fuel;
+  punit->birth_turn = game.info.turn;
   punit->hp = unit_type(punit)->hp;
   punit->moves_left = unit_move_rate(punit);
   punit->moved = FALSE;

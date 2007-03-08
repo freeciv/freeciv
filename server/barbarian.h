@@ -27,6 +27,8 @@
 
 #define MAP_FACTOR     2000  /* adjust this to get a good uprising frequency */
 
+#define BARBARIAN_MIN_LIFESPAN 5
+
 bool unleash_barbarians(struct tile *ptile);
 void summon_barbarians(void);
 bool is_land_barbarian(struct player *pplayer);
