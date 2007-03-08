@@ -540,7 +540,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_MOVE_BONUS:
     /* FIXME: check other reqs (e.g., unitclass) */
     v += (8 * v * amount + ai->stats.units.land
-	  + ai->stats.units.sea + ai->stats.units.air);
+	  + ai->stats.units.sea + ai->stats.units.amphibious);
     break;
   case EFT_UNIT_NO_LOSE_POP:
     v += unit_list_size(pcity->tile->units) * 2;
@@ -548,17 +548,17 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_HP_REGEN:
     /* FIXME: check other reqs (e.g., unitclass) */
     v += (5 * c + ai->stats.units.land
-	  + ai->stats.units.sea + ai->stats.units.air);
+	  + ai->stats.units.sea + ai->stats.units.amphibious);
     break;
   case EFT_VETERAN_COMBAT:
     /* FIXME: check other reqs (e.g., unitclass) */
     v += (2 * c + ai->stats.units.land + ai->stats.units.sea
-	  + ai->stats.units.air);
+	  + ai->stats.units.amphibious);
     break;
   case EFT_VETERAN_BUILD:
     /* FIXME: check other reqs (e.g., unitclass, unitflag) */
     v += (3 * c + ai->stats.units.land + ai->stats.units.sea
-	  + ai->stats.units.air);
+	  + ai->stats.units.amphibious);
     break;
   case EFT_UPGRADE_UNIT:
     v += ai->stats.units.upgradeable;

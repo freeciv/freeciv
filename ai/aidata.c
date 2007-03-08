@@ -186,20 +186,18 @@ static void count_my_units(struct player *pplayer)
   memset(&ai->stats.units, 0, sizeof(ai->stats.units));
 
   unit_list_iterate(pplayer->units, punit) {
-    switch (get_unit_move_type(unit_type(punit))) {
-    case LAND_MOVING:
+    struct unit_class *pclass = get_unit_class(unit_type(punit));
+
+    if (pclass->ai.land_move != MOVE_NONE
+        && pclass->ai.sea_move != MOVE_NONE) {
+      /* Can move both land and ocean */
+      ai->stats.units.amphibious++;
+    } else if (pclass->ai.land_move != MOVE_NONE) {
+      /* Can move only at land */
       ai->stats.units.land++;
-      break;
-    case SEA_MOVING:
+    } else if (pclass->ai.sea_move != MOVE_NONE) {
+      /* Can move only at sea */
       ai->stats.units.sea++;
-      break;
-    case HELI_MOVING:
-    case AIR_MOVING:
-      ai->stats.units.air++;
-      break;
-    default:
-      freelog(LOG_ERROR, "Illegal move type in count_my_units()!");
-      break;
     }
 
     if (unit_flag(punit, F_TRIREME)) {

@@ -111,8 +111,8 @@ struct ai_data {
       /* Unit-flag counts. */
       int triremes, missiles;
 
-      /* Move-type counts (air includes helicoptor here). */
-      int land, sea, air;
+      /* Move-type counts */
+      int land, sea, amphibious;
 
       /* Upgradeable units */
       int upgradeable;
