@@ -695,6 +695,7 @@ identifier  = "u"
 ; activity_gfx            = tag specifing graphic for unit building base
 ; reqs 	                  = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
+; gui_type                = How gui should handle this base. Fortress/Airbase/Other 
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "DefenseBonus"      = Units inside gain defense bonus
@@ -713,6 +714,7 @@ reqs         =
       "Tech", "Construction", "Player"
       "TerrainClass", "Land", "Local"
     }
+gui_type     = "Fortress"
 native_to    = "Land"
 flags        = "NoAggressive", "DefenseBonus", "ClaimTerritory",
                "NoStackDeath", "DiplomatDefense"
@@ -727,5 +729,6 @@ reqs         =
       "Tech", "Radio", "Player"
       "TerrainClass", "Land", "Local"
     }
+gui_type     = "Airbase"
 native_to    = "Air", "Helicopter", "Missile"
 flags        = "NoStackDeath", "DiplomatDefense", "ParadropFrom"

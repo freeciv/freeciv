@@ -2484,6 +2484,8 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
 
   pbase->native_to = p->native_to;
 
+  pbase->gui_type = p->gui_type;
+
   pbase->flags = p->flags;
 
   tileset_setup_base(tileset, pbase);

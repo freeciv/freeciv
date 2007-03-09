@@ -194,6 +194,8 @@ type SSET_CLASS         = uint8(enum sset_class)
 type REQ_TYPE	        = uint8(enum req_source_type)
 type REQ_RANGE		= uint8(enum req_range)
 type EFFECT_TYPE	= uint8(enum effect_type)
+type BASE_GUI           = uint8(enum base_gui_type)
+
 type BV_IMPRS		= bitvector(bv_imprs)
 type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
 type BV_FLAGS		= bitvector(bv_flags)
@@ -1276,6 +1278,7 @@ PACKET_RULESET_BASE=120;sc,lsend
   STRING activity_gfx[MAX_LEN_NAME];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
+  BASE_GUI gui_type;
   BV_UNIT_CLASSES native_to;
   BV_BASE_FLAGS flags;
 end

@@ -29,6 +29,11 @@ static const char *base_type_flag_names[] = {
   "ClaimTerritory", "DiplomatDefense", "ParadropFrom"
 };
 
+/* This must correspond to enum base_gui_type in base.h */
+static const char *base_gui_type_names[] = {
+  "Fortress", "Airbase", "Other"
+};
+
 /****************************************************************************
   Check if base provides effect
 ****************************************************************************/
@@ -160,4 +165,39 @@ void base_types_free(void)
   base_type_iterate(pbase) {
     requirement_vector_free(&pbase->reqs);
   } base_type_iterate_end;
+}
+
+/**************************************************************************
+  Convert base gui type names to enum; case insensitive;
+  returns BASE_GUI_LAST if can't match.
+**************************************************************************/
+enum base_gui_type base_gui_type_from_str(const char *s)
+{
+  enum base_gui_type i;
+  
+  assert(ARRAY_SIZE(base_gui_type_names) == BASE_GUI_LAST);
+  
+  for(i = 0; i < BASE_GUI_LAST; i++) {
+    if (mystrcasecmp(base_gui_type_names[i], s)==0) {
+      return i;
+    }
+  }
+  return BASE_GUI_LAST;
+}
+
+/**************************************************************************
+  Get best gui_type base for given parameters
+**************************************************************************/
+struct base_type *get_base_by_gui_type(enum base_gui_type type,
+                                       const struct unit *punit,
+                                       const struct tile *ptile)
+{
+  base_type_iterate(pbase) {
+    if (type == pbase->gui_type
+        && (!punit || can_build_base(punit, pbase, ptile))) {
+      return pbase;
+    }
+  } base_type_iterate_end;
+
+  return NULL;
 }

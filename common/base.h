@@ -19,6 +19,10 @@
 
 enum base_type_id { BASE_FORTRESS = 0, BASE_AIRBASE, BASE_LAST };
 
+/* This must correspond to base_gui_type_names[] in base.c */
+enum base_gui_type { BASE_GUI_FORTRESS = 0, BASE_GUI_AIRBASE, BASE_GUI_OTHER,
+                     BASE_GUI_LAST };
+
 typedef enum base_type_id Base_type_id;
 
 enum base_flag_id {
@@ -42,6 +46,7 @@ struct base_type {
   char graphic_alt[MAX_LEN_NAME];
   char activity_gfx[MAX_LEN_NAME];
   struct requirement_vector reqs;
+  enum base_gui_type gui_type;
   bv_unit_classes native_to;
 
   bv_base_flags flags;
@@ -64,6 +69,11 @@ struct base_type *base_type_get_from_special(bv_special spe);
 
 enum base_flag_id base_flag_from_str(const char *s);
 struct base_type *base_type_get_by_id(Base_type_id id);
+
+enum base_gui_type base_gui_type_from_str(const char *s);
+struct base_type *get_base_by_gui_type(enum base_gui_type type,
+                                       const struct unit *punit,
+                                       const struct tile *ptile);
 
 void base_types_init(void);
 void base_types_free(void);

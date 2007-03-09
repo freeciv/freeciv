@@ -1790,6 +1790,7 @@ static void load_ruleset_terrain(struct section_file *file)
     int j;
     char *section;
     struct requirement_vector *reqs;
+    char *gui_str;
 
     pbase->name = Q_(pbase->name_orig);
 
@@ -1829,6 +1830,13 @@ static void load_ruleset_terrain(struct section_file *file)
       }
     }
     free(slist);
+
+    gui_str = secfile_lookup_str(file,"%s.gui_type", section);
+    pbase->gui_type = base_gui_type_from_str(gui_str);
+    if (pbase->gui_type == BASE_GUI_LAST) {
+      freelog(LOG_ERROR, "Unknown gui_type %s for base %s.", gui_str, pbase->name);
+      exit(EXIT_FAILURE);
+    }
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
     BV_CLR_ALL(pbase->flags);
@@ -3100,6 +3108,8 @@ static void send_ruleset_bases(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
     packet.native_to = b->native_to;
+
+    packet.gui_type = b->gui_type;
 
     packet.flags = b->flags;
 
