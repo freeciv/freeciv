@@ -2314,15 +2314,16 @@ static bool unit_enter_hut(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   bool ok = TRUE;
   int hut_chance = myrand(12);
+  enum hut_behavior behavior = get_unit_class(unit_type(punit))->hut_behavior;
   
-  if (game.info.hut_overflight == OVERFLIGHT_NOTHING && is_air_unit(punit)) {
+  if (behavior == HUT_NOTHING) {
     return ok;
   }
 
   tile_clear_special(punit->tile, S_HUT);
   update_tile_knowledge(punit->tile);
 
-  if (game.info.hut_overflight == OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
+  if (behavior == HUT_FRIGHTEN) {
     notify_player(pplayer, punit->tile, E_HUT_BARB,
 		     _("Your overflight frightens the tribe;"
 		       " they scatter in terror."));

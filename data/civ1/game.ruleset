@@ -35,11 +35,6 @@ min_dist_bw_cities	= 1
 ; Square of initially visible radius (true distance).
 init_vis_radius_sq	= 2
 
-; What happens when a hut is overflown:
-;   "Nothing"  - Just fly over; hut remains.
-;   "Frighten" - Tribe frightened and disbands; hut disappears.
-hut_overflight		= "Nothing"
-
 ; Whether player gets to select which terrain improvement to pillage.
 pillage_select		= 0
 

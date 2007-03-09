@@ -51,6 +51,8 @@ veteran_move_bonus = 0, 0
 ;                 airplanes
 ; min_speed     = Minimum speed after damage and effects
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
+; hut_behavior  = What happens to huts when unit enters tile: "Normal", "Nothing" or
+;                 "Frighten"
 ; flags         = List of unit class flags
 ;
 ; ** Unit class Flags **
@@ -72,6 +74,7 @@ name          = _("Missile")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
+hut_behavior  = "Frighten"
 flags         = "Missile", "Unreachable"
 
 [unitclass_land]
@@ -101,6 +104,7 @@ name          = _("Air")
 move_type     = "Air"
 min_speed     = 1
 hp_loss_pct   = 0
+hut_behavior  = "Frighten"
 flags         = "Unreachable"
 
 ; Below: The individual units, one per section.

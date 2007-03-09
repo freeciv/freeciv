@@ -1043,12 +1043,26 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   unit_class_iterate(ut) {
     int i = ut->id;
     char tmp[200] = "\0";
+    char *hut_str;
 
     mystrlcat(tmp, csec[i], 200);
     mystrlcat(tmp, ".move_type", 200);
     ut->move_type = lookup_move_type(file, tmp, filename);
     ut->min_speed = SINGLE_MOVE * secfile_lookup_int(file, "%s.min_speed", csec[i]);
     ut->hp_loss_pct = secfile_lookup_int(file,"%s.hp_loss_pct", csec[i]);
+
+    hut_str = secfile_lookup_str_default(file, "Normal", "%s.hut_behavior", csec[i]);
+    if (mystrcasecmp(hut_str, "Normal") == 0) {
+      ut->hut_behavior = HUT_NORMAL;
+    } else if (mystrcasecmp(hut_str, "Nothing") == 0) {
+      ut->hut_behavior = HUT_NOTHING;
+    } else if (mystrcasecmp(hut_str, "Frighten") == 0) {
+      ut->hut_behavior = HUT_FRIGHTEN;
+    } else {
+      freelog(LOG_ERROR, _("Illegal hut behavior %s for unit class %s."),
+              hut_str, ut->name);
+      exit(EXIT_FAILURE);
+    }
 
     BV_CLR_ALL(ut->flags);
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", csec[i]);
@@ -2685,17 +2699,6 @@ static void load_ruleset_game(void)
   game.info.init_vis_radius_sq =
     secfile_lookup_int(&file, "civstyle.init_vis_radius_sq");
 
-  sval = secfile_lookup_str(&file, "civstyle.hut_overflight" );
-  if (mystrcasecmp(sval, "Nothing") == 0) {
-    game.info.hut_overflight = OVERFLIGHT_NOTHING;
-  } else if (mystrcasecmp(sval, "Frighten") == 0) {
-    game.info.hut_overflight = OVERFLIGHT_FRIGHTEN;
-  } else {
-    freelog(LOG_ERROR, "Bad value %s for hut_overflight. Using "
-            "\"Frighten\".", sval);
-    game.info.hut_overflight = OVERFLIGHT_FRIGHTEN;
-  }
-
   game.info.pillage_select =
       secfile_lookup_bool(&file, "civstyle.pillage_select");
 
@@ -2832,6 +2835,7 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.move_type = c->move_type;
     packet.min_speed = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
+    packet.hut_behavior = c->hut_behavior;
     packet.flags = c->flags;
 
     lsend_packet_ruleset_unit_class(dest, &packet);

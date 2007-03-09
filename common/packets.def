@@ -430,7 +430,6 @@ PACKET_GAME_INFO=15; sc
   UINT8 min_city_center_output[O_MAX];
   UINT8 min_dist_bw_cities;
   UINT8 init_vis_radius_sq;
-  UINT8 hut_overflight;
   BOOL pillage_select;
   UINT8 nuke_contamination;
   UINT8 granary_food_ini[MAX_GRANARY_INIS];
@@ -1267,6 +1266,7 @@ PACKET_RULESET_UNIT_CLASS=119;sc,lsend
   UINT8 move_type;
   UINT8 min_speed;
   UINT8 hp_loss_pct;
+  UINT8 hut_behavior;
   BV_UCLASS_FLAGS flags;
 end
 

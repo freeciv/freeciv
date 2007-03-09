@@ -41,6 +41,8 @@ enum unit_class_flag_id {
 BV_DEFINE(bv_unit_classes, UCL_LAST);
 BV_DEFINE(bv_unit_class_flags, UCF_LAST);
 
+enum hut_behavior { HUT_NORMAL, HUT_NOTHING, HUT_FRIGHTEN };
+
 enum move_level { MOVE_NONE, MOVE_PARTIAL, MOVE_FULL };
 
 struct unit_class {
@@ -50,6 +52,7 @@ struct unit_class {
   enum unit_move_type move_type;
   int min_speed;           /* Minimum speed after damage and effects */
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
+  enum hut_behavior hut_behavior;
   bv_unit_class_flags flags;
 
   struct {

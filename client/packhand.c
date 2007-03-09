@@ -2149,6 +2149,7 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
   c->move_type   = p->move_type;
   c->min_speed   = p->min_speed;
   c->hp_loss_pct = p->hp_loss_pct;
+  c->hut_behavior = p->hut_behavior;
   c->flags       = p->flags;
 }
 
