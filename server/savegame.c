@@ -3980,10 +3980,11 @@ void game_load(struct section_file *file)
     unit_list_iterate_safe(pplayer->units, punit) {
       struct unit *ferry = find_unit_by_id(punit->transported_by);
 
-      if (is_ocean(tile_get_terrain(punit->tile))
-          && is_ground_unit(punit) && !ferry) {
-        freelog(LOG_ERROR, "Removing %s's unferried %s in ocean at (%d, %d)",
-                pplayer->name, unit_name(punit->type), TILE_XY(punit->tile));
+      if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
+        freelog(LOG_ERROR, _("Removing %s's unferried %s in %s at (%d, %d)"),
+                pplayer->name, unit_name(punit->type),
+                get_name(punit->tile->terrain),
+                TILE_XY(punit->tile));
         bounce_unit(punit, TRUE);
       }
     } unit_list_iterate_safe_end;
