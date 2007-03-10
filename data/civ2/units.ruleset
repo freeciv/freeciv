@@ -68,6 +68,7 @@ veteran_move_bonus = 0, 0
 ; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
 ; "ZOC"           = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                   override this
+; "CanFortify"    = Unit can fortify at land squares
 
 [unitclass_missile]
 name          = _("Missile")
@@ -83,7 +84,7 @@ move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere",
-                "CollectRansom", "ZOC"
+                "CollectRansom", "ZOC", "CanFortify"
 
 [unitclass_sea]
 name          = _("Sea")

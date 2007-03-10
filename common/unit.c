@@ -743,6 +743,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = ptile->terrain;
   struct base_type *pbase;
+  struct unit_class *pclass = get_unit_class(unit_type(punit));
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -823,7 +824,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_FORTIFYING:
-    return (is_ground_unit(punit)
+    return (unit_class_flag(pclass, UCF_CAN_FORTIFY)
 	    && punit->activity != ACTIVITY_FORTIFIED
 	    && !unit_flag(punit, F_SETTLERS)
 	    && !is_ocean(ptile->terrain));

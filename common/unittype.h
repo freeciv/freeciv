@@ -35,6 +35,7 @@ enum unit_class_flag_id {
   UCF_UNREACHABLE,
   UCF_COLLECT_RANSOM,     /* Can collect ransom from barbarian leader */
   UCF_ZOC,                /* Is subject to ZOC */
+  UCF_CAN_FORTIFY,        /* Can fortify on land squares */
   UCF_LAST
 };
 
