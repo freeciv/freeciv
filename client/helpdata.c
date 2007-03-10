@@ -891,9 +891,6 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (unit_type_flag(utype, F_TRANSFORM)) {
     sprintf(buf + strlen(buf), _("* Can transform tiles.\n"));
   }
-  if (unit_type_flag(utype, F_AIRBASE)) {
-    sprintf(buf + strlen(buf), _("* Can build airbases.\n"));
-  }
   if (is_ground_unittype(utype) && !unit_type_flag(utype, F_SETTLERS)) {
     sprintf(buf + strlen(buf),
 	    _("* May fortify, granting a 50%% defensive bonus.\n"));

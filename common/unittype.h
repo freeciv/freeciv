@@ -90,7 +90,7 @@ enum unit_flag_id {
   F_SPY,              /* Enhanced spy abilities */
   F_TRANSFORM,        /* Can transform terrain types (Engineers) */
   F_PARATROOPERS,
-  F_AIRBASE,          /* Can build Airbases */
+  F_AIRBASE,          /* No hardcoded behavior, rulesets use for UnitFlag requirement */
   F_CITIES,           /* Can build cities */
   F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
   F_ADD_TO_CITY,      /* unit can add to city population */

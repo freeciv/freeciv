@@ -85,12 +85,6 @@ const char *base_name(const struct base_type *pbase)
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                     const struct tile *ptile)
 {
-  if ((pbase->id == BASE_FORTRESS && !unit_flag(punit, F_SETTLERS)) ||
-      (pbase->id == BASE_AIRBASE && !unit_flag(punit, F_AIRBASE))) {
-    /* This unit cannot build this kind of base */
-    return FALSE;
-  }
-
   if (tile_get_city(ptile)) {
     /* Bases cannot be built inside cities */
     return FALSE;

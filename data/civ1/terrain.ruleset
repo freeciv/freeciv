@@ -621,6 +621,7 @@ reqs         =
     { "type", "name", "range"
       "Tech", "Construction", "Player"
       "TerrainClass", "Land", "Local"
+      "UnitFlag", "Settlers", "Local"
     }
 gui_type     = "Fortress"
 native_to    = "Land"
