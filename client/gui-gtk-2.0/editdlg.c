@@ -113,7 +113,7 @@ static void toggle_group_callback(GtkWidget *w, gpointer data)
   /* untoggle all the other buttons in the group toggle this one */
   for (i = 0 ; i < g_list_length(group); i++) {
     GtkWidget *button = (GtkWidget *)g_list_nth_data(group, i);
-    int id = (int)g_object_get_data(G_OBJECT(button), "sigid");
+    int id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "sigid"));
 
     g_signal_handlers_block_by_func(button,
                                     G_CALLBACK(toggle_group_callback), data);
