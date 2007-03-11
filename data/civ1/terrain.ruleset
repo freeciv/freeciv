@@ -616,7 +616,7 @@ food        = 2
 name         = _("Fortress")
 graphic      = "base.fortress"
 graphic_alt  = "-"
-activity_gfx = "unit.fortress
+activity_gfx = "unit.fortress"
 reqs         =
     { "type", "name", "range"
       "Tech", "Construction", "Player"
