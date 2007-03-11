@@ -65,6 +65,18 @@ bool can_player_attack_tile(const struct player *pplayer,
 }
 
 /***********************************************************************
+  Can unit attack other
+***********************************************************************/
+bool is_unit_reachable_by_unit(const struct unit *defender,
+                               const struct unit *attacker)
+{
+  struct unit_class *dclass = get_unit_class(unit_type(defender));
+
+  return unit_flag(attacker, F_ATTACK_ANY)
+    || !unit_class_flag(dclass, UCF_UNREACHABLE);
+}
+
+/***********************************************************************
   Checks if a unit can physically attack pdefender at the tile
   (assuming it is adjacent and at war).
 
@@ -94,8 +106,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   }
 
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
-  if (!unit_flag(punit, F_ATTACK_ANY)
-      && unit_class_flag(get_unit_class(unit_type(pdefender)), UCF_UNREACHABLE)
+  if (!is_unit_reachable_by_unit(pdefender, punit)
       && !(pcity || tile_has_native_base(dest_tile, unit_type(pdefender)))) {
     return FALSE;
   }

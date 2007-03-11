@@ -24,6 +24,8 @@
  */
 #define POWER_FACTOR	10
 
+bool is_unit_reachable_by_unit(const struct unit *defender,
+                               const struct unit *attacker);
 bool can_player_attack_tile(const struct player *pplayer,
 			    const struct tile *ptile);
 bool can_unit_attack_unit_at_tile(const struct unit *punit,

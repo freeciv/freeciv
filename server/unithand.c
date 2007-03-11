@@ -699,8 +699,8 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
 	  TILE_XY(pdefender->tile));
     }
 
-    if (!is_air_unit(pdefender)
-	|| (pcity || tile_has_native_base(ptile, unit_type(pdefender)))) {
+    if (is_unit_reachable_by_unit(pdefender, punit)
+	|| pcity || tile_has_native_base(ptile, unit_type(pdefender))) {
       see_combat(punit, pdefender);
 
       unit_versus_unit(punit, pdefender, TRUE);
