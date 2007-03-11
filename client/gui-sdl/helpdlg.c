@@ -196,7 +196,7 @@ void popup_impr_info(Impr_type_id impr)
     pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
     
-    pStr = create_str16_from_char(_("Help : Improvement"), adj_font(12));
+    pStr = create_str16_from_char(_("Help : Improvements"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
     pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);

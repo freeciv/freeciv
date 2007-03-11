@@ -3006,7 +3006,7 @@ static void popup_change_research_goal_dialog()
   
   pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
-  pStr = create_str16_from_char(_("Sellect target :"), adj_font(12));
+  pStr = create_str16_from_char(_("Select target :"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pStr, 0);
