@@ -499,10 +499,10 @@ static int toggle_msg_window_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) { 
     if (is_meswin_open()) {
       popdown_meswin_dialog();
-      copy_chars_to_string16(pWidget->string16, _("Show Log (F10)"));
+      copy_chars_to_string16(pWidget->string16, _("Show Messages (F10)"));
     } else {
       popup_meswin_dialog(true);
-      copy_chars_to_string16(pWidget->string16, _("Hide Log (F10)"));
+      copy_chars_to_string16(pWidget->string16, _("Hide Messages (F10)"));
     }
   
     pSellected_Widget = pWidget;
@@ -1602,7 +1602,7 @@ void popup_minimap_window() {
   /* show/hide log window button */
   pWidget = create_themeicon(pTheme->LOG_Icon, pMiniMap_Window->dst,
  			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pWidget->string16 = create_str16_from_char(_("Hide Log (F10)"), adj_font(12));
+  pWidget->string16 = create_str16_from_char(_("Hide Messages (F10)"), adj_font(12));
   pWidget->action = toggle_msg_window_callback;
   pWidget->key = SDLK_F10;
 
