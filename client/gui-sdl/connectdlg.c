@@ -274,9 +274,9 @@ void popup_connection_dialog(bool lan_scan)
   
   if(!pServer_list) {
     if (lan_scan) {
-      append_output_window("No LAN servers found"); 
+      append_output_window(_("No LAN servers found")); 
     } else {
-      append_output_window("No public servers found"); 
+      append_output_window(_("No public servers found")); 
     }        
     real_update_meswin_dialog();
     popup_join_game_dialog();
@@ -338,9 +338,9 @@ void popup_connection_dialog(bool lan_scan)
 
   if(!count) {
     if (lan_scan) {
-      append_output_window("No LAN servers found"); 
+      append_output_window(_("No LAN servers found")); 
     } else {
-      append_output_window("No public servers found"); 
+      append_output_window(_("No public servers found")); 
     }        
     real_update_meswin_dialog();
     popup_join_game_dialog();
