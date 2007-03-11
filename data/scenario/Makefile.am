@@ -26,8 +26,6 @@ pkgdata_DATA = $(zipped_files)
 $(zipped_files): %.sav.gz: %.sav
 	$(GZIP) --best -c $< > $@
 
-.PHONY: clean
-clean:
-	rm -f $(zipped_files)
+MOSTLYCLEANFILES = $(zipped_files)
 
 EXTRA_DIST = $(unzipped_files)
