@@ -395,7 +395,13 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
   }
 
   unit_type_iterate(punittype) {
-    if (get_unit_move_type(punittype) != AIR_MOVING) {
+    struct unit_class *pclass = get_unit_class(punittype);
+
+    if (pclass->ai.land_move == MOVE_NONE
+        || pclass->ai.sea_move == MOVE_NONE
+        || unit_class_flag(pclass, UCF_TERRAIN_SPEED)
+        || unit_type_is_losing_hp(pplayer, punittype)) {
+      /* We don't consider this a plane */
       continue;
     }
     if (can_build_unit(pcity, punittype)) {

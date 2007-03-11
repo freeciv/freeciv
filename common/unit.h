@@ -300,5 +300,7 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
 					       const struct unit *punit);
 
 bool is_losing_hp(const struct unit *punit);
+bool unit_type_is_losing_hp(const struct player *pplayer,
+                            const struct unit_type *punittype);
 
 #endif  /* FC__UNIT_H */
