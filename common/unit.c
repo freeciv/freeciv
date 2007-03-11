@@ -843,7 +843,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return (is_ground_unit(punit)
 	    && punit->activity != ACTIVITY_FORTIFIED
 	    && !unit_flag(punit, F_SETTLERS)
-	    && !is_ocean(ptile->terrain));
+	    && (!is_ocean(ptile->terrain) || ptile->city));
 
   case ACTIVITY_FORTIFIED:
     return FALSE;
