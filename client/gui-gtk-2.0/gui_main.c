@@ -100,6 +100,7 @@ GdkWindow *root_window;
 GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
 GtkWidget *top_notebook, *bottom_notebook;
+GtkWidget *map_widget;
 
 int city_names_font_size = 0, city_productions_font_size = 0;
 PangoFontDescription *main_font;
@@ -1107,13 +1108,13 @@ static void setup_widgets(void)
 
   /* Map canvas and scrollbars */
 
-  table = gtk_table_new(2, 2, FALSE);
+  map_widget = gtk_table_new(2, 2, FALSE);
 
   label = gtk_label_new_with_mnemonic(_("_Map"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), table, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), map_widget, label);
 
   frame = gtk_frame_new(NULL);
-  gtk_table_attach(GTK_TABLE(table), frame, 0, 1, 0, 1,
+  gtk_table_attach(GTK_TABLE(map_widget), frame, 0, 1, 0, 1,
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL,
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
@@ -1137,11 +1138,11 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(frame), map_canvas);
 
   map_horizontal_scrollbar = gtk_hscrollbar_new(NULL);
-  gtk_table_attach(GTK_TABLE(table), map_horizontal_scrollbar, 0, 1, 1, 2,
+  gtk_table_attach(GTK_TABLE(map_widget), map_horizontal_scrollbar, 0, 1, 1, 2,
                    GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0, 0);
 
   map_vertical_scrollbar = gtk_vscrollbar_new(NULL);
-  gtk_table_attach(GTK_TABLE(table), map_vertical_scrollbar, 1, 2, 0, 1,
+  gtk_table_attach(GTK_TABLE(map_widget), map_vertical_scrollbar, 1, 2, 0, 1,
                    0, GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
   g_signal_connect(map_canvas, "expose_event",

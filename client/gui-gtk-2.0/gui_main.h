@@ -69,6 +69,7 @@ extern GdkWindow *      root_window;
 
 extern GtkWidget *	toplevel_tabs;
 extern GtkWidget *	top_notebook;
+extern GtkWidget *      map_widget;
 extern GtkWidget *	bottom_notebook;
 extern GtkTextBuffer *	message_buffer;
 extern GtkTreeStore *conn_model;
