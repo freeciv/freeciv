@@ -104,6 +104,7 @@ enum effect_type {
   EFT_OUTPUT_PENALTY_TILE, /* -1 penalty to tiles producing more than this */
   EFT_OUTPUT_INC_TILE_CELEBRATE,
   EFT_CITY_UNHAPPY_SIZE, /* all citizens after this are unhappy */
+  EFT_UPGRADE_PRICE_PCT,
   EFT_LAST	/* keep this last */
 };
 

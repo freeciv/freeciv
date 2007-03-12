@@ -618,6 +618,10 @@ static int improvement_effect_value(struct player *pplayer,
       }
     } players_iterate_end;
     break;
+  case EFT_UPGRADE_PRICE_PCT:
+    /* This is based on average base upgrade price of 50. */
+    v -= ai->stats.units.upgradeable * amount / 2;
+    break;
   /* Currently not supported for building AI - wait for modpack users */
   case EFT_CITY_UNHAPPY_SIZE:
   case EFT_UNHAPPY_FACTOR:

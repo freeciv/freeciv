@@ -331,7 +331,11 @@ int unit_upgrade_price(const struct player *pplayer,
 		       const struct unit_type *from,
 		       const struct unit_type *to)
 {
-  return unit_buy_gold_cost(to, unit_disband_shields(from));
+  int base_cost = unit_buy_gold_cost(to, unit_disband_shields(from));
+
+  return base_cost
+    * (100 + get_player_bonus(pplayer, EFT_UPGRADE_PRICE_PCT))
+    / 100;
 }
 
 /**************************************************************************
