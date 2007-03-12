@@ -184,22 +184,32 @@ static void button_release_event_callback(GtkWidget *widget,
   if (tech == A_NONE) {
     return;
   }
-  if (event->button == 1 && can_client_issue_orders()) {
-    /* LMB: set research or research goal */
-    switch (get_invention(game.player_ptr, tech)) {
-    case TECH_REACHABLE:
-      dsend_packet_player_research(&aconnection, tech);
-      break;
-    case TECH_UNKNOWN:
-      dsend_packet_player_tech_goal(&aconnection, tech);
-      break;
-    case TECH_KNOWN:
-      break;
-    }
-  } else if (event->button == 3) {
+
+  if (event->button == 3) {
     /* RMB: get help */
     /* FIXME: this should work for ctrl+LMB or shift+LMB (?) too */
     popup_help_dialog_typed(get_tech_name(game.player_ptr, tech), HELP_TECH);
+  } else if (!can_conn_edit(&aconnection)) {
+    if (event->button == 1 && can_client_issue_orders()) {
+      /* LMB: set research or research goal */
+      switch (get_invention(game.player_ptr, tech)) {
+       case TECH_REACHABLE:
+         dsend_packet_player_research(&aconnection, tech);
+         break;
+       case TECH_UNKNOWN:
+         dsend_packet_player_tech_goal(&aconnection, tech);
+         break;
+       case TECH_KNOWN:
+         break;
+      }
+    }
+  } else {
+    /* Editor mode */
+    if (game.player_ptr) {
+      /* Not a global observer */
+      dsend_packet_edit_player_tech(&aconnection, game.player_ptr->player_no,
+                                    tech, ETECH_TOGGLE);
+    }
   }
 }
 

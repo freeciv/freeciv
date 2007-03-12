@@ -455,6 +455,62 @@ void handle_edit_vision(struct connection *pc, int plr_no, int x, int y,
 }
 
 /****************************************************************************
+  Edit techs known by player
+****************************************************************************/
+void handle_edit_player_tech(struct connection *pc,
+                             int playerno, Tech_type_id tech,
+                             enum editor_tech_mode mode)
+{
+  struct player *pplayer = get_player(playerno);
+  struct player_research *research;
+
+  if (!can_conn_edit(pc) || !pplayer || !tech_exists(tech)) {
+    return;
+  }
+
+  research = get_player_research(pplayer);
+
+  switch(mode) {
+   case ETECH_ADD:
+     set_invention(pplayer, tech, TECH_KNOWN);
+     research->techs_researched++;
+     break;
+   case ETECH_REMOVE:
+     set_invention(pplayer, tech, TECH_UNKNOWN);
+     research->techs_researched--;
+     break;
+   case ETECH_TOGGLE:
+     if (get_invention(pplayer, tech) == TECH_KNOWN) {
+       set_invention(pplayer, tech, TECH_UNKNOWN);
+       research->techs_researched--;
+     } else {
+       set_invention(pplayer, tech, TECH_KNOWN);
+       research->techs_researched++;
+     }
+     break;
+   default:
+     break;
+  }
+
+  update_research(pplayer);
+
+  if (research->researching != A_UNSET
+      && get_invention(pplayer, research->researching) != TECH_REACHABLE) {
+    research->researching = A_UNSET;
+  }
+  if (research->tech_goal != A_UNSET
+      && get_invention(pplayer, research->tech_goal) == TECH_KNOWN) {
+    research->tech_goal = A_UNSET;
+  }
+
+  /* send update back to client */
+  send_player_info(NULL, pplayer);
+
+  /* Inform everybody about global advances */
+  send_game_info(NULL);
+}
+
+/****************************************************************************
   Client editor requests us to recalculate borders. Note that this does
   not necessarily extend borders to their maximum due to the way the
   borders code is written. This may be considered a feature or limitation.

@@ -181,4 +181,11 @@ enum editor_vision_mode {
   EVISION_LAST
 };
 
+enum editor_tech_mode {
+  ETECH_ADD,
+  ETECH_REMOVE,
+  ETECH_TOGGLE,
+  ETECH_LAST
+};
+
 #endif /* FC__FC_TYPES_H */

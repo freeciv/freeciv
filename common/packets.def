@@ -222,6 +222,7 @@ type CONNECTION		= UINT8
 type TEAM		= UINT8
 type CONTINENT          = sint16(Continent_id)
 type IMPROVEMENT	= uint8(Impr_type_id)
+type EDIT_TECH_MODE     = uint8(enum editor_tech_mode)
 
 # other typedefs
 type COORD  		= UINT8
@@ -1477,4 +1478,10 @@ PACKET_EDIT_VISION=132;cs,handle-per-conn,dsend
   PLAYER player;
   COORD x, y;
   UINT8 mode;
+end
+
+PACKET_EDIT_PLAYER_TECH=133;cs,handle-per-conn,dsend
+  PLAYER          playerno;
+  TECH            tech;
+  EDIT_TECH_MODE  mode;
 end
