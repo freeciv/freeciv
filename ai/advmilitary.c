@@ -1417,7 +1417,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
    * (in which case, we might want a ferry before an attacker)
    */
   punittype = ai_choose_attacker(pcity, LAND_MOVING);
-  if (punittype >= 0) {
+  if (punittype) {
     virtualunit = create_unit_virtual(pplayer, pcity, punittype, 1);
     kill_something_with(pplayer, pcity, virtualunit, choice);
     destroy_unit_virtual(virtualunit);
