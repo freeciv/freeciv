@@ -18,6 +18,7 @@
 #include <SDL/SDL.h>
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 
 /* client */
@@ -193,9 +194,9 @@ void update_players_dialog(void)
   if(pPlayers_Dlg) {
     struct widget *pPlayer0, *pPlayer1;
     struct player *pPlayer;
-    char cBuf[128], *state, *team;
-    int idle;
     SDL_Rect dst0, dst1;
+    int i;
+    struct astring astr = ASTRING_INIT;
           
     /* redraw window */
     widget_redraw(pPlayers_Dlg->pEndWidgetList);
@@ -207,46 +208,28 @@ void update_players_dialog(void)
       pPlayer1 = pPlayer0;
       pPlayer = pPlayer0->data.player;
       
-      /* the team */
-      if (pPlayer->team) {
-        team = _(team_get_name(pPlayer->team));
-      } else {
-        team = _("none");
-      }
-            
-      if(pPlayer->is_alive) {
-        if (pPlayer->ai.control) {
-	  state = _("AI");
-        } else {
-          if (pPlayer->is_connected) {
-            if (pPlayer->phase_done) {
-              state = _("done");
-            } else {
-              state = _("moving");
-            }
-          } else {
-            state = _("disconnected");
+      for (i = 0; i < num_player_dlg_columns; i++) {
+        if (player_dlg_columns[i].show) {
+          switch (player_dlg_columns[i].type) {
+            case COL_TEXT:
+            case COL_RIGHT_TEXT:
+              astr_add_line(&astr, "%s: %s", player_dlg_columns[i].title,
+                                             player_dlg_columns[i].func(pPlayer));
+              break;
+            case COL_BOOLEAN:
+              astr_add_line(&astr, "%s: %s", player_dlg_columns[i].title,
+                            player_dlg_columns[i].bool_func(pPlayer) ? 
+                              _("Yes") : _("No"));
+              break;
+            default:
+              break;
           }
         }
-      } else {
-        state = _("R.I.P");
-      }
-  
-      /* text for idleness */
-      if (pPlayer->nturns_idle > 3) {
-        idle = pPlayer->nturns_idle - 1;
-      } else {
-        idle = 0;
       }
       
-      my_snprintf(cBuf, sizeof(cBuf), _("Name : %s\nNation : %s\nTeam : %s\n"
-      					"Embassy :%s\n"
-    					"State : %s\nIdle : %d %s"),
-                   pPlayer->name, get_nation_name(pPlayer->nation),
-		   team, get_embassy_status(game.player_ptr, pPlayer),
-		   state, idle, PL_("turn", "turns", idle));
+      copy_chars_to_string16(pPlayer0->string16, astr.str);
       
-      copy_chars_to_string16(pPlayer0->string16, cBuf);
+      astr_free(&astr);
           
       /* now add some eye candy ... */
       if(pPlayer1 != pPlayers_Dlg->pBeginWidgetList) {
