@@ -242,7 +242,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
   if ((pWidget = MainWidgetListKeyScaner(Key)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
-    if (RSHIFT && (Key.sym == SDLK_RETURN)) {
+    if (Key.sym == SDLK_TAB) {
       /* input */
       popup_input_line();
     } else {
@@ -251,19 +251,19 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
         switch (Key.sym) {
 	  case SDLK_RETURN:
 	  case SDLK_KP_ENTER:
-	  {
-	    struct unit *pUnit;
-	    struct city *pCity;
-	    if((pUnit = unit_list_get(get_units_in_focus(), 0)) != NULL && 
-	      (pCity = pUnit->tile->city) != NULL &&
-	      city_owner(pCity) == game.player_ptr) {
-	      popup_city_dialog(pCity);
-	    } else {
+            if (LSHIFT || RSHIFT) {
 	      disable_focus_animation();
 	      key_end_turn();
+            } else {              
+              struct unit *pUnit;
+              struct city *pCity;
+              if((pUnit = unit_list_get(get_units_in_focus(), 0)) != NULL && 
+                (pCity = pUnit->tile->city) != NULL &&
+                city_owner(pCity) == game.player_ptr) {
+                popup_city_dialog(pCity);
+              }
 	    }
-	  }
-	  return ID_ERROR;
+          return ID_ERROR;
 
 	  case SDLK_F1:
             popup_city_report_dialog(FALSE);

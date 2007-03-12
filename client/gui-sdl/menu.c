@@ -355,7 +355,8 @@ void create_units_order_widgets(void)
   size_t len;
   
   /* No orders */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("No orders"), " (Space)");
+  /* TRANS: keyboard */
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("No orders"), _("Space"));
   pBuf = create_themeicon(pTheme->ODone_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -369,7 +370,7 @@ void create_units_order_widgets(void)
   pEndOrderWidgetList = pBuf;
 
   /* Wait */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Wait"), " (W)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Wait"), "W");
   pBuf = create_themeicon(pTheme->OWait_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -381,7 +382,7 @@ void create_units_order_widgets(void)
   /* --------- */  
 
   /* Explode Nuclear */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Explode Nuclear"), " (Shift + N)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Explode Nuclear"), "Shift+N");
   pBuf = create_themeicon(pTheme->ONuke_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -394,7 +395,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Diplomat|Spy Actions */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Diplomat|Spy Actions"), " (D)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Diplomat|Spy Actions"), "D");
   pBuf = create_themeicon(pTheme->OSpy_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -406,7 +407,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Disband */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Disband"), " (Shift + D)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Disband"), "Shift+D");
   pBuf = create_themeicon(pTheme->ODisband_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -419,7 +420,7 @@ void create_units_order_widgets(void)
   /* --------- */  
 
   /* Upgrade */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Upgrade"), " (Shift + U)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Upgrade"), "Shift+U");
   pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -432,7 +433,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Return to nearest city */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Return to nearest city"), " (Shift + G)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Return to nearest city"), "Shift+G");
   pBuf = create_themeicon(pTheme->OReturn_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -445,7 +446,7 @@ void create_units_order_widgets(void)
   /* --------- */
   
   /* Goto City */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Goto City"), " (L)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Goto City"), "L");
   pBuf = create_themeicon(pTheme->OGotoCity_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -457,7 +458,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Airlift */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Airlift"), " (L)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Airlift"), "L");
   pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -469,7 +470,7 @@ void create_units_order_widgets(void)
   /* --------- */
   
   /* Goto location */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Goto location"), " (G)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Goto location"), "G");
   pBuf = create_themeicon(pTheme->OGoto_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -481,7 +482,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Patrol */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Patrol"), " (Q)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Patrol"), "Q");
   pBuf = create_themeicon(pTheme->OPatrol_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -493,7 +494,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect irrigation */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect irrigation"), " (Shift + I)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect irrigation"), "Shift+I");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -506,7 +507,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect road */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect road"), " (Shift + R)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect road"), "Shift+R");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -519,7 +520,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect railroad */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect railroad"), " (Shift + L)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect railroad"), "Shift+L");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -532,7 +533,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Auto-Explore */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Auto-Explore"), " (X)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto-Explore"), "X");
   pBuf = create_themeicon(pTheme->OAutoExp_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -545,9 +546,9 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Auto-Attack / Auto-Settler */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Auto-Attack"), " (A)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto-Attack"), "A");
   len = strlen(cBuf);
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Auto-Settler"), " (A)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto-Settler"), "A");
   len = MAX(len, strlen(cBuf));
   
   pBuf = create_themeicon(pTheme->OAutoSett_Icon, Main.gui,
@@ -566,7 +567,7 @@ void create_units_order_widgets(void)
   /* --------- */    
   
   /* Wake Up Others */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Wake Up Others"), " (Shift + W)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Wake Up Others"), "Shift+W");
   pBuf = create_themeicon(pTheme->OWakeUp_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -579,7 +580,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Unload */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Unload"), " (U)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Unload"), "U");
   pBuf = create_themeicon(pTheme->OUnload_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -591,7 +592,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Find Homecity */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Find Homecity"), " (H)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Find Homecity"), "H");
   pBuf = create_themeicon(pTheme->OHomeCity_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -603,7 +604,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Pillage */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Pillage"), " (Shift + P)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Pillage"), "Shift+P");
   pBuf = create_themeicon(pTheme->OPillage_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -616,7 +617,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Sentry */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Sentry"), " (S)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Sentry"), "S");
   pBuf = create_themeicon(pTheme->OSentry_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -628,7 +629,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Clean Nuclear Fallout */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Clean Nuclear Fallout"), " (N)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Clean Nuclear Fallout"), "N");
   pBuf = create_themeicon(pTheme->OFallout_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -640,7 +641,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Paradrop */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Paradrop"), " (P)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Paradrop"), "P");
   pBuf = create_themeicon(pTheme->OParaDrop_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -652,7 +653,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Clean Pollution */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Clean Pollution"), " (P)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Clean Pollution"), "P");
   pBuf = create_themeicon(pTheme->OPollution_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -664,7 +665,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Airbase */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build Airbase"), " (E)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Airbase"), "E");
   pBuf = create_themeicon(pTheme->OAirBase_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -676,7 +677,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Fortify */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Fortify"), " (F)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Fortify"), "F");
   pBuf = create_themeicon(pTheme->OFortify_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -688,7 +689,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Fortress */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build Fortress"), " (F)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Fortress"), "F");
   pBuf = create_themeicon(pTheme->OFortress_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -700,7 +701,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Transform Tile */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Transform Tile"), " (O)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Transform Tile"), "O");
   pBuf = create_themeicon(pTheme->OTransform_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -713,7 +714,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Mine */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build Mine"), " (M)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Mine"), "M");
   pBuf = create_themeicon(pTheme->OMine_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -727,7 +728,7 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Build Irrigation */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build Irrigation"), " (I)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Irrigation"), "I");
   pBuf = create_themeicon(pTheme->OIrrigation_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -741,7 +742,7 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Form Traderoute */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Form Traderoute"), " (R)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Form Traderoute"), "R");
   pBuf = create_themeicon(pTheme->OTrade_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -755,12 +756,12 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Build (Rail-)Road */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
-			_("Build Railroad"), " (R)", 999, 
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+			_("Build Railroad"), "R", 999, 
 			PL_("turn", "turns", 999));
   len = strlen(cBuf);
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
-			_("Build Road"), " (R)", 999, 
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+			_("Build Road"), "R", 999, 
 			PL_("turn", "turns", 999));
   len = MAX(len, strlen(cBuf));
   
@@ -780,7 +781,7 @@ void create_units_order_widgets(void)
   /* --------- */  
   
   /* Help Build Wonder */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Help Build Wonder"), " (B)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Help Build Wonder"), "B");
   pBuf = create_themeicon(pTheme->OWonder_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -792,9 +793,9 @@ void create_units_order_widgets(void)
   /* --------- */  
 
   /* Add to City / Build New City */
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Add to City"), " (B)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Add to City"), "B");
   len = strlen(cBuf);
-  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build New City"), " (B)");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build New City"), "B");
   len = MAX(len, strlen(cBuf));
       
   pBuf = create_themeicon(pTheme->OBuildCity_Icon, Main.gui,
