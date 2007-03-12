@@ -226,7 +226,8 @@ static void secfilehash_check(struct section_file *file);
 static void secfilehash_insert(struct section_file *file,
 			       char *key, struct entry *data);
 
-static char *minstrdup(struct sbuffer *sb, const char *str);
+static char *minstrdup(struct sbuffer *sb, const char *str,
+                       bool full_escapes);
 static char *moutstr(char *str);
 
 static struct entry*
@@ -368,9 +369,11 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
   pentry->name = sbuf_strdup(sb, name);
   pentry->comment = NULL;
   if (tok[0] != '-' && !my_isdigit(tok[0])) {
-    /* It is not integer, but string with some border character.
-     * We don't care what that border character is, we just skip it. */
-    pentry->svalue = minstrdup(sb, tok+1);
+    /* It is not integer, but string with some border character. */
+    bool escapes = (tok[0] != '$'); /* Border character '$' means no escapes */
+
+    /* minstrdup() starting after border character */
+    pentry->svalue = minstrdup(sb, tok+1, escapes);
     pentry->ivalue = 0;
     if (SECF_DEBUG_ENTRIES) {
       freelog(LOG_DEBUG, "entry %s '%s'", name, pentry->svalue);
@@ -1560,27 +1563,27 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
 }
 
 /***************************************************************
- Copies a string and does '\n' -> newline translation.
- Other '\c' sequences (any character 'c') are just passed
- through with the '\' removed (eg, includes '\\', '\"')
- Backslash followed by a genuine newline removes the newline.
+  Copies a string. Backslash followed by a genuine newline always
+  removes the newline.
+  If full_escapes is TRUE:
+    - '\n' -> newline translation.
+    - Other '\c' sequences (any character 'c') are just passed
+      through with the '\' removed (eg, includes '\\', '\"')
 ***************************************************************/
-static char *minstrdup(struct sbuffer *sb, const char *str)
+static char *minstrdup(struct sbuffer *sb, const char *str,
+                       bool full_escapes)
 {
   char *dest = sbuf_malloc(sb, strlen(str)+1);
   char *d2=dest;
   if(dest) {
     while (*str != '\0') {
-      if (*str=='\\') {
+      if (*str == '\\' && *(str+1) == '\n') {
+        /* Escape followed by newline. Skip both */
+        str += 2;
+      } else if (full_escapes && *str=='\\') {
 	str++;
-	if (*str=='\\') {
-	  *dest++='\\';
-	  str++;
-	} else if (*str=='n') {
+        if (*str=='n') {
 	  *dest++='\n';
-	  str++;
-	} else if (*str=='\n') {
-	  /* skip */
 	  str++;
 	}
       } else {
