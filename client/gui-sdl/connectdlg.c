@@ -191,11 +191,13 @@ static struct server_list *sdl_create_server_list(bool lan)
     
   if (lan) {
     pServer_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);      
-    } else {
+  } else {
     pServer_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);      
-    }
+  }
 
-  assert(pServer_scan);
+  if (!pServer_scan) {
+    return NULL;
+  }
   
   SDL_Delay(5000);
     
