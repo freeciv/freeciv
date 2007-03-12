@@ -376,7 +376,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 
   /* stop evaluating button hold time when moving to another tile in medium
    * hold state or above */
-  if (button_behavior.hold_state >= MB_HOLD_MEDIUM) {
+  if (button_behavior.counting && (button_behavior.hold_state >= MB_HOLD_MEDIUM)) {
     ptile = canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y);
     if ((ptile->x != button_behavior.ptile->x)
         || (ptile->y != button_behavior.ptile->y)) {
