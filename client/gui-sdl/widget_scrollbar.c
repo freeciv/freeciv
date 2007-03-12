@@ -647,8 +647,8 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
   int count_step = step; /* col */
     
   if (dir < 0) {
-    bool real = TRUE;
     /* up */
+    bool real = TRUE;
     if (pBuf != pEndWidgetLIST) {
       /*
        move pointers to positions and unhidde scrolled widgets
@@ -662,7 +662,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        [ ] [ ] [ ]
     */
       pTmp = pBuf; /* now pBuf == pActiveWidgetLIST == current Top */
-      while(count_step) {
+      while (count_step > 0) {
       	pBuf = pBuf->next;
 	clear_wflag(pBuf, WF_HIDDEN);
 	count_step--;
@@ -688,12 +688,25 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        T0 = T3, T1 = T4, T2 = T5
        etc...
     */
-      while (count) {
+
+      /* pBuf == pBegin == new top widget */
+
+      while (count > 0) {
 	if(real) {
-	  pBuf->gfx = pTmp->gfx;
 	  pBuf->size.x = pTmp->size.x;
 	  pBuf->size.y = pTmp->size.y;
+          pBuf->gfx = pTmp->gfx;
+          
+          if ((pBuf->size.w != pTmp->size.w) || (pBuf->size.h != pTmp->size.h)) {
+            widget_undraw(pTmp);
+            widget_mark_dirty(pTmp);
+            if (get_wflags(pBuf) & WF_RESTORE_BACKGROUND) {
+              refresh_widget_background(pBuf);
+            }
+          }
+          
 	  pTmp->gfx = NULL;
+          
 	  if(count == 1) {
 	    set_wflag(pTmp, WF_HIDDEN);
 	  }
@@ -820,13 +833,24 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        [B2] [B1] [B0]
     */
       while (count) {
-	pBuf->gfx = pTmp->gfx;
-	pBuf->size.y = pTmp->size.y;
 	pBuf->size.x = pTmp->size.x;
+	pBuf->size.y = pTmp->size.y;
+	pBuf->gfx = pTmp->gfx;
+        
+        if ((pBuf->size.w != pTmp->size.w) || (pBuf->size.h != pTmp->size.h)) {
+          widget_undraw(pTmp);
+          widget_mark_dirty(pTmp);
+          if (get_wflags(pBuf) & WF_RESTORE_BACKGROUND) {
+            refresh_widget_background(pBuf);
+          }
+        }
+        
         pTmp->gfx = NULL;
+        
 	if(count == 1) {
 	  set_wflag(pTmp, WF_HIDDEN);
 	}
+        
 	pTmp = pTmp->next;
 	pBuf = pBuf->next;
 	count_step--;
