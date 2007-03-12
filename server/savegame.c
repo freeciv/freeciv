@@ -438,6 +438,8 @@ static char activity2char(enum unit_activity activity)
     return 'y';
   case ACTIVITY_FALLOUT:
     return 'u';
+  case ACTIVITY_BASE:
+    return 'b';
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
     return '?';
@@ -1696,7 +1698,14 @@ static void load_player_units(struct player *plr, int plrno,
        * into idle mode. */
       activity = ACTIVITY_IDLE;
     }
-    set_unit_activity(punit, activity);
+
+    if (activity == ACTIVITY_FORTRESS) {
+      set_unit_activity_base(punit, BASE_FORTRESS);
+    } else if (activity == ACTIVITY_AIRBASE) {
+      set_unit_activity_base(punit, BASE_AIRBASE);
+    } else {
+      set_unit_activity(punit, activity);
+    }
 
     /* need to do this to assign/deassign settlers correctly -- Syela
      *
@@ -1808,6 +1817,14 @@ static void load_player_units(struct player *plr, int plrno,
 	    punit->has_orders = FALSE;
 	    break;
 	  }
+
+          if (order->activity == ACTIVITY_FORTRESS) {
+            order->activity = ACTIVITY_BASE;
+            order->base = BASE_FORTRESS;
+          } else if (order->activity == ACTIVITY_AIRBASE) {
+            order->activity = ACTIVITY_BASE;
+            order->base = BASE_AIRBASE;
+          }
 	}
       } else {
 	punit->has_orders = FALSE;
@@ -2893,6 +2910,8 @@ static void player_save(struct player *plr, int plrno,
   i = -1;
   unit_list_iterate(plr->units, punit) {
     i++;
+    int activity;
+
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
     secfile_insert_int(file, punit->tile->nat_x, "player%d.u%d.x", plrno, i);
     secfile_insert_int(file, punit->tile->nat_y, "player%d.u%d.y", plrno, i);
@@ -2910,8 +2929,21 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_str(file, unit_name_orig(punit->type),
 		       "player%d.u%d.type_by_name",
 		       plrno, i);
-    secfile_insert_int(file, punit->activity, "player%d.u%d.activity",
-				plrno, i);
+
+    activity = punit->activity;
+
+    if (activity == ACTIVITY_BASE) {
+      if (punit->activity_base == BASE_FORTRESS) {
+        activity = ACTIVITY_FORTRESS;
+      } else if (punit->activity_base == BASE_AIRBASE) {
+        activity = ACTIVITY_AIRBASE;
+      } else {
+        freelog(LOG_ERROR, "Unknown activity_base!");
+        activity = ACTIVITY_FORTRESS;
+      }
+    }
+    secfile_insert_int(file, activity, "player%d.u%d.activity",
+                       plrno, i);
     secfile_insert_int(file, punit->activity_count, 
 				"player%d.u%d.activity_count",
 				plrno, i);
@@ -2977,7 +3009,19 @@ static void player_save(struct player *plr, int plrno,
 	  dir_buf[j] = dir2char(punit->orders.list[j].dir);
 	  break;
 	case ORDER_ACTIVITY:
-	  act_buf[j] = activity2char(punit->orders.list[j].activity);
+          if (punit->orders.list[j].activity == ACTIVITY_BASE) {
+            if (punit->orders.list[j].base == BASE_FORTRESS) {
+              act_buf[j] = activity2char(ACTIVITY_FORTRESS);
+            } else if (punit->orders.list[j].base == BASE_AIRBASE) {
+              act_buf[j] = activity2char(ACTIVITY_AIRBASE);
+            } else {
+              freelog(LOG_ERROR, "Unknown base type in player_save");
+              /* Saving as fortress */
+              act_buf[j] = activity2char(ACTIVITY_FORTRESS);
+            }
+          } else {
+            act_buf[j] = activity2char(punit->orders.list[j].activity);
+          }
 	  break;
 	case ORDER_FULL_MP:
 	case ORDER_BUILD_CITY:

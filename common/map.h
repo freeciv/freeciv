@@ -433,6 +433,7 @@ struct unit_order {
   enum unit_orders order;
   enum direction8 dir;		/* Only valid for ORDER_MOVE. */
   enum unit_activity activity;	/* Only valid for ORDER_ACTIVITY. */
+  enum base_type_id base;       /* Only valid for activity ACTVITY_BASE */
 };
 
 /* return the reverse of the direction */

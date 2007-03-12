@@ -3047,12 +3047,6 @@ static int fill_unit_sprite_array(const struct tileset *t,
     case ACTIVITY_FORTIFYING:
       s = t->sprites.unit.fortifying;
       break;
-    case ACTIVITY_FORTRESS:
-      s = t->sprites.bases[BASE_FORTRESS].activity;
-      break;
-    case ACTIVITY_AIRBASE:
-      s = t->sprites.bases[BASE_AIRBASE].activity;
-      break;
     case ACTIVITY_SENTRY:
       s = t->sprites.unit.sentry;
       break;
@@ -3061,6 +3055,9 @@ static int fill_unit_sprite_array(const struct tileset *t,
       break;
     case ACTIVITY_TRANSFORM:
       s = t->sprites.unit.transform;
+      break;
+    case ACTIVITY_BASE:
+      s = t->sprites.bases[punit->activity_base].activity;
       break;
     default:
       break;

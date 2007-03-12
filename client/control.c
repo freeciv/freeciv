@@ -1241,7 +1241,7 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
   }
 
   dsend_packet_unit_change_activity(&aconnection, punit->id, act,
-				    S_LAST);
+				    S_LAST, BASE_LAST);
 }
 
 /**************************************************************************
@@ -1251,7 +1251,21 @@ void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
 					enum tile_special_type tgt)
 {
-  dsend_packet_unit_change_activity(&aconnection, punit->id, act, tgt);
+  dsend_packet_unit_change_activity(&aconnection, punit->id, act, tgt,
+                                    BASE_LAST);
+}
+
+/**************************************************************************
+  Request base building activity for unit
+**************************************************************************/
+void request_new_unit_activity_base(struct unit *punit, enum base_type_id base)
+{
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
+  dsend_packet_unit_change_activity(&aconnection, punit->id, ACTIVITY_BASE,
+				    S_LAST, base);
 }
 
 /**************************************************************************
@@ -1318,7 +1332,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
     /* Sentry the unit.  Don't request_unit_sentry since this can give a
      * recursive loop. */
     dsend_packet_unit_change_activity(&aconnection, pcargo->id,
-				      ACTIVITY_SENTRY, S_LAST);
+				      ACTIVITY_SENTRY, S_LAST, BASE_LAST);
   }
 }
 
@@ -1338,7 +1352,7 @@ void request_unit_unload(struct unit *pcargo)
 
     /* Activate the unit. */
     dsend_packet_unit_change_activity(&aconnection, pcargo->id,
-				      ACTIVITY_IDLE, S_LAST);
+				      ACTIVITY_IDLE, S_LAST, BASE_LAST);
   }
 }
 
@@ -2355,8 +2369,8 @@ void key_unit_wakeup_others(void)
 void key_unit_airbase(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_AIRBASE)) {
-      request_new_unit_activity(punit, ACTIVITY_AIRBASE);
+    if (can_unit_do_activity_base(punit, BASE_AIRBASE)) {
+      request_new_unit_activity_base(punit, BASE_AIRBASE);
     }
   } unit_list_iterate_end;
 }
@@ -2426,8 +2440,8 @@ void key_unit_fortify(void)
 void key_unit_fortress(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_FORTRESS)) {
-      request_new_unit_activity(punit, ACTIVITY_FORTRESS);
+    if (can_unit_do_activity_base(punit, BASE_FORTRESS)) {
+      request_new_unit_activity_base(punit, BASE_FORTRESS);
     }
   } unit_list_iterate_end;
 }

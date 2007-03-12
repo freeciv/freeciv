@@ -442,7 +442,7 @@ static void orders_menu_callback(gpointer callback_data,
     unit_list_iterate(get_units_in_focus(), punit) {
       /* FIXME: this can provide different actions for different units...
        * not good! */
-      if (can_unit_do_activity(punit, ACTIVITY_FORTRESS))
+      if (can_unit_do_activity_base(punit, BASE_FORTRESS))
 	key_unit_fortress();
       else
 	key_unit_fortify();
@@ -1392,11 +1392,11 @@ void update_menus(void)
       menus_set_sensitive("<main>/_Orders/Transf_orm Terrain",
 			  can_units_do_activity(punits, ACTIVITY_TRANSFORM));
       menus_set_sensitive("<main>/_Orders/Build _Fortress",
-                          (can_units_do_activity(punits, ACTIVITY_FORTRESS)
+                          (can_units_do_base(punits, BASE_FORTRESS)
                            || can_units_do_activity(punits,
 						    ACTIVITY_FORTIFYING)));
       menus_set_sensitive("<main>/_Orders/Build Airbas_e",
-			  can_units_do_activity(punits, ACTIVITY_AIRBASE));
+			  can_units_do_base(punits, BASE_AIRBASE));
       menus_set_sensitive("<main>/_Orders/Clean _Pollution",
                           (can_units_do_activity(punits, ACTIVITY_POLLUTION)
                            || can_units_do(punits, can_unit_paradrop)));

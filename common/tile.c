@@ -282,6 +282,12 @@ enum known_type tile_get_known(const struct tile *ptile,
 ****************************************************************************/
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 {
+  /* Make sure nobody uses old activities */
+  assert(activity != ACTIVITY_FORTRESS && activity != ACTIVITY_AIRBASE);
+
+  /* ACTIVITY_BASE not handled here */
+  assert(activity != ACTIVITY_BASE);
+
   switch (activity) {
   case ACTIVITY_POLLUTION:
     return ptile->terrain->clean_pollution_time * ACTIVITY_FACTOR;
@@ -291,19 +297,30 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
     return ptile->terrain->mining_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
     return ptile->terrain->irrigation_time * ACTIVITY_FACTOR;
-  case ACTIVITY_FORTRESS:
-    return ptile->terrain->fortress_time * ACTIVITY_FACTOR;
   case ACTIVITY_RAILROAD:
     return ptile->terrain->rail_time * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSFORM:
     return ptile->terrain->transform_time * ACTIVITY_FACTOR;
-  case ACTIVITY_AIRBASE:
-    return ptile->terrain->airbase_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:
     return ptile->terrain->clean_fallout_time * ACTIVITY_FACTOR;
   default:
     return 0;
   }
+}
+
+/****************************************************************************
+  Time to complete the given activity on the given tile.
+****************************************************************************/
+int tile_activity_base_time(const struct tile *ptile,
+                            enum base_type_id base)
+{
+  if (base == BASE_AIRBASE) {
+    return ptile->terrain->fortress_time * ACTIVITY_FACTOR;
+  } else {
+    return ptile->terrain->airbase_time * ACTIVITY_FACTOR;
+  }
+
+  return 0;
 }
 
 /****************************************************************************
@@ -512,6 +529,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
   case ACTIVITY_FORTRESS:
   case ACTIVITY_PILLAGE: 
   case ACTIVITY_AIRBASE:   
+  case ACTIVITY_BASE:
     /* do nothing  - not implemented */
     return FALSE;
 

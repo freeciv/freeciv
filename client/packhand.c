@@ -109,6 +109,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
     punit->goto_tile = NULL;
   }
   punit->activity_target = packet->activity_target;
+  punit->activity_base = packet->activity_base;
   punit->paradropped = packet->paradropped;
   punit->done_moving = packet->done_moving;
   punit->occupy = packet->occupy;
@@ -132,6 +133,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
       punit->orders.list[i].order = packet->orders[i];
       punit->orders.list[i].dir = packet->orders_dirs[i];
       punit->orders.list[i].activity = packet->orders_activities[i];
+      punit->orders.list[i].base = packet->orders_bases[i];
     }
   }
   return punit;
@@ -154,6 +156,7 @@ static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
+  punit->activity_base = packet->activity_base;
   punit->occupy = (packet->occupied ? 1 : 0);
   if (packet->transported) {
     punit->transported_by = packet->transported_by;
@@ -1021,6 +1024,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->activity != packet_unit->activity
 	|| punit->activity_target != packet_unit->activity_target
+        || punit->activity_base != packet_unit->activity_base
 	|| punit->transported_by != packet_unit->transported_by
 	|| punit->occupy != packet_unit->occupy
 	|| punit->has_orders != packet_unit->has_orders
@@ -1063,6 +1067,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       punit->activity = packet_unit->activity;
       punit->activity_target = packet_unit->activity_target;
+      punit->activity_base = packet_unit->activity_base;
 
       punit->transported_by = packet_unit->transported_by;
       if (punit->occupy != packet_unit->occupy

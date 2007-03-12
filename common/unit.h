@@ -14,6 +14,7 @@
 #define FC__UNIT_H
 
 #include "fc_types.h"
+#include "base.h"
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
 
@@ -29,6 +30,7 @@ enum unit_activity {
   ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE, ACTIVITY_FORTIFYING,
   ACTIVITY_FALLOUT,
   ACTIVITY_PATROL_UNUSED, /* Needed for savegame compatability. */
+  ACTIVITY_BASE,          /* Build base */
   ACTIVITY_LAST   /* leave this one last */
 };
 
@@ -145,6 +147,7 @@ struct unit {
   int activity_count;
 
   enum tile_special_type activity_target;
+  enum base_type_id activity_base;
   enum unit_focus_status focus_status;
   int ord_map, ord_city;
   /* ord_map and ord_city are the order index of this unit in tile.units
@@ -231,15 +234,21 @@ bool can_unit_do_activity(const struct unit *punit,
 			  enum unit_activity activity);
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
-				   enum tile_special_type target);
+				   enum tile_special_type target,
+                                   enum base_type_id base);
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
 				      enum tile_special_type target,
-				      const struct tile *ptile);
+				      const struct tile *ptile,
+                                      enum base_type_id base);
+bool can_unit_do_activity_base(const struct unit *punit,
+                               enum base_type_id base);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				enum tile_special_type new_target);
+void set_unit_activity_base(struct unit *punit,
+                            enum base_type_id base);
 int get_activity_rate(const struct unit *punit);
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,
@@ -298,7 +307,6 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 					   bool is_free);
 enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
 					       const struct unit *punit);
-
 bool is_losing_hp(const struct unit *punit);
 bool unit_type_is_losing_hp(const struct player *pplayer,
                             const struct unit_type *punittype);

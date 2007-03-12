@@ -65,6 +65,8 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  new_activity,
 						  enum tile_special_type
 						  new_target);
+static void handle_unit_activity_request_base(struct unit *punit,
+                                              enum base_type_id base);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
@@ -531,7 +533,8 @@ void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
 **************************************************************************/
 void handle_unit_change_activity(struct player *pplayer, int unit_id,
 				 enum unit_activity activity,
-				 enum tile_special_type activity_target)
+				 enum tile_special_type activity_target,
+                                 enum base_type_id activity_base)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
@@ -539,15 +542,25 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     return;
   }
 
-  if (punit->activity != activity ||
-      punit->activity_target != activity_target ||
-      punit->ai.control) {
+  if (punit->activity != activity
+      || punit->activity_target != activity_target
+      || punit->activity_base != activity_base
+      || punit->ai.control) {
     /* Treat change in ai.control as change in activity, so
        * idle autosettlers behave correctly when selected --dwp
      */
     punit->ai.control = FALSE;
     punit->goto_tile = NULL;
-    handle_unit_activity_request_targeted(punit, activity, activity_target);
+
+    if (activity != ACTIVITY_BASE) {
+      handle_unit_activity_request_targeted(punit, activity, activity_target);
+    } else {
+      if (!base_type_get_by_id(activity_base)) {
+        /* Illegal base type */
+        return;
+      }
+      handle_unit_activity_request_base(punit, activity_base);
+    }
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
@@ -1525,13 +1538,31 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  enum tile_special_type
 						  new_target)
 {
-  if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
+  if (can_unit_do_activity_targeted(punit, new_activity, new_target,
+                                    BASE_LAST)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 
     free_unit_orders(punit);
     set_unit_activity_targeted(punit, new_activity, new_target);
     send_unit_info(NULL, punit);    
+    handle_unit_activity_dependencies(punit, old_activity, old_target);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void handle_unit_activity_request_base(struct unit *punit, 
+                                              enum base_type_id base)
+{
+  if (can_unit_do_activity_base(punit, base)) {
+    enum unit_activity old_activity = punit->activity;
+    enum tile_special_type old_target = punit->activity_target;
+
+    free_unit_orders(punit);
+    set_unit_activity_base(punit, base);
+    send_unit_info(NULL, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
@@ -1671,6 +1702,10 @@ void handle_unit_orders(struct player *pplayer,
 	  return;
 	}
 	break;
+      case ACTIVITY_BASE:
+        if (!base_type_get_by_id(packet->base[i])) {
+          return;
+        }
       default:
 	return;
       }
@@ -1711,6 +1746,7 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].order = packet->orders[i];
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
+    punit->orders.list[i].base = packet->base[i];
   }
 
   if (!packet->repeat) {

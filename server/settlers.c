@@ -862,8 +862,9 @@ static int evaluate_improvements(struct unit *punit,
 	  /* now, consider various activities... */
 	  activity_type_iterate(act) {
 	    if (pcity->ai.act_value[act][cx][cy] >= 0
-		&& can_unit_do_activity_targeted_at(punit, act, 
-						    S_LAST, ptile)) {
+                && act != ACTIVITY_BASE /* This needs separate implementation */
+		&& can_unit_do_activity_targeted_at(punit, act, S_LAST,
+                                                    ptile, BASE_LAST)) {
 	      int extra = 0;
 	      int base_value = pcity->ai.act_value[act][cx][cy];
 

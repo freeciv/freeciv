@@ -546,8 +546,9 @@ static int total_activity (struct tile *ptile, enum unit_activity act)
   int total = 0;
 
   unit_list_iterate (ptile->units, punit)
-    if (punit->activity == act)
+    if (punit->activity == act) {
       total += punit->activity_count;
+    }
   unit_list_iterate_end;
   return total;
 }
@@ -564,6 +565,23 @@ static int total_activity_targeted(struct tile *ptile, enum unit_activity act,
   unit_list_iterate (ptile->units, punit)
     if ((punit->activity == act) && (punit->activity_target == tgt))
       total += punit->activity_count;
+  unit_list_iterate_end;
+  return total;
+}
+
+/**************************************************************************
+  Calculate the total amount of base building activity performed by all
+  units on a tile for a given base.
+**************************************************************************/
+static int total_activity_base(struct tile *ptile, enum base_type_id base)
+{
+  int total = 0;
+
+  unit_list_iterate (ptile->units, punit)
+    if (punit->activity == ACTIVITY_BASE
+        && punit->activity_base == base) {
+      total += punit->activity_count;
+    }
   unit_list_iterate_end;
   return total;
 }
@@ -600,7 +618,6 @@ static void update_unit_activity(struct unit *punit)
   enum unit_activity activity = punit->activity;
   struct tile *ptile = punit->tile;
   bool check_adjacent_units = FALSE;
-  bool new_base = FALSE;
   
   if (activity != ACTIVITY_IDLE && activity != ACTIVITY_FORTIFIED
       && activity != ACTIVITY_GOTO && activity != ACTIVITY_EXPLORE) {
@@ -698,21 +715,21 @@ static void update_unit_activity(struct unit *punit)
     }
   }
 
-  if (activity == ACTIVITY_FORTRESS) {
-    if (total_activity (ptile, ACTIVITY_FORTRESS)
-	>= tile_activity_time(ACTIVITY_FORTRESS, ptile)) {
-      tile_add_base(ptile, base_type_get_by_id(BASE_FORTRESS));
-      unit_activity_done = TRUE;
-      new_base = TRUE;
-    }
-  }
+  if (activity == ACTIVITY_BASE) {
+    if (total_activity_base(ptile, punit->activity_base)
+        >= tile_activity_base_time(ptile, punit->activity_base)) {
+      tile_add_base(ptile, base_type_get_by_id(punit->activity_base));
 
-  if (activity == ACTIVITY_AIRBASE) {
-    if (total_activity (ptile, ACTIVITY_AIRBASE)
-	>= tile_activity_time(ACTIVITY_AIRBASE, ptile)) {
-      tile_add_base(ptile, base_type_get_by_id(BASE_AIRBASE));
+      /* Watchtower might become effective
+       * FIXME: Reqs on other specials will not be updated immediately. */
+      unit_list_refresh_vision(ptile->units);
+
+      /* Claim base if it has "ClaimTerritory" flag */
+      if (tile_has_base_flag(ptile, BF_CLAIM_TERRITORY)) {
+        map_claim_ownership(ptile, unit_owner(punit), ptile);
+      }
+
       unit_activity_done = TRUE;
-      new_base = TRUE;
     }
   }
   
@@ -765,17 +782,6 @@ static void update_unit_activity(struct unit *punit)
       check_terrain_change(ptile, old);
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
-    }
-  }
-
-  if (new_base) {
-    /* watchtower becomes effective
-     * FIXME: Reqs on other specials will not be updated immediately. */
-    unit_list_refresh_vision(ptile->units);
-
-    /* Claim base if it has "ClaimTerritory" flag */
-    if (tile_has_base_flag(ptile, BF_CLAIM_TERRITORY)) {
-      map_claim_ownership(ptile, unit_owner(punit), ptile);
     }
   }
 
@@ -1776,6 +1782,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->movesleft = punit->moves_left;
   packet->hp = punit->hp;
   packet->activity = punit->activity;
+  packet->activity_base = punit->activity_base;
   packet->activity_count = punit->activity_count;
   packet->unhappiness = punit->unhappiness;
   output_type_iterate(o) {
@@ -1792,6 +1799,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
     assert(!is_normal_map_pos(255, 255));
   }
   packet->activity_target = punit->activity_target;
+  packet->activity_base = punit->activity_base;
   packet->paradropped = punit->paradropped;
   packet->done_moving = punit->done_moving;
   if (punit->transported_by == -1) {
@@ -1815,6 +1823,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders[i] = punit->orders.list[i].order;
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
+      packet->orders_bases[i] = punit->orders.list[i].base;
     }
   } else {
     packet->orders_length = packet->orders_index = 0;
@@ -1857,8 +1866,10 @@ void package_short_unit(struct unit *punit,
   if (punit->activity == ACTIVITY_EXPLORE
       || punit->activity == ACTIVITY_GOTO) {
     packet->activity = ACTIVITY_IDLE;
+    packet->activity_base = BASE_LAST;
   } else {
     packet->activity = punit->activity;
+    packet->activity_base = punit->activity_base;
   }
 
   /* Transported_by information is sent to the client even for units that
@@ -2984,6 +2995,7 @@ bool execute_orders(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
   enum unit_activity activity;
+  enum base_type_id base;
 
   assert(unit_has_orders(punit));
 
@@ -3077,7 +3089,10 @@ bool execute_orders(struct unit *punit)
       }
     case ORDER_ACTIVITY:
       activity = order.activity;
-      if (!can_unit_do_activity(punit, activity)) {
+      base = order.base;
+      if ((activity == ACTIVITY_BASE && !can_unit_do_activity_base(punit, base))
+          || (activity != ACTIVITY_BASE
+              && !can_unit_do_activity(punit, activity))) {
 	cancel_orders(punit, "  orders canceled because of failed activity");
 	notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
 			 _("Orders for %s aborted since they "
@@ -3086,7 +3101,12 @@ bool execute_orders(struct unit *punit)
 	return TRUE;
       }
       punit->done_moving = TRUE;
-      set_unit_activity(punit, activity);
+
+      if (activity != ACTIVITY_BASE) {
+        set_unit_activity(punit, activity);
+      } else {
+        set_unit_activity_base(punit, base);
+      }
       send_unit_info(NULL, punit);
       break;
     case ORDER_MOVE:

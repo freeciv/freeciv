@@ -194,6 +194,7 @@ type SSET_CLASS         = uint8(enum sset_class)
 type REQ_TYPE	        = uint8(enum req_source_type)
 type REQ_RANGE		= uint8(enum req_range)
 type EFFECT_TYPE	= uint8(enum effect_type)
+type BASE               = uint8(enum base_type_id)
 type BASE_GUI           = uint8(enum base_gui_type)
 
 type BV_IMPRS		= bitvector(bv_imprs)
@@ -738,6 +739,7 @@ PACKET_UNIT_INFO=49; sc,lsend
   COORD goto_dest_x,goto_dest_y;
   ACTIVITY activity;
   SPECIAL activity_target;
+  BASE activity_base;
 
   SINT8 battlegroup;
 
@@ -747,6 +749,7 @@ PACKET_UNIT_INFO=49; sc,lsend
   ORDERS orders[MAX_LEN_ROUTE:orders_length];
   DIRECTION orders_dirs[MAX_LEN_ROUTE:orders_length];
   ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
+  BASE orders_bases[MAX_LEN_ROUTE:orders_length];
 end
 
 PACKET_UNIT_SHORT_INFO=50; sc,lsend
@@ -759,6 +762,7 @@ PACKET_UNIT_SHORT_INFO=50; sc,lsend
   BOOL occupied, goes_out_of_sight, transported;
 
   UINT8 hp, activity;
+  BASE activity_base;
   UNIT transported_by; /* Only valid if transported is set. */
 
   /* in packet only, not in unit struct */
@@ -819,6 +823,7 @@ PACKET_UNIT_ORDERS=59;cs
   ORDERS orders[MAX_LEN_ROUTE:length];
   DIRECTION dir[MAX_LEN_ROUTE:length];
   ACTIVITY activity[MAX_LEN_ROUTE:length];
+  BASE base[MAX_LEN_ROUTE:length];
   COORD dest_x, dest_y;
 end
 
@@ -884,6 +889,7 @@ PACKET_UNIT_CHANGE_ACTIVITY=72; cs,dsend
   UNIT unit_id;
   ACTIVITY activity;
   SPECIAL activity_target;
+  BASE activity_base;
 end
 
 /************** Diplomacy packets **********************/

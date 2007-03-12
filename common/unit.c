@@ -532,6 +532,8 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Airbase");
   case ACTIVITY_FALLOUT:
     return _("Fallout");
+  case ACTIVITY_BASE:
+    return _("Base");
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
@@ -687,17 +689,20 @@ bool can_unit_continue_current_activity(struct unit *punit)
 {
   enum unit_activity current = punit->activity;
   enum tile_special_type target = punit->activity_target;
+  enum base_type_id base = punit->activity_base;
   enum unit_activity current2 = 
               (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
   bool result;
 
   punit->activity = ACTIVITY_IDLE;
   punit->activity_target = S_LAST;
+  punit->activity_base = BASE_LAST;
 
-  result = can_unit_do_activity_targeted(punit, current2, target);
+  result = can_unit_do_activity_targeted(punit, current2, target, base);
 
   punit->activity = current;
   punit->activity_target = target;
+  punit->activity_base = base;
 
   return result;
 }
@@ -712,7 +717,17 @@ bool can_unit_continue_current_activity(struct unit *punit)
 bool can_unit_do_activity(const struct unit *punit,
 			  enum unit_activity activity)
 {
-  return can_unit_do_activity_targeted(punit, activity, S_LAST);
+  return can_unit_do_activity_targeted(punit, activity, S_LAST, BASE_LAST);
+}
+
+/**************************************************************************
+  Return TRUE iff the unit can do the given base building activity at its
+  current location.
+**************************************************************************/
+bool can_unit_do_activity_base(const struct unit *punit,
+                               enum base_type_id base)
+{
+  return can_unit_do_activity_targeted(punit, ACTIVITY_BASE, S_LAST, base);
 }
 
 /**************************************************************************
@@ -721,10 +736,11 @@ bool can_unit_do_activity(const struct unit *punit,
 **************************************************************************/
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
-				   enum tile_special_type target)
+				   enum tile_special_type target,
+                                   enum base_type_id base)
 {
   return can_unit_do_activity_targeted_at(punit, activity, target,
-					  punit->tile);
+					  punit->tile, base);
 }
 
 /**************************************************************************
@@ -738,12 +754,14 @@ bool can_unit_do_activity_targeted(const struct unit *punit,
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
 				      enum tile_special_type target,
-				      const struct tile *ptile)
+				      const struct tile *ptile,
+                                      enum base_type_id base)
 {
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = ptile->terrain;
-  struct base_type *pbase;
   struct unit_class *pclass = get_unit_class(unit_type(punit));
+  struct base_type *old_base;
+  struct base_type *pbase = base_type_get_by_id(base);
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -832,15 +850,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_FORTIFIED:
     return FALSE;
 
-  case ACTIVITY_FORTRESS:
-    pbase = tile_get_base(ptile);
-    return (can_build_base(punit, base_type_get_by_id(BASE_FORTRESS), ptile)
-	    && (pbase == NULL || pbase->id != BASE_FORTRESS));
-
-  case ACTIVITY_AIRBASE:
-    pbase = tile_get_base(ptile);
-    return (can_build_base(punit, base_type_get_by_id(BASE_AIRBASE), ptile)
-	    && (pbase == NULL || pbase->id != BASE_AIRBASE));
+  case ACTIVITY_BASE:
+    old_base = tile_get_base(ptile);
+    return (can_build_base(punit, pbase, ptile)
+            && (old_base == NULL || old_base != pbase));
 
   case ACTIVITY_SENTRY:
     if (!can_unit_survive_at_tile(punit, punit->tile)
@@ -912,6 +925,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		|| !(tile_get_city(ptile)))
 	    && unit_flag(punit, F_TRANSFORM));
 
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_AIRBASE:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
   case ACTIVITY_UNKNOWN:
@@ -931,6 +946,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   punit->activity=new_activity;
   punit->activity_count=0;
   punit->activity_target = S_LAST;
+  punit->activity_base = BASE_LAST;
   if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
     /* No longer done. */
     punit->done_moving = FALSE;
@@ -944,8 +960,21 @@ void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				enum tile_special_type new_target)
 {
+  assert(new_target != ACTIVITY_FORTRESS
+         && new_target != ACTIVITY_AIRBASE);
+
   set_unit_activity(punit, new_activity);
   punit->activity_target = new_target;
+}
+
+/**************************************************************************
+  Assign a new base building task to unit
+**************************************************************************/
+void set_unit_activity_base(struct unit *punit,
+                            enum base_type_id base)
+{
+  set_unit_activity(punit, ACTIVITY_BASE);
+  punit->activity_base = base;
 }
 
 /**************************************************************************
@@ -1058,6 +1087,11 @@ const char *unit_activity_text(const struct unit *punit)
 		   get_infrastructure_text(pset));
        return (text);
      }
+   case ACTIVITY_BASE:
+     my_snprintf(text, sizeof(text), "%s: %s",
+                 get_activity_text(punit->activity),
+                 base_name(base_type_get_by_id(punit->activity_base)));
+     return text;
    default:
     die("Unknown unit activity %d in unit_activity_text()", punit->activity);
   }
