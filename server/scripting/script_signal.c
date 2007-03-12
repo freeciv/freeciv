@@ -228,13 +228,13 @@ static void internal_signal_free(const char *signal_name)
 }
 
 /**************************************************************************
-  Invoke all the callback functions attached to a given signal (internal).
+  Invoke all the callback functions attached to a given signal.
 **************************************************************************/
-static void internal_signal_invoke_valist(const char *signal_name,
-					  int nargs, va_list args)
+void script_signal_emit(const char *signal_name, int nargs, ...)
 {
   struct hash_table *hash;
   struct signal *signal;
+  va_list args;
 
   hash = signals;
   signal = hash_lookup_data(hash, signal_name);
@@ -246,36 +246,18 @@ static void internal_signal_invoke_valist(const char *signal_name,
 	      signal_name, signal->nargs, nargs);
     } else {
       signal_callback_list_iterate(signal->callbacks, pcallback) {
+        va_start(args, nargs);
 	if (script_callback_invoke(pcallback->name, nargs, args)) {
+          va_end(args);
 	  break;
 	}
+        va_end(args);
       } signal_callback_list_iterate_end;
     }
   } else {
     freelog(LOG_ERROR, "Signal \"%s\" does not exist, so cannot be invoked.",
 	    signal_name);
   }
-}
-
-/**************************************************************************
-  Invoke all the callback functions attached to a given signal.
-**************************************************************************/
-void script_signal_emit_valist(const char *signal_name,
-			       int nargs, va_list args)
-{
-  internal_signal_invoke_valist(signal_name, nargs, args);
-}
-
-/**************************************************************************
-  Invoke all the callback functions attached to a given signal.
-**************************************************************************/
-void script_signal_emit(const char *signal_name, int nargs, ...)
-{
-  va_list args;
-
-  va_start(args, nargs);
-  internal_signal_invoke_valist(signal_name, nargs, args);
-  va_end(args);
 }
 
 /**************************************************************************

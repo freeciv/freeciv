@@ -40,8 +40,6 @@ struct section_file;
 
 const char *get_api_type_name(enum api_types id);
 
-void script_signal_emit_valist(const char *signal_name,
-			       int nargs, va_list args);
 void script_signal_emit(const char *signal_name, int nargs, ...);
 
 void script_signal_create_valist(const char *signal_name,
