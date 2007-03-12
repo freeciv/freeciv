@@ -960,7 +960,7 @@ static void redraw_tech_info_dlg(void)
       
     change_ptsize16(pStr, adj_font(12));
       
-    copy_chars_to_string16(pStr, _("( witch "));
+    copy_chars_to_string16(pStr, _("( with "));
     pText0 = create_text_surf_from_str16(pStr);
     
     copy_chars_to_string16(pStr, _(" )"));
