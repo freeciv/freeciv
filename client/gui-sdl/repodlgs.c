@@ -2769,7 +2769,7 @@ static int change_research_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     dsend_packet_player_research(&aconnection, (MAX_ID - pWidget->ID));
     exit_change_tech_dlg_callback(NULL);
-  } else if (Main.event.button.button == SDL_BUTTON_RIGHT) {
+  } else if (Main.event.button.button == SDL_BUTTON_MIDDLE) {
     popup_tech_info((MAX_ID - pWidget->ID));
   }
   return -1;
@@ -2968,7 +2968,7 @@ static int change_research_goal_callback(struct widget *pWidget)
    /* Following is to make the menu go back to the current goal;
    * there may be a better way to do this?  --dwp */
     science_dialog_update();
-  } else if (Main.event.button.button == SDL_BUTTON_RIGHT) {
+  } else if (Main.event.button.button == SDL_BUTTON_MIDDLE) {
     popup_tech_info((MAX_ID - pWidget->ID));
   } 
   return -1;

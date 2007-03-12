@@ -308,10 +308,11 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);    
   
   if (game.player_ptr) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"),
-                              get_gov_pplayer(game.player_ptr)->name);
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
+                                    get_gov_pplayer(game.player_ptr)->name);
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"), "None");
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
+                                    "None");
   }        
   copy_chars_to_string16(pBuf->string16, cBuf);
       
@@ -327,16 +328,16 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   pBuf = get_research_widget();
   
   if (!game.player_ptr) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
-                "None", 0, 0);
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
+                                    "None", 0, 0);
   } else if (get_player_research(game.player_ptr)->researching != A_UNSET) {  
-    my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
 	      	get_tech_name(game.player_ptr,
                 get_player_research(game.player_ptr)->researching),
 	      	get_player_research(game.player_ptr)->bulbs_researched,
   		total_bulbs_required(game.player_ptr));
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
 	      	get_tech_name(game.player_ptr,
 			    get_player_research(game.player_ptr)->researching),
 	      	get_player_research(game.player_ptr)->bulbs_researched,
@@ -1072,7 +1073,11 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       }
 
       if (game.player_ptr) {
-        pStr = create_str16_from_char(_("End of Turn\n(Press Enter)"), adj_font(14));
+        char buf[256];
+        my_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
+                    _("End of Turn"), _("Press"), _("Shift+Return"));
+        pStr = create_str16_from_char(buf, adj_font(14));
+        pStr->style = SF_CENTER;
         pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
         pBuf_Surf = create_text_surf_from_str16(pStr);
         area.x = pInfo_Window->size.x + BLOCKU_W +

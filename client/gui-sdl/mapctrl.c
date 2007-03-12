@@ -1071,13 +1071,7 @@ static void popup_unitinfo_scale_dialog(void)
 static int minimap_window_callback(struct widget *pWidget)
 {
   switch(Main.event.button.button) {
-    case SDL_BUTTON_RIGHT:    
-    /* FIXME: scaling needs to be fixed */
-#ifdef SCALE_MINIMAP
-      popup_minimap_scale_dialog();
-#endif    
-    break;
-    default:
+    case SDL_BUTTON_RIGHT:
       if ((SDL_Client_Flags & CF_MINI_MAP_SHOW) &&  
          (Main.event.motion.x >= OVERVIEW_START_X) &&
          (Main.event.motion.x <
@@ -1098,7 +1092,15 @@ static int minimap_window_callback(struct widget *pWidget)
                               
       }
 
-    break;
+      break;
+    case SDL_BUTTON_MIDDLE:
+    /* FIXME: scaling needs to be fixed */
+#ifdef SCALE_MINIMAP
+      popup_minimap_scale_dialog();
+#endif    
+      break;
+    default:
+      break;
   }
   return -1;
 }
@@ -1354,6 +1356,7 @@ static void Remake_UnitInfo(int w, int h)
 void popup_unitinfo_window() {
   struct widget *pWidget, *pWindow;
   SDL_Surface *pIcon_theme = NULL;
+  char buf[256];
   
   if (pUnitInfo_Dlg) {
     return;
@@ -1395,7 +1398,8 @@ void popup_unitinfo_window() {
   pWidget = create_icon2(get_tax_surface(O_GOLD), pUnits_Info_Window->dst, WF_FREE_GFX
                       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
-  pWidget->string16 = create_str16_from_char(_("Economy (F5)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Economy"), "F5");
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = economy_callback;
   pWidget->key = SDLK_F5;
 
@@ -1406,7 +1410,8 @@ void popup_unitinfo_window() {
   /* research button */
   pWidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())), pUnits_Info_Window->dst, WF_FREE_GFX
 		       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
-  pWidget->string16 = create_str16_from_char(_("Research (F6)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");                       
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = research_callback;
   pWidget->key = SDLK_F6;
 
@@ -1417,7 +1422,8 @@ void popup_unitinfo_window() {
   /* revolution button */
   pWidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())), pUnits_Info_Window->dst, (WF_FREE_GFX
 			| WF_WIDGET_HAS_INFO_LABEL| WF_RESTORE_BACKGROUND | WF_FREE_THEME));
-  pWidget->string16 = create_str16_from_char(_("Revolution (Shift + R)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Shift+R");
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
   pWidget->mod = KMOD_SHIFT;
@@ -1524,6 +1530,7 @@ void popdown_unitinfo_window()
 void popup_minimap_window() {
   struct widget *pWidget, *pWindow;
   SDL_Surface *pIcon_theme = NULL;
+  char buf[256];
   int w, h;
 
   if (pMiniMap_Dlg) {
@@ -1558,7 +1565,8 @@ void popup_minimap_window() {
   /* new turn button */
   pWidget = create_themeicon(pTheme->NEW_TURN_Icon, pMiniMap_Window->dst,
 			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pWidget->string16 = create_str16_from_char(_("End Turn (Enter)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Turn Done"), _("Shift+Return"));
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = end_turn_callback;
   pWidget->key = SDLK_RETURN;
   pWidget->mod = KMOD_LCTRL;
@@ -1570,7 +1578,8 @@ void popup_minimap_window() {
   /* players button */
   pWidget = create_themeicon(pTheme->PLAYERS_Icon, pMiniMap_Window->dst,
 			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pWidget->string16 = create_str16_from_char(_("Players (F3)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Players"), "F3");
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = players_action_callback;
   pWidget->key = SDLK_F3;
 
@@ -1579,8 +1588,9 @@ void popup_minimap_window() {
   /* find city button */
   pWidget = create_themeicon(pTheme->FindCity_Icon, pMiniMap_Window->dst,
    			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pWidget->string16 = create_str16_from_char(
-  		_("Cities Report (F1)\nor\nFind City (Shift + F)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
+                                "F1", _("or"), _("Find City"), "Shift+F");
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->string16->style |= SF_CENTER;
   pWidget->action = cities_action_callback;
   pWidget->key = SDLK_f;
@@ -1593,7 +1603,8 @@ void popup_minimap_window() {
   /* units button */
   pWidget = create_themeicon(pTheme->UNITS2_Icon, pMiniMap_Window->dst,
 		             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pWidget->string16 = create_str16_from_char(_("Units (F2)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Units"), "F2");
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = units_action_callback;
   pWidget->key = SDLK_F2;
 
@@ -1602,7 +1613,8 @@ void popup_minimap_window() {
   /* show/hide log window button */
   pWidget = create_themeicon(pTheme->LOG_Icon, pMiniMap_Window->dst,
  			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pWidget->string16 = create_str16_from_char(_("Hide Messages (F10)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F10");
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_msg_window_callback;
   pWidget->key = SDLK_F10;
 
@@ -1611,8 +1623,8 @@ void popup_minimap_window() {
   /* toggle minimap mode button */
   pWidget = create_themeicon(pTheme->BORDERS_Icon, pMiniMap_Window->dst,
  			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pWidget->string16 = create_str16_from_char(
-                         _("Toggle Minimap Mode (Shift + \\)"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Minimap Mode"), "Shift+\\");
+  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_minimap_mode_callback;
   pWidget->key = SDLK_BACKSLASH;
   pWidget->mod = KMOD_SHIFT;
@@ -1623,10 +1635,11 @@ void popup_minimap_window() {
   /* options button */
   pOptions_Button = create_themeicon(pTheme->Options_Icon, pMiniMap_Window->dst,
  			             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pOptions_Button->string16 = create_str16_from_char(_("Options"), adj_font(12));
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
+  pOptions_Button->string16 = create_str16_from_char(buf, adj_font(12));
   
   pOptions_Button->action = optiondlg_callback;  
-  pOptions_Button->key = SDLK_TAB;
+  pOptions_Button->key = SDLK_ESCAPE;
 
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
   #endif
