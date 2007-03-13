@@ -264,9 +264,13 @@ void popup_meswin_dialog(bool raise)
   /* create scrollbar */
   scrollbar_width = create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
 
+  pStr = create_str16_from_char("sample text", PTSIZE_LOG_FONT);
+  
   /* define content area */
   area.w = (adj_size(520) - (pWindow->size.w - pWindow->area.w));
-  area.h = N_MSG_VIEW * str16size(pStr).h;
+  area.h = (N_MSG_VIEW + 1) * str16height(pStr);
+
+  FREESTRING16(pStr);
 
   /* create window background */
   pBackground = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
