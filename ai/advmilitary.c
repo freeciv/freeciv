@@ -185,7 +185,10 @@ static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
     defense *= unit_type(punit)->firepower;
     if (is_ground_unit(punit)) {
       if (pcity) {
-        do_wall = (!igwall && city_got_citywalls(pcity));
+        /* FIXME: We check if city got defense effect against *some*
+         * unit type. Sea unit danger might cause us to build defenses
+         * against air units... */
+        do_wall = (!igwall && city_got_defense_effect(pcity, NULL));
         defense *= 3;
       }
     }
@@ -683,7 +686,10 @@ int ai_unit_attack_desirability(const struct unit_type *punittype)
 static void process_defender_want(struct player *pplayer, struct city *pcity,
                                   unsigned int danger, struct ai_choice *choice)
 {
-  bool walls = city_got_citywalls(pcity);
+  /* FIXME: We check if city got defense effect against *some*
+   * unit type. Sea unit danger might cause us to build defenses
+   * against air units... */
+  bool walls = city_got_defense_effect(pcity, NULL);
   /* Technologies we would like to have. */
   int tech_desire[U_LAST];
   /* Our favourite unit. */

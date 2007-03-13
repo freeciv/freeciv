@@ -981,11 +981,27 @@ bool is_capital(const struct city *pcity)
 }
 
 /**************************************************************************
- Whether a city has its own City Walls, or the same effect via a wonder.
+ Whether a city should have visible walls
 **************************************************************************/
 bool city_got_citywalls(const struct city *pcity)
 {
   return (get_city_bonus(pcity, EFT_DEFEND_BONUS) > 0);
+}
+
+/**************************************************************************
+ This can be City Walls, Coastal defense... depending on attacker type.
+ If attacker type is not given, just any defense effect will do.
+**************************************************************************/
+bool city_got_defense_effect(const struct city *pcity,
+                             const struct unit_type *attacker)
+{
+  if (!attacker) {
+    /* Any defense building will do */
+    return get_city_bonus(pcity, EFT_DEFEND_BONUS) > 0;
+  }
+
+  return get_unittype_bonus(pcity->owner, pcity->tile, attacker,
+                            EFT_DEFEND_BONUS) > 0;
 }
 
 /**************************************************************************

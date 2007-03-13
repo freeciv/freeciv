@@ -390,6 +390,8 @@ bool city_can_use_specialist(const struct city *pcity,
 bool city_got_building(const struct city *pcity,  Impr_type_id id); 
 bool is_capital(const struct city *pcity);
 bool city_got_citywalls(const struct city *pcity);
+bool city_got_defense_effect(const struct city *pcity,
+                             const struct unit_type *attacker);
 bool building_replaced(const struct city *pcity, Impr_type_id id);
 int city_change_production_penalty(const struct city *pcity,
 				   struct city_production target);
