@@ -281,6 +281,7 @@ data/nation/danish.ruleset
 data/nation/dominican.ruleset
 data/nation/dutch.ruleset
 data/nation/egyptian.ruleset
+data/nation/emirati.ruleset
 data/nation/english.ruleset
 data/nation/esperant.ruleset
 data/nation/estonian.ruleset
@@ -323,6 +324,7 @@ data/nation/kongo.ruleset
 data/nation/korean.ruleset
 data/nation/kyrgyz.ruleset
 data/nation/lankese.ruleset
+data/nation/laotian.ruleset
 data/nation/latvian.ruleset
 data/nation/libyan.ruleset
 data/nation/lithuanian.ruleset
@@ -342,6 +344,7 @@ data/nation/mongol.ruleset
 data/nation/muskogee.ruleset
 data/nation/newzealand.ruleset
 data/nation/nigerian.ruleset
+data/nation/northkorean.ruleset
 data/nation/norwegian.ruleset
 data/nation/nubian.ruleset
 data/nation/numidian.ruleset
@@ -374,6 +377,7 @@ data/nation/sioux.ruleset
 data/nation/slovakian.ruleset
 data/nation/slovenian.ruleset
 data/nation/southafrican.ruleset
+data/nation/southkorean.ruleset
 data/nation/soviet.ruleset
 data/nation/spanish.ruleset
 data/nation/srivijaya.ruleset

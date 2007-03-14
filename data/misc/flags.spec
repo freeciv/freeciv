@@ -104,7 +104,9 @@ artists = "
    Khwarezm		Dan Cottrell and Daniel Markstedt
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
+   Korea (ancient)	Mysid
    Kyrgyzstan		-xfi-
+   Laos			Sebastian Koppehel
    Latvia		Lauris Bukšis
    Libya		Cezary Biele
    Lithuania		Christian Schaller
@@ -126,6 +128,7 @@ artists = "
    Netherlands		Marc Maurer
    New Zealand		Daniel McRae
    Nigeria		Brett Roper
+   North Korea		Zachary Harden
    Norway		Christian Schaller
    Nubia		Daniel Markstedt
    Numidia		Osgoodelawyer and Dan Cottrell
@@ -184,6 +187,7 @@ artists = "
    Tupi			Dan Cottrell and Daniel Markstedt
    Turkey		David Benbennick
    Turkmenistan		Caleb Moore
+   UAE			Bratt Roper
    Ukraine		Lauris Kaplinski
    United Kingdom	Daniel McRae
    United Nations	Tobias Jakobs
@@ -297,7 +301,9 @@ sprites =
 		"f.khwarezm", "flags/khwarezm"
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
+		"f.korea_ancient", "flags/korea_ancient"
 		"f.kyrgyzstan", "flags/kyrgyzstan"
+		"f.laos", "flags/laos"
 		"f.latvia", "flags/latvia"
 		"f.libya", "flags/libya"
 		"f.lithuania", "flags/lithuania"
@@ -319,6 +325,7 @@ sprites =
 		"f.netherlands", "flags/netherlands"
 		"f.newzealand", "flags/newzealand"
 		"f.nigeria", "flags/nigeria"
+		"f.north_korea", "flags/north_korea"
 		"f.norway", "flags/norway"
 		"f.nubia", "flags/nubia"
 		"f.numidia", "flags/numidia"
@@ -377,6 +384,7 @@ sprites =
 		"f.tupi", "flags/tupi"
 		"f.turkey", "flags/turkey"
 		"f.turkmenistan", "flags/turkmenistan"
+		"f.uae", "flags/uae"
 		"f.ukraine", "flags/ukraine"
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"

@@ -2,7 +2,7 @@
 
 name=_("Korean")
 plural=_("?plural:Koreans")
-groups="Modern", "Medieval", "Asian"
+groups="Ancient", "Medieval", "Asian"
 legend=_("According to legend, the first Korean kingdom was founded in\
  prehistory by the ancestral Tangun in southern Manchuria. The Korean\
  kingdoms was united in 668 by king Munmu. Today the Korean peninsula is\
@@ -10,6 +10,7 @@ legend=_("According to legend, the first Korean kingdom was founded in\
  after the Korean war in 1953.")
 leader=
  "Tangun",	; Ancestral founder of Korea
+ "Chumong", ; Founding monarch of Goguryeo, 1st century BC
  "Kwanggaet'o",	; Great king of Goguryeo, 4th century
  "Sondok",	; Queen of Silla, 7th century
  "Munmu",	; King of Silla - unified the Korean kingdoms
@@ -17,64 +18,43 @@ leader=
  "Yi Song-gye",	; Founder and king of Joseon, temple name "T'aejo"
  "T'aejong",	; King of Joseon
  "Sejong",	; Great king of Joseon
- "Min",		; Queen of Joseon - fiercely opposed Japanese oppression
- "Kim Il-sung",	; Eternal leader of North Korea
- "Syngman Rhee",	; First president of South Korea
- "Park Chung Hee",	; Second president of South Korea
- "Kim Dae-jung"		; Fifth president of South Korea
-leader_sex= "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male",
-            "Female", "Male", "Male", "Male", "Male"
-flag="korea"
+ "Min"		; Queen of Joseon
+leader_sex= "Male", "Male", "Male", "Female", "Male", "Male", "Male", "Male", 
+ "Male", "Female"
+
+flag="korea_ancient"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Communism",    _("Great Leader"), _("?female:Great Leader")
-               }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "japanese", "manchu", "chinese"
 
-; City names are written according to "Revised romanization" orthography.
-; see comment in japanese.ruleset about use of ASCII versus accented chars
+conflicts_with = "northkorean", "southkorean"
+civilwar_nations = "northkorean", "southkorean"
 
 cities =
- "Seoul (river)",
- "Pyeongyang (river)",
- "Busan (ocean)",
- "Daegu (hills)",
- "Daejeon (!ocean)",
- "Hamheung (river)",
- "Wonsan (mountains)",
- "Incheon (ocean)",
- "Cheongjin (ocean)",
- "Gwangju (river)",
- "Suncheon (!ocean)",
- "Gimchaek (ocean)",
- "Najin (ocean)",
- "Ulsan (ocean)",
- "Yeosu (!ocean)",
- "Mokpo (ocean)",
- "Pohang (ocean)",
- "Masan (ocean)",
- "Jinhae (ocean)",
- "Seonbong (ocean)",
- "Songnim (river)",
- "Sariweon (!ocean)",
- "Jeju (ocean)",
- "Goseong (ocean)",
- "Haeju (ocean)",
- "Jeonju (!ocean)",
- "Cheongju (!ocean)",
- "Changwon (!ocean)",
- "Suwon (!ocean)",
- "Anyang (!ocean)",
- "Seongnam (!ocean)",
- "Pocheon (!ocean)",
- "Gaeseong (!ocean)",
- "Nampo (ocean)",
- "Ganggye (!ocean)",
- "Gokseong (!ocean)"
+ "Wanggomsong",
+ "Ungjin",
+ "Sabi",
+ "Jolbon",
+ "Wandu",
+ "Wiryesong",
+ "Kaegyong",
+ "Hanyang (river)",
+ "Kochilsan (mountains, hills)",
+ "Dalgubol",
+ "Hanbat",
+ "Hamhung",
+ "Wonsanjin",
+ "Michuhol",
+ "Sipje",
+ "Kwangju",
+ "Songjin",
+ "Unggi",
+ "Chonju",
+ "Chongju",
+ "Hwasong",
+ "Kaesong",
+ "Kanggye"

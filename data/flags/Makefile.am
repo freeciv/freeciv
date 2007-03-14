@@ -96,7 +96,9 @@ flag_files =				\
 		khwarezm.png		\
 		kongo.png		\
 		korea.png		\
+		korea_ancient.png	\
 		kyrgyzstan.png		\
+		laos.png		\
 		latvia.png		\
 		libya.png		\
 		lithuania.png		\
@@ -118,6 +120,7 @@ flag_files =				\
 		netherlands.png		\
 		newzealand.png		\
 		nigeria.png		\
+		north_korea.png		\
 		norway.png		\
 		nubia.png		\
 		numidia.png		\
@@ -175,7 +178,8 @@ flag_files =				\
 		tunisia.png		\
 		tupi.png		\
 		turkey.png		\
-		turkmenistan.png		\
+		turkmenistan.png	\
+		uae.png			\
 		ukraine.png		\
 		united_kingdom.png	\
 		united_nations.png	\
@@ -284,7 +288,9 @@ shield_files =					\
 		khwarezm-shield.png		\
 		kongo-shield.png		\
 		korea-shield.png		\
+		korea_ancient-shield.png	\
 		kyrgyzstan-shield.png		\
+		laos-shield.png			\
 		latvia-shield.png		\
 		libya-shield.png		\
 		lithuania-shield.png		\
@@ -306,6 +312,7 @@ shield_files =					\
 		netherlands-shield.png		\
 		newzealand-shield.png		\
 		nigeria-shield.png		\
+		north_korea-shield.png		\
 		norway-shield.png		\
 		nubia-shield.png		\
 		numidia-shield.png		\
@@ -364,6 +371,7 @@ shield_files =					\
 		tupi-shield.png			\
 		turkey-shield.png		\
 		turkmenistan-shield.png		\
+		uae-shield.png			\
 		ukraine-shield.png		\
 		united_kingdom-shield.png	\
 		united_nations-shield.png	\
@@ -472,7 +480,9 @@ svg_files = 				\
 		khwarezm.svg		\
 		kongo.svg		\
 		korea.svg		\
+		korea_ancient.svg	\
 		kyrgyzstan.svg		\
+		laos.svg		\
 		latvia.svg		\
 		libya.svg		\
 		lithuania.svg		\
@@ -494,6 +504,7 @@ svg_files = 				\
 		netherlands.svg		\
 		newzealand.svg		\
 		nigeria.svg		\
+		north_korea.svg		\
 		norway.svg		\
 		nubia.svg		\
 		numidia.svg		\
@@ -551,7 +562,8 @@ svg_files = 				\
 		tunisia.svg		\
 		tupi.svg		\
 		turkey.svg		\
-		turkmenistan.svg		\
+		turkmenistan.svg	\
+		uae.svg			\
 		ukraine.svg		\
 		united_kingdom.svg	\
 		united_nations.svg	\

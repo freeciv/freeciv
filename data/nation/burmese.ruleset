@@ -31,10 +31,10 @@ init_units=""
 
 ; Similar flag
 conflicts_with = "taiwanese"
-civilwar_nations = "bengali", "thai"
+civilwar_nations = "bengali", "thai", "laotian"
 
 cities =
- "Rangoon",
+ "Yangon",
  "Mandalay",
  "Moulmein",
  "Taunggyi",
