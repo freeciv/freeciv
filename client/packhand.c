@@ -2123,6 +2123,8 @@ void handle_player_remove(int player_id)
 **************************************************************************/
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
+  int i;
+
   ruleset_data_free();
 
   ruleset_cache_init();
@@ -2131,6 +2133,12 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   governments_alloc(packet->government_count);
   nations_alloc(packet->nation_count);
   city_styles_alloc(packet->styles_count);
+
+  /* We are in inconsistent state. Players point to nations,
+   * which do not point to players. Fix */
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    game.players[i].nation = NULL;
+  }
 }
 
 /**************************************************************************
