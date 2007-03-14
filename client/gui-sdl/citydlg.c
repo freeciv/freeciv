@@ -135,14 +135,14 @@ Impr_type_id get_building_for_effect(enum effect_type effect_type) {
 /**************************************************************************
   Destroy City Menu Dlg but not undraw.
 **************************************************************************/
-static void del_city_menu_dlg(bool enable)
+static void popdown_city_menu_dlg(bool enable_city_dialog_widgets)
 {
   if (pCityDlg->pEndCityMenuWidgetList) {
-    del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-				       pCityDlg->pEndCityMenuWidgetList);
+    popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
+				pCityDlg->pEndCityMenuWidgetList);
     pCityDlg->pEndCityMenuWidgetList = NULL;
   }
-  if (enable) {
+  if (enable_city_dialog_widgets) {
     /* enable city dlg */
     enable_city_dlg_widgets();
   }
@@ -178,7 +178,7 @@ static void del_city_dialog(void)
     }
     
     free_city_units_lists();
-    del_city_menu_dlg(FALSE);
+    popdown_city_menu_dlg(FALSE);
     
     popdown_window_group_dialog(pCityDlg->pBeginCityWidgetList,
 				       pCityDlg->pEndCityWidgetList);
@@ -253,15 +253,13 @@ static int cancel_units_orders_city_dlg_callback(struct widget *pButton)
 
 /**************************************************************************
   activate unit and del unit order dlg. widget group.
-  update screen is unused becouse common code call here 
-  redraw_city_dialog(pCityDlg->pCity);
 **************************************************************************/
 static int activate_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pButton->data.unit;
   
-    del_city_menu_dlg(TRUE);
+    popdown_city_menu_dlg(TRUE);
     if(pUnit) {
       set_unit_focus(pUnit);
     }
@@ -294,15 +292,13 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButt
 
 /**************************************************************************
   sentry unit and del unit order dlg. widget group.
-  update screen is unused becouse common code call here 
-  redraw_city_dialog(pCityDlg->pCity);
 **************************************************************************/
 static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pButton->data.unit;
   
-    del_city_menu_dlg(TRUE);
+    popdown_city_menu_dlg(TRUE);
     if(pUnit) {
       request_unit_sentry(pUnit);
     }
@@ -312,15 +308,13 @@ static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 
 /**************************************************************************
   fortify unit and del unit order dlg. widget group.
-  update screen is unused becouse common code call here 
-  redraw_city_dialog(pCityDlg->pCity);
 **************************************************************************/
 static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pButton->data.unit;
   
-    del_city_menu_dlg(TRUE);
+    popdown_city_menu_dlg(TRUE);
     if(pUnit) {
       request_unit_fortify(pUnit);
     }
@@ -330,8 +324,6 @@ static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 
 /**************************************************************************
   disband unit and del unit order dlg. widget group.
-  update screen is unused becouse common code call here 
-  redraw_city_dialog(pCityDlg->pCity);
 **************************************************************************/
 static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 {
@@ -339,7 +331,7 @@ static int disband_units_orders_city_dlg_callback(struct widget *pButton)
     struct unit *pUnit = pButton->data.unit;
   
     free_city_units_lists();
-    del_city_menu_dlg(TRUE);
+    popdown_city_menu_dlg(TRUE);
   
     /* ugly hack becouse this free unit widget list*/
     /* FIX ME: add remove from list support */
@@ -354,15 +346,13 @@ static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 
 /**************************************************************************
   homecity unit and del unit order dlg. widget group.
-  update screen is unused becouse common code call here 
-  redraw_city_dialog(pCityDlg->pCity);
 **************************************************************************/
 static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pButton->data.unit;
   
-    del_city_menu_dlg(TRUE);
+    popdown_city_menu_dlg(TRUE);
     if(pUnit) {
       request_unit_change_homecity(pUnit);
     }
@@ -372,17 +362,13 @@ static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 
 /**************************************************************************
   upgrade unit and del unit order dlg. widget group.
-  update screen is unused becouse common code call here 
-  redraw_city_dialog(pCityDlg->pCity);
 **************************************************************************/
 static int upgrade_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pButton->data.unit;
-      
-    popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
-                                pCityDlg->pEndCityMenuWidgetList);
-    pCityDlg->pEndCityMenuWidgetList = NULL;
+
+    popdown_city_menu_dlg(TRUE);    
     popup_unit_upgrade_dlg(pUnit, TRUE);
   }
   return -1;
