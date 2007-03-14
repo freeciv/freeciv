@@ -1112,7 +1112,7 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
   }
 
   sprintf(buf + strlen(buf), "\n");
-  insert_allows(&source, buf + strlen(buf), bufsz);
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   if (tech_flag(i, TF_BONUS_TECH)) {
     sprintf(buf + strlen(buf), _("* The first player to research %s gets "
