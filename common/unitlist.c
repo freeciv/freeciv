@@ -125,6 +125,24 @@ bool can_units_do_base(const struct unit_list *punits,
 }
 
 /****************************************************************************
+  Returns TRUE if any of the units can build base with given gui_type.
+****************************************************************************/
+bool can_units_do_base_gui(const struct unit_list *punits,
+                           enum base_gui_type base_gui)
+{
+  unit_list_iterate(punits, punit) {
+    struct base_type *pbase = get_base_by_gui_type(base_gui, punit, punit->tile);
+
+    if (pbase) {
+      /* Some unit can build base of given gui_type */
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Returns TRUE if any of the units can do the activity.
 ****************************************************************************/
 bool can_units_do_diplomat_action(const struct unit_list *punits,

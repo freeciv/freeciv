@@ -2369,8 +2369,12 @@ void key_unit_wakeup_others(void)
 void key_unit_airbase(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity_base(punit, BASE_AIRBASE)) {
-      request_new_unit_activity_base(punit, BASE_AIRBASE);
+    struct base_type *pbase;
+
+    pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
+
+    if (pbase) {
+      request_new_unit_activity_base(punit, pbase->id);
     }
   } unit_list_iterate_end;
 }
@@ -2440,8 +2444,12 @@ void key_unit_fortify(void)
 void key_unit_fortress(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity_base(punit, BASE_FORTRESS)) {
-      request_new_unit_activity_base(punit, BASE_FORTRESS);
+    struct base_type *pbase;
+
+    pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
+
+    if (pbase) {
+      request_new_unit_activity_base(punit, pbase->id);
     }
   } unit_list_iterate_end;
 }
