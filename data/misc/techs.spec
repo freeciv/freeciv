@@ -3,21 +3,21 @@ options = "+spec3"
 [info]
 artists = "
  Frederic Rodrigo 
- a.atomic_theory      a.explosives           a.mysticism
- a.automobile         a.fusion_power         a.plastics
- a.chemistry          a.genetic_engineering  a.radio
- a.code_of_laws       a.iron_working         a.railroad
- a.computers          a.literacy             a.refrigeration
- a.currency           a.machine_tools        a.tactics
- a.economics          a.magnetism            a.theory_of_gravity
- a.electricity        a.masonry              a.the_wheel
- a.electronics        a.mathematics
+ a.atomic_theory      a.explosives           a.monotheism
+ a.automobile         a.fusion_power         a.mysticism
+ a.chemistry          a.genetic_engineering  a.plastics
+ a.code_of_laws       a.iron_working         a.radio
+ a.computers          a.literacy             a.railroad
+ a.currency           a.machine_tools        a.refrigeration
+ a.economics          a.magnetism            a.tactics
+ a.electricity        a.masonry              a.theory_of_gravity
+ a.electronics        a.mathematics          a.the_wheel
  a.espionage          a.miniaturization
 
  Daniel Markstedt
- a.advanced_flight    a.industrialization    a.stealth
- a.alphabet           a.physics              a.the_corporation
- a.combustion         a.polytheism
+ a.advanced_flight    a.industrialization    a.polytheism
+ a.alphabet           a.navigation           a.stealth
+ a.combustion         a.physics              a.the_corporation
  
  feler404
  a.construction       a.nuclear_power        a.sanitation
@@ -46,9 +46,6 @@ artists = "
  Jim Fitzpatrick
  a.guerilla_warfare
 
- Michelangelo
- a.monotheism 
-
  Patricia Fidi
  a.seafaring
  
@@ -59,7 +56,7 @@ artists = "
  a.philosophy
 
  Michael Reeve
- a.ceremonial_burial (GFDL)
+ a.ceremonial_burial
 
  Leonardo da Vinci
  a.invention
@@ -90,9 +87,6 @@ artists = "
 
  Chris Buckley
  a.recycling
- 
- Architetto Francesco Rollandin
- a.navigation 
  
  Liquid_2003
  a.democracy
