@@ -1638,6 +1638,7 @@ static void load_player_units(struct player *plr, int plrno,
     int nat_x, nat_y;
     const char* type_name;
     struct unit_type *type;
+    struct base_type *pbase = NULL;
     
     type_name = secfile_lookup_str_default(file, NULL, 
                                            "player%d.u%d.type_by_name",
@@ -1700,11 +1701,20 @@ static void load_player_units(struct player *plr, int plrno,
     }
 
     if (activity == ACTIVITY_FORTRESS) {
-      set_unit_activity_base(punit, BASE_FORTRESS);
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
     } else if (activity == ACTIVITY_AIRBASE) {
-      set_unit_activity_base(punit, BASE_AIRBASE);
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
+    } else if (activity == ACTIVITY_BASE) {
+      /* This should currently not happen as ACTIVITY_BASE is saves as
+       * ACTIVITY_FORTRESS or ACTIVITY_AIRBASE. We don't know base type,
+       * let's use sensible fallback */
+      set_unit_activity_base(punit, BASE_FORTRESS);
     } else {
       set_unit_activity(punit, activity);
+    }
+
+    if (pbase) {
+      set_unit_activity_base(punit, pbase->id);
     }
 
     /* need to do this to assign/deassign settlers correctly -- Syela
@@ -1797,6 +1807,7 @@ static void load_player_units(struct player *plr, int plrno,
 	punit->has_orders = TRUE;
 	for (j = 0; j < len; j++) {
 	  struct unit_order *order = &punit->orders.list[j];
+          struct base_type *pbase = NULL;
 
 	  if (orders_buf[j] == '\0' || dir_buf[j] == '\0'
 	      || act_buf[j] == '\0') {
@@ -1819,11 +1830,17 @@ static void load_player_units(struct player *plr, int plrno,
 	  }
 
           if (order->activity == ACTIVITY_FORTRESS) {
-            order->activity = ACTIVITY_BASE;
-            order->base = BASE_FORTRESS;
+            pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL);
+            order->activity = ACTIVITY_IDLE; /* In case no matching gui_type found */
           } else if (order->activity == ACTIVITY_AIRBASE) {
+            pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, NULL, NULL);
+            order->activity = ACTIVITY_IDLE; /* In case no matching gui_type found */
+          }
+
+          if (pbase) {
+            /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
-            order->base = BASE_AIRBASE;
+            order->base = pbase->id;
           }
 	}
       } else {
@@ -2933,12 +2950,15 @@ static void player_save(struct player *plr, int plrno,
     activity = punit->activity;
 
     if (activity == ACTIVITY_BASE) {
-      if (punit->activity_base == BASE_FORTRESS) {
+      struct base_type *pbase;
+      pbase = base_type_get_by_id(punit->activity_base);
+
+      if (pbase->gui_type == BASE_GUI_FORTRESS) {
         activity = ACTIVITY_FORTRESS;
-      } else if (punit->activity_base == BASE_AIRBASE) {
+      } else if (pbase->gui_type == BASE_GUI_AIRBASE) {
         activity = ACTIVITY_AIRBASE;
       } else {
-        freelog(LOG_ERROR, "Unknown activity_base!");
+        /* Gui type other. Make sensible fallback */
         activity = ACTIVITY_FORTRESS;
       }
     }
@@ -3010,13 +3030,15 @@ static void player_save(struct player *plr, int plrno,
 	  break;
 	case ORDER_ACTIVITY:
           if (punit->orders.list[j].activity == ACTIVITY_BASE) {
-            if (punit->orders.list[j].base == BASE_FORTRESS) {
+            struct base_type *pbase;
+            pbase = base_type_get_by_id(punit->orders.list[j].base);
+
+            if (pbase->gui_type == BASE_GUI_FORTRESS) {
               act_buf[j] = activity2char(ACTIVITY_FORTRESS);
-            } else if (punit->orders.list[j].base == BASE_AIRBASE) {
+            } else if (pbase->gui_type == BASE_GUI_AIRBASE) {
               act_buf[j] = activity2char(ACTIVITY_AIRBASE);
             } else {
-              freelog(LOG_ERROR, "Unknown base type in player_save");
-              /* Saving as fortress */
+              /* Saving others as fortress */
               act_buf[j] = activity2char(ACTIVITY_FORTRESS);
             }
           } else {
