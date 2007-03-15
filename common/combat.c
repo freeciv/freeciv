@@ -97,7 +97,6 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
 				  const struct unit *pdefender,
                                   const struct tile *dest_tile)
 {
-  struct terrain *fromtile = punit->tile->terrain;
   struct city *pcity = dest_tile->city;
 
   /* 1. Can we attack _anything_ ? */
@@ -112,9 +111,8 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   }
 
   /* 3. Can't attack with ground unit from ocean, except for marines */
-  if (is_ocean(fromtile)
-      && is_ground_unit(punit)
-      && !unit_flag(punit, F_MARINES)) {
+  if (!is_native_tile(unit_type(punit), punit->tile)
+      && !can_attack_from_non_native(unit_type(punit))) {
     return FALSE;
   }
 

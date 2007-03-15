@@ -93,6 +93,22 @@ bool can_attack_non_native(struct unit_type *utype)
 }
 
 /****************************************************************************
+ This unit can attack from non-native tiles (Marines can attack from
+ transport, ships from harbour cities)
+****************************************************************************/
+bool can_attack_from_non_native(struct unit_type *utype)
+{
+  /* It's clear that LAND_MOVING should not be able to attack from
+   * non-native (unless F_MARINES) and it's clear that SEA_MOVING
+   * should be able to attack from non-native. It's not clear what to do
+   * with HELI_MOVING and AIR_MOVING. At the moment we return FALSE for
+   * them. One can always give "Marines" flag for them. This should be
+   * generalized for unit_classes anyway. */
+  return (get_unit_class(utype)->move_type == SEA_MOVING
+          || unit_type_flag(utype, F_MARINES));
+}
+
+/****************************************************************************
   Return TRUE iff the unit is a sailing/naval/sea/water unit.
 ****************************************************************************/
 bool is_sailing_unit(const struct unit *punit)
