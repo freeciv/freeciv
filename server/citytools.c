@@ -1342,6 +1342,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   packet->size = pdcity->size;
 
   packet->occupied = pdcity->occupied;
+  packet->walls = pdcity->walls;
   packet->happy = pdcity->happy;
   packet->unhappy = pdcity->unhappy;
 
@@ -1634,6 +1635,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
       BV_SET(packet->improvements, i);
     }
   } impr_type_iterate_end;
+
+  packet->walls = city_got_citywalls(pcity);
 }
 
 /**************************************************************************
@@ -1655,6 +1658,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
    * unit list to check the occupied status. */
   bool occupied =
     (unit_list_size(pcity->tile->units) > 0);
+  bool walls = city_got_citywalls(pcity);
   bool happy = city_happy(pcity), unhappy = city_unhappy(pcity);
   bv_imprs improvements;
 
@@ -1670,6 +1674,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
       && strcmp(pdcity->name, pcity->name) == 0
       && pdcity->size == pcity->size
       && pdcity->occupied == occupied
+      && pdcity->walls == walls
       && pdcity->happy == happy
       && pdcity->unhappy == unhappy
       && pdcity->owner == pcity->owner
@@ -1690,6 +1695,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   sz_strlcpy(pdcity->name, pcity->name);
   pdcity->size = pcity->size;
   pdcity->occupied = occupied;
+  pdcity->walls = walls;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;
   pdcity->owner = pcity->owner;

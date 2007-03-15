@@ -2665,6 +2665,8 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
 	pdcity->occupied = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.occupied", plrno, j);
+        pdcity->walls = secfile_lookup_bool_default(file, FALSE,
+                                        "player%d.dc%d.walls", plrno, j);
 	pdcity->happy = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.happy", plrno, j);
 	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
@@ -3302,6 +3304,8 @@ static void player_save(struct player *plr, int plrno,
 			      "player%d.dc%d.has_walls", plrno, i);
 	  secfile_insert_bool(file, pdcity->occupied,
 			      "player%d.dc%d.occupied", plrno, i);
+          secfile_insert_bool(file, pdcity->walls,
+                              "player%d.dc%d.walls", plrno, i);
 	  secfile_insert_bool(file, pdcity->happy,
 			      "player%d.dc%d.happy", plrno, i);
 	  secfile_insert_bool(file, pdcity->unhappy,

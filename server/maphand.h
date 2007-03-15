@@ -28,6 +28,7 @@ struct dumb_city{
    * pointers in here. */
   int id;
   bool occupied;
+  bool walls;
   bool happy, unhappy;
   char name[MAX_LEN_NAME];
   unsigned short size;

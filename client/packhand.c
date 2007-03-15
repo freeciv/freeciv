@@ -571,6 +571,8 @@ void handle_city_info(struct packet_city_info *packet)
     agents_city_changed(pcity);
   }
 
+  pcity->client.walls = packet->walls;
+
   handle_city_packet_common(pcity, city_is_new, popup,
 			    packet->diplomat_investigate);
 
@@ -790,6 +792,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   } else {
     agents_city_changed(pcity);
   }
+
+  pcity->client.walls = packet->walls;
 
   handle_city_packet_common(pcity, city_is_new, FALSE, FALSE);
 

@@ -4164,16 +4164,16 @@ int fill_sprite_array(struct tileset *t,
       /* For iso-view the city.wall graphics include the full city, whereas
        * for non-iso view they are an overlay on top of the base city
        * graphic. */
-      if (!t->is_isometric || !city_got_citywalls(pcity)) {
+      if (!t->is_isometric || !pcity->client.walls) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.tile, pcity));
       }
-      if (t->is_isometric && city_got_citywalls(pcity)) {
+      if (t->is_isometric && pcity->client.walls) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
       }
       if (!draw_full_citybar && pcity->client.occupied) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.occupied, pcity));
       }
-      if (!t->is_isometric && city_got_citywalls(pcity)) {
+      if (!t->is_isometric && pcity->client.walls) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
       }
       if (pcity->client.unhappy) {

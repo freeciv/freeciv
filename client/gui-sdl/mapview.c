@@ -775,7 +775,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 			  
 	    cat_snprintf(buffer, sizeof(buffer), _("\nCity of %s"), pTile->city->name);
             	  
-	    citywall = city_got_citywalls(pTile->city);
+	    citywall = pTile->city->client.walls;
                           
 #if 0                          
 	    if (pplayers_allied(game.player_ptr, pOwner)) {

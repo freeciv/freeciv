@@ -268,6 +268,8 @@ struct city {
     /* The color is an index into the city_colors array in mapview_common */
     bool colored;
     int color_index;
+
+    bool walls;
   } client;
 
   int steal;		      /* diplomats steal once; for spies, gets harder */
