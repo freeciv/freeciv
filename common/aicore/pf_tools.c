@@ -542,9 +542,9 @@ static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
 /****************************************************************************
   Position-dangerous callback for air units.
 ****************************************************************************/
-static bool air_is_pos_dangerous(const struct tile *ptile,
-				 enum known_type known,
-				 struct pf_parameter *param)
+static bool is_pos_dangerous_fuel(const struct tile *ptile,
+                                  enum known_type known,
+                                  struct pf_parameter *param)
 {
   struct base_type *pbase;
 
@@ -612,12 +612,6 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     break;
   case AIR_MOVING:
     parameter->get_MC = single_airmove;
-    if (unit_type(punit)->fuel > 0) {
-      parameter->is_pos_dangerous = air_is_pos_dangerous;
-    } else {
-      parameter->is_pos_dangerous = NULL;
-    }
-    parameter->turn_mode = TM_WORST_TIME;
     break;
   case HELI_MOVING:
     /* Helicoptors are treated similarly to airplanes. */
@@ -629,9 +623,10 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   }
 
   if (!parameter->is_pos_dangerous
-      && is_losing_hp(punit)) {
-    /* Unit loses hitpoints each turn when not in city/safe base/carrier */
-    parameter->is_pos_dangerous = air_is_pos_dangerous;
+      && (unit_type(punit)->fuel > 0 || is_losing_hp(punit))) {
+    /* Unit loses hitpoints each turn when not in city/safe base/carrier
+     * or needs fuel */
+    parameter->is_pos_dangerous = is_pos_dangerous_fuel;
     parameter->turn_mode = TM_WORST_TIME;
   }
 

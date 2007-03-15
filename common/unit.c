@@ -1022,7 +1022,7 @@ const char *unit_activity_text(const struct unit *punit)
   switch(punit->activity) {
    case ACTIVITY_IDLE:
      moves_str = _("Moves");
-     if (is_air_unit(punit) && unit_type(punit)->fuel > 0) {
+     if (unit_type(punit)->fuel) {
        int rate,f;
        rate=unit_type(punit)->move_rate/SINGLE_MOVE;
        f=((punit->fuel)-1);
