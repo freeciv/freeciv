@@ -6,12 +6,12 @@ FREECIV_VERSION_COMMENT("  are defined differently depending on          ")
 FREECIV_VERSION_COMMENT("  language used. Don't add comments             ")
 FREECIV_VERSION_COMMENT("  specific to some language into this file.     ")
 
-FREECIV_VERSION_INFO(2,1,99,"-devel")
+FREECIV_VERSION_INFO(2,1,99,["-devel"])
 
 FREECIV_DEVEL_VERSION(1)
 FREECIV_BETA_VERSION(0)
 
-FREECIV_NEXT_VERSION("2.2.0")
+FREECIV_NEXT_VERSION(["2.2.0"])
 FREECIV_RELEASE_MONTH(6)
 
 # Freeciv network capstring: see documentation in common/capstr.c
@@ -24,4 +24,4 @@ FREECIV_RELEASE_MONTH(6)
 #   - Avoid adding a new manditory capbility to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING("+Freeciv.Devel.2007.Mar.12-2")
+FREECIV_NETWORK_CAPSTRING(["+Freeciv.Devel.2007.Mar.12-2"])
