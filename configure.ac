@@ -709,7 +709,9 @@ AC_CONFIG_FILES([Makefile
 	  data/civclient.dsc
 	  data/civserver.dsc
 	  data/civserver.room
+	  data/hex2t/Makefile
 	  data/amplio/Makefile
+	  data/buildings/Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile
 	  data/trident/Makefile
@@ -724,6 +726,7 @@ AC_CONFIG_FILES([Makefile
 	  data/themes/Makefile
 	  data/themes/gui-sdl/Makefile
 	  data/themes/gui-sdl/human/Makefile
+	  data/wonders/Makefile
 	  utility/Makefile
 	  utility/ftwl/Makefile
 	  dependencies/Makefile
