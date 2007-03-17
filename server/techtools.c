@@ -561,7 +561,7 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
     /* It's been suggested that if the research target is empty then
      * choose_random_tech should be called here. */
     research->tech_goal = tech;
-    notify_research(plr, E_TECH_GAIN /* ? */,
+    notify_research(plr, E_TECH_GOAL,
 		    _("Technology goal is %s."),
 		    get_tech_name(plr, tech));
   }

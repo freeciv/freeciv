@@ -113,6 +113,7 @@ static struct {
   GEN_EV(N_("Improvement"), N_("Sold"),                     E_IMP_SOLD),
   GEN_EV(N_("Tech"), N_("Learned From Great Library"),      E_TECH_GAIN),
   GEN_EV(N_("Tech"), N_("Learned New Tech"),                E_TECH_LEARNED),
+  GEN_EV(N_("Tech"), N_("Selected New Goal"),               E_TECH_GOAL),
   GEN_EV(N_("Treaty"), N_("Alliance"),                      E_TREATY_ALLIANCE),
   GEN_EV(N_("Treaty"), N_("Broken"),                        E_TREATY_BROKEN),
   GEN_EV(N_("Treaty"), N_("Cease-fire"),                    E_TREATY_CEASEFIRE),
