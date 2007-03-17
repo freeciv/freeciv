@@ -381,8 +381,10 @@ void player_restore_units(struct player *pplayer)
 	      if (!alive) {
                 freelog(LOG_ERROR, "rescue plane: unit %d died enroute!", id);
               } else if (!same_pos(punit->tile, pos.tile)) {
-                  /* Something odd happened */
-                  freelog(LOG_ERROR,
+                  /* Enemy units probably blocked our route
+                   * FIXME: We should try find alternative route around
+                   * the enemy unit instead of just giving up and crashing. */
+                  freelog(LOG_DEBUG,
                           "rescue plane: unit %d could not move to refuel point!",
                           punit->id);
               }
