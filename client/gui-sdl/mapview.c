@@ -777,36 +777,41 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             	  
 	    citywall = pTile->city->client.walls;
                           
-#if 0                          
+#if 0       
+            /* This has hardcoded assumption that EFT_LAND_REGEN is always
+             * provided by *building* named *Barracks*. Similar assumptions for
+             * other effects. */     
 	    if (pplayers_allied(game.player_ptr, pOwner)) {
 	      barrack = (get_city_bonus(pTile->city, EFT_LAND_REGEN) > 0);
 	      airport = (get_city_bonus(pTile->city, EFT_AIR_VETERAN) > 0);
 	      port = (get_city_bonus(pTile->city, EFT_SEA_VETERAN) > 0);
 	    }
-	  
+
 	    if (citywall || barrack || airport || port) {
-	      cat_snprintf(buffer, sizeof(buffer), _(" with "));
+	      cat_snprintf(buffer, sizeof(buffer), Q_("?blistbegin: with "));
 	      if (barrack) {
                 cat_snprintf(buffer, sizeof(buffer), _("Barracks"));
 	        if (port || airport || citywall) {
-	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	          cat_snprintf(buffer, sizeof(buffer), Q_("?blistmore:, "));
 	        }
 	      }
 	      if (port) {
 	        cat_snprintf(buffer, sizeof(buffer), _("Port"));
 	        if (airport || citywall) {
-	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	          cat_snprintf(buffer, sizeof(buffer), Q_("?blistmore:, "));
 	        }
 	      }
 	      if (airport) {
 	        cat_snprintf(buffer, sizeof(buffer), _("Airport"));
 	        if (citywall) {
-	          cat_snprintf(buffer, sizeof(buffer), ", ");
+	          cat_snprintf(buffer, sizeof(buffer), Q_("?blistmore:, "));
 	        }
 	      }
 	      if (citywall) {
 	        cat_snprintf(buffer, sizeof(buffer), _("City Walls"));
               }
+
+              cat_snprintf(buffer, sizeof(buffer), Q_("?blistend:"));
 	    }
 #endif
 	    

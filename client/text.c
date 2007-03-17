@@ -142,6 +142,7 @@ const char *popup_info_text(struct tile *ptile)
      * borders are in use). */
     struct player *owner = city_owner(pcity);
     bool has_improvements = FALSE;
+    int prev_impr = B_LAST;
 
     if (!game.player_ptr || owner == game.player_ptr){
       /* TRANS: "City: Warsaw (Polish)" */
@@ -170,16 +171,28 @@ const char *popup_info_text(struct tile *ptile)
     impr_type_iterate(i) {
       if (is_improvement_visible(i) && city_got_building(pcity, i)) {
 	/* TRANS: previous lines gave other information about the city. */
-	if (has_improvements) {
-	  astr_add(&str, ", ");
-	} else {
-	  astr_add(&str, _(" with "));
-	}
-
-	astr_add(&str, get_improvement_name(i));
-	has_improvements = TRUE;
+        if (prev_impr != B_LAST) {
+          if (has_improvements) {
+            astr_add(&str, Q_("?blistmore:, "));
+          }
+          astr_add(&str, get_improvement_name(prev_impr));
+          has_improvements = TRUE;
+        } else {
+          astr_add(&str, Q_("?blistbegin: with "));
+        }
+        prev_impr = i;
       }
     } impr_type_iterate_end;
+
+    if (prev_impr != B_LAST) {
+      if (has_improvements) {
+        /* More than one improvement */
+        /* TRANS: This does not appear if there is only one building in the list */
+        astr_add(&str, Q_("?blistlast: and "));
+      }
+      astr_add(&str, get_improvement_name(prev_impr));
+      astr_add(&str, Q_("?blistend:"));
+    }
 
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       struct city *hcity = find_city_by_id(pfocus_unit->homecity);
