@@ -931,8 +931,8 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
       requirement_vector_iterate(&get_improvement_type(j)->reqs, preq) {
-	if (preq->source.type == REQ_BUILDING
-	    && preq->source.value.building == i) {
+	if (preq->source.type == REQ_TECH
+	    && preq->source.value.tech == i) {
 	  hbox = gtk_hbox_new(FALSE, 0);
 	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
 	  w = gtk_label_new(_("Allows"));
