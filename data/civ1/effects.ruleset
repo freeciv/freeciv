@@ -626,6 +626,14 @@ reqs	=
       "Building", "City Walls", "City"
     }
 
+[effect_city_walls_visible]
+name	= "Visible_Walls"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+    }
+
 [effect_colosseum]
 name	= "Make_Content"
 value	= 3
@@ -997,6 +1005,14 @@ reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Player"
       "UnitClass", "Sea", "Local"
+    }
+
+[effect_great_wall_visible]
+name	= "Visible_Walls"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "Player"
     }
 
 [effect_hanging_gardens]

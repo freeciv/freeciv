@@ -105,6 +105,7 @@ enum effect_type {
   EFT_OUTPUT_INC_TILE_CELEBRATE,
   EFT_CITY_UNHAPPY_SIZE, /* all citizens after this are unhappy */
   EFT_UPGRADE_PRICE_PCT,
+  EFT_VISIBLE_WALLS,     /* City should use walls gfx */
   EFT_LAST	/* keep this last */
 };
 

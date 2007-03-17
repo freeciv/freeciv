@@ -24,4 +24,4 @@ FREECIV_RELEASE_MONTH(6)
 #   - Avoid adding a new manditory capbility to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING(["+Freeciv.Devel.2007.Mar.15"])
+FREECIV_NETWORK_CAPSTRING(["+Freeciv.Devel.2007.Mar.17"])

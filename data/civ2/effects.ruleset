@@ -1000,6 +1000,14 @@ reqs	=
       "Building", "City Walls", "City"
     }
 
+[effect_city_walls_visible]
+name	= "Visible_Walls"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+    }
+
 [effect_coastal_defense]
 name	= "Defend_Bonus"
 value	= 100
@@ -1658,6 +1666,14 @@ reqs	=
 
 [effect_great_wall_1]
 name	= "Unit_No_Lose_Pop"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "Player"
+    }
+
+[effect_great_wall_visible]
+name	= "Visible_Walls"
 value	= 1
 reqs	=
     { "type", "name", "range"

@@ -292,3 +292,6 @@ Upgrade_Price_Pct
     Increases unit upgrade cost by amount percent. This effect works at
     player level. You cannot adjust upgrade costs for certain unit type or
     for units upgraded in certain city.
+
+Visible_Wall
+    Positive amount only instructs clients to use wall graphics for city.
