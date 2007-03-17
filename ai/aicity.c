@@ -569,13 +569,12 @@ static void adjust_building_want_by_effects(struct city *pcity,
 		+ ai->stats.units.air);
 	  break;
 	case EFT_UPGRADE_UNIT:
-	  v += ai->stats.units.upgradeable;
 	  if (amount == 1) {
-	    v *= 2;
+            v += ai->stats.units.upgradeable * 2;
 	  } else if (amount == 2) {
-	    v *= 3;
+            v += ai->stats.units.upgradeable * 3;
 	  } else {
-	    v *= 4;
+            v += ai->stats.units.upgradeable * 4;
 	  }
 	  break;
 	case EFT_DEFEND_BONUS:
