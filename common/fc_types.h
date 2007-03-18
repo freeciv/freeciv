@@ -188,4 +188,14 @@ enum editor_tech_mode {
   ETECH_LAST
 };
 
+/*
+ * pplayer->ai.barbarian_type and nations use this enum. Note that the values
+ * have to stay since they are used in savegames.
+ */
+enum barbarian_type {
+  NOT_A_BARBARIAN = 0,
+  LAND_BARBARIAN = 1,
+  SEA_BARBARIAN = 2
+};
+
 #endif /* FC__FC_TYPES_H */

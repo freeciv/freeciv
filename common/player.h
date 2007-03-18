@@ -30,16 +30,6 @@
 #define ANON_PLAYER_NAME "noname"
 #define ANON_USER_NAME "Unassigned"
 
-/*
- * pplayer->ai.barbarian_type uses this enum. Note that the values
- * have to stay since they are used in savegames.
- */
-enum barbarian_type {
-  NOT_A_BARBARIAN = 0,
-  LAND_BARBARIAN = 1,
-  SEA_BARBARIAN = 2
-};
-
 enum handicap_type {
   H_NONE = 0,         /* No handicaps */
   H_DIPLOMAT = 1,     /* Can't build offensive diplomats */

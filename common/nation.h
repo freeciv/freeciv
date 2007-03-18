@@ -79,7 +79,8 @@ struct nation_type {
   struct city_name *city_names;		/* The default city names. */
   char *legend;				/* may be empty */
 
-  bool is_playable, is_barbarian;
+  bool is_playable;
+  enum barbarian_type barb_type;
 
   /* civilwar_nations is a NO_NATION_SELECTED-terminated list of index of
    * the nations that can fork from this one.  parent_nations is the inverse
@@ -118,7 +119,7 @@ const char *get_nation_name(const struct nation_type *nation);
 const char *get_nation_name_plural(const struct nation_type *nation);
 const char *get_nation_name_orig(const struct nation_type *nation);
 bool is_nation_playable(const struct nation_type *nation);
-bool is_nation_barbarian(const struct nation_type *nation);
+enum barbarian_type nation_barbarian_type(const struct nation_type *nation);
 struct leader *get_nation_leaders(const struct nation_type *nation, int *dim);
 struct nation_type **get_nation_civilwar(const struct nation_type *nation);
 bool get_nation_leader_sex(const struct nation_type *nation,

@@ -25,6 +25,6 @@ cities = "Barbaricum"
 
 is_playable = 0
 is_observer = 0
-is_barbarian = 1
+barbarian_type = "Land"
 
 ; nothing more needed for barbarians

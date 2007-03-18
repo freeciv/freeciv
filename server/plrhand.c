@@ -1364,10 +1364,8 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
   nations_iterate(pnation) {
     if (pnation->player
         || (only_available && !pnation->is_available)
-        || (barb_type != NOT_A_BARBARIAN && !is_nation_barbarian(pnation))
-        || (barb_type == NOT_A_BARBARIAN
-            && (is_nation_barbarian(pnation)
-                || !is_nation_playable(pnation)))) {
+        || (barb_type != nation_barbarian_type(pnation))
+        || (barb_type == NOT_A_BARBARIAN && !is_nation_playable(pnation))) {
       /* Nation is unplayable or already used: don't consider it. */
       nations_used[pnation->index] = UNAVAILABLE;
       match[pnation->index] = 0;

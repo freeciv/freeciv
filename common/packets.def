@@ -1195,7 +1195,8 @@ PACKET_RULESET_NATION=102;sc,lsend
   STRING leader_name[MAX_NUM_LEADERS:leader_count][MAX_LEN_NAME];
   BOOL leader_sex[MAX_NUM_LEADERS:leader_count];
 
-  BOOL is_available, is_playable, is_barbarian;
+  BOOL is_available, is_playable;
+  UINT8 barbarian_type;
   
   UINT8 ngroups;
   UINT8 groups[MAX_NUM_NATION_GROUPS:ngroups];

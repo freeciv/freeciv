@@ -124,17 +124,16 @@ bool is_nation_playable(const struct nation_type *nation)
 }
 
 /****************************************************************************
-  Return whether a nation is usable as a barbarian.  If true then barbarians
-  can use this nation.
+  Returns which kind of barbarians can use this nation.
 
   This does not check whether a nation is "used" or "available".
 ****************************************************************************/
-bool is_nation_barbarian(const struct nation_type *nation)
+enum barbarian_type nation_barbarian_type(const struct nation_type *nation)
 {
-  if (!bounds_check_nation(nation, LOG_FATAL, "is_nation_barbarian")) {
+  if (!bounds_check_nation(nation, LOG_FATAL, "nation_barbarian_type")) {
     die("wrong nation %d", nation->index);
   }
-  return nation->is_barbarian;
+  return nation->barb_type;
 }
 
 /***************************************************************

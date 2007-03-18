@@ -2222,6 +2222,8 @@ static void load_ruleset_nations(struct section_file *file)
   char temp_name[MAX_LEN_NAME];
   char **leaders, **sec, **civilwar_nations, **groups, **conflicts;
   char* name;
+  int barb_land_count = 0;
+  int barb_sea_count = 0;
   const char *filename = secfile_filename(file);
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
@@ -2239,6 +2241,7 @@ static void load_ruleset_nations(struct section_file *file)
 
   for (i = 0; i < game.control.nation_count; i++) {
     char tmp[200] = "\0";
+    char *barb_type;
 
     pl = get_nation_by_idx(i);
     
@@ -2328,8 +2331,25 @@ static void load_ruleset_nations(struct section_file *file)
 
     pl->is_playable = secfile_lookup_bool_default(file, TRUE,
 						  "%s.is_playable", sec[i]);
-    pl->is_barbarian = secfile_lookup_bool_default(file, FALSE,
-						  "%s.is_barbarian", sec[i]);
+
+
+    /* Check barbarian type. Default is "None" meaning not a barbarian */    
+    barb_type = secfile_lookup_str_default(file, "None",
+                                           "%s.barbarian_type", sec[i]);
+    if (mystrcasecmp(barb_type, "None") == 0) {
+      pl->barb_type = NOT_A_BARBARIAN;
+    } else if (mystrcasecmp(barb_type, "Land") == 0) {
+      pl->barb_type = LAND_BARBARIAN;
+      barb_land_count++;
+    } else if (mystrcasecmp(barb_type, "Sea") == 0) {
+      pl->barb_type = SEA_BARBARIAN;
+      barb_sea_count++;
+    } else {
+      /* TRANS: Do not translate "None", "Land" or "Sea" */
+      freelog(LOG_ERROR, _("Nation %s, barbarian_type is \"%s\". Must be "
+              "\"None\" or \"Land\" or \"Sea\""), pl->name, barb_type);
+      exit(EXIT_FAILURE);
+    }
 
     /* Flags */
 
@@ -2469,6 +2489,17 @@ static void load_ruleset_nations(struct section_file *file)
   free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
+
+  if (barb_land_count == 0) {
+    freelog(LOG_ERROR,
+            _("No land barbarian nation defined. At least one required!"));
+    exit(EXIT_FAILURE);
+  }
+  if (barb_sea_count == 0) {
+    freelog(LOG_ERROR,
+            _("No sea barbarian nation defined. At least one required!"));
+    exit(EXIT_FAILURE);
+  }
 }
 
 /**************************************************************************
@@ -3206,7 +3237,7 @@ void send_ruleset_nations(struct conn_list *dest)
     packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
     packet.is_available = n->is_available;
-    packet.is_barbarian = n->is_barbarian;
+    packet.barbarian_type = n->barb_type;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
     memcpy(packet.init_buildings, n->init_buildings, 
            sizeof(packet.init_buildings));
