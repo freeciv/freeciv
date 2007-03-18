@@ -683,7 +683,7 @@ int ai_unit_attack_desirability(const struct unit_type *punittype)
   type in choice. Also sets the technology want for the units we can't 
   build yet.
 **************************************************************************/
-static void process_defender_want(struct player *pplayer, struct city *pcity,
+static bool process_defender_want(struct player *pplayer, struct city *pcity,
                                   unsigned int danger, struct ai_choice *choice)
 {
   /* FIXME: We check if city got defense effect against *some*
@@ -778,9 +778,15 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     CITY_LOG(LOG_DEBUG, pcity, "Ooops - we cannot build any defender!");
   }
 
-  if (!walls && get_unit_move_type(best_unit_type) == LAND_MOVING) {
-    best *= pcity->ai.wallvalue;
-    best /= POWER_FACTOR;
+  if (best_unit_type) {
+    if (!walls && get_unit_move_type(best_unit_type) == LAND_MOVING) {
+      best *= pcity->ai.wallvalue;
+      best /= POWER_FACTOR;
+    }
+  } else {
+    best_unit_cost = 100; /* Building impossible is considered costly.
+                           * This should increase want for tech providing
+                           * first defender type. */
   }
 
   if (best <= 0) best = 1; /* Avoid division by zero below. */
@@ -791,19 +797,22 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
       Tech_type_id tech_req = punittype->tech_requirement;
       /* TODO: Document or fix the algorithm below. I have no idea why
        * it is written this way, and the results seem strange to me. - Per */
-      int desire = tech_desire[punittype->index]
-                   * unit_build_shield_cost(best_unit_type) / best;
-      
+      int desire = tech_desire[punittype->index] * best_unit_cost / best;
+
       pplayer->ai.tech_want[tech_req] += desire;
       TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to defend %s",
                desire, unit_name(punittype), pcity->name);
     }
   } simple_ai_unit_type_iterate_end;
-  
+
+  if (!best_unit_type) {
+    return FALSE;
+  }
+
   choice->choice = best_unit_type->index;
   choice->want = danger;
   choice->type = CT_DEFENDER;
-  return;
+  return TRUE;
 }
 
 /************************************************************************** 
@@ -1351,21 +1360,25 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
                choice->want);
     } else if (danger > 0 && num_defenders <= urgency) {
       /* Consider building defensive units units */
-      process_defender_want(pplayer, pcity, danger, choice);
-      if (urgency == 0
-	  && get_unit_type(choice->choice)->defense_strength == 1) {
-	/* FIXME: check other reqs (unit class?) */
-        if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
-          /* unlikely */
-          choice->want = MIN(49, danger);
+      if (process_defender_want(pplayer, pcity, danger, choice)) {
+        /* Potential defender found */
+        if (urgency == 0
+            && get_unit_type(choice->choice)->defense_strength == 1) {
+          /* FIXME: check other reqs (unit class?) */
+          if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
+            /* unlikely */
+            choice->want = MIN(49, danger);
+          } else {
+            choice->want = MIN(25, danger);
+          }
         } else {
-          choice->want = MIN(25, danger);
+          choice->want = danger;
         }
+        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
+                 get_unit_type(choice->choice)->name, choice->want);
       } else {
-        choice->want = danger;
+        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d cannot select defender");
       }
-      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
-               get_unit_type(choice->choice)->name, choice->want);
     } else {
       CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d does not want defenders");
     }
