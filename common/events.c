@@ -256,7 +256,7 @@ void events_init(void)
     if (events[i].section_orig) {
       events[i].full_descr = fc_malloc(strlen(_(events[i].descr_orig))
                                        + strlen(_(events[i].section_orig))
-                                       + strlen(": "));
+                                       + strlen(": ") + 1);
       sprintf(events[i].full_descr, "%s: %s",
               _(events[i].section_orig),
               _(events[i].descr_orig));
