@@ -235,6 +235,9 @@ bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
       pplayer->nation->player = NULL;
     }
     if (pnation) {
+      /* Note that both barbarian players use same nation.
+       * For barbarian nations nation->player points essentially to
+       * random player */
       pnation->player = pplayer;
     }
     pplayer->nation = pnation;

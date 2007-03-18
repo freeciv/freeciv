@@ -1850,6 +1850,7 @@ static void player_load(struct player *plr, int plrno,
   int id;
   struct team *pteam;
   struct player_research *research;
+  struct nation_type *pnation;
 
   /* not all players have teams */
   id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
@@ -1906,7 +1907,13 @@ static void player_load(struct player *plr, int plrno,
       p = "";
     }
   }
-  plr->nation = find_nation_by_name_orig(p);
+  pnation = find_nation_by_name_orig(p);
+
+  if (pnation != NO_NATION_SELECTED) {
+    player_set_nation(plr, pnation);
+  } else {
+    plr->nation = NO_NATION_SELECTED;
+  }
   /* Nation may be unselected at this point; we check for this later and
    * reassign nations to players who don't have them. */
 
@@ -1917,7 +1924,8 @@ static void player_load(struct player *plr, int plrno,
    * give_initial_techs will crash if the nation is unset. */
 
   if (is_barbarian(plr) && plr->nation == NO_NATION_SELECTED) {
-    plr->nation = pick_barbarian_nation();
+    pnation = pick_barbarian_nation();
+    player_set_nation(plr, pnation);
   }
 
   /* government */
