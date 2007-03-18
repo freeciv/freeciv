@@ -1050,41 +1050,36 @@ int turns_to_enemy_city(const struct unit_type *our_type, struct city *acity,
                         int speed, bool go_by_boat, 
                         struct unit *boat, const struct unit_type *boattype)
 {
-  switch (get_unit_move_type(our_type)) {
-  case LAND_MOVING:
-    if (go_by_boat) {
-      int boatspeed = boattype->move_rate;
-      int move_time = (WARMAP_SEACOST(acity->tile)) / boatspeed;
+  struct unit_class *pclass = get_unit_class(our_type);
+
+  if (pclass->ai.sea_move == MOVE_NONE && go_by_boat) {
+    int boatspeed = boattype->move_rate;
+    int move_time = (WARMAP_SEACOST(acity->tile)) / boatspeed;
       
-      if (unit_type_flag(boattype, F_TRIREME) && move_time > 2) {
-        /* FIXME: Should also check for LIGHTHOUSE */
-        /* Return something prohibitive */
-        return 999;
-      }
-      if (boat) {
-        /* Time to get to the boat */
-        move_time += (WARMAP_COST(boat->tile) + speed - 1) / speed;
-      }
-      
-      if (!unit_type_flag(our_type, F_MARINES)) {
-        /* Time to get off the boat (Marines do it from the vessel) */
-        move_time += 1;
-      }
-      
-      return move_time;
-    } else {
-      /* We are walking */
-      return (WARMAP_COST(acity->tile) + speed - 1) / speed;
+    if (unit_type_flag(boattype, F_TRIREME) && move_time > 2) {
+      /* Return something prohibitive */
+      return 999;
     }
-  case SEA_MOVING:
-    /* We are a boat: time to sail */
-    return (WARMAP_SEACOST(acity->tile) + speed - 1) / speed;
-  default: 
-    freelog(LOG_ERROR, "ERROR: Unsupported move_type in time_to_enemy_city");
-    /* Return something prohibitive */
-    return 999;
+    if (boat) {
+      /* Time to get to the boat */
+      move_time += (WARMAP_COST(boat->tile) + speed - 1) / speed;
+    }
+      
+    if (!unit_type_flag(our_type, F_MARINES)) {
+      /* Time to get off the boat (Marines do it from the vessel) */
+      move_time += 1;
+    }
+      
+    return move_time;
   }
 
+  if (pclass->ai.land_move == MOVE_NONE
+      && pclass->ai.sea_move != MOVE_NONE) {
+    /* We are a boat: time to sail */
+    return (WARMAP_SEACOST(acity->tile) + speed - 1) / speed;
+  }
+
+  return (WARMAP_COST(acity->tile) + speed - 1) / speed;
 }
 
 /************************************************************************
@@ -1097,21 +1092,13 @@ int turns_to_enemy_unit(const struct unit_type *our_type,
 			int speed, struct tile *ptile,
                         const struct unit_type *enemy_type)
 {
+  struct unit_class *pclass = get_unit_class(our_type);
   int dist;
 
-  switch (get_unit_move_type(our_type)) {
-  case LAND_MOVING:
+  if (pclass->ai.land_move != MOVE_NONE) {
     dist = WARMAP_COST(ptile);
-    break;
-  case SEA_MOVING:
+  } else {
     dist = WARMAP_SEACOST(ptile);
-    break;
-  default:
-    /* Compiler warning */
-    dist = 0; 
-    freelog(LOG_ERROR, "ERROR: Unsupported unit_type in time_to_enemy_city");
-    /* Return something prohibitive */
-    return 999;
   }
 
   /* if dist <= move_rate, we hit the enemy right now */    
@@ -1208,11 +1195,13 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
    * never learning steam engine, even though ironclads would be very 
    * useful. -- Syela */
   int bk = 0; 
+  struct unit_class *pclass = get_unit_class(unit_type(punit));
 
   /*** Very preliminary checks */
   *dest_tile = punit->tile;
 
-  if (!is_ground_unit(punit) && !is_sailing_unit(punit)) {
+  if (unit_type(punit)->fuel
+      || is_losing_hp(punit)) {
     /* Don't know what to do with them! */
     UNIT_LOG(LOG_ERROR, punit, "bad unit type passed to fstk");
     return 0;
@@ -1303,7 +1292,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   /* most flexible but costs milliseconds */
   generate_warmap(tile_get_city(*dest_tile), punit);
 
-  if (is_ground_unit(punit)) {
+  if (pclass->ai.sea_move == MOVE_NONE) {
+    /* We need boat to move over sea */
 
     /* First check if we can use the boat we are currently loaded to */
     if (punit->transported_by != -1) {
@@ -1335,7 +1325,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     }
   }
 
-  if (is_ground_unit(punit) && punit->id == 0 
+  if (pclass->ai.sea_move == MOVE_NONE
+      && punit->id == 0 
       && is_ocean_near_tile(punit->tile)) {
     harbor = TRUE;
   }
@@ -1352,7 +1343,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     }
 
     city_list_iterate(aplayer->cities, acity) {
-      bool go_by_boat = (is_ground_unit(punit)
+      bool go_by_boat = (pclass->ai.sea_move == MOVE_NONE
                          && !(goto_is_sane(punit, acity->tile, TRUE) 
                               && WARMAP_COST(acity->tile) < maxd));
 
@@ -1374,7 +1365,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
       
-      if (is_sailing_unit(punit) 
+      if (pclass->ai.land_move == MOVE_NONE
           && WARMAP_SEACOST(acity->tile) >= maxd) {
         /* Too far to sail */
         continue;
@@ -1473,7 +1464,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
       /* END STEAM-ENGINES KLUGE */
       
-      if (punit->id != 0 && ferryboat && is_ground_unit(punit)) {
+      if (punit->id != 0 && ferryboat && pclass->ai.sea_move == MOVE_NONE) {
         UNIT_LOG(LOG_DEBUG, punit, "in fstk with boat %s@(%d, %d) -> %s@(%d, %d)"
                  " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
                  unit_type(ferryboat)->name, ferryboat->tile->x, ferryboat->tile->y,
@@ -1483,7 +1474,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       
       if (want > best && ai_fuzzy(pplayer, TRUE)) {
         /* Yes, we like this target */
-        if (punit->id != 0 && is_ground_unit(punit) 
+        if (punit->id != 0 && pclass->ai.sea_move == MOVE_NONE
             && !unit_flag(punit, F_MARINES)
             && tile_get_continent(acity->tile) != con) {
           /* a non-virtual ground unit is trying to attack something on 
@@ -1535,17 +1526,17 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      if (is_ground_unit(punit) 
+      if (pclass->ai.sea_move != MOVE_FULL
           && (tile_get_continent(aunit->tile) != con 
               || WARMAP_COST(aunit->tile) >= maxd)) {
-        /* Impossible or too far to walk */
+        /* Maybe impossible or too far to walk */
         continue;
       }
 
-      if (is_sailing_unit(punit)
+      if (pclass->ai.land_move != MOVE_FULL
           && (!goto_is_sane(punit, aunit->tile, TRUE)
               || WARMAP_SEACOST(aunit->tile) >= maxd)) {
-        /* Impossible or too far to sail */
+        /* Maybe impossible or too far to sail */
         continue;
       }
 
