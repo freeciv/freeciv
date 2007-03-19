@@ -19,6 +19,7 @@
 
 #include "unittype.h"
 
+struct base_type;
 
 enum special_river_move {
   RMV_NORMAL=0, RMV_FAST_STRICT=1, RMV_FAST_RELAXED=2, RMV_FAST_ALWAYS=3
@@ -38,6 +39,9 @@ enum tile_special_type {
   S_FALLOUT,
   S_LAST
 };
+
+/* Special value for pillaging bases */
+#define S_PILLAGE_BASE (S_LAST + 1)
 
 enum terrain_class { TC_LAND, TC_OCEAN, TC_LAST };
 
@@ -246,7 +250,8 @@ const char *terrain_class_name(enum terrain_class class);
 /* Special helper functions */
 const char *get_infrastructure_text(bv_special pset);
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
-enum tile_special_type get_preferred_pillage(bv_special pset);
+enum tile_special_type get_preferred_pillage(bv_special pset,
+                                             struct base_type *pbase);
 
 /* Terrain-specific functions. */
 #define is_ocean(pterrain) ((pterrain) != T_UNKNOWN			    \

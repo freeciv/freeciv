@@ -544,7 +544,8 @@ static void pillage_callback(Widget w, XtPointer client_data,
 ...
 *****************************************************************/
 void popup_pillage_dialog(struct unit *punit,
-			  bv_special may_pillage)
+			  bv_special may_pillage,
+                          struct base_type *pbase)
 {
   Widget shell, form, dlabel, button, prev;
   enum tile_special_type what, prereq;
@@ -563,25 +564,36 @@ void popup_pillage_dialog(struct unit *punit,
   dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
-  while ((what = get_preferred_pillage(may_pillage)) != S_LAST) {
+  while ((what = get_preferred_pillage(may_pillage, pbase)) != S_LAST) {
     bv_special what_bv;
 
-    BV_CLR_ALL(what_bv);
-    BV_SET(what_bv, what);
-    button =
-      XtVaCreateManagedWidget ("button", commandWidgetClass, form,
-			       XtNfromVert, prev,
-			       XtNlabel,
-			       (XtArgVal)(get_infrastructure_text(what_bv)),
-			       NULL);
-    XtAddCallback(button, XtNcallback, pillage_callback,
-		  INT_TO_XTPOINTER(what));
-    prev = button;
-    clear_special(&may_pillage, what);
-    prereq = get_infrastructure_prereq(what);
-    if (prereq != S_LAST) {
-      clear_special(&may_pillage, prereq);
+    if (what != S_PILLAGE_BASE) {
+      BV_CLR_ALL(what_bv);
+      BV_SET(what_bv, what);
+      button =
+        XtVaCreateManagedWidget ("button", commandWidgetClass, form,
+                                 XtNfromVert, prev,
+                                 XtNlabel,
+                                 (XtArgVal)(get_infrastructure_text(what_bv)),
+                                 NULL);
+      XtAddCallback(button, XtNcallback, pillage_callback,
+                    INT_TO_XTPOINTER(what));
+      clear_special(&may_pillage, what);
+      prereq = get_infrastructure_prereq(what);
+      if (prereq != S_LAST) {
+        clear_special(&may_pillage, prereq);
+      }
+    } else {
+      button =
+        XtVaCreateManagedWidget ("button", commandWidgetClass, form,
+                                 XtNfromVert, prev,
+                                 XtNlabel,
+                                 (XtArgVal)(base_name(pbase)),
+                                 NULL);
+      XtAddCallback(button, XtNcallback, pillage_callback,
+                    INT_TO_XTPOINTER(S_PILLAGE_BASE));
     }
+    prev = button;
   }
   button =
     I_L(XtVaCreateManagedWidget("closebutton", commandWidgetClass, form,

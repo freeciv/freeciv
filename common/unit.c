@@ -875,6 +875,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     {
       int numpresent;
       bv_special pspresent = get_tile_infrastructure_set(ptile, &numpresent);
+      old_base = tile_get_base(ptile);
 
       if (numpresent > 0 && is_ground_unit(punit)) {
 	bv_special psworking;
@@ -898,10 +899,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	    }
 	  }
 	} else if (!game.info.pillage_select
-		   && target != get_preferred_pillage(pspresent)) {
+		   && target != get_preferred_pillage(pspresent,
+                                                      tile_get_base(ptile))) {
 	  return FALSE;
 	} else {
-	  return BV_ISSET(pspresent, target) && !BV_ISSET(psworking, target);
+          if (target == S_PILLAGE_BASE) {
+            return old_base != NULL;
+          } else {
+            return BV_ISSET(pspresent, target) && !BV_ISSET(psworking, target);
+          }
 	}
       } else {
 	return FALSE;

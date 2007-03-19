@@ -1728,6 +1728,12 @@ static void load_player_units(struct player *plr, int plrno,
       = secfile_lookup_int_default(file, S_LAST,
 				   "player%d.u%d.activity_target", plrno, i);
 
+    if (activity == ACTIVITY_PILLAGE
+        && (punit->activity_target == S_FORTRESS
+            || punit->activity_target == S_AIRBASE)) {
+      punit->activity_target = S_PILLAGE_BASE;
+    }
+
     punit->done_moving = secfile_lookup_bool_default(file,
 	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
 

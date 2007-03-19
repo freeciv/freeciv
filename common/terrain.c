@@ -522,10 +522,11 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
 
 /****************************************************************************
   Returns the highest-priority (best) infrastructure (man-made special) to
-  be pillaged from the terrain set.  May return S_NO_SPECIAL if nothing
+  be pillaged from the terrain set.  May return S_LAST if nothing
   better is available.
 ****************************************************************************/
-enum tile_special_type get_preferred_pillage(bv_special pset)
+enum tile_special_type get_preferred_pillage(bv_special pset,
+                                             struct base_type *pbase)
 {
   if (contains_special(pset, S_FARMLAND)) {
     return S_FARMLAND;
@@ -536,11 +537,8 @@ enum tile_special_type get_preferred_pillage(bv_special pset)
   if (contains_special(pset, S_MINE)) {
     return S_MINE;
   }
-  if (contains_special(pset, S_FORTRESS)) {
-    return S_FORTRESS;
-  }
-  if (contains_special(pset, S_AIRBASE)) {
-    return S_AIRBASE;
+  if (pbase) {
+    return S_PILLAGE_BASE;
   }
   if (contains_special(pset, S_RAILROAD)) {
     return S_RAILROAD;
