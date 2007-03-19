@@ -535,6 +535,8 @@ PACKET_CITY_INFO=21; sc,lsend
 
   BV_CITY_OPTIONS city_options;
   TURN turn_founded;
+
+  BOOL walls; add-cap(CitywallFix)
 end
 
 PACKET_CITY_SHORT_INFO=22; sc,lsend
@@ -548,6 +550,7 @@ PACKET_CITY_SHORT_INFO=22; sc,lsend
   BOOL unhappy;
   BV_IMPRS improvements;
   BOOL occupied;
+  BOOL walls;
   UINT16 tile_trade;
 end
 

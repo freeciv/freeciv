@@ -647,6 +647,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
         case EFT_OUTPUT_INC_TILE_CELEBRATE:
 	case EFT_TRADE_REVENUE_BONUS:
           break;
+          /* This has no effect for AI */
+        case EFT_VISIBLE_WALLS:
+          break;
 	case EFT_LAST:
 	  freelog(LOG_ERROR, "Bad effect type.");
 	  break;

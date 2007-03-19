@@ -560,6 +560,16 @@ void handle_city_info(struct packet_city_info *packet)
     agents_city_changed(pcity);
   }
 
+  if (has_capability("CitywallFix", aconnection.capability)) {
+    pcity->client.walls = packet->walls;
+  } else {
+    /* Try to guess
+     * Note that we cannot use city_got_citywalls() here, as
+     * server without "CitywallFix" has not sent us VisibleWalls
+     * effect either */
+    pcity->client.walls = city_got_defense_effect(pcity, NULL);
+  }
+
   handle_city_packet_common(pcity, city_is_new, popup,
 			    packet->diplomat_investigate);
 
@@ -774,6 +784,16 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     agents_city_new(pcity);
   } else {
     agents_city_changed(pcity);
+  }
+
+  if (has_capability("CitywallFix", aconnection.capability)) {
+    pcity->client.walls = packet->walls;
+  } else {
+    /* Try to guess
+     * Note that we cannot use city_got_citywalls() here, as
+     * server without "CitywallFix" has not sent us VisibleWalls
+     * effect either */
+    pcity->client.walls = city_got_defense_effect(pcity, NULL);
   }
 
   handle_city_packet_common(pcity, city_is_new, FALSE, FALSE);

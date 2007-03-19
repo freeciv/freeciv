@@ -289,3 +289,6 @@ Output_Penalty_Tile
 
 Output_Inc_Tile_Celebrate
     Tiles get amount extra output when city working them is celebrating.
+
+Visible_Wall
+    Positive amount only instructs clients to use wall graphics for city.

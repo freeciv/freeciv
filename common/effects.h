@@ -104,6 +104,7 @@ enum effect_type {
   EFT_OUTPUT_WASTE_BY_DISTANCE,
   EFT_OUTPUT_PENALTY_TILE, /* -1 penalty to tiles producing more than this */
   EFT_OUTPUT_INC_TILE_CELEBRATE,
+  EFT_VISIBLE_WALLS,       /* City should use walls gfx */
   EFT_LAST	/* keep this last */
 };
 

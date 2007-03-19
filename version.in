@@ -16,6 +16,9 @@ FREECIV_RELEASE_MONTH(4)
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
+# For reasons I don't understand, any spaces in this string causes it to
+# be seen completely empty.
+#
 # +2.1c is the base capability string.
 #
 #   - No new manditory capabilities can be added to the release branch; doing
@@ -24,4 +27,4 @@ FREECIV_RELEASE_MONTH(4)
 #   - Avoid adding a new manditory capbility to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING(["+2.1c"])
+FREECIV_NETWORK_CAPSTRING(["+2.1c, CitywallFix"])
