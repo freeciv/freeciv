@@ -154,6 +154,15 @@
        fy="485.46152"
        r="29.681536"
        gradientTransform="scale(1.185227,0.843721)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient569"
+       id="linearGradient1894"
+       x1="24.436611"
+       y1="706.78162"
+       x2="605.64703"
+       y2="263.1633"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -168,9 +177,9 @@
      inkscape:window-x="22"
      inkscape:window-y="29"
      inkscape:current-layer="svg548"
-     height="720px" />
+     height="600px" />
   <rect
-     style="font-size:12px;fill:#0b0;fill-opacity:1;fill-rule:evenodd;stroke-width:3pt"
+     style="font-size:12px;fill:url(#linearGradient1894);fill-opacity:1;fill-rule:evenodd;stroke-width:3pt"
      id="rect567"
      width="944"
      height="721.81958"
