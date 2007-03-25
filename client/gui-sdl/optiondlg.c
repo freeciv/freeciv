@@ -425,7 +425,7 @@ static int change_mode_callback(struct widget *pWidget)
   
     set_wstate(pWidget, FC_WS_DISABLED);
   
-    if (gui_sdl_fullscreen != (Main.screen->flags & SDL_FULLSCREEN)) {
+    if (gui_sdl_fullscreen != BOOL_VAL(Main.screen->flags & SDL_FULLSCREEN)) {
       tmp_flags ^= SDL_FULLSCREEN;
       tmp_flags ^= SDL_RESIZABLE;
     }
@@ -441,7 +441,7 @@ static int change_mode_callback(struct widget *pWidget)
   
     gui_sdl_screen_width = Main.screen->w;
     gui_sdl_screen_height = Main.screen->h;
-
+    
     /* change setting label */
     if (Main.screen->flags & SDL_FULLSCREEN) {
       my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\nFullscreen %dx%d"),
@@ -666,8 +666,8 @@ static int video_callback(struct widget *pWidget)
   
     /* gui_sdl_fullscreen check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                  ((Main.screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN),
-                                                  WF_RESTORE_BACKGROUND);
+                              (Main.screen->flags & SDL_FULLSCREEN),
+                              WF_RESTORE_BACKGROUND);
     
     pTmpGui->action = toggle_fullscreen_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -2323,7 +2323,7 @@ void popup_optiondlg(void)
 
   SDL_Client_Flags |= (CF_OPTION_MAIN | CF_OPTION_OPEN);
   
-  gui_sdl_fullscreen = Main.screen->flags & SDL_FULLSCREEN;
+  gui_sdl_fullscreen = BOOL_VAL(Main.screen->flags & SDL_FULLSCREEN);
   
   disable_main_widgets();
   
@@ -2341,7 +2341,7 @@ void popdown_optiondlg(void)
 				
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN);
 			  
-    gui_sdl_fullscreen = Main.screen->flags & SDL_FULLSCREEN;
+    gui_sdl_fullscreen = BOOL_VAL(Main.screen->flags & SDL_FULLSCREEN);
     
     FC_FREE(pOption_Dlg);
     enable_main_widgets();
