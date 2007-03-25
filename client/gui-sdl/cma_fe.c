@@ -391,8 +391,8 @@ static int LD_cma_callback(struct widget *pWidget)
     bool load = pWidget->data.ptr != NULL;
     int index = MAX_ID - pWidget->ID;
     
-    del_group_of_widgets_from_gui_list(pCma->pAdv->pBeginWidgetList,
-                                                  pCma->pAdv->pEndWidgetList);
+    popdown_window_group_dialog(pCma->pAdv->pBeginWidgetList,
+                                pCma->pAdv->pEndWidgetList);
     FC_FREE(pCma->pAdv->pScroll);
     FC_FREE(pCma->pAdv);
     

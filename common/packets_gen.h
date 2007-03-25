@@ -278,6 +278,7 @@ struct packet_city_info {
   bool diplomat_investigate;
   bv_city_options city_options;
   int turn_founded;
+  bool walls;
 };
 
 struct packet_city_short_info {
@@ -291,6 +292,7 @@ struct packet_city_short_info {
   bool unhappy;
   bv_imprs improvements;
   bool occupied;
+  bool walls;
   int tile_trade;
 };
 
