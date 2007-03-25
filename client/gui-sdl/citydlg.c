@@ -1332,8 +1332,8 @@ static int sell_imprvm_dlg_ok_callback(struct widget *pOK_Button)
     
     /* popdown, we don't redraw and flush becouse this is make by redraw city dlg.
        when response from server come */
-    del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-                                       pCityDlg->pEndCityMenuWidgetList);
+    popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
+                                pCityDlg->pEndCityMenuWidgetList);
   
     pCityDlg->pEndCityMenuWidgetList = NULL;
   
@@ -1360,7 +1360,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct SDL_String16 *pStr = NULL;
-    struct widget *pLabel = pImpr;
+    struct widget *pLabel = NULL;
     struct widget *pWindow = NULL;
     struct widget *pCancel_Button = NULL;
     struct widget *pOK_Button = NULL;
@@ -1405,7 +1405,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     /* create ok button */
     pOK_Button = create_themeicon_button_from_chars(
                   pTheme->Small_OK_Icon, pWindow->dst, _("Sell"), adj_font(10),  0);
-    pOK_Button->data.ptr = (void *)pLabel;
+    pOK_Button->data.ptr = (void *)pImpr;
     pOK_Button->size.w = pCancel_Button->size.w;
     pOK_Button->action = sell_imprvm_dlg_ok_callback;
     pOK_Button->key = SDLK_RETURN;
