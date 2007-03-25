@@ -868,13 +868,8 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
   int bonus = 0;
 
   if (pc1 && pc2) {
-    bonus = (pc1->citizen_base[O_TRADE]
-	     + pc2->citizen_base[O_TRADE] + 4) / 8;
-
-    /* Double if on different continents. */
-    if (tile_get_continent(pc1->tile) != tile_get_continent(pc2->tile)) {
-      bonus *= 2;
-    }
+    bonus = real_map_distance(pc1->tile, pc2->tile) + pc1->size + pc2->size;
+    bonus /= 8;
 
     if (pc1->owner == pc2->owner) {
       bonus /= 2;
