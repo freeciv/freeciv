@@ -17,6 +17,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* common */
 #include "game.h"
@@ -130,13 +131,13 @@ static int spy_poison_callback( struct widget *pWidget )
 *****************************************************************/
 static int spy_sabotage_request(struct widget *pWidget)
 {
-  popdown_diplomat_dialog();
-
   if (find_unit_by_id(pDiplomat_Dlg->diplomat_id)
      && find_city_by_id(pDiplomat_Dlg->diplomat_target_id)) {  
     request_diplomat_action(SPY_GET_SABOTAGE_LIST, pDiplomat_Dlg->diplomat_id,
                                        pDiplomat_Dlg->diplomat_target_id, 0);
   }
+
+  popdown_diplomat_dialog();
   
   return -1;
 }
@@ -423,12 +424,12 @@ static int diplomat_steal_callback(struct widget *pWidget)
 static int diplomat_incite_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_diplomat_dialog();
-  
     if (find_unit_by_id(pDiplomat_Dlg->diplomat_id)
        && find_city_by_id(pDiplomat_Dlg->diplomat_target_id)) {  
       dsend_packet_city_incite_inq(&aconnection, pDiplomat_Dlg->diplomat_target_id);       
     }
+    
+    popdown_diplomat_dialog();
   }  
   return -1;
 }
@@ -461,12 +462,13 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
 static int diplomat_bribe_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_diplomat_dialog();
   
     if (find_unit_by_id(pDiplomat_Dlg->diplomat_id)
        && find_unit_by_id(pDiplomat_Dlg->diplomat_target_id)) {  
       dsend_packet_unit_bribe_inq(&aconnection, pDiplomat_Dlg->diplomat_target_id);
     }
+    
+    popdown_diplomat_dialog();
   }  
   return -1;
 }
@@ -1114,11 +1116,11 @@ void popup_incite_dialog(struct city *pCity)
   
   /* ugly hack */
   pUnit = unit_list_get(get_units_in_focus(), 0);
-    
-  if (!pUnit || !unit_flag(pUnit,F_SPY)) {
+  
+  if (!pUnit || !is_diplomat_unit(pUnit)) {
     return;
   }
-    
+  
   is_unit_move_blocked = TRUE;
   
   pIncite_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
@@ -1355,8 +1357,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   /* ugly hack */
   pDiplomatUnit = unit_list_get(get_units_in_focus(), 0);
   
-  if (!pDiplomatUnit || !(unit_flag(pDiplomatUnit, F_SPY) ||
-		    unit_flag(pDiplomatUnit, F_DIPLOMAT))) {
+  if (!pDiplomatUnit || !is_diplomat_unit(pDiplomatUnit)) {
     return;
   }
   
