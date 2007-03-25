@@ -1110,7 +1110,7 @@ void update_menus(void)
 	set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
-      if (!pTile->city && can_unit_do_activity(pUnit, ACTIVITY_FORTRESS)) {
+      if (!pTile->city && can_unit_do_activity_base(pUnit, BASE_FORTRESS)) {
 	local_show(ID_UNIT_ORDER_FORTRESS);
       } else {
 	local_hide(ID_UNIT_ORDER_FORTRESS);
@@ -1122,7 +1122,7 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_FORTIFY);
       }
 
-      if (!pTile->city && can_unit_do_activity(pUnit, ACTIVITY_AIRBASE)) {
+      if (!pTile->city && can_unit_do_activity_base(pUnit, BASE_AIRBASE)) {
 	local_show(ID_UNIT_ORDER_AIRBASE);
       } else {
 	local_hide(ID_UNIT_ORDER_AIRBASE);
