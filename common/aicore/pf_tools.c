@@ -547,8 +547,8 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
                                   struct pf_parameter *param)
 {
   struct base_type *pbase;
-
-  /* FIXME: bombers with fuel remaining should not worry about danger. */
+  int moves = SINGLE_MOVE * real_map_distance(param->start_tile, ptile);
+  int fuel = param->fuel_left_initially - 1;
 
   if (is_allied_city_tile(ptile, param->owner)) {
     return FALSE;
@@ -560,6 +560,17 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;
+  }
+
+  if (param->moves_left_initially + param->move_rate * fuel >= moves * 2) {
+    if (param->fuel_left_initially > 1
+        || ((param->fuel_left_initially > 2 
+             || !BV_ISSET(param->unit_flags, F_ONEATTACK))
+            && (is_enemy_unit_tile(ptile, param->owner)
+                || (ptile->city && is_enemy_city_tile(ptile, param->owner))))) {
+      /* allow movement if fuelled, and attacks, even suicidal ones */
+      return FALSE; 
+    }
   }
 
   /* Carriers are ignored since they are likely to move. */
