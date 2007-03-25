@@ -610,15 +610,13 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
 {
   int i, step;
   SDL_Rect dest;
-/*  SDL_Surface *pSurf =
-    SDL_DisplayFormatAlpha(get_unittype_surface(pUnit->type)); */
 
   SDL_Surface *pSurf = create_surf_alpha(tileset_full_tile_width(tileset),
                         tileset_full_tile_height(tileset), SDL_SWSURFACE);
   
-  struct canvas *destcanvas = canvas_create(tileset_full_tile_width(tileset),
-                                             tileset_full_tile_height(tileset));  
-  SDL_SetColorKey(destcanvas->surf, SDL_SRCCOLORKEY, 0);
+  struct canvas *destcanvas = canvas_create_with_alpha(
+                                tileset_full_tile_width(tileset),
+                                tileset_full_tile_height(tileset));  
   
   put_unit(pUnit, destcanvas, 0, 0);
   
@@ -626,8 +624,8 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
 
   canvas_free(destcanvas);
 
-  if (pSurf->w > 59) {
-    float zoom = 59.0 / pSurf->w;
+  if (pSurf->w > adj_size(59)) {
+    float zoom = (float)adj_size(59) / pSurf->w;
     SDL_Surface *pZoomed = zoomSurface(pSurf, zoom, zoom, 1);
     FREESURFACE(pSurf);
     pSurf = pZoomed;
@@ -643,7 +641,7 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
       step = pIcons->pFood->w;
     }
 
-    dest.y = pSurf->h - pIcons->pFood->h - 2;
+    dest.y = pSurf->h - pIcons->pFood->h - adj_size(2);
     dest.x = pSurf->w / 8;
 
     for (i = 0; i < pUnit->upkeep[O_SHIELD]; i++) {

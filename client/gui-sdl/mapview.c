@@ -1323,11 +1323,9 @@ SDL_Surface *get_terrain_surface(struct tile *ptile)
     canvas_free(terrain_canvas);
   }
     
-  terrain_canvas = canvas_create(tileset_full_tile_width(tileset),
-                                      tileset_full_tile_height(tileset));
+  terrain_canvas = canvas_create_with_alpha(tileset_full_tile_width(tileset),
+                                            tileset_full_tile_height(tileset));
 
-  SDL_SetColorKey(terrain_canvas->surf, SDL_SRCCOLORKEY, 0);
-  
   put_terrain(ptile, terrain_canvas, 0, 0);
   
   return terrain_canvas->surf;
