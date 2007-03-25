@@ -49,6 +49,18 @@ struct canvas *canvas_create(int width, int height)
 }
 
 /**************************************************************************
+  Create a canvas of the given size (with alpha channel).
+**************************************************************************/
+struct canvas *canvas_create_with_alpha(int width, int height)
+{
+  struct canvas *result = fc_malloc(sizeof(*result));	
+
+  result->surf = create_surf_alpha(width, height, SDL_SWSURFACE);
+
+  return result;
+}
+
+/**************************************************************************
   Free any resources associated with this canvas and the canvas struct
   itself.
 **************************************************************************/
