@@ -691,7 +691,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     if (pUnit) {
 
       SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
-      int sy, y, sx, width, height, n;
+      int sy, y, width, height, n;
       bool right;
       char buffer[512];
       struct tile *pTile = pUnit->tile;
@@ -705,10 +705,10 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       pStr->style &= ~TTF_STYLE_BOLD;
       
       if (pInfo_Window->size.w > 1.8 * (pTheme->FR_Left->w + DEFAULT_UNITS_W + pTheme->FR_Right->w)) {
-	width = pInfo_Window->size.w / 2;
+	width = pInfo_Window->area.w / 2;
 	right = TRUE;
       } else {
-	width = pInfo_Window->size.w;
+	width = pInfo_Window->area.w;
 	right = FALSE;
       }
       
@@ -833,7 +833,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	
 	copy_chars_to_string16(pStr, buffer);
       
-	pInfo_II = create_text_surf_smaller_that_w(pStr, width - BLOCKU_W - adj_size(10));
+	pInfo_II = create_text_surf_smaller_that_w(pStr, width - BLOCKU_W - adj_size(4));
 	
       }
       
@@ -858,15 +858,13 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       
       sy = pTheme->FR_Top->h + y + adj_size(3);
       area.y = pInfo_Window->size.y + sy;
-      area.x = pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W +
-	    (width - pName->w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 2;
+      area.x = pInfo_Window->area.x + BLOCKU_W + (width - pName->w - BLOCKU_W) / 2;
       dest = area;
       alphablit(pName, NULL, pInfo_Window->dst->surface, &dest);
       sy += pName->h;
       if(pVet_Name) {
 	area.y += pName->h - adj_size(3);
-        area.x = pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W +
-          (width - pVet_Name->w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 2;
+        area.x = pInfo_Window->area.x + BLOCKU_W + (width - pVet_Name->w - BLOCKU_W) / 2;
         alphablit(pVet_Name, NULL, pInfo_Window->dst->surface, &area);
 	sy += pVet_Name->h - adj_size(3);
         FREESURFACE(pVet_Name);
@@ -880,24 +878,20 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       FREESURFACE(pTmpSurf);
       src = (SDL_Rect){0, 0, pBuf_Surf->w, pBuf_Surf->h};
 
-      sx = pTheme->FR_Left->w + BLOCKU_W + adj_size(3) + 
-           ((width - pTheme->FR_Left->w - BLOCKU_W - adj_size(3) - pInfo->w)/2);
-
-      area.x = pInfo_Window->size.x + sx;
-      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h)/2;
-                  
-      /* blit unit info text */
-      alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area);
-      FREESURFACE(pInfo);
-
-      /* blit unit sprite */
-      sx = pTheme->FR_Left->w + adj_size(3) + 
-           ((width - pTheme->FR_Left->w - adj_size(3) - src.w)/2);
-      area.x = pInfo_Window->size.x + sx;
+      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) + 
+               ((width - BLOCKU_W + adj_size(3) - src.w)/2);
       area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - src.h)/2;
       alphablit(pBuf_Surf, &src, pInfo_Window->dst->surface, &area);
       FREESURFACE(pBuf_Surf);
-      
+
+      /* blit unit info text */
+      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) + 
+                 ((width - BLOCKU_W + adj_size(4) - pInfo->w)/2);
+      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h)/2;
+
+      alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area);
+      FREESURFACE(pInfo);
+
       if (pInfo_II) {
         if (right) {
 	  area.x = pInfo_Window->size.x + width +
