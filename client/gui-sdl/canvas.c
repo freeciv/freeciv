@@ -116,13 +116,16 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      struct sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
-  /* PORTME */    
-  freelog(LOG_NORMAL, "PORT ME: canvas_put_sprite_fogged()");
-
-  /* FIXME: implement fog */
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
 
-  alphablit(GET_SURF(psprite), NULL, pcanvas->surf, &dst);  
+  if (fog) {
+    SDL_Surface *tmp_surf = blend_surface(GET_SURF(psprite), 160);
+    alphablit(tmp_surf, NULL, pcanvas->surf, &dst);
+    FREESURFACE(tmp_surf);
+  } else {
+    canvas_put_sprite_full(pcanvas, canvas_x, canvas_y, psprite);
+  }
+
 }
 
 /****************************************************************************
@@ -163,8 +166,15 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y)
 {
- /* PORTME */    
-  freelog(LOG_NORMAL, "PORT ME: canvas_fog_sprite_area()");
+  SDL_Rect dst = {canvas_x, canvas_y, GET_SURF(psprite)->w,
+                                      GET_SURF(psprite)->h};
+                                      
+  SDL_Surface *tmp_surf = create_surf_alpha(GET_SURF(psprite)->w, 
+                                            GET_SURF(psprite)->h,
+                                            SDL_SWSURFACE);
+  SDL_FillRect(tmp_surf, NULL, SDL_MapRGBA(tmp_surf->format, 0, 0, 0, 64));
+  alphablit(tmp_surf, NULL, pcanvas->surf, &dst);
+  FREESURFACE(tmp_surf);
 }
 
 /****************************************************************************
