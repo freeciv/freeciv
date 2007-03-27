@@ -3230,28 +3230,24 @@ void popup_science_dialog(bool raise)
 #ifdef SMALL_SCREEN
   pWindow = create_window(NULL, pStr, 200, 132, 0);
 #else
-  pWindow = create_window(NULL, pStr, 400, 246, 0);
+  pWindow = create_window(NULL, pStr, adj_size(400), adj_size(246), 0);
 #endif
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = science_dialog_callback;
 
   pScienceDlg->pEndWidgetList = pWindow;
+
+  pBackground = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
+  pWindow->theme = ResizeSurface(pBackground, pWindow->size.w, pWindow->size.h, 1);
+  FREESURFACE(pBackground);
+
+  area = pWindow->area;
   
   widget_set_position(pWindow,
                       (Main.screen->w - pWindow->size.w) / 2,
                       (Main.screen->h - pWindow->size.h) / 2);
 
-  pBackground = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
-  pWindow->theme = ResizeSurface(pBackground, pWindow->size.w, pWindow->size.h, 1);
-  FREESURFACE(pBackground);
-    
   add_to_gui_list(ID_SCIENCE_DLG_WINDOW, pWindow);
-  
-  /* define content area */
-  area.x = pTheme->FR_Left->w;
-  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
-  area.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
-  area.h = pWindow->size.h - area.y - pTheme->FR_Bottom->h;
   
   /* count number of researchable techs */
   count = 0;
@@ -3297,7 +3293,7 @@ void popup_science_dialog(bool raise)
   add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, pExitButton);
 
   widget_set_position(pExitButton, 
-    pWindow->size.x + pWindow->size.w - adj_size(1 + 1) - pExitButton->size.w,
+    area.x + area.w - pExitButton->size.w - adj_size(1),
     pWindow->size.y + adj_size(1));
     
   /* ======================== */

@@ -35,8 +35,8 @@
 #define CF_NONE				0
 #define CF_ORDERS_WIDGETS_CREATED	(1<<0)
 #define CF_MAP_UNIT_W_CREATED		(1<<1)
-#define CF_UNIT_INFO_SHOW		(1<<2)
-#define CF_MINI_MAP_SHOW		(1<<3)
+#define CF_UNITINFO_SHOWN		(1<<2)
+#define CF_OVERVIEW_SHOWN		(1<<3)
 #define CF_OPTION_OPEN			(1<<4)
 #define CF_OPTION_MAIN			(1<<5)
 #define CF_GANE_JUST_STARTED		(1<<6)

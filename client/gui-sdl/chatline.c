@@ -354,13 +354,13 @@ void update_conn_list_dialog(void)
         if(create) {
           add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
             pBuf, pConnDlg->pUsers_Dlg->pBeginWidgetList, FALSE,
-            pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Right->w,
+            pWindow->area.x + pWindow->area.w - adj_size(130),
 		      		pWindow->size.y + adj_size(14));
 	  create = FALSE;
         } else {
 	  add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
 		pBuf, pConnDlg->pUsers_Dlg->pBeginActiveWidgetList, FALSE,
-		pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Right->w,
+		pWindow->area.x + pWindow->area.w - adj_size(130),
 	      		pWindow->size.y + adj_size(14));
         }
             
