@@ -4713,9 +4713,10 @@ struct sprite *get_indicator_sprite(const struct tileset *t,
   May return NULL if there's no unhappiness.
 ****************************************************************************/
 struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
-				       const struct unit *punit)
+				       const struct unit *punit,
+				       int happy_cost)
 {
-  const int unhappy = CLIP(0, punit->unhappiness, 2);
+  const int unhappy = CLIP(0, happy_cost, 2);
 
   if (unhappy > 0) {
     return t->sprites.upkeep.unhappy[unhappy - 1];
@@ -4732,9 +4733,10 @@ struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
 ****************************************************************************/
 struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      Output_type_id otype,
-				      const struct unit *punit)
+				      const struct unit *punit,
+				      const int *upkeep_cost)
 {
-  const int upkeep = CLIP(0, punit->upkeep[otype], 2);
+  const int upkeep = CLIP(0, upkeep_cost[otype], 2);
 
   if (upkeep > 0) {
     return t->sprites.upkeep.output[otype][upkeep - 1];

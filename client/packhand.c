@@ -96,10 +96,6 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->hp = packet->hp;
   punit->activity = packet->activity;
   punit->activity_count = packet->activity_count;
-  punit->unhappiness = packet->unhappiness;
-  output_type_iterate(o) {
-    punit->upkeep[o] = packet->upkeep[o];
-  } output_type_iterate_end;
   punit->ai.control = packet->ai;
   punit->fuel = packet->fuel;
   if (is_normal_map_pos(packet->goto_dest_x, packet->goto_dest_y)) {
@@ -1207,16 +1203,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     }  /*** End of Change position. ***/
 
-    if (punit->unhappiness != packet_unit->unhappiness) {
-      punit->unhappiness = packet_unit->unhappiness;
-      repaint_city = TRUE;
-    }
-    output_type_iterate(o) {
-      if (punit->upkeep[o] != packet_unit->upkeep[o]) {
-	punit->upkeep[o] = packet_unit->upkeep[o];
-	repaint_city = TRUE;
-      }
-    } output_type_iterate_end;
     if (repaint_city || repaint_unit) {
       /* We repaint the city if the unit itself needs repainting or if
        * there is a special city-only redrawing to be done. */

@@ -1203,39 +1203,17 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 **********************************************************************/
 bool ai_assess_military_unhappiness(struct city *pcity)
 {
-  int free_happy;
+  int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
   int unhap = 0;
 
   /* bail out now if happy_cost is 0 */
   if (get_player_bonus(city_owner(pcity), EFT_UNHAPPY_FACTOR) == 0) {
     return FALSE;
   }
-  free_happy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
 
   unit_list_iterate(pcity->units_supported, punit) {
-    int happy_cost = utype_happy_cost(unit_type(punit), city_owner(pcity));
+    int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
 
-    if (happy_cost <= 0) {
-      continue;
-    }
-
-    /* See discussion/rules in common/city.c:city_support() */
-    if (!unit_being_aggressive(punit)) {
-      if (is_field_unit(punit)) {
-	happy_cost = 1;
-      } else {
-	happy_cost = 0;
-      }
-    }
-    if (happy_cost <= 0) {
-      continue;
-    }
-
-    if (get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL_PER) > 0) {
-      happy_cost--;
-    }
-    adjust_city_free_cost(&free_happy, &happy_cost);
-    
     if (happy_cost > 0) {
       unhap += happy_cost;
     }

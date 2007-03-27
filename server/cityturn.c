@@ -88,7 +88,7 @@ static void nullify_caravan_and_disband_plus(struct city *pcity);
 **************************************************************************/
 void city_refresh(struct city *pcity)
 {
-   generic_city_refresh(pcity, TRUE, send_unit_info);
+   generic_city_refresh(pcity, TRUE);
    /* AI would calculate this 1000 times otherwise; better to do it
       once -- Syela */
    pcity->ai.trade_want
@@ -389,6 +389,8 @@ void update_city_activities(struct player *pplayer)
 **************************************************************************/
 bool city_reduce_size(struct city *pcity, int pop_loss)
 {
+  int i;
+
   if (pop_loss == 0) {
     return TRUE;
   }
@@ -436,6 +438,16 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
     auto_arrange_workers(pcity);
     sync_cities();
   }
+
+  /* Update cities that have trade routes with us */
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    struct city *pcity2 = find_city_by_id(pcity->trade[i]);
+
+    if (pcity2) {
+      city_refresh(pcity2);
+    }
+  }
+
   sanity_check_city(pcity);
   return TRUE;
 }
@@ -460,7 +472,7 @@ static void city_increase_size(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
   bool have_square;
-  int savings_pct = granary_savings(pcity), new_food;
+  int i, savings_pct = granary_savings(pcity), new_food;
   bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
 
   if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
@@ -513,6 +525,15 @@ static void city_increase_size(struct city *pcity)
   }
 
   city_refresh(pcity);
+
+  /* Update cities that have trade routes with us */
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    struct city *pcity2 = find_city_by_id(pcity->trade[i]);
+
+    if (pcity2) {
+      city_refresh(pcity2);
+    }
+  }
 
   notify_player(powner, pcity->tile, E_CITY_GROWTH,
                    _("%s grows to size %d."), pcity->name, pcity->size);

@@ -274,14 +274,22 @@ static void do_upgrade_effects(struct player *pplayer)
 void pay_for_units(struct player *pplayer, struct city *pcity)
 {
   int potential_gold = 0;
+  int free_upkeep[O_COUNT];
+
+  memset(free_upkeep, 0, O_COUNT * sizeof(*free_upkeep));
+  free_upkeep[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
+                                              EFT_UNIT_UPKEEP_FREE_PER_CITY);
 
   built_impr_iterate(pcity, pimpr) {
     potential_gold += impr_sell_gold(pimpr);
   } built_impr_iterate_end;
 
   unit_list_iterate_safe(pcity->units_supported, punit) {
+    int upkeep[O_COUNT];
 
-    if (pplayer->economic.gold + potential_gold < punit->upkeep[O_GOLD]) {
+    city_unit_upkeep(punit, upkeep, free_upkeep);
+
+    if (pplayer->economic.gold + potential_gold < upkeep[O_GOLD]) {
       /* We cannot upkeep this unit any longer and selling off city
        * improvements will not help so we will have to disband */
       assert(pplayer->economic.gold + potential_gold >= 0);
@@ -294,7 +302,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
       /* Gold can get negative here as city improvements will be sold
        * afterwards to balance our budget. FIXME: Should units with gold 
        * upkeep give gold when they are disbanded? */
-      pplayer->economic.gold -= punit->upkeep[O_GOLD];
+      pplayer->economic.gold -= upkeep[O_GOLD];
     }
   } unit_list_iterate_safe_end;
 }
@@ -1790,10 +1798,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->activity = punit->activity;
   packet->activity_base = punit->activity_base;
   packet->activity_count = punit->activity_count;
-  packet->unhappiness = punit->unhappiness;
-  output_type_iterate(o) {
-    packet->upkeep[o] = punit->upkeep[o];
-  } output_type_iterate_end;
   packet->ai = punit->ai.control;
   packet->fuel = punit->fuel;
   if (punit->goto_tile) {

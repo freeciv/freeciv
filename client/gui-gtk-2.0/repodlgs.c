@@ -1204,14 +1204,26 @@ void activeunits_report_dialog_update(void)
     gtk_list_store_clear(activeunits_store);
 
     memset(unitarray, '\0', sizeof(unitarray));
-    unit_list_iterate(game.player_ptr->units, punit) {
-      (unitarray[punit->type->index].active_count)++;
-      if (punit->homecity) {
-	output_type_iterate(o) {
-	  unitarray[punit->type->index].upkeep[o] += punit->upkeep[o];
-	} output_type_iterate_end;
-      }
-    } unit_list_iterate_end;
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      int free_upkeep[O_COUNT];
+
+      output_type_iterate(o) {
+        free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o),
+                                               EFT_UNIT_UPKEEP_FREE_PER_CITY);
+      } output_type_iterate_end;
+
+      unit_list_iterate(pcity->units_supported, punit) {
+        int upkeep_cost[O_COUNT];
+
+        city_unit_upkeep(punit, upkeep_cost, free_upkeep);
+        (unitarray[punit->type->index].active_count)++;
+        if (punit->homecity) {
+	  output_type_iterate(o) {
+	    unitarray[punit->type->index].upkeep[o] += upkeep_cost[o];
+	  } output_type_iterate_end;
+        }
+      } unit_list_iterate_end;
+    } city_list_iterate_end;
     city_list_iterate(game.player_ptr->cities,pcity) {
       if (pcity->production.is_unit) {
 	(unitarray[pcity->production.value].building_count)++;

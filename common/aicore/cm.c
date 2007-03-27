@@ -672,7 +672,7 @@ static void apply_solution(struct cm_state *state,
   }
 
   /* Finally we must refresh the city to reset all the precomputed fields. */
-  generic_city_refresh(pcity, FALSE, 0);
+  generic_city_refresh(pcity, FALSE);
   assert(sumworkers == pcity->size);
 }
 
@@ -1788,7 +1788,7 @@ void cm_query_result(struct city *pcity,
   /* Refresh the city.  Otherwise the CM can give wrong results or just be
    * slower than necessary.  Note that cities are often passed in in an
    * unrefreshed state (which should probably be fixed). */
-  generic_city_refresh(pcity, TRUE, NULL);
+  generic_city_refresh(pcity, TRUE);
 
   cm_find_best_solution(state, param, result);
   cm_free_state(state);

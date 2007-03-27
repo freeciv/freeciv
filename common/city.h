@@ -366,7 +366,8 @@ void add_specialist_output(const struct city *pcity, int *output);
 struct player *city_owner(const struct city *pcity);
 int city_population(const struct city *pcity);
 int city_building_upkeep(const struct city *pcity, Output_type_id otype);
-int city_unit_upkeep(const struct city *pcity, Output_type_id otype);
+int city_unit_unhappiness(struct unit *punit, int *free_happy);
+void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep);
 int city_buy_cost(const struct city *pcity);
 bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
 bool city_unhappy(const struct city *pcity);                /* anarchy??? */
@@ -494,11 +495,8 @@ void city_add_improvement(struct city *pcity, Impr_type_id impr);
 void city_remove_improvement(struct city *pcity, Impr_type_id impr);
 
 /* city update functions */
-void generic_city_refresh(struct city *pcity,
-			  bool full_refresh,
-			  void (*send_unit_info) (struct player * pplayer,
-						  struct unit * punit));
-void adjust_city_free_cost(int *num_free, int *this_cost);
+void generic_city_refresh(struct city *pcity, bool full_refresh);
+
 int city_waste(const struct city *pcity, Output_type_id otype, int total);
 int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
 Specialist_type_id best_specialist(Output_type_id otype,

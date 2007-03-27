@@ -102,6 +102,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
 				   int *num_entries_used, int *total_cost)
 {
   int count, cost, partial_cost;
+  int free_upkeep[O_COUNT];
 
   *num_entries_used = 0;
   *total_cost = 0;
@@ -109,6 +110,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
   if (!game.player_ptr) {
     return;
   }
+  memset(free_upkeep, 0, O_COUNT * sizeof(*free_upkeep));
 
   unit_type_iterate(unittype) {
     cost = utype_upkeep_cost(unittype, game.player_ptr, O_GOLD);
@@ -122,11 +124,17 @@ void get_economy_report_units_data(struct unit_entry *entries,
     partial_cost = 0;
 
     city_list_iterate(game.player_ptr->cities, pcity) {
+      free_upkeep[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
+                                                  EFT_UNIT_UPKEEP_FREE_PER_CITY);
+
       unit_list_iterate(pcity->units_supported, punit) {
+        int upkeep_cost[O_COUNT];
+
+        city_unit_upkeep(punit, upkeep_cost, free_upkeep);
 
 	if (punit->type == unittype) {
 	  count++;
-	  partial_cost += punit->upkeep[O_GOLD];
+	  partial_cost += upkeep_cost[O_GOLD];
 	}
 
       } unit_list_iterate_end;

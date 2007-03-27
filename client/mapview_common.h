@@ -248,8 +248,9 @@ void put_terrain(struct tile *ptile,
 		 struct canvas *pcanvas, int canvas_x, int canvas_y);
 
 void put_unit_city_overlays(struct unit *punit,
-			    struct canvas *pcanvas,
-			    int canvas_x, int canvas_y);
+                            struct canvas *pcanvas,
+                            int canvas_x, int canvas_y, int *upkeep_cost,
+                            int happy_cost);
 void toggle_city_color(struct city *pcity);
 void toggle_unit_color(struct unit *punit);
 

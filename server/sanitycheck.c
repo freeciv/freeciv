@@ -345,7 +345,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
       }
     }
 
-    generic_city_refresh(pcity, TRUE, NULL);
+    generic_city_refresh(pcity, TRUE);
   }
 }
 

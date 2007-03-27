@@ -132,8 +132,6 @@ struct unit {
   int moves_left;
   int hp;
   int veteran;
-  int unhappiness;
-  int upkeep[O_MAX];
   int fuel;
   int birth_turn;
   int bribe_cost;

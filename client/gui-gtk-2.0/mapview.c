@@ -486,7 +486,8 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
   unit, the proper way to do this is probably something like what Civ II does.
   (One food/shield/mask drawn N times, possibly one top of itself. -- SKi 
 **************************************************************************/
-void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
+void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
+                                    int *upkeep_cost, int happy_cost)
 {
   struct canvas store;
  
@@ -495,7 +496,8 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 
   gtk_pixcomm_freeze(p);
 
-  put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset));
+  put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset),
+                         upkeep_cost, happy_cost);
 
   gtk_pixcomm_thaw(p);
 }

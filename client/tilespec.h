@@ -241,10 +241,12 @@ struct sprite *get_indicator_sprite(const struct tileset *t,
 				    enum indicator_type indicator,
 				    int index);
 struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
-				       const struct unit *punit);
+				       const struct unit *punit,
+				       int happy_cost);
 struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      Output_type_id otype,
-				      const struct unit *punit);
+				      const struct unit *punit,
+				      const int *upkeep_cost);
 struct sprite *get_basic_fog_sprite(const struct tileset *t);
 
 struct sprite* lookup_sprite_tag_alt(struct tileset *t,

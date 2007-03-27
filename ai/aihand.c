@@ -228,7 +228,7 @@ static void ai_manage_taxes(struct player *pplayer)
           cm_query_result(pcity, &cmp, &cmr);
           if (cmr.found_a_valid) {
             apply_cmresult_to_city(pcity, &cmr);
-            generic_city_refresh(pcity, TRUE, NULL);
+            generic_city_refresh(pcity, TRUE);
             if (!city_happy(pcity)) {
               CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
             }
@@ -243,7 +243,7 @@ static void ai_manage_taxes(struct player *pplayer)
          * were clobbered in cm_query_result, after the tax rates 
          * were changed.  This is because the cm_query_result() calls
          * generic_city_refresh(). */
-        generic_city_refresh(pcity, TRUE, NULL);
+        generic_city_refresh(pcity, TRUE);
       } city_list_iterate_end;
     }
   }
@@ -351,7 +351,7 @@ void ai_best_government(struct player *pplayer)
     pplayer->government = current_gov;
     city_list_iterate(pplayer->cities, acity) {
       /* This isn't strictly necessary since it's done in aaw. */
-      generic_city_refresh(acity, TRUE, NULL);
+      generic_city_refresh(acity, TRUE);
       auto_arrange_workers(acity);
     } city_list_iterate_end;
     ai->govt_reeval = CLIP(5, city_list_size(pplayer->cities), 20);

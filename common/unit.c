@@ -1303,8 +1303,6 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   }
   punit->goto_tile = NULL;
   punit->veteran = veteran_level;
-  memset(punit->upkeep, 0, O_COUNT * sizeof(*punit->upkeep));
-  punit->unhappiness = 0;
   /* A unit new and fresh ... */
   punit->foul = FALSE;
   punit->debug = FALSE;
