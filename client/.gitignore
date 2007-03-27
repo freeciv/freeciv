@@ -3,3 +3,5 @@
 /civclient
 /.deps
 /freeciv.desktop
+/packhand_gen.c
+/packhand_gen.h

@@ -2,3 +2,5 @@
 /Makefile.in
 /.deps
 /libcivcommon.a
+/packets_gen.c
+/packets_gen.h
