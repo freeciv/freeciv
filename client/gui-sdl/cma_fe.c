@@ -690,8 +690,8 @@ void update_city_cma_dialog(void)
     /* redraw resources */
     pCma->pResult = &result;
 #if 0    
-    refresh_city_resource_map(pBuf->dst->surface, pBuf->size.x + 25,
-	  pBuf->size.y + WINDOW_TITLE_HEIGHT + 35, pCma->pCity, is_worker);
+    refresh_city_resource_map(pBuf->dst->surface, pBuf->area.x + adj_size(22),
+	  pBuf->area.y + adj_size(31), pCma->pCity, is_worker);
 #endif    
     pCma->pResult = NULL;
   
@@ -706,8 +706,8 @@ void update_city_cma_dialog(void)
       step = pText->w;
     }
 
-    dst.y = pBuf->size.y + pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1 + adj_size(4);
-    dst.x = pBuf->size.x + adj_size(10);
+    dst.y = pBuf->area.y + adj_size(4);
+    dst.x = pBuf->area.x + adj_size(7);
 
     for (i = 0;
       i < count - (result.specialists[SP_ELVIS]
@@ -745,8 +745,8 @@ void update_city_cma_dialog(void)
   FREESTRING16(pStr);
   
   /* fill result text background */  
-  dst.x = pBuf->size.x + adj_size(10);
-  dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + adj_size(190);
+  dst.x = pBuf->area.x + adj_size(7);
+  dst.y = pBuf->area.y + adj_size(186);
   dst.w = pText->w + adj_size(10);
   dst.h = pText->h + adj_size(10);
   SDL_FillRectAlpha(pBuf->dst->surface, &dst, &bg_color);
@@ -1079,8 +1079,8 @@ void popup_city_cma_dialog(struct city *pCity)
   alphablit(pFactor, NULL, pWindow->theme, &area);
   FREESURFACE(pFactor);
   
-  area.x = adj_size(25);
-  area.y = WINDOW_TITLE_HEIGHT + adj_size(35);
+  area.x = pWindow->area.x + adj_size(22);
+  area.y = pWindow->area.y + adj_size(31);
   alphablit(pCity_Map, NULL, pWindow->theme, &area);
   FREESURFACE(pCity_Map);
   

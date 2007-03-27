@@ -121,12 +121,9 @@ void real_update_meswin_dialog(void)
   create = (current_count == 0);
 
   pWindow = pMsg_Dlg->pEndWidgetList;
-  
-  area.x = pTheme->FR_Left->w;
-  area.y = pTheme->FR_Top->h + WINDOW_TITLE_HEIGHT + 1;
-  area.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
-  area.h = pWindow->size.h - pTheme->FR_Top->h - pTheme->FR_Bottom->h;
 
+  area = pWindow->area;
+  
   label_width = area.w - pMsg_Dlg->pScroll->pUp_Left_Button->size.w - adj_size(3);
   
   if (msg_count > 0) {

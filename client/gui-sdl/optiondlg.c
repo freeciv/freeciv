@@ -223,10 +223,10 @@ static int add_new_worklist_callback(struct widget *pWidget)
     
     /* add to widget list */
     redraw_all = add_widget_to_vertical_scroll_widget_list(pOption_Dlg->pADlg,
-                                        pNew_WorkList_Widget,
-                                        pWidget, TRUE,
-                                          pWindow->size.x + adj_size(20),
-                        pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(20));
+                   pNew_WorkList_Widget,
+                   pWidget, TRUE,
+                   pWindow->area.x + adj_size(17),
+                   pWindow->area.y + adj_size(17));
   
     /* find if there was scrollbar shown */
     if(scroll && pOption_Dlg->pADlg->pActiveWidgetList != NULL) {
@@ -235,6 +235,7 @@ static int add_new_worklist_callback(struct widget *pWidget)
       do {
         pWindow = pWindow->prev;
         pWindow->size.w -= len;
+        pWindow->area.w -= len;
         FREESURFACE(pWindow->gfx);
       } while(pWindow != pOption_Dlg->pADlg->pBeginActiveWidgetList);
     }
@@ -289,10 +290,10 @@ static int work_lists_callback(struct widget *pWidget)
     struct widget *pBuf = NULL;
     struct widget *pWindow = pOption_Dlg->pEndOptionsWidgetList;
     int i , count = 0, scrollbar_width = 0;
-    SDL_Rect area = {pWindow->size.x + adj_size(15),
-                     pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(15),
-                     pWindow->size.w - adj_size(15) - adj_size(15),
-                     pWindow->size.h - WINDOW_TITLE_HEIGHT - adj_size(2) - adj_size(15) - adj_size(15)};
+    SDL_Rect area = {pWindow->area.x + adj_size(12),
+                     pWindow->area.y + adj_size(12),
+                     pWindow->area.w - adj_size(12) - adj_size(12),
+                     pWindow->area.h - adj_size(12) - adj_size(12)};
     
     /* clear flag */
     SDL_Client_Flags &= ~CF_OPTION_MAIN;
@@ -456,9 +457,9 @@ static int change_mode_callback(struct widget *pWidget)
 
     if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
       /* move units window to botton-right corrner */
-      set_new_units_window_pos();
+      set_new_unitinfo_window_pos();
       /* move minimap window to botton-left corrner */
-      set_new_mini_map_window_pos();
+      set_new_minimap_window_pos();
 
       /* move cooling/warming icons to botton-right corrner */
       pTmpWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
@@ -641,11 +642,11 @@ static int video_callback(struct widget *pWidget)
     pTmpGui->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
   
     /* set window width to 'pTmpGui' for center string */
-    pTmpGui->size.w = pWindow->size.w;
+    pTmpGui->size.w = pWindow->area.w;
   
     widget_set_position(pTmpGui,
-                        pWindow->size.x,
-                        pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6));
+                        pWindow->area.x,
+                        pWindow->area.y + adj_size(2));
   
     add_to_gui_list(ID_OPTIONS_RESOLUTION_LABEL, pTmpGui);
   
@@ -657,9 +658,9 @@ static int video_callback(struct widget *pWidget)
                 SDL_SWSURFACE, NULL, TRUE),
                 pWindow->dst, pStr, adj_size(150), adj_size(30), 0);
                           
-    xxx = pTmpGui->size.x = pWindow->size.x +
-        ((pWindow->size.w - pTmpGui->size.w) / 2);
-    pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(40);
+    xxx = pTmpGui->size.x = pWindow->area.x +
+        ((pWindow->area.w - pTmpGui->size.w) / 2);
+    pTmpGui->size.y = pWindow->area.y + adj_size(36);
   
     add_to_gui_list(ID_OPTIONS_FULLSCREEN_LABEL, pTmpGui);
   
@@ -672,7 +673,7 @@ static int video_callback(struct widget *pWidget)
     set_wstate(pTmpGui, FC_WS_NORMAL);
   
     pTmpGui->size.x = xxx + adj_size(5);
-    pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(45);
+    pTmpGui->size.y = pWindow->area.y + adj_size(41);
   
     add_to_gui_list(ID_OPTIONS_TOGGLE_FULLSCREEN_CHECKBOX, pTmpGui);
     /* ------------------------- */
@@ -957,8 +958,8 @@ static int local_setting_callback(struct widget *pWidget)
     pTmpGui->action = sound_bell_at_new_turn_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
   
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-    pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
+    pTmpGui->size.x = pWindow->area.x + adj_size(12);
+    pTmpGui->size.y = pWindow->area.y + adj_size(2);
   
     add_to_gui_list(ID_OPTIONS_LOCAL_SOUND_CHECKBOX, pTmpGui);
   
@@ -1554,8 +1555,8 @@ static int map_setting_callback(struct widget *pWidget)
     pTmpGui->action = draw_city_names_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
   
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-    pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
+    pTmpGui->size.x = pWindow->area.x + adj_size(12);
+    pTmpGui->size.y = pWindow->area.y + adj_size(2);
     
     add_to_gui_list(ID_OPTIONS_MAP_CITY_NAMES_CHECKBOX, pTmpGui);
     
@@ -1877,8 +1878,8 @@ static int map_setting_callback(struct widget *pWidget)
     pTmpGui->action = draw_roads_rails_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
   
-    pTmpGui->size.x = pWindow->size.x + adj_size(170);
-    pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
+    pTmpGui->size.x = pWindow->area.x + adj_size(167);
+    pTmpGui->size.y = pWindow->area.y + adj_size(2);
     
     add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_RR_CHECKBOX, pTmpGui);
     

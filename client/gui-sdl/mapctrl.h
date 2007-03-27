@@ -50,8 +50,8 @@
 
 #endif
 
-extern int MINI_MAP_W;
-extern int MINI_MAP_H;
+extern int overview_w;
+extern int overview_h;
 
 void popdown_newcity_dialog(void);
 
@@ -71,9 +71,8 @@ void popdown_unitinfo_window(void);
 void show_game_page(void);
 void close_game_page(void);
 
-void Remake_MiniMap(int w, int h);
-void set_new_units_window_pos(void);
-void set_new_mini_map_window_pos(void);
+void set_new_unitinfo_window_pos(void);
+void set_new_minimap_window_pos(void);
 int resize_minimap(void);
 int resize_unit_info(void);
 struct widget * get_unit_info_window_widget(void);

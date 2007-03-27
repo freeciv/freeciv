@@ -745,8 +745,8 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   pCityDlg->pPanel->pActiveWidgetList = pCityDlg->pPanel->pEndActiveWidgetList;
   
   setup_vertical_widgets_position(NUM_UNITS_SHOWN,
-	pWindow->size.x + adj_size(7),
-	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(48),
+	pWindow->area.x + adj_size(4),
+	pWindow->area.y + adj_size(44),
 	  0, 0, pCityDlg->pPanel->pBeginActiveWidgetList,
 			  pCityDlg->pPanel->pEndActiveWidgetList);
   
@@ -764,9 +764,9 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 	NUM_UNITS_SHOWN, NUM_UNITS_SHOWN, TRUE, TRUE);
     
     setup_vertical_scrollbar_area(pCityDlg->pPanel->pScroll,
-		pWindow->size.x + adj_size(212),
-                pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(50),
-                150, TRUE);
+		pWindow->area.x + adj_size(212),
+                pWindow->area.y + adj_size(46),
+                adj_size(150), TRUE);
   }
     
 }
@@ -942,8 +942,8 @@ static void create_city_options_widget_list(struct city *pCity)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = misc_panel_city_dlg_callback;
   add_to_gui_list(MAX_ID - 0x10, pBuf);
-  pBuf->size.x = pWindow->size.x + adj_size(10);
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(48 + 1);
+  pBuf->size.x = pWindow->area.x + adj_size(7);
+  pBuf->size.y = pWindow->area.y + adj_size(45);
 
   /* ----- */
   
@@ -1724,8 +1724,8 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
 
   pSurf = create_text_surf_from_str16(pStr);
 
-  dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(207) - pSurf->w) / 2;
+  dest.y = pCityWindow->area.y + adj_size(6) + pTheme->INFO_Icon->h;
 
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
@@ -1770,8 +1770,8 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
 
   pSurf = create_text_surf_from_str16(pStr);
 
-  dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(207) - pSurf->w) / 2;
+  dest.y = pCityWindow->area.y + + adj_size(6) + pTheme->INFO_Icon->h;
   
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
@@ -1829,8 +1829,8 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
 
   pSurf = create_text_surf_from_str16(pStr);
 
-  dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(207) - pSurf->w) / 2;
+  dest.y = pCityWindow->area.y + adj_size(6) + pTheme->INFO_Icon->h;
   
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
@@ -1877,8 +1877,8 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
   pSurf = create_text_surf_from_str16(pStr);
   
-  dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(207) - pSurf->w) / 2;
+  dest.y = pCityWindow->area.y + adj_size(6) + pTheme->INFO_Icon->h;
   
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 
@@ -2034,8 +2034,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
   pSurf = create_text_surf_from_str16(pStr);
 
-  dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + pTheme->INFO_Icon->h + adj_size(10);
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(207) - pSurf->w) / 2;
+  dest.y = pCityWindow->area.y + adj_size(6) + pTheme->INFO_Icon->h;
   alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
   
   dest.x = pCityWindow->size.x + adj_size(10);

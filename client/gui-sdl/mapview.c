@@ -63,8 +63,8 @@
 extern SDL_Event *pFlush_User_Event;
 extern SDL_Rect *pInfo_Area;
 
-int OVERVIEW_START_X;
-int OVERVIEW_START_Y;
+int overview_start_x = 0;
+int overview_start_y = 0;
 
 static enum {
   NORMAL = 0,
@@ -367,7 +367,7 @@ void overview_size_changed(void)
     canvas_free(overview_canvas);
   }      
   overview_canvas = canvas_create(overview.width, overview.height);
-
+  
   resize_minimap();
 }
 
@@ -681,7 +681,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   struct canvas *destcanvas;
   struct unit *pUnit = unit_list_get(punitlist, 0);
 
-  if (SDL_Client_Flags & CF_UNIT_INFO_SHOW) {
+  if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
     
     pInfo_Window = get_unit_info_window_widget();
 
@@ -704,7 +704,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       
       pStr->style &= ~TTF_STYLE_BOLD;
       
-      if (pInfo_Window->size.w > 1.8 * (pTheme->FR_Left->w + DEFAULT_UNITS_W + pTheme->FR_Right->w)) {
+      if (pInfo_Window->size.w > 1.8 * 
+           ((pInfo_Window->size.w - pInfo_Window->area.w) + DEFAULT_UNITS_W)) {
 	width = pInfo_Window->area.w / 2;
 	right = TRUE;
       } else {
@@ -727,13 +728,15 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       copy_chars_to_string16(pStr, gui_sdl_get_unit_info_label_text2(punitlist));
       pInfo = create_text_surf_from_str16(pStr);
       
-      if (pInfo_Window->size.h > (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) || right) {
+      if (pInfo_Window->size.h > 
+          (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
 	int h = TTF_FontHeight(pInfo_Window->string16->font);
 				     
 	my_snprintf(buffer, sizeof(buffer),"%s",
 				sdl_get_tile_defense_info_text(pTile));
 	
-        if (pInfo_Window->size.h > 2 * h + (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h)|| right) {
+        if (pInfo_Window->size.h > 
+            2 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h))|| right) {
 	  if (game.info.borders > 0 && !pTile->city) {
 	    const char *diplo_nation_plural_adjectives[DS_LAST] =
                         {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
@@ -826,7 +829,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	  }
         }
 		
-	if (pInfo_Window->size.h > 4 * h + (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) || right) {
+	if (pInfo_Window->size.h > 
+            4 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
           cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
 				get_tile_output_text(pUnit->tile));
 	}
@@ -845,19 +849,19 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       y = 0;
       
       if (n > 1 && ((!right && pInfo_II
-	 && (pInfo_Window->size.h - (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - pInfo_II->h > 52))
-         || (right && pInfo_Window->size.h - (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) > 52))) {
-	height = pTheme->FR_Top->h + DEFAULT_UNITS_H + pTheme->FR_Bottom->h;
+	 && (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) - pInfo_II->h > 52))
+         || (right && pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) > 52))) {
+	height = (pInfo_Window->size.h - pInfo_Window->area.h) + DEFAULT_UNITS_H;
       } else {
 	height = pInfo_Window->size.h;
-        if (pInfo_Window->size.h > (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h)) {
-	  y = (pInfo_Window->size.h - (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) -
+        if (pInfo_Window->size.h > (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h))) {
+	  y = (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) -
 	                 (!right && pInfo_II ? pInfo_II->h : 0)) / 2;
         }
       }
       
-      sy = pTheme->FR_Top->h + y + adj_size(3);
-      area.y = pInfo_Window->size.y + sy;
+      sy = y + adj_size(3);
+      area.y = pInfo_Window->area.y + sy;
       area.x = pInfo_Window->area.x + BLOCKU_W + (width - pName->w - BLOCKU_W) / 2;
       dest = area;
       alphablit(pName, NULL, pInfo_Window->dst->surface, &dest);
@@ -894,28 +898,25 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       if (pInfo_II) {
         if (right) {
-	  area.x = pInfo_Window->size.x + width +
-      				(width - pInfo_II->w) / 2;
-	  area.y = pInfo_Window->size.y + pTheme->FR_Top->h +
-	  		(height - pTheme->FR_Bottom->h - pInfo_II->h) / 2;
+	  area.x = pInfo_Window->area.x + width + (width - pInfo_II->w) / 2;
+	  area.y = pInfo_Window->area.y + (height - pInfo_II->h) / 2;
         } else {
-	  area.y = pInfo_Window->size.y + (DEFAULT_UNITS_H + pTheme->FR_Top->h +
-                   pTheme->FR_Bottom->h) + y;
-          area.x = pInfo_Window->size.x + BLOCKU_W +
-      		(width - BLOCKU_W - pInfo_II->w) / 2;
+	  area.y = pInfo_Window->area.y + DEFAULT_UNITS_H + y;
+          area.x = pInfo_Window->area.x + BLOCKU_W + 
+                   (width - BLOCKU_W - pInfo_II->w) / 2;
         }
       
         /* blit unit info text */
         alphablit(pInfo_II, NULL, pInfo_Window->dst->surface, &area);
               
         if (right) {
-          sy = (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h);
+          sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
         } else {
 	  sy = area.y - pInfo_Window->size.y + pInfo_II->h;
         }
         FREESURFACE(pInfo_II);
       } else {
-	sy = (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h);
+	sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
       }
       
       if (n > 1 && (pInfo_Window->size.h - sy > 52)) {
@@ -928,8 +929,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	if (pDlg->pEndActiveWidgetList && pDlg->pBeginActiveWidgetList) {
 	  del_group(pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
 	}
-	num_w = (pInfo_Window->size.w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 68;
-	num_h = (pInfo_Window->size.h - sy - pTheme->FR_Bottom->h) / 52;
+	num_w = (pInfo_Window->area.w - BLOCKU_W) / 68;
+	num_h = (pInfo_Window->area.h - sy) / 52;
 	pDock = pInfo_Window;
 	n = 0;
         unit_list_iterate(pTile->units, aunit) {
@@ -1024,10 +1025,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    
 	  /* create up button */
           pBuf = pDlg->pScroll->pUp_Left_Button;
-          pBuf->size.x = pInfo_Window->size.x +
-		      pInfo_Window->size.w - pTheme->FR_Right->w - pBuf->size.w;
-          pBuf->size.y = pInfo_Window->size.y + sy +
-	    			(pInfo_Window->size.h - sy - num_h * 52) / 2;
+          pBuf->size.x = pInfo_Window->area.x + pInfo_Window->area.w - pBuf->size.w;
+          pBuf->size.y = pInfo_Window->area.y + sy +
+                         (pInfo_Window->size.h - sy - num_h * 52) / 2;
           pBuf->size.h = (num_h * 52) / 2;
         
           /* create down button */
@@ -1045,7 +1045,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	}
 	  
 	setup_vertical_widgets_position(num_w,
-          pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W + adj_size(2),
+          pInfo_Window->area.x + BLOCKU_W + adj_size(2),
 			pInfo_Window->size.y + sy +
 	  			(pInfo_Window->size.h - sy - num_h * 52) / 2,
 	  		0, 0, pDlg->pBeginActiveWidgetList,
@@ -1093,13 +1093,6 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    	pInfo_Window->private_data.adv_dlg->pEndWidgetList->prev, 0);
     
     widget_mark_dirty(pInfo_Window);
-  } else {
-#if 0    
-    /* draw hidden */
-    area.x = Main.screen->w - pBuf_Surf->w - pTheme->FR_Right->w;
-    area.y = Main.screen->h - pBuf_Surf->h - pTheme->FR_Bottom->h;
-    alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst->surface, &area);
-#endif    
   }
 }
 
@@ -1191,15 +1184,6 @@ void update_city_descriptions(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void center_minimap_on_minimap_window(void)
-{
-  OVERVIEW_START_X = pTheme->FR_Left->w + (MINI_MAP_W - overview.width)/2;
-  OVERVIEW_START_Y = pTheme->FR_Top->h + (MINI_MAP_H - overview.height)/2;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void toggle_overview_mode(void)
 {
   /* FIXME: has no effect anymore */
@@ -1224,8 +1208,32 @@ struct canvas *get_overview_window(void)
 ****************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
-  *width = DEFAULT_OVERVIEW_W;
-  *height = DEFAULT_OVERVIEW_H;
+  /* calculate the dimensions in a way to always get a resulting
+     overview with a height bigger than or equal to DEFAULT_OVERVIEW_H.
+     First, the default dimensions are fed to the same formula that
+     is used in overview_common.c. If the resulting height is
+     smaller than DEFAULT_OVERVIEW_H, increase OVERVIEW_TILE_SIZE
+     by 1 until the height condition is met.
+  */
+  
+  int overview_tile_size_bak = OVERVIEW_TILE_SIZE;
+  
+  int xfact = MAP_IS_ISOMETRIC ? 2 : 1;
+  int shift = (MAP_IS_ISOMETRIC && !topo_has_flag(TF_WRAPX)) ? -1 : 0;
+  
+  OVERVIEW_TILE_SIZE = MIN((DEFAULT_OVERVIEW_W - 1) / (map.xsize * xfact),
+                           (DEFAULT_OVERVIEW_H - 1) / map.ysize) + 1;
+
+  do {
+    *height = OVERVIEW_TILE_HEIGHT * map.ysize;
+    if (*height < DEFAULT_OVERVIEW_H) {
+      OVERVIEW_TILE_SIZE++;
+    }
+  } while (*height < DEFAULT_OVERVIEW_H);
+
+  *width = OVERVIEW_TILE_WIDTH * map.xsize + shift * OVERVIEW_TILE_SIZE; 
+  
+  OVERVIEW_TILE_SIZE = overview_tile_size_bak;
 }
 
 /**************************************************************************
@@ -1237,11 +1245,11 @@ void refresh_overview(void)
   struct widget *pMMap;
   SDL_Rect overview_area;
 
-  if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
+  if (SDL_Client_Flags & CF_OVERVIEW_SHOWN) {
     pMMap = get_minimap_window_widget();
       
     overview_area = (SDL_Rect) {
-      OVERVIEW_START_X, OVERVIEW_START_Y, 
+      pMMap->area.x + overview_start_x, pMMap->area.x + overview_start_y, 
       overview_canvas->surf->w, overview_canvas->surf->h
     };
   

@@ -2522,8 +2522,8 @@ static int nation_button_callback(struct widget *pNationButton)
                           (Main.screen->w - pWindow->size.w) / 2,
                           (Main.screen->h - pWindow->size.h) / 2);
       
-      area2.x = adj_size(10);
-      area2.y = WINDOW_TITLE_HEIGHT + adj_size(10);
+      area2.x = area.x + adj_size(7);
+      area2.y = area.y + adj_size(6);
       alphablit(pText2, NULL, pWindow->theme, &area2);
       area2.y += (pText2->h + adj_size(10));
       FREESURFACE(pText2);

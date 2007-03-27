@@ -276,9 +276,9 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count++; /* count + at Spy's Discretion */
   /* max col - 104 is steal tech widget width */
-  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - adj_size(2)) / adj_size(104);
+  max_col = (Main.screen->w - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
   /* max row - 204 is steal tech widget height */
-  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / adj_size(204);
+  max_row = (Main.screen->h - (pWindow->size.h - pWindow->area.h)) / adj_size(204);
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {

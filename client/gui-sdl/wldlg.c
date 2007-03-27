@@ -251,15 +251,15 @@ static void add_target_to_worklist(struct widget *pTarget)
   if (worklist_length(pEditor->pCopy_WorkList) > pEditor->pWork->pScroll->active + 1) {
 
     setup_vertical_widgets_position(1,
-      pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w + adj_size(2),
-      get_widget_pointer_form_main_list(ID_WINDOW)->size.y + pTheme->FR_Top->h + adj_size(152) +
+      pEditor->pEndWidgetList->area.x + adj_size(2),
+      get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152) +
 	pEditor->pWork->pScroll->pUp_Left_Button->size.h + 1,
 	adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
 		  pEditor->pWork->pEndWidgetList);
    
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
-	pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w + adj_size(2),
-    	get_widget_pointer_form_main_list(ID_WINDOW)->size.y + pTheme->FR_Top->h + adj_size(152),
+	pEditor->pEndWidgetList->area.x + adj_size(2),
+    	get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
     	adj_size(225), FALSE);
     
     show_scrollbar(pEditor->pWork->pScroll);    
@@ -268,8 +268,8 @@ static void add_target_to_worklist(struct widget *pTarget)
   
   add_widget_to_vertical_scroll_widget_list(pEditor->pWork, pBuf,
     pDock, FALSE,
-    pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w + adj_size(2),
-    pEditor->pEndWidgetList->size.y + pTheme->FR_Top->h + adj_size(152));
+    pEditor->pEndWidgetList->area.x + adj_size(2),
+    pEditor->pEndWidgetList->area.y + adj_size(152));
   
   pBuf->size.w = adj_size(126);
   
@@ -463,14 +463,14 @@ static void remove_item_from_worklist(struct widget *pItem)
   if (worklist_length(pEditor->pCopy_WorkList) <= pEditor->pWork->pScroll->active + 1) {
 
     setup_vertical_widgets_position(1,
-      pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w + adj_size(2),
-      get_widget_pointer_form_main_list(ID_WINDOW)->size.y + pTheme->FR_Top->h + adj_size(152),
+      pEditor->pEndWidgetList->area.x + adj_size(2),
+      get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
 	adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
 		  pEditor->pWork->pEndWidgetList);
 #if 0   
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
-	pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w + adj_size(2),
-    	get_widget_pointer_form_main_list(ID_WINDOW)->size.y + pTheme->FR_Top->h + adj_size(152),
+	pEditor->pEndWidgetList->area.x + adj_size(2),
+    	get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
     	adj_size(225), FALSE);*/
 #endif    
     hide_scrollbar(pEditor->pWork->pScroll);    
@@ -680,8 +680,8 @@ static void add_global_worklist(struct widget *pWidget)
         
       add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
         pBuf, pEditor->pWork->pBeginActiveWidgetList, FALSE,
-        pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w + adj_size(2),
-        pEditor->pEndWidgetList->size.y + pTheme->FR_Top->h + adj_size(152));
+        pEditor->pEndWidgetList->area.x + adj_size(2),
+        pEditor->pEndWidgetList->area.y + adj_size(152));
       
       firstfree++;
       if(firstfree == MAX_LEN_WORKLIST - 1) {
@@ -777,8 +777,8 @@ static void set_global_worklist(struct widget *pWidget)
         
         add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
           pBuf, pEditor->pWork->pBeginActiveWidgetList, FALSE,
-          pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w + adj_size(2),
-	  pEditor->pEndWidgetList->size.y + pTheme->FR_Top->h + adj_size(152));
+          pEditor->pEndWidgetList->area.x + adj_size(2),
+	  pEditor->pEndWidgetList->area.y + adj_size(152));
       }
     
       refresh_worklist_count_label();
@@ -911,10 +911,10 @@ static void refresh_production_label(int stock)
   widget_undraw(pEditor->pProduction_Name);
   remake_label_size(pEditor->pProduction_Name);
   
-  pEditor->pProduction_Name->size.x = pEditor->pEndWidgetList->size.x +
-    (adj_size(130) - pEditor->pProduction_Name->size.w)/2 + pTheme->FR_Left->w;
+  pEditor->pProduction_Name->size.x = pEditor->pEndWidgetList->area.x +
+    (adj_size(130) - pEditor->pProduction_Name->size.w)/2;
   
-  area.x = pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w;
+  area.x = pEditor->pEndWidgetList->area.x;
   area.y = pEditor->pProduction_Name->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pProduction_Name->size.h;
@@ -950,8 +950,8 @@ static void refresh_worklist_count_label(void)
   widget_undraw(pEditor->pWorkList_Counter);
   remake_label_size(pEditor->pWorkList_Counter);
   
-  pEditor->pWorkList_Counter->size.x = pEditor->pEndWidgetList->size.x +
-    (adj_size(130) - pEditor->pWorkList_Counter->size.w)/2 + pTheme->FR_Left->w;
+  pEditor->pWorkList_Counter->size.x = pEditor->pEndWidgetList->area.x +
+    (adj_size(130) - pEditor->pWorkList_Counter->size.w)/2;
   
   if (get_wflags(pEditor->pWorkList_Counter) & WF_RESTORE_BACKGROUND) {
     refresh_widget_background(pEditor->pWorkList_Counter);
@@ -959,7 +959,7 @@ static void refresh_worklist_count_label(void)
   
   widget_redraw(pEditor->pWorkList_Counter);
 
-  area.x = pEditor->pEndWidgetList->size.x + pTheme->FR_Left->w;
+  area.x = pEditor->pEndWidgetList->area.x;
   area.y = pEditor->pWorkList_Counter->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pWorkList_Counter->size.h;
