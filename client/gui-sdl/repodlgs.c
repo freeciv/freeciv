@@ -74,6 +74,10 @@ static void get_units_report_data(struct units_entry *entries,
   					struct units_entry *total)
 {
   int time_to_build;
+  
+  int upkeep_cost[O_COUNT];
+  int free_upkeep[O_COUNT];
+  
   memset(entries, '\0', U_LAST * sizeof(struct units_entry));
   memset(total, '\0', sizeof(struct units_entry));
   for(time_to_build = 0; time_to_build < U_LAST; time_to_build++) {
@@ -83,12 +87,19 @@ static void get_units_report_data(struct units_entry *entries,
     (entries[pUnit->type->index].active_count)++;
     (total->active_count)++;
     if (pUnit->homecity) {
-      entries[pUnit->type->index].upkeep_shield += pUnit->upkeep[O_SHIELD];
-      total->upkeep_shield += pUnit->upkeep[O_SHIELD];
-      entries[pUnit->type->index].upkeep_food += pUnit->upkeep[O_FOOD];
-      total->upkeep_food += pUnit->upkeep[O_FOOD];
-      entries[pUnit->type->index].upkeep_gold += pUnit->upkeep[O_GOLD];
-      total->upkeep_gold += pUnit->upkeep[O_GOLD];
+      output_type_iterate(o) {
+        free_upkeep[o] = get_city_output_bonus(find_city_by_id(pUnit->homecity),
+                           get_output_type(o), EFT_UNIT_UPKEEP_FREE_PER_CITY);
+      } output_type_iterate_end;
+
+      city_unit_upkeep(pUnit, upkeep_cost, free_upkeep);
+      
+      entries[pUnit->type->index].upkeep_shield += upkeep_cost[O_SHIELD];
+      total->upkeep_shield += upkeep_cost[O_SHIELD];
+      entries[pUnit->type->index].upkeep_food += upkeep_cost[O_FOOD];
+      total->upkeep_food += upkeep_cost[O_FOOD];
+      entries[pUnit->type->index].upkeep_gold += upkeep_cost[O_GOLD];
+      total->upkeep_gold += upkeep_cost[O_GOLD];
     }
   } unit_list_iterate_end;
     
