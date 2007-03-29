@@ -75,8 +75,8 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 ai_better   = "Monarchy"
 
-ruler_male_title = _("Dictator")
-ruler_female_title = _("Dictatress")
+ruler_male_title = _("Chief")
+ruler_female_title = _("?female:Chief")
 
 helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
