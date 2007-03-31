@@ -71,7 +71,10 @@ enum goto_route_type {
 };
 
 enum unit_move_result {
-  MR_OK, MR_BAD_TYPE_FOR_CITY_TAKE_OVER, MR_NO_WAR, MR_ZOC,
+  MR_OK, MR_BAD_TYPE_FOR_CITY_TAKE_OVER,
+  MR_NO_WAR, /* Can't move here without declaring war. */
+  MR_PEACE, /* Can't move here because of a peace treaty. */
+  MR_ZOC,
   MR_BAD_ACTIVITY, MR_BAD_DESTINATION, MR_BAD_MAP_POSITION,
   MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT,
   MR_NO_TRANSPORTER_CAPACITY,

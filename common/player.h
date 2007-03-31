@@ -263,6 +263,8 @@ bool pplayers_allied(const struct player *pplayer,
 		    const struct player *pplayer2);
 bool pplayers_in_peace(const struct player *pplayer,
                     const struct player *pplayer2);
+bool players_non_invade(const struct player *pplayer1,
+			const struct player *pplayer2);
 bool pplayers_non_attack(const struct player *pplayer,
 			const struct player *pplayer2);
 bool players_on_same_team(const struct player *pplayer1,

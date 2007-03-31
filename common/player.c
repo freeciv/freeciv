@@ -740,6 +740,17 @@ bool pplayers_in_peace(const struct player *pplayer,
   return (ds == DS_PEACE || ds == DS_ALLIANCE || ds == DS_TEAM);
 }
 
+/****************************************************************************
+  Returns TRUE if players can't enter each others' territory.  Undefined if
+  the players are equal.
+****************************************************************************/
+bool players_non_invade(const struct player *pplayer1,
+			const struct player *pplayer2)
+{
+  assert(pplayer1 != pplayer2);
+  return pplayers_in_peace(pplayer1, pplayer2);
+}
+
 /***************************************************************
   Returns true iff players have peace or cease-fire.
 ***************************************************************/
