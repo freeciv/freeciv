@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-17 00:30-0500\n"
+"POT-Creation-Date: 2007-03-31 13:57-0400\n"
 "PO-Revision-Date: 2006-07-30 21:33-0600\n"
 "Last-Translator: Arman Ordookhani <arman_o71@Yahoo.com>\n"
 "Language-Team: Farsi(Persian)\n"
@@ -76,7 +76,7 @@ msgstr "رفاه"
 
 #: common/city.c:58 server/plrhand.c:215 client/gui-gtk-2.0/gamedlgs.c:282
 #: client/gui-gtk-2.0/repodlgs.c:281 client/gui-mui/citydlg.c:1616
-#: client/gui-mui/repodlgs.c:264 client/gui-sdl/repodlgs.c:3201
+#: client/gui-mui/repodlgs.c:264 client/gui-sdl/repodlgs.c:3227
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:92
 #: client/gui-xaw/menu.c:222 client/gui-xaw/repodlgs.c:276
 #: client/gui-xaw/repodlgs.c:486 data/Freeciv.in:1366
@@ -517,81 +517,81 @@ msgstr "پیام‌های اتصال/قطع اتصال"
 msgid "AI Debug messages"
 msgstr "پیام‌های اشکال‌زدایی هوش‌مصنوعی"
 
-#: common/player.c:627
+#: common/player.c:630
 msgid "?attitude:Genocidal"
 msgstr "قاتل"
 
-#: common/player.c:629
+#: common/player.c:632
 msgid "?attitude:Belligerent"
 msgstr "در حال جنگ"
 
-#: common/player.c:631
+#: common/player.c:634
 msgid "?attitude:Hostile"
 msgstr "دشمن"
 
-#: common/player.c:633
+#: common/player.c:636
 msgid "?attitude:Uncooperative"
 msgstr "بدون سود"
 
-#: common/player.c:635
+#: common/player.c:638
 msgid "?attitude:Uneasy"
 msgstr "مضطرب"
 
-#: common/player.c:637
+#: common/player.c:640
 msgid "?attitude:Neutral"
 msgstr "طبیعی"
 
-#: common/player.c:639
+#: common/player.c:642
 msgid "?attitude:Respectful"
 msgstr "احترام گذار"
 
-#: common/player.c:641
+#: common/player.c:644
 msgid "?attitude:Helpful"
 msgstr "سودمند"
 
-#: common/player.c:643
+#: common/player.c:646
 msgid "?attitude:Enthusiastic"
 msgstr "مجذوب"
 
-#: common/player.c:645
+#: common/player.c:648
 msgid "?attitude:Admiring"
 msgstr "تحسین برانگیز"
 
-#: common/player.c:648
+#: common/player.c:651
 msgid "?attitude:Worshipful"
 msgstr "محترم"
 
-#: common/player.c:659
+#: common/player.c:662
 msgid "?diplomatic_state:Armistice"
 msgstr ""
 
-#: common/player.c:660
+#: common/player.c:663
 msgid "?diplomatic_state:War"
 msgstr "جنگ"
 
-#: common/player.c:661 client/gui-gtk-2.0/diplodlg.c:361
-#: client/gui-mui/diplodlg.c:633 client/gui-sdl/diplodlg.c:454
+#: common/player.c:664 client/gui-gtk-2.0/diplodlg.c:361
+#: client/gui-mui/diplodlg.c:633 client/gui-sdl/diplodlg.c:456
 #: client/gui-win32/diplodlg.c:307 client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
 msgstr "آتش بس"
 
-#: common/player.c:662 client/gui-gtk-2.0/diplodlg.c:366
-#: client/gui-mui/diplodlg.c:637 client/gui-sdl/diplodlg.c:468
+#: common/player.c:665 client/gui-gtk-2.0/diplodlg.c:366
+#: client/gui-mui/diplodlg.c:637 client/gui-sdl/diplodlg.c:470
 #: client/gui-win32/diplodlg.c:308 client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
 msgstr "صلح"
 
-#: common/player.c:663 client/gui-gtk-2.0/diplodlg.c:371
-#: client/gui-mui/diplodlg.c:641 client/gui-sdl/diplodlg.c:483
+#: common/player.c:666 client/gui-gtk-2.0/diplodlg.c:371
+#: client/gui-mui/diplodlg.c:641 client/gui-sdl/diplodlg.c:485
 #: client/gui-win32/diplodlg.c:309 client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
 msgstr "اتحاد"
 
-#: common/player.c:664
+#: common/player.c:667
 msgid "?diplomatic_state:Never met"
 msgstr "ملاقات نشده"
 
-#: common/player.c:665
+#: common/player.c:668
 msgid "?diplomatic_state:Team"
 msgstr "تیم"
 
@@ -618,7 +618,7 @@ msgstr ""
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1002 common/team.c:131
 #: client/gui-gtk-2.0/helpdlg.c:1058 client/gui-win32/helpdlg.c:585
-#: client/gui-xaw/helpdlg.c:993
+#: client/gui-xaw/helpdlg.c:989
 #, c-format
 msgid "(none)"
 msgstr "(هیچ)"
@@ -642,7 +642,7 @@ msgstr "تکنولوژی \"%s\": به خودش نیاز دارد"
 #. TRANS: "Unknown" tech
 #: common/tech.c:642 common/tech.c:673 client/gui-gtk-2.0/inteldlg.c:364
 #: client/gui-gtk-2.0/inteldlg.c:385 client/gui-mui/inteldlg.c:149
-#: client/gui-sdl/inteldlg.c:286 client/gui-sdl/inteldlg.c:296
+#: client/gui-sdl/inteldlg.c:287 client/gui-sdl/inteldlg.c:297
 #: client/gui-win32/inteldlg.c:134 client/gui-xaw/inteldlg.c:262
 msgid "(Unknown)"
 msgstr "(ناشناس)"
@@ -651,9 +651,9 @@ msgstr "(ناشناس)"
 #: common/tech.c:645 server/settings.c:40 client/gui-gtk-2.0/helpdlg.c:110
 #: client/gui-mui/helpdlg.c:159 client/gui-mui/helpdlg.c:228
 #: client/gui-mui/helpdlg.c:693 client/gui-mui/repodlgs.c:181
-#: client/gui-sdl/citydlg.c:716 client/gui-sdl/helpdlg.c:349
-#: client/gui-sdl/helpdlg.c:379 client/gui-sdl/helpdlg.c:752
-#: client/gui-sdl/helpdlg.c:775 client/gui-sdl/mapview.c:948
+#: client/gui-sdl/citydlg.c:701 client/gui-sdl/helpdlg.c:354
+#: client/gui-sdl/helpdlg.c:384 client/gui-sdl/helpdlg.c:761
+#: client/gui-sdl/helpdlg.c:784 client/gui-sdl/mapview.c:944
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:714 client/gui-win32/helpdlg.c:734
 #: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
@@ -677,7 +677,7 @@ msgstr "جاده"
 
 #: common/terrain.c:287 common/terrain.c:477 common/unit.c:546
 #: client/gui-gtk-2.0/menu.c:780 client/gui-mui/gui_main.c:240
-#: client/gui-sdl/optiondlg.c:1913 client/gui-win32/menu.c:344
+#: client/gui-sdl/optiondlg.c:1914 client/gui-win32/menu.c:344
 #: client/gui-xaw/menu.c:151 manual/civmanual.c:224
 msgid "Irrigation"
 msgstr "آبیاری"
@@ -693,7 +693,7 @@ msgid "Mine"
 msgstr "معدن"
 
 #: common/terrain.c:290 common/unit.c:540 server/report.c:123
-#: client/cityrepdata.c:485 client/gui-sdl/optiondlg.c:1780
+#: client/cityrepdata.c:485 client/gui-sdl/optiondlg.c:1781
 msgid "Pollution"
 msgstr "آلودگی"
 
@@ -737,13 +737,13 @@ msgstr "تقویت شده"
 
 #: common/unit.c:554 client/gui-mui/gui_main.c:265
 #: client/gui-mui/mapclass.c:1680 client/gui-mui/mapclass.c:2968
-#: client/gui-sdl/menu.c:590 client/gui-xaw/menu.c:184
+#: client/gui-sdl/menu.c:620 client/gui-xaw/menu.c:184
 msgid "Sentry"
 msgstr "نگهبانی"
 
 #: common/unit.c:558 client/gui-gtk-2.0/menu.c:833
 #: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1682
-#: client/gui-sdl/menu.c:577 client/gui-win32/menu.c:370
+#: client/gui-sdl/menu.c:607 client/gui-win32/menu.c:370
 #: client/gui-xaw/menu.c:185
 msgid "Pillage"
 msgstr "غارت"
@@ -761,7 +761,7 @@ msgid "Transform"
 msgstr "تبدیل"
 
 #: common/unit.c:576 client/gui-mui/citydlg.c:2042
-#: client/gui-sdl/citydlg.c:1972 client/gui-win32/citydlg.c:1263
+#: client/gui-sdl/citydlg.c:1959 client/gui-win32/citydlg.c:1263
 #: client/gui-xaw/citydlg.c:1424
 msgid "Unknown"
 msgstr "ناشناخته"
@@ -1046,17 +1046,17 @@ msgstr ""
 msgid "error %d (compiled without strerror)"
 msgstr ""
 
-#: ai/aicity.c:1025 server/citytools.c:1848
+#: ai/aicity.c:1027 server/citytools.c:1854
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s ساخت %s در %s را متوقف کردند."
 
-#: ai/aicity.c:1036 server/citytools.c:1888
+#: ai/aicity.c:1038 server/citytools.c:1894
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s ساخت %s در %s را شروع کردند."
 
-#: ai/aicity.c:1357
+#: ai/aicity.c:1359
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
 msgstr ""
@@ -1623,17 +1623,17 @@ msgstr ""
 msgid "%s liberated %s."
 msgstr ""
 
-#: server/citytools.c:1869
+#: server/citytools.c:1875
 msgid " from the worklist"
 msgstr " از لیست‌کار"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1881
+#: server/citytools.c:1887
 #, c-format
 msgid "%s is building %s%s."
 msgstr "شهر %s در حال ساخت %s%s است."
 
-#: server/citytools.c:2126
+#: server/citytools.c:2132
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "شما %s را در %s (اکنون در خشکی محاط شده) با %d طلا فروختید."
@@ -1990,7 +1990,7 @@ msgid "  -v, --version\t\tPrint the version number\n"
 msgstr ""
 
 #: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:262
-#: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:198
+#: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:202
 #: client/gui-xaw/gui_main.c:245 manual/civmanual.c:374
 #, c-format
 msgid "Report bugs to <%s>.\n"
@@ -3473,7 +3473,7 @@ msgid "Literacy"
 msgstr "سواد"
 
 #: server/report.c:120 client/gui-mui/citydlg.c:1459
-#: client/gui-sdl/cityrep.c:172
+#: client/gui-sdl/cityrep.c:174
 msgid "Production"
 msgstr "محصول"
 
@@ -3571,7 +3571,7 @@ msgid "(building %s in %s (%s))\n"
 msgstr ""
 
 #: server/report.c:324 client/gui-mui/gui_main.c:295 client/gui-xaw/menu.c:224
-#: data/helpdata.txt:855
+#: data/helpdata.txt:901
 msgid "Wonders of the World"
 msgstr "شگفتی‌های جهان"
 
@@ -3813,37 +3813,42 @@ msgstr ""
 msgid "Savegame error: invalid unit orders."
 msgstr ""
 
-#: server/savegame.c:1933
+#: server/savegame.c:1941
 #, c-format
 msgid "Unsupported government found (%s)"
 msgstr ""
 
-#: server/savegame.c:1987
+#: server/savegame.c:1995
 #, c-format
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr ""
 
-#: server/savegame.c:3434
+#: server/savegame.c:3446
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr ""
 
-#: server/savegame.c:3647
+#: server/savegame.c:3659
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 
-#: server/savegame.c:3656
+#: server/savegame.c:3668
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 msgstr ""
 
-#: server/savegame.c:3880
+#: server/savegame.c:3892
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
+msgstr ""
+
+#: server/savegame.c:3992
+#, c-format
+msgid "Removing %s's unferried %s in %s at (%d, %d)"
 msgstr ""
 
 #: server/settings.c:31
@@ -5037,7 +5042,7 @@ msgstr ""
 msgid "(ambiguous)"
 msgstr ""
 
-#: server/stdinhand.c:364 client/citydlg_common.c:422 client/packhand.c:1241
+#: server/stdinhand.c:364 client/citydlg_common.c:422 client/packhand.c:1261
 msgid "(unknown)"
 msgstr ""
 
@@ -5780,9 +5785,8 @@ msgid "Barbarian"
 msgstr "بیگانه"
 
 #: server/stdinhand.c:3020 server/stdinhand.c:4067 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:1993 client/gui-sdl/plrdlg.c:219
-#: client/gui-sdl/plrdlg.c:659 client/gui-win32/connectdlg.c:201
-#: client/gui-win32/plrdlg.c:335
+#: client/gui-gtk-2.0/pages.c:1993 client/gui-sdl/plrdlg.c:642
+#: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "ه‌م"
 
@@ -6295,76 +6299,81 @@ msgstr ""
 msgid "%s can only move into your own zone of control."
 msgstr "%s فقط می‌تواند داخل محدوده کنترل  شما باشد."
 
-#: server/unithand.c:988
+#: server/unithand.c:955
+#, c-format
+msgid "Game: Cannot invade unless you break peace with %s first."
+msgstr ""
+
+#: server/unithand.c:993
 msgid "This unit has no moves left."
 msgstr "برای این مهره حرکتی نمانده."
 
-#: server/unithand.c:1042
+#: server/unithand.c:1047
 msgid "Unit must be on land to perform diplomatic action."
 msgstr "مهره باید روی زمین باشد تا بتواند فعالیت دیپلماتیک انجام دهد."
 
-#: server/unithand.c:1044
+#: server/unithand.c:1049
 msgid "No diplomat action possible."
 msgstr ""
 
-#: server/unithand.c:1060
+#: server/unithand.c:1065
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr ""
 
-#: server/unithand.c:1076
+#: server/unithand.c:1081
 msgid "This unit is being transported, and so cannot bombard."
 msgstr ""
 
-#: server/unithand.c:1091
+#: server/unithand.c:1096
 msgid "You can't attack there."
 msgstr ""
 
-#: server/unithand.c:1111
+#: server/unithand.c:1116
 msgid "This type of troops cannot take over a city."
 msgstr ""
 
-#: server/unithand.c:1129
+#: server/unithand.c:1134
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 
-#: server/unithand.c:1171
+#: server/unithand.c:1176
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%s شما به ساخت %s در %s کمک کرد. (%d مانده)"
 
-#: server/unithand.c:1173
+#: server/unithand.c:1178
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s شما به ساخت %s در %s کمک کرد. (%d مازاد)"
 
-#: server/unithand.c:1217
+#: server/unithand.c:1222
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr ""
 
-#: server/unithand.c:1227
+#: server/unithand.c:1232
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr ""
 
-#: server/unithand.c:1255 server/unithand.c:1272
+#: server/unithand.c:1260 server/unithand.c:1277
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr ""
 
-#: server/unithand.c:1258 server/unithand.c:1275
+#: server/unithand.c:1263 server/unithand.c:1280
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr ""
 
-#: server/unithand.c:1287 server/unithand.c:1298
+#: server/unithand.c:1292 server/unithand.c:1303
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr ""
 
-#: server/unithand.c:1330
+#: server/unithand.c:1335
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -6852,8 +6861,8 @@ msgstr[1] "%3d نوبت"
 #: client/agents/cma_fec.c:249 client/agents/cma_fec.c:283
 #: client/gui-gtk-2.0/citydlg.c:1414 client/gui-mui/citydlg.c:105
 #: client/gui-mui/citydlg.c:140 client/gui-mui/citydlg.c:1827
-#: client/gui-sdl/cityrep.c:524 client/gui-sdl/cityrep.c:1047
-#: client/gui-sdl/wldlg.c:1360 client/gui-sdl/wldlg.c:1365
+#: client/gui-sdl/cityrep.c:527 client/gui-sdl/cityrep.c:1049
+#: client/gui-sdl/wldlg.c:1361 client/gui-sdl/wldlg.c:1366
 #: client/gui-win32/citydlg.c:455
 msgid "never"
 msgstr "هیج وقت"
@@ -6882,13 +6891,13 @@ msgstr[1] "%s (%d) %d نوبت"
 
 #: client/citydlg_common.c:341 client/citydlg_common.c:354
 #: client/gui-mui/citydlg.c:608 client/gui-mui/worklistclass.c:113
-#: client/gui-sdl/wldlg.c:1336
+#: client/gui-sdl/wldlg.c:1337
 msgid "Obsolete"
 msgstr "منسوخ"
 
 #: client/citydlg_common.c:343 client/citydlg_common.c:351
 #: client/gui-mui/citydlg.c:606 client/gui-mui/worklistclass.c:111
-#: client/gui-sdl/repodlgs.c:1989 client/gui-sdl/wldlg.c:1340
+#: client/gui-sdl/repodlgs.c:2000 client/gui-sdl/wldlg.c:1341
 msgid "Built"
 msgstr "ساخته شده"
 
@@ -6974,7 +6983,7 @@ msgstr "(لیست‌کار)"
 msgid "?city:Name"
 msgstr "نام"
 
-#: client/cityrepdata.c:429 client/gui-sdl/cityrep.c:167
+#: client/cityrepdata.c:429 client/gui-sdl/cityrep.c:169
 msgid "City Name"
 msgstr "نام شهر"
 
@@ -7081,13 +7090,13 @@ msgstr "بهترین مهره برای دفاع"
 #: client/gui-gtk-2.0/cityrep.c:1248 client/gui-gtk-2.0/cityrep.c:1267
 #: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/repodlgs.c:958
 #: client/gui-mui/citydlg.c:1371 client/gui-mui/gui_main.c:246
-#: client/gui-sdl/helpdlg.c:652 client/gui-sdl/optiondlg.c:1834
-#: client/gui-sdl/repodlgs.c:352 client/gui-win32/menu.c:351
-#: client/gui-win32/repodlgs.c:613 client/gui-win32/repodlgs.c:698
-#: client/gui-win32/repodlgs.c:707 client/gui-xaw/menu.c:157
-#: client/gui-xaw/menu.c:219 client/gui-xaw/menu.c:240
-#: client/gui-xaw/repodlgs.c:882 client/gui-xaw/repodlgs.c:1069
-#: data/Freeciv.in:1895 data/helpdata.txt:866
+#: client/gui-sdl/helpdlg.c:659 client/gui-sdl/mapctrl.c:1603
+#: client/gui-sdl/optiondlg.c:1835 client/gui-sdl/repodlgs.c:354
+#: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:613
+#: client/gui-win32/repodlgs.c:698 client/gui-win32/repodlgs.c:707
+#: client/gui-xaw/menu.c:157 client/gui-xaw/menu.c:219
+#: client/gui-xaw/menu.c:240 client/gui-xaw/repodlgs.c:882
+#: client/gui-xaw/repodlgs.c:1069 data/Freeciv.in:1895 data/helpdata.txt:912
 msgid "Units"
 msgstr "مهره‌ها"
 
@@ -7144,9 +7153,9 @@ msgid "Surplus: Trade"
 msgstr "مازاد: تجارت"
 
 #: client/cityrepdata.c:471 client/gui-gtk-2.0/repodlgs.c:652
-#: client/gui-win32/repodlgs.c:332 client/gui-xaw/menu.c:221
-#: client/gui-xaw/repodlgs.c:646 client/gui-xaw/repodlgs.c:775
-#: data/Freeciv.in:1819
+#: client/gui-sdl/mapctrl.c:1400 client/gui-win32/repodlgs.c:332
+#: client/gui-xaw/menu.c:221 client/gui-xaw/repodlgs.c:646
+#: client/gui-xaw/repodlgs.c:775 data/Freeciv.in:1819
 msgid "Economy"
 msgstr "اقتصاد"
 
@@ -7194,8 +7203,8 @@ msgstr "ر"
 msgid "Number of Trade Routes"
 msgstr "تعداد راه‌های تجاری"
 
-#: client/cityrepdata.c:483 client/gui-sdl/citydlg.c:3019
-#: client/gui-sdl/citydlg.c:3131
+#: client/cityrepdata.c:483 client/gui-sdl/citydlg.c:3006
+#: client/gui-sdl/citydlg.c:3118
 msgid "Stock"
 msgstr "ذخیره"
 
@@ -7242,8 +7251,8 @@ msgstr "حاکم"
 
 #: client/cityrepdata.c:493 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1374
-#: client/gui-sdl/citydlg.c:3824 client/gui-sdl/cma_fe.c:851
-#: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:777
+#: client/gui-sdl/citydlg.c:3811 client/gui-sdl/cma_fe.c:854
+#: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:823
 msgid "Citizen Governor"
 msgstr "حاکم شهروندان"
 
@@ -7540,27 +7549,27 @@ msgstr "نمی‌توان کنترل سرور را به دست گرفت، آنر
 msgid "Only transporter units can be unloaded."
 msgstr ""
 
-#: client/control.c:1264
+#: client/control.c:1267
 msgid "Only settler units can be put into auto mode."
 msgstr ""
 
-#: client/control.c:1354
+#: client/control.c:1357
 msgid "Only nuclear units can do this."
 msgstr ""
 
-#: client/control.c:1383
+#: client/control.c:1386
 msgid "Only paratrooper units can do this."
 msgstr ""
 
-#: client/control.c:1832
+#: client/control.c:1835
 msgid "Too far for this unit."
 msgstr ""
 
-#: client/control.c:2045 client/control.c:2081 client/control.c:2101
+#: client/control.c:2048 client/control.c:2084 client/control.c:2104
 msgid "Didn't find a route to the destination!"
 msgstr "راهی برای رسیدن به مقصد وجود ندارد!"
 
-#: client/control.c:2143
+#: client/control.c:2146
 msgid "Oh my! You seem to have no capital!"
 msgstr ""
 
@@ -8443,7 +8452,7 @@ msgid ""
 "solid background color instead of the flag backdrop."
 msgstr ""
 
-#: client/options.c:146 client/gui-sdl/optiondlg.c:967
+#: client/options.c:146 client/gui-sdl/optiondlg.c:968
 msgid "Sound bell at new turn"
 msgstr "زنگ در ابتدای نوبت"
 
@@ -8475,7 +8484,7 @@ msgid ""
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:165 client/gui-sdl/optiondlg.c:1021
+#: client/options.c:165 client/gui-sdl/optiondlg.c:1022
 msgid "Show combat animation"
 msgstr "نشان دادن انیمیشن جنگ"
 
@@ -8526,7 +8535,7 @@ msgid ""
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:192 client/gui-sdl/optiondlg.c:1128
+#: client/options.c:192 client/gui-sdl/optiondlg.c:1129
 msgid "Auto Center on Units"
 msgstr "تمرکز اتوماتیک روی مهره‌ها"
 
@@ -8536,7 +8545,7 @@ msgid ""
 "focus changes."
 msgstr ""
 
-#: client/options.c:196 client/gui-sdl/optiondlg.c:1154
+#: client/options.c:196 client/gui-sdl/optiondlg.c:1155
 msgid "Auto Center on Combat"
 msgstr "تمرکز اتوماتیک روی جنگ‌ها"
 
@@ -8547,7 +8556,7 @@ msgid ""
 "entirely."
 msgstr ""
 
-#: client/options.c:202 client/gui-sdl/optiondlg.c:1181
+#: client/options.c:202 client/gui-sdl/optiondlg.c:1182
 msgid "Focus on Awakened Units"
 msgstr ""
 
@@ -8585,7 +8594,7 @@ msgid ""
 "be more compact."
 msgstr ""
 
-#: client/options.c:219 client/gui-sdl/optiondlg.c:1259
+#: client/options.c:219 client/gui-sdl/optiondlg.c:1260
 msgid "End Turn when done moving"
 msgstr ""
 
@@ -8595,7 +8604,7 @@ msgid ""
 "are done moving."
 msgstr ""
 
-#: client/options.c:223 client/gui-sdl/optiondlg.c:1233
+#: client/options.c:223 client/gui-sdl/optiondlg.c:1234
 msgid "Prompt for city names"
 msgstr "نام شهر‌ها را بپرس"
 
@@ -8605,7 +8614,7 @@ msgid ""
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:227 client/gui-sdl/optiondlg.c:1207
+#: client/options.c:227 client/gui-sdl/optiondlg.c:1208
 msgid "Pop up city dialog for new cities"
 msgstr ""
 
@@ -8701,27 +8710,26 @@ msgstr ""
 msgid "Server capability string: %s"
 msgstr ""
 
-#: client/packhand.c:820
+#: client/packhand.c:840
 #, c-format
 msgid "Start of turn %d"
 msgstr "شروع نوبت %d"
 
-#: client/packhand.c:1534
+#: client/packhand.c:1554
 #, c-format
 msgid "AI Mode is now %s."
 msgstr ""
 
-#: client/packhand.c:1535
+#: client/packhand.c:1555
 msgid "ON"
 msgstr "روشن"
 
-#: client/packhand.c:1535
+#: client/packhand.c:1555
 msgid "OFF"
 msgstr "خاموش"
 
 #: client/plrdlg_common.c:198 client/gui-mui/plrdlg.c:127
-#: client/gui-sdl/plrdlg.c:232 client/gui-win32/plrdlg.c:163
-#: client/gui-xaw/plrdlg.c:246
+#: client/gui-win32/plrdlg.c:163 client/gui-xaw/plrdlg.c:246
 msgid "R.I.P"
 msgstr "مرده"
 
@@ -8730,14 +8738,14 @@ msgid "waiting"
 msgstr "منتظر"
 
 #: client/plrdlg_common.c:204 client/gui-mui/plrdlg.c:119
-#: client/gui-sdl/plrdlg.c:223 client/gui-sdl/plrdlg.c:663
-#: client/gui-win32/plrdlg.c:155 client/gui-xaw/plrdlg.c:238
+#: client/gui-sdl/plrdlg.c:646 client/gui-win32/plrdlg.c:155
+#: client/gui-xaw/plrdlg.c:238
 msgid "done"
 msgstr "پایان"
 
 #: client/plrdlg_common.c:206 client/gui-mui/plrdlg.c:121
-#: client/gui-sdl/plrdlg.c:225 client/gui-sdl/plrdlg.c:665
-#: client/gui-win32/plrdlg.c:157 client/gui-xaw/plrdlg.c:240
+#: client/gui-sdl/plrdlg.c:648 client/gui-win32/plrdlg.c:157
+#: client/gui-xaw/plrdlg.c:240
 msgid "moving"
 msgstr "متحرک"
 
@@ -8756,7 +8764,7 @@ msgstr "پرچم"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:655
 #: client/gui-gtk-2.0/pages.c:1504 client/gui-gtk-2.0/pages.c:2050
-#: client/gui-mui/plrdlg.c:167 client/gui-sdl/repodlgs.c:2021
+#: client/gui-mui/plrdlg.c:167 client/gui-sdl/repodlgs.c:2032
 #: client/gui-win32/connectdlg.c:988 client/gui-win32/dialogs.c:547
 #: client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -8853,23 +8861,23 @@ msgid "Failed looking up metaserver's host"
 msgstr ""
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
-#: client/gui-sdl/mapview.c:738
+#: client/gui-sdl/mapview.c:742
 msgid "?nation:Neutral"
 msgstr "طبیعی"
 
-#: client/text.c:83 client/gui-sdl/mapview.c:738
+#: client/text.c:83 client/gui-sdl/mapview.c:742
 msgid "?nation:Hostile"
 msgstr "دشمن"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:740
+#: client/text.c:85 client/gui-sdl/mapview.c:744
 msgid "?nation:Peaceful"
 msgstr "صلح‌آمیز"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:740
+#: client/text.c:85 client/gui-sdl/mapview.c:744
 msgid "?nation:Friendly"
 msgstr "دوستانه"
 
-#: client/text.c:86 client/gui-sdl/mapview.c:741
+#: client/text.c:86 client/gui-sdl/mapview.c:745
 msgid "?nation:Mysterious"
 msgstr ""
 
@@ -8877,23 +8885,23 @@ msgstr ""
 msgid "?nation:Friendly(team)"
 msgstr "دوستانه(تیم)"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:771
+#: client/text.c:88 client/gui-sdl/mapview.c:775
 msgid "?city:Neutral"
 msgstr "طبیعی"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:771
+#: client/text.c:88 client/gui-sdl/mapview.c:775
 msgid "?city:Hostile"
 msgstr "دشمن"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:772
+#: client/text.c:90 client/gui-sdl/mapview.c:776
 msgid "?city:Peaceful"
 msgstr "صلح‌آمیز"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:773
+#: client/text.c:90 client/gui-sdl/mapview.c:777
 msgid "?city:Friendly"
 msgstr "دوستانه"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:773
+#: client/text.c:90 client/gui-sdl/mapview.c:777
 msgid "?city:Mysterious"
 msgstr ""
 
@@ -8967,7 +8975,7 @@ msgstr[1] "شهر: %s (%s, %d نوبت آتش‌بس)"
 msgid "City: %s (%s, %s)"
 msgstr "شهر: %s (%s,%s)"
 
-#: client/text.c:176 client/gui-sdl/mapview.c:787
+#: client/text.c:176 client/gui-sdl/mapview.c:791
 msgid " with "
 msgstr " با "
 
@@ -9202,38 +9210,38 @@ msgid_plural "%d units"
 msgstr[0] "%d مهره"
 msgstr[1] "%d مهره"
 
-#: client/text.c:686 client/gui-sdl/mapview.c:558
+#: client/text.c:686 client/gui-sdl/mapview.c:559
 #, c-format
 msgid "Turns to target: %d"
 msgstr "%d نوبت تا هدف"
 
-#: client/text.c:688 client/gui-sdl/mapview.c:560
+#: client/text.c:688 client/gui-sdl/mapview.c:561
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "نوبت تا هدف: %d تا %d"
 
-#: client/text.c:694 client/gui-sdl/mapview.c:566
+#: client/text.c:694 client/gui-sdl/mapview.c:567
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d مهره انتخاب شده"
 msgstr[1] "%d مهره انتخاب شده"
 
-#: client/text.c:699 client/gui-sdl/mapview.c:571
+#: client/text.c:699 client/gui-sdl/mapview.c:572
 msgid "No units selected."
 msgstr "هیچ مهره‌ای انتخاب نشده"
 
-#: client/text.c:772 client/gui-sdl/mapview.c:644
+#: client/text.c:772 client/gui-sdl/mapview.c:645
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr ""
 
-#: client/text.c:774 client/gui-sdl/mapview.c:646
+#: client/text.c:774 client/gui-sdl/mapview.c:647
 #, c-format
 msgid "Others: %d civilian"
 msgstr ""
 
-#: client/text.c:776 client/gui-sdl/mapview.c:648
+#: client/text.c:776 client/gui-sdl/mapview.c:649
 #, c-format
 msgid "Others: %d military"
 msgstr ""
@@ -9543,8 +9551,7 @@ msgid ""
 msgstr ""
 
 #: client/agents/cma_fec.c:218 client/gui-gtk-2.0/cityrep.c:546
-#: client/gui-gtk-2.0/cityrep.c:565 client/gui-sdl/citydlg.c:2009
-#: client/gui-sdl/plrdlg.c:214
+#: client/gui-gtk-2.0/cityrep.c:565 client/gui-sdl/citydlg.c:1996
 msgid "none"
 msgstr "هیچ"
 
@@ -9606,7 +9613,7 @@ msgid "This unit cannot be bribed!"
 msgstr "این مهره تطمیع نمی‌شود!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:91 client/gui-mui/dialogs.c:221
-#: client/gui-sdl/diplomat_dialog.c:1370 client/gui-win32/dialogs.c:1374
+#: client/gui-sdl/diplomat_dialog.c:1390 client/gui-win32/dialogs.c:1374
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -9616,13 +9623,13 @@ msgstr ""
 "خزانه %d طلا دارد."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:93 client/gui-mui/dialogs.c:224
-#: client/gui-sdl/diplomat_dialog.c:688 client/gui-sdl/diplomat_dialog.c:1355
+#: client/gui-sdl/diplomat_dialog.c:697 client/gui-sdl/diplomat_dialog.c:1372
 #: client/gui-win32/dialogs.c:1376 data/Freeciv.in:2419 data/Freeciv.in:2432
 msgid "Bribe Enemy Unit"
 msgstr "تطمیع مهره حریف"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:99 client/gui-mui/dialogs.c:230
-#: client/gui-sdl/diplomat_dialog.c:1416 client/gui-win32/dialogs.c:1382
+#: client/gui-sdl/diplomat_dialog.c:1436 client/gui-win32/dialogs.c:1382
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -9633,14 +9640,14 @@ msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:101
 #: client/gui-gtk-2.0/diplomat_dialog.c:556 client/gui-mui/dialogs.c:233
-#: client/gui-mui/dialogs.c:501 client/gui-sdl/diplomat_dialog.c:1226
-#: client/gui-sdl/diplomat_dialog.c:1429 client/gui-win32/dialogs.c:1386
+#: client/gui-mui/dialogs.c:501 client/gui-sdl/diplomat_dialog.c:1244
+#: client/gui-sdl/diplomat_dialog.c:1449 client/gui-win32/dialogs.c:1386
 #: client/gui-win32/dialogs.c:1569 data/Freeciv.in:2454
 msgid "Traitors Demand Too Much!"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:232 client/gui-mui/dialogs.c:318
-#: client/gui-sdl/diplomat_dialog.c:637 client/gui-win32/dialogs.c:1285
+#: client/gui-sdl/diplomat_dialog.c:646 client/gui-win32/dialogs.c:1285
 #: data/Freeciv.in:2285 data/Freeciv.in:2318 data/Freeciv.in:2335
 msgid "Steal Technology"
 msgstr "دزدیدن تکنولوژی"
@@ -9650,7 +9657,7 @@ msgid "_Steal"
 msgstr "دزدیدن"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:246 client/gui-mui/dialogs.c:322
-#: client/gui-sdl/diplomat_dialog.c:248 client/gui-win32/dialogs.c:1295
+#: client/gui-sdl/diplomat_dialog.c:250 client/gui-win32/dialogs.c:1295
 #: data/Freeciv.in:2350
 msgid "Select Advance to Steal"
 msgstr "تکنولوژی را که می‌خواهید بدزدید انتخاب کنید"
@@ -9661,8 +9668,8 @@ msgstr "تکنولوژی‌ها"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:306
 #: client/gui-gtk-2.0/diplomat_dialog.c:439 client/gui-mui/dialogs.c:298
-#: client/gui-mui/dialogs.c:393 client/gui-sdl/diplomat_dialog.c:328
-#: client/gui-sdl/diplomat_dialog.c:912 client/gui-win32/dialogs.c:1198
+#: client/gui-mui/dialogs.c:393 client/gui-sdl/diplomat_dialog.c:332
+#: client/gui-sdl/diplomat_dialog.c:925 client/gui-win32/dialogs.c:1198
 #: client/gui-win32/dialogs.c:1410
 msgid "At Spy's Discretion"
 msgstr "به صلاحدید جاسوس"
@@ -9677,7 +9684,7 @@ msgid "_Sabotage"
 msgstr "خراب کاری"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:390 client/gui-mui/dialogs.c:413
-#: client/gui-sdl/diplomat_dialog.c:832 client/gui-win32/dialogs.c:1494
+#: client/gui-sdl/diplomat_dialog.c:842 client/gui-win32/dialogs.c:1494
 #: data/Freeciv.in:2392
 msgid "Select Improvement to Sabotage"
 msgstr "اصلاحیه را که می‌خواهید خراب کنید انتخاب کنید"
@@ -9687,24 +9694,24 @@ msgid "_Improvements:"
 msgstr "اصلاحات:"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:429 client/gui-mui/dialogs.c:392
-#: client/gui-sdl/diplomat_dialog.c:856 client/gui-sdl/optiondlg.c:1590
+#: client/gui-sdl/diplomat_dialog.c:869 client/gui-sdl/optiondlg.c:1591
 #: client/gui-win32/dialogs.c:1399
 msgid "City Production"
 msgstr "محصول شهر"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:538 client/gui-mui/dialogs.c:483
-#: client/gui-sdl/diplomat_dialog.c:1144 client/gui-win32/dialogs.c:1552
+#: client/gui-sdl/diplomat_dialog.c:1162 client/gui-win32/dialogs.c:1552
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "شما نمی‌توانید در %s انقلاب کرد."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:540 client/gui-mui/dialogs.c:485
-#: client/gui-sdl/diplomat_dialog.c:1155 client/gui-win32/dialogs.c:1554
+#: client/gui-sdl/diplomat_dialog.c:1173 client/gui-win32/dialogs.c:1554
 msgid "City can't be incited!"
 msgstr "شهر نمی‌تواند انقلاب کند!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:546 client/gui-mui/dialogs.c:488
-#: client/gui-sdl/diplomat_dialog.c:1164 client/gui-win32/dialogs.c:1558
+#: client/gui-sdl/diplomat_dialog.c:1182 client/gui-win32/dialogs.c:1558
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -9714,13 +9721,13 @@ msgstr ""
 "خزانه %d طلا دارد."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:548 client/gui-mui/dialogs.c:492
-#: client/gui-sdl/diplomat_dialog.c:1117 client/gui-win32/dialogs.c:1561
+#: client/gui-sdl/diplomat_dialog.c:1132 client/gui-win32/dialogs.c:1561
 #: data/Freeciv.in:2443
 msgid "Incite a Revolt!"
 msgstr "انقلاب کردن!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:554 client/gui-mui/dialogs.c:499
-#: client/gui-sdl/diplomat_dialog.c:1212 client/gui-win32/dialogs.c:1566
+#: client/gui-sdl/diplomat_dialog.c:1230 client/gui-win32/dialogs.c:1566
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -9779,7 +9786,7 @@ msgid "_Keep moving"
 msgstr "به حرکت ادامه بده"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:646 client/gui-mui/dialogs.c:850
-#: client/gui-sdl/diplomat_dialog.c:542 client/gui-win32/dialogs.c:1631
+#: client/gui-sdl/diplomat_dialog.c:548 client/gui-win32/dialogs.c:1631
 #: data/Freeciv.in:2299
 msgid "Choose Your Spy's Strategy"
 msgstr "استراتژی جاسوستان را انتخاب کنید"
@@ -9793,7 +9800,7 @@ msgid "Industrial _Sabotage"
 msgstr "خراب کاری صنعتی"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:687 client/gui-mui/dialogs.c:885
-#: client/gui-sdl/diplomat_dialog.c:551 client/gui-win32/dialogs.c:1662
+#: client/gui-sdl/diplomat_dialog.c:557 client/gui-win32/dialogs.c:1662
 #: data/Freeciv.in:2430
 msgid "Subvert Enemy Unit"
 msgstr ""
@@ -9923,7 +9930,7 @@ msgstr "نمای‌کلی"
 msgid "Info"
 msgstr "اطلاعات"
 
-#: client/gui-gtk-2.0/citydlg.c:678 client/gui-sdl/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:678 client/gui-sdl/citydlg.c:2509
 #: client/gui-win32/citydlg.c:786
 msgid "City map"
 msgstr "نقشه شهر"
@@ -10007,7 +10014,7 @@ msgid "Last active page"
 msgstr "آخرین صفحه فعال"
 
 #: client/gui-gtk-2.0/citydlg.c:1067 client/gui-mui/citydlg.c:1642
-#: client/gui-sdl/citydlg.c:970 client/gui-win32/citydlg.c:1992
+#: client/gui-sdl/citydlg.c:955 client/gui-win32/citydlg.c:1992
 msgid "New citizens are"
 msgstr "شهروندان جدید هستند"
 
@@ -10041,22 +10048,22 @@ msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> - %s شهروند"
 
 #: client/gui-gtk-2.0/citydlg.c:1321 client/gui-mui/citydlg.c:2065
-#: client/gui-sdl/citydlg.c:3611
+#: client/gui-sdl/citydlg.c:3598
 msgid " - DISORDER"
 msgstr " - مختل شده‌اند"
 
 #: client/gui-gtk-2.0/citydlg.c:1323 client/gui-mui/citydlg.c:2067
-#: client/gui-sdl/citydlg.c:3614
+#: client/gui-sdl/citydlg.c:3601
 msgid " - celebrating"
 msgstr " - جشن گرفتند"
 
 #: client/gui-gtk-2.0/citydlg.c:1325 client/gui-mui/citydlg.c:2069
-#: client/gui-sdl/citydlg.c:3617
+#: client/gui-sdl/citydlg.c:3604
 msgid " - happy"
 msgstr " - خوشحالند"
 
 #: client/gui-gtk-2.0/citydlg.c:1412 client/gui-mui/citydlg.c:1825
-#: client/gui-sdl/citydlg.c:3300 client/gui-win32/citydlg.c:453
+#: client/gui-sdl/citydlg.c:3287 client/gui-win32/citydlg.c:453
 msgid "blocked"
 msgstr "مسدود شده"
 
@@ -10115,7 +10122,7 @@ msgid "U_pgrade unit"
 msgstr "ترفیع مهره"
 
 #: client/gui-gtk-2.0/citydlg.c:2424 client/gui-mui/citydlg.c:960
-#: client/gui-sdl/citydlg.c:1159 client/gui-win32/citydlg.c:909
+#: client/gui-sdl/citydlg.c:1145 client/gui-win32/citydlg.c:909
 #: client/gui-xaw/citydlg.c:1892
 #, c-format
 msgid ""
@@ -10133,7 +10140,7 @@ msgid "Buy It!"
 msgstr "آنرا بخر!"
 
 #: client/gui-gtk-2.0/citydlg.c:2436 client/gui-mui/citydlg.c:970
-#: client/gui-sdl/citydlg.c:1164 client/gui-win32/citydlg.c:918
+#: client/gui-sdl/citydlg.c:1150 client/gui-win32/citydlg.c:918
 #: client/gui-xaw/citydlg.c:1901
 #, c-format
 msgid ""
@@ -10144,7 +10151,7 @@ msgstr ""
 "خزانه  %d طلا دارد."
 
 #: client/gui-gtk-2.0/citydlg.c:2490 client/gui-mui/citydlg.c:998
-#: client/gui-sdl/citydlg.c:1395 client/gui-win32/citydlg.c:962
+#: client/gui-sdl/citydlg.c:1387 client/gui-win32/citydlg.c:962
 #: client/gui-xaw/citydlg.c:2304
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -10192,8 +10199,8 @@ msgstr "نشان بده"
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
 #: client/gui-mui/diplodlg.c:489 client/gui-mui/diplodlg.c:524
 #: client/gui-mui/diplodlg.c:605 client/gui-mui/diplodlg.c:615
-#: client/gui-mui/gui_main.c:245 client/gui-sdl/diplodlg.c:683
-#: client/gui-sdl/optiondlg.c:1807 client/gui-win32/diplodlg.c:610
+#: client/gui-mui/gui_main.c:245 client/gui-sdl/diplodlg.c:685
+#: client/gui-sdl/optiondlg.c:1808 client/gui-win32/diplodlg.c:610
 #: client/gui-win32/diplodlg.c:658 client/gui-win32/menu.c:350
 #: client/gui-xaw/cityrep.c:228 client/gui-xaw/cityrep.c:533
 #: client/gui-xaw/menu.c:156 client/gui-xaw/menu.c:218 data/Freeciv.in:410
@@ -10210,7 +10217,7 @@ msgstr "باز کردن"
 #: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
 #: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:780
 #: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:784
-#: client/gui-mui/gui_main.c:238 client/gui-sdl/helpdlg.c:280
+#: client/gui-mui/gui_main.c:238 client/gui-sdl/helpdlg.c:283
 #: client/gui-win32/menu.c:342 client/gui-xaw/menu.c:239
 msgid "Improvements"
 msgstr "اصلاحات"
@@ -10314,17 +10321,17 @@ msgid "Results"
 msgstr "نتیجه"
 
 #: client/gui-gtk-2.0/cma_fe.c:316 client/gui-mui/citydlg.c:1593
-#: client/gui-sdl/cma_fe.c:879 client/gui-win32/cma_fe.c:215
+#: client/gui-sdl/cma_fe.c:882 client/gui-win32/cma_fe.c:215
 msgid "Minimal Surplus"
 msgstr "حداقل مازاد"
 
 #: client/gui-gtk-2.0/cma_fe.c:319 client/gui-mui/citydlg.c:1594
-#: client/gui-sdl/cma_fe.c:882 client/gui-win32/cma_fe.c:216
+#: client/gui-sdl/cma_fe.c:885 client/gui-win32/cma_fe.c:216
 msgid "Factor"
 msgstr "مقدار"
 
 #: client/gui-gtk-2.0/cma_fe.c:354 client/gui-mui/citydlg.c:1620
-#: client/gui-mui/citydlg.c:1621 client/gui-sdl/cma_fe.c:929
+#: client/gui-mui/citydlg.c:1621 client/gui-sdl/cma_fe.c:932
 #: client/gui-win32/cma_fe.c:220 client/gui-xaw/cma_fe.c:179
 #: client/gui-xaw/cma_fe.c:221
 msgid "Celebrate"
@@ -10339,17 +10346,17 @@ msgid "Governor Disabl_ed"
 msgstr "حاکم غیر فعال است"
 
 #: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:234
-#: client/gui-sdl/cma_fe.c:305 client/gui-win32/cma_fe.c:385
+#: client/gui-sdl/cma_fe.c:306 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
 msgstr ""
 
-#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:280
+#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:279
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
 msgstr ""
 
-#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:294
+#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:295
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
 msgstr ""
@@ -10368,18 +10375,18 @@ msgid "_Popup City"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-mui/dialogs.c:1043
-#: client/gui-sdl/dialogs.c:2047 client/gui-win32/dialogs.c:981
+#: client/gui-sdl/dialogs.c:2080 client/gui-win32/dialogs.c:981
 #: client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
 msgstr "آیا می‌خواهید انقلاب کنید؟"
 
 #: client/gui-gtk-2.0/dialogs.c:257 client/gui-mui/dialogs.c:1043
-#: client/gui-sdl/dialogs.c:2066 client/gui-win32/dialogs.c:980
+#: client/gui-sdl/dialogs.c:2099 client/gui-win32/dialogs.c:980
 #: data/Freeciv.in:2462
 msgid "Revolution!"
 msgstr "انقلاب!"
 
-#: client/gui-gtk-2.0/dialogs.c:310 client/gui-sdl/dialogs.c:1716
+#: client/gui-gtk-2.0/dialogs.c:310 client/gui-sdl/dialogs.c:1738
 #: client/gui-win32/dialogs.c:1751 data/Freeciv.in:2500
 msgid "What To Pillage"
 msgstr "چه چیز را غارت کند"
@@ -10400,7 +10407,7 @@ msgstr "مهره"
 msgid "Name"
 msgstr "نام"
 
-#: client/gui-gtk-2.0/dialogs.c:519 client/gui-sdl/dialogs.c:616
+#: client/gui-gtk-2.0/dialogs.c:519 client/gui-sdl/dialogs.c:626
 msgid "Unit selection"
 msgstr "انتخاب مهره"
 
@@ -10466,7 +10473,7 @@ msgid "You must select your city style."
 msgstr "شما باید سبک شهرها را انتخاب کنید."
 
 #: client/gui-gtk-2.0/dialogs.c:1246 client/gui-mui/dialogs.c:1519
-#: client/gui-sdl/dialogs.c:2165 client/gui-win32/dialogs.c:355
+#: client/gui-sdl/dialogs.c:2198 client/gui-win32/dialogs.c:355
 #: client/gui-xaw/dialogs.c:1489
 msgid "You must type a legal name."
 msgstr "شما باید یک نام مجاز بنویسید."
@@ -10479,7 +10486,7 @@ msgstr "ترفیع مهره!"
 
 #: client/gui-gtk-2.0/dialogs.c:1299 client/gui-gtk-2.0/repodlgs.c:1161
 #: client/gui-mui/dialogs.c:1760 client/gui-mui/repodlgs.c:724
-#: client/gui-sdl/dialogs.c:417 client/gui-sdl/repodlgs.c:190
+#: client/gui-sdl/dialogs.c:422 client/gui-sdl/repodlgs.c:190
 #: client/gui-win32/citydlg.c:1453 client/gui-win32/repodlgs.c:574
 #: data/Freeciv.in:2473
 msgid "Upgrade Obsolete Units"
@@ -10556,8 +10563,9 @@ msgid "Invalid amount of gold specified."
 msgstr "مقدار طلا نامعتبر است."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-mui/finddlg.c:96
-#: client/gui-sdl/finddlg.c:130 client/gui-win32/finddlg.c:116
-#: client/gui-xaw/menu.c:128 data/Freeciv.in:1066
+#: client/gui-sdl/finddlg.c:129 client/gui-sdl/mapctrl.c:1589
+#: client/gui-win32/finddlg.c:116 client/gui-xaw/menu.c:128
+#: data/Freeciv.in:1066
 msgid "Find City"
 msgstr "پیدا کردن شهر"
 
@@ -10570,8 +10578,8 @@ msgid "Select tax, luxury and science rates"
 msgstr "مالیات، "
 
 #: client/gui-gtk-2.0/gamedlgs.c:259 client/gui-gtk-2.0/gamedlgs.c:279
-#: client/gui-gtk-2.0/gamedlgs.c:299 client/gui-sdl/repodlgs.c:1849
-#: client/gui-sdl/repodlgs.c:1895 client/gui-win32/ratesdlg.c:312
+#: client/gui-gtk-2.0/gamedlgs.c:299 client/gui-sdl/repodlgs.c:1860
+#: client/gui-sdl/repodlgs.c:1906 client/gui-win32/ratesdlg.c:312
 #: client/gui-win32/ratesdlg.c:318 client/gui-win32/ratesdlg.c:324
 #: data/Freeciv.in:1311 data/Freeciv.in:1329 data/Freeciv.in:1348
 msgid "Lock"
@@ -10599,7 +10607,7 @@ msgid "Air_lift"
 msgstr "پرواز"
 
 #: client/gui-gtk-2.0/gotodlg.c:140 client/gui-mui/mapview.c:247
-#: client/gui-sdl/gotodlg.c:233
+#: client/gui-sdl/gotodlg.c:234
 msgid "Select destination"
 msgstr "انتخاب مقصد"
 
@@ -10670,11 +10678,13 @@ msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:992 client/gui-gtk-2.0/gui_main.c:1006
-#: client/gui-win32/gui_main.c:481 data/Freeciv.in:2618
+#: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
+#: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "پایان نوبت"
 
-#: client/gui-gtk-2.0/gui_main.c:1006
+#: client/gui-gtk-2.0/gui_main.c:1006 client/gui-sdl/mapctrl.c:1565
+#: client/gui-sdl/mapview.c:1072
 msgid "Shift+Return"
 msgstr "شیفت+اینتر"
 
@@ -10782,7 +10792,7 @@ msgstr ""
 #: client/gui-gtk-2.0/happiness.c:122 client/gui-mui/citydlg.c:1373
 #: client/gui-mui/citydlg.c:1510 client/gui-win32/citydlg.c:730
 #: client/gui-win32/happiness.c:94 client/gui-xaw/menu.c:247
-#: data/helpdata.txt:1348
+#: data/helpdata.txt:1394
 msgid "Happiness"
 msgstr "خوشی"
 
@@ -10849,15 +10859,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-mui/helpdlg.c:487
-#: client/gui-mui/helpdlg.c:503 client/gui-sdl/helpdlg.c:325
-#: client/gui-sdl/helpdlg.c:697 client/gui-win32/helpdlg.c:79
+#: client/gui-mui/helpdlg.c:503 client/gui-sdl/helpdlg.c:330
+#: client/gui-sdl/helpdlg.c:706 client/gui-win32/helpdlg.c:79
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:86
 #: data/Freeciv.in:636 data/Freeciv.in:778
 msgid "Cost:"
 msgstr "قیمت:"
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-mui/helpdlg.c:489
-#: client/gui-sdl/helpdlg.c:333 client/gui-sdl/helpdlg.c:706
+#: client/gui-sdl/helpdlg.c:338 client/gui-sdl/helpdlg.c:715
 #: client/gui-win32/helpdlg.c:79 data/Freeciv.in:653
 msgid "Upkeep:"
 msgstr "هزینه نگهداری:"
@@ -10865,7 +10875,7 @@ msgstr "هزینه نگهداری:"
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:99 client/gui-mui/helpdlg.c:491
 #: client/gui-mui/helpdlg.c:505 client/gui-mui/helpdlg.c:570
-#: client/gui-sdl/helpdlg.c:342 client/gui-sdl/helpdlg.c:744
+#: client/gui-sdl/helpdlg.c:347 client/gui-sdl/helpdlg.c:753
 #: client/gui-win32/helpdlg.c:79 client/gui-win32/helpdlg.c:82
 #: client/gui-win32/helpdlg.c:90 data/Freeciv.in:694
 msgid "Requirement:"
@@ -10873,37 +10883,37 @@ msgstr "نیازها:"
 
 #: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:99
 #: client/gui-mui/helpdlg.c:507 client/gui-mui/helpdlg.c:572
-#: client/gui-sdl/helpdlg.c:371 client/gui-sdl/helpdlg.c:768
+#: client/gui-sdl/helpdlg.c:376 client/gui-sdl/helpdlg.c:777
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:90
 #: data/Freeciv.in:732
 msgid "Obsolete by:"
 msgstr "منسوخ می‌شود به وسیله‌ی:"
 
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-mui/helpdlg.c:554
-#: client/gui-sdl/helpdlg.c:730 client/gui-win32/helpdlg.c:86
+#: client/gui-sdl/helpdlg.c:739 client/gui-win32/helpdlg.c:86
 #: data/Freeciv.in:795
 msgid "Attack:"
 msgstr "حمله:"
 
 #: client/gui-gtk-2.0/helpdlg.c:96 client/gui-mui/helpdlg.c:556
-#: client/gui-sdl/helpdlg.c:731 client/gui-win32/helpdlg.c:87
+#: client/gui-sdl/helpdlg.c:740 client/gui-win32/helpdlg.c:87
 #: data/Freeciv.in:813
 msgid "Defense:"
 msgstr "دفاع:"
 
 #: client/gui-gtk-2.0/helpdlg.c:96 client/gui-mui/helpdlg.c:558
-#: client/gui-sdl/helpdlg.c:732 client/gui-win32/helpdlg.c:87
+#: client/gui-sdl/helpdlg.c:741 client/gui-win32/helpdlg.c:87
 #: data/Freeciv.in:831
 msgid "Move:"
 msgstr "حرکت:"
 
-#: client/gui-gtk-2.0/helpdlg.c:97 client/gui-sdl/helpdlg.c:734
+#: client/gui-gtk-2.0/helpdlg.c:97 client/gui-sdl/helpdlg.c:743
 #: client/gui-win32/helpdlg.c:88
 msgid "FirePower:"
 msgstr "قدرت آتش:"
 
 #: client/gui-gtk-2.0/helpdlg.c:97 client/gui-mui/helpdlg.c:564
-#: client/gui-sdl/helpdlg.c:735 client/gui-win32/helpdlg.c:88
+#: client/gui-sdl/helpdlg.c:744 client/gui-win32/helpdlg.c:88
 #: data/Freeciv.in:876
 msgid "Hitpoints:"
 msgstr "امتیاز ضربه:"
@@ -10914,7 +10924,7 @@ msgid "Basic Upkeep:"
 msgstr "هزینه نگهداری پایه:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-mui/helpdlg.c:560
-#: client/gui-sdl/helpdlg.c:733 client/gui-win32/helpdlg.c:89
+#: client/gui-sdl/helpdlg.c:742 client/gui-win32/helpdlg.c:89
 #: data/Freeciv.in:894
 msgid "Vision:"
 msgstr "بینایی:"
@@ -10983,7 +10993,7 @@ msgstr "بستن همه"
 
 #: client/gui-gtk-2.0/helpdlg.c:942 client/gui-gtk-2.0/helpdlg.c:969
 #: client/gui-gtk-2.0/helpdlg.c:981 client/gui-gtk-2.0/helpdlg.c:990
-#: client/gui-gtk-2.0/helpdlg.c:1007 client/gui-sdl/helpdlg.c:934
+#: client/gui-gtk-2.0/helpdlg.c:1007 client/gui-sdl/helpdlg.c:941
 msgid "Allows"
 msgstr "مجاز می‌کند"
 
@@ -11000,13 +11010,13 @@ msgid "?techhelp:"
 msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1063 client/gui-win32/helpdlg.c:590
-#: client/gui-xaw/helpdlg.c:998
+#: client/gui-xaw/helpdlg.c:994
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d تجارت / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-win32/helpdlg.c:594
-#: client/gui-xaw/helpdlg.c:1002
+#: client/gui-xaw/helpdlg.c:998
 #, c-format
 msgid "no extra / %d"
 msgstr ""
@@ -11014,20 +11024,20 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:1070 client/gui-gtk-2.0/helpdlg.c:1074
 #: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-win32/helpdlg.c:597
 #: client/gui-win32/helpdlg.c:601 client/gui-win32/helpdlg.c:615
-#: client/gui-win32/helpdlg.c:634 client/gui-xaw/helpdlg.c:1004
-#: client/gui-xaw/helpdlg.c:1008 client/gui-xaw/helpdlg.c:1022
-#: client/gui-xaw/helpdlg.c:1041
+#: client/gui-win32/helpdlg.c:634 client/gui-xaw/helpdlg.c:1000
+#: client/gui-xaw/helpdlg.c:1004 client/gui-xaw/helpdlg.c:1018
+#: client/gui-xaw/helpdlg.c:1037
 msgid "n/a"
 msgstr "نامشخص"
 
 #: client/gui-gtk-2.0/helpdlg.c:1077 client/gui-win32/helpdlg.c:604
-#: client/gui-xaw/helpdlg.c:1011
+#: client/gui-xaw/helpdlg.c:1007
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d غذا / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1091 client/gui-win32/helpdlg.c:618
-#: client/gui-xaw/helpdlg.c:1025
+#: client/gui-xaw/helpdlg.c:1021
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d منبع / %d"
@@ -11065,14 +11075,14 @@ msgstr "تکنولوژیها"
 msgid "Foreign Intelligence: %s Empire"
 msgstr ""
 
-#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2509
-#: client/gui-sdl/menu.c:768 client/gui-sdl/menu.c:948
+#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2528
+#: client/gui-sdl/menu.c:798 client/gui-sdl/menu.c:978
 #: client/gui-win32/mapctrl.c:357
 msgid "Build New City"
 msgstr "ساختن شهر جدید"
 
 #: client/gui-gtk-2.0/mapctrl.c:195 client/gui-mui/mapctrl.c:80
-#: client/gui-sdl/mapctrl.c:2536 client/gui-win32/mapctrl.c:358
+#: client/gui-sdl/mapctrl.c:2557 client/gui-win32/mapctrl.c:358
 #: client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
 msgstr "شهر جدیدمان را چه باید بنامیم؟"
@@ -11163,7 +11173,7 @@ msgstr "حکومت"
 #: client/gui-gtk-2.0/menu.c:735 client/gui-gtk-2.0/menu.c:737
 #: client/gui-gtk-2.0/menu.c:739 client/gui-gtk-2.0/menu.c:741
 #: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
-#: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1277
+#: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1323
 msgid "Government"
 msgstr "حکومت"
 
@@ -11239,9 +11249,9 @@ msgid "City _Productions"
 msgstr "محصول شهرها"
 
 #: client/gui-gtk-2.0/menu.c:770 client/gui-mui/gui_main.c:236
-#: client/gui-sdl/optiondlg.c:1642 client/gui-win32/menu.c:340
+#: client/gui-sdl/optiondlg.c:1643 client/gui-win32/menu.c:340
 #: client/gui-xaw/menu.c:148 client/gui-xaw/menu.c:244 manual/civmanual.c:220
-#: data/helpdata.txt:1177
+#: data/helpdata.txt:1223
 msgid "Terrain"
 msgstr "نوع خانه"
 
@@ -11255,7 +11265,7 @@ msgid "Roads & Rails"
 msgstr "جاده‌ها و خطوط‌آهن"
 
 #: client/gui-gtk-2.0/menu.c:782 client/gui-mui/gui_main.c:241
-#: client/gui-sdl/optiondlg.c:1940 client/gui-win32/menu.c:345
+#: client/gui-sdl/optiondlg.c:1941 client/gui-win32/menu.c:345
 #: client/gui-xaw/menu.c:152
 msgid "Mines"
 msgstr "معدن‌ها"
@@ -11281,7 +11291,7 @@ msgid "Focus Unit"
 msgstr "تمرکز مهره"
 
 #: client/gui-gtk-2.0/menu.c:796 client/gui-mui/gui_main.c:248
-#: client/gui-sdl/optiondlg.c:1861 client/gui-win32/menu.c:353
+#: client/gui-sdl/optiondlg.c:1862 client/gui-win32/menu.c:353
 #: client/gui-xaw/menu.c:159
 msgid "Fog of War"
 msgstr "غبار جنگ"
@@ -11432,7 +11442,7 @@ msgstr "برو به"
 msgid "Go\\/Airlift to City"
 msgstr "برو\\/پروازکن به شهر"
 
-#: client/gui-gtk-2.0/menu.c:867 client/gui-sdl/menu.c:432
+#: client/gui-gtk-2.0/menu.c:867 client/gui-sdl/menu.c:436
 #: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
 msgstr "به نزدیکترین شهر برگرد"
@@ -11442,7 +11452,7 @@ msgstr "به نزدیکترین شهر برگرد"
 msgid "Disband Unit"
 msgstr "از بین بردن"
 
-#: client/gui-gtk-2.0/menu.c:873 client/gui-sdl/citydlg.c:545
+#: client/gui-gtk-2.0/menu.c:873 client/gui-sdl/citydlg.c:526
 #: data/Freeciv.in:1186
 msgid "Upgrade unit"
 msgstr "ترفیع مهره"
@@ -11452,7 +11462,7 @@ msgid "Diplomat\\/Spy Actions"
 msgstr "فعالیت‌های دیپلمات/جاسوس"
 
 #: client/gui-gtk-2.0/menu.c:877 client/gui-mui/gui_main.c:284
-#: client/gui-mui/mapclass.c:1692 client/gui-sdl/menu.c:381
+#: client/gui-mui/mapclass.c:1692 client/gui-sdl/menu.c:385
 #: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
 msgstr "انفجار اتمی"
@@ -11691,7 +11701,7 @@ msgid "Pop"
 msgstr ""
 
 #: client/gui-gtk-2.0/messagewin.c:155 client/gui-mui/messagewin.c:130
-#: client/gui-mui/messagewin.c:197 client/gui-sdl/messagewin.c:250
+#: client/gui-mui/messagewin.c:197 client/gui-sdl/messagewin.c:247
 #: client/gui-win32/messagewin.c:132 client/gui-xaw/menu.c:226
 #: data/Freeciv.in:3273 data/Freeciv.in:3274 data/Freeciv.in:3283
 msgid "Messages"
@@ -11707,9 +11717,10 @@ msgstr "بازیکنان مرده"
 
 #: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:704
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
-#: client/gui-sdl/connectdlg.c:309 client/gui-sdl/plrdlg.c:346
-#: client/gui-win32/connectdlg.c:915 client/gui-win32/plrdlg.c:341
-#: client/gui-xaw/menu.c:220 data/Freeciv.in:3192 data/Freeciv.in:3193
+#: client/gui-sdl/connectdlg.c:317 client/gui-sdl/mapctrl.c:1578
+#: client/gui-sdl/plrdlg.c:330 client/gui-win32/connectdlg.c:915
+#: client/gui-win32/plrdlg.c:341 client/gui-xaw/menu.c:220
+#: data/Freeciv.in:3192 data/Freeciv.in:3193
 msgid "Players"
 msgstr "بازیکنان"
 
@@ -11772,7 +11783,7 @@ msgid "Server Name"
 msgstr "نام سرور"
 
 #: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:161
-#: client/gui-sdl/mapview.c:795 client/gui-win32/connectdlg.c:914
+#: client/gui-sdl/mapview.c:799 client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "پرت"
@@ -12004,7 +12015,7 @@ msgid "Cost"
 msgstr "قیمت"
 
 #: client/gui-gtk-2.0/repodlgs.c:636 client/gui-mui/repodlgs.c:462
-#: client/gui-sdl/repodlgs.c:1989 client/gui-win32/repodlgs.c:466
+#: client/gui-sdl/repodlgs.c:2000 client/gui-win32/repodlgs.c:466
 msgid "U Total"
 msgstr ""
 
@@ -12067,7 +12078,7 @@ msgid "_Upgrade"
 msgstr "ترفیع"
 
 #: client/gui-gtk-2.0/repodlgs.c:1154 client/gui-mui/repodlgs.c:718
-#: client/gui-sdl/repodlgs.c:183 client/gui-win32/repodlgs.c:566
+#: client/gui-sdl/repodlgs.c:184 client/gui-win32/repodlgs.c:566
 #: client/gui-xaw/repodlgs.c:1006
 #, c-format
 msgid ""
@@ -12237,7 +12248,7 @@ msgid "u8Improvementsn"
 msgstr ""
 
 #: client/gui-mui/citydlg.c:604 client/gui-mui/worklistclass.c:114
-#: client/gui-sdl/repodlgs.c:2023 client/gui-sdl/wldlg.c:1342
+#: client/gui-sdl/repodlgs.c:2034 client/gui-sdl/wldlg.c:1343
 msgid "Wonder"
 msgstr "شگفتی"
 
@@ -12351,8 +12362,8 @@ msgstr "نقشه شهر"
 msgid "Units present"
 msgstr "مهره‌های حاضر"
 
-#: client/gui-mui/citydlg.c:1469 client/gui-sdl/citydlg.c:2551
-#: data/helpdata.txt:827
+#: client/gui-mui/citydlg.c:1469 client/gui-sdl/citydlg.c:2538
+#: data/helpdata.txt:873
 msgid "City Improvements"
 msgstr "اصلاحات شهر"
 
@@ -12521,34 +12532,35 @@ msgstr ""
 msgid "_Goto and Close"
 msgstr ""
 
-#: client/gui-mui/dialogs.c:225 client/gui-sdl/citydlg.c:1208
-#: client/gui-sdl/cma_fe.c:315 client/gui-sdl/diplodlg.c:1335
-#: client/gui-sdl/diplomat_dialog.c:1177 client/gui-sdl/diplomat_dialog.c:1382
-#: client/gui-sdl/repodlgs.c:228 client/gui-win32/repodlgs.c:575
-#: client/gui-xaw/citydlg.c:2430 client/gui-xaw/cityrep.c:666
-#: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
-#: client/gui-xaw/cma_fe.c:765 client/gui-xaw/messagedlg.c:72
-#: client/gui-xaw/optiondlg.c:76 client/gui-xaw/optiondlg.c:304
-#: client/gui-xaw/repodlgs.c:1378 client/gui-xaw/repodlgs.c:1422
-#: client/gui-xaw/wldlg.c:1242 data/Freeciv.in:1493 data/Freeciv.in:2208
-#: data/Freeciv.in:2222 data/Freeciv.in:2241 data/Freeciv.in:2421
-#: data/Freeciv.in:2445 data/Freeciv.in:2464 data/Freeciv.in:2475
-msgid "Yes"
-msgstr "بله"
-
-#: client/gui-mui/dialogs.c:226 client/gui-sdl/citydlg.c:1197
-#: client/gui-sdl/cma_fe.c:324 client/gui-sdl/diplodlg.c:1325
-#: client/gui-sdl/diplomat_dialog.c:1188 client/gui-sdl/diplomat_dialog.c:1392
-#: client/gui-sdl/repodlgs.c:217 client/gui-sdl/repodlgs.c:1515
-#: client/gui-win32/repodlgs.c:577 client/gui-xaw/citydlg.c:2430
+#: client/gui-mui/dialogs.c:225 client/gui-sdl/citydlg.c:1196
+#: client/gui-sdl/cma_fe.c:316 client/gui-sdl/diplodlg.c:1338
+#: client/gui-sdl/diplomat_dialog.c:1195 client/gui-sdl/diplomat_dialog.c:1402
+#: client/gui-sdl/plrdlg.c:222 client/gui-sdl/repodlgs.c:230
+#: client/gui-win32/repodlgs.c:575 client/gui-xaw/citydlg.c:2430
 #: client/gui-xaw/cityrep.c:666 client/gui-xaw/cma_fe.c:327
 #: client/gui-xaw/cma_fe.c:511 client/gui-xaw/cma_fe.c:765
 #: client/gui-xaw/messagedlg.c:72 client/gui-xaw/optiondlg.c:76
 #: client/gui-xaw/optiondlg.c:304 client/gui-xaw/repodlgs.c:1378
 #: client/gui-xaw/repodlgs.c:1422 client/gui-xaw/wldlg.c:1242
-#: data/Freeciv.in:1486 data/Freeciv.in:1495 data/Freeciv.in:2224
-#: data/Freeciv.in:2243 data/Freeciv.in:2423 data/Freeciv.in:2447
-#: data/Freeciv.in:2466 data/Freeciv.in:2477
+#: data/Freeciv.in:1493 data/Freeciv.in:2208 data/Freeciv.in:2222
+#: data/Freeciv.in:2241 data/Freeciv.in:2421 data/Freeciv.in:2445
+#: data/Freeciv.in:2464 data/Freeciv.in:2475
+msgid "Yes"
+msgstr "بله"
+
+#: client/gui-mui/dialogs.c:226 client/gui-sdl/citydlg.c:1185
+#: client/gui-sdl/cma_fe.c:325 client/gui-sdl/diplodlg.c:1328
+#: client/gui-sdl/diplomat_dialog.c:1206 client/gui-sdl/diplomat_dialog.c:1412
+#: client/gui-sdl/plrdlg.c:222 client/gui-sdl/repodlgs.c:219
+#: client/gui-sdl/repodlgs.c:1526 client/gui-win32/repodlgs.c:577
+#: client/gui-xaw/citydlg.c:2430 client/gui-xaw/cityrep.c:666
+#: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
+#: client/gui-xaw/cma_fe.c:765 client/gui-xaw/messagedlg.c:72
+#: client/gui-xaw/optiondlg.c:76 client/gui-xaw/optiondlg.c:304
+#: client/gui-xaw/repodlgs.c:1378 client/gui-xaw/repodlgs.c:1422
+#: client/gui-xaw/wldlg.c:1242 data/Freeciv.in:1486 data/Freeciv.in:1495
+#: data/Freeciv.in:2224 data/Freeciv.in:2243 data/Freeciv.in:2423
+#: data/Freeciv.in:2447 data/Freeciv.in:2466 data/Freeciv.in:2477
 msgid "No"
 msgstr "خیر"
 
@@ -12561,7 +12573,7 @@ msgid "Darn"
 msgstr ""
 
 #: client/gui-mui/dialogs.c:302 client/gui-xaw/menu.c:243
-#: data/helpdata.txt:844
+#: data/helpdata.txt:890
 msgid "Technology"
 msgstr "تکنولوژی"
 
@@ -12585,7 +12597,7 @@ msgstr ""
 msgid "Incite a _revolt"
 msgstr ""
 
-#: client/gui-mui/dialogs.c:783 client/gui-sdl/diplomat_dialog.c:546
+#: client/gui-mui/dialogs.c:783 client/gui-sdl/diplomat_dialog.c:552
 #: data/Freeciv.in:2273
 msgid "Choose Your Diplomat's Strategy"
 msgstr ""
@@ -12634,14 +12646,14 @@ msgstr ""
 msgid " (veteran)"
 msgstr ""
 
-#: client/gui-mui/dialogs.c:1591 client/gui-sdl/dialogs.c:2195
-#: client/gui-sdl/dialogs.c:2580 client/gui-sdl/dialogs.c:2790
+#: client/gui-mui/dialogs.c:1591 client/gui-sdl/dialogs.c:2228
+#: client/gui-sdl/dialogs.c:2614 client/gui-sdl/dialogs.c:2825
 #: client/gui-win32/dialogs.c:570
 msgid "Male"
 msgstr "مذکر"
 
-#: client/gui-mui/dialogs.c:1592 client/gui-sdl/dialogs.c:2193
-#: client/gui-sdl/dialogs.c:2582 client/gui-win32/dialogs.c:572
+#: client/gui-mui/dialogs.c:1592 client/gui-sdl/dialogs.c:2226
+#: client/gui-sdl/dialogs.c:2616 client/gui-win32/dialogs.c:572
 #: data/Freeciv.in:3159
 msgid "Female"
 msgstr "مؤنث"
@@ -12675,34 +12687,34 @@ msgstr ""
 msgid "No city"
 msgstr ""
 
-#: client/gui-mui/diplodlg.c:480 client/gui-sdl/diplodlg.c:822
+#: client/gui-mui/diplodlg.c:480 client/gui-sdl/diplodlg.c:825
 #: client/gui-win32/diplodlg.c:598 data/Freeciv.in:269
 msgid "Diplomacy meeting"
 msgstr "دیدار دیپماتیک"
 
 #: client/gui-mui/diplodlg.c:487 client/gui-mui/diplodlg.c:522
 #: client/gui-mui/diplodlg.c:549 client/gui-mui/diplodlg.c:567
-#: client/gui-sdl/diplodlg.c:517 client/gui-win32/diplodlg.c:608
+#: client/gui-sdl/diplodlg.c:519 client/gui-win32/diplodlg.c:608
 #: client/gui-win32/diplodlg.c:656 data/Freeciv.in:374 data/Freeciv.in:383
 msgid "Maps"
 msgstr "نقشه‌ها"
 
 #: client/gui-mui/diplodlg.c:488 client/gui-mui/diplodlg.c:523
 #: client/gui-mui/diplodlg.c:585 client/gui-mui/diplodlg.c:595
-#: client/gui-sdl/diplodlg.c:605 client/gui-sdl/helpdlg.c:1903
+#: client/gui-sdl/diplodlg.c:607 client/gui-sdl/helpdlg.c:1914
 #: client/gui-win32/diplodlg.c:609 client/gui-win32/diplodlg.c:657
 #: data/Freeciv.in:392 data/Freeciv.in:401
 msgid "Advances"
 msgstr ""
 
 #: client/gui-mui/diplodlg.c:494 client/gui-mui/diplodlg.c:529
-#: client/gui-sdl/diplodlg.c:503 client/gui-win32/diplodlg.c:617
+#: client/gui-sdl/diplodlg.c:505 client/gui-win32/diplodlg.c:617
 #: client/gui-win32/diplodlg.c:665
 msgid "Give shared vision"
 msgstr ""
 
 #: client/gui-mui/diplodlg.c:495 client/gui-mui/diplodlg.c:626
-#: client/gui-sdl/diplodlg.c:445 client/gui-win32/diplodlg.c:619
+#: client/gui-sdl/diplodlg.c:447 client/gui-win32/diplodlg.c:619
 #: data/Freeciv.in:492
 msgid "Pacts"
 msgstr ""
@@ -12731,7 +12743,7 @@ msgid "The %s offerings"
 msgstr ""
 
 #: client/gui-mui/diplodlg.c:649 client/gui-mui/diplodlg.c:650
-#: client/gui-sdl/diplodlg.c:571 client/gui-win32/diplodlg.c:613
+#: client/gui-sdl/diplodlg.c:573 client/gui-win32/diplodlg.c:613
 #: client/gui-win32/diplodlg.c:661 client/gui-xaw/diplodlg.c:478
 #: client/gui-xaw/diplodlg.c:485
 #, c-format
@@ -12811,12 +12823,12 @@ msgstr "صدور سباهه"
 msgid "Clear Log"
 msgstr "پاک کردن سیاهه"
 
-#: client/gui-mui/gui_main.c:219 client/gui-sdl/optiondlg.c:2184
+#: client/gui-mui/gui_main.c:219 client/gui-sdl/optiondlg.c:2190
 #: client/gui-xaw/menu.c:120 data/Freeciv.in:3178
 msgid "Disconnect"
 msgstr "قطع"
 
-#: client/gui-mui/gui_main.c:221 client/gui-sdl/optiondlg.c:2173
+#: client/gui-mui/gui_main.c:221 client/gui-sdl/optiondlg.c:2179
 #: client/gui-win32/connectdlg.c:1098 client/gui-xaw/menu.c:121
 #: data/Freeciv.in:115 data/Freeciv.in:3180
 msgid "Quit"
@@ -12842,12 +12854,12 @@ msgstr ""
 msgid "REVOLUTION..."
 msgstr "انقلاب..."
 
-#: client/gui-mui/gui_main.c:232 client/gui-sdl/optiondlg.c:1668
+#: client/gui-mui/gui_main.c:232 client/gui-sdl/optiondlg.c:1669
 #: client/gui-xaw/menu.c:140
 msgid "Map Grid"
 msgstr "خطوط نقشه"
 
-#: client/gui-mui/gui_main.c:233 client/gui-sdl/optiondlg.c:1564
+#: client/gui-mui/gui_main.c:233 client/gui-sdl/optiondlg.c:1565
 #: client/gui-xaw/menu.c:143
 msgid "City Names"
 msgstr "نام شهرها"
@@ -12876,22 +12888,22 @@ msgid "Build City"
 msgstr "ساخت شهر"
 
 #: client/gui-mui/gui_main.c:254 client/gui-mui/gui_main.c:1330
-#: client/gui-mui/mapclass.c:1666 client/gui-sdl/menu.c:734
-#: client/gui-sdl/menu.c:973 client/gui-win32/menu.c:1208
+#: client/gui-mui/mapclass.c:1666 client/gui-sdl/menu.c:764
+#: client/gui-sdl/menu.c:1003 client/gui-win32/menu.c:1208
 #: client/gui-win32/menu.c:1213 client/gui-xaw/menu.c:168
 msgid "Build Road"
 msgstr "ساخت جاده"
 
 #: client/gui-mui/gui_main.c:255 client/gui-mui/gui_main.c:1316
-#: client/gui-mui/mapclass.c:1716 client/gui-sdl/menu.c:687
-#: client/gui-sdl/menu.c:1059 client/gui-win32/menu.c:1114
+#: client/gui-mui/mapclass.c:1716 client/gui-sdl/menu.c:717
+#: client/gui-sdl/menu.c:1089 client/gui-win32/menu.c:1114
 #: client/gui-xaw/menu.c:173
 msgid "Build Mine"
 msgstr "ساخت معدن"
 
 #: client/gui-mui/gui_main.c:256 client/gui-mui/gui_main.c:1308
-#: client/gui-mui/mapclass.c:1709 client/gui-sdl/menu.c:701
-#: client/gui-sdl/menu.c:1025 client/gui-win32/menu.c:1113
+#: client/gui-mui/mapclass.c:1709 client/gui-sdl/menu.c:731
+#: client/gui-sdl/menu.c:1055 client/gui-win32/menu.c:1113
 #: client/gui-xaw/menu.c:170
 msgid "Build Irrigation"
 msgstr "آبیاری"
@@ -12903,29 +12915,29 @@ msgid "Transform Terrain"
 msgstr ""
 
 #: client/gui-mui/gui_main.c:259 client/gui-mui/mapclass.c:1670
-#: client/gui-sdl/menu.c:662 client/gui-win32/menu.c:1249
+#: client/gui-sdl/menu.c:692 client/gui-win32/menu.c:1249
 #: client/gui-xaw/menu.c:177
 msgid "Build Fortress"
 msgstr "ساخت دژ"
 
 #: client/gui-mui/gui_main.c:260 client/gui-mui/mapclass.c:1672
-#: client/gui-sdl/menu.c:638 client/gui-xaw/menu.c:178
+#: client/gui-sdl/menu.c:668 client/gui-xaw/menu.c:178
 msgid "Build Airbase"
 msgstr "ساخت پایگاه هوایی"
 
 #: client/gui-mui/gui_main.c:261 client/gui-mui/gui_main.c:1263
-#: client/gui-mui/mapclass.c:1674 client/gui-sdl/menu.c:626
+#: client/gui-mui/mapclass.c:1674 client/gui-sdl/menu.c:656
 #: client/gui-win32/menu.c:1256 client/gui-xaw/menu.c:179
 msgid "Clean Pollution"
 msgstr "پاک کردن آلودگی"
 
 #: client/gui-mui/gui_main.c:262 client/gui-mui/mapclass.c:1676
-#: client/gui-sdl/menu.c:602 client/gui-xaw/menu.c:181
+#: client/gui-sdl/menu.c:632 client/gui-xaw/menu.c:181
 msgid "Clean Nuclear Fallout"
 msgstr "پاک کردن غبار اتمی"
 
 #: client/gui-mui/gui_main.c:264 client/gui-mui/mapclass.c:1678
-#: client/gui-mui/mapclass.c:2947 client/gui-sdl/menu.c:650
+#: client/gui-mui/mapclass.c:2947 client/gui-sdl/menu.c:680
 #: client/gui-win32/menu.c:1247 client/gui-xaw/menu.c:183
 msgid "Fortify"
 msgstr "تقویت"
@@ -12935,7 +12947,7 @@ msgid "Make Homecity"
 msgstr ""
 
 #: client/gui-mui/gui_main.c:269 client/gui-mui/mapclass.c:1694
-#: client/gui-sdl/menu.c:553 client/gui-xaw/menu.c:191
+#: client/gui-sdl/menu.c:583 client/gui-xaw/menu.c:191
 msgid "Unload"
 msgstr "پیاده کردن"
 
@@ -12959,13 +12971,13 @@ msgstr "حمله اتوماتیک"
 msgid "Auto Explore"
 msgstr "گشتن اتوماتیک"
 
-#: client/gui-mui/gui_main.c:275 client/gui-sdl/connectdlg.c:590
-#: client/gui-sdl/menu.c:493 client/gui-win32/connectdlg.c:1096
-#: client/gui-win32/menu.c:379 data/Freeciv.in:104 data/Freeciv.in:2510
+#: client/gui-mui/gui_main.c:275 client/gui-sdl/connectdlg.c:608
+#: client/gui-win32/connectdlg.c:1096 client/gui-win32/menu.c:379
+#: data/Freeciv.in:104 data/Freeciv.in:2510
 msgid "Connect"
 msgstr ""
 
-#: client/gui-mui/gui_main.c:276 client/gui-sdl/menu.c:481
+#: client/gui-mui/gui_main.c:276 client/gui-sdl/menu.c:485
 #: client/gui-win32/menu.c:384 client/gui-xaw/menu.c:200
 msgid "Patrol"
 msgstr ""
@@ -12979,7 +12991,7 @@ msgstr "برو به"
 msgid "Go/Airlift to City"
 msgstr "برو/پرواز کن به شهر"
 
-#: client/gui-mui/gui_main.c:281 client/gui-sdl/menu.c:754
+#: client/gui-mui/gui_main.c:281 client/gui-sdl/menu.c:784
 #: client/gui-win32/menu.c:1187 client/gui-xaw/menu.c:206
 msgid "Help Build Wonder"
 msgstr "کمک به ساخت شگفتی"
@@ -12994,7 +13006,7 @@ msgstr ""
 msgid "Diplomat/Spy Actions"
 msgstr "فعالیت دیپلمات/جاسوس"
 
-#: client/gui-mui/gui_main.c:286 client/gui-sdl/menu.c:369
+#: client/gui-mui/gui_main.c:286 client/gui-sdl/menu.c:373
 #: client/gui-xaw/menu.c:212
 msgid "Wait"
 msgstr "صبر"
@@ -13052,13 +13064,13 @@ msgid "Change to %s"
 msgstr "تغییر به %s"
 
 #: client/gui-mui/gui_main.c:1258 client/gui-mui/mapclass.c:1690
-#: client/gui-sdl/menu.c:614 client/gui-win32/menu.c:1254
+#: client/gui-sdl/menu.c:644 client/gui-win32/menu.c:1254
 #: client/gui-xaw/menu.c:180
 msgid "Paradrop"
 msgstr "پرتاب چترباز"
 
 #: client/gui-mui/gui_main.c:1290 client/gui-mui/mapclass.c:1664
-#: client/gui-sdl/menu.c:766 client/gui-sdl/menu.c:946
+#: client/gui-sdl/menu.c:796 client/gui-sdl/menu.c:976
 #: client/gui-win32/menu.c:1191 client/gui-xaw/menu.c:167
 msgid "Add to City"
 msgstr "اضافه به شهر"
@@ -13069,7 +13081,7 @@ msgid "Build Farmland"
 msgstr "ساخت مزرعه"
 
 #: client/gui-mui/gui_main.c:1328 client/gui-mui/mapclass.c:1668
-#: client/gui-sdl/menu.c:730 client/gui-sdl/menu.c:967
+#: client/gui-sdl/menu.c:760 client/gui-sdl/menu.c:997
 #: client/gui-win32/menu.c:1205 client/gui-xaw/menu.c:169
 msgid "Build Railroad"
 msgstr "ساخت خط‌آهن"
@@ -13133,12 +13145,12 @@ msgid ""
 "Trade:  %d"
 msgstr ""
 
-#: client/gui-mui/inteldlg.c:111 client/gui-sdl/inteldlg.c:219
+#: client/gui-mui/inteldlg.c:111 client/gui-sdl/inteldlg.c:218
 #: client/gui-win32/inteldlg.c:85 data/Freeciv.in:173 data/Freeciv.in:223
 msgid "Foreign Intelligence Report"
 msgstr ""
 
-#: client/gui-mui/inteldlg.c:138 client/gui-sdl/inteldlg.c:263
+#: client/gui-mui/inteldlg.c:138 client/gui-sdl/inteldlg.c:264
 #: client/gui-win32/inteldlg.c:94 client/gui-xaw/inteldlg.c:182
 #, c-format
 msgid "Intelligence Information for the %s Empire"
@@ -13250,17 +13262,17 @@ msgid "Goto this location"
 msgstr ""
 
 #: client/gui-mui/mapclass.c:2937 client/gui-mui/mapclass.c:3084
-#: client/gui-sdl/menu.c:406
+#: client/gui-sdl/menu.c:410
 msgid "Disband"
 msgstr ""
 
-#: client/gui-mui/mapclass.c:2956 client/gui-sdl/citydlg.c:531
+#: client/gui-mui/mapclass.c:2956 client/gui-sdl/citydlg.c:512
 #: data/Freeciv.in:1182
 msgid "Make new homecity"
 msgstr ""
 
-#: client/gui-mui/mapclass.c:2978 client/gui-sdl/dialogs.c:455
-#: client/gui-sdl/menu.c:419 client/gui-win32/repodlgs.c:715
+#: client/gui-mui/mapclass.c:2978 client/gui-sdl/dialogs.c:462
+#: client/gui-sdl/menu.c:423 client/gui-win32/repodlgs.c:715
 #: data/Freeciv.in:1951
 msgid "Upgrade"
 msgstr "ترفیع"
@@ -13384,7 +13396,7 @@ msgstr "درآمد:%6d    قیمت کل: %6d"
 msgid "Military Report"
 msgstr "گزارش نظامی"
 
-#: client/gui-mui/repodlgs.c:861 client/gui-sdl/repodlgs.c:3332
+#: client/gui-mui/repodlgs.c:861 client/gui-sdl/repodlgs.c:3354
 #: client/gui-win32/repodlgs.c:755 client/gui-xaw/repodlgs.c:1153
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
@@ -13392,12 +13404,12 @@ msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/gui-mui/repodlgs.c:869 client/gui-sdl/repodlgs.c:3340
+#: client/gui-mui/repodlgs.c:869 client/gui-sdl/repodlgs.c:3362
 #: client/gui-win32/repodlgs.c:763 client/gui-xaw/repodlgs.c:1161
 msgid "Final Report:"
 msgstr ""
 
-#: client/gui-mui/repodlgs.c:870 client/gui-sdl/repodlgs.c:3341
+#: client/gui-mui/repodlgs.c:870 client/gui-sdl/repodlgs.c:3363
 #: client/gui-win32/repodlgs.c:764 client/gui-xaw/repodlgs.c:1162
 msgid "The Greatest Civilizations in the world."
 msgstr ""
@@ -13494,26 +13506,26 @@ msgstr ""
 msgid "Name of Worklist"
 msgstr ""
 
-#: client/gui-sdl/caravan_dialog.c:133
+#: client/gui-sdl/caravan_dialog.c:132
 #, c-format
 msgid "Your caravan has arrived at %s"
 msgstr "کاروان شما به %s رسید"
 
-#: client/gui-sdl/caravan_dialog.c:156
+#: client/gui-sdl/caravan_dialog.c:157
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
 msgstr ""
 
-#: client/gui-sdl/caravan_dialog.c:162
+#: client/gui-sdl/caravan_dialog.c:163
 #, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
 msgstr "ورود به بازار ( %d امتیاز R&G )"
 
-#: client/gui-sdl/caravan_dialog.c:180 data/Freeciv.in:2263
+#: client/gui-sdl/caravan_dialog.c:181 data/Freeciv.in:2263
 msgid "Help build Wonder"
 msgstr ""
 
-#: client/gui-sdl/caravan_dialog.c:193 client/gui-sdl/diplomat_dialog.c:666
+#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:675
 #: data/Freeciv.in:2266 data/Freeciv.in:2290 data/Freeciv.in:2325
 msgid "Keep moving"
 msgstr ""
@@ -13523,7 +13535,7 @@ msgstr ""
 msgid "Total users logged in : %d"
 msgstr ""
 
-#: client/gui-sdl/chatline.c:523 client/gui-sdl/optiondlg.c:2194
+#: client/gui-sdl/chatline.c:523 client/gui-sdl/optiondlg.c:2200
 #: client/gui-win32/connectdlg.c:1094
 msgid "Back"
 msgstr ""
@@ -13537,39 +13549,39 @@ msgstr "شروع"
 msgid "Server Settings"
 msgstr "ذخیر تنظیمات"
 
-#: client/gui-sdl/citydlg.c:435 client/gui-win32/citydlg.c:1483
+#: client/gui-sdl/citydlg.c:419 client/gui-win32/citydlg.c:1483
 #: client/gui-win32/citydlg.c:1514 data/Freeciv.in:1160 data/Freeciv.in:1196
 msgid "Unit Commands"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:462 data/Freeciv.in:1162 data/Freeciv.in:1198
+#: client/gui-sdl/citydlg.c:443 data/Freeciv.in:1162 data/Freeciv.in:1198
 msgid "Activate unit"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:473 data/Freeciv.in:1166 data/Freeciv.in:1202
+#: client/gui-sdl/citydlg.c:454 data/Freeciv.in:1166 data/Freeciv.in:1202
 msgid "Activate unit, close dialog"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:486 data/Freeciv.in:1170
+#: client/gui-sdl/citydlg.c:467 data/Freeciv.in:1170
 msgid "Sentry unit"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:501 data/Freeciv.in:1174
+#: client/gui-sdl/citydlg.c:482 data/Freeciv.in:1174
 msgid "Fortify unit"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:517 data/Freeciv.in:1178 data/Freeciv.in:1206
+#: client/gui-sdl/citydlg.c:498 data/Freeciv.in:1178 data/Freeciv.in:1206
 msgid "Disband unit"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:559 client/gui-sdl/citydlg.c:1407
-#: client/gui-sdl/citydlg.c:3688 client/gui-sdl/citydlg.c:3701
-#: client/gui-sdl/connectdlg.c:299 client/gui-sdl/connectdlg.c:598
-#: client/gui-sdl/connectdlg.c:778 client/gui-sdl/connectdlg.c:956
-#: client/gui-sdl/dialogs.c:444 client/gui-sdl/dialogs.c:2057
-#: client/gui-sdl/dialogs.c:2441 client/gui-sdl/dialogs.c:2853
-#: client/gui-sdl/diplomat_dialog.c:718 client/gui-sdl/mapctrl.c:2527
-#: client/gui-sdl/repodlgs.c:1946 client/gui-win32/citydlg.c:1080
+#: client/gui-sdl/citydlg.c:540 client/gui-sdl/citydlg.c:1399
+#: client/gui-sdl/citydlg.c:3677 client/gui-sdl/citydlg.c:3690
+#: client/gui-sdl/connectdlg.c:307 client/gui-sdl/connectdlg.c:616
+#: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
+#: client/gui-sdl/dialogs.c:451 client/gui-sdl/dialogs.c:2090
+#: client/gui-sdl/dialogs.c:2473 client/gui-sdl/dialogs.c:2888
+#: client/gui-sdl/diplomat_dialog.c:727 client/gui-sdl/mapctrl.c:2548
+#: client/gui-sdl/repodlgs.c:1957 client/gui-win32/citydlg.c:1080
 #: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1039
 #: client/gui-win32/dialogs.c:1775 client/gui-win32/finddlg.c:128
 #: client/gui-win32/gotodlg.c:171 client/gui-win32/inputdlg.c:146
@@ -13585,7 +13597,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "لغو"
 
-#: client/gui-sdl/citydlg.c:713 client/gui-sdl/mapview.c:945
+#: client/gui-sdl/citydlg.c:698 client/gui-sdl/mapview.c:941
 msgid ""
 "\n"
 "veteran"
@@ -13593,7 +13605,7 @@ msgstr ""
 "\n"
 "کارآزموده"
 
-#: client/gui-sdl/citydlg.c:949
+#: client/gui-sdl/citydlg.c:934
 msgid ""
 "Disband if build\n"
 "settler at size 1"
@@ -13601,493 +13613,500 @@ msgstr ""
 "اگر در اندازه ۱ سازنده\n"
 " ساخت، منحل شو"
 
-#: client/gui-sdl/citydlg.c:1170
+#: client/gui-sdl/citydlg.c:1156
 msgid "Sorry, You have already bought here in this turn"
 msgstr "شرمنده، شما در این نوبت اینجا چیزی خریده‌اید."
 
-#: client/gui-sdl/citydlg.c:1176
+#: client/gui-sdl/citydlg.c:1159
 msgid "Buy It?"
 msgstr "آنرا بخریم؟"
 
-#: client/gui-sdl/citydlg.c:1384 client/gui-sdl/repodlgs.c:1488
+#: client/gui-sdl/citydlg.c:1374 client/gui-sdl/repodlgs.c:1497
 msgid "Sell It?"
 msgstr "آنرا بفروشیم؟"
 
-#: client/gui-sdl/citydlg.c:1415 client/gui-win32/citydlg.c:791
+#: client/gui-sdl/citydlg.c:1407 client/gui-win32/citydlg.c:791
 msgid "Sell"
 msgstr "فروش"
 
-#: client/gui-sdl/citydlg.c:1732 client/gui-sdl/citydlg.c:3781
+#: client/gui-sdl/citydlg.c:1719 client/gui-sdl/citydlg.c:3768
 msgid "Options panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1777
+#: client/gui-sdl/citydlg.c:1764
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1778 client/gui-sdl/citydlg.c:1837
+#: client/gui-sdl/citydlg.c:1765 client/gui-sdl/citydlg.c:1824
 msgid "unit"
 msgid_plural "units"
 msgstr[0] "مهره"
 msgstr[1] " مهره"
 
-#: client/gui-sdl/citydlg.c:1836
+#: client/gui-sdl/citydlg.c:1823
 #, c-format
 msgid "Garrison Panel (%d %s)"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1886
+#: client/gui-sdl/citydlg.c:1873
 msgid "Info Panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1907
+#: client/gui-sdl/citydlg.c:1894
 #, fuzzy, c-format
 msgid "Pollution: %d"
 msgstr "آلودگی: %d"
 
-#: client/gui-sdl/citydlg.c:1935
+#: client/gui-sdl/citydlg.c:1922
 #, fuzzy
 msgid "Pollution: none"
 msgstr "آلودگی: هیچ"
 
-#: client/gui-sdl/citydlg.c:1948
+#: client/gui-sdl/citydlg.c:1935
 #, fuzzy
 msgid "Trade routes: "
 msgstr "راه‌های تجاری:"
 
-#: client/gui-sdl/citydlg.c:1997
+#: client/gui-sdl/citydlg.c:1984
 #, fuzzy, c-format
 msgid "Trade: +%d"
 msgstr "تجارت: +%d"
 
-#: client/gui-sdl/citydlg.c:2042 client/gui-sdl/citydlg.c:3737
+#: client/gui-sdl/citydlg.c:2029 client/gui-sdl/citydlg.c:3725
 msgid "Happiness panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:2537
+#: client/gui-sdl/citydlg.c:2524
 msgid "Citizens"
 msgstr "شهروندان"
 
-#: client/gui-sdl/citydlg.c:2566
+#: client/gui-sdl/citydlg.c:2553
 #, fuzzy, c-format
 msgid "Food: %d per turn"
 msgstr "%d طلا در نوبت"
 
-#: client/gui-sdl/citydlg.c:2603
+#: client/gui-sdl/citydlg.c:2590
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
 msgstr "مازاد : %d"
 
-#: client/gui-sdl/citydlg.c:2651
+#: client/gui-sdl/citydlg.c:2638
 #, fuzzy, c-format
 msgid "Production: %d (%d) per turn"
 msgstr "صفحه محصولات"
 
-#: client/gui-sdl/citydlg.c:2697
+#: client/gui-sdl/citydlg.c:2684
 #, c-format
 msgid "?production:Support: %d"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:2735
+#: client/gui-sdl/citydlg.c:2722
 #, fuzzy, c-format
 msgid "Trade: %d per turn"
 msgstr "رفاه: %d در نوبت"
 
-#: client/gui-sdl/citydlg.c:2769
+#: client/gui-sdl/citydlg.c:2756
 #, fuzzy, c-format
 msgid "Corruption: %d"
 msgstr "تباهی : %d"
 
-#: client/gui-sdl/citydlg.c:2806
+#: client/gui-sdl/citydlg.c:2793
 #, c-format
 msgid "Gold: %d (%d) per turn"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:2853
+#: client/gui-sdl/citydlg.c:2840
 #, fuzzy, c-format
 msgid "Upkeep: %d"
 msgstr "هزینه نگهداری : %d"
 
-#: client/gui-sdl/citydlg.c:2892
+#: client/gui-sdl/citydlg.c:2879
 #, c-format
 msgid "Science: %d per turn"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:2932
+#: client/gui-sdl/citydlg.c:2919
 #, c-format
 msgid "Luxury: %d per turn"
 msgstr "رفاه: %d در نوبت"
 
-#: client/gui-sdl/citydlg.c:2970
+#: client/gui-sdl/citydlg.c:2957
 #, fuzzy
 msgid "City growth: blocked"
 msgstr "رشد شهر : مسدود شده"
 
-#: client/gui-sdl/citydlg.c:2972
+#: client/gui-sdl/citydlg.c:2959
 #, fuzzy
 msgid "City growth: never"
 msgstr "رشد شهر : هیچ وقت"
 
-#: client/gui-sdl/citydlg.c:2976
+#: client/gui-sdl/citydlg.c:2963
 #, fuzzy, c-format
 msgid "City shrinks: %d %s"
 msgstr "کوچک شدن شهر : %d %s"
 
-#: client/gui-sdl/citydlg.c:2977 client/gui-sdl/citydlg.c:2981
-#: client/gui-sdl/citydlg.c:3303 client/gui-sdl/cityrep.c:527
-#: client/gui-sdl/cityrep.c:1050 client/gui-sdl/menu.c:731
-#: client/gui-sdl/menu.c:735 client/gui-sdl/menu.c:968
-#: client/gui-sdl/menu.c:974 client/gui-sdl/menu.c:1014
-#: client/gui-sdl/menu.c:1020 client/gui-sdl/menu.c:1026
-#: client/gui-sdl/menu.c:1044 client/gui-sdl/menu.c:1053
-#: client/gui-sdl/menu.c:1060 client/gui-sdl/menu.c:1076
-#: client/gui-sdl/plrdlg.c:247 client/gui-sdl/plrdlg.c:675
-#: client/gui-sdl/repodlgs.c:544 client/gui-sdl/repodlgs.c:900
-#: client/gui-sdl/wldlg.c:902 client/gui-sdl/wldlg.c:1076
-#: client/gui-sdl/wldlg.c:1374 client/gui-sdl/wldlg.c:1380
-#: client/gui-sdl/wldlg.c:1494
+#: client/gui-sdl/citydlg.c:2964 client/gui-sdl/citydlg.c:2968
+#: client/gui-sdl/citydlg.c:3290 client/gui-sdl/cityrep.c:530
+#: client/gui-sdl/cityrep.c:1052 client/gui-sdl/menu.c:761
+#: client/gui-sdl/menu.c:765 client/gui-sdl/menu.c:998
+#: client/gui-sdl/menu.c:1004 client/gui-sdl/menu.c:1044
+#: client/gui-sdl/menu.c:1050 client/gui-sdl/menu.c:1056
+#: client/gui-sdl/menu.c:1074 client/gui-sdl/menu.c:1083
+#: client/gui-sdl/menu.c:1090 client/gui-sdl/menu.c:1106
+#: client/gui-sdl/plrdlg.c:658 client/gui-sdl/repodlgs.c:548
+#: client/gui-sdl/repodlgs.c:907 client/gui-sdl/wldlg.c:902
+#: client/gui-sdl/wldlg.c:1077 client/gui-sdl/wldlg.c:1375
+#: client/gui-sdl/wldlg.c:1381 client/gui-sdl/wldlg.c:1495
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "نوبت"
 msgstr[1] "نوبت"
 
-#: client/gui-sdl/citydlg.c:2980
+#: client/gui-sdl/citydlg.c:2967
 #, fuzzy, c-format
 msgid "City growth: %d %s"
 msgstr "رشد شهر : %d %s"
 
-#: client/gui-sdl/citydlg.c:3030 data/default/buildings.ruleset:317
+#: client/gui-sdl/citydlg.c:3017 data/default/buildings.ruleset:317
 #: data/civ2/buildings.ruleset:296 data/civ1/buildings.ruleset:243
 msgid "Granary"
 msgstr "انبار غله"
 
-#: client/gui-sdl/citydlg.c:3307
+#: client/gui-sdl/citydlg.c:3294
 msgid "finished"
 msgstr "تمام شد"
 
-#: client/gui-sdl/citydlg.c:3607
+#: client/gui-sdl/citydlg.c:3594
 #, c-format
 msgid "City of %s (Population %s citizens)"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3623
+#: client/gui-sdl/citydlg.c:3610
 #, fuzzy
 msgid " - under Citizen Governor control."
 msgstr "حاکم شهروندان"
 
-#: client/gui-sdl/citydlg.c:3713
+#: client/gui-sdl/citydlg.c:3702
 msgid "Maintenance panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3725
+#: client/gui-sdl/citydlg.c:3713
 msgid "Garrison panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3749
+#: client/gui-sdl/citydlg.c:3737
 msgid "Information panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3795 client/gui-sdl/dialogs.c:1231
+#: client/gui-sdl/citydlg.c:3782 client/gui-sdl/dialogs.c:1255
 #: client/gui-win32/citydlg.c:1063 data/Freeciv.in:2073
 msgid "Change Production"
 msgstr "تغییر محصول"
 
-#: client/gui-sdl/citydlg.c:3809 client/gui-sdl/dialogs.c:1243
+#: client/gui-sdl/citydlg.c:3796 client/gui-sdl/dialogs.c:1267
 msgid "Hurry production"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3840
+#: client/gui-sdl/citydlg.c:3827
 msgid "Prev city"
 msgstr "شهر قبلی"
 
-#: client/gui-sdl/citydlg.c:3855
+#: client/gui-sdl/citydlg.c:3842
 msgid "Next city"
 msgstr "شهر بعدی"
 
-#: client/gui-sdl/cityrep.c:158
+#: client/gui-sdl/cityrep.c:160
 msgid "size"
 msgstr "اندازه"
 
-#: client/gui-sdl/cityrep.c:163
+#: client/gui-sdl/cityrep.c:165
 msgid ""
 "time\n"
 "to grow"
 msgstr ""
 
-#: client/gui-sdl/cityrep.c:182
+#: client/gui-sdl/cityrep.c:184 client/gui-sdl/mapctrl.c:1588
 msgid "Cities Report"
 msgstr "گزارش  شهرها"
 
-#: client/gui-sdl/cityrep.c:199
+#: client/gui-sdl/cityrep.c:202
 msgid "Exit Report"
 msgstr ""
 
-#: client/gui-sdl/cityrep.c:210
+#: client/gui-sdl/cityrep.c:213
 msgid "Information Report"
 msgstr "گزارش اطلاعات"
 
-#: client/gui-sdl/cityrep.c:221
+#: client/gui-sdl/cityrep.c:224
 msgid "Happiness Report"
 msgstr ""
 
-#: client/gui-sdl/cityrep.c:232
+#: client/gui-sdl/cityrep.c:235
 msgid "Garrison Report"
 msgstr ""
 
-#: client/gui-sdl/cityrep.c:243
+#: client/gui-sdl/cityrep.c:246
 msgid "Maintenance Report"
 msgstr ""
 
-#: client/gui-sdl/cityrep.c:509 client/gui-sdl/cityrep.c:1029
+#: client/gui-sdl/cityrep.c:512 client/gui-sdl/cityrep.c:1031
 msgid "worklist"
 msgstr "لیست‌کار"
 
-#: client/gui-sdl/cityrep.c:513
+#: client/gui-sdl/cityrep.c:516
 msgid ""
 "\n"
 "finshed"
 msgstr ""
 
-#: client/gui-sdl/cma_fe.c:447 client/gui-win32/cma_fe.c:458
+#: client/gui-sdl/cma_fe.c:450 client/gui-win32/cma_fe.c:458
 msgid "Presets"
 msgstr ""
 
-#: client/gui-sdl/cma_fe.c:849
+#: client/gui-sdl/cma_fe.c:852
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
 msgstr ""
 
-#: client/gui-sdl/cma_fe.c:964
+#: client/gui-sdl/cma_fe.c:967
 msgid "Save settings as..."
 msgstr "ذخیر تنظیمات به نام..."
 
-#: client/gui-sdl/cma_fe.c:973
+#: client/gui-sdl/cma_fe.c:976
 msgid "Load settings"
 msgstr "بارگزاری تنظیمات"
 
-#: client/gui-sdl/cma_fe.c:982
+#: client/gui-sdl/cma_fe.c:985
 msgid "Delete settings"
 msgstr "حذف تنظیمات"
 
-#: client/gui-sdl/cma_fe.c:991 client/gui-win32/cma_fe.c:490
+#: client/gui-sdl/cma_fe.c:994 client/gui-win32/cma_fe.c:490
 msgid "Control city"
 msgstr ""
 
-#: client/gui-sdl/cma_fe.c:1000 client/gui-win32/cma_fe.c:488
+#: client/gui-sdl/cma_fe.c:1003 client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
 msgid "Apply once"
 msgstr ""
 
-#: client/gui-sdl/cma_fe.c:1009 client/gui-win32/cma_fe.c:492
+#: client/gui-sdl/cma_fe.c:1012 client/gui-win32/cma_fe.c:492
 msgid "Release city"
 msgstr ""
 
-#: client/gui-sdl/connectdlg.c:234
+#: client/gui-sdl/connectdlg.c:238
 msgid "Creating Server List..."
 msgstr "ساختن لیست سرورها..."
 
-#: client/gui-sdl/connectdlg.c:543
+#: client/gui-sdl/connectdlg.c:279 client/gui-sdl/connectdlg.c:343
+msgid "No LAN servers found"
+msgstr ""
+
+#: client/gui-sdl/connectdlg.c:281 client/gui-sdl/connectdlg.c:345
+msgid "No public servers found"
+msgstr ""
+
+#: client/gui-sdl/connectdlg.c:555
 msgid "Player Name :"
 msgstr "نام بازیکن :"
 
-#: client/gui-sdl/connectdlg.c:557
+#: client/gui-sdl/connectdlg.c:571
 msgid "Freeciv Server :"
 msgstr "سرور Freeciv:"
 
-#: client/gui-sdl/connectdlg.c:572
+#: client/gui-sdl/connectdlg.c:588
 msgid "Port :"
 msgstr "پرت :"
 
-#: client/gui-sdl/connectdlg.c:770 client/gui-sdl/connectdlg.c:949
+#: client/gui-sdl/connectdlg.c:794 client/gui-sdl/connectdlg.c:977
 #: client/gui-xaw/connectdlg.c:145
 msgid "Next"
 msgstr "بعدی"
 
-#: client/gui-sdl/dialogs.c:647
+#: client/gui-sdl/dialogs.c:658
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:648 client/gui-sdl/dialogs.c:660
-#: client/gui-sdl/dialogs.c:1369 client/gui-sdl/dialogs.c:1388
-#: client/gui-sdl/dialogs.c:1485 client/gui-sdl/dialogs.c:1513
+#: client/gui-sdl/dialogs.c:659 client/gui-sdl/dialogs.c:671
+#: client/gui-sdl/dialogs.c:1393 client/gui-sdl/dialogs.c:1412
+#: client/gui-sdl/dialogs.c:1509 client/gui-sdl/dialogs.c:1537
 msgid "Veteran"
 msgstr "کارآزموده"
 
-#: client/gui-sdl/dialogs.c:658
+#: client/gui-sdl/dialogs.c:669
 #, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%s %s %s(حم:%d د:%d حر:%d ق‌آ:%d) ا‌ض:%d%%"
 
-#: client/gui-sdl/dialogs.c:670 client/gui-sdl/dialogs.c:1398
-#: client/gui-sdl/dialogs.c:1523
+#: client/gui-sdl/dialogs.c:681 client/gui-sdl/dialogs.c:1422
+#: client/gui-sdl/dialogs.c:1547
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr "شانس برد: حمله:%d%% دفاع:%d%%"
 
-#: client/gui-sdl/dialogs.c:820 client/gui-sdl/dialogs.c:1189
+#: client/gui-sdl/dialogs.c:835 client/gui-sdl/dialogs.c:1213
 msgid "Terrain Info"
 msgstr "اطلاعات خانه"
 
-#: client/gui-sdl/dialogs.c:1165
+#: client/gui-sdl/dialogs.c:1187
 msgid "Advanced Menu"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:1217
+#: client/gui-sdl/dialogs.c:1241
 #, c-format
 msgid "Zoom to : %s"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:1255
+#: client/gui-sdl/dialogs.c:1279
 #, fuzzy
 msgid "Change City Governor settings"
 msgstr "تغییر حکومت"
 
-#: client/gui-sdl/dialogs.c:1276
+#: client/gui-sdl/dialogs.c:1300
 msgid "Goto here"
 msgstr "برو به اینجا"
 
-#: client/gui-sdl/dialogs.c:1287
+#: client/gui-sdl/dialogs.c:1311
 msgid "Patrol here"
 msgstr "گشت در اینجا"
 
-#: client/gui-sdl/dialogs.c:1300
+#: client/gui-sdl/dialogs.c:1324
 msgid "Connect here"
 msgstr "وصل کردن اینجا"
 
-#: client/gui-sdl/dialogs.c:1321
+#: client/gui-sdl/dialogs.c:1345
 msgid "Paradrop here"
 msgstr "پرتاب چترباز در اینجا"
 
-#: client/gui-sdl/dialogs.c:1368 client/gui-sdl/dialogs.c:1484
+#: client/gui-sdl/dialogs.c:1392 client/gui-sdl/dialogs.c:1508
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:1386 client/gui-sdl/dialogs.c:1511
+#: client/gui-sdl/dialogs.c:1410 client/gui-sdl/dialogs.c:1535
 #, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%s %s %s (حم:%d د:%d حر:%d ق‌آ:%d) ا‌ض:%d%%"
 
-#: client/gui-sdl/dialogs.c:1447 client/gui-win32/dialogs.c:766
+#: client/gui-sdl/dialogs.c:1471 client/gui-win32/dialogs.c:766
 #: data/Freeciv.in:561
 msgid "Ready all"
 msgstr "آمادگی همه"
 
-#: client/gui-sdl/dialogs.c:1456
+#: client/gui-sdl/dialogs.c:1480
 msgid "Sentry idle"
 msgstr "نگهبانی"
 
-#: client/gui-sdl/dialogs.c:1542
+#: client/gui-sdl/dialogs.c:1566
 #, c-format
 msgid "View Civiliopedia entry for %s"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:1937
+#: client/gui-sdl/dialogs.c:1964
 msgid "Choose Your New Government"
 msgstr "حکومت جدید را انتخاب کنید"
 
-#: client/gui-sdl/dialogs.c:2037
+#: client/gui-sdl/dialogs.c:2068
 msgid "REVOLUTION!"
 msgstr "انقلاب!"
 
-#: client/gui-sdl/dialogs.c:2645 client/gui-win32/dialogs.c:510
+#: client/gui-sdl/dialogs.c:2680 client/gui-win32/dialogs.c:510
 msgid "What nation will you be?"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:2862 client/gui-sdl/mapctrl.c:2517
+#: client/gui-sdl/dialogs.c:2897 client/gui-sdl/mapctrl.c:2538
 #: client/gui-win32/dialogs.c:598 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:979
 msgid "OK"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:525
+#: client/gui-sdl/diplodlg.c:527
 msgid "World map"
 msgstr "نقشه جهان"
 
-#: client/gui-sdl/diplodlg.c:539
+#: client/gui-sdl/diplodlg.c:541
 msgid "Sea map"
 msgstr "نقشه دریا"
 
-#: client/gui-sdl/diplodlg.c:555
+#: client/gui-sdl/diplodlg.c:557
 msgid "Give embassy"
 msgstr "دادن سفارت"
 
-#: client/gui-sdl/diplodlg.c:875 client/gui-win32/diplodlg.c:675
+#: client/gui-sdl/diplodlg.c:877 client/gui-win32/diplodlg.c:675
 #: data/Freeciv.in:510
 msgid "Cancel meeting"
 msgstr "لغو دیدار"
 
-#: client/gui-sdl/diplodlg.c:887 client/gui-win32/diplodlg.c:674
+#: client/gui-sdl/diplodlg.c:889 client/gui-win32/diplodlg.c:674
 #: data/Freeciv.in:501
 msgid "Accept treaty"
 msgstr "قبول قرارداد"
 
-#: client/gui-sdl/diplodlg.c:1296
+#: client/gui-sdl/diplodlg.c:1298
 #, c-format
 msgid "%s incident !"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1312
+#: client/gui-sdl/diplodlg.c:1315
 msgid "Shall we declare WAR on them?"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1421
+#: client/gui-sdl/diplodlg.c:1426
 msgid "Foreign Minister"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1437
+#: client/gui-sdl/diplodlg.c:1442
 #, c-format
 msgid ""
 "Sir!, %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1452
+#: client/gui-sdl/diplodlg.c:1457
 msgid "Declare WAR"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1454 client/gui-win32/plrdlg.c:354
+#: client/gui-sdl/diplodlg.c:1459 client/gui-win32/plrdlg.c:354
 msgid "Cancel Treaty"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1477 client/gui-win32/plrdlg.c:355
+#: client/gui-sdl/diplodlg.c:1482 client/gui-win32/plrdlg.c:355
 #: data/Freeciv.in:3254
 msgid "Withdraw vision"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1494
+#: client/gui-sdl/diplodlg.c:1499
 msgid "Call Diplomatic Meeting"
 msgstr ""
 
-#: client/gui-sdl/diplodlg.c:1508
+#: client/gui-sdl/diplodlg.c:1513
 msgid "Send him back"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:577 data/Freeciv.in:2278
+#: client/gui-sdl/diplomat_dialog.c:586 data/Freeciv.in:2278
 #: data/Freeciv.in:2304
 msgid "Establish Embassy"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:592 data/Freeciv.in:2280
+#: client/gui-sdl/diplomat_dialog.c:601 data/Freeciv.in:2280
 msgid "Investigate City"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:607 data/Freeciv.in:2311
+#: client/gui-sdl/diplomat_dialog.c:616 data/Freeciv.in:2311
 msgid "Poison City"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:621 data/Freeciv.in:2283
+#: client/gui-sdl/diplomat_dialog.c:630 data/Freeciv.in:2283
 msgid "Sabotage City"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:652 data/Freeciv.in:2288
+#: client/gui-sdl/diplomat_dialog.c:661 data/Freeciv.in:2288
 #: data/Freeciv.in:2321
 msgid "Incite a Revolt"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:703 data/Freeciv.in:2434
+#: client/gui-sdl/diplomat_dialog.c:712 data/Freeciv.in:2434
 msgid "Sabotage Enemy Unit"
 msgstr ""
 
@@ -14145,68 +14164,68 @@ msgstr ""
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:145
+#: client/gui-sdl/gui_main.c:149
 #, fuzzy
 msgid "Full Screen"
 msgstr "تمام صفحه"
 
-#: client/gui-sdl/gui_main.c:146
+#: client/gui-sdl/gui_main.c:150
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:149
+#: client/gui-sdl/gui_main.c:153
 msgid "Screen width"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:150
-msgid "This option saves the width of the selected screen resolution"
-msgstr ""
-
-#: client/gui-sdl/gui_main.c:153
-#, fuzzy
-msgid "Screen height"
-msgstr "فضانوردي"
-
 #: client/gui-sdl/gui_main.c:154
-msgid "This option saves the height of the selected screen resolution"
+msgid "This option saves the width of the selected screen resolution"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:157
 #, fuzzy
+msgid "Screen height"
+msgstr "فضانوردي"
+
+#: client/gui-sdl/gui_main.c:158
+msgid "This option saves the height of the selected screen resolution"
+msgstr ""
+
+#: client/gui-sdl/gui_main.c:161
+#, fuzzy
 msgid "Theme"
 msgstr "معبد"
 
-#: client/gui-sdl/gui_main.c:158
+#: client/gui-sdl/gui_main.c:162
 msgid ""
 "By changing this option you change the active theme. This is the same as "
 "using the -- --theme command-line parameter."
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:200
+#: client/gui-sdl/gui_main.c:204
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:201
+#: client/gui-sdl/gui_main.c:205
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:203
+#: client/gui-sdl/gui_main.c:207
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:767
+#: client/gui-sdl/gui_main.c:786
 #, c-format
 msgid "Using Video Output: %s"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:820
+#: client/gui-sdl/gui_main.c:839
 msgid "Initializing Client"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:831
+#: client/gui-sdl/gui_main.c:850
 msgid "Waiting for the beginning of the game"
 msgstr ""
 
@@ -14259,61 +14278,63 @@ msgid ""
 "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
 msgstr ""
 
-#: client/gui-sdl/helpdlg.c:198
-msgid "Help : Improvement"
-msgstr ""
+#: client/gui-sdl/helpdlg.c:199
+#, fuzzy
+msgid "Help : Improvements"
+msgstr "فروختن اصلاح شهر"
 
-#: client/gui-sdl/helpdlg.c:566
+#: client/gui-sdl/helpdlg.c:570
 msgid "Help : Units"
 msgstr ""
 
-#: client/gui-sdl/helpdlg.c:698 client/gui-sdl/helpdlg.c:711
-#: client/gui-sdl/wldlg.c:1358 client/gui-sdl/wldlg.c:1364
-#: client/gui-sdl/wldlg.c:1372 client/gui-sdl/wldlg.c:1378
-#: client/gui-sdl/wldlg.c:1394 client/gui-sdl/wldlg.c:1399
-#: client/gui-sdl/wldlg.c:1486 client/gui-sdl/wldlg.c:1493
-#: client/gui-sdl/wldlg.c:1502
+#: client/gui-sdl/helpdlg.c:707 client/gui-sdl/helpdlg.c:720
+#: client/gui-sdl/wldlg.c:1359 client/gui-sdl/wldlg.c:1365
+#: client/gui-sdl/wldlg.c:1373 client/gui-sdl/wldlg.c:1379
+#: client/gui-sdl/wldlg.c:1395 client/gui-sdl/wldlg.c:1400
+#: client/gui-sdl/wldlg.c:1487 client/gui-sdl/wldlg.c:1494
+#: client/gui-sdl/wldlg.c:1503
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "محافظ"
 msgstr[1] "محافظ"
 
-#: client/gui-sdl/helpdlg.c:703 client/gui-sdl/helpdlg.c:726
+#: client/gui-sdl/helpdlg.c:712 client/gui-sdl/helpdlg.c:735
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "شهروند"
 msgstr[1] "نوبت"
 
-#: client/gui-sdl/helpdlg.c:716
+#: client/gui-sdl/helpdlg.c:725
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "غذا"
 msgstr[1] "غذا"
 
-#: client/gui-sdl/helpdlg.c:721
+#: client/gui-sdl/helpdlg.c:730
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "طلا"
 msgstr[1] "طلا"
 
-#: client/gui-sdl/helpdlg.c:956
-msgid "( witch "
+#: client/gui-sdl/helpdlg.c:963
+#, fuzzy
+msgid "( with "
 msgstr " کدام )"
 
-#: client/gui-sdl/helpdlg.c:959
+#: client/gui-sdl/helpdlg.c:966
 msgid " )"
 msgstr ""
 
-#: client/gui-sdl/helpdlg.c:1840
+#: client/gui-sdl/helpdlg.c:1848
 msgid "Help : Advances Tree"
 msgstr ""
 
-#: client/gui-sdl/inteldlg.c:255
+#: client/gui-sdl/inteldlg.c:256
 #, c-format
 msgid "Intelligence Information about %s Spaceship"
 msgstr ""
 
-#: client/gui-sdl/inteldlg.c:282
+#: client/gui-sdl/inteldlg.c:283
 #, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
@@ -14322,7 +14343,7 @@ msgid ""
 "Researching: %s(%d/%d)"
 msgstr ""
 
-#: client/gui-sdl/inteldlg.c:292
+#: client/gui-sdl/inteldlg.c:293
 #, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
@@ -14331,99 +14352,90 @@ msgid ""
 "Researching: Unknown"
 msgstr ""
 
-#: client/gui-sdl/inteldlg.c:352
+#: client/gui-sdl/inteldlg.c:353
 msgid "Their techs that we don't have :"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:270
+#: client/gui-sdl/mapctrl.c:274
 msgid "Show Unit Info Window"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:324 client/gui-sdl/mapctrl.c:1432
+#: client/gui-sdl/mapctrl.c:330 client/gui-sdl/mapctrl.c:1446
 msgid "Hide Unit Info Window"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:378
+#: client/gui-sdl/mapctrl.c:384
 msgid "Show MiniMap"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:454 client/gui-sdl/mapctrl.c:1637
+#: client/gui-sdl/mapctrl.c:462 client/gui-sdl/mapctrl.c:1656
 msgid "Hide MiniMap"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:502
-msgid "Show Log (F10)"
+#: client/gui-sdl/mapctrl.c:514
+msgid "Show Messages (F10)"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:505 client/gui-sdl/mapctrl.c:1596
-msgid "Hide Log (F10)"
+#: client/gui-sdl/mapctrl.c:517
+msgid "Hide Messages (F10)"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:660
-msgid "Single Tile Width"
-msgstr ""
-
-#: client/gui-sdl/mapctrl.c:664
-msgid "Single Tile Height"
-msgstr ""
-
-#: client/gui-sdl/mapctrl.c:672
+#: client/gui-sdl/mapctrl.c:673
 msgid "Scale Minimap"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:722 client/gui-sdl/mapctrl.c:975
+#: client/gui-sdl/mapctrl.c:684
+msgid "Single Tile Width"
+msgstr ""
+
+#: client/gui-sdl/mapctrl.c:688
+msgid "Single Tile Height"
+msgstr ""
+
+#: client/gui-sdl/mapctrl.c:733 client/gui-sdl/mapctrl.c:1077
 msgid "Exit"
 msgstr "خروج"
 
-#: client/gui-sdl/mapctrl.c:927
-msgid "Width"
-msgstr "عرض"
-
-#: client/gui-sdl/mapctrl.c:931
-msgid "Height"
-msgstr "ارتفاع"
-
-#: client/gui-sdl/mapctrl.c:940
+#: client/gui-sdl/mapctrl.c:1031
 msgid "Scale Unit Info"
 msgstr ""
 
-#: client/gui-sdl/mapctrl.c:1389
-msgid "Economy (F5)"
-msgstr "اقتصاد (F5)"
+#: client/gui-sdl/mapctrl.c:1041
+msgid "Width"
+msgstr "عرض"
 
-#: client/gui-sdl/mapctrl.c:1400
-msgid "Research (F6)"
-msgstr "پژوهش (F6)"
+#: client/gui-sdl/mapctrl.c:1045
+msgid "Height"
+msgstr "ارتفاع"
 
-#: client/gui-sdl/mapctrl.c:1411
-msgid "Revolution (Shift + R)"
-msgstr "انقلاب (شیفت + R)"
+#: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:331
+#: client/gui-sdl/mapview.c:334 client/gui-sdl/mapview.c:340
+#, fuzzy
+msgid "Research"
+msgstr "پژوهش"
 
-#: client/gui-sdl/mapctrl.c:1552
-msgid "End Turn (Enter)"
-msgstr ""
+#: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:311
+#: client/gui-sdl/mapview.c:314 client/gui-xaw/menu.c:131
+msgid "Revolution"
+msgstr "انقلاب"
 
-#: client/gui-sdl/mapctrl.c:1564
-msgid "Players (F3)"
-msgstr "بازیکنان (F3)"
+#: client/gui-sdl/mapctrl.c:1589
+#, fuzzy
+msgid "or"
+msgstr " یا "
 
-#: client/gui-sdl/mapctrl.c:1574
-msgid ""
-"Cities Report (F1)\n"
-"or\n"
-"Find City (Shift + F)"
-msgstr ""
+#: client/gui-sdl/mapctrl.c:1613
+#, fuzzy
+msgid "Hide Messages"
+msgstr "پیام‌ها"
 
-#: client/gui-sdl/mapctrl.c:1587
-msgid "Units (F2)"
-msgstr "مهره‌ها (F2)"
+#: client/gui-sdl/mapctrl.c:1623
+#, fuzzy
+msgid "Toggle Minimap Mode"
+msgstr "تغییر هوش‌مصنوعی/انسان"
 
-#: client/gui-sdl/mapctrl.c:1606
-msgid "Toggle Minimap Mode (Shift + \\)"
-msgstr ""
-
-#: client/gui-sdl/mapctrl.c:1617 client/gui-sdl/optiondlg.c:2115
-#: client/gui-sdl/optiondlg.c:2161 data/Freeciv.in:1217
+#: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2165
+#: data/Freeciv.in:1217
 msgid "Options"
 msgstr ""
 
@@ -14434,41 +14446,24 @@ msgid ""
 "report it to freeciv-dev@freeciv.org."
 msgstr ""
 
-#: client/gui-sdl/mapview.c:311 client/gui-sdl/mapview.c:314
-#, c-format
-msgid ""
-"Revolution (Shift + R)\n"
-"%s"
-msgstr ""
-
-#: client/gui-sdl/mapview.c:330 client/gui-sdl/mapview.c:333
-#: client/gui-sdl/mapview.c:339
-#, c-format
-msgid ""
-"Research (F6)\n"
-"%s (%d/%d)"
-msgstr ""
-"پژوهش (F6)\n"
-"%s (%d/%d)"
-
 # , c-format
-#: client/gui-sdl/mapview.c:405
+#: client/gui-sdl/mapview.c:406
 #, fuzzy, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
 msgstr "%s جمعیت: %s  سال: %s  طلا: %d  مالیات: %d رفاه: %d علم: %d"
 
 # , c-format
-#: client/gui-sdl/mapview.c:413
+#: client/gui-sdl/mapview.c:414
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s جمعیت: %s  سال: %s  طلا: %d  مالیات: %d رفاه: %d علم: %d"
 
-#: client/gui-sdl/mapview.c:715 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:717 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "کارآزموده"
 
-#: client/gui-sdl/mapview.c:743
+#: client/gui-sdl/mapview.c:747
 msgid ""
 "\n"
 "Our Territory"
@@ -14476,7 +14471,7 @@ msgstr ""
 "\n"
 "خانه‌ی ما"
 
-#: client/gui-sdl/mapview.c:749
+#: client/gui-sdl/mapview.c:753
 #, c-format
 msgid ""
 "\n"
@@ -14487,7 +14482,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/gui-sdl/mapview.c:753
+#: client/gui-sdl/mapview.c:757
 #, c-format
 msgid ""
 "\n"
@@ -14496,13 +14491,13 @@ msgstr ""
 "\n"
 "خانه‌ی %s %s"
 
-#: client/gui-sdl/mapview.c:759
+#: client/gui-sdl/mapview.c:763
 msgid ""
 "\n"
 "Unclaimed territory"
 msgstr ""
 
-#: client/gui-sdl/mapview.c:775
+#: client/gui-sdl/mapview.c:779
 #, c-format
 msgid ""
 "\n"
@@ -14511,30 +14506,30 @@ msgstr ""
 "\n"
 "شهر %s"
 
-#: client/gui-sdl/mapview.c:789 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:793 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "سرباز‌خانه"
 
-#: client/gui-sdl/mapview.c:801 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:805 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "فرودگاه"
 
-#: client/gui-sdl/mapview.c:807 data/default/buildings.ruleset:209
+#: client/gui-sdl/mapview.c:811 data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189 data/civ1/buildings.ruleset:158
 msgid "City Walls"
 msgstr "دیوار شهر"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:814
+#: client/gui-sdl/mapview.c:818
 #, c-format
 msgid ""
 "\n"
 "(%s,%s)"
 msgstr ""
 
-#: client/gui-sdl/mapview.c:824
+#: client/gui-sdl/mapview.c:829
 #, c-format
 msgid ""
 "\n"
@@ -14543,207 +14538,220 @@ msgstr ""
 "\n"
 "غذا/تولید/تجارت: %s"
 
-#: client/gui-sdl/mapview.c:1075
-msgid ""
-"End of Turn\n"
-"(Press Enter)"
+#: client/gui-sdl/mapview.c:1072
+msgid "End of Turn"
 msgstr ""
 
-#: client/gui-sdl/menu.c:355
+#: client/gui-sdl/mapview.c:1072
+#, fuzzy
+msgid "Press"
+msgstr "پرنسس"
+
+#. TRANS: keyboard
+#: client/gui-sdl/menu.c:359
 msgid "No orders"
 msgstr ""
 
-#: client/gui-sdl/menu.c:394
+#: client/gui-sdl/menu.c:359
+#, fuzzy
+msgid "Space"
+msgstr "ادويه"
+
+#: client/gui-sdl/menu.c:398
 msgid "Diplomat|Spy Actions"
 msgstr ""
 
-#: client/gui-sdl/menu.c:445
+#: client/gui-sdl/menu.c:449
 msgid "Goto City"
 msgstr "برو به شهر"
 
-#: client/gui-sdl/menu.c:457 client/gui-win32/gotodlg.c:167
+#: client/gui-sdl/menu.c:461 client/gui-win32/gotodlg.c:167
 #: data/Freeciv.in:1130
 msgid "Airlift"
 msgstr ""
 
-#: client/gui-sdl/menu.c:469 client/gui-win32/messagewin.c:149
+#: client/gui-sdl/menu.c:473 client/gui-win32/messagewin.c:149
 #: data/Freeciv.in:3314
 msgid "Goto location"
 msgstr ""
 
-#: client/gui-sdl/menu.c:506
+#: client/gui-sdl/menu.c:497
+#, fuzzy
+msgid "Connect irrigation"
+msgstr "اتصال/آبیاری"
+
+#: client/gui-sdl/menu.c:510
+#, fuzzy
+msgid "Connect road"
+msgstr "اتصال/جاده"
+
+#: client/gui-sdl/menu.c:523
+#, fuzzy
+msgid "Connect railroad"
+msgstr "اتصال/جاده"
+
+#: client/gui-sdl/menu.c:536
 msgid "Auto-Explore"
 msgstr "گشتن اتوماتیک"
 
-#: client/gui-sdl/menu.c:519 client/gui-sdl/menu.c:1159
+#: client/gui-sdl/menu.c:549 client/gui-sdl/menu.c:1189
 msgid "Auto-Attack"
 msgstr "حمله اتوماتیک"
 
-#: client/gui-sdl/menu.c:521 client/gui-sdl/menu.c:1153
+#: client/gui-sdl/menu.c:551 client/gui-sdl/menu.c:1183
 msgid "Auto-Settler"
 msgstr "آباد کردن اتوماتیک"
 
-#: client/gui-sdl/menu.c:540
+#: client/gui-sdl/menu.c:570
 msgid "Wake Up Others"
 msgstr "بیدار کردن دیگران"
 
-#: client/gui-sdl/menu.c:565
+#: client/gui-sdl/menu.c:595
 msgid "Find Homecity"
 msgstr "پیدا کردن شهرخانه"
 
-#: client/gui-sdl/menu.c:674
+#: client/gui-sdl/menu.c:704
 msgid "Transform Tile"
 msgstr "تبدیل خانه"
 
-#: client/gui-sdl/menu.c:715
+#: client/gui-sdl/menu.c:745
 msgid "Form Traderoute"
 msgstr "از راه‌های تجاری"
 
-#: client/gui-sdl/menu.c:991
+#: client/gui-sdl/menu.c:1021
 #, c-format
 msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
 msgstr ""
 
-#: client/gui-sdl/menu.c:997
+#: client/gui-sdl/menu.c:1027
 #, c-format
 msgid "Trade with %s ( %d R&G bonus ) (R)"
 msgstr ""
 
-#: client/gui-sdl/menu.c:1012
+#: client/gui-sdl/menu.c:1042
 msgid "Cut Down to"
 msgstr ""
 
-#: client/gui-sdl/menu.c:1018 client/gui-sdl/menu.c:1042
+#: client/gui-sdl/menu.c:1048 client/gui-sdl/menu.c:1072
 msgid "Irrigate to"
 msgstr "آبیاری به"
 
-#: client/gui-sdl/menu.c:1052
+#: client/gui-sdl/menu.c:1082
 msgid "Plant Forest"
 msgstr ""
 
-#: client/gui-sdl/menu.c:1073
+#: client/gui-sdl/menu.c:1103
 msgid "Transform to"
 msgstr "تبدیل به"
 
-#: client/gui-sdl/optiondlg.c:336
+#: client/gui-sdl/optiondlg.c:337
 msgid "Add new worklist"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:447 client/gui-sdl/optiondlg.c:632
+#: client/gui-sdl/optiondlg.c:448 client/gui-sdl/optiondlg.c:633
 #, c-format
 msgid ""
 "Current Setup\n"
 "Fullscreen %dx%d"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:450 client/gui-sdl/optiondlg.c:635
+#: client/gui-sdl/optiondlg.c:451 client/gui-sdl/optiondlg.c:636
 #, c-format
 msgid ""
 "Current Setup\n"
 "%dx%d"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:611
+#: client/gui-sdl/optiondlg.c:612
 msgid "No modes available!"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:617
+#: client/gui-sdl/optiondlg.c:618
 msgid "All resolutions available."
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:653
+#: client/gui-sdl/optiondlg.c:654
 msgid "Fullscreen Mode"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:994
+#: client/gui-sdl/optiondlg.c:995
 msgid "Smooth unit move steps"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1048
+#: client/gui-sdl/optiondlg.c:1049
 msgid "Show focus animation"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1075
+#: client/gui-sdl/optiondlg.c:1076
 msgid "Show cursors animation"
 msgstr "نشان دادن انیمیشن نشانگر"
 
-#: client/gui-sdl/optiondlg.c:1102
+#: client/gui-sdl/optiondlg.c:1103
 msgid "Use color cursors"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1616 client/gui-xaw/menu.c:141
+#: client/gui-sdl/optiondlg.c:1617 client/gui-xaw/menu.c:141
 msgid "National Borders"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1696
+#: client/gui-sdl/optiondlg.c:1697
 msgid "Draw city map grid"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1726
+#: client/gui-sdl/optiondlg.c:1727
 msgid "Draw city worker map grid"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1753
+#: client/gui-sdl/optiondlg.c:1754
 msgid "Special Resources"
 msgstr "منبع ویژه"
 
-#: client/gui-sdl/optiondlg.c:1887 client/gui-xaw/menu.c:150
+#: client/gui-sdl/optiondlg.c:1888 client/gui-xaw/menu.c:150
 msgid "Roads and Rails"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1966 client/gui-xaw/menu.c:153
+#: client/gui-sdl/optiondlg.c:1967 client/gui-xaw/menu.c:153
 msgid "Fortress and Airbase"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1994
+#: client/gui-sdl/optiondlg.c:1995
 msgid "Civ3 city text style"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:2248
+#: client/gui-sdl/optiondlg.c:2254
 msgid "Video options"
 msgstr "تنظیمات تصویر"
 
-#: client/gui-sdl/optiondlg.c:2258
+#: client/gui-sdl/optiondlg.c:2264
 msgid "Sound options"
 msgstr "تنظیمات صدا"
 
-#: client/gui-sdl/optiondlg.c:2270
+#: client/gui-sdl/optiondlg.c:2276
 msgid "Game options"
 msgstr "تنظیمات بازی"
 
-#: client/gui-sdl/optiondlg.c:2280
+#: client/gui-sdl/optiondlg.c:2286
 msgid "Map options"
 msgstr "تنظیمات نقشه"
 
-#: client/gui-sdl/optiondlg.c:2291 client/gui-xaw/menu.c:129
+#: client/gui-sdl/optiondlg.c:2297 client/gui-xaw/menu.c:129
 #: data/Freeciv.in:1971
 msgid "Worklists"
 msgstr ""
 
-#: client/gui-sdl/plrdlg.c:228 client/gui-sdl/plrdlg.c:668
-msgid "disconnected"
-msgstr "ارتباط قطع شده"
-
-#: client/gui-sdl/plrdlg.c:242
-#, c-format
-msgid ""
-"Name : %s\n"
-"Nation : %s\n"
-"Team : %s\n"
-"Embassy :%s\n"
-"State : %s\n"
-"Idle : %d %s"
-msgstr ""
-
-#: client/gui-sdl/plrdlg.c:625
+#: client/gui-sdl/plrdlg.c:606
 msgid "Nations"
 msgstr "ملل"
 
-#: client/gui-sdl/repodlgs.c:335
+#: client/gui-sdl/plrdlg.c:651
+msgid "disconnected"
+msgstr "ارتباط قطع شده"
+
+#: client/gui-sdl/repodlgs.c:337
 msgid "active"
 msgstr "فعال"
 
-#: client/gui-sdl/repodlgs.c:340
+#: client/gui-sdl/repodlgs.c:342
 msgid ""
 "under\n"
 "construction"
@@ -14751,21 +14759,21 @@ msgstr ""
 "در دست\n"
 " ساخت"
 
-#: client/gui-sdl/repodlgs.c:344
+#: client/gui-sdl/repodlgs.c:346
 msgid ""
 "soonest\n"
 "completion"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:348
+#: client/gui-sdl/repodlgs.c:350
 msgid "Total"
 msgstr "کل"
 
-#: client/gui-sdl/repodlgs.c:359
+#: client/gui-sdl/repodlgs.c:361
 msgid "Units Report"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1477
+#: client/gui-sdl/repodlgs.c:1487
 #, c-format
 msgid ""
 "We have %d of %s\n"
@@ -14773,54 +14781,55 @@ msgid ""
 "We can sell %d of them for %d gold"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1483
+#: client/gui-sdl/repodlgs.c:1493
 #, c-format
 msgid "We can't sell any %s in this turn"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1716
+#: client/gui-sdl/repodlgs.c:1728
 msgid "Economy Report"
 msgstr "گزارش اقتصادی"
 
-#: client/gui-sdl/repodlgs.c:1732
+#: client/gui-sdl/repodlgs.c:1743
 msgid "Treasury: "
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1754
+#: client/gui-sdl/repodlgs.c:1765
 msgid "Tax Rate: "
 msgstr "درجه مالیات‌:"
 
-#: client/gui-sdl/repodlgs.c:1775
+#: client/gui-sdl/repodlgs.c:1786
 msgid "Total Income: "
 msgstr "کل درآمد: "
 
-#: client/gui-sdl/repodlgs.c:1795
+#: client/gui-sdl/repodlgs.c:1806
 msgid "Total Cost: "
 msgstr "قیمت کل: "
 
-#: client/gui-sdl/repodlgs.c:1814
+#: client/gui-sdl/repodlgs.c:1825
 msgid "Net Income: "
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1838
+#: client/gui-sdl/repodlgs.c:1849
 #, c-format
 msgid "%s max rate : %d%%"
 msgstr "%s حداکثر مقدار : %d%%"
 
-#: client/gui-sdl/repodlgs.c:1936 client/gui-win32/connectdlg.c:1081
+#: client/gui-sdl/repodlgs.c:1947 client/gui-win32/connectdlg.c:1081
 #: client/gui-win32/connectdlg.c:1089 data/Freeciv.in:155
 msgid "Update"
 msgstr "بروزرسانی"
 
-#: client/gui-sdl/repodlgs.c:2807
+#: client/gui-sdl/repodlgs.c:2821
 msgid "What should we focus on now?"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:2989
-msgid "Sellect target :"
-msgstr ""
+#: client/gui-sdl/repodlgs.c:3009
+#, fuzzy
+msgid "Select target :"
+msgstr "یک شهر را انتخاب کنید:"
 
-#: client/gui-sdl/repodlgs.c:3052
+#: client/gui-sdl/repodlgs.c:3075
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "مرحله"
@@ -14859,7 +14868,7 @@ msgstr ""
 msgid "Trying \"%s\" theme."
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:892 client/gui-sdl/wldlg.c:1067
+#: client/gui-sdl/wldlg.c:892 client/gui-sdl/wldlg.c:1068
 #, c-format
 msgid ""
 "%s\n"
@@ -14868,7 +14877,7 @@ msgstr ""
 "%s\n"
 "%d طلا در نوبت"
 
-#: client/gui-sdl/wldlg.c:899 client/gui-sdl/wldlg.c:1073
+#: client/gui-sdl/wldlg.c:899 client/gui-sdl/wldlg.c:1074
 #, c-format
 msgid ""
 "%s\n"
@@ -14877,7 +14886,7 @@ msgstr ""
 "%s\n"
 "مسدود شده!"
 
-#: client/gui-sdl/wldlg.c:901 client/gui-sdl/wldlg.c:1075
+#: client/gui-sdl/wldlg.c:901 client/gui-sdl/wldlg.c:1076
 #, c-format
 msgid ""
 "%s\n"
@@ -14886,19 +14895,19 @@ msgstr ""
 "%s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:905 client/gui-sdl/wldlg.c:1079
+#: client/gui-sdl/wldlg.c:905 client/gui-sdl/wldlg.c:1080
 #, c-format
 msgid ""
 "%s\n"
 "finished!"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:945 client/gui-sdl/wldlg.c:1050
+#: client/gui-sdl/wldlg.c:945 client/gui-sdl/wldlg.c:1051
 #, c-format
 msgid "( %d entries )"
 msgstr "(%d مدخل)"
 
-#: client/gui-sdl/wldlg.c:1037
+#: client/gui-sdl/wldlg.c:1038
 #, c-format
 msgid ""
 "Worklist of\n"
@@ -14907,7 +14916,7 @@ msgstr ""
 "لیست کارهای\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1355
+#: client/gui-sdl/wldlg.c:1356
 #, c-format
 msgid ""
 "(%s)\n"
@@ -14918,7 +14927,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1362
+#: client/gui-sdl/wldlg.c:1363
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -14927,7 +14936,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1369
+#: client/gui-sdl/wldlg.c:1370
 #, c-format
 msgid ""
 "(%s)\n"
@@ -14938,7 +14947,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1376
+#: client/gui-sdl/wldlg.c:1377
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -14947,12 +14956,12 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1385
+#: client/gui-sdl/wldlg.c:1386
 #, c-format
 msgid "%d gold per turn"
 msgstr "%d طلا در نوبت"
 
-#: client/gui-sdl/wldlg.c:1392
+#: client/gui-sdl/wldlg.c:1393
 #, c-format
 msgid ""
 "(%s)\n"
@@ -14961,16 +14970,16 @@ msgstr ""
 "(%s)\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1397
+#: client/gui-sdl/wldlg.c:1398
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
 
-#: client/gui-sdl/wldlg.c:1403
+#: client/gui-sdl/wldlg.c:1404
 msgid "shields into gold"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1482
+#: client/gui-sdl/wldlg.c:1483
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -14978,7 +14987,7 @@ msgid ""
 "never"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1489
+#: client/gui-sdl/wldlg.c:1490
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -14986,7 +14995,7 @@ msgid ""
 "%d %s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1498
+#: client/gui-sdl/wldlg.c:1499
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -15589,10 +15598,6 @@ msgstr "تنظیمات محلی"
 msgid "Server Options"
 msgstr "تنظیمات سرور"
 
-#: client/gui-xaw/menu.c:131
-msgid "Revolution"
-msgstr "انقلاب"
-
 #: client/gui-xaw/menu.c:144
 msgid "City Growth"
 msgstr "رشد شهر"
@@ -15641,7 +15646,7 @@ msgstr "خط‌گفتگو"
 msgid "Playing"
 msgstr "بازی‌کردن"
 
-#: client/gui-xaw/menu.c:241 data/helpdata.txt:943
+#: client/gui-xaw/menu.c:241 data/helpdata.txt:989
 msgid "Combat"
 msgstr "جنگ"
 
@@ -15649,7 +15654,7 @@ msgstr "جنگ"
 msgid "ZOC"
 msgstr "محدوده کنترل"
 
-#: client/gui-xaw/menu.c:248 data/helpdata.txt:1421
+#: client/gui-xaw/menu.c:248 data/helpdata.txt:1467
 msgid "Space Race"
 msgstr "مسابقه فضایی"
 
@@ -16653,9 +16658,9 @@ msgid ""
 "    If you have recently contacted (or established an embassy with) another "
 "player, then you can arrange a diplomatic meeting. This is done by going to "
 "the `Reports' menu, selecting `Players', clicking on the player with whom "
-"you wish to meet, and selecting `Meet' from the `Player' menu.  If the entry "
-"under the embassy column is not blank and the other player is connected (or "
-"is a server AI) then a diplomacy menu will pop up."
+"you wish to meet, and finally clicking the `Meet' button below.  If the "
+"entry under the embassy column is not blank and the other player is "
+"connected (or is a server AI) then a diplomacy menu will pop up."
 msgstr ""
 
 #: data/helpdata.txt:747
@@ -16664,20 +16669,26 @@ msgid ""
 "\n"
 "   - Trade Maps (Sea or entire map),\n"
 "\n"
-"   - Trade advances,\n"
+"   - Trade Advances,\n"
 "\n"
 "   - Trade Cities,\n"
+"\n"
+"   - Trade Shared Vision,\n"
+"\n"
+"   - Exchange Embassies,\n"
+"\n"
+"   - Create Treaties,\n"
 "\n"
 "   - and Give Gold."
 msgstr ""
 
-#: data/helpdata.txt:757
+#: data/helpdata.txt:763
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can consider this buying and selling."
 msgstr ""
 
-#: data/helpdata.txt:761
+#: data/helpdata.txt:767
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -16686,7 +16697,7 @@ msgid ""
 "   - If you can't see a city on your map, then you can't request it."
 msgstr ""
 
-#: data/helpdata.txt:767
+#: data/helpdata.txt:773
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -16695,7 +16706,7 @@ msgid ""
 "isn't getting a better deal than you expect."
 msgstr ""
 
-#: data/helpdata.txt:778
+#: data/helpdata.txt:824
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
 "It deploys the available workers on the free tiles around the city to "
@@ -16740,7 +16751,7 @@ msgid ""
 "README.cma, included with Freeciv.\n"
 msgstr ""
 
-#: data/helpdata.txt:828
+#: data/helpdata.txt:874
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -16748,33 +16759,33 @@ msgid ""
 "automatically sold."
 msgstr ""
 
-#: data/helpdata.txt:845
+#: data/helpdata.txt:891
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
 msgstr ""
 
-#: data/helpdata.txt:856
+#: data/helpdata.txt:902
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
 msgstr ""
 
-#: data/helpdata.txt:867
+#: data/helpdata.txt:913
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
 "unit's strength in attack and defense, and its ability to move."
 msgstr ""
 
-#: data/helpdata.txt:872
+#: data/helpdata.txt:918
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
 msgstr ""
 
-#: data/helpdata.txt:877
+#: data/helpdata.txt:923
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -16790,7 +16801,7 @@ msgid ""
 "enemy cities."
 msgstr ""
 
-#: data/helpdata.txt:890
+#: data/helpdata.txt:936
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -16800,7 +16811,7 @@ msgid ""
 "if the city is undefended."
 msgstr ""
 
-#: data/helpdata.txt:897
+#: data/helpdata.txt:943
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -16814,7 +16825,7 @@ msgid ""
 "disband."
 msgstr ""
 
-#: data/helpdata.txt:909
+#: data/helpdata.txt:955
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -16824,7 +16835,7 @@ msgid ""
 "enemy cities."
 msgstr ""
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:962
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -16842,128 +16853,128 @@ msgid ""
 "when they have regained all of their hit points."
 msgstr ""
 
-#: data/helpdata.txt:933
+#: data/helpdata.txt:979
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
 "attack."
 msgstr ""
 
-#: data/helpdata.txt:944
+#: data/helpdata.txt:990
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
 msgstr ""
 
-#: data/helpdata.txt:945
+#: data/helpdata.txt:991
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
 msgstr ""
 
-#: data/helpdata.txt:950
+#: data/helpdata.txt:996
 msgid "First, the attacker's strength is modified."
 msgstr ""
 
-#: data/helpdata.txt:952
+#: data/helpdata.txt:998
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr ""
 
-#: data/helpdata.txt:954
+#: data/helpdata.txt:1000
 msgid "Next, the defender's strength is modified."
 msgstr ""
 
-#: data/helpdata.txt:956
+#: data/helpdata.txt:1002
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr ""
 
-#: data/helpdata.txt:959
+#: data/helpdata.txt:1005
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr ""
 
-#: data/helpdata.txt:962
+#: data/helpdata.txt:1008
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr ""
 
-#: data/helpdata.txt:965
+#: data/helpdata.txt:1011
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
 msgstr ""
 
-#: data/helpdata.txt:969
+#: data/helpdata.txt:1015
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
 "missile."
 msgstr ""
 
-#: data/helpdata.txt:973
+#: data/helpdata.txt:1019
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
 msgstr ""
 
-#: data/helpdata.txt:976
+#: data/helpdata.txt:1022
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
 msgstr ""
 
-#: data/helpdata.txt:979
+#: data/helpdata.txt:1025
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
 msgstr ""
 
-#: data/helpdata.txt:983
+#: data/helpdata.txt:1029
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr ""
 
-#: data/helpdata.txt:986
+#: data/helpdata.txt:1032
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
 msgstr ""
 
-#: data/helpdata.txt:989
+#: data/helpdata.txt:1035
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
 "defender loses."
 msgstr ""
 
-#: data/helpdata.txt:993
+#: data/helpdata.txt:1039
 msgid "The firepower of the attacker and defender are also modified."
 msgstr ""
 
-#: data/helpdata.txt:995
+#: data/helpdata.txt:1041
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:1044
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
 msgstr ""
 
-#: data/helpdata.txt:1001
+#: data/helpdata.txt:1047
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
 msgstr ""
 
-#: data/helpdata.txt:1004
+#: data/helpdata.txt:1050
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -16974,7 +16985,7 @@ msgid ""
 "to reach 0 hit points (or negative hit points) loses. "
 msgstr ""
 
-#: data/helpdata.txt:1019
+#: data/helpdata.txt:1065
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -16983,52 +16994,52 @@ msgid ""
 "veteran.  Otherwise, the chance of becoming a veteran is 50%."
 msgstr ""
 
-#: data/helpdata.txt:1025
+#: data/helpdata.txt:1071
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
 msgstr ""
 
-#: data/helpdata.txt:1028
+#: data/helpdata.txt:1074
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
 msgstr ""
 
-#: data/helpdata.txt:1035
+#: data/helpdata.txt:1081
 msgid " Modifying Combat Rules"
 msgstr ""
 
-#: data/helpdata.txt:1036
+#: data/helpdata.txt:1082
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
 
-#: data/helpdata.txt:1037
+#: data/helpdata.txt:1083
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
 msgstr ""
 
-#: data/helpdata.txt:1040
+#: data/helpdata.txt:1086
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
 msgstr ""
 
-#: data/helpdata.txt:1046
+#: data/helpdata.txt:1092
 msgid " Combat example 1"
 msgstr ""
 
-#: data/helpdata.txt:1047
+#: data/helpdata.txt:1093
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
 
-#: data/helpdata.txt:1051
+#: data/helpdata.txt:1097
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -17036,18 +17047,18 @@ msgid ""
 "20.25."
 msgstr ""
 
-#: data/helpdata.txt:1056
+#: data/helpdata.txt:1102
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
 "strength is 202."
 msgstr ""
 
-#: data/helpdata.txt:1060
+#: data/helpdata.txt:1106
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr ""
 
-#: data/helpdata.txt:1063
+#: data/helpdata.txt:1109
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -17055,7 +17066,7 @@ msgid ""
 "hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
 msgstr ""
 
-#: data/helpdata.txt:1074
+#: data/helpdata.txt:1120
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -17065,22 +17076,22 @@ msgid ""
 "might lose most of its hit points, or it might even lose the battle."
 msgstr ""
 
-#: data/helpdata.txt:1084
+#: data/helpdata.txt:1130
 msgid " Combat example 2"
 msgstr ""
 
-#: data/helpdata.txt:1085
+#: data/helpdata.txt:1131
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
 
-#: data/helpdata.txt:1090
+#: data/helpdata.txt:1136
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr ""
 
-#: data/helpdata.txt:1093
+#: data/helpdata.txt:1139
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -17089,17 +17100,17 @@ msgid ""
 "strength is 22.5."
 msgstr ""
 
-#: data/helpdata.txt:1099
+#: data/helpdata.txt:1145
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr ""
 
-#: data/helpdata.txt:1102
+#: data/helpdata.txt:1148
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr ""
 
-#: data/helpdata.txt:1105
+#: data/helpdata.txt:1151
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -17107,7 +17118,7 @@ msgid ""
 "the attacker loses 1 hit point."
 msgstr ""
 
-#: data/helpdata.txt:1116
+#: data/helpdata.txt:1162
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -17117,17 +17128,17 @@ msgid ""
 "points left."
 msgstr ""
 
-#: data/helpdata.txt:1125
+#: data/helpdata.txt:1171
 msgid "Zones of Control"
 msgstr "محدوده‌ی کنترل"
 
-#: data/helpdata.txt:1126
+#: data/helpdata.txt:1172
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
 msgstr ""
 
-#: data/helpdata.txt:1130
+#: data/helpdata.txt:1176
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -17136,7 +17147,7 @@ msgid ""
 "surrounding a unit."
 msgstr ""
 
-#: data/helpdata.txt:1136
+#: data/helpdata.txt:1182
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -17145,7 +17156,7 @@ msgid ""
 "- A unit type which explicitly ignores ZOC, eg Diplomats and Spies."
 msgstr ""
 
-#: data/helpdata.txt:1142
+#: data/helpdata.txt:1188
 msgid ""
 "Notes:\n"
 "\n"
@@ -17167,7 +17178,7 @@ msgid ""
 "onto a friendly unit (the boat)."
 msgstr ""
 
-#: data/helpdata.txt:1162
+#: data/helpdata.txt:1208
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -17176,7 +17187,7 @@ msgid ""
 "through enemy territory."
 msgstr ""
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1215
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -17184,30 +17195,30 @@ msgid ""
 "- The special case for land units disembarking is new."
 msgstr ""
 
-#: data/helpdata.txt:1178
+#: data/helpdata.txt:1224
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
 "producing squares nearby to support your growing population."
 msgstr ""
 
-#: data/helpdata.txt:1183
+#: data/helpdata.txt:1229
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr ""
 
-#: data/helpdata.txt:1192
+#: data/helpdata.txt:1238
 msgid " Terrain Alterations"
 msgstr ""
 
-#: data/helpdata.txt:1193
+#: data/helpdata.txt:1239
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr ""
 
-#: data/helpdata.txt:1196
+#: data/helpdata.txt:1242
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -17217,13 +17228,13 @@ msgid ""
 "time, turning it into even more productive Farmland."
 msgstr ""
 
-#: data/helpdata.txt:1204
+#: data/helpdata.txt:1250
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
 msgstr ""
 
-#: data/helpdata.txt:1207
+#: data/helpdata.txt:1253
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -17231,43 +17242,43 @@ msgid ""
 "the resources produced in cities."
 msgstr ""
 
-#: data/helpdata.txt:1212
+#: data/helpdata.txt:1258
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
 msgstr ""
 
-#: data/helpdata.txt:1215
+#: data/helpdata.txt:1261
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
 msgstr ""
 
-#: data/helpdata.txt:1218
+#: data/helpdata.txt:1264
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 
-#: data/helpdata.txt:1221
+#: data/helpdata.txt:1267
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
 msgstr ""
 
-#: data/helpdata.txt:1226
+#: data/helpdata.txt:1272
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
 "destroyed one at a time.  See the Combat help section for further details."
 msgstr ""
 
-#: data/helpdata.txt:1231
+#: data/helpdata.txt:1277
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 
-#: data/helpdata.txt:1234
+#: data/helpdata.txt:1280
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -17275,7 +17286,7 @@ msgid ""
 "Settlers/Engineers, doing teamwork."
 msgstr ""
 
-#: data/helpdata.txt:1241
+#: data/helpdata.txt:1287
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -17286,11 +17297,11 @@ msgid ""
 "output."
 msgstr ""
 
-#: data/helpdata.txt:1251
+#: data/helpdata.txt:1297
 msgid "  Pillaging"
 msgstr "  غارت کردن"
 
-#: data/helpdata.txt:1252
+#: data/helpdata.txt:1298
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -17298,7 +17309,7 @@ msgid ""
 "alteration to pillage, or they will be pillaged in the following order:"
 msgstr ""
 
-#: data/helpdata.txt:1258
+#: data/helpdata.txt:1304
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -17309,7 +17320,7 @@ msgid ""
 " - a road"
 msgstr ""
 
-#: data/helpdata.txt:1266
+#: data/helpdata.txt:1312
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -17319,13 +17330,13 @@ msgid ""
 "to convert the tile again with a Settler or Engineer."
 msgstr ""
 
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1324
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
 msgstr ""
 
-#: data/helpdata.txt:1281
+#: data/helpdata.txt:1327
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -17334,7 +17345,7 @@ msgid ""
 "at the end of this time, you will be able to choose your new government."
 msgstr ""
 
-#: data/helpdata.txt:1288
+#: data/helpdata.txt:1334
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -17343,7 +17354,7 @@ msgid ""
 "reduce the level of corruption in a city."
 msgstr ""
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1341
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -17352,7 +17363,7 @@ msgid ""
 "of waste in a city. Waste can result in your cities not building anything."
 msgstr ""
 
-#: data/helpdata.txt:1302
+#: data/helpdata.txt:1348
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -17360,7 +17371,7 @@ msgid ""
 "switch to one of the more militant styles of government."
 msgstr ""
 
-#: data/helpdata.txt:1308
+#: data/helpdata.txt:1354
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -17368,11 +17379,11 @@ msgid ""
 "early in the game puts you at an advantage."
 msgstr ""
 
-#: data/helpdata.txt:1317
+#: data/helpdata.txt:1363
 msgid " Civil War"
 msgstr ""
 
-#: data/helpdata.txt:1318
+#: data/helpdata.txt:1364
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -17380,13 +17391,13 @@ msgid ""
 "retain all of your scientific advances."
 msgstr ""
 
-#: data/helpdata.txt:1324
+#: data/helpdata.txt:1370
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr ""
 
-#: data/helpdata.txt:1327
+#: data/helpdata.txt:1373
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -17394,14 +17405,14 @@ msgid ""
 "while each revolting city increases the likelihood."
 msgstr ""
 
-#: data/helpdata.txt:1333
+#: data/helpdata.txt:1379
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
 "revolt than those more despotic in nature."
 msgstr ""
 
-#: data/helpdata.txt:1337
+#: data/helpdata.txt:1383
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -17409,7 +17420,7 @@ msgid ""
 "minimum of 6."
 msgstr ""
 
-#: data/helpdata.txt:1349
+#: data/helpdata.txt:1395
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -17418,7 +17429,7 @@ msgid ""
 "cities will celebrate, and your production will increase greatly."
 msgstr ""
 
-#: data/helpdata.txt:1356
+#: data/helpdata.txt:1402
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -17427,7 +17438,7 @@ msgid ""
 "can lead to a spontaneous revolution, overthrowing your government."
 msgstr ""
 
-#: data/helpdata.txt:1363
+#: data/helpdata.txt:1409
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -17436,28 +17447,28 @@ msgid ""
 "celebration vary depending on your government type:"
 msgstr ""
 
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1416
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
 "shields or trade)."
 msgstr ""
 
-#: data/helpdata.txt:1374
+#: data/helpdata.txt:1420
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
 "produces at least 1 trade."
 msgstr ""
 
-#: data/helpdata.txt:1378
+#: data/helpdata.txt:1424
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
 
-#: data/helpdata.txt:1383
+#: data/helpdata.txt:1429
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -17467,7 +17478,7 @@ msgid ""
 "cityfactor), the limit on content citizens is reduced to 3."
 msgstr ""
 
-#: data/helpdata.txt:1393
+#: data/helpdata.txt:1439
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -17479,7 +17490,7 @@ msgid ""
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
 
-#: data/helpdata.txt:1403
+#: data/helpdata.txt:1449
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -17495,7 +17506,7 @@ msgid ""
 "luxuries."
 msgstr ""
 
-#: data/helpdata.txt:1422
+#: data/helpdata.txt:1468
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -17503,7 +17514,7 @@ msgid ""
 "off as a server option.)"
 msgstr ""
 
-#: data/helpdata.txt:1428
+#: data/helpdata.txt:1474
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -17513,31 +17524,38 @@ msgid ""
 "for your game.)"
 msgstr ""
 
-#: data/helpdata.txt:1436
+#: data/helpdata.txt:1482
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Players dialog and click \"Spaceship\"."
 msgstr ""
 
-#: data/helpdata.txt:1441
+#: data/helpdata.txt:1487
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
 msgstr ""
 
-#: data/helpdata.txt:1445
+#: data/helpdata.txt:1491
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
 msgstr ""
 
-#: data/helpdata.txt:1448
+#: data/helpdata.txt:1494
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
 "earlier.  The only other option is to capture their capital."
+msgstr ""
+
+#: data/helpdata.txt:780
+msgid ""
+"     There are five diplomatic states between players: War, Cease-fire, "
+"Armistice, Peace, and Alliance. The first is the default state, while the "
+"others can be achieved by signing diplomatic treaties.), _("
 msgstr ""
 
 #: data/default/buildings.ruleset:59 data/civ2/buildings.ruleset:42
@@ -18777,15 +18795,18 @@ msgid "Despotism"
 msgstr "حكومت مطلقه"
 
 #: data/default/governments.ruleset:78 data/civ2/governments.ruleset:76
-#: data/civ1/governments.ruleset:78 data/nation/brazilian.ruleset:22
-#: data/nation/iraqi.ruleset:21 data/nation/roman.ruleset:39
-msgid "Dictator"
-msgstr "دیکتاتور"
+#: data/civ1/governments.ruleset:78 data/nation/iroquois.ruleset:26
+#: data/nation/malian.ruleset:26 data/nation/maori.ruleset:24
+#: data/nation/sioux.ruleset:28 data/nation/swazi.ruleset:22
+#: data/nation/zulu.ruleset:38
+msgid "Chief"
+msgstr "چیف"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
-msgid "Dictatress"
-msgstr "دیکتاترس"
+#, fuzzy
+msgid "?female:Chief"
+msgstr "رفیق"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -18832,7 +18853,7 @@ msgid "Communism"
 msgstr "کمنیسم"
 
 #: data/default/governments.ruleset:121 data/civ2/governments.ruleset:119
-#: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:25
+#: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:26
 msgid "Comrade"
 msgstr "رفيق"
 
@@ -20253,7 +20274,7 @@ msgid "Emir"
 msgstr "امیر"
 
 #: data/nation/afghani.ruleset:25 data/nation/slovakian.ruleset:30
-#: data/nation/soviet.ruleset:26
+#: data/nation/soviet.ruleset:27
 msgid "General Secretary"
 msgstr ""
 
@@ -20594,6 +20615,11 @@ msgid ""
 "Brazil was founded as a colony of Portugal but became independent in 1822AD. "
 "It is the only country in the New World that has been the seat of a monarchy."
 msgstr ""
+
+#: data/nation/brazilian.ruleset:22 data/nation/iraqi.ruleset:21
+#: data/nation/roman.ruleset:39
+msgid "Dictator"
+msgstr "دیکتاتور"
 
 #: data/nation/brazilian.ruleset:22 data/nation/roman.ruleset:39
 msgid "Dictatrix"
@@ -21474,12 +21500,6 @@ msgid ""
 "state in North America upon the arrival of the Europeans."
 msgstr ""
 
-#: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:26
-#: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
-#: data/nation/swazi.ruleset:22 data/nation/zulu.ruleset:38
-msgid "Chief"
-msgstr "چیف"
-
 #: data/nation/iroquois.ruleset:27 data/nation/sioux.ruleset:29
 msgid "Great Chief"
 msgstr "گریت چیف"
@@ -21608,7 +21628,7 @@ msgid ""
 "1953."
 msgstr ""
 
-#: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
+#: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:28
 msgid "Great Leader"
 msgstr "گریت لیدر"
 
@@ -22806,283 +22826,315 @@ msgstr "سناریو آموزشی"
 
 #: data/scenario/tutorial.sav:11
 msgid ""
-"Welcome to Freeciv.  You lead a civilization.  Your\\ntask is to conquer the "
-"world!  You should start by\\nexploring the land around you with your "
-"explorer,\\nand using your settlers to find a good place to build\\na city.  "
-"Use the number pad to move units around."
+"Welcome to Freeciv.  You lead a civilization.  Your\n"
+"task is to conquer the world!  You should start by\n"
+"exploring the land around you with your explorer,\n"
+"and using your settlers to find a good place to build\n"
+"a city.  Use the number pad to move units around."
 msgstr ""
 
 #: data/scenario/tutorial.sav:27
 msgid ""
-"This looks like a good place to build a city.  The next time this\\nunit "
-"gets a chance to move, press (b) to found a city.\\n\\nIn general you want "
-"to build cities on open ground near water.  Food\\nis the most important "
-"resource for any city.  Grassland and plains\\nprovide plenty of food."
+"This looks like a good place to build a city.  The next time this\n"
+"unit gets a chance to move, press (b) to found a city.\n"
+"\n"
+"In general you want to build cities on open ground near water.  Food\n"
+"is the most important resource for any city.  Grassland and plains\n"
+"provide plenty of food."
 msgstr ""
 
 #: data/scenario/tutorial.sav:42
 msgid ""
-"Now you have built your first city.  The city window should have\\nopened "
-"automatically; if not click on the city to open it.  Cities are\\na "
-"fundamental concept in Freeciv, so you should familiarize yourself\\nwith "
-"them by playing around in the window.  See the help menu for more.\\n\\nYou "
-"probably want to build some settlers first, so as to expand your"
-"\\ncivilization further.  Click on the production tab, then click on the"
-"\\nsettler unit from the list of possible productions, then click on the"
-"\\nChange button to begin building it.  When you are done, close the city"
-"\\ndialog.  If all goes well the city should display the settler"
-"\\nproduction on the map view."
+"Now you have built your first city.  The city window should have\n"
+"opened automatically; if not click on the city to open it.  Cities are\n"
+"a fundamental concept in Freeciv, so you should familiarize yourself\n"
+"with them by playing around in the window.  See the help menu for more.\n"
+"\n"
+"You probably want to build some settlers first, so as to expand your\n"
+"civilization further.  Click on the production tab, then click on the\n"
+"settler unit from the list of possible productions, then click on the\n"
+"Change button to begin building it.  When you are done, close the city\n"
+"dialog.  If all goes well the city should display the settler\n"
+"production on the map view."
 msgstr ""
 
 #: data/scenario/tutorial.sav:55
 msgid ""
-"Congratulations, you have founded your second city.  This city will\\nbehave "
-"almost exactly like the first one - it will be slightly different\\nbecause "
-"of the terrain around it.  You probably want to build\\nsettlers here too."
+"Congratulations, you have founded your second city.  This city will\n"
+"behave almost exactly like the first one - it will be slightly different\n"
+"because of the terrain around it.  You probably want to build\n"
+"settlers here too."
 msgstr ""
 
 #: data/scenario/tutorial.sav:61
 msgid ""
-"You have built your third city!  Your civilization seems to be\\nthriving.  "
-"It might be time to think about a military.  Pick one of\\nthe cities that "
-"has a high production, and convert it into a military\\nbase. Build a "
-"Barracks there first, then start work on a military\\nunit.  Pick the best "
-"unit you have available - at the beginning of\\nthe game, Warriors will be "
-"the only choice, but soon you will have \\nplenty of options.\\n\\nThis "
-"might also be a good time to use the worklist feature of the\\ncity dialog "
-"production report.  Click on Barracks, then click Change\\nto begin building "
-"them.  Then double-click on a military unit to\\nappend it to the worklist.  "
-"As soon as the Barracks are complete the\\ncity will automatically switch "
-"over to producing the unit."
+"You have built your third city!  Your civilization seems to be\n"
+"thriving.  It might be time to think about a military.  Pick one of\n"
+"the cities that has a high production, and convert it into a military\n"
+"base. Build a Barracks there first, then start work on a military\n"
+"unit.  Pick the best unit you have available - at the beginning of\n"
+"the game, Warriors will be the only choice, but soon you will have \n"
+"plenty of options.\n"
+"\n"
+"This might also be a good time to use the worklist feature of the\n"
+"city dialog production report.  Click on Barracks, then click Change\n"
+"to begin building them.  Then double-click on a military unit to\n"
+"append it to the worklist.  As soon as the Barracks are complete the\n"
+"city will automatically switch over to producing the unit."
 msgstr ""
 
 #: data/scenario/tutorial.sav:76
 msgid ""
-"Another city!  You are really getting the hang of this.  You\\nprobably have "
-"a pretty good idea what to do with new cities by\\nnow.  Take a moment to "
-"look at the bar below the city on the map\\nview.  This display shows some "
-"useful information about the city.\\nThe flag and background color indicate "
-"what civilization the city\\nbelongs to (this will be useful when you meet "
-"other civilizations).\\nThe top row of the bar also shows the name and size "
-"of the city, and\\nwill show one or more starts to indicate if there are "
-"units in the\\ncity.  The bottom row shows what the city is building, and "
-"how long it\\nwill take; it also shows how long the city will take to grow "
-"to the\\nnext largest size."
+"Another city!  You are really getting the hang of this.  You\n"
+"probably have a pretty good idea what to do with new cities by\n"
+"now.  Take a moment to look at the bar below the city on the map\n"
+"view.  This display shows some useful information about the city.\n"
+"The flag and background color indicate what civilization the city\n"
+"belongs to (this will be useful when you meet other civilizations).\n"
+"The top row of the bar also shows the name and size of the city, and\n"
+"will show one or more starts to indicate if there are units in the\n"
+"city.  The bottom row shows what the city is building, and how long it\n"
+"will take; it also shows how long the city will take to grow to the\n"
+"next largest size."
 msgstr ""
 
 #: data/scenario/tutorial.sav:89
 msgid ""
-"As the number of cities in your empire grows, it becomes harder to\\nmanage "
-"individual cities.  This is where the city report becomes\\nuseful.  Press "
-"F1 to bring it up.  This report shows a list of cities\\nwith various "
-"statistics about each.  Play around with it a bit if you\\nlike (return to "
-"the map view by clicking on the Map tab).  With a bit\\nof practice it is "
-"possible to control almost every aspect of the cities\\nfrom this report.  "
-"The full power of the city report is beyond the\\nscope of this tutorial, "
-"however."
+"As the number of cities in your empire grows, it becomes harder to\n"
+"manage individual cities.  This is where the city report becomes\n"
+"useful.  Press F1 to bring it up.  This report shows a list of cities\n"
+"with various statistics about each.  Play around with it a bit if you\n"
+"like (return to the map view by clicking on the Map tab).  With a bit\n"
+"of practice it is possible to control almost every aspect of the cities\n"
+"from this report.  The full power of the city report is beyond the\n"
+"scope of this tutorial, however."
 msgstr ""
 
 #: data/scenario/tutorial.sav:108
 msgid ""
-"Your city has grown!  As a city grows, more citizens become\\navailable that "
-"can be put to work in the fields or dedicated as\\ncitizen specialists.  A "
-"city of size two or more may also build\\nsettlers, which costs one unit of "
-"population.\\n\\nIf your city is building settlers, you should consider "
-"buying them\\nnow.  Open the city dialog and click on the Buy button.  This "
-"trades\\nin gold (if you have enough of it) to instantly complete the"
-"\\nproduction."
+"Your city has grown!  As a city grows, more citizens become\n"
+"available that can be put to work in the fields or dedicated as\n"
+"citizen specialists.  A city of size two or more may also build\n"
+"settlers, which costs one unit of population.\n"
+"\n"
+"If your city is building settlers, you should consider buying them\n"
+"now.  Open the city dialog and click on the Buy button.  This trades\n"
+"in gold (if you have enough of it) to instantly complete the\n"
+"production."
 msgstr ""
 
 #: data/scenario/tutorial.sav:120
 msgid ""
-"Your city has grown again!  Now with three citizens you have\\na fair amount "
-"of choice over where the city should focus its\\nresources.  A city with "
-"three citizens gets to work three\\ndifferent tiles, in addition to its "
-"center tile which is worked\\nfor free.  In the city dialog, the map shows "
-"which tiles are working\\nand how much food, shields, and trade each "
-"provides.  Food is used\\nto grow your city, shields are used for production "
-"of buildings\\nand units, while trade provides taxable revenue that can be"
-"\\nturned into science research, gold, or luxuries.\\n\\nClick on a worked "
-"tile to remove the citizen from that tile.  Then\\nclick on an unworked tile "
-"to place a worker there.  You may place\\nup to three workers, of course.  "
-"The remaining citizens are all\\nspecialists - right now they are all "
-"entertainers which provide\\nonly luxuries (which will not be useful until "
-"later)."
+"Your city has grown again!  Now with three citizens you have\n"
+"a fair amount of choice over where the city should focus its\n"
+"resources.  A city with three citizens gets to work three\n"
+"different tiles, in addition to its center tile which is worked\n"
+"for free.  In the city dialog, the map shows which tiles are working\n"
+"and how much food, shields, and trade each provides.  Food is used\n"
+"to grow your city, shields are used for production of buildings\n"
+"and units, while trade provides taxable revenue that can be\n"
+"turned into science research, gold, or luxuries.\n"
+"\n"
+"Click on a worked tile to remove the citizen from that tile.  Then\n"
+"click on an unworked tile to place a worker there.  You may place\n"
+"up to three workers, of course.  The remaining citizens are all\n"
+"specialists - right now they are all entertainers which provide\n"
+"only luxuries (which will not be useful until later)."
 msgstr ""
 
 #: data/scenario/tutorial.sav:138
 #, c-format
 msgid ""
-"Now your city has grown to size five.  As cities get larger unrest\\nbecomes "
-"a problem.  A city of this size will usually have one unhappy\\ncitizen "
-"unless pacifying effects are used; meaning one entertainer\\nspecialist is "
-"required to keep your citzens content.  This is basically\\na wasted citizen."
-"\\n\\nThere are several things that can be done about this.  One quick fix"
-"\\nis to build a temple (or other cultural building) that will make an"
-"\\nunhappy citizen content (see the help on buildings for specs\\non each "
-"building type).  As you get more large cities, it may pay off\\nto change "
-"your tax rates (by pressing shift-T) to dedicate some of\\nyour taxes "
-"directly to luxuries (every two luxuries will pacify one\\ncitizen).  "
-"Building a marketplace enhances the benefit from this\\nby providing +50% "
-"luxuries to the city."
+"Now your city has grown to size five.  As cities get larger unrest\n"
+"becomes a problem.  A city of this size will usually have one unhappy\n"
+"citizen unless pacifying effects are used; meaning one entertainer\n"
+"specialist is required to keep your citzens content.  This is basically\n"
+"a wasted citizen.\n"
+"\n"
+"There are several things that can be done about this.  One quick fix\n"
+"is to build a temple (or other cultural building) that will make an\n"
+"unhappy citizen content (see the help on buildings for specs\n"
+"on each building type).  As you get more large cities, it may pay off\n"
+"to change your tax rates (by pressing shift-T) to dedicate some of\n"
+"your taxes directly to luxuries (every two luxuries will pacify one\n"
+"citizen).  Building a marketplace enhances the benefit from this\n"
+"by providing +50% luxuries to the city."
 msgstr ""
 
 #: data/scenario/tutorial.sav:155
 msgid ""
-"Finally you have grown a city to size eight.  A size eight city can"
-"\\nprovide substantial output provided you have enough luxuries to keep"
-"\\nyour population content.\\n\\nTo grow a city beyond size eight requires "
-"an aqueduct.  If your city is\\ngoing to continue to grow you should start "
-"building one soon.  Building\\nan aqueduct requires the Construction "
-"technology."
+"Finally you have grown a city to size eight.  A size eight city can\n"
+"provide substantial output provided you have enough luxuries to keep\n"
+"your population content.\n"
+"\n"
+"To grow a city beyond size eight requires an aqueduct.  If your city is\n"
+"going to continue to grow you should start building one soon.  Building\n"
+"an aqueduct requires the Construction technology."
 msgstr ""
 
 #: data/scenario/tutorial.sav:165
 msgid ""
-"You have grown a city to size twelve.  To grow\\nit larger, however, you "
-"will need to build a Sewer System.  This\\nrequires the Sanitation "
-"technology."
+"You have grown a city to size twelve.  To grow\n"
+"it larger, however, you will need to build a Sewer System.  This\n"
+"requires the Sanitation technology."
 msgstr ""
 
 #: data/scenario/tutorial.sav:171
 msgid ""
-"Congratulations; you have grown a city to size 13.  A city this\\nlarge can "
-"provide a tremendous amount of output if properly upgraded.\\nMake sure you "
-"have enough taxes and cultural buildings to keep your\\ncitizens content.  "
-"You should also make sure the city is upgraded\\nwith buildings that provide "
-"bonuses to its output.  Library, Marketplace,\\nFactory, and Offshore "
-"Platform are four good buildings that provide a\\nlarge bonus to big "
-"cities.  Consider how much benefit each building\\nwill provide and weigh "
-"this against its cost - for very large cities\\nalmost all buildings are "
-"worthwhile.  Such large cities will also\\nprovide enough taxable revenue "
-"(gold) to allow you to purchase some\\nbuildings to accelerate their "
-"productions."
+"Congratulations; you have grown a city to size 13.  A city this\n"
+"large can provide a tremendous amount of output if properly upgraded.\n"
+"Make sure you have enough taxes and cultural buildings to keep your\n"
+"citizens content.  You should also make sure the city is upgraded\n"
+"with buildings that provide bonuses to its output.  Library, Marketplace,\n"
+"Factory, and Offshore Platform are four good buildings that provide a\n"
+"large bonus to big cities.  Consider how much benefit each building\n"
+"will provide and weigh this against its cost - for very large cities\n"
+"almost all buildings are worthwhile.  Such large cities will also\n"
+"provide enough taxable revenue (gold) to allow you to purchase some\n"
+"buildings to accelerate their productions."
 msgstr ""
 
 #: data/scenario/tutorial.sav:201
 msgid ""
-"You have built a settler unit.  Settlers are best used to build \\nnew "
-"cities, so as to expand your civilization.  Move your settler\\naway from "
-"your existing cities to find a spot for a new city.  When\\nyou have picked "
-"a spot press B to build the city.\\n\\nAgain, cities are best built on open "
-"ground near water.  Grassland\\nand plains provide food for the city.  "
-"Forests and hills provide\\nthe resources (shields) needed for building "
-"things.  Rivers and ocean\\ngive trade bonuses that provide civilization-"
-"wide benefits.  Desert,\\ntundra, and mountains generally provide little "
-"output and are not\\nof much use to small cities.  See the help on terrain "
-"and specials\\nfor more information about terrain specs."
+"You have built a settler unit.  Settlers are best used to build \n"
+"new cities, so as to expand your civilization.  Move your settler\n"
+"away from your existing cities to find a spot for a new city.  When\n"
+"you have picked a spot press B to build the city.\n"
+"\n"
+"Again, cities are best built on open ground near water.  Grassland\n"
+"and plains provide food for the city.  Forests and hills provide\n"
+"the resources (shields) needed for building things.  Rivers and ocean\n"
+"give trade bonuses that provide civilization-wide benefits.  Desert,\n"
+"tundra, and mountains generally provide little output and are not\n"
+"of much use to small cities.  See the help on terrain and specials\n"
+"for more information about terrain specs."
 msgstr ""
 
 #: data/scenario/tutorial.sav:215
 msgid ""
-"Your second Settlers should also be used to build a new city.\\nNotice how "
-"when you move the Settlers away from your existing cities\\nan outline is "
-"drawn around them.  This shows the area that would be\\ncovered by a city "
-"built at this location; it fits in with the outline\\nalready on the map "
-"view that shows which tiles are covered by your\\nexisting cities.  "
-"Generally when building new cities you want to make\\nsure that all tiles "
-"are covered by at least one city, but after that\\nit is best that your "
-"cities overlap as little as possible.  Spreading\\nout cities properly gives "
-"each city access to more resrouces, allowing\\nthem to grow to larger sizes."
+"Your second Settlers should also be used to build a new city.\n"
+"Notice how when you move the Settlers away from your existing cities\n"
+"an outline is drawn around them.  This shows the area that would be\n"
+"covered by a city built at this location; it fits in with the outline\n"
+"already on the map view that shows which tiles are covered by your\n"
+"existing cities.  Generally when building new cities you want to make\n"
+"sure that all tiles are covered by at least one city, but after that\n"
+"it is best that your cities overlap as little as possible.  Spreading\n"
+"out cities properly gives each city access to more resrouces, allowing\n"
+"them to grow to larger sizes."
 msgstr ""
 
 #: data/scenario/tutorial.sav:238
 msgid ""
-"You have built a Barracks.  This building will make any military\\nunits you "
-"build start out as veterans.  Veteran units are stronger\\nthan "
-"inexperienced (green) troops, and will survive longer in\\ncombat.  See the "
-"help on buildings for more information about this\\nand other buildings.\\n"
-"\\nYou probably want to start building a military unit in the city\\nthat "
-"built the Barracks.  A barracks are a significant investment\\nand have a "
-"small upkeep as well, so it is not a good idea to let\\nthem go to waste."
+"You have built a Barracks.  This building will make any military\n"
+"units you build start out as veterans.  Veteran units are stronger\n"
+"than inexperienced (green) troops, and will survive longer in\n"
+"combat.  See the help on buildings for more information about this\n"
+"and other buildings.\n"
+"\n"
+"You probably want to start building a military unit in the city\n"
+"that built the Barracks.  A barracks are a significant investment\n"
+"and have a small upkeep as well, so it is not a good idea to let\n"
+"them go to waste."
 msgstr ""
 
 #: data/scenario/tutorial.sav:260
 msgid ""
-"Your city cannot build a settler.  Settlers take one unit of\\npopulation to "
-"build, so a city of size one cannot build one without\\ndisbanding the city."
-"\\n\\nTo remedy this, you need to adjust the citizens in the city to"
-"\\nprovide more food so as to grow the city faster.  Cities that\\ndo not "
-"have much food should not try to build settlers.  When\\nfounding a new "
-"city, make sure it is built on terrain that provides\\nenough food - "
-"grassland is best; plains or hills are almost as good."
+"Your city cannot build a settler.  Settlers take one unit of\n"
+"population to build, so a city of size one cannot build one without\n"
+"disbanding the city.\n"
+"\n"
+"To remedy this, you need to adjust the citizens in the city to\n"
+"provide more food so as to grow the city faster.  Cities that\n"
+"do not have much food should not try to build settlers.  When\n"
+"founding a new city, make sure it is built on terrain that provides\n"
+"enough food - grassland is best; plains or hills are almost as good."
 msgstr ""
 
 #: data/scenario/tutorial.sav:272
 msgid ""
-"You have built your first military unit!  Military units have two\\nbasic "
-"purposes: attack and defense.  Each unit has an attack strength\\nand a "
-"defense strength.  While a Warriors is a measly 1/1, a Phalanx\\nis a must "
-"stronger defender with 2 defense (1/2).  A Catapult is a good\\nattacking "
-"unit because it has 6 attack (6/1).\\n\\nUsually it is a good idea to keep "
-"one or two defenders in each city.\\nImportant cities like your capital may "
-"deserve extra protection.  Units\\nbuilt in one city may be sent to another "
-"city to defend (press the G\\nkey to enter goto mode to move units easily "
-"over distances).  If you\\nare at war, however, you may wish to move your "
-"unit toward an enemy\\ncity to attack.  Be careful not to lose it though!"
+"You have built your first military unit!  Military units have two\n"
+"basic purposes: attack and defense.  Each unit has an attack strength\n"
+"and a defense strength.  While a Warriors is a measly 1/1, a Phalanx\n"
+"is a must stronger defender with 2 defense (1/2).  A Catapult is a good\n"
+"attacking unit because it has 6 attack (6/1).\n"
+"\n"
+"Usually it is a good idea to keep one or two defenders in each city.\n"
+"Important cities like your capital may deserve extra protection.  Units\n"
+"built in one city may be sent to another city to defend (press the G\n"
+"key to enter goto mode to move units easily over distances).  If you\n"
+"are at war, however, you may wish to move your unit toward an enemy\n"
+"city to attack.  Be careful not to lose it though!"
 msgstr ""
 
 #: data/scenario/tutorial.sav:297
 msgid ""
-"You have researched your first technology!  Technological advances\\nare an "
-"integral concept in Freeciv.  As you increase your technology\\nlevel new "
-"units, buildings, governments, and various free bonuses will\\nbecome "
-"available to you.\\n\\nFor now, go over into the Science Dialog and play "
-"around a little.\\nPress F6 to open the science dialog (or click on the "
-"Science tab in\\nthe main window area).  Find the technology called Republic "
-"and click\\non it.  Now Republic has been set as your technology goal; this "
-"means\\nthe next advance on the path toward this technology will "
-"automatically\\nbe chosen to research.  In the top of the window it shows "
-"how much\\nscientific research you are accomplishing each turn - research "
-"(bulbs)\\ncomes from the taxable trade in your cities.  In the bottom of the"
-"\\nwindow is the tech tree; here you may left-click to set the research"
-"\\ntarget or research goal, or right-click to get help about a particular"
-"\\ntechnology.  When you are done playing around click on the Map tab\\n(Alt-"
-"M) to return to the map view."
+"You have researched your first technology!  Technological advances\n"
+"are an integral concept in Freeciv.  As you increase your technology\n"
+"level new units, buildings, governments, and various free bonuses will\n"
+"become available to you.\n"
+"\n"
+"For now, go over into the Science Dialog and play around a little.\n"
+"Press F6 to open the science dialog (or click on the Science tab in\n"
+"the main window area).  Find the technology called Republic and click\n"
+"on it.  Now Republic has been set as your technology goal; this means\n"
+"the next advance on the path toward this technology will automatically\n"
+"be chosen to research.  In the top of the window it shows how much\n"
+"scientific research you are accomplishing each turn - research (bulbs)\n"
+"comes from the taxable trade in your cities.  In the bottom of the\n"
+"window is the tech tree; here you may left-click to set the research\n"
+"target or research goal, or right-click to get help about a particular\n"
+"technology.  When you are done playing around click on the Map tab\n"
+"(Alt-M) to return to the map view."
 msgstr ""
 
 #: data/scenario/tutorial.sav:316
 msgid ""
-"Now you have researched your second technology.  Go back into the\\nscience "
-"dialog (F6) and take a quick look at your progress.  If you\\nset Republic "
-"as your technology goal earlier, a new research target\\nshould have been "
-"chosen for you automatically.  If you do not have\\nany goal set, however, "
-"there will not be any new target chosen until\\nthe end of the turn.\\n\\nIn "
-"the turn when you complete your research, you can pick a new tech\\nto "
-"research.  However, switching targets midway through researching a"
-"\\nparticular technology costs you all of the research done on\\nit so far.  "
-"Setting your technology goal wisely means you do not have\\nto worry about "
-"picking a new research target each time you finish\\nresearching a "
-"technology."
+"Now you have researched your second technology.  Go back into the\n"
+"science dialog (F6) and take a quick look at your progress.  If you\n"
+"set Republic as your technology goal earlier, a new research target\n"
+"should have been chosen for you automatically.  If you do not have\n"
+"any goal set, however, there will not be any new target chosen until\n"
+"the end of the turn.\n"
+"\n"
+"In the turn when you complete your research, you can pick a new tech\n"
+"to research.  However, switching targets midway through researching a\n"
+"particular technology costs you all of the research done on\n"
+"it so far.  Setting your technology goal wisely means you do not have\n"
+"to worry about picking a new research target each time you finish\n"
+"researching a technology."
 msgstr ""
 
 #: data/scenario/tutorial.sav:331
 msgid ""
-"You have successfully completed research into The Republic.  This"
-"\\ntechnology is particularly useful because it allows a new form of"
-"\\ngovernment.  The government your civilization follows is very\\nimportant "
-"in determining your development.  In the beginning you\\nstarted as a "
-"Despotism, a very inefficient form of government.  Later\\ngovernment "
-"options will give you some choice of whether your\\ncivilization is to be a "
-"peaceful trading nation or a conquering\\njuggernaut.  Each has advantages."
-"\\n\\nFor now, you probably want to switch staight into Republic.  In the"
-"\\nGovernment menu, go to the Change Government submenu and choose"
-"\\nRepublic.  Yes you want a revolution!  Changing governments means\\ngoing "
-"through a few turns of anarchy, so it is not without cost.\\nHowever "
-"Republic is a substantially better form of government\\nthan Despotism so "
-"the investment will soon pay off."
+"You have successfully completed research into The Republic.  This\n"
+"technology is particularly useful because it allows a new form of\n"
+"government.  The government your civilization follows is very\n"
+"important in determining your development.  In the beginning you\n"
+"started as a Despotism, a very inefficient form of government.  Later\n"
+"government options will give you some choice of whether your\n"
+"civilization is to be a peaceful trading nation or a conquering\n"
+"juggernaut.  Each has advantages.\n"
+"\n"
+"For now, you probably want to switch staight into Republic.  In the\n"
+"Government menu, go to the Change Government submenu and choose\n"
+"Republic.  Yes you want a revolution!  Changing governments means\n"
+"going through a few turns of anarchy, so it is not without cost.\n"
+"However Republic is a substantially better form of government\n"
+"than Despotism so the investment will soon pay off."
 msgstr ""
 
 #: data/scenario/tutorial.sav:358
 msgid ""
-"Your unit has found a Hut.  These are small villages scattered across\\nthe "
-"landscape.  When a unit enters one several things may happen.  The\\nmost "
-"likely outcome is that you will find resources worth a small\\namount of "
-"gold.  However it is also possible to find technologies or\\nmercenary units "
-"inside a hut.  Some huts contain native settlers\\nthat will join your "
-"civilization and bring a new city into your\\nempire.  Finally, some huts "
-"contain barbarians which will kill your\\nunit instantly.  On average, it is "
-"beneficial to search out and enter\\nany huts you find as soon as possible."
+"Your unit has found a Hut.  These are small villages scattered across\n"
+"the landscape.  When a unit enters one several things may happen.  The\n"
+"most likely outcome is that you will find resources worth a small\n"
+"amount of gold.  However it is also possible to find technologies or\n"
+"mercenary units inside a hut.  Some huts contain native settlers\n"
+"that will join your civilization and bring a new city into your\n"
+"empire.  Finally, some huts contain barbarians which will kill your\n"
+"unit instantly.  On average, it is beneficial to search out and enter\n"
+"any huts you find as soon as possible."
 msgstr ""
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
@@ -23244,6 +23296,31 @@ msgstr "تیم ۳۱"
 #: data/default/game.ruleset:160
 msgid "Team 32"
 msgstr "تیم ۳۲"
+
+#~ msgid "Economy (F5)"
+#~ msgstr "اقتصاد (F5)"
+
+#~ msgid "Research (F6)"
+#~ msgstr "پژوهش (F6)"
+
+#~ msgid "Revolution (Shift + R)"
+#~ msgstr "انقلاب (شیفت + R)"
+
+#~ msgid "Players (F3)"
+#~ msgstr "بازیکنان (F3)"
+
+#~ msgid "Units (F2)"
+#~ msgstr "مهره‌ها (F2)"
+
+#~ msgid ""
+#~ "Research (F6)\n"
+#~ "%s (%d/%d)"
+#~ msgstr ""
+#~ "پژوهش (F6)\n"
+#~ "%s (%d/%d)"
+
+#~ msgid "Dictatress"
+#~ msgstr "دیکتاترس"
 
 #~ msgid ""
 #~ "Start\n"
