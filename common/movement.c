@@ -322,6 +322,7 @@ bool can_unit_move_to_tile(const struct unit *punit,
     7) There are no peaceful but un-allied units on the target tile.
     8) There is not a peaceful but un-allied city on the target tile.
     9) There is no non-allied unit blocking (zoc) [or igzoc is true].
+   10) It is not the territory of a player we are at peace with.
 **************************************************************************/
 enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 					     const struct player *unit_owner,
@@ -411,6 +412,14 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   if (!zoc) {
     /* The move is illegal because of zones of control. */
     return MR_ZOC;
+  }
+
+  /* 9) */
+  if (!unit_type_flag(punittype, F_NONMIL)
+      && dst_tile->owner
+      && dst_tile->owner != unit_owner
+      && players_non_invade(unit_owner, dst_tile->owner)) {
+    return MR_PEACE;
   }
 
   return MR_OK;
