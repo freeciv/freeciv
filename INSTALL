@@ -3,7 +3,7 @@ Installing Freeciv:
 ===================
 
 This file describes how to compile and install Freeciv. This file is
-last updated 16-Jul-06.
+last updated 18-Mar-07.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -12,7 +12,8 @@ This document contains sections and subsections as follows:
      0. Prerequisites:
      1. Prerequisites for the clients:
           1a. Prerequisites for the Gtk+ client:
-          1b. Prerequisites for the Xaw client:
+          1b. Prerequisites for the SDL client:
+          1c. Prerequisites for the Xaw client:
      2. Generating Makefiles
           2a. Generating the Makefile for svn versions:
           2b. Generating the Makefile for release versions:
@@ -181,7 +182,40 @@ will need to have the appropriate "development" packages installed.
 If you are going to make these yourself, build and install them in the
 following order: pkg-config, Glib, Atk, Pango, Gtk+.
 
+1b. Prerequisites for the SDL client:
+=====================================
 
+ - The "SDL" library.
+
+   "Simple DirectMedia Layer is a cross-platform multimedia library designed
+    to provide low level access to audio, keyboard, mouse, joystick, 3D hardware
+    via OpenGL, and 2D video framebuffer." (http://www.libsdl.org)
+    
+   These features make it a good choice for portable games. You may obtain it
+   at:
+    
+   http://www.libsdl.org/release/SDL-1.2.11.tar.gz
+
+   To compile the client using the "SDL" library add "--enable-client=sdl"
+   to the Freeciv configure script.  See the section below for more 
+   information about the configure script.
+    
+ - The "SDL_image" library.
+ 
+   This library loads the PNG images (with the help of libpng) and converts
+   them to "SDL surfaces" that can be handled by the "SDL" library. You may
+   obtain it at:
+   
+   http://www.libsdl.org/projects/SDL_image/release/SDL_image-1.2.5.tar.gz
+   
+ - The "freetype" library.
+
+   This library helps to render text for the SDL client, using an externally
+   provided TrueType font. You may obtain it at:
+   
+   http://download.savannah.gnu.org/releases/freetype/freetype-2.3.2.tar.gz
+   
+ 
 1c. Prerequisites for the Xaw client:
 =====================================
 
