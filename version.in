@@ -18,10 +18,10 @@ FREECIV_RELEASE_MONTH(6)
 #
 # +Freeciv.Devel.YYYY.MMM.DD is the base capability string.
 #
-#   - No new manditory capabilities can be added to the release branch; doing
+#   - No new mandatory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-#   - Avoid adding a new manditory capbility to the development branch for
+#   - Avoid adding a new mandatory capbility to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 FREECIV_NETWORK_CAPSTRING(["+Freeciv.Devel.2007.Mar.27"])

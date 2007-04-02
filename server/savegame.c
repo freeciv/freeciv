@@ -2017,7 +2017,7 @@ static void player_load(struct player *plr, int plrno,
     } players_iterate_end;
   } else {
     /* Required for 2.0 and earlier savegames.  Remove eventually and make
-     * the cap check manditory. */
+     * the cap check mandatory. */
     int embassy = secfile_lookup_int(file, "player%d.embassy", plrno);
 
     players_iterate(pother) {
