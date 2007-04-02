@@ -431,14 +431,14 @@ void handle_edit_vision(struct connection *pc, int plr_no, int x, int y,
 
     if (pcity && pcity->owner == pplayer) {
       notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                  _("Cannot remove knowledde about own city."));
+                  _("Cannot remove knowledge about own city."));
       return;
     }
 
     unit_list_iterate(ptile->units, punit) {
       if (punit->owner == pplayer) {
         notify_conn(pc->self, NULL, E_BAD_COMMAND,
-                    _("Cannot remove knowledde about own unit."));
+                    _("Cannot remove knowledge about own unit."));
         return;
       }
     } unit_list_iterate_end;
