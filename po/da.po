@@ -2431,27 +2431,27 @@ msgid "Your diplomatic envoy was decapitated!"
 msgstr "Din diplomatiske udsending blev halshugget!"
 
 #: server/diplomats.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not poison the water supply in %s."
 msgstr "Spil: Din %s kunne ikke forgifte vandtilførselen til %s."
 
 #: server/diplomats.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s poisoned the water supply of %s."
 msgstr "Spil: Din %s forgiftede vandtilførselen til %s."
 
 #: server/diplomats.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is suspected of poisoning the water supply of %s."
 msgstr "Spil: %s er mistænkt for at have forgiftet vandtilførselen til %s."
 
 #: server/diplomats.c:257
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your %s was executed in %s on suspicion of spying.  The %s welcome "
 "future diplomatic efforts providing the Ambassador is reputable."
 msgstr ""
-"Spil: Din %s blev henrettet i %s pga. mistanke om spionage. Folkeslaget %s "
+"Spil: Din %s blev henrettet i %s på grund af mistanke om spionage.  Folkeslaget %s "
 "hilser fremtidige diplomatiske bestræbelser velkommen forudsat at "
 "ambassadørens omdømme er anstændigt."
 
@@ -2465,83 +2465,82 @@ msgstr ""
 "være utroværdig"
 
 #: server/diplomats.c:274
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was executed in %s by primitive %s."
 msgstr "Spil: Din %s blev henrettet i %s af det primitive folkeslag %s."
 
 #: server/diplomats.c:287
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have established an embassy in %s."
 msgstr "Spil: Du har etableret en ambassade i %s."
 
 #: server/diplomats.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have established an embassy in %s."
 msgstr "Spil: Folkeslaget %s har etableret en ambassade i %s."
 
 #: server/diplomats.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not sabotage %s's %s."
 msgstr "Spil: Din %s kunne ikke sabotere %s's %s."
 
 #: server/diplomats.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s succeeded in sabotaging %s's %s."
 msgstr "Spil: Din %s saboterede %s's %s."
 
 #: server/diplomats.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was sabotaged by %s!"
 msgstr "Spil: Din %s blev saboteret af %s!"
 
 #: server/diplomats.c:428
-#, fuzzy
 msgid "Game: You can't bribe a unit from this nation."
 msgstr "Spil: Du kan ikke bestikke en enhed fra denne nation."
 
 #: server/diplomats.c:437
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
 msgstr "Spil: Du har ikke nok guld til at bestikke %s's %s."
 
 #: server/diplomats.c:446
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You cannot bribe %s!"
 msgstr "Spil: Du kan ikke bestikke %s!"
 
 #: server/diplomats.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "Spil: Din %s bestak %s's %s og blev mere erfaren."
 
 #: server/diplomats.c:478
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
 msgstr "Spil: Din %s bestak %s's %s."
 
 #: server/diplomats.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was bribed by %s."
 msgstr "Spil: Din %s-enhed blev bestukket af %s."
 
 #: server/diplomats.c:579
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
 msgstr ""
 "Spil: Din %s-enhed blev fanget i forsøget på at stjæle teknologi fra %s."
 
 #: server/diplomats.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
 msgstr "Spil: %s's %s mislykkedes i forsøget på at stjæle teknologi fra %s."
 
 #: server/diplomats.c:616
-#, fuzzy, c-format
+#, c-format
 msgid "Game: No new technology found in %s."
 msgstr "Spil: Ingen ny teknologi fundet i %s."
 
 #: server/diplomats.c:653
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
 msgstr "Spil: Din %s kunne ikke finde %s som skulle saboteres i %s."
 
@@ -2553,109 +2552,107 @@ msgstr "Spil: Din %s stjal Fremtidsteknologi %d fra %s."
 #: server/diplomats.c:678
 #, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
-msgstr "Spil: Fremtidsteknologi %d stjlet af %s %s fra %s."
+msgstr "Spil: Fremtidsteknologi %d stjålet af %s %s fra %s."
 
 #: server/diplomats.c:691
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s stole %s from %s."
-msgstr "Spil: Du stjæler %s fra %s."
+msgstr "Spil: Din %s-enhed stjal %s fra %s."
 
 #: server/diplomats.c:695
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s's %s stole %s from %s."
-msgstr "Spil: Din %s stjal %s fra %s."
+msgstr "Spil: %s's %s stjal %s fra %s."
 
 #: server/diplomats.c:699 server/plrhand.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have stolen %s from the %s."
-msgstr "Spil: Din %s stjal %s fra %s."
+msgstr "Spil: Din %s har stjålet %s fra %s."
 
 #: server/diplomats.c:758
-#, fuzzy
 msgid "Game: You can't subvert a city from this nation."
-msgstr "Spil: Du kan ikke bestikke en enhed fra denne nation."
+msgstr "Spil: Du kan ikke omstyrte en by fra denne nation."
 
 #: server/diplomats.c:766
-#, fuzzy
 msgid "Game: You can't subvert this city."
 msgstr "Spil: Du kan ikke omstyrte denne by."
 
 #: server/diplomats.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough gold to subvert %s."
 msgstr "Spil: Du har ikke nok guld til at bestikke %s over på din side."
 
 #: server/diplomats.c:794
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Spil: Din %s blev fanget i forsøget på at anspore til oprør!"
 
 #: server/diplomats.c:798
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
 "Spil: Du afslørede og fangede %s %s som forsøgte at anspore til oprør i %s!"
 
 #: server/diplomats.c:822
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
 msgstr "Spil: Oprør ansporet i %s, du styrer nu byen!"
 
 #: server/diplomats.c:825
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr ""
 "Spil: %s gør oprør, %s er mistænkt for at have en finger med i spillet."
 
 #: server/diplomats.c:905
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Spil: Din %s blev fanget i forsøget på industriel sabotage!"
 
 #: server/diplomats.c:909
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
 msgstr "Spil: Du afslørede og fangede en %s %s som forsøgte på sabotage i %s!"
 
 #: server/diplomats.c:943
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
 msgstr "Spil: Din %s kunne ikke finde noget at sabotere i %s."
 
 # uden ubestemt artikel pga. problemer med en/et
 #: server/diplomats.c:985
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You cannot sabotage a %s!"
 msgstr "Spil: Du kan ikke sabotere %s!"
 
 #: server/diplomats.c:995
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
 msgstr "Spil: Din %s kunne ikke finde %s som skulle saboteres i %s."
 
 #: server/diplomats.c:1020
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
 msgstr "Spil: Din %s ødelagde bygningen af %s i %s."
 
 #: server/diplomats.c:1024
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
 msgstr "Spil: Bygningen af %s i %s blev ødelagt, %s mistænkes."
 
 #: server/diplomats.c:1045
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr "Spil: Din %s blev afsløret og fanget i sabotageforsøg!"
 
 #: server/diplomats.c:1049
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Spil: Du fangede en %s %s som forsøgte at sabotere %s i %s!"
 
 # %s er diplomat/spion, derfor o.k.
 #: server/diplomats.c:1061
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s destroyed the %s in %s."
 msgstr "Spil: Din %s ødelagde %s i %s."
 
