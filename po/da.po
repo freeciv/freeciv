@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-11 17:47-0500\n"
-"PO-Revision-Date: 2007-03-04 22:51+0100\n"
+"PO-Revision-Date: 2007-03-05 22:51+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <<dansk@dansk-gruppen.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -1980,8 +1980,8 @@ msgid ""
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
 msgstr ""
-"Kommando-adgangsniveauet styrer hvilke kommandoer som er tilgængelige \n"
-"for brugere via klientens chatlinje. De tilgængelige niveauer er:\n"
+"Kommando-adgangsniveauet styrer hvilke kommandoer som er tilgængelige\n"
+"for brugere via klientens snaklinje.  De tilgængelige niveauer er:\n"
 "    none  -  ingen kommandoer\n"
 "    info  -  kun informationsgivende kommandoer\n"
 "    ctrl  -  kommandoer som styrer spillet og spillerne\n"
@@ -1992,7 +1992,7 @@ msgstr ""
 "Hvis 'new' angives, sættes niveauet for nye tilslutninger.\n"
 "Hvis 'first come' angives, sættes niveauet 'first come'; det gives til \n"
 "den første klient som opkobles, eller hvis der er forbindelser\n"
-"allerede, den første klient som giver 'first' kommandoen.\n"
+"allerede, den første klient som giver 'firstlevel' kommandoen.\n"
 "Hvis et tilslutningsnavn angives, sættes niveauet kun for denne "
 "tilslutning.\n"
 "Kommandoniveauet bevares ikke hvis en spiller kobler fra, fordi en ukendt "
@@ -2000,9 +2000,8 @@ msgstr ""
 "tager imod tilslutningsnavne, ikke spillernavne."
 
 #: server/commands.c:299
-#, fuzzy
 msgid "Grab the 'first come' command access level."
-msgstr "Bed om eller sæt kommandoniveau adgang."
+msgstr "Bed om 'first come' eller kommandoniveau adgang."
 
 #: server/commands.c:300
 msgid ""
@@ -2657,27 +2656,27 @@ msgid "Game: Your %s destroyed the %s in %s."
 msgstr "Spil: Din %s ødelagde %s i %s."
 
 #: server/diplomats.c:1065
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s destroyed the %s in %s."
 msgstr "Spil: Folkeslaget %s ødelagde %s i %s."
 
 #: server/diplomats.c:1169
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s has been eliminated defending %s against a %s."
 msgstr "Spil: Din %s er blevet udslettet under forsvar af %s mod %s."
 
 #: server/diplomats.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
 msgstr "Spil: En fjendtlig %s er blevet udslettet under forsvar af %s."
 
 #: server/diplomats.c:1187
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
-msgstr "Spil: Din %s blev udslettet af en forsvarende %s"
+msgstr "Spil: Din %s blev udslettet af en forsvarende %s."
 
 #: server/diplomats.c:1194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
 "experienced."
@@ -2686,7 +2685,7 @@ msgstr ""
 "erfaring."
 
 #: server/diplomats.c:1201
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
 "more experienced."
@@ -2695,18 +2694,18 @@ msgstr ""
 "mere erfaring."
 
 #: server/diplomats.c:1211
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
 msgstr "Spil: Udslettede %s %s under infiltration af %s."
 
 # problem
 #: server/diplomats.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
 msgstr "Spil: Udslettede %s %s under infiltration af vore tropper."
 
 #: server/diplomats.c:1270
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s and has become more experienced."
@@ -2715,49 +2714,49 @@ msgstr ""
 "erfaring."
 
 #: server/diplomats.c:1276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr "Spil: Din %s har klaret sin mission og er returneret uskadt til %s."
 
 #: server/diplomats.c:1292
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr "Spil: Din %s blev fanget efter at have fuldført sin mission i %s."
 
 #: server/diplomats.c:1297
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "Spil: Din %s blev fanget efter at have fuldført sin mission."
 
 #: server/diplomats.c:1332
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr "Spil: Du har forårsaget en skandale ved at bestikke %s's %s."
 
 #: server/diplomats.c:1337
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
 msgstr "Spil: %s har forårsaget en skandale ved at bestikke din %s."
 
 #: server/diplomats.c:1344
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
 msgstr "Spil: Du har forårsaget en skandale ved teknologityveriet fra %s."
 
 #: server/diplomats.c:1348
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
 msgstr "Spil: %s har forårsaget en skandale ved at stjæle teknologi fra dig."
 
 #: server/diplomats.c:1354
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr "Spil: Du har forårsaget en skandale ved at anspore til oprør i %s."
 
 #: server/diplomats.c:1357
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Spil: %s har forårsaget en skandale ved at anspore til oprør i %s."
 
@@ -2786,29 +2785,28 @@ msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Rundens tidsfrist er mindre end nul, sætter den til nul."
 
 #: server/gamelog.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't open gamelogfile \"%s\" for appending."
-msgstr "Kunne ikke åbne logfil: %s for tilføjelse \"%s\".\n"
+msgstr "Kunne ikke åbne spillogfilen \"%s\" for tilføjelse."
 
 #: server/handchat.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is an ambiguous player name-prefix."
 msgstr "Spil: %s er et tvetydigt spillernavnspræfiks."
 
 #: server/handchat.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is an ambiguous connection name-prefix."
 msgstr "Spil: %s er et tvetydigt tilslutningsnavns-præfiks."
 
 #: server/handchat.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is an anonymous name. Use connection name"
 msgstr "Spil: %s er et tvetydigt navn. Brug tilslutningsnavn"
 
 #: server/handchat.c:186
-#, fuzzy
 msgid "Game: You are not attached to a player."
-msgstr "Du er ikke knyttet til nogen spiller."
+msgstr "Spil: Du er ikke knyttet til nogen spiller."
 
 #: server/handchat.c:194
 #, c-format
@@ -2816,27 +2814,25 @@ msgid "%s to allies: %s"
 msgstr "%s til allierede: %s"
 
 #: server/handchat.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is not connected."
 msgstr "Spil: %s er ikke tilsluttet."
 
 #: server/handchat.c:300
-#, fuzzy, c-format
+#, c-format
 msgid "Game: There is no connection by the name %s."
 msgstr "Spil: Der er ingen tilslutning ved navn %s."
 
 #: server/handchat.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Spil: Der er ingen spiller eller tilslutning ved navn %s."
 
 #: server/maphand.c:237
-#, fuzzy
 msgid "Game: Global warming has occurred!"
 msgstr "Spil: Der er sket en global opvarmning!"
 
 #: server/maphand.c:238
-#, fuzzy
 msgid ""
 "Game: Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
@@ -2845,12 +2841,10 @@ msgstr ""
 "til ørken."
 
 #: server/maphand.c:279
-#, fuzzy
 msgid "Game: Nuclear winter has occurred!"
 msgstr "Spil: Atomvinter er opstået!"
 
 #: server/maphand.c:280
-#, fuzzy
 msgid ""
 "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
@@ -2858,7 +2852,6 @@ msgstr ""
 "tundra."
 
 #: server/maphand.c:301
-#, fuzzy
 msgid ""
 "Game: New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
@@ -2869,7 +2862,6 @@ msgstr ""
 "      Arbejderne samler sig spontant og bygger jernbaner i samtlige byer."
 
 #: server/maphand.c:307
-#, fuzzy
 msgid ""
 "Game: The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
@@ -2889,22 +2881,22 @@ msgid "Metaserver: bad address: [%s:%d]."
 msgstr "Metaserver: ugyldig adresse: [%s:%d]."
 
 #: server/plrhand.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s acquired from %s!"
-msgstr "%s erhvervet fra %s!"
+msgstr "Spil: %s erhvervet fra %s!"
 
 #: server/plrhand.c:224
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s are no more!"
 msgstr "Spil: Folkeslaget %s findes ikke længere!"
 
 #: server/plrhand.c:329
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Spil: Opdagelsen af %s FORÆLDER %s i %s!"
 
 #: server/plrhand.c:340
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
@@ -2913,19 +2905,19 @@ msgstr ""
 "starte en revolution."
 
 #: server/plrhand.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Spil: Lærte %s. Vore forskere koncentrerer sig om %s; målet er %s."
 
 #: server/plrhand.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
-msgstr "Spil: Lærte %s. Forskerne vælger at forske på %s."
+msgstr "Spil: Lærte %s.  Forskerne vælger at forske på %s."
 
 #: server/plrhand.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Learned %s. "
-msgstr "Spil: Lærte %s."
+msgstr "Spil: Lærte %s. "
 
 #: server/plrhand.c:409
 #, c-format
@@ -2933,13 +2925,12 @@ msgid "Researching %s."
 msgstr "Forsker på %s."
 
 #: server/plrhand.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
 msgstr ""
-"Spil: Lærte %s. Forskerne ved ikke hvad der skal forskes på som det næste."
+"Spil: Lærte %s.  Forskerne ved ikke hvad der skal forskes på som det næste."
 
 #: server/plrhand.c:434
-#, fuzzy
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -2948,47 +2939,48 @@ msgstr ""
 "umiddelbart gennembrud."
 
 #: server/plrhand.c:494
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
-msgstr "Spil: Lærte %s. Forskerne vælger at forske på %s."
+msgstr ""
+"Spil: Lærte %s i samarbejde med %s. Forskerne vælger at forske på %s."
 
 #: server/plrhand.c:500
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists do not know what to "
 "research next."
 msgstr ""
-"Spil: Lærte %s. Forskerne ved ikke hvad der skal forskes på som det næste."
+"Spil: Lærte %s i samarbejde med %s. Forskerne ved ikke hvad der skal "
+"forskes på som det næste."
 
 #: server/plrhand.c:529
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Spil: Folkeslaget %s har opnået kundskab om %s."
 
 #: server/plrhand.c:535
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr ""
 "Spil: Folkeslaget %s har forsket sig frem til fremtidsteknologi nr. %d."
 
 #: server/plrhand.c:708
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spil: Det teknologiske mål er %s."
 
 #: server/plrhand.c:820
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Spil: Du stjæler %s fra %s."
 
 #: server/plrhand.c:825
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Spil: Folkeslaget %s stjal %s fra dig!"
 
 #: server/plrhand.c:852
-#, fuzzy
 msgid "Game: Cannot change rates before game start."
 msgstr "Spil: Kan ikke ændre niveauer før spilstart."
 
@@ -2998,38 +2990,38 @@ msgid "Tax"
 msgstr "Skat"
 
 #: server/plrhand.c:875
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spil: Niveauet for %s er større end maks. niveau for %s."
 
 #: server/plrhand.c:977
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spil: %s leder nu %s som %s."
 
 #: server/plrhand.c:1028
 #, c-format
 msgid "Game: The %s have incited a revolt!"
-msgstr "Spil: %s har startet et oprr!"
+msgstr "Spil: %s har startet et oprør!"
 
 #: server/plrhand.c:1129
 msgid "You should choose a new government from the government menu."
 msgstr "Du burde vælge en ny styreform fra ledelses menuen."
 
 #: server/plrhand.c:1156
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spil: Skatteniveauet er højere end maks. niveau for %s; justeret."
 
 #: server/plrhand.c:1162
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Spil: Forskningsniveauet er højere end maks. niveau for %s; justeret."
 
 #: server/plrhand.c:1168
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
-msgstr "Spil: Luksusniveauet er højere end maks. niveua for %s; justeret."
+msgstr "Spil: Luksusniveauet er højere end maks. niveau for %s; justeret."
 
 #: server/plrhand.c:1239
 #, c-format
@@ -3043,32 +3035,32 @@ msgid ""
 msgstr "Senatet vedtager dit lovforslag pga. de stadige provokationer fra %s."
 
 #: server/plrhand.c:1312
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your reputation is now %s."
-msgstr "Spil: Hungersnød fører til befolkningstab i %s."
+msgstr "Spil: Dit rygte er nu %s."
 
 #: server/plrhand.c:1317
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
-msgstr "Spil: Senatet oplser sig selv fremfor at sttte dine handlinger."
+msgstr "Spil: Senatet opløser sig selv fremfor at støtte dine handlinger."
 
 #: server/plrhand.c:1348
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spil: Den diplomatiske status mellem %s og %s er nu %s."
 
 #: server/plrhand.c:1354
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
 "the %s and the %s is now %s."
 msgstr ""
-"Spil: Folkeslaget %s afbrd den diplomatiske aftale! Det diplomatiske forhold "
+"Spil: Folkeslaget %s afbrød den diplomatiske aftale! Det diplomatiske forhold "
 "mellem %s og %s er nu %s."
 
 #: server/plrhand.c:1371
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: %s has attacked your ally %s! You cancel your alliance to the "
 "aggressor."
@@ -3076,7 +3068,7 @@ msgstr ""
 "Spil: %s har angrebet din allierede %s! Du ophæver alliancen med aggressoren."
 
 #: server/plrhand.c:1382
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your team mate %s declared war on %s. You are obligated to cancel "
 "alliance with %s."
@@ -3090,17 +3082,16 @@ msgid "Removing player %s."
 msgstr "Fjerner spiller %s."
 
 #: server/plrhand.c:1797
-#, fuzzy
 msgid "Game: You've been removed from the game!"
 msgstr "Spil: Du er blevet fjernet fra spillet!"
 
 #: server/plrhand.c:1800
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spil: %s er blevet fjernet fra spillet."
 
 #: server/plrhand.c:1843 server/plrhand.c:1847
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spil: Du har fået kontakt med %s, ledet af %s."
 
@@ -3110,21 +3101,21 @@ msgid "Could not throw %s into civil war - too many players"
 msgstr "Kunne ikke kaste %s ind i borgerkrig - for mange spillere"
 
 #: server/plrhand.c:2262
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
-"Spil: Din nation er splittet i en borgerkrig. %s er proklameret leder for de "
+"Spil: Din nation er splittet i en borgerkrig, %s er proklameret leder for de "
 "oprørske landsdele."
 
 #: server/plrhand.c:2282
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spil: %s erklærer troskab mod %s."
 
 #: server/plrhand.c:2296
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
 "administrative\n"
@@ -3132,8 +3123,9 @@ msgid ""
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
-"Spil: Erobringen af %s's hovedstad og ødelæggelsen af rigets administrative\n"
-"      strukturer har udløst en borgerkrig. Opportunister har sluttet sig "
+"Spil: Erobringen af %s's hovedstad og ødelæggelsen af rigets "
+"administrative\n"
+"      strukturer har udløst en borgerkrig.  Opportunister har sluttet sig "
 "til\n"
 "      oprørerne, og opkomlingen %s har nu magten i %d landsdele."
 
@@ -3374,21 +3366,20 @@ msgid "Sorry, the Demographics report is unavailable."
 msgstr "Beklager, demografirapporten er ikke tilgængelig."
 
 #: server/report.c:738
-#, fuzzy, c-format
+#, c-format
 msgid "The %s of the %s"
-msgstr "%s af %s (%s)"
+msgstr "%s af %s"
 
 #: server/report.c:1102
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s %s scored %d point\n"
 msgid_plural "%2d: The %s %s scored %d points\n"
 msgstr[0] "%2d: %s lederen %s fik %d point\n"
 msgstr[1] "%2d: %s lederen %s fik %d point\n"
 
 #: server/report.c:1110
-#, fuzzy
 msgid "Progress Scores:"
-msgstr "Fremskridt: ingen forskning"
+msgstr "Fremskridtspoint:"
 
 #: server/report.c:1111 client/gui-gtk/repodlgs.c:1127
 #: client/gui-mui/repodlgs.c:870 client/gui-win32/repodlgs.c:754
@@ -3403,9 +3394,9 @@ msgstr "Prøver med alternativ syntaks for filnavnet til regelfilen."
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find a readable \"%s\" ruleset file."
-msgstr "Kunne ikke finde en læsbar regelfil \"%s.%s\" "
+msgstr "Kunne ikke finde en læsbar regelfil \"%s\"."
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:162
@@ -3447,9 +3438,9 @@ msgstr "Ukendt terræn %s i %s."
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1195
-#, fuzzy, c-format
+#, c-format
 msgid "Group %s lists unknown building: \"%s\" (%s)"
-msgstr "Spil: Sektion %s lister ukendte effekt typer: \"%s\" (%s)"
+msgstr "Sektion %s lister ukendt bygning: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1206
@@ -3459,50 +3450,49 @@ msgstr ""
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1344
-#, fuzzy, c-format
+#, c-format
 msgid "Building %s lists unknown effect type: \"%s\" (%s)"
-msgstr "Spil: Sektion %s lister ukendte effekt typer: \"%s\" (%s)"
+msgstr "Sektion %s lister ukendte effekt typer: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1355
-#, fuzzy, c-format
+#, c-format
 msgid "Building %s lists bad range: \"%s\" (%s)"
-msgstr "(bygger %s i %s (%s))\n"
+msgstr "Sektion %s lister bad range: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1376
-#, fuzzy, c-format
+#, c-format
 msgid "Building %s lists bad effect group: \"%s\" (%s)"
-msgstr "Spil: Sektion %s lister ukendte effekt typer: \"%s\" (%s)"
+msgstr "Sektion %s lister ukendte effekt typer: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1391
-#, fuzzy, c-format
+#, c-format
 msgid "Building %s has unknown req type: \"%s\" (%s)"
-msgstr "Spil: Sektion %s har ukendt anmodning: \"%s\" \"%s\" (%s)"
+msgstr "Sektion %s har ukendt anmodning: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1402
 #, c-format
 msgid "Building %s has missing requirement data (%s)"
-msgstr ""
+msgstr "Sektion %s har manglende kravdata (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1438
-#, fuzzy
 msgid "Cannot find any palace building"
-msgstr "Kan ikke finde lydfilen %s"
+msgstr "Kan ikke finde en paladsbygning"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1446
 msgid "Cannot find any land defend building"
-msgstr ""
+msgstr "Kan ikke finde nogen landforsvarsbygning"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1478
 #, c-format
 msgid "Bad value \"%s\" for b_special.default (%s)"
-msgstr ""
+msgstr "Dårlig værdi \"%s\" for b_special.default (%s)"
 
 #. TRANS: Obscure ruleset error.  "%s" is a filename.
 #: server/ruleset.c:1517
@@ -3565,12 +3555,11 @@ msgid "Warning: Unknown nation %s for starting position no %d"
 msgstr "Advarsel: Ukendt nation %s på start positionen no %d"
 
 #: server/savegame.c:542
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Number of starts (%d) are lower than max_players (%d), lowering max_players."
 msgstr ""
-"Antal tilmeldte (%d) er lavere end rules.max_players (%d), sænker regler. "
-"max_players."
+"Antal tilmeldte (%d) er lavere end max_players (%d), sænker max_players."
 
 #: server/savegame.c:935 server/savegame.c:941 server/savegame.c:947
 #, c-format
@@ -3598,14 +3587,14 @@ msgid "Wrong government type id value (%d)"
 msgstr "Forkert ledelsestypeidværdi (%d)"
 
 #: server/savegame.c:1303
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown unit type '%s' in worklist"
-msgstr "Forkert enhedstype '%s' i spiller%d sektion"
+msgstr "Forkert enhedstype '%s' i arbejdsliste"
 
 #: server/savegame.c:1318
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown improvement type '%s' in worklist"
-msgstr "Forkert enhedstype '%s' i spiller%d sektion"
+msgstr "Forkert enhedstype '%s' i arbejdsliste"
 
 #: server/savegame.c:1407
 #, c-format
@@ -3622,14 +3611,14 @@ msgid "Savegame error: invalid unit orders."
 msgstr "Fejl på gemt spil: Ugyldig enhedsordre."
 
 #: server/savegame.c:1659
-#, fuzzy, c-format
+#, c-format
 msgid "Nation %s (used by %s) isn't available."
-msgstr "%s's %s prøvede at bygge %s som ikke er tilgængelig."
+msgstr "Nation %s (i brug af %s) er ikke tilgængelig."
 
 #: server/savegame.c:1692
 #, c-format
 msgid "Unsupported government found (%s)"
-msgstr "Usupporteret ledelsesform fundet (%s)"
+msgstr "Ikke understøttet styreform fundet (%s)"
 
 #: server/savegame.c:1727
 #, c-format
@@ -3671,9 +3660,8 @@ msgid "Geological"
 msgstr "Geologi"
 
 #: server/settings.c:29
-#, fuzzy
 msgid "Ecological"
-msgstr "Sociologi"
+msgstr "Økologisk"
 
 #: server/settings.c:30
 msgid "Sociological"
@@ -4062,14 +4050,14 @@ msgid "Total number of players (including AI players)"
 msgstr "Antal spillere (inklusive datastyrede spillere)"
 
 #: server/settings.c:398
-#, fuzzy
 msgid ""
 "If there are fewer than this many players when the game starts, extra AI "
 "players will be created to increase the total number of players to the value "
 "of this option."
 msgstr ""
 "Hvis der er færre end dette antal spillere når spillet starter, vil ekstra "
-"AI-spillere blive suppleret."
+"AI-spillere blive suppleret for at øge det totale antal af spiller til "
+"værdien i denne indstilling."
 
 #: server/settings.c:409
 msgid "List of players' initial units"
@@ -4124,26 +4112,25 @@ msgid "Number of initial techs per player"
 msgstr "Antal teknologier per spiller ved start"
 
 #: server/settings.c:442
-#, fuzzy
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player."
-msgstr "I starten af spillet modtager hver spiller denne guldværdi."
+msgstr ""
+"I starten af spillet modtager hver spiller dette antal teknologiske fremskridt. "
+"Teknologierne vælges tilfældigt for hver spiller."
 
 #: server/settings.c:449
-#, fuzzy
 msgid "Points required to gain a new tech"
-msgstr "Point som krves for nyt fremskridt"
+msgstr "Point som kræves for at opnå et nyt fremskridt"
 
 #: server/settings.c:450
-#, fuzzy
 msgid ""
 "This affects how quickly players can research new technology. Doubling its "
 "value will make all technologies take twice as long to research."
 msgstr ""
-"Dette påvirker hvor hurtigt spillere kan fremforske ny teknologi. Alle "
-"teknologiomkostninger ganges med dette beløb (som en procent). "
-"Standardomkostningen bestemmes af regelsættet eller andre spilindstillinger."
+"Dette påvirker hvor hurtigt spillere kan forske i ny teknologi. En "
+"fodobling af denne værdi vil medføre at det vil tage dobbelt så lang tid "
+"at forske i en ny teknologi."
 
 #: server/settings.c:458
 msgid "Percentage penalty when changing tech"
@@ -4160,18 +4147,16 @@ msgstr ""
 "gælder ikke hvis man netop har gjort et fremskridt i denne omgang."
 
 #: server/settings.c:468
-#, fuzzy
 msgid "Penalty when getting tech from treaty"
-msgstr "Tab ved anskaffelse af teknologi eller guld via en traktat"
+msgstr "Tab ved anskaffelse af teknologi via en traktat"
 
 #: server/settings.c:469
-#, fuzzy
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lost research "
 "points equal to this percentage of the cost to research a new technology. "
 "You can end up with negative research points if this is non-zero."
 msgstr ""
-"For hver teknologi du får ved at erobre en fjendtlig by mister du en del af "
+"For hver teknologi du får ved at erobre en fjendtlig by, mister du en del af "
 "din forskningsværdi svarende til dette antal procentpoint af omkostningen af "
 "at udvikle en ny teknologi. Forskningsværdien kan blive negativ hvis denne "
 "er forskellig fra nul."
@@ -4283,15 +4268,14 @@ msgid "Whether angry citizens are enabled"
 msgstr "Om vrede indbyggere er muligt"
 
 #: server/settings.c:555
-#, fuzzy
 msgid ""
 "Introduces angry citizens like in civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
 "also unhappysize, cityfactor and governments."
 msgstr ""
 "Introducerer vrede indbyggere som civilization II. Vrede indbyggere skal "
-"blive tilfredse fr nogen andre indbyggere kan komme med i beregningen. Se "
-"ogs unhappysize, cityfactor og governments."
+"blive tilfredse før nogen andre indbyggere kan komme med i beregningen. Se "
+"også unhappysize, cityfactor og governments."
 
 #: server/settings.c:563
 msgid "Number of cities for higher unhappiness"
@@ -4351,13 +4335,15 @@ msgstr ""
 
 #: server/settings.c:602
 msgid "civstyle is an obsolete setting"
-msgstr ""
+msgstr "civstyle er en forældet indstilling"
 
 #: server/settings.c:603
 msgid ""
 "This setting is obsolete; it does nothing in the current version. It will be "
 "removed from future versions."
 msgstr ""
+"Denne indstilling er forældet; den gør intet i den nuværende version. Den "
+"fjernes fra fremtidige versioner."
 
 #: server/settings.c:609
 msgid "Chance of moving into tile after attack"
@@ -4399,28 +4385,26 @@ msgstr ""
 
 #: server/settings.c:634
 msgid "Range of vision for units in a fortress"
-msgstr "Sigtens lngde for enheder i fstning."
+msgstr "Sigtens længde for enheder i fæstning."
 
 #: server/settings.c:635
-#, fuzzy
 msgid ""
 "If set to 1, it has no effect. If 2 or larger, the vision range of a unit "
 "inside a fortress is set to this value, if the necessary invention has been "
 "made. This invention is determined by the flag 'Watchtower' in the techs "
 "ruleset. See also wtowerevision."
 msgstr ""
-"Udsigtstrnets sigtlngde: Har ingen virkning hvis sat til 1. Hvis den er sat "
-"til 2 eller hjere\n"
-"vil enheder i fstninger f denne sigtlngde forudsat at den ndvendige \n"
-"teknologi er opfundet. Denne teknologi bestemmes af flaget \"Watchtower\"\n"
-"i regelopstningen for teknologier. Se ogs wtowerevision."
+"Hvis sat til 1 har den ingen effekt. Hvis 2 eller større er udsynet for en "
+"enhed i en fæstning sat til denne værdi hvis den nødvendige opdagelse er "
+"gjort. Denne opdagelse afgøres af indstillingen 'Watchtower' i teknologi "
+"regelsættet. Se også wtowerevision."
 
 #: server/settings.c:646
 msgid "Extra vision range for units in a fortress"
 msgstr "Ekstra sigtlngde for enheder i fstninger."
 
+# Ekstra sigtlængde i fæstninger
 #: server/settings.c:647
-#, fuzzy
 msgid ""
 "If set to 0, it has no effect. If larger than 0, the vision range of a unit "
 "is raised by this value, if the unit is inside a fortress and the invention "
@@ -4428,11 +4412,11 @@ msgid ""
 "Always the larger value of wtowervision and wtowerevision will be used. Also "
 "see wtowervision."
 msgstr ""
-"Ekstra sigtlngde i fstninger: Hvis sat til 0 har denne ingen effekt. \n"
-"Hvis den ndvendige teknologi er opfundet ges sigtlngden i forhold til \n"
-" denne vrdi. Teknologien bestemmes af flaget \"Watchtower\"\n"
-"i regelfilen for teknologier. Den strste vrdi p wtowervision og \n"
-"wtowerrevision vil blive benyttet. Se ogs wtowervision."
+"Hvis sat til 0 har denne ingen effekt. Hvis større end 0, er synsfeltet for "
+"en enhed øget med denne værdi, hvis enheden er inde i en fæstning og opdagelsen "
+"som bestemt af markeringen 'Watchtower' i teknologiregelsættet er valgt."
+"Tillader den større værdi af wtowervision og wtowerevision at blive brugt. Se "
+"også wtowervision."
 
 #: server/settings.c:659
 msgid "National borders radius"
@@ -4465,7 +4449,6 @@ msgid "Ability to do diplomacy with other players"
 msgstr "Evnen til at føre diplomati med andre spillere"
 
 #: server/settings.c:678
-#, fuzzy
 msgid ""
 "0 = default; diplomacy is enabled for everyone.\n"
 "\n"
@@ -4480,10 +4463,16 @@ msgid ""
 "You can always do diplomacy with players on your team."
 msgstr ""
 "0 = standard; diplomati er mulig for alle.\n"
-"1 = diplomati er kun tilladt mellem levende spillere.\n"
-"2 = diplomati er kun tilladt mellem AI spillere.\n"
+"\n"
+"1 = diplomati er kun tilladt mellem spillere.\n"
+"\n"
+"2 = diplomati er kun tilladt mellem computerspillere.\n"
+"\n"
 "3 = diplomati er afgrænset til hold.\n"
-"4 = diplomati er slået fra."
+"\n"
+"4 = diplomati er slået fra for alle\n."
+"\n"
+"Du kan altid indgå i diplomati med spiller på dit hold."
 
 #: server/settings.c:688
 msgid "Allowed city names"
@@ -4572,7 +4561,7 @@ msgid "Chance in diplomat/spy contests"
 msgstr "Chance (1 af N) for diplomat-/spion-kampe"
 
 #: server/settings.c:756
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "A diplomatic unit acting against a city which has one or more defending "
 "diplomatic units has a diplchance (percent) chance to defeat each such "
@@ -4583,12 +4572,12 @@ msgid ""
 "veteran ones."
 msgstr ""
 "En diplomat eller spion som handler mod en by som har en eller flere "
-"forsvarende diplomater eller spioner har \"diplchance\" hundredeles chance "
-"for at besejre en sdan forsvarer. Sandsynligheden for at en sdan enhed "
-"returnerer fra en vellykket mission er ogs diplchance procent. (Diplomat "
-"returnerer aldrig) \"diplchance\" er ogs en grundlggende sandsynlighed for "
+"forsvarende diplomater eller spioner har diplchance (procent) chance "
+"for at besejre en sådan forsvarer. Sandsynligheden for at en sådan enhed "
+"returnerer fra en vellykket mission er også diplchance procent. (Diplomat "
+"returnerer aldrig). Denne værdi er også en grundlæggende sandsynlighed for "
 "fremgang hos Diplomater og Spioner. Forsvarende spillere er normalt dobbelt "
-"s strke som diplomater, veteraner er 50% bedre end normale enheder."
+"så stærke som diplomater, veteraner er 50 % bedre end normale enheder."
 
 #: server/settings.c:769
 msgid "Whether to allow space race"
@@ -4947,16 +4936,14 @@ msgid "Detail level for logging game events"
 msgstr "Detaljeringsniveau for logning af spil-hndelser"
 
 #: server/settings.c:1015
-#, fuzzy
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
 "option). Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
 "40=debuging logging."
 msgstr ""
-"Glder kun hvis spillets log-funktion er aktiveret (-g kommandolinje "
-"option).\n"
-"Niv: 0=ingen logning, 20=standard logning, 30=detaljeret logning og 40=debug "
-"logning."
+"Gælder kun hvis spillets log-funktion er aktiveret (-g kommandolinje "
+"indstilling). Niveauer: 0=ingen logning, 20=standard logning, 30=detaljeret "
+"logning, 40=debug logning."
 
 #: server/sernet.c:142
 msgid "Server cannot read standard input. Ignoring input."
@@ -4968,19 +4955,16 @@ msgid "Server: bad address: [%s:%d]."
 msgstr "Server: Ugyldig adresse: [%s:%d]."
 
 #: server/spacerace.c:164
-#, fuzzy
 msgid "Game: You need to have a capital in order to launch your spaceship."
 msgstr "Spil: Du skal have en hovedstad for at sende et rumskib op."
 
 #: server/spacerace.c:169
-#, fuzzy
 msgid "Game: Your spaceship is already launched!"
 msgstr "Spil: Dit rumskib er allerede sendt af sted!"
 
 #: server/spacerace.c:174
-#, fuzzy
 msgid "Game: Your spaceship can't be launched yet!"
-msgstr "Spil: Dit rumskib kan ikke sendes endnu!"
+msgstr "Spil: Dit rumskib kan ikke afsendes endnu!"
 
 #: server/spacerace.c:183
 #, fuzzy, c-format
