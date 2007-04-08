@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 19:51-0500\n"
-"PO-Revision-Date: 2007-04-02 17:32+0300\n"
+"PO-Revision-Date: 2007-04-08 13:54+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -217,7 +217,7 @@ msgstr "Civ: Sukilimo pradžia"
 
 #: common/events.c:69
 msgid "Civ: Spaceship Events"
-msgstr "Civ: Kosmoso įvykiai"
+msgstr "Civ: Erdvėlaivio įvykiai"
 
 #: common/events.c:70
 msgid "Diplomat Action: Bribe"
@@ -288,9 +288,8 @@ msgid "Caravan actions"
 msgstr "Karavano veiksmai"
 
 #: common/events.c:87
-#, fuzzy
 msgid "Tutorial message"
-msgstr "Apmokymas"
+msgstr "Apmokymo pranešimas"
 
 #: common/events.c:88
 #, fuzzy
@@ -323,9 +322,8 @@ msgid "Report"
 msgstr "Ataskaita"
 
 #: common/events.c:95
-#, fuzzy
 msgid "Turn Bell"
-msgstr "Ėjimas baigtas"
+msgstr "Ėjimo skambutis"
 
 #: common/events.c:96
 #, fuzzy
@@ -1104,7 +1102,7 @@ msgstr ""
 
 #: utility/shared.c:1365
 msgid "ambiguous"
-msgstr ""
+msgstr "ambicingas"
 
 #: utility/shared.c:1366
 msgid "empty"
@@ -1188,7 +1186,7 @@ msgstr "*%s (DI)* Šis pasiūlymas yra mums per prastas, %s!"
 #: ai/advdiplomacy.c:573
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr ""
+msgstr "*%s (DI)* Sveikas atvykęs į mūsų sąjungą %s!"
 
 #: ai/advdiplomacy.c:576
 #, c-format
@@ -1223,7 +1221,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1086
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr ""
+msgstr "*%s (DI)* Taika ... kada nors kitą kartą."
 
 #: ai/advdiplomacy.c:1091
 #, c-format
@@ -1407,7 +1405,7 @@ msgstr ""
 #: server/auth.c:224
 #: server/auth.c:282
 msgid "Sorry, too many wrong tries..."
-msgstr ""
+msgstr "Apgailestaujame, per daug blogų bandymų..."
 
 #: server/auth.c:225
 #, c-format
@@ -1719,7 +1717,7 @@ msgstr "%s auga iki dydžio %d."
 #: server/cityturn.c:575
 #, c-format
 msgid "Famine feared in %s, %s lost!"
-msgstr ""
+msgstr "Bado bijomasi %s, %s prarasta!"
 
 #: server/cityturn.c:587
 #, c-format
@@ -1905,7 +1903,7 @@ msgstr ""
 #: server/cityturn.c:1577
 #, c-format
 msgid "%s is disbanded into %s."
-msgstr ""
+msgstr "%s išformuotas į %s."
 
 #: server/civserver.c:78
 msgid "Setting timeout to 0. Autogame will stop.\n"
@@ -1923,12 +1921,12 @@ msgstr ""
 #: server/civserver.c:194
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr ""
+msgstr "Klaida: nežinomas parametras „%s“\n"
 
 #: server/civserver.c:205
 #, c-format
 msgid "This is the server for %s"
-msgstr ""
+msgstr "Tai yra %s serveris"
 
 #: server/civserver.c:206
 #, c-format
@@ -1946,7 +1944,7 @@ msgstr ""
 
 #: server/civserver.c:213
 msgid "  -a  --auth\t\tEnable server authentication.\n"
-msgstr ""
+msgstr "  -a  --auth\t\tĮgalinti serverio autentifikavimą.\n"
 
 #: server/civserver.c:214
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
@@ -1990,7 +1988,7 @@ msgstr ""
 
 #: server/civserver.c:233
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-msgstr ""
+msgstr "  -M, --Metaserver ADDR\tNustatyti ADDR kaip metaserverio adresą\n"
 
 #: server/civserver.c:236
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
@@ -2002,7 +2000,7 @@ msgstr ""
 
 #: server/civserver.c:240
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr ""
+msgstr "  -e, --exit-on-end\tKai žaidimas pasibaigs, išeiti, o ne perkrauti\n"
 
 #: server/civserver.c:243
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
@@ -2010,7 +2008,7 @@ msgstr ""
 
 #: server/civserver.c:245
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr ""
+msgstr "  -S, --Serverid ID\tNustato serverio id į ID\n"
 
 #: server/civserver.c:247
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
@@ -2076,7 +2074,7 @@ msgstr ""
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
-msgstr ""
+msgstr "Išeiti iš žaidimo ir išjungti serverį"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:74
@@ -2097,6 +2095,8 @@ msgid ""
 "explain\n"
 "explain <option-name>"
 msgstr ""
+"explain\n"
+"explain <parametro-pavadinimas>"
 
 #: server/commands.c:85
 msgid "Explain server options."
@@ -2196,7 +2196,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:150
 msgid "metainfo <meta-line>"
-msgstr ""
+msgstr "metainfo <meta-eilutė>"
 
 #: server/commands.c:151
 msgid "Set metaserver info line."
@@ -2205,7 +2205,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:155
 msgid "metapatch <meta-line>"
-msgstr ""
+msgstr "metapatch <meta-eilutė>"
 
 #: server/commands.c:156
 msgid "Set metaserver patches line."
@@ -2269,11 +2269,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:199
 msgid "detach <connection-name>"
-msgstr ""
+msgstr "detach <ryšio-pavadinimas>"
 
 #: server/commands.c:200
 msgid "detach from a player."
-msgstr ""
+msgstr "atsijungti nuo žaidėjo."
 
 #: server/commands.c:201
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to detach from a player."
@@ -2563,12 +2563,12 @@ msgstr "Sveiki atvykę į %s serverį, prievadas %d"
 #: server/connecthand.c:92
 #, c-format
 msgid "%s has connected from %s."
-msgstr ""
+msgstr "%s prisijungė iš %s."
 
 #: server/connecthand.c:97
 #, c-format
 msgid "Server: %s has connected from %s."
-msgstr ""
+msgstr "Serveris: %s prisijungė iš %s."
 
 #: server/connecthand.c:131
 msgid "Couldn't attach your connection to new player."
@@ -2694,16 +2694,16 @@ msgstr ""
 
 #: server/diplhand.c:208
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr ""
+msgstr "Neturi pakankamai aukso, dėl to negali priimti sutarties."
 
 #: server/diplhand.c:240
 #: server/diplhand.c:245
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Suderinta sutartis turinti %d sąlygą"
+msgstr[1] "Suderinta sutartis turinti %d sąlygas"
+msgstr[2] "Suderinta sutartis turinti %d sąlygų"
 
 #: server/diplhand.c:261
 #: server/diplhand.c:265
@@ -2715,7 +2715,7 @@ msgstr ""
 #: server/diplhand.c:277
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr ""
+msgstr "%s daugiau nebekontroliuoja %s! Sutartis nutraukta!"
 
 #: server/diplhand.c:314
 #: server/diplhand.c:318
@@ -2856,12 +2856,12 @@ msgstr ""
 #: server/diplomats.c:350
 #, c-format
 msgid "Your %s could not sabotage %s's %s."
-msgstr ""
+msgstr "Tavo %s nepavyko sabotuoti %s %s."
 
 #: server/diplomats.c:371
 #, c-format
 msgid "Your %s succeeded in sabotaging %s's %s."
-msgstr ""
+msgstr "Tavo %s pavyko sabotuoti %s %s."
 
 #: server/diplomats.c:376
 #, c-format
@@ -2964,7 +2964,7 @@ msgstr ""
 #: server/diplomats.c:909
 #, c-format
 msgid "You cannot sabotage a %s!"
-msgstr ""
+msgstr "Negali sabotuoti %s!"
 
 #: server/diplomats.c:919
 #, c-format
@@ -3184,12 +3184,12 @@ msgstr "%s neprisijungęs."
 #: server/handchat.c:300
 #, c-format
 msgid "There is no connection by the name %s."
-msgstr ""
+msgstr "Nėra ryšio pavadinimu %s."
 
 #: server/handchat.c:303
 #, c-format
 msgid "There is no player nor connection by the name %s."
-msgstr ""
+msgstr "Nėra nei žaidėjo, nei ryšio vardu %s."
 
 #: server/maphand.c:254
 msgid "Global warming has occurred!"
@@ -3375,7 +3375,7 @@ msgstr ""
 #: server/plrhand.c:1705
 #, c-format
 msgid "%s declares allegiance to %s."
-msgstr ""
+msgstr "%s paskelbia sąjungą su %s."
 
 #: server/plrhand.c:1719
 #, c-format
@@ -3386,29 +3386,29 @@ msgid ""
 msgstr ""
 
 #: server/report.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "Didžiausios pasaulio civilizacijos."
+msgstr "%s ataskaita apie TURTINGIAUSIAS pasaulio civilizacijas %s."
 
 #: server/report.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "Didžiausios pasaulio civilizacijos."
+msgstr "%s ataskaita apie PAŽANGIAUSIAS pasaulio civilizacijas %s."
 
 #: server/report.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "Didžiausios pasaulio civilizacijos."
+msgstr "%s ataskaita apie labiausiai MILITARIZUOTAS pasaulio civilizacijas %s."
 
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World %s."
-msgstr "Didžiausios pasaulio civilizacijos."
+msgstr "%s ataskaita apie LAIMINGIAUSIAS pasaulio civilizacijas %s."
 
 #: server/report.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the LARGEST Civilizations in the World %s."
-msgstr "Didžiausios pasaulio civilizacijos."
+msgstr "%s ataskaita apie DIDŽIAUSIAS pasaulio civilizacijas %s."
 
 #: server/report.c:63
 msgid "Herodotus'"
@@ -3786,7 +3786,7 @@ msgstr ""
 #. TRANS: Error message.
 #: server/savegame.c:162
 msgid "Reason: line not found"
-msgstr ""
+msgstr "Priežastis: eilutė nerasta"
 
 #. TRANS: Error message.
 #: server/savegame.c:165
@@ -4043,11 +4043,11 @@ msgstr ""
 
 #: server/settings.c:314
 msgid "Presence of 1x1 islands"
-msgstr ""
+msgstr "1x1 salų buvimas"
 
 #: server/settings.c:315
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
-msgstr ""
+msgstr "0 = nėra 1x1 salų; 1 = kažkiek 1x1 salų"
 
 #: server/settings.c:320
 msgid "Whether the poles are separate continents"
@@ -4402,7 +4402,7 @@ msgstr "Barbarų pasirodymo metai"
 
 #: server/settings.c:726
 msgid "Barbarians will not appear before this year."
-msgstr ""
+msgstr "Barbarai nepasirodys iki šių metų."
 
 #: server/settings.c:732
 msgid "Length in turns of revolution"
@@ -4447,7 +4447,7 @@ msgstr ""
 
 #: server/settings.c:777
 msgid "Turns until player contact is lost"
-msgstr ""
+msgstr "Ėjimai, kol prarandamas kontaktas tarp žaidėjų"
 
 #: server/settings.c:778
 msgid "Players may meet for diplomacy this number of turns after their units have last met, even if they do not have an embassy. If set to zero then players cannot meet unless they have an embassy."
@@ -4627,7 +4627,7 @@ msgstr ""
 
 #: server/settings.c:984
 msgid "Savegame compression algorithm"
-msgstr ""
+msgstr "Išsaugotų žaidimų spaudimo algoritmas"
 
 #: server/settings.c:985
 msgid ""
@@ -4694,7 +4694,7 @@ msgstr ""
 
 #: server/spacerace.c:224
 msgid "That Space Structural would not be connected!"
-msgstr ""
+msgstr "Ši kosminė struktūra nebus prijungta!"
 
 #: server/spacerace.c:239
 #: server/spacerace.c:260
@@ -4745,7 +4745,7 @@ msgstr "%s erdvėlaivis atvyko į Alfa Kentaura."
 #: server/srv_main.c:300
 #, c-format
 msgid "Team victory to %s"
-msgstr ""
+msgstr "Komandos %s pergalė"
 
 #: server/srv_main.c:276
 #: server/srv_main.c:315
@@ -4811,7 +4811,7 @@ msgstr ""
 #: server/srv_main.c:1048
 #, c-format
 msgid "Warning: rejecting old client %s"
-msgstr ""
+msgstr "Dėmesio: atmetamas senas klientas %s"
 
 #: server/srv_main.c:1057
 msgid "Your client is too old. To use this server please upgrade your client to a CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
@@ -4852,7 +4852,7 @@ msgstr "%s tauta jau pasirinkta."
 #: server/srv_main.c:1397
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr ""
+msgstr "%s yra %s valdovas %s."
 
 #: server/srv_main.c:1454
 #, c-format
@@ -4891,7 +4891,7 @@ msgstr "Žaidimas baigtas..."
 
 #: server/srv_main.c:1879
 msgid "Now accepting new client connections."
-msgstr ""
+msgstr "Dabar priimami nauji klientų prisijungimai."
 
 #: server/stdinhand.c:247
 #, c-format
@@ -4905,7 +4905,7 @@ msgstr ""
 
 #: server/stdinhand.c:363
 msgid "(ambiguous)"
-msgstr ""
+msgstr "(garbėtroška)"
 
 #: server/stdinhand.c:364
 #: client/citydlg_common.c:422
@@ -5039,7 +5039,7 @@ msgstr ""
 
 #: server/stdinhand.c:857
 msgid "Can't add more players, server is full."
-msgstr ""
+msgstr "Neįmanoma pridėti daugiau žaidėjų, serveris pilnas."
 
 #: server/stdinhand.c:864
 msgid "Can't use an empty name."
@@ -5056,11 +5056,11 @@ msgstr "Šis vardas neleidžiamas"
 
 #: server/stdinhand.c:883
 msgid "A player already exists by that name."
-msgstr ""
+msgstr "Žaidėjas tokiu vardu jau egzistuoja."
 
 #: server/stdinhand.c:889
 msgid "A user already exists by that name."
-msgstr ""
+msgstr "Vartotojas šiuo vardu jau egzistuoja."
 
 #: server/stdinhand.c:915
 #, c-format
@@ -5074,7 +5074,7 @@ msgstr "Klaida kuriant naują DI žaidėją: %s."
 
 #: server/stdinhand.c:955
 msgid "Players cannot be removed once the game has started."
-msgstr ""
+msgstr "Žaidėjai negali būti pašalinti prasidėjus žaidimui."
 
 #: server/stdinhand.c:966
 #, c-format
@@ -5261,24 +5261,24 @@ msgstr ""
 #: server/stdinhand.c:1651
 #, c-format
 msgid "Server Operator: %s"
-msgstr ""
+msgstr "Serverio operatorius: %s"
 
 #: server/stdinhand.c:1773
 #: server/stdinhand.c:1799
 #: server/stdinhand.c:1815
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr ""
+msgstr "Žaidėjas „%s“ turi DI meistriškumo lygį „%s“."
 
 #: server/stdinhand.c:1803
 #, c-format
 msgid "%s is not controlled by the AI."
-msgstr ""
+msgstr "DI nekontroliuoja %s."
 
 #: server/stdinhand.c:1821
 #, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr ""
+msgstr "Numatytas DI meistriškumo lygis nustatytas į „%s“."
 
 #: server/stdinhand.c:1836
 #: server/stdinhand.c:2146
@@ -5287,11 +5287,11 @@ msgstr ""
 
 #: server/stdinhand.c:1839
 msgid "Usage: away"
-msgstr ""
+msgstr "Naudojimas: away"
 
 #: server/stdinhand.c:1844
 msgid "Only players may use the away command."
-msgstr ""
+msgstr "Tik žaidėjai gali naudoti away komandą"
 
 #: server/stdinhand.c:1848
 #, c-format
@@ -5311,7 +5311,7 @@ msgstr ""
 #: server/stdinhand.c:1904
 #, c-format
 msgid "Unknown option '%s'."
-msgstr ""
+msgstr "Nežinomas parametras „%s“."
 
 #: server/stdinhand.c:1929
 msgid "All options with non-default values"
@@ -5419,12 +5419,12 @@ msgstr ""
 #: server/stdinhand.c:2213
 #, c-format
 msgid "You voted for \"%s\""
-msgstr "Tu balsavai už „%s“"
+msgstr "Balsavai už „%s“"
 
 #: server/stdinhand.c:2217
 #, c-format
 msgid "You voted against \"%s\""
-msgstr ""
+msgstr "Balsavai prieš „%s“"
 
 #: server/stdinhand.c:2244
 msgid "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units <x> <y> | unit <id> | tech <player> | timing | info>."
@@ -5457,7 +5457,7 @@ msgstr ""
 #: server/stdinhand.c:2337
 #: server/stdinhand.c:2367
 msgid "Value 2 & 3 must be integer."
-msgstr "Vertės 2 ir 3 turi būti sveiki skaičiai."
+msgstr "Vertės 2 ir 3 turi būti sveikieji skaičiai."
 
 #: server/stdinhand.c:2341
 #: server/stdinhand.c:2371
@@ -5636,7 +5636,7 @@ msgstr ""
 
 #: server/stdinhand.c:2892
 msgid "Usage: take <player-name>"
-msgstr ""
+msgstr "Naudojimas: take <žaidėjo-vardas>"
 
 #: server/stdinhand.c:2898
 msgid "Usage: take [connection-name] <player-name>"
@@ -5699,7 +5699,7 @@ msgstr "Miręs"
 
 #: server/stdinhand.c:3053
 msgid "Usage: detach <connection-name>"
-msgstr ""
+msgstr "Naudojimas: detach <ryšio-pavadinimas>"
 
 #: server/stdinhand.c:3073
 msgid "You can not detach other users."
@@ -5727,7 +5727,7 @@ msgstr "atsijungiama nuo %s"
 
 #: server/stdinhand.c:3207
 msgid "Usage: load <game name>"
-msgstr ""
+msgstr "Naudojimas: load <žaidimo pavadinimas>"
 
 #: server/stdinhand.c:3227
 #, c-format
@@ -5736,12 +5736,12 @@ msgstr ""
 
 #: server/stdinhand.c:3242
 msgid "Cannot load a game while another is running."
-msgstr ""
+msgstr "Neįmanoma įkelti žaidimą, kol kitas veikia."
 
 #: server/stdinhand.c:3251
 #, c-format
 msgid "Could not load savefile: %s"
-msgstr ""
+msgstr "Nepavyksta įkelti išsaugoto žaidimo: %s"
 
 #: server/stdinhand.c:3319
 #, c-format
@@ -5784,7 +5784,7 @@ msgstr ""
 #: server/stdinhand.c:3454
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
-msgstr ""
+msgstr "Nežinoma komanda. Bandykite '%shelp'."
 
 #: server/stdinhand.c:3469
 msgid "Your new vote canceled your previous vote."
@@ -5995,7 +5995,7 @@ msgstr "%s ištyrė %s"
 #: server/techtools.c:116
 #, c-format
 msgid "The %s have researched Future Tech. %d."
-msgstr ""
+msgstr "%s išrado ateities technologiją %d."
 
 #: server/techtools.c:168
 #, c-format
@@ -6015,12 +6015,12 @@ msgstr ""
 #: server/techtools.c:346
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr ""
+msgstr "Išmokta %s. Mokslininkai dirba ties %s; tikslas yra %s."
 
 #: server/techtools.c:364
 #, c-format
 msgid "Learned %s.  Scientists choose to research %s."
-msgstr ""
+msgstr "Išmokta %s. Mokslininkai renkasi tyrinėti %s."
 
 #: server/techtools.c:371
 #, c-format
@@ -6035,7 +6035,7 @@ msgstr "Tyrinėjama %s."
 #: server/techtools.c:380
 #, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
-msgstr ""
+msgstr "Išmokta %s. Mokslininkai nežino, ką toliau tyrinėti."
 
 #: server/techtools.c:397
 msgid "Great scientists from all the world join your civilization: you get an immediate advance."
@@ -6049,17 +6049,17 @@ msgstr "Tyrimų tikslas yra %s."
 #: server/techtools.c:693
 #, c-format
 msgid "You steal %s from the %s."
-msgstr ""
+msgstr "Pavogei %s iš %s."
 
 #: server/techtools.c:698
 #, c-format
 msgid "The %s stole %s from you!"
-msgstr ""
+msgstr "%s iš tavęs pavogė %s!"
 
 #: server/techtools.c:703
 #, c-format
 msgid "The %s have stolen %s from the %s."
-msgstr ""
+msgstr "%s pavogė %s iš %s."
 
 #: server/unithand.c:99
 #, c-format
@@ -6069,25 +6069,25 @@ msgstr ""
 #: server/unithand.c:127
 #, c-format
 msgid "%d %s upgraded to %s for %d gold."
-msgstr ""
+msgstr "%d %s patobulintas iki %s už %d aukso."
 
 #: server/unithand.c:134
 msgid "No units could be upgraded."
-msgstr ""
+msgstr "Jokie daliniai negali būti patobulinti."
 
 #: server/unithand.c:158
 #, c-format
 msgid "%s upgraded to %s for %d gold."
-msgstr ""
+msgstr "%s patobulintas iki %s už %d aukso."
 
 #: server/unithand.c:349
 #, c-format
 msgid "%s refuses to disband!"
-msgstr ""
+msgstr "%s atsisako išsiformuoti!"
 
 #: server/unithand.c:402
 msgid "Can't place city here."
-msgstr ""
+msgstr "Čia neįmanoma pastatyti miesto."
 
 #: server/unithand.c:409
 #, c-format
@@ -6120,7 +6120,7 @@ msgstr ""
 #: server/unithand.c:444
 #, c-format
 msgid "%s is too big to add %s."
-msgstr ""
+msgstr "%s nėra toks didelis kaip %s."
 
 #: server/unithand.c:449
 #, c-format
@@ -6191,7 +6191,7 @@ msgstr ""
 
 #: server/unithand.c:1043
 msgid "No diplomat action possible."
-msgstr ""
+msgstr "Neįmanomi jokie diplomato veiksmai."
 
 #: server/unithand.c:1046
 #, fuzzy, c-format
@@ -6265,12 +6265,12 @@ msgstr ""
 #: server/unittools.c:258
 #, c-format
 msgid "%s was upgraded for free to %s%s."
-msgstr ""
+msgstr "%s nemokamai patobulintas iki %s%s."
 
 #: server/unittools.c:301
 #, c-format
 msgid "Not enough gold. %s disbanded"
-msgstr ""
+msgstr "Nepakanka aukso. Išmontuojamas %s"
 
 #: server/unittools.c:346
 #, c-format
@@ -6295,7 +6295,7 @@ msgstr ""
 #: server/unittools.c:451
 #, c-format
 msgid "Your %s has returned to refuel."
-msgstr ""
+msgstr "Tavo %s grįžo pasipildyti degalų."
 
 #: server/unittools.c:483
 #, c-format
@@ -6320,22 +6320,22 @@ msgstr ""
 #: server/unittools.c:898
 #, c-format
 msgid " outside %s"
-msgstr ""
+msgstr "%s išorėje"
 
 #: server/unittools.c:901
 #, c-format
 msgid " near %s"
-msgstr ""
+msgstr " arti %s"
 
 #: server/unittools.c:1103
 #, c-format
 msgid "Teleported your %s to %s."
-msgstr ""
+msgstr "Tavo %s teleportuotas į %s."
 
 #: server/unittools.c:1132
 #, c-format
 msgid "Disbanded your %s."
-msgstr ""
+msgstr "Išmontuotas tavo %s."
 
 #: server/unittools.c:1461
 #, c-format
@@ -6861,7 +6861,7 @@ msgstr ""
 
 #: client/cityrepdata.c:73
 msgid "?city_state:Rapture"
-msgstr ""
+msgstr "?city_state:Susižavėjęs"
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Disorder"
@@ -6873,7 +6873,7 @@ msgstr "?city_state:Taika"
 
 #: client/cityrepdata.c:361
 msgid "(worklist)"
-msgstr ""
+msgstr "(darbų sąrašas)"
 
 #: client/cityrepdata.c:429
 msgid "?city:Name"
@@ -6901,7 +6901,7 @@ msgstr ""
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
-msgstr ""
+msgstr "Susižavėjęs/Taika/Netvarka"
 
 #: client/cityrepdata.c:435
 msgid "Concise *=Rapture, X=Disorder"
@@ -6971,11 +6971,9 @@ msgstr ""
 msgid "Best"
 msgstr ""
 
-# reikia daiktavardžio ar veiksmažodžio?
 #: client/cityrepdata.c:453
-#, fuzzy
 msgid "attack"
-msgstr "pulti"
+msgstr "ataka"
 
 #: client/cityrepdata.c:454
 msgid "Best attacking units"
@@ -7022,7 +7020,7 @@ msgstr ""
 
 #: client/cityrepdata.c:458
 msgid "Number of units supported"
-msgstr ""
+msgstr "Palaikomų dalinių skaičius"
 
 #: client/cityrepdata.c:459
 msgid "?Present (units):Prs"
@@ -7149,7 +7147,7 @@ msgstr "Ėjimai"
 
 #: client/cityrepdata.c:487
 msgid "Turns until growth/famine"
-msgstr ""
+msgstr "Ėjimai iki augimo/bado"
 
 #: client/cityrepdata.c:489
 msgid "?corruption:Cor"
@@ -7252,7 +7250,7 @@ msgstr ""
 #: client/civclient.c:255
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
-msgstr ""
+msgstr "Su --port parametru nurodytas klaidingas prievadas „%s“.\n"
 
 #: client/civclient.c:257
 #: client/civclient.c:272
@@ -7386,11 +7384,11 @@ msgstr ""
 #: client/climisc.c:1050
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
-msgstr ""
+msgstr "%s kainuoja %d aukso, bet tu turi tik %d aukso."
 
 #: client/clinet.c:137
 msgid "Lost connection to server!"
-msgstr ""
+msgstr "Prarastas ryšys su serveriu!"
 
 #: client/clinet.c:180
 msgid "Failed looking up host."
@@ -7508,7 +7506,7 @@ msgstr ""
 
 #: client/control.c:2175
 msgid "Oh my! You seem to have no capital!"
-msgstr ""
+msgstr "O ne! Atrodo, kad neturi sostinės!"
 
 #: client/helpdata.c:120
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -7524,6 +7522,8 @@ msgid ""
 "Requires the %s technology.\n"
 "\n"
 msgstr ""
+"Reikalauja %s technologijos.\n"
+"\n"
 
 #: client/helpdata.c:170
 #, c-format
@@ -7531,6 +7531,8 @@ msgid ""
 "Requires the %s government.\n"
 "\n"
 msgstr ""
+"Reikalauja %s vyriausybės.\n"
+"\n"
 
 #: client/helpdata.c:174
 #, c-format
@@ -7538,6 +7540,8 @@ msgid ""
 "Requires the %s building.\n"
 "\n"
 msgstr ""
+"Reikalauja %s pastato.\n"
+"\n"
 
 #: client/helpdata.c:178
 #, c-format
@@ -7559,6 +7563,8 @@ msgid ""
 "Requires the %s nation.\n"
 "\n"
 msgstr ""
+"Reikalauja %s tautos.\n"
+"\n"
 
 #: client/helpdata.c:190
 #: client/helpdata.c:194
@@ -7635,12 +7641,12 @@ msgstr "* Leidiža %s.\n"
 #: client/helpdata.c:758
 #, c-format
 msgid "* Belongs to %s units class.\n"
-msgstr ""
+msgstr "* Priklauso %s dalinių klasei.\n"
 
 #: client/helpdata.c:762
-#, fuzzy, c-format
+#, c-format
 msgid "  * Can occupy empty enemy cities.\n"
-msgstr "* Gali statyti naujus miestus.\n"
+msgstr " * Gali okupuoti tuščius priešo miestus.\n"
 
 #: client/helpdata.c:765
 #, c-format
@@ -7660,12 +7666,12 @@ msgstr ""
 #: client/helpdata.c:776
 #, c-format
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
-msgstr ""
+msgstr "  * Nepasiekiamas. Dauguma dalinių negali pulti šio dalinio.\n"
 
 #: client/helpdata.c:781
-#, fuzzy, c-format
+#, c-format
 msgid "* Can only be built if there is %s in the city.\n"
-msgstr "* Gali būti pastatytas tik, kai vyriausybė yra %s.\n"
+msgstr "* Gali būti pastatytas tik, kai mieste yra %s.\n"
 
 #: client/helpdata.c:786
 #, c-format
@@ -7698,12 +7704,12 @@ msgid "* Requires %d population to build.\n"
 msgstr "* Reikalauja %d gyventojų, kad pastatytum.\n"
 
 #: client/helpdata.c:810
-#, fuzzy, c-format
+#, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
-msgstr[0] "* Gali nešti ir papildyti degalais %d aviacijos dalinį.\n"
-msgstr[1] "* Gali nešti ir papildyti degalais %d aviacijos dalinius.\n"
-msgstr[2] "* Gali nešti ir papildyti degalais %d aviacijos dalinių.\n"
+msgstr[0] "* Gali nešti ir papildyti degalais %d aviacijos dalinį iš klasių:\n"
+msgstr[1] "* Gali nešti ir papildyti degalais %d aviacijos dalinius iš klasių:\n"
+msgstr[2] "* Gali nešti ir papildyti degalais %d aviacijos dalinių iš klasių:\n"
 
 #: client/helpdata.c:815
 #, c-format
@@ -7720,17 +7726,17 @@ msgstr ""
 #: client/helpdata.c:829
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
-msgstr ""
+msgstr "* Gali padėti statyti stebuklus (prideda %d gamybos).\n"
 
 #: client/helpdata.c:833
 #, c-format
 msgid "* May not be disbanded.\n"
-msgstr ""
+msgstr "* Negali būti išformuotas.\n"
 
 #: client/helpdata.c:835
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
-msgstr ""
+msgstr "* Gali būti išformuotas mieste, atgaunant 50%% gamybos kainos.\n"
 
 #: client/helpdata.c:839
 #, c-format
@@ -7770,7 +7776,7 @@ msgstr "* Gali statyti dirbamąsias žemes (jei %s yra žinomas).\n"
 #: client/helpdata.c:866
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
-msgstr "* Gali statyti dirbamąsias žemes (jei bent 1 iš šių yra žinomi: %s).\n"
+msgstr "* Gali statyti dirbamąsias žemes (jei bent 1 iš šių yra žinomas: %s).\n"
 
 #: client/helpdata.c:874
 #, c-format
@@ -7785,7 +7791,7 @@ msgstr "* Gali statyti fortus (jei %s yra žinomas).\n"
 #: client/helpdata.c:882
 #, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
-msgstr "* Gali statyti fortus (jei bent 1 iš šių yra žinomi: %s).\n"
+msgstr "* Gali statyti fortus (jei bent 1 iš šių yra žinomas: %s).\n"
 
 #: client/helpdata.c:888
 #, c-format
@@ -7835,12 +7841,12 @@ msgstr ""
 #: client/helpdata.c:919
 #, c-format
 msgid "* May not be bribed.\n"
-msgstr "*Negali būti papirktas.\n"
+msgstr "* Negali būti papirktas.\n"
 
 #: client/helpdata.c:922
-#, fuzzy, c-format
+#, c-format
 msgid "* Can attack otherwise unreachable enemy units.\n"
-msgstr "* Gali pulti priešo aviaciją.\n"
+msgstr "* Gali pulti kitaip nepasiekiamus priešo dalinius.\n"
 
 #: client/helpdata.c:925
 #, c-format
@@ -7880,12 +7886,12 @@ msgstr ""
 #: client/helpdata.c:956
 #, c-format
 msgid "* Very good at attacking 'helicopter' units.\n"
-msgstr ""
+msgstr "* Labai gerai atakuoja sraigtasparnių dalinius.\n"
 
 #: client/helpdata.c:960
 #, c-format
 msgid "* Very bad at attacking AEGIS units.\n"
-msgstr ""
+msgstr "* Labai blogai atakuoja AEGIS dalinius.\n"
 
 #: client/helpdata.c:965
 #, c-format
@@ -8336,7 +8342,7 @@ msgstr ""
 #: client/gui-win32/connectdlg.c:912
 #: data/Freeciv.in:107
 msgid "Metaserver"
-msgstr "Meta serveris"
+msgstr "Metaserveris"
 
 #: client/options.c:117
 msgid "The metaserver is a host that the client contacts to find out about games on the internet.  Don't change this from its default value unless you know what you're doing."
@@ -8360,7 +8366,7 @@ msgstr ""
 
 #: client/options.c:135
 msgid "Tileset"
-msgstr "Ikonų rinkinys"
+msgstr ""
 
 #: client/options.c:136
 msgid "By changing this option you change the active tileset. This is the same as using the -t command-line parameter."
@@ -8520,7 +8526,7 @@ msgstr ""
 
 #: client/options.c:235
 msgid "Background layer"
-msgstr ""
+msgstr "Fono sluoksnis"
 
 #: client/options.c:236
 msgid "The background layer of the overview shows just ocean and land."
@@ -8536,7 +8542,7 @@ msgstr ""
 
 #: client/options.c:243
 msgid "Borders layer"
-msgstr ""
+msgstr "Sienų sluoksnis"
 
 #: client/options.c:244
 msgid "The borders layer of the overview shows which tiles are owned by each player."
@@ -8544,7 +8550,7 @@ msgstr ""
 
 #: client/options.c:248
 msgid "Units layer"
-msgstr ""
+msgstr "Dalinių sluoksnis"
 
 #: client/options.c:249
 msgid "Enabling this will draw units on the overview."
@@ -8552,7 +8558,7 @@ msgstr ""
 
 #: client/options.c:252
 msgid "Cities layer"
-msgstr ""
+msgstr "Miestų sluoksnis"
 
 #: client/options.c:253
 msgid "Enabling this will draw cities on the overview."
@@ -8560,7 +8566,7 @@ msgstr ""
 
 #: client/options.c:256
 msgid "Overview fog of war"
-msgstr ""
+msgstr "Karo rūko apžvalga"
 
 #: client/options.c:257
 msgid "Enabling this will show fog of war on the overview."
@@ -8606,7 +8612,7 @@ msgstr ""
 #: client/packhand.c:832
 #, c-format
 msgid "Start of turn %d"
-msgstr ""
+msgstr "%d ėjimo pradžia"
 
 #: client/packhand.c:1552
 #, c-format
@@ -8707,7 +8713,7 @@ msgstr "Ambasada"
 #: client/gui-mui/plrdlg.c:169
 #: client/gui-win32/plrdlg.c:336
 msgid "Dipl.State"
-msgstr ""
+msgstr "Dipl. Būsena"
 
 #: client/plrdlg_common.c:260
 #: client/gui-mui/plrdlg.c:170
@@ -8734,32 +8740,32 @@ msgstr "Tu negali parduoti patobulinimų."
 #: client/repodlgs_common.c:344
 #, c-format
 msgid "Sold %d %s for %d gold."
-msgstr ""
+msgstr "Parduota %d %s už %d aukso."
 
 #: client/repodlgs_common.c:347
 #, c-format
 msgid "No %s could be sold."
-msgstr ""
+msgstr "Joks %s negali būti parduotas."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:366
 msgid "You cannot disband units."
-msgstr ""
+msgstr "Negali išformuoti dalinių."
 
 #: client/repodlgs_common.c:371
 #, c-format
 msgid "%s cannot be disbanded."
-msgstr ""
+msgstr "%s negali būti išformuotas."
 
 #: client/repodlgs_common.c:392
 #, c-format
 msgid "Disbanded %d %s."
-msgstr ""
+msgstr "Išformuotas %d %s."
 
 #: client/repodlgs_common.c:395
 #, c-format
 msgid "No %s could be disbanded."
-msgstr ""
+msgstr "Joks %s negali būti išformuotas."
 
 #: client/servers.c:345
 msgid "Could not open temp file."
@@ -8862,21 +8868,21 @@ msgstr "Mūsų teritorija"
 #: client/text.c:114
 #, c-format
 msgid "Territory of the %s"
-msgstr ""
+msgstr "%s teritorija"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:123
 #, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s teritorija (%d ėjimo paliaubos)"
+msgstr[1] "%s teritorija (%d ėjimų paliaubos)"
+msgstr[2] "%s teritorija (%d ėjimų paliaubos)"
 
 #: client/text.c:132
 #, c-format
 msgid "Territory of the %s %s"
-msgstr ""
+msgstr "%s %s teritorija"
 
 #: client/text.c:137
 msgid "Unclaimed territory"
@@ -8949,7 +8955,7 @@ msgstr "Dalinys: %s (%s, %s)"
 #: client/text.c:263
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "Tikimybė laimėti: P:%d%% G:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
@@ -8963,7 +8969,7 @@ msgstr ""
 #: client/gui-mui/mapclass.c:158
 #, c-format
 msgid "  (%d more)"
-msgstr ""
+msgstr "  (dar %d)"
 
 #: client/text.c:346
 #, c-format
@@ -8988,7 +8994,7 @@ msgstr "iš %s"
 
 #: client/text.c:441
 msgid "Progress: no research"
-msgstr ""
+msgstr "Pažanga: netyrinėjama"
 
 #: client/text.c:445
 msgid "Progress: no research target"
@@ -9014,9 +9020,9 @@ msgstr[2] "%d lempučių/ėjimą"
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] ", %d lemputė/ėjimą iš komandos"
+msgstr[1] ", %d lemputės/ėjimą iš komandos"
+msgstr[2] ", %d lempučių/ėjimą iš komandos"
 
 #: client/text.c:487
 #, c-format
@@ -9105,7 +9111,7 @@ msgstr "%s žmonių"
 #: client/text.c:604
 #, c-format
 msgid "Turn: %d"
-msgstr ""
+msgstr "Ėjimas: %d"
 
 #: client/text.c:606
 #: client/gui-mui/inteldlg.c:141
@@ -9130,17 +9136,17 @@ msgstr ""
 #: client/text.c:614
 #, c-format
 msgid "Researching %s: %s"
-msgstr ""
+msgstr "Tyrinėjama %s: %s"
 
 #: client/text.c:621
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Globalinio atšilimo tikimybė: %d%% (%+d%%/ėjimą)"
 
 #: client/text.c:624
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Branduolinės žiemos tikimybė: %d%% (%+d%%/ėjimą)"
 
 #: client/text.c:629
 #: client/gui-mui/inteldlg.c:140
@@ -9204,7 +9210,7 @@ msgid "None of these units may be upgraded."
 msgstr ""
 
 #: client/text.c:838
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9212,13 +9218,13 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Patobulinti %s į %s už %d aukso?\n"
+"Patobulinti %d dalinį už %d aukso?\n"
 "Ižde yra %d aukso."
 msgstr[1] ""
-"Patobulinti %s į %s už %d aukso?\n"
+"Patobulinti %d dalinius už %d aukso?\n"
 "Ižde yra %d aukso."
 msgstr[2] ""
-"Patobulinti %s į %s už %d aukso?\n"
+"Patobulinti %d dalinių už %d aukso?\n"
 "Ižde yra %d aukso."
 
 #: client/text.c:859
@@ -9354,7 +9360,7 @@ msgstr ""
 #: client/text.c:1095
 #, c-format
 msgid "%s of the %s"
-msgstr ""
+msgstr ".;"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1107
@@ -9568,7 +9574,7 @@ msgstr "?cma:Daugiausia mokslo"
 #: client/gui-gtk-2.0/diplomat_dialog.c:83
 #: client/gui-win32/dialogs.c:1369
 msgid "Ooops..."
-msgstr ""
+msgstr "Ooops..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:84
 #: client/gui-win32/dialogs.c:1370
@@ -10173,16 +10179,16 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1259
 msgid "_Prev city"
-msgstr ""
+msgstr "_Ankstesnis miestas"
 
 #: client/gui-gtk-2.0/citydlg.c:1264
 msgid "_Next city"
-msgstr ""
+msgstr "_Kitas miestas"
 
 #: client/gui-gtk-2.0/citydlg.c:1317
 #, c-format
 msgid "<b>%s</b> - %s citizens"
-msgstr ""
+msgstr "<b>%s</b> - %s piliečių"
 
 #: client/gui-gtk-2.0/citydlg.c:1322
 #: client/gui-mui/citydlg.c:2065
@@ -10212,7 +10218,7 @@ msgstr "užblokuota"
 #: client/gui-gtk-2.0/citydlg.c:1752
 #, c-format
 msgid "Supported units %d"
-msgstr ""
+msgstr "Palaikomi daliniai %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1866
 #, c-format
@@ -10244,15 +10250,15 @@ msgstr "Aktyvuoti dalinį, _uždaryti dialogą"
 #: client/gui-win32/citydlg.c:1489
 #: client/gui-win32/citydlg.c:1524
 msgid "_Disband unit"
-msgstr ""
+msgstr "_Išformuoti dalinį"
 
 #: client/gui-gtk-2.0/citydlg.c:2060
 msgid "_Load unit"
-msgstr ""
+msgstr "_Įkelti dalinį"
 
 #: client/gui-gtk-2.0/citydlg.c:2070
 msgid "_Unload unit"
-msgstr ""
+msgstr "_Iškelti dalinį"
 
 #: client/gui-gtk-2.0/citydlg.c:2081
 #: client/gui-win32/citydlg.c:1520
@@ -10262,7 +10268,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:2092
 #: client/gui-win32/citydlg.c:1522
 msgid "_Fortify unit"
-msgstr ""
+msgstr "_Įtvirtinti dalinį"
 
 #: client/gui-gtk-2.0/citydlg.c:2109
 #: client/gui-win32/citydlg.c:1526
@@ -10283,6 +10289,8 @@ msgid ""
 "Buy %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"Pirkti %s už %d aukso?\n"
+"Ižde yra %d aukso."
 
 #: client/gui-gtk-2.0/citydlg.c:2452
 #: client/gui-gtk-2.0/citydlg.c:2464
@@ -10305,6 +10313,8 @@ msgid ""
 "%s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"%s kainuoja %d aukso.\n"
+"Ižde yra %d aukso."
 
 #: client/gui-gtk-2.0/citydlg.c:2515
 #: client/gui-mui/citydlg.c:998
@@ -10331,7 +10341,7 @@ msgstr "Pervadinti miestą"
 #: client/gui-win32/citydlg.c:1208
 #: client/gui-xaw/citydlg.c:1384
 msgid "What should we rename the city to?"
-msgstr ""
+msgstr "Kaip mes turėtume pervadinti miestą?"
 
 #: client/gui-gtk-2.0/cityrep.c:686
 #: client/gui-mui/citydlg.c:1247
@@ -10428,31 +10438,31 @@ msgstr ""
 #: client/gui-gtk-2.0/cityrep.c:1393
 #: client/gui-win32/cityrep.c:441
 msgid "Invert Selection"
-msgstr ""
+msgstr "Invertuoti pažymėjimą"
 
 #: client/gui-gtk-2.0/cityrep.c:1403
 msgid "Building Units"
-msgstr ""
+msgstr "Statomi dalinai"
 
 #: client/gui-gtk-2.0/cityrep.c:1409
 msgid "Building Improvements"
-msgstr ""
+msgstr "Statomi patobulinimai"
 
 #: client/gui-gtk-2.0/cityrep.c:1415
 msgid "Building Wonders"
-msgstr ""
+msgstr "Statomi stebuklai"
 
 #: client/gui-gtk-2.0/cityrep.c:1427
 msgid "Building Unit"
-msgstr ""
+msgstr "Statomas dalinys"
 
 #: client/gui-gtk-2.0/cityrep.c:1431
 msgid "Building Improvement"
-msgstr ""
+msgstr "Statomas patobulinimas"
 
 #: client/gui-gtk-2.0/cityrep.c:1435
 msgid "Building Wonder"
-msgstr ""
+msgstr "Statomas stebuklas"
 
 #: client/gui-gtk-2.0/cityrep.c:1443
 #: client/gui-win32/cityrep.c:443
@@ -10469,7 +10479,7 @@ msgstr "Ta pati sala"
 #: client/gui-mui/citydlg.c:1491
 #: client/gui-win32/cityrep.c:447
 msgid "Supported Units"
-msgstr ""
+msgstr "Palaikomi daliniai"
 
 #: client/gui-gtk-2.0/cityrep.c:1461
 #: client/gui-win32/cityrep.c:454
@@ -10487,15 +10497,15 @@ msgstr "Stebuklai mieste"
 
 #: client/gui-gtk-2.0/cityrep.c:1478
 msgid "Available Units"
-msgstr ""
+msgstr "Prieinami daliniai"
 
 #: client/gui-gtk-2.0/cityrep.c:1481
 msgid "Available Improvements"
-msgstr ""
+msgstr "Prieinami patobulinimai"
 
 #: client/gui-gtk-2.0/cityrep.c:1484
 msgid "Available Wonders"
-msgstr ""
+msgstr "Prieinami stebuklai"
 
 #: client/gui-gtk-2.0/cma_fe.c:253
 #: client/gui-xaw/cma_fe.c:78
@@ -10545,11 +10555,11 @@ msgstr "Švęsti"
 
 #: client/gui-gtk-2.0/cma_fe.c:463
 msgid "Governor Enabl_ed"
-msgstr ""
+msgstr "Valdytojas į_galintas"
 
 #: client/gui-gtk-2.0/cma_fe.c:468
 msgid "Governor Disabl_ed"
-msgstr ""
+msgstr "Valdytojas _uždraustas"
 
 #: client/gui-gtk-2.0/cma_fe.c:536
 #: client/gui-sdl/cma_fe.c:234
@@ -10630,11 +10640,11 @@ msgstr "Vardas"
 #: client/gui-gtk-2.0/dialogs.c:520
 #: client/gui-sdl/dialogs.c:616
 msgid "Unit selection"
-msgstr ""
+msgstr "Dalinio pasirinkimas"
 
 #: client/gui-gtk-2.0/dialogs.c:583
 msgid "_Ready all"
-msgstr ""
+msgstr "_Paruošti visus"
 
 #: client/gui-gtk-2.0/dialogs.c:591
 msgid "_Sentry idle"
@@ -11172,7 +11182,7 @@ msgstr ""
 #: client/gui-mui/citydlg.c:2243
 #: client/gui-win32/happiness.c:247
 msgid "Units: "
-msgstr ""
+msgstr "Daliniai: "
 
 #: client/gui-gtk-2.0/happiness.c:300
 #: client/gui-mui/citydlg.c:2247
@@ -11382,7 +11392,7 @@ msgstr "Apie"
 #: client/gui-mui/helpdlg.c:394
 #: client/gui-xaw/helpdlg.c:271
 msgid "Removed"
-msgstr ""
+msgstr "Pašalinta"
 
 #: client/gui-gtk-2.0/helpdlg.c:425
 #: client/gui-win32/helpdlg.c:424
@@ -11419,7 +11429,7 @@ msgstr "su"
 #: client/gui-gtk-2.0/helpdlg.c:995
 #: client/gui-gtk-2.0/helpdlg.c:1012
 msgid "?techhelp:"
-msgstr ""
+msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1059
 #: client/gui-win32/helpdlg.c:590
@@ -11598,7 +11608,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:742
 msgid "_Clear Log"
-msgstr ""
+msgstr "_Valyti žurnalą"
 
 #: client/gui-gtk-2.0/menu.c:746
 msgid "_Leave"
@@ -11707,7 +11717,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:782
 #: client/gui-win32/menu.c:336
 msgid "National _Borders"
-msgstr ""
+msgstr "Nacionalinės _sienos"
 
 #: client/gui-gtk-2.0/menu.c:784
 #: client/gui-win32/menu.c:337
@@ -11926,7 +11936,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:868
 #: client/gui-win32/menu.c:375
 msgid "Wake up o_thers"
-msgstr ""
+msgstr "Pažadinti _kitus"
 
 #: client/gui-gtk-2.0/menu.c:872
 msgid "_Auto Settler"
@@ -11942,7 +11952,7 @@ msgstr "Automatiškai _tyrinėti"
 #: client/gui-gtk-2.0/menu.c:880
 #: client/gui-mui/connectdlg.c:225
 msgid "_Connect"
-msgstr ""
+msgstr "_Sujungti"
 
 #: client/gui-gtk-2.0/menu.c:876
 #: client/gui-win32/menu.c:380
@@ -11992,7 +12002,7 @@ msgstr "Grįžti į artimiausią miestą"
 #: client/gui-win32/menu.c:389
 #: client/gui-xaw/menu.c:205
 msgid "Disband Unit"
-msgstr ""
+msgstr "Išformuoti dalinį"
 
 #: client/gui-gtk-2.0/menu.c:896
 #: client/gui-sdl/citydlg.c:545
@@ -12015,19 +12025,19 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:904
 msgid "Select same type"
-msgstr ""
+msgstr "Pažymėti tokio pat tipo"
 
 #: client/gui-gtk-2.0/menu.c:906
 #: client/gui-win32/menu.c:393
 msgid "_Wait"
-msgstr ""
+msgstr "_Laukti"
 
 #: client/gui-gtk-2.0/menu.c:908
 #: client/gui-mui/gui_main.c:287
 #: client/gui-win32/menu.c:394
 #: client/gui-xaw/menu.c:213
 msgid "Done"
-msgstr ""
+msgstr "Baigta"
 
 #: client/gui-gtk-2.0/menu.c:911
 #: client/gui-win32/menu.c:398
@@ -12055,7 +12065,7 @@ msgstr "Ataskaitos"
 #: client/gui-win32/menu.c:400
 #: client/gui-win32/menu.c:423
 msgid "_Units"
-msgstr ""
+msgstr "_Daliniai"
 
 #: client/gui-gtk-2.0/menu.c:919
 #: client/gui-win32/menu.c:401
@@ -12113,11 +12123,11 @@ msgstr "Redagavimo įrankiai"
 
 #: client/gui-gtk-2.0/menu.c:943
 msgid "_Tools"
-msgstr ""
+msgstr "Į_rankiai"
 
 #: client/gui-gtk-2.0/menu.c:945
 msgid "_Recalculate Borders"
-msgstr ""
+msgstr "_Perskaičiuoti sienas"
 
 #: client/gui-gtk-2.0/menu.c:949
 #: client/gui-mui/citydlg.c:1248
@@ -12185,7 +12195,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:961
 #: client/gui-win32/menu.c:418
 msgid "_Worklist Editor"
-msgstr ""
+msgstr "_Darbų sąrašo redaktorius"
 
 #: client/gui-gtk-2.0/menu.c:963
 #: client/gui-win32/menu.c:419
@@ -12255,7 +12265,7 @@ msgstr "%s..."
 #: client/gui-gtk-2.0/menu.c:1356
 #, c-format
 msgid "Change to %s (_I)"
-msgstr ""
+msgstr "Keisti į %s (_D)"
 
 #: client/gui-gtk-2.0/menu.c:1357
 #, c-format
@@ -12265,7 +12275,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:1358
 #, c-format
 msgid "Transf_orm to %s"
-msgstr ""
+msgstr "Transformuoti į %s"
 
 #: client/gui-gtk-2.0/menu.c:1430
 msgid "Help _Build Wonder"
@@ -12273,7 +12283,7 @@ msgstr "Padėti pastatyti _stebuklą"
 
 #: client/gui-gtk-2.0/menu.c:1444
 msgid "Add to City (_B)"
-msgstr ""
+msgstr "Pridėti į miestą (_S)"
 
 #: client/gui-gtk-2.0/menu.c:1452
 msgid "Make Trade _Route"
@@ -12511,12 +12521,11 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:1154
 #, c-format
 msgid "%s info"
-msgstr ""
+msgstr "%s informacija"
 
 #: client/gui-gtk-2.0/pages.c:1165
-#, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <žaidėjo-vardas>"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1173
 msgid "Pick nation"
@@ -12535,9 +12544,8 @@ msgid "Cut connection"
 msgstr "Nutraukti susijungimą"
 
 #: client/gui-gtk-2.0/pages.c:1217
-#, fuzzy
 msgid "Aitoggle player"
-msgstr "aitoggle <žaidėjo-vardas>"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1226
 msgid "Remove player"
@@ -12579,9 +12587,8 @@ msgid "Record"
 msgstr "Ataskaita"
 
 #: client/gui-gtk-2.0/pages.c:1487
-#, fuzzy
 msgid "Rating"
-msgstr "laukia"
+msgstr "Reitingas"
 
 #: client/gui-gtk-2.0/pages.c:1493
 msgid "Ready"
@@ -12700,7 +12707,7 @@ msgstr "Parduoti _viską"
 #: client/gui-gtk-2.0/repodlgs.c:795
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr ""
+msgstr "Ar tikrai nori parduoti savo %s?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
 msgid "Sell Improvements"
@@ -12823,12 +12830,16 @@ msgid ""
 "Land Area\n"
 "(sq. mi.)"
 msgstr ""
+"Žemės plotas\n"
+"(kv.myl.)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1291
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
 msgstr ""
+"Apgyvendintas plotas\n"
+"(kv.myl.)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1292
 msgid ""
@@ -13032,7 +13043,7 @@ msgstr "Įv. nustatymai"
 
 #: client/gui-mui/citydlg.c:1378
 msgid "City Overview page"
-msgstr ""
+msgstr "Miesto apžvalgos puslapis"
 
 #: client/gui-mui/citydlg.c:1379
 msgid "Units page"
@@ -13044,7 +13055,7 @@ msgstr "Darbų sąrašo puslapis"
 
 #: client/gui-mui/citydlg.c:1383
 msgid "Trade Routes page"
-msgstr ""
+msgstr "Prekybos maršrutų puslapis"
 
 #: client/gui-mui/citydlg.c:1384
 msgid "This Misc. Settings page"
@@ -13235,7 +13246,7 @@ msgstr "_Konfiguruoti"
 #: client/gui-win32/cityrep.c:885
 #: client/gui-win32/cityrep.c:1151
 msgid "City Advisor"
-msgstr ""
+msgstr "Miesto patarėjas"
 
 #: client/gui-mui/connectdlg.c:177
 msgid "Server Selection"
@@ -13358,7 +13369,7 @@ msgstr "_Ištirti miestą"
 
 #: client/gui-mui/dialogs.c:747
 msgid "_Sabotage city"
-msgstr ""
+msgstr "_Sabotuoti miestą"
 
 #: client/gui-mui/dialogs.c:755
 #: client/gui-mui/dialogs.c:822
@@ -13374,7 +13385,7 @@ msgstr "Pakurstyti _revoliuciją"
 #: client/gui-sdl/diplomat_dialog.c:546
 #: data/Freeciv.in:2280
 msgid "Choose Your Diplomat's Strategy"
-msgstr ""
+msgstr "Pasirink savo diplomato strategiją"
 
 #: client/gui-mui/dialogs.c:806
 msgid "_Poison city"
@@ -13415,7 +13426,7 @@ msgstr ""
 
 #: client/gui-mui/dialogs.c:1365
 msgid "_Ready All"
-msgstr ""
+msgstr "_Paruošti visus"
 
 #: client/gui-mui/dialogs.c:1411
 #: client/gui-mui/mapview.c:246
@@ -13544,7 +13555,7 @@ msgstr "Jūros žemėlapis"
 #: client/gui-xaw/diplodlg.c:364
 #, c-format
 msgid "The %s offerings"
-msgstr ""
+msgstr "%s siūlymai"
 
 #: client/gui-mui/diplodlg.c:649
 #: client/gui-mui/diplodlg.c:650
@@ -13925,7 +13936,7 @@ msgstr ""
 #: client/gui-xaw/menu.c:174
 #, c-format
 msgid "Change to %s"
-msgstr ""
+msgstr "Keisti į %s"
 
 #: client/gui-mui/gui_main.c:1258
 #: client/gui-mui/mapclass.c:1690
@@ -13973,7 +13984,7 @@ msgstr ""
 #: client/gui-mui/helpdlg.c:676
 #, c-format
 msgid "Cost: %ld"
-msgstr ""
+msgstr "Kaina: %ld"
 
 #: client/gui-mui/helpdlg.c:755
 #: client/gui-mui/helpdlg.c:772
@@ -14014,7 +14025,7 @@ msgstr ""
 #: client/gui-mui/helpdlg.c:860
 #, c-format
 msgid "Defense: %ld.%ld"
-msgstr ""
+msgstr "Gynyba: %ld.%ld"
 
 #: client/gui-mui/helpdlg.c:872
 #: client/gui-mui/helpdlg.c:891
@@ -14163,7 +14174,7 @@ msgstr ""
 #: client/gui-mui/mapclass.c:3084
 #: client/gui-sdl/menu.c:406
 msgid "Disband"
-msgstr ""
+msgstr "Išformuoti"
 
 #: client/gui-mui/mapclass.c:2956
 #: client/gui-sdl/citydlg.c:531
@@ -14259,6 +14270,8 @@ msgid ""
 "%s\n"
 "(no research)"
 msgstr ""
+"%s\n"
+"(tyrinėjimai nevyksta)"
 
 #: client/gui-mui/repodlgs.c:309
 #, c-format
@@ -14301,7 +14314,7 @@ msgstr "Prekybos atasktaita"
 #: client/gui-mui/repodlgs.c:529
 #: client/gui-mui/repodlgs.c:555
 msgid "Trade Advisor"
-msgstr ""
+msgstr "Prekybos patarėjas"
 
 #: client/gui-mui/repodlgs.c:569
 #: client/gui-win32/repodlgs.c:354
@@ -14323,9 +14336,9 @@ msgstr "Karinė ataskaita"
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%2d: %s valdovas %s surinko %d tašką\n"
+msgstr[1] "%2d: %s valdovas %s surinko %d taškus\n"
+msgstr[2] "%2d: %s valdovas %s surinko %d taškų\n"
 
 #: client/gui-mui/repodlgs.c:869
 #: client/gui-sdl/repodlgs.c:3340
@@ -14521,7 +14534,7 @@ msgstr "Įtvirtinti dalinį"
 #: data/Freeciv.in:1178
 #: data/Freeciv.in:1206
 msgid "Disband unit"
-msgstr "Panaikinti dalinį"
+msgstr "Išformuoti dalinį"
 
 #: client/gui-sdl/citydlg.c:559
 #: client/gui-sdl/citydlg.c:1407
@@ -14587,9 +14600,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/citydlg.c:1170
-#, fuzzy
 msgid "Sorry, You have already bought here in this turn"
-msgstr "Tu jau pirkai šį ėjimą."
+msgstr "Apgailestaujame, čia jau pirkai šį ėjimą"
 
 #: client/gui-sdl/citydlg.c:1176
 msgid "Buy It?"
@@ -14837,9 +14849,8 @@ msgid "Information Report"
 msgstr ""
 
 #: client/gui-sdl/cityrep.c:221
-#, fuzzy
 msgid "Happiness Report"
-msgstr "Laimė"
+msgstr "Laimės atasktaita"
 
 #: client/gui-sdl/cityrep.c:232
 msgid "Garrison Report"
@@ -15075,6 +15086,8 @@ msgid ""
 "Sir!, %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
+"Pone!, Atvyko %s ambasadorius\n"
+"Kokie jūsų norai?"
 
 #: client/gui-sdl/diplodlg.c:1452
 msgid "Declare WAR"
@@ -15183,7 +15196,7 @@ msgstr ""
 #: client/gui-sdl/graphics.c:1066
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
-msgstr ""
+msgstr "Raiška nustatoma į: %d x %d %d bpp"
 
 #: client/gui-sdl/gui_main.c:145
 msgid "Full Screen"
@@ -15240,7 +15253,7 @@ msgstr "Paleidžiamas klientas"
 
 #: client/gui-sdl/gui_main.c:831
 msgid "Waiting for the beginning of the game"
-msgstr ""
+msgstr "Laukiama žaidimo pradžios"
 
 #: client/gui-sdl/gui_string.c:173
 msgid "Error in create_string16: Aborting ..."
@@ -15349,7 +15362,7 @@ msgstr ""
 #: client/gui-sdl/inteldlg.c:255
 #, c-format
 msgid "Intelligence Information about %s Spaceship"
-msgstr ""
+msgstr "Žvalgybos informacija apie %s erdvėlaivį"
 
 #: client/gui-sdl/inteldlg.c:282
 #, c-format
@@ -15359,6 +15372,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
+"Valdovas: %s %s  Vyriausybė: %s\n"
+"Sostinė: %s  Auksas: %d\n"
+"Mokesčiai: %d%% Mokslas: %d%% Prabanga: %d%%\n"
+"Tyrinėjama: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:292
 #, c-format
@@ -15368,10 +15385,14 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: Unknown"
 msgstr ""
+"Valdovas: %s %s  Vyriausybė: %s\n"
+"Sostinė: %s  Auksas: %d\n"
+"Mokesčiai: %d%% Mokslas: %d%% Prabanga: %d%%\n"
+"Tyrinėjama: Nežinoma"
 
 #: client/gui-sdl/inteldlg.c:352
 msgid "Their techs that we don't have :"
-msgstr ""
+msgstr "Jų technologijos, kurių mes neturime :"
 
 #: client/gui-sdl/mapctrl.c:271
 msgid "Show Unit Info Window"
@@ -15500,9 +15521,9 @@ msgstr ""
 "%s (%d/%d)"
 
 #: client/gui-sdl/mapview.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
-msgstr "Gyventojai:      %5d"
+msgstr "%s Gyventojai: %s  Metai: %s  Auksas %d "
 
 #: client/gui-sdl/mapview.c:411
 #, c-format
@@ -15654,7 +15675,7 @@ msgstr "Automatiškai įsikurti"
 
 #: client/gui-sdl/menu.c:540
 msgid "Wake Up Others"
-msgstr ""
+msgstr "Pažadinti kitus"
 
 #: client/gui-sdl/menu.c:565
 msgid "Find Homecity"
@@ -15742,11 +15763,11 @@ msgstr "Sanitarija"
 
 #: client/gui-sdl/optiondlg.c:1074
 msgid "Show cursors animation"
-msgstr ""
+msgstr "Rodyti žymeklių animaciją"
 
 #: client/gui-sdl/optiondlg.c:1101
 msgid "Use color cursors"
-msgstr ""
+msgstr "Naudoti spalvotus žymeklius"
 
 #: client/gui-sdl/optiondlg.c:1615
 #: client/gui-xaw/menu.c:141
@@ -16028,6 +16049,9 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1377
 #, c-format
@@ -16068,6 +16092,9 @@ msgid ""
 "%d/%d %s\n"
 "never"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"niekada"
 
 #: client/gui-sdl/wldlg.c:1490
 #, c-format
@@ -16076,6 +16103,9 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1499
 #, c-format
@@ -16114,7 +16144,7 @@ msgstr "Keisti"
 
 #: client/gui-win32/citydlg.c:811
 msgid "Supported units"
-msgstr ""
+msgstr "Palaikomi daliniai"
 
 #: client/gui-win32/citydlg.c:823
 #: client/gui-win32/cityrep.c:132
@@ -16165,11 +16195,11 @@ msgstr "Pervadinti"
 #: client/gui-win32/citydlg.c:829
 #: data/Freeciv.in:3069
 msgid "Activate Units"
-msgstr ""
+msgstr "Aktyvūs daliniai"
 
 #: client/gui-win32/citydlg.c:832
 msgid "Unit List"
-msgstr ""
+msgstr "Dalinių sąrašas"
 
 #: client/gui-win32/citydlg.c:850
 msgid "Improvement"
@@ -16415,7 +16445,7 @@ msgstr "Pasensta"
 #: client/gui-win32/helpdlg.c:825
 #: client/gui-win32/helpdlg.c:838
 msgid "?techhelp:)."
-msgstr ""
+msgstr "?techhelp:)."
 
 #: client/gui-win32/mapview.c:170
 #, c-format
@@ -16453,13 +16483,13 @@ msgstr "_Revoliucija"
 
 #: client/gui-win32/menu.c:363
 msgid "Transf_orm to Hills"
-msgstr ""
+msgstr "_Transformuoti į kalvas"
 
 #: client/gui-win32/menu.c:1108
 #: client/gui-xaw/menu.c:176
 #, c-format
 msgid "Transform to %s"
-msgstr ""
+msgstr "Transformuoti į %s"
 
 #: client/gui-win32/messagedlg.c:215
 #: client/gui-win32/ratesdlg.c:327
@@ -16476,7 +16506,7 @@ msgstr "Gerai"
 #: client/gui-win32/plrdlg.c:352
 #: data/Freeciv.in:3237
 msgid "Intelligence"
-msgstr ""
+msgstr "Žvalgyba"
 
 #: client/gui-win32/plrdlg.c:353
 #: data/Freeciv.in:3245
@@ -16556,7 +16586,7 @@ msgstr "Pašalinti"
 
 #: client/gui-win32/wldlg.c:836
 msgid "Available items"
-msgstr ""
+msgstr "Prieinami elementai"
 
 #: client/gui-xaw/citydlg.c:205
 #, c-format
@@ -16872,6 +16902,8 @@ msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s serverio parametrai</h1>\n"
+"\n"
 
 #: manual/civmanual.c:144
 #, c-format
@@ -16891,12 +16923,12 @@ msgstr ""
 #: manual/civmanual.c:151
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "Gali būti pakeista žaidimo metu."
 
 #: manual/civmanual.c:153
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "<b>Negali</b> būti pakeista žaidimo metu. "
 
 #: manual/civmanual.c:158
 #, c-format
@@ -16904,6 +16936,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Minimali: 0, numatyta: %d, maksimali: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:162
 #: manual/civmanual.c:172
@@ -16919,6 +16953,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Minimali: %d, numatyta: %d, maksimali: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -16926,6 +16962,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Numatyta: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:180
 #, c-format
@@ -16967,6 +17005,8 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">Lygis: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:211
 #, c-format
@@ -17302,7 +17342,7 @@ msgstr "Darbų sąrašas..."
 
 #: data/Freeciv.in:3081
 msgid "Supported units:"
-msgstr ""
+msgstr "Palaikomi daliniai:"
 
 #: data/Freeciv.in:3104
 msgid "Units present:"
@@ -18289,7 +18329,7 @@ msgstr "Bankas"
 #: data/civ1/buildings.ruleset:63
 #, no-c-format
 msgid "Together with the Marketplace improvement, a Bank increases the luxury and tax production within a city by 100%."
-msgstr ""
+msgstr "Kartu su turgumi, bankas padidina prabangą ir mokesčių surinkimą mieste 100%."
 
 #: data/default/buildings.ruleset:128
 #: data/default/buildings.ruleset:152
@@ -18421,7 +18461,7 @@ msgstr "Turgus"
 #: data/civ1/buildings.ruleset:332
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
-msgstr ""
+msgstr "Padidina prabangą ir mokesčių surinkimą mieste 50%."
 
 #: data/default/buildings.ruleset:437
 #: data/civ2/buildings.ruleset:413
@@ -19089,7 +19129,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:644
 msgid "Together with a Library, a Research Lab increases the science production of a city by 100%. Together with a Library and a University, a Research Lab increases the science production of a city by 150%."
-msgstr ""
+msgstr "Kartu su biblioteka, tyrimų laboratorija mieste mokslo gamybą padidina 100%. Kartu su biblioteka ir universitetu, tyrimų laboratorija mieste mokslo gamybą padidina 150%."
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
@@ -19107,7 +19147,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:628
 #, no-c-format
 msgid "Together with a Library, a University increases the science production of a city by 100%."
-msgstr ""
+msgstr "Kartu su biblioteka, universitetas padidina miesto mokslo gamybą 100%."
 
 #: data/civ2/buildings.ruleset:970
 msgid "City improvements which would normally have an upkeep of 1 are free of upkeep, for all cities."
@@ -20334,7 +20374,6 @@ msgstr "elitinis"
 #: data/default/units.ruleset:82
 #: data/civ2/units.ruleset:76
 #: data/civ1/units.ruleset:98
-#, fuzzy
 msgid "Missile"
 msgstr "Raketa"
 
@@ -20865,11 +20904,11 @@ msgstr "Kai barbarų vadas nužudomas plokštelėje, kurioje nėra nėra jokių 
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
-msgstr "Australijos aborigenai"
+msgstr "Australijos aborigenų"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
-msgstr "?plural:aborigenus"
+msgstr "?plural:Australijos aborigenai"
 
 #: data/nation/aborigines.ruleset:6
 msgid "Australian Aborigines is a collective term for the original inhabitants of the Australian continent. Aborigines from different parts of Australia refer to themselves with different names, including Koori, Yamaji, Nunga, and Murri."
@@ -20877,11 +20916,11 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr "Afganai"
+msgstr "Afganistano"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
-msgstr "?plural:afganus"
+msgstr "?plural:Afganai"
 
 #: data/nation/afghani.ruleset:6
 msgid "Afghanistan, often called the crossroads of Central Asia, has had a very turbulent history. Through the ages, the country has been occupied by many forces including the Persian Empire, Genghis Khan and Alexander the Great. The Afghanistan nation-state as it is known today came into existence in 1746 when Ahmad Shah founded the Durrani Empire."
@@ -20963,11 +21002,11 @@ msgstr "?female:Ministrė pirmininkė"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
-msgstr "Alžyriečiai"
+msgstr "Alžyro"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
-msgstr "alžyriečius"
+msgstr "?plural:Alžyriečiai"
 
 #: data/nation/algerian.ruleset:6
 msgid "Algeria is an Arabic nation in North Africa. It is historically inhabited by the Berber people."
@@ -20975,11 +21014,11 @@ msgstr ""
 
 #: data/nation/american.ruleset:3
 msgid "American"
-msgstr "Amerikiečiai"
+msgstr "Amerikos"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
-msgstr "?plural:amerikiečius"
+msgstr "?plural:Amerikiečiai"
 
 #: data/nation/american.ruleset:6
 msgid "Formally named the United States of America.  Independent from Great Britain after a revolution in 1776-1783AD."
@@ -21009,11 +21048,11 @@ msgstr "?female:Prezidentė"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr "Antarktidiečiai"
+msgstr "Antarktidos"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
-msgstr "?plural:antarktidiečius"
+msgstr "?plural:Antarktidiečiai"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
@@ -21021,11 +21060,11 @@ msgstr "Nepriklausomas Pietų ašigalis, pingvinų kraštas"
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
-msgstr "Arabai"
+msgstr "Arabijos"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr "?plural:arabus"
+msgstr "?plural:Arabai"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -21037,11 +21076,11 @@ msgstr "Kalifas"
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
-msgstr "Aramėjai"
+msgstr "Aramėjų"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
-msgstr "?plural:aramėjus"
+msgstr "?plural:Aramėjai"
 
 #: data/nation/aramean.ruleset:6
 msgid "According to legend, the Aramean people are the descendants of Aram, the grandson of Noah."
@@ -21049,11 +21088,11 @@ msgstr "Pasak legendos, aramėjai yra Aramo, Nojaus anūko, palikuonys."
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
-msgstr "Armėnai"
+msgstr "Armėnijos"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
-msgstr "?plural:armėnus"
+msgstr "?plural:Armėnai"
 
 #: data/nation/armenian.ruleset:6
 msgid "According to legend, the Armenian people are the descendants of Haik - the great-great-grandson of Noah. The modern Republic of Armenia gained independence from Soviet in 1991 AD"
@@ -21061,11 +21100,11 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr "Asirai"
+msgstr "Asirijos"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
-msgstr "?plural:asirus"
+msgstr "?plural:Asirai"
 
 #: data/nation/assyrian.ruleset:6
 msgid "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
@@ -21081,11 +21120,11 @@ msgstr ""
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
-msgstr "Argentiniečiai"
+msgstr "Argentinos"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
-msgstr "?plural:argentiniečius"
+msgstr "?plural:Argentiniečiai"
 
 #. TRANS: The fourth letter in "Peron" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -21096,11 +21135,11 @@ msgstr ""
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr "Australai"
+msgstr "Australijos"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
-msgstr "?plural:australus"
+msgstr "?plural:Australai"
 
 #: data/nation/australian.ruleset:6
 msgid "Australia was founded as a British penal colony in 1788AD. Originally comprising of several colonies (New South Wales, Victora, Queensland, South Australia, Western Australia and Tasmania) it became a single country in 1902. It is the only country on earth to occupy an entire continent."
@@ -21108,11 +21147,11 @@ msgstr ""
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
-msgstr "Austrai"
+msgstr "Austrijos"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
-msgstr "?plural:austrus"
+msgstr "?plural:Austrai"
 
 #: data/nation/austrian.ruleset:6
 msgid "Austria means Eastern Realm, given its position as the far east territory of the medieval Holy Roman Empire."
@@ -21120,11 +21159,11 @@ msgstr ""
 
 #: data/nation/aymara.ruleset:3
 msgid "Aymara"
-msgstr "Aimarai"
+msgstr "Aimarų"
 
 #: data/nation/aymara.ruleset:4
 msgid "?plural:Aymaras"
-msgstr "?plural:aimarus"
+msgstr "?plural:Aimarai"
 
 #: data/nation/aymara.ruleset:6
 msgid "After the collapse of the Tiwanaku civilization in the Andes, their heirs reorganized into a set of culturally close Aymara kingdoms that thrived around the Titicaca lake until they were conquered by the Incas."
@@ -21171,11 +21210,11 @@ msgstr "Kovas"
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
-msgstr "Actekai"
+msgstr "Actekų"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
-msgstr "?plural:actekus"
+msgstr "?plural:Actekai"
 
 #: data/nation/aztec.ruleset:6
 msgid "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized control of the Toltec-derived civilizations of Central Mexico during the 15th century AD, reviving the practice of human sacrifice.  They were conquered by the Spanish under Cortez in 1524."
@@ -21193,11 +21232,11 @@ msgstr ""
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr "Babiloniečiai"
+msgstr "Babilono"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
-msgstr "?plural:babiloniečius"
+msgstr "?plural:Babiloniečiai"
 
 #: data/nation/babylonian.ruleset:6
 msgid "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries BC under a succession of peoples including Amorites, Kassites, Assyrians, and Chaldeans."
@@ -21219,11 +21258,11 @@ msgstr "Nuo pat civilizacijų aušros, barbarai kėlė grėsmę civilizuotiems �
 
 #: data/nation/basque.ruleset:3
 msgid "Basque"
-msgstr "Baskai"
+msgstr "Baskų"
 
 #: data/nation/basque.ruleset:4
 msgid "?plural:Basques"
-msgstr "?plural:baskus"
+msgstr "?plural:Baskai"
 
 #: data/nation/basque.ruleset:6
 msgid "The Basques have lived since times immemorial by the western foothills of the Pyrenees. By maintaining their age-old cultural traditions, and keeping their historic identity alive, the Basques provide a link with man's distant past. Euskara, the language spoken by the Basque people, is probably the oldest living language in Europe."
@@ -21250,20 +21289,19 @@ msgstr ""
 
 #. TRANS: Errege and Erregina = King and Queen
 #: data/nation/basque.ruleset:37
-#, fuzzy
 msgid "Errege"
-msgstr "Trirema"
+msgstr "Karalius"
 
 #: data/nation/basque.ruleset:37
 msgid "Erregina"
-msgstr ""
+msgstr "Karalienė"
 
 #. TRANS: Lehendakari = similar to President
 #. ; /* TRANS: (but is quite inexact for Basques to call him/her "president")
 #: data/nation/basque.ruleset:40
 #: data/nation/basque.ruleset:41
 msgid "Lehendakari"
-msgstr ""
+msgstr "Prezidentas"
 
 #: data/nation/basque.ruleset:40
 #: data/nation/basque.ruleset:41
@@ -21273,11 +21311,11 @@ msgstr "?female:Prezidentė"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "Bavarai"
+msgstr "Bavarijos"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "?plural:bavarus"
+msgstr "?plural:Bavarai"
 
 #: data/nation/bavarian.ruleset:6
 msgid "Bavaria, before national unification in 1870AD, was one of the largest of the German kingdoms."
@@ -21285,11 +21323,11 @@ msgstr "Bavarija, prieš nacionalinį suvienijimą 1870 m., buvo viena didžiaus
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr "Belgai"
+msgstr "Belgijos"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
-msgstr "?plural:belgus"
+msgstr "?plural:Belgai"
 
 #: data/nation/belgian.ruleset:6
 msgid "Belgium gained independance from the Dutch Kingdom in 1830. Belgium is mainly characterized by its movement from a unified state to a federal one. This is the result of the Flemish and the Walloon's nationalist (almost) peaceful fights."
@@ -21297,11 +21335,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr "Bengalai"
+msgstr "Bengalų"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
-msgstr "?plural:bengalus"
+msgstr "?plural:Bengalai"
 
 #: data/nation/bengali.ruleset:6
 msgid "Bengal is a region in the easternmost part of the Indian subcontinent. The first recorded independent king of the Bengali is Shashanka who reigned around 606 AD. Today the People's Republic of Bangladesh occupies the eastern part of the region, while the western part is the Indian state of West Bengal."
@@ -21327,11 +21365,11 @@ msgstr "?female:Konsulė"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "Būrai"
+msgstr "Būrų"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "?plural:būrus"
+msgstr "?plural:Būrai"
 
 #: data/nation/boer.ruleset:6
 msgid "The Boers were Dutch settlers in British-controlled South Africa from 1650AD.  They briefly controlled two republics, the Transvaal and the Orange Free State, before being defeated by the British in the war of 1899-1902."
@@ -21339,11 +21377,11 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
-msgstr "Bosniai-Hercegoviniečiai"
+msgstr "Bosnijos-Hercegovinos"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
-msgstr "?plural:bosnius"
+msgstr "?plural:Bosniai"
 
 #: data/nation/bosnia.ruleset:6
 msgid "Bosnia and Herzegovina is a country in south-east Europe, and the home of three constituent peoples: Bosniaks, Serbs, and Croats."
@@ -21356,11 +21394,11 @@ msgstr "Kunigaikštis"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "Brazilai"
+msgstr "Brazilijos"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr "?plural:brazilus"
+msgstr "?plural:Brazilai"
 
 #: data/nation/brazilian.ruleset:6
 msgid "Brazil was founded as a colony of Portugal but became independent in 1822AD. It is the only country in the New World that has been the seat of a monarchy."
@@ -21400,17 +21438,16 @@ msgid "Director-President"
 msgstr "Direktorius-prezidentas"
 
 #: data/nation/brazilian.ruleset:25
-#, fuzzy
 msgid "?female:Director-President"
-msgstr "Direktorius-prezidentas"
+msgstr "?female:Direktorė-prezidentė"
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr "Britai"
+msgstr "Britanijos"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:Britons"
-msgstr "?plural:britus"
+msgstr "?plural:Britai"
 
 #: data/nation/british.ruleset:6
 msgid "The United Kingdom was created in 1707 as a negotiated agreement between the kingdom of England and the kingdom of Scotland. The country - also known as Great Britain - became the leading industrial and maritime power in the 19th century."
@@ -21418,11 +21455,11 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr "Bulgarai"
+msgstr "Bulgarijos"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr "?plural:bulgarus"
+msgstr "?plural:Bulgarai"
 
 #: data/nation/bulgarian.ruleset:6
 msgid "Bulgar leader Khan Asparukh led his people into the northern Balkans, and founded Bulgaria in 681. This was the first Slavic nation-state in history."
@@ -21456,11 +21493,11 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "Birmiečiai"
+msgstr "Birmiečių"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
-msgstr "?plural:birmiečius"
+msgstr "?plural:Birmiečiai"
 
 #: data/nation/burmese.ruleset:6
 msgid "The Union of Burma (officially \"Myanmar\") is the largest country in mainland Southeast Asia."
@@ -21485,11 +21522,11 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr "Bizantiečiai"
+msgstr "Bizantijos"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
-msgstr "?plural:bizantiečius"
+msgstr "?plural:Bizantiečiai"
 
 #: data/nation/byzantium.ruleset:6
 msgid "At the time of the decline of the old Roman empire, the Emperor Constantine moved the empire's capital to Byzantium and formed a new empire mostly known as the Eastern Roman empire or the Byzantine empire. This empire lasted until 1453 when its capital fell to the Ottomans. At the time of Justinian I, the Byzanines controlled nearly all of Middle East, nothern Africa, Italy and parts of Spain."
@@ -21512,11 +21549,11 @@ msgstr "?female:Konsulė"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr "Kanadiečiai"
+msgstr "Kanados"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr "?plural:kanadiečius"
+msgstr "?plural:Kanadiečiai"
 
 #: data/nation/canadian.ruleset:7
 msgid "Canada is the geographically northernmost country in world: The Magnetic North Pole currently lies on Canadian territory."
@@ -21524,11 +21561,11 @@ msgstr "Kanada yra geografiškai šiauriausia šalis: Šiaurinis magnetinis poli
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr "Kartaginiečiai"
+msgstr "Kartaginos"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr "?plural:kartaginiečius"
+msgstr "?plural:Kartaginiečiai"
 
 #: data/nation/carthaginian.ruleset:8
 msgid "The Carthaginians, descendants of Phoenician traders, ran a naval empire in the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed by Rome in 146BC."
@@ -21536,11 +21573,11 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr "Katalonai"
+msgstr "Katalonijos"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr "?plural:katalonus"
+msgstr "?plural:Katalonai"
 
 #: data/nation/catalan.ruleset:6
 msgid "Catalunya (aka Catalonia in English) is the north-eastern-most coastal region of Spain near the southern foot of the Pyrenees."
@@ -21577,7 +21614,7 @@ msgstr ""
 #. TRANS: Arquebisbe = Archbishop
 #: data/nation/catalan.ruleset:28
 msgid "Arquebisbe"
-msgstr ""
+msgstr "Arkivyskupas"
 
 #: data/nation/catalan.ruleset:28
 msgid "Gran Bruixa"
@@ -21585,12 +21622,11 @@ msgstr ""
 
 #: data/nation/cherokee.ruleset:3
 msgid "Cherokee"
-msgstr ""
+msgstr "Čerokių"
 
 #: data/nation/cherokee.ruleset:4
-#, fuzzy
 msgid "?plural:Cherokees"
-msgstr "?plural:Graikai"
+msgstr "?plural:Čerokiai"
 
 #: data/nation/cherokee.ruleset:6
 msgid "The Cherokee nation is the largest Native American nation in North America today."
@@ -21615,9 +21651,8 @@ msgstr "Vadas"
 #: data/nation/southafrican.ruleset:25
 #: data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
-#, fuzzy
 msgid "?female:Chief"
-msgstr "?female:Konsulė"
+msgstr "?female:Vadė"
 
 #: data/nation/cherokee.ruleset:23
 #: data/nation/iroquois.ruleset:27
@@ -21628,9 +21663,8 @@ msgstr "Didysis vadas"
 #: data/nation/cherokee.ruleset:23
 #: data/nation/iroquois.ruleset:27
 #: data/nation/sioux.ruleset:29
-#, fuzzy
 msgid "?female:Great Chief"
-msgstr "Didysis vadas"
+msgstr "?female:Didžioji vadė"
 
 #: data/nation/cherokee.ruleset:24
 #: data/nation/iroquois.ruleset:28
@@ -21649,30 +21683,28 @@ msgid "Spokeswoman"
 msgstr ""
 
 #: data/nation/cherokee.ruleset:25
-#, fuzzy
 msgid "Principal Chief"
-msgstr "Didysis vadas"
+msgstr "Principinis vadas"
 
 #: data/nation/cherokee.ruleset:25
-#, fuzzy
 msgid "?female:Principal Chief"
-msgstr "?female:Prezidentė"
+msgstr "?female:Principinė vadė"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr "Čiliečiai"
+msgstr "Čilės"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr "?plural:čiliečius"
+msgstr "?plural:Čiliečiai"
 
 #: data/nation/chilean.ruleset:6
 msgid "Chile is located on the south-western coast of South America."
-msgstr ""
+msgstr "Čilė yra prie pietvakarinio Pietų Amerikos kranto."
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr ""
+msgstr "Kapitonas generolas"
 
 #: data/nation/chilean.ruleset:25
 #: data/nation/french.ruleset:28
@@ -21683,15 +21715,15 @@ msgstr "Arkivyskupas"
 
 #: data/nation/chilean.ruleset:26
 msgid "Supreme Director"
-msgstr "Aukščiausiasis direktorius"
+msgstr "Vyriausias direktorius"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr "Kinai"
+msgstr "Kinijos"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr "?plural:kinus"
+msgstr "?plural:Kinai"
 
 #: data/nation/chinese.ruleset:6
 msgid "China is the oldest major civilization that is still in existence today, with written records dating back over 3,500 years.  After first being unified by the Qin dynasty in 221BC, China alternated between periods of unity and disunity, and was often conquered by external ethnicities.  Today, the People's Republic of China, established by the Communists in 1949, occupies the mainland, while the former Nationalist government of the Republic of China had fled to the island of Taiwan after the civil war."
@@ -21711,11 +21743,11 @@ msgstr ""
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
-msgstr "Kolumbiečiai"
+msgstr "Kolumbijos"
 
 #: data/nation/colombian.ruleset:4
 msgid "?plural:Colombians"
-msgstr "?plural:kolumbiečius"
+msgstr "?plural:Kolumbiečiai"
 
 #: data/nation/colombian.ruleset:6
 msgid "Colombia is a country in northern South America. The region was an Amerindian cultural center in pre-European time. The Spanish began settling Colombia's north coast around 1500. In 1819 the The Republic of Colombia gained independence."
@@ -21738,11 +21770,11 @@ msgstr "Gubernatorė"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr "Konfederatai"
+msgstr "Konfederacijos"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr "?plural:konfederatus"
+msgstr "?plural:Konfederatai"
 
 #: data/nation/confederate.ruleset:6
 msgid "The Confederate States of America was a splinter nation of the United States during the American Civil War. It was formed in 1861 by six Southern states but had to abandon their claims of independence a few years later after several military defeats by United States troops."
@@ -21750,11 +21782,11 @@ msgstr ""
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr "Korniai"
+msgstr "Kornių"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr "?plural:kornius"
+msgstr "?plural:Korniai"
 
 #: data/nation/cornish.ruleset:6
 msgid "Cornwall is a region in the extreme southwest of England, traditionally the home of the legendary King Arthur."
@@ -21767,7 +21799,7 @@ msgstr "Kornvalis yra pačiuose Anglijos pietvakariuose. Jis laikomas legendinio
 #: data/nation/scottish.ruleset:24
 #: data/nation/welsh.ruleset:25
 msgid "Chieftain"
-msgstr "Vadas"
+msgstr "Vadeiva"
 
 #: data/nation/cornish.ruleset:20
 #: data/nation/french.ruleset:26
@@ -21775,17 +21807,16 @@ msgstr "Vadas"
 #: data/nation/irish.ruleset:44
 #: data/nation/scottish.ruleset:24
 #: data/nation/welsh.ruleset:25
-#, fuzzy
 msgid "?female:Chieftain"
-msgstr "?female:Prezidentė"
+msgstr "?female:Vadeiva"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr "Kroatai"
+msgstr "Kroatijos"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr "?plural:kroatus"
+msgstr "?plural:Kroatai"
 
 #: data/nation/croatian.ruleset:6
 msgid "Croatia is the region of the Southern Slavs that was held by the Austro-Hungarian Empire, rather than coming under Ottoman rule after the collapse of Byzantium. During most of the 20th century it was part of the Yugoslav Federation."
@@ -21793,11 +21824,11 @@ msgstr ""
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
-msgstr "Kubiečiai"
+msgstr "Kubos"
 
 #: data/nation/cuban.ruleset:4
 msgid "?plural:Cubans"
-msgstr "?plural:kubiečius"
+msgstr "?plural:Kubiečiai"
 
 #: data/nation/cuban.ruleset:6
 msgid "Cuba came under Spanish control in the 16th century. In the following centuries, the island became one of the leading producers of tobacco, sugar and coffee in the world. Cuba was granted nominal independence in 1902."
@@ -21805,11 +21836,11 @@ msgstr ""
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr "Čekai"
+msgstr "Čekijos"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr "?plural:čekus"
+msgstr "?plural:Čekų"
 
 #: data/nation/czech.ruleset:6
 msgid "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been until 1918 part of the Austro-Hungarian Empire."
@@ -21825,11 +21856,11 @@ msgstr "Pranašė"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr "Danai"
+msgstr "Danijos"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr "?plural:danus"
+msgstr "?plural:Danai"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
@@ -21840,11 +21871,11 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr "Olandai"
+msgstr "Olandijos"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr "?plural:olandus"
+msgstr "?plural:Olandai"
 
 #: data/nation/dutch.ruleset:6
 msgid "When the Holy Roman Emperor sentenced the entire population to death, the people of the Netherlands revolted and declared themselves independent, forming the Union of Utrecht in 1579. The Netherlands grew to be a dominant maritime and economic power in the 17th century."
@@ -21852,11 +21883,11 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr "Egiptiečiai"
+msgstr "Egipto"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr "?plural:egiptiečius"
+msgstr "?plural:Egiptiečiai"
 
 #: data/nation/egyptian.ruleset:6
 msgid "Egypt was the second-oldest of the world's civilizations.  Since ancient times it has been unusually urbanized, supporting a large population on silt deposited by the annual floodings of the Nile."
@@ -21880,11 +21911,11 @@ msgstr "?female:Didžioji faraonė"
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr "Anglai"
+msgstr "Anglijos"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "?plural:anglus"
+msgstr "?plural:Anglų"
 
 #: data/nation/english.ruleset:6
 msgid "England was unified by Alfred the Great of Wessex in the late 9th century AD, only to be conquered by William of Normandy a century later, in the last successful invasion of the country."
@@ -21899,26 +21930,24 @@ msgid "Lady Protector"
 msgstr "Ledi protektorė"
 
 #: data/nation/esperant.ruleset:3
-#, fuzzy
 msgid "Esperant"
-msgstr "Europietiškas"
+msgstr "Esperanto"
 
 #: data/nation/esperant.ruleset:4
-#, fuzzy
 msgid "?plural:Esperants"
-msgstr "?plural:Vokiečiai"
+msgstr "?plural:Esperantai"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
-msgstr ""
+msgstr "Esperantai yra pasaulio bendruomenė, vienijama esperanto kalbos."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "Estai"
+msgstr "Estijos"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr "?plural:estus"
+msgstr "?plural:Estai"
 
 #: data/nation/estonian.ruleset:6
 msgid "Estonia is a small country on the south shore of the eastern Baltic Sea.  Its people and language are closely related to those of Finland."
@@ -21926,11 +21955,11 @@ msgstr "Estija yra maža šalis rytiniame Baltijos jūros krante. Jos gyventojai
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr "Etiopai"
+msgstr "Etiopijos"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
-msgstr "?plural:etiopus"
+msgstr "?plural:Etiopai"
 
 #: data/nation/ethiopian.ruleset:6
 msgid "Ethiopia is the oldest nation in Africa and the only one to remain independent during European colonialism."
@@ -21945,15 +21974,15 @@ msgstr "Imperatorė"
 
 #: data/nation/european.ruleset:3
 msgid "European"
-msgstr "Europiečiai"
+msgstr "Europos"
 
 #: data/nation/european.ruleset:4
 msgid "?plural:Europeans"
-msgstr "?plural:europiečius"
+msgstr "?plural:Europiečiai"
 
 #: data/nation/european.ruleset:6
 msgid "The foundation for the European Union was laid in 1957 with the Treaty of Rome. The EU project has developed since then and is beginning to resemble a fledgeling super state. But the question remains: Does such a thing as a common European identity and nation actually exist?"
-msgstr ""
+msgstr "Europos sąjunga buvo sukurta 1957 m. Romos sutartimi. ES projektas nuo to laiko buvo tobulinimas ir pradeda priminti jauną supervalstybę. Bet klausimas išlieka: ar toks dalykai kaip bendra europiečių tapatybė ir tauta iš tikrųjų egzistuoja?"
 
 #: data/nation/european.ruleset:22
 #: data/nation/slovakian.ruleset:29
@@ -21961,23 +21990,21 @@ msgid "Pope"
 msgstr "Popiežius"
 
 #: data/nation/european.ruleset:22
-#, fuzzy
 msgid "Popess"
-msgstr "Popiežius"
+msgstr "Popiežė"
 
 #: data/nation/european.ruleset:23
 #: data/nation/european.ruleset:24
-#, fuzzy
 msgid "President of the Commission"
-msgstr "Konfederacijos prezidentas"
+msgstr "Komisijos prezidentas"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "Filipiniečiai"
+msgstr "Filipinų"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "?plural:filipiniečius"
+msgstr "?plural:Filipiniečiai"
 
 #: data/nation/filipino.ruleset:7
 msgid "After centuries of Spanish rule, the Philippines were ceded to the Americans in 1898. They attained home rule in 1935 and independence in 1946."
@@ -21985,11 +22012,11 @@ msgstr ""
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr "Suomiai"
+msgstr "Suomijos"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr "?plural:suomius"
+msgstr "?plural:Suomiai"
 
 #: data/nation/finnish.ruleset:6
 msgid "Finland is a small, cold country on the northern fringe of Europe, noted for exporting timber, cellular phones, and world-class operating systems."
@@ -21997,11 +22024,11 @@ msgstr ""
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr "Prancūzai"
+msgstr "Prancūzijos"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr "?plural:prancūzus"
+msgstr "?plural:Prancūzai"
 
 # po Prancūzijos vėliava - Ar ne kalbos kultūros klaida?
 #: data/nation/french.ruleset:6
@@ -22014,23 +22041,21 @@ msgid "Premier"
 msgstr "Premjeras"
 
 #: data/nation/french.ruleset:27
-#, fuzzy
 msgid "?female:Premier"
-msgstr "?female:Prezidentė"
+msgstr "?female:Premjerė"
 
 #: data/nation/french.ruleset:28
 #: data/nation/german.ruleset:35
-#, fuzzy
 msgid "?female:Archbishop"
-msgstr "Arkivyskupas"
+msgstr "?female:Arkivyskupė"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr "Galisai"
+msgstr "Galisų"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr "?plural:galisus"
+msgstr "?plural:Galisai"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -22084,11 +22109,11 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr "Galai"
+msgstr "Galų"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
-msgstr "?plural:galus"
+msgstr "?plural:Galai"
 
 #: data/nation/gallic.ruleset:6
 msgid "The Gauls were a Celtic people occupying what is now France and Belgium."
@@ -22104,11 +22129,11 @@ msgstr "?female:Druidė"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr "Gruzinai"
+msgstr "Gruzijos"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
-msgstr "?plural:gruzinus"
+msgstr "?plural:Gruzinai"
 
 #: data/nation/georgian.ruleset:6
 msgid "The Georgians were one of the first peoples in history to adopt Christianity, in the 300s AD."
@@ -22116,11 +22141,11 @@ msgstr "Gruzinai buvo pirmieji žmonės istorijoje, kurie 300 m. įtvirtino krik
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr "Vokiečiai"
+msgstr "Vokietijos"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr "?plural:vokiečius"
+msgstr "?plural:Vokiečiai"
 
 #: data/nation/german.ruleset:7
 msgid "Germany was united in 1871 by the Prussian military force.  After World War I it became a republic, but fell into Nazism 1933 and started World War II.  After the war it was split into two states, which reunited in 1990 at the end of the Cold War."
@@ -22144,11 +22169,11 @@ msgstr "?female:Pirmoji sekretorė"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "Graikai"
+msgstr "Senovės Graikijos"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr "?plural:graikus"
+msgstr "?plural:Senovės graikai"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
@@ -22164,11 +22189,11 @@ msgstr "?female:Despotė"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
-msgstr "Hakeriai"
+msgstr "Hakerių"
 
 #: data/nation/hacker.ruleset:4
 msgid "?plural:Hackers"
-msgstr "?plural:hakerius"
+msgstr "?plural:Hakeriai"
 
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
@@ -22184,11 +22209,11 @@ msgstr "?female:Hakerė"
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr "Helenai"
+msgstr "Graikijos"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr "helenus"
+msgstr "?plural:Graikai"
 
 #: data/nation/hellenic.ruleset:6
 msgid "The Hellenic Republic - also known as Greece - was created when the Hellenic people gained independence from the Ottoman Empire in 1832."
@@ -22196,11 +22221,11 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr "Hetitai"
+msgstr "Hetitų"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
-msgstr "?plural:hetitus"
+msgstr "?plural:Hetitai"
 
 #: data/nation/hittite.ruleset:6
 msgid "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the first civilisation to discover iron working. At its height, they controlled central Anatolia, north-western Syria and Mesopotamia down to Babylon."
@@ -22208,11 +22233,11 @@ msgstr "Hetitų karalystė truko nuo 1680 metų pr.Kr. iki 1180 metų pr. Kr. Š
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr "Vengrai"
+msgstr "Vengrijos"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr "?plural:vengrus"
+msgstr "?plural:Vengrai"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
@@ -22220,11 +22245,11 @@ msgstr "Legenda sako, kad Vengriją įkūrė Arpadas IX amžiuje."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr "Islandai"
+msgstr "Islandijos"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
-msgstr "?plural:islandus"
+msgstr "?plural:Islandai"
 
 #: data/nation/icelandic.ruleset:6
 msgid "Iceland was long one of the largest uninhabited islands in the world, until it was settled by Norwegian Vikings in the late 9th century. The island was kept initially under the Norwegian and later the Danish crown until independence from Denmark in 1944."
@@ -22232,11 +22257,11 @@ msgstr "Islandija buvo atrasta ir apgyvendinta Norvegijos vikingų IX a. pabaigo
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr "Ilyrai"
+msgstr "Ilyrų"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
-msgstr "?plural:ilyrus"
+msgstr "?plural:Ilyrai"
 
 #: data/nation/illyrian.ruleset:6
 msgid "Illyrians were Indo-European tribes who appeared in the  western part of the Balkan Peninsula before 1000 BC,  including the Dalmatians to the north,  Corcyra island and Ambracia bay in prehistoric Epirus to the south,  mixing with Thracians in Dardania to the east,  and settling Messapia across the Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until conquered by the Roman Republic."
@@ -22244,11 +22269,11 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr "Inkai"
+msgstr "Inkų"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr "?plural:inkus"
+msgstr "?plural:Inkai"
 
 #: data/nation/inca.ruleset:6
 msgid "The Inca were an Amerind people of the Northern Andes who conquered an empire stretching along the west coast of South America from what is now southern Chile nearly to the Equator. They had the bad timing to do it just a few decades before the Spanish conquistadors arrived in their part of the world in the mid-1500s AD."
@@ -22264,11 +22289,11 @@ msgstr ""
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "Indai"
+msgstr "Indijos"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr "?plural:indus"
+msgstr "?plural:Indai"
 
 #: data/nation/indian.ruleset:6
 msgid "The cradle of Ancient Indian civilization lay in the Indus river valley in modern-day Pakistan."
@@ -22301,11 +22326,11 @@ msgstr "Mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr "Indoneziečiai"
+msgstr "Indonezijos"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
-msgstr "?plural:indoneziečius"
+msgstr "?plural:Indoneziečiai"
 
 #: data/nation/indonesian.ruleset:6
 msgid "Indonesia is a large country on the Malay Archipelago with central government on the island of Java. The country has a Muslim majority and is one of the most populous in the world."
@@ -22313,11 +22338,11 @@ msgstr "Indonezija yra didelė valstybė Malajų salyne su vyriausybe Javos salo
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr "Eskimai"
+msgstr "Eskimų"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr "?plural:eskimus"
+msgstr "?plural:Eskimai"
 
 #: data/nation/inuit.ruleset:6
 #, fuzzy
@@ -22342,11 +22367,11 @@ msgstr "?female:Didžioji šamanė"
 
 #: data/nation/iranian.ruleset:3
 msgid "Iranian"
-msgstr "Iraniečiai"
+msgstr "Irano"
 
 #: data/nation/iranian.ruleset:4
 msgid "?plural:Iranians"
-msgstr "?plural:iraniečius"
+msgstr "?plural:Iraniečiai"
 
 #: data/nation/iranian.ruleset:6
 msgid "Iran means \"Land of the Aryans\" - long known as Persia in the Western world. The country is today an Islamic Republic and a major power in the Middle East."
@@ -22374,11 +22399,11 @@ msgstr "Ajatola"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
-msgstr "Irakiečiai"
+msgstr "Irako"
 
 #: data/nation/iraqi.ruleset:4
 msgid "?plural:Iraqis"
-msgstr "?plural:irakiečius"
+msgstr "?plural:Irakiečiai"
 
 #: data/nation/iraqi.ruleset:6
 msgid "Iraq was founded after the fall of the Ottoman empire. It is encompassing the ancient region of Mesopotamia at the confluence of the Tigris and Euphrates rivers."
@@ -22386,11 +22411,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr "Airiai"
+msgstr "Airijos"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "?plural:airius"
+msgstr "?plural:Airiai"
 
 #: data/nation/irish.ruleset:6
 msgid "Ireland held out against the Romans and Vikings but was conquered by the Normans in 1171.  It was ruled by the English until 1922 when most of the country was granted limited autonomy, becoming a republic in 1949.  The North of Ireland was settled in the 17th century by Scottish and English planters and is now part of the United Kingdom."
@@ -22420,11 +22445,11 @@ msgstr "?female:Konsulė"
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr "Irokėzai"
+msgstr "Irokėzų"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr "?plural:irokėzus"
+msgstr "?plural:Irokėzai"
 
 #: data/nation/iroquois.ruleset:6
 msgid "The Iroquois Confederacy - known as Haudenosaunee in their own language - was a North American group of nations with common language and culture. They were based in what is now upstate New York and consisted originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a written constitution and a currency system making them the most advanced state in North America upon the arrival of the Europeans."
@@ -22432,11 +22457,11 @@ msgstr ""
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "Žydai"
+msgstr "Izraelio"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "?plural:žydus"
+msgstr "?plural:Žydai"
 
 #: data/nation/israeli.ruleset:6
 msgid "The nation of Israel was founded in 1948 as a scattered collection of cantons in British Palestine, and has gradually expanded through winning a series of wars launched against it in 1948, 1967 and 1973."
@@ -22444,11 +22469,11 @@ msgstr ""
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr "Italai"
+msgstr "Italijos"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr "?plural:italus"
+msgstr "?plural:Italai"
 
 #: data/nation/italian.ruleset:6
 msgid "The Italian nation was unified in 1870AD after decades of campaigning by indigenous nationalists. It was a monarchy under the House of Savoy until 1922, then a fascist state until 1945 after which democracy was restored by the WWII victors."
@@ -22456,11 +22481,11 @@ msgstr "Italų tauta buvo suvienyta 1870 m. po dešimtmečių vietinių nacional
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
-msgstr "Japonai"
+msgstr "Japonijos"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
-msgstr "?plural:japonus"
+msgstr "?plural:Japonai"
 
 #: data/nation/japanese.ruleset:6
 msgid "According to traditional Japanese mythology, Japan was founded in the 7th century BC by the ancestral Emperor Jimmu."
@@ -22472,11 +22497,11 @@ msgstr "Šiogūnas"
 
 #: data/nation/cambodian.ruleset:3
 msgid "Cambodian"
-msgstr "Kambodžiečiai"
+msgstr "Kambodžos"
 
 #: data/nation/cambodian.ruleset:4
 msgid "?plural:Cambodians"
-msgstr "?plural:kambodžiečius"
+msgstr "?plural:Kambodžiečiai"
 
 #: data/nation/cambodian.ruleset:6
 msgid "Kampuchea (known in English as Cambodia) is the modern successor state of the mighty Khmer Empire, which ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
@@ -22497,11 +22522,11 @@ msgstr "Sesuo"
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr "Kenija"
+msgstr "Kenijos"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "?plural:kenus"
+msgstr "?plural:Keniečiai"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -22514,11 +22539,11 @@ msgstr "Nabobas"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr "Korėjiečiai"
+msgstr "Korėjos"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr "?plural:korėjiečius"
+msgstr "?plural:Korėjiečiai"
 
 #: data/nation/korean.ruleset:6
 msgid "According to legend, the first Korean kingdom was founded in prehistory by the ancestral Tangun in southern Manchuria. The Korean kingdoms was united in 668 by king Munmu. Today the Korean peninsula is divided into two states, North and South Korea as a result of the stalemate after the Korean war in 1953."
@@ -22531,17 +22556,16 @@ msgstr "Didysis vadas"
 
 #: data/nation/korean.ruleset:32
 #: data/nation/soviet.ruleset:27
-#, fuzzy
 msgid "?female:Great Leader"
-msgstr "Didysis vadas"
+msgstr "?female:Didžioji vadė"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr "Šri Lankiečiai"
+msgstr "Šri Lankos"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
-msgstr "?plural:šri lankiečius"
+msgstr "?plural:Šri lankiečiai"
 
 #: data/nation/lankese.ruleset:6
 msgid "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India during the 6th century BC and founded the Sinhalese kingdom there. During British colonialism the country was known as Ceylon."
@@ -22568,26 +22592,24 @@ msgstr "Gubernatorius"
 #: data/nation/lankese.ruleset:21
 #: data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
-#, fuzzy
 msgid "?female:Governor"
-msgstr "?cma:Valdytojas"
+msgstr "?cma:Valdytoja"
 
 #: data/nation/lankese.ruleset:22
 msgid "Supreme Commander"
-msgstr ""
+msgstr "Vyriausias vadas"
 
 #: data/nation/lankese.ruleset:22
-#, fuzzy
 msgid "?female:Supreme Commander"
-msgstr "?female:Uzurpatorė"
+msgstr "?female:Vyriausioji vadė"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr "Latviai"
+msgstr "Latvijos"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr "?plural:latvius"
+msgstr "?plural:Latviai"
 
 #: data/nation/latvian.ruleset:7
 msgid "In the aftermath of WWI Latvia proclaimed its independence from Russia. In 1940, Latvia was forcibly occupied by the Soviet Union. After the collapse of Soviet Union in 1991 Latvia restored its independence."
@@ -22595,11 +22617,11 @@ msgstr "Pirmojo pasaulinio karo pabaigoje Latvija paskelbė savo nepriklausomyb�
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr "Libai"
+msgstr "Libijos"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
-msgstr "?plural:libus"
+msgstr "?plural:Libai"
 
 #: data/nation/libyan.ruleset:6
 msgid "The region that is now Libya was a Roman colony until it was conquered by the Arab civilization in the 7th century. In 1912 it came under the control of Italy and after the Second World War Libya was granted independence as a condition of the Allied peace treaty with Italy."
@@ -22615,11 +22637,11 @@ msgstr "Pulkininkas"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "Lietuviai"
+msgstr "Lietuvos"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "?plural:lietuvius"
+msgstr "?plural:Lietuviai"
 
 #: data/nation/lithuanian.ruleset:6
 msgid "Lithuania is a small country on the south coast of the Baltic Sea, northeast of Poland.  Lithuanian is the most archaic and complex of the northern Indo-European languages"
@@ -22649,11 +22671,11 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr "Malagasiai"
+msgstr "Malagasijos"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
-msgstr "?plural:magalasius"
+msgstr "?plural:Magalasiai"
 
 #: data/nation/malagasy.ruleset:6
 msgid "The Malagasy are the people of Madagascar. For centuries, tribes from Indonesia, East Africa and the Arab world have gathered on the island."
@@ -22661,19 +22683,19 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
-msgstr ""
+msgstr "Didysis komisaras"
 
 #: data/nation/malagasy.ruleset:22
 msgid "?female:High Commissioner"
-msgstr ""
+msgstr "?female:Didžioji komisarė"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr "Malajiečiai"
+msgstr "Malaizijos"
 
 #: data/nation/malaysian.ruleset:4
 msgid "?plural:Malaysians"
-msgstr "?plural:malajiečius"
+msgstr "?plural:Malajiečiai"
 
 #: data/nation/malaysian.ruleset:6
 msgid "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in the early 14th century."
@@ -22697,11 +22719,11 @@ msgstr ""
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
-msgstr "Malijiečiai"
+msgstr "Malio"
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
-msgstr "?plural:maliečius"
+msgstr "?plural:Maliečiai"
 
 #: data/nation/malian.ruleset:6
 msgid "Sub-Saharan Africa has been a cultural and ethnical melting pot for millennia. In medieval times, the region was home to a succession of empires called the Sahelian kingdoms. Of these, the Islamic Mali empire with it's capital in Timbuktu was the most influential. This empire reigned from the 14th to the 17th century and was famed for it's wealth and benevolent kings. The modern Republic of Mali derives its name from this empire."
@@ -22714,11 +22736,11 @@ msgstr ""
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr "Mandžūrai"
+msgstr "Mandžūrijos"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr "?plural:mandžūrus"
+msgstr "?plural:Mandžūrai"
 
 #: data/nation/manchu.ruleset:6
 msgid "The Manchus were a semi-nomadic people originating from the region called Manchuria in Northeast Asia. In the 17th century they conquered and ruled China as the Manchu Empire until 1911."
@@ -22726,11 +22748,11 @@ msgstr ""
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr "Maoriai"
+msgstr "Maorių"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
-msgstr "?plural:maorius"
+msgstr "?plural:Maoriai"
 
 #: data/nation/maori.ruleset:6
 msgid "The Maori are a Polynesian people that migrated to and settled the island group that is now New Zealand. According to archeological evidence, the migration commenced in the 900s and continued until the 1400s."
@@ -22738,11 +22760,11 @@ msgstr ""
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
-msgstr "Marsiečiai"
+msgstr "Marso"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
-msgstr "?plural:marsiečius"
+msgstr "?plural:Marsiečiai"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
@@ -22750,11 +22772,11 @@ msgstr "Marsiečiai nusileido Žemėje 4000 m. pr.m.e."
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
-msgstr "Majai"
+msgstr "Majų"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
-msgstr "?plural:majus"
+msgstr "?plural:Majai"
 
 #: data/nation/mayan.ruleset:6
 msgid "The Mayans were a Mesoamerican civilization. Famous for building great pyramids and palaces in the jungle."
@@ -22772,11 +22794,11 @@ msgstr "?female:Konsulė"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
-msgstr "Meksikiečiai"
+msgstr "Meksikos"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
-msgstr "?plural:meksikiečius"
+msgstr "?plural:Meksikiečiai"
 
 #: data/nation/mexican.ruleset:6
 msgid "Mexico borrows its name from the Mexica people, another name for the Aztecs."
@@ -22784,11 +22806,11 @@ msgstr "Meksikos vardas kilęs nuo meksikiečių, kito actekų pavadinimo."
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
-msgstr "Mongolai"
+msgstr "Mongolijos"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr "?plural:mongolus"
+msgstr "?plural:Mongolai"
 
 #: data/nation/mongol.ruleset:6
 msgid "In the centuries after their unification by Genghis Khan, the Mongols conquered the largest empire in human history, encompassing most of the continent of Asia.  They became notorious for the utter ruthlessness in warfare."
@@ -22819,11 +22841,11 @@ msgstr "?female:Konsulė"
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr "Naujoji Zelandija"
+msgstr "Naujosios Zelandijos"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
-msgstr "?plural:naujuosius zelandiečius"
+msgstr "?plural:Naujieji zelandiečiai"
 
 #: data/nation/newzealand.ruleset:6
 msgid "The island group of New Zealand was annexed by Britain in 1840. Following a royal proclamation in 1907, the country became an independent dominion within the Commonwealth of Nations."
@@ -22831,11 +22853,11 @@ msgstr "Naujosios Zelandijos salų grupė buvo aneksuota Britanijos 1840 metais.
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr "Nigeriečiai"
+msgstr "Nigerijos"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
-msgstr "?plural:nigeriečius"
+msgstr "?plural:Nigeriečiai"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
@@ -22843,11 +22865,11 @@ msgstr "Nigerija išsikovojo nepriklausomybę nuo britų 1960 m."
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
-msgstr "Norvegai"
+msgstr "Norvegijos"
 
 #: data/nation/norwegian.ruleset:4
 msgid "?plural:Norwegians"
-msgstr "?plural:norvegus"
+msgstr "?plural:Norvegai"
 
 #: data/nation/norwegian.ruleset:6
 msgid "After centuries of Danish rule, the Norwegians made their own constitution in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their independence after a union with Sweden."
@@ -22855,11 +22877,11 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
-msgstr "Osmanai"
+msgstr "Osmanų"
 
 #: data/nation/ottoman.ruleset:4
 msgid "?plural:Ottomans"
-msgstr "?plural:osmanus"
+msgstr "?plural:Osmanai"
 
 #: data/nation/ottoman.ruleset:6
 msgid "In the beginning of the 14th century Osman, a leader of a minor Turkic tribe in western Anatolia, conquered all his neigboring tribes. A century later the Byzantine capital fell to Turkic rule which gave the Ottoman empire access to Europe. The Ottomans subsequently conquered large parts of south-eastern Europe, the Islamic Arab world as well as Egypt and much of north Africa, making it a regional superpower until its dissolution in the aftermath of WWI."
@@ -22884,11 +22906,11 @@ msgstr "Imperatorius"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr "Papuasai"
+msgstr "Papuasų"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr "Papuasus"
+msgstr "?plural:Papuasai"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -22896,15 +22918,15 @@ msgstr "Papuasai yra Melanezijos archipelago tauta, gyvenanti Naujosios Gvinėjo
 
 #: data/nation/papuan.ruleset:16
 msgid "Governor-General"
-msgstr ""
+msgstr "Gubernatorius-generolas"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr "Persai"
+msgstr "Persijos"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr "?plural:persus"
+msgstr "?plural:Persai"
 
 #: data/nation/persian.ruleset:6
 msgid "The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; the second (Sassanid) from 226AD to 642AD."
@@ -22912,11 +22934,11 @@ msgstr "Pirmoji Persijos (Achaemenidų) imperija truko nuo 550 m. pr. Kr. iki 33
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "Finikiečiai"
+msgstr "Finikijos"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
-msgstr "?plural:finikiečius"
+msgstr "?plural:Finikiečiai"
 
 #: data/nation/phoenician.ruleset:6
 msgid "Phoenicia was an ancient civilization, based in what is now the coastal regions of Lebanon and Syria."
@@ -22924,11 +22946,11 @@ msgstr "Finikija buvo senovės civilizacija gyvavusi ant dabartinių Libano ir S
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Lenkai"
+msgstr "Lenkijos"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
-msgstr "?plural:lenkus"
+msgstr "?plural:Lenkai"
 
 #: data/nation/polish.ruleset:6
 msgid "The Polish state was formed about a millennium ago, and reached its Golden Age near the end of the 16th century."
@@ -22964,11 +22986,11 @@ msgstr "?female:Pirmoji sekretorė"
 
 #: data/nation/polynesian.ruleset:3
 msgid "Polynesian"
-msgstr "Polinezai"
+msgstr "Polinezijos"
 
 #: data/nation/polynesian.ruleset:4
 msgid "?plural:Polynesian"
-msgstr "?plural:polineziečius"
+msgstr "?plural:Polineziečiai"
 
 #: data/nation/polynesian.ruleset:6
 msgid "Polynesian culture stretches from Hawaii to New Zealand to Easter Island and covers all the islands in between."
@@ -22976,11 +22998,11 @@ msgstr ""
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr "Portugalai"
+msgstr "Portugalijos"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr "?plural:portugalus"
+msgstr "?plural:Portugalai"
 
 #: data/nation/portuguese.ruleset:6
 msgid "Portugal founded the first of the great mercantile empires in the 1400s on the shipbuilding advances funded by Prince Henry the Navigator."
@@ -23000,11 +23022,11 @@ msgstr "Kvebekas yra didžiausia Kanados provincija, kur gyvena dauguma Amerikos
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
-msgstr "Rumunai"
+msgstr "Rumunų"
 
 #: data/nation/romanian.ruleset:4
 msgid "?plural:Romanians"
-msgstr "?plural:rumunus"
+msgstr "?plural:Rumunijos"
 
 #: data/nation/romanian.ruleset:6
 msgid "Romania as a nation was formed at the beginning of the 20th century, when the states of Transylvania, Wallachia, and Moldavia merged. It is a country inhabited by people speaking a language reminiscent from the time of ancient Rome. It's history is convoluted as it was always at the borders of great empires: Roman, Ottoman, Austro-Hungarian, and Russian."
@@ -23039,11 +23061,11 @@ msgstr ""
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr "Romėnai"
+msgstr "Romos"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr "?plural:romėnus"
+msgstr "?plural:Romėnai"
 
 #: data/nation/roman.ruleset:6
 msgid "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome controlled nearly all of Europe, northern Africa and Mesopotamia."
@@ -23051,11 +23073,11 @@ msgstr "Roma, pasak legendos, buvo įkurta Romulo 753 m. pr. Kr. Savo galybės v
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr "Rusai"
+msgstr "Rusijos"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "?plural:rusus"
+msgstr "?plural:Rusai"
 
 #: data/nation/russian.ruleset:6
 msgid "According to legend, Slavic and Finnic tribes of Novgorod invited in the year 862 the Varangian (Viking) king Rurik to bring order to their land. Rurik established Kievan Rus in this realm, the first Russian state. By the 11th century, Kievan Rus had disintegrated into lesser princedoms, which were once again united into one state by Ivan III in the 15th century. After decisive victory over Sweden and large territorial gains, Peter I pronounced the Russian Empire in 1721. The Russian Empire lasted until 1917 when a socialist revolution dethroned the last Russian emperor. After USSR dissolution in 1991 Russia appeared on world map again, now as a federative republic."
@@ -23104,11 +23126,11 @@ msgstr ""
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr "Samiai"
+msgstr "Samių"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
-msgstr "?plural:samius"
+msgstr "?plural:Samiai"
 
 #: data/nation/sami.ruleset:6
 msgid "The Sami are a people of northern Scandinavia. Their nation spans over the northernmost regions of the Scandinavian countries and northwestern Russia."
@@ -23126,23 +23148,23 @@ msgstr "?female:Prezidentė"
 
 #: data/nation/samogitian.ruleset:3
 msgid "Samogitian"
-msgstr "Žemaičiai"
+msgstr "Žemaitijos"
 
 #: data/nation/samogitian.ruleset:4
 msgid "?plural:Samogitians"
-msgstr "?plural:žemaičius"
+msgstr "?plural:Žemaičiai"
 
 #: data/nation/samogitian.ruleset:6
 msgid "Samogitia - historical country near the Baltic Sea - home to the last pagans in Europe (official until 1413). Today, Samogitia is a region of Lithuania"
-msgstr ""
+msgstr "Žemaitija - istorinė šalis prie Baltijos jūros - paskutinių Europos pagonių namai (oficialiai iki 1413). Šiandien Žemaitija yra Lietuvos regionas"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr "Škotai"
+msgstr "Škotijos"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr "?plural:škotus"
+msgstr "?plural:Škotai"
 
 #: data/nation/scottish.ruleset:6
 msgid "Scotland, originally settled in late Roman times by Irish raiders who displaced the native Picts, was an independent kingdom from around 1034AD to the Union of Crowns with England in 1701."
@@ -23158,11 +23180,11 @@ msgstr "?female:Ministrė pirmininkė"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr "Serbai"
+msgstr "Serbijos"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr "?plural:serbus"
+msgstr "?plural:Serbai"
 
 #: data/nation/serbian.ruleset:6
 msgid "Serbia is part of the region of the Southern Slavs that was conquered by the Ottomans after the collapse of the Byzantine Empire.  During most of the 20th century it was part of the Yugoslav Federation."
@@ -23170,11 +23192,11 @@ msgstr "Serbija yra dalis pietinių slavų regiono, kuris buvo nukariautas Osman
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr "Sileziečiai"
+msgstr "Silezijos"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr "?plural:sileziečius"
+msgstr "?plural:Sileziečiai"
 
 #: data/nation/silesian.ruleset:6
 msgid "Silesia is a region of southern Poland that was at one time an independent kingdom."
@@ -23182,11 +23204,11 @@ msgstr "Silezija yra pietinės Lenkijos regionas, vienu metu buvęs nepriklausom
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr "Singapūriečiai"
+msgstr "Singapūro"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "?plural:singapūriečius"
+msgstr "?plural:Singapūriečiai"
 
 #: data/nation/singaporean.ruleset:18
 msgid "Singapore is a mercantile city-state located at the southernmost tip of the Malaysian Peninsula."
@@ -23204,11 +23226,11 @@ msgstr "?female:Konsulė"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr "Sijai"
+msgstr "Sijų"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr "?plural:sijus"
+msgstr "?plural:Sijai"
 
 #: data/nation/sioux.ruleset:6
 msgid "The Sioux was a North American nation that fought several decisive battles against the United States. It consisted of three distinct groups of tribes: the Lakota, the Dakota and the Nakota."
@@ -23216,11 +23238,11 @@ msgstr "Sijai buvo Šiaurės Amerikos tauta, kuri kovėsi keliuose lemiamuose m�
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr "Slovėnai"
+msgstr "Slovėnijos"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr "?plural:slovėnus"
+msgstr "?plural:Slovėnai"
 
 #: data/nation/slovenian.ruleset:6
 msgid "Slovenia was the most western and northern republic of the old Yugoslav Federation."
@@ -23228,11 +23250,11 @@ msgstr "Slovėnia buvo pati vakariškiausia ir šiauriausia Jugoslavijos Federac
 
 #: data/nation/slovakian.ruleset:3
 msgid "Slovakian"
-msgstr "Slovakai"
+msgstr "Slovakijos"
 
 #: data/nation/slovakian.ruleset:4
 msgid "?plural:Slovakians"
-msgstr "?plural:slovakus"
+msgstr "?plural:Slovakai"
 
 #: data/nation/slovakian.ruleset:6
 msgid "Slovakia is a country in the heart of Europe. Formerly part of Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
@@ -23254,11 +23276,11 @@ msgstr "?female:Generalinė sekretorė"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
-msgstr "Pietų afrikiečiai"
+msgstr "Pietų Afrikos"
 
 #: data/nation/southafrican.ruleset:4
 msgid "?plural:South Africans"
-msgstr "?plural:pietų afrikiečius"
+msgstr "?plural:Pietų afrikiečiai"
 
 #: data/nation/southafrican.ruleset:6
 msgid "Dutch settlers began colonizing southern Africa in the 17th century. After many wars between primarily Boers (descendants of Dutch settlers), British forces and Zulus, the Union of South Africa was created in 1910. The South African government became notorious for its \"apartheid\" policy of legal inequality based on the color of a citizen's skin. Following the adoption of the country's first non-racial constitution in 1994, long-time political prisoner Nelson Mandela was elected the first truly democratically elected president of South Africa."
@@ -23266,11 +23288,11 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr "Sovietai"
+msgstr "Sovietų"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr "?plural:sovietus"
+msgstr "?plural:Sovietai"
 
 #: data/nation/soviet.ruleset:6
 msgid "Soviet Union's history starts in November 1917, when under Lenin's leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet republics integrated into one country. Soviet Union became one of most powerful states in the 20th century. But by the end of 1991 due to many social shocks it disintegrated into fifteen independent countries"
@@ -23278,11 +23300,11 @@ msgstr "Tarybų sąjungos istorija prasidėjo 1917 metų lapkritį, kai Rusijoje
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr "Ispanai"
+msgstr "Ispanijos"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr "?plural:ispanus"
+msgstr "?plural:Ispanai"
 
 #: data/nation/spanish.ruleset:6
 msgid "The modern Spanish nation was formed when the rulers of the kingdoms of Castille and Aragon led the recapture of the Iberian peninsula from the Moslems.  The Reconquista was completed in 1492AD, the same year Columbus sailed."
@@ -23306,11 +23328,11 @@ msgstr "?female:Kardinolė"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr "Sudaniečiai"
+msgstr "Sudano"
 
 #: data/nation/sudanese.ruleset:4
 msgid "?plural:Sudanese"
-msgstr "?plural:sudaniečius"
+msgstr "?plural:Sudaniečiai"
 
 #: data/nation/sudanese.ruleset:6
 msgid "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became independent in 1956."
@@ -23318,11 +23340,11 @@ msgstr "1820 m. Sudanas pateko Egipto valdžion. Vėliau jį užėmė britai. 19
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "Šumerai"
+msgstr "Šumero"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
-msgstr "?plural:šumerus"
+msgstr "?plural:Šumerai"
 
 #: data/nation/sumerian.ruleset:6
 msgid "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets of Sumerian writing some 5500 years old have been found, pre-dating every other writing in history."
@@ -23334,11 +23356,11 @@ msgstr ""
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
-msgstr "Svazilandiečiai"
+msgstr "Svazilando"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
-msgstr "?plural:svazilandiečius"
+msgstr "?plural:Svazilandiečiai"
 
 #: data/nation/swazi.ruleset:6
 msgid "The Swazis is a Bantu people of southern Africa. Under the leadership of Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized the southern frontier with the Zulus."
@@ -23355,11 +23377,11 @@ msgstr ""
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr "Švedai"
+msgstr "Švedijos"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "?plural:švedus"
+msgstr "?plural:Švedai"
 
 #: data/nation/swedish.ruleset:6
 msgid "The Kingdom of Sweden was christianized and consolidated as a political entity by the 12th century AD. The country rose to prominence as one of the great powers of Europe in the 17th century, following substantial military conquests by the so called Warrior Kings. However, due to a worsening economy and several disastrous defeats to Russia, Sweden soon lost most of its gained territory. The country has not been involved in an armed conflict since 1814."
@@ -23367,11 +23389,11 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
-msgstr "Šveicarai"
+msgstr "Šveicarijos"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
-msgstr "?plural:Šveicarus"
+msgstr "?plural:Šveicarai"
 
 #: data/nation/swiss.ruleset:6
 msgid "Switzerland is a federation of cantons, some of which have more than 700 years of history as a confederacy."
@@ -23405,11 +23427,11 @@ msgstr "?female:Federalinė kanclerė"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr "Taivaniečiai"
+msgstr "Taivano"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
-msgstr "?plural:taivaniečius"
+msgstr "?plural:Taivaniečiai"
 
 #: data/nation/taiwanese.ruleset:6
 msgid "When the Chinese nationalists lost the armed struggle against the Chinese communists, the nationalist government evacuated to the island of Taiwan where they formed the Republic of China."
@@ -23417,11 +23439,11 @@ msgstr "Kai Kinijos nacionalistai pralaimėjo ginkluotą kovą Kinijos komunista
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
-msgstr "Teksasiečiai"
+msgstr "Teksaso"
 
 #: data/nation/texan.ruleset:4
 msgid "?plural:Texans"
-msgstr "?plural:teksasiečius"
+msgstr "?plural:Teksasiečiai"
 
 #: data/nation/texan.ruleset:6
 msgid "Texas is second largest and second most populous state of the USA, famous for it's \"larger than life\" cowboy mentality."
@@ -23429,11 +23451,11 @@ msgstr ""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
-msgstr "Tailandiečiai"
+msgstr "Tailando"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
-msgstr "?plural:tailandiečius"
+msgstr "?plural:Tailandiečiai"
 
 #: data/nation/thai.ruleset:6
 msgid "The Thai kingdom was the only country in Southeast Asia to preserve its independence throught the colonial era of the 18th and 19th centuries AD."
@@ -23441,11 +23463,11 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr "Tibetiečiai"
+msgstr "Tibeto"
 
 #: data/nation/tibetan.ruleset:4
 msgid "?plural:Tibetans"
-msgstr "?plural:tibetiečius"
+msgstr "?plural:Tibetiečiai"
 
 #: data/nation/tibetan.ruleset:6
 msgid "The Tibetan homeland is sometimes called the \"Roof of the World\", the highest elevated region in the world. In the 7th century, Tibet emerged as a formidable empire under the leadership of king Songtsen Gampo, being recognized by both China and India. This dynasty lasted until the 11th century, when Tibet was overrun by the Mongols. Centuries later when Mongol rule had weakened, Lozang Gyatso - born 1617 and the 5th Dalai Lama - established a buddhist religious state under the control of the Gelugpa school of Tibetan Buddhism."
@@ -23466,11 +23488,11 @@ msgstr "Dalai Lama"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
-msgstr "Tunisiečiai"
+msgstr "Tuniso"
 
 #: data/nation/tunisian.ruleset:4
 msgid "?plural:Tunisians"
-msgstr "?plural:tunisiečius"
+msgstr "?plural:Tunisiečiai"
 
 #: data/nation/tunisian.ruleset:6
 msgid "The Phoenicians founded Carthage in the area where Tunisia is today. Carthage later became a major power in the Mediterranean region until it was defeated by the Romans in 146 BC. Later the Arab Muslim conquest in the 7th century led to migration from the Arab and Ottoman countries. But there where also a lot of Jews and Spanish Moors who moved there at the end of the 16th century. Tunisia became mostly autonomous from the Ottoman empire in 1861. But in 1881 Tunisia was invaded by the French and was made a French protectorate. The country became independent in 1956."
@@ -23478,11 +23500,11 @@ msgstr "Finikiečiai įsteigė Kartaginą dabartinėje Tuniso teritorijoje. Kart
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
-msgstr "Turkai"
+msgstr "Turkijos"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr "?plural:turkus"
+msgstr "?plural:Turkai"
 
 #: data/nation/turk.ruleset:6
 msgid "Modern Turkey is the successor state of the Ottoman Empire, which collapsed and was dismembered by the victors in World War I after backing the Central Powers.  The country was subsequently reformed and secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
@@ -23490,11 +23512,11 @@ msgstr "Šiuolaikinė Turkija yra Osmanų imperijos palikuonė. Osmanų imperija
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "Ukrainiečiai"
+msgstr "Ukrainos"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr "?plural:ukrainiečius"
+msgstr "?plural:Ukrainiečiai"
 
 #: data/nation/ukrainian.ruleset:6
 msgid "The Ukraine is a vast region on the westernmost marches of the former Soviet Union. It includes some of the most fertile black-soil cropland on Earth."
@@ -23527,28 +23549,27 @@ msgstr "?female:Uzurpatorė"
 
 #: data/nation/un.ruleset:24
 msgid "Secretary-General"
-msgstr ""
+msgstr "Sekretorius-generolas"
 
 #: data/nation/un.ruleset:24
 msgid "?female:Secretary-General"
-msgstr ""
+msgstr "?female:Sekretorė-generolė"
 
 #: data/nation/un.ruleset:25
 msgid "Representative"
-msgstr ""
+msgstr "Atstovas"
 
 #: data/nation/un.ruleset:25
-#, fuzzy
 msgid "?female:Representative"
-msgstr "?female:Prezidentė"
+msgstr "?female:Atstovė"
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
-msgstr "Urugvajiečiai"
+msgstr "Urugvajaus"
 
 #: data/nation/uruguayan.ruleset:4
 msgid "?plural:Uruguayans"
-msgstr "?plural:urugvajiečius"
+msgstr "?plural:Urugvajiečiai"
 
 #: data/nation/uruguayan.ruleset:6
 msgid "Uruguay, a small South American country sometimes referred to as \"Switzerland of the Americas\" due to its once higly developed social welfare system."
@@ -23556,11 +23577,11 @@ msgstr ""
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr "Ugrai"
+msgstr "Ugrų"
 
 #: data/nation/uyghur.ruleset:4
 msgid "?plural:Uyghurs"
-msgstr "?plural:ugrus"
+msgstr "?plural:Ugrai"
 
 #: data/nation/uyghur.ruleset:6
 msgid "Uyghur was an east Turk empire and civilization. At its height in 820 AD it controlled most of Central and North Asia. After clashing with the Chinese for several centuries, they were finally subdued by the Qing dynasty in the 1700s. Today, descendants of the Uyghur form the populations of the Central Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the main minority of the Xinjiang province of China."
@@ -23568,11 +23589,11 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuelan"
-msgstr "Venesueliečiai"
+msgstr "Venesuelos"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
-msgstr "?plural:venesueliečius"
+msgstr "?plural:Venesueliečiai"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -23593,11 +23614,11 @@ msgstr "Prezidentė"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr "Vietnamiečiai"
+msgstr "Vietnamo"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
-msgstr "?plural:vietnamiečius"
+msgstr "?plural:Vietnamiečiai"
 
 #: data/nation/vietnamese.ruleset:6
 msgid "The Vietnamese nation was founded in the first century AD by twin sisters who became the war leaders of a revolt against a Chinese military governor."
@@ -23605,11 +23626,11 @@ msgstr "Vietnamas buvo sukurtas I a. dvynių seserų, kurios buvo karo vadės re
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr "Vikingai"
+msgstr "Vikingų"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr "?plural:vikingus"
+msgstr "?plural:Vikingai"
 
 # Rusios ar Rusijos
 #: data/nation/viking.ruleset:6
@@ -23618,11 +23639,11 @@ msgstr "Vikingai prekiavo ir plėšė Europos krantus tarp 800 m. po Kristaus ir
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "Velsiečiai"
+msgstr "Velso"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "?plural:velsiečius"
+msgstr "?plural:Velsiečiai"
 
 #: data/nation/welsh.ruleset:6
 msgid "The Welsh at one time controlled all of what is now England until being driven into the mountainous western reaches by invading Saxons."
@@ -23630,11 +23651,11 @@ msgstr "Velsiečiai vienu metu kontroliavo šiuolaikinės Anglijos teritoriją. 
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr "Vestfalai"
+msgstr "Vestfalijos"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
-msgstr "?plural:vestfaliečius"
+msgstr "?plural:Vestfaliečiai"
 
 #: data/nation/westphalian.ruleset:6
 msgid "Westphalia, before becoming a Prussian province, was the western region the duchy of Saxony. Present-day it consists of the Northern part of the largest German federal state, North Rhine-Westphalia."
@@ -23642,11 +23663,11 @@ msgstr "Vestfalija, prieš tapdama Prūsijos provinsija, buvo vakarinė Saksonij
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
-msgstr "Zulusai"
+msgstr "Zulusų"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
-msgstr "?plural:zulusus"
+msgstr "?plural:Zulusai"
 
 #: data/nation/zulu.ruleset:6
 msgid "The Zulus are a warlike Bantu people who migrated from west-central Africa into southern Africa beginning in the early 1700s, conquering the native Khoisan peoples and clashing with European settlers."
