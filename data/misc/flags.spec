@@ -39,7 +39,7 @@ artists = "
    Brasil		Cezary Biele
    Bulgaria		Daniel McRae
    Burundi		Sebastian Koppehel
-   Byzantium		Nikos Mavrogiannopoulos
+   Byzantium		Dragases
    Canada		James Leigh
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
