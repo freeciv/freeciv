@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 19:51-0500\n"
-"PO-Revision-Date: 2007-04-08 13:54+0300\n"
+"PO-Revision-Date: 2007-04-10 18:33+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -6886,7 +6886,7 @@ msgstr "Miesto pavadinimas"
 
 #: client/cityrepdata.c:431
 msgid "?size:Sz"
-msgstr ""
+msgstr "?size:Dydis"
 
 #: client/cityrepdata.c:431
 msgid "Size"
@@ -6897,7 +6897,7 @@ msgstr "Dydis"
 #: client/gui-mui/plrdlg.c:172
 #: client/gui-win32/plrdlg.c:337
 msgid "State"
-msgstr ""
+msgstr "Būsena"
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
@@ -7128,7 +7128,7 @@ msgstr ""
 
 #: client/cityrepdata.c:483
 msgid "Food Stock"
-msgstr ""
+msgstr "Maisto atsargos"
 
 #: client/cityrepdata.c:485
 msgid "?pollution:Pol"
@@ -9360,7 +9360,7 @@ msgstr ""
 #: client/text.c:1095
 #, c-format
 msgid "%s of the %s"
-msgstr ".;"
+msgstr ""
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1107
@@ -10364,12 +10364,12 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:702
 msgid "_Select"
-msgstr ""
+msgstr "_Pasirinkti"
 
 #: client/gui-gtk-2.0/cityrep.c:706
 #: client/gui-gtk-2.0/plrdlg.c:494
 msgid "S_how"
-msgstr ""
+msgstr "_Rodyti"
 
 #: client/gui-gtk-2.0/cityrep.c:787
 #: client/gui-gtk-2.0/menu.c:813
@@ -17605,7 +17605,7 @@ msgstr ""
 
 #: data/helpdata.txt:550
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
-msgstr ""
+msgstr "Klientas turi primityvią pokalbių sąsają. Surinktos eilutės nusiunčiamos visiems žaidėjams, išskyrus:"
 
 #: data/helpdata.txt:553
 msgid "  - Messages starting with '/' are interpreted as server commands and executed, if you have the required access level."
@@ -17915,7 +17915,7 @@ msgstr ""
 
 #: data/helpdata.txt:973
 msgid " - An SDI Defense doubles the defender's strength yet again against missile attacks."
-msgstr ""
+msgstr " - SDI gynyba dar kartą padvigubina besiginančiojo gynybą prieš raketų atakas."
 
 #: data/helpdata.txt:976
 msgid " - If the attacker is a ship and the defender is in a city with a Coastal Defense, the defender's strength is doubled."
@@ -18745,7 +18745,7 @@ msgstr "Kartu su biblioteka universitetas padidina mokslą mieste 250%."
 #: data/civ2/buildings.ruleset:935
 #: data/civ1/buildings.ruleset:634
 msgid "Apollo Program"
-msgstr "„Apollo“ programa"
+msgstr "Apollo programa"
 
 #: data/default/buildings.ruleset:962
 #: data/civ2/buildings.ruleset:949
@@ -22032,9 +22032,8 @@ msgstr "?plural:Prancūzai"
 
 # po Prancūzijos vėliava - Ar ne kalbos kultūros klaida?
 #: data/nation/french.ruleset:6
-#, fuzzy
 msgid "France has long been a major power in Europe. French conquerers like Emperor Napoleon and King Charlemagne united large parts of Europe under the French flag."
-msgstr "Prancūzija ilgą laiką buvo pagrindinė jėga Europoje. Prancūzių užkariautojai karaliai kaip Napoleonas ir Karolis Didysis kiekvienas suvienijo dideles Europos dalis po Prancūzijos vėliava."
+msgstr "Prancūzija ilgą laiką buvo pagrindinė jėga Europoje. Prancūzų užkariautojai kaip imperatorius Napoleonas ir karalius Karolis Didysis suvienijo dideles Europos dalis po Prancūzijos vėliava."
 
 #: data/nation/french.ruleset:27
 msgid "Premier"
