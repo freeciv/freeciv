@@ -1,18 +1,20 @@
-# Andrius Štikonas <stikonas@gmail.com>, 2006.
+# translation of lt.po to Lietuvių
+# Andrius Štikonas <stikonas@gmail.com>, 2006, 2007.
 # Mindaugas Šukys  <ateivis@gmail.com>, 2006.
 # Tomas Kuliavas <tokul@users.sourceforge.net>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv\n"
+"Project-Id-Version: lt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 19:51-0500\n"
-"PO-Revision-Date: 2007-04-08 13:54+0300\n"
+"PO-Revision-Date: 2007-04-10 18:34+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
-"Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
+"Language-Team: Lietuvių <komp_lt@konf.lt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: common/city.c:53
 #: client/cityrepdata.c:483
@@ -9282,7 +9284,7 @@ msgstr "Gyventojai:      %5d"
 #: client/text.c:952
 #, c-format
 msgid "Support:         %5d %%"
-msgstr "Palaikymas:     %5d %%"
+msgstr "Palaikymas:      %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:956
@@ -9360,7 +9362,7 @@ msgstr ""
 #: client/text.c:1095
 #, c-format
 msgid "%s of the %s"
-msgstr ".;"
+msgstr ""
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1107
@@ -24233,60 +24235,4 @@ msgstr "Komanda 31"
 #: data/default/game.ruleset:160
 msgid "Team 32"
 msgstr "Komanda 32"
-
-#~ msgid "* Can carry and refuel %d missile unit.\n"
-#~ msgid_plural "* Can carry and refuel %d missile units.\n"
-#~ msgstr[0] "* Gali nešti ir papildyti degalais %d raketą.\n"
-#~ msgstr[1] "* Gali nešti ir papildyti degalais %d raketas.\n"
-#~ msgstr[2] "* Gali nešti ir papildyti degalais %d raketų.\n"
-#~ msgid ""
-#~ "Upgrade %d unit for %d gold?\n"
-#~ "Treasury contains %d gold.Upgrade %d units for %d gold?\n"
-#~ "Treasury contains %d gold."
-#~ msgstr ""
-#~ "Patobulinti %d dalinį už %d aukso?\n"
-#~ "Ižde yra %d aukso.Patobulinti %d dalinius už %d aukso?\n"
-#~ "Ižde yra %d aukso."
-#~ msgid ""
-#~ "Start\n"
-#~ "Game"
-#~ msgstr ""
-#~ "Pradėti\n"
-#~ "žaidimą"
-#~ msgid ""
-#~ "Select\n"
-#~ "Nation"
-#~ msgstr ""
-#~ "Išsirink\n"
-#~ "tautą"
-#~ msgid "Join Game"
-#~ msgstr "Prisijungti prie žaidimo"
-#~ msgid "Join Pubserver"
-#~ msgstr "Prisijungti prie viešo serverio"
-#~ msgid "Join LAN Server"
-#~ msgstr "Prisijungti prie tinklo serverio"
-#~ msgid ""
-#~ "Freeciv is free software and you are welcome to distribute copies of it "
-#~ "under certain conditions;"
-#~ msgstr ""
-#~ "Freeciv yra nemokama programa ir tu gali platinti ją\n"
-#~ "pagal tam tikras sąlygas;"
-#~ msgid "Oceanian"
-#~ msgstr "Okeanijos"
-#~ msgid "Modern"
-#~ msgstr "Naujausieji laikai"
-#~ msgid "Asian"
-#~ msgstr "Azijos"
-#~ msgid "African"
-#~ msgstr "Afrikos"
-#~ msgid "Medieval"
-#~ msgstr "Viduramžių"
-#~ msgid "Ancient"
-#~ msgstr "Senovinis"
-#~ msgid "Emporer"
-#~ msgstr "Imperatorius"
-#~ msgid "Kampuchean"
-#~ msgstr "Kampučių"
-#~ msgid "?plural:Kampucheans"
-#~ msgstr "?plural:Kampučiai"
 
