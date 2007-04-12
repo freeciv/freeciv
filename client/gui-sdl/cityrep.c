@@ -555,7 +555,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
     pBuf->data.city = pCity;
     pBuf->action = popup_buy_production_from_city_report_callback;
-    if (!pCity->did_buy) {
+    if (city_can_buy(pCity)) {
       set_wstate(pBuf, FC_WS_NORMAL);    
     }
     

@@ -1071,19 +1071,21 @@ static int cancel_buy_prod_city_dlg_callback(struct widget *pButton)
 static int ok_buy_prod_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_hurry_production_dialog();
+
     city_buy_production(pButton->data.city);
     
-    if (pCityDlg)
-    {
-      popdown_window_group_dialog(pHurry_Prod_Dlg->pBeginWidgetList,
-                                  pHurry_Prod_Dlg->pEndWidgetList);
-      FC_FREE(pHurry_Prod_Dlg);
+    if (pCityDlg) {
       /* enable city dlg */
       enable_city_dlg_widgets();
+      
+      /* disable buy button */
       set_wstate(pCityDlg->pBuy_Button, FC_WS_DISABLED);
-    } else {
-      popdown_hurry_production_dialog();
+      widget_redraw(pCityDlg->pBuy_Button);
+      widget_mark_dirty(pCityDlg->pBuy_Button);
+      flush_dirty();
     }
+    
   }    
   return -1;
 }
@@ -1109,7 +1111,7 @@ static void popdown_hurry_production_dialog(void)
 {
   if (pHurry_Prod_Dlg) {
     popdown_window_group_dialog(pHurry_Prod_Dlg->pBeginWidgetList,
-			      pHurry_Prod_Dlg->pEndWidgetList);
+                                pHurry_Prod_Dlg->pEndWidgetList);
     FC_FREE(pHurry_Prod_Dlg);
     flush_dirty();
   }
@@ -1155,7 +1157,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   }
 
   value = city_buy_cost(pCity);
-  if(!pCity->did_buy) {
+  if (city_can_buy(pCity)) {
     if (game.player_ptr->economic.gold >= value) {
       my_snprintf(cBuf, sizeof(cBuf),
 		_("Buy %s for %d gold?\n"
@@ -1168,8 +1170,13 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 		name, value, game.player_ptr->economic.gold);
     }
   } else {
-    my_snprintf(cBuf, sizeof(cBuf),
-		_("Sorry, You have already bought here in this turn"));
+    if (pCity->did_buy) {
+      my_snprintf(cBuf, sizeof(cBuf),
+                  _("Sorry, You have already bought here in this turn."));
+    } else {
+      my_snprintf(cBuf, sizeof(cBuf),
+                  _("Sorry, You can't buy here in this turn."));
+    }
   }
 
   pStr = create_str16_from_char(_("Buy It?"), adj_font(12));
@@ -1207,7 +1214,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 
   add_to_gui_list(ID_BUTTON, pBuf);
 
-  if (!pCity->did_buy && game.player_ptr->economic.gold >= value) {
+  if (city_can_buy(pCity) && game.player_ptr->economic.gold >= value) {
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Yes"), adj_font(12), 0);
 
@@ -1278,7 +1285,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   pBuf = pWindow->prev;
   pBuf->size.y = dst.y;
   
-  if (!pCity->did_buy && game.player_ptr->economic.gold >= value) {
+  if (city_can_buy(pCity) && game.player_ptr->economic.gold >= value) {
     /* yes */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(20))) / 2;
@@ -1512,7 +1519,7 @@ void enable_city_dlg_widgets(void)
       }
     }
   
-    if (pCityDlg->pCity->did_buy && pCityDlg->pBuy_Button) {
+    if (!city_can_buy(pCityDlg->pCity) && pCityDlg->pBuy_Button) {
       set_wstate(pCityDlg->pBuy_Button, FC_WS_DISABLED);
     }
 
@@ -3237,7 +3244,7 @@ static void redraw_city_dialog(struct city *pCity)
 
     } else {
 
-      if (!pCity->did_buy && pCityDlg->pBuy_Button
+      if (city_can_buy(pCity) && pCityDlg->pBuy_Button
 	 && (get_wstate(pCityDlg->pBuy_Button) == FC_WS_DISABLED)) {
 	set_wstate(pCityDlg->pBuy_Button, FC_WS_NORMAL);
 	widget_redraw(pCityDlg->pBuy_Button);
@@ -3815,7 +3822,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
   pCityDlg->pBuy_Button = pBuf;
   pBuf->key = SDLK_h;
-  if ((pOwner == game.player_ptr) && (!pCity->did_buy)) {
+  if (city_can_buy(pCity)) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   add_to_gui_list(ID_CITY_DLG_PROD_BUY_BUTTON, pBuf);

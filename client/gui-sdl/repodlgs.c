@@ -1414,7 +1414,7 @@ static int ok_sell_impv_callback(struct widget *pWidget)
     total_count = pImpr->data.cont->id1;
     
     /* popdown sell dlg */
-    del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
+    popdown_window_group_dialog(pEconomy_Sell_Dlg->pBeginWidgetList,
                                 pEconomy_Sell_Dlg->pEndWidgetList);
     FC_FREE(pEconomy_Sell_Dlg);
     enable_economy_dlg();
@@ -1496,12 +1496,12 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     if(count > 0) {
       my_snprintf(cBuf, sizeof(cBuf),
       _("We have %d of %s\n(total value is : %d)\n"
-          "We can sell %d of them for %d gold"),
+          "We can sell %d of them for %d gold."),
               total_count, get_improvement_name(imp),
                               total_count * value, count, gold); 
     } else {
       my_snprintf(cBuf, sizeof(cBuf),
-          _("We can't sell any %s in this turn"), get_improvement_name(imp)); 
+          _("We can't sell any %s in this turn."), get_improvement_name(imp)); 
     }
     
     
@@ -1595,7 +1595,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
       pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
     } else {
       /* x position of cancel button */
-      pBuf->size.x = area.x + area.w - adj_size(10);
+      pBuf->size.x = area.x + area.w - adj_size(10) - pBuf->size.w;
     }
     
     
