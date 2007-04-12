@@ -1356,43 +1356,32 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   struct widget *pBuf = pWidget;
   assert(pWidget != NULL);
   assert(pDlg != NULL);
-
+  
   /* if begin == end -> size = 1 */
   if (pDlg->pBeginActiveWidgetList == pDlg->pEndActiveWidgetList) {
     
     if(pDlg->pScroll) {
       pDlg->pScroll->count = 0;
-
-      if(!pDlg->pScroll->pUp_Left_Button && 
-	 !pDlg->pScroll->pScrollBar &&
-         !pDlg->pScroll->pDown_Right_Button) {
-        pDlg->pBeginWidgetList = NULL;
-        pDlg->pEndWidgetList = NULL;
-      }
-      
-      if(pDlg->pBeginActiveWidgetList == pDlg->pBeginWidgetList) {
-	pDlg->pBeginWidgetList = pDlg->pBeginWidgetList->next;
-      }
-      
-      if(pDlg->pEndActiveWidgetList == pDlg->pEndWidgetList) {
-	pDlg->pEndWidgetList = pDlg->pEndWidgetList->prev;
-      }
-      
-      pDlg->pBeginActiveWidgetList = NULL;
-      pDlg->pActiveWidgetList = NULL;
-      pDlg->pEndActiveWidgetList = NULL;
-      
-    } else {
-      pDlg->pBeginWidgetList = NULL;
-      pDlg->pEndWidgetList = NULL;
     }
     
+    if(pDlg->pBeginActiveWidgetList == pDlg->pBeginWidgetList) {
+      pDlg->pBeginWidgetList = pDlg->pBeginWidgetList->next;
+    }
+    
+    if(pDlg->pEndActiveWidgetList == pDlg->pEndWidgetList) {
+      pDlg->pEndWidgetList = pDlg->pEndWidgetList->prev;
+    }
+    
+    pDlg->pBeginActiveWidgetList = NULL;
+    pDlg->pActiveWidgetList = NULL;
+    pDlg->pEndActiveWidgetList = NULL;
+      
     widget_undraw(pWidget);
     widget_mark_dirty(pWidget);
     del_widget_from_gui_list(pWidget);
     return FALSE;
   }
-    
+  
   if (pDlg->pScroll && pDlg->pActiveWidgetList) {
     /* scrollbar exist and active, start mod. from last seen label */
     
