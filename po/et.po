@@ -6855,9 +6855,9 @@ msgid "%s can only move into your own zone of control."
 msgstr "%s võib liikuda ainult oma kontrolltsoonis."
 
 #: server/unithand.c:955
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Cannot invade unless you break peace with %s first."
-msgstr "Rünnata ei saa, selleks peab enne sõja kuulutama."
+msgstr "Mäng: Ei saa linna vallutada, peab enne sõja kuulutama %s-tele."
 
 #: server/unithand.c:993
 msgid "This unit has no moves left."
@@ -6882,7 +6882,7 @@ msgstr ""
 
 #: server/unithand.c:1096
 msgid "You can't attack there."
-msgstr ""
+msgstr "Sinna ei saa rünnata."
 
 #: server/unithand.c:1116
 msgid "This type of troops cannot take over a city."
@@ -11438,7 +11438,7 @@ msgstr "Nõudmised:"
 #: client/gui-win32/helpdlg.c:82 client/gui-win32/helpdlg.c:90
 #: data/Freeciv.in:732
 msgid "Obsolete by:"
-msgstr "Muudetud iganenuks nende poolt:"
+msgstr "Igandatud:"
 
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-mui/helpdlg.c:554
 #: client/gui-sdl/helpdlg.c:739 client/gui-win32/helpdlg.c:86
@@ -14454,9 +14454,8 @@ msgid "Creating Server List..."
 msgstr "Tekitan serverite nimekirja..."
 
 #: client/gui-sdl/connectdlg.c:279 client/gui-sdl/connectdlg.c:343
-#, fuzzy
 msgid "No LAN servers found"
-msgstr "Serverid kohtvõrgus"
+msgstr "Ei leidnud kohtvõrgus servereid"
 
 #: client/gui-sdl/connectdlg.c:281 client/gui-sdl/connectdlg.c:345
 msgid "No public servers found"
@@ -14727,10 +14726,11 @@ msgstr "Täisekraan"
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
+"Kui valida see seade, siis klient kasutab kogu ekraani suuruse ära"
 
 #: client/gui-sdl/gui_main.c:153
 msgid "Screen width"
-msgstr ""
+msgstr "Ekraani laius"
 
 #: client/gui-sdl/gui_main.c:154
 msgid "This option saves the width of the selected screen resolution"
@@ -14771,15 +14771,15 @@ msgstr ""
 #: client/gui-sdl/gui_main.c:786
 #, c-format
 msgid "Using Video Output: %s"
-msgstr ""
+msgstr "Kasutan videoväljundit %s"
 
 #: client/gui-sdl/gui_main.c:839
 msgid "Initializing Client"
-msgstr ""
+msgstr "Initsialiseerin klienti"
 
 #: client/gui-sdl/gui_main.c:850
 msgid "Waiting for the beginning of the game"
-msgstr ""
+msgstr "Ootan mängu algust"
 
 #: client/gui-sdl/gui_string.c:173
 msgid "Error in create_string16: Aborting ..."
@@ -14831,9 +14831,8 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/helpdlg.c:199
-#, fuzzy
 msgid "Help : Improvements"
-msgstr "Abi: Täiustamine"
+msgstr "Abi: Ehitised"
 
 #: client/gui-sdl/helpdlg.c:570
 msgid "Help : Units"
@@ -14847,8 +14846,8 @@ msgstr "Abi: üksused"
 #: client/gui-sdl/wldlg.c:1503
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] "kaitse"
-msgstr[1] "kaitsed"
+msgstr[0] "toodang TÕLGIMIND"
+msgstr[1] "toodang TÕLGIMIND"
 
 #: client/gui-sdl/helpdlg.c:712 client/gui-sdl/helpdlg.c:735
 msgid "citizen"
@@ -14869,17 +14868,16 @@ msgstr[0] "raha"
 msgstr[1] "raha"
 
 #: client/gui-sdl/helpdlg.c:963
-#, fuzzy
 msgid "( with "
-msgstr "( witch (TODO) "
+msgstr "( koos "
 
 #: client/gui-sdl/helpdlg.c:966
 msgid " )"
-msgstr ")"
+msgstr " )"
 
 #: client/gui-sdl/helpdlg.c:1848
 msgid "Help : Advances Tree"
-msgstr ""
+msgstr "Abi : Tehnoloogiate puu"
 
 #: client/gui-sdl/inteldlg.c:256
 #, c-format
@@ -14894,6 +14892,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
+"Juht: %s %s  Valitsus: %s\n"
+"Pealinn: %s  Raha: %d\n"
+"Maksud: %d%% Teadus: %d%% Hüved: %d%%\n"
+"Uurivad: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:293
 #, c-format
@@ -14903,6 +14905,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: Unknown"
 msgstr ""
+"Juht: %s %s  Valitsus: %s\n"
+"Pealinn: %s  Raha: %d\n"
+"Maksud: %d%% Teadus: %d%% Hüved: %d%%\n"
+"Uurivad: Teadmata"
 
 #: client/gui-sdl/inteldlg.c:353
 msgid "Their techs that we don't have :"
@@ -14925,14 +14931,12 @@ msgid "Hide MiniMap"
 msgstr "Peida pisikaart"
 
 #: client/gui-sdl/mapctrl.c:514
-#, fuzzy
 msgid "Show Messages (F10)"
-msgstr "Näita logi (F10)"
+msgstr "Näita sõnumeid (F10)"
 
 #: client/gui-sdl/mapctrl.c:517
-#, fuzzy
 msgid "Hide Messages (F10)"
-msgstr "Peida logi (F10)"
+msgstr "Peida sõnumid (F10)"
 
 #: client/gui-sdl/mapctrl.c:673
 msgid "Scale Minimap"
@@ -14964,9 +14968,8 @@ msgstr "Kõrgus"
 
 #: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:331
 #: client/gui-sdl/mapview.c:334 client/gui-sdl/mapview.c:340
-#, fuzzy
 msgid "Research"
-msgstr "_Teadus"
+msgstr "Teadus"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:311
 #: client/gui-sdl/mapview.c:314 client/gui-xaw/menu.c:131
@@ -14974,19 +14977,16 @@ msgid "Revolution"
 msgstr "Revolutsioon"
 
 #: client/gui-sdl/mapctrl.c:1589
-#, fuzzy
 msgid "or"
-msgstr "Port"
+msgstr "või"
 
 #: client/gui-sdl/mapctrl.c:1613
-#, fuzzy
 msgid "Hide Messages"
-msgstr "Teated"
+msgstr "Peida teated"
 
 #: client/gui-sdl/mapctrl.c:1623
-#, fuzzy
 msgid "Toggle Minimap Mode"
-msgstr "Lülita Pisikaart (Shift + \\)"
+msgstr "Lülita pisikaardi režiim"
 
 #: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2165
 #: data/Freeciv.in:1217
@@ -15023,6 +15023,8 @@ msgid ""
 "\n"
 "Our Territory"
 msgstr ""
+"\n"
+"Meie territoorium"
 
 #: client/gui-sdl/mapview.c:753
 #, c-format
@@ -15053,6 +15055,8 @@ msgid ""
 "\n"
 "Unclaimed territory"
 msgstr ""
+"\n"
+"Hõivamata maa"
 
 #: client/gui-sdl/mapview.c:779
 #, c-format
@@ -15096,16 +15100,12 @@ msgstr ""
 "Toit/Tootm/Kaubandus: %s"
 
 #: client/gui-sdl/mapview.c:1072
-#, fuzzy
 msgid "End of Turn"
-msgstr ""
-"Käik läbi\n"
-"(Vajuta Enterit)"
+msgstr "Käigu lõpp"
 
 #: client/gui-sdl/mapview.c:1072
-#, fuzzy
 msgid "Press"
-msgstr "Printsess"
+msgstr "Vajuta"
 
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:359
@@ -15113,9 +15113,8 @@ msgid "No orders"
 msgstr "Käske pole"
 
 #: client/gui-sdl/menu.c:359
-#, fuzzy
 msgid "Space"
-msgstr "Vürts"
+msgstr "Kosmos"
 
 #: client/gui-sdl/menu.c:398
 msgid "Diplomat|Spy Actions"
@@ -15128,7 +15127,7 @@ msgstr "Mine linna"
 #: client/gui-sdl/menu.c:461 client/gui-win32/gotodlg.c:167
 #: data/Freeciv.in:1130
 msgid "Airlift"
-msgstr "Lenda"
+msgstr "Lennuta"
 
 #: client/gui-sdl/menu.c:473 client/gui-win32/messagewin.c:149
 #: data/Freeciv.in:3314
@@ -15136,19 +15135,16 @@ msgid "Goto location"
 msgstr "Mine teise kohta"
 
 #: client/gui-sdl/menu.c:497
-#, fuzzy
 msgid "Connect irrigation"
-msgstr "Ühenda/Niisutus"
+msgstr "Ühenda niisutus"
 
 #: client/gui-sdl/menu.c:510
-#, fuzzy
 msgid "Connect road"
-msgstr "Ühenda/Tee"
+msgstr "Ühenda tee"
 
 #: client/gui-sdl/menu.c:523
-#, fuzzy
 msgid "Connect railroad"
-msgstr "Ühenda/Tee"
+msgstr "Ühenda raudtee"
 
 #: client/gui-sdl/menu.c:536
 msgid "Auto-Explore"
@@ -15387,9 +15383,8 @@ msgid "What should we focus on now?"
 msgstr "Millele me peaksime pühenduma?"
 
 #: client/gui-sdl/repodlgs.c:3009
-#, fuzzy
 msgid "Select target :"
-msgstr "Vali eesmärk:"
+msgstr "Vali sihtmärk: "
 
 #: client/gui-sdl/repodlgs.c:3075
 msgid "step"
@@ -15405,7 +15400,7 @@ msgstr "%s komsoselaev"
 #: client/gui-sdl/spaceshipdlg.c:171 client/gui-win32/spaceshipdlg.c:240
 #: data/Freeciv.in:1709
 msgid "Launch"
-msgstr ""
+msgstr "Saada välja"
 
 #: client/gui-sdl/sprite.c:60
 #, c-format
@@ -17802,7 +17797,7 @@ msgstr ""
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
-msgstr ""
+msgstr "Asunikud ja Insenerid võivad maastiku mitmel moel muuta."
 
 #: data/helpdata.txt:1242
 msgid ""
@@ -17824,7 +17819,8 @@ msgstr ""
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
-msgstr ""
+msgstr "Mõnda tüüpi maastikule saab kaevanduse ehitada, see suurendab tolle "
+"ruudu toodetud ressursside (toodangu) arvu."
 
 #: data/helpdata.txt:1253
 msgid ""
@@ -17841,37 +17837,43 @@ msgstr ""
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
-msgstr ""
+msgstr " - Üksused kasutavad ära ainult kolmandiku käigupunktist liikudes "
+"teega ruudult teisele teega ruudule."
 
 #: data/helpdata.txt:1261
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
-msgstr ""
+msgstr " - Üksused ei kuluta käigupunkte liikudes raudteed pidi. Raudteel "
+"võib sõita lõpmata kaua käigu jooksul."
 
 #: data/helpdata.txt:1264
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
-msgstr ""
+msgstr " - Mõnel maastiku tüübil suurendab tee saadavaid kaubandusressurse."
 
 #: data/helpdata.txt:1267
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
-msgstr ""
+msgstr " - Raudtee suurendab saadavat toodangumahtu 50% võrra. (Serveri "
+"seadetest olenevalt võivab raudtee ka toidu ja kaubanduse hulka suurendada "
+"või suurendada kaubanduse boonust muu koguse kui võrra.)"
 
 #: data/helpdata.txt:1272
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
 "destroyed one at a time.  See the Combat help section for further details."
-msgstr ""
+msgstr "Asunikud ja insenerid võivad ka kindlusi ehitada. Kindluses asuvad üksused "
+"kaitsevad kahekordse jõuga, samuti langevad kindluses olevad üksused ühekaupa. "
+"Vaata Lahingu osast täpsemaid detaile."
 
 #: data/helpdata.txt:1277
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
-msgstr ""
+msgstr "Võid ehitada ka Lennubaase, kus su õhuüksused võivad maanduda ja tankida."
 
 #: data/helpdata.txt:1280
 msgid ""
@@ -17894,7 +17896,7 @@ msgstr ""
 
 #: data/helpdata.txt:1297
 msgid "  Pillaging"
-msgstr ""
+msgstr "  Rüüstamine"
 
 #: data/helpdata.txt:1298
 msgid ""
@@ -17913,7 +17915,13 @@ msgid ""
 " - an airbase\n"
 " - a railroad\n"
 " - a road"
-msgstr ""
+msgstr " - põllumaa\n"
+" - niisutus\n"
+" - kaevandus\n"
+" - kindlus\n"
+" - lennubaas\n"
+" - raudtee\n"
+" - tee"
 
 #: data/helpdata.txt:1312
 msgid ""
@@ -19343,9 +19351,8 @@ msgstr "Pealik"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
-#, fuzzy
 msgid "?female:Chief"
-msgstr "?female:Seltsimees"
+msgstr "?female:Pealik"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
