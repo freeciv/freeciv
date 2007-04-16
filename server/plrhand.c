@@ -792,13 +792,13 @@ void notify_research(struct player *pplayer,
   struct player_research *research = get_player_research(pplayer);
 
   /* This function is structured just like notify_team. */
-  va_start(args, format);
   players_iterate(other_player) {
+    va_start(args, format);
     if (get_player_research(other_player) == research) {
       vnotify_conn(other_player->connections, NULL, event, format, args);
     }
+    va_end(args);
   } players_iterate_end;
-  va_end(args);
 }
 
 /**************************************************************************
