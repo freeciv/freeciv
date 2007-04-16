@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-11 17:47-0500\n"
-"PO-Revision-Date: 2007-03-05 22:51+0100\n"
+"PO-Revision-Date: 2007-04-16 22:51+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <<dansk@dansk-gruppen.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -1959,7 +1959,6 @@ msgid "Query or set command access level access."
 msgstr "Bed om eller sæt kommandoniveau adgang."
 
 #: server/commands.c:277
-#, fuzzy
 msgid ""
 "The command access level controls which server commands are available\n"
 "to users via the client chatline.  The available levels are:\n"
@@ -2315,6 +2314,8 @@ msgid ""
 "Game: %s is at war with one of your allies - an alliance with %s is "
 "impossible."
 msgstr ""
+"Spil: %s er i krig med en af dine allierede - en alliance med %s er "
+"umulig."
 
 #: server/diplhand.c:198
 msgid "Game: You don't have enough gold, you can't accept treaty."
@@ -3446,7 +3447,7 @@ msgstr "Sektion %s lister ukendt bygning: \"%s\" (%s)"
 #: server/ruleset.c:1206
 #, c-format
 msgid "Group %s lists bad range: \"%s\" (%s)"
-msgstr ""
+msgstr "Sektion %s lister ugyldig område: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1344
@@ -5898,11 +5899,11 @@ msgstr "Brug: observer [spillernavn]"
 
 #: server/stdinhand.c:2699
 msgid "Game: A global observer cannot be created: too many regular players."
-msgstr ""
+msgstr "Spil: En global observatør kan ikke oprettes: For mange normale spillere."
 
 #: server/stdinhand.c:2731
 msgid "Game: A global observer has been created"
-msgstr ""
+msgstr "Spil: En global observatør er oprettet"
 
 #: server/stdinhand.c:2747
 #, c-format
@@ -6685,85 +6686,77 @@ msgid "Game: This unit type can not be paradropped."
 msgstr "Spil: Denne enhed kan ikke lave faldskærmsudspring."
 
 #: server/unittools.c:2216
-#, fuzzy
 msgid "Game: You cannot paradrop a transporter unit."
 msgstr "Spil: Du kan ikke foretage faldskærmudspring med en transportenhed."
 
 #: server/unittools.c:2221
-#, fuzzy
 msgid "Game: The destination location is not known."
 msgstr "Spil: Bestemmelsesstedet er ukendt."
 
 #: server/unittools.c:2228
-#, fuzzy
 msgid "Game: This unit cannot paradrop into ocean."
-msgstr "Spil: Denne enhed kan ikke foretage faldskærmudspring i %s."
+msgstr "Spil: Denne enhed kan ikke foretage faldskærmudspring i havet."
 
 #: server/unittools.c:2246
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr "Spil: Afstanden til målet (%i) er større end enhedens rækkevidde (%i)."
+msgstr ""
+"Spil: Afstanden til målet (%i) er større end enhedens rækkevidde (%i)."
 
 #: server/unittools.c:2260
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
-msgstr "Spil: Dine %s udførte faldskærmsudspring på %s og gik til grunde."
+msgstr "Spil: Dine %s udførte faldskærmsudspring på havet og gik til grunde."
 
 #: server/unittools.c:2273
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spil: Dine %s blev dræbt af modstanderens enheder på udspringsstedet."
 
 #: server/unittools.c:2295
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You found %d gold."
 msgstr "Spil: Du fandt %d guld."
 
 #: server/unittools.c:2312
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spil: Du fandt %s i ældgamle skriftruller med viden."
 
 #: server/unittools.c:2315
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Spil: %s har tilegnet sig %s fra ældgamle skriftruller med viden."
 
 #: server/unittools.c:2328
-#, fuzzy
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spil: En gruppe venligtsindede lejesoldater slutter sig til dig."
 
 #: server/unittools.c:2346
-#, fuzzy
 msgid "Game: An abandoned village is here."
 msgstr "Spil: En forladt landsby er her."
 
 #: server/unittools.c:2356
-#, fuzzy
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spil: Du er blevet overrasket af fjendtlige barbarer!"
 
 #: server/unittools.c:2359
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s has been killed by barbarians!"
-msgstr "Spil: Dine %s er blevet dræbt af barbarer."
+msgstr "Spil: Dine %s er blevet dræbt af barbarer!"
 
 #: server/unittools.c:2375
-#, fuzzy
 msgid "Game: You found a friendly city."
 msgstr "Spil: Du fandt en venligtsindet by."
 
 #: server/unittools.c:2389
-#, fuzzy
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spil: Venligtsindede nomader er imponerede af din kunnen og slutter sig til "
 "dig."
 
 #: server/unittools.c:2414
-#, fuzzy
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Spil: Din overflyvning skræmmer stammen; de spreder sig i frygt."
 
@@ -6775,32 +6768,32 @@ msgstr ""
 "Spil: Din %s afsluttede patruljeringsordren da den stdte p en fremmed enhed."
 
 #: server/unittools.c:2961
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "Spil: Ordre for %s blev afbrudt, da der er enheder i vejen."
 
 #: server/unittools.c:3010
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Spil: Ordre for %s afbrudt, da de medfører en ugyldig aktivitet."
 
 #: server/unittools.c:3024
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
-msgstr "Ordre for %s afbrudt, da de medfører en ugyldig placering."
+msgstr "Spil: Ordre for %s afbrudt, da de medfører en ugyldig placering."
 
 #: server/unittools.c:3034
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "Spil: Ordre for %s afbrudt da der er enheder i vejen."
 
 #: server/unittools.c:3060
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Orders for %s aborted because of failed move."
-msgstr "Ordre for %s afbrudt da bevægelse ikke kunne gennemføres."
+msgstr "Spil: Ordre for %s afbrudt da bevægelse ikke kunne gennemføres."
 
 #: server/unittools.c:3093
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Spil: Din %s har ugyldige ordre."
 
@@ -6823,7 +6816,7 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 efterlod %li landmasse uplaceret."
 
 #: server/generator/startpos.c:377
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -6831,15 +6824,16 @@ msgid ""
 "Please report this bug at %s."
 msgstr ""
 "Serveren ser ud til at være gået ind i en uendelig løkke ved placering af "
-"startpositioner.Måske er antallet af spillere (inkl. computerspillere) for "
-"meget for denne bane.\n"
+"startpositioner.\n"
+"Måske er antallet af spillere (inklusiv computerspillere) for stort for "
+"dette kort.\n"
 "Rapportér venligst denne fejl på %s."
 
 #: client/attribute.c:241
-#, fuzzy
 msgid "There has been a CMA error.  Your CMA settings may be broken."
 msgstr ""
-"Der har været en CMA fejl. Din bylederopsætning er sikkert fejlbehæftet."
+"Der har været en bylederopsætningsfejl.  Din bylederopsætning er sikkert "
+"fejlbehæftet."
 
 #: client/attribute.c:287
 msgid "Old attributes detected and removed."
@@ -6874,18 +6868,16 @@ msgid "No real audio plugin present, proceeding with sound support disabled"
 msgstr "Intet lydmodul fundet, fortsætter med lyd deaktiveret."
 
 #: client/audio.c:224
-#, fuzzy
 msgid "For sound support, install either esound or SDL_mixer"
-msgstr "For at få lyd skal du installere SDL_mixer"
+msgstr "For at få lyd skal du installere enten esound eller SDL_mixer"
 
 #: client/audio.c:226
 msgid "Esound: http://www.tux.org/~ricdude/EsounD.html"
 msgstr "Esound: http://www.tux.org/~ricdude/EsounD.html"
 
 #: client/audio.c:227
-#, fuzzy
 msgid "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
-msgstr "http://www.libsdl.org/projects/SDL_mixer/index.html"
+msgstr "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
 
 #: client/audio.c:233
 msgid "No sound spec-file given!"
@@ -7116,9 +7108,8 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "Underholdere, forskere, skatteopkrævere"
 
 #: client/cityrepdata.c:435
-#, fuzzy
 msgid "?Entertainers:E"
-msgstr "Underholdere"
+msgstr "?Entertainers:U"
 
 #: client/cityrepdata.c:435 client/gui-gtk-2.0/citydlg.c:931
 #: client/gui-gtk/citydlg.c:1267
@@ -7126,9 +7117,8 @@ msgid "Entertainers"
 msgstr "Underholdere"
 
 #: client/cityrepdata.c:437
-#, fuzzy
 msgid "?Scientists:S"
-msgstr "?Scientist:F"
+msgstr "?Scientists:F"
 
 #: client/cityrepdata.c:437 client/gui-gtk-2.0/citydlg.c:932
 #: client/gui-gtk/citydlg.c:1268 client/gui-mui/citydlg.c:1367
@@ -7137,9 +7127,8 @@ msgid "Scientists"
 msgstr "Forskere"
 
 #: client/cityrepdata.c:439
-#, fuzzy
 msgid "?Taxmen:T"
-msgstr "?Taxman:S"
+msgstr "?Taxmen:S"
 
 #: client/cityrepdata.c:439 client/gui-gtk-2.0/citydlg.c:933
 #: client/gui-gtk/citydlg.c:1269 client/gui-mui/citydlg.c:1368
@@ -7335,9 +7324,8 @@ msgid "CMA"
 msgstr "Byforvaltning"
 
 #: client/cityrepdata.c:480
-#, fuzzy
 msgid "City Management Agent"
-msgstr "Byforvaltning"
+msgstr "Byforvaltningsagent"
 
 #: client/cityrepdata.c:482 client/cityrepdata.c:483
 msgid "Currently Building"
@@ -7428,7 +7416,7 @@ msgid "There was an error while auto connecting; aborting."
 msgstr "Der opstod en fejl under automatisk tilslutning, afbryder."
 
 #: client/climisc.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Changing production of every %s into %s."
 msgstr "Spil: Ændrer produktion for alle %s til %s."
 
@@ -7528,12 +7516,12 @@ msgid "Export failed, couldn't write to file."
 msgstr "Eksport fejlede, kunne ikke skrive til fil."
 
 #: client/climisc.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't buy %s in %s!"
 msgstr "Spil: Du køber ikke %s i %s!"
 
 #: client/climisc.c:1041
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spil: %s koster %d guld og du har kun %d guld."
 
@@ -7558,16 +7546,14 @@ msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "Ugyldig $http_proxy eller metaserver værdi, skal starte med 'http://'"
 
 #: client/clinet.c:616
-#, fuzzy
 msgid "Failed looking up host"
 msgstr "Mislykkedes i forsøget på at finde server."
 
 #. TRANS: This means a network error when trying to connect to
 #. * the metaserver.  The message will be shown directly to the user.
 #: client/clinet.c:671
-#, fuzzy
 msgid "Failed querying socket"
-msgstr "Kunne ikke læse PNG-struct: %s"
+msgstr "Netværksfejl ved forsøg på forbindelse til metaserveren"
 
 #: client/connectdlg_common.c:78
 msgid "novice"
@@ -7618,24 +7604,21 @@ msgid "We can't take control of server, attempting to kill it."
 msgstr "Vi kan ikke få kontrol med serveren, forsøget at slå den ned."
 
 #: client/control.c:713
-#, fuzzy
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Spil: Kun transportenheder kan aflastes."
 
 #: client/control.c:917
-#, fuzzy
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
-msgstr "Spil: Kun nybyggere kan placeres i autotilstand."
+msgstr ""
+"Spil: Kun nybyggere og militære enheder i byer kan placeres i autotilstand."
 
 #: client/control.c:989
-#, fuzzy
 msgid "Game: Only nuclear units can do this."
 msgstr "Spil: Kun atombombe-enheder kan gøre dette."
 
 #: client/control.c:1006
-#, fuzzy
 msgid "Game: Only paratrooper units can do this."
 msgstr "Spil: Kun faldskærmsjægere kan gøre dette."
 
@@ -7644,22 +7627,18 @@ msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Spil: Beklager, luftpatruljering er ikke implementeret."
 
 #: client/control.c:1437
-#, fuzzy
 msgid "Game: Too far for this unit."
 msgstr "Spil: For langt for denne enhed."
 
 #: client/control.c:1644 client/control.c:1685 client/control.c:1709
-#, fuzzy
 msgid "Game: Didn't find a route to the destination!"
-msgstr "Spil: Fandt ingen rute til målet."
+msgstr "Spil: Fandt ingen rute til målet!"
 
 #: client/control.c:1699
-#, fuzzy
 msgid "Game: Sorry, airunit connect not yet implemented."
 msgstr "Spil: Beklager, luftpatruljering er ikke implementeret."
 
 #: client/control.c:1754
-#, fuzzy
 msgid "Game: Oh my! You seem to have no capital!"
 msgstr "Spil: Jammen dog! Det ser ud til at du ikke har nogen hovedstad!"
 
@@ -8064,13 +8043,13 @@ msgstr "Du kan ikke forske i denne teknologi."
 #, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
-"* Dette nummer kan variere afhængigt af til hvad andre spillere forsker "
-"på. \n"
+" Dette nummer kan variere afhængigt af til hvad andre spillere forsker "
+"på.\n"
 
 #: client/helpdata.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows changing government to %s.\n"
-msgstr "Tillader at ndre styreform til %s.\n"
+msgstr "* Tillader at ændre styreform til %s.\n"
 
 #: client/helpdata.c:1013
 #, c-format
@@ -8079,9 +8058,9 @@ msgstr ""
 "* Den første spiller som forsker på %s får et umiddelbart fremskridt.\n"
 
 #: client/helpdata.c:1018
-#, fuzzy, c-format
+#, c-format
 msgid "* Gives sea units one extra move.\n"
-msgstr "Giver søenheder et ekstra træk."
+msgstr "* Giver søenheder et ekstra træk.\n"
 
 #: client/helpdata.c:1020
 #, c-format
@@ -8099,24 +8078,24 @@ msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Øger forureningen skabt af befolkningen.\n"
 
 #: client/helpdata.c:1029
-#, fuzzy, c-format
+#, c-format
 msgid "* Improves the effect of Cathedrals.\n"
-msgstr "Øger effekten af katedraler."
+msgstr "* Øger effekten af katedraler.\n"
 
 #: client/helpdata.c:1031
-#, fuzzy, c-format
+#, c-format
 msgid "* Reduces the effect of Cathedrals.\n"
-msgstr "Reducerer effekten af katedraler."
+msgstr "* Reducerer effekten af katedraler.\n"
 
 #: client/helpdata.c:1033
-#, fuzzy, c-format
+#, c-format
 msgid "* Improves the effect of Colosseums.\n"
-msgstr "Øger effekten af kolosseumer."
+msgstr "* Øger effekten af amfiteatre.\n"
 
 #: client/helpdata.c:1035
-#, fuzzy, c-format
+#, c-format
 msgid "* Improves the effect of Temples.\n"
-msgstr "Øger effekten af templer."
+msgstr "* Øger effekten af templer.\n"
 
 #: client/helpdata.c:1039
 #, c-format
@@ -8169,14 +8148,14 @@ msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Landenheder kan ikke rejse på havterræn."
 
 #: client/helpdata.c:1164
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d shield"
-msgstr "Skjold"
+msgstr "%s%d skjold"
 
 #: client/helpdata.c:1169
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d food"
-msgstr "%s%d %s"
+msgstr "%s%d mad"
 
 #: client/helpdata.c:1174
 #, c-format
@@ -8184,24 +8163,23 @@ msgid "%s%d unhappy"
 msgstr "%s%d ulykkelig"
 
 #: client/helpdata.c:1179
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d gold"
-msgstr "%s giver %d guld"
+msgstr "%s%d guld"
 
 #: client/mapctrl_common.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't know how to build %s!"
-msgstr "Du ved ikke hvordan %s bygges!"
+msgstr "Spil: Du ved ikke hvordan %s bygges!"
 
 #: client/mapctrl_common.c:362
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Copy %s to clipboard."
-msgstr "Kopier %s til udklipsholder."
+msgstr "Spil: Kopier %s til udklipsholder."
 
 #: client/mapctrl_common.c:379
-#, fuzzy
 msgid "Game: Clipboard is empty."
-msgstr "Udklipsholder er tom."
+msgstr "Spil: Udklipsholder er tom."
 
 #: client/mapview_common.c:816
 msgid ""
@@ -8212,38 +8190,32 @@ msgstr ""
 "Meld denne fejl til bugs@freeciv.org."
 
 #: client/messagewin_common.c:113
-#, fuzzy
 msgid "Game: "
-msgstr "Spil"
+msgstr "Spil: "
 
 #: client/options.c:81
-#, fuzzy
 msgid "Default player's login name"
-msgstr "Standard spillers brugernavn"
+msgstr "Standardspillers brugernavn"
 
 #: client/options.c:83
-#, fuzzy
 msgid "Default server"
-msgstr "Metaserver"
+msgstr "Standardserver"
 
 #: client/options.c:85
-#, fuzzy
 msgid "Default server's port"
-msgstr "Server port"
+msgstr "Standardserverport"
 
 #: client/options.c:86
-#, fuzzy
 msgid "Default metaserver"
-msgstr "Metaserver"
+msgstr "Standard metaserver"
 
 #: client/options.c:88
 msgid "Default name of sound set"
-msgstr "Standard navn p lydopstning"
+msgstr "Standardnavn på lydopsætning"
 
 #: client/options.c:90
-#, fuzzy
 msgid "Default sound plugin"
-msgstr "Lyd plugin"
+msgstr "Standard lydplugin"
 
 #: client/options.c:92
 msgid "Tileset"
@@ -8270,13 +8242,12 @@ msgid "Show combat animation"
 msgstr "Vis kampanimation"
 
 #: client/options.c:102
-#, fuzzy
 msgid "Popup dialogs in AI Mode"
-msgstr "Vis vinduer øverst"
+msgstr "Popup vinduer i computerindstilling"
 
 #: client/options.c:103
 msgid "Manual Turn Done in AI Mode"
-msgstr "Manuel 'runde afsluttet' i AI-tilstand"
+msgstr "Manuel 'runde afsluttet' i computertilstand"
 
 #: client/options.c:104
 msgid "Auto Center on Units"
@@ -8363,7 +8334,6 @@ msgid "City: Nuked"
 msgstr "By: Atomangrebet"
 
 #: client/options.c:199
-#, fuzzy
 msgid "City: Released from CMA"
 msgstr "By: Frigjort fra byleder"
 
@@ -8488,47 +8458,38 @@ msgid "Enemy Diplomat: Theft"
 msgstr "Fjendtlig diplomat: Tyveri"
 
 #: client/options.c:230
-#, fuzzy
 msgid "Game: Broadcast Report"
 msgstr "Spil: Rundsender Rapport"
 
 #: client/options.c:231
-#, fuzzy
 msgid "Game: Game Ended"
 msgstr "Spil: Spillet er slut"
 
 #: client/options.c:232
-#, fuzzy
 msgid "Game: Game Started"
 msgstr "Spil: Spillet er i gang"
 
 #: client/options.c:233
-#, fuzzy
 msgid "Game: Message from Server Operator"
-msgstr "Spil: Melding fra Server Operatør"
+msgstr "Spil: Melding fra Serveroperatør"
 
 #: client/options.c:234
-#, fuzzy
 msgid "Game: Nation Selected"
 msgstr "Spil: Nation valgt"
 
 #: client/options.c:235
-#, fuzzy
 msgid "Game: Player Destroyed"
 msgstr "Spil: Spiller knust"
 
 #: client/options.c:236
-#, fuzzy
 msgid "Game: Report"
-msgstr "Handelsrapport"
+msgstr "Spil: Rapport"
 
 #: client/options.c:237
-#, fuzzy
 msgid "Game: Turn Bell"
 msgstr "Spil: Rundeklokke"
 
 #: client/options.c:238
-#, fuzzy
 msgid "Game: Year Advance"
 msgstr "Spil: Året går"
 
@@ -8609,7 +8570,6 @@ msgid "Treaty: Broken"
 msgstr "Traktat: Brudt"
 
 #: client/options.c:258
-#, fuzzy
 msgid "Treaty: Ceasefire"
 msgstr "Traktat: Våbenhvile"
 
@@ -8740,7 +8700,7 @@ msgstr "Runde %d begynder"
 #: client/packhand.c:1624
 #, c-format
 msgid "AI Mode is now %s."
-msgstr "AI-tilstand er nu %s."
+msgstr "Computertilstand er nu %s."
 
 #: client/packhand.c:1625
 msgid "ON"
@@ -8751,9 +8711,8 @@ msgid "OFF"
 msgstr "FRA"
 
 #: client/packhand.c:2618
-#, fuzzy
 msgid "Other"
-msgstr "Oktober"
+msgstr "Anden"
 
 #: client/plrdlg_common.c:181 client/gui-gtk/plrdlg.c:325
 #: client/gui-mui/plrdlg.c:119 client/gui-win32/plrdlg.c:155
@@ -8945,11 +8904,11 @@ msgstr "Vores territorium"
 
 #. TRANS: "Polish territory (5 turn ceasefire)"
 #: client/text.c:214
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn ceasefire)"
 msgid_plural "%s territory (%d turn ceasefire)"
 msgstr[0] "%s territorium (%d runde våbenhvile)"
-msgstr[1] "%s territorium (%d runde våbenhvile)"
+msgstr[1] "%s territorium (%d runder våbenhvile)"
 
 # bedre bliver det vist ikke
 #. TRANS: "Territory of the friendly Polish".  See the
@@ -8971,23 +8930,22 @@ msgstr "By: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn ceasefire)"
 #: client/text.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
 msgid_plural "City: %s (%s, %d turn ceasefire)"
 msgstr[0] "By: %s (%s, %d runde våbenhvile)"
-msgstr[1] "By: %s (%s, %d runde våbenhvile)"
+msgstr[1] "By: %s (%s, %d runder våbenhvile)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s,%s)"
-msgstr "By: %s (%s, %s)"
+msgstr "By: %s (%s,%s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:259
-#, fuzzy
 msgid " with City Walls"
-msgstr "med bymure"
+msgstr " med bymure"
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:269
@@ -9013,17 +8971,17 @@ msgstr "Enhed: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn ceasefire)"
 #: client/text.c:305
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
 msgid_plural "Unit: %s (%s, %d turn ceasefire)"
 msgstr[0] "By: %s (%s, %d runde våbenhvile)"
-msgstr[1] "By: %s (%s, %d runde våbenhvile)"
+msgstr[1] "By: %s (%s, %d runder våbenhvile)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s,%s)"
-msgstr "Enhed: %s (%s, %s)"
+msgstr "Enhed: %s (%s,%s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:338
@@ -9034,9 +8992,9 @@ msgstr "Sejrschance: A:%d%% F:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
-msgstr "A:%d F:%d FP:%d TK:%d/%d%s%s"
+msgstr "A:%d F:%d ST:%d L:%d/%d%s"
 
 #. TRANS: "5 more" units on this tile
 #: client/text.c:355 client/gui-mui/mapclass.c:158
@@ -9067,21 +9025,21 @@ msgstr "fra %s"
 
 #: client/text.c:482
 msgid "Progress: no research"
-msgstr "Fremskridt: ingen forskning"
+msgstr "Fremskridt: Ingen forskning"
 
 #: client/text.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance (%d pts/turn)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn)"
-msgstr[0] "Fremskridt: %d runde/fremskridt"
-msgstr[1] "Fremskridt: %d runder/fremskridt"
+msgstr[0] "Fremskridt: %d runde/fremskridt (%d pts/runde)"
+msgstr[1] "Fremskridt: %d runder/fremskridt (%d pts/runde)"
 
 #: client/text.c:495
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Fremskridt: %d runde/fremskridt (%d pts/runde, %d pts/runde fra hold)"
+msgstr[1] "Fremskridt: %d runder/fremskridt (%d pts/runde, %d pts/runde fra hold)"
 
 #: client/text.c:512 client/gui-mui/mapview.c:190
 #, c-format
@@ -9106,32 +9064,39 @@ msgid "Turns to target: %d"
 msgstr "Runder til mål: %d"
 
 #: client/text.c:587
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows your progress in researching the current technology.\n"
 "%s: %d/%d."
-msgstr "Viser dit fremskridt i forskningen af ny teknologi."
+msgstr ""
+"Viser dit fremskridt i forskningen af ny teknologi.\n"
+"%s: %d/%d."
 
 #: client/text.c:604
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows the progress of global warming:\n"
 "%d."
-msgstr "Viser hvor fremskreden global opvarmning er:"
+msgstr ""
+"Viser hvor fremskreden global opvarmning er:\n"
+"%d."
 
 #: client/text.c:617
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows the progress of nuclear winter:\n"
 "%d."
-msgstr "Viser hvor fremskreden en atomvinter er:"
+msgstr ""
+"Viser hvor fremskreden en atomvinter er:\n"
+"%d."
 
 #: client/text.c:630
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows your current government:\n"
 "%s."
-msgstr "Viser din aktuelle styreform:"
+msgstr "Viser din aktuelle styreform:\n"
+"%s."
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:650
@@ -9143,13 +9108,13 @@ msgstr "Befolkning:      %5d"
 #: client/text.c:653
 #, c-format
 msgid "Support:         %5d %%"
-msgstr "Understøttelse:  %5d%%"
+msgstr "Understøttelse:  %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:657
 #, c-format
 msgid "Energy:          %5d %%"
-msgstr "Energi:          %5d%%"
+msgstr "Energi:          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:661
@@ -9174,7 +9139,7 @@ msgstr "Rejsetid:            -      "
 #: client/text.c:674
 #, c-format
 msgid "Success prob.:   %5d %%"
-msgstr "Succeschance:    %5d%%"
+msgstr "Succeschance:    %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:678
@@ -9226,13 +9191,13 @@ msgid "Buildings: "
 msgstr "Bygninger: "
 
 #: client/text.c:791 client/text.c:816 client/text.c:823 client/text.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "%s. "
-msgstr "Spil: %s"
+msgstr "%s. "
 
 #: client/text.c:796 client/text.c:835
 msgid "None. "
-msgstr "Ingen."
+msgstr "Ingen. "
 
 #: client/text.c:811
 msgid "Wonders: "
@@ -9346,7 +9311,7 @@ msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "Byforvaltning: Du mistede kontrollen over %s. Fjernes fra byen."
 
 #: client/agents/cma_core.c:400
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr ""
@@ -9358,16 +9323,16 @@ msgstr ""
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
 msgstr ""
-"Byforvaltning: %s er ndret og det beregnede resultat kan ikke bruges. Prver "
+"Byforvaltning: %s er ændret og det beregnede resultat kan ikke bruges. Prøver "
 "igen."
 
 #: client/agents/cma_core.c:429
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in Freeciv or bad "
 "luck. The CMA will detach itself from the city now."
 msgstr ""
-"Byforvaltning: %s er blevet ndret flere gange. Dette er nok en fejl! Tag "
+"Byforvaltning: %s er blevet ændret flere gange. Dette er nok en fejl! Tag "
 "venligst kontakt med <freeciv-dev@freeciv.org>. Byforvaltning er deaktiveret."
 
 #: client/agents/cma_fec.c:220 client/gui-gtk-2.0/cityrep.c:552
@@ -9555,14 +9520,12 @@ msgid "_Happiness"
 msgstr "_Lykke"
 
 #: client/gui-gtk-2.0/citydlg.c:883
-#, fuzzy
 msgid "C_MA"
-msgstr "Byforvaltning"
+msgstr "_Byforvaltning"
 
 #: client/gui-gtk-2.0/citydlg.c:903
-#, fuzzy
 msgid "Trade Ro_utes"
-msgstr "Handelsruter"
+msgstr "_Handelsruter"
 
 #: client/gui-gtk-2.0/citydlg.c:928
 msgid "_Settings"
@@ -9713,9 +9676,9 @@ msgid "No trade routes exist."
 msgstr "Ingen handelsruter eksisterer."
 
 #: client/gui-gtk-2.0/citydlg.c:1761
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
-msgstr "Total handel fra handelsruter: %d"
+msgstr "Samlet handel fra handelsruter: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1879 client/gui-gtk-2.0/cityrep.c:796
 #: client/gui-gtk/citydlg.c:2369 client/gui-gtk/cityrep.c:635
@@ -9980,21 +9943,20 @@ msgid "Available Wonders"
 msgstr "Tilgængelige vidundere"
 
 #: client/gui-gtk-2.0/cma_fe.c:248
-#, fuzzy
 msgid ""
 "For information on:\n"
 "CMA and presets\n"
 "including sample presets,\n"
 "see README.cma."
 msgstr ""
-"For information om\n"
-"byforvaltningen og bylederen forvalg,\n"
+"For information om:\n"
+"Byforvaltningen og bylederens forvalg,\n"
 "inklusiv eksempel forvalg,\n"
 "se README.cma."
 
 #: client/gui-gtk-2.0/cma_fe.c:264
 msgid "_Presets:"
-msgstr "Forhåndsvalg:"
+msgstr "_Forhåndsvalg:"
 
 #: client/gui-gtk-2.0/cma_fe.c:297 client/gui-gtk/cma_fe.c:205
 #: client/gui-gtk/repodlgs.c:720 client/gui-mui/citydlg.c:1555
@@ -10021,14 +9983,12 @@ msgid "Celebrate"
 msgstr "Fest"
 
 #: client/gui-gtk-2.0/cma_fe.c:460
-#, fuzzy
 msgid "CMA Enabl_ed"
-msgstr "Leder aktiveret"
+msgstr "Byforvaltning aktiv_eret"
 
 #: client/gui-gtk-2.0/cma_fe.c:465
-#, fuzzy
 msgid "CMA Disabl_ed"
-msgstr "Leder inaktiveret"
+msgstr "Byforvaltning inaktiv_eret"
 
 #: client/gui-gtk-2.0/cma_fe.c:533 client/gui-gtk/cma_fe.c:472
 #: client/gui-win32/cma_fe.c:385 client/gui-xaw/cma_fe.c:435
@@ -10423,9 +10383,8 @@ msgid "_Nations:"
 msgstr "_Nationer:"
 
 #: client/gui-gtk-2.0/dialogs.c:1619
-#, fuzzy
 msgid "Class"
-msgstr "_Klausuler:"
+msgstr "Klasse"
 
 #: client/gui-gtk-2.0/dialogs.c:1660
 msgid "_Properties"
@@ -10539,7 +10498,6 @@ msgstr "_Tilføj klausul..."
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk/diplodlg.c:910
 #: client/gui-mui/diplodlg.c:382 client/gui-win32/diplodlg.c:262
 #: client/gui-xaw/diplodlg.c:948
-#, fuzzy
 msgid "Game: Invalid amount of gold specified."
 msgstr "Spil: Ugyldig mængde guld specificeret."
 
@@ -10600,9 +10558,8 @@ msgid "Show _All Cities"
 msgstr "Vis _alle byer"
 
 #: client/gui-gtk-2.0/gui_main.c:139 client/gui-gtk/gui_main.c:128
-#, fuzzy
 msgid "Use Alt/Meta for accelerators"
-msgstr "Bruger Alt/Meta for hurtigtaster (kun GTK)"
+msgstr "Brug Alt/Meta for hurtigtaster"
 
 #: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:129
 msgid "Show Map Scrollbars"
@@ -10629,13 +10586,12 @@ msgid "Enable status report tabs"
 msgstr "Slå statusrapportvinduet til"
 
 #: client/gui-gtk-2.0/gui_main.c:147
-#, fuzzy
 msgid "Solid unit icon background color in city dialog"
-msgstr "Helfarvet baggrund for enheder"
+msgstr "Helfarvet baggrund for byvinduer"
 
 #: client/gui-gtk-2.0/gui_main.c:149 client/gui-win32/gui_main.c:100
 msgid "Better fog-of-war drawing"
-msgstr "Bedre fog-of-war tegning"
+msgstr "Bedre krigståge tegning"
 
 #: client/gui-gtk-2.0/gui_main.c:489 client/gui-gtk-2.0/gui_main.c:1081
 #: client/gui-gtk/gui_main.c:385 client/gui-gtk/gui_main.c:857
@@ -11110,9 +11066,8 @@ msgid "Sa_ve Settings"
 msgstr "Gem indstillinger"
 
 #: client/gui-gtk-2.0/menu.c:640 client/gui-win32/menu.c:307
-#, fuzzy
 msgid "_Initial Server Options"
-msgstr "Server indstillinger."
+msgstr "Server indst_illinger."
 
 #: client/gui-gtk-2.0/menu.c:642 client/gui-win32/menu.c:308
 msgid "Server O_ptions"
@@ -11135,9 +11090,8 @@ msgid "Clear _Log"
 msgstr "Rens log"
 
 #: client/gui-gtk-2.0/menu.c:660
-#, fuzzy
 msgid "L_eave"
-msgstr "Forlad"
+msgstr "Forl_ad"
 
 #: client/gui-gtk-2.0/menu.c:662 client/gui-gtk/menu.c:612
 #: client/gui-mui/connectdlg.c:226 client/gui-mui/dialogs.c:1659
@@ -11739,9 +11693,8 @@ msgid "_Paradrop"
 msgstr "Faldskærmsudspring"
 
 #: client/gui-gtk-2.0/menu.c:1408 client/gui-gtk/menu.c:1257
-#, fuzzy
 msgid "_Auto Attack"
-msgstr "Autoangreb"
+msgstr "_Autoangreb"
 
 #: client/gui-gtk-2.0/messagedlg.c:61 client/gui-gtk/messagedlg.c:78
 #: client/gui-mui/messagedlg.c:68 client/gui-win32/messagedlg.c:175
@@ -11750,7 +11703,6 @@ msgid "Message Options"
 msgstr "Beskedsindstillinger"
 
 #: client/gui-gtk-2.0/messagedlg.c:70
-#, fuzzy
 msgid ""
 "Where to display messages?\n"
 "\t<b>Out</b>put window ;\n"
@@ -11758,7 +11710,9 @@ msgid ""
 "\t<b>Pop</b>up individual window"
 msgstr ""
 "Hvor skal meddelelserne vises?\n"
-"<b>T</b>ekst vindue ; <b>B</b>esked vindue ; <b>E</b>get vindue "
+"\t<b>Out</b>put window ;\n"
+"\t<b>Mes</b>sages window ;\n"
+"\t<b>Pop</b>up individual window"
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -11943,9 +11897,8 @@ msgid "Save _Filename:"
 msgstr "Filnavn:"
 
 #: client/gui-gtk-2.0/plrdlg.c:391
-#, fuzzy
 msgid "_Player"
-msgstr "_Spillere"
+msgstr "_Spiller"
 
 #: client/gui-gtk-2.0/plrdlg.c:397 client/gui-gtk/plrdlg.c:188
 #: client/gui-mui/plrdlg.c:332
@@ -12232,7 +12185,6 @@ msgid "Chan_ge Production"
 msgstr "Ændr produktion"
 
 #: client/gui-gtk/citydlg.c:619
-#, fuzzy
 msgid "City improvements"
 msgstr "Byforbedringer"
 
@@ -12242,9 +12194,8 @@ msgid "Upkeep"
 msgstr "Vedligehold"
 
 #: client/gui-gtk/citydlg.c:623
-#, fuzzy
 msgid "City _Overview"
-msgstr "Byoversigt"
+msgstr "By_oversigt"
 
 #: client/gui-gtk/citydlg.c:647 client/gui-win32/citydlg.c:792
 msgid "City info"
@@ -12280,22 +12231,18 @@ msgid "Units present"
 msgstr "Enheder til stede"
 
 #: client/gui-gtk/citydlg.c:1096
-#, fuzzy
 msgid "Acti_vate present units"
-msgstr "Aktivér enhed"
+msgstr "Akti_vér enhed"
 
 #: client/gui-gtk/citydlg.c:1102
-#, fuzzy
 msgid "_Sentry idle units"
 msgstr "Hold _stand"
 
 #: client/gui-gtk/citydlg.c:1108
-#, fuzzy
 msgid "_List present units"
-msgstr "_Vis enheder til stede..."
+msgstr "_Vis enheder til stede"
 
 #: client/gui-gtk/citydlg.c:1133
-#, fuzzy
 msgid "_Worklist"
 msgstr "_Arbejdsliste"
 
@@ -12304,19 +12251,16 @@ msgid "CM_A"
 msgstr "_Byforvaltning"
 
 #: client/gui-gtk/citydlg.c:1232
-#, fuzzy
 msgid "_Trade Routes"
-msgstr "Handelsruter"
+msgstr "_Handelsruter"
 
 #: client/gui-gtk/citydlg.c:1242
-#, fuzzy
 msgid "Established trade routes"
-msgstr "Etablér handelsrute"
+msgstr "Etablérede handelsrute"
 
 #: client/gui-gtk/citydlg.c:1264
-#, fuzzy
 msgid "_Misc. Settings"
-msgstr "Forskellige indstillinger"
+msgstr "_Forskellige indstillinger"
 
 #: client/gui-gtk/citydlg.c:1281 client/gui-mui/citydlg.c:1379
 msgid "City Overview page"
@@ -12358,14 +12302,13 @@ msgid "Close dialog"
 msgstr "Luk dialog"
 
 #: client/gui-gtk/citydlg.c:1619
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens"
-msgstr "%s - %s borgere%s"
+msgstr "%s - %s borgere"
 
 #: client/gui-gtk/citydlg.c:1811
-#, fuzzy
 msgid " (worklist)"
-msgstr "(arbejdsliste)"
+msgstr " (arbejdsliste)"
 
 #: client/gui-gtk/citydlg.c:1879 client/gui-win32/citydlg.c:278
 #, c-format
@@ -12373,14 +12316,14 @@ msgid "Upkeep (Total: %d)"
 msgstr "Udgifter (totalt: %d)"
 
 #: client/gui-gtk/citydlg.c:2031
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units (%d)"
-msgstr "Støttede enheder %d"
+msgstr "Støttede enheder (%d)"
 
 #: client/gui-gtk/citydlg.c:2169
-#, fuzzy, c-format
+#, c-format
 msgid "Present units (%d)"
-msgstr "Enheder tilstede %d"
+msgstr "Enheder tilstede (%d)"
 
 #: client/gui-gtk/citydlg.c:2208 client/gui-mui/citydlg.c:2052
 #: client/gui-win32/citydlg.c:1287
@@ -12500,9 +12443,8 @@ msgid "Con_figure..."
 msgstr "Tilpas..."
 
 #: client/gui-gtk/cityrep.c:966 client/gui-win32/cityrep.c:693
-#, fuzzy
 msgid "Game: Select a unit or improvement to change production to."
-msgstr "Spil: Vælg en enhed eller forbedring at ændre produktion i."
+msgstr "Spil: Vælg en enhed eller forbedring at ændre produktion til."
 
 #: client/gui-gtk/cityrep.c:1000 client/gui-win32/cityrep.c:742
 #: data/Freeciv.in:1772
@@ -13003,34 +12945,28 @@ msgstr ""
 #
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #: client/gui-gtk/menu.c:590
-#, fuzzy
 msgid "_Local Options"
-msgstr "Lokale indstillinger"
+msgstr "_Lokale indstillinger"
 
 #: client/gui-gtk/menu.c:592
-#, fuzzy
 msgid "Messa_ge Options"
-msgstr "Beskedsindstillinger"
+msgstr "_Beskedsindstillinger"
 
 #: client/gui-gtk/menu.c:594
-#, fuzzy
 msgid "_Save Settings"
-msgstr "Gem indstillinger"
+msgstr "_Gem indstillinger"
 
 #: client/gui-gtk/menu.c:598
-#, fuzzy
 msgid "Server Opt _initial"
-msgstr "Server Opt. initielle..."
+msgstr "Serverindstillinger _initielle"
 
 #: client/gui-gtk/menu.c:600
-#, fuzzy
 msgid "Server Opt _ongoing"
-msgstr "Server-indstillinger pågående..."
+msgstr "Serverindstillinger _pågående"
 
 #: client/gui-gtk/menu.c:604
-#, fuzzy
 msgid "_Export Log"
-msgstr "Eksportér log"
+msgstr "_Eksportér log"
 
 #: client/gui-gtk/menu.c:606
 msgid "_Clear Log"
@@ -13050,9 +12986,8 @@ msgid "Work_lists"
 msgstr "Arbejdsliste"
 
 #: client/gui-gtk/menu.c:631
-#, fuzzy
 msgid "_Revolution!"
-msgstr "Revolution!"
+msgstr "_Revolution!"
 
 #: client/gui-gtk/menu.c:721 client/gui-xaw/menu.c:188
 msgid "Load"
@@ -13064,38 +12999,34 @@ msgid "Unload"
 msgstr "Los"
 
 #: client/gui-gtk/menu.c:743
-#, fuzzy
 msgid "Go|Airlift to City"
-msgstr "Gå/Fly til by"
+msgstr "Gå|Flyv til by"
 
 #: client/gui-gtk/menu.c:749
-#, fuzzy
 msgid "_Disband Unit"
-msgstr "Opløs enhed"
+msgstr "_Opløs enhed"
 
 #: client/gui-gtk/menu.c:751
 msgid "Diplomat|Spy Actions"
 msgstr "Diplomat|Spionhandlinger"
 
 #: client/gui-gtk/menu.c:924
-#, fuzzy
 msgid "Go/Air_lift to City"
-msgstr "Gå/Fly til by"
+msgstr "Gå/flyv til by"
 
 #: client/gui-gtk/menu.c:925
-#, fuzzy
 msgid "_Diplomat/Spy Actions"
-msgstr "Diplomat/Spion - Handlinger"
+msgstr "_Diplomat-/Spionhandlinger"
 
 #: client/gui-gtk/messagedlg.c:83
-#, fuzzy
 msgid ""
 "Where to Display Messages\n"
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
 msgstr ""
 "Hvor skal beskeder vises\n"
-"Txt = Tekstvindue, Bsk = Besked vindue, Eget = Eget vindue"
+"Out = Output vindue, Mes = Beskedsvindue,\n"
+"Pop = Popup individuel vindue"
 
 #: client/gui-gtk/messagewin.c:155 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/cityrep.c:366 client/gui-mui/dialogs.c:137
@@ -13121,9 +13052,9 @@ msgstr[1] "(ledig %d runder)"
 
 #: client/gui-gtk/plrdlg.c:568 client/gui-mui/plrdlg.c:255
 #: client/gui-win32/plrdlg.c:72 client/gui-xaw/plrdlg.c:355
-#, fuzzy
 msgid "Game: You need an embassy to establish a diplomatic meeting."
-msgstr "Spil: Du behøver en ambassade for at have et diplomatisk møde."
+msgstr "Spil: Du har behov for en ambassade for at kunne afholde et "
+"diplomatisk møde."
 
 #: client/gui-gtk/repodlgs.c:626 client/gui-win32/repodlgs.c:454
 #: data/Freeciv.in:1903
@@ -13186,9 +13117,9 @@ msgid "No"
 msgstr "Nej"
 
 #: client/gui-gtk/repodlgs.c:1063
-#, fuzzy, c-format
+#, c-format
 msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d%s%9d"
-msgstr "Totalt:                     %9d%9d%9d%9d"
+msgstr "Totalt:                     %s%9d%s%9d%s%9d%s%9d%s%9d"
 
 #: client/gui-gtk/spaceshipdlg.c:215 client/gui-win32/spaceshipdlg.c:239
 #: data/Freeciv.in:1736
@@ -13216,7 +13147,6 @@ msgid "Delete"
 msgstr "Slet"
 
 #: client/gui-gtk/wldlg.c:276
-#, fuzzy
 msgid "Production worklist"
 msgstr "Arbejdsliste for produktion"
 
@@ -14199,36 +14129,30 @@ msgid "Elvises"
 msgstr "Artister"
 
 #: client/gui-win32/citydlg.c:2021
-#, fuzzy
 msgid "Auto-attack vs land units"
-msgstr "Auto-angreb mod landenheder:      "
+msgstr "Auto-angreb mod landenheder"
 
 #: client/gui-win32/citydlg.c:2023
-#, fuzzy
 msgid "Auto-attack vs sea units"
-msgstr "Auto-angreb mod søenheder:       "
+msgstr "Auto-angreb mod søenheder"
 
 #: client/gui-win32/citydlg.c:2025
-#, fuzzy
 msgid "Auto-attack vs air units"
-msgstr "Auto-angreb mod luftenheder:      "
+msgstr "Auto-angreb mod luftenheder"
 
 #: client/gui-win32/citydlg.c:2027
-#, fuzzy
 msgid "Auto-attack vs helicopters"
-msgstr "Auto-angreb mod helikoptere:       "
+msgstr "Auto-angreb mod helikoptere"
 
 #: client/gui-win32/cityrep.c:464
 msgid "Available To Build"
 msgstr "Tilgængelig for bygning"
 
 #: client/gui-win32/cityrep.c:684
-#, fuzzy
 msgid "Game: Select a unit or improvement to change production from."
-msgstr "Spil: Vælg en enhed eller forbedring at ændre produktion i."
+msgstr "Spil: Vælg en enhed eller forbedring at ændre produktion fra."
 
 #: client/gui-win32/cityrep.c:699
-#, fuzzy
 msgid "Game: That's the same thing!"
 msgstr "Spil: Det er den samme ting!"
 
@@ -14446,9 +14370,9 @@ msgstr ""
 "Total handel %d Handel/År\n"
 
 #: client/gui-xaw/citydlg.c:1781
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens  CMA: %s"
-msgstr "%s - %s borgere%s"
+msgstr "%s - %s borgere  CMA: %s"
 
 #: client/gui-xaw/cma_fe.c:434
 msgid "What should we name the new preset?"
@@ -14543,7 +14467,7 @@ msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "Efterretningsinfo om %s rige"
 
 #: client/gui-xaw/mapview.c:160
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s People\n"
 "Year: %s\n"
@@ -14553,7 +14477,7 @@ msgstr ""
 "Befolkning: %s\n"
 "År: %s\n"
 "Guld: %d\n"
-"Skat: %d Luks: %d Forsk: %d"
+"Skat: %d Luksus: %d Forsk: %d"
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # SES 13. Nov 99:
@@ -14568,14 +14492,12 @@ msgid "Local Options"
 msgstr "Lokale indstillinger"
 
 #: client/gui-xaw/menu.c:112
-#, fuzzy
 msgid "Server Opt initial"
-msgstr "Server Opt. initielle..."
+msgstr "Serverindstillinger initielle"
 
 #: client/gui-xaw/menu.c:113
-#, fuzzy
 msgid "Server Opt ongoing"
-msgstr "Server-indstillinger pågående..."
+msgstr "Serverindstillinger pågående"
 
 #: client/gui-xaw/menu.c:127 data/Freeciv.in:1998
 msgid "Worklists"
@@ -14824,77 +14746,77 @@ msgstr ""
 #: manual/civmanual.c:225
 #, c-format
 msgid "<table border=1><tr><th>Terrain</th>"
-msgstr ""
+msgstr "<table border=1><tr><th>Terræn</th>"
 
 #: manual/civmanual.c:226
 #, c-format
 msgid "<th>Food/ Shield/ Trade</th>"
-msgstr ""
+msgstr "<th>Mad/ Skjold/ Handel</th>"
 
 #: manual/civmanual.c:227
 #, c-format
 msgid "<th>Special 1</th><th>Food/ Shield/ Trade</th>"
-msgstr ""
+msgstr "<th>Special 1</th><th>Mad/ Skjold/ Handel</th>"
 
 #: manual/civmanual.c:228
 #, c-format
 msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
-msgstr ""
+msgstr "<th>Special 2</th><th>Mad/ Skjold/ Handel</th>"
 
 #: manual/civmanual.c:229
 #, c-format
 msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
-msgstr ""
+msgstr "<th>Bevægelsespris</th><th>Forsvar</th><th>Vej +handel</th>\n"
 
 #: manual/civmanual.c:231
 #, c-format
 msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
-msgstr ""
+msgstr "<th>Overrisling +mad</th><th>Mine +skjold</th>\n"
 
 #: manual/civmanual.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Transform to</th>"
-msgstr "Ændr til"
+msgstr "<th>Ændr til</th>"
 
 #: manual/civmanual.c:269
 #, c-format
 msgid "</table><br><br><br><table border=1>"
-msgstr ""
+msgstr "</table><br><br><br><table border=1>"
 
 #: manual/civmanual.c:270
 #, c-format
 msgid "<caption>Time to perform action</caption>"
-msgstr ""
+msgstr "<caption>Tid til aktionen</caption>"
 
 #: manual/civmanual.c:271
 #, c-format
 msgid "<tr><th>Terrain</th>\n"
-msgstr ""
+msgstr "<tr><th>Terræn</th>\n"
 
 #: manual/civmanual.c:272
 #, c-format
 msgid "<th>Road</th><th>Irrigation</th>\n"
-msgstr ""
+msgstr "<th>Vej</th><th>Overrisling</th>\n"
 
 #: manual/civmanual.c:273
 #, c-format
 msgid "<th>Mining</th><th>Rail</th>\n"
-msgstr ""
+msgstr "<th>Mine</th><th>Jernbane</th>\n"
 
 #: manual/civmanual.c:274
 #, c-format
 msgid "<th>Airbase</th><th>Fortress</th>\n"
-msgstr ""
+msgstr "<th>Lufthavn</th><th>Fæstning</th>\n"
 
 #: manual/civmanual.c:275
 #, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
-msgstr ""
+msgstr "<th>Rens forurening</th><th>Rens atomstråling</th>\n"
 
 #: manual/civmanual.c:276
 #, c-format
 msgid "<th>Transform</th></tr>\n"
-msgstr ""
+msgstr "<th>Ændr</th></tr>\n"
 
 #: manual/civmanual.c:302
 #, c-format
@@ -14902,28 +14824,28 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s bygnings hjælp</h1>\n"
+"<h1>Freeciv %s bygningshjælp</h1>\n"
 "\n"
 
 #: manual/civmanual.c:315 manual/civmanual.c:344
 #, c-format
 msgid "<tr><td>Cost: <td>%d</tr>\n"
-msgstr ""
+msgstr "<tr><td>Pris: <td>%d</tr>\n"
 
 #: manual/civmanual.c:316 manual/civmanual.c:345
 #, c-format
 msgid "<tr><td>Upkeep: <td>%d</tr>\n"
-msgstr ""
+msgstr "<tr><td>Vedligeholdelse: <td>%d</tr>\n"
 
 #: manual/civmanual.c:318 manual/civmanual.c:347
 #, c-format
 msgid "<tr><td>Tech required: <td>%s</tr>\n"
-msgstr ""
+msgstr "<tr><td>Krævet teknologi: <td>%s</tr>\n"
 
 #: manual/civmanual.c:322 manual/civmanual.c:351
 #, c-format
 msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
-msgstr ""
+msgstr "<tr><td>Forældet af: <td>%s</tr>\n"
 
 #: manual/civmanual.c:331
 #, c-format
@@ -15051,9 +14973,8 @@ msgid "Help:"
 msgstr "Hjælp:"
 
 #: data/Freeciv.in:1492
-#, fuzzy
 msgid "CMA..."
-msgstr "Byforvaltning"
+msgstr "Byforvaltning..."
 
 #: data/Freeciv.in:1495
 msgid "Add Preset"
@@ -15407,7 +15328,6 @@ msgstr ""
 "spillerne blive fundet der."
 
 #: data/helpdata.txt:433
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15479,30 +15399,9 @@ msgstr ""
 "  w: vent til senere i samme runde\n"
 "  W: væk andre enheder på dette felt\n"
 "  x: udforsk selvstændigt\n"
-"\n"
-"  1: flyt sydvest                   F1: åbn By-rapporten\n"
-"  2: flyt syd                       F2: åbn Enheds-rapporten\n"
-"  3: flyt sydøst                    F3: åbn Spiller-dialogen\n"
-"  4: flyt vest                      F5: åbn økonomi-rapporten\n"
-"  5: fokusér på næste enhed         F6: åbn forsknings-rapporten\n"
-"  6: flyt øst                       F7: åbn Verdens Vidundere\n"
-"  7: flyt nordvest                  F8: åbn de 5 bedste byer\n"
-"  8: flyt nord                     F10: åbn Meddelelses-dialogen\n"
-"  9: flyt nordøst                  F11: åbn demografi\n"
-"                                   F12: åbn Rumkapløb\n"
-"\n"
-"        pile: flyt enhed                   Control-g: feltnet fra/til\n"
-"   mellemrum: lad enheden blive stående    Control-n: bynavn fra/til\n"
-"         tab: fokusér på næste enhed       Control-p: by produktion fra/"
-"til       Enter: afslut runde\n"
-"      Ctrl-U: opgrader enhed\n"
-"Shift-Ctrl-B: Gå til og byg en by på stedet\n"
-"Shift-Ctrl-R: Forbind denne og målfelt med vej\n"
-"Shift-Ctrl-L: Forbind denne og målfelt med jernbane\n"
-"Shift-Ctrl-I: Forbind denne og målfelt med overrisling\n"
+"mellemrum: lad enheden blive stående\n"
 
 #: data/helpdata.txt:468
-#, fuzzy
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -15533,6 +15432,7 @@ msgstr ""
 "\n"
 "  5: fokuser på tidligere enhed\n"
 "  w: fokuser på næste enhed (vent)\n"
+"  W: væk andre enheder på feltet\n"
 "  c: centrer billede på enhed\n"
 
 #: data/helpdata.txt:484
@@ -17281,7 +17181,7 @@ msgid ""
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
 "For at bekæmpe ulyksalighed kan man bygge byforbedringer som gør ulykkelige "
-"borgere glade (f.eks. et tempel, et kolosseum, en katedral (og retssal under "
+"borgere glade (f.eks. et tempel, et amfiteater, en katedral (og retssal under "
 "demokrati), og/eller relevante vidundere, og/eller konvertere handel til "
 "luksus. For hver anden afsat enhed luksus bliver 1 glade borger lykkelig. "
 "Efter forvandling af alle glade borgere til lykkelige borgere, forvandles "
@@ -17523,7 +17423,7 @@ msgstr ""
 #: data/default/buildings.ruleset:425 data/civ2/buildings.ruleset:372
 #: data/civ1/buildings.ruleset:318 data/history/buildings.ruleset:374
 msgid "Colosseum"
-msgstr "Kolosseum"
+msgstr "Amfiteater"
 
 #: data/default/buildings.ruleset:447 data/history/buildings.ruleset:396
 msgid ""
@@ -19156,38 +19056,37 @@ msgid ""
 "Diplomats and Spies."
 msgstr ""
 "Under demokrati styrer indbyggerne direkte ved at stemme om tingene. "
-"Demokrati tilbyder det hjeste handelsniveau, men ogs strst mulighed for "
-"misfornjede indbyggere. Det forekommer ingen korruption i et demokrati, men "
-"indbyggerne bliver meget oprrt under krig.\n"
+"Demokrati tilbyder det højeste handelsniveau, men også størst mulighed for "
+"misfornøjede indbyggere. Det forekommer ingen korruption i et demokrati, men "
+"indbyggerne bliver meget oprørt under krig.\n"
 "\n"
 "Nybyggere forbruger 2 mad hver runde under demokrati. Felter med mindst 1 "
-"handel fr 1 handel ekstra under demokrati.\n"
+"handel får 1 handel ekstra under demokrati.\n"
 "\n"
 "Byer som fejrer under demokrati vokser med 1 borger hver runde, se "
-"\"Lyksalighed\" for detaljer.\n"
+"Lyksalighed for detaljer.\n"
 "\n"
-"Det er ingen grnse for hvor meget skat, luksus eller forskning demokratiet "
+"Det er ingen grænse for hvor meget skat, luksus eller forskning demokratiet "
 "kan have.\n"
 "\n"
-"Under demokrati krver militreenheder 1 skjold hver runde i vedligehold. "
-"Desuden frer de flgende enheder til ulyksalighed:\n"
+"Under demokrati kræver militæreenheder 1 skjold hver runde i vedligehold. "
+"Desuden fører de følgende enheder til ulyksalighed:\n"
 "\n"
-"- Enheder med angrebsstyrke strre end 0 som ikke er i en by eller i en "
-"fstning indenfor 3 felter fra en egen eller allieret by giver 2 ulykkelige "
+"- Enheder med angrebsstyrke større end 0 som ikke er i en by eller i en "
+"fæstning indenfor 3 felter fra en egen eller allieret by giver 2 ulykkelige "
 "borgere.\n"
 "\n"
-"- Flyenheder med angrebsstyrke strre end 0 som er i byer giver kun 1 "
+"- Flyenheder med angrebsstyrke større end 0 som er i byer giver kun 1 "
 "ulykkelig borger. Kampfly giver ingen ulyksalighed.\n"
 "\n"
-"Hvis en by forbliver i oprr for mere end 2 runder under demokrati gr alle "
-"indbyggerne oprr og civilisationen falder hen i anarki.\n"
+"Hvis en by forbliver i oprør for mere end 2 runder under demokrati gør alle "
+"indbyggerne oprør og civilisationen falder hen i anarki.\n"
 "\n"
-"De lykkelige borgere i et demokrati har stor tro p styreformen. Krigsenheder "
-"som tilhrer demokratiske regeringer kan ikke bestikkes, og fjendtlige "
-"diplomater og spioner kan ikke starte oprr i demokratiske byer."
+"De lykkelige borgere i et demokrati har stor tro på styreformen. Krigsenheder "
+"som tilhører demokratiske regeringer kan ikke bestikkes, og fjendtlige "
+"diplomater og spioner kan ikke starte oprør i demokratiske byer."
 
 #: data/civ2/governments.ruleset:155 data/history/governments.ruleset:156
-#, fuzzy
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -19210,29 +19109,28 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Anarki er helt enkelt fravr af en regering. Indbyggere er uorganiserede og "
-"uproduktive, og bruger alle deres indtgter s hurtigt som muligt, i stedet "
+"Anarki er helt enkelt fravær af en regering. Indbyggere er uorganiserede og "
+"uproduktive, og bruger alle deres indtægter så hurtigt som muligt, i stedet "
 "for at betale skat og forske.\n"
 "\n"
 "Uden regering bliver korruptionen noget mindre end med despotisme, men "
-"ulyksaligheden bliver noget strre.\n"
+"ulyksaligheden bliver noget større.\n"
 "\n"
 "Nybyggere koster 1 mad hver runde uden regering. Felter som ellers skulle "
 "give mere end 2 enheder mad, skjold eller handel, rammes af en reduktion med "
-"1. (f.eks. et grsfelt med overrisling som normalt skulle give 3 mad giver 2 "
-"mad uden regering). (Denne reduktion ophves hvis byen fejrer, se "
-"\"Lyksalighed\".)\n"
+"1. (f.eks. et græsfelt med overrisling som normalt skulle give 3 mad giver 2 "
+"mad uden regering). (Denne reduktion ophæves hvis byen fejrer, se "
+"Lyksalighed.)\n"
 "\n"
-"Nr man ikke har en regering kan hver by forsrge et antal krigsenheder lige s "
-"stort som byens strrelse, uden at betale for det (Hver ekstra enhed koster 1 "
+"Når man ikke har en regering kan hver by forsørge et antal krigsenheder lige så "
+"stort som byens størrelse, uden at betale for det (Hver ekstra enhed koster 1 "
 "skjold hver runde.)\n"
 "\n"
-"Man kan indfre undtagelsestilstand nr man ikke har regering: hver krigsenhed "
-"i en by holder 2 ulykkelige borgere glade. (Eller ulykkelige borgere optrder "
-"som glade, og gr ikke oprr.)"
+"Man kan indføre undtagelsestilstand når man ikke har regering: hver krigsenhed "
+"i en by holder 2 ulykkelige borgere glade. (Eller ulykkelige borgere optræder "
+"som glade, og gør ikke oprør.)"
 
 #: data/civ2/governments.ruleset:229 data/history/governments.ruleset:230
-#, fuzzy
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -19263,22 +19161,21 @@ msgstr ""
 "\n"
 "Nybyggere koster 1 mad hver runde under despotisme. Felter som ellers skulle "
 "give mere end 2 enheder mad, skjold eller handel, rammes af en reduktion med "
-"1 (f.eks. et grsfelt med overrisling som normalt skulle give 3 mad giver 2 "
+"1 (f.eks. et græsfelt med overrisling som normalt skulle give 3 mad giver 2 "
 "mad under despotisme). (Denne reduktion ophves hvis byen fejrer, se "
-"\"Lyksalighed\".)\n"
+"Lyksalighed.)\n"
 "\n"
-"Den hjeste sats som kan sttes for skat, luksus eller forskning er 60%.\n"
+"Den højeste sats som kan sættes for skat, luksus eller forskning er 60 %.\n"
 "\n"
-"Under enevlde kan hver by forsrge et antal krigsenheder som er lige s stort "
-"som byens strrelse, uden at betale for det. (Hver ekstra enhed koster 1 "
+"Under despotisme kan hver by forsørge et antal krigsenheder som er lige så stort "
+"som byens størrelse, uden at betale for det. (Hver ekstra enhed koster 1 "
 "skjold hver runde.)\n"
 "\n"
-"Man kan indfre undtagelsestilstand under despotisme: hver krigsenhed i en by "
-"holder 1 ulykkelig borger glad. (Eller i det mindste optrder de glade, og "
-"vil ikke gre oprr.)"
+"Man kan indføre undtagelsestilstand under despotisme: hver krigsenhed i en by "
+"holder 1 ulykkelig borger glad. (Eller i det mindste optræder de glade, og "
+"vil ikke gøre oprør.)"
 
 #: data/civ2/governments.ruleset:304 data/history/governments.ruleset:305
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -19304,23 +19201,22 @@ msgstr ""
 "Under monarki tjener kongen eller dronningen som statsoverhoved for "
 "regeringen.\n"
 "\n"
-"Monarki har lige s meget korruption som republik.\n"
+"Monarki har lige så meget korruption som republik.\n"
 "\n"
 "Nybyggere koster 1 mad hver runde under monarki.\n"
 "\n"
-"Hvis en by fejrer under monarki, fr den bonus p 1 handel i hvert felt som "
-"allerede giver mindst 1 handel. Se \"Lyksalighed\" for detaljer.\n"
+"Hvis en by fejrer under monarki, får den bonus på 1 handel i hvert felt som "
+"allerede giver mindst 1 handel.  Se Lyksalighed for detaljer.\n"
 "\n"
-"Det hjeste niveau du kan stte for forskning, skat eller luksus er 70%.\n"
+"Det højeste niveau du kan sætte for forskning, skat eller luksus er 70 %.\n"
 "\n"
-"Under monarki kan byer forsrge op til 3 krigsenheder uden at betale for det. "
+"Under monarki kan byer forsørge op til 3 krigsenheder uden at betale for det. "
 "(Hver ekstra koster 1 skjold per runde.)\n"
 "\n"
-"Man kan indfre en begrnset undtagelsestilstand under monarki: hver "
+"Man kan indføre en begrænset undtagelsestilstand under monarki: hver "
 "krigsenhed i en by op til 3 holder 1 ulykkelig borger glad."
 
 #: data/civ2/governments.ruleset:378
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19350,29 +19246,29 @@ msgid ""
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
 msgstr ""
-"En kommunistisk regering baserer sig p idealet om at alle mennesker er lige. "
+"En kommunistisk regering baserer sig på idealet om at alle mennesker er lige. "
 "Alt ejes af staten, i stedet for af enkelte borgere. Kommunisme giver en "
-"balance mellem krigerisk og konomisk styreform.\n"
+"balance mellem krigerisk og økonomisk styreform.\n"
 "\n"
-"Under kommunisme ndres korruptionen ikke i forhold til afstanden fra "
-"hovedstaden; alle byer (ogs hovedstder) har lille korruption. Desuden "
+"Under kommunisme ændres korruptionen ikke i forhold til afstanden fra "
+"hovedstaden; alle byer (også hovedstæder) har lille korruption. Desuden "
 "betragtes kommunistiske byer som er mere end 10 felter bort fra hovedstaden "
-"som bare 10 felter borte, ved beregning af omkostningen for at starte oprr "
+"som bare 10 felter borte, ved beregning af omkostningen for at starte oprør "
 "(se enheder, diplomat).\n"
 "\n"
 "Nybyggere koster 2 mad hver runde under kommunisme.\n"
 "\n"
-"Hvis en by fejrer under kommunisme, fr den en bonus p 1 handel i hvert felt "
-"som allerede giver mindst 1 handel. Se \"Lyksalighed\" for detaljer.\n"
+"Hvis en by fejrer under kommunisme, får den en bonus på 1 handel i hvert felt "
+"som allerede giver mindst 1 handel. Se Lyksalighed for detaljer.\n"
 "\n"
-"Det hjeste niveau du kan stte for forskning, skat eller luksus er 80%.\n"
+"Det højeste niveau du kan sætte for forskning, skat eller luksus er 80 %.\n"
 "\n"
 "Diplomater og spioner som bygges under kommunismen er altid veteraner.\n"
 "\n"
-"Under kommunismen kan byer forsrge op til 3 krigsenheder uden at betale for "
+"Under kommunismen kan byer forsørge op til 3 krigsenheder uden at betale for "
 "det. (Hver ekstra koster 1 skjold.)\n"
 "\n"
-"Man kan indfre begrnset undtagelsestilstand under kommunisme: hver "
+"Man kan indføre begrænset undtagelsestilstand under kommunisme: hver "
 "krigsenhed i en by, op til 3, holder 2 ulykkelige borgere glade."
 
 #: data/civ2/governments.ruleset:412 data/default/techs.ruleset:299
@@ -19390,7 +19286,6 @@ msgid "High Priestess"
 msgstr "Ypperstepræstinde"
 
 #: data/civ2/governments.ruleset:460
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -19436,7 +19331,6 @@ msgstr ""
 "kræver ingen udgifter."
 
 #: data/civ2/governments.ruleset:544 data/history/governments.ruleset:460
-#, fuzzy
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -19466,35 +19360,34 @@ msgid ""
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
 "will generate 1 unhappy citizen each."
 msgstr ""
-"I en republik vlger indbyggerne en reprsentant som skal regere; eftersom "
-"valgte ledere m holde sig populre for at beholde magten har indbyggerne "
-"strre frihed. Indbyggerne i en republik bliver let ulykkelige, men "
-"indbyggernes selvstndighed tillader meget handel.\n"
+"I en republik vælger indbyggerne en repræsentant som skal regere; eftersom "
+"valgte ledere må holde sig populære for at beholde magten har indbyggerne "
+"større frihed. Indbyggerne i en republik bliver let ulykkelige, men "
+"indbyggernes selvstændighed tillader meget handel.\n"
 "\n"
 "Det forekommer lille korruption i en republik.\n"
 "\n"
 "Nybyggere koster 2 mad hver runde under republik. Felter med mindst 1 handel "
 "giver 1 handel ekstra i bonus under republik.\n"
 "\n"
-"En fejrende by i en republik vokser med 1 borger hver runde; se \"Lyksalighed"
-"\" for detaljer.\n"
+"En fejrende by i en republik vokser med 1 borger hver runde; se Lyksalighed "
+"for detaljer.\n"
 "\n"
-"Det hjeste niveau du kan stte for skat, luksus eller forskning er 80%.\n"
+"Det højeste niveau du kan sætte for skat, luksus eller forskning er 80 %.\n"
 "\n"
-"Under republik krver militrenheder 1 skjold hver runde i vedligehold. "
-"Desuden regnes flgende enheder som krigsenheder:\n"
+"Under republik kræver militærenheder 1 skjold hver runde i vedligehold. "
+"Desuden regnes følgende enheder som krigsenheder:\n"
 "\n"
 "- Enheder med angrebsstyrke mindre end 0 som ikke er i en by eller i en "
-"fstning indenfor 3 felter fra en egen by eller allieret by\n"
+"fæstning indenfor 3 felter fra en egen by eller allieret by\n"
 "\n"
 "- flyenheder (inkluderet missiler og helikoptere, men ikke kampfly) med en "
-"angrebsstyrke strre end 0, uanset placering\n"
+"angrebsstyrke større end 0, uanset placering\n"
 "\n"
-"Indbyggerne i en by vil tolerere 1 aggressiv enhed; hver ekstra enhed gr en "
+"Indbyggerne i en by vil tolerere 1 aggressiv enhed; hver ekstra enhed gør en "
 "borger ulykkelig."
 
 #: data/civ2/governments.ruleset:630 data/history/governments.ruleset:545
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -19530,35 +19423,35 @@ msgid ""
 "Diplomats and Spies."
 msgstr ""
 "Under demokrati styrer indbyggerne direkte ved at stemme om tingene. "
-"Demokrati tilbyder det hjeste handelsniveau, men ogs strst mulighed for "
-"misfornjede indbyggere. Det forekommer ingen korruption i et demokrati, men "
-"indbyggerne bliver meget oprrt under krig.\n"
+"Demokrati tilbyder det højeste handelsniveau, men også størst mulighed for "
+"misfornøjede indbyggere. Det forekommer ingen korruption i et demokrati, men "
+"indbyggerne bliver meget oprørt under krig.\n"
 "\n"
 "Nybyggere forbruger 2 mad hver runde under demokrati. Felter med mindst 1 "
-"handel fr 1 handel ekstra under demokrati.\n"
+"handel får 1 handel ekstra under demokrati.\n"
 "\n"
 "Byer som fejrer under demokrati vokser med 1 borger hver runde, se "
-"\"Lyksalighed\" for detaljer.\n"
+"Lyksalighed for detaljer.\n"
 "\n"
-"Det er ingen grnse for hvor meget skat, luksus eller forskning demokratiet "
+"Det er ingen grænse for hvor meget skat, luksus eller forskning demokratiet "
 "kan have.\n"
 "\n"
-"Under demokrati krver militreenheder 1 skjold hver runde i vedligehold. "
-"Desuden frer de flgende enheder til ulyksalighed:\n"
+"Under demokrati kræver militæreenheder 1 skjold hver runde i vedligehold. "
+"Desuden fører de følgende enheder til ulyksalighed:\n"
 "\n"
-"- Enheder med angrebsstyrke strre end 0 som ikke er i en by eller i en "
-"fstning indenfor 3 felter fra en egen eller allieret by giver 2 ulykkelige "
+"- Enheder med angrebsstyrke større end 0 som ikke er i en by eller i en "
+"fæstning indenfor 3 felter fra en egen eller allieret by giver 2 ulykkelige "
 "borgere.\n"
 "\n"
 "- Flyenheder med angrebsstyrke strre end 0 som er i byer giver kun 1 "
 "ulykkelig borger. Kampfly giver ingen ulyksalighed.\n"
 "\n"
-"Hvis en by forbliver i oprr for mere end 2 runder under demokrati gr alle "
-"indbyggerne oprr og civilisationen falder hen i anarki.\n"
+"Hvis en by forbliver i oprør for mere end 2 runder under demokrati gør alle "
+"indbyggerne oprør og civilisationen falder hen i anarki.\n"
 "\n"
-"De lykkelige borgere i et demokrati har stor tro p styreformen. Krigsenheder "
-"som tilhrer demokratiske regeringer kan ikke bestikkes, og fjendtlige "
-"diplomater og spioner kan ikke starte oprr i demokratiske byer."
+"De lykkelige borgere i et demokrati har stor tro på styreformen. Krigsenheder "
+"som tilhører demokratiske regeringer kan ikke bestikkes, og fjendtlige "
+"diplomater og spioner kan ikke starte oprør i demokratiske byer."
 
 #: data/civ1/governments.ruleset:232
 msgid ""
@@ -19589,20 +19482,19 @@ msgstr ""
 "\n"
 "Nybyggere koster 1 mad hver runde under despotisme. Felter som ellers skulle "
 "give mere end 2 enheder mad, skjold eller handel, rammes af en reduktion med "
-"1 (f.eks. et grsfelt med overrisling som normalt skulle give 3 mad giver 2 "
+"1 (f.eks. et græsfelt med overrisling som normalt skulle give 3 mad giver 2 "
 "mad under despotisme). (Denne reduktion ophves hvis byen fejrer, se "
-"\"Lyksalighed\".)\n"
+"Lyksalighed.)\n"
 "\n"
-"Under enevlde kan hver by forsrge et antal krigsenheder som er lige s stort "
-"som byens strrelse, uden at betale for det. (Hver ekstra enhed koster 1 "
+"Under despotisme kan hver by forsørge et antal krigsenheder som er lige så stort "
+"som byens størrelse, uden at betale for det. (Hver ekstra enhed koster 1 "
 "skjold hver runde.)\n"
 "\n"
-"Man kan indfre undtagelsestilstand under despotisme: hver krigsenhed i en by "
-"holder 1 ulykkelig borger glad. (Eller i det mindste optrder de glade, og "
-"vil ikke gr oprr.)"
+"Man kan indføre undtagelsestilstand under despotisme: Hver krigsenhed i en by "
+"holder 1 ulykkelig borger glad. (Eller i det mindste optræder de glade, og "
+"vil ikke gøre oprør.)"
 
 #: data/civ1/governments.ruleset:305
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -19626,21 +19518,20 @@ msgstr ""
 "Under monarki tjener kongen eller dronningen som statsoverhoved for "
 "regeringen.\n"
 "\n"
-"Monarki har lige s meget korruption som republik.\n"
+"Monarki har lige så meget korruption som republik.\n"
 "\n"
 "Nybyggere koster 1 mad hver runde under monarki.\n"
 "\n"
-"Hvis en by fejrer under monarki, fr den bonus p 1 handel i hvert felt som "
-"allerede giver mindst 1 handel. Se \"Lyksalighed\" for detaljer.\n"
+"Hvis en by fejrer under monarki, får den bonus på 1 handel i hvert felt som "
+"allerede giver mindst 1 handel. Se Lyksalighed for detaljer.\n"
 "\n"
-"Under monarki kan byer forsrge op til 3 krigsenheder uden at betale for det. "
+"Under monarki kan byer forsørge op til 3 krigsenheder uden at betale for det. "
 "(Hver ekstra koster 1 skjold per runde.)\n"
 "\n"
-"Man kan indfre en begrnset undtagelsestilstand under monarki: hver "
+"Man kan indføre en begrænset undtagelsestilstand under monarki: Hver "
 "krigsenhed i en by, op til 3, holder 1 ulykkelig borger glad."
 
 #: data/civ1/governments.ruleset:376
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19668,27 +19559,27 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"En kommunistisk regering baserer sig p idealet om at alle mennesker er lige. "
+"En kommunistisk regering baserer sig på idealet om at alle mennesker er lige. "
 "Alt ejes af staten, i stedet for af enkelte borgere. Kommunisme giver en "
-"balance mellem krigerisk og konomisk styreform.\n"
+"balance mellem krigerisk og økonomisk styreform.\n"
 "\n"
-"Under kommunisme ndres korruptionen ikke i forhold til afstanden fra "
-"hovedstaden; alle byer (ogs hovedstader) har lille korruption. Desuden "
+"Under kommunisme ændres korruptionen ikke i forhold til afstanden fra "
+"hovedstaden; alle byer (også hovedstader) har lille korruption. Desuden "
 "betragtes kommunistiske byer som er mere end 10 felter borte fra hovedstaden "
-"som kun 10 felter borte, ved beregning af omkostningen for at starte oprr "
+"som kun 10 felter borte, ved beregning af omkostningen for at starte oprør "
 "(se enheder, diplomat).\n"
 "\n"
 "Nybyggere koster 2 mad hver runde under kommunisme.\n"
 "\n"
-"Hvis en by fejrer under kommunisme, fr den en bonus p 1 handel i hvert felt "
-"som allerede giver mindst 1 handel. Se \"Lyksalighed\" for detaljer.\n"
+"Hvis en by fejrer under kommunisme, får den en bonus på 1 handel i hvert felt "
+"som allerede giver mindst 1 handel. Se Lyksalighed for detaljer.\n"
 "\n"
 "Diplomater og spioner som bygges under kommunismen er altid veteraner.\n"
 "\n"
-"Under kommunisme kan byer forsrge op til 3 krigsenheder uden at betale for "
+"Under kommunisme kan byer forsørge op til 3 krigsenheder uden at betale for "
 "det. (Hver ekstra koster 1 skjold.)\n"
 "\n"
-"Man kan indfre begrnset undtagelsestilstand under monarki: hver krigsenhed i "
+"Man kan indføre begrænset undtagelsestilstand under monarki: Hver krigsenhed i "
 "en by, op til 3, holder 2 ulykkelige borgere glade."
 
 #: data/civ1/governments.ruleset:455
@@ -19729,11 +19620,11 @@ msgstr ""
 "Nybyggere koster 2 mad hver runde under republik. Felter med mindst 1 handel "
 "giver 1 handel ekstra i bonus under republik.\n"
 "\n"
-"En fejrende by i en republik vokser med 1 borger hver runde; se \"Lyksalighed"
-"\" for detaljer.\n"
+"En fejrende by i en republik vokser med 1 borger hver runde; se Lyksalighed "
+"for detaljer.\n"
 "\n"
-"Under republik krver militrenheder 1 skjold hver runde i vedligehold. "
-"Desuden regnes flgende enheder som krigsenheder:\n"
+"Under republik kræver militærenheder 1 skjold hver runde i vedligehold. "
+"Desuden regnes følgende enheder som krigsenheder:\n"
 "\n"
 "- Enheder med angrebsstyrke større end 0 som ikke er i en by eller i en "
 "fæstning indenfor 3 felter fra en egen by eller allieret by\n"
@@ -19805,7 +19696,6 @@ msgstr ""
 "diplomater og spioner kan ikke starte oprør i demokratiske byer."
 
 #: data/history/governments.ruleset:379
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19848,7 +19738,7 @@ msgstr ""
 "Nybyggere koster 2 mad hver runde under kommunisme.\n"
 "\n"
 "Hvis en by fejrer under kommunisme, får den en bonus på 1 handel i hvert felt "
-"som allerede giver mindst 1 handel. Se \"Lyksalighed\" for detaljer.\n"
+"som allerede giver mindst 1 handel. Se Lyksalighed for detaljer.\n"
 "\n"
 "Det højeste niveau du kan sætte for forskning, skat eller luksus er 80 %.\n"
 "\n"
@@ -20268,14 +20158,12 @@ msgid "Religion"
 msgstr "Religion"
 
 #: data/history/techs.ruleset:144
-#, fuzzy
 msgid "Riflery"
-msgstr "Flod"
+msgstr "Skydning"
 
 #: data/history/techs.ruleset:186
-#, fuzzy
 msgid "Milling"
-msgstr "Mining"
+msgstr "Udjævning"
 
 #: data/default/terrain.ruleset:50 data/civ2/terrain.ruleset:50
 #: data/history/terrain.ruleset:50
@@ -20290,7 +20178,7 @@ msgid ""
 msgstr ""
 "Alle landskabstyper (undtaget hav) kan have en flod på sig. En flod tilføjer "
 "1 handel på ressourcerne som bliver produceret på det felt. Den øger også "
-"feltets forsvarsfaktor med 50%. Landenheder kan flytte sig langs en flod "
+"feltets forsvarsfaktor med 50 %. Landenheder kan flytte sig langs en flod "
 "(men ikke diagonalt), bevægelse langs en flod koster kun 1/3 af et "
 "flyttepoint.\n"
 "\n"
@@ -21461,7 +21349,6 @@ msgid "?plural:Aztecs"
 msgstr "?plural:Aztekerne"
 
 #: data/nation/aztec.ruleset:6
-#, fuzzy
 msgid ""
 "The Azteca, a group of barbarians from the Sonoran desert, seized control of "
 "the Toltec-derived civilizations of Central Mexico during the 15th century "
@@ -21882,11 +21769,11 @@ msgstr "?plural:Elverne"
 
 #: data/nation/elvish.ruleset:21
 msgid "High King of the Noldor"
-msgstr ""
+msgstr "Konge af Noldor"
 
 #: data/nation/elvish.ruleset:21
 msgid "Queen of Doriath"
-msgstr ""
+msgstr "Dronning af Doriath"
 
 #: data/nation/english.ruleset:3
 msgid "English"
@@ -22064,18 +21951,16 @@ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "De antikke græker, mellem Mykenae og den romerske erobring."
 
 #: data/nation/hobbits.ruleset:3
-#, fuzzy
 msgid "Hobbit"
-msgstr "Vært"
+msgstr "Hobbit"
 
 #: data/nation/hobbits.ruleset:4
-#, fuzzy
 msgid "?plural:Hobbits"
-msgstr "?plural:Kommunisterne"
+msgstr "?plural:Hobbiterne"
 
 #: data/nation/hobbits.ruleset:17
 msgid "Mayor of the Shire"
-msgstr ""
+msgstr "Borgmester i Shire"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -22102,7 +21987,6 @@ msgid "?plural:Incas"
 msgstr "?plural:Inkaerne"
 
 #: data/nation/inca.ruleset:6
-#, fuzzy
 msgid ""
 "The Inca were an Amerind people of the Northern Andes who conquered an "
 "empire stretching along the west coast of South America from what is now "
@@ -22110,9 +21994,9 @@ msgid ""
 "a few decades before the Spanish conquistadores arrived in their part of the "
 "world in the mid-1500s AD."
 msgstr ""
-"Inkaeren var et amerindsk folkeslag fra de nordlige Andesbjerge som erobrede "
+"Inkariget var et amerikansk folkeslag fra de nordlige Andesbjerge som erobrede "
 "et rige, der strakte sig fra vestkysten af Sydamerika, fra hvad der nu er "
-"det sydlige Chile til ækvator. De skabte deres rige kun et par årtider før "
+"det sydlige Chile til ækvator. De skabte deres rige kun et par årtier før "
 "de spanske conquistadorer ankom i midten af 1500-tallet."
 
 #: data/nation/inca.ruleset:18
@@ -22422,17 +22306,16 @@ msgid "Polish"
 msgstr "Polak"
 
 #: data/nation/polish.ruleset:4
-#, fuzzy
 msgid "?plural:Polish"
 msgstr "?plural:Polakkerne"
 
 #: data/nation/polish.ruleset:24
 msgid "Dyktator"
-msgstr "Dyktator"
+msgstr "Diktator"
 
 #: data/nation/polish.ruleset:24
 msgid "Dyktatorka"
-msgstr "Dyktatorka"
+msgstr "Diktator"
 
 #: data/nation/polish.ruleset:25
 msgid "Prymas"
