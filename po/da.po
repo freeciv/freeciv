@@ -12,14 +12,14 @@
 # Ole Laursen <olau@hardworking.dk>, 2004.
 # Joe Hansen <joedalton2@yahoo.dk>, 2006, 2007.
 # Herudover har Dansk-Gruppen været behjælpelig med teknik og diverse sprogspørgsmål.
-# Også en tak til Elmo som lægger da.po filerne på plads i svn.
+# Også en tak til Elmo som har lagt da.po filer på plads i svn.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-31 13:57-0400\n"
-"PO-Revision-Date: 2007-03-04 22:51+0100\n"
+"PO-Revision-Date: 2007-04-16 22:51+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <<dansk@dansk-gruppen.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -4163,10 +4163,11 @@ msgstr ""
 "Illegal alliance struktur opdaget: %s's alliance med %s er reduceret til en "
 "fredstraktat."
 
+# ferri = formerly, a prisoner's chains
 #: server/savegame.c:3992
 #, c-format
 msgid "Removing %s's unferried %s in %s at (%d, %d)"
-msgstr ""
+msgstr "Fjernelse af %ss slap %s i %s fri ved (%d, %d)"
 
 #: server/settings.c:31
 msgid "Geological"
@@ -6956,33 +6957,33 @@ msgstr "Spil: Kun %s kan angribe fra havet."
 
 #: server/unithand.c:943
 msgid "Cannot attack from sea."
-msgstr "Spil: Kan ikke angribe fra havet."
+msgstr "Kan ikke angribe fra havet."
 
 #: server/unithand.c:948 server/unittools.c:2130
 msgid "Cannot attack unless you declare war first."
-msgstr "Spil: Kan ikke angribe hvis du ikke erklærer krig først."
+msgstr "Kan ikke angribe hvis du ikke erklærer krig først."
 
 #: server/unithand.c:951
 #, c-format
 msgid "%s can only move into your own zone of control."
-msgstr "Spil: %s kan kun bevæge sig i din kontrolzone."
+msgstr "%s kan kun bevæge sig i din kontrolzone."
 
 #: server/unithand.c:955
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Cannot invade unless you break peace with %s first."
-msgstr "Spil: Kan ikke angribe hvis du ikke erklærer krig først."
+msgstr "Spil: Kan ikke angribe hvis du ikke først erklærer krig med %s."
 
 #: server/unithand.c:993
 msgid "This unit has no moves left."
-msgstr "Spil: Denne enhed har ingen træk igen."
+msgstr "Denne enhed har ingen træk igen."
 
 #: server/unithand.c:1047
 msgid "Unit must be on land to perform diplomatic action."
-msgstr "Spil: Enheden skal vre p land for at udfre diplomatiske forhandlinger."
+msgstr "Enheden skal være på land for at udføre diplomatiske forhandlinger."
 
 #: server/unithand.c:1049
 msgid "No diplomat action possible."
-msgstr "Spil: Ikke muligt at udføre diplomattjenester."
+msgstr "Ikke muligt at udføre diplomattjenester."
 
 #: server/unithand.c:1065
 #, c-format
@@ -14804,13 +14805,12 @@ msgid "Creating Server List..."
 msgstr "Skaber server liste..."
 
 #: client/gui-sdl/connectdlg.c:279 client/gui-sdl/connectdlg.c:343
-#, fuzzy
 msgid "No LAN servers found"
-msgstr "LAN-servere"
+msgstr "Ingen LAN-servere fundet"
 
 #: client/gui-sdl/connectdlg.c:281 client/gui-sdl/connectdlg.c:345
 msgid "No public servers found"
-msgstr ""
+msgstr "Ingen offentlige servere fundet"
 
 #: client/gui-sdl/connectdlg.c:555
 msgid "Player Name :"
@@ -15196,7 +15196,6 @@ msgstr ""
 "Fejl i unload_font: Trying unload Font som ikke er inkluderet i Font ARRAY"
 
 #: client/gui-sdl/helpdlg.c:199
-#, fuzzy
 msgid "Help : Improvements"
 msgstr "Hjælp : Forbedringer"
 
@@ -15234,9 +15233,8 @@ msgstr[0] "Guld"
 msgstr[1] "Guld"
 
 #: client/gui-sdl/helpdlg.c:963
-#, fuzzy
 msgid "( with "
-msgstr " (som "
+msgstr "( med "
 
 #: client/gui-sdl/helpdlg.c:966
 msgid " )"
@@ -15298,14 +15296,12 @@ msgid "Hide MiniMap"
 msgstr "Skjul minikortet"
 
 #: client/gui-sdl/mapctrl.c:514
-#, fuzzy
 msgid "Show Messages (F10)"
-msgstr "Vis log (F10)"
+msgstr "Vis beskeder (F10)"
 
 #: client/gui-sdl/mapctrl.c:517
-#, fuzzy
 msgid "Hide Messages (F10)"
-msgstr "Skjul log (F10)"
+msgstr "Skjul beskeder (F10)"
 
 #: client/gui-sdl/mapctrl.c:673
 msgid "Scale Minimap"
@@ -15337,9 +15333,8 @@ msgstr "Højde"
 
 #: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:331
 #: client/gui-sdl/mapview.c:334 client/gui-sdl/mapview.c:340
-#, fuzzy
 msgid "Research"
-msgstr "Forsker på"
+msgstr "Forskning"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:311
 #: client/gui-sdl/mapview.c:314 client/gui-xaw/menu.c:131
@@ -15347,19 +15342,16 @@ msgid "Revolution"
 msgstr "Revolution"
 
 #: client/gui-sdl/mapctrl.c:1589
-#, fuzzy
 msgid "or"
-msgstr " eller "
+msgstr "eller"
 
 #: client/gui-sdl/mapctrl.c:1613
-#, fuzzy
 msgid "Hide Messages"
-msgstr "Beskeder"
+msgstr "Skjul beskeder"
 
 #: client/gui-sdl/mapctrl.c:1623
-#, fuzzy
 msgid "Toggle Minimap Mode"
-msgstr "Ændr minikort indstilling (Shift + \\)"
+msgstr "Ændr minikort indstilling"
 
 #: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2165
 #: data/Freeciv.in:1217
@@ -15475,16 +15467,12 @@ msgstr ""
 "Mad/Prod/Handel: %s"
 
 #: client/gui-sdl/mapview.c:1072
-#, fuzzy
 msgid "End of Turn"
-msgstr ""
-"Slut på runde\n"
-"(Tryk Enter)"
+msgstr "Slut på runde"
 
 #: client/gui-sdl/mapview.c:1072
-#, fuzzy
 msgid "Press"
-msgstr "Forhåndsvalg"
+msgstr "Tryk"
 
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:359
@@ -15492,9 +15480,8 @@ msgid "No orders"
 msgstr "Ingen ordrer"
 
 #: client/gui-sdl/menu.c:359
-#, fuzzy
 msgid "Space"
-msgstr "Krydder"
+msgstr "Rum"
 
 #: client/gui-sdl/menu.c:398
 msgid "Diplomat|Spy Actions"
@@ -15515,19 +15502,16 @@ msgid "Goto location"
 msgstr "Gå til"
 
 #: client/gui-sdl/menu.c:497
-#, fuzzy
 msgid "Connect irrigation"
-msgstr "Forbind/Overrisling"
+msgstr "Forbind overrisling"
 
 #: client/gui-sdl/menu.c:510
-#, fuzzy
 msgid "Connect road"
-msgstr "Kobl til/vej"
+msgstr "Forbind vej"
 
 #: client/gui-sdl/menu.c:523
-#, fuzzy
 msgid "Connect railroad"
-msgstr "Kobl til/vej"
+msgstr "Forbind jernbane"
 
 #: client/gui-sdl/menu.c:536
 msgid "Auto-Explore"
@@ -15773,7 +15757,6 @@ msgid "What should we focus on now?"
 msgstr "Hvad skal vi fokusere på nu?"
 
 #: client/gui-sdl/repodlgs.c:3009
-#, fuzzy
 msgid "Select target :"
 msgstr "Vælg mål :"
 
@@ -17957,7 +17940,6 @@ msgstr ""
 "kontakter andre spillere."
 
 #: data/helpdata.txt:737
-#, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -17973,11 +17955,10 @@ msgstr ""
 "    Hvis du har oprettet en ambassade hos en anden menneskelig spiller så "
 "kan du arrangere et diplomatisk møde. Dette gøres ved at gå til 'Spil' "
 "menuen, og vælge spillere og klikke på den spiller som du ønsker at møde. "
-"Hvis markeringen under ambassadekolonnen ikke er tom og den anden spiller er "
-"forbundet (eller er en server AI) vil et diplomativindue åbne sig."
+"Hvis markeringen under ambassadekolonnen ikke er tom, og den anden spiller er "
+"forbundet (eller er en servercomputer) vil et diplomativindue åbne sig."
 
 #: data/helpdata.txt:747
-#, fuzzy
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -18002,6 +17983,12 @@ msgstr ""
 "   - Handle med teknologier,\n"
 "\n"
 "   - Handle med byer,\n"
+"\n"
+"   - Handele delt synsfelt,\n"
+"\n"
+"   - Udveksle ambassader,\n"
+"\n"
+"   - Indgå traktater,\n"
 "\n"
 "   - og give guld."
 
@@ -19282,12 +19269,16 @@ msgstr ""
 "forsøge at bygge et let rumskib med mange fremdriftsenheder som ankommer "
 "først. Det andet alternativ er at erobre deres hovedstad."
 
+# Den her er svær da både ceasefire og armistice er våbenhvile på dansk.
 #: data/helpdata.txt:780
 msgid ""
 "     There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the default state, while the "
 "others can be achieved by signing diplomatic treaties.), _("
 msgstr ""
+"     Der er fem diplomatiske forhold mellem spillere: Krig, våbenhvile, "
+"fredsforhandlinger, fred og alliance. Den første er standard, mens de "
+"andre kan opnåes ved at indgå diplomatiske traktater.), _("
 
 #: data/default/buildings.ruleset:59 data/civ2/buildings.ruleset:42
 msgid ""
@@ -25369,6 +25360,12 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
+"Velkommen til Freeciv.  Du er leder af en civilisation.  \n"
+"Din opgave er at erobre verden!  Du bør starte med at\n"
+"udforske landet omkring dig med din spejder,\n"
+"og brug din bosætter til at finde et godt sted at\n"
+"bygge en by.  Brug det numeriske tastatur til at flytte\n"
+"enheder omkring med."
 
 #: data/scenario/tutorial.sav:27
 msgid ""
@@ -25379,6 +25376,12 @@ msgid ""
 "is the most important resource for any city.  Grassland and plains\n"
 "provide plenty of food."
 msgstr ""
+"Dette ligner et godt sted at bygge en by.  Næste gang denne\n"
+"enhed kan flytte så tryk (b) for at grundlægge en by.\n"
+"\n"
+"Generelt er det bedst at bygge byer på åbent land tæt på vand.  Mad\n"
+"er den vigtigste ressource for enhver by.  Græsenge og stepper\n"
+"giver masser af mad."
 
 #: data/scenario/tutorial.sav:42
 msgid ""
@@ -25402,6 +25405,10 @@ msgid ""
 "because of the terrain around it.  You probably want to build\n"
 "settlers here too."
 msgstr ""
+"Tillyke du har grundlagt din anden by.  Denne by vil opføre sig\n"
+"på næsten samme måde som den første - den vil være marginalt anderledes\n"
+"på grund af terrænet omkring den.  Du vil sikkert også her bygge\n"
+"bosættere."
 
 #: data/scenario/tutorial.sav:61
 msgid ""
@@ -25515,6 +25522,9 @@ msgid ""
 "it larger, however, you will need to build a Sewer System.  This\n"
 "requires the Sanitation technology."
 msgstr ""
+"Du har fået en by til at vokse til størrelse 12.  For at\n"
+"vokse større har du brug for at bygge et kloaksystem.  Dette\n"
+"kræver sanitet."
 
 #: data/scenario/tutorial.sav:171
 msgid ""
