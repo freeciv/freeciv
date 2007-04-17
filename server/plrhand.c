@@ -768,14 +768,14 @@ void notify_team(struct player *pplayer,
 {
   va_list args;
 
-  va_start(args, format);
   players_iterate(other_player) {
+    va_start(args, format);
     if (!players_on_same_team(pplayer, other_player)) {
       continue;
     }
     vnotify_conn(other_player->connections, ptile, event, format, args);
+    va_end(args);
   } players_iterate_end;
-  va_end(args);
 }
 
 /****************************************************************************
