@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-13 07:24+0900\n"
-"PO-Revision-Date: 2007-04-09 23:17+0200\n"
+"POT-Creation-Date: 2007-04-23 08:52+0300\n"
+"PO-Revision-Date: 2007-04-30 15:22+0200\n"
 "Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1246,8 +1246,14 @@ msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
 msgstr[0] ""
+"*%s (Ш╤)* Ми розпочина╓мо тотальну в╕йну супроти %s за %d х╕д, щоб запоб╕гти "
+"створенню косм╕чного корабля."
 msgstr[1] ""
+"*%s (Ш╤)* Ми розпочина╓мо тотальну в╕йну супроти %s за %d хoдa, щоб "
+"запоб╕гти створенню косм╕чного корабля."
 msgstr[2] ""
+"*%s (Ш╤)* Ми розпочина╓мо тотальну в╕йну супроти %s за %d ход╕в, щоб "
+"запоб╕гти створенню косм╕чного корабля."
 
 #: ai/advdiplomacy.c:1203
 #, c-format
@@ -1269,8 +1275,17 @@ msgid_plural ""
 "will answer in force in %d turns and expect you to honour your alliance with "
 "us and do likewise!"
 msgstr[0] ""
+"*%s (Ш╤)* %s грубо порушив укладен╕ з нами угоди заради сво╓╖ корист╕.  Ми "
+"в╕дпов╕мо за допомогою сили за %d х╕д та оч╕ку╓мо, що Ви зробите так само "
+"через повагу до нашого альянсу!"
 msgstr[1] ""
+"*%s (Ш╤)* %s грубо порушив укладен╕ з нами угоди заради сво╓╖ корист╕.  Ми "
+"в╕дпов╕мо за допомогою сили за %d хода та оч╕ку╓мо, що Ви зробите так само "
+"через повагу до нашого альянсу!"
 msgstr[2] ""
+"*%s (Ш╤)* %s грубо порушив укладен╕ з нами угоди заради сво╓╖ корист╕.  Ми "
+"в╕дпов╕мо за допомогою сили за %d ход╕в та оч╕ку╓мо, що Ви зробите так само "
+"через повагу до нашого альянсу!"
 
 #: ai/advdiplomacy.c:1219
 #, c-format
@@ -1281,8 +1296,14 @@ msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
 msgstr[0] ""
+"*%s (Ш╤)* Ми збира╓мось знищити та пограбувати багату цив╕л╕зац╕ю %s. Ми "
+"проголосимо в╕йну за %d х╕д."
 msgstr[1] ""
+"*%s (Ш╤)* Ми збира╓мось знищити та пограбувати багату цив╕л╕зац╕ю %s. Ми "
+"проголосимо в╕йну за %d хода."
 msgstr[2] ""
+"*%s (Ш╤)* Ми збира╓мось знищити та пограбувати багату цив╕л╕зац╕ю %s. Ми "
+"проголосимо в╕йну за %d ход╕в."
 
 #: ai/advdiplomacy.c:1225
 #, c-format
@@ -1299,8 +1320,14 @@ msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
 msgstr[0] ""
+"*%s (Ш╤)* Досить за нас %s. З╕тремо цю жалюг╕дну цив╕л╕зац╕ю ╕з лиця земл╕. "
+"Ми проголосимо в╕йну за %d х╕д."
 msgstr[1] ""
+"*%s (Ш╤)* Досить за нас %s. З╕тремо цю жалюг╕дну цив╕л╕зац╕ю ╕з лиця земл╕. "
+"Ми проголосимо в╕йну за %d хода."
 msgstr[2] ""
+"*%s (Ш╤)* Досить за нас %s. З╕тремо цю жалюг╕дну цив╕л╕зац╕ю ╕з лиця земл╕. "
+"Ми проголосимо в╕йну за %d ход╕в."
 
 #: ai/advdiplomacy.c:1237
 #, c-format
@@ -1318,8 +1345,14 @@ msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
+"*%s (Ш╤)* Ми вшану╓мо наш альянс та проголосимо в╕йну %s за %d х╕д.  "
+"Тримайтеся - ми йдемо!"
 msgstr[1] ""
+"*%s (Ш╤)* Ми вшану╓мо наш альянс та проголосимо в╕йну %s за %d хода.  "
+"Тримайтеся - ми йдемо!"
 msgstr[2] ""
+"*%s (Ш╤)* Ми вшану╓мо наш альянс та проголосимо в╕йну %s за %d ход╕в.  "
+"Тримайтеся - ми йдемо!"
 
 #: ai/advdiplomacy.c:1249
 #, c-format
@@ -1330,8 +1363,14 @@ msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
+"*%s (Ш╤)* Ми вшану╓мо наш альянс ╕з %s та проголосимо в╕йну %s за %d х╕д.  "
+"Ми оч╕ку╓мо, що Ви зробите так само."
 msgstr[1] ""
+"*%s (Ш╤)* Ми вшану╓мо наш альянс ╕з %s та проголосимо в╕йну %s за %d хода.  "
+"Ми оч╕ку╓мо, що Ви зробите так само."
 msgstr[2] ""
+"*%s (Ш╤)* Ми вшану╓мо наш альянс ╕з %s та проголосимо в╕йну %s за %d ход╕в.  "
+"Ми оч╕ку╓мо, що Ви зробите так само."
 
 #: ai/advdiplomacy.c:1316
 #, c-format
@@ -2811,6 +2850,8 @@ msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
 msgstr ""
+"Це пов╕домля╓ ус╕х ╕нших, що Ви визнали поразку у гр╕, та, якщо ус╕ кр╕м "
+"одного гравця (або одн╕╓╖ команди) визнали поразку, гра завершиться."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:328
@@ -3142,8 +3183,14 @@ msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
 msgstr[0] ""
+"Ви домовилися на препинення вогню ╕з %s. За %d х╕д мирний догов╕р набере "
+"чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
 msgstr[1] ""
+"Ви домовилися на препинення вогню ╕з %s. За %d хода мирний догов╕р набере "
+"чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
 msgstr[2] ""
+"Ви домовилися на препинення вогню ╕з %s. За %d ход╕в мирний догов╕р набере "
+"чинност╕. Перем╕стить Ваш╕ п╕дрозд╕ли з теритоор╕╖ %s."
 
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
@@ -3272,6 +3319,8 @@ msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
 msgstr ""
+"%s мав п╕дозри, що Ви знову намага╓тесь вкрасти технолог╕ю. Вашого %s було "
+"захоплено та страчено."
 
 #: server/diplomats.c:620
 #, c-format
@@ -3712,6 +3761,8 @@ msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
 msgstr ""
+"Сенат не дозволить Вам роз╕рвати угоду ╕з %s.  Ви ма╓те або розпустити сенат "
+"або зачекати б╕льш придатно╖ нагоди."
 
 #: server/plrhand.c:576
 #, c-format
@@ -4444,6 +4495,9 @@ msgid ""
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
 "  size = 20 is a huge map of 20,000 tiles"
 msgstr ""
+"Це значення використову╓ться для того, щоб визначити розм╕ри карти.\n"
+"  size = 4 це нормальна карта з 4,000 кл╕тин (значення за замовчуванням)\n"
+"  size = 20 це величезна карта з 20,000 кл╕тин"
 
 #: server/settings.c:242
 msgid "Map topology index"
@@ -4596,6 +4650,8 @@ msgid ""
 "Small values mean lots of dry, desert-like land; higher values give a wetter "
 "map with more swamps, jungles, and rivers."
 msgstr ""
+"Маленьк╕ значення призведуть до сухо╖, пустельно╖ земл╕; велик╕ значення "
+"дадуть вологу карту ╕з болотами, джунглями та р╕чками."
 
 #: server/settings.c:373
 msgid "Map generation random seed"
@@ -4644,6 +4700,9 @@ msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investiged by units."
 msgstr ""
+"Ця установка вказу╓ точне число хутор╕в, як╕ будуть розм╕щен╕ на ус╕й мап╕. "
+"Хутора ╓ маленькими племенними селами, як╕ можуть бути досл╕джен╕ "
+"п╕дрозд╕лами."
 
 #: server/settings.c:417
 msgid "Minimum number of players"
@@ -4840,6 +4899,8 @@ msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
 msgstr ""
+"Ця установка вплива╓ на те, як швидко виробляються п╕дрозд╕ли та буд╕вл╕.  "
+"Базова варт╕сть помножу╓ться на це значення (як процент)."
 
 #: server/settings.c:575
 msgid "Minimum city size to get full trade"
@@ -4938,6 +4999,8 @@ msgid ""
 "If set to on, units with move left will automatically consider attacking "
 "enemy units that move adjacent to them."
 msgstr ""
+"Якщо це активовано, п╕дрозд╕ли ╕з залишком ход╕в будуть автоматично "
+"атакувати ворож╕ п╕дрозд╕ли поблизу себе."
 
 #: server/settings.c:644
 msgid "Reduce city population after attack"
@@ -5060,6 +5123,8 @@ msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-6 turns."
 msgstr ""
+"П╕д час зм╕ни уряду, пер╕од анарх╕╖ буде тривати вказане число ход╕в. Якщо "
+"встановлено у 0, то тривал╕сть буде випадкова у межах 1-6 ход╕в."
 
 #: server/settings.c:742
 msgid "Whether to enable fog of war"
@@ -5085,6 +5150,8 @@ msgid ""
 "The chance of a spy returning from a successful mission and the base chance "
 "of success for diplomats and spies."
 msgstr ""
+"В╕рог╕дн╕сть повернення шпигуна з вдалого завдання та базовова в╕рог╕дн╕сть "
+"усп╕ху для дипломат╕в та шпигун╕в."
 
 #: server/settings.c:760
 msgid "Whether to allow space race"
@@ -5265,6 +5332,8 @@ msgid ""
 "Any time a unit moves when in sight of an enemy player, the remaining "
 "timeout is set to this value if it was lower."
 msgstr ""
+"Кожного разу як п╕дрозд╕л руха╓ться у пол╕ зору ворожого гравця, залишок "
+"часу встановлю╓ться до цього значення, якщо в╕н був меньший за нього."
 
 #: server/settings.c:884
 msgid "Whether to have simultaneous player phases."
@@ -5275,6 +5344,8 @@ msgid ""
 "If true, all players' movement phases will occur simultaneously; if false "
 "then players will alternate movement."
 msgstr ""
+"Якщо встановлено до true, ус╕ фази рух╕в гравця будуть в╕дбуватися "
+"одночасно; якщо встановлено до false, гравц╕ будуть чередовати рух."
 
 #: server/settings.c:892
 msgid "Seconds to let a client's network connection block"
@@ -5429,6 +5500,11 @@ msgid ""
 " 2 - bzip2\n"
 "Not all servers support all compression methods."
 msgstr ""
+"Яку б╕бл╕отеку арх╕вац╕╖ використовувати у файлах збереження гри.\n"
+" 0 - н╕яку\n"
+" 1 - zlib (формат gzip)\n"
+" 2 - bzip2\n"
+"Не ус╕ сервера п╕дтримують ус╕ методи арх╕вац╕╖."
 
 #: server/settings.c:1000
 msgid "Auto-save name prefix"
@@ -9240,6 +9316,8 @@ msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
+"Це наб╕р звук╕в, що буде використаний.  Ця опц╕я теж саме, що параметр "
+"командно╖ строки -S."
 
 #: client/options.c:129
 msgid "Sound plugin"
@@ -9257,34 +9335,38 @@ msgid "Tileset"
 msgstr "В╕зуальне оформлення"
 
 #: client/options.c:136
-#, fuzzy
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Зм╕нюючи цю опц╕ю Ви зм╕нюют╓ активну тему. Також самого ефекту можна "
+"досягти за допомогою параметру командно╖ строки -t."
 
 #: client/options.c:143
 msgid "Solid unit background color"
 msgstr "Заповнення фону з'╓днання"
 
 #: client/options.c:144
-#, fuzzy
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, п╕дрозд╕ли на огляд╕ мапи будуть в╕дображатися ╕з "
+"кольором фону зам╕сть флагу."
 
 #: client/options.c:148 client/gui-sdl/optiondlg.c:967
 msgid "Sound bell at new turn"
 msgstr "Звук на початку ходу"
 
 #: client/options.c:149
-#, fuzzy
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, под╕я \"дзв╕нок\" буде генеруватися на початку "
+"кожного ходу.  Ви можете контролювати повед╕нку под╕╖  \"дзв╕нок\" за "
+"допомогю редагування опц╕й пов╕домленнь."
 
 #: client/options.c:155
 msgid "Unit movement animation time (milliseconds)"
@@ -9295,6 +9377,8 @@ msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
+"Ця опц╕я контролю╓ тривал╕сть \"ан╕мац╕╖\", коли п╕дрозд╕л руха╓ться на "
+"огляд╕ мапи.  Встанов╕ть до 0, щоб в╕дключити ан╕мац╕ю зовс╕м."
 
 #: client/options.c:161
 msgid "Mapview recentering time (milliseconds)"
@@ -9312,143 +9396,159 @@ msgid "Show combat animation"
 msgstr "Показувати ан╕мац╕ю битв."
 
 #: client/options.c:168
-#, fuzzy
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю в╕дключено, на огляд╕ мапи не буде в╕дображатися ан╕мац╕я бо╖в "
+"м╕ж п╕дрозд╕лами."
 
 #: client/options.c:171
 msgid "Draw the citybar"
 msgstr "Малювати панель м╕ста"
 
 #: client/options.c:172
-#, fuzzy
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and optionally, production."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, буде в╕дображатися 'плашка м╕ста', яка м╕стить "
+"корисну ╕нформац╕ю про кожне м╕сто. Якщо цю опц╕ю в╕дключено, то буде "
+"в╕дображатися лише ╕м'я м╕ста та, опц╕онально, ╕нформац╕я про виробництво."
 
 #: client/options.c:178
 msgid "Show icons in the technology tree"
 msgstr "Показивати ╕конки у дерев╕ технолог╕й"
 
 #: client/options.c:179
-#, fuzzy
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, дерево технолог╕й буде м╕стити ╕конки. Якщо цю опц╕ю "
+"в╕дключено, дерево технолог╕й буде б╕льш компактним."
 
 #: client/options.c:184
 msgid "Draw shield graphics for units"
 msgstr "Малювати ╕конку виробництва для п╕дрозд╕л╕в"
 
 #: client/options.c:185
-#, fuzzy
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
+"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
 
 #: client/options.c:189
 msgid "Manual Turn Done in AI Mode"
 msgstr "Зак╕нчувати х╕д вручну у комп'ютерному режим╕"
 
 #: client/options.c:190
-#, fuzzy
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"В╕дключ╕ть цю опц╕ю, якщо Ви не бажа╓те нажимати кнопку Х╕д Зроблено кожного "
+"разу, коли спостер╕га╓те за Ш╤-гравцем."
 
 #: client/options.c:194 client/gui-sdl/optiondlg.c:1128
 msgid "Auto Center on Units"
 msgstr "Автоматично центрувати п╕дрозд╕ли"
 
 #: client/options.c:195
-#, fuzzy
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, активний п╕дрозд╕л буде у центр╕ екрану автоматично, "
+"якщо фокус перейшов на ╕нший п╕дрозд╕л."
 
 #: client/options.c:198 client/gui-sdl/optiondlg.c:1154
 msgid "Auto Center on Combat"
 msgstr "Автоматично центрувати битви"
 
 #: client/options.c:199
-#, fuzzy
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, будь-як╕ бойов╕ д╕╖ будуть у центр╕ екрану "
+"автоматично.  Якщо ця опц╕я в╕дключена, це зменьшить час м╕ж ходами, проте "
+"Ви можете не побачити б╕й взагал╕."
 
 #: client/options.c:204 client/gui-sdl/optiondlg.c:1181
 msgid "Focus on Awakened Units"
 msgstr "Фокусувати на активованих п╕дрозд╕лах"
 
 #: client/options.c:205
-#, fuzzy
 msgid "Set this option to have newly awoken units be focused automatically."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, нов╕ активован╕ п╕дрозд╕ли будуть отримувати фокус "
+"автоматично."
 
 #: client/options.c:208
 msgid "Allow goto into the unknown"
 msgstr "Дозволити рух у нев╕дому м╕сцев╕сть"
 
 #: client/options.c:209
-#, fuzzy
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, п╕дрозд╕ли можуть планувати маршрут по нерозв╕даних "
+"кл╕тинах. Якщо н╕, то маршрути будуть формувати к╕льця або блокуватися "
+"нерозв╕даними кл╕тинами."
 
 #: client/options.c:213
 msgid "Center map when Popup city"
 msgstr "Центрувати мапу при в╕дкритт╕ м╕ста"
 
 #: client/options.c:214
-#, fuzzy
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, карта буде центруватися на м╕ст╕, коли в╕дкива╓ться "
+"д╕алог цього м╕ста."
 
 #: client/options.c:217
 msgid "Concise City Production"
 msgstr "Зв╕т по виробництву у м╕ст╕"
 
 #: client/options.c:218
-#, fuzzy
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, виробництво у м╕ст╕ (яке демонстру╓ться у д╕алоз╕ "
+"м╕ста) буде компактним."
 
 #: client/options.c:221 client/gui-sdl/optiondlg.c:1259
 msgid "End Turn when done moving"
 msgstr "Зак╕нчувати х╕д коли нема╓ ким рухатись"
 
 #: client/options.c:222
-#, fuzzy
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю включено, х╕д буде завершуватися автоматично, коли ус╕ Ваш╕ "
+"п╕дрозд╕ли зробили х╕д."
 
 #: client/options.c:225 client/gui-sdl/optiondlg.c:1233
 msgid "Prompt for city names"
 msgstr "Запрошення для назви м╕ста"
 
 #: client/options.c:226
-#, fuzzy
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
-msgstr "Якщо цю опц╕ю в╕дключено, "
+msgstr ""
+"Якщо цю опц╕ю в╕дключено, ╕мена новозаснованих м╕ст будуть автоматично "
+"обиратися сервером."
 
 #: client/options.c:229 client/gui-sdl/optiondlg.c:1207
 msgid "Pop up city dialog for new cities"
@@ -14672,14 +14772,12 @@ msgstr ""
 "колон╕ст╕в при розм╕р╕ 1"
 
 #: client/gui-sdl/citydlg.c:1175
-#, fuzzy
 msgid "Sorry, You have already bought here in this turn."
-msgstr "Вибачте, Ви вже купили цього ходу."
+msgstr "Вибачте, Ви вже купили тут цього ходу."
 
 #: client/gui-sdl/citydlg.c:1178
-#, fuzzy
 msgid "Sorry, You can't buy here in this turn."
-msgstr "Вибачте, Ви вже купили цього ходу."
+msgstr "Вибачте, Ви не можете купити тут цього ходу."
 
 #: client/gui-sdl/citydlg.c:1182
 msgid "Buy It?"
@@ -15875,7 +15973,7 @@ msgid "Units Report"
 msgstr "Зв╕т по п╕дрозд╕лам"
 
 #: client/gui-sdl/repodlgs.c:1498
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "We have %d of %s\n"
 "(total value is : %d)\n"
@@ -15883,12 +15981,12 @@ msgid ""
 msgstr ""
 "Ми ма╓мо %d %s\n"
 "(загальна к╕льк╕сть : %d)\n"
-"Ми можемо продати %d ╕з них за %d гривень"
+"Ми можемо продати %d ╕з них за %d гривень."
 
 #: client/gui-sdl/repodlgs.c:1504
-#, fuzzy, c-format
+#, c-format
 msgid "We can't sell any %s in this turn."
-msgstr "Ми не можемо продати жодного %s у цей х╕д"
+msgstr "Ми не можемо продати жодного %s у цей х╕д."
 
 #: client/gui-sdl/repodlgs.c:1739
 msgid "Economy Report"
@@ -22791,6 +22889,9 @@ msgid ""
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from Soviet in 1991 AD"
 msgstr ""
+"Зг╕дно ╕з легендою армянський народ ╓ нащадками Ха╕ка - прапраонука Ноя. "
+"Сучасна Республ╕ка Армен╕я отримала незалежн╕сть в╕д Радяньского Союзу у "
+"1991."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -23672,6 +23773,11 @@ msgid ""
 "but had to abandon their claims of independence a few years later after "
 "several military defeats by United States troops."
 msgstr ""
+"Конфедерац╕я Штат╕в Америки в╕докремулась в╕д Сполучених Штат╕в Америки п╕д "
+"час американьско╖ громадянсько╖ в╕йни. Вона була сформована у 1861 ╕з шести "
+"п╕вденних штат╕в, проте вона мала в╕дкинути проголошену незалежн╕сть "
+"дек╕лька рок╕в потому п╕сля дек╕лькох в╕йськових поразок в╕д в╕йськ "
+"Сполучених Штат╕в."
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -23996,6 +24102,10 @@ msgid ""
 "fledgeling super state. But the question remains: Does such a thing as a "
 "common European identity and nation actually exist?"
 msgstr ""
+"Заснування ╢вропейского Союзу було розпочато у 1957 роц╕ ╕з Римсько╖ угоди. "
+"З тих час╕в проект ╢С розвивався та почина╓ ставати молодою супердержавою. "
+"Проте залиша╓ться в╕дкритим питання: Чи ╕сну╓ ╓дина ╓вропейска нац╕я та "
+"╕дентичн╕сть насправд╕?"
 
 #: data/nation/european.ruleset:22 data/nation/slovakian.ruleset:29
 msgid "Pope"
@@ -24387,6 +24497,10 @@ msgid ""
 "kept initially under the Norwegian and later the Danish crown until "
 "independence from Denmark in 1944."
 msgstr ""
+"╤сланд╕я довго була одним ╕з найб╕льших ненаселенних остров╕в у св╕т╕, доки "
+"не була заселена норвежськими в╕к╕нгами наприк╕нц╕ 9-го стор╕чча. Спочатку "
+"ост╕в був п╕д владою норвежсько╖, а пот╕м датсько╖ корони, доки не отримав "
+"незалежност╕ у 1944 роц╕."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -24589,6 +24703,11 @@ msgid ""
 "North of Ireland was settled in the 17th century by Scottish and English "
 "planters and is now part of the United Kingdom."
 msgstr ""
+"╤рланд╕я оборонилася в╕д римлян та в╕к╕нг╕в, проте була захоплена норманами "
+"у 1171. Була п╕в владою Англ╕╖ до 1922, коли б╕льша частина кра╖ни отримала "
+"обмежену автоном╕ю, та стала республ╕кою у 1949. П╕вн╕ч ╤рланд╕╖ задселений "
+"╕з 17-го стор╕чча шотландськими та англ╕йськими фермерами та ╓ зараз "
+"частиною Сполученого Корол╕вства."
 
 #: data/nation/irish.ruleset:45
 msgid "High King"
@@ -24723,6 +24842,9 @@ msgid ""
 "dissolution of the Soviet Union. It is one of ten largest states in the "
 "world by area."
 msgstr ""
+"Казахи нащадки тюркських та монгольских кочовик╕в, Захоплений Росс╕╓ю у 18-"
+"му строр╕чч╕, Казахстан став незалежним ╕з розпадом Радянського Союзу у 1991 "
+"роц╕. Казахстан ╓ одн╕╓ю ╕з десяти найб╕льших за розмром кра╖н."
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
@@ -24801,6 +24923,11 @@ msgid ""
 "North and South Korea as a result of the stalemate after the Korean war in "
 "1953."
 msgstr ""
+"Зг╕дно ╕з легендою, перше корейське корол╕вство було засновано у до╕сторичн╕ "
+"часи родом Тангун у п╕вденн╕й Манчжур╕╖. Корейськ╕ корол╕вства були "
+"об'╓днан╕ у 668 роц╕ королем Мунму. Зараз Корейський п╕востр╕в под╕лений м╕ж "
+"двома кра╖нами, П╕вн╕чной та П╕вденной Кореями як туп╕ковий результат "
+"Корейско╖ в╕йни 1953 року."
 
 #: data/nation/kyrgyz.ruleset:3
 msgid "Kyrgyz"
@@ -24884,6 +25011,13 @@ msgid ""
 "1975 the communist Pathet Lao established strict solicalist regime. However, "
 "in 1986 the liberalization and a gradual return to private enterpise started."
 msgstr ""
+"╤стор╕я Лаосу почина╓ться ╕з створення корол╕вства Лан Ксанг, заснованого у "
+"14-му стор╕чч╕ та про╕снувавшему до к╕нця 18-го, коли С╕ам (Та╕ланд) вторгся "
+"до нього. На прик╕нц╕ 19-го стор╕чча Лаос став частиною Французського "
+"╤ндокитаю. Влада Франц╕╖ ск╕нчилась ╕з набуттям незалежност╕ у 1946, п╕сля "
+"чього розпочалася 30-р╕чна громадянська в╕йна. У 1975 комун╕стичний рух "
+"Патхет Лао встановив жорсткий соц╕ал╕стичний режим. Проте в 1986 розпочалася "
+"л╕берал╕зац╕я та пов╕льне повернення до приватно╖ властност╕."
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -25326,6 +25460,10 @@ msgid ""
 "states along 38th parallel forming North Korea and South Korea. Even 60 "
 "years since then, North Korea remains a communist state of Stalinist type."
 msgstr ""
+"У 1945 Корея була под╕лена Радянським Союзом та Сполученими Штатами на дв╕ "
+"кра╖ни упродовж 38-╖ паралел╕. Цими кра╖нами стали П╕вн╕чна та П╕вденна "
+"Коре╖. Нав╕ть 60 рок╕в потому П╕вн╕чна Корея продовжу╓ залишатися "
+"комун╕стичною кра╖ною стал╕н╕стького типу."
 
 #. TRANS: translates as the Great leader
 #: data/nation/northkorean.ruleset:22
@@ -26062,6 +26200,11 @@ msgid ""
 "formed from the nationalist and anti-communist \"Provisional Government of "
 "the Republic of Korea\" in 1948."
 msgstr ""
+"Колись ╓дина кра╖на, зараз Корейський п╕востр╕в розд╕лений м╕ж двома "
+"державами - П╕вн╕чною та П╕вденною Кореями - як результат патово╖ ситуац╕╖, "
+"що склалася наприк╕нц╕ Корейсько╖ в╕йни 1953-го року. П╕вденно-корейский "
+"уряд було сформовано ╕з нац╕онал╕стичного та ант╕комун╕стичного "
+"\"Тимчасового уряду Республ╕ки Корея\" у 1948."
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
@@ -26079,6 +26222,12 @@ msgid ""
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
 msgstr ""
+"╤стор╕я Радянського Союзу розпочалася у Листопад╕ 1917 року, коли п╕д "
+"кер╕вництвом Лен╕на в╕дбулася третя рос╕йська революц╕я (друга за той р╕к). "
+"31 грудня 1922 року чотири радянськ╕ республ╕ки об'╓дналися у ╓дину кра╖ну. "
+"Радянський Союз став одною ╕з найб╕льш могутн╕х держав 20-го стор╕чча. Проте "
+"у к╕нц╕ 1991 року п╕сля багатьох соц╕альних негаразд╕в в╕н розпався на "
+"пятнадцять незалежних кра╖н."
 
 #: data/nation/soviet.ruleset:28
 msgid "Great Leader"
@@ -26221,6 +26370,13 @@ msgid ""
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
 msgstr ""
+"Корол╕вство Швец╕╖ було христиан╕зовано та об'╓днано як пол╕тична одиниця к "
+"12-му стор╕ччу. Кра╖на набула могутност╕ як одна ╕з найб╕льших сил у ╢вроп╕ "
+"у 17-му стор╕чч╕, як результат пост╕йний в╕йскових захопленнь так званими "
+"королями-во╖нами. Проте, через пог╕ршення економ╕чного становища та "
+"дек╕лькох катастроф╕чних поразок в╕д Рос╕╖, Швец╕я швидко втратила б╕кьш╕сть "
+"╕з захоплених територ╕й. Кра╖на не приймала участ╕ у в╕йскових д╕ях ╕з 1814 "
+"року."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -26354,6 +26510,9 @@ msgid ""
 "communists, the nationalist government evacuated to the island of Taiwan "
 "where they formed the Republic of China."
 msgstr ""
+"Коли китайск╕ нац╕онал╕сти програли озрбо╓ну боротьбу проти китайских "
+"комун╕ст╕в, нац╕онал╕стичний уряд евакуювався до острову Тайвань, де в╕н "
+"створив Республ╕ку К╕тай."
 
 #: data/nation/tajik.ruleset:3
 msgid "Tajik"
@@ -26644,6 +26803,9 @@ msgid ""
 "\"Switzerland of the Americas\" due to its once higly developed social "
 "welfare system."
 msgstr ""
+"Уругвай, маленька держава у п╕вденн╕й Америц╕, ╕нод╕ назива╓ться "
+"\"Швейцар╕╓ю Америк\" через свою високо розвинену систему соц╕ально╖ "
+"п╕дтримки."
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
@@ -26662,6 +26824,13 @@ msgid ""
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
 msgstr ""
+"Уйгури були сх╕дною тюркьскою ╕мпер╕╓ю та цив╕л╕зац╕╓ю. У пер╕од свого "
+"розкв╕ту у 820 роц╕ н.е. вона контролювала б╕льш╕сть центрально╖ та "
+"п╕вн╕чно╖ Аз╕╖. П╕сля сутичок ╕з китайцями на протяз╕ дек╕лькох стор╕чь, "
+"уйгури були зрештою п╕дкорен╕ д╕наст╕╓ю К╕нг у 1700-х роках. Зараз нащадки "
+"уйгуров становлять населення кра╖н у центральн╕й Аз╕╖, таких як Узбек╕стан, "
+"Казахстан та Киргизстан. Також вони головна меньшина у китайськ╕й пров╕нц╕╖ "
+"Кс╕нж╕анг."
 
 #: data/nation/uzbek.ruleset:3
 msgid "Uzbek"
@@ -26678,6 +26847,10 @@ msgid ""
 "Russian Empire in 19th century, Uzbekistan got independence from the Soviet "
 "Union in 1991."
 msgstr ""
+"Нац╕я у Центральн╕й Аз╕╖. Узбек╕стан був центром древн╕х держав, таких як "
+"Хорезм, Бухарський ханат, Кокандський ханат та ╕нших. Захоплений Рос╕йською "
+"╕мпер╕╓ю у 19-му стор╕чч╕, Узбек╕стан набув незалежност╕ в╕д Радяньского "
+"Союзу у 1991."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuelan"
@@ -26697,6 +26870,9 @@ msgid ""
 "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
 "Liberator."
 msgstr ""
+"Венесуела ╓ самою п╕вн╕чною кра╖ною п╕вденно╖ Америки. Вона була ╕спанською "
+"колон╕╓ю с 16-го стор╕чча, кра╖на набула незалежност╕ 5 липня 1811 року п╕д "
+"кер╕вництвом Ель Л╕бертадор С╕мона Бол╕вара - Визволителя."
 
 #. TRANS: Terrateniente = Junker
 #: data/nation/venezuelan.ruleset:29
