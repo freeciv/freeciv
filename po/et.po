@@ -7486,7 +7486,7 @@ msgstr ""
 #: client/citydlg_common.c:424
 #, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr "%+4d : Kaubatee %s-dega\n"
+msgstr "%+4d : Kaubatee linnaga %s\n"
 
 #: client/citydlg_common.c:433
 #, c-format
@@ -10940,12 +10940,12 @@ msgstr "Revolutsioon!"
 #: client/gui-gtk-2.0/dialogs.c:310 client/gui-sdl/dialogs.c:1738
 #: client/gui-win32/dialogs.c:1751 data/Freeciv.in:2500
 msgid "What To Pillage"
-msgstr "Mida röövida"
+msgstr "Mida lõhkuda"
 
 #: client/gui-gtk-2.0/dialogs.c:311 client/gui-mui/dialogs.c:1117
 #: client/gui-win32/dialogs.c:1758 data/Freeciv.in:2502
 msgid "Select what to pillage:"
-msgstr "Vali mida röövida:"
+msgstr "Vali mille maha lõhkuda:"
 
 #: client/gui-gtk-2.0/dialogs.c:506
 msgid "Unit"
@@ -13157,7 +13157,7 @@ msgstr "Mürgita linn"
 
 #: client/gui-mui/dialogs.c:814
 msgid "Industrial _sabotage"
-msgstr "Tööstus_sabotaazh"
+msgstr "Tööstus_sabotaaž"
 
 #: client/gui-mui/dialogs.c:985
 msgid "_Establish traderoute"
@@ -16661,7 +16661,7 @@ msgstr "Uuri Linna (tasuta)"
 
 #: data/Freeciv.in:2314
 msgid "Industrial Sabotage"
-msgstr "Tööstussabotaazh"
+msgstr "Tööstussabotaaž"
 
 #: data/Freeciv.in:2492
 msgid "Your New Government"
@@ -18763,7 +18763,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1179 data/civ2/buildings.ruleset:1164
 #: data/civ1/buildings.ruleset:822
 msgid "Isaac Newton's College"
-msgstr "Isaac Newton'i Kolledzh"
+msgstr "Isaac Newton'i Kolledž"
 
 #: data/default/buildings.ruleset:1194
 #, no-c-format
@@ -20078,7 +20078,7 @@ msgstr ""
 #: data/default/terrain.ruleset:371 data/civ2/terrain.ruleset:326
 #: data/civ1/terrain.ruleset:316
 msgid "Jungle"
-msgstr "Dzhungel"
+msgstr "Džungel"
 
 #: data/default/terrain.ruleset:404 data/civ2/terrain.ruleset:354
 #: data/civ1/terrain.ruleset:342
