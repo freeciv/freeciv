@@ -741,14 +741,19 @@ bool pplayers_in_peace(const struct player *pplayer,
 }
 
 /****************************************************************************
-  Returns TRUE if players can't enter each others' territory.  Undefined if
-  the players are equal.
+  Returns TRUE if players can't enter each others' territory.
 ****************************************************************************/
 bool players_non_invade(const struct player *pplayer1,
 			const struct player *pplayer2)
 {
-  assert(pplayer1 != pplayer2);
-  return pplayers_in_peace(pplayer1, pplayer2);
+  if (pplayer1 == pplayer2 || !pplayer1 || !pplayer2) {
+    return FALSE;
+  }
+  if (is_barbarian(pplayer1) || is_barbarian(pplayer2)) {
+    /* Likely an unnecessary test. */
+    return FALSE;
+  }
+  return pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_PEACE;
 }
 
 /***************************************************************
