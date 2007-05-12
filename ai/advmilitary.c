@@ -1151,7 +1151,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     def_type = ai_choose_defender_versus(acity, myunit);
     def_owner = acity->owner;
-    if (move_time > 1) {
+    if (move_time > 1 && def_type) {
       def_vet = do_make_unit_veteran(acity, def_type);
       vuln = unittype_def_rating_sq(myunit->type, def_type, acity->owner,
                                     ptile, FALSE, def_vet);
