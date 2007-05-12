@@ -752,6 +752,8 @@ static void fill_client_goto_parameter(struct unit *punit,
 	connect_initial++;
       }
     } /* otherwise moves_left_initially = punit->moves_left (default) */
+  } else if (hover_state == HOVER_NUKE) {
+    parameter->is_pos_dangerous = NULL; /* nuclear safety? pwah! */
   }
 
   if (is_attack_unit(punit) || is_diplomat_unit(punit)) {

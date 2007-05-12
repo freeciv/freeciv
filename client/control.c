@@ -1352,6 +1352,7 @@ void request_unit_nuke(struct unit_list *punits)
   if (can) {
     set_hover_state(punits, HOVER_NUKE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punits);
+    enter_goto_state(punits);
   } else {
     create_event(offender, E_BAD_COMMAND,
 		 _("Only nuclear units can do this."));
@@ -1834,7 +1835,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       if (!possible) {
 	create_event(offender, E_BAD_COMMAND, _("Too far for this unit."));
       } else {
-	do_unit_goto(ptile);
+        do_unit_goto(ptile);
 	if (!pcity) {
 	  unit_list_iterate(punits, punit) {
 	    /* note that this will be executed by the server after the goto */
@@ -1855,6 +1856,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       do_unit_patrol_to(ptile);
       break;	
     }
+
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
   }
@@ -2035,7 +2037,7 @@ void do_unit_goto(struct tile *ptile)
 {
   struct tile *dest_tile;
 
-  if (hover_state != HOVER_GOTO) {
+  if (hover_state != HOVER_GOTO && hover_state != HOVER_NUKE) {
     return;
   }
 
@@ -2047,8 +2049,6 @@ void do_unit_goto(struct tile *ptile)
     create_event(ptile, E_BAD_COMMAND,
 		 _("Didn't find a route to the destination!"));
   }
-
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
 }
 
 /**************************************************************************
