@@ -33,7 +33,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "turkmen", "tajik", "kazakh", "kyrgyz", "afgani"
+civilwar_nations = "turkmen", "tajik", "kazakh", "kyrgyz", "Afghani"
 
 cities =
  "Bukhoro",

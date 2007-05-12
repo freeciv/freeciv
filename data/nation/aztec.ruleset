@@ -28,7 +28,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "purhepecha", "hopi"
+civilwar_nations = "P'urhepecha", "hopi"
 
 cities =
   "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",

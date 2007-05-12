@@ -25,7 +25,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "northkorean"
+civilwar_nations = "north korean"
 
 ; Sorted according to 2005 population
 cities =

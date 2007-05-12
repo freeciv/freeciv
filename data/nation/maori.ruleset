@@ -28,7 +28,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="newzealand", "papuan"
+civilwar_nations="new zealand", "papuan"
 
 cities =
  "Tamaki (hills, ocean)",	; Auckland (Maorification: Ākarana)

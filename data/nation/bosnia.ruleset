@@ -33,7 +33,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-ciwilwar_nations="croatian", "serbian"
+civilwar_nations="croatian", "serbian"
 
 cities =
  "Sarajevo",

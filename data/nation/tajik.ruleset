@@ -29,7 +29,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "hungarian"
-civilwar_nations = "uzbek", "kyrgyz", "afgani"
+civilwar_nations = "uzbek", "kyrgyz", "Afghani"
 
 cities =
  "Dushanbe",

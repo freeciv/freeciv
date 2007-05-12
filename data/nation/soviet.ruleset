@@ -34,11 +34,11 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "russian", "ukrainian", "belarusian",
- "lithuaninan", "latvian", "estonian",
+ "Lithuanian", "latvian", "estonian",
  "moldovan", "georgian", "armenian", "azeri",
  "kazakh", "kyrgyz", "tajik", "turkmen", "uzbek"
 civilwar_nations = "russian", "ukrainian", "belarusian",
- "lithuaninan", "latvian", "estonian",
+ "Lithuanian", "latvian", "estonian",
  "moldovan", "georgian", "armenian", "azeri",
  "kazakh", "kyrgyz", "tajik", "turkmen", "uzbek"
 

@@ -27,7 +27,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "uzbek", "kazakh", "iranian", "persian", "afgani"
+civilwar_nations = "uzbek", "kazakh", "iranian", "persian", "Afghani"
 
 cities =
  "Ashgabat",
