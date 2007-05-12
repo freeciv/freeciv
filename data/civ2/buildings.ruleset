@@ -57,7 +57,7 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Construction", "Player"
     }
-graphic		= "b.airport"
+graphic		= "b.aqueduct"
 graphic_alt	= "-"
 obsolete_by	= "None"
 build_cost	= 80
