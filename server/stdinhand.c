@@ -2804,14 +2804,15 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
   if (TRUE) {
-    char name[MAX_LEN_NAME];
+    char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
 
     if (pplayer) {
       /* if a pconn->player is removed, we'll lose pplayer */
       sz_strlcpy(name, pplayer->name);
     }
 
-    detach_command(NULL, pconn->username, FALSE);
+    my_snprintf(username, sizeof(username), "'%s'", pconn->username);
+    detach_command(NULL, username, FALSE);
 
     if (pplayer) {
       /* find pplayer again, the pointer might have been changed */
@@ -2969,14 +2970,15 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
   if (pconn->player) {
-    char name[MAX_LEN_NAME];
+    char name[MAX_LEN_NAME], username[MAX_LEN_NAME];
 
     if (pplayer) {
       /* if a pconn->player is removed, we'll lose pplayer */
       sz_strlcpy(name, pplayer->name);
     }
 
-    detach_command(NULL, pconn->username, FALSE);
+    my_snprintf(username, sizeof(username), "'%s'", pconn->username);
+    detach_command(NULL, username, FALSE);
 
     if (pplayer) {
       /* find pplayer again; the pointer might have been changed */
