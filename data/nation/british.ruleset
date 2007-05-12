@@ -36,7 +36,7 @@ civilwar_nations=
 ; Northern Ireland
  "irish",
 ; English-speaking ex-colonies
- "american", "australian", "canadian", "newzealand"
+ "american", "australian", "canadian", "New Zealand"
 
 ; Cities listed roughly in order from south to north
 cities =

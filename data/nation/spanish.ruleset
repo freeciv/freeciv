@@ -42,7 +42,7 @@ civilwar_nations=
 ; Sub-national nations
  "catalan", "galician",
 ; Spanish speaking ex-colonies
- "argentine", "chilean", "colombian", "cuban", "filipino", "venezuelan"
+ "argentine", "chilean", "colombian", "cuban", "filipino", "venezuela"
 
 cities =
   "Madrid", "Barcelona", "Bilbao", "Valencia", "Sevilla", "Zaragoza",

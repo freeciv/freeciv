@@ -21,7 +21,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "colombian", "venezuelan"
+civilwar_nations = "colombian", "Venezuela"
 
 cities =
   "La Habana",
