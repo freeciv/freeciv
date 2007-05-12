@@ -1084,6 +1084,10 @@ static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
   char buf[1024];
   char *command = data;
 
+  assert(command != NULL);
+  assert(conn_menu_player != NULL);
+  assert(conn_menu_player->name != NULL);
+
   my_snprintf(buf, sizeof(buf), "/%s \"%s\"", command, 
               conn_menu_player->name);
   send_chat(buf);

@@ -3753,7 +3753,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
     return TRUE;
   }
 
-  pplayer = ptarget->player;
+  pplayer = !ptarget->observer ? ptarget->player : NULL;
 
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	    _("Cutting connection %s."), ptarget->username);
