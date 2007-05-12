@@ -19,7 +19,7 @@
 struct ai_choice;
 
 struct unit_type *ai_choose_defender_versus(struct city *pcity,
-					    const struct unit_type *versus);
+                                            struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice);
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,

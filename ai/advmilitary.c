@@ -52,27 +52,47 @@ static unsigned int assess_danger(struct city *pcity);
   Choose the best unit the city can build to defend against attacker v.
 **************************************************************************/
 struct unit_type *ai_choose_defender_versus(struct city *pcity,
-					    const struct unit_type *v)
+					    struct unit *attacker)
 {
   struct unit_type *bestunit = NULL;
-  int best = 0;
+  double best = 0;
+  int best_cost = FC_INFINITY;
+  struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(punittype) {
     const int move_type = get_unit_move_type(punittype);
 
     if (can_build_unit(pcity, punittype)
 	&& (move_type == LAND_MOVING || move_type == SEA_MOVING)) {
-      const int defense = get_virtual_defense_power(v, punittype,
-						    pcity->owner,
-						    pcity->tile,
-						    FALSE, FALSE);
+      int fpatt, fpdef, defense, attack;
+      double want, loss, cost = unit_build_shield_cost(punittype);
+      struct unit *defender;
+      int veteran = get_unittype_bonus(pcity->owner, pcity->tile, punittype,
+                                       EFT_VETERAN_BUILD);
 
-      if (defense > best || (defense == best
-			     && unit_build_shield_cost(punittype) <=
-			     unit_build_shield_cost(bestunit))) {
-        best = defense;
+      defender = create_unit_virtual(pplayer, pcity, punittype, veteran);
+      defense = get_total_defense_power(attacker, defender);
+      attack = get_total_attack_power(attacker, defender);
+      get_modified_firepower(attacker, defender, &fpatt, &fpdef);
+
+      /* Greg's algorithm. loss is the average number of health lost by
+       * defender. If loss > attacker's hp then we should win the fight,
+       * which is always a good thing, since we avoid shield loss. */
+      loss = (double) defense * punittype->hp * fpdef / (attack * fpatt);
+      want = (loss + MAX(0, loss - attacker->hp)) / cost;
+
+#ifdef NEVER
+      CITY_LOG(LOG_DEBUG, pcity, "desire for %s against %s(%d,%d) is %.2f",
+               unit_name_orig(punittype), unit_name_orig(attacker->type), 
+               TILE_XY(attacker->tile), want);
+#endif
+
+      if (want > best || (want == best && cost <= best_cost)) {
+        best = want;
         bestunit = punittype;
+        best_cost = cost;
       }
+      destroy_unit_virtual(defender);
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -1129,7 +1149,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     move_time = turns_to_enemy_city(myunit->type, acity, move_rate, 
                                     go_by_boat, ferryboat, boattype);
 
-    def_type = ai_choose_defender_versus(acity, myunit->type);
+    def_type = ai_choose_defender_versus(acity, myunit);
     def_owner = acity->owner;
     if (move_time > 1) {
       def_vet = do_make_unit_veteran(acity, def_type);

@@ -1384,7 +1384,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
       if (move_time > 1) {
         struct unit_type *def_type
-	  = ai_choose_defender_versus(acity, punit->type);
+	  = ai_choose_defender_versus(acity, punit);
+
         int v = unittype_def_rating_sq(punit->type, def_type,
                                        acity->owner, acity->tile, FALSE,
                                        do_make_unit_veteran(acity, def_type));
