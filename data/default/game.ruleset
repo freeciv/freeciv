@@ -123,6 +123,7 @@ killstack               = 1
 
 [teams]
 names =
+ _("Team 0"),
  _("Team 1"),
  _("Team 2"),
  _("Team 3"),
@@ -153,5 +154,4 @@ names =
  _("Team 28"),
  _("Team 29"),
  _("Team 30"),
- _("Team 31"),
- _("Team 32")
+ _("Team 31")
