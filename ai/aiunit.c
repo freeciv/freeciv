@@ -1390,13 +1390,16 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       if (move_time > 1) {
         struct unit_type *def_type
 	  = ai_choose_defender_versus(acity, punit->type);
-        int v = unittype_def_rating_sq(punit->type, def_type,
-                                       acity->owner, acity->tile, FALSE,
-                                       do_make_unit_veteran(acity, def_type));
-        if (v > vuln) {
-          /* They can build a better defender! */ 
-          vuln = v; 
-          benefit = unit_build_shield_cost(def_type); 
+
+        if (def_type) {
+          int v = unittype_def_rating_sq(punit->type, def_type,
+                                         acity->owner, acity->tile, FALSE,
+                                         do_make_unit_veteran(acity, def_type));
+          if (v > vuln) {
+            /* They can build a better defender! */ 
+            vuln = v; 
+            benefit = unit_build_shield_cost(def_type); 
+          }
         }
       }
 
