@@ -273,6 +273,7 @@ static GtkWidget *inputline;
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
 static guint input_id, ggz_input_id;
+gint cur_x, cur_y;
 
 
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -286,6 +287,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
+static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev);
 
 static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
@@ -656,6 +658,59 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
         return FALSE;
     }
   }
+  return TRUE;
+}
+
+/**************************************************************************
+Mouse/touchpad scrolling over the mapview
+**************************************************************************/
+static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
+{
+  int scroll_x, scroll_y, xstep, ystep;
+  struct tile *ptile = NULL;
+
+  if (!can_client_change_view()) {
+    return FALSE;
+  }
+
+  get_mapview_scroll_pos(&scroll_x, &scroll_y);
+  get_mapview_scroll_step(&xstep, &ystep);
+
+  switch (ev->direction) {
+    case GDK_SCROLL_UP:
+      scroll_y -= ystep*2;
+      break;
+    case GDK_SCROLL_DOWN:
+      scroll_y += ystep*2;
+      break;
+    case GDK_SCROLL_RIGHT:
+      scroll_x += xstep*2;
+      break;
+    case GDK_SCROLL_LEFT:
+      scroll_x -= xstep*2;
+      break;
+    default:
+      return FALSE;
+  };
+
+  set_mapview_scroll_pos(scroll_x, scroll_y);
+
+  // Emulating mouse move now
+  if (!GTK_WIDGET_HAS_FOCUS(map_canvas)) {
+    gtk_widget_grab_focus(map_canvas);
+  }
+
+  update_line(cur_x, cur_y);
+  update_rect_at_mouse_pos();
+
+  if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
+    maybe_activate_keyboardless_goto(cur_x, cur_y);
+  }
+
+  ptile = canvas_pos_to_tile(cur_x, cur_y);
+  handle_mouse_cursor(ptile);
+  hover_tile = ptile;
+
   return TRUE;
 }
 
@@ -1132,7 +1187,8 @@ static void setup_widgets(void)
                                    |GDK_BUTTON_PRESS_MASK
                                    |GDK_BUTTON_RELEASE_MASK
                                    |GDK_KEY_PRESS_MASK
-                                   |GDK_POINTER_MOTION_MASK);
+                                   |GDK_POINTER_MOTION_MASK
+                                   |GDK_SCROLL_MASK);
 
   gtk_widget_set_size_request(map_canvas, 510, 300);
   gtk_container_add(GTK_CONTAINER(frame), map_canvas);
@@ -1162,6 +1218,9 @@ static void setup_widgets(void)
 
   g_signal_connect(map_canvas, "button_release_event",
                    G_CALLBACK(butt_release_mapcanvas), NULL);
+
+  g_signal_connect(map_canvas, "scroll_event",
+                   G_CALLBACK(mouse_scroll_mapcanvas), NULL);
 
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(keyboard_handler), NULL);

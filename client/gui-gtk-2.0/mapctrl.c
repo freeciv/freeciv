@@ -49,6 +49,7 @@
 #include "mapctrl.h"
 
 struct tmousepos { int x, y; };
+extern gint cur_x, cur_y;
 
 /**************************************************************************
 ...
@@ -375,6 +376,8 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
     gtk_widget_grab_focus(map_canvas);
   }
 
+  cur_x = ev->x;
+  cur_y = ev->y;
   update_line(ev->x, ev->y);
   update_rect_at_mouse_pos();
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
