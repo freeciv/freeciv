@@ -434,7 +434,7 @@ static void handle_city(struct city *pcity)
 
     freelog(LOG_ERROR, "CMA: %s has changed multiple times due to "
             "an error in Freeciv. Please send a savegame that can reproduce "
-            "this bug to <bugs@freeciv.org>. Thank you.", pcity->name);
+            "this bug at %s. Thank you.", pcity->name, BUG_URL);
   }
 
   freelog(HANDLE_CITY_LOG_LEVEL2, "END handle city=(%d)", city_id);

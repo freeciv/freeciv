@@ -108,29 +108,13 @@ Here's what to do:
  - Check the Freeciv website, to ensure you're playing the latest
    version.  (We may have already fixed the problem.)
 
-   In particular, you might like to try a development snapshot,
-   from our CVS repository.  You can FTP them from:
-
-        http://www.freeciv.org/latest.html
-
- - Check the Freeciv FAQ on the Freeciv website to see if we've
-   published a way to work around your bug.
-
  - Check the Freeciv Bug Tracking System at:
 
         http://rt.freeciv.org/
 
    to see if the bug has already been reported.
 
- - Submit a bug report!
-
-   You can submit a bug report either by sending email to
-   <bugs@freeciv.freeciv.org>, or via the web at
-   <http://rt.freeciv.org/>.
-
-   Or, if you want to send the Freeciv developers some comments
-   but don't want to lodge a bug report, you can sent email to
-   <freeciv-dev@freeciv.org>, the Freeciv developer's mailing list.
+ - Submit a bug report through our bug tracking system above!
 
    If you get any GDK/GTK messages (they look like this:
 
@@ -172,8 +156,8 @@ Here's what to do:
          got it from.
 
    - If Freeciv "dumps core", then we may ask you to use a debugger to
-   give us a "stack trace".  You'll need the "core" file for this as
-   well as the binary which you used, so please backup both.
+     give us a "stack trace".  You'll need the "core" file for this as
+     well as the binary which you used, so please backup both.
 
 FURTHER INFORMATION:
 ====================

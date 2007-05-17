@@ -748,8 +748,7 @@ bool section_file_save(struct section_file *my_section_file,
 		      "avoid this make sure all rows of a table are filled\n"
 		      "out with an entry for every column.  This is surely\n"
 		      "a bug so if you're reading this message, report it\n"
-		      "to bugs@freeciv.org.",
-		      real_filename, expect);
+		      "at %s", real_filename, expect, BUG_URL);
 	      fz_fprintf(fs, "\n");
 	    }
 	    fz_fprintf(fs, "}\n");
