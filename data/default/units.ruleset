@@ -1212,7 +1212,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "Trireme", "BadCityDefender"
+flags         = "Trireme", "BadCityDefender", "No_Land_Attack"
 roles         = "Ferryboat"
 
 [unit_caravel]
@@ -1506,7 +1506,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Air", "Missile", "Helicopter"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "No_Land_Attack"
 roles         = ""
 helptext      = _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
