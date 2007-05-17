@@ -3960,7 +3960,7 @@ static int fill_goto_sprite_array(const struct tileset *t,
       if (!reported) {
 	freelog(LOG_ERROR,
 		_("Paths longer than 99 turns are not supported.\n"
-		  "Report this bug to bugs@freeciv.org."));
+		  "Report this bug at %s"), BUG_URL);
 	reported = TRUE;
       }
       tens = units = 9;

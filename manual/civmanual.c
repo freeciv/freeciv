@@ -371,7 +371,7 @@ int main(int argc, char **argv)
     fc_fprintf(stderr,
          _("  -h, --help\t\tPrint a summary of the options\n"));
     fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+    fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
     exit(EXIT_SUCCESS);
   }
 

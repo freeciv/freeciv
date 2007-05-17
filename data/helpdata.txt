@@ -58,8 +58,6 @@ If you find any bugs, then please send us a bug report.  This is \
 best done by visiting the Freeciv Bug Tracking System, at:\
 \n\n\
   http://bugs.freeciv.org/\
-\n\n\
-or by sending email to:  bugs@freeciv.org\
 "), _("\
 For more information about submitting bug reports see the file BUGS \
 in the Freeciv distribution.  For more information in general, \

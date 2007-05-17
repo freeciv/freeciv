@@ -335,7 +335,7 @@ static void log_callback_utf8(int level, const char *message, bool file_too)
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+  fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
 }
 
 /**************************************************************************
