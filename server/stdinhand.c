@@ -3461,8 +3461,10 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return FALSE;
   }
 
-  if (caller 
+  if (server_state != PRE_GAME_STATE
+      && caller
       && caller->player
+      && !caller->observer /* don't allow observers to ask votes */
       && !check
       && caller->access_level == ALLOW_INFO
       && commands[cmd].level == ALLOW_CTRL) {
