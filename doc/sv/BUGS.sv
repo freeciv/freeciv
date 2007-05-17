@@ -11,7 +11,7 @@ information om att anmäla programfel.
 Listan innehåller endast de tydligaste programfelen. För en
 fullständig lista, se:
 
-    http://www.freeciv.org/cgi-bin/bugs
+    http://bugs.freeciv.org/
 
 KÄNDA PROGRAMFEL:
 =================
@@ -100,29 +100,17 @@ Så här gör man:
 - Tittar på <http://www.freeciv.org> och försäkrar sig om att man har
   den nyaste versionen. (Vi kanske redan har rättat felet.)
 
-  Man kanske vill prova en utvecklarversion från CVS-upplaget. De kan
-  hämtas från:
-
-        http://www.freeciv.org/latest.html
-
-- Tittar på Freecivs FAQ på <http://www.freeciv.org/faq> för att se om
-  något sätt att upphäva problemet har offentliggjorts.
-
 - Tittar på Freecivs system för spårning av programfel vid:
 
-        http://www.freeciv.org/cgi-bin/bugs
+        http://bugs.freeciv.org/
 
   för att se om programfelet redan har anmälts.
 
 - Anmäler programfelet
 
-   Man kan änmäla ett programfel genom att skicka epost till
-    <bugs@freeciv.freeciv.org> eller på väven vid
-    <http://www.freeciv.org/cgi-bin/bugs>.
+   Man kan änmäla ett programfel på väven vid
 
-   Om man vill skicka förslag till freecivutvecklarna utan att göra en
-   programfelsanmälan kan man skicka epost till
-   <freeciv-dev@freeciv.org>, freecivutvecklarnas sändlista.
+        http://bugs.freeciv.org/
 
    Vad man ska nämna i sin programfelsanmälan:
 

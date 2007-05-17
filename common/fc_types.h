@@ -23,7 +23,6 @@
  * Nothing in this file should require anything else from the common/
  * directory! */
 
-#define BUG_EMAIL_ADDRESS "bugs@freeciv.org"
 #define WEBSITE_URL "http://www.freeciv.org/"
 
 /* MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS <= 32 !!!! */
