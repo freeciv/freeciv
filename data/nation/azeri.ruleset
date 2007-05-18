@@ -46,7 +46,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-conflict_with="soviet"
+conflicts_with="soviet"
 civilwar_nations="turk", "persian", "armenian"
 
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Aserbaidschan
