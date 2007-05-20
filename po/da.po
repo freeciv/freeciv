@@ -6637,8 +6637,8 @@ msgstr "Spil: %s gik tabt i et angreb fra %ss %s %s."
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] "Spil: Du tabte %d enhed i et angreb fra %ss %s."
-msgstr[1] "Spil: Du tabte %d enheder i et angreb fra %ss %s."
+msgstr[0] "Spil: Du tabte %d enhed i et angreb fra %ss %s%s."
+msgstr[1] "Spil: Du tabte %d enheder i et angreb fra %ss %s%s."
 
 # problem
 #: server/unittools.c:1794
