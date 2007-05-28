@@ -3480,6 +3480,7 @@ void game_load(struct section_file *file)
 {
   int i, k, id;
   enum server_states tmp_server_state;
+  RANDOM_STATE rstate;
   char *savefile_options;
   const char *string;
   char** improvement_order = NULL;
@@ -3874,7 +3875,6 @@ void game_load(struct section_file *file)
      2) if it is saved. */
   if (section_file_lookup(file, "random.index_J")
       && secfile_lookup_bool_default(file, TRUE, "game.save_random")) {
-    RANDOM_STATE rstate;
     rstate.j = secfile_lookup_int(file,"random.index_J");
     rstate.k = secfile_lookup_int(file,"random.index_K");
     rstate.x = secfile_lookup_int(file,"random.index_X");
@@ -3897,6 +3897,7 @@ void game_load(struct section_file *file)
      * be needed later during the load. */
     if (tmp_server_state == RUN_GAME_STATE) {
       init_game_seed();
+      rstate = get_myrand_state();
     }
   }
 
@@ -4076,6 +4077,24 @@ void game_load(struct section_file *file)
   players_iterate(pplayer) {
     calc_civ_score(pplayer);
   } players_iterate_end;
+
+  /* Recalculate the potential buildings for each city.  
+   * Has caused some problems with game random state. */
+  players_iterate(pplayer) {
+    bool saved_ai_control = pplayer->ai.control;
+
+    /* Recalculate for all players. */
+    pplayer->ai.control = FALSE;
+    ai_manage_buildings(pplayer);
+
+    pplayer->ai.control = saved_ai_control;
+  } players_iterate_end;
+  
+  /* Restore game random state, just in case various initialization code
+   * inexplicably altered the previously existing state. */
+  if (!game.info.is_new_game) {
+    set_myrand_state(rstate);
+  }
 }
 
 /***************************************************************

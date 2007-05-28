@@ -2389,6 +2389,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->server.needs_arrange = FALSE;
   pcity->server.vision = NULL; /* No vision. */
 
+  pcity->ai.founder_boat = FALSE;
   pcity->ai.founder_want = 0; /* calculating this is really expensive */
   pcity->ai.next_founder_want_recalc = 0; /* turns to recalc found_want */
   pcity->ai.trade_want = 1; /* we always want some */

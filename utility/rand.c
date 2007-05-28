@@ -86,9 +86,6 @@ RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, int line,
 
   assert(rand_state.is_init);
 
-  freelog(LOG_RAND, "%s(%lu) at line %d of %s",
-          called_as, (unsigned long)size, line, file);
-
   if (size > 1) {
     divisor = MAX_UINT32 / size;
     max = size * divisor - 1;
@@ -113,7 +110,8 @@ RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, int line,
     rand_state.v[rand_state.x] = new_rand;
 
     if (++bailout > 10000) {
-      freelog(LOG_ERROR, "Bailout in myrand(%lu)", (unsigned long)size);
+      freelog(LOG_ERROR, "%s(%lu) = %lu bailout at line %d of %s", 
+	    called_as, (unsigned long)size, (unsigned long)new_rand, line, file);
       new_rand = 0;
       break;
     }
@@ -126,7 +124,8 @@ RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, int line,
     new_rand = 0;
   }
 
-  freelog(LOG_RAND, "myrand(%lu) = %lu", (unsigned long)size, (unsigned long)new_rand);
+  freelog(LOG_RAND, "%s(%lu) = %lu at line %d of %s",
+	    called_as, (unsigned long)size, (unsigned long)new_rand, line, file);
 
   return new_rand;
 } 
@@ -175,6 +174,18 @@ bool myrand_is_init(void)
 *************************************************************************/
 RANDOM_STATE get_myrand_state(void)
 {
+  int i;
+
+  freelog(LOG_RAND, "get_myrand_state J=%d K=%d X=%d",
+    rand_state.j, rand_state.k, rand_state.x);
+  for (i  = 0; i < 8; i++) {
+    freelog(LOG_RAND, "get_myrand_state %d, %08x %08x %08x %08x %08x %08x %08x",
+      i, rand_state.v[7 * i],
+      rand_state.v[7 * i + 1], rand_state.v[7 * i + 2],
+      rand_state.v[7 * i + 3], rand_state.v[7 * i + 4],
+      rand_state.v[7 * i + 5], rand_state.v[7 * i + 6]);
+  }
+
   return rand_state;
 }
 
@@ -184,8 +195,19 @@ RANDOM_STATE get_myrand_state(void)
 *************************************************************************/
 void set_myrand_state(RANDOM_STATE state)
 {
-  freelog(LOG_RAND, "set_myrand_state");
+  int i;
+
   rand_state = state;
+
+  freelog(LOG_RAND, "set_myrand_state J=%d K=%d X=%d",
+    rand_state.j, rand_state.k, rand_state.x);
+  for (i  = 0; i < 8; i++) {
+    freelog(LOG_RAND, "set_myrand_state %d, %08x %08x %08x %08x %08x %08x %08x",
+      i, rand_state.v[7 * i],
+      rand_state.v[7 * i + 1], rand_state.v[7 * i + 2],
+      rand_state.v[7 * i + 3], rand_state.v[7 * i + 4],
+      rand_state.v[7 * i + 5], rand_state.v[7 * i + 6]);
+  }
 }
 
 /*************************************************************************

@@ -2569,12 +2569,13 @@ static void load_ruleset_cities(struct section_file *file)
 
   game.info.celebratesize = 
     secfile_lookup_int_default(file, GAME_DEFAULT_CELEBRATESIZE,
-                               "parameters.celebratesize");
+                               "parameters.celebrate_size_limit");
   game.info.add_to_size_limit =
     secfile_lookup_int_default(file, 9, "parameters.add_to_size_limit");
   game.info.angrycitizen =
     secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN,
                                 "parameters.angry_citizens");
+
   game.info.changable_tax = 
     secfile_lookup_bool_default(file, TRUE, "parameters.changable_tax");
   game.info.forced_science = 
