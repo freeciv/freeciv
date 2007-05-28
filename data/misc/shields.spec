@@ -107,6 +107,7 @@ sprites =
 		"f.shield.kongo", "flags/kongo-shield"
 		"f.shield.korea", "flags/korea-shield"
 		"f.shield.korea_ancient", "flags/korea_ancient-shield"
+		"f.shield.kurd", "flags/kurd-shield"
 		"f.shield.kyrgyzstan", "flags/kyrgyzstan-shield"
 		"f.shield.laos", "flags/laos-shield"
 		"f.shield.latvia", "flags/latvia-shield"

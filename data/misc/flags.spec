@@ -105,6 +105,7 @@ artists = "
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
    Korea (ancient)	Mysid
+   Kurd			Denelson83
    Kyrgyzstan		-xfi-
    Laos			Sebastian Koppehel
    Latvia		Lauris Bukšis
@@ -302,6 +303,7 @@ sprites =
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
 		"f.korea_ancient", "flags/korea_ancient"
+		"f.kurd", "flags/kurd"
 		"f.kyrgyzstan", "flags/kyrgyzstan"
 		"f.laos", "flags/laos"
 		"f.latvia", "flags/latvia"
