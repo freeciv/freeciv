@@ -42,6 +42,7 @@
 
 #include "rand.h"
 
+#define LOG_RAND LOG_DEBUG
 
 /* A global random state:
  * Initialized by mysrand(), updated by myrand(),
@@ -77,13 +78,14 @@ static RANDOM_STATE rand_state;
   directly representable in type RANDOM_TYPE, so we do instead:
          divisor = MAX_UINT32/size
 *************************************************************************/
-RANDOM_TYPE myrand(RANDOM_TYPE size) 
+RANDOM_TYPE myrand_debug(RANDOM_TYPE size,
+		     const char *called_as, int line, const char *file) 
 {
   RANDOM_TYPE new_rand, divisor, max;
   int bailout = 0;
 
   assert(rand_state.is_init);
-    
+
   if (size > 1) {
     divisor = MAX_UINT32 / size;
     max = size * divisor - 1;
@@ -108,7 +110,8 @@ RANDOM_TYPE myrand(RANDOM_TYPE size)
     rand_state.v[rand_state.x] = new_rand;
 
     if (++bailout > 10000) {
-      freelog(LOG_ERROR, "Bailout in myrand(%u)", size);
+      freelog(LOG_ERROR, "%s(%lu) = %lu bailout at line %d of %s", 
+	    called_as, (unsigned long)size, (unsigned long)new_rand, line, file);
       new_rand = 0;
       break;
     }
@@ -121,7 +124,8 @@ RANDOM_TYPE myrand(RANDOM_TYPE size)
     new_rand = 0;
   }
 
-  /* freelog(LOG_DEBUG, "rand(%u) = %u", size, new_rand); */
+  freelog(LOG_RAND, "%s(%lu) = %lu at line %d of %s",
+	    called_as, (unsigned long)size, (unsigned long)new_rand, line, file);
 
   return new_rand;
 } 
@@ -170,6 +174,18 @@ bool myrand_is_init(void)
 *************************************************************************/
 RANDOM_STATE get_myrand_state(void)
 {
+  int i;
+
+  freelog(LOG_RAND, "get_myrand_state J=%d K=%d X=%d",
+    rand_state.j, rand_state.k, rand_state.x);
+  for (i  = 0; i < 8; i++) {
+    freelog(LOG_RAND, "get_myrand_state %d, %08x %08x %08x %08x %08x %08x %08x",
+      i, rand_state.v[7 * i],
+      rand_state.v[7 * i + 1], rand_state.v[7 * i + 2],
+      rand_state.v[7 * i + 3], rand_state.v[7 * i + 4],
+      rand_state.v[7 * i + 5], rand_state.v[7 * i + 6]);
+  }
+
   return rand_state;
 }
 
@@ -179,7 +195,19 @@ RANDOM_STATE get_myrand_state(void)
 *************************************************************************/
 void set_myrand_state(RANDOM_STATE state)
 {
+  int i;
+
   rand_state = state;
+
+  freelog(LOG_RAND, "set_myrand_state J=%d K=%d X=%d",
+    rand_state.j, rand_state.k, rand_state.x);
+  for (i  = 0; i < 8; i++) {
+    freelog(LOG_RAND, "set_myrand_state %d, %08x %08x %08x %08x %08x %08x %08x",
+      i, rand_state.v[7 * i],
+      rand_state.v[7 * i + 1], rand_state.v[7 * i + 2],
+      rand_state.v[7 * i + 3], rand_state.v[7 * i + 4],
+      rand_state.v[7 * i + 5], rand_state.v[7 * i + 6]);
+  }
 }
 
 /*************************************************************************

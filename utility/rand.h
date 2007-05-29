@@ -26,7 +26,12 @@ typedef struct {
   bool is_init;			/* initially 0 for static storage */
 } RANDOM_STATE;
 
-RANDOM_TYPE myrand(RANDOM_TYPE size);
+#define myrand(vsize)      myrand_debug((vsize), "myrand", \
+                                        __LINE__, __FILE__)
+
+RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as, 
+                         int line, const char *file);
+
 void mysrand(RANDOM_TYPE seed);
 
 bool myrand_is_init(void);
