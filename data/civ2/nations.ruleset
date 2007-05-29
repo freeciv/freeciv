@@ -66,3 +66,4 @@ match=0
 *include "nation/arab.ruleset"
 *include "nation/inca.ruleset"
 *include "nation/barbarian.ruleset"
+*include "nation/pirate.ruleset"
