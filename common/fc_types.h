@@ -89,8 +89,18 @@ struct city_production {
   int value; /* Unit_type_id or Impr_type_id */
 };
 
-/* Some integers here could be uint8 values perhaps, but this is probably
- * not worth it.  Storage space is not an issue for these types. */
+/* Changing this enum will break savegame and network compatability. */
+enum unit_activity {
+  ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
+  ACTIVITY_IRRIGATE, ACTIVITY_FORTIFIED, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
+  ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
+  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE, ACTIVITY_FORTIFYING,
+  ACTIVITY_FALLOUT,
+  ACTIVITY_PATROL_UNUSED, /* Needed for savegame compatability. */
+  ACTIVITY_BASE,          /* Build base */
+  ACTIVITY_LAST   /* leave this one last */
+};
+
 typedef signed short Continent_id;
 typedef int Terrain_type_id;
 typedef int Resource_type_id;

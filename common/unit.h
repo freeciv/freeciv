@@ -22,18 +22,6 @@ struct unit_order;
 
 #define BARBARIAN_LIFE    5
 
-/* Changing this enum will break savegame and network compatability. */
-enum unit_activity {
-  ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
-  ACTIVITY_IRRIGATE, ACTIVITY_FORTIFIED, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
-  ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
-  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE, ACTIVITY_FORTIFYING,
-  ACTIVITY_FALLOUT,
-  ACTIVITY_PATROL_UNUSED, /* Needed for savegame compatability. */
-  ACTIVITY_BASE,          /* Build base */
-  ACTIVITY_LAST   /* leave this one last */
-};
-
 /* Changing this enum will break network compatability. */
 enum unit_orders {
   ORDER_MOVE, ORDER_ACTIVITY,
