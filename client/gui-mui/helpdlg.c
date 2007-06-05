@@ -1007,7 +1007,7 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
 
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, get_terrain_by_name(top));
+    help_update_terrain(pitem, top, get_terrain_by_translated_name(top));
     break;
 
   case HELP_GOVERNMENT:

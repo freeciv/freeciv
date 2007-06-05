@@ -613,7 +613,7 @@ static char *lookup_helptext(struct section_file *file, char *prefix)
 }
 
 /**************************************************************************
-  Look up a terrain name in the tile_types array and return its index.
+  Look up a rule (original) terrain name and return its pointer.
 **************************************************************************/
 static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
 {
@@ -624,15 +624,16 @@ static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
     return (tthis);
   }
 
+  /* get_terrain_by_rule_name plus error */
   terrain_type_iterate(pterrain) {
-    if (0 == strcmp(name, pterrain->name)) {
+    if (0 == strcmp(name, pterrain->name_rule)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
 
   /* TRANS: message for an obscure ruleset error. */
   freelog(LOG_ERROR, _("Unknown terrain %s in entry %s."),
-	  name, tthis->name);
+	  name, tthis->name_rule);
   return T_NONE;
 }
 
@@ -1396,11 +1397,11 @@ static void load_names(struct section_file *file)
     char *name = secfile_lookup_str(file, "%s.name",
 				    sec[pterrain->index]);
 
-    name_strlcpy(pterrain->name_orig, name);
-    if (0 == strcmp(pterrain->name_orig, "unused")) {
-      pterrain->name_orig[0] = '\0';
+    name_strlcpy(pterrain->name_rule, name);
+    if (0 == strcmp(pterrain->name_rule, "unused")) {
+      pterrain->name_rule[0] = '\0';
     }
-    pterrain->name = pterrain->name_orig;
+    pterrain->name_translated = NULL;
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1412,11 +1413,11 @@ static void load_names(struct section_file *file)
     char *name = secfile_lookup_str(file, "%s.name",
 				    sec[presource->index]);
 
-    name_strlcpy(presource->name_orig, name);
-    if (0 == strcmp(presource->name_orig, "unused")) {
-      presource->name_orig[0] = '\0';
+    name_strlcpy(presource->name_rule, name);
+    if (0 == strcmp(presource->name_rule, "unused")) {
+      presource->name_rule[0] = '\0';
     }
-    presource->name = NULL;
+    presource->name_translated = NULL;
   } resource_type_iterate_end;
 
   free(sec);
@@ -1500,20 +1501,26 @@ static void load_ruleset_terrain(struct section_file *file)
 
     pterrain->identifier
       = secfile_lookup_str(file, "%s.identifier", tsec[i])[0];
+    if ('\0' == pterrain->identifier) {
+      /* TRANS: message for an obscure ruleset error. */
+      freelog(LOG_FATAL, _("[%s] missing identifier."),
+		tsec[i]);
+      exit(EXIT_FAILURE);
+    }
+    if (UNKNOWN_TERRAIN_IDENTIFIER == pterrain->identifier) {
+      /* TRANS: message for an obscure ruleset error. */
+      freelog(LOG_FATAL, _("'%c' cannot be used as a terrain identifier;"
+		" it is reserved."),
+		pterrain->identifier);
+      exit(EXIT_FAILURE);
+    }
     for (j = T_FIRST; j < i; j++) {
-      if (pterrain->identifier == get_terrain(j)->identifier) {
-	freelog(LOG_FATAL,
-		/* TRANS: message for an obscure ruleset error. */
-		_("Terrains %s and %s have the same identifier."),
-		pterrain->name, get_terrain(j)->name);
+      if (pterrain->identifier == get_terrain_by_number(j)->identifier) {
+	/* TRANS: message for an obscure ruleset error. */
+	freelog(LOG_FATAL, _("Terrains %s and %s have the same identifier."),
+		pterrain->name_rule, get_terrain_by_number(j)->name_rule);
 	exit(EXIT_FAILURE);
       }
-    }
-    if (pterrain->identifier == UNKNOWN_TERRAIN_IDENTIFIER) {
-      /* TRANS: message for an obscure ruleset error. */
-      freelog(LOG_FATAL, _("'%c' cannot be used as a terrain identifier; "
-			   "it is reserved."), UNKNOWN_TERRAIN_IDENTIFIER);
-      exit(EXIT_FAILURE);
     }
 
     pterrain->movement_cost
@@ -1531,9 +1538,11 @@ static void load_ruleset_terrain(struct section_file *file)
     pterrain->resources = fc_calloc(nval + 1,
 				    sizeof(*pterrain->resources));
     for (j = 0; j < nval; j++) {
-      pterrain->resources[j] = get_resource_by_name_orig(res[j]);
+      pterrain->resources[j] = get_resource_by_rule_name(res[j]);
       if (!pterrain->resources[j]) {
-	freelog(LOG_FATAL, "Could not find resource \"%s\".", res[j]);
+	/* TRANS: message for an obscure ruleset error. */
+	freelog(LOG_FATAL, _("[%s] could not find resource \"%s\"."),
+		tsec[i], res[j]);
 	exit(EXIT_FAILURE);
       }
     }
@@ -1597,7 +1606,7 @@ static void load_ruleset_terrain(struct section_file *file)
       if (flag == TER_LAST) {
 	/* TRANS: message for an obscure ruleset error. */
 	freelog(LOG_FATAL, _("Terrain %s has unknown flag %s"),
-		pterrain->name, sval);
+		pterrain->name_rule, sval);
 	exit(EXIT_FAILURE);
       } else {
 	BV_SET(pterrain->flags, flag);
@@ -1625,7 +1634,6 @@ static void load_ruleset_terrain(struct section_file *file)
   resource_type_iterate(presource) {
     const int i = presource->index;
 
-    presource->name = Q_(presource->name_orig);
     output_type_iterate (o) {
       presource->output[o] =
 	  secfile_lookup_int_default(file, 0, "%s.%s", rsec[i],
@@ -1638,17 +1646,24 @@ static void load_ruleset_terrain(struct section_file *file)
 
     presource->identifier
       = secfile_lookup_str(file, "%s.identifier", rsec[i])[0];
-    if (presource->identifier == RESOURCE_NULL_IDENTIFIER) {
-      freelog(LOG_FATAL, "Resource %s can't have '%c' as an identifier,"
-	      " it is reserved.", presource->name, presource->identifier);
+    if ('\0' == presource->identifier) {
+      /* TRANS: message for an obscure ruleset error. */
+      freelog(LOG_FATAL, _("[%s] missing identifier."),
+		rsec[i]);
+      exit(EXIT_FAILURE);
+    }
+    if (RESOURCE_NULL_IDENTIFIER == presource->identifier) {
+      /* TRANS: message for an obscure ruleset error. */
+      freelog(LOG_FATAL, _("[%s] cannot use '%c' as an identifier;"
+		" it is reserved."),
+		rsec[i], presource->identifier);
       exit(EXIT_FAILURE);
     }
     for (j = 0; j < i; j++) {
-      if (presource->identifier == get_resource(j)->identifier) {
-	freelog(LOG_FATAL,
-		/* TRANS: message for an obscure ruleset error. */
-		_("Resources %s and %s have the same identifier."),
-		presource->name, get_resource(j)->name);
+      if (presource->identifier == get_resource_by_number(j)->identifier) {
+	/* TRANS: message for an obscure ruleset error. */
+	freelog(LOG_FATAL, _("Resources %s and %s have the same identifier."),
+		presource->name_rule, get_resource_by_number(j)->name_rule);
 	exit(EXIT_FAILURE);
       }
     }
@@ -1956,7 +1971,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
                * However this is not a problem because we take care of rivers
                * separately.
                */
-	      if (mystrcasecmp(name, pterrain->name) == 0) {
+	      if (0 == mystrcasecmp(name, pterrain->name_rule)) {
 	        city_names[j].terrain[pterrain->index] = setting;
 	        handled = TRUE;
 		break;
@@ -2777,7 +2792,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     packet.id = i;
 
-    sz_strlcpy(packet.name_orig, pterrain->name_orig);
+    sz_strlcpy(packet.name_orig, pterrain->name_rule);
     sz_strlcpy(packet.graphic_str, pterrain->graphic_str);
     sz_strlcpy(packet.graphic_alt, pterrain->graphic_alt);
 
@@ -2839,7 +2854,7 @@ static void send_ruleset_resources(struct conn_list *dest)
 
     packet.id = i;
 
-    sz_strlcpy(packet.name_orig, presource->name_orig);
+    sz_strlcpy(packet.name_orig, presource->name_rule);
     sz_strlcpy(packet.graphic_str, presource->graphic_str);
     sz_strlcpy(packet.graphic_alt, presource->graphic_alt);
 

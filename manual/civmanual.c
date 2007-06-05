@@ -228,13 +228,13 @@ static bool manual_command(void)
       terrain_type_iterate(pterrain) {
         const struct resource **r;
 
-        if (pterrain->name[0] == '\0') {
+        if ('\0' == pterrain->name_rule[0]) {
           /* Must be a disabled piece of terrain */
           continue;
         }
 
         fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>",
-                pterrain->graphic_str, get_name(pterrain));
+                pterrain->graphic_str, terrain_name_translation(pterrain));
         fprintf(doc, "<td>%d/%d/%d</td>\n",
                 pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
                 pterrain->output[O_TRADE]);
@@ -243,8 +243,11 @@ static bool manual_command(void)
         for (r = pterrain->resources; *r; r++) {
           fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>"
                   "<td align=\"right\">%d/%d/%d</td></tr>\n",
-                  (*r)->graphic_str, (*r)->name, (*r)->output[O_FOOD],
-                  (*r)->output[O_SHIELD], (*r)->output[O_TRADE]);
+                  (*r)->graphic_str,
+                  resource_name_translation(*r),
+                  (*r)->output[O_FOOD],
+                  (*r)->output[O_SHIELD],
+                  (*r)->output[O_TRADE]);
         }
         fprintf(doc, "</table></td>\n");
 
@@ -259,7 +262,8 @@ static bool manual_command(void)
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         } else {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  get_name(pterrain->irrigation_result), pterrain->irrigation_time);
+                  terrain_name_translation(pterrain->irrigation_result),
+                  pterrain->irrigation_time);
         }
         if (pterrain->mining_result == pterrain) {
           fprintf(doc, "<tr><td>+%d P</td><td align=\"right\">(%d)</td></tr>\n",
@@ -268,12 +272,14 @@ static bool manual_command(void)
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         } else {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  get_name(pterrain->mining_result), pterrain->mining_time);
+                  terrain_name_translation(pterrain->mining_result),
+                  pterrain->mining_time);
         }
         fprintf(doc, "<tr><td>+%d T</td><td align=\"right\">(%d)</td></tr>\n",
                 pterrain->road_trade_incr, pterrain->road_time);
         fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",
-                get_name(pterrain->transform_result), pterrain->transform_time);
+                terrain_name_translation(pterrain->transform_result),
+                pterrain->transform_time);
 
         fprintf(doc, "<td align=\"center\">%d / %d / %d / %d / %d</td></tr>\n\n",
                 pterrain->airbase_time, pterrain->fortress_time, pterrain->rail_time,

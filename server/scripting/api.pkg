@@ -100,7 +100,7 @@ struct Tech_Type {
 };
 
 struct Terrain {
-  const char *name_orig @ name;
+  const char *name_rule @ name;
 };
 
 

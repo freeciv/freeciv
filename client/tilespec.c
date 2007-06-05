@@ -2577,8 +2577,8 @@ void tileset_setup_resource(struct tileset *t,
   t->sprites.resource[id]
     = lookup_sprite_tag_alt(t, presource->graphic_str,
 			    presource->graphic_alt,
-			    FALSE, "resource_type",
-			    presource->name);
+			    FALSE, "resource",
+			    presource->name_rule);
 }
 
 
@@ -2594,7 +2594,7 @@ void tileset_setup_tile_type(struct tileset *t,
   char buffer1[MAX_LEN_NAME + 20];
   int i, l;
   
-  if (pterrain->name[0] == '\0') {
+  if ('\0' == pterrain->name_rule[0]) {
     return;
   }
 
@@ -2603,8 +2603,9 @@ void tileset_setup_tile_type(struct tileset *t,
     draw = hash_lookup_data(t->terrain_hash, pterrain->graphic_alt);
     if (!draw) {
       freelog(LOG_FATAL, "No graphics %s or %s for %s terrain.",
-	      pterrain->graphic_str, pterrain->graphic_alt,
-	      pterrain->name);
+	      pterrain->graphic_str,
+	      pterrain->graphic_alt,
+	      pterrain->name_rule);
       exit(EXIT_FAILURE);
     }
   }
@@ -2639,9 +2640,9 @@ void tileset_setup_tile_type(struct tileset *t,
 	for (i = 0; i < t->num_index_cardinal; i++) {
 	  my_snprintf(buffer1, sizeof(buffer1),
 		      "t.%s_%s", draw->name, cardinal_index_str(t, i));
-	  draw->layer[l].match[i] = lookup_sprite_tag_alt(t, buffer1, "", TRUE,
-							  "tile_type",
-							  pterrain->name);
+	  draw->layer[l].match[i] =
+	    lookup_sprite_tag_alt(t, buffer1, "", TRUE, "whole cell terrain",
+							  pterrain->name_rule);
 	}
 	draw->layer[l].base.p[0] = draw->layer[l].match[0];
 	break;
@@ -2671,8 +2672,8 @@ void tileset_setup_tile_type(struct tileset *t,
 			  (value >> 1) & 1,
 			  (value >> 2) & 1);
 	      draw->layer[l].cells[i]
-		= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "tile_type",
-					pterrain->name);
+		= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "same cell terrain",
+					pterrain->name_rule);
 	      break;
 	    case MATCH_FULL:
 	      {
@@ -2747,8 +2748,8 @@ void tileset_setup_tile_type(struct tileset *t,
 	}
 	my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
 	draw->layer[l].base.p[0]
-	  = lookup_sprite_tag_alt(t, buffer1, "", FALSE, "tile_type",
-				  pterrain->name);
+	  = lookup_sprite_tag_alt(t, buffer1, "", TRUE, "base terrain",
+				  pterrain->name_rule);
 	break;
       }
     }
