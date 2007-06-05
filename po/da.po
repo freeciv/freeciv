@@ -1,6 +1,6 @@
 # translation of da.po to Danish
 # Danish translation of Freeciv.
-# Copyright (C) 1999-2006
+# Copyright (C) 1999-2007
 # This translation is covered by the GNU General Public License Version 2.
 #
 # Konventioner:
@@ -10,7 +10,7 @@
 #   
 # Keld Simonsen <keld@dkuug.dk>, 2001-2002, 2004.
 # Ole Laursen <olau@hardworking.dk>, 2004.
-# Joe Hansen <joedalton2@yahoo.dk>, 2006.
+# Joe Hansen <joedalton2@yahoo.dk>, 2006,2007.
 # Herudover har Dansk-Gruppen været behjælpelig med teknik og diverse sprogspørgsmål.
 #
 msgid ""
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 19:51-0500\n"
-"PO-Revision-Date: 2006-12-05 22:51+0100\n"
+"PO-Revision-Date: 2007-06-05 22:51+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <<dansk@dansk-gruppen.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -285,27 +285,27 @@ msgstr "Vejledningsbesked"
 
 #: common/events.c:88
 msgid "Broadcast Report"
-msgstr "Spil: Rundsender Rapport"
+msgstr "Rundsender Rapport"
 
 #: common/events.c:89
 msgid "Game Ended"
-msgstr "Spil: Spillet er slut"
+msgstr "Spillet er slut"
 
 #: common/events.c:90
 msgid "Game Started"
-msgstr "Spil: Spillet er i gang"
+msgstr "Spillet er i gang"
 
 #: common/events.c:91
 msgid "Message from Server Operator"
-msgstr "Spil: Melding fra Server Operatør"
+msgstr "Melding fra Server Operatør"
 
 #: common/events.c:92
 msgid "Nation Selected"
-msgstr "Spil: Nation valgt"
+msgstr "Nation valgt"
 
 #: common/events.c:93
 msgid "Player Destroyed"
-msgstr "Spil: Spiller knust"
+msgstr "Spiller knust"
 
 #: common/events.c:94 client/gui-mui/gui_main.c:289
 msgid "Report"
@@ -313,11 +313,11 @@ msgstr "Rapporter"
 
 #: common/events.c:95
 msgid "Turn Bell"
-msgstr "Spil: Rundeklokke"
+msgstr "Rundeklokke"
 
 #: common/events.c:96
 msgid "Year Advance"
-msgstr "Spil: Året går"
+msgstr "Året går"
 
 #: common/events.c:97
 msgid "Global: Eco-Disaster"
@@ -1043,17 +1043,17 @@ msgstr "fejl %d (oversat uden 'strerror')"
 #: ai/aicity.c:1345 server/citytools.c:1841
 #, c-format
 msgid "The %s have stopped building The %s in %s."
-msgstr "Spil: %s har stoppet bygningen af %s i %s."
+msgstr "%s har stoppet bygningen af %s i %s."
 
 #: ai/aicity.c:1356 server/citytools.c:1881
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr "Spil: %s har startet bygningen af %s i %s."
+msgstr "%s har startet bygningen af %s i %s."
 
 #: ai/aicity.c:1677
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
-msgstr "Spil: %s sælger %s (ikke nødv.) for %d."
+msgstr "%s sælger %s (ikke nødv.) for %d."
 
 #: ai/advdiplomacy.c:278
 #, c-format
@@ -1472,10 +1472,10 @@ msgstr ""
 "tegn lang. Prøv igen."
 
 #: server/barbarian.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
 msgstr ""
-"Barbarerne har fået en leder ved navn %s. Farlige tider kan ligge forude."
+"%s har fået en leder ved navn %s. Farlige tider kan ligge forude."
 
 #: server/barbarian.c:476
 #, c-format
@@ -1489,48 +1489,48 @@ msgstr "Pirater set nær %s!"
 
 #: server/cityhand.c:117
 msgid "You don't have a worker here."
-msgstr "Spil: Du har ikke en arbejder her."
+msgstr "Du har ikke en arbejder her."
 
 #: server/cityhand.c:174
 msgid "You have already sold something here this turn."
-msgstr "Spil: Du har allerede solgt noget her i denne runde."
+msgstr "Du har allerede solgt noget her i denne runde."
 
 #: server/cityhand.c:183
 #, c-format
 msgid "You sell %s in %s for %d gold."
-msgstr "Spil: Du sælger %s i %s for %d guld."
+msgstr "Du sælger %s i %s for %d guld."
 
 #: server/cityhand.c:222
 msgid "Cannot buy in city created this turn."
-msgstr "Spil: Kan ikke købe i en by grundlagt i denne runde."
+msgstr "Kan ikke købe i en by grundlagt i denne runde."
 
 #: server/cityhand.c:228
 msgid "You have already bought this turn."
-msgstr "Spil: Du har allerede købt i denne runde."
+msgstr "Du har allerede købt i denne runde."
 
 #: server/cityhand.c:235
 #, c-format
 msgid "You don't buy %s!"
-msgstr "Spil: Du køber ikke %s!"
+msgstr "Du køber ikke %s!"
 
 #: server/cityhand.c:242
 msgid "Can't buy units when city is in disorder."
-msgstr "Spil: Kan ikke købe enheder når der er uroligheder i byen."
+msgstr "Kan ikke købe enheder når der er uroligheder i byen."
 
 #: server/cityhand.c:261
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr "Spil: Kræver %d guld, og du har kun %d guld."
+msgstr "Kræver %d guld, og du har kun %d guld."
 
 #: server/cityhand.c:362
 msgid "You have bought this turn, can't change."
-msgstr "Spil: Du har købt i denne runde, kan ikke ændre."
+msgstr "Du har handlet i denne runde, kan ikke ændre."
 
 #: server/cityhand.c:387 client/text.c:1134 client/text.c:1171
 #: client/gui-mui/citydlg.c:2042 client/gui-win32/citydlg.c:1263
 #, c-format
 msgid "%s"
-msgstr "Spil: %s"
+msgstr "%s"
 
 #: server/citytools.c:271
 #, c-format
@@ -1567,33 +1567,33 @@ msgstr "En dårligt navngivet by"
 #: server/citytools.c:505
 #, c-format
 msgid "Changed homecity of %s to %s."
-msgstr "Spil: Ændret hjemby for %s til %s."
+msgstr "Ændret hjemby for %s til %s."
 
 #: server/citytools.c:516
 #, c-format
 msgid "Transfered %s in %s from %s to %s."
-msgstr "Spil: Overførte %s i %s fra %s til %s."
+msgstr "Overførte %s i %s fra %s til %s."
 
 #: server/citytools.c:526
 #, c-format
 msgid "Transfered %s from %s to %s."
-msgstr "Spil: Overførte %s fra %s til %s."
+msgstr "Overførte %s fra %s til %s."
 
 # problem
 #: server/citytools.c:536
 #, c-format
 msgid "%s from %s lost in transfer to %s's %s"
-msgstr "Spil: %s fra %s gik tabt i transit til %ss %s."
+msgstr "%s fra %s gik tabt i transit til %ss %s."
 
 #: server/citytools.c:609
 #, c-format
 msgid "%s lost along with control of %s."
-msgstr "Spil: En enhed (%s) gik tabt sammen med kontrollen over %s."
+msgstr "%s gik tabt sammen med kontrollen over %s."
 
 #: server/citytools.c:736
 #, c-format
 msgid "You lost %s. A new %s was built in %s."
-msgstr "Spil: Du mistede din hovedstad %s. Et nyt %s er bygget i %s."
+msgstr "Du mistede %s. Et nyt %s er bygget i %s."
 
 #: server/citytools.c:807
 #, c-format
@@ -1606,82 +1606,82 @@ msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
-"Spil: Folket i %s forbløffes over din teknologiske indsigt!\n"
+"Folket i %s forbløffes over din teknologiske indsigt!\n"
 "      Arbejderne samler sig til dåd og bygger jernbaner i byen."
 
 #: server/citytools.c:1024
 #, c-format
 msgid "You have founded %s."
-msgstr "Spil: Du har grundlagt %s."
+msgstr "Du har grundlagt %s."
 
 #: server/citytools.c:1096
-#, fuzzy, c-format
+#, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
-msgstr "Spil: Flyttede %s ud af forladt by %s for at undgå at blive låst fast."
+msgstr "Flyttede %s ud af forladt by %s for at undgå at blive låst fast på %s."
 
 #: server/citytools.c:1107
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr "Spil: Da %s blev opløst kunne din %s ikke flygte og gik derfor tabt."
+msgstr "Da %s blev opløst kunne din %s ikke flygte og gik derfor tabt."
 
 #: server/citytools.c:1230
 #, c-format
 msgid "You destroy %s completely."
-msgstr "Spil: Du tilintetgør %s."
+msgstr "Du tilintetgør %s."
 
 #: server/citytools.c:1232
 #, c-format
 msgid "%s has been destroyed by %s."
-msgstr "Spil: %s er blevet tilintetgjort af %s."
+msgstr "%s er blevet tilintetgjort af %s."
 
 #: server/citytools.c:1249
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
-msgstr[0] "Spil: Du erobrer %s; plyndringerne beløber sig til %d guld!"
-msgstr[1] "Spil: Du erobrer %s; plyndringerne beløber sig til %d guld!"
+msgstr[0] "Du erobrer %s; plyndringerne beløber sig til %d guld!"
+msgstr[1] "Du erobrer %s; plyndringerne beløber sig til %d guld!"
 
 #: server/citytools.c:1255
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
-msgstr[0] "Spil: %s erobrede %s og plyndrede %d guld fra byen."
-msgstr[1] "Spil: %s erobrede %s og plyndrede %d guld fra byen."
+msgstr[0] "%s erobrede %s og plyndrede %d guld fra byen."
+msgstr[1] "%s erobrede %s og plyndrede %d guld fra byen."
 
 #: server/citytools.c:1262
 #, c-format
 msgid "You conquer %s"
-msgstr "Spil: Du erobrer %s."
+msgstr "Du erobrer %s."
 
 #: server/citytools.c:1264
 #, c-format
 msgid "%s conquered %s."
-msgstr "Spil: %s erobrede %s"
+msgstr "%s erobrede %s"
 
 #: server/citytools.c:1269
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
-msgstr[0] "Spil: Du har befriet %s! Plyndringerne beløber sig til %d guld."
-msgstr[1] "Spil: Du har befriet %s! Plyndringerne beløber sig til %d guld."
+msgstr[0] "Du har befriet %s! Plyndringerne beløber sig til %d guld."
+msgstr[1] "Du har befriet %s! Plyndringerne beløber sig til %d guld."
 
 #: server/citytools.c:1275
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
-msgstr[0] "Spil: %s befriede %s og plyndrede %d guld fra byen."
-msgstr[1] "Spil: %s befriede %s og plyndrede %d guld fra byen."
+msgstr[0] "%s befriede %s og plyndrede %d guld fra byen."
+msgstr[1] "%s befriede %s og plyndrede %d guld fra byen."
 
 #: server/citytools.c:1282
 #, c-format
 msgid "You have liberated %s!"
-msgstr "Spil: Du har befriet %s!"
+msgstr "Du har befriet %s!"
 
 #: server/citytools.c:1284
 #, c-format
 msgid "%s liberated %s."
-msgstr "Spil: %s befriede %s."
+msgstr "%s befriede %s."
 
 #: server/citytools.c:1862
 msgid " from the worklist"
@@ -1691,93 +1691,93 @@ msgstr " fra arbejdslisten"
 #: server/citytools.c:1874
 #, c-format
 msgid "%s is building %s%s."
-msgstr "Spil: %s bygger nu %s%s."
+msgstr "%s bygger nu %s%s."
 
 #: server/citytools.c:2119
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
-msgstr "Spil: Du sælger %s i %s (nu uden havn) for %d guld."
+msgstr "Du sælger %s i %s (nu uden havn) for %d guld."
 
 #: server/cityturn.c:124
 #, c-format
 msgid "%s is selling %s (obsolete) for %d."
-msgstr "Spil: %s sælger %s (forældet) for %d."
+msgstr "%s sælger %s (forældet) for %d."
 
 #: server/cityturn.c:302
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr "Spil: Bemærk at vidunderet %s i %s vil blive fuldført næste runde."
+msgstr "Bemærk at vidunderet %s i %s vil blive fuldført næste runde."
 
 #: server/cityturn.c:336
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr ""
-"Spil: Foreslår vækstbegrænsning i %s for at benytte %s (under bygning) mere "
+"Foreslår vækstbegrænsning i %s for at benytte %s (under bygning) mere "
 "effektivt."
 
 #: server/cityturn.c:347
 #, c-format
 msgid "%s may soon grow to size %i."
-msgstr "Spil: %s vokser snart til størrelse %i."
+msgstr "%s vokser snart til størrelse %i."
 
 #: server/cityturn.c:355
 #, c-format
 msgid "Warning: Famine feared in %s."
-msgstr "Spil: Advarsel hungersnød frygtet i %s."
+msgstr "Advarsel hungersnød frygtet i %s."
 
 #: server/cityturn.c:378
 msgid "WARNING, we're LOW on FUNDS sire."
-msgstr "Spil: ADVARSEL, STATSKASSEN er snart TOM."
+msgstr "ADVARSEL, STATSKASSEN er snart TOM."
 
 #: server/cityturn.c:470
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
-msgstr "Spil: %s behøver %s (under konstruktion) for fortsat vækst."
+msgstr "%s behøver %s (under konstruktion) for fortsat vækst."
 
 #: server/cityturn.c:475
 #, c-format
 msgid "%s needs an improvement to grow any further."
-msgstr "Spil: %s behøver en forbedring for fortsat vækst."
+msgstr "%s behøver en forbedring for fortsat vækst."
 
 #: server/cityturn.c:518
 #, c-format
 msgid "%s grows to size %d."
-msgstr "Spil: %s vokser til størrelse %d."
+msgstr "%s vokser til størrelse %d."
 
 #: server/cityturn.c:575
 #, c-format
 msgid "Famine feared in %s, %s lost!"
-msgstr "Spil: Hungersnød frygtet i %s, %s tabt!"
+msgstr "Hungersnød frygtet i %s, %s tabt!"
 
 #: server/cityturn.c:587
 #, c-format
 msgid "Famine causes population loss in %s."
-msgstr "Spil: Hungersnød fører til befolkningstab i %s."
+msgstr "Hungersnød fører til befolkningstab i %s."
 
 #: server/cityturn.c:591
 #, c-format
 msgid "Famine destroys %s entirely."
-msgstr "Spil: Hungersnød tilintetgør %s."
+msgstr "Hungersnød tilintetgør %s."
 
 #: server/cityturn.c:665
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; teknologi er ikke tilgængelig. "
+"%s kan ikke bygge %s fra arbejdslisten; teknologi er ikke tilgængelig. "
 "Udsætter..."
 
 #: server/cityturn.c:677 server/cityturn.c:713
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
-msgstr "Spil: %s kan ikke bygge %s fra arbejdslisten. Sletter..."
+msgstr "%s kan ikke bygge %s fra arbejdslisten. Sletter..."
 
 #: server/cityturn.c:697 server/cityturn.c:859 server/cityturn.c:958
 #: server/cityturn.c:1006
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
-msgstr "Spil: Produktion af %s er opgraderet til %s i %s."
+msgstr "Produktion af %s er opgraderet til %s i %s."
 
 #: server/cityturn.c:745
 #, c-format
@@ -1785,7 +1785,7 @@ msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
 "Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; teknologi %s er ikke "
+"%s kan ikke bygge %s fra arbejdslisten; teknologi %s er ikke "
 "tilgængelig.  Udsætter..."
 
 #: server/cityturn.c:758
@@ -1793,7 +1793,7 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; skal have %s først.  "
+"%s kan ikke bygge %s fra arbejdslisten; skal have %s først.  "
 "Udsætter..."
 
 #: server/cityturn.c:771
@@ -1801,7 +1801,7 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; skal have %s først.  "
+"%s kan ikke bygge %s fra arbejdslisten; skal have %s først.  "
 "Udsætter..."
 
 #: server/cityturn.c:783
@@ -1809,7 +1809,7 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; skal have %s først.  "
+"%s kan ikke bygge %s fra arbejdslisten; skal have %s først.  "
 "Udsætter..."
 
 #: server/cityturn.c:795
@@ -3438,9 +3438,9 @@ msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr "Start flådeenheder er ikke understøttet. Ingen får %s."
 
 #: server/gamehand.c:318
-#, fuzzy, c-format
+#, c-format
 msgid "No units placed for %s!"
-msgstr "Spil: Ingen enheder valgt."
+msgstr "Ingen enheder placeret for %s!"
 
 #: server/gamehand.c:354 client/text.c:603 client/gui-mui/mapview.c:192
 #, c-format
@@ -3736,39 +3736,39 @@ msgid ""
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
-"Spil: Erobringen af %s's hovedstad og ødelæggelsen af rigets administrative\n"
+"Erobringen af %s's hovedstad og ødelæggelsen af rigets administrative\n"
 "      strukturer har udløst en borgerkrig. Opportunister har sluttet sig "
 "til\n"
 "      oprørerne, og opkomlingen %s har nu magten i %d landsdele."
 
 #: server/report.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "%s rapporterer om de RIGESTE civilisationer i verden."
+msgstr "%s rapporterer om de RIGESTE civilisationer i verden %s."
 
 #: server/report.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "%s rapporterer om de mest AVANCEREDE civilisationer i verden."
+msgstr "%s rapporterer om de mest AVANCEREDE civilisationer i verden %s."
 
 #: server/report.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "%s rapport om de mest MILITARISEREDE civilisationer i verden."
+msgstr "%s rapporterer om de mest MILITARISEREDE civilisationer i verden %s."
 
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World %s."
-msgstr "%s rapport om de LYKKELIGSTE civilisationer i verden."
+msgstr "%s rapporterer om de LYKKELIGSTE civilisationer i verden %s."
 
 #: server/report.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the LARGEST Civilizations in the World %s."
-msgstr "%s rapport om de STØRSTE civilisationer i verden."
+msgstr "%s rapporterer om de STØRSTE civilisationer i verden %s."
 
 #: server/report.c:63
 msgid "Herodotus'"
-msgstr "Herodots"
+msgstr "Herodotus'"
 
 #: server/report.c:64
 msgid "Thucydides'"
@@ -4100,7 +4100,7 @@ msgstr "Resource %s og %s har den samme markering."
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1822
-#, fuzzy, c-format
+#, c-format
 msgid "Base %s has unknown flag %s"
 msgstr "Terræn %s har ukendt markering %s"
 
@@ -4108,7 +4108,7 @@ msgstr "Terræn %s har ukendt markering %s"
 #: server/ruleset.c:2575
 #, c-format
 msgid "Section %s lists unknown effect type: \"%s\" (%s)"
-msgstr "Spil: Sektion %s lister ukendte effekt typer: \"%s\" (%s)"
+msgstr "Sektion %s lister ukendte effekt typer: \"%s\" (%s)"
 
 #: server/ruleset.c:3251
 msgid "Loading rulesets"
@@ -5413,17 +5413,15 @@ msgid "Savegame compression level"
 msgstr "Komprimeringsniveau på gemt spil"
 
 #: server/settings.c:975
-#, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format) or "
 "bzip2. Larger values will give better compression but take longer."
 msgstr ""
-"Hvis forskellig fra nul, vil lagrede spil blive komprimeret med zlib (gzip-"
-"format). Højere tal vil give højere komprimering, men tage længere tid. Hvis "
-"maksimum er 0 var denne server ikke oversat til at bruge zlib."
+"Hvis forskellig fra nul, vil gemte spil blive komprimeret med zlib (gzip-"
+"format) eller bzip2. Højere tal vil give højere komprimering, men tage "
+"længere tid."
 
 #: server/settings.c:984
-#, fuzzy
 msgid "Savegame compression algorithm"
 msgstr "Komprimeringsniveau på gemt spil"
 
@@ -5435,6 +5433,11 @@ msgid ""
 " 2 - bzip2\n"
 "Not all servers support all compression methods."
 msgstr ""
+"Komprimeringskatalog til brug for gemte spil.\n"
+" 0 - ingen\n"
+" 1 - zlib (gzip format)\n"
+" 2 - bzip2\n"
+"Ikke alle servere understøtter alle komprimeringsmetoder."
 
 #: server/settings.c:1000
 msgid "Auto-save name prefix"
@@ -5576,21 +5579,21 @@ msgstr ""
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
-msgstr "Spil: Bekymrede borgere påpeger at våbenhvilen med %s snart udløber."
+msgstr "Bekymrede borgere påpeger at våbenhvilen med %s snart udløber."
 
 #: server/srv_main.c:494 server/srv_main.c:497
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr "Spil: Våbenhvilen med %s er udløbet. Du er nu i krig med %s."
+msgstr "Våbenhvilen med %s er udløbet. Du er nu i krig med %s."
 
 #: server/srv_main.c:513
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ceasefire between %s and %s has run out. They are at war. You cancel your "
 "alliance with both."
 msgstr ""
-"Spil: Våbenhvilen mellem %s og %s er brudt. De er i krig. Du annullerer "
-"alliancen med %s."
+"Våbenhvilen mellem %s og %s er løbet ud. De er i krig. Du annullerer "
+"alliancen med begge."
 
 #: server/srv_main.c:894
 #, c-format
@@ -6614,7 +6617,8 @@ msgstr "Spillet endte uafgjort."
 #: server/stdinhand.c:3633
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
-msgstr "Afslutter spillet. Serveren genstarter når alle klienter er logget af."
+msgstr ""
+"Afslutter spillet. Serveren genstarter når alle klienter er logget af."
 
 #: server/stdinhand.c:3638
 msgid "Cannot end the game: no game running."
@@ -6627,7 +6631,7 @@ msgstr "%s har erkendt at personen ikke kan vinde."
 
 #: server/stdinhand.c:3659
 msgid "You cannot surrender now."
-msgstr "Spil: Du kan ikke overgive dig nu."
+msgstr "Du kan ikke overgive dig nu."
 
 #: server/stdinhand.c:3705
 msgid "Not enough players, game will not start."
@@ -8503,9 +8507,9 @@ msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr ""
 
 #: client/helpdata.c:781
-#, fuzzy, c-format
+#, c-format
 msgid "* Can only be built if there is %s in the city.\n"
-msgstr "* Kan kun bygges med %s som styreform.\n"
+msgstr "* Kan kun bygges hvis der er %s i byen.\n"
 
 #: client/helpdata.c:786
 #, c-format
@@ -8684,9 +8688,9 @@ msgid "* May not be bribed.\n"
 msgstr "* Denne enhed kan ikke bestikkes.\n"
 
 #: client/helpdata.c:922
-#, fuzzy, c-format
+#, c-format
 msgid "* Can attack otherwise unreachable enemy units.\n"
-msgstr "* Kan angribe fjendtlige luftenheder.\n"
+msgstr "* Kan angribe ellers unåelige fjendtlige enheder..\n"
 
 #: client/helpdata.c:925
 #, c-format
@@ -8721,17 +8725,17 @@ msgstr "* Får dobbelt forsvar mod enheder som er 'til hest'.\n"
 #: client/helpdata.c:948
 #, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
-msgstr "* Tæller som 'til hest' mod enkelte forsvarere.\n"
+msgstr "* Tæller som »til hest« mod enkelte forsvarere.\n"
 
 #: client/helpdata.c:952
-#, fuzzy, c-format
+#, c-format
 msgid "* Counts as 'helicopter' against certain attackers.\n"
-msgstr "* Tæller som 'til hest' mod enkelte forsvarere.\n"
+msgstr "* Tæller som »helikopter« mod enkelte angribere.\n"
 
 #: client/helpdata.c:956
-#, fuzzy, c-format
+#, c-format
 msgid "* Very good at attacking 'helicopter' units.\n"
-msgstr "* Uegnet til at angribe AEGIS enheder.\n"
+msgstr "* Velegnet til at angribe »helikopter« enheder.\n"
 
 #: client/helpdata.c:960
 #, c-format
@@ -17497,14 +17501,13 @@ msgstr ""
 "Freeciv International:  freeciv-i18n@freeciv.org"
 
 #: data/helpdata.txt:405
-#, fuzzy
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5556 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
 msgstr ""
 "Inden et spil er sat i gang kan hvem som helst koble til serveren ved at "
-"angive sit værtsnavn og port (5555 standard). Hvis serveren startes med -m "
+"angive sit værtsnavn og port (5556 standard). Hvis serveren startes med -m "
 "flaget, vil den rapportere sig til metaserveren."
 
 #: data/helpdata.txt:412
@@ -23802,18 +23805,16 @@ msgid "Lady Protector"
 msgstr "Lady Protector"
 
 #: data/nation/esperant.ruleset:3
-#, fuzzy
 msgid "Esperant"
-msgstr "Europæer"
+msgstr "Esperanter"
 
 #: data/nation/esperant.ruleset:4
-#, fuzzy
 msgid "?plural:Esperants"
-msgstr "?plural:Europæerne"
+msgstr "?plural:Esperanterne"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
-msgstr ""
+msgstr "Esperanterne er et verdensfællesskab forenet af esperanto sproget."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -23970,14 +23971,12 @@ msgstr "Primeira Ministra"
 #. TRANS: The third letter in "Dona" should be U+00F1 LATIN SMALL LETTER
 #. TRANS: N WITH TILDE
 #: data/nation/galician.ruleset:25
-#, fuzzy
 msgid "Don"
-msgstr "Fuldført"
+msgstr "Don"
 
 #: data/nation/galician.ruleset:25
-#, fuzzy
 msgid "Dona"
-msgstr "Doamna"
+msgstr "Dona"
 
 #: data/nation/galician.ruleset:26
 msgid "Raina"
@@ -24550,9 +24549,8 @@ msgid "Kenya gained independence from Britain in December 1963."
 msgstr "Kenya opnåede uafhængighed fra Storbritannien i december 1963."
 
 #: data/nation/kenyan.ruleset:18
-#, fuzzy
 msgid "Nabongo"
-msgstr "Nabob"
+msgstr "Nabongo"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -24703,14 +24701,12 @@ msgid "Great Duchess"
 msgstr "Storfyrstinde"
 
 #: data/nation/lojbanistani.ruleset:3
-#, fuzzy
 msgid "Lojbanistani"
-msgstr "Rumæner"
+msgstr "Lojbanistanier"
 
 #: data/nation/lojbanistani.ruleset:4
-#, fuzzy
 msgid "?plural:Lojbanistanis"
-msgstr "?plural:Rumænerne"
+msgstr "?plural:Lojbanistanierne"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -24719,6 +24715,9 @@ msgid ""
 "unambiguous (\"Time flies like an arrow. Fruit flies like a banana.\"), "
 "culturally neutral and simple to learn."
 msgstr ""
+"Lojbanistan er et fiktivt sted hvor folk taler lojbanisk. Lojbanisk er et "
+"konstrueret sprog udviklet til menneskelig kommunikation. Lojbanisk er "
+"i sin opbygning logisk, kulturelt neutral og nemt at lære."
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
@@ -25108,20 +25107,20 @@ msgid "?female:Pierwszy Sekretarz"
 msgstr "?female:Pierwszy Sekretarz"
 
 #: data/nation/polynesian.ruleset:3
-#, fuzzy
 msgid "Polynesian"
-msgstr "Perser"
+msgstr "Polyneser"
 
 #: data/nation/polynesian.ruleset:4
-#, fuzzy
 msgid "?plural:Polynesian"
-msgstr "?plural:Polakkerne"
+msgstr "?plural:Polyneserne"
 
 #: data/nation/polynesian.ruleset:6
 msgid ""
 "Polynesian culture stretches from Hawaii to New Zealand to Easter Island and "
 "covers all the islands in between."
 msgstr ""
+"Den plynesiske kultur er udbredt i et område fra Hawaii til New Zealand til "
+"Påskeøen og dækker alle øer herimellem."
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
@@ -25851,48 +25850,42 @@ msgid "Hetman"
 msgstr "Hetman"
 
 #: data/nation/un.ruleset:3
-#, fuzzy
 msgid "UN"
-msgstr "E"
+msgstr "FN"
 
 #: data/nation/un.ruleset:4
-#, fuzzy
-msgid "?plural:UN"
-msgstr "?plural:Samerne"
+msgid "?plural:FN"
+msgstr "?plural:FN"
 
 #: data/nation/un.ruleset:5
-#, fuzzy
 msgid "Fictional"
-msgstr "Situationsbestemte"
+msgstr "Fiktiv"
 
 #: data/nation/un.ruleset:6
 msgid ""
 "The United Nations believe in human rights and the protection of the weak."
 msgstr ""
+"FN tror på menneskerettighederne og beskyttelsen af den svage."
 
 #: data/nation/un.ruleset:23
-#, fuzzy
 msgid "?female:Chairperson"
-msgstr "?female:Høvding"
+msgstr "?female:Formand"
 
 #: data/nation/un.ruleset:24
-#, fuzzy
 msgid "Secretary-General"
-msgstr "Guvernør-General"
+msgstr "Generalsekretær"
 
 #: data/nation/un.ruleset:24
-#, fuzzy
 msgid "?female:Secretary-General"
-msgstr "?female:General"
+msgstr "?female:Generalsekretær"
 
 #: data/nation/un.ruleset:25
 msgid "Representative"
-msgstr ""
+msgstr "Repræsentant"
 
 #: data/nation/un.ruleset:25
-#, fuzzy
 msgid "?female:Representative"
-msgstr "?female:Præsident"
+msgstr "?female:Repræsentant"
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
@@ -26593,39 +26586,6 @@ msgstr "Hold 32"
 #~ "'Ongi etorri Euskadira, eta zorte on! (velkommen til Euskadi og held og "
 #~ "lykke!)"
 
-#~ msgid "Ah"
-#~ msgstr "Ah"
-
-#~ msgid "?female:Ah"
-#~ msgstr "?female:Ah"
-
-# FIXME: meget grimt
-#~ msgid "We Love The %s Day celebrated in %s."
-#~ msgstr "Spil: Den nationale %s-dag fejres i %s."
-
-#~ msgid "We Love The %s Day canceled in %s."
-#~ msgstr "Spil: Den nationale %s-dag aflyst i %s."
-
-#~ msgid ""
-#~ " %s cancelled the diplomatic agreement! The diplomatic state between the %"
-#~ "s and the %s is now %s."
-#~ msgstr ""
-#~ "Spil: Folkeslaget %s afbrd den diplomatiske aftale! Det diplomatiske "
-#~ "forhold mellem %s og %s er nu %s."
-
-#~ msgid "City size before people become unhappy"
-#~ msgstr "Bystørrelse før folk bliver ulykkelige"
-
-#~ msgid ""
-#~ "Before other adjustments, the first unhappysize citizens in a city are "
-#~ "content, and subsequent citizens are unhappy. See also cityfactor."
-#~ msgstr ""
-#~ "Før andre faktorer har indvirkning er de første unhappysize indbyggere i "
-#~ "en by glade, derefter er indbyggerne tilfredse. Se også cityfactor."
-
-#~ msgid "Number of cities for higher unhappiness"
-#~ msgstr "Antal byer for øget ulyksalighed"
-
 #~ msgid ""
 #~ "When the number of cities a player owns is greater than cityfactor, one "
 #~ "extra citizen is unhappy before other adjustments; see also unhappysize. "
@@ -26850,15 +26810,6 @@ msgstr "Hold 32"
 
 #~ msgid "Vote \"%s\" failed with %d against, %d for and %d blanke."
 #~ msgstr "Afstemning \"%s\" faldt med %d mod %d for og %d imod."
-
-#~ msgid "Sp1 F/R/T:"
-#~ msgstr "Sp1 M/P/H:"
-
-#~ msgid "Sp2 F/R/T:"
-#~ msgstr "Sp2 M/P/H:"
-
-#~ msgid "%s F/R/T:"
-#~ msgstr "%s F/P/H:"
 
 #~ msgid ""
 #~ "Bengal er et område i den østligste del af det indiske underkontinent. "
