@@ -986,7 +986,7 @@ static void help_update_terrain(const struct help_item *pitem,
     if (*(pterrain->resources)) {
       const struct resource **r;
       for (r = pterrain->resources; *r; r++) {
-	sprintf (buf + strlen (buf), " %s,", _((*r)->name));
+	sprintf (buf + strlen (buf), " %s,", resource_name_translation(*r));
       }
       buf[strlen (buf) - 1] = '.';
     } else {
@@ -1015,7 +1015,7 @@ static void help_update_terrain(const struct help_item *pitem,
       }
     } else if (pterrain->irrigation_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      pterrain->irrigation_result->name,
+	      terrain_name_translation(pterrain->irrigation_result),
 	      pterrain->irrigation_time);
     }
     xaw_set_label(help_terrain_irrigation_result_time_data, buf);
@@ -1029,14 +1029,14 @@ static void help_update_terrain(const struct help_item *pitem,
       }
     } else if (pterrain->mining_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      pterrain->mining_result->name,
+	      terrain_name_translation(pterrain->mining_result),
 	      pterrain->mining_time);
     }
     xaw_set_label (help_terrain_mining_result_time_data, buf);
 
     if (pterrain->transform_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      pterrain->transform_result->name,
+	      terrain_name_translation(pterrain->transform_result),
 	      pterrain->transform_time);
     } else {
       strcpy(buf, _("n/a"));
@@ -1096,7 +1096,7 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_tech(pitem, top, find_tech_by_name(top));
     break;
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, get_terrain_by_name(top));
+    help_update_terrain(pitem, top, get_terrain_by_translated_name(top));
     break;
   case HELP_GOVERNMENT:
     help_update_government(pitem, top, find_government_by_name(top));

@@ -249,6 +249,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
 ****************************************************************************/
 static struct terrain *char2terrain(char ch)
 {
+  /* get_terrain_by_identifier plus fatal error */
   if (ch == UNKNOWN_TERRAIN_IDENTIFIER) {
     return T_UNKNOWN;
   }
@@ -4058,7 +4059,7 @@ void game_load(struct section_file *file)
       if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
         freelog(LOG_ERROR, _("Removing %s's unferried %s in %s at (%d, %d)"),
                 pplayer->name, unit_name(punit->type),
-                get_name(punit->tile->terrain),
+                terrain_name_translation(punit->tile->terrain),
                 TILE_XY(punit->tile));
         bounce_unit(punit, TRUE);
       }

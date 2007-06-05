@@ -1066,7 +1066,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
         } else {
           notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                         _("Unit cannot perform diplomatic action from %s."),
-                          get_name(punit->tile->terrain));
+                          terrain_name_translation(punit->tile->terrain));
         }
         return FALSE;
       }

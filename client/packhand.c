@@ -1956,7 +1956,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   if (!ptile->terrain || ptile->terrain->index != packet->type) {
     tile_changed = TRUE;
-    ptile->terrain = get_terrain(packet->type);
+    ptile->terrain = get_terrain_by_number(packet->type);
   }
   for (spe = 0; spe < S_LAST; spe++) {
     if (packet->special[spe]) {
@@ -1982,7 +1982,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     tile_changed = TRUE;
   }
 
-  ptile->resource = get_resource(packet->resource);
+  ptile->resource = get_resource_by_number(packet->resource);
   if (packet->owner == MAP_TILE_OWNER_NULL) {
     if (ptile->owner) {
       ptile->owner = NULL;
@@ -2374,7 +2374,7 @@ void handle_ruleset_government_ruler_title
 **************************************************************************/
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
-  struct terrain *pterrain = get_terrain(p->id);
+  struct terrain *pterrain = get_terrain_by_number(p->id);
   int j;
 
   if (!pterrain) {
@@ -2385,8 +2385,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   }
 
   pterrain->native_to = p->native_to;
-  sz_strlcpy(pterrain->name_orig, p->name_orig);
-  pterrain->name = Q_(pterrain->name_orig); /* See translate_data_names */
+  sz_strlcpy(pterrain->name_rule, p->name_orig);
+  pterrain->name_translated = NULL;	/* terrain.c terrain_name_translation */
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);
   sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
   pterrain->movement_cost = p->movement_cost;
@@ -2399,23 +2399,23 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   pterrain->resources = fc_calloc(p->num_resources + 1,
 				  sizeof(*pterrain->resources));
   for (j = 0; j < p->num_resources; j++) {
-    pterrain->resources[j] = get_resource(p->resources[j]);
+    pterrain->resources[j] = get_resource_by_number(p->resources[j]);
     if (!pterrain->resources[j]) {
       freelog(LOG_ERROR, "Mismatched resource for terrain %s.",
-	      pterrain->name_orig);
+	      pterrain->name_rule);
     }
   }
   pterrain->resources[p->num_resources] = NULL;
 
   pterrain->road_time = p->road_time;
   pterrain->road_trade_incr = p->road_trade_incr;
-  pterrain->irrigation_result = get_terrain(p->irrigation_result);
+  pterrain->irrigation_result = get_terrain_by_number(p->irrigation_result);
   pterrain->irrigation_food_incr = p->irrigation_food_incr;
   pterrain->irrigation_time = p->irrigation_time;
-  pterrain->mining_result = get_terrain(p->mining_result);
+  pterrain->mining_result = get_terrain_by_number(p->mining_result);
   pterrain->mining_shield_incr = p->mining_shield_incr;
   pterrain->mining_time = p->mining_time;
-  pterrain->transform_result = get_terrain(p->transform_result);
+  pterrain->transform_result = get_terrain_by_number(p->transform_result);
   pterrain->transform_time = p->transform_time;
   pterrain->rail_time = p->rail_time;
   pterrain->airbase_time = p->airbase_time;
@@ -2435,7 +2435,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 ****************************************************************************/
 void handle_ruleset_resource(struct packet_ruleset_resource *p)
 {
-  struct resource *presource = get_resource(p->id);
+  struct resource *presource = get_resource_by_number(p->id);
 
   if (!presource) {
     freelog(LOG_ERROR,
@@ -2444,8 +2444,8 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
     return;
   }
 
-  sz_strlcpy(presource->name_orig, p->name_orig);
-  presource->name = Q_(presource->name_orig);
+  sz_strlcpy(presource->name_rule, p->name_orig);
+  presource->name_translated = NULL;	/* terrain.c resource_name_translation */
   sz_strlcpy(presource->graphic_str, p->graphic_str);
   sz_strlcpy(presource->graphic_alt, p->graphic_alt);
 

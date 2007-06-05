@@ -303,8 +303,8 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 **************************************************************************/
 static struct terrain *pick_ocean(int depth)
 {
-  /* FIXME: get_flag_terrain may return NULL if there is no match. */
-  struct terrain *best_terrain = get_flag_terrain(TER_OCEANIC);
+  /* FIXME: pick_terrain_by_flag may return NULL if there is no match. */
+  struct terrain *best_terrain = pick_terrain_by_flag(TER_OCEANIC);
   int best_match = abs(depth - best_terrain->property[MG_OCEAN_DEPTH]);
 
   terrain_type_iterate(pterrain) {
@@ -980,9 +980,9 @@ static void make_rivers(void)
 
 	    if (!terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER)) {
 	      /* We have to change the terrain to put a river here. */
-	      /* FIXME: get_flag_terrain may return NULL
+	      /* FIXME: pick_terrain_by_flag may return NULL
 	       * if there is no match. */
-	      pterrain = get_flag_terrain(TER_CAN_HAVE_RIVER);
+	      pterrain = pick_terrain_by_flag(TER_CAN_HAVE_RIVER);
 	      tile_set_terrain(tile1, pterrain);
 	    }
 	    tile_set_special(tile1, S_RIVER);
@@ -1109,7 +1109,7 @@ static void print_mapgen_map(void)
 
   terrain_type_iterate(pterrain) {
     freelog(loglevel, "%20s : %4d %d%%  ",
-	    get_name(pterrain), terrain_count[pterrain->index],
+	    pterrain->name_rule, terrain_count[pterrain->index],
 	    (terrain_count[pterrain->index] * 100 + 50) / total);
   } terrain_type_iterate_end;
 }

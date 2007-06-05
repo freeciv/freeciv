@@ -2159,7 +2159,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                          map_get_player_tile(ptile, pplayer)->special)) {
     notify_player(pplayer, ptile, E_BAD_COMMAND,
                      _("This unit cannot paradrop into %s."),
-                       get_name(map_get_player_tile(ptile, pplayer)->terrain));
+                     terrain_name_translation(
+                        map_get_player_tile(ptile, pplayer)->terrain));
     return FALSE;
   }
 
@@ -2190,7 +2191,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     notify_player(pplayer, ptile, E_UNIT_LOST,
                      _("Your %s paradropped into the %s "
                        "and was lost."),
-                     unit_type(punit)->name, get_name(ptile->terrain));
+                     unit_type(punit)->name,
+                     terrain_name_translation(ptile->terrain));
     server_remove_unit(punit);
     return TRUE;
   }

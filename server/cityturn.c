@@ -817,7 +817,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "%s terrain is required.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
-			       get_name(preq->source.value.terrain));
+			       terrain_name_translation(preq->source.value.terrain));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
 				 API_TYPE_CITY, pcity,

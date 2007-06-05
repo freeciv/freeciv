@@ -2588,8 +2588,8 @@ void tileset_setup_resource(struct tileset *t,
   t->sprites.resource[id]
     = lookup_sprite_tag_alt(t, presource->graphic_str,
 			    presource->graphic_alt,
-			    FALSE, "resource_type",
-			    presource->name);
+			    FALSE, "resource",
+			    presource->name_rule);
 }
 
 /****************************************************************************
@@ -2665,7 +2665,7 @@ void tileset_setup_tile_type(struct tileset *t,
   char buffer1[MAX_LEN_NAME + 20];
   int i, l;
   
-  if (pterrain->name[0] == '\0') {
+  if ('\0' == pterrain->name_rule[0]) {
     return;
   }
 
@@ -2673,9 +2673,10 @@ void tileset_setup_tile_type(struct tileset *t,
   if (!draw) {
     draw = hash_lookup_data(t->terrain_hash, pterrain->graphic_alt);
     if (!draw) {
-      freelog(LOG_FATAL, "No graphics %s or %s for %s terrain.",
-	      pterrain->graphic_str, pterrain->graphic_alt,
-	      pterrain->name);
+      freelog(LOG_FATAL, "Terrain %s: no graphic tile \"%s\" or \"%s\".",
+	      pterrain->name_rule,
+	      pterrain->graphic_str,
+	      pterrain->graphic_alt);
       exit(EXIT_FAILURE);
     }
   }
@@ -2711,9 +2712,9 @@ void tileset_setup_tile_type(struct tileset *t,
 	  my_snprintf(buffer1, sizeof(buffer1),
 		      "t.l%d.%s_%s", l,
 		      draw->name, cardinal_index_str(t, i));
-	  draw->layer[l].match[i] = lookup_sprite_tag_alt(t, buffer1, "", TRUE,
-							  "tile_type",
-							  pterrain->name);
+	  draw->layer[l].match[i] =
+	    lookup_sprite_tag_alt(t, buffer1, "", TRUE, "whole cell terrain",
+							  pterrain->name_rule);
 	}
 	break;
       case CELL_RECT:
@@ -2742,9 +2743,9 @@ void tileset_setup_tile_type(struct tileset *t,
 			  (value >> 0) & 1,
 			  (value >> 1) & 1,
 			  (value >> 2) & 1);
-	      draw->layer[l].cells[i]
-		= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "tile_type",
-					pterrain->name);
+	      draw->layer[l].cells[i] =
+		lookup_sprite_tag_alt(t, buffer1, "", TRUE, "same cell terrain",
+							pterrain->name_rule);
 	      break;
 	    case MATCH_FULL:
 	      {
@@ -2839,8 +2840,8 @@ void tileset_setup_tile_type(struct tileset *t,
       my_snprintf(buffer1, sizeof(buffer1), "t.l%d.%s1", l, draw->name);
       sprite_vector_reserve(&draw->layer[l].base, 1);
       draw->layer[l].base.p[0]
-	= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "tile_type",
-				pterrain->name);
+	= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "base terrain",
+				pterrain->name_rule);
     }
 
     for (dir = 0; dir < 4; dir++) {

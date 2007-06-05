@@ -646,15 +646,8 @@ void translate_data_names(void)
     tthis->name = Q_(tthis->name_orig);
   } impr_type_iterate_end;
 
-  terrain_type_iterate(tthis) {
-    tthis->name = ((strcmp(tthis->name_orig, "") != 0)
-			   ? Q_(tthis->name_orig) : "");
-  } terrain_type_iterate_end;
-
-  resource_type_iterate (tthis) {
-    tthis->name = (*(tthis->name_orig)) ? Q_(tthis->name_orig) : "";
-  } resource_type_iterate_end;
-
+  /* terrain_name_translation now handled in terrain.c */
+  /* resource_name_translation now handled in terrain.c */
 
   government_iterate(tthis) {
     int j;

@@ -49,8 +49,8 @@
     if (!(check)) {							\
       freelog(LOG_ERROR, "Failed sanity check at %s (%d, %d): "		\
               "%s (%s:%d)", ptile->city ? ptile->city->name 		\
-              : get_name(ptile->terrain), ptile->x, ptile->y, #check, 	\
-              __FILE__,__LINE__);					\
+              : ptile->terrain->name_rule, ptile->x, ptile->y, 	\
+              #check, __FILE__,__LINE__);				\
     }									\
   } while(0)
 

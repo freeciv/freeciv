@@ -177,7 +177,7 @@ static void set_selected_paint(GtkWidget *w, gpointer data)
   assert(paint >= 0 && paint < EPAINT_LAST);
   switch(paint){
   case EPAINT_TERRAIN:
-    editor_set_selected_terrain(get_terrain(terrains[id].paint));
+    editor_set_selected_terrain(get_terrain_by_number(terrains[id].paint));
     break;
   case EPAINT_SPECIAL:
     editor_set_selected_special(specials[id].paint);
@@ -186,7 +186,7 @@ static void set_selected_paint(GtkWidget *w, gpointer data)
     if (id == 0) {
       editor_set_selected_resource(NULL);
     } else {
-      editor_set_selected_resource(get_resource(resources[id - 1].paint));
+      editor_set_selected_resource(get_resource_by_number(resources[id - 1].paint));
     }
     break;   
   case EPAINT_LAST:
@@ -311,7 +311,7 @@ static GtkWidget *create_map_palette(void)
       switch(i) {
       case EPAINT_TERRAIN:
         item->paint = j;
-        item->name = get_terrain(item->paint)->name;
+        item->name = terrain_name_translation(get_terrain_by_number(item->paint));
         break;
       case EPAINT_SPECIAL:
         if (!item->name) {
@@ -323,7 +323,7 @@ static GtkWidget *create_map_palette(void)
         if (j == 0) {
           item->name = _("None");
         } else {
-          item->name = get_resource(item->paint - 1)->name;
+          item->name = resource_name_translation(get_resource_by_number(item->paint - 1));
         } 
         break;
       }
@@ -352,7 +352,7 @@ static GtkWidget *create_map_palette(void)
     }
   }
   
-  editor_set_selected_terrain(get_terrain(terrains[0].paint));
+  editor_set_selected_terrain(get_terrain_by_number(terrains[0].paint));
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 5);
   gtk_widget_show_all(vbox);
   

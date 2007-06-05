@@ -118,13 +118,14 @@ enum mapgen_terrain_property {
  */
 struct terrain {
   int index;
-  const char *name; /* Translated string - doesn't need freeing. */
-  char name_orig[MAX_LEN_NAME];	/* untranslated copy */
-  char graphic_str[MAX_LEN_NAME];
-  char graphic_alt[MAX_LEN_NAME];
+  const char *name_translated;		/* string doesn't need freeing */
+  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
+  char graphic_str[MAX_LEN_NAME];	/* add tile_ prefix */
+  char graphic_alt[MAX_LEN_NAME];	/* TODO: retire, never used! */
 
-  /* Server-only. */
   char identifier; /* Single-character identifier used in savegames. */
+#define WATER_TERRAIN_IDENTIFIER ' '
+#define GLACIER_TERRAIN_IDENTIFIER 'a'
 #define UNKNOWN_TERRAIN_IDENTIFIER 'u'
 
   int movement_cost;
@@ -175,12 +176,12 @@ struct terrain {
 
 struct resource {
   int index;
-  const char *name; /* Translated string - doesn't need freeing. */
-  char name_orig[MAX_LEN_NAME];
-  char identifier; /* server-only, same as terrain->identifier */
-  int output[O_MAX]; /* Amount added by this resource. */
+  const char *name_translated;		/* string doesn't need freeing */
+  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  char identifier; /* server-only, same as terrain->identifier */
+  int output[O_MAX]; /* Amount added by this resource. */
 };
 
 #define RESOURCE_NULL_IDENTIFIER ' '
@@ -194,16 +195,19 @@ struct resource {
 void terrains_init(void);
 
 /* General terrain accessor functions. */
-struct terrain *get_terrain(Terrain_type_id type);
-struct terrain *get_terrain_by_name(const char *name);
-const char *get_name(const struct terrain *pterrain);
+struct terrain *get_terrain_by_identifier(const char identifier);
+struct terrain *get_terrain_by_number(Terrain_type_id type);
+struct terrain *get_terrain_by_rule_name(const char *name);
+struct terrain *get_terrain_by_translated_name(const char *name);
+const char *terrain_name_translation(struct terrain *pterrain);
 enum terrain_flag_id terrain_flag_from_str(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
-struct terrain *get_flag_terrain(enum terrain_flag_id flag);
+struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
 void terrains_free(void);
 
-struct resource *get_resource(Resource_type_id id);
-struct resource *get_resource_by_name_orig(const char *name);
+struct resource *get_resource_by_number(Resource_type_id id);
+struct resource *get_resource_by_rule_name(const char *name);
+const char *resource_name_translation(const struct resource *presource);
 
 /* Functions to operate on a general terrain type. */
 bool is_terrain_near_tile(const struct tile *ptile,
@@ -267,7 +271,7 @@ enum tile_special_type get_preferred_pillage(bv_special pset,
   Terrain_type_id _index;						    \
 									    \
   for (_index = T_FIRST; _index < T_COUNT; _index++) {			    \
-    struct terrain *pterrain = get_terrain(_index);
+    struct terrain *pterrain = get_terrain_by_number(_index);
     
 
 #define terrain_type_iterate_end                                            \
@@ -279,7 +283,7 @@ enum tile_special_type get_preferred_pillage(bv_special pset,
   Resource_type_id _index;						    \
 									    \
   for (_index = R_FIRST; _index < R_COUNT; _index++) {			    \
-    struct resource *presource = get_resource(_index);
+    struct resource *presource = get_resource_by_number(_index);
     
 
 #define resource_type_iterate_end                                           \

@@ -67,9 +67,26 @@ void terrains_init(void)
 }
 
 /****************************************************************************
+  Return the terrain type matching the identifier, or T_UNKNOWN if none matches.
+****************************************************************************/
+struct terrain *get_terrain_by_identifier(const char identifier)
+{
+  if (UNKNOWN_TERRAIN_IDENTIFIER == identifier) {
+    return T_UNKNOWN;
+  }
+  terrain_type_iterate(pterrain) {
+    if (pterrain->identifier == identifier) {
+      return pterrain;
+    }
+  } terrain_type_iterate_end;
+
+  return T_UNKNOWN;
+}
+
+/****************************************************************************
   Return the terrain for the given terrain index.
 ****************************************************************************/
-struct terrain *get_terrain(Terrain_type_id type)
+struct terrain *get_terrain_by_number(Terrain_type_id type)
 {
   if (type < 0 || type >= game.control.terrain_count) {
     /* This isn't an error; some T_UNKNOWN callers depend on it. */
@@ -81,10 +98,10 @@ struct terrain *get_terrain(Terrain_type_id type)
 /****************************************************************************
   Return the terrain type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *get_terrain_by_name(const char *name)
+struct terrain *get_terrain_by_rule_name(const char *name)
 {
   terrain_type_iterate(pterrain) {
-    if (0 == strcmp(pterrain->name, name)) {
+    if (0 == strcmp(pterrain->name_rule, name)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -93,12 +110,31 @@ struct terrain *get_terrain_by_name(const char *name)
 }
 
 /****************************************************************************
-  Return the name of the terrain.
+  Return the terrain type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-const char *get_name(const struct terrain *pterrain)
+struct terrain *get_terrain_by_translated_name(const char *name)
+{
+  terrain_type_iterate(pterrain) {
+    if (0 == strcmp(terrain_name_translation(pterrain), name)) {
+      return pterrain;
+    }
+  } terrain_type_iterate_end;
+
+  return T_UNKNOWN;
+}
+
+/****************************************************************************
+  Return the translated name of the terrain.
+****************************************************************************/
+const char *terrain_name_translation(struct terrain *pterrain)
 {
   SANITY_CHECK_TERRAIN(pterrain);
-  return pterrain->name;
+  if (NULL == pterrain->name_translated) {
+    /* delayed (unified) translation */
+    pterrain->name_translated = ('\0' == pterrain->name_rule[0])
+			   ? pterrain->name_rule : Q_(pterrain->name_rule);
+  }
+  return pterrain->name_translated;
 }
 
 /****************************************************************************
@@ -133,8 +169,9 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
 /****************************************************************************
   Return a random terrain that has the specified flag.  Returns T_UNKNOWN if
   there is no matching terrain.
+  FIXME: currently called only by mapgen.c, move there and check error.
 ****************************************************************************/
-struct terrain *get_flag_terrain(enum terrain_flag_id flag)
+struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
 {
   bool has_flag[T_COUNT];
   int count = 0;
@@ -155,7 +192,7 @@ struct terrain *get_flag_terrain(enum terrain_flag_id flag)
     }
   } terrain_type_iterate_end;
 
-  die("Reached end of get_flag_terrain!");
+  die("Reached end of pick_terrain_by_flag!");
   return T_UNKNOWN;
 }
 
@@ -173,7 +210,7 @@ void terrains_free(void)
 /****************************************************************************
   Return the resource for the given resource index.
 ****************************************************************************/
-struct resource *get_resource(Resource_type_id type)
+struct resource *get_resource_by_number(Resource_type_id type)
 {
   if (type < 0 || type >= game.control.resource_count) {
     /* This isn't an error; some callers depend on it. */
@@ -185,15 +222,28 @@ struct resource *get_resource(Resource_type_id type)
 /****************************************************************************
   Return the resource type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct resource *get_resource_by_name_orig(const char *name_orig)
+struct resource *get_resource_by_rule_name(const char *name_orig)
 {
   resource_type_iterate(presource) {
-    if (0 == strcmp(presource->name_orig, name_orig)) {
+    if (0 == strcmp(presource->name_rule, name_orig)) {
       return presource;
     }
   } resource_type_iterate_end;
 
   return NULL;
+}
+
+/****************************************************************************
+  Return the translated name of the resource.
+****************************************************************************/
+const char *resource_name_translation(const struct resource *presource)
+{
+  if (NULL == presource->name_translated) {
+    /* delayed (unified) translation, ignore warning */
+    presource->name_translated = ('\0' == presource->name_rule[0])
+			   ? presource->name_rule : Q_(presource->name_rule);
+  }
+  return presource->name_translated;
 }
 
 

@@ -130,7 +130,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_TERRAIN:
-    source.value.terrain = get_terrain_by_name(value);
+    source.value.terrain = get_terrain_by_rule_name(value);
     if (source.value.terrain != T_UNKNOWN) {
       return source;
     }
@@ -223,7 +223,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.special = value;
     return source;
   case REQ_TERRAIN:
-    source.value.terrain = get_terrain(value);
+    source.value.terrain = get_terrain_by_number(value);
     return source;
   case REQ_NATION:
     source.value.nation = get_nation_by_idx(value);
@@ -1089,7 +1089,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, get_special_name(psource->value.special), bufsz);
     break;
   case REQ_TERRAIN:
-    mystrlcat(buf, get_name(psource->value.terrain), bufsz);
+    mystrlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
     break;
   case REQ_NATION:
     mystrlcat(buf, get_nation_name(psource->value.nation), bufsz);

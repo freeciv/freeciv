@@ -1097,7 +1097,7 @@ void remove_city(struct city *pcity)
                           _("Moved %s out of disbanded city %s "
                             "since it cannot stay on %s."),
                           unit_type(punit)->name, pcity->name,
-                          get_name(tile_get_terrain(ptile)));
+                          terrain_name_translation(tile_get_terrain(ptile)));
             break;
 	  }
 	}

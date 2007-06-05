@@ -563,14 +563,14 @@ const char *tile_get_info_text(const struct tile *ptile)
   static char s[256];
   bool first;
 
-  sz_strlcpy(s, ptile->terrain->name);
+  sz_strlcpy(s, terrain_name_translation(ptile->terrain));
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));
   }
 
   if (ptile->resource) {
-    cat_snprintf(s, sizeof(s), " (%s)", ptile->resource->name);
+    cat_snprintf(s, sizeof(s), " (%s)", resource_name_translation(ptile->resource));
   }
 
   first = TRUE;
