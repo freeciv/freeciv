@@ -60,6 +60,7 @@
 #include "tilespec.h"
 
 #define TILESPEC_SUFFIX ".tilespec"
+#define TILE_SECTION_PREFIX "terrain_"
 
 /* This the way directional indices are now encoded: */
 #define MAX_INDEX_CARDINAL 		64
@@ -76,22 +77,29 @@
 enum direction4 {
   DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
 };
+static const char direction4letters[4] = "udrl";
+
+static const int DIR4_TO_DIR8[4] =
+    { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
 
 enum match_style {
-  MATCH_NONE, MATCH_BOOLEAN, MATCH_FULL
+  MATCH_NONE,
+  MATCH_SAME,		/* "boolean" match */
+  MATCH_FULL
 };
 
 enum cell_type {
-  CELL_SINGLE, CELL_RECT
+  CELL_WHOLE,		/* entire tile */
+  CELL_CORNER		/* corner of tile */
 };
-
-#define MAX_NUM_LAYERS 3
 
 struct terrain_drawing_data {
   char *name;
   char *mine_tag;
 
-  int num_layers; /* Can only be 1 or 2. */
+  int num_layers; /* 1 thru MAX_NUM_LAYERS. */
+#define MAX_NUM_LAYERS 3
+
   struct {
     bool is_tall;
     int offset_x, offset_y;
@@ -277,9 +285,6 @@ struct named_sprites {
 
   struct terrain_drawing_data *terrain[MAX_NUM_TERRAINS];
 };
-
-static const int DIR4_TO_DIR8[4] =
-    { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
 
 /* Don't reorder this enum since tilesets depend on it. */
 enum fog_style {
@@ -1018,7 +1023,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
 
     sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
     if ((real_full_name = datafilename(full_name))) {
-      freelog(LOG_DEBUG, "trying to load gfx file %s", real_full_name);
+      freelog(LOG_DEBUG, "trying to load gfx file \"%s\".", real_full_name);
       s = load_gfxfile(real_full_name);
       if (s) {
 	return s;
@@ -1026,7 +1031,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
     }
   }
 
-  freelog(LOG_VERBOSE, "Could not load gfx file %s.", gfx_filename);
+  freelog(LOG_VERBOSE, "Could not load gfx file \"%s\".", gfx_filename);
   return NULL;
 }
 
@@ -1061,7 +1066,7 @@ static void ensure_big_sprite(struct specfile *sf)
   sf->big_sprite = load_gfx_file(gfx_filename);
 
   if (!sf->big_sprite) {
-    freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file %s"),
+    freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file \"%s\"."),
 	    sf->file_name);
     exit(EXIT_FAILURE);
   }
@@ -1147,7 +1152,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
       if (!duplicates_ok) {
         for (k = 0; k < num_tags; k++) {
           if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
-	    freelog(LOG_ERROR, "warning: already have a sprite for %s", tags[k]);
+	    freelog(LOG_ERROR, "warning: already have a sprite for \"%s\".", tags[k]);
           }
         }
       } else {
@@ -1191,7 +1196,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
     if (!duplicates_ok) {
       for (k = 0; k < num_tags; k++) {
 	if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
-	  freelog(LOG_ERROR, "warning: already have a sprite for %s", tags[k]);
+	  freelog(LOG_ERROR, "warning: already have a sprite for \"%s\".", tags[k]);
 	}
       }
     } else {
@@ -1230,10 +1235,54 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
     }
   }
 
-  freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
+  freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for \"%s\"."),
          gfx_filename);
   exit(EXIT_FAILURE);
   return NULL;
+}
+
+/**********************************************************************
+  Determine the match_style string.
+***********************************************************************/
+static int check_match_style(const char *style, const int layer)
+{
+  if (mystrcasecmp(style, "bool") == 0) {
+    return MATCH_SAME;
+  }
+  if (mystrcasecmp(style, "full") == 0) {
+    return MATCH_FULL;
+  }
+  if (mystrcasecmp(style, "none") == 0) {
+    return MATCH_NONE;
+  }
+  if (mystrcasecmp(style, "same") == 0) {
+    return MATCH_SAME;
+  }
+  freelog(LOG_ERROR, "Unknown match_style \"%s\" for layer %d.",
+	      style, layer);
+  return MATCH_NONE;
+}
+
+/**********************************************************************
+  Determine the cell_type string.
+***********************************************************************/
+static int check_cell_type(const char *cell_type, const char *tile_type)
+{
+  if (mystrcasecmp(cell_type, "corner") == 0) {
+    return CELL_CORNER;
+  }
+  if (mystrcasecmp(cell_type, "rect") == 0) {
+    return CELL_CORNER;
+  }
+  if (mystrcasecmp(cell_type, "single") == 0) {
+    return CELL_WHOLE;
+  }
+  if (mystrcasecmp(cell_type, "whole") == 0) {
+    return CELL_WHOLE;
+  }
+  freelog(LOG_ERROR, "Unknown cell_type \"%s\" for \"%s\".",
+		cell_type, tile_type);
+  return CELL_WHOLE;
 }
 
 /**********************************************************************
@@ -1246,8 +1295,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
   int i;
-  int num_spec_files, num_terrains;
-  char **spec_filenames, **terrains;
+  int num_spec_files, num_sections;
+  char **spec_filenames, **sections;
   char *file_capstr;
   bool duplicates_ok, is_hex;
   enum direction8 dir;
@@ -1261,7 +1310,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     tileset_free(t);
     return NULL;
   }
-  freelog(LOG_VERBOSE, "tilespec file is %s", fname);
+  freelog(LOG_VERBOSE, "tilespec file is \"%s\".", fname);
 
   if (!section_file_load(file, fname)) {
     freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
@@ -1412,17 +1461,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 					     "layer%d.match_style", i);
     int j;
 
-    if (mystrcasecmp(style, "full") == 0) {
-      t->layers[i].match_style = MATCH_FULL;
-    } else if (mystrcasecmp(style, "bool") == 0) {
-      t->layers[i].match_style = MATCH_BOOLEAN;
-    } else if (mystrcasecmp(style, "none") == 0) {
-      t->layers[i].match_style = MATCH_NONE;
-    } else {
-      freelog(LOG_ERROR, "Invalid match style %s for layer %d.",
-	      style, i);
-      t->layers[i].match_style = MATCH_NONE;
-    }
+    t->layers[i].match_style = check_match_style(style,i);
 
     t->layers[i].match_types
       = secfile_lookup_str_vec(file, &t->layers[i].count,
@@ -1432,10 +1471,11 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     }
   }
 
-  /* Terrain drawing info. */
-  terrains = secfile_get_secnames_prefix(file, "terrain_", &num_terrains);
-  if (num_terrains == 0) {
-    freelog(LOG_ERROR, "No terrain types supported by tileset.");
+  /* Tile drawing info. */
+  sections = secfile_get_secnames_prefix(file, TILE_SECTION_PREFIX, &num_sections);
+  if (num_sections == 0) {
+    freelog(LOG_ERROR, "No [%s] sections supported by tileset \"%s\".",
+				TILE_SECTION_PREFIX, fname);
     section_file_free(file);
     free(fname);
     tileset_free(t);
@@ -1445,20 +1485,20 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   assert(t->terrain_hash == NULL);
   t->terrain_hash = hash_new(hash_fval_string, hash_fcmp_string);
 
-  for (i = 0; i < num_terrains; i++) {
+  for (i = 0; i < num_sections; i++) {
     struct terrain_drawing_data *terr = fc_malloc(sizeof(*terr));
     char *cell_type;
     int l, j;
 
     memset(terr, 0, sizeof(*terr));
-    terr->name = mystrdup(terrains[i] + strlen("terrain_"));
+    terr->name = mystrdup(sections[i] + strlen(TILE_SECTION_PREFIX));
     terr->is_blended = secfile_lookup_bool(file, "%s.is_blended",
-					    terrains[i]);
+					    sections[i]);
     terr->is_reversed = secfile_lookup_bool_default(file, FALSE,
 						    "%s.is_reversed",
-						    terrains[i]);
+						    sections[i]);
     terr->num_layers = secfile_lookup_int(file, "%s.num_layers",
-					  terrains[i]);
+					  sections[i]);
     terr->num_layers = CLIP(1, terr->num_layers, MAX_NUM_LAYERS);
 
     for (l = 0; l < terr->num_layers; l++) {
@@ -1466,40 +1506,35 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
       terr->layer[l].is_tall
 	= secfile_lookup_bool_default(file, FALSE, "%s.layer%d_is_tall",
-				      terrains[i], l);
+				      sections[i], l);
       terr->layer[l].offset_x
 	= secfile_lookup_int_default(file, 0, "%s.layer%d_offset_x",
-				     terrains[i], l);
+				     sections[i], l);
       terr->layer[l].offset_y
 	= secfile_lookup_int_default(file, 0, "%s.layer%d_offset_y",
-				     terrains[i], l);
+				     sections[i], l);
       match_style = secfile_lookup_str_default(file, "none",
 					       "%s.layer%d_match_style",
-					       terrains[i], l);
-      if (mystrcasecmp(match_style, "full") == 0) {
-	terr->layer[l].match_style = MATCH_FULL;
-      } else if (mystrcasecmp(match_style, "bool") == 0) {
-	terr->layer[l].match_style = MATCH_BOOLEAN;
-      } else {
-	terr->layer[l].match_style = MATCH_NONE;
-      }
+					       sections[i], l);
+
+      terr->layer[l].match_style = check_match_style(match_style,l);
 
       match_type = secfile_lookup_str_default(file, NULL,
 					      "%s.layer%d_match_type",
-					      terrains[i], l);
+					      sections[i], l);
       if (match_type) {
 	/* Set match_count */
 	switch (terr->layer[l].match_style) {
-	case MATCH_NONE:
-	  terr->layer[l].match_count = 0;
-	  break;
 	case MATCH_FULL:
 	  terr->layer[l].match_count = t->layers[l].count;
 	  break;
-	case MATCH_BOOLEAN:
+	case MATCH_SAME:
 	  terr->layer[l].match_count = 2;
 	  break;
-	}
+	default:
+	  terr->layer[l].match_count = 0;
+	  break;
+	};
 
 	/* Determine our match_type. */
 	for (j = 0; j < t->layers[l].count; j++) {
@@ -1507,66 +1542,69 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 	    break;
 	  }
 	}
-	terr->layer[l].match_type = j;
 	if (j >= t->layers[l].count) {
-	  freelog(LOG_ERROR, "Invalid match type given for %s.", terrains[i]);
+	  freelog(LOG_ERROR, "Invalid match type given for [%s].", sections[i]);
 	  terr->layer[l].match_type = 0;
 	  terr->layer[l].match_style = MATCH_NONE;
+	} else {
+	  terr->layer[l].match_type = j;
 	}
       } else {
 	terr->layer[l].match_style = MATCH_NONE;
 	if (t->layers[l].match_style != MATCH_NONE) {
-	  freelog(LOG_ERROR, "Layer %d has a match_style set; all terrains"
-		  " must have a match_type.  %s doesn't.", l, terrains[i]);
+	  freelog(LOG_ERROR, "[Layer %d] has a match_style set;"
+				" all sections must have a match_type."
+				"  [%s] doesn't.", l, sections[i]);
 	}
       }
 
       if (terr->layer[l].match_style == MATCH_NONE
 	  && t->layers[l].match_style == MATCH_FULL) {
-	freelog(LOG_ERROR, "Layer %d has match_type full set; all terrains"
-		" must match this.  %s doesn't.", l, terrains[i]);
+	freelog(LOG_ERROR, "[Layer %d] has match_type full set;"
+				" all section must match this."
+				"  [%s] doesn't.", l, sections[i]);
       }
 
       cell_type
-	= secfile_lookup_str_default(file, "single", "%s.layer%d_cell_type",
-				     terrains[i], l);
-      if (mystrcasecmp(cell_type, "single") == 0) {
-	terr->layer[l].cell_type = CELL_SINGLE;
-      } else if (mystrcasecmp(cell_type, "rect") == 0) {
-	terr->layer[l].cell_type = CELL_RECT;
+	= secfile_lookup_str_default(file, "whole", "%s.layer%d_cell_type",
+				     sections[i], l);
+      terr->layer[l].cell_type = check_cell_type(cell_type, sections[i]);
+
+      switch (terr->layer[l].cell_type) {
+      case CELL_WHOLE:
+	/* OK, no problem */
+	break;
+      case CELL_CORNER:
 	if (terr->layer[l].is_tall
 	    || terr->layer[l].offset_x > 0
 	    || terr->layer[l].offset_y > 0) {
 	  freelog(LOG_ERROR,
-		  _("Error in %s layer %d: you cannot have tall terrain or\n"
+		  _("[%s] layer %d: you cannot have tall terrain or\n"
 		    "a sprite offset with a cell-based drawing method."),
-		  terrains[i], l);
+		  sections[i], l);
 	  terr->layer[l].is_tall = FALSE;
 	  terr->layer[l].offset_x = terr->layer[l].offset_y = 0;
 	}
-      } else {
-	freelog(LOG_ERROR, "Unknown cell type %s for %s.",
-		cell_type, terrains[i]);
-	terr->layer[l].cell_type = CELL_SINGLE;
-      }
+	break;
+      };
     }
 
     terr->mine_tag = secfile_lookup_str_default(file, NULL, "%s.mine_sprite",
-						terrains[i]);
+						sections[i]);
     if (terr->mine_tag) {
       terr->mine_tag = mystrdup(terr->mine_tag);
     }
 
     if (!hash_insert(t->terrain_hash, terr->name, terr)) {
-      freelog(LOG_NORMAL, "warning: duplicate terrain entry %s.",
-	      terrains[i]);
+      freelog(LOG_NORMAL, "warning: duplicate tilespec entry [%s].",
+	      sections[i]);
       section_file_free(file);
       free(fname);
       tileset_free(t);
       return NULL;
     }
   }
-  free(terrains);
+  free(sections);
 
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
@@ -1616,7 +1654,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   }
   
   section_file_free(file);
-  freelog(LOG_VERBOSE, "finished reading %s", fname);
+  freelog(LOG_VERBOSE, "finished reading \"%s\".", fname);
   free(fname);
 
   return t;
@@ -1711,7 +1749,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
     if (ss->file) {
       ss->sprite = load_gfx_file(ss->file);
       if (!ss->sprite) {
-	freelog(LOG_FATAL, _("Couldn't load gfx file %s for sprite %s"),
+	freelog(LOG_FATAL, _("Couldn't load gfx file \"%s\" for sprite '%s'."),
 		ss->file, tag_name);
 	exit(EXIT_FAILURE);
       }
@@ -1723,7 +1761,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
       if (ss->x < 0 || ss->x + ss->width > sf_w
 	  || ss->y < 0 || ss->y + ss->height > sf_h) {
 	freelog(LOG_ERROR,
-		"Sprite '%s' in file '%s' isn't within the image!",
+		"Sprite '%s' in file \"%s\" isn't within the image!",
 		tag_name, ss->sf->file_name);
 	return NULL;
       }
@@ -1756,7 +1794,7 @@ static void unload_sprite(struct tileset *t, const char *tag_name)
   if (ss->ref_count == 0) {
     /* Nobody's using the sprite anymore, so we should free it.  We know
      * where to find it if we need it again. */
-    freelog(LOG_DEBUG, "freeing sprite '%s'", tag_name);
+    freelog(LOG_DEBUG, "freeing sprite '%s'.", tag_name);
     free_sprite(ss->sprite);
     ss->sprite = NULL;
   }
@@ -1781,7 +1819,7 @@ static void insert_sprite(struct tileset *t, const char *tag_name,
   ss->sprite = sprite;
   small_sprite_list_prepend(t->small_sprites, ss);
   if (!hash_insert(t->sprite_hash, mystrdup(tag_name), ss)) {
-    freelog(LOG_ERROR, "warning: already have a sprite for %s", tag_name);
+    freelog(LOG_ERROR, "warning: already have a sprite for '%s'.", tag_name);
   }
 }
 
@@ -1802,7 +1840,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
   do {								  \
     t->sprites.field = load_sprite(t, tag);			  \
     if (!t->sprites.field) {					  \
-      die("Sprite tag %s missing.", tag);			  \
+      die("Sprite tag '%s' missing.", tag);			  \
     }								  \
   } while(FALSE)
 
@@ -1814,7 +1852,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
       t->sprites.field = load_sprite(t, alt);				    \
     }									    \
     if (!t->sprites.field) {						    \
-      die("Sprite tag %s and alternate %s are both missing.", tag, alt);    \
+      die("Sprite tag '%s' and alternate '%s' are both missing.", tag, alt);    \
     }									    \
   } while(FALSE)
 
@@ -1848,7 +1886,7 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   }
   t->sprites.specialist[id].count = j;
   if (j == 0) {
-    freelog(LOG_NORMAL, _("No graphics for specialist %s."), name);
+    freelog(LOG_NORMAL, _("No graphics for specialist \"%s\"."), name);
     exit(EXIT_FAILURE);
   }
 }
@@ -1879,7 +1917,7 @@ static void tileset_setup_citizen_types(struct tileset *t)
     }
     t->sprites.citizen[i].count = j;
     if (j == 0) {
-      freelog(LOG_NORMAL, _("No graphics for citizen %s."), name);
+      freelog(LOG_NORMAL, _("No graphics for citizen \"%s\"."), name);
       exit(EXIT_FAILURE);
     }
   }
@@ -2117,12 +2155,10 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     /* Roadstyle 2 includes 256 sprites, one for every possibility.
      * Just go around clockwise, with all combinations. */
     for (i = 0; i < t->num_index_valid; i++) {
-      my_snprintf(buffer, sizeof(buffer),
-		  "r.road_%s", valid_index_str(t, i));
+      my_snprintf(buffer, sizeof(buffer), "r.road_%s", valid_index_str(t, i));
       SET_SPRITE(road.total[i], buffer);
 
-      my_snprintf(buffer, sizeof(buffer),
-		  "r.rail_%s", valid_index_str(t, i));
+      my_snprintf(buffer, sizeof(buffer), "r.rail_%s", valid_index_str(t, i));
       SET_SPRITE(rail.total[i], buffer);
     }
   }
@@ -2451,7 +2487,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       t->sprites.tx.fullfog[i] = load_sprite(t, buf);
     }
     break;
-  }
+  };
 
   for(i=0; i<4; i++) {
     my_snprintf(buffer, sizeof(buffer), "tx.river_outlet_%c", dir_char[i]);
@@ -2503,7 +2539,7 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
   
   /* (should get sprite_hash before connection) */
   if (!t->sprite_hash) {
-    die("attempt to lookup for %s %s before sprite_hash setup", what, name);
+    die("attempt to lookup for %s \"%s\" before sprite_hash setup", what, name);
   }
 
   sp = load_sprite(t, tag);
@@ -2512,13 +2548,13 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
   sp = load_sprite(t, alt);
   if (sp) {
     freelog(LOG_VERBOSE,
-	    "Using alternate graphic %s (instead of %s) for %s %s",
+	    "Using alternate graphic \"%s\" (instead of \"%s\") for %s \"%s\".",
 	    alt, tag, what, name);
     return sp;
   }
 
   freelog(required ? LOG_FATAL : LOG_VERBOSE,
-	  _("Don't have graphics tags %s or %s for %s %s"),
+	  _("Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."),
 	  tag, alt, what, name);
   if (required) {
     exit(EXIT_FAILURE);
@@ -2621,7 +2657,7 @@ void tileset_setup_base(struct tileset *t,
       && t->sprites.bases[id].foreground == NULL) {
     /* No primary graphics at all. Try alternative */
     freelog(LOG_VERBOSE,
-	    _("Using alternate graphic %s (instead of %s) for base %s"),
+	    _("Using alternate graphic \"%s\" (instead of \"%s\") for base \"%s\"."),
             pbase->graphic_alt, pbase->graphic_str, base_name(pbase));
 
     sz_strlcpy(full_tag_name, pbase->graphic_alt);
@@ -2640,14 +2676,14 @@ void tileset_setup_base(struct tileset *t,
         && t->sprites.bases[id].middleground == NULL
         && t->sprites.bases[id].foreground == NULL) {
       /* Cannot find alternative graphics either */
-      freelog(LOG_ERROR, _("No graphics for base %s at all!"), pbase->name);
+      freelog(LOG_ERROR, _("No graphics for base \"%s\" at all!"), pbase->name);
       exit(EXIT_FAILURE);
     }
   }
 
   t->sprites.bases[id].activity = load_sprite(t, pbase->activity_gfx);
   if (t->sprites.bases[id].activity == NULL) {
-    freelog(LOG_ERROR, _("Missing %s building activity tag %s"),
+    freelog(LOG_ERROR, _("Missing %s building activity tag \"%s\"."),
             base_name(pbase), pbase->activity_gfx);
     exit(EXIT_FAILURE);
   }
@@ -2662,7 +2698,8 @@ void tileset_setup_tile_type(struct tileset *t,
 			     const struct terrain *pterrain)
 {
   struct terrain_drawing_data *draw;
-  char buffer1[MAX_LEN_NAME + 20];
+  struct sprite *sprite;
+  char buffer[MAX_LEN_NAME + 20];
   int i, l;
   
   if ('\0' == pterrain->name_rule[0]) {
@@ -2673,7 +2710,7 @@ void tileset_setup_tile_type(struct tileset *t,
   if (!draw) {
     draw = hash_lookup_data(t->terrain_hash, pterrain->graphic_alt);
     if (!draw) {
-      freelog(LOG_FATAL, "Terrain %s: no graphic tile \"%s\" or \"%s\".",
+      freelog(LOG_FATAL, "Terrain \"%s\": no graphic tile \"%s\" or \"%s\".",
 	      pterrain->name_rule,
 	      pterrain->graphic_str,
 	      pterrain->graphic_alt);
@@ -2684,147 +2721,169 @@ void tileset_setup_tile_type(struct tileset *t,
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
     sprite_vector_init(&draw->layer[l].base);
-    if (draw->layer[l].match_style == MATCH_NONE) {
-      /* Load single sprite for this terrain. */
-      for (i = 0; ; i++) {
-	struct sprite *sprite;
 
-	my_snprintf(buffer1, sizeof(buffer1),
-		    "t.l%d.%s%d", l, draw->name, i + 1);
-	sprite = load_sprite(t, buffer1);
-	if (!sprite) {
-	  break;
+    switch (draw->layer[l].cell_type) {
+    case CELL_WHOLE:
+      switch (draw->layer[l].match_style) {
+      case MATCH_NONE:
+	/* Load whole sprites for this tile. */
+	for (i = 0; ; i++) {
+	  my_snprintf(buffer, sizeof(buffer), "t.l%d.%s%d",
+		      l,
+		      draw->name,
+		      i + 1);
+	  sprite = load_sprite(t, buffer);
+	  if (!sprite) {
+	    break;
+	  }
+	  sprite_vector_reserve(&draw->layer[l].base, i + 1);
+	  draw->layer[l].base.p[i] = sprite;
 	}
-	sprite_vector_reserve(&draw->layer[l].base, i + 1);
-	draw->layer[l].base.p[i] = sprite;
-      }
-      if (i == 0) {
-	/* TRANS: obscure tileset error. */
-	freelog(LOG_FATAL, _("Missing base sprite tag \"%s\"."),
-		buffer1);
-	exit(EXIT_FAILURE);
-      }
-    } else {
-      switch (draw->layer[l].cell_type) {
-      case CELL_SINGLE:
+	if (i == 0) {
+	  /* TRANS: obscure tileset error. */
+	  freelog(LOG_FATAL, _("Missing base sprite tag \"%s\"."),
+		  buffer);
+	  exit(EXIT_FAILURE);
+	}
+	break;
+      case MATCH_SAME:
+      case MATCH_FULL:
 	/* Load 16 cardinally-matched sprites. */
 	for (i = 0; i < t->num_index_cardinal; i++) {
-	  my_snprintf(buffer1, sizeof(buffer1),
-		      "t.l%d.%s_%s", l,
-		      draw->name, cardinal_index_str(t, i));
+	  my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_%s",
+		      l,
+		      draw->name,
+		      cardinal_index_str(t, i));
 	  draw->layer[l].match[i] =
-	    lookup_sprite_tag_alt(t, buffer1, "", TRUE, "whole cell terrain",
+	    lookup_sprite_tag_alt(t, buffer, "", TRUE, "matched terrain",
 							  pterrain->name_rule);
 	}
 	break;
-      case CELL_RECT:
-	{
-	  const int count = draw->layer[l].match_count;
+      };
+      break;
+    case CELL_CORNER:
+      {
+	const int count = draw->layer[l].match_count;
+	int number = NUM_CORNER_DIRS;
+
+	switch (draw->layer[l].match_style) {
+	case MATCH_NONE:
+	  /* do nothing */
+	  break;
+	case MATCH_SAME:
+	case MATCH_FULL:
 	  /* N directions (NSEW) * 3 dimensions of matching */
-	  /* FIXME: should use exp() or expi() here. */
-	  const int number = NUM_CORNER_DIRS * count * count * count;
+	  /* could use exp() or expi() here? */
+	  number = NUM_CORNER_DIRS * count * count * count;
+	  break;
+	};
 
-	  draw->layer[l].cells
-	    = fc_malloc(number * sizeof(*draw->layer[l].cells));
+	draw->layer[l].cells = fc_malloc(number * sizeof(*draw->layer[l].cells));
 
-	  for (i = 0; i < number; i++) {
-	    int value = i / NUM_CORNER_DIRS;
-	    enum direction4 dir = i % NUM_CORNER_DIRS;
-	    const char dirs[4] = "udrl"; /* Matches direction4 ordering */
+	for (i = 0; i < number; i++) {
+	  enum direction4 dir = i % NUM_CORNER_DIRS;
+	  int value = i / NUM_CORNER_DIRS;
 
-	    switch (draw->layer[l].match_style) {
-	    case MATCH_NONE:
-	      assert(0); /* Impossible. */
-	      break;
-	    case MATCH_BOOLEAN:
-	      my_snprintf(buffer1, sizeof(buffer1), "t.l%d.%s_cell_%c%d%d%d",
-			  l,
-			  draw->name, dirs[dir],
-			  (value >> 0) & 1,
-			  (value >> 1) & 1,
-			  (value >> 2) & 1);
-	      draw->layer[l].cells[i] =
-		lookup_sprite_tag_alt(t, buffer1, "", TRUE, "same cell terrain",
+	  switch (draw->layer[l].match_style) {
+	  case MATCH_NONE:
+	    my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c",
+			l,
+			draw->name,
+			direction4letters[dir]);
+	    draw->layer[l].cells[i] = lookup_sprite_tag_alt(t, buffer, "", TRUE,
+							"cell terrain",
 							pterrain->name_rule);
-	      break;
-	    case MATCH_FULL:
-	      {
-		int n = 0, s = 0, e = 0, w = 0;
-		int v1, v2, v3;
-		int this = draw->layer[l].match_type;
-		struct sprite *sprite;
+	    break;
+	  case MATCH_SAME:
+	    my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c%d%d%d",
+			l,
+			draw->name,
+			direction4letters[dir],
+			(value >> 0) & 1,
+			(value >> 1) & 1,
+			(value >> 2) & 1);
+	    draw->layer[l].cells[i] = lookup_sprite_tag_alt(t, buffer, "", TRUE,
+							"same cell terrain",
+							pterrain->name_rule);
+	    break;
+	  case MATCH_FULL:
+	    {
+	      int this = draw->layer[l].match_type;
+	      int n = 0, s = 0, e = 0, w = 0;
+	      int v1, v2, v3;
 
-		v1 = value % count;
-		value /= count;
-		v2 = value % count;
-		value /= count;
-		v3 = value % count;
+	      v1 = value % count;
+	      value /= count;
+	      v2 = value % count;
+	      value /= count;
+	      v3 = value % count;
 
-		assert(v1 < count && v2 < count && v3 < count);
+	      assert(v1 < count && v2 < count && v3 < count);
 
-		/* Assume merged cells.  This should be a separate option. */
-		switch (dir) {
-		case DIR4_NORTH:
-		  s = this;
-		  w = v1;
-		  n = v2;
-		  e = v3;
-		  break;
-		case DIR4_EAST:
-		  w = this;
-		  n = v1;
-		  e = v2;
-		  s = v3;
-		  break;
-		case DIR4_SOUTH:
-		  n = this;
-		  e = v1;
-		  s = v2;
-		  w = v3;
-		  break;
-		case DIR4_WEST:
-		  e = this;
-		  s = v1;
-		  w = v2;
-		  n = v3;
-		  break;
-		}
-		my_snprintf(buffer1, sizeof(buffer1),
-			    "t.l%d.cellgroup_%s_%s_%s_%s",
-			    l,
-			    t->layers[l].match_types[n],
-			    t->layers[l].match_types[e],
-			    t->layers[l].match_types[s],
-			    t->layers[l].match_types[w]);
-		sprite = load_sprite(t, buffer1);
-
-		if (sprite) {
-		  /* Crop the sprite to separate this cell. */
-		  const int W = t->normal_tile_width;
-		  const int H = t->normal_tile_height;
-		  int x[4] = {W / 4, W / 4, 0, W / 2};
-		  int y[4] = {H / 2, 0, H / 4, H / 4};
-		  int xo[4] = {0, 0, -W / 2, W / 2};
-		  int yo[4] = {H / 2, -H / 2, 0, 0};
-
-		  sprite = crop_sprite(sprite,
-				       x[dir], y[dir], W / 2, H / 2,
-				       t->sprites.mask.tile,
-				       xo[dir], yo[dir]);
-		} else {
-                  freelog(LOG_ERROR, _("Terrain graphics tag %s missing."),
-                          buffer1);
-                }
-
-		draw->layer[l].cells[i] = sprite;
+	      /* Assume merged cells.  This should be a separate option. */
+	      switch (dir) {
+	      case DIR4_NORTH:
+		s = this;
+		w = v1;
+		n = v2;
+		e = v3;
 		break;
+	      case DIR4_EAST:
+		w = this;
+		n = v1;
+		e = v2;
+		s = v3;
+		break;
+	      case DIR4_SOUTH:
+		n = this;
+		e = v1;
+		s = v2;
+		w = v3;
+		break;
+	      case DIR4_WEST:
+		e = this;
+		s = v1;
+		w = v2;
+		n = v3;
+		break;
+	      };
+	      /* use only first character of match_type */
+	      /* FIXME: need earlier check of match_type for uniqueness */
+	      my_snprintf(buffer, sizeof(buffer),
+			  "t.l%d.cellgroup_%c_%c_%c_%c",
+			  l,
+			  t->layers[l].match_types[n][0],
+			  t->layers[l].match_types[e][0],
+			  t->layers[l].match_types[s][0],
+			  t->layers[l].match_types[w][0]);
+	      sprite = load_sprite(t, buffer);
+
+	      if (sprite) {
+		/* Crop the sprite to separate this cell. */
+		const int W = t->normal_tile_width;
+		const int H = t->normal_tile_height;
+		int x[4] = {W / 4, W / 4, 0, W / 2};
+		int y[4] = {H / 2, 0, H / 4, H / 4};
+		int xo[4] = {0, 0, -W / 2, W / 2};
+		int yo[4] = {H / 2, -H / 2, 0, 0};
+
+		sprite = crop_sprite(sprite,
+				     x[dir], y[dir], W / 2, H / 2,
+				     t->sprites.mask.tile,
+				     xo[dir], yo[dir]);
+	      } else {
+		freelog(LOG_ERROR, _("Terrain graphics tag \"%s\" missing."),
+			buffer);
 	      }
+
+	      draw->layer[l].cells[i] = sprite;
 	    }
-	  }
+	    break;
+	  };
 	}
-	break;
       }
-    }
+      break;
+    };
   }
 
   if (t->blend_layer >= 0 && t->blend_layer < MAX_NUM_LAYERS) {
@@ -2837,10 +2896,10 @@ void tileset_setup_tile_type(struct tileset *t,
     const int l = t->blend_layer;
 
     if (draw->layer[l].base.size < 1) {
-      my_snprintf(buffer1, sizeof(buffer1), "t.l%d.%s1", l, draw->name);
+      my_snprintf(buffer, sizeof(buffer), "t.l%d.%s1", l, draw->name);
       sprite_vector_reserve(&draw->layer[l].base, 1);
       draw->layer[l].base.p[0]
-	= lookup_sprite_tag_alt(t, buffer1, "", TRUE, "base terrain",
+	= lookup_sprite_tag_alt(t, buffer, "", TRUE, "base (blend) terrain",
 				pterrain->name_rule);
     }
 
@@ -2903,7 +2962,7 @@ void tileset_setup_nation_flag(struct tileset *t, int id)
   }
   if (!flag || !shield) {
     /* Should never get here because of the f.unknown fallback. */
-    freelog(LOG_FATAL, "No national flag for %s.", nation->name);
+    freelog(LOG_FATAL, "No national flag for \"%s\".", nation->name);
     exit(EXIT_FAILURE);
   }
 
@@ -3513,9 +3572,10 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
 }
 
 /****************************************************************************
+  Helper function for fill_terrain_sprite_layer.
   Fill in the sprite array for blended terrain.
 ****************************************************************************/
-static int fill_blending_sprite_array(const struct tileset *t,
+static int fill_terrain_sprite_blending(const struct tileset *t,
 				      struct drawn_sprite *sprs,
 				      const struct tile *ptile,
 				      struct terrain **tterrain_near)
@@ -3605,95 +3665,88 @@ static int fill_fog_sprite_array(const struct tileset *t,
 }
 
 /****************************************************************************
-  Add sprites for the base terrain to the sprite list.  This doesn't
-  include specials or rivers.
+  Helper function for fill_terrain_sprite_layer.
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct tileset *t,
 				     struct drawn_sprite *sprs,
-				     int layer_num,
+				     int l, /* layer_num */
 				     const struct tile *ptile,
 				     struct terrain **tterrain_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  struct sprite *sprite;
-  struct terrain *pterrain = ptile->terrain;
+  struct terrain *pterrain = tile_get_terrain(ptile);
   struct terrain_drawing_data *draw = t->sprites.terrain[pterrain->index];
-  const int l = (draw->is_reversed
-		 ? (draw->num_layers - layer_num - 1) : layer_num);
-  int i, tileno;
-  struct tile *adjc_tile;
+  int match_type = draw->layer[l].match_type;
+  int ox = draw->layer[l].offset_x;
+  int oy = draw->layer[l].offset_y;
+  int i;
 
-  if (!draw_terrain) {
-    return 0;
-  }
+#define MATCH(dir)								\
+    (t->sprites.terrain[tterrain_near[(dir)]->index]->num_layers > (l)		\
+    ? t->sprites.terrain[tterrain_near[(dir)]->index]->layer[l].match_type	\
+    : -1)
 
-  /* Skip the normal drawing process. */
-  /* FIXME: this should avoid calling load_sprite since it's slow and
-   * increases the refcount without limit. */
-  if (ptile->spec_sprite && (sprite = load_sprite(t, ptile->spec_sprite))) {
-    if (l == 0) {
-      ADD_SPRITE_SIMPLE(sprite);
-      return 1;
-    } else {
-      return 0;
-    }
-  }
+  switch (draw->layer[l].cell_type) {
+  case CELL_WHOLE:
+    {
+      switch (draw->layer[l].match_style) {
+      case MATCH_NONE:
+	{
+	  int count = sprite_vector_size(&draw->layer[l].base);
 
-  if (l < draw->num_layers) {
-  if (draw->layer[l].match_style == MATCH_NONE) {
-    int count = sprite_vector_size(&draw->layer[l].base);
+	  if (count > 0) {
+	    /* Pseudo-random reproducable algorithm to pick a sprite. */
+	    const int LARGE_PRIME = 10007;
+	    const int SMALL_PRIME = 1009;
 
-    if (count > 0) {
-      /* Pseudo-random reproducable algorithm to pick a sprite. */
-      const int LARGE_PRIME = 10007;
-      const int SMALL_PRIME = 1009;
-      int ox = draw->layer[l].offset_x, oy = draw->layer[l].offset_y;
+	    assert(count < SMALL_PRIME);
+	    assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
+	    count = ((ptile->index * LARGE_PRIME) % SMALL_PRIME) % count;
 
-      assert(count < SMALL_PRIME);
-      assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
-      count = ((ptile->index
-		* LARGE_PRIME) % SMALL_PRIME) % count;
-      if (draw->layer[l].is_tall) {
-	ox += FULL_TILE_X_OFFSET;
-	oy += FULL_TILE_Y_OFFSET;
-      }
-      ADD_SPRITE(draw->layer[l].base.p[count], TRUE, ox, oy);
-    }
-  } else {
-    int match_type = draw->layer[l].match_type;
-
-#define MATCH(dir)							    \
-    (t->sprites.terrain[tterrain_near[(dir)]->index]->num_layers > l	    \
-     ? t->sprites.terrain[tterrain_near[(dir)]->index]->layer[l].match_type \
-     : -1)
-
-    if (draw->layer[l].cell_type == CELL_SINGLE) {
-      int ox = draw->layer[l].offset_x, oy = draw->layer[l].offset_y;
-
-      tileno = 0;
-      assert(draw->layer[l].match_style == MATCH_BOOLEAN);
-      for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
-	enum direction8 dir = t->cardinal_tileset_dirs[i];
-
-	if (MATCH(dir) == match_type) {
-	  tileno |= 1 << i;
+	    if (draw->layer[l].is_tall) {
+	      ox += FULL_TILE_X_OFFSET;
+	      oy += FULL_TILE_Y_OFFSET;
+	    }
+	    ADD_SPRITE(draw->layer[l].base.p[count], TRUE, ox, oy);
+	  }
+	  break;
 	}
-      }
+      case MATCH_SAME:
+	{
+	  int tileno = 0;
 
-      if (draw->layer[l].is_tall) {
-	ox += FULL_TILE_X_OFFSET;
-	oy += FULL_TILE_Y_OFFSET;
-      }
-      ADD_SPRITE(draw->layer[l].match[tileno], TRUE, ox, oy);
-    } else if (draw->layer[l].cell_type == CELL_RECT) {
-      /* Divide the tile up into four rectangular cells.  Now each of these
+	  for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
+	    enum direction8 dir = t->cardinal_tileset_dirs[i];
+
+	    if (MATCH(dir) == match_type) {
+	      tileno |= 1 << i;
+	    }
+	  }
+
+	  if (draw->layer[l].is_tall) {
+	    ox += FULL_TILE_X_OFFSET;
+	    oy += FULL_TILE_Y_OFFSET;
+	  }
+	  ADD_SPRITE(draw->layer[l].match[tileno], TRUE, ox, oy);
+	  break;
+	}
+      case MATCH_FULL:
+	assert(0); /* not yet defined */
+	break;
+      };
+      break;
+    }
+  case CELL_CORNER:
+    {
+      /* Divide the tile up into four rectangular cells.  Each of these
        * cells covers one corner, and each is adjacent to 3 different
-       * tiles.  For each cell we pixk a sprite based upon the adjacent
-       * terrains at each of those tiles.  Thus we have 8 different sprites
+       * tiles.  For each cell we pick a sprite based upon the adjacent
+       * terrains at each of those tiles.  Thus, we have 8 different sprites
        * for each of the 4 cells (32 sprites total).
        *
        * These arrays correspond to the direction4 ordering. */
-      const int W = t->normal_tile_width, H = t->normal_tile_height;
+      const int W = t->normal_tile_width;
+      const int H = t->normal_tile_height;
       const int iso_offsets[4][2] = {
 	{W / 4, 0}, {W / 4, H / 2}, {W / 2, H / 4}, {0, H / 4}
       };
@@ -3714,24 +3767,22 @@ static int fill_terrain_sprite_array(struct tileset *t,
 
 	switch (draw->layer[l].match_style) {
 	case MATCH_NONE:
-	  /* Impossible */
-	  assert(0);
+	  /* We have no need for matching, just plug the piece in place. */
 	  break;
-	case MATCH_BOOLEAN:
+	case MATCH_SAME:
 	  assert(count == 2);
 	  array_index = array_index * count + (m[2] != match_type);
 	  array_index = array_index * count + (m[1] != match_type);
 	  array_index = array_index * count + (m[0] != match_type);
 	  break;
 	case MATCH_FULL:
-	  if (m[0] == -1 || m[1] == -1 || m[2] == -1) {
-	    break;
+	  if (m[0] != -1 && m[1] != -1 && m[2] != -1) {
+	    array_index = array_index * count + m[2];
+	    array_index = array_index * count + m[1];
+	    array_index = array_index * count + m[0];
 	  }
-	  array_index = array_index * count + m[2];
-	  array_index = array_index * count + m[1];
-	  array_index = array_index * count + m[0];
 	  break;
-	}
+	};
 	array_index = array_index * NUM_CORNER_DIRS + i;
 
 	s = draw->layer[l].cells[array_index];
@@ -3739,19 +3790,27 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	  ADD_SPRITE(s, TRUE, x, y);
 	}
       }
+      break;
     }
+  };
 #undef MATCH
-  }
-  }
 
-  /* Add blending on top of the first layer. */
-  if (l == t->blend_layer) {
-    sprs += fill_blending_sprite_array(t, sprs, ptile, tterrain_near);
-  }
+  return sprs - saved_sprs;
+}
 
-  /* Add darkness on top of the first layer.  Note that darkness is always
-   * drawn, even in citymode, etc. */
-  if (l == 0) {
+/****************************************************************************
+  Helper function for fill_terrain_sprite_layer.
+  Fill in the sprite array of darkness.
+****************************************************************************/
+static int fill_terrain_sprite_darkness(struct tileset *t,
+				     struct drawn_sprite *sprs,
+				     const struct tile *ptile,
+				     struct terrain **tterrain_near)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+  int i, tileno;
+  struct tile *adjc_tile;
+
 #define UNKNOWN(dir)                                        \
     ((adjc_tile = mapstep(ptile, (dir)))		    \
      && client_tile_get_known(adjc_tile) == TILE_UNKNOWN)
@@ -3797,8 +3856,54 @@ static int fill_terrain_sprite_array(struct tileset *t,
     case DARKNESS_CORNER:
       /* Handled separately. */
       break;
-    }
+    };
 #undef UNKNOWN
+
+  return sprs - saved_sprs;
+}
+
+/****************************************************************************
+  Add sprites for the base tile to the sprite list.  This doesn't
+  include specials or rivers.
+****************************************************************************/
+static int fill_terrain_sprite_layer(struct tileset *t,
+				     struct drawn_sprite *sprs,
+				     int layer_num,
+				     const struct tile *ptile,
+				     struct terrain **tterrain_near)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+  struct sprite *sprite;
+  struct terrain *pterrain = tile_get_terrain(ptile);
+  struct terrain_drawing_data *draw = t->sprites.terrain[pterrain->index];
+  const int l = (draw->is_reversed
+		 ? (draw->num_layers - layer_num - 1) : layer_num);
+
+  /* Skip the normal drawing process. */
+  /* FIXME: this should avoid calling load_sprite since it's slow and
+   * increases the refcount without limit. */
+  if (ptile->spec_sprite && (sprite = load_sprite(t, ptile->spec_sprite))) {
+    if (l == 0) {
+      ADD_SPRITE_SIMPLE(sprite);
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  if (l < draw->num_layers) {
+    sprs += fill_terrain_sprite_array(t, sprs, l, ptile, tterrain_near);
+  }
+
+  /* Add blending on top of the first layer. */
+  if (l == t->blend_layer) {
+    sprs += fill_terrain_sprite_blending(t, sprs, ptile, tterrain_near);
+  }
+
+  /* Add darkness on top of the first layer.  Note that darkness is always
+   * drawn, even in citymode, etc. */
+  if (l == 0) {
+    sprs += fill_terrain_sprite_darkness(t, sprs, ptile, tterrain_near);
   }
 
   return sprs - saved_sprs;
@@ -4071,23 +4176,30 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_TERRAIN1:
-  case LAYER_TERRAIN2:
-  case LAYER_TERRAIN3:
-    /* Terrain and specials.  These are drawn in multiple layers so that
-     * upper layers will cover layers underneath. */
-    if (ptile && !solid_bg && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      int l = (layer == LAYER_TERRAIN1)
-	? 0 : ((layer == LAYER_TERRAIN2) ? 1 : 2);
+    if (draw_terrain && !solid_bg
+      && ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+      sprs += fill_terrain_sprite_layer(t, sprs, 0, ptile, tterrain_near);
+    }
+    break;
 
+  case LAYER_TERRAIN2:
+    if (draw_terrain && !solid_bg
+      && ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
+      sprs += fill_terrain_sprite_layer(t, sprs, 1, ptile, tterrain_near);
+    }
+    break;
+
+  case LAYER_TERRAIN3:
+    if (draw_terrain && !solid_bg
+      && ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       assert(MAX_NUM_LAYERS == 3);
-      sprs += fill_terrain_sprite_array(t, sprs, l,
-					ptile, tterrain_near);
+      sprs += fill_terrain_sprite_layer(t, sprs, 2, ptile, tterrain_near);
     }
     break;
 
   case LAYER_WATER:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      if (is_ocean(pterrain) && draw_terrain && !solid_bg) {
+      if (draw_terrain && !solid_bg && is_ocean(pterrain)) {
 	for (dir = 0; dir < 4; dir++) {
 	  if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
 	    ADD_SPRITE_SIMPLE(t->sprites.tx.river_outlet[dir]);
@@ -4286,17 +4398,17 @@ void tileset_setup_city_tiles(struct tileset *t, int style)
 
     for (style = 0; style < game.control.styles_count; style++) {
       if (t->sprites.city.tile->styles[style].num_thresholds == 0) {
-	freelog(LOG_ERROR, "No city graphics for %s style.",
+	freelog(LOG_ERROR, "No city graphics for \"%s\" style.",
 		city_styles[style].name);
 	exit(EXIT_FAILURE);
       }
       if (t->sprites.city.wall->styles[style].num_thresholds == 0) {
-	freelog(LOG_ERROR, "No wall graphics for %s style.",
+	freelog(LOG_ERROR, "No wall graphics for \"%s\" style.",
 		city_styles[style].name);
 	exit(EXIT_FAILURE);
       }
       if (t->sprites.city.occupied->styles[style].num_thresholds == 0) {
-	freelog(LOG_ERROR, "No occupied graphics for %s style.",
+	freelog(LOG_ERROR, "No occupied graphics for \"%s\" style.",
 		city_styles[style].name);
 	exit(EXIT_FAILURE);
       }
@@ -4770,7 +4882,7 @@ void tileset_use_prefered_theme(const struct tileset *t)
 {
   int i;
   for (i = 0; i < t->num_prefered_themes; i++) {
-    freelog(LOG_DEBUG, "trying theme %s", t->prefered_themes[i]);
+    freelog(LOG_DEBUG, "trying theme \"%s\".", t->prefered_themes[i]);
     if (load_theme(t->prefered_themes[i])) {
       return;
     }
