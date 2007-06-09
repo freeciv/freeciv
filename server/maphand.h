@@ -40,7 +40,7 @@ struct dumb_city{
 struct player_tile {
   struct terrain *terrain; /* May be NULL for unknown tiles. */
   bv_special special;
-  const struct resource *resource;
+  struct resource *resource;
   unsigned short seen_count[V_COUNT];
   unsigned short own_seen[V_COUNT];
   /* If you build a city with an unknown square within city radius

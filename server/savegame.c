@@ -748,7 +748,7 @@ static char get_savegame_special(bv_special specials,
   ch is the character read from the map, and n is the number of the special
   (0 for special_1, 1 for special_2).
 ****************************************************************************/
-static void set_savegame_old_resource(const struct resource **r,
+static void set_savegame_old_resource(struct resource **r,
 				      const struct terrain *terrain,
 				      char ch, int n)
 {
@@ -771,7 +771,7 @@ static void set_savegame_old_resource(const struct resource **r,
 /****************************************************************************
   Return the resource for the given identifier.
 ****************************************************************************/
-static const struct resource *identifier_to_resource(char c)
+static struct resource *identifier_to_resource(char c)
 {
   if (c == RESOURCE_NULL_IDENTIFIER) {
     return NULL;

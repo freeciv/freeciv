@@ -133,7 +133,7 @@ struct terrain {
 
   int output[O_MAX];
 
-  const struct resource **resources; /* NULL-terminated */
+  struct resource **resources; /* NULL-terminated */
 
   int road_trade_incr;
   int road_time;
@@ -207,7 +207,7 @@ void terrains_free(void);
 
 struct resource *get_resource_by_number(Resource_type_id id);
 struct resource *get_resource_by_rule_name(const char *name);
-const char *resource_name_translation(const struct resource *presource);
+const char *resource_name_translation(struct resource *presource);
 
 /* Functions to operate on a general terrain type. */
 bool is_terrain_near_tile(const struct tile *ptile,

@@ -1361,7 +1361,7 @@ static void add_resources(int prob)
     }
     if (!is_ocean(pterrain) || near_safe_tiles (ptile)) {
       int i = 0;
-      const struct resource **r;
+      struct resource **r;
 
       for (r = pterrain->resources; *r; r++) {
 	/* This is a standard way to get a random element from the

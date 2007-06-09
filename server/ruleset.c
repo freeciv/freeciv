@@ -3056,7 +3056,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
   terrain_type_iterate(pterrain) {
     const int i = pterrain->index;
-    const struct resource **r;
+    struct resource **r;
 
     packet.id = i;
     packet.native_to = pterrain->native_to;

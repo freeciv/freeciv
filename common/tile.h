@@ -31,7 +31,7 @@ struct tile {
   int index; /* Index coordinate of the tile. */
   struct terrain *terrain; /* May be NULL for unknown tiles. */
   bv_special special;
-  const struct resource *resource; /* available resource, or NULL */
+  struct resource *resource; /* available resource, or NULL */
   struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
   bv_player tile_known, tile_seen[V_COUNT];
@@ -73,7 +73,7 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
 bool tile_has_native_base(const struct tile *ptile,
                           const struct unit_type *punittype);
 const struct resource *tile_get_resource(const struct tile *ptile);
-void tile_set_resource(struct tile *ptile, const struct resource *presource);
+void tile_set_resource(struct tile *ptile, struct resource *presource);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 void tile_set_continent(struct tile *ptile, Continent_id val);

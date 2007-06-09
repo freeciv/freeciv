@@ -236,10 +236,10 @@ struct resource *get_resource_by_rule_name(const char *name_orig)
 /****************************************************************************
   Return the translated name of the resource.
 ****************************************************************************/
-const char *resource_name_translation(const struct resource *presource)
+const char *resource_name_translation(struct resource *presource)
 {
   if (NULL == presource->name_translated) {
-    /* delayed (unified) translation, ignore warning */
+    /* delayed (unified) translation */
     presource->name_translated = ('\0' == presource->name_rule[0])
 			   ? presource->name_rule : Q_(presource->name_rule);
   }

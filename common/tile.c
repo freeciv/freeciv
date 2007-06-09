@@ -218,7 +218,7 @@ const struct resource *tile_get_resource(const struct tile *ptile)
 /****************************************************************************
   Set the given resource at the specified tile.
 ****************************************************************************/
-void tile_set_resource(struct tile *ptile, const struct resource *presource)
+void tile_set_resource(struct tile *ptile, struct resource *presource)
 {
   ptile->resource = presource;
 }

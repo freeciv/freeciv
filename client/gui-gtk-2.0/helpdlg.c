@@ -1042,8 +1042,8 @@ static void help_update_terrain(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_tlabel[0][4]), buf);
 
     buf[0] = '\0';
-    if (pterrain->resources[0]) {
-      const struct resource **r;
+    if (*(pterrain->resources)) {
+      struct resource **r;
 
       for (r = pterrain->resources; *r; r++) {
 	sprintf (buf + strlen (buf), " %s,", resource_name_translation(*r));
