@@ -575,9 +575,10 @@ static void help_update_terrain(const struct help_item *pitem,
 
     buf[0] = '\0';
     if (*(pterrain->resources)) {
-      const struct resource **r;
+      struct resource **r;
+
       for (r = pterrain->resources; *r; r++) {
-       sprintf (buf + strlen (buf), " %s,", resource_name_translation(*r));
+        sprintf (buf + strlen (buf), " %s,", resource_name_translation(*r));
       }
       buf[strlen (buf) - 1] = '.';
     } else {

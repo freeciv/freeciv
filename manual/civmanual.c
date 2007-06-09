@@ -226,7 +226,7 @@ static bool manual_command(void)
               _("Airbase"), _("Fortress"), _("Rail"),
               _("Clean pollution"), _("Clean fallout"));
       terrain_type_iterate(pterrain) {
-        const struct resource **r;
+        struct resource **r;
 
         if ('\0' == pterrain->name_rule[0]) {
           /* Must be a disabled piece of terrain */
