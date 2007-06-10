@@ -455,9 +455,8 @@ information about reporting new bugs.
 Mailing lists:
 ==============
 
-We maintain 8 mailing lists:
+We maintain 4 mailing lists:
 
-  freeciv          General discussion.
   freeciv-announce Announcements of general interest.
                    This is a "Read Only" list, with infrequent messages.
                    In other words you can't mail this list, just read it.
@@ -467,55 +466,22 @@ We maintain 8 mailing lists:
                    documentation, and website, into other languages than
                    English.
   freeciv-dev      Freeciv development.
-  freeciv-data     Freeciv data directory development.
-                   (Discussion of rulesets, tilesets, etc.)
-  freeciv-java     Freeciv Java client development.
-  freeciv-ai       Freeciv AI development.
-  freeciv-cvs      Notifications of changes to the CVS repository.
+  freeciv-commits  Notifications of changes to the SVN repository.
                    This is a "Read Only" list, carrying automated messages.
                    In other words you can't mail this list, just read it.
 
 All lists are open to the general public and everyone is welcome to join.
+Only maintainers may post to the -announce and -commits lists.
 
-To join (or leave) these lists follow these steps:
-
-  1. Email to <listar@freeciv.org>.
-  2. Leave subject blank.
-  3. In the body of the email put one of:
-      To join:
-        subscribe freeciv
-        subscribe freeciv-announce
-        subscribe freeciv-i18n
-        subscribe freeciv-dev
-        subscribe freeciv-data
-        subscribe freeciv-java
-        subscribe freeciv-ai
-        subscribe freeciv-cvs
-      To leave:
-        unsubscribe freeciv
-        unsubscribe freeciv-announce
-        unsubscribe freeciv-i18n
-        unsubscribe freeciv-dev
-        unsubscribe freeciv-data
-        unsubscribe freeciv-java
-        unsubscribe freeciv-ai
-        unsubscribe freeciv-cvs
-
-To send an email to the lists, address it to:
-
-  For freeciv, mail should be sent to <freeciv@freeciv.org>.
-  For freeciv-i18n, mail should be sent to <freeciv-i18n@freeciv.org>.
-  For freeciv-dev, mail should be sent to <freeciv-dev@freeciv.org>.
-  For freeciv-data, mail should be sent to <freeciv-data@freeciv.org>.
-  For freeciv-java, mail should be sent to <freeciv-java@freeciv.org>.
-  For freeciv-ai, mail should be sent to <freeciv-ai@freeciv.org>.
+The lists are hosted at gna.org. For more information, to join, or to leave
+these lists, go to https://gna.org/mail/?group=freeciv
 
 
 Internet Relay Chat (IRC)
 =========================
 
-Several players and developers hang out on #freeciv on the freenode
-network. Try connecting to the server
+Several players and developers hang out on #freeciv and #freeciv-dev
+channels on the freenode network. Try connecting to the server
 
 	irc.freenode.net
 
