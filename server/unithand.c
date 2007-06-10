@@ -970,7 +970,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 		     unit_type(punit)->name);
   } else if (reason == MR_PEACE) {
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
-                   _("Game: Cannot invade unless you break peace with "
+                   _("Cannot invade unless you break peace with "
                      "%s first."), dest_tile->owner->name);
   }
 
