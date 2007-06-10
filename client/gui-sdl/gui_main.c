@@ -151,7 +151,7 @@ const int num_gui_options = ARRAY_SIZE(gui_options);
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+  fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
   fc_fprintf(stderr,
 	     _("  -f,  --fullscreen\tStart Client in Fulscreen mode\n"));
   fc_fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in "
