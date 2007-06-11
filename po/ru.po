@@ -7876,7 +7876,7 @@ msgid "City Name"
 msgstr "Название города"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "?размер:Рз"
 
 #: client/cityrepdata.c:431
@@ -7893,8 +7893,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Бум/Мир/Беспорядки"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Кратко *=Бум, X=Беспорядок"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Кратко +=Бум, -=Беспорядок"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7989,7 +7989,7 @@ msgid "Units"
 msgstr "Соединения"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?Поддерживаемые соед:Под"
 
 #: client/cityrepdata.c:458
@@ -7997,7 +7997,7 @@ msgid "Number of units supported"
 msgstr "Число поддерживаемых соединений"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?Присутствующие соединения:Прс"
 
 #: client/cityrepdata.c:460
@@ -8009,7 +8009,7 @@ msgid "Surplus"
 msgstr "Избыток"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "?еда/произв/торг:Е/П/Т"
 
 #: client/cityrepdata.c:463
@@ -8017,24 +8017,24 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Избыток: Еда, Производство, Торговля"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Избыток еды:Е+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Избыток еды:+Е"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Избыток: Еда"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Избыток производства:П+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Избыток производства:+П"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Избыток: Производство"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Избыток торговли:Т+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Избыток торговли:+Т"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -8048,7 +8048,7 @@ msgid "Economy"
 msgstr "Экономика"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "?зол/роск/наук:З/Р/Н"
 
 #: client/cityrepdata.c:472
@@ -8080,11 +8080,11 @@ msgid "Economy: Science"
 msgstr "Экономика: Наука"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
+msgid "?number_trade_routes:n"
 msgstr "?торговые_пути:н"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "?торговые_пути:Т"
 
 #: client/cityrepdata.c:481
@@ -8101,11 +8101,11 @@ msgid "Food Stock"
 msgstr "Запас пищи"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "Загрязнение:Загр"
+msgid "?pollution [short]:Pol"
+msgstr "?Загрязнение:Загр"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Рост"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -8118,16 +8118,16 @@ msgid "Turns until growth/famine"
 msgstr "Ходов до роста/голода"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "Коррупция:Корр"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-Т"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Коррупция"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "?растраты:Рас"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-П"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -8149,8 +8149,12 @@ msgid "Currently Building"
 msgstr "Сейчас строит"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Накоплено,Цель,Ходы,Купить)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Накоплено/Цель)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Ходы/Купить"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -8158,8 +8162,8 @@ msgstr "?специалист:С"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Специалисты: %s"
+msgid "Specialists"
+msgstr "Специалисты"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -15019,7 +15023,7 @@ msgstr "%3d золота за ход"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "?Избыток еды:Е+"
+msgstr "?Избыток еды:Избыток %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

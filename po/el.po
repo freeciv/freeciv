@@ -7495,7 +7495,7 @@ msgid "City Name"
 msgstr ""
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr ""
 
 #: client/cityrepdata.c:431
@@ -7512,7 +7512,7 @@ msgid "Rapture/Peace/Disorder"
 msgstr ""
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
+msgid "Concise +=Rapture, -=Disorder"
 msgstr ""
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
@@ -7608,7 +7608,7 @@ msgid "Units"
 msgstr "Μονάδες"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?Supported (units):Υπ"
 
 #: client/cityrepdata.c:458
@@ -7616,7 +7616,7 @@ msgid "Number of units supported"
 msgstr "Αριθμός υποστηριζόμενων μονάδων"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?Present (units):Πρς"
 
 #: client/cityrepdata.c:460
@@ -7628,32 +7628,32 @@ msgid "Surplus"
 msgstr "Πλεόνασμα"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "?food/prod/trade:Φ/Π/Ε"
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:Φ/Π/Ε"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Πλεόνασμα: Φαγητό, Παραγωγή, Εμπόριο"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Food surplus:Φ+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Food surplus [short]:+Φ"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Πλεόνασμα: Φαγητό"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Productio surplus:Π+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Productio surplus [short]:+Π"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Πλεόνασμα: Παραγωγή"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Trade surplus:E+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Trade surplus [short]:+Ε"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7667,8 +7667,8 @@ msgid "Economy"
 msgstr "Οικονομία"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr "?gold/lux/sci:X/A/E"
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:X/A/E"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7699,12 +7699,12 @@ msgid "Economy: Science"
 msgstr "Οικονομία: Επιστήμη"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "?trade_routes:n"
+msgid "?number_trade_routes:n"
+msgstr "?number_trade_routes:n"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr "?trade_routes:Ε"
+msgid "?number_trade_routes:R"
+msgstr "?number_trade_routes:Ε"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7720,11 +7720,11 @@ msgid "Food Stock"
 msgstr "Απόθεμα τροφής"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:Μλν"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:Μλν"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Αύξηση"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -7737,16 +7737,16 @@ msgid "Turns until growth/famine"
 msgstr "Γύροι μέχρι αύξηση/λιμό"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?corruption:Δφθ"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-Ε"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Διαφθορά"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "?waste:Σπτ"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-Π"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7765,11 +7765,15 @@ msgstr "Κυβερνήτης Πόλης"
 
 #: client/cityrepdata.c:495 client/cityrepdata.c:496
 msgid "Currently Building"
-msgstr ""
+msgstr "υπό παραγωγή"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr ""
+msgid "?Stock/Target:(Have/Need)"
+msgstr "Απόθεμα"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Γύροι"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -7777,7 +7781,7 @@ msgstr ""
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr ""
 
 #: client/civclient.c:200
@@ -14409,7 +14413,7 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:2603
 #, c-format
 msgid "?food:Surplus: %d"
-msgstr ""
+msgstr "Πλεόνασμα: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, c-format

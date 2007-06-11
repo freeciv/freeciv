@@ -7688,7 +7688,7 @@ msgid "City Name"
 msgstr "Bynavn"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "?size:St"
 
 #: client/cityrepdata.c:431
@@ -7705,8 +7705,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Feiring/Fred/Uroligheter"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Kort *=Feiring, X=Uroligheter"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Kort +=Feiring, -=Uroligheter"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7801,7 +7801,7 @@ msgid "Units"
 msgstr "Enheter"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?Supported (units):Stø"
 
 #: client/cityrepdata.c:458
@@ -7809,7 +7809,7 @@ msgid "Number of units supported"
 msgstr "Antall støttede enheter"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?Present (units):Tils"
 
 #: client/cityrepdata.c:460
@@ -7821,32 +7821,32 @@ msgid "Surplus"
 msgstr "Overskudd"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "?food/prod/trade:M/P/H"
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:M/P/H"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Overskudd: Mat, Produksjon, Handel"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Food surplus:M+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Food surplus [short]:+M"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Overskudd: Mat"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Production surplus:P+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Production surplus [short]:+P"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Overskudd: Produksjon"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Trade surplus:H+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Trade surplus [short]:+H"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7860,8 +7860,8 @@ msgid "Economy"
 msgstr "Økonomi"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr "?gold/lux/sci:G/L/F"
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:G/L/F"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7892,12 +7892,12 @@ msgid "Economy: Science"
 msgstr "Økonomi: Forskning"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "?trade_routes:#"
+msgid "?number_trade_routes:n"
+msgstr "?number_trade_routes:#"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr "?trade_routes:H"
+msgid "?number_trade_routes:R"
+msgstr "?number_trade_routes:H"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7913,11 +7913,11 @@ msgid "Food Stock"
 msgstr "Matbeholdning"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:For"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:For"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Vekst"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -7930,16 +7930,16 @@ msgid "Turns until growth/famine"
 msgstr "Runder til vekst/hungersnød"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?corruption:Kor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-H"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korrupsjon"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "?waste:Avf"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-P"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7963,17 +7963,21 @@ msgid "Currently Building"
 msgstr "Bygger nå"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Oppsamlet,Mål,Runder,Kjøpekostnad)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Oppsamlet/Mål)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Runder/Kjøpekostnad"
 
 #: client/cityrepdata.c:554
 #, fuzzy
 msgid "?specialist:S"
-msgstr "Spesielle"
+msgstr "?Spesielle:S"
 
 #: client/cityrepdata.c:557
 #, fuzzy, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr "Spesielle"
 
 #: client/civclient.c:200
@@ -14766,7 +14770,7 @@ msgstr "%3d gull per runde"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "?Food surplus:M+"
+msgstr "Overskudd: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

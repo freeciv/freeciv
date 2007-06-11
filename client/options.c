@@ -555,7 +555,7 @@ void load_ruleset_specific_options(void)
   }
 
   /* Load city report columns (which include some ruleset data). */
-  for (i = 1; i < num_city_report_spec(); i++) {
+  for (i = 0; i < num_city_report_spec(); i++) {
     bool *ip = city_report_spec_show_ptr(i);
 
     *ip = secfile_lookup_bool_default(&sf, *ip, "client.city_report_%s",
@@ -610,7 +610,7 @@ void save_options(void)
 
   message_options_save(&sf, "client");
 
-  for (i = 1; i < num_city_report_spec(); i++) {
+  for (i = 0; i < num_city_report_spec(); i++) {
     secfile_insert_bool(&sf, *(city_report_spec_show_ptr(i)),
 		       "client.city_report_%s",
 		       city_report_spec_tagname(i));

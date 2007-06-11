@@ -7861,7 +7861,7 @@ msgid "City Name"
 msgstr "Name der Stadt"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "?size:Gr"
 
 #: client/cityrepdata.c:431
@@ -7878,8 +7878,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "begeistert/normal/in Aufruhr"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "einspaltige Statusanzeige: *=begeistert, X=in Aufruhr"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "einspaltige Statusanzeige: +=begeistert, -=in Aufruhr"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7974,7 +7974,7 @@ msgid "Units"
 msgstr "Einheiten"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "unterh."
 
 #: client/cityrepdata.c:458
@@ -7982,7 +7982,7 @@ msgid "Number of units supported"
 msgstr "Unterstützte Einheiten"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "station."
 
 #: client/cityrepdata.c:460
@@ -7994,32 +7994,32 @@ msgid "Surplus"
 msgstr "Überschuß"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "?food/prod/trade:N/P/H"
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:N/P/H"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Überschuß: Nahrung, Produktion, Handel"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Food surplus:N+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Food surplus [short]:+N"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Überschuß: Nahrung"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Production surplus:P+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Production surplus [short]:+P"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Überschuß: Produktion"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Trade surplus:H+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Trade surplus [short]:+H"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -8033,8 +8033,8 @@ msgid "Economy"
 msgstr "Wirtschaft"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr "?gold/lux/sci:G/L/F"
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:G/L/F"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -8065,12 +8065,12 @@ msgid "Economy: Science"
 msgstr "Wirtschaft: Forschung"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "?trade_routes:#"
+msgid "?number_trade_routes:n"
+msgstr "?number_trade_routes:#"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr "?trade_routes:H"
+msgid "?number_trade_routes:R"
+msgstr "?number_trade_routes:H"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -8086,11 +8086,11 @@ msgid "Food Stock"
 msgstr "Nahrungsvorrat"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "Ver."
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "wächst"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -8103,16 +8103,16 @@ msgid "Turns until growth/famine"
 msgstr "Runden bis Wachstum/Hungersnot"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "Kor."
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-H"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korruption"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "Müll"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-P"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -8134,8 +8134,12 @@ msgid "Currently Building"
 msgstr "derzeitiges Projekt"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(aktuell/benötigt/Runden/Preis)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(aktuell/benötigt)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Runden/Preis"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -8143,8 +8147,8 @@ msgstr "F"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Spezialisten: %s"
+msgid "Specialists"
+msgstr "Spezialisten"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"

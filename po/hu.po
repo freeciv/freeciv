@@ -7767,7 +7767,7 @@ msgid "City Name"
 msgstr "Városnév"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "?size:Mrt"
 
 #: client/cityrepdata.c:431
@@ -7784,8 +7784,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Öröm/Béke/Zavargás"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Jelek: *=Ünneplés, X=Zavargás"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Jelek: +=Ünneplés, -=Zavargás"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7794,7 +7794,7 @@ msgstr "Munkások"
 
 #: client/cityrepdata.c:438
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr "?happy/content/unhappy/angry:B/E/B/L"
+msgstr "?happy/content/unhappy/angry:B/E/Bt/L"
 
 #: client/cityrepdata.c:439
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -7802,7 +7802,7 @@ msgstr "Munkások: Boldog, Elégedett, Boldogtalan, Lázadó"
 
 #: client/cityrepdata.c:441
 msgid "?Happy workers:H"
-msgstr "?Happy workers:B"
+msgstr "B"
 
 #: client/cityrepdata.c:441
 msgid "Workers: Happy"
@@ -7810,7 +7810,7 @@ msgstr "Munkások: boldogak"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
-msgstr ""
+msgstr "E"
 
 #: client/cityrepdata.c:443
 msgid "Workers: Content"
@@ -7818,7 +7818,7 @@ msgstr "Munkások: elégedettek"
 
 #: client/cityrepdata.c:445
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "Bt"
 
 #: client/cityrepdata.c:445
 msgid "Workers: Unhappy"
@@ -7826,7 +7826,7 @@ msgstr "Munkások: boldogtalanok"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
-msgstr ""
+msgstr "L"
 
 #: client/cityrepdata.c:447
 msgid "Workers: Angry"
@@ -7886,17 +7886,17 @@ msgstr "Egységek"
 
 #: client/cityrepdata.c:457
 #, fuzzy
-msgid "?Supported (units):Sup"
-msgstr "Eltartott egységek:"
+msgid "?Supported (units):Owned"
+msgstr "Eltartott"
 
 #: client/cityrepdata.c:458
 msgid "Number of units supported"
-msgstr ""
+msgstr "Eltartott egységek"
 
 #: client/cityrepdata.c:459
 #, fuzzy
-msgid "?Present (units):Prs"
-msgstr "Jelenlévõ egységek: %d"
+msgid "?Present (units):Here"
+msgstr "Jelenlévõ"
 
 #: client/cityrepdata.c:460
 #, fuzzy
@@ -7908,26 +7908,26 @@ msgid "Surplus"
 msgstr "Többlet"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "?food/prod/trade:É/T/K"
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:É/T/K"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Többlet: Élelem, Termelés, Kereskedelem"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Food surplus:É+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Food surplus [short]:+É"
 
 #: client/cityrepdata.c:465
 #, fuzzy
 msgid "Surplus: Food"
-msgstr "Többlet"
+msgstr "Többlet: Élelem"
 
 #: client/cityrepdata.c:467
 #, fuzzy
-msgid "?Production surplus:P+"
-msgstr "Termelési munkaterv"
+msgid "?Production surplus [short]:+P"
+msgstr "?Termelési munkaterv:+T"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
@@ -7935,13 +7935,13 @@ msgstr "Többlet: Termelés"
 
 #: client/cityrepdata.c:469
 #, fuzzy
-msgid "?Trade surplus:T+"
-msgstr "?trade_routes:KK"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Trade surplus [short]:+K"
 
 #: client/cityrepdata.c:469
 #, fuzzy
 msgid "Surplus: Trade"
-msgstr "Többlet"
+msgstr "Többlet: Kereskedelem"
 
 #: client/cityrepdata.c:471 client/gui-gtk-2.0/repodlgs.c:652
 #: client/gui-win32/repodlgs.c:332 client/gui-xaw/menu.c:221
@@ -7951,8 +7951,8 @@ msgid "Economy"
 msgstr "Gazdaság"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr "?gold/lux/sci:A/L/T"
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:A/L/T"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7961,40 +7961,40 @@ msgstr "Gazdaság: Arany, Luxus, Tudomány"
 #: client/cityrepdata.c:474
 #, fuzzy
 msgid "?Gold:G"
-msgstr "Arany:"
+msgstr "?Arany:A"
 
 #: client/cityrepdata.c:474
 #, fuzzy
 msgid "Economy: Gold"
-msgstr "Gazdaság"
+msgstr "Gazdaság: Arany"
 
 #: client/cityrepdata.c:476
 #, fuzzy
 msgid "?Luxury:L"
-msgstr "Luxus:"
+msgstr "?Luxus:L"
 
 #: client/cityrepdata.c:476
 #, fuzzy
 msgid "Economy: Luxury"
-msgstr "Gazdaság"
+msgstr "Gazdaság: Luxus"
 
 #: client/cityrepdata.c:478
 #, fuzzy
 msgid "?Science:S"
-msgstr "Tudomány:"
+msgstr "?Tudomány:T"
 
 #: client/cityrepdata.c:478
 #, fuzzy
 msgid "Economy: Science"
-msgstr "Gazdaság: Arany, Luxus, Tudomány"
+msgstr "Gazdaság: Tudomány"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "?trade_routes:sz"
+msgid "?number_trade_routes:n"
+msgstr "?number_trade_routes:sz"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr "?trade_routes:KK"
+msgid "?number_trade_routes:R"
+msgstr "?number_trade_routes:KK"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -8010,12 +8010,12 @@ msgid "Food Stock"
 msgstr "Élelemraktár"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:Szenny"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:Szenny"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
-msgstr ""
+msgid "?food (population):Grow"
+msgstr "Élelem"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
 #: client/gui-win32/citydlg.c:1097 client/gui-win32/wldlg.c:807
@@ -8024,19 +8024,19 @@ msgstr "Körök"
 
 #: client/cityrepdata.c:487
 msgid "Turns until growth/famine"
-msgstr ""
+msgstr "Körök Élelem"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?corruption:Korr"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-K"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korrupció"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr ""
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-T"
 
 #: client/cityrepdata.c:491
 #, fuzzy
@@ -8059,17 +8059,21 @@ msgid "Currently Building"
 msgstr "Most épül"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Raktár,Cél,Körök,Ár)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Raktár/Cél)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Körök/Ár"
 
 #: client/cityrepdata.c:554
 #, fuzzy
 msgid "?specialist:S"
-msgstr "Speciálisok"
+msgstr "?Speciálisok:S"
 
 #: client/cityrepdata.c:557
 #, fuzzy, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr "Speciálisok"
 
 #: client/civclient.c:200
@@ -14859,7 +14863,7 @@ msgstr "Élelem : %d körönként"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "?food:Többlet : %d"
+msgstr "Többlet : %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

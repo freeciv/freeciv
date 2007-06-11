@@ -7808,7 +7808,7 @@ msgid "City Name"
 msgstr "Stadsnamn"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "St"
 
 #: client/cityrepdata.c:431
@@ -7825,8 +7825,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Hänryckning/Frid/Upplopp"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Kortfattad *=Hänryckning, X=Upplopp"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Kortfattad +=Hänryckning, -=Upplopp"
 
 # DM> Ordet arbetare förekommer både i enhetsnamn och i kolumn i stadsrapport-
 # fönstret. Detta är en kompromiss.
@@ -7923,7 +7923,7 @@ msgid "Units"
 msgstr "Enheter"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "Und"
 
 #: client/cityrepdata.c:458
@@ -7931,7 +7931,7 @@ msgid "Number of units supported"
 msgstr "Antal understödda enheter"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "När"
 
 #: client/cityrepdata.c:460
@@ -7943,32 +7943,32 @@ msgid "Surplus"
 msgstr "Överskott"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "M/T/H"
+msgid "?food/production/trade:F/P/T"
+msgstr "M/S/H"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Överskott: Mat, Sköldar, Handel"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "M+"
+msgid "?Food surplus [short]:+F"
+msgstr "+M"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Överskott: Mat"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "S+"
+msgid "?Production surplus [short]:+P"
+msgstr "+S"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
-msgstr "Surplus: Sköldar"
+msgstr "Överskott: Sköldar"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "H+"
+msgid "?Trade surplus [short]:+T"
+msgstr "+H"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7982,7 +7982,7 @@ msgid "Economy"
 msgstr "Ekonomi"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "G/Ö/F"
 
 #: client/cityrepdata.c:472
@@ -8014,11 +8014,11 @@ msgid "Economy: Science"
 msgstr "Ekonomi: Forskning"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "n"
+msgid "?number_trade_routes:n"
+msgstr "a"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "H"
 
 # DM> tidigare "handelsvägar" även på andra ställen
@@ -8036,11 +8036,11 @@ msgid "Food Stock"
 msgstr "Matförråd"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:Uts"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:Uts"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Väx"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -8053,16 +8053,16 @@ msgid "Turns until growth/famine"
 msgstr "Omgångar till tillväxt/hungersnöd"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "Kor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-H"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korruption"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "Spi"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-S"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -8084,8 +8084,12 @@ msgid "Currently Building"
 msgstr "Bygger"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(förråd, mål, omgångar, köpkostnad)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(förråd/mål)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "omgångar/köpkostnad"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -8093,8 +8097,8 @@ msgstr "S"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Specialister: %s"
+msgid "Specialists"
+msgstr "Specialister"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -14895,7 +14899,7 @@ msgstr "%3d guld per omgång"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "M+"
+msgstr "Överskott: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

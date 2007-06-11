@@ -7480,7 +7480,7 @@ msgid "City Name"
 msgstr "城市名称"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "大小"
 
 #: client/cityrepdata.c:431
@@ -7497,8 +7497,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "狂欢/平静/混乱"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "标记 * 表示狂欢，X 表示混乱"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "标记 + 表示狂欢，- 表示混乱"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7593,7 +7593,7 @@ msgid "Units"
 msgstr "部队"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "已支持"
 
 #: client/cityrepdata.c:458
@@ -7601,7 +7601,7 @@ msgid "Number of units supported"
 msgstr "已支持的部队数"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "现有"
 
 #: client/cityrepdata.c:460
@@ -7613,7 +7613,7 @@ msgid "Surplus"
 msgstr "盈余"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "食/资/贸"
 
 #: client/cityrepdata.c:463
@@ -7621,7 +7621,7 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "盈余：食物/资源/贸易"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
+msgid "?Food surplus [short]:+F"
 msgstr "食＋"
 
 #: client/cityrepdata.c:465
@@ -7629,7 +7629,7 @@ msgid "Surplus: Food"
 msgstr "盈余：食物"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
+msgid "?Production surplus [short]:+P"
 msgstr "资＋"
 
 #: client/cityrepdata.c:468
@@ -7637,7 +7637,7 @@ msgid "Surplus: Production"
 msgstr "盈余：资源"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
+msgid "?Trade surplus [short]:+T"
 msgstr "贸＋"
 
 #: client/cityrepdata.c:469
@@ -7652,7 +7652,7 @@ msgid "Economy"
 msgstr "经济"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "金/娱/研"
 
 #: client/cityrepdata.c:472
@@ -7684,11 +7684,11 @@ msgid "Economy: Science"
 msgstr "经济：科研"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
+msgid "?number_trade_routes:n"
 msgstr "数"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "贸"
 
 #: client/cityrepdata.c:481
@@ -7705,11 +7705,11 @@ msgid "Food Stock"
 msgstr "食物库存"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "污"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "增长"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -7722,7 +7722,7 @@ msgid "Turns until growth/famine"
 msgstr "距离增长/饥荒的回合"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
+msgid "?Trade loss (corruption) [short]:-T"
 msgstr "腐"
 
 #: client/cityrepdata.c:489
@@ -7730,7 +7730,7 @@ msgid "Corruption"
 msgstr "腐败"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
+msgid "?Production loss (waste) [short]:-P"
 msgstr "耗"
 
 #: client/cityrepdata.c:491
@@ -7755,8 +7755,12 @@ msgid "Currently Building"
 msgstr "目前正在建造"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "（库存/目标/回合/购买）"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "（库存/目标"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "回合/购买）"
 
 #: client/cityrepdata.c:554
 #, fuzzy
@@ -7765,7 +7769,7 @@ msgstr "特产"
 
 #: client/cityrepdata.c:557
 #, fuzzy, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr "特产"
 
 #: client/civclient.c:200
@@ -14481,7 +14485,7 @@ msgstr "每回合 %3d 黄金"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "食＋"
+msgstr "食＋ %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

@@ -7550,8 +7550,8 @@ msgid "City Name"
 msgstr "Linna nimi"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
-msgstr ""
+msgid "?size [short]:Sz"
+msgstr "Ss"
 
 #: client/cityrepdata.c:431
 msgid "Size"
@@ -7564,11 +7564,11 @@ msgstr "Staatus"
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
-msgstr ""
+msgstr "Joovastus/Rahu/Rahutused"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr ""
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "+=Joovastus, -=Rahutused"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7577,7 +7577,7 @@ msgstr "Töölised"
 
 #: client/cityrepdata.c:438
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "l/R/t/V"
 
 #: client/cityrepdata.c:439
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -7585,7 +7585,7 @@ msgstr "Töölised: Õnnelikud, Rahul, Õnnetud, Vihased"
 
 #: client/cityrepdata.c:441
 msgid "?Happy workers:H"
-msgstr ""
+msgstr "l"
 
 #: client/cityrepdata.c:441
 msgid "Workers: Happy"
@@ -7593,7 +7593,7 @@ msgstr "Töölised: õnnelikud"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
-msgstr ""
+msgstr "R"
 
 #: client/cityrepdata.c:443
 msgid "Workers: Content"
@@ -7601,7 +7601,7 @@ msgstr "Töölised: Rahul"
 
 #: client/cityrepdata.c:445
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "t"
 
 #: client/cityrepdata.c:445
 msgid "Workers: Unhappy"
@@ -7609,7 +7609,7 @@ msgstr "Töölised: Õnnetud"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
-msgstr ""
+msgstr "V"
 
 #: client/cityrepdata.c:447
 msgid "Workers: Angry"
@@ -7621,7 +7621,7 @@ msgstr "Spetsiaal"
 
 #: client/cityrepdata.c:450
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr ""
+msgstr "E/T/M"
 
 #: client/cityrepdata.c:451
 msgid "Entertainers, Scientists, Taxmen"
@@ -7663,7 +7663,7 @@ msgid "Units"
 msgstr "Üksused"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr ""
 
 #: client/cityrepdata.c:458
@@ -7671,7 +7671,7 @@ msgid "Number of units supported"
 msgstr "Toetatud üksuste arv"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr ""
 
 #: client/cityrepdata.c:460
@@ -7683,32 +7683,32 @@ msgid "Surplus"
 msgstr "Ülejääk"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr ""
+msgid "?food/production/trade:F/P/T"
+msgstr "T/Tm/K"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Ülejääk: Toit, Tootmine, Kaubandus"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "T+"
+msgid "?Food surplus [short]:+F"
+msgstr "+T"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Jääk: Toit"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr ""
+msgid "?Production surplus [short]:+P"
+msgstr "+Tm"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
-msgstr ""
+msgstr "Ülejääk: Tootmine"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "K+"
+msgid "?Trade surplus [short]:+T"
+msgstr "+K"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7722,8 +7722,8 @@ msgid "Economy"
 msgstr "Majandus"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr ""
+msgid "?gold/luxury/science:G/L/S"
+msgstr "K/N/T"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7739,11 +7739,11 @@ msgstr "Majandus: Kuld"
 
 #: client/cityrepdata.c:476
 msgid "?Luxury:L"
-msgstr ""
+msgstr "N"
 
 #: client/cityrepdata.c:476
 msgid "Economy: Luxury"
-msgstr ""
+msgstr "Majandus: Naudingud"
 
 #: client/cityrepdata.c:478
 msgid "?Science:S"
@@ -7754,12 +7754,12 @@ msgid "Economy: Science"
 msgstr "Majandus: Teadus"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr ""
+msgid "?number_trade_routes:n"
+msgstr "K"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr ""
+msgid "?number_trade_routes:R"
+msgstr "a"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7775,11 +7775,11 @@ msgid "Food Stock"
 msgstr "Toiduvarud"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:Sst"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:Sst"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Kasv"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -7792,16 +7792,16 @@ msgid "Turns until growth/famine"
 msgstr "Käike kasvamise/näljani"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?corruption:Kor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-K"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korruptsioon"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "?waste:Jtm"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-Tm"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7823,8 +7823,12 @@ msgid "Currently Building"
 msgstr "Hetkel ehitamisel"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(StockTÕLGIMIND,Sihtmärk,Käike,Osta)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(StockTÕLGIMIND/Sihtmärk)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Käike/Osta"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -7832,8 +7836,8 @@ msgstr "?specialist:S"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Spetsialistid: %s"
+msgid "Specialists"
+msgstr "Spetsialistid"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -14476,7 +14480,7 @@ msgstr "%d kulda käigus"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "T+"
+msgstr "Jääk: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

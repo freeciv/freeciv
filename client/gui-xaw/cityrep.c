@@ -696,7 +696,7 @@ void create_city_report_config_dialog(void)
 
   config_toggle = fc_realloc(config_toggle,
 			     NUM_CREPORT_COLS * sizeof(*config_toggle));
-  for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
+  for(i=0, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(buf, sizeof(buf), "%-32s", spec->explanation);
     above = (i==1)?config_label:config_optlabel;
 
@@ -744,7 +744,7 @@ void config_ok_command_callback(Widget w, XtPointer client_data,
   
   XtDestroyWidget(config_shell);
 
-  for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
+  for(i=0, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
     Boolean b;
 
     XtVaGetValues(config_toggle[i], XtNstate, &b, NULL);

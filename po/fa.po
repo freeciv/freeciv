@@ -7015,7 +7015,7 @@ msgid "City Name"
 msgstr "نام شهر"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "اندازه"
 
 #: client/cityrepdata.c:431
@@ -7029,11 +7029,11 @@ msgstr "وضعیت"
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
-msgstr ""
+msgstr "././مختل شده"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr ""
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "+=Rapture, -=مختل شده"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7128,7 +7128,7 @@ msgid "Units"
 msgstr "مهره‌ها"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "پشتیبانی"
 
 #: client/cityrepdata.c:458
@@ -7136,7 +7136,7 @@ msgid "Number of units supported"
 msgstr "تعداد مهره‌هایی که پشتیبانی می‌شوند"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "حاضر"
 
 #: client/cityrepdata.c:460
@@ -7148,7 +7148,7 @@ msgid "Surplus"
 msgstr "مازاد"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "غ/م/ت"
 
 #: client/cityrepdata.c:463
@@ -7156,24 +7156,24 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "مازاد: غذا، محصول، تجارت"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "غ+"
+msgid "?Food surplus [short]:+F"
+msgstr "+غ"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "مازاد: غذا"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "م+"
+msgid "?Production surplus [short]:+P"
+msgstr "+م"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "مازاد: محصول"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "ت+"
+msgid "?Trade surplus [short]:+T"
+msgstr "+ت"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7187,7 +7187,7 @@ msgid "Economy"
 msgstr "اقتصاد"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "ط/ر/ع"
 
 #: client/cityrepdata.c:472
@@ -7219,11 +7219,11 @@ msgid "Economy: Science"
 msgstr "اقتصاد: علم"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
+msgid "?number_trade_routes:n"
 msgstr "ر"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "ر"
 
 #: client/cityrepdata.c:481
@@ -7240,11 +7240,11 @@ msgid "Food Stock"
 msgstr "ذخیره غذا"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "آلودگی"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "رشد"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -7257,16 +7257,16 @@ msgid "Turns until growth/famine"
 msgstr "نوبت تا رشد/قحطی"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "تباهی"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-ت"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "تباهی"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "اتلاف"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-م"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7288,8 +7288,12 @@ msgid "Currently Building"
 msgstr "اکنون می‌سازند"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(ذخیره، هدف، نوبت‌ها، خرید)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(ذخیره، هدف،)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "نوبت‌ها خرید"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -7297,8 +7301,8 @@ msgstr "و"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "لیست ویژه‌ها: %s"
+msgid "Specialists"
+msgstr "لیست ویژه‌ها"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"

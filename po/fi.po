@@ -7959,7 +7959,7 @@ msgid "City Name"
 msgstr "Kaupungin nimi"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "Ko"
 
 #: client/cityrepdata.c:431
@@ -7976,8 +7976,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Hurmoksessa/Rauhallinen/Levoton"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Lyhenne *=Hurmoksessa, X=Levoton"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Lyhenne +=Hurmoksessa, -=Levoton"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -8072,7 +8072,7 @@ msgid "Units"
 msgstr "Yksiköt"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?Ylläpidetyt yksiköt:Yll"
 
 #: client/cityrepdata.c:458
@@ -8080,7 +8080,7 @@ msgid "Number of units supported"
 msgstr "Ylläpidettyjen yksiköiden lkm"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?Yksiköt paikalla: Pai"
 
 #: client/cityrepdata.c:460
@@ -8092,7 +8092,7 @@ msgid "Surplus"
 msgstr "Ylijäämä"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "R/T/K"
 
 #: client/cityrepdata.c:463
@@ -8100,24 +8100,24 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Ylijäämä: Ruoka, Tuotanto, Kauppa"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Ruokaylijäämä:F+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Ruokaylijäämä:+R"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Ylijäämä: Ruokaa"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Tuotannon ylijäämä:T+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Tuotannon ylijäämä:+T"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Ylijäämä: Tuotanto"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "K+"
+msgid "?Trade surplus [short]:+T"
+msgstr "+K"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -8131,7 +8131,7 @@ msgid "Economy"
 msgstr "Talous"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "K/L/T"
 
 #: client/cityrepdata.c:472
@@ -8163,11 +8163,11 @@ msgid "Economy: Science"
 msgstr "Talous: Tutkimuspanosta"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
+msgid "?number_trade_routes:n"
 msgstr "m"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "K"
 
 #: client/cityrepdata.c:481
@@ -8184,11 +8184,11 @@ msgid "Food Stock"
 msgstr "Ruokavarasto"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "Saa"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Kasva"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -8201,16 +8201,16 @@ msgid "Turns until growth/famine"
 msgstr "Vuoroa kasvuun/nälänhätään"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "Kor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-K"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korruptio"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "Huk"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-T"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -8234,17 +8234,21 @@ msgid "Currently Building"
 msgstr "Tuottaa parhaillaan"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Valmiina, Tavoite, Pelivuoroa, Ostohinta)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Valmiina/Tavoite)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Pelivuoroa/Ostohinta"
 
 #: client/cityrepdata.c:554
 #, fuzzy
 msgid "?specialist:S"
-msgstr "Erityispiirteet"
+msgstr "?Erityispiirteet:E"
 
 #: client/cityrepdata.c:557
 #, fuzzy, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr "Erityispiirteet"
 
 #: client/civclient.c:200
@@ -15172,7 +15176,7 @@ msgstr "%3d kultaa joka vuoro"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "?Ruokaylijäämä:F+"
+msgstr "Ylijäämä: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

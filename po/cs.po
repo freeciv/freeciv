@@ -7709,7 +7709,7 @@ msgid "City Name"
 msgstr "Jméno města"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "?size:Vel"
 
 #: client/cityrepdata.c:431
@@ -7726,8 +7726,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Oslavuje/Klid/Nepokoj"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Stručně *=Oslavuje, X=Nepokoj"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Stručně +=Oslavuje, -=Nepokoj"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7752,7 +7752,7 @@ msgstr "Pracovníci: Šťastní"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
-msgstr "?Content workers:P"
+msgstr "?Content workers:S"
 
 #: client/cityrepdata.c:443
 msgid "Workers: Content"
@@ -7768,7 +7768,7 @@ msgstr "Pracovníci: Nešťastní"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
-msgstr "?Angry workers:H"
+msgstr "?Angry workers:R"
 
 #: client/cityrepdata.c:447
 msgid "Workers: Angry"
@@ -7822,7 +7822,7 @@ msgid "Units"
 msgstr "Jednotky"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?Supported (units):Podp"
 
 #: client/cityrepdata.c:458
@@ -7830,7 +7830,7 @@ msgid "Number of units supported"
 msgstr "Počet poporovaných jednotek"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?Present (units):Přít"
 
 #: client/cityrepdata.c:460
@@ -7842,32 +7842,32 @@ msgid "Surplus"
 msgstr "Přebytek"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "?food/prod/trade:J/P/O"
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:J/P/O"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Přebytek: Jídlo, Produkce, Obchod"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Food surplus:J+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Food surplus [short]:+J"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Přebytek: Jídlo"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Production surplus:P+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Production surplus [short]:+P"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Přebytek: Produkce"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Trade surplus:O+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Trade surplus [short]:+O"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7881,8 +7881,8 @@ msgid "Economy"
 msgstr "Ekonomika"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr "?gold/lux/sci:Z/L/V"
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:Z/L/V"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7913,12 +7913,12 @@ msgid "Economy: Science"
 msgstr "Ekonomika: Věda"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "?trade_routes:n"
+msgid "?number_trade_routes:n"
+msgstr "?number_trade_routes:O"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr "?trade_routes:O"
+msgid "?number_trade_routes:R"
+msgstr "?number_trade_routes:c"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7934,11 +7934,11 @@ msgid "Food Stock"
 msgstr "Zásoba jídla"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:Zne"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:Zne"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Růst"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -7951,16 +7951,16 @@ msgid "Turns until growth/famine"
 msgstr "Počet tahů do růstu/hladomoru"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?corruption:Kor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-O"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korupce"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "?waste:Odp"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-P"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7983,8 +7983,12 @@ msgid "Currently Building"
 msgstr "Právě staví"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Hotovo,Potřeba,Kol,Cena)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Hotovo/Potřeba)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Kol/Cena"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -7992,8 +7996,8 @@ msgstr "?specialist:S"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Specialisté: %s"
+msgid "Specialists"
+msgstr "Specialisté"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -14753,7 +14757,7 @@ msgstr "%3d zlata na kolo"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "?Food surplus:J+"
+msgstr "?food:Přebytek: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

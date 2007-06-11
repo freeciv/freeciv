@@ -8239,7 +8239,7 @@ msgid "City Name"
 msgstr "都市名"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "?size:大"
 
 #: client/cityrepdata.c:431
@@ -8256,8 +8256,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "歓喜/平和/混乱"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "簡略表示 *=歓喜, X=混乱"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "簡略表示 +=歓喜, -=混乱"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -8356,7 +8356,7 @@ msgid "Units"
 msgstr "部隊"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?Supported (units):支援"
 
 #: client/cityrepdata.c:458
@@ -8364,7 +8364,7 @@ msgid "Number of units supported"
 msgstr "部隊の数: 支援"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?Present (units):存在"
 
 #: client/cityrepdata.c:460
@@ -8377,32 +8377,32 @@ msgid "Surplus"
 msgstr "剰余"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "?food/prod/trade:食/生/交"
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:食/生/交"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "剰余: 食料, 生産物, 交易"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Food surplus:食+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Food surplus [short]:+食"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "剰余: 食料"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Production surplus:生+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Production surplus [short]:+生"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "剰余: 生産物"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Trade surplus:交+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Trade surplus [short]:+交"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -8416,8 +8416,8 @@ msgid "Economy"
 msgstr "経済"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr "?gold/lux/sci:金/贅/科"
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:金/贅/科"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -8448,12 +8448,12 @@ msgid "Economy: Science"
 msgstr "経済: 科学"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "?trade_routes:交"
+msgid "?number_trade_routes:n"
+msgstr "?number_trade_routes:交"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr "?trade_routes:易"
+msgid "?number_trade_routes:R"
+msgstr "?number_trade_routes:易"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -8469,11 +8469,11 @@ msgid "Food Stock"
 msgstr "食料備蓄"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:公"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:公"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "拡大"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -8486,7 +8486,7 @@ msgid "Turns until growth/famine"
 msgstr "拡大/飢饉までのターン"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
+msgid "?Trade loss (corruption) [short]:-T"
 msgstr "?corruption:汚"
 
 #: client/cityrepdata.c:489
@@ -8494,7 +8494,7 @@ msgid "Corruption"
 msgstr "汚職"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
+msgid "?Production loss (waste) [short]:-P"
 msgstr "?waste:浪"
 
 # ntaka
@@ -8521,8 +8521,12 @@ msgid "Currently Building"
 msgstr "作成中"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(進行,目標,必要ターン,購入金額)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(進行/目標)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "必要ターン/購入金額"
 
 # 科学者とかのことなんだけど (clefs)
 #: client/cityrepdata.c:554
@@ -8531,8 +8535,8 @@ msgstr "専門家"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "専門家: %s"
+msgid "Specialists"
+msgstr "専門家"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -15649,7 +15653,7 @@ msgstr "ターン毎に金 %3d"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "?Food surplus:食+"
+msgstr "剰余: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

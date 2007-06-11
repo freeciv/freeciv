@@ -7677,7 +7677,7 @@ msgid "City Name"
 msgstr "Nom de la ciutat"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "Mi"
 
 #: client/cityrepdata.c:431
@@ -7694,8 +7694,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "En festa/pau/desordre"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Concís *=En festa, X=Desordre"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Concís +=En festa, -=Desordre"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7790,7 +7790,7 @@ msgid "Units"
 msgstr "Unitats"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "Sup"
 
 #: client/cityrepdata.c:458
@@ -7798,7 +7798,7 @@ msgid "Number of units supported"
 msgstr "Nombre d'unitats suportades"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "Prs"
 
 #: client/cityrepdata.c:460
@@ -7810,7 +7810,7 @@ msgid "Surplus"
 msgstr "Excedent"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "M/P/C"
 
 #: client/cityrepdata.c:463
@@ -7818,24 +7818,24 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Excedent: Menjar, Producció, Comerç"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "M+"
+msgid "?Food surplus [short]:+F"
+msgstr "+M"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Excedent: Menjar"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "P+"
+msgid "?Production surplus [short]:+P"
+msgstr "+P"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Excedent: Producció"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "C+"
+msgid "?Trade surplus [short]:+T"
+msgstr "+C"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7849,7 +7849,7 @@ msgid "Economy"
 msgstr "Economia"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "O/L/C"
 
 #: client/cityrepdata.c:472
@@ -7881,11 +7881,11 @@ msgid "Economy: Science"
 msgstr "Economia: Ciència"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
+msgid "?number_trade_routes:n"
 msgstr "n"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "R"
 
 #: client/cityrepdata.c:481
@@ -7902,11 +7902,11 @@ msgid "Food Stock"
 msgstr "Menjar disponible"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "Pol"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Turons"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -7919,16 +7919,16 @@ msgid "Turns until growth/famine"
 msgstr "Torns fins creixement/fam"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "Cor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-C"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Corrupció"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "Mal"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-M"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7952,17 +7952,21 @@ msgid "Currently Building"
 msgstr "Construcció actual"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Fet,Necessari,Torns,Comprar)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Fet/Necessari)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Torns/Comprar"
 
 #: client/cityrepdata.c:554
 #, fuzzy
 msgid "?specialist:S"
-msgstr "Especials"
+msgstr "?Especials:E"
 
 #: client/cityrepdata.c:557
 #, fuzzy, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr "Especials"
 
 #: client/civclient.c:200

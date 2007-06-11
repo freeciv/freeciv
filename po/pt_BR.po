@@ -7205,15 +7205,15 @@ msgstr ""
 
 #: client/cityrepdata.c:73
 msgid "?city_state:Rapture"
-msgstr ""
+msgstr "Celebração"
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Disorder"
-msgstr ""
+msgstr "Desordem"
 
 #: client/cityrepdata.c:75
 msgid "?city_state:Peace"
-msgstr ""
+msgstr "Paz"
 
 #: client/cityrepdata.c:361
 msgid "(worklist)"
@@ -7222,15 +7222,15 @@ msgstr ""
 #: client/cityrepdata.c:429
 #, fuzzy
 msgid "?city:Name"
-msgstr "Nome da Cidade"
+msgstr "Nome"
 
 #: client/cityrepdata.c:429 client/gui-sdl/cityrep.c:167
 msgid "City Name"
 msgstr "Nome da Cidade"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
-msgstr ""
+msgid "?size [short]:Sz"
+msgstr "Tm"
 
 #: client/cityrepdata.c:431
 msgid "Size"
@@ -7246,8 +7246,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Celebração/Paz/Desordem"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Conciso *=Celebração, X=Desordem"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Conciso +=Celebração, -=Desordem"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7256,7 +7256,7 @@ msgstr "Operários"
 
 #: client/cityrepdata.c:438
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "F/C/D/A"
 
 #: client/cityrepdata.c:439
 #, fuzzy
@@ -7265,12 +7265,12 @@ msgstr "Operários: Feliz, Contente, Descontente"
 
 #: client/cityrepdata.c:441
 msgid "?Happy workers:H"
-msgstr ""
+msgstr "F"
 
 #: client/cityrepdata.c:441
 #, fuzzy
 msgid "Workers: Happy"
-msgstr "Operários"
+msgstr "Operários: Feliz"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
@@ -7279,16 +7279,16 @@ msgstr ""
 #: client/cityrepdata.c:443
 #, fuzzy
 msgid "Workers: Content"
-msgstr "Operários"
+msgstr "Operários: Contente"
 
 #: client/cityrepdata.c:445
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "D"
 
 #: client/cityrepdata.c:445
 #, fuzzy
 msgid "Workers: Unhappy"
-msgstr "Operários"
+msgstr "Operários: Descontente"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
@@ -7306,7 +7306,7 @@ msgstr "Especial"
 #: client/cityrepdata.c:450
 #, fuzzy
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr "Artistas, Cientistas, Fiscais"
+msgstr "?Artistas, Cientistas, Fiscais:A/C/F"
 
 #: client/cityrepdata.c:451
 msgid "Entertainers, Scientists, Taxmen"
@@ -7351,21 +7351,21 @@ msgstr "Dissolve unidade"
 #: data/Freeciv.in:1895 data/helpdata.txt:866
 #, fuzzy
 msgid "Units"
-msgstr "_Lista de Unidades"
+msgstr "?_Lista de:Unidades"
 
 #: client/cityrepdata.c:457
 #, fuzzy
-msgid "?Supported (units):Sup"
-msgstr "Unidades suportadas"
+msgid "?Supported (units):Owned"
+msgstr "suportadas"
 
 #: client/cityrepdata.c:458
 msgid "Number of units supported"
-msgstr ""
+msgstr "Unidades suportadas"
 
 #: client/cityrepdata.c:459
 #, fuzzy
-msgid "?Present (units):Prs"
-msgstr "Dissolve unidade"
+msgid "?Present (units):Here"
+msgstr "presentes"
 
 #: client/cityrepdata.c:460
 #, fuzzy
@@ -7377,41 +7377,41 @@ msgid "Surplus"
 msgstr "Excedentes"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr ""
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:C/P/c"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Excedentes: Comida, Produção, Comércio"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr ""
+msgid "?Food surplus [short]:+F"
+msgstr "+C"
 
 #: client/cityrepdata.c:465
 #, fuzzy
 msgid "Surplus: Food"
-msgstr "Excedentes"
+msgstr "Excedentes: Comida"
 
 #: client/cityrepdata.c:467
 #, fuzzy
-msgid "?Production surplus:P+"
-msgstr "Produção em Série"
+msgid "?Production surplus [short]:+P"
+msgstr "?Produção em Série:+P"
 
 #: client/cityrepdata.c:468
 #, fuzzy
 msgid "Surplus: Production"
-msgstr "Excedentes: Comida, Produção, Comércio"
+msgstr "Excedentes: Produção"
 
 #: client/cityrepdata.c:469
 #, fuzzy
-msgid "?Trade surplus:T+"
-msgstr "Rotas Comerciais"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Rotas Comerciais:+c"
 
 #: client/cityrepdata.c:469
 #, fuzzy
 msgid "Surplus: Trade"
-msgstr "Excedentes"
+msgstr "Excedentes: Comércio"
 
 #: client/cityrepdata.c:471 client/gui-gtk-2.0/repodlgs.c:652
 #: client/gui-win32/repodlgs.c:332 client/gui-xaw/menu.c:221
@@ -7421,8 +7421,8 @@ msgid "Economy"
 msgstr "Economia"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr ""
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:O/L/C"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7431,42 +7431,42 @@ msgstr "Economia: Ouro, Luxo, Ciência"
 #: client/cityrepdata.c:474
 #, fuzzy
 msgid "?Gold:G"
-msgstr "Ouro"
+msgstr "?Ouro:O"
 
 #: client/cityrepdata.c:474
 #, fuzzy
 msgid "Economy: Gold"
-msgstr "Economia"
+msgstr "Economia: Ouro"
 
 #: client/cityrepdata.c:476
 #, fuzzy
 msgid "?Luxury:L"
-msgstr "Luxo"
+msgstr "?Luxo:L"
 
 #: client/cityrepdata.c:476
 #, fuzzy
 msgid "Economy: Luxury"
-msgstr "Economia"
+msgstr "Economia: Luxo"
 
 #: client/cityrepdata.c:478
 #, fuzzy
 msgid "?Science:S"
-msgstr "Ciência"
+msgstr "?Ciência:C"
 
 #: client/cityrepdata.c:478
 #, fuzzy
 msgid "Economy: Science"
-msgstr "Economia: Ouro, Luxo, Ciência"
+msgstr "Economia: Ciência"
 
 #: client/cityrepdata.c:480
 #, fuzzy
-msgid "?trade_routes:n"
-msgstr "Rotas Comerciais"
+msgid "?number_trade_routes:n"
+msgstr "?Rotas Comerciais:R"
 
 #: client/cityrepdata.c:480
 #, fuzzy
-msgid "?trade_routes:T"
-msgstr "Rotas Comerciais"
+msgid "?number_trade_routes:R"
+msgstr "?Rotas Comerciais:c"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7483,12 +7483,12 @@ msgstr "Stock de Comida"
 
 #: client/cityrepdata.c:485
 #, fuzzy
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "Poluição"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
-msgstr ""
+msgid "?food (population):Grow"
+msgstr "Comida"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
 #: client/gui-win32/citydlg.c:1097 client/gui-win32/wldlg.c:807
@@ -7498,20 +7498,20 @@ msgstr "Turco"
 
 #: client/cityrepdata.c:487
 msgid "Turns until growth/famine"
-msgstr ""
+msgstr "Turco de Comida"
 
 #: client/cityrepdata.c:489
 #, fuzzy
-msgid "?corruption:Cor"
-msgstr "Corrupção"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-c"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Corrupção"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr ""
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-P"
 
 #: client/cityrepdata.c:491
 #, fuzzy
@@ -7534,17 +7534,21 @@ msgid "Currently Building"
 msgstr "Actualmente Contrói"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr ""
+msgid "?Stock/Target:(Have/Need)"
+msgstr "Stock"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Turco"
 
 #: client/cityrepdata.c:554
 #, fuzzy
 msgid "?specialist:S"
-msgstr "Especial"
+msgstr "?Especial:E"
 
 #: client/cityrepdata.c:557
 #, fuzzy, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr "Especial"
 
 #: client/civclient.c:200
@@ -14556,7 +14560,7 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:1907
 #, fuzzy, c-format
 msgid "Pollution: %d"
-msgstr "Poluição"
+msgstr "Poluição: %d"
 
 #: client/gui-sdl/citydlg.c:1935
 #, fuzzy
@@ -14593,7 +14597,7 @@ msgstr "(ocioso à %d vezes)"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "Excedentes"
+msgstr "Excedentes: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

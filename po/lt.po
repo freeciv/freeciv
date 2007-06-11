@@ -6885,8 +6885,8 @@ msgid "City Name"
 msgstr "Miesto pavadinimas"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
-msgstr "?size:Dydis"
+msgid "?size [short]:Sz"
+msgstr "?size:Dy"
 
 #: client/cityrepdata.c:431
 msgid "Size"
@@ -6904,8 +6904,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Susižavėjęs/Taika/Netvarka"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr ""
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "+=Susižavėjęs, -=Netvarka"
 
 #: client/cityrepdata.c:437
 #: client/gui-mui/citydlg.c:1365
@@ -7015,7 +7015,7 @@ msgid "Units"
 msgstr "Daliniai"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr ""
 
 #: client/cityrepdata.c:458
@@ -7023,7 +7023,7 @@ msgid "Number of units supported"
 msgstr "Palaikomų dalinių skaičius"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr ""
 
 #: client/cityrepdata.c:460
@@ -7035,32 +7035,32 @@ msgid "Surplus"
 msgstr ""
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
-msgstr "?food/prod/trade:M/G/P"
+msgid "?food/production/trade:F/P/T"
+msgstr "?food/production/trade:M/G/P"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
 msgstr "Perteklius: maistas, gamyba, prekyba"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Food surplus:M+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Food surplus [short]:+M"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Perteklius: maistas"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Production surplus:G+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Production surplus [short]:+G"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Perteklius: gamyba"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Trade surplus:P+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Trade surplus [short]:+P"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7077,8 +7077,8 @@ msgid "Economy"
 msgstr "Ekonomika"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
-msgstr "?gold/lux/sci:A/P/M"
+msgid "?gold/luxury/science:G/L/S"
+msgstr "?gold/luxury/science:A/P/M"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7109,12 +7109,12 @@ msgid "Economy: Science"
 msgstr "Ekonomika: Mokslas"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr ""
+msgid "?number_trade_routes:n"
+msgstr "p"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
-msgstr ""
+msgid "?number_trade_routes:R"
+msgstr "s"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7124,19 +7124,19 @@ msgstr "Prekybos maršrutų skaičius"
 #: client/gui-sdl/citydlg.c:3019
 #: client/gui-sdl/citydlg.c:3131
 msgid "Stock"
-msgstr ""
+msgstr "atsargos"
 
 #: client/cityrepdata.c:483
 msgid "Food Stock"
 msgstr "Maisto atsargos"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:Tar"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:Tar"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
-msgstr ""
+msgid "?food (population):Grow"
+msgstr "augimo"
 
 #: client/cityrepdata.c:487
 #: client/gui-gtk-2.0/wldlg.c:1005
@@ -7150,16 +7150,16 @@ msgid "Turns until growth/famine"
 msgstr "Ėjimai iki augimo/bado"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?corruption:Kor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-P"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Korupcija"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "?waste:Atl"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-G"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7187,8 +7187,12 @@ msgid "Currently Building"
 msgstr "Dabar statoma"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr ""
+msgid "?Stock/Target:(Have/Need)"
+msgstr "atsargos"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Ėjimai"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -7196,8 +7200,8 @@ msgstr "?specialist:S"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Specialistai: %s"
+msgid "Specialists"
+msgstr "Specialistai"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -14680,7 +14684,7 @@ msgstr "Maistas: %d per ėjimą"
 #: client/gui-sdl/citydlg.c:2603
 #, c-format
 msgid "?food:Surplus: %d"
-msgstr ""
+msgstr "Perteklius: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, c-format
@@ -17202,7 +17206,7 @@ msgstr ""
 
 #: data/Freeciv.in:1474
 msgid "Minimal Surplus:"
-msgstr ""
+msgstr "Perteklius:"
 
 #: data/Freeciv.in:1476
 msgid "Factor:"

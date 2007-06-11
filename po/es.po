@@ -7868,7 +7868,7 @@ msgid "City Name"
 msgstr "Nombre de la Ciudad"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "Tm"
 
 #: client/cityrepdata.c:431
@@ -7885,8 +7885,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Celebraciones/Paz/Disturbios"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Breve: *=Celebraciones, X=Disturbios"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Breve: +=Celebraciones, -=Disturbios"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7981,7 +7981,7 @@ msgid "Units"
 msgstr "Unidades"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "Man"
 
 #: client/cityrepdata.c:458
@@ -7989,7 +7989,7 @@ msgid "Number of units supported"
 msgstr "Número de unidades mantenidas"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "Pre"
 
 #: client/cityrepdata.c:460
@@ -8001,7 +8001,7 @@ msgid "Surplus"
 msgstr "Superávit"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "A/P/C"
 
 #: client/cityrepdata.c:463
@@ -8009,24 +8009,24 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Superávit: Alimento, Producción, Comercio"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "C+"
+msgid "?Food surplus [short]:+F"
+msgstr "+A"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Superávit: Comida"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "P+"
+msgid "?Production surplus [short]:+P"
+msgstr "+P"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Superávit: Producción"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "C+"
+msgid "?Trade surplus [short]:+T"
+msgstr "+C"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -8040,7 +8040,7 @@ msgid "Economy"
 msgstr "Economía"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "O/L/C"
 
 #: client/cityrepdata.c:472
@@ -8072,11 +8072,11 @@ msgid "Economy: Science"
 msgstr "Economía: Ciencia"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
-msgstr "n"
+msgid "?number_trade_routes:n"
+msgstr "R"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "C"
 
 #: client/cityrepdata.c:481
@@ -8093,11 +8093,11 @@ msgid "Food Stock"
 msgstr "Granero"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "Con:"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Crece"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
@@ -8110,16 +8110,16 @@ msgid "Turns until growth/famine"
 msgstr "Turnos hasta crecimiento/hambruna"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "Cor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-C"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Corrupción"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "Des"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-P"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -8141,17 +8141,21 @@ msgid "Currently Building"
 msgstr "Construyendo"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Construido,Objetivo,Turnos,Precio)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Construido/Objetivo)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Turnos/Precio"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
-msgstr "Especialistas"
+msgstr "?Especialistas:E"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Especialistas: %s"
+msgid "Specialists"
+msgstr "Especialistas"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -14963,7 +14967,7 @@ msgstr "Alimento: %d por turno"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "Superávit: %dC+"
+msgstr "Superávit: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format

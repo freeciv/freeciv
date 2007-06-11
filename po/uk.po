@@ -7229,7 +7229,7 @@ msgid "City Name"
 msgstr "Назва м╕ста"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "?розм╕р:Роз"
 
 #: client/cityrepdata.c:431
@@ -7248,8 +7248,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Захоплнення/Спок╕й/Заворушення"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "Стисло *=Захоплення, Х=Заворушення"
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "Стисло +=Захоплення, -=Заворушення"
 
 #: client/cityrepdata.c:437
 #: client/gui-mui/citydlg.c:1365
@@ -7360,7 +7360,7 @@ msgid "Units"
 msgstr "П╕дрозд╕ли"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?П╕дтримуван╕ (п╕дрозд╕ли): П╕д"
 
 #: client/cityrepdata.c:458
@@ -7368,7 +7368,7 @@ msgid "Number of units supported"
 msgstr "К╕льк╕сть п╕дтримуваних п╕дрозд╕л╕в"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?Присутн╕ (п╕дрозд╕ли): При"
 
 #: client/cityrepdata.c:460
@@ -7380,7 +7380,7 @@ msgid "Surplus"
 msgstr "Надлишок"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "?╖жа/виробництво/торг╕вля:╥/В/Т"
 
 #: client/cityrepdata.c:463
@@ -7388,24 +7388,24 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Надлишок: ╥жа, Виробництво, Торг╕вля"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "?Надлишок ╖ж╕:╥+"
+msgid "?Food surplus [short]:+F"
+msgstr "?Надлишок ╖ж╕:+╥"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Надлишок: ╥жа"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "?Надлишок виробництва: В+"
+msgid "?Production surplus [short]:+P"
+msgstr "?Надлишок виробництва:+В"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Надлишок: Виробництво"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "?Надлишок торг╕вля:Т+"
+msgid "?Trade surplus [short]:+T"
+msgstr "?Надлишок торг╕вля:+Т"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7423,7 +7423,7 @@ msgid "Economy"
 msgstr "Економ╕ка"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "?гривн╕/розк╕ш/наука:Г/Р/Н"
 
 #: client/cityrepdata.c:472
@@ -7455,11 +7455,11 @@ msgid "Economy: Science"
 msgstr "Економ╕ка: Наука"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
+msgid "?number_trade_routes:n"
 msgstr "?торгов╕_шляхи:n"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "?торгов╕_шляхи:Т"
 
 #: client/cityrepdata.c:481
@@ -7477,11 +7477,11 @@ msgid "Food Stock"
 msgstr "Запас ╖ж╕"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "?забруднення:Бруд"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "Зр╕ст"
 
 #: client/cityrepdata.c:487
@@ -7496,16 +7496,16 @@ msgid "Turns until growth/famine"
 msgstr "Ход╕в до зросту/голоду"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?корумпован╕сть:Кор"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-Т"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Корумпован╕сть"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "?втрати:Втр"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-В"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7533,8 +7533,12 @@ msgid "Currently Building"
 msgstr "Нараз╕ буду╓ться"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Запас,Ц╕ль,Ход╕в,Купити)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Запас/Ц╕ль)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Ход╕в/Купити"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
@@ -7542,8 +7546,8 @@ msgstr "?спец╕ал╕ст:С"
 
 #: client/cityrepdata.c:557
 #, c-format
-msgid "Specialists: %s"
-msgstr "Спец╕ал╕сти: %s"
+msgid "Specialists"
+msgstr "Спец╕ал╕сти"
 
 #: client/civclient.c:198
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -15051,7 +15055,7 @@ msgstr "╥жа: %d за х╕д"
 #: client/gui-sdl/citydlg.c:2613
 #, c-format
 msgid "?food:Surplus: %d"
-msgstr "?food:Надлишок: %d"
+msgstr "?Надлишок: %d"
 
 #: client/gui-sdl/citydlg.c:2661
 #, c-format

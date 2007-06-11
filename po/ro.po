@@ -7367,7 +7367,7 @@ msgid "City Name"
 msgstr "Numele Oraşului"
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr "Mă"
 
 #: client/cityrepdata.c:431
@@ -7384,8 +7384,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Bucurie/Linişte/Dezordine"
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr ""
+msgid "Concise +=Rapture, -=Disorder"
+msgstr "+=Bucurie, -=Dezordine"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7483,7 +7483,7 @@ msgid "Units"
 msgstr "Unităţi"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?Unităţi întreţinute:Înt"
 
 #: client/cityrepdata.c:458
@@ -7491,8 +7491,8 @@ msgid "Number of units supported"
 msgstr "Numărul de unităţi întreţinute"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
-msgstr "?Present (units):Prs"
+msgid "?Present (units):Here"
+msgstr "prez"
 
 #: client/cityrepdata.c:460
 msgid "Number of units present"
@@ -7503,7 +7503,7 @@ msgid "Surplus"
 msgstr "Surplus"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "H/P/N"
 
 #: client/cityrepdata.c:463
@@ -7511,24 +7511,24 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Surplus: Hrană, Producţie, Negoţ"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
-msgstr "H+"
+msgid "?Food surplus [short]:+F"
+msgstr "+H"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
 msgstr "Surplus: Hrană"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
-msgstr "P+"
+msgid "?Production surplus [short]:+P"
+msgstr "+P"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
 msgstr "Surplus: Producţie"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
-msgstr "N+"
+msgid "?Trade surplus [short]:+T"
+msgstr "+N"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
@@ -7542,7 +7542,7 @@ msgid "Economy"
 msgstr "Economie"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "G/L/Ş"
 
 #: client/cityrepdata.c:472
@@ -7551,7 +7551,7 @@ msgstr "Economie: Galbeni, Lux, Ştiinţă"
 
 #: client/cityrepdata.c:474
 msgid "?Gold:G"
-msgstr "?Gold:G"
+msgstr "?Galbeni:G"
 
 #: client/cityrepdata.c:474
 msgid "Economy: Gold"
@@ -7567,7 +7567,7 @@ msgstr "Economie: Lux"
 
 #: client/cityrepdata.c:478
 msgid "?Science:S"
-msgstr "S"
+msgstr "Ş"
 
 #: client/cityrepdata.c:478
 msgid "Economy: Science"
@@ -7575,13 +7575,13 @@ msgstr "Economie: Ştiinţă"
 
 #: client/cityrepdata.c:480
 #, fuzzy
-msgid "?trade_routes:n"
-msgstr "Rata de _Impozit"
+msgid "?number_trade_routes:n"
+msgstr "?Rata de _Impozit:R"
 
 #: client/cityrepdata.c:480
 #, fuzzy
-msgid "?trade_routes:T"
-msgstr "Rata de _Impozit"
+msgid "?number_trade_routes:R"
+msgstr "?Rata de _Impozit:C"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7597,12 +7597,12 @@ msgid "Food Stock"
 msgstr "Stocul de Hrană"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
-msgstr "?pollution:Pol"
+msgid "?pollution [short]:Pol"
+msgstr "?pollution [short]:Pol"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
-msgstr ""
+msgid "?food (population):Grow"
+msgstr "Hrană"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
 #: client/gui-win32/citydlg.c:1097 client/gui-win32/wldlg.c:807
@@ -7614,16 +7614,16 @@ msgid "Turns until growth/famine"
 msgstr "Runde până la creştere/foamete"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
-msgstr "?corruption:Cor"
+msgid "?Trade loss (corruption) [short]:-T"
+msgstr "-N"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
 msgstr "Corupţie"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
-msgstr "Deş"
+msgid "?Production loss (waste) [short]:-P"
+msgstr "-P"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7645,17 +7645,21 @@ msgid "Currently Building"
 msgstr "În Construcţie"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Stoc,Necesar,Runde,Cumpărare)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(Stoc/Necesar)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "Runde/Cumpărare"
 
 #: client/cityrepdata.c:554
 #, fuzzy
 msgid "?specialist:S"
-msgstr "Speciale"
+msgstr "?Speciale:S"
 
 #: client/cityrepdata.c:557
 #, fuzzy, c-format
-msgid "Specialists: %s"
+msgid "Specialists"
 msgstr "Speciale"
 
 #: client/civclient.c:200
@@ -14384,7 +14388,7 @@ msgstr "%3d galbeni pe rundă"
 #: client/gui-sdl/citydlg.c:2603
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
-msgstr "H+"
+msgstr "Surplus: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, fuzzy, c-format
