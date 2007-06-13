@@ -7392,14 +7392,12 @@ msgid "Built"
 msgstr "建成"
 
 #: client/citydlg_common.c:345
-#, fuzzy
 msgid "Great Wonder"
-msgstr "奇迹"
+msgstr "大奇迹"
 
 #: client/citydlg_common.c:349
-#, fuzzy
 msgid "Small Wonder"
-msgstr "可用奇迹"
+msgstr "小奇迹"
 
 #: client/citydlg_common.c:368
 #, c-format
@@ -7407,14 +7405,14 @@ msgid "%d/turn"
 msgstr "%d/回合"
 
 #: client/citydlg_common.c:399
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Citizens\n"
-msgstr "%s - %s 市民"
+msgstr "%+4d : 市民\n"
 
 #: client/citydlg_common.c:406
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : Taxed from trade\n"
 
 #: client/citydlg_common.c:424
 #, fuzzy, c-format
@@ -7461,7 +7459,7 @@ msgstr "狂欢"
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Disorder"
-msgstr "混乱"
+msgstr "骚乱"
 
 #: client/cityrepdata.c:75
 msgid "?city_state:Peace"
@@ -7481,11 +7479,11 @@ msgstr "城市名称"
 
 #: client/cityrepdata.c:431
 msgid "?size [short]:Sz"
-msgstr "大小"
+msgstr "规模"
 
 #: client/cityrepdata.c:431
 msgid "Size"
-msgstr "大小"
+msgstr "规模"
 
 #: client/cityrepdata.c:433 client/plrdlg_common.c:261
 #: client/gui-mui/plrdlg.c:172 client/gui-win32/plrdlg.c:337
@@ -7494,11 +7492,11 @@ msgstr "状态"
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
-msgstr "狂欢/平静/混乱"
+msgstr "狂欢/平静/骚乱"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "标记 + 表示狂欢，- 表示混乱"
+msgid "Concise + Rapture, - Disorder"
+msgstr "标记 + 表示狂欢，- 表示骚乱"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7511,7 +7509,7 @@ msgstr "乐/满/忧/怒"
 
 #: client/cityrepdata.c:439
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr "工人：快乐/满足/不快/愤怒"
+msgstr "工人：快乐/满足/忧郁/愤怒"
 
 #: client/cityrepdata.c:441
 msgid "?Happy workers:H"
@@ -7519,7 +7517,7 @@ msgstr "乐"
 
 #: client/cityrepdata.c:441
 msgid "Workers: Happy"
-msgstr "工人：高兴"
+msgstr "工人：快乐"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
@@ -7531,11 +7529,11 @@ msgstr "工人：满足"
 
 #: client/cityrepdata.c:445
 msgid "?Unhappy workers:U"
-msgstr "郁"
+msgstr "忧"
 
 #: client/cityrepdata.c:445
 msgid "Workers: Unhappy"
-msgstr "工人：不快"
+msgstr "工人：忧郁"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
@@ -7618,7 +7616,7 @@ msgstr "食/资/贸"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
-msgstr "盈余：食物/资源/贸易"
+msgstr "盈余：食物/物资/贸易"
 
 #: client/cityrepdata.c:465
 msgid "?Food surplus [short]:+F"
@@ -7634,7 +7632,7 @@ msgstr "资＋"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
-msgstr "盈余：资源"
+msgstr "盈余：物资"
 
 #: client/cityrepdata.c:469
 msgid "?Trade surplus [short]:+T"
@@ -7738,17 +7736,15 @@ msgid "Waste"
 msgstr "损耗"
 
 #: client/cityrepdata.c:493
-#, fuzzy
 msgid "?cma:Governor"
-msgstr "总督"
+msgstr "管理者"
 
 #: client/cityrepdata.c:493 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1374
 #: client/gui-sdl/citydlg.c:3824 client/gui-sdl/cma_fe.c:851
 #: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:777
-#, fuzzy
 msgid "Citizen Governor"
-msgstr "总督"
+msgstr "市民管理者"
 
 #: client/cityrepdata.c:495 client/cityrepdata.c:496
 msgid "Currently Building"
@@ -7763,14 +7759,12 @@ msgid "Turns/Buy"
 msgstr "回合/购买）"
 
 #: client/cityrepdata.c:554
-#, fuzzy
 msgid "?specialist:S"
-msgstr "特产"
+msgstr "专"
 
 #: client/cityrepdata.c:557
-#, fuzzy, c-format
 msgid "Specialists"
-msgstr "特产"
+msgstr "专业人员："
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"

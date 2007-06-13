@@ -6886,7 +6886,7 @@ msgstr "Miesto pavadinimas"
 
 #: client/cityrepdata.c:431
 msgid "?size [short]:Sz"
-msgstr "?size:Dy"
+msgstr "Dy"
 
 #: client/cityrepdata.c:431
 msgid "Size"
@@ -6904,8 +6904,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Susižavėjęs/Taika/Netvarka"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "+=Susižavėjęs, -=Netvarka"
+msgid "Concise + Rapture, - Disorder"
+msgstr "+ Susižavėjęs, - Netvarka"
 
 #: client/cityrepdata.c:437
 #: client/gui-mui/citydlg.c:1365
@@ -7032,7 +7032,7 @@ msgstr ""
 
 #: client/cityrepdata.c:462
 msgid "Surplus"
-msgstr ""
+msgstr "Perteklius"
 
 #: client/cityrepdata.c:462
 msgid "?food/production/trade:F/P/T"
@@ -7199,7 +7199,6 @@ msgid "?specialist:S"
 msgstr "?specialist:S"
 
 #: client/cityrepdata.c:557
-#, c-format
 msgid "Specialists"
 msgstr "Specialistai"
 
@@ -9286,7 +9285,7 @@ msgstr "Gyventojai:      %5d"
 #: client/text.c:952
 #, c-format
 msgid "Support:         %5d %%"
-msgstr "Palaikymas:     %5d %%"
+msgstr "Palaikymas:      %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:956
@@ -18749,7 +18748,7 @@ msgstr "Kartu su biblioteka universitetas padidina mokslą mieste 250%."
 #: data/civ2/buildings.ruleset:935
 #: data/civ1/buildings.ruleset:634
 msgid "Apollo Program"
-msgstr "Apollo programa"
+msgstr "„Apollo“ programa"
 
 #: data/default/buildings.ruleset:962
 #: data/civ2/buildings.ruleset:949

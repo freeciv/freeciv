@@ -1,5 +1,5 @@
 # Hebrew translation for Freeciv.
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2007 Free Software Foundation, Inc.
 # Nir Peled <Techdeck@Techdeck.org>, 2002.
 # This translation is covered by the GNU General Public License Version 2.
 #
@@ -7053,85 +7053,85 @@ msgid "Rapture/Peace/Disorder"
 msgstr ""
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr ""
+msgid "Concise + Rapture, - Disorder"
+msgstr "משבר + שלהוב־יצרים, - מהומות"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
 msgid "Workers"
-msgstr ""
+msgstr "פועלים"
 
 #: client/cityrepdata.c:438
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "?שמח/מרוצה/עצוב/כועס:ש/מ/ע/כ"
 
 #: client/cityrepdata.c:439
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr ""
+msgstr "פועלים: שמחים, מרוצים, עצובים, כועסים"
 
 #: client/cityrepdata.c:441
 msgid "?Happy workers:H"
-msgstr ""
+msgstr "?פועלים שמחים:ש"
 
 #: client/cityrepdata.c:441
 msgid "Workers: Happy"
-msgstr ""
+msgstr "פועלים: שמחים"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
-msgstr ""
+msgstr "?פועלים מרוצים:מ "
 
 #: client/cityrepdata.c:443
 msgid "Workers: Content"
-msgstr ""
+msgstr "פועלים: מרוצים"
 
 #: client/cityrepdata.c:445
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "?פועלים עצובים:ע"
 
 #: client/cityrepdata.c:445
 msgid "Workers: Unhappy"
-msgstr ""
+msgstr "פועלים: עצובים"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
-msgstr ""
+msgstr "?פועלים כועסים:כ"
 
 #: client/cityrepdata.c:447
 msgid "Workers: Angry"
-msgstr ""
+msgstr "פועלים: כועסים"
 
 #: client/cityrepdata.c:449
 msgid "Special"
-msgstr ""
+msgstr "חברתי"
 
 #: client/cityrepdata.c:450
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr ""
+msgstr "?בדרנים/מדענים/גובי־מס:ב/מ/ג"
 
 #: client/cityrepdata.c:451
 msgid "Entertainers, Scientists, Taxmen"
-msgstr ""
+msgstr "בדרנים, מדענים, גובי־מס"
 
 #: client/cityrepdata.c:453 client/cityrepdata.c:455
 msgid "Best"
-msgstr ""
+msgstr "הטוב ביותר"
 
 #: client/cityrepdata.c:453
 msgid "attack"
-msgstr ""
+msgstr "התקפה"
 
 #: client/cityrepdata.c:454
 msgid "Best attacking units"
-msgstr ""
+msgstr "היחידות התוקפות הטובות ביותר"
 
 #: client/cityrepdata.c:455
 msgid "defense"
-msgstr ""
+msgstr "הגנה"
 
 #: client/cityrepdata.c:456
 msgid "Best defending units"
-msgstr ""
+msgstr "היחידות המגנות הטובות ביותר"
 
 #: client/cityrepdata.c:457 client/cityrepdata.c:459
 #: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk-2.0/cityrep.c:1229
@@ -7146,186 +7146,183 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:890 client/gui-xaw/repodlgs.c:1085
 #: data/Freeciv.in:1895 data/helpdata.txt:866
 msgid "Units"
-msgstr ""
+msgstr "יחידות"
 
 #: client/cityrepdata.c:457
 msgid "?Supported (units):Owned"
-msgstr ""
+msgstr "?נתמכות(יחידות):תמך"
 
 #: client/cityrepdata.c:458
 msgid "Number of units supported"
-msgstr ""
+msgstr "מספר יחידות נתמכות"
 
 #: client/cityrepdata.c:459
 msgid "?Present (units):Here"
-msgstr ""
+msgstr "?נוכחות (יחידות):נכח"
 
 #: client/cityrepdata.c:460
 msgid "Number of units present"
-msgstr ""
+msgstr "מספר יחידות נוכחות"
 
 #: client/cityrepdata.c:462
 msgid "Surplus"
-msgstr ""
+msgstr "עודף"
 
 #: client/cityrepdata.c:462
 msgid "?food/production/trade:F/P/T"
-msgstr ""
+msgstr "?מזון/יצור/סחר:מ/י/ס"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
-msgstr ""
+msgstr "עודף: מזון, יצור, סחר"
 
 #: client/cityrepdata.c:465
 msgid "?Food surplus [short]:+F"
-msgstr ""
+msgstr "?עודף מזון:מ+ "
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
-msgstr ""
+msgstr "עודף: מזון"
 
 #: client/cityrepdata.c:467
 msgid "?Production surplus [short]:+P"
-msgstr ""
+msgstr "?עודף יצור:י+"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
-msgstr ""
+msgstr "עודף: יצור"
 
 #: client/cityrepdata.c:469
 msgid "?Trade surplus [short]:+T"
-msgstr ""
+msgstr "?עודף סחר:ס+ "
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
-msgstr ""
+msgstr "עודף: סחר"
 
 #: client/cityrepdata.c:471 client/gui-gtk-2.0/repodlgs.c:652
 #: client/gui-win32/repodlgs.c:332 client/gui-xaw/menu.c:221
 #: client/gui-xaw/repodlgs.c:654 client/gui-xaw/repodlgs.c:783
 #: data/Freeciv.in:1819
 msgid "Economy"
-msgstr ""
+msgstr "כלכלה"
 
 #: client/cityrepdata.c:471
 msgid "?gold/luxury/science:G/L/S"
-msgstr ""
+msgstr "?זהב/שפע/מדע:ז/ש/מ"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
-msgstr "כלכלה: זהב, מותרות, מדע"
+msgstr "כלכלה: זהב, שפע, מדע"
 
 #: client/cityrepdata.c:474
-#, fuzzy
 msgid "?Gold:G"
-msgstr "זהב: "
+msgstr "?זהב:ז"
 
 #: client/cityrepdata.c:474
 msgid "Economy: Gold"
-msgstr ""
+msgstr "כלכלה: זהב"
 
 #: client/cityrepdata.c:476
 msgid "?Luxury:L"
-msgstr ""
+msgstr "?שפע:ש"
 
 #: client/cityrepdata.c:476
 msgid "Economy: Luxury"
-msgstr ""
+msgstr "כלכלה: שפע"
 
 #: client/cityrepdata.c:478
 msgid "?Science:S"
-msgstr ""
+msgstr "?מדע:מ "
 
 #: client/cityrepdata.c:478
-#, fuzzy
 msgid "Economy: Science"
-msgstr "כלכלה: זהב, מותרות, מדע"
+msgstr "כלכלה: מדע"
 
 #: client/cityrepdata.c:480
 msgid "?number_trade_routes:n"
-msgstr ""
+msgstr "?נתיבי־סחר:נ"
 
 #: client/cityrepdata.c:480
 msgid "?number_trade_routes:R"
-msgstr ""
+msgstr "?נתיבי־סחר:ס"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
-msgstr ""
+msgstr "מספר נתיבי־סחר"
 
 #: client/cityrepdata.c:483 client/gui-sdl/citydlg.c:3019
 #: client/gui-sdl/citydlg.c:3131
 msgid "Stock"
-msgstr ""
+msgstr "מלאי"
 
 #: client/cityrepdata.c:483
 msgid "Food Stock"
-msgstr ""
+msgstr "מלאי מזון"
 
 #: client/cityrepdata.c:485
 msgid "?pollution [short]:Pol"
-msgstr ""
+msgstr "?זיהום:זהם"
 
 #: client/cityrepdata.c:487
 msgid "?food (population):Grow"
-msgstr ""
+msgstr "צמיחה"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
 #: client/gui-win32/citydlg.c:1097 client/gui-win32/wldlg.c:807
 msgid "Turns"
-msgstr ""
+msgstr "תורות"
 
 #: client/cityrepdata.c:487
 msgid "Turns until growth/famine"
-msgstr ""
+msgstr "מספר תורות עד לצמחיה/רעב"
 
 #: client/cityrepdata.c:489
 msgid "?Trade loss (corruption) [short]:-T"
-msgstr ""
+msgstr "?שחיתות:שחת"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
-msgstr ""
+msgstr "שחיתות"
 
 #: client/cityrepdata.c:491
 msgid "?Production loss (waste) [short]:-P"
-msgstr ""
+msgstr "?בזבוז:בזב"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
-msgstr ""
+msgstr "בזבוב"
 
 #: client/cityrepdata.c:493
 msgid "?cma:Governor"
-msgstr ""
+msgstr "?סנא: מושל"
 
 #: client/cityrepdata.c:493 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1374
 #: client/gui-sdl/citydlg.c:3824 client/gui-sdl/cma_fe.c:851
 #: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:777
 msgid "Citizen Governor"
-msgstr ""
+msgstr "מושל אזרחים"
 
 #: client/cityrepdata.c:495 client/cityrepdata.c:496
 msgid "Currently Building"
-msgstr ""
+msgstr "כרגע בבניה"
 
 #: client/cityrepdata.c:495
 msgid "?Stock/Target:(Have/Need)"
-msgstr ""
+msgstr "(מלאי/מטרה)"
 
 #: client/cityrepdata.c:495
 msgid "Turns/Buy"
-msgstr ""
+msgstr "תורות/רכש"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
-msgstr ""
+msgstr "?מומחה:מ"
 
 #: client/cityrepdata.c:557
-#, fuzzy, c-format
 msgid "Specialists"
-msgstr "מיוחד1"
+msgstr "מומחה"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"

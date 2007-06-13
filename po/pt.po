@@ -7643,8 +7643,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Celebração/Paz/Desordem"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Conciso +=Celebração, -=Desordem"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Conciso + Celebração, - Desordem"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309

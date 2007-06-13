@@ -7694,8 +7694,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "En festa/pau/desordre"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Concís +=En festa, -=Desordre"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Concís + En festa, - Desordre"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309

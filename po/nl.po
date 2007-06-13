@@ -7770,8 +7770,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Extase/Vrede/Onlusten"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Beknopt +=Extase, -=Onlusten"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Beknopt + Extase, - Onlusten"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309

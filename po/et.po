@@ -7567,8 +7567,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Joovastus/Rahu/Rahutused"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "+=Joovastus, -=Rahutused"
+msgid "Concise + Rapture, - Disorder"
+msgstr "+ Joovastus, - Rahutused"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7768,7 +7768,7 @@ msgstr "Kaubateede arv"
 #: client/cityrepdata.c:483 client/gui-sdl/citydlg.c:3019
 #: client/gui-sdl/citydlg.c:3131
 msgid "Stock"
-msgstr "laos"
+msgstr "Tehtud"
 
 #: client/cityrepdata.c:483
 msgid "Food Stock"
@@ -7824,18 +7824,17 @@ msgstr "Hetkel ehitamisel"
 
 #: client/cityrepdata.c:495
 msgid "?Stock/Target:(Have/Need)"
-msgstr "(StockTÕLGIMIND/Sihtmärk)"
+msgstr "(Tehtud/Siht)"
 
 #: client/cityrepdata.c:495
 msgid "Turns/Buy"
-msgstr "Käike/Osta"
+msgstr "Käike/Hind"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
 msgstr "?specialist:S"
 
 #: client/cityrepdata.c:557
-#, c-format
 msgid "Specialists"
 msgstr "Spetsialistid"
 

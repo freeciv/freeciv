@@ -447,7 +447,7 @@ static const struct city_report_spec base_city_report_specs[] = {
     N_("Entertainers, Scientists, Taxmen"),
     NULL, FUNC_TAG(specialists) },
 
-  { FALSE,  1, 1, NULL,  NULL,          N_("Concise +=Rapture, -=Disorder"),
+  { FALSE,  1, 1, NULL,  NULL,          N_("Concise + Rapture, - Disorder"),
     NULL, FUNC_TAG(hstate_concise) },
   { TRUE,  -8, 1, NULL,  N_("State"),   N_("Rapture/Peace/Disorder"),
     NULL, FUNC_TAG(hstate_verbose) },
@@ -517,7 +517,8 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(cma) },
 
   { TRUE,   9, 1, N_("Production"), N_("Turns/Buy"),
-    N_("Turns or gold to complete production"),
+  /*N_("Turns or gold to complete production"), future menu needs translation */
+    N_("Production"),
     NULL, FUNC_TAG(build_cost) },
   { TRUE,   0, 1, N_("Currently Building"),
     N_("?Stock/Target:(Have/Need)"),

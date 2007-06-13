@@ -8256,8 +8256,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "歓喜/平和/混乱"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "簡略表示 +=歓喜, -=混乱"
+msgid "Concise + Rapture, - Disorder"
+msgstr "簡略表示 + 歓喜, - 混乱"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309

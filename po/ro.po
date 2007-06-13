@@ -7296,51 +7296,51 @@ msgstr "%d/rundă"
 #: client/citydlg_common.c:399
 #, fuzzy, c-format
 msgid "%+4d : Citizens\n"
-msgstr "%s - %s cetăţeni"
+msgstr "%+4d : Cetăţeni\n"
 
 #: client/citydlg_common.c:406
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : Taxe din comerţ\n"
 
 #: client/citydlg_common.c:424
 #, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr ""
+msgstr "%+4d : Rută comercială cu %s\n"
 
 #: client/citydlg_common.c:433
 #, fuzzy, c-format
 msgid "%+4d : Building tithes\n"
-msgstr "Constuind Unităţi"
+msgstr "%+4d : Impozit pe clădire\n"
 
 #: client/citydlg_common.c:456
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr ""
+msgstr "%+4d : Bonus de la %s (%+d%%)\n"
 
 #: client/citydlg_common.c:468
 #, c-format
 msgid "%+4d : Waste\n"
-msgstr ""
+msgstr "%+4d : Deşeuri\n"
 
 #: client/citydlg_common.c:474
 #, c-format
 msgid "%+4d : Disorder\n"
-msgstr ""
+msgstr "%+4d : Dezordine\n"
 
 #: client/citydlg_common.c:480
 #, c-format
 msgid "%+4d : Used\n"
-msgstr ""
+msgstr "%+4d : Folosiţi\n"
 
 #: client/citydlg_common.c:485
 msgid "==== : Adds up to\n"
-msgstr ""
+msgstr "==== : Se adaugă până la \n"
 
 #: client/citydlg_common.c:487
 #, c-format
 msgid "%4d : Total surplus"
-msgstr ""
+msgstr "%4d : Surplus total"
 
 #: client/cityrepdata.c:73
 msgid "?city_state:Rapture"
@@ -7377,15 +7377,15 @@ msgstr "Mărime"
 #: client/cityrepdata.c:433 client/plrdlg_common.c:261
 #: client/gui-mui/plrdlg.c:172 client/gui-win32/plrdlg.c:337
 msgid "State"
-msgstr "Statut"
+msgstr "Stare"
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
 msgstr "Bucurie/Linişte/Dezordine"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "+=Bucurie, -=Dezordine"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Concis + Bucurie, - Dezordine"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -7430,7 +7430,7 @@ msgstr "Î"
 
 #: client/cityrepdata.c:447
 msgid "Workers: Angry"
-msgstr "Lucrători: Furioşi"
+msgstr "Lucrători: Înfuriaţî"
 
 #: client/cityrepdata.c:449
 msgid "Special"
@@ -7438,34 +7438,31 @@ msgstr "Special"
 
 #: client/cityrepdata.c:450
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr ""
+msgstr "?entertainers/scientists/taxmen:M/C/Î"
 
 #: client/cityrepdata.c:451
 msgid "Entertainers, Scientists, Taxmen"
-msgstr ""
+msgstr "Muncitori, Cercetători, Încasatori"
 
 #: client/cityrepdata.c:453 client/cityrepdata.c:455
-#, fuzzy
 msgid "Best"
-msgstr "-ul"
+msgstr "Cel mai bun"
 
 #: client/cityrepdata.c:453
 msgid "attack"
 msgstr "atac"
 
 #: client/cityrepdata.c:454
-#, fuzzy
 msgid "Best attacking units"
-msgstr "Auto atacă unităţi aeriene"
+msgstr "Cele mai bune unităţi de atac"
 
 #: client/cityrepdata.c:455
 msgid "defense"
 msgstr "apărare"
 
 #: client/cityrepdata.c:456
-#, fuzzy
 msgid "Best defending units"
-msgstr "Unităţi prezente"
+msgstr "Cele mai bune unităţi de apărare"
 
 #: client/cityrepdata.c:457 client/cityrepdata.c:459
 #: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk-2.0/cityrep.c:1229
@@ -7504,11 +7501,11 @@ msgstr "Surplus"
 
 #: client/cityrepdata.c:462
 msgid "?food/production/trade:F/P/T"
-msgstr "H/P/N"
+msgstr "H/P/C"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
-msgstr "Surplus: Hrană, Producţie, Negoţ"
+msgstr "Surplus: Hrană, Producţie, Comerţ"
 
 #: client/cityrepdata.c:465
 msgid "?Food surplus [short]:+F"
@@ -7528,11 +7525,11 @@ msgstr "Surplus: Producţie"
 
 #: client/cityrepdata.c:469
 msgid "?Trade surplus [short]:+T"
-msgstr "+N"
+msgstr "+C"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
-msgstr "Surplus: Negoţ"
+msgstr "Surplus: Comerţ"
 
 #: client/cityrepdata.c:471 client/gui-gtk-2.0/repodlgs.c:652
 #: client/gui-win32/repodlgs.c:332 client/gui-xaw/menu.c:221
@@ -7559,7 +7556,7 @@ msgstr "Economie: Galbeni"
 
 #: client/cityrepdata.c:476
 msgid "?Luxury:L"
-msgstr "L"
+msgstr "?Lux:L"
 
 #: client/cityrepdata.c:476
 msgid "Economy: Luxury"
@@ -7574,18 +7571,16 @@ msgid "Economy: Science"
 msgstr "Economie: Ştiinţă"
 
 #: client/cityrepdata.c:480
-#, fuzzy
 msgid "?number_trade_routes:n"
 msgstr "?Rata de _Impozit:R"
 
 #: client/cityrepdata.c:480
-#, fuzzy
 msgid "?number_trade_routes:R"
 msgstr "?Rata de _Impozit:C"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
-msgstr "Numărul de Schimburi Comerciale"
+msgstr "Numărul de rute comerciale"
 
 #: client/cityrepdata.c:483 client/gui-sdl/citydlg.c:3019
 #: client/gui-sdl/citydlg.c:3131
@@ -7602,7 +7597,7 @@ msgstr "?pollution [short]:Pol"
 
 #: client/cityrepdata.c:487
 msgid "?food (population):Grow"
-msgstr "Hrană"
+msgstr "Creşte"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1005
 #: client/gui-win32/citydlg.c:1097 client/gui-win32/wldlg.c:807
@@ -7615,7 +7610,7 @@ msgstr "Runde până la creştere/foamete"
 
 #: client/cityrepdata.c:489
 msgid "?Trade loss (corruption) [short]:-T"
-msgstr "-N"
+msgstr "-C"
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
@@ -7631,18 +7626,18 @@ msgstr "Deşeuri"
 
 #: client/cityrepdata.c:493
 msgid "?cma:Governor"
-msgstr ""
+msgstr "?cma:Guvernator"
 
 #: client/cityrepdata.c:493 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1374
 #: client/gui-sdl/citydlg.c:3824 client/gui-sdl/cma_fe.c:851
 #: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:777
 msgid "Citizen Governor"
-msgstr ""
+msgstr "Guvernatorul cetăţenilor"
 
 #: client/cityrepdata.c:495 client/cityrepdata.c:496
 msgid "Currently Building"
-msgstr "În Construcţie"
+msgstr "În construcţie"
 
 #: client/cityrepdata.c:495
 msgid "?Stock/Target:(Have/Need)"
@@ -7653,12 +7648,10 @@ msgid "Turns/Buy"
 msgstr "Runde/Cumpărare"
 
 #: client/cityrepdata.c:554
-#, fuzzy
 msgid "?specialist:S"
 msgstr "?Speciale:S"
 
 #: client/cityrepdata.c:557
-#, fuzzy, c-format
 msgid "Specialists"
 msgstr "Speciale"
 

@@ -7893,7 +7893,7 @@ msgstr "%s - %s asukasta"
 #: client/citydlg_common.c:406
 #, fuzzy, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr "Ei vakituisia kauppareittejä.\n"
+msgstr "%+4d : Verotettu kaupasta\n"
 
 #: client/citydlg_common.c:424
 #, fuzzy, c-format
@@ -7976,8 +7976,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Hurmoksessa/Rauhallinen/Levoton"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Lyhenne +=Hurmoksessa, -=Levoton"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Lyhenne + Hurmoksessa, - Levoton"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
@@ -8026,7 +8026,7 @@ msgstr "Työläiset: Vihaisia"
 
 #: client/cityrepdata.c:449
 msgid "Special"
-msgstr "Erityisalat"
+msgstr "Erikoistuneet"
 
 #: client/cityrepdata.c:450
 msgid "?entertainers/scientists/taxmen:E/S/T"
@@ -8217,9 +8217,8 @@ msgid "Waste"
 msgstr "Hukkaan"
 
 #: client/cityrepdata.c:493
-#, fuzzy
 msgid "?cma:Governor"
-msgstr "Hallintomuoto"
+msgstr "Käskynhaltija"
 
 #: client/cityrepdata.c:493 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1374
@@ -8227,7 +8226,7 @@ msgstr "Hallintomuoto"
 #: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:777
 #, fuzzy
 msgid "Citizen Governor"
-msgstr "Kaupunkiraportti..."
+msgstr "Käskynhaltija"
 
 #: client/cityrepdata.c:495 client/cityrepdata.c:496
 msgid "Currently Building"
@@ -8242,14 +8241,12 @@ msgid "Turns/Buy"
 msgstr "Pelivuoroa/Ostohinta"
 
 #: client/cityrepdata.c:554
-#, fuzzy
 msgid "?specialist:S"
-msgstr "?Erityispiirteet:E"
+msgstr "E"
 
 #: client/cityrepdata.c:557
-#, fuzzy, c-format
 msgid "Specialists"
-msgstr "Erityispiirteet"
+msgstr "Erikoistuneet"
 
 #: client/civclient.c:200
 msgid "  -a, --autoconnect\tSkip connect dialog\n"

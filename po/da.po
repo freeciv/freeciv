@@ -7757,8 +7757,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Fest/fred/uroligheder"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Kort +=fest, -=uroligheder"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Kort + fest, - uroligheder"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309

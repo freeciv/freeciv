@@ -7825,8 +7825,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Hänryckning/Frid/Upplopp"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Kortfattad +=Hänryckning, -=Upplopp"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Kortfattad + Hänryckning, - Upplopp"
 
 # DM> Ordet arbetare förekommer både i enhetsnamn och i kolumn i stadsrapport-
 # fönstret. Detta är en kompromiss.

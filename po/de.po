@@ -7878,8 +7878,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "begeistert/normal/in Aufruhr"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "einspaltige Statusanzeige: +=begeistert, -=in Aufruhr"
+msgid "Concise + Rapture, - Disorder"
+msgstr "einspaltige Statusanzeige: + begeistert, - in Aufruhr"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309

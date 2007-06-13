@@ -7248,8 +7248,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Захоплнення/Спок╕й/Заворушення"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Стисло +=Захоплення, -=Заворушення"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Стисло + Захоплення, - Заворушення"
 
 #: client/cityrepdata.c:437
 #: client/gui-mui/citydlg.c:1365
@@ -15055,7 +15055,7 @@ msgstr "╥жа: %d за х╕д"
 #: client/gui-sdl/citydlg.c:2613
 #, c-format
 msgid "?food:Surplus: %d"
-msgstr "?Надлишок: %d"
+msgstr "Надлишок: %d"
 
 #: client/gui-sdl/citydlg.c:2661
 #, c-format

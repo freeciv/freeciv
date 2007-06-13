@@ -7893,8 +7893,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr "Бум/Мир/Беспорядки"
 
 #: client/cityrepdata.c:435
-msgid "Concise +=Rapture, -=Disorder"
-msgstr "Кратко +=Бум, -=Беспорядок"
+msgid "Concise + Rapture, - Disorder"
+msgstr "Кратко + Бум, - Беспорядок"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2408 data/default/units.ruleset:309
