@@ -6934,7 +6934,7 @@ msgid "City Name"
 msgstr ""
 
 #: client/cityrepdata.c:431
-msgid "?size:Sz"
+msgid "?size [short]:Sz"
 msgstr ""
 
 #: client/cityrepdata.c:431
@@ -6951,8 +6951,8 @@ msgid "Rapture/Peace/Disorder"
 msgstr ""
 
 #: client/cityrepdata.c:435
-msgid "Concise *=Rapture, X=Disorder"
-msgstr "משבר *=שלהוב־יצרים, X=מהומות"
+msgid "Concise + Rapture, - Disorder"
+msgstr "משבר + שלהוב־יצרים, - מהומות"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2404 data/default/units.ruleset:238
@@ -7047,7 +7047,7 @@ msgid "Units"
 msgstr "יחידות"
 
 #: client/cityrepdata.c:457
-msgid "?Supported (units):Sup"
+msgid "?Supported (units):Owned"
 msgstr "?נתמכות(יחידות):תמך"
 
 #: client/cityrepdata.c:458
@@ -7055,7 +7055,7 @@ msgid "Number of units supported"
 msgstr "מספר יחידות נתמכות"
 
 #: client/cityrepdata.c:459
-msgid "?Present (units):Prs"
+msgid "?Present (units):Here"
 msgstr "?נוכחות (יחידות):נכח"
 
 #: client/cityrepdata.c:460
@@ -7067,7 +7067,7 @@ msgid "Surplus"
 msgstr "עודף"
 
 #: client/cityrepdata.c:462
-msgid "?food/prod/trade:F/P/T"
+msgid "?food/production/trade:F/P/T"
 msgstr "?מזון/יצור/סחר:מ/י/ס"
 
 #: client/cityrepdata.c:463
@@ -7075,7 +7075,7 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "עודף: מזון, יצור, סחר"
 
 #: client/cityrepdata.c:465
-msgid "?Food surplus:F+"
+msgid "?Food surplus [short]:+F"
 msgstr "?עודף מזון:מ+ "
 
 #: client/cityrepdata.c:465
@@ -7083,7 +7083,7 @@ msgid "Surplus: Food"
 msgstr "עודף: מזון"
 
 #: client/cityrepdata.c:467
-msgid "?Production surplus:P+"
+msgid "?Production surplus [short]:+P"
 msgstr "?עודף יצור:י+"
 
 #: client/cityrepdata.c:468
@@ -7091,7 +7091,7 @@ msgid "Surplus: Production"
 msgstr "עודף: יצור"
 
 #: client/cityrepdata.c:469
-msgid "?Trade surplus:T+"
+msgid "?Trade surplus [short]:+T"
 msgstr "?עודף סחר:ס+ "
 
 #: client/cityrepdata.c:469
@@ -7106,7 +7106,7 @@ msgid "Economy"
 msgstr "כלכלה"
 
 #: client/cityrepdata.c:471
-msgid "?gold/lux/sci:G/L/S"
+msgid "?gold/luxury/science:G/L/S"
 msgstr "?זהב/שפע/מדע:ז/ש/מ"
 
 #: client/cityrepdata.c:472
@@ -7138,11 +7138,11 @@ msgid "Economy: Science"
 msgstr "כלכלה: מדע"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:n"
+msgid "?number_trade_routes:n"
 msgstr "?נתיבי־סחר:נ"
 
 #: client/cityrepdata.c:480
-msgid "?trade_routes:T"
+msgid "?number_trade_routes:R"
 msgstr "?נתיבי־סחר:ס"
 
 #: client/cityrepdata.c:481
@@ -7159,11 +7159,11 @@ msgid "Food Stock"
 msgstr "מלאי מזון"
 
 #: client/cityrepdata.c:485
-msgid "?pollution:Pol"
+msgid "?pollution [short]:Pol"
 msgstr "?זיהום:זהם"
 
 #: client/cityrepdata.c:487
-msgid "Grow"
+msgid "?food (population):Grow"
 msgstr "צמיחה"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1030
@@ -7176,7 +7176,7 @@ msgid "Turns until growth/famine"
 msgstr "מספר תורות עד לצמחיה/רעב"
 
 #: client/cityrepdata.c:489
-msgid "?corruption:Cor"
+msgid "?Trade loss (corruption) [short]:-T"
 msgstr "?שחיתות:שחת"
 
 #: client/cityrepdata.c:489
@@ -7184,7 +7184,7 @@ msgid "Corruption"
 msgstr "שחיתות"
 
 #: client/cityrepdata.c:491
-msgid "?waste:Was"
+msgid "?Production loss (waste) [short]:-P"
 msgstr "?בזבוז:בזב"
 
 #: client/cityrepdata.c:491
@@ -7207,17 +7207,20 @@ msgid "Currently Building"
 msgstr "כרגע בבניה"
 
 #: client/cityrepdata.c:495
-msgid "(Stock,Target,Turns,Buy)"
-msgstr "(מלאי,מטרה,תורות,רכש)"
+msgid "?Stock/Target:(Have/Need)"
+msgstr "(מלאי/מטרה)"
+
+#: client/cityrepdata.c:495
+msgid "Turns/Buy"
+msgstr "תורות/רכש"
 
 #: client/cityrepdata.c:554
 msgid "?specialist:S"
 msgstr "?מומחה:מ"
 
 #: client/cityrepdata.c:557
-#, c-format
-msgid "Specialists: %s"
-msgstr "מומחה: %s"
+msgid "Specialists"
+msgstr "מומחה"
 
 #: client/civclient.c:198
 msgid "  -a, --autoconnect\tSkip connect dialog\n"

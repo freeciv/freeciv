@@ -125,7 +125,7 @@ static void create_cityrep_config_dlg(HWND hWnd)
   struct city_report_spec *spec;   
   box=fcwin_vbox_new(hWnd,FALSE);
   fcwin_box_add_static_default(box,_("Set columns shown"),-1,SS_CENTER);
-  for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {     
+  for(i=0, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {     
     fcwin_box_add_checkbox(box, spec->explanation,
 			   ID_CITYREP_CONFIG_BASE+i,0,FALSE,FALSE,5);
   }
@@ -157,7 +157,7 @@ LONG APIENTRY ConfigCityRepProc(HWND hWnd,
 	{
 	  struct city_report_spec *spec;   
 	  int i;
-	  for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) 
+	  for(i=0, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) 
 	    {   
 	      spec->show=IsDlgButtonChecked(hWnd,ID_CITYREP_CONFIG_BASE+i);  
 	    }

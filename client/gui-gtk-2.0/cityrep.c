@@ -653,7 +653,7 @@ static void update_view_menu(GtkWidget *show_item)
   int i;
 
   menu = gtk_menu_new();
-  for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
+  for(i=0, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
     item = gtk_check_menu_item_new_with_label(spec->explanation);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), spec->show);
