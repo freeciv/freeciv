@@ -1035,18 +1035,18 @@ void update_menus(void)
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
 	time = tile_activity_time(ACTIVITY_IRRIGATE, pUnit->tile);
 
-        if (!strcmp(pTile->terrain->name, "Forest") ||
-          !strcmp(pTile->terrain->name, "Jungle")) {
+        if (!strcmp(pTile->terrain->name_rule, "Forest") ||
+          !strcmp(pTile->terrain->name_rule, "Jungle")) {
 	  /* set Crop Forest Icon */
 	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 			_("Cut Down to"),
-                pTile->terrain->irrigation_result->name
+		terrain_name_translation(pTile->terrain->irrigation_result)
 			," (I)", time , PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->theme = pTheme->OCutDownForest_Icon;
-        }	else if (!strcmp(pTile->terrain->name, "Swamp")) {
+        }	else if (!strcmp(pTile->terrain->name_rule, "Swamp")) {
 	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 			_("Irrigate to"),
-                pTile->terrain->irrigation_result->name
+		terrain_name_translation(pTile->terrain->irrigation_result)
 			," (I)", time , PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
         } else {
@@ -1066,17 +1066,18 @@ void update_menus(void)
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
 	time = tile_activity_time(ACTIVITY_MINE, pUnit->tile);
 
-   if (!strcmp(pTile->terrain->name, "Forest")) {  
+	/* FIXME: THIS CODE IS WRONG */
+   if (!strcmp(pTile->terrain->name_rule, "Forest")) {  
 	  /* set Irrigate Icon -> make swamp */
 	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 			_("Irrigate to"),
-			pTile->terrain->mining_result->name
+		terrain_name_translation(pTile->terrain->mining_result)
 			," (M)", time , PL_("turn", "turns", time));
 	  pOrder_Mine_Button->theme = pTheme->OIrrigation_Icon;
-   } else if (!strcmp(pTile->terrain->name, "Jungle") ||
-              !strcmp(pTile->terrain->name, "Plains") ||
-              !strcmp(pTile->terrain->name, "Grassland") ||
-              !strcmp(pTile->terrain->name, "Swamp")) {
+   } else if (!strcmp(pTile->terrain->name_rule, "Jungle") ||
+              !strcmp(pTile->terrain->name_rule, "Plains") ||
+              !strcmp(pTile->terrain->name_rule, "Grassland") ||
+              !strcmp(pTile->terrain->name_rule, "Swamp")) {
 	  /* set Forest Icon -> plant Forrest*/
 	  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
 			_("Plant Forest"), " (M)", time , 
@@ -1101,7 +1102,7 @@ void update_menus(void)
 	time = tile_activity_time(ACTIVITY_TRANSFORM, pUnit->tile);
 	my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 	  _("Transform to"),
-	  pTile->terrain->transform_result->name,
+		terrain_name_translation(pTile->terrain->transform_result),
 			" (M)", time , 
 			PL_("turn", "turns", time));
 	copy_chars_to_string16(pOrder_Transform_Button->string16, cBuf);
