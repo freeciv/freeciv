@@ -7913,7 +7913,7 @@ msgid "Number of units supported"
 msgstr "Число поддерживаемых соединений"
 
 #: client/cityrepdata.c:459
-msgid msgid "?Present (units):Here"
+msgid "?Present (units):Here"
 msgstr "?Присутствующие соединения:Прс"
 
 #: client/cityrepdata.c:460
