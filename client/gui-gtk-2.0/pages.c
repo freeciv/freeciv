@@ -1839,22 +1839,27 @@ static void update_scenario_page(void)
   datafile_list_iterate(files, pfile) {
     GtkTreeIter it;
     struct section_file sf;
-    char *description = NULL, *name = NULL;
-
-    if (section_file_load_section(&sf, pfile->fullname, "scenario")) {
-      name = secfile_lookup_str_default(&sf, NULL, "scenario.name");
-      description = secfile_lookup_str_default(&sf,
-					       NULL, "scenario.description");
-      section_file_free(&sf);
-    }
-
-    /* Translated loaded names (if any). */
-    name = name ? _(name) : pfile->name;
-    description = description ? _(description) : "";
 
     gtk_list_store_append(scenario_store, &it);
-    gtk_list_store_set(scenario_store, &it,
-		       0, name, 1, pfile->fullname, 2, description, -1);
+
+    if (section_file_load_section(&sf, pfile->fullname, "scenario")) {
+      char *sname = secfile_lookup_str_default(&sf, NULL, "scenario.name");
+      char *sdescription = secfile_lookup_str_default(&sf,
+					       NULL, "scenario.description");
+
+      gtk_list_store_set(scenario_store, &it,
+			 0, sname ? Q_(sname) : pfile->name,
+			 1, pfile->fullname,
+			 2, sdescription ? Q_(sdescription) : "",
+			-1);
+      section_file_free(&sf);
+    } else {
+      gtk_list_store_set(scenario_store, &it,
+			 0, pfile->name,
+			 1, pfile->fullname,
+			 2, "",
+			-1);
+    }
 
     free(pfile->name);
     free(pfile->fullname);

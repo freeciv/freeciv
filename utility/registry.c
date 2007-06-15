@@ -653,7 +653,7 @@ bool section_file_load_section(struct section_file *my_section_file,
   inf = inf_from_file(real_filename, datafilename);
 
   return section_file_read_dup(my_section_file, real_filename,
-			       inf, TRUE, NULL);
+			       inf, TRUE, part);
 }
 
 /**************************************************************************
