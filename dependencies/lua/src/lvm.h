@@ -22,14 +22,15 @@
 	(ttype(o1) == ttype(o2) && luaV_equalval(L, o1, o2))
 
 
-int luaV_lessthan (lua_State *L, const TObject *l, const TObject *r);
-int luaV_equalval (lua_State *L, const TObject *t1, const TObject *t2);
-const TObject *luaV_tonumber (const TObject *obj, TObject *n);
-int luaV_tostring (lua_State *L, StkId obj);
-const TObject *luaV_gettable (lua_State *L, const TObject *t, TObject *key,
-                              int loop);
-void luaV_settable (lua_State *L, const TObject *t, TObject *key, StkId val);
-StkId luaV_execute (lua_State *L);
-void luaV_concat (lua_State *L, int total, int last);
+LUAI_FUNC int luaV_lessthan (lua_State *L, const TValue *l, const TValue *r);
+LUAI_FUNC int luaV_equalval (lua_State *L, const TValue *t1, const TValue *t2);
+LUAI_FUNC const TValue *luaV_tonumber (const TValue *obj, TValue *n);
+LUAI_FUNC int luaV_tostring (lua_State *L, StkId obj);
+LUAI_FUNC void luaV_gettable (lua_State *L, const TValue *t, TValue *key,
+                                            StkId val);
+LUAI_FUNC void luaV_settable (lua_State *L, const TValue *t, TValue *key,
+                                            StkId val);
+LUAI_FUNC void luaV_execute (lua_State *L, int nexeccalls);
+LUAI_FUNC void luaV_concat (lua_State *L, int total, int last);
 
 #endif

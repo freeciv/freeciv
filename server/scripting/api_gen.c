@@ -1694,7 +1694,7 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  114,111,108,101, 40,115,101,108,102, 44, 32,114,111,108,101,
   41, 10,101,110,100,32
  };
- lua_dobuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code");
+ tolua_dobuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code");
  } /* end of embedded lua code */
 
  tolua_module(tolua_S,"find",0);
@@ -1761,7 +1761,7 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  100, 10,101,110,100, 10,114,101,116,117,114,110, 32,114,101,
  115, 10,101,110,100,32
  };
- lua_dobuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code");
+ tolua_dobuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code");
  } /* end of embedded lua code */
 
  tolua_module(tolua_S,"signal",0);
@@ -1914,7 +1914,7 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  112, 97, 99,107, 40, 97,114,103, 41, 41, 41, 10,101,110,100,
  32
  };
- lua_dobuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code");
+ tolua_dobuffer(tolua_S,(char*)B,sizeof(B),"tolua: embedded Lua code");
  } /* end of embedded lua code */
 
  tolua_function(tolua_S,"random",tolua_api_random00);

@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 
@@ -37,7 +37,7 @@ function classFunction:decltype ()
  self.type = typevar(self.type)
  if strfind(self.mod,'const') then
 	 self.type = 'const '..self.type
-		self.mod = gsub(self.mod,'const%s*','')
+		self.mod = gsub(self.mod,'const','')
 	end
  local i=1
  while self.args[i] do
@@ -49,18 +49,35 @@ end
 
 -- Write binding function
 -- Outputs C/C++ binding function.
-function classFunction:supcode ()
+function classFunction:supcode (local_constructor)
+
  local overload = strsub(self.cname,-2,-1) - 1  -- indicate overloaded func
  local nret = 0      -- number of returned values
  local class = self:inclass()
  local _,_,static = strfind(self.mod,'^%s*(static)')
-
  if class then
-  output("/* method:",self.name," of class ",class," */")
+
+ 	if self.name == 'new' and self.parent.flags.pure_virtual then
+ 		-- no constructor for classes with pure virtual methods
+ 		return
+ 	end
+
+ 	if local_constructor then
+		output("/* method: new_local of class ",class," */")
+	else
+		output("/* method:",self.name," of class ",class," */")
+	end
  else
   output("/* function:",self.name," */")
  end
- output("static int",self.cname,"(lua_State* tolua_S)")
+
+ if local_constructor then
+  output("#ifndef TOLUA_DISABLE_"..self.cname.."_local")
+  output("\nstatic int",self.cname.."_local","(lua_State* tolua_S)")
+ else
+  output("#ifndef TOLUA_DISABLE_"..self.cname)
+  output("\nstatic int",self.cname,"(lua_State* tolua_S)")
+ end
  output("{")
 
  -- check types
@@ -73,32 +90,32 @@ function classFunction:supcode ()
  local narg
  if class then narg=2 else narg=1 end
  if class then
-	 local func = 'tolua_isusertype'
+		local func = 'tolua_isusertype'
 		local type = self.parent.type
-		if self.const ~= '' then
-		 type = self.const .. " " .. type
-		end
-	 if self.name=='new' or static~=nil then
-		 func = 'tolua_isusertable'
+		if self.name=='new' or static~=nil then
+			func = 'tolua_isusertable'
 			type = self.parent.type
 		end
-		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) ||\n') 
+		if self.const ~= '' then
+			type = "const "..type
+		end
+		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) ||\n')
  end
  -- check args
  if self.args[1].type ~= 'void' then
   local i=1
   while self.args[i] do
-		 local btype = isbasic(self.args[i].type) 
-			if btype ~= 'state' then
-    output('     !'..self.args[i]:outchecktype(narg,false)..' ||\n')
+   local btype = isbasic(self.args[i].type)
+   if btype ~= 'value' and btype ~= 'state' then
+    output('     !'..self.args[i]:outchecktype(narg)..' ||\n')
    end
-			if btype ~= 'state' then
-    narg = narg+1
-			end
+   if btype ~= 'state' then
+	   narg = narg+1
+   end
    i = i+1
   end
  end
- -- check end of list 
+ -- check end of list
  output('     !tolua_isnoobj(tolua_S,'..narg..',&tolua_err)\n )')
 	output('  goto tolua_lerror;')
 
@@ -107,7 +124,7 @@ function classFunction:supcode ()
 	 output('#endif\n')
 	end
 	output(' {')
- 
+
  -- declare self, if the case
  local narg
  if class then narg=2 else narg=1 end
@@ -123,15 +140,15 @@ function classFunction:supcode ()
   local i=1
   while self.args[i] do
    self.args[i]:declare(narg)
-			if isbasic(self.args[i].type) ~= "state" then
-    narg = narg+1
-			end
+   if isbasic(self.args[i].type) ~= "state" then
+	   narg = narg+1
+   end
    i = i+1
   end
  end
 
  -- check self
- if class and self.name~='new' and static==nil then 
+ if class and self.name~='new' and static==nil then
 	 output('#ifndef TOLUA_RELEASE\n')
   output('  if (!self) tolua_error(tolua_S,"invalid \'self\' in function \''..self.name..'\'",NULL);');
 	 output('#endif\n')
@@ -148,35 +165,52 @@ function classFunction:supcode ()
   end
  end
 
+ local out = string.find(self.mod, "tolua_outside")
  -- call function
  if class and self.name=='delete' then
   output('  delete self;')
  elseif class and self.name == 'operator&[]' then
-  output('  self->operator[](',self.args[1].name,'-1) = ',self.args[2].name,';')
+  if flags['1'] then -- for compatibility with tolua5 ?
+	output('  self->operator[](',self.args[1].name,'-1) = ',self.args[2].name,';')
+  else
+    output('  self->operator[](',self.args[1].name,') = ',self.args[2].name,';')
+  end
  else
   output('  {')
   if self.type ~= '' and self.type ~= 'void' then
-		 local ctype = self.type
-			if ctype == 'value' or ctype == 'function' then
-			 ctype = 'int'
-			end
-   output('  ',self.mod,ctype,self.ptr,'tolua_ret = ')
-   if isbasic(self.type) or self.ptr ~= '' then
-    output('(',self.mod,ctype,self.ptr,') ')
-   end
+   output('  ',self.mod,self.type,self.ptr,'tolua_ret = ')
+   output('(',self.mod,self.type,self.ptr,') ')
   else
    output('  ')
   end
   if class and self.name=='new' then
    output('new',self.type,'(')
   elseif class and static then
-   output(class..'::'..self.name,'(')
+	if out then
+		output(self.name,'(')
+	else
+		output(class..'::'..self.name,'(')
+	end
   elseif class then
-   output('self->'..self.name,'(')
+	if out then
+		output(self.name,'(')
+	else
+	  if self.cast_operator then
+	  	output('static_cast<',self.mod,self.type,self.ptr,'>(*self')
+	  else
+		output('self->'..self.name,'(')
+	  end
+	end
   else
    output(self.name,'(')
   end
 
+  if out and not static then
+  	output('self')
+	if self.args[1] and self.args[1].name ~= '' then
+		output(',')
+	end
+  end
   -- write parameters
   local i=1
   while self.args[i] do
@@ -186,36 +220,44 @@ function classFunction:supcode ()
     output(',')
    end
   end
-     
-  if class and self.name == 'operator[]' then
-   output('-1);')
-		else
-   output(');')
-		end
+
+  if class and self.name == 'operator[]' and flags['1'] then
+	output('-1);')
+  else
+	output(');')
+  end
 
   -- return values
   if self.type ~= '' and self.type ~= 'void' then
    nret = nret + 1
    local t,ct = isbasic(self.type)
    if t then
-			 if t=='function' then t='value' end
-    output('   tolua_push'..t..'(tolua_S,(',ct,')tolua_ret);')
+   	if self.cast_operator and _basic_raw_push[t] then
+		output('   ',_basic_raw_push[t],'(tolua_S,(',ct,')tolua_ret);')
+   	else
+	    output('   tolua_push'..t..'(tolua_S,(',ct,')tolua_ret);')
+	end
    else
 			 t = self.type
+			 new_t = string.gsub(t, "const%s+", "")
     if self.ptr == '' then
      output('   {')
      output('#ifdef __cplusplus\n')
-     output('    void* tolua_obj = new',t,'(tolua_ret);') 
-					output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,'.. (_collect[t] or 'NULL') ..'),"',t,'");')
+     output('    void* tolua_obj = new',new_t,'(tolua_ret);')
+     output('    tolua_pushusertype_and_takeownership(tolua_S,tolua_obj,"',t,'");')
      output('#else\n')
      output('    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(',t,'));')
-					output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,NULL),"',t,'");')
+     output('    tolua_pushusertype_and_takeownership(tolua_S,tolua_obj,"',t,'");')
      output('#endif\n')
      output('   }')
     elseif self.ptr == '&' then
      output('   tolua_pushusertype(tolua_S,(void*)&tolua_ret,"',t,'");')
     else
-     output('   tolua_pushusertype(tolua_S,(void*)tolua_ret,"',t,'");')
+    	if local_constructor then
+	  output('   tolua_pushusertype_and_takeownership(tolua_S,(void *)tolua_ret,"',t,'");')
+    	else
+		     output('   tolua_pushusertype(tolua_S,(void*)tolua_ret,"',t,'");')
+	    end
     end
    end
   end
@@ -236,7 +278,7 @@ function classFunction:supcode ()
     i = i+1
    end
   end
- 
+
   -- free dynamically allocated array
   if self.args[1].type ~= 'void' then
    local i=1
@@ -252,23 +294,51 @@ function classFunction:supcode ()
 
  -- call overloaded function or generate error
 	if overload < 0 then
-	 output('#ifndef TOLUA_RELEASE\n')
-  output('tolua_lerror:\n')
-  output(' tolua_error(tolua_S,"#ferror in function \''..self.lname..'\'.",&tolua_err);')
-  output(' return 0;')
-  output('#endif\n')
+
+		output('#ifndef TOLUA_RELEASE\n')
+		output('tolua_lerror:\n')
+		output(' tolua_error(tolua_S,"#ferror in function \''..self.lname..'\'.",&tolua_err);')
+		output(' return 0;')
+		output('#endif\n')
 	else
-  output('tolua_lerror:\n')
-  output(' return '..strsub(self.cname,1,-3)..format("%02d",overload)..'(tolua_S);')
- end
+		local _local = ""
+		if local_constructor then
+			_local = "_local"
+		end
+		output('tolua_lerror:\n')
+		output(' return '..strsub(self.cname,1,-3)..format("%02d",overload).._local..'(tolua_S);')
+	end
  output('}')
+ output('#endif //#ifndef TOLUA_DISABLE\n')
  output('\n')
+
+	-- recursive call to write local constructor
+	if class and self.name=='new' and not local_constructor then
+
+		self:supcode(1)
+	end
+
 end
 
 
 -- register function
-function classFunction:register ()
- output(' tolua_function(tolua_S,"'..self.lname..'",'..self.cname..');')
+function classFunction:register (pre)
+
+	if not self:check_public_access() then
+		return
+	end
+
+ 	if self.name == 'new' and self.parent.flags.pure_virtual then
+ 		-- no constructor for classes with pure virtual methods
+ 		return
+ 	end
+
+ output(pre..'tolua_function(tolua_S,"'..self.lname..'",'..self.cname..');')
+  if self.name == 'new' then
+	  output(pre..'tolua_function(tolua_S,"new_local",'..self.cname..'_local);')
+	  output(pre..'tolua_function(tolua_S,".call",'..self.cname..'_local);')
+	  --output(' tolua_set_call_event(tolua_S,'..self.cname..'_local, "'..self.parent.type..'");')
+  end
 end
 
 -- Print method
@@ -292,12 +362,12 @@ function classFunction:print (ident,close)
  print(ident.."}"..close)
 end
 
--- check if it returns a object by value
+-- check if it returns an object by value
 function classFunction:requirecollection (t)
 	local r = false
 	if self.type ~= '' and not isbasic(self.type) and self.ptr=='' then
-		local type = gsub(self.type,"%s*const%s*","")
-	 t[type] = "tolua_collect_" .. gsub(type,"::","_")
+		local type = gsub(self.type,"%s*const%s+","")
+	 t[type] = "tolua_collect_" .. clean_template(type)
 	 r = true
 	end
 	local i=1
@@ -314,6 +384,51 @@ function classFunction:overload ()
 end
 
 
+function param_object(par) -- returns true if the parameter has an object as its default value
+
+	if not string.find(par, '=') then return false end -- it has no default value
+
+	local _,_,def = string.find(par, "=(.*)$")
+
+	if string.find(par, "|") then -- a list of flags
+
+		return true
+	end
+
+	if string.find(par, "%*") then -- it's a pointer with a default value
+
+		if string.find(par, '=%s*new') then -- it's a pointer with an instance as default parameter.. is that valid?
+			return true
+		end
+		return false -- default value is 'NULL' or something
+	end
+
+
+	if string.find(par, "[%(&]") then
+		return true
+	end -- default value is a constructor call (most likely for a const reference)
+
+	--if string.find(par, "&") then
+
+	--	if string.find(def, ":") or string.find(def, "^%s*new%s+") then
+
+	--		-- it's a reference with default to something like Class::member, or 'new Class'
+	--		return true
+	--	end
+	--end
+
+	return false -- ?
+end
+
+function strip_last_arg(all_args, last_arg) -- strips the default value from the last argument
+
+	local _,_,s_arg = string.find(last_arg, "^([^=]+)")
+	last_arg = string.gsub(last_arg, "([%%%(%)])", "%%%1");
+	all_args = string.gsub(all_args, "%s*,%s*"..last_arg.."%s*%)%s*$", ")")
+	return all_args, s_arg
+end
+
+
 
 -- Internal constructor
 function _Function (t)
@@ -325,15 +440,17 @@ function _Function (t)
 
  append(t)
  if t:inclass() then
-  if t.name == t.parent.name then
+ --print ('t.name is '..t.name..', parent.name is '..t.parent.name)
+  if string.gsub(t.name, "%b<>", "") == string.gsub(t.parent.original_name or t.parent.name, "%b<>", "") then
    t.name = 'new'
    t.lname = 'new'
+   t.parent._new = true
    t.type = t.parent.name
    t.ptr = '*'
-  elseif t.name == '~'..t.parent.name then
+  elseif string.gsub(t.name, "%b<>", "") == '~'..string.gsub(t.parent.original_name or t.parent.name, "%b<>", "") then
    t.name = 'delete'
    t.lname = 'delete'
-			t.parent._delete = true
+   t.parent._delete = true
   end
  end
  t.cname = t:cfuncname("tolua")..t:overload(t)
@@ -345,18 +462,100 @@ end
 -- another representing the argument list, and the third representing
 -- the "const" or empty string.
 function Function (d,a,c)
- local t = split(strsub(a,2,-2),',') -- eliminate braces
+ --local t = split(strsub(a,2,-2),',') -- eliminate braces
+ --local t = split_params(strsub(a,2,-2))
+
+	if not flags['W'] and string.find(a, "%.%.%.%s*%)") then
+
+		warning("Functions with variable arguments (`...') are not supported. Ignoring "..d..a..c)
+		return nil
+	end
+
+
  local i=1
  local l = {n=0}
+
+ 	a = string.gsub(a, "%s*([%(%)])%s*", "%1")
+	local t,strip,last = strip_pars(strsub(a,2,-2));
+	if strip then
+		--local ns = string.sub(strsub(a,1,-2), 1, -(string.len(last)+1))
+		local ns = join(t, ",", 1, last-1)
+
+		ns = "("..string.gsub(ns, "%s*,%s*$", "")..')'
+		--ns = strip_defaults(ns)
+
+		Function(d, ns, c)
+		for i=1,last do
+			t[i] = string.gsub(t[i], "=.*$", "")
+		end
+	end
+
  while t[i] do
   l.n = l.n+1
-  l[l.n] = Declaration(t[i],'var')
+  l[l.n] = Declaration(t[i],'var',true)
   i = i+1
  end
  local f = Declaration(d,'func')
  f.args = l
  f.const = c
  return _Function(f)
+end
+
+function join(t, sep, first, last)
+
+	first = first or 1
+	last = last or table.getn(t)
+	local lsep = ""
+	local ret = ""
+	local loop = false
+	for i = first,last do
+
+		ret = ret..lsep..t[i]
+		lsep = sep
+		loop = true
+	end
+	if not loop then
+		return ""
+	end
+
+	return ret
+end
+
+function strip_pars(s)
+
+	local t = split_c_tokens(s, ',')
+	local strip = false
+	local last
+
+	for i=t.n,1,-1 do
+
+		if not strip and param_object(t[i]) then
+			last = i
+			strip = true
+		end
+		--if strip then
+		--	t[i] = string.gsub(t[i], "=.*$", "")
+		--end
+	end
+
+	return t,strip,last
+
+end
+
+function strip_defaults(s)
+
+	s = string.gsub(s, "^%(", "")
+	s = string.gsub(s, "%)$", "")
+
+	local t = split_c_tokens(s, ",")
+	local sep, ret = "",""
+	for i=1,t.n do
+		t[i] = string.gsub(t[i], "=.*$", "")
+		ret = ret..sep..t[i]
+		sep = ","
+	end
+
+	return "("..ret..")"
 end
 
 

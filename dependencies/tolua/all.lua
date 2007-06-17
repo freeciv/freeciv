@@ -1,3 +1,4 @@
+dofile(path.."compat-5.1.lua")
 dofile(path.."compat.lua")
 dofile(path.."basic.lua")
 dofile(path.."feature.lua")
@@ -17,10 +18,12 @@ dofile(path.."function.lua")
 dofile(path.."operator.lua")
 dofile(path.."class.lua")
 dofile(path.."clean.lua")
+--dofile(path.."custom.lua")
 dofile(path.."doit.lua")
 
-local err,msg = pcall(doit)
+local err,msg = xpcall(doit, debug.traceback)
 if not err then
+--print("**** msg is "..tostring(msg))
  local _,_,label,msg = strfind(msg,"(.-:.-:%s*)(.*)")
  tolua_error(msg,label)
 end

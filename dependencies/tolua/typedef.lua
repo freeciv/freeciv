@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 
@@ -43,6 +43,7 @@ end
 -- Internal constructor
 function _Typedef (t)
  setmetatable(t,classTypedef)
+ t.type = resolve_template_types(t.type)
  appendtypedef(t)
  return t
 end
@@ -50,19 +51,21 @@ end
 -- Constructor
 -- Expects one string representing the type definition.
 function Typedef (s)
- if strfind(s,'[%*&]') then
+ if strfind(string.gsub(s, '%b<>', ''),'[%*&]') then
   tolua_error("#invalid typedef: pointers (and references) are not supported")
  end
- local t = split(gsub(s,"%s%s*"," ")," ")
-	if not isbasic(t[t.n]) then
-		return _Typedef {
-			utype = t[t.n],
-			type = t[t.n-1],
-			mod = concat(t,1,t.n-2),
-		}
-	else
-	 return nil
-	end
+ local o = {mod = ''}
+ if string.find(s, "[<>]") then
+ 	_,_,o.type,o.utype = string.find(s, "^%s*([^<>]+%b<>[^%s]*)%s+(.-)$")
+ else
+ 	local t = split(gsub(s,"%s%s*"," ")," ")
+ 	o = {
+	  utype = t[t.n],
+	  type = t[t.n-1],
+	  mod = concat(t,1,t.n-2),
+	 }
+ end
+ return _Typedef(o)
 end
 
 

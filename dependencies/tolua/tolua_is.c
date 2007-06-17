@@ -6,17 +6,46 @@
 ** $Id$
 */
 
-/* This code is free software; you can redistribute it and/or modify it. 
-** The software provided hereunder is on an "as is" basis, and 
+/* This code is free software; you can redistribute it and/or modify it.
+** The software provided hereunder is on an "as is" basis, and
 ** the author has no obligation to provide maintenance, support, updates,
-** enhancements, or modifications. 
+** enhancements, or modifications.
 */
 
-#include "tolua.h"
+#include "tolua++.h"
 #include "lauxlib.h"
 
 #include <stdlib.h>
 #include <string.h>
+
+/* hack to satisfy compiler; should be in a header */
+int push_table_instance(lua_State* L, int lo);
+
+/* a fast check if a is b, without parameter validation
+ i.e. if b is equal to a or a superclass of a. */
+TOLUA_API int tolua_fast_isa(lua_State *L, int mt_indexa, int mt_indexb, int super_index)
+{
+ int result;
+	if (lua_rawequal(L,mt_indexa,mt_indexb))
+		result = 1;
+	else
+	{
+		if (super_index) {
+			lua_pushvalue(L, super_index);
+		} else {
+			lua_pushliteral(L,"tolua_super");
+			lua_rawget(L,LUA_REGISTRYINDEX);  /* stack: super */
+		};
+		lua_pushvalue(L,mt_indexa);       /* stack: super mta */
+		lua_rawget(L,-2);                 /* stack: super super[mta] */
+		lua_pushvalue(L,mt_indexb);       /* stack: super super[mta] mtb */
+		lua_rawget(L,LUA_REGISTRYINDEX);  /* stack: super super[mta] typenameB */
+		lua_rawget(L,-2);                 /* stack: super super[mta] bool */
+		result = lua_toboolean(L,-1);
+		lua_pop(L,3);
+	}
+	return result;
+}
 
 /* Push and returns the corresponding object typename */
 TOLUA_API const char* tolua_typename (lua_State* L, int lo)
@@ -26,7 +55,7 @@ TOLUA_API const char* tolua_typename (lua_State* L, int lo)
   lua_pushstring(L,"[no object]");
  else if (tag != LUA_TUSERDATA && tag != LUA_TTABLE)
   lua_pushstring(L,lua_typename(L,tag));
- else if (tag == LUA_TUSERDATA) 
+ else if (tag == LUA_TUSERDATA)
  {
   if (!lua_getmetatable(L,lo))
    lua_pushstring(L,lua_typename(L,tag));
@@ -112,14 +141,40 @@ static  int lua_isusertable (lua_State* L, int lo, const char* type)
 	return r;
 }
 
+int push_table_instance(lua_State* L, int lo) {
+
+	if (lua_istable(L, lo)) {
+
+		lua_pushstring(L, ".c_instance");
+		lua_gettable(L, lo);
+		if (lua_isuserdata(L, -1)) {
+
+			lua_replace(L, lo);
+			return 1;
+		} else {
+
+			lua_pop(L, 1);
+			return 0;
+		};
+	} else {
+		return 0;
+	};
+
+	return 0;
+};
+
 /* the equivalent of lua_is* for usertype */
 static int lua_isusertype (lua_State* L, int lo, const char* type)
 {
-	if (lua_isuserdata(L,lo))
+	if (!lua_isuserdata(L,lo)) {
+		if (!push_table_instance(L, lo)) {
+			return 0;
+		};
+	};
 	{
 		/* check if it is of the same type */
 		int r;
-	 const char *tn;
+		const char *tn;
 		if (lua_getmetatable(L,lo))        /* if metatable? */
 		{
 		 lua_rawget(L,LUA_REGISTRYINDEX);  /* get registry[mt] */
@@ -138,11 +193,11 @@ static int lua_isusertype (lua_State* L, int lo, const char* type)
 				if (lua_istable(L,-1))
 				{
 					int b;
-				 lua_pushstring(L,type);
-				 lua_rawget(L,-2);                /* get super[mt][type] */
-     b = lua_toboolean(L,-1);
-				 lua_pop(L,3);
-				 if (b)
+					lua_pushstring(L,type);
+					lua_rawget(L,-2);                /* get super[mt][type] */
+					b = lua_toboolean(L,-1);
+					lua_pop(L,3);
+					if (b)
 					 return 1;
 				}
 			}
@@ -230,17 +285,6 @@ TOLUA_API int tolua_isusertable (lua_State* L, int lo, const char* type, int def
 	return 0;
 }
 
-TOLUA_API int tolua_isfunction (lua_State* L, int lo, int def, tolua_Error* err)
-{
- if (def && lua_gettop(L)<abs(lo))
-  return 1;
- if (lua_isfunction(L,lo))
-  return 1;
- err->index = lo;
- err->array = 0;
- err->type = "function";
- return 0;
-}
 
 TOLUA_API int tolua_isuserdata (lua_State* L, int lo, int def, tolua_Error* err)
 {
@@ -266,7 +310,7 @@ TOLUA_API int tolua_isusertype (lua_State* L, int lo, const char* type, int def,
 	return 0;
 }
 
-TOLUA_API int tolua_isvaluearray 
+TOLUA_API int tolua_isvaluearray
  (lua_State* L, int lo, int dim, int def, tolua_Error* err)
 {
 	if (!tolua_istable(L,lo,def,err))
@@ -275,7 +319,7 @@ TOLUA_API int tolua_isvaluearray
 		return 1;
 }
 
-TOLUA_API int tolua_isbooleanarray 
+TOLUA_API int tolua_isbooleanarray
  (lua_State* L, int lo, int dim, int def, tolua_Error* err)
 {
 	if (!tolua_istable(L,lo,def,err))
@@ -302,7 +346,7 @@ TOLUA_API int tolua_isbooleanarray
  return 1;
 }
 
-TOLUA_API int tolua_isnumberarray 
+TOLUA_API int tolua_isnumberarray
  (lua_State* L, int lo, int dim, int def, tolua_Error* err)
 {
 	if (!tolua_istable(L,lo,def,err))
@@ -314,7 +358,7 @@ TOLUA_API int tolua_isnumberarray
 		{
 			lua_pushnumber(L,i);
 			lua_gettable(L,lo);
-			if (!lua_isnumber(L,-1) && 
+			if (!lua_isnumber(L,-1) &&
 					  !(def && lua_isnil(L,-1))
 						)
 			{
@@ -329,7 +373,7 @@ TOLUA_API int tolua_isnumberarray
  return 1;
 }
 
-TOLUA_API int tolua_isstringarray 
+TOLUA_API int tolua_isstringarray
  (lua_State* L, int lo, int dim, int def, tolua_Error* err)
 {
 	if (!tolua_istable(L,lo,def,err))
@@ -356,7 +400,7 @@ TOLUA_API int tolua_isstringarray
  return 1;
 }
 
-TOLUA_API int tolua_istablearray 
+TOLUA_API int tolua_istablearray
  (lua_State* L, int lo, int dim, int def, tolua_Error* err)
 {
 	if (!tolua_istable(L,lo,def,err))
@@ -383,7 +427,7 @@ TOLUA_API int tolua_istablearray
  return 1;
 }
 
-TOLUA_API int tolua_isuserdataarray 
+TOLUA_API int tolua_isuserdataarray
  (lua_State* L, int lo, int dim, int def, tolua_Error* err)
 {
 	if (!tolua_istable(L,lo,def,err))
@@ -395,7 +439,7 @@ TOLUA_API int tolua_isuserdataarray
 		{
 			lua_pushnumber(L,i);
 			lua_gettable(L,lo);
-	  if (!(lua_isnil(L,-1) || lua_isuserdata(L,-1)) && 
+	  if (!(lua_isnil(L,-1) || lua_isuserdata(L,-1)) &&
 			    !(def && lua_isnil(L,-1))
 						)
 			{
@@ -410,7 +454,7 @@ TOLUA_API int tolua_isuserdataarray
  return 1;
 }
 
-TOLUA_API int tolua_isusertypearray 
+TOLUA_API int tolua_isusertypearray
  (lua_State* L, int lo, const char* type, int dim, int def, tolua_Error* err)
 {
 	if (!tolua_istable(L,lo,def,err))
@@ -422,7 +466,7 @@ TOLUA_API int tolua_isusertypearray
 		{
 			lua_pushnumber(L,i);
 			lua_gettable(L,lo);
-	  if (!(lua_isnil(L,-1) || lua_isuserdata(L,-1)) && 
+	  if (!(lua_isnil(L,-1) || lua_isuserdata(L,-1)) &&
 			    !(def && lua_isnil(L,-1))
 						)
 			{
@@ -438,7 +482,7 @@ TOLUA_API int tolua_isusertypearray
 }
 
 #if 0
-int tolua_isbooleanfield 
+int tolua_isbooleanfield
  (lua_State* L, int lo, int i, int def, tolua_Error* err)
 {
 	lua_pushnumber(L,i);
@@ -456,12 +500,12 @@ int tolua_isbooleanfield
  return 1;
 }
 
-int tolua_isnumberfield 
+int tolua_isnumberfield
  (lua_State* L, int lo, int i, int def, tolua_Error* err)
 {
 	lua_pushnumber(L,i);
 	lua_gettable(L,lo);
-	if (!lua_isnumber(L,-1) && 
+	if (!lua_isnumber(L,-1) &&
 			  !(def && lua_isnil(L,-1))
 				)
 	{
@@ -474,7 +518,7 @@ int tolua_isnumberfield
  return 1;
 }
 
-int tolua_isstringfield 
+int tolua_isstringfield
  (lua_State* L, int lo, int i, int def, tolua_Error* err)
 {
 	lua_pushnumber(L,i);
@@ -492,7 +536,7 @@ int tolua_isstringfield
  return 1;
 }
 
-int tolua_istablefield 
+int tolua_istablefield
  (lua_State* L, int lo, int i, int def, tolua_Error* err)
 {
 	lua_pushnumber(L,i+1);
@@ -509,7 +553,7 @@ int tolua_istablefield
 	lua_pop(L,1);
 }
 
-int tolua_isusertablefield 
+int tolua_isusertablefield
  (lua_State* L, int lo, const char* type, int i, int def, tolua_Error* err)
 {
 	lua_pushnumber(L,i);
@@ -527,12 +571,12 @@ int tolua_isusertablefield
  return 1;
 }
 
-int tolua_isuserdatafield 
+int tolua_isuserdatafield
  (lua_State* L, int lo, int i, int def, tolua_Error* err)
 {
 	lua_pushnumber(L,i);
 	lua_gettable(L,lo);
-	if (!(lua_isnil(L,-1) || lua_isuserdata(L,-1)) && 
+	if (!(lua_isnil(L,-1) || lua_isuserdata(L,-1)) &&
 	    !(def && lua_isnil(L,-1))
 				)
 	{
@@ -545,12 +589,12 @@ int tolua_isuserdatafield
  return 1;
 }
 
-int tolua_isusertypefield 
+int tolua_isusertypefield
  (lua_State* L, int lo, const char* type, int i, int def, tolua_Error* err)
 {
 	lua_pushnumber(L,i);
 	lua_gettable(L,lo);
-	if (!(lua_isnil(L,-1) || lua_isusertype(L,-1,type)) && 
+	if (!(lua_isnil(L,-1) || lua_isusertype(L,-1,type)) &&
 	    !(def && lua_isnil(L,-1))
 				)
 	{

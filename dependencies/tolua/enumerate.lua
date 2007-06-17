@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 -- Enumerate class
@@ -20,11 +20,12 @@ classEnumerate.__index = classEnumerate
 setmetatable(classEnumerate,classFeature)
 
 -- register enumeration
-function classEnumerate:register ()
+function classEnumerate:register (pre)
+ pre = pre or ''
  local nspace = getnamespace(classContainer.curr)
  local i=1
  while self[i] do
-  output(' tolua_constant(tolua_S,"'..self.lnames[i]..'",'..nspace..self[i]..');')
+  output(pre..'tolua_constant(tolua_S,"'..self.lnames[i]..'",'..nspace..self[i]..');')
   i = i+1
  end
 end
@@ -42,16 +43,26 @@ function classEnumerate:print (ident,close)
 end
 
 -- Internal constructor
-function _Enumerate (t)
+function _Enumerate (t,varname)
  setmetatable(t,classEnumerate)
  append(t)
  appendenum(t)
- return t
+	 if varname and varname ~= "" then
+		if t.name ~= "" then
+			Variable(t.name.." "..varname)
+		else
+			local ns = getcurrnamespace()
+			warning("Variable "..ns..varname.." of type <anonymous enum> is declared as read-only")
+			Variable("tolua_readonly int "..varname)
+		end
+	end
+return t
 end
 
 -- Constructor
 -- Expects a string representing the enumerate body
-function Enumerate (n,b)
+function Enumerate (n,b,varname)
+	b = string.gsub(b, ",[%s\n]*}", "\n}") -- eliminate last ','
  local t = split(strsub(b,2,-2),',') -- eliminate braces
  local i = 1
  local e = {n=0}
@@ -64,6 +75,7 @@ function Enumerate (n,b)
  -- set lua names
  i  = 1
  e.lnames = {}
+ local ns = getcurrnamespace()
  while e[i] do
   local t = split(e[i],'@')
   e[i] = t[1]
@@ -71,13 +83,13 @@ function Enumerate (n,b)
 		 t[2] = applyrenaming(t[1])
 		end
   e.lnames[i] = t[2] or t[1]
+  _global_enums[ ns..e[i] ] = (ns..e[i])
   i = i+1
- end 
+ end
 	e.name = n
-	if n~="" then
-  Typedef("int "..n)
+	if n ~= "" then
+		Typedef("int "..n)
 	end
- return _Enumerate(e)
+ return _Enumerate(e, varname)
 end
-
 
