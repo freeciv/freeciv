@@ -78,7 +78,7 @@ Tech_Type_id give_random_free_tech(struct player* pplayer);
 
 void send_player_turn_notifications(struct conn_list *dest);
 
-void do_dipl_cost(struct player *pplayer);
+void do_dipl_cost(struct player *pplayer, Tech_Type_id new_tech);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
 

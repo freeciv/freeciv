@@ -360,7 +360,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
         gamelog(GAMELOG_TECH, pdest, pgiver, pclause->value, "acquire");
         gamelog(GAMELOG_TREATY, GL_TECH, pgiver, pdest);
-	do_dipl_cost(pdest);
+
+	do_dipl_cost(pdest,pclause->value);
 
 	found_new_tech(pdest, pclause->value, FALSE, TRUE, A_NONE);
 	break;
