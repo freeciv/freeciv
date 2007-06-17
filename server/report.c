@@ -604,10 +604,11 @@ static void dem_line_item(char *outptr, size_t out_size,
 {
   if (TEST_BIT(selcols, DEM_COL_QUANTITY)) {
     const char *text = prow->to_text(prow->get_value(pplayer));
+    int len;
 
     cat_snprintf(outptr, out_size, " %s", text);
-    cat_snprintf(outptr, out_size, "%*s",
-		 18 - get_internal_string_length(text), "");
+    len = 18 - get_internal_string_length(text);
+    cat_snprintf(outptr, out_size, "%*s", len, "");
   }
 
   if (TEST_BIT(selcols, DEM_COL_RANK)) {
@@ -743,10 +744,11 @@ void report_demographics(struct connection *pconn)
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
     if (strchr(game.demography, rowtable[i].key)) {
       const char *name = _(rowtable[i].name);
+      int len;
 
       cat_snprintf(buffer, sizeof(buffer), "%s", name);
-      cat_snprintf(buffer, sizeof(buffer), "%*s",
-		   18 - get_internal_string_length(name), "");
+      len = 18 - get_internal_string_length(name);
+      cat_snprintf(buffer, sizeof(buffer), "%*s", len, "");
       dem_line_item(buffer, sizeof(buffer), pplayer, &rowtable[i], selcols);
       sz_strlcat(buffer, "\n");
     }
