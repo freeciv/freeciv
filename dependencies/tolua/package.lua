@@ -115,7 +115,7 @@ function classPackage:preamble ()
 	output('#include "stdlib.h"\n')
 	output('#endif\n')
 	output('#include "string.h"\n\n')
- output('#include "tolua++.h"\n\n')
+ output('#include "tolua.h"\n\n')
 
  if not flags.h then
   output('/* Exported function */')
