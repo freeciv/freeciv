@@ -2233,8 +2233,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   }
   a = &advances[p->id];
 
-  sz_strlcpy(a->name_orig, p->name);
-  a->name = Q_(a->name_orig); /* See translate_data_names */
+  sz_strlcpy(a->name_rule, p->name);
+  a->name_translated = NULL;	/* tech.c advance_name_translation */
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->req[0] = p->req[0];
@@ -2290,7 +2290,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
 		b->obsolete_by,
-		get_normal_tech_name(b->obsolete_by));
+		advance[b->obsolete_by].name_rule);
       } else {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
       }

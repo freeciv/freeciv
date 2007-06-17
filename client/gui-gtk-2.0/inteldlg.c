@@ -342,7 +342,7 @@ void update_intel_dialog(struct player *p)
 
 	gtk_list_store_set(pdialog->techs, &it,
 			   0, (get_invention(game.player_ptr, i)!=TECH_KNOWN),
-			   1, get_tech_name(p, i),
+			   1, advance_name_for_player(p, i),
 			   -1);
       }
 
@@ -377,9 +377,9 @@ void update_intel_dialog(struct player *p)
 	    break;
 	  case LABEL_RESEARCHING: {
 	    struct player_research* research = get_player_research(p);
-	    if (research->researching != A_NOINFO) {
+	    if (research->researching != A_UNKNOWN) {
 	      my_snprintf(buf, sizeof(buf), "%s(%d/%d)",
-		  get_tech_name(p, research->researching),
+		  advance_name_researching(p),
 		  research->bulbs_researched, total_bulbs_required(p));
 	    } else {
 	      my_snprintf(buf, sizeof(buf), _("(Unknown)"));

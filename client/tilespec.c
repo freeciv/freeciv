@@ -2529,6 +2529,7 @@ void tileset_load_tiles(struct tileset *t)
 /**********************************************************************
   Lookup sprite to match tag, or else to match alt if don't find,
   or else return NULL, and emit log message.
+  FIXME: currently called with some parameters translated, not others!
 ***********************************************************************/
 struct sprite* lookup_sprite_tag_alt(struct tileset *t,
                                      const char *tag, const char *alt,
@@ -2554,7 +2555,7 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
   }
 
   freelog(required ? LOG_FATAL : LOG_VERBOSE,
-	  _("Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."),
+	  "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\".",
 	  tag, alt, what, name);
   if (required) {
     exit(EXIT_FAILURE);
@@ -2602,8 +2603,8 @@ void tileset_setup_tech_type(struct tileset *t, int id)
     t->sprites.tech[id]
       = lookup_sprite_tag_alt(t, advances[id].graphic_str,
 			      advances[id].graphic_alt,
-			      FALSE, "tech_type",
-			      get_normal_tech_name(id));
+			      FALSE, "technology",
+			      advances[id].name_rule);
 
     /* should maybe do something if NULL, eg generic default? */
   } else {

@@ -278,7 +278,7 @@ void update_intel_dialog(struct player *p)
     struct player_research* research = get_player_research(p);
     change_ptsize16(pStr, adj_font(10));
     pStr->style &= ~TTF_STYLE_BOLD;
-    if (research->researching != A_NOINFO) {
+    if (research->researching != A_UNKNOWN) {
       my_snprintf(cBuf, sizeof(cBuf),
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
@@ -286,7 +286,7 @@ void update_intel_dialog(struct player *p)
         p->name, get_government_name(p->government),
         (!pCapital) ? _("(Unknown)") : pCapital->name, p->economic.gold,
         p->economic.tax, p->economic.science, p->economic.luxury,
-        get_tech_name(p, research->researching),
+        advance_name_researching(p),
         research->bulbs_researched, total_bulbs_required(p));
     } else {
       my_snprintf(cBuf, sizeof(cBuf),

@@ -143,7 +143,7 @@ static void intel_create_dialog(struct player *p)
     settextf(science_text, _("Science: %d%%"), p->economic.science);
     settextf(luxury_text, _("Luxury: %d%%"), p->economic.luxury);
     settextf(researching_text, _("Researching: %s(%d/%d)"),
-	     get_tech_name(p, p->research.researching),
+	     advance_name_researching(p),
 	     p->research.bulbs_researched, total_bulbs_required(p));
 
     settextf(capital_text, _("Capital: %s"), (pcity == NULL) ? _("(Unknown)") : pcity->name);

@@ -2239,7 +2239,7 @@ static void hut_get_tech(struct unit *punit)
   
   new_tech = give_random_free_tech(pplayer);
   
-  tech_name = get_tech_name(pplayer, new_tech);
+  tech_name = advance_name_for_player(pplayer, new_tech);
   notify_player(pplayer, punit->tile, E_HUT_TECH,
 		   _("You found %s in ancient scrolls of wisdom."),
 		   tech_name);

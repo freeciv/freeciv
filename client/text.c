@@ -605,7 +605,6 @@ const char *get_info_label_text(void)
 const char *get_info_label_text_popup(void)
 {
   static struct astring str = ASTRING_INIT;
-  struct player_research *research = get_player_research(game.player_ptr);
 
   astr_clear(&str);
 
@@ -625,7 +624,7 @@ const char *get_info_label_text_popup(void)
 		  game.player_ptr->economic.luxury,
 		  game.player_ptr->economic.science);
     astr_add_line(&str, _("Researching %s: %s"),
-		  get_tech_name(game.player_ptr, research->researching),
+		  advance_name_researching(game.player_ptr),
 		  get_science_target_text(NULL));
   }
 
@@ -872,14 +871,14 @@ const char *get_bulb_tooltip(void)
   astr_add_line(&str, _("Shows your progress in "
 			"researching the current technology."));
   if (game.player_ptr) {
-    if (get_player_research(game.player_ptr)->researching == A_UNSET) {
+    struct player_research *research = get_player_research(game.player_ptr);
+
+    if (research->researching == A_UNSET) {
       astr_add_line(&str, _("no research target."));
     } else {
       /* TRANS: <tech>: <amount>/<total bulbs> */
-      struct player_research *research = get_player_research(game.player_ptr);
-
       astr_add_line(&str, _("%s: %d/%d."),
-		    get_tech_name(game.player_ptr, research->researching),
+		    advance_name_researching(game.player_ptr),
 		    research->bulbs_researched,
 		    total_bulbs_required(game.player_ptr));
     }

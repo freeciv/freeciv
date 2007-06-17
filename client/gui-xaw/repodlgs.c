@@ -234,8 +234,7 @@ void create_science_dialog(bool make_modal)
     } else {
       my_snprintf(current_text, sizeof(current_text),
 		  _("Researching %s: %d/%d"),
-		  get_tech_name(game.player_ptr,
-			        research->researching),
+		  advance_name_researching(game.player_ptr),
 		  research->bulbs_researched,
 		  total_bulbs_required(game.player_ptr));
     }
@@ -504,8 +503,7 @@ void science_dialog_update(void)
     } else {
       my_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%d"),
-		  get_tech_name(game.player_ptr,
-				research->researching),
+		  advance_name_researching(game.player_ptr),
 		  research->bulbs_researched,
 		  total_bulbs_required(game.player_ptr));
     }
