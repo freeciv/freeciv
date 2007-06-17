@@ -293,7 +293,7 @@ static void create_advances_list(struct player *pplayer,
 
 	g_value_init(&value, G_TYPE_STRING);
 	g_value_set_static_string(&value,
-				  advance_name_for_player(game.player_ptr, i));
+				  get_tech_name(game.player_ptr, i));
 	gtk_list_store_set_value(store, &it, 0, &value);
 	g_value_unset(&value);
 	gtk_list_store_set(store, &it, 1, i, -1);

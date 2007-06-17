@@ -259,7 +259,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 	      || get_invention(plr1, i) == TECH_REACHABLE)
           && tech_is_available(plr1, i)) {
 	item
-	  = gtk_menu_item_new_with_label(advance_name_for_player(game.player_ptr, i));
+	  = gtk_menu_item_new_with_label(get_tech_name(game.player_ptr, i));
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	g_signal_connect(item, "activate",

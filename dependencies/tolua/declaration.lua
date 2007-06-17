@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications.
+-- enhancements, or modifications. 
 
 
 -- Declaration class
@@ -53,13 +53,13 @@ function classDeclaration:checkname ()
  local t = split(self.name,'=')
  if t.n==2 then
   self.name = t[1]
-  self.def = find_enum_var(t[t.n])
+  self.def = t[t.n]
  end
 
  local b,e,d = strfind(self.name,"%[(.-)%]")
  if b then
   self.name = strsub(self.name,1,b-1)
-  self.dim = find_enum_var(d)
+  self.dim = d
  end
 
 
@@ -77,13 +77,9 @@ function classDeclaration:checkname ()
  end
 
  -- adjust type of string
- if self.type == 'char' and self.dim ~= '' then
-	 self.type = 'char*'
- end
-
-	if self.kind and self.kind == 'var' then
-		self.name = string.gsub(self.name, ":.*$", "") -- ???
-	end
+-- if self.type == 'char' and self.dim ~= '' then
+--	 self.type = 'char*'
+--	end
 end
 
 -- Check declaration type
@@ -91,32 +87,20 @@ end
 function classDeclaration:checktype ()
 
  -- check if there is a pointer to basic type
- local basic = isbasic(self.type)
- if self.kind == 'func' and basic=='number' and string.find(self.ptr, "%*") then
- 	self.type = '_userdata'
- 	self.ptr = ""
- end
- if basic and self.ptr~='' then
+ if isbasic(self.type) and self.ptr~='' then
   self.ret = self.ptr
   self.ptr = nil
-  if isbasic(self.type) == 'number' then
-  	self.return_userdata = true
-  end
  end
 
  -- check if there is array to be returned
  if self.dim~='' and self.ret~='' then
    error('#invalid parameter: cannot return an array of values')
  end
+
  -- restore 'void*' and 'string*'
  if self.type == '_userdata' then self.type = 'void*'
  elseif self.type == '_cstring' then self.type = 'char*'
  elseif self.type == '_lstate' then self.type = 'lua_State*'
- end
-
- -- resolve types inside the templates
- if self.type then
-	 self.type = resolve_template_types(self.type)
  end
 
 --
@@ -126,49 +110,6 @@ function classDeclaration:checktype ()
 -- end
 --
 
-end
-
-function resolve_template_types(type)
-
-	if isbasic(type) then
-		return type
-	end
-	local b,_,m = string.find(type, "(%b<>)")
-	if b then
-
-		m = split_c_tokens(string.sub(m, 2, -2), ",")
-		for i=1, table.getn(m) do
-			m[i] = string.gsub(m[i],"%s*([%*&])", "%1")
-			m[i] = findtype(m[i]) or m[i]
-			m[i] = resolve_template_types(m[i])
-		end
-
-		local b,i
-		type,b,i = break_template(type)
-		local template_part = "<"..string.gsub(concat(m, 1, m.n), " ", ",")..">"
-		type = rebuild_template(type, b, template_part)
-		type = string.gsub(type, ">>", "> >")
-	end
-	return type
-end
-
-function break_template(s)
-	local b,e,timpl = string.find(s, "(%b<>)")
-	if timpl then
-		s = string.gsub(s, "%b<>", "")
-		return s, b, timpl
-	else
-		return s, 0, nil
-	end
-end
-
-function rebuild_template(s, b, timpl)
-
-	if b == 0 then
-		return s
-	end
-
-	return string.sub(s, 1, b-1)..timpl..string.sub(s, b, -1)
 end
 
 -- Print method
@@ -186,12 +127,12 @@ end
 
 -- check if array of values are returned to Lua
 function classDeclaration:requirecollection (t)
- if self.mod ~= 'const' and
+ if  self.mod ~= 'const' and
 	    self.dim and self.dim ~= '' and
 				 not isbasic(self.type) and
 				 self.ptr == '' then
-		local type = gsub(self.type,"%s*const%s+","")
-		t[type] = "tolua_collect_" .. clean_template(type)
+		local type = gsub(self.type,"%s*const%s*","")
+		t[type] = "tolua_collect_" .. gsub(type,"::","_")
 		return true
 	end
 	return false
@@ -199,17 +140,16 @@ end
 
 -- declare tag
 function classDeclaration:decltype ()
-
-	self.type = typevar(self.type)
-	if strfind(self.mod,'const') then
-		self.type = 'const '..self.type
+ self.type = typevar(self.type)
+ if strfind(self.mod,'const') then
+	 self.type = 'const '..self.type
 		self.mod = gsub(self.mod,'const%s*','')
 	end
 end
 
 
 -- output type checking
-function classDeclaration:outchecktype (narg)
+function classDeclaration:outchecktype (narg,var)
  local def
  local t = isbasic(self.type)
  if self.def~='' then
@@ -217,17 +157,17 @@ function classDeclaration:outchecktype (narg)
  else
   def = 0
  end
- if self.dim ~= '' then
-	--if t=='string' then
-	--	return 'tolua_isstringarray(tolua_S,'..narg..','..def..',&tolua_err)'
-	--else
-	return 'tolua_istable(tolua_S,'..narg..',0,&tolua_err)'
- 	--end
- elseif t then
-	return 'tolua_is'..t..'(tolua_S,'..narg..','..def..',&tolua_err)'
- else
+ if self.dim ~= '' then 
+	 if var and self.type=='char' then
+   return 'tolua_isstring(tolua_S,'..narg..','..def..',&tolua_err)'
+		else
+   return 'tolua_istable(tolua_S,'..narg..',0,&tolua_err)'
+		end
+	elseif t then
+  return 'tolua_is'..t..'(tolua_S,'..narg..','..def..',&tolua_err)'
+	else
   return 'tolua_isusertype(tolua_S,'..narg..',"'..self.type..'",'..def..',&tolua_err)'
- end
+	end
 end
 
 function classDeclaration:builddeclaration (narg, cplusplus)
@@ -237,64 +177,64 @@ function classDeclaration:builddeclaration (narg, cplusplus)
 	local mod
 	local type = self.type
  if self.dim ~= '' then
-	 type = gsub(self.type,'const%s+','')  -- eliminates const modifier for arrays
- end
- if self.ptr~='' and not isbasic(type) then ptr = '*' end
- line = concatparam(line," ",self.mod,type,ptr)
+	 type = gsub(self.type,'const%s*','')  -- eliminates const modifier for arrays
+	end
+	local ctype = type
+	if ctype=="lua_Object" or ctype=="lua_Function" then
+	 ctype = "int"
+	end
+ if self.ptr~='' then ptr = '*' end
+ line = concatparam(line," ",self.mod,ctype,ptr)
  if array then
   line = concatparam(line,'*')
- end
+ end 
  line = concatparam(line,self.name)
- if self.dim ~= '' then
+ if self.dim~='' then
   if tonumber(self.dim)~=nil then
    line = concatparam(line,'[',self.dim,'];')
   else
-	if cplusplus then
-		line = concatparam(line,' = new',type,ptr,'['..self.dim..'];')
-	else
-		line = concatparam(line,' = (',type,ptr,'*)',
-		'malloc((',self.dim,')*sizeof(',type,ptr,'));')
-	end
+		 if cplusplus then
+			 line = concatparam(line,' = new',type,ptr,'['..self.dim..'];')
+			else
+    line = concatparam(line,' = (',type,ptr,'*)',
+           'malloc((',self.dim,')*sizeof(',type,ptr,'));')
+			end
   end
  else
   local t = isbasic(type)
   line = concatparam(line,' = ')
-  if t == 'state' then
-  	line = concatparam(line, 'tolua_S;')
-  else
-  	--print("t is "..tostring(t)..", ptr is "..tostring(self.ptr))
-  	if t == 'number' and string.find(self.ptr, "%*") then
-  		t = 'userdata'
-  	end
-	if not t and ptr=='' then line = concatparam(line,'*') end
-	line = concatparam(line,'((',self.mod,type)
-	if not t then
-		line = concatparam(line,'*')
-	end
-	line = concatparam(line,') ')
-			if isenum(type) then
-			line = concatparam(line,'(int) ')
+		if t == 'state' then
+		 line = concatparam(line, 'tolua_S;')
+		else
+			if not t and ptr=='' then line = concatparam(line,'*') end
+			local ct = type
+			if t == 'value' or t == 'function' then
+				ct = 'int'
 			end
-	local def = 0
-	if self.def ~= '' then
-		def = self.def
-		if (ptr == '' or self.ptr == '&') and not t then
-			def = "(void*)&(const "..type..")"..def
+			line = concatparam(line,'((',self.mod,ct)
+			if not t then
+				line = concatparam(line,'*')
+			end
+			line = concatparam(line,') ')
+			if not t and isenum(type) then
+				line = concatparam(line,'(int) ')
+			end
+			local def = 0
+			if self.def ~= '' then def = self.def end
+			if t then
+		  if t=='function' then t='value' end
+				line = concatparam(line,'tolua_to'..t,'(tolua_S,',narg,',',def,'));')
+			else
+				line = concatparam(line,'tolua_tousertype(tolua_S,',narg,',',def,'));')
+			end
 		end
-	end
-	if t then
-	line = concatparam(line,'tolua_to'..t,'(tolua_S,',narg,',',def,'));')
-	else
-	line = concatparam(line,'tolua_tousertype(tolua_S,',narg,',',def,'));')
-	end
-  end
  end
 	return line
 end
 
 -- Declare variable
 function classDeclaration:declare (narg)
- if self.dim ~= '' and tonumber(self.dim)==nil then
+ if self.dim ~= '' and self.type~='char' and tonumber(self.dim)==nil then
 	 output('#ifdef __cplusplus\n')
 		output(self:builddeclaration(narg,true))
 		output('#else\n')
@@ -337,8 +277,9 @@ function classDeclaration:getarray (narg)
   local def = 0
   if self.def ~= '' then def = self.def end
   if t then
+		 if t=='function' then t='value' end
    output('tolua_tofield'..t..'(tolua_S,',narg,',i+1,',def,'));')
-  else
+  else 
    output('tolua_tofieldusertype(tolua_S,',narg,',i+1,',def,'));')
   end
   output('   }')
@@ -348,23 +289,24 @@ end
 
 -- Get parameter value
 function classDeclaration:setarray (narg)
- if not strfind(self.type,'const%s+') and self.dim ~= '' then
+ if not strfind(self.type,'const') and self.dim ~= '' then
 	 local type = gsub(self.type,'const ','')
   output('  {')
   output('   int i;')
   output('   for(i=0; i<'..self.dim..';i++)')
   local t,ct = isbasic(type)
   if t then
+		 if t=='function' then t='value' end
    output('    tolua_pushfield'..t..'(tolua_S,',narg,',i+1,(',ct,')',self.name,'[i]);')
   else
    if self.ptr == '' then
      output('   {')
      output('#ifdef __cplusplus\n')
      output('    void* tolua_obj = new',type,'(',self.name,'[i]);')
-     output('    tolua_pushfieldusertype_and_takeownership(tolua_S,',narg,',i+1,tolua_obj,"',type,'");')
+					output('    tolua_pushfieldusertype(tolua_S,',narg,',i+1,tolua_clone(tolua_S,tolua_obj,'.. (_collect[type] or 'NULL') ..'),"',type,'");')
      output('#else\n')
      output('    void* tolua_obj = tolua_copy(tolua_S,(void*)&',self.name,'[i],sizeof(',type,'));')
-     output('    tolua_pushfieldusertype(tolua_S,',narg,',i+1,tolua_obj,"',type,'");')
+					output('    tolua_pushfieldusertype(tolua_S,',narg,',i+1,tolua_clone(tolua_S,tolua_obj,NULL),"',type,'");')
      output('#endif\n')
      output('   }')
    else
@@ -388,7 +330,7 @@ end
 
 -- Pass parameter
 function classDeclaration:passpar ()
- if self.ptr=='&' and not isbasic(self.type) then
+ if self.ptr=='&' then
   output('*'..self.name)
  elseif self.ret=='*' then
   output('&'..self.name)
@@ -401,7 +343,8 @@ end
 function classDeclaration:retvalue ()
  if self.ret ~= '' then
   local t,ct = isbasic(self.type)
-  if t and t~='' then
+  if t then
+		 if t=='function' then t='value' end
    output('   tolua_push'..t..'(tolua_S,(',ct,')'..self.name..');')
   else
    output('   tolua_pushusertype(tolua_S,(void*)'..self.name..',"',self.type,'");')
@@ -413,155 +356,120 @@ end
 
 -- Internal constructor
 function _Declaration (t)
-
  setmetatable(t,classDeclaration)
  t:buildnames()
  t:checkname()
  t:checktype()
- local ft = findtype(t.type) or t.type
- if not isenum(ft) then
-	t.mod, t.type = applytypedef(t.mod, ft)
- end
-
- if t.kind=="var" and (string.find(t.mod, "tolua_property%s") or string.find(t.mod, "tolua_property$")) then
- 	t.mod = string.gsub(t.mod, "tolua_property", "tolua_property__"..get_property_type())
- end
-
  return t
 end
 
 -- Constructor
 -- Expects the string declaration.
 -- The kind of declaration can be "var" or "func".
-function Declaration (s,kind,is_parameter)
-
+function Declaration (s,kind)
  -- eliminate spaces if default value is provided
  s = gsub(s,"%s*=%s*","=")
- s = gsub(s, "%s*<", "<")
 
- local defb,tmpdef
- defb,_,tmpdef = string.find(s, "(=.*)$")
- if defb then
- 	s = string.gsub(s, "=.*$", "")
- else
- 	tmpdef = ''
- end
  if kind == "var" then
   -- check the form: void
   if s == '' or s == 'void' then
-   return _Declaration{type = 'void', kind = kind, is_parameter = is_parameter}
+   return _Declaration{type = 'void', kind = kind}
   end
  end
 
  -- check the form: mod type*& name
- local t = split_c_tokens(s,'%*%s*&')
+ local t = split(s,'%*%s*&')
  if t.n == 2 then
   if kind == 'func' then
    error("#invalid function return type: "..s)
   end
-  --local m = split(t[1],'%s%s*')
-  local m = split_c_tokens(t[1],'%s+')
+  local m = split(t[1],'%s%s*')
   return _Declaration{
-   name = t[2]..tmpdef,
+   name = t[2],
    ptr = '*',
    ret = '&',
-   --type = rebuild_template(m[m.n], tb, timpl),
    type = m[m.n],
    mod = concat(m,1,m.n-1),
-   is_parameter = is_parameter,
    kind = kind
   }
  end
 
  -- check the form: mod type** name
- t = split_c_tokens(s,'%*%s*%*')
+ t = split(s,'%*%s*%*')
  if t.n == 2 then
   if kind == 'func' then
    error("#invalid function return type: "..s)
   end
-  --local m = split(t[1],'%s%s*')
-  local m = split_c_tokens(t[1],'%s+')
+  local m = split(t[1],'%s%s*')
   return _Declaration{
-   name = t[2]..tmpdef,
+   name = t[2],
    ptr = '*',
    ret = '*',
-   --type = rebuild_template(m[m.n], tb, timpl),
    type = m[m.n],
    mod = concat(m,1,m.n-1),
-   is_parameter = is_parameter,
    kind = kind
   }
  end
-
+ 
  -- check the form: mod type& name
- t = split_c_tokens(s,'&')
+ t = split(s,'&')
  if t.n == 2 then
-  --local m = split(t[1],'%s%s*')
-  local m = split_c_tokens(t[1],'%s+')
+  local m = split(t[1],'%s%s*')
   return _Declaration{
-   name = t[2]..tmpdef,
+   name = t[2],
    ptr = '&',
-   --type = rebuild_template(m[m.n], tb, timpl),
    type = m[m.n],
-   mod = concat(m,1,m.n-1),
-   is_parameter = is_parameter,
+   mod = concat(m,1,m.n-1)   ,
    kind = kind
   }
  end
-
+  
  -- check the form: mod type* name
  local s1 = gsub(s,"(%b\[\])",function (n) return gsub(n,'%*','\1') end)
- t = split_c_tokens(s1,'%*')
+ t = split(s1,'%*')
  if t.n == 2 then
   t[2] = gsub(t[2],'\1','%*') -- restore * in dimension expression
-  --local m = split(t[1],'%s%s*')
-  local m = split_c_tokens(t[1],'%s+')
+  local m = split(t[1],'%s%s*')
   return _Declaration{
-   name = t[2]..tmpdef,
+   name = t[2],
    ptr = '*',
    type = m[m.n],
-   --type = rebuild_template(m[m.n], tb, timpl),
    mod = concat(m,1,m.n-1)   ,
-   is_parameter = is_parameter,
    kind = kind
   }
  end
 
  if kind == 'var' then
   -- check the form: mod type name
-  --t = split(s,'%s%s*')
-  t = split_c_tokens(s,'%s+')
+  t = split(s,'%s%s*')
   local v
-  if findtype(t[t.n]) then v = create_varname() else v = t[t.n]; t.n = t.n-1 end
+  if findtype(t[t.n]) then v = '' else v = t[t.n]; t.n = t.n-1 end
   return _Declaration{
-   name = v..tmpdef,
-   --type = rebuild_template(t[t.n], tb, timpl),
+   name = v,
    type = t[t.n],
    mod = concat(t,1,t.n-1),
-   is_parameter = is_parameter,
    kind = kind
   }
 
  else -- kind == "func"
-
+ 
   -- check the form: mod type name
-  --t = split(s,'%s%s*')
-  t = split_c_tokens(s,'%s+')
+  t = split(s,'%s%s*')
   local v = t[t.n]  -- last word is the function name
   local tp,md
   if t.n>1 then
    tp = t[t.n-1]
    md = concat(t,1,t.n-2)
   end
-  --if tp then tp = rebuild_template(tp, tb, timpl) end
   return _Declaration{
    name = v,
    type = tp,
    mod = md,
-   is_parameter = is_parameter,
    kind = kind
   }
  end
 
 end
+
+
 

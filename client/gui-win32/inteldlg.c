@@ -124,7 +124,7 @@ static void intel_create_dialog(struct player *p)
   hbox=fcwin_hbox_new(intel_dialog,FALSE);
    
   my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
-	      advance_name_researching(p),
+	      get_tech_name(p, get_player_research(p)->researching),
 	      get_player_research(p)->bulbs_researched,
 	      total_bulbs_required(p));
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);

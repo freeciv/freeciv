@@ -188,7 +188,7 @@ static void button_release_event_callback(GtkWidget *widget,
   if (event->button == 3) {
     /* RMB: get help */
     /* FIXME: this should work for ctrl+LMB or shift+LMB (?) too */
-    popup_help_dialog_typed(advance_name_for_player(game.player_ptr, tech), HELP_TECH);
+    popup_help_dialog_typed(get_tech_name(game.player_ptr, tech), HELP_TECH);
   } else if (!can_conn_edit(&aconnection)) {
     if (event->button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
@@ -374,7 +374,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
   size_t to = (size_t) data;
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
-    popup_help_dialog_typed(advance_name_for_player(game.player_ptr, to), HELP_TECH);
+    popup_help_dialog_typed(get_tech_name(game.player_ptr, to), HELP_TECH);
     /* Following is to make the menu go back to the current research;
      * there may be a better way to do this?  --dwp */
     science_dialog_update();
@@ -396,7 +396,7 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
   size_t to = (size_t) data;
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
-    popup_help_dialog_typed(advance_name_for_player(game.player_ptr, to), HELP_TECH);
+    popup_help_dialog_typed(get_tech_name(game.player_ptr, to), HELP_TECH);
     /* Following is to make the menu go back to the current goal;
      * there may be a better way to do this?  --dwp */
     science_dialog_update();
@@ -416,8 +416,8 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
   const gchar *a_str, *b_str;
   gint a = GPOINTER_TO_INT(a_p), b = GPOINTER_TO_INT(b_p);
 
-  a_str = advance_name_for_player(game.player_ptr, a);
-  b_str = advance_name_for_player(game.player_ptr, b);
+  a_str = get_tech_name(game.player_ptr, a);
+  b_str = get_tech_name(game.player_ptr, b);
 
   return strcmp(a_str,b_str);
 }
@@ -468,7 +468,7 @@ void science_dialog_update(void)
   gtk_widget_queue_resize(science_current_label);
  
   if (research->researching == A_UNSET) {
-    item = gtk_menu_item_new_with_label(advance_name_for_player(game.player_ptr,
+    item = gtk_menu_item_new_with_label(get_tech_name(game.player_ptr,
 						      A_NONE));
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
   }
@@ -500,7 +500,7 @@ void science_dialog_update(void)
 
     if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) <
 	game.control.num_tech_types) {
-      data = advance_name_for_player(game.player_ptr,
+      data = get_tech_name(game.player_ptr,
 			GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)));
     } else {
       my_snprintf(text, sizeof(text), _("Future Tech. %d"),
@@ -535,7 +535,7 @@ void science_dialog_update(void)
 		  research->tech_goal));
 
   if (research->tech_goal == A_UNSET) {
-    item = gtk_menu_item_new_with_label(advance_name_for_player(game.player_ptr,
+    item = gtk_menu_item_new_with_label(get_tech_name(game.player_ptr,
 						      A_NONE));
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
   }
@@ -571,7 +571,7 @@ void science_dialog_update(void)
     hbox = gtk_hbox_new(FALSE, 18);
     gtk_container_add(GTK_CONTAINER(item), hbox);
 
-    label = gtk_label_new(advance_name_for_player(game.player_ptr, tech));
+    label = gtk_label_new(get_tech_name(game.player_ptr, tech));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
     gtk_size_group_add_widget(group1, label);

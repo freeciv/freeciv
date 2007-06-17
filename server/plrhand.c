@@ -1017,7 +1017,7 @@ static void package_player_info(struct player *plr,
     packet->luxury          = 0;
     packet->bulbs_researched= 0;
     packet->techs_researched= 0;
-    packet->researching     = A_UNKNOWN;
+    packet->researching     = A_NOINFO;
     packet->future_tech     = 0;
     packet->revolution_finishes = -1;
   }

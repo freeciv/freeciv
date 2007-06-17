@@ -240,12 +240,13 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  NULL);
 
   if (get_player_research(pdialog->pplayer)->researching == A_UNSET
-      || get_player_research(pdialog->pplayer)->researching == A_UNKNOWN) {
+      || get_player_research(pdialog->pplayer)->researching == A_NOINFO) {
     my_snprintf(buf, sizeof(buf), _("Researching: Unknown(%d/-)"),
 		get_player_research(pdialog->pplayer)->bulbs_researched);
   } else {
     my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
-		advance_name_researching(pdialog->pplayer),
+		get_tech_name(pdialog->pplayer,
+			get_player_research(pdialog->pplayer)->researching),
 		get_player_research(pdialog->pplayer)->bulbs_researched,
 		total_bulbs_required(pdialog->pplayer));
   }

@@ -59,7 +59,7 @@ void TECH_LOG(int level, const struct player *pplayer, Tech_type_id id,
   }
 
   my_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ", 
-              pplayer->name, advance_name_by_player(pplayer, id), 
+              pplayer->name, get_tech_name(pplayer, id), 
               pplayer->ai.tech_want[id], 
               num_unknown_techs_for_goal(pplayer, id));
 

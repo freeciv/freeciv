@@ -267,7 +267,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
                                        &is_dangerous);
     }
     DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "%s clause worth %d",
-              advance_name_by_player(pplayer, pclause->value), worth);
+              get_tech_name(pplayer, pclause->value), worth);
     break;
 
   case CLAUSE_ALLIANCE:

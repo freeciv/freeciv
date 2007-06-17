@@ -29,8 +29,8 @@ typedef int Tech_type_id;
 #define A_LAST MAX_NUM_ITEMS
 #define A_UNSET (A_LAST-1)
 #define A_FUTURE (A_LAST-2)
-#define A_UNKNOWN (A_LAST-3)
-#define A_LAST_REAL A_UNKNOWN
+#define A_NOINFO (A_LAST-3)
+#define A_LAST_REAL A_NOINFO
 
 /*
    A_NONE is the root tech. All players always know this tech. It is
@@ -72,8 +72,8 @@ enum tech_state {
 
 struct advance {
   int index; /* Tech index in tech array. */
-  const char *name_translated;		/* string doesn't need freeing */
-  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
+  const char *name; /* Translated string - doesn't need freeing. */
+  char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
   Tech_type_id req[2];
@@ -109,7 +109,7 @@ struct player_research {
   /* Invention being researched in. Valid values for researching are:
    *  - any existing tech but not A_NONE or
    *  - A_FUTURE.
-   * In addition A_UNKNOWN is allowed at the client for enemies.
+   * In addition A_NOINFO is allowed at the client for enemies.
    *
    * bulbs_researched tracks how many bulbs have been accumulated toward
    * this research target. */
@@ -161,8 +161,8 @@ Tech_type_id get_next_tech(const struct player *pplayer, Tech_type_id goal);
 
 bool tech_is_available(const struct player *pplayer, Tech_type_id id);
 bool tech_exists(Tech_type_id id);
-Tech_type_id find_tech_by_rule_name(const char *s);
-Tech_type_id find_tech_by_translated_name(const char *s);
+Tech_type_id find_tech_by_name(const char *s);
+Tech_type_id find_tech_by_name_orig(const char *s);
 
 bool tech_flag(Tech_type_id tech, enum tech_flag_id flag);
 enum tech_flag_id tech_flag_from_str(const char *s);
@@ -180,10 +180,8 @@ int total_bulbs_required_for_goal(const struct player *pplayer,
 bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
 			    Tech_type_id goal);
 bool is_future_tech(Tech_type_id tech);
-const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech);
-const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech);
-const char *advance_name_researching(const struct player *pplayer);
-const char *advance_name_translation(Tech_type_id tech);
+const char *get_tech_name(const struct player *pplayer, Tech_type_id tech);
+const char *get_normal_tech_name(Tech_type_id tech);
 
 void precalc_tech_data(void);
 

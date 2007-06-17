@@ -626,7 +626,11 @@ void translate_data_names(void)
 {
   int i;
 
-  /* advance_name_translation now handled in tech.c */
+  tech_type_iterate(tech_id) {
+    struct advance *tthis = &advances[tech_id];
+
+    tthis->name = Q_(tthis->name_orig);
+  } tech_type_iterate_end;
 
   unit_class_iterate(tthis) {
     tthis->name = Q_(tthis->name_orig);

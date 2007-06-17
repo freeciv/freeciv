@@ -2561,7 +2561,7 @@ void science_dialog_update(void)
     
     /* current research text */
     my_snprintf(cBuf, sizeof(cBuf), "%s: %s",
-      advance_name_researching(game.player_ptr),
+      get_tech_name(game.player_ptr, get_player_research(game.player_ptr)->researching),
       get_science_target_text(NULL));
 
     copy_chars_to_string16(pStr, cBuf);
@@ -2672,8 +2672,7 @@ void science_dialog_update(void)
     {
       /* current goal text */
       my_snprintf(cBuf, sizeof(cBuf), "%s",
-        advance_name_for_player(game.player_ptr,
-          get_player_research(game.player_ptr)->tech_goal));
+        get_tech_name(game.player_ptr, get_player_research(game.player_ptr)->tech_goal));
       
       copy_chars_to_string16(pStr, cBuf);
       pSurf = create_text_surf_from_str16(pStr);

@@ -94,7 +94,7 @@ struct Unit_Type {
 };
 
 struct Tech_Type {
-  const char *name_rule @ name;
+  const char *name_orig @ name;
 
   const int index @ id;
 };

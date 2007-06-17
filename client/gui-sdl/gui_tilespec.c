@@ -531,7 +531,7 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
   {
     case A_NONE:
     case A_UNSET:
-    case A_UNKNOWN:
+    case A_NOINFO:
     case A_LAST:
       return SDL_DisplayFormatAlpha(pNone_Tech_Icon);
     case A_FUTURE:

@@ -259,7 +259,8 @@ static struct terrain *char2terrain(char ch)
     }
   } terrain_type_iterate_end;
 
-  freelog(LOG_FATAL, "Unknown terrain identifier '%c' in savegame.", ch);
+  /* TRANS: message for an obscure savegame error. */
+  freelog(LOG_FATAL, _("Unknown terrain identifier '%c' in savegame."), ch);
   exit(EXIT_FAILURE);
 }
 
@@ -559,8 +560,8 @@ static void map_startpos_load(struct section_file *file)
 
       pnation = find_nation_by_name_orig(nation_name);
       if (pnation == NO_NATION_SELECTED) {
-	freelog(LOG_ERROR,
-	        "Warning: Unknown nation %s for starting position %d",
+	freelog(LOG_NORMAL,
+	        _("Warning: Unknown nation %s for starting position no %d"),
 		nation_name, i);
 	continue;
       }
@@ -587,8 +588,8 @@ static void map_startpos_load(struct section_file *file)
   if (map.num_start_positions
       && map.num_start_positions < game.info.max_players) {
     freelog(LOG_VERBOSE,
-	    "Number of starts (%d) are lower than rules.max_players (%d),"
-	      " lowering rules.max_players.",
+	    _("Number of starts (%d) are lower than rules.max_players (%d),"
+	      " lowering rules.max_players."),
  	    map.num_start_positions, game.info.max_players);
     game.info.max_players = map.num_start_positions;
   }
@@ -696,7 +697,7 @@ static void set_savegame_special(bv_special *specials,
   char *pch = strchr(hex_chars, ch);
 
   if (!pch || ch == '\0') {
-    freelog(LOG_ERROR, "Unknown hex value: '%c' (%d)", ch, ch);
+    freelog(LOG_ERROR, "Unknown hex value: '%c' %d", ch, ch);
     bin = 0;
   } else {
     bin = pch - hex_chars;
@@ -1293,19 +1294,19 @@ static const char* old_unit_type_name(int id)
 {
   /* before 1.15.0 unit types used to be saved by id */
   if (id < 0) {
-    freelog(LOG_FATAL, "Wrong unit type id value (%d)", id);
+    freelog(LOG_ERROR, _("Wrong unit type id value (%d)"), id);
     exit(EXIT_FAILURE);
   }
   /* Different rulesets had different unit names. */
   if (strcmp(game.rulesetdir, "civ1") == 0) {
     if (id >= ARRAY_SIZE(old_civ1_unit_types)) {
-      freelog(LOG_FATAL, "Wrong unit type id value (%d)", id);
+      freelog(LOG_ERROR, _("Wrong unit type id value (%d)"), id);
       exit(EXIT_FAILURE);
     }
     return old_civ1_unit_types[id];
   } else {
     if (id >= ARRAY_SIZE(old_default_unit_types)) {
-      freelog(LOG_FATAL, "Wrong unit type id value (%d)", id);
+      freelog(LOG_ERROR, _("Wrong unit type id value (%d)"), id);
       exit(EXIT_FAILURE);
     }
     return old_default_unit_types[id];
@@ -1340,7 +1341,7 @@ static const char* old_impr_type_name(int id)
 {
   /* before 1.15.0 improvement types used to be saved by id */
   if (id < 0 || id >= ARRAY_SIZE(old_impr_types)) {
-    freelog(LOG_FATAL, "Wrong improvement type id value (%d)", id);
+    freelog(LOG_ERROR, _("Wrong improvement type id value (%d)"), id);
     exit(EXIT_FAILURE);
   }
   return old_impr_types[id];
@@ -1401,7 +1402,7 @@ static int old_tech_id(Tech_type_id tech)
     return 0;
   }
   
-  technology_name = advances[tech].name_rule;
+  technology_name = advances[tech].name_orig;
   
   /* this is the only place where civ1 was different from 1.14.1 defaults */
   if (strcmp(game.rulesetdir, "civ1") == 0
@@ -1439,7 +1440,7 @@ static const char* old_tech_name(int id)
   }
 
   if (id < 0 || id >= ARRAY_SIZE(old_default_techs)) {
-    freelog(LOG_FATAL, "Wrong tech type id value (%d)", id);
+    freelog(LOG_ERROR, _("Wrong tech type id value (%d)"), id);
     exit(EXIT_FAILURE);
   }
 
@@ -1519,9 +1520,9 @@ static Tech_type_id load_technology(struct section_file *file,
     return -1;
   }
   
-  id = find_tech_by_rule_name(name);
+  id = find_tech_by_name_orig(name);
   if (id == A_LAST) {
-    freelog(LOG_FATAL, "Unknown technology \"%s\".", name);
+    freelog(LOG_ERROR, _("Unknown technology (%s)"), name);
     exit(EXIT_FAILURE);    
   }
   return id;
@@ -1554,7 +1555,7 @@ static void save_technology(struct section_file *file,
       name = "A_FUTURE";
       break;
     default:
-      name = advances[tech].name_rule;
+      name = advances[tech].name_orig;
       break;
   }
   secfile_insert_str(file, name, path_with_name, plrno);
@@ -1597,19 +1598,19 @@ static const char* old_government_name(int id)
 {
   /* before 1.15.0 governments used to be saved by index */
   if (id < 0) {
-    freelog(LOG_FATAL, "Wrong government type id value (%d)", id);
+    freelog(LOG_ERROR, _("Wrong government type id value (%d)"), id);
     exit(EXIT_FAILURE);
   }
   /* Different rulesets had different governments. */
   if (strcmp(game.rulesetdir, "civ2") == 0) {
     if (id >= ARRAY_SIZE(old_civ2_governments)) {
-      freelog(LOG_FATAL, "Wrong government type id value (%d)", id);
+      freelog(LOG_ERROR, _("Wrong government type id value (%d)"), id);
       exit(EXIT_FAILURE);
     }
     return old_civ2_governments[id];
   } else {
     if (id >= ARRAY_SIZE(old_default_governments)) {
-      freelog(LOG_FATAL, "Wrong government type id value (%d)", id);
+      freelog(LOG_ERROR, _("Wrong government type id value (%d)"), id);
       exit(EXIT_FAILURE);
     }
     return old_default_governments[id];
@@ -1648,7 +1649,7 @@ static void load_player_units(struct player *plr, int plrno,
       int t = secfile_lookup_int(file, "player%d.u%d.type",
                              plrno, i);
       if (t < 0) {
-        freelog(LOG_FATAL, "Wrong player%d.u%d.type value (%d)",
+        freelog(LOG_ERROR, _("Wrong player%d.u%d.type value (%d)"),
 	        plrno, i, t);
 	exit(EXIT_FAILURE);
       }
@@ -1658,7 +1659,7 @@ static void load_player_units(struct player *plr, int plrno,
     
     type = find_unit_type_by_name_orig(type_name);
     if (!type) {
-      freelog(LOG_FATAL, "Unknown unit type '%s' in player%d section",
+      freelog(LOG_ERROR, _("Unknown unit type '%s' in player%d section"),
               type_name, plrno);
       exit(EXIT_FAILURE);
     }
@@ -1817,7 +1818,7 @@ static void load_player_units(struct player *plr, int plrno,
 
 	  if (orders_buf[j] == '\0' || dir_buf[j] == '\0'
 	      || act_buf[j] == '\0') {
-	    freelog(LOG_ERROR, "Invalid unit orders.");
+	    freelog(LOG_ERROR, _("Savegame error: invalid unit orders."));
 	    free_unit_orders(punit);
 	    break;
 	  }
@@ -1986,7 +1987,7 @@ static void player_load(struct player *plr, int plrno,
   }
   gov = find_government_by_name_orig(name);
   if (gov == NULL) {
-    freelog(LOG_FATAL, "Unsupported government found \"%s\".", name);
+    freelog(LOG_ERROR, _("Unsupported government found (%s)"), name);
     exit(EXIT_FAILURE);
   }
   plr->government = gov;
@@ -2040,8 +2041,8 @@ static void player_load(struct player *plr, int plrno,
   }
   c_s = get_style_by_name_orig(p);
   if (c_s == -1) {
-    freelog(LOG_ERROR, "Unsupported city style found in player%d section. "
-                         "Changed to \"%s\".", plrno, get_city_style_name(0));
+    freelog(LOG_ERROR, _("Unsupported city style found in player%d section. "
+                         "Changed to %s"), plrno, get_city_style_name(0));
     c_s = 0;
   }	
   plr->city_style = c_s;
@@ -2145,7 +2146,7 @@ static void player_load(struct player *plr, int plrno,
     for (k = 0; p[k];  k++) {
       if (p[k] == '1') {
 	name = old_tech_name(k);
-	id = find_tech_by_rule_name(name);
+	id = find_tech_by_name_orig(name);
 	if (id != A_LAST) {
 	  set_invention(plr, id, TECH_KNOWN);
 	}
@@ -2154,7 +2155,7 @@ static void player_load(struct player *plr, int plrno,
   } else {
     for (k = 0; k < technology_order_size && p[k]; k++) {
       if (p[k] == '1') {
-	id = find_tech_by_rule_name(technology_order[k]);
+	id = find_tech_by_name_orig(technology_order[k]);
 	if (id != A_LAST) {
 	  set_invention(plr, id, TECH_KNOWN);
 	}
@@ -2251,7 +2252,7 @@ static void player_load(struct player *plr, int plrno,
 	} else if (st[i] == '1') {
 	  ship->structure[i] = TRUE;
 	} else {
-	  freelog(LOG_ERROR, "invalid spaceship structure '%c' (%d)", st[i],
+	  freelog(LOG_ERROR, "invalid spaceship structure '%c' %d", st[i],
 		  st[i]);
 	  ship->structure[i] = FALSE;
 	}
@@ -2555,7 +2556,7 @@ static void player_load(struct player *plr, int plrno,
       strcat(quoted, current);
     }
     if (quoted_length != strlen(quoted)) {
-      freelog(LOG_DEBUG, "quoted_length=%lu quoted=%lu",
+      freelog(LOG_NORMAL, "quoted_length=%lu quoted=%lu",
 	      (unsigned long) quoted_length,
 	      (unsigned long) strlen(quoted));
       assert(0);
@@ -3946,7 +3947,7 @@ void game_load(struct section_file *file)
       if (pplayer->nation == NO_NATION_SELECTED) {
 	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
                                                  NOT_A_BARBARIAN));
-	freelog(LOG_ERROR, "%s had invalid nation; changing to %s.",
+	freelog(LOG_NORMAL, "%s had invalid nation; changing to %s.",
 		pplayer->name, pplayer->nation->name);
       }
     } players_iterate_end;
@@ -4019,7 +4020,7 @@ void game_load(struct section_file *file)
     players_iterate(pplayer) {
       unit_list_iterate(pplayer->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
-	  freelog(LOG_ERROR, "Unit doing illegal activity in savegame!");
+	  freelog(LOG_ERROR, "ERROR: Unit doing illegal activity in savegame!");
 	  punit->activity = ACTIVITY_IDLE;
 	}
       } unit_list_iterate_end;
@@ -4158,7 +4159,7 @@ void game_save(struct section_file *file, const char *save_reason)
       if (tech == A_NONE) {
         buf[tech] = "A_NONE";
       } else {
-        buf[tech] = advances[tech].name_rule;
+        buf[tech] = advances[tech].name_orig;
       }
     } tech_type_iterate_end;
     secfile_insert_str_vec(file, buf, game.control.num_tech_types,

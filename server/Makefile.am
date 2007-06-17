@@ -94,7 +94,7 @@ civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
       ./scripting/libscripting.a \
       ../dependencies/lua/src/liblua.a \
-      ../dependencies/lua/src/liblualib.a \
+      ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
       ./generator/libgenerator.a
 civserver_LDFLAGS = $(GGZDMOD_LDFLAGS)
@@ -105,7 +105,7 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../common/aicore/libaicore.a ./generator/libgenerator.a \
       ./scripting/libscripting.a \
       ../dependencies/lua/src/liblua.a \
-      ../dependencies/lua/src/liblualib.a \
+      ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
       $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 

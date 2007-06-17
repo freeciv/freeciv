@@ -138,7 +138,7 @@ Tech_Type *api_find_tech_type(int tech_type_id)
 **************************************************************************/
 Tech_Type *api_find_tech_type_by_name(const char *name_orig)
 {
-  Tech_type_id id = find_tech_by_rule_name(name_orig);
+  Tech_type_id id = find_tech_by_name_orig(name_orig);
   return api_find_tech_type(id);
 }
 

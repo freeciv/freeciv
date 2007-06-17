@@ -6,10 +6,10 @@
 ** $Id$
 */
 
-/* This code is free software; you can redistribute it and/or modify it.
-** The software provided hereunder is on an "as is" basis, and
+/* This code is free software; you can redistribute it and/or modify it. 
+** The software provided hereunder is on an "as is" basis, and 
 ** the author has no obligation to provide maintenance, support, updates,
-** enhancements, or modifications.
+** enhancements, or modifications. 
 */
 
 #include "tolua.h"
@@ -26,7 +26,7 @@
 static void help (void)
 {
  fprintf(stderr,"\n"
-         "usage: tolua++ [options] input_file\n"
+         "usage: tolua [options] input_file\n"
          "\n"
          "Command line options are:\n"
          "  -v       : print version information.\n"
@@ -35,25 +35,15 @@ static void help (void)
          "  -n  name : set package name; default is input file root name.\n"
          "  -p       : parse only.\n"
          "  -P       : parse and print structure information (for debug).\n"
-         "  -S       : disable support for c++ strings.\n"
-         "  -1       : substract 1 to operator[] index (for compatibility with tolua5).\n"
-         "  -L  file : run lua file (with dofile()) before doing anything.\n"
-         "  -D       : disable automatic exporting of destructors for classes that have\n"
-         "             constructors (for compatibility with tolua5)\n"
-         "  -W       : disable warnings for unsupported features (for compatibility\n"
-         "             with tolua5)\n"
-         "  -C       : disable cleanup of included lua code (for easier debugging)\n"
-         "  -E  value[=value] : add extra values to the luastate\n"
-         "  -t       : export a list of types asociates with the C++ typeid name\n"
          "  -h       : print this message.\n"
          "Should the input file be omitted, stdin is assumed;\n"
-         "in that case, the package name must be explicitly set.\n\n"
+         "in that case, the package name must be explicitly set.\n\n" 
         );
 }
 
 static void version (void)
 {
- fprintf(stderr, "%s (written by W. Celes, A. Manzur)\n",TOLUA_VERSION);
+ fprintf(stderr, "%s (written by W. Celes)\n",TOLUA_VERSION);
 }
 
 static void setfield (lua_State* L, int table, char* f, char* v)
@@ -62,15 +52,6 @@ static void setfield (lua_State* L, int table, char* f, char* v)
  lua_pushstring(L,v);
  lua_settable(L,table);
 }
-
-static void add_extra (lua_State* L, char* value) {
-	int len;
-	lua_getglobal(L, "_extra_parameters");
-	len = luaL_getn(L, -1);
-	lua_pushstring(L, value);
-	lua_rawseti(L, -2, len+1);
-	lua_pop(L, 1);
-};
 
 static void error (char* o)
 {
@@ -81,21 +62,15 @@ static void error (char* o)
 
 int main (int argc, char* argv[])
 {
- #ifdef LUA_VERSION_NUM /* lua 5.1 */
- lua_State* L = luaL_newstate();
- luaL_openlibs(L);
- #else
  lua_State* L = lua_open();
- luaopen_base(L);
- luaopen_io(L);
- luaopen_string(L);
- luaopen_table(L);
- luaopen_math(L);
- luaopen_debug(L);
- #endif
+	luaopen_base(L);
+	luaopen_io(L);
+	luaopen_string(L);
+	luaopen_table(L);
+	luaopen_math(L);
+	luaopen_debug(L);
 
  lua_pushstring(L,TOLUA_VERSION); lua_setglobal(L,"TOLUA_VERSION");
- lua_pushstring(L,LUA_VERSION); lua_setglobal(L,"TOLUA_LUA_VERSION");
 
  if (argc==1)
  {
@@ -105,8 +80,6 @@ int main (int argc, char* argv[])
  else
  {
   int i, t;
-  lua_newtable(L);
-  lua_setglobal(L, "_extra_parameters");
   lua_newtable(L);
   lua_pushvalue(L,-1);
   lua_setglobal(L,"flags");
@@ -124,14 +97,6 @@ int main (int argc, char* argv[])
      case 'o': setfield(L,t,"o",argv[++i]); break;
      case 'n': setfield(L,t,"n",argv[++i]); break;
      case 'H': setfield(L,t,"H",argv[++i]); break;
-     case 'S': setfield(L,t,"S",""); break;
-     case '1': setfield(L,t,"1",""); break;
-     case 'L': setfield(L,t,"L",argv[++i]); break;
-     case 'D': setfield(L,t,"D",""); break;
-     case 'W': setfield(L,t,"W",""); break;
-     case 'C': setfield(L,t,"C",""); break;
-     case 'E': add_extra(L,argv[++i]); break;
-     case 't': setfield(L,t,"t",""); break;
      default: error(argv[i]); break;
     }
    }
@@ -143,8 +108,8 @@ int main (int argc, char* argv[])
   }
   lua_pop(L,1);
  }
-/* #define TOLUA_SCRIPT_RUN */
-#ifndef TOLUA_SCRIPT_RUN
+
+#if 1
  {
   int tolua_tolua_open (lua_State* L);
   tolua_tolua_open(L);
@@ -160,7 +125,7 @@ int main (int argc, char* argv[])
   sprintf(p,"%s","../src/bin/lua/");
   lua_pushstring(L,path); lua_setglobal(L,"path");
 		strcat(path,"all.lua");
-  lua_dofile(L,path);
+  lua_dofile(L,path); 
  }
 #endif
  return 0;

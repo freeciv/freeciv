@@ -744,6 +744,7 @@ AC_CONFIG_FILES([Makefile
 	  dependencies/lua/Makefile
 	  dependencies/tolua/Makefile
 	  dependencies/lua/src/Makefile
+	  dependencies/lua/src/lib/Makefile
 	  common/Makefile
 	  common/aicore/Makefile
 	  ai/Makefile

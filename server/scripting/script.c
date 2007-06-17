@@ -371,7 +371,12 @@ bool script_init(void)
       return FALSE;
     }
 
-    luaL_openlibs(state);
+    luaopen_base(state);
+    luaopen_string(state);
+    luaopen_io(state);
+    luaopen_debug(state);
+    luaopen_table(state);
+
     tolua_api_open(state);
 
     script_code_init();
@@ -396,7 +401,7 @@ void script_free(void)
 
     script_signals_free();
 
-    lua_gc(state, LUA_GCCOLLECT, 0); /* Collected garbage */
+    lua_setgcthreshold(state, 0); /* Collected garbage */
     lua_close(state);
     state = NULL;
   }
@@ -407,9 +412,7 @@ void script_free(void)
 **************************************************************************/
 bool script_do_file(const char *filename)
 {
-  int status = (luaL_loadfile(state, filename) || lua_pcall(state, 0, 0, 0));
-
-  return (status == 0);
+  return (lua_dofile(state, filename) == 0);
 }
 
 /**************************************************************************

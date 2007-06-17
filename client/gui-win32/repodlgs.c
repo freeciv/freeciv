@@ -99,7 +99,7 @@ science_dialog_update(void)
     if (get_invention(game.player_ptr, tech_id) == TECH_KNOWN
 	&& tech_id != A_NONE) {
       id = ListBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_LIST),
-			     advance_name_for_player(game.player_ptr, tech_id));
+			     get_tech_name(game.player_ptr, tech_id));
       ListBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_LIST), id,
 			  tech_id);
     }
@@ -109,7 +109,7 @@ science_dialog_update(void)
 
   if (get_player_research(game.player_ptr)->researching == A_UNSET) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			    advance_name_for_player(game.player_ptr, A_NONE));
+			    get_tech_name(game.player_ptr, A_NONE));
     ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			 id, A_NONE);
     ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
@@ -130,7 +130,7 @@ science_dialog_update(void)
       }
 
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			      advance_name_for_player(game.player_ptr, tech_id));
+			      get_tech_name(game.player_ptr, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id, tech_id);
       if (tech_id == get_player_research(game.player_ptr)->researching) {
@@ -142,7 +142,7 @@ science_dialog_update(void)
       tech_id = game.control.num_tech_types + 1
 		+ get_player_research(game.player_ptr)->future_tech;
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			      advance_name_for_player(game.player_ptr, tech_id));
+			      get_tech_name(game.player_ptr, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id, tech_id);
       ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
@@ -158,7 +158,7 @@ science_dialog_update(void)
         && (num_unknown_techs_for_goal(game.player_ptr, tech_id) < 11
 	    || tech_id == get_player_research(game.player_ptr)->tech_goal)) {
       id = ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
-			      advance_name_for_player(game.player_ptr, tech_id));
+			      get_tech_name(game.player_ptr, tech_id));
        ComboBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			 id, tech_id);
       if (tech_id == get_player_research(game.player_ptr)->tech_goal)
@@ -170,7 +170,7 @@ science_dialog_update(void)
 
   if (get_player_research(game.player_ptr)->tech_goal == A_UNSET) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
-			    advance_name_for_player(game.player_ptr, A_NONE));
+			    get_tech_name(game.player_ptr, A_NONE));
     ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
 			 id, A_NONE);
     ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),

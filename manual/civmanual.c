@@ -326,7 +326,7 @@ static bool manual_command(void)
 
         fprintf(doc, "<em>%s</em></td>\n",
                 tech_exists(pimpr->obsolete_by) ?
-                advance_name_translation(pimpr->obsolete_by) : _("None"));
+                advances[pimpr->obsolete_by].name : _("None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
       } impr_type_iterate_end;
       break;

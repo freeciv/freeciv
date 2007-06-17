@@ -143,22 +143,22 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	     * can never possess it (the client should enforce this). */
 	    freelog(LOG_ERROR, "Treaty: The %s can't have tech %s",
                     get_nation_name_plural(pother->nation),
-		    advance_name_by_player(pplayer, pclause->value));
+		    get_tech_name(pplayer, pclause->value));
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
                           _("The %s can't accept %s."),
                           get_nation_name_plural(pother->nation),
-			  advance_name_for_player(pplayer, pclause->value));
+			  get_tech_name(pplayer, pclause->value));
 	    return;
           }
 	  if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
 	    freelog(LOG_ERROR,
                     "The %s don't know tech %s, but try to give it to the %s.",
 		    get_nation_name_plural(pplayer->nation),
-		    advance_name_by_player(pplayer, pclause->value),
+		    get_tech_name(pplayer, pclause->value),
 		    get_nation_name_plural(pother->nation));
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You don't have tech %s, you can't accept treaty."),
-			  advance_name_for_player(pplayer, pclause->value));
+			  get_tech_name(pplayer, pclause->value));
 	    return;
 	  }
 	  break;
@@ -358,18 +358,18 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  freelog(LOG_VERBOSE,
                   "The %s already know tech %s, that %s want to give them.",
 		  get_nation_name_plural(pdest->nation),
-		  advance_name_by_player(pplayer, pclause->value),
+		  get_tech_name(pplayer, pclause->value),
 		  get_nation_name_plural(pgiver->nation));
           break;
         }
 	notify_player(pdest, NULL, E_TECH_GAIN,
 			 _("You are taught the knowledge of %s."),
-			 advance_name_for_player(pdest, pclause->value));
+			 get_tech_name(pdest, pclause->value));
 
 	notify_embassies(pdest, pgiver, NULL, E_TECH_GAIN,
 			 _("The %s have acquired %s from the %s."),
 			 get_nation_name_plural(pdest->nation),
-			 advance_name_for_player(pdest, pclause->value),
+			 get_tech_name(pdest, pclause->value),
 			 get_nation_name_plural(pgiver->nation));
 
 	script_signal_emit("tech_researched", 3,

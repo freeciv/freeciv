@@ -1003,7 +1003,7 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
 
   case HELP_TECH:
-    help_update_tech(pitem, top, find_tech_by_translated_name(top));
+    help_update_tech(pitem, top, find_tech_by_name(top));
     break;
 
   case HELP_TERRAIN:

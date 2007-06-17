@@ -5,7 +5,7 @@ noinst_LIBRARIES = libscripting.a
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
 	-I$(top_srcdir)/intl -I$(top_srcdir)/server \
-	-I$(top_srcdir)/dependencies/lua/src \
+	-I$(top_srcdir)/dependencies/lua/include \
 	-I$(top_srcdir)/dependencies/tolua
 
 # api_gen.[ch] are now distributed to aid in cross-compiling.  See PR#13571.

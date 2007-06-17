@@ -6,10 +6,10 @@
 ** $Id$
 */
 
-/* This code is free software; you can redistribute it and/or modify it.
-** The software provided hereunder is on an "as is" basis, and
+/* This code is free software; you can redistribute it and/or modify it. 
+** The software provided hereunder is on an "as is" basis, and 
 ** the author has no obligation to provide maintenance, support, updates,
-** enhancements, or modifications.
+** enhancements, or modifications. 
 */
 
 #include "tolua.h"
@@ -53,69 +53,48 @@ TOLUA_API void tolua_pushusertype (lua_State* L, void* value, const char* type)
  if (value == NULL)
   lua_pushnil(L);
  else
- {
-  luaL_getmetatable(L, type);
+ { 
   lua_pushstring(L,"tolua_ubox");
-  lua_rawget(L,-2);        /* stack: mt ubox */
-  if (lua_isnil(L, -1)) {
-	  lua_pop(L, 1);
-	  lua_pushstring(L, "tolua_ubox");
-	  lua_rawget(L, LUA_REGISTRYINDEX);
-  };
+  lua_rawget(L,LUA_REGISTRYINDEX);        /* stack: ubox */
   lua_pushlightuserdata(L,value);
-  lua_rawget(L,-2);                       /* stack: mt ubox ubox[u] */
+  lua_rawget(L,-2);                       /* stack: ubox ubox[u] */
   if (lua_isnil(L,-1))
   {
-   lua_pop(L,1);                          /* stack: mt ubox */
+   lua_pop(L,1);                          /* stack: ubox */
    lua_pushlightuserdata(L,value);
-   *(void**)lua_newuserdata(L,sizeof(void *)) = value;   /* stack: mt ubox u newud */
-   lua_pushvalue(L,-1);                   /* stack: mt ubox u newud newud */
-   lua_insert(L,-4);                      /* stack: mt newud ubox u newud */
-   lua_rawset(L,-3);                      /* stack: mt newud ubox */
-   lua_pop(L,1);                          /* stack: mt newud */
-   /*luaL_getmetatable(L,type);*/
-   lua_pushvalue(L, -2);			/* stack: mt newud mt */
-   lua_setmetatable(L,-2);			/* stack: mt newud */
-
-   #ifdef LUA_VERSION_NUM
-   lua_pushvalue(L, TOLUA_NOPEER);
-   lua_setfenv(L, -2);
-   #endif
+   *(void**)lua_newuserdata(L,sizeof(void *)) = value;   /* stack: ubox u newud */ 
+   lua_pushvalue(L,-1);                   /* stack: ubox u newud newud */
+   lua_insert(L,-4);                      /* stack: newud ubox u newud */
+   lua_rawset(L,-3);                      /* stack: newud ubox */
+   lua_pop(L,1);                          /* stack: newud */
+   luaL_getmetatable(L,type);
+   lua_setmetatable(L,-2);
   }
   else
   {
    /* check the need of updating the metatable to a more specialized class */
-   lua_insert(L,-2);                       /* stack: mt ubox[u] ubox */
-   lua_pop(L,1);                           /* stack: mt ubox[u] */
+   lua_insert(L,-2);                       /* stack: ubox[u] ubox */
+   lua_pop(L,1);                           /* stack: ubox[u] */
    lua_pushstring(L,"tolua_super");
-   lua_rawget(L,LUA_REGISTRYINDEX);        /* stack: mt ubox[u] super */
-   lua_getmetatable(L,-2);                 /* stack: mt ubox[u] super mt */
-   lua_rawget(L,-2);                       /* stack: mt ubox[u] super super[mt] */
+   lua_rawget(L,LUA_REGISTRYINDEX);        /* stack: ubox[u] super */
+   lua_getmetatable(L,-2);                 /* stack: ubox[u] super mt */
+   lua_rawget(L,-2);                       /* stack: ubox[u] super super[mt] */
 			if (lua_istable(L,-1))
-			{
-				lua_pushstring(L,type);                 /* stack: mt ubox[u] super super[mt] type */
-				lua_rawget(L,-2);                       /* stack: mt ubox[u] super super[mt] flag */
+   {
+				lua_pushstring(L,type);                 /* stack: ubox[u] super super[mt] type */
+				lua_rawget(L,-2);                       /* stack: ubox[u] super super[mt] flag */
 				if (lua_toboolean(L,-1) == 1)   /* if true */
 				{
-					lua_pop(L,3);	/* mt ubox[u]*/
-					lua_remove(L, -2);
+					lua_pop(L,3);
 					return;
 				}
 			}
 			/* type represents a more specilized type */
-			/*luaL_getmetatable(L,type);             // stack: mt ubox[u] super super[mt] flag mt */
-			lua_pushvalue(L, -5);					/* stack: mt ubox[u] super super[mt] flag mt */
-			lua_setmetatable(L,-5);                /* stack: mt ubox[u] super super[mt] flag */
-			lua_pop(L,3);                          /* stack: mt ubox[u] */
+			luaL_getmetatable(L,type);             /* stack: ubox[u] super super[mt] flag mt */
+			lua_setmetatable(L,-5);                /* stack: ubox[u] super super[mt] flag */
+   lua_pop(L,3);                          /* stack: ubox[u] */
   }
-  lua_remove(L, -2);	/* stack: ubox[u]*/
  }
-}
-
-TOLUA_API void tolua_pushusertype_and_takeownership (lua_State* L, void* value, const char* type)
-{
-	tolua_pushusertype(L,value,type);
-	tolua_register_gc(L,lua_gettop(L));
 }
 
 TOLUA_API void tolua_pushfieldvalue (lua_State* L, int lo, int index, int v)
@@ -158,14 +137,6 @@ TOLUA_API void tolua_pushfieldusertype (lua_State* L, int lo, int index, void* v
 {
  lua_pushnumber(L,index);
  tolua_pushusertype(L,v,type);
- lua_settable(L,lo);
-}
-
-TOLUA_API void tolua_pushfieldusertype_and_takeownership (lua_State* L, int lo, int index, void* v, const char* type)
-{
- lua_pushnumber(L,index);
- tolua_pushusertype(L,v,type);
-	tolua_register_gc(L,lua_gettop(L));
  lua_settable(L,lo);
 }
 

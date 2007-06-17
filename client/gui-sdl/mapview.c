@@ -332,12 +332,14 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                                     "None", 0, 0);
   } else if (get_player_research(game.player_ptr)->researching != A_UNSET) {  
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-	      	advance_name_researching(game.player_ptr),
+	      	get_tech_name(game.player_ptr,
+                get_player_research(game.player_ptr)->researching),
 	      	get_player_research(game.player_ptr)->bulbs_researched,
   		total_bulbs_required(game.player_ptr));
   } else {
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-	      	advance_name_researching(game.player_ptr),
+	      	get_tech_name(game.player_ptr,
+			    get_player_research(game.player_ptr)->researching),
 	      	get_player_research(game.player_ptr)->bulbs_researched,
   		0);
   }

@@ -13,7 +13,6 @@ AM_CPPFLAGS = -I$(top_srcdir)/dependencies/lua/src \
 tolua_SOURCES = \
 	tolua.c \
 	tolua.h \
-	toluabind.h \
 	toluabind.c
 
 EXTRA_tolua_SOURCES = \
@@ -38,8 +37,8 @@ EXTRA_tolua_SOURCES = \
 	variable.lua \
 	verbatim.lua
 
-tolua_DEPENDENCIES = ../lua/src/liblua.a ../lua/src/liblualib.a ./libtolua.a
-tolua_LDADD = ../lua/src/liblua.a ../lua/src/liblualib.a ./libtolua.a -lm
+tolua_DEPENDENCIES = ../lua/src/liblua.a ../lua/src/lib/liblualib.a ./libtolua.a
+tolua_LDADD = ../lua/src/liblua.a ../lua/src/lib/liblualib.a ./libtolua.a -lm
 
 libtolua_a_SOURCES = \
 	tolua.h \

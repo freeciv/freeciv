@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications.
+-- enhancements, or modifications. 
 
 
 
@@ -32,14 +32,13 @@ function classPackage:print ()
 end
 
 function classPackage:preprocess ()
-
  -- avoid preprocessing embedded Lua code
  local L = {}
- self.code = gsub(self.code,"\n%s*%$%[","\1") -- deal with embedded lua code
+ self.code = gsub(self.code,"\n%s*%$%[","\1") -- deal with embedded C code
  self.code = gsub(self.code,"\n%s*%$%]","\2")
  self.code = gsub(self.code,"(%b\1\2)",       function (c)
                                                tinsert(L,c)
-                                               return "\n#["..getn(L).."]#"
+                                               return "\n#["..getn(L).."]#" 
                                               end)
  -- avoid preprocessing embedded C code
  local C = {}
@@ -47,26 +46,15 @@ function classPackage:preprocess ()
  self.code = gsub(self.code,"\n%s*%$%>","\4")
  self.code = gsub(self.code,"(%b\3\4)",       function (c)
                                                tinsert(C,c)
-                                               return "\n#<"..getn(C)..">#"
+                                               return "\n#<"..getn(C)..">#" 
                                               end)
- -- avoid preprocessing embedded C code
- self.code = gsub(self.code,"\n%s*%$%{","\5") -- deal with embedded C code
- self.code = gsub(self.code,"\n%s*%$%}","\6")
- self.code = gsub(self.code,"(%b\5\6)",       function (c)
-                                               tinsert(C,c)
-                                               return "\n#<"..getn(C)..">#"
-                                              end)
-
- --self.code = gsub(self.code,"\n%s*#[^d][^\n]*\n", "\n\n") -- eliminate preprocessor directives that don't start with 'd'
- self.code = gsub(self.code,"\n[ \t]*#[ \t]*[^d%<%[]", "\n//") -- eliminate preprocessor directives that don't start with 'd'
 
  -- avoid preprocessing verbatim lines
  local V = {}
  self.code = gsub(self.code,"\n(%s*%$[^%[%]][^\n]*)",function (v)
                                                tinsert(V,v)
-                                               return "\n#"..getn(V).."#"
+                                               return "\n#"..getn(V).."#" 
                                               end)
-
  -- perform global substitution
 
  self.code = gsub(self.code,"(//[^\n]*)","")     -- eliminate C++ comments
@@ -77,19 +65,19 @@ function classPackage:preprocess ()
  self.code = gsub(self.code,"\2","%*/")
  self.code = gsub(self.code,"%s*@%s*","@") -- eliminate spaces beside @
  self.code = gsub(self.code,"%s?inline(%s)","%1") -- eliminate 'inline' keyword
- --self.code = gsub(self.code,"%s?extern(%s)","%1") -- eliminate 'extern' keyword
- --self.code = gsub(self.code,"%s?virtual(%s)","%1") -- eliminate 'virtual' keyword
- --self.code = gsub(self.code,"public:","") -- eliminate 'public:' keyword
+ self.code = gsub(self.code,"%s?extern(%s)","%1") -- eliminate 'extern' keyword
+ self.code = gsub(self.code,"%s?virtual(%s)","%1") -- eliminate 'virtual' keyword
+ self.code = gsub(self.code,"public:","") -- eliminate 'public:' keyword
  self.code = gsub(self.code,"([^%w_])void%s*%*","%1_userdata ") -- substitute 'void*'
  self.code = gsub(self.code,"([^%w_])void%s*%*","%1_userdata ") -- substitute 'void*'
  self.code = gsub(self.code,"([^%w_])char%s*%*","%1_cstring ")  -- substitute 'char*'
  self.code = gsub(self.code,"([^%w_])lua_State%s*%*","%1_lstate ")  -- substitute 'lua_State*'
 
- -- restore embedded Lua code
+ -- restore embedded code
  self.code = gsub(self.code,"%#%[(%d+)%]%#",function (n)
-                                              return L[tonumber(n)]
+                                             return L[tonumber(n)]
                                             end)
- -- restore embedded C code
+ -- restore embedded code
  self.code = gsub(self.code,"%#%<(%d+)%>%#",function (n)
                                              return C[tonumber(n)]
                                             end)
@@ -97,11 +85,6 @@ function classPackage:preprocess ()
  self.code = gsub(self.code,"%#(%d+)%#",function (n)
                                          return V[tonumber(n)]
                                         end)
-
- self.code = string.gsub(self.code, "\n%s*%$([^\n]+)", function (l)
-											Verbatim(l.."\n")
-											return "\n"
-										  end)
 end
 
 -- translate verbatim
@@ -149,42 +132,29 @@ function classPackage:preamble ()
  output('static void tolua_reg_types (lua_State* tolua_S)')
  output('{')
  foreach(_usertype,function(n,v) output(' tolua_usertype(tolua_S,"',v,'");') end)
-	if flags.t then
-		output("#ifndef Mtolua_typeid\n#define Mtolua_typeid(L,TI,T)\n#endif\n")
-		foreach(_usertype,function(n,v) output(' Mtolua_typeid(tolua_S,typeid(',v,'), "',v,'");') end)
-	end
  output('}')
  output('\n')
 end
 
 -- register package
 -- write package open function
-function classPackage:register (pre)
- pre = pre or ''
+function classPackage:register ()
  push(self)
- output(pre.."/* Open function */")
- output(pre.."TOLUA_API int tolua_"..self.name.."_open (lua_State* tolua_S)")
- output(pre.."{")
- output(pre.." tolua_open(tolua_S);")
- output(pre.." tolua_reg_types(tolua_S);")
- output(pre.." tolua_module(tolua_S,NULL,",self:hasvar(),");")
- output(pre.." tolua_beginmodule(tolua_S,NULL);")
+ output("/* Open function */")
+ output("TOLUA_API int tolua_"..self.name.."_open (lua_State* tolua_S)")
+ output("{")
+ output(" tolua_open(tolua_S);")
+ output(" tolua_reg_types(tolua_S);")
+	output(" tolua_module(tolua_S,NULL,",self:hasvar(),");")
+	output(" tolua_beginmodule(tolua_S,NULL);")
  local i=1
  while self[i] do
-  self[i]:register(pre.."  ")
+  self[i]:register()
   i = i+1
  end
- output(pre.." tolua_endmodule(tolua_S);")
- output(pre.." return 1;")
- output(pre.."}")
-
- output("\n\n")
- output("#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 501\n");
- output(pre.."TOLUA_API int luaopen_"..self.name.." (lua_State* tolua_S) {")
- output(pre.." return tolua_"..self.name.."_open(tolua_S);")
- output(pre.."};")
- output("#endif\n\n")
-
+	output(" tolua_endmodule(tolua_S);")
+ output(" return 1;")
+ output("}")
 	pop()
 end
 
@@ -250,46 +220,36 @@ function Package (name,fn)
   readfrom()
  end
 
+ -- deal with renaming directive
+	code = gsub(code,'%s*%$renaming%s*(.-)%s*\n', function (r) appendrenaming(r) return "\n" end)
+
  -- deal with include directive
  local nsubst
  repeat
-  code,nsubst = gsub(code,'\n%s*%$(.)file%s*"(.-)"([^\n]*)\n',
-		function (kind,fn,extra)
-			local _, _, ext = strfind(fn,".*%.(.*)$")
-			local fp,msg = openfile(fn,'r')
-			if not fp then
-				error('#'..msg..': '..fn)
-			end
-			local s = read(fp,'*a')
-			closefile(fp)
-			if kind == 'c' or kind == 'h' then
-				return extract_code(fn,s)
-			elseif kind == 'p' then
-				return "\n\n" .. s
-			elseif kind == 'l' then
-				return "\n$[--##"..fn.."\n" .. s .. "\n$]\n"
-			elseif kind == 'i' then
-				local t = {code=s}
-				extra = string.gsub(extra, "^%s*,%s*", "")
-				local pars = split_c_tokens(extra, ",")
-				include_file_hook(t, fn, unpack(pars))
-				return "\n\n" .. t.code
-			else
-				error('#Invalid include directive (use $cfile, $pfile, $lfile or $ifile)')
-			end
-		end)
+  code,nsubst = gsub(code,'\n%s*%$(.)file%s*"(.-)"%s*\n',
+		                   function (kind,fn)
+                      local _, _, ext = strfind(fn,".*%.(.*)$")
+                      local fp,msg = openfile(fn,'r')
+                      if not fp then
+                       error('#'..msg..': '..fn)
+                      end
+                      local s = read(fp,'*a')
+                      closefile(fp)
+																						if kind == 'c' or kind == 'h' then
+									              return extract_code(fn,s)
+																						elseif kind == 'p' then
+                       return "\n\n" .. s
+																						elseif kind == 'l' then
+																						 return "\n$[\n" .. s .. "\n$]\n"
+																						else
+																						 error('#Invalid include directive (use $cfile, $pfile or $lfile)')
+                      end
+																					end)
  until nsubst==0
-
- -- deal with renaming directive
- repeat -- I don't know why this is necesary
-	code,nsubst = gsub(code,'\n%s*%$renaming%s*(.-)%s*\n', function (r) appendrenaming(r) return "\n" end)
- until nsubst == 0
 
  local t = _Package(_Container{name=name, code=code})
  push(t)
- preprocess_hook(t)
  t:preprocess()
- preparse_hook(t)
  t:parse(t.code)
  pop()
  return t
