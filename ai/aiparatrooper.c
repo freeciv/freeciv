@@ -368,7 +368,7 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     pplayer->ai.tech_want[tech_req] += 2;
     freelog(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
 	      "stimulating %s with %d (%d) and req",
-	      pcity->name, pplayer->name, get_tech_name(pplayer,
+	      pcity->name, pplayer->name, advance_name_by_player(pplayer,
 							tech_req), 2,
 	      pplayer->ai.tech_want[tech_req]);
 

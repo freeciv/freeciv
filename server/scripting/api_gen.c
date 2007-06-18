@@ -1,6 +1,6 @@
 /*
 ** Lua binding: api
-** Generated automatically by tolua 5.0a on Mon Dec  5 00:39:12 2005.
+** Generated automatically by tolua 5.0a on Sun Jun 17 19:33:58 2007.
 */
 
 #ifndef __cplusplus
@@ -528,14 +528,14 @@ static int tolua_get_Unit_Type_Unit_Type_index(lua_State* tolua_S)
  return 1;
 }
 
-/* get function: name_orig of class  Tech_Type */
-static int tolua_get_Tech_Type_Tech_Type_name_orig(lua_State* tolua_S)
+/* get function: name_rule of class  Tech_Type */
+static int tolua_get_Tech_Type_Tech_Type_name_rule(lua_State* tolua_S)
 {
   Tech_Type* self = (Tech_Type*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_orig'",NULL);
+ if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_rule'",NULL);
 #endif
- tolua_pushstring(tolua_S,(const char*)self->name_orig);
+ tolua_pushstring(tolua_S,(const char*)self->name_rule);
  return 1;
 }
 
@@ -1611,7 +1611,7 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Tech_Type","Tech_Type","",NULL);
  tolua_beginmodule(tolua_S,"Tech_Type");
- tolua_variable(tolua_S,"name",tolua_get_Tech_Type_Tech_Type_name_orig,NULL);
+ tolua_variable(tolua_S,"name",tolua_get_Tech_Type_Tech_Type_name_rule,NULL);
  tolua_variable(tolua_S,"id",tolua_get_Tech_Type_Tech_Type_index,NULL);
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Terrain","Terrain","",NULL);

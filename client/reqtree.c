@@ -153,7 +153,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
     *width = *height = 1;
   } else {
     get_text_size(width, height, FONT_REQTREE_TEXT,
-		  get_tech_name(game.player_ptr, node->tech));
+		  advance_name_for_player(game.player_ptr, node->tech));
     *width += 2;
     *height += 8;
     
@@ -903,7 +903,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 			   startx, starty, width, height);
 
       if (!node->is_dummy) {
-	const char *text = get_tech_name(game.player_ptr, node->tech);
+	const char *text = advance_name_for_player(game.player_ptr, node->tech);
 	int text_w, text_h;
 	int icon_startx;
 	

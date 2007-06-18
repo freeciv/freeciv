@@ -248,7 +248,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   case CLAUSE_ADVANCE:
     my_snprintf(buf, bufsiz, _("The %s give %s"),
 		get_nation_name_plural(pclause->from->nation),
-		get_tech_name(game.player_ptr, pclause->value));
+		advance_name_for_player(game.player_ptr, pclause->value));
     break;
   case CLAUSE_CITY:
     pcity = find_city_by_id(pclause->value);

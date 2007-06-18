@@ -164,7 +164,7 @@ static void insert_requirement(struct requirement *req,
     break;
   case REQ_TECH:
     cat_snprintf(buf, bufsz, _("Requires the %s technology.\n\n"),
-		 get_tech_name(game.player_ptr, req->source.value.tech));
+		 advance_name_for_player(game.player_ptr, req->source.value.tech));
     return;
   case REQ_GOV:
     cat_snprintf(buf, bufsz, _("Requires the %s government.\n\n"),
@@ -384,7 +384,7 @@ void boot_help_texts(void)
 	    if (i != A_NONE && tech_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  get_tech_name(game.player_ptr, i));
+			  advance_name_for_player(game.player_ptr, i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
@@ -659,7 +659,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
   if (tech_exists(get_improvement_type(which)->obsolete_by)) {
     cat_snprintf(buf, bufsz,
 		 _("* The discovery of %s will make %s obsolete.\n"),
-		 get_tech_name(game.player_ptr,
+		 advance_name_for_player(game.player_ptr,
 			       get_improvement_type(which)->obsolete_by),
 		 get_improvement_type(which)->name);
   }
@@ -679,7 +679,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     cat_snprintf(buf, bufsz,
 		 _("* Allows all players with knowledge of %s "
 		   "to build %s units.\n"),
-		 get_tech_name(game.player_ptr, t), u->name);
+		 advance_name_for_player(game.player_ptr, t), u->name);
     cat_snprintf(buf, bufsz, "  ");
   }
 
@@ -689,7 +689,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     if (u->impr_requirement == which) {
       if (u->tech_requirement != A_LAST) {
 	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"), u->name,
-		     get_tech_name(game.player_ptr, u->tech_requirement));
+		     advance_name_for_player(game.player_ptr, u->tech_requirement));
       } else {
 	cat_snprintf(buf, bufsz, _("* Allows %s.\n"), u->name);
       }
@@ -727,7 +727,7 @@ static int techs_with_flag_string(enum tech_flag_id flag,
   assert(bufsz > 0);
   buf[0] = '\0';
   techs_with_flag_iterate(flag, tech_id) {
-    const char *name = get_tech_name(game.player_ptr, tech_id);
+    const char *name = advance_name_for_player(game.player_ptr, tech_id);
 
     if (buf[0] == '\0') {
       cat_snprintf(buf, bufsz, "%s", name);
@@ -993,12 +993,12 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     if (tech1 != A_LAST) {
       sprintf(buf + strlen(buf),
 	      _("* The discovery of %s reduces the risk to 25%%.\n"),
-	      get_tech_name(game.player_ptr, tech1));
+	      advance_name_for_player(game.player_ptr, tech1));
     }
     if (tech2 != A_LAST) {
       sprintf(buf + strlen(buf),
 	      _("* %s reduces the risk to 12%%.\n"),
-	      get_tech_name(game.player_ptr, tech2));
+	      advance_name_for_player(game.player_ptr, tech2));
     }
   }
   if (utype->fuel > 0) {
@@ -1099,14 +1099,14 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
     if (get_invention(game.player_ptr, i) == TECH_REACHABLE) {
       sprintf(buf + strlen(buf),
 	      _("If we would now start with %s we would need %d bulbs."),
-	      get_tech_name(game.player_ptr, i),
+	      advance_name_for_player(game.player_ptr, i),
 	      base_total_bulbs_required(game.player_ptr, i));
     } else if (tech_is_available(game.player_ptr, i)) {
       sprintf(buf + strlen(buf),
 	      _("To reach %s we need to obtain %d other "
 		"technologies first. The whole project "
 		"will require %d bulbs to complete."),
-	      get_tech_name(game.player_ptr, i),
+	      advance_name_for_player(game.player_ptr, i),
 	      num_unknown_techs_for_goal(game.player_ptr, i) - 1,
 	      total_bulbs_required_for_goal(game.player_ptr, i));
     } else {
@@ -1128,7 +1128,7 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
   if (tech_flag(i, TF_BONUS_TECH)) {
     sprintf(buf + strlen(buf), _("* The first player to research %s gets "
 				 "an immediate advance.\n"),
-	    get_tech_name(game.player_ptr, i));
+	    advance_name_for_player(game.player_ptr, i));
   }
   if (tech_flag(i, TF_REDUCE_TRIREME_LOSS1))
     sprintf(buf + strlen(buf), _("* Reduces the chance of losing boats "
