@@ -2248,7 +2248,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
 		b->obsolete_by,
-		advance[b->obsolete_by].name_rule);
+		advances[b->obsolete_by].name_rule);
       } else {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
       }
