@@ -2638,7 +2638,6 @@ void tileset_setup_tile_type(struct tileset *t,
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
     sprite_vector_init(&draw->layer[l].base);
-    sprite_vector_reserve(&draw->layer[l].base, 1);
 
     switch (draw->layer[l].cell_type) {
     case CELL_SINGLE:
@@ -2673,7 +2672,6 @@ void tileset_setup_tile_type(struct tileset *t,
 	    lookup_sprite_tag_alt(t, buffer, "", TRUE, "matched terrain",
 							  pterrain->name_rule);
 	}
-	draw->layer[l].base.p[0] = draw->layer[l].match[0];
 	break;
       };
       break;
@@ -2779,10 +2777,6 @@ void tileset_setup_tile_type(struct tileset *t,
 	  };
 	}
       }
-      my_snprintf(buffer, sizeof(buffer), "t.%s1", draw->name);
-      draw->layer[l].base.p[0]
-        = lookup_sprite_tag_alt(t, buffer, "", TRUE, "base (blend) terrain",
-                                pterrain->name_rule);
       break;
     };
   }
@@ -2794,6 +2788,14 @@ void tileset_setup_tile_type(struct tileset *t,
       {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
     };
     enum direction4 dir;
+
+    if (draw->layer[0].base.size < 1) {
+      my_snprintf(buffer, sizeof(buffer), "t.%s1", draw->name);
+      sprite_vector_reserve(&draw->layer[0].base, 1);
+      draw->layer[0].base.p[0]
+	= lookup_sprite_tag_alt(t, buffer, "", TRUE, "base (blend) terrain",
+				pterrain->name_rule);
+    }
 
     for (dir = 0; dir < 4; dir++) {
       assert(sprite_vector_size(&draw->layer[0].base) > 0);
