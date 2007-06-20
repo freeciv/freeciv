@@ -767,7 +767,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "tech %s not yet available.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
-			       get_tech_name(pplayer,
+			       advance_name_for_player(pplayer,
 					     preq->source.value.tech));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
@@ -1205,7 +1205,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 	notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 	    _("The %s have acquired %s from %s."),
 	    get_nation_name_plural(pplayer->nation),
-	    get_tech_name(pplayer, tech),
+	    advance_name_for_player(pplayer, tech),
 	    get_improvement_name(id));
       }
     }

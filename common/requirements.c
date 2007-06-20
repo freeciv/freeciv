@@ -106,7 +106,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
   case REQ_NONE:
     return source;
   case REQ_TECH:
-    source.value.tech = find_tech_by_name(value);
+    source.value.tech = find_tech_by_rule_name(value);
     if (source.value.tech != A_LAST) {
       return source;
     }
@@ -1077,7 +1077,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, _("(none)"), bufsz);
     break;
   case REQ_TECH:
-    mystrlcat(buf, advances[psource->value.tech].name, bufsz);
+    mystrlcat(buf, advance_name_translation(psource->value.tech), bufsz);
     break;
   case REQ_GOV:
     mystrlcat(buf, get_government_name(psource->value.gov), bufsz);

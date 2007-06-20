@@ -855,7 +855,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
-		    get_tech_name(game.player_ptr,
+		    advance_name_for_player(game.player_ptr,
 				  punittype->tech_requirement));
     }
     create_tech_tree(help_tech_tree, 0, punittype->tech_requirement, 3);
@@ -1094,7 +1094,7 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_unit_type(pitem, top, find_unit_type_by_name(top));
     break;
   case HELP_TECH:
-    help_update_tech(pitem, top, find_tech_by_name(top));
+    help_update_tech(pitem, top, find_tech_by_translated_name(top));
     break;
   case HELP_TERRAIN:
     help_update_terrain(pitem, top, get_terrain_by_translated_name(top));

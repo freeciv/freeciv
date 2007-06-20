@@ -134,10 +134,8 @@ static void build_required_techs_helper(struct player *pplayer,
   BV_SET(get_player_research(pplayer)->inventions[goal].required_techs, tech);
 
   if (advances[tech].req[0] == goal || advances[tech].req[1] == goal) {
-    /* TRANS: Obscure ruleset error */
-    freelog(LOG_FATAL, _("tech \"%s\": requires itself"),
-	    get_tech_name(pplayer, goal));
-    assert(0);
+    freelog(LOG_FATAL, "tech \"%s\": requires itself",
+	    advance_name_by_player(pplayer, goal));
     exit(EXIT_FAILURE);
   }
 
@@ -305,13 +303,13 @@ bool tech_exists(Tech_type_id id)
 }
 
 /**************************************************************************
-Does a linear search of advances[].name
-Returns A_LAST if none match.
+ Does a linear search of advances[].name_translated
+ Returns A_LAST if none match.
 **************************************************************************/
-Tech_type_id find_tech_by_name(const char *s)
+Tech_type_id find_tech_by_translated_name(const char *s)
 {
   tech_type_iterate(i) {
-    if (strcmp(advances[i].name, s) == 0) {
+    if (0 == strcmp(advance_name_translation(i), s)) {
       return i;
     }
   } tech_type_iterate_end;
@@ -319,13 +317,13 @@ Tech_type_id find_tech_by_name(const char *s)
 }
 
 /**************************************************************************
-  Does a linear search of advances[].name_orig
-  Returns A_LAST if none match.
+ Does a linear search of advances[].name_rule
+ Returns A_LAST if none match.
 **************************************************************************/
-Tech_type_id find_tech_by_name_orig(const char *s)
+Tech_type_id find_tech_by_rule_name(const char *s)
 {
   tech_type_iterate(i) {
-    if (mystrcasecmp(advances[i].name_orig, s) == 0) {
+    if (mystrcasecmp(advances[i].name_rule, s) == 0) {
       return i;
     }
   } tech_type_iterate_end;
@@ -624,67 +622,113 @@ bool is_future_tech(Tech_type_id tech)
 #include "specvec.h"
 
 /**************************************************************************
-  Return the name of the given tech. You don't have to free the return
-  pointer.
+  Return the rule name of the given tech (including A_FUTURE). 
+  You don't have to free the return pointer.
 
-  pplayer may be NULL.  In this case we won't know the "number" of a
-  future technology.
+  pplayer may be NULL.
 **************************************************************************/
-const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
+const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech)
 {
-  int i;
-
   /* We don't return a static buffer because that would break anything that
    * needed to work with more than one name at a time. */
+  static struct string_vector future;
+
   switch (tech) {
-  case A_NOINFO:
-    /* TRANS: "Unknown" tech */
-    return _("(Unknown)");
-  case A_UNSET:
-    /* TRANS: "None" tech */
-    return _("None");
   case A_FUTURE:
     if (pplayer) {
       struct player_research *research = get_player_research(pplayer);
-      static struct string_vector future;
-
+      int i;
+  
       /* pplayer->future_tech == 0 means "Future Tech. 1". */
       for (i = future.size; i <= research->future_tech; i++) {
-	char *ptr = NULL;
-
-	string_vector_append(&future, &ptr);
+        char *ptr = NULL;
+  
+        string_vector_append(&future, &ptr);
       }
       if (!future.p[research->future_tech]) {
-	char buffer[1024];
-
-	my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
-		    research->future_tech + 1);
-	future.p[research->future_tech] = mystrdup(buffer);
+        char buffer[1024];
+  
+        my_snprintf(buffer, sizeof(buffer), "%s %d",
+                    advances[tech].name_rule,
+                    research->future_tech + 1);
+        future.p[research->future_tech] = mystrdup(buffer);
       }
       return future.p[research->future_tech];
     } else {
-      return _("Future Tech.");
+      return advances[tech].name_rule;
     }
   default:
     /* Includes A_NONE */
-    if (!tech_exists(tech)) {
-      assert(0);
-      /* TRANS: "Unknown" tech */
-      return _("(Unknown)");
-    } else {
-      return advances[tech].name;
-    }
-  }
+    return advances[tech].name_rule;
+  };
 }
 
 /**************************************************************************
- Return the name of the given tech. You don't have to free the return
- pointer.
+  Return the translated name of the given tech (including A_FUTURE). 
+  You don't have to free the return pointer.
+
+  pplayer may be NULL.
 **************************************************************************/
-const char *get_normal_tech_name(Tech_type_id tech)
+const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech)
 {
-  assert(tech_exists(tech));
-  return advances[tech].name;
+  /* We don't return a static buffer because that would break anything that
+   * needed to work with more than one name at a time. */
+  static struct string_vector future;
+
+  switch (tech) {
+  case A_FUTURE:
+    if (pplayer) {
+      struct player_research *research = get_player_research(pplayer);
+      int i;
+  
+      /* pplayer->future_tech == 0 means "Future Tech. 1". */
+      for (i = future.size; i <= research->future_tech; i++) {
+        char *ptr = NULL;
+  
+        string_vector_append(&future, &ptr);
+      }
+      if (!future.p[research->future_tech]) {
+        char buffer[1024];
+  
+        my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
+                    research->future_tech + 1);
+        future.p[research->future_tech] = mystrdup(buffer);
+      }
+      return future.p[research->future_tech];
+    } else {
+      return advance_name_translation(tech);
+    }
+  default:
+    /* Includes A_NONE */
+    return advance_name_translation(tech);
+  };
+}
+
+/**************************************************************************
+  Return the translated name of the given research (including A_FUTURE). 
+  You don't have to free the return pointer.
+
+  pplayer must not be NULL.
+**************************************************************************/
+const char *advance_name_researching(const struct player *pplayer)
+{
+  return advance_name_for_player(pplayer,
+    get_player_research(pplayer)->researching);
+}
+
+/**************************************************************************
+  Return the translated name of the given tech. 
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *advance_name_translation(Tech_type_id tech)
+{
+/*  assert(tech_exists(tech)); now called for A_UNSET, A_FUTURE */
+  if (NULL == advances[tech].name_translated) {
+    /* delayed (unified) translation */
+    advances[tech].name_translated = ('\0' == advances[tech].name_rule[0])
+		? advances[tech].name_rule : Q_(advances[tech].name_rule);
+  }
+  return advances[tech].name_translated;
 }
 
 /**************************************************************************
@@ -699,7 +743,7 @@ bool techs_have_fixed_costs()
 }
 
 /****************************************************************************
-  Inialize tech structures.
+  Initialize tech structures.
 ****************************************************************************/
 void techs_init(void)
 {
@@ -708,6 +752,24 @@ void techs_init(void)
   for (i = 0; i < ARRAY_SIZE(advances); i++) {
     advances[i].index = i;
   }
+
+  /* Initialize dummy tech A_NONE */
+  /* TRANS: "None" tech */
+  sz_strlcpy(advances[A_NONE].name_rule, N_("None"));
+  advances[A_NONE].name_translated = NULL;
+
+  /* Initialize dummy tech A_UNSET */
+  sz_strlcpy(advances[A_UNSET].name_rule, N_("None"));
+  advances[A_UNSET].name_translated = NULL;
+
+  /* Initialize dummy tech A_FUTURE */
+  sz_strlcpy(advances[A_FUTURE].name_rule, N_("Future Tech."));
+  advances[A_FUTURE].name_translated = NULL;
+
+  /* Initialize dummy tech A_UNKNOWN */
+  /* TRANS: "Unknown" tech */
+  sz_strlcpy(advances[A_UNKNOWN].name_rule, N_("(Unknown)"));
+  advances[A_UNKNOWN].name_translated = NULL;
 }
 
 /***************************************************************

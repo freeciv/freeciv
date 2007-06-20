@@ -737,20 +737,18 @@ static bool check_tilespec_capabilities(struct section_file *file,
   char *file_capstr = secfile_lookup_str(file, "%s.options", which);
   
   if (!has_capabilities(us_capstr, file_capstr)) {
-    freelog(log_level, _("%s file appears incompatible:\n"
-                         "file: \"%s\"\n"
-                         "file options: %s\n"
-                         "supported options: %s"),
-	    which, filename, file_capstr, us_capstr);
+    freelog(log_level, "\"%s\": %s file appears incompatible:",
+	    filename, which);
+    freelog(log_level, "  datafile options: %s", file_capstr);
+    freelog(log_level, "  supported options: %s", us_capstr);
     return FALSE;
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
-    freelog(log_level, _("%s file requires option(s)"
-			 " which client doesn't support:\n"
-			 "file: \"%s\"\n"
-			 "file options: %s\n"
-			 "supported options: %s"),
-	    which, filename, file_capstr, us_capstr);
+    freelog(log_level, "\"%s\": %s file requires option(s)"
+			 " that client doesn't support:",
+	    filename, which);
+    freelog(log_level, "  datafile options: %s", file_capstr);
+    freelog(log_level, "  supported options: %s", us_capstr);
     return FALSE;
   }
 
@@ -868,7 +866,7 @@ void tilespec_try_read(const char *tileset_name, bool verbose)
       exit(EXIT_FAILURE);
     }
 
-    freelog(LOG_NORMAL, _("Trying \"%s\" tileset."), tileset->name);
+    freelog(LOG_VERBOSE, "Trying \"%s\" tileset.", tileset->name);
   }
   sz_strlcpy(default_tileset_name, tileset_get_name(tileset));
 }
@@ -1052,7 +1050,7 @@ static void ensure_big_sprite(struct specfile *sf)
    * to be reloaded, but most of the time it's just loaded once, the small
    * sprites are extracted, and then it's freed. */
   if (!section_file_load(file, sf->file_name)) {
-    freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
+    freelog(LOG_FATAL, "Could not open \"%s\".", sf->file_name);
     exit(EXIT_FAILURE);
   }
 
@@ -1066,7 +1064,7 @@ static void ensure_big_sprite(struct specfile *sf)
   sf->big_sprite = load_gfx_file(gfx_filename);
 
   if (!sf->big_sprite) {
-    freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file \"%s\"."),
+    freelog(LOG_FATAL, "Could not load gfx file for the spec file \"%s\".",
 	    sf->file_name);
     exit(EXIT_FAILURE);
   }
@@ -1086,7 +1084,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
   int num_grids, i;
 
   if (!section_file_load(file, sf->file_name)) {
-    freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
+    freelog(LOG_FATAL, "Could not open \"%s\".", sf->file_name);
     exit(EXIT_FAILURE);
   }
   if (!check_tilespec_capabilities(file, "spec",
@@ -1235,7 +1233,7 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
     }
   }
 
-  freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for \"%s\"."),
+  freelog(LOG_FATAL, "Couldn't find a supported gfx file extension for \"%s\".",
          gfx_filename);
   exit(EXIT_FAILURE);
   return NULL;
@@ -1280,7 +1278,7 @@ static int check_cell_type(const char *cell_type, const char *tile_type)
   if (mystrcasecmp(cell_type, "whole") == 0) {
     return CELL_WHOLE;
   }
-  freelog(LOG_ERROR, "Unknown cell_type \"%s\" for \"%s\".",
+  freelog(LOG_ERROR, "Unknown cell_type \"%s\" for [%s].",
 		cell_type, tile_type);
   return CELL_WHOLE;
 }
@@ -1305,7 +1303,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   fname = tilespec_fullname(tileset_name);
   if (!fname) {
     if (verbose) {
-      freelog(LOG_ERROR, _("Can't find tileset \"%s\"."), tileset_name); 
+      freelog(LOG_ERROR, "Can't find tileset \"%s\".", tileset_name); 
     }
     tileset_free(t);
     return NULL;
@@ -1313,7 +1311,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   freelog(LOG_VERBOSE, "tilespec file is \"%s\".", fname);
 
   if (!section_file_load(file, fname)) {
-    freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
+    freelog(LOG_ERROR, "Could not open \"%s\".", fname);
     section_file_free(file);
     free(fname);
     tileset_free(t);
@@ -1354,7 +1352,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   }
 
   if (t->is_isometric && !isometric_view_supported()) {
-    freelog(LOG_ERROR, _("Client does not support isometric tilesets."
+    freelog(LOG_NORMAL, _("Client does not support isometric tilesets."
 	    " Using default tileset instead."));
     assert(tileset_name != NULL);
     section_file_free(file);
@@ -1363,7 +1361,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     return NULL;
   }
   if (!t->is_isometric && !overhead_view_supported()) {
-    freelog(LOG_ERROR, _("Client does not support overhead view tilesets."
+    freelog(LOG_NORMAL, _("Client does not support overhead view tilesets."
 	    " Using default tileset instead."));
     assert(tileset_name != NULL);
     section_file_free(file);
@@ -1420,7 +1418,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       || t->darkness_style > DARKNESS_CORNER
       || (t->darkness_style == DARKNESS_ISORECT
 	  && (!t->is_isometric || t->hex_width > 0 || t->hex_height > 0))) {
-    freelog(LOG_FATAL, _("Invalid darkness style set in tileset."));
+    freelog(LOG_FATAL, "Invalid darkness style set in tileset.");
     exit(EXIT_FAILURE);
   }
   t->unit_flag_offset_x
@@ -1561,7 +1559,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       if (terr->layer[l].match_style == MATCH_NONE
 	  && t->layers[l].match_style == MATCH_FULL) {
 	freelog(LOG_ERROR, "[Layer %d] has match_type full set;"
-				" all section must match this."
+				" all sections must match this."
 				"  [%s] doesn't.", l, sections[i]);
       }
 
@@ -1579,8 +1577,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 	    || terr->layer[l].offset_x > 0
 	    || terr->layer[l].offset_y > 0) {
 	  freelog(LOG_ERROR,
-		  _("[%s] layer %d: you cannot have tall terrain or\n"
-		    "a sprite offset with a cell-based drawing method."),
+		  "[%s] layer %d: you cannot have tall terrain or\n"
+		    "a sprite offset with a cell-based drawing method.",
 		  sections[i], l);
 	  terr->layer[l].is_tall = FALSE;
 	  terr->layer[l].offset_x = terr->layer[l].offset_y = 0;
@@ -1629,7 +1627,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     dname = datafilename(spec_filenames[i]);
     if (!dname) {
       if (verbose) {
-        freelog(LOG_ERROR, _("Can't find spec file \"%s\"."), spec_filenames[i]);
+        freelog(LOG_ERROR, "Can't find spec file \"%s\".", spec_filenames[i]);
       }
       section_file_free(file);
       free(fname);
@@ -1749,7 +1747,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
     if (ss->file) {
       ss->sprite = load_gfx_file(ss->file);
       if (!ss->sprite) {
-	freelog(LOG_FATAL, _("Couldn't load gfx file \"%s\" for sprite '%s'."),
+	freelog(LOG_FATAL, "Couldn't load gfx file \"%s\" for sprite '%s'.",
 		ss->file, tag_name);
 	exit(EXIT_FAILURE);
       }
@@ -1886,7 +1884,7 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   }
   t->sprites.specialist[id].count = j;
   if (j == 0) {
-    freelog(LOG_NORMAL, _("No graphics for specialist \"%s\"."), name);
+    freelog(LOG_FATAL, "No graphics for specialist \"%s\".", name);
     exit(EXIT_FAILURE);
   }
 }
@@ -1917,7 +1915,7 @@ static void tileset_setup_citizen_types(struct tileset *t)
     }
     t->sprites.citizen[i].count = j;
     if (j == 0) {
-      freelog(LOG_NORMAL, _("No graphics for citizen \"%s\"."), name);
+      freelog(LOG_FATAL, "No graphics for citizen \"%s\".", name);
       exit(EXIT_FAILURE);
     }
   }
@@ -2529,6 +2527,7 @@ void tileset_load_tiles(struct tileset *t)
 /**********************************************************************
   Lookup sprite to match tag, or else to match alt if don't find,
   or else return NULL, and emit log message.
+  FIXME: currently called with some parameters translated, not others!
 ***********************************************************************/
 struct sprite* lookup_sprite_tag_alt(struct tileset *t,
                                      const char *tag, const char *alt,
@@ -2554,7 +2553,7 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
   }
 
   freelog(required ? LOG_FATAL : LOG_VERBOSE,
-	  _("Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."),
+	  "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\".",
 	  tag, alt, what, name);
   if (required) {
     exit(EXIT_FAILURE);
@@ -2602,8 +2601,8 @@ void tileset_setup_tech_type(struct tileset *t, int id)
     t->sprites.tech[id]
       = lookup_sprite_tag_alt(t, advances[id].graphic_str,
 			      advances[id].graphic_alt,
-			      FALSE, "tech_type",
-			      get_normal_tech_name(id));
+			      FALSE, "technology",
+			      advances[id].name_rule);
 
     /* should maybe do something if NULL, eg generic default? */
   } else {
@@ -2657,7 +2656,7 @@ void tileset_setup_base(struct tileset *t,
       && t->sprites.bases[id].foreground == NULL) {
     /* No primary graphics at all. Try alternative */
     freelog(LOG_VERBOSE,
-	    _("Using alternate graphic \"%s\" (instead of \"%s\") for base \"%s\"."),
+	    "Using alternate graphic \"%s\" (instead of \"%s\") for base \"%s\".",
             pbase->graphic_alt, pbase->graphic_str, base_name(pbase));
 
     sz_strlcpy(full_tag_name, pbase->graphic_alt);
@@ -2676,14 +2675,14 @@ void tileset_setup_base(struct tileset *t,
         && t->sprites.bases[id].middleground == NULL
         && t->sprites.bases[id].foreground == NULL) {
       /* Cannot find alternative graphics either */
-      freelog(LOG_ERROR, _("No graphics for base \"%s\" at all!"), pbase->name);
+      freelog(LOG_FATAL, "No graphics for base \"%s\" at all!", pbase->name);
       exit(EXIT_FAILURE);
     }
   }
 
   t->sprites.bases[id].activity = load_sprite(t, pbase->activity_gfx);
   if (t->sprites.bases[id].activity == NULL) {
-    freelog(LOG_ERROR, _("Missing %s building activity tag \"%s\"."),
+    freelog(LOG_FATAL, "Missing %s building activity tag \"%s\".",
             base_name(pbase), pbase->activity_gfx);
     exit(EXIT_FAILURE);
   }
@@ -2740,8 +2739,7 @@ void tileset_setup_tile_type(struct tileset *t,
 	  draw->layer[l].base.p[i] = sprite;
 	}
 	if (i == 0) {
-	  /* TRANS: obscure tileset error. */
-	  freelog(LOG_FATAL, _("Missing base sprite tag \"%s\"."),
+	  freelog(LOG_FATAL, "Missing base sprite tag \"%s\".",
 		  buffer);
 	  exit(EXIT_FAILURE);
 	}
@@ -2778,7 +2776,8 @@ void tileset_setup_tile_type(struct tileset *t,
 	  break;
 	};
 
-	draw->layer[l].cells = fc_malloc(number * sizeof(*draw->layer[l].cells));
+	draw->layer[l].cells
+	  = fc_malloc(number * sizeof(*draw->layer[l].cells));
 
 	for (i = 0; i < number; i++) {
 	  enum direction4 dir = i % NUM_CORNER_DIRS;
@@ -2802,9 +2801,9 @@ void tileset_setup_tile_type(struct tileset *t,
 			(value >> 0) & 1,
 			(value >> 1) & 1,
 			(value >> 2) & 1);
-	    draw->layer[l].cells[i] = lookup_sprite_tag_alt(t, buffer, "", TRUE,
-							"same cell terrain",
-							pterrain->name_rule);
+	    draw->layer[l].cells[i]
+	      = lookup_sprite_tag_alt(t, buffer, "", TRUE, "same cell terrain",
+				      pterrain->name_rule);
 	    break;
 	  case MATCH_FULL:
 	    {
@@ -2872,7 +2871,7 @@ void tileset_setup_tile_type(struct tileset *t,
 				     t->sprites.mask.tile,
 				     xo[dir], yo[dir]);
 	      } else {
-		freelog(LOG_ERROR, _("Terrain graphics tag \"%s\" missing."),
+		freelog(LOG_ERROR, "Terrain graphics tag \"%s\" missing.",
 			buffer);
 	      }
 
@@ -3681,10 +3680,10 @@ static int fill_terrain_sprite_array(struct tileset *t,
   int oy = draw->layer[l].offset_y;
   int i;
 
-#define MATCH(dir)								\
-    (t->sprites.terrain[tterrain_near[(dir)]->index]->num_layers > (l)		\
-    ? t->sprites.terrain[tterrain_near[(dir)]->index]->layer[l].match_type	\
-    : -1)
+#define MATCH(dir)							    \
+    (t->sprites.terrain[tterrain_near[(dir)]->index]->num_layers > l	    \
+     ? t->sprites.terrain[tterrain_near[(dir)]->index]->layer[l].match_type \
+     : -1)
 
   switch (draw->layer[l].cell_type) {
   case CELL_WHOLE:
@@ -3753,7 +3752,6 @@ static int fill_terrain_sprite_array(struct tileset *t,
       const int noniso_offsets[4][2] = {
 	{0, 0}, {W / 2, H / 2}, {W / 2, 0}, {0, H / 2}
       };
-      int i;
 
       /* put corner cells */
       for (i = 0; i < NUM_CORNER_DIRS; i++) {
@@ -3815,48 +3813,48 @@ static int fill_terrain_sprite_darkness(struct tileset *t,
     ((adjc_tile = mapstep(ptile, (dir)))		    \
      && client_tile_get_known(adjc_tile) == TILE_UNKNOWN)
 
-    switch (t->darkness_style) {
-    case DARKNESS_NONE:
-      break;
-    case DARKNESS_ISORECT:
-      for (i = 0; i < 4; i++) {
-	const int W = t->normal_tile_width, H = t->normal_tile_height;
-	int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+  switch (t->darkness_style) {
+  case DARKNESS_NONE:
+    break;
+  case DARKNESS_ISORECT:
+    for (i = 0; i < 4; i++) {
+      const int W = t->normal_tile_width, H = t->normal_tile_height;
+      int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
-	if (UNKNOWN(DIR4_TO_DIR8[i])) {
-	  ADD_SPRITE(t->sprites.tx.darkness[i], TRUE,
-		     offsets[i][0], offsets[i][1]);
-	}
+      if (UNKNOWN(DIR4_TO_DIR8[i])) {
+	ADD_SPRITE(t->sprites.tx.darkness[i], TRUE,
+		   offsets[i][0], offsets[i][1]);
       }
-      break;
-    case DARKNESS_CARD_SINGLE:
-      for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
-	if (UNKNOWN(t->cardinal_tileset_dirs[i])) {
-	  ADD_SPRITE_SIMPLE(t->sprites.tx.darkness[i]);
-	}
+    }
+    break;
+  case DARKNESS_CARD_SINGLE:
+    for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
+      if (UNKNOWN(t->cardinal_tileset_dirs[i])) {
+	ADD_SPRITE_SIMPLE(t->sprites.tx.darkness[i]);
       }
-      break;
-    case DARKNESS_CARD_FULL:
-      /* We're looking to find the INDEX_NSEW for the directions that
-       * are unknown.  We want to mark unknown tiles so that an unreal
-       * tile will be given the same marking as our current tile - that
-       * way we won't get the "unknown" dither along the edge of the
-       * map. */
-      tileno = 0;
-      for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
-	if (UNKNOWN(t->cardinal_tileset_dirs[i])) {
-	  tileno |= 1 << i;
-	}
+    }
+    break;
+  case DARKNESS_CARD_FULL:
+    /* We're looking to find the INDEX_NSEW for the directions that
+     * are unknown.  We want to mark unknown tiles so that an unreal
+     * tile will be given the same marking as our current tile - that
+     * way we won't get the "unknown" dither along the edge of the
+     * map. */
+    tileno = 0;
+    for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
+      if (UNKNOWN(t->cardinal_tileset_dirs[i])) {
+	tileno |= 1 << i;
       }
+    }
 
-      if (tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.tx.darkness[tileno]);
-      }
-      break;
-    case DARKNESS_CORNER:
-      /* Handled separately. */
-      break;
-    };
+    if (tileno != 0) {
+      ADD_SPRITE_SIMPLE(t->sprites.tx.darkness[tileno]);
+    }
+    break;
+  case DARKNESS_CORNER:
+    /* Handled separately. */
+    break;
+  };
 #undef UNKNOWN
 
   return sprs - saved_sprs;

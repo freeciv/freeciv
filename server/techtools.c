@@ -109,7 +109,7 @@ static void tech_researched(struct player *plr)
     notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
 		     _("The %s have researched %s."), 
 		     get_nation_name_plural(plr->nation),
-		     get_tech_name(plr, research->researching));
+		     advance_name_researching(plr));
 
   } else {
     notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
@@ -166,7 +166,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 	if (num_players >= mod) {
 	  notify_player(pplayer, NULL, E_TECH_GAIN,
 			   _("%s acquired from %s!"),
-			   get_tech_name(pplayer, i), buf);
+			   advance_name_for_player(pplayer, i), buf);
 	  script_signal_emit("tech_researched", 3,
 			     API_TYPE_TECH_TYPE, &advances[i],
 			     API_TYPE_PLAYER, pplayer,
@@ -174,7 +174,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 	  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 			   _("The %s have acquired %s from %s."),
 			   get_nation_name_plural(pplayer->nation),
-			   get_tech_name(pplayer, i), buf);
+			   advance_name_for_player(pplayer, i), buf);
 
 	  do_free_cost(pplayer, i);
 	  found_new_tech(pplayer, i, FALSE, TRUE);
@@ -217,7 +217,7 @@ static void update_player_after_tech_researched(struct player* plr,
       notify_player(plr, NULL, E_NEW_GOVERNMENT,
 		       _("Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
-		       get_tech_name(plr, tech_found), gov->name);
+		       advance_name_for_player(plr, tech_found), gov->name);
     }
   } government_iterate_end;
 
@@ -293,7 +293,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 	  && (pcity = find_city_from_great_wonder(id))) {
 	notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
 	                 _("Discovery of %s OBSOLETES %s in %s!"), 
-	                 get_tech_name(city_owner(pcity), tech_found),
+	                 advance_name_for_player(city_owner(pcity), tech_found),
 			 get_improvement_name(id),
 	                 pcity->name);
       }
@@ -344,9 +344,9 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       notify_team(plr, NULL, E_TECH_LEARNED,
 		       _("Learned %s. "
 			 "Our scientists focus on %s; goal is %s."),
-		       get_tech_name(plr, tech_found),
-		       get_tech_name(plr, research->researching),
-		       get_tech_name(plr, research->tech_goal));
+		       advance_name_for_player(plr, tech_found),
+		       advance_name_researching(plr),
+		       advance_name_for_player(plr, research->tech_goal));
     } else {
       if (plr->ai.control) {
         choose_random_tech(plr);
@@ -362,23 +362,23 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 	notify_team(plr, NULL, E_TECH_LEARNED,
 			 _("Learned %s.  Scientists "
 			   "choose to research %s."),
-			 get_tech_name(plr, tech_found),
-			 get_tech_name(plr, research->researching));
+			 advance_name_for_player(plr, tech_found),
+			 advance_name_researching(plr));
       } else if (research->researching != A_UNSET) {
 	char buffer1[300], buffer2[300];
 
 	my_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
-		    get_tech_name(plr, research->researching));
+		    advance_name_researching(plr));
 	research->future_tech++;
 	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
-		    get_tech_name(plr, research->researching));
+		    advance_name_researching(plr));
 	notify_team(plr, NULL, E_TECH_LEARNED, "%s%s", buffer1,
 			 buffer2);
       } else {
 	notify_team(plr, NULL, E_TECH_LEARNED,
 			 _("Learned %s.  Scientists "
 			   "do not know what to research next."),
-			 get_tech_name(plr, tech_found));
+			 advance_name_for_player(plr, tech_found));
       }
     }
   }
@@ -562,7 +562,7 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
     research->tech_goal = tech;
     notify_research(plr, E_TECH_GOAL,
 		    _("Technology goal is %s."),
-		    get_tech_name(plr, tech));
+		    advance_name_for_player(plr, tech));
   }
 }
 
@@ -690,18 +690,18 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 
   notify_player(pplayer, NULL, E_TECH_GAIN,
 		   _("You steal %s from the %s."),
-		   get_tech_name(pplayer, stolen_tech),
+		   advance_name_for_player(pplayer, stolen_tech),
 		   get_nation_name_plural(victim->nation));
 
   notify_player(victim, NULL, E_ENEMY_DIPLOMAT_THEFT,
                    _("The %s stole %s from you!"),
 		   get_nation_name_plural(pplayer->nation),
-		   get_tech_name(pplayer, stolen_tech));
+		   advance_name_for_player(pplayer, stolen_tech));
 
   notify_embassies(pplayer, victim, NULL, E_TECH_GAIN,
 		   _("The %s have stolen %s from the %s."),
 		   get_nation_name_plural(pplayer->nation),
-		   get_tech_name(pplayer, stolen_tech),
+		   advance_name_for_player(pplayer, stolen_tech),
 		   get_nation_name_plural(victim->nation));
 
   do_conquer_cost(pplayer, stolen_tech);
