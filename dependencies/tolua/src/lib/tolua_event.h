@@ -12,13 +12,9 @@
 ** enhancements, or modifications.
 */
 
-#ifndef TOLUA_EVENT_H
-#define TOLUA_EVENT_H
-
-#include "tolua++.h"
+#pragma once
+#include"toluaxx.h"
 
 TOLUA_API void tolua_moduleevents (lua_State* L);
 TOLUA_API int tolua_ismodulemetatable (lua_State* L);
 TOLUA_API void tolua_classevents (lua_State* L);
-
-#endif

@@ -12,7 +12,7 @@
 ** enhancements, or modifications.
 */
 
-#include "tolua++.h"
+#include "toluaxx.h"
 #include "lauxlib.h"
 
 #include <stdlib.h>
@@ -46,6 +46,10 @@ TOLUA_API void tolua_pushuserdata (lua_State* L, void* value)
   lua_pushnil(L);
  else
   lua_pushlightuserdata(L,value);
+}
+
+TOLUA_API void tolua_pushnil(lua_State* L){
+  lua_pushnil(L);
 }
 
 TOLUA_API void tolua_pushusertype (lua_State* L, void* value, const char* type)
