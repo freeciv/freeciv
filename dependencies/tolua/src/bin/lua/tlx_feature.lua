@@ -89,40 +89,44 @@ end
 -- check if feature is inside a container definition
 -- it returns the container class name or nil.
 function classFeature:incontainer (which)
- if self.parent then
-  local parent = self.parent
-  while parent do
-   if parent.classtype == which then
-    return parent.name
+   if self.parent then
+      local parent = self.parent
+      while parent do
+	 if parent.classtype == which then
+	    return parent.name
+	 end
+	 parent = parent.parent
+      end
    end
-   parent = parent.parent
-  end
- end
- return nil
+   return nil
 end
 
-function classFeature:inclass ()
- return self:incontainer('class')
+-->>-- adding (KS) -->>--
+function classFeature:instruct()
+   return self:incontainer('struct')
+end
+--<<-- end adding (KS) --<<--
+
+function classFeature:inclass()
+   return self:incontainer('class')
 end
 
-function classFeature:inmodule ()
- return self:incontainer('module')
+function classFeature:inmodule()
+   return self:incontainer('module')
 end
 
-function classFeature:innamespace ()
- return self:incontainer('namespace')
+function classFeature:innamespace()
+   return self:incontainer('namespace')
 end
 
 -- return C binding function name based on name
 -- the client specifies a prefix
 function classFeature:cfuncname (n)
-
- if self.parent then
-  n = self.parent:cfuncname(n)
- end
-
-  n = string.gsub(n..'_'.. (self.lname or self.name), "[<>:, \.%*&]", "_")
-
-  return n
+   if self.parent then
+      n = self.parent:cfuncname(n)
+   end
+   n = string.gsub(n..'_'.. (self.lname or self.name), "[<>:, \.%*&]", "_")
+   
+   return n
 end
 
