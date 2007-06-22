@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 -- Array class
@@ -59,7 +59,8 @@ function classArray:supcode ()
   output("/* get function:",self.name," */")
  end
  self.cgetname = self:cfuncname("tolua_get")
- output("static int",self.cgetname,"(lua_State* tolua_S)") 
+ output("#ifndef TOLUA_DISABLE_"..self.cgetname)
+ output("\nstatic int",self.cgetname,"(lua_State* tolua_S)")
  output("{")
  output(" int tolua_index;")
 
@@ -70,7 +71,7 @@ function classArray:supcode ()
   output(' lua_pushstring(tolua_S,".self");')
   output(' lua_rawget(tolua_S,1);')
   output(' self = ')
-  output('(',class,'*) ')
+  output('(',self.parent.type,'*) ')
   output('lua_touserdata(tolua_S,-1);')
  elseif static then
   _,_,self.mod = strfind(self.mod,'^%s*static%s%s*(.*)')
@@ -84,9 +85,17 @@ function classArray:supcode ()
  output('   tolua_error(tolua_S,"#vinvalid type in array indexing.",&tolua_err);')
 	output(' }')
 	output('#endif\n')
- output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0)-1;')
+	if flags['1'] then -- for compatibility with tolua5 ?
+		output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0)-1;')
+	else
+		output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0);')
+	end
 	output('#ifndef TOLUA_RELEASE\n')
- output(' if (tolua_index<0 || tolua_index>='..self.dim..')')
+	if self.dim and self.dim ~= '' then
+	  output(' if (tolua_index<0 || tolua_index>='..self.dim..')')
+	else
+	  output(' if (tolua_index<0)')
+	end
  output('  tolua_error(tolua_S,"array indexing out of range.",NULL);')
 	output('#endif\n')
 
@@ -104,6 +113,7 @@ function classArray:supcode ()
  end
  output(' return 1;')
  output('}')
+ output('#endif //#ifndef TOLUA_DISABLE\n')
  output('\n')
 
  -- set function ------------------------------------------------
@@ -114,7 +124,8 @@ function classArray:supcode ()
    output("/* set function:",self.name," */")
   end
   self.csetname = self:cfuncname("tolua_set")
-  output("static int",self.csetname,"(lua_State* tolua_S)")
+  output("#ifndef TOLUA_DISABLE_"..self.csetname)
+  output("\nstatic int",self.csetname,"(lua_State* tolua_S)")
   output("{")
 
   -- declare index
@@ -123,16 +134,16 @@ function classArray:supcode ()
   -- declare self, if the case
   local _,_,static = strfind(self.mod,'^%s*(static)')
   if class and static==nil then
-   output(' ',class,'*','self;')
+   output(' ',self.parent.type,'*','self;')
    output(' lua_pushstring(tolua_S,".self");')
    output(' lua_rawget(tolua_S,1);')
    output(' self = ')
-   output('(',class,'*) ')
+   output('(',self.parent.type,'*) ')
    output('lua_touserdata(tolua_S,-1);')
   elseif static then
    _,_,self.mod = strfind(self.mod,'^%s*static%s%s*(.*)')
   end
- 
+
   -- check index
 	 output('#ifndef TOLUA_RELEASE\n')
 	 output(' {')
@@ -141,9 +152,19 @@ function classArray:supcode ()
   output('   tolua_error(tolua_S,"#vinvalid type in array indexing.",&tolua_err);')
 		output(' }')
 		output('#endif\n')
-  output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0)-1;')
+
+	if flags['1'] then -- for compatibility with tolua5 ?
+		output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0)-1;')
+	else
+		output(' tolua_index = (int)tolua_tonumber(tolua_S,2,0);')
+	end
+
 	 output('#ifndef TOLUA_RELEASE\n')
-  output(' if (tolua_index<0 || tolua_index>='..self.dim..')')
+	if self.dim and self.dim ~= '' then
+	  output(' if (tolua_index<0 || tolua_index>='..self.dim..')')
+	else
+	  output(' if (tolua_index<0)')
+	end
   output('  tolua_error(tolua_S,"array indexing out of range.",NULL);')
 		output('#endif\n')
 
@@ -169,23 +190,24 @@ function classArray:supcode ()
   local def = 0
   if self.def ~= '' then def = self.def end
   if t then
-		 if t=='function' then t='value' end
    output('tolua_to'..t,'(tolua_S,3,',def,'));')
   else
    output('tolua_tousertype(tolua_S,3,',def,'));')
   end
   output(' return 0;')
   output('}')
+  output('#endif //#ifndef TOLUA_DISABLE\n')
   output('\n')
- end 
+ end
 
 end
 
-function classArray:register ()
+function classArray:register (pre)
+ pre = pre or ''
  if self.csetname then
-  output(' tolua_array(tolua_S,"'..self.lname..'",'..self.cgetname..','..self.csetname..');')
+  output(pre..'tolua_array(tolua_S,"'..self.lname..'",'..self.cgetname..','..self.csetname..');')
  else
-  output(' tolua_array(tolua_S,"'..self.lname..'",'..self.cgetname..',NULL);')
+  output(pre..'tolua_array(tolua_S,"'..self.lname..'",'..self.cgetname..',NULL);')
  end
 end
 

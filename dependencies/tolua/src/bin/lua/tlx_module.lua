@@ -7,7 +7,7 @@
 -- This code is free software; you can redistribute it and/or modify it.
 -- The software provided hereunder is on an "as is" basis, and
 -- the author has no obligation to provide maintenance, support, updates,
--- enhancements, or modifications. 
+-- enhancements, or modifications.
 
 
 
@@ -22,16 +22,17 @@ classModule.__index = classModule
 setmetatable(classModule,classContainer)
 
 -- register module
-function classModule:register ()
+function classModule:register (pre)
+ pre = pre or ''
  push(self)
- output(' tolua_module(tolua_S,"'..self.name..'",',self:hasvar(),');')
-	output(' tolua_beginmodule(tolua_S,"'..self.name..'");')
+ output(pre..'tolua_module(tolua_S,"'..self.name..'",',self:hasvar(),');')
+ output(pre..'tolua_beginmodule(tolua_S,"'..self.name..'");')
  local i=1
  while self[i] do
-  self[i]:register()
+  self[i]:register(pre..' ')
   i = i+1
  end
-	output(' tolua_endmodule(tolua_S);')
+ output(pre..'tolua_endmodule(tolua_S);')
 	pop()
 end
 
