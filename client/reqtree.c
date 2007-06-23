@@ -949,7 +949,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
        
           impr_type_iterate(impr_type) {
 	    struct impr_type* impr = get_improvement_type(impr_type);
-              requirement_vector_iterate(&(impr->reqs), preq) {
+            requirement_vector_iterate(&(impr->reqs), preq) {
               if (preq->source.type == REQ_TECH
 	          && preq->source.value.tech == node->tech) {
  	        sprite = get_building_sprite(tileset, impr_type);
@@ -966,23 +966,23 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
  	      }
  	    } requirement_vector_iterate_end;
           } impr_type_iterate_end;
- 	
-           government_iterate(gov) {
-             requirement_vector_iterate(&(gov->reqs), preq) {
-             if (preq->source.type == REQ_TECH
-	         && preq->source.value.tech == node->tech) {
-                 sprite = get_government_sprite(tileset, gov);
+
+          government_iterate(gov) {
+            requirement_vector_iterate(&(gov->reqs), preq) {
+              if (preq->source.type == REQ_TECH
+                && preq->source.value.tech == node->tech) {
+                sprite = get_government_sprite(tileset, gov);
+                get_sprite_dimensions(sprite, &swidth, &sheight);
  	        canvas_put_sprite_full(pcanvas,
  	                               icon_startx,
  				       starty + text_h + 4
  				       + (height - text_h - 4 - sheight) / 2,
  	                               sprite);
- 	        get_sprite_dimensions(sprite, &swidth, &sheight);
  	        icon_startx += swidth + 2;
-               }
-             } requirement_vector_iterate_end;
-           } government_iterate_end;
-	 }
+              }
+            } requirement_vector_iterate_end;
+          } government_iterate_end;
+        }
       }
 
       /* Draw all outgoing edges */
