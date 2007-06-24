@@ -111,27 +111,10 @@ static  int lua_isusertable (lua_State* L, int lo, const char* type) {
   return r;
 }
 
-int push_table_instance(lua_State* L, int lo) {
-  if (lua_istable(L, lo)) {
-    lua_pushstring(L, ".c_instance");
-    lua_gettable(L, lo);
-    if (lua_isuserdata(L, -1)) {
-      lua_replace(L, lo);
-      return 1;
-    } else {  
-      lua_pop(L, 1);
-      return 0;
-    }
-  } else {
-    return 0;
-  }
-  return 0;
-};
-
 /* the equivalent of lua_is* for usertype */
 static int lua_isusertype (lua_State* L, int lo, const char* type){
   if (!lua_isuserdata(L,lo)) {
-    if (!push_table_instance(L, lo)) {
+    if (!tolua_push_table_instance(L, lo)) {
       return 0;
     }
   }

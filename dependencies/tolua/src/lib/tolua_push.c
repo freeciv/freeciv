@@ -173,3 +173,21 @@ TOLUA_API void tolua_pushfieldusertype_and_takeownership (lua_State* L, int lo, 
  lua_settable(L,lo);
 }
 
+TOLUA_API int tolua_push_table_instance(lua_State* L, int lo)
+{
+  if (lua_istable(L, lo)) {
+    lua_pushstring(L, ".c_instance");
+    lua_gettable(L, lo);
+    if (lua_isuserdata(L, -1)) {
+      lua_replace(L, lo);
+      return 1;
+    } else {  
+      lua_pop(L, 1);
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+  return 0;
+};
+

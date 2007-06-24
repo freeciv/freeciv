@@ -79,7 +79,8 @@ extern "C" {
   
 #  define TOLUA_NOPEER	LUA_REGISTRYINDEX /* for lua 5.1 */
 
-  TOLUA_API lua_State* tolua_state();
+  TOLUA_API lua_State* tolua_state(void);
+  TOLUA_API void tolua_setstate(lua_State* L);
   TOLUA_API const char* tolua_typename (lua_State* L, int lo);
   TOLUA_API void tolua_error(lua_State* L, char* msg, tolua_Error* err);
   TOLUA_API int tolua_isnoobj(lua_State* L, int lo, tolua_Error* err);
@@ -134,6 +135,7 @@ extern "C" {
   TOLUA_API void tolua_pushfieldusertype(lua_State* L, int lo, int index, void* v, const char* type);
   TOLUA_API void tolua_pushfieldusertype_and_takeownership(lua_State* L, int lo, int index, void* v, const char* type);
   TOLUA_API void tolua_pushnil(lua_State* L);
+  TOLUA_API int tolua_push_table_instance(lua_State* L, int lo);
 
   TOLUA_API double tolua_tonumber(lua_State* L, int narg, double def);
   TOLUA_API const char* tolua_tostring(lua_State* L, int narg, const char* def);
@@ -179,6 +181,7 @@ extern "C" {
 
   /* toluaxx proxy technique */
 #  define TOLUA_PROXY_TOP -1
+  TOLUA_API void tolua_proxystack(lua_State* L);
   TOLUA_API int  tolua_proxytop(lua_State* L);
   TOLUA_API int  tolua_proxypush(lua_State* L);
   TOLUA_API int  tolua_proxypop(lua_State* L);

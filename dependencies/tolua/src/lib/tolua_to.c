@@ -38,14 +38,12 @@ TOLUA_API void* tolua_touserdata (lua_State* L, int narg, void* def){
   return tolua_tousertype(L, narg, def);
 }
 
-extern int push_table_instance(lua_State* L, int lo);
-
 TOLUA_API void* tolua_tousertype (lua_State* L, int narg, void* def){
   if (lua_gettop(L)<abs(narg) NIL_AS_NOVALUE) return def;
   else {
     void* u;
     if (!lua_isuserdata(L, narg)) {
-      if (!push_table_instance(L, narg)) return NULL;
+      if (!tolua_push_table_instance(L, narg)) return NULL;
     }
     u = lua_touserdata(L,narg);
     return (u==NULL) ? NULL : *((void**)u); /* nil represents NULL */

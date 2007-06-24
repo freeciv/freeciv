@@ -15,6 +15,7 @@
 #include <stdio.h>
 
 #include "toluaxx.h"
+#include "tolua_event.h"
 
 /* Store at ubox
  * It stores, creating the corresponding table if needed,
