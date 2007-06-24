@@ -107,8 +107,10 @@ struct reqtree {
 ****************************************************************************/
 enum reqtree_edge_type {
   REQTREE_EDGE = 0,     /* Normal, "unvisited" */
+  REQTREE_READY_EDGE,
   REQTREE_KNOWN_EDGE,   /* Both nodes known, "visited" */
-  REQTREE_ACTIVE_EDGE   /* Dest node is part of goal "future visited" */
+  REQTREE_ACTIVE_EDGE,
+  REQTREE_GOAL_EDGE     /* Dest node is part of goal "future visited" */
 };
 
 /*************************************************************************
@@ -909,13 +911,18 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     int i;
     for (i = 0; i < dest_node->nprovide; ++i) {
       enum reqtree_edge_type type = get_edge_type(node, dest_node->provide[i]);
-      if (type == REQTREE_ACTIVE_EDGE) {
+      switch (type) {
+      case REQTREE_ACTIVE_EDGE:
+      case REQTREE_GOAL_EDGE:
+        return type;
+      case REQTREE_KNOWN_EDGE:
+      case REQTREE_READY_EDGE:
         sum_type = type;
         break;
-      }
-      if (type == REQTREE_KNOWN_EDGE) {
-        sum_type = type;
-      }      
+      default:
+        /* no change */
+        break;
+      };
     }
     return sum_type;
   }
@@ -926,21 +933,24 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     return REQTREE_KNOWN_EDGE; /* Global observer case */
   }
   
-  if (get_invention(game.player_ptr, dest_node->tech) == TECH_KNOWN) {
-    if (get_invention(game.player_ptr, node->tech) == TECH_KNOWN) {
-      return REQTREE_KNOWN_EDGE;
-    } else {
-      return REQTREE_EDGE; /* required advance not known */
-    }
+  if (research->researching == dest_node->tech) {
+    return REQTREE_ACTIVE_EDGE;
   }
 
   if (is_tech_a_req_for_goal(game.player_ptr, dest_node->tech,
-		       research->tech_goal)
-                       || research->researching == dest_node->tech
-                       || research->tech_goal == dest_node->tech) {
-    return REQTREE_ACTIVE_EDGE;
+                             research->tech_goal)
+      || research->tech_goal == dest_node->tech) {
+    return REQTREE_GOAL_EDGE;
   }
-  
+
+  if (get_invention(game.player_ptr, node->tech) == TECH_KNOWN) {
+    if (get_invention(game.player_ptr, dest_node->tech) == TECH_KNOWN) {
+      return REQTREE_KNOWN_EDGE;
+    } else {
+      return REQTREE_READY_EDGE;
+    }
+  }
+
   return REQTREE_EDGE;
 }
 
@@ -952,12 +962,19 @@ static enum color_std edge_color(struct tree_node *node,
                                  struct tree_node *dest_node)
 {
   enum reqtree_edge_type type = get_edge_type(node, dest_node);
-  if (type == REQTREE_ACTIVE_EDGE)
+  switch (type) {
+  case REQTREE_ACTIVE_EDGE:
+    return COLOR_REQTREE_RESEARCHING;
+  case REQTREE_GOAL_EDGE:
     return COLOR_REQTREE_UNREACHABLE_GOAL;
-  else if (type == REQTREE_KNOWN_EDGE)
-    return COLOR_REQTREE_BACKGROUND;
-  else
+  case REQTREE_KNOWN_EDGE:
+    /* using "text" black instead of "known" white/ground/green */
+    return COLOR_REQTREE_TEXT;
+  case REQTREE_READY_EDGE:
+    return COLOR_REQTREE_REACHABLE;
+  default:
     return COLOR_REQTREE_EDGE;
+  };
 }
 
 /****************************************************************************
