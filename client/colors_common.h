@@ -57,6 +57,7 @@ enum color_std {
   COLOR_REQTREE_UNREACHABLE, /* red */
   COLOR_REQTREE_BACKGROUND, /* black */
   COLOR_REQTREE_TEXT, /* black */
+  COLOR_REQTREE_EDGE, /* gray */
   
   /* Player dialog */
   COLOR_PLAYER_COLOR_BACKGROUND, /* black */

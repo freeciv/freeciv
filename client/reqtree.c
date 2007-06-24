@@ -102,6 +102,15 @@ struct reqtree {
 };
 
 
+/****************************************************************************
+  Edge types for coloring the edges by type in the tree
+****************************************************************************/
+enum reqtree_edge_type {
+  REQTREE_EDGE = 0,     /* Normal, "unvisited" */
+  REQTREE_KNOWN_EDGE,   /* Both nodes known, "visited" */
+  REQTREE_ACTIVE_EDGE   /* Dest node is part of goal "future visited" */
+};
+
 /*************************************************************************
   Add requirement edge to node and provide edge to req
 *************************************************************************/
@@ -873,6 +882,84 @@ static enum color_std node_color(struct tree_node *node)
 
 }
 
+
+/****************************************************************************
+  Return the type for an edge between two nodes
+  if node is a dummy, dest_node can be NULL
+****************************************************************************/
+static enum reqtree_edge_type get_edge_type(struct tree_node *node, 
+                                            struct tree_node *dest_node)
+{
+  if (dest_node == NULL) {
+    /* assume node is a dummy */
+    dest_node = node;
+  }
+   
+  /* find the required tech */
+  while (node->is_dummy) {
+    assert(node->nrequire == 1);
+    node = node->require[0];
+  }
+  
+  /* find destination advance by recursing in dest_node->provide[]
+   * watch out: recursion */
+  if (dest_node->is_dummy) {
+    assert(dest_node->nprovide > 0);
+    enum reqtree_edge_type sum_type = REQTREE_EDGE;
+    int i;
+    for (i = 0; i < dest_node->nprovide; ++i) {
+      enum reqtree_edge_type type = get_edge_type(node, dest_node->provide[i]);
+      if (type == REQTREE_ACTIVE_EDGE) {
+        sum_type = type;
+        break;
+      }
+      if (type == REQTREE_KNOWN_EDGE) {
+        sum_type = type;
+      }      
+    }
+    return sum_type;
+  }
+
+  struct player_research* research = get_player_research(game.player_ptr);
+
+  if (!game.player_ptr || !research) {
+    return REQTREE_KNOWN_EDGE; /* Global observer case */
+  }
+  
+  if (get_invention(game.player_ptr, dest_node->tech) == TECH_KNOWN) {
+    if (get_invention(game.player_ptr, node->tech) == TECH_KNOWN) {
+      return REQTREE_KNOWN_EDGE;
+    } else {
+      return REQTREE_EDGE; /* required advance not known */
+    }
+  }
+
+  if (is_tech_a_req_for_goal(game.player_ptr, dest_node->tech,
+		       research->tech_goal)
+                       || research->researching == dest_node->tech
+                       || research->tech_goal == dest_node->tech) {
+    return REQTREE_ACTIVE_EDGE;
+  }
+  
+  return REQTREE_EDGE;
+}
+
+/****************************************************************************
+  Return a stroke color for an edge between two nodes
+  if node is a dummy, dest_node can be NULL
+****************************************************************************/
+static enum color_std edge_color(struct tree_node *node, 
+                                 struct tree_node *dest_node)
+{
+  enum reqtree_edge_type type = get_edge_type(node, dest_node);
+  if (type == REQTREE_ACTIVE_EDGE)
+    return COLOR_REQTREE_UNREACHABLE_GOAL;
+  else if (type == REQTREE_KNOWN_EDGE)
+    return COLOR_REQTREE_BACKGROUND;
+  else
+    return COLOR_REQTREE_EDGE;
+}
+
 /****************************************************************************
   Draw the reqtree diagram!
 
@@ -901,9 +988,9 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       if (node->is_dummy) {
         /* Use the same layout as lines for dummy nodes */
         canvas_put_line(pcanvas,
-			get_color(tileset, COLOR_REQTREE_BACKGROUND),
-			LINE_NORMAL,
-			startx, starty, width, 0);
+		        get_color(tileset, edge_color(node, NULL)),
+		        LINE_GOTO,
+		        startx, starty, width, 0);
       } else {
 	const char *text = advance_name_for_player(game.player_ptr, node->tech);
 	int text_w, text_h;
@@ -993,11 +1080,11 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 
 	endx = dest_node->node_x;
 	endy = dest_node->node_y + dest_node->node_height / 2;
-
+	
 	canvas_put_line(pcanvas,
-			get_color(tileset, COLOR_REQTREE_BACKGROUND),
-			LINE_NORMAL,
-			startx, starty, endx - startx, endy - starty);
+		        get_color(tileset, edge_color(node, dest_node)),
+		        LINE_GOTO,
+		        startx, starty, endx - startx, endy - starty);
       }
     }
   }

@@ -114,6 +114,10 @@ reqtree_background = {"r", "g", "b"
 reqtree_text = {"r", "g", "b"
     0,   0,   0
 }
+
+reqtree_edge = {"r", "g", "b"
+    127,   127,   127
+}
   
 ; Player dialog
 playerdlg_background = {"r", "g", "b"

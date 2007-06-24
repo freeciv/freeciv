@@ -82,6 +82,7 @@ char *color_names[] = {
   "reqtree_unreachable",
   "reqtree_background",
   "reqtree_text",
+  "reqtree_edge",
 
   /* Player dialog */
   "playerdlg_background"
