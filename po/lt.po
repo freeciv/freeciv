@@ -3373,27 +3373,27 @@ msgid ""
 msgstr ""
 
 #: server/report.c:55
-#, c-format
+#, fuzzy, c-format
 msgid "%s report on the RICHEST Civilizations in the World."
 msgstr "%s ataskaita apie TURTINGIAUSIAS pasaulio civilizacijas %s."
 
 #: server/report.c:56
-#, c-format
+#, fuzzy, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World."
 msgstr "%s ataskaita apie PAŽANGIAUSIAS pasaulio civilizacijas %s."
 
 #: server/report.c:57
-#, c-format
+#, fuzzy, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World."
 msgstr "%s ataskaita apie labiausiai MILITARIZUOTAS pasaulio civilizacijas %s."
 
 #: server/report.c:58
-#, c-format
+#, fuzzy, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World."
 msgstr "%s ataskaita apie LAIMINGIAUSIAS pasaulio civilizacijas %s."
 
 #: server/report.c:59
-#, c-format
+#, fuzzy, c-format
 msgid "%s report on the LARGEST Civilizations in the World."
 msgstr "%s ataskaita apie DIDŽIAUSIAS pasaulio civilizacijas %s."
 
@@ -7917,12 +7917,12 @@ msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 
 #: client/helpdata.c:1126
-#, c-format
+#, fuzzy, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
 msgstr "* %s atradimas sumažina riziką iki 25%%.\n"
 
 #: client/helpdata.c:1129
-#, c-format
+#, fuzzy, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 msgstr "* %s sumažina riziką iki 12%%.\n"
 
