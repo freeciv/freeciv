@@ -741,7 +741,8 @@ static void build_free_small_wonders(struct player *pplayer,
 
       notify_player(pplayer, pnew_city->tile, E_CITY_LOST,
 		    _("You lost %s. A new %s was built in %s."),
-		    old_capital_name, get_improvement_name(id),
+		    old_capital_name,
+		    improvement_name_translation(id),
 		    pnew_city->name);
       /* 
        * The enemy want to see the new capital in his intelligence
@@ -1871,7 +1872,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   if (target.is_unit) {
     name = utype_name_translation(utype_by_number(pcity->production.value));
   } else {
-    name = get_improvement_name(pcity->production.value);
+    name = improvement_name_translation(pcity->production.value);
   }
 
   switch (event) {
@@ -2125,7 +2126,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
           continue;
         }
 
-	requirement_vector_iterate(&get_improvement_type(impr)->reqs, preq) {
+	requirement_vector_iterate(&improvement_by_number(impr)->reqs, preq) {
 	  if (preq->source.type == REQ_TERRAIN
 	      && !is_req_active(city_owner(pcity), pcity, NULL,
 				NULL, NULL, NULL, NULL,
@@ -2134,7 +2135,8 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
           notify_player(pplayer, tile1, E_IMP_SOLD,
                            _("You sell %s in %s (now landlocked)"
                              " for %d gold."),
-                           get_improvement_name(impr), pcity->name,
+                           improvement_name_translation(impr),
+                           pcity->name,
                            impr_sell_gold(impr)); 
 	  }
 	} requirement_vector_iterate_end;

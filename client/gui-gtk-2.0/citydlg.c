@@ -1576,7 +1576,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 	name = utype_name_translation(utype_by_number(target.value));
 	sprite = get_unittype_sprite(tileset, utype_by_number(target.value));
       } else {
-	name = get_improvement_name(target.value);
+	name = improvement_name_translation(target.value);
 	sprite = get_building_sprite(tileset, target.value);
       }
       gtk_list_store_append(store, &iter);
@@ -2576,9 +2576,9 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
     sell_callback(id, data);
   } else {
     if (is_great_wonder(id)) {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
+      popup_help_dialog_typed(improvement_name_translation(id), HELP_WONDER);
     } else {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
+      popup_help_dialog_typed(improvement_name_translation(id), HELP_IMPROVEMENT);
     }
   }
 }

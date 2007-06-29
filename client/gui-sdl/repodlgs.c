@@ -1495,13 +1495,15 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     
     if(count > 0) {
       my_snprintf(cBuf, sizeof(cBuf),
-      _("We have %d of %s\n(total value is : %d)\n"
-          "We can sell %d of them for %d gold."),
-              total_count, get_improvement_name(imp),
-                              total_count * value, count, gold); 
+                  _("We have %d of %s\n(total value is : %d)\n"
+                    "We can sell %d of them for %d gold."),
+                  total_count,
+                  improvement_name_translation(imp),
+                  total_count * value, count, gold); 
     } else {
       my_snprintf(cBuf, sizeof(cBuf),
-          _("We can't sell any %s in this turn."), get_improvement_name(imp)); 
+                  _("We can't sell any %s in this turn."),
+                  improvement_name_translation(imp)); 
     }
     
     
@@ -2001,7 +2003,7 @@ void popup_economy_report_dialog(bool make_modal)
 	
       pSurf = crop_rect_from_surface(pBackground, NULL);
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s", get_improvement_name(p->type));
+      my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(p->type));
       
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
@@ -2371,7 +2373,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
     /* fill array with iprvm. icons */
     w = 0;
     impr_type_iterate(imp) {
-      pImpr = get_improvement_type(imp);
+      pImpr = improvement_by_number(imp);
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech_id)) {
@@ -2618,7 +2620,7 @@ void science_dialog_update(void)
 
     /* buildings */
     impr_type_iterate(imp) {
-      pImpr = get_improvement_type(imp);
+      pImpr = improvement_by_number(imp);
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == get_player_research(game.player_ptr)->researching)) {
@@ -2697,7 +2699,7 @@ void science_dialog_update(void)
 
       /* buildings */
       impr_type_iterate(imp) {
-        pImpr = get_improvement_type(imp);
+        pImpr = improvement_by_number(imp);
 	requirement_vector_iterate(&pImpr->reqs, preq) {  
           if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == get_player_research(game.player_ptr)->tech_goal)) {
             pSurf = adj_surf(get_building_surface(imp));

@@ -361,10 +361,11 @@ const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
 
   if (state) {
     my_snprintf(buffer, sizeof(buffer), "%s(%s)",
-		get_improvement_name(id), state); 
+		improvement_name_translation(id),
+		state); 
     return buffer;
   } else {
-    return get_improvement_name(id);
+    return improvement_name_translation(id);
   }
 }
 
@@ -398,7 +399,7 @@ struct player *city_owner(const struct city *pcity)
 **************************************************************************/
 bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id)
 {
-  const struct impr_type *building = get_improvement_type(id);
+  const struct impr_type *building = improvement_by_number(id);
 
   if (!can_player_build_improvement_direct(city_owner(pcity), id)) {
     return FALSE;
@@ -435,7 +436,7 @@ bool can_build_improvement(const struct city *pcity, Impr_type_id id)
 bool can_eventually_build_improvement(const struct city *pcity,
 				      Impr_type_id id)
 {
-  const struct impr_type *building = get_improvement_type(id);
+  const struct impr_type *building = improvement_by_number(id);
 
   /* Can the _player_ ever build this improvement? */
   if (!can_player_eventually_build_improvement(city_owner(pcity), id)) {
@@ -575,7 +576,7 @@ int improvement_upkeep(const struct city *pcity, Impr_type_id i)
   if (is_wonder(i))
     return 0;
 
-  upkeep = get_improvement_type(i)->upkeep;
+  upkeep = improvement_by_number(i)->upkeep;
   if (upkeep <= get_building_bonus(pcity, i, EFT_UPKEEP_FREE)) {
     return 0;
   }
@@ -2222,7 +2223,8 @@ void city_add_improvement(struct city *pcity, Impr_type_id impr)
 void city_remove_improvement(struct city *pcity, Impr_type_id impr)
 {
   freelog(LOG_DEBUG,"Improvement %s removed from city %s",
-          get_improvement_name(impr), pcity->name);
+          improvement_rule_name(impr),
+          pcity->name);
   
   pcity->improvements[impr] = I_NONE;
 }

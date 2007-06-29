@@ -473,7 +473,7 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
  
   if (which < game.control.num_impr_types) {
-    struct impr_type *imp = get_improvement_type(which);
+    struct impr_type *imp = improvement_by_number(which);
     int i;
     char req_buf[512];
 
@@ -516,7 +516,7 @@ static void help_update_wonder(const struct help_item *pitem,
   create_help_page(HELP_WONDER);
  
   if (which < game.control.num_impr_types) {
-    struct impr_type *imp = get_improvement_type(which);
+    struct impr_type *imp = improvement_by_number(which);
     int i;
     char req_buf[512];
 
@@ -770,7 +770,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     impr_type_iterate(j) {
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
-     requirement_vector_iterate(&get_improvement_type(j)->reqs, req) {
+     requirement_vector_iterate(&improvement_by_number(j)->reqs, req) {
 	if (req->source.type == REQ_NONE) {
 	  break;
 	} else if (req->source.type == REQ_BUILDING
@@ -779,17 +779,17 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  fcwin_box_add_box(helpdlg_page_vbox, hbox, FALSE, FALSE, 5);
 	  fcwin_box_add_static(hbox, _("Allows "), 0, SS_LEFT, FALSE, FALSE,
 			       5);
-	  fcwin_box_add_button(hbox, get_improvement_type(j)->name,
+	  fcwin_box_add_button(hbox, improvement_name_translation(j),
 			       is_great_wonder(j) ?
 			       ID_HELP_WONDER_LINK : ID_HELP_IMPROVEMENT_LINK,
 			       0 , FALSE, FALSE, 5);
 	}
       }
-      if(i==get_improvement_type(j)->obsolete_by) {
+      if(i==improvement_by_number(j)->obsolete_by) {
 	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_("Obsoletes "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox, get_improvement_type(j)->name,
+	fcwin_box_add_button(hbox, improvement_name_translation(j),
 			     is_great_wonder(j)?
 			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
 			     0,FALSE,FALSE,5);
@@ -876,12 +876,12 @@ static void help_update_dialog(const struct help_item *pitem)
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if(i!=B_LAST && is_great_wonder(i)) i = B_LAST;
     help_update_improvement(pitem, top, i);
     break;
   case HELP_WONDER:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if(i!=B_LAST && !is_great_wonder(i)) i = B_LAST;
     help_update_wonder(pitem, top, i);
     break;

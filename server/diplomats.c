@@ -861,7 +861,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   /* Examine the city for improvements to sabotage. */
   count = 0;
   built_impr_iterate(pcity, index) {
-    if (get_improvement_type(index)->sabotage > 0) {
+    if (improvement_by_number(index)->sabotage > 0) {
       count++;
     }
   } built_impr_iterate_end;
@@ -899,7 +899,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       which = myrand (count);
 
       built_impr_iterate(pcity, index) {
-	if (get_improvement_type(index)->sabotage > 0) {
+	if (improvement_by_number(index)->sabotage > 0) {
 	  if (which > 0) {
 	    which--;
 	  } else {
@@ -910,7 +910,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       } built_impr_iterate_end;
 
       freelog (LOG_DEBUG, "sabotage: random: targeted improvement: %d (%s)",
-	       target, get_improvement_name (target));
+	       target,
+	       improvement_rule_name(target));
     }
   } else {
     /*
@@ -919,18 +920,20 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * If not available, say so, deduct movement cost and return.
      */
     if (city_got_building (pcity, improvement)) {
-      if (get_improvement_type(improvement)->sabotage > 0) {
+      if (improvement_by_number(improvement)->sabotage > 0) {
 	target = improvement;
 	freelog (LOG_DEBUG, "sabotage: specified target improvement: %d (%s)",
-	       target, get_improvement_name (target));
+	       target,
+	       improvement_rule_name(target));
       } else {
 	notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 			 _("You cannot sabotage a %s!"),
-			 get_improvement_name(improvement));
+			 improvement_name_translation(improvement));
 	diplomat_charge_movement (pdiplomat, pcity->tile);
 	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_DEBUG, "sabotage: disallowed target improvement: %d (%s)",
-	       improvement, get_improvement_name (improvement));
+	       improvement,
+	       improvement_rule_name(improvement));
 	return;
       }
     } else {
@@ -938,11 +941,13 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       _("Your %s could not find the %s to"
 			 " sabotage in %s."),
 		       unit_name_translation(pdiplomat),
-		       get_improvement_name(improvement), pcity->name);
+		       improvement_name_translation(improvement),
+		       pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->tile);
       send_unit_info (pplayer, pdiplomat);
       freelog (LOG_DEBUG, "sabotage: target improvement not found: %d (%s)",
-	       improvement, get_improvement_name (improvement));
+	       improvement,
+	       improvement_rule_name(improvement));
       return;
     }
   }
@@ -959,7 +964,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     if (pcity->production.is_unit)
       prod = utype_name_translation(utype_by_number(pcity->production.value));
     else
-      prod = get_improvement_name (pcity->production.value);
+      prod = improvement_name_translation(pcity->production.value);
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s succeeded in destroying"
 		       " the production of %s in %s."),
@@ -980,7 +985,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * If target was specified, and it is in the capital or are
      * City Walls, then there is a 50% chance of getting caught.
      */
-    vulnerability = get_improvement_type(target)->sabotage;
+    vulnerability = improvement_by_number(target)->sabotage;
 
     vulnerability -= (vulnerability
 		      * get_city_bonus(pcity, EFT_SPY_RESISTANT) / 100);
@@ -996,7 +1001,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			 " to sabotage the %s in %s!"),
 		       get_nation_name(pplayer->nation),
 		       unit_name_translation(pdiplomat),
-		       get_improvement_name(target), pcity->name);
+		       improvement_name_translation(target),
+		       pcity->name);
       wipe_unit(pdiplomat);
       freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
       return;
@@ -1006,13 +1012,16 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s destroyed the %s in %s."),
 		     unit_name_translation(pdiplomat),
-		     get_improvement_name(target), pcity->name);
+		     improvement_name_translation(target),
+		     pcity->name);
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("The %s destroyed the %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
-		     get_improvement_name(target), pcity->name);
+		     improvement_name_translation(target),
+		     pcity->name);
     freelog (LOG_DEBUG, "sabotage: sabotaged improvement: %d (%s)",
-	       target, get_improvement_name (target));
+	       target,
+	       improvement_rule_name(target));
 
     /* Do it. */
     building_lost(pcity, target);

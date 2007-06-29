@@ -450,7 +450,10 @@ static int improvement_effect_value(struct player *pplayer,
 
       CITY_LOG(LOG_DEBUG, pcity,
 	       "%s parasite effect: bulbs %d, turns %d, value %d", 
-	       pimpr->name, bulbs, turns, value);
+	       improvement_rule_name(pimpr->index),
+	       bulbs,
+	       turns,
+	       value);
 	
       v += value;
       break;
@@ -723,7 +726,7 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
     int i;
 
     for (i = 0; i < n_needed_improvements; i++) {
-      struct impr_type *needed_impr = get_improvement_type(
+      struct impr_type *needed_impr = improvement_by_number(
                                         *impr_vector_get(&needed_improvements,
                                                          i));
       /* TODO: increase the want for the needed_impr,
@@ -787,7 +790,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
     .type = REQ_BUILDING,
     .value = {.building = pimpr->index}
   };
-  const bool is_coinage = impr_flag(pimpr->index, IF_GOLD);
+  const bool is_coinage = improvement_has_flag(pimpr->index, IF_GOLD);
 
   /* Remove team members from the equation */
   players_iterate(aplayer) {
@@ -811,7 +814,9 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
     v += base_want(pplayer, pcity, pimpr->index);
     if (v != 0) {
       CITY_LOG(LOG_DEBUG, pcity, "%s base_want is %d (range=%d)", 
-               pimpr->name, v, ai->impr_range[pimpr->index]);
+               improvement_rule_name(pimpr->index),
+               v,
+               ai->impr_range[pimpr->index]);
     }
   }
 
@@ -1075,7 +1080,7 @@ static bool should_force_recalc(struct city *pcity)
 {
   return city_built_last_turn(pcity) ||
         (!pcity->production.is_unit
-         && !impr_flag(pcity->production.value, IF_GOLD)
+         && !improvement_has_flag(pcity->production.value, IF_GOLD)
          && !can_eventually_build_improvement(pcity, pcity->production.value));
 }
 
@@ -1117,10 +1122,10 @@ static void adjust_wants_by_effects(struct player *pplayer,
 
   impr_type_iterate(id) {
     /* Handle coinage specially because you can never complete coinage */
-    const bool is_coinage = impr_flag(id, IF_GOLD);
+    const bool is_coinage = improvement_has_flag(id, IF_GOLD);
     if (is_coinage || can_player_eventually_build_improvement(pplayer, id)) {
       const bool is_wonder_impr = is_wonder(id);
-      struct impr_type *pimpr = get_improvement_type(id);
+      struct impr_type *pimpr = improvement_by_number(id);
 
       city_list_iterate(pplayer->cities, pcity) {
         if (pcity != wonder_city && is_wonder_impr) {
@@ -1163,7 +1168,8 @@ static void adjust_wants_by_effects(struct player *pplayer,
     impr_type_iterate(id) {
       if (pcity->ai.building_want[id] != 0) {
         CITY_LOG(LOG_DEBUG, pcity, "want to build %s with %d", 
-                 get_improvement_name(id), pcity->ai.building_want[id]);
+                 improvement_rule_name(id),
+                 pcity->ai.building_want[id]);
       }
     } impr_type_iterate_end;
   } city_list_iterate_end;
@@ -1367,9 +1373,9 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     ASSERT_REAL_CHOICE_TYPE(pcity->ai.choice.type);
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
-	     (is_unit_choice_type(pcity->ai.choice.type) ?
-	      utype_rule_name(utype_by_number(pcity->ai.choice.choice)) :
-	      get_improvement_name(pcity->ai.choice.choice)),
+	     is_unit_choice_type(pcity->ai.choice.type)
+	     ? utype_rule_name(utype_by_number(pcity->ai.choice.choice))
+	     : improvement_rule_name(pcity->ai.choice.choice),
 	     pcity->ai.choice.want);
     
     if (!pcity->production.is_unit && is_great_wonder(pcity->production.value) 
@@ -1592,7 +1598,8 @@ static void ai_spend_gold(struct player *pplayer)
       CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
                bestchoice.type != CT_BUILDING
 	       ? utype_rule_name(utype_by_number(bestchoice.choice))
-               : get_improvement_name(bestchoice.choice), buycost,
+               : improvement_rule_name(bestchoice.choice),
+               buycost,
                bestchoice.want);
       really_handle_city_buy(pplayer, pcity);
     } else if (pcity->ai.grave_danger != 0 
@@ -1711,7 +1718,8 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
       do_sell_building(pplayer, pcity, i);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		       _("%s is selling %s (not needed) for %d."), 
-		       pcity->name, get_improvement_name(i), 
+		       pcity->name,
+		       improvement_name_translation(i), 
 		       impr_sell_gold(i));
       return; /* max 1 building each turn */
     }

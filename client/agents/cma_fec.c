@@ -289,9 +289,9 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
     cost = unit_build_shield_cost(utype_by_number(pcity->production.value));
   } else {
     if (!pcity->production.is_unit
-	&& impr_flag(pcity->production.value, IF_GOLD)) {
+	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
       my_snprintf(buffer, sizeof(buffer),
-		  get_improvement_type(pcity->production.value)->name);
+		  improvement_name_translation(pcity->production.value));
       return buffer;
     }
     cost = impr_build_shield_cost(pcity->production.value);

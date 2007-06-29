@@ -2219,7 +2219,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 #if 0          
 	if (city_got_building(pCity, B_TEMPLE)) {
 	  pTmp1 =
-	    zoomSurface(GET_SURF(get_improvement_type(B_TEMPLE)->sprite),
+	    zoomSurface(GET_SURF(improvement_by_number(B_TEMPLE)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp1->h + 1);
 	  pSurf = pTmp1;
@@ -2229,7 +2229,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
 	if (city_got_building(pCity, B_COLOSSEUM)) {
 	  pTmp2 =
-	    zoomSurface(GET_SURF(get_improvement_type(B_COLOSSEUM)->sprite),
+	    zoomSurface(GET_SURF(improvement_by_number(B_COLOSSEUM)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp2->h + 1);
 	  if (!pSurf) {
@@ -2242,7 +2242,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	if (city_got_building(pCity, B_CATHEDRAL) ||
 	    city_affected_by_wonder(pCity, B_MICHELANGELO)) {
 	  pTmp3 =
-	    zoomSurface(GET_SURF(get_improvement_type(B_CATHEDRAL)->sprite),
+	    zoomSurface(GET_SURF(improvement_by_number(B_CATHEDRAL)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp3->h + 1);
 	  if (!pSurf) {
@@ -2402,7 +2402,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 #if 0	  
 	if (city_affected_by_wonder(pCity, B_CURE)) {
 	  pTmp1 =
-	    zoomSurface(GET_SURF(get_improvement_type(B_CURE)->sprite),
+	    zoomSurface(GET_SURF(improvement_by_number(B_CURE)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp1->h + 1);
 	  pSurf = pTmp1;
@@ -2412,7 +2412,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
 	if (city_affected_by_wonder(pCity, B_SHAKESPEARE)) {
 	  pTmp2 = zoomSurface(
-	  	GET_SURF(get_improvement_type(B_SHAKESPEARE)->sprite),
+	  	GET_SURF(improvement_by_number(B_SHAKESPEARE)->sprite),
 			      0.5, 0.5, 1);
 	  count += (pTmp2->h + 1);
 	  if (!pSurf) {
@@ -2424,7 +2424,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
 	if (city_affected_by_wonder(pCity, B_BACH)) {
 	  pTmp3 =
-	    zoomSurface(GET_SURF(get_improvement_type(B_BACH)->sprite),
+	    zoomSurface(GET_SURF(improvement_by_number(B_BACH)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp3->h + 1);
 	  if (!pSurf) {
@@ -2436,7 +2436,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 
 	if (city_affected_by_wonder(pCity, B_HANGING)) {
 	  pTmp4 =
-	    zoomSurface(GET_SURF(get_improvement_type(B_HANGING)->sprite),
+	    zoomSurface(GET_SURF(improvement_by_number(B_HANGING)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp4->h + 1);
 	  if (!pSurf) {
@@ -3229,9 +3229,9 @@ static void redraw_city_dialog(struct city *pCity)
 
   } else {
     struct impr_type *pImpr =
-	get_improvement_type(pCity->production.value);
+	improvement_by_number(pCity->production.value);
 
-    if (impr_flag(pCity->production.value, IF_GOLD)) {
+    if (improvement_has_flag(pCity->production.value, IF_GOLD)) {
 
       if (pCityDlg->pBuy_Button
 	 && get_wstate(pCityDlg->pBuy_Button) != FC_WS_DISABLED) {
@@ -3542,7 +3542,7 @@ static void rebuild_imprm_list(struct city *pCity)
   /* allock new */
   built_impr_iterate(pCity, imp) {
 
-    pImpr = get_improvement_type(imp);
+    pImpr = improvement_by_number(imp);
 
     pStr = create_str16_from_char(get_impr_name_ex(pCity, imp), adj_font(12));
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_IMPR);

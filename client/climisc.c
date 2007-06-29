@@ -171,10 +171,10 @@ void client_change_all(struct city_production from,
 	       _("Changing production of every %s into %s."),
 	       from.is_unit
 	       ? utype_name_translation(utype_by_number(from.value))
-	       : get_improvement_name(from.value),
+	       : improvement_name_translation(from.value),
 	       to.is_unit
 	       ? utype_name_translation(utype_by_number(to.value))
-	       : get_improvement_name(to.value));
+	       : improvement_name_translation(to.value));
 
   connection_do_buffer(&aconnection);
   city_list_iterate (game.player_ptr->cities, pcity) {
@@ -566,7 +566,7 @@ static int target_get_section(struct city_production target)
       return 3;
     }
   } else {
-    if (impr_flag(target.value, IF_GOLD)) {
+    if (improvement_has_flag(target.value, IF_GOLD)) {
       return 1;
     } else if (is_great_wonder(target.value)) {
       return 4;
@@ -620,7 +620,7 @@ void name_and_sort_items(struct city_production *targets, int num_targets,
       cost = unit_build_shield_cost(utype_by_number(target.value));
     } else {
       name = get_impr_name_ex(pcity, target.value);
-      if (impr_flag(target.value, IF_GOLD)) {
+      if (improvement_has_flag(target.value, IF_GOLD)) {
 	cost = -1;
       } else {
 	cost = impr_build_shield_cost(target.value);
@@ -1030,10 +1030,10 @@ void cityrep_buy(struct city *pcity)
   int value = city_buy_cost(pcity);
 
   if (!pcity->production.is_unit
-      && impr_flag(pcity->production.value, IF_GOLD)) {
+      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
     create_event(pcity->tile, E_BAD_COMMAND,
 		_("You don't buy %s in %s!"),
-		get_improvement_name(pcity->production.value),
+		improvement_name_translation(pcity->production.value),
 		pcity->name);
     return;
   }

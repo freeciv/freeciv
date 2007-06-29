@@ -390,7 +390,7 @@ int unit_upgrade_price(const struct player *pplayer,
 struct unit_type *find_unit_type_by_translated_name(const char *name)
 {
   unit_type_iterate(punittype) {
-    if (0 == strcmp(utype_name_translation(punittype), name) == 0) {
+    if (0 == strcmp(utype_name_translation(punittype), name)) {
       return punittype;
     }
   } unit_type_iterate_end;

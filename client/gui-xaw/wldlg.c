@@ -595,7 +595,7 @@ void worklist_id_to_name(char buf[],
 	    impr_build_shield_cost(production.value));
   else
     sprintf(buf, "%s (%d)",
-	    get_improvement_name(production.value),
+	    improvement_name_translation(production.value),
 	    impr_build_shield_cost(production.value));
 }
 
@@ -1215,10 +1215,10 @@ void worklist_help(struct city_production production)
       popup_help_dialog_typed(utype_name_translation(utype_by_number(production.value)),
 					    HELP_UNIT);
     } else if (is_great_wonder(production.value)) {
-      popup_help_dialog_typed(get_improvement_name(production.value),
+      popup_help_dialog_typed(improvement_name_translation(production.value),
 						   HELP_WONDER);
     } else {
-      popup_help_dialog_typed(get_improvement_name(production.value),
+      popup_help_dialog_typed(improvement_name_translation(production.value),
 						   HELP_IMPROVEMENT);
     }
   }

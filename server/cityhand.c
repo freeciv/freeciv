@@ -181,7 +181,8 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
   pcity->did_sell=TRUE;
   notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		   _("You sell %s in %s for %d gold."), 
-		   get_improvement_name(id), pcity->name,
+		   improvement_name_translation(id),
+		   pcity->name,
 		   impr_sell_gold(id));
   do_sell_building(pplayer, pcity, id);
 
@@ -230,10 +231,10 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   }
 
   if (!pcity->production.is_unit
-      && impr_flag(pcity->production.value, IF_GOLD)) {
+      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND,
                      _("You don't buy %s!"),
-		     get_improvement_name(pcity->production.value));
+		     improvement_name_translation(pcity->production.value));
     return;
   }
 
@@ -247,7 +248,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     /*name = utype_name_translation(utype_by_number(pcity->production.value));*/
     total = unit_build_shield_cost(utype_by_number(pcity->production.value));
   } else {
-    /*name = get_improvement_name(pcity->production.value);*/
+    /*name = improvement_name_translation(pcity->production.value);*/
     total = impr_build_shield_cost(pcity->production.value);
   }
   cost = city_buy_cost(pcity);

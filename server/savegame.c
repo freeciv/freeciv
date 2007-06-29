@@ -1322,7 +1322,7 @@ static int old_impr_type_id(Impr_type_id type)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(old_impr_types); i++) {
-    if (mystrcasecmp(get_improvement_name_orig(type),
+    if (mystrcasecmp(improvement_rule_name(type),
                      old_impr_types[i]) == 0) {
       return i;
     }
@@ -2340,7 +2340,7 @@ static void player_load(struct player *plr, int plrno,
 				plrno, i);
 	name = old_impr_type_name(id);
       }
-      pcity->production.value = find_improvement_by_name_orig(name);
+      pcity->production.value = find_improvement_by_rule_name(name);
     }
 
     if (has_capability("turn_last_built", savefile_options)) {
@@ -2371,7 +2371,7 @@ static void player_load(struct player *plr, int plrno,
 				plrno, i);
 	name = old_impr_type_name(id);
       }
-      pcity->changed_from.value = find_improvement_by_name_orig(name);
+      pcity->changed_from.value = find_improvement_by_rule_name(name);
     }
 			 
     pcity->before_change_shields=
@@ -2488,7 +2488,7 @@ static void player_load(struct player *plr, int plrno,
       for (k = 0; p[k]; k++) {
         if (p[k] == '1') {
 	  name = old_impr_type_name(k);
-	  id = find_improvement_by_name_orig(name);
+	  id = find_improvement_by_rule_name(name);
 	  if (id != -1) {
 	    city_add_improvement(pcity, id);
 	  }
@@ -2497,7 +2497,7 @@ static void player_load(struct player *plr, int plrno,
     } else {
       for (k = 0; k < improvement_order_size && p[k]; k++) {
         if (p[k] == '1') {
-	  id = find_improvement_by_name_orig(improvement_order[k]);
+	  id = find_improvement_by_rule_name(improvement_order[k]);
 	  if (id != -1) {
 	    city_add_improvement(pcity, id);
 	  }
@@ -2711,7 +2711,7 @@ static void player_map_load(struct player *plr, int plrno,
 	} else {
 	  for (k = 0; k < improvement_order_size && p[k]; k++) {
 	    if (p[k] == '1') {
-	      id = find_improvement_by_name_orig(improvement_order[k]);
+	      id = find_improvement_by_rule_name(improvement_order[k]);
 	      if (id != -1) {
 		BV_SET(pdcity->improvements, id);
 	      }
@@ -3163,7 +3163,7 @@ static void player_save(struct player *plr, int plrno,
     } else {
       secfile_insert_int(file, old_impr_type_id(pcity->changed_from.value),
 		         "player%d.c%d.changed_from_id", plrno, i);    
-      secfile_insert_str(file, get_improvement_name_orig(
+      secfile_insert_str(file, improvement_rule_name(
                                  pcity->changed_from.value),
                          "player%d.c%d.changed_from_name", plrno, i);
     }
@@ -3233,7 +3233,7 @@ static void player_save(struct player *plr, int plrno,
     } else {
       secfile_insert_int(file, old_impr_type_id(pcity->production.value),
                          "player%d.c%d.currently_building", plrno, i);
-      secfile_insert_str(file, get_improvement_name_orig(
+      secfile_insert_str(file, improvement_rule_name(
                                    pcity->production.value),
                          "player%d.c%d.currently_building_name", plrno, i);
     }
@@ -3943,7 +3943,7 @@ void game_load(struct section_file *file)
       for (k = 0; string[k]; k++) {
         if (string[k] == '1') {
 	  name = old_impr_type_name(k);
-	  id = find_improvement_by_name_orig(name);
+	  id = find_improvement_by_rule_name(name);
 	  if (id != -1) {
 	    game.info.great_wonders[id] = -1;
 	  }
@@ -3952,7 +3952,7 @@ void game_load(struct section_file *file)
     } else {
       for (k = 0; k < improvement_order_size && string[k]; k++) {
         if (string[k] == '1') {
-	  id = find_improvement_by_name_orig(improvement_order[k]);
+	  id = find_improvement_by_rule_name(improvement_order[k]);
 	  if (id != -1) {
             game.info.great_wonders[id] = -1;
 	  }
@@ -4169,7 +4169,7 @@ void game_save(struct section_file *file, const char *save_reason)
   if (game.control.num_impr_types > 0) {
     const char* buf[game.control.num_impr_types];
     impr_type_iterate(id) {
-      buf[id] = get_improvement_name_orig(id);
+      buf[id] = improvement_rule_name(id);
     } impr_type_iterate_end;
     secfile_insert_str_vec(file, buf, game.control.num_impr_types,
                            "savefile.improvement_order");

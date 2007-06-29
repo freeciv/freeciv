@@ -88,7 +88,7 @@ void get_economy_report_data(struct improvement_entry *entries,
   city_list_iterate(game.player_ptr->cities, pcity) {
     *total_income += pcity->prod[O_GOLD];
     if (!pcity->production.is_unit
-	&& impr_flag(pcity->production.value, IF_GOLD)) {
+	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
       *total_income += MAX(0, pcity->surplus[O_SHIELD]);
     }
   } city_list_iterate_end;
@@ -350,10 +350,12 @@ void sell_all_improvements(Impr_type_id impr, bool obsolete_only,
 
   if (count > 0) {
     my_snprintf(message, message_sz, _("Sold %d %s for %d gold."),
-		count, get_improvement_name(impr), gold);
+		count,
+		improvement_name_translation(impr),
+		gold);
   } else {
     my_snprintf(message, message_sz, _("No %s could be sold."),
-		get_improvement_name(impr));
+		improvement_name_translation(impr));
   }
 }
 

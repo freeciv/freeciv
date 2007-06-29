@@ -725,7 +725,7 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
   
   if (which<game.control.num_impr_types) {
-    struct impr_type *imp = get_improvement_type(which);
+    struct impr_type *imp = improvement_by_number(which);
     int i;
     char req_buf[512];
 
@@ -777,7 +777,7 @@ static void help_update_wonder(const struct help_item *pitem,
   create_help_page(HELP_WONDER);
 
   if (which<game.control.num_impr_types) {
-    struct impr_type *imp = get_improvement_type(which);
+    struct impr_type *imp = improvement_by_number(which);
     int i;
     char req_buf[512];
 
@@ -909,16 +909,16 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
        /* FIXME: need a more general mechanism for this, since this
         * helptext needs to be shown in all possible req source types. */
-      requirement_vector_iterate(&get_improvement_type(impr_t)->reqs, preq) {
+      requirement_vector_iterate(&improvement_by_number(impr_t)->reqs, preq) {
 	if (preq->source.type == REQ_BUILDING
 	    && preq->source.value.building == i) {
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"),
-		  get_improvement_name(impr_t));
+		  improvement_name_translation(impr_t));
         }
       } requirement_vector_iterate_end;
-      if (i == get_improvement_type(impr_t)->obsolete_by)
+      if (i == improvement_by_number(impr_t)->obsolete_by)
 	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
-		get_improvement_name(impr_t));
+		improvement_name_translation(impr_t));
     } impr_type_iterate_end;
 
     unit_type_iterate(punittype) {
@@ -1081,12 +1081,12 @@ static void help_update_dialog(const struct help_item *pitem)
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if(i!=B_LAST && is_great_wonder(i)) i = B_LAST;
     help_update_improvement(pitem, top, i);
     break;
   case HELP_WONDER:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if(i!=B_LAST && !is_great_wonder(i)) i = B_LAST;
     help_update_wonder(pitem, top, i);
     break;

@@ -2569,7 +2569,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
   t->sprites.unittype[ut->index]
     = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
-			    TRUE, "unit_type", utype_rule_name(ut));
+			    TRUE, "unit_type", ut->name_rule);
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -2580,13 +2580,13 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 ***********************************************************************/
 void tileset_setup_impr_type(struct tileset *t, int id)
 {
-  struct impr_type *pimpr = get_improvement_type(id);
+  struct impr_type *pimpr = improvement_by_number(id);
 
   assert(id >= 0 && id < game.control.num_impr_types);
   t->sprites.building[id] = lookup_sprite_tag_alt(t, pimpr->graphic_str,
 						  pimpr->graphic_alt,
 						  FALSE, "impr_type",
-						  pimpr->name);
+						  pimpr->name_rule);
 
   /* should maybe do something if NULL, eg generic default? */
 }

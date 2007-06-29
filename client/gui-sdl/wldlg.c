@@ -887,7 +887,7 @@ static void refresh_production_label(int stock)
     				pEditor->currently_building, &cost);
 
   if (!pEditor->currently_building.is_unit
-     && impr_flag(pEditor->currently_building.value, IF_GOLD))
+     && improvement_has_flag(pEditor->currently_building.value, IF_GOLD))
   {
      my_snprintf(cBuf, sizeof(cBuf),
       	_("%s\n%d gold per turn"), name, MAX(0, pEditor->pCity->surplus[O_SHIELD]));
@@ -1063,7 +1063,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     /* turns == progress */
     const char *name = get_production_name(pCity, pCity->production, &count);
     
-    if (!pCity->production.is_unit && impr_flag(pCity->production.value, IF_GOLD))
+    if (!pCity->production.is_unit && improvement_has_flag(pCity->production.value, IF_GOLD))
     {
       my_snprintf(cBuf, sizeof(cBuf),
       	_("%s\n%d gold per turn"), name, MAX(0, pCity->surplus[O_SHIELD]));
@@ -1324,7 +1324,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
 
-      pImpr = get_improvement_type(imp);
+      pImpr = improvement_by_number(imp);
       
       pIcon = crop_rect_from_surface(pMain, NULL);
       
@@ -1349,7 +1349,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       }
   
       if(pCity) {
-        if(!impr_flag(imp, IF_GOLD)) {
+        if(!improvement_has_flag(imp, IF_GOLD)) {
           turns = city_turns_to_build(pCity, cid_production(imp), TRUE);
             
           if (turns == FC_INFINITY) {
@@ -1389,7 +1389,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
         }
       } else {
         /* non city mode */
-        if(!impr_flag(imp, IF_GOLD)) {
+        if(!improvement_has_flag(imp, IF_GOLD)) {
           if(state) {
             my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d %s"),
 			state, impr_build_shield_cost(imp),

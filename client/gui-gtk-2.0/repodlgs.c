@@ -803,7 +803,7 @@ static void economy_command_callback(struct gui_dialog *dlg, int response,
 	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 	  _("Do you really wish to sell your %s?\n"),
-	  get_improvement_name(i));
+	  improvement_name_translation(i));
       setup_dialog(shell, gui_dialog_get_toplevel(dlg));
       gtk_window_set_title(GTK_WINDOW(shell), _("Sell Improvements"));
 
@@ -863,7 +863,7 @@ void economy_report_dialog_update(void)
 			 3, p->cost,
 			 4, p->total_cost, -1);
       g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, get_improvement_name(p->type));
+      g_value_set_static_string(&value, improvement_name_translation(p->type));
       gtk_list_store_set_value(economy_store, &it, 1, &value);
       g_value_unset(&value);
 

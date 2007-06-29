@@ -336,7 +336,7 @@ static int lookup_building(struct section_file *file, const char *prefix,
   if ((!required && !sval) || strcmp(sval, "None") == 0) {
     i = B_LAST;
   } else {
-    i = find_improvement_by_name(sval);
+    i = find_improvement_by_rule_name(sval);
     if (i == B_LAST) {
       freelog((required?LOG_FATAL:LOG_ERROR),
            "\"%s\" %s %s: couldn't match \"%s\".",
@@ -493,7 +493,7 @@ static void lookup_building_list(struct section_file *file, const char *prefix,
   }
   for (i = 0; i < nval; i++) {
     char *sval = slist[i];
-    int building = find_improvement_by_name(sval);
+    int building = find_improvement_by_rule_name(sval);
 
     if (building == B_LAST) {
       freelog(LOG_FATAL, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
@@ -569,7 +569,7 @@ static Impr_type_id lookup_impr_type(struct section_file *file, const char *pref
   if (strcmp(sval, "None")==0) {
     id = B_LAST;
   } else {
-    id = find_improvement_by_name(sval);
+    id = find_improvement_by_rule_name(sval);
     if (id==B_LAST) {
       freelog((required?LOG_FATAL:LOG_ERROR),
            "\"%s\" %s %s: couldn't match \"%s\".",
@@ -1141,7 +1141,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     if (!pclass) {
       freelog(LOG_FATAL, "\"%s\" unit_type \"%s\": bad class \"%s\".",
               filename,
-              utype_rule_name(u),
+              u->name_rule,
               sval);
       exit(EXIT_FAILURE);
     }
@@ -1189,7 +1189,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
                          "  If you want no attack ability,"
                          " set the unit's attack strength to 0.",
               filename,
-              utype_rule_name(u),
+              u->name_rule,
               u->firepower);
       exit(EXIT_FAILURE);
     }
@@ -1247,7 +1247,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if (ival==F_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                 filename,
-                utype_rule_name(u),
+                u->name_rule,
                 sval);
         ival = unit_class_flag_from_str(sval);
         if (ival != UCF_LAST) {
@@ -1279,7 +1279,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if (ival==L_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad role name \"%s\".",
                 filename,
-                utype_rule_name(u),
+                u->name_rule,
                 sval);
       }
       BV_SET(u->roles, ival - L_FIRST);
@@ -1294,7 +1294,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       freelog(LOG_ERROR,
               "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
               filename,
-              utype_rule_name(u),
+              u->name_rule,
               advances[u->tech_requirement].name_rule);
       u->tech_requirement = A_LAST;
     }
@@ -1344,7 +1344,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     if(get_unit_move_type(u) != SEA_MOVING) {
       freelog(LOG_FATAL, "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
               filename,
-              utype_rule_name(u));
+              u->name_rule);
       exit(EXIT_FAILURE);
     }
   }
@@ -1389,10 +1389,10 @@ static void load_building_names(struct section_file *file)
 
   impr_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
-    struct impr_type *b = get_improvement_type(i);
+    struct impr_type *b = improvement_by_number(i);
 
-    name_strlcpy(b->name_orig, name);
-    b->name = b->name_orig;
+    name_strlcpy(b->name_rule, name);
+    b->name_translated = NULL;
   } impr_type_iterate_end;
 
   ruleset_cache_init();
@@ -1415,7 +1415,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
   for (i = 0; i < nval; i++) {
     struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
-    struct impr_type *b = get_improvement_type(i);
+    struct impr_type *b = improvement_by_number(i);
     char *sval, **slist;
     int j, nflags, ival;
 
@@ -1424,7 +1424,9 @@ static void load_ruleset_buildings(struct section_file *file)
     if (b->genus == IG_LAST) {
       freelog(LOG_FATAL,
               "\"%s\" improvement \"%s\": couldn't match genus \"%s\".",
-              filename, b->name, item);
+              filename,
+              b->name_rule,
+              item);
       exit(EXIT_FAILURE);
     }
 
@@ -1438,7 +1440,9 @@ static void load_ruleset_buildings(struct section_file *file)
       if (ival==IF_LAST) {
 	freelog(LOG_ERROR,
 	        "\"%s\" improvement \"%s\": bad flag name \"%s\".",
-		filename, b->name, sval);
+		filename,
+		b->name_rule,
+		sval);
       }
       b->flags |= (1<<ival);
     }
@@ -1447,7 +1451,7 @@ static void load_ruleset_buildings(struct section_file *file)
     requirement_vector_copy(&b->reqs, reqs);
 
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
-				 FALSE, filename, b->name);
+				 FALSE, filename, b->name_rule);
     if (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by)) {
       /* 
        * The ruleset can specify "None" for a never-obsoleted
@@ -1459,7 +1463,7 @@ static void load_ruleset_buildings(struct section_file *file)
     }
 
     b->replaced_by = lookup_impr_type(file, sec[i], "replaced_by",
-				      FALSE, filename, b->name);
+				      FALSE, filename, b->name_rule);
 
     b->build_cost = secfile_lookup_int(file, "%s.build_cost", sec[i]);
 
@@ -1482,14 +1486,16 @@ static void load_ruleset_buildings(struct section_file *file)
 
   /* Some more consistency checking: */
   impr_type_iterate(i) {
-    struct impr_type *b = get_improvement_type(i);
+    struct impr_type *b = improvement_by_number(i);
 
     if (improvement_exists(i)) {
       if (b->obsolete_by != A_LAST
 	  && (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by))) {
         freelog(LOG_ERROR,
                 "\"%s\" improvement \"%s\": obsoleted by removed tech \"%s\".",
-                filename, b->name, advances[b->obsolete_by].name_rule);
+                filename,
+                b->name_rule,
+                advances[b->obsolete_by].name_rule);
 	b->obsolete_by = A_LAST;
       }
     }
@@ -3035,13 +3041,13 @@ static void send_ruleset_techs(struct conn_list *dest)
 static void send_ruleset_buildings(struct conn_list *dest)
 {
   impr_type_iterate(i) {
-    struct impr_type *b = get_improvement_type(i);
+    struct impr_type *b = improvement_by_number(i);
     struct packet_ruleset_building packet;
     int j;
 
     packet.id = i;
     packet.genus = b->genus;
-    sz_strlcpy(packet.name, b->name_orig);
+    sz_strlcpy(packet.name, b->name_rule);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     j = 0;

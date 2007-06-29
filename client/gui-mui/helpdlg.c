@@ -985,14 +985,14 @@ static void help_update_dialog(const struct help_item *pitem)
   switch (pitem->type)
   {
   case HELP_IMPROVEMENT:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if (i != B_LAST && is_wonder(i))
       i = B_LAST;
     help_update_improvement(pitem, top, i);
     break;
 
   case HELP_WONDER:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if (i != B_LAST && !is_wonder(i))
       i = B_LAST;
     help_update_wonder(pitem, top, i);

@@ -175,7 +175,7 @@ const char *popup_info_text(struct tile *ptile)
           if (has_improvements) {
             astr_add(&str, Q_("?blistmore:, "));
           }
-          astr_add(&str, get_improvement_name(prev_impr));
+          astr_add(&str, improvement_name_translation(prev_impr));
           has_improvements = TRUE;
         } else {
           astr_add(&str, Q_("?blistbegin: with "));
@@ -190,7 +190,7 @@ const char *popup_info_text(struct tile *ptile)
         /* TRANS: This does not appear if there is only one building in the list */
         astr_add(&str, Q_("?blistlast: and "));
       }
-      astr_add(&str, get_improvement_name(prev_impr));
+      astr_add(&str, improvement_name_translation(prev_impr));
       astr_add(&str, Q_("?blistend:"));
     }
 

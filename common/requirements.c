@@ -118,7 +118,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_BUILDING:
-    source.value.building = find_improvement_by_name(value);
+    source.value.building = find_improvement_by_rule_name(value);
     if (source.value.building != B_LAST) {
       return source;
     }
@@ -1083,7 +1083,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, get_government_name(psource->value.gov), bufsz);
     break;
   case REQ_BUILDING:
-    mystrlcat(buf, get_improvement_name(psource->value.building), bufsz);
+    mystrlcat(buf, improvement_name_translation(psource->value.building), bufsz);
     break;
   case REQ_SPECIAL:
     mystrlcat(buf, get_special_name(psource->value.special), bufsz);

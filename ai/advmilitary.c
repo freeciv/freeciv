@@ -1029,7 +1029,7 @@ static void process_attacker_want(struct city *pcity,
             Impr_type_id id = punittype->impr_requirement;
 
             CITY_LOG(LOG_DEBUG, pcity, "building %s to build %s",
-                     get_improvement_type(id)->name,
+                     improvement_rule_name(id),
                      utype_rule_name(punittype));
             best_choice->choice = id;
             best_choice->want = want;
@@ -1485,6 +1485,6 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
              choice->want);
   } else {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             get_improvement_name(choice->choice), choice->want);
+             improvement_rule_name(choice->choice), choice->want);
   }
 }

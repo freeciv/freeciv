@@ -496,7 +496,7 @@ int player_get_expected_income(const struct player *pplayer)
 
     /* Capitalization income. */
     if (!pcity->production.is_unit
-	&& impr_flag(pcity->production.value, IF_GOLD)) {
+	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
       income += pcity->shield_stock + pcity->surplus[O_SHIELD];
     }
   } city_list_iterate_end;

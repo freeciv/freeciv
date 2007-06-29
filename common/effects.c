@@ -688,7 +688,7 @@ bool is_building_replaced(const struct city *pcity, Impr_type_id building)
   source.value.building = building;
 
   /* A capitalization production is never redundant. */
-  if (impr_flag(building, IF_GOLD)) {
+  if (improvement_has_flag(building, IF_GOLD)) {
     return FALSE;
   }
 
@@ -704,7 +704,7 @@ bool is_building_replaced(const struct city *pcity, Impr_type_id building)
      * the building is its own target - but whether this is actually
      * checked depends on the range of the effect. */
     if (!is_effect_disabled(city_owner(pcity), pcity,
-			    get_improvement_type(building),
+			    improvement_by_number(building),
 			    NULL, NULL, NULL, NULL,
 			    peffect)) {
       return FALSE;
@@ -888,7 +888,7 @@ int get_building_bonus(const struct city *pcity, Impr_type_id id,
   assert(pcity != NULL && id != B_LAST);
   return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity,
-				  get_improvement_type(id),
+				  improvement_by_number(id),
 				  NULL, NULL, NULL, NULL,
 				  effect_type);
 }
@@ -1001,7 +1001,7 @@ int get_current_construction_bonus(const struct city *pcity,
     struct effect_list *plist = get_req_source_effects(&source);
 
     if (plist) {
-      struct impr_type *building = get_improvement_type(id);
+      struct impr_type *building = improvement_by_number(id);
 
       effect_list_iterate(plist, peffect) {
 	if (peffect->type != effect_type) {

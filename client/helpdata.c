@@ -172,7 +172,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_BUILDING:
     cat_snprintf(buf, bufsz, _("Requires the %s building.\n\n"),
-		 get_improvement_name(req->source.value.building));
+		 improvement_name_translation(req->source.value.building));
     return;
   case REQ_SPECIAL:
     cat_snprintf(buf, bufsz, _("Requires the %s terrain special.\n\n"),
@@ -245,7 +245,7 @@ static void insert_allows(struct req_source *psource,
 
 
   impr_type_iterate(impr_id) {
-    struct impr_type *building = get_improvement_type(impr_id);
+    struct impr_type *building = improvement_by_number(impr_id);
 
     requirement_vector_iterate(&building->reqs, req) {
       if (are_req_sources_equal(psource, &req->source)) {
@@ -261,10 +261,12 @@ static void insert_allows(struct req_source *psource,
 	} requirement_vector_iterate_end;
 
 	if (coreq_buf[0] == '\0') {
-	  cat_snprintf(buf, bufsz, _("Allows %s."), building->name);
+	  cat_snprintf(buf, bufsz, _("Allows %s."),
+		       improvement_name_translation(impr_id));
 	} else {
 	  cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
-		       building->name, coreq_buf);
+		       improvement_name_translation(impr_id),
+		       coreq_buf);
 	}
 	cat_snprintf(buf, bufsz, "\n");
       }
@@ -433,7 +435,7 @@ void boot_help_texts(void)
 	    if (improvement_exists(i) && !is_great_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  get_improvement_name(i));
+			  improvement_name_translation(i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
@@ -444,7 +446,7 @@ void boot_help_texts(void)
 	    if (improvement_exists(i) && is_great_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  get_improvement_name(i));
+			  improvement_name_translation(i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
@@ -659,18 +661,18 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     return buf;
   }
 
-  imp = get_improvement_type(which);
+  imp = improvement_by_number(which);
   
   if (imp->helptext && imp->helptext[0] != '\0') {
     cat_snprintf(buf, bufsz, "%s\n\n", _(imp->helptext));
   }
 
-  if (tech_exists(get_improvement_type(which)->obsolete_by)) {
+  if (tech_exists(improvement_by_number(which)->obsolete_by)) {
     cat_snprintf(buf, bufsz,
 		 _("* The discovery of %s will make %s obsolete.\n"),
 		 advance_name_for_player(game.player_ptr,
-			       get_improvement_type(which)->obsolete_by),
-		 get_improvement_type(which)->name);
+			       improvement_by_number(which)->obsolete_by),
+		 improvement_name_translation(which));
   }
 
   if (building_has_effect(which, EFT_ENABLE_NUKE)
@@ -791,7 +793,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (utype->impr_requirement != B_LAST) {
     sprintf(buf + strlen(buf),
 	    _("* Can only be built if there is %s in the city.\n"), 
-            get_improvement_name(utype->impr_requirement));
+            improvement_name_translation(utype->impr_requirement));
   }
   if (utype->gov_requirement) {
     sprintf(buf + strlen(buf),

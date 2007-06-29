@@ -2026,9 +2026,9 @@ static void change_help_callback(Widget w, XtPointer client_data,
     if (is_unit) {
       popup_help_dialog_typed(utype_name_translation(utype_by_number(idx)), HELP_UNIT);
     } else if(is_great_wonder(idx)) {
-      popup_help_dialog_typed(get_improvement_name(idx), HELP_WONDER);
+      popup_help_dialog_typed(improvement_name_translation(idx), HELP_WONDER);
     } else {
-      popup_help_dialog_typed(get_improvement_name(idx), HELP_IMPROVEMENT);
+      popup_help_dialog_typed(improvement_name_translation(idx), HELP_IMPROVEMENT);
     }
   }
   else

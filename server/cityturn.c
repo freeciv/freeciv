@@ -122,7 +122,8 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
       do_sell_building(pplayer, pcity, i);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD, 
 		       _("%s is selling %s (obsolete) for %d."),
-		       pcity->name, get_improvement_name(i), 
+		       pcity->name,
+		       improvement_name_translation(i), 
 		       impr_sell_gold(i));
       sold = TRUE;
     }
@@ -301,7 +302,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
 		       E_WONDER_WILL_BE_BUILT,
 		       _("Notice: Wonder %s in %s will be finished"
 			 " next turn."), 
-		       get_improvement_name(pcity->production.value),
+		       improvement_name_translation(pcity->production.value),
 		       pcity->name);
       }
     } city_list_iterate_end;
@@ -334,8 +335,9 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 	notify_conn(dest, pcity->tile,
 			 E_CITY_GRAN_THROTTLE,
 			 _("Suggest throttling growth in %s to use %s "
-			   "(being built) more effectively."), pcity->name,
-		       get_improvement_name(pcity->production.value));
+			   "(being built) more effectively."),
+			pcity->name,
+			improvement_name_translation(pcity->production.value));
       }
     }
 
@@ -480,8 +482,9 @@ static void city_increase_size(struct city *pcity)
         || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT) > 0) {
       notify_player(powner, pcity->tile, E_CITY_AQ_BUILDING,
 		       _("%s needs %s (being built) "
-			 "to grow any further."), pcity->name,
-		       get_improvement_name(pcity->production.value));
+			 "to grow any further."),
+			pcity->name,
+			improvement_name_translation(pcity->production.value));
     } else {
       notify_player(powner, pcity->tile, E_CITY_AQUEDUCT,
 		       _("%s needs an improvement to grow any further."),
@@ -727,7 +730,7 @@ static bool worklist_change_build_target(struct player *pplayer,
     } else if (!target.is_unit
 	       && !can_build_improvement(pcity, target.value)) {
       Impr_type_id new_target = building_upgrades_to(pcity, target.value);
-      struct impr_type *ptarget = get_improvement_type(target.value);
+      struct impr_type *ptarget = improvement_by_number(target.value);
 
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {
@@ -754,7 +757,7 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
       if (new_target == target.value) {
-	struct impr_type *building = get_improvement_type(target.value);
+	struct impr_type *building = improvement_by_number(target.value);
 	bool known = FALSE;
 
 	/* Nope, no use.  *sigh*  */
@@ -982,7 +985,7 @@ static Impr_type_id building_upgrades_to(struct city *pcity, Impr_type_id id)
     return -1;
   }
   while (improvement_exists(check
-			    = get_improvement_type(check)->replaced_by)) {
+			    = improvement_by_number(check)->replaced_by)) {
     if (can_build_improvement_direct(pcity, check)) {
       latest_ok = check;
     }
@@ -1006,8 +1009,8 @@ static void upgrade_building_prod(struct city *pcity)
   if (can_build_improvement(pcity, upgrades_to)) {
     notify_player(pplayer, pcity->tile, E_UNIT_UPGRADED,
 		     _("Production of %s is upgraded to %s in %s."),
-		     get_improvement_type(pcity->production.value)->name,
-		     get_improvement_type(upgrades_to)->name,
+		     improvement_name_translation(pcity->production.value),
+		     improvement_name_translation(upgrades_to),
 		     pcity->name);
     pcity->production.value = upgrades_to;
   }
@@ -1123,10 +1126,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   bool space_part;
   int mod;
   Impr_type_id id = pcity->production.value;
-  struct impr_type *building = get_improvement_type(id);
+  struct impr_type *building = improvement_by_number(id);
 
   if (!pcity->production.is_unit
-      && impr_flag(pcity->production.value, IF_GOLD)) {
+      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
     assert(pcity->surplus[O_SHIELD] >= 0);
     /* pcity->before_change_shields already contains the surplus from
      * this turn. */
@@ -1186,10 +1189,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     }
 
     notify_player(pplayer, pcity->tile, E_IMP_BUILD,
-		     _("%s has finished building %s."), pcity->name,
-		     get_improvement_name(id));
+		     _("%s has finished building %s."),
+		     pcity->name,
+		     improvement_name_translation(id));
     script_signal_emit("building_built", 2,
-		       API_TYPE_BUILDING_TYPE, get_improvement_type(id),
+		       API_TYPE_BUILDING_TYPE, improvement_by_number(id),
 		       API_TYPE_CITY, pcity);
 
     /* Call this function since some buildings may change the
@@ -1203,7 +1207,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		    PL_("%s boosts research; you gain %d immediate advance.",
 			"%s boosts research; you gain %d immediate advances.",
 			mod),
-		    get_improvement_name(id), mod);
+		    improvement_name_translation(id),
+		    mod);
 
       for (i = 0; i < mod; i++) {
 	Tech_type_id tech = give_immediate_free_tech(pplayer);
@@ -1212,7 +1217,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 	    _("The %s have acquired %s from %s."),
 	    get_nation_name_plural(pplayer->nation),
 	    advance_name_for_player(pplayer, tech),
-	    get_improvement_name(id));
+	    improvement_name_translation(id));
       }
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
@@ -1355,7 +1360,8 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 	notify_player(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Can't afford to maintain %s in %s, "
 			   "building sold!"),
-			 get_improvement_name(i), pcity->name);
+			 improvement_name_translation(i),
+			 pcity->name);
 	do_sell_building(pplayer, pcity, i);
 	city_refresh(pcity);
       } else
@@ -1494,7 +1500,7 @@ static void define_orig_production_values(struct city *pcity)
 	  pcity->name,
 	  pcity->changed_from.is_unit
 	  ? utype_rule_name(utype_by_number(pcity->changed_from.value))
-	  : get_improvement_name(pcity->changed_from.value),
+	  : improvement_rule_name(pcity->changed_from.value),
 	  pcity->before_change_shields);
 }
 

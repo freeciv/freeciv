@@ -635,13 +635,7 @@ void translate_data_names(void)
   } unit_class_iterate_end;
 
   /* utype_name_translation now handled in unittype.c */
-
-  impr_type_iterate(i) {
-    struct impr_type *tthis = get_improvement_type(i);
-
-    tthis->name = Q_(tthis->name_orig);
-  } impr_type_iterate_end;
-
+  /* improvement_name_translation now handled in improvement.c */
   /* terrain_name_translation now handled in terrain.c */
   /* resource_name_translation now handled in terrain.c */
 

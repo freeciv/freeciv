@@ -538,8 +538,8 @@ void handle_city_info(struct packet_city_info *packet)
     if (pcity->improvements[i] == I_NONE
 	&& BV_ISSET(packet->improvements, i)
 	&& !city_is_new) {
-      audio_play_sound(get_improvement_type(i)->soundtag,
-		       get_improvement_type(i)->soundtag_alt);
+      audio_play_sound(improvement_by_number(i)->soundtag,
+		       improvement_by_number(i)->soundtag_alt);
     }
     update_improvement_from_packet(pcity, i,
 				   BV_ISSET(packet->improvements, i));
@@ -2259,7 +2259,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 **************************************************************************/
 void handle_ruleset_building(struct packet_ruleset_building *p)
 {
-  struct impr_type *b = get_improvement_type(p->id);
+  struct impr_type *b = improvement_by_number(p->id);
   int i;
 
   if (!b) {
@@ -2270,8 +2270,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   }
 
   b->genus = p->genus;
-  sz_strlcpy(b->name_orig, p->name);
-  b->name = Q_(b->name_orig); /* See translate_data_names */
+  sz_strlcpy(b->name_rule, p->name);
+  b->name_translated = NULL;	/* improvement.c improvement_name_translation */
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   for (i = 0; i < p->reqs_count; i++) {
@@ -2290,7 +2290,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 #ifdef DEBUG
   if(p->id == game.control.num_impr_types-1) {
     impr_type_iterate(id) {
-      b = get_improvement_type(id);
+      b = improvement_by_number(id);
       freelog(LOG_DEBUG, "Impr: %s...",
 	      b->name);
       if (tech_exists(b->obsolete_by)) {

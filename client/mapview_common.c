@@ -1926,17 +1926,17 @@ void get_city_mapview_production(struct city *pcity,
                   utype_name_translation(punit_type));
     }
   } else {
-    struct impr_type *pimprovement_type =
-		get_improvement_type(pcity->production.value);
     if (!pcity->production.is_unit
-	&& impr_flag(pcity->production.value, IF_GOLD)) {
-      my_snprintf(buffer, buffer_len, "%s", pimprovement_type->name);
+	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
+      my_snprintf(buffer, buffer_len, "%s",
+		  improvement_name_translation(pcity->production.value));
     } else if (turns < 999) {
       my_snprintf(buffer, buffer_len, "%s %d",
-		  pimprovement_type->name, turns);
+		  improvement_name_translation(pcity->production.value),
+		  turns);
     } else {
       my_snprintf(buffer, buffer_len, "%s -",
-                  pimprovement_type->name);
+		  improvement_name_translation(pcity->production.value));
     }
   }
 }

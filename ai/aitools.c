@@ -1190,7 +1190,8 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 
   if (id != B_LAST) {
     CITY_LOG(LOG_DEBUG, pcity, "wants most to build %s at %d",
-             get_improvement_name(id), want);
+             improvement_rule_name(id),
+             want);
   }
 }
 

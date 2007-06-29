@@ -147,7 +147,7 @@ static const char *const get_prod_complete_string(struct city *pcity,
   } else {
     if (pcity->production.value == B_CAPITAL) {
       my_snprintf(buffer, sizeof(buffer),
-		  get_improvement_type(pcity->production.value)->name);
+		  improvement_name_translation(pcity->production.value));
       return buffer;
     }
     cost = impr_build_shield_cost(pcity->production.value);
@@ -577,7 +577,7 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
     else
     {
       which--;
-      sz_strlcpy(name, get_improvement_type(which)->name);
+      sz_strlcpy(name, improvement_name_translation(which));
       info[0] = 0;
 
       {
@@ -1119,11 +1119,11 @@ static void city_prod_help(struct city_prod **ppcprod)
       which--;
       if (is_wonder(which))
       {
-	popup_help_dialog_typed(get_improvement_name(which), HELP_WONDER);
+	popup_help_dialog_typed(improvement_name_translation(which), HELP_WONDER);
       }
       else
       {
-	popup_help_dialog_typed(get_improvement_name(which), HELP_IMPROVEMENT);
+	popup_help_dialog_typed(improvement_name_translation(which), HELP_IMPROVEMENT);
       }
     }
   }

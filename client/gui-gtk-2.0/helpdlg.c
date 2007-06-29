@@ -689,7 +689,7 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
   
   if (which<game.control.num_impr_types) {
-    struct impr_type *imp = get_improvement_type(which);
+    struct impr_type *imp = improvement_by_number(which);
     char *req = REQ_NONE;
     char req_buf[512];
 
@@ -733,7 +733,7 @@ static void help_update_wonder(const struct help_item *pitem,
   create_help_page(HELP_WONDER);
 
   if (which<game.control.num_impr_types) {
-    struct impr_type *imp = get_improvement_type(which);
+    struct impr_type *imp = improvement_by_number(which);
     int i;
     char req_buf[512];
 
@@ -930,26 +930,26 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     impr_type_iterate(j) {
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
-      requirement_vector_iterate(&get_improvement_type(j)->reqs, preq) {
+      requirement_vector_iterate(&improvement_by_number(j)->reqs, preq) {
 	if (preq->source.type == REQ_TECH
 	    && preq->source.value.tech == i) {
 	  hbox = gtk_hbox_new(FALSE, 0);
 	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
 	  w = gtk_label_new(_("Allows"));
 	  gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-	  w = help_slink_new(get_improvement_name(j),
+	  w = help_slink_new(improvement_name_translation(j),
 	      is_great_wonder(j) ? HELP_WONDER
 	      : HELP_IMPROVEMENT);
 	  gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
 	  gtk_widget_show_all(hbox);
 	}
       } requirement_vector_iterate_end;
-      if (i == get_improvement_type(j)->obsolete_by) {
+      if (i == improvement_by_number(j)->obsolete_by) {
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
         w = gtk_label_new(_("Obsoletes"));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = help_slink_new(get_improvement_name(j),
+        w = help_slink_new(improvement_name_translation(j),
 			  is_great_wonder(j) ? HELP_WONDER : HELP_IMPROVEMENT);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         gtk_widget_show_all(hbox);
@@ -1150,14 +1150,14 @@ static void help_update_dialog(const struct help_item *pitem)
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if (i != B_LAST && is_great_wonder(i)) {
       i = B_LAST;
     }
     help_update_improvement(pitem, top, i);
     break;
   case HELP_WONDER:
-    i = find_improvement_by_name(top);
+    i = find_improvement_by_translated_name(top);
     if (i != B_LAST && !is_great_wonder(i)) {
       i = B_LAST;
     }

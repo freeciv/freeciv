@@ -458,9 +458,9 @@ static void worklist_help(int id, bool is_unit)
     if (is_unit) {
       popup_help_dialog_typed(utype_name_translation(utype_by_number(id)), HELP_UNIT);
     } else if (is_great_wonder(id)) {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
+      popup_help_dialog_typed(improvement_name_translation(id), HELP_WONDER);
     } else {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
+      popup_help_dialog_typed(improvement_name_translation(id), HELP_IMPROVEMENT);
     }
   } else
     popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);

@@ -263,7 +263,7 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
       }
       if (iimpr != B_LAST 
           && !can_player_build_improvement_direct(pplayer, iimpr)) {
-	struct impr_type *building = get_improvement_type(iimpr);
+	struct impr_type *building = improvement_by_number(iimpr);
 
 	requirement_vector_iterate(&building->reqs, preq) {
 	  if (preq->source.type == REQ_TECH
