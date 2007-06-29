@@ -1396,7 +1396,7 @@ static void fill_actions(void)
     X(ACTIVITY_TRANSFORM,  "unit_transform");
 
     if (can_unit_do_autosettlers(punit)) {
-      if (unit_flag(punit, F_SETTLERS)) {
+      if (unit_has_type_flag(punit, F_SETTLERS)) {
 	ADD("unit_auto_settler");
       } else {
 	ADD("unit_auto_attack");
@@ -1438,10 +1438,10 @@ static void fill_actions(void)
     if (!(is_air_unit(punit) || is_heli_unit(punit))) {
       ADD("unit_return_nearest");
     }
-    if (!unit_flag(punit, F_UNDISBANDABLE)) {
+    if (!unit_has_type_flag(punit, F_UNDISBANDABLE)) {
       ADD("unit_disband");
     }
-    if (unit_flag(punit, F_NUCLEAR)) {
+    if (unit_has_type_flag(punit, F_NUCLEAR)) {
       ADD("unit_explode");
     }
     if ((is_diplomat_unit(punit)

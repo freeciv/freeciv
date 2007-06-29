@@ -188,7 +188,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_UNITTYPE:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-		 unit_name(req->source.value.unittype));
+		 utype_name_translation(req->source.value.unittype));
     return;
   case REQ_UNITFLAG:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
@@ -382,7 +382,8 @@ void boot_help_texts(void)
 	if (current_type == HELP_UNIT) {
 	  unit_type_iterate(punittype) {
 	    pitem = new_help_item(current_type);
-	    my_snprintf(name, sizeof(name), " %s", unit_name(punittype));
+	    my_snprintf(name, sizeof(name), " %s",
+			utype_name_translation(punittype));
 	    pitem->topic = mystrdup(name);
 	    pitem->text = mystrdup("");
 	    help_list_append(category_nodes, pitem);
@@ -687,7 +688,8 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     cat_snprintf(buf, bufsz,
 		 _("* Allows all players with knowledge of %s "
 		   "to build %s units.\n"),
-		 advance_name_for_player(game.player_ptr, t), u->name);
+		 advance_name_for_player(game.player_ptr, t),
+		 utype_name_translation(u));
     cat_snprintf(buf, bufsz, "  ");
   }
 
@@ -696,10 +698,12 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
   unit_type_iterate(u) {
     if (u->impr_requirement == which) {
       if (u->tech_requirement != A_LAST) {
-	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"), u->name,
+	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"),
+		     utype_name_translation(u),
 		     advance_name_for_player(game.player_ptr, u->tech_requirement));
       } else {
-	cat_snprintf(buf, bufsz, _("* Allows %s.\n"), u->name);
+	cat_snprintf(buf, bufsz, _("* Allows %s.\n"),
+		     utype_name_translation(u));
       }
     }
   } unit_type_iterate_end;
@@ -764,22 +768,22 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   buf[0] = '\0';
 
   sprintf(buf + strlen(buf), _("* Belongs to %s units class.\n"),
-          get_unit_class(utype)->name);
-  if (unit_class_flag(get_unit_class(utype), UCF_CAN_OCCUPY)
-      && !unit_type_flag(utype, F_NONMIL)) {
+          utype_class(utype)->name);
+  if (unit_class_flag(utype_class(utype), UCF_CAN_OCCUPY)
+      && !utype_has_flag(utype, F_NONMIL)) {
     sprintf(buf + strlen(buf), _("  * Can occupy empty enemy cities.\n"));
   }
-  if (!unit_class_flag(get_unit_class(utype), UCF_TERRAIN_SPEED)) {
+  if (!unit_class_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
     sprintf(buf + strlen(buf), _("  * Speed is not affected by terrain.\n"));
   }
-  if (unit_class_flag(get_unit_class(utype), UCF_DAMAGE_SLOWS)) {
+  if (unit_class_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
     sprintf(buf + strlen(buf), _("  * Slowed down while damaged\n"));
   }
-  if (unit_class_flag(get_unit_class(utype), UCF_MISSILE)) {
+  if (unit_class_flag(utype_class(utype), UCF_MISSILE)) {
     sprintf(buf + strlen(buf),
 	    _("  * Gets used up in making an attack.\n"));
   }
-  if (unit_class_flag(get_unit_class(utype), UCF_UNREACHABLE)) {
+  if (unit_class_flag(utype_class(utype), UCF_UNREACHABLE)) {
     sprintf(buf + strlen(buf),
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
   }
@@ -794,22 +798,22 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 	    _("* Can only be built with %s as government.\n"), 
             get_government_name(utype->gov_requirement));
   }
-  if (unit_type_flag(utype, F_NOBUILD)) {
+  if (utype_has_flag(utype, F_NOBUILD)) {
     sprintf(buf + strlen(buf),
 	    _("* May not be built in cities.\n"));
   }
-  if (unit_type_flag(utype, F_BARBARIAN_ONLY)) {
+  if (utype_has_flag(utype, F_BARBARIAN_ONLY)) {
     sprintf(buf + strlen(buf),
 	    _("* Only barbarians may build this.\n"));
   }
-  if (unit_type_flag(utype, F_NOHOME)) {
+  if (utype_has_flag(utype, F_NOHOME)) {
     sprintf(buf + strlen(buf), _("* Never has a home city.\n"));
   }
-  if (unit_type_flag(utype, F_GAMELOSS)) {
+  if (utype_has_flag(utype, F_GAMELOSS)) {
     sprintf(buf + strlen(buf),
 	    _("* Losing this unit will lose you the game!\n"));
   }
-  if (unit_type_flag(utype, F_UNIQUE)) {
+  if (utype_has_flag(utype, F_UNIQUE)) {
     sprintf(buf + strlen(buf),
 	    _("* Each player may only have one of this type of unit.\n"));
   }
@@ -828,7 +832,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
       }
     } unit_class_iterate_end
   }
-  if (unit_type_flag(utype, F_TRADE_ROUTE)) {
+  if (utype_has_flag(utype, F_TRADE_ROUTE)) {
     /* TRANS: "Manhattan" distance is the distance along gridlines, with
      * no diagonals allowed. */
     sprintf(buf + strlen(buf), _("* Can establish trade routes (must travel "
@@ -836,27 +840,27 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 				 "tiles [in Manhattan distance] from this "
 				 "unit's home city).\n"));
   }
-  if (unit_type_flag(utype, F_HELP_WONDER)) {
+  if (utype_has_flag(utype, F_HELP_WONDER)) {
     sprintf(buf + strlen(buf),
 	    _("* Can help build wonders (adds %d production).\n"),
 	    unit_build_shield_cost(utype));
   }
-  if (unit_type_flag(utype, F_UNDISBANDABLE)) {
+  if (utype_has_flag(utype, F_UNDISBANDABLE)) {
     sprintf(buf + strlen(buf), _("* May not be disbanded.\n"));
   } else {
     sprintf(buf + strlen(buf), _("* May be disbanded in a city to "
 				 "recover 50%% of the production cost.\n"));
   }
-  if (unit_type_flag(utype, F_CITIES)) {
+  if (utype_has_flag(utype, F_CITIES)) {
     sprintf(buf + strlen(buf), _("* Can build new cities.\n"));
   }
-  if (unit_type_flag(utype, F_ADD_TO_CITY)) {
+  if (utype_has_flag(utype, F_ADD_TO_CITY)) {
     sprintf(buf + strlen(buf), _("* Can add on %d population to "
 				 "cities of no more than size %d.\n"),
 	    unit_pop_value(utype),
 	    game.info.add_to_size_limit - unit_pop_value(utype));
   }
-  if (unit_type_flag(utype, F_SETTLERS)) {
+  if (utype_has_flag(utype, F_SETTLERS)) {
     char buf2[1024];
 
     /* Roads, rail, mines, irrigation. */
@@ -888,10 +892,10 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* Can clean nuclear fallout from tiles.\n"));
   }
-  if (unit_type_flag(utype, F_TRANSFORM)) {
+  if (utype_has_flag(utype, F_TRANSFORM)) {
     sprintf(buf + strlen(buf), _("* Can transform tiles.\n"));
   }
-  if (is_ground_unittype(utype) && !unit_type_flag(utype, F_SETTLERS)) {
+  if (is_ground_unittype(utype) && !utype_has_flag(utype, F_SETTLERS)) {
     sprintf(buf + strlen(buf),
 	    _("* May fortify, granting a 50%% defensive bonus.\n"));
   }
@@ -899,111 +903,111 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* May pillage to destroy infrastructure from tiles.\n"));
   }
-  if (unit_type_flag(utype, F_DIPLOMAT)) {
-    if (unit_type_flag(utype, F_SPY)) {
+  if (utype_has_flag(utype, F_DIPLOMAT)) {
+    if (utype_has_flag(utype, F_SPY)) {
       sprintf(buf + strlen(buf), _("* Can perform diplomatic actions,"
 				   " plus special spy abilities.\n"));
     } else {
       sprintf(buf + strlen(buf), _("* Can perform diplomatic actions.\n"));
     }
   }
-  if (unit_type_flag(utype, F_SUPERSPY)) {
+  if (utype_has_flag(utype, F_SUPERSPY)) {
     sprintf(buf + strlen(buf), _("* Will never lose a "
 				 "diplomat-versus-diplomat fight.\n"));
   }
-  if (unit_type_flag(utype, F_UNBRIBABLE)) {
+  if (utype_has_flag(utype, F_UNBRIBABLE)) {
     sprintf(buf + strlen(buf), _("* May not be bribed.\n"));
   }
-  if (unit_type_flag(utype, F_ATTACK_ANY)) {
+  if (utype_has_flag(utype, F_ATTACK_ANY)) {
     sprintf(buf + strlen(buf), _("* Can attack otherwise unreachable enemy units.\n"));
   }
-  if (unit_type_flag(utype, F_PARTIAL_INVIS)) {
+  if (utype_has_flag(utype, F_PARTIAL_INVIS)) {
     sprintf(buf + strlen(buf), _("* Is invisible except when next to an"
 				 " enemy unit or city.\n"));
   }
-  if (unit_type_flag(utype, F_NO_LAND_ATTACK)) {
+  if (utype_has_flag(utype, F_NO_LAND_ATTACK)) {
     sprintf(buf + strlen(buf), _("* Can only attack units on ocean squares"
 				 " (no land attacks).\n"));
   }
-  if (unit_type_flag(utype, F_MARINES)) {
+  if (utype_has_flag(utype, F_MARINES)) {
     sprintf(buf + strlen(buf),
 	    _("* Can attack from aboard sea units: against"
 	      " enemy cities and onto land squares.\n"));
   }
-  if (unit_type_flag(utype, F_PARATROOPERS)) {
+  if (utype_has_flag(utype, F_PARATROOPERS)) {
     sprintf(buf + strlen(buf),
 	    _("* Can be paradropped from a friendly city"
 	      " (Range: %d).\n"), utype->paratroopers_range);
   }
-  if (unit_type_flag(utype, F_PIKEMEN)) {
+  if (utype_has_flag(utype, F_PIKEMEN)) {
     sprintf(buf + strlen(buf), _("* Gets double defense against units"
 				 " specified as 'mounted'.\n"));
   }
-  if (unit_type_flag(utype, F_HORSE)) {
+  if (utype_has_flag(utype, F_HORSE)) {
     sprintf(buf + strlen(buf),
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
-  if (unit_type_flag(utype, F_HELICOPTER)) {
+  if (utype_has_flag(utype, F_HELICOPTER)) {
     sprintf(buf + strlen(buf),
             _("* Counts as 'helicopter' against certain attackers.\n"));
   }
-  if (unit_type_flag(utype, F_FIGHTER)) {
+  if (utype_has_flag(utype, F_FIGHTER)) {
     sprintf(buf + strlen(buf),
             _("* Very good at attacking 'helicopter' units.\n"));
   }
-  if (unit_type_flag(utype, F_AIRUNIT)) {
+  if (utype_has_flag(utype, F_AIRUNIT)) {
     sprintf(buf + strlen(buf),
             _("* Very bad at attacking AEGIS units.\n"));
   }
-  if (!unit_class_flag(get_unit_class(utype), UCF_MISSILE)
-      && unit_type_flag(utype, F_ONEATTACK)) {
+  if (!unit_class_flag(utype_class(utype), UCF_MISSILE)
+      && utype_has_flag(utype, F_ONEATTACK)) {
     sprintf(buf + strlen(buf),
 	    _("* Making an attack ends this unit's turn.\n"));
   }
-  if (unit_type_flag(utype, F_NUCLEAR)) {
+  if (utype_has_flag(utype, F_NUCLEAR)) {
     sprintf(buf + strlen(buf),
 	    _("* This unit's attack causes a nuclear explosion!\n"));
   }
-  if (unit_type_flag(utype, F_CITYBUSTER)) {
+  if (utype_has_flag(utype, F_CITYBUSTER)) {
     sprintf(buf + strlen(buf),
 	    _("* Gets double firepower when attacking cities.\n"));
   }
-  if (unit_type_flag(utype, F_IGWALL)) {
+  if (utype_has_flag(utype, F_IGWALL)) {
     sprintf(buf + strlen(buf), _("* Ignores the effects of city walls.\n"));
   }
-  if (unit_type_flag(utype, F_BOMBARDER)) {
+  if (utype_has_flag(utype, F_BOMBARDER)) {
     sprintf(buf + strlen(buf),
 	    _("* Does bombard attacks (%d per turn).  These attacks will "
 	      "only damage (never kill) the defender but has no risk to "
 	      "the attacker.\n"), utype->bombard_rate);
   }
-  if (unit_type_flag(utype, F_AEGIS)) {
+  if (utype_has_flag(utype, F_AEGIS)) {
     sprintf(buf + strlen(buf),
 	    _("* Gets quintuple defence against missiles and aircraft.\n"));
   }
-  if (unit_type_flag(utype, F_IGTER)) {
+  if (utype_has_flag(utype, F_IGTER)) {
     sprintf(buf + strlen(buf),
 	    _("* Ignores terrain effects (treats all squares as roads).\n"));
   }
-  if (unit_type_flag(utype, F_IGZOC)) {
+  if (utype_has_flag(utype, F_IGZOC)) {
     sprintf(buf + strlen(buf), _("* Ignores zones of control.\n"));
   }
-  if (unit_type_flag(utype, F_NONMIL)) {
+  if (utype_has_flag(utype, F_NONMIL)) {
     sprintf(buf + strlen(buf), _("* A non-military unit"
 				 " (cannot attack; no martial law).\n"));
   }
-  if (unit_type_flag(utype, F_FIELDUNIT)) {
+  if (utype_has_flag(utype, F_FIELDUNIT)) {
     sprintf(buf + strlen(buf), _("* A field unit: one unhappiness applies"
 				 " even when non-aggressive.\n"));
   }
-  if (unit_type_flag(utype, F_NO_VETERAN)) {
+  if (utype_has_flag(utype, F_NO_VETERAN)) {
     sprintf(buf + strlen(buf),
 	    _("* Will never achieve veteran status.\n"));
   } else {
     sprintf(buf + strlen(buf),
 	    _("* May become veteran through training or combat.\n"));
   }
-  if (unit_type_flag(utype, F_TRIREME)) {
+  if (utype_has_flag(utype, F_TRIREME)) {
     sprintf(buf + strlen(buf),
 	    _("* Must end turn in a city or next to land,"
 	      " or has a 50%% risk of being lost at sea.\n"));
@@ -1019,9 +1023,9 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     astr.str[0] = '\0';
 
     unit_type_iterate(transport) {
-      if (can_unit_type_transport(transport, get_unit_class(utype))) {
+      if (can_unit_type_transport(transport, utype_class(utype))) {
         mystrlcpy(allowed_units[num_allowed_units],
-                  unit_name(transport),
+                  utype_name_translation(transport),
                   sizeof(allowed_units[num_allowed_units]));
         num_allowed_units++;
       }
@@ -1124,21 +1128,21 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
 				 "the population.\n"));
 
   if (tech_flag(i, TF_BRIDGE)) {
-    const char *units_str = get_units_with_flag_string(F_SETTLERS);
+    const char *units_str = role_units_translations(F_SETTLERS);
     sprintf(buf + strlen(buf), _("* Allows %s to build roads on river "
 				 "squares.\n"), units_str);
     free((void *) units_str);
   }
 
   if (tech_flag(i, TF_RAILROAD)) {
-    const char *units_str = get_units_with_flag_string(F_SETTLERS);
+    const char *units_str = role_units_translations(F_SETTLERS);
     sprintf(buf + strlen(buf),
 	    _("* Allows %s to upgrade roads to railroads.\n"), units_str);
     free((void *) units_str);
   }
 
   if (tech_flag(i, TF_FARMLAND)) {
-    const char *units_str = get_units_with_flag_string(F_SETTLERS);
+    const char *units_str = role_units_translations(F_SETTLERS);
     sprintf(buf + strlen(buf),
 	    _("* Allows %s to upgrade irrigation to farmland.\n"),
 	    units_str);
@@ -1423,7 +1427,8 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
   unit_type_iterate(utype) {
     if (utype->gov_requirement == gov) {
       sprintf(buf + strlen(buf),
-	      _("* Allows you to build %s.\n"), unit_name(utype));
+	      _("* Allows you to build %s.\n"),
+	      utype_name_translation(utype));
     }
   } unit_type_iterate_end;
   strcat(buf, user_text);

@@ -323,7 +323,7 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
   unit_type_iterate(u_type) {
     struct unit *virtual_unit;
 
-    if (!unit_type_flag(u_type, F_PARATROOPERS)) {
+    if (!utype_has_flag(u_type, F_PARATROOPERS)) {
       continue;
     }
 
@@ -358,7 +358,9 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
       choice->choice = u_type->index;
       choice->type = CT_ATTACKER;
       freelog(LOGLEVEL_PARATROOPER, "%s wants to build %s (want=%d)",
-	      pcity->name, u_type->name, profit);
+	      pcity->name,
+	      utype_rule_name(u_type),
+	      profit);
     }
   } unit_type_iterate_end;
 

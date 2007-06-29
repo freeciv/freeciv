@@ -42,7 +42,7 @@ static inline int single_move_cost(const struct pf_parameter *param,
       && BV_ISSET(param->unit_flags, F_TRIREME)
       && !is_safe_ocean(dest_tile)) {
     return PF_IMPOSSIBLE_MC;
-  } else if (unit_class_flag(param->class, UCF_TERRAIN_SPEED)) {
+  } else if (unit_class_flag(param->uclass, UCF_TERRAIN_SPEED)) {
     return map_move_cost(src_tile, dest_tile);
   } else {
     return SINGLE_MOVE;
@@ -59,7 +59,7 @@ static inline int single_move_cost(const struct pf_parameter *param,
 static int seamove(const struct tile *ptile, enum direction8 dir,
                    const struct tile *ptile1, struct pf_parameter *param)
 {
-  if (is_native_tile_to_class(param->class, ptile1)) {
+  if (is_native_tile_to_class(param->uclass, ptile1)) {
     return single_move_cost(param, ptile, ptile1);
   } else if (ptile1->city
              || is_non_allied_unit_tile(ptile1, param->owner)) {
@@ -77,9 +77,9 @@ static int single_airmove(const struct tile *ptile, enum direction8 dir,
 			  const struct tile *ptile1,
 			  struct pf_parameter *param)
 {
-  if (!ptile->city && !is_native_tile_to_class(param->class, ptile1)) {
+  if (!ptile->city && !is_native_tile_to_class(param->uclass, ptile1)) {
     return PF_IMPOSSIBLE_MC;
-  } else if (!is_native_tile_to_class(param->class, ptile1)) {
+  } else if (!is_native_tile_to_class(param->uclass, ptile1)) {
     return SINGLE_MOVE;
   }
   return single_move_cost(param, ptile, ptile1);
@@ -93,7 +93,7 @@ static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
 			      const struct tile *ptile1,
 			      struct pf_parameter *param)
 {
-  if (is_native_tile_to_class(param->class, ptile1)) {
+  if (is_native_tile_to_class(param->uclass, ptile1)) {
     return single_move_cost(param, ptile, ptile1);
   } else if (is_allied_city_tile(ptile1, param->owner)) {
     /* Entering port */
@@ -115,11 +115,11 @@ static int sea_overlap_move(const struct tile *ptile, enum direction8 dir,
 			    struct pf_parameter *param)
 {
   if (is_allied_city_tile(ptile, param->owner)
-      && is_native_tile_to_class(param->class, ptile1)) {
+      && is_native_tile_to_class(param->uclass, ptile1)) {
     return single_move_cost(param, ptile, ptile1);
-  } else if (!is_native_tile_to_class(param->class, ptile)) {
+  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
     return PF_IMPOSSIBLE_MC;
-  } else if (is_native_tile_to_class(param->class, ptile1)) {
+  } else if (is_native_tile_to_class(param->uclass, ptile1)) {
     return single_move_cost(param, ptile, ptile1);
   } else {
     /* Entering port or bombardment */
@@ -135,16 +135,16 @@ static int sea_attack_move(const struct tile *src_tile, enum direction8 dir,
 			   const struct tile *dest_tile,
 			   struct pf_parameter *param)
 {
-  if (is_native_tile_to_class(param->class, src_tile)) {
+  if (is_native_tile_to_class(param->uclass, src_tile)) {
     if (is_non_allied_unit_tile(src_tile, param->owner)) {
       return PF_IMPOSSIBLE_MC;
     }
-    if (is_native_tile_to_class(param->class, dest_tile)) {
+    if (is_native_tile_to_class(param->uclass, dest_tile)) {
       return single_move_cost(param, src_tile, dest_tile);
     }
     return SINGLE_MOVE;
   } else if (is_allied_city_tile(src_tile, param->owner)
-	     && is_native_tile_to_class(param->class, dest_tile)) {
+	     && is_native_tile_to_class(param->uclass, dest_tile)) {
     return single_move_cost(param, src_tile, dest_tile);
   }
 
@@ -160,13 +160,13 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
 {
   int move_cost;
 
-  if (!is_native_tile_to_class(param->class, ptile1)) {
-    if (unit_class_transporter_capacity(ptile1, param->owner, param->class) > 0) {
+  if (!is_native_tile_to_class(param->uclass, ptile1)) {
+    if (unit_class_transporter_capacity(ptile1, param->owner, param->uclass) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_tile_to_class(param->class, ptile)) {
+  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
     if (!BV_ISSET(param->unit_flags, F_MARINES)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
@@ -191,15 +191,15 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
 {
   int move_cost;
 
-  if (!is_native_tile_to_class(param->class, tgt_tile)) {
+  if (!is_native_tile_to_class(param->uclass, tgt_tile)) {
 
     /* Any-to-Sea */
-    if (unit_class_transporter_capacity(tgt_tile, param->owner, param->class) > 0) {
+    if (unit_class_transporter_capacity(tgt_tile, param->owner, param->uclass) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_tile_to_class(param->class, src_tile)) {
+  } else if (!is_native_tile_to_class(param->uclass, src_tile)) {
 
     /* Sea-to-Land. */
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
@@ -237,9 +237,9 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
   one, so we don't venture too far into the ocean ;)
 
   Alternatively, we can change the flow to
-  if (!is_native_tile_to_class(param->class, ptile)) {
+  if (!is_native_tile_to_class(param->uclass, ptile)) {
     move_cost = PF_IMPOSSIBLE_MC;
-  } else if (!is_native_tile_to_class(param->class, ptile1)) {
+  } else if (!is_native_tile_to_class(param->uclass, ptile1)) {
     move_cost = SINGLE_MOVE;
   } else {
     move_cost = single_move_cost(param, ptile, ptile1);
@@ -252,7 +252,7 @@ static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
 {
   int move_cost;
 
-  if (!is_native_tile_to_class(param->class, ptile1)) {
+  if (!is_native_tile_to_class(param->uclass, ptile1)) {
     move_cost = SINGLE_MOVE;
   } else {
     move_cost = single_move_cost(param, ptile, ptile1);
@@ -272,15 +272,15 @@ static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
 {
   int move_cost = PF_IMPOSSIBLE_MC;
 
-  if (!is_native_to_class(param->class, ptile)) {
-    if (unit_class_transporter_capacity(ptile, param->owner, param->class) > 0) {
+  if (!is_native_to_class(param->uclass, ptile)) {
+    if (unit_class_transporter_capacity(ptile, param->owner, param->uclass) > 0) {
       /* Landing */
       move_cost = terrain0->movement_cost * SINGLE_MOVE;
     } else {
       /* Nothing to land from */
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_tile_to_class(param->class, tile0)) {
+  } else if (!is_native_tile_to_class(param->uclass, tile0)) {
     /* Boarding */
     move_cost = SINGLE_MOVE;
   } else {
@@ -300,13 +300,13 @@ static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
 {
   int move_cost;
 
-  if (!is_native_tile_to_class(param->class, ptile1)) {
-    if (unit_class_transporter_capacity(ptile1, param->owner, param->class) > 0) {
+  if (!is_native_tile_to_class(param->uclass, ptile1)) {
+    if (unit_class_transporter_capacity(ptile1, param->owner, param->uclass) > 0) {
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_tile_to_class(param->class, ptile)) {
+  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
     if (!BV_ISSET(param->unit_flags, F_MARINES)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
@@ -314,7 +314,7 @@ static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
     } else {
       move_cost = MOVE_COST_ROAD;
     }
-  } else if (unit_class_flag(param->class, UCF_TERRAIN_SPEED)) {
+  } else if (unit_class_flag(param->uclass, UCF_TERRAIN_SPEED)) {
     move_cost = (map_move_cost(ptile, ptile1) != 0
                  ? MOVE_COST_ROAD : 0);
   } else {
@@ -335,14 +335,14 @@ static int reverse_igter_move_unit(const struct tile *tile0,
 {
   int move_cost;
 
-  if (!is_native_to_class(param->class, ptile)) {
-    if (unit_class_transporter_capacity(ptile, param->owner, param->class) > 0) {
+  if (!is_native_to_class(param->uclass, ptile)) {
+    if (unit_class_transporter_capacity(ptile, param->owner, param->uclass) > 0) {
       /* Landing */
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_to_class(param->class, tile0)) {
+  } else if (!is_native_to_class(param->uclass, tile0)) {
     /* Boarding */
     move_cost = MOVE_COST_ROAD;
   } else {
@@ -362,9 +362,9 @@ static int amphibious_move(const struct tile *ptile, enum direction8 dir,
 			   struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
-  const bool src_ferry = is_native_tile_to_class(amphibious->sea.class, ptile);
-  const bool dst_ferry = is_native_tile_to_class(amphibious->sea.class, ptile1);
-  const bool dst_psng = is_native_tile_to_class(amphibious->land.class, ptile1);
+  const bool src_ferry = is_native_tile_to_class(amphibious->sea.uclass, ptile);
+  const bool dst_ferry = is_native_tile_to_class(amphibious->sea.uclass, ptile1);
+  const bool dst_psng = is_native_tile_to_class(amphibious->land.uclass, ptile1);
   int cost, scale;
 
   if (src_ferry && dst_ferry) {
@@ -430,7 +430,7 @@ static int amphibious_extra_cost(const struct tile *ptile,
 				 struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
-  const bool ferry_move = is_native_tile_to_class(amphibious->sea.class, ptile);
+  const bool ferry_move = is_native_tile_to_class(amphibious->sea.uclass, ptile);
   int cost, scale;
 
   if (known == TILE_UNKNOWN) {
@@ -467,7 +467,7 @@ static enum tile_behavior dont_cross_ocean(const struct tile *ptile,
 					   enum known_type known,
 					   struct pf_parameter *param)
 {
-  if (!is_native_tile_to_class(param->class, ptile)) {
+  if (!is_native_tile_to_class(param->uclass, ptile)) {
     return TB_DONT_LEAVE;
   }
   return TB_NORMAL;
@@ -526,7 +526,7 @@ static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
 					       struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
-  const bool ferry_move = is_native_tile_to_class(amphibious->sea.class, ptile);
+  const bool ferry_move = is_native_tile_to_class(amphibious->sea.uclass, ptile);
 
   /* Simply a wrapper for the sea or land tile_behavior callbacks. */
   if (ferry_move && amphibious->sea.get_TB) {
@@ -556,7 +556,7 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
 
   pbase = tile_get_base(ptile);
 
-  if (pbase && is_native_base_to_class(param->class, pbase)) {
+  if (pbase && is_native_base_to_class(param->uclass, pbase)) {
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;
@@ -585,7 +585,7 @@ static bool amphibious_is_pos_dangerous(const struct tile *ptile,
 					struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
-  const bool ferry_move = is_native_tile_to_class(amphibious->sea.class, ptile);
+  const bool ferry_move = is_native_tile_to_class(amphibious->sea.uclass, ptile);
 
   /* Simply a wrapper for the sea or land danger callbacks. */
   if (ferry_move && amphibious->sea.is_pos_dangerous) {
@@ -608,7 +608,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 
   switch (get_unit_move_type(unit_type(punit))) {
   case LAND_MOVING:
-    if (unit_flag(punit, F_IGTER)) {
+    if (unit_has_type_flag(punit, F_IGTER)) {
       parameter->get_MC = igter_move_unit;
     } else {
       parameter->get_MC = normal_move_unit;
@@ -756,7 +756,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->turn_mode = TM_CAPPED;
 
   parameter->unknown_MC = SINGLE_MOVE;
-  if (unit_class_flag(get_unit_class(unit_type(punit)), UCF_TERRAIN_SPEED)) {
+  if (unit_class_flag(unit_class(punit), UCF_TERRAIN_SPEED)) {
     /* Unit is subject to terrain movement costs */
     struct unit_type *punittype = unit_type(punit);
     bv_special specials;
@@ -803,7 +803,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
     parameter->fuel_left_initially = 1;
   }
   parameter->owner = unit_owner(punit);
-  parameter->class = get_unit_class(unit_type(punit));
+  parameter->uclass = unit_class(punit);
   parameter->unit_flags = unit_type(punit)->flags;
 
   parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);

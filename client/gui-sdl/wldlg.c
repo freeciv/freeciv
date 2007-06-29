@@ -222,7 +222,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   
   /* create widget entry */
   if(prod.is_unit) {
-    pStr = create_str16_from_char(get_unit_type(prod.value)->name, adj_font(10));
+    pStr = create_str16_from_char(utype_name_translation(utype_by_number(prod.value)), adj_font(10));
   } else {
     pStr = create_str16_from_char(get_impr_name_ex(pEditor->pCity, prod.value),
                                                                 adj_font(10));
@@ -647,7 +647,7 @@ static void add_global_worklist(struct widget *pWidget)
       /* global worklist can have targets unavilable in current state of game
          then we must remove those targets from new city worklist */
       if(((pWorkList->entries[count].is_unit) &&
-	  !can_eventually_build_unit(pEditor->pCity, get_unit_type(pWorkList->entries[count].value))) ||
+	  !can_eventually_build_unit(pEditor->pCity, utype_by_number(pWorkList->entries[count].value))) ||
       	((!pWorkList->entries[count].is_unit) &&
 	  !can_eventually_build_improvement(pEditor->pCity, pWorkList->entries[count].value))) {
 	continue;  
@@ -659,9 +659,9 @@ static void add_global_worklist(struct widget *pWidget)
       if(pWorkList->entries[count].is_unit) {
 	pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(
-			get_unit_type(pWorkList->entries[count].value)->name, adj_font(10)),
+			utype_name_translation(utype_by_number(pWorkList->entries[count].value)), adj_font(10)),
 				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-	pBuf->ID = MAX_ID - cid_encode_unit(get_unit_type(pWorkList->entries[count].value));
+	pBuf->ID = MAX_ID - cid_encode_unit(utype_by_number(pWorkList->entries[count].value));
       } else {
 	pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(
@@ -721,7 +721,7 @@ static void set_global_worklist(struct widget *pWidget)
       /* global worklist can have targets unavilable in current state of game
          then we must remove those targets from new city worklist */
       if(((pWorkList->entries[count].is_unit) &&
-	  !can_eventually_build_unit(pEditor->pCity, get_unit_type(pWorkList->entries[count].value))) ||
+	  !can_eventually_build_unit(pEditor->pCity, utype_by_number(pWorkList->entries[count].value))) ||
       	((!pWorkList->entries[count].is_unit) &&
 	  !can_eventually_build_improvement(pEditor->pCity, pWorkList->entries[count].value))) {
 	continue;  
@@ -759,7 +759,7 @@ static void set_global_worklist(struct widget *pWidget)
     
         if(target.is_unit) {
 	  pBuf = create_iconlabel(NULL, pWidget->dst,
-		create_str16_from_char(get_unit_type(target.value)->name, adj_font(10)),
+		create_str16_from_char(utype_name_translation(utype_by_number(target.value)), adj_font(10)),
 				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 	  pBuf->ID = MAX_ID - B_LAST - target.value;
         } else {
@@ -829,8 +829,8 @@ static const char * get_production_name(struct city *pCity,
   assert(cost != NULL);
         
   if(prod.is_unit) {
-    struct unit_type *pType = get_unit_type(prod.value);
-    *cost = unit_build_shield_cost(get_unit_type(prod.value));
+    struct unit_type *pType = utype_by_number(prod.value);
+    *cost = unit_build_shield_cost(utype_by_number(prod.value));
     return pType->name;
   } else {
     *cost = impr_build_shield_cost(prod.value);
@@ -1185,7 +1185,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   worklist_iterate(worklist, prod) {
 
     if(prod.is_unit) {
-      pStr = create_str16_from_char(get_unit_type(prod.value)->name, adj_font(10));
+      pStr = create_str16_from_char(utype_name_translation(utype_by_number(prod.value)), adj_font(10));
     } else {
       pStr = create_str16_from_char(get_impr_name_ex(pCity, prod.value), adj_font(10));
     }

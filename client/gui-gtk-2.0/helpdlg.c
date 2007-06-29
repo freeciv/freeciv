@@ -813,7 +813,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_NONE);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]),
-			 utype->obsoleted_by->name);
+			 utype_name_translation(utype->obsoleted_by));
     }
 
     helptext_unit(buf, utype, pitem->text);
@@ -964,7 +964,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
       w = gtk_label_new(_("Allows"));
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-      w = help_slink_new(punittype->name, HELP_UNIT);
+      w = help_slink_new(utype_name_translation(punittype), HELP_UNIT);
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       gtk_widget_show_all(hbox);
     } unit_type_iterate_end;
@@ -1164,7 +1164,7 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_wonder(pitem, top, i);
     break;
   case HELP_UNIT:
-    help_update_unit_type(pitem, top, find_unit_type_by_name(top));
+    help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
     break;
   case HELP_TECH:
     help_update_tech(pitem, top, find_tech_by_translated_name(top));

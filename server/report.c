@@ -416,7 +416,7 @@ static int get_settlers(struct player *pplayer)
 
   /* count up settlers */
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit, F_CITIES)) {
+    if (unit_has_type_flag(punit, F_CITIES)) {
       result++;
     }
   } unit_list_iterate_end;

@@ -834,7 +834,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   
   create_help_page(HELP_UNIT);
   if (punittype) {
-/*    struct unit_type *punittype = get_unit_type(i);*/
+/*    struct unit_type *punittype = utype_by_number(i);*/
     sprintf(buf, "%d ", unit_build_shield_cost(punittype));
     xaw_set_label(help_unit_cost_data, buf);
     sprintf(buf, "%d ", punittype->attack_strength);
@@ -1091,7 +1091,7 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_wonder(pitem, top, i);
     break;
   case HELP_UNIT:
-    help_update_unit_type(pitem, top, find_unit_type_by_name(top));
+    help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
     break;
   case HELP_TECH:
     help_update_tech(pitem, top, find_tech_by_translated_name(top));

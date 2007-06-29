@@ -1152,7 +1152,7 @@ update_menus(void)
       my_enable_menu(menu, IDM_ORDERS_PILLAGE,
 		     can_unit_do_activity(punit, ACTIVITY_PILLAGE));
       my_enable_menu(menu, IDM_ORDERS_DISBAND,
-		     !unit_flag(punit, F_UNDISBANDABLE));
+		     !unit_has_type_flag(punit, F_UNDISBANDABLE));
       my_enable_menu(menu, IDM_ORDERS_HOMECITY,
 		     can_unit_change_homecity(punit));
       my_enable_menu(menu, IDM_ORDERS_LOAD, find_transporter_for_unit(punit));
@@ -1179,11 +1179,11 @@ update_menus(void)
 		     && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
 					       punit->tile));
       my_enable_menu(menu, IDM_ORDERS_NUKE,
-		     unit_flag(punit, F_NUCLEAR));
-      if (unit_flag(punit, F_HELP_WONDER)) {
+		     unit_has_type_flag(punit, F_NUCLEAR));
+      if (unit_has_type_flag(punit, F_HELP_WONDER)) {
 	my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Help Build Wonder")
 		       "\tB");
-      } else if (unit_flag(punit, F_CITIES)) {
+      } else if (unit_has_type_flag(punit, F_CITIES)) {
 	if (tile_get_city(punit->tile)) {
 	  my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Add to City")
 			 "\tB");
@@ -1195,9 +1195,9 @@ update_menus(void)
 	my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Build City") "\tB");
       }
  
-      if (unit_flag(punit, F_TRADE_ROUTE)) {
+      if (unit_has_type_flag(punit, F_TRADE_ROUTE)) {
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Make Trade Route") "\tR");
-      } else if (unit_flag(punit, F_SETTLERS)) {
+      } else if (unit_has_type_flag(punit, F_SETTLERS)) {
 	if (tile_has_special(punit->tile, S_ROAD)) {
 	  roadtext = N_("Build Railroad") "\tR";
 	  road_activity = ACTIVITY_RAILROAD;  
@@ -1247,14 +1247,14 @@ update_menus(void)
 		       "\tF");
       }
 
-      if (unit_flag(punit, F_PARATROOPERS)) {
+      if (unit_has_type_flag(punit, F_PARATROOPERS)) {
 	my_rename_menu(menu, IDM_ORDERS_POLLUTION, N_("Paradrop") "\tP");
       } else {
 	my_rename_menu(menu, IDM_ORDERS_POLLUTION, N_("Clean Pollution")
 		       "\tP");
       }
 
-      if (!unit_flag(punit, F_SETTLERS)) {
+      if (!unit_has_type_flag(punit, F_SETTLERS)) {
 	my_rename_menu(menu, IDM_ORDERS_AUTO_SETTLER, N_("Auto Attack")
 		       "\tA");
       } else {

@@ -627,8 +627,8 @@ static int tile_move_cost_ptrs(struct unit *punit,
   bool native = TRUE;
 
   if (punit) {
-    pclass = get_unit_class(punit->type);
-    native = is_native_tile(punit->type, t2);
+    pclass = unit_class(punit);
+    native = is_native_tile(unit_type(punit), t2);
   }
 
   if (game.info.slow_invasions
@@ -653,7 +653,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
       && native) {
     return MOVE_COST_RAIL;
   }
-  if (punit && unit_flag(punit, F_IGTER)) {
+  if (punit && unit_has_type_flag(punit, F_IGTER)) {
     return SINGLE_MOVE/3;
   }
   if (!native) {

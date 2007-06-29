@@ -930,7 +930,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 				  unit_owner(punit),
 				  punit->tile ? punit->tile->city : NULL,
 				  NULL, punit->tile,
-				  punit->type, NULL, NULL,
+				  unit_type(punit), NULL, NULL,
 				  effect_type);
 }
 

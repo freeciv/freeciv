@@ -56,7 +56,7 @@ void editor_init_tools(void)
   if (selected_unit) {
     destroy_unit_virtual(selected_unit);
   }
-  selected_unit = create_unit_virtual(pplayer, 0, get_unit_type(0), 0);
+  selected_unit = create_unit_virtual(pplayer, 0, utype_by_number(0), 0);
 
   if (selected_city) {
     destroy_city_virtual(selected_city);
@@ -169,7 +169,7 @@ static enum cursor_type editor_unit(struct tile *ptile, bool testing)
     packet.veteran = selected_unit->veteran;
     packet.paradropped = selected_unit->paradropped;
 
-    packet.type = selected_unit->type->index;
+    packet.type = unit_type(selected_unit)->index;
     packet.transported_by = selected_unit->transported_by;
 
     packet.movesleft = unit_type(selected_unit)->move_rate;

@@ -104,7 +104,7 @@ void popup_bribe_dialog(struct unit *punit)
 {
   char buf[128];
 
-  if (unit_flag(punit, F_UNBRIBABLE)) {
+  if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
     popup_message_dialog(toplevel, "diplomatbribedialog",
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0, NULL);
@@ -711,9 +711,10 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     diplomat_target_id=pcity->id;
     my_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
-		unit_name(punit->type), pcity->name);
+		unit_name_translation(punit),
+		pcity->name);
 
-    if (!unit_flag(punit, F_SPY)) {
+    if (!unit_has_type_flag(punit, F_SPY)) {
       diplomat_dialog =
         popup_message_dialog(toplevel, "diplomatdialog", buf,
 			       diplomat_embassy_callback, 0, 1,
@@ -770,7 +771,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       /* Spy/Diplomat acting against a unit */
       
       Widget shl;
-      const char *message = !unit_flag(punit, F_SPY)
+      const char *message = !unit_has_type_flag(punit, F_SPY)
 	? _("Sir, the diplomat is waiting for your command")
 	: _("Sir, the spy is waiting for your command");
       

@@ -820,7 +820,7 @@ static int evaluate_improvements(struct unit *punit,
       unit_list_iterate(ptile->units, aunit) {
 	if (aunit->owner == pplayer
 	    && aunit->id != punit->id
-	    && unit_flag(aunit, F_SETTLERS)) {
+	    && unit_has_type_flag(aunit, F_SETTLERS)) {
 	  consider = FALSE;
 	}
       } unit_list_iterate_end;
@@ -966,7 +966,7 @@ static void auto_settler_findwork(struct player *pplayer,
   result.result = 0;
 
   assert(pplayer && punit);
-  assert(unit_flag(punit, F_CITIES) || unit_flag(punit, F_SETTLERS));
+  assert(unit_has_type_flag(punit, F_CITIES) || unit_has_type_flag(punit, F_SETTLERS));
 
   /*** If we are on a city mission: Go where we should ***/
 
@@ -1010,14 +1010,14 @@ static void auto_settler_findwork(struct player *pplayer,
 
   /*** Try find some work ***/
 
-  if (unit_flag(punit, F_SETTLERS)) {
+  if (unit_has_type_flag(punit, F_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
     best_impr = evaluate_improvements(punit, &best_act, &best_tile, 
 				      &completion_time, state);
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
-  if (unit_flag(punit, F_CITIES) && pplayer->ai.control) {
+  if (unit_has_type_flag(punit, F_CITIES) && pplayer->ai.control) {
     /* may use a boat: */
     TIMING_LOG(AIT_SETTLERS, TIMER_START);
     find_best_city_placement(punit, &result, TRUE, FALSE);
@@ -1253,8 +1253,8 @@ void auto_settlers_player(struct player *pplayer)
    * from the human player and take precedence. */
   unit_list_iterate(pplayer->units, punit) {
     if ((punit->ai.control || pplayer->ai.control)
-	&& (unit_flag(punit, F_SETTLERS)
-	    || unit_flag(punit, F_CITIES))
+	&& (unit_has_type_flag(punit, F_SETTLERS)
+	    || unit_has_type_flag(punit, F_CITIES))
 	&& !unit_has_orders(punit)
         && punit->moves_left > 0) {
       freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
@@ -1361,7 +1361,9 @@ void contemplate_terrain_improvements(struct city *pcity)
 
   CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
            "we have %d workers and %d cities on the continent",
-	   unit_name(unit_type), want, get_activity_text(best_act),
+	   utype_rule_name(unit_type),
+	   want,
+	   get_activity_text(best_act),
 	   TILE_XY(best_tile),
            ai->stats.workers[ptile->continent], 
            ai->stats.cities[ptile->continent]);

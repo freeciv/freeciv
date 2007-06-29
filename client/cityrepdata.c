@@ -142,7 +142,7 @@ static const char *cr_entry_attack(const struct city *pcity,
 
   unit_list_iterate(pcity->tile->units, punit) {
     /* What about allied units?  Should we just count them? */
-    attack_best[3] = punit->type->attack_strength;
+    attack_best[3] = unit_type(punit)->attack_strength;
 
     /* Now that the element is appended to the end of the list, we simply
        do an insertion sort. */
@@ -174,7 +174,7 @@ static const char *cr_entry_defense(const struct city *pcity,
 
   unit_list_iterate(pcity->tile->units, punit) {
     /* What about allied units?  Should we just count them? */
-    defense_best[3] = punit->type->defense_strength;
+    defense_best[3] = unit_type(punit)->defense_strength;
 
     /* Now that the element is appended to the end of the list, we simply
        do an insertion sort. */
@@ -365,8 +365,8 @@ static const char *cr_entry_building(const struct city *pcity,
     int cost;
 
     if(pcity->production.is_unit) {
-      name = get_unit_type(pcity->production.value)->name;
-      cost = unit_build_shield_cost(get_unit_type(pcity->production.value));
+      name = utype_name_translation(utype_by_number(pcity->production.value));
+      cost = unit_build_shield_cost(utype_by_number(pcity->production.value));
     } else {
       name = get_impr_name_ex(pcity, pcity->production.value);
       cost = impr_build_shield_cost(pcity->production.value);

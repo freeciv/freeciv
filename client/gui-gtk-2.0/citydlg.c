@@ -1531,8 +1531,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
   if (pcity->production.is_unit) {
-    cost = unit_build_shield_cost(get_unit_type(pcity->production.value));
-    descr = get_unit_type(pcity->production.value)->name;
+    cost = unit_build_shield_cost(utype_by_number(pcity->production.value));
+    descr = utype_name_translation(utype_by_number(pcity->production.value));
   } else {
     cost = impr_build_shield_cost(pcity->production.value);;
     descr = get_impr_name_ex(pcity, pcity->production.value);
@@ -1573,8 +1573,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       struct city_production target = items[item].item;
 
       if (target.is_unit) {
-	name = unit_name(get_unit_type(target.value));
-	sprite = get_unittype_sprite(tileset, get_unit_type(target.value));
+	name = utype_name_translation(utype_by_number(target.value));
+	sprite = get_unittype_sprite(tileset, utype_by_number(target.value));
       } else {
 	name = get_improvement_name(target.value);
 	sprite = get_building_sprite(tileset, target.value);
@@ -2131,7 +2131,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     if (!can_client_issue_orders()
-	|| can_upgrade_unittype(game.player_ptr, punit->type) == NULL) {
+	|| can_upgrade_unittype(game.player_ptr, unit_type(punit)) == NULL) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 
@@ -2445,7 +2445,7 @@ static void buy_callback(GtkWidget *w, gpointer data)
   }
 
   if (pdialog->pcity->production.is_unit) {
-    name = get_unit_type(pdialog->pcity->production.value)->name;
+    name = utype_name_translation(utype_by_number(pdialog->pcity->production.value));
   } else {
     name =
 	get_impr_name_ex(pdialog->pcity,

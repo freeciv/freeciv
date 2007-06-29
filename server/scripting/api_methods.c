@@ -44,7 +44,7 @@ bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)
   enum unit_flag_id id = unit_flag_from_str(flag);
 
   if (id != F_LAST) {
-    return unit_type_flag(punit_type, id);
+    return utype_has_flag(punit_type, id);
   } else {
     script_error("Unit flag \"%s\" does not exist", flag);
     return FALSE;
@@ -59,7 +59,7 @@ bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
   enum unit_role_id id = unit_role_from_str(role);
 
   if (id != L_LAST) {
-    return unit_has_role(punit_type, id);
+    return utype_has_role(punit_type, id);
   } else {
     script_error("Unit role \"%s\" does not exist", role);
     return FALSE;

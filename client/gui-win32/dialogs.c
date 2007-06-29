@@ -1365,7 +1365,7 @@ static void diplomat_bribe_callback(HWND w, void * data)
 void popup_bribe_dialog(struct unit *punit)
 {
   char buf[128];
-  if (unit_flag(punit, F_UNBRIBABLE)) {
+  if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
     popup_message_dialog(root_window, _("Ooops..."),
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0);
@@ -1603,9 +1603,10 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
     diplomat_target_id=pcity->id;
     my_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
-		unit_name(punit->type), pcity->name);
+		unit_name_translation(punit),
+		pcity->name);
 
-    if(!unit_flag(punit, F_SPY)){
+    if(!unit_has_type_flag(punit, F_SPY)){
       shl=popup_message_dialog(root_window, /*"diplomatdialog"*/
 			       _(" Choose Your Diplomat's Strategy"), buf,
          		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
@@ -1660,7 +1661,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
        diplomat_target_id=ptunit->id;
 
        shl=popup_message_dialog(root_window, /*"spybribedialog"*/_("Subvert Enemy Unit"),
-                              (!unit_flag(punit, F_SPY))?
+                              (!unit_has_type_flag(punit, F_SPY))?
  			      _("Sir, the diplomat is waiting for your command"):
  			      _("Sir, the spy is waiting for your command"),
  			      _("_Bribe Enemy Unit"), diplomat_bribe_callback, 0,

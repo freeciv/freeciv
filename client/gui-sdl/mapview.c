@@ -598,12 +598,12 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
 
     memset(types_count, 0, sizeof(types_count));
     unit_list_iterate(punits, punit) {
-      if (unit_flag(punit, F_NONMIL)) {
+      if (unit_has_type_flag(punit, F_NONMIL)) {
   nonmil++;
       } else {
   mil++;
       }
-      types_count[punit->type->index]++;
+      types_count[unit_type(punit)->index]++;
     } unit_list_iterate_end;
 
     top[0] = top[1] = top[2] = NULL;
@@ -628,7 +628,7 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
 
     for (i = 0; i < 3; i++) {
       if (top[i] && types_count[top[i]->index] > 0) {
-  if (unit_type_flag(top[i], F_NONMIL)) {
+  if (utype_has_flag(top[i], F_NONMIL)) {
     nonmil -= types_count[top[i]->index];
   } else {
     mil -= types_count[top[i]->index];
@@ -696,7 +696,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       struct tile *pTile = pUnit->tile;
 
       /* get and draw unit name (with veteran status) */
-      pStr = create_str16_from_char(unit_type(pUnit)->name, adj_font(12));
+      pStr = create_str16_from_char(unit_name_translation(pUnit), adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
       pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
       pName = create_text_surf_from_str16(pStr);

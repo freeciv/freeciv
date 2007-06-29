@@ -369,7 +369,6 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
     			       GtkTreeIter *parent)
 {
   GdkPixbuf *pix;
-  struct unit_type *ptype = unit_type(punit);
 
   pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
       tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
@@ -388,7 +387,7 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
   gtk_tree_store_set(unit_select_store, it,
       0, punit->id,
       1, pix,
-      2, _(ptype->name),
+      2, unit_name_translation(punit),
       -1);
   g_object_unref(pix);
 

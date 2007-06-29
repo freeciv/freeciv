@@ -114,7 +114,7 @@ Building_Type *api_find_building_type_by_name(const char *name_orig)
 **************************************************************************/
 Unit_Type *api_find_unit_type(int unit_type_id)
 {
-  return get_unit_type(unit_type_id);
+  return utype_by_number(unit_type_id);
 }
 
 /**************************************************************************
@@ -122,7 +122,7 @@ Unit_Type *api_find_unit_type(int unit_type_id)
 **************************************************************************/
 Unit_Type *api_find_unit_type_by_name(const char *name_orig)
 {
-  return find_unit_type_by_name_orig(name_orig);
+  return find_unit_type_by_rule_name(name_orig);
 }
 
 /**************************************************************************

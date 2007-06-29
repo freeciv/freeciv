@@ -82,7 +82,8 @@ void client_remove_unit(struct unit *punit)
 
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	  punit->id, get_nation_name(unit_owner(punit)->nation),
-	  unit_name(punit->type), TILE_XY(punit->tile), hc);
+	  unit_rule_name(punit),
+	  TILE_XY(punit->tile), hc);
 
   update = (get_focus_unit_on_tile(punit->tile) != NULL);
   control_unit_killed(punit);
@@ -168,9 +169,11 @@ void client_change_all(struct city_production from,
 
   create_event(NULL, E_CITY_PRODUCTION_CHANGED,
 	       _("Changing production of every %s into %s."),
-	       from.is_unit ? get_unit_type(from.value)->name
+	       from.is_unit
+	       ? utype_name_translation(utype_by_number(from.value))
 	       : get_improvement_name(from.value),
-	       to.is_unit ? get_unit_type(to.value)->name
+	       to.is_unit
+	       ? utype_name_translation(utype_by_number(to.value))
 	       : get_improvement_name(to.value));
 
   connection_do_buffer(&aconnection);
@@ -178,7 +181,7 @@ void client_change_all(struct city_production from,
     if (from.is_unit == pcity->production.is_unit
 	&& from.value == pcity->production.value
 	&& ((to.is_unit
-	     && can_build_unit(pcity, get_unit_type(to.value)))
+	     && can_build_unit(pcity, utype_by_number(to.value)))
 	    || (!to.is_unit
 		&& can_build_improvement(pcity, to.value)))) {
       last_request_id = city_change_production(pcity, to);
@@ -499,7 +502,7 @@ bool city_can_build_impr_or_unit(const struct city *pcity,
 				 struct city_production target)
 {
   if (target.is_unit) {
-    return can_build_unit(pcity, get_unit_type(target.value));
+    return can_build_unit(pcity, utype_by_number(target.value));
   } else {
     return can_build_improvement(pcity, target.value);
   }
@@ -513,10 +516,10 @@ bool city_unit_supported(const struct city *pcity,
 			 struct city_production target)
 {
   if (target.is_unit) {
-    struct unit_type *unit_type = get_unit_type(target.value);
+    struct unit_type *tvtype = utype_by_number(target.value);
 
     unit_list_iterate(pcity->units_supported, punit) {
-      if (punit->type == unit_type)
+      if (unit_type(punit) == tvtype)
 	return TRUE;
     } unit_list_iterate_end;
   }
@@ -531,10 +534,10 @@ bool city_unit_present(const struct city *pcity,
 		       struct city_production target)
 {
   if (target.is_unit) {
-    struct unit_type *unit_type = get_unit_type(target.value);
+    struct unit_type *tvtype = utype_by_number(target.value);
 
     unit_list_iterate(pcity->tile->units, punit) {
-      if (punit->type == unit_type)
+      if (unit_type(punit) == tvtype)
 	return TRUE;
     }
     unit_list_iterate_end;
@@ -557,7 +560,7 @@ bool city_building_present(const struct city *pcity,
 static int target_get_section(struct city_production target)
 {
   if (target.is_unit) {
-    if (unit_type_flag(get_unit_type(target.value), F_NONMIL)) {
+    if (utype_has_flag(utype_by_number(target.value), F_NONMIL)) {
       return 2;
     } else {
       return 3;
@@ -613,8 +616,8 @@ void name_and_sort_items(struct city_production *targets, int num_targets,
     pitem->item = target;
 
     if (target.is_unit) {
-      name = get_unit_name(get_unit_type(target.value));
-      cost = unit_build_shield_cost(get_unit_type(target.value));
+      name = utype_values_translation(utype_by_number(target.value));
+      cost = unit_build_shield_cost(utype_by_number(target.value));
     } else {
       name = get_impr_name_ex(pcity, target.value);
       if (impr_flag(target.value, IF_GOLD)) {
@@ -1041,7 +1044,7 @@ void cityrep_buy(struct city *pcity)
     const char *name;
 
     if (pcity->production.is_unit) {
-      name = get_unit_type(pcity->production.value)->name;
+      name = utype_name_translation(utype_by_number(pcity->production.value));
     } else {
       name = get_impr_name_ex(pcity, pcity->production.value);
     }
@@ -1107,7 +1110,7 @@ bool can_units_do_connect(struct unit_list *punits,
 ****************************************************************************/
 enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
 {
-  struct unit_class *pclass = get_unit_class(punittype);
+  struct unit_class *pclass = utype_class(punittype);
 
   if (pclass->hp_loss_pct > 0) {
     return UNIT_BG_HP_LOSS;

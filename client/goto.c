@@ -758,8 +758,8 @@ static void fill_client_goto_parameter(struct unit *punit,
 
   if (is_attack_unit(punit) || is_diplomat_unit(punit)) {
     parameter->get_TB = get_TB_aggr;
-  } else if (unit_flag(punit, F_TRADE_ROUTE)
-	     || unit_flag(punit, F_HELP_WONDER)) {
+  } else if (unit_has_type_flag(punit, F_TRADE_ROUTE)
+	     || unit_has_type_flag(punit, F_HELP_WONDER)) {
     parameter->get_TB = get_TB_caravan;
   } else {
     parameter->get_TB = no_fights_or_unknown_goto;

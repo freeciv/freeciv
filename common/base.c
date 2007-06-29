@@ -57,7 +57,7 @@ bool is_native_base_to_class(const struct unit_class *pclass,
 bool is_native_base(const struct unit_type *punittype,
                     const struct base_type *pbase)
 {
-  return is_native_base_to_class(get_unit_class(punittype), pbase);
+  return is_native_base_to_class(utype_class(punittype), pbase);
 }
 
 /****************************************************************************

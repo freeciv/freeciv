@@ -669,7 +669,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   if (i < game.control.num_unit_types)
   {
     ULONG bg_color;
-    struct unit_type *utype = get_unit_type(i);
+    struct unit_type *utype = utype_by_number(i);
     char *text;
 
     settextf(help_unit_cost_text,
@@ -692,13 +692,13 @@ static void help_update_unit_type(const struct help_item *pitem,
     if (utype->obsoleted_by == U_NOT_OBSOLETED)
       text = _("None");
     else
-      text = get_unit_type(utype->obsoleted_by)->name;
+      text = utype_name_translation(utype_by_number(utype->obsoleted_by));
     SetAttrs(help_unit_obsolete_button,
 	     MUIA_Text_Contents, text,
 	     MUIA_UserData, HELP_UNIT,
 	      TAG_DONE);
 
-    switch (get_unit_type(i)->move_type)
+    switch (utype_by_number(i)->move_type)
     {
       case LAND_MOVING: bg_color = 0x0000c800; /* green */ break;
       case SEA_MOVING:  bg_color = 0x000000c8; /* blue */ break;
@@ -708,7 +708,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     }
 
     SetAttrs(help_unit_sprite,
-             MUIA_Sprite_Sprite, get_unit_type(i)->sprite,
+             MUIA_Sprite_Sprite, utype_by_number(i)->sprite,
              MUIA_Sprite_Background, bg_color,
              TAG_DONE);
 
@@ -764,13 +764,13 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
 	unit_type_iterate(j) {
 	  Object *o, *button;
-	  if (i != get_unit_type(j)->tech_requirement)
+	  if (i != utype_by_number(j)->tech_requirement)
 	    continue;
 
 	  o = HGroup,
 	    GroupSpacing(0),
 	    Child, MakeLabel(_("Allows ")),
-	    Child, button = MakeHelpButton(get_unit_type(j)->name, HELP_UNIT),
+	    Child, button = MakeHelpButton(utype_name_translation(utype_by_number(j)), HELP_UNIT),
 	    Child, MakeLabel(_(" unit")),
 	    Child, HSpace(0),
 	    End;
@@ -999,7 +999,7 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
 
   case HELP_UNIT:
-    help_update_unit_type(pitem, top, find_unit_type_by_name(top));
+    help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
     break;
 
   case HELP_TECH:

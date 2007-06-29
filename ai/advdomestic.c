@@ -78,7 +78,7 @@ static void ai_choose_help_wonder(struct city *pcity,
 
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit, F_HELP_WONDER)
+    if (unit_has_type_flag(punit, F_HELP_WONDER)
         && tile_get_continent(punit->tile) == continent)
       caravans++;
   } unit_list_iterate_end;
@@ -86,7 +86,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   /* Count caravans being built */
   city_list_iterate(pplayer->cities, acity) {
     if (acity->production.is_unit
-        && unit_type_flag(get_unit_type(acity->production.value),
+        && utype_has_flag(utype_by_number(acity->production.value),
 			  F_HELP_WONDER)
         && tile_get_continent(acity->tile) == continent) {
       caravans++;
@@ -113,7 +113,9 @@ static void ai_choose_help_wonder(struct city *pcity,
 
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
-             unit_name(unit_type), wonder_city->name, want);
+             utype_rule_name(unit_type),
+             wonder_city->name,
+             want);
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build
        * the unit. */

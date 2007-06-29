@@ -546,7 +546,8 @@ static void help_callback(GtkWidget *w, gpointer data)
     target = cid_decode(cid);
 
     if (target.is_unit) {
-      popup_help_dialog_typed(get_unit_type(target.value)->name, HELP_UNIT);
+      popup_help_dialog_typed(utype_name_translation(utype_by_number(target.value)),
+			      HELP_UNIT);
     } else if (is_great_wonder(target.value)) {
       popup_help_dialog_typed(get_improvement_name(target.value),
 			      HELP_WONDER);
@@ -959,7 +960,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
       store.type = CANVAS_PIXBUF;
       store.v.pixbuf = pix;
-      create_overlay_unit(&store, get_unit_type(target.value));
+      create_overlay_unit(&store, utype_by_number(target.value));
 
       g_object_set(rend, "pixbuf", pix, NULL);
       g_object_unref(pix);

@@ -101,7 +101,7 @@ struct terrain *get_terrain_by_number(Terrain_type_id type)
 struct terrain *get_terrain_by_rule_name(const char *name)
 {
   terrain_type_iterate(pterrain) {
-    if (0 == strcmp(pterrain->name_rule, name)) {
+    if (0 == mystrcasecmp(pterrain->name_rule, name)) {
       return pterrain;
     }
   } terrain_type_iterate_end;

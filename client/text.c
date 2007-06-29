@@ -197,7 +197,7 @@ const char *popup_info_text(struct tile *ptile)
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       struct city *hcity = find_city_by_id(pfocus_unit->homecity);
 
-      if (unit_flag(pfocus_unit, F_TRADE_ROUTE)
+      if (unit_has_type_flag(pfocus_unit, F_TRADE_ROUTE)
 	  && can_cities_trade(hcity, pcity)
 	  && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
@@ -228,7 +228,8 @@ const char *popup_info_text(struct tile *ptile)
 	my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
       }
       /* TRANS: "Unit: Musketeers (Polish/Warsaw)" */
-      astr_add_line(&str, _("Unit: %s (%s%s)"), ptype->name,
+      astr_add_line(&str, _("Unit: %s (%s%s)"),
+		    utype_name_translation(ptype),
 		    get_nation_name(owner->nation),
 		    tmp);
     } else if (owner) {
@@ -243,12 +244,13 @@ const char *popup_info_text(struct tile *ptile)
         astr_add_line(&str, PL_("Unit: %s (%s, %d turn cease-fire)",
 				"Unit: %s (%s, %d turn cease-fire)",
 				turns),
-		      ptype->name,
+		      utype_name_translation(ptype),
 		      get_nation_name(owner->nation),
 		      turns);
       } else {
 	/* TRANS: "Unit: Musketeers (Polish,friendly)" */
-	astr_add_line(&str, _("Unit: %s (%s, %s)"), ptype->name,
+	astr_add_line(&str, _("Unit: %s (%s, %s)"),
+		      utype_name_translation(ptype),
 		      get_nation_name(owner->nation),
 		      diplo_city_adjectives[ds[owner->player_no].type]);
       }
@@ -378,7 +380,7 @@ const char *unit_description(struct unit *punit)
 
   astr_clear(&str);
 
-  astr_add(&str, "%s", ptype->name);
+  astr_add(&str, "%s", utype_name_translation(ptype));
 
   if (ptype->veteran[punit->veteran].name[0] != '\0') {
     astr_add(&str, " (%s)", _(ptype->veteran[punit->veteran].name));
@@ -660,7 +662,7 @@ const char *get_unit_info_label_text1(struct unit_list *punits)
     int count = unit_list_size(punits);
 
     if (count == 1) {
-      astr_add(&str, "%s", unit_list_get(punits, 0)->type->name);
+      astr_add(&str, "%s", unit_name_translation(unit_list_get(punits, 0)));
     } else {
       astr_add(&str, PL_("%d unit", "%d units", count), count);
     }
@@ -738,12 +740,12 @@ const char *get_unit_info_label_text2(struct unit_list *punits)
 
     memset(types_count, 0, sizeof(types_count));
     unit_list_iterate(punits, punit) {
-      if (unit_flag(punit, F_NONMIL)) {
+      if (unit_has_type_flag(punit, F_NONMIL)) {
 	nonmil++;
       } else {
 	mil++;
       }
-      types_count[punit->type->index]++;
+      types_count[unit_type(punit)->index]++;
     } unit_list_iterate_end;
 
     top[0] = top[1] = top[2] = NULL;
@@ -768,13 +770,14 @@ const char *get_unit_info_label_text2(struct unit_list *punits)
 
     for (i = 0; i < 3; i++) {
       if (top[i] && types_count[top[i]->index] > 0) {
-	if (unit_type_flag(top[i], F_NONMIL)) {
+	if (utype_has_flag(top[i], F_NONMIL)) {
 	  nonmil -= types_count[top[i]->index];
 	} else {
 	  mil -= types_count[top[i]->index];
 	}
 	astr_add_line(&str, "%d: %s",
-		      types_count[top[i]->index], top[i]->name);
+		      types_count[top[i]->index],
+		      utype_name_translation(top[i]));
       } else {
 	astr_add_line(&str, " ");
       }
@@ -829,9 +832,9 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
     unit_list_iterate(punits, punit) {
       if (punit->owner == game.player_ptr
 	  && test_unit_upgrade(punit, FALSE) == UR_OK) {
-	struct unit_type *from_unittype = punit->type;
+	struct unit_type *from_unittype = unit_type(punit);
 	struct unit_type *to_unittype = can_upgrade_unittype(game.player_ptr,
-							     punit->type);
+							     unit_type(punit));
 	int cost = unit_upgrade_price(punit->owner,
 					   from_unittype, to_unittype);
 

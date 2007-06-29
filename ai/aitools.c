@@ -248,7 +248,7 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
    * FIXME: that assumes that most units have move_rate == SINGLE_MOVE;
    * not true for all rule-sets */
   danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
-  if (unit_flag(punit, F_IGTER)) {
+  if (unit_has_type_flag(punit, F_IGTER)) {
     danger /= 1.5;
   }
 
@@ -351,8 +351,10 @@ struct tile *immediate_destination(struct unit *punit,
 
       freelog(LOG_VERBOSE, "Did not find an air-route for "
 	      "%s's %s at (%d, %d) -> (%d, %d)",
-	      pplayer->name, unit_type(punit)->name,
-	      TILE_XY(punit->tile), TILE_XY(dest_tile));
+	      pplayer->name,
+	      unit_rule_name(punit),
+	      TILE_XY(punit->tile),
+	      TILE_XY(dest_tile));
       /* Prevent take off */
       return punit->tile;
     }
@@ -475,7 +477,7 @@ static int stack_value(const struct tile *ptile,
   if (is_stack_vulnerable(ptile)) {
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer) {
-	cost += unit_build_shield_cost(punit->type);
+	cost += unit_build_shield_cost(unit_type(punit));
       }
     } unit_list_iterate_end;
   }
@@ -596,7 +598,7 @@ void ai_avoid_risks(struct pf_parameter *parameter,
   parameter->data = risk_cost;
   parameter->get_EC = prefer_short_stacks;
   parameter->turn_mode = TM_WORST_TIME;
-  risk_cost->base_value = unit_build_shield_cost(punit->type);
+  risk_cost->base_value = unit_build_shield_cost(unit_type(punit));
   risk_cost->fearfulness = fearfulness * linger_fraction;
 
   risk_cost->enemy_zoc_cost = PF_TURN_FACTOR * 20;
@@ -709,24 +711,24 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
      * Do not cheat by using information about tiles unknown to the player.
      */
     parameter->get_TB = no_fights_or_unknown;
-  } else if ((unit_flag(punit, F_DIPLOMAT))
-      || (unit_flag(punit, F_SPY))) {
+  } else if ((unit_has_type_flag(punit, F_DIPLOMAT))
+      || (unit_has_type_flag(punit, F_SPY))) {
     /* Default tile behaviour */
-  } else if (unit_flag(punit, F_SETTLERS)) {
+  } else if (unit_has_type_flag(punit, F_SETTLERS)) {
     parameter->get_TB = no_fights;
-  } else if (long_path && unit_flag(punit, F_CITIES)) {
+  } else if (long_path && unit_has_type_flag(punit, F_CITIES)) {
     /* Default tile behaviour;
      * move as far along the path to the destination as we can;
      * that is, ignore the presence of enemy units when computing the
      * path.
      */
-  } else if (unit_flag(punit, F_CITIES)) {
+  } else if (unit_has_type_flag(punit, F_CITIES)) {
     /* Short path */
     parameter->get_TB = no_fights;
-  } else if (unit_flag(punit, F_TRADE_ROUTE)
-             || unit_flag(punit, F_HELP_WONDER)) {
+  } else if (unit_has_type_flag(punit, F_TRADE_ROUTE)
+             || unit_has_type_flag(punit, F_HELP_WONDER)) {
     parameter->get_TB = no_fights;
-  } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
+  } else if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
     /* Avoid capture */
     parameter->get_TB = no_fights;
   } else if (is_ferry) {
@@ -861,7 +863,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
       if (missile->ai.ai_role != AIUNIT_ESCORT
           && missile->transported_by == -1
           && missile->owner == punit->owner
-          && unit_class_flag(get_unit_class(unit_type(missile)), UCF_MISSILE)
+          && unit_class_flag(unit_class(missile), UCF_MISSILE)
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
         ai_unit_new_role(missile, AIUNIT_ESCORT, target->tile);
@@ -880,7 +882,7 @@ bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
   CHECK_UNIT(punit);
   assert(punit->owner == pcity->owner);
 
-  if (punit->homecity == 0 && !unit_has_role(punit->type, L_EXPLORER)) {
+  if (punit->homecity == 0 && !unit_has_type_role(punit, L_EXPLORER)) {
     /* This unit doesn't pay any upkeep while it doesn't have a homecity,
      * so it would be stupid to give it one. There can also be good reasons
      * why it doesn't have a homecity. */
@@ -1075,11 +1077,11 @@ int stack_cost(struct unit *pdef)
   if (is_stack_vulnerable(pdef->tile)) {
     /* lotsa people die */
     unit_list_iterate(pdef->tile->units, aunit) {
-      victim_cost += unit_build_shield_cost(aunit->type);
+      victim_cost += unit_build_shield_cost(unit_type(aunit));
     } unit_list_iterate_end;
   } else {
     /* Only one unit dies if attack is successful */
-    victim_cost = unit_build_shield_cost(pdef->type);
+    victim_cost = unit_build_shield_cost(unit_type(pdef));
   }
   
   return victim_cost;

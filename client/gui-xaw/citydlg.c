@@ -1339,14 +1339,14 @@ void present_units_callback(Widget w, XtPointer client_data,
 	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
     }
-    if (unit_flag(punit, F_UNDISBANDABLE)) {
+    if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
       XtSetSensitive(XtNameToWidget(wd, "*button4"), FALSE);
     }
     if (punit->homecity == pcity->id) {
       XtSetSensitive(XtNameToWidget(wd, "*button5"), FALSE);
     }
     if (!game.player_ptr
-	|| (can_upgrade_unittype(game.player_ptr, punit->type) == NULL)) {
+	|| (can_upgrade_unittype(game.player_ptr, unit_type(punit)) == NULL)) {
       XtSetSensitive(XtNameToWidget(wd, "*button6"), FALSE);
     }
   }
@@ -1478,7 +1478,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 
   xaw_set_label(pdialog->building_label,
 		pcity->production.is_unit ?
-		  get_unit_type(pcity->production.value)->name :
+		  utype_name_translation(utype_by_number(pcity->production.value)) :
 		  get_impr_name_ex(pcity, pcity->production.value));
 
   get_contents_of_progress(pdialog, buf, sizeof(buf));
@@ -1602,7 +1602,7 @@ static void support_units_callback(Widget w, XtPointer client_data,
 			     present_units_disband_callback, punit->id, 1,
 			     present_units_cancel_callback, 0, 0,
 			     NULL);
-        if (unit_flag(punit, F_UNDISBANDABLE)) {
+        if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
           XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
         }
       }
@@ -1884,7 +1884,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
 
   if(pdialog->pcity->production.is_unit) {
-    name=get_unit_type(pdialog->pcity->production.value)->name;
+    name=utype_name_translation(utype_by_number(pdialog->pcity->production.value));
   }
   else {
     name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->production.value);
@@ -2024,7 +2024,7 @@ static void change_help_callback(Widget w, XtPointer client_data,
     bool is_unit = (ret->list_index >= pdialog->change_list_num_improvements);
 
     if (is_unit) {
-      popup_help_dialog_typed(get_unit_type(idx)->name, HELP_UNIT);
+      popup_help_dialog_typed(utype_name_translation(utype_by_number(idx)), HELP_UNIT);
     } else if(is_great_wonder(idx)) {
       popup_help_dialog_typed(get_improvement_name(idx), HELP_WONDER);
     } else {
@@ -2230,7 +2230,7 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 
     /* If it can be built... */
     if ((production.is_unit
-	 && can_build_unit(pdialog->pcity, get_unit_type(production.value)))
+	 && can_build_unit(pdialog->pcity, utype_by_number(production.value)))
 	|| (!production.is_unit
 	    && can_build_improvement(pdialog->pcity, production.value))) {
       /* ...but we're not yet building it, then switch. */

@@ -590,11 +590,12 @@ static void city_populate(struct city *pcity)
      */
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (unit_type(punit)->upkeep[O_FOOD] > 0 
-          && !unit_flag(punit, F_UNDISBANDABLE)) {
+          && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
 
 	notify_player(city_owner(pcity), pcity->tile, E_UNIT_LOST,
 			 _("Famine feared in %s, %s lost!"), 
-			 pcity->name, unit_type(punit)->name);
+			 pcity->name,
+			 unit_name_translation(punit));
  
         wipe_unit(punit);
 
@@ -675,8 +676,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 
     /* Sanity checks */
     if (target.is_unit &&
-	!can_build_unit(pcity, get_unit_type(target.value))) {
-      struct unit_type *ptarget = get_unit_type(target.value);
+	!can_build_unit(pcity, utype_by_number(target.value))) {
+      struct unit_type *ptarget = utype_by_number(target.value);
       struct unit_type *new_target = unit_upgrades_to(pcity, ptarget);
 
       /* Maybe we can just upgrade the target to what the city /can/ build. */
@@ -685,7 +686,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("%s can't build %s from the worklist; "
 			   "tech not yet available.  Postponing..."),
-			 pcity->name, ptarget->name);
+			 pcity->name,
+			 utype_name_translation(ptarget));
 	script_signal_emit("unit_cant_be_built", 3,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
@@ -701,7 +703,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			 /* Yes, warn about the targets that's actually
 			    in the worklist, not its obsolete-closure
 			    new_target. */
-			 ptarget->name);
+			 utype_name_translation(ptarget));
 	script_signal_emit("unit_cant_be_built", 3,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
@@ -716,8 +718,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	/* Yep, we can go after new_target instead.  Joy! */
 	notify_player(pplayer, pcity->tile, E_WORKLIST,
 			 _("Production of %s is upgraded to %s in %s."),
-			 ptarget->name, 
-			 new_target->name,
+			 utype_name_translation(ptarget), 
+			 utype_name_translation(new_target),
 			 pcity->name);
 	ptarget = new_target;
 	target.value = new_target->index;
@@ -953,7 +955,7 @@ static void choose_build_target(struct player *pplayer,
    * call to change_build_target, so just return. */
   if (pcity->production.is_unit) {
     /* We can build a unit again unless it's unique. */
-    if (!unit_type_flag(get_unit_type(pcity->production.value), F_UNIQUE)) {
+    if (!utype_has_flag(utype_by_number(pcity->production.value), F_UNIQUE)) {
       return;
     }
   } else if (can_build_improvement(pcity, pcity->production.value)) {
@@ -1045,14 +1047,15 @@ static struct unit_type *unit_upgrades_to(struct city *pcity,
 static void upgrade_unit_prod(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  struct unit_type *id = get_unit_type(pcity->production.value);
+  struct unit_type *id = utype_by_number(pcity->production.value);
   struct unit_type *id2 = unit_upgrades_to(pcity, id);
 
   if (id2 && can_build_unit_direct(pcity, id2)) {
     pcity->production.value = id2->index;
     notify_player(pplayer, pcity->tile, E_UNIT_UPGRADED, 
 		  _("Production of %s is upgraded to %s in %s."),
-		  id->name, id2->name, 
+		  utype_name_translation(id),
+		  utype_name_translation(id2), 
 		  pcity->name);
   }
 }
@@ -1068,10 +1071,11 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD) > 0
 	  && pcity->surplus[O_SHIELD] < 0
-          && !unit_flag(punit, F_UNDISBANDABLE)) {
+          && !unit_has_type_flag(punit, F_UNDISBANDABLE)) {
 	notify_player(pplayer, pcity->tile, E_UNIT_LOST,
 			 _("%s can't upkeep %s, unit disbanded."),
-			 pcity->name, unit_type(punit)->name);
+			 pcity->name,
+			 unit_name_translation(punit));
         handle_unit_disband(pplayer, punit->id);
 	/* pcity->surplus[O_SHIELD] is automatically updated. */
       }
@@ -1087,10 +1091,12 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
-	assert(unit_flag(punit, F_UNDISBANDABLE));
+	assert(unit_has_type_flag(punit, F_UNDISBANDABLE));
 	notify_player(pplayer, pcity->tile, E_UNIT_LOST,
 			 _("Citizens in %s perish for their failure to "
-			 "upkeep %s!"), pcity->name, unit_type(punit)->name);
+			 "upkeep %s!"),
+			 pcity->name,
+			 unit_name_translation(punit));
 	if (!city_reduce_size(pcity, 1)) {
 	  return FALSE;
 	}
@@ -1237,7 +1243,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   struct unit_type *utype;
 
   upgrade_unit_prod(pcity);
-  utype = get_unit_type(pcity->production.value);
+  utype = utype_by_number(pcity->production.value);
 
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
@@ -1246,13 +1252,16 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
       && !is_barbarian(pplayer)) {
     notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
         _("%s is building %s, which is no longer available."),
-        pcity->name, unit_name(utype));
+        pcity->name,
+        utype_name_translation(utype));
     script_signal_emit("unit_cant_be_built", 3,
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
 		       API_TYPE_STRING, "unavailable");
-    freelog(LOG_VERBOSE, _("%s's %s tried to build %s, which is not available."),
-            pplayer->name, pcity->name, unit_name(utype));
+    freelog(LOG_VERBOSE, "%s's %s tried to build %s, which is not available.",
+            pplayer->name,
+            pcity->name,
+            utype_rule_name(utype));
     return TRUE;
   }
   if (pcity->shield_stock >= unit_build_shield_cost(utype)) {
@@ -1268,7 +1277,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     if (pcity->size <= pop_cost) {
       notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 		       _("%s can't build %s yet."),
-		       pcity->name, unit_name(utype));
+		       pcity->name,
+		       utype_name_translation(utype));
       script_signal_emit("unit_cant_be_built", 3,
 			 API_TYPE_UNIT_TYPE, utype,
 			 API_TYPE_CITY, pcity,
@@ -1301,7 +1311,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		     /* TRANS: <city> is finished building <unit/building>. */
 		     _("%s is finished building %s."),
 		     pcity->name,
-		     get_unit_type(pcity->production.value)->name);
+		     utype_name_translation(utype_by_number(pcity->production.value)));
 
     script_signal_emit("unit_built",
 		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
@@ -1407,7 +1417,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   cost = city_owner(pcity)->economic.gold + game.info.base_incite_cost;
 
   unit_list_iterate(pcity->tile->units, punit) {
-    cost += (unit_build_shield_cost(punit->type)
+    cost += (unit_build_shield_cost(unit_type(punit))
 	     * game.info.incite_unit_factor);
   } unit_list_iterate_end;
 
@@ -1483,7 +1493,7 @@ static void define_orig_production_values(struct city *pcity)
 	  "In %s, building %s.  Beg of Turn shields = %d",
 	  pcity->name,
 	  pcity->changed_from.is_unit
-	  ? get_unit_type(pcity->changed_from.value)->name
+	  ? utype_rule_name(utype_by_number(pcity->changed_from.value))
 	  : get_improvement_name(pcity->changed_from.value),
 	  pcity->before_change_shields);
 }
@@ -1591,7 +1601,7 @@ static bool disband_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
   struct city *rcity=NULL;
-  struct unit_type *utype = get_unit_type(pcity->production.value);
+  struct unit_type *utype = utype_by_number(pcity->production.value);
 
   /* find closest city other than pcity */
   rcity = find_closest_owned_city(pplayer, ptile, FALSE, pcity);
@@ -1601,7 +1611,8 @@ static bool disband_city(struct city *pcity)
     notify_player(pplayer, ptile, E_CITY_CANTBUILD,
 		     _("%s can't build %s yet, "
 		     "and we can't disband our only city."),
-		     pcity->name, unit_name(utype));
+		     pcity->name,
+		     utype_name_translation(utype));
     script_signal_emit("unit_cant_be_built", 3,
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
@@ -1624,7 +1635,7 @@ static bool disband_city(struct city *pcity)
 		   /* TRANS: Settler production leads to disbanded city. */
 		   _("%s is disbanded into %s."), 
 		   pcity->name,
-		   get_unit_type(pcity->production.value)->name);
+		   utype_name_translation(utype_by_number(pcity->production.value)));
 
   remove_city(pcity);
   return TRUE;

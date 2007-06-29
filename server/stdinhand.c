@@ -2370,11 +2370,13 @@ static bool debug_command(struct connection *caller, char *str,
       if (punit->debug) {
         punit->debug = FALSE;
         cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),
-                  unit_owner(punit)->name, unit_name(punit->type));
+                  unit_owner(punit)->name,
+                  unit_name_translation(punit));
       } else {
         punit->debug = TRUE;
         UNIT_LOG(LOG_NORMAL, punit, _("%s's %s debugged."),
-                 unit_owner(punit)->name, unit_name(punit->type));
+                 unit_owner(punit)->name,
+                 unit_name_translation(punit));
       }
     } unit_list_iterate_end;
   } else if (ntokens > 0 && strcmp(arg[0], "timing") == 0) {
@@ -2407,11 +2409,13 @@ static bool debug_command(struct connection *caller, char *str,
     if (punit->debug) {
       punit->debug = FALSE;
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),
-                unit_owner(punit)->name, unit_name(punit->type));
+                unit_owner(punit)->name,
+                unit_name_translation(punit));
     } else {
       punit->debug = TRUE;
       UNIT_LOG(LOG_NORMAL, punit, _("%s's %s debugged."),
-               unit_owner(punit)->name, unit_name(punit->type));
+               unit_owner(punit)->name,
+               unit_name_translation(punit));
     }
   } else {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX, usage);

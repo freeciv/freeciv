@@ -1368,7 +1368,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
 	     (is_unit_choice_type(pcity->ai.choice.type) ?
-	      unit_name(get_unit_type(pcity->ai.choice.choice)) :
+	      utype_rule_name(utype_by_number(pcity->ai.choice.choice)) :
 	      get_improvement_name(pcity->ai.choice.choice)),
 	     pcity->ai.choice.want);
     
@@ -1435,7 +1435,7 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
   struct player *pplayer = city_owner(pcity);
 
   unit_list_iterate(pcity->tile->units, punit) {
-    struct unit_type *punittype = can_upgrade_unittype(pplayer, punit->type);
+    struct unit_type *punittype = can_upgrade_unittype(pplayer, unit_type(punit));
 
     if (military && !IS_ATTACKER(punit)) {
       /* Only upgrade military units this round */
@@ -1445,16 +1445,18 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
       continue;
     }
     if (punittype) {
-      int cost = unit_upgrade_price(pplayer, punit->type, punittype);
+      int cost = unit_upgrade_price(pplayer, unit_type(punit), punittype);
       int real_limit = limit;
 
       /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
-      if (unit_flag(punit, F_TRIREME)) {
+      if (unit_has_type_flag(punit, F_TRIREME)) {
         real_limit = pplayer->ai.est_upkeep;
       }
       if (pplayer->economic.gold - cost > real_limit) {
         CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
-                 unit_type(punit)->name, punittype->name, cost,
+                 unit_rule_name(punit),
+                 utype_rule_name(punittype),
+                 cost,
                  military ? "military" : "civilian");
         handle_unit_upgrade(city_owner(pcity), punit->id);
       } else {
@@ -1479,11 +1481,11 @@ static void ai_spend_gold(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *ptile = pcity->tile;
     unit_list_iterate_safe(ptile->units, punit) {
-      if (unit_has_role(punit->type, L_EXPLORER)
+      if (unit_has_type_role(punit, L_EXPLORER)
           && pcity->id == punit->homecity
           && pcity->ai.urgency == 0) {
         CITY_LOG(LOG_BUY, pcity, "disbanding %s to increase production",
-                 unit_name(punit->type));
+                 unit_rule_name(punit));
 	handle_unit_disband(pplayer,punit->id);
       }
     } unit_list_iterate_safe_end;
@@ -1544,7 +1546,7 @@ static void ai_spend_gold(struct player *pplayer)
     }
 
     if (bestchoice.type != CT_BUILDING
-        && unit_type_flag(get_unit_type(bestchoice.choice), F_CITIES)) {
+        && utype_has_flag(utype_by_number(bestchoice.choice), F_CITIES)) {
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
           && pcity->size == 1
           && city_granary_size(pcity->size)
@@ -1572,7 +1574,7 @@ static void ai_spend_gold(struct player *pplayer)
 
     if (bestchoice.type == CT_ATTACKER
 	&& buycost 
-           > unit_build_shield_cost(get_unit_type(bestchoice.choice)) * 2
+           > unit_build_shield_cost(utype_by_number(bestchoice.choice)) * 2
         && !war_footing) {
        /* Too expensive for an offensive unit */
        continue;
@@ -1589,7 +1591,7 @@ static void ai_spend_gold(struct player *pplayer)
       /* Buy stuff */
       CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
                bestchoice.type != CT_BUILDING
-	       ? unit_name(get_unit_type(bestchoice.choice))
+	       ? utype_rule_name(utype_by_number(bestchoice.choice))
                : get_improvement_name(bestchoice.choice), buycost,
                bestchoice.want);
       really_handle_city_buy(pplayer, pcity);
@@ -1598,7 +1600,7 @@ static void ai_spend_gold(struct player *pplayer)
                && assess_defense(pcity) == 0) {
       /* We have no gold but MUST have a defender */
       CITY_LOG(LOG_BUY, pcity, "must have %s but can't afford it (%d < %d)!",
-	       unit_name(get_unit_type(bestchoice.choice)),
+	       utype_rule_name(utype_by_number(bestchoice.choice)),
 	       pplayer->economic.gold, buycost);
       try_to_sell_stuff(pplayer, pcity);
       if (pplayer->economic.gold - pplayer->ai.est_upkeep >= buycost) {
@@ -1777,7 +1779,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 
   unit_list_iterate_safe(pcity->units_supported, punit) {
     if (city_unhappy(pcity)
-        && (utype_happy_cost(punit->type, pplayer) > 0
+        && (utype_happy_cost(unit_type(punit), pplayer) > 0
             && (unit_being_aggressive(punit) || is_field_unit(punit)))
         && punit->ai.passenger == 0) {
       UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");

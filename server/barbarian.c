@@ -224,7 +224,8 @@ bool unleash_barbarians(struct tile *ptile)
       = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
 
     (void) create_unit(barbarians, ptile, punittype, 0, 0, -1);
-    freelog(LOG_DEBUG, "Created barbarian unit %s", punittype->name);
+    freelog(LOG_DEBUG, "Created barbarian unit %s",
+            utype_rule_name(punittype));
   }
 
   adjc_iterate(ptile, tile1) {
@@ -409,7 +410,8 @@ static void try_summon_barbarians(void)
 	= find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
 
       (void) create_unit(barbarians, utile, punittype, 0, 0, -1);
-      freelog(LOG_DEBUG, "Created barbarian unit %s", punittype->name);
+      freelog(LOG_DEBUG, "Created barbarian unit %s",
+              utype_rule_name(punittype));
     }
     (void) create_unit(barbarians, utile,
 		       get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
@@ -427,7 +429,8 @@ static void try_summon_barbarians(void)
 
       (void) create_unit_full(barbarians, utile, unit, 0, 0, -1, -1,
 			      ptrans);
-      freelog(LOG_DEBUG, "Created barbarian unit %s", unit->name);
+      freelog(LOG_DEBUG, "Created barbarian unit %s",
+              utype_rule_name(unit));
     }
     (void) create_unit_full(barbarians, utile,
 			    get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0,

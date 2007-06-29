@@ -814,7 +814,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     pcity = find_city_by_id(victim_id);
     punit = find_unit_by_id(victim_id);
 
-    if (!pdiplomat || !unit_flag(pdiplomat, F_DIPLOMAT))
+    if (!pdiplomat || !unit_has_type_flag(pdiplomat, F_DIPLOMAT))
       continue;
 
     if (punit
@@ -1002,7 +1002,7 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
   switch (activity) {
   case ACTIVITY_ROAD:
     return terrain_control.may_road
-      && unit_flag(punit, F_SETTLERS)
+      && unit_has_type_flag(punit, F_SETTLERS)
       && (tile_has_special(punit->tile, S_ROAD)
 	  || (pterrain->road_time != 0
 	      && (!tile_has_special(punit->tile, S_RIVER)
@@ -1012,13 +1012,13 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
      * regardless. It is assumed that if you know the TF_RAILROAD flag
      * you must also know the TF_BRIDGE flag. */
     return (terrain_control.may_road
-	    && unit_flag(punit, F_SETTLERS)
+	    && unit_has_type_flag(punit, F_SETTLERS)
 	    && player_knows_techs_with_flag(pplayer, TF_RAILROAD));
   case ACTIVITY_IRRIGATE:
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
     return (terrain_control.may_irrigate
-	    && unit_flag(punit, F_SETTLERS)
+	    && unit_has_type_flag(punit, F_SETTLERS)
 	    && (tile_has_special(punit->tile, S_IRRIGATION)
 		|| (pterrain == pterrain->irrigation_result
 		    && is_water_adjacent_to_tile(punit->tile)
@@ -1115,7 +1115,7 @@ void request_unit_return(struct unit *punit)
 
     if (punit->hp + turns *
         (get_unit_bonus(punit, EFT_UNIT_RECOVER)
-         - (max_hp * get_unit_class(unit_type(punit))->hp_loss_pct / 100))
+         - (max_hp * unit_class(punit)->hp_loss_pct / 100))
 	< max_hp) {
       struct unit_order order;
 
@@ -1145,7 +1145,7 @@ void request_unit_select_same_type(struct unit_list *punits)
   if (can_client_change_view()) {
     unit_list_iterate(punits, punit) {
       unit_list_iterate(unit_owner(punit)->units, punit2) {
-	if (punit2->type == punit->type
+	if (unit_type(punit2) == unit_type(punit)
 	    && !unit_list_search(punits, punit2)
 	    && punit2->activity == ACTIVITY_IDLE
 	    && !unit_has_orders(punit2)) {
@@ -1387,7 +1387,7 @@ void request_unit_nuke(struct unit_list *punits)
     return;
   }
   unit_list_iterate(punits, punit) {
-    if (unit_flag(punit, F_NUCLEAR)) {
+    if (unit_has_type_flag(punit, F_NUCLEAR)) {
       can = TRUE;
       break;
     }
@@ -2251,7 +2251,7 @@ void key_unit_build_city(void)
 void key_unit_build_wonder(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_flag(punit, F_HELP_WONDER)) {
+    if (unit_has_type_flag(punit, F_HELP_WONDER)) {
       request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
     }
   } unit_list_iterate_end;
@@ -2330,7 +2330,7 @@ void key_unit_patrol(void)
 void key_unit_traderoute(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_flag(punit, F_TRADE_ROUTE)) {
+    if (unit_has_type_flag(punit, F_TRADE_ROUTE)) {
       request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
     }
   } unit_list_iterate_end;

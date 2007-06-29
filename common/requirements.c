@@ -142,7 +142,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_UNITTYPE:
-    source.value.unittype = find_unit_type_by_name(value);
+    source.value.unittype = find_unit_type_by_rule_name(value);
     if (source.value.unittype) {
       return source;
     }
@@ -229,13 +229,13 @@ struct req_source req_source_from_values(int type, int value)
     source.value.nation = get_nation_by_idx(value);
     return source;
   case REQ_UNITTYPE:
-    source.value.unittype = get_unit_type(value);
+    source.value.unittype = utype_by_number(value);
     return source;
   case REQ_UNITFLAG:
     source.value.unitflag = value;
     return source;
   case REQ_UNITCLASS:
-    source.value.unitclass = unit_class_get_by_id(value);
+    source.value.unitclass = uclass_by_number(value);
     return source;
   case REQ_OUTPUTTYPE:
     source.value.outputtype = value;
@@ -812,7 +812,7 @@ static bool is_unitflag_in_range(const struct unit_type *target_unittype,
    * walls) without actually knowing the target unit. */
   return (range == REQ_RANGE_LOCAL
 	  && (!target_unittype
-	      || unit_type_flag(target_unittype, unitflag)));
+	      || utype_has_flag(target_unittype, unitflag)));
 }
 
 /****************************************************************************
@@ -827,7 +827,7 @@ static bool is_unitclass_in_range(const struct unit_type *target_unittype,
    * walls) without actually knowing the target unit. */
   return (range == REQ_RANGE_LOCAL
 	  && (!target_unittype
-	      || target_unittype->class == pclass));
+	      || utype_class(target_unittype) == pclass));
 }
 
 /****************************************************************************
@@ -1095,7 +1095,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, get_nation_name(psource->value.nation), bufsz);
     break;
   case REQ_UNITTYPE:
-    mystrlcat(buf, unit_name(psource->value.unittype), bufsz);
+    mystrlcat(buf, utype_name_translation(psource->value.unittype), bufsz);
     break;
   case REQ_UNITFLAG:
     cat_snprintf(buf, bufsz, _("%s units"),

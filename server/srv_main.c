@@ -432,7 +432,8 @@ static void remove_illegal_armistice_units(struct player *plr1,
         && is_military_unit(punit)) {
       notify_player(plr1, NULL, E_DIPLOMACY, _("Your %s unit %s was "
                     "disbanded in accordance with your peace treaty with "
-                    "the %s."), punit->type->name,
+                    "the %s."),
+                    unit_name_translation(punit),
                     get_location_str_at(plr1, punit->tile),
                     get_nation_name_plural(plr2->nation));
       wipe_unit(punit);
@@ -443,7 +444,8 @@ static void remove_illegal_armistice_units(struct player *plr1,
         && is_military_unit(punit)) {
       notify_player(plr2, NULL, E_DIPLOMACY, _("Your %s unit %s was "
                     "disbanded in accordance with your peace treaty with "
-                    "the %s."), punit->type->name,
+                    "the %s."),
+                    unit_name_translation(punit),
                     get_location_str_at(plr2, punit->tile),
                     get_nation_name_plural(plr1->nation));
       wipe_unit(punit);
@@ -763,7 +765,7 @@ static void end_turn(void)
       continue;
     }
     unit_list_iterate(pplayer->units, punit) {
-      if (unit_flag(punit, F_CITIES)) {
+      if (unit_has_type_flag(punit, F_CITIES)) {
         settlers++;
       }
     } unit_list_iterate_end;

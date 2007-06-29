@@ -46,7 +46,7 @@ int unit_move_rate(const struct unit *punit)
   int move_rate = 0;
   int base_move_rate = unit_type(punit)->move_rate 
     + unit_type(punit)->veteran[punit->veteran].move_bonus;
-  struct unit_class *pclass = get_unit_class(punit->type);
+  struct unit_class *pclass = unit_class(punit);
 
   move_rate = base_move_rate;
 
@@ -88,8 +88,8 @@ bool unit_can_defend_here(const struct unit *punit)
 ****************************************************************************/
 bool can_attack_non_native(struct unit_type *utype)
 {
-  return (get_unit_class(utype)->move_type == SEA_MOVING
-          && !unit_type_flag(utype, F_NO_LAND_ATTACK));
+  return (utype_class(utype)->move_type == SEA_MOVING
+          && !utype_has_flag(utype, F_NO_LAND_ATTACK));
 }
 
 /****************************************************************************
@@ -104,8 +104,8 @@ bool can_attack_from_non_native(struct unit_type *utype)
    * with HELI_MOVING and AIR_MOVING. At the moment we return FALSE for
    * them. One can always give "Marines" flag for them. This should be
    * generalized for unit_classes anyway. */
-  return (get_unit_class(utype)->move_type == SEA_MOVING
-          || unit_type_flag(utype, F_MARINES));
+  return (utype_class(utype)->move_type == SEA_MOVING
+          || utype_has_flag(utype, F_MARINES));
 }
 
 /****************************************************************************
@@ -168,11 +168,11 @@ bool can_unit_exist_at_tile(const struct unit *punit,
   }
 
   /* A trireme unit cannot exist in an ocean tile without access to land. */
-  if (unit_flag(punit, F_TRIREME) && !is_safe_ocean(ptile)) {
+  if (unit_has_type_flag(punit, F_TRIREME) && !is_safe_ocean(ptile)) {
     return FALSE;
   }
 
-  return is_native_tile(punit->type, ptile);
+  return is_native_tile(unit_type(punit), ptile);
 }
 
 /****************************************************************************
@@ -183,7 +183,7 @@ bool can_unit_exist_at_tile(const struct unit *punit,
 bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile)
 {
-  return is_native_to_class(get_unit_class(punittype), ptile->terrain,
+  return is_native_to_class(utype_class(punittype), ptile->terrain,
                             ptile->special);
 }
 
@@ -197,7 +197,7 @@ bool is_native_terrain(const struct unit_type *punittype,
                        const struct terrain *pterrain,
                        bv_special special)
 {
-  return is_native_to_class(get_unit_class(punittype), pterrain, special);
+  return is_native_to_class(utype_class(punittype), pterrain, special);
 }
 
 /****************************************************************************
@@ -332,7 +332,7 @@ static bool zoc_ok_move_gen(const struct unit *punit,
                             const struct tile *src_tile,
                             const struct tile *dst_tile)
 {
-  return can_step_taken_wrt_to_zoc(punit->type, unit_owner(punit),
+  return can_step_taken_wrt_to_zoc(unit_type(punit), unit_owner(punit),
 				   src_tile, dst_tile);
 }
 
@@ -359,7 +359,7 @@ bool can_unit_move_to_tile(const struct unit *punit,
                            const struct tile *dst_tile,
                            bool igzoc)
 {
-  return MR_OK == test_unit_move_to_tile(punit->type, unit_owner(punit),
+  return MR_OK == test_unit_move_to_tile(unit_type(punit), unit_owner(punit),
 					 punit->activity,
 					 punit->tile, dst_tile,
 					 igzoc);
@@ -417,7 +417,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   /* 4) */
   if (!is_native_tile(punittype, dst_tile)
       && !is_allied_city_tile(dst_tile, unit_owner)
-      && unit_class_transporter_capacity(dst_tile, unit_owner, punittype->class) <= 0) {
+      && unit_class_transporter_capacity(dst_tile, unit_owner, utype_class(punittype)) <= 0) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
@@ -426,7 +426,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     /* Moving from ocean */
     if (is_ocean(src_tile->terrain)) {
       /* 5) */
-      if (!unit_type_flag(punittype, F_MARINES)
+      if (!utype_has_flag(punittype, F_MARINES)
 	  && is_enemy_city_tile(dst_tile, unit_owner)) {
 	/* Most ground units can't move into cities from ships.  (Note this
 	 * check is only for movement, not attacking: most ground units
@@ -462,12 +462,12 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   }
 
   /* 9) */
-  if (unit_type_flag(punittype, F_TRIREME) && !is_safe_ocean(dst_tile)) {
+  if (utype_has_flag(punittype, F_TRIREME) && !is_safe_ocean(dst_tile)) {
     return MR_TRIREME;
   }
 
   /* 9) */
-  if (!unit_type_flag(punittype, F_NONMIL)
+  if (!utype_has_flag(punittype, F_NONMIL)
       && dst_tile->owner
       && dst_tile->owner != unit_owner
       && players_non_invade(unit_owner, dst_tile->owner)) {
@@ -483,7 +483,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 bool can_unit_transport(const struct unit *transporter,
                         const struct unit *transported)
 {
-  return can_unit_type_transport(transporter->type, transported->type->class);
+  return can_unit_type_transport(unit_type(transporter), unit_class(transported));
 }
 
 /**************************************************************************
@@ -544,7 +544,7 @@ int unit_class_transporter_capacity(const struct tile *ptile,
     if (unit_owner(punit) == pplayer
         || pplayers_allied(unit_owner(punit), pplayer)) {
 
-      if (can_unit_type_transport(punit->type, pclass)) {
+      if (can_unit_type_transport(unit_type(punit), pclass)) {
         availability += get_transporter_capacity(punit);
         availability -= get_transporter_occupancy(punit);
       }

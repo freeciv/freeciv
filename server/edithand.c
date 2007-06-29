@@ -108,7 +108,7 @@ void handle_edit_tile(struct connection *pc, int x, int y,
 void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
 {
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
-  struct unit_type *punittype = get_unit_type(packet->type);
+  struct unit_type *punittype = utype_by_number(packet->type);
   struct player *pplayer = get_player(packet->owner);
   struct unit *punit;
 
@@ -138,7 +138,7 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
 	&& !is_native_tile(punittype, ptile)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND,
                     _("Cannot create %s unit on this terrain."),
-                    punittype->name);
+                    utype_name_translation(punittype));
       return;
     }
 

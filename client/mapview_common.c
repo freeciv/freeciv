@@ -89,7 +89,7 @@ void refresh_tile_mapcanvas(struct tile *ptile,
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen)
 {
-  if (full_refresh && unit_type_flag(punit->type, F_CITIES)) {
+  if (full_refresh && unit_has_type_flag(punit, F_CITIES)) {
     queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
   } else {
     queue_mapview_tile_update(ptile, TILE_UPDATE_UNIT);
@@ -1872,7 +1872,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
     if (tile1) {
       unit_list_iterate(tile1->units, psettler) {
 	if ((!game.player_ptr || psettler->owner == game.player_ptr)
-	    && unit_flag(psettler, F_CITIES)
+	    && unit_has_type_flag(psettler, F_CITIES)
 	    && city_can_be_built_here(psettler->tile, psettler)) {
 	  if (!closest_settler) {
 	    closest_settler = psettler;
@@ -1916,13 +1916,14 @@ void get_city_mapview_production(struct city *pcity,
 				
   if (pcity->production.is_unit) {
     struct unit_type *punit_type =
-		get_unit_type(pcity->production.value);
+		utype_by_number(pcity->production.value);
     if (turns < 999) {
       my_snprintf(buffer, buffer_len, "%s %d",
-                  punit_type->name, turns);
+                  utype_name_translation(punit_type),
+                  turns);
     } else {
       my_snprintf(buffer, buffer_len, "%s -",
-                  punit_type->name);
+                  utype_name_translation(punit_type));
     }
   } else {
     struct impr_type *pimprovement_type =

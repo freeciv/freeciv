@@ -132,7 +132,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
 
         city_unit_upkeep(punit, upkeep_cost, free_upkeep);
 
-	if (punit->type == unittype) {
+	if (unit_type(punit) == unittype) {
 	  count++;
 	  partial_cost += upkeep_cost[O_GOLD];
 	}
@@ -375,9 +375,9 @@ void disband_all_units(struct unit_type *punittype, bool in_cities_only,
     return;
   }
 
-  if (unit_type_flag(punittype, F_UNDISBANDABLE)) {
+  if (utype_has_flag(punittype, F_UNDISBANDABLE)) {
     my_snprintf(message, message_sz, _("%s cannot be disbanded."),
-		unit_name(punittype));
+		utype_name_translation(punittype));
     return;
   }
 
@@ -387,7 +387,7 @@ void disband_all_units(struct unit_type *punittype, bool in_cities_only,
     unit_list_iterate(pcity->units_supported, punit) {
       struct city *incity = tile_get_city(punit->tile);
 
-      if (punit->type == punittype
+      if (unit_type(punit) == punittype
 	  && (!in_cities_only
 	      || (incity && city_owner(incity) == game.player_ptr))) {
 	count++;
@@ -398,9 +398,10 @@ void disband_all_units(struct unit_type *punittype, bool in_cities_only,
 
   if (count > 0) {
     my_snprintf(message, message_sz, _("Disbanded %d %s."),
-		count, unit_name(punittype));
+		count,
+		utype_name_translation(punittype));
   } else {
     my_snprintf(message, message_sz, _("No %s could be disbanded."),
-		unit_name(punittype));
+		utype_name_translation(punittype));
   }
 }

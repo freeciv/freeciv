@@ -84,7 +84,7 @@ void aiferry_init_stats(struct player *pplayer)
     if (is_sailing_unit(punit)) {
         unit_class_iterate(punitclass) {
           if (punitclass->move_type == LAND_MOVING
-              && can_unit_type_transport(punit->type, punitclass)) {
+              && can_unit_type_transport(unit_type(punit), punitclass)) {
             /* Can transport some land units. */
             ai->stats.boats++;
             if (punit->ai.passenger == FERRY_AVAILABLE) {
@@ -118,10 +118,13 @@ static void aiferry_print_stats(struct player *pplayer)
     if (is_sailing_unit(punit)) {
         unit_class_iterate(punitclass) {
           if (punitclass->move_type == LAND_MOVING
-              && can_unit_type_transport(punit->type, punitclass)) {
+              && can_unit_type_transport(unit_type(punit), punitclass)) {
             /* Can transport some land units. */
             freelog(LOG_NORMAL, "#%d. %s[%d], psngr=%d",
-                    n, unit_type(punit)->name, punit->id, punit->ai.passenger);
+                    n,
+                    unit_rule_name(punit),
+                    punit->id,
+                    punit->ai.passenger);
             n++;
             break;
           }
@@ -139,7 +142,7 @@ void aiferry_init_ferry(struct unit *ferry)
   if (is_sailing_unit(ferry)) {
     unit_class_iterate(punitclass) {
       if (punitclass->move_type == LAND_MOVING
-          && can_unit_type_transport(ferry->type, punitclass)) {
+          && can_unit_type_transport(unit_type(ferry), punitclass)) {
         /* Can transport some land units, so is consider ferry */
         struct ai_data *ai = ai_data_get(unit_owner(ferry));
 
@@ -249,7 +252,7 @@ static int aiferry_avail_boats(struct player *pplayer)
 	&& punit->ai.passenger == FERRY_AVAILABLE) {
       unit_class_iterate(punitclass) {
         if (punitclass->move_type == LAND_MOVING
-            && can_unit_type_transport(punit->type, punitclass)) {
+            && can_unit_type_transport(unit_type(punit), punitclass)) {
           /* Can transport some land units. */
           boats++;
           break;
@@ -407,8 +410,11 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
           if (turns < best_turns) {
             UNIT_LOG(LOGLEVEL_FINDFERRY, punit, 
                      "Found a potential boat %s[%d](%d,%d)(moves left: %d)",
-                     unit_type(aunit)->name, aunit->id, aunit->tile->x,
-		     aunit->tile->y, aunit->moves_left);
+                     unit_rule_name(aunit),
+                     aunit->id,
+                     aunit->tile->x,
+		     aunit->tile->y,
+		     aunit->moves_left);
 	    if (path) {
 	      *path = pf_next_get_path(search_map);
 	    }
@@ -755,7 +761,9 @@ static bool aiferry_findcargo(struct unit *pferry)
 	      || aunit->ai.ferryboat == pferry->id)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, 
                  "Found a potential cargo %s[%d](%d,%d), going there",
-                 unit_type(aunit)->name, aunit->id, TILE_XY(aunit->tile));
+                 unit_rule_name(aunit),
+                 aunit->id,
+                 TILE_XY(aunit->tile));
 	pferry->goto_tile = aunit->tile;
         /* Exchange phone numbers */
         aiferry_psngr_meet_boat(aunit, pferry);
@@ -822,7 +830,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
     if (pcity && pcity->owner == pferry->owner
         && (pcity->ai.choice.need_boat 
             || (pcity->production.is_unit
-		&& unit_has_role(get_unit_type(pcity->production.value),
+		&& utype_has_role(utype_by_number(pcity->production.value),
 				 L_FERRYBOAT)))) {
       bool really_needed = TRUE;
       int turns = city_turns_to_build(pcity, pcity->production, TRUE);
@@ -831,7 +839,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
                pcity->name, TILE_XY(pcity->tile));
 
       if (pos.turn > turns && pcity->production.is_unit
-          && unit_has_role(get_unit_type(pcity->production.value),
+          && utype_has_role(utype_by_number(pcity->production.value),
 			   L_FERRYBOAT)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
                  "will finish building its own ferry too soon", pcity->name);
@@ -846,7 +854,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
 
       unit_list_iterate(pos.tile->units, aunit) {
 	if (aunit != pferry && aunit->owner == pferry->owner
-            && unit_has_role(aunit->type, L_FERRYBOAT)) {
+            && unit_has_type_role(aunit, L_FERRYBOAT)) {
 
           UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
                    "has another ferry", pcity->name);
@@ -945,7 +953,8 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       if (candidate) {
         UNIT_LOG(LOGLEVEL_FERRY, punit, 
                  "appointed %s[%d] our passenger-in-charge",
-                 unit_type(candidate)->name, candidate->id);
+                 unit_rule_name(candidate),
+                 candidate->id);
         aiferry_psngr_meet_boat(candidate, punit);
       }
     }
@@ -956,14 +965,15 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
       assert(boss != NULL);
 
-      if (unit_flag(boss, F_SETTLERS) || unit_flag(boss, F_CITIES)) {
+      if (unit_has_type_flag(boss, F_SETTLERS) || unit_has_type_flag(boss, F_CITIES)) {
         /* Temporary hack: settlers all go in the end, forcing them 
          * earlier might mean uninitialised cache, so just wait for them */
         return;
       }
 
       UNIT_LOG(LOGLEVEL_FERRY, punit, "passing control to %s[%d]",
-		unit_type(boss)->name, boss->id);
+		unit_rule_name(boss),
+		boss->id);
       ai_manage_unit(pplayer, boss);
     
       if (!find_unit_by_id(sanity) || punit->moves_left <= 0) {

@@ -123,9 +123,9 @@ int city_gold_worth(struct city *pcity)
       struct unit_type *punittype = unit_type(punit)->obsoleted_by;
 
       if (punittype && can_build_unit_direct(pcity, punittype)) {
-        worth += unit_disband_shields(punit->type) / 2; /* obsolete */
+        worth += unit_disband_shields(unit_type(punit)) / 2; /* obsolete */
       } else {
-        worth += unit_disband_shields(punit->type); /* good stuff */
+        worth += unit_disband_shields(unit_type(punit)); /* good stuff */
       }
     }
   } unit_list_iterate_end;

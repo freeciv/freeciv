@@ -235,7 +235,7 @@ static void unit_type_callback(GtkWidget *button, gpointer data)
   size_t to = (size_t) data;
   struct unit *punit = editor_get_selected_unit();
 
-  punit->type = get_unit_type(to);
+  punit->utype = utype_by_number(to);
 }
 
 /****************************************************************************
@@ -397,7 +397,7 @@ static GtkWidget *create_units_palette(void)
   popupmenu = gtk_menu_new();
   gtk_option_menu_set_menu(GTK_OPTION_MENU(unitmenu), popupmenu);
   unit_type_iterate(ptype) {
-    const gchar *data = get_unit_name(ptype);
+    const gchar *data = utype_values_translation(ptype);
     GtkWidget *item = gtk_menu_item_new_with_label(data);
 
     g_signal_connect(item, "activate",

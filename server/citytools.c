@@ -475,8 +475,8 @@ int do_make_unit_veteran(struct city *pcity,
 {
   /* we current don't have any wonder or building that have influence on 
      settler/worker units */
-  if (unit_type_flag(punittype, F_SETTLERS)
-      || unit_type_flag(punittype, F_CITIES)) {
+  if (utype_has_flag(punittype, F_SETTLERS)
+      || utype_has_flag(punittype, F_CITIES)) {
     return 0;
   }
 
@@ -499,42 +499,47 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 
   if (from_player == to_player) {
     freelog(LOG_VERBOSE, "Changed homecity of %s's %s to %s",
-	    from_player->name, unit_name(punit->type), tocity->name);
+	    from_player->name,
+	    unit_rule_name(punit),
+	    tocity->name);
     if (verbose) {
       notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		    _("Changed homecity of %s to %s."),
-		    unit_name(punit->type), tocity->name);
+		    unit_name_translation(punit),
+		    tocity->name);
     }
   } else {
     struct city *in_city = tile_get_city(punit->tile);
     if (in_city) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
-	      unit_name(punit->type), in_city->name,
+	      unit_rule_name(punit),
+	      in_city->name,
 	      from_player->name, to_player->name);
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      _("Transfered %s in %s from %s to %s."),
-		      unit_name(punit->type), in_city->name,
+		      unit_name_translation(punit),
+		      in_city->name,
 		      from_player->name, to_player->name);
       }
     } else if (can_unit_exist_at_tile(punit, tocity->tile)) {
       freelog(LOG_VERBOSE, "Transfered %s from %s to %s",
-	      unit_name(punit->type),
+	      unit_rule_name(punit),
 	      from_player->name, to_player->name);
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
 		      _("Transfered %s from %s to %s."),
-		      unit_name(punit->type),
+		      unit_name_translation(punit),
 		      from_player->name, to_player->name);
       }
     } else {
       freelog(LOG_VERBOSE, "Could not transfer %s from %s to %s",
-	      unit_name(punit->type),
+	      unit_rule_name(punit),
 	      from_player->name, to_player->name);
       if (verbose) {
 	notify_player(from_player, punit->tile, E_UNIT_LOST,
 		      _("%s from %s lost in transfer to %s's %s"),
-		      unit_name(punit->type),
+		      unit_name_translation(punit),
 		      from_player->name, to_player->name, tocity->name);
       }
       wipe_unit(punit);
@@ -601,13 +606,15 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       /* The unit is lost.  Call notify_player (in all other cases it is
        * called autmatically). */
       freelog(LOG_VERBOSE, "Lost %s's %s at (%d,%d) when %s was lost.",
-	      unit_owner(vunit)->name, unit_name(vunit->type),
+	      unit_owner(vunit)->name,
+	      unit_rule_name(vunit),
 	      vunit->tile->x, vunit->tile->y, pcity->name);
       if (verbose) {
 	notify_player(unit_owner(vunit), vunit->tile,
 			 E_UNIT_LOST,
 			 _("%s lost along with control of %s."),
-			 unit_name(vunit->type), pcity->name);
+			 unit_name_translation(vunit),
+			 pcity->name);
       }
       wipe_unit(vunit);
     }
@@ -878,7 +885,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Set production to something valid for pplayer, if not. */
   if ((pcity->production.is_unit
        && !can_build_unit_direct(pcity,
-				 get_unit_type(pcity->production.value)))
+				 utype_by_number(pcity->production.value)))
       || (!pcity->production.is_unit
           && !can_build_improvement(pcity, pcity->production.value))) {
     advisor_choose_build(ptaker, pcity);
@@ -1096,7 +1103,8 @@ void remove_city(struct city *pcity)
 	    notify_player(unit_owner(punit), NULL, E_UNIT_RELOCATED,
                           _("Moved %s out of disbanded city %s "
                             "since it cannot stay on %s."),
-                          unit_type(punit)->name, pcity->name,
+                          unit_name_translation(punit),
+                          pcity->name,
                           terrain_name_translation(tile_get_terrain(ptile)));
             break;
 	  }
@@ -1107,7 +1115,8 @@ void remove_city(struct city *pcity)
       notify_player(unit_owner(punit), NULL, E_UNIT_LOST,
 		       _("When %s was disbanded your %s could not "
 			 "get out, and it was therefore lost."),
-		       pcity->name, unit_type(punit)->name);
+		       pcity->name,
+		       unit_name_translation(punit));
       wipe_unit(punit);
     }
   } unit_list_iterate_safe_end;
@@ -1860,7 +1869,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* What's the name of the target? */
   if (target.is_unit) {
-    name = get_unit_type(pcity->production.value)->name;
+    name = utype_name_translation(utype_by_number(pcity->production.value));
   } else {
     name = get_improvement_name(pcity->production.value);
   }

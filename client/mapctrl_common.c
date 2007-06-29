@@ -377,20 +377,21 @@ void clipboard_copy_production(struct tile *ptile)
     if (!punit) {
       return;
     }
-    if (!can_player_build_unit_direct(game.player_ptr, punit->type))  {
+    if (!can_player_build_unit_direct(game.player_ptr, unit_type(punit)))  {
       create_event(ptile, E_BAD_COMMAND,
 		   _("You don't know how to build %s!"),
-		   punit->type->name);
+		   unit_name_translation(punit));
       return;
     }
     clipboard.is_unit = TRUE;
-    clipboard.value = punit->type->index;
+    clipboard.value = unit_type(punit)->index;
   }
   upgrade_canvas_clipboard();
 
   create_event(ptile, E_CITY_PRODUCTION_CHANGED, /* ? */
 	       _("Copy %s to clipboard."),
-	       clipboard.is_unit ? get_unit_type(clipboard.value)->name
+	       clipboard.is_unit
+	       ? utype_name_translation(utype_by_number(clipboard.value))
 	       : get_improvement_name(clipboard.value));
 }
 
@@ -450,7 +451,7 @@ void upgrade_canvas_clipboard(void)
   }
   if (clipboard.is_unit)  {
     struct unit_type *u
-      = can_upgrade_unittype(game.player_ptr, get_unit_type(clipboard.value));
+      = can_upgrade_unittype(game.player_ptr, utype_by_number(clipboard.value));
 
     if (u)  {
       clipboard.value = u->index;

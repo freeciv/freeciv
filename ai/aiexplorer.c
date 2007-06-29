@@ -109,7 +109,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
                               struct unit *punit)
 {
   int land_score, ocean_score, known_land_score, known_ocean_score;
-  int radius_sq = punit->type->vision_radius_sq;
+  int radius_sq = unit_type(punit)->vision_radius_sq;
   int desirable = 0;
   int unknown = 0;
 
@@ -216,7 +216,7 @@ bool ai_manage_explorer(struct unit *punit)
 
   UNIT_LOG(LOG_DEBUG, punit, "auto-exploring.");
 
-  if (pplayer->ai.control && unit_flag(punit, F_GAMELOSS)) {
+  if (pplayer->ai.control && unit_has_type_flag(punit, F_GAMELOSS)) {
     UNIT_LOG(LOG_DEBUG, punit, "exploration too dangerous!");
     return FALSE; /* too dangerous */
   }

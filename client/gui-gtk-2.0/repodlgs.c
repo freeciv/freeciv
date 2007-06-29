@@ -820,7 +820,7 @@ static void economy_command_callback(struct gui_dialog *dlg, int response,
     if (response== ECONOMY_SELL_OBSOLETE) {
       return;
     }
-    disband_all_units(get_unit_type(i), FALSE, buf, sizeof(buf));
+    disband_all_units(utype_by_number(i), FALSE, buf, sizeof(buf));
   }
 
   shell = gtk_message_dialog_new(
@@ -882,7 +882,7 @@ void economy_report_dialog_update(void)
 			 3, entries_units[i].cost,
 			 4, entries_units[i].total_cost, -1);
       g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, unit_name(entries_units[i].type));
+      g_value_set_static_string(&value, utype_name_translation(entries_units[i].type));
       gtk_list_store_set_value(economy_store, &it, 1, &value);
       g_value_unset(&value);
     
@@ -1055,7 +1055,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
     int ut;
 
     gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
-    utype = get_unit_type(ut);
+    utype = utype_by_number(ut);
   }
 
 
@@ -1091,7 +1091,7 @@ static struct unit *find_nearest_unit(const struct unit_type *type,
     return NULL;
   }
   unit_list_iterate(game.player_ptr->units, punit) {
-    if (punit->type == type) {
+    if (unit_type(punit) == type) {
       if (punit->focus_status==FOCUS_AVAIL
 	  && punit->moves_left > 0
 	  && !punit->done_moving
@@ -1133,7 +1133,7 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response,
     int ut;
 
     gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
-    utype1 = get_unit_type(ut);
+    utype1 = utype_by_number(ut);
   }
 
   CHECK_UNIT_TYPE(utype1);
@@ -1163,7 +1163,8 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response,
 	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 	    "Treasury contains %d gold."),
-	  utype1->name, ut2->name,
+	  utype_name_translation(utype1),
+	  utype_name_translation(ut2),
 	  unit_upgrade_price(game.player_ptr, utype1, ut2),
 	  game.player_ptr->economic.gold);
     setup_dialog(shell, gui_dialog_get_toplevel(dlg));
@@ -1216,10 +1217,10 @@ void activeunits_report_dialog_update(void)
         int upkeep_cost[O_COUNT];
 
         city_unit_upkeep(punit, upkeep_cost, free_upkeep);
-        (unitarray[punit->type->index].active_count)++;
+        (unitarray[unit_type(punit)->index].active_count)++;
         if (punit->homecity) {
 	  output_type_iterate(o) {
-	    unitarray[punit->type->index].upkeep[o] += upkeep_cost[o];
+	    unitarray[unit_type(punit)->index].upkeep[o] += upkeep_cost[o];
 	  } output_type_iterate_end;
         }
       } unit_list_iterate_end;
@@ -1251,7 +1252,7 @@ void activeunits_report_dialog_update(void)
 		    ? punittype->index : U_LAST),
 		-1);
 	g_value_init(&value, G_TYPE_STRING);
-	g_value_set_static_string(&value, unit_name(punittype));
+	g_value_set_static_string(&value, utype_name_translation(punittype));
 	gtk_list_store_set_value(activeunits_store, &it, 0, &value);
 	g_value_unset(&value);
 

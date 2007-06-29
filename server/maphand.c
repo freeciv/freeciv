@@ -1361,13 +1361,14 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 	if (can_unit_exist_at_tile(punit, ptile2)
 	    && !is_non_allied_unit_tile(ptile2, unit_owner(punit))) {
 	  freelog(LOG_VERBOSE,
-		  "Moved %s's %s due to changing terrain at %d,%d.",
-		  unit_owner(punit)->name, unit_name(punit->type),
+		  "Moved %s's %s due to changing terrain at (%d,%d).",
+		  unit_owner(punit)->name,
+		  unit_rule_name(punit),
 		  punit->tile->x, punit->tile->y);
 	  notify_player(unit_owner(punit),
 			   punit->tile, E_UNIT_RELOCATED,
 			   _("Moved your %s due to changing terrain."),
-			   unit_name(punit->type));
+			   unit_name_translation(punit));
 	  (void) move_unit(punit, ptile2, 0);
 	  if (punit->activity == ACTIVITY_SENTRY) {
 	    handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -1378,13 +1379,14 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
       if (punit->tile == ptile) {
 	/* if we get here we could not move punit */
 	freelog(LOG_VERBOSE,
-		"Disbanded %s's %s due to changing land to sea at (%d, %d).",
-		unit_owner(punit)->name, unit_name(punit->type),
+		"Disbanded %s's %s due to changing land to sea at (%d,%d).",
+		unit_owner(punit)->name,
+		unit_rule_name(punit),
 		punit->tile->x, punit->tile->y);
 	notify_player(unit_owner(punit),
 			 punit->tile, E_UNIT_LOST,
 			 _("Disbanded your %s due to changing terrain."),
-			 unit_name(punit->type));
+			 unit_name_translation(punit));
 	wipe_unit(punit);
       }
     }

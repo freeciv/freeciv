@@ -1276,7 +1276,7 @@ static Unit_type_id old_unit_type_id(const struct unit_type *type)
   }
 
   for (i = 0; i < num_types; i++) {
-    if (mystrcasecmp(unit_name_orig(type), types[i]) == 0) {
+    if (mystrcasecmp(type->name_rule, types[i]) == 0) {
       return i;
     }
   }
@@ -1656,7 +1656,7 @@ static void load_player_units(struct player *plr, int plrno,
 
     }
     
-    type = find_unit_type_by_name_orig(type_name);
+    type = find_unit_type_by_rule_name(type_name);
     if (!type) {
       freelog(LOG_FATAL, "Unknown unit type '%s' in player%d section",
               type_name, plrno);
@@ -2333,7 +2333,7 @@ static void player_load(struct player *plr, int plrno,
 				plrno, i);
 	name = old_unit_type_name(id);
       }
-      pcity->production.value = find_unit_type_by_name_orig(name)->index;
+      pcity->production.value = find_unit_type_by_rule_name(name)->index;
     } else {
       if (!name) {
 	id = secfile_lookup_int(file, "player%d.c%d.currently_building",
@@ -2364,7 +2364,7 @@ static void player_load(struct player *plr, int plrno,
 				plrno, i);
 	name = old_unit_type_name(id);
       }
-      pcity->changed_from.value = find_unit_type_by_name_orig(name)->index;
+      pcity->changed_from.value = find_unit_type_by_rule_name(name)->index;
     } else {
       if (!name) {
 	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id",
@@ -2969,10 +2969,10 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->homecity, "player%d.u%d.homecity",
 				plrno, i);
     /* .type is actually kept only for forward compatibility */
-    secfile_insert_int(file, old_unit_type_id(punit->type),
+    secfile_insert_int(file, old_unit_type_id(unit_type(punit)),
 		       "player%d.u%d.type",
 		       plrno, i);
-    secfile_insert_str(file, unit_name_orig(punit->type),
+    secfile_insert_str(file, unit_rule_name(punit),
 		       "player%d.u%d.type_by_name",
 		       plrno, i);
 
@@ -3154,11 +3154,11 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_bool(file, pcity->changed_from.is_unit,
 		       "player%d.c%d.changed_from_is_unit", plrno, i);
     if (pcity->changed_from.is_unit) {
-      struct unit_type *punittype = get_unit_type(pcity->changed_from.value);
+      struct unit_type *punittype = utype_by_number(pcity->changed_from.value);
 
       secfile_insert_int(file, old_unit_type_id(punittype),
 		         "player%d.c%d.changed_from_id", plrno, i);
-      secfile_insert_str(file, unit_name_orig(punittype),
+      secfile_insert_str(file, utype_rule_name(punittype),
                          "player%d.c%d.changed_from_name", plrno, i);
     } else {
       secfile_insert_int(file, old_impr_type_id(pcity->changed_from.value),
@@ -3225,10 +3225,10 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_bool(file, pcity->production.is_unit, 
 		       "player%d.c%d.is_building_unit", plrno, i);
     if (pcity->production.is_unit) {
-      struct unit_type *punittype = get_unit_type(pcity->production.value);
+      struct unit_type *punittype = utype_by_number(pcity->production.value);
       secfile_insert_int(file, old_unit_type_id(punittype),
 		         "player%d.c%d.currently_building", plrno, i);
-      secfile_insert_str(file, unit_name_orig(punittype),
+      secfile_insert_str(file, utype_rule_name(punittype),
                          "player%d.c%d.currently_building_name", plrno, i);
     } else {
       secfile_insert_int(file, old_impr_type_id(pcity->production.value),
@@ -4081,9 +4081,10 @@ void game_load(struct section_file *file)
       struct unit *ferry = find_unit_by_id(punit->transported_by);
 
       if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
-        freelog(LOG_ERROR, _("Removing %s's unferried %s in %s at (%d, %d)"),
-                pplayer->name, unit_name(punit->type),
-                terrain_name_translation(punit->tile->terrain),
+        freelog(LOG_ERROR, "Removing %s's unferried %s in %s at (%d, %d)",
+                pplayer->name,
+                unit_rule_name(punit),
+                punit->tile->terrain->name_rule,
                 TILE_XY(punit->tile));
         bounce_unit(punit, TRUE);
       }

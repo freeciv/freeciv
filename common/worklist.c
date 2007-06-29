@@ -243,7 +243,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
     name = secfile_lookup_str_default(file, "-", "%s.wl_value%d",
 				      path_str, i);
     if (is_unit) {
-      struct unit_type *punittype = find_unit_type_by_name_orig(name);
+      struct unit_type *punittype = find_unit_type_by_rule_name(name);
 
       if (!punittype) {
 	pwl->length = i;
@@ -291,7 +291,7 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
   for (i = 0; i < pwl->length; i++) {
     struct city_production *entry = pwl->entries + i;
     const char *name = (entry->is_unit
-			? get_unit_type(entry->value)->name_orig
+			? utype_rule_name(utype_by_number(entry->value))
 			: get_improvement_type(entry->value)->name_orig);
 
     secfile_insert_bool(file, entry->is_unit,

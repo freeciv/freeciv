@@ -963,7 +963,7 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
   may_upgrade =
     ((inx != XAW_LIST_NONE) &&
      (can_upgrade_unittype(game.player_ptr,
-       get_unit_type(activeunits_type[inx])) != NULL));
+       utype_by_number(activeunits_type[inx])) != NULL));
 
   XtSetSensitive (upgrade_command, may_upgrade);
 }
@@ -1000,13 +1000,13 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(activeunits_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    punittype1 = get_unit_type(activeunits_type[ret->list_index]);
+    punittype1 = utype_by_number(activeunits_type[ret->list_index]);
     CHECK_UNIT_TYPE(punittype1);
 
     /* puts(unit_types[ut1].name); */
 
     punittype2 = can_upgrade_unittype(game.player_ptr,
-		   get_unit_type(activeunits_type[ret->list_index]));
+		   utype_by_number(activeunits_type[ret->list_index]));
 
     my_snprintf(buf, sizeof(buf),
 		_("Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -1086,10 +1086,10 @@ void activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {
-      (unitarray[punit->type->index].active_count)++;
+      (unitarray[unit_type(punit)->index].active_count)++;
       if (punit->homecity) {
-	unitarray[punit->type->index].upkeep_shield += punit->upkeep[O_SHIELD];
-	unitarray[punit->type->index].upkeep_food += punit->upkeep[O_FOOD];
+	unitarray[unit_type(punit)->index].upkeep_shield += punit->upkeep[O_SHIELD];
+	unitarray[unit_type(punit)->index].upkeep_food += punit->upkeep[O_FOOD];
 	/* TODO: gold upkeep */
       }
     }
@@ -1111,7 +1111,7 @@ void activeunits_report_dialog_update(void)
 	   activeunits_list_names[k],
 	   sizeof(activeunits_list_names[k]),
 	   "%-27s%c%9d%9d%9d%9d",
-	   unit_name(punittype),
+	   utype_name_translation(punittype),
 	   can_upgrade_unittype(game.player_ptr, punittype) != NULL ? '*': '-',
 	   unitarray[i].building_count,
 	   unitarray[i].active_count,

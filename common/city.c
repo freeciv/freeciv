@@ -376,7 +376,7 @@ int city_buy_cost(const struct city *pcity)
   int cost, build = pcity->shield_stock;
 
   if (pcity->production.is_unit) {
-    cost = unit_buy_gold_cost(get_unit_type(pcity->production.value),
+    cost = unit_buy_gold_cost(utype_by_number(pcity->production.value),
 			      build);
   } else {
     cost = impr_buy_gold_cost(pcity->production.value, build);
@@ -475,7 +475,7 @@ bool can_build_unit_direct(const struct city *pcity,
   }
 
   /* You can't build naval units inland. */
-  if (!unit_class_flag(get_unit_class(punittype), UCF_BUILD_ANYWHERE)
+  if (!unit_class_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
       && !is_native_near_tile(punittype, pcity->tile)) {
     return FALSE;
   }
@@ -514,7 +514,7 @@ bool can_eventually_build_unit(const struct city *pcity,
 
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
-  if (!unit_class_flag(get_unit_class(punittype), UCF_BUILD_ANYWHERE)
+  if (!unit_class_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
       && !is_native_near_tile(punittype, pcity->tile)) {
     return FALSE;
   }
@@ -1255,7 +1255,7 @@ int city_turns_to_build(const struct city *pcity,
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, target) : 0;
   int cost = (target.is_unit
-	      ? unit_build_shield_cost(get_unit_type(target.value))
+	      ? unit_build_shield_cost(utype_by_number(target.value))
 	      : impr_build_shield_cost(target.value));
 
   if (include_shield_stock && (city_shield_stock >= cost)) {

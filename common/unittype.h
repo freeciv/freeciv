@@ -65,7 +65,7 @@ struct unit_class {
 /* Unit "special effects" flags:
    Note this is now an enumerated type, and not power-of-two integers
    for bits, though unit_type.flags is still a bitfield, and code
-   which uses unit_flag() without twiddling bits is unchanged.
+   which uses unit_has_type_flag() without twiddling bits is unchanged.
    (It is easier to go from i to (1<<i) than the reverse.)
    See data/default/units.ruleset for documentation of their effects.
 */
@@ -172,8 +172,8 @@ struct veteran_type {
 
 struct unit_type {
   int index;
-  const char *name; /* Translated string - doesn't need freeing. */
-  char name_orig[MAX_LEN_NAME];	      /* untranslated */
+  const char *name_translated;		/* string doesn't need freeing */
+  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char sound_move[MAX_LEN_NAME];
@@ -212,7 +212,7 @@ struct unit_type {
   /* Values for bombardment */
   int bombard_rate;
 
-  struct unit_class *class;
+  struct unit_class *uclass;
 
   bv_unit_classes cargo;
   
@@ -221,14 +221,16 @@ struct unit_type {
 
 
 #define CHECK_UNIT_TYPE(ut) (assert((ut) != NULL			    \
-				    && (get_unit_type((ut)->index) == (ut))))
+			     && (utype_by_number((ut)->index) == (ut))))
 
-struct unit_type *get_unit_type(Unit_type_id id);
 struct unit_type *unit_type(const struct unit *punit);
+struct unit_type *utype_by_number(const Unit_type_id id);
 
-bool unit_type_flag(const struct unit_type *punittype, int flag);
-bool unit_flag(const struct unit *punit, enum unit_flag_id flag);
-bool unit_has_role(const struct unit_type *punittype, int role);
+bool unit_has_type_flag(const struct unit *punit, enum unit_flag_id flag);
+bool utype_has_flag(const struct unit_type *punittype, int flag);
+
+bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
+bool utype_has_role(const struct unit_type *punittype, int role);
 
 int unit_build_shield_cost(const struct unit_type *punittype);
 int unit_buy_gold_cost(const struct unit_type *punittype,
@@ -237,16 +239,21 @@ int unit_disband_shields(const struct unit_type *punittype);
 int unit_pop_value(const struct unit_type *punittype);
 enum unit_move_type get_unit_move_type(const struct unit_type *punittype);
 
-struct unit_class *unit_class_get_by_id(int id);
-bool unit_class_flag(const struct unit_class *punitclass, int flag);
+struct unit_class *unit_class(const struct unit *punit);
+struct unit_class *uclass_by_number(const int id);
+struct unit_class *utype_class(const struct unit_type *punittype);
 
-struct unit_class *get_unit_class(const struct unit_type *punittype);
-const char *unit_name(const struct unit_type *punittype);
-const char *unit_name_orig(const struct unit_type *punittype);
+bool unit_class_flag(const struct unit_class *punitclass, int flag);
 const char *unit_class_name(const struct unit_class *pclass);
 
-const char *get_unit_name(const struct unit_type *punittype);
-const char *get_units_with_flag_string(int flag);
+const char *unit_rule_name(const struct unit *punit);
+const char *utype_rule_name(const struct unit_type *punittype);
+
+const char *unit_name_translation(struct unit *punit);
+const char *utype_name_translation(struct unit_type *punittype);
+
+const char *utype_values_string(const struct unit_type *punittype);
+const char *utype_values_translation(struct unit_type *punittype);
 
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
                       Output_type_id otype);
@@ -258,8 +265,8 @@ int unit_upgrade_price(const struct player *pplayer,
 		       const struct unit_type *from,
 		       const struct unit_type *to);
 
-struct unit_type *find_unit_type_by_name(const char *name);
-struct unit_type *find_unit_type_by_name_orig(const char *name_orig);
+struct unit_type *find_unit_type_by_rule_name(const char *name);
+struct unit_type *find_unit_type_by_translated_name(const char *name);
 
 struct unit_class *unit_class_from_str(const char *s);
 enum unit_class_flag_id unit_class_flag_from_str(const char *s);
@@ -283,6 +290,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
 					    int role);
 struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 					     int role);
+const char *role_units_translations(int flag);
 
 void unit_types_init(void);
 void unit_types_free(void);
@@ -294,7 +302,7 @@ void unit_classes_init(void);
   int _index;								    \
 									    \
   for (_index = 0; _index < game.control.num_unit_types; _index++) {	    \
-    struct unit_type *punittype = get_unit_type(_index);
+    struct unit_type *punittype = utype_by_number(_index);
 
 #define unit_type_iterate_end                                               \
   }                                                                         \
@@ -305,7 +313,7 @@ void unit_classes_init(void);
   int _index;								    \
 									    \
   for (_index = 0; _index < game.control.num_unit_classes; _index++) {	    \
-    struct unit_class *punitclass = unit_class_get_by_id(_index);
+    struct unit_class *punitclass = uclass_by_number(_index);
 
 #define unit_class_iterate_end                                              \
   }                                                                         \

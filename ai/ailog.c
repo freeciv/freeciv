@@ -189,7 +189,8 @@ void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
   
   my_snprintf(buffer, sizeof(buffer),
 	      "%s's %s[%d] (%s) (%d,%d)->(%d,%d){%d,%d} ",
-              unit_owner(punit)->name, unit_type(punit)->name,
+              unit_owner(punit)->name,
+              unit_rule_name(punit),
               punit->id,
 	      get_activity_text(punit->activity),
 	      punit->tile->x, punit->tile->y,
@@ -237,7 +238,7 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
     charge_y = pcharge->tile->y;
     id = pcharge->id;
     type = "bodyguard";
-    s = unit_type(pcharge)->name;
+    s = unit_rule_name(pcharge);
   } else if (pcity) {
     charge_x = pcity->tile->x;
     charge_y = pcity->tile->y;
@@ -249,7 +250,9 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
 
   my_snprintf(buffer, sizeof(buffer),
               "%s's %s %s[%d] (%d,%d){%s:%d@%d,%d} ",
-              unit_owner(punit)->name, type, unit_type(punit)->name,
+              unit_owner(punit)->name,
+              type,
+              unit_rule_name(punit),
               punit->id, punit->tile->x, punit->tile->y,
 	      s, id, charge_x, charge_y);
   cat_snprintf(buffer, sizeof(buffer), msg);

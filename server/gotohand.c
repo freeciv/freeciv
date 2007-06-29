@@ -291,11 +291,11 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
 
   igter = FALSE;
   if (punit) {
-    pclass = get_unit_class(unit_type(punit));
+    pclass = unit_class(punit);
 
-    terrain_speed = unit_class_flag(get_unit_class(unit_type(punit)), UCF_TERRAIN_SPEED);
+    terrain_speed = unit_class_flag(unit_class(punit), UCF_TERRAIN_SPEED);
     if (!terrain_speed /* Igter meaningless without terrain_speed */
-        && unit_flag(punit, F_IGTER)) {
+        && unit_has_type_flag(punit, F_IGTER)) {
       igter = TRUE;
     }
     unit_speed = unit_move_rate(punit);
@@ -310,10 +310,10 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
 
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
   if (punit
-      && unit_flag(punit, F_SETTLERS)
+      && unit_has_type_flag(punit, F_SETTLERS)
       && unit_move_rate(punit)==3)
     maxcost /= 2;
-  /* (?) was punit->type == U_SETTLERS -- dwp */
+  /* (?) was unit_type(punit) == U_SETTLERS -- dwp */
 
   while ((ptile = get_from_mapqueue())) {
     /* Just look up the cost value once.  This is a minor optimization but
@@ -432,7 +432,7 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 {
   freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
 	  (pcity ? pcity->name : "NULL"),
-	  (punit ? unit_type(punit)->name : "NULL"));
+	  (punit ? unit_rule_name(punit) : "NULL"));
 
   if (punit) {
     /* 
@@ -527,7 +527,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
       /* Going to a sea tile, the target should be next to our continent 
        * and with a boat */
       if (unit_class_transporter_capacity(ptile, pplayer,
-                                          get_unit_class(unit_type(punit))) > 0) {
+                                          unit_class(punit)) > 0) {
         adjc_iterate(ptile, tmp_tile) {
           if (tile_get_continent(tmp_tile) == my_cont) {
             /* The target is adjacent to our continent! */
@@ -569,7 +569,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
         return TRUE; /* Ocean -> Ocean travel ok. */
       }
     } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
-               || !unit_flag(punit, F_NO_LAND_ATTACK)) {
+               || !unit_has_type_flag(punit, F_NO_LAND_ATTACK)) {
       /* Not ocean, but allied city or can bombard, checking if there is
        * good ocean adjacent */
       adjc_iterate(ptile, tmp_tile) {

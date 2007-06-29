@@ -1151,7 +1151,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   pHurry_Prod_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   if (pCity->production.is_unit) {
-    name = get_unit_type(pCity->production.value)->name;
+    name = utype_name_translation(utype_by_number(pCity->production.value));
   } else {
     name = get_impr_name_ex(pCity, pCity->production.value);
   }
@@ -3208,14 +3208,14 @@ static void redraw_city_dialog(struct city *pCity)
 
   /* draw productions shields progress */
   if (pCity->production.is_unit) {
-    struct unit_type *pUnit = get_unit_type(pCity->production.value);
-    cost = unit_build_shield_cost(get_unit_type(pCity->production.value));
+    struct unit_type *pUnit = utype_by_number(pCity->production.value);
+    cost = unit_build_shield_cost(utype_by_number(pCity->production.value));
     count = cost / 10;
         
     copy_chars_to_string16(pStr, pUnit->name);
     pBuf = create_text_surf_from_str16(pStr);
     
-    pBuf2 = get_unittype_surface(get_unit_type(pCity->production.value));
+    pBuf2 = get_unittype_surface(utype_by_number(pCity->production.value));
     pBuf2 = zoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h), DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
 
     /* blit unit icon */

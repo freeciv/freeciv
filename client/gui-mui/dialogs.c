@@ -724,7 +724,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
  
     diplomat_target_id=pcity->id;
 
-    if(!unit_flag(punit, F_SPY))
+    if(!unit_has_type_flag(punit, F_SPY))
     {
       if(diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
       {
@@ -883,7 +883,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       msg_dlg[i].label = NULL;
 
       popup_message_dialog_args(main_wnd, _("Subvert Enemy Unit"),
-                               (!unit_flag(punit, F_SPY))?
+                               (!unit_has_type_flag(punit, F_SPY))?
                                 _("Sir, the diplomat is waiting for your command"):
                                 _("Sir, the spy is waiting for your command"),
                                 msg_dlg);
@@ -1736,7 +1736,7 @@ void popup_upgrade_dialog(struct unit *punit)
   int ut1,ut2;
   int value;
 
-  ut1 = punit->type;
+  ut1 = unit_type(punit);
   ut2 = can_upgrade_unittype(game.player_ptr,ut1);
 
   if (ut2 == -1)

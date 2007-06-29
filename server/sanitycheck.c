@@ -403,7 +403,7 @@ static void check_units(void) {
       if (!can_unit_continue_current_activity(punit)) {
 	freelog(LOG_ERROR, "%s at %d,%d (%s) has activity %s, "
 		"which it can't continue!",
-		unit_type(punit)->name,
+		unit_rule_name(punit),
 		TILE_XY(ptile), tile_get_info_text(ptile),
 		get_activity_text(punit->activity));
       }

@@ -683,7 +683,7 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
     fear += ATTACK_POWER(punit);
 
     /* Fear enemy expansionism */
-    if (unit_flag(punit, F_CITIES)) {
+    if (unit_has_type_flag(punit, F_CITIES)) {
       want += 100;
     }
   } unit_list_iterate_end;
@@ -691,14 +691,14 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
     fear -= ATTACK_POWER(punit) / 2;
 
     /* Our own expansionism reduces want for war */
-    if (unit_flag(punit, F_CITIES)) {
+    if (unit_has_type_flag(punit, F_CITIES)) {
       want -= 200;
       settlers++;
     }
   } unit_list_iterate_end;
   city_list_iterate(pplayer->cities, pcity) {
     if (pcity->production.is_unit 
-        && unit_type_flag(get_unit_type(pcity->production.value),
+        && utype_has_flag(utype_by_number(pcity->production.value),
                           F_CITIES)) {
       want -= 150;
       settlers++;

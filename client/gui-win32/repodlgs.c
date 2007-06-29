@@ -619,10 +619,10 @@ activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {
-      (unitarray[punit->type->index].active_count)++;
+      (unitarray[unit_type(punit)->index].active_count)++;
       if (punit->homecity) {
-        unitarray[punit->type->index].upkeep_shield += punit->upkeep[O_SHIELD];
-        unitarray[punit->type->index].upkeep_food += punit->upkeep[O_FOOD];
+        unitarray[unit_type(punit)->index].upkeep_shield += punit->upkeep[O_SHIELD];
+        unitarray[unit_type(punit)->index].upkeep_food += punit->upkeep[O_FOOD];
 	/* TODO: gold upkeep */
       }
     }
@@ -641,7 +641,7 @@ activeunits_report_dialog_update(void)
       if ((unitarray[i->index].active_count > 0)
 	  || (unitarray[i->index].building_count > 0)) {
         can = (can_upgrade_unittype(game.player_ptr, i) != NULL);
-        my_snprintf(buf[0], sizeof(buf[0]), "%s", unit_name(i));
+        my_snprintf(buf[0], sizeof(buf[0]), "%s", utype_name_translation(i));
         my_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');
         my_snprintf(buf[2], sizeof(buf[2]), "%3d",
 				   unitarray[i->index].building_count);

@@ -168,7 +168,7 @@ bool units_have_flag(const struct unit_list *punits, enum unit_flag_id flag,
 		     bool has_flag)
 {
   unit_list_iterate(punits, punit) {
-    if (EQ(has_flag, unit_flag(punit, flag))) {
+    if (EQ(has_flag, unit_has_type_flag(punit, flag))) {
       return TRUE;
     }
   } unit_list_iterate_end;

@@ -220,7 +220,7 @@ void get_city_dialog_production(struct city *pcity,
   stock = pcity->shield_stock;
 
   if (pcity->production.is_unit) {
-    cost = unit_build_shield_cost(get_unit_type(pcity->production.value));
+    cost = unit_build_shield_cost(utype_by_number(pcity->production.value));
   } else {
     cost = impr_build_shield_cost(pcity->production.value);
   }
@@ -277,8 +277,8 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
     int cost;
 
     if (target.is_unit) {
-      name = get_unit_name(get_unit_type(target.value));
-      cost = unit_build_shield_cost(get_unit_type(target.value));
+      name = utype_values_translation(utype_by_number(target.value));
+      cost = unit_build_shield_cost(utype_by_number(target.value));
     } else {
       name = get_impr_name_ex(pcity, target.value);
       cost = impr_build_shield_cost(target.value);
@@ -304,21 +304,11 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 				    struct city *pcity)
 {
   if (target.is_unit) {
-    struct unit_type *ptype = get_unit_type(target.value);
+    struct unit_type *ptype = utype_by_number(target.value);
 
-    my_snprintf(buf[0], column_size, unit_name(ptype));
-
-    /* from unit.h get_unit_name() */
-    if (ptype->fuel > 0) {
-      my_snprintf(buf[1], column_size, "%d/%d/%d(%d)",
-		  ptype->attack_strength, ptype->defense_strength,
-		  ptype->move_rate / 3,
-		  (ptype->move_rate / 3) * ptype->fuel);
-    } else {
-      my_snprintf(buf[1], column_size, "%d/%d/%d", ptype->attack_strength,
-		  ptype->defense_strength, ptype->move_rate / 3);
-    }
-    my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(ptype));
+    my_snprintf(buf[0], column_size, utype_name_translation(ptype));
+    my_snprintf(buf[1], column_size, utype_values_string(ptype));
+    my_snprintf(buf[2], column_size, "(%d)", unit_build_shield_cost(ptype));
   } else {
     struct player *pplayer = pcity ? pcity->owner : game.player_ptr;
 
@@ -642,7 +632,7 @@ static bool base_city_queue_insert(struct city *pcity, int position,
 
     /* Insert as current production. */
     if (item.is_unit
-	&& !can_build_unit_direct(pcity, get_unit_type(item.value))) {
+	&& !can_build_unit_direct(pcity, utype_by_number(item.value))) {
       return FALSE;
     }
     if (!item.is_unit && !can_build_improvement_direct(pcity, item.value)) {
@@ -658,7 +648,7 @@ static bool base_city_queue_insert(struct city *pcity, int position,
 	     && position <= worklist_length(&pcity->worklist)) {
     /* Insert into middle. */
     if (item.is_unit
-	&& !can_eventually_build_unit(pcity, get_unit_type(item.value))) {
+	&& !can_eventually_build_unit(pcity, utype_by_number(item.value))) {
       return FALSE;
     }
     if (!item.is_unit
@@ -671,7 +661,7 @@ static bool base_city_queue_insert(struct city *pcity, int position,
   } else {
     /* Insert at end. */
     if (item.is_unit
-	&& !can_eventually_build_unit(pcity, get_unit_type(item.value))) {
+	&& !can_eventually_build_unit(pcity, utype_by_number(item.value))) {
       return FALSE;
     }
     if (!item.is_unit

@@ -456,7 +456,7 @@ static void worklist_help(int id, bool is_unit)
 {
   if (id >= 0) {
     if (is_unit) {
-      popup_help_dialog_typed(get_unit_type(id)->name, HELP_UNIT);
+      popup_help_dialog_typed(utype_name_translation(utype_by_number(id)), HELP_UNIT);
     } else if (is_great_wonder(id)) {
       popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
     } else {
@@ -913,7 +913,7 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
   if (peditor->pcity
       && ((target.is_unit
 	   && !can_eventually_build_unit(peditor->pcity,
-					 get_unit_type(target.value)))
+					 utype_by_number(target.value)))
 	  || (!target.is_unit
 	      && !can_eventually_build_improvement(peditor->pcity,
 						   target.value)))) {

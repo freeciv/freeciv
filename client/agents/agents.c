@@ -519,7 +519,9 @@ void agents_unit_changed(struct unit *punit)
 
   freelog(LOG_DEBUG,
 	  "A: agents_unit_changed(unit=%d) type=%s pos=(%d,%d) owner=%s",
-	  punit->id, punit->type->name, TILE_XY(punit->tile),
+	  punit->id,
+	  unit_rule_name(punit),
+	  TILE_XY(punit->tile),
 	  unit_owner(punit)->name);
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -545,7 +547,9 @@ void agents_unit_new(struct unit *punit)
 
   freelog(LOG_DEBUG,
 	  "A: agents_new_unit(unit=%d) type=%s pos=(%d,%d) owner=%s",
-	  punit->id, punit->type->name, TILE_XY(punit->tile),
+	  punit->id,
+	  unit_rule_name(punit),
+	  TILE_XY(punit->tile),
 	  unit_owner(punit)->name);
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -572,7 +576,9 @@ void agents_unit_remove(struct unit *punit)
 
   freelog(LOG_DEBUG,
 	  "A: agents_remove_unit(unit=%d) type=%s pos=(%d,%d) owner=%s",
-	  punit->id, punit->type->name, TILE_XY(punit->tile),
+	  punit->id,
+	  unit_rule_name(punit),
+	  TILE_XY(punit->tile),
 	  unit_owner(punit)->name);
 
   for (i = 0; i < agents.entries_used; i++) {

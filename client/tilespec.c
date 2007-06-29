@@ -2569,7 +2569,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
   t->sprites.unittype[ut->index]
     = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
-			    TRUE, "unit_type", ut->name);
+			    TRUE, "unit_type", utype_rule_name(ut));
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -3067,7 +3067,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  ADD_SPRITE(t->sprites.unittype[punit->type->index], TRUE,
+  ADD_SPRITE(t->sprites.unittype[unit_type(punit)->index], TRUE,
 	     FULL_TILE_X_OFFSET + t->unit_offset_x,
 	     FULL_TILE_Y_OFFSET + t->unit_offset_y);
 
@@ -3937,7 +3937,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       unit[i] = FALSE;
       if (tile) {
 	unit_list_iterate(pfocus_units, pfocus_unit) {
-	  if (unit_flag(pfocus_unit, F_CITIES)
+	  if (unit_has_type_flag(pfocus_unit, F_CITIES)
 	      && city_can_be_built_here(pfocus_unit->tile, pfocus_unit)
 	      && base_map_to_city_map(&dummy_x, &dummy_y,
 				      pfocus_unit->tile, tile)) {

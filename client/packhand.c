@@ -84,7 +84,7 @@ static int reports_thaw_requests_size = 0;
 static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
   struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
-					   get_unit_type(packet->type),
+					   utype_by_number(packet->type),
 					   packet->veteran);
 
   /* Owner, veteran, and type fields are already filled in by
@@ -143,7 +143,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
 static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 {
   struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
-					   get_unit_type(packet->type),
+					   utype_by_number(packet->type),
 					   FALSE);
 
   /* Owner and type fields are already filled in by create_unit_virtual. */
@@ -1124,11 +1124,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       repaint_unit = TRUE;
     }
 
-    if (punit->type != packet_unit->type) {
+    if (punit->utype != unit_type(packet_unit)) {
       /* Unit type has changed (been upgraded) */
       struct city *pcity = tile_get_city(punit->tile);
       
-      punit->type = packet_unit->type;
+      punit->utype = unit_type(packet_unit);
       repaint_unit = TRUE;
       repaint_city = TRUE;
       if (pcity && (pcity->id != punit->homecity)) {
@@ -1189,7 +1189,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	else
 	  refresh_city_dialog(pcity);
 	
-        if((unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER))
+        if((unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER))
 	   && game.player_ptr
 	   && !game.player_ptr->ai.control
 	   && punit->owner == game.player_ptr
@@ -1244,8 +1244,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
 	    get_nation_name(unit_owner(punit)->nation),
-	    unit_name(punit->type), TILE_XY(punit->tile), punit->id,
-	    punit->homecity, (pcity ? pcity->name : _("(unknown)")));
+	    unit_rule_name(punit),
+	    TILE_XY(punit->tile),
+	    punit->id,
+	    punit->homecity,
+	    (pcity ? pcity->name : "(unknown)"));
 
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
@@ -2044,9 +2047,12 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
-      freelog(LOG_ERROR, "%p %d %s at (%d,%d) %s", punit, punit->id,
-	      unit_type(punit)->name, TILE_XY(punit->tile),
-	      unit_owner(punit)->name);
+      freelog(LOG_ERROR, "%p %d %s at (%d,%d) %s",
+              punit,
+              punit->id,
+              unit_rule_name(punit),
+              TILE_XY(punit->tile),
+              unit_owner(punit)->name);
     } unit_list_iterate_end;
     assert(unit_list_size(ptile->units) == 0);
     unit_list_unlink_all(ptile->units);
@@ -2145,7 +2151,7 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
     return;
   }
 
-  c = unit_class_get_by_id(p->id);
+  c = uclass_by_number(p->id);
 
   sz_strlcpy(c->name_orig, p->name);
   c->name        = Q_(c->name_orig); /* See translate_data_names */
@@ -2170,10 +2176,10 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
 	    p->id);
     return;
   }
-  u = get_unit_type(p->id);
+  u = utype_by_number(p->id);
 
-  sz_strlcpy(u->name_orig, p->name);
-  u->name = Q_(u->name_orig); /* See translate_data_names */
+  sz_strlcpy(u->name_rule, p->name);
+  u->name_translated = NULL;	/* unittype.c utype_name_translation */
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
   sz_strlcpy(u->sound_move, p->sound_move);
@@ -2181,7 +2187,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   sz_strlcpy(u->sound_fight, p->sound_fight);
   sz_strlcpy(u->sound_fight_alt, p->sound_fight_alt);
 
-  u->class = unit_class_get_by_id(p->unit_class_id);
+  u->uclass             = uclass_by_number(p->unit_class_id);
   u->build_cost         = p->build_cost;
   u->pop_cost           = p->pop_cost;
   u->attack_strength    = p->attack_strength;
@@ -2194,7 +2200,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
   u->firepower          = p->firepower;
-  u->obsoleted_by = get_unit_type(p->obsoleted_by);
+  u->obsoleted_by = utype_by_number(p->obsoleted_by);
   u->fuel               = p->fuel;
   u->flags              = p->flags;
   u->roles              = p->roles;
