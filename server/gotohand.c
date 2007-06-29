@@ -286,17 +286,17 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   init_warmap(orig_tile, move_type);
   add_to_mapqueue(0, orig_tile);
 
-  if (punit && unit_flag(punit, F_IGTER))
+  if (punit && unit_has_type_flag(punit, F_IGTER))
     igter = TRUE;
   else
     igter = FALSE;
 
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
   if (punit
-      && unit_flag(punit, F_SETTLERS)
+      && unit_has_type_flag(punit, F_SETTLERS)
       && unit_move_rate(punit)==3)
     maxcost /= 2;
-  /* (?) was punit->type == U_SETTLERS -- dwp */
+  /* (?) was unit_type(punit) == U_SETTLERS -- dwp */
 
   while ((ptile = get_from_mapqueue())) {
     /* Just look up the cost value once.  This is a minor optimization but
@@ -387,7 +387,7 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 {
   freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
 	  (pcity ? pcity->name : "NULL"),
-	  (punit ? unit_type(punit)->name : "NULL"));
+	  (punit ? unit_rule_name(punit) : "NULL"));
 
   if (punit) {
     /* 
@@ -469,8 +469,8 @@ containing the directions we could have come from.
 static bool goto_zoc_ok(struct unit *punit, struct tile *src_tile,
 			struct tile *dest_tile, dir_vector came_from)
 {
-  if (can_step_taken_wrt_to_zoc
-      (punit->type, unit_owner(punit), src_tile, dest_tile))
+  if (can_step_taken_wrt_to_zoc(unit_type(punit), unit_owner(punit),
+                                src_tile, dest_tile))
     return TRUE;
 
   /* 
@@ -612,7 +612,7 @@ static bool find_the_shortest_path(struct unit *punit,
   warmap_cost = (move_type == SEA_MOVING) ? warmap.seacost : warmap.cost;
   add_to_mapqueue(0, orig_tile);
 
-  if (punit && unit_flag(punit, F_IGTER))
+  if (punit && unit_has_type_flag(punit, F_IGTER))
     igter = TRUE;
   else
     igter = FALSE;
@@ -627,7 +627,7 @@ static bool find_the_shortest_path(struct unit *punit,
       if (is_ocean(tile_get_terrain(dest_tile)) ||
 	  !is_non_allied_unit_tile(dest_tile, unit_owner(pcargo))
 	  || is_allied_city_tile(dest_tile, unit_owner(pcargo))
-	  || unit_flag(pcargo, F_MARINES)
+	  || unit_has_type_flag(pcargo, F_MARINES)
 	  || is_my_zoc(unit_owner(pcargo), dest_tile))
 	pcargo = NULL;
   } else
@@ -676,7 +676,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
-	  if (is_ocean(psrctile->terrain) && !unit_flag(punit, F_MARINES)) {
+	  if (is_ocean(psrctile->terrain) && !unit_has_type_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
@@ -697,7 +697,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	    move_cost = SINGLE_MOVE;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
-	  if (is_ocean(psrctile->terrain) && !unit_flag(punit, F_MARINES)) {
+	  if (is_ocean(psrctile->terrain) && !unit_has_type_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
@@ -773,8 +773,11 @@ static bool find_the_shortest_path(struct unit *punit,
 	    && enemies_at(punit, tile1)) {
 	  total_cost += unit_move_rate(punit);
 	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
-		  unit_type(punit)->name, punit->id,
-		  TILE_XY(punit->tile), TILE_XY(tile1), TILE_XY(dest_tile));
+		  unit_rule_name(punit),
+		  punit->id,
+		  TILE_XY(punit->tile),
+		  TILE_XY(tile1),
+		  TILE_XY(dest_tile));
 	}
 	break;
 
@@ -917,7 +920,7 @@ static int find_a_direction(struct unit *punit,
 			    struct tile *dest_tile)
 {
 #define UNIT_DEFENSE(punit, ptile, defence_multiplier) \
-  ((get_virtual_defense_power(NULL, (punit)->type, (punit)->owner, \
+  ((get_virtual_defense_power(NULL, unit_type(punit), (punit)->owner, \
 			      (ptile), FALSE, 0) *		   \
     (defence_multiplier)) / 2)
 
@@ -939,7 +942,7 @@ static int find_a_direction(struct unit *punit,
   int i, fitness[8], best_fitness = DONT_SELECT_ME_FITNESS;
   struct unit *passenger;
   struct player *pplayer = unit_owner(punit);
-  bool afraid_of_sinking = (unit_flag(punit, F_TRIREME)
+  bool afraid_of_sinking = (unit_has_type_flag(punit, F_TRIREME)
 			    && get_unit_bonus(punit, EFT_NO_SINK_DEEP) == 0);
 
   /* 
@@ -1009,7 +1012,7 @@ static int find_a_direction(struct unit *punit,
       base_move_cost = SINGLE_MOVE;
     }
 
-    if (unit_flag(punit, F_IGTER) && base_move_cost >= MOVE_COST_ROAD) {
+    if (unit_has_type_flag(punit, F_IGTER) && base_move_cost >= MOVE_COST_ROAD) {
       base_move_cost = MOVE_COST_ROAD;
     }
 
@@ -1255,9 +1258,10 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
        * and with a boat */
       if (ground_unit_transporter_capacity(ptile, pplayer) > 0) {
         adjc_iterate(ptile, tmp_tile) {
-          if (tile_get_continent(tmp_tile) == tile_get_continent(punit->tile))
+          if (tile_get_continent(tmp_tile) == tile_get_continent(punit->tile)) {
             /* The target is adjacent to our continent! */
             return TRUE;
+          }
         } adjc_iterate_end;
       }
     } else {
@@ -1343,8 +1347,10 @@ enum goto_result do_unit_goto(struct unit *punit,
     } else {
       freelog(LOG_VERBOSE, "Did not find an airroute for "
 	      "%s's %s at (%d, %d) -> (%d, %d)",
-	      pplayer->name, unit_type(punit)->name,
-	      TILE_XY(punit->tile), TILE_XY(dest_tile));
+	      pplayer->name,
+	      unit_rule_name(punit),
+	      TILE_XY(punit->tile),
+	      TILE_XY(dest_tile));
       punit->activity = ACTIVITY_IDLE;
       send_unit_info(NULL, punit);
       return GR_FAILED;
@@ -1365,7 +1371,8 @@ enum goto_result do_unit_goto(struct unit *punit,
       dir = find_a_direction(punit, restriction, waypoint_tile);
       if (dir < 0) {
 	freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
-		unit_type(punit)->name, punit->id,
+		unit_rule_name(punit),
+		punit->id,
 		TILE_XY(punit->tile));
 	return GR_FAILED;
       }
@@ -1413,8 +1420,10 @@ enum goto_result do_unit_goto(struct unit *punit,
   } else {
     freelog(LOG_VERBOSE, "Did not find the shortest path for "
 	    "%s's %s at (%d, %d) -> (%d, %d)",
-	    pplayer->name, unit_type(punit)->name,
-	    TILE_XY(punit->tile), TILE_XY(dest_tile));
+	    pplayer->name,
+	    unit_rule_name(punit),
+	    TILE_XY(punit->tile),
+	    TILE_XY(dest_tile));
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
     send_unit_info(NULL, punit);
     return GR_FAILED;

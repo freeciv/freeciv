@@ -125,7 +125,7 @@ struct unit_ai {
 };
 
 struct unit {
-  struct unit_type *type;
+  struct unit_type *utype;
   int id;
   struct player *owner; /* Cannot be NULL. */
   struct tile *tile;

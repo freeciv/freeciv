@@ -376,7 +376,7 @@ int city_buy_cost(const struct city *pcity)
   int cost, build = pcity->shield_stock;
 
   if (pcity->production.is_unit) {
-    cost = unit_buy_gold_cost(get_unit_type(pcity->production.value),
+    cost = unit_buy_gold_cost(utype_by_number(pcity->production.value),
 			      build);
   } else {
     cost = impr_buy_gold_cost(pcity->production.value, build);
@@ -1269,7 +1269,7 @@ int city_turns_to_build(const struct city *pcity,
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, target) : 0;
   int cost = (target.is_unit
-	      ? unit_build_shield_cost(get_unit_type(target.value))
+	      ? unit_build_shield_cost(utype_by_number(target.value))
 	      : impr_build_shield_cost(target.value));
 
   if (include_shield_stock && (city_shield_stock >= cost)) {

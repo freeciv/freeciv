@@ -401,7 +401,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   get_city_dialog_production(pcity, buf, sizeof(buf));
   
   if (pcity->production.is_unit) {
-    descr = get_unit_type(pcity->production.value)->name;
+    descr = utype_name_translation(utype_by_number(pcity->production.value));
   } else {
     descr = get_impr_name_ex(pcity, pcity->production.value);
   }
@@ -897,7 +897,7 @@ static void buy_callback(struct city_dialog *pdialog)
   const char *name;
   char buf[512];    
    if(pdialog->pcity->production.is_unit) {
-    name=get_unit_type(pdialog->pcity->production.value)->name;
+    name=utype_name_translation(utype_by_number(pdialog->pcity->production.value));
   }
   else {
     name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->production.value);
@@ -1012,7 +1012,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	  if (sel>=0)
 	    {
 	      if (target.is_unit) {
-		popup_help_dialog_typed(get_unit_type(target.value)->name,
+		popup_help_dialog_typed(utype_name_translation(utype_by_number(target.value)),
 					HELP_UNIT);
 	      } else if(is_great_wonder(target.value)) {
 		popup_help_dialog_typed(get_improvement_name(target.value),
@@ -1490,7 +1490,7 @@ static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
              present_units_disband_callback, punit->id,
            _("_Cancel"),
              present_units_cancel_callback, 0, 0, NULL);
-    if (unit_flag(punit, F_UNDISBANDABLE)) {
+    if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
       message_dialog_button_set_sensitive(wd, 3, FALSE);
     }
   }
@@ -1538,13 +1538,13 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
 	 || !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
        message_dialog_button_set_sensitive(wd,3, FALSE);
      }
-     if (unit_flag(punit, F_UNDISBANDABLE)) {
+     if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
        message_dialog_button_set_sensitive(wd,4, FALSE);
      }
      if (punit->homecity == pcity->id) {
        message_dialog_button_set_sensitive(wd,5, FALSE);
      }
-     if (can_upgrade_unittype(game.player_ptr,punit->type) == NULL) {
+     if (can_upgrade_unittype(game.player_ptr,unit_type(punit)) == NULL) {
        message_dialog_button_set_sensitive(wd,6, FALSE);
      }        
    }

@@ -689,9 +689,9 @@ void popup_unit_info(Unit_type_id type_id)
     }
   }
   
-  pUnit = get_unit_type(type_id);
+  pUnit = utype_by_number(type_id);
   pBuf= create_iconlabel_from_chars(
-          adj_surf(get_unittype_surface(get_unit_type(type_id))),
+          adj_surf(get_unittype_surface(utype_by_number(type_id))),
           pWindow->dst, pUnit->name, adj_font(24), WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
@@ -703,8 +703,8 @@ void popup_unit_info(Unit_type_id type_id)
     char local[2048];
     
     my_snprintf(local, sizeof(local), "%s %d %s",
-	      N_("Cost:"), unit_build_shield_cost(get_unit_type(type_id)),
-	      PL_("shield", "shields", unit_build_shield_cost(get_unit_type(type_id))));
+	      N_("Cost:"), unit_build_shield_cost(utype_by_number(type_id)),
+	      PL_("shield", "shields", unit_build_shield_cost(utype_by_number(type_id))));
   
     if(pUnit->pop_cost)
     {
@@ -799,7 +799,7 @@ void popup_unit_info(Unit_type_id type_id)
   start_x = (area.x + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
-  helptext_unit(buffer, get_unit_type(type_id), "");
+  helptext_unit(buffer, utype_by_number(type_id), "");
   if (buffer[0] != '\0')
   {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));

@@ -112,26 +112,27 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
      to protect us. If we see an enemy diplomat and we don't have diplomat
      tech... race it! */
   if (def != 0 && pcity->ai.diplomat_threat && !pcity->ai.has_diplomat) {
-    struct unit_type *u = best_role_unit(pcity, F_DIPLOMAT);
+    struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
 
-    if (u) {
+    if (ut) {
        freelog(LOG_DIPLOMAT_BUILD, 
                "A defensive diplomat will be built in city %s.", pcity->name);
        choice->want = 16000; /* diplomat more important than soldiers */
        pcity->ai.urgency = 1;
        choice->type = CT_DEFENDER;
-       choice->choice = u->index;
+       choice->choice = ut->index;
     } else if (num_role_units(F_DIPLOMAT) > 0) {
       /* We don't know diplomats yet... */
       freelog(LOG_DIPLOMAT_BUILD,
               "A defensive diplomat is wanted badly in city %s.", pcity->name);
-      u = get_role_unit(F_DIPLOMAT, 0);
-      if (u) {
-        Tech_type_id tech_req = u->tech_requirement;
+      ut = get_role_unit(F_DIPLOMAT, 0);
+      if (ut) {
+        Tech_type_id tech_req = ut->tech_requirement;
 
         pplayer->ai.tech_want[tech_req] += DIPLO_DEFENSE_WANT;
         TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s in diplo defense",
-                 DIPLO_DEFENSE_WANT, unit_name(u));
+                 DIPLO_DEFENSE_WANT,
+                 utype_rule_name(ut));
       }
     }
   }
@@ -208,7 +209,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     /* Probability to succeed, assuming no defending diplomat */
     p_success = game.info.diplchance;
     /* Probability to lose our unit */
-    p_failure = (unit_type_flag(ut, F_SPY) ? 100 - p_success : 100);
+    p_failure = (utype_has_flag(ut, F_SPY) ? 100 - p_success : 100);
 
     /* Get the time to dest in turns (minimum 1 turn) */
     time_to_dest = (time_to_dest + ut->move_rate - 1) / ut->move_rate;
@@ -236,7 +237,11 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       freelog(LOG_DIPLOMAT_BUILD,
               "%s, %s: %s is desired with want %d to spy in %s (incite "
               "want %d cost %d gold %d, tech theft want %d, ttd %d)",
-              pplayer->name, pcity->name, ut->name, want, acity->name, 
+              pplayer->name,
+              pcity->name,
+              utype_rule_name(ut),
+              want,
+              acity->name, 
               gain_incite, incite_cost, 
               pplayer->economic.gold - pplayer->ai.est_upkeep, 
               gain_theft, time_to_dest);
@@ -289,7 +294,7 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   }
 
   if (count_tech > 0 
-      && (ctarget->steal == 0 || unit_flag(punit, F_SPY))) {
+      && (ctarget->steal == 0 || unit_has_type_flag(punit, F_SPY))) {
     T(DIPLOMAT_STEAL,0);
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "We have already stolen from %s!",
@@ -488,8 +493,8 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       threat = FALSE;
     }
     /* Don't bribe settlers! */
-    if (unit_flag(pvictim, F_SETTLERS)
-        || unit_flag(pvictim, F_CITIES)) {
+    if (unit_has_type_flag(pvictim, F_SETTLERS)
+        || unit_has_type_flag(pvictim, F_CITIES)) {
       continue;
     }
     /* Should we make the expense? */
@@ -636,7 +641,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       aiguard_request_guard(punit);
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
     } else if ((ctarget = ai_diplomat_defend(pplayer, punit,
-                                             punit->type, map)) != NULL) {
+                                             unit_type(punit), map)) != NULL) {
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going to defend %s", ctarget->name);
     } else if ((ctarget = find_closest_owned_city(pplayer, punit->tile, 

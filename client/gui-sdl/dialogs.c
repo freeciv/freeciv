@@ -1320,7 +1320,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     /* ----------- */
 
 #if 0 /* FIXME: specific connect buttons */
-    if(unit_flag(pFocus_Unit, F_SETTLERS)) {
+    if(unit_has_type_flag(pFocus_Unit, F_SETTLERS)) {
       create_active_iconlabel(pBuf, pWindow->dst->surface, pStr, _("Connect here"),
 						    connect_here_callback);
       pBuf->data.cont = pCont;

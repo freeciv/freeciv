@@ -32,9 +32,9 @@ struct pft_amphibious;
 #ifdef DEBUG
 #define CHECK_UNIT(punit)                                                   \
   (assert(punit != NULL),						    \
-   assert(punit->type != NULL),						    \
+   assert(unit_type(punit) != NULL),					    \
    assert(punit->owner != NULL),					    \
-   assert(&game.players[punit->owner->player_no] == punit->owner),	    \
+   assert(punit->owner == &game.players[punit->owner->player_no]),	    \
    assert(find_unit_by_id(punit->id) != NULL))
 #else
 #define CHECK_UNIT(punit) assert(TRUE)

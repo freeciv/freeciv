@@ -79,7 +79,7 @@ void popup_bribe_dialog(struct unit *punit)
 {
   GtkWidget *shell;
 
-  if (unit_flag(punit, F_UNBRIBABLE)) {
+  if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
     shell = popup_choice_dialog(GTK_WINDOW(toplevel), _("Ooops..."),
                                  _("This unit cannot be bribed!"),
                                  GTK_STOCK_OK, NULL, NULL, NULL);
@@ -615,9 +615,10 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     diplomat_target_id = pcity->id;
     my_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
-		unit_name(punit->type), pcity->name);
+		unit_name_translation(punit),
+		pcity->name);
 
-    if (!unit_flag(punit, F_SPY)){
+    if (!unit_has_type_flag(punit, F_SPY)){
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_(" Choose Your Diplomat's Strategy"), buf,
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
@@ -685,7 +686,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
  
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_("Subvert Enemy Unit"),
-	(!unit_flag(punit, F_SPY))?
+	(!unit_has_type_flag(punit, F_SPY))?
 	_("Sir, the diplomat is waiting for your command"):
 	_("Sir, the spy is waiting for your command"),
 	_("_Bribe Enemy Unit"), diplomat_bribe_callback, NULL,

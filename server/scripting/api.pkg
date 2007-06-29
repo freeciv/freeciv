@@ -47,7 +47,7 @@ struct City {
 };
 
 struct Unit {
-  Unit_Type *type;
+  Unit_Type *utype;
   Player *owner;
   int homecity @ homecity_id;
   Tile *tile;
@@ -86,7 +86,7 @@ struct Building_Type {
 };
 
 struct Unit_Type {
-  const char *name_orig @ name;
+  const char *name_rule @ name;
 
   int build_cost;
 

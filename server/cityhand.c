@@ -210,7 +210,7 @@ void handle_city_sell(struct player *pplayer, int city_id, int build_id)
 **************************************************************************/
 void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
-  const char *name;
+  /*const char *name;*/
   int cost, total;
 
   /* This function corresponds to city_can_buy() in the client. */
@@ -244,10 +244,10 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   }
 
   if (pcity->production.is_unit) {
-    name = get_unit_type(pcity->production.value)->name;
-    total = unit_build_shield_cost(get_unit_type(pcity->production.value));
+    /*name = utype_name_translation(utype_by_number(pcity->production.value));*/
+    total = unit_build_shield_cost(utype_by_number(pcity->production.value));
   } else {
-    name = get_improvement_name(pcity->production.value);
+    /*name = get_improvement_name(pcity->production.value);*/
     total = impr_build_shield_cost(pcity->production.value);
   }
   cost = city_buy_cost(pcity);
@@ -352,7 +352,7 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
   }
 
   if (is_build_id_unit_id
-      && !can_build_unit(pcity, get_unit_type(build_id))) {
+      && !can_build_unit(pcity, utype_by_number(build_id))) {
     return;
   }
    if (!is_build_id_unit_id && !can_build_improvement(pcity, build_id))

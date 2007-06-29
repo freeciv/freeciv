@@ -562,24 +562,13 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
 	{
 	  /* Unit */
 	  which -= 10000;
-	  sz_strlcpy(name, unit_name(which));
+	  sz_strlcpy(name, utype_name_translation(which /* FIXME?!? */));
 
-	  {
-	    /* from unit.h get_unit_name() */
-	    struct unit_type *ptype;
-	    ptype = get_unit_type(which);
-	    if (ptype->fuel > 0)
-	      my_snprintf(info, sizeof(info), "%d/%d/%d(%d)", ptype->attack_strength,
-		      ptype->defense_strength,
-		ptype->move_rate / 3, (ptype->move_rate / 3) * ptype->fuel);
-	    else
-	      my_snprintf(info, sizeof(info), "%d/%d/%d", ptype->attack_strength,
-		      ptype->defense_strength, ptype->move_rate / 3);
-
-	  }
+	  my_snprintf(info, sizeof(info),
+	  	      utype_values_string(utype_by_number(which)));
 
 	  my_snprintf(cost, sizeof(cost),
-		      "%d", unit_build_shield_cost(which));
+		      "(%d)", unit_build_shield_cost(which));
 	  my_snprintf(rounds, sizeof(rounds), "%d",
 		      city_turns_to_build(pcity, which, TRUE, TRUE));
 	}
@@ -946,7 +935,7 @@ static void city_buy(struct city_dialog **ppdialog)
 
   if (pdialog->pcity->production.is_unit)
   {
-    name = get_unit_type(pdialog->pcity->production.value)->name;
+    name = utype_name_translation(utype_by_number(pdialog->pcity->production.value));
   }
   else
   {
@@ -1123,7 +1112,7 @@ static void city_prod_help(struct city_prod **ppcprod)
     if (which >= 10000)
     {
       which -= 10000;
-      popup_help_dialog_typed(get_unit_type(which)->name, HELP_UNIT);
+      popup_help_dialog_typed(utype_name_translation(utype_by_number(which)), HELP_UNIT);
     }
     else
     {
@@ -1764,7 +1753,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   shield = pcity->shield_stock;
   if (pcity->production.is_unit) {
     max_shield = unit_build_shield_cost(pcity->production.value);
-    descr = get_unit_type(pcity->production.value)->name;
+    descr = utype_name_translation(utype_by_number(pcity->production.value));
   } else {
     max_shield = impr_build_shield_cost(pcity->production.value);
     descr = get_impr_name_ex(pcity, pcity->production.value);

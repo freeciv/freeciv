@@ -44,7 +44,7 @@ int unit_move_rate(const struct unit *punit)
   int move_rate = 0;
   int base_move_rate = unit_type(punit)->move_rate 
     + unit_type(punit)->veteran[punit->veteran].move_bonus;
-  struct unit_class *pclass = get_unit_class(punit->type);
+  struct unit_class *pclass = unit_class(punit);
 
   move_rate = base_move_rate;
 
@@ -184,7 +184,7 @@ bool can_unit_exist_at_tile(const struct unit *punit,
 bool is_native_terrain(const struct unit *punit,
                        const struct terrain *pterrain)
 {
-  switch (punit->type->move_type) {
+  switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
     return !is_ocean(pterrain);
   case SEA_MOVING:
@@ -216,7 +216,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
 
   /* TODO: check for dangerous positions (like triremes in deep water). */
 
-  switch (punit->type->move_type) {
+  switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
   case SEA_MOVING:
     return TRUE;
@@ -272,7 +272,7 @@ static bool zoc_ok_move_gen(const struct unit *punit,
                             const struct tile *src_tile,
                             const struct tile *dst_tile)
 {
-  return can_step_taken_wrt_to_zoc(punit->type, unit_owner(punit),
+  return can_step_taken_wrt_to_zoc(unit_type(punit), unit_owner(punit),
 				   src_tile, dst_tile);
 }
 
@@ -299,7 +299,7 @@ bool can_unit_move_to_tile(const struct unit *punit,
                            const struct tile *dst_tile,
                            bool igzoc)
 {
-  return MR_OK == test_unit_move_to_tile(punit->type, unit_owner(punit),
+  return MR_OK == test_unit_move_to_tile(unit_type(punit), unit_owner(punit),
 					 punit->activity,
 					 punit->tile, dst_tile,
 					 igzoc);
@@ -366,7 +366,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     /* Moving from ocean */
     if (is_ocean(src_tile->terrain)) {
       /* 5) */
-      if (!unit_type_flag(punittype, F_MARINES)
+      if (!utype_has_flag(punittype, F_MARINES)
 	  && is_enemy_city_tile(dst_tile, unit_owner)) {
 	/* Most ground units can't move into cities from ships.  (Note this
 	 * check is only for movement, not attacking: most ground units
@@ -415,7 +415,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   }
 
   /* 9) */
-  if (!unit_type_flag(punittype, F_NONMIL)
+  if (!utype_has_flag(punittype, F_NONMIL)
       && dst_tile->owner
       && dst_tile->owner != unit_owner
       && players_non_invade(unit_owner, dst_tile->owner)) {
@@ -431,7 +431,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 bool can_unit_transport(const struct unit *transporter,
                         const struct unit *transported)
 {
-  return can_unit_type_transport(transporter->type, transported->type);
+  return can_unit_type_transport(unit_type(transporter), unit_type(transported));
 }
 
 /**************************************************************************
@@ -445,26 +445,26 @@ static bool can_unit_type_transport(const struct unit_type *transporter,
   }
 
   if (transported->move_type == LAND_MOVING) {
-    if ((unit_type_flag(transporter, F_CARRIER)
-         || unit_type_flag(transporter, F_MISSILE_CARRIER))) {
+    if ((utype_has_flag(transporter, F_CARRIER)
+         || utype_has_flag(transporter, F_MISSILE_CARRIER))) {
       return FALSE;
     }
     return TRUE;
   }
 
-  if (!unit_type_flag(transported, F_MISSILE)
-     && unit_type_flag(transporter, F_MISSILE_CARRIER)) {
+  if (!utype_has_flag(transported, F_MISSILE)
+     && utype_has_flag(transporter, F_MISSILE_CARRIER)) {
     return FALSE;
   }
 
-  if (unit_type_flag(transported, F_MISSILE)) {
-    if (!unit_type_flag(transporter, F_MISSILE_CARRIER)
-        && !unit_type_flag(transporter, F_CARRIER)) {
+  if (utype_has_flag(transported, F_MISSILE)) {
+    if (!utype_has_flag(transporter, F_MISSILE_CARRIER)
+        && !utype_has_flag(transporter, F_CARRIER)) {
       return FALSE;
     }
   } else if ((transported->move_type == AIR_MOVING
               || transported->move_type == HELI_MOVING)
-             && !unit_type_flag(transporter, F_CARRIER)) {
+             && !utype_has_flag(transporter, F_CARRIER)) {
     return FALSE;
   }
 

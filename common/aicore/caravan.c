@@ -47,11 +47,11 @@ void caravan_parameter_init_from_unit(struct caravan_parameter *parameter,
                                       const struct unit *caravan)
 {
   caravan_parameter_init_default(parameter);
-  if (!unit_flag(caravan, F_TRADE_ROUTE)) {
+  if (!unit_has_type_flag(caravan, F_TRADE_ROUTE)) {
     parameter->consider_windfall = FALSE;
     parameter->consider_trade = FALSE;
   }
-  if (!unit_flag(caravan, F_HELP_WONDER)) {
+  if (!unit_has_type_flag(caravan, F_HELP_WONDER)) {
     parameter->consider_wonders = FALSE;
   }
 }
@@ -337,7 +337,7 @@ static double wonder_benefit(const struct unit *caravan, int arrival_time,
   costwithout = impr_buy_gold_cost(dest->production.value,
       shields_at_arrival);
   costwith = impr_buy_gold_cost(dest->production.value,
-      shields_at_arrival + unit_build_shield_cost(caravan->type));
+      shields_at_arrival + unit_build_shield_cost(unit_type(caravan)));
 
   assert(costwithout >= costwith);
   return costwithout - costwith;

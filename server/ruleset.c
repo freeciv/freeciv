@@ -385,7 +385,7 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
   }
   for (i = 0; i < nval; i++) {
     char *sval = slist[i];
-    struct unit_type *punittype = find_unit_type_by_name(sval);
+    struct unit_type *punittype = find_unit_type_by_rule_name(sval);
 
     if (!punittype) {
       freelog(LOG_FATAL, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
@@ -527,7 +527,7 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
   if (strcmp(sval, "None")==0) {
     punittype = NULL;
   } else {
-    punittype = find_unit_type_by_name(sval);
+    punittype = find_unit_type_by_rule_name(sval);
     if (!punittype) {
       freelog((required?LOG_FATAL:LOG_ERROR),
            "\"%s\" %s %s: couldn't match \"%s\".",
@@ -863,8 +863,8 @@ static void load_unit_names(struct section_file *file)
     const int i = punittype->index;
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
-    name_strlcpy(punittype->name_orig, name);
-    punittype->name = punittype->name_orig;
+    name_strlcpy(punittype->name_rule, name);
+    punittype->name_translated = NULL;
   } unit_type_iterate_end;
 
   free(sec);
@@ -1020,7 +1020,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     const int i = u->index;
 
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
-				      TRUE, filename, u->name);
+				      TRUE, filename, u->name_rule);
     if (section_file_lookup(file, "%s.gov_req", sec[i])) {
       char tmp[200] = "\0";
       mystrlcat(tmp, sec[i], 200);
@@ -1035,7 +1035,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     const int i = u->index;
 
     u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by",
-				       FALSE, filename, u->name);
+				       FALSE, filename, u->name_rule);
   } unit_type_iterate_end;
 
   /* main stats: */
@@ -1044,16 +1044,18 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     struct unit_class *pclass;
 
     u->impr_requirement = lookup_building(file, sec[i], "impr_req",
-					  FALSE, filename, u->name);
+					  FALSE, filename, u->name_rule);
 
     sval = secfile_lookup_str(file, "%s.class", sec[i]);
     pclass = unit_class_from_str(sval);
     if (!pclass) {
       freelog(LOG_FATAL, "\"%s\" unit_type \"%s\": bad class \"%s\".",
-              filename, u->name, sval);
+              filename,
+              utype_rule_name(u),
+              sval);
       exit(EXIT_FAILURE);
     }
-    u->class = pclass;
+    u->uclass = pclass;
     switch (pclass->id)
     {
     case UCL_MISSILE:
@@ -1106,7 +1108,9 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
                          " but must be at least 1. "
                          "  If you want no attack ability,"
                          " set the unit's attack strength to 0.",
-              filename, u->name, u->firepower);
+              filename,
+              utype_rule_name(u),
+              u->firepower);
       exit(EXIT_FAILURE);
     }
     u->fuel = secfile_lookup_int(file,"%s.fuel", sec[i]);
@@ -1134,7 +1138,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     const int i = u->index;
 
     BV_CLR_ALL(u->flags);
-    assert(!unit_type_flag(u, F_LAST-1));
+    assert(!utype_has_flag(u, F_LAST-1));
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
     for(j=0; j<nval; j++) {
@@ -1145,10 +1149,12 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       ival = unit_flag_from_str(sval);
       if (ival==F_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
-                filename, u->name, sval);
+                filename,
+                utype_rule_name(u),
+                sval);
       }
       BV_SET(u->flags, ival);
-      assert(unit_type_flag(u, ival));
+      assert(utype_has_flag(u, ival));
     }
     free(slist);
   } unit_type_iterate_end;
@@ -1168,10 +1174,12 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       ival = unit_role_from_str(sval);
       if (ival==L_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad role name \"%s\".",
-                filename, u->name, sval);
+                filename,
+                utype_rule_name(u),
+                sval);
       }
       BV_SET(u->roles, ival - L_FIRST);
-      assert(unit_has_role(u, ival));
+      assert(utype_has_role(u, ival));
     }
     free(slist);
   } unit_type_iterate_end;
@@ -1181,7 +1189,9 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     if (!tech_exists(u->tech_requirement)) {
       freelog(LOG_ERROR,
               "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
-              filename, u->name, advances[u->tech_requirement].name_rule);
+              filename,
+              utype_rule_name(u),
+              advances[u->tech_requirement].name_rule);
       u->tech_requirement = A_LAST;
     }
   } unit_type_iterate_end;
@@ -1229,7 +1239,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     u = get_role_unit(L_BARBARIAN_BOAT,0);
     if(u->move_type != SEA_MOVING) {
       freelog(LOG_FATAL, "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
-              filename, u->name);
+              filename,
+              utype_rule_name(u));
       exit(EXIT_FAILURE);
     }
   }
@@ -2634,7 +2645,7 @@ static void send_ruleset_units(struct conn_list *dest)
 
   unit_type_iterate(u) {
     packet.id = u->index;
-    sz_strlcpy(packet.name, u->name_orig);
+    sz_strlcpy(packet.name, u->name_rule);
     sz_strlcpy(packet.sound_move, u->sound_move);
     sz_strlcpy(packet.sound_move_alt, u->sound_move_alt);
     sz_strlcpy(packet.sound_fight, u->sound_fight);
@@ -2642,7 +2653,7 @@ static void send_ruleset_units(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, u->graphic_str);
     sz_strlcpy(packet.graphic_alt, u->graphic_alt);
     packet.move_type = u->move_type;
-    packet.unit_class_id = u->class->id;
+    packet.unit_class_id = utype_class(u)->id;
     packet.build_cost = u->build_cost;
     packet.pop_cost = u->pop_cost;
     packet.attack_strength = u->attack_strength;

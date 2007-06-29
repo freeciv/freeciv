@@ -80,7 +80,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "poison: unit: %d", pdiplomat->id);
 
   /* If not a Spy, can't poison. */
-  if (!unit_flag (pdiplomat, F_SPY))
+  if (!unit_has_type_flag(pdiplomat, F_SPY))
     return;
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
@@ -96,7 +96,8 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Your %s could not poison the water"
 		       " supply in %s."),
-		     unit_name(pdiplomat->type), pcity->name);
+		     unit_name_translation(pdiplomat),
+		     pcity->name);
     freelog (LOG_DEBUG, "poison: target city too small");
     return;
   }
@@ -109,7 +110,8 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   /* Notify everybody involved. */
   notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_POISON,
 		   _("Your %s poisoned the water supply of %s."),
-		   unit_name(pdiplomat->type), pcity->name);
+		   unit_name_translation(pdiplomat),
+		   pcity->name);
   notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_POISON,
 		   _("%s is suspected of poisoning the water supply"
 		     " of %s."), pplayer->name, pcity->name);
@@ -188,7 +190,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(DIPLOMAT_INVESTIGATE, pplayer, NULL, pcity);
 
   /* Spies always survive. Diplomats never do. */
-  if (!unit_flag (pdiplomat, F_SPY)) {
+  if (!unit_has_type_flag(pdiplomat, F_SPY)) {
     wipe_unit(pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
@@ -261,12 +263,12 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		     _("Your %s was executed in %s on suspicion"
 		       " of spying.  The %s welcome future diplomatic"
 		       " efforts providing the Ambassador is reputable."),
-		     unit_name(pdiplomat->type),
+		     unit_name_translation(pdiplomat),
 		     pcity->name, get_nation_name_plural(cplayer->nation));
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
 		     _("You executed a %s the %s had sent to establish"
 		       " an embassy in %s for being untrustworthy"),
-		     unit_name(pdiplomat->type),
+		     unit_name_translation(pdiplomat),
 		     get_nation_name_plural(pplayer->nation), pcity->name);
     wipe_unit(pdiplomat);
     return;
@@ -276,7 +278,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   if (get_player_bonus(cplayer, EFT_NO_DIPLOMACY)) {
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Your %s was executed in %s by primitive %s."),
-		     unit_name(pdiplomat->type),
+		     unit_name_translation(pdiplomat),
 		     pcity->name, get_nation_name_plural(cplayer->nation));
     wipe_unit(pdiplomat);
     return;
@@ -304,7 +306,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   maybe_cause_incident(DIPLOMAT_EMBASSY, pplayer, NULL, pcity);
 
   /* Spies always survive. Diplomats never do. */
-  if (!unit_flag (pdiplomat, F_SPY)) {
+  if (!unit_has_type_flag(pdiplomat, F_SPY)) {
     wipe_unit(pdiplomat);
   } else {
     send_unit_info (pplayer, pdiplomat);
@@ -340,15 +342,16 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "sabotage-unit: unit: %d", pdiplomat->id);
 
   /* If not a Spy, can't sabotage unit. */
-  if (!unit_flag (pdiplomat, F_SPY))
+  if (!unit_has_type_flag(pdiplomat, F_SPY))
     return;
 
   /* If unit has too few hp, can't sabotage. */
   if (pvictim->hp < 2) {
     notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Your %s could not sabotage %s's %s."),
-		     unit_name(pdiplomat->type),
-		     unit_owner(pvictim)->name, unit_name(pvictim->type));
+		     unit_name_translation(pdiplomat),
+		     unit_owner(pvictim)->name,
+		     unit_name_translation(pvictim));
     freelog (LOG_DEBUG, "sabotage-unit: unit has too few hit points");
     return;
   }
@@ -368,12 +371,14 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   /* Notify everybody involved. */
   notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_SABOTAGE,
 		   _("Your %s succeeded in sabotaging %s's %s."),
-		   unit_name(pdiplomat->type),
-		   unit_owner(pvictim)->name, unit_name(pvictim->type));
+		   unit_name_translation(pdiplomat),
+		   unit_owner(pvictim)->name,
+		   unit_name_translation(pvictim));
   notify_player(uplayer, pvictim->tile,
 		   E_ENEMY_DIPLOMAT_SABOTAGE,
 		   _("Your %s was sabotaged by %s!"),
-		   unit_name(pvictim->type), pplayer->name);
+		   unit_name_translation(pvictim),
+		   pplayer->name);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_SABOTAGE_UNIT, pplayer, pvictim, NULL);
@@ -437,14 +442,16 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		     E_MY_DIPLOMAT_FAILED,
 		     _("You don't have enough gold to"
 		       " bribe %s's %s."),
-		     unit_owner(pvictim)->name, unit_name(pvictim->type));
+		     unit_owner(pvictim)->name,
+		     unit_name_translation(pvictim));
     freelog (LOG_DEBUG, "bribe-unit: not enough gold");
     return;
   }
 
-  if (unit_flag(pvictim, F_UNBRIBABLE)) {
+  if (unit_has_type_flag(pvictim, F_UNBRIBABLE)) {
     notify_player(pplayer, pdiplomat->tile, E_MY_DIPLOMAT_FAILED,
-		     _("You cannot bribe %s!"), unit_name(pvictim->type));
+		     _("You cannot bribe %s!"),
+		     unit_name_translation(pvictim));
     return;
   }
 
@@ -452,7 +459,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
   gained_unit = create_unit_full(pplayer, pvictim->tile,
-                                 pvictim->type, pvictim->veteran,
+                                 unit_type(pvictim), pvictim->veteran,
                                  pdiplomat->homecity, pvictim->moves_left,
                                  pvictim->hp, NULL);
 
@@ -472,16 +479,20 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_BRIBE,
 		     _("Your %s succeeded in bribing %s's %s"
 		        " and became more experienced."),
-		     unit_name(pdiplomat->type),
-		     unit_owner(pvictim)->name, unit_name(pvictim->type));
+		     unit_name_translation(pdiplomat),
+		     unit_owner(pvictim)->name,
+		     unit_name_translation(pvictim));
   } else {
     notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_BRIBE,
-		     _("Your %s succeeded in bribing %s's %s."),		     unit_name(pdiplomat->type),
-		     unit_owner(pvictim)->name, unit_name(pvictim->type));
+		     _("Your %s succeeded in bribing %s's %s."),
+		     unit_name_translation(pdiplomat),
+		     unit_owner(pvictim)->name,
+		     unit_name_translation(pvictim));
   }
   notify_player(uplayer, pvictim->tile, E_ENEMY_DIPLOMAT_BRIBE,
 		   _("Your %s was bribed by %s."),
-		   unit_name(pvictim->type), pplayer->name);
+		   unit_name_translation(pvictim),
+		   pplayer->name);
 
   /* This costs! */
   pplayer->economic.gold -= pvictim->bribe_cost;
@@ -571,7 +582,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "steal-tech: unit: %d", pdiplomat->id);
 
   /* If not a Spy, do something random. */
-  if (!unit_flag (pdiplomat, F_SPY)) {
+  if (!unit_has_type_flag(pdiplomat, F_SPY)) {
     technology = A_UNSET;
   }
 
@@ -586,7 +597,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if (pcity->steal > 0 && !unit_flag (pdiplomat, F_SPY)) {
+  if (pcity->steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     freelog (LOG_DEBUG, "steal-tech: difficulty: impossible");
@@ -608,20 +619,24 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
   
   if (count > 0) {
-    if (pcity->steal > 0 && !unit_flag (pdiplomat, F_SPY)) {
+    if (pcity->steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
       notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		       _("%s was expecting your attempt to steal technology "
                          "again. Your %s was caught and executed."),
-		       pcity->name, unit_name(pdiplomat->type));
+		       pcity->name,
+		       unit_name_translation(pdiplomat));
     } else {
       notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		       _("Your %s was caught in the attempt of"
 		         " stealing technology from %s."),
-		       unit_name(pdiplomat->type), pcity->name);
+		       unit_name_translation(pdiplomat),
+		       pcity->name);
     }
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
 		     _("%s's %s failed to steal technology from %s."),
-		     pplayer->name, unit_name(pdiplomat->type), pcity->name);
+		     pplayer->name,
+		     unit_name_translation(pdiplomat),
+		     pcity->name);
     /* this may cause a diplomatic incident */
     maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);
     wipe_unit(pdiplomat);
@@ -718,12 +733,13 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Your %s was caught in the attempt"
 		       " of inciting a revolt!"),
-		     unit_name(pdiplomat->type));
+		     unit_name_translation(pdiplomat));
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
 		     _("You caught %s %s attempting"
 		       " to incite a revolt in %s!"),
 		     get_nation_name(pplayer->nation),
-		     unit_name(pdiplomat->type), pcity->name);
+		     unit_name_translation(pdiplomat),
+		     pcity->name);
     wipe_unit(pdiplomat);
     return;
   }
@@ -811,7 +827,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "sabotage: unit: %d", pdiplomat->id);
 
   /* If not a Spy, do something random. */
-  if (!unit_flag (pdiplomat, F_SPY))
+  if (!unit_has_type_flag(pdiplomat, F_SPY))
     improvement = B_LAST;
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
@@ -827,12 +843,13 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Your %s was caught in the attempt"
 		       " of industrial sabotage!"),
-		     unit_name(pdiplomat->type));
+		     unit_name_translation(pdiplomat));
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("You caught %s %s attempting"
 		       " sabotage in %s!"),
 		     get_nation_name(pplayer->nation),
-		     unit_name(pdiplomat->type), pcity->name);
+		     unit_name_translation(pdiplomat),
+		     pcity->name);
     wipe_unit(pdiplomat);
     return;
   }
@@ -864,7 +881,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     if (count == 0 && pcity->shield_stock == 0) {
       notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		       _("Your %s could not find anything to"
-			 " sabotage in %s."), unit_name(pdiplomat->type),
+			 " sabotage in %s."),
+		       unit_name_translation(pdiplomat),
 		       pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->tile);
       send_unit_info (pplayer, pdiplomat);
@@ -916,7 +934,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     } else {
       notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		       _("Your %s could not find the %s to"
-			 " sabotage in %s."), unit_name(pdiplomat->type),
+			 " sabotage in %s."),
+		       unit_name_translation(pdiplomat),
 		       get_improvement_name(improvement), pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->tile);
       send_unit_info (pplayer, pdiplomat);
@@ -936,13 +955,14 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
     /* Report it. */
     if (pcity->production.is_unit)
-      prod = unit_name(get_unit_type(pcity->production.value));
+      prod = utype_name_translation(utype_by_number(pcity->production.value));
     else
       prod = get_improvement_name (pcity->production.value);
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s succeeded in destroying"
 		       " the production of %s in %s."),
-		     unit_name(pdiplomat->type), prod, pcity->name);
+		     unit_name_translation(pdiplomat),
+		     prod, pcity->name);
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("The production of %s was destroyed in %s,"
 		       " %s are suspected."), prod, pcity->name,
@@ -966,13 +986,14 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       /* Caught! */
       notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		       _("Your %s was caught in the attempt"
-			 " of sabotage!"), unit_name(pdiplomat->type));
+			 " of sabotage!"),
+		       unit_name_translation(pdiplomat));
       notify_player(cplayer, pcity->tile,
 		       E_ENEMY_DIPLOMAT_FAILED,
 		       _("You caught %s %s attempting"
 			 " to sabotage the %s in %s!"),
 		       get_nation_name(pplayer->nation),
-		       unit_name(pdiplomat->type),
+		       unit_name_translation(pdiplomat),
 		       get_improvement_name(target), pcity->name);
       wipe_unit(pdiplomat);
       freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
@@ -982,7 +1003,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     /* Report it. */
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s destroyed the %s in %s."),
-		     unit_name(pdiplomat->type),
+		     unit_name_translation(pdiplomat),
 		     get_improvement_name(target), pcity->name);
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("The %s destroyed the %s in %s."),
@@ -1028,13 +1049,13 @@ static bool diplomat_success_vs_defender (struct unit *pattacker,
 {
   int chance = 50; /* Base 50% chance */
 
-  if (unit_flag(pdefender, F_SUPERSPY)) {
+  if (unit_has_type_flag(pdefender, F_SUPERSPY)) {
     return TRUE;
   }
-  if (unit_flag (pattacker, F_SPY)) {
+  if (unit_has_type_flag(pattacker, F_SPY)) {
     chance += 25;
   }
-  if (unit_flag (pdefender, F_SPY)) {
+  if (unit_has_type_flag(pdefender, F_SPY)) {
     chance -= 25;
   }
 
@@ -1072,23 +1093,26 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   /* We don't need a _safe iterate since no transporters should be
    * destroyed. */
   unit_list_iterate(ptile->units, punit) {
-    if (unit_flag(punit, F_DIPLOMAT) || unit_flag(punit, F_SUPERSPY)) {
+    if (unit_has_type_flag(punit, F_DIPLOMAT) || unit_has_type_flag(punit, F_SUPERSPY)) {
       /* A F_SUPERSPY unit may not acutally be a spy, but a superboss which 
          we cannot allow puny diplomats from getting the better of. Note that 
          diplomat_success_vs_defender(punit) is always TRUE if the attacker
          is F_SUPERSPY. Hence F_SUPERSPY vs F_SUPERSPY in a diplomatic contest
          always kills the attacker. */
       if (diplomat_success_vs_defender(pdiplomat, punit, ptile) 
-          && !unit_flag(punit, F_SUPERSPY)) {
+          && !unit_has_type_flag(punit, F_SUPERSPY)) {
 	/* Defending Spy/Diplomat dies. */
 
 	notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED,
 			 _("Your %s has been eliminated defending %s"
-			   " against a %s."), unit_name(punit->type),
-		(pcity ? pcity->name : ""), unit_name(pdiplomat->type));
+			   " against a %s."),
+			 unit_name_translation(punit),
+			 (pcity ? pcity->name : ""),
+			 unit_name_translation(pdiplomat));
 	notify_player(pplayer, ptile, E_ENEMY_DIPLOMAT_FAILED,
 		 _("An enemy %s has been eliminated defending %s."),
-		unit_name(punit->type), (pcity ? pcity->name : ""));
+		unit_name_translation(punit),
+		(pcity ? pcity->name : ""));
 
 	wipe_unit(punit);
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
@@ -1103,7 +1127,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 	notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
 			 _("Your %s was eliminated"
 			   " by a defending %s."),
-			 unit_name(pdiplomat->type), unit_name(punit->type));
+			 unit_name_translation(pdiplomat),
+			 unit_name_translation(punit));
 	if (vet) {
 	  if (pcity) {
 	    notify_player(cplayer, ptile,
@@ -1111,7 +1136,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			     _("Eliminated %s %s while infiltrating "
 			       "%s. The defender became more experienced."),
 			     get_nation_name(pplayer->nation),
-			     unit_name(pdiplomat->type), pcity->name);
+			     unit_name_translation(pdiplomat),
+			     pcity->name);
 	  } else {
 	    notify_player(cplayer, ptile,
 			     E_ENEMY_DIPLOMAT_FAILED,
@@ -1119,7 +1145,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			       "our troops. The defender became more "
 			       "experienced."),
 			     get_nation_name(pplayer->nation),
-			     unit_name(pdiplomat->type));
+			     unit_name_translation(pdiplomat));
           }
         } else {
 	  if (pcity) {
@@ -1127,14 +1153,15 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			     E_ENEMY_DIPLOMAT_FAILED,
 			     _("Eliminated %s %s while infiltrating "
 			       "%s."), get_nation_name(pplayer->nation),
-			     unit_name(pdiplomat->type), pcity->name);
+			     unit_name_translation(pdiplomat),
+			     pcity->name);
 	  } else {
 	    notify_player(cplayer, ptile,
 			     E_ENEMY_DIPLOMAT_FAILED,
 			     _("Eliminated %s %s while infiltrating "
 			       "our troops."),
 			     get_nation_name(pplayer->nation),
-			     unit_name(pdiplomat->type));
+			     unit_name_translation(pdiplomat));
 	  }
 	}
 	wipe_unit(pdiplomat);
@@ -1176,8 +1203,8 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
   spyhome = find_closest_owned_city(unit_owner(pdiplomat), ptile, FALSE, NULL);
 
   if (spyhome
-      && unit_flag(pdiplomat, F_SPY)
-      && (myrand (100) < escapechance || unit_flag(pdiplomat, F_SUPERSPY))) {
+      && unit_has_type_flag(pdiplomat, F_SPY)
+      && (myrand (100) < escapechance || unit_has_type_flag(pdiplomat, F_SUPERSPY))) {
     /* Attacking Spy/Diplomat survives. */
 
     /* may become a veteran */
@@ -1187,12 +1214,14 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
 		       _("Your %s has successfully completed"
 			 " her mission and returned unharmed to %s"
 			 " and has become more experienced."),
-		       unit_name(pdiplomat->type), spyhome->name);
+		       unit_name_translation(pdiplomat),
+		       spyhome->name);
     } else {
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE,
 		       _("Your %s has successfully completed"
 			 " her mission and returned unharmed to %s."),
-		       unit_name(pdiplomat->type), spyhome->name);
+		       unit_name_translation(pdiplomat),
+		       spyhome->name);
     }
 
     /* being teleported costs all movement */
@@ -1208,11 +1237,13 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
 			 _("Your %s was captured after completing"
 			   " her mission in %s."),
-			 unit_name(pdiplomat->type), pcity->name);
+			 unit_name_translation(pdiplomat),
+			 pcity->name);
     } else {
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
 			 _("Your %s was captured after completing"
-			   " her mission."), unit_name(pdiplomat->type));
+			   " her mission."),
+			 unit_name_translation(pdiplomat));
     }
   }
 
@@ -1245,12 +1276,12 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
 		       _("You have caused an incident while bribing "
  			 "%s's %s."),
  		       victim_player->name,
- 		       unit_name(victim_unit->type));
+ 		       unit_name_translation(victim_unit));
       notify_player(victim_player, victim_tile, E_DIPLOMATIC_INCIDENT,
 		       _("%s has caused an incident while bribing "
  			 "your %s."),
  		       offender->name,
- 		       unit_name(victim_unit->type));
+ 		       unit_name_translation(victim_unit));
       break;
     case DIPLOMAT_STEAL:
       notify_player(offender, victim_tile, E_DIPLOMATIC_INCIDENT,
@@ -1317,10 +1348,10 @@ int unit_bribe_cost(struct unit *punit)
     dist=32;
   cost /= dist + 2;
 
-  cost *= unit_build_shield_cost(punit->type) / 10;
+  cost *= unit_build_shield_cost(unit_type(punit)) / 10;
 
   /* FIXME: This is a weird one - should be replaced */
-  if (unit_flag(punit, F_CITIES)) 
+  if (unit_has_type_flag(punit, F_CITIES)) 
     cost/=2;
 
   cost += cost * punit->veteran / 3; /* Extra cost for veterans */
@@ -1344,7 +1375,7 @@ int count_diplomats_on_tile(struct tile *ptile)
   int count = 0;
 
   unit_list_iterate((ptile)->units, punit)
-    if (unit_flag(punit, F_DIPLOMAT))
+    if (unit_has_type_flag(punit, F_DIPLOMAT))
       count++;
   unit_list_iterate_end;
   return count;

@@ -651,7 +651,7 @@ HOOKPROTONH(actunit_units_display, void, char **array, struct actunit_units_entr
     my_snprintf(upkeep_gold, sizeof(upkeep_gold), "%5d", entry->upkeep_gold);
     my_snprintf(building_count, sizeof(building_count), "%5d", entry->building_count);
 
-    *array++ = unit_name(i);
+    *array++ = utype_name_translation(i);
     *array++ = can_upgrade_unittype(game.player_ptr, i) != -1 ? "*" : "-";
     *array++ = building_count;
     *array++ = active_count;
@@ -809,11 +809,11 @@ void activeunits_report_dialog_update(void)
   memset(unitarray, '\0', sizeof(unitarray));
   unit_list_iterate(game.player_ptr->units, punit)
   {
-    (unitarray[punit->type].active_count)++;
+    (unitarray[unit_type(punit)].active_count)++;
     if (punit->homecity)
     {
-      unitarray[punit->type].upkeep_shield += punit->upkeep;
-      unitarray[punit->type].upkeep_food += punit->upkeep_food;
+      unitarray[unit_type(punit)].upkeep_shield += punit->upkeep;
+      unitarray[unit_type(punit)].upkeep_food += punit->upkeep_food;
     }
   }
   unit_list_iterate_end;

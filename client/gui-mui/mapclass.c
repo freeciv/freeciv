@@ -1632,7 +1632,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	if (pcity)
 	  my_snprintf(title, sizeof(title), _("City %s"), pcity->name);
 	else if (punit)
-	  my_snprintf(title, sizeof(title), _("Unit %s"), unit_name(punit->type));
+	  my_snprintf(title, sizeof(title), _("Unit %s"), unit_name_translation(punit));
 	else
 	  my_snprintf(title, sizeof(title), _("Tile %s"), tile_get_info_text(x, y));
 
@@ -1680,15 +1680,15 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  Map_InsertCommand(&list, _("Sentry"), PACK_USERDATA(punit, MENU_ORDER_SENTRY));
 		if (can_unit_do_activity(punit, ACTIVITY_PILLAGE))
 		  Map_InsertCommand(&list, _("Pillage"), PACK_USERDATA(punit, MENU_ORDER_PILLAGE));
-		if (can_unit_do_auto(punit) && unit_flag(punit, F_SETTLERS))
+		if (can_unit_do_auto(punit) && unit_has_type_flag(punit, F_SETTLERS))
 		  Map_InsertCommand(&list, _("Auto Settler"), PACK_USERDATA(punit, MENU_ORDER_AUTO_SETTLER));
-		if (can_unit_do_auto(punit) && !unit_flag(punit, F_SETTLERS))
+		if (can_unit_do_auto(punit) && !unit_has_type_flag(punit, F_SETTLERS))
 		  Map_InsertCommand(&list, _("Auto Attack"), PACK_USERDATA(punit, MENU_ORDER_AUTO_ATTACK));
 		if (can_unit_do_activity(punit, ACTIVITY_EXPLORE))
 		  Map_InsertCommand(&list, _("Auto Explore"), PACK_USERDATA(punit, MENU_ORDER_AUTO_EXPLORE));
 		if (can_unit_paradrop(punit))
 		  Map_InsertCommand(&list, _("Paradrop"), PACK_USERDATA(punit, MENU_ORDER_POLLUTION));
-		if (unit_flag(punit, F_NUCLEAR))
+		if (unit_has_type_flag(punit, F_NUCLEAR))
 		  Map_InsertCommand(&list, _("Explode Nuclear"), PACK_USERDATA(punit, MENU_ORDER_NUKE));
 		if (get_transporter_occupancy(punit) > 0)
 		  Map_InsertCommand(&list, _("Unload"), PACK_USERDATA(punit, MENU_ORDER_UNLOAD));
@@ -2919,7 +2919,7 @@ static ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct
       Object *menu_title;
 
       context_menu = MenustripObject,
-	  Child, menu_title = MenuObjectT(unit_name(punit->type)),
+	  Child, menu_title = MenuObjectT(unit_name_translation(punit)),
 	  End,
       End;
 
@@ -2973,7 +2973,7 @@ static ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct
 	  }
 	}
 
-	if (can_upgrade_unittype(game.player_ptr,punit->type) != -1)
+	if (can_upgrade_unittype(game.player_ptr,unit_type(punit)) != -1)
 	{
 	  if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Upgrade"), NULL, MUIO_Menuitem_CopyStrings, 0)))
 	  {
@@ -3075,7 +3075,7 @@ static ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, stru
       Object *menu_title;
 
       context_menu = MenustripObject,
-	  Child, menu_title = MenuObjectT(unit_name(punit->type)),
+	  Child, menu_title = MenuObjectT(unit_name_translation(punit)),
 	      MUIA_Family_Child, MenuitemObject,
 	          MUIA_Menuitem_Title, _("Activate"),
 	          MUIA_UserData, PACK_USERDATA(punit, UNIT_ACTIVATE),

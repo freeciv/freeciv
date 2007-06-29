@@ -491,9 +491,9 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     if(pCity->production.is_unit) {
-      struct unit_type *pUnit = get_unit_type(pCity->production.value);
-      pLogo = ResizeSurface(get_unittype_surface(get_unit_type(pCity->production.value)), adj_size(36), adj_size(24), 1);      
-      togrow = unit_build_shield_cost(get_unit_type(pCity->production.value));
+      struct unit_type *pUnit = utype_by_number(pCity->production.value);
+      pLogo = ResizeSurface(get_unittype_surface(utype_by_number(pCity->production.value)), adj_size(36), adj_size(24), 1);      
+      togrow = unit_build_shield_cost(utype_by_number(pCity->production.value));
       pName = pUnit->name;
     } else {
       struct impr_type *pImprv = get_improvement_type(pCity->production.value);
@@ -1009,10 +1009,10 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
   
   /* change production */
   if(pCity->production.is_unit) {
-    struct unit_type *pUnit = get_unit_type(pCity->production.value);
-    pLogo = ResizeSurface(get_unittype_surface(get_unit_type(pCity->production.value)),
+    struct unit_type *pUnit = utype_by_number(pCity->production.value);
+    pLogo = ResizeSurface(get_unittype_surface(utype_by_number(pCity->production.value)),
               adj_size(36), adj_size(24), 1);
-    togrow = unit_build_shield_cost(get_unit_type(pCity->production.value));
+    togrow = unit_build_shield_cost(utype_by_number(pCity->production.value));
     pName = pUnit->name;
   } else {
     struct impr_type *pImprv = get_improvement_type(pCity->production.value);

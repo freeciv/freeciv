@@ -622,14 +622,14 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
-    if (unit_flag(punit, F_IGTER)) {
+    if (unit_has_type_flag(punit, F_IGTER)) {
       parameter->get_MC = igter_move_unit;
     } else {
       parameter->get_MC = normal_move_unit;
     }
     break;
   case SEA_MOVING:
-    if (unit_flag(punit, F_NO_LAND_ATTACK)) {
+    if (unit_has_type_flag(punit, F_NO_LAND_ATTACK)) {
       parameter->get_MC = seamove_no_bombard;
     } else {
       parameter->get_MC = seamove;
@@ -660,13 +660,13 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   }
 
   if (unit_type(punit)->move_type == LAND_MOVING 
-      && !unit_flag(punit, F_IGZOC)) {
+      && !unit_has_type_flag(punit, F_IGZOC)) {
     parameter->get_zoc = is_my_zoc;
   } else {
     parameter->get_zoc = NULL;
   }
 
-  if (unit_flag(punit, F_TRIREME)
+  if (unit_has_type_flag(punit, F_TRIREME)
       && base_trireme_loss_pct(unit_owner(punit), punit) > 0) {
     parameter->turn_mode = TM_WORST_TIME;
     parameter->is_pos_dangerous = trireme_is_pos_dangerous;
@@ -683,7 +683,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 struct unit *punit)
 {
-  const bool trireme_danger = unit_flag(punit, F_TRIREME)
+  const bool trireme_danger = unit_has_type_flag(punit, F_TRIREME)
                      && base_trireme_loss_pct(unit_owner(punit), punit) > 0;
   const bool danger
     = base_unsafe_terrain_loss_pct(unit_owner(punit), punit) > 0;
@@ -741,7 +741,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   }
 
   if (unit_type(punit)->move_type == LAND_MOVING 
-      && !unit_flag(punit, F_IGZOC)) {
+      && !unit_has_type_flag(punit, F_IGZOC)) {
     parameter->get_zoc = is_my_zoc;
   } else {
     parameter->get_zoc = NULL;

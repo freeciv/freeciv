@@ -128,7 +128,9 @@ void game_remove_unit(struct unit *punit)
   freelog(LOG_DEBUG, "game_remove_unit %d", punit->id);
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	  punit->id, get_nation_name(unit_owner(punit)->nation),
-	  unit_name(punit->type), punit->tile->x, punit->tile->y,
+	  unit_rule_name(punit),
+	  punit->tile->x,
+	  punit->tile->y,
 	  punit->homecity);
 
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
@@ -588,10 +590,7 @@ void translate_data_names(void)
   int i;
 
   /* advance_name_translation now handled in tech.c */
-
-  unit_type_iterate(tthis) {
-    tthis->name = Q_(tthis->name_orig);
-  } unit_type_iterate_end;
+  /* utype_name_translation now handled in unittype.c */
 
   impr_type_iterate(i) {
     struct impr_type *tthis = get_improvement_type(i);

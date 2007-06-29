@@ -587,8 +587,8 @@ void worklist_id_to_name(char buf[],
 {
   if (production.is_unit)
     sprintf(buf, "%s (%d)",
-	    get_unit_name(get_unit_type(production.value)),
-	    unit_build_shield_cost(get_unit_type(production.value)));
+	    utype_values_translation(utype_by_number(production.value)),
+	    unit_build_shield_cost(utype_by_number(production.value)));
   else if (pcity)
     sprintf(buf, "%s (%d)",
 	    get_impr_name_ex(pcity, production.value),
@@ -843,7 +843,7 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
   if (pdialog->pcity
       && ((target.is_unit
 	   && !can_eventually_build_unit(pdialog->pcity,
-					 get_unit_type(target.value)))
+					 utype_by_number(target.value)))
 	  || (!target.is_unit
 	      && !can_eventually_build_improvement(pdialog->pcity,
 						   target.value)))) {
@@ -1212,7 +1212,7 @@ void worklist_help(struct city_production production)
 {
   if (production.value >= 0) {
     if (production.is_unit) {
-      popup_help_dialog_typed(get_unit_type(production.value)->name,
+      popup_help_dialog_typed(utype_name_translation(utype_by_number(production.value)),
 					    HELP_UNIT);
     } else if (is_great_wonder(production.value)) {
       popup_help_dialog_typed(get_improvement_name(production.value),

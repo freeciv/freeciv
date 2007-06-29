@@ -199,16 +199,16 @@ static void count_my_units(struct player *pplayer)
       break;
     }
 
-    if (unit_flag(punit, F_TRIREME)) {
+    if (unit_has_type_flag(punit, F_TRIREME)) {
       ai->stats.units.triremes++;
     }
-    if (unit_flag(punit, F_MISSILE)) {
+    if (unit_has_type_flag(punit, F_MISSILE)) {
       ai->stats.units.missiles++;
     }
-    if (unit_flag(punit, F_PARATROOPERS)) {
+    if (unit_has_type_flag(punit, F_PARATROOPERS)) {
       ai->stats.units.paratroopers++;
     }
-    if (can_upgrade_unittype(pplayer, punit->type) >= 0) {
+    if (can_upgrade_unittype(pplayer, unit_type(punit)) >= 0) {
       ai->stats.units.upgradeable++;
     }
   } unit_list_iterate_end;
@@ -259,7 +259,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     } city_list_iterate_end;
 
     unit_list_iterate(aplayer->units, punit) {
-      if (unit_flag(punit, F_IGWALL)) {
+      if (unit_has_type_flag(punit, F_IGWALL)) {
         ai->threats.igwall = TRUE;
       }
 
@@ -296,13 +296,13 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If our enemy builds missiles, worry about missile defence. */
-      if (unit_flag(punit, F_MISSILE)
+      if (unit_has_type_flag(punit, F_MISSILE)
           && unit_type(punit)->attack_strength > 1) {
         ai->threats.missile = TRUE;
       }
 
       /* If he builds nukes, worry a lot. */
-      if (unit_flag(punit, F_NUCLEAR)) {
+      if (unit_has_type_flag(punit, F_NUCLEAR)) {
         danger_of_nukes = TRUE;
       }
     } unit_list_iterate_end;
@@ -371,10 +371,10 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = punit->tile;
 
-    if (!is_ocean(ptile->terrain) && unit_flag(punit, F_SETTLERS)) {
+    if (!is_ocean(ptile->terrain) && unit_has_type_flag(punit, F_SETTLERS)) {
       ai->stats.workers[(int)tile_get_continent(punit->tile)]++;
     }
-    if (unit_flag(punit, F_DIPLOMAT) && punit->ai.ai_role == AIUNIT_ATTACK) {
+    if (unit_has_type_flag(punit, F_DIPLOMAT) && punit->ai.ai_role == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
       struct city *pcity = tile_get_city(punit->goto_tile);
 

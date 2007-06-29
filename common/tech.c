@@ -323,7 +323,7 @@ Tech_type_id find_tech_by_translated_name(const char *s)
 Tech_type_id find_tech_by_rule_name(const char *s)
 {
   tech_type_iterate(i) {
-    if (mystrcasecmp(advances[i].name_rule, s) == 0) {
+    if (0 == mystrcasecmp(advances[i].name_rule, s)) {
       return i;
     }
   } tech_type_iterate_end;

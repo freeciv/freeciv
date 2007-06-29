@@ -94,7 +94,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   }
 
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
-  if (!unit_flag(punit, F_FIGHTER) && is_air_unit(pdefender)
+  if (!unit_has_type_flag(punit, F_FIGHTER) && is_air_unit(pdefender)
       && !(pcity || tile_has_special(dest_tile, S_AIRBASE))) {
     return FALSE;
   }
@@ -102,7 +102,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   /* 3. Can't attack with ground unit from ocean, except for marines */
   if (is_ocean(fromtile)
       && is_ground_unit(punit)
-      && !unit_flag(punit, F_MARINES)) {
+      && !unit_has_type_flag(punit, F_MARINES)) {
     return FALSE;
   }
 
@@ -112,7 +112,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
   }
 
   /* 5. Shore bombardement can be done by certain units only */
-  if (unit_flag(punit, F_NO_LAND_ATTACK) && !is_ocean(totile)) {
+  if (unit_has_type_flag(punit, F_NO_LAND_ATTACK) && !is_ocean(totile)) {
     return FALSE;
   }
 
@@ -254,19 +254,19 @@ void get_modified_firepower(const struct unit *attacker,
   *def_fp = unit_type(defender)->firepower;
 
   /* Check CityBuster flag */
-  if (unit_flag(attacker, F_CITYBUSTER) && pcity) {
+  if (unit_has_type_flag(attacker, F_CITYBUSTER) && pcity) {
     *att_fp *= 2;
   }
 
-  if (unit_flag(attacker, F_BADWALLATTACKER)
-      && get_unittype_bonus(defender->owner, defender->tile, attacker->type,
+  if (unit_has_type_flag(attacker, F_BADWALLATTACKER)
+      && get_unittype_bonus(defender->owner, defender->tile, unit_type(attacker),
 			    EFT_DEFEND_BONUS) > 0) {
     *att_fp = 1;
   }
 
   /* pearl harbour - defender's firepower is reduced to one, 
    *                 attacker's is multiplied by two         */
-  if (unit_flag(defender, F_BADCITYDEFENDER)
+  if (unit_has_type_flag(defender, F_BADCITYDEFENDER)
       && tile_get_city(defender->tile)) {
     *att_fp *= 2;
     *def_fp = 1;
@@ -276,7 +276,7 @@ void get_modified_firepower(const struct unit *attacker,
    * When attacked by fighters, helicopters have their firepower
    * reduced to 1.
    */
-  if (is_heli_unit(defender) && unit_flag(attacker, F_FIGHTER)) {
+  if (is_heli_unit(defender) && unit_has_type_flag(attacker, F_FIGHTER)) {
     *def_fp = 1;
   }
 
@@ -315,7 +315,7 @@ double unit_win_chance(const struct unit *attacker,
 **************************************************************************/
 static bool unit_ignores_citywalls(const struct unit *punit)
 {
-  return (unit_flag(punit, F_IGWALL));
+  return (unit_has_type_flag(punit, F_IGWALL));
 }
 
 /**************************************************************************
@@ -360,7 +360,7 @@ struct city *sdi_try_defend(const struct player *owner,
 **************************************************************************/
 int get_attack_power(const struct unit *punit)
 {
-  return base_get_attack_power(punit->type, punit->veteran,
+  return base_get_attack_power(unit_type(punit), punit->veteran,
 			       punit->moves_left);
 }
 
@@ -442,24 +442,24 @@ static int defense_multiplication(const struct unit_type *att_type,
   if (att_type) {
     CHECK_UNIT_TYPE(att_type);
 
-    if (unit_type_flag(def_type, F_PIKEMEN)
-	&& unit_type_flag(att_type, F_HORSE)) {
+    if (utype_has_flag(def_type, F_PIKEMEN)
+	&& utype_has_flag(att_type, F_HORSE)) {
       defensepower *= 2;
     }
 
-    if (unit_type_flag(def_type, F_AEGIS) &&
+    if (utype_has_flag(def_type, F_AEGIS) &&
 	(is_air_unittype(att_type) || is_heli_unittype(att_type))) {
       defensepower *= 5;
     }
 
-    if (!unit_type_flag(att_type, F_IGWALL)) {
+    if (!utype_has_flag(att_type, F_IGWALL)) {
       /* This applies even if pcity is NULL. */
       mod = 100 + get_unittype_bonus(def_player, ptile,
 				     att_type, EFT_DEFEND_BONUS);
       defensepower = MAX(0, defensepower * mod / 100);
     }
 
-    if (unit_type_flag(att_type, F_FIGHTER) && is_heli_unittype(def_type)) {
+    if (utype_has_flag(att_type, F_FIGHTER) && is_heli_unittype(def_type)) {
       defensepower /= 2;
     }
   }
@@ -515,7 +515,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
 int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender)
 {
-  return defense_multiplication(attacker->type, defender->type,
+  return defense_multiplication(unit_type(attacker), unit_type(defender),
 				defender->owner,
 				defender->tile,
 				get_defense_power(defender),
@@ -568,7 +568,7 @@ struct unit *get_defender(const struct unit *attacker,
      * complicated and is now handled elsewhere. */
     if (unit_can_defend_here(defender)) {
       bool change = FALSE;
-      int build_cost = unit_build_shield_cost(defender->type);
+      int build_cost = unit_build_shield_cost(unit_type(defender));
       int defense_rating = get_defense_rating(attacker, defender);
       /* This will make units roughly evenly good defenders look alike. */
       int unit_def 
@@ -601,9 +601,12 @@ struct unit *get_defender(const struct unit *attacker,
     struct unit *punit = unit_list_get(ptile->units, 0);
 
     freelog(LOG_ERROR, "get_defender bug: %s's %s vs %s's %s (total %d"
-            " units) on \"%s\" at (%d,%d). ", unit_owner(attacker)->name,
-            unit_type(attacker)->name, unit_owner(punit)->name,
-            unit_type(punit)->name, unit_list_size(ptile->units), 
+            " units) on \"%s\" at (%d,%d). ",
+            unit_owner(attacker)->name,
+            unit_rule_name(attacker),
+            unit_owner(punit)->name,
+            unit_rule_name(punit),
+            unit_list_size(ptile->units), 
             ptile->terrain->name_rule, ptile->x, ptile->y);
   }
 
@@ -623,7 +626,7 @@ struct unit *get_attacker(const struct unit *defender,
   int bestvalue = -1, unit_a, best_cost = 0;
 
   unit_list_iterate(ptile->units, attacker) {
-    int build_cost = unit_build_shield_cost(attacker->type);
+    int build_cost = unit_build_shield_cost(unit_type(attacker));
 
     if (pplayers_allied(unit_owner(defender), unit_owner(attacker))) {
       return NULL;

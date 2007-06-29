@@ -80,7 +80,7 @@ struct unit_class unit_classes[] = {
   This function returns NULL for invalid unit pointers (some callers
   rely on this).
 **************************************************************************/
-struct unit_type *get_unit_type(Unit_type_id id)
+struct unit_type *utype_by_number(const Unit_type_id id)
 {
   if (id < 0 || id > game.control.num_unit_types) {
     return NULL;
@@ -93,7 +93,7 @@ struct unit_type *get_unit_type(Unit_type_id id)
 **************************************************************************/
 struct unit_type *unit_type(const struct unit *punit)
 {
-  return punit->type;
+  return punit->utype;
 }
 
 
@@ -126,9 +126,9 @@ int utype_happy_cost(const struct unit_type *ut,
 }
 
 /**************************************************************************
-  Return whether the given unit type (by ID) has the flag.
+  Return whether the given unit type has the flag.
 **************************************************************************/
-bool unit_type_flag(const struct unit_type *punittype, int flag)
+bool utype_has_flag(const struct unit_type *punittype, int flag)
 {
   assert(flag>=0 && flag<F_LAST);
   return BV_ISSET(punittype->flags, flag);
@@ -137,19 +137,27 @@ bool unit_type_flag(const struct unit_type *punittype, int flag)
 /**************************************************************************
   Return whether the unit has the given flag.
 **************************************************************************/
-bool unit_flag(const struct unit *punit, enum unit_flag_id flag)
+bool unit_has_type_flag(const struct unit *punit, enum unit_flag_id flag)
 {
-  return unit_type_flag(punit->type, flag);
+  return utype_has_flag(unit_type(punit), flag);
 }
 
 /**************************************************************************
-  Return whether the given unit type (by ID) has the role.  Roles are like
+  Return whether the given unit type has the role.  Roles are like
   flags but have no meaning except to the AI.
 **************************************************************************/
-bool unit_has_role(const struct unit_type *punittype, int role)
+bool utype_has_role(const struct unit_type *punittype, int role)
 {
   assert(role>=L_FIRST && role<L_LAST);
   return BV_ISSET(punittype->roles, role - L_FIRST);
+}
+
+/**************************************************************************
+  Return whether the unit has the given role.
+**************************************************************************/
+bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
+{
+  return utype_has_role(unit_type(punit), role);
 }
 
 /****************************************************************************
@@ -197,38 +205,75 @@ int unit_pop_value(const struct unit_type *punittype)
 /**************************************************************************
   Return the (translated) name of the unit type.
 **************************************************************************/
-const char *unit_name(const struct unit_type *punittype)
+const char *utype_name_translation(struct unit_type *punittype)
 {
-  return (punittype->name);
+  if (NULL == punittype->name_translated) {
+    /* delayed (unified) translation */
+    punittype->name_translated = ('\0' == punittype->name_rule[0])
+			   ? punittype->name_rule : Q_(punittype->name_rule);
+  }
+  return punittype->name_translated;
+}
+
+/**************************************************************************
+  Return the (translated) name of the unit.
+**************************************************************************/
+const char *unit_name_translation(struct unit *punit)
+{
+  return utype_name_translation(unit_type(punit));
 }
 
 /**************************************************************************
   Return the original (untranslated) name of the unit type.
 **************************************************************************/
-const char *unit_name_orig(const struct unit_type *punittype)
+const char *utype_rule_name(const struct unit_type *punittype)
 {
-  return punittype->name_orig;
+  return punittype->name_rule;
+}
+
+/**************************************************************************
+  Return the original (untranslated) name of the unit.
+**************************************************************************/
+const char *unit_rule_name(const struct unit *punit)
+{
+  return utype_rule_name(unit_type(punit));
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-const char *get_unit_name(const struct unit_type *punittype)
+const char *utype_values_string(const struct unit_type *punittype)
 {
   static char buffer[256];
 
   if (punittype->fuel > 0) {
     my_snprintf(buffer, sizeof(buffer),
-		"%s [%d/%d/%d(%d)]", punittype->name,
+		"%d/%d/%d(%d)",
 		punittype->attack_strength,
 		punittype->defense_strength,
 		punittype->move_rate / 3,
 		punittype->move_rate / 3 * punittype->fuel);
   } else {
     my_snprintf(buffer, sizeof(buffer),
-		"%s [%d/%d/%d]", punittype->name, punittype->attack_strength,
-		punittype->defense_strength, punittype->move_rate / 3);
+		"%d/%d/%d",
+		punittype->attack_strength,
+		punittype->defense_strength,
+		punittype->move_rate / 3);
   }
+  return buffer;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+const char *utype_values_translation(struct unit_type *punittype)
+{
+  static char buffer[256];
+
+  my_snprintf(buffer, sizeof(buffer),
+              "%s [%s]",
+              utype_name_translation(punittype),
+              utype_values_string(punittype));
   return buffer;
 }
 
@@ -249,12 +294,12 @@ const char *unit_class_name(const struct unit_class *pclass)
  TODO: if there are more than 4 units with this flag return
        a fallback string (e.g. first unit name + "and similar units"
 **************************************************************************/
-const char *get_units_with_flag_string(int flag)
+const char *role_units_translations(int flag)
 {
   int count = num_role_units(flag);
 
   if (count == 1) {
-    return mystrdup(unit_name(get_role_unit(flag, 0)));
+    return mystrdup(utype_name_translation(get_role_unit(flag, 0)));
   }
 
   if (count > 0) {
@@ -266,7 +311,7 @@ const char *get_units_with_flag_string(int flag)
 
     while ((count--) > 0) {
       struct unit_type *u = get_role_unit(flag, count);
-      const char *unitname = unit_name(u);
+      const char *unitname = utype_name_translation(u);
 
       /* there should be something like astr_append() */
       astr_minsize(&astr, astr.n + strlen(unitname));
@@ -331,11 +376,10 @@ int unit_upgrade_price(const struct player *pplayer,
   Returns the unit type that has the given (translated) name.
   Returns NULL if none match.
 **************************************************************************/
-struct unit_type *find_unit_type_by_name(const char *name)
+struct unit_type *find_unit_type_by_translated_name(const char *name)
 {
-  /* Does a linear search of unit_types[].name */
   unit_type_iterate(punittype) {
-    if (strcmp(punittype->name, name) == 0) {
+    if (0 == strcmp(utype_name_translation(punittype), name) == 0) {
       return punittype;
     }
   } unit_type_iterate_end;
@@ -347,11 +391,10 @@ struct unit_type *find_unit_type_by_name(const char *name)
   Returns the unit type that has the given original (untranslated) name.
   Returns NULL if none match.
 **************************************************************************/
-struct unit_type *find_unit_type_by_name_orig(const char *name_orig)
+struct unit_type *find_unit_type_by_rule_name(const char *name)
 {
-  /* Does a linear search of unit_types[].name_orig. */
   unit_type_iterate(punittype) {
-    if (mystrcasecmp(punittype->name_orig, name_orig) == 0) {
+    if (0 == mystrcasecmp(utype_rule_name(punittype), name)) {
       return punittype;
     }
   } unit_type_iterate_end;
@@ -361,7 +404,7 @@ struct unit_type *find_unit_type_by_name_orig(const char *name_orig)
 
 /**************************************************************************
   Convert Unit_Class_id names to enum; case insensitive;
-  returns UCL_LAST if can't match.
+  returns NULL if can't match.
 **************************************************************************/
 struct unit_class *unit_class_from_str(const char *s)
 {
@@ -432,11 +475,11 @@ bool can_player_build_unit_direct(const struct player *p,
   Impr_type_id impr_req;
 
   CHECK_UNIT_TYPE(punittype);
-  if (unit_type_flag(punittype, F_NUCLEAR)
+  if (utype_has_flag(punittype, F_NUCLEAR)
       && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0) {
     return FALSE;
   }
-  if (unit_type_flag(punittype, F_NOBUILD)) {
+  if (utype_has_flag(punittype, F_NOBUILD)) {
     return FALSE;
   }
   if (punittype->gov_requirement
@@ -446,12 +489,12 @@ bool can_player_build_unit_direct(const struct player *p,
   if (get_invention(p,punittype->tech_requirement) != TECH_KNOWN) {
     return FALSE;
   }
-  if (unit_type_flag(punittype, F_UNIQUE)) {
+  if (utype_has_flag(punittype, F_UNIQUE)) {
     /* FIXME: This could be slow if we have lots of units. We could
      * consider keeping an array of unittypes updated with this info 
      * instead. */
     unit_list_iterate(p->units, punit) {
-      if (punit->type == punittype) { 
+      if (unit_type(punit) == punittype) { 
         return FALSE;
       }
     } unit_list_iterate_end;
@@ -471,7 +514,7 @@ bool can_player_build_unit_direct(const struct player *p,
 
 /**************************************************************************
 Whether player can build given unit somewhere;
-returns 0 if unit is obsolete.
+returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_build_unit(const struct player *p,
 			   const struct unit_type *punittype)
@@ -489,14 +532,14 @@ bool can_player_build_unit(const struct player *p,
 
 /**************************************************************************
 Whether player can _eventually_ build given unit somewhere -- ie,
-returns 1 if unit is available with current tech OR will be available
-with future tech.  returns 0 if unit is obsolete.
+returns TRUE if unit is available with current tech OR will be available
+with future tech. Returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_eventually_build_unit(const struct player *p,
 				      const struct unit_type *punittype)
 {
   CHECK_UNIT_TYPE(punittype);
-  if (unit_type_flag(punittype, F_NOBUILD)) {
+  if (utype_has_flag(punittype, F_NOBUILD)) {
     return FALSE;
   }
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
@@ -564,10 +607,10 @@ void role_unit_precalcs(void)
   }
 
   for(i=0; i<F_LAST; i++) {
-    precalc_one(i, unit_type_flag);
+    precalc_one(i, utype_has_flag);
   }
   for(i=L_FIRST; i<L_LAST; i++) {
-    precalc_one(i, unit_has_role);
+    precalc_one(i, utype_has_role);
   }
   first_init = FALSE;
 }
@@ -666,7 +709,7 @@ void unit_types_init(void)
 {
   int i;
 
-  /* Can't use unit_type_iterate or get_unit_type here because
+  /* Can't use unit_type_iterate or utype_by_number here because
    * num_unit_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
     unit_types[i].index = i;
@@ -693,10 +736,9 @@ void unit_types_free(void)
 }
 
 /****************************************************************************
-  Returns unit class structure for an ID value.  Note the possible confusion
-  with get_unit_class.
+  Returns unit class pointer for an ID value.
 ****************************************************************************/
-struct unit_class *unit_class_get_by_id(int id)
+struct unit_class *uclass_by_number(const int id)
 {
   if (id < 0 || id >= UCL_LAST) {
     return NULL;
@@ -705,12 +747,18 @@ struct unit_class *unit_class_get_by_id(int id)
 }
 
 /***************************************************************
- Returns unit class structure
-
-  FIXME: this function is misnamed and will cause confusion with
-  unit_class_get_by_id.
+ Returns unit class pointer for a unit type.
 ***************************************************************/
-struct unit_class *get_unit_class(const struct unit_type *punittype)
+struct unit_class *utype_class(const struct unit_type *punittype)
 {
-  return punittype->class;
+  assert(punittype->uclass);
+  return punittype->uclass;
+}
+
+/***************************************************************
+ Returns unit class pointer for a unit.
+***************************************************************/
+struct unit_class *unit_class(const struct unit *punit)
+{
+  return utype_class(unit_type(punit));
 }

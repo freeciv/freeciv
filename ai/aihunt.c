@@ -83,21 +83,21 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
               * ut->move_rate
               + ut->defense_strength) / MAX(UNITTYPE_COSTS(ut), 1);
 
-    if (unit_type_flag(ut, F_CARRIER)
-        || unit_type_flag(ut, F_MISSILE_CARRIER)) {
+    if (utype_has_flag(ut, F_CARRIER)
+        || utype_has_flag(ut, F_MISSILE_CARRIER)) {
       desire += desire / 6;
     }
-    if (unit_type_flag(ut, F_IGTER)) {
+    if (utype_has_flag(ut, F_IGTER)) {
       desire += desire / 2;
     }
-    if (unit_type_flag(ut, F_PARTIAL_INVIS)) {
+    if (utype_has_flag(ut, F_PARTIAL_INVIS)) {
       desire += desire / 4;
     }
-    if (unit_type_flag(ut, F_NO_LAND_ATTACK)) {
+    if (utype_has_flag(ut, F_NO_LAND_ATTACK)) {
       desire -= desire / 4; /* less flexibility */
     }
     /* Causes continual unhappiness */
-    if (unit_type_flag(ut, F_FIELDUNIT)) {
+    if (utype_has_flag(ut, F_FIELDUNIT)) {
       desire /= 2;
     }
 
@@ -127,8 +127,8 @@ static void ai_hunter_missile_want(struct player *pplayer,
 
   unit_list_iterate(pcity->tile->units, punit) {
     if (ai_hunter_qualify(pplayer, punit)
-        && (unit_flag(punit, F_MISSILE_CARRIER)
-            || unit_flag(punit, F_CARRIER))) {
+        && (unit_has_type_flag(punit, F_MISSILE_CARRIER)
+            || unit_has_type_flag(punit, F_CARRIER))) {
       /* There is a potential hunter in our city which we can equip 
        * with a missile. Do it. */
       have_hunter = TRUE;
@@ -156,7 +156,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
               * ut->move_rate) / UNITTYPE_COSTS(ut) + 1;
 
     /* Causes continual unhappiness */
-    if (unit_type_flag(ut, F_FIELDUNIT)) {
+    if (utype_has_flag(ut, F_FIELDUNIT)) {
       desire /= 2;
     }
 
@@ -244,7 +244,7 @@ bool ai_hunter_qualify(struct player *pplayer, struct unit *punit)
   if (is_barbarian(pplayer) || punit->owner != pplayer) {
     return FALSE;
   }
-  if (unit_has_role(punit->type, L_HUNTER)) {
+  if (unit_has_type_role(punit, L_HUNTER)) {
     return TRUE;
   }
   return FALSE;
@@ -266,7 +266,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
   unit_list_iterate(punit->tile->units, missile) {
     struct unit *sucker = NULL;
 
-    if (missile->owner == pplayer && unit_flag(missile, F_MISSILE)) {
+    if (missile->owner == pplayer && unit_has_type_flag(missile, F_MISSILE)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
       map = pf_create_map(&parameter);
@@ -338,11 +338,11 @@ static void ai_hunter_juiciness(struct player *pplayer, struct unit *punit,
 
   unit_list_iterate(target->tile->units, sucker) {
     *stackthreat += ATTACK_POWER(sucker);
-    if (unit_flag(sucker, F_GAMELOSS)) {
+    if (unit_has_type_flag(sucker, F_GAMELOSS)) {
       *stackcost += 1000;
       *stackthreat += 5000;
     }
-    if (unit_flag(sucker, F_DIPLOMAT)) {
+    if (unit_has_type_flag(sucker, F_DIPLOMAT)) {
       *stackthreat += 500; /* extra threatening */
     }
     *stackcost += unit_build_shield_cost(unit_type(sucker));
@@ -408,9 +408,9 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
          * of each turn. */
         continue;
       }
-      if (!unit_flag(target, F_DIPLOMAT)
+      if (!unit_has_type_flag(target, F_DIPLOMAT)
           && get_transporter_capacity(target) == 0
-          && !unit_flag(target, F_GAMELOSS)) {
+          && !unit_has_type_flag(target, F_GAMELOSS)) {
         /* Won't hunt this one. */
         continue;
       }
@@ -424,14 +424,15 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
       UNIT_LOG(LOGLEVEL_HUNT, punit, "considering chasing %s(%d, %d) id %d "
                "dist1 %d dist2 %d",
-	       unit_type(target)->name, TILE_XY(target->tile),
+	       unit_rule_name(target),
+	       TILE_XY(target->tile),
                target->id, dist1, dist2);
 
       /* We can't chase if we aren't faster or on intercept vector */
       if (unit_type(punit)->move_rate < unit_type(target)->move_rate
           && dist1 >= dist2) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "giving up racing %s (%d, %d)->(%d, %d)",
-                 unit_type(target)->name,
+                 unit_rule_name(target),
 		 target->ai.prev_pos ? (*target->ai.prev_pos)->x : -1,
                  target->ai.prev_pos ? (*target->ai.prev_pos)->y : -1,
                  TILE_XY(target->tile));
@@ -463,8 +464,12 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
 
       UNIT_LOG(LOGLEVEL_HUNT, punit, "hunting %s's %s(%d, %d) "
                "id %d with want %d, dist1 %d, dist2 %d", 
-               unit_owner(target)->name, unit_type(target)->name, 
-               TILE_XY(target->tile), target->id, stackthreat, dist1,
+               unit_owner(target)->name,
+               unit_rule_name(target), 
+               TILE_XY(target->tile),
+               target->id,
+               stackthreat,
+               dist1,
                dist2);
       /* Ok, now we FINALLY have a target worth destroying! */
       punit->ai.target = target->id;

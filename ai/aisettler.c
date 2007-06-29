@@ -402,7 +402,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
     return;
   }
 
-  if (pcity && (pcity->size + unit_pop_value(punit->type)
+  if (pcity && (pcity->size + unit_pop_value(unit_type(punit))
 		> game.info.add_to_size_limit)) {
     /* Can't exceed population limit. */
     return;
@@ -597,7 +597,8 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
 
           pplayer->ai.tech_want[tech_req] += FERRY_TECH_WANT;
           TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to ferry settler",
-                   FERRY_TECH_WANT, unit_name(boattype));
+                   FERRY_TECH_WANT,
+                   utype_rule_name(boattype));
         }
         return;
       }

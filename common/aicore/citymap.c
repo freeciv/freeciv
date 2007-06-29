@@ -78,7 +78,7 @@ void citymap_turn_init(struct player *pplayer)
     } city_list_iterate_end;
   } players_iterate_end;
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit, F_CITIES)
+    if (unit_has_type_flag(punit, F_CITIES)
         && punit->ai.ai_role == AIUNIT_BUILD_CITY) {
       map_city_radius_iterate(punit->goto_tile, ptile) {
         if (citymap[ptile->index] >= 0) {

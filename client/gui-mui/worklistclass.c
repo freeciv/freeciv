@@ -115,28 +115,6 @@ char *get_improvement_info(int id, struct city *pcity)
   }
   return "";
 }
-
-/****************************************************************
- Returns a information string about a building
-*****************************************************************/
-char *get_unit_info(int id)
-{
-  static char info[64];
-  struct unit_type *ptype = get_unit_type(id);
-
-  if (ptype->fuel > 0)
-  {
-    my_snprintf(info, sizeof(info), "%d/%d/%d(%d)", ptype->attack_strength,
-		ptype->defense_strength,
-		ptype->move_rate / 3, (ptype->move_rate / 3) * ptype->fuel);
-
-  } else
-  {
-    my_snprintf(info, sizeof(info), "%d/%d/%d", ptype->attack_strength,
-		ptype->defense_strength, ptype->move_rate / 3);
-  }
-  return info;
-}
 #endif
 
 /****************************************************************
@@ -184,10 +162,10 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 
       case  1:
 	    /* id is unit */
-            mystrlcpy(buf,get_unit_info(id),64);
-	    my_snprintf(buf2, 64, "%d", unit_build_shield_cost(id));
+            mystrlcpy(buf,utype_values_string(id),64);
+	    my_snprintf(buf2, 64, "(%d)", unit_build_shield_cost(id));
 
-	    *array++ = unit_name(id);
+	    *array++ = utype_name_translation(id);
 	    *array++ = buf;
 	    *array = buf2;
 	    break;

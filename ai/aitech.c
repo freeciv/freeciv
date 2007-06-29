@@ -300,7 +300,8 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
     }
     pplayer->ai.tech_want[best_tech] += want;
     TECH_LOG(LOG_DEBUG, pplayer, best_tech, "+ %d for %s by role",
-             want, unit_name(best_unit));
+             want,
+             utype_rule_name(best_unit));
   }
   return build_unit;
 }

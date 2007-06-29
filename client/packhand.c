@@ -84,7 +84,7 @@ static int reports_thaw_requests_size = 0;
 static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
   struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
-					   get_unit_type(packet->type),
+					   utype_by_number(packet->type),
 					   packet->veteran);
 
   /* Owner, veteran, and type fields are already filled in by
@@ -145,7 +145,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
 static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 {
   struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
-					   get_unit_type(packet->type),
+					   utype_by_number(packet->type),
 					   FALSE);
 
   /* Owner and type fields are already filled in by create_unit_virtual. */
@@ -164,9 +164,10 @@ static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
   return punit;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  After we send a join packet to the server we receive a reply.  This
+  function handles the reply.
+****************************************************************************/
 void handle_server_join_reply(bool you_can_join, char *message,
                               char *capability, char *challenge_file,
                               int conn_id)
@@ -217,9 +218,10 @@ void handle_server_join_reply(bool you_can_join, char *message,
   append_output_window(msg);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  Handles a remove-city packet, used by the server to tell us any time a
+  city is no longer there.
+****************************************************************************/
 void handle_city_remove(int city_id)
 {
   struct city *pcity = find_city_by_id(city_id);
@@ -240,7 +242,8 @@ void handle_city_remove(int city_id)
 }
 
 /**************************************************************************
-...
+  Handle a remove-unit packet, sent by the server to tell us any time a
+  unit is no longer there.
 **************************************************************************/
 void handle_unit_remove(int unit_id)
 {
@@ -268,17 +271,20 @@ void handle_unit_remove(int unit_id)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  The tile (x,y) has been nuked!
+****************************************************************************/
 void handle_nuke_tile_info(int x, int y)
 {
   put_nuke_mushroom_pixmaps(map_pos_to_tile(x, y));
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  A combat packet.  The server tells us the attacker and defender as well
+  as both of their hitpoints after the combat is over (in most combat, one
+  unit always dies and their HP drops to zero).  If make_winner_veteran is
+  set then the surviving unit becomes veteran.
+****************************************************************************/
 void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 			     int attacker_hp, int defender_hp,
 			     bool make_winner_veteran)
@@ -346,9 +352,10 @@ static void update_improvement_from_packet(struct city *pcity,
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  Handles a game-state packet from the server.  The server sends these to
+  us regularly to inform the client of state changes.
+****************************************************************************/
 void handle_game_state(int value)
 {
   bool changed = (get_client_state() != value);
@@ -387,9 +394,10 @@ void handle_game_state(int value)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  A city-info packet contains all information about a city.  If we receive
+  this packet then we know everything about the city internals.
+****************************************************************************/
 void handle_city_info(struct packet_city_info *packet)
 {
   int i;
@@ -604,9 +612,11 @@ void handle_city_info(struct packet_city_info *packet)
   }
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
+/****************************************************************************
+  A helper function for handling city-info and city-short-info packets.
+  Naturally, both require many of the same operations to be done on the
+  data.
+****************************************************************************/
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate)
 {
@@ -670,9 +680,11 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  A city-short-info packet is sent to tell us about any cities we can't see
+  the internals of.  Most of the time this includes any cities owned by
+  someone else.
+****************************************************************************/
 void handle_city_short_info(struct packet_city_short_info *packet)
 {
   struct city *pcity;
@@ -1127,11 +1139,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       repaint_unit = TRUE;
     }
 
-    if (punit->type != packet_unit->type) {
+    if (punit->utype != unit_type(packet_unit)) {
       /* Unit type has changed (been upgraded) */
       struct city *pcity = tile_get_city(punit->tile);
       
-      punit->type = packet_unit->type;
+      punit->utype = unit_type(packet_unit);
       repaint_unit = TRUE;
       repaint_city = TRUE;
       if (pcity && (pcity->id != punit->homecity)) {
@@ -1192,7 +1204,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	else
 	  refresh_city_dialog(pcity);
 	
-        if((unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER))
+        if((unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER))
 	   && game.player_ptr
 	   && !game.player_ptr->ai.control
 	   && punit->owner == game.player_ptr
@@ -1257,8 +1269,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
 	    get_nation_name(unit_owner(punit)->nation),
-	    unit_name(punit->type), TILE_XY(punit->tile), punit->id,
-	    punit->homecity, (pcity ? pcity->name : _("(unknown)")));
+	    unit_rule_name(punit),
+	    TILE_XY(punit->tile),
+	    punit->id,
+	    punit->homecity,
+	    (pcity ? pcity->name : "(unknown)"));
 
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
@@ -2036,9 +2051,12 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
-      freelog(LOG_ERROR, "%p %d %s at (%d,%d) %s", punit, punit->id,
-	      unit_type(punit)->name, TILE_XY(punit->tile),
-	      unit_owner(punit)->name);
+      freelog(LOG_ERROR, "%p %d %s at (%d,%d) %s",
+              punit,
+              punit->id,
+              unit_rule_name(punit),
+              TILE_XY(punit->tile),
+              unit_owner(punit)->name);
     } unit_list_iterate_end;
     assert(unit_list_size(ptile->units) == 0);
     unit_list_unlink_all(ptile->units);
@@ -2128,10 +2146,10 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
 	    p->id);
     return;
   }
-  u = get_unit_type(p->id);
+  u = utype_by_number(p->id);
 
-  sz_strlcpy(u->name_orig, p->name);
-  u->name = Q_(u->name_orig); /* See translate_data_names */
+  sz_strlcpy(u->name_rule, p->name);
+  u->name_translated = NULL;	/* unittype.c utype_name_translation */
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
   sz_strlcpy(u->sound_move, p->sound_move);
@@ -2140,7 +2158,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   sz_strlcpy(u->sound_fight_alt, p->sound_fight_alt);
 
   u->move_type          = p->move_type;
-  u->class = unit_class_get_by_id(p->unit_class_id);
+  u->uclass             = uclass_by_number(p->unit_class_id);
   u->build_cost         = p->build_cost;
   u->pop_cost           = p->pop_cost;
   u->attack_strength    = p->attack_strength;
@@ -2153,7 +2171,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
   u->firepower          = p->firepower;
-  u->obsoleted_by = get_unit_type(p->obsoleted_by);
+  u->obsoleted_by = utype_by_number(p->obsoleted_by);
   u->fuel               = p->fuel;
   u->flags              = p->flags;
   u->roles              = p->roles;

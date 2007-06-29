@@ -341,7 +341,7 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
     const char *name;
 
     if (pcity->production.is_unit) {
-      name = get_unit_type(pcity->production.value)->name;
+      name = utype_name_translation(utype_by_number(pcity->production.value));
     } else {
       name = get_impr_name_ex(pcity, pcity->production.value);
     }
