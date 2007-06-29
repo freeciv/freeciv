@@ -78,7 +78,7 @@ struct Nation_Type {
 };
 
 struct Building_Type {
-  const char *name_orig @ name;
+  const char *name_rule @ name;
 
   int build_cost;
 

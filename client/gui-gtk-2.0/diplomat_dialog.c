@@ -429,7 +429,7 @@ static void create_improvements_list(struct player *pplayer,
   gtk_list_store_set(store, &it, 0, _("City Production"), 1, -1, -1);
 
   built_impr_iterate(pcity, i) {
-    if (get_improvement_type(i)->sabotage > 0) {
+    if (improvement_by_number(i)->sabotage > 0) {
       gtk_list_store_append(store, &it);
       gtk_list_store_set(store, &it, 0, get_impr_name_ex(pcity, i), 1, i, -1);
     }  

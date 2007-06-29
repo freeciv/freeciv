@@ -391,7 +391,7 @@ HOOKPROTONH(imprv_display, void, char **array, APTR which)
   int imprv = ((LONG) which)-100;
   if (imprv == -1) *array = _("City Production");
   else if (imprv == B_LAST) *array = _("At Spy's Discretion");
-  else *array = get_improvement_name(imprv);
+  else *array = improvement_name_translation(imprv);
 }
 
 
@@ -431,7 +431,7 @@ static void create_improvements_list(struct city *pcity)
 
     DoMethod(listview, MUIM_NList_InsertSingle, 100-1,MUIV_NList_Insert_Bottom);
     built_impr_iterate(pcity, i) {
-      if (get_improvement_type(i)->sabotage > 0) {
+      if (improvement_by_number(i)->sabotage > 0) {
       {
         DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
         any_improvements = TRUE;

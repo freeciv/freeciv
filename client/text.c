@@ -176,7 +176,7 @@ const char *popup_info_text(struct tile *ptile)
 	  astr_add(&str, _(" with "));
 	}
 
-	astr_add(&str, get_improvement_name(i));
+	astr_add(&str, improvement_name_translation(i));
 	has_improvements = TRUE;
       }
     } impr_type_iterate_end;

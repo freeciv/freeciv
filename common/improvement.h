@@ -57,8 +57,8 @@ BV_DEFINE(bv_imprs, B_LAST);
 struct impr_type {
   int index;  /* Index in improvement_types array */
   enum impr_genus_id genus;		/* genus; e.g. GreatWonder */
-  const char *name; /* Translated string - doesn't need freeing. */
-  char name_orig[MAX_LEN_NAME];		/* untranslated */
+  const char *name_translated;		/* string doesn't need freeing */
+  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement_vector reqs;
@@ -80,25 +80,25 @@ enum impr_genus_id impr_genus_from_str(const char *s);
 /* improvement functions */
 void improvements_init(void);
 void improvements_free(void);
-struct impr_type *get_improvement_type(Impr_type_id id);
+
+struct impr_type *improvement_by_number(const Impr_type_id id);
 bool improvement_exists(Impr_type_id id);
 
 int impr_build_shield_cost(Impr_type_id id);
 int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock);
 int impr_sell_gold(Impr_type_id id);
 
-bool is_wonder(Impr_type_id id);
-const char *get_improvement_name(Impr_type_id id);
-const char *get_improvement_name_orig(Impr_type_id id);
+const char *improvement_name_translation(Impr_type_id id);
+const char *improvement_rule_name(Impr_type_id id);
 
-bool impr_flag(Impr_type_id id, enum impr_flag_id flag);
+bool improvement_has_flag(Impr_type_id id, enum impr_flag_id flag);
 enum impr_flag_id impr_flag_from_str(const char *s);
 
 bool is_improvement_visible(Impr_type_id id);
-
 bool improvement_obsolete(const struct player *pplayer, Impr_type_id id);
-Impr_type_id find_improvement_by_name(const char *s);
-Impr_type_id find_improvement_by_name_orig(const char *s);
+
+Impr_type_id find_improvement_by_rule_name(const char *s);
+Impr_type_id find_improvement_by_translated_name(const char *s);
 
 /* player related improvement and unit functions */
 bool can_player_build_improvement_direct(const struct player *p,
@@ -120,6 +120,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
 
 bool is_great_wonder(Impr_type_id id);
 bool is_small_wonder(Impr_type_id id);
+bool is_wonder(Impr_type_id id);
 bool is_improvement(Impr_type_id id);
 
 struct city *find_city_from_great_wonder(Impr_type_id id);

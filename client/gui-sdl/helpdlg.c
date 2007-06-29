@@ -236,7 +236,7 @@ void popup_impr_info(Impr_type_id impr)
     impr_type_iterate(type)
     {
       pBack = SDL_DisplayFormatAlpha(pTmp);
-      copy_chars_to_string16(pStr, get_improvement_name(type));
+      copy_chars_to_string16(pStr, improvement_name_translation(type));
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       /* draw name tech text */ 
       dst.x = adj_size(40) + (pBack->w - pText->w - adj_size(40)) / 2;
@@ -313,7 +313,7 @@ void popup_impr_info(Impr_type_id impr)
     }
   }
   
-  pImpr_type = get_improvement_type(impr);
+  pImpr_type = improvement_by_number(impr);
   
   pSurf = get_building_surface(impr);
   pBuf= create_iconlabel_from_chars(
@@ -325,7 +325,7 @@ void popup_impr_info(Impr_type_id impr)
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if (!impr_flag(impr, IF_GOLD))
+  if (!improvement_has_flag(impr, IF_GOLD))
   {
     sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(impr));
     pBuf = create_iconlabel_from_chars(NULL,
@@ -458,7 +458,7 @@ void popup_impr_info(Impr_type_id impr)
   pBuf->size.y = area.y + adj_size(16);
   start_y = pBuf->size.y + pBuf->size.h + adj_size(10);
   
-  if (!impr_flag(impr, IF_GOLD))
+  if (!improvement_has_flag(impr, IF_GOLD))
   {
     pBuf = pBuf->prev;
     pBuf->size.x = start_x;
@@ -1104,12 +1104,17 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    requirement_vector_iterate(&(get_improvement_type(imp)->reqs), preq) {
+    requirement_vector_iterate(&(improvement_by_number(imp)->reqs), preq) {
       if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
         pSurf = get_building_surface(imp);
         pBuf = create_iconlabel_from_chars(
-                zoomSurface(pSurf, DEFAULT_ZOOM * ((float)36 / pSurf->w), DEFAULT_ZOOM * ((float)36 / pSurf->w), 1),
-                pWindow->dst, get_improvement_name(imp), adj_font(14),
+                zoomSurface(pSurf,
+                            DEFAULT_ZOOM * ((float)36 / pSurf->w),
+                            DEFAULT_ZOOM * ((float)36 / pSurf->w),
+                            1),
+                pWindow->dst,
+                improvement_name_translation(imp),
+                adj_font(14),
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
         if (is_wonder(imp))

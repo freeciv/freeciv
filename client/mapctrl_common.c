@@ -392,7 +392,7 @@ void clipboard_copy_production(struct tile *ptile)
 	       _("Copy %s to clipboard."),
 	       clipboard.is_unit
 	       ? utype_name_translation(utype_by_number(clipboard.value))
-	       : get_improvement_name(clipboard.value));
+	       : improvement_name_translation(clipboard.value));
 }
 
 /**************************************************************************

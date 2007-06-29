@@ -356,7 +356,7 @@ static const char *cr_entry_building(const struct city *pcity,
     concise_city_production ? "+" : _("(worklist)");
 	
   if (!pcity->production.is_unit
-      && impr_flag(pcity->production.value, IF_GOLD)) {
+      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
     my_snprintf(buf, sizeof(buf), "%s (%d)%s",
 		get_impr_name_ex(pcity, pcity->production.value),
 		MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
@@ -390,7 +390,7 @@ static const char *cr_entry_build_cost(const struct city *pcity,
   static char buf[32];
 
   if (!pcity->production.is_unit
-      && impr_flag(pcity->production.value, IF_GOLD)) {
+      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
     my_snprintf(buf, sizeof(buf), "*");
     return buf;
   }

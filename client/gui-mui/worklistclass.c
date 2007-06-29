@@ -152,7 +152,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
             mystrlcpy(buf,get_improvement_info(id,pcity),64);
 	    my_snprintf(buf2, 64, "%d", impr_build_shield_cost(id));
 
-	    *array++ = get_improvement_name(id);
+	    *array++ = improvement_name_translation(id);
 	    *array++ = buf;
 	    if (id == B_CAPITAL)
 	    {

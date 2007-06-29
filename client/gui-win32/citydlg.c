@@ -1015,10 +1015,10 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 		popup_help_dialog_typed(utype_name_translation(utype_by_number(target.value)),
 					HELP_UNIT);
 	      } else if(is_great_wonder(target.value)) {
-		popup_help_dialog_typed(get_improvement_name(target.value),
+		popup_help_dialog_typed(improvement_name_translation(target.value),
 					HELP_WONDER);
 	      } else {
-		popup_help_dialog_typed(get_improvement_name(target.value),
+		popup_help_dialog_typed(improvement_name_translation(target.value),
 					HELP_IMPROVEMENT);
 	      }                                                                     
 	    }

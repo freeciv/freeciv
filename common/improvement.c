@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -39,7 +40,7 @@ static const char *flag_names[] = {
 
 /**************************************************************************
 All the city improvements:
-Use get_improvement_type(id) to access the array.
+Use improvement_by_number(id) to access the array.
 The improvement_types array is now setup in:
    server/ruleset.c (for the server)
    client/packhand.c (for the client)
@@ -69,7 +70,7 @@ void improvements_init(void)
 {
   int i;
 
-  /* Can't use impr_type_iterate or get_improvement_type here because
+  /* Can't use impr_type_iterate or improvement_by_number here because
    * num_impr_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(improvement_types); i++) {
     struct impr_type *p = &improvement_types[i];
@@ -84,7 +85,7 @@ void improvements_init(void)
 **************************************************************************/
 static void improvement_free(Impr_type_id id)
 {
-  struct impr_type *p = get_improvement_type(id);
+  struct impr_type *p = improvement_by_number(id);
 
   free(p->helptext);
   p->helptext = NULL;
@@ -131,7 +132,7 @@ bool improvement_exists(Impr_type_id id)
   Returns the improvement type for the given index/ID.  Returns NULL for
   an out-of-range index.
 **************************************************************************/
-struct impr_type *get_improvement_type(Impr_type_id id)
+struct impr_type *improvement_by_number(const Impr_type_id id)
 {
   if (id < 0 || id >= game.control.num_impr_types) {
     return NULL;
@@ -140,19 +141,28 @@ struct impr_type *get_improvement_type(Impr_type_id id)
 }
 
 /**************************************************************************
-...
+  Return the translated name of the given improvement. 
+  You don't have to free the return pointer.
 **************************************************************************/
-const char *get_improvement_name(Impr_type_id id)
+const char *improvement_name_translation(Impr_type_id id)
 {
-  return get_improvement_type(id)->name; 
+  struct impr_type *itp = improvement_by_number(id);
+
+  if (NULL == itp->name_translated) {
+    /* delayed (unified) translation */
+    itp->name_translated = ('\0' == itp->name_rule[0])
+			   ? itp->name_rule : Q_(itp->name_rule);
+  }
+  return itp->name_translated;
 }
 
 /****************************************************************************
-  Get the original (untranslated) improvement name.
+  Return the original (untranslated) name of the improvement.
+  You don't have to free the return pointer.
 ****************************************************************************/
-const char *get_improvement_name_orig(Impr_type_id id)
+const char *improvement_rule_name(Impr_type_id id)
 {
-  return get_improvement_type(id)->name_orig; 
+  return improvement_by_number(id)->name_rule; 
 }
 
 /****************************************************************************
@@ -160,7 +170,7 @@ const char *get_improvement_name_orig(Impr_type_id id)
 ****************************************************************************/
 int impr_build_shield_cost(Impr_type_id id)
 {
-  int base = get_improvement_type(id)->build_cost;
+  int base = improvement_by_number(id)->build_cost;
 
   return MAX(base * game.info.shieldbox / 100, 1);
 }
@@ -173,7 +183,7 @@ int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock)
   int cost = 0;
   const int missing = impr_build_shield_cost(id) - shields_in_stock;
 
-  if (impr_flag(id, IF_GOLD)) {
+  if (improvement_has_flag(id, IF_GOLD)) {
     /* Can't buy capitalization. */
     return 0;
   }
@@ -208,28 +218,28 @@ bool is_wonder(Impr_type_id id)
 }
 
 /**************************************************************************
-Does a linear search of improvement_types[].name
-Returns B_LAST if none match.
+  Does a linear search of improvement_types[].name_translated
+  Returns B_LAST if none match.
 **************************************************************************/
-Impr_type_id find_improvement_by_name(const char *s)
+Impr_type_id find_improvement_by_translated_name(const char *s)
 {
   impr_type_iterate(i) {
-    if (strcmp(get_improvement_name(i), s)==0)
+    if (0 == strcmp(improvement_name_translation(i), s)) {
       return i;
+    }
   } impr_type_iterate_end;
 
   return B_LAST;
 }
 
 /****************************************************************************
-  Does a linear search of improvement_types[].name_orig to find the
-  improvement that matches the given original (untranslated) name.  Returns
-  B_LAST if none match.
+  Does a linear search of improvement_types[].name_rule
+  Returns B_LAST if none match.
 ****************************************************************************/
-Impr_type_id find_improvement_by_name_orig(const char *s)
+Impr_type_id find_improvement_by_rule_name(const char *s)
 {
   impr_type_iterate(i) {
-    if (mystrcasecmp(get_improvement_type(i)->name_orig, s) == 0) {
+    if (0 == mystrcasecmp(improvement_by_number(i)->name_rule, s)) {
       return i;
     }
   } impr_type_iterate_end;
@@ -240,10 +250,10 @@ Impr_type_id find_improvement_by_name_orig(const char *s)
 /**************************************************************************
  Return TRUE if the impr has this flag otherwise FALSE
 **************************************************************************/
-bool impr_flag(Impr_type_id id, enum impr_flag_id flag)
+bool improvement_has_flag(Impr_type_id id, enum impr_flag_id flag)
 {
   assert(flag >= 0 && flag < IF_LAST);
-  return TEST_BIT(get_improvement_type(id)->flags, flag);
+  return TEST_BIT(improvement_by_number(id)->flags, flag);
 }
 
 /**************************************************************************
@@ -269,7 +279,7 @@ enum impr_flag_id impr_flag_from_str(const char *s)
 **************************************************************************/
 bool is_improvement_visible(Impr_type_id id)
 {
-  return (is_wonder(id) || impr_flag(id, IF_VISIBLE_BY_OTHERS));
+  return (is_wonder(id) || improvement_has_flag(id, IF_VISIBLE_BY_OTHERS));
 }
 
 /**************************************************************************
@@ -277,7 +287,7 @@ bool is_improvement_visible(Impr_type_id id)
 **************************************************************************/
 bool improvement_obsolete(const struct player *pplayer, Impr_type_id id) 
 {
-  struct impr_type *impr = get_improvement_type(id);
+  struct impr_type *impr = improvement_by_number(id);
 
   if (!tech_exists(impr->obsolete_by)) {
     return FALSE;
@@ -307,7 +317,7 @@ bool can_player_build_improvement_direct(const struct player *p,
     return FALSE;
   }
 
-  impr = get_improvement_type(id);
+  impr = improvement_by_number(id);
 
   requirement_vector_iterate(&impr->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
@@ -387,7 +397,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
 
   /* Check for requirements that aren't met and that are unchanging (so
    * they can never be met). */
-  building = get_improvement_type(id);
+  building = improvement_by_number(id);
   requirement_vector_iterate(&building->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
 	&& is_req_unchanging(preq)
@@ -406,7 +416,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
 **************************************************************************/
 bool is_great_wonder(Impr_type_id id)
 {
-  return (get_improvement_type(id)->genus == IG_GREAT_WONDER);
+  return (improvement_by_number(id)->genus == IG_GREAT_WONDER);
 }
 
 /**************************************************************************
@@ -414,7 +424,7 @@ bool is_great_wonder(Impr_type_id id)
 **************************************************************************/
 bool is_small_wonder(Impr_type_id id)
 {
-  return (get_improvement_type(id)->genus == IG_SMALL_WONDER);
+  return (improvement_by_number(id)->genus == IG_SMALL_WONDER);
 }
 
 /**************************************************************************
@@ -422,7 +432,7 @@ bool is_small_wonder(Impr_type_id id)
 **************************************************************************/
 bool is_improvement(Impr_type_id id)
 {
-  return (get_improvement_type(id)->genus == IG_IMPROVEMENT);
+  return (improvement_by_number(id)->genus == IG_IMPROVEMENT);
 }
 
 /**************************************************************************

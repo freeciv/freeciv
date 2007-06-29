@@ -341,7 +341,7 @@ economy_report_dialog_update(void)
   for (i = 0; i < entries_used; i++) {
     struct improvement_entry *p = &entries[i];
 
-    my_snprintf(buf0, sizeof(buf0), "%s", get_improvement_name(p->type));
+    my_snprintf(buf0, sizeof(buf0), "%s", improvement_name_translation(p->type));
     my_snprintf(buf1, sizeof(buf1), "%5d", p->count);
     my_snprintf(buf2, sizeof(buf2), "%5d", p->cost);
     my_snprintf(buf3, sizeof(buf3), "%6d", p->total_cost);

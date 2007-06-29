@@ -300,7 +300,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 		     get_nation_name(city_owner(pcity)->nation));
       } else if(great_wonder_was_built(i)) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
-		     get_improvement_type(i)->name);
+		     improvement_name_translation(i));
       }
     }
   } impr_type_iterate_end;
@@ -312,7 +312,8 @@ void report_wonders_of_the_world(struct conn_list *dest)
 	  if (pcity->production.value == i && !pcity->production.is_unit) {
 	    cat_snprintf(buffer, sizeof(buffer),
 			 _("(building %s in %s (%s))\n"),
-			 get_improvement_type(i)->name, pcity->name,
+			 improvement_name_translation(i),
+			 pcity->name,
 			 get_nation_name(pplayer->nation));
 	  }
 	} city_list_iterate_end;

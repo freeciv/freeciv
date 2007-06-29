@@ -185,7 +185,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
     
       /* buildings */
       impr_type_iterate(impr_type) {
-        struct impr_type* impr = get_improvement_type(impr_type);
+        struct impr_type* impr = improvement_by_number(impr_type);
         requirement_vector_iterate(&(impr->reqs), preq) {
           if (preq->source.type == REQ_TECH
 	      && preq->source.value.tech == node->tech) {
@@ -1052,7 +1052,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
  	  } unit_type_iterate_end;
        
           impr_type_iterate(impr_type) {
-	    struct impr_type* impr = get_improvement_type(impr_type);
+	    struct impr_type* impr = improvement_by_number(impr_type);
             requirement_vector_iterate(&(impr->reqs), preq) {
               if (preq->source.type == REQ_TECH
 	          && preq->source.value.tech == node->tech) {

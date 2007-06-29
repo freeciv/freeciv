@@ -251,7 +251,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
       }
       pwl->entries[i].value = punittype->index;
     } else {
-      Impr_type_id building = find_improvement_by_name_orig(name);
+      Impr_type_id building = find_improvement_by_rule_name(name);
 
       if (building == B_LAST) {
 	pwl->length = i;
@@ -292,7 +292,7 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
     struct city_production *entry = pwl->entries + i;
     const char *name = (entry->is_unit
 			? utype_rule_name(utype_by_number(entry->value))
-			: get_improvement_type(entry->value)->name_orig);
+			: improvement_rule_name(entry->value));
 
     secfile_insert_bool(file, entry->is_unit,
 			"%s.wl_is_unit%d", path_str, i);

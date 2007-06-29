@@ -25,6 +25,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "improvement.h"
 #include "log.h"
 #include "map.h"
 #include "movement.h"
@@ -257,7 +258,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
                                             Impr_type_id id)
 {
   struct player *pplayer = city_owner(pcity);
-  struct impr_type *pimpr = get_improvement_type(id);
+  struct impr_type *pimpr = improvement_by_number(id);
   int v = 0;
   int cities[REQ_RANGE_LAST];
   int nplayers = game.info.nplayers - game.info.nbarbarians;
@@ -278,7 +279,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
     }
   } players_iterate_end;
 
-  if (impr_flag(id, IF_GOLD)) {
+  if (improvement_has_flag(id, IF_GOLD)) {
     /* Since coinage contains some entirely spurious ruleset values,
      * we need to return here with some spurious want. */
     pcity->ai.building_want[id] = TRADE_WEIGHTING;
@@ -289,7 +290,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
   v += base_want(pplayer, pcity, id);
   if (v != 0) {
     CITY_LOG(LOG_DEBUG, pcity, "%s base_want is %d (range=%d)", 
-             get_improvement_name(id), v, ai->impr_range[id]);
+             improvement_rule_name(id),
+             v,
+             ai->impr_range[id]);
   }
 
   /* Find number of cities per range.  */
@@ -309,7 +312,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
 			   NULL, NULL, NULL, NULL,
 			   peffect)) {
       CITY_LOG(LOG_DEBUG, pcity, "%s has a disabled effect: %s", 
-               get_improvement_name(id), effect_type_name(peffect->type));
+               improvement_rule_name(id),
+               effect_type_name(peffect->type));
       continue;
     }
 
@@ -455,7 +459,10 @@ static void adjust_building_want_by_effects(struct city *pcity,
 
           CITY_LOG(LOG_DEBUG, pcity,
 	           "%s parasite effect: bulbs %d, turns %d, value %d", 
-                   get_improvement_name(id), bulbs, turns, value);
+                   improvement_rule_name(id),
+                   bulbs,
+                   turns,
+                   value);
 	
 	  v += value;
 	  break;
@@ -897,7 +904,8 @@ void ai_manage_buildings(struct player *pplayer)
       }
       adjust_building_want_by_effects(pcity, id);
       CITY_LOG(LOG_DEBUG, pcity, "want to build %s with %d", 
-               get_improvement_name(id), pcity->ai.building_want[id]);
+               improvement_rule_name(id),
+               pcity->ai.building_want[id]);
     } city_list_iterate_end;
   } impr_type_iterate_end;
 
@@ -1015,9 +1023,9 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     ASSERT_REAL_CHOICE_TYPE(pcity->ai.choice.type);
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
-	     (is_unit_choice_type(pcity->ai.choice.type) ?
-	      utype_rule_name(utype_by_number(pcity->ai.choice.choice)) :
-	      get_improvement_name(pcity->ai.choice.choice)),
+	     is_unit_choice_type(pcity->ai.choice.type)
+	     ? utype_rule_name(utype_by_number(pcity->ai.choice.choice))
+	     : improvement_rule_name(pcity->ai.choice.choice),
 	     pcity->ai.choice.want);
     
     if (!pcity->production.is_unit && is_great_wonder(pcity->production.value) 
@@ -1240,7 +1248,8 @@ static void ai_spend_gold(struct player *pplayer)
       CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
                bestchoice.type != CT_BUILDING
 	       ? utype_rule_name(utype_by_number(bestchoice.choice))
-               : get_improvement_name(bestchoice.choice), buycost,
+               : improvement_rule_name(bestchoice.choice),
+               buycost,
                bestchoice.want);
       really_handle_city_buy(pplayer, pcity);
     } else if (pcity->ai.grave_danger != 0 
@@ -1359,7 +1368,8 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
       do_sell_building(pplayer, pcity, i);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		       _("%s is selling %s (not needed) for %d."), 
-		       pcity->name, get_improvement_name(i), 
+		       pcity->name,
+		       improvement_name_translation(i), 
 		       impr_sell_gold(i));
       return; /* max 1 building each turn */
     }

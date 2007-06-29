@@ -449,7 +449,7 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct improvement_entry *en
     my_snprintf(coststr, sizeof(coststr), "%5d", entry->cost);
     my_snprintf(utotal, sizeof(utotal), "%6d", entry->total_cost);
 
-    *array++ = get_improvement_name(entry->type);
+    *array++ = improvement_name_translation(entry->type);
     *array++ = count;
     *array++ = coststr;
     *array = utotal;
