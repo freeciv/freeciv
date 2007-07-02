@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-03 21:36-0700\n"
-"PO-Revision-Date: 2007-06-25 18:30+0300\n"
+"PO-Revision-Date: 2007-07-02 09:38+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -1368,16 +1368,16 @@ msgstr "%s atmestas: Svečiai neįleidžiami."
 #: server/auth.c:163
 #, c-format
 msgid "There was an error reading the user database, logging in as guest connection '%s'."
-msgstr ""
+msgstr "Įvyko klaida skaitant vartotojų duomenų bazę, todėl jungiamasi svečio vartotoju '%s'."
 
 #: server/auth.c:168
 msgid "There was an error reading the user database and guest logins are not allowed. Sorry"
-msgstr ""
+msgstr "Įvyko klaida skaitant vartotojų duomenų bazę ir svečių prisijungimai negalimi. Apgailestaujame."
 
 #: server/auth.c:172
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr ""
+msgstr "%s buvo atmestas: Klaida duomenų bazėje ir svečiai neleidžiami."
 
 #: server/auth.c:179
 #, c-format
@@ -1405,7 +1405,7 @@ msgstr "Apgailestaujame, per daug blogų bandymų..."
 #: server/auth.c:225
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr ""
+msgstr "%s buvo atmestas: Per daug blogų slaptažodžio patvirtinimų naujam vartotojui."
 
 #: server/auth.c:241
 msgid "Warning: There was an error in saving to the database. Continuing, but your stats will not be saved."
@@ -1414,7 +1414,7 @@ msgstr "Įspėjimas: Saugant į duombazę įvyko klaida. Tęsiama, bet jūsų re
 #: server/auth.c:284
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr ""
+msgstr "%s buvo atmestas: Per daug blogų bandymų įvedant neteisingą slaptažodį."
 
 #: server/auth.c:293
 msgid "Your password is incorrect. Try again."
@@ -1437,7 +1437,7 @@ msgstr "Jūsų slaptažodis yra per trumpas, mažiausias ilgis yra %d. Pabandyki
 #: server/auth.c:376
 #, c-format
 msgid "The password must have at least %d capital letters, %d numbers, and be at minimum %d [printable] characters long. Try again."
-msgstr ""
+msgstr "Slaptažodis mažiausiai turi turėti %d didžiųjų raidžių, %d skaičių ir būti minimaliai %d (spausdinamų) simbolių ilgio. Pabandykite dar kartą."
 
 #: server/barbarian.c:188
 #, c-format
@@ -1447,7 +1447,7 @@ msgstr "Barbarai gauna vadą vardu %s. Pavojingi laikai gali laukti priešaky."
 #: server/barbarian.c:475
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr ""
+msgstr "Vietinių sukilimas šalia %s, Juos į kovą veda %s."
 
 #: server/barbarian.c:479
 #, c-format
@@ -1515,12 +1515,12 @@ msgstr "Miestas, pavadintas %s, jau egzistuoja."
 #: server/citytools.c:309
 #, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr ""
+msgstr "Negalima naudoti %s kaip miesto vardo. Jis paliktas %s."
 
 #: server/citytools.c:328
 #, c-format
 msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr ""
+msgstr "%s nėra leistinas vardas. Tik ASCII formato arba taisyklių rinkinio vardai leidžiami miestams ."
 
 #: server/citytools.c:447
 #, c-format
@@ -1549,7 +1549,7 @@ msgstr "Perkelti %s iš %s į %s."
 #: server/citytools.c:535
 #, c-format
 msgid "%s from %s lost in transfer to %s's %s"
-msgstr ""
+msgstr "%s iš miesto %s prarastas pervedant į %s miestą %s"
 
 #: server/citytools.c:608
 #, c-format
@@ -1572,6 +1572,8 @@ msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
+"Žmonės mieste %s  yra apstulbinti Jūsų technologinių laimėjimų!\n"
+"      Darbininkai iš karto susirenka ir nutiesia mieste geležinkelį."
 
 #: server/citytools.c:1022
 #, c-format
@@ -1581,13 +1583,13 @@ msgstr "Jūs įkūrėte %s."
 #: server/citytools.c:1092
 #, c-format
 msgid "Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "%s išvestas iš panaikinto miesto %s norint išvengti neturėjimo kur eiti būsenos."
 
 #: server/citytools.c:1101
 #: server/citytools.c:1112
 #, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr ""
+msgstr "Kai %s buvo panaikintas, %s negalėjo pasitraukti ir todėl buvo prarastas."
 
 #: server/citytools.c:1235
 #, c-format
@@ -1664,7 +1666,7 @@ msgstr "%s stato %s%s."
 #: server/citytools.c:2124
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
-msgstr ""
+msgstr "Jūs parduodate %s mieste %s (dabar neturi kur eiti) už %d aukso."
 
 #: server/cityturn.c:124
 #, c-format
@@ -1679,7 +1681,7 @@ msgstr "Pastaba: Stebuklas %s %s bus užbaigtas kitu ėjimu."
 #: server/cityturn.c:336
 #, c-format
 msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr ""
+msgstr "Augimui paspartinti mieste %s siūloma pastatyti %s (yra statoma)."
 
 #: server/cityturn.c:347
 #, c-format
@@ -1698,12 +1700,12 @@ msgstr "DĖMESIO, mes turime MAŽAI LĖŠŲ."
 #: server/cityturn.c:470
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
-msgstr ""
+msgstr "Miestui %s reikia %s (yra statomas), kad galėtų toliau augti."
 
 #: server/cityturn.c:475
 #, c-format
 msgid "%s needs an improvement to grow any further."
-msgstr ""
+msgstr "Miestui %s reikia patobulinimo, kad galėtų toliau augti."
 
 #: server/cityturn.c:518
 #, c-format
@@ -1728,13 +1730,13 @@ msgstr "Badas sunaikina %s visiškai."
 #: server/cityturn.c:665
 #, c-format
 msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s patobulinimo iš darbų sąrašo, nes nėra reikiamos technologijos.  Atidedama..."
 
 #: server/cityturn.c:677
 #: server/cityturn.c:713
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo.  Panaikinama..."
 
 #: server/cityturn.c:697
 #: server/cityturn.c:859
@@ -1742,47 +1744,47 @@ msgstr ""
 #: server/cityturn.c:1006
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
-msgstr ""
+msgstr "%s gamyba yra patobulinta į %s gamybą mieste %s."
 
 #: server/cityturn.c:745
 #, c-format
 msgid "%s can't build %s from the worklist; tech %s not yet available.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo, technologija %s dar neatrasta. Atidedama..."
 
 #: server/cityturn.c:758
 #, c-format
 msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo, nes pirma reikia turėti %s. Atidedama..."
 
 #: server/cityturn.c:771
 #, c-format
 msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo. Reikalinga %s. Atidedama..."
 
 #: server/cityturn.c:783
 #, c-format
 msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo. Reikalingas specialus laukelis %s. Atidedama..."
 
 #: server/cityturn.c:795
 #, c-format
 msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo, kadangi reikalingas %s reljefas. Atidedama..."
 
 #: server/cityturn.c:809
 #, c-format
 msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo, kadangi tik %s gali tai statyti. Atidedama..."
 
 #: server/cityturn.c:828
 #, c-format
 msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo. Miestas turi būti dydžio %d. Atidedama..."
 
 #: server/cityturn.c:850
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
-msgstr ""
+msgstr "%s negali statyti %s iš darbų sąrašo. Priežastis nežinoma!  Atidedama..."
 
 #: server/cityturn.c:884
 #, c-format
@@ -1792,23 +1794,23 @@ msgstr "%s darbų sąrašas dabar tuščias."
 #: server/cityturn.c:1025
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr ""
+msgstr "%s negali išlaikyti %s, dalinys panaikintas."
 
 #: server/cityturn.c:1044
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
-msgstr ""
+msgstr "Miesto %s gyventojai žūsta negalėdami išlaikyti %s!"
 
 #: server/cityturn.c:1087
 #: server/cityturn.c:1200
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr ""
+msgstr "%s stato %s, kuris daugiau neprieinamas."
 
 #: server/cityturn.c:1125
 #, c-format
 msgid "The %s have finished building %s in %s."
-msgstr ""
+msgstr "%s pabaigė statyti pastatą %s mieste %s."
 
 #: server/cityturn.c:1135
 #, c-format
@@ -1827,7 +1829,7 @@ msgstr[2] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimų."
 #: server/techtools.c:175
 #, c-format
 msgid "The %s have acquired %s from %s."
-msgstr ""
+msgstr "%s gavo technologiją %s iš %s."
 
 #: server/cityturn.c:1166
 #, c-format
@@ -1837,7 +1839,7 @@ msgstr "%s pradėjo statyti erdvėlaivį!"
 #: server/cityturn.c:1206
 #, c-format
 msgid "%s's %s tried to build %s, which is not available."
-msgstr ""
+msgstr "%s %s bandė statyti %s, kuris neprieinamas."
 
 #: server/cityturn.c:1222
 #, c-format
@@ -1853,7 +1855,7 @@ msgstr "%s baigė statyti %s."
 #: server/cityturn.c:1298
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
-msgstr ""
+msgstr "Negalime išlaikyti %s mieste %s, pastatas parduotas!"
 
 #: server/cityturn.c:1333
 #, c-format
@@ -1863,7 +1865,7 @@ msgstr "Tarša prie %s."
 #: server/cityturn.c:1477
 #, c-format
 msgid "Wild celebrations in your honour in %s."
-msgstr ""
+msgstr "Audringos šventės Jūsų garbei mieste %s."
 
 #: server/cityturn.c:1483
 #, c-format
@@ -1888,12 +1890,12 @@ msgstr "Tvarka atstatyta %s."
 #: server/cityturn.c:1529
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
-msgstr ""
+msgstr "Jūsų %s buvo nuversta. Jūsų šalis sumaištyje."
 
 #: server/cityturn.c:1554
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
-msgstr ""
+msgstr "%s dar negali statyti %s, ir mes negalime panaikinti mūsų vienintelio miesto."
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1577
@@ -1903,12 +1905,12 @@ msgstr "%s išformuotas į %s."
 
 #: server/civserver.c:77
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
-msgstr ""
+msgstr "Jūs turite pertraukti Freeciv du kartus per sekundę, kad galėtumėte išeiti.\n"
 
 #: server/civserver.c:134
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr ""
+msgstr "Dėmesio: %s parinktis yra pasenusi.  Naudokite -m norėdami įjungti metaserverį.\n"
 
 #: server/civserver.c:188
 #, c-format
@@ -1923,7 +1925,7 @@ msgstr "Tai yra %s serveris"
 #: server/civserver.c:200
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr ""
+msgstr "Apie Freeciv daug galite sužinoti: %s"
 
 #: server/civserver.c:205
 #: client/civclient.c:198
@@ -2028,11 +2030,11 @@ msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
 #: manual/civmanual.c:374
 #, c-format
 msgid "Report bugs to <%s>.\n"
-msgstr ""
+msgstr "Pranešti apie klaidas į <%s>.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
-msgstr ""
+msgstr "Paleisti žaidimą arba pratęsti užsaugotą žaidimą."
 
 #: server/commands.c:29
 msgid "This command starts the game.  When starting a new game, it should be used after all human players have connected, and AI players have been created (if required), and any desired changes to initial server options have been made.  After 'start', each human player will be able to choose their nation, and then the game will begin.  This command is also required after loading a savegame for the game to recommence.  Once the game is running this command is no longer available, since it would have no effect."
@@ -2058,7 +2060,7 @@ msgstr ""
 
 #: server/commands.c:63
 msgid "Show a list of players, teams, connections, or scenarios."
-msgstr ""
+msgstr "Parodyti žaidėjų, komandų, jungčių ar scenarijų sąrašą."
 
 #: server/commands.c:64
 msgid "Show a list of players in the game, teams of players, connections to the server, or available scenarios.  The argument may be abbreviated, and defaults to 'players' if absent."
@@ -2075,7 +2077,7 @@ msgstr "cut <ryšio-vardas>"
 
 #: server/commands.c:75
 msgid "Cut a client's connection to server."
-msgstr ""
+msgstr "Ajungti klientą nuo serverio."
 
 #: server/commands.c:76
 msgid "Cut specified client's connection to the server, removing that client from the game.  If the game has not yet started that client's player is removed from the game, otherwise there is no effect on the player.  Note that this command now takes connection names, not player names."
@@ -2092,7 +2094,7 @@ msgstr ""
 
 #: server/commands.c:85
 msgid "Explain server options."
-msgstr ""
+msgstr "Paaiškinti serverio parinktis."
 
 #: server/commands.c:86
 msgid "The 'explain' command gives a subset of the functionality of 'help', and is included for backward compatibility.  With no arguments it gives a list of options (like 'help options'), and with an argument it gives help for a particular option (like 'help <option-name>')."
@@ -2116,11 +2118,11 @@ msgstr ""
 
 #: server/commands.c:102
 msgid "wall <message>"
-msgstr ""
+msgstr "wall <žinutė>"
 
 #: server/commands.c:103
 msgid "Send message to all connections."
-msgstr ""
+msgstr "Pasiųsti žinutę visoms jungtims."
 
 #: server/commands.c:104
 msgid "For each connected client, pops up a window showing the message entered."
@@ -2128,7 +2130,7 @@ msgstr ""
 
 #: server/commands.c:108
 msgid "vote yes|no [vote number]"
-msgstr ""
+msgstr "vote yes|no [balso numeris]"
 
 #: server/commands.c:109
 msgid "Cast a vote."
@@ -2157,7 +2159,7 @@ msgstr ""
 
 #: server/commands.c:130
 msgid "Set server option."
-msgstr ""
+msgstr "Nustatyti serverio parinktį."
 
 #: server/commands.c:133
 msgid "team <player> [team]"
@@ -2239,7 +2241,7 @@ msgstr "take [ryšio-vardas] <žaidėjo-vardas>"
 
 #: server/commands.c:180
 msgid "Take over a player's place in the game."
-msgstr ""
+msgstr "Užimti žaidėjo vietą žaidime."
 
 #: server/commands.c:181
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to take over a player. If you're not one of these, only the <player-name> argument is allowed.  If '-' is given for the player name and the connection does not already control a player, one is created and assigned to the connection."
@@ -2445,7 +2447,7 @@ msgstr "endgame"
 
 #: server/commands.c:307
 msgid "End the game immediately in a draw."
-msgstr ""
+msgstr "Iškart baigti žaidimą lygiosiomis."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:311
@@ -2564,7 +2566,7 @@ msgstr "Serveris: %s prisijungė iš %s."
 
 #: server/connecthand.c:131
 msgid "Couldn't attach your connection to new player."
-msgstr ""
+msgstr "Negalime Jūsų prijungti prie naujo žaidėjo."
 
 #: server/connecthand.c:141
 #, c-format
@@ -2612,7 +2614,7 @@ msgstr ""
 #: server/connecthand.c:247
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
-msgstr ""
+msgstr "%s buvo atmestas dėl nesuderinamų galimybių."
 
 #: server/connecthand.c:240
 #, c-format
@@ -2629,7 +2631,7 @@ msgstr "Netinkamas vartotojo vardas „%s“"
 #: server/connecthand.c:258
 #, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr ""
+msgstr "%s buvo atmestas: Neleistinas vardas [%s]."
 
 #: server/connecthand.c:266
 #, c-format
@@ -2639,7 +2641,7 @@ msgstr "„%s“ jau prisijungęs."
 #: server/connecthand.c:269
 #, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr ""
+msgstr "%sbuvo atmestas: antrąkart jungiamasi tuo pačiu prisijungimo vardu[%s]."
 
 #: server/connecthand.c:297
 #: server/connecthand.c:306
@@ -2657,7 +2659,7 @@ msgstr ""
 
 #: server/console.c:189
 msgid "For introductory help, type 'help'."
-msgstr ""
+msgstr "Norėdami gauti įžanginę pagalbą surinkite 'help'."
 
 #: server/diplhand.c:148
 #, c-format
@@ -2671,7 +2673,7 @@ msgstr "Jūs neturite technologijos %s, negalite priimti sutarties."
 
 #: server/diplhand.c:169
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr ""
+msgstr "Miestas, kurį Jūs bandote atiduoti, nebegzistuoja. Jūs negalite priimti sutarties."
 
 #: server/diplhand.c:175
 #, c-format
@@ -2701,7 +2703,7 @@ msgstr[2] "Suderinta sutartis turinti %d sąlygų"
 #: server/diplhand.c:265
 #, c-format
 msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
-msgstr ""
+msgstr "Vienas iš miestų, kuriuos %s atiduoda, yra sunaikintas! Sutartis nutraukta!"
 
 #: server/diplhand.c:272
 #: server/diplhand.c:277
@@ -2713,7 +2715,7 @@ msgstr "%s daugiau nebekontroliuoja %s! Sutartis nutraukta!"
 #: server/diplhand.c:318
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr ""
+msgstr "%s neturi pažadėto aukso kiekio! Sutartis nutraukta!"
 
 #: server/diplhand.c:347
 #, c-format
@@ -2728,12 +2730,12 @@ msgstr "%s leido jums įsteigti ambasadą!"
 #: server/diplhand.c:366
 #, c-format
 msgid "You are taught the knowledge of %s."
-msgstr ""
+msgstr "Jūs esate išmokomas technologijos %s."
 
 #: server/diplhand.c:370
 #, c-format
 msgid "The %s have acquired %s from the %s."
-msgstr ""
+msgstr "%s gavo %s iš %s."
 
 #: server/diplhand.c:385
 #, c-format
@@ -2753,12 +2755,12 @@ msgstr "Jūs gavote %s jūros žemėlapį."
 #: server/diplhand.c:413
 #, c-format
 msgid "You receive city of %s from %s."
-msgstr ""
+msgstr "Jūs gaunate miestą %s iš %s."
 
 #: server/diplhand.c:417
 #, c-format
 msgid "You give city of %s to %s."
-msgstr ""
+msgstr "Jūs atiduodate miestą %s žaidėjui %s."
 
 #: server/diplhand.c:429
 #: server/diplhand.c:432
@@ -2803,27 +2805,27 @@ msgstr "Susitikimas su %s atšauktas."
 
 #: server/diplhand.c:683
 msgid "Your diplomatic envoy was decapitated!"
-msgstr ""
+msgstr "Jūsų diplomatijos pasiuntinui buvo nukirsta galva!"
 
 #: server/diplomats.c:97
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
-msgstr ""
+msgstr "Jūsų %s negalėjo užnuodyti %s vandens atsargų."
 
 #: server/diplomats.c:111
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
-msgstr ""
+msgstr "Jūsų %s užnuodijo %s vandens atsargas."
 
 #: server/diplomats.c:114
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr ""
+msgstr "%s yra įtariamas %s vandens atsargų užnuodijimu."
 
 #: server/diplomats.c:261
 #, c-format
 msgid "Your %s was executed in %s on suspicion of spying.  The %s welcome future diplomatic efforts providing the Ambassador is reputable."
-msgstr ""
+msgstr "Dėl iškilusių šnipinėjimo įtarimų Jūsų %s buvo atlikta egzekucija mieste %s.  %s sveikina atieties diplomatines pastangas vildamiesi, kad būsimasis ambasadorius bus garbingas."
 
 #: server/diplomats.c:267
 #, c-format
@@ -2833,17 +2835,17 @@ msgstr ""
 #: server/diplomats.c:278
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
-msgstr ""
+msgstr "Jūsų %s buvo atlikta egzekucija mieste %s. Tai atliko primityvusis %s."
 
 #: server/diplomats.c:291
 #, c-format
 msgid "You have established an embassy in %s."
-msgstr ""
+msgstr "Jūs įkūrėte ambasadą mieste %s."
 
 #: server/diplomats.c:294
 #, c-format
 msgid "The %s have established an embassy in %s."
-msgstr ""
+msgstr "%s įkūrė ambasadą mieste %s."
 
 #: server/diplomats.c:349
 #, c-format
@@ -2858,7 +2860,7 @@ msgstr "Jūsų %s pavyko sabotuoti %s %s."
 #: server/diplomats.c:375
 #, c-format
 msgid "Your %s was sabotaged by %s!"
-msgstr ""
+msgstr "%s buvo sabotuotas. Tai atliko %s!"
 
 #: server/diplomats.c:429
 msgid "You can't bribe a unit from this nation."
@@ -2936,7 +2938,7 @@ msgstr "Revoliucija pakurstyta %s, jūs dabar valdote miestą!"
 #: server/diplomats.c:739
 #, c-format
 msgid "%s has revolted, %s influence suspected."
-msgstr ""
+msgstr "%s sukilo, įtariama %s įtaka."
 
 #: server/diplomats.c:819
 #, c-format
@@ -2971,12 +2973,12 @@ msgstr ""
 #: server/diplomats.c:938
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
-msgstr ""
+msgstr "%s gamyba buvo sunaikinta mieste %s. %s yra įtariami."
 
 #: server/diplomats.c:959
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
-msgstr ""
+msgstr "Bandydamas sabotuoti buvo pagautas Jūsų %s!"
 
 #: server/diplomats.c:963
 #, c-format
@@ -3041,54 +3043,54 @@ msgstr ""
 #: server/diplomats.c:1200
 #, c-format
 msgid "Your %s was captured after completing her mission in %s."
-msgstr ""
+msgstr "Jūsų %s buvo pagauta pabaigusi savo misiją mieste %s."
 
 #: server/diplomats.c:1205
 #, c-format
 msgid "Your %s was captured after completing her mission."
-msgstr ""
+msgstr "Jūsų %s buvo pagauta pabaigusi savo misiją."
 
 #: server/diplomats.c:1236
 #, c-format
 msgid "You have caused an incident while bribing %s's %s."
-msgstr ""
+msgstr "Jūs sukėlėte  incidentą bandydamas papirkti %s %s."
 
 #: server/diplomats.c:1241
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
-msgstr ""
+msgstr "%s sukėlė incidentą bandydamas papirkti Jūsų %s."
 
 #: server/diplomats.c:1248
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
-msgstr ""
+msgstr "Jūs sukėlėte incidentą bandydamas iš %s pavogti technologiją."
 
 #: server/diplomats.c:1252
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
-msgstr ""
+msgstr "%s sukėlė incidentą bandydamas iš Jūsų pavogti technologiją."
 
 #: server/diplomats.c:1258
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
-msgstr ""
+msgstr "Jūs sukėlėte incidentą bandydamas sukelti sukilimą mieste %s."
 
 #: server/diplomats.c:1261
 #, c-format
 msgid "%s have caused an incident while inciting a revolt in %s."
-msgstr ""
+msgstr "%s sukėlė incidentą bandydamas sukelti sukilimą mieste %s."
 
 #: server/edithand.c:52
 msgid " *** Server set to edit mode! *** "
-msgstr ""
+msgstr " *** Serveris nustatytas redagavimo režimu! *** "
 
 #: server/edithand.c:56
 msgid " *** Server is leaving edit mode. *** "
-msgstr ""
+msgstr " *** Serveris palieka redagavimo režimą. *** "
 
 #: server/edithand.c:130
 msgid "Cannot create unit on enemy tile."
-msgstr ""
+msgstr "Negalima sukurti dalinio priešo laukelyje."
 
 #: server/edithand.c:139
 #, c-format
@@ -3112,12 +3114,12 @@ msgstr "Negalima pakeisti miesto dydžio."
 #: server/gamehand.c:132
 #, c-format
 msgid "Sea moving start units are not yet supported, %s not created."
-msgstr ""
+msgstr "Jūriniai daliniai dar nepalaikomi, nes %s nesukurtas."
 
 #: server/gamehand.c:135
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
-msgstr ""
+msgstr "Jūriniai daliniai dar nepalaikomi. Nieks negauna %s."
 
 #: server/gamehand.c:302
 #: client/text.c:603
@@ -3128,31 +3130,31 @@ msgstr "Metai: %s"
 
 #: server/gamehand.c:377
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
-msgstr ""
+msgstr "Ėjimui skirtas laikas viršijo maksimumą, todėl grąžinama maksimali reikšmė"
 
 #: server/gamehand.c:385
 msgid "The turn timeout is smaller than zero, fixing at zero."
-msgstr ""
+msgstr "Laikas, skirtas ėjimui, mažesnis nei nulis. Grąžinama į nulį."
 
 #: server/ggzserver.c:207
 #: client/ggzclient.c:109
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
-msgstr ""
+msgstr "Tik GGZ klientas turi kviesti civ clientą ggz režimu!\n"
 
 #: server/handchat.c:66
 #, c-format
 msgid "%s is an ambiguous player name-prefix."
-msgstr ""
+msgstr "%s yra dviprasmiškas žaidėjo vardo priešdėlis."
 
 #: server/handchat.c:70
 #, c-format
 msgid "%s is an ambiguous connection name-prefix."
-msgstr ""
+msgstr "%s yra dviprasmiškas susijungimo pavadinimo priešdėlis."
 
 #: server/handchat.c:74
 #, c-format
 msgid "%s is an anonymous name. Use connection name"
-msgstr ""
+msgstr "%s yra anoniminis vardas. Naudokite susijungimo pavadinimą"
 
 #: server/handchat.c:186
 msgid "You are not attached to a player."
@@ -3161,7 +3163,7 @@ msgstr "Jūs nesate prisijungęs prie žaidėjo."
 #: server/handchat.c:194
 #, c-format
 msgid "%s to allies: %s"
-msgstr ""
+msgstr "%s sąjungininkams: %s"
 
 #: server/handchat.c:288
 #, c-format
@@ -3184,7 +3186,7 @@ msgstr "Įvyko globalinis atšilimas!"
 
 #: server/maphand.c:255
 msgid "Coastlines have been flooded and vast ranges of grassland have become deserts."
-msgstr ""
+msgstr "Pakrantės buvo užlietos ir platūs pievų laukai pavirto dykumomis."
 
 # Kažkaip negražiai skamba „Įvyko“
 #: server/maphand.c:297
@@ -3193,33 +3195,37 @@ msgstr "Prasidėjo branduolinė žiema!"
 
 #: server/maphand.c:299
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr ""
+msgstr "Drėgnos žemės išdžiūvo ir paltūs pievų laukai pavirto tundra."
 
 #: server/maphand.c:320
 msgid ""
 "New hope sweeps like fire through the country as the discovery of railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
+"Nauja viltis kaip gaisras plinta per Jūsų šalį, kai tik pranešamas geležinkelio atradimas.\n"
+"      Darbuotojai iš karto susirenka ir nutiesia geležinkelius visuose miestuose."
 
 #: server/maphand.c:326
 msgid ""
 "The people are pleased to hear that your scientists finally know about railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
+"Žmonės yra pamaloninti girdėti, kad Jūsų mokslininkai pagaliau žino apie geležinkelį.\n"
+"     Darbuotojai iš karto susirenka ir nutiesia geležinkelius visuose miestuose."
 
 #: server/maphand.c:1376
 #, c-format
 msgid "Moved your %s due to changing terrain."
-msgstr ""
+msgstr "Jūsų %s patrauktas dėl besikeičiančio reljefo."
 
 #: server/maphand.c:1393
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
-msgstr ""
+msgstr "Jūsų %s panaikintas dėl besikeičiančio reljefo."
 
 #: server/meta.c:140
 msgid "Not reporting to the metaserver in this game."
-msgstr ""
+msgstr "Šiame žaidime metaserveriui nėra teikiama ataskaita."
 
 #: server/meta.c:380
 #, c-format
@@ -3233,7 +3239,7 @@ msgstr "%s nebėra!"
 
 #: server/plrhand.c:203
 msgid "Cannot change rates before game start."
-msgstr ""
+msgstr "Negalima pakeisti normų prieš prasidedant žaidimui."
 
 #: server/plrhand.c:219
 #: client/gui-gtk-2.0/gamedlgs.c:242
@@ -3244,7 +3250,7 @@ msgstr "Mokesčiai"
 #: server/plrhand.c:227
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
-msgstr ""
+msgstr "%s norma viršija maksimalią %s normą."
 
 #: server/plrhand.c:266
 #, c-format
@@ -3267,62 +3273,62 @@ msgstr "Revoliucija: grįžtama prie anarchijos."
 
 #: server/plrhand.c:417
 msgid "You should choose a new government from the government menu."
-msgstr ""
+msgstr "Jūs turite pasirinkti naują valdymo formą iš valdymo formų meniu."
 
 #: server/plrhand.c:444
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
-msgstr ""
+msgstr "Mokesčių norma viršija maksimalią, kuri yra %s; ištaisoma."
 
 #: server/plrhand.c:450
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
-msgstr ""
+msgstr "Mokslo norma viršija maksimalią, kuri yra %s; ištaisoma."
 
 #: server/plrhand.c:456
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
-msgstr ""
+msgstr "Prabangos norma viršija maksimalią, kuri yra %s; ištaisoma."
 
 #: server/plrhand.c:512
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr ""
+msgstr "%s mums daugiau nebeteikia bendro regėjimo lauko!"
 
 #: server/plrhand.c:523
 #, c-format
 msgid "The senate will not allow you to break treaty with the %s.  You must either dissolve the senate or wait until a more timely moment."
-msgstr ""
+msgstr "Senatas neleidžia Jums sulaužyti sutarties su %s.  Jūs privalote arba išvaikyti senatą arba laukti palankesnio momento."
 
 #: server/plrhand.c:576
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
-msgstr ""
+msgstr "Senatas sutinka su Jūsų sprendimu dėl pastovių %s provokacijų."
 
 #: server/plrhand.c:581
 #, c-format
 msgid "The senate refuses to break treaty with the %s, but you have no trouble finding a new senate."
-msgstr ""
+msgstr "Senatas atsisako sulaužyti sutartį su %s, bet Jums nekyla problemų surandant naują senatą."
 
 #: server/plrhand.c:613
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
-msgstr ""
+msgstr "Diplomatinė būsena tarp %s ir %s dabar yra %s."
 
 #: server/plrhand.c:619
 #, c-format
 msgid " %s canceled the diplomatic agreement! The diplomatic state between the %s and the %s is now %s."
-msgstr ""
+msgstr " %s atšaukė diplomatinį susitarimą! Diplomatinė būsena tarp %s ir %s dabar yra %s."
 
 #: server/plrhand.c:636
 #, c-format
 msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
-msgstr ""
+msgstr "%s užpuolė Jūsų sąjungininką %s! Jūs nutraukiate sąjungą su agresoriumi."
 
 #: server/plrhand.c:647
 #, c-format
 msgid "Your team mate %s declared war on %s. You are obligated to cancel alliance with %s."
-msgstr ""
+msgstr "Jūsų komandos draugas %s paskelbė karą %s. Jūs privalote nutraukti sąjungą su %s."
 
 #: server/plrhand.c:1116
 #, c-format
@@ -3342,22 +3348,22 @@ msgstr "%s pašalintas iš žaidimo."
 #: server/plrhand.c:1166
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
-msgstr ""
+msgstr "Jus nelauktai sutiko %s ir jų valdovas %s."
 
 #: server/plrhand.c:1185
 #, c-format
 msgid "%s and %s meet and go to instant war. You cancel your alliance with both."
-msgstr ""
+msgstr "%s ir %s susitiko ir vienas kitam paskelbė karą. Jūs nutraukiate sąjungą su abiem."
 
 #: server/plrhand.c:1663
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr ""
+msgstr "Negalima įvelti %s į pilietinį karą - per daug žaidėjų"
 
 #: server/plrhand.c:1685
 #, c-format
 msgid "Your nation is thrust into civil war,  %s is declared the leader of the rebel states."
-msgstr ""
+msgstr "Jūsų valstybėje kilo pilietinis karas,  %s pasiskelbė sukilusių valstijų vadu."
 
 #: server/plrhand.c:1705
 #, c-format
@@ -3375,27 +3381,27 @@ msgstr ""
 #: server/report.c:55
 #, c-format
 msgid "%s report on the RICHEST Civilizations in the World."
-msgstr "%s ataskaita apie TURTINGIAUSIAS pasaulio civilizacijas %s."
+msgstr "%s ataskaita apie TURTINGIAUSIAS pasaulio civilizacijas."
 
 #: server/report.c:56
 #, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World."
-msgstr "%s ataskaita apie PAŽANGIAUSIAS pasaulio civilizacijas %s."
+msgstr "%s ataskaita apie PAŽANGIAUSIAS pasaulio civilizacijas."
 
 #: server/report.c:57
 #, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World."
-msgstr "%s ataskaita apie labiausiai MILITARIZUOTAS pasaulio civilizacijas %s."
+msgstr "%s ataskaita apie labiausiai MILITARIZUOTAS pasaulio civilizacijas."
 
 #: server/report.c:58
 #, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World."
-msgstr "%s ataskaita apie LAIMINGIAUSIAS pasaulio civilizacijas %s."
+msgstr "%s ataskaita apie LAIMINGIAUSIAS pasaulio civilizacijas."
 
 #: server/report.c:59
 #, c-format
 msgid "%s report on the LARGEST Civilizations in the World."
-msgstr "%s ataskaita apie DIDŽIAUSIAS pasaulio civilizacijas %s."
+msgstr "%s ataskaita apie DIDŽIAUSIAS pasaulio civilizacijas."
 
 #: server/report.c:63
 msgid "Herodotus'"
@@ -3408,7 +3414,7 @@ msgstr "Tucidido"
 
 #: server/report.c:65
 msgid "Pliny the Elder's"
-msgstr ""
+msgstr "Plinijaus Vyresniojo"
 
 #: server/report.c:66
 msgid "Livy's"
@@ -3416,7 +3422,7 @@ msgstr "Livio"
 
 #: server/report.c:67
 msgid "Toynbee's"
-msgstr ""
+msgstr "Toinbio"
 
 #: server/report.c:68
 msgid "Gibbon's"
@@ -3611,7 +3617,7 @@ msgstr "-tas"
 
 #: server/report.c:692
 msgid "Demography string contains invalid characters. Try \"help demography\"."
-msgstr ""
+msgstr "Demografijos eilutėje rasta negalimų simbolių. Bandykite \"help demography\"."
 
 #: server/report.c:735
 #: server/report.c:758
@@ -3620,7 +3626,7 @@ msgstr "Demografų ataskaita:"
 
 #: server/report.c:736
 msgid "Sorry, the Demographics report is unavailable."
-msgstr ""
+msgstr "Apgailestaujame, tačiau demografinė ataskaita negalima."
 
 #: server/report.c:740
 #, c-format
@@ -3692,7 +3698,7 @@ msgstr ""
 #: server/ruleset.c:656
 #, c-format
 msgid "Unknown terrain %s in entry %s."
-msgstr ""
+msgstr "Nežinomas reljefas %s įraše %s."
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1187
@@ -3722,18 +3728,18 @@ msgstr ""
 #: server/ruleset.c:1693
 #, c-format
 msgid "Terrain %s has unknown flag %s"
-msgstr ""
+msgstr "Reljefas %s turi nežinomą žymą %s"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1722
 #, c-format
 msgid "Terrain %s is native to unknown unit class %s"
-msgstr ""
+msgstr "Reljefas %s yra gimtasis nežinomai dalinių klasei %s"
 
 #: server/ruleset.c:1726
 #, c-format
 msgid "Oceanic terrain %s is native to land units."
-msgstr ""
+msgstr "Oceanic terrain %s is native to land units."
 
 #: server/ruleset.c:1730
 #, c-format
@@ -3781,7 +3787,7 @@ msgstr ""
 #: server/savegame.c:561
 #, c-format
 msgid "Warning: Unknown nation %s for starting position no %d"
-msgstr ""
+msgstr "Įspėjimas: Nežinoma tauta %s startinei pozicijai %d"
 
 #: server/savegame.c:588
 #, c-format
@@ -3793,17 +3799,17 @@ msgstr ""
 #: server/savegame.c:1306
 #, c-format
 msgid "Wrong unit type id value (%d)"
-msgstr ""
+msgstr "Bloga dalinio identifikacinė reikšmė  (%d)"
 
 #: server/savegame.c:1341
 #, c-format
 msgid "Wrong improvement type id value (%d)"
-msgstr ""
+msgstr "Bloga patobulinimo identifikacinė reikšmė  (%d)"
 
 #: server/savegame.c:1440
 #, c-format
 msgid "Wrong tech type id value (%d)"
-msgstr ""
+msgstr "Bloga technologijos identifikacinė reikšmė  (%d)"
 
 #: server/savegame.c:1522
 #, c-format
@@ -3815,7 +3821,7 @@ msgstr "Nežinoma technologija (%s)"
 #: server/savegame.c:1610
 #, c-format
 msgid "Wrong government type id value (%d)"
-msgstr ""
+msgstr "Bloga valdymo formos identifikacinė reikšmė  (%d)"
 
 #: server/savegame.c:1648
 #, c-format
@@ -3829,12 +3835,12 @@ msgstr ""
 
 #: server/savegame.c:1792
 msgid "Savegame error: invalid unit orders."
-msgstr ""
+msgstr "Klaida išsaugant žaidimą dėl blogų nurodymų daliniui."
 
 #: server/savegame.c:1933
 #, c-format
 msgid "Unsupported government found (%s)"
-msgstr ""
+msgstr "Rasta nepalaikoma valdymo forma (%s)"
 
 #: server/savegame.c:1987
 #, c-format
@@ -3843,11 +3849,11 @@ msgstr ""
 
 #: server/savegame.c:3424
 msgid "Savegame too old, at least version 1.9.0 required."
-msgstr ""
+msgstr "Išsaugotas žaidimas per senas. Seniausia palaikoma versija yra 1.9.0."
 
 #: server/savegame.c:3630
 msgid "The savegame uses the classic terrain ruleset which is no longer supported."
-msgstr ""
+msgstr "Šis išsaugotas žaidimas naudoja klasikines reljefo taisykles, kurios daugiau nebepalaikomos."
 
 #: server/savegame.c:3639
 #, c-format
@@ -3930,15 +3936,15 @@ msgstr ""
 
 #: server/settings.c:160
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "GGZ režime negalima keisti maksimalaus žaidėjų skaičiaus."
 
 #: server/settings.c:165
 msgid "Number of players is higher than requested value; Keeping old value."
-msgstr ""
+msgstr "Žaidėjų skaičius yra didesnis nei reikalaujama reikšmė, todėl paliekama senoji reikšmė."
 
 #: server/settings.c:221
 msgid "Map size (in thousands of tiles)"
-msgstr ""
+msgstr "Žemėlapio dydis (tūkstančiais laukelių)"
 
 #: server/settings.c:222
 msgid ""
@@ -3949,7 +3955,7 @@ msgstr ""
 
 #: server/settings.c:228
 msgid "Map topology index"
-msgstr ""
+msgstr "Žemėlapio topologinis indeksas"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:230
@@ -4001,7 +4007,7 @@ msgstr ""
 
 #: server/settings.c:286
 msgid "Method used to choose start positions"
-msgstr ""
+msgstr "Metodas, naudojamas parinkti pradinėms pozicijoms"
 
 #: server/settings.c:287
 msgid ""
@@ -4033,11 +4039,11 @@ msgstr ""
 
 #: server/settings.c:313
 msgid "All the map is temperate"
-msgstr ""
+msgstr "Visas žemėlapis yra vidutinės temperatūros"
 
 #: server/settings.c:314
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
-msgstr ""
+msgstr "0 = normali, į Žemę panaši planeta; 1 = vienodos temperatūros planeta"
 
 #: server/settings.c:319
 msgid "Average temperature of the planet"
@@ -4100,7 +4106,7 @@ msgstr ""
 
 #: server/settings.c:381
 msgid "Amount of \"special\" resource squares"
-msgstr ""
+msgstr "\"Specialių\" resursų laukelių kiekis"
 
 #: server/settings.c:382
 msgid "Special resources improve the basic terrain type they are on. The server variable's scale is parts per thousand."
@@ -4108,7 +4114,7 @@ msgstr ""
 
 #: server/settings.c:389
 msgid "Amount of huts (minor tribe villages)"
-msgstr ""
+msgstr "Namelių (mažų genčių kaimelių) kiekis"
 
 #: server/settings.c:390
 msgid "This setting gives the exact number of huts that will be placed on the entire map. Huts are small tribal villages that may be investiged by units."
@@ -4140,7 +4146,7 @@ msgstr ""
 
 #: server/settings.c:433
 msgid "List of players' initial units"
-msgstr ""
+msgstr "Žaidėjo pradinių dalinių sąrašas"
 
 #: server/settings.c:434
 msgid ""
@@ -4158,11 +4164,11 @@ msgstr ""
 
 #: server/settings.c:451
 msgid "Area where initial units are located"
-msgstr ""
+msgstr "Vieta, kurioje išdėstomi pradiniai daliniai"
 
 #: server/settings.c:452
 msgid "This is the radius within which the initial units are dispersed."
-msgstr ""
+msgstr "Tai yra spindulys, kuriame išsklaidomi pradiniai daliniai."
 
 #: server/settings.c:458
 msgid "Starting gold per player"
@@ -4170,7 +4176,7 @@ msgstr "Pradinis aukso kiekis žaidėjui"
 
 #: server/settings.c:459
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr ""
+msgstr "Žaidimo pradžioje kiekvienas žaidėjas gauna tokį aukso kiekį."
 
 #: server/settings.c:465
 msgid "Number of initial techs per player"
@@ -4214,7 +4220,7 @@ msgstr ""
 
 #: server/settings.c:515
 msgid "Penalty when getting a free tech"
-msgstr ""
+msgstr "Bauda gaunant nemokamą technologiją"
 
 #: server/settings.c:516
 msgid "For each technology you gain \"for free\" (other than covered by diplcost or conquercost: specifically, from huts or from Great Library effects), you lose research points equal to this percentage of the cost to research a new technology. You can end up with negative research points if this is non-zero."
@@ -4302,7 +4308,7 @@ msgstr ""
 
 #: server/settings.c:630
 msgid "Reduce city population after attack"
-msgstr ""
+msgstr "Sumažinti miesto populiaciją po atakos"
 
 #: server/settings.c:631
 msgid ""
@@ -4323,7 +4329,7 @@ msgstr ""
 
 #: server/settings.c:654
 msgid "Units inside borders cause no unhappiness"
-msgstr ""
+msgstr "Daliniai valstybės viduje nekelia nepasitenkinimo"
 
 #: server/settings.c:655
 msgid "If this is set, units will not cause unhappiness when inside your own borders."
@@ -4331,7 +4337,7 @@ msgstr ""
 
 #: server/settings.c:661
 msgid "Ability to do diplomacy with other players"
-msgstr ""
+msgstr "Galimybė vykdyti diplomatiją su kitais žaidėjais."
 
 #: server/settings.c:662
 msgid ""
@@ -4437,11 +4443,11 @@ msgstr ""
 
 #: server/settings.c:785
 msgid "Whether to use natural city names"
-msgstr ""
+msgstr "Ar naudoti natūralius miestų pavadinimus."
 
 #: server/settings.c:786
 msgid "If enabled, the default city names will be determined based on the surrounding terrain."
-msgstr ""
+msgstr "Jei įjungta, tai standartiniai miestų pavadinimai bus nustatomi pagal juos supantį reljefą."
 
 #: server/settings.c:799
 msgid "Players that users are allowed to take"
@@ -4553,7 +4559,7 @@ msgstr ""
 
 #: server/settings.c:919
 msgid "Fixed-length turns play mode"
-msgstr ""
+msgstr "Fiksuoto laiko ėjimų žaidimo režimas"
 
 #: server/settings.c:920
 msgid "If this is set to 1 the game turn will not advance until the timeout has expired, even if all players have clicked on \"Turn Done\"."
@@ -4729,12 +4735,12 @@ msgstr ""
 #: server/srv_main.c:482
 #, c-format
 msgid "Concerned citizens point out that the cease-fire with %s will run out soon."
-msgstr ""
+msgstr "Susirūpinę gyventojai primena, jog paliaubos su %s tuoj baigsis."
 
 #: server/srv_main.c:486
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr ""
+msgstr "Paliaubų laikas su %s baigėsi. Jūs dabar kariaujate su %s."
 
 #: server/srv_main.c:499
 #, c-format
@@ -4794,7 +4800,7 @@ msgstr "Ši tauta jau pasirinkta."
 #: server/srv_main.c:1242
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
-msgstr "Kitas žaidėjas jau turi vardą „%s“. Prašom pasirinkti kitą vardą."
+msgstr "Kitas žaidėjas jau turi vardą „%s“. Prašome pasirinkti kitą vardą."
 
 #: server/srv_main.c:1263
 msgid "Please choose a name containing only ASCII characters."
@@ -4844,7 +4850,7 @@ msgstr "%s valdo %s."
 #: server/srv_main.c:1765
 #, c-format
 msgid "Sending info to metaserver [%s]"
-msgstr ""
+msgstr "Informacija siunčiama į metaserverį [%s]"
 
 #: server/srv_main.c:1793
 msgid "The game is over..."
@@ -4890,7 +4896,7 @@ msgstr ""
 #: server/stdinhand.c:466
 #, c-format
 msgid "No player by the name of '%s'."
-msgstr ""
+msgstr "Nėra tokio žaidėjo, vardu '%s'."
 
 #: server/stdinhand.c:470
 #: server/stdinhand.c:505
@@ -4914,7 +4920,7 @@ msgstr "Jungties vardo priešdėlis „%s“ yra dviprasmiškas."
 #: server/stdinhand.c:501
 #, c-format
 msgid "No connection by the name of '%s'."
-msgstr ""
+msgstr "Nėra tokios jungties, pavadinimu '%s'."
 
 #: server/stdinhand.c:521
 #, c-format
@@ -4978,11 +4984,11 @@ msgstr "Serverio id: %s"
 
 #: server/stdinhand.c:752
 msgid "You cannot save games manually on this server."
-msgstr ""
+msgstr "Rankiniu būdu šiame serveryje žaidmų išsaugoti negalite."
 
 #: server/stdinhand.c:769
 msgid "Cannot toggle a barbarian player."
-msgstr ""
+msgstr "Negalite perjungti barbaro žaidėjo."
 
 #: server/stdinhand.c:776
 #, c-format
@@ -4996,7 +5002,7 @@ msgstr "%s dabar valdo žmogus."
 
 #: server/stdinhand.c:837
 msgid "Can't add AI players once the game has begun."
-msgstr ""
+msgstr "Negalite įdėti DI žaidėjų žaidimui prasidėjus."
 
 #: server/stdinhand.c:856
 msgid "Can't add more players, server is full."
@@ -5046,7 +5052,7 @@ msgstr "Žaidėjas %s pašalintas iš žaidimo"
 #: server/stdinhand.c:3183
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "Vardas \"%s\" neleidžiamas dėl saugumo priežasčių."
 
 #: server/stdinhand.c:1017
 #, c-format
@@ -5147,7 +5153,7 @@ msgstr ""
 
 #: server/stdinhand.c:1396
 msgid "Someone else already is game organizer."
-msgstr ""
+msgstr "Žaidimo organizatorius jau yra kažkas kitas."
 
 #: server/stdinhand.c:1401
 #, c-format
@@ -5276,7 +5282,7 @@ msgstr "Nežinomas parametras „%s“."
 
 #: server/stdinhand.c:1928
 msgid "All options with non-default values"
-msgstr ""
+msgstr "Visos parinktys su nestandartinėmis reikšmėmis"
 
 #: server/stdinhand.c:1931
 msgid "All options"
@@ -5323,7 +5329,7 @@ msgstr ""
 
 #: server/stdinhand.c:2075
 msgid "Cannot change teams once game has begun."
-msgstr ""
+msgstr "Negalima pakeisti komandų žaidimui prasidėjus."
 
 #: server/stdinhand.c:2085
 msgid "Undefined argument.  Usage: team <player> <team>."
@@ -5353,7 +5359,7 @@ msgstr "Stebėtojai balsuoti negali."
 
 #: server/stdinhand.c:2151
 msgid "You can only vote in a running game.  Use 'first' to become the game organizer if there currently is none."
-msgstr ""
+msgstr "Balsuoti galima tik vykstančiame žaidime.  Įveskite 'first' norėdami tapti žaidimo organizatoriumi, jei jo dabar nėra."
 
 #: server/stdinhand.c:2164
 #, c-format
@@ -5427,7 +5433,7 @@ msgstr "Blogos žemėlapio koordinatės."
 
 #: server/stdinhand.c:2345
 msgid "No city at this coordinate."
-msgstr ""
+msgstr "Nurodytomos koordinatėmis miestas nerastas."
 
 #: server/stdinhand.c:2350
 #, c-format
@@ -5461,7 +5467,7 @@ msgstr ""
 
 #: server/stdinhand.c:2465
 msgid "You are not allowed to set this option."
-msgstr ""
+msgstr "Jums neleidžiama nustatyti šios parinkties."
 
 #: server/stdinhand.c:2470
 msgid "This setting can't be modified after the game has started."
@@ -5474,18 +5480,18 @@ msgstr "Vertė turi būti sveikasis skaičius."
 
 #: server/stdinhand.c:2486
 msgid "Value out of range (minimum: 0, maximum: 1)."
-msgstr ""
+msgstr "Reikšmė yra už ribų (minimali: 0, maksimali: 1)"
 
 #: server/stdinhand.c:2499
 #: server/stdinhand.c:2525
 #, c-format
 msgid "Option: %s has been set to %d."
-msgstr ""
+msgstr "Parinktis %s buvo nustatyta į %d."
 
 #: server/stdinhand.c:2512
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
-msgstr ""
+msgstr "Reikšmė yra už ribų (minimali: %d, maksimali: %d)"
 
 #: server/stdinhand.c:2535
 msgid "String value too long.  Usage: set <option> <value>."
@@ -5494,7 +5500,7 @@ msgstr ""
 #: server/stdinhand.c:2547
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
-msgstr ""
+msgstr "Parinktis %s buvo nustatyta į \"%s\"."
 
 #: server/stdinhand.c:2588
 msgid "Sorry, one can't observe globally in this game."
@@ -5601,7 +5607,7 @@ msgstr "%s jau kontroliuoja %s"
 #: server/stdinhand.c:2930
 #, c-format
 msgid "being detached from %s."
-msgstr ""
+msgstr "yra atjungiamas nuo %s."
 
 #: server/stdinhand.c:2989
 #, c-format
@@ -5654,12 +5660,12 @@ msgstr "Naudojimas: detach <ryšio-pavadinimas>"
 
 #: server/stdinhand.c:3045
 msgid "You can not detach other users."
-msgstr ""
+msgstr "Jūs negalite atjungti kitų žaidėjų."
 
 #: server/stdinhand.c:3054
 #, c-format
 msgid "%s is not attached to any player."
-msgstr ""
+msgstr "%s nėra prisijungęs prie jokio žaidėjo."
 
 #: server/stdinhand.c:3077
 #, c-format
@@ -5790,7 +5796,7 @@ msgstr "Negalime paleisti žaidimo, nes jis jau vyksta."
 #: server/stdinhand.c:3730
 #, c-format
 msgid "Cutting connection %s."
-msgstr ""
+msgstr "Atjungiamas susijungimas %s."
 
 #: server/stdinhand.c:3749
 msgid ""
@@ -5829,7 +5835,7 @@ msgstr "Lygis: %s"
 
 #: server/stdinhand.c:3825
 msgid "The following server commands are available:"
-msgstr ""
+msgstr "Šios serverio komandos yra galimos:"
 
 #: server/stdinhand.c:3900
 #, c-format
@@ -5897,7 +5903,7 @@ msgstr[2] " %d susijungimų:"
 #: server/stdinhand.c:4074
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr ""
+msgstr "   %s iš %s (priėjimo lygis yra %s), buferio dydis=%dkb"
 
 #: server/stdinhand.c:4079
 msgid " (observer mode)"
@@ -5932,7 +5938,7 @@ msgstr "Prisijungimų prie serverio sąrašas:"
 
 #: server/stdinhand.c:4148
 msgid "<no connections>"
-msgstr ""
+msgstr "<nėra susijungimų>"
 
 #: server/stdinhand.c:4172
 msgid "List of scenarios available:"
@@ -5956,7 +5962,7 @@ msgstr "%s gauta(s) iš %s!"
 #: server/techtools.c:218
 #, c-format
 msgid "Discovery of %s makes the government form %s available. You may want to start a revolution."
-msgstr ""
+msgstr "%s atradimas padaro %s prieinamą. Jūs galbūt norėsite pradėti revoliuciją."
 
 #: server/techtools.c:296
 #, c-format
@@ -6015,7 +6021,7 @@ msgstr "%s pavogė %s iš %s."
 #: server/unithand.c:99
 #, c-format
 msgid "Illegal packet, can't upgrade %s (yet)."
-msgstr ""
+msgstr "Blogas paketas, dar negalima patobulinti %s."
 
 #: server/unithand.c:127
 #, c-format
@@ -6145,9 +6151,9 @@ msgid "No diplomat action possible."
 msgstr "Neįmanomi jokie diplomato veiksmai."
 
 #: server/unithand.c:1046
-#, fuzzy, c-format
+#, c-format
 msgid "Unit cannot perform diplomatic action from %s."
-msgstr "* Gali atlikti diplomatinius veiksmus.\n"
+msgstr "Dalinys negali atlikti diplomatinių veiksmų iš %s."
 
 #: server/unithand.c:1064
 #, c-format
@@ -6168,7 +6174,7 @@ msgstr "Šio tipo daliniai negali užimti miesto"
 
 #: server/unithand.c:1133
 msgid "A transported unit is not allied to all units or city on target tile."
-msgstr ""
+msgstr "Perkeltas dalinys nėra sąjunginkinkas su visais tame laukelyje esančiu miestu ar daliniais."
 
 #: server/unithand.c:1175
 #, c-format
@@ -6183,35 +6189,35 @@ msgstr ""
 #: server/unithand.c:1221
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route because it has no home city"
-msgstr ""
+msgstr "Apgailestaujame, tačiau Jūsų %s negali įkurti prekybos kelio, nes jis neturi namų miesto"
 
 #: server/unithand.c:1231
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
-msgstr ""
+msgstr "Apgailestaujame, tačiau Jūsų %s negali įkurti prekybos kelio tarp %s ir %s"
 
 #: server/unithand.c:1259
 #: server/unithand.c:1276
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
-msgstr ""
+msgstr "Apgailestaujame, tačiau čia Jūsų %s negali įkurti prekybos kelio!"
 
 #: server/unithand.c:1262
 #: server/unithand.c:1279
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
-msgstr ""
+msgstr "       %s jau turi %d geresnius prekybos kelius!"
 
 #: server/unithand.c:1291
 #: server/unithand.c:1302
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
-msgstr ""
+msgstr "Apgailestaujame, tačiau %s panaikino prekybos kelią iš miesto %s į Jūsų miestą %s."
 
 #: server/unithand.c:1334
 #, c-format
 msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
-msgstr ""
+msgstr "Jūsų %s iš %s atvyko į miestą %s ir atneša %d pelno auksu ir paieškos taškais."
 
 #: server/unittools.c:253
 #, c-format
@@ -6226,22 +6232,22 @@ msgstr "Nepakanka aukso. Išmontuojamas %s"
 #: server/unittools.c:341
 #, c-format
 msgid "Your %s has run out of hit points."
-msgstr ""
+msgstr "Jūsų %s baigėsi gyvybės taškai."
 
 #: server/unittools.c:357
 #, c-format
 msgid "Your %s has been lost on the high seas."
-msgstr ""
+msgstr "Jūsų %s buvo prarastas plačiosiose jūrose."
 
 #: server/unittools.c:364
 #, c-format
 msgid "Your %s survived on the high seas and became more experienced!"
-msgstr ""
+msgstr "Jūsų %s buvo išgyveno plačiosiose jūrose ir įgavo patirties."
 
 #: server/unittools.c:375
 #, c-format
 msgid "Your %s has been lost on unsafe terrain."
-msgstr ""
+msgstr "Jūsų %s buvo prarastas, nes atsidūrė ant nesaugaus reljefo."
 
 #: server/unittools.c:416
 #, c-format
@@ -6291,22 +6297,22 @@ msgstr "Išmontuotas Jūsų %s."
 #: server/unittools.c:1406
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
-msgstr ""
+msgstr "Negalime apginti %s, %s pralošė žaidimą."
 
 #: server/unittools.c:1409
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
-msgstr ""
+msgstr "%s praradimas reiškė žaidimo pralaimėjimą! Kitą kartą būkite atsargesnis!"
 
 #: server/unittools.c:1448
 #, c-format
 msgid "%s lost when %s was lost."
-msgstr ""
+msgstr "%s prarastas, kai %s buvo prarastas."
 
 #: server/unittools.c:1515
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
-msgstr ""
+msgstr "%s išsigelbėjo iš %s ir pabėgo į %s."
 
 #: server/unittools.c:1575
 #, c-format
@@ -6316,17 +6322,17 @@ msgstr "Sučiuptas barbarų vadas, gauta %d aukso išpirka."
 #: server/unittools.c:1593
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr ""
+msgstr "Jūsų %s ataka prieš  %s %s%s pavyko ir dalinys įgavo patirties!"
 
 #: server/unittools.c:1601
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr ""
+msgstr "Jūsų %s ataka prieš  %s %s%s pavyko!"
 
 #: server/unittools.c:1608
 #, c-format
 msgid "%s lost to an attack by %s's %s%s."
-msgstr ""
+msgstr "%s prarastas atakuojant %s %s%s."
 
 #: server/unittools.c:1640
 #, c-format
@@ -6452,7 +6458,7 @@ msgstr "Jūsų %s nusileido parašiutu į %s ir buvo sunaikintas."
 #: server/unittools.c:2140
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr ""
+msgstr "Jūsų %s buvo nužudytas priešo dalinių nusileidimo parašiutais vietoje."
 
 #: server/unittools.c:2162
 #, c-format
@@ -6471,7 +6477,7 @@ msgstr "%s gavo %s iš senovinių išminties rankraščių."
 
 #: server/unittools.c:2199
 msgid "A band of friendly mercenaries joins your cause."
-msgstr ""
+msgstr "Prie Jūsų prisijungia draugiškų samdinių būrys."
 
 #: server/unittools.c:2217
 msgid "An abandoned village is here."
@@ -6484,7 +6490,7 @@ msgstr "Jūs išlaisvinote barbarų ordą."
 #: server/unittools.c:2230
 #, c-format
 msgid "Your %s has been killed by barbarians!"
-msgstr "Barbarai užmušė Jūsų %s!"
+msgstr "Jūsų %s buvo užmuštas barbarų!"
 
 #: server/unittools.c:2246
 msgid "You found a friendly city."
@@ -6501,37 +6507,37 @@ msgstr ""
 #: server/unittools.c:2536
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
-msgstr ""
+msgstr "Dalinio %s įsakymai nutraukti, nes pastebėtas priešo judėjimas."
 
 #: server/unittools.c:2979
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
-msgstr ""
+msgstr "Dalinio %s įsakymai nutraukti, nes gretimais yra kitų dalinių."
 
 #: server/unittools.c:3031
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
-msgstr ""
+msgstr "Dalinio %s įsakymai nutraukti, nes žlugo miesto statyba."
 
 #: server/unittools.c:3043
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
-msgstr ""
+msgstr "Dalinio %s įsakymai nutraukti, nes jiems netinkamai įsakyta."
 
 #: server/unittools.c:3057
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
-msgstr ""
+msgstr "Dalinio %s įsakymai nutraukti, nes jiems nurodyta netinkama vieta."
 
 #: server/unittools.c:3067
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
-msgstr ""
+msgstr "Dalinio %s įsakymai nutraukti, nes kelyje yra kitų dalinių."
 
 #: server/unittools.c:3093
 #, c-format
 msgid "Orders for %s aborted because of failed move."
-msgstr ""
+msgstr "Dalinio %s įsakymai nutraukti dėl blogo ėjimo."
 
 #: server/unittools.c:3134
 #, c-format
@@ -6555,7 +6561,7 @@ msgstr "Jūsų %s gavo klaidingus nurodymus."
 
 #: server/generator/mapgen.c:1713
 msgid "High landmass - this may take a few seconds."
-msgstr ""
+msgstr "Didelis sausumos kiekis, todėl tai gali užtrukti kelias sekundes."
 
 #: server/generator/mapgen.c:1911
 #: server/generator/mapgen.c:1981
@@ -6565,12 +6571,12 @@ msgstr "Grįžtama į generatorių %d."
 
 #: server/generator/mapgen.c:2001
 msgid "Generator 3 didn't place all big islands."
-msgstr ""
+msgstr "3 generatorius nepaskirstė didelių salų."
 
 #: server/generator/mapgen.c:2030
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
-msgstr ""
+msgstr "3 generatorius paliko %li sausumos nepaskirstęs."
 
 #: server/generator/startpos.c:381
 #, c-format
@@ -6591,17 +6597,17 @@ msgstr ""
 #: client/audio.c:119
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
-msgstr ""
+msgstr "Įskiepis '%s' negalimas. Galimi yra %s"
 
 #: client/audio.c:125
 #, c-format
 msgid "Plugin %s found but can't be initialized."
-msgstr ""
+msgstr "Įskiepis %s rastas, bet negali būti paleistas."
 
 #: client/audio.c:130
 #, c-format
 msgid "Plugin '%s' is now selected"
-msgstr ""
+msgstr "Dabar pasirinktas įskiepis '%s'."
 
 #: client/audio.c:174
 #, c-format
@@ -6620,7 +6626,7 @@ msgstr ""
 
 #: client/audio.c:200
 msgid "For sound support, install SDL_mixer"
-msgstr ""
+msgstr "Kad girdėtumėte garsus, instaliuokite SDL_mixer"
 
 #: client/audio.c:201
 msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
@@ -6637,7 +6643,7 @@ msgstr ""
 
 #: client/audio.c:214
 msgid "To get sound you need to download a sound set!"
-msgstr ""
+msgstr "Kad girdėtumėte garsą, Jums reikia atsisiųsti garsų rinkinį!"
 
 #: client/audio.c:215
 #, c-format
@@ -6646,7 +6652,7 @@ msgstr ""
 
 #: client/audio.c:217
 msgid "Will continue with disabled sounds."
-msgstr ""
+msgstr "Bus tęsiama su išjungtu garsu."
 
 #: client/audio.c:222
 #, c-format
@@ -6667,7 +6673,7 @@ msgstr ""
 
 #: client/audio.c:259
 msgid "Perhaps there is some misconfigurationg or bad permissions"
-msgstr ""
+msgstr "Galbūt kalta bloga konfigūracija arba uždrausta prieiga"
 
 #: client/audio.c:282
 #, c-format
@@ -6908,7 +6914,7 @@ msgstr "Darbininkai: susierzinę"
 
 #: client/cityrepdata.c:449
 msgid "Special"
-msgstr ""
+msgstr "Specialūs"
 
 #: client/cityrepdata.c:450
 msgid "?entertainers/scientists/taxmen:E/S/T"
@@ -6916,12 +6922,12 @@ msgstr ""
 
 #: client/cityrepdata.c:451
 msgid "Entertainers, Scientists, Taxmen"
-msgstr ""
+msgstr "Paslaugų teikėjai, mokslininkai, mokesčių rinkėjai"
 
 #: client/cityrepdata.c:453
 #: client/cityrepdata.c:455
 msgid "Best"
-msgstr ""
+msgstr "Geriausi"
 
 #: client/cityrepdata.c:453
 msgid "attack"
@@ -6929,7 +6935,7 @@ msgstr "ataka"
 
 #: client/cityrepdata.c:454
 msgid "Best attacking units"
-msgstr ""
+msgstr "Geriausiai atakuojantys daliniai"
 
 #: client/cityrepdata.c:455
 msgid "defense"
@@ -6937,7 +6943,7 @@ msgstr "gynyba"
 
 #: client/cityrepdata.c:456
 msgid "Best defending units"
-msgstr ""
+msgstr "Geriausiai besiginantys daliniai"
 
 #: client/cityrepdata.c:457
 #: client/cityrepdata.c:459
@@ -6981,7 +6987,7 @@ msgstr ""
 
 #: client/cityrepdata.c:460
 msgid "Number of units present"
-msgstr ""
+msgstr "Esančių dalinių dalinių"
 
 #: client/cityrepdata.c:462
 msgid "Surplus"
@@ -7307,7 +7313,7 @@ msgstr "Šalys susitaria dėl sąjungos"
 #: client/climisc.c:287
 #, c-format
 msgid "The %s gives shared vision"
-msgstr ""
+msgstr "%s duoda mums bendrą regėjimo lauką"
 
 #: client/climisc.c:291
 #, c-format
@@ -7320,7 +7326,7 @@ msgstr ""
 
 #: client/climisc.c:926
 msgid "Exporting output window to civgame.log ..."
-msgstr ""
+msgstr "Įrašome išvesties langą į civgame.log ..."
 
 #: client/climisc.c:930
 msgid "Export complete."
@@ -7328,12 +7334,12 @@ msgstr "Eksportavimas baigtas."
 
 #: client/climisc.c:932
 msgid "Export failed, couldn't write to file."
-msgstr ""
+msgstr "Įrašymas nepavyko, negalime rašyti į failą."
 
 #: client/climisc.c:1032
 #, c-format
 msgid "You don't buy %s in %s!"
-msgstr ""
+msgstr "Jūs neperkate %s mieste %s!"
 
 #: client/climisc.c:1050
 #, c-format
@@ -7364,7 +7370,7 @@ msgstr ""
 #: client/clinet.c:478
 #: client/clinet.c:480
 msgid "Connection to server refused. Please start the server."
-msgstr ""
+msgstr "Neįmanoma prisijungti prie serverio. Prašome paleisti serverį."
 
 #: client/clinet.c:489
 #: client/clinet.c:517
@@ -7414,7 +7420,7 @@ msgstr "Negaliu paleisti serverio."
 #: client/connectdlg_common.c:343
 #: client/connectdlg_common.c:376
 msgid "You'll have to start one manually. Sorry..."
-msgstr ""
+msgstr "Jūs turite paleisti vieną rankiniu būdu. Apgailestaujame..."
 
 #: client/connectdlg_common.c:374
 msgid "Couldn't connect to the server."
@@ -7422,7 +7428,7 @@ msgstr "Negalima prisijungti prie serverio."
 
 #: client/connectdlg_common.c:375
 msgid "We probably couldn't start it from here."
-msgstr ""
+msgstr "Mes tikriausiai iš čia negalime jo paleisti."
 
 #: client/connectdlg_common.c:495
 msgid "We have control of the server (command access level hack)"
@@ -7616,15 +7622,15 @@ msgstr " * Gali okupuoti tuščius priešo miestus.\n"
 
 #: client/helpdata.c:765
 msgid "  * Speed is not affected by terrain.\n"
-msgstr ""
+msgstr "  * Greitis nepriklauso nuo reljefo.\n"
 
 #: client/helpdata.c:768
 msgid "  * Slowed down while damaged\n"
-msgstr ""
+msgstr "  * Sulėtėja įvykus pažeidimams\n"
 
 #: client/helpdata.c:772
 msgid "  * Gets used up in making an attack.\n"
-msgstr ""
+msgstr "  * Sunaudojamas įvykdžius ataką.\n"
 
 #: client/helpdata.c:777
 #, c-format
@@ -7641,11 +7647,11 @@ msgstr "* Niekada neturi gimtojo miesto.\n"
 
 #: client/helpdata.c:789
 msgid "* Losing this unit will lose you the game!\n"
-msgstr ""
+msgstr "* Prarasdami šį dalinį Jūs pralaimėsite žaidimą!\n"
 
 #: client/helpdata.c:793
 msgid "* Each player may only have one of this type of unit.\n"
-msgstr ""
+msgstr "*Kiekvienas žaidėjas gali turėti tik vieną šio tipo dalinį.\n"
 
 #: client/helpdata.c:796
 #, c-format
@@ -7757,7 +7763,7 @@ msgstr ""
 
 #: client/helpdata.c:895
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr ""
+msgstr "* galė plėšti ir taip sunakinti laukelių infrastruktūrą.\n"
 
 #: client/helpdata.c:899
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
@@ -7769,16 +7775,15 @@ msgstr "* Gali atlikti diplomatinius veiksmus.\n"
 
 #: client/helpdata.c:906
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
-msgstr ""
+msgstr "* Niekada nepralaimės diplomatas prieš diplomatą kovos.\n"
 
 #: client/helpdata.c:910
 msgid "* May not be bribed.\n"
 msgstr "* Negali būti papirktas.\n"
 
 #: client/helpdata.c:913
-#, fuzzy
 msgid "* Can attack enemy air units.\n"
-msgstr "* Gali pulti kitaip nepasiekiamus priešo dalinius.\n"
+msgstr "* Gali pulti priešo oro dalinius.\n"
 
 #: client/helpdata.c:916
 msgid "* Is invisible except when next to an enemy unit or city.\n"
@@ -7815,7 +7820,7 @@ msgstr "* Labai blogai atakuoja AEGIS dalinius.\n"
 
 #: client/helpdata.c:952
 msgid "* Making an attack ends this unit's turn.\n"
-msgstr ""
+msgstr "* Atakos įvykdymas reiškia šio dalinio ėjimo baigtį.\n"
 
 #: client/helpdata.c:956
 msgid "* This unit's attack causes a nuclear explosion!\n"
@@ -7914,17 +7919,17 @@ msgstr " Šis skaičius gali kisti priklausomai nuo to, ką kiti žaidėjai išr
 #: client/helpdata.c:1121
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
-msgstr ""
+msgstr "* Pirmasis žaidėjas, atradęs %s, iš karto gauna papildomą technologiją.\n"
 
 #: client/helpdata.c:1126
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-msgstr "* %s atradimas sumažina riziką iki 25%%.\n"
+msgstr "* Sumažina riziką iki 25%%.\n"
 
 #: client/helpdata.c:1129
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-msgstr "* %s sumažina riziką iki 12%%.\n"
+msgstr "* Sumažina riziką iki 12%%.\n"
 
 #: client/helpdata.c:1132
 msgid "* Increases the pollution generated by the population.\n"
@@ -7933,7 +7938,7 @@ msgstr "* Padidina gyventojų sukuriamą taršą.\n"
 #: client/helpdata.c:1137
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
-msgstr ""
+msgstr "* %s gali statyti kelius upių laukeliuose.\n"
 
 #: client/helpdata.c:1144
 #, c-format
@@ -8034,7 +8039,7 @@ msgstr ""
 #: client/helpdata.c:1340
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr ""
+msgstr "Maksimali norma, kurią galite nustatyti mokslui, auksui ir prabangai yra %d%%.\n"
 
 #: client/helpdata.c:1344
 msgid "Has unlimited science/gold/luxuries rates.\n"
@@ -8057,7 +8062,7 @@ msgstr ""
 #: client/helpdata.c:1365
 #, c-format
 msgid "* You may grow your cities by means of celebrations.  Your cities must be at least size %d before they can grown in this manner.\n"
-msgstr ""
+msgstr "* Jūsų miestai gali augti švęsdami.  Miestai turi būti mažiausiai %d dydžio, kad jie galėtų augti šiuo būdu.\n"
 
 #: client/helpdata.c:1371
 msgid "* Your units cannot be bribed.\n"
@@ -8073,7 +8078,7 @@ msgstr ""
 
 #: client/helpdata.c:1382
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Turi senatą, kuris gali sutrukdyti karo paskelbimui.\n"
 
 #: client/helpdata.c:1386
 msgid "* Allows partisans when cities are taken by the enemy.\n"
@@ -8085,7 +8090,7 @@ msgstr ""
 
 #: client/helpdata.c:1394
 msgid "* Pays no upkeep for fanatics.\n"
-msgstr ""
+msgstr "* Fanatikams nereikia išlaikymo.\n"
 
 #: client/helpdata.c:1397
 msgid "* Has no unhappy citizens.\n"
@@ -8095,7 +8100,7 @@ msgstr "* Neturi nelaimingų piliečių.\n"
 #: client/helpdata.c:1404
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr ""
+msgstr "* Veteranų daliniai %s.\n"
 
 #: client/helpdata.c:1407
 msgid "* Veteran units.\n"
@@ -8134,17 +8139,17 @@ msgstr ""
 #: client/helpdata.c:1439
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr ""
+msgstr "* %s švaistymas greitai didės didėjant atstumui nuo sostinės.\n"
 
 #: client/helpdata.c:1442
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* %s švaistymas didės didėjant atstumui nuo sostinės.\n"
 
 #: client/helpdata.c:1445
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr ""
+msgstr "* %s švaistymas lėtai didės didėjant atstumui nuo sostinės.\n"
 
 #: client/helpdata.c:1456
 #, c-format
@@ -8161,7 +8166,7 @@ msgstr "%s%d %s"
 #: client/helpdata.c:1489
 #, c-format
 msgid "%s%d unhappy"
-msgstr ""
+msgstr "%s%d nepatenkintų"
 
 #: client/mapctrl_common.c:382
 #, c-format
@@ -8171,11 +8176,11 @@ msgstr "Jūs nežinote, kaip statyti %s!"
 #: client/mapctrl_common.c:392
 #, c-format
 msgid "Copy %s to clipboard."
-msgstr ""
+msgstr "Nukopijuoti %s į iškarpinę."
 
 #: client/mapctrl_common.c:407
 msgid "Clipboard is empty."
-msgstr ""
+msgstr "Iškarpinė yra tuščia."
 
 #: client/options.c:87
 msgid "Graphics"
@@ -8296,7 +8301,7 @@ msgstr ""
 #: client/options.c:166
 #: client/gui-sdl/optiondlg.c:1017
 msgid "Show combat animation"
-msgstr ""
+msgstr "Rodyti mūšio animaciją"
 
 #: client/options.c:167
 msgid "Disabling this option will turn off combat animation between units on the mapview."
@@ -8346,7 +8351,7 @@ msgstr ""
 #: client/options.c:197
 #: client/gui-sdl/optiondlg.c:1150
 msgid "Auto Center on Combat"
-msgstr ""
+msgstr "Automatiškai sucentruoti vykstant kovai"
 
 #: client/options.c:198
 msgid "Set this option to have any combat be centered automatically.  Disabled this will speed up the time between turns but may cause you to miss combat entirely."
@@ -8363,7 +8368,7 @@ msgstr ""
 
 #: client/options.c:207
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Leisti eiti į nežinomą"
 
 #: client/options.c:208
 msgid "Setting this option will make the game consider moving into unknown tiles.  If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -8388,7 +8393,7 @@ msgstr ""
 #: client/options.c:220
 #: client/gui-sdl/optiondlg.c:1255
 msgid "End Turn when done moving"
-msgstr ""
+msgstr "Baigti ėjimą kai baigiasi ėjimai"
 
 #: client/options.c:221
 msgid "Setting this option makes your turn end automatically when all your units are done moving."
@@ -8462,11 +8467,11 @@ msgstr ""
 
 #: client/options.c:425
 msgid "Cannot find your home directory"
-msgstr ""
+msgstr "Negaliu surasti Jūsų namų direktorijos"
 
 #: client/options.c:579
 msgid "Save failed, cannot find a filename."
-msgstr ""
+msgstr "Bandymas išsaugoti žaidimą nepavyko, nes negaliu surasti tokio bylos vardo."
 
 #: client/options.c:638
 msgid "If you add a preset by hand, also update \"number_of_presets\""
@@ -8485,7 +8490,7 @@ msgstr "Išsaugoti nustatymus į failą %s"
 #: client/packhand.c:199
 #, c-format
 msgid "You were rejected from the game: %s"
-msgstr ""
+msgstr "Jūs buvote nepriimtas į žaidimą: %s"
 
 #: client/packhand.c:214
 #, c-format
@@ -8495,7 +8500,7 @@ msgstr ""
 #: client/packhand.c:217
 #, c-format
 msgid "Server capability string: %s"
-msgstr ""
+msgstr "Serverio galimybių eilutė: %s"
 
 #: client/packhand.c:832
 #, c-format
@@ -8505,15 +8510,15 @@ msgstr "%d ėjimo pradžia"
 #: client/packhand.c:1552
 #, c-format
 msgid "AI Mode is now %s."
-msgstr ""
+msgstr "DI režimas dabar yra  %s."
 
 #: client/packhand.c:1553
 msgid "ON"
-msgstr ""
+msgstr "Įjungta"
 
 #: client/packhand.c:1553
 msgid "OFF"
-msgstr ""
+msgstr "Išjungta"
 
 #: client/plrdlg_common.c:198
 #: client/gui-mui/plrdlg.c:127
@@ -8661,7 +8666,7 @@ msgstr "Negalima atverti laikinos bylos."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
-msgstr ""
+msgstr "Bloga $http_proxy arba metaserverio reikšmė, turi prasidėti su 'http://'"
 
 #: client/servers.c:413
 msgid "Failed looking up metaserver's host"
@@ -8774,7 +8779,7 @@ msgstr "%s %s teritorija"
 
 #: client/text.c:137
 msgid "Unclaimed territory"
-msgstr ""
+msgstr "Nepriklausoma teritorija."
 
 #. TRANS: "City: Warsaw (Polish)"
 #: client/text.c:148
@@ -8886,7 +8891,7 @@ msgstr "Pažanga: netyrinėjama"
 
 #: client/text.c:445
 msgid "Progress: no research target"
-msgstr ""
+msgstr "Progresas: nėra paieškos tikslo"
 
 #: client/text.c:450
 #, c-format
@@ -8989,7 +8994,7 @@ msgstr ""
 
 #: client/text.c:583
 msgid "(Click for more info)"
-msgstr ""
+msgstr "(Paspauskite norėdami sužinoti daugiau informacijos)"
 
 #: client/text.c:600
 #, c-format
@@ -9055,7 +9060,7 @@ msgstr[2] "%d dalinių"
 #: client/text.c:686
 #, c-format
 msgid "Turns to target: %d"
-msgstr ""
+msgstr "Ėjimai iki tikslo: %d"
 
 #: client/text.c:688
 #, c-format
@@ -9091,11 +9096,11 @@ msgstr ""
 
 #: client/text.c:807
 msgid "No units to upgrade!"
-msgstr ""
+msgstr "Nėra tobulintinų dalinių!"
 
 #: client/text.c:832
 msgid "None of these units may be upgraded."
-msgstr ""
+msgstr "Nei vienas iš šių dalinių negali būti patobulintas."
 
 #: client/text.c:838
 #, c-format
@@ -9117,11 +9122,11 @@ msgstr[2] ""
 
 #: client/text.c:859
 msgid "Shows your progress in researching the current technology."
-msgstr ""
+msgstr "Rodo Jūsų pažangą, beieškant dabar nustatytos technologijos."
 
 #: client/text.c:863
 msgid "no research target."
-msgstr ""
+msgstr "Nėra paieškų tikslo."
 
 #: client/text.c:868
 #, c-format
@@ -9135,26 +9140,26 @@ msgstr "Rodo globalinio atšilimo eigą:"
 #: client/text.c:889
 #, c-format
 msgid "Pollution rate: %d%%"
-msgstr ""
+msgstr "Užterštumo norma: %d%%"
 
 #: client/text.c:891
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
-msgstr ""
+msgstr "Katastrofinio klimato atšilimo tikimybė kiekvienu ėjimu: %d%%"
 
 #: client/text.c:907
 msgid "Shows the progress of nuclear winter:"
-msgstr ""
+msgstr "Rodo branduolinės žiemos galimybės progresą:"
 
 #: client/text.c:908
 #, c-format
 msgid "Fallout rate: %d%%"
-msgstr ""
+msgstr "Radioaktyvių dulkių kritimo norma: %d%%"
 
 #: client/text.c:910
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
-msgstr ""
+msgstr "Branduolinės žiemos pasireiškimo tikimybė kiekvienu ėjimu: %d%%"
 
 #: client/text.c:925
 msgid "Shows your current government:"
@@ -9300,7 +9305,7 @@ msgstr ""
 
 #: client/tilespec.c:858
 msgid "No usable default tileset found, aborting!"
-msgstr ""
+msgstr "Nėra tinkamo laukelių rinkinio, todėl baigiamas darbas!"
 
 #: client/tilespec.c:862
 #, c-format
@@ -9330,9 +9335,9 @@ msgid "Couldn't find a supported gfx file extension for %s"
 msgstr ""
 
 #: client/tilespec.c:1252
-#, fuzzy, c-format
+#, c-format
 msgid "Can't find tileset \"%s\"."
-msgstr "Negaliu rasti audio failo %s"
+msgstr "Negaliu rasti laukelių rinkinio \"%s\"."
 
 #: client/tilespec.c:1301
 msgid "Client does not support isometric tilesets. Using default tileset instead."
@@ -9414,7 +9419,7 @@ msgstr "nėra"
 #: client/agents/cma_fec.c:234
 #: client/gui-gtk-2.0/cityrep.c:586
 msgid "custom"
-msgstr ""
+msgstr "pasirinktinis"
 
 #: client/agents/cma_fec.c:342
 #: client/gui-mui/citydlg.c:2150
@@ -9531,7 +9536,7 @@ msgstr "_Pavogti"
 #: client/gui-win32/dialogs.c:1285
 #: data/Freeciv.in:2357
 msgid "Select Advance to Steal"
-msgstr ""
+msgstr "Pasirinkite technologiją, kurią norite pavogti"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:266
 msgid "_Advances:"
@@ -9553,7 +9558,7 @@ msgstr "Šnipo nuožiūra"
 #: client/gui-win32/dialogs.c:1474
 #: data/Freeciv.in:2384
 msgid "Sabotage Improvements"
-msgstr ""
+msgstr "Sabotuoti patobulinimus"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:381
 #: client/gui-mui/dialogs.c:422
@@ -9566,7 +9571,7 @@ msgstr "_Sabotuoti"
 #: client/gui-win32/dialogs.c:1484
 #: data/Freeciv.in:2399
 msgid "Select Improvement to Sabotage"
-msgstr ""
+msgstr "Pasirinkite patobulinimą, kurį norite sabotuoti"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:410
 #: client/gui-gtk-2.0/citydlg.c:841
@@ -9587,14 +9592,14 @@ msgstr "Miesto produkcija"
 #: client/gui-win32/dialogs.c:1542
 #, c-format
 msgid "You can't incite a revolt in %s."
-msgstr ""
+msgstr "Jūs negalite sukleti revoliucijos mieste %s."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:540
 #: client/gui-mui/dialogs.c:485
 #: client/gui-sdl/diplomat_dialog.c:1154
 #: client/gui-win32/dialogs.c:1544
 msgid "City can't be incited!"
-msgstr ""
+msgstr "Mieste negali būti sukelta revoliucija."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:546
 #: client/gui-mui/dialogs.c:488
@@ -9635,11 +9640,13 @@ msgid ""
 "Your %s has arrived at %s.\n"
 "What is your command?"
 msgstr ""
+"Jūsų %s atvyko į %s.\n"
+"Koks Jūsų nurodymas?"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:622
 #: client/gui-win32/dialogs.c:1600
 msgid " Choose Your Diplomat's Strategy"
-msgstr " Pasirink savo diplomato strategiją"
+msgstr " Pasirinkite savo diplomato strategiją"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:623
 #: client/gui-gtk-2.0/diplomat_dialog.c:647
@@ -9737,14 +9744,12 @@ msgid "_Sabotage Enemy Unit"
 msgstr ""
 
 #: client/gui-gtk-2.0/editdlg.c:60
-#, fuzzy
 msgid "clear all"
-msgstr "Branduolinė elektrinė"
+msgstr "viską išvalyti"
 
 #: client/gui-gtk-2.0/editdlg.c:75
-#, fuzzy
 msgid "Paint"
-msgstr "Lygumos"
+msgstr "Piešti"
 
 #: client/gui-gtk-2.0/editdlg.c:75
 #: client/gui-gtk-2.0/dialogs.c:507
@@ -9769,9 +9774,8 @@ msgid "Delete"
 msgstr "Trinti"
 
 #: client/gui-gtk-2.0/editdlg.c:330
-#, fuzzy
 msgid "Moves Left"
-msgstr "Ėjimai"
+msgstr "Likę ėjimai"
 
 #: client/gui-gtk-2.0/editdlg.c:331
 msgid "Activity"
@@ -9829,6 +9833,8 @@ msgid ""
 "Your caravan from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
+"Jūsų karavanas iš %s pasiekia miestą %s.\n"
+"Kas dabar?"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:114
 #: client/gui-mui/dialogs.c:1016
@@ -9851,7 +9857,7 @@ msgstr "Aplankyti turgų"
 #: client/gui-win32/chatline.c:134
 #: client/gui-xaw/chatline.c:120
 msgid "Cleared output window."
-msgstr ""
+msgstr "Išvesties langas išvalytas."
 
 #: client/gui-gtk-2.0/citydlg.c:578
 #: client/gui-mui/citydlg.c:1322
@@ -9941,7 +9947,7 @@ msgstr "_Apžvalga"
 #: client/gui-win32/wldlg.c:801
 #: client/gui-win32/wldlg.c:807
 msgid "Info"
-msgstr ""
+msgstr "Informacija"
 
 #: client/gui-gtk-2.0/citydlg.c:679
 #: client/gui-sdl/citydlg.c:2585
@@ -9951,7 +9957,7 @@ msgstr "Miesto žemėlapis"
 
 #: client/gui-gtk-2.0/citydlg.c:773
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "Norėdami parduoti patobulinimą paspauskite ENTER arba greitai spustelkite pele du kartus."
 
 #: client/gui-gtk-2.0/citydlg.c:791
 #: client/gui-gtk-2.0/citydlg.c:911
@@ -10011,7 +10017,7 @@ msgstr "Mokesčių rinkėjai"
 #: client/gui-gtk-2.0/citydlg.c:1034
 #: client/gui-win32/citydlg.c:1999
 msgid "Disband if build settler at size 1"
-msgstr ""
+msgstr "Panaikinti, jei stato kolonistą būdamas dydžio 1"
 
 #: client/gui-gtk-2.0/citydlg.c:1037
 msgid "Overview page"
@@ -10106,7 +10112,7 @@ msgstr "Palaikomi daliniai %d"
 #: client/gui-gtk-2.0/citydlg.c:1866
 #, c-format
 msgid "Present units %d"
-msgstr ""
+msgstr "Esantys daliniai %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1989
 #: client/gui-gtk-2.0/cityrep.c:800
@@ -10316,7 +10322,7 @@ msgstr "Visi miestai"
 #: client/gui-gtk-2.0/cityrep.c:1388
 #: client/gui-win32/cityrep.c:440
 msgid "No Cities"
-msgstr ""
+msgstr "Nėra miestų"
 
 #: client/gui-gtk-2.0/cityrep.c:1393
 #: client/gui-win32/cityrep.c:441
@@ -10367,7 +10373,7 @@ msgstr "Palaikomi daliniai"
 #: client/gui-gtk-2.0/cityrep.c:1461
 #: client/gui-win32/cityrep.c:454
 msgid "Units Present"
-msgstr ""
+msgstr "Esantys daliniai"
 
 #: client/gui-gtk-2.0/cityrep.c:1465
 #: client/gui-win32/cityrep.c:469
@@ -10417,7 +10423,7 @@ msgstr "Rezultatai"
 #: client/gui-sdl/cma_fe.c:883
 #: client/gui-win32/cma_fe.c:215
 msgid "Minimal Surplus"
-msgstr ""
+msgstr "Minimalus perteklius"
 
 #: client/gui-gtk-2.0/cma_fe.c:319
 #: client/gui-mui/citydlg.c:1594
@@ -10499,14 +10505,14 @@ msgstr "Revoliucija!"
 #: client/gui-win32/dialogs.c:1728
 #: data/Freeciv.in:2507
 msgid "What To Pillage"
-msgstr ""
+msgstr "Ką plėšti"
 
 #: client/gui-gtk-2.0/dialogs.c:312
 #: client/gui-mui/dialogs.c:1117
 #: client/gui-win32/dialogs.c:1735
 #: data/Freeciv.in:2509
 msgid "Select what to pillage:"
-msgstr ""
+msgstr "Pasirinkite, ką plėšti:"
 
 #: client/gui-gtk-2.0/dialogs.c:508
 #: client/gui-gtk-2.0/pages.c:1478
@@ -10601,7 +10607,7 @@ msgstr "Jūs privalote nurodyti miestų stilių."
 #: client/gui-win32/dialogs.c:354
 #: client/gui-xaw/dialogs.c:1489
 msgid "You must type a legal name."
-msgstr ""
+msgstr "Jūs turite įvesti galiojantį vardą."
 
 #: client/gui-gtk-2.0/dialogs.c:1298
 #: client/gui-mui/dialogs.c:1747
@@ -10621,7 +10627,7 @@ msgstr "Patobulinti dalinį!"
 #: client/gui-win32/repodlgs.c:573
 #: data/Freeciv.in:2480
 msgid "Upgrade Obsolete Units"
-msgstr ""
+msgstr "Patobulinti pasenusius dalinius."
 
 #: client/gui-gtk-2.0/diplodlg.c:231
 #: client/gui-win32/diplodlg.c:151
@@ -10701,7 +10707,7 @@ msgstr "---Sutartis tuščia. Pridėk kokių nors sąlygų. ---"
 #: client/gui-win32/diplodlg.c:263
 #: client/gui-xaw/diplodlg.c:948
 msgid "Invalid amount of gold specified."
-msgstr ""
+msgstr "Pateiktas blogas aukso kiekis."
 
 #: client/gui-gtk-2.0/finddlg.c:64
 #: client/gui-mui/finddlg.c:96
@@ -10757,7 +10763,7 @@ msgstr ""
 #: client/gui-win32/gotodlg.c:160
 #: data/Freeciv.in:1104
 msgid "Goto/Airlift Unit"
-msgstr ""
+msgstr "Eiti į/perkelti dalinį"
 
 #: client/gui-gtk-2.0/gotodlg.c:127
 msgid "Air_lift"
@@ -10768,7 +10774,7 @@ msgstr ""
 #: client/gui-sdl/gotodlg.c:232
 #: client/gui-sdl/mapview.c:529
 msgid "Select destination"
-msgstr ""
+msgstr "Pasirinkti tikslą"
 
 #: client/gui-gtk-2.0/gotodlg.c:183
 msgid "Show _All Cities"
@@ -10784,7 +10790,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:167
 msgid "Keyboardless goto"
-msgstr ""
+msgstr "Nereikalaujantis klaviatūros eiti į"
 
 #: client/gui-gtk-2.0/gui_main.c:168
 msgid "If this option is set then a goto may be initiated by left-clicking and then holding down the mouse button while dragging the mouse onto a different tile."
@@ -10800,7 +10806,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:178
 msgid "Show worklist task icons"
-msgstr ""
+msgstr "Rodyti darbų sąrašų užduočių ikonas"
 
 #: client/gui-gtk-2.0/gui_main.c:179
 msgid "Disabling this will turn off the unit and building icons in the worklist dialog and the production tab of the city dialog."
@@ -10817,7 +10823,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:189
 #: client/gui-win32/gui_main.c:109
 msgid "Better fog-of-war drawing"
-msgstr ""
+msgstr "Gerenis karo rūko piešimas"
 
 #: client/gui-gtk-2.0/gui_main.c:190
 #: client/gui-win32/gui_main.c:110
@@ -10825,9 +10831,8 @@ msgid "If this is enabled then a better method is used for drawing fog-of-war.  
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:196
-#, fuzzy
 msgid "City Label"
-msgstr "Miesto pavadinimas"
+msgstr "Miesto žyma"
 
 #: client/gui-gtk-2.0/gui_main.c:197
 #: client/gui-gtk-2.0/gui_main.c:202
@@ -10842,48 +10847,43 @@ msgstr "Miesto pavadinimas"
 #: client/gui-gtk-2.0/gui_main.c:247
 #: client/gui-gtk-2.0/gui_main.c:252
 msgid "FIXME"
-msgstr ""
+msgstr "Ištaisyk mane"
 
 #: client/gui-gtk-2.0/gui_main.c:201
 msgid "Notify Label"
-msgstr ""
+msgstr "Priminimų žyma"
 
 #: client/gui-gtk-2.0/gui_main.c:206
-#, fuzzy
 msgid "Spaceship Label"
-msgstr "Erdvėlaivis"
+msgstr "Erdvėlaivio žyma"
 
 #: client/gui-gtk-2.0/gui_main.c:211
 msgid "Help Label"
-msgstr ""
+msgstr "Pagalbos žyma"
 
 #: client/gui-gtk-2.0/gui_main.c:216
-#, fuzzy
 msgid "Help Link"
-msgstr "Pagalba"
+msgstr "Pagalbos nuoroda"
 
 #: client/gui-gtk-2.0/gui_main.c:221
-#, fuzzy
 msgid "Help Text"
-msgstr "Pagalba"
+msgstr "Pagalbos tekstas"
 
 #: client/gui-gtk-2.0/gui_main.c:226
-#, fuzzy
 msgid "Chatline Area"
-msgstr "Apgyvendinta teritorija"
+msgstr "Pokalbių vieta"
 
 #: client/gui-gtk-2.0/gui_main.c:231
 msgid "Beta Label"
-msgstr ""
+msgstr "Beta žyma"
 
 #: client/gui-gtk-2.0/gui_main.c:236
 msgid "Small Font"
 msgstr "Smulkus šriftas"
 
 #: client/gui-gtk-2.0/gui_main.c:241
-#, fuzzy
 msgid "Comment Label"
-msgstr "Komentaras"
+msgstr "Komentaro žyma"
 
 #: client/gui-gtk-2.0/gui_main.c:246
 #: client/gui-mui/gui_main.c:233
@@ -10896,7 +10896,7 @@ msgstr "Miestų vardai"
 #: client/gui-mui/gui_main.c:234
 #: client/gui-xaw/menu.c:146
 msgid "City Productions"
-msgstr ""
+msgstr "Miesto gamyba"
 
 #: client/gui-gtk-2.0/gui_main.c:684
 #: client/gui-gtk-2.0/gui_main.c:1311
@@ -10912,7 +10912,7 @@ msgstr "Ėjimas baigtas"
 
 #: client/gui-gtk-2.0/gui_main.c:1065
 msgid "Shift+Return"
-msgstr ""
+msgstr "Shift+Return"
 
 #: client/gui-gtk-2.0/gui_main.c:1097
 msgid "_Map"
@@ -10960,9 +10960,8 @@ msgid "Create _player"
 msgstr "Sukurti _žaidėją"
 
 #: client/gui-gtk-2.0/gui_main.c:1484
-#, fuzzy
 msgid "_Release player"
-msgstr "Turgus"
+msgstr "At_jungti žaidėją"
 
 #: client/gui-gtk-2.0/gui_main.c:1486
 #: client/gui-gtk-2.0/pages.c:1568
@@ -11003,13 +11002,12 @@ msgid "Observer"
 msgstr "Stebėtojas"
 
 #: client/gui-gtk-2.0/gui_main.c:1594
-#, fuzzy
 msgid "Detached"
-msgstr "Miręs"
+msgstr "Atsijungęs"
 
 #: client/gui-gtk-2.0/gui_main.c:1864
 msgid "Are you sure you want to quit?"
-msgstr "Ar tikrai nori išeiti?"
+msgstr "Ar tikrai norite išeiti?"
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 #, c-format
@@ -11057,7 +11055,7 @@ msgstr ""
 #: client/gui-win32/happiness.c:219
 #, c-format
 msgid "Luxury: %d total."
-msgstr ""
+msgstr "Prabanga: %d iš viso."
 
 #: client/gui-gtk-2.0/happiness.c:296
 #: client/gui-mui/citydlg.c:2243
@@ -11075,7 +11073,7 @@ msgstr ""
 #: client/gui-mui/citydlg.c:2251
 #: client/gui-win32/happiness.c:255
 msgid "no maximum, "
-msgstr ""
+msgstr "nėra maksimumo,"
 
 #: client/gui-gtk-2.0/happiness.c:306
 #: client/gui-mui/citydlg.c:2253
@@ -11098,12 +11096,12 @@ msgstr ""
 #: client/gui-mui/citydlg.c:2260
 #: client/gui-win32/happiness.c:266
 msgid "Military units in the field may cause unhappiness. "
-msgstr ""
+msgstr "Kariniai daliniai lauke gali kelti nepasitenkinimą."
 
 #: client/gui-gtk-2.0/happiness.c:319
 #: client/gui-win32/happiness.c:270
 msgid "Military units have no happiness effect. "
-msgstr ""
+msgstr "Kariniai daliniai neveikia laimingumo efekto. "
 
 #: client/gui-gtk-2.0/helpdlg.c:88
 #: client/gui-gtk-2.0/helpdlg.c:91
@@ -11184,7 +11182,7 @@ msgstr ""
 #: client/gui-sdl/helpdlg.c:731
 #: client/gui-win32/helpdlg.c:91
 msgid "FirePower:"
-msgstr ""
+msgstr "Šaunamoji galia:"
 
 #: client/gui-gtk-2.0/helpdlg.c:97
 #: client/gui-mui/helpdlg.c:564
@@ -11192,14 +11190,14 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:91
 #: data/Freeciv.in:876
 msgid "Hitpoints:"
-msgstr ""
+msgstr "Gyvybės taškai:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98
 #: client/gui-mui/helpdlg.c:566
 #: client/gui-win32/helpdlg.c:92
 #: data/Freeciv.in:912
 msgid "Basic Upkeep:"
-msgstr ""
+msgstr "Pradinė išlaikymo kaina:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98
 #: client/gui-mui/helpdlg.c:560
@@ -11207,12 +11205,12 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:92
 #: data/Freeciv.in:894
 msgid "Vision:"
-msgstr ""
+msgstr "Regėjimo laukas:"
 
 #: client/gui-gtk-2.0/helpdlg.c:104
 #: client/gui-win32/helpdlg.c:98
 msgid "Move/Defense:"
-msgstr ""
+msgstr "Ėjimai/Gynyba:"
 
 #: client/gui-gtk-2.0/helpdlg.c:104
 #: client/gui-win32/helpdlg.c:98
@@ -11282,11 +11280,11 @@ msgstr "Freeciv pagalbos naršyklė"
 
 #: client/gui-gtk-2.0/helpdlg.c:653
 msgid "Expand All"
-msgstr ""
+msgstr "Išskleisti viską:"
 
 #: client/gui-gtk-2.0/helpdlg.c:654
 msgid "Collapse All"
-msgstr ""
+msgstr "Sutraukti viską:"
 
 #: client/gui-gtk-2.0/helpdlg.c:938
 #: client/gui-gtk-2.0/helpdlg.c:965
@@ -11337,7 +11335,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:1022
 #: client/gui-xaw/helpdlg.c:1041
 msgid "n/a"
-msgstr ""
+msgstr "nėra"
 
 #: client/gui-gtk-2.0/helpdlg.c:1073
 #: client/gui-win32/helpdlg.c:622
@@ -11410,7 +11408,7 @@ msgstr ""
 #: client/gui-gtk-2.0/mapview.c:640
 #: client/gui-win32/canvas.c:275
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr ""
+msgstr "Geresnis rūkas bus naudojamas dirbant tikrų spalvų režimu, todėl palaikymas išjungiamas."
 
 #: client/gui-gtk-2.0/menu.c:253
 msgid "Leaving a local game will end it!"
@@ -11623,14 +11621,14 @@ msgstr ""
 #: manual/civmanual.c:220
 #: data/helpdata.txt:1177
 msgid "Terrain"
-msgstr ""
+msgstr "Reljefas"
 
 #: client/gui-gtk-2.0/menu.c:795
 #: client/gui-mui/gui_main.c:237
 #: client/gui-win32/menu.c:340
 #: client/gui-xaw/menu.c:149
 msgid "Coastline"
-msgstr ""
+msgstr "Pakrantė"
 
 #: client/gui-gtk-2.0/menu.c:801
 #: client/gui-win32/menu.c:342
@@ -11663,7 +11661,7 @@ msgstr ""
 #: client/gui-win32/menu.c:348
 #: client/gui-xaw/menu.c:155
 msgid "Pollution & Fallout"
-msgstr ""
+msgstr "Užterštumas ir radioaktyvios dulkės"
 
 #: client/gui-gtk-2.0/menu.c:817
 #: client/gui-mui/gui_main.c:247
@@ -11901,7 +11899,7 @@ msgstr ""
 #: client/gui-win32/menu.c:390
 #: client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
-msgstr ""
+msgstr "Susprogduinti atominę jėgainę"
 
 #: client/gui-gtk-2.0/menu.c:904
 msgid "Select same type"
@@ -11997,9 +11995,8 @@ msgid "_Editor"
 msgstr "_Redaktorius"
 
 #: client/gui-gtk-2.0/menu.c:941
-#, fuzzy
 msgid "_Editing Mode"
-msgstr "Redagavimo įrankiai"
+msgstr "_Redagavimo režimas"
 
 #: client/gui-gtk-2.0/menu.c:943
 msgid "_Tools"
@@ -12147,10 +12144,11 @@ msgstr "%s..."
 msgid "Change to %s (_I)"
 msgstr "Keisti į %s (_D)"
 
+# Atrodo čia kasykla
 #: client/gui-gtk-2.0/menu.c:1357
 #, c-format
 msgid "Change to %s (_M)"
-msgstr ""
+msgstr "Keisti į %s (_K)"
 
 #: client/gui-gtk-2.0/menu.c:1358
 #, c-format
@@ -12201,7 +12199,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
-msgstr ""
+msgstr "Įvykis"
 
 #: client/gui-gtk-2.0/messagedlg.c:127
 msgid "Out"
@@ -12291,7 +12289,7 @@ msgstr "Pradėti _naują žaidimą"
 
 #: client/gui-gtk-2.0/pages.c:214
 msgid "Start _Scenario Game"
-msgstr ""
+msgstr "Žaisti _scenarijų"
 
 #: client/gui-gtk-2.0/pages.c:220
 msgid "_Load Saved Game"
@@ -12408,7 +12406,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1173
 msgid "Pick nation"
-msgstr "Pasirink tautą"
+msgstr "Pasirinkite tautą"
 
 #: client/gui-gtk-2.0/pages.c:1183
 msgid "Observe this player"
@@ -12416,7 +12414,7 @@ msgstr "Stebėti šį žaidėją"
 
 #: client/gui-gtk-2.0/pages.c:1190
 msgid "Take this player"
-msgstr ""
+msgstr "Pasiimti šitą žaidėją"
 
 #: client/gui-gtk-2.0/pages.c:1207
 msgid "Cut connection"
@@ -12440,9 +12438,9 @@ msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "Put on %s"
-msgstr "Gyventojai: %s"
+msgstr "Priimti į %s"
 
 #: client/gui-gtk-2.0/pages.c:1410
 msgid "_Number of Players (including AI):"
@@ -12461,9 +12459,8 @@ msgid "More Game _Options..."
 msgstr "Daugiau žaidimo _nustatymų"
 
 #: client/gui-gtk-2.0/pages.c:1482
-#, fuzzy
 msgid "Record"
-msgstr "Ataskaita"
+msgstr "Įrašas"
 
 #: client/gui-gtk-2.0/pages.c:1487
 msgid "Rating"
@@ -12481,11 +12478,11 @@ msgstr "Vadas"
 
 #: client/gui-gtk-2.0/pages.c:1628
 msgid "Choose Saved Game to Load"
-msgstr "Pasirink išsaugotą žaidimą įkėlimui"
+msgstr "Pasirinkite išsaugotą žaidimą įkėlimui"
 
 #: client/gui-gtk-2.0/pages.c:1720
 msgid "Choose Saved Game to _Load:"
-msgstr "Pasirink išsaugotą žaidimą į_kėlimui:"
+msgstr "Pasirinkite išsaugotą žaidimą į_kėlimui:"
 
 #: client/gui-gtk-2.0/pages.c:1740
 #: client/gui-gtk-2.0/pages.c:1928
@@ -12586,7 +12583,7 @@ msgstr "Parduoti _viską"
 #: client/gui-gtk-2.0/repodlgs.c:795
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr "Ar tikrai nori parduoti savo %s?\n"
+msgstr "Ar tikrai norite parduoti savo %s?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
 msgid "Sell Improvements"
@@ -12618,13 +12615,13 @@ msgstr ""
 #: client/gui-mui/repodlgs.c:665
 #: client/gui-win32/repodlgs.c:691
 msgid "In-Prog"
-msgstr ""
+msgstr "Gamyboje"
 
 #: client/gui-gtk-2.0/repodlgs.c:934
 #: client/gui-mui/repodlgs.c:666
 #: client/gui-win32/repodlgs.c:691
 msgid "Active"
-msgstr ""
+msgstr "Aktyvūs"
 
 #: client/gui-gtk-2.0/repodlgs.c:1007
 msgid "Find _Nearest"
@@ -12741,17 +12738,17 @@ msgstr "Žaidimo nustatymai"
 #: client/gui-gtk-2.0/repodlgs.c:1555
 #: client/gui-xaw/repodlgs.c:1410
 msgid "true"
-msgstr ""
+msgstr "teigiama"
 
 #: client/gui-gtk-2.0/repodlgs.c:1555
 #: client/gui-xaw/repodlgs.c:1410
 msgid "false"
-msgstr ""
+msgstr "neigiama"
 
 #: client/gui-gtk-2.0/repodlgs.c:1565
 #: client/gui-xaw/repodlgs.c:1420
 msgid "(hidden)"
-msgstr ""
+msgstr "(paslėpta)"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:221
 #: client/gui-mui/spaceshipdlg.c:228
@@ -12866,7 +12863,7 @@ msgstr ""
 
 #: client/gui-mui/citydlg.c:1234
 msgid "Freeciv - Cityproduction"
-msgstr ""
+msgstr "Freeciv - Miesto produkcija"
 
 #: client/gui-mui/citydlg.c:1249
 #: client/gui-mui/cityrep.c:283
@@ -12938,15 +12935,15 @@ msgstr "Prekybos maršrutų puslapis"
 
 #: client/gui-mui/citydlg.c:1384
 msgid "This Misc. Settings page"
-msgstr ""
+msgstr "Šitas įvairių nustatymų puslapis"
 
 #: client/gui-mui/citydlg.c:1406
 msgid "Freeciv - Cityview"
-msgstr ""
+msgstr "Freeciv - Miesto vaizdas"
 
 #: client/gui-mui/citydlg.c:1433
 msgid "City Output"
-msgstr ""
+msgstr "Miesto išvestis"
 
 #: client/gui-mui/citydlg.c:1438
 msgid "Citymap"
@@ -12956,7 +12953,7 @@ msgstr "Miesto žemėlapis"
 #: client/gui-mui/citydlg.c:1493
 #: client/gui-win32/citydlg.c:816
 msgid "Units present"
-msgstr ""
+msgstr "Esantys daliniai"
 
 #: client/gui-mui/citydlg.c:1469
 #: client/gui-sdl/citydlg.c:2614
@@ -13134,7 +13131,7 @@ msgstr "Serverio pasirinkimas"
 #: client/gui-mui/connectdlg.c:192
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
-msgstr ""
+msgstr "Prisijungti prie Freeciv serverio"
 
 #: client/gui-mui/connectdlg.c:201
 #: client/gui-mui/connectdlg.c:202
@@ -13264,7 +13261,7 @@ msgstr "Pakurstyti _revoliuciją"
 #: client/gui-sdl/diplomat_dialog.c:545
 #: data/Freeciv.in:2280
 msgid "Choose Your Diplomat's Strategy"
-msgstr "Pasirink savo diplomato strategiją"
+msgstr "Pasirinkite savo diplomato strategiją"
 
 #: client/gui-mui/dialogs.c:806
 msgid "_Poison city"
@@ -13288,20 +13285,20 @@ msgstr "_Padėti pastatyti stebuklą"
 
 #: client/gui-mui/dialogs.c:1116
 msgid "Freeciv - Pillage"
-msgstr ""
+msgstr "Freeciv - Plėšti"
 
 #: client/gui-mui/dialogs.c:1206
 msgid "Freeciv - Connect"
-msgstr ""
+msgstr "Freeciv - Jungti"
 
 #: client/gui-mui/dialogs.c:1207
 #: data/Freeciv.in:2519
 msgid "Choose unit activity:"
-msgstr ""
+msgstr "Pasirinkite dalinio veiksmą:"
 
 #: client/gui-mui/dialogs.c:1361
 msgid "Freeciv - Select an unit"
-msgstr ""
+msgstr "Freeciv - pasirinkite dalinį"
 
 #: client/gui-mui/dialogs.c:1365
 msgid "_Ready All"
@@ -13350,15 +13347,15 @@ msgstr "_Atsijungti"
 #: client/gui-sdl/dialogs.c:433
 #, c-format
 msgid "Sorry: cannot upgrade %s."
-msgstr ""
+msgstr "Apgailestaujame, bet negalime patobulinti %s."
 
 #: client/gui-mui/diplodlg.c:274
 msgid "No technology"
-msgstr ""
+msgstr "Nėra technologijos"
 
 #: client/gui-mui/diplodlg.c:304
 msgid "No city"
-msgstr ""
+msgstr "Nėra miesto"
 
 #: client/gui-mui/diplodlg.c:480
 #: client/gui-sdl/diplodlg.c:822
@@ -13398,7 +13395,7 @@ msgstr "Pasiekimai"
 #: client/gui-win32/diplodlg.c:617
 #: client/gui-win32/diplodlg.c:665
 msgid "Give shared vision"
-msgstr ""
+msgstr "Duoti bendrą regėjimo lauką"
 
 #: client/gui-mui/diplodlg.c:495
 #: client/gui-mui/diplodlg.c:626
@@ -13548,7 +13545,7 @@ msgstr "Karalystė"
 
 #: client/gui-mui/gui_main.c:224
 msgid "Tax Rate..."
-msgstr ""
+msgstr "Mokesčių norma..."
 
 #: client/gui-mui/gui_main.c:226
 msgid "Find City..."
@@ -13580,7 +13577,7 @@ msgstr "Centruoti vaizdą"
 
 #: client/gui-mui/gui_main.c:252
 msgid "Order"
-msgstr ""
+msgstr "Įsakyti"
 
 #: client/gui-mui/gui_main.c:253
 #: client/gui-mui/gui_main.c:1294
@@ -13628,7 +13625,7 @@ msgstr "Statyti drėkinimą"
 #: client/gui-win32/menu.c:1108
 #: client/gui-xaw/menu.c:175
 msgid "Transform Terrain"
-msgstr ""
+msgstr "Keisti reljefą"
 
 #: client/gui-mui/gui_main.c:259
 #: client/gui-mui/mapclass.c:1670
@@ -13673,19 +13670,19 @@ msgstr "Įtvirtinti"
 #: client/gui-mui/gui_main.c:268
 #: client/gui-xaw/menu.c:187
 msgid "Make Homecity"
-msgstr ""
+msgstr "Padaryti namų miestu"
 
 #: client/gui-mui/gui_main.c:269
 #: client/gui-mui/mapclass.c:1694
 #: client/gui-sdl/menu.c:564
 #: client/gui-xaw/menu.c:191
 msgid "Unload"
-msgstr ""
+msgstr "Išlaipinti"
 
 #: client/gui-mui/gui_main.c:270
 #: client/gui-xaw/menu.c:192
 msgid "Wake up others"
-msgstr ""
+msgstr "Pažadinti kitus"
 
 #: client/gui-mui/gui_main.c:272
 #: client/gui-mui/mapclass.c:1684
@@ -13693,7 +13690,7 @@ msgstr ""
 #: client/gui-win32/menu.c:1257
 #: client/gui-xaw/menu.c:194
 msgid "Auto Settler"
-msgstr ""
+msgstr "Automatiškai dirbti"
 
 #: client/gui-mui/gui_main.c:273
 #: client/gui-mui/mapclass.c:1686
@@ -13734,7 +13731,7 @@ msgstr "Eiti į"
 #: client/gui-win32/menu.c:385
 #: client/gui-xaw/menu.c:202
 msgid "Go/Airlift to City"
-msgstr ""
+msgstr "Eiti/perkelti oru į miestą"
 
 #: client/gui-mui/gui_main.c:281
 #: client/gui-sdl/menu.c:765
@@ -13747,7 +13744,7 @@ msgstr "Padėti statyti stebuklą"
 #: client/gui-win32/menu.c:1195
 #: client/gui-xaw/menu.c:207
 msgid "Make Trade Route"
-msgstr ""
+msgstr "Įkurti prekybos kelią"
 
 #: client/gui-mui/gui_main.c:283
 #: client/gui-win32/menu.c:389
@@ -13825,7 +13822,7 @@ msgstr "Keisti į %s"
 #: client/gui-win32/menu.c:1247
 #: client/gui-xaw/menu.c:180
 msgid "Paradrop"
-msgstr ""
+msgstr "Nuleisti parašiutais"
 
 #: client/gui-mui/gui_main.c:1290
 #: client/gui-mui/mapclass.c:1664
@@ -13854,12 +13851,12 @@ msgstr "Tiesti geležinkelį"
 
 #: client/gui-mui/gui_main.c:1445
 msgid "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
-msgstr ""
+msgstr "Negalima atidaryti pagrindinio lango (Grafinės atminties problema arba per mažas lango dydis)\n"
 
 #: client/gui-mui/helpdlg.c:562
 #: data/Freeciv.in:859
 msgid "Firepower:"
-msgstr ""
+msgstr "Šaunamoji galia:"
 
 #: client/gui-mui/helpdlg.c:676
 #, c-format
@@ -13900,7 +13897,7 @@ msgstr " (su "
 #: client/gui-mui/helpdlg.c:859
 #, c-format
 msgid "Movecost: %ld"
-msgstr ""
+msgstr "Ėjimo kaina: %ld"
 
 #: client/gui-mui/helpdlg.c:860
 #, c-format
@@ -14020,7 +14017,7 @@ msgstr "Dalinys %s"
 #: client/gui-mui/mapclass.c:1637
 #, c-format
 msgid "Tile %s"
-msgstr ""
+msgstr "Laukelis %s"
 
 #: client/gui-mui/mapclass.c:1650
 #: client/gui-win32/messagewin.c:151
@@ -14030,7 +14027,7 @@ msgstr ""
 
 #: client/gui-mui/mapclass.c:1696
 msgid "Wake up"
-msgstr ""
+msgstr "Pažadinti"
 
 #: client/gui-mui/mapclass.c:1698
 #: client/gui-mui/mapclass.c:2931
@@ -14040,15 +14037,15 @@ msgstr "Aktyvuoti"
 
 #: client/gui-mui/mapclass.c:1752
 msgid "List all units"
-msgstr ""
+msgstr "Visų dalinių sąrašas"
 
 #: client/gui-mui/mapclass.c:1767
 msgid "Connect to this location"
-msgstr ""
+msgstr "Prijungti prie šios vietos"
 
 #: client/gui-mui/mapclass.c:1770
 msgid "Goto this location"
-msgstr ""
+msgstr "Eiti į šitą vietą"
 
 #: client/gui-mui/mapclass.c:2937
 #: client/gui-mui/mapclass.c:3084
@@ -14178,13 +14175,13 @@ msgstr ""
 #: client/gui-mui/repodlgs.c:459
 #: client/gui-win32/repodlgs.c:456
 msgid "Building Name"
-msgstr ""
+msgstr "Pastato pavadinimas"
 
 #: client/gui-mui/repodlgs.c:491
 #: client/gui-win32/repodlgs.c:377
 #: client/gui-xaw/repodlgs.c:765
 msgid "Sell-Off:"
-msgstr ""
+msgstr "Parduoti:"
 
 #: client/gui-mui/repodlgs.c:505
 #: client/gui-win32/repodlgs.c:435
@@ -14304,7 +14301,7 @@ msgstr "u8Darbų sąrašain"
 #: client/gui-mui/worklistclass.c:710
 #: client/gui-win32/wldlg.c:852
 msgid "Undo"
-msgstr ""
+msgstr "Atšaukti"
 
 #: client/gui-mui/worklistclass.c:711
 msgid "Accept"
@@ -14312,7 +14309,7 @@ msgstr "Priimti"
 
 #: client/gui-mui/worklistclass.c:731
 msgid "Current Targets"
-msgstr ""
+msgstr "Esami taikiniai"
 
 #: client/gui-mui/worklistclass.c:746
 msgid "Available Targets"
@@ -14363,7 +14360,7 @@ msgstr "Judėti toliau"
 #: client/gui-sdl/chatline.c:469
 #, c-format
 msgid "Total users logged in : %d"
-msgstr ""
+msgstr "Iš viso prisijungusių vartotojų yra %d"
 
 #: client/gui-sdl/chatline.c:506
 msgid ""
@@ -14395,7 +14392,7 @@ msgstr ""
 #: data/Freeciv.in:1160
 #: data/Freeciv.in:1196
 msgid "Unit Commands"
-msgstr ""
+msgstr "Dalinio komandos"
 
 #: client/gui-sdl/citydlg.c:460
 #: data/Freeciv.in:1162
@@ -14407,7 +14404,7 @@ msgstr "Aktyvuoti dalinį"
 #: data/Freeciv.in:1166
 #: data/Freeciv.in:1202
 msgid "Activate unit, close dialog"
-msgstr ""
+msgstr "Aktyvuoti dalinį, uždaryti langą"
 
 #: client/gui-sdl/citydlg.c:484
 #: data/Freeciv.in:1170
@@ -14487,6 +14484,8 @@ msgid ""
 "Disband if build\n"
 "settler at size 1"
 msgstr ""
+"Panaikinti, jei stato\n"
+"kolonistą, esant dydžio 1"
 
 #: client/gui-sdl/citydlg.c:1164
 msgid "Sorry, You have already bought here in this turn"
@@ -14527,11 +14526,11 @@ msgstr[2] " dalinių"
 #: client/gui-sdl/citydlg.c:1833
 #, c-format
 msgid "Garrison Panel (%d %s)"
-msgstr ""
+msgstr "Įgulos skydelis (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1884
 msgid "Info Panel"
-msgstr ""
+msgstr "Informacinis stendas"
 
 #: client/gui-sdl/citydlg.c:1907
 #, c-format
@@ -14553,9 +14552,8 @@ msgstr "Prekyba: +%d"
 
 #: client/gui-sdl/citydlg.c:2061
 #: client/gui-sdl/citydlg.c:3810
-#, fuzzy
 msgid "Happiness panel"
-msgstr "Laimė"
+msgstr "Laimingumo skydelis"
 
 #: client/gui-sdl/citydlg.c:2600
 msgid "Citizens"
@@ -14579,7 +14577,7 @@ msgstr "Gamyba: %d (%d) per ėjimą"
 #: client/gui-sdl/citydlg.c:2763
 #, c-format
 msgid "?production:Support: %d"
-msgstr ""
+msgstr "?production:Išlaikymas: %d"
 
 #: client/gui-sdl/citydlg.c:2801
 #, c-format
@@ -14675,43 +14673,40 @@ msgstr "baigta"
 #: client/gui-sdl/citydlg.c:3681
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr ""
+msgstr "Miestas %s (populiacija - %s žmonių)"
 
 #: client/gui-sdl/citydlg.c:3697
-#, fuzzy
 msgid " - under CMA control."
-msgstr "%s dabar valdo DI."
+msgstr "- kontroliuojamas GVA."
 
 #: client/gui-sdl/citydlg.c:3786
 msgid "Maintenance panel"
-msgstr ""
+msgstr "Išlaikymo stendas"
 
 #: client/gui-sdl/citydlg.c:3798
 msgid "Garrison panel"
-msgstr ""
+msgstr "Įgulos stendas"
 
 #: client/gui-sdl/citydlg.c:3822
 msgid "Information panel"
-msgstr ""
+msgstr "Informacinis stendas"
 
 #: client/gui-sdl/citydlg.c:3868
 #: client/gui-sdl/dialogs.c:1251
 #: client/gui-win32/citydlg.c:1062
 #: data/Freeciv.in:2080
 msgid "Change Production"
-msgstr ""
+msgstr "Keisti gamybą"
 
 #: client/gui-sdl/citydlg.c:3882
 #: client/gui-sdl/dialogs.c:1263
-#, fuzzy
 msgid "Hurry production"
-msgstr "Pro_dukcija"
+msgstr "Skubinti produkciją"
 
 #: client/gui-sdl/citydlg.c:3897
 #: client/gui-sdl/cma_fe.c:855
-#, fuzzy
 msgid "Citizen Management Agent"
-msgstr "Piliečių _valdymas"
+msgstr "Piliečių valdymo agentas"
 
 #: client/gui-sdl/citydlg.c:3913
 msgid "Prev city"
@@ -14726,11 +14721,12 @@ msgid "size"
 msgstr "dydis"
 
 #: client/gui-sdl/cityrep.c:159
-#, fuzzy
 msgid ""
 "time\n"
 "to grow"
-msgstr "Miestas auga:"
+msgstr ""
+"laikas\n"
+" paaugti"
 
 #: client/gui-sdl/cityrep.c:178
 msgid "Cities Report"
@@ -14742,7 +14738,7 @@ msgstr "Galutinė ataskaita"
 
 #: client/gui-sdl/cityrep.c:206
 msgid "Information Report"
-msgstr ""
+msgstr "Informacinė ataskaita"
 
 #: client/gui-sdl/cityrep.c:217
 msgid "Happiness Report"
@@ -14794,18 +14790,18 @@ msgstr "Ištrinti nustatymus"
 #: client/gui-sdl/cma_fe.c:995
 #: client/gui-win32/cma_fe.c:490
 msgid "Control city"
-msgstr ""
+msgstr "Kontroliuoti miestą"
 
 #: client/gui-sdl/cma_fe.c:1004
 #: client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
 msgid "Apply once"
-msgstr ""
+msgstr "Patvirtinti vienąkart"
 
 #: client/gui-sdl/cma_fe.c:1013
 #: client/gui-win32/cma_fe.c:492
 msgid "Release city"
-msgstr ""
+msgstr "Atlaisvinti miestą"
 
 #: client/gui-sdl/connectdlg.c:234
 msgid "Creating Server List..."
@@ -14827,7 +14823,7 @@ msgstr "Prievadas:"
 #: client/gui-sdl/connectdlg.c:936
 #: client/gui-xaw/connectdlg.c:145
 msgid "Next"
-msgstr ""
+msgstr "Kitas"
 
 #: client/gui-sdl/dialogs.c:667
 #, c-format
@@ -14858,21 +14854,20 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:840
 #: client/gui-sdl/dialogs.c:1209
 msgid "Terrain Info"
-msgstr ""
+msgstr "Reljfefo informacija"
 
 #: client/gui-sdl/dialogs.c:1185
 msgid "Advanced Menu"
 msgstr "Specialus meniu"
 
 #: client/gui-sdl/dialogs.c:1237
-#, fuzzy, c-format
+#, c-format
 msgid "Zoom to : %s"
-msgstr "Kaina:"
+msgstr "Išdidinti į : %s"
 
 #: client/gui-sdl/dialogs.c:1275
-#, fuzzy
 msgid "Change C.M.A Settings"
-msgstr "Žaidimo nustatymai"
+msgstr "Pakeisti P.V.A. nustatymus"
 
 #: client/gui-sdl/dialogs.c:1296
 msgid "Goto here"
@@ -14909,14 +14904,13 @@ msgid "Ready all"
 msgstr "Aktyvuoti visus"
 
 #: client/gui-sdl/dialogs.c:1476
-#, fuzzy
 msgid "Sentry idle"
 msgstr "Dalinį pastatyti sargybai"
 
 #: client/gui-sdl/dialogs.c:1562
 #, c-format
 msgid "View Civiliopedia entry for %s"
-msgstr ""
+msgstr "Pasižiūrėti Civiliopedijos įrašą apie %s"
 
 #: client/gui-sdl/dialogs.c:1958
 msgid "Choose Your New Government"
@@ -14964,9 +14958,9 @@ msgid "Accept treaty"
 msgstr "Priimti sutartį"
 
 #: client/gui-sdl/diplodlg.c:1289
-#, fuzzy, c-format
+#, c-format
 msgid "%s incident !"
-msgstr "Senovinis"
+msgstr "%s incidentas !"
 
 #: client/gui-sdl/diplodlg.c:1305
 msgid "Shall we declare WAR on them?"
@@ -14998,7 +14992,7 @@ msgstr "Atšaukti sutartį"
 #: client/gui-win32/plrdlg.c:355
 #: data/Freeciv.in:3261
 msgid "Withdraw vision"
-msgstr ""
+msgstr "Atsiimti bendro regėjimo lauką"
 
 #: client/gui-sdl/diplodlg.c:1487
 msgid "Call Diplomatic Meeting"
@@ -15006,7 +15000,7 @@ msgstr "Sušaukti diplomatinį susitikimą"
 
 #: client/gui-sdl/diplodlg.c:1501
 msgid "Send him back"
-msgstr ""
+msgstr "Siųsti jį atgal"
 
 #: client/gui-sdl/diplomat_dialog.c:576
 #: data/Freeciv.in:2285
@@ -15058,7 +15052,7 @@ msgstr ""
 #: client/gui-sdl/graphics.c:252
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
-msgstr ""
+msgstr "Negalima paversti paveiksliuko iš bylos %s į formatą %d."
 
 #: client/gui-sdl/graphics.c:277
 #, c-format
@@ -15292,21 +15286,21 @@ msgstr "Jų technologijos, kurių mes neturime :"
 
 #: client/gui-sdl/mapctrl.c:266
 msgid "Show Unit Info Window"
-msgstr ""
+msgstr "Rodyti dalinio informacinį langą"
 
 #: client/gui-sdl/mapctrl.c:322
 #: client/gui-sdl/mapctrl.c:1579
 msgid "Hide Unit Info Window"
-msgstr ""
+msgstr "Slėpti dalinio informacijos langą"
 
 #: client/gui-sdl/mapctrl.c:376
 msgid "Show MiniMap"
-msgstr ""
+msgstr "Rodyti mini žemėlapį"
 
 #: client/gui-sdl/mapctrl.c:461
 #: client/gui-sdl/mapctrl.c:1731
 msgid "Hide MiniMap"
-msgstr ""
+msgstr "Slėpti mini žemėlapį"
 
 #: client/gui-sdl/mapctrl.c:508
 msgid "Show Log (F10)"
@@ -15431,7 +15425,7 @@ msgstr "veteranas"
 #: client/gui-sdl/mapview.c:534
 #: client/gui-win32/dialogs.c:1193
 msgid "NONE"
-msgstr ""
+msgstr "NĖRA"
 
 #: client/gui-sdl/mapview.c:553
 msgid ""
@@ -15465,12 +15459,16 @@ msgid ""
 "\n"
 "Territory of the %s %s"
 msgstr ""
+"\n"
+"Teritorija, priklausanti %s %s"
 
 #: client/gui-sdl/mapview.c:569
 msgid ""
 "\n"
 "Unclaimed territory"
 msgstr ""
+"\n"
+"Nepriklausoma teritorija"
 
 #: client/gui-sdl/mapview.c:585
 #, c-format
@@ -15542,13 +15540,13 @@ msgstr "Eiti į miestą"
 #: client/gui-win32/gotodlg.c:166
 #: data/Freeciv.in:1130
 msgid "Airlift"
-msgstr ""
+msgstr "Perkelti oru"
 
 #: client/gui-sdl/menu.c:480
 #: client/gui-win32/messagewin.c:149
 #: data/Freeciv.in:3321
 msgid "Goto location"
-msgstr ""
+msgstr "Eiti į vietą"
 
 #: client/gui-sdl/menu.c:517
 msgid "Auto-Explore"
@@ -15633,11 +15631,11 @@ msgstr ""
 
 #: client/gui-sdl/optiondlg.c:608
 msgid "No modes available!"
-msgstr ""
+msgstr "Nėra tinkamų režimų!"
 
 #: client/gui-sdl/optiondlg.c:614
 msgid "All resolutions available."
-msgstr ""
+msgstr "Įmanomos visos raiškos."
 
 #: client/gui-sdl/optiondlg.c:649
 msgid "Fullscreen Mode"
@@ -15667,11 +15665,11 @@ msgstr "Nacionalinės sienos"
 
 #: client/gui-sdl/optiondlg.c:1692
 msgid "Draw city map grid"
-msgstr ""
+msgstr "Piešti miesto žemėlapio tinklą"
 
 #: client/gui-sdl/optiondlg.c:1722
 msgid "Draw city worker map grid"
-msgstr ""
+msgstr "Piešti miesto darbuotojų žemėlapio tinklą"
 
 #: client/gui-sdl/optiondlg.c:1749
 msgid "Special Resources"
@@ -15689,7 +15687,7 @@ msgstr "Fortai ir oro bazės"
 
 #: client/gui-sdl/optiondlg.c:1990
 msgid "Civ3 city text style"
-msgstr ""
+msgstr "Civę miestų teksto stilius"
 
 #: client/gui-sdl/optiondlg.c:2199
 #: client/gui-win32/connectdlg.c:1041
@@ -15743,18 +15741,16 @@ msgid "active"
 msgstr "aktyvus"
 
 #: client/gui-sdl/repodlgs.c:343
-#, fuzzy
 msgid ""
 "under\n"
 "construction"
-msgstr "Statyba"
+msgstr "statomas"
 
 #: client/gui-sdl/repodlgs.c:347
-#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
-msgstr "Statyba"
+msgstr "greičiausiai pastatytas"
 
 # santrumpa???
 #: client/gui-sdl/repodlgs.c:351
@@ -15776,7 +15772,7 @@ msgstr ""
 #: client/gui-sdl/repodlgs.c:1489
 #, c-format
 msgid "We can't sell any %s in this turn"
-msgstr ""
+msgstr "Mes negalime parduoti %s šiuo ėjimu"
 
 #: client/gui-sdl/repodlgs.c:1704
 msgid "Economy Report"
@@ -15791,23 +15787,23 @@ msgstr "Atnaujinti"
 
 #: client/gui-sdl/repodlgs.c:2009
 msgid "Treasury: "
-msgstr ""
+msgstr "Iždas:"
 
 #: client/gui-sdl/repodlgs.c:2016
 msgid "Tax Rate: "
-msgstr ""
+msgstr "Mokesčių norma:"
 
 #: client/gui-sdl/repodlgs.c:2021
 msgid "Total Income: "
-msgstr ""
+msgstr "Visos įplaukos:"
 
 #: client/gui-sdl/repodlgs.c:2026
 msgid "Total Cost: "
-msgstr ""
+msgstr "Visa kaina:"
 
 #: client/gui-sdl/repodlgs.c:2031
 msgid "Net Income: "
-msgstr ""
+msgstr "Pelnas:"
 
 #: client/gui-sdl/repodlgs.c:2118
 #, c-format
@@ -16007,7 +16003,7 @@ msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1434
 msgid "shields into gold"
-msgstr ""
+msgstr "gamybos vienetai į auksą"
 
 #: client/gui-sdl/wldlg.c:1513
 #, c-format
@@ -16047,7 +16043,7 @@ msgstr "Išlaikymas (viso: %d)"
 
 #: client/gui-win32/citydlg.c:781
 msgid "City info"
-msgstr ""
+msgstr "Miesto informacija"
 
 #: client/gui-win32/citydlg.c:795
 #: client/gui-win32/cityrep.c:878
@@ -16139,19 +16135,19 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:245
 msgid "No Buildings Available"
-msgstr ""
+msgstr "Nėra pastatų"
 
 #: client/gui-win32/cityrep.c:255
 msgid "No Units Available"
-msgstr ""
+msgstr "Nėra dalinių"
 
 #: client/gui-win32/cityrep.c:268
 msgid "No Wonders Available"
-msgstr ""
+msgstr "Nėra stebuklų"
 
 #: client/gui-win32/cityrep.c:462
 msgid "Available To Build"
-msgstr ""
+msgstr "Galima statyti"
 
 #: client/gui-win32/cityrep.c:683
 msgid "Select a unit or improvement to change production from."
@@ -16168,17 +16164,17 @@ msgstr "Tai tas pats dalykas!"
 #: client/gui-win32/cityrep.c:733
 #: data/Freeciv.in:1739
 msgid "Change Production Everywhere"
-msgstr ""
+msgstr "Visur pakeisti gamybą"
 
 #: client/gui-win32/cityrep.c:741
 #: data/Freeciv.in:1745
 msgid "From:"
-msgstr ""
+msgstr "Iš:"
 
 #: client/gui-win32/cityrep.c:749
 #: data/Freeciv.in:1755
 msgid "To:"
-msgstr ""
+msgstr "Į:"
 
 #: client/gui-win32/cityrep.c:876
 #: client/gui-win32/finddlg.c:127
@@ -16194,7 +16190,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:880
 msgid "Change All"
-msgstr ""
+msgstr "Viską pakeisti"
 
 #: client/gui-win32/cityrep.c:881
 #: client/gui-win32/repodlgs.c:716
@@ -16226,7 +16222,7 @@ msgstr ""
 
 #: client/gui-win32/cma_fe.c:311
 msgid "see README.cma."
-msgstr ""
+msgstr "žiūrėkite README.cma"
 
 #: client/gui-win32/cma_fe.c:467
 msgid "New"
@@ -16276,7 +16272,7 @@ msgstr "Prisijungti prie tinklo žaidimo"
 
 #: client/gui-win32/connectdlg.c:924
 msgid "Choose a nation to play"
-msgstr ""
+msgstr "Pasirinkite tautą, su kuria žaisite"
 
 #: client/gui-win32/connectdlg.c:959
 msgid "Number of players (Including AI):"
@@ -16310,7 +16306,7 @@ msgstr "Prievadas:"
 #: client/gui-win32/dialogs.c:188
 #: data/Freeciv.in:549
 msgid "Goto and Close"
-msgstr ""
+msgstr "Eiti į ir uždaryti"
 
 #: client/gui-win32/dialogs.c:559
 msgid "Leader:"
@@ -16322,7 +16318,7 @@ msgstr "Miesto stilius:"
 
 #: client/gui-win32/dialogs.c:783
 msgid "Unit Selection"
-msgstr ""
+msgstr "Dalinio pasirinkimas"
 
 #: client/gui-win32/dialogs.c:1289
 #: data/Freeciv.in:2373
@@ -16356,7 +16352,7 @@ msgstr "Pasirinkite miestą:"
 
 #: client/gui-win32/gui_main.c:115
 msgid "Enable alpha blending"
-msgstr ""
+msgstr "Įjungti permatomumą (alpha blending)"
 
 #: client/gui-win32/gui_main.c:116
 msgid "If this is enabled, then alpha blending will be used in rendering, instead of an ordered dither.  If there is no hardware support for alpha blending, this is much slower."
@@ -16476,7 +16472,7 @@ msgstr "Parduoti viską"
 
 #: client/gui-win32/repodlgs.c:663
 msgid "Totals"
-msgstr ""
+msgstr "Viso"
 
 #: client/gui-win32/wldlg.c:362
 msgid "Rename Worklist"
@@ -16501,7 +16497,7 @@ msgstr "Keisti"
 #: data/Freeciv.in:2010
 #: data/Freeciv.in:2159
 msgid "Insert"
-msgstr ""
+msgstr "Įterpti"
 
 #: client/gui-win32/wldlg.c:826
 #: data/Freeciv.in:2120
@@ -16560,16 +16556,16 @@ msgstr ""
 
 #: client/gui-xaw/citydlg.c:309
 msgid "(is empty)"
-msgstr ""
+msgstr "(yra tuščia)"
 
 #: client/gui-xaw/citydlg.c:311
 msgid "(in prog.)"
-msgstr ""
+msgstr "(yra gaminama)"
 
 #: client/gui-xaw/citydlg.c:1413
 #, c-format
 msgid "These trade routes have been established with %s:\n"
-msgstr ""
+msgstr "Su %s buvo sukurti šie prekybos maršrutai:\n"
 
 #: client/gui-xaw/citydlg.c:1423
 #: client/gui-xaw/citydlg.c:1427
@@ -16632,7 +16628,7 @@ msgstr "PNG filas neturi paletės: %s"
 
 #: client/gui-xaw/gui_main.c:321
 msgid "No version number in resources."
-msgstr ""
+msgstr "Nerastas resursų versijos numeris"
 
 #: client/gui-xaw/gui_main.c:322
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
@@ -16657,7 +16653,7 @@ msgstr ""
 
 #: client/gui-xaw/gui_main.c:350
 msgid "Only color displays are supported for now..."
-msgstr ""
+msgstr "Dabar palaikomi tik spalvoto vaizdo vaizduokliai"
 
 #: client/gui-xaw/gui_main.c:373
 #: client/gui-xaw/gui_main.c:394
@@ -16668,7 +16664,7 @@ msgstr ""
 #: client/gui-xaw/gui_main.c:376
 #: client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "Atlikus „xset fp rehash“ gali laikinai išspręsti problemą."
 
 #: client/gui-xaw/gui_main.c:380
 #: client/gui-xaw/gui_main.c:401
@@ -16686,7 +16682,7 @@ msgstr "Leidžia %s.\n"
 #: client/gui-xaw/helpdlg.c:920
 #, c-format
 msgid "Obsoletes %s.\n"
-msgstr ""
+msgstr "Pasendina %s.\n"
 
 #: client/gui-xaw/helpdlg.c:935
 #: client/gui-xaw/helpdlg.c:939
@@ -16722,7 +16718,7 @@ msgstr "Miesto augimas"
 
 #: client/gui-xaw/menu.c:188
 msgid "Unload Transporter"
-msgstr ""
+msgstr "Išlaipinti iš transporterio"
 
 #: client/gui-xaw/menu.c:190
 msgid "Load"
@@ -16742,11 +16738,11 @@ msgstr "Sujungti/Drėkinimas"
 
 #: client/gui-xaw/menu.c:211
 msgid "Select Same Type"
-msgstr ""
+msgstr "Pasirinkti to paties tipo"
 
 #: client/gui-xaw/menu.c:233
 msgid "Editing Mode"
-msgstr ""
+msgstr "Redagavimo režimas"
 
 #: client/gui-xaw/menu.c:234
 msgid "Tools"
@@ -16765,12 +16761,12 @@ msgstr "Prisijungimas"
 #: client/gui-xaw/menu.c:241
 #: data/helpdata.txt:432
 msgid "Controls"
-msgstr ""
+msgstr "Kontrolė"
 
 #: client/gui-xaw/menu.c:242
 #: data/helpdata.txt:549
 msgid "Chatline"
-msgstr ""
+msgstr "Pokalbių linija"
 
 #: client/gui-xaw/menu.c:243
 msgid "Playing"
@@ -16783,7 +16779,7 @@ msgstr "Mūšis"
 
 #: client/gui-xaw/menu.c:248
 msgid "ZOC"
-msgstr ""
+msgstr "KZ"
 
 #: client/gui-xaw/menu.c:254
 #: data/helpdata.txt:1421
@@ -16855,7 +16851,7 @@ msgstr "Kategorija: %s.<br>"
 
 #: manual/civmanual.c:148
 msgid "Can only be used in server console. "
-msgstr ""
+msgstr "Gali būti naudojama tik serverio komandinėje eilutėje."
 
 #: manual/civmanual.c:151
 msgid "Can be changed during a game. "
@@ -17093,7 +17089,7 @@ msgstr ""
 
 #: data/Freeciv.in:1105
 msgid "Select destination:"
-msgstr ""
+msgstr "Pasirinkti tikslą:"
 
 #: data/Freeciv.in:1264
 msgid "Where to Display Messages"
@@ -17111,11 +17107,11 @@ msgstr ""
 
 #: data/Freeciv.in:1287
 msgid "Rates"
-msgstr ""
+msgstr "Normos"
 
 #: data/Freeciv.in:1289
 msgid "Select tax, luxury and science rates:"
-msgstr ""
+msgstr "Pasirinkite mokesčių, prabangos ir mokslo normas:"
 
 #: data/Freeciv.in:1397
 msgid "Help:"
@@ -17135,11 +17131,11 @@ msgstr ""
 
 #: data/Freeciv.in:1471
 msgid "Control City"
-msgstr ""
+msgstr "Kontroliuoti miestą"
 
 #: data/Freeciv.in:1472
 msgid "Release City"
-msgstr ""
+msgstr "Atlaisvinti miestą"
 
 #: data/Freeciv.in:1474
 msgid "Minimal Surplus:"
@@ -17147,7 +17143,7 @@ msgstr "Perteklius:"
 
 #: data/Freeciv.in:1476
 msgid "Factor:"
-msgstr ""
+msgstr "Faktorius:"
 
 #: data/Freeciv.in:1491
 msgid "Remove preset?"
@@ -17215,7 +17211,7 @@ msgstr "Pasirinkite naują produkciją"
 
 #: data/Freeciv.in:2118
 msgid "Production Worklist"
-msgstr ""
+msgstr "Gamybos sąrašas"
 
 #: data/Freeciv.in:2127
 msgid "Available targets"
@@ -17287,7 +17283,7 @@ msgstr "Palaikomi daliniai:"
 
 #: data/Freeciv.in:3104
 msgid "Units present:"
-msgstr ""
+msgstr "Esantys daliniai:"
 
 #: data/Freeciv.in:3142
 msgid "Select nation and name:"
@@ -19133,7 +19129,6 @@ msgstr ""
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "Padvigubina šventyklų poveikį visuose miestuose."
 
-# Laikoma ar skaitosi?
 #: data/civ2/buildings.ruleset:1376
 msgid "Counts as having a Granary in every city."
 msgstr "Kiekvienas miestas gauna svirno teikiamas funkcijas."
@@ -19175,7 +19170,7 @@ msgstr "Katedra padaro 4 nelaimingus miestiečius patenkintais, taip leisdama le
 # ne sraigtasparnius  ?
 #: data/civ1/buildings.ruleset:173
 msgid "City Walls make it easier to defend a city.  They triple the defence strength of units within the city against ground, sea, and helicopter units.  They are ineffective against non-helicopter airborne units as well as Artillery.  City Walls also prevent the loss of population which occurs when a defending unit is destroyed by a land unit."
-msgstr "Miesto sienos palengvina miesto gynybą. Jos patrigubina mieste esančių dalinių jėgas prieš sausumos dalinius ir sraigtasparnius.Sienos neveiksmingos prieš kitus oro desanto dalinius ir artileriją. Miesto sienos taip pat apsaugo nuo gyventojų netekimo, kuris įvyksta, kai besiginantis dalinys yra sunaikinamas sausumos dalinio."
+msgstr "Miesto sienos palengvina miesto gynybą. Jos patrigubina mieste esančių dalinių jėgas prieš sausumos dalinius ir sraigtasparnius. Sienos neveiksmingos prieš kitus oro desanto dalinius ir artileriją. Miesto sienos taip pat apsaugo nuo gyventojų netekimo, kuris įvyksta, kai besiginantis dalinys yra sunaikinamas sausumos dalinio."
 
 #: data/civ1/buildings.ruleset:196
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
@@ -19395,14 +19390,14 @@ msgstr "Komunizmas"
 #: data/civ1/governments.ruleset:121
 #: data/nation/soviet.ruleset:25
 msgid "Comrade"
-msgstr ""
+msgstr "Draugas"
 
 #: data/default/governments.ruleset:122
 #: data/civ2/governments.ruleset:120
 #: data/civ1/governments.ruleset:122
 #: data/nation/soviet.ruleset:25
 msgid "?female:Comrade"
-msgstr ""
+msgstr "Draugė"
 
 #: data/default/governments.ruleset:124
 #: data/civ1/governments.ruleset:124
@@ -20685,7 +20680,7 @@ msgstr "PATARIMAS: Sauja šitų gali patikimai apsaugoti vandenis aplink Jūsų 
 #: data/civ2/units.ruleset:1515
 #: data/civ1/units.ruleset:896
 msgid "Nuclear"
-msgstr "Branduolinis ginklas"
+msgstr "Branduolinis_ginklas"
 
 #: data/default/units.ruleset:1596
 #: data/civ2/units.ruleset:1541
@@ -20877,7 +20872,7 @@ msgstr "?plural:Australijos aborigenai"
 
 #: data/nation/aborigines.ruleset:6
 msgid "Australian Aborigines is a collective term for the original inhabitants of the Australian continent. Aborigines from different parts of Australia refer to themselves with different names, including Koori, Yamaji, Nunga, and Murri."
-msgstr ""
+msgstr "Australijos aborigenai yra bendras terminmas skirtas pavadinti vietiniams Australijos žemyno gyventojams. Aborigenai iš skirtingų Australijos vietų save vadina skirtingai, pavyzdžiui: koriai, jamajai, nungai ir muriai."
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
@@ -20889,7 +20884,7 @@ msgstr "?plural:Afganai"
 
 #: data/nation/afghani.ruleset:6
 msgid "Afghanistan, often called the crossroads of Central Asia, has had a very turbulent history. Through the ages, the country has been occupied by many forces including the Persian Empire, Genghis Khan and Alexander the Great. The Afghanistan nation-state as it is known today came into existence in 1746 when Ahmad Shah founded the Durrani Empire."
-msgstr ""
+msgstr "Afganistanas, dažnai vadinamas Centrinės Azijos kryžkele, turėjo labai neramią istoriją. Per amžius šalis buvo okupuota daugybės jėgų, tarp jų Persų imperijos, Čingischano ir Aleksandro Makedoniečio. Afganistanas, kaip tautinė valstybė, pradėjo egzistuoti 1746m., kai Ahmadas Šahas įkurė Duranų imperiją."
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
@@ -20975,7 +20970,7 @@ msgstr "?plural:Alžyriečiai"
 
 #: data/nation/algerian.ruleset:6
 msgid "Algeria is an Arabic nation in North Africa. It is historically inhabited by the Berber people."
-msgstr ""
+msgstr "Alžyras yra arabų šalis šiaurės Afrikoje. Istoriškai nuo seno joje gyvena berberų tautybės žmonės."
 
 #: data/nation/american.ruleset:3
 msgid "American"
@@ -20987,29 +20982,27 @@ msgstr "?plural:Amerikiečiai"
 
 #: data/nation/american.ruleset:6
 msgid "Formally named the United States of America.  Independent from Great Britain after a revolution in 1776-1783AD."
-msgstr ""
+msgstr "Oficialus pavadinimas yra Jungtinės Amerikos Valstijos. Po 1776-1783 įvykusios revoliucijos išsikovojo nepriklausomybę nuo Didžiosios Britanijos."
 
 #: data/nation/american.ruleset:56
 #: data/nation/scottish.ruleset:25
 msgid "Speaker"
-msgstr ""
+msgstr "Spikeris"
 
 #: data/nation/american.ruleset:56
 #: data/nation/scottish.ruleset:25
-#, fuzzy
 msgid "?female:Speaker"
-msgstr "?female:Uzurpatorė"
+msgstr "?female:Spikerė"
 
 #: data/nation/american.ruleset:57
 #: data/nation/texan.ruleset:20
 msgid "Reverend"
-msgstr ""
+msgstr "Šventasis"
 
 #: data/nation/american.ruleset:57
 #: data/nation/texan.ruleset:20
-#, fuzzy
 msgid "?female:Reverend"
-msgstr "?female:Prezidentė"
+msgstr "?female:Šventoji"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
@@ -21061,7 +21054,7 @@ msgstr "?plural:Armėnai"
 
 #: data/nation/armenian.ruleset:6
 msgid "According to legend, the Armenian people are the descendants of Haik - the great-great-grandson of Noah. The modern Republic of Armenia gained independence from Soviet in 1991 AD"
-msgstr ""
+msgstr "Pasak legendos, armėnai yra Haiko, Nojaus proproanūkio, palikuonys. Moderni Armėnijos respublika nepriklausomybę nuo Sovietų Sąjungos gavo 1991m."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -21205,7 +21198,7 @@ msgstr "?plural:Babiloniečiai"
 
 #: data/nation/babylonian.ruleset:6
 msgid "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries BC under a succession of peoples including Amorites, Kassites, Assyrians, and Chaldeans."
-msgstr ""
+msgstr "Babilonas buvo dominuojantis Mesopotamijos miestas nuo XVIIIa. iki VIIa. prieš Kristų. Jį sėkmingai valdė tautos, tokios kaip amoritai, kasitai, asirai ir chaldėjai."
 
 #. TRANS: Lugal = Great Man
 #: data/nation/babylonian.ruleset:23
@@ -21322,9 +21315,8 @@ msgid "Nabob"
 msgstr "Nabobas"
 
 #: data/nation/bengali.ruleset:26
-#, fuzzy
 msgid "?female:Nabob"
-msgstr "?female:Konsulė"
+msgstr "?female:Nabobė"
 
 #: data/nation/bengali.ruleset:27
 msgid "Major"
@@ -21344,7 +21336,7 @@ msgstr "?plural:Būrai"
 
 #: data/nation/boer.ruleset:6
 msgid "The Boers were Dutch settlers in British-controlled South Africa from 1650AD.  They briefly controlled two republics, the Transvaal and the Orange Free State, before being defeated by the British in the war of 1899-1902."
-msgstr ""
+msgstr "Būrai buvo olandų naujakuriai britų kontroliuojamoje Pietų Afrikoje 1650m. Jie trumpai kontroliavo dvi respublikas, Transvalį ir Laisvąją Oranžinę Valstiją, kol buvo buvo britų nugalėti Būrų kare 1899m. - 1902m."
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
@@ -21356,7 +21348,7 @@ msgstr "?plural:Bosniai"
 
 #: data/nation/bosnia.ruleset:6
 msgid "Bosnia and Herzegovina is a country in south-east Europe, and the home of three constituent peoples: Bosniaks, Serbs, and Croats."
-msgstr ""
+msgstr "Bosnia ir Hercegovina yra šalis pietryčių Europoje ir gimtinė trims šią šalį sudarančioms tautoms: bosniams, serbams ir kroatams."
 
 #. TRANS: Ban = Duke
 #: data/nation/bosnia.ruleset:29
@@ -21421,7 +21413,7 @@ msgstr "?plural:Britai"
 
 #: data/nation/british.ruleset:6
 msgid "The United Kingdom was created in 1707 as a negotiated agreement between the kingdom of England and the kingdom of Scotland. The country - also known as Great Britain - became the leading industrial and maritime power in the 19th century."
-msgstr ""
+msgstr "Jungtinė Karalystė buvo sukurta 1707m. įvykus susitarimui tarp Anglijos ir Škotijos karalysčių. Ši šalis, dar kitaip žinoma kaip Didžioji Britanija, tapo pirmaujančia pramonine ir jūrine jėga XIXa."
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
@@ -21471,7 +21463,7 @@ msgstr "?plural:Birmiečiai"
 
 #: data/nation/burmese.ruleset:6
 msgid "The Union of Burma (officially \"Myanmar\") is the largest country in mainland Southeast Asia."
-msgstr ""
+msgstr "Burmos Sąjunga (oficialiai \"Mianmaras\") yra didžiausia pietryčių Azijos šalis.."
 
 #: data/nation/burmese.ruleset:26
 msgid "Bohmugyi"
@@ -21513,9 +21505,8 @@ msgid "Basileus"
 msgstr "Bazilėjus"
 
 #: data/nation/byzantium.ruleset:28
-#, fuzzy
 msgid "?female:Basileus"
-msgstr "?female:Konsulė"
+msgstr "?female:Bazilėja"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -21539,7 +21530,7 @@ msgstr "?plural:Kartaginiečiai"
 
 #: data/nation/carthaginian.ruleset:8
 msgid "The Carthaginians, descendants of Phoenician traders, ran a naval empire in the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed by Rome in 146BC."
-msgstr ""
+msgstr "Kartaginiečiai, finikiečių pirklių palikuonys, valdė jūrų imperiją Viduržemio jūroje nuo Va. iki IIa. prieš Kristų. Kartagina buvo sunaikinta romėnų 146m. prieš Kristų."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -21550,8 +21541,9 @@ msgid "?plural:Catalans"
 msgstr "?plural:Katalonai"
 
 #: data/nation/catalan.ruleset:6
+#, fuzzy
 msgid "Catalunya (aka Catalonia in English) is the north-eastern-most coastal region of Spain near the southern foot of the Pyrenees."
-msgstr ""
+msgstr "Katalonija yra šiaurės rytų Ispanijos pakrantės regionas."
 
 #: data/nation/catalan.ruleset:22
 msgid "Primer Ministre"
@@ -21602,7 +21594,7 @@ msgstr "?plural:Čerokiai"
 
 #: data/nation/cherokee.ruleset:6
 msgid "The Cherokee nation is the largest Native American nation in North America today."
-msgstr ""
+msgstr "Čerokiai yra didžiausia vietinių Amerikos gyventojų tauta dabartinėje Šiaurės Amerikoje."
 
 #: data/nation/cherokee.ruleset:22
 #: data/nation/iroquois.ruleset:26
@@ -21699,7 +21691,7 @@ msgstr "?plural:Kinai"
 
 #: data/nation/chinese.ruleset:6
 msgid "China is the oldest major civilization that is still in existence today, with written records dating back over 3,500 years.  After first being unified by the Qin dynasty in 221BC, China alternated between periods of unity and disunity, and was often conquered by external ethnicities.  Today, the People's Republic of China, established by the Communists in 1949, occupies the mainland, while the former Nationalist government of the Republic of China had fled to the island of Taiwan after the civil war."
-msgstr ""
+msgstr "Kinija yra seniausia pagrindinė dar egzistuojanti civilizacija, kurios rašytiniai šaltiniai datuojami 3500m. prieš Kristų. Po to, kai buvo suvienyta Qin dinastijos 221m. prieš Kristų, Kinijoje pastoviai keitėsi du periodai - vienybės ir skaidymosi. Dėl to Kinija dažnai buvo užkariaujama išorinių genčių. Šiais laikais, Kinijos liaudies respublika, komunistų įkurta 1949m., užima žemyninę dalį, kai ankstesnė nacionalistinė Kinijos respublikos vyriausybė valdo Taivaną, į kurį paspruko po kilusio pilietinio karo."
 
 #: data/nation/chinese.ruleset:31
 #: data/nation/ethiopian.ruleset:24
@@ -21723,7 +21715,7 @@ msgstr "?plural:Kolumbiečiai"
 
 #: data/nation/colombian.ruleset:6
 msgid "Colombia is a country in northern South America. The region was an Amerindian cultural center in pre-European time. The Spanish began settling Colombia's north coast around 1500. In 1819 the The Republic of Colombia gained independence."
-msgstr ""
+msgstr "Kolumbija yra šalis šiaurinėje Pietų Amerikos dalyje. Regionas buvo Amerikos indėnų kultūrinis centras prieš pasirodant europiečiams. Ispanai pradėjo kurtis šiaurinėje Kolumbijos pakrantėje apie 1500. 1819m. Kolumbijos respublika tapo nepriklausoma."
 
 #: data/nation/colombian.ruleset:21
 #: data/nation/swiss.ruleset:23
@@ -21804,7 +21796,7 @@ msgstr "?plural:Kubiečiai"
 
 #: data/nation/cuban.ruleset:6
 msgid "Cuba came under Spanish control in the 16th century. In the following centuries, the island became one of the leading producers of tobacco, sugar and coffee in the world. Cuba was granted nominal independence in 1902."
-msgstr ""
+msgstr "Kuba tapo pavaldi Ispanijai XVIa. Vėlesniais šimtmečiais sala tapo viena pirmaujančių tabako, cukraus ir kavos gamintojų. Nominali nepriklausomybė suteikta 1902m."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -21891,7 +21883,7 @@ msgstr "?plural:Anglų"
 
 #: data/nation/english.ruleset:6
 msgid "England was unified by Alfred the Great of Wessex in the late 9th century AD, only to be conquered by William of Normandy a century later, in the last successful invasion of the country."
-msgstr ""
+msgstr "Anglija buvo suvienyta Alfredo Didžiojo iš Vesekso IXa. pabaigoje po Kristaus tik tam, kad šimtmečiu vėliau būtų užkariauta Viljamo iš Normandijos paskutinėje sėkmingoje invazijoje į šalį."
 
 #: data/nation/english.ruleset:26
 msgid "Lord Protector"
@@ -21980,7 +21972,7 @@ msgstr "?plural:Suomiai"
 
 #: data/nation/finnish.ruleset:6
 msgid "Finland is a small, cold country on the northern fringe of Europe, noted for exporting timber, cellular phones, and world-class operating systems."
-msgstr ""
+msgstr "Suomija yra maža, šalta šalis šiauriniame Europos pakraštyje, žinoma dėl eksportuojamos medienos, mobiliųjų telefonų ir pasaulinės klasės operacinių sistemų."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -22285,16 +22277,15 @@ msgstr "Indonezija yra didelė valstybė Malajų salyne su vyriausybe Javos salo
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr "Eskimų"
+msgstr "Inuitų"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr "?plural:Eskimai"
+msgstr "?plural:Inuitai"
 
 #: data/nation/inuit.ruleset:6
-#, fuzzy
 msgid "The Inuit, or Eskimos, inhabit northern Canada and Greenland. Legend says that the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the west coast of Greenland in the 10th century. All Inuit of today are descendents of the Thule culture."
-msgstr "Eskimai, arba inuitai, gyvena šiaurės Kanadoje ir Grenlandijoje. Legenda sako, kad didysis šamanas Qitdlarssuaqas X amžiuje vedė savo tautą į Tulę (Qaanaaqą) vakariniame Grenlandijos krante. Visi šių dienų eskimai yra Tulės kultūros palikuonys."
+msgstr "Inuitai, arba eskimai, gyvena šiaurės Kanadoje ir Grenlandijoje. Legenda sako, kad didysis šamanas Qitdlarssuaqas X amžiuje vedė savo tautą į Tulę (Qaanaaqą) vakariniame Grenlandijos krante. Visi šių dienų inuitai yra Tulės kultūros palikuonys."
 
 #: data/nation/inuit.ruleset:23
 msgid "Shaman"
@@ -22354,7 +22345,7 @@ msgstr "?plural:Irakiečiai"
 
 #: data/nation/iraqi.ruleset:6
 msgid "Iraq was founded after the fall of the Ottoman empire. It is encompassing the ancient region of Mesopotamia at the confluence of the Tigris and Euphrates rivers."
-msgstr ""
+msgstr "Irakas buvo įkurtas po Otomanų imperijos žlugimo. Į jį įeina senieji Mesopotamijos regionai Tigro ir Eufrato upių santakoje."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -22366,7 +22357,7 @@ msgstr "?plural:Airiai"
 
 #: data/nation/irish.ruleset:6
 msgid "Ireland held out against the Romans and Vikings but was conquered by the Normans in 1171.  It was ruled by the English until 1922 when most of the country was granted limited autonomy, becoming a republic in 1949.  The North of Ireland was settled in the 17th century by Scottish and English planters and is now part of the United Kingdom."
-msgstr ""
+msgstr "Airija atsilaikė prieš romėnus ir vikingus bet buvo užkariauta normanų 1171m. Ją valdė Anglija iki 1922, kai didžiajai šalies daliai buvo suteikta ribota autonomija. Airija tapo respublika 1949m. Šiaurės Airija buvo apgyvendinta XVIIa. škotų ir anglų kolonistų ir dabar yra Jugtinės Karalystės dalis."
 
 #: data/nation/irish.ruleset:56
 msgid "High King"
@@ -22400,7 +22391,7 @@ msgstr "?plural:Irokėzai"
 
 #: data/nation/iroquois.ruleset:6
 msgid "The Iroquois Confederacy - known as Haudenosaunee in their own language - was a North American group of nations with common language and culture. They were based in what is now upstate New York and consisted originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a written constitution and a currency system making them the most advanced state in North America upon the arrival of the Europeans."
-msgstr ""
+msgstr "Irokėzų Konfederacija, vietine kalba vadinama Haudenosaunee, buvo Šiaurės Amerikos tautų grupė su bendra kalba ir kultūra. Jie buvo įsikūrę šiaurinėje dabartinio Niujorko dalyje. Konfederaciją sudarė penkios tautos: senekai, kajugai, onondagai, oneidai ir mohaukai.  Ši turėjo parašytą konstituciją ir valiutą, todėl buvo labiausiai pažengusi Šiaurės Amerikos valstija iki atvykstant europiečiams. "
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -22477,7 +22468,7 @@ msgstr "?plural:Keniečiai"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr ""
+msgstr "Kenija nepriklausomybę nuo Didžiosios britanijos gavo 1963m."
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -22567,7 +22558,7 @@ msgstr "?plural:Libai"
 
 #: data/nation/libyan.ruleset:6
 msgid "The region that is now Libya was a Roman colony until it was conquered by the Arab civilization in the 7th century. In 1912 it came under the control of Italy and after the Second World War Libya was granted independence as a condition of the Allied peace treaty with Italy."
-msgstr ""
+msgstr "Regionas, dabar vadinamas Libija, buvo Romos kolonija iki VIIa. įvykusio arabų užkariavimo. 1912m. ją užėmė Italija, o po Antro pasaulinio karo Libijai suteikta nepriklausomybė pasirašius sąjunginę taikos sutartį su Italija."
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
@@ -22607,7 +22598,7 @@ msgstr "?plural:Magalasiai"
 
 #: data/nation/malagasy.ruleset:6
 msgid "The Malagasy are the people of Madagascar. For centuries, tribes from Indonesia, East Africa and the Arab world have gathered on the island."
-msgstr ""
+msgstr "Malagasiai yra Madagaskaro gyventojai. Šimtmečiais gentys iš Indonezijos, rytų Afrikos ir arabų pasaulio vykdavo į šią salą."
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
@@ -22684,7 +22675,7 @@ msgstr "?plural:Maoriai"
 
 #: data/nation/maori.ruleset:6
 msgid "The Maori are a Polynesian people that migrated to and settled the island group that is now New Zealand. According to archeological evidence, the migration commenced in the 900s and continued until the 1400s."
-msgstr ""
+msgstr "Maoriai yra polineziečiai, kurie migravo ir kolonizavo salų grupę, dabar vadinamą Naująja Zelandija. Pasak archeologų, migracija  prasidėjo 900m. ir tęsėsi iki 1400m."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -22742,7 +22733,7 @@ msgstr "?plural:Mongolai"
 
 #: data/nation/mongol.ruleset:6
 msgid "In the centuries after their unification by Genghis Khan, the Mongols conquered the largest empire in human history, encompassing most of the continent of Asia.  They became notorious for the utter ruthlessness in warfare."
-msgstr ""
+msgstr "Šimtmečiais po Čingischano suvienijimo momgolai užkariavo didžiausią imperiją žmonijos istorijoje. Ši imperija apėmė didžiąją Azijos kontinento dalį. Mongolai iš blogosios pusės pagarsėjo dėl savo visiško negailestingumo karuose."
 
 #: data/nation/mongol.ruleset:29
 #: data/nation/uyghur.ruleset:29
@@ -22799,7 +22790,7 @@ msgstr "?plural:Norvegai"
 
 #: data/nation/norwegian.ruleset:6
 msgid "After centuries of Danish rule, the Norwegians made their own constitution in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their independence after a union with Sweden."
-msgstr ""
+msgstr "Po šimtmečių Danijos valdžioje norvegai paskelbė savo konstituciją Eidsvolyje 1814m. Galiausiai 1905m. po sąjungos su Švedija Norvegija gavo nepriklausomybę."
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -22920,7 +22911,7 @@ msgstr "?plural:Portugalai"
 
 #: data/nation/portuguese.ruleset:6
 msgid "Portugal founded the first of the great mercantile empires in the 1400s on the shipbuilding advances funded by Prince Henry the Navigator."
-msgstr ""
+msgstr "Portugalija įkūrė pirmą iš didžiųjų prekybinių imperijų. Įkurta 1400 dėl pažangos laivų statyme. Šios technologijos vystymąsi paskatino lėšos gautos iš Princo Henrio navigatoriaus."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -23048,7 +23039,7 @@ msgstr "?plural:Samiai"
 
 #: data/nation/sami.ruleset:6
 msgid "The Sami, or Lapps, are a people of northern Scandinavia. Their nation spans over the northernmost regions of the Scandinavian countries: Finnmark of Norway and Lapland of Sweden and Finland."
-msgstr ""
+msgstr "Samiai, arba lapiai, yra šiaurės Skandinavijos žmonės, kurių tauta driekiasi pačiais šiauriausiais Skandinavijos regionais: Norvegijos Finmarką ir Švedijos bei Suomijos Laplandiją."
 
 #. TRANS: Noaydde = Shaman
 #: data/nation/sami.ruleset:22
@@ -23082,7 +23073,7 @@ msgstr "?plural:Škotai"
 
 #: data/nation/scottish.ruleset:6
 msgid "Scotland, originally settled in late Roman times by Irish raiders who displaced the native Picts, was an independent kingdom from around 1034AD to the Union of Crowns with England in 1701."
-msgstr ""
+msgstr "Škotija, iš pradžių apgyvendinta airių plėšikų, kurie išstūmė vietinius piktus, buvo nepriklausoma karalystė nuo 1034 iki 1701, kuomet įvyko Karūnų unija su Anglija."
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
@@ -23307,7 +23298,7 @@ msgstr "?plural:Švedai"
 
 #: data/nation/swedish.ruleset:6
 msgid "The Kingdom of Sweden was christianized and consolidated as a political entity by the 12th century AD. The country rose to prominence as one of the great powers of Europe in the 17th century, following substantial military conquests by the so called Warrior Kings. However, due to a worsening economy and several disastrous defeats to Russia, Sweden soon lost most of its gained territory. The country has not been involved in an armed conflict since 1814."
-msgstr ""
+msgstr "Švedijos karalystė buvo apkrikštyta ir sujungta į politinę vienovę XIIa. po Kristaus. Šalis, kaip viena didžiųjų Europos jėgų, tapo žymi XVIIa. po svarbių taip vadinamų Karių - Karalių užkariavimų. Kaip bebūtų, dėl blogėjančios ekonomikos ir keleto skaudžių pralaimėjimų Rusijai, Švedija prarado didžiąja dalį savo užkariautos teritorijos. Šalis nebuvo įsitraukusi į ginkluotą konfliktą nuo 1814m."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -23369,7 +23360,7 @@ msgstr "?plural:Teksasiečiai"
 
 #: data/nation/texan.ruleset:6
 msgid "Texas is second largest and second most populous state of the USA, famous for it's \"larger than life\" cowboy mentality."
-msgstr ""
+msgstr "Teksasas yra antra pagal dydį ir gyventojų skaičių Amerikos valstija, garsi dėl savo kaubojiškų tradicijų."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -23381,7 +23372,7 @@ msgstr "?plural:Tailandiečiai"
 
 #: data/nation/thai.ruleset:6
 msgid "The Thai kingdom was the only country in Southeast Asia to preserve its independence throught the colonial era of the 18th and 19th centuries AD."
-msgstr ""
+msgstr "Tajų karalystė buvo vienintelė šalis pietryčių Azijoje, sugebėjusi išsaugoti savo nepriklausomybę per kolonijinę epochą XVIIIa. - XIXa. po Kristaus."
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
@@ -23457,7 +23448,7 @@ msgstr "?plural:Urugvajiečiai"
 
 #: data/nation/uruguayan.ruleset:6
 msgid "Uruguay, a small South American country sometimes referred to as \"Switzerland of the Americas\" due to its once higly developed social welfare system."
-msgstr ""
+msgstr "Urugvajus yra maža Pietų Amerikos valstybė kartais vadinama \"Amerikų Šveicarija\" dėl savo kažkada gerai išvystytos socialinės sistemos."
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
@@ -23469,7 +23460,7 @@ msgstr "?plural:Ugrai"
 
 #: data/nation/uyghur.ruleset:6
 msgid "Uyghur was an east Turk empire and civilization. At its height in 820 AD it controlled most of Central and North Asia. After clashing with the Chinese for several centuries, they were finally subdued by the Qing dynasty in the 1700s. Today, descendants of the Uyghur form the populations of the Central Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the main minority of the Xinjiang province of China."
-msgstr ""
+msgstr "Uighurai buvo rytinė Turkų imperija ir civilizacija. Savo klestėjimo viršūnėje ji kontroliavo didžiąją centrinės ir šiaurės Azijos dalį. Po kovų su kinais, kurios tęsėsi keletą šimtmečių, jie galiausiai buvo pajungti Qingų dinastijos 1700m. Šiais laikas uighurų palikuonys gyvena Centrinės Azijos valstybėse, tokiose kaip Uzbekistanas, Kazakstanas ir Kirgizstanas. Jie taip pat sudaro pagrindinę mažumą Kinijos Xinjiang provincijoje."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuelan"
