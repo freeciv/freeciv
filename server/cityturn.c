@@ -751,7 +751,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "it needs %s government.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
-			       get_government_name(preq->source.value.gov));
+			       government_name_translation(preq->source.value.gov));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
 				 API_TYPE_CITY, pcity,
@@ -789,7 +789,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "only %s may build this.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
-			       get_nation_name(preq->source.value.nation));
+			       nation_plural_translation(preq->source.value.nation));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
 				 API_TYPE_CITY, pcity,
@@ -996,7 +996,7 @@ static void upgrade_unit_prod(struct city *pcity)
 static bool city_distribute_surplus_shields(struct player *pplayer,
 					    struct city *pcity)
 {
-  struct government *g = get_gov_pplayer(pplayer);
+  struct government *g = government_of_player(pplayer);
 
   if (pcity->surplus[O_SHIELD] < 0) {
     unit_list_iterate_safe(pcity->units_supported, punit) {
@@ -1108,7 +1108,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
       notify_player(NULL, pcity->tile, E_WONDER_BUILD,
 		       _("The %s have finished building %s in %s."),
-		       get_nation_name_plural(pplayer->nation),
+		       nation_plural_for_player(pplayer),
 		       get_impr_name_ex(pcity, id),
 		       pcity->name);
 
@@ -1143,7 +1143,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
 	notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 	    _("The %s have acquired %s from %s."),
-	    get_nation_name_plural(pplayer->nation),
+	    nation_plural_for_player(pplayer),
 	    advance_name_for_player(pplayer, tech),
 	    improvement_name_translation(id));
       }
@@ -1152,7 +1152,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       notify_player(NULL, pcity->tile, E_SPACESHIP,
 		       _("The %s have started "
 			 "building a spaceship!"),
-		       get_nation_name_plural(pplayer->nation));
+		       nation_plural_for_player(pplayer));
       pplayer->spaceship.state = SSHIP_STARTED;
     }
     if (space_part) {
@@ -1282,7 +1282,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   built_impr_iterate(pcity, i) {
     if (can_city_sell_building(pcity, i)
-	&& pplayer->government != game.government_when_anarchy) {
+	&& government_of_player(pplayer) != game.government_when_anarchy) {
       if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
 	notify_player(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Can't afford to maintain %s in %s, "
@@ -1339,7 +1339,7 @@ static void check_pollution(struct city *pcity)
 **************************************************************************/
 int city_incite_cost(struct player *pplayer, struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
+  struct government *g = government_of_city(pcity);
   struct city *capital;
   int dist, size, cost;
 
@@ -1457,7 +1457,7 @@ void nullify_prechange_production(struct city *pcity)
 **************************************************************************/
 static void update_city_activity(struct player *pplayer, struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
+  struct government *g = government_of_city(pcity);
 
   city_refresh(pcity);
 
@@ -1469,16 +1469,14 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
       if (pcity->rapture == 1)
 	notify_player(pplayer, pcity->tile, E_CITY_LOVE,
 			 _("We Love The %s Day celebrated in %s."), 
-			 get_ruler_title(pplayer->government, pplayer->is_male,
-					 pplayer->nation),
+			 ruler_title_translation(pplayer),
 			 pcity->name);
     }
     else {
       if (pcity->rapture != 0)
 	notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
 			 _("We Love The %s Day canceled in %s."),
-			 get_ruler_title(pplayer->government, pplayer->is_male,
-					 pplayer->nation),
+			 ruler_title_translation(pplayer),
 			 pcity->name);
       pcity->rapture=0;
     }
@@ -1526,7 +1524,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
       notify_player(pplayer, pcity->tile, E_ANARCHY,
 		       _("The people have overthrown your %s, "
 			 "your country is in turmoil."),
-		       get_government_name(g));
+		       government_name_translation(g));
       handle_player_change_government(pplayer, g->index);
     }
     sanity_check_city(pcity);

@@ -128,7 +128,7 @@ static void build_row(const char **row, int i, int update)
 
 
     /* the nation */
-    row[1] = get_nation_name(game.players[i].nation);
+    row[1] = nation_name_translation(game.players[i].nation);
   }
 
   /* text for name, plus AI marker */

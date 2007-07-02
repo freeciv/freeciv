@@ -112,7 +112,7 @@ const char *popup_info_text(struct tile *ptile)
     } else if (owner && !game.player_ptr) {
       /* TRANS: "Territory of the Polish" */
       astr_add_line(&str, _("Territory of the %s"),
-		    get_nation_name_plural(owner->nation));
+		    nation_plural_for_player(owner));
     } else if (owner) {
       struct player_diplstate *ds = game.player_ptr->diplstates;
 
@@ -123,7 +123,8 @@ const char *popup_info_text(struct tile *ptile)
 	astr_add_line(&str, PL_("%s territory (%d turn cease-fire)",
 				"%s territory (%d turn cease-fire)",
 				turns),
-		      get_nation_name(owner->nation), turns);
+		      nation_name_for_player(owner),
+		      turns);
       } else {
 	/* TRANS: "Territory of the friendly Polish".  See the
 	 * ?nation adjectives. */
@@ -131,7 +132,7 @@ const char *popup_info_text(struct tile *ptile)
 
 	astr_add_line(&str, _("Territory of the %s %s"),
 		      diplo_nation_plural_adjectives[type],
-		      get_nation_name_plural(owner->nation));
+		      nation_plural_for_player(owner));
       }
     } else {
       astr_add_line(&str, _("Unclaimed territory"));
@@ -145,8 +146,9 @@ const char *popup_info_text(struct tile *ptile)
 
     if (!game.player_ptr || owner == game.player_ptr){
       /* TRANS: "City: Warsaw (Polish)" */
-      astr_add_line(&str, _("City: %s (%s)"), pcity->name,
-		    get_nation_name(owner->nation));
+      astr_add_line(&str, _("City: %s (%s)"), 
+		    pcity->name,
+		    nation_name_for_player(owner));
     } else {
       struct player_diplstate *ds = game.player_ptr->diplstates;
 
@@ -158,12 +160,13 @@ const char *popup_info_text(struct tile *ptile)
 				"City: %s (%s, %d turn cease-fire)",
 				turns),
 		      pcity->name,
-		      get_nation_name(owner->nation),
+		      nation_name_for_player(owner),
 		      turns);
       } else {
         /* TRANS: "City: Warsaw (Polish,friendly)" */
-        astr_add_line(&str, _("City: %s (%s, %s)"), pcity->name,
-		      get_nation_name(owner->nation),
+        astr_add_line(&str, _("City: %s (%s, %s)"),
+		      pcity->name,
+		      nation_name_for_player(owner),
 		      diplo_city_adjectives[ds[owner->player_no].type]);
       }
     }
@@ -217,7 +220,7 @@ const char *popup_info_text(struct tile *ptile)
       /* TRANS: "Unit: Musketeers (Polish/Warsaw)" */
       astr_add_line(&str, _("Unit: %s (%s%s)"),
 		    utype_name_translation(ptype),
-		    get_nation_name(owner->nation),
+		    nation_name_for_player(owner),
 		    tmp);
     } else if (owner) {
       struct player_diplstate *ds = game.player_ptr->diplstates;
@@ -232,13 +235,13 @@ const char *popup_info_text(struct tile *ptile)
 				"Unit: %s (%s, %d turn cease-fire)",
 				turns),
 		      utype_name_translation(ptype),
-		      get_nation_name(owner->nation),
+		      nation_name_for_player(owner),
 		      turns);
       } else {
 	/* TRANS: "Unit: Musketeers (Polish,friendly)" */
 	astr_add_line(&str, _("Unit: %s (%s, %s)"),
 		      utype_name_translation(ptype),
-		      get_nation_name(owner->nation),
+		      nation_name_for_player(owner),
 		      diplo_city_adjectives[ds[owner->player_no].type]);
       }
     }
@@ -628,7 +631,7 @@ const char *get_info_label_text_popup(void)
 
   if (game.player_ptr) {
     astr_add_line(&str, _("Government: %s"),
-		  get_government_name(game.player_ptr->government));
+		  government_name_for_player(game.player_ptr));
   }
 
   return str.str;
@@ -916,7 +919,7 @@ const char *get_nuclear_winter_tooltip(void)
 
 /****************************************************************************
   Get a tooltip text for the info panel government indicator.  See also
-  get_government(...)->sprite.
+  government_by_number(...)->sprite.
 ****************************************************************************/
 const char *get_government_tooltip(void)
 {
@@ -926,7 +929,7 @@ const char *get_government_tooltip(void)
 
   astr_add_line(&str, _("Shows your current government:"));
   if (game.player_ptr) {
-    astr_add_line(&str, get_government_name(game.player_ptr->government));
+    astr_add_line(&str, government_name_for_player(game.player_ptr));
   }
   return str.str;
 }
@@ -1095,13 +1098,11 @@ const char *get_report_title(const char *report_name)
   if (game.player_ptr) {
     /* TRANS: "Republic of the Polish" */
     astr_add_line(&str, _("%s of the %s"),
-		  get_government_name(game.player_ptr->government),
-		  get_nation_name_plural(game.player_ptr->nation));
+		  government_name_for_player(game.player_ptr),
+		  nation_plural_for_player(game.player_ptr));
 
     astr_add_line(&str, "%s %s: %s",
-		  get_ruler_title(game.player_ptr->government,
-				  game.player_ptr->is_male,
-				  game.player_ptr->nation),
+		  ruler_title_translation(game.player_ptr),
 		  game.player_ptr->name,
 		  textyear(game.info.year));
   } else {

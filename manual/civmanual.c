@@ -228,7 +228,7 @@ static bool manual_command(void)
       terrain_type_iterate(pterrain) {
         struct resource **r;
 
-        if ('\0' == pterrain->name_rule[0]) {
+        if (0 == strlen(terrain_rule_name(pterrain))) {
           /* Must be a disabled piece of terrain */
           continue;
         }

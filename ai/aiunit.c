@@ -1312,7 +1312,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   if (pcity && (punit->id == 0 || pcity->id == punit->homecity)) {
     /* I would have thought unhappiness should be taken into account 
      * irrespectfully the city in which it will surface...  GB */ 
-    unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
+    unhap = ai_assess_military_unhappiness(pcity, government_of_player(pplayer));
   }
 
   move_rate = unit_move_rate(punit);

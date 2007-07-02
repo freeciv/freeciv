@@ -141,21 +141,21 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           if (!tech_is_available(pother, pclause->value)) {
 	    /* It is impossible to give a technology to a civilization that
 	     * can never possess it (the client should enforce this). */
-	    freelog(LOG_ERROR, "Treaty: The %s can't have tech %s",
-                    get_nation_name_plural(pother->nation),
+	    freelog(LOG_ERROR, "Treaty: %s can't have tech %s",
+                    nation_rule_name(nation_of_player(pother)),
 		    advance_name_by_player(pplayer, pclause->value));
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
                           _("The %s can't accept %s."),
-                          get_nation_name_plural(pother->nation),
+                          nation_plural_for_player(pother),
 			  advance_name_for_player(pplayer, pclause->value));
 	    return;
           }
 	  if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
 	    freelog(LOG_ERROR,
-                    "The %s don't know tech %s, but try to give it to the %s.",
-		    get_nation_name_plural(pplayer->nation),
+                    "Nation %s try to give unknown tech %s to nation %s.",
+		    nation_rule_name(nation_of_player(pplayer)),
 		    advance_name_by_player(pplayer, pclause->value),
-		    get_nation_name_plural(pother->nation));
+		    nation_rule_name(nation_of_player(pother)));
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You don't have tech %s, you can't accept treaty."),
 			  advance_name_for_player(pplayer, pclause->value));
@@ -258,25 +258,25 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  pcity = find_city_by_id(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
-			  _("One of the cities %s is giving away is destroyed! "
-			    "Treaty canceled!"),
-			  get_nation_name_plural(pother->nation));
+			  _("One of the cities the %s are giving away"
+			    " is destroyed! Treaty canceled!"),
+			  nation_plural_for_player(pother));
 	    notify_player(pother, NULL, E_DIPLOMACY,
-			  _("One of the cities %s is giving away is destroyed! "
-			    "Treaty canceled!"),
-			  get_nation_name_plural(pother->nation));
+			  _("One of the cities the %s are giving away"
+			    " is destroyed! Treaty canceled!"),
+			  nation_plural_for_player(pother));
 	    goto cleanup;
 	  }
 	  if (pcity->owner != pother) {
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
-			  get_nation_name_plural(pother->nation),
+			  nation_plural_for_player(pother),
 			  pcity->name);
 	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
-			  get_nation_name_plural(pother->nation),
+			  nation_plural_for_player(pother),
 			  pcity->name);
 	    goto cleanup;
 	  }
@@ -313,11 +313,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("The %s don't have the promised amount "
 			    "of gold! Treaty canceled!"),
-			  get_nation_name_plural(pother->nation));
+			  nation_plural_for_player(pother));
 	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("The %s don't have the promised amount "
 			    "of gold! Treaty canceled!"),
-			  get_nation_name_plural(pother->nation));
+			  nation_plural_for_player(pother));
 	    goto cleanup;
 	  }
 	  break;
@@ -356,10 +356,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
          * should be handled discreetly instead of giving a core dump. */
         if (get_invention(pdest, pclause->value) == TECH_KNOWN) {
 	  freelog(LOG_VERBOSE,
-                  "The %s already know tech %s, that %s want to give them.",
-		  get_nation_name_plural(pdest->nation),
+                  "Nation %s already know tech %s, that %s want to give them.",
+		  nation_rule_name(nation_of_player(pdest)),
 		  advance_name_by_player(pplayer, pclause->value),
-		  get_nation_name_plural(pgiver->nation));
+		  nation_rule_name(nation_of_player(pgiver)));
           break;
         }
 	notify_player(pdest, NULL, E_TECH_GAIN,
@@ -368,9 +368,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
 	notify_embassies(pdest, pgiver, NULL, E_TECH_GAIN,
 			 _("The %s have acquired %s from the %s."),
-			 get_nation_name_plural(pdest->nation),
+			 nation_plural_for_player(pdest),
 			 advance_name_for_player(pdest, pclause->value),
-			 get_nation_name_plural(pgiver->nation));
+			 nation_plural_for_player(pgiver));
 
 	script_signal_emit("tech_researched", 3,
 			   API_TYPE_TECH_TYPE, &advances[pclause->value],

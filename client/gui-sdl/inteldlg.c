@@ -242,7 +242,7 @@ void update_intel_dialog(struct player *p)
     add_to_gui_list(ID_BUTTON, pBuf);
     /* ---------- */
     
-    pLogo = get_nation_flag_surface(p->nation);
+    pLogo = get_nation_flag_surface(nation_of_player(p));
     pText1 = zoomSurface(pLogo, DEFAULT_ZOOM * 4.0 , DEFAULT_ZOOM * 4.0, 1);
     pLogo = pText1;
           
@@ -253,8 +253,8 @@ void update_intel_dialog(struct player *p)
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.player = p;
     my_snprintf(cBuf, sizeof(cBuf),
-                _("Intelligence Information about %s Spaceship"), 
-                                          get_nation_name(p->nation));
+                _("Intelligence Information about the %s Spaceship"), 
+                nation_name_for_player(p));
     pBuf->string16 = create_str16_from_char(cBuf, adj_font(12));
           
     add_to_gui_list(ID_ICON, pBuf);
@@ -262,7 +262,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     my_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information for the %s Empire"), 
-                                          get_nation_name(p->nation));
+                nation_name_for_player(p));
     
     pStr = create_str16_from_char(cBuf, adj_font(14));
     pStr->style |= TTF_STYLE_BOLD;
@@ -282,8 +282,9 @@ void update_intel_dialog(struct player *p)
       my_snprintf(cBuf, sizeof(cBuf),
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
-        get_ruler_title(p->government, p->is_male, p->nation),
-        p->name, get_government_name(p->government),
+        ruler_title_translation(p),
+        p->name,
+        government_name_for_player(p),
         (!pCapital) ? _("(Unknown)") : pCapital->name, p->economic.gold,
         p->economic.tax, p->economic.science, p->economic.luxury,
         advance_name_researching(p),
@@ -292,8 +293,9 @@ void update_intel_dialog(struct player *p)
       my_snprintf(cBuf, sizeof(cBuf),
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: Unknown"),
-        get_ruler_title(p->government, p->is_male, p->nation),
-        p->name, get_government_name(p->government),
+        ruler_title_translation(p),
+        p->name,
+        government_name_for_player(p),
         (!pCapital) ? _("(Unknown)") : pCapital->name, p->economic.gold,
         p->economic.tax, p->economic.science, p->economic.luxury);
     }

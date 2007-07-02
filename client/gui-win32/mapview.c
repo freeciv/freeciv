@@ -175,7 +175,9 @@ update_info_label(void)
 		game.player_ptr->economic.luxury,
 		game.player_ptr->economic.science );      
   my_snprintf(buffer2,sizeof(buffer2),
-	      "%s\n%s",get_nation_name(game.player_ptr->nation),buffer);
+	      "%s\n%s",
+	      nation_name_for_player(game.player_ptr),
+	      buffer);
   SetWindowText(infolabel_win,buffer2);
   do_mainwin_layout();
   set_indicator_icons(client_research_sprite(),

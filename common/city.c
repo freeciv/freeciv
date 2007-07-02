@@ -1508,7 +1508,7 @@ void add_tax_income(const struct player *pplayer, int trade, int *output)
   }
   
   /* ANARCHY */
-  if (get_gov_pplayer(pplayer) == game.government_when_anarchy) {
+  if (government_of_player(pplayer) == game.government_when_anarchy) {
     rates[SCIENCE] = 0;
     rates[LUXURY] = 100;
     rates[TAX] = 0;
@@ -1980,7 +1980,7 @@ static inline void city_support(struct city *pcity,
 						        struct unit *punit))
 {
   struct player *plr = city_owner(pcity);
-  struct government *g = get_gov_pcity(pcity);
+  struct government *g = government_of_city(pcity);
   int free_upkeep[O_COUNT];
   int free_happy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
 

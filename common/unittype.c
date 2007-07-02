@@ -204,19 +204,22 @@ int unit_pop_value(const struct unit_type *punittype)
 
 /**************************************************************************
   Return the (translated) name of the unit type.
+  You don't have to free the return pointer.
 **************************************************************************/
 const char *utype_name_translation(struct unit_type *punittype)
 {
   if (NULL == punittype->name_translated) {
     /* delayed (unified) translation */
     punittype->name_translated = ('\0' == punittype->name_rule[0])
-			   ? punittype->name_rule : Q_(punittype->name_rule);
+				 ? punittype->name_rule
+				 : Q_(punittype->name_rule);
   }
   return punittype->name_translated;
 }
 
 /**************************************************************************
   Return the (translated) name of the unit.
+  You don't have to free the return pointer.
 **************************************************************************/
 const char *unit_name_translation(struct unit *punit)
 {
@@ -224,7 +227,8 @@ const char *unit_name_translation(struct unit *punit)
 }
 
 /**************************************************************************
-  Return the original (untranslated) name of the unit type.
+  Return the (untranslated) rule name of the unit type.
+  You don't have to free the return pointer.
 **************************************************************************/
 const char *utype_rule_name(const struct unit_type *punittype)
 {
@@ -232,7 +236,8 @@ const char *utype_rule_name(const struct unit_type *punittype)
 }
 
 /**************************************************************************
-  Return the original (untranslated) name of the unit.
+  Return the (untranslated) rule name of the unit.
+  You don't have to free the return pointer.
 **************************************************************************/
 const char *unit_rule_name(const struct unit *punit)
 {
@@ -388,7 +393,7 @@ struct unit_type *find_unit_type_by_translated_name(const char *name)
 }
 
 /**************************************************************************
-  Returns the unit type that has the given original (untranslated) name.
+  Returns the unit type that has the given (untranslated) rule name.
   Returns NULL if none match.
 **************************************************************************/
 struct unit_type *find_unit_type_by_rule_name(const char *name)
@@ -439,7 +444,7 @@ enum unit_flag_id unit_flag_from_str(const char *s)
 }
 
 /**************************************************************************
-  Return the original (untranslated) name of the unit flag.
+  Return the (untranslated) rule name of the unit flag.
 **************************************************************************/
 const char *get_unit_flag_name(enum unit_flag_id id)
 {
@@ -483,7 +488,7 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
   if (punittype->gov_requirement
-      && punittype->gov_requirement != p->government) {
+      && punittype->gov_requirement != government_of_player(p)) {
     return FALSE;
   }
   if (get_invention(p,punittype->tech_requirement) != TECH_KNOWN) {

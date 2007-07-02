@@ -2547,7 +2547,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
   t->sprites.unittype[ut->index]
     = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
-			    TRUE, "unit_type", ut->name_rule);
+			    TRUE, "unit_type", utype_rule_name(ut));
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -2561,10 +2561,9 @@ void tileset_setup_impr_type(struct tileset *t, int id)
   struct impr_type *pimpr = improvement_by_number(id);
 
   assert(id >= 0 && id < game.control.num_impr_types);
-  t->sprites.building[id] = lookup_sprite_tag_alt(t, pimpr->graphic_str,
-						  pimpr->graphic_alt,
-						  FALSE, "impr_type",
-						  pimpr->name_rule);
+  t->sprites.building[id]
+    = lookup_sprite_tag_alt(t, pimpr->graphic_str, pimpr->graphic_alt,
+			    FALSE, "impr_type", improvement_rule_name(id));
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -2580,7 +2579,7 @@ void tileset_setup_tech_type(struct tileset *t, int id)
       = lookup_sprite_tag_alt(t, advances[id].graphic_str,
 			      advances[id].graphic_alt,
 			      FALSE, "technology",
-			      advances[id].name_rule);
+			      advance_rule_name(id));
 
     /* should maybe do something if NULL, eg generic default? */
   } else {
@@ -2602,7 +2601,7 @@ void tileset_setup_resource(struct tileset *t,
     = lookup_sprite_tag_alt(t, presource->graphic_str,
 			    presource->graphic_alt,
 			    FALSE, "resource",
-			    presource->name_rule);
+			    resource_rule_name(presource));
 }
 
 
@@ -2619,7 +2618,7 @@ void tileset_setup_tile_type(struct tileset *t,
   char buffer[MAX_LEN_NAME + 20];
   int i, l;
   
-  if ('\0' == pterrain->name_rule[0]) {
+  if (0 == strlen(terrain_rule_name(pterrain))) {
     return;
   }
 
@@ -2628,7 +2627,7 @@ void tileset_setup_tile_type(struct tileset *t,
     draw = hash_lookup_data(t->terrain_hash, pterrain->graphic_alt);
     if (!draw) {
       freelog(LOG_FATAL, "Terrain \"%s\": no graphic tile \"%s\" or \"%s\".",
-	      pterrain->name_rule,
+	      terrain_rule_name(pterrain),
 	      pterrain->graphic_str,
 	      pterrain->graphic_alt);
       exit(EXIT_FAILURE);
@@ -2670,7 +2669,7 @@ void tileset_setup_tile_type(struct tileset *t,
 		      cardinal_index_str(t, i));
 	  draw->layer[l].match[i] =
 	    lookup_sprite_tag_alt(t, buffer, "", TRUE, "matched terrain",
-							  pterrain->name_rule);
+				  terrain_rule_name(pterrain));
 	}
 	break;
       };
@@ -2702,7 +2701,7 @@ void tileset_setup_tile_type(struct tileset *t,
 			(value >> 2) & 1);
 	    draw->layer[l].cells[i]
 	      = lookup_sprite_tag_alt(t, buffer, "", TRUE, "same cell terrain",
-				      pterrain->name_rule);
+				      terrain_rule_name(pterrain));
 	    break;
 	  case MATCH_FULL:
 	    {
@@ -2794,7 +2793,7 @@ void tileset_setup_tile_type(struct tileset *t,
       sprite_vector_reserve(&draw->layer[0].base, 1);
       draw->layer[0].base.p[0]
 	= lookup_sprite_tag_alt(t, buffer, "", TRUE, "base (blend) terrain",
-				pterrain->name_rule);
+				terrain_rule_name(pterrain));
     }
 
     for (dir = 0; dir < 4; dir++) {
@@ -2823,11 +2822,12 @@ void tileset_setup_tile_type(struct tileset *t,
 ***********************************************************************/
 void tileset_setup_government(struct tileset *t, int id)
 {
-  struct government *gov = get_government(id);
+  struct government *gov = government_by_number(id);
   
   t->sprites.government[id]
     = lookup_sprite_tag_alt(t, gov->graphic_str, gov->graphic_alt,
-			    TRUE, "government", gov->name);
+			    TRUE, "government",
+			    government_name_translation(gov));
   
   /* should probably do something if NULL, eg generic default? */
 }
@@ -2838,7 +2838,7 @@ void tileset_setup_government(struct tileset *t, int id)
 ***********************************************************************/
 void tileset_setup_nation_flag(struct tileset *t, int id)
 {
-  struct nation_type *nation = get_nation_by_idx(id);
+  struct nation_type *nation = nation_by_number(id);
   char *tags[] = {nation->flag_graphic_str,
 		  nation->flag_graphic_alt,
 		  "unknown", NULL};
@@ -2856,7 +2856,8 @@ void tileset_setup_nation_flag(struct tileset *t, int id)
   }
   if (!flag || !shield) {
     /* Should never get here because of the f.unknown fallback. */
-    freelog(LOG_FATAL, "No national flag for \"%s\".", nation->name);
+    freelog(LOG_FATAL, "Nation %s: no national flag.",
+            nation_rule_name(nation));
     exit(EXIT_FAILURE);
   }
 
@@ -2873,7 +2874,7 @@ void tileset_setup_nation_flag(struct tileset *t, int id)
 struct sprite *get_city_flag_sprite(const struct tileset *t,
 				    const struct city *pcity)
 {
-  return get_nation_flag_sprite(t, city_owner(pcity)->nation);
+  return get_nation_flag_sprite(t, nation_of_city(pcity));
 }
 
 /**********************************************************************
@@ -2882,7 +2883,7 @@ struct sprite *get_city_flag_sprite(const struct tileset *t,
 static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 						  const struct unit *punit)
 {
-  struct nation_type *pnation = unit_owner(punit)->nation;
+  struct nation_type *pnation = nation_of_unit(punit);
 
   if (draw_unit_shields) {
     return t->sprites.nation_shield.p[pnation->index];

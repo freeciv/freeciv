@@ -1096,7 +1096,7 @@ int stack_cost(struct unit *pdef)
 **************************************************************************/
 void ai_government_change(struct player *pplayer, struct government *gov)
 {
-  if (gov == pplayer->government) {
+  if (gov == government_of_player(pplayer)) {
     return;
   }
 

@@ -2868,7 +2868,7 @@ msgstr[2] "تم الاتفاق على معاهدة  من %d بنود."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "لقد دمرت احدى المدن التي اعطاها لنا  %s ! تم الغاء المعاهدة!"
 
 #: server/diplhand.c:272 server/diplhand.c:277

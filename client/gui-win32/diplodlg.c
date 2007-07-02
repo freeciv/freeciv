@@ -603,7 +603,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 						pdialog);
   vbox=fcwin_vbox_new(pdialog->mainwin,FALSE);
   my_snprintf(buf, sizeof(buf),
-              _("The %s offerings"), get_nation_name(plr0->nation));
+              _("The %s offerings"),
+              nation_name_for_player(plr0));
   fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Maps"),ID_MAP0,0,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Advances"),ID_TECH0,0,FALSE,FALSE,5);
@@ -625,21 +626,24 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 	      _("This Eternal Treaty\n"
 		"marks the results of the diplomatic work between\n"
 		"The %s %s %s\nand\nThe %s %s %s"),
-	      get_nation_name(plr0->nation),
-	      get_ruler_title(plr0->government, plr0->is_male, plr0->nation),
+	      nation_name_for_player(plr0),
+	      ruler_title_translation(plr0),
 	      plr0->name,
-	      get_nation_name(plr1->nation),
-	      get_ruler_title(plr1->government, plr1->is_male, plr1->nation),
+	      nation_name_for_player(plr1),
+	      ruler_title_translation(plr1),
 	      plr1->name);
   fcwin_box_add_static(vbox,buf,0,SS_CENTER,FALSE,FALSE,5);
   pdialog->list=fcwin_box_add_list(vbox,6,ID_LIST,WS_VSCROLL,TRUE,TRUE,5);
   hbox2=fcwin_hbox_new(pdialog->mainwin,FALSE);
-  my_snprintf(buf, sizeof(buf), _("%s view:"), get_nation_name(plr0->nation));
+
+  my_snprintf(buf, sizeof(buf), _("%s view:"),
+              nation_name_for_player(plr0));
   fcwin_box_add_static(hbox2,buf,0,SS_LEFT,FALSE,FALSE,5);
   fcwin_box_add_generic(hbox2,thumb_minsize,thumb_setsize,NULL,
 			&pdialog->thumb0_pos,FALSE,FALSE,5);
   
-  my_snprintf(buf, sizeof(buf), _("%s view:"), get_nation_name(plr1->nation));
+  my_snprintf(buf, sizeof(buf), _("%s view:"),
+              nation_name_for_player(plr1));
   fcwin_box_add_static(hbox2,buf,0,SS_LEFT,FALSE,FALSE,5);
   fcwin_box_add_generic(hbox2,thumb_minsize,thumb_setsize,NULL,
 			&pdialog->thumb1_pos,FALSE,FALSE,5);
@@ -651,7 +655,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
   
   vbox=fcwin_vbox_new(pdialog->mainwin,FALSE);
   my_snprintf(buf, sizeof(buf),
-              _("The %s offerings"), get_nation_name(plr1->nation));
+              _("The %s offerings"),
+              nation_name_for_player(plr1));
   fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Maps"),ID_MAP1,0,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Advances"),ID_TECH1,0,FALSE,FALSE,5);

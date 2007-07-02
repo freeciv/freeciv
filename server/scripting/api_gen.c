@@ -1,6 +1,6 @@
 /*
 ** Lua binding: api
-** Generated automatically by tolua 5.0a on Fri Jun 29 13:44:16 2007.
+** Generated automatically by tolua 5.0a on Sun Jul  1 15:21:07 2007.
 */
 
 #ifndef __cplusplus
@@ -379,17 +379,6 @@ static int tolua_get_Tile_Tile_index(lua_State* tolua_S)
  return 1;
 }
 
-/* get function: name_orig of class  Government */
-static int tolua_get_Government_Government_name_orig(lua_State* tolua_S)
-{
-  Government* self = (Government*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_orig'",NULL);
-#endif
- tolua_pushstring(tolua_S,(const char*)self->name_orig);
- return 1;
-}
-
 /* get function: index of class  Government */
 static int tolua_get_Government_Government_index(lua_State* tolua_S)
 {
@@ -398,28 +387,6 @@ static int tolua_get_Government_Government_index(lua_State* tolua_S)
  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'index'",NULL);
 #endif
  tolua_pushnumber(tolua_S,(lua_Number)self->index);
- return 1;
-}
-
-/* get function: name_orig of class  Nation_Type */
-static int tolua_get_Nation_Type_Nation_Type_name_orig(lua_State* tolua_S)
-{
-  Nation_Type* self = (Nation_Type*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_orig'",NULL);
-#endif
- tolua_pushstring(tolua_S,(const char*)self->name_orig);
- return 1;
-}
-
-/* get function: name_plural_orig of class  Nation_Type */
-static int tolua_get_Nation_Type_Nation_Type_name_plural_orig(lua_State* tolua_S)
-{
-  Nation_Type* self = (Nation_Type*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_plural_orig'",NULL);
-#endif
- tolua_pushstring(tolua_S,(const char*)self->name_plural_orig);
  return 1;
 }
 
@@ -1588,13 +1555,10 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Government","Government","",NULL);
  tolua_beginmodule(tolua_S,"Government");
- tolua_variable(tolua_S,"name",tolua_get_Government_Government_name_orig,NULL);
  tolua_variable(tolua_S,"id",tolua_get_Government_Government_index,NULL);
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Nation_Type","Nation_Type","",NULL);
  tolua_beginmodule(tolua_S,"Nation_Type");
- tolua_variable(tolua_S,"name",tolua_get_Nation_Type_Nation_Type_name_orig,NULL);
- tolua_variable(tolua_S,"name_plural",tolua_get_Nation_Type_Nation_Type_name_plural_orig,NULL);
  tolua_variable(tolua_S,"id",tolua_get_Nation_Type_Nation_Type_index,NULL);
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Building_Type","Building_Type","",NULL);

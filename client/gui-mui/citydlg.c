@@ -2180,7 +2180,7 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
 
   struct city *pcity = pdialog->pcity;
   struct player *pplayer = &game.players[pcity->owner];
-  struct government *g = get_gov_pcity(pcity);
+  struct government *g = government_of_city(pcity);
   int cities = city_list_size(&pplayer->cities);
   int content = game.info.unhappysize;
   int basis = game.info.cityfactor + g->empire_size_mod;

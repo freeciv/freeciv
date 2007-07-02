@@ -644,19 +644,23 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
       set(pdialog->plr0_pacts_button,MUIA_ContextMenu, menu_strip);
     }
 
-    settextf(plr0_text,_("The %s offerings"), get_nation_name(plr0->nation));
-    settextf(plr1_text,_("The %s offerings"), get_nation_name(plr1->nation));
+    settextf(plr0_text,_("The %s offerings"),
+             nation_name_for_player(plr0));
+    settextf(plr1_text,_("The %s offerings"),
+             nation_name_for_player(plr1));
     settextf(plr0_gold_text, _("Gold(max %d)"), plr0->economic.gold);
     settextf(plr1_gold_text, _("Gold(max %d)"), plr1->economic.gold);
-    settextf(plr0_view_text, _("%s view:"), get_nation_name(plr0->nation));
-    settextf(plr1_view_text, _("%s view:"), get_nation_name(plr1->nation));
+    settextf(plr0_view_text, _("%s view:"),
+             nation_name_for_player(plr0));
+    settextf(plr1_view_text, _("%s view:"),
+             nation_name_for_player(plr1));
 
     settextf(diplo_text, _("This Eternal Treaty\nmarks the results\nof the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s"),
-             get_nation_name(plr0->nation),
-             get_ruler_title(plr0->government,plr0->is_male,plr0->nation),
+             nation_name_for_player(plr0),
+             ruler_title_translation(plr0),
              plr0->name,
-             get_nation_name(plr1->nation),
-             get_ruler_title(plr1->government,plr1->is_male,plr1->nation),
+             nation_name_for_player(plr1),
+             ruler_title_translation(plr1),
              plr1->name);
 
     DoMethod(pdialog->plr0_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, plr0->player_no);

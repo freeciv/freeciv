@@ -173,12 +173,12 @@ void color_system_setup_terrain(struct color_system *colors,
 				const struct terrain *pterrain)
 {
   struct rgbcolor *rgb
-    = hash_lookup_data(colors->terrain_hash, pterrain->name_rule);
+    = hash_lookup_data(colors->terrain_hash, terrain_rule_name(pterrain));
 
   if (rgb) {
     colors->terrain_colors[pterrain->index] = *rgb;
   } else {
-    freelog(LOG_ERROR, "No color for terrain '%s'", pterrain->name_rule);
+    freelog(LOG_ERROR, "No color for terrain '%s'", terrain_rule_name(pterrain));
     /* Fallback: the color remains black. */
   }
 }

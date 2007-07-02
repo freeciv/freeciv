@@ -800,7 +800,7 @@ static int unit_food_upkeep(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   int upkeep = utype_upkeep_cost(unit_type(punit), pplayer,
-				 get_gov_pplayer(pplayer), O_FOOD);
+				 government_of_player(pplayer), O_FOOD);
   if (punit->id != 0 && punit->homecity == 0)
     upkeep = 0; /* thanks, Peter */
 

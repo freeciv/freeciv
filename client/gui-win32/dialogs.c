@@ -284,7 +284,7 @@ static void update_nation_info()
 {
   int i;
   char buf[255];
-  struct nation_type *nation = get_nation_by_idx(selected_nation);
+  struct nation_type *nation = nation_by_number(selected_nation);
  
   buf[0] = '\0';
 /*
@@ -318,7 +318,7 @@ static void select_random_leader(HWND hWnd)
 {
   int j,leader_num;
   struct leader *leaders 
-    = get_nation_leaders(get_nation_by_idx(selected_nation), &leader_num);
+    = get_nation_leaders(nation_by_number(selected_nation), &leader_num);
 
   ComboBox_ResetContent(GetDlgItem(hWnd,ID_RACESDLG_LEADER));
   for (j = 0; j < leader_num; j++) {
@@ -444,7 +444,7 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	    if (id == ID_RACESDLG_NATION_TYPE_BASE) {
 	      populate_nation_listview(NULL, races_listview);
 	    } else {
-	      populate_nation_listview(get_nation_group_by_id(id - ID_RACESDLG_NATION_TYPE_BASE - 1), races_listview);
+	      populate_nation_listview(nation_group_by_number(id - ID_RACESDLG_NATION_TYPE_BASE - 1), races_listview);
 	    }
 	  }
 	  break;
@@ -462,8 +462,8 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 *****************************************************************/
 static int cmp_func(const void * a_p, const void * b_p)
 {
-  return strcmp(get_nation_name(get_nation_by_idx((*(int *)a_p)-ID_RACESDLG_NATION_BASE)),
-                get_nation_name(get_nation_by_idx((*(int *)b_p)-ID_RACESDLG_NATION_BASE)));
+  return strcmp(nation_name_translation(nation_by_number((*(int *)a_p)-ID_RACESDLG_NATION_BASE)),
+                nation_name_translation(nation_by_number((*(int *)b_p)-ID_RACESDLG_NATION_BASE)));
 }
 
 /****************************************************************
@@ -487,7 +487,7 @@ static void populate_nation_listview(struct nation_group* group, HWND listview)
       continue;
     }
 
-    strings[0] = pnation->name;
+    strings[0] = nation_name_translation(pnation);
 
     fcwin_listview_add_row(listview, pnation->index, 1, strings);
     visible_nations[n++] = pnation->index;
@@ -533,7 +533,7 @@ static void create_races_dialog(struct player *pplayer)
   fcwin_box_add_box(left_column, button_column, FALSE, FALSE, 5);
 
   for (i = 0; i <= get_nation_groups_count(); i++) {
-    struct nation_group* group = (i == 0 ? NULL: get_nation_group_by_id(i - 1));
+    struct nation_group* group = (i == 0 ? NULL: nation_group_by_number(i - 1));
     fcwin_box_add_button(button_column, group ? _(group->name) : _("All"), ID_RACESDLG_NATION_TYPE_BASE + i, WS_GROUP, TRUE, TRUE, 0);
   }
 
@@ -806,7 +806,7 @@ popup_unit_select_dialog(struct tile *ptile)
       unit_select_ids[i]=punit->id;
       pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
       my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
-		  punittemp->name,
+		  utype_name_translation(punittemp),
 		  pcity ? pcity->name : "",
 		  unit_activity_text(punit));
       DrawText(hdc,buffer,strlen(buffer),&rc,DT_CALCRECT);
@@ -841,7 +841,7 @@ popup_unit_select_dialog(struct tile *ptile)
 
       pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
       my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
-		  punittemp->name,
+		  utype_name_translation(punittemp),
 		  pcity ? pcity->name : "",
 		  unit_activity_text(punit));
       unit_select_labels[i]=CreateWindow("STATIC",buffer,
@@ -930,7 +930,7 @@ void races_toggles_set_sensitive(void)
 
   for (i = 0; i < game.control.nation_count; i++) {
     struct nation_type *nation;
-    nation = get_nation_by_idx(i);
+    nation = nation_by_number(i);
 
     if (!(nation->is_unavailable || nation->is_used)) {
       continue;

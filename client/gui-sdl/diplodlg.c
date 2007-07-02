@@ -422,7 +422,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pCont->id0 = pPlayer0->player_no;
   pCont->id1 = pPlayer1->player_no;
   
-  pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), adj_font(12));
+  pStr = create_str16_from_char(nation_name_for_player(pPlayer0), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);
@@ -838,7 +838,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 
     /* ============================================================= */
   
-    pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), adj_font(12));
+    pStr = create_str16_from_char(nation_name_for_player(pPlayer0), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     
@@ -855,7 +855,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     add_to_gui_list(ID_ICON, pBuf);
     
-    pStr = create_str16_from_char(get_nation_name(pPlayer1->nation), adj_font(12));
+    pStr = create_str16_from_char(nation_name_for_player(pPlayer1), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     
@@ -1295,7 +1295,7 @@ static void popup_war_dialog(struct player *pPlayer)
       
     
   my_snprintf(cBuf, sizeof(cBuf),
-       _("%s incident !"), get_nation_name(pPlayer->nation));
+       _("%s incident !"), nation_name_for_player(pPlayer));
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1439,8 +1439,9 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     
     /* ============================================================= */
     /* label */
-    my_snprintf(cBuf, sizeof(cBuf), _("Sir!, %s ambassador has arrived\n"
-    		"What are your wishes?"), get_nation_name(pPlayer->nation));
+    my_snprintf(cBuf, sizeof(cBuf), _("Sir!, the %s ambassador has arrived\n"
+    		"What are your wishes?"),
+    		nation_name_for_player(pPlayer));
   
     pStr = create_str16_from_char(cBuf, adj_font(14));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);

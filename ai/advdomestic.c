@@ -142,7 +142,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 {
   struct ai_data *ai = ai_data_get(pplayer);
   /* Government of the player */
-  struct government *gov = get_gov_pplayer(pplayer);
+  struct government *gov = government_of_player(pplayer);
   /* Unit type with certain role */
   struct unit_type *unit_type;
 

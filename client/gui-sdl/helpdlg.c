@@ -548,7 +548,7 @@ void popup_unit_info(Unit_type_id type_id)
   int h, start_x, start_y;
   bool created, text = FALSE;
   int width = 0;
-  struct unit_type *pUnit;
+  struct unit_type *pUnitType;
   char buffer[bufsz];
   SDL_Rect area;
   
@@ -605,11 +605,11 @@ void popup_unit_info(Unit_type_id type_id)
     
     h = 0;
     unit_type_iterate(type) {
-      pUnit = type;
+      pUnitType = type;
 	
       pBack = SDL_DisplayFormatAlpha(pTmp);
       
-      copy_chars_to_string16(pStr, pUnit->name);
+      copy_chars_to_string16(pStr, utype_name_translation(pUnitType));
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       
       /* draw name tech text */ 
@@ -689,10 +689,10 @@ void popup_unit_info(Unit_type_id type_id)
     }
   }
   
-  pUnit = utype_by_number(type_id);
+  pUnitType = utype_by_number(type_id);
   pBuf= create_iconlabel_from_chars(
-          adj_surf(get_unittype_surface(utype_by_number(type_id))),
-          pWindow->dst, pUnit->name, adj_font(24), WF_FREE_THEME);
+          adj_surf(get_unittype_surface(pUnitType)),
+          pWindow->dst, utype_name_translation(pUnitType), adj_font(24), WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -703,45 +703,45 @@ void popup_unit_info(Unit_type_id type_id)
     char local[2048];
     
     my_snprintf(local, sizeof(local), "%s %d %s",
-	      N_("Cost:"), unit_build_shield_cost(utype_by_number(type_id)),
-	      PL_("shield", "shields", unit_build_shield_cost(utype_by_number(type_id))));
+	      N_("Cost:"), unit_build_shield_cost(pUnitType),
+	      PL_("shield", "shields", unit_build_shield_cost(pUnitType)));
   
-    if(pUnit->pop_cost)
+    if(pUnitType->pop_cost)
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->pop_cost, PL_("citizen", "citizens", pUnit->pop_cost));
+	  pUnitType->pop_cost, PL_("citizen", "citizens", pUnitType->pop_cost));
     }
   
     cat_snprintf(local, sizeof(local), "      %s",  N_("Upkeep:"));
         
-    if(pUnit->upkeep[O_SHIELD])
+    if(pUnitType->upkeep[O_SHIELD])
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->upkeep[O_SHIELD], PL_("shield", "shields", pUnit->upkeep[O_SHIELD]));
+	  pUnitType->upkeep[O_SHIELD], PL_("shield", "shields", pUnitType->upkeep[O_SHIELD]));
      }
-    if(pUnit->upkeep[O_FOOD])
+    if(pUnitType->upkeep[O_FOOD])
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->upkeep[O_FOOD], PL_("food", "foods", pUnit->upkeep[O_FOOD]));
+	  pUnitType->upkeep[O_FOOD], PL_("food", "foods", pUnitType->upkeep[O_FOOD]));
     }
-    if(pUnit->upkeep[O_GOLD])
+    if(pUnitType->upkeep[O_GOLD])
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->upkeep[O_GOLD], PL_("gold", "golds", pUnit->upkeep[O_GOLD]));
+	  pUnitType->upkeep[O_GOLD], PL_("gold", "golds", pUnitType->upkeep[O_GOLD]));
     }
-    if(pUnit->happy_cost)
+    if(pUnitType->happy_cost)
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->happy_cost, PL_("citizen", "citizens", pUnit->happy_cost));
+	  pUnitType->happy_cost, PL_("citizen", "citizens", pUnitType->happy_cost));
     }
  
     cat_snprintf(local, sizeof(local), "\n%s %d %s %d %s %d\n%s %d %s %d %s %d",
-	      N_("Attack:"), pUnit->attack_strength,
-	      N_("Defense:"), pUnit->defense_strength,
-              N_("Move:"), pUnit->move_rate / SINGLE_MOVE,
-              N_("Vision:"), pUnit->vision_radius_sq,
-	      N_("FirePower:"), pUnit->firepower,
-              N_("Hitpoints:"), pUnit->hp);
+	      N_("Attack:"), pUnitType->attack_strength,
+	      N_("Defense:"), pUnitType->defense_strength,
+              N_("Move:"), pUnitType->move_rate / SINGLE_MOVE,
+              N_("Vision:"), pUnitType->vision_radius_sq,
+	      N_("FirePower:"), pUnitType->firepower,
+              N_("Hitpoints:"), pUnitType->hp);
   
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, local, adj_font(12), 0);
@@ -755,17 +755,17 @@ void popup_unit_info(Unit_type_id type_id)
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if(pUnit->tech_requirement==A_LAST || pUnit->tech_requirement==A_NONE)
+  if(pUnitType->tech_requirement==A_LAST || pUnitType->tech_requirement==A_NONE)
   {
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;
   } else {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	  advances[pUnit->tech_requirement].name, adj_font(12),
+	  advances[pUnitType->tech_requirement].name, adj_font(12),
 			  WF_RESTORE_BACKGROUND);
-    pBuf->ID = MAX_ID - pUnit->tech_requirement;
-    pBuf->string16->fgcol = *get_tech_color(pUnit->tech_requirement);
+    pBuf->ID = MAX_ID - pUnitType->tech_requirement;
+    pBuf->string16->fgcol = *get_tech_color(pUnitType->tech_requirement);
     pBuf->action = change_tech_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
   }
@@ -779,16 +779,16 @@ void popup_unit_info(Unit_type_id type_id)
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if (pUnit->obsoleted_by == U_NOT_OBSOLETED) {
+  if (pUnitType->obsoleted_by == U_NOT_OBSOLETED) {
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;  
   } else {
-    struct unit_type *utype = pUnit->obsoleted_by;
+    struct unit_type *utype = pUnitType->obsoleted_by;
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	      utype->name, adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_tech_color(utype->tech_requirement);
-    pBuf->ID = MAX_ID - pUnit->obsoleted_by->index;
+    pBuf->ID = MAX_ID - pUnitType->obsoleted_by->index;
     pBuf->action = change_unit_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
   }
@@ -1086,7 +1086,9 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
                   
         pBuf = create_iconlabel_from_chars(adj_surf(get_government_surface(gov)),
-                pWindow->dst, gov->name, adj_font(14),
+                pWindow->dst,
+                government_name_translation(gov),
+                adj_font(14),
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR | WF_FREE_THEME);
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->action = change_gov_callback;
@@ -1134,17 +1136,17 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   
   unit_count = 0;
   unit_type_iterate(un) {
-    struct unit_type *pUnit = un;
-    if (pUnit->tech_requirement == tech) {
+    struct unit_type *pUnitType = un;
+    if (pUnitType->tech_requirement == tech) {
       if (get_unittype_surface(un)->w > 64)
       {
 	float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
         pBuf = create_iconlabel_from_chars(zoomSurface(get_unittype_surface(un), zoom, zoom, 1),
-	      pWindow->dst, pUnit->name, adj_font(14),
+	      pWindow->dst, utype_name_translation(pUnitType), adj_font(14),
 	      (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       } else {
 	pBuf = create_iconlabel_from_chars(adj_surf(get_unittype_surface(un)),
-	      pWindow->dst, pUnit->name, adj_font(14),
+	      pWindow->dst, utype_name_translation(pUnitType), adj_font(14),
 	      (WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR | WF_FREE_THEME));
       }
       set_wstate(pBuf, FC_WS_NORMAL);

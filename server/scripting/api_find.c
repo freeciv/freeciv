@@ -65,7 +65,7 @@ Tile *api_find_tile(int nat_x, int nat_y)
 **************************************************************************/
 Government *api_find_government(int government_id)
 {
-  return get_government(government_id);
+  return government_by_number(government_id);
 }
 
 /**************************************************************************
@@ -73,7 +73,7 @@ Government *api_find_government(int government_id)
 **************************************************************************/
 Government *api_find_government_by_name(const char *name_orig)
 {
-  return find_government_by_name_orig(name_orig);
+  return find_government_by_rule_name(name_orig);
 }
 
 /**************************************************************************
@@ -81,7 +81,7 @@ Government *api_find_government_by_name(const char *name_orig)
 **************************************************************************/
 Nation_Type *api_find_nation_type(int nation_type_id)
 {
-  return get_nation_by_idx(nation_type_id);
+  return nation_by_number(nation_type_id);
 }
 
 /**************************************************************************
@@ -89,7 +89,7 @@ Nation_Type *api_find_nation_type(int nation_type_id)
 **************************************************************************/
 Nation_Type *api_find_nation_type_by_name(const char *name_orig)
 {
-  return find_nation_by_name_orig(name_orig);
+  return find_nation_by_rule_name(name_orig);
 }
 
 /**************************************************************************

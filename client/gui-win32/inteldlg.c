@@ -92,16 +92,17 @@ static void intel_create_dialog(struct player *p)
 
   my_snprintf(buf, sizeof(buf),
               _("Intelligence Information for the %s Empire"), 
-              get_nation_name(p->nation));
+              nation_name_for_player(p));
   fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
   hbox=fcwin_hbox_new(intel_dialog,FALSE);
   
   my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"), 
-              get_ruler_title(p->government, p->is_male, p->nation), p->name);
+              ruler_title_translation(p),
+              p->name);
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);
 
   my_snprintf(buf, sizeof(buf), _("Government: %s"),  
-	      get_government_name(p->government));
+	      government_name_for_player(p));
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
   

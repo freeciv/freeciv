@@ -1528,7 +1528,7 @@ void update_conn_list_dialog(void)
 	nation = _("Random");
 	leader = "";
       } else {
-	nation = get_nation_name(pplayer->nation);
+	nation = nation_name_for_player(pplayer);
 	leader = pplayer->name;
       }
       team = pplayer->team ? team_get_name(pplayer->team) : "";

@@ -163,7 +163,7 @@ void popup_find_dialog(void)
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
       if(pCity->owner != owner) {
-        pLogo = get_nation_flag_surface(get_player(pCity->owner->player_no)->nation);
+        pLogo = get_nation_flag_surface(nation_of_player(get_player(pCity->owner->player_no)));
         pLogo = crop_visible_part_from_surface(pLogo);
       }
       

@@ -3051,7 +3051,7 @@ msgstr[2] "Договор, содержащий %d статей был подп�
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "Один из городов, который отдаёт %s, уничтожен! Договор отменен!"
 
 #: server/diplhand.c:272 server/diplhand.c:277

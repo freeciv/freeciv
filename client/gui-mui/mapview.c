@@ -199,7 +199,7 @@ void update_info_label(void)
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
 		      client_cooling_sprite(),
-		      game.player_ptr->government);
+		      government_of_player(game.player_ptr));
 
   d = 0;
   for (; d < (game.player_ptr->economic.luxury) / 10; d++)
@@ -341,7 +341,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   }
   else
   {
-    gov_sprite = get_government(gov)->sprite;
+    gov_sprite = government_by_number(gov)->sprite;
   }
   set(main_government_sprite, MUIA_Sprite_Sprite, gov_sprite);
 }

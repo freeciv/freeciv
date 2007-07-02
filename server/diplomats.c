@@ -264,12 +264,14 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		       " of spying.  The %s welcome future diplomatic"
 		       " efforts providing the Ambassador is reputable."),
 		     unit_name_translation(pdiplomat),
-		     pcity->name, get_nation_name_plural(cplayer->nation));
+		     pcity->name,
+		     nation_plural_for_player(cplayer));
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
 		     _("You executed a %s the %s had sent to establish"
 		       " an embassy in %s for being untrustworthy"),
 		     unit_name_translation(pdiplomat),
-		     get_nation_name_plural(pplayer->nation), pcity->name);
+		     nation_plural_for_player(pplayer),
+		     pcity->name);
     wipe_unit(pdiplomat);
     return;
   }
@@ -279,7 +281,8 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Your %s was executed in %s by primitive %s."),
 		     unit_name_translation(pdiplomat),
-		     pcity->name, get_nation_name_plural(cplayer->nation));
+		     pcity->name,
+		     nation_plural_for_player(cplayer));
     wipe_unit(pdiplomat);
     return;
   }
@@ -294,7 +297,8 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		   pcity->name);
   notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_EMBASSY,
 		   _("The %s have established an embassy in %s."),
-		   get_nation_name_plural(pplayer->nation), pcity->name);
+		   nation_plural_for_player(pplayer),
+		   pcity->name);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;
@@ -737,7 +741,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
 		     _("You caught %s %s attempting"
 		       " to incite a revolt in %s!"),
-		     get_nation_name(pplayer->nation),
+		     nation_name_for_player(pplayer),
 		     unit_name_translation(pdiplomat),
 		     pcity->name);
     wipe_unit(pdiplomat);
@@ -762,7 +766,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		   pcity->name);
   notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_INCITE,
 		   _("%s has revolted, %s influence suspected."),
-		   pcity->name, get_nation_name(pplayer->nation));
+		   pcity->name,
+		   nation_name_for_player(pplayer));
 
   pcity->shield_stock = 0;
   nullify_prechange_production(pcity);
@@ -847,7 +852,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("You caught %s %s attempting"
 		       " sabotage in %s!"),
-		     get_nation_name(pplayer->nation),
+		     nation_name_for_player(pplayer),
 		     unit_name_translation(pdiplomat),
 		     pcity->name);
     wipe_unit(pdiplomat);
@@ -971,7 +976,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("The production of %s was destroyed in %s,"
 		       " %s are suspected."), prod, pcity->name,
-		     get_nation_name_plural(pplayer->nation));
+		     nation_plural_for_player(pplayer));
     freelog (LOG_DEBUG, "sabotage: sabotaged production");
   } else {
     int vulnerability;
@@ -997,7 +1002,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       E_ENEMY_DIPLOMAT_FAILED,
 		       _("You caught %s %s attempting"
 			 " to sabotage the %s in %s!"),
-		       get_nation_name(pplayer->nation),
+		       nation_name_for_player(pplayer),
 		       unit_name_translation(pdiplomat),
 		       improvement_name_translation(target),
 		       pcity->name);
@@ -1014,7 +1019,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		     pcity->name);
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("The %s destroyed the %s in %s."),
-		     get_nation_name_plural(pplayer->nation),
+		     nation_name_for_player(pplayer),
 		     improvement_name_translation(target),
 		     pcity->name);
     freelog (LOG_DEBUG, "sabotage: sabotaged improvement: %d (%s)",
@@ -1144,7 +1149,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			     E_ENEMY_DIPLOMAT_FAILED,
 			     _("Eliminated %s %s while infiltrating "
 			       "%s. The defender became more experienced."),
-			     get_nation_name(pplayer->nation),
+			     nation_name_for_player(pplayer),
 			     unit_name_translation(pdiplomat),
 			     pcity->name);
 	  } else {
@@ -1153,7 +1158,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			     _("Eliminated %s %s while infiltrating "
 			       "our troops. The defender became more "
 			       "experienced."),
-			     get_nation_name(pplayer->nation),
+			     nation_name_for_player(pplayer),
 			     unit_name_translation(pdiplomat));
           }
         } else {
@@ -1161,7 +1166,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 	    notify_player(cplayer, ptile,
 			     E_ENEMY_DIPLOMAT_FAILED,
 			     _("Eliminated %s %s while infiltrating "
-			       "%s."), get_nation_name(pplayer->nation),
+			       "%s."),
+			     nation_name_for_player(pplayer),
 			     unit_name_translation(pdiplomat),
 			     pcity->name);
 	  } else {
@@ -1169,7 +1175,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			     E_ENEMY_DIPLOMAT_FAILED,
 			     _("Eliminated %s %s while infiltrating "
 			       "our troops."),
-			     get_nation_name(pplayer->nation),
+			     nation_name_for_player(pplayer),
 			     unit_name_translation(pdiplomat));
 	  }
 	}

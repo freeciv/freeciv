@@ -491,15 +491,15 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     if(pCity->production.is_unit) {
-      struct unit_type *pUnit = utype_by_number(pCity->production.value);
-      pLogo = ResizeSurface(get_unittype_surface(utype_by_number(pCity->production.value)), adj_size(36), adj_size(24), 1);      
-      togrow = unit_build_shield_cost(utype_by_number(pCity->production.value));
-      pName = pUnit->name;
+      struct unit_type *pUnitType = utype_by_number(pCity->production.value);
+      pLogo = ResizeSurface(get_unittype_surface(pUnitType), adj_size(36), adj_size(24), 1);      
+      togrow = unit_build_shield_cost(pUnitType);
+      pName = utype_name_translation(pUnitType);
     } else {
       struct impr_type *pImprv = improvement_by_number(pCity->production.value);
       pLogo = ResizeSurface(get_building_surface(pCity->production.value), adj_size(36), adj_size(24), 1);
       togrow = impr_build_shield_cost(pCity->production.value);
-      pName = pImprv->name;
+      pName = improvement_name_translation(pImprv);
     }
     
     if(!worklist_is_empty(&(pCity->worklist))) {
@@ -1009,16 +1009,16 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
   
   /* change production */
   if(pCity->production.is_unit) {
-    struct unit_type *pUnit = utype_by_number(pCity->production.value);
+    struct unit_type *pUnitType = utype_by_number(pCity->production.value);
     pLogo = ResizeSurface(get_unittype_surface(utype_by_number(pCity->production.value)),
               adj_size(36), adj_size(24), 1);
-    togrow = unit_build_shield_cost(utype_by_number(pCity->production.value));
-    pName = pUnit->name;
+    togrow = unit_build_shield_cost(pUnitType);
+    pName = utype_name_translation(pUnitType);
   } else {
     struct impr_type *pImprv = improvement_by_number(pCity->production.value);
     pLogo = ResizeSurface(get_building_surface(pCity->production.value), adj_size(36), adj_size(24), 1);
     togrow = impr_build_shield_cost(pCity->production.value);
-    pName = pImprv->name;
+    pName = improvement_name_translation(pImprv);
   }
     
   if(!worklist_is_empty(&(pCity->worklist))) {

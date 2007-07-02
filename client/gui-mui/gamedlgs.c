@@ -83,7 +83,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   lux_lock = 0;
   sci_lock = 0;
 
-  maxrate = get_government_max_rate(game.player_ptr->government);
+  maxrate = get_government_max_rate(government_of_player(game.player_ptr));
   /* This's quite a simple-minded "double check".. */
   tax = MIN(tax, maxrate);
   lux = MIN(lux, maxrate);
@@ -254,9 +254,9 @@ static void create_rates_dialog(void)
 
 static void update_rates_dialog(void)
 {
-  int max_rate = get_government_max_rate(game.player_ptr->government);
+  int max_rate = get_government_max_rate(government_of_player(game.player_ptr));
   settextf(rates_title_text, _("%s max rate: %d%%"),
-	   get_government_name(game.player_ptr->government),
+	   government_name_for_player(game.player_ptr),
 	   max_rate);
 
   set(rates_tax_slider, MUIA_Numeric_Max, max_rate / 10);

@@ -102,7 +102,7 @@ void update_info_label( void )
   label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
   if (game.player_ptr) {
     gtk_label_set_text(GTK_LABEL(label),
-		       get_nation_name(game.player_ptr->nation));
+		       nation_name_for_player(game.player_ptr));
   } else {
     gtk_label_set_text(GTK_LABEL(label), "-");
   }

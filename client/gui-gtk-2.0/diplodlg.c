@@ -467,7 +467,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   
   my_snprintf(buf, sizeof(buf),
               _("Diplomacy: %s"),
-	      get_nation_name_plural(plr1->nation));
+	      nation_plural_for_player(plr1));
 
   gui_dialog_set_title(pdialog->dialog, buf);
   gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
@@ -527,7 +527,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\"><u>%s</u></span>",
-              get_nation_name_plural(plr0->nation));
+              nation_plural_for_player(plr0));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 
@@ -538,14 +538,15 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   image =
       gtk_image_new_from_pixbuf(sprite_get_pixbuf
 				(get_nation_flag_sprite
-				 (tileset, plr0->nation)));
+				 (tileset, nation_of_player(plr0))));
   gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);    
 
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s %s</span>",
-	      get_ruler_title(plr0->government, plr0->is_male, plr0->nation), plr0->name);
+	      ruler_title_translation(plr0),
+	      plr0->name);
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
@@ -599,7 +600,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\"><u>%s</u></span>",
-              get_nation_name_plural(plr1->nation));
+              nation_plural_for_player(plr1));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 
@@ -610,7 +611,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   image =
       gtk_image_new_from_pixbuf(sprite_get_pixbuf
 				(get_nation_flag_sprite
-				 (tileset, plr1->nation)));
+				 (tileset, nation_of_player(plr1))));
   gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);    
 
 
@@ -618,7 +619,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s %s</span>",
-	      get_ruler_title(plr1->government, plr1->is_male, plr1->nation), plr1->name);
+	      ruler_title_translation(plr1),
+	      plr1->name);
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 

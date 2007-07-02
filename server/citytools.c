@@ -204,7 +204,7 @@ player.
 **************************************************************************/
 static bool is_default_city_name(const char *name, struct player *pplayer)
 {
-  struct nation_type *nation = get_nation_by_plr(pplayer);
+  struct nation_type *nation = nation_of_player(pplayer);
   int choice;
 
   for (choice = 0; nation->city_names[choice].name; choice++) {
@@ -308,7 +308,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
       if (error_buf) {
 	my_snprintf(error_buf, bufsz, _("Can't use %s as a city name. It is "
 					"reserved for %s."),
-		    city_name, get_nation_name_plural(pother->nation));
+		    city_name,
+		    nation_plural_for_player(pother));
       }
       return FALSE;
     }
@@ -381,8 +382,8 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
   memset(nations_selected, 0, sizeof(nations_selected));
 
   queue_size = 1;
-  nation_list[0] = pplayer->nation;
-  nations_selected[pplayer->nation->index] = TRUE;
+  nation_list[0] = nation_of_player(pplayer);
+  nations_selected[nation_list[0]->index] = TRUE;
 
   while (i < game.control.nation_count) {
     for (; i < queue_size; i++) {
@@ -401,7 +402,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
       nation = nation_list[i];
       name = search_for_city_name(ptile, nation->city_names, pplayer);
 
-      freelog(LOG_DEBUG, "Looking through %s.", nation->name);
+      freelog(LOG_DEBUG, "Looking through %s.", nation_rule_name(nation));
 
       if (name) {
 	return name;
@@ -415,7 +416,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 	  nation_list[queue_size] = n;
 	  nations_selected[n->index] = TRUE;
 	  queue_size++;
-	  freelog(LOG_DEBUG, "Parent %s.", n->name);
+	  freelog(LOG_DEBUG, "Parent %s.", nation_rule_name(n));
 	}
       }
 
@@ -427,7 +428,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 	  nation_list[queue_size] = n;
 	  nations_selected[n->index] = TRUE;
 	  queue_size++;
-	  freelog(LOG_DEBUG, "Child %s.", n->name);
+	  freelog(LOG_DEBUG, "Child %s.", nation_rule_name(n));
 	}
       }
     }
@@ -438,7 +439,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 	nation_list[queue_size] = n;
 	nations_selected[n->index] = TRUE;
 	queue_size++;
-	freelog(LOG_DEBUG, "Misc nation %s.", n->name);
+	freelog(LOG_DEBUG, "Misc nation %s.", nation_rule_name(n));
       }
     } nations_iterate_end;
   }
@@ -933,7 +934,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 {
   struct city *pcity;
   int x_itr, y_itr;
-  struct nation_type *nation = get_nation_by_plr(pplayer);
+  struct nation_type *nation = nation_of_player(pplayer);
 
   freelog(LOG_DEBUG, "Creating city %s", name);
 
@@ -1863,7 +1864,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
        */
     notify_player(NULL, pcity->tile, E_WONDER_STOPPED,
 		     _("The %s have stopped building The %s in %s."),
-		     get_nation_name_plural(pplayer->nation),
+		     nation_plural_for_player(pplayer),
 		     get_impr_name_ex(pcity, pcity->production.value),
 		     pcity->name);
   }
@@ -1903,7 +1904,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   if (!pcity->production.is_unit && is_great_wonder(pcity->production.value)) {
     notify_player(NULL, pcity->tile, E_WONDER_STARTED,
 		     _("The %s have started building The %s in %s."),
-		     get_nation_name_plural(pplayer->nation),
+		     nation_plural_for_player(pplayer),
 		     get_impr_name_ex(pcity, pcity->production.value),
 		     pcity->name);
   }

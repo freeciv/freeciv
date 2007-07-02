@@ -65,15 +65,10 @@ struct Tile {
 };
 
 struct Government {
-  const char *name_orig @ name;
-
   const int index @ id;
 };
 
 struct Nation_Type {
-  const char *name_orig @ name;
-  const char *name_plural_orig @ name_plural;
-
   const int index @ id;
 };
 

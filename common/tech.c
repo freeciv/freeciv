@@ -255,7 +255,7 @@ void update_research(struct player *pplayer)
     get_player_research(pplayer)->num_known_tech_with_flag[flag] = 0;
 
     tech_type_iterate(i) {
-      if (get_invention(pplayer, i) == TECH_KNOWN && tech_flag(i, flag)) {
+      if (get_invention(pplayer, i) == TECH_KNOWN && tech_has_flag(i, flag)) {
 	get_player_research(pplayer)->num_known_tech_with_flag[flag]++;
       }
     } tech_type_iterate_end;
@@ -323,7 +323,7 @@ Tech_type_id find_tech_by_translated_name(const char *s)
 Tech_type_id find_tech_by_rule_name(const char *s)
 {
   tech_type_iterate(i) {
-    if (0 == mystrcasecmp(advances[i].name_rule, s)) {
+    if (0 == mystrcasecmp(advance_rule_name(i), s)) {
       return i;
     }
   } tech_type_iterate_end;
@@ -333,7 +333,7 @@ Tech_type_id find_tech_by_rule_name(const char *s)
 /**************************************************************************
  Return TRUE if the tech has this flag otherwise FALSE
 **************************************************************************/
-bool tech_flag(Tech_type_id tech, enum tech_flag_id flag)
+bool tech_has_flag(Tech_type_id tech, enum tech_flag_id flag)
 {
   assert(flag >= 0 && flag < TF_LAST);
   return TEST_BIT(advances[tech].flags, flag);
@@ -366,7 +366,7 @@ Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag)
   Tech_type_id i;
   for(i = index;i < game.control.num_tech_types; i++)
   {
-    if(tech_flag(i,flag)) return i;
+    if(tech_has_flag(i,flag)) return i;
   }
   return A_LAST;
 }
@@ -649,17 +649,17 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
         char buffer[1024];
   
         my_snprintf(buffer, sizeof(buffer), "%s %d",
-                    advances[tech].name_rule,
+                    advance_rule_name(tech),
                     research->future_tech + 1);
         future.p[research->future_tech] = mystrdup(buffer);
       }
       return future.p[research->future_tech];
     } else {
-      return advances[tech].name_rule;
+      return advance_rule_name(tech);
     }
   default:
     /* Includes A_NONE */
-    return advances[tech].name_rule;
+    return advance_rule_name(tech);
   };
 }
 
@@ -717,7 +717,7 @@ const char *advance_name_researching(const struct player *pplayer)
 }
 
 /**************************************************************************
-  Return the translated name of the given tech. 
+  Return the (translated) name of the given advance/technology.
   You don't have to free the return pointer.
 **************************************************************************/
 const char *advance_name_translation(Tech_type_id tech)
@@ -726,9 +726,19 @@ const char *advance_name_translation(Tech_type_id tech)
   if (NULL == advances[tech].name_translated) {
     /* delayed (unified) translation */
     advances[tech].name_translated = ('\0' == advances[tech].name_rule[0])
-		? advances[tech].name_rule : Q_(advances[tech].name_rule);
+				     ? advances[tech].name_rule
+				     : Q_(advances[tech].name_rule);
   }
   return advances[tech].name_translated;
+}
+
+/****************************************************************************
+  Return the (untranslated) rule name of the advance/technology.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *advance_rule_name(Tech_type_id tech)
+{
+  return advances[tech].name_rule; 
 }
 
 /**************************************************************************
