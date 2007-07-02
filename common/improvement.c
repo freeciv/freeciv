@@ -163,7 +163,7 @@ const char *improvement_name_translation(Impr_type_id id)
 ****************************************************************************/
 const char *improvement_rule_name(Impr_type_id id)
 {
-  return improvement_by_number(id)->name_rule; 
+  return Qn_(improvement_by_number(id)->name_rule); 
 }
 
 /****************************************************************************
@@ -239,8 +239,10 @@ Impr_type_id find_improvement_by_translated_name(const char *s)
 ****************************************************************************/
 Impr_type_id find_improvement_by_rule_name(const char *s)
 {
+  const char *qs = Qn_(s);
+
   impr_type_iterate(i) {
-    if (0 == mystrcasecmp(improvement_rule_name(i), s)) {
+    if (0 == mystrcasecmp(improvement_rule_name(i), qs)) {
       return i;
     }
   } impr_type_iterate_end;

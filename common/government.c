@@ -53,8 +53,10 @@ struct government *find_government_by_translated_name(const char *name)
 ****************************************************************************/
 struct government *find_government_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   government_iterate(gov) {
-    if (0 == mystrcasecmp(government_rule_name(gov), name)) {
+    if (0 == mystrcasecmp(government_rule_name(gov), qname)) {
       return gov;
     }
   } government_iterate_end;
@@ -101,7 +103,7 @@ struct government *government_of_city(const struct city *pcity)
 const char *government_rule_name(const struct government *gov)
 {
   CHECK_GOVERNMENT(gov);
-  return gov->name.vernacular;
+  return Qn_(gov->name.vernacular);
 }
 
 /****************************************************************************

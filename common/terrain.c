@@ -97,8 +97,10 @@ struct terrain *get_terrain_by_number(Terrain_type_id type)
 ****************************************************************************/
 struct terrain *get_terrain_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   terrain_type_iterate(pterrain) {
-    if (0 == mystrcasecmp(terrain_rule_name(pterrain), name)) {
+    if (0 == mystrcasecmp(terrain_rule_name(pterrain), qname)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -142,7 +144,7 @@ const char *terrain_name_translation(struct terrain *pterrain)
 **************************************************************************/
 const char *terrain_rule_name(const struct terrain *pterrain)
 {
-  return pterrain->name_rule;
+  return Qn_(pterrain->name_rule);
 }
 
 /****************************************************************************
@@ -231,10 +233,12 @@ struct resource *get_resource_by_number(Resource_type_id type)
 /****************************************************************************
   Return the resource type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct resource *get_resource_by_rule_name(const char *name_orig)
+struct resource *get_resource_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   resource_type_iterate(presource) {
-    if (0 == strcmp(resource_rule_name(presource), name_orig)) {
+    if (0 == strcmp(resource_rule_name(presource), qname)) {
       return presource;
     }
   } resource_type_iterate_end;
@@ -263,7 +267,7 @@ const char *resource_name_translation(struct resource *presource)
 **************************************************************************/
 const char *resource_rule_name(const struct resource *presource)
 {
-  return presource->name_rule;
+  return Qn_(presource->name_rule);
 }
 
 

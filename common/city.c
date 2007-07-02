@@ -1146,10 +1146,11 @@ int find_city_style_by_translated_name(const char *s)
 ****************************************************************************/
 int find_city_style_by_rule_name(const char *s)
 {
+  const char *qs = Qn_(s);
   int i;
 
   for (i = 0; i < game.control.styles_count; i++) {
-    if (0 == mystrcasecmp(city_style_rule_name(i), s)) {
+    if (0 == mystrcasecmp(city_style_rule_name(i), qs)) {
       return i;
     }
   }
@@ -1181,7 +1182,7 @@ const char *city_style_name_translation(const int style)
 ****************************************************************************/
 const char* city_style_rule_name(const int style)
 {
-   return city_styles[style].name.vernacular;
+   return Qn_(city_styles[style].name.vernacular);
 }
 
 /****************************************************************************

@@ -322,8 +322,10 @@ Tech_type_id find_tech_by_translated_name(const char *s)
 **************************************************************************/
 Tech_type_id find_tech_by_rule_name(const char *s)
 {
+  const char *qs = Qn_(s);
+
   tech_type_iterate(i) {
-    if (0 == mystrcasecmp(advance_rule_name(i), s)) {
+    if (0 == mystrcasecmp(advance_rule_name(i), qs)) {
       return i;
     }
   } tech_type_iterate_end;
@@ -738,7 +740,7 @@ const char *advance_name_translation(Tech_type_id tech)
 ****************************************************************************/
 const char *advance_rule_name(Tech_type_id tech)
 {
-  return advances[tech].name_rule; 
+  return Qn_(advances[tech].name_rule); 
 }
 
 /**************************************************************************

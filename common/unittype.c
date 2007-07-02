@@ -239,7 +239,7 @@ const char *unit_name_translation(struct unit *punit)
 **************************************************************************/
 const char *utype_rule_name(const struct unit_type *punittype)
 {
-  return punittype->name.vernacular;
+  return Qn_(punittype->name.vernacular);
 }
 
 /**************************************************************************
@@ -412,8 +412,10 @@ struct unit_type *find_unit_type_by_translated_name(const char *name)
 **************************************************************************/
 struct unit_type *find_unit_type_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   unit_type_iterate(punittype) {
-    if (0 == mystrcasecmp(utype_rule_name(punittype), name)) {
+    if (0 == mystrcasecmp(utype_rule_name(punittype), qname)) {
       return punittype;
     }
   } unit_type_iterate_end;
@@ -427,12 +429,13 @@ struct unit_type *find_unit_type_by_rule_name(const char *name)
 **************************************************************************/
 struct unit_class *find_unit_class_by_rule_name(const char *s)
 {
+  const char *qs = Qn_(s);
   Unit_Class_id i;
 
   assert(ARRAY_SIZE(unit_class_names) == UCL_LAST);
 
   for (i = 0; i < UCL_LAST; i++) {
-    if (0 == mystrcasecmp(unit_classes[i].name.vernacular, s)) {
+    if (0 == mystrcasecmp(Qn_(unit_classes[i].name.vernacular), qs)) {
       return &unit_classes[i];
     }
   }
