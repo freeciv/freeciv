@@ -296,7 +296,7 @@ HOOKPROTONH(advance_display, void, char **array, APTR msg)
   {
     int tech = which-100;
     if (tech == game.control.num_tech_types) *array = _("At Spy's Discretion");
-    else *array = advances[which-100].name;
+    else *array = advance_name_translation(which-100);
   }
   else
     *array = _("Technology");

@@ -177,7 +177,7 @@ static void popup_tech_menu(struct Diplomacy_dialog *pdialog,int plr)
         && (get_invention(plr1, i) == TECH_UNKNOWN  
             || get_invention(plr1, i) == TECH_REACHABLE)
         && tech_is_available(plr1, i)) {
-      AppendMenu(menu,MF_STRING,ID_ADVANCES_BASE+i,advances[i].name);
+      AppendMenu(menu,MF_STRING,ID_ADVANCES_BASE+i,advance_name_translation(i));
       iteminfo.dwItemData = plr0->player_no * MAX_NUM_ITEMS * MAX_NUM_ITEMS +
 			    plr1->player_no * MAX_NUM_ITEMS + i;
       iteminfo.fMask = MIIM_DATA;

@@ -214,7 +214,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 					to);
 	      
 	      if (IsDlgButtonChecked(hWnd, ID_SCIENCE_HELP)) {
-		popup_help_dialog_typed(advances[to].name, HELP_TECH);
+		popup_help_dialog_typed(advance_name_translation(to), HELP_TECH);
 		science_dialog_update();
 	      } else {
 		dsend_packet_player_research(&aconnection, to);

@@ -310,7 +310,7 @@ static int spy_steal_popup(struct widget *pWidget)
       || get_invention(game.player_ptr, i)==TECH_REACHABLE)) {
     
       count++;  
-      copy_chars_to_string16(pStr, advances[i].name);
+      copy_chars_to_string16(pStr, advance_name_translation(i));
       pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);

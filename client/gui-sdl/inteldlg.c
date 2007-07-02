@@ -321,7 +321,7 @@ void update_intel_dialog(struct player *p)
         pBuf->action = tech_callback;
         set_wstate(pBuf, FC_WS_NORMAL);
   
-        pBuf->string16 = create_str16_from_char(advances[i].name, adj_font(12));
+        pBuf->string16 = create_str16_from_char(advance_name_translation(i), adj_font(12));
           
         add_to_gui_list(ID_ICON, pBuf);
           

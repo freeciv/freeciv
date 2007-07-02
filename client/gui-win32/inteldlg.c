@@ -143,10 +143,10 @@ static void intel_create_dialog(struct player *p)
   for(i=A_FIRST, j=0; i<game.control.num_tech_types; i++)
     if(get_invention(p, i)==TECH_KNOWN) {
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-        sz_strlcpy(tech_list_names[j], advances[i].name);
+        sz_strlcpy(tech_list_names[j], advance_name_translation(i));
       } else {
         my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),
-                    "%s*", advances[i].name);
+                    "%s*", advance_name_translation(i));
       }
       ListBox_AddString(lb,tech_list_names[j]);
       j++;

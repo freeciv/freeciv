@@ -85,7 +85,7 @@ static void intel_close(void)
 *****************************************************************/
 static void intel_tech( ULONG *tech)
 {
-  popup_help_dialog_typed( advances[*tech].name, HELP_TECH);
+  popup_help_dialog_typed( advance_name_translation(*tech), HELP_TECH);
 }
 
 /****************************************************************
@@ -156,7 +156,8 @@ static void intel_create_dialog(struct player *p)
       if (get_invention(p, i) == TECH_KNOWN)
       {
 	Object *tech = ColorTextObject,
-	    MUIA_ColorText_Contents, advances[i].name,
+	    MUIA_ColorText_Contents,
+	    advance_name_translation(i),
 	    MUIA_ColorText_Background, GetTechBG(i),
 	    MUIA_InputMode, MUIV_InputMode_RelVerify,
 	    End;

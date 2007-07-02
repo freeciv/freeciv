@@ -400,7 +400,7 @@ static int create_advances_list(struct player *pplayer,
          (get_invention(pplayer, i)==TECH_UNKNOWN || 
           get_invention(pplayer, i)==TECH_REACHABLE)) {
       
-        advances_can_steal[j] = advances[i].name;
+        advances_can_steal[j] = advance_name_translation(i);
         advance_type[j++] = i;
       }
     }

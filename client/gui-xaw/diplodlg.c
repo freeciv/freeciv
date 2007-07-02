@@ -254,7 +254,7 @@ static int fill_diplomacy_tech_menu(Widget popupmenu,
 	    || get_invention(plr1, i) == TECH_REACHABLE)
         && tech_is_available(plr1, i)) {
       Widget entry=
-	XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
+	XtVaCreateManagedWidget(advance_name_translation(i), smeBSBObjectClass, 
 				popupmenu, NULL);
       XtAddCallback(entry, XtNcallback, diplomacy_dialog_tech_callback,
 			 INT_TO_XTPOINTER((plr0->player_no << 24) |

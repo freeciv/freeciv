@@ -1189,7 +1189,7 @@ static void create_advances_list(struct player *pplayer,
       if(get_invention(pvictim, i)==TECH_KNOWN && 
          (get_invention(pplayer, i)==TECH_UNKNOWN || 
           get_invention(pplayer, i)==TECH_REACHABLE)) {
-	ListBox_AddString(lb,advances[i].name);
+	ListBox_AddString(lb,advance_name_translation(i));
         advance_type[j++] = i;
       }
     }

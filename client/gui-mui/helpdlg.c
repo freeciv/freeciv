@@ -157,7 +157,7 @@ static void help_hyperlink(Object ** text_obj)
   enum help_page_type type = (enum help_page_type) xget(*text_obj, MUIA_UserData);
 
   if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
-      && strcmp(s, advances[A_NONE].name) != 0)
+      && strcmp(s, advance_name_translation(A_NONE)) != 0)
   {
     int idx;
 
@@ -227,7 +227,7 @@ static char *GetTechText(int tech)
   else if(tech == TECHTYPE_NONE)
     text = _("None");
   else
-    text = advances[tech].name;
+    text = advance_name_translation(tech);
 
   return text;
 }
@@ -396,7 +396,8 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     return;
   }
   
-  my_snprintf(label, sizeof(label), "%s:%d", advances[tech].name,
+  my_snprintf(label, sizeof(label), "%s:%d",
+	      advance_name_translation(tech),
 	      num_unknown_techs_for_goal(game.player_ptr, tech));
 
   o = ColorTextObject,

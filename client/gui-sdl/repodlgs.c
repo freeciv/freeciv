@@ -2885,7 +2885,7 @@ static void popup_change_research_dialog()
     
     count++;  
     
-    copy_chars_to_string16(pStr, advances[i].name);
+    copy_chars_to_string16(pStr, advance_name_translation(i));
     pSurf = create_sellect_tech_icon(pStr, i, MED_MODE);
     pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -3076,7 +3076,7 @@ static void popup_change_research_goal_dialog()
 	    || i == get_player_research(game.player_ptr)->tech_goal)) {
     
       count++;
-      my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s", advances[i].name, num,
+      my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s", advance_name_translation(i), num,
 	  					PL_("step", "steps", num));
       copy_chars_to_string16(pStr, cBuf);
       pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
