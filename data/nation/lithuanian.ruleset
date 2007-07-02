@@ -7,11 +7,20 @@ legend=_("Lithuania is a small country on the south coast of the Baltic\
  Sea, northeast of Poland.  Lithuanian is the most archaic and complex of\
  the northern Indo-European languages")
 leader=
- "Gediminas",
  "Mindaugas",
+ "Vytenis",
+ "Gediminas",
+ "Algirdas",
+ "Kęstutis",
  "Vytautas",
- "Antanas Smetona"
-leader_sex="Male", "Male", "Male", "Male"
+ "Aleksandras Stulginskis",
+ "Kazys Grinius",
+ "Antanas Smetona",
+ "Morta",
+ "Ona",
+ "Barbora Radvilaitė",
+ "Emilija Pliaterytė"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Female", "Female", "Female"
 flag="lithuania"
 flag_alt = "-"
 city_style = "European"
@@ -26,11 +35,21 @@ init_units=""
 
 ; Similar flags
 conflicts_with="bulgarian"
-civilwar_nations = "polish", "danish"
+civilwar_nations = "latvian", "polish", "prussian"
 
 cities =
-  "Vilnius", "Kaunas", "Klaipeda", "Siauliai",
-  "Alytus", "Panevezys", "Ukmerge", "Telsiai", "Raseinai",
-  "Adutiskis", "Kedainiai", "Plunge", "Rietavas",
-  "Silute", "Merkipe", "Jurbarkas", "Palanga",
-  "Mazeikiai", "Kursenai"
+  "Vilnius", "Kaunas", "Klaipėda", "Šiauliai",
+  "Alytus", "Panevėžys", "Ukmergė", "Telšiai", "Raseiniai",
+  "Adutiškis", "Kėdainiai", "Plungė", "Rietavas",
+  "Šilutė", "Merkinė", "Jurbarkas", "Palanga",
+  "Mažeikiai", "Kuršėnai", "Trakai", "Kernavė", "Varėna",
+  "Rokiškis", "Kupiškis", "Druskininkai", "Marijampolė",
+  "Utena", "Anykščiai", "Kretinga", "Naujoji Akmenė", 
+  "Birštonas", "Biržai", "Pasvalys", "Vilkaviškis",
+  "Veliuona", "Molėtai", "Ignalina", "Šalčinininkai",
+  "Kaišiadorys", "Širvintos", "Joniškis", "Prienai",
+  "Gargždai", "Skuodas", "Akmenė", "Kelmė", "Varniai",
+  "Tytuvėnai", "Pakruojis", "Jonava", "Žagarė",
+  "Kretinga", "Šilalė", "Tauragė", "Šakiai", "Skaudvilė", 
+  "Kazlų Rūda", "Kaišiadorys", "Lazdijai", "Radviliškis",
+  "Švenčionys", "Tilžė", "Pagėgiai", "Švenčionėliai", "Seinai"
