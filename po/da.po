@@ -2985,7 +2985,7 @@ msgstr[1] "Der blev enighed om en traktat indeholdende %d klausul."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "Spil: En af byerne som %s giver bort, er ødelagt! Traktat brudt!"
 
 #: server/diplhand.c:272 server/diplhand.c:277

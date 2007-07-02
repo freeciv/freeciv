@@ -2270,7 +2270,8 @@ static void hut_get_tech(struct unit *punit)
   notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 		   _("The %s have acquired %s"
 		     " from ancient scrolls of wisdom."),
-		   get_nation_name_plural(pplayer->nation), tech_name);
+		   nation_plural_for_player(pplayer),
+		   tech_name);
 }
 
 /**************************************************************************
@@ -2651,7 +2652,7 @@ static void handle_unit_move_consequences(struct unit *punit,
   struct city *tocity = tile_get_city(dst_tile);
   struct city *homecity = NULL;
   struct player *pplayer = unit_owner(punit);
-  /*  struct government *g = get_gov_pplayer(pplayer);*/
+  /*  struct government *g = government_of_player(pplayer);*/
   bool refresh_homecity = FALSE;
   
   if (punit->homecity != 0)

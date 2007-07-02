@@ -1011,7 +1011,7 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
 
   case HELP_GOVERNMENT:
-    help_update_government(pitem, top, find_government_by_name(top));
+    help_update_government(pitem, top, find_government_by_translated_name(top));
     break;
 
   case HELP_TEXT:

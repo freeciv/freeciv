@@ -113,7 +113,7 @@ static void ai_manage_taxes(struct player *pplayer)
     return; /* This ruleset does not support changing tax rates. */
   }
 
-  if (get_gov_pplayer(pplayer) == game.government_when_anarchy) {
+  if (government_of_player(pplayer) == game.government_when_anarchy) {
     return; /* This government does not support changing tax rates. */
   }
 
@@ -288,12 +288,12 @@ void ai_best_government(struct player *pplayer)
   struct ai_data *ai = ai_data_get(pplayer);
   int best_val = 0;
   int bonus = 0; /* in percentage */
-  struct government *current_gov = pplayer->government;
+  struct government *current_gov = government_of_player(pplayer);
 
-  ai->goal.govt.gov = pplayer->government;
+  ai->goal.govt.gov = current_gov;
   ai->goal.govt.val = 0;
   ai->goal.govt.req = A_UNSET;
-  ai->goal.revolution = pplayer->government;
+  ai->goal.revolution = current_gov;
 
   if (ai_handicap(pplayer, H_AWAY) || !pplayer->is_alive) {
     return;
@@ -395,7 +395,7 @@ static void ai_manage_government(struct player *pplayer)
     return;
   }
 
-  if (ai->goal.revolution != pplayer->government) {
+  if (ai->goal.revolution != government_of_player(pplayer)) {
     ai_government_change(pplayer, ai->goal.revolution); /* change */
   }
 
@@ -407,9 +407,9 @@ static void ai_manage_government(struct player *pplayer)
     /* We have few cities in the beginning, compensate for this to ensure
      * that we are sufficiently forward-looking. */
     int want = MAX(ai->goal.govt.val, 100);
-    struct nation_type *pnation = get_nation_by_plr(pplayer);
+    struct nation_type *pnation = nation_of_player(pplayer);
 
-    if (pplayer->government == pnation->init_government) {
+    if (government_of_player(pplayer) == pnation->init_government) {
       /* Default government is the crappy one we start in (like Despotism).
        * We want something better pretty soon! */
       want += 25 * game.info.turn;
@@ -417,7 +417,7 @@ static void ai_manage_government(struct player *pplayer)
     pplayer->ai.tech_want[ai->goal.govt.req] += want;
     TECH_LOG(LOG_DEBUG, pplayer, ai->goal.govt.req, "+ %d for %s in "
              "ai_manage_government", want,
-             get_government_name(ai->goal.govt.gov));
+             government_rule_name(ai->goal.govt.gov));
   }
 }
 

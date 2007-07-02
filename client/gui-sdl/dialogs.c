@@ -413,7 +413,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
     flush_dirty();
     return;
   }
-  CHECK_UNIT_TYPE(pUnit->type);
+  CHECK_UNIT_TYPE(unit_type(pUnit));
     
   pUnit_Upgrade_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
@@ -658,7 +658,7 @@ void popup_unit_select_dialog(struct tile *ptile)
       my_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
-            pUnitType->name,
+            utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
             (pUnitType->move_rate / SINGLE_MOVE),
@@ -667,9 +667,9 @@ void popup_unit_select_dialog(struct tile *ptile)
       int att_chance, def_chance;
       
       my_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            get_nation_by_plr(unit_owner(pUnit))->name,
+            nation_of_player(unit_owner(pUnit))->name,
             (pUnit->veteran ? _("Veteran") : ""),
-            pUnitType->name,
+            utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
             (pUnitType->move_rate / SINGLE_MOVE),
@@ -1392,7 +1392,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
-            pUnitType->name,
+            utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
             (pUnitType->move_rate / SINGLE_MOVE),
@@ -1408,9 +1408,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  int att_chance, def_chance;
 	  
           my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            get_nation_by_plr(unit_owner(pUnit))->name,
+            nation_of_player(unit_owner(pUnit))->name,
             (pUnit->veteran ? _("Veteran") : ""),
-            pUnitType->name,
+            utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
             (pUnitType->move_rate / SINGLE_MOVE),
@@ -1508,7 +1508,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
-            pUnitType->name,
+            utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
             (pUnitType->move_rate / SINGLE_MOVE),
@@ -1533,9 +1533,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  int att_chance, def_chance;
 	
           my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            get_nation_by_plr(unit_owner(pUnit))->name,
+            nation_of_player(unit_owner(pUnit))->name,
             (pUnit->veteran ? _("Veteran") : ""),
-            pUnitType->name,
+            utype_name_translation(pUnitType),
             pUnitType->attack_strength,
             pUnitType->defense_strength,
             (pUnitType->move_rate / SINGLE_MOVE),
@@ -1563,11 +1563,12 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       }
       /* ---------------- */
       my_snprintf(cBuf, sizeof(cBuf),
-            _("View Civiliopedia entry for %s"), pUnitType->name);
+            _("View Civiliopedia entry for %s"),
+            utype_name_translation(pUnitType));
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    cBuf, unit_help_callback);
       set_wstate(pBuf , FC_WS_NORMAL);
-      add_to_gui_list(MAX_ID - pUnit->type->index, pBuf);
+      add_to_gui_list(MAX_ID - pUnitType->index, pBuf);
     
       area.w = MAX(area.w, pBuf->size.w);
       units_h += pBuf->size.h;
@@ -1926,7 +1927,7 @@ static void popdown_government_dialog(void)
 static int government_dlg_callback(struct widget *pGov_Button)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    set_government_choice(get_government(MAX_ID - pGov_Button->ID));
+    set_government_choice(government_by_number(MAX_ID - pGov_Button->ID));
     
     popdown_government_dialog();
   }
@@ -1987,10 +1988,10 @@ static void popup_government_dialog(void)
       continue;
     }
 
-    if (can_change_to_government(game.player_ptr, get_government(i))) {
+    if (can_change_to_government(game.player_ptr, government_by_number(i))) {
 
-      pGov = get_government(i);
-      pStr = create_str16_from_char(pGov->name, adj_font(12));
+      pGov = government_by_number(i);
+      pStr = create_str16_from_char(government_name_translation(pGov), adj_font(12));
       pGov_Button =
           create_icon_button(get_government_surface(pGov), pWindow->dst, pStr, 0);
       pGov_Button->action = government_dlg_callback;
@@ -2255,7 +2256,7 @@ static int next_name_callback(struct widget *pNext)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int dim;
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    struct leader *leaders = get_nation_leaders(get_nation_by_idx(pSetup->nation), &dim);
+    struct leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
       
     pSetup->selected_leader++;
     
@@ -2310,7 +2311,7 @@ static int prev_name_callback(struct widget *pPrev)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int dim;
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    struct leader *leaders = get_nation_leaders(get_nation_by_idx(pSetup->nation), &dim);
+    struct leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
       
     pSetup->selected_leader--;
   
@@ -2443,7 +2444,7 @@ static int nation_button_callback(struct widget *pNationButton)
       change_nation_label();
     
       enable(MAX_ID - 1000 - pSetup->nation_city_style);
-      pSetup->nation_city_style = get_nation_city_style(get_nation_by_idx(pSetup->nation));
+      pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
       disable(MAX_ID - 1000 - pSetup->nation_city_style);
       
       select_random_leader(pSetup->nation);
@@ -2456,7 +2457,7 @@ static int nation_button_callback(struct widget *pNationButton)
       SDL_String16 *pStr;
       SDL_Surface *pText, *pText2;
       SDL_Rect area, area2;
-      struct nation_type *pNation = get_nation_by_idx(MAX_ID - pNationButton->ID);
+      struct nation_type *pNation = nation_by_number(MAX_ID - pNationButton->ID);
         
       widget_redraw(pNationButton);
       widget_mark_dirty(pNationButton);
@@ -2577,9 +2578,9 @@ static void change_nation_label(void)
   struct widget *pWindow = pNationDlg->pEndWidgetList;
   struct NAT *pSetup = (struct NAT *)(pWindow->data.ptr);  
   struct widget *pLabel = pSetup->pName_Edit->next;
-  struct nation_type *pNation = get_nation_by_idx(pSetup->nation);
+  struct nation_type *pNation = nation_by_number(pSetup->nation);
     
-  pTmp_Surf = get_nation_flag_surface(get_nation_by_idx(pSetup->nation));
+  pTmp_Surf = get_nation_flag_surface(pNation);
   pTmp_Surf_zoomed = zoomSurface(pTmp_Surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);  
 
   FREESURFACE(pLabel->theme);
@@ -2602,7 +2603,7 @@ static void select_random_leader(Nation_type_id nation)
 {
   int dim;
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-  struct leader *leaders = get_nation_leaders(get_nation_by_idx(nation), &dim);
+  struct leader *leaders = get_nation_leaders(nation_by_number(nation), &dim);
   
     
   pSetup->selected_leader = myrand(dim);
@@ -2787,14 +2788,14 @@ void popup_races_dialog(struct player *pplayer)
   /* nation name */
   
   pSetup->nation = myrand(get_playable_nation_count());
-  pSetup->nation_city_style = get_nation_city_style(get_nation_by_idx(pSetup->nation));
+  pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
   
-  copy_chars_to_string16(pStr, Q_(get_nation_by_idx(pSetup->nation)->name_plural));
+  copy_chars_to_string16(pStr, nation_plural_translation(nation_by_number(pSetup->nation)));
   change_ptsize16(pStr, adj_font(24));
   pStr->render = 2;
   pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_TEXT);
   
-  pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(get_nation_by_idx(pSetup->nation)));
+  pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(nation_by_number(pSetup->nation)));
   
   pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,
   			(WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
@@ -3051,8 +3052,10 @@ void races_toggles_set_sensitive()
   nations_iterate(nation) {
   
     if (!nation->is_available || nation->player) {
-      freelog(LOG_DEBUG,"  [%d]: %d = %s", nation->index, (!nation->is_available || nation->player),
-	      get_nation_name(nation));
+      freelog(LOG_DEBUG,"  [%d]: %d = %s",
+	      nation->index,
+	      (!nation->is_available || nation->player),
+	      nation_rule_name(nation));
 
       pNat = get_widget_pointer_form_main_list(MAX_ID - nation->index);
       set_wstate(pNat, FC_WS_DISABLED);
@@ -3074,7 +3077,7 @@ void races_toggles_set_sensitive()
     }
     change_nation_label();
     enable(MAX_ID - 1000 - pSetup->nation_city_style);
-    pSetup->nation_city_style = get_nation_city_style(get_nation_by_idx(pSetup->nation));
+    pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
     disable(MAX_ID - 1000 - pSetup->nation_city_style);
     select_random_leader(pSetup->nation);
   }

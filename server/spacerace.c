@@ -185,7 +185,7 @@ void handle_spaceship_launch(struct player *pplayer)
   notify_player(NULL, NULL, E_SPACESHIP,
 		   _("The %s have launched a spaceship!  "
 		     "It is estimated to arrive on Alpha Centauri in %s."),
-		   get_nation_name_plural(pplayer->nation),
+		   nation_plural_for_player(pplayer),
 		   textyear(arrival));
 
   send_spaceship_info(pplayer, NULL);
@@ -350,7 +350,7 @@ void spaceship_lost(struct player *pplayer)
   notify_player(NULL, NULL, E_SPACESHIP,
 		   _("Without guidance from the capital, the %s "
 		     "spaceship is lost!"),
-		   get_nation_name(pplayer->nation));
+		   nation_name_for_player(pplayer));
   spaceship_init(&pplayer->spaceship);
   send_spaceship_info(pplayer, NULL);
 }

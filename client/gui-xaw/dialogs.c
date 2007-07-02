@@ -176,9 +176,9 @@ static void select_random_race(void)
   while (1) {
     unsigned int race_toggle_index = myrand(game.control.nation_count);
 
-    if (!is_nation_playable(get_nation_by_idx(race_toggle_index))
-	|| !get_nation_by_idx(race_toggle_index)->is_available
-	|| get_nation_by_idx(race_toggle_index)->player) {
+    if (!is_nation_playable(nation_by_number(race_toggle_index))
+	|| !nation_by_number(race_toggle_index)->is_available
+	|| nation_by_number(race_toggle_index)->player) {
       continue;
     }
     if (XtIsSensitive(races_toggles[race_toggle_index])) {
@@ -749,7 +749,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
     
     my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
-	    punittemp->name, 
+	    unit_name_translation(punittemp), 
 	    pcity ? pcity->name : "",
 	    unit_activity_text(punit));
 
@@ -909,7 +909,7 @@ void create_races_dialog(struct player *pplayer)
   maxracelen = 0;
   nations_iterate(pnation) {
     if (is_nation_playable(pnation)) {
-      len = strlen(get_nation_name(pnation));
+      len = strlen(nation_name_translation(pnation));
       maxracelen = MAX(maxracelen, len);
     }
   } nations_iterate_end;
@@ -1231,7 +1231,7 @@ void create_races_dialog(struct player *pplayer)
     if (races_toggles[i]) {
       XtVaSetValues(races_toggles[i],
 		    XtNlabel,
-		      (XtArgVal)get_nation_name(races_toggles_to_nations[i]),
+		      (XtArgVal)nation_name_translation(races_toggles_to_nations[i]),
 		    NULL);
     }
   }
@@ -1274,7 +1274,7 @@ void races_toggles_set_sensitive(void)
     int nation_no = i, selected_nation = -1;
     struct nation_type *nation;
 
-    nation = get_nation_by_idx(i);
+    nation = nation_by_number(i);
     if (!is_nation_playable(nation)) {
       continue;
     }
@@ -1289,7 +1289,7 @@ void races_toggles_set_sensitive(void)
     }
 
     freelog(LOG_DEBUG, "  [%d]: %d = %s", i, nation_no,
-	    get_nation_name(get_nation_by_idx(nation_no)));
+	    nation_rule_name(nation_by_number(nation_no)));
 
     if (nation_no == selected_nation) {
       XawToggleUnsetCurrent(races_toggles[0]);
@@ -1342,7 +1342,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 
   x_simulate_button_click
   (
-   races_style_toggles[city_style_ridx[get_nation_city_style(race)]]
+   races_style_toggles[city_style_ridx[city_style_of_nation(race)]]
   );
 }
 
@@ -1355,7 +1355,7 @@ void races_leader_pick_callback(Widget w, XtPointer client_data,
   int lead = XTPOINTER_TO_INT(client_data) / nation_count;
   int race = XTPOINTER_TO_INT(client_data) - (nation_count * lead);
 
-  races_leader_set_values(get_nation_by_idx(race), lead);
+  races_leader_set_values(nation_by_number(race), lead);
 }
 
 /**************************************************************************
@@ -1464,8 +1464,8 @@ int races_indirect_compare(const void *first, const void *second)
   const struct nation_type *first_nation = *(const struct nation_type **)first;
   const struct nation_type *second_nation = *(const struct nation_type **)second;
 
-  first_string = get_nation_name(first_nation);
-  second_string = get_nation_name(second_nation);
+  first_string = nation_name_translation(first_nation);
+  second_string = nation_name_translation(second_nation);
 
   return mystrcasecmp(first_string, second_string);
 }

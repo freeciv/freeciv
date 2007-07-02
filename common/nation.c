@@ -59,13 +59,14 @@ static bool bounds_check_nation(const struct nation_type *pnation,
   return TRUE;
 }
 
-/***************************************************************
-Find nation by (translated) name
-***************************************************************/
-struct nation_type *find_nation_by_name(const char *name)
+/****************************************************************************
+  Returns the nation that has the given (translated) name.
+  Returns NO_NATION_SELECTED if none match.
+****************************************************************************/
+struct nation_type *find_nation_by_translated_name(const char *name)
 {
   nations_iterate(pnation) {
-    if (mystrcasecmp(name, get_nation_name(pnation)) == 0) {
+    if (0 == strcmp(nation_name_translation(pnation), name)) {
       return pnation;
     }
   } nations_iterate_end;
@@ -73,13 +74,14 @@ struct nation_type *find_nation_by_name(const char *name)
   return NO_NATION_SELECTED;
 }
 
-/***************************************************************
-Find nation by (untranslated) original name
-***************************************************************/
-struct nation_type *find_nation_by_name_orig(const char *name)
+/****************************************************************************
+  Returns the nation that has the given (untranslated) rule name.
+  Returns NO_NATION_SELECTED if none match.
+****************************************************************************/
+struct nation_type *find_nation_by_rule_name(const char *name)
 {
   nations_iterate(pnation) {
-    if (mystrcasecmp(name, get_nation_name_orig(pnation)) == 0) {
+    if (0 == mystrcasecmp(nation_rule_name(pnation), name)) {
       return pnation;
     }
   } nations_iterate_end;
@@ -87,26 +89,70 @@ struct nation_type *find_nation_by_name_orig(const char *name)
   return NO_NATION_SELECTED;
 }
 
-/***************************************************************
-Returns (translated) name of the nation
-***************************************************************/
-const char *get_nation_name(const struct nation_type *pnation)
+/****************************************************************************
+  Return the (untranslated) rule name of the nation.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *nation_rule_name(const struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_ERROR, "get_nation_name")) {
+  if (!bounds_check_nation(pnation, LOG_ERROR, "nation_rule_name")) {
     return "";
   }
-  return pnation->name;
+  return pnation->name_single.vernacular;
 }
 
-/***************************************************************
-Returns (untranslated) original name of the nation
-***************************************************************/
-const char *get_nation_name_orig(const struct nation_type *pnation)
+/****************************************************************************
+  Return the (translated) name of the given nation. 
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *nation_name_translation(struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_ERROR, "get_nation_name_orig")) {
+  if (!bounds_check_nation(pnation, LOG_ERROR, "nation_name_translation")) {
     return "";
   }
-  return pnation->name_orig;
+  if (NULL == pnation->name_single.translated) {
+    /* delayed (unified) translation */
+    pnation->name_single.translated = ('\0' == pnation->name_single.vernacular[0])
+				      ? pnation->name_single.vernacular
+				      : Q_(pnation->name_single.vernacular);
+  }
+  return pnation->name_single.translated;
+}
+
+/****************************************************************************
+  Return the (translated) plural name of the given nation. 
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *nation_plural_translation(struct nation_type *pnation)
+{
+  if (!bounds_check_nation(pnation, LOG_ERROR, "nation_plural_translation")) {
+    return "";
+  }
+  if (NULL == pnation->name_plural.translated) {
+    /* delayed (unified) translation */
+    pnation->name_plural.translated = ('\0' == pnation->name_plural.vernacular[0])
+				      ? pnation->name_plural.vernacular
+				      : Q_(pnation->name_plural.vernacular);
+  }
+  return pnation->name_plural.translated;
+}
+
+/****************************************************************************
+  Return the (translated) name of the given nation of a player. 
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *nation_name_for_player(const struct player *pplayer)
+{
+  return nation_name_translation(nation_of_player(pplayer));
+}
+
+/****************************************************************************
+  Return the (translated) plural name of the given nation of a player. 
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *nation_plural_for_player(const struct player *pplayer)
+{
+  return nation_plural_translation(nation_of_player(pplayer));
 }
 
 /****************************************************************************
@@ -196,33 +242,43 @@ bool check_nation_leader_name(const struct nation_type *pnation,
   return FALSE;
 }
 
-/***************************************************************
-Returns plural name of the nation.
-***************************************************************/
-const char *get_nation_name_plural(const struct nation_type *pnation)
-{
-  if (!bounds_check_nation(pnation, LOG_ERROR, "get_nation_name_plural")) {
-    return "";
-  }
-  return pnation->name_plural;
-}
-
-/***************************************************************
-Returns pointer to a nation 
-***************************************************************/
-struct nation_type *get_nation_by_plr(const struct player *plr)
+/****************************************************************************
+  Return the nation of a player.
+****************************************************************************/
+struct nation_type *nation_of_player(const struct player *plr)
 {
   assert(plr != NULL);
-  if (!bounds_check_nation(plr->nation, LOG_FATAL, "get_nation_by_plr")) {
+  if (!bounds_check_nation(plr->nation, LOG_FATAL, "nation_of_player")) {
     die("wrong nation %d", plr->nation->index);
   }
   return plr->nation;
 }
 
-/***************************************************************
-  ...
-***************************************************************/
-struct nation_type *get_nation_by_idx(Nation_type_id nation)
+/****************************************************************************
+  Return the nation of the player who owns the city.
+****************************************************************************/
+struct nation_type *nation_of_city(const struct city *pcity)
+{
+  assert(pcity != NULL);
+  return nation_of_player(city_owner(pcity));
+}
+
+/****************************************************************************
+  Return the nation of the player who owns the unit.
+****************************************************************************/
+struct nation_type *nation_of_unit(const struct unit *punit)
+{
+  assert(punit != NULL);
+  return nation_of_player(unit_owner(punit));
+}
+
+/****************************************************************************
+  Return the nation with the given index.
+
+  This function returns NULL for an out-of-range index (some callers
+  rely on this).
+****************************************************************************/
+struct nation_type *nation_by_number(const Nation_type_id nation)
 {
   if (nation < 0 || nation >= game.control.nation_count) {
     return NULL;
@@ -333,9 +389,9 @@ void nation_city_names_free(struct city_name *city_names)
 /***************************************************************
 Returns nation's city style
 ***************************************************************/
-int get_nation_city_style(const struct nation_type *pnation)
+int city_style_of_nation(const struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_FATAL, "get_nation_city_style")) {
+  if (!bounds_check_nation(pnation, LOG_FATAL, "city_style_of_nation")) {
     die("wrong nation %d", pnation->index);
   }
   return pnation->city_style;
@@ -386,23 +442,24 @@ int get_nation_groups_count(void)
 }
 
 /****************************************************************************
-  Return a specific nation group, by index.
+  Return the government with the given index.
+
+  This function returns NULL for an out-of-range index (some callers
+  rely on this).
 ****************************************************************************/
-struct nation_group* get_nation_group_by_id(int id)
+struct nation_group* nation_group_by_number(int id)
 {
-  if (id >= 0 && id < num_nation_groups) {
-    return &nation_groups[id];
-  } else {
+  if (id < 0 && id >= num_nation_groups) {
     return NULL;
   }
+  return &nation_groups[id];
 }
 
 /****************************************************************************
-  Return a specific nation group, by (untranslated) name.
-
+  Return the nation group that has the given (untranslated) rule name.
   Returns NULL if no group is found.
 ****************************************************************************/
-struct nation_group *find_nation_group_by_name_orig(const char *name)
+struct nation_group *find_nation_group_by_rule_name(const char *name)
 {
   int i;
 

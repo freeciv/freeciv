@@ -17,7 +17,7 @@
 #include "shared.h" /* For bool typedef */
 
 /* This file serves to reduce the cross-inclusion of header files which
- * occurs when a type which is defined in one file is needed for a fuction
+ * occurs when a type which is defined in one file is needed for a function
  * definition in another file.
  *
  * Nothing in this file should require anything else from the common/
@@ -205,6 +205,15 @@ enum barbarian_type {
   NOT_A_BARBARIAN = 0,
   LAND_BARBARIAN = 1,
   SEA_BARBARIAN = 2
+};
+
+/* ruleset strings (such as names) are kept in their original vernacular, 
+ * translated upon first use.  The translation is cached for future use.
+ */
+struct translation_cache
+{
+  const char *translated;		/* string doesn't need freeing */
+  char vernacular[MAX_LEN_NAME];	/* original string for comparisons */
 };
 
 #endif /* FC__FC_TYPES_H */

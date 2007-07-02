@@ -180,7 +180,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   my_snprintf(buf, sizeof(buf),
 	      _("Intelligence Information for the %s Empire"),
-	      get_nation_name(pdialog->pplayer->nation));
+	      nation_name_for_player(pdialog->pplayer));
 
   pdialog->intel_label = I_L(XtVaCreateManagedWidget("inteltitlelabel",
 						     labelWidgetClass,
@@ -189,9 +189,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 						     NULL));
 
   my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"),
-	      get_ruler_title(pdialog->pplayer->government,
-			      pdialog->pplayer->is_male,
-			      pdialog->pplayer->nation),
+	      ruler_title_translation(pdialog->pplayer),
 	      pdialog->pplayer->name);
   XtVaCreateManagedWidget("intelnamelabel",
 			  labelWidgetClass,
@@ -200,7 +198,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  NULL);
 
   my_snprintf(buf, sizeof(buf), _("Government: %s"),
-	      get_government_name(pdialog->pplayer->government));
+	      government_name_for_player(pdialog->pplayer)));
   XtVaCreateManagedWidget("intelgovlabel",
 			  labelWidgetClass,
 			  pdialog->intel_form,
@@ -417,7 +415,7 @@ void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise)
 
   my_snprintf(buf, sizeof(buf),
 	      _("Intelligence Diplomacy Information for the %s Empire"),
-	      get_nation_name(pdialog->pplayer->nation));
+	      nation_name_for_player(pdialog->pplayer));
 
   pdialog->intel_diplo_label =
     I_L(XtVaCreateManagedWidget("inteldiplolabel",
@@ -427,9 +425,7 @@ void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise)
 				NULL));
    
   my_snprintf(buf, sizeof(buf), _("Ruler: %s %s"), 
-	      get_ruler_title(pdialog->pplayer->government,
-			      pdialog->pplayer->is_male,
-			      pdialog->pplayer->nation),
+	      ruler_title_translation(pdialog->pplayer),
 	      pdialog->pplayer->name);
   XtVaCreateManagedWidget("inteldiplonamelabel", 
 			  labelWidgetClass, 
@@ -483,7 +479,7 @@ void update_intel_diplo_dialog(struct intel_dialog *pdialog)
       my_snprintf(namelist_text[i], sizeof(namelist_text[i]),
 		  "%-32s %-16s %-16s",
 		  other->name,
-		  get_nation_name(other->nation),
+		  nation_name_for_player(other),
 		  diplstate_text(state->type));
       namelist_ptrs[i] = namelist_text[i];
       i++;

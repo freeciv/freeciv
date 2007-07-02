@@ -606,7 +606,9 @@ struct unit *get_defender(const struct unit *attacker,
             unit_owner(punit)->name,
             unit_rule_name(punit),
             unit_list_size(ptile->units), 
-            ptile->terrain->name_rule, ptile->x, ptile->y);
+            terrain_rule_name(ptile->terrain),
+            ptile->x,
+            ptile->y);
   }
 
   return bestdef;

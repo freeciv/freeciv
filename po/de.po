@@ -3033,7 +3033,7 @@ msgstr[1] "Ein Abkommen mit %d Klauseln wurde vereinbart."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Eine der Städte, die %s abgeben möchte, wurde zerstört! Das Abkommen ist "
 "gegenstandslos!"

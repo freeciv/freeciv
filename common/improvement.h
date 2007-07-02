@@ -88,8 +88,8 @@ int impr_build_shield_cost(Impr_type_id id);
 int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock);
 int impr_sell_gold(Impr_type_id id);
 
-const char *improvement_name_translation(Impr_type_id id);
 const char *improvement_rule_name(Impr_type_id id);
+const char *improvement_name_translation(Impr_type_id id);
 
 bool improvement_has_flag(Impr_type_id id, enum impr_flag_id flag);
 enum impr_flag_id impr_flag_from_str(const char *s);

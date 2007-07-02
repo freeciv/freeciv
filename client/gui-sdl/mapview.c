@@ -309,7 +309,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   
   if (game.player_ptr) {
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
-                                    get_gov_pplayer(game.player_ptr)->name);
+                                    government_of_player(game.player_ptr)->name);
   } else {
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
                                     "None");
@@ -403,7 +403,7 @@ void update_info_label(void)
     my_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d "),
-                get_nation_name(game.player_ptr->nation),
+                nation_name_for_player(game.player_ptr),
                 population_to_text(civ_population(game.player_ptr)),
                 textyear(game.info.year),
                 game.player_ptr->economic.gold);
@@ -411,7 +411,7 @@ void update_info_label(void)
     my_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
-                get_nation_name(game.player_ptr->nation),
+                nation_name_for_player(game.player_ptr),
                 population_to_text(civ_population(game.player_ptr)),
                 textyear(game.info.year),
                 game.player_ptr->economic.gold,
@@ -751,12 +751,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 		  cat_snprintf(buffer, sizeof(buffer),
 		  	PL_("\n%s territory (%d turn ceasefire)",
 				"\n%s territory (%d turn ceasefire)", turns),
-		 		get_nation_name(pTile->owner->nation), turns);
+		 		nation_name_for_player(pTile->owner), turns);
                 } else {
 	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
 		    diplo_nation_plural_adjectives[
 		  	game.player_ptr->diplstates[pTile->owner->player_no].type],
-		    		get_nation_name_plural(pTile->owner->nation));
+		    		nation_plural_for_player(pTile->owner));
                 }
               } else { /* !pTile->owner */
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
@@ -820,7 +820,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    if (pOwner && pOwner != game.player_ptr) {
               /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
-		  get_nation_name(pOwner->nation),
+		  nation_name_translation(nation_of_city(pOwner)),
 		  diplo_city_adjectives[game.player_ptr->
 				   diplstates[pOwner->player_no].type]);
 	    }
@@ -875,7 +875,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       FREESURFACE(pName);
       
       /* draw unit sprite */
-      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(pUnit->type),
+      pTmpSurf = ResizeSurfaceBox(get_unittype_surface(unit_type(pUnit)),
                                   adj_size(80), adj_size(80), 1, TRUE, TRUE);
       pBuf_Surf = blend_surface(pTmpSurf, 32);
       FREESURFACE(pTmpSurf);
@@ -937,7 +937,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    continue;
 	  }
 	    
-	  pUType = aunit->type;
+	  pUType = unit_type(aunit);
           pHome_City = find_city_by_id(aunit->homecity);
           my_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		pUType->name, pUType->attack_strength,

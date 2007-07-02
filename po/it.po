@@ -2997,7 +2997,7 @@ msgstr[1] "Gioco: è stato firmato un trattato contenente %d clausole."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Gioco: una delle città che gli %s stanno cedendo è distrutta! Trattato "
 "annullato!"

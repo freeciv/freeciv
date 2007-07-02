@@ -1328,7 +1328,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       
       pIcon = crop_rect_from_surface(pMain, NULL);
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s", pImpr->name);
+      my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(pImpr));
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
@@ -1471,7 +1471,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 	
       pIcon = crop_rect_from_surface(pMain, NULL);
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s", pUnit->name);
+      my_snprintf(cBuf, sizeof(cBuf), "%s", utype_name_translation(un));
   
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;

@@ -253,7 +253,7 @@ static bool send_to_metaserver(enum meta_flag flag)
 
         my_snprintf(s, rest, "pln[]=%s&",
                     my_url_encode(plr->nation != NO_NATION_SELECTED 
-                                  ? get_nation_name_plural(plr->nation)
+                                  ? nation_plural_for_player(plr)
                                   : "none"));
         s = end_of_strn(s, &rest);
 

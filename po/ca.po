@@ -2966,7 +2966,7 @@ msgstr[1] "Joc: S'ha acordat un tractat que conté %d clàusules."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Joc: Una de les ciutats que %s està donant es destruïda! Tractat cancel·lat!"
 

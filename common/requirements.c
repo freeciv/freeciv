@@ -112,7 +112,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_GOV:
-    source.value.gov = find_government_by_name(value);
+    source.value.gov = find_government_by_rule_name(value);
     if (source.value.gov != NULL) {
       return source;
     }
@@ -136,7 +136,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_NATION:
-    source.value.nation = find_nation_by_name(value);
+    source.value.nation = find_nation_by_rule_name(value);
     if (source.value.nation != NO_NATION_SELECTED) {
       return source;
     }
@@ -214,7 +214,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.tech = value;
     return source;
   case REQ_GOV:
-    source.value.gov = get_government(value);
+    source.value.gov = government_by_number(value);
     return source;
   case REQ_BUILDING:
     source.value.building = value;
@@ -226,7 +226,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.terrain = get_terrain_by_number(value);
     return source;
   case REQ_NATION:
-    source.value.nation = get_nation_by_idx(value);
+    source.value.nation = nation_by_number(value);
     return source;
   case REQ_UNITTYPE:
     source.value.unittype = utype_by_number(value);
@@ -764,11 +764,11 @@ static bool is_nation_in_range(const struct player *target_player,
 {
   switch (range) {
   case REQ_RANGE_PLAYER:
-    return target_player && target_player->nation == nation;
+    return target_player && nation_of_player(target_player) == nation;
   case REQ_RANGE_WORLD:
     /* FIXME: inefficient */
     players_iterate(pplayer) {
-      if (pplayer->nation == nation && (pplayer->is_alive || survives)) {
+      if (nation_of_player(pplayer) == nation && (pplayer->is_alive || survives)) {
 	return TRUE;
       }
     } players_iterate_end;
@@ -867,8 +867,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case REQ_GOV:
     /* The requirement is filled if the player is using the government. */
-    eval = (target_player
-	    && (target_player->government == req->source.value.gov));
+    eval = (government_of_player(target_player) == req->source.value.gov);
     break;
   case REQ_BUILDING:
     /* The requirement is filled if there's at least one of the building
@@ -1080,7 +1079,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, advance_name_translation(psource->value.tech), bufsz);
     break;
   case REQ_GOV:
-    mystrlcat(buf, get_government_name(psource->value.gov), bufsz);
+    mystrlcat(buf, government_name_translation(psource->value.gov), bufsz);
     break;
   case REQ_BUILDING:
     mystrlcat(buf, improvement_name_translation(psource->value.building), bufsz);
@@ -1092,7 +1091,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
     break;
   case REQ_NATION:
-    mystrlcat(buf, get_nation_name(psource->value.nation), bufsz);
+    mystrlcat(buf, nation_name_translation(psource->value.nation), bufsz);
     break;
   case REQ_UNITTYPE:
     mystrlcat(buf, utype_name_translation(psource->value.unittype), bufsz);

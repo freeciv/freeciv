@@ -141,7 +141,7 @@ struct impr_type *improvement_by_number(const Impr_type_id id)
 }
 
 /**************************************************************************
-  Return the translated name of the given improvement. 
+  Return the (translated) name of the given improvement. 
   You don't have to free the return pointer.
 **************************************************************************/
 const char *improvement_name_translation(Impr_type_id id)
@@ -151,13 +151,14 @@ const char *improvement_name_translation(Impr_type_id id)
   if (NULL == itp->name_translated) {
     /* delayed (unified) translation */
     itp->name_translated = ('\0' == itp->name_rule[0])
-			   ? itp->name_rule : Q_(itp->name_rule);
+			   ? itp->name_rule
+			   : Q_(itp->name_rule);
   }
   return itp->name_translated;
 }
 
 /****************************************************************************
-  Return the original (untranslated) name of the improvement.
+  Return the (untranslated) rule name of the improvement.
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *improvement_rule_name(Impr_type_id id)
@@ -239,7 +240,7 @@ Impr_type_id find_improvement_by_translated_name(const char *s)
 Impr_type_id find_improvement_by_rule_name(const char *s)
 {
   impr_type_iterate(i) {
-    if (0 == mystrcasecmp(improvement_by_number(i)->name_rule, s)) {
+    if (0 == mystrcasecmp(improvement_rule_name(i), s)) {
       return i;
     }
   } impr_type_iterate_end;

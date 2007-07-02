@@ -557,7 +557,7 @@ static void map_startpos_load(struct section_file *file)
 	continue;
       }
 
-      pnation = find_nation_by_name_orig(nation_name);
+      pnation = find_nation_by_rule_name(nation_name);
       if (pnation == NO_NATION_SELECTED) {
 	freelog(LOG_ERROR,
 	        "Warning: Unknown nation %s for starting position %d",
@@ -984,10 +984,8 @@ static void map_save(struct section_file *file)
       secfile_insert_int(file, ptile->nat_y, "map.r%dsy", i);
 
       if (map.start_positions[i].nation != NO_NATION_SELECTED) {
-	const char *nation = 
-	  get_nation_name_orig(map.start_positions[i].nation);
-
-	secfile_insert_str(file, nation, "map.r%dsnation", i);
+	secfile_insert_str(file, nation_rule_name(map.start_positions[i].nation),
+			   "map.r%dsnation", i);
       }
     }
   }
@@ -1276,7 +1274,7 @@ static Unit_type_id old_unit_type_id(const struct unit_type *type)
   }
 
   for (i = 0; i < num_types; i++) {
-    if (mystrcasecmp(type->name_rule, types[i]) == 0) {
+    if (mystrcasecmp(utype_rule_name(type), types[i]) == 0) {
       return i;
     }
   }
@@ -1401,7 +1399,7 @@ static int old_tech_id(Tech_type_id tech)
     return 0;
   }
   
-  technology_name = advances[tech].name_rule;
+  technology_name = advance_rule_name(tech);
   
   /* this is the only place where civ1 was different from 1.14.1 defaults */
   if (strcmp(game.rulesetdir, "civ1") == 0
@@ -1554,7 +1552,7 @@ static void save_technology(struct section_file *file,
       name = "A_FUTURE";
       break;
     default:
-      name = advances[tech].name_rule;
+      name = advance_rule_name(tech);
       break;
   }
   secfile_insert_str(file, name, path_with_name, plrno);
@@ -1580,7 +1578,7 @@ static int old_government_id(struct government *gov)
   }
 
   for (i = 0; i < num_names; i++) {
-    if (mystrcasecmp(gov->name_orig, names[i]) == 0) {
+    if (mystrcasecmp(government_rule_name(gov), names[i]) == 0) {
       return i;
     }
   }
@@ -1949,7 +1947,7 @@ static void player_load(struct player *plr, int plrno,
       p = "";
     }
   }
-  pnation = find_nation_by_name_orig(p);
+  pnation = find_nation_by_rule_name(p);
 
   if (pnation != NO_NATION_SELECTED) {
     player_set_nation(plr, pnation);
@@ -1984,7 +1982,7 @@ static void player_load(struct player *plr, int plrno,
     id = secfile_lookup_int(file, "player%d.government", plrno);
     name = old_government_name(id);
   }
-  gov = find_government_by_name_orig(name);
+  gov = find_government_by_rule_name(name);
   if (gov == NULL) {
     freelog(LOG_FATAL, "Unsupported government found \"%s\".", name);
     exit(EXIT_FAILURE);
@@ -1996,7 +1994,7 @@ static void player_load(struct player *plr, int plrno,
 				    "player%d.target_government_name",
 				    plrno);
   if (name) {
-    gov = find_government_by_name_orig(name);
+    gov = find_government_by_rule_name(name);
   } else {
     gov = NULL;
   }
@@ -2004,7 +2002,7 @@ static void player_load(struct player *plr, int plrno,
     plr->target_government = gov;
   } else {
     /* Old servers didn't have this value. */
-    plr->target_government = plr->government;
+    plr->target_government = government_of_player(plr);
   }
 
   BV_CLR_ALL(plr->embassy);
@@ -2174,7 +2172,7 @@ static void player_load(struct player *plr, int plrno,
 						plrno);
 
     if (revolution == 0) {
-      if (plr->government != game.government_when_anarchy) {
+      if (government_of_player(plr) != game.government_when_anarchy) {
         revolution = -1;
       } else {
         /* some old savegames may be buggy */
@@ -2768,7 +2766,7 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
   secfile_insert_str(file, plr->ranked_username, "player%d.ranked_username",
                      plrno);
-  secfile_insert_str(file, get_nation_name_orig(plr->nation),
+  secfile_insert_str(file, nation_rule_name(nation_of_player(plr)),
 		     "player%d.nation", plrno);
   /* 1.15 and later won't use the race field, they key on the nation string 
    * This field is kept only for forward compatibility
@@ -2778,15 +2776,15 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->team ? plr->team->index : -1,
 		     "player%d.team_no", plrno);
 
-  secfile_insert_str(file, plr->government->name_orig,
+  secfile_insert_str(file, government_rule_name(government_of_player(plr)),
 		     "player%d.government_name", plrno);
   /* 1.15 and later won't use "government" field; it's kept for forward 
    * compatibility */
-  secfile_insert_int(file, old_government_id(plr->government),
+  secfile_insert_int(file, old_government_id(government_of_player(plr)),
                      "player%d.government", plrno);
 
   if (plr->target_government) {
-    secfile_insert_str(file, plr->target_government->name_orig,
+    secfile_insert_str(file, government_rule_name(government_of_player(plr)),
 		       "player%d.target_government_name", plrno);
   }
 
@@ -3972,7 +3970,8 @@ void game_load(struct section_file *file)
 	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
                                                  NOT_A_BARBARIAN));
 	freelog(LOG_ERROR, "%s had invalid nation; changing to %s.",
-		pplayer->name, pplayer->nation->name);
+		pplayer->name,
+		nation_rule_name(nation_of_player(pplayer)));
       }
     } players_iterate_end;
 
@@ -4084,7 +4083,7 @@ void game_load(struct section_file *file)
         freelog(LOG_ERROR, "Removing %s's unferried %s in %s at (%d, %d)",
                 pplayer->name,
                 unit_rule_name(punit),
-                punit->tile->terrain->name_rule,
+                terrain_rule_name(punit->tile->terrain),
                 TILE_XY(punit->tile));
         bounce_unit(punit, TRUE);
       }
@@ -4184,7 +4183,7 @@ void game_save(struct section_file *file, const char *save_reason)
       if (tech == A_NONE) {
         buf[tech] = "A_NONE";
       } else {
-        buf[tech] = advances[tech].name_rule;
+        buf[tech] = advance_rule_name(tech);
       }
     } tech_type_iterate_end;
     secfile_insert_str_vec(file, buf, game.control.num_tech_types,

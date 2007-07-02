@@ -18,13 +18,13 @@
 #include <assert.h>
 
 #include "fcintl.h"
-
 #include "game.h"
 #include "map.h"
 #include "mem.h"		/* free */
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
+
 #include "terrain.h"
 
 static struct terrain civ_terrains[MAX_NUM_TERRAINS];
@@ -101,7 +101,7 @@ struct terrain *get_terrain_by_number(Terrain_type_id type)
 struct terrain *get_terrain_by_rule_name(const char *name)
 {
   terrain_type_iterate(pterrain) {
-    if (0 == mystrcasecmp(pterrain->name_rule, name)) {
+    if (0 == mystrcasecmp(terrain_rule_name(pterrain), name)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -124,7 +124,8 @@ struct terrain *get_terrain_by_translated_name(const char *name)
 }
 
 /****************************************************************************
-  Return the translated name of the terrain.
+  Return the (translated) name of the terrain.
+  You don't have to free the return pointer.
 ****************************************************************************/
 const char *terrain_name_translation(struct terrain *pterrain)
 {
@@ -132,9 +133,19 @@ const char *terrain_name_translation(struct terrain *pterrain)
   if (NULL == pterrain->name_translated) {
     /* delayed (unified) translation */
     pterrain->name_translated = ('\0' == pterrain->name_rule[0])
-			   ? pterrain->name_rule : Q_(pterrain->name_rule);
+				? pterrain->name_rule
+				: Q_(pterrain->name_rule);
   }
   return pterrain->name_translated;
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the terrain.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *terrain_rule_name(const struct terrain *pterrain)
+{
+  return pterrain->name_rule;
 }
 
 /****************************************************************************
@@ -225,7 +236,7 @@ struct resource *get_resource_by_number(Resource_type_id type)
 struct resource *get_resource_by_rule_name(const char *name_orig)
 {
   resource_type_iterate(presource) {
-    if (0 == strcmp(presource->name_rule, name_orig)) {
+    if (0 == strcmp(resource_rule_name(presource), name_orig)) {
       return presource;
     }
   } resource_type_iterate_end;
@@ -234,16 +245,27 @@ struct resource *get_resource_by_rule_name(const char *name_orig)
 }
 
 /****************************************************************************
-  Return the translated name of the resource.
+  Return the (translated) name of the resource.
+  You don't have to free the return pointer.
 ****************************************************************************/
 const char *resource_name_translation(struct resource *presource)
 {
   if (NULL == presource->name_translated) {
     /* delayed (unified) translation */
     presource->name_translated = ('\0' == presource->name_rule[0])
-			   ? presource->name_rule : Q_(presource->name_rule);
+				 ? presource->name_rule
+				 : Q_(presource->name_rule);
   }
   return presource->name_translated;
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the resource.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *resource_rule_name(const struct resource *presource)
+{
+  return presource->name_rule;
 }
 
 

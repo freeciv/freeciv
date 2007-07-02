@@ -333,9 +333,9 @@ void handle_edit_player(struct connection *pc,
                         struct packet_edit_player *packet)
 {
   struct player *pplayer = get_player(packet->playerno);
-  struct nation_type *pnation = get_nation_by_idx(packet->nation);
+  struct nation_type *pnation = nation_by_number(packet->nation);
   struct team *pteam = team_get_by_id(packet->team);
-  struct government *pgov = get_government(packet->government);
+  struct government *pgov = government_by_number(packet->government);
 #if 0 /* Unused: see below */
   struct player_research *research;
   int i;
@@ -360,7 +360,7 @@ void handle_edit_player(struct connection *pc,
   pplayer->economic.luxury = 100 - packet->tax - packet->science;
 
   pplayer->government = pgov;
-  pplayer->target_government = get_government(packet->target_government);
+  pplayer->target_government = government_by_number(packet->target_government);
 
 #if 0 /* FIXME: These values need to be checked */
   pplayer->embassy = packet->embassy;

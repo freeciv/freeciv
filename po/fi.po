@@ -3061,7 +3061,7 @@ msgstr[1] "Peli: %d-kohtainen sopimus hyväksyttiin."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, fuzzy, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Peli: Yksi kaupungeista, joita %s on antamassa, on tuhottu! Sopimus peruttu!"
 

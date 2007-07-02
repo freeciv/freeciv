@@ -156,7 +156,8 @@ void game_remove_unit(struct unit *punit)
 
   freelog(LOG_DEBUG, "game_remove_unit %d", punit->id);
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	  punit->id, get_nation_name(unit_owner(punit)->nation),
+	  punit->id, 
+	  nation_rule_name(nation_of_unit(punit)),
 	  unit_rule_name(punit),
 	  punit->tile->x,
 	  punit->tile->y,
@@ -168,9 +169,11 @@ void game_remove_unit(struct unit *punit)
   }
 
   if (pcity) {
-    freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	    get_nation_name(city_owner(pcity)->nation), pcity->tile->x,
-	    pcity->tile->y);
+    freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
+	  pcity->name,
+	  nation_rule_name(nation_of_city(pcity)),
+	  pcity->tile->x,
+	  pcity->tile->y);
   }
 
   unit_list_unlink(punit->tile->units, punit);
@@ -190,8 +193,10 @@ void game_remove_unit(struct unit *punit)
 void game_remove_city(struct city *pcity)
 {
   freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
-  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	   get_nation_name(city_owner(pcity)->nation), pcity->tile->x,
+  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)",
+	  pcity->name,
+	  nation_rule_name(nation_of_city(pcity)),
+	  pcity->tile->x,
 	  pcity->tile->y);
 
   /* Opaque server-only variable: the server must free this earlier. */
@@ -638,24 +643,9 @@ void translate_data_names(void)
   /* improvement_name_translation now handled in improvement.c */
   /* terrain_name_translation now handled in terrain.c */
   /* resource_name_translation now handled in terrain.c */
+  /* government_name_translation now handled in government.c */
+  /* nation_name_translation now handled in nation.c */
 
-  government_iterate(tthis) {
-    int j;
-
-    tthis->name = Q_(tthis->name_orig);
-    for(j=0; j<tthis->num_ruler_titles; j++) {
-      struct ruler_title *that = &tthis->ruler_titles[j];
-
-      that->male_title = Q_(that->male_title_orig);
-      that->female_title = Q_(that->female_title_orig);
-    }
-  } government_iterate_end;
-  for (i = 0; i < game.control.nation_count; i++) {
-    struct nation_type *tthis = get_nation_by_idx(i);
-
-    tthis->name = Q_(tthis->name_orig);
-    tthis->name_plural = Q_(tthis->name_plural_orig);
-  }
   for (i = 0; i < game.control.styles_count; i++) {
     struct citystyle *tthis = &city_styles[i];
 

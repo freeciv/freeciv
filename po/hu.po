@@ -2985,7 +2985,7 @@ msgstr[0] "Játék: Egy %d pontból álló egyezmény köttetett meg."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Játék: Megsemmisült az egyik %s által felajánlott város! Az egyezmény "
 "visszavonva!"

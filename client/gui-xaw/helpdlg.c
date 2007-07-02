@@ -923,7 +923,8 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
     unit_type_iterate(punittype) {
       if (i == punittype->tech_requirement) 
-	sprintf(buf + strlen(buf), _("Allows %s.\n"), punittype->name);
+	sprintf(buf + strlen(buf), _("Allows %s.\n"),
+	        utype_name_translation(punittype));
     } unit_type_iterate_end;
 
     for (j = 0; j < game.control.num_tech_types; j++) {
@@ -1100,7 +1101,7 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_terrain(pitem, top, get_terrain_by_translated_name(top));
     break;
   case HELP_GOVERNMENT:
-    help_update_government(pitem, top, find_government_by_name(top));
+    help_update_government(pitem, top, find_government_by_translated_name(top));
     break;
   case HELP_TEXT:
   default:

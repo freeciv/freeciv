@@ -696,7 +696,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     }
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, pnation->name);
+    g_value_set_static_string(&value, nation_name_translation(pnation));
     gtk_list_store_set_value(store, &it, 3, &value);
     g_value_unset(&value);
   } nations_iterate_end;
@@ -734,7 +734,7 @@ static GtkWidget* create_nation_selection_list(void)
   gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
   
   for (i = 0; i <= get_nation_groups_count(); i++) {
-    struct nation_group* group = (i == 0 ? NULL: get_nation_group_by_id(i - 1));
+    struct nation_group* group = (i == 0 ? NULL: nation_group_by_number(i - 1));
     nation_list = create_list_of_nations_in_group(group, i);
     group_name_label = gtk_label_new(group ? Q_(group->name) : _("All"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), nation_list, group_name_label);
@@ -1026,7 +1026,7 @@ static void select_random_leader(void)
   }
 
   leaders
-    = get_nation_leaders(get_nation_by_idx(selected_nation), &nleaders);
+    = get_nation_leaders(nation_by_number(selected_nation), &nleaders);
   for (i = 0; i < nleaders; i++) {
     items = g_list_prepend(items, leaders[i].name);
   }
@@ -1074,7 +1074,7 @@ void races_toggles_set_sensitive(void)
 	struct nation_type *nation;
 
         gtk_tree_model_get(model, &it, 0, &nation_no, -1);
-	nation = get_nation_by_idx(nation_no);
+	nation = nation_by_number(nation_no);
 
         chosen = !nation->is_available || nation->player;
 
@@ -1116,7 +1116,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
     struct nation_type *nation;
 
     gtk_tree_model_get(model, &it, 0, &selected_nation, 1, &chosen, -1);
-    nation = get_nation_by_idx(selected_nation);
+    nation = nation_by_number(selected_nation);
 
     if (!chosen) {
       int cs, i, j;
@@ -1147,7 +1147,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
       select_random_leader();
       
       /* Select city style for chosen nation. */
-      cs = get_nation_city_style(get_nation_by_idx(selected_nation));
+      cs = city_style_of_nation(nation_by_number(selected_nation));
       for (i = 0, j = 0; i < game.control.styles_count; i++) {
         if (city_style_has_requirements(&city_styles[i])) {
 	  continue;
@@ -1187,8 +1187,8 @@ static void races_leader_callback(void)
 
   name = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_leader)->entry));
 
-  if (check_nation_leader_name(get_nation_by_idx(selected_nation), name)) {
-    selected_sex = get_nation_leader_sex(get_nation_by_idx(selected_nation),
+  if (check_nation_leader_name(nation_by_number(selected_nation), name)) {
+    selected_sex = get_nation_leader_sex(nation_by_number(selected_nation),
 					 name);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[selected_sex]),
 				 TRUE);

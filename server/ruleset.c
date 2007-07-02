@@ -595,7 +595,7 @@ static struct government *lookup_government(struct section_file *file,
   struct government *gov;
   
   sval = secfile_lookup_str(file, "%s", entry);
-  gov = find_government_by_name(sval);
+  gov = find_government_by_rule_name(sval);
   if (!gov) {
     freelog(LOG_FATAL,
            "\"%s\" %s: couldn't match \"%s\".",
@@ -654,7 +654,7 @@ static char *lookup_helptext(struct section_file *file, char *prefix)
 }
 
 /**************************************************************************
-  Look up a rule (original) terrain name and return its pointer.
+  Look up the terrain (untranslated) rule name and return its pointer.
 **************************************************************************/
 static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
 {
@@ -667,13 +667,14 @@ static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
 
   /* get_terrain_by_rule_name plus error */
   terrain_type_iterate(pterrain) {
-    if (0 == strcmp(name, pterrain->name_rule)) {
+    if (0 == strcmp(name, terrain_rule_name(pterrain))) {
       return pterrain;
     }
   } terrain_type_iterate_end;
 
   freelog(LOG_ERROR, "\"%s\" has unknown terrain \"%s\".",
-          tthis->name_rule, name);
+          terrain_rule_name(tthis),
+          name);
   return T_NONE;
 }
 
@@ -1690,8 +1691,7 @@ static void load_ruleset_terrain(struct section_file *file)
     } output_type_iterate_end;
 
     res = secfile_lookup_str_vec (file, &nval, "%s.resources", tsec[i]);
-    pterrain->resources = fc_calloc(nval + 1,
-				    sizeof(*pterrain->resources));
+    pterrain->resources = fc_calloc(nval + 1, sizeof(*pterrain->resources));
     for (j = 0; j < nval; j++) {
       pterrain->resources[j] = get_resource_by_rule_name(res[j]);
       if (!pterrain->resources[j]) {
@@ -1951,8 +1951,8 @@ static void load_government_names(struct section_file *file)
   government_iterate(gov) {
     char *name = secfile_lookup_str(file, "%s.name", sec[gov->index]);
 
-    name_strlcpy(gov->name_orig, name);
-    gov->name = gov->name_orig;
+    name_strlcpy(gov->name.vernacular, name);
+    gov->name.translated = NULL;
   } government_iterate_end;
   free(sec);
 }
@@ -2008,12 +2008,12 @@ static void load_ruleset_governments(struct section_file *file)
     title = &(g->ruler_titles[0]);
 
     title->nation = DEFAULT_TITLE;
-    sz_strlcpy(title->male_title_orig,
+    sz_strlcpy(title->male.vernacular,
 	       secfile_lookup_str(file, "%s.ruler_male_title", sec[i]));
-    title->male_title = title->male_title_orig;
-    sz_strlcpy(title->female_title_orig,
+    title->male.translated = NULL;
+    sz_strlcpy(title->female.vernacular,
 	       secfile_lookup_str(file, "%s.ruler_female_title", sec[i]));
-    title->female_title = title->female_title_orig;
+    title->female.translated = NULL;
   } government_iterate_end;
 
   free(sec);
@@ -2050,7 +2050,7 @@ static char *check_leader_names(Nation_type_id nation,
              Nation_type_id *conflict_nation)
 {
   int k;
-  struct nation_type *pnation = get_nation_by_idx(nation);
+  struct nation_type *pnation = nation_by_number(nation);
 
   for (k = 0; k < pnation->leader_count; k++) {
     char *leader = pnation->leaders[k].name;
@@ -2065,7 +2065,7 @@ static char *check_leader_names(Nation_type_id nation,
     }
 
     for (nation2 = 0; nation2 < nation; nation2++) {
-      struct nation_type *pnation2 = get_nation_by_idx(nation2);
+      struct nation_type *pnation2 = nation_by_number(nation2);
 
       for (i = 0; i < pnation2->leader_count; i++) {
 	if (0 == strcmp(leader, pnation2->leaders[i].name)) {
@@ -2094,27 +2094,23 @@ static void load_nation_names(struct section_file *file)
   for (i = 0; i < game.control.nation_count; i++) {
     char *name        = secfile_lookup_str(file, "%s.name", sec[i]);
     char *name_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
-    struct nation_type *pl = get_nation_by_idx(i);
+    struct nation_type *pl = nation_by_number(i);
 
-    name_strlcpy(pl->name_orig, name);
-    name_strlcpy(pl->name_plural_orig, name_plural);
-
-    /* These are overwritten later when translations are done.  However
-     * in the meantime some code (like the check below) accesses the name
-     * directly.  This isn't great but it would take some work to fix. */
-    pl->name = pl->name_orig;
-    pl->name_plural = pl->name_plural_orig;
+    name_strlcpy(pl->name_single.vernacular, name);
+    pl->name_single.translated = NULL;
+    name_strlcpy(pl->name_plural.vernacular, name_plural);
+    pl->name_plural.translated = NULL;
 
     /* Check if nation name is already defined. */
     for(j = 0; j < i; j++) {
-      struct nation_type *n2 = get_nation_by_idx(j);
+      struct nation_type *n2 = nation_by_number(j);
 
-      if (0 == strcmp(get_nation_name(n2), pl->name)
-	  || 0 == strcmp(get_nation_name_plural(n2), pl->name_plural)) {
+      if (0 == strcmp(n2->name_single.vernacular, pl->name_single.vernacular)
+	|| 0 == strcmp(n2->name_plural.vernacular, pl->name_plural.vernacular)) {
         freelog(LOG_FATAL,
 		"Nation %s (the %s) defined twice; "
 		"in section nation%d and section nation%d",
-		pl->name, pl->name_plural, j, i);
+		name, name_plural, j, i);
         exit(EXIT_FAILURE);
       }
     }
@@ -2220,7 +2216,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
                * However, this is not a problem -- we don't use the translated
                * name for comparison, and handle rivers separately.
                */
-	      if (0 == mystrcasecmp(name, pterrain->name_rule)) {
+	      if (0 == mystrcasecmp(terrain_rule_name(pterrain), name)) {
 	        city_names[j].terrain[pterrain->index] = setting;
 	        handled = TRUE;
 		break;
@@ -2230,7 +2226,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	      freelog(LOG_FATAL, "Unreadable terrain description %s "
 	              "in city name ruleset \"%s%s\" - skipping it.",
 	    	      name, secfile_str1, secfile_str2);
-	      assert(FALSE);
+	      assert(FALSE); /* FIXME, not skipped! */
 	    }
 	  }
 	  name = next ? next + 1 : NULL;
@@ -2245,7 +2241,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
       freelog(LOG_FATAL, "City name %s in ruleset for %s%s is too long "
 	      "- shortening it.",
               city_names[j].name, secfile_str1, secfile_str2);
-      assert(FALSE);
+      assert(FALSE); /* FIXME, not shortened! */
       city_names[j].name[MAX_LEN_NAME - 1] = '\0';
     }
   }
@@ -2260,8 +2256,8 @@ Load nations.ruleset file
 **************************************************************************/
 static void load_ruleset_nations(struct section_file *file)
 {
-  char *bad_leader, *g;
-  struct nation_type *pl, *pl2;
+  char *bad_leader, *govern;
+  struct nation_type *pl;
   struct government *gov;
   int dim, i, i2, j, k, nval, numgroups;
   char temp_name[MAX_LEN_NAME];
@@ -2288,28 +2284,33 @@ static void load_ruleset_nations(struct section_file *file)
     char tmp[200] = "\0";
     char *barb_type;
 
-    pl = get_nation_by_idx(i);
+    pl = nation_by_number(i);
     
     groups = secfile_lookup_str_vec(file, &dim, "%s.groups", sec[i]);
     pl->num_groups = dim;
-    pl->groups = fc_malloc(sizeof(*(pl->groups)) * dim);
+    pl->groups = fc_calloc(dim + 1, sizeof(*(pl->groups)));
+
     for (j = 0; j < dim; j++) {
-      pl->groups[j] = find_nation_group_by_name_orig(groups[j]);
+      pl->groups[j] = find_nation_group_by_rule_name(groups[j]);
       if (!pl->groups[j]) {
-	freelog(LOG_FATAL, "Unknown group %s for nation %s.",
-		groups[j], pl->name);
+	freelog(LOG_ERROR, "Nation %s: Unknown group \"%s\".",
+		nation_rule_name(pl),
+		groups[j]);
       }
     }
+    pl->groups[dim] = NULL; /* extra at end of list */
     free(groups);
     
     conflicts = 
       secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec[i]);
     pl->num_conflicts = dim;
-    pl->conflicts_with = fc_malloc(sizeof(*(pl->conflicts_with)) * dim);
+    pl->conflicts_with = fc_calloc(dim + 1, sizeof(*(pl->conflicts_with)));
+
     for (j = 0; j < dim; j++) {
       /* NO_NATION_SELECTED is allowed here */
-      pl->conflicts_with[j] = find_nation_by_name(conflicts[j]);
+      pl->conflicts_with[j] = find_nation_by_rule_name(conflicts[j]);
     }
+    pl->conflicts_with[j] = NO_NATION_SELECTED; /* extra at end of list */
     free(conflicts);
 
     /* nation leaders */
@@ -2317,16 +2318,20 @@ static void load_ruleset_nations(struct section_file *file)
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader", sec[i]);
     if (dim > MAX_NUM_LEADERS) {
       freelog(LOG_ERROR, "Nation %s: too many leaders; only using %d of %d",
-	      pl->name, MAX_NUM_LEADERS, dim);
+	      nation_rule_name(pl),
+	      MAX_NUM_LEADERS,
+	      dim);
       dim = MAX_NUM_LEADERS;
     } else if (dim < 1) {
       freelog(LOG_FATAL,
 	      "Nation %s: number of leaders is %d; at least one is required.",
-	      pl->name, dim);
+	      nation_rule_name(pl),
+	      dim);
       exit(EXIT_FAILURE);
     }
     pl->leader_count = dim;
-    pl->leaders = fc_malloc(sizeof(*pl->leaders) * pl->leader_count);
+    pl->leaders = fc_calloc(dim /*exact*/, sizeof(*(pl->leaders)));
+
     for(j = 0; j < dim; j++) {
       pl->leaders[j].name = mystrdup(leaders[j]);
       if (check_name(leaders[j])) {
@@ -2338,12 +2343,14 @@ static void load_ruleset_nations(struct section_file *file)
     /* check if leader name is not already defined */
     if ((bad_leader = check_leader_names(i, &i2))) {
         if (i == i2) {
-          freelog(LOG_FATAL, "Nation %s: leader %s defined more than once",
-                  pl->name, bad_leader);
+          freelog(LOG_FATAL, "Nation %s: leader \"%s\" defined more than once.",
+                  nation_rule_name(pl),
+                  bad_leader);
         } else {
-          pl2 = get_nation_by_idx(i2);
-          freelog(LOG_FATAL, "Nations %s and %s share the same leader %s",
-                  pl->name, pl2->name, bad_leader);
+          freelog(LOG_FATAL, "Nations %s and %s share the same leader \"%s\".",
+                 nation_rule_name(pl),
+                 nation_rule_name(nation_by_number(i2)),
+                 bad_leader);
         }
         exit(EXIT_FAILURE);
     }
@@ -2353,7 +2360,9 @@ static void load_ruleset_nations(struct section_file *file)
       freelog(LOG_FATAL,
 	      "Nation %s: the leader sex count (%d) "
 	      "is not equal to the number of leaders (%d)",
-              pl->name, dim, pl->leader_count);
+              nation_rule_name(pl),
+              dim,
+              pl->leader_count);
       exit(EXIT_FAILURE);
     }
     for (j = 0; j < dim; j++) {
@@ -2365,7 +2374,8 @@ static void load_ruleset_nations(struct section_file *file)
         freelog(LOG_ERROR,
 		"Nation %s, leader %s: sex must be either Male or Female; "
 		"assuming Male",
-		pl->name, pl->leaders[j].name);
+		nation_rule_name(pl),
+		pl->leaders[j].name);
 	pl->leaders[j].is_male = TRUE;
       }
     }
@@ -2391,7 +2401,9 @@ static void load_ruleset_nations(struct section_file *file)
       barb_sea_count++;
     } else {
       freelog(LOG_FATAL, "Nation %s, barbarian_type is \"%s\". Must be "
-              "\"None\" or \"Land\" or \"Sea\"", pl->name, barb_type);
+                         "\"None\" or \"Land\" or \"Sea\".",
+                         nation_rule_name(pl),
+                         barb_type);
       exit(EXIT_FAILURE);
     }
 
@@ -2405,7 +2417,7 @@ static void load_ruleset_nations(struct section_file *file)
     /* Ruler titles */
 
     j = -1;
-    while ((g = secfile_lookup_str_default(file, NULL,
+    while ((govern = secfile_lookup_str_default(file, NULL,
 					   "%s.ruler_titles%d.government",
 					   sec[i], ++j))) {
       char *male_name;
@@ -2416,17 +2428,30 @@ static void load_ruleset_nations(struct section_file *file)
       female_name = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
 				       sec[i], j);
 
-      gov = find_government_by_name(g);
+      gov = find_government_by_rule_name(govern);
       if (gov) {
-	check_name(male_name);
-	check_name(female_name);
-	/* Truncation is handled by set_ruler_title(). */
-	set_ruler_title(gov, pl, male_name, female_name);
+	struct ruler_title *title;
+
+	gov->num_ruler_titles++;
+	gov->ruler_titles
+	  = fc_realloc(gov->ruler_titles,
+		       gov->num_ruler_titles * sizeof(*gov->ruler_titles));
+	title = &(gov->ruler_titles[gov->num_ruler_titles-1]);
+
+	title->nation = pl;
+
+	name_strlcpy(title->male.vernacular, male_name);
+	title->male.translated = NULL;
+
+	name_strlcpy(title->female.vernacular, female_name);
+	title->female.translated = NULL;
       } else {
 	/* LOG_VERBOSE rather than LOG_ERROR so that can use single nation
 	   ruleset file with variety of government ruleset files: */
         freelog(LOG_VERBOSE,
-		"Nation %s: government %s not found", pl->name, g);
+		"Nation %s: government \"%s\" not found.",
+		nation_rule_name(pl),
+		govern);
       }
     }
 
@@ -2437,8 +2462,9 @@ static void load_ruleset_nations(struct section_file *file)
     pl->city_style = get_style_by_name(temp_name);
     if (pl->city_style == -1) {
       freelog(LOG_ERROR,
-	      "Nation %s: city style %s is unknown, using default.", 
-	      pl->name_plural, temp_name);
+	      "Nation %s: city style \"%s\" is unknown, using default.", 
+	      nation_rule_name(pl),
+	      temp_name);
       pl->city_style = 0;
     }
 
@@ -2446,13 +2472,16 @@ static void load_ruleset_nations(struct section_file *file)
       if (pl->city_style == 0) {
 	freelog(LOG_FATAL,
 	       "Nation %s: the default city style is not available "
-	       "from the beginning", pl->name);
+	       "from the beginning!",
+	       nation_rule_name(pl));
 	/* Note that we can't use temp_name here. */
 	exit(EXIT_FAILURE);
       }
       freelog(LOG_ERROR,
-	      "Nation %s: city style %s is not available from beginning; "
-	      "using default.", pl->name, temp_name);
+	      "Nation %s: city style \"%s\" is not available from beginning; "
+	      "using default.",
+	      nation_rule_name(pl),
+	      temp_name);
       pl->city_style = 0;
     }
 
@@ -2460,33 +2489,29 @@ static void load_ruleset_nations(struct section_file *file)
 
     civilwar_nations = secfile_lookup_str_vec(file, &dim,
 					      "%s.civilwar_nations", sec[i]);
-    pl->civilwar_nations = fc_malloc(sizeof(*pl->civilwar_nations)
-				     * (dim + 1));
+    pl->civilwar_nations = fc_calloc(dim + 1, sizeof(*(pl->civilwar_nations)));
 
     for (j = 0, k = 0; k < dim; j++, k++) {
-      /* HACK: At this time, all the names are untranslated and the name_orig
-       * field is empty, so we must call find_nation_by_name instead of
-       * find_nation_by_name_orig. */
-      pl->civilwar_nations[j] = find_nation_by_name(civilwar_nations[k]);
+      pl->civilwar_nations[j] = find_nation_by_rule_name(civilwar_nations[k]);
+
+      /* No test for duplicate nations is performed.  If there is a duplicate
+       * entry it will just cause that nation to have an increased probability
+       * of being chosen. */
 
       if (pl->civilwar_nations[j] == NO_NATION_SELECTED) {
 	j--;
-	/* For nation authors this would probably be considered an error.
+	/* For nation authors, this would probably be considered an error.
 	 * But it can happen normally.  The civ1 compatability ruleset only
 	 * uses the nations that were in civ1, so not all of the links will
 	 * exist. */
 	freelog(LOG_VERBOSE,
-		"Civil war nation %s for nation %s not defined.",
-		civilwar_nations[k], pl->name);
+		"Nation %s: civil war nation \"%s\" is unknown.",
+		nation_rule_name(pl),
+		civilwar_nations[k]);
       }
     }
+    pl->civilwar_nations[j] = NO_NATION_SELECTED; /* end of list */
     free(civilwar_nations);
-
-    /* No test for duplicate nations is performed.  If there is a duplicate
-     * entry it will just cause that nation to have an increased probability
-     * of being chosen. */
-
-    pl->civilwar_nations[j] = NO_NATION_SELECTED;
 
     /* Load nation specific initial items */
     lookup_tech_list(file, sec[i], "init_techs", pl->init_techs, filename);
@@ -3220,7 +3245,7 @@ static void send_ruleset_governments(struct conn_list *dest)
 
     gov.num_ruler_titles = g->num_ruler_titles;
 
-    sz_strlcpy(gov.name, g->name_orig);
+    sz_strlcpy(gov.name, g->name.vernacular);
     sz_strlcpy(gov.graphic_str, g->graphic_str);
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
     
@@ -3239,8 +3264,8 @@ static void send_ruleset_governments(struct conn_list *dest)
       title.gov = g->index;
       title.id = j;
       title.nation = p_title->nation ? p_title->nation->index : -1;
-      sz_strlcpy(title.male_title, p_title->male_title);
-      sz_strlcpy(title.female_title, p_title->female_title);
+      sz_strlcpy(title.male_title, p_title->male.vernacular);
+      sz_strlcpy(title.female_title, p_title->female.vernacular);
     
       lsend_packet_ruleset_government_ruler_title(dest, &title);
     }
@@ -3268,10 +3293,10 @@ void send_ruleset_nations(struct conn_list *dest)
   assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
 
   for( k=0; k<game.control.nation_count; k++) {
-    n = get_nation_by_idx(k);
+    n = nation_by_number(k);
     packet.id = k;
-    sz_strlcpy(packet.name, n->name_orig);
-    sz_strlcpy(packet.name_plural, n->name_plural_orig);
+    sz_strlcpy(packet.name, n->name_single.vernacular);
+    sz_strlcpy(packet.name_plural, n->name_plural.vernacular);
     sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
     sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
     packet.leader_count = n->leader_count;

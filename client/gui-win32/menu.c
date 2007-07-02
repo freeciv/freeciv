@@ -925,7 +925,7 @@ void handle_menu(int code)
     default:
       if ((enum MenuID)code >= IDM_GOVERNMENT_CHANGE_FIRST
 	   && (enum MenuID)code <= IDM_GOVERNMENT_CHANGE_LAST) {
-	struct government *gov = get_government(code - IDM_GOVERNMENT_CHANGE_FIRST);
+	struct government *gov = government_by_number(code - IDM_GOVERNMENT_CHANGE_FIRST);
 	popup_revolution_dialog(gov);
       }
       break;
@@ -1045,7 +1045,8 @@ update_menus(void)
 
     government_iterate(g) {
       if (g != game.government_when_anarchy) {
-	AppendMenu(govts, MF_STRING, id + g->index, g->name);
+	AppendMenu(govts, MF_STRING, id + g->index,
+		   government_name_translation(g));
 	my_enable_menu(menu, id + g->index,
 		       can_change_to_government(game.player_ptr, g)
 		       && can_client_issue_orders());

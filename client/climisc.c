@@ -81,7 +81,8 @@ void client_remove_unit(struct unit *punit)
   bool update;
 
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	  punit->id, get_nation_name(unit_owner(punit)->nation),
+	  punit->id,
+	  nation_rule_name(nation_of_unit(punit)),
 	  unit_rule_name(punit),
 	  TILE_XY(punit->tile), hc);
 
@@ -104,8 +105,9 @@ void client_remove_unit(struct unit *punit)
     }
 
     refresh_city_dialog(pcity);
-    freelog(LOG_DEBUG, "map city %s, %s, (%d %d)", pcity->name,
-	    get_nation_name(city_owner(pcity)->nation),
+    freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",
+	    pcity->name,
+	    nation_rule_name(nation_of_city(pcity)),
 	    TILE_XY(pcity->tile));
   }
 
@@ -114,8 +116,9 @@ void client_remove_unit(struct unit *punit)
     pcity = player_find_city_by_id(game.player_ptr, hc);
     if (pcity) {
       refresh_city_dialog(pcity);
-      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	      get_nation_name(city_owner(pcity)->nation),
+      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)",
+	      pcity->name,
+	      nation_rule_name(nation_of_city(pcity)),
 	      TILE_XY(pcity->tile));
     }
   }
@@ -132,8 +135,10 @@ void client_remove_city(struct city *pcity)
   struct tile *ptile = pcity->tile;
   struct city old_city = *pcity;
 
-  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	  get_nation_name(city_owner(pcity)->nation), TILE_XY(ptile));
+  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)",
+	  pcity->name,
+	  nation_rule_name(nation_of_city(pcity)),
+	  TILE_XY(ptile));
 
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */
@@ -250,32 +255,32 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   switch(pclause->type) {
   case CLAUSE_ADVANCE:
     my_snprintf(buf, bufsiz, _("The %s give %s"),
-		get_nation_name_plural(pclause->from->nation),
+		nation_plural_translation(pclause->from->nation),
 		advance_name_for_player(game.player_ptr, pclause->value));
     break;
   case CLAUSE_CITY:
     pcity = find_city_by_id(pclause->value);
     if (pcity) {
       my_snprintf(buf, bufsiz, _("The %s give %s"),
-                  get_nation_name_plural(pclause->from->nation),
+                  nation_plural_translation(pclause->from->nation),
 		  pcity->name);
     } else {
       my_snprintf(buf, bufsiz,_("The %s give unknown city."),
-                  get_nation_name_plural(pclause->from->nation));
+                  nation_plural_translation(pclause->from->nation));
     }
     break;
   case CLAUSE_GOLD:
     my_snprintf(buf, bufsiz, _("The %s give %d gold"),
-		get_nation_name_plural(pclause->from->nation),
+		nation_plural_translation(pclause->from->nation),
 		pclause->value);
     break;
   case CLAUSE_MAP:
     my_snprintf(buf, bufsiz, _("The %s give their worldmap"),
-		get_nation_name_plural(pclause->from->nation));
+		nation_plural_translation(pclause->from->nation));
     break;
   case CLAUSE_SEAMAP:
     my_snprintf(buf, bufsiz, _("The %s give their seamap"),
-		get_nation_name_plural(pclause->from->nation));
+		nation_plural_translation(pclause->from->nation));
     break;
   case CLAUSE_CEASEFIRE:
     my_snprintf(buf, bufsiz, _("The parties agree on a cease-fire"));
@@ -288,11 +293,11 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     break;
   case CLAUSE_VISION:
     my_snprintf(buf, bufsiz, _("The %s gives shared vision"),
-		get_nation_name_plural(pclause->from->nation));
+		nation_plural_translation(pclause->from->nation));
     break;
   case CLAUSE_EMBASSY:
     my_snprintf(buf, bufsiz, _("The %s gives an embassy"),
-                get_nation_name_plural(pclause->from->nation));
+                nation_plural_translation(pclause->from->nation));
     break;
   default:
     assert(FALSE);
@@ -383,7 +388,7 @@ struct sprite *client_government_sprite(void)
 {
   if (can_client_change_view() && game.player_ptr
       && game.control.government_count > 0) {
-    struct government *gov = game.player_ptr->government;
+    struct government *gov = government_of_player(game.player_ptr);
 
     return get_government_sprite(tileset, gov);
   } else {

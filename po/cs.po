@@ -2997,7 +2997,7 @@ msgstr[2] "Dohoda obsahuje %d již potvrzených klauzulí."
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "Jedno z měst, kterého se %s vzdávají je zničeno! Dohoda zrušena!"
 
 #: server/diplhand.c:272 server/diplhand.c:277

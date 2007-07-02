@@ -798,7 +798,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "it needs %s government.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
-			       get_government_name(preq->source.value.gov));
+			       government_name_translation(preq->source.value.gov));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
 				 API_TYPE_CITY, pcity,
@@ -836,7 +836,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "only %s may build this.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
-			       get_nation_name(preq->source.value.nation));
+			       nation_plural_translation(preq->source.value.nation));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
 				 API_TYPE_CITY, pcity,
@@ -1180,7 +1180,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
       notify_player(NULL, pcity->tile, E_WONDER_BUILD,
 		       _("The %s have finished building %s in %s."),
-		       get_nation_name_plural(pplayer->nation),
+		       nation_plural_for_player(pplayer),
 		       get_impr_name_ex(pcity, id),
 		       pcity->name);
 
@@ -1215,7 +1215,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
 	notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 	    _("The %s have acquired %s from %s."),
-	    get_nation_name_plural(pplayer->nation),
+	    nation_plural_for_player(pplayer),
 	    advance_name_for_player(pplayer, tech),
 	    improvement_name_translation(id));
       }
@@ -1224,7 +1224,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       notify_player(NULL, pcity->tile, E_SPACESHIP,
 		       _("The %s have started "
 			 "building a spaceship!"),
-		       get_nation_name_plural(pplayer->nation));
+		       nation_plural_for_player(pplayer));
       pplayer->spaceship.state = SSHIP_STARTED;
     }
     if (space_part) {
@@ -1527,7 +1527,7 @@ void nullify_prechange_production(struct city *pcity)
 **************************************************************************/
 static void update_city_activity(struct player *pplayer, struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
+  struct government *g = government_of_city(pcity);
 
   city_refresh(pcity);
 
@@ -1592,7 +1592,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
       notify_player(pplayer, pcity->tile, E_ANARCHY,
 		       _("The people have overthrown your %s, "
 			 "your country is in turmoil."),
-		       get_government_name(g));
+		       government_name_translation(g));
       handle_player_change_government(pplayer, g->index);
     }
     sanity_check_city(pcity);

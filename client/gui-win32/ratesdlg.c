@@ -329,7 +329,7 @@ popup_rates_dialog(void)
     fcwin_box_add_box(vbox,hbox,TRUE,TRUE,10);
   
     my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-		get_government_name(game.player_ptr->government),
+		government_name_for_player(game.player_ptr)),
 		get_player_bonus(game.player_ptr, EFT_MAX_RATES));
     SetWindowText(GetDlgItem(ratesdlg,ID_RATES_MAX),buf);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_TAX),0,10,TRUE);

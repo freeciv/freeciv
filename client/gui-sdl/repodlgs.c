@@ -84,7 +84,7 @@ static void get_units_report_data(struct units_entry *entries,
     entries[time_to_build].soonest_completions = FC_INFINITY;
   }
   unit_list_iterate(game.player_ptr->units, pUnit) {
-    (entries[pUnit->type->index].active_count)++;
+    (entries[unit_type(pUnit)->index].active_count)++;
     (total->active_count)++;
     if (pUnit->homecity) {
       output_type_iterate(o) {
@@ -94,11 +94,11 @@ static void get_units_report_data(struct units_entry *entries,
 
       city_unit_upkeep(pUnit, upkeep_cost, free_upkeep);
       
-      entries[pUnit->type->index].upkeep_shield += upkeep_cost[O_SHIELD];
+      entries[unit_type(pUnit)->index].upkeep_shield += upkeep_cost[O_SHIELD];
       total->upkeep_shield += upkeep_cost[O_SHIELD];
-      entries[pUnit->type->index].upkeep_food += upkeep_cost[O_FOOD];
+      entries[unit_type(pUnit)->index].upkeep_food += upkeep_cost[O_FOOD];
       total->upkeep_food += upkeep_cost[O_FOOD];
-      entries[pUnit->type->index].upkeep_gold += upkeep_cost[O_GOLD];
+      entries[unit_type(pUnit)->index].upkeep_gold += upkeep_cost[O_GOLD];
       total->upkeep_gold += upkeep_cost[O_GOLD];
     }
   } unit_list_iterate_end;
@@ -464,7 +464,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - i->index, pBuf);
       
       /* ----------- */
-      pStr = create_str16_from_char(pUnit->name, adj_font(12));
+      pStr = create_str16_from_char(utype_name_translation(i), adj_font(12));
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
@@ -1709,7 +1709,7 @@ void popup_economy_report_dialog(bool make_modal)
   struct improvement_entry entries[B_LAST];
   SDL_Rect dst;
   SDL_Rect area;
-  struct government *pGov = get_gov_pplayer(game.player_ptr);
+  struct government *pGov = government_of_player(game.player_ptr);
 
   SDL_Surface *pTreasuryText;
   struct widget *pTreasuryValue;
@@ -1860,7 +1860,8 @@ void popup_economy_report_dialog(bool make_modal)
 
   /* gov and taxrate */
   my_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
-    pGov->name, get_player_bonus(game.player_ptr, EFT_MAX_RATES));
+    government_name_translation(pGov),
+    get_player_bonus(game.player_ptr, EFT_MAX_RATES));
   copy_chars_to_string16(pStr2, cBuf);
   pMaxRateText = create_text_surf_from_str16(pStr2);
   
@@ -3369,7 +3370,7 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                      "%2d: The %s ruler %s scored %d points\n",
                      packet->score[i]),
                  i + 1,
-                 get_nation_name(get_player(packet->id[i])->nation),
+                 nation_name_for_player(get_player(packet->id[i])),
                  get_player(packet->id[i])->name,
                  packet->score[i]);
   }

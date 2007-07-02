@@ -145,7 +145,7 @@ void kill_player(struct player *pplayer)
 
   if (!is_barbarian(pplayer)) {
     notify_player(NULL, NULL, E_DESTROYED, _("The %s are no more!"),
-                  get_nation_name_plural(pplayer->nation));
+                  nation_plural_for_player(pplayer));
   }
 
   /* Transfer back all cities not originally owned by player to their
@@ -225,7 +225,8 @@ void handle_player_rates(struct player *pplayer,
 
     notify_player(pplayer, NULL, E_BAD_COMMAND,
 		  _("%s rate exceeds the max rate for %s."),
-                  rtype, get_government_name(pplayer->government));
+                  rtype,
+                  government_name_for_player(pplayer));
   } else {
     pplayer->economic.tax = tax;
     pplayer->economic.luxury = luxury;
@@ -260,13 +261,13 @@ static void finish_revolution(struct player *pplayer)
 
   freelog(LOG_DEBUG,
 	  "Revolution finished for %s.  Government is %s.  Revofin %d (%d).",
-	  pplayer->name, get_government_name(government),
+	  pplayer->name, government_rule_name(government),
 	  pplayer->revolution_finishes, game.info.turn);
   notify_player(pplayer, NULL, E_REVOLT_DONE,
 		   _("%s now governs the %s as a %s."), 
 		   pplayer->name, 
-		   get_nation_name_plural(pplayer->nation),
-		   get_government_name(government));
+		   nation_plural_for_player(pplayer),
+		   government_name_translation(government));
 
   if (!pplayer->ai.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
@@ -291,7 +292,7 @@ static void finish_revolution(struct player *pplayer)
 void handle_player_change_government(struct player *pplayer, int government)
 {
   int turns;
-  struct government *gov = get_government(government);
+  struct government *gov = government_by_number(government);
 
   if (!gov || !can_change_to_government(pplayer, gov)) {
     return;
@@ -301,8 +302,8 @@ void handle_player_change_government(struct player *pplayer, int government)
 	  "Government changed for %s.  Target government is %s; "
 	  "old %s.  Revofin %d, Turn %d.",
 	  pplayer->name,
-	  get_government_name(gov),
-	  get_government_name(pplayer->government),
+	  government_rule_name(gov),
+	  government_rule_name(government_of_player(pplayer)),
 	  pplayer->revolution_finishes, game.info.turn);
 
   /* Set revolution_finishes value. */
@@ -330,7 +331,7 @@ void handle_player_change_government(struct player *pplayer, int government)
   freelog(LOG_DEBUG,
 	  "Revolution started for %s.  Target government is %s.  "
 	  "Revofin %d (%d).",
-	  pplayer->name, get_government_name(pplayer->target_government),
+	  pplayer->name, government_rule_name(pplayer->target_government),
 	  pplayer->revolution_finishes, game.info.turn);
 
   /* Now see if the revolution is instantaneous. */
@@ -349,8 +350,9 @@ void handle_player_change_government(struct player *pplayer, int government)
 			 "%d turns of anarchy will ensue! "
 			 "Target government is %s.",
 			 turns),
-		     get_nation_name_plural(pplayer->nation), turns,
-		     get_government_name(pplayer->target_government));
+		     nation_plural_for_player(pplayer),
+		     turns,
+		     government_name_translation(pplayer->target_government));
   } else {
     assert(pplayer->target_government == game.government_when_anarchy);
     notify_player(pplayer, NULL, E_REVOLT_START,
@@ -365,8 +367,8 @@ void handle_player_change_government(struct player *pplayer, int government)
 	  "Government change complete for %s.  Target government is %s; "
 	  "now %s.  Turn %d; revofin %d.",
 	  pplayer->name,
-	  get_government_name(pplayer->target_government),
-	  get_government_name(pplayer->government),
+	  government_rule_name(pplayer->target_government),
+	  government_rule_name(government_of_player(pplayer)),
 	  game.info.turn, pplayer->revolution_finishes);
 }
 
@@ -397,12 +399,12 @@ void update_revolution(struct player *pplayer)
    */
   freelog(LOG_DEBUG, "Update revolution for %s.  Current government %s, "
 	  "target %s, revofin %d, turn %d.",
-	  pplayer->name, get_government_name(pplayer->government),
+	  pplayer->name, government_rule_name(government_of_player(pplayer)),
 	  pplayer->target_government
-	  ? get_government_name(pplayer->target_government)
+	  ? government_rule_name(pplayer->target_government)
 	  : "(none)",
 	  pplayer->revolution_finishes, game.info.turn);
-  if (pplayer->government == game.government_when_anarchy
+  if (government_of_player(pplayer) == game.government_when_anarchy
       && pplayer->revolution_finishes <= game.info.turn) {
     if (pplayer->target_government != game.government_when_anarchy) {
       /* If the revolution is over and a target government is set, go into
@@ -417,7 +419,7 @@ void update_revolution(struct player *pplayer)
 		       _("You should choose a new government from the "
 			 "government menu."));
     }
-  } else if (pplayer->government != game.government_when_anarchy
+  } else if (government_of_player(pplayer) != game.government_when_anarchy
 	     && pplayer->revolution_finishes < game.info.turn) {
     /* Reset the revolution counter.  If the player has another revolution
      * they'll have to re-enter anarchy. */
@@ -442,19 +444,19 @@ void check_player_government_rates(struct player *pplayer)
     changed = TRUE;
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
 		  _("Tax rate exceeded the max rate for %s; adjusted."), 
-		  get_government_name(pplayer->government));
+		  government_name_for_player(pplayer));
   }
   if (pplayer->economic.science != old_econ.science) {
     changed = TRUE;
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
 		  _("Science rate exceeded the max rate for %s; adjusted."), 
-		  get_government_name(pplayer->government));
+		  government_name_for_player(pplayer));
   }
   if (pplayer->economic.luxury != old_econ.luxury) {
     changed = TRUE;
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
 		  _("Luxury rate exceeded the max rate for %s; adjusted."), 
-		  get_government_name(pplayer->government));
+		  government_name_for_player(pplayer));
   }
 }
 
@@ -523,7 +525,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 		     _("The senate will not allow you to break treaty "
 		       "with the %s.  You must either dissolve the senate "
 		       "or wait until a more timely moment."),
-		     get_nation_name_plural(pplayer2->nation));
+		     nation_plural_for_player(pplayer2));
     return;
   }
 
@@ -575,12 +577,12 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
       notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		       _("The senate passes your bill because of the "
 			 "constant provocations of the %s."),
-		       get_nation_name_plural(pplayer2->nation));
+		       nation_plural_for_player(pplayer2));
     } else if (new_type == DS_WAR) {
       notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		       _("The senate refuses to break treaty with the %s, "
 			 "but you have no trouble finding a new senate."),
-		       get_nation_name_plural(pplayer2->nation));
+		       nation_plural_for_player(pplayer2));
     }
   }
   if (new_type == DS_WAR) {
@@ -612,15 +614,15 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		   _("The diplomatic state between the %s "
 		     "and the %s is now %s."),
-		   get_nation_name_plural(pplayer->nation),
-		   get_nation_name_plural(pplayer2->nation),
+		   nation_plural_for_player(pplayer),
+		   nation_plural_for_player(pplayer2),
 		   diplstate_text(new_type));
   notify_player(pplayer2, NULL, E_TREATY_BROKEN,
 		   _(" %s canceled the diplomatic agreement! "
 		     "The diplomatic state between the %s and the %s "
 		     "is now %s."), pplayer->name,
-		   get_nation_name_plural(pplayer2->nation),
-		   get_nation_name_plural(pplayer->nation),
+		   nation_plural_for_player(pplayer2),
+		   nation_plural_for_player(pplayer),
 		   diplstate_text(new_type));
 
   /* Check fall-out of a war declaration. */
@@ -647,7 +649,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
                          _("Your team mate %s declared war on %s. "
                            "You are obligated to cancel alliance with %s."),
                          pplayer->name,
-                         get_nation_name_plural(pplayer2->nation),
+                         nation_plural_for_player(pplayer2),
                          pplayer2->name);
         handle_diplomacy_cancel_pact(other, pplayer2->player_no, CLAUSE_ALLIANCE);
       }
@@ -884,7 +886,9 @@ static void package_player_common(struct player *plr,
   packet->science_cost = plr->ai.science_cost;
 
   packet->gold = plr->economic.gold;
-  packet->government = plr->government ? plr->government->index : -1;
+  packet->government = government_of_player(plr)
+                       ? government_of_player(plr)->index
+                       : -1;
 }
 
 /**************************************************************************
@@ -1160,11 +1164,13 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     notify_player(pplayer1, ptile,
 		     E_FIRST_CONTACT,
 		     _("You have made contact with the %s, ruled by %s."),
-		     get_nation_name_plural(pplayer2->nation), pplayer2->name);
+		     nation_plural_for_player(pplayer2),
+		     pplayer2->name);
     notify_player(pplayer2, ptile,
 		     E_FIRST_CONTACT,
 		     _("You have made contact with the %s, ruled by %s."),
-		     get_nation_name_plural(pplayer1->nation), pplayer1->name);
+		     nation_plural_for_player(pplayer1),
+		     pplayer1->name);
     if (pplayer1->ai.control) {
       ai_diplomacy_first_contact(pplayer1, pplayer2);
     }
@@ -1377,7 +1383,7 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
     match[pnation->index] = 1;
     players_iterate(pplayer) {
       if (pplayer->nation != NO_NATION_SELECTED) {
-        int x = nations_match(pnation, pplayer->nation, ignore_conflicts);
+        int x = nations_match(pnation, nation_of_player(pplayer), ignore_conflicts);
 	if (x < 0) {
 	  nations_used[pnation->index] = UNWANTED;
 	  match[pnation->index] = 1;
@@ -1458,7 +1464,7 @@ static struct player *split_player(struct player *pplayer)
   int newplayer = game.info.nplayers;
   struct player *cplayer = &game.players[newplayer];
   struct nation_type **civilwar_nations
-    = get_nation_civilwar(pplayer->nation);
+    = get_nation_civilwar(nation_of_player(pplayer));
   struct player_research *new_research, *old_research;
 
   /* make a new player */
@@ -1468,11 +1474,11 @@ static struct player *split_player(struct player *pplayer)
   /* Rebel will always be an AI player */
   player_set_nation(cplayer, pick_a_nation(civilwar_nations, TRUE, FALSE,
                                            NOT_A_BARBARIAN));
-  pick_random_player_name(cplayer->nation, cplayer->name);
+  pick_random_player_name(nation_of_player(cplayer), cplayer->name);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
-  cplayer->government = cplayer->nation->init_government;
+  cplayer->government = nation_of_player(cplayer)->init_government;
   assert(cplayer->revolution_finishes < 0);
   cplayer->capital = TRUE;
 
@@ -1542,7 +1548,7 @@ static struct player *split_player(struct player *pplayer)
   } tech_type_iterate_end;
   
   /* change the original player */
-  if (pplayer->government != game.government_when_anarchy) {
+  if (government_of_player(pplayer) != game.government_when_anarchy) {
     pplayer->government = game.government_when_anarchy;
     pplayer->revolution_finishes = game.info.turn + 1;
   }

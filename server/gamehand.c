@@ -222,11 +222,12 @@ void init_new_game(void)
     struct nation_type *n = map.start_positions[i].nation;
 
     pos_used[i] = FALSE;
-    freelog(LOG_VERBOSE, "%3d : (%2d,%2d) : %d : %s",
-	    i, map.start_positions[i].tile->x,
+    freelog(LOG_VERBOSE, "%3d : (%2d,%2d) : \"%s\" (%d)",
+	    i,
+	    map.start_positions[i].tile->x,
 	    map.start_positions[i].tile->y,
-	    n ? n->index : -1,
-	    n ? n->name : "");
+	    n ? nation_rule_name(n) : "",
+	    n ? n->index : -1);
   }
   players_iterate(pplayer) {
     start_pos[pplayer->player_no] = NO_START_POS;
@@ -239,7 +240,9 @@ void init_new_game(void)
       assert(pplayer->nation != NO_NATION_SELECTED);
       if (pplayer->nation == map.start_positions[i].nation) {
 	freelog(LOG_VERBOSE, "Start_pos %d matches player %d (%s).",
-		i, pplayer->player_no, get_nation_name(pplayer->nation));
+		i,
+		pplayer->player_no,
+		nation_rule_name(nation_of_player(pplayer)));
 	start_pos[pplayer->player_no] = i;
 	pos_used[i] = TRUE;
 	num_used++;
@@ -258,7 +261,9 @@ void init_new_game(void)
 	  if (which == 0) {
 	    freelog(LOG_VERBOSE,
 		    "Randomly assigning player %d (%s) to pos %d.",
-		    pplayer->player_no, get_nation_name(pplayer->nation), i);
+		    pplayer->player_no,
+		    nation_rule_name(nation_of_player(pplayer)),
+		    i);
 	    start_pos[pplayer->player_no] = i;
 	    pos_used[i] = TRUE;
 	    num_used++;
@@ -289,7 +294,7 @@ void init_new_game(void)
   players_iterate(pplayer) {
     int i;
     struct tile *ptile;
-    struct nation_type *nation = get_nation_by_plr(pplayer);
+    struct nation_type *nation = nation_of_player(pplayer);
     struct start_position p
       = map.start_positions[start_pos[pplayer->player_no]];
 

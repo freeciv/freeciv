@@ -187,12 +187,12 @@ void handle_game_load(struct packet_game_load *packet)
 
   for (i = 0; i < packet->nplayers; i++) {
     const char *nation_name;
-    struct nation_type *pnation = get_nation_by_idx(packet->nations[i]);
+    struct nation_type *pnation = nation_by_number(packet->nations[i]);
 
     if (pnation == NO_NATION_SELECTED) {
       nation_name = "";
     } else {
-      nation_name = get_nation_name(pnation);
+      nation_name = nation_name_translation(pnation);
     }
 
     row[0] = packet->name[i];

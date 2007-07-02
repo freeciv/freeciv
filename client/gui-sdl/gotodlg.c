@@ -140,7 +140,7 @@ static void update_goto_dialog(void)
       pStr->style |= TTF_STYLE_BOLD;
    
       if(pCity->owner != owner) {
-        pLogo = get_nation_flag_surface(get_player(pCity->owner->player_no)->nation);
+        pLogo = get_nation_flag_surface(nation_of_player(get_player(pCity->owner->player_no)));
         pLogo = crop_visible_part_from_surface(pLogo);
       }
       
@@ -278,7 +278,8 @@ static void popup_goto_airlift_dialog(void)
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
     
     pBuf->string16 = create_str16_from_char(
-    			game.players[i].nation->name, adj_font(12));
+    			nation_name_translation(game.players[i].nation),
+    			adj_font(12));
     pBuf->string16->style &= ~SF_CENTER;
     set_wstate(pBuf, FC_WS_NORMAL);
     

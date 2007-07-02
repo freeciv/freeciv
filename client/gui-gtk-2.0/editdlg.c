@@ -423,7 +423,8 @@ static GtkWidget *create_units_palette(void)
 
     if (pplayer->nation) {
       my_snprintf(data, sizeof(data), "%s (%s)",
-		  pplayer->name, pplayer->nation->name);
+		  pplayer->name,
+		  nation_name_for_player(pplayer));
     } else {
       my_snprintf(data, sizeof(data), "%s", pplayer->name);
 
@@ -488,7 +489,8 @@ static GtkWidget *create_city_palette(void)
 
     if (pplayer->nation) {
       my_snprintf(data, sizeof(data), "%s (%s)",
-		  pplayer->name, pplayer->nation->name);
+		  pplayer->name,
+		  nation_name_for_player(pplayer));
     } else {
       my_snprintf(data, sizeof(data), "%s", pplayer->name);
 
@@ -543,7 +545,8 @@ static GtkWidget *create_vision_palette(void)
 
     if (pplayer->nation) {
       my_snprintf(data, sizeof(data), "%s (%s)",
-		  pplayer->name, pplayer->nation->name);
+		  pplayer->name,
+		  nation_name_for_player(pplayer));
     } else {
       my_snprintf(data, sizeof(data), "%s", pplayer->name);
 

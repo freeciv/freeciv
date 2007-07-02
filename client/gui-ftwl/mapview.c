@@ -1199,7 +1199,7 @@ static const char *info_get_value(const char *id)
 		"%d", game.player_ptr->economic.gold);
     return buffer;
   } else if (strcmp(id, "nation_name") == 0) {
-      return get_nation_name_plural(game.player_ptr->nation);
+      return nation_plural_for_player(game.player_ptr);
   } else if (strcmp(id, "population") == 0) {
       return population_to_text(civ_population(game.player_ptr));
   } else if (strcmp(id, "general") == 0) {

@@ -240,7 +240,7 @@ static void happiness_dialog_update_units(struct happiness_dlg *pdialog)
   char buf[512], *bptr = buf;
   int nleft = sizeof(buf);
   struct city *pcity = pdialog->pcity;
-  struct government *g = get_gov_pcity(pcity);
+  struct government *g = government_of_city(pcity);
   int mlmax = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
   int uhcfac = get_player_bonus(city_owner(pcity), EFT_UNHAPPY_FACTOR);
 

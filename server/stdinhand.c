@@ -4086,7 +4086,7 @@ void show_players(struct connection *caller)
       }
       if (!game.info.is_new_game) {
 	cat_snprintf(buf2, sizeof(buf2), _(", nation %s"),
-		     get_nation_name_plural(pplayer->nation));
+		     nation_name_for_player(pplayer));
       }
       cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
 		   team_get_name(pplayer->team));

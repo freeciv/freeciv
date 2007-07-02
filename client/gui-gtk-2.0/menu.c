@@ -1282,7 +1282,8 @@ void update_menus(void)
           struct sprite *gsprite;
 	  char buf[256];
 
-	  my_snprintf(buf, sizeof(buf), _("%s..."), g->name);
+	  my_snprintf(buf, sizeof(buf), _("%s..."),
+		      government_name_translation(g));
           item = gtk_image_menu_item_new_with_label(buf);
 
 	  if ((gsprite = get_government_sprite(tileset, g))) {

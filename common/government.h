@@ -31,12 +31,8 @@
 struct ruler_title
 {
   struct nation_type *nation;
-  const char *male_title; /* Translated string - doesn't need freeing. */
-  const char *female_title; /* Translated string - doesn't need freeing. */
-  
-  /* untranslated copies: */
-  char male_title_orig[MAX_LEN_NAME];    
-  char female_title_orig[MAX_LEN_NAME];
+  struct translation_cache female;
+  struct translation_cache male;
 };
 
 /* This is struct government itself.  All information about
@@ -44,11 +40,10 @@ struct ruler_title
  * -- SKi */
 struct government
 {
-  int   index;			/* index into governments[] array */
-  const char *name; /* Translated string - doesn't need freeing. */
-  char  name_orig[MAX_LEN_NAME]; /* untranslated copy */
-  char  graphic_str[MAX_LEN_NAME];
-  char  graphic_alt[MAX_LEN_NAME];
+  int index;
+  struct translation_cache name;
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
 
   struct ruler_title *ruler_titles;
@@ -64,22 +59,22 @@ struct government
 
 extern struct government *governments;
 
-struct government *get_government(int government_id);
-struct government *get_gov_pplayer(const struct player *pplayer);
-struct government *get_gov_pcity(const struct city *pcity);
+struct government *government_by_number(const int government_id);
+struct government *government_of_player(const struct player *pplayer);
+struct government *government_of_city(const struct city *pcity);
 
-struct government *find_government_by_name(const char *name);
-struct government *find_government_by_name_orig(const char *name);
+const char *government_rule_name(const struct government *gov);
+const char *government_name_translation(struct government *gov);
+const char *government_name_for_player(const struct player *pplayer);
 
-const char *get_government_name(const struct government *gov);
-const char *get_ruler_title(const struct government *gov, bool male,
-			    const struct nation_type *pnation);
+struct government *find_government_by_rule_name(const char *name);
+struct government *find_government_by_translated_name(const char *name);
+
+const char *ruler_title_translation(const struct player *pplayer);
 
 bool can_change_to_government(struct player *pplayer,
 			      const struct government *gov);
 
-void set_ruler_title(struct government *gov, struct nation_type *pnation,
-                     const char *male, const char *female);
 void governments_alloc(int num);
 void governments_free(void);
 
@@ -88,11 +83,9 @@ void governments_free(void);
   int GI_index;                                                             \
                                                                             \
   for (GI_index = 0; GI_index < game.control.government_count; GI_index++) {\
-    struct government *gov = get_government(GI_index);                      \
-    {
+    struct government *gov = government_by_number(GI_index);
 
 #define government_iterate_end                                              \
-    }                                                                       \
   }                                                                         \
 }
 

@@ -3246,7 +3246,7 @@ msgstr[0] "%d 条項を含む条約が合意されました。"
 # yasu
 #: server/diplhand.c:261 server/diplhand.c:265
 #, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "%s が提供しようとした都市の一つが破壊されました! 条約は破棄されました。"
 

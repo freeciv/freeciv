@@ -611,7 +611,7 @@ static void build_row(GtkTreeIter *it, int i)
 	gtk_list_store_set(store, it, k, p, -1);
 	break;
       case COL_FLAG:
-        pixbuf = get_flag(plr->nation);
+        pixbuf = get_flag(nation_of_player(plr));
         gtk_list_store_set(store, it, k, pixbuf, -1);
         g_object_unref(pixbuf);
 	break;

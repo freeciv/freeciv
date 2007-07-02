@@ -114,13 +114,13 @@ static void nations_list_selection_changed(struct sw_widget *widget,
 					   void *data)
 {
   int row = sw_list_get_selected_row(nations_list);
-  struct nation_type *nation = get_nation_by_idx(row);
+  struct nation_type *nation = nation_by_number(row);
   int leader_count, i;
   struct leader *leaders = get_nation_leaders(row, &leader_count);
 
   selected_nation = row;
 
-  freelog(LOG_DEBUG, "selcted %s\n", nation->name);
+  freelog(LOG_DEBUG, "selected %s\n", nation_rule_name(nation));
   sw_list_clear(leaders_list);
 
   for (i = 0; i < leader_count; i++) {
@@ -214,7 +214,7 @@ void popup_races_dialog(struct player *pplayer)
   sw_list_set_item(leaders_sex_list, 0, 1, label);
 
   for (i = 0; i < game.control.playable_nation_count; i++) {
-    struct nation_type *nation = get_nation_by_idx(i);
+    struct nation_type *nation = nation_by_number(i);
 
     button = sw_button_create(nations_window, NULL,
 			      NULL, nation->flag_sprite, NULL);
@@ -222,7 +222,7 @@ void popup_races_dialog(struct player *pplayer)
 
     string = ct_string_create(STYLE_NORMAL, 14,
 			      ct_extend_std_color(COLOR_STD_BLACK),
-			      COLOR_EXT_GRAY, nation->name);
+			      COLOR_EXT_GRAY, nation_name_translation(nation));
     label = sw_label_create_text(root_window, string);
     sw_list_set_item(nations_list, 1, i, label);
 

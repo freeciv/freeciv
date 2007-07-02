@@ -128,7 +128,7 @@ static void check_fow(void)
 
   SANITY_CHECK(game.government_when_anarchy != NULL);
   SANITY_CHECK(game.government_when_anarchy
-	       == get_government(game.info.government_when_anarchy_id));
+	       == government_by_number(game.info.government_when_anarchy_id));
 }
 
 /**************************************************************************
@@ -491,13 +491,13 @@ static void check_players(void)
     } players_iterate_end;
 
     if (pplayer->revolution_finishes == -1) {
-      if (pplayer->government == game.government_when_anarchy) {
+      if (government_of_player(pplayer) == game.government_when_anarchy) {
         freelog(LOG_FATAL, "%s's government is anarchy but does not finish",
                 pplayer->name);
       }
-      SANITY_CHECK(pplayer->government != game.government_when_anarchy);
+      SANITY_CHECK(government_of_player(pplayer) != game.government_when_anarchy);
     } else if (pplayer->revolution_finishes > game.info.turn) {
-      SANITY_CHECK(pplayer->government == game.government_when_anarchy);
+      SANITY_CHECK(government_of_player(pplayer) == game.government_when_anarchy);
     } else {
       /* Things may vary in this case depending on when the sanity_check
        * call is made.  No better check is possible. */

@@ -296,7 +296,8 @@ void update_intel_dialog(struct player *p)
 
     /* window title. */
     my_snprintf(buf, sizeof(buf),
-	_("Foreign Intelligence: %s Empire"), get_nation_name(p->nation));
+	_("Foreign Intelligence: %s Empire"),
+	nation_name_for_player(p));
     gtk_window_set_title(GTK_WINDOW(pdialog->shell), buf);
 
     /* diplomacy tab. */
@@ -354,10 +355,11 @@ void update_intel_dialog(struct player *p)
 	switch (i) {
 	  case LABEL_RULER:
 	    my_snprintf(buf, sizeof(buf), "%s %s", 
-		get_ruler_title(p->government, p->is_male, p->nation), p->name);
+		ruler_title_translation(p),
+		p->name);
 	    break;
 	  case LABEL_GOVERNMENT:
-	    sz_strlcpy(buf, get_government_name(p->government));
+	    sz_strlcpy(buf, government_name_for_player(p));
 	    break;
 	  case LABEL_CAPITAL:
 	    pcity = find_palace(p);

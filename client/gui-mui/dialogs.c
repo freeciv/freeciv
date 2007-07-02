@@ -1407,8 +1407,10 @@ void popup_unit_select_dialog(struct tile *ptile)
 
         pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 
-        my_snprintf(buffer, sizeof(buffer),"%s%s\n%s\n%s", punittemp->name,
-               (punit->veteran) ? _(" (veteran)") : "", unit_activity_text(punit),pcity ? pcity->name : "");
+        my_snprintf(buffer, sizeof(buffer),"%s%s\n%s\n%s",
+                    utype_name_translation(punittemp),
+                    (punit->veteran) ? _(" (veteran)") : "",
+                    unit_activity_text(punit),pcity ? pcity->name : "");
 
         o = HGroup,
           Child, unit_obj = UnitObject,
@@ -1464,7 +1466,7 @@ Nation_type_id get_active_nation(void)
   DoMethod(nations_nation_listview, MUIM_List_GetEntry, MUIV_List_GetEntry_Active, &nationname);
   if (!nationname) return 0;
 
-  return find_nation_by_name(nationname);
+  return find_nation_by_translated_name(nationname);
 }
 
 /****************************************************************
@@ -1477,7 +1479,7 @@ static void nations_nation_active(void)
   Object *list = (Object*)xget(nations_leader_poplist,MUIA_Popobject_Object);
   Nation_type_id nation = get_active_nation();
 
-  set(nations_flag_sprite, MUIA_Sprite_Sprite, get_nation_by_idx(nation)->flag_sprite);
+  set(nations_flag_sprite, MUIA_Sprite_Sprite, nation_by_number(nation)->flag_sprite);
 
   leaders = get_nation_leaders(nation, &leader_count);
   setstring(nations_leader_string, leaders[0].name);
@@ -1626,7 +1628,7 @@ void popup_races_dialog(void)
 		    Child, HGroup,
 		    	Child, HVSpace,
 		    	Child, nations_flag_sprite = SpriteObject,
-		    	    MUIA_Sprite_Sprite,get_nation_by_idx(0)->flag_sprite,
+		    	    MUIA_Sprite_Sprite,nation_by_number(0)->flag_sprite,
 		    	    MUIA_Sprite_Transparent, TRUE,
 		    	    End,
 		    	Child, HVSpace,
@@ -1665,7 +1667,7 @@ void popup_races_dialog(void)
     {
       DoMethod(nations_nation_listview, MUIM_List_Clear);
       for(i=0;i<game.control.playable_nation_count && i<64;i++)
-	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, get_nation_name(i), MUIV_List_Insert_Sorted);
+	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, nation_name_translation(/*FIXME*/i), MUIV_List_Insert_Sorted);
 
       DoMethod(nations_nation_listview, MUIM_Notify, MUIA_List_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, nations_nation_active);
       DoMethod(nations_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, nations_ok);

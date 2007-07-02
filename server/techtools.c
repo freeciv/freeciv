@@ -108,13 +108,13 @@ static void tech_researched(struct player *plr)
   if (!is_future_tech(research->researching)) {
     notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
 		     _("The %s have researched %s."), 
-		     get_nation_name_plural(plr->nation),
+		     nation_plural_for_player(plr),
 		     advance_name_researching(plr));
 
   } else {
     notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
 		     _("The %s have researched Future Tech. %d."), 
-		     get_nation_name_plural(plr->nation),
+		     nation_plural_for_player(plr),
 		     research->future_tech);
   
   }
@@ -166,15 +166,17 @@ void do_tech_parasite_effect(struct player *pplayer)
 	if (num_players >= mod) {
 	  notify_player(pplayer, NULL, E_TECH_GAIN,
 			   _("%s acquired from %s!"),
-			   advance_name_for_player(pplayer, i), buf);
+			   advance_name_for_player(pplayer, i),
+			   buf);
 	  script_signal_emit("tech_researched", 3,
 			     API_TYPE_TECH_TYPE, &advances[i],
 			     API_TYPE_PLAYER, pplayer,
 			     API_TYPE_STRING, "stolen");
 	  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 			   _("The %s have acquired %s from %s."),
-			   get_nation_name_plural(pplayer->nation),
-			   advance_name_for_player(pplayer, i), buf);
+			   nation_plural_for_player(pplayer),
+			   advance_name_for_player(pplayer, i),
+			   buf);
 
 	  do_free_cost(pplayer, i);
 	  found_new_tech(pplayer, i, FALSE, TRUE);
@@ -202,7 +204,7 @@ static void update_player_after_tech_researched(struct player* plr,
   remove_obsolete_buildings(plr);
   
   /* Give free rails in every city */
-  if (tech_flag(tech_found, TF_RAILROAD)) {
+  if (tech_has_flag(tech_found, TF_RAILROAD)) {
     upgrade_city_rails(plr, was_discovery);  
   }
   
@@ -217,7 +219,8 @@ static void update_player_after_tech_researched(struct player* plr,
       notify_player(plr, NULL, E_NEW_GOVERNMENT,
 		       _("Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
-		       advance_name_for_player(plr, tech_found), gov->name);
+		       advance_name_for_player(plr, tech_found),
+		       government_name_translation(gov));
     }
   } government_iterate_end;
 
@@ -300,7 +303,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     } impr_type_iterate_end;
   }
 
-  if (tech_flag(tech_found, TF_BONUS_TECH) && was_first) {
+  if (tech_has_flag(tech_found, TF_BONUS_TECH) && was_first) {
     bonus_tech_hack = TRUE;
   }
   
@@ -590,7 +593,7 @@ void init_tech(struct player *plr)
 ****************************************************************************/
 void give_initial_techs(struct player* plr)
 {
-  struct nation_type *nation = get_nation_by_plr(plr);
+  struct nation_type *nation = nation_of_player(plr);
   int i;
   
   /*
@@ -691,18 +694,18 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
   notify_player(pplayer, NULL, E_TECH_GAIN,
 		   _("You steal %s from the %s."),
 		   advance_name_for_player(pplayer, stolen_tech),
-		   get_nation_name_plural(victim->nation));
+		   nation_plural_for_player(victim));
 
   notify_player(victim, NULL, E_ENEMY_DIPLOMAT_THEFT,
                    _("The %s stole %s from you!"),
-		   get_nation_name_plural(pplayer->nation),
+		   nation_plural_for_player(pplayer),
 		   advance_name_for_player(pplayer, stolen_tech));
 
   notify_embassies(pplayer, victim, NULL, E_TECH_GAIN,
 		   _("The %s have stolen %s from the %s."),
-		   get_nation_name_plural(pplayer->nation),
+		   nation_plural_for_player(pplayer),
 		   advance_name_for_player(pplayer, stolen_tech),
-		   get_nation_name_plural(victim->nation));
+		   nation_plural_for_player(victim));
 
   do_conquer_cost(pplayer, stolen_tech);
   found_new_tech(pplayer, stolen_tech, FALSE, TRUE);

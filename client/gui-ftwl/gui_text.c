@@ -377,11 +377,10 @@ const char *mapview_get_city_tooltip_text(struct city *pcity)
 ****************************************************************************/
 const char *mapview_get_city_info_text(struct city *pcity)
 {
-  struct player *owner = city_owner(pcity);
   INIT;
 
   add_line(_("City: %s (%s)"), pcity->name,
-	   get_nation_name(owner->nation));
+	   nation_name_translation(nation_of_city(pcity)));
   if (city_got_citywalls(pcity)) {
     add(_(" with City Walls"));
   }
@@ -435,7 +434,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
       }
     }
     add_line(_("Unit: %s(%s%s)"), ptype->name,
-	     get_nation_name(unit_owner(punit)->nation), tmp);
+	     nation_name_translation(nation_of_unit(punit)), tmp);
     if (punit->owner->player_no != game.info.player_idx) {
       struct unit *apunit = unit_list_get(get_units_in_focus(), 0);
 

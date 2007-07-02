@@ -161,10 +161,11 @@ Tech_type_id get_next_tech(const struct player *pplayer, Tech_type_id goal);
 
 bool tech_is_available(const struct player *pplayer, Tech_type_id id);
 bool tech_exists(Tech_type_id id);
+
 Tech_type_id find_tech_by_rule_name(const char *s);
 Tech_type_id find_tech_by_translated_name(const char *s);
 
-bool tech_flag(Tech_type_id tech, enum tech_flag_id flag);
+bool tech_has_flag(Tech_type_id tech, enum tech_flag_id flag);
 enum tech_flag_id tech_flag_from_str(const char *s);
 Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag);
 
@@ -183,6 +184,8 @@ bool is_future_tech(Tech_type_id tech);
 const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech);
 const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech);
 const char *advance_name_researching(const struct player *pplayer);
+
+const char *advance_rule_name(Tech_type_id tech);
 const char *advance_name_translation(Tech_type_id tech);
 
 void precalc_tech_data(void);

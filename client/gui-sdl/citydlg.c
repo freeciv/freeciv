@@ -413,7 +413,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     unsellect_widget_action();
     disable_city_dlg_widgets();
   
-    pUType = pUnit->type;
+    pUType = unit_type(pUnit);
   
     /* window */
     my_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit Commands"));
@@ -432,7 +432,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     my_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUnit->type)),
+    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUType)),
                             pWindow->dst, pStr, WF_FREE_THEME);
     area.w = MAX(area.w, pBuf->size.w);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -706,7 +706,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 
   unit_list_iterate(pList, pUnit) {
         
-    pUType = pUnit->type;
+    pUType = unit_type(pUnit);
     pHome_City = find_city_by_id(pUnit->homecity);
     my_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		pUType->name, pUType->attack_strength,
@@ -3208,14 +3208,14 @@ static void redraw_city_dialog(struct city *pCity)
 
   /* draw productions shields progress */
   if (pCity->production.is_unit) {
-    struct unit_type *pUnit = utype_by_number(pCity->production.value);
-    cost = unit_build_shield_cost(utype_by_number(pCity->production.value));
+    struct unit_type *pUnitType = utype_by_number(pCity->production.value);
+    cost = unit_build_shield_cost(pUnitType);
     count = cost / 10;
         
-    copy_chars_to_string16(pStr, pUnit->name);
+    copy_chars_to_string16(pStr, utype_name_translation(pUnitType));
     pBuf = create_text_surf_from_str16(pStr);
     
-    pBuf2 = get_unittype_surface(utype_by_number(pCity->production.value));
+    pBuf2 = get_unittype_surface(pUnitType);
     pBuf2 = zoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h), DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
 
     /* blit unit icon */
@@ -3255,7 +3255,7 @@ static void redraw_city_dialog(struct city *pCity)
       
     }
 
-    copy_chars_to_string16(pStr, pImpr->name);
+    copy_chars_to_string16(pStr, improvement_name_translation(pImpr));
     pBuf = create_text_surf_from_str16(pStr);
     
     pBuf2 = get_building_surface(pCity->production.value);

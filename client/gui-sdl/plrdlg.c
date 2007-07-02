@@ -405,7 +405,7 @@ void popup_players_dialog(bool raise)
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
-    pLogo = get_nation_flag_surface(pPlayer->nation);
+    pLogo = get_nation_flag_surface(nation_of_player(pPlayer));
     pZoomed = zoomSurface(pLogo, DEFAULT_ZOOM * (3.0 - n * 0.05), DEFAULT_ZOOM * (3.0 - n * 0.05), 1);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
@@ -654,17 +654,19 @@ void popup_players_nations_dialog(void)
      
       if(pDS->type == DS_CEASEFIRE) {
 	my_snprintf(cBuf, sizeof(cBuf), "%s(%s) - %d %s",
-                get_nation_name(pPlayer->nation), state,
+                    nation_name_for_player(pPlayer),
+                    state,
 		pDS->turns_left, PL_("turn", "turns", pDS->turns_left));
       } else {
 	my_snprintf(cBuf, sizeof(cBuf), "%s(%s)",
-                           get_nation_name(pPlayer->nation), state);
+                    nation_name_for_player(pPlayer),
+                    state);
       }
       
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= TTF_STYLE_BOLD;
    
-      pLogo = get_nation_flag_surface(pPlayer->nation);
+      pLogo = get_nation_flag_surface(nation_of_player(pPlayer));
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
     	(/*WF_FREE_THEME|*/WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));

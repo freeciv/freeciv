@@ -101,7 +101,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
         barbarians->is_dying = FALSE;
-        pick_random_player_name(barbarians->nation, barbarians->name);
+        pick_random_player_name(nation_of_player(barbarians), barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
@@ -160,7 +160,8 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   notify_player(NULL, NULL, E_UPRISING,
                 _("%s gain a leader by the name %s. Dangerous "
                   "times may lie ahead."),
-                get_nation_name_plural(barbarians->nation), barbarians->name);
+                nation_plural_for_player(barbarians),
+                barbarians->name);
 
   send_game_info(NULL);
   send_player_info(barbarians, NULL);

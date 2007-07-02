@@ -199,7 +199,10 @@ struct terrain *get_terrain_by_identifier(const char identifier);
 struct terrain *get_terrain_by_number(Terrain_type_id type);
 struct terrain *get_terrain_by_rule_name(const char *name);
 struct terrain *get_terrain_by_translated_name(const char *name);
+
+const char *terrain_rule_name(const struct terrain *pterrain);
 const char *terrain_name_translation(struct terrain *pterrain);
+
 enum terrain_flag_id terrain_flag_from_str(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
 struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
@@ -207,6 +210,8 @@ void terrains_free(void);
 
 struct resource *get_resource_by_number(Resource_type_id id);
 struct resource *get_resource_by_rule_name(const char *name);
+
+const char *resource_rule_name(const struct resource *presource);
 const char *resource_name_translation(struct resource *presource);
 
 /* Functions to operate on a general terrain type. */

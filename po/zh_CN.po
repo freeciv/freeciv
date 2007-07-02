@@ -2860,7 +2860,7 @@ msgstr[0] "游戏： 已订立一个含 %d 条款的协定。"
 
 #: server/diplhand.c:261 server/diplhand.c:265
 #, fuzzy, c-format
-msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "游戏： 要割让的城市之一 %s 被摧毁了！协定取消！"
 
 #: server/diplhand.c:272 server/diplhand.c:277

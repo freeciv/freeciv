@@ -666,7 +666,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 
   if(is_new) {
     freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
-	    get_nation_name(city_owner(pcity)->nation),
+	    nation_rule_name(nation_of_city(pcity)),
 	    pcity->name, pcity->id, TILE_XY(pcity->tile));
   }
 }
@@ -1243,7 +1243,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     }
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
-	    get_nation_name(unit_owner(punit)->nation),
+	    nation_rule_name(nation_of_unit(punit)),
 	    unit_rule_name(punit),
 	    TILE_XY(punit->tile),
 	    punit->id,
@@ -1397,7 +1397,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.info = *pinfo;
 
   game.government_when_anarchy
-    = get_government(game.info.government_when_anarchy_id);
+    = government_by_number(game.info.government_when_anarchy_id);
   game.player_ptr = get_player(game.info.player_idx);
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     popdown_races_dialog();
@@ -1454,7 +1454,7 @@ void set_government_choice(struct government *government)
 {
   if (can_client_issue_orders()
       && game.player_ptr
-      && government != game.player_ptr->government) {
+      && government != government_of_player(game.player_ptr)) {
     dsend_packet_player_change_government(&aconnection, government->index);
   }
 }
@@ -1483,7 +1483,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   sz_strlcpy(pplayer->name, pinfo->name);
 
-  is_new_nation = player_set_nation(pplayer, get_nation_by_idx(pinfo->nation));
+  is_new_nation = player_set_nation(pplayer, nation_by_number(pinfo->nation));
   pplayer->is_male=pinfo->is_male;
   team_add_player(pplayer, team_get_by_id(pinfo->team));
   pplayer->score.game = pinfo->score;
@@ -1492,8 +1492,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.tax=pinfo->tax;
   pplayer->economic.science=pinfo->science;
   pplayer->economic.luxury=pinfo->luxury;
-  pplayer->government = get_government(pinfo->government);
-  pplayer->target_government = get_government(pinfo->target_government);
+  pplayer->government = government_by_number(pinfo->government);
+  pplayer->target_government = government_by_number(pinfo->target_government);
   BV_CLR_ALL(pplayer->embassy);
   players_iterate(pother) {
     if (pinfo->embassy[pother->player_no]) {
@@ -1928,7 +1928,9 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
     } else if (p->structure[i] == '1') {
       ship->structure[i] = TRUE;
     } else {
-      freelog(LOG_ERROR, "invalid spaceship structure '%c' %d",
+      freelog(LOG_ERROR,
+	      "handle_spaceship_info()"
+	      " invalid spaceship structure '%c' (%d).",
 	      p->structure[i], p->structure[i]);
       ship->structure[i] = FALSE;
     }
@@ -2172,7 +2174,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   int i;
 
   if(p->id < 0 || p->id >= game.control.num_unit_types || p->id >= U_LAST) {
-    freelog(LOG_ERROR, "Received bad unit_type id %d in handle_ruleset_unit()",
+    freelog(LOG_ERROR,
+	    "handle_ruleset_unit() bad unit_type %d.",
 	    p->id);
     return;
   }
@@ -2195,7 +2198,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->move_rate          = p->move_rate;
   u->tech_requirement   = p->tech_requirement;
   u->impr_requirement   = p->impr_requirement;
-  u->gov_requirement = get_government(p->gov_requirement);
+  u->gov_requirement = government_by_number(p->gov_requirement);
   u->vision_radius_sq = p->vision_radius_sq;
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
@@ -2233,7 +2236,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   struct advance *a;
 
   if(p->id < 0 || p->id >= game.control.num_tech_types || p->id >= A_LAST) {
-    freelog(LOG_ERROR, "Received bad advance id %d in handle_ruleset_tech()",
+    freelog(LOG_ERROR,
+	    "handle_ruleset_tech() bad advance %d.",
 	    p->id);
     return;
   }
@@ -2264,7 +2268,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 
   if (!b) {
     freelog(LOG_ERROR,
-	    "Received bad building id %d in handle_ruleset_building()",
+	    "handle_ruleset_building() bad improvement %d.",
 	    p->id);
     return;
   }
@@ -2296,7 +2300,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
 		b->obsolete_by,
-		advances[b->obsolete_by].name_rule);
+		advance_rule_name(b->obsolete_by));
       } else {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
       }
@@ -2321,7 +2325,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   if (p->id < 0 || p->id >= game.control.government_count) {
     freelog(LOG_ERROR,
-	    "Received bad government id %d in handle_ruleset_government",
+	    "handle_ruleset_government() bad government %d.",
 	    p->id);
     return;
   }
@@ -2336,8 +2340,8 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   gov->num_ruler_titles    = p->num_ruler_titles;
     
-  sz_strlcpy(gov->name_orig, p->name);
-  gov->name = Q_(gov->name_orig); /* See translate_data_names */
+  sz_strlcpy(gov->name.vernacular, p->name);
+  gov->name.translated = NULL;	/* government.c government_name_translation */
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
 
@@ -2349,30 +2353,35 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   tileset_setup_government(tileset, p->id);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void handle_ruleset_government_ruler_title
   (struct packet_ruleset_government_ruler_title *p)
 {
   struct government *gov;
 
   if(p->gov < 0 || p->gov >= game.control.government_count) {
-    freelog(LOG_ERROR, "Received bad government num %d for title", p->gov);
+    freelog(LOG_ERROR,
+            "handle_ruleset_government_ruler_title()"
+            " bad government %d.",
+            p->gov);
     return;
   }
   gov = &governments[p->gov];
   if(p->id < 0 || p->id >= gov->num_ruler_titles) {
-    freelog(LOG_ERROR, "Received bad ruler title num %d for %s title",
-	    p->id, gov->name);
+    freelog(LOG_ERROR,
+            "handle_ruleset_government_ruler_title()"
+            " bad ruler title %d for government \"%s\".",
+            p->id, gov->name.vernacular);
     return;
   }
-  gov->ruler_titles[p->id].nation = get_nation_by_idx(p->nation);
-  sz_strlcpy(gov->ruler_titles[p->id].male_title_orig, p->male_title);
-  /* See translate_data_names */
-  gov->ruler_titles[p->id].male_title
-    = Q_(gov->ruler_titles[p->id].male_title_orig);
-  sz_strlcpy(gov->ruler_titles[p->id].female_title_orig, p->female_title);
-  /* See translate_data_names */
-  gov->ruler_titles[p->id].female_title
-    = Q_(gov->ruler_titles[p->id].female_title_orig);
+  gov->ruler_titles[p->id].nation = nation_by_number(p->nation);
+  /* government.c ruler_title_translation */
+  sz_strlcpy(gov->ruler_titles[p->id].male.vernacular, p->male_title);
+  gov->ruler_titles[p->id].male.translated = NULL;
+  sz_strlcpy(gov->ruler_titles[p->id].female.vernacular, p->female_title);
+  gov->ruler_titles[p->id].female.translated = NULL;
 }
 
 /**************************************************************************
@@ -2385,7 +2394,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 
   if (!pterrain) {
     freelog(LOG_ERROR,
-	    "Received bad terrain id %d in handle_ruleset_terrain",
+	    "handle_ruleset_terrain() bad terrain %d.",
 	    p->id);
     return;
   }
@@ -2407,8 +2416,11 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   for (j = 0; j < p->num_resources; j++) {
     pterrain->resources[j] = get_resource_by_number(p->resources[j]);
     if (!pterrain->resources[j]) {
-      freelog(LOG_ERROR, "Mismatched resource for terrain %s.",
-	      pterrain->name_rule);
+      freelog(LOG_ERROR,
+              "handle_ruleset_terrain()"
+              " Mismatched resource %d for terrain \"%s\".",
+              p->resources[j],
+              terrain_rule_name(pterrain));
     }
   }
   pterrain->resources[p->num_resources] = NULL;
@@ -2445,7 +2457,7 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
 
   if (!presource) {
     freelog(LOG_ERROR,
-	    "Received bad resource id %d in handle_ruleset_resource",
+	    "handle_ruleset_resource() bad resource %d.",
 	    p->id);
     return;
   }
@@ -2535,16 +2547,17 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   struct nation_type *pl;
 
   if (p->id < 0 || p->id >= game.control.nation_count) {
-    freelog(LOG_ERROR, "Received bad nation id %d in handle_ruleset_nation()",
+    freelog(LOG_ERROR,
+	    "handle_ruleset_nation() bad nation %d.",
 	    p->id);
     return;
   }
-  pl = get_nation_by_idx(p->id);
+  pl = nation_by_number(p->id);
 
-  sz_strlcpy(pl->name_orig, p->name);
-  pl->name = Q_(pl->name_orig); /* See translate_data_names */
-  sz_strlcpy(pl->name_plural_orig, p->name_plural);
-  pl->name_plural = Q_(pl->name_plural_orig); /* See translate_data_names */
+  sz_strlcpy(pl->name_single.vernacular, p->name);
+  pl->name_single.translated = NULL;
+  sz_strlcpy(pl->name_plural.vernacular, p->name_plural);
+  pl->name_plural.translated = NULL;
   sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
   sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;
@@ -2563,7 +2576,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
          sizeof(pl->init_buildings));
   memcpy(pl->init_units, p->init_units, 
          sizeof(pl->init_units));
-  pl->init_government = get_government(p->init_government);
+  pl->init_government = government_by_number(p->init_government);
 
   if (p->legend[0] != '\0') {
     pl->legend = mystrdup(_(p->legend));
@@ -2574,10 +2587,11 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   pl->num_groups = p->ngroups;
   pl->groups = fc_malloc(sizeof(*(pl->groups)) * pl->num_groups);
   for (i = 0; i < p->ngroups; i++) {
-    pl->groups[i] = get_nation_group_by_id(p->groups[i]);
+    pl->groups[i] = nation_group_by_number(p->groups[i]);
     if (!pl->groups[i]) {
-      freelog(LOG_FATAL, "Unknown nation group %d for nation %s.",
-	      p->groups[i], pl->name);
+      freelog(LOG_FATAL, "Nation %s: Unknown group %d.",
+		nation_rule_name(pl),
+		p->groups[i]);
       exit(EXIT_FAILURE);
     }
   }
@@ -2597,7 +2611,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
 
   id = packet->style_id;
   if (id < 0 || id >= game.control.styles_count) {
-    freelog(LOG_ERROR, "Received bad citystyle id %d in handle_ruleset_city()",
+    freelog(LOG_ERROR,
+	    "handle_ruleset_city() bad citystyle %d.",
 	    id);
     return;
   }
@@ -2645,7 +2660,7 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
 
   if (p->id < 0 || p->id >= game.control.num_specialist_types) {
     freelog(LOG_ERROR,
-	    "Received bad specialistd id %d in handle_ruleset_specialist",
+	    "handle_ruleset_specialist() bad specialist %d.",
 	    p->id);
   }
 

@@ -324,7 +324,8 @@ void update_menus(void)
 	continue;
       }
 
-      w = XtCreateManagedWidget(pgovernment->name, smeBSBObjectClass,
+      w = XtCreateManagedWidget(government_name_translation(pgovernment),
+				smeBSBObjectClass,
 				menus[MENU_GOVERNMENT]->shell, NULL, 0);
       XtAddCallback(w, XtNcallback, revolution_menu_callback, pgovernment);
       XtSetSensitive(w, can_change_to_government(game.player_ptr,

@@ -785,7 +785,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
   struct ai_data *ai = ai_data_get(pplayer);
   bool capital = is_capital(pcity);
   bool can_build = TRUE;
-  struct government *gov = get_gov_pplayer(pplayer);
+  struct government *gov = government_of_player(pplayer);
   struct req_source source = {
     .type = REQ_BUILDING,
     .value = {.building = pimpr->index}
@@ -1383,7 +1383,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 	    || pcity->ai.choice.choice != pcity->production.value))
       notify_player(NULL, pcity->tile, E_WONDER_STOPPED,
 		       _("The %s have stopped building The %s in %s."),
-		       get_nation_name_plural(pplayer->nation),
+		       nation_plural_for_player(pplayer),
 		       get_impr_name_ex(pcity, pcity->production.value),
 		       pcity->name);
     
@@ -1394,7 +1394,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       if (is_great_wonder(pcity->ai.choice.choice)) {
 	notify_player(NULL, pcity->tile, E_WONDER_STARTED,
 			 _("The %s have started building The %s in %s."),
-			 get_nation_name_plural(city_owner(pcity)->nation),
+			 nation_plural_translation(nation_of_city(pcity)),
 			 get_impr_name_ex(pcity, pcity->ai.choice.choice),
 			 pcity->name);
       }

@@ -135,9 +135,12 @@ static void intel_create_dialog(struct player *p)
     struct city *pcity = find_palace(p);
     int i;
 
-    settextf(title_text, _("Intelligence Information for the %s Empire"), get_nation_name(p->nation));
-    settextf(ruler_text, _("Ruler: %s %s"), get_ruler_title(p->government, p->is_male, p->nation), p->name);
-    settextf(government_text, _("Government: %s"), get_government_name(p->government));
+    settextf(title_text, _("Intelligence Information for the %s Empire"),
+             nation_name_for_player(p));
+    settextf(ruler_text, _("Ruler: %s %s"),
+             ruler_title_translation(p);
+    settextf(government_text, _("Government: %s"),
+             government_name_for_player(p));
     settextf(gold_text, _("Gold: %d"), p->economic.gold);
     settextf(tax_text, _("Tax: %d%%"), p->economic.tax);
     settextf(science_text, _("Science: %d%%"), p->economic.science);

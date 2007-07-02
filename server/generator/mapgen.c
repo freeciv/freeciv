@@ -1109,7 +1109,8 @@ static void print_mapgen_map(void)
 
   terrain_type_iterate(pterrain) {
     freelog(loglevel, "%20s : %4d %d%%  ",
-	    pterrain->name_rule, terrain_count[pterrain->index],
+	    terrain_rule_name(pterrain),
+	    terrain_count[pterrain->index],
 	    (terrain_count[pterrain->index] * 100 + 50) / total);
   } terrain_type_iterate_end;
 }

@@ -352,7 +352,7 @@ void popup_rates_dialog(void)
   }
 
   my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-      get_government_name(game.player_ptr->government),
+      government_name_for_player(game.player_ptr),
       get_player_bonus(game.player_ptr, EFT_MAX_RATES));
   gtk_label_set_text(GTK_LABEL(rates_gov_label), buf);
   

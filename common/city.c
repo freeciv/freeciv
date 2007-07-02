@@ -1497,7 +1497,7 @@ void add_tax_income(const struct player *pplayer, int trade, int *output)
   }
   
   /* ANARCHY */
-  if (get_gov_pplayer(pplayer) == game.government_when_anarchy) {
+  if (government_of_player(pplayer) == game.government_when_anarchy) {
     rates[SCIENCE] = 0;
     rates[LUXURY] = 100;
     rates[TAX] = 0;

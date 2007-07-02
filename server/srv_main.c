@@ -249,7 +249,7 @@ bool check_for_game_over(void)
  
     notify_player(NULL, NULL, E_SPACESHIP,
                   _("The %s spaceship has arrived at Alpha Centauri."),
-                  get_nation_name(victor->nation));
+                  nation_name_for_player(victor));
 
     /* this guy has won, now check if anybody else wins with him */
     players_iterate(pplayer) {
@@ -435,7 +435,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
                     "the %s."),
                     unit_name_translation(punit),
                     get_location_str_at(plr1, punit->tile),
-                    get_nation_name_plural(plr2->nation));
+                    nation_plural_for_player(plr2));
       wipe_unit(punit);
     }
   } unit_list_iterate_safe_end;
@@ -447,7 +447,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
                     "the %s."),
                     unit_name_translation(punit),
                     get_location_str_at(plr2, punit->tile),
-                    get_nation_name_plural(plr1->nation));
+                    nation_plural_for_player(plr1));
       wipe_unit(punit);
     }
   } unit_list_iterate_safe_end;
@@ -492,10 +492,12 @@ static void update_diplomatics(void)
         case 0:
           notify_player(plr1, NULL, E_DIPLOMACY, _("The cease-fire with "
                         "%s has run out. You are now at war with the %s."),
-                        plr2->name, get_nation_name_plural(plr2->nation));
+                        plr2->name,
+                        nation_plural_for_player(plr2));
           notify_player(plr2, NULL, E_DIPLOMACY, _("The cease-fire with "
                         "%s has run out. You are now at war with the %s."),
-                        plr1->name, get_nation_name_plural(plr1->nation));
+                        plr1->name,
+                        nation_plural_for_player(plr1));
           state->type = DS_WAR;
           state2->type = DS_WAR;
           state->turns_left = 0;
@@ -1255,7 +1257,7 @@ static bool is_allowed_player_name(struct player *pplayer,
       /* We don't care if we're the one using the name/nation. */
       continue;
     }
-    if (other_player->nation == nation) {
+    if (nation_of_player(other_player) == nation) {
       if (error_buf) {
 	my_snprintf(error_buf, bufsz, _("That nation is already in use."));
       }
@@ -1357,7 +1359,7 @@ void handle_nation_select_req(struct connection *pc,
     return;
   }
 
-  new_nation = get_nation_by_idx(nation_no);
+  new_nation = nation_by_number(nation_no);
 
   if (new_nation != NO_NATION_SELECTED) {
     char message[1024];
@@ -1371,13 +1373,13 @@ void handle_nation_select_req(struct connection *pc,
     if (!new_nation->is_available) {
       notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
 		  _("%s nation is not available in this scenario."),
-		  new_nation->name);
+		  nation_name_translation(new_nation));
       return;
     }
     if (new_nation->player && new_nation->player != pplayer) {
       notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
 		  _("%s nation is already in use."),
-		  new_nation->name);
+		  nation_name_translation(new_nation));
       return;
     }
 
@@ -1391,12 +1393,14 @@ void handle_nation_select_req(struct connection *pc,
     }
 
     name[0] = my_toupper(name[0]);
+    sz_strlcpy(pplayer->name, name);
 
     notify_conn(NULL, NULL, E_NATION_SELECTED,
-		_("%s is the %s ruler %s."), pplayer->username,
-		new_nation->name, name);
+		_("%s is the %s ruler %s."),
+		pplayer->username,
+		nation_name_translation(new_nation),
+		pplayer->name);
 
-    sz_strlcpy(pplayer->name, name);
     pplayer->is_male = is_male;
     pplayer->city_style = city_style;
   }
@@ -1555,7 +1559,7 @@ static void generate_players(void)
 	  && !pnation->player
 	  && check_nation_leader_name(pnation, pplayer->name)) {
 	player_set_nation(pplayer, pnation);
-	pplayer->city_style = get_nation_city_style(pnation);
+	pplayer->city_style = city_style_of_nation(pnation);
 	pplayer->is_male = get_nation_leader_sex(pnation, pplayer->name);
 	break;
       }
@@ -1569,13 +1573,13 @@ static void generate_players(void)
                                              NOT_A_BARBARIAN));
     assert(pplayer->nation != NO_NATION_SELECTED);
 
-    pplayer->city_style = get_nation_city_style(pplayer->nation);
+    pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
 
-    pick_random_player_name(pplayer->nation, player_name);
+    pick_random_player_name(nation_of_player(pplayer), player_name);
     sz_strlcpy(pplayer->name, player_name);
 
-    if (check_nation_leader_name(pplayer->nation, player_name)) {
-      pplayer->is_male = get_nation_leader_sex(pplayer->nation, player_name);
+    if (check_nation_leader_name(nation_of_player(pplayer), player_name)) {
+      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer), player_name);
     } else {
       pplayer->is_male = (myrand(2) == 1);
     }
@@ -1640,13 +1644,14 @@ void pick_random_player_name(const struct nation_type *nation, char *newname)
 static void announce_player (struct player *pplayer)
 {
    freelog(LOG_NORMAL,
-	   _("%s rules the %s."), pplayer->name,
-	   get_nation_name_plural(pplayer->nation));
+	   _("%s rules the %s."),
+	   pplayer->name,
+	   nation_plural_for_player(pplayer));
 
   players_iterate(other_player) {
     notify_player(other_player, NULL, E_GAME_START,
 		  _("%s rules the %s."), pplayer->name,
-		  get_nation_name_plural(pplayer->nation));
+		  nation_plural_for_player(pplayer));
   } players_iterate_end;
 }
 
@@ -1857,7 +1862,7 @@ void srv_main(void)
 static void final_ruleset_adjustments()
 {
   players_iterate(pplayer) {
-    struct nation_type *pnation = get_nation_by_plr(pplayer);
+    struct nation_type *pnation = nation_of_player(pplayer);
 
     pplayer->government = pnation->init_government;
 

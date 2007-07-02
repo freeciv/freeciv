@@ -77,7 +77,7 @@ void get_economy_report_data(struct improvement_entry *entries,
       /* Currently there is no building expense under anarchy.  It's
        * not a good idea to hard-code this in the client, but what
        * else can we do? */
-      if (game.player_ptr->government != game.government_when_anarchy) {
+      if (government_of_player(game.player_ptr) != game.government_when_anarchy) {
         *total_cost += cost;
       }
     }

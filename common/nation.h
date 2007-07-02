@@ -69,8 +69,8 @@ struct nation_group {
 struct nation_type {
   int index;
   /* Pointer values are allocated on load then freed in free_nations(). */
-  const char *name; /* Translated string - doesn't need freeing. */
-  const char *name_plural; /* Translated string - doesn't need freeing. */
+  struct translation_cache name_single;
+  struct translation_cache name_plural;
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;
@@ -87,10 +87,6 @@ struct nation_type {
    * of this array.  Server only. */
   struct nation_type **civilwar_nations;
   struct nation_type **parent_nations;
-
-  /* untranslated copies: */
-  char name_orig[MAX_LEN_NAME];
-  char name_plural_orig[MAX_LEN_NAME];
 
   /* Items given to this nation at game start.  Server only. */
   int init_techs[MAX_NUM_TECH_LIST];
@@ -113,30 +109,40 @@ struct nation_type {
   struct player *player; /* Who's using the nation, or NULL. */
 };
 
-struct nation_type *find_nation_by_name(const char *name);
-struct nation_type *find_nation_by_name_orig(const char *name);
-const char *get_nation_name(const struct nation_type *nation);
-const char *get_nation_name_plural(const struct nation_type *nation);
-const char *get_nation_name_orig(const struct nation_type *nation);
+struct nation_type *nation_by_number(const Nation_type_id nation);
+struct nation_type *nation_of_player(const struct player *pplayer);
+struct nation_type *nation_of_city(const struct city *pcity);
+struct nation_type *nation_of_unit(const struct unit *punit);
+
+const char *nation_rule_name(const struct nation_type *pnation);
+
+const char *nation_name_translation(struct nation_type *pnation);
+const char *nation_name_for_player(const struct player *pplayer);
+const char *nation_plural_translation(struct nation_type *pnation);
+const char *nation_plural_for_player(const struct player *pplayer);
+
+struct nation_type *find_nation_by_rule_name(const char *name);
+struct nation_type *find_nation_by_translated_name(const char *name);
+
 bool is_nation_playable(const struct nation_type *nation);
 enum barbarian_type nation_barbarian_type(const struct nation_type *nation);
 struct leader *get_nation_leaders(const struct nation_type *nation, int *dim);
 struct nation_type **get_nation_civilwar(const struct nation_type *nation);
 bool get_nation_leader_sex(const struct nation_type *nation,
 			   const char *name);
-struct nation_type *get_nation_by_plr(const struct player *plr);
-struct nation_type *get_nation_by_idx(Nation_type_id nation);
 bool check_nation_leader_name(const struct nation_type *nation,
 			      const char *name);
 void nations_alloc(int num);
 void nations_free(void);
 void nation_city_names_free(struct city_name *city_names);
-int get_nation_city_style(const struct nation_type *nation);
+int city_style_of_nation(const struct nation_type *nation);
 
 struct nation_group *add_new_nation_group(const char *name);
 int get_nation_groups_count(void);
-struct nation_group* get_nation_group_by_id(int id);
-struct nation_group *find_nation_group_by_name_orig(const char *name);
+
+struct nation_group *nation_group_by_number(int id);
+struct nation_group *find_nation_group_by_rule_name(const char *name);
+
 bool is_nation_in_group(struct nation_type *nation,
 			struct nation_group *group);
 void nation_groups_free(void);
@@ -146,7 +152,7 @@ void nation_groups_free(void);
   int _index;								    \
 									    \
   for (_index = 0; _index < get_nation_groups_count(); _index++) {	    \
-    struct nation_group *pgroup = get_nation_group_by_id(_index);
+    struct nation_group *pgroup = nation_group_by_number(_index);
 
 #define nation_groups_iterate_end					    \
   }									    \
@@ -164,7 +170,7 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
   for (NI_index = 0;							    \
        NI_index < game.control.nation_count;				    \
        NI_index++) {							    \
-    struct nation_type *pnation = get_nation_by_idx(NI_index);
+    struct nation_type *pnation = nation_by_number(NI_index);
 
 #define nations_iterate_end						    \
   }									    \
