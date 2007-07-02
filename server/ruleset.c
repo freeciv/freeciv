@@ -864,8 +864,8 @@ static void load_unit_names(struct section_file *file)
     const int i = punittype->index;
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
-    name_strlcpy(punittype->name_rule, name);
-    punittype->name_translated = NULL;
+    name_strlcpy(punittype->name.vernacular, name);
+    punittype->name.translated = NULL;
   } unit_type_iterate_end;
 
   free(sec);
@@ -1021,7 +1021,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     const int i = u->index;
 
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
-				      TRUE, filename, u->name_rule);
+				      TRUE, filename, u->name.vernacular);
     if (section_file_lookup(file, "%s.gov_req", sec[i])) {
       char tmp[200] = "\0";
       mystrlcat(tmp, sec[i], 200);
@@ -1036,7 +1036,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     const int i = u->index;
 
     u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by",
-				       FALSE, filename, u->name_rule);
+				       FALSE, filename, u->name.vernacular);
   } unit_type_iterate_end;
 
   /* main stats: */
@@ -1045,14 +1045,14 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     struct unit_class *pclass;
 
     u->impr_requirement = lookup_building(file, sec[i], "impr_req",
-					  FALSE, filename, u->name_rule);
+					  FALSE, filename, u->name.vernacular);
 
     sval = secfile_lookup_str(file, "%s.class", sec[i]);
-    pclass = unit_class_from_str(sval);
+    pclass = find_unit_class_by_rule_name(sval);
     if (!pclass) {
       freelog(LOG_FATAL, "\"%s\" unit_type \"%s\": bad class \"%s\".",
               filename,
-              u->name_rule,
+              u->name.vernacular,
               sval);
       exit(EXIT_FAILURE);
     }
@@ -1110,7 +1110,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
                          "  If you want no attack ability,"
                          " set the unit's attack strength to 0.",
               filename,
-              u->name_rule,
+              u->name.vernacular,
               u->firepower);
       exit(EXIT_FAILURE);
     }
@@ -1151,7 +1151,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if (ival==F_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                 filename,
-                u->name_rule,
+                u->name.vernacular,
                 sval);
       }
       BV_SET(u->flags, ival);
@@ -1176,7 +1176,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if (ival==L_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad role name \"%s\".",
                 filename,
-                u->name_rule,
+                u->name.vernacular,
                 sval);
       }
       BV_SET(u->roles, ival - L_FIRST);
@@ -1191,7 +1191,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       freelog(LOG_ERROR,
               "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
               filename,
-              u->name_rule,
+              u->name.vernacular,
               advances[u->tech_requirement].name_rule);
       u->tech_requirement = A_LAST;
     }
@@ -1241,7 +1241,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     if(u->move_type != SEA_MOVING) {
       freelog(LOG_FATAL, "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
               filename,
-              u->name_rule);
+              u->name.vernacular);
       exit(EXIT_FAILURE);
     }
   }
@@ -2202,8 +2202,8 @@ static void load_ruleset_nations(struct section_file *file)
 
     sz_strlcpy(temp_name,
 	       secfile_lookup_str(file, "%s.city_style", sec[i]));
-    pl->city_style = get_style_by_name(temp_name);
-    if (pl->city_style == -1) {
+    pl->city_style = find_city_style_by_rule_name(temp_name);
+    if (pl->city_style < 0) {
       freelog(LOG_ERROR,
 	      "Nation %s: city style \"%s\" is unknown, using default.", 
 	      nation_rule_name(pl),
@@ -2320,8 +2320,8 @@ static void load_citystyle_names(struct section_file *file)
   /* Get names, so can lookup for replacements: */
   for (i = 0; i < game.control.styles_count; i++) {
     char *style_name = secfile_lookup_str(file, "%s.name", styles[i]);
-    name_strlcpy(city_styles[i].name_orig, style_name);
-    city_styles[i].name = city_styles[i].name_orig;
+    name_strlcpy(city_styles[i].name.vernacular, style_name);
+    city_styles[i].name.translated = NULL;
   }
   free(styles);
 }
@@ -2418,11 +2418,12 @@ static void load_ruleset_cities(struct section_file *file)
     if( strcmp(replacement, "-") == 0) {
       city_styles[i].replaced_by = -1;
     } else {
-      city_styles[i].replaced_by = get_style_by_name(replacement);
-      if(city_styles[i].replaced_by == -1) {
-        freelog(LOG_FATAL, "\"%s\": style \"%s\" replacement \"%s\" not found",
-                filename, city_styles[i].name, replacement);
-        exit(EXIT_FAILURE);
+      city_styles[i].replaced_by = find_city_style_by_rule_name(replacement);
+      if (city_styles[i].replaced_by < 0) {
+        freelog(LOG_ERROR, "\"%s\": style \"%s\" replacement \"%s\" not found",
+                filename,
+                city_style_rule_name(i),
+                replacement);
       }
     }
   }
@@ -2673,7 +2674,7 @@ static void send_ruleset_units(struct conn_list *dest)
 
   unit_type_iterate(u) {
     packet.id = u->index;
-    sz_strlcpy(packet.name, u->name_rule);
+    sz_strlcpy(packet.name, u->name.vernacular);
     sz_strlcpy(packet.sound_move, u->sound_move);
     sz_strlcpy(packet.sound_move_alt, u->sound_move_alt);
     sz_strlcpy(packet.sound_fight, u->sound_fight);
@@ -3032,7 +3033,7 @@ static void send_ruleset_cities(struct conn_list *dest)
     } requirement_vector_iterate_end;
     city_p.reqs_count = j;
 
-    sz_strlcpy(city_p.name, city_styles[k].name_orig);
+    sz_strlcpy(city_p.name, city_styles[k].name.vernacular);
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
     sz_strlcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
     sz_strlcpy(city_p.citizens_graphic, city_styles[k].citizens_graphic);
@@ -3131,7 +3132,6 @@ void load_rulesets(void)
   load_ruleset_nations(&nationfile);
   load_ruleset_effects(&effectfile);
   load_ruleset_game();
-  translate_data_names();
 
   precalc_tech_data();
 

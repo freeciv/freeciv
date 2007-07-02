@@ -1226,7 +1226,7 @@ void create_races_dialog(struct player *pplayer)
 
   for(i=0; i<b_s_num; i++) {
     XtVaSetValues(races_style_toggles[i], XtNlabel,
-		  (XtArgVal)city_styles[city_style_idx[i]].name, NULL);
+		  (XtArgVal)city_style_name_translation(city_style_idx[i]), NULL);
   }
 
   select_random_race();

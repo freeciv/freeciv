@@ -152,7 +152,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_UNITCLASS:
-    source.value.unitclass = unit_class_from_str(value);
+    source.value.unitclass = find_unit_class_by_rule_name(value);
     if (source.value.unitclass) {
       return source;
     }
@@ -1027,7 +1027,7 @@ char *get_req_source_text(const struct req_source *psource,
     break;
   case REQ_UNITCLASS:
     cat_snprintf(buf, bufsz, _("%s units"),
-		 unit_class_name(psource->value.unitclass));
+		 uclass_name_translation(psource->value.unitclass));
     break;
   case REQ_OUTPUTTYPE:
     mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz);

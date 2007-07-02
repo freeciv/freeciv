@@ -1603,7 +1603,7 @@ void popup_races_dialog(void)
       if(city_styles[i].techreq == A_NONE)
       {
         styles_basic_index[styles_basic_nums] = i;
-        styles_entries[styles_basic_nums] = city_styles[i].name;
+        styles_entries[styles_basic_nums] = city_style_name_translation(i);
         styles_basic_nums++;
       }
     }

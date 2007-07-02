@@ -667,7 +667,7 @@ void popup_unit_select_dialog(struct tile *ptile)
       int att_chance, def_chance;
       
       my_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            nation_of_player(unit_owner(pUnit))->name,
+            nation_name_translation(nation_of_unit(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
@@ -1408,7 +1408,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  int att_chance, def_chance;
 	  
           my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            nation_of_player(unit_owner(pUnit))->name,
+            nation_name_translation(nation_of_unit(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
@@ -1533,7 +1533,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  int att_chance, def_chance;
 	
           my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            nation_of_player(unit_owner(pUnit))->name,
+            nation_name_translation(nation_of_unit(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
@@ -2496,7 +2496,7 @@ static int nation_button_callback(struct widget *pNationButton)
       pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_LEGEND);
       pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - adj_size(20));
     
-      copy_chars_to_string16(pStr, Q_(pNation->name_plural));
+      copy_chars_to_string16(pStr, nation_plural_translation(pNation));
       pText2 = create_text_surf_from_str16(pStr);
     
       FREESTRING16(pStr);
@@ -2579,7 +2579,7 @@ static void change_nation_label(void)
   FREESURFACE(pLabel->theme);
   pLabel->theme = pTmp_Surf_zoomed;
   
-  copy_chars_to_string16(pLabel->string16, Q_(pNation->name_plural));
+  copy_chars_to_string16(pLabel->string16, nation_plural_translation(pNation));
   
   remake_label_size(pLabel);
   
@@ -2716,7 +2716,7 @@ void popup_races_dialog(struct player *pplayer)
 
     pTmp_Surf = crop_rect_from_surface(pMain_Bg, NULL);
           
-    copy_chars_to_string16(pStr, Q_(pNation->name_plural));
+    copy_chars_to_string16(pStr, nation_plural_translation(pNation));
     change_ptsize16(pStr, adj_font(12));
     pText_Name = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
     

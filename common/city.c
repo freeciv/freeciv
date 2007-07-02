@@ -1096,9 +1096,9 @@ int city_name_compare(const void *p1, const void *p2)
 /**************************************************************************
 Evaluate which style should be used to draw a city.
 **************************************************************************/
-int get_city_style(const struct city *pcity)
+int style_of_city(const struct city *pcity)
 {
-  return get_player_city_style(city_owner(pcity));
+  return city_style_of_player(city_owner(pcity));
 }
 
 /**************************************************************************
@@ -1106,7 +1106,7 @@ int get_city_style(const struct city *pcity)
   the client) for this city.  The city style depends on the
   start-of-game choice by the player as well as techs researched.
 **************************************************************************/
-int get_player_city_style(const struct player *plr)
+int city_style_of_player(const struct player *plr)
 {
   int replace, style, prev;
 
@@ -1123,61 +1123,65 @@ int get_player_city_style(const struct player *plr)
   return style;
 }
 
-/**************************************************************************
-  Get index to city_styles for style name.
-**************************************************************************/
-int get_style_by_name(const char *style_name)
+/****************************************************************************
+  Returns the city style that has the given (translated) name.
+  Returns -1 if none match.
+****************************************************************************/
+int find_city_style_by_translated_name(const char *s)
 {
   int i;
 
   for (i = 0; i < game.control.styles_count; i++) {
-    /* City styles use Q_ so a city style may be called "?citystyle:Asian".
-     * We use Qn_ so that this string will match against "Asian". */
-    if (strcmp(Qn_(style_name), Qn_(city_styles[i].name)) == 0) {
-      break;
+    if (0 == strcmp(city_style_name_translation(i), s)) {
+      return i;
     }
   }
-  if (i < game.control.styles_count) {
-    return i;
-  } else {
-    return -1;
-  }
+
+  return -1;
 }
 
-/**************************************************************************
-  Get index to city_styles for untranslated style name.
-**************************************************************************/
-int get_style_by_name_orig(const char *style_name)
+/****************************************************************************
+  Returns the city style that has the given (untranslated) rule name.
+  Returns -1 if none match.
+****************************************************************************/
+int find_city_style_by_rule_name(const char *s)
 {
   int i;
 
   for (i = 0; i < game.control.styles_count; i++) {
-    if (strcmp(style_name, city_styles[i].name_orig) == 0) {
-      break;
+    if (0 == mystrcasecmp(city_style_rule_name(i), s)) {
+      return i;
     }
   }
-  if (i < game.control.styles_count) {
-    return i;
-  } else {
-    return -1;
+
+  return -1;
+}
+
+/****************************************************************************
+  Return the (translated) name of the given city style. 
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *city_style_name_translation(const int style)
+{
+  struct citystyle *csp = &city_styles[style];
+
+  if (NULL == csp->name.translated) {
+    /* delayed (unified) translation */
+    csp->name.translated = ('\0' == csp->name.vernacular[0])
+			   ? csp->name.vernacular
+			   : Q_(csp->name.vernacular);
   }
-}
-
-/**************************************************************************
-  Get name of given city style.
-**************************************************************************/
-const char *get_city_style_name(int style)
-{
-   return city_styles[style].name;
+  return csp->name.translated;
 }
 
 
-/**************************************************************************
-  Get untranslated name of city style.
-**************************************************************************/
-char* get_city_style_name_orig(int style)
+/****************************************************************************
+  Return the (untranslated) rule name of the city style.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char* city_style_rule_name(const int style)
 {
-   return city_styles[style].name_orig;
+   return city_styles[style].name.vernacular;
 }
 
 /****************************************************************************

@@ -1,6 +1,6 @@
 /*
 ** Lua binding: api
-** Generated automatically by tolua 5.0a on Sun Jul  1 15:21:07 2007.
+** Generated automatically by tolua 5.0a on Mon Jul  2 15:25:53 2007.
 */
 
 #ifndef __cplusplus
@@ -445,17 +445,6 @@ static int tolua_get_Building_Type_Building_Type_index(lua_State* tolua_S)
  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'index'",NULL);
 #endif
  tolua_pushnumber(tolua_S,(lua_Number)self->index);
- return 1;
-}
-
-/* get function: name_rule of class  Unit_Type */
-static int tolua_get_Unit_Type_Unit_Type_name_rule(lua_State* tolua_S)
-{
-  Unit_Type* self = (Unit_Type*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_rule'",NULL);
-#endif
- tolua_pushstring(tolua_S,(const char*)self->name_rule);
  return 1;
 }
 
@@ -1569,7 +1558,6 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Unit_Type","Unit_Type","",NULL);
  tolua_beginmodule(tolua_S,"Unit_Type");
- tolua_variable(tolua_S,"name",tolua_get_Unit_Type_Unit_Type_name_rule,NULL);
  tolua_variable(tolua_S,"build_cost",tolua_get_Unit_Type_Unit_Type_build_cost,tolua_set_Unit_Type_Unit_Type_build_cost);
  tolua_variable(tolua_S,"id",tolua_get_Unit_Type_Unit_Type_index,NULL);
  tolua_endmodule(tolua_S);

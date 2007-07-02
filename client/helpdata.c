@@ -196,7 +196,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_UNITCLASS:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-		 unit_class_name(req->source.value.unitclass));
+		 uclass_name_translation(req->source.value.unitclass));
     return;
   case REQ_OUTPUTTYPE:
     cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
@@ -764,7 +764,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 
   if (utype->impr_requirement != B_LAST) {
     sprintf(buf + strlen(buf),
-            _("* Can only be built if there is %s in the city.\n"), 
+	    _("* Can only be built if there is %s in the city.\n"), 
             improvement_name_translation(utype->impr_requirement));
   }
 
@@ -773,6 +773,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 	    _("* Can only be built with %s as government.\n"), 
             government_name_translation(utype->gov_requirement));
   }
+  
   if (utype_has_flag(utype, F_NOBUILD)) {
     sprintf(buf + strlen(buf),
 	    _("* May not be built in cities.\n"));
@@ -1414,7 +1415,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
       case EFT_VETERAN_BUILD:
         if (unitclass) {
           sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
-                  unit_class_name(unitclass));
+                  uclass_name_translation(unitclass));
         } else if (unitflag != F_LAST) {
           sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
                   get_unit_flag_name(unitflag));

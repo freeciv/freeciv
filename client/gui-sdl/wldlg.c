@@ -828,9 +828,9 @@ static const char * get_production_name(struct city *pCity,
   assert(cost != NULL);
         
   if(prod.is_unit) {
-    struct unit_type *pType = utype_by_number(prod.value);
-    *cost = unit_build_shield_cost(utype_by_number(prod.value));
-    return pType->name;
+    struct unit_type *pUType = utype_by_number(prod.value);
+    *cost = unit_build_shield_cost(pUType);
+    return utype_name_translation(pUType);
   } else {
     *cost = impr_build_shield_cost(prod.value);
     return get_impr_name_ex(pCity, prod.value);

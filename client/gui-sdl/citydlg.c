@@ -693,7 +693,8 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     pUType = unit_type(pUnit);
     pHome_City = find_city_by_id(pUnit->homecity);
     my_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
-		pUType->name, pUType->attack_strength,
+		utype_name_translation(pUType),
+		pUType->attack_strength,
 		pUType->defense_strength, pUType->move_rate / SINGLE_MOVE,
                 (pUnit->veteran ? _("\nveteran") : ""),
                 unit_activity_text(pUnit),
@@ -3873,7 +3874,7 @@ void popup_city_dialog(struct city *pCity)
   pCityDlg->pBeginCityWidgetList = pBuf;
   
   /* check if Citizen Icons style was loaded */
-  cs = get_city_style(pCity);
+  cs = style_of_city(pCity);
 
   if (cs != pIcons->style) {
     reload_citizens_icons(cs);

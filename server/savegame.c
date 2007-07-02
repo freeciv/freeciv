@@ -1936,7 +1936,9 @@ static void player_load(struct player *plr, int plrno,
   }
   gov = find_government_by_rule_name(name);
   if (gov == NULL) {
-    freelog(LOG_FATAL, "Unsupported government found \"%s\".", name);
+    freelog(LOG_FATAL, "Player%d: unsupported government \"%s\".",
+                       plrno,
+                       name);
     exit(EXIT_FAILURE);
   }
   plr->government = gov;
@@ -1984,16 +1986,24 @@ static void player_load(struct player *plr, int plrno,
     char* old_order[4] = {"European", "Classical", "Tropical", "Asian"};
     c_s = secfile_lookup_int_default(file, 0, "player%d.city_style", plrno);
     if (c_s < 0 || c_s > 3) {
+      freelog(LOG_ERROR, "Player%d: unsupported city_style %d."
+                         " Changed to \"%s\".",
+                         plrno,
+                         c_s,
+                         old_order[0]);
       c_s = 0;
     }
     p = old_order[c_s];
   }
-  c_s = get_style_by_name_orig(p);
-  if (c_s == -1) {
-    freelog(LOG_ERROR, "Unsupported city style found in player%d section. "
-                         "Changed to \"%s\".", plrno, get_city_style_name(0));
+  c_s = find_city_style_by_rule_name(p);
+  if (c_s < 0) {
+    freelog(LOG_ERROR, "Player%d: unsupported city_style_name \"%s\"."
+                       " Changed to \"%s\".",
+                       plrno,
+                       p,
+                       city_style_rule_name(0));
     c_s = 0;
-  }	
+  }
   plr->city_style = c_s;
 
   plr->nturns_idle=0;
@@ -2753,7 +2763,7 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, 0, "player%d.city_style", plrno);
 
   /* This is the new city style field to be used */
-  secfile_insert_str(file, get_city_style_name_orig(plr->city_style),
+  secfile_insert_str(file, city_style_rule_name(plr->city_style),
                       "player%d.city_style_by_name", plrno);
 
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);

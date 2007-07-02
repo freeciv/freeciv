@@ -2151,8 +2151,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   }
   u = utype_by_number(p->id);
 
-  sz_strlcpy(u->name_rule, p->name);
-  u->name_translated = NULL;	/* unittype.c utype_name_translation */
+  sz_strlcpy(u->name.vernacular, p->name);
+  u->name.translated = NULL;	/* unittype.c utype_name_translation */
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
   sz_strlcpy(u->sound_move, p->sound_move);
@@ -2554,8 +2554,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   assert(cs->reqs.size == packet->reqs_count);
   cs->replaced_by = packet->replaced_by;
 
-  sz_strlcpy(cs->name_orig, packet->name);
-  cs->name = Q_(cs->name_orig); /* See translate_data_names */
+  sz_strlcpy(cs->name.vernacular, packet->name);
+  cs->name.translated = NULL;
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);

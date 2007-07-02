@@ -1197,7 +1197,7 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* ------------------------ */
   /* check if Citizen Icons style was loaded */
-  cs = get_city_style(pCma->pCity);
+  cs = style_of_city(pCma->pCity);
 
   if (cs != pIcons->style) {
     reload_citizens_icons(cs);

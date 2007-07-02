@@ -32,6 +32,7 @@ struct move_params {
 
 struct unit_class {
   Unit_Class_id id;
+  struct translation_cache name;
   struct move_params move;
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
 };
@@ -145,8 +146,7 @@ struct veteran_type {
 
 struct unit_type {
   int index;
-  const char *name_translated;		/* string doesn't need freeing */
-  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
+  struct translation_cache name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char sound_move[MAX_LEN_NAME];
@@ -210,12 +210,6 @@ int unit_buy_gold_cost(const struct unit_type *punittype,
 int unit_disband_shields(const struct unit_type *punittype);
 int unit_pop_value(const struct unit_type *punittype);
 
-struct unit_class *unit_class(const struct unit *punit);
-struct unit_class *uclass_by_number(const int id);
-struct unit_class *utype_class(const struct unit_type *punittype);
-
-const char *unit_class_name(const struct unit_class *pclass);
-
 const char *unit_rule_name(const struct unit *punit);
 const char *utype_rule_name(const struct unit_type *punittype);
 
@@ -238,7 +232,14 @@ int unit_upgrade_price(const struct player *pplayer,
 struct unit_type *find_unit_type_by_rule_name(const char *name);
 struct unit_type *find_unit_type_by_translated_name(const char *name);
 
-struct unit_class *unit_class_from_str(const char *s);
+struct unit_class *unit_class(const struct unit *punit);
+struct unit_class *utype_class(const struct unit_type *punittype);
+struct unit_class *uclass_by_number(const int id);
+
+const char *uclass_name_translation(struct unit_class *pclass);
+
+struct unit_class *find_unit_class_by_rule_name(const char *s);
+
 enum unit_flag_id unit_flag_from_str(const char *s);
 enum unit_role_id unit_role_from_str(const char *s);
 
@@ -263,6 +264,8 @@ const char *role_units_translations(int flag);
 
 void unit_types_init(void);
 void unit_types_free(void);
+
+void unit_classes_init(void);
 
 #define unit_type_iterate(punittype)					    \
 {									    \

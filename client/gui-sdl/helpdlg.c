@@ -786,7 +786,8 @@ void popup_unit_info(Unit_type_id type_id)
   } else {
     struct unit_type *utype = pUnitType->obsoleted_by;
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	      utype->name, adj_font(12), WF_RESTORE_BACKGROUND);
+	      utype_name_translation(utype),
+	      adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_tech_color(utype->tech_requirement);
     pBuf->ID = MAX_ID - pUnitType->obsoleted_by->index;
     pBuf->action = change_unit_callback;

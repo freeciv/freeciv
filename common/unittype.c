@@ -33,6 +33,7 @@
 #include "unittype.h"
 
 static struct unit_type unit_types[U_LAST];
+static struct unit_class unit_classes[UCL_LAST];
 /* the unit_types array is now setup in:
    server/ruleset.c (for the server)
    client/packhand.c (for the client)
@@ -57,15 +58,21 @@ static const char *role_names[] = {
   "GameLoss", "Diplomat", "Hunter"
 };
 static const char *unit_class_names[] = {
-  "Missile",
-  "Land",
-  "Sea",
-  "Helicopter",
-  "Air",
-  "Nuclear",
+  N_("Missile"),
+  N_("Land"),
+  N_("Sea"),
+  N_("Helicopter"),
+  N_("Air"),
+  N_("Nuclear"),
 };
 
-struct unit_class unit_classes[] = {
+struct unit_class_setup {
+  Unit_Class_id id;
+  struct move_params move;
+  int hp_loss_pct;
+};
+
+struct unit_class_setup unit_class_setup[] = {
   { UCL_MISSILE,    { FALSE, FALSE },  0 },
   { UCL_LAND,       { TRUE,  TRUE  },  0 },
   { UCL_SEA,        { TRUE,  TRUE  },  0 },
@@ -208,13 +215,13 @@ int unit_pop_value(const struct unit_type *punittype)
 **************************************************************************/
 const char *utype_name_translation(struct unit_type *punittype)
 {
-  if (NULL == punittype->name_translated) {
+  if (NULL == punittype->name.translated) {
     /* delayed (unified) translation */
-    punittype->name_translated = ('\0' == punittype->name_rule[0])
-				 ? punittype->name_rule
-				 : Q_(punittype->name_rule);
+    punittype->name.translated = ('\0' == punittype->name.vernacular[0])
+				 ? punittype->name.vernacular
+				 : Q_(punittype->name.vernacular);
   }
-  return punittype->name_translated;
+  return punittype->name.translated;
 }
 
 /**************************************************************************
@@ -232,7 +239,7 @@ const char *unit_name_translation(struct unit *punit)
 **************************************************************************/
 const char *utype_rule_name(const struct unit_type *punittype)
 {
-  return punittype->name_rule;
+  return punittype->name.vernacular;
 }
 
 /**************************************************************************
@@ -283,12 +290,19 @@ const char *utype_values_translation(struct unit_type *punittype)
 }
 
 /**************************************************************************
-  Returns the name of the unit class.
+  Return the (translated) name of the unit class.
+  You don't have to free the return pointer.
 **************************************************************************/
-const char *unit_class_name(const struct unit_class *pclass)
+const char *uclass_name_translation(struct unit_class *pclass)
 {
   assert(pclass != NULL && &unit_classes[pclass->id] == pclass);
-  return unit_class_names[pclass->id];
+  if (NULL == pclass->name.translated) {
+    /* delayed (unified) translation */
+    pclass->name.translated = ('\0' == pclass->name.vernacular[0])
+			      ? pclass->name.vernacular
+			      : Q_(pclass->name.vernacular);
+  }
+  return pclass->name.translated;
 }
 
 /**************************************************************************
@@ -408,17 +422,17 @@ struct unit_type *find_unit_type_by_rule_name(const char *name)
 }
 
 /**************************************************************************
-  Convert Unit_Class_id names to enum; case insensitive;
-  returns NULL if can't match.
+  Returns the unit class that has the given (untranslated) rule name.
+  Returns NULL if none match.
 **************************************************************************/
-struct unit_class *unit_class_from_str(const char *s)
+struct unit_class *find_unit_class_by_rule_name(const char *s)
 {
   Unit_Class_id i;
 
   assert(ARRAY_SIZE(unit_class_names) == UCL_LAST);
 
   for (i = 0; i < UCL_LAST; i++) {
-    if (mystrcasecmp(unit_class_names[i], s)==0) {
+    if (0 == mystrcasecmp(unit_classes[i].name.vernacular, s)) {
       return &unit_classes[i];
     }
   }
@@ -766,4 +780,25 @@ struct unit_class *utype_class(const struct unit_type *punittype)
 struct unit_class *unit_class(const struct unit *punit)
 {
   return utype_class(unit_type(punit));
+}
+
+/****************************************************************************
+  Initialize unit_class structures.
+****************************************************************************/
+void unit_classes_init(void)
+{
+  int i;
+
+  assert(ARRAY_SIZE(unit_classes) == ARRAY_SIZE(unit_class_setup));
+
+  /* Can't use unit_class_iterate or uclass_by_number here because
+   * num_unit_classes isn't known yet. */
+  for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
+    unit_classes[i].id = i;
+    assert(i == unit_class_setup[i].id);
+    sz_strlcpy(unit_classes[i].name.vernacular, unit_class_names[i]);
+    unit_classes[i].name.translated = NULL;
+    unit_classes[i].move = unit_class_setup[i].move;
+    unit_classes[i].hp_loss_pct = unit_class_setup[i].hp_loss_pct;
+  }
 }

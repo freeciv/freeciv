@@ -81,8 +81,6 @@ struct Building_Type {
 };
 
 struct Unit_Type {
-  const char *name_rule @ name;
-
   int build_cost;
 
   const int index @ id;

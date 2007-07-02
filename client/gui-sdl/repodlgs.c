@@ -183,7 +183,8 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     my_snprintf(cBuf, sizeof(cBuf),
           _("Upgrade as many %s to %s as possible for %d gold each?\n"
             "Treasury contains %d gold."),
-          ut1.name, ut2->name,
+          utype_name_translation(&ut1),
+          utype_name_translation(ut2),
           value, game.player_ptr->economic.gold);
    
     
