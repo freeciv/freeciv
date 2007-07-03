@@ -3213,8 +3213,6 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += pBuf2->w + adj_size(5);
 
   } else {
-    struct impr_type *pImpr =
-	improvement_by_number(pCity->production.value);
 
     if (improvement_has_flag(pCity->production.value, IF_GOLD)) {
 
@@ -3240,7 +3238,7 @@ static void redraw_city_dialog(struct city *pCity)
       
     }
 
-    copy_chars_to_string16(pStr, improvement_name_translation(pImpr));
+    copy_chars_to_string16(pStr, improvement_name_translation(pCity->production.value));
     pBuf = create_text_surf_from_str16(pStr);
     
     pBuf2 = get_building_surface(pCity->production.value);

@@ -989,7 +989,6 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   SDL_Rect dst;
   char cBuf[128];
   struct unit_type *pUnit = NULL;
-  struct impr_type *pImpr = NULL;  
   char *state = NULL;
   bool advanced_tech;
   bool can_build, can_eventually_build;
@@ -1323,11 +1322,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
 
-      pImpr = improvement_by_number(imp);
-      
       pIcon = crop_rect_from_surface(pMain, NULL);
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(pImpr));
+      my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(imp));
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);

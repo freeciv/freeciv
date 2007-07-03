@@ -815,7 +815,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    if (pOwner && pOwner != game.player_ptr) {
               /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
-		  nation_name_translation(nation_of_city(pOwner)),
+		  nation_name_for_player(pOwner),
 		  diplo_city_adjectives[game.player_ptr->
 				   diplstates[pOwner->player_no].type]);
 	    }
