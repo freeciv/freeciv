@@ -32,7 +32,7 @@ struct move_params {
 
 struct unit_class {
   Unit_Class_id id;
-  struct translation_cache name;
+  struct name_translation name;
   struct move_params move;
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
 };
@@ -146,7 +146,7 @@ struct veteran_type {
 
 struct unit_type {
   int index;
-  struct translation_cache name;
+  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char sound_move[MAX_LEN_NAME];
@@ -195,20 +195,12 @@ struct unit_type {
 #define CHECK_UNIT_TYPE(ut) (assert((ut) != NULL			    \
 			     && (utype_by_number((ut)->index) == (ut))))
 
+/* General unit and unit type (matched) routines */
 struct unit_type *unit_type(const struct unit *punit);
 struct unit_type *utype_by_number(const Unit_type_id id);
 
-bool unit_has_type_flag(const struct unit *punit, enum unit_flag_id flag);
-bool utype_has_flag(const struct unit_type *punittype, int flag);
-
-bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
-bool utype_has_role(const struct unit_type *punittype, int role);
-
-int unit_build_shield_cost(const struct unit_type *punittype);
-int unit_buy_gold_cost(const struct unit_type *punittype,
-		       int shields_in_stock);
-int unit_disband_shields(const struct unit_type *punittype);
-int unit_pop_value(const struct unit_type *punittype);
+struct unit_type *find_unit_type_by_rule_name(const char *name);
+struct unit_type *find_unit_type_by_translated_name(const char *name);
 
 const char *unit_rule_name(const struct unit *punit);
 const char *utype_rule_name(const struct unit_type *punittype);
@@ -219,39 +211,19 @@ const char *utype_name_translation(struct unit_type *punittype);
 const char *utype_values_string(const struct unit_type *punittype);
 const char *utype_values_translation(struct unit_type *punittype);
 
-int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
-                      const struct government *g, Output_type_id otype);
-int utype_happy_cost(const struct unit_type *ut, const struct player *pplayer);
+/* General unit type flag and role routines */
+bool unit_has_type_flag(const struct unit *punit, enum unit_flag_id flag);
+bool utype_has_flag(const struct unit_type *punittype, int flag);
 
-struct unit_type *can_upgrade_unittype(const struct player *pplayer,
-				       const struct unit_type *punittype);
-int unit_upgrade_price(const struct player *pplayer,
-		       const struct unit_type *from,
-		       const struct unit_type *to);
+bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
+bool utype_has_role(const struct unit_type *punittype, int role);
 
-struct unit_type *find_unit_type_by_rule_name(const char *name);
-struct unit_type *find_unit_type_by_translated_name(const char *name);
+enum unit_flag_id find_unit_flag_by_rule_name(const char *s);
+enum unit_role_id find_unit_role_by_rule_name(const char *s);
 
-struct unit_class *unit_class(const struct unit *punit);
-struct unit_class *utype_class(const struct unit_type *punittype);
-struct unit_class *uclass_by_number(const int id);
+const char *unit_flag_rule_name(enum unit_flag_id id);
 
-const char *uclass_name_translation(struct unit_class *pclass);
-
-struct unit_class *find_unit_class_by_rule_name(const char *s);
-
-enum unit_flag_id unit_flag_from_str(const char *s);
-enum unit_role_id unit_role_from_str(const char *s);
-
-const char *get_unit_flag_name(enum unit_flag_id id);
-
-bool can_player_build_unit_direct(const struct player *p,
-				  const struct unit_type *punittype);
-bool can_player_build_unit(const struct player *p,
-			   const struct unit_type *punittype);
-bool can_player_eventually_build_unit(const struct player *p,
-				      const struct unit_type *punittype);
-
+/* Functions to operate on various flag and roles. */
 void role_unit_precalcs(void);
 int num_role_units(int role);
 struct unit_type *get_role_unit(int role, int index);
@@ -262,6 +234,42 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 					     int role);
 const char *role_units_translations(int flag);
 
+/* General unit class routines */
+struct unit_class *unit_class(const struct unit *punit);
+struct unit_class *utype_class(const struct unit_type *punittype);
+struct unit_class *uclass_by_number(const int id);
+
+struct unit_class *find_unit_class_by_rule_name(const char *s);
+
+const char *uclass_rule_name(const struct unit_class *pclass);
+const char *uclass_name_translation(struct unit_class *pclass);
+
+/* Ancillary routines */
+int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
+                      const struct government *g, Output_type_id otype);
+int utype_happy_cost(const struct unit_type *ut, const struct player *pplayer);
+
+struct unit_type *can_upgrade_unittype(const struct player *pplayer,
+				       const struct unit_type *punittype);
+int unit_upgrade_price(const struct player *pplayer,
+		       const struct unit_type *from,
+		       const struct unit_type *to);
+
+int unit_build_shield_cost(const struct unit_type *punittype);
+int unit_buy_gold_cost(const struct unit_type *punittype,
+		       int shields_in_stock);
+int unit_disband_shields(const struct unit_type *punittype);
+int unit_pop_value(const struct unit_type *punittype);
+
+/* player related unit functions */
+bool can_player_build_unit_direct(const struct player *p,
+				  const struct unit_type *punittype);
+bool can_player_build_unit(const struct player *p,
+			   const struct unit_type *punittype);
+bool can_player_eventually_build_unit(const struct player *p,
+				      const struct unit_type *punittype);
+
+/* Initialization and iteration */
 void unit_types_init(void);
 void unit_types_free(void);
 

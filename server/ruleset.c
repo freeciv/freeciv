@@ -298,7 +298,7 @@ static int lookup_tech(struct section_file *file, const char *prefix,
   if (!sval || (!required && strcmp(sval, "Never") == 0)) {
     i = A_LAST;
   } else {
-    i = find_tech_by_rule_name(sval);
+    i = find_advance_by_rule_name(sval);
     if (i==A_LAST) {
       freelog((required?LOG_FATAL:LOG_ERROR),
            "\"%s\" %s %s: couldn't match \"%s\".",
@@ -435,7 +435,7 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
   }
   for (i=0; i<nval; i++) {
     char *sval = slist[i];
-    int tech = find_tech_by_rule_name(sval);
+    int tech = find_advance_by_rule_name(sval);
     if (tech==A_LAST) {
       freelog(LOG_FATAL, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
               filename, prefix, entry, i, sval);
@@ -639,7 +639,7 @@ static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
     return (tthis);
   }
 
-  /* get_terrain_by_rule_name plus error */
+  /* find_terrain_by_rule_name plus error */
   terrain_type_iterate(pterrain) {
     if (0 == strcmp(name, terrain_rule_name(pterrain))) {
       return pterrain;
@@ -684,8 +684,8 @@ static void load_tech_names(struct section_file *file)
   a = &advances[A_FIRST];
   for (i = 0; i < num_techs; i++ ) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
-    name_strlcpy(a->name_rule, name);
-    a->name_translated = NULL;
+    name_strlcpy(a->name.vernacular, name);
+    a->name.translated = NULL;
     a++;
   }
   free(sec);
@@ -717,20 +717,26 @@ static void load_ruleset_techs(struct section_file *file)
     char *sval, **slist;
     int j,ival,nval;
 
-    a->req[0] = lookup_tech(file, sec[i], "req1", FALSE, filename, a->name_rule);
-    a->req[1] = lookup_tech(file, sec[i], "req2", FALSE, filename, a->name_rule);
+    a->req[0] = lookup_tech(file, sec[i], "req1", FALSE,
+			    filename, a->name.vernacular);
+    a->req[1] = lookup_tech(file, sec[i], "req2", FALSE,
+			    filename, a->name.vernacular);
     a->root_req = lookup_tech(file, sec[i], "root_req", FALSE,
-			      filename, a->name_rule);
+			      filename, a->name.vernacular);
 
     if ((a->req[0]==A_LAST && a->req[1]!=A_LAST) ||
 	(a->req[0]!=A_LAST && a->req[1]==A_LAST)) {
       freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": \"Never\" with non-\"Never\".",
-           filename, sec[i], a->name_rule);
+              filename,
+              sec[i],
+              a->name.vernacular);
       a->req[0] = a->req[1] = A_LAST;
     }
     if (a->req[0]==A_NONE && a->req[1]!=A_NONE) {
       freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": should have \"None\" second.",
-           filename, sec[i], a->name_rule);
+              filename,
+              sec[i],
+              a->name.vernacular);
       a->req[0] = a->req[1];
       a->req[1] = A_NONE;
     }
@@ -743,10 +749,13 @@ static void load_ruleset_techs(struct section_file *file)
       if(strcmp(sval,"")==0) {
         continue;
       }
-      ival = tech_flag_from_str(sval);
+      ival = find_advance_flag_by_rule_name(sval);
       if (ival==TF_LAST) {
         freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": bad flag name \"%s\".",
-                filename, sec[i], a->name_rule, sval);
+                filename,
+                sec[i],
+                a->name.vernacular,
+                sval);
       }
       a->flags |= (1<<ival);
     }
@@ -818,12 +827,16 @@ restart:
        * in build_required_techs_helper. */
       if (!tech_exists(a->req[0])) {
         freelog(LOG_FATAL, "\"%s\" tech \"%s\": req1 leads to removed tech \"%s\".",
-             filename, a->name_rule, advances[a->req[0]].name_rule);
+                filename,
+                advance_rule_name(i),
+                advance_rule_name(a->req[0]));
         exit(EXIT_FAILURE);
       } 
       if (!tech_exists(a->req[1])) {
         freelog(LOG_FATAL, "\"%s\" tech \"%s\": req2 leads to removed tech \"%s\".",
-             filename, a->name_rule, advances[a->req[1]].name_rule);
+                filename,
+                advance_rule_name(i),
+                advance_rule_name(a->req[1]));
         exit(EXIT_FAILURE);
       }
     }
@@ -1020,8 +1033,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   unit_type_iterate(u) {
     const int i = u->index;
 
-    u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
-				      TRUE, filename, u->name.vernacular);
+    u->tech_requirement = lookup_tech(file, sec[i], "tech_req", TRUE,
+				      filename, u->name.vernacular);
     if (section_file_lookup(file, "%s.gov_req", sec[i])) {
       char tmp[200] = "\0";
       mystrlcat(tmp, sec[i], 200);
@@ -1035,8 +1048,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   unit_type_iterate(u) {
     const int i = u->index;
 
-    u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by",
-				       FALSE, filename, u->name.vernacular);
+    u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by", FALSE,
+				       filename, u->name.vernacular);
   } unit_type_iterate_end;
 
   /* main stats: */
@@ -1044,15 +1057,15 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     const int i = u->index;
     struct unit_class *pclass;
 
-    u->impr_requirement = lookup_building(file, sec[i], "impr_req",
-					  FALSE, filename, u->name.vernacular);
+    u->impr_requirement = lookup_building(file, sec[i], "impr_req", FALSE,
+					  filename, u->name.vernacular);
 
     sval = secfile_lookup_str(file, "%s.class", sec[i]);
     pclass = find_unit_class_by_rule_name(sval);
     if (!pclass) {
       freelog(LOG_FATAL, "\"%s\" unit_type \"%s\": bad class \"%s\".",
               filename,
-              u->name.vernacular,
+              utype_rule_name(u),
               sval);
       exit(EXIT_FAILURE);
     }
@@ -1110,7 +1123,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
                          "  If you want no attack ability,"
                          " set the unit's attack strength to 0.",
               filename,
-              u->name.vernacular,
+              utype_rule_name(u),
               u->firepower);
       exit(EXIT_FAILURE);
     }
@@ -1147,11 +1160,11 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      ival = unit_flag_from_str(sval);
+      ival = find_unit_flag_by_rule_name(sval);
       if (ival==F_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                 filename,
-                u->name.vernacular,
+                utype_rule_name(u),
                 sval);
       }
       BV_SET(u->flags, ival);
@@ -1172,11 +1185,11 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      ival = unit_role_from_str(sval);
+      ival = find_unit_role_by_rule_name(sval);
       if (ival==L_LAST) {
         freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad role name \"%s\".",
                 filename,
-                u->name.vernacular,
+                utype_rule_name(u),
                 sval);
       }
       BV_SET(u->roles, ival - L_FIRST);
@@ -1191,8 +1204,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       freelog(LOG_ERROR,
               "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
               filename,
-              u->name.vernacular,
-              advances[u->tech_requirement].name_rule);
+              utype_rule_name(u),
+              advance_rule_name(u->tech_requirement));
       u->tech_requirement = A_LAST;
     }
   } unit_type_iterate_end;
@@ -1241,7 +1254,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     if(u->move_type != SEA_MOVING) {
       freelog(LOG_FATAL, "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
               filename,
-              u->name.vernacular);
+              utype_rule_name(u));
       exit(EXIT_FAILURE);
     }
   }
@@ -1287,8 +1300,8 @@ static void load_building_names(struct section_file *file)
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
     struct impr_type *b = improvement_by_number(i);
 
-    name_strlcpy(b->name_rule, name);
-    b->name_translated = NULL;
+    name_strlcpy(b->name.vernacular, name);
+    b->name.translated = NULL;
   } impr_type_iterate_end;
 
   ruleset_cache_init();
@@ -1316,12 +1329,12 @@ static void load_ruleset_buildings(struct section_file *file)
     int j, nflags, ival;
 
     item = secfile_lookup_str(file, "%s.genus", sec[i]);
-    b->genus = impr_genus_from_str(item);
+    b->genus = find_genus_by_rule_name(item);
     if (b->genus == IG_LAST) {
       freelog(LOG_FATAL,
               "\"%s\" improvement \"%s\": couldn't match genus \"%s\".",
               filename,
-              b->name_rule,
+              improvement_rule_name(i),
               item);
       exit(EXIT_FAILURE);
     }
@@ -1332,12 +1345,12 @@ static void load_ruleset_buildings(struct section_file *file)
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      ival = impr_flag_from_str(sval);
+      ival = find_improvement_flag_by_rule_name(sval);
       if (ival==IF_LAST) {
 	freelog(LOG_ERROR,
 	        "\"%s\" improvement \"%s\": bad flag name \"%s\".",
 		filename,
-		b->name_rule,
+		improvement_rule_name(i),
 		sval);
       }
       b->flags |= (1<<ival);
@@ -1346,8 +1359,8 @@ static void load_ruleset_buildings(struct section_file *file)
 
     requirement_vector_copy(&b->reqs, reqs);
 
-    b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
-				 FALSE, filename, b->name_rule);
+    b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by", FALSE,
+				 filename, b->name.vernacular);
     if (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by)) {
       /* 
        * The ruleset can specify "None" for a never-obsoleted
@@ -1358,8 +1371,8 @@ static void load_ruleset_buildings(struct section_file *file)
       b->obsolete_by = A_LAST;
     }
 
-    b->replaced_by = lookup_impr_type(file, sec[i], "replaced_by",
-				      FALSE, filename, b->name_rule);
+    b->replaced_by = lookup_impr_type(file, sec[i], "replaced_by", FALSE,
+				      filename, b->name.vernacular);
 
     b->build_cost = secfile_lookup_int(file, "%s.build_cost", sec[i]);
 
@@ -1390,8 +1403,8 @@ static void load_ruleset_buildings(struct section_file *file)
         freelog(LOG_ERROR,
                 "\"%s\" improvement \"%s\": obsoleted by removed tech \"%s\".",
                 filename,
-                b->name_rule,
-                advances[b->obsolete_by].name_rule);
+                improvement_rule_name(i),
+                advance_rule_name(b->obsolete_by));
 	b->obsolete_by = A_LAST;
       }
     }
@@ -1427,11 +1440,11 @@ static void load_names(struct section_file *file)
     char *name = secfile_lookup_str(file, "%s.name",
 				    sec[pterrain->index]);
 
-    name_strlcpy(pterrain->name_rule, name);
-    if (0 == strcmp(pterrain->name_rule, "unused")) {
-      pterrain->name_rule[0] = '\0';
+    name_strlcpy(pterrain->name.vernacular, name);
+    if (0 == strcmp(pterrain->name.vernacular, "unused")) {
+      pterrain->name.vernacular[0] = '\0';
     }
-    pterrain->name_translated = NULL;
+    pterrain->name.translated = NULL;
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1443,11 +1456,11 @@ static void load_names(struct section_file *file)
     char *name = secfile_lookup_str(file, "%s.name",
 				    sec[presource->index]);
 
-    name_strlcpy(presource->name_rule, name);
-    if (0 == strcmp(presource->name_rule, "unused")) {
-      presource->name_rule[0] = '\0';
+    name_strlcpy(presource->name.vernacular, name);
+    if (0 == strcmp(presource->name.vernacular, "unused")) {
+      presource->name.vernacular[0] = '\0';
     }
-    presource->name_translated = NULL;
+    presource->name.translated = NULL;
   } resource_type_iterate_end;
 
   free(sec);
@@ -1543,9 +1556,11 @@ static void load_ruleset_terrain(struct section_file *file)
       exit(EXIT_FAILURE);
     }
     for (j = T_FIRST; j < i; j++) {
-      if (pterrain->identifier == get_terrain_by_number(j)->identifier) {
+      if (pterrain->identifier == terrain_by_number(j)->identifier) {
         freelog(LOG_FATAL, "\"%s\" [%s] has the same identifier as \"%s\".",
-                filename, tsec[i], get_terrain_by_number(j)->name_rule);
+                filename,
+                tsec[i],
+                terrain_rule_name(terrain_by_number(j)));
         exit(EXIT_FAILURE);
       }
     }
@@ -1564,7 +1579,7 @@ static void load_ruleset_terrain(struct section_file *file)
     res = secfile_lookup_str_vec (file, &nval, "%s.resources", tsec[i]);
     pterrain->resources = fc_calloc(nval + 1, sizeof(*pterrain->resources));
     for (j = 0; j < nval; j++) {
-      pterrain->resources[j] = get_resource_by_rule_name(res[j]);
+      pterrain->resources[j] = find_resource_by_rule_name(res[j]);
       if (!pterrain->resources[j]) {
 	freelog(LOG_FATAL, "\"%s\" [%s] could not find resource \"%s\".",
 		filename, tsec[i], res[j]);
@@ -1626,7 +1641,7 @@ static void load_ruleset_terrain(struct section_file *file)
     BV_CLR_ALL(pterrain->flags);
     for (j = 0; j < nval; j++) {
       const char *sval = slist[j];
-      enum terrain_flag_id flag = terrain_flag_from_str(sval);
+      enum terrain_flag_id flag = find_terrain_flag_by_rule_name(sval);
 
       if (flag == TER_LAST) {
         freelog(LOG_FATAL, "\"%s\" [%s] has unknown flag \"%s\".",
@@ -1683,9 +1698,11 @@ static void load_ruleset_terrain(struct section_file *file)
       exit(EXIT_FAILURE);
     }
     for (j = 0; j < i; j++) {
-      if (presource->identifier == get_resource_by_number(j)->identifier) {
+      if (presource->identifier == resource_by_number(j)->identifier) {
         freelog(LOG_FATAL, "\"%s\" [%s] has the same identifier as \"%s\".",
-                filename, rsec[i], get_resource_by_number(j)->name_rule);
+                filename,
+                rsec[i],
+                resource_rule_name(resource_by_number(j)));
         exit(EXIT_FAILURE);
       }
     }
@@ -2760,7 +2777,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     struct advance *a = &advances[tech_id];
 
     packet.id = tech_id;
-    sz_strlcpy(packet.name, a->name_rule);
+    sz_strlcpy(packet.name, a->name.vernacular);
     sz_strlcpy(packet.graphic_str, a->graphic_str);
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);
     packet.req[0] = a->req[0];
@@ -2792,7 +2809,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
 
     packet.id = i;
     packet.genus = b->genus;
-    sz_strlcpy(packet.name, b->name_rule);
+    sz_strlcpy(packet.name, b->name.vernacular);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     j = 0;
@@ -2835,7 +2852,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     packet.id = i;
 
-    sz_strlcpy(packet.name_orig, pterrain->name_rule);
+    sz_strlcpy(packet.name_orig, pterrain->name.vernacular);
     sz_strlcpy(packet.graphic_str, pterrain->graphic_str);
     sz_strlcpy(packet.graphic_alt, pterrain->graphic_alt);
 
@@ -2897,7 +2914,7 @@ static void send_ruleset_resources(struct conn_list *dest)
 
     packet.id = i;
 
-    sz_strlcpy(packet.name_orig, presource->name_rule);
+    sz_strlcpy(packet.name_orig, presource->name.vernacular);
     sz_strlcpy(packet.graphic_str, presource->graphic_str);
     sz_strlcpy(packet.graphic_alt, presource->graphic_alt);
 

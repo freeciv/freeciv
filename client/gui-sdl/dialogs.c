@@ -1771,7 +1771,7 @@ void popup_pillage_dialog(struct unit *pUnit,
     BV_SET(what_bv, what);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    (char *) get_special_name(what), pillage_callback);
+	    (char *) special_name_translation(what), pillage_callback);
     pBuf->data.unit = pUnit;
     set_wstate(pBuf, FC_WS_NORMAL);
   

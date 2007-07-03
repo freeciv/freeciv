@@ -853,7 +853,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
   if (i < T_COUNT)
   {
-    struct terrain *tile = get_terrain(i);
+    struct terrain *tile = terrain_by_number(i);
     char buf[256];
     Object *o,*g;
 
@@ -1004,11 +1004,11 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
 
   case HELP_TECH:
-    help_update_tech(pitem, top, find_tech_by_translated_name(top));
+    help_update_tech(pitem, top, find_advance_by_translated_name(top));
     break;
 
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, get_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
     break;
 
   case HELP_GOVERNMENT:

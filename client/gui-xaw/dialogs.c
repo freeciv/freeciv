@@ -737,7 +737,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
     
     my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
-	    unit_name_translation(punittemp), 
+	    utype_name_translation(punittemp), 
 	    pcity ? pcity->name : "",
 	    unit_activity_text(punit));
 
@@ -1449,8 +1449,8 @@ int races_indirect_compare(const void *first, const void *second)
   const char *first_string;
   const char *second_string;
 
-  const struct nation_type *first_nation = *(const struct nation_type **)first;
-  const struct nation_type *second_nation = *(const struct nation_type **)second;
+  struct nation_type *first_nation = *(struct nation_type **)first;
+  struct nation_type *second_nation = *(struct nation_type **)second;
 
   first_string = nation_name_translation(first_nation);
   second_string = nation_name_translation(second_nation);

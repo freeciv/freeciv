@@ -863,7 +863,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       xaw_set_label(help_wonder_obsolete_data, _("None"));
     } else {
       xaw_set_label(help_wonder_obsolete_data,
-		    punittype->obsoleted_by->name);
+		    utype_name_translation(punittype->obsoleted_by));
     }
     /* add text for transport_capacity, fuel, and flags: */
     helptext_unit(buf, punittype, pitem->text);
@@ -1092,10 +1092,10 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
     break;
   case HELP_TECH:
-    help_update_tech(pitem, top, find_tech_by_translated_name(top));
+    help_update_tech(pitem, top, find_advance_by_translated_name(top));
     break;
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, get_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
     break;
   case HELP_GOVERNMENT:
     help_update_government(pitem, top, find_government_by_translated_name(top));

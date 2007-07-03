@@ -140,7 +140,7 @@ const char *ruler_title_translation(const struct player *pp)
   struct government *gp = government_of_player(pp);
   struct nation_type *np = nation_of_player(pp);
   struct ruler_title *best_match = NULL;
-  struct translation_cache *sex;
+  struct name_translation *sex;
   int i;
 
   CHECK_GOVERNMENT(gp);

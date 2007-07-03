@@ -1975,7 +1975,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   if (!ptile->terrain || ptile->terrain->index != packet->type) {
     tile_changed = TRUE;
-    ptile->terrain = get_terrain_by_number(packet->type);
+    ptile->terrain = terrain_by_number(packet->type);
   }
   for (spe = 0; spe < S_LAST; spe++) {
     if (packet->special[spe]) {
@@ -1991,7 +1991,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  ptile->resource = get_resource_by_number(packet->resource);
+  ptile->resource = resource_by_number(packet->resource);
   if (packet->owner == MAP_TILE_OWNER_NULL) {
     if (ptile->owner) {
       ptile->owner = NULL;
@@ -2213,8 +2213,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   }
   a = &advances[p->id];
 
-  sz_strlcpy(a->name_rule, p->name);
-  a->name_translated = NULL;	/* tech.c advance_name_translation */
+  sz_strlcpy(a->name.vernacular, p->name);
+  a->name.translated = NULL;	/* tech.c advance_name_translation */
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->req[0] = p->req[0];
@@ -2244,8 +2244,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   }
 
   b->genus = p->genus;
-  sz_strlcpy(b->name_rule, p->name);
-  b->name_translated = NULL;	/* improvement.c improvement_name_translation */
+  sz_strlcpy(b->name.vernacular, p->name);
+  b->name.translated = NULL;	/* improvement.c improvement_name_translation */
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   for (i = 0; i < p->reqs_count; i++) {
@@ -2359,7 +2359,7 @@ void handle_ruleset_government_ruler_title
 **************************************************************************/
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
-  struct terrain *pterrain = get_terrain_by_number(p->id);
+  struct terrain *pterrain = terrain_by_number(p->id);
   int j;
 
   if (!pterrain) {
@@ -2369,8 +2369,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
     return;
   }
 
-  sz_strlcpy(pterrain->name_rule, p->name_orig);
-  pterrain->name_translated = NULL;	/* terrain.c terrain_name_translation */
+  sz_strlcpy(pterrain->name.vernacular, p->name_orig);
+  pterrain->name.translated = NULL;	/* terrain.c terrain_name_translation */
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);
   sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
   pterrain->movement_cost = p->movement_cost;
@@ -2383,7 +2383,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   pterrain->resources = fc_calloc(p->num_resources + 1,
 				  sizeof(*pterrain->resources));
   for (j = 0; j < p->num_resources; j++) {
-    pterrain->resources[j] = get_resource_by_number(p->resources[j]);
+    pterrain->resources[j] = resource_by_number(p->resources[j]);
     if (!pterrain->resources[j]) {
       freelog(LOG_ERROR,
               "handle_ruleset_terrain()"
@@ -2396,13 +2396,13 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 
   pterrain->road_time = p->road_time;
   pterrain->road_trade_incr = p->road_trade_incr;
-  pterrain->irrigation_result = get_terrain_by_number(p->irrigation_result);
+  pterrain->irrigation_result = terrain_by_number(p->irrigation_result);
   pterrain->irrigation_food_incr = p->irrigation_food_incr;
   pterrain->irrigation_time = p->irrigation_time;
-  pterrain->mining_result = get_terrain_by_number(p->mining_result);
+  pterrain->mining_result = terrain_by_number(p->mining_result);
   pterrain->mining_shield_incr = p->mining_shield_incr;
   pterrain->mining_time = p->mining_time;
-  pterrain->transform_result = get_terrain_by_number(p->transform_result);
+  pterrain->transform_result = terrain_by_number(p->transform_result);
   pterrain->transform_time = p->transform_time;
   pterrain->rail_time = p->rail_time;
   pterrain->airbase_time = p->airbase_time;
@@ -2422,7 +2422,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 ****************************************************************************/
 void handle_ruleset_resource(struct packet_ruleset_resource *p)
 {
-  struct resource *presource = get_resource_by_number(p->id);
+  struct resource *presource = resource_by_number(p->id);
 
   if (!presource) {
     freelog(LOG_ERROR,
@@ -2431,8 +2431,8 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
     return;
   }
 
-  sz_strlcpy(presource->name_rule, p->name_orig);
-  presource->name_translated = NULL;	/* terrain.c resource_name_translation */
+  sz_strlcpy(presource->name.vernacular, p->name_orig);
+  presource->name.translated = NULL;	/* terrain.c resource_name_translation */
   sz_strlcpy(presource->graphic_str, p->graphic_str);
   sz_strlcpy(presource->graphic_alt, p->graphic_alt);
 

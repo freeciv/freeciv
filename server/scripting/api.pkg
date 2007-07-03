@@ -73,8 +73,6 @@ struct Nation_Type {
 };
 
 struct Building_Type {
-  const char *name_rule @ name;
-
   int build_cost;
 
   const int index @ id;
@@ -87,13 +85,11 @@ struct Unit_Type {
 };
 
 struct Tech_Type {
-  const char *name_rule @ name;
-
   const int index @ id;
 };
 
 struct Terrain {
-  const char *name_rule @ name;
+  const int index @ id;
 };
 
 

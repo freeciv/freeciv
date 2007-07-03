@@ -31,8 +31,8 @@
 struct ruler_title
 {
   struct nation_type *nation;
-  struct translation_cache female;
-  struct translation_cache male;
+  struct name_translation female;
+  struct name_translation male;
 };
 
 /* This is struct government itself.  All information about
@@ -41,7 +41,7 @@ struct ruler_title
 struct government
 {
   int index;
-  struct translation_cache name;
+  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
@@ -59,6 +59,7 @@ struct government
 
 extern struct government *governments;
 
+/* General government accessor functions. */
 struct government *government_by_number(const int government_id);
 struct government *government_of_player(const struct player *pplayer);
 struct government *government_of_city(const struct city *pcity);
@@ -70,11 +71,13 @@ const char *government_name_for_player(const struct player *pplayer);
 struct government *find_government_by_rule_name(const char *name);
 struct government *find_government_by_translated_name(const char *name);
 
+/* Ancillary routines */
 const char *ruler_title_translation(const struct player *pplayer);
 
 bool can_change_to_government(struct player *pplayer,
 			      const struct government *gov);
 
+/* Initialization and iteration */
 void governments_alloc(int num);
 void governments_free(void);
 

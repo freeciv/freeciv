@@ -306,6 +306,15 @@ const char *uclass_name_translation(struct unit_class *pclass)
 }
 
 /**************************************************************************
+  Return the (untranslated) rule name of the unit class.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *uclass_rule_name(const struct unit_class *pclass)
+{
+  return Qn_(pclass->name.vernacular);
+}
+
+/**************************************************************************
  Return a string with all the names of units with this flag
  Return NULL if no unit with this flag exists.
  The string must be free'd
@@ -446,7 +455,7 @@ struct unit_class *find_unit_class_by_rule_name(const char *s)
   Convert flag names to enum; case insensitive;
   returns F_LAST if can't match.
 **************************************************************************/
-enum unit_flag_id unit_flag_from_str(const char *s)
+enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
 {
   enum unit_flag_id i;
 
@@ -463,7 +472,7 @@ enum unit_flag_id unit_flag_from_str(const char *s)
 /**************************************************************************
   Return the (untranslated) rule name of the unit flag.
 **************************************************************************/
-const char *get_unit_flag_name(enum unit_flag_id id)
+const char *unit_flag_rule_name(enum unit_flag_id id)
 {
   return flag_names[id];
 }
@@ -472,7 +481,7 @@ const char *get_unit_flag_name(enum unit_flag_id id)
   Convert role names to enum; case insensitive;
   returns L_LAST if can't match.
 **************************************************************************/
-enum unit_role_id unit_role_from_str(const char *s)
+enum unit_role_id find_unit_role_by_rule_name(const char *s)
 {
   enum unit_role_id i;
 

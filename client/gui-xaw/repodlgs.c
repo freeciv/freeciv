@@ -171,8 +171,7 @@ static const char *get_report_title_plus(const char *report_name,
 ************************ ***************************************/
 void popup_science_dialog(bool make_modal)
 {
-
-  if(!science_dialog_shell) {
+  if (!science_dialog_shell && game.player_ptr) {
     Position x, y;
     Dimension width, height;
     
@@ -191,7 +190,6 @@ void popup_science_dialog(bool make_modal)
     
     XtPopup(science_dialog_shell, XtGrabNone);
   }
-
 }
 
 /****************************************************************
@@ -1004,7 +1002,8 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
     my_snprintf(buf, sizeof(buf),
 		_("Upgrade as many %s to %s as possible for %d gold each?\n"
 		  "Treasury contains %d gold."),
-		punittype1->name, punittype2->name,
+		utype_name_translation(punittype1),
+		utype_name_translation(punittype2),
 		unit_upgrade_price(game.player_ptr, punittype1, punittype2),
 		game.player_ptr->economic.gold);
 

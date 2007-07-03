@@ -492,7 +492,7 @@ static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
   sz_strlcpy(s, terrain_name_translation(ptile->terrain));
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
-    sz_strlcat(s, get_special_name(S_RIVER));
+    sz_strlcat(s, special_name_translation(S_RIVER));
   }
 
   if (ptile->resource) {
@@ -508,7 +508,7 @@ static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, get_special_name(S_POLLUTION));
+    sz_strlcat(s, special_name_translation(S_POLLUTION));
   }
   if (tile_has_special(ptile, S_FALLOUT)) {
     if (first) {
@@ -517,7 +517,7 @@ static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, get_special_name(S_FALLOUT));
+    sz_strlcat(s, special_name_translation(S_FALLOUT));
   }
   if (!first) {
     sz_strlcat(s, "]");

@@ -1,6 +1,6 @@
 /*
 ** Lua binding: api
-** Generated automatically by tolua 5.0a on Mon Jul  2 15:25:53 2007.
+** Generated automatically by tolua 5.0a on Tue Jul  3 13:43:12 2007.
 */
 
 #ifndef __cplusplus
@@ -401,17 +401,6 @@ static int tolua_get_Nation_Type_Nation_Type_index(lua_State* tolua_S)
  return 1;
 }
 
-/* get function: name_rule of class  Building_Type */
-static int tolua_get_Building_Type_Building_Type_name_rule(lua_State* tolua_S)
-{
-  Building_Type* self = (Building_Type*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_rule'",NULL);
-#endif
- tolua_pushstring(tolua_S,(const char*)self->name_rule);
- return 1;
-}
-
 /* get function: build_cost of class  Building_Type */
 static int tolua_get_Building_Type_Building_Type_build_cost(lua_State* tolua_S)
 {
@@ -484,17 +473,6 @@ static int tolua_get_Unit_Type_Unit_Type_index(lua_State* tolua_S)
  return 1;
 }
 
-/* get function: name_rule of class  Tech_Type */
-static int tolua_get_Tech_Type_Tech_Type_name_rule(lua_State* tolua_S)
-{
-  Tech_Type* self = (Tech_Type*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_rule'",NULL);
-#endif
- tolua_pushstring(tolua_S,(const char*)self->name_rule);
- return 1;
-}
-
 /* get function: index of class  Tech_Type */
 static int tolua_get_Tech_Type_Tech_Type_index(lua_State* tolua_S)
 {
@@ -506,14 +484,14 @@ static int tolua_get_Tech_Type_Tech_Type_index(lua_State* tolua_S)
  return 1;
 }
 
-/* get function: name_rule of class  Terrain */
-static int tolua_get_Terrain_Terrain_name_rule(lua_State* tolua_S)
+/* get function: index of class  Terrain */
+static int tolua_get_Terrain_Terrain_index(lua_State* tolua_S)
 {
   Terrain* self = (Terrain*)  tolua_tousertype(tolua_S,1,0);
 #ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'name_rule'",NULL);
+ if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'index'",NULL);
 #endif
- tolua_pushstring(tolua_S,(const char*)self->name_rule);
+ tolua_pushnumber(tolua_S,(lua_Number)self->index);
  return 1;
 }
 
@@ -1552,7 +1530,6 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Building_Type","Building_Type","",NULL);
  tolua_beginmodule(tolua_S,"Building_Type");
- tolua_variable(tolua_S,"name",tolua_get_Building_Type_Building_Type_name_rule,NULL);
  tolua_variable(tolua_S,"build_cost",tolua_get_Building_Type_Building_Type_build_cost,tolua_set_Building_Type_Building_Type_build_cost);
  tolua_variable(tolua_S,"id",tolua_get_Building_Type_Building_Type_index,NULL);
  tolua_endmodule(tolua_S);
@@ -1563,12 +1540,11 @@ TOLUA_API int tolua_api_open (lua_State* tolua_S)
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Tech_Type","Tech_Type","",NULL);
  tolua_beginmodule(tolua_S,"Tech_Type");
- tolua_variable(tolua_S,"name",tolua_get_Tech_Type_Tech_Type_name_rule,NULL);
  tolua_variable(tolua_S,"id",tolua_get_Tech_Type_Tech_Type_index,NULL);
  tolua_endmodule(tolua_S);
  tolua_cclass(tolua_S,"Terrain","Terrain","",NULL);
  tolua_beginmodule(tolua_S,"Terrain");
- tolua_variable(tolua_S,"name",tolua_get_Terrain_Terrain_name_rule,NULL);
+ tolua_variable(tolua_S,"id",tolua_get_Terrain_Terrain_index,NULL);
  tolua_endmodule(tolua_S);
  tolua_function(tolua_S,"methods_player_num_cities",tolua_api_methods_player_num_cities00);
  tolua_function(tolua_S,"methods_player_num_units",tolua_api_methods_player_num_units00);

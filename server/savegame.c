@@ -249,7 +249,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
 ****************************************************************************/
 static struct terrain *char2terrain(char ch)
 {
-  /* get_terrain_by_identifier plus fatal error */
+  /* terrain_by_identifier plus fatal error */
   if (ch == UNKNOWN_TERRAIN_IDENTIFIER) {
     return T_UNKNOWN;
   }
@@ -1515,7 +1515,7 @@ static Tech_type_id load_technology(struct section_file *file,
     return -1;
   }
   
-  id = find_tech_by_rule_name(name);
+  id = find_advance_by_rule_name(name);
   if (id == A_LAST) {
     freelog(LOG_FATAL, "Unknown technology \"%s\".", name);
     exit(EXIT_FAILURE);    
@@ -2105,7 +2105,7 @@ static void player_load(struct player *plr, int plrno,
     for (k = 0; p[k];  k++) {
       if (p[k] == '1') {
 	name = old_tech_name(k);
-	id = find_tech_by_rule_name(name);
+	id = find_advance_by_rule_name(name);
 	if (id != A_LAST) {
 	  set_invention(plr, id, TECH_KNOWN);
 	}
@@ -2114,7 +2114,7 @@ static void player_load(struct player *plr, int plrno,
   } else {
     for (k = 0; k < technology_order_size && p[k]; k++) {
       if (p[k] == '1') {
-	id = find_tech_by_rule_name(technology_order[k]);
+	id = find_advance_by_rule_name(technology_order[k]);
 	if (id != A_LAST) {
 	  set_invention(plr, id, TECH_KNOWN);
 	}
@@ -3466,7 +3466,7 @@ void game_load(struct section_file *file)
     special_order = fc_calloc(nmod + (4 - (nmod % 4)),
 			      sizeof(*special_order));
     for (j = 0; j < nmod; j++) {
-      special_order[j] = get_special_by_name_orig(modname[j]);
+      special_order[j] = find_special_by_rule_name(modname[j]);
     }
     free(modname);
     for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
@@ -4140,7 +4140,7 @@ void game_save(struct section_file *file, const char *save_reason)
     /* Save specials order */
     modname = fc_calloc(S_LAST, sizeof(*modname));
     for (j = 0; j < S_LAST; j++) {
-      modname[j] = get_special_name_orig(j);
+      modname[j] = special_rule_name(j);
     }
     secfile_insert_str_vec(file, modname, S_LAST,
 			   "savefile.specials");

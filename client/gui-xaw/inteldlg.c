@@ -198,7 +198,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  NULL);
 
   my_snprintf(buf, sizeof(buf), _("Government: %s"),
-	      government_name_for_player(pdialog->pplayer)));
+	      government_name_for_player(pdialog->pplayer));
   XtVaCreateManagedWidget("intelgovlabel",
 			  labelWidgetClass,
 			  pdialog->intel_form,
