@@ -485,12 +485,12 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(unit_type(punit));
   auto_arrange_workers(pcity);
-  wipe_unit(punit);
-  send_city_info(NULL, pcity);
   notify_player(pplayer, pcity->tile, E_CITY_BUILD,
 		   _("%s added to aid %s in growing."),
 		   unit_name_translation(punit),
 		   pcity->name);
+  wipe_unit(punit);
+  send_city_info(NULL, pcity);
 }
 
 /**************************************************************************
