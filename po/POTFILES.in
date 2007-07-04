@@ -153,6 +153,7 @@ client/gui-sdl/mapview.c
 client/gui-sdl/menu.c
 client/gui-sdl/messagewin.c
 client/gui-sdl/optiondlg.c
+client/gui-sdl/pages.c
 client/gui-sdl/plrdlg.c
 client/gui-sdl/repodlgs.c
 client/gui-sdl/spaceshipdlg.c
