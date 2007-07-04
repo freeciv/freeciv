@@ -1468,6 +1468,7 @@ void wipe_unit(struct unit *punit)
   bool wipe_cargo = TRUE; /* This used to be a function parameter. */
   struct tile *ptile = punit->tile;
   struct player *pplayer = unit_owner(punit);
+  struct unit_type *putype_save = unit_type(punit);
 
   /* First pull all units off of the transporter. */
   if (get_transporter_capacity(punit) > 0) {
@@ -1490,6 +1491,9 @@ void wipe_unit(struct unit *punit)
   /* No need to wipe the cargo unless it's a ground transporter. */
   wipe_cargo &= is_ground_units_transport(punit);
 
+  /* FIXME: is this the correct time to remove the unit?
+   * putype_save used to bypass this for two later notify messages
+   */
   /* Now remove the unit. */
   server_remove_unit(punit);
 
@@ -1528,7 +1532,7 @@ void wipe_unit(struct unit *punit)
                             _("%s escaped the destruction of %s, and "
                               "fled to %s."),
                             unit_name_translation(pcargo),
-                            unit_name_translation(punit),
+                            utype_name_translation(putype_save),
                             pcity->name);
 	    }
 	  }
@@ -1536,7 +1540,7 @@ void wipe_unit(struct unit *punit)
 	    notify_player(pplayer, ptile, E_UNIT_LOST,
 			     _("%s lost when %s was lost."),
 			     unit_name_translation(pcargo),
-			     unit_name_translation(punit));
+			     utype_name_translation(putype_save));
 	    server_remove_unit(pcargo);
 	  }
 	  if (++capacity >= 0) {

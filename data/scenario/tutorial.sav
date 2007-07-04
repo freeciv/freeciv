@@ -148,7 +148,7 @@ on each building type).  As you get more large cities, it may pay off\n\
 to change your tax rates (by pressing shift-T) to dedicate some of\n\
 your taxes directly to luxuries (every two luxuries will pacify one\n\
 citizen).  Building a marketplace enhances the benefit from this\n\
-by providing +50% luxuries to the city."))
+by providing +50%% luxuries to the city."))
       growth5msg = true
     elseif size == 8 and not growth8msg then
       notify.event(city.owner, city.tile, E.TUTORIAL,
