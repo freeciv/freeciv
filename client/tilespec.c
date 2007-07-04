@@ -105,7 +105,8 @@ struct terrain_drawing_data {
     int offset_x, offset_y;
 
     enum match_style match_style;
-    int match_type, match_count;
+    int match_type;
+    int match_count;
 
     enum cell_type cell_type;
 
@@ -114,8 +115,10 @@ struct terrain_drawing_data {
     struct sprite **cells;
   } layer[MAX_NUM_LAYERS];
 
-  bool is_blended;
   bool is_reversed;
+
+  int blending; /* layer, 0 = none */
+  struct sprite *blender;
   struct sprite *blend[4]; /* indexed by a direction4 */
 
   struct sprite *mine;
@@ -379,8 +382,6 @@ struct tileset {
   int unit_flag_offset_x, unit_flag_offset_y;
   int city_flag_offset_x, city_flag_offset_y;
   int unit_offset_x, unit_offset_y;
-
-  int blend_layer;
 
   int citybar_offset_y;
 
@@ -1432,8 +1433,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   t->unit_offset_x = secfile_lookup_int(file, "tilespec.unit_offset_x");
   t->unit_offset_y = secfile_lookup_int(file, "tilespec.unit_offset_y");
 
-  t->blend_layer = secfile_lookup_int(file, "tilespec.blend_layer");
-
   t->citybar_offset_y
     = secfile_lookup_int(file, "tilespec.citybar_offset_y");
 
@@ -1484,14 +1483,16 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   t->terrain_hash = hash_new(hash_fval_string, hash_fcmp_string);
 
   for (i = 0; i < num_sections; i++) {
-    struct terrain_drawing_data *terr = fc_malloc(sizeof(*terr));
+    struct terrain_drawing_data *terr = fc_calloc(1, sizeof(*terr));
     char *cell_type;
     int l, j;
 
-    memset(terr, 0, sizeof(*terr));
     terr->name = mystrdup(sections[i] + strlen(TILE_SECTION_PREFIX));
-    terr->is_blended = secfile_lookup_bool(file, "%s.is_blended",
-					    sections[i]);
+    terr->blending = secfile_lookup_int_default(file, 0,
+						"%s.is_blended",
+						sections[i]);
+    terr->blending = CLIP(0, terr->blending, MAX_NUM_LAYERS);
+
     terr->is_reversed = secfile_lookup_bool_default(file, FALSE,
 						    "%s.is_reversed",
 						    sections[i]);
@@ -2884,26 +2885,40 @@ void tileset_setup_tile_type(struct tileset *t,
     };
   }
 
-  if (t->blend_layer >= 0 && t->blend_layer < MAX_NUM_LAYERS) {
+  if (draw->blending > 0) {
     /* Set up blending sprites. This only works in iso-view! */
     const int W = t->normal_tile_width, H = t->normal_tile_height;
     const int offsets[4][2] = {
       {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
     };
+    const int l = draw->blending - 1;
     enum direction4 dir;
-    const int l = t->blend_layer;
 
-    if (draw->layer[l].base.size < 1) {
+    /* try a special name */
+    my_snprintf(buffer, sizeof(buffer), "t.blend.%s", draw->name);
+    draw->blender = lookup_sprite_tag_alt(t, buffer, "", FALSE, "blend terrain",
+					  terrain_rule_name(pterrain));
+
+    if (NULL == draw->blender) {
+      int i = 0;
+      /* try an already loaded base */
+      while (NULL == draw->blender
+        &&  i < draw->blending
+        &&  0 < draw->layer[i].base.size) {
+        draw->blender = draw->layer[i++].base.p[0];
+      }
+    }
+
+    if (NULL == draw->blender) {
+      /* try an unloaded base name */
       my_snprintf(buffer, sizeof(buffer), "t.l%d.%s1", l, draw->name);
-      sprite_vector_reserve(&draw->layer[l].base, 1);
-      draw->layer[l].base.p[0]
+      draw->blender
 	= lookup_sprite_tag_alt(t, buffer, "", TRUE, "base (blend) terrain",
 				terrain_rule_name(pterrain));
     }
 
     for (dir = 0; dir < 4; dir++) {
-      assert(sprite_vector_size(&draw->layer[l].base) > 0);
-      draw->blend[dir] = crop_sprite(draw->layer[l].base.p[0],
+      draw->blend[dir] = crop_sprite(draw->blender,
 				     offsets[dir][0], offsets[dir][1],
 				     W / 2, H / 2,
 				     t->sprites.dither_tile, 0, 0);
@@ -3595,13 +3610,12 @@ static int fill_terrain_sprite_blending(const struct tileset *t,
    */
   for (dir = 0; dir < 4; dir++) {
     struct tile *tile1 = mapstep(ptile, DIR4_TO_DIR8[dir]);
-    struct terrain *other = tterrain_near[DIR4_TO_DIR8[dir]];
+    struct terrain *other;
 
     if (!tile1
 	|| client_tile_get_known(tile1) == TILE_UNKNOWN
-	|| other == pterrain
-	|| !(t->sprites.terrain[pterrain->index]->is_blended
-	     || t->sprites.terrain[other->index]->is_blended)) {
+	|| pterrain == (other = tterrain_near[DIR4_TO_DIR8[dir]])
+	|| 0 == t->sprites.terrain[other->index]->blending) {
       continue;
     }
 
@@ -3892,11 +3906,10 @@ static int fill_terrain_sprite_layer(struct tileset *t,
 
   if (l < draw->num_layers) {
     sprs += fill_terrain_sprite_array(t, sprs, l, ptile, tterrain_near);
-  }
 
-  /* Add blending on top of the first layer. */
-  if (l == t->blend_layer) {
-    sprs += fill_terrain_sprite_blending(t, sprs, ptile, tterrain_near);
+    if ((l + 1) == draw->blending) {
+      sprs += fill_terrain_sprite_blending(t, sprs, ptile, tterrain_near);
+    }
   }
 
   /* Add darkness on top of the first layer.  Note that darkness is always
