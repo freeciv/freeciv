@@ -589,7 +589,7 @@ static void create_races_dialog(struct player *pplayer)
     }
   }
   for(i = 0; i < b_s_num; i++) {
-    fcwin_box_add_radiobutton(input_box, city_styles[city_style_idx[i]].name,
+    fcwin_box_add_radiobutton(input_box, city_style_name_translation(city_style_idx[i]),
 			      ID_RACESDLG_STYLE_BASE + i, 0, TRUE, TRUE, 0);
   }
 
@@ -1189,7 +1189,7 @@ static void create_advances_list(struct player *pplayer,
       if(get_invention(pvictim, i)==TECH_KNOWN && 
          (get_invention(pplayer, i)==TECH_UNKNOWN || 
           get_invention(pplayer, i)==TECH_REACHABLE)) {
-	ListBox_AddString(lb,advances[i].name);
+	ListBox_AddString(lb,advance_name_translation(i));
         advance_type[j++] = i;
       }
     }

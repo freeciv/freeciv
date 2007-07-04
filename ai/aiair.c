@@ -119,7 +119,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   victim_cost = stack_cost(pdefender);
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
-  if (unit_class_flag(unit_class(punit), UCF_MISSILE)) {
+  if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
     victim_cost -= unit_build_shield_cost(unit_type(punit));
   }
 
@@ -410,7 +410,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
 
     if (pclass->ai.land_move == MOVE_NONE
         || pclass->ai.sea_move == MOVE_NONE
-        || unit_class_flag(pclass, UCF_TERRAIN_SPEED)
+        || uclass_has_flag(pclass, UCF_TERRAIN_SPEED)
         || unit_type_is_losing_hp(pplayer, punittype)) {
       /* We don't consider this a plane */
       continue;

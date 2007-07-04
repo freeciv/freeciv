@@ -146,8 +146,6 @@ void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);
 void initialize_globals(void);
 
-void translate_data_names(void);
-
 struct player *get_player(int player_id);
 bool is_valid_player_id(int player_id);
 int get_num_human_and_ai_players(void);

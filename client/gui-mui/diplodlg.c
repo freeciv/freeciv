@@ -261,7 +261,7 @@ static int fill_diplomacy_tech_menu(Object *menu_title, struct Diplomacy_dialog 
             || get_invention(plr1, i) == TECH_REACHABLE)
         && tech_is_available(plr1, i))
     {
-      entry = MUI_MakeObject(MUIO_Menuitem,advances[i].name,NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,advance_name_translation(i),NULL,0,0);
       set(entry,MUIA_UserData,i);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_tech, pdialog, plr0->player_no,entry);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);

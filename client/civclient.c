@@ -501,14 +501,10 @@ void set_client_state(enum client_states newstate)
   if (client_state != newstate) {
 
     /* If changing from pre-game state to _either_ select race
-       or running state, then we have finished getting ruleset data,
-       and should translate data, for joining running game or for
-       selecting nations.  (Want translated nation names in nation
-       select dialog.)
+       or running state, then we have finished getting ruleset data.
     */
     if (client_state==CLIENT_PRE_GAME_STATE
 	&& newstate == CLIENT_GAME_RUNNING_STATE) {
-      translate_data_names();
       audio_stop();		/* stop intro sound loop */
     }
       

@@ -262,7 +262,7 @@ static int unit_move_turns(struct unit *punit, struct tile *ptile)
   int move_rate = unit_move_rate(punit);
   struct unit_class *pclass = unit_class(punit);
 
-  if (!unit_class_flag(pclass, UCF_TERRAIN_SPEED)) {
+  if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     /* Unit does not care about terrain */
     move_time = real_map_distance(punit->tile, ptile) * SINGLE_MOVE / move_rate;
   } else {
@@ -2156,7 +2156,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
       if (can_unit_type_transport(unit_type(punit), pclass)
           && (pclass->move_type == LAND_MOVING
               || (pclass->move_type == AIR_MOVING
-                  && !unit_class_flag(pclass, UCF_MISSILE)))) {
+                  && !uclass_has_flag(pclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;
       }
@@ -2505,7 +2505,7 @@ void update_simple_ai_types(void)
 
   unit_type_iterate(punittype) {
     if (!utype_has_flag(punittype, F_NONMIL)
-	&& !unit_class_flag(utype_class(punittype), UCF_MISSILE)
+	&& !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
 	&& !utype_has_flag(punittype, F_NO_LAND_ATTACK)
         && get_unit_move_type(punittype) != AIR_MOVING
 	&& punittype->transport_capacity < 8) {

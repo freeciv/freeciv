@@ -163,7 +163,7 @@ static LONG APIENTRY HelpdlgWndProc(HWND hWnd,UINT uMsg,
 	    char s[128];
 	    GetWindowText((HWND)lParam,s,sizeof(s));
 	    if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
-		&& strcmp(s, advances[A_NONE].name) != 0)
+		&& strcmp(s, advance_name_translation(A_NONE)) != 0)
 	      select_help_item_string(s,page_type_from_id(LOWORD(wParam)));
 	    
 	  }
@@ -719,7 +719,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     if(utype->tech_requirement==A_LAST) {
       SetWindowText(help_ulabel[4][1], _("(Never)"));
     } else {
-      SetWindowText(help_ulabel[4][1], advances[utype->tech_requirement].name);
+      SetWindowText(help_ulabel[4][1], advance_name_translation(utype->tech_requirement));
     }
     /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
@@ -812,16 +812,16 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	  fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-	  fcwin_box_add_button(hbox,advances[j].name,
+	  fcwin_box_add_button(hbox,advance_name_translation(j),
 			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	} else {
 	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	  fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-	  fcwin_box_add_button(hbox,advances[j].name,
+	  fcwin_box_add_button(hbox,advance_name_translation(j),
 			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,_(" (with "),0,SS_LEFT,FALSE,FALSE,5);
-	  fcwin_box_add_button(hbox,advances[advances[j].req[1]].name,
+	  fcwin_box_add_button(hbox,advance_name_translation(advances[j].req[1]),
 			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,Q_("?techhelp:)."),
 			       0,SS_LEFT,FALSE,FALSE,5);
@@ -831,10 +831,10 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox,advances[j].name,
+	fcwin_box_add_button(hbox,advance_name_translation(j),
 			     ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_(" (with "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox,advances[advances[j].req[0]].name,
+	fcwin_box_add_button(hbox,advance_name_translation(advances[j].req[0]),
 			     ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,Q_("?techhelp:)."),
 			     0,SS_LEFT,FALSE,FALSE,5);
@@ -889,10 +889,10 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
     break;
   case HELP_TECH:
-    help_update_tech(pitem, top, find_tech_by_translated_name(top));
+    help_update_tech(pitem, top, find_advance_by_translated_name(top));
     break;
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, get_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
     break;
   case HELP_GOVERNMENT:
     help_update_government(pitem, top, find_government_by_translated_name(top));

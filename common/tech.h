@@ -72,8 +72,7 @@ enum tech_state {
 
 struct advance {
   int index; /* Tech index in tech array. */
-  const char *name_translated;		/* string doesn't need freeing */
-  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
+  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
   Tech_type_id req[2];
@@ -150,8 +149,23 @@ struct player_research {
   int num_known_tech_with_flag[TF_LAST];
 };
 
-void player_research_init(struct player_research* research);
+/* General advance/technology accessor functions. */
+const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech);
+const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech);
+const char *advance_name_researching(const struct player *pplayer);
 
+const char *advance_rule_name(Tech_type_id tech);
+const char *advance_name_translation(Tech_type_id tech);
+
+Tech_type_id find_advance_by_rule_name(const char *s);
+Tech_type_id find_advance_by_translated_name(const char *s);
+
+/* General advance/technology flag accessor routines */
+bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);
+enum tech_flag_id find_advance_flag_by_rule_name(const char *s);
+Tech_type_id find_advance_by_flag(int index, enum tech_flag_id flag);
+
+/* Ancillary routines */
 enum tech_state get_invention(const struct player *pplayer,
 			      Tech_type_id tech);
 void set_invention(struct player *pplayer, Tech_type_id tech,
@@ -161,13 +175,6 @@ Tech_type_id get_next_tech(const struct player *pplayer, Tech_type_id goal);
 
 bool tech_is_available(const struct player *pplayer, Tech_type_id id);
 bool tech_exists(Tech_type_id id);
-
-Tech_type_id find_tech_by_rule_name(const char *s);
-Tech_type_id find_tech_by_translated_name(const char *s);
-
-bool tech_has_flag(Tech_type_id tech, enum tech_flag_id flag);
-enum tech_flag_id tech_flag_from_str(const char *s);
-Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag);
 
 int total_bulbs_required(const struct player *pplayer);
 int base_total_bulbs_required(const struct player *pplayer,
@@ -181,14 +188,11 @@ int total_bulbs_required_for_goal(const struct player *pplayer,
 bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
 			    Tech_type_id goal);
 bool is_future_tech(Tech_type_id tech);
-const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech);
-const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech);
-const char *advance_name_researching(const struct player *pplayer);
-
-const char *advance_rule_name(Tech_type_id tech);
-const char *advance_name_translation(Tech_type_id tech);
 
 void precalc_tech_data(void);
+
+/* Initialization and iteration */
+void player_research_init(struct player_research* research);
 
 void techs_init(void);
 void techs_free(void);

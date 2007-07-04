@@ -1492,12 +1492,12 @@ static void server_remove_unit(struct unit *punit)
 **************************************************************************/
 static void unit_lost_with_transport(const struct player *pplayer,
                                      struct unit *pcargo,
-                                     struct unit *ptransport)
+                                     struct unit_type *ptransport)
 {
   notify_player(pplayer, pcargo->tile, E_UNIT_LOST,
                 _("%s lost when %s was lost."),
                 unit_name_translation(pcargo),
-                unit_name_translation(ptransport));
+                utype_name_translation(ptransport));
   server_remove_unit(pcargo);
 }
 
@@ -1509,6 +1509,7 @@ void wipe_unit(struct unit *punit)
 {
   struct tile *ptile = punit->tile;
   struct player *pplayer = unit_owner(punit);
+  struct unit_type *putype_save = unit_type(punit); /* for notify messages */
   int drowning = 0;
 
   /* First pull all units off of the transporter. */
@@ -1550,7 +1551,8 @@ void wipe_unit(struct unit *punit)
     unit_list_iterate_safe(ptile->units, pcargo) {
       if (pcargo->transported_by == -1
           && !can_unit_exist_at_tile(pcargo, ptile)
-          && (unit_has_type_flag(pcargo, F_UNDISBANDABLE) || unit_has_type_flag(pcargo, F_GAMELOSS))) {
+          && (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
+           || unit_has_type_flag(pcargo, F_GAMELOSS))) {
         struct unit *ptransport = find_transport_from_tile(pcargo, ptile);
         if (ptransport != NULL) {
           put_unit_onto_transporter(pcargo, ptransport);
@@ -1564,12 +1566,12 @@ void wipe_unit(struct unit *punit)
                             _("%s escaped the destruction of %s, and "
                               "fled to %s."),
                             unit_name_translation(pcargo),
-                            unit_name_translation(punit),
+                            utype_name_translation(putype_save),
                             pcity->name);
 	    }
           }
           if (!unit_has_type_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
-            unit_lost_with_transport(pplayer, pcargo, punit);
+            unit_lost_with_transport(pplayer, pcargo, putype_save);
           }
         }
 
@@ -1592,7 +1594,7 @@ void wipe_unit(struct unit *punit)
           put_unit_onto_transporter(pcargo, ptransport);
           send_unit_info(NULL, pcargo);
         } else {
-          unit_lost_with_transport(pplayer, pcargo, punit);
+          unit_lost_with_transport(pplayer, pcargo, putype_save);
         }
 
         drowning--;
@@ -1619,7 +1621,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   /* barbarian leader ransom hack */
   if( is_barbarian(pplayer) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
       && (unit_list_size(punit->tile->units) == 1)
-      && unit_class_flag(unit_class(pkiller), UCF_COLLECT_RANSOM)) {
+      && uclass_has_flag(unit_class(pkiller), UCF_COLLECT_RANSOM)) {
     /* Occupying units can collect ransom if leader is alone in the tile */
     ransom = (pplayer->economic.gold >= game.info.ransom_gold) 
              ? game.info.ransom_gold : pplayer->economic.gold;

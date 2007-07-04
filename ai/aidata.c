@@ -203,7 +203,7 @@ static void count_my_units(struct player *pplayer)
     if (unit_has_type_flag(punit, F_TRIREME)) {
       ai->stats.units.triremes++;
     }
-    if (unit_class_flag(unit_class(punit), UCF_MISSILE)) {
+    if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
       ai->stats.units.missiles++;
     }
     if (unit_has_type_flag(punit, F_PARATROOPERS)) {
@@ -297,7 +297,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If our enemy builds missiles, worry about missile defence. */
-      if (unit_class_flag(unit_class(punit), UCF_MISSILE)
+      if (uclass_has_flag(unit_class(punit), UCF_MISSILE)
           && unit_type(punit)->attack_strength > 1) {
         ai->threats.missile = TRUE;
       }

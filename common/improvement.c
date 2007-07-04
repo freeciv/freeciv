@@ -51,7 +51,7 @@ static struct impr_type improvement_types[B_LAST];
   Convert impr genus names to enum; case insensitive;
   returns IG_LAST if can't match.
 **************************************************************************/
-enum impr_genus_id impr_genus_from_str(const char *s)
+enum impr_genus_id find_genus_by_rule_name(const char *s)
 {
   enum impr_genus_id i;
 
@@ -148,13 +148,13 @@ const char *improvement_name_translation(Impr_type_id id)
 {
   struct impr_type *itp = improvement_by_number(id);
 
-  if (NULL == itp->name_translated) {
+  if (NULL == itp->name.translated) {
     /* delayed (unified) translation */
-    itp->name_translated = ('\0' == itp->name_rule[0])
-			   ? itp->name_rule
-			   : Q_(itp->name_rule);
+    itp->name.translated = ('\0' == itp->name.vernacular[0])
+			   ? itp->name.vernacular
+			   : Q_(itp->name.vernacular);
   }
-  return itp->name_translated;
+  return itp->name.translated;
 }
 
 /****************************************************************************
@@ -163,7 +163,7 @@ const char *improvement_name_translation(Impr_type_id id)
 ****************************************************************************/
 const char *improvement_rule_name(Impr_type_id id)
 {
-  return improvement_by_number(id)->name_rule; 
+  return Qn_(improvement_by_number(id)->name.vernacular); 
 }
 
 /****************************************************************************
@@ -219,7 +219,7 @@ bool is_wonder(Impr_type_id id)
 }
 
 /**************************************************************************
-  Does a linear search of improvement_types[].name_translated
+  Does a linear search of improvement_types[].name.translated
   Returns B_LAST if none match.
 **************************************************************************/
 Impr_type_id find_improvement_by_translated_name(const char *s)
@@ -234,13 +234,15 @@ Impr_type_id find_improvement_by_translated_name(const char *s)
 }
 
 /****************************************************************************
-  Does a linear search of improvement_types[].name_rule
+  Does a linear search of improvement_types[].name.vernacular
   Returns B_LAST if none match.
 ****************************************************************************/
 Impr_type_id find_improvement_by_rule_name(const char *s)
 {
+  const char *qs = Qn_(s);
+
   impr_type_iterate(i) {
-    if (0 == mystrcasecmp(improvement_rule_name(i), s)) {
+    if (0 == mystrcasecmp(improvement_rule_name(i), qs)) {
       return i;
     }
   } impr_type_iterate_end;
@@ -261,7 +263,7 @@ bool improvement_has_flag(Impr_type_id id, enum impr_flag_id flag)
  Convert flag names to enum; case insensitive;
  returns IF_LAST if can't match.
 **************************************************************************/
-enum impr_flag_id impr_flag_from_str(const char *s)
+enum impr_flag_id find_improvement_flag_by_rule_name(const char *s)
 {
   enum impr_flag_id i;
 

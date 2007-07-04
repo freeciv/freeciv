@@ -107,11 +107,11 @@ static void science_goal(ULONG * newgoal)
   int to = -1;
 
   if (game.player_ptr->research->tech_goal == A_UNSET)
-    if (help_goal_entries[*newgoal] == (STRPTR) advances[A_NONE].name)
+    if (help_goal_entries[*newgoal] == (STRPTR) advance_name_translation(A_NONE))
       to = 0;
   for (i = A_FIRST; i < game.control.num_tech_types; i++)
   {
-    if (help_goal_entries[*newgoal] == (STRPTR) advances[i].name)
+    if (help_goal_entries[*newgoal] == (STRPTR) advance_name_translation(i))
       to = i;
   }
 
@@ -120,7 +120,7 @@ static void science_goal(ULONG * newgoal)
     if (xget(science_help_button, MUIA_Selected))
     {
       nnset(science_goal_popup, MUIA_Cycle_Active, science_goal_active);
-      popup_help_dialog_typed(advances[to].name, HELP_TECH);
+      popup_help_dialog_typed(advance_name_translation(to), HELP_TECH);
     }
     else
     {
@@ -142,7 +142,7 @@ static void science_research(ULONG * newresearch)
 
   for (i = A_FIRST; i < game.control.num_tech_types; i++)
   {
-    if (help_research_entries[*newresearch] == (STRPTR) advances[i].name)
+    if (help_research_entries[*newresearch] == (STRPTR) advance_name_translation(i))
       to = i;
   }
 
@@ -151,7 +151,7 @@ static void science_research(ULONG * newresearch)
     if (xget(science_help_button, MUIA_Selected))
     {
       nnset(science_goal_popup, MUIA_Cycle_Active, science_goal_active);
-      popup_help_dialog_typed(advances[to].name, HELP_TECH);
+      popup_help_dialog_typed(advance_name_translation(to), HELP_TECH);
     }
     else
     {
@@ -165,7 +165,7 @@ static void science_research(ULONG * newresearch)
 ****************************************************************/
 static void science_researched(ULONG * tech)
 {
-  popup_help_dialog_typed(advances[*tech].name, HELP_TECH);
+  popup_help_dialog_typed(advance_name_translation(*tech), HELP_TECH);
 }
 
 /****************************************************************
@@ -211,7 +211,7 @@ void popup_science_dialog(bool make_modal)
 	  if (i == game.player_ptr->research.researching)
 	    science_research_active = j;
 
-	  help_research_entries[j++] = advances[i].name;
+	  help_research_entries[j++] = advance_name_translation(i);
 	}
 	help_research_entries[j] = NULL;
 	research_entries = help_research_entries;
@@ -238,7 +238,7 @@ void popup_science_dialog(bool make_modal)
     {
       j = 0;
       if (game.player_ptr->research->tech_goal == A_UNSET) {
-	help_goal_entries[j++] = advances[A_NONE].name;
+	help_goal_entries[j++] = advance_name_translation(A_NONE);
       }
 
       for (i = A_FIRST; i < game.control.num_tech_types; i++)
@@ -249,7 +249,7 @@ void popup_science_dialog(bool make_modal)
 	{
 	  if (i == game.player_ptr->research->tech_goal)
 	    science_goal_active = j;
-	  help_goal_entries[j++] = advances[i].name;
+	  help_goal_entries[j++] = advance_name_translation(i);
 	}
       }
 
@@ -364,7 +364,8 @@ void popup_science_dialog(bool make_modal)
       if ((get_invention(game.player_ptr, i) == TECH_KNOWN))
       {
       	Object *tech = TextObject,
-      	    MUIA_Text_Contents, advances[i].name,
+      	    MUIA_Text_Contents,
+      	    advance_name_translation(i),
      	    MUIA_InputMode, MUIV_InputMode_RelVerify,
      	    MUIA_CycleChain, 1,
       	    End;

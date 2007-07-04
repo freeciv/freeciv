@@ -210,7 +210,7 @@ enum barbarian_type {
 /* ruleset strings (such as names) are kept in their original vernacular, 
  * translated upon first use.  The translation is cached for future use.
  */
-struct translation_cache
+struct name_translation
 {
   const char *translated;		/* string doesn't need freeing */
   char vernacular[MAX_LEN_NAME];	/* original string for comparisons */

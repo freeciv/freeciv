@@ -138,7 +138,7 @@ Tech_Type *api_find_tech_type(int tech_type_id)
 **************************************************************************/
 Tech_Type *api_find_tech_type_by_name(const char *name_orig)
 {
-  Tech_type_id id = find_tech_by_rule_name(name_orig);
+  Tech_type_id id = find_advance_by_rule_name(name_orig);
   return api_find_tech_type(id);
 }
 
@@ -147,7 +147,7 @@ Tech_Type *api_find_tech_type_by_name(const char *name_orig)
 **************************************************************************/
 Terrain *api_find_terrain(int terrain_id)
 {
-  return get_terrain_by_number(terrain_id);
+  return terrain_by_number(terrain_id);
 }
 
 /**************************************************************************
@@ -155,7 +155,7 @@ Terrain *api_find_terrain(int terrain_id)
 **************************************************************************/
 Terrain *api_find_terrain_by_name(const char *name_orig)
 {
-  struct terrain *pterrain = get_terrain_by_rule_name(name_orig);
+  struct terrain *pterrain = find_terrain_by_rule_name(name_orig);
 
   return pterrain;
 }

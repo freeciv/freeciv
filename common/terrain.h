@@ -73,7 +73,7 @@ BV_DEFINE(bv_special, S_LAST);
 #define MAX_NUM_TERRAINS  MAX_NUM_ITEMS
 #define MAX_NUM_RESOURCES 100 /* Limited to half a byte in the net code. */
 
-/* Must match with terrain_flag_from_str in terrain.c. */
+/* Must match with find_terrain_flag_by_rule_name in terrain.c. */
 enum terrain_flag_id {
   TER_NO_BARBS, /* No barbarians summoned on this terrain. */
   TER_NO_POLLUTION, /* This terrain cannot be polluted. */
@@ -118,8 +118,7 @@ enum mapgen_terrain_property {
  */
 struct terrain {
   int index;
-  const char *name_translated;		/* string doesn't need freeing */
-  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
+  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];	/* add tile_ prefix */
   char graphic_alt[MAX_LEN_NAME];	/* TODO: retire, never used! */
 
@@ -176,8 +175,7 @@ struct terrain {
 
 struct resource {
   int index;
-  const char *name_translated;		/* string doesn't need freeing */
-  char name_rule[MAX_LEN_NAME];		/* original name for comparisons */
+  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char identifier; /* server-only, same as terrain->identifier */
@@ -191,25 +189,24 @@ struct resource {
 #define R_FIRST 0
 #define R_COUNT (game.control.resource_count)
 
-/* Terrain allocation functions. */
-void terrains_init(void);
-
 /* General terrain accessor functions. */
-struct terrain *get_terrain_by_identifier(const char identifier);
-struct terrain *get_terrain_by_number(Terrain_type_id type);
-struct terrain *get_terrain_by_rule_name(const char *name);
-struct terrain *get_terrain_by_translated_name(const char *name);
+struct terrain *terrain_by_identifier(const char identifier);
+struct terrain *terrain_by_number(Terrain_type_id type);
+
+struct terrain *find_terrain_by_rule_name(const char *name);
+struct terrain *find_terrain_by_translated_name(const char *name);
 
 const char *terrain_rule_name(const struct terrain *pterrain);
 const char *terrain_name_translation(struct terrain *pterrain);
 
-enum terrain_flag_id terrain_flag_from_str(const char *s);
+enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
 struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
 void terrains_free(void);
 
-struct resource *get_resource_by_number(Resource_type_id id);
-struct resource *get_resource_by_rule_name(const char *name);
+/* General resource accessor functions. */
+struct resource *resource_by_number(Resource_type_id id);
+struct resource *find_resource_by_rule_name(const char *name);
 
 const char *resource_rule_name(const struct resource *presource);
 const char *resource_name_translation(struct resource *presource);
@@ -225,9 +222,10 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 				     enum mapgen_terrain_property prop);
 
 /* General special accessor functions. */
-enum tile_special_type get_special_by_name_orig(const char * name);
-const char *get_special_name(enum tile_special_type type);
-const char *get_special_name_orig(enum tile_special_type type);
+enum tile_special_type find_special_by_rule_name(const char *name);
+const char *special_rule_name(enum tile_special_type type);
+const char *special_name_translation(enum tile_special_type type);
+
 void set_special(bv_special *set, enum tile_special_type to_set);
 void clear_special(bv_special *set, enum tile_special_type to_clear);
 void clear_all_specials(bv_special *set);
@@ -250,11 +248,12 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
 				 enum terrain_flag_id flag);
 
 /* Functions to operate on a terrain class. */
+enum terrain_class find_terrain_class_by_rule_name(const char *name);
+const char *terrain_class_name_translation(enum terrain_class tclass);
+
 bool terrain_belongs_to_class(const struct terrain *pterrain,
-                              enum terrain_class class);
-bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class class);
-enum terrain_class get_terrain_class_by_name(const char *name);
-const char *terrain_class_name(enum terrain_class class);
+                              enum terrain_class tclass);
+bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class tclass);
 
 /* Special helper functions */
 const char *get_infrastructure_text(bv_special pset);
@@ -270,13 +269,15 @@ enum tile_special_type get_preferred_pillage(bv_special pset,
 #define count_ocean_near_tile(ptile, cardinal_only, percentage)		\
   count_terrain_flag_near_tile(ptile, cardinal_only, percentage, TER_OCEANIC)
 
-/* This iterator iterates over all terrain types. */
+/* Initialization and iteration */
+void terrains_init(void);
+
 #define terrain_type_iterate(pterrain)					    \
 {                                                                           \
   Terrain_type_id _index;						    \
 									    \
   for (_index = T_FIRST; _index < T_COUNT; _index++) {			    \
-    struct terrain *pterrain = get_terrain_by_number(_index);
+    struct terrain *pterrain = terrain_by_number(_index);
     
 
 #define terrain_type_iterate_end                                            \
@@ -288,7 +289,7 @@ enum tile_special_type get_preferred_pillage(bv_special pset,
   Resource_type_id _index;						    \
 									    \
   for (_index = R_FIRST; _index < R_COUNT; _index++) {			    \
-    struct resource *presource = get_resource_by_number(_index);
+    struct resource *presource = resource_by_number(_index);
     
 
 #define resource_type_iterate_end                                           \

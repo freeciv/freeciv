@@ -50,7 +50,7 @@ int unit_move_rate(const struct unit *punit)
 
   move_rate = base_move_rate;
 
-  if (unit_class_flag(pclass, UCF_DAMAGE_SLOWS)) {
+  if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
     /* Scale the MP based on how many HP the unit has. */
     move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
   }
@@ -224,7 +224,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  if (unit_class_flag(punitclass, UCF_ROAD_NATIVE)
+  if (uclass_has_flag(punitclass, UCF_ROAD_NATIVE)
       && contains_special(special, S_ROAD)) {
     return TRUE;
   }

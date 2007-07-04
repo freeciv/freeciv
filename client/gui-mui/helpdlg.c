@@ -157,7 +157,7 @@ static void help_hyperlink(Object ** text_obj)
   enum help_page_type type = (enum help_page_type) xget(*text_obj, MUIA_UserData);
 
   if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
-      && strcmp(s, advances[A_NONE].name) != 0)
+      && strcmp(s, advance_name_translation(A_NONE)) != 0)
   {
     int idx;
 
@@ -227,7 +227,7 @@ static char *GetTechText(int tech)
   else if(tech == TECHTYPE_NONE)
     text = _("None");
   else
-    text = advances[tech].name;
+    text = advance_name_translation(tech);
 
   return text;
 }
@@ -396,7 +396,8 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     return;
   }
   
-  my_snprintf(label, sizeof(label), "%s:%d", advances[tech].name,
+  my_snprintf(label, sizeof(label), "%s:%d",
+	      advance_name_translation(tech),
 	      num_unknown_techs_for_goal(game.player_ptr, tech));
 
   o = ColorTextObject,
@@ -852,7 +853,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
   if (i < T_COUNT)
   {
-    struct terrain *tile = get_terrain(i);
+    struct terrain *tile = terrain_by_number(i);
     char buf[256];
     Object *o,*g;
 
@@ -1003,11 +1004,11 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
 
   case HELP_TECH:
-    help_update_tech(pitem, top, find_tech_by_translated_name(top));
+    help_update_tech(pitem, top, find_advance_by_translated_name(top));
     break;
 
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, get_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
     break;
 
   case HELP_GOVERNMENT:

@@ -228,7 +228,7 @@ void create_science_dialog(bool make_modal)
     if (research->researching == A_UNSET) {
       my_snprintf(current_text, sizeof(current_text),
 		  _("Researching %s: %d/%s"),
-		  advances[A_NONE].name,
+		  advance_name_translation(A_NONE),
 		  research->bulbs_researched,
 		  _("unknown"));
     } else {
@@ -242,19 +242,19 @@ void create_science_dialog(bool make_modal)
     if (research->tech_goal == A_UNSET) {
       my_snprintf(goal_text, sizeof(goal_text),
 		  _("Goal: %s (%d steps)"),
-		  advances[A_NONE].name,
+		  advance_name_translation(A_NONE),
 		  0);
     } else {
       my_snprintf(goal_text, sizeof(goal_text),
 		  _("Goal: %s (%d steps)"),
-		  advances[research->tech_goal].name,
+		  advance_name_translation(research->tech_goal),
 		  num_unknown_techs_for_goal(game.player_ptr,
 					     research->tech_goal));
     }
 
     for (i = A_FIRST, j = 0; i < game.control.num_tech_types; i++) {
       if (get_invention(game.player_ptr, i) == TECH_KNOWN) {
-	tech_list_names_ptrs[j] = advances[i].name;
+	tech_list_names_ptrs[j] = advance_name_translation(i);
 	j++;
       }
     }
@@ -343,7 +343,7 @@ void create_science_dialog(bool make_modal)
     for (i = A_FIRST, flag = 0; i < game.control.num_tech_types; i++) {
       if (get_invention(game.player_ptr, i) == TECH_REACHABLE) {
 	Widget entry =
-	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass,
+	  XtVaCreateManagedWidget(advance_name_translation(i), smeBSBObjectClass,
 				  popupmenu, NULL);
 	XtAddCallback(entry, XtNcallback, science_change_callback,
 		      (XtPointer) i);
@@ -362,7 +362,7 @@ void create_science_dialog(bool make_modal)
 	  && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
 	      || i == research->tech_goal)) {
 	Widget entry =
-	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass,
+	  XtVaCreateManagedWidget(advance_name_translation(i), smeBSBObjectClass,
 				  goalmenu, NULL);
 	XtAddCallback(entry, XtNcallback, science_goal_callback, 
 		      (XtPointer) i); 
@@ -413,7 +413,7 @@ void science_change_callback(Widget w, XtPointer client_data,
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE) {
-    popup_help_dialog_typed(advances[to].name, HELP_TECH);
+    popup_help_dialog_typed(advance_name_translation(to), HELP_TECH);
   } else {
     dsend_packet_player_research(&aconnection, to);
   }
@@ -430,7 +430,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE) {
-    popup_help_dialog_typed(advances[to].name, HELP_TECH);
+    popup_help_dialog_typed(advance_name_translation(to), HELP_TECH);
   } else {
     dsend_packet_player_tech_goal(&aconnection, to);
   }
@@ -497,7 +497,7 @@ void science_dialog_update(void)
     if (research->researching == A_UNSET) {
       my_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%s"),
-		  advances[A_NONE].name,
+		  advance_name_translation(A_NONE),
 		  research->bulbs_researched,
 		  _("unknown"));
     } else {
@@ -513,12 +513,12 @@ void science_dialog_update(void)
     if (research->tech_goal == A_UNSET) {
       my_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
-		  advances[A_NONE].name,
+		  advance_name_translation(A_NONE),
 		  0);
     } else {
       my_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
-		  advances[research->tech_goal].name,
+		  advance_name_translation(research->tech_goal),
 		  num_unknown_techs_for_goal(game.player_ptr,
 					     research->tech_goal));
     }
@@ -527,7 +527,7 @@ void science_dialog_update(void)
 
     for(i=A_FIRST, j=0; i<game.control.num_tech_types; i++)
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-	tech_list_names_ptrs[j]=advances[i].name;
+	tech_list_names_ptrs[j]=advance_name_translation(i);
 	j++;
       }
     tech_list_names_ptrs[j]=0;
@@ -545,7 +545,7 @@ void science_dialog_update(void)
       for(i=A_FIRST, flag=0; i<game.control.num_tech_types; i++)
       if(get_invention(game.player_ptr, i)==TECH_REACHABLE) {
 	Widget entry=
-	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
+	  XtVaCreateManagedWidget(advance_name_translation(i), smeBSBObjectClass, 
 				  popupmenu, NULL);
 	XtAddCallback(entry, XtNcallback, science_change_callback, 
 		      (XtPointer) i); 
@@ -569,7 +569,7 @@ void science_dialog_update(void)
 	  && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
 	      || i == research->tech_goal)) {
 	Widget entry=
-	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
+	  XtVaCreateManagedWidget(advance_name_translation(i), smeBSBObjectClass, 
 				  goalmenu, NULL);
 	XtAddCallback(entry, XtNcallback, science_goal_callback, 
 		      (XtPointer) i); 
@@ -1012,7 +1012,8 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
     my_snprintf(buf, sizeof(buf),
 		_("Upgrade as many %s to %s as possible for %d gold each?\n"
 		  "Treasury contains %d gold."),
-		punittype1->name, punittype2->name,
+		utype_name_translation(punittype1),
+		utype_name_translation(punittype2),
 		unit_upgrade_price(game.player_ptr, punittype1, punittype2),
 		game.player_ptr->economic.gold);
 

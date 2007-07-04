@@ -297,23 +297,23 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
   } else {
 #if 0
   ttype = punit->tile->terrain;
-  tinfo = get_terrain(ttype);
+  tinfo = terrain_by_number(ttype);
   if ((tinfo->irrigation_result != T_LAST)
       && (tinfo->irrigation_result != ttype)) {
     my_snprintf(irrtext, sizeof(irrtext), irrfmt,
-		(get_terrain(tinfo->irrigation_result))->name);
+		terrain_name_translation(tinfo->irrigation_result));
   } else if (tile_has_special(punit->tile, S_IRRIGATION)
 	     && player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
     sz_strlcpy(irrtext, _("Bu_ild Farmland"));
   }
   if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype)) {
     my_snprintf(mintext, sizeof(mintext), minfmt,
-		(get_terrain(tinfo->mining_result))->name);
+		terrain_name_translation(tinfo->mining_result));
   }
   if ((tinfo->transform_result != T_LAST)
       && (tinfo->transform_result != ttype)) {
     my_snprintf(transtext, sizeof(transtext), transfmt,
-		(get_terrain(tinfo->transform_result))->name);
+		terrain_name_translation(tinfo->transform_result));
   }
 
   menus_rename("<main>/_Orders/Build _Irrigation", irrtext);
@@ -397,7 +397,7 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
       player_find_city_by_id(game.player_ptr, punit->homecity);
   INIT;
 
-  add("%s", ptype->name);
+  add("%s", utype_name_translation(ptype));
   if (ptype->veteran[punit->veteran].name[0] != '\0') {
     add(" (%s)", ptype->veteran[punit->veteran].name);
   }
@@ -433,7 +433,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
 	my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
       }
     }
-    add_line(_("Unit: %s(%s%s)"), ptype->name,
+    add_line(_("Unit: %s(%s%s)"), utype_name_translation(ptype),
 	     nation_name_translation(nation_of_unit(punit)), tmp);
     if (punit->owner->player_no != game.info.player_idx) {
       struct unit *apunit = unit_list_get(get_units_in_focus(), 0);

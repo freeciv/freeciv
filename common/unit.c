@@ -842,7 +842,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_FORTIFYING:
-    return (unit_class_flag(pclass, UCF_CAN_FORTIFY)
+    return (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
 	    && punit->activity != ACTIVITY_FORTIFIED
 	    && !unit_has_type_flag(punit, F_SETTLERS)
 	    && (!is_ocean(ptile->terrain) || ptile->city));
@@ -1224,7 +1224,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 **************************************************************************/
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
 {
-  return (!unit_class_flag(utype_class(punittype), UCF_ZOC)
+  return (!uclass_has_flag(utype_class(punittype), UCF_ZOC)
 	  || utype_has_flag(punittype, F_IGZOC));
 }
 

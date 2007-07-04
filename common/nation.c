@@ -80,8 +80,10 @@ struct nation_type *find_nation_by_translated_name(const char *name)
 ****************************************************************************/
 struct nation_type *find_nation_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   nations_iterate(pnation) {
-    if (0 == mystrcasecmp(nation_rule_name(pnation), name)) {
+    if (0 == mystrcasecmp(nation_rule_name(pnation), qname)) {
       return pnation;
     }
   } nations_iterate_end;
@@ -98,7 +100,7 @@ const char *nation_rule_name(const struct nation_type *pnation)
   if (!bounds_check_nation(pnation, LOG_ERROR, "nation_rule_name")) {
     return "";
   }
-  return pnation->name_single.vernacular;
+  return Qn_(pnation->name_single.vernacular);
 }
 
 /****************************************************************************
@@ -461,11 +463,12 @@ struct nation_group* nation_group_by_number(int id)
 ****************************************************************************/
 struct nation_group *find_nation_group_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
   int i;
 
   for (i = 0; i < num_nation_groups; i++) {
-    if (mystrcasecmp(Qn_(name), Qn_(nation_groups[i].name)) == 0) {
-      return nation_groups + i;
+    if (0 == mystrcasecmp(Qn_(nation_groups[i].name), qname)) {
+      return &nation_groups[i];
     }
   }
 

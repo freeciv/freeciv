@@ -198,7 +198,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  NULL);
 
   my_snprintf(buf, sizeof(buf), _("Government: %s"),
-	      government_name_for_player(pdialog->pplayer)));
+	      government_name_for_player(pdialog->pplayer));
   XtVaCreateManagedWidget("intelgovlabel",
 			  labelWidgetClass,
 			  pdialog->intel_form,
@@ -266,10 +266,10 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
   for(i=A_FIRST, j=0; i<game.control.num_tech_types; i++)
     if (get_invention(pdialog->pplayer, i) == TECH_KNOWN) {
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-	sz_strlcpy(tech_list_names[j], advances[i].name);
+	sz_strlcpy(tech_list_names[j], advance_name_translation(i));
       } else {
 	my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),
-		    "%s*", advances[i].name);
+		    "%s*", advance_name_translation(i));
       }
       tech_list_names_ptrs[j]=tech_list_names[j];
       j++;

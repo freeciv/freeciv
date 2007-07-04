@@ -1257,7 +1257,10 @@ static bool is_allowed_player_name(struct player *pplayer,
       /* We don't care if we're the one using the name/nation. */
       continue;
     }
-    if (nation_of_player(other_player) == nation) {
+    /* FIXME: currently cannot use nation_of_player(other_player)
+     * as the nation debug code is buggy and doesn't test nation for NULL
+     */
+    if (other_player->nation == nation) {
       if (error_buf) {
 	my_snprintf(error_buf, bufsz, _("That nation is already in use."));
       }

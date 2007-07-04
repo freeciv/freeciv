@@ -58,7 +58,7 @@ void terrains_init(void)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(civ_terrains); i++) {
-    /* Can't use get_terrain here because it does a bounds check. */
+    /* Can't use terrain_by_number here because it does a bounds check. */
     civ_terrains[i].index = i;
   }
   for (i = 0; i < ARRAY_SIZE(civ_resources); i++) {
@@ -69,7 +69,7 @@ void terrains_init(void)
 /****************************************************************************
   Return the terrain type matching the identifier, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *get_terrain_by_identifier(const char identifier)
+struct terrain *terrain_by_identifier(const char identifier)
 {
   if (UNKNOWN_TERRAIN_IDENTIFIER == identifier) {
     return T_UNKNOWN;
@@ -86,7 +86,7 @@ struct terrain *get_terrain_by_identifier(const char identifier)
 /****************************************************************************
   Return the terrain for the given terrain index.
 ****************************************************************************/
-struct terrain *get_terrain_by_number(Terrain_type_id type)
+struct terrain *terrain_by_number(Terrain_type_id type)
 {
   if (type < 0 || type >= game.control.terrain_count) {
     /* This isn't an error; some T_UNKNOWN callers depend on it. */
@@ -98,10 +98,12 @@ struct terrain *get_terrain_by_number(Terrain_type_id type)
 /****************************************************************************
   Return the terrain type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *get_terrain_by_rule_name(const char *name)
+struct terrain *find_terrain_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   terrain_type_iterate(pterrain) {
-    if (0 == mystrcasecmp(terrain_rule_name(pterrain), name)) {
+    if (0 == mystrcasecmp(terrain_rule_name(pterrain), qname)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -112,7 +114,7 @@ struct terrain *get_terrain_by_rule_name(const char *name)
 /****************************************************************************
   Return the terrain type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *get_terrain_by_translated_name(const char *name)
+struct terrain *find_terrain_by_translated_name(const char *name)
 {
   terrain_type_iterate(pterrain) {
     if (0 == strcmp(terrain_name_translation(pterrain), name)) {
@@ -130,13 +132,13 @@ struct terrain *get_terrain_by_translated_name(const char *name)
 const char *terrain_name_translation(struct terrain *pterrain)
 {
   SANITY_CHECK_TERRAIN(pterrain);
-  if (NULL == pterrain->name_translated) {
+  if (NULL == pterrain->name.translated) {
     /* delayed (unified) translation */
-    pterrain->name_translated = ('\0' == pterrain->name_rule[0])
-				? pterrain->name_rule
-				: Q_(pterrain->name_rule);
+    pterrain->name.translated = ('\0' == pterrain->name.vernacular[0])
+				? pterrain->name.vernacular
+				: Q_(pterrain->name.vernacular);
   }
-  return pterrain->name_translated;
+  return pterrain->name.translated;
 }
 
 /**************************************************************************
@@ -145,14 +147,14 @@ const char *terrain_name_translation(struct terrain *pterrain)
 **************************************************************************/
 const char *terrain_rule_name(const struct terrain *pterrain)
 {
-  return pterrain->name_rule;
+  return Qn_(pterrain->name.vernacular);
 }
 
 /****************************************************************************
   Return the terrain flag matching the given string, or TER_LAST if there's
   no match.
 ****************************************************************************/
-enum terrain_flag_id terrain_flag_from_str(const char *s)
+enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
 {
   enum terrain_flag_id flag;
   const char *flag_names[] = {
@@ -221,7 +223,7 @@ void terrains_free(void)
 /****************************************************************************
   Return the resource for the given resource index.
 ****************************************************************************/
-struct resource *get_resource_by_number(Resource_type_id type)
+struct resource *resource_by_number(Resource_type_id type)
 {
   if (type < 0 || type >= game.control.resource_count) {
     /* This isn't an error; some callers depend on it. */
@@ -233,10 +235,12 @@ struct resource *get_resource_by_number(Resource_type_id type)
 /****************************************************************************
   Return the resource type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct resource *get_resource_by_rule_name(const char *name_orig)
+struct resource *find_resource_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   resource_type_iterate(presource) {
-    if (0 == strcmp(resource_rule_name(presource), name_orig)) {
+    if (0 == strcmp(resource_rule_name(presource), qname)) {
       return presource;
     }
   } resource_type_iterate_end;
@@ -250,13 +254,13 @@ struct resource *get_resource_by_rule_name(const char *name_orig)
 ****************************************************************************/
 const char *resource_name_translation(struct resource *presource)
 {
-  if (NULL == presource->name_translated) {
+  if (NULL == presource->name.translated) {
     /* delayed (unified) translation */
-    presource->name_translated = ('\0' == presource->name_rule[0])
-				 ? presource->name_rule
-				 : Q_(presource->name_rule);
+    presource->name.translated = ('\0' == presource->name.vernacular[0])
+				 ? presource->name.vernacular
+				 : Q_(presource->name.vernacular);
   }
-  return presource->name_translated;
+  return presource->name.translated;
 }
 
 /**************************************************************************
@@ -265,7 +269,7 @@ const char *resource_name_translation(struct resource *presource)
 **************************************************************************/
 const char *resource_rule_name(const struct resource *presource)
 {
-  return presource->name_rule;
+  return Qn_(presource->name.vernacular);
 }
 
 
@@ -372,16 +376,14 @@ static const char *tile_special_type_names[] =
 
 /****************************************************************************
   Return the special with the given name, or S_LAST.
-
-  FIXME: should be find_special_by_name().
 ****************************************************************************/
-enum tile_special_type get_special_by_name_orig(const char *name)
+enum tile_special_type find_special_by_rule_name(const char *name)
 {
   enum tile_special_type i;
 
   assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
   for (i = 0; i < S_LAST; i++) {
-    if (0 == strcmp(name, tile_special_type_names[i])) {
+    if (0 == strcmp(tile_special_type_names[i], name)) {
       return i;
     }
   }
@@ -392,7 +394,7 @@ enum tile_special_type get_special_by_name_orig(const char *name)
 /****************************************************************************
   Return the translated name of the given special.
 ****************************************************************************/
-const char *get_special_name(enum tile_special_type type)
+const char *special_name_translation(enum tile_special_type type)
 {
   assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
   assert(type >= 0 && type < S_LAST);
@@ -402,7 +404,7 @@ const char *get_special_name(enum tile_special_type type)
 /****************************************************************************
   Return the untranslated name of the given special.
 ****************************************************************************/
-const char *get_special_name_orig(enum tile_special_type type)
+const char *special_rule_name(enum tile_special_type type)
 {
   assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
   assert(type >= 0 && type < S_LAST);
@@ -672,12 +674,12 @@ bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class cla
 /****************************************************************************
   Return the terrain class value matching name, or TC_LAST if none matches.
 ****************************************************************************/
-enum terrain_class get_terrain_class_by_name(const char *name)
+enum terrain_class find_terrain_class_by_rule_name(const char *name)
 {
   int i;
 
   for (i = 0; i < TC_LAST; i++) {
-    if (!strcmp(terrain_class_names[i], name)) {
+    if (0 == strcmp(terrain_class_names[i], name)) {
       return i;
     }
   }
@@ -686,13 +688,13 @@ enum terrain_class get_terrain_class_by_name(const char *name)
 }
 
 /****************************************************************************
-  Return localized name of the terrain class
+  Return the translated name of the given terrain class
 ****************************************************************************/
-const char *terrain_class_name(enum terrain_class class)
+const char *terrain_class_name_translation(enum terrain_class tclass)
 {
-  if (class < 0 || class >= TC_LAST) {
+  if (tclass < 0 || tclass >= TC_LAST) {
     return NULL;
   }
 
-  return _(terrain_class_names[class]);
+  return _(terrain_class_names[tclass]);
 }

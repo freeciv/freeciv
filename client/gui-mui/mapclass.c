@@ -146,8 +146,10 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	  if (pcity)
 	    my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
 	}
-	my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,
-		    nation_name_translation(nation_of_unit(punit)), cn);
+	my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"),
+		    utype_name_translation(ptype),
+		    nation_name_translation(nation_of_unit(punit)),
+		    cn);
 
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 	DoMethod(group, OM_ADDMEMBER, text_obj);

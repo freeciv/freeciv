@@ -118,7 +118,7 @@ int utype_happy_cost(const struct unit_type *ut,
 /**************************************************************************
   Return whether the given unit class has the flag.
 **************************************************************************/
-bool unit_class_flag(const struct unit_class *punitclass, int flag)
+bool uclass_has_flag(const struct unit_class *punitclass, int flag)
 {
   assert(flag >= 0 && flag < UCF_LAST);
   return BV_ISSET(punitclass->flags, flag);
@@ -215,13 +215,13 @@ enum unit_move_type get_unit_move_type(const struct unit_type *punittype)
 **************************************************************************/
 const char *utype_name_translation(struct unit_type *punittype)
 {
-  if (NULL == punittype->name_translated) {
+  if (NULL == punittype->name.translated) {
     /* delayed (unified) translation */
-    punittype->name_translated = ('\0' == punittype->name_rule[0])
-				 ? punittype->name_rule
-				 : Q_(punittype->name_rule);
+    punittype->name.translated = ('\0' == punittype->name.vernacular[0])
+				 ? punittype->name.vernacular
+				 : Q_(punittype->name.vernacular);
   }
-  return punittype->name_translated;
+  return punittype->name.translated;
 }
 
 /**************************************************************************
@@ -239,7 +239,7 @@ const char *unit_name_translation(struct unit *punit)
 **************************************************************************/
 const char *utype_rule_name(const struct unit_type *punittype)
 {
-  return punittype->name_rule;
+  return Qn_(punittype->name.vernacular);
 }
 
 /**************************************************************************
@@ -290,12 +290,28 @@ const char *utype_values_translation(struct unit_type *punittype)
 }
 
 /**************************************************************************
-  Returns the name of the unit class.
+  Return the (translated) name of the unit class.
+  You don't have to free the return pointer.
 **************************************************************************/
-const char *unit_class_name(const struct unit_class *pclass)
+const char *uclass_name_translation(struct unit_class *pclass)
 {
   assert(pclass != NULL && &unit_classes[pclass->id] == pclass);
-  return pclass->name;
+  if (NULL == pclass->name.translated) {
+    /* delayed (unified) translation */
+    pclass->name.translated = ('\0' == pclass->name.vernacular[0])
+			      ? pclass->name.vernacular
+			      : Q_(pclass->name.vernacular);
+  }
+  return pclass->name.translated;
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the unit class.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *uclass_rule_name(const struct unit_class *pclass)
+{
+  return Qn_(pclass->name.vernacular);
 }
 
 /**************************************************************************
@@ -409,8 +425,10 @@ struct unit_type *find_unit_type_by_translated_name(const char *name)
 **************************************************************************/
 struct unit_type *find_unit_type_by_rule_name(const char *name)
 {
+  const char *qname = Qn_(name);
+
   unit_type_iterate(punittype) {
-    if (0 == mystrcasecmp(utype_rule_name(punittype), name)) {
+    if (0 == mystrcasecmp(utype_rule_name(punittype), qname)) {
       return punittype;
     }
   } unit_type_iterate_end;
@@ -419,15 +437,16 @@ struct unit_type *find_unit_type_by_rule_name(const char *name)
 }
 
 /**************************************************************************
-  Convert Unit_Class_id names to enum; case insensitive;
-  returns NULL if can't match.
+  Returns the unit class that has the given (untranslated) rule name.
+  Returns NULL if none match.
 **************************************************************************/
-struct unit_class *unit_class_from_str(const char *s)
+struct unit_class *find_unit_class_by_rule_name(const char *s)
 {
+  const char *qs = Qn_(s);
   Unit_Class_id i;
 
   for (i = 0; i < UCL_LAST; i++) {
-    if (mystrcasecmp(unit_classes[i].name_orig, s)==0) {
+    if (0 == mystrcasecmp(Qn_(unit_classes[i].name.vernacular), qs)) {
       return &unit_classes[i];
     }
   }
@@ -438,7 +457,7 @@ struct unit_class *unit_class_from_str(const char *s)
   Convert unit class flag names to enum; case insensitive;
   returns UCF_LAST if can't match.
 **************************************************************************/
-enum unit_class_flag_id unit_class_flag_from_str(const char *s)
+enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s)
 {
   enum unit_class_flag_id i;
 
@@ -456,7 +475,7 @@ enum unit_class_flag_id unit_class_flag_from_str(const char *s)
   Convert flag names to enum; case insensitive;
   returns F_LAST if can't match.
 **************************************************************************/
-enum unit_flag_id unit_flag_from_str(const char *s)
+enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
 {
   enum unit_flag_id i;
 
@@ -473,7 +492,7 @@ enum unit_flag_id unit_flag_from_str(const char *s)
 /**************************************************************************
   Return the (untranslated) rule name of the unit flag.
 **************************************************************************/
-const char *get_unit_flag_name(enum unit_flag_id id)
+const char *unit_flag_rule_name(enum unit_flag_id id)
 {
   return flag_names[id];
 }
@@ -482,7 +501,7 @@ const char *get_unit_flag_name(enum unit_flag_id id)
   Convert role names to enum; case insensitive;
   returns L_LAST if can't match.
 **************************************************************************/
-enum unit_role_id unit_role_from_str(const char *s)
+enum unit_role_id find_unit_role_by_rule_name(const char *s)
 {
   enum unit_role_id i;
 
@@ -837,7 +856,7 @@ struct unit_class *unit_class(const struct unit *punit)
 }
 
 /****************************************************************************
-  Inialize unit-class structures.
+  Initialize unit_class structures.
 ****************************************************************************/
 void unit_classes_init(void)
 {

@@ -42,7 +42,7 @@ static inline int single_move_cost(const struct pf_parameter *param,
       && BV_ISSET(param->unit_flags, F_TRIREME)
       && !is_safe_ocean(dest_tile)) {
     return PF_IMPOSSIBLE_MC;
-  } else if (unit_class_flag(param->uclass, UCF_TERRAIN_SPEED)) {
+  } else if (uclass_has_flag(param->uclass, UCF_TERRAIN_SPEED)) {
     return map_move_cost(src_tile, dest_tile);
   } else {
     return SINGLE_MOVE;
@@ -314,7 +314,7 @@ static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
     } else {
       move_cost = MOVE_COST_ROAD;
     }
-  } else if (unit_class_flag(param->uclass, UCF_TERRAIN_SPEED)) {
+  } else if (uclass_has_flag(param->uclass, UCF_TERRAIN_SPEED)) {
     move_cost = (map_move_cost(ptile, ptile1) != 0
                  ? MOVE_COST_ROAD : 0);
   } else {
@@ -756,7 +756,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->turn_mode = TM_CAPPED;
 
   parameter->unknown_MC = SINGLE_MOVE;
-  if (unit_class_flag(unit_class(punit), UCF_TERRAIN_SPEED)) {
+  if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_SPEED)) {
     /* Unit is subject to terrain movement costs */
     struct unit_type *punittype = unit_type(punit);
     bv_special specials;

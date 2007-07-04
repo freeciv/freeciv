@@ -709,7 +709,8 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     pUType = unit_type(pUnit);
     pHome_City = find_city_by_id(pUnit->homecity);
     my_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
-		pUType->name, pUType->attack_strength,
+		utype_name_translation(pUType),
+		pUType->attack_strength,
 		pUType->defense_strength, pUType->move_rate / SINGLE_MOVE,
                 (pUnit->veteran ? _("\nveteran") : ""),
                 unit_activity_text(pUnit),
@@ -3228,8 +3229,6 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += pBuf2->w + adj_size(5);
 
   } else {
-    struct impr_type *pImpr =
-	improvement_by_number(pCity->production.value);
 
     if (improvement_has_flag(pCity->production.value, IF_GOLD)) {
 
@@ -3255,7 +3254,7 @@ static void redraw_city_dialog(struct city *pCity)
       
     }
 
-    copy_chars_to_string16(pStr, improvement_name_translation(pImpr));
+    copy_chars_to_string16(pStr, improvement_name_translation(pCity->production.value));
     pBuf = create_text_surf_from_str16(pStr);
     
     pBuf2 = get_building_surface(pCity->production.value);
@@ -3889,7 +3888,7 @@ void popup_city_dialog(struct city *pCity)
   pCityDlg->pBeginCityWidgetList = pBuf;
   
   /* check if Citizen Icons style was loaded */
-  cs = get_city_style(pCity);
+  cs = style_of_city(pCity);
 
   if (cs != pIcons->style) {
     reload_citizens_icons(cs);

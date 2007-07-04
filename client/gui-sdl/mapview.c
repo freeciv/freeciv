@@ -309,7 +309,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   
   if (game.player_ptr) {
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
-                                    government_of_player(game.player_ptr)->name);
+                                    government_name_for_player(game.player_ptr));
   } else {
     my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Shift+R",
                                     "None");
@@ -492,7 +492,7 @@ static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
   sz_strlcpy(s, terrain_name_translation(ptile->terrain));
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
-    sz_strlcat(s, get_special_name(S_RIVER));
+    sz_strlcat(s, special_name_translation(S_RIVER));
   }
 
   if (ptile->resource) {
@@ -508,7 +508,7 @@ static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, get_special_name(S_POLLUTION));
+    sz_strlcat(s, special_name_translation(S_POLLUTION));
   }
   if (tile_has_special(ptile, S_FALLOUT)) {
     if (first) {
@@ -517,7 +517,7 @@ static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, get_special_name(S_FALLOUT));
+    sz_strlcat(s, special_name_translation(S_FALLOUT));
   }
   if (!first) {
     sz_strlcat(s, "]");
@@ -634,7 +634,7 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
     mil -= types_count[top[i]->index];
   }
   astr_add_line(&str, "%d: %s",
-          types_count[top[i]->index], top[i]->name);
+          types_count[top[i]->index], utype_name_translation(top[i]));
       } else {
   astr_add_line(&str, " ");
       }
@@ -820,7 +820,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    if (pOwner && pOwner != game.player_ptr) {
               /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
-		  nation_name_translation(nation_of_city(pOwner)),
+		  nation_name_for_player(pOwner),
 		  diplo_city_adjectives[game.player_ptr->
 				   diplstates[pOwner->player_no].type]);
 	    }
@@ -940,7 +940,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	  pUType = unit_type(aunit);
           pHome_City = find_city_by_id(aunit->homecity);
           my_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
-		pUType->name, pUType->attack_strength,
+		utype_name_translation(pUType),
+		pUType->attack_strength,
 		pUType->defense_strength, pUType->move_rate / SINGLE_MOVE,
                 (aunit->veteran ? _("\nveteran") : ""),
                 unit_activity_text(aunit),

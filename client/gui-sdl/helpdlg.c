@@ -385,7 +385,8 @@ void popup_impr_info(Impr_type_id impr)
     pBuf->ID = ID_LABEL;
   } else {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	      advances[pImpr_type->obsolete_by].name, adj_font(12),
+	      advance_name_translation(pImpr_type->obsolete_by),
+	      adj_font(12),
 			  WF_RESTORE_BACKGROUND);
     pBuf->ID = MAX_ID - pImpr_type->obsolete_by;
     pBuf->string16->fgcol = *get_tech_color(pImpr_type->obsolete_by);
@@ -762,7 +763,8 @@ void popup_unit_info(Unit_type_id type_id)
     pBuf->ID = ID_LABEL;
   } else {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	  advances[pUnitType->tech_requirement].name, adj_font(12),
+	  advance_name_translation(pUnitType->tech_requirement),
+	  adj_font(12),
 			  WF_RESTORE_BACKGROUND);
     pBuf->ID = MAX_ID - pUnitType->tech_requirement;
     pBuf->string16->fgcol = *get_tech_color(pUnitType->tech_requirement);
@@ -786,7 +788,8 @@ void popup_unit_info(Unit_type_id type_id)
   } else {
     struct unit_type *utype = pUnitType->obsoleted_by;
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	      utype->name, adj_font(12), WF_RESTORE_BACKGROUND);
+	      utype_name_translation(utype),
+	      adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_tech_color(utype->tech_requirement);
     pBuf->ID = MAX_ID - pUnitType->obsoleted_by->index;
     pBuf->action = change_unit_callback;
@@ -1011,7 +1014,10 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   
   /* tech name (heading) */
   pBuf= create_iconlabel_from_chars(get_tech_icon(tech),
-		    pWindow->dst, advances[tech].name, adj_font(24), WF_FREE_THEME);
+		    pWindow->dst,
+		    advance_name_translation(tech),
+		    adj_font(24),
+		    WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -1024,7 +1030,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
     if ((targets_count < 6) &&
         (advances[i].req[0] == tech || advances[i].req[1] == tech))
     {
-      pBuf= create_iconlabel_from_chars(NULL, pWindow->dst, advances[i].name,
+      pBuf= create_iconlabel_from_chars(NULL, pWindow->dst, advance_name_translation(i),
                                     adj_font(12), WF_RESTORE_BACKGROUND);
       pBuf->string16->fgcol = *get_tech_color(i);
       max_width = MAX(max_width, pBuf->size.w);
@@ -1061,7 +1067,9 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 	}
       }
       pBuf= create_iconlabel_from_chars(NULL, pWindow->dst,
-           advances[sub_tech].name, adj_font(12), WF_RESTORE_BACKGROUND);
+           advance_name_translation(sub_tech),
+           adj_font(12),
+           WF_RESTORE_BACKGROUND);
       pBuf->string16->fgcol = *get_tech_color(sub_tech);
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_tech_callback;
@@ -1571,7 +1579,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
   pStr = create_string16(NULL, 0, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-  copy_chars_to_string16(pStr, advances[tech].name);
+  copy_chars_to_string16(pStr, advance_name_translation(tech));
   pSurf = create_sellect_tech_icon(pStr, tech, FULL_MODE);
   pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -1588,7 +1596,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
   {
     if (tech_exists(i) && advances[tech].req[i] != A_NONE)
     {
-      copy_chars_to_string16(pStr, advances[advances[tech].req[i]].name);
+      copy_chars_to_string16(pStr, advance_name_translation(advances[tech].req[i]));
       pSurf = create_sellect_tech_icon(pStr, advances[tech].req[i], SMALL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -1616,7 +1624,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
       {
         if (tech_exists(i) && advances[sub_tech].req[i] != A_NONE)
         {
-          copy_chars_to_string16(pStr, advances[advances[sub_tech].req[i]].name);
+          copy_chars_to_string16(pStr, advance_name_translation(advances[sub_tech].req[i]));
           pSurf = create_sellect_tech_icon(pStr, advances[sub_tech].req[i], SMALL_MODE);
           pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -1642,7 +1650,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
     if ((targets_count<6)
       && (advances[i].req[0] == tech || advances[i].req[1] == tech))
     {
-      copy_chars_to_string16(pStr, advances[i].name);
+      copy_chars_to_string16(pStr, advance_name_translation(i));
       pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -1681,7 +1689,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
 	}
       }
       
-      copy_chars_to_string16(pStr, advances[sub_tech].name);
+      copy_chars_to_string16(pStr, advance_name_translation(sub_tech));
       pSurf = create_sellect_tech_icon(pStr, sub_tech, SMALL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       	WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -1888,7 +1896,7 @@ void popup_tech_info(Tech_type_id tech)
     {
       if (tech_exists(i))
       {
-        copy_chars_to_string16(pStr, advances[i].name);
+        copy_chars_to_string16(pStr, advance_name_translation(i));
         pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
         pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);

@@ -85,7 +85,7 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
 
     unit_class_iterate(uclass) {
       if (can_unit_type_transport(ut, uclass)
-          && unit_class_flag(uclass, UCF_MISSILE)) {
+          && uclass_has_flag(uclass, UCF_MISSILE)) {
         desire += desire / 6;
         break;
       }
@@ -133,7 +133,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
     if (ai_hunter_qualify(pplayer, punit)) {
       unit_class_iterate(uclass) {
         if (can_unit_type_transport(unit_type(punit), uclass)
-            && unit_class_flag(uclass, UCF_MISSILE)) {
+            && uclass_has_flag(uclass, UCF_MISSILE)) {
           hunter = punit;
           break;
         }
@@ -151,7 +151,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
   unit_type_iterate(ut) {
     int desire;
 
-    if (!unit_class_flag(utype_class(ut), UCF_MISSILE) || !can_build_unit(pcity, ut)) {
+    if (!uclass_has_flag(utype_class(ut), UCF_MISSILE) || !can_build_unit(pcity, ut)) {
       continue;
     }
 
@@ -279,7 +279,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
     struct unit *sucker = NULL;
 
     if (missile->owner == pplayer
-        && unit_class_flag(unit_class(missile), UCF_MISSILE)) {
+        && uclass_has_flag(unit_class(missile), UCF_MISSILE)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
       map = pf_create_map(&parameter);

@@ -255,7 +255,7 @@ void update_research(struct player *pplayer)
     get_player_research(pplayer)->num_known_tech_with_flag[flag] = 0;
 
     tech_type_iterate(i) {
-      if (get_invention(pplayer, i) == TECH_KNOWN && tech_has_flag(i, flag)) {
+      if (get_invention(pplayer, i) == TECH_KNOWN && advance_has_flag(i, flag)) {
 	get_player_research(pplayer)->num_known_tech_with_flag[flag]++;
       }
     } tech_type_iterate_end;
@@ -303,10 +303,10 @@ bool tech_exists(Tech_type_id id)
 }
 
 /**************************************************************************
- Does a linear search of advances[].name_translated
+ Does a linear search of advances[].name.translated
  Returns A_LAST if none match.
 **************************************************************************/
-Tech_type_id find_tech_by_translated_name(const char *s)
+Tech_type_id find_advance_by_translated_name(const char *s)
 {
   tech_type_iterate(i) {
     if (0 == strcmp(advance_name_translation(i), s)) {
@@ -317,13 +317,15 @@ Tech_type_id find_tech_by_translated_name(const char *s)
 }
 
 /**************************************************************************
- Does a linear search of advances[].name_rule
+ Does a linear search of advances[].name.vernacular
  Returns A_LAST if none match.
 **************************************************************************/
-Tech_type_id find_tech_by_rule_name(const char *s)
+Tech_type_id find_advance_by_rule_name(const char *s)
 {
+  const char *qs = Qn_(s);
+
   tech_type_iterate(i) {
-    if (0 == mystrcasecmp(advance_rule_name(i), s)) {
+    if (0 == mystrcasecmp(advance_rule_name(i), qs)) {
       return i;
     }
   } tech_type_iterate_end;
@@ -333,7 +335,7 @@ Tech_type_id find_tech_by_rule_name(const char *s)
 /**************************************************************************
  Return TRUE if the tech has this flag otherwise FALSE
 **************************************************************************/
-bool tech_has_flag(Tech_type_id tech, enum tech_flag_id flag)
+bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
 {
   assert(flag >= 0 && flag < TF_LAST);
   return TEST_BIT(advances[tech].flags, flag);
@@ -343,7 +345,7 @@ bool tech_has_flag(Tech_type_id tech, enum tech_flag_id flag)
  Convert flag names to enum; case insensitive;
  returns TF_LAST if can't match.
 **************************************************************************/
-enum tech_flag_id tech_flag_from_str(const char *s)
+enum tech_flag_id find_advance_flag_by_rule_name(const char *s)
 {
   enum tech_flag_id i;
 
@@ -361,12 +363,12 @@ enum tech_flag_id tech_flag_from_str(const char *s)
  Search for a tech with a given flag starting at index
  Returns A_LAST if no tech has been found
 **************************************************************************/
-Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag)
+Tech_type_id find_advance_by_flag(int index, enum tech_flag_id flag)
 {
   Tech_type_id i;
   for(i = index;i < game.control.num_tech_types; i++)
   {
-    if(tech_has_flag(i,flag)) return i;
+    if(advance_has_flag(i,flag)) return i;
   }
   return A_LAST;
 }
@@ -723,13 +725,13 @@ const char *advance_name_researching(const struct player *pplayer)
 const char *advance_name_translation(Tech_type_id tech)
 {
 /*  assert(tech_exists(tech)); now called for A_UNSET, A_FUTURE */
-  if (NULL == advances[tech].name_translated) {
+  if (NULL == advances[tech].name.translated) {
     /* delayed (unified) translation */
-    advances[tech].name_translated = ('\0' == advances[tech].name_rule[0])
-				     ? advances[tech].name_rule
-				     : Q_(advances[tech].name_rule);
+    advances[tech].name.translated = ('\0' == advances[tech].name.vernacular[0])
+				     ? advances[tech].name.vernacular
+				     : Q_(advances[tech].name.vernacular);
   }
-  return advances[tech].name_translated;
+  return advances[tech].name.translated;
 }
 
 /****************************************************************************
@@ -738,7 +740,7 @@ const char *advance_name_translation(Tech_type_id tech)
 ****************************************************************************/
 const char *advance_rule_name(Tech_type_id tech)
 {
-  return advances[tech].name_rule; 
+  return Qn_(advances[tech].name.vernacular); 
 }
 
 /**************************************************************************
@@ -765,21 +767,21 @@ void techs_init(void)
 
   /* Initialize dummy tech A_NONE */
   /* TRANS: "None" tech */
-  sz_strlcpy(advances[A_NONE].name_rule, N_("None"));
-  advances[A_NONE].name_translated = NULL;
+  sz_strlcpy(advances[A_NONE].name.vernacular, N_("None"));
+  advances[A_NONE].name.translated = NULL;
 
   /* Initialize dummy tech A_UNSET */
-  sz_strlcpy(advances[A_UNSET].name_rule, N_("None"));
-  advances[A_UNSET].name_translated = NULL;
+  sz_strlcpy(advances[A_UNSET].name.vernacular, N_("None"));
+  advances[A_UNSET].name.translated = NULL;
 
   /* Initialize dummy tech A_FUTURE */
-  sz_strlcpy(advances[A_FUTURE].name_rule, N_("Future Tech."));
-  advances[A_FUTURE].name_translated = NULL;
+  sz_strlcpy(advances[A_FUTURE].name.vernacular, N_("Future Tech."));
+  advances[A_FUTURE].name.translated = NULL;
 
   /* Initialize dummy tech A_UNKNOWN */
   /* TRANS: "Unknown" tech */
-  sz_strlcpy(advances[A_UNKNOWN].name_rule, N_("(Unknown)"));
-  advances[A_UNKNOWN].name_translated = NULL;
+  sz_strlcpy(advances[A_UNKNOWN].name.vernacular, N_("(Unknown)"));
+  advances[A_UNKNOWN].name.translated = NULL;
 }
 
 /***************************************************************

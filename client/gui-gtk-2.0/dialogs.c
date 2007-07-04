@@ -903,7 +903,7 @@ static void create_races_dialog(struct player *pplayer)
     g_object_ref(img);
     free_sprite(s);
     gtk_list_store_set(store, &it, 0, i, 1, img, 2,
-                       get_city_style_name(i), -1);
+                       city_style_name_translation(i), -1);
     g_object_unref(img);
   }
 

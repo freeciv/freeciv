@@ -615,45 +615,6 @@ bool is_player_phase(const struct player *pplayer, int phase)
   return game.info.simultaneous_phases || pplayer->player_no == phase;
 }
 
-/***************************************************************
-  For various data, copy eg .name to .name_orig and put
-  translated version in .name
-  (These could be in the separate modules, but since they are
-  all almost the same, and all needed together, it seems a bit
-  easier to just do them all here.)
-
-  FIXME: Because of the way translate_data_names works, ruleset names
-  aren't normally translated at the client until the game starts.  Obviously
-  this is incorrect.  The current workaround is to duplicate the translation
-  inside packhand.c.  The real solution though is to get rid of the
-  translate_data_names function  and do all translation when the text is
-  first generated.
-***************************************************************/
-void translate_data_names(void)
-{
-  int i;
-
-  /* advance_name_translation now handled in tech.c */
-
-  unit_class_iterate(tthis) {
-    tthis->name = Q_(tthis->name_orig);
-  } unit_class_iterate_end;
-
-  /* utype_name_translation now handled in unittype.c */
-  /* improvement_name_translation now handled in improvement.c */
-  /* terrain_name_translation now handled in terrain.c */
-  /* resource_name_translation now handled in terrain.c */
-  /* government_name_translation now handled in government.c */
-  /* nation_name_translation now handled in nation.c */
-
-  for (i = 0; i < game.control.styles_count; i++) {
-    struct citystyle *tthis = &city_styles[i];
-
-    tthis->name = Q_(tthis->name_orig);
-  }
-
-}
-
 /****************************************************************************
   Return a prettily formatted string containing the population text.  The
   population is passed in as the number of citizens, in thousands.

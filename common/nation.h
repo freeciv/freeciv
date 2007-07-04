@@ -69,8 +69,8 @@ struct nation_group {
 struct nation_type {
   int index;
   /* Pointer values are allocated on load then freed in free_nations(). */
-  struct translation_cache name_single;
-  struct translation_cache name_plural;
+  struct name_translation name_single;
+  struct name_translation name_plural;
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;
@@ -109,6 +109,7 @@ struct nation_type {
   struct player *player; /* Who's using the nation, or NULL. */
 };
 
+/* General nation accessor functions. */
 struct nation_type *nation_by_number(const Nation_type_id nation);
 struct nation_type *nation_of_player(const struct player *pplayer);
 struct nation_type *nation_of_city(const struct city *pcity);
@@ -124,27 +125,33 @@ const char *nation_plural_for_player(const struct player *pplayer);
 struct nation_type *find_nation_by_rule_name(const char *name);
 struct nation_type *find_nation_by_translated_name(const char *name);
 
+int city_style_of_nation(const struct nation_type *nation);
+
+/* Ancillary nation routines */
 bool is_nation_playable(const struct nation_type *nation);
 enum barbarian_type nation_barbarian_type(const struct nation_type *nation);
+bool can_conn_edit_players_nation(const struct connection *pconn,
+				  const struct player *pplayer);
+
+/* General nation leader accessor functions. */
 struct leader *get_nation_leaders(const struct nation_type *nation, int *dim);
 struct nation_type **get_nation_civilwar(const struct nation_type *nation);
 bool get_nation_leader_sex(const struct nation_type *nation,
 			   const char *name);
 bool check_nation_leader_name(const struct nation_type *nation,
 			      const char *name);
-void nations_alloc(int num);
-void nations_free(void);
-void nation_city_names_free(struct city_name *city_names);
-int city_style_of_nation(const struct nation_type *nation);
 
-struct nation_group *add_new_nation_group(const char *name);
-int get_nation_groups_count(void);
-
+/* General nation group accessor routines */
 struct nation_group *nation_group_by_number(int id);
 struct nation_group *find_nation_group_by_rule_name(const char *name);
 
 bool is_nation_in_group(struct nation_type *nation,
 			struct nation_group *group);
+
+/* Initialization and iteration */
+struct nation_group *add_new_nation_group(const char *name);
+int get_nation_groups_count(void);
+
 void nation_groups_free(void);
 
 #define nation_groups_iterate(pgroup)					    \
@@ -158,8 +165,10 @@ void nation_groups_free(void);
   }									    \
 }
 
-bool can_conn_edit_players_nation(const struct connection *pconn,
-				  const struct player *pplayer);
+/* Initialization and iteration */
+void nations_alloc(int num);
+void nations_free(void);
+void nation_city_names_free(struct city_name *city_names);
 
 /* Iterate over nations.  This iterates over all nations, including
  * unplayable ones (use is_nation_playable to filter if necessary). */

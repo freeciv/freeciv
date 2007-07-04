@@ -106,7 +106,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
   case REQ_NONE:
     return source;
   case REQ_TECH:
-    source.value.tech = find_tech_by_rule_name(value);
+    source.value.tech = find_advance_by_rule_name(value);
     if (source.value.tech != A_LAST) {
       return source;
     }
@@ -124,13 +124,13 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_SPECIAL:
-    source.value.special = get_special_by_name_orig(value);
+    source.value.special = find_special_by_rule_name(value);
     if (source.value.special != S_LAST) {
       return source;
     }
     break;
   case REQ_TERRAIN:
-    source.value.terrain = get_terrain_by_rule_name(value);
+    source.value.terrain = find_terrain_by_rule_name(value);
     if (source.value.terrain != T_UNKNOWN) {
       return source;
     }
@@ -148,13 +148,13 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_UNITFLAG:
-    source.value.unitflag = unit_flag_from_str(value);
+    source.value.unitflag = find_unit_flag_by_rule_name(value);
     if (source.value.unitflag != F_LAST) {
       return source;
     }
     break;
   case REQ_UNITCLASS:
-    source.value.unitclass = unit_class_from_str(value);
+    source.value.unitclass = find_unit_class_by_rule_name(value);
     if (source.value.unitclass) {
       return source;
     }
@@ -183,7 +183,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_TERRAINCLASS:
-    source.value.terrainclass = get_terrain_class_by_name(value);
+    source.value.terrainclass = find_terrain_class_by_rule_name(value);
     if (source.value.terrainclass != TC_LAST) {
       return source;
     }
@@ -223,7 +223,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.special = value;
     return source;
   case REQ_TERRAIN:
-    source.value.terrain = get_terrain_by_number(value);
+    source.value.terrain = terrain_by_number(value);
     return source;
   case REQ_NATION:
     source.value.nation = nation_by_number(value);
@@ -1085,7 +1085,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, improvement_name_translation(psource->value.building), bufsz);
     break;
   case REQ_SPECIAL:
-    mystrlcat(buf, get_special_name(psource->value.special), bufsz);
+    mystrlcat(buf, special_name_translation(psource->value.special), bufsz);
     break;
   case REQ_TERRAIN:
     mystrlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
@@ -1098,11 +1098,11 @@ char *get_req_source_text(const struct req_source *psource,
     break;
   case REQ_UNITFLAG:
     cat_snprintf(buf, bufsz, _("%s units"),
-		 get_unit_flag_name(psource->value.unitflag));
+		 unit_flag_rule_name(psource->value.unitflag));
     break;
   case REQ_UNITCLASS:
     cat_snprintf(buf, bufsz, _("%s units"),
-		 unit_class_name(psource->value.unitclass));
+		 uclass_name_translation(psource->value.unitclass));
     break;
   case REQ_OUTPUTTYPE:
     mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz);
@@ -1121,7 +1121,7 @@ char *get_req_source_text(const struct req_source *psource,
     break;
    case REQ_TERRAINCLASS:
      cat_snprintf(buf, bufsz, _("%s terrain"),
-                  terrain_class_name(psource->value.terrainclass));
+                  terrain_class_name_translation(psource->value.terrainclass));
      break;
   case REQ_LAST:
     assert(0);

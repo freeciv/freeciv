@@ -73,7 +73,7 @@ bool is_unit_reachable_by_unit(const struct unit *defender,
   struct unit_class *dclass = unit_class(defender);
 
   return unit_has_type_flag(attacker, F_ATTACK_ANY)
-    || !unit_class_flag(dclass, UCF_UNREACHABLE);
+    || !uclass_has_flag(dclass, UCF_UNREACHABLE);
 }
 
 /***********************************************************************

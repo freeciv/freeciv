@@ -749,7 +749,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
     
     my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
-	    unit_name_translation(punittemp), 
+	    utype_name_translation(punittemp), 
 	    pcity ? pcity->name : "",
 	    unit_activity_text(punit));
 
@@ -1238,7 +1238,7 @@ void create_races_dialog(struct player *pplayer)
 
   for(i=0; i<b_s_num; i++) {
     XtVaSetValues(races_style_toggles[i], XtNlabel,
-		  (XtArgVal)city_styles[city_style_idx[i]].name, NULL);
+		  (XtArgVal)city_style_name_translation(city_style_idx[i]), NULL);
   }
 
   select_random_race();

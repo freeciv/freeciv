@@ -863,7 +863,7 @@ static void package_player_common(struct player *plr,
   packet->team = plr->team ? plr->team->index : -1;
   packet->is_ready = plr->is_ready;
   if (city_styles != NULL) {
-    packet->city_style = get_player_city_style(plr);
+    packet->city_style = city_style_of_player(plr);
   } else {
     packet->city_style = 0;
   }

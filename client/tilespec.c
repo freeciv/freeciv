@@ -1931,7 +1931,7 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
 				      const struct city *pcity)
 {
   /* get style and match the best tile based on city size */
-  int style = get_city_style(pcity);
+  int style = style_of_city(pcity);
   int num_thresholds = city_sprite->styles[style].num_thresholds;
   int t;
 
@@ -2788,9 +2788,9 @@ void tileset_setup_tile_type(struct tileset *t,
 			l,
 			draw->name,
 			direction4letters[dir]);
-	    draw->layer[l].cells[i] = lookup_sprite_tag_alt(t, buffer, "", TRUE,
-							"cell terrain",
-							pterrain->name_rule);
+	    draw->layer[l].cells[i]
+	      = lookup_sprite_tag_alt(t, buffer, "", TRUE, "cell terrain",
+				      terrain_rule_name(pterrain));
 	    break;
 	  case MATCH_SAME:
 	    my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c%d%d%d",
@@ -4397,18 +4397,18 @@ void tileset_setup_city_tiles(struct tileset *t, int style)
 
     for (style = 0; style < game.control.styles_count; style++) {
       if (t->sprites.city.tile->styles[style].num_thresholds == 0) {
-	freelog(LOG_ERROR, "No city graphics for \"%s\" style.",
-		city_styles[style].name);
+	freelog(LOG_FATAL, "City style \"%s\": no city graphics.",
+		city_style_rule_name(style));
 	exit(EXIT_FAILURE);
       }
       if (t->sprites.city.wall->styles[style].num_thresholds == 0) {
-	freelog(LOG_ERROR, "No wall graphics for \"%s\" style.",
-		city_styles[style].name);
+	freelog(LOG_FATAL, "City style \"%s\": no wall graphics.",
+		city_style_rule_name(style));
 	exit(EXIT_FAILURE);
       }
       if (t->sprites.city.occupied->styles[style].num_thresholds == 0) {
-	freelog(LOG_ERROR, "No occupied graphics for \"%s\" style.",
-		city_styles[style].name);
+	freelog(LOG_FATAL, "City style \"%s\": no occupied graphics.",
+		city_style_rule_name(style));
 	exit(EXIT_FAILURE);
       }
     }

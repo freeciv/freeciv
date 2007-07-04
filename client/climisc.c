@@ -1131,7 +1131,7 @@ enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
   assert(pclass->move_type == HELI_MOVING
          || pclass->move_type == AIR_MOVING);
 
-  if (unit_class_flag(pclass, UCF_TERRAIN_SPEED)) {
+  if (uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     /* Unit moves on both sea and land by speed determined by terrain */
     return UNIT_BG_AMPHIBIOUS;
   }

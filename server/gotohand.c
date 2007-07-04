@@ -293,7 +293,7 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
   if (punit) {
     pclass = unit_class(punit);
 
-    terrain_speed = unit_class_flag(unit_class(punit), UCF_TERRAIN_SPEED);
+    terrain_speed = uclass_has_flag(unit_class(punit), UCF_TERRAIN_SPEED);
     if (!terrain_speed /* Igter meaningless without terrain_speed */
         && unit_has_type_flag(punit, F_IGTER)) {
       igter = TRUE;

@@ -296,7 +296,7 @@ HOOKPROTONH(advance_display, void, char **array, APTR msg)
   {
     int tech = which-100;
     if (tech == game.control.num_tech_types) *array = _("At Spy's Discretion");
-    else *array = advances[which-100].name;
+    else *array = advance_name_translation(which-100);
   }
   else
     *array = _("Technology");
@@ -1603,7 +1603,7 @@ void popup_races_dialog(void)
       if(city_styles[i].techreq == A_NONE)
       {
         styles_basic_index[styles_basic_nums] = i;
-        styles_entries[styles_basic_nums] = city_styles[i].name;
+        styles_entries[styles_basic_nums] = city_style_name_translation(i);
         styles_basic_nums++;
       }
     }

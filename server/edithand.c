@@ -71,8 +71,8 @@ void handle_edit_tile(struct connection *pc, int x, int y,
 		      bv_special special)
 {
   struct tile *ptile = map_pos_to_tile(x, y);
-  struct terrain *pterrain = get_terrain_by_number(terrain), *old_terrain;
-  struct resource *presource = get_resource_by_number(resource);
+  struct terrain *pterrain = terrain_by_number(terrain), *old_terrain;
+  struct resource *presource = resource_by_number(resource);
 
   if (!can_conn_edit(pc) || !ptile || !pterrain) {
     return;

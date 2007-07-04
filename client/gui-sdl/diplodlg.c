@@ -611,7 +611,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              add_to_gui_list(ID_LABEL, pBuf);
 	     count++;
 	     
-	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advances[i].name);
+	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(i));
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -636,7 +636,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	  (get_invention(pPlayer1, i) == TECH_UNKNOWN || 
 	   get_invention(pPlayer1, i) == TECH_REACHABLE)) {
 	     
-	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advances[i].name);
+	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(i));
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));

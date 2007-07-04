@@ -646,7 +646,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
       if (can_unit_type_transport(unit_type(punit), uclass)
           && (uclass->move_type == LAND_MOVING
               || (uclass->move_type == AIR_MOVING
-                  && !unit_class_flag(uclass, UCF_MISSILE)))) {
+                  && !uclass_has_flag(uclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;
       }
@@ -863,7 +863,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
       if (missile->ai.ai_role != AIUNIT_ESCORT
           && missile->transported_by == -1
           && missile->owner == punit->owner
-          && unit_class_flag(unit_class(missile), UCF_MISSILE)
+          && uclass_has_flag(unit_class(missile), UCF_MISSILE)
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
         ai_unit_new_role(missile, AIUNIT_ESCORT, target->tile);

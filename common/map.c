@@ -641,7 +641,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
     return punit->moves_left;
   }
 
-  if (punit && !unit_class_flag(pclass, UCF_TERRAIN_SPEED)) {
+  if (punit && !uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     return SINGLE_MOVE;
   }
 

@@ -576,7 +576,7 @@ static unsigned int assess_danger(struct city *pcity)
       } else if (is_air_unit(punit) && !unit_has_type_flag(punit, F_NUCLEAR)) {
         danger[3] += vulnerability * move_rate / MAX(dist, 1); /* SAM */
       }
-      if (unit_class_flag(unit_class(punit), UCF_MISSILE)) {
+      if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
         /* SDI */
         danger[4] += vulnerability * move_rate / MAX(move_rate, dist);
       }
@@ -964,7 +964,7 @@ static void process_attacker_want(struct city *pcity,
       if (move_type != LAND_MOVING && vuln == 0) {
         desire = 0;
         
-      } else if (unit_class_flag(utype_class(punittype), UCF_CAN_OCCUPY) && acity
+      } else if (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY) && acity
                  && TEST_BIT(acity->ai.invasion, INVASION_ATTACK)
                  && !TEST_BIT(acity->ai.invasion, INVASION_OCCUPY)) {
         desire = bcost * SHIELD_WEIGHTING;

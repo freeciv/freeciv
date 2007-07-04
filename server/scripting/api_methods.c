@@ -41,7 +41,7 @@ int api_methods_player_num_units(Player *pplayer)
 **************************************************************************/
 bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)
 {
-  enum unit_flag_id id = unit_flag_from_str(flag);
+  enum unit_flag_id id = find_unit_flag_by_rule_name(flag);
 
   if (id != F_LAST) {
     return utype_has_flag(punit_type, id);
@@ -56,7 +56,7 @@ bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)
 **************************************************************************/
 bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
 {
-  enum unit_role_id id = unit_role_from_str(role);
+  enum unit_role_id id = find_unit_role_by_rule_name(role);
 
   if (id != L_LAST) {
     return utype_has_role(punit_type, id);

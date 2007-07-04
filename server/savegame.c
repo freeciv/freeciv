@@ -249,7 +249,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
 ****************************************************************************/
 static struct terrain *char2terrain(char ch)
 {
-  /* get_terrain_by_identifier plus fatal error */
+  /* terrain_by_identifier plus fatal error */
   if (ch == UNKNOWN_TERRAIN_IDENTIFIER) {
     return T_UNKNOWN;
   }
@@ -1517,7 +1517,7 @@ static Tech_type_id load_technology(struct section_file *file,
     return -1;
   }
   
-  id = find_tech_by_rule_name(name);
+  id = find_advance_by_rule_name(name);
   if (id == A_LAST) {
     freelog(LOG_FATAL, "Unknown technology \"%s\".", name);
     exit(EXIT_FAILURE);    
@@ -1984,7 +1984,9 @@ static void player_load(struct player *plr, int plrno,
   }
   gov = find_government_by_rule_name(name);
   if (gov == NULL) {
-    freelog(LOG_FATAL, "Unsupported government found \"%s\".", name);
+    freelog(LOG_FATAL, "Player%d: unsupported government \"%s\".",
+                       plrno,
+                       name);
     exit(EXIT_FAILURE);
   }
   plr->government = gov;
@@ -2032,16 +2034,24 @@ static void player_load(struct player *plr, int plrno,
     char* old_order[4] = {"European", "Classical", "Tropical", "Asian"};
     c_s = secfile_lookup_int_default(file, 0, "player%d.city_style", plrno);
     if (c_s < 0 || c_s > 3) {
+      freelog(LOG_ERROR, "Player%d: unsupported city_style %d."
+                         " Changed to \"%s\".",
+                         plrno,
+                         c_s,
+                         old_order[0]);
       c_s = 0;
     }
     p = old_order[c_s];
   }
-  c_s = get_style_by_name_orig(p);
-  if (c_s == -1) {
-    freelog(LOG_ERROR, "Unsupported city style found in player%d section. "
-                         "Changed to \"%s\".", plrno, get_city_style_name(0));
+  c_s = find_city_style_by_rule_name(p);
+  if (c_s < 0) {
+    freelog(LOG_ERROR, "Player%d: unsupported city_style_name \"%s\"."
+                       " Changed to \"%s\".",
+                       plrno,
+                       p,
+                       city_style_rule_name(0));
     c_s = 0;
-  }	
+  }
   plr->city_style = c_s;
 
   plr->nturns_idle=0;
@@ -2143,7 +2153,7 @@ static void player_load(struct player *plr, int plrno,
     for (k = 0; p[k];  k++) {
       if (p[k] == '1') {
 	name = old_tech_name(k);
-	id = find_tech_by_rule_name(name);
+	id = find_advance_by_rule_name(name);
 	if (id != A_LAST) {
 	  set_invention(plr, id, TECH_KNOWN);
 	}
@@ -2152,7 +2162,7 @@ static void player_load(struct player *plr, int plrno,
   } else {
     for (k = 0; k < technology_order_size && p[k]; k++) {
       if (p[k] == '1') {
-	id = find_tech_by_rule_name(technology_order[k]);
+	id = find_advance_by_rule_name(technology_order[k]);
 	if (id != A_LAST) {
 	  set_invention(plr, id, TECH_KNOWN);
 	}
@@ -2801,7 +2811,7 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, 0, "player%d.city_style", plrno);
 
   /* This is the new city style field to be used */
-  secfile_insert_str(file, get_city_style_name_orig(plr->city_style),
+  secfile_insert_str(file, city_style_rule_name(plr->city_style),
                       "player%d.city_style_by_name", plrno);
 
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);
@@ -3538,7 +3548,7 @@ void game_load(struct section_file *file)
     special_order = fc_calloc(nmod + (4 - (nmod % 4)),
 			      sizeof(*special_order));
     for (j = 0; j < nmod; j++) {
-      special_order[j] = get_special_by_name_orig(modname[j]);
+      special_order[j] = find_special_by_rule_name(modname[j]);
     }
     free(modname);
     for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
@@ -4196,7 +4206,7 @@ void game_save(struct section_file *file, const char *save_reason)
     /* Save specials order */
     modname = fc_calloc(S_LAST, sizeof(*modname));
     for (j = 0; j < S_LAST; j++) {
-      modname[j] = get_special_name_orig(j);
+      modname[j] = special_rule_name(j);
     }
     secfile_insert_str_vec(file, modname, S_LAST,
 			   "savefile.specials");

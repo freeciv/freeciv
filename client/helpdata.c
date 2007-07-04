@@ -176,7 +176,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_SPECIAL:
     cat_snprintf(buf, bufsz, _("Requires the %s terrain special.\n\n"),
-		 get_special_name(req->source.value.special));
+		 special_name_translation(req->source.value.special));
     return;
   case REQ_TERRAIN:
     cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n\n"),
@@ -192,11 +192,11 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_UNITFLAG:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-                get_unit_flag_name(req->source.value.unitflag));
+                unit_flag_rule_name(req->source.value.unitflag));
     return;
   case REQ_UNITCLASS:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-		 unit_class_name(req->source.value.unitclass));
+		 uclass_name_translation(req->source.value.unitclass));
     return;
   case REQ_OUTPUTTYPE:
     cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
@@ -216,7 +216,7 @@ static void insert_requirement(struct requirement *req,
     return;
    case REQ_TERRAINCLASS:
      cat_snprintf(buf, bufsz, _("Requires %s terrain.\n\n"),
-                  terrain_class_name(req->source.value.terrainclass));
+                  terrain_class_name_translation(req->source.value.terrainclass));
      return;
   }
   assert(0);
@@ -723,7 +723,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
 {									    \
   Tech_type_id tech_id = 0;						    \
 									    \
-  while ((tech_id = find_tech_by_flag(tech_id, (flag))) != A_LAST) {
+  while ((tech_id = find_advance_by_flag(tech_id, (flag))) != A_LAST) {
 
 #define techs_with_flag_iterate_end		\
     tech_id++;					\
@@ -771,22 +771,22 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   buf[0] = '\0';
 
   sprintf(buf + strlen(buf), _("* Belongs to %s units class.\n"),
-          utype_class(utype)->name);
-  if (unit_class_flag(utype_class(utype), UCF_CAN_OCCUPY)
+          uclass_name_translation(utype_class(utype)));
+  if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY)
       && !utype_has_flag(utype, F_NONMIL)) {
     sprintf(buf + strlen(buf), _("  * Can occupy empty enemy cities.\n"));
   }
-  if (!unit_class_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
+  if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
     sprintf(buf + strlen(buf), _("  * Speed is not affected by terrain.\n"));
   }
-  if (unit_class_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
+  if (uclass_has_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
     sprintf(buf + strlen(buf), _("  * Slowed down while damaged\n"));
   }
-  if (unit_class_flag(utype_class(utype), UCF_MISSILE)) {
+  if (uclass_has_flag(utype_class(utype), UCF_MISSILE)) {
     sprintf(buf + strlen(buf),
 	    _("  * Gets used up in making an attack.\n"));
   }
-  if (unit_class_flag(utype_class(utype), UCF_UNREACHABLE)) {
+  if (uclass_has_flag(utype_class(utype), UCF_UNREACHABLE)) {
     sprintf(buf + strlen(buf),
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
   }
@@ -796,11 +796,13 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 	    _("* Can only be built if there is %s in the city.\n"), 
             improvement_name_translation(utype->impr_requirement));
   }
+
   if (utype->gov_requirement) {
     sprintf(buf + strlen(buf),
 	    _("* Can only be built with %s as government.\n"), 
             government_name_translation(utype->gov_requirement));
   }
+  
   if (utype_has_flag(utype, F_NOBUILD)) {
     sprintf(buf + strlen(buf),
 	    _("* May not be built in cities.\n"));
@@ -831,7 +833,8 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
                 utype->transport_capacity), utype->transport_capacity);
     unit_class_iterate(uclass) {
       if (can_unit_type_transport(utype, uclass)) {
-        sprintf(buf + strlen(buf), _("  * %s units\n"), uclass->name);
+        sprintf(buf + strlen(buf), _("  * %s units\n"),
+                                   uclass_name_translation(uclass));
       }
     } unit_class_iterate_end
   }
@@ -962,7 +965,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
             _("* Very bad at attacking AEGIS units.\n"));
   }
-  if (!unit_class_flag(utype_class(utype), UCF_MISSILE)
+  if (!uclass_has_flag(utype_class(utype), UCF_MISSILE)
       && utype_has_flag(utype, F_ONEATTACK)) {
     sprintf(buf + strlen(buf),
 	    _("* Making an attack ends this unit's turn.\n"));
@@ -1121,30 +1124,30 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
   sprintf(buf + strlen(buf), "\n");
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
-  if (tech_has_flag(i, TF_BONUS_TECH)) {
+  if (advance_has_flag(i, TF_BONUS_TECH)) {
     sprintf(buf + strlen(buf), _("* The first player to research %s gets "
 				 "an immediate advance.\n"),
 	    advance_name_for_player(game.player_ptr, i));
   }
-  if (tech_has_flag(i, TF_POPULATION_POLLUTION_INC))
+  if (advance_has_flag(i, TF_POPULATION_POLLUTION_INC))
     sprintf(buf + strlen(buf), _("* Increases the pollution generated by "
 				 "the population.\n"));
 
-  if (tech_has_flag(i, TF_BRIDGE)) {
+  if (advance_has_flag(i, TF_BRIDGE)) {
     const char *units_str = role_units_translations(F_SETTLERS);
     sprintf(buf + strlen(buf), _("* Allows %s to build roads on river "
 				 "squares.\n"), units_str);
     free((void *) units_str);
   }
 
-  if (tech_has_flag(i, TF_RAILROAD)) {
+  if (advance_has_flag(i, TF_RAILROAD)) {
     const char *units_str = role_units_translations(F_SETTLERS);
     sprintf(buf + strlen(buf),
 	    _("* Allows %s to upgrade roads to railroads.\n"), units_str);
     free((void *) units_str);
   }
 
-  if (tech_has_flag(i, TF_FARMLAND)) {
+  if (advance_has_flag(i, TF_FARMLAND)) {
     const char *units_str = role_units_translations(F_SETTLERS);
     sprintf(buf + strlen(buf),
 	    _("* Allows %s to upgrade irrigation to farmland.\n"),
@@ -1376,10 +1379,10 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
       case EFT_VETERAN_BUILD:
         if (unitclass) {
           sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
-                  unit_class_name(unitclass));
+                  uclass_name_translation(unitclass));
         } else if (unitflag != F_LAST) {
           sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
-                  get_unit_flag_name(unitflag));
+                  unit_flag_rule_name(unitflag));
         } else {
           sprintf(buf + strlen(buf), _("* Veteran units.\n"));
         }

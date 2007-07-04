@@ -496,10 +496,9 @@ static void real_info_city_report_dialog_update(void)
       togrow = unit_build_shield_cost(pUnitType);
       pName = utype_name_translation(pUnitType);
     } else {
-      struct impr_type *pImprv = improvement_by_number(pCity->production.value);
       pLogo = ResizeSurface(get_building_surface(pCity->production.value), adj_size(36), adj_size(24), 1);
       togrow = impr_build_shield_cost(pCity->production.value);
-      pName = improvement_name_translation(pImprv);
+      pName = improvement_name_translation(pCity->production.value);
     }
     
     if(!worklist_is_empty(&(pCity->worklist))) {
@@ -1015,10 +1014,9 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
     togrow = unit_build_shield_cost(pUnitType);
     pName = utype_name_translation(pUnitType);
   } else {
-    struct impr_type *pImprv = improvement_by_number(pCity->production.value);
     pLogo = ResizeSurface(get_building_surface(pCity->production.value), adj_size(36), adj_size(24), 1);
     togrow = impr_build_shield_cost(pCity->production.value);
-    pName = improvement_name_translation(pImprv);
+    pName = improvement_name_translation(pCity->production.value);
   }
     
   if(!worklist_is_empty(&(pCity->worklist))) {
