@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-04 16:45+0900\n"
+"POT-Creation-Date: 2007-07-04 21:16+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv@home.se>\n"
@@ -48,7 +48,7 @@ msgstr ""
 #: client/gui-mui/citydlg.c:1585 client/gui-mui/repodlgs.c:669
 #: client/gui-win32/repodlgs.c:693
 msgid "Food"
-msgstr "Mat-"
+msgstr "Mat"
 
 #: common/city.c:54 client/gui-gtk-2.0/repodlgs.c:935
 #: client/gui-mui/citydlg.c:1589 client/gui-mui/repodlgs.c:668
@@ -1442,8 +1442,8 @@ msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr ""
-"Ett fel inträffade medan användardatabasen lästes in; loggar in som gäst "
-"'%s'."
+"Ett fel inträffade medan användardatabasen lästes in; loggar in som gäst '%"
+"s'."
 
 #: server/auth.c:168
 msgid ""
@@ -2688,8 +2688,8 @@ msgid ""
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
 msgstr ""
-"Kontrollnivån styr vilka serverkommandon som är åtkomliga för "
-"spelarna genom klientens kommunikationsrad. De tillgängliga lägena är:\n"
+"Kontrollnivån styr vilka serverkommandon som är åtkomliga för spelarna genom "
+"klientens kommunikationsrad. De tillgängliga lägena är:\n"
 "    none  -  inga kommandon\n"
 "    info  -  endast upplysningsgivande kommandon\n"
 "    ctrl  -  kommandon som påverkar spelet och användarna\n"
@@ -5414,8 +5414,8 @@ msgstr "Spelet pågår redan."
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
-"%s förlorade direktkontroll över servern vid spelstarten. Använd röstning "
-"fr.o.m. nu."
+"%s förlorade direktkontroll över servern vid spelstarten. Använd röstning fr."
+"o.m. nu."
 
 #: server/srv_main.c:903
 msgid "Starting game."
@@ -5739,8 +5739,8 @@ msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
-"Kan inte sänka kontrollnivån \"%s\" för anslutningen \"%s\"; du har "
-"endast \"%s\"."
+"Kan inte sänka kontrollnivån \"%s\" för anslutningen \"%s\"; du har endast "
+"\"%s\"."
 
 #: server/stdinhand.c:1229
 #, c-format
@@ -5767,15 +5767,14 @@ msgstr "Kontrollnivån för den första spelaren som tar det: %s"
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
-"Fel: kontrollnivån måste vara en av \"none\", \"info\", \"ctrl\" "
-"eller \"hack\"."
+"Fel: kontrollnivån måste vara en av \"none\", \"info\", \"ctrl\" eller \"hack"
+"\"."
 
 #: server/stdinhand.c:1287
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
-msgstr ""
-"Kan inte höja kontrollnivån till \"%s\"; du själv har endast \"%s\"."
+msgstr "Kan inte höja kontrollnivån till \"%s\"; du själv har endast \"%s\"."
 
 #: server/stdinhand.c:1314 server/stdinhand.c:1362
 #, c-format
@@ -5795,8 +5794,7 @@ msgstr "Kontrollnivån satt till \"%s\" för nya spelare."
 #: server/stdinhand.c:1332 server/stdinhand.c:1343 server/stdinhand.c:1350
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr ""
-"Kontrollnivån satt till \"%s\" för den första spelaren som tar det."
+msgstr "Kontrollnivån satt till \"%s\" för den första spelaren som tar det."
 
 #: server/stdinhand.c:1388
 msgid "The 'first' command makes no sense from the server command line."
@@ -7047,7 +7045,8 @@ msgstr[1] ""
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Vår angripande %s segrade över %ss %s (samt %d ytterligare enhet)%s!"
+msgstr[0] ""
+"Vår angripande %s segrade över %ss %s (samt %d ytterligare enhet)%s!"
 msgstr[1] ""
 "Vår angripande %s segrade över %ss %s (samt %d ytterligare enheter)%s!"
 
@@ -7163,13 +7162,13 @@ msgstr "Vår %s dödades av fientliga enheter där den landade."
 #: server/unittools.c:2208
 #, c-format
 msgid "You found %d gold."
-msgstr "Vi funno %d guld."
+msgstr "Vi fann %d guld."
 
 # DM
 #: server/unittools.c:2225
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr "Vi funno kunskapen om %s i uråldriga skriftrullar."
+msgstr "Vi fann kunskapen om %s i uråldriga skriftrullar."
 
 #: server/unittools.c:2232
 #, c-format
@@ -7196,7 +7195,7 @@ msgstr "Vår %s blevo slaktade av infödingar!"
 
 #: server/unittools.c:2293
 msgid "You found a friendly city."
-msgstr "Vi funno en vänligt sinnad stad."
+msgstr "Vi fann en vänligt sinnad stad."
 
 # DM> Utvecklade prosan här också...
 #: server/unittools.c:2307
@@ -13464,8 +13463,8 @@ msgid "Disconnect"
 msgstr "Koppla från"
 
 #: client/gui-mui/gui_main.c:221 client/gui-sdl/optiondlg.c:2179
-#: client/gui-win32/connectdlg.c:1098 client/gui-xaw/menu.c:121
-#: data/Freeciv.in:115 data/Freeciv.in:3180
+#: client/gui-sdl/pages.c:244 client/gui-win32/connectdlg.c:1098
+#: client/gui-xaw/menu.c:121 data/Freeciv.in:115 data/Freeciv.in:3180
 msgid "Quit"
 msgstr "Avsluta"
 
@@ -14300,7 +14299,7 @@ msgstr "Valmöjligheter"
 #: client/gui-sdl/citydlg.c:1772
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
-msgstr "Visa underhåll för enheter (%d %s)"
+msgstr "Underhåll för enheter (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1773 client/gui-sdl/citydlg.c:1832
 msgid "unit"
@@ -14311,11 +14310,11 @@ msgstr[1] "enheter"
 #: client/gui-sdl/citydlg.c:1831
 #, c-format
 msgid "Garrison Panel (%d %s)"
-msgstr "Visa garnison (%d %s)"
+msgstr "Stadens garnison (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1881
 msgid "Info Panel"
-msgstr "Visa upplysningar"
+msgstr "Upplysningar"
 
 #: client/gui-sdl/citydlg.c:1902
 #, c-format
@@ -14337,7 +14336,7 @@ msgstr "Handel: +%d"
 
 #: client/gui-sdl/citydlg.c:2037 client/gui-sdl/citydlg.c:3731
 msgid "Happiness panel"
-msgstr "Belåtenhetspanel"
+msgstr "Visa belåtenhet"
 
 #: client/gui-sdl/citydlg.c:2532
 msgid "Citizens"
@@ -14346,7 +14345,7 @@ msgstr "Medborgare"
 #: client/gui-sdl/citydlg.c:2561
 #, c-format
 msgid "Food: %d per turn"
-msgstr "Mat: %d per omgång"
+msgstr "Mat: %d per omg"
 
 #: client/gui-sdl/citydlg.c:2598
 #, c-format
@@ -14356,7 +14355,7 @@ msgstr "Överskott: %d"
 #: client/gui-sdl/citydlg.c:2646
 #, c-format
 msgid "Production: %d (%d) per turn"
-msgstr "Tillverkning: %d (%d) per omgång"
+msgstr "Tillverkning: %d (%d) per omg"
 
 #: client/gui-sdl/citydlg.c:2692
 #, c-format
@@ -14366,7 +14365,7 @@ msgstr "Stöd: %d"
 #: client/gui-sdl/citydlg.c:2730
 #, c-format
 msgid "Trade: %d per turn"
-msgstr "Handel: %d per omgång"
+msgstr "Handel: %d per omg"
 
 #: client/gui-sdl/citydlg.c:2764
 #, c-format
@@ -14376,7 +14375,7 @@ msgstr "Korruption: %d"
 #: client/gui-sdl/citydlg.c:2801
 #, c-format
 msgid "Gold: %d (%d) per turn"
-msgstr "Guld: %d (%d) per omgång"
+msgstr "Guld: %d (%d) per omg"
 
 #: client/gui-sdl/citydlg.c:2848
 #, c-format
@@ -14386,12 +14385,12 @@ msgstr "Underhåll: %d"
 #: client/gui-sdl/citydlg.c:2887
 #, c-format
 msgid "Science: %d per turn"
-msgstr "Forskning: %d per omgång"
+msgstr "Forskning: %d per omg"
 
 #: client/gui-sdl/citydlg.c:2927
 #, c-format
 msgid "Luxury: %d per turn"
-msgstr "Överflöd: %d per omgång"
+msgstr "Överflöd: %d per omg"
 
 #: client/gui-sdl/citydlg.c:2965
 msgid "City growth: blocked"
@@ -14460,7 +14459,7 @@ msgstr "Visa garnison"
 
 #: client/gui-sdl/citydlg.c:3743
 msgid "Information panel"
-msgstr "Upplysningspanel"
+msgstr "Visa upplysningar"
 
 #: client/gui-sdl/citydlg.c:3788 client/gui-sdl/dialogs.c:1255
 #: client/gui-win32/citydlg.c:1063 data/Freeciv.in:2073
@@ -14534,7 +14533,7 @@ msgstr "förvalda värden"
 #: client/gui-sdl/cma_fe.c:852
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
-msgstr "Staden %s med en befolkning på %s medborgare : %s"
+msgstr "Staden %s (befolkning %s) : %s"
 
 #: client/gui-sdl/cma_fe.c:967
 msgid "Save settings as..."
@@ -14709,7 +14708,7 @@ msgstr "Avbryt möte"
 msgid "Accept treaty"
 msgstr "Godkänn avtal"
 
-#DM> FIXME
+# DM> FIXME
 #: client/gui-sdl/diplodlg.c:1298
 #, c-format
 msgid "%s incident !"
@@ -14738,7 +14737,7 @@ msgstr "Förklara KRIG"
 
 #: client/gui-sdl/diplodlg.c:1460 client/gui-win32/plrdlg.c:354
 msgid "Cancel Treaty"
-msgstr "Avbryt Avtal"
+msgstr "Avbryt avtal"
 
 #: client/gui-sdl/diplodlg.c:1483 client/gui-win32/plrdlg.c:355
 #: data/Freeciv.in:3254
@@ -14802,7 +14801,8 @@ msgstr "Kunde inte konvertera bild från filen %s till formatet %d"
 #: client/gui-sdl/graphics.c:344
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-msgstr "Kunde inte skapa Sprite (Surface) av storleken %d x %d %d bitar till "
+msgstr ""
+"Kunde inte skapa Sprite (Surface) av storleken %d x %d %d bitar till "
 "formatet %d"
 
 #: client/gui-sdl/graphics.c:1012
@@ -14841,8 +14841,7 @@ msgstr "Fullskärmsläge"
 #: client/gui-sdl/gui_main.c:150
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
-msgstr ""
-"Med detta påslaget använder klienten hela skärmen"
+msgstr "Med detta påslaget använder klienten hela skärmen"
 
 #: client/gui-sdl/gui_main.c:153
 msgid "Screen width"
@@ -14869,8 +14868,7 @@ msgid ""
 "By changing this option you change the active theme. This is the same as "
 "using the -- --theme command-line parameter."
 msgstr ""
-"Här kan du byta aktivt tema. Motsvarar kommandoradsparametern "
-"-- --theme."
+"Här kan du byta aktivt tema. Motsvarar kommandoradsparametern -- --theme."
 
 #: client/gui-sdl/gui_main.c:204
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
@@ -14892,6 +14890,10 @@ msgstr "  -t,  --theme TEMA\tAnvänd gränssnittstemat TEMA\n"
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Använder grafikläge: %s"
+
+#: client/gui-sdl/gui_main.c:812 client/gui-sdl/gui_main.c:827
+msgid "SDLClient of Freeciv"
+msgstr "Freeciv SDL-klient"
 
 #: client/gui-sdl/gui_main.c:839
 msgid "Initializing Client"
@@ -14920,8 +14922,9 @@ msgstr ""
 #: client/gui-sdl/gui_string.c:284
 #, c-format
 msgid "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-msgstr "SDL_create_str16_surf: Typsnitt är vanligtvis %d stor, medan sträng är "
-"%hd stor"
+msgstr ""
+"SDL_create_str16_surf: Typsnitt är vanligtvis %d stor, medan sträng är %hd "
+"stor"
 
 #: client/gui-sdl/gui_string.c:286
 #, c-format
@@ -15118,7 +15121,7 @@ msgid "Toggle Minimap Mode"
 msgstr "Växla kartläge"
 
 #: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2165
-#: data/Freeciv.in:1217
+#: client/gui-sdl/pages.c:230 data/Freeciv.in:1217
 msgid "Options"
 msgstr "Valmöjligheter"
 
@@ -15435,6 +15438,46 @@ msgstr "Kartinställningar"
 msgid "Worklists"
 msgstr "Arbetslistor"
 
+#: client/gui-sdl/pages.c:159 client/gui-win32/connectdlg.c:963
+msgid "Start New Game"
+msgstr "Påbörja nytt spel"
+
+#: client/gui-sdl/pages.c:174 client/gui-win32/connectdlg.c:775
+msgid "Load Game"
+msgstr "Öppna sparat spel"
+
+#: client/gui-sdl/pages.c:188
+msgid "Join Game"
+msgstr "Delta i spel"
+
+#: client/gui-sdl/pages.c:202
+msgid "Join Pubserver"
+msgstr "Delta i spel online"
+
+#: client/gui-sdl/pages.c:216
+msgid "Join LAN Server"
+msgstr "Delta i lokalt spel"
+
+#: client/gui-sdl/pages.c:297
+msgid "SDLClient welcomes you..."
+msgstr "SDL-klienten önskar dig välkommen..."
+
+#: client/gui-sdl/pages.c:298
+msgid ""
+"Freeciv is free software and you are welcome to distribute copies of it "
+"under certain conditions;"
+msgstr ""
+"Freeciv är fri programvara och du är välkommen att sprida kopior av det "
+"under särskilda villkor;"
+
+#: client/gui-sdl/pages.c:301
+msgid "See the \"Copying\" item on the Help menu."
+msgstr "Se \"Kopiering\" under hjälpmenyn."
+
+#: client/gui-sdl/pages.c:303
+msgid "Now.. Go give'em hell!"
+msgstr "Nu får du ge dem vad de tål!"
+
 #: client/gui-sdl/plrdlg.c:606
 msgid "Nations"
 msgstr "Folkslag"
@@ -15653,16 +15696,15 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:945 client/gui-sdl/wldlg.c:1050
 #, c-format
 msgid "( %d entries )"
-msgstr "( %d bidrag )"
+msgstr "( %d objekt )"
 
-# DM> FIXME
 #: client/gui-sdl/wldlg.c:1037
 #, c-format
 msgid ""
 "Worklist of\n"
 "%s"
 msgstr ""
-"Arbetslista med\n"
+"Arbetslista för\n"
 "%s"
 
 #: client/gui-sdl/wldlg.c:1353
@@ -15932,10 +15974,6 @@ msgstr "Kunde inte läsa in sparfil"
 msgid "Verify Password"
 msgstr "Bekräfta lösenord"
 
-#: client/gui-win32/connectdlg.c:775
-msgid "Load Game"
-msgstr "Öppna sparat spel"
-
 #: client/gui-win32/connectdlg.c:912 data/Freeciv.in:73
 msgid "Freeciv Server Selection"
 msgstr "Serverval"
@@ -15947,10 +15985,6 @@ msgstr "lokalt nätverk"
 #: client/gui-win32/connectdlg.c:947
 msgid "Welcome to Freeciv"
 msgstr "Välkommen till Freeciv"
-
-#: client/gui-win32/connectdlg.c:963
-msgid "Start New Game"
-msgstr "Påbörja nytt spel"
 
 #: client/gui-win32/connectdlg.c:965
 msgid "Load Saved Game"
@@ -25620,6 +25654,18 @@ msgid ""
 "append it to the worklist.  As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
+"Du har byggt din tredje stad! Din civilisation tycks frodas. Det är\n"
+"nu dags att börja tänka på en militär. Välj ut en av dina städer som\n"
+"har en hög produktion och gör om den till en militärbas. Bygg först\n"
+"kaserner, börja sedan producera militära enheter. Välj den starkaste\n"
+"enhet du har tillgänglig - i början av spelet är krigare de enda som\n"
+"du kan bygga, men du kommer så småningom ha mycket att välja på.\n"
+"\n"
+"Detta kan också vara ett gott tillfälle att börja använda arbetslistor. \n"
+"Klicka på kaserner, sedan på knappen \"Ändra\" för att påbörja byggandet. \n"
+"Dubbelklicka sedan på en militär enhet för att lägga till den till \n"
+"arbetslistan. Så snart kasernerna är slutställda påbörjas automatiskt \n"
+"produktionen av denna enhet."
 
 #: data/scenario/tutorial.sav:76
 msgid ""
