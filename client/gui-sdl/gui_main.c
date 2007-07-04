@@ -201,7 +201,7 @@ static void print_usage(const char *argv0)
   /* add client-specific usage information here */
   fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
   fc_fprintf(stderr,
-	     _("  -f,  --fullscreen\tStart Client in Fulscreen mode\n"));
+	     _("  -f,  --fullscreen\tStart Client in Fullscreen mode\n"));
   fc_fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in "
 		       "other thread (only Linux and BeOS)\n"));
   fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));

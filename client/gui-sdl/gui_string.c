@@ -682,7 +682,7 @@ void unload_font(Uint16 ptsize)
   if (index == Sizeof_Font_TAB) {
     freelog(LOG_ERROR,
 	    _("Error in unload_font: Trying unload Font which is "
-	      "not include in Font ARRAY"));
+	      "not included in Font ARRAY"));
     return;
   }
 
