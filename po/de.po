@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-04 18:15+0200\n"
+"POT-Creation-Date: 2007-07-05 18:25+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -5487,85 +5487,85 @@ msgstr "Warnung: Client %s ist zu alt und wurde abgewiesen"
 #: server/srv_main.c:1019
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
-"Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen Sie eine SVN "
-"Version nach dem 28.11.2004 oder Freeciv 1.15.0 oder neuer."
+"Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen Sie"
+"Freeciv Version 2.0 oder neuer."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:1106
+#: server/srv_main.c:1105
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Got a packet of type %d from a dead or observer player"
 
-#: server/srv_main.c:1207
+#: server/srv_main.c:1206
 msgid "Please choose a non-blank name."
 msgstr "Es muß ein Name gewählt werden."
 
-#: server/srv_main.c:1223
+#: server/srv_main.c:1222
 msgid "That nation is already in use."
 msgstr "Diese Nation ist bereits vergeben."
 
-#: server/srv_main.c:1239
+#: server/srv_main.c:1238
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. Bitte "
 "wählen Sie einen anderen Namen."
 
-#: server/srv_main.c:1260
+#: server/srv_main.c:1259
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Bitte wählen Sie einen Namen, der nur ASCII-Zeichen enthält."
 
-#: server/srv_main.c:1338
+#: server/srv_main.c:1337
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Die Nation der %s ist in diesem Szenario nicht verfügbar."
 
-#: server/srv_main.c:1344
+#: server/srv_main.c:1343
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Die Nation der %s ist bereits vergeben."
 
-#: server/srv_main.c:1362
+#: server/srv_main.c:1361
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s ist der %se Herrscher %s."
 
-#: server/srv_main.c:1420
+#: server/srv_main.c:1419
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Warten auf Spielstart: %d von %d Spielern sind bereit zu starten."
 
-#: server/srv_main.c:1425
+#: server/srv_main.c:1424
 msgid "All players are ready; starting game."
 msgstr "Alle Spieler sind bereit, das Spiel wird gestartet."
 
-#: server/srv_main.c:1467 server/srv_main.c:1471
+#: server/srv_main.c:1466 server/srv_main.c:1470
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s ist als KI-Spieler mit dem Level '%s' dazu gekommen."
 
-#: server/srv_main.c:1598
+#: server/srv_main.c:1597
 #, c-format
 msgid "Player %d"
 msgstr "Spieler %d"
 
-#: server/srv_main.c:1609 server/srv_main.c:1615
+#: server/srv_main.c:1608 server/srv_main.c:1614
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s beherrscht die %s."
 
-#: server/srv_main.c:1762
+#: server/srv_main.c:1761
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sende Informationen an den Metaserver [%s]"
 
-#: server/srv_main.c:1790
+#: server/srv_main.c:1789
 msgid "The game is over..."
 msgstr "Das Spiel ist vorbei..."
 
-#: server/srv_main.c:1846
+#: server/srv_main.c:1845
 msgid "Now accepting new client connections."
 msgstr "Warte auf Spieler..."
 
@@ -6854,7 +6854,7 @@ msgstr ""
 msgid "Can't add %s to %s."
 msgstr "%s kann nicht zu %s hinzugefügt werden."
 
-#: server/unithand.c:489
+#: server/unithand.c:487
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s hinzugefügt, um beim Wachstum von %s zu helfen."
@@ -14966,8 +14966,8 @@ msgstr ""
 "Kommendozeilenparameter -- --theme geschehen."
 
 #: client/gui-sdl/gui_main.c:204
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
-msgstr "  -f,  --fullscreen\tStart Client im Vollbildmodus\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
+msgstr "  -f,  --fullscreen\tStarte Client im Vollbildmodus\n"
 
 #: client/gui-sdl/gui_main.c:205
 msgid ""
@@ -14981,6 +14981,11 @@ msgstr ""
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 "  -t,  --theme THEMA\tVerwendet THEMA als Thema der Benutzeroberfläche.\n"
+
+#: client/gui-sdl/gui_main.c:653
+#, c-format
+msgid "Making screenshot fc_%05d.bmp"
+msgstr "Erstelle Bildschirmfoto fc_%05d.bmp"
 
 #: client/gui-sdl/gui_main.c:786
 #, c-format
@@ -15224,14 +15229,15 @@ msgstr "Optionen"
 
 # CK: TECHNICAL
 #: client/gui-sdl/mapview.c:154
+#, c-format
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 msgstr ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 
 #: client/gui-sdl/mapview.c:404
 #, c-format
@@ -15561,8 +15567,8 @@ msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv ist freie Software und darf unter bestimmten Bedingungen kopiert "
-"und weitergegeben werden."
+"Freeciv ist freie Software und darf unter bestimmten Bedingungen kopiert und "
+"weitergegeben werden."
 
 #: client/gui-sdl/pages.c:301
 msgid "See the \"Copying\" item on the Help menu."
