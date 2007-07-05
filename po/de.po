@@ -2150,7 +2150,7 @@ msgid "Report bugs at %s.\n"
 msgstr ""
 "Bitte informieren Sie uns\n"
 "- über Programmfehler in ENGLISCH\n"
-"  mit einer E-Mail an <%s>.\n"
+"  im WWW unter %s.\n"
 "- über Probleme mit der deutschen Übersetzung\n"
 "  mit einer E-Mail an <chrisk@cknoke.de>.\n"
 
@@ -5489,8 +5489,8 @@ msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "Freeciv 2.0 or later."
 msgstr ""
-"Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen Sie"
-"Freeciv Version 2.0 oder neuer."
+"Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen SieFreeciv "
+"Version 2.0 oder neuer."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/srv_main.c:1105
