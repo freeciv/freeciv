@@ -5659,11 +5659,11 @@ msgstr "Avertisment: refuz o versiune veche de client %s"
 #: server/srv_main.c:1015
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "Versiunea clientului dumneavoastră este prea veche. Pentru a folosi acest "
 "server vă rugăm actualizaţi-vă clientul la o versiune de CVS ulterioară "
-"datei 2003-11-28 sau Freeciv 1.15.0 sau altă versiune ulterioară."
+"datei 2003-11-28 sau Freeciv 2.0 sau altă versiune ulterioară."
 
 #: server/srv_main.c:1102
 #, c-format
@@ -15266,7 +15266,7 @@ msgstr ""
 "comandă."
 
 #: client/gui-sdl/gui_main.c:204
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tPorneşte clientul în modul „pe întreg ecranul”\n"
 
 #: client/gui-sdl/gui_main.c:205
@@ -15528,11 +15528,11 @@ msgstr "Opţiuni"
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 msgstr ""
 "Zona de memorie tampon pentru evenimente SDL este plină, este \n"
 "posibil să observaţi erori de desenare. Dacă observaţi acest mesaj\n"
-"prea des raportaţi acest lucru la freeciv-dev@freeciv.org."
+"prea des raportaţi acest lucru la %s."
 
 #: client/gui-sdl/mapview.c:406
 #, fuzzy, c-format

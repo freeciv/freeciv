@@ -5495,11 +5495,11 @@ msgstr "Hoiatus: ei luba sisse vana klienti %s"
 #: server/srv_main.c:1015
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "Su klient on liiga vana. Et seda serverit kasutada, pead uuendama oma "
 "kliendi vähemalt CVS-versioonile ajast 2003-11-28 või väljalaskele Freeciv "
-"1.15.0."
+"2.0."
 
 #: server/srv_main.c:1102
 #, c-format
@@ -14758,7 +14758,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:204
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:205
@@ -15000,11 +15000,11 @@ msgstr "Seaded"
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 msgstr ""
 "SDL'i sündmustepuhver on täis, seetõttu võib esineda vigu\n"
 "joonistamisel. Kui antud teade esineb tihti, palun teate sellest\n"
-"aadressile freeciv-dev@freeciv.org."
+"aadressile %s."
 
 #: client/gui-sdl/mapview.c:406
 #, c-format
