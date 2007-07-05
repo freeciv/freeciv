@@ -442,11 +442,11 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[SP_TAXMAN] += unit_pop_value(punit->type);
   auto_arrange_workers(pcity);
-  wipe_unit(punit);
-  send_city_info(NULL, pcity);
   notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
 		   _("Game: %s added to aid %s in growing."),
 		   unit_name, pcity->name);
+  wipe_unit(punit);
+  send_city_info(NULL, pcity);
 }
 
 /**************************************************************************
