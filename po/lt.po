@@ -4781,8 +4781,8 @@ msgid "Warning: rejecting old client %s"
 msgstr "Dėmesio: atmetamas senas klientas %s"
 
 #: server/srv_main.c:1022
-msgid "Your client is too old. To use this server please upgrade your client to a CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
-msgstr "Jūsų klientas yra per senas. Kad galėtumėte prisijungti prie šio serverio, prašome atsinaujinti savo klientą iš CVS į naujesnį nei 2003-11-28 arba Freeciv 1.15.0 ir naujesnį."
+msgid "Your client is too old. To use this server please upgrade your client to a Freeciv 2.0 or later."
+msgstr "Jūsų klientas yra per senas. Kad galėtumėte prisijungti prie šio serverio, prašome atsinaujinti savo klientą iš CVS į naujesnį nei 2003-11-28 arba Freeciv 2.0 ir naujesnį."
 
 #: server/srv_main.c:1112
 #, c-format
@@ -15121,7 +15121,7 @@ msgid "By changing this option you change the active theme. This is the same as 
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:201
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:202
@@ -15386,7 +15386,7 @@ msgstr "Nustatymai"
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 msgstr ""
 
 #: client/gui-sdl/mapview.c:310

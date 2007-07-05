@@ -5138,7 +5138,7 @@ msgstr "Jogo: Fome atinge %s."
 #: server/srv_main.c:1057
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 
 #: server/srv_main.c:1147
@@ -15110,7 +15110,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:200
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:201
@@ -15371,7 +15371,7 @@ msgstr ""
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 msgstr ""
 
 #: client/gui-sdl/mapview.c:309 client/gui-sdl/mapview.c:312

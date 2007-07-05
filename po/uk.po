@@ -5146,8 +5146,8 @@ msgid "Warning: rejecting old client %s"
 msgstr "Застереження: заборонено доступ застар╕лого кл╕╓нта %s"
 
 #: server/srv_main.c:1054
-msgid "Your client is too old. To use this server please upgrade your client to a CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
-msgstr "Ваш кл╕╓нт застарий. Щоб використовувати цей сервер, будь ласка, онов╕ть ваш кл╕╓нт до CVS верс╕╖ яка п╕зн╕ша за 2003-11-28, або до Freeciv 1.15.0 чи нов╕ше."
+msgid "Your client is too old. To use this server please upgrade your client to a Freeciv 2.0 or later."
+msgstr "Ваш кл╕╓нт застарий. Щоб використовувати цей сервер, будь ласка, онов╕ть ваш кл╕╓нт до CVS верс╕╖ яка п╕зн╕ша за 2003-11-28, або до Freeciv 2.0 чи нов╕ше."
 
 #: server/srv_main.c:1144
 #, c-format
@@ -15618,7 +15618,7 @@ msgid "Report bugs to <%s>.\n"
 msgstr "Про помилки пов╕домляйте до <%s>.\n"
 
 #: client/gui-sdl/gui_main.c:204
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tЗапустити Кл╕╓нт у реж╕м╕ Повний екран\n"
 
 #: client/gui-sdl/gui_main.c:205
@@ -15872,12 +15872,12 @@ msgstr "Опц╕╖"
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 msgstr ""
 "Буфер под╕й SDL переповнився; ви можете бачити\n"
 " помилки у в╕дображенн╕ як насл╕док.  Якщо ви бачите\n"
 "це пов╕домлення часто, будь ласка, пов╕домьте\n"
-"freeciv-dev@freeciv.org."
+"%s."
 
 #: client/gui-sdl/mapview.c:406
 #, c-format

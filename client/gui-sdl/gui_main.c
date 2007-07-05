@@ -650,8 +650,8 @@ Uint16 gui_event_loop(void *pData,
         case SDL_KEYDOWN:
           switch(Main.event.key.keysym.sym) {
             case SDLK_PRINT:
-              freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
-              my_snprintf(schot, sizeof(schot), "schot0%d.bmp", schot_nr++);
+              freelog(LOG_NORMAL, _("Making screenshot fc_%05d.bmp"), schot_nr);
+              my_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
               SDL_SaveBMP(Main.screen, schot);
             break;
             
@@ -809,7 +809,7 @@ void ui_init(void)
     putframe(Main.map, 0, 0, Main.map->w - 1, Main.map->h - 1,
     			SDL_MapRGB(Main.map->format, 255, 255, 255));
     FREESURFACE(pBgd);
-    SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
+    SDL_WM_SetCaption("SDL Client for Freeciv", "Freeciv");
   } else {
     
 #ifndef SMALL_SCREEN
@@ -824,7 +824,7 @@ void ui_init(void)
       FREESURFACE(pBgd);
     } else {
       SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
-      SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
+      SDL_WM_SetCaption("SDL Client for Freeciv", "Freeciv");
     }
   }
   
@@ -981,7 +981,7 @@ void ui_main(int argc, char *argv[])
 #endif
   }
 
-  /* SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv"); */
+  /* SDL_WM_SetCaption("SDL Client for Freeciv", "Freeciv"); */
 
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();    

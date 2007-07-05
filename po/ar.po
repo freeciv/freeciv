@@ -5374,10 +5374,10 @@ msgstr "تحذير: جاري رفض عميل قديم %s"
 #: server/srv_main.c:1057
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "عميلك قديم جدا. لاستخدام هذا الخادم الرجاء التطوير العميل إلى اصدار CVS بعد "
-"2003-11-28 أو Freeciv 1.15.0 وبعد."
+"2003-11-28 أو Freeciv 2.0 وبعد."
 
 #: server/srv_main.c:1147
 #, c-format
@@ -15035,7 +15035,7 @@ msgid ""
 msgstr "ب مفعل هذا."
 
 #: client/gui-sdl/gui_main.c:200
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tبدء العميل في نمط الشاشة الكاملة\n"
 
 #: client/gui-sdl/gui_main.c:201
@@ -15303,8 +15303,8 @@ msgstr "الخيارات"
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
-msgstr "الـ إذاfreeciv-dev@freeciv.org.."
+"report it at %s. Thank you."
+msgstr "الـ إذا%s."
 
 #: client/gui-sdl/mapview.c:309 client/gui-sdl/mapview.c:312
 #, c-format
