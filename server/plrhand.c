@@ -285,8 +285,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     freelog(LOG_ERROR, "Error: found_new_tech() was called on already "
                        "researched technology %s for player %s",
 	    get_tech_name(plr, tech_found), plr->name);
-    freelog(LOG_ERROR, "Report this bug at <bugs@freeciv.org>\n"
-            "Here is some info you should attach:");
+    freelog(LOG_ERROR, "Report this bug at %s.\n"
+            "Here is some info you should attach:", BUG_URL);
     players_iterate(eplayer) {
       freelog(LOG_ERROR, 
               "Player %s(team %d): researching %s;\n bulbs_researched %d; "

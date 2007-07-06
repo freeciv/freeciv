@@ -1420,7 +1420,7 @@ msgstr "  -v, --version\t\tВыдать номер версии\n"
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Сообщайте об ошибках к <%s>.\n"
 
 #: server/commands.c:28
@@ -5118,10 +5118,10 @@ msgstr "Внимание: отказываем старому клиенту (%s)"
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "Ваш клиент слишком стар. Если Вы хотите использовать этот сервер, обновите "
-"ваш клиент до CVS версии после 28/11/2003, либо до Freeciv версии 1.15.0 или "
+"ваш клиент до CVS версии после 28/11/2003, либо до Freeciv версии 2.0 или "
 "позже."
 
 #: server/srv_main.c:989
@@ -8237,10 +8237,10 @@ msgstr "Игра: Буфер обмена пуст."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 "Пути длиннее 99 ходов не поддерживаются.\n"
-"Сообщите об этой ошибке по адресу bugs@freeciv.org."
+"Сообщите об этой ошибке по адресу %s."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -15276,16 +15276,12 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Если Вы нашли ошибку напишите нам об этом (по-английски). Лучше всего это "
 "сделать, посетив Freeciv Bug Tracking System, на:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"или послав письмо на: bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""

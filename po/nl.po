@@ -1398,7 +1398,7 @@ msgstr "  -v, --version\t\tToon het versienummer\n"
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Rapporteer fouten aan <%s>.\n"
 
 #: server/commands.c:28
@@ -5109,10 +5109,10 @@ msgstr "Waarschuwing: weiger oude client %s"
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "Uw client is te oud. Waardeer uw client op tot CVS versie 2003-11-28 of "
-"later of Freeciv 1.15.0 of later om deze server te gebruiken."
+"later of Freeciv 2.0 of later om deze server te gebruiken."
 
 #: server/srv_main.c:989
 #, c-format
@@ -8203,10 +8203,10 @@ msgstr "Spel: Klembord is leeg."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 "Reistijden langer dan 99 beurten zijn niet ondersteund.\n"
-"Rapporteer deze fout aub aan bugs@freeciv.org."
+"Rapporteer deze fout aub aan %s."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -15219,17 +15219,13 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Als u een fout vindt, zend ons dan een foutenrapport.  Dit is het "
 "gemakkelijkst te doen door het Freeciv Fouten Tracerings Systeem te bezoeken "
 "op:\n"
 "\n"
-" ·http://bugs.freeciv.org/\n"
-"\n"
-"of door email te sturen naar: bugs@freeciv.org"
+" ·http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""

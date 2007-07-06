@@ -288,7 +288,7 @@ void queue_flush(void)
       freelog(LOG_ERROR,
 	      _("The SDL event buffer is full; you may see drawing errors\n"
 		"as a result.  If you see this message often, please\n"
-		"report it to freeciv-dev@freeciv.org."));
+		"report it at %s. Thank you."), BUG_URL);
     }
   }
 }

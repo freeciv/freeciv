@@ -1366,7 +1366,7 @@ msgstr ""
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr ""
 
 #: server/commands.c:28
@@ -4594,7 +4594,7 @@ msgstr ""
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 
 #: server/srv_main.c:989
@@ -7698,7 +7698,7 @@ msgstr "Joc: Planul de lucru în %s este acum gol."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 
 #: client/messagewin_common.c:113
@@ -14738,9 +14738,7 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 
 #: data/helpdata.txt:63

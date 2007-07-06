@@ -1965,7 +1965,7 @@ msgstr ""
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:199
 #: client/gui-xaw/gui_main.c:245 manual/civmanual.c:374
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "דווח על באג ל־ <%s>.\n"
 
 #: server/commands.c:28
@@ -4942,7 +4942,7 @@ msgstr ""
 #: server/srv_main.c:1022
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 
 #: server/srv_main.c:1112
@@ -9464,7 +9464,7 @@ msgstr ""
 #: client/tilespec.c:3887
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 
 #: client/agents/cma_core.c:398
@@ -14274,7 +14274,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:201
-msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:202
@@ -14530,10 +14530,11 @@ msgstr "אפשריות"
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
-"report it to freeciv-dev@freeciv.org."
+"report it at %s. Thank you."
 msgstr ""
 "חוצץ ה־ SDL מלא; אתה עלול להבחין בשגיאות ציור "
-"כתוצאה מכך.  אם אתה רואה הודעת שגיאה זו לעתים קרובות דווח על כך בכתובת freeciv-dev@freeciv.org."
+"כתוצאה מכך.  אם אתה רואה הודעת שגיאה זו לעתים קרובות דווח על כך בכתובת "
+"%s."
 
 #: client/gui-sdl/mapview.c:310 client/gui-sdl/mapview.c:313
 #, c-format
@@ -16353,9 +16354,7 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 
 #: data/helpdata.txt:63

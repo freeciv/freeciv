@@ -1382,7 +1382,7 @@ msgstr "  -v, --version\t\tApresenta o número de versão\n"
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Relate erros (bugs) para <%s> (em Inglês).\n"
 
 #: server/commands.c:28
@@ -5004,7 +5004,7 @@ msgstr ""
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 
 #: server/srv_main.c:989
@@ -8139,7 +8139,7 @@ msgstr "Jogo: a lista de tarefas de %s está agora vazia."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 
 #: client/messagewin_common.c:113
@@ -9295,7 +9295,7 @@ msgid ""
 "luck. The CMA will detach itself from the city now."
 msgstr ""
 "AGC: %s foi alterada múltiplas vezes. Isto pode ser um erro no Freeciv ou "
-"azar. Contacte <freeciv-dev@freeciv.org> (em inglês). O AGC irá agora "
+"azar. Contacte <freeciv-dev@gna.org> (em inglês). O AGC irá agora "
 "desligar-se da cidade."
 
 #: client/agents/cma_fec.c:220 client/gui-gtk-2.0/cityrep.c:552
@@ -15234,17 +15234,13 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Se encontrar quaisquer erros (bugs), envie-nos um relatório de erro. A "
 "melhor forma é visitando o Sistema de Acompanhamento de Bugs do Freeciv, "
 "em:\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs (em inglês)\n"
-"\n"
-"ou enviando um email (en inglês) para:  bugs@cvs.freeciv.org"
+"  http://bugs.freeciv.org/ (em inglês)"
 
 #: data/helpdata.txt:63
 msgid ""
@@ -15296,7 +15292,7 @@ msgstr ""
 "Agradecemos-lhe também que envie quaisquer questões para a lista de email "
 "freeciv-dev:\n"
 "\n"
-"  freeciv-dev@freeciv.org"
+"  freeciv-i18n@freeciv.org"
 
 #: data/helpdata.txt:405
 msgid ""

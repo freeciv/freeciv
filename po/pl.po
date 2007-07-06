@@ -1420,7 +1420,7 @@ msgstr "  -v, --version\t\tWypisz numer wersji.\n"
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Zgłaszanie błędów na adres <%s>.\n"
 
 #: server/commands.c:28
@@ -5089,10 +5089,10 @@ msgstr "Ostrzeżenie: Odrzucam przestarzałego klienta %s"
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "Twój klient jest zbyt stary. Aby wejść na ten serwer musisz używać klienta w "
-"wersji co najmniej 1.15.0. (Lub z CVS'a po 18.11.2003)."
+"wersji co najmniej 2.0. (Lub z CVS'a po 18.11.2003)."
 
 #: server/srv_main.c:989
 #, c-format
@@ -8217,10 +8217,10 @@ msgstr "Gra: Schowek jest pusty."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 "Ścieżki dłuższe niż 99 tur nie są wspierane.\n"
-"Zgłoś ten błąd pod adres bugs@freeciv.org."
+"Zgłoś ten błąd pod adres %s."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -9371,7 +9371,7 @@ msgid ""
 "luck. The CMA will detach itself from the city now."
 msgstr ""
 "CMA: Miasto %s zmieniło się wiele razy. Może to być błąd we Freeciv lub "
-"zwykły pech. Skontaktuj się z <freeciv-dev@freeciv.org>. CMA opuści teraz "
+"zwykły pech. Skontaktuj się z <freeciv-dev@gna.org>. CMA opuści teraz "
 "miasto."
 
 #: client/agents/cma_fec.c:220 client/gui-gtk-2.0/cityrep.c:552
@@ -15251,16 +15251,12 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Jeżeli znajdziesz bład w programie wyślij nam raport.  Najlepiej to zrobić "
 "przez odwiedzenie systemu zgłaszania błędów Freeciv, pod adresem:\n"
 "\n"
 "  http://bugs.freeciv.org\n"
-"\n"
-"lub przez wysłanie e-mail'a pod adres:  bugs@freeciv.org\n"
 "\n"
 "Jeżeli błąd dotyczy tłumaczenia, najlepiej poinformować o nim aktualnego "
 "tłumacza."

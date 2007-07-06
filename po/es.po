@@ -6,7 +6,7 @@
 # Nota de M.L.: al igual que el resto de los mensajes, las notas históricas
 # sobre las naciones son traducciones más o menos fieles de la versión inglesa.
 # Para debatir sobre su exactitud es mejor contactar directamente con los
-# autores del juego, escribiendo *en inglés* a <freeciv-dev@freeciv.org>.
+# autores del juego, escribiendo *en inglés* a <freeciv-i18n@gna.org>.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Jordi Negrevernis i Font <jorneg@retemail.es>, 2005.
@@ -1428,7 +1428,7 @@ msgstr "  -v, --version\t\tImprimir el número de versión\n"
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Informa de los bugs a <%s>.\n"
 
 #: server/commands.c:28
@@ -5182,10 +5182,10 @@ msgstr "Aviso: rechazando cliente antiguo %s"
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "Tu cliente es muy antiguo. Para usar este servidor actualiza tu cliente a la "
-"version CVS posterior 28-11-2003 or a Freeciv 1.15.0 o posterior."
+"version CVS posterior 28-11-2003 or a Freeciv 2.0 o posterior."
 
 #: server/srv_main.c:989
 #, c-format
@@ -8327,10 +8327,10 @@ msgstr "Juego: El portapapeles está vacío."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 "Caminos más largos de 99 no están soportados.\n"
-"Informa de este error a bugs@freeciv.org."
+"Informa de este error a %s."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -15304,17 +15304,13 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Si encuentras algún error, por favor infórmanos de él.  Lo mejor es visitar "
 "el 'Freeciv Bug Tracking System' (Sistema de Seguimiento de Errores de "
 "Freeciv), en:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"o puedes mandar un e-mail a:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""
@@ -24020,7 +24016,7 @@ msgstr ""
 #~ msgid "%s (%d bpp) load with screen (%d bpp) format !"
 #~ msgstr "¡Se carga %s (%d bpp) con formato de la pantalla (%d bpp)!"
 
-#~ msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
+#~ msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 #~ msgstr "  -f,  --fullscreen\tModo de pantalla completa\n"
 
 #~ msgid ""
@@ -24161,11 +24157,11 @@ msgstr ""
 #~ msgid ""
 #~ "The SDL event buffer is full; you may see drawing errors\n"
 #~ "as a result.  If you see this message often, please\n"
-#~ "report it to freeciv-dev@freeciv.org."
+#~ "report it at %s. Thank you."
 #~ msgstr ""
 #~ "El buffer de eventos de SDL está lleno; puede que aparezcan\n"
 #~ "errores de dibujo.  Si esto sucede frecuentemente, avisa en\n"
-#~ "freeciv-dev@freeciv.org (en inglés)."
+#~ "%s (en inglés)."
 
 #~ msgid ""
 #~ "Revolution (Shift + R)\n"

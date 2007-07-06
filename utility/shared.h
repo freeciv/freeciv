@@ -59,7 +59,6 @@ typedef unsigned int fc_bool;
 /* Note: the capability string is now in capstr.c --dwp */
 /* Version stuff is now in version.h --dwp */
 
-#define BUG_EMAIL_ADDRESS "bugs@freeciv.org"
 #define WEBSITE_URL "http://www.freeciv.org/"
 
 /* MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS <= 32 !!!! */

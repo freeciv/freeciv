@@ -1390,7 +1390,7 @@ msgstr "  -v, --version\t\tVerziószám kiíratása\n"
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Hibajelentéseket a(z) <%s> címre küldj.\n"
 
 #: server/commands.c:28
@@ -5095,7 +5095,7 @@ msgstr ""
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 
 #: server/srv_main.c:989
@@ -8296,7 +8296,7 @@ msgstr "Játék: %s munkaterve most üres."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 
 #: client/messagewin_common.c:113
@@ -9449,7 +9449,7 @@ msgid ""
 "luck. The CMA will detach itself from the city now."
 msgstr ""
 "CMA: %s többször megváltozott. Ennek lehet, hogy egy freeciv hiba az oka. Ha "
-"van kedved, írj egy levelet a <freeciv-dev@freeciv.org> címre! Mostantól a "
+"van kedved, írj egy levelet a <%s> címre! Mostantól a "
 "CMA elereszti a várost."
 
 #: client/agents/cma_fec.c:220 client/gui-gtk-2.0/cityrep.c:552
@@ -15430,17 +15430,13 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Ha találsz valami hibát, küldhetsz nekünk hibajelentést.  Ezt "
 "legegyszerûbben úgy teheted meg, hogy meglátogatod a Freeciv Hibakövetõ "
 "Rendszer honlapját a\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
-"\n"
-"internetcímen, vagy küldesz egy e-mailt a bugs@cvs.freeciv.org címre."
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""
@@ -15491,7 +15487,7 @@ msgstr ""
 "\n"
 "A freeciv-dev levelezési listán is tehetsz fel kérdéseket, szívesen "
 "válaszolunk. A lista címe:\n"
-"  freeciv-dev@freeciv.org"
+"  freeciv-i18n@freeciv.org"
 
 #: data/helpdata.txt:405
 msgid ""

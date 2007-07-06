@@ -901,9 +901,8 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 
     dio_put_bool32(&dout, FALSE);
     dio_put_string(&dout, _("Your client is too old. To use this server "
-			    "please upgrade your client to a CVS version "
-			    "later than 2003-11-28 or Freeciv 1.15.0 or "
-			    "later."));
+			    "please upgrade your client to a "
+			    "Freeciv 2.0 or later."));
     dio_put_string(&dout, "");
 
     {

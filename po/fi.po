@@ -1430,7 +1430,7 @@ msgstr "  -v, --version\t\tNäytä versionumero.\n"
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Lähetä virheraportit osoitteeseen <%s>.\n"
 
 #: server/commands.c:28
@@ -5149,10 +5149,10 @@ msgstr "Varoitus: torjuin vanhan asiakasohjelman %s"
 #: server/srv_main.c:903
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
-"CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
+"Freeciv 2.0 or later."
 msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi joko "
-"vähintään Freeciv-versioon 1.15.0 tai CVS-versioon, joka ei ole 28.11.2003:a "
+"vähintään Freeciv-versioon 2.0 tai CVS-versioon, joka ei ole 28.11.2003:a "
 "vanhempi."
 
 #: server/srv_main.c:989
@@ -8273,10 +8273,10 @@ msgstr "Peli: Leikepöytä on tyhjä."
 #: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 "99 vuoroa pidempiä polkuja ei tueta.\n"
-"Raportoi tämä bugi: bugs@freeciv.org."
+"Raportoi tämä bugi: %s."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -15327,16 +15327,12 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. "
 "Parhaiten tämä onnistuu Freecivin buginjäljitysjärjestelmässä osoitteessa\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
-"\n"
-"tai lähettämällä sähköpostia osoitteeseen bugs@cvs.freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""
