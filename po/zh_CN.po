@@ -1989,7 +1989,7 @@ msgstr "  -v, --version\t\t打印版本号\n"
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:202
 #: client/gui-xaw/gui_main.c:245 manual/civmanual.c:374
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "将错误报告发送到 <%s>。\n"
 
 #: server/commands.c:28
@@ -9906,7 +9906,7 @@ msgstr "缺少基础sprite标记“%s1”。"
 #: client/tilespec.c:3887
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 
 #: client/agents/cma_core.c:398
@@ -16725,16 +16725,12 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "如果您发现任何错误，请向我们发送一份错误报告。这最好通过访问如下地址的"
 "Freeciv Bug跟踪系统完成：\n"
 "\n"
-"  http://bugs.freeciv.org\n"
-"\n"
-"或者请发送邮件到：  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""

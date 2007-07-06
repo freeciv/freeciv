@@ -2029,7 +2029,7 @@ msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
 #: client/gui-xaw/gui_main.c:245
 #: manual/civmanual.c:374
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Pranešti apie klaidas į <%s>.\n"
 
 #: server/commands.c:28
@@ -9394,7 +9394,7 @@ msgstr ""
 #: client/tilespec.c:3887
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 
 #: client/agents/cma_core.c:398
@@ -17348,11 +17348,10 @@ msgstr " Dabartinai administratoriai:"
 
 #: data/helpdata.txt:56
 msgid ""
-"If you find any bugs, then please send us a bug report.  This is best done by visiting the Freeciv Bug Tracking System, at:\n"
+"If you find any bugs, then please send us a bug report.  This is best done "
+"by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 
 #: data/helpdata.txt:63

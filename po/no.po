@@ -2047,7 +2047,7 @@ msgstr "  -v, --version\t\tSkriv ut versjonsnummeret\n"
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:202
 #: client/gui-xaw/gui_main.c:245 manual/civmanual.c:374
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Rapporter feil, unoter og/eller 'bugs' til <%s>.\n"
 
 #: server/commands.c:28
@@ -10270,10 +10270,10 @@ msgstr "Mangler den grunnleggende grafikk-taggen \"%s1\"."
 #: client/tilespec.c:3887
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 "Stier lenger enn 99 runder er ikke støttet.\n"
-" Rapporter feilen til bugs@freeciv.org."
+" Rapporter feilen til %s."
 
 #: client/agents/cma_core.c:398
 #, fuzzy, c-format
@@ -17186,17 +17186,13 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Hvis du finner noen feil ved spillet, vennligst send oss en feilrapport. "
 "Dette gjøres mest hensiktsmessig ved å besøke Freeciv sitt "
 "feilhåndteringssystem, på:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"eller ved å sende epost til:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""

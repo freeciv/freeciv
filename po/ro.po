@@ -2100,7 +2100,7 @@ msgstr "  -v, --version\t\tAfişează numărul versiunii\n"
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:202
 #: client/gui-xaw/gui_main.c:245 manual/civmanual.c:374
 #, c-format
-msgid "Report bugs to <%s>.\n"
+msgid "Report bugs at %s.\n"
 msgstr "Raportează erorile la <%s>.\n"
 
 #: server/commands.c:28
@@ -10520,10 +10520,10 @@ msgstr "Lipseşte eticheta de bază a sprite-ului \"%s1\"."
 #: client/tilespec.c:3887
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
-"Report this bug to bugs@freeciv.org."
+"Report this bug at %s"
 msgstr ""
 "Căi cu lungimea mai mare de 99 de ture nu sunt suportate.\n"
-"Raportaţi această defecţiune la bugs@freeciv.org."
+"Raportaţi această defecţiune la %s."
 
 #: client/agents/cma_core.c:398
 #, c-format
@@ -17367,16 +17367,11 @@ msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"or by sending email to:  bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 msgstr ""
 "Dacă descoperiţi erori, trimiteţi un raport de eroare.  Puteţi face acest "
 "lucru cel mai uşor vizitând Sistemul Freeciv de urmărire a erorilor, la:\\n\n"
-"\\n\n"
-"   http://bugs.freeciv.org/\\n\n"
-"\\n\n"
-"sau trimiţând un email la: bugs@freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:63
 msgid ""
