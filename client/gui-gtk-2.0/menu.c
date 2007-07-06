@@ -1440,27 +1440,28 @@ void update_menus(void)
 						       DIPLOMAT_ANY_ACTION));
       menus_set_sensitive("<main>/_Orders/Explode Nuclear",
 			  units_have_flag(punits, F_NUCLEAR, TRUE));
-      if (units_have_flag(punits, F_HELP_WONDER, TRUE))
-	menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
-      else if (units_have_flag(punits, F_CITIES, TRUE)) {
-	bool can_build = FALSE;
 
-	/* FIXME: this overloading doesn't work well with multiple focus
-	 * units. */
-	unit_list_iterate(punits, punit) {
-	  if (!punit->tile->city) {
-	    can_build = TRUE;
-	    break;
-	  }
-	} unit_list_iterate_end;
+      if (units_have_flag(punits, F_HELP_WONDER, TRUE)) {
+        menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
+      } else {
+        bool city_on_tile = FALSE;
 
-	if (can_build)
-	  menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
-	else
-	  menus_rename("<main>/_Orders/_Build City", _("_Build City"));
+        /* FIXME: this overloading doesn't work well with multiple focus
+         * units. */
+        unit_list_iterate(punits, punit) {
+          if (punit->tile->city) {
+            city_on_tile = TRUE;
+            break;
+          }
+        } unit_list_iterate_end;
+        
+        if (city_on_tile && units_have_flag(punits, F_ADD_TO_CITY, TRUE)) {
+          menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
+        } else {
+          /* refresh default order */
+          menus_rename("<main>/_Orders/_Build City", _("_Build City"));
+        }
       }
-      else 
-	menus_rename("<main>/_Orders/_Build City", _("_Build City"));
  
       if (units_have_flag(punits, F_TRADE_ROUTE, TRUE))
 	menus_rename("<main>/_Orders/Build _Road", _("Make Trade _Route"));
