@@ -145,6 +145,13 @@ enum player_debug_types {
 };
 
 BV_DEFINE(bv_debug, PLAYER_DEBUG_LAST);
+
+struct attribute_block_s {
+  void *data;
+  int length;
+#define MAX_ATTRIBUTE_BLOCK     (256*1024)	/* largest attribute block */
+};
+
 struct player {
   int player_no;
   char name[MAX_LEN_NAME];
@@ -188,14 +195,9 @@ struct player {
   int small_wonders[B_LAST];              /* contains city id's */
          /* wonders[] may also be (-1), or the id of a city
 	    which no longer exists, if the wonder has been destroyed */
-  struct {
-    int length;
-    void *data;
-  } attribute_block;
-  struct {
-    int length;
-    void *data;
-  } attribute_block_buffer;
+
+  struct attribute_block_s attribute_block;
+  struct attribute_block_s attribute_block_buffer;
   bv_debug debug;
 };
 

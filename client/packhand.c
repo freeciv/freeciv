@@ -2296,7 +2296,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
     impr_type_iterate(id) {
       b = improvement_by_number(id);
       freelog(LOG_DEBUG, "Impr: %s...",
-	      b->name);
+	      advance_rule_name(id));
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
 		b->obsolete_by,
@@ -2585,7 +2585,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
 
   pl->num_groups = p->ngroups;
-  pl->groups = fc_malloc(sizeof(*(pl->groups)) * pl->num_groups);
+  pl->groups = fc_calloc(sizeof(*(pl->groups)), pl->num_groups);
   for (i = 0; i < p->ngroups; i++) {
     pl->groups[i] = nation_group_by_number(p->groups[i]);
     if (!pl->groups[i]) {
