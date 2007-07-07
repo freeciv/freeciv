@@ -64,7 +64,7 @@
 #define JUMBO_BORDER 		(64*1024-COMPRESSION_BORDER-1)
 #endif
 
-#define BASIC_PACKET_LOG_LEVEL	LOG_DEBUG
+#define BASIC_PACKET_LOG_LEVEL	LOG_VERBOSE
 #define COMPRESS_LOG_LEVEL	LOG_DEBUG
 #define COMPRESS2_LOG_LEVEL	LOG_DEBUG
 
@@ -108,7 +108,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
     pc->client.last_request_id_used =
 	get_next_request_id(pc->client.last_request_id_used);
     result = pc->client.last_request_id_used;
-    freelog(LOG_DEBUG, "sending request %d", result);
+    freelog(BASIC_PACKET_LOG_LEVEL, "sending request %d", result);
   }
 
   if (pc->outgoing_packet_notify) {
@@ -573,8 +573,10 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 					   packet_player_attribute_chunk
 					   *chunk)
 {
-  freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", chunk->offset,
-	  chunk->total_length, chunk->chunk_length);
+  freelog(BASIC_PACKET_LOG_LEVEL, "received attribute chunk %u/%u %u",
+	  (unsigned int) chunk->offset,
+	  (unsigned int) chunk->total_length,
+	  (unsigned int) chunk->chunk_length);
 
   if (chunk->total_length < 0
       || chunk->chunk_length < 0
@@ -698,6 +700,9 @@ void post_receive_packet_chat_msg(struct connection *pc,
   }
 }
 
+/**************************************************************************
+  Test and log for sending player attribute_block
+**************************************************************************/
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
 					    struct packet_player_attribute_chunk
 					    *packet)
@@ -710,16 +715,23 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
   assert(packet->chunk_length <= packet->total_length);
   assert(packet->offset >= 0 && packet->offset < packet->total_length);
 
-  freelog(LOG_DEBUG, "sending attribute chunk %d/%d %d", packet->offset,
-	  packet->total_length, packet->chunk_length);
+  freelog(BASIC_PACKET_LOG_LEVEL, "sending attribute chunk %d/%d %d",
+	  packet->offset, packet->total_length, packet->chunk_length);
 
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 void post_receive_packet_game_state(struct connection *pc,
 				    struct packet_game_state *packet)
 {
   conn_clear_packet_cache(pc);
 }
+
+/**************************************************************************
+  ...
+**************************************************************************/
 void post_send_packet_game_state(struct connection *pc,
 				 const struct packet_game_state *packet)
 {

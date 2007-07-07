@@ -439,14 +439,14 @@ void game_remove_player(struct player *pplayer)
   if (pplayer->attribute_block.data) {
     free(pplayer->attribute_block.data);
     pplayer->attribute_block.data = NULL;
-    pplayer->attribute_block.length = 0;
   }
+  pplayer->attribute_block.length = 0;
 
   if (pplayer->attribute_block_buffer.data) {
     free(pplayer->attribute_block_buffer.data);
     pplayer->attribute_block_buffer.data = NULL;
-    pplayer->attribute_block_buffer.length = 0;
   }
+  pplayer->attribute_block_buffer.length = 0;
 
   if (pplayer->island_improv) {
     free(pplayer->island_improv);

@@ -30,9 +30,16 @@ struct data_in;
 
 #define MAX_LEN_USERNAME        10        /* see below */
 #define MAX_LEN_MSG             1536
-#define MAX_ATTRIBUTE_BLOCK     (256*1024)	/* largest attribute block */
-#define ATTRIBUTE_CHUNK_SIZE    (1024*2)  /* attribute chunk size to use */
 #define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET/2 - header */
+
+/* The size of opaque (void *) data sent in the network packet.  To avoid
+ * fragmentation issues, this SHOULD NOT be larger than the standard
+ * ethernet or PPP 1500 byte frame size (with room for headers).
+ *
+ * Do not spend much time optimizing, you have no idea of the actual dynamic
+ * path characteristics between systems, such as VPNs and tunnels.
+ */
+#define ATTRIBUTE_CHUNK_SIZE    (1400)
 
 enum report_type {
   REPORT_WONDERS_OF_THE_WORLD,

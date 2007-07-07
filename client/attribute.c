@@ -37,6 +37,13 @@ struct attr_key {
   int key, id, x, y;
 };
 
+enum attribute_serial {
+  A_SERIAL_FAIL,
+  A_SERIAL_OK,
+  A_SERIAL_OLD,
+};
+
+
 /****************************************************************************
  Hash function for attribute_hash.
 *****************************************************************************/
@@ -91,8 +98,8 @@ void attribute_free()
  sizeof(int) at serialization time is different from sizeof(int) at
  deserialization time.
 *****************************************************************************/
-static void serialize_hash(struct hash_table *hash, void **pdata,
-			   int *pdata_length)
+static enum attribute_serial serialize_hash( struct hash_table *hash,
+					void **pdata, int *pdata_length )
 {
   /*
    * Layout of version 2:
@@ -181,15 +188,22 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
   *pdata = result;
   *pdata_length = total_length;
   free(value_lengths);
-  freelog(LOG_DEBUG, "serialized %d entries in %d bytes", entries,
-	  total_length);
+  freelog(ATTRIBUTE_LOG_LEVEL,
+          "attribute.c serialize_hash()"
+          " serialized %u entries in %u bytes",
+          (unsigned int) entries,
+          (unsigned int) total_length);
+  return A_SERIAL_OK;
 }
 
 /****************************************************************************
-...
+  This data was serialized (above), sent as an opaque data packet to the 
+  server, stored in a savegame, retrieved from the savegame, sent as an 
+  opaque data packet back to the client, and now is ready to be restored.
+  Check everything!
 *****************************************************************************/
-static bool unserialize_hash(struct hash_table *hash, void *data,
-			     size_t data_length)
+static enum attribute_serial unserialize_hash( struct hash_table *hash,
+					void *data, size_t data_length )
 {
   int entries, i, dummy;
   struct data_in din;
@@ -200,18 +214,36 @@ static bool unserialize_hash(struct hash_table *hash, void *data,
 
   dio_get_uint32(&din, &dummy);
   if (dummy != 0) {
-    return FALSE;
+    freelog(LOG_VERBOSE,
+            "attribute.c unserialize_hash() preamble,"
+            " uint32 %u != 0",
+            (unsigned int) dummy);
+    return A_SERIAL_OLD;
   }
   dio_get_uint8(&din, &dummy);
   if (dummy != 2) {
-    return FALSE;
+    freelog(LOG_VERBOSE,
+            "attribute.c unserialize_hash() preamble,"
+            " uint8 %u != 2 version",
+            (unsigned int) dummy);
+    return A_SERIAL_OLD;
   }
   dio_get_uint32(&din, &entries);
   dio_get_uint32(&din, &dummy);
-  assert(data_length == dummy);
+  if (dummy != data_length) {
+    freelog(LOG_VERBOSE,
+            "attribute.c unserialize_hash() preamble,"
+            " uint32 %u != %u data_length",
+            (unsigned int) dummy,
+            (unsigned int) data_length);
+    return A_SERIAL_FAIL;
+  }
 
-  freelog(LOG_DEBUG, "try to unserialized %d entries from %d bytes",
-	  entries, (unsigned int) data_length);
+  freelog(ATTRIBUTE_LOG_LEVEL,
+          "attribute.c unserialize_hash()"
+          " uint32 %u entries, %u data_length",
+          (unsigned int) entries,
+          (unsigned int) data_length);
 
   for (i = 0; i < entries; i++) {
     struct attr_key *pkey = fc_malloc(sizeof(*pkey));
@@ -220,13 +252,49 @@ static bool unserialize_hash(struct hash_table *hash, void *data,
     struct data_out dout;
 
     dio_get_uint32(&din, &value_length);
-    
-    pvalue = fc_malloc(value_length + 4);
-    
+    if (din.too_short) {
+      freelog(LOG_VERBOSE,
+              "attribute.c unserialize_hash()"
+              " uint32 value_length dio_input_too_short");
+      free(pkey);
+      return A_SERIAL_FAIL;
+    }
+    if (value_length > dio_input_remaining(&din)) {
+      freelog(LOG_VERBOSE,
+              "attribute.c unserialize_hash()"
+              " uint32 %u value_length > %u input_remaining",
+              (unsigned int) value_length,
+              (unsigned int) dio_input_remaining(&din));
+      free(pkey);
+      return A_SERIAL_FAIL;
+    }
+    if (value_length < 16 /* including itself */) {
+      freelog(LOG_VERBOSE,
+              "attribute.c unserialize_hash()"
+              " uint32 %u value_length < 16",
+              (unsigned int) value_length);
+      free(pkey);
+      return A_SERIAL_FAIL;
+    }
+    freelog(ATTRIBUTE_LOG_LEVEL,
+            "attribute.c unserialize_hash()"
+            " uint32 %u value_length",
+            (unsigned int) value_length);
+
+    /* next 12 bytes */
     dio_get_uint32(&din, &pkey->key);
     dio_get_uint32(&din, &pkey->id);
     dio_get_sint16(&din, &pkey->x);
     dio_get_sint16(&din, &pkey->y);
+
+    if (din.too_short) {
+      freelog(LOG_VERBOSE,
+              "attribute.c unserialize_hash()"
+              " uint32 key dio_input_too_short");
+      free(pkey);
+      return A_SERIAL_FAIL;
+    }
+    pvalue = fc_malloc(value_length + 4);
 
     dio_output_init(&dout, pvalue, 4);
     dio_put_uint32(&dout, value_length);
@@ -238,15 +306,13 @@ static bool unserialize_hash(struct hash_table *hash, void *data,
        * to delete all attributes.  Another symptom of the bug is the
        * value_length (above) is set to a random value, which can also
        * cause a bug. */
-      freelog(LOG_ERROR, _("There has been a CMA error.  "
-			   "Your CMA settings may be broken."));
       free(pvalue);
       free(pkey);
       hash_delete_all_entries(hash);
-      return FALSE;
+      return A_SERIAL_FAIL;
     }
   }
-  return TRUE;
+  return A_SERIAL_OK;
 }
 
 /****************************************************************************
@@ -256,6 +322,10 @@ static bool unserialize_hash(struct hash_table *hash, void *data,
 void attribute_flush(void)
 {
   struct player *pplayer = game.player_ptr;
+
+  if (!pplayer) {
+    return;
+  }
 
   assert(attribute_hash != NULL);
 
@@ -280,12 +350,25 @@ void attribute_restore(void)
 {
   struct player *pplayer = game.player_ptr;
 
+  if (!pplayer) {
+    return;
+  }
+
   assert(attribute_hash != NULL);
 
-  if (!unserialize_hash(attribute_hash, pplayer->attribute_block.data,
-			pplayer->attribute_block.length)) {
-    freelog(LOG_ERROR, _("Old attributes detected and removed."));
-  }
+  switch (unserialize_hash(attribute_hash,
+                           pplayer->attribute_block.data,
+                           pplayer->attribute_block.length)) {
+  case A_SERIAL_FAIL:
+    freelog(LOG_ERROR, _("There has been a CMA error.  "
+                         "Your CMA settings may be broken."));
+    break;
+  case A_SERIAL_OLD:
+    freelog(LOG_NORMAL, _("Old attributes detected and removed."));
+    break;
+  default:
+    break;
+  };
 }
 
 /****************************************************************************

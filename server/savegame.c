@@ -2187,24 +2187,39 @@ static void player_load(struct player *plr, int plrno,
 
   load_player_units(plr, plrno, file);
 
-  if (section_file_lookup(file, "player%d.attribute_v2_block_length", plrno)) {
-    int raw_length1, raw_length2, part_nr, parts;
+  /* Toss any existing attribute_block (should not exist) */
+  if (plr->attribute_block.data) {
+    free(plr->attribute_block.data);
+    plr->attribute_block.data = NULL;
+  }
+
+  /* This is a big heap of opaque data for the client, check everything! */
+  plr->attribute_block.length = secfile_lookup_int_default(
+      file, 0, "player%d.attribute_v2_block_length", plrno);
+
+  if (0 > plr->attribute_block.length) {
+    freelog(LOG_ERROR, "player%d.attribute_v2_block_length=%d too small",
+            plrno,
+            plr->attribute_block.length);
+    plr->attribute_block.length = 0;
+  } else if (MAX_ATTRIBUTE_BLOCK < plr->attribute_block.length) {
+    freelog(LOG_ERROR, "player%d.attribute_v2_block_length=%d too big (max %d)",
+            plrno,
+            plr->attribute_block.length,
+            MAX_ATTRIBUTE_BLOCK);
+    plr->attribute_block.length = 0;
+  } else if (0 < plr->attribute_block.length) {
+    int part_nr, parts;
+    size_t actual_length;
     size_t quoted_length;
     char *quoted;
 
-    raw_length1 =
-	secfile_lookup_int(file, "player%d.attribute_v2_block_length", plrno);
-    if (plr->attribute_block.data) {
-      free(plr->attribute_block.data);
-      plr->attribute_block.data = NULL;
-    }
-    plr->attribute_block.data = fc_malloc(raw_length1);
-    plr->attribute_block.length = raw_length1;
+    plr->attribute_block.data = fc_malloc(plr->attribute_block.length);
 
     quoted_length = secfile_lookup_int
 	(file, "player%d.attribute_v2_block_length_quoted", plrno);
     quoted = fc_malloc(quoted_length + 1);
-    quoted[0] = 0;
+    quoted[0] = '\0';
 
     parts =
 	secfile_lookup_int(file, "player%d.attribute_v2_block_parts", plrno);
@@ -2213,9 +2228,13 @@ static void player_load(struct player *plr, int plrno,
       char *current = secfile_lookup_str(file,
 					 "player%d.attribute_v2_block_data.part%d",
 					 plrno, part_nr);
-      if (!current)
+      if (!current) {
+        freelog(LOG_ERROR, "attribute_v2_block_parts=%d actual=%d",
+                parts,
+                part_nr);
 	break;
-      freelog(LOG_DEBUG, "quoted_length=%lu quoted=%lu current=%lu",
+      }
+      freelog(LOG_DEBUG, "attribute_v2_block_length_quoted=%lu have=%lu part=%lu",
 	      (unsigned long) quoted_length,
 	      (unsigned long) strlen(quoted),
 	      (unsigned long) strlen(current));
@@ -2223,17 +2242,17 @@ static void player_load(struct player *plr, int plrno,
       strcat(quoted, current);
     }
     if (quoted_length != strlen(quoted)) {
-      freelog(LOG_NORMAL, "quoted_length=%lu quoted=%lu",
+      freelog(LOG_FATAL, "attribute_v2_block_length_quoted=%lu actual=%lu",
 	      (unsigned long) quoted_length,
 	      (unsigned long) strlen(quoted));
       assert(0);
     }
 
-    raw_length2 =
+    actual_length =
 	unquote_block(quoted,
 		      plr->attribute_block.data,
 		      plr->attribute_block.length);
-    assert(raw_length1 == raw_length2);
+    assert(actual_length == plr->attribute_block.length);
     free(quoted);
   }
 }
@@ -2907,41 +2926,77 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, i, "player%d.total_ncities", plrno);
   }
 
-#define PART_SIZE (2*1024)
+  /* This is a big heap of opaque data from the client.  Although the binary
+   * format is not user editable, keep the lines short enough for debugging,
+   * and hope that data compression will keep the file a reasonable size.
+   * Note that the "quoted" format is a multiple of 3.
+   */
+#define PART_SIZE (3*256)
   if (plr->attribute_block.data) {
     char *quoted = quote_block(plr->attribute_block.data,
 			       plr->attribute_block.length);
+    char *quoted_at = strchr(quoted, ':');
+    size_t bytes_left = strlen(quoted);
+    size_t bytes_at_colon = 1 + (quoted_at - quoted);
+    size_t bytes_adjust = bytes_at_colon % 3;
+    int current_part_nr;
+    int parts;
     char part[PART_SIZE + 1];
-    int current_part_nr, parts;
-    size_t bytes_left;
 
     secfile_insert_int(file, plr->attribute_block.length,
 		       "player%d.attribute_v2_block_length", plrno);
-    secfile_insert_int(file, strlen(quoted),
+    secfile_insert_int(file, bytes_left,
 		       "player%d.attribute_v2_block_length_quoted", plrno);
 
-    parts = (strlen(quoted) - 1) / PART_SIZE + 1;
-    bytes_left = strlen(quoted);
+    /* Try to wring some compression efficiencies out of the "quoted" format.
+     * The first line has a variable length decimal, mis-aligning triples.
+     */
+    if ((bytes_left - bytes_adjust) > PART_SIZE) {
+      /* first line can be longer */
+      parts = 1 + (bytes_left - bytes_adjust - 1) / PART_SIZE;
+    } else {
+      parts = 1;
+    }
 
     secfile_insert_int(file, parts,
 		       "player%d.attribute_v2_block_parts", plrno);
 
-    for (current_part_nr = 0; current_part_nr < parts; current_part_nr++) {
+    if (parts > 1) {
+      size_t size_of_current_part = PART_SIZE + bytes_adjust;
+
+      /* first line can be longer */
+      memcpy(part, quoted, size_of_current_part);
+      part[size_of_current_part] = '\0';
+      secfile_insert_str(file, part,
+			 "player%d.attribute_v2_block_data.part%d",
+			 plrno,
+			 0);
+      bytes_left -= size_of_current_part;
+      quoted_at = &quoted[size_of_current_part];
+      current_part_nr = 1;
+    } else {
+      quoted_at = quoted;
+      current_part_nr = 0;
+    }
+
+    for (; current_part_nr < parts; current_part_nr++) {
       size_t size_of_current_part = MIN(bytes_left, PART_SIZE);
 
       assert(bytes_left);
 
-      memcpy(part, quoted + PART_SIZE * current_part_nr,
-	     size_of_current_part);
-      part[size_of_current_part] = 0;
+      memcpy(part, quoted_at, size_of_current_part);
+      part[size_of_current_part] = '\0';
       secfile_insert_str(file, part,
-			 "player%d.attribute_v2_block_data.part%d", plrno,
+			 "player%d.attribute_v2_block_data.part%d",
+			 plrno,
 			 current_part_nr);
       bytes_left -= size_of_current_part;
+      quoted_at = &quoted_at[size_of_current_part];
     }
     assert(bytes_left == 0);
     free(quoted);
   }
+#undef PART_SIZE
 }
 
 

@@ -177,6 +177,12 @@ struct player_diplstate {
   see doc/HACKING
 ***************************************************************************/
 
+struct attribute_block_s {
+  void *data;
+  int length;
+#define MAX_ATTRIBUTE_BLOCK     (256*1024)	/* largest attribute block */
+};
+
 struct player {
   int player_no;
   char name[MAX_LEN_NAME];
@@ -221,15 +227,9 @@ struct player {
   Impr_Status improvements[B_LAST]; /* improvements with equiv_range==Player */
   Impr_Status *island_improv; /* improvements with equiv_range==Island, dimensioned to
 			 	 [map.num_continents][game.num_impr_types] */
-  struct {
-    int length;
-    void *data;
-  } attribute_block;
-  struct {
-    int length;
-    void *data;
-  } attribute_block_buffer;
-  
+
+  struct attribute_block_s attribute_block;
+  struct attribute_block_s attribute_block_buffer;
   bool debug;
 };
 
