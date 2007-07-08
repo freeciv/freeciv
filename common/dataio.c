@@ -668,7 +668,7 @@ void dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value)
 
   dio_get_uint8(din, &count);
   if (values) {
-    *values = fc_malloc((count + 1) * sizeof(**values));
+    *values = fc_calloc((count + 1), sizeof(**values));
   }
   for (inx = 0; inx < count; inx++) {
     dio_get_uint8(din, values ? &((*values)[inx]) : NULL);
@@ -687,7 +687,7 @@ void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
 
   dio_get_uint8(din, &count);
   if (values) {
-    *values = fc_malloc((count + 1) * sizeof(**values));
+    *values = fc_calloc((count + 1), sizeof(**values));
   }
   for (inx = 0; inx < count; inx++) {
     dio_get_uint16(din, values ? &((*values)[inx]) : NULL);
@@ -697,24 +697,38 @@ void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
   }
 }
 
+/**************************************************************************
+  De-serialize a player diplomatic state.
+**************************************************************************/
 void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds)
 {
-  int type;
+  int value = 0;
 
-  dio_get_uint8(din, &type);
-  pds->type = type;
+  /* backward compatible order defined for this transaction */
+  dio_get_uint8(din, &value);
+  pds->type = value;
   dio_get_uint16(din, &pds->turns_left);
   dio_get_uint16(din, &pds->contact_turns_left);
   dio_get_uint8(din, &pds->has_reason_to_cancel);
+  dio_get_uint16(din, &pds->first_contact_turn);
+  value = 0;
+  dio_get_uint8(din, &value);
+  pds->max_state = value;
 }
 
+/**************************************************************************
+  Serialize a player diplomatic state.
+**************************************************************************/
 void dio_put_diplstate(struct data_out *dout,
 		       const struct player_diplstate *pds)
 {
+  /* backward compatible order defined for this transaction */
   dio_put_uint8(dout, pds->type);
   dio_put_uint16(dout, pds->turns_left);
   dio_put_uint16(dout, pds->contact_turns_left);
   dio_put_uint8(dout, pds->has_reason_to_cancel);
+  dio_put_uint16(dout, pds->first_contact_turn);
+  dio_put_uint8(dout, pds->max_state);
 }
 
 /**************************************************************************
