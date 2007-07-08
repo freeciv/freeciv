@@ -64,6 +64,7 @@ minimap_intro_file = "misc/radar"
 files = 
   "amplio/terrain1.spec",
   "amplio/terrain2.spec",
+  "amplio/water.spec",
   "amplio/tiles.spec",
   "amplio/fog.spec",
   "misc/small.spec",
