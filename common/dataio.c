@@ -25,6 +25,7 @@
 
 #include <assert.h>
 #include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -196,7 +197,7 @@ size_t dio_input_remaining(struct data_in *din)
 void dio_put_uint8(struct data_out *dout, int value)
 {
   if (enough_space(dout, 1)) {
-    unsigned char x = value;
+    uint8_t x = value;
 
     assert(sizeof(x) == 1);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 1);
@@ -210,7 +211,7 @@ void dio_put_uint8(struct data_out *dout, int value)
 void dio_put_uint16(struct data_out *dout, int value)
 {
   if (enough_space(dout, 2)) {
-    unsigned short x = htons(value);
+    uint16_t x = htons(value);
 
     assert(sizeof(x) == 2);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 2);
@@ -224,7 +225,7 @@ void dio_put_uint16(struct data_out *dout, int value)
 void dio_put_uint32(struct data_out *dout, int value)
 {
   if (enough_space(dout, 4)) {
-    unsigned int x = htonl(value);
+    uint32_t x = htonl(value);
 
     assert(sizeof(x) == 4);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
@@ -406,7 +407,7 @@ void dio_get_uint8(struct data_in *din, int *dest)
 {
   if (enough_data(din, 1)) {
     if (dest) {
-      unsigned char x;
+      uint8_t x;
 
       assert(sizeof(x) == 1);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 1);
@@ -423,7 +424,7 @@ void dio_get_uint16(struct data_in *din, int *dest)
 {
   if (enough_data(din, 2)) {
     if (dest) {
-      unsigned short x;
+      uint16_t x;
 
       assert(sizeof(x) == 2);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 2);
@@ -440,7 +441,7 @@ void dio_get_uint32(struct data_in *din, int *dest)
 {
   if (enough_data(din, 4)) {
     if (dest) {
-      unsigned int x;
+      uint32_t x;
 
       assert(sizeof(x) == 4);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 4);
@@ -472,7 +473,7 @@ void dio_get_bool8(struct data_in *din, bool * dest)
 **************************************************************************/
 void dio_get_bool32(struct data_in *din, bool * dest)
 {
-  int ival;
+  int ival = 0;
 
   dio_get_uint32(din, &ival);
 
@@ -505,7 +506,7 @@ void dio_get_sint8(struct data_in *din, int *dest)
 **************************************************************************/
 void dio_get_sint16(struct data_in *din, int *dest)
 {
-  int tmp;
+  int tmp = 0;
 
   dio_get_uint16(din, &tmp);
   if (dest) {
@@ -576,7 +577,7 @@ void dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
 void dio_get_bit_string(struct data_in *din, char *dest,
 			size_t max_dest_size)
 {
-  int npack;			/* number claimed in packet */
+  int npack = 0;		/* number claimed in packet */
   int i;			/* iterate the bytes */
 
   assert(dest != NULL && max_dest_size > 0);
@@ -673,7 +674,7 @@ void dio_get_uint8_vec8(struct data_in *din, int **values, int stop_value)
 
   dio_get_uint8(din, &count);
   if (values) {
-    *values = fc_malloc((count + 1) * sizeof(int));
+    *values = fc_calloc((count + 1), sizeof(**values));
   }
   for (inx = 0; inx < count; inx++) {
     dio_get_uint8(din, values ? &((*values)[inx]) : NULL);
@@ -692,7 +693,7 @@ void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
 
   dio_get_uint8(din, &count);
   if (values) {
-    *values = fc_malloc((count + 1) * sizeof(int));
+    *values = fc_calloc((count + 1), sizeof(**values));
   }
   for (inx = 0; inx < count; inx++) {
     dio_get_uint16(din, values ? &((*values)[inx]) : NULL);
@@ -702,6 +703,9 @@ void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
   }
 }
 
+/**************************************************************************
+  De-serialize a player diplomatic state.
+**************************************************************************/
 void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds)
 {
   int type;
@@ -713,6 +717,9 @@ void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds)
   dio_get_uint8(din, &pds->has_reason_to_cancel);
 }
 
+/**************************************************************************
+  Serialize a player diplomatic state.
+**************************************************************************/
 void dio_put_diplstate(struct data_out *dout,
 		       const struct player_diplstate *pds)
 {
