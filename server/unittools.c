@@ -282,7 +282,9 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
   int potential_gold = 0;
 
   built_impr_iterate(pcity, pimpr) {
-    potential_gold += impr_sell_gold(pimpr);
+    if (can_city_sell_building(pcity, pimpr)) {
+      potential_gold += impr_sell_gold(pimpr);
+    }
   } built_impr_iterate_end;
 
   unit_list_iterate_safe(pcity->units_supported, punit) {
