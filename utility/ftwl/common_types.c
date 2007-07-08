@@ -287,8 +287,8 @@ const char *ct_rect_to_string(const struct ct_rect *rect)
 {
   static char buffer[100];
 
-  snprintf(buffer, 100, "{x=%d, y=%d, width=%d, height=%d}", rect->x,
-	   rect->y, rect->width, rect->height);
+  my_snprintf(buffer, 100, "{x=%d, y=%d, width=%d, height=%d}", rect->x,
+	      rect->y, rect->width, rect->height);
   return buffer;
 }
 
@@ -466,14 +466,14 @@ const char *ct_key_format(const struct be_key *key)
   static char out[100];
   char buffer[100];
   if (key->type == BE_KEY_NORMAL) {
-    snprintf(buffer, sizeof(buffer), "%c", key->key);
+    my_snprintf(buffer, sizeof(buffer), "%c", key->key);
   } else {
     int i;
     bool found = FALSE;
 
     for (i = 0; i < ARRAY_SIZE(keymap); i++) {
       if (keymap[i].type == key->type) {
-	snprintf(buffer, sizeof(buffer), "%s", keymap[i].name);
+	my_snprintf(buffer, sizeof(buffer), "%s", keymap[i].name);
 	found = TRUE;
 	break;
       }
@@ -481,10 +481,10 @@ const char *ct_key_format(const struct be_key *key)
     assert(found);
   }
 
-  snprintf(out, sizeof(out), "%s%s%s%s",
-	   (key->alt ? "Alt-" : ""),
-	   (key->control ? "Ctrl-" : ""),
-	   (key->shift ? "Shift-" : ""), buffer);
+  my_snprintf(out, sizeof(out), "%s%s%s%s",
+	     (key->alt ? "Alt-" : ""),
+	     (key->control ? "Ctrl-" : ""),
+	     (key->shift ? "Shift-" : ""), buffer);
   return out;
 }
 

@@ -2012,10 +2012,10 @@ static void snprint_production(char *buffer, size_t bufsz,
 {
   int nout;
 
-  nout = snprintf(buffer, bufsz, "[%d %d %d %d %d %d]",
-		  production[FOOD], production[SHIELD],
-		  production[TRADE], production[GOLD],
-		  production[LUXURY], production[SCIENCE]);
+  nout = my_snprintf(buffer, bufsz, "[%d %d %d %d %d %d]",
+		     production[FOOD], production[SHIELD],
+		     production[TRADE], production[GOLD],
+		     production[LUXURY], production[SCIENCE]);
 
   assert(nout >= 0 && nout <= bufsz);
 }
@@ -2069,8 +2069,8 @@ static void print_partial_solution(int loglevel,
   freelog(loglevel, "tiles used:");
   for (i = 0; i < num_types(state); i++) {
     if (soln->worker_counts[i] != 0) {
-      snprintf(buf, sizeof(buf),
-          "  %d tiles of type ", soln->worker_counts[i]);
+      my_snprintf(buf, sizeof(buf),
+                  "  %d tiles of type ", soln->worker_counts[i]);
       print_tile_type(loglevel, tile_type_get(state, i), buf);
     }
   }

@@ -26,9 +26,6 @@
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_LIBUTF8_H
-#include <libutf8.h>
-#endif
 
 #include "shared.h"		/* bool type and fc__attribute */
 

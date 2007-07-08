@@ -1109,8 +1109,8 @@ static const char *cardinal_index_str(int idx)
   for (i = 0; i < num_cardinal_tileset_dirs; i++) {
     int value = (idx >> i) & 1;
 
-    snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
-	     dir_get_tileset_name(cardinal_tileset_dirs[i]), value);
+    cat_snprintf(c, sizeof(c), "%s%d",
+	         dir_get_tileset_name(cardinal_tileset_dirs[i]), value);
   }
 
   return c;
@@ -1129,8 +1129,8 @@ static char *valid_index_str(int index)
   for (i = 0; i < num_valid_tileset_dirs; i++) {
     int value = (index >> i) & 1;
 
-    snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
-	     dir_get_tileset_name(valid_tileset_dirs[i]), value);
+    cat_snprintf(c, sizeof(c), "%s%d",
+	         dir_get_tileset_name(valid_tileset_dirs[i]), value);
   }
 
   return c;
@@ -1299,9 +1299,9 @@ static void tilespec_lookup_sprite_tags(void)
       for (j = 0; j < num_valid_tileset_dirs / 2; j++) {
 	int value = (i >> j) & 1;
 
-	snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
+	cat_snprintf(c, sizeof(c), "%s%d",
 		 dir_get_tileset_name(valid_tileset_dirs[2 * j]), value);
-	snprintf(d + strlen(d), sizeof(d) - strlen(d), "%s%d",
+	cat_snprintf(d, sizeof(d), "%s%d",
 		 dir_get_tileset_name(valid_tileset_dirs[2 * j + 1]), value);
       }
 

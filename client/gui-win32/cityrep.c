@@ -867,7 +867,7 @@ static void list_del(void *data)
 static void city_report_create(HWND hWnd)
 {
   static char *titles   [NUM_CREPORT_COLS];
-  static char  buf      [NUM_CREPORT_COLS][64];   
+  static char  buf      [NUM_CREPORT_COLS][128];   
   struct city_report_spec *spec;        
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
@@ -1097,7 +1097,7 @@ static void my_cityrep_add_city(HWND hLst,struct city *pcity_new,char *full_row,
   int i,n,listcount;  
   struct city_report_spec *spec; 
   char *rowold   [NUM_CREPORT_COLS];
-  char  buf   [NUM_CREPORT_COLS][64];
+  char  buf   [NUM_CREPORT_COLS][128];
   for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
     {
       rowold[i] = buf[i];    
@@ -1127,7 +1127,7 @@ void
 city_report_dialog_update(void)
 { 
   char *row   [NUM_CREPORT_COLS];
-  char  buf   [NUM_CREPORT_COLS][64];
+  char  buf   [NUM_CREPORT_COLS][128];
   char full_row[1024];
   int   i;
   struct city_report_spec *spec; 
@@ -1164,7 +1164,7 @@ void
 city_report_dialog_update_city(struct city *pcity)
 {
   char *row [NUM_CREPORT_COLS];
-  char  buf [NUM_CREPORT_COLS][64];
+  char  buf [NUM_CREPORT_COLS][128];
   char full_row[512];
   int   i,nCount;     
   struct city_report_spec *spec; 

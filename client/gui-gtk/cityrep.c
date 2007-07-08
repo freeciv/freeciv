@@ -589,7 +589,7 @@ static gint city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 static void create_city_report_dialog(bool make_modal)
 {
   static char *titles	[NUM_CREPORT_COLS];
-  static char  buf	[NUM_CREPORT_COLS][64];
+  static char  buf	[NUM_CREPORT_COLS][128];
 
   GtkWidget *close_command, *scrolled;
   int        i;
@@ -1240,7 +1240,7 @@ void city_report_dialog_update(void)
   GList *copy = NULL;
   if(city_dialog_shell) {
     char *row	[NUM_CREPORT_COLS];
-    char  buf	[NUM_CREPORT_COLS][64];
+    char  buf	[NUM_CREPORT_COLS][128];
     int   i;
     struct city_report_spec *spec;
 
@@ -1283,7 +1283,7 @@ void city_report_dialog_update(void)
 void city_report_dialog_update_city(struct city *pcity)
 {
   char *row [NUM_CREPORT_COLS];
-  char  buf [NUM_CREPORT_COLS][64];
+  char  buf [NUM_CREPORT_COLS][128];
   int   i;
   struct city_report_spec *spec;
 
