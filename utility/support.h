@@ -26,9 +26,6 @@
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_LIBUTF8_H
-#include <libutf8.h>
-#endif
 
 #ifdef TRUE
 #undef TRUE

@@ -65,7 +65,7 @@ static Object *cityrep_configure_objects[NUM_CREPORT_COLS];
 **************************************************************************/
 HOOKPROTONH(cityrep_display, int, char **array, struct city *pcity)
 {
-  static char buf[NUM_CREPORT_COLS][64];
+  static char buf[NUM_CREPORT_COLS][128];
   int i, j = 0;
   char *text;
 

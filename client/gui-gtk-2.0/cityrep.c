@@ -777,7 +777,7 @@ static gint cityrep_sort_func(GtkTreeModel *model,
 static void create_city_report_dialog(bool make_modal)
 {
   static char **titles;
-  static char (*buf)[64];
+  static char (*buf)[128];
   struct city_report_spec *spec;
 
   GtkWidget *w, *sw, *menubar;

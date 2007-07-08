@@ -357,18 +357,6 @@ else
   AC_DEFINE_UNQUOTED(LOCALEDIR, "./share/locale", [Locale directory (windows)])
 fi  
 
-dnl Check libUTF8
-AC_ARG_WITH(libutf8,
-            AC_HELP_STRING([--with-libutf8],
-               [Use the libutf8 library (needed for some systems)]),
-            [with_libutf8=$withval], [with_libutf8=no])
-if test "$MINGW32" = yes || test "$with_libutf8" = yes; then
-  AC_CHECK_HEADER(libutf8.h, [],
-                  AC_MSG_ERROR([Could not find libutf8 library (libutf8.h)]))
-  AC_DEFINE(HAVE_LIBUTF8_H, 1, [Use libutf8's stdio functions])
-  LIBS="$LIBS -lutf8"
-fi
-
 dnl Check for zlib (needed for libpng)
 AC_CHECK_LIB(z, gzgets, , 
   AC_MSG_ERROR([Could not find zlib library.]), )
@@ -554,11 +542,16 @@ AC_TYPE_SIGNAL
 AC_FUNC_FORK
 AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
+
+dnl Windows vsnprintf doesn't support argument reordering (see PR#12932)
+if test "x$MINGW32" != "xyes"; then
 AC_FUNC_VSNPRINTF
+AC_CHECK_FUNCS([vsnprintf])
+fi
 
 AC_CHECK_FUNCS([fileno ftime gethostname getpwuid inet_aton \
 		select snooze strerror strcasecmp strncasecmp \
-		strlcat strlcpy strstr usleep vsnprintf uname flock \
+		strlcat strlcpy strstr usleep uname flock \
 		gethostbyname connect bind])
 
 AC_MSG_CHECKING(for working gettimeofday)

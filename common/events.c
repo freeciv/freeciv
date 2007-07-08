@@ -37,7 +37,7 @@ static struct {
   const char *enum_name;
   char *tag_name;
   const char *section_orig;
-  const char *descr_orig;
+  char *descr_orig;
   char *full_descr;
   enum event_type event;
 } events[] = {
