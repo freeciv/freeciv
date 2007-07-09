@@ -146,6 +146,7 @@ client/gui-sdl/gotodlg.c
 client/gui-sdl/graphics.c
 client/gui-sdl/gui_main.c
 client/gui-sdl/gui_string.c
+client/gui-sdl/gui_tilespec.c
 client/gui-sdl/helpdlg.c
 client/gui-sdl/inteldlg.c
 client/gui-sdl/mapctrl.c
