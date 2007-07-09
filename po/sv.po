@@ -17117,7 +17117,7 @@ msgstr ""
 "=================\n"
 "2007-07-09\n"
 "  DM> Samtliga strängar för 2.1 översatta. Dessutom har jag börjat avveckla\n"
-"  låtsasgammaldagssvenskan i flertalet strängar och tänker fortsätta med det.
+"  låtsasgammaldagssvenskan i flertalet strängar och tänker fortsätta med det.\n"
 "2007-07-04\n"
 "  DM> De flesta strängar för 2.1 översatta. Endast 'tutorial' kvar.\n"
 "2006-05-27\n"
