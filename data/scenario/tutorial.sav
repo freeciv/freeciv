@@ -272,7 +272,7 @@ notify.event(city.owner, city.tile, E.TUTORIAL,
 _("You have built your first military unit!  Military units have two\n\
 basic purposes: attack and defense.  Each unit has an attack strength\n\
 and a defense strength.  While a Warriors is a measly 1/1, a Phalanx\n\
-is a must stronger defender with 2 defense (1/2).  A Catapult is a good\n\
+is a much stronger defender with 2 defense (1/2).  A Catapult is a good\n\
 attacking unit because it has 6 attack (6/1).\n\
 \n\
 Usually it is a good idea to keep one or two defenders in each city.\n\
@@ -356,7 +356,7 @@ function hut_entered_callback(unit)
   if not hutmsg then
     notify.event(unit.owner, unit.tile, E.TUTORIAL,
 _("Your unit has found a Hut.  These are small villages scattered across\n\
-the landscape.  When a unit enters one several things may happen.  The\n\
+the landscape.  When a unit enters one, several things may happen.  The\n\
 most likely outcome is that you will find resources worth a small\n\
 amount of gold.  However it is also possible to find technologies or\n\
 mercenary units inside a hut.  Some huts contain native settlers\n\
