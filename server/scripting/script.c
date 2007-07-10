@@ -307,7 +307,7 @@ static void script_vars_save(struct section_file *file)
       lua_pop(state, 1);
 
       if (vars) {
-	secfile_insert_str(file, vars, "script.vars");
+	secfile_insert_str_noescape(file, vars, "script.vars");
       }
     } else {
       /* _freeciv_state_dump in api.pkg is busted */
@@ -356,7 +356,7 @@ static void script_code_load(struct section_file *file)
 static void script_code_save(struct section_file *file)
 {
   if (script_code) {
-    secfile_insert_str(file, script_code, "script.code");
+    secfile_insert_str_noescape(file, script_code, "script.code");
   }
 }
 

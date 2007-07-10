@@ -60,6 +60,11 @@ void secfile_insert_bool(struct section_file *my_section_file,
 void secfile_insert_str(struct section_file *my_section_file, 
 			const char *sval, const char *path, ...)
                         fc__attribute((__format__ (__printf__, 3, 4)));
+
+void secfile_insert_str_noescape(struct section_file *my_section_file, 
+			const char *sval, const char *path, ...)
+                        fc__attribute((__format__ (__printf__, 3, 4)));
+
 void secfile_insert_str_comment(struct section_file *my_section_file,
 				char *sval, const char *const comment,
 				const char *path, ...)

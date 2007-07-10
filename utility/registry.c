@@ -186,6 +186,7 @@ struct entry {
   int dim;			/* vector's size */
   int  used;			/* number of times entry looked up */
   char *comment;                /* comment, may be NULL */
+  bool escaped;                 /* " or $. Usually TRUE */
 };
 
 /* create a 'struct entry_list' and related functions: */
@@ -228,7 +229,7 @@ static void secfilehash_insert(struct section_file *file,
 
 static char *minstrdup(struct sbuffer *sb, const char *str,
                        bool full_escapes);
-static char *moutstr(char *str);
+static char *moutstr(char *str, bool full_escapes);
 
 static struct entry*
 section_file_lookup_internal(struct section_file *my_section_file,  
@@ -356,6 +357,21 @@ void section_file_check_unused(struct section_file *file, const char *filename)
 }
 
 /**************************************************************************
+  Initialize the entry struct and set to default (empty) values.
+**************************************************************************/
+static void entry_init(struct entry *pentry)
+{
+  pentry->name = NULL;
+  pentry->svalue = NULL;
+  pentry->ivalue = 0;
+  pentry->used = 0;
+  pentry->dim = 0;
+  pentry->vec_values = NULL;
+  pentry->comment = NULL;
+  pentry->escaped = TRUE;
+}
+
+/**************************************************************************
   Return a new entry struct, allocated from sb, with given name,
   and where tok is a "value" return token from inputfile.
   The entry value has any escaped double-quotes etc removed.
@@ -366,20 +382,18 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
   struct entry *pentry;
 
   pentry = sbuf_malloc(sb, sizeof(struct entry));
+  entry_init(pentry);
   pentry->name = sbuf_strdup(sb, name);
-  pentry->comment = NULL;
   if (tok[0] != '-' && !my_isdigit(tok[0])) {
     /* It is not integer, but string with some border character. */
-    bool escapes = (tok[0] != '$'); /* Border character '$' means no escapes */
+    pentry->escaped = (tok[0] != '$'); /* Border character '$' means no escapes */
 
     /* minstrdup() starting after border character */
-    pentry->svalue = minstrdup(sb, tok+1, escapes);
-    pentry->ivalue = 0;
+    pentry->svalue = minstrdup(sb, tok+1, pentry->escaped);
     if (SECF_DEBUG_ENTRIES) {
       freelog(LOG_DEBUG, "entry %s '%s'", name, pentry->svalue);
     }
   } else {
-    pentry->svalue = NULL;
     if (sscanf(tok, "%d", &pentry->ivalue) != 1) {
       freelog(LOG_ERROR, "'%s' isn't an integer", tok);
     }
@@ -387,7 +401,6 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
       freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
     }
   }
-  pentry->used = FALSE;
   return pentry;
 }
 
@@ -822,8 +835,8 @@ bool section_file_save(struct section_file *my_section_file,
 
 	  if(icol>0)
 	    fz_fprintf(fs, ",");
-	  if(pentry->svalue) 
-	    fz_fprintf(fs, "\"%s\"", moutstr(pentry->svalue));
+	  if(pentry->svalue)
+	    fz_fprintf(fs, "%s", moutstr(pentry->svalue, pentry->escaped));
 	  else
 	    fz_fprintf(fs, "%d", pentry->ivalue);
 	  
@@ -843,13 +856,13 @@ bool section_file_save(struct section_file *my_section_file,
       if(!pentry) break;
       
       if (pentry->vec_values) {
-        fz_fprintf(fs, "%s=\"%s\"", pentry->name,
-	           moutstr(pentry->vec_values[0]));
+        fz_fprintf(fs, "%s=%s", pentry->name,
+	           moutstr(pentry->vec_values[0], pentry->escaped));
 	for (i = 1; i < pentry->dim; i++) {
-	  fz_fprintf(fs, ", \"%s\"", moutstr(pentry->vec_values[i]));
+	  fz_fprintf(fs, ", %s", moutstr(pentry->vec_values[i], pentry->escaped));
 	}
       } else if (pentry->svalue) {
-	fz_fprintf(fs, "%s=\"%s\"", pentry->name, moutstr(pentry->svalue));
+	fz_fprintf(fs, "%s=%s", pentry->name, moutstr(pentry->svalue, pentry->escaped));
       } else {
 	fz_fprintf(fs, "%s=%d", pentry->name, pentry->ivalue);
       }
@@ -863,7 +876,7 @@ bool section_file_save(struct section_file *my_section_file,
   }
   section_list_iterate_end;
   
-  (void) moutstr(NULL);		/* free internal buffer */
+  (void) moutstr(NULL, TRUE);		/* free internal buffer */
 
   if (fz_ferror(fs) != 0) {
     freelog(LOG_ERROR, "Error before closing %s: %s", real_filename,
@@ -955,10 +968,6 @@ void secfile_insert_int(struct section_file *my_section_file,
   pentry=section_file_insert_internal(my_section_file, buf);
 
   pentry->ivalue=val;
-  pentry->svalue = NULL;
-  pentry->vec_values = NULL;
-  pentry->dim = 0;
-  pentry->comment = NULL;
 }
 
 /**************************************************************************
@@ -979,9 +988,6 @@ void secfile_insert_int_comment(struct section_file *my_section_file,
   pentry = section_file_insert_internal(my_section_file, buf);
 
   pentry->ivalue = val;
-  pentry->svalue = NULL;
-  pentry->vec_values = NULL;
-  pentry->dim = 0;
   pentry->comment = sbuf_strdup(my_section_file->sb, comment);
 }
 
@@ -1008,10 +1014,6 @@ void secfile_insert_bool(struct section_file *my_section_file,
   }
 
   pentry->ivalue = val ? 1 : 0;
-  pentry->svalue = NULL;
-  pentry->vec_values = NULL;
-  pentry->dim = 0;
-  pentry->comment = NULL;
 }
 
 /**************************************************************************
@@ -1030,10 +1032,28 @@ void secfile_insert_str(struct section_file *my_section_file,
 
   pentry = section_file_insert_internal(my_section_file, buf);
   pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
-  pentry->vec_values = NULL;
-  pentry->dim = 0;
-  pentry->comment = NULL;
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+void secfile_insert_str_noescape(struct section_file *my_section_file,
+			const char *sval, const char *path, ...)
+{
+  struct entry *pentry;
+  char buf[MAX_LEN_BUFFER];
+  va_list ap;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  pentry = section_file_insert_internal(my_section_file, buf);
+  pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
+  pentry->escaped = FALSE;
+}
+
+
 
 /**************************************************************************
 ...
@@ -1052,8 +1072,6 @@ void secfile_insert_str_comment(struct section_file *my_section_file,
 
   pentry = section_file_insert_internal(my_section_file, buf);
   pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
-  pentry->vec_values = NULL;
-  pentry->dim = 0;
   pentry->comment = sbuf_strdup(my_section_file->sb, comment);
 }
 
@@ -1088,9 +1106,6 @@ void secfile_insert_str_vec(struct section_file *my_section_file,
   for (i = 0; i < dim; i++) {
     pentry->vec_values[i] = sbuf_strdup(my_section_file->sb, values[i]);
   }
-				 
-  pentry->svalue = NULL;
-  pentry->comment = NULL;
 }
 
 /**************************************************************************
@@ -1362,6 +1377,7 @@ section_file_insert_internal(struct section_file *my_section_file,
      * the section, to avoid O(N^2) behaviour.
      */
     pentry = sbuf_malloc(sb, sizeof(struct entry));
+    entry_init(pentry);
     pentry->name = sbuf_strdup(sb, ent_name);
     entry_list_append(psection->entries, pentry);
     return pentry;
@@ -1370,6 +1386,7 @@ section_file_insert_internal(struct section_file *my_section_file,
   psection = section_file_append_section(my_section_file, sec_name);
 
   pentry = sbuf_malloc(sb, sizeof(struct entry));
+  entry_init(pentry);
   pentry->name = sbuf_strdup(sb, ent_name);
   entry_list_append(psection->entries, pentry);
 
@@ -1601,11 +1618,12 @@ static char *minstrdup(struct sbuffer *sb, const char *str,
  string at a time) with str escaped the opposite of minstrdup.
  Specifically, any newline, backslash, or double quote is
  escaped with a backslash.
+ Adds appropriate delimiters: "" if escaped, $$ unescaped.
  The internal buffer is grown as necessary, and not normally
  freed (since this will be called frequently.)  A call with
  str=NULL frees the buffer and does nothing else (returns NULL).
 ***************************************************************/
-static char *moutstr(char *str)
+static char *moutstr(char *str, bool full_escapes)
 {
   static char *buf = NULL;
   static int nalloc = 0;
@@ -1621,10 +1639,12 @@ static char *moutstr(char *str)
     return NULL;
   }
   
-  len = strlen(str)+1;
-  for(c=str; *c != '\0'; c++) {
-    if (*c == '\n' || *c == '\\' || *c == '\"') {
-      len++;
+  len = strlen(str)+3;
+  if (full_escapes) {
+    for(c=str; *c != '\0'; c++) {
+      if (*c == '\n' || *c == '\\' || *c == '\"') {
+        len++;
+      }
     }
   }
   if (len > nalloc) {
@@ -1633,8 +1653,9 @@ static char *moutstr(char *str)
   }
   
   dest = buf;
+  *dest++ = (full_escapes ? '\"' : '$');
   while(*str != '\0') {
-    if (*str == '\n' || *str == '\\' || *str == '\"') {
+    if (full_escapes && (*str == '\n' || *str == '\\' || *str == '\"')) {
       *dest++ = '\\';
       if (*str == '\n') {
 	*dest++ = 'n';
@@ -1646,6 +1667,7 @@ static char *moutstr(char *str)
       *dest++ = *str++;
     }
   }
+  *dest++ = (full_escapes ? '\"' : '$');
   *dest = '\0';
   return buf;
 }
