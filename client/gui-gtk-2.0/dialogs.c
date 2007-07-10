@@ -790,7 +790,7 @@ static void create_races_dialog(struct player *pplayer)
   setup_dialog(shell, toplevel);
 
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_default_size(GTK_WINDOW(shell), -1, 310);
+  gtk_window_set_default_size(GTK_WINDOW(shell), -1, 590);
 
   frame = gtk_frame_new(_("Select a nation"));
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), frame);
@@ -820,7 +820,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacing(GTK_TABLE(table), 0, 12);
   gtk_table_set_col_spacing(GTK_TABLE(table), 1, 12);
-  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
   /* Leader. */ 
   combo = gtk_combo_new();
@@ -834,17 +834,17 @@ static void create_races_dialog(struct player *pplayer)
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 2);
-  gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 3, 0, 1);
+  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 2, 0, 0, 0, 0);
+  gtk_table_attach(GTK_TABLE(table), combo, 1, 3, 0, 1, 0, 0, 0, 0);
 
   cmd = gtk_radio_button_new_with_mnemonic(NULL, _("_Female"));
   races_sex[0] = cmd;
-  gtk_table_attach_defaults(GTK_TABLE(table), cmd, 1, 2, 1, 2);
+  gtk_table_attach(GTK_TABLE(table), cmd, 1, 2, 1, 2, 0, 0, 0, 0);
 
   cmd = gtk_radio_button_new_with_mnemonic_from_widget(GTK_RADIO_BUTTON(cmd),
       _("_Male"));
   races_sex[1] = cmd;
-  gtk_table_attach_defaults(GTK_TABLE(table), cmd, 2, 3, 1, 2);
+  gtk_table_attach(GTK_TABLE(table), cmd, 2, 3, 1, 2, 0, 0, 0, 0);
 
   /* City style. */
   store = gtk_list_store_new(3, G_TYPE_INT,
@@ -861,7 +861,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-      GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+      GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), list);
   gtk_table_attach(GTK_TABLE(table), sw, 1, 3, 2, 4,
       GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 0, 0);
@@ -873,7 +873,7 @@ static void create_races_dialog(struct player *pplayer)
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 2, 3);
+  gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, 0, 0, 0, 0);
 
   render = gtk_cell_renderer_pixbuf_new();
   column = gtk_tree_view_column_new_with_attributes(NULL, render,
