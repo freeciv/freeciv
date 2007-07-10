@@ -17,8 +17,9 @@ normal_tile_height = 48
 small_tile_width   = 15
 small_tile_height  = 20
 
-is_isometric = 1
+; Basic tile style.
 is_hex = 0
+is_isometric = 1
 
 ; Do not blend hills and mountains together.
 is_mountainous = 0
@@ -40,11 +41,9 @@ city_flag_offset_y = 9
 unit_offset_x = 19
 unit_offset_y = 18
 
-; The layer in which blending is used (see terrains below)
-blend_layer = 0
-
 ;Enable citybar
 is_full_citybar = 1
+
 ; offset the citybar text by this amount (from the city tile origin)
 citybar_offset_y = 30
 
@@ -89,6 +88,7 @@ files =
   "misc/shields.spec",
   "amplio/icons.spec"
 
+
 ; Include color definitions
 *include "misc/colors.tilespec"
 
@@ -96,12 +96,62 @@ files =
 
 [layer0]
 match_style = "BOOL"
-match_types = "ocean", "land"
+match_types = "land", "water"
 
 [layer1]
 match_style = "BOOL"
-match_types = "forest", "hills", "mountains", "deep"
+match_types = "forest", "hills", "mountains", "ridge", "trench", "deep"
 
+; Water graphics referenced by terrain.ruleset
+;
+[terrain_coast]
+is_blended = 1
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_shelf]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_floor]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_trench]
+is_blended = 0
+num_layers = 2
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+layer1_match_style = "bool"
+layer1_match_type = "trench"
+
+[terrain_ridge]
+is_blended = 0
+num_layers = 2
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+layer1_match_style = "bool"
+layer1_match_type = "ridge"
+
+[terrain_vent]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+; Land graphics referenced by terrain.ruleset
+;
 [terrain_arctic]
 is_blended = 1
 num_layers = 1
@@ -118,8 +168,8 @@ mine_sprite = "tx.oil_mine"
 is_blended = 1
 num_layers = 2
 layer0_match_type = "land"
-layer1_match_type = "forest"
 layer1_match_style = "bool"
+layer1_match_type = "forest"
 
 [terrain_grassland]
 is_blended = 1
@@ -130,8 +180,8 @@ layer0_match_type = "land"
 is_blended = 1
 num_layers = 2
 layer0_match_type = "land"
-layer1_match_type = "hills"
 layer1_match_style = "bool"
+layer1_match_type = "hills"
 mine_sprite = "tx.mine"
 
 [terrain_jungle]
@@ -143,15 +193,15 @@ layer0_match_type = "land"
 is_blended = 1
 num_layers = 2
 layer0_match_type = "land"
-layer1_match_type = "mountains"
 layer1_match_style = "bool"
+layer1_match_type = "mountains"
 mine_sprite = "tx.mine"
 
 [terrain_ocean]
 is_blended = 1
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = "ocean"
+layer0_match_type = "water"
 layer0_cell_type = "rect"
 
 ; Deep Ocean is currently quite a hack:
@@ -160,7 +210,7 @@ layer0_cell_type = "rect"
 ;   is of land colour and we don't want that to appear
 ;   in the middle of the ocean.
 ; - Deep Ocean is in two layers. Layer0 is setup just
-;   for match_type = "ocean". Ocean will match this
+;   for match_type = "water". Ocean will match this
 ;   and will not draw coast sprites between Ocean and
 ;   Deep Ocean. Layer1 is for actual Deep Ocean drawing.
 ;   Ocean will not match this, so Deep Ocean to Ocean
@@ -173,7 +223,7 @@ layer0_cell_type = "rect"
 is_blended = 0
 num_layers = 2
 layer0_match_style = "bool"
-layer0_match_type  = "ocean"
+layer0_match_type  = "water"
 layer0_cell_type   = "rect"
 layer1_match_style = "bool"
 layer1_match_type  = "deep"

@@ -5,7 +5,6 @@
 options = "+tilespec4.2007.Feb.20"
 
 ; A simple name for the tileset specified by this file:
-
 name = "hex-2 tileset"
 priority = 5
 
@@ -13,59 +12,45 @@ priority = 5
 ; eg, description, authors, colors, etc.
 
 ; Basic tile sizes:
-
 normal_tile_width  = 40
 normal_tile_height = 72
 small_tile_width   = 15
 small_tile_height  = 20
 
-; Use roadstyle 0 (old iso style)
+; Basic tile style.
+hex_side = 24
+is_hex = 1
+is_isometric = 1
 
+; Use roadstyle 0 (old iso style)
 roadstyle = 0
 
 ; Use fogstyle 0 (old iso style)
-
 fogstyle = 0
 
-; Use darkness style 1 (single-sprite)
-
+; Was darkness style 1 (single-sprite)
 darkness_style = 2
  
 ; offset the flags by this amount when drawing units
-
 unit_flag_offset_x = 1
 unit_flag_offset_y = 59
 city_flag_offset_x = 1
 city_flag_offset_y = 51
 
 ; offset units by this amount
-
 unit_offset_x = 4
 unit_offset_y = 57
 
-; The layer in which blending is used (see terrains below)
-blend_layer = 0
-
 ; offset the citybar text by this amount (from the city tile origin)
-
 citybar_offset_y = 48
 
-; Hex data.
-
-is_hex = 1
-is_isometric = 1
-hex_side = 24
-
 ; Font to use to draw city names:
-
 city_names_font = "6x13bold"
 
 ; Font to use to draw city productions:
-
 city_productions_font = "6x13"
 
 ; Should flags be drawn as transparent:  (else opaque)
-
 flags_are_transparent = 1
 
 ; Font size (points) to use to draw city names and productions:
@@ -74,7 +59,6 @@ city_productions_font_size = 10
 
 ; These are special because they get freed and reloaded
 ; as required:
-
 main_intro_file    = "misc/intro"
 minimap_intro_file = "misc/radar"
 
@@ -82,11 +66,11 @@ minimap_intro_file = "misc/radar"
 ; the data path. Order may be important for color allocation on 
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
-
 files = 
   "misc/colors.spec",
   "misc/overlays.spec",
-  "misc/citybar.spec",  "hex2t/tiles.spec",
+  "misc/citybar.spec",
+  "hex2t/tiles.spec",
   "hex2t/overlays.spec",
   "trident/units.spec",
   "hex2t/select.spec",
@@ -111,12 +95,60 @@ files =
 
 [layer0]
 match_style = "BOOL"
-match_types = "ocean", "land"
+match_types = "water", "land"
 
 [layer1]
 match_style = "BOOL"
-match_types = "forest", "hills", "mountains", "jungle", "steep"
+match_types = "forest", "jungle", "steep"
 
+; Water graphics referenced by terrain.ruleset
+;
+[terrain_coast]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_shelf]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_floor]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_trench]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_ridge]
+is_blended = 0
+num_layers = 2
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+layer1_match_style = "bool"
+layer1_match_type = "steep"
+
+[terrain_vent]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+; Land graphics referenced by terrain.ruleset
+;
 [terrain_arctic]
 is_blended = 1
 num_layers = 1
@@ -168,7 +200,7 @@ mine_sprite = "tx.mine"
 is_blended = 0
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = "ocean"
+layer0_match_type = "water"
 layer0_cell_type = "rect"
 
 [terrain_plains]

@@ -17,13 +17,18 @@ normal_tile_height = 32
 small_tile_width   = 15
 small_tile_height  = 20
 
+; Basic tile style.
+hex_side = 16
+is_hex = 1
+is_isometric = 0
+
 ; Use roadstyle 0 (old iso style)
 roadstyle = 0
 
 ; Use fogstyle 0 (old iso style)
 fogstyle = 0
 
-; Use darkness style 1 (single-sprite)
+; Was darkness style 1 (single-sprite)
 darkness_style = 2
  
 ; offset the flags by this amount when drawing units
@@ -36,16 +41,8 @@ city_flag_offset_y = 11
 unit_offset_x = 21
 unit_offset_y = 13
 
-; The layer in which blending is used (see terrains below)
-blend_layer = 0
-
 ; offset the citybar text by this amount (from the city tile origin)
 citybar_offset_y = 20
-
-; Hex data.
-is_hex = 1
-is_isometric = 0
-hex_side = 16
 
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
@@ -104,12 +101,62 @@ files =
 
 [layer0]
 match_style = "BOOL"
-match_types = "ocean", "land"
+match_types = "land", "water"
 
 [layer1]
 match_style = "BOOL"
-match_types = "forest", "hills", "mountains"
+match_types = "forest", "hills", "mountains", "ridge", "trench"
 
+; Water graphics referenced by terrain.ruleset
+;
+[terrain_coast]
+is_blended = 1
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_shelf]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_floor]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+[terrain_trench]
+is_blended = 0
+num_layers = 2
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+layer1_match_style = "bool"
+layer1_match_type = "trench"
+
+[terrain_ridge]
+is_blended = 0
+num_layers = 2
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+layer1_match_style = "bool"
+layer1_match_type = "ridge"
+
+[terrain_vent]
+is_blended = 0
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "water"
+layer0_cell_type = "rect"
+
+; Land graphics referenced by terrain.ruleset
+;
 [terrain_arctic]
 is_blended = 1
 num_layers = 1
@@ -159,7 +206,7 @@ mine_sprite = "tx.mine"
 is_blended = 1
 num_layers = 1
 layer0_match_style = "bool"
-layer0_match_type = "ocean"
+layer0_match_type = "water"
 layer0_cell_type = "rect"
 
 [terrain_plains]

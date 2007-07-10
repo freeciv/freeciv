@@ -52,7 +52,8 @@ tiles = { "row", "column","tag"
 
   9,    0, "t.l0.jungle1"
 
-  10,   0, "t.l0.ocean1"
+;currently blank?
+; 10,   0, "t.l0.ocean1"
 
 ; Terrain special resources:
 
@@ -135,6 +136,8 @@ tiles = { "row", "column","tag"
   0, 0, "tx.darkness"
   0, 2, "mask.tile"
   0, 3, "t.coast_color"
+  0, 3, "t.blend.coast"
+  0, 3, "t.blend.ocean"
   0, 4, "user.attention"
   0, 5, "tx.fog"
 }

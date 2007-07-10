@@ -30,8 +30,19 @@ terrains = {"r", "g", "b", "terrain"
    43, 107,  19, "Forest"
   142, 121,  63, "Hills"
   167,  77,  38, "Mountains"
+
     0,   0, 220, "Ocean"
+    0,   0, 220, "Coast"
+    0,   0, 220, "Lake"
+    0,   0, 220, "Sea"
+    0,   0, 200, "Shelf"
+
     0,   0, 170, "Deep Ocean"
+    0,   0, 170, "Briny Deep"
+    0,   0, 170, "Abyss"
+    0,   0, 170, "Oceanic Ridge"
+    0,   0, 170, "Oceanic Vent"
+    0,   0, 170, "Water"
 }
 
 ; Mapview

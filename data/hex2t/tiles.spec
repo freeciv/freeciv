@@ -76,8 +76,11 @@ tiles = { "row", "column","tag"
   2, 9, "t.l0.jungle1"
   2, 9, "t.l1.jungle1"
 
+; more ocean in overlays
   2, 10, "t.l0.ocean1"
   6, 8, "t.l0.ocean2"
+  6, 8, "t.l0.shelf1"
+  2, 10, "t.l0.shelf2"
 
 ; Terrain special resources:
 
