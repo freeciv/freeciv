@@ -1858,7 +1858,7 @@ static void load_player_units(struct player *plr, int plrno,
     }
 
     /* allocate the unit's contribution to fog of war */
-    punit->server.vision = vision_new(punit->owner, punit->tile, TRUE);
+    punit->server.vision = vision_new(punit->owner, punit->tile);
     unit_refresh_vision(punit);
     /* NOTE: There used to be some map_set_known calls here.  These were
      * unneeded since unfogging the tile when the unit sees it will
@@ -2434,7 +2434,8 @@ static void player_load(struct player *plr, int plrno,
     }
     
     /* adding the cities contribution to fog-of-war */
-    pcity->server.vision = vision_new(pcity->owner, pcity->tile, FALSE);
+    pcity->server.vision = vision_new(pcity->owner, pcity->tile);
+    vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
     city_refresh_vision(pcity);
 
     pcity->units_supported = unit_list_new();

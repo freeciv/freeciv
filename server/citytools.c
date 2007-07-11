@@ -801,7 +801,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
   old_vision = pcity->server.vision;
-  pcity->server.vision = vision_new(ptaker, pcity->tile, FALSE);
+  pcity->server.vision = vision_new(ptaker, pcity->tile);
+  vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
   vision_layer_iterate(v) {
     vision_change_sight(pcity->server.vision, v,
 			vision_get_sight(old_vision, v));
@@ -985,7 +986,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
   }
 
   /* Before arranging workers to show unknown land */
-  pcity->server.vision = vision_new(pplayer, ptile, FALSE);
+  pcity->server.vision = vision_new(pplayer, ptile);
+  vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
   city_refresh_vision(pcity);
 
   tile_set_city(ptile, pcity);

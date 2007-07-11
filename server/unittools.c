@@ -1378,7 +1378,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
     send_city_info(pplayer, pcity);
   }
 
-  punit->server.vision = vision_new(pplayer, ptile, TRUE);
+  punit->server.vision = vision_new(pplayer, ptile);
   unit_refresh_vision(punit);
 
   send_unit_info(NULL, punit);
@@ -2792,7 +2792,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     unit_list_iterate(cargo_units, pcargo) {
       struct vision *old_vision = pcargo->server.vision;
 
-      pcargo->server.vision = vision_new(pcargo->owner, pdesttile, TRUE);
+      pcargo->server.vision = vision_new(pcargo->owner, pdesttile);
       vision_layer_iterate(v) {
 	vision_change_sight(pcargo->server.vision, v,
 			    get_unit_vision_at(pcargo, pdesttile, v));
@@ -2823,7 +2823,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
      move */
 
   /* Enhance vision if unit steps into a fortress */
-  punit->server.vision = vision_new(punit->owner, pdesttile, TRUE);
+  punit->server.vision = vision_new(punit->owner, pdesttile);
   vision_layer_iterate(v) {
     vision_change_sight(punit->server.vision, v,
 			get_unit_vision_at(punit, pdesttile, v));

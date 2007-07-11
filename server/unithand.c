@@ -292,7 +292,7 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
     unit_list_prepend(new_owner->units, punit);
     punit->owner = new_owner;
 
-    punit->server.vision = vision_new(new_owner, punit->tile, TRUE);
+    punit->server.vision = vision_new(new_owner, punit->tile);
     unit_refresh_vision(punit);
   }
 

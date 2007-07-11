@@ -120,9 +120,9 @@ int get_ocean_size(Continent_id id);
   only rarely be necessary since all fogging and unfogging operations
   are taken care of internally.
 
-  The can_reveal_tiles parameter controls whether the vision source can
-  discover new (unknown) tiles or simply maintain vision on already-known
-  tiles.  Currently cities should pass FALSE for this since they cannot
+  vision_reveal_tiles() controls whether the vision source can discover
+  new (unknown) tiles or simply maintain vision on already-known tiles.
+  By default, cities should pass FALSE for this since they cannot
   discover new tiles.
 
   ***** IMPORTANT *****
@@ -137,7 +137,7 @@ int get_ocean_size(Continent_id id);
   visible.  For instance to move a unit:
 
     old_vision = punit->server.vision;
-    punit->server.vision = vision_new(punit->owner, dest_tile, TRUE);
+    punit->server.vision = vision_new(punit->owner, dest_tile);
     vision_change_sight(punit->server.vision,
                         get_unit_vision_at(punit, dest_tile));
 
@@ -151,8 +151,8 @@ int get_ocean_size(Continent_id id);
   a unit or city between players, etc.
 ****************************************************************************/
 struct vision;
-struct vision *vision_new(struct player *pplayer, struct tile *ptile,
-			  bool can_reveal_tiles);
+struct vision *vision_new(struct player *pplayer, struct tile *ptile);
+bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
 int vision_get_sight(const struct vision *vision, enum vision_layer vlayer);
 void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 			 int radius_sq);

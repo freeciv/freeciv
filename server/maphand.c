@@ -1713,19 +1713,32 @@ struct vision {
 
   See documentation in maphand.h.
 ****************************************************************************/
-struct vision *vision_new(struct player *pplayer, struct tile *ptile,
-			  bool can_reveal_tiles)
+struct vision *vision_new(struct player *pplayer, struct tile *ptile)
 {
   struct vision *vision = fc_malloc(sizeof(*vision));
 
   vision->player = pplayer;
   vision->tile = ptile;
-  vision->can_reveal_tiles = can_reveal_tiles;
+  vision->can_reveal_tiles = TRUE;
   vision_layer_iterate(v) {
     vision->radius_sq[v] = -1;
   } vision_layer_iterate_end;
 
   return vision;
+}
+
+/****************************************************************************
+  Sets the can_reveal_tiles flag.
+  Returns the old flag.
+
+  See documentation in maphand.h.
+****************************************************************************/
+bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles)
+{
+  bool was = vision->can_reveal_tiles;
+
+  vision->can_reveal_tiles = reveal_tiles;
+  return was;
 }
 
 /****************************************************************************

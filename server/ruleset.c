@@ -2684,6 +2684,10 @@ static void load_ruleset_cities(struct section_file *file)
     exit(EXIT_FAILURE);
   }
 
+  /* civ1 & 2 didn't reveal tiles */
+  game.info.city_reveal_tiles =
+    secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
+
   /* City Styles ... */
 
   styles = secfile_get_secnames_prefix(file, CITYSTYLE_SECTION_PREFIX, &nval);
