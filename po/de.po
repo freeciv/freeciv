@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-05 18:25+0200\n"
+"POT-Creation-Date: 2007-07-11 09:51+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -647,13 +647,13 @@ msgstr "Zukunftstechnologie %d"
 #: client/gui-gtk-2.0/helpdlg.c:110 client/gui-mui/helpdlg.c:159
 #: client/gui-mui/helpdlg.c:228 client/gui-mui/helpdlg.c:694
 #: client/gui-mui/repodlgs.c:181 client/gui-sdl/citydlg.c:702
-#: client/gui-sdl/helpdlg.c:354 client/gui-sdl/helpdlg.c:384
-#: client/gui-sdl/helpdlg.c:762 client/gui-sdl/helpdlg.c:786
-#: client/gui-sdl/mapview.c:944 client/gui-win32/helpdlg.c:165
-#: client/gui-win32/helpdlg.c:545 client/gui-win32/helpdlg.c:715
-#: client/gui-win32/helpdlg.c:735 client/gui-xaw/helpdlg.c:819
-#: client/gui-xaw/helpdlg.c:863 client/gui-xaw/helpdlg.c:882
-#: manual/civmanual.c:327 manual/civmanual.c:333
+#: client/gui-sdl/gui_tilespec.c:480 client/gui-sdl/helpdlg.c:354
+#: client/gui-sdl/helpdlg.c:384 client/gui-sdl/helpdlg.c:762
+#: client/gui-sdl/helpdlg.c:786 client/gui-sdl/mapview.c:944
+#: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
+#: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
+#: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
+#: client/gui-xaw/helpdlg.c:882 manual/civmanual.c:327 manual/civmanual.c:333
 msgid "None"
 msgstr "Nichts"
 
@@ -2142,7 +2142,7 @@ msgstr "  -R, --Ranklog DATEI\tSchreibe Ranking-Informationen in DATEI\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGebe die Versionsnummer aus\n"
 
-#: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:264
+#: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:265
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:202
 #: client/gui-xaw/gui_main.c:245 manual/civmanual.c:384
 #, c-format
@@ -4044,18 +4044,18 @@ msgstr "Reason: line not found"
 msgid "Reason: line too short (expected %d got %lu"
 msgstr "Reason: line too short (expected %d got %lu"
 
-#: server/savegame.c:3480
+#: server/savegame.c:3535
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 
-#: server/savegame.c:3693
+#: server/savegame.c:3748
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Das abgespeicherte Spiel verwendet Gelände-Regeln, die nicht mehr "
 "unterstützt werden."
 
-#: server/savegame.c:3702
+#: server/savegame.c:3757
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4065,7 +4065,7 @@ msgstr ""
 "Stattdessen wird das Verzeichnis '%s' benutzt."
 
 # CK: TECHNICAL
-#: server/savegame.c:3927
+#: server/savegame.c:3982
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -6899,7 +6899,7 @@ msgstr "Nur %s können von See aus angreifen."
 msgid "Cannot attack from sea."
 msgstr "Kann nicht von See aus angreifen."
 
-#: server/unithand.c:966 server/unittools.c:2153
+#: server/unithand.c:966 server/unittools.c:2155
 msgid "Cannot attack unless you declare war first."
 msgstr "Kann erst nach Kriegserklärung angreifen."
 
@@ -6999,121 +6999,121 @@ msgstr ""
 msgid "%s was upgraded for free to %s%s."
 msgstr "%s wurde kostenlos zu %s%s modernisiert."
 
-#: server/unittools.c:296
+#: server/unittools.c:298
 #, c-format
 msgid "Not enough gold. %s disbanded"
 msgstr "Zu wenig Gold. %s wurde aufgelöst."
 
-#: server/unittools.c:341
+#: server/unittools.c:343
 #, c-format
 msgid "Your %s has run out of hit points."
 msgstr "%s hat keine Trefferpunkte mehr."
 
-#: server/unittools.c:357
+#: server/unittools.c:359
 #, c-format
 msgid "Your %s has been lost on the high seas."
 msgstr "%s ist auf hoher See gesunken."
 
-#: server/unittools.c:364
+#: server/unittools.c:366
 #, c-format
 msgid "Your %s survived on the high seas and became more experienced!"
 msgstr "%s überlebte auf hoher See und sammelte Erfahrung!"
 
-#: server/unittools.c:375
+#: server/unittools.c:377
 #, c-format
 msgid "Your %s has been lost on unsafe terrain."
 msgstr "%s ging auf unsicherem Gelände verloren."
 
-#: server/unittools.c:429
+#: server/unittools.c:431
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "%s ist zum Tanken zurück gekommen."
 
-#: server/unittools.c:453
+#: server/unittools.c:455
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "%s hat keinen Treibstoff mehr."
 
-#: server/unittools.c:630
+#: server/unittools.c:632
 #, c-format
 msgid "Your %s became more experienced!"
 msgstr "Dein %s sammelte Erfahrung!"
 
-#: server/unittools.c:855
+#: server/unittools.c:857
 #, c-format
 msgid " at %s"
 msgstr " bei %s"
 
-#: server/unittools.c:857
+#: server/unittools.c:859
 #, c-format
 msgid " in %s"
 msgstr " in %s"
 
-#: server/unittools.c:864
+#: server/unittools.c:866
 #, c-format
 msgid " outside %s"
 msgstr " außerhalb von %s"
 
-#: server/unittools.c:867
+#: server/unittools.c:869
 #, c-format
 msgid " near %s"
 msgstr " in der Nähe von %s"
 
-#: server/unittools.c:1070
+#: server/unittools.c:1072
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Habe %s nach %s teleportiert."
 
-#: server/unittools.c:1100
+#: server/unittools.c:1102
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Einheit %s aufgelöst."
 
-#: server/unittools.c:1426
+#: server/unittools.c:1428
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Konnte %s nicht verteidigen, %s hat das Spiel verloren."
 
-#: server/unittools.c:1430
+#: server/unittools.c:1432
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Durch den Verlust von %s ist das Spiel verloren. Seien Sie das nächste Mal "
 "vorsichtiger!"
 
-#: server/unittools.c:1532
+#: server/unittools.c:1534
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s ist der Zerstörung von %s entgangen und nach %s geflüchtet."
 
-#: server/unittools.c:1541
+#: server/unittools.c:1543
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s beim Verlust von %s verloren."
 
-#: server/unittools.c:1591
+#: server/unittools.c:1593
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbarenanführer gefaßt, %d Goldstücke Belohnung erhalten."
 
-#: server/unittools.c:1609
+#: server/unittools.c:1611
 #, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s%s and became more experienced!"
 msgstr ""
 "Der Angriff der %s gegen %ss %s%s ist geglückt und sie sammelten Erfahrung!"
 
-#: server/unittools.c:1618
+#: server/unittools.c:1620
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s%s!"
 msgstr "Der Angriff der %s gegen %ss %s%s ist geglückt!"
 
-#: server/unittools.c:1626
+#: server/unittools.c:1628
 #, c-format
 msgid "%s lost to an attack by %s's %s%s."
 msgstr "%s beim Angriff von %ss %s%s verloren."
 
-#: server/unittools.c:1660
+#: server/unittools.c:1662
 #, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
@@ -7128,7 +7128,7 @@ msgstr[1] ""
 "Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt "
 "und sie sammelten Erfahrung!"
 
-#: server/unittools.c:1673
+#: server/unittools.c:1675
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
@@ -7140,21 +7140,21 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
-#: server/unittools.c:1698
+#: server/unittools.c:1700
 #, c-format
 msgid "%s lost to an attack from %s's %s."
 msgstr "%s beim Angriff von %ss %s verloren."
 
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
-#: server/unittools.c:1707
+#: server/unittools.c:1709
 #, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
 msgstr "%s beim Angriff von %ss %s auf %ss %s verloren."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from John's Destroyer."
-#: server/unittools.c:1722
+#: server/unittools.c:1724
 #, c-format
 msgid "%s (and %s) lost to an attack from %s's %s."
 msgstr "%s (und %s) beim Angriff von %ss %s verloren."
@@ -7162,7 +7162,7 @@ msgstr "%s (und %s) beim Angriff von %ss %s verloren."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from John's Destroyer." (only happens
 #. * with at least 2 other units)
-#: server/unittools.c:1732
+#: server/unittools.c:1734
 #, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
@@ -7172,180 +7172,180 @@ msgstr[1] "%s und %d weitere Einheiten beim Angriff von %ss %s verloren."
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
 #. * with at least 2 other units)
-#: server/unittools.c:1746
+#: server/unittools.c:1748
 #, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
 msgstr[0] "%d Einheit beim Angriff von %ss %s auf %ss %s verloren."
 msgstr[1] "%d Einheiten beim Angriff von %ss %s auf %ss %s verloren."
 
-#: server/unittools.c:2010
+#: server/unittools.c:2012
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%s wurde von %s atomar angegriffen."
 
-#: server/unittools.c:2012 server/unittools.c:2028
+#: server/unittools.c:2014 server/unittools.c:2030
 msgid "yourself"
 msgstr "selbst"
 
-#: server/unittools.c:2016
+#: server/unittools.c:2018
 #, c-format
 msgid "%s's %s was nuked."
 msgstr "%s's %s wurde atomar angegriffen."
 
-#: server/unittools.c:2026
+#: server/unittools.c:2028
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s wurde von %s atomar angegriffen."
 
-#: server/unittools.c:2033
+#: server/unittools.c:2035
 #, c-format
 msgid "You nuked %s."
 msgstr "%s atomar angegriffen."
 
-#: server/unittools.c:2074
+#: server/unittools.c:2076
 #, c-format
 msgid "%s detonated a nuke!"
 msgstr "%s hat eine Atombombe gezündet."
 
-#: server/unittools.c:2097
+#: server/unittools.c:2099
 #, c-format
 msgid "%s transported succesfully."
 msgstr "%s transportiert."
 
-#: server/unittools.c:2120
+#: server/unittools.c:2122
 msgid "This unit type can not be paradropped."
 msgstr "Diese Einheit kann nicht fallschirmspringen."
 
-#: server/unittools.c:2130
+#: server/unittools.c:2132
 msgid "You cannot paradrop a transporter unit."
 msgstr "Ein Transporter kann nicht fallschirmspringen."
 
-#: server/unittools.c:2135
+#: server/unittools.c:2137
 msgid "The destination location is not known."
 msgstr "Der Zielort ist nicht bekannt."
 
-#: server/unittools.c:2142
+#: server/unittools.c:2144
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Diese Einheit kann nicht über %s abspringen."
 
-#: server/unittools.c:2162
+#: server/unittools.c:2164
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Die Entfernung zum Ziel (%i) ist größer als die Reichweite dieser Einheit (%"
 "i)."
 
-#: server/unittools.c:2173
+#: server/unittools.c:2175
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Die %s sind über %s abgesprungen und gingen verloren."
 
-#: server/unittools.c:2186
+#: server/unittools.c:2188
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Die %s wurden von feindlichen Einheiten bei der Landung vernichtet."
 
-#: server/unittools.c:2208
+#: server/unittools.c:2210
 #, c-format
 msgid "You found %d gold."
 msgstr "%d Goldstücke erhalten."
 
-#: server/unittools.c:2225
+#: server/unittools.c:2227
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "%s aus überlieferten Texten gelernt."
 
-#: server/unittools.c:2232
+#: server/unittools.c:2234
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr ""
 "Die %s haben die Kenntnis über %s in überlieferten wissenschaftlichen Texten "
 "gefunden."
 
-#: server/unittools.c:2246
+#: server/unittools.c:2248
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "Eine Gruppe Söldner stellt sich zur Verfügung."
 
-#: server/unittools.c:2264
+#: server/unittools.c:2266
 msgid "An abandoned village is here."
 msgstr "Hier ist eine verlassene Ortschaft."
 
-#: server/unittools.c:2274
+#: server/unittools.c:2276
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Barbarenhorde freigesetzt."
 
-#: server/unittools.c:2277
+#: server/unittools.c:2279
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Barbaren haben %s vernichtet."
 
-#: server/unittools.c:2293
+#: server/unittools.c:2295
 msgid "You found a friendly city."
 msgstr "Eine unabhängige Stadt schließt sich an."
 
-#: server/unittools.c:2307
+#: server/unittools.c:2309
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Eine Gruppe Nomaden stellt sich zur Verfügung."
 
-#: server/unittools.c:2332
+#: server/unittools.c:2334
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Durch den Überflug wurden die Eingeborenen so erschreckt,\n"
 "       daß sie in alle Himmelsrichtungen flohen."
 
-#: server/unittools.c:2590
+#: server/unittools.c:2592
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Befehle für %s verworfen, weil eine Feindbewegung entdeckt wurde."
 
-#: server/unittools.c:3023
+#: server/unittools.c:3025
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Befehle für %s verworfen, da Einheiten in der Nähe sind."
 
-#: server/unittools.c:3075
+#: server/unittools.c:3077
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Befehle für %s verworfen, da die Stadt nicht gegründet werden konnte."
 
-#: server/unittools.c:3088
+#: server/unittools.c:3090
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Befehle für %s verworfen, Auftrag unmöglich."
 
-#: server/unittools.c:3102
+#: server/unittools.c:3104
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Befehle für %s verworfen, das Ziel ist ungültig."
 
-#: server/unittools.c:3112
+#: server/unittools.c:3114
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s konnte Befehl nicht ausführen, da Einheiten im Weg sind."
 
-#: server/unittools.c:3138
+#: server/unittools.c:3140
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
 
-#: server/unittools.c:3179
+#: server/unittools.c:3181
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Der Versuch, die Heimatstadt der %s zu ändern, schlug fehl."
 
-#: server/unittools.c:3190
+#: server/unittools.c:3192
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Der Versuch, eine Handelsroute nach %s einzurichten, mißlang."
 
-#: server/unittools.c:3202
+#: server/unittools.c:3204
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Der Versuch, ein Weltwunder in %s zu errichten, mißlang."
 
-#: server/unittools.c:3211
+#: server/unittools.c:3213
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Befehle für %s sind ungültig."
@@ -7381,14 +7381,14 @@ msgstr ""
 "Vielleicht ist die Anzahl der Spieler für diese Karte zu groß.\n"
 "Bitte berichten Sie den Fehler an %s."
 
-#: client/attribute.c:241
+#: client/attribute.c:363
 msgid ""
 "There has been a CMA error.  Your citizen governor settings may be broken."
 msgstr ""
 "In der automatischen Stadtverwaltung ist ein Fehler aufgetreten. "
 "Möglicherweise sind die Einstellungen für den Bürgermeister fehlerhaft."
 
-#: client/attribute.c:295
+#: client/attribute.c:367
 msgid "Old attributes detected and removed."
 msgstr "Alte Attribute wurden entfernt."
 
@@ -11307,19 +11307,19 @@ msgstr "Bestimmungsort wählen"
 msgid "Show _All Cities"
 msgstr "_Zeige Alle Städte"
 
-#: client/gui-gtk-2.0/gui_main.c:149
+#: client/gui-gtk-2.0/gui_main.c:150
 msgid "Show Map Scrollbars"
 msgstr "Rollbalken für Karte anzeigen"
 
-#: client/gui-gtk-2.0/gui_main.c:150
+#: client/gui-gtk-2.0/gui_main.c:151
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr "Ein/Ausschalten der Rollbalken für die Karte."
 
-#: client/gui-gtk-2.0/gui_main.c:154
+#: client/gui-gtk-2.0/gui_main.c:155
 msgid "Keyboardless goto"
 msgstr "Mausgesteuerte Gehe-nach-Funktion"
 
-#: client/gui-gtk-2.0/gui_main.c:155
+#: client/gui-gtk-2.0/gui_main.c:156
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
@@ -11327,11 +11327,11 @@ msgstr ""
 "Die Gehe-nach-Funktion kann mittels Klicken und Ziehen der Maus ausgelöst "
 "werden."
 
-#: client/gui-gtk-2.0/gui_main.c:160
+#: client/gui-gtk-2.0/gui_main.c:161
 msgid "Keep dialogs on top"
 msgstr "Dialoge immer sichtbar"
 
-#: client/gui-gtk-2.0/gui_main.c:161
+#: client/gui-gtk-2.0/gui_main.c:162
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -11339,11 +11339,11 @@ msgstr ""
 "Dialogfenster bleiben immer vor dem Hauptfenster sichtbar. Im Vollbildmodus "
 "nicht abschaltbar."
 
-#: client/gui-gtk-2.0/gui_main.c:165
+#: client/gui-gtk-2.0/gui_main.c:166
 msgid "Show worklist task icons"
 msgstr "Zeige Icons in der Arbeitsliste"
 
-#: client/gui-gtk-2.0/gui_main.c:166
+#: client/gui-gtk-2.0/gui_main.c:167
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
@@ -11351,11 +11351,11 @@ msgstr ""
 "Einheiten und Stadtverbesserungen werden im Stadtfenster und in der "
 "Arbeitsliste zusätzlich mit Symbolen dargestellt."
 
-#: client/gui-gtk-2.0/gui_main.c:170
+#: client/gui-gtk-2.0/gui_main.c:171
 msgid "Enable status report tabs"
 msgstr "Kartenreiteranzeige für Berichte"
 
-#: client/gui-gtk-2.0/gui_main.c:171
+#: client/gui-gtk-2.0/gui_main.c:172
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
@@ -11363,11 +11363,11 @@ msgstr ""
 "Hiermit werden Berichte als Kartenreiter dargestellt, und nicht als separate "
 "Fenster."
 
-#: client/gui-gtk-2.0/gui_main.c:176 client/gui-win32/gui_main.c:109
+#: client/gui-gtk-2.0/gui_main.c:177 client/gui-win32/gui_main.c:109
 msgid "Better fog-of-war drawing"
 msgstr "Bessere Darstellung des 'Nebel des Krieges'"
 
-#: client/gui-gtk-2.0/gui_main.c:177 client/gui-win32/gui_main.c:110
+#: client/gui-gtk-2.0/gui_main.c:178 client/gui-win32/gui_main.c:110
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -11375,30 +11375,30 @@ msgstr ""
 "Diese Option ergibt eine bessere Art der Darstellung für den 'Nebel des "
 "Krieges'. Sie ist nicht langsamer, benötigt aber mehr Speicher."
 
-#: client/gui-gtk-2.0/gui_main.c:681 client/gui-gtk-2.0/gui_main.c:1307
+#: client/gui-gtk-2.0/gui_main.c:682 client/gui-gtk-2.0/gui_main.c:1308
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1047 client/gui-gtk-2.0/gui_main.c:1061
+#: client/gui-gtk-2.0/gui_main.c:1048 client/gui-gtk-2.0/gui_main.c:1062
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk-2.0/gui_main.c:1061 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1062 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:1072
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
-#: client/gui-gtk-2.0/gui_main.c:1093
+#: client/gui-gtk-2.0/gui_main.c:1094
 msgid "_Map"
 msgstr "_Karte"
 
-#: client/gui-gtk-2.0/gui_main.c:1174
+#: client/gui-gtk-2.0/gui_main.c:1175
 msgid "_Chat"
 msgstr "_Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:1190 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1191 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11410,72 +11410,72 @@ msgstr ""
 "Siehe unter 'Lizenz' im Hilfemenü.\n"
 "Und nun ... mach' ihnen die Hölle heiß!"
 
-#: client/gui-gtk-2.0/gui_main.c:1447
+#: client/gui-gtk-2.0/gui_main.c:1448
 msgid "Not _ready"
 msgstr "Nicht _bereit"
 
-#: client/gui-gtk-2.0/gui_main.c:1458 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1459 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
 msgstr "_Bereit"
 
-#: client/gui-gtk-2.0/gui_main.c:1462 client/gui-gtk-2.0/gui_main.c:1468
+#: client/gui-gtk-2.0/gui_main.c:1463 client/gui-gtk-2.0/gui_main.c:1469
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
 msgstr "_Start"
 
-#: client/gui-gtk-2.0/gui_main.c:1473 client/gui-gtk-2.0/pages.c:1567
+#: client/gui-gtk-2.0/gui_main.c:1474 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
 msgstr "Wähle _Nation"
 
-#: client/gui-gtk-2.0/gui_main.c:1475
+#: client/gui-gtk-2.0/gui_main.c:1476
 msgid "Create _player"
 msgstr "Spieler _hinzufügen"
 
-#: client/gui-gtk-2.0/gui_main.c:1480
+#: client/gui-gtk-2.0/gui_main.c:1481
 msgid "_Release player"
 msgstr "Spieler _freigeben"
 
-#: client/gui-gtk-2.0/gui_main.c:1482 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1483 client/gui-gtk-2.0/pages.c:1572
 msgid "_Observe"
 msgstr "Be_obachten"
 
-#: client/gui-gtk-2.0/gui_main.c:1484
+#: client/gui-gtk-2.0/gui_main.c:1485
 msgid "_Do not observe"
 msgstr "_Nicht beobachten"
 
-#: client/gui-gtk-2.0/gui_main.c:1506
+#: client/gui-gtk-2.0/gui_main.c:1507
 msgid "<AI>"
 msgstr "<KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1509
+#: client/gui-gtk-2.0/gui_main.c:1510
 msgid "<Novice AI>"
 msgstr "<Anfänger-KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1512
+#: client/gui-gtk-2.0/gui_main.c:1513
 msgid "<Easy AI>"
 msgstr "<Leichte KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1515
+#: client/gui-gtk-2.0/gui_main.c:1516
 msgid "<Normal AI>"
 msgstr "<Normale KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1518
+#: client/gui-gtk-2.0/gui_main.c:1519
 msgid "<Hard AI>"
 msgstr "<Schwere KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1528 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1529 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr "Zufällig"
 
-#: client/gui-gtk-2.0/gui_main.c:1590
+#: client/gui-gtk-2.0/gui_main.c:1591
 msgid "Observer"
 msgstr "Beobachter"
 
-#: client/gui-gtk-2.0/gui_main.c:1590
+#: client/gui-gtk-2.0/gui_main.c:1591
 msgid "Detached"
 msgstr "Nicht verbunden"
 
-#: client/gui-gtk-2.0/gui_main.c:1860
+#: client/gui-gtk-2.0/gui_main.c:1861
 msgid "Are you sure you want to quit?"
 msgstr "Wollen Sie das Programm wirklich beenden?"
 
@@ -12037,13 +12037,13 @@ msgstr "_Befehle"
 msgid "Orders"
 msgstr "Befehle"
 
-#: client/gui-gtk-2.0/menu.c:811 client/gui-gtk-2.0/menu.c:1403
-#: client/gui-gtk-2.0/menu.c:1406 client/gui-win32/menu.c:359
+#: client/gui-gtk-2.0/menu.c:811 client/gui-gtk-2.0/menu.c:1405
+#: client/gui-win32/menu.c:359
 msgid "_Build City"
 msgstr "Stadt gründen (_B)"
 
-#: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:1426
-#: client/gui-gtk-2.0/menu.c:1432 client/gui-win32/menu.c:360
+#: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:1427
+#: client/gui-gtk-2.0/menu.c:1433 client/gui-win32/menu.c:360
 msgid "Build _Road"
 msgstr "St_raße bauen"
 
@@ -12061,7 +12061,7 @@ msgstr "Bergwerk bauen (_M)"
 msgid "Transf_orm Terrain"
 msgstr "Landschaft verändern (_O)"
 
-#: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:1468
+#: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:1469
 #: client/gui-win32/menu.c:364
 msgid "Build _Fortress"
 msgstr "Be_festigung errichten"
@@ -12070,7 +12070,7 @@ msgstr "Be_festigung errichten"
 msgid "Build Airbas_e"
 msgstr "Fli_egerhorst bauen"
 
-#: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:1474
+#: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:1475
 #: client/gui-win32/menu.c:366
 msgid "Clean _Pollution"
 msgstr "Umweltverschmutzung beseitigen (_P)"
@@ -12349,31 +12349,31 @@ msgstr "Zu %s verändern (_M)"
 msgid "Transf_orm to %s"
 msgstr "Zu %s verändern (_O)"
 
-#: client/gui-gtk-2.0/menu.c:1387
+#: client/gui-gtk-2.0/menu.c:1388
 msgid "Help _Build Wonder"
 msgstr "Zum _Bau eines Weltwunder beitragen"
 
-#: client/gui-gtk-2.0/menu.c:1401
+#: client/gui-gtk-2.0/menu.c:1402
 msgid "Add to City (_B)"
 msgstr "Zur Stadt hinzufügen (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1409
+#: client/gui-gtk-2.0/menu.c:1410
 msgid "Make Trade _Route"
 msgstr "Handelsweg ein_richten"
 
-#: client/gui-gtk-2.0/menu.c:1423
+#: client/gui-gtk-2.0/menu.c:1424
 msgid "Build _Railroad"
 msgstr "Schienen verlegen (_R)"
 
-#: client/gui-gtk-2.0/menu.c:1446
+#: client/gui-gtk-2.0/menu.c:1447
 msgid "Bu_ild Farmland"
 msgstr "Erzeuge Ackerland (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1466
+#: client/gui-gtk-2.0/menu.c:1467
 msgid "_Fortify"
 msgstr "Eingraben (_F)"
 
-#: client/gui-gtk-2.0/menu.c:1472
+#: client/gui-gtk-2.0/menu.c:1473
 msgid "_Paradrop"
 msgstr "Fallschirms_pringen"
 
@@ -15063,6 +15063,10 @@ msgid ""
 "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
 msgstr ""
 "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
+
+#: client/gui-sdl/gui_tilespec.c:504
+msgid "FT"
+msgstr "ZT"
 
 #: client/gui-sdl/helpdlg.c:199
 msgid "Help : Improvements"
