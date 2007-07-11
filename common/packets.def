@@ -1490,3 +1490,6 @@ PACKET_EDIT_PLAYER_TECH=133;cs,handle-per-conn,dsend
   TECH            tech;
   EDIT_TECH_MODE  mode;
 end
+
+PACKET_EDIT_REGENERATE_WATER=134;cs,handle-per-conn
+end

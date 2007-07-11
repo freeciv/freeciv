@@ -129,7 +129,6 @@ static void recalculate_lake_surrounders(void)
 **************************************************************************/
 void assign_continent_numbers(void)
 {
-  
   /* Initialize */
   map.num_continents = 0;
   map.num_oceans = 0;
@@ -170,6 +169,164 @@ void assign_continent_numbers(void)
 
   freelog(LOG_VERBOSE, "Map has %d continents and %d oceans", 
 	  map.num_continents, map.num_oceans);
+}
+
+/**************************************************************************
+  Regenerate all oceanic tiles with coasts, lakes, and deeper oceans.
+  Assumes assign_continent_numbers() and recalculate_lake_surrounders()
+  have already been done!
+  FIXME: insufficiently generalized, use terrain property.
+**************************************************************************/
+void map_regenerate_water(void)
+{
+#define DEFAULT_LAKE_SEA_SIZE (4)  /* should be configurable */
+#define DEFAULT_NEAR_COAST (6)
+  struct terrain *lake = terrain_by_identifier(TERRAIN_LAKE_IDENTIFIER);
+  struct terrain *sea = terrain_by_identifier(TERRAIN_SEA_IDENTIFIER);
+  struct terrain *coast = terrain_by_identifier(TERRAIN_COAST_IDENTIFIER);
+  struct terrain *shelf = terrain_by_identifier(TERRAIN_SHELF_IDENTIFIER);
+  struct terrain *floor = terrain_by_identifier(TERRAIN_FLOOR_IDENTIFIER);
+  int shelf_depth = shelf->property[MG_OCEAN_DEPTH];
+  int coast_count = 0;
+  int shelf_count = 0;
+  int floor_count = 0;
+
+  /* coasts, lakes, and seas */
+  whole_map_iterate(ptile) {
+    struct terrain *pterrain = tile_get_terrain(ptile);
+    Continent_id here = tile_get_continent(ptile);
+
+    if (T_UNKNOWN == pterrain) {
+      continue;
+    }
+    if (!is_ocean(pterrain)) {
+      continue;
+    }
+    if (0 < lake_surrounders[-here]) {
+      if (DEFAULT_LAKE_SEA_SIZE < ocean_sizes[-here]) {
+        tile_change_terrain(ptile, lake);
+      } else {
+        tile_change_terrain(ptile, sea);
+      }
+      update_tile_knowledge(ptile);
+      continue;
+    }
+    /* leave any existing deep features in place */
+    if (pterrain->property[MG_OCEAN_DEPTH] > shelf_depth) {
+      continue;
+    }
+
+    /* default to shelf */
+    tile_change_terrain(ptile, shelf);
+    update_tile_knowledge(ptile);
+    shelf_count++;
+
+    adjc_iterate(ptile, tile2) {
+      if (T_UNKNOWN == tile2->terrain) {
+        continue;
+      }
+      /* glacier not otherwise near land floats */
+      if (TERRAIN_GLACIER_IDENTIFIER == tile2->terrain->identifier) {
+        continue;
+      }
+      /* any land makes coast */
+      if (!is_ocean(tile2->terrain)) {
+        tile_change_terrain(ptile, coast);
+        update_tile_knowledge(ptile);
+        coast_count++;
+        shelf_count--;
+        break;
+      }
+    } adjc_iterate_end;
+  } whole_map_iterate_end;
+
+  /* continental shelf */
+  whole_map_iterate(ptile) {
+    struct terrain *pterrain = tile_get_terrain(ptile);
+    int shallow = 0;
+
+    if (T_UNKNOWN == pterrain) {
+      continue;
+    }
+    if (!is_ocean(pterrain)) {
+      continue;
+    }
+    /* leave any other existing features in place */
+    if (pterrain != shelf) {
+      continue;
+    }
+
+    adjc_iterate(ptile, tile2) {
+      if (T_UNKNOWN == tile2->terrain)
+        continue;
+
+      switch (tile2->terrain->identifier) {
+      case TERRAIN_COAST_IDENTIFIER:
+        shallow++;
+        break;
+      default:
+        break;
+      };
+    } adjc_iterate_end;
+
+    if (DEFAULT_NEAR_COAST < shallow) {
+      /* smooth with neighbors */
+      tile_change_terrain(ptile, coast);
+      update_tile_knowledge(ptile);
+      coast_count++;
+      shelf_count--;
+    } else if (0 == shallow) {
+      tile_change_terrain(ptile, floor);
+      update_tile_knowledge(ptile);
+      floor_count++;
+      shelf_count--;
+    }
+  } whole_map_iterate_end;
+
+  /* deep ocean floor */
+  whole_map_iterate(ptile) {
+    struct terrain *pterrain = tile_get_terrain(ptile);
+    int shallow = 0;
+
+    if (T_UNKNOWN == pterrain) {
+      continue;
+    }
+    if (!is_ocean(pterrain)) {
+      continue;
+    }
+    /* leave any other existing features in place */
+    if (pterrain != floor) {
+      continue;
+    }
+
+    adjc_iterate(ptile, tile2) {
+      if (T_UNKNOWN == tile2->terrain)
+        continue;
+
+      switch (tile2->terrain->identifier) {
+;     case TERRAIN_GLACIER_IDENTIFIER:
+      case TERRAIN_COAST_IDENTIFIER:
+      case TERRAIN_SHELF_IDENTIFIER:
+        shallow++;
+        break;
+      default:
+        break;
+      };
+    } adjc_iterate_end;
+
+    if (DEFAULT_NEAR_COAST < shallow) {
+      /* smooth with neighbors */
+      tile_change_terrain(ptile, shelf);
+      update_tile_knowledge(ptile);
+      floor_count--;
+      shelf_count++;
+    }
+  } whole_map_iterate_end;
+
+  freelog(LOG_VERBOSE, "Map has %d coast, %d shelf, and %d floor tiles", 
+          coast_count,
+          shelf_count,
+          floor_count);
 }
 
 static void player_tile_init(struct tile *ptile, struct player *pplayer);
@@ -1542,7 +1699,7 @@ static int tile_border_range(struct tile *ptile)
   more land to sources in range, unless there are enemy units within
   this range.
 *************************************************************************/
-void map_calculate_borders()
+void map_calculate_borders(void)
 {
   struct city_list *cities_to_refresh = NULL;
 

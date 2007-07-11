@@ -250,7 +250,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
 static struct terrain *char2terrain(char ch)
 {
   /* terrain_by_identifier plus fatal error */
-  if (ch == UNKNOWN_TERRAIN_IDENTIFIER) {
+  if (ch == TERRAIN_UNKNOWN_IDENTIFIER) {
     return T_UNKNOWN;
   }
   terrain_type_iterate(pterrain) {
@@ -270,7 +270,7 @@ static struct terrain *char2terrain(char ch)
 static char terrain2char(const struct terrain *pterrain)
 {
   if (pterrain == T_UNKNOWN) {
-    return UNKNOWN_TERRAIN_IDENTIFIER;
+    return TERRAIN_UNKNOWN_IDENTIFIER;
   } else {
     return pterrain->identifier;
   }

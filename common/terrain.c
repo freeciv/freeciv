@@ -71,7 +71,7 @@ void terrains_init(void)
 ****************************************************************************/
 struct terrain *terrain_by_identifier(const char identifier)
 {
-  if (UNKNOWN_TERRAIN_IDENTIFIER == identifier) {
+  if (TERRAIN_UNKNOWN_IDENTIFIER == identifier) {
     return T_UNKNOWN;
   }
   terrain_type_iterate(pterrain) {

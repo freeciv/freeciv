@@ -1685,7 +1685,7 @@ static void load_ruleset_terrain(struct section_file *file)
               filename, tsec[i]);
       exit(EXIT_FAILURE);
     }
-    if (UNKNOWN_TERRAIN_IDENTIFIER == pterrain->identifier) {
+    if (TERRAIN_UNKNOWN_IDENTIFIER == pterrain->identifier) {
       freelog(LOG_FATAL, "\"%s\" [%s] cannot use '%c' as an identifier;"
                          " it is reserved.",
               filename, tsec[i], pterrain->identifier);

@@ -52,6 +52,7 @@ struct player_tile {
 };
 
 void assign_continent_numbers(void);
+void map_regenerate_water(void);
 
 void global_warming(int effect);
 void nuclear_winter(int effect);

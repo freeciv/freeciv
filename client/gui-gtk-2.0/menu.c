@@ -163,7 +163,8 @@ enum MenuID {
  
   MENU_EDITOR_TOGGLE,
   MENU_EDITOR_TOOLS,
-  MENU_EDITOR_RECALC_BORDERS,
+  MENU_EDITOR_RECALCULATE_BORDERS,
+  MENU_EDITOR_REGENERATE_WATER,
 
   MENU_HELP_LANGUAGES,
   MENU_HELP_CONNECTING,
@@ -611,8 +612,11 @@ static void editor_menu_callback(gpointer callback_data,
   case MENU_EDITOR_TOOLS:
     editdlg_show_tools();
     break;
-  case MENU_EDITOR_RECALC_BORDERS:
-    key_editor_recalc_borders();
+  case MENU_EDITOR_RECALCULATE_BORDERS:
+    key_editor_recalculate_borders();
+    break;
+  case MENU_EDITOR_REGENERATE_WATER:
+    key_editor_regenerate_water();
     break;
   }
 }
@@ -951,8 +955,10 @@ static GtkItemFactoryEntry menu_items[]	=
     editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
   { "/" N_("_Editor") "/" N_("_Tools"), NULL,
     editor_menu_callback, MENU_EDITOR_TOOLS },
-  { "/" N_("_Editor") "/" N_("_Recalculate Borders"), NULL,
-    editor_menu_callback, MENU_EDITOR_RECALC_BORDERS },
+  { "/" N_("_Editor") "/" N_("Recalculate _Borders"), NULL,
+    editor_menu_callback, MENU_EDITOR_RECALCULATE_BORDERS },
+  { "/" N_("_Editor") "/" N_("Regenerate _Water"), NULL,
+    editor_menu_callback, MENU_EDITOR_REGENERATE_WATER },
 
   /* Help menu ... */
   { "/" N_("_Help"),					NULL,

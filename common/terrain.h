@@ -123,9 +123,14 @@ struct terrain {
   char graphic_alt[MAX_LEN_NAME];	/* TODO: retire, never used! */
 
   char identifier; /* Single-character identifier used in savegames. */
-#define WATER_TERRAIN_IDENTIFIER ' '
-#define GLACIER_TERRAIN_IDENTIFIER 'a'
-#define UNKNOWN_TERRAIN_IDENTIFIER 'u'
+#define TERRAIN_WATER_IDENTIFIER ' '
+#define TERRAIN_LAKE_IDENTIFIER '+'
+#define TERRAIN_SEA_IDENTIFIER '-'
+#define TERRAIN_COAST_IDENTIFIER '.'
+#define TERRAIN_SHELF_IDENTIFIER ','
+#define TERRAIN_FLOOR_IDENTIFIER ':'
+#define TERRAIN_GLACIER_IDENTIFIER 'a'
+#define TERRAIN_UNKNOWN_IDENTIFIER 'u'
 
   int movement_cost;
   int defense_bonus; /* % defense bonus - defaults to zero */

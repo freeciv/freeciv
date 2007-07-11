@@ -521,3 +521,13 @@ void handle_edit_recalculate_borders(struct connection *pc)
     map_calculate_borders();
   }
 }
+
+/****************************************************************************
+  Client editor requests us to regenerate water.
+****************************************************************************/
+void handle_edit_regenerate_water(struct connection *pc)
+{
+  if (can_conn_edit(pc)) {
+    map_regenerate_water();
+  }
+}

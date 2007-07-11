@@ -2782,7 +2782,15 @@ void key_editor_toggle(void)
 /**************************************************************************
   Recalculate borders.
 **************************************************************************/
-void key_editor_recalc_borders(void)
+void key_editor_recalculate_borders(void)
 {
   send_packet_edit_recalculate_borders(&aconnection);
+}
+
+/**************************************************************************
+  Regenerate water.
+**************************************************************************/
+void key_editor_regenerate_water(void)
+{
+  send_packet_edit_regenerate_water(&aconnection);
 }
