@@ -100,23 +100,29 @@ match_types = "land", "water"
 
 [layer1]
 match_style = "BOOL"
-match_types = "forest", "hills", "mountains", "ridge", "trench", "deep"
+match_types = "forest", "hills", "mountains", "shallow", "ridge", "trench", "deep"
 
 ; Water graphics referenced by terrain.ruleset
 ;
 [terrain_coast]
 is_blended = 1
-num_layers = 1
-layer0_match_style = "bool"
+num_layers = 2
+;layer0_match_style = "bool"
 layer0_match_type = "water"
 layer0_cell_type = "rect"
+layer1_match_style = "bool"
+layer1_match_type  = "shallow"
+layer1_cell_type   = "rect"
 
 [terrain_shelf]
 is_blended = 0
-num_layers = 1
-layer0_match_style = "bool"
+num_layers = 2
+;layer0_match_style = "bool"
 layer0_match_type = "water"
 layer0_cell_type = "rect"
+layer1_match_style = "bool"
+layer1_match_type  = "shallow"
+layer1_cell_type   = "rect"
 
 [terrain_floor]
 is_blended = 0
@@ -153,9 +159,11 @@ layer0_cell_type = "rect"
 ; Land graphics referenced by terrain.ruleset
 ;
 [terrain_arctic]
-is_blended = 1
-num_layers = 1
+; TODO: ice cliffs
+is_blended = 0
+num_layers = 2
 layer0_match_type = "land"
+layer1_match_type  = "shallow"
 mine_sprite = "tx.oil_mine"
 
 [terrain_desert]

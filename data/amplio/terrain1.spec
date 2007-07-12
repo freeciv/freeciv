@@ -24,7 +24,7 @@ dx = 96
 dy = 48
 pixel_border = 1
 
-tiles = { "row", "column","tag"
+tiles = { "row", "column", "tag"
 
 ; terrain
  0,  0, "t.l0.desert1"
@@ -44,6 +44,7 @@ tiles = { "row", "column","tag"
  6,  0, "t.l0.tundra1"
 
  7,  0, "t.l0.arctic1"
+ 7,  0, "t.l1.arctic1"
 
  8,  0, "t.l0.swamp1"
 
