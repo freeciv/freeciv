@@ -1324,6 +1324,13 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Government/_Change Government",
 			can_client_issue_orders());
 
+    /* If the client is not attached to a player these reports are
+     * disabled. */
+    menus_set_sensitive("<main>/_Reports/_Cities", game.player_ptr);
+    menus_set_sensitive("<main>/_Reports/_Units", game.player_ptr);
+    menus_set_sensitive("<main>/_Reports/_Economy", game.player_ptr);
+    menus_set_sensitive("<main>/_Reports/_Science", game.player_ptr);
+    menus_set_sensitive("<main>/_Reports/_Demographics", game.player_ptr);
     menus_set_sensitive("<main>/_Reports/S_paceship",
 			(game.player_ptr
 			 && game.player_ptr->spaceship.state != SSHIP_NONE));

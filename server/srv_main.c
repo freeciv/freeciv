@@ -759,6 +759,14 @@ static void end_turn(void)
 
   freelog(LOG_DEBUG, "Endturn");
 
+  /* Hack: because observer players never get an end-phase packet we send
+   * one here.  It would be better perhaps to have a full end-turn packet. */
+  conn_list_iterate(game.est_connections, pconn) {
+    if (!pconn->player) {
+      send_packet_end_phase(pconn);
+    }
+  } conn_list_iterate_end;
+
   map_calculate_borders();
 
   /* Output some AI measurement information */
