@@ -5,6 +5,13 @@ description=_("Tutorial Scenario.")
 
 [script]
 code=$
+function has_unit_type_name(unit, utype_name) 
+  return (unit.utype.id == find.unit_type(utype_name).id)
+end
+function has_tile_terrain_name(tile, terrain_name)
+  return (tile.terrain.id == find.terrain(terrain_name).id)
+end
+
 function turn_callback(turn, year)
   if turn == 0 then
     notify.event(nil, nil, E.TUTORIAL,
@@ -20,9 +27,9 @@ signal.connect('turn_started', 'turn_callback')
 function unit_moved_callback(unit, src_tile, dst_tile)
   if unit.owner:is_human() then
     if citiesbuilt == 0
-      and unit.type.name == 'Settlers'
-      and (dst_tile.terrain.name == 'Grassland'
-           or dst_tile.terrain.name == 'Plains') then  
+      and has_unit_type_name(unit, 'Settlers')
+      and (has_tile_terrain_name(dst_tile, 'Grassland')
+           or has_tile_terrain_name(dst_tile, 'Plains')) then  
       notify.event(unit.owner, dst_tile, E.TUTORIAL,
 _("This looks like a good place to build a city.  The next time this\n\
 unit gets a chance to move, press (b) to found a city.\n\
@@ -195,7 +202,7 @@ function unit_built_callback(unit)
   if not unit.owner:is_human() then
     return
   end
-  if unit.type.name == 'Settlers' then
+  if has_unit_type_name(unit, 'Settlers') then
     if settlersbuilt == 0 then
       notify.event(unit.owner, unit.tile, E.TUTORIAL,
 _("You have built a settler unit.  Settlers are best used to build \n\
@@ -233,7 +240,7 @@ function building_built_callback(building, city)
   if not city.owner:is_human() then
     return
   end
-  if building.name == 'Barracks' and not barracksmsg then
+  if building.id == find.building_type('Barracks').id and not barracksmsg then
     notify.event(city.owner, city.tile, E.TUTORIAL,
 _("You have built a Barracks.  This building will make any military\n\
 units you build start out as veterans.  Veteran units are stronger\n\
@@ -255,7 +262,7 @@ function unit_cant_be_built_callback(unittype, city, reason)
   if not city.owner:is_human() then
     return
   end
-  if unittype.name == 'Settlers' and not nosettlermsg then
+  if unittype.id == find.unit_type('Settlers').id and not nosettlermsg then
     notify.event(city.owner, city.tile, E.TUTORIAL,
 _("Your city cannot build a settler.  Settlers take one unit of\n\
 population to build, so a city of size one cannot build one without\n\
