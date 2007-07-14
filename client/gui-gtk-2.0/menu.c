@@ -1270,6 +1270,7 @@ void update_menus(void)
     const char *path =
       menu_path_remove_uline("<main>/_Government/_Change Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
+    bool attached_to_player = (game.player_ptr != NULL);
 
     if (parent) {
       GList *list, *iter;
@@ -1326,11 +1327,11 @@ void update_menus(void)
 
     /* If the client is not attached to a player these reports are
      * disabled. */
-    menus_set_sensitive("<main>/_Reports/_Cities", game.player_ptr);
-    menus_set_sensitive("<main>/_Reports/_Units", game.player_ptr);
-    menus_set_sensitive("<main>/_Reports/_Economy", game.player_ptr);
-    menus_set_sensitive("<main>/_Reports/_Science", game.player_ptr);
-    menus_set_sensitive("<main>/_Reports/_Demographics", game.player_ptr);
+    menus_set_sensitive("<main>/_Reports/_Cities", attached_to_player);
+    menus_set_sensitive("<main>/_Reports/_Units", attached_to_player);
+    menus_set_sensitive("<main>/_Reports/_Economy", attached_to_player);
+    menus_set_sensitive("<main>/_Reports/_Science", attached_to_player);
+    menus_set_sensitive("<main>/_Reports/_Demographics", attached_to_player);
     menus_set_sensitive("<main>/_Reports/S_paceship",
 			(game.player_ptr
 			 && game.player_ptr->spaceship.state != SSHIP_NONE));
