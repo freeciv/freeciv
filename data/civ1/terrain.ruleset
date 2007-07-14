@@ -175,8 +175,8 @@ fallout_trade_penalty=50
 
 [terrain_legacy_water]
 ; undifferentiated open water from old savefiles
-name                 = _("Ocean")
-graphic              = "ocean"
+name                 = _("Water")
+graphic              = "coast"
 graphic_alt          = "-"
 identifier           = " "
 movement_cost        = 1
@@ -280,7 +280,7 @@ Ocean squares can never be polluted or subjected to fallout.\
 ")
 
 [terrain_ocean_coast]
-name                 = _("Coast")
+name                 = _("Ocean")
 graphic              = "coast"
 graphic_alt          = "-"
 identifier           = "."

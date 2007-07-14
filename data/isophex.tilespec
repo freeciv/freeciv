@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec4.2007.Feb.20"
+options = "+tilespec4.2007.Jul.13"
 
 ; A simple name for the tileset specified by this file:
 name = "isophex"
@@ -100,126 +100,117 @@ files =
 ; Terrain info - see README.graphics
 
 [layer0]
-match_style = "BOOL"
 match_types = "land", "water"
 
 [layer1]
-match_style = "BOOL"
 match_types = "forest", "hills", "mountains", "ridge", "trench"
 
 ; Water graphics referenced by terrain.ruleset
 ;
-[terrain_coast]
+[tile_coast]
 is_blended = 1
 num_layers = 1
-layer0_match_style = "bool"
 layer0_match_type = "water"
-layer0_cell_type = "rect"
+layer0_match_with = "water"
+layer0_sprite_type = "corner"
 
-[terrain_shelf]
+[tile_shelf]
 is_blended = 0
 num_layers = 1
-layer0_match_style = "bool"
 layer0_match_type = "water"
-layer0_cell_type = "rect"
+layer0_match_with = "water"
+layer0_sprite_type = "corner"
 
-[terrain_floor]
+[tile_floor]
 is_blended = 0
 num_layers = 1
-layer0_match_style = "bool"
 layer0_match_type = "water"
-layer0_cell_type = "rect"
+layer0_match_with = "water"
+layer0_sprite_type = "corner"
 
-[terrain_trench]
+[tile_trench]
 is_blended = 0
 num_layers = 2
-layer0_match_style = "bool"
 layer0_match_type = "water"
-layer0_cell_type = "rect"
-layer1_match_style = "bool"
+layer0_match_with = "water"
+layer0_sprite_type = "corner"
 layer1_match_type = "trench"
+layer1_match_with = "trench"
 
-[terrain_ridge]
+[tile_ridge]
 is_blended = 0
 num_layers = 2
-layer0_match_style = "bool"
 layer0_match_type = "water"
-layer0_cell_type = "rect"
-layer1_match_style = "bool"
+layer0_match_with = "water"
+layer0_sprite_type = "corner"
 layer1_match_type = "ridge"
+layer1_match_with = "ridge"
 
-[terrain_vent]
+[tile_vent]
 is_blended = 0
 num_layers = 1
-layer0_match_style = "bool"
 layer0_match_type = "water"
-layer0_cell_type = "rect"
+layer0_match_with = "water"
+layer0_sprite_type = "corner"
 
 ; Land graphics referenced by terrain.ruleset
 ;
-[terrain_arctic]
+[tile_arctic]
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
-[terrain_desert]
+[tile_desert]
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
-[terrain_forest]
+[tile_forest]
 is_blended = 1
 num_layers = 2
 layer0_match_type = "land"
-layer1_match_style = "bool"
 layer1_match_type = "forest"
+layer1_match_with = "forest"
 
-[terrain_grassland]
+[tile_grassland]
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
 
-[terrain_hills]
+[tile_hills]
 is_blended = 1
 num_layers = 2
 layer0_match_type = "land"
-layer1_match_style = "bool"
 layer1_match_type = "hills"
+layer1_match_with = "hills"
 mine_sprite = "tx.mine"
 
-[terrain_jungle]
+[tile_jungle]
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
 
-[terrain_mountains]
+[tile_mountains]
 is_blended = 1
 num_layers = 2
 layer0_match_type = "land"
-layer1_match_style = "bool"
 layer1_match_type = "mountains"
+layer1_match_with = "mountains"
 mine_sprite = "tx.mine"
 
-[terrain_ocean]
-is_blended = 1
-num_layers = 1
-layer0_match_style = "bool"
-layer0_match_type = "water"
-layer0_cell_type = "rect"
-
-[terrain_plains]
+[tile_plains]
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
 
-[terrain_swamp]
+[tile_swamp]
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
 
-[terrain_tundra]
+[tile_tundra]
 is_blended = 1
 num_layers = 1
 layer0_match_type = "land"
