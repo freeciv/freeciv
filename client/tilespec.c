@@ -1240,46 +1240,12 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
   return NULL;
 }
 
-#if 0
-/**********************************************************************
-  Determine the match_style string.
-***********************************************************************/
-static int check_match_style(const char *style, const int layer)
-{
-  if (mystrcasecmp(style, "bool") == 0) {
-    return MATCH_SAME;
-  }
-  if (mystrcasecmp(style, "full") == 0) {
-    return MATCH_FULL;
-  }
-  if (mystrcasecmp(style, "none") == 0) {
-    return MATCH_NONE;
-  }
-  if (mystrcasecmp(style, "pair") == 0) {
-    return MATCH_PAIR;
-  }
-  if (mystrcasecmp(style, "same") == 0) {
-    return MATCH_SAME;
-  }
-  if (mystrcasecmp(style, "self") == 0) {
-    return MATCH_SAME;
-  }
-  freelog(LOG_ERROR, "layer %d: unknown match_style \"%s\".",
-	  layer,
-	  style);
-  return MATCH_NONE;
-}
-#endif
-
 /**********************************************************************
   Determine the sprite_type string.
 ***********************************************************************/
 static int check_sprite_type(const char *sprite_type, const char *tile_section)
 {
   if (mystrcasecmp(sprite_type, "corner") == 0) {
-    return CELL_CORNER;
-  }
-  if (mystrcasecmp(sprite_type, "rect") == 0) {
     return CELL_CORNER;
   }
   if (mystrcasecmp(sprite_type, "single") == 0) {
@@ -2790,6 +2756,7 @@ void tileset_setup_tile_type(struct tileset *t,
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
     struct drawing_layer *dlp = &draw->layer[l];
+    struct tileset_layer *tslp = &t->layers[l];
     sprite_vector_init(&dlp->base);
 
     switch (dlp->sprite_type) {
@@ -2809,7 +2776,8 @@ void tileset_setup_tile_type(struct tileset *t,
 	  sprite_vector_reserve(&dlp->base, i + 1);
 	  dlp->base.p[i] = sprite;
 	}
-	if (i == 0) {
+	/* check for base sprite, allowing missing sprites above base */
+	if (0 == i  &&  0 == l) {
 	  freelog(LOG_FATAL, "Missing base sprite tag \"%s\".",
 		  buffer);
 	  exit(EXIT_FAILURE);
@@ -2878,7 +2846,7 @@ void tileset_setup_tile_type(struct tileset *t,
 			l,
 			draw->name,
 			direction4letters[dir],
-			(value >> 0) & 1,
+			(value) & 1,
 			(value >> 1) & 1,
 			(value >> 2) & 1);
 	    dlp->cells[i]
@@ -2886,13 +2854,13 @@ void tileset_setup_tile_type(struct tileset *t,
 				      terrain_rule_name(pterrain));
 	    break;
 	  case MATCH_PAIR:
-	    my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c%d%d%d",
+	    my_snprintf(buffer, sizeof(buffer), "t.l%d.%s_cell_%c_%c_%c_%c",
 			l,
 			draw->name,
 			direction4letters[dir],
-			(value >> 0) & 1,
-			(value >> 1) & 1,
-			(value >> 2) & 1);
+			tslp->match_types[dlp->match_index[(value) & 1]][0],
+			tslp->match_types[dlp->match_index[(value >> 1) & 1]][0],
+			tslp->match_types[dlp->match_index[(value >> 2) & 1]][0]);
 	    dlp->cells[i]
 	      = lookup_sprite_tag_alt(t, buffer, "", TRUE, "cell pair terrain",
 				      terrain_rule_name(pterrain));
@@ -2945,10 +2913,10 @@ void tileset_setup_tile_type(struct tileset *t,
 	      my_snprintf(buffer, sizeof(buffer),
 			  "t.l%d.cellgroup_%c_%c_%c_%c",
 			  l,
-			  t->layers[l].match_types[n][0],
-			  t->layers[l].match_types[e][0],
-			  t->layers[l].match_types[s][0],
-			  t->layers[l].match_types[w][0]);
+			  tslp->match_types[n][0],
+			  tslp->match_types[e][0],
+			  tslp->match_types[s][0],
+			  tslp->match_types[w][0]);
 	      sprite = load_sprite(t, buffer);
 
 	      if (sprite) {
@@ -2979,19 +2947,13 @@ void tileset_setup_tile_type(struct tileset *t,
     };
   }
 
-  if (draw->blending > 0) {
-    /* Set up blending sprites. This only works in iso-view! */
-    const int W = t->normal_tile_width, H = t->normal_tile_height;
-    const int offsets[4][2] = {
-      {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
-    };
-    const int l = draw->blending - 1;
-    enum direction4 dir;
+  /* try an optional special name */
+  my_snprintf(buffer, sizeof(buffer), "t.blend.%s", draw->name);
+  draw->blender = lookup_sprite_tag_alt(t, buffer, "", FALSE, "blend terrain",
+                                        terrain_rule_name(pterrain));
 
-    /* try a special name */
-    my_snprintf(buffer, sizeof(buffer), "t.blend.%s", draw->name);
-    draw->blender = lookup_sprite_tag_alt(t, buffer, "", FALSE, "blend terrain",
-					  terrain_rule_name(pterrain));
+  if (draw->blending > 0) {
+    const int l = draw->blending - 1;
 
     if (NULL == draw->blender) {
       int i = 0;
@@ -3010,8 +2972,18 @@ void tileset_setup_tile_type(struct tileset *t,
 	= lookup_sprite_tag_alt(t, buffer, "", TRUE, "base (blend) terrain",
 				terrain_rule_name(pterrain));
     }
+  }
 
-    for (dir = 0; dir < 4; dir++) {
+  if (NULL != draw->blender) {
+    /* Set up blending sprites. This only works in iso-view! */
+    const int W = t->normal_tile_width;
+    const int H = t->normal_tile_height;
+    const int offsets[4][2] = {
+      {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
+    };
+    enum direction4 dir = 0;
+
+    for (; dir < 4; dir++) {
       draw->blend[dir] = crop_sprite(draw->blender,
 				     offsets[dir][0], offsets[dir][1],
 				     W / 2, H / 2,
@@ -3691,25 +3663,26 @@ static int fill_terrain_sprite_blending(const struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
   struct terrain *pterrain = tile_get_terrain(ptile);
-  enum direction4 dir;
   const int W = t->normal_tile_width, H = t->normal_tile_height;
   const int offsets[4][2] = {
     {W/2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
   };
+  enum direction4 dir = 0;
 
   /*
    * We want to mark unknown tiles so that an unreal tile will be
    * given the same marking as our current tile - that way we won't
    * get the "unknown" dither along the edge of the map.
    */
-  for (dir = 0; dir < 4; dir++) {
+  for (; dir < 4; dir++) {
     struct tile *tile1 = mapstep(ptile, DIR4_TO_DIR8[dir]);
     struct terrain *other;
 
     if (!tile1
 	|| client_tile_get_known(tile1) == TILE_UNKNOWN
 	|| pterrain == (other = tterrain_near[DIR4_TO_DIR8[dir]])
-	|| 0 == t->sprites.drawing[other->index]->blending) {
+	|| (0 == t->sprites.drawing[other->index]->blending
+	   &&  NULL == t->sprites.drawing[other->index]->blender)) {
       continue;
     }
 
@@ -3784,9 +3757,11 @@ static int fill_terrain_sprite_array(struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
   struct terrain *pterrain = tile_get_terrain(ptile);
   struct drawing_data *draw = t->sprites.drawing[pterrain->index];
-  int this = draw->layer[l].match_index[0];
-  int ox = draw->layer[l].offset_x;
-  int oy = draw->layer[l].offset_y;
+  struct drawing_layer *dlp = &draw->layer[l];
+  int this = dlp->match_index[0];
+  int that = dlp->match_index[1];
+  int ox = dlp->offset_x;
+  int oy = dlp->offset_y;
   int i;
 
 #define MATCH(dir)							    \
@@ -3794,13 +3769,13 @@ static int fill_terrain_sprite_array(struct tileset *t,
      ? t->sprites.drawing[tterrain_near[(dir)]->index]->layer[l].match_index[0] \
      : -1)
 
-  switch (draw->layer[l].sprite_type) {
+  switch (dlp->sprite_type) {
   case CELL_WHOLE:
     {
-      switch (draw->layer[l].match_style) {
+      switch (dlp->match_style) {
       case MATCH_NONE:
 	{
-	  int count = sprite_vector_size(&draw->layer[l].base);
+	  int count = sprite_vector_size(&dlp->base);
 
 	  if (count > 0) {
 	    /* Pseudo-random reproducable algorithm to pick a sprite. */
@@ -3811,11 +3786,11 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	    assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
 	    count = ((ptile->index * LARGE_PRIME) % SMALL_PRIME) % count;
 
-	    if (draw->layer[l].is_tall) {
+	    if (dlp->is_tall) {
 	      ox += FULL_TILE_X_OFFSET;
 	      oy += FULL_TILE_Y_OFFSET;
 	    }
-	    ADD_SPRITE(draw->layer[l].base.p[count], TRUE, ox, oy);
+	    ADD_SPRITE(dlp->base.p[count], TRUE, ox, oy);
 	  }
 	  break;
 	}
@@ -3831,11 +3806,11 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	    }
 	  }
 
-	  if (draw->layer[l].is_tall) {
+	  if (dlp->is_tall) {
 	    ox += FULL_TILE_X_OFFSET;
 	    oy += FULL_TILE_Y_OFFSET;
 	  }
-	  ADD_SPRITE(draw->layer[l].match[tileno], TRUE, ox, oy);
+	  ADD_SPRITE(dlp->match[tileno], TRUE, ox, oy);
 	  break;
 	}
       case MATCH_PAIR:
@@ -3865,7 +3840,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 
       /* put corner cells */
       for (i = 0; i < NUM_CORNER_DIRS; i++) {
-	const int count = draw->layer[l].match_indices;
+	const int count = dlp->match_indices;
 	int array_index = 0;
 	enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
 	int x = (t->is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
@@ -3873,31 +3848,44 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	int m[3] = {MATCH(dir_ccw(dir)), MATCH(dir), MATCH(dir_cw(dir))};
 	struct sprite *s;
 
-	switch (draw->layer[l].match_style) {
+	/* synthesize 4 dimensional array? */
+	switch (dlp->match_style) {
 	case MATCH_NONE:
 	  /* We have no need for matching, just plug the piece in place. */
 	  break;
 	case MATCH_SAME:
-	  array_index = array_index * count + (m[2] != this);
-	  array_index = array_index * count + (m[1] != this);
-	  array_index = array_index * count + (m[0] != this);
+	  array_index = array_index * 2 + (m[2] != this);
+	  array_index = array_index * 2 + (m[1] != this);
+	  array_index = array_index * 2 + (m[0] != this);
 	  break;
 	case MATCH_PAIR:
-	  array_index = array_index * count + (m[2] != this);
-	  array_index = array_index * count + (m[1] != this);
-	  array_index = array_index * count + (m[0] != this);
+	  array_index = array_index * 2 + (m[2] == that);
+	  array_index = array_index * 2 + (m[1] == that);
+	  array_index = array_index * 2 + (m[0] == that);
 	  break;
 	case MATCH_FULL:
+	default:
 	  if (m[0] != -1 && m[1] != -1 && m[2] != -1) {
-	    array_index = array_index * count + m[2];
-	    array_index = array_index * count + m[1];
-	    array_index = array_index * count + m[0];
+	    int n[3];
+	    int j = 0;
+	    for (; j < 3; j++) {
+	      int k = 0;
+	      for (; k < count; k++) {
+		if (m[j] == dlp->match_index[k])
+		{
+		  n[j] = k;
+		}
+	      }
+	    }
+	    array_index = array_index * count + n[2];
+	    array_index = array_index * count + n[1];
+	    array_index = array_index * count + n[0];
 	  }
 	  break;
 	};
 	array_index = array_index * NUM_CORNER_DIRS + i;
 
-	s = draw->layer[l].cells[array_index];
+	s = dlp->cells[array_index];
 	if (s) {
 	  ADD_SPRITE(s, TRUE, x, y);
 	}
