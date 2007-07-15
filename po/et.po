@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-15 23:07+0300\n"
-"PO-Revision-Date: 2007-07-15 23:27+0300\n"
+"PO-Revision-Date: 2007-07-16 00:11+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: Estonian\n"
 "MIME-Version: 1.0\n"
@@ -5998,7 +5998,7 @@ msgstr "Parameeter %s võib sisaldada ainult numbreid 0-1."
 
 #: server/stdinhand.c:2504
 msgid "Value out of range (minimum: 0, maximum: 1)."
-msgstr ""
+msgstr "Väärtus lubatud vahemikust väljas (miinimum: 0, maksimum: 1)."
 
 #: server/stdinhand.c:2517 server/stdinhand.c:2557
 #, c-format
@@ -6008,16 +6008,16 @@ msgstr "Seade: %s seati %d-ks."
 #: server/stdinhand.c:2537
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
-msgstr ""
+msgstr "Parameeter %s peaks sisaldama ainult märke +- ja 0-9."
 
 #: server/stdinhand.c:2544
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
-msgstr ""
+msgstr "Väärtus lubatud vahemikust väljas (miinimum: %d, maksimum: %d)."
 
 #: server/stdinhand.c:2567
 msgid "String value too long.  Usage: set <option> <value>."
-msgstr ""
+msgstr "Stringi väärtus on liiga pikk.  Kasutus: set <seade> <väärtus>."
 
 #: server/stdinhand.c:2579
 #, c-format
@@ -6026,68 +6026,68 @@ msgstr "Seade: %s seati \"%s\"."
 
 #: server/stdinhand.c:2620
 msgid "Sorry, one can't observe globally in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa olla globaalne vaatleja."
 
 #: server/stdinhand.c:2623
 msgid "Sorry, you can't take a global observer. Observe it instead."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa võtta globaalset vaatlejat. Vaatle hoopis seda."
 
 #: server/stdinhand.c:2635
 msgid "Sorry, one can't observe barbarians in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa vaadelda barbareid."
 
 #: server/stdinhand.c:2638
 msgid "Sorry, one can't take barbarians in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa hakata barbariks."
 
 #: server/stdinhand.c:2646
 msgid "Sorry, one can't observe dead players in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa vaadelda surnud mängijaid."
 
 #: server/stdinhand.c:2649
 msgid "Sorry, one can't take dead players in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa hakata surnud mängijaks."
 
 #: server/stdinhand.c:2657
 msgid "Sorry, one can't observe AI players in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa vaadelda tehismõistusi."
 
 #: server/stdinhand.c:2660
 msgid "Sorry, one can't take AI players in this game."
-msgstr ""
+msgstr "Vabanda, selles mängijas ei saa hakata tehismõistuseks."
 
 #: server/stdinhand.c:2669
 msgid "Sorry, one can't observe human players in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa vaadelda inimmängijaid."
 
 #: server/stdinhand.c:2672
 msgid "Sorry, one can't take human players in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa hakata inimmängijaks."
 
 #: server/stdinhand.c:2682
 msgid "Sorry, one can't observe in this game."
-msgstr ""
+msgstr "Vabanda, seda mängu ei saa vaadelda."
 
 #: server/stdinhand.c:2687
 msgid "Sorry, one can't take players in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa mängijaks hakata."
 
 #: server/stdinhand.c:2693
 msgid "Sorry, one can't take players already connected in this game."
-msgstr ""
+msgstr "Vabanda, selles mängus ei saa hakata mängijateks, kes on juba ühendunud mängu."
 
 #: server/stdinhand.c:2724
 msgid "Usage: observe [connection-name [player-name]]"
-msgstr ""
+msgstr "Kasutus: observe [ühenduse nimi [mängija nimi]]"
 
 #: server/stdinhand.c:2730
 msgid "Usage: observe [player-name]"
-msgstr ""
+msgstr "Kasutus: observe [mängija nimi]"
 
 #: server/stdinhand.c:2780
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
-msgstr ""
+msgstr "%s juba juhib %s. 'observe' kasutamine eemaldaks %s"
 
 #: server/stdinhand.c:2789
 #, c-format
@@ -6102,7 +6102,7 @@ msgstr "%s juba vaatleb."
 #: server/stdinhand.c:2850
 #, c-format
 msgid "%s now observes %s"
-msgstr ""
+msgstr "%s vaatleb nüüd %s"
 
 #: server/stdinhand.c:2853
 #, c-format
@@ -6119,17 +6119,17 @@ msgstr "Kasutamine: take <mängija nimi>"
 
 #: server/stdinhand.c:2903
 msgid "Usage: take [connection-name] <player-name>"
-msgstr ""
+msgstr "Kasutus: take [ühenduse nimi] <mängija nimi>"
 
 #: server/stdinhand.c:2933
 #, c-format
 msgid "%s already controls %s"
-msgstr ""
+msgstr "%s juba juhib %s"
 
 #: server/stdinhand.c:2963
 #, c-format
 msgid "being detached from %s."
-msgstr ""
+msgstr "ühendub lahti %s-st"
 
 #: server/stdinhand.c:3023
 #, c-format
@@ -6166,21 +6166,21 @@ msgstr "Surnud"
 
 #: server/stdinhand.c:3059
 msgid "Usage: detach <connection-name>"
-msgstr ""
+msgstr "Kasutus: detach <ühenduse nimi>"
 
 #: server/stdinhand.c:3079
 msgid "You can not detach other users."
-msgstr ""
+msgstr "Sa ei saa teisi kasutajaid lahti ühendada."
 
 #: server/stdinhand.c:3088
 #, c-format
 msgid "%s is not attached to any player."
-msgstr ""
+msgstr "%s ei ole ühendatud ühegi mängija külge."
 
 #: server/stdinhand.c:3111
 #, c-format
 msgid "%s detaching from %s"
-msgstr ""
+msgstr "%s ühendub lahti %s-st"
 
 #: server/stdinhand.c:3115
 #, c-format
@@ -6190,7 +6190,7 @@ msgstr "%s ei jälgi enam."
 #: server/stdinhand.c:3131
 #, c-format
 msgid "detaching from %s."
-msgstr ""
+msgstr "ühendun lahti %s-st."
 
 #: server/stdinhand.c:3213
 msgid "Usage: load <game name>"
@@ -6199,7 +6199,7 @@ msgstr "Kasutamine: load <mängu nimi>"
 #: server/stdinhand.c:3233
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
-msgstr ""
+msgstr "Ei leia salvestust või stsenaariumi nimega \"%s\"."
 
 #: server/stdinhand.c:3248
 msgid "Cannot load a game while another is running."
@@ -6213,27 +6213,27 @@ msgstr "Ei suuda laadida salvestatud faili: %s"
 #: server/stdinhand.c:3325
 #, c-format
 msgid "Current ruleset directory is \"%s\""
-msgstr ""
+msgstr "Praegune reeglistike kataloog on \"%s\""
 
 #: server/stdinhand.c:3331
 #, c-format
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "Reeglistike kataloog \"%s\" keelatud turvapõhjustel."
 
 #: server/stdinhand.c:3339
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
-msgstr ""
+msgstr "Reeglistike kataloogi \"%s\" ei leitud"
 
 #: server/stdinhand.c:3345
 #, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr ""
+msgstr "Reeglistike kataloog on juba \"%s\""
 
 #: server/stdinhand.c:3349
 #, c-format
 msgid "Ruleset directory set to \"%s\""
-msgstr ""
+msgstr "Reeglistiku kataloog seatud väärtusele \"%s\""
 
 #: server/stdinhand.c:3388
 msgid "Goodbye."
@@ -6241,26 +6241,26 @@ msgstr "Head aega."
 
 #: server/stdinhand.c:3419
 msgid "Sorry, you are not allowed to use server commands."
-msgstr ""
+msgstr "Vabanda, sa ei tohi serveri käske käivitada."
 
 #: server/stdinhand.c:3455
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
-msgstr ""
+msgstr "Hoiatus: '%s' interpreteeriti kui '%s', kuid see on mitmesti mõistetav.  Vaata '%shelp'."
 
 #: server/stdinhand.c:3460
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
-msgstr ""
+msgstr "Tundmatu käsk.  Vaata '%shelp'"
 
 #: server/stdinhand.c:3477
 msgid "Your new vote cancelled your previous vote."
-msgstr ""
+msgstr "Sinu uus hääletus anulleeris su eelmise hääletuse."
 
 #: server/stdinhand.c:3486
 #, c-format
 msgid "New vote (number %d) by %s: %s."
-msgstr ""
+msgstr "Uus hääletus (number %d) mängijalt %s: %s."
 
 #: server/stdinhand.c:3505
 msgid "You are not allowed to use this command."
@@ -6268,15 +6268,15 @@ msgstr "Sul pole lubatud seda käsku kasutada."
 
 #: server/stdinhand.c:3530
 msgid "(server prompt)"
-msgstr ""
+msgstr "(serveri käsurida)"
 
 #: server/stdinhand.c:3637
 msgid "Game ended in a draw."
-msgstr ""
+msgstr "Mäng lõppes viigiga."
 
 #: server/stdinhand.c:3641
 msgid "Ending the game. The server will restart once all clients have disconnected."
-msgstr ""
+msgstr "Lõpetame mängu. Server taaskäivitub peale kõigi klientide lahtiühendumist."
 
 #: server/stdinhand.c:3646
 msgid "Cannot end the game: no game running."
@@ -6285,7 +6285,7 @@ msgstr "Mängu ei saa lõpetada, mäng ei käi."
 #: server/stdinhand.c:3662
 #, c-format
 msgid "%s has conceded the game and can no longer win."
-msgstr ""
+msgstr "%s andis alla ega saa enam võita."
 
 #: server/stdinhand.c:3667
 msgid "You cannot surrender now."
@@ -6297,7 +6297,7 @@ msgstr "Pole piisavalt mängijaid, mäng ei alga."
 
 #: server/stdinhand.c:3730
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
-msgstr ""
+msgstr "Ei saa mängu alustada: mäng ootab kõigi klientide lahtiühendumist."
 
 #: server/stdinhand.c:3737
 msgid "Cannot start the game: it is already running."
@@ -6306,7 +6306,7 @@ msgstr "Mängu ei saa alustada, see juba käib."
 #: server/stdinhand.c:3766
 #, c-format
 msgid "Cutting connection %s."
-msgstr ""
+msgstr "Lõikas %s ühenduse."
 
 #: server/stdinhand.c:3785
 msgid ""
@@ -6328,6 +6328,23 @@ msgid ""
 "  save   -  to save the current game\n"
 "  quit   -  to exit"
 msgstr ""
+"Tervitus! See on Freeciv serveri sissejuhatav abitekst.\n"
+"\n"
+"Kaks olulist mõistet serveris on Käsud ja Seaded.\n"
+"Käsud nagu 'help' on serveriga suhtlemiseks.\n"
+"Mõned käsud võtavad ühe või rohkem argumente, eraldatud komadega.\n"
+"Paljudel juhtudel võib käske ja argumente lühendada.\n"
+"Seaded on valikud, mis võimaldavad juhtida serveri käitumist.\n"
+"\n"
+"Teada saamaks, kuidas saab rohkem infot käskude ja seadete kohta,\n"
+"toksi 'help help'.\n"
+"\n"
+"Kannatamatutele: põhilised käsud minema saamiseks on:\n"
+"  show   -  praeguste seadete nägemiseks\n"
+"  set    -  seadete muutmiseks\n"
+"  start  -  mängu alustamiseks, kui mängijad on ühendunud\n"
+"  save   -  praeguse mängu salvestamiseks\n"
+"  quit   -  väljumiseks"
 
 #: server/stdinhand.c:3820 server/stdinhand.c:3823
 msgid "Command:"
@@ -6344,22 +6361,22 @@ msgstr "Tase: %s"
 
 #: server/stdinhand.c:3861
 msgid "The following server commands are available:"
-msgstr ""
+msgstr "Järgmised serveri käsud on saadaval:"
 
 #: server/stdinhand.c:3936
 #, c-format
 msgid "Help argument '%s' is ambiguous."
-msgstr ""
+msgstr "Abi argument '%s' on mitmesti mõistetav."
 
 #: server/stdinhand.c:3941
 #, c-format
 msgid "No match for help argument '%s'."
-msgstr ""
+msgstr "Pole vasteid abi argumendile '%s'."
 
 #: server/stdinhand.c:4007
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
-msgstr ""
+msgstr "Halb listi argument: '%s'.  Vaata '%shelp list'."
 
 #: server/stdinhand.c:4047
 msgid "List of players:"
@@ -6426,22 +6443,22 @@ msgstr "Meeskondade nimekiri:"
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2d : '%s' : %d mängija"
+msgstr[1] "%2d : '%s' : %d mängijat"
 
 #: server/stdinhand.c:4163
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
-msgstr ""
+msgstr "%2d : '%s' : 1 mängija : %s"
 
 #: server/stdinhand.c:4169
 #, c-format
 msgid "Empty team: %s"
-msgstr ""
+msgstr "Tühi meeskond: %s"
 
 #: server/stdinhand.c:4180
 msgid "List of connections to server:"
-msgstr ""
+msgstr "Nimekiri ühendustest serverisse:"
 
 #: server/stdinhand.c:4184
 msgid "<no connections>"
@@ -6449,7 +6466,7 @@ msgstr "<ühendusi ei ole>"
 
 #: server/stdinhand.c:4208
 msgid "List of scenarios available:"
-msgstr ""
+msgstr "Nimekiri saadaolevatest stsenaariumidest:"
 
 #: server/techtools.c:110
 #, c-format
@@ -6471,7 +6488,7 @@ msgstr "Said %s %s-telt."
 msgid ""
 "Discovery of %s makes the government form %s available. You may want to "
 "start a revolution."
-msgstr ""
+msgstr "Teaduse %s avastamine võimaldab valida valitsusvormi %s. Võid tahta alustada revolutsiooni."
 
 #: server/techtools.c:299
 #, c-format
