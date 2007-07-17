@@ -21,6 +21,7 @@
 #include "unittools.h"
 
 #include "api_find.h"
+#include "script_signal.h"
 
 #include "api_actions.h"
 
@@ -59,10 +60,13 @@ void api_actions_change_gold(Player *pplayer, int amount)
   Give pplayer technology ptech.  Quietly returns A_NONE (zero) if 
   player already has this tech; otherwise returns the tech granted.
   Use NULL for ptech to grant a random tech.
+  sends script signal "tech_researched" with the given reason
 **************************************************************************/
-Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech)
+Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
+                                       const char *reason)
 {
   Tech_type_id id;
+  Tech_Type *result;
 
   if (ptech) {
     id = ptech->index;
@@ -76,7 +80,11 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech)
   if (get_invention(pplayer, id) != TECH_KNOWN) {
     do_free_cost(pplayer, id);
     found_new_tech(pplayer, id, FALSE, TRUE);
-    return api_find_tech_type(id);
+    result = api_find_tech_type(id);
+    script_signal_emit("tech_researched", 3,
+                       API_TYPE_TECH_TYPE, result, API_TYPE_PLAYER, pplayer,
+                       API_TYPE_STRING, reason);
+    return result;
   } else {
     return api_find_tech_type(A_NONE);
   }
