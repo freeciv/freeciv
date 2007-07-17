@@ -101,6 +101,14 @@ int api_methods_player_num_cities
 int api_methods_player_num_units
 	@ methods_player_num_units (Player *pplayer);
 
+/* Unit */
+bool api_methods_unit_city_can_be_built_here
+	@ methods_unit_city_can_be_built_here (Unit *punit);
+
+/* Tile */
+bool api_methods_tile_city_exists_within_city_radius
+	@ methods_tile_city_exists_within_city_radius (Tile *ptile, bool center);
+
 /* Government */
 const char *api_methods_government_rule_name
 	@ methods_government_rule_name (Government *pgovernment);
@@ -168,6 +176,15 @@ end
 -- Unit methods.
 function Unit:homecity()
   return find.city(self.owner, self.homecity_id)
+end
+
+function Unit:is_on_possible_city_tile()
+  return methods_unit_city_can_be_built_here(self)
+end
+
+-- Tile methods
+function Tile:city_exists_within_city_radius(center)
+  return methods_tile_city_exists_within_city_radius(self, center)
 end
 
 -- Government methods
@@ -496,4 +513,4 @@ void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
 Tech_Type *api_actions_give_technology @ give_technology (Player *pplayer,
 						    Tech_Type *ptech,
 						    const char *reason);
-
+bool api_actions_unleash_barbarians @ unleash_barbarians (Tile *ptile);

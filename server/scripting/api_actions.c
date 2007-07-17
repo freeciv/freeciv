@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include "barbarian.h"
 #include "plrhand.h"
 #include "citytools.h"
 #include "techtools.h"
@@ -25,6 +26,14 @@
 
 #include "api_actions.h"
 
+
+/**************************************************************************
+  Unleash barbarians on a tile, for example from a hut
+**************************************************************************/
+bool api_actions_unleash_barbarians(Tile *ptile)
+{
+  return unleash_barbarians(ptile);
+}
 
 /**************************************************************************
   Create a new unit.

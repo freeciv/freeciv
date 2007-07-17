@@ -2242,126 +2242,45 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 }
 
 /**************************************************************************
-  Get gold from entering a hut.
+  Give 25 Gold or kill the unit. For H_LIMITEDHUTS
+  Return TRUE if unit is alive, and FALSE if it was killed
 **************************************************************************/
-static void hut_get_gold(struct unit *punit, int cred)
+static bool hut_get_limited(struct unit *punit)
 {
-  struct player *pplayer = unit_owner(punit);
-  notify_player(pplayer, punit->tile, E_HUT_GOLD,
-		   _("You found %d gold."), cred);
-  pplayer->economic.gold += cred;
-}
-
-/**************************************************************************
-  Get a tech from entering a hut.
-**************************************************************************/
-static void hut_get_tech(struct unit *punit)
-{
-  struct player *pplayer = unit_owner(punit);
-  Tech_type_id new_tech;
-  const char* tech_name;
-  
-  new_tech = give_random_free_tech(pplayer);
-  
-  tech_name = advance_name_for_player(pplayer, new_tech);
-  notify_player(pplayer, punit->tile, E_HUT_TECH,
-		   _("You found %s in ancient scrolls of wisdom."),
-		   tech_name);
-  script_signal_emit("tech_researched", 3,
-		     API_TYPE_TECH_TYPE, &advances[new_tech],
-		     API_TYPE_PLAYER, pplayer,
-		     API_TYPE_STRING, "hut");
-  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
-		   _("The %s have acquired %s"
-		     " from ancient scrolls of wisdom."),
-		   nation_plural_for_player(pplayer),
-		   tech_name);
-}
-
-/**************************************************************************
-  Get a mercenary unit from entering a hut.
-**************************************************************************/
-static void hut_get_mercenaries(struct unit *punit)
-{
-  struct player *pplayer = unit_owner(punit);
-  
-  notify_player(pplayer, punit->tile, E_HUT_MERC,
-		   _("A band of friendly mercenaries joins your cause."));
-  (void) create_unit(pplayer, punit->tile,
-		     find_a_unit_type(L_HUT, L_HUT_TECH), FALSE,
-		     punit->homecity, -1);
-}
-
-/**************************************************************************
-  Get barbarians from hut, unless close to a city.
-  Unit may die: returns 1 if unit is alive after, or 0 if it was killed.
-**************************************************************************/
-static bool hut_get_barbarians(struct unit *punit)
-{
-  struct player *pplayer = unit_owner(punit);
   bool ok = TRUE;
-
-  if (city_exists_within_city_radius(punit->tile, TRUE)
-      || unit_has_type_flag(punit, F_GAMELOSS)) {
+  int hut_chance = myrand(12);
+  struct player *pplayer = unit_owner(punit);
+  /* 1 in 12 to get barbarians */
+  if (hut_chance != 0) {
+    int cred = 25;
+    notify_player(pplayer, punit->tile, E_HUT_GOLD,
+		              _("You found %d gold."), cred);
+    pplayer->economic.gold += cred;
+  } else if (city_exists_within_city_radius(punit->tile, TRUE)
+             || unit_has_type_flag(punit, F_GAMELOSS)) {
     notify_player(pplayer, punit->tile, E_HUT_BARB_CITY_NEAR,
-		     _("An abandoned village is here."));
+                  _("An abandoned village is here."));
   } else {
-    /* save coords and type in case unit dies */
-    struct tile *unit_tile = punit->tile;
     struct unit_type *type = unit_type(punit);
-
-    ok = unleash_barbarians(unit_tile);
-
-    if (ok) {
-      notify_player(pplayer, unit_tile, E_HUT_BARB,
-		       _("You have unleashed a horde of barbarians!"));
-    } else {
-      notify_player(pplayer, unit_tile, E_HUT_BARB_KILLED,
-		       _("Your %s has been killed by barbarians!"),
-		       utype_name_translation(type));
-    }
+    struct tile *tile = punit->tile;
+    wipe_unit(punit);
+    ok = FALSE;
+    notify_player(pplayer, tile, E_HUT_BARB_KILLED,
+                  _("Your %s has been killed by barbarians!"),
+                  utype_name_translation(type));
   }
   return ok;
 }
 
 /**************************************************************************
-  Get new city from hut, or settlers (nomads) if terrain is poor.
-**************************************************************************/
-static void hut_get_city(struct unit *punit)
-{
-  struct player *pplayer = unit_owner(punit);
-
-  if (city_can_be_built_here(punit->tile, punit)) {
-    notify_player(pplayer, punit->tile, E_HUT_CITY,
-		     _("You found a friendly city."));
-    create_city(pplayer, punit->tile,
-		city_name_suggestion(pplayer, punit->tile));
-
-    if (unit_has_type_flag(punit, F_CITIES) || unit_has_type_flag(punit, F_SETTLERS)) {
-      /* In case city was found during autosettler activities */
-      initialize_infrastructure_cache(pplayer);
-    }
-
-    /* Init ai.choice. Handling ferryboats might use it. */
-    init_choice(&punit->tile->city->ai.choice);
-
-  } else {
-    notify_player(pplayer, punit->tile, E_HUT_SETTLER,
-		     _("Friendly nomads are impressed by you,"
-		       " and join you."));
-    (void) create_unit(pplayer, punit->tile, get_role_unit(F_CITIES,0),
-		0, punit->homecity, -1);
-  }
-}
-
-/**************************************************************************
-  Return 1 if unit is alive, and 0 if it was killed
+  Return FALSE if unit is known killed, TRUE means no information.
+  This is due to the effects in the script signal callback can not
+  be predicted.
 **************************************************************************/
 static bool unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   bool ok = TRUE;
-  int hut_chance = myrand(12);
   enum hut_behavior behavior = unit_class(punit)->hut_behavior;
   
   if (behavior == HUT_NOTHING) {
@@ -2379,40 +2298,11 @@ static bool unit_enter_hut(struct unit *punit)
   }
   
   /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-  if (pplayer->ai.control && ai_handicap(pplayer, H_LIMITEDHUTS) 
-      && hut_chance != 10) {
-    hut_chance = 0;
+  if (pplayer->ai.control && ai_handicap(pplayer, H_LIMITEDHUTS)) {
+    return hut_get_limited(punit);
   }
 
   script_signal_emit("hut_enter", 1, API_TYPE_UNIT, punit);
-
-  switch (hut_chance) {
-  case 0:
-    hut_get_gold(punit, 25);
-    break;
-  case 1: case 2: case 3:
-    hut_get_gold(punit, 50);
-    break;
-  case 4:
-    hut_get_gold(punit, 100);
-    break;
-  case 5: case 6: case 7:
-    hut_get_tech(punit);
-    break;
-  case 8: case 9:
-    if (num_role_units(L_HUT) != 0) {
-      hut_get_mercenaries(punit);
-    } else {
-      hut_get_gold(punit, 25);
-    }
-    break;
-  case 10:
-    ok = hut_get_barbarians(punit);
-    break;
-  case 11:
-    hut_get_city(punit);
-    break;
-  }
 
   send_player_info(pplayer, pplayer);       /* eg, gold */
   return ok;

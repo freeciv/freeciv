@@ -16,11 +16,16 @@
 
 #include "api_types.h"
 
+bool api_methods_unit_city_can_be_built_here(Unit *punit);
+
 int api_methods_player_num_cities(Player *pplayer);
 int api_methods_player_num_units(Player *pplayer);
 
 bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag);
 bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role);
+
+bool api_methods_tile_city_exists_within_city_radius(Tile *ptile, 
+                                                     bool may_be_on_center);
 
 bool api_methods_building_type_is_wonder(Building_Type *pbuilding);
 bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding);

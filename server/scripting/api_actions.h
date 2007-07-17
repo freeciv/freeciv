@@ -16,6 +16,7 @@
 
 #include "api_types.h"
 
+bool api_actions_unleash_barbarians(Tile *ptile);
 Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 		  	      int veteran_level, City *homecity,
 			      int moves_left);

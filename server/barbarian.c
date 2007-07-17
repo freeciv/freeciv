@@ -57,14 +57,6 @@
 #define BARBARIAN_INITIAL_VISION_RADIUS 3
 #define BARBARIAN_INITIAL_VISION_RADIUS_SQ 9
 
-/*
- IDEAS:
- 1. Unrest factors configurable via rulesets (distance and gov factor)
- 2. Separate nations for Sea Raiders and Land Barbarians
-
- - are these good ideas ??????
-*/
-
 /**************************************************************************
   Is player a land barbarian?
 **************************************************************************/

@@ -27,6 +27,14 @@
 #include "script.h"
 
 /**************************************************************************
+  Can punit found a city on its tile?
+**************************************************************************/
+bool api_methods_unit_city_can_be_built_here(Unit *punit)
+{
+  return city_can_be_built_here(punit->tile, punit);
+}
+
+/**************************************************************************
   Return the number of cities pplayer has.
 **************************************************************************/
 int api_methods_player_num_cities(Player *pplayer)
@@ -70,6 +78,16 @@ bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
     script_error("Unit role \"%s\" does not exist", role);
     return FALSE;
   }
+}
+
+/**************************************************************************
+  Return TRUE there is a city inside city radius from ptile
+**************************************************************************/
+
+bool api_methods_tile_city_exists_within_city_radius(Tile *ptile, 
+                                              bool may_be_on_center)
+{
+  return city_exists_within_city_radius(ptile, may_be_on_center);
 }
 
 /**************************************************************************
