@@ -1180,7 +1180,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
   if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc)) {
     int move_cost = map_move_cost_unit(punit, pdesttile);
 
-    (void) move_unit(punit, pdesttile, move_cost);
+    move_unit(punit, pdesttile, move_cost);
 
     return TRUE;
   } else {

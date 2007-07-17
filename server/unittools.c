@@ -1095,7 +1095,8 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 
     if (move_cost == -1)
       move_cost = punit->moves_left;
-    return move_unit(punit, dst_tile, move_cost);
+    move_unit(punit, dst_tile, move_cost);
+    return TRUE;
   }
   return FALSE;
 }
@@ -2138,7 +2139,7 @@ bool do_airline(struct unit *punit, struct city *city2)
 		   _("%s transported succesfully."),
 		   unit_name_translation(punit));
 
-  (void) move_unit(punit, city2->tile, punit->moves_left);
+  move_unit(punit, city2->tile, punit->moves_left);
 
   /* airlift fields have changed. */
   send_city_info(city_owner(city1), city1);
@@ -2237,7 +2238,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   {
     int move_cost = unit_type(punit)->paratroopers_mr_sub;
     punit->paradropped = TRUE;
-    return move_unit(punit, ptile, move_cost);
+    move_unit(punit, ptile, move_cost);
+    return TRUE;
   }
 }
 
@@ -2273,18 +2275,16 @@ static bool hut_get_limited(struct unit *punit)
 }
 
 /**************************************************************************
-  Return FALSE if unit is known killed, TRUE means no information.
-  This is due to the effects in the script signal callback can not
-  be predicted.
+  Due to the effects in the scripted hut behavior can not be predicted,
+  unit_enter_hut returns nothing.
 **************************************************************************/
-static bool unit_enter_hut(struct unit *punit)
+static void unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  bool ok = TRUE;
   enum hut_behavior behavior = unit_class(punit)->hut_behavior;
   
   if (behavior == HUT_NOTHING) {
-    return ok;
+    return;
   }
 
   tile_clear_special(punit->tile, S_HUT);
@@ -2294,18 +2294,19 @@ static bool unit_enter_hut(struct unit *punit)
     notify_player(pplayer, punit->tile, E_HUT_BARB,
 		     _("Your overflight frightens the tribe;"
 		       " they scatter in terror."));
-    return ok;
+    return;
   }
   
   /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
   if (pplayer->ai.control && ai_handicap(pplayer, H_LIMITEDHUTS)) {
-    return hut_get_limited(punit);
+    (void) hut_get_limited(punit);
+    return;
   }
 
   script_signal_emit("hut_enter", 1, API_TYPE_UNIT, punit);
 
   send_player_info(pplayer, pplayer);       /* eg, gold */
-  return ok;
+  return;
 }
 
 /****************************************************************************
@@ -2654,7 +2655,7 @@ static void check_unit_activity(struct unit *punit)
   if you have set transport_units. Note that the src and dest need not be 
   adjacent.
 **************************************************************************/
-bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
+void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 {
   struct player *pplayer = unit_owner(punit);
   struct tile *psrctile = punit->tile;
@@ -2824,7 +2825,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 		     API_TYPE_TILE, pdesttile);
   wakeup_neighbor_sentries(punit);
   if (!unit_survive_autoattack(punit)) {
-    return FALSE;
+    return;
   }
   maybe_make_contact(pdesttile, unit_owner(punit));
 
@@ -2856,9 +2857,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
    * right order.  This is probably not a bug. */
 
   if (tile_has_special(pdesttile, S_HUT)) {
-    return unit_enter_hut(punit);
-  } else {
-    return TRUE;
+    unit_enter_hut(punit);
   }
 }
 
