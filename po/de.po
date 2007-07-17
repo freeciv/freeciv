@@ -175,9 +175,8 @@ msgid "Normal"
 msgstr "Normal"
 
 #: common/events.c:55
-#, fuzzy
 msgid "Nuked"
-msgstr "Graf"
+msgstr "Atombombenabwurf"
 
 #: common/events.c:56
 msgid "Released from citizen governor"
@@ -188,9 +187,8 @@ msgid "Suggest Growth Throttling"
 msgstr "Wachstum drosseln"
 
 #: common/events.c:58
-#, fuzzy
 msgid "Transfer"
-msgstr "Verändern"
+msgstr "Übertragung"
 
 #: common/events.c:59
 msgid "Was Built"
@@ -263,13 +261,12 @@ msgid "Bribe"
 msgstr ""
 
 #: common/events.c:73
-#, fuzzy
 msgid "Caused Incident"
-msgstr "%s Vorfall!"
+msgstr "Diplomatischer Zwischenfall"
 
 #: common/events.c:74
 msgid "Escape"
-msgstr ""
+msgstr "Flucht"
 
 #: common/events.c:75 common/events.c:82 common/events.c:138
 #: client/plrdlg_common.c:258 client/gui-mui/plrdlg.c:168
@@ -279,29 +276,25 @@ msgid "Embassy"
 msgstr "Botschaft"
 
 #: common/events.c:76 common/events.c:83
-#, fuzzy
 msgid "Failed"
-msgstr "weiblich"
+msgstr "fehlgeschlagen"
 
 #: common/events.c:77 common/events.c:84
-#, fuzzy
 msgid "Incite"
-msgstr "inuitisch"
+msgstr "Aufstand initiieren"
 
 #: common/events.c:78 common/events.c:85
-#, fuzzy
 msgid "Poison"
 msgstr "Wasser vergiften"
 
 #: common/events.c:79 common/events.c:86 client/gui-win32/dialogs.c:1498
 #: data/Freeciv.in:2415
 msgid "Sabotage"
-msgstr "Sabotiere"
+msgstr "Sabotieren"
 
 #: common/events.c:80 common/events.c:87
-#, fuzzy
 msgid "Theft"
-msgstr "Thane"
+msgstr "Diebstahl"
 
 #: common/events.c:81 common/events.c:82 common/events.c:83 common/events.c:84
 #: common/events.c:85 common/events.c:86 common/events.c:87
@@ -353,9 +346,8 @@ msgid "Year Advance"
 msgstr "Neues Jahr"
 
 #: common/events.c:99 common/events.c:100
-#, fuzzy
 msgid "Global"
-msgstr "Ziel"
+msgstr "Global"
 
 #: common/events.c:99
 msgid "Eco-Disaster"
@@ -428,58 +420,47 @@ msgid "New Improvement Selected"
 msgstr "Bauauftrag geändert"
 
 #: common/events.c:113
-#, fuzzy
 msgid "Sold"
-msgstr "Gold"
+msgstr "Verkauft"
 
 #: common/events.c:114 common/events.c:115 common/events.c:116
-#, fuzzy
 msgid "Tech"
-msgstr "_Fortschritte"
+msgstr "Fortschritt"
 
 #: common/events.c:114
-#, fuzzy
 msgid "Learned From Great Library"
-msgstr "Forschung: Fortschritt aus der Großen Bibliothek"
+msgstr "Fortschritt aus der Großen Bibliothek"
 
 #: common/events.c:115
-#, fuzzy
 msgid "Learned New Tech"
-msgstr "Forschung: neuer Fortschritt"
+msgstr "Neuer Fortschritt"
 
 #: common/events.c:116
-#, fuzzy
 msgid "Selected New Goal"
-msgstr "Wähle das zu stehlende Forschungsergebnis"
+msgstr "Neues Forschungsziel"
 
 #: common/events.c:117 common/events.c:118 common/events.c:119
 #: common/events.c:120 common/events.c:121 common/events.c:138
-#, fuzzy
 msgid "Treaty"
-msgstr "großen"
+msgstr "Abkommen"
 
 #: common/events.c:117
-#, fuzzy
 msgid "Alliance"
-msgstr "Abkommen: Allianz"
+msgstr "Allianz"
 
 #: common/events.c:118
-#, fuzzy
 msgid "Broken"
-msgstr "Bruder"
+msgstr "gebrochen"
 
 #: common/events.c:119
-#, fuzzy
 msgid "Cease-fire"
-msgstr "Abkommen: Feuerpause"
+msgstr "Feuerpause"
 
 #: common/events.c:120
-#, fuzzy
 msgid "Peace"
-msgstr "Palast"
+msgstr "Frieden"
 
 #: common/events.c:121
-#, fuzzy
 msgid "Shared Vision"
 msgstr "Karteneinsicht"
 
@@ -531,24 +512,20 @@ msgid "Wonder"
 msgstr "Weltwunder"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Finished"
-msgstr "beendet"
+msgstr "Fertiggestellt"
 
 #: common/events.c:133
-#, fuzzy
 msgid "Made Obsolete"
-msgstr "Verkaufe Veraltetes"
+msgstr "Veraltet"
 
 #: common/events.c:134
-#, fuzzy
 msgid "Started"
-msgstr "Status"
+msgstr "Bau begonnen"
 
 #: common/events.c:135
-#, fuzzy
 msgid "Stopped"
-msgstr "Weltwunder: Bau gestoppt"
+msgstr "Bau gestoppt"
 
 #: common/events.c:136
 msgid "Will Finish Next Turn"
@@ -603,9 +580,8 @@ msgid "Hard"
 msgstr "Fortgeschritten"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Cheating"
-msgstr "Chatten"
+msgstr "Mogeln"
 
 #: common/player.c:42
 msgid "Experimental"
@@ -729,14 +705,14 @@ msgstr "Größe %d"
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1119
-#, fuzzy, c-format
+#, c-format
 msgid "%s AI"
-msgstr "%d AD"
+msgstr "%s KI"
 
 #: common/requirements.c:1123
-#, fuzzy, c-format
+#, c-format
 msgid "%s terrain"
-msgstr "Geländeformen"
+msgstr "%s Gelände"
 
 #: common/tech.c:695 client/gui-gtk-2.0/repodlgs.c:506
 #, c-format
@@ -777,9 +753,8 @@ msgid "Land"
 msgstr "Boden"
 
 #: common/terrain.c:45
-#, fuzzy
 msgid "Oceanic"
-msgstr "Ozean"
+msgstr "Ozeanien"
 
 #: common/terrain.c:364 common/terrain.c:555 common/unit.c:508
 #: manual/civmanual.c:224
@@ -865,9 +840,8 @@ msgid "Transform"
 msgstr "Verändern"
 
 #: common/unit.c:536
-#, fuzzy
 msgid "Base"
-msgstr "Basileus"
+msgstr "Basis"
 
 #: common/unit.c:544 client/gui-gtk-2.0/editdlg.c:77
 #: client/gui-mui/citydlg.c:2031 client/gui-sdl/citydlg.c:1983
@@ -1760,11 +1734,11 @@ msgid "You have founded %s."
 msgstr "Du hast %s gegründet."
 
 #: server/citytools.c:1108
-#, fuzzy, c-format
+#, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
-"Die %s sind aus der aufgelösten Stadt %s geflohen, um eine Strandung zu "
-"vermeiden."
+"Die %s sind aus der aufgelösten Stadt %s geflohen, da sie nicht auf %s "
+"bleiben können."
 
 #: server/citytools.c:1120
 #, c-format
@@ -1986,16 +1960,16 @@ msgstr ""
 "haben. Der Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:868
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
 "Postponing..."
 msgstr ""
-"%s kann %s aus der Arbeitsliste nicht bauen, nur %s darf dies bauen. Der "
-"Auftrag wird zurückgestellt."
+"%s kann %s aus der Arbeitsliste nicht bauen, nur KI mit "
+"Schwierigkeitsgrad %s darf dies bauen. Der Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:881
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
@@ -2749,26 +2723,25 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:255
-#, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
-msgstr "create <Spieler>"
+msgstr ""
+"cheating\n"
+"cheating <Spieler>"
 
 #: server/commands.c:257
-#, fuzzy
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Einen oder alle KI-Spieler auf 'einfache' Spielstärke einstellen."
+msgstr "Einen oder alle KI-Spieler auf Spielstärke 'Mogeln' einstellen."
 
 #: server/commands.c:258
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
 "the default level for any new AI players to 'cheating'.  With an argument, "
 "sets the skill level for that player only."
 msgstr ""
 "Ohne Argumente werden alle vorhandenen und zukünftigen KI-Spieler auf "
-"'einfach' gestellt. Mit Argument wird nur die Spielstärke für den angegeben "
+"'Mogeln' gestellt. Mit Argument wird nur die Spielstärke für den angegeben "
 "KI-Spieler eingestellt."
 
 #. TRANS: translate text between <> only
@@ -3632,9 +3605,9 @@ msgstr ""
 "s."
 
 #: server/gamehand.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "No units placed for %s!"
-msgstr "Keine ausgewählt"
+msgstr "%s hat keine Einheiten!"
 
 #: server/gamehand.c:361 client/text.c:620 client/gui-mui/mapview.c:192
 #, c-format
@@ -3853,7 +3826,7 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Die %s und die %s haben jetzt %s."
 
 #: server/plrhand.c:621
-#, fuzzy, c-format
+#, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
@@ -3939,29 +3912,29 @@ msgstr ""
 "       der Emporkömmling %s jetzt %d Provinzen kontrolliert."
 
 #: server/report.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "%s Bericht über die REICHSTEN Nationen der Welt."
+msgstr "%s Bericht über die REICHSTEN Nationen der Welt %s."
 
 #: server/report.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "%s Bericht über die FORTGESCHRITTENSTEN Nationen der Welt."
+msgstr "%s Bericht über die FORTGESCHRITTENSTEN Nationen der Welt %s."
 
 #: server/report.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "%s Bericht über die MÄCHTIGSTEN Nationen der Welt."
+msgstr "%s Bericht über die MÄCHTIGSTEN Nationen der Welt %s."
 
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World %s."
-msgstr "%s Bericht über die GLÜCKLICHSTEN Nationen der Welt."
+msgstr "%s Bericht über die GLÜCKLICHSTEN Nationen der Welt %s."
 
 #: server/report.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the LARGEST Civilizations in the World %s."
-msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt."
+msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt %s."
 
 #: server/report.c:63
 msgid "Herodotus'"
@@ -5423,7 +5396,6 @@ msgid "Savegame compression level"
 msgstr "Dateikomprimierung"
 
 #: server/settings.c:975
-#, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format) or "
 "bzip2. Larger values will give better compression but take longer."
@@ -5433,9 +5405,8 @@ msgstr ""
 "Komprimierung."
 
 #: server/settings.c:984
-#, fuzzy
 msgid "Savegame compression algorithm"
-msgstr "Komprimierungsebene"
+msgstr "Komprimierungsalgorithmus für gespeicherte Spiele"
 
 #: server/settings.c:985
 msgid ""
