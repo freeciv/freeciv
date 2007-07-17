@@ -15,7 +15,13 @@
 #include <config.h>
 #endif
 
+#include "government.h"
+#include "improvement.h"
+#include "nation.h"
+#include "tech.h"
+#include "terrain.h"
 #include "unitlist.h"
+#include "unittype.h"
 
 #include "api_methods.h"
 #include "script.h"
@@ -98,4 +104,107 @@ bool api_methods_building_type_is_improvement(Building_Type *pbuilding)
   return is_improvement(pbuilding->index);
 }
 
+/**************************************************************************
+  Return rule name for Government
+**************************************************************************/
+const char *api_methods_government_rule_name(Government *pgovernment)
+{
+  return government_rule_name(pgovernment);
+}
 
+/**************************************************************************
+  Return translated name for Government
+**************************************************************************/
+const char *api_methods_government_name_translation(Government *pgovernment)
+{
+  return government_name_translation(pgovernment);
+}
+
+/**************************************************************************
+  Return rule name for Nation_Type
+**************************************************************************/
+const char *api_methods_nation_type_rule_name(Nation_Type *pnation)
+{
+  return nation_rule_name(pnation);
+}
+
+/**************************************************************************
+  Return translated name for Nation_Type
+**************************************************************************/
+const char *api_methods_nation_type_name_translation(Nation_Type *pnation)
+{
+  return nation_name_translation(pnation);
+}
+
+/**************************************************************************
+  Return translated plural name for Nation_Type
+**************************************************************************/
+const char *api_methods_nation_type_plural_translation(Nation_Type *pnation)
+{
+  return nation_plural_translation(pnation);
+}
+
+/**************************************************************************
+  Return rule name for Building_Type
+**************************************************************************/
+const char *api_methods_building_type_rule_name(Building_Type *pbuilding)
+{
+  return improvement_rule_name(pbuilding->index);
+}
+
+/**************************************************************************
+  Return translated name for Building_Type
+**************************************************************************/
+const char *api_methods_building_type_name_translation(Building_Type 
+                                                       *pbuilding)
+{
+  return improvement_name_translation(pbuilding->index);
+}
+
+/**************************************************************************
+  Return rule name for Unit_Type
+**************************************************************************/
+const char *api_methods_unit_type_rule_name(Unit_Type *punit_type)
+{
+  return utype_rule_name(punit_type);
+}
+
+/**************************************************************************
+  Return translated name for Unit_Type
+**************************************************************************/
+const char *api_methods_unit_type_name_translation(Unit_Type *punit_type)
+{
+  return utype_name_translation(punit_type);
+}
+
+/**************************************************************************
+  Return rule name for Tech_Type
+**************************************************************************/
+const char *api_methods_tech_type_rule_name(Tech_Type *ptech)
+{
+  return advance_rule_name(ptech->index);
+}
+
+/**************************************************************************
+  Return translated name for Tech_Type
+**************************************************************************/
+const char *api_methods_tech_type_name_translation(Tech_Type *ptech)
+{
+  return advance_name_translation(ptech->index);
+}
+
+/**************************************************************************
+  Return rule name for Terrain
+**************************************************************************/
+const char *api_methods_terrain_rule_name(Terrain *pterrain)
+{
+  return terrain_rule_name(pterrain);
+}
+
+/**************************************************************************
+  Return translated name for Terrain
+**************************************************************************/
+const char *api_methods_terrain_name_translation(Terrain *pterrain)
+{
+  return terrain_name_translation(pterrain);
+}

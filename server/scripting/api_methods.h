@@ -27,5 +27,21 @@ bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding);
 bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding);
 bool api_methods_building_type_is_improvement(Building_Type *pbuilding);
 
+/* rule name and translated name methods */
+const char *api_methods_government_rule_name(Government *pgovernment);
+const char *api_methods_government_name_translation(Government *pgovernment);
+const char *api_methods_nation_type_rule_name(Nation_Type *pnation);
+const char *api_methods_nation_type_name_translation(Nation_Type *pnation);
+const char *api_methods_nation_type_plural_translation(Nation_Type
+                                                       *pnation);
+const char *api_methods_building_type_rule_name(Building_Type *pbuilding);
+const char *api_methods_building_type_name_translation(Building_Type 
+                                                       *pbuilding);
+const char *api_methods_unit_type_rule_name(Unit_Type *punit_type);
+const char *api_methods_unit_type_name_translation(Unit_Type *punit_type);
+const char *api_methods_tech_type_rule_name(Tech_Type *ptech);
+const char *api_methods_tech_type_name_translation(Tech_Type *ptech);
+const char *api_methods_terrain_rule_name(Terrain *pterrain);
+const char *api_methods_terrain_name_translation(Terrain *pterrain);
 #endif
 
