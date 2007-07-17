@@ -3865,15 +3865,16 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	  break;
 	case MATCH_FULL:
 	default:
-	  if (m[0] != -1 && m[1] != -1 && m[2] != -1) {
+	  {
 	    int n[3];
 	    int j = 0;
 	    for (; j < 3; j++) {
 	      int k = 0;
 	      for (; k < count; k++) {
+		n[j] = k; /* default to last entry */
 		if (m[j] == dlp->match_index[k])
 		{
-		  n[j] = k;
+		  break;
 		}
 	      }
 	    }
