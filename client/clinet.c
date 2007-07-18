@@ -118,6 +118,12 @@ static void close_socket_nomessage(struct connection *pc)
   popdown_races_dialog(); 
   close_connection_dialog();
 
+  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
+    if (!with_ggz) {
+      set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
+    }
+  }
+
   reports_force_thaw();
   
   set_client_state(CLIENT_PRE_GAME_STATE);
