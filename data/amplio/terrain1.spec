@@ -44,7 +44,8 @@ tiles = { "row", "column", "tag"
  6,  0, "t.l0.tundra1"
 
  7,  0, "t.l0.arctic1"
- 7,  0, "t.l1.arctic1"
+;7,  0, "t.l1.arctic1" not redrawn
+;7,  0, "t.l2.arctic1" not redrawn
 
  8,  0, "t.l0.swamp1"
 
@@ -123,7 +124,7 @@ tiles = { "row", "column", "tag"
  15,  0, "tx.darkness"
  15,  2, "mask.tile"
  15,  2, "t.unknown1"
- 15,  3, "t.blend.ocean"
+  7,  0, "t.blend.arctic" ;ice over neighbors
  15,  3, "t.blend.coast"
  15,  4, "user.attention"
  15,  5, "tx.fog"
