@@ -1,18 +1,16 @@
-# translation of et.po to Estonian
-# translation of et.po to
 # Estonian translation of Freeciv po file.
 # Copyright (C) 2002,2003,2004, 2006, 2007 Free Software Foundation, Inc.
 #
 # Ahti Akel <akel@stallion.ee>, 2002,2003.
 # Ekke Vasli <ekke@chamber.ee>, 2001,2003,2004.
 # Elmo Todurov <todurov@gmail.com>, 2006, 2007.
-# Silver Juurik <silverjuurik@gmail.com>, 2006.
+# Silver Juurik <silverjuurik@gmail.com>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-15 23:07+0300\n"
-"PO-Revision-Date: 2007-07-16 00:11+0300\n"
+"PO-Revision-Date: 2007-07-16 22:26+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: Estonian\n"
 "MIME-Version: 1.0\n"
@@ -6493,7 +6491,7 @@ msgstr "Teaduse %s avastamine võimaldab valida valitsusvormi %s. Võid tahta al
 #: server/techtools.c:299
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
-msgstr ""
+msgstr "Teaduse %s avastamine IGANDAB %s linnas %s!"
 
 #: server/techtools.c:349
 #, c-format
@@ -6551,12 +6549,12 @@ msgstr "%s varastasid tehnoloogia %s rahvuselt %s."
 #: server/unithand.c:99
 #, c-format
 msgid "Illegal packet, can't upgrade %s (yet)."
-msgstr ""
+msgstr "Vigane pakett, ei saa uuendada üksust %s (veel)."
 
 #: server/unithand.c:127
 #, c-format
 msgid "%d %s upgraded to %s for %d gold."
-msgstr ""
+msgstr "%d üksust %s uuendatud üksusteks %s %d raha eest."
 
 #: server/unithand.c:135
 msgid "No units could be upgraded."
@@ -7658,7 +7656,7 @@ msgstr "  -a, --autoconnect\tÄra näita ühendumisdialoogi\n"
 #: client/civclient.c:208
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
-"  -l, --log FILE\tKasuta FILE logimiseks (spawned server TÕLGIMIND kasutab "
+"  -l, --log FILE\tKasuta FILE logimiseks (lokaalne server kasutab "
 "ka seda)\n"
 
 #: client/civclient.c:210
@@ -7681,8 +7679,7 @@ msgstr "  -P, --Plugin PLUGIN\tKasuta PLUGINat heli väljastamiseks %s\n"
 #: client/civclient.c:218
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
-"  -r, --read FILE\tLoe stardikäske FILE-st (ainult spawned serverite jaoks "
-"TÕLGIMIND)\n"
+"  -r, --read FILE\tLoe stardikäske FILE-st (ainult kohalike serverite jaoks)\n"
 
 #: client/civclient.c:221
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
@@ -14591,8 +14588,8 @@ msgstr "Abi: üksused"
 #: client/gui-sdl/wldlg.c:1500
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] "toodang TÕLGIMIND"
-msgstr[1] "toodang TÕLGIMIND"
+msgstr[0] "toodang"
+msgstr[1] "toodangut"
 
 #: client/gui-sdl/helpdlg.c:713 client/gui-sdl/helpdlg.c:736
 msgid "citizen"
@@ -16206,7 +16203,7 @@ msgstr ""
 #: manual/civmanual.c:221 data/default/terrain.ruleset:636
 #: data/civ2/terrain.ruleset:567 data/civ1/terrain.ruleset:574
 msgid "Resources"
-msgstr ""
+msgstr "Loodusvarad"
 
 #: manual/civmanual.c:222
 msgid "Move cost"
@@ -21442,7 +21439,7 @@ msgstr "?plural:Tšehhid"
 msgid ""
 "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been "
 "until 1918 part of the Austro-Hungarian Empire."
-msgstr ""
+msgstr "Tänapäeva Tšehhi Vabariik oli kuni 1993.aastani osa Tšehhoslovakkiast, mis oli olnud kuni 1918.aastani Austria-Ungari impeeriumi osa."
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
@@ -21621,15 +21618,15 @@ msgstr ""
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr ""
+msgstr "galicialane"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr ""
+msgstr "?plural:galicialased"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
-msgstr ""
+msgstr "Galicia on Hispaania loodeosas asuv piirkond, asub Portugalist põhja poole."
 
 #: data/nation/galician.ruleset:22
 msgid "Primeiro Ministro"
@@ -21924,7 +21921,7 @@ msgstr "iirlane"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "iirlased"
+msgstr "?plural:iirlased"
 
 #: data/nation/irish.ruleset:6
 msgid ""
@@ -21957,7 +21954,7 @@ msgstr "Irokees"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr "Irokeesid"
+msgstr "?plural:Irokeesid"
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -21989,14 +21986,14 @@ msgstr "iisraellane"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "iisraellased"
+msgstr "?plural:iisraellased"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
 "The nation of Israel was founded in 1948 as a scattered collection of "
 "cantons in British Palestine, and has gradually expanded through winning a "
 "series of wars launched against it in 1948, 1967 and 1973."
-msgstr ""
+msgstr "Iisraeli riik rajati 1948.a. hajutatud Briti Palestiina kantonite kogumikuna. Iisrael on oma valdusi järk-järgult suurendanud, võites terve rea sõdu Iisraeli riigi vastu aastatel 1948, 1967 ja 1973."
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
@@ -22147,7 +22144,7 @@ msgid ""
 "In the aftermath of WWI Latvia proclaimed its independence from Russia. In "
 "1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
 "of Soviet Union in 1991 Latvia restored its independence."
-msgstr ""
+msgstr "Esimese maailmasõja lõppedes kuulutas Läti end Venemaast iseseisvaks. 1940.a. okupeeris Nõukogude Liit Läti. Pärast Nõukogude Liidu kokkukukkumist 1940.a. taastas Läti oma iseseisvuse."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -22305,7 +22302,7 @@ msgstr "Marslased"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr "Marslased saabusid Maale aastal 4000 m.a.j."
+msgstr "Marslased saabusid Maale aastal 4000 e.m.a."
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
@@ -22403,7 +22400,7 @@ msgid ""
 "After centuries of Danish rule, the Norwegians made their own constitution "
 "in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
 "independence after a union with Sweden."
-msgstr ""
+msgstr "Pärast sajanditepikkust Taani võimu all olemist võtsid norralased aastal 1814 Eidsvollis vastu oma põhiseaduse. 1905.a. saavutasid norralased iseseisvuse pärast Rootsiga liidus olemist."
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -22544,7 +22541,7 @@ msgstr "portugaallased"
 msgid ""
 "Portugal founded the first of the great mercantile empires in the 1400s on "
 "the shipbuilding advances funded by Prince Henry the Navigator."
-msgstr ""
+msgstr "Portugal rajas esimese suurtest merkantilistlikest impeeriumidest 15. sajandil, tuginedes prints Henry Meresõitja poolt rahastatud laevaehituse arengule."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -22681,11 +22678,11 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
-msgstr ""
+msgstr "Koku-o"
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Jo-o"
-msgstr ""
+msgstr "Jo-o"
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
@@ -22722,11 +22719,11 @@ msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034AD to "
 "the Union of Crowns with England in 1701."
-msgstr ""
+msgstr "Šotimaa, mille asustasid algselt hilistel Rooma riigi aegadel iiri mereröövlid, sundides põliselanikud Piktid lahkuma, oli iseseisev kuningriik alates umbes 1034 maj kuni Kroonide Ühinemiseni Inglismaaga 1701.a."
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
-msgstr ""
+msgstr "siseminister"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -22928,7 +22925,7 @@ msgstr "sudaanid"
 msgid ""
 "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became "
 "independent in 1956."
-msgstr "sudaanid"
+msgstr "1820.a. jäi Sudaan egiptuse ja hiljem briti võimu alla. Sudaan iseseisvus 1956.a."
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
@@ -22950,7 +22947,7 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
-msgstr ""
+msgstr "Ensi"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
@@ -22965,15 +22962,15 @@ msgid ""
 "The Swazis is a Bantu people of southern Africa. Under the leadership of "
 "Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized "
 "the southern frontier with the Zulus."
-msgstr ""
+msgstr "Svaasid on Lõuna-Aafrika bantu rahvas. Mswati II (1820 - 1868) juhtimise ajal laiendasid svaasid oma valdusi ja määrasid kindlaks Svaasimaa lõunapiiri suuludega."
 
 #: data/nation/swazi.ruleset:23
 msgid "Ngwenyama"
-msgstr ""
+msgstr "Ngwenyama"
 
 #: data/nation/swazi.ruleset:23
 msgid "Indovuzaki"
-msgstr ""
+msgstr "Indovuzaki"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -23395,6 +23392,12 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
+"Teretulemast Freeciv'i. Sa juhid üht tsivilisatsiooni. \n"
+"Sinu ülesanne on vallutada maailm. Sa peaks \n"
+"alustama end ümbritseva maa avastamisest \n"
+"maadeuurijaga, asunike abil saad otsida sobiva "
+"paiga linna ehitamiseks. Üksuste liigutamiseks \n"
+"kasuta numbriklahve."
 
 #: data/scenario/tutorial.sav:34
 msgid ""
@@ -23541,6 +23544,9 @@ msgid ""
 "it larger, however, you will need to build a Sewer System.  This\n"
 "requires the Sanitation technology."
 msgstr ""
+"Sa oled linna kasvatanud suuruseni 12. Linna suurendamiseks\n"
+"pead ehitama Kanalisatsiooni. Selleks on vajalik \n"
+"Hügieeni tehnoloogia."
 
 #: data/scenario/tutorial.sav:178
 msgid ""
@@ -23629,6 +23635,18 @@ msgid ""
 "are at war, however, you may wish to move your unit toward an enemy\n"
 "city to attack.  Be careful not to lose it though!"
 msgstr ""
+"Sa oled valmis saanud oma esimese sõjaväeüksuse! Üksustel on \n"
+"kaks põhieesmärki: rünnak ja kaitse. Igal üksusel on oma rünnaku- \n"
+"ja kaitsetugevus. Kui Sõdalastel on tugevuseks hädised 1/1, siis \n"
+"Faalanks on kaitses palju tugevam oma 2 ühikuga (1/2). Katapult on \n"
+"hea rünnakuüksus, kuna tal on rünnakutugevus 6 (6/1).\n"
+"\n"
+"Mõistlik on jätta igasse linna mõned üksused kaitsesse. Tähtsad linnad \n"
+"nagu su pealinn võivad olla tugevamalt kaitstud. Ühe linna üksusi võib \n"
+"saata teise linna kaitsesse (vajuta G, et minna liikumise töörežiimi \n"
+"üksuste lihtsamaks liigutamiseks pikkade vahemaade vahel). \n"
+"Sõja ajal võib olla tarvis viia üksused vaenlase linnale lähemale, et \n"
+"rünnakut alustada. Aga pane tähele, et sa oma üksusi ei kaotaks!"
 
 #: data/scenario/tutorial.sav:304
 msgid ""
@@ -23650,6 +23668,22 @@ msgid ""
 "technology.  When you are done playing around click on the Map tab\n"
 "(Alt-M) to return to the map view."
 msgstr ""
+"Sa oled avastanud oma esimese tehnoloogia! Tehnoloogilised uuendused\n"
+"on Freeciv-is tähtis osa. Tehnoloogilist taset täiustades saad kasutada\n"
+"uusi üksusi, ehitisi, valitsusi ja mitmeid erinevaid tasuta boonuseid.\n"
+"\n"
+"Nüüd võid minna Teaduste Aknasse ja seal ringi vaadata.\n"
+"Vajuta F6, et avada teaduste aken (või vajuta Teaduste sakile põhiaknas).\n"
+"Otsi üles Vabariigi nimeline tehnoloogia ja vajuta sellele. Sellega on \n"
+"Vabariik seatud sinu tehnoloogiliseks eesmärgiks; see tähendab, et \n"
+"järgmine samm selle tehnoloogia suunas valitakse automaatselt \n"
+"avastamiseks. Akna ülaosas on näha, kui palju teadustööd \n"
+"sa teed iga ringi jooksul - teadustöö kiirus sõltub maksustatavast \n"
+"kaubandusest su linnades. Akna alaosas on näha tehnoloogiapuu; \n"
+"vasaku hiireklõpsu abil saad valida avastatava tehnoloogia või \n"
+"tehnoloogilise eesmärgi, parema hiireklõpsu abil saad lisainfot kindla \n"
+"tehnoloogia kohta. Kui oled lõpetanud ringi vaatamise, vajuta Kaardi \n"
+"sakile (Alt-M) et pöörduda tagasi kaardi vaatesse."
 
 #: data/scenario/tutorial.sav:323
 msgid ""
