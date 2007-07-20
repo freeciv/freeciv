@@ -186,7 +186,7 @@ void map_regenerate_water(void)
   struct terrain *coast = terrain_by_identifier(TERRAIN_COAST_IDENTIFIER);
   struct terrain *shelf = terrain_by_identifier(TERRAIN_SHELF_IDENTIFIER);
   struct terrain *floor = terrain_by_identifier(TERRAIN_FLOOR_IDENTIFIER);
-  int shelf_depth = shelf->property[MG_OCEAN_DEPTH];
+  int coast_depth = coast->property[MG_OCEAN_DEPTH];
   int coast_count = 0;
   int shelf_count = 0;
   int floor_count = 0;
@@ -212,7 +212,7 @@ void map_regenerate_water(void)
       continue;
     }
     /* leave any existing deep features in place */
-    if (pterrain->property[MG_OCEAN_DEPTH] > shelf_depth) {
+    if (pterrain->property[MG_OCEAN_DEPTH] > coast_depth) {
       continue;
     }
 

@@ -198,6 +198,7 @@ static bool filter_starters(const struct tile *ptile, const void *data)
   MT_ALL: all players in asingle isle
   MT_VARIABLE: at least 2 player per isle
   
+  Assumes assign_continent_numbers() has already been done!
   Returns true on success
 **************************************************************************/
 bool create_start_positions(enum start_mode mode,
@@ -222,8 +223,6 @@ bool create_start_positions(enum start_mode mode,
      * map and other information which has already been destroyed. */
     create_tmap(FALSE);
   }
-
-  assign_continent_numbers();
 
   /* If the default is given, just use MT_VARIABLE. */
   if (mode == MT_DEFAULT) {

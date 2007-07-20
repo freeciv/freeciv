@@ -169,7 +169,7 @@ fallout_trade_penalty=50
 ;  - frozen            = how "frozen" the terrain is (very low temperature)
 ;  - wet               = how "wet" the terrain is (moisture)
 ;  - dry               = how "dry" the terrain is (moisture)
-;  - ocean_depth       = the depth of an ocean, as a percentage
+;  - ocean_depth       = the depth of an ocean, as an average level
 ; helptext	       = optional help text string; should escape all raw 
 ;		         newlines so that xgettext parsing works
 
@@ -201,7 +201,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
-property_ocean_depth = 10
+property_ocean_depth = 0
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -236,7 +236,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution"
-property_ocean_depth = 3
+property_ocean_depth = 0
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -271,7 +271,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution"
-property_ocean_depth = 7
+property_ocean_depth = 0
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -306,7 +306,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution"
-property_ocean_depth = 13
+property_ocean_depth = 36
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -341,7 +341,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
-property_ocean_depth = 23
+property_ocean_depth = 48
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -376,7 +376,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
-property_ocean_depth = 66
+property_ocean_depth = 87
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -446,7 +446,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
-property_ocean_depth = 33
+property_ocean_depth = 42
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -481,7 +481,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
-property_ocean_depth = 33
+property_ocean_depth = 42 ; same as ridge, not generated
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\

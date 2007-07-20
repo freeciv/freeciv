@@ -154,8 +154,8 @@ layer2_sprite_type = "corner"
 [tile_ridge]
 is_blended = 0
 num_layers = 3
-layer0_match_type = "deep"
-layer0_match_with = "shallow", "land"
+layer0_match_type = "shallow"
+layer0_match_with = "deep", "land"
 layer0_sprite_type = "corner"
 layer1_match_type = "ridge"
 layer1_match_with = "ridge"
@@ -166,8 +166,8 @@ layer2_sprite_type = "corner"
 [tile_vent]
 is_blended = 0
 num_layers = 3
-layer0_match_type = "deep"
-layer0_match_with = "shallow", "land"
+layer0_match_type = "shallow"
+layer0_match_with = "deep", "land"
 layer0_sprite_type = "corner"
 layer1_match_type = "ridge"
 layer1_match_with = "ridge"

@@ -22,14 +22,13 @@
 #include <time.h>
 
 #include "fcintl.h"
-#include "game.h"
+#include "game.h" /* game.info.nplayers */
 #include "log.h"
 #include "map.h"
 #include "maphand.h" /* assign_continent_numbers(), MAP_NCONT */
 #include "mem.h"
 #include "rand.h"
 #include "shared.h"
-#include "srv_main.h"
 
 #include "height_map.h"
 #include "mapgen.h"
@@ -223,6 +222,36 @@ static bool terrain_is_too_high(struct tile *ptile,
 }
 
 /****************************************************************************
+  Return a random terrain that has the specified flag.
+  Returns T_UNKNOWN when there is no matching terrain.
+****************************************************************************/
+static struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
+{
+  bool has_flag[T_COUNT];
+  int count = 0;
+
+  terrain_type_iterate(pterrain) {
+    if ((has_flag[pterrain->index] = terrain_has_flag(pterrain, flag))) {
+      count++;
+    }
+  } terrain_type_iterate_end;
+
+  count = myrand(count);
+  terrain_type_iterate(pterrain) {
+    if (has_flag[pterrain->index]) {
+      if (count == 0) {
+	return pterrain;
+      }
+      count--;
+    }
+  } terrain_type_iterate_end;
+#if 0
+  die("Reached end of pick_terrain_by_flag!");
+#endif
+  return T_UNKNOWN;
+}
+
+/****************************************************************************
   Pick a terrain based on the target property and a property to avoid.
 
   If the target property is given, then all terrains with that property
@@ -297,21 +326,20 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 }
 
 /**************************************************************************
-  Picks an ocean terrain to match the given depth (as a percentage).
-
-  FIXME: this should return NULL if there is no available ocean.
+  Picks an ocean terrain to match the given depth.
+  Return NULL when there is no available ocean.
 **************************************************************************/
 static struct terrain *pick_ocean(int depth)
 {
-  /* FIXME: pick_terrain_by_flag may return NULL if there is no match. */
-  struct terrain *best_terrain = pick_terrain_by_flag(TER_OCEANIC);
-  int best_match = abs(depth - best_terrain->property[MG_OCEAN_DEPTH]);
+  struct terrain *best_terrain = NULL;
+  int best_match = TERRAIN_OCEAN_DEPTH_MAXIMUM;
 
   terrain_type_iterate(pterrain) {
-    if (terrain_has_flag(pterrain, TER_OCEANIC)) {
+    if (terrain_has_flag(pterrain, TER_OCEANIC)
+      &&  TERRAIN_OCEAN_DEPTH_MINIMUM <= pterrain->property[MG_OCEAN_DEPTH]) {
       int match = abs(depth - pterrain->property[MG_OCEAN_DEPTH]);
 
-      if (match < best_match) {
+      if (best_match > match) {
 	best_match = match;
 	best_terrain = pterrain;
       }
@@ -980,10 +1008,10 @@ static void make_rivers(void)
 
 	    if (!terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER)) {
 	      /* We have to change the terrain to put a river here. */
-	      /* FIXME: pick_terrain_by_flag may return NULL
-	       * if there is no match. */
 	      pterrain = pick_terrain_by_flag(TER_CAN_HAVE_RIVER);
-	      tile_set_terrain(tile1, pterrain);
+	      if (pterrain) {
+		tile_set_terrain(tile1, pterrain);
+	      }
 	    }
 	    tile_set_special(tile1, S_RIVER);
 	    current_riverlength++;
@@ -992,8 +1020,7 @@ static void make_rivers(void)
 		    tile1->x, tile1->y);
 	  }
 	} whole_map_iterate_end;
-      }
-      else {
+      } else {
 	freelog(LOG_DEBUG,
 		"mapgen.c: A river failed. It might have gotten stuck in a helix.");
       }
@@ -1075,9 +1102,12 @@ static bool is_tiny_island(struct tile *ptile)
 **************************************************************************/
 static void remove_tiny_islands(void)
 {
+  struct terrain *ridge = terrain_by_identifier(TERRAIN_RIDGE_IDENTIFIER);
+
+  assert(NULL != ridge);
   whole_map_iterate(ptile) {
     if (is_tiny_island(ptile)) {
-      tile_set_terrain(ptile, pick_ocean(0));
+      tile_set_terrain(ptile, ridge);
       tile_clear_special(ptile, S_RIVER);
       tile_set_continent(ptile, 0);
     }
@@ -1187,6 +1217,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       remove_tiny_islands();
     }
   }
+  assign_continent_numbers();
 
   if (!temperature_is_initialized()) {
     create_tmap(FALSE);
@@ -1253,12 +1284,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 	  die("The server couldn't allocate starting positions.");
       }
     }
-
-
   }
-
-  assign_continent_numbers();
-  game_map_init();
 
   print_mapgen_map();
 }
@@ -1817,12 +1843,15 @@ static bool make_island(int islemass, int starters,
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
+  struct terrain *deepest_ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM);
+
+  assert(NULL != deepest_ocean);
   height_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*height_map));
   create_placed_map(); /* land tiles which aren't placed yet */
   create_tmap(FALSE);
   
   whole_map_iterate(ptile) {
-    tile_set_terrain(ptile, pick_ocean(100));
+    tile_set_terrain(ptile, deepest_ocean);
     tile_set_continent(ptile, 0);
     map_set_placed(ptile); /* not a land tile */
     tile_clear_all_specials(ptile);

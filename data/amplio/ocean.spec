@@ -10,6 +10,7 @@ artists = "
     Yautja
     CapTVK
     Eleazar
+    William Allen Simpson
 "
 
 [file]
@@ -25,7 +26,7 @@ is_pixel_border = 0
 
 tiles = { "row", "column", "tag"
 
-;land, shallow(coast/shelf), deep(floor/trench/ridge/vent)
+;land, shallow(coast/shelf/ridge/vent), deep(floor/trench)
   8, 8, "t.l0.cellgroup_d_d_d_d"
   8, 7, "t.l0.cellgroup_s_d_d_d"
   8, 6, "t.l0.cellgroup_l_d_d_d"

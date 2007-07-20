@@ -1926,6 +1926,7 @@ static void srv_loop(void)
     struct unit_type *utype = crole_to_unit_type(game.info.start_units[0], NULL);
 
     map_fractal_generate(TRUE, utype);
+    game_map_init();
   }
 
   /* start the game */

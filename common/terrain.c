@@ -180,36 +180,6 @@ enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
 }
 
 /****************************************************************************
-  Return a random terrain that has the specified flag.  Returns T_UNKNOWN if
-  there is no matching terrain.
-  FIXME: currently called only by mapgen.c, move there and check error.
-****************************************************************************/
-struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
-{
-  bool has_flag[T_COUNT];
-  int count = 0;
-
-  terrain_type_iterate(pterrain) {
-    if ((has_flag[pterrain->index] = terrain_has_flag(pterrain, flag))) {
-      count++;
-    }
-  } terrain_type_iterate_end;
-
-  count = myrand(count);
-  terrain_type_iterate(pterrain) {
-    if (has_flag[pterrain->index]) {
-      if (count == 0) {
-	return pterrain;
-      }
-      count--;
-    }
-  } terrain_type_iterate_end;
-
-  die("Reached end of pick_terrain_by_flag!");
-  return T_UNKNOWN;
-}
-
-/****************************************************************************
   Free memory which is associated with terrain types.
 ****************************************************************************/
 void terrains_free(void)

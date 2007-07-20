@@ -129,6 +129,7 @@ struct terrain {
 #define TERRAIN_COAST_IDENTIFIER '.'
 #define TERRAIN_SHELF_IDENTIFIER ','
 #define TERRAIN_FLOOR_IDENTIFIER ':'
+#define TERRAIN_RIDGE_IDENTIFIER '^'
 #define TERRAIN_GLACIER_IDENTIFIER 'a'
 #define TERRAIN_UNKNOWN_IDENTIFIER 'u'
 
@@ -162,14 +163,19 @@ struct terrain {
   struct terrain *warmer_wetter_result, *warmer_drier_result;
   struct terrain *cooler_wetter_result, *cooler_drier_result;
 
-  /* These are special properties of the terrain used by mapgen.  Generally
-   * for each property, if a tile is deemed to have that property then
-   * the value gives the wieghted amount of tiles that will be assigned
-   * this terrain.
+  /* These are special properties of the terrain used by mapgen.  If a tile
+   * has a property, then the value gives the weighted amount of tiles that
+   * will be assigned this terrain.
    *
    * For instance if mountains have 70 and hills have 30 of MG_MOUNTAINOUS
-   * then 70% of 'mountainous' tiles will be given mountains. */
+   * then 70% of 'mountainous' tiles will be given mountains.
+   *
+   * Ocean_depth is different.  Instead of a percentage, the depth of the
+   * tile in the range 0 (never chosen) to 100 (deepest) is used.
+   */
   int property[MG_LAST];
+#define TERRAIN_OCEAN_DEPTH_MINIMUM (1)
+#define TERRAIN_OCEAN_DEPTH_MAXIMUM (100)
 
   bv_unit_classes native_to;
 
@@ -206,7 +212,6 @@ const char *terrain_name_translation(struct terrain *pterrain);
 
 enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
-struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
 void terrains_free(void);
 
 /* General resource accessor functions. */
