@@ -1,3 +1,4 @@
 #include <windows.h>
 
-client_icon ICON "client.ico"
+/* must be named "SDL_app" to work with the SDL client */
+SDL_app ICON "client.ico"

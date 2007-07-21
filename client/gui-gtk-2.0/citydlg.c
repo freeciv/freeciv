@@ -1194,8 +1194,11 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   gtk_widget_realize(pdialog->shell);
 
+  /* keep the icon of the executable on Windows (see PR#36491) */
+#ifndef WIN32_NATIVE
   gtk_window_set_icon(GTK_WINDOW(pdialog->shell),
 		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG)));
+#endif
 
   /* Set old size. The size isn't saved in any way. */
   if (citydialog_width && citydialog_height) {

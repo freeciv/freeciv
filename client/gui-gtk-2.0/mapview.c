@@ -796,6 +796,9 @@ void tileset_changed(void)
   reset_unit_table();
   blank_max_unit_size();
 
+  /* keep the icon of the executable on Windows (see PR#36491) */
+#ifndef WIN32_NATIVE
   gtk_window_set_icon(GTK_WINDOW(toplevel),
 		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
+#endif
 }
