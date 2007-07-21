@@ -714,7 +714,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
       SetWindowText(help_ulabel[4][4], _("None"));
     } else {
-      SetWindowText(help_ulabel[4][4], utype->obsoleted_by->name);
+      SetWindowText(help_ulabel[4][4], utype_name_translation(utype->obsoleted_by));
     }
 
     helptext_unit(buf, utype, pitem->text);
@@ -790,7 +790,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       hbox=fcwin_hbox_new(helpdlg_win,FALSE);
       fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
       fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-      fcwin_box_add_button(hbox,j->name,
+      fcwin_box_add_button(hbox,utype_name_translation(j),
 			   ID_HELP_UNIT_LINK,
 			   0,FALSE,FALSE,5);
     } unit_type_iterate_end;

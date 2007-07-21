@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include "connectdlg_g.h"
+
 #include "pages.h"
 
 /**************************************************************************
@@ -48,7 +50,7 @@ void update_start_page(void)
   "default", and if the user changes this then set_ruleset() should be
   called.
 ****************************************************************************/
-void gui_set_rulesets(char rulesets[][64], int ruleset_count)
+void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   /* PORTME */
 }
