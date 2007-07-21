@@ -259,7 +259,7 @@ void init_layoutwindow(void)
   wndclass->cbClsExtra=0;
   wndclass->cbWndExtra=0;
   wndclass->lpfnWndProc=(WNDPROC) layout_wnd_proc;
-  wndclass->hIcon=NULL;
+  wndclass->hIcon=LoadIcon(GetModuleHandle(NULL), "SDL_app");
   wndclass->hCursor=LoadCursor(NULL,IDC_ARROW);
   wndclass->hInstance=freecivhinst;
   wndclass->hbrBackground=CreateSolidBrush(GetSysColor(15));
