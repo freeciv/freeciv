@@ -500,7 +500,7 @@ void setup_auxiliary_tech_icons(void)
   
   FREESURFACE(pSurf);
   
-  /* FT */ 
+  /* TRANS: Future Technology */ 
   copy_chars_to_string16(pStr, _("FT"));
   pSurf = create_text_surf_from_str16(pStr);
   blit_entire_src(pSurf, pFuture_Tech_Icon,
