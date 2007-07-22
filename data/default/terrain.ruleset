@@ -494,7 +494,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
-property_ocean_depth = 42
+property_ocean_depth = 36 ; same as coast, for now
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -534,7 +534,7 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"; "UnsafeOcean"
-property_ocean_depth = 42 ; same as ridge, not generated
+property_ocean_depth = 36 ; same as ridge, not generated
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
