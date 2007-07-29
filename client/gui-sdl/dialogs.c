@@ -2426,124 +2426,122 @@ static int cancel_help_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int nation_button_callback(struct widget *pNationButton)
 {
+  set_wstate(pNationButton, FC_WS_SELLECTED);
+  pSellected_Widget = pNationButton;
+  
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    set_wstate(pNationButton, FC_WS_SELLECTED);
-    pSellected_Widget = pNationButton;
-    
-    if (Main.event.button.button == SDL_BUTTON_LEFT) {
-      struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-        
-      if (pSetup->nation == MAX_ID - pNationButton->ID) {
-        widget_redraw(pNationButton);
-        widget_flush(pNationButton);
-        return -1;
-      }
-    
-      pSetup->nation = MAX_ID - pNationButton->ID;
-    
-      change_nation_label();
-    
-      enable(MAX_ID - 1000 - pSetup->nation_city_style);
-      pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
-      disable(MAX_ID - 1000 - pSetup->nation_city_style);
+    struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
       
-      select_random_leader(pSetup->nation);
-      
-      redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-      widget_flush(pNationDlg->pEndWidgetList);
-    } else {
-      /* pop up legend info */
-      struct widget *pWindow, *pCancel;
-      SDL_String16 *pStr;
-      SDL_Surface *pText, *pText2;
-      SDL_Rect area, area2;
-      struct nation_type *pNation = nation_by_number(MAX_ID - pNationButton->ID);
-        
+    if (pSetup->nation == MAX_ID - pNationButton->ID) {
       widget_redraw(pNationButton);
-      widget_mark_dirty(pNationButton);
-    
-      if (!pHelpDlg) {
-      
-        pHelpDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-      
-        pStr = create_str16_from_char("Nation's Legend", adj_font(12));
-        pStr->style |= TTF_STYLE_BOLD;
-    
-        pWindow = create_window_skeleton(NULL, pStr, 0);
-        pWindow->action = help_dlg_callback;
-
-        set_wstate(pWindow, FC_WS_NORMAL);
-      
-        pHelpDlg->pEndWidgetList = pWindow;
-        add_to_gui_list(ID_WINDOW, pWindow);
-      
-        pCancel = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-                                  pWindow->dst, _("Cancel"), adj_font(14), 0);
-        pCancel->action = cancel_help_dlg_callback;
-        set_wstate(pCancel, FC_WS_NORMAL);
-        pCancel->key = SDLK_ESCAPE;
-        add_to_gui_list(ID_BUTTON, pCancel);
-        pHelpDlg->pBeginWidgetList = pCancel;
-      } else {
-        pWindow = pHelpDlg->pEndWidgetList;
-        pCancel = pHelpDlg->pBeginWidgetList;
-        /* undraw window */
-        widget_undraw(pWindow);
-        widget_mark_dirty(pWindow);
-      }
-
-      area = pWindow->area;
-      
-      if (pNation->legend && *(pNation->legend) != '\0') {
-        pStr = create_str16_from_char(pNation->legend, adj_font(12));
-      } else {
-        pStr = create_str16_from_char("SORRY... NO INFO", adj_font(12));
-      }
-      
-      pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_LEGEND);
-      pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - adj_size(20));
-    
-      copy_chars_to_string16(pStr, nation_plural_translation(pNation));
-      pText2 = create_text_surf_from_str16(pStr);
-    
-      FREESTRING16(pStr);
-      
-      /* create window background */
-      area.w = MAX(area.w, pText2->w + adj_size(20));
-      area.w = MAX(area.w, pText->w + adj_size(20));
-      area.w = MAX(area.w, pCancel->size.w + adj_size(20));
-      area.h = MAX(area.h, adj_size(9) + pText2->h + adj_size(10) + pText->h
-                           + adj_size(10) + pCancel->size.h + adj_size(10));
-
-      resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.h - pWindow->area.h) + area.h);
-
-      widget_set_position(pWindow,
-                          (Main.screen->w - pWindow->size.w) / 2,
-                          (Main.screen->h - pWindow->size.h) / 2);
-      
-      area2.x = area.x + adj_size(7);
-      area2.y = area.y + adj_size(6);
-      alphablit(pText2, NULL, pWindow->theme, &area2);
-      area2.y += (pText2->h + adj_size(10));
-      FREESURFACE(pText2);
-    
-      alphablit(pText, NULL, pWindow->theme, &area2);
-      FREESURFACE(pText);
-    
-      pCancel->size.x = area.x + (area.w - pCancel->size.w) / 2;
-      pCancel->size.y = area.y + area.h - pCancel->size.h - adj_size(10);
-    
-      /* redraw */
-      redraw_group(pCancel, pWindow, 0);
-  
-      widget_mark_dirty(pWindow);
-    
-      flush_dirty();
-  
+      widget_flush(pNationButton);
+      return -1;
     }
-  }  
+  
+    pSetup->nation = MAX_ID - pNationButton->ID;
+  
+    change_nation_label();
+  
+    enable(MAX_ID - 1000 - pSetup->nation_city_style);
+    pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
+    disable(MAX_ID - 1000 - pSetup->nation_city_style);
+    
+    select_random_leader(pSetup->nation);
+    
+    redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
+    widget_flush(pNationDlg->pEndWidgetList);
+  } else {
+    /* pop up legend info */
+    struct widget *pWindow, *pOK_Button;
+    SDL_String16 *pStr;
+    SDL_Surface *pText, *pText2;
+    SDL_Rect area, area2;
+    struct nation_type *pNation = nation_by_number(MAX_ID - pNationButton->ID);
+      
+    widget_redraw(pNationButton);
+    widget_mark_dirty(pNationButton);
+  
+    if (!pHelpDlg) {
+    
+      pHelpDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+    
+      pStr = create_str16_from_char("Nation's Legend", adj_font(12));
+      pStr->style |= TTF_STYLE_BOLD;
+  
+      pWindow = create_window_skeleton(NULL, pStr, 0);
+      pWindow->action = help_dlg_callback;
+
+      set_wstate(pWindow, FC_WS_NORMAL);
+    
+      pHelpDlg->pEndWidgetList = pWindow;
+      add_to_gui_list(ID_WINDOW, pWindow);
+    
+      pOK_Button = create_themeicon_button_from_chars(pTheme->OK_Icon,
+                                pWindow->dst, _("OK"), adj_font(14), 0);
+      pOK_Button->action = cancel_help_dlg_callback;
+      set_wstate(pOK_Button, FC_WS_NORMAL);
+      pOK_Button->key = SDLK_ESCAPE;
+      add_to_gui_list(ID_BUTTON, pOK_Button);
+      pHelpDlg->pBeginWidgetList = pOK_Button;
+    } else {
+      pWindow = pHelpDlg->pEndWidgetList;
+      pOK_Button = pHelpDlg->pBeginWidgetList;
+      /* undraw window */
+      widget_undraw(pWindow);
+      widget_mark_dirty(pWindow);
+    }
+
+    area = pWindow->area;
+    
+    if (pNation->legend && *(pNation->legend) != '\0') {
+      pStr = create_str16_from_char(pNation->legend, adj_font(12));
+    } else {
+      pStr = create_str16_from_char("SORRY... NO INFO", adj_font(12));
+    }
+    
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_LEGEND);
+    pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - adj_size(20));
+  
+    copy_chars_to_string16(pStr, nation_plural_translation(pNation));
+    pText2 = create_text_surf_from_str16(pStr);
+  
+    FREESTRING16(pStr);
+    
+    /* create window background */
+    area.w = MAX(area.w, pText2->w + adj_size(20));
+    area.w = MAX(area.w, pText->w + adj_size(20));
+    area.w = MAX(area.w, pOK_Button->size.w + adj_size(20));
+    area.h = MAX(area.h, adj_size(9) + pText2->h + adj_size(10) + pText->h
+                         + adj_size(10) + pOK_Button->size.h + adj_size(10));
+
+    resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+                  (pWindow->size.w - pWindow->area.w) + area.w,
+                  (pWindow->size.h - pWindow->area.h) + area.h);
+
+    widget_set_position(pWindow,
+                        (Main.screen->w - pWindow->size.w) / 2,
+                        (Main.screen->h - pWindow->size.h) / 2);
+    
+    area2.x = area.x + adj_size(7);
+    area2.y = area.y + adj_size(6);
+    alphablit(pText2, NULL, pWindow->theme, &area2);
+    area2.y += (pText2->h + adj_size(10));
+    FREESURFACE(pText2);
+  
+    alphablit(pText, NULL, pWindow->theme, &area2);
+    FREESURFACE(pText);
+  
+    pOK_Button->size.x = area.x + (area.w - pOK_Button->size.w) / 2;
+    pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
+  
+    /* redraw */
+    redraw_group(pOK_Button, pWindow, 0);
+
+    widget_mark_dirty(pWindow);
+  
+    flush_dirty();
+
+  }
   return -1;
 }
 
