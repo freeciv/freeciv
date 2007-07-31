@@ -40,17 +40,14 @@ static HWND finddialog;
 **************************************************************************/
 static void update_find_dialog()
 {
-  int i,id;
   ListBox_ResetContent(GetDlgItem(finddialog,ID_FINDCITY_LIST));
-   
-  for(i=0; i<game.info.nplayers; i++) {
-    city_list_iterate(game.players[i].cities, pcity);
-    id=ListBox_AddString(GetDlgItem(finddialog,ID_FINDCITY_LIST),pcity->name);
-    ListBox_SetItemData(GetDlgItem(finddialog,ID_FINDCITY_LIST),id,i);
-    
-    city_list_iterate_end;
- 
-  }        
+
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      int id = ListBox_AddString(GetDlgItem(finddialog,ID_FINDCITY_LIST),pcity->name);
+      ListBox_SetItemData(GetDlgItem(finddialog,ID_FINDCITY_LIST),id,player_number(pplayer));
+    } city_list_iterate_end;
+  } players_iterate_end;
 }
 
 /**************************************************************************

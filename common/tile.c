@@ -268,9 +268,9 @@ void tile_set_continent(struct tile *ptile, Continent_id val)
 enum known_type tile_get_known(const struct tile *ptile,
 			       const struct player *pplayer)
 {
-  if (!BV_ISSET(ptile->tile_known, pplayer->player_no)) {
+  if (!BV_ISSET(ptile->tile_known, player_index(pplayer))) {
     return TILE_UNKNOWN;
-  } else if (!BV_ISSET(ptile->tile_seen[V_MAIN], pplayer->player_no)) {
+  } else if (!BV_ISSET(ptile->tile_seen[V_MAIN], player_index(pplayer))) {
     return TILE_KNOWN_FOGGED;
   } else {
     return TILE_KNOWN;

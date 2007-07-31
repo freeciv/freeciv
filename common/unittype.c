@@ -65,6 +65,57 @@ static const char *role_names[] = {
 };
 
 /**************************************************************************
+  Return the first item of unit_types.
+**************************************************************************/
+struct unit_type *unit_type_array_first(void)
+{
+  if (game.control.num_unit_types > 0) {
+    return unit_types;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of unit_types.
+**************************************************************************/
+const struct unit_type *unit_type_array_last(void)
+{
+  if (game.control.num_unit_types > 0) {
+    return &unit_types[game.control.num_unit_types - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the number of unit types.
+**************************************************************************/
+const Unit_type_id utype_count(void)
+{
+  return game.control.num_unit_types;
+}
+
+/**************************************************************************
+  Return the unit type index.
+
+  Currently same as utype_number(), paired with utype_count()
+  indicates use as an array index.
+**************************************************************************/
+const Unit_type_id utype_index(const struct unit_type *punittype)
+{
+  assert(punittype);
+  return punittype - unit_types;
+}
+
+/**************************************************************************
+  Return the unit type index.
+**************************************************************************/
+const Unit_type_id utype_number(const struct unit_type *punittype)
+{
+  assert(punittype);
+  return punittype->index;
+}
+
+/**************************************************************************
   Return a pointer for the unit type struct for the given unit type id.
 
   This function returns NULL for invalid unit pointers (some callers
@@ -295,7 +346,6 @@ const char *utype_values_translation(struct unit_type *punittype)
 **************************************************************************/
 const char *uclass_name_translation(struct unit_class *pclass)
 {
-  assert(pclass != NULL && &unit_classes[pclass->id] == pclass);
   if (NULL == pclass->name.translated) {
     /* delayed (unified) translation */
     pclass->name.translated = ('\0' == pclass->name.vernacular[0])
@@ -443,13 +493,12 @@ struct unit_type *find_unit_type_by_rule_name(const char *name)
 struct unit_class *find_unit_class_by_rule_name(const char *s)
 {
   const char *qs = Qn_(s);
-  Unit_Class_id i;
 
-  for (i = 0; i < UCL_LAST; i++) {
-    if (0 == mystrcasecmp(Qn_(unit_classes[i].name.vernacular), qs)) {
-      return &unit_classes[i];
+  unit_class_iterate(pclass) {
+    if (0 == mystrcasecmp(uclass_rule_name(pclass), qs)) {
+      return pclass;
     }
-  }
+  } unit_class_iterate_end;
   return NULL;
 }
 
@@ -827,10 +876,61 @@ void unit_types_free(void)
   } unit_type_iterate_end;
 }
 
+/**************************************************************************
+  Return the first item of unit_classes.
+**************************************************************************/
+struct unit_class *unit_class_array_first(void)
+{
+  if (game.control.num_unit_classes > 0) {
+    return unit_classes;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of unit_classes.
+**************************************************************************/
+const struct unit_class *unit_class_array_last(void)
+{
+  if (game.control.num_unit_classes > 0) {
+    return &unit_classes[game.control.num_unit_classes - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the unit_class count.
+**************************************************************************/
+const Unit_Class_id uclass_count(void)
+{
+  return game.control.num_unit_classes;
+}
+
+/**************************************************************************
+  Return the unit_class index.
+
+  Currently same as uclass_number(), paired with uclass_count()
+  indicates use as an array index.
+**************************************************************************/
+const Unit_Class_id uclass_index(const struct unit_class *pclass)
+{
+  assert(pclass);
+  return pclass - unit_classes;
+}
+
+/**************************************************************************
+  Return the unit_class index.
+**************************************************************************/
+const Unit_Class_id uclass_number(const struct unit_class *pclass)
+{
+  assert(pclass);
+  return pclass->item_number;
+}
+
 /****************************************************************************
   Returns unit class pointer for an ID value.
 ****************************************************************************/
-struct unit_class *uclass_by_number(const int id)
+struct unit_class *uclass_by_number(const Unit_Class_id id)
 {
   if (id < 0 || id >= game.control.num_unit_classes) {
     return NULL;
@@ -865,6 +965,6 @@ void unit_classes_init(void)
   /* Can't use unit_class_iterate or uclass_by_number here because
    * num_unit_classes isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
-    unit_classes[i].id = i;
+    unit_classes[i].item_number = i;
   }
 }

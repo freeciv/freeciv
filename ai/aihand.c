@@ -345,7 +345,7 @@ void ai_best_government(struct player *pplayer)
 	}
       } requirement_vector_iterate_end;
       val = amortize(val, dist);
-      ai->government_want[gov->index] = val; /* Save want */
+      ai->government_want[government_index(gov)] = val; /* Save want */
     } government_iterate_end;
     /* Now reset our gov to it's real state. */
     pplayer->government = current_gov;
@@ -360,14 +360,15 @@ void ai_best_government(struct player *pplayer)
 
   /* Figure out which government is the best for us this turn. */
   government_iterate(gov) {
-    if (ai->government_want[gov->index] > best_val 
+    int gi = government_index(gov);
+    if (ai->government_want[gi] > best_val 
         && can_change_to_government(pplayer, gov)) {
-      best_val = ai->government_want[gov->index];
+      best_val = ai->government_want[gi];
       ai->goal.revolution = gov;
     }
-    if (ai->government_want[gov->index] > ai->goal.govt.val) {
+    if (ai->government_want[gi] > ai->goal.govt.val) {
       ai->goal.govt.gov = gov;
-      ai->goal.govt.val = ai->government_want[gov->index];
+      ai->goal.govt.val = ai->government_want[gi];
 
       /* FIXME: handle reqs other than technologies. */
       ai->goal.govt.req = A_NONE;

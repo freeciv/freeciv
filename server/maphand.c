@@ -181,11 +181,11 @@ void map_regenerate_water(void)
 {
 #define DEFAULT_LAKE_SEA_SIZE (4)  /* should be configurable */
 #define DEFAULT_NEAR_COAST (6)
-  struct terrain *lake = terrain_by_identifier(TERRAIN_LAKE_IDENTIFIER);
-  struct terrain *sea = terrain_by_identifier(TERRAIN_SEA_IDENTIFIER);
-  struct terrain *coast = terrain_by_identifier(TERRAIN_COAST_IDENTIFIER);
-  struct terrain *shelf = terrain_by_identifier(TERRAIN_SHELF_IDENTIFIER);
-  struct terrain *floor = terrain_by_identifier(TERRAIN_FLOOR_IDENTIFIER);
+  struct terrain *lake = find_terrain_by_identifier(TERRAIN_LAKE_IDENTIFIER);
+  struct terrain *sea = find_terrain_by_identifier(TERRAIN_SEA_IDENTIFIER);
+  struct terrain *coast = find_terrain_by_identifier(TERRAIN_COAST_IDENTIFIER);
+  struct terrain *shelf = find_terrain_by_identifier(TERRAIN_SHELF_IDENTIFIER);
+  struct terrain *floor = find_terrain_by_identifier(TERRAIN_FLOOR_IDENTIFIER);
   int coast_depth = coast->property[MG_OCEAN_DEPTH];
   int coast_count = 0;
   int shelf_count = 0;
@@ -226,7 +226,7 @@ void map_regenerate_water(void)
         continue;
       }
       /* glacier not otherwise near land floats */
-      if (TERRAIN_GLACIER_IDENTIFIER == tile2->terrain->identifier) {
+      if (TERRAIN_GLACIER_IDENTIFIER == terrain_identifier(tile2->terrain)) {
         continue;
       }
       /* any land makes coast */
@@ -260,7 +260,7 @@ void map_regenerate_water(void)
       if (T_UNKNOWN == tile2->terrain)
         continue;
 
-      switch (tile2->terrain->identifier) {
+      switch (terrain_identifier(tile2->terrain)) {
       case TERRAIN_COAST_IDENTIFIER:
         shallow++;
         break;
@@ -303,7 +303,7 @@ void map_regenerate_water(void)
       if (T_UNKNOWN == tile2->terrain)
         continue;
 
-      switch (tile2->terrain->identifier) {
+      switch (terrain_identifier(tile2->terrain)) {
 ;     case TERRAIN_GLACIER_IDENTIFIER:
       case TERRAIN_COAST_IDENTIFIER:
       case TERRAIN_SHELF_IDENTIFIER:
@@ -483,7 +483,7 @@ Return TRUE iff the player me really gives shared vision to player them.
 **************************************************************************/
 static bool really_gives_vision(struct player *me, struct player *them)
 {
-  return TEST_BIT(me->really_gives_vision, them->player_no);
+  return TEST_BIT(me->really_gives_vision, player_index(them));
 }
 
 /**************************************************************************
@@ -605,7 +605,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 
   info.x = ptile->x;
   info.y = ptile->y;
-  info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
+  info.owner = ptile->owner ? player_number(ptile->owner) : MAP_TILE_OWNER_NULL;
   if (ptile->spec_sprite) {
     sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
   } else {
@@ -621,11 +621,11 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     }
     if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       info.known = TILE_KNOWN;
-      info.type = ptile->terrain->index;
+      info.type = terrain_number(ptile->terrain);
       for (spe = 0; spe < S_LAST; spe++) {
 	info.special[spe] = BV_ISSET(ptile->special, spe);
       }
-      info.resource = ptile->resource ? ptile->resource->index : -1;
+      info.resource = ptile->resource ? resource_number(ptile->resource) : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
@@ -633,11 +633,11 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
       info.known = TILE_KNOWN_FOGGED;
-      info.type = plrtile->terrain->index;
+      info.type = terrain_number(plrtile->terrain);
       for (spe = 0; spe < S_LAST; spe++) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
       }
-      info.resource = plrtile->resource ? plrtile->resource->index : -1;
+      info.resource = plrtile->resource ? resource_number(plrtile->resource) : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     } else if (send_unknown) {
@@ -947,7 +947,7 @@ void map_show_all(struct player *pplayer)
 ****************************************************************************/
 bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 {
-  return BV_ISSET(ptile->tile_known, pplayer->player_no);
+  return BV_ISSET(ptile->tile_known, player_index(pplayer));
 }
 
 /***************************************************************
@@ -957,11 +957,11 @@ bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
 			   enum vision_layer vlayer)
 {
   assert(!game.info.fogofwar
-	 || (BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	 || (BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer))
 	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
 		 > 0)));
-  return (BV_ISSET(ptile->tile_known, pplayer->player_no)
-	  && BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no));
+  return (BV_ISSET(ptile->tile_known, player_index(pplayer))
+	  && BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer)));
 }
 
 /****************************************************************************
@@ -976,7 +976,7 @@ static int map_get_seen(const struct tile *ptile,
 			enum vision_layer vlayer)
 {
   assert(!game.info.fogofwar
-	 || (BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	 || (BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer))
 	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
 		 > 0)));
   return map_get_player_tile(ptile, pplayer)->seen_count[vlayer];
@@ -995,12 +995,12 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
 
   plrtile->seen_count[vlayer] += change;
   if (plrtile->seen_count[vlayer] != 0) {
-    BV_SET(ptile->tile_seen[vlayer], pplayer->player_no);
+    BV_SET(ptile->tile_seen[vlayer], player_index(pplayer));
   } else {
-    BV_CLR(ptile->tile_seen[vlayer], pplayer->player_no);
+    BV_CLR(ptile->tile_seen[vlayer], player_index(pplayer));
   }
   freelog(LOG_DEBUG, "%d,%d, p: %d, change %d, result %d\n", TILE_XY(ptile),
-	  pplayer->player_no, change, plrtile->seen_count[vlayer]);
+	  player_number(pplayer), change, plrtile->seen_count[vlayer]);
 }
 
 /***************************************************************
@@ -1027,10 +1027,10 @@ static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
 ***************************************************************/
 void map_set_known(struct tile *ptile, struct player *pplayer)
 {
-  BV_SET(ptile->tile_known, pplayer->player_no);
+  BV_SET(ptile->tile_known, player_index(pplayer));
   vision_layer_iterate(v) {
     if (map_get_player_tile(ptile, pplayer)->seen_count[v] > 0) {
-      BV_SET(ptile->tile_seen[v], pplayer->player_no);
+      BV_SET(ptile->tile_seen[v], player_index(pplayer));
     }
   } vision_layer_iterate_end;
 }
@@ -1040,7 +1040,7 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 ***************************************************************/
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
-  BV_CLR(ptile->tile_known, pplayer->player_no);
+  BV_CLR(ptile->tile_known, player_index(pplayer));
 }
 
 /****************************************************************************
@@ -1121,12 +1121,12 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
 
   vision_layer_iterate(v) {
     plrtile->seen_count[v] = 0;
-    BV_CLR(ptile->tile_seen[v], pplayer->player_no);
+    BV_CLR(ptile->tile_seen[v], player_index(pplayer));
   } vision_layer_iterate_end
   if (!game.fogofwar_old) {
     plrtile->seen_count[V_MAIN] = 1;
     if (map_is_known(ptile, pplayer)) {
-      BV_SET(ptile->tile_seen[V_MAIN], pplayer->player_no);
+      BV_SET(ptile->tile_seen[V_MAIN], player_index(pplayer));
     }
   }
 
@@ -1313,7 +1313,7 @@ static void create_vision_dependencies(void)
 	    if (really_gives_vision(pplayer2, pplayer3)
 		&& !really_gives_vision(pplayer, pplayer3)
 		&& pplayer != pplayer3) {
-	      pplayer->really_gives_vision |= (1<<pplayer3->player_no);
+	      pplayer->really_gives_vision |= (1<<player_index(pplayer3));
 	      added++;
 	    }
 	  } players_iterate_end;
@@ -1338,10 +1338,10 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   }
 
   players_iterate(pplayer) {
-    save_vision[pplayer->player_no] = pplayer->really_gives_vision;
+    save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
   } players_iterate_end;
 
-  pfrom->gives_shared_vision |= 1<<pto->player_no;
+  pfrom->gives_shared_vision |= 1<<player_index(pto);
   create_vision_dependencies();
   freelog(LOG_DEBUG, "giving shared vision from %s to %s\n",
 	  pfrom->name, pto->name);
@@ -1350,7 +1350,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (really_gives_vision(pplayer, pplayer2)
-	  && !TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
+	  && !TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
 	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
 	       pplayer->name, pplayer2->name);
 	whole_map_iterate(ptile) {
@@ -1394,20 +1394,20 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   }
 
   players_iterate(pplayer) {
-    save_vision[pplayer->player_no] = pplayer->really_gives_vision;
+    save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
   } players_iterate_end;
 
   freelog(LOG_DEBUG, "removing shared vision from %s to %s\n",
 	 pfrom->name, pto->name);
 
-  pfrom->gives_shared_vision &= ~(1<<pto->player_no);
+  pfrom->gives_shared_vision &= ~(1<<player_index(pto));
   create_vision_dependencies();
 
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (!really_gives_vision(pplayer, pplayer2)
-	  && TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
+	  && TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
 	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
 	       pplayer->name, pplayer2->name);
 	whole_map_iterate(ptile) {
@@ -1644,7 +1644,7 @@ static void add_unique_homecities(struct city_list *cities_to_refresh,
 {
   /* Update happiness */
  unit_list_iterate(tile1->units, unit) {
-   struct city* homecity = find_city_by_id(unit->homecity);
+   struct city* homecity = game_find_city_by_number(unit->homecity);
    bool already_listed = FALSE;
 
     if (!homecity) {

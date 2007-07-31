@@ -104,7 +104,7 @@ void popup_find_dialog(void)
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128]; 
-  int i, n = 0, w = 0, h, /*owner = 0xffff,*/ units_h = 0;
+  int i = 0, h = 0, n = 0, w = 0, units_h = 0;
   struct player *owner = NULL;
   struct tile *original;
   int window_x = 0, window_y = 0;
@@ -112,10 +112,8 @@ void popup_find_dialog(void)
   SDL_Rect area;
   
   /* check that there are any cities to find */
-  h = 0;
-  i = 0;    
-  while(!h && i<game.info.nplayers) {
-    h = city_list_size(game.players[i++].cities);
+  while(!h && i < player_count()) {
+    h = city_list_size(player_by_number(i++)->cities);
   }
   
   if (pFind_City_Dlg && !h) {
@@ -154,25 +152,25 @@ void popup_find_dialog(void)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
   
-  for(i=0; i<game.info.nplayers; i++) {
-    city_list_iterate(game.players[i].cities, pCity) {
+  players_iterate(pPlayer) {
+    city_list_iterate(pPlayer->cities, pCity) {
     
       my_snprintf(cBuf , sizeof(cBuf), "%s (%d)",pCity->name, pCity->size);
       
       pStr = create_str16_from_char(cBuf , adj_font(10));
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
-      if(pCity->owner != owner) {
-        pLogo = get_nation_flag_surface(nation_of_player(get_player(pCity->owner->player_no)));
+      if(!player_owns_city(owner, pCity)) {
+        pLogo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
         pLogo = crop_visible_part_from_surface(pLogo);
       }
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       
-      if(pCity->owner != owner) {
+      if(!player_owns_city(owner, pCity)) {
         set_wflag(pBuf, WF_FREE_THEME);
-        owner = pCity->owner;
+        owner = city_owner(pCity);
       }
       
       pBuf->string16->style &= ~SF_CENTER;
@@ -197,7 +195,7 @@ void popup_find_dialog(void)
       
       n++;  
     } city_list_iterate_end;
-  }
+  } players_iterate_end;
   pFind_City_Dlg->pBeginWidgetList = pBuf;
   pFind_City_Dlg->pBeginActiveWidgetList = pFind_City_Dlg->pBeginWidgetList;
   pFind_City_Dlg->pEndActiveWidgetList = pWindow->prev->prev;

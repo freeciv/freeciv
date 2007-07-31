@@ -985,7 +985,7 @@ static void auto_settler_findwork(struct player *pplayer,
       return; /* avoid recursion at all cost */
     } else {
       /* Go there */
-      if ((!ai_gothere(pplayer, punit, ptile) && !find_unit_by_id(sanity))
+      if ((!ai_gothere(pplayer, punit, ptile) && !game_find_unit_by_number(sanity))
           || punit->moves_left <= 0) {
         return;
       }

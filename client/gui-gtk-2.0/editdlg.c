@@ -246,7 +246,7 @@ static void unit_owner_callback(GtkWidget *button, gpointer data)
   size_t to = (size_t) data;
   struct unit *punit = editor_get_selected_unit();
 
-  punit->owner = get_player(to);
+  punit->owner = player_by_number(to);
 }
 
 /****************************************************************************
@@ -257,7 +257,7 @@ static void city_callback(GtkWidget *button, gpointer data)
   size_t to = (size_t) data;
   struct city *pcity = editor_get_selected_city();
 
-  pcity->owner = get_player(to);
+  pcity->owner = player_by_number(to);
 }
 
 /****************************************************************************
@@ -267,7 +267,7 @@ static void vision_callback(GtkWidget *button, gpointer data)
 {
   size_t to = (size_t) data;
 
-  editor_set_selected_player(get_player(to));
+  editor_set_selected_player(player_by_number(to));
 }
 
 #if 0
@@ -289,16 +289,16 @@ static GtkWidget *create_map_palette(void)
   GtkWidget *table = gtk_table_new(12, TABLE_WIDTH, TRUE);
   int i, j, sig; 
   int magic[4] = { 0, 5, 10, 16 }; /* magic numbers to make the table look good */
-  int types_num[] = { game.control.terrain_count, SPECIALS_NUM,
-                      game.control.resource_count + 1 };
+  int types_num[] = { terrain_count(), SPECIALS_NUM,
+                      resource_count() + 1 };
   paint_item *ptype[EPAINT_LAST] = { NULL, specials, NULL };
   
   terrains = fc_realloc(terrains,
-			game.control.terrain_count * sizeof(*terrains));
+			terrain_count() * sizeof(*terrains));
   ptype[EPAINT_TERRAIN] = terrains;
 
   resources = fc_realloc(resources,
-                         (game.control.resource_count + 1) * sizeof(*resources));
+                         (resource_count() + 1) * sizeof(*resources));
   ptype[EPAINT_RESOURCE] = resources;
 
   
@@ -433,9 +433,9 @@ static GtkWidget *create_units_palette(void)
 
     g_signal_connect(item, "activate",
                      G_CALLBACK(unit_owner_callback),
-                     GINT_TO_POINTER(pplayer->player_no));
+                     GINT_TO_POINTER(player_number(pplayer)));
     gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), item);
-  } unit_type_iterate_end;
+  } players_iterate_end;
   gtk_widget_show_all(playermenu);
 
   for (i = 0; i < UPARAM_LAST; i++) {
@@ -499,9 +499,9 @@ static GtkWidget *create_city_palette(void)
 
     g_signal_connect(item, "activate",
                      G_CALLBACK(city_callback),
-                     GINT_TO_POINTER(pplayer->player_no));
+                     GINT_TO_POINTER(player_number(pplayer)));
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
-  } unit_type_iterate_end;
+  } players_iterate_end;
   gtk_widget_show_all(popupmenu);
 
   return vbox;
@@ -555,7 +555,7 @@ static GtkWidget *create_vision_palette(void)
 
     g_signal_connect(item, "activate",
                      G_CALLBACK(vision_callback),
-                     GINT_TO_POINTER(pplayer->player_no));
+                     GINT_TO_POINTER(player_number(pplayer)));
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
   } players_iterate_end;
   gtk_box_pack_start(GTK_BOX(hbox), playermenu, TRUE, TRUE, 0);

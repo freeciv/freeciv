@@ -376,7 +376,7 @@ static int assess_distance(struct city *pcity, struct unit *punit,
                            int move_rate)
 {
   int distance = 0;
-  struct unit *ferry = find_unit_by_id(punit->transported_by);
+  struct unit *ferry = game_find_unit_by_number(punit->transported_by);
 
   if (same_pos(punit->tile, pcity->tile)) {
     return 0;
@@ -788,7 +788,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
 
       /* Yes, there's some similarity with kill_desire(). */
       /* TODO: Explain what shield cost has to do with tech want. */
-      tech_desire[punittype->index] = (desire * danger /
+      tech_desire[utype_index(punittype)] = (desire * danger /
 				       (unit_build_shield_cost(punittype)
 					+ tech_cost));
     }
@@ -813,11 +813,11 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
 
   /* Update tech_want for appropriate techs for units we want to build. */
   simple_ai_unit_type_iterate(punittype) {
-    if (tech_desire[punittype->index] > 0) {
+    if (tech_desire[utype_index(punittype)] > 0) {
       Tech_type_id tech_req = punittype->tech_requirement;
       /* TODO: Document or fix the algorithm below. I have no idea why
        * it is written this way, and the results seem strange to me. - Per */
-      int desire = tech_desire[punittype->index] * best_unit_cost / best;
+      int desire = tech_desire[utype_index(punittype)] * best_unit_cost / best;
 
       pplayer->ai.tech_want[tech_req] += desire;
       TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to defend %s",
@@ -1130,7 +1130,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     if (is_ground_unit(myunit)) {
       int boatid = aiferry_find_boat(myunit, 1, NULL);
-      ferryboat = find_unit_by_id(boatid);
+      ferryboat = game_find_unit_by_number(boatid);
 
       if (ferryboat) {
         boattype = unit_type(ferryboat);

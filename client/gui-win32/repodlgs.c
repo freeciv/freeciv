@@ -619,10 +619,11 @@ activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {
-      (unitarray[unit_type(punit)->index].active_count)++;
+      Unit_type_id uti = utype_index(unit_type(punit));
+      (unitarray[uti].active_count)++;
       if (punit->homecity) {
-        unitarray[unit_type(punit)->index].upkeep_shield += punit->upkeep[O_SHIELD];
-        unitarray[unit_type(punit)->index].upkeep_food += punit->upkeep[O_FOOD];
+        unitarray[uti].upkeep_shield += punit->upkeep[O_SHIELD];
+        unitarray[uti].upkeep_food += punit->upkeep[O_FOOD];
 	/* TODO: gold upkeep */
       }
     }
@@ -756,8 +757,8 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                      "%2d: The %s ruler %s scored %d points\n",
                      packet->score[i]),
                  i + 1,
-                 nation_name_for_player(get_player(packet->id[i])),
-                 get_player(packet->id[i])->name,
+                 nation_name_for_player(player_by_number(packet->id[i])),
+                 player_by_number(packet->id[i])->name,
                  packet->score[i]);
   }
   popup_notify_dialog(_("Final Report:"),

@@ -518,7 +518,7 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
   assert(i>=0 && i<num_units_below);
   if (unit_ids[i] == 0) /* no unit displayed at this place */
     return;
-  punit=find_unit_by_id(unit_ids[i]);
+  punit=game_find_unit_by_number(unit_ids[i]);
   if(punit) { /* should always be true at this point */
     if (punit->owner == game.player_ptr) {
       /* may be non-true if alliance */

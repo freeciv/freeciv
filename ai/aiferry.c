@@ -111,7 +111,7 @@ static void aiferry_print_stats(struct player *pplayer)
   int n = 1;
 
   freelog(LOG_NORMAL, "Boat stats for %s[%d]", 
-	  pplayer->name, pplayer->player_no);
+	  pplayer->name, player_number(pplayer));
   freelog(LOG_NORMAL, "Registered: %d free out of total %d",
 	  ai->stats.available_boats, ai->stats.boats);
   unit_list_iterate(pplayer->units, punit) {
@@ -167,7 +167,7 @@ void aiferry_clear_boat(struct unit *punit)
 
     ai->stats.passengers--;
   } else {
-    struct unit *ferry = find_unit_by_id(punit->ai.ferryboat);
+    struct unit *ferry = game_find_unit_by_number(punit->ai.ferryboat);
     
     if (ferry && ferry->ai.passenger == punit->id) {
       /* punit doesn't want us anymore */
@@ -263,7 +263,7 @@ static int aiferry_avail_boats(struct player *pplayer)
 
   if (boats != ai->stats.available_boats) {
     freelog(LOG_ERROR, "Player[%d] in turn %d: boats miscounted.",
-	    pplayer->player_no, game.info.turn);
+	    player_number(pplayer), game.info.turn);
     aiferry_print_stats(pplayer);
   }
 #endif /* DEBUG_FERRY_STATS */
@@ -606,7 +606,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
         return FALSE;
       }
 
-      ferryboat = find_unit_by_id(boatid);
+      ferryboat = game_find_unit_by_number(boatid);
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "found boat[%d](%d,%d), going there", 
 	       boatid, TILE_XY(ferryboat->tile));
       /* The path can be amphibious so we will stop at the coast.  
@@ -633,7 +633,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     }
 
     /* Ok, a boat found, try boarding it */
-    ferryboat = find_unit_by_id(boatid);
+    ferryboat = game_find_unit_by_number(boatid);
     UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "found a nearby boat[%d](%d,%d)",
 	     ferryboat->id, TILE_XY(ferryboat->tile));
     /* Setting ferry now in hope it won't run away even 
@@ -659,7 +659,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 
   if (punit->transported_by > 0) {
     /* We are on a boat, ride it! */
-    struct unit *ferryboat = find_unit_by_id(punit->transported_by);
+    struct unit *ferryboat = game_find_unit_by_number(punit->transported_by);
 
     /* Check if we are the passenger-in-charge */
     if (is_boat_free(ferryboat, punit, 0)) {
@@ -914,7 +914,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     struct tile *ptile = punit->tile;
 
     if (punit->ai.passenger > 0) {
-      struct unit *psngr = find_unit_by_id(punit->ai.passenger);
+      struct unit *psngr = game_find_unit_by_number(punit->ai.passenger);
       
       /* If the passenger-in-charge is adjacent, we should wait for it to 
        * board.  We will pass control to it later. */
@@ -961,7 +961,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
     if (punit->ai.passenger > 0) {
       int bossid = punit->ai.passenger;    /* Loop prevention */
-      struct unit *boss = find_unit_by_id(punit->ai.passenger);
+      struct unit *boss = game_find_unit_by_number(punit->ai.passenger);
 
       assert(boss != NULL);
 
@@ -976,10 +976,10 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 		boss->id);
       ai_manage_unit(pplayer, boss);
     
-      if (!find_unit_by_id(sanity) || punit->moves_left <= 0) {
+      if (!game_find_unit_by_number(sanity) || punit->moves_left <= 0) {
         return;
       }
-      if (find_unit_by_id(bossid)) {
+      if (game_find_unit_by_number(bossid)) {
 	if (same_pos(punit->tile, boss->tile)) {
 	  /* The boss decided to stay put on the ferry. We aren't moving. */
           UNIT_LOG(LOG_DEBUG, boss, "drove ferry - done for now");
@@ -1022,7 +1022,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     if (ai_unit_goto(punit, punit->goto_tile)) {
       if (is_tiles_adjacent(punit->tile, punit->goto_tile)
           || same_pos(punit->tile, punit->goto_tile)) {
-        struct unit *cargo = find_unit_by_id(punit->ai.passenger);
+        struct unit *cargo = game_find_unit_by_number(punit->ai.passenger);
 
         /* See if passenger can jump on board! */
         assert(cargo != punit);
@@ -1053,7 +1053,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     punit->ai.done = TRUE;
   }
 
-  if (find_unit_by_id(sanity) && punit->moves_left > 0) {
+  if (game_find_unit_by_number(sanity) && punit->moves_left > 0) {
     struct city *pcity = find_nearest_safe_city(punit);
     if (pcity) {
       punit->goto_tile = pcity->tile;

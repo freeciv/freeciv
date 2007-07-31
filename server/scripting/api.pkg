@@ -65,11 +65,11 @@ struct Tile {
 };
 
 struct Government {
-  const int index @ id;
+  const int item_number @ id;
 };
 
 struct Nation_Type {
-  const int index @ id;
+  const int item_number @ id;
 };
 
 struct Building_Type {
@@ -89,7 +89,7 @@ struct Tech_Type {
 };
 
 struct Terrain {
-  const int index @ id;
+  const int item_number @ id;
 };
 
 

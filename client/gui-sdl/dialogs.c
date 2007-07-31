@@ -1957,8 +1957,7 @@ static void popup_government_dialog(void)
   struct SDL_String16 *pStr = NULL;
   struct widget *pGov_Button = NULL;
   struct widget *pWindow = NULL;
-  struct government *pGov = NULL;
-  int i, j;
+  int j;
   Uint16 max_w = 0, max_h = 0;
   SDL_Rect area;
 
@@ -1982,15 +1981,14 @@ static void popup_government_dialog(void)
   
   /* create gov. buttons */
   j = 0;
-  for (i = 0; i < game.control.government_count; i++) {
+  government_interate(pGov) {
 
-    if (i == game.government_when_anarchy->index) {
+    if (pGov == game.government_when_anarchy) {
       continue;
     }
 
-    if (can_change_to_government(game.player_ptr, government_by_number(i))) {
+    if (can_change_to_government(game.player_ptr, pGov)) {
 
-      pGov = government_by_number(i);
       pStr = create_str16_from_char(government_name_translation(pGov), adj_font(12));
       pGov_Button =
           create_icon_button(get_government_surface(pGov), pWindow->dst, pStr, 0);
@@ -2000,11 +1998,11 @@ static void popup_government_dialog(void)
       max_h = MAX(max_h, pGov_Button->size.h);
       
       /* ugly hack */
-      add_to_gui_list((MAX_ID - i), pGov_Button);
+      add_to_gui_list((MAX_ID - government_number(pGov)), pGov_Button);
       j++;
 
     }
-  }
+  } government_iterate_end;
 
   pGov_Dlg->pBeginWidgetList = pGov_Button;
 
@@ -2211,7 +2209,8 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
       return (-1);
     }
   
-    dsend_packet_nation_select_req(&aconnection, races_player->player_no, pSetup->nation,
+    dsend_packet_nation_select_req(&aconnection, player_number(races_player),
+                                   pSetup->nation,
                                    pSetup->leader_sex, pStr,
                                    pSetup->nation_city_style);
     FC_FREE(pStr);

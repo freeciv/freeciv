@@ -30,7 +30,7 @@
 
 struct government *governments = NULL;
 
-#define CHECK_GOVERNMENT(gp) assert((NULL != gp) && ((gp) == &governments[(gp)->index]))
+#define CHECK_GOVERNMENT(gp) assert((NULL != gp) && ((gp) == &governments[(gp)->item_number]))
 
 /****************************************************************************
   Returns the government that has the given (translated) name.
@@ -62,6 +62,35 @@ struct government *find_government_by_rule_name(const char *name)
   } government_iterate_end;
 
   return NULL;
+}
+
+/**************************************************************************
+  Return the number of governments.
+**************************************************************************/
+const int government_count(void)
+{
+  return game.control.government_count;
+}
+
+/**************************************************************************
+  Return the government index.
+
+  Currently same as government_number(), paired with government_count()
+  indicates use as an array index.
+**************************************************************************/
+const int government_index(const struct government *pgovern)
+{
+  assert(pgovern);
+  return pgovern - governments;
+}
+
+/**************************************************************************
+  Return the government index.
+**************************************************************************/
+const int government_number(const struct government *pgovern)
+{
+  assert(pgovern);
+  return pgovern->item_number;
 }
 
 /****************************************************************************
@@ -100,26 +129,26 @@ struct government *government_of_city(const struct city *pcity)
   Return the (untranslated) rule name of the government.
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *government_rule_name(const struct government *gov)
+const char *government_rule_name(const struct government *pgovern)
 {
-  CHECK_GOVERNMENT(gov);
-  return Qn_(gov->name.vernacular);
+  CHECK_GOVERNMENT(pgovern);
+  return Qn_(pgovern->name.vernacular);
 }
 
 /****************************************************************************
   Return the (translated) name of the given government. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *government_name_translation(struct government *gov)
+const char *government_name_translation(struct government *pgovern)
 {
-  CHECK_GOVERNMENT(gov);
-  if (NULL == gov->name.translated) {
+  CHECK_GOVERNMENT(pgovern);
+  if (NULL == pgovern->name.translated) {
     /* delayed (unified) translation */
-    gov->name.translated = ('\0' == gov->name.vernacular[0])
-			   ? gov->name.vernacular
-			   : Q_(gov->name.vernacular);
+    pgovern->name.translated = ('\0' == pgovern->name.vernacular[0])
+				? pgovern->name.vernacular
+				: Q_(pgovern->name.vernacular);
   }
-  return gov->name.translated;
+  return pgovern->name.translated;
 }
 
 /****************************************************************************
@@ -160,9 +189,9 @@ const char *ruler_title_translation(const struct player *pp)
     freelog(LOG_ERROR,
 	    "Missing title for government \"%s\" (%d) nation \"%s\" (%d).",
 	    government_rule_name(gp),
-	    gp->index,
+	    government_number(gp),
 	    nation_rule_name(np),
-	    np->index);
+	    nation_number(np));
     return pp->is_male ? "Mr." : "Ms.";
   }
 
@@ -202,6 +231,28 @@ bool can_change_to_government(struct player *pplayer,
 			 &gov->reqs);
 }
 
+/**************************************************************************
+  Return the first item of governments.
+**************************************************************************/
+struct government *government_array_first(void)
+{
+  if (game.control.government_count > 0) {
+    return governments;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of governments.
+**************************************************************************/
+const struct government *government_array_last(void)
+{
+  if (game.control.government_count > 0) {
+    return &governments[game.control.government_count - 1];
+  }
+  return NULL;
+}
+
 /***************************************************************
  Allocate space for the given number of governments.
 ***************************************************************/
@@ -215,7 +266,7 @@ void governments_alloc(int num)
   for (index = 0; index < num; index++) {
     struct government *gov = &governments[index];
 
-    gov->index = index;
+    gov->item_number = index;
     requirement_vector_init(&gov->reqs);
   }
 }

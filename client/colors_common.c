@@ -176,7 +176,7 @@ void color_system_setup_terrain(struct color_system *colors,
     = hash_lookup_data(colors->terrain_hash, terrain_rule_name(pterrain));
 
   if (rgb) {
-    colors->terrain_colors[pterrain->index] = *rgb;
+    colors->terrain_colors[terrain_index(pterrain)] = *rgb;
   } else {
     freelog(LOG_ERROR, "No color for terrain '%s'", terrain_rule_name(pterrain));
     /* Fallback: the color remains black. */
@@ -251,7 +251,7 @@ struct color *get_player_color(const struct tileset *t,
 {
   if (pplayer) {
     struct color_system *colors = get_color_system(t);
-    int index = pplayer->player_no;
+    int index = player_index(pplayer);
 
     assert(index >= 0 && colors->num_player_colors > 0);
     index %= colors->num_player_colors;
@@ -274,7 +274,7 @@ struct color *get_terrain_color(const struct tileset *t,
   if (pterrain) {
     struct color_system *colors = get_color_system(t);
 
-    return ensure_color(&colors->terrain_colors[pterrain->index]);
+    return ensure_color(&colors->terrain_colors[terrain_index(pterrain)]);
   } else {
     assert(0);
     return NULL;

@@ -671,7 +671,7 @@ static void update_focus_tile_list2(void)
 
   ptile = get_focus_tile();
   unit_list_iterate(ptile->units, aunit) {
-    if (game.info.player_idx == aunit->owner->player_no) {
+    if (game.info.player_idx == player_number(aunit->owner)) {
       set_unit_focus(aunit);
       break;
     }

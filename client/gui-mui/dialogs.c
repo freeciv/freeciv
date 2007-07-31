@@ -274,8 +274,8 @@ static void advance_steal(struct spy_data *data)
   if(which)
   {
     which-=100;
-    if (find_unit_by_id(diplomat_id) && 
-	find_city_by_id(diplomat_target_id)) { 
+    if (game_find_unit_by_number(diplomat_id) && 
+	game_find_city_by_number(diplomat_target_id)) { 
       request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
 			      diplomat_target_id, which);
     }
@@ -371,7 +371,7 @@ static void imprv_sabotage(struct spy_data *data)
   DoMethod(data->listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active,&which);
   if(which)
   {
-    if(find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id))
+    if(game_find_unit_by_number(diplomat_id) && game_find_city_by_number(diplomat_target_id))
     { 
       request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
 			      diplomat_target_id, which - 100 + 1);
@@ -512,8 +512,8 @@ static void diplomat_embassy(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open = 0;
 
-   if(find_unit_by_id(diplomat_id) && 
-     (find_city_by_id(diplomat_target_id))) { 
+   if(game_find_unit_by_number(diplomat_id) && 
+     (game_find_city_by_number(diplomat_target_id))) { 
     request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -528,8 +528,8 @@ static void diplomat_investigate(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     (find_city_by_id(diplomat_target_id))) { 
+  if(game_find_unit_by_number(diplomat_id) && 
+     (game_find_city_by_number(diplomat_target_id))) { 
     request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -544,8 +544,8 @@ static void diplomat_sabotage(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
+  if(game_find_unit_by_number(diplomat_id) && 
+     game_find_city_by_number(diplomat_target_id)) { 
     request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
 			    diplomat_target_id, -1);
   }
@@ -560,8 +560,8 @@ static void diplomat_steal(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
+  if(game_find_unit_by_number(diplomat_id) && 
+     game_find_city_by_number(diplomat_target_id)) { 
     request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -580,8 +580,8 @@ static void diplomat_incite(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     (pcity=find_city_by_id(diplomat_target_id))) { 
+  if(game_find_unit_by_number(diplomat_id) && 
+     (pcity=game_find_city_by_number(diplomat_target_id))) { 
     packet.value = diplomat_target_id;
     send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
   }
@@ -596,8 +596,8 @@ static void diplomat_bribe_unit(struct popup_message_data *data)
 
   message_close(data);
   
-  if(find_unit_by_id(diplomat_id) && 
-     find_unit_by_id(diplomat_target_id)) { 
+  if(game_find_unit_by_number(diplomat_id) && 
+     game_find_unit_by_number(diplomat_target_id)) { 
     packet.value = diplomat_target_id;
     send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
   }
@@ -615,8 +615,8 @@ static void diplomat_move(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  if( (punit=find_unit_by_id(diplomat_id))
-      && (pcity=find_city_by_id(diplomat_target_id))
+  if( (punit=game_find_unit_by_number(diplomat_id))
+      && (pcity=game_find_city_by_number(diplomat_target_id))
       && !same_pos(punit->tile, pcity->tile)) {
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
 			    diplomat_target_id, 0);
@@ -643,8 +643,8 @@ static void spy_poison(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) &&
-    (find_city_by_id(diplomat_target_id))) {
+  if(game_find_unit_by_number(diplomat_id) &&
+    (game_find_city_by_number(diplomat_target_id))) {
     request_diplomat_action(SPY_POISON, diplomat_id, diplomat_target_id, 0);
   }
   process_diplomat_arrival(NULL, 0);
@@ -659,8 +659,8 @@ static void spy_request_sabotage_list(struct popup_message_data *data)
   message_close(data);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) &&
-     (find_city_by_id(diplomat_target_id))) {
+  if(game_find_unit_by_number(diplomat_id) &&
+     (game_find_city_by_number(diplomat_target_id))) {
     request_diplomat_action(SPY_GET_SABOTAGE_LIST, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -680,7 +680,7 @@ void popup_sabotage_dialog(struct city *pcity)
 *****************************************************************/
 static void spy_steal(struct popup_message_data *data)
 {
-  struct city *pvcity = find_city_by_id(diplomat_target_id);
+  struct city *pvcity = game_find_city_by_number(diplomat_target_id);
   struct player *pvictim;
 
   message_close(data);
@@ -1055,7 +1055,7 @@ static void pillage_button(struct popup_message_data *msg)
 
   if(msg->data)
   {
-    struct unit *punit = find_unit_by_id (unit_to_use_to_pillage);
+    struct unit *punit = game_find_unit_by_number (unit_to_use_to_pillage);
     if (punit) {
       request_new_unit_activity_targeted(punit,
                                          ACTIVITY_PILLAGE,
@@ -1140,7 +1140,7 @@ static void connect_button(struct popup_message_data *msg)
     struct unit *punit;
     int activity = (int)msg->data;
 
-    if ((punit = find_unit_by_id(unit_to_use_to_connect)))
+    if ((punit = game_find_unit_by_number(unit_to_use_to_connect)))
     {
       if (activity != ACTIVITY_IDLE)
       {
@@ -1721,7 +1721,7 @@ static void upgrade_yes(struct popup_message_data *msg)
 {
   if(msg->data)
   {
-    struct unit *punit = find_unit_by_id ((int)msg->data);
+    struct unit *punit = game_find_unit_by_number ((int)msg->data);
     if (punit) {
       request_unit_upgrade(punit);
     }

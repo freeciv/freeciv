@@ -707,7 +707,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   unit_list_iterate(pList, pUnit) {
         
     pUType = unit_type(pUnit);
-    pHome_City = find_city_by_id(pUnit->homecity);
+    pHome_City = game_find_city_by_number(pUnit->homecity);
     my_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,
@@ -1976,7 +1976,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     if (pCity->trade[i]) {
       step += pCity->trade_value[i];
 
-      if ((pTradeCity = find_city_by_id(pCity->trade[i]))) {
+      if ((pTradeCity = game_find_city_by_number(pCity->trade[i]))) {
 	my_snprintf(cBuf, sizeof(cBuf), "%s: +%d", pTradeCity->name,
 		    pCity->trade_value[i]);
       } else {
@@ -3949,7 +3949,7 @@ void refresh_city_dialog(struct city *pCity)
 void refresh_unit_city_dialogs(struct unit *pUnit)
 {
 
-  struct city *pCity_sup = find_city_by_id(pUnit->homecity);
+  struct city *pCity_sup = game_find_city_by_number(pUnit->homecity);
   struct city *pCity_pre = tile_get_city(pUnit->tile);
 
   if (pCityDlg && ((pCityDlg->pCity == pCity_sup)

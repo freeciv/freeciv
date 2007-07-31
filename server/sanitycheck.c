@@ -85,8 +85,8 @@ static void check_specials(void)
       SANITY_TILE(ptile, pterrain->irrigation_result == pterrain);
     }
 
-    SANITY_TILE(ptile, pterrain->index >= T_FIRST 
-                       && pterrain->index < T_COUNT);
+    SANITY_TILE(ptile, terrain_index(pterrain) >= T_FIRST 
+                       && terrain_index(pterrain) < terrain_count());
   } whole_map_iterate_end;
 }
 
@@ -109,9 +109,9 @@ static void check_fow(void)
 	 * defined. */
 	if (game.info.fogofwar) {
 	  if (plr_tile->seen_count[v] > 0) {
-	    SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	    SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], player_index(pplayer)));
 	  } else {
-	    SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	    SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], player_index(pplayer)));
 	  }
 	}
 
@@ -144,8 +144,8 @@ static void check_misc(void)
   } players_iterate_end;
   SANITY_CHECK(nbarbs == game.info.nbarbarians);
 
-  SANITY_CHECK(game.info.nplayers <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-  SANITY_CHECK(NUM_TEAMS <= MAX_NUM_TEAMS);
+  SANITY_CHECK(player_count() <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  SANITY_CHECK(team_count() <= MAX_NUM_TEAMS);
 }
 
 /**************************************************************************
@@ -417,7 +417,7 @@ static void check_units(void) {
       SANITY_CHECK(punit->hp > 0);
 
       if (punit->transported_by != -1) {
-        transporter = find_unit_by_id(punit->transported_by);
+        transporter = game_find_unit_by_number(punit->transported_by);
         SANITY_CHECK(transporter != NULL);
 
 	/* Make sure the transporter is on the tile. */
@@ -476,11 +476,11 @@ static void check_players(void)
     } city_list_iterate_end;
 
     players_iterate(pplayer2) {
-      SANITY_CHECK(pplayer->diplstates[pplayer2->player_no].type
-	     == pplayer2->diplstates[pplayer->player_no].type);
-      if (pplayer->diplstates[pplayer2->player_no].type == DS_CEASEFIRE) {
-	SANITY_CHECK(pplayer->diplstates[pplayer2->player_no].turns_left
-	       == pplayer2->diplstates[pplayer->player_no].turns_left);
+      SANITY_CHECK(pplayer->diplstates[player_index(pplayer2)].type
+	     == pplayer2->diplstates[player_index(pplayer)].type);
+      if (pplayer->diplstates[player_index(pplayer2)].type == DS_CEASEFIRE) {
+	SANITY_CHECK(pplayer->diplstates[player_index(pplayer2)].turns_left
+	       == pplayer2->diplstates[player_index(pplayer)].turns_left);
       }
       if (pplayer->is_alive
           && pplayer2->is_alive
@@ -535,12 +535,12 @@ static void check_teams(void)
     /* For the moment, all players (including observers) have teams. */
     SANITY_CHECK(pplayer->team != NULL);
     if (pplayer->team) {
-      count[pplayer->team->index]++;
+      count[team_index(pplayer->team)]++;
     }
   } players_iterate_end;
 
   for (i = 0; i < MAX_NUM_TEAMS; i++) {
-    SANITY_CHECK(team_get_by_id(i)->players == count[i]);
+    SANITY_CHECK(team_by_number(i)->players == count[i]);
   }
 }
 

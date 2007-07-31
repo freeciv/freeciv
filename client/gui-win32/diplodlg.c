@@ -129,7 +129,7 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 static void diplomacy_dialog_close(struct Diplomacy_dialog *pdialog)
 {
   dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
-					    pdialog->treaty.plr1->player_no);
+					    player_number(pdialog->treaty.plr1));
   DestroyWindow(pdialog->mainwin);
   
 }
@@ -226,7 +226,7 @@ static void popup_cities_menu(struct Diplomacy_dialog *pdialog,int plr)
   for(j=0; j<i; j++) {
     AppendMenu(menu,MF_STRING,ID_CITIES_BASE+j,city_list_ptrs[j]->name);
     iteminfo.dwItemData=city_list_ptrs[j]->id*1024 + 
-      plr0->player_no*32 + plr1->player_no;
+      player_number(plr0)*32 + player_number(plr1);
     iteminfo.fMask = MIIM_DATA;
     iteminfo.cbSize = sizeof(MENUITEMINFO);
     SetMenuItemInfo(menu, ID_CITIES_BASE+j, FALSE, &iteminfo);
@@ -256,8 +256,8 @@ static void handle_gold_entry(struct Diplomacy_dialog *pdialog,int plr)
     if (sscanf(buf, "%d", &amount) == 1 && amount >= 0
 	&& amount <= pgiver->economic.gold) {
        dsend_packet_diplomacy_create_clause_req(&aconnection, 
-					pdialog->treaty.plr1->player_no,
-					pgiver->player_no,
+					player_number(pdialog->treaty.plr1),
+					player_number(pgiver),
 					CLAUSE_GOLD, amount);
      } else {
        append_output_window(_("Invalid amount of gold specified."));
@@ -274,8 +274,8 @@ static void handle_vision_button(struct Diplomacy_dialog *pdialog,int plr)
   pgiver=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
 
   dsend_packet_diplomacy_create_clause_req(&aconnection, 
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_VISION,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_VISION,
 					   0);
 }
 
@@ -288,8 +288,8 @@ static void handle_embassy_button(struct Diplomacy_dialog *pdialog, int plr)
   pgiver = plr ? pdialog->treaty.plr1 : pdialog->treaty.plr0;
 
   dsend_packet_diplomacy_create_clause_req(&aconnection, 
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_EMBASSY,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_EMBASSY,
 					   0);
 }
 
@@ -327,8 +327,8 @@ static void give_sea_map(struct Diplomacy_dialog *pdialog, int plr)
   struct player *pgiver;
   pgiver=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
   dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_SEAMAP,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_SEAMAP,
 					   0);
 }
 
@@ -340,8 +340,8 @@ static void give_map(struct Diplomacy_dialog *pdialog, int plr)
   struct player *pgiver;
   pgiver=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
   dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_MAP,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_MAP,
 					   0);
 }
 
@@ -357,7 +357,7 @@ static void handle_cities_menu(struct Diplomacy_dialog *pdialog,int choice)
   choice -= plrno0 * 32;
   plrno1 = choice;
   dsend_packet_diplomacy_create_clause_req(&aconnection, 
-					   pdialog->treaty.plr1->player_no,
+					   player_number(pdialog->treaty.plr1),
 					   plrno0, CLAUSE_CITY, value);
 }
 
@@ -373,7 +373,7 @@ static void handle_advances_menu(struct Diplomacy_dialog *pdialog,int choice)
   int value = choice % MAX_NUM_ITEMS;
 
   dsend_packet_diplomacy_create_clause_req(&aconnection, 
-					   pdialog->treaty.plr1->player_no,
+					   player_number(pdialog->treaty.plr1),
 					   plrno0, CLAUSE_ADVANCE, value);
 }
 
@@ -384,8 +384,8 @@ static void diplomacy_dialog_add_pact_clause(struct Diplomacy_dialog *pdialog,
 					     int type)
 {
   dsend_packet_diplomacy_create_clause_req(&aconnection, 
-					   pdialog->treaty.plr1->player_no,
-					   pdialog->treaty.plr0->player_no,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pdialog->treaty.plr0),
 					   type, 0);
 }
 
@@ -402,8 +402,8 @@ static void handle_erase_button(struct Diplomacy_dialog *pdialog)
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
     if(i == row) {
       dsend_packet_diplomacy_remove_clause_req(&aconnection,
-					       pdialog->treaty.plr1->player_no,
-					       pclause->from->player_no,
+					       player_number(pdialog->treaty.plr1),
+					       player_number(pclause->from),
 					       pclause->type, pclause->value);
       return;
     }
@@ -417,7 +417,7 @@ static void handle_erase_button(struct Diplomacy_dialog *pdialog)
 static void handle_accept_button(struct Diplomacy_dialog *pdialog)
 {
   dsend_packet_diplomacy_accept_treaty_req(&aconnection,
-					   pdialog->treaty.plr1->player_no);
+					   player_number(pdialog->treaty.plr1));
 }
 
 /****************************************************************
@@ -581,7 +581,7 @@ static void thumb_setsize(RECT *rc, void *data)
 *****************************************************************/
 static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = get_player(other_player_id);
+  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
 
   char buf[512];
   struct fcwin_box *vbox;
@@ -692,7 +692,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 *****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = get_player(other_player_id);
+  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
 
   if(!dialog_list_list_has_been_initialised) {
     dialog_list = dialog_list_new();
@@ -766,7 +766,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
     return;
   }
 
-  add_clause(&pdialog->treaty, get_player(giver), type, value);
+  add_clause(&pdialog->treaty, player_by_number(giver), type, value);
   update_diplomacy_dialog(pdialog);
 }
 
@@ -797,7 +797,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
     return;
   }
 
-  remove_clause(&pdialog->treaty, get_player(giver), type, value);
+  remove_clause(&pdialog->treaty, player_by_number(giver), type, value);
   update_diplomacy_dialog(pdialog);
 }
 

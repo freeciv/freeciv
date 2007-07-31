@@ -139,7 +139,7 @@ static void build_row(const char **row, int i, int update)
   if (i == game.info.player_idx) {
     strcpy(dsbuf, "-");
   } else {
-    pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
+    pds = pplayer_get_diplstate(game.player_ptr, player_by_number(i));
     if (pds->type == DS_CEASEFIRE) {
       my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		  diplstate_text(pds->type), pds->turns_left);
@@ -214,7 +214,7 @@ static void enable_buttons(int player_index)
     EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_SSHIP),
 		 FALSE);
   switch (pplayer_get_diplstate
-	  (game.player_ptr, get_player(player_index))->type) {
+	  (game.player_ptr, player_by_number(player_index))->type) {
   case DS_WAR:
   case DS_NO_CONTACT:
     EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_WAR), FALSE);
@@ -399,7 +399,8 @@ update_players_dialog(void)
     int i,row;
     lv=GetDlgItem(players_dialog,ID_PLAYERS_LIST);
     ListView_DeleteAllItems(lv);
-    for (i = 0; i < game.info.nplayers; i++) {
+
+    for (i = 0; i < player_count(); i++) {
       build_row(row_texts, i, 0);
       row=fcwin_listview_add_row(lv,i,NUM_COLUMNS, (char **)row_texts);
       lvi.iItem=row;

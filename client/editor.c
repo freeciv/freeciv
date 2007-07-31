@@ -51,7 +51,7 @@ static enum editor_vision_mode selected_vision_mode;
 ****************************************************************************/
 void editor_init_tools(void)
 { 
-  struct player *pplayer = game.player_ptr ? game.player_ptr : get_player(0);
+  struct player *pplayer = game.player_ptr ? game.player_ptr : player_by_number(0);
 
   if (selected_unit) {
     destroy_unit_virtual(selected_unit);
@@ -159,7 +159,7 @@ static enum cursor_type editor_unit(struct tile *ptile, bool testing)
     packet.delete = FALSE;
 
     packet.id = selected_unit->id;
-    packet.owner = selected_unit->owner->player_no;
+    packet.owner = player_number(selected_unit->owner);
 
     packet.x = ptile->x;
     packet.y = ptile->y;
@@ -193,7 +193,7 @@ static enum cursor_type editor_city(struct tile *ptile, bool testing)
    * cursor can be set properly. */
   if (!testing) {
     struct packet_edit_create_city packet = {
-      .owner = selected_city->owner->player_no,
+      .owner = player_number(selected_city->owner),
       .x = ptile->x,
       .y = ptile->y
     };
@@ -211,7 +211,7 @@ static enum cursor_type editor_vision(struct tile *ptile, bool testing)
 {
   if (!testing) {
     if (selected_player) {
-      dsend_packet_edit_vision(&aconnection, selected_player->player_no,
+      dsend_packet_edit_vision(&aconnection, player_number(selected_player),
                                ptile->x, ptile->y, selected_vision_mode);
     }
   }
@@ -279,8 +279,8 @@ static enum cursor_type editor_paint(struct tile *ptile, bool testing)
     /* send the result to the server for changing */
     /* FIXME: No way to change resources. */
     dsend_packet_edit_tile(&aconnection, ptile->x, ptile->y,
-			   tile.terrain->index,
-			   tile.resource ? tile.resource->index : -1,
+			   terrain_number(tile.terrain),
+			   tile.resource ? resource_number(tile.resource) : -1,
 			   tile.special);
   }
 

@@ -306,7 +306,6 @@ void popup_players_dialog(bool raise)
   SDL_Rect dst;
   int i, n, h;
   double a, b, r;
-  struct player *pPlayer;
   SDL_Rect area;
   
   if (pPlayers_Dlg) {
@@ -314,12 +313,12 @@ void popup_players_dialog(bool raise)
   }
   
   n = 0;
-  for(i=0; i<game.info.nplayers; i++) {
-    if(is_barbarian(get_player(i))) {
+  players_iterate(pPlayer) {
+    if(is_barbarian(pPlayer)) {
       continue;
     }
     n++;
-  }
+  } players_iterate_end;
 
   if(n < 2) {
     return;
@@ -395,9 +394,7 @@ void popup_players_dialog(bool raise)
   } 
   /* ---------- */
   
-  for(i=0; i<game.info.nplayers; i++) {
-    pPlayer = get_player(i);
-      
+  players_iterate(pPlayer) {
     if(is_barbarian(pPlayer)) {
       continue;
     }
@@ -436,7 +433,7 @@ void popup_players_dialog(bool raise)
     
     add_to_gui_list(ID_LABEL, pBuf);
     
-  }
+  } players_iterate_end;
   
   pPlayers_Dlg->pBeginWidgetList = pBuf;
 
@@ -574,7 +571,7 @@ static int player_nation_callback(struct widget *pWidget)
       }
     break;
     default:
-      if(pPlayer->player_no != game.info.player_idx) {
+      if(player_number(pPlayer) != game.info.player_idx) {
         popup_diplomacy_dialog(pPlayer);
       }
     break;
@@ -592,8 +589,7 @@ void popup_players_nations_dialog(void)
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128], *state;
-  int i, n = 0, w = 0, units_h = 0;
-  struct player *pPlayer;
+  int n = 0, w = 0, units_h = 0;
   const struct player_diplstate *pDS;
   SDL_Rect area;
   
@@ -628,10 +624,8 @@ void popup_players_nations_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ---------- */
   
-  for(i=0; i<game.info.nplayers; i++) {
-    if(i != game.info.player_idx) {
-      pPlayer = get_player(i);
-      
+  players_iterate(pPlayer) {
+    if(player_number(pPlayer) != game.info.player_idx) {
       if(!pPlayer->is_alive || is_barbarian(pPlayer)) {
         continue;
       }
@@ -724,7 +718,7 @@ void popup_players_nations_dialog(void)
       
       n++;  
     }
-  }
+  } players_iterate_end;
   pShort_Players_Dlg->pBeginWidgetList = pBuf;
   pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->pBeginWidgetList;
   pShort_Players_Dlg->pEndActiveWidgetList = pWindow->prev->prev;

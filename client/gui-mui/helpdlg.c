@@ -667,7 +667,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
   create_help_page(HELP_UNIT);
 
-  if (i < game.control.num_unit_types)
+  if (i < utype_count())
   {
     ULONG bg_color;
     struct unit_type *utype = utype_by_number(i);
@@ -851,7 +851,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
   create_help_page(HELP_TERRAIN);
 
-  if (i < T_COUNT)
+  if (i < terrain_count())
   {
     struct terrain *tile = terrain_by_number(i);
     char buf[256];
@@ -960,7 +960,7 @@ static void help_update_government(const struct help_item *pitem,
   }
   else
   {
-    helptext_government(buf, gov - governments, pitem->text);
+    helptext_government(buf, government_number(gov), pitem->text);
   }
 
   DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);

@@ -1025,7 +1025,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   struct unit_type *punittype;
   struct unit *ghost;
   int maxrange;
-  struct city *wonder_city = find_city_by_id(ai->wonder_city);
+  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
 
   city_list_iterate(pplayer->cities, acity) {
     acity->ai.distance_to_wonder_city = 0; /* unavailable */
@@ -1184,7 +1184,7 @@ void ai_manage_buildings(struct player *pplayer)
 #define RECALC_SPEED 5
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  struct city *wonder_city = find_city_by_id(ai->wonder_city);
+  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
 
   if (wonder_city && wonder_city->owner != pplayer) {
     /* We lost it to the enemy! */

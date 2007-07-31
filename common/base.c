@@ -48,7 +48,7 @@ bool base_flag(const struct base_type *pbase, enum base_flag_id flag)
 bool is_native_base_to_class(const struct unit_class *pclass,
                              const struct base_type *pbase)
 {
-  return BV_ISSET(pbase->native_to, pclass->id);
+  return BV_ISSET(pbase->native_to, uclass_index(pclass));
 }
 
 /****************************************************************************

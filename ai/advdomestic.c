@@ -59,7 +59,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   int caravans = 0;
   /* The type of the caravan */
   struct unit_type *unit_type;
-  struct city *wonder_city = find_city_by_id(ai->wonder_city);
+  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
 
   if (num_role_units(F_HELP_WONDER) == 0) {
     /* No such units available in the ruleset */

@@ -38,7 +38,7 @@
       _ids[_i++] = punit->id;						    \
     } unit_list_iterate_end;						    \
     for (_i = 0; _i < _size; _i++) {					    \
-      struct unit *punit = find_unit_by_id(_ids[_i]);			    \
+      struct unit *punit = game_find_unit_by_number(_ids[_i]);		    \
 									    \
       if (punit) {
 

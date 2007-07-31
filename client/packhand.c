@@ -83,7 +83,7 @@ static int reports_thaw_requests_size = 0;
 **************************************************************************/
 static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
-  struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
+  struct unit *punit = create_unit_virtual(player_by_number(packet->owner), NULL,
 					   utype_by_number(packet->type),
 					   packet->veteran);
 
@@ -142,7 +142,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
 **************************************************************************/
 static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 {
-  struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
+  struct unit *punit = create_unit_virtual(player_by_number(packet->owner), NULL,
 					   utype_by_number(packet->type),
 					   FALSE);
 
@@ -223,7 +223,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
 ****************************************************************************/
 void handle_city_remove(int city_id)
 {
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
   struct tile *ptile;
 
   if (!pcity)
@@ -246,7 +246,7 @@ void handle_city_remove(int city_id)
 **************************************************************************/
 void handle_unit_remove(int unit_id)
 {
-  struct unit *punit = find_unit_by_id(unit_id);
+  struct unit *punit = game_find_unit_by_number(unit_id);
   struct player *powner;
 
   if (!punit) {
@@ -289,8 +289,8 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 			     bool make_winner_veteran)
 {
   bool show_combat = FALSE;
-  struct unit *punit0 = find_unit_by_id(attacker_unit_id);
-  struct unit *punit1 = find_unit_by_id(defender_unit_id);
+  struct unit *punit0 = game_find_unit_by_number(attacker_unit_id);
+  struct unit *punit1 = game_find_unit_by_number(defender_unit_id);
 
   if (punit0 && punit1) {
     if (tile_visible_mapcanvas(punit0->tile) &&
@@ -409,9 +409,9 @@ void handle_city_info(struct packet_city_info *packet)
   struct unit_list *pfocus_units = get_units_in_focus();
   int caravan_city_id;
 
-  pcity=find_city_by_id(packet->id);
+  pcity=game_find_city_by_number(packet->id);
 
-  if (pcity && (pcity->owner->player_no != packet->owner)) {
+  if (pcity && (player_number(pcity->owner) != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
@@ -419,14 +419,13 @@ void handle_city_info(struct packet_city_info *packet)
 
   if(!pcity) {
     city_is_new = TRUE;
-    pcity = create_city_virtual(get_player(packet->owner),
+    pcity = create_city_virtual(player_by_number(packet->owner),
 				map_pos_to_tile(packet->x, packet->y),
 				packet->name);
     pcity->id=packet->id;
     idex_register_city(pcity);
     update_descriptions = TRUE;
-  }
-  else {
+  } else {
     city_is_new = FALSE;
 
     name_changed = (strcmp(pcity->name, packet->name) != 0);
@@ -450,7 +449,7 @@ void handle_city_info(struct packet_city_info *packet)
     assert(pcity->id == packet->id);
   }
   
-  pcity->owner = get_player(packet->owner);
+  pcity->owner = player_by_number(packet->owner);
   pcity->tile = map_pos_to_tile(packet->x, packet->y);
   sz_strlcpy(pcity->name, packet->name);
   
@@ -611,8 +610,6 @@ void handle_city_info(struct packet_city_info *packet)
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate)
 {
-  int i;
-
   if(is_new) {
     pcity->units_supported = unit_list_new();
     pcity->info_units_supported = unit_list_new();
@@ -623,12 +620,12 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
       city_report_dialog_update();
     }
 
-    for(i=0; i<game.info.nplayers; i++) {
-      unit_list_iterate(game.players[i].units, punit) 
+    players_iterate(pp) {
+      unit_list_iterate(pp->units, punit) 
 	if(punit->homecity==pcity->id)
 	  unit_list_prepend(pcity->units_supported, punit);
       unit_list_iterate_end;
-    }
+    } players_iterate_end;
   } else {
     if (pcity->owner == game.player_ptr) {
       city_report_dialog_update_city(pcity);
@@ -682,9 +679,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   bool city_is_new, city_has_changed_owner = FALSE;
   bool update_descriptions = FALSE;
 
-  pcity=find_city_by_id(packet->id);
+  pcity=game_find_city_by_number(packet->id);
 
-  if (pcity && (pcity->owner->player_no != packet->owner)) {
+  if (pcity && (player_number(pcity->owner) != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
@@ -692,7 +689,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
   if(!pcity) {
     city_is_new = TRUE;
-    pcity = create_city_virtual(get_player(packet->owner),
+    pcity = create_city_virtual(player_by_number(packet->owner),
 				map_pos_to_tile(packet->x, packet->y),
 				packet->name);
     pcity->id=packet->id;
@@ -706,7 +703,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       update_descriptions = TRUE;
     }
 
-    pcity->owner = get_player(packet->owner);
+    pcity->owner = player_by_number(packet->owner);
     sz_strlcpy(pcity->name, packet->name);
     
     assert(pcity->id == packet->id);
@@ -1002,7 +999,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool ret = FALSE;
   
   punit = player_find_unit_by_id(packet_unit->owner, packet_unit->id);
-  if (!punit && find_unit_by_id(packet_unit->id)) {
+  if (!punit && game_find_unit_by_number(packet_unit->id)) {
     /* This means unit has changed owner. We deal with this here
      * by simply deleting the old one and creating a new one. */
     handle_unit_remove(packet_unit->id);
@@ -1106,13 +1103,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     if (punit->homecity != packet_unit->homecity) {
       /* change homecity */
       struct city *pcity;
-      if ((pcity=find_city_by_id(punit->homecity))) {
+      if ((pcity=game_find_city_by_number(punit->homecity))) {
 	unit_list_unlink(pcity->units_supported, punit);
 	refresh_city_dialog(pcity);
       }
       
       punit->homecity = packet_unit->homecity;
-      if ((pcity=find_city_by_id(punit->homecity))) {
+      if ((pcity=game_find_city_by_number(punit->homecity))) {
 	unit_list_prepend(pcity->units_supported, punit);
 	repaint_city = TRUE;
       }
@@ -1206,7 +1203,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     if (repaint_city || repaint_unit) {
       /* We repaint the city if the unit itself needs repainting or if
        * there is a special city-only redrawing to be done. */
-      if((pcity=find_city_by_id(punit->homecity))) {
+      if((pcity=game_find_city_by_number(punit->homecity))) {
 	refresh_city_dialog(pcity);
       }
       if (repaint_unit && punit->tile->city && punit->tile->city != pcity) {
@@ -1238,7 +1235,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     unit_register_battlegroup(punit);
 
-    if((pcity=find_city_by_id(punit->homecity))) {
+    if((pcity=game_find_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
     }
 
@@ -1294,7 +1291,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
   struct unit *punit;
 
   if (packet->goes_out_of_sight) {
-    punit = find_unit_by_id(packet->id);
+    punit = game_find_unit_by_number(packet->id);
     if (punit) {
       client_remove_unit(punit);
     }
@@ -1310,7 +1307,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     static int last_serial_num = 0;
 
     /* fetch city -- abort if not found */
-    pcity = find_city_by_id(packet->info_city_id);
+    pcity = game_find_city_by_number(packet->info_city_id);
     if (!pcity) {
       return;
     }
@@ -1398,7 +1395,7 @@ void handle_game_info(struct packet_game_info *pinfo)
 
   game.government_when_anarchy
     = government_by_number(game.info.government_when_anarchy_id);
-  game.player_ptr = get_player(game.info.player_idx);
+  game.player_ptr = player_by_number(game.info.player_idx);
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     popdown_races_dialog();
   }
@@ -1455,7 +1452,7 @@ void set_government_choice(struct government *government)
   if (can_client_issue_orders()
       && game.player_ptr
       && government != government_of_player(game.player_ptr)) {
-    dsend_packet_player_change_government(&aconnection, government->index);
+    dsend_packet_player_change_government(&aconnection, government_number(government));
   }
 }
 
@@ -1485,7 +1482,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   is_new_nation = player_set_nation(pplayer, nation_by_number(pinfo->nation));
   pplayer->is_male=pinfo->is_male;
-  team_add_player(pplayer, team_get_by_id(pinfo->team));
+  team_add_player(pplayer, team_by_number(pinfo->team));
   pplayer->score.game = pinfo->score;
 
   pplayer->economic.gold=pinfo->gold;
@@ -1496,8 +1493,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->target_government = government_by_number(pinfo->target_government);
   BV_CLR_ALL(pplayer->embassy);
   players_iterate(pother) {
-    if (pinfo->embassy[pother->player_no]) {
-      BV_SET(pplayer->embassy, pother->player_no);
+    if (pinfo->embassy[player_index(pother)]) {
+      BV_SET(pplayer->embassy, player_index(pother));
     }
   } players_iterate_end;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
@@ -1510,9 +1507,9 @@ void handle_player_info(struct packet_player_info *pinfo)
    * ready all units for movement out of the territory in
    * question; otherwise they will be disbanded. */
   if (game.player_ptr
-      && pplayer->diplstates[game.player_ptr->player_no].type
+      && pplayer->diplstates[player_index(game.player_ptr)].type
       != DS_ARMISTICE
-      && pinfo->diplstates[game.player_ptr->player_no].type
+      && pinfo->diplstates[player_index(game.player_ptr)].type
       == DS_ARMISTICE) {
     unit_list_iterate(game.player_ptr->units, punit) {
       if (!punit->tile->owner || punit->tile->owner != pplayer) {
@@ -1539,7 +1536,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   }
   pplayer->is_connected = pinfo->is_connected;
 
-  for (i = 0; i < B_LAST/*game.control.num_impr_types*/; i++) {
+  for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
      pplayer->small_wonders[i] = pinfo->small_wonders[i];
   }
 
@@ -1683,7 +1680,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     struct player *pplayer =
       ((pinfo->player_num >= 0 
         && pinfo->player_num < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
-       ? get_player(pinfo->player_num) : NULL);
+       ? player_by_number(pinfo->player_num) : NULL);
     
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
@@ -1959,7 +1956,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   bool known_changed = FALSE;
   enum tile_special_type spe;
 
-  if (!ptile->terrain || ptile->terrain->index != packet->type) {
+  if (!ptile->terrain || terrain_number(ptile->terrain) != packet->type) {
     tile_changed = TRUE;
     ptile->terrain = terrain_by_number(packet->type);
   }
@@ -1978,7 +1975,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
 
   if (ptile->resource) {
-    old_resource = ptile->resource->index;
+    old_resource = resource_number(ptile->resource);
   } else {
     old_resource = -1;
   }
@@ -1994,7 +1991,7 @@ void handle_tile_info(struct packet_tile_info *packet)
       tile_changed = TRUE;
     }
   } else {
-    struct player *newowner = get_player(packet->owner);
+    struct player *newowner = player_by_number(packet->owner);
 
     if (ptile->owner != newowner) {
       ptile->owner = newowner;
@@ -2146,7 +2143,7 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
 {
   struct unit_class *c;
 
-  if(p->id < 0 || p->id >= game.control.num_unit_classes || p->id >= UCL_LAST) {
+  if(p->id < 0 || p->id >= uclass_count() || p->id >= UCL_LAST) {
     freelog(LOG_ERROR,
             "Received bad unit_class id %d in handle_ruleset_unit_class()",
 	    p->id);
@@ -2173,7 +2170,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   struct unit_type *u;
   int i;
 
-  if(p->id < 0 || p->id >= game.control.num_unit_types || p->id >= U_LAST) {
+  if(p->id < 0 || p->id >= utype_count() || p->id >= U_LAST) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_unit() bad unit_type %d.",
 	    p->id);
@@ -2323,15 +2320,15 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   struct government *gov;
   int j;
 
-  if (p->id < 0 || p->id >= game.control.government_count) {
+  if (p->id < 0 || p->id >= government_count()) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_government() bad government %d.",
 	    p->id);
     return;
   }
-  gov = &governments[p->id];
+  gov = government_by_number(p->id);
 
-  gov->index             = p->id;
+  gov->item_number = p->id;
 
   for (j = 0; j < p->reqs_count; j++) {
     requirement_vector_append(&gov->reqs, &p->reqs[j]);
@@ -2350,7 +2347,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   gov->helptext = mystrdup(p->helptext);
   
-  tileset_setup_government(tileset, p->id);
+  tileset_setup_government(tileset, gov);
 }
 
 /**************************************************************************
@@ -2361,14 +2358,14 @@ void handle_ruleset_government_ruler_title
 {
   struct government *gov;
 
-  if(p->gov < 0 || p->gov >= game.control.government_count) {
+  if(p->gov < 0 || p->gov >= government_count()) {
     freelog(LOG_ERROR,
             "handle_ruleset_government_ruler_title()"
             " bad government %d.",
             p->gov);
     return;
   }
-  gov = &governments[p->gov];
+  gov = government_by_number(p->gov);
   if(p->id < 0 || p->id >= gov->num_ruler_titles) {
     freelog(LOG_ERROR,
             "handle_ruleset_government_ruler_title()"
@@ -2534,7 +2531,7 @@ void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
   for (i = 0; i < packet->ngroups; i++) {
     struct nation_group *group = add_new_nation_group(packet->groups[i]);
 
-    assert(group != NULL && group->index == i);
+    assert(group != NULL && nation_group_index(group) == i);
   }
 }
 
@@ -2546,7 +2543,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   int i;
   struct nation_type *pl;
 
-  if (p->id < 0 || p->id >= game.control.nation_count) {
+  if (p->id < 0 || p->id >= nation_count()) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_nation() bad nation %d.",
 	    p->id);
@@ -2598,7 +2595,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
 
   pl->is_available = p->is_available;
 
-  tileset_setup_nation_flag(tileset, p->id);
+  tileset_setup_nation_flag(tileset, pl);
 }
 
 /**************************************************************************
@@ -2682,7 +2679,7 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
 **************************************************************************/
 void handle_unit_bribe_info(int unit_id, int cost)
 {
-  struct unit *punit = find_unit_by_id(unit_id);
+  struct unit *punit = game_find_unit_by_number(unit_id);
 
   if (punit) {
     punit->bribe_cost = cost;
@@ -2697,7 +2694,7 @@ void handle_unit_bribe_info(int unit_id, int cost)
 **************************************************************************/
 void handle_city_incite_info(int city_id, int cost)
 {
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
 
   if (pcity) {
     pcity->incite_revolt_cost = cost;
@@ -2747,7 +2744,7 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
 			       bv_imprs improvements)
 {
   struct unit *punit = player_find_unit_by_id(game.player_ptr, diplomat_id);
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
 
   if (punit && pcity && can_client_issue_orders()) {
     impr_type_iterate(i) {

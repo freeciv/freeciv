@@ -143,7 +143,7 @@ static void update_players_menu(void)
     gint plrno;
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
-    plr = get_player(plrno);
+    plr = player_by_number(plrno);
   
     if (plr->spaceship.state != SSHIP_NONE) {
       gtk_widget_set_sensitive(players_sship_command, TRUE);
@@ -153,7 +153,7 @@ static void update_players_menu(void)
 
     if (game.player_ptr) {
       switch (pplayer_get_diplstate(game.player_ptr,
-				    get_player(plrno))->type) {
+				    player_by_number(plrno))->type) {
       case DS_WAR:
       case DS_NO_CONTACT:
 	gtk_widget_set_sensitive(players_war_command, FALSE);
@@ -207,7 +207,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
 
       gtk_tree_model_get(GTK_TREE_MODEL(store), &it,
 	  ncolumns - 1, &id, -1);
-      plr = get_player(id);
+      plr = player_by_number(id);
 
       if (ev->button == 1) {
         if (can_intel_with_player(plr)) {
@@ -596,7 +596,7 @@ GdkPixbuf *get_flag(const struct nation_type *nation)
 **************************************************************************/
 static void build_row(GtkTreeIter *it, int i)
 {
-  struct player *plr = get_player(i);
+  struct player *plr = player_by_number(i);
   GdkPixbuf *pixbuf;
   gint style = PANGO_STYLE_NORMAL, weight = PANGO_WEIGHT_NORMAL;
   int k;
@@ -677,11 +677,11 @@ static bool player_should_be_shown(int plrno) {
 void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
-    gboolean exists[game.info.nplayers];
+    gboolean exists[player_count()];
     gint i;
     GtkTreeIter it, it_next;
 
-    for (i = 0; i < game.info.nplayers; i++) {
+    for (i = 0; i < player_count(); i++) {
       exists[i] = FALSE;
     }
 
@@ -712,15 +712,15 @@ void update_players_dialog(void)
 
     players_iterate(pplayer) {
       /* skip barbarians */
-      if (player_should_be_shown(pplayer->player_no)) {
-	if (!exists[pplayer->player_no]) {
+      if (player_should_be_shown(player_number(pplayer))) {
+	if (!exists[player_index(pplayer)]) {
 	  /* 
 	   * A nation is not in the player report yet. This happens when
 	   * the report is just opened and after a split.
 	   */
 	  gtk_list_store_append(store, &it);
 
-	  build_row(&it, pplayer->player_no);
+	  build_row(&it, player_number(pplayer));
 	}
       }
     } players_iterate_end;
@@ -835,7 +835,7 @@ static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data)
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", get_player(plrno)->name);
+    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", player_by_number(plrno)->name);
     send_chat(buf);
   }
 }
@@ -856,7 +856,7 @@ static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
 
     my_snprintf(buf, sizeof(buf), "/%s %s",
                 ai_level_cmd(GPOINTER_TO_UINT(data)),
-                get_player(plrno)->name);
+                player_by_number(plrno)->name);
     send_chat(buf);
   }
 }
@@ -874,7 +874,7 @@ static void players_edit_nation_callback(GtkMenuItem *item, gpointer data)
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    popup_races_dialog(get_player(plrno));
+    popup_races_dialog(player_by_number(plrno));
   }
 }   
 

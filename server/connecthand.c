@@ -350,7 +350,7 @@ static void package_conn_info(struct connection *pconn,
   packet->id           = pconn->id;
   packet->used         = pconn->used;
   packet->established  = pconn->established;
-  packet->player_num   = pconn->player ? pconn->player->player_no : -1;
+  packet->player_num   = pconn->player ? player_number(pconn->player) : -1;
   packet->observer     = pconn->observer;
   packet->access_level = pconn->access_level;
 

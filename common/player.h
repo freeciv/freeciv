@@ -13,15 +13,15 @@
 #ifndef FC__PLAYER_H
 #define FC__PLAYER_H
 
+#include "fc_types.h"
+
 #include "city.h"
 #include "connection.h"
-#include "fc_types.h"
-#include "improvement.h"	/* Impr_Status */
 #include "nation.h"
 #include "shared.h"
 #include "spaceship.h"
 #include "tech.h"
-#include "unit.h"
+#include "unitlist.h"
 
 #define PLAYER_DEFAULT_TAX_RATE 0
 #define PLAYER_DEFAULT_SCIENCE_RATE 100
@@ -201,7 +201,14 @@ struct player {
   bv_debug debug;
 };
 
-void player_init(struct player *plr);
+/* General player accessor functions. */
+const int player_count(void);
+const int player_index(const struct player *pplayer);
+const int player_number(const struct player *pplayer);
+
+struct player *player_by_number(const int player_id);
+struct player *valid_player_by_number(const int player_id);
+
 struct player *find_player_by_name(const char *name);
 struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);
@@ -280,15 +287,21 @@ bool gives_shared_vision(const struct player *me, const struct player *them);
 
 struct player_research *get_player_research(const struct player *p1);
 
-#define players_iterate(PI_player)                                            \
-{                                                                             \
-  struct player *PI_player;                                                   \
-  int PI_p_itr;                                                               \
-  for (PI_p_itr = 0; PI_p_itr < game.info.nplayers; PI_p_itr++) {            \
-    PI_player = get_player(PI_p_itr);
+/* Initialization and iteration */
+void player_init(struct player *plr);
 
-#define players_iterate_end                                                   \
-  }                                                                           \
+struct player *player_array_first(void);
+const struct player *player_array_last(void);
+
+#define players_iterate(_p)						\
+{									\
+  struct player *_p = player_array_first();				\
+  if (NULL != _p) {							\
+    for (; _p <= player_array_last(); _p++) {
+
+#define players_iterate_end						\
+    }									\
+  }									\
 }
 
 /* ai love values should be in range [-MAX_AI_LOVE..MAX_AI_LOVE] */

@@ -58,7 +58,7 @@ struct req_source {
 
   union {
     Tech_type_id tech;                  /* source tech */
-    struct government *gov;             /* source government */
+    struct government *govern;          /* source government */
     Impr_type_id building;              /* source building */
     enum tile_special_type special;     /* source special */
     struct terrain *terrain;            /* source terrain type */

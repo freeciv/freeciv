@@ -43,20 +43,19 @@ static Object *find_cities_listview;
 *****************************************************************/
 void update_find_dialog(void)
 {
-  int i;
-
   if (!find_wnd)
     return;
 
   set(find_cities_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(find_cities_listview, MUIM_NList_Clear);
 
-  for (i = 0; i < game.info.nplayers; i++)
+  players_iterate(pplayer)
   {
-    city_list_iterate(game.players[i].cities, pcity)
+    city_list_iterate(pplayer->cities, pcity)
       DoMethod(find_cities_listview, MUIM_NList_InsertSingle, pcity->name, MUIV_NList_Insert_Bottom);
     city_list_iterate_end;
   }
+  players_iterate_end;
 
   DoMethod(find_cities_listview, MUIM_NList_Sort);
   set(find_cities_listview, MUIA_NList_Quiet, FALSE);

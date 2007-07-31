@@ -143,7 +143,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
     return;
   }
 
-  add_clause(&pdialog->treaty, get_player(giver), type, value);
+  add_clause(&pdialog->treaty, player_by_number(giver), type, value);
   update_diplomacy_dialog(pdialog);
   gui_dialog_alert(pdialog->dialog);  
 }
@@ -160,7 +160,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
     return;
   }
 
-  remove_clause(&pdialog->treaty, get_player(giver), type, value);
+  remove_clause(&pdialog->treaty, player_by_number(giver), type, value);
   update_diplomacy_dialog(pdialog);
   gui_dialog_alert(pdialog->dialog);
 }
@@ -183,12 +183,12 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   if (!pdialog) {
     pdialog =
 	create_diplomacy_dialog(game.player_ptr,
-				get_player(other_player_id));
+				player_by_number(other_player_id));
   }
 
   gui_dialog_present(pdialog->dialog);
   /* We initated the meeting - Make the tab active */
-  if (initiated_from == game.player_ptr->player_no) {
+  if (initiated_from == player_number(game.player_ptr)) {
     gui_dialog_raise(pdialog->dialog);
     
     if (players_dialog_shell != NULL) {
@@ -264,8 +264,8 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	g_signal_connect(item, "activate",
 			 G_CALLBACK(diplomacy_dialog_tech_callback),
-			 GINT_TO_POINTER((plr0->player_no << 24) |
-					 (plr1->player_no << 16) |
+			 GINT_TO_POINTER((player_number(plr0) << 24) |
+					 (player_number(plr1) << 16) |
 					 i));
 	flag = TRUE;
       }
@@ -315,8 +315,8 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(item, "activate",
 		       G_CALLBACK(diplomacy_dialog_city_callback),
-			 GINT_TO_POINTER((plr0->player_no << 24) |
-					 (plr1->player_no << 16) |
+			 GINT_TO_POINTER((player_number(plr0) << 24) |
+					 (player_number(plr1) << 16) |
 					 city_list_ptrs[j]->id));
     }
     free(city_list_ptrs);
@@ -396,9 +396,8 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
     if (i == index[0]) {
       dsend_packet_diplomacy_remove_clause_req(&aconnection,
-					       pdialog->treaty.plr1->
-					       player_no,
-					       pclause->from->player_no,
+					       player_number(pdialog->treaty.plr1),
+					       player_number(pclause->from),
 					       pclause->type,
 					       pclause->value);
       return;
@@ -431,13 +430,11 @@ static void diplomacy_response(struct gui_dialog *dlg, int response,
 
 
     dsend_packet_diplomacy_accept_treaty_req(&aconnection,
-					     pdialog->treaty.plr1->
-					     player_no);
+					     player_number(pdialog->treaty.plr1));
     break;
   default:
     dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
-					      pdialog->treaty.plr1->
-					      player_no);
+					      player_number(pdialog->treaty.plr1));
     diplomacy_destroy(pdialog);
     break; 
   }
@@ -759,8 +756,8 @@ static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data)
   pgiver = (struct player *)g_object_get_data(G_OBJECT(w), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_MAP, 0);
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_MAP, 0);
 }
 
 /****************************************************************
@@ -774,8 +771,8 @@ static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data)
   pgiver = (struct player *)g_object_get_data(G_OBJECT(w), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_SEAMAP,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_SEAMAP,
 					   0);
 }
 
@@ -788,8 +785,8 @@ static void diplomacy_dialog_add_pact_clause(GtkWidget *w, gpointer data,
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
 
   dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pdialog->treaty.plr0->player_no,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pdialog->treaty.plr0),
 					   type, 0);
 }
 
@@ -827,8 +824,8 @@ static void diplomacy_dialog_vision_callback(GtkWidget *w, gpointer data)
       (struct player *) g_object_get_data(G_OBJECT(w), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_VISION,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_VISION,
 					   0);
 }
 
@@ -842,8 +839,8 @@ static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
       (struct player *) g_object_get_data(G_OBJECT(w), "plr");
 
   dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pgiver->player_no, CLAUSE_EMBASSY,
+					   player_number(pdialog->treaty.plr1),
+					   player_number(pgiver), CLAUSE_EMBASSY,
 					   0);
 }
 
@@ -877,7 +874,7 @@ void diplomacy_dialog_done()
 *****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id)
 {
-  struct player *plr0 = game.player_ptr, *plr1 = get_player(other_player_id);
+  struct player *plr0 = game.player_ptr, *plr1 = player_by_number(other_player_id);
 
   dialog_list_iterate(dialog_list, pdialog) {
     if ((pdialog->treaty.plr0 == plr0 && pdialog->treaty.plr1 == plr1) ||
@@ -901,8 +898,8 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
   
   if (amount >= 0 && amount <= pgiver->economic.gold) {
     dsend_packet_diplomacy_create_clause_req(&aconnection,
-					     pdialog->treaty.plr1->
-					     player_no, pgiver->player_no,
+					     player_number(pdialog->treaty.plr1),
+					     player_number(pgiver),
 					     CLAUSE_GOLD, amount);
   } else {
     append_output_window(_("Invalid amount of gold specified."));

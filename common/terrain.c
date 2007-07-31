@@ -45,13 +45,13 @@ static const char *terrain_class_names[] = {
   N_("Land"), N_("Oceanic") };
 
 /* T_UNKNOWN isn't allowed here. */
-#define SANITY_CHECK_TERRAIN(pterrain)					    \
-  assert((pterrain)->index >= 0						    \
-	 && (pterrain)->index < game.control.terrain_count		    \
-	 && &civ_terrains[(pterrain)->index] == (pterrain))
+#define SANITY_CHECK_TERRAIN(pterrain)					\
+  assert((pterrain)->item_number >= 0					\
+	 && (pterrain)->item_number < terrain_count()			\
+	 && &civ_terrains[terrain_index(pterrain)] == (pterrain))
 
 /****************************************************************************
-  Inialize terrain structures.
+  Initialize terrain and resource structures.
 ****************************************************************************/
 void terrains_init(void)
 {
@@ -59,17 +59,88 @@ void terrains_init(void)
 
   for (i = 0; i < ARRAY_SIZE(civ_terrains); i++) {
     /* Can't use terrain_by_number here because it does a bounds check. */
-    civ_terrains[i].index = i;
+    civ_terrains[i].item_number = i;
   }
   for (i = 0; i < ARRAY_SIZE(civ_resources); i++) {
-    civ_resources[i].index = i;
+    civ_resources[i].item_number = i;
   }
+}
+
+/****************************************************************************
+  Free memory which is associated with terrain types.
+****************************************************************************/
+void terrains_free(void)
+{
+  terrain_type_iterate(pterrain) {
+    free(pterrain->helptext);
+    pterrain->helptext = NULL;
+  } terrain_type_iterate_end;
+}
+
+/**************************************************************************
+  Return the first item of terrains.
+**************************************************************************/
+struct terrain *terrain_array_first(void)
+{
+  if (game.control.terrain_count > 0) {
+    return civ_terrains;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of terrains.
+**************************************************************************/
+const struct terrain *terrain_array_last(void)
+{
+  if (game.control.terrain_count > 0) {
+    return &civ_terrains[game.control.terrain_count - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the number of terrains.
+**************************************************************************/
+const Terrain_type_id terrain_count(void)
+{
+  return game.control.terrain_count;
+}
+
+/**************************************************************************
+  Return the terrain identifier.
+**************************************************************************/
+const char terrain_identifier(const struct terrain *pterrain)
+{
+  assert(pterrain);
+  return pterrain->identifier;
+}
+
+/**************************************************************************
+  Return the terrain index.
+
+  Currently same as terrain_number(), paired with terrain_count()
+  indicates use as an array index.
+**************************************************************************/
+const Terrain_type_id terrain_index(const struct terrain *pterrain)
+{
+  assert(pterrain);
+  return pterrain - civ_terrains;
+}
+
+/**************************************************************************
+  Return the terrain index.
+**************************************************************************/
+const Terrain_type_id terrain_number(const struct terrain *pterrain)
+{
+  assert(pterrain);
+  return pterrain->item_number;
 }
 
 /****************************************************************************
   Return the terrain type matching the identifier, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *terrain_by_identifier(const char identifier)
+struct terrain *find_terrain_by_identifier(const char identifier)
 {
   if (TERRAIN_UNKNOWN_IDENTIFIER == identifier) {
     return T_UNKNOWN;
@@ -86,7 +157,7 @@ struct terrain *terrain_by_identifier(const char identifier)
 /****************************************************************************
   Return the terrain for the given terrain index.
 ****************************************************************************/
-struct terrain *terrain_by_number(Terrain_type_id type)
+struct terrain *terrain_by_number(const Terrain_type_id type)
 {
   if (type < 0 || type >= game.control.terrain_count) {
     /* This isn't an error; some T_UNKNOWN callers depend on it. */
@@ -131,7 +202,6 @@ struct terrain *find_terrain_by_translated_name(const char *name)
 ****************************************************************************/
 const char *terrain_name_translation(struct terrain *pterrain)
 {
-  SANITY_CHECK_TERRAIN(pterrain);
   if (NULL == pterrain->name.translated) {
     /* delayed (unified) translation */
     pterrain->name.translated = ('\0' == pterrain->name.vernacular[0])
@@ -179,21 +249,61 @@ enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
   return TER_LAST;
 }
 
-/****************************************************************************
-  Free memory which is associated with terrain types.
-****************************************************************************/
-void terrains_free(void)
+/**************************************************************************
+  Return the first item of resources.
+**************************************************************************/
+struct resource *resource_array_first(void)
 {
-  terrain_type_iterate(pterrain) {
-    free(pterrain->helptext);
-    pterrain->helptext = NULL;
-  } terrain_type_iterate_end;
+  if (game.control.resource_count > 0) {
+    return civ_resources;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of resources.
+**************************************************************************/
+const struct resource *resource_array_last(void)
+{
+  if (game.control.resource_count > 0) {
+    return &civ_resources[game.control.resource_count - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the resource count.
+**************************************************************************/
+const Resource_type_id resource_count(void)
+{
+  return game.control.resource_count;
+}
+
+/**************************************************************************
+  Return the resource index.
+
+  Currently same as resource_number(), paired with resource_count()
+  indicates use as an array index.
+**************************************************************************/
+const Resource_type_id resource_index(const struct resource *presource)
+{
+  assert(presource);
+  return presource - civ_resources;
+}
+
+/**************************************************************************
+  Return the resource index.
+**************************************************************************/
+const Resource_type_id resource_number(const struct resource *presource)
+{
+  assert(presource);
+  return presource->item_number;
 }
 
 /****************************************************************************
   Return the resource for the given resource index.
 ****************************************************************************/
-struct resource *resource_by_number(Resource_type_id type)
+struct resource *resource_by_number(const Resource_type_id type)
 {
   if (type < 0 || type >= game.control.resource_count) {
     /* This isn't an error; some callers depend on it. */

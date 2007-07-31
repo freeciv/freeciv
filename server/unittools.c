@@ -829,14 +829,14 @@ static void update_unit_activity(struct unit *punit)
     }
   }
 
-  if (find_unit_by_id(id) && unit_has_orders(punit)) {
+  if (game_find_unit_by_number(id) && unit_has_orders(punit)) {
     if (!execute_orders(punit)) {
       /* Unit died. */
       return;
     }
   }
 
-  if (find_unit_by_id(id)) {
+  if (game_find_unit_by_number(id)) {
     send_unit_info(NULL, punit);
   }
 
@@ -1337,7 +1337,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   assert(ptile != NULL);
   punit->tile = ptile;
 
-  pcity = find_city_by_id(homecity_id);
+  pcity = game_find_city_by_number(homecity_id);
   if (utype_has_flag(type, F_NOHOME)) {
     punit->homecity = 0; /* none */
   } else {
@@ -1410,7 +1410,7 @@ and the city it was in.
 static void server_remove_unit(struct unit *punit)
 {
   struct city *pcity = tile_get_city(punit->tile);
-  struct city *phomecity = find_city_by_id(punit->homecity);
+  struct city *phomecity = game_find_city_by_number(punit->homecity);
   struct tile *unit_tile = punit->tile;
 
 #ifndef NDEBUG
@@ -1687,10 +1687,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     /* count killed units */
     unit_list_iterate(punit->tile->units, vunit) {
       if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit))) {
-	num_killed[vunit->owner->player_no]++;
+	num_killed[player_index(vunit->owner)]++;
 	if (vunit != punit) {
-	  other_killed[vunit->owner->player_no] = vunit;
-	  other_killed[destroyer->player_no] = vunit;
+	  other_killed[player_index(vunit->owner)] = vunit;
+	  other_killed[player_index(destroyer)] = vunit;
 	}
       }
     } unit_list_iterate_end;
@@ -1731,9 +1731,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      * they all are. */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i] == 1) {
-	if (i == punit->owner->player_no) {
+	if (i == player_index(punit->owner)) {
 	  assert(other_killed[i] == NULL);
-	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			/* TRANS: "Cannon lost to an attack from John's
 			 * Destroyer." */
 			_("%s lost to an attack from %s's %s."),
@@ -1742,7 +1742,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			unit_name_translation(pkiller));
 	} else {
 	  assert(other_killed[i] != punit);
-	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			/* TRANS: "Cannon lost when John's Destroyer
 			 * attacked Mark's Musketeers." */
 			_("%s lost when %s's %s attacked %s's %s."),
@@ -1753,11 +1753,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			unit_name_translation(punit));
 	}
       } else if (num_killed[i] > 1) {
-	if (i == punit->owner->player_no) {
+	if (i == player_index(punit->owner)) {
 	  int others = num_killed[i] - 1;
 
 	  if (others == 1) {
-	    notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			  /* TRANS: "Musketeers (and Cannon) lost to an
 			   * attack from John's Destroyer." */
 			  _("%s (and %s) lost to an attack from %s's %s."),
@@ -1766,7 +1766,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			  destroyer->name,
 			  unit_name_translation(pkiller));
 	  } else {
-	    notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			  /* TRANS: "Musketeers and 3 other units lost to
 			   * an attack from John's Destroyer." (only happens
 			   * with at least 2 other units) */
@@ -1780,7 +1780,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			  unit_name_translation(pkiller));
 	  }
 	} else {
-	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			/* TRANS: "2 units lost when John's Destroyer
 			 * attacked Mark's Musketeers."  (only happens
 			 * with at least 2 other units) */
@@ -1812,7 +1812,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   packet->id = punit->id;
-  packet->owner = punit->owner->player_no;
+  packet->owner = player_number(punit->owner);
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->homecity = punit->homecity;
@@ -1891,7 +1891,7 @@ void package_short_unit(struct unit *punit,
   packet->info_city_id = info_city_id;
 
   packet->id = punit->id;
-  packet->owner = punit->owner->player_no;
+  packet->owner = player_number(punit->owner);
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->veteran = punit->veteran;
@@ -2012,24 +2012,20 @@ void send_unit_info(struct player *dest, struct unit *punit)
 **************************************************************************/
 void send_all_known_units(struct conn_list *dest)
 {
-  int p;
-  
   conn_list_do_buffer(dest);
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->player;
     if (!pconn->player && !pconn->observer) {
       continue;
     }
-    for(p=0; p<game.info.nplayers; p++) { /* send the players units */
-      struct player *unitowner = &game.players[p];
+    players_iterate(unitowner) {
       unit_list_iterate(unitowner->units, punit) {
 	if (!pplayer || can_player_see_unit(pplayer, punit)) {
 	  send_unit_info_to_onlookers(pconn->self, punit,
 				      punit->tile, FALSE);
 	}
-      }
-      unit_list_iterate_end;
-    }
+      } unit_list_iterate_end;
+    } players_iterate_end;
   }
   conn_list_iterate_end;
   conn_list_do_unbuffer(dest);
@@ -2345,7 +2341,7 @@ void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
 ****************************************************************************/
 void unload_unit_from_transporter(struct unit *punit)
 {
-  struct unit *ptrans = find_unit_by_id(punit->transported_by);
+  struct unit *ptrans = game_find_unit_by_number(punit->transported_by);
 
   pull_unit_from_transporter(punit, ptrans);
   send_unit_info(NULL, punit);
@@ -2452,10 +2448,10 @@ static bool unit_survive_autoattack(struct unit *punit)
     }
 #endif
 
-    if (find_unit_by_id(sanity2)) {
+    if (game_find_unit_by_number(sanity2)) {
       send_unit_info(NULL, penemy);
     }
-    if (find_unit_by_id(sanity1)) {
+    if (game_find_unit_by_number(sanity1)) {
       send_unit_info(NULL, punit);
     } else {
       unit_list_unlink_all(autoattack);
@@ -2466,7 +2462,7 @@ static bool unit_survive_autoattack(struct unit *punit)
 
   unit_list_unlink_all(autoattack);
   unit_list_free(autoattack);
-  if (find_unit_by_id(sanity1)) {
+  if (game_find_unit_by_number(sanity1)) {
     /* We could have lost movement in combat */
     punit->moves_left = MIN(punit->moves_left, moves);
     send_unit_info(NULL, punit);
@@ -2551,7 +2547,7 @@ static void handle_unit_move_consequences(struct unit *punit,
   bool refresh_homecity = FALSE;
   
   if (punit->homecity != 0)
-    homecity = find_city_by_id(punit->homecity);
+    homecity = game_find_city_by_number(punit->homecity);
 
   if (tocity)
     handle_unit_enter_city(punit, tocity);
@@ -2731,7 +2727,7 @@ void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   punit->tile = pdesttile;
   punit->moved = TRUE;
   if (punit->transported_by != -1) {
-    ptransporter = find_unit_by_id(punit->transported_by);
+    ptransporter = game_find_unit_by_number(punit->transported_by);
     pull_unit_from_transporter(punit, ptransporter);
   }
   punit->moves_left = MAX(0, punit->moves_left - move_cost);

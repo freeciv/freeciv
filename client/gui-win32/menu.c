@@ -1045,9 +1045,9 @@ update_menus(void)
 
     government_iterate(g) {
       if (g != game.government_when_anarchy) {
-	AppendMenu(govts, MF_STRING, id + g->index,
+	AppendMenu(govts, MF_STRING, id + government_number(g),
 		   government_name_translation(g));
-	my_enable_menu(menu, id + g->index,
+	my_enable_menu(menu, id + government_number(g),
 		       can_change_to_government(game.player_ptr, g)
 		       && can_client_issue_orders());
       }
@@ -1158,7 +1158,7 @@ update_menus(void)
 		     can_unit_change_homecity(punit));
       my_enable_menu(menu, IDM_ORDERS_LOAD, find_transporter_for_unit(punit));
       my_enable_menu(menu, IDM_ORDERS_UNLOAD,
-	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
+	(can_unit_unload(punit, game_find_unit_by_number(punit->transported_by))
 	 && can_unit_exist_at_tile(punit, punit->tile)) 
 	|| get_transporter_occupancy(punit) > 0);
       my_enable_menu(menu, IDM_ORDERS_WAKEUP_OTHERS,

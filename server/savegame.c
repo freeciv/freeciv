@@ -249,7 +249,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
 ****************************************************************************/
 static struct terrain *char2terrain(char ch)
 {
-  /* terrain_by_identifier plus fatal error */
+  /* find_terrain_by_identifier plus fatal error */
   if (ch == TERRAIN_UNKNOWN_IDENTIFIER) {
     return T_UNKNOWN;
   }
@@ -873,7 +873,7 @@ static void map_load(struct section_file *file,
           ptile->owner = NULL;
         } else {
           if (sscanf(token, "%d", &number)) {
-            ptile->owner = get_player(number);
+            ptile->owner = player_by_number(number);
           } else {
             die("Savegame corrupt - got map owner %s in (%d, %d).", 
                 token, x, y);
@@ -950,8 +950,8 @@ static void map_load(struct section_file *file,
     whole_map_iterate(ptile) {
       BV_CLR_ALL(ptile->tile_known);
       players_iterate(pplayer) {
-	if (known[ptile->index] & (1u << pplayer->player_no)) {
-	  BV_SET(ptile->tile_known, pplayer->player_no);
+	if (known[ptile->index] & (1u << player_index(pplayer))) {
+	  BV_SET(ptile->tile_known, player_index(pplayer));
 	}
       } players_iterate_end;
     } whole_map_iterate_end;
@@ -1055,7 +1055,7 @@ static void map_save(struct section_file *file)
         if (ptile->owner == NULL) {
           strcpy(token, "-");
         } else {
-          my_snprintf(token, sizeof(token), "%d", ptile->owner->player_no);
+          my_snprintf(token, sizeof(token), "%d", player_number(ptile->owner));
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {
@@ -1096,7 +1096,7 @@ static void map_save(struct section_file *file)
     whole_map_iterate(ptile) {
       players_iterate(pplayer) {
 	if (map_is_known(ptile, pplayer)) {
-	  known[ptile->index] |= (1u << pplayer->player_no);
+	  known[ptile->index] |= (1u << player_index(pplayer));
 	}
       } players_iterate_end;
     } whole_map_iterate_end;
@@ -1289,22 +1289,18 @@ static Unit_type_id old_unit_type_id(const struct unit_type *type)
 ****************************************************************************/
 static const char* old_unit_type_name(int id)
 {
-  /* before 1.15.0 unit types used to be saved by id */
   if (id < 0) {
-    freelog(LOG_FATAL, "Wrong unit type id value (%d)", id);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
   /* Different rulesets had different unit names. */
   if (strcmp(game.rulesetdir, "civ1") == 0) {
     if (id >= ARRAY_SIZE(old_civ1_unit_types)) {
-      freelog(LOG_FATAL, "Wrong unit type id value (%d)", id);
-      exit(EXIT_FAILURE);
+      return NULL;
     }
     return old_civ1_unit_types[id];
   } else {
     if (id >= ARRAY_SIZE(old_default_unit_types)) {
-      freelog(LOG_FATAL, "Wrong unit type id value (%d)", id);
-      exit(EXIT_FAILURE);
+      return NULL;
     }
     return old_default_unit_types[id];
   }
@@ -1560,35 +1556,6 @@ static void save_technology(struct section_file *file,
 }
 
 /****************************************************************************
-  Nowadays governments are saved by name, but old servers need the
-  index.  This function tries to find the correct _old_ id for the
-  government. It is used when the government is saved.
-****************************************************************************/
-static int old_government_id(struct government *gov)
-{
-  const char** names;
-  int num_names, i;
-
-  if (strcmp(game.rulesetdir, "civ2") == 0) {
-    names = old_civ2_governments;
-    num_names = ARRAY_SIZE(old_civ2_governments);
-  } else {
-    names = old_default_governments;
-    num_names = ARRAY_SIZE(old_default_governments);
-  }
-
-  for (i = 0; i < num_names; i++) {
-    if (mystrcasecmp(government_rule_name(gov), names[i]) == 0) {
-      return i;
-    }
-  }
-
-  /* It's a new government. Savegame cannot be forward compatible so we can
-   * return anything */
-  return gov->index;
-}
-
-/****************************************************************************
   Convert an old-style government index into a government name.
 ****************************************************************************/
 static const char* old_government_name(int id)
@@ -1638,26 +1605,26 @@ static void load_player_units(struct player *plr, int plrno,
     struct unit_type *type;
     struct base_type *pbase = NULL;
     
-    type_name = secfile_lookup_str_default(file, NULL, 
+    type_name = secfile_lookup_str_default(file, NULL,
                                            "player%d.u%d.type_by_name",
-					   plrno, i);
+                                           plrno, i);
     if (!type_name) {
       /* before 1.15.0 unit types used to be saved by id. */
-      int t = secfile_lookup_int(file, "player%d.u%d.type",
-                             plrno, i);
-      if (t < 0) {
-        freelog(LOG_FATAL, "Wrong player%d.u%d.type value (%d)",
-	        plrno, i, t);
-	exit(EXIT_FAILURE);
-      }
+      int t = secfile_lookup_int_default(file, -1,
+                                         "player%d.u%d.type",
+                                         plrno, i);
       type_name = old_unit_type_name(t);
-
+      if (!type_name) {
+        freelog(LOG_FATAL, "player%d.u%d.type: unknown (%d)",
+                plrno, i, t);
+        exit(EXIT_FAILURE);
+      }
     }
     
     type = find_unit_type_by_rule_name(type_name);
     if (!type) {
-      freelog(LOG_FATAL, "Unknown unit type '%s' in player%d section",
-              type_name, plrno);
+      freelog(LOG_FATAL, "player%d.u%d: unknown unit type \"%s\".",
+              plrno, i, type_name);
       exit(EXIT_FAILURE);
     }
     
@@ -1677,7 +1644,7 @@ static void load_player_units(struct player *plr, int plrno,
     punit->homecity = secfile_lookup_int(file, "player%d.u%d.homecity",
 					 plrno, i);
 
-    if ((pcity = find_city_by_id(punit->homecity))) {
+    if ((pcity = game_find_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
     }
     
@@ -1894,7 +1861,7 @@ static void player_load(struct player *plr, int plrno,
 
   /* not all players have teams */
   id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
-  pteam = team_get_by_id(id);
+  pteam = team_by_number(id);
   if (pteam == NULL) {
     pteam = find_empty_team();
   }
@@ -2011,8 +1978,8 @@ static void player_load(struct player *plr, int plrno,
   if (has_capability("embassies", savefile_options)) {
     players_iterate(pother) {
       if (secfile_lookup_bool(file, "player%d.embassy%d",
-			      plrno, pother->player_no)) {
-	BV_SET(plr->embassy, pother->player_no);
+			      plrno, player_number(pother))) {
+	BV_SET(plr->embassy, player_index(pother));
       }
     } players_iterate_end;
   } else {
@@ -2021,8 +1988,8 @@ static void player_load(struct player *plr, int plrno,
     int embassy = secfile_lookup_int(file, "player%d.embassy", plrno);
 
     players_iterate(pother) {
-      if (embassy & (1 << pother->player_no)) {
-	BV_SET(plr->embassy, pother->player_no);
+      if (embassy & (1 << player_index(pother))) {
+	BV_SET(plr->embassy, player_index(pother));
       }
     } players_iterate_end;
 
@@ -2297,9 +2264,9 @@ static void player_load(struct player *plr, int plrno,
     id = secfile_lookup_int_default(file, -1,
 				    "player%d.c%d.original", plrno, i);
     if (id >= 0 && id < game.info.nplayers) {
-      pcity->original = get_player(id);
+      pcity->original = player_by_number(id);
     } else {
-      pcity->original = get_player(plrno);
+      pcity->original = player_by_number(plrno);
     }
 
     pcity->size=secfile_lookup_int(file, "player%d.c%d.size", plrno, i);
@@ -2727,7 +2694,7 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.unhappy", plrno, j);
 	id = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
-	pdcity->owner = get_player(id);
+	pdcity->owner = player_by_number(id);
 
 	/* Initialise list of improvements */
 	BV_CLR_ALL(pdcity->improvements);
@@ -2798,20 +2765,12 @@ static void player_save(struct player *plr, int plrno,
                      plrno);
   secfile_insert_str(file, nation_rule_name(nation_of_player(plr)),
 		     "player%d.nation", plrno);
-  /* 1.15 and later won't use the race field, they key on the nation string 
-   * This field is kept only for forward compatibility
-   * Nations can't be saved correctly because race must be < 62 */
-  secfile_insert_int(file, plrno, "player%d.race", plrno);
 
-  secfile_insert_int(file, plr->team ? plr->team->index : -1,
+  secfile_insert_int(file, plr->team ? team_index(plr->team) : -1,
 		     "player%d.team_no", plrno);
 
   secfile_insert_str(file, government_rule_name(government_of_player(plr)),
 		     "player%d.government_name", plrno);
-  /* 1.15 and later won't use "government" field; it's kept for forward 
-   * compatibility */
-  secfile_insert_int(file, old_government_id(government_of_player(plr)),
-                     "player%d.government", plrno);
 
   if (plr->target_government) {
     secfile_insert_str(file, government_rule_name(government_of_player(plr)),
@@ -2819,8 +2778,8 @@ static void player_save(struct player *plr, int plrno,
   }
 
   players_iterate(pother) {
-    secfile_insert_bool(file, BV_ISSET(plr->embassy, pother->player_no),
-			"player%d.embassy%d", plrno, pother->player_no);
+    secfile_insert_bool(file, BV_ISSET(plr->embassy, player_index(pother)),
+			"player%d.embassy%d", plrno, player_number(pother));
   } players_iterate_end;
 
   /* Required for 2.0 and earlier servers.  Remove eventually. */
@@ -2943,7 +2902,7 @@ static void player_save(struct player *plr, int plrno,
     char vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS+1];
 
     for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
-      vision[i] = gives_shared_vision(plr, get_player(i)) ? '1' : '0';
+      vision[i] = gives_shared_vision(plr, player_by_number(i)) ? '1' : '0';
     vision[i] = '\0';
     secfile_insert_str(file, vision, "player%d.gives_shared_vision", plrno);
   }
@@ -3159,7 +3118,7 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->tile->nat_x, "player%d.c%d.x", plrno, i);
     secfile_insert_int(file, pcity->tile->nat_y, "player%d.c%d.y", plrno, i);
     secfile_insert_str(file, pcity->name, "player%d.c%d.name", plrno, i);
-    secfile_insert_int(file, pcity->original->player_no,
+    secfile_insert_int(file, player_number(pcity->original),
 		       "player%d.c%d.original", plrno, i);
     secfile_insert_int(file, pcity->size, "player%d.c%d.size", plrno, i);
     secfile_insert_int(file, pcity->steal, "player%d.c%d.steal", plrno, i);
@@ -3377,7 +3336,7 @@ static void player_save(struct player *plr, int plrno,
 			      "player%d.dc%d.happy", plrno, i);
 	  secfile_insert_bool(file, pdcity->unhappy,
 			      "player%d.dc%d.unhappy", plrno, i);
-	  secfile_insert_int(file, pdcity->owner->player_no,
+	  secfile_insert_int(file, player_number(pdcity->owner),
 			     "player%d.dc%d.owner", plrno, i);
 
 	  /* Save improvement list as bitvector. Note that improvement order
@@ -4025,7 +3984,7 @@ void game_load(struct section_file *file)
     }
 
     players_iterate(pplayer) {
-      player_load(pplayer, pplayer->player_no, file, improvement_order,
+      player_load(pplayer, player_number(pplayer), file, improvement_order,
 		  improvement_order_size, technology_order,
 		  technology_order_size);
     } players_iterate_end;
@@ -4059,8 +4018,8 @@ void game_load(struct section_file *file)
           freelog(LOG_ERROR, _("Illegal alliance structure detected: "
                   "%s's alliance to %s reduced to peace treaty."),
                   plr->name, aplayer->name);
-          plr->diplstates[aplayer->player_no].type = DS_PEACE;
-          aplayer->diplstates[plr->player_no].type = DS_PEACE;
+          plr->diplstates[player_index(aplayer)].type = DS_PEACE;
+          aplayer->diplstates[player_index(plr)].type = DS_PEACE;
         }
       } players_iterate_end;
     } players_iterate_end;
@@ -4088,14 +4047,14 @@ void game_load(struct section_file *file)
     } players_iterate_end;
     players_iterate(pplayer) {
       char *vision;
-      int plrno = pplayer->player_no;
+      int plrno = player_number(pplayer);
 
       vision = secfile_lookup_str_default(file, NULL,
 					  "player%d.gives_shared_vision",
 					  plrno);
       if (vision) {
 	players_iterate(pplayer2) {
-	  if (vision[pplayer2->player_no] == '1') {
+	  if (vision[player_index(pplayer2)] == '1') {
 	    give_shared_vision(pplayer, pplayer2);
 	  }
 	} players_iterate_end;
@@ -4126,6 +4085,7 @@ void game_load(struct section_file *file)
 				 "game.shuffled_player_%d", 0) >= 0) {
     int shuffled_players[game.info.nplayers];
 
+    /* players_iterate() not used here */
     for (i = 0; i < game.info.nplayers; i++) {
       shuffled_players[i]
 	= secfile_lookup_int(file, "game.shuffled_player_%d", i);
@@ -4143,7 +4103,7 @@ void game_load(struct section_file *file)
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      struct unit *ferry = find_unit_by_id(punit->transported_by);
+      struct unit *ferry = game_find_unit_by_number(punit->transported_by);
 
       if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
         freelog(LOG_ERROR, "Removing %s's unferried %s in %s at (%d, %d)",
@@ -4453,11 +4413,12 @@ void game_save(struct section_file *file, const char *save_reason)
     calc_unit_ordering();
 
     players_iterate(pplayer) {
-      player_save(pplayer, pplayer->player_no, file);
+      player_save(pplayer, player_number(pplayer), file);
     } players_iterate_end;
 
+    /* shuffled_players_iterate() not used here */
     for (i = 0; i < game.info.nplayers; i++) {
-      secfile_insert_int(file, shuffled_player(i)->player_no,
+      secfile_insert_int(file, player_number(shuffled_player(i)),
 			 "game.shuffled_player_%d", i);
     }
   }

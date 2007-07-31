@@ -124,7 +124,7 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
       struct packet_spaceship_info info;
       struct player_spaceship *ship = &pplayer->spaceship;
 	  
-      info.player_num = pplayer->player_no;
+      info.player_num = player_number(pplayer);
       info.sship_state = ship->state;
       info.structurals = ship->structurals;
       info.components = ship->components;

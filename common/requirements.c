@@ -112,8 +112,8 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_GOV:
-    source.value.gov = find_government_by_rule_name(value);
-    if (source.value.gov != NULL) {
+    source.value.govern = find_government_by_rule_name(value);
+    if (source.value.govern != NULL) {
       return source;
     }
     break;
@@ -214,7 +214,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.tech = value;
     return source;
   case REQ_GOV:
-    source.value.gov = government_by_number(value);
+    source.value.govern = government_by_number(value);
     return source;
   case REQ_BUILDING:
     source.value.building = value;
@@ -279,7 +279,7 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.tech;
     return;
   case REQ_GOV:
-    *value = source->value.gov->index;
+    *value = government_number(source->value.govern);
     return;
   case REQ_BUILDING:
     *value = source->value.building;
@@ -288,19 +288,19 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.special;
     return;
   case REQ_TERRAIN:
-    *value = source->value.terrain->index;
+    *value = terrain_number(source->value.terrain);
     return;
   case REQ_NATION:
-    *value = source->value.nation->index;
+    *value = nation_number(source->value.nation);
     return;
   case REQ_UNITTYPE:
-    *value = source->value.unittype->index;
+    *value = utype_number(source->value.unittype);
     return;
   case REQ_UNITFLAG:
     *value = source->value.unitflag;
     return;
   case REQ_UNITCLASS:
-    *value = source->value.unitclass->id;
+    *value = uclass_number(source->value.unitclass);
     return;
   case REQ_OUTPUTTYPE:
     *value = source->value.outputtype;
@@ -520,7 +520,7 @@ static struct city *player_find_city_from_wonder(const struct player *plr,
     return NULL;
   }
 
-  pcity = find_city_by_id(city_id);
+  pcity = game_find_city_by_number(city_id);
   if (pcity && (city_owner(pcity) == plr)) {
     return pcity;
   } else {
@@ -867,7 +867,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case REQ_GOV:
     /* The requirement is filled if the player is using the government. */
-    eval = (government_of_player(target_player) == req->source.value.gov);
+    eval = (government_of_player(target_player) == req->source.value.govern);
     break;
   case REQ_BUILDING:
     /* The requirement is filled if there's at least one of the building
@@ -1031,7 +1031,7 @@ bool are_req_sources_equal(const struct req_source *psource1,
   case REQ_TECH:
     return psource1->value.tech == psource2->value.tech;
   case REQ_GOV:
-    return psource1->value.gov == psource2->value.gov;
+    return psource1->value.govern == psource2->value.govern;
   case REQ_BUILDING:
     return psource1->value.building == psource2->value.building;
   case REQ_SPECIAL:
@@ -1079,7 +1079,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, advance_name_translation(psource->value.tech), bufsz);
     break;
   case REQ_GOV:
-    mystrlcat(buf, government_name_translation(psource->value.gov), bufsz);
+    mystrlcat(buf, government_name_translation(psource->value.govern), bufsz);
     break;
   case REQ_BUILDING:
     mystrlcat(buf, improvement_name_translation(psource->value.building), bufsz);

@@ -577,7 +577,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   if (look_for_boat) {
     int ferry_id = aiferry_find_boat(punit, 1, NULL);
 
-    ferry = find_unit_by_id(ferry_id);
+    ferry = game_find_unit_by_number(ferry_id);
   }
 
   if (ferry 

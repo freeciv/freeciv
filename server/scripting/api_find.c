@@ -25,7 +25,7 @@
 **************************************************************************/
 Player *api_find_player(int player_id)
 {
-  return get_player(player_id);
+  return player_by_number(player_id);
 }
 
 /**************************************************************************

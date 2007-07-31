@@ -129,7 +129,7 @@ struct city *game_find_city_by_name(const char *name)
   City may be any city in the game.  This now always uses fast idex
   method, instead of looking through all cities of all players.
 **************************************************************************/
-struct city *find_city_by_id(int id)
+struct city *game_find_city_by_number(int id)
 {
   return idex_lookup_city(id);
 }
@@ -139,7 +139,7 @@ struct city *find_city_by_id(int id)
   Find unit out of all units in game: now uses fast idex method,
   instead of looking through all units of all players.
 **************************************************************************/
-struct unit *find_unit_by_id(int id)
+struct unit *game_find_unit_by_number(int id)
 {
   return idex_lookup_unit(id);
 }
@@ -573,25 +573,8 @@ void game_renumber_players(int plrno)
 }
 
 /**************************************************************************
-get_player() - Return player struct pointer corresponding to player_id.
-               Eg: player_id = punit->owner, or pcity->owner
-
-  You can retrieve players that are no in the game (with IDs larger than
-  game.info.nplayers).  An out-of-range player request will return NULL.
-**************************************************************************/
-struct player *get_player(int player_id)
-{
-  if (player_id < 0 || player_id >= ARRAY_SIZE(game.players)) {
-    /* This isn't an error; some callers rely on this behavior. */
-    return NULL;
-  }
-  assert(game.players[player_id].player_no == player_id);
-  return &game.players[player_id];
-}
-
-/**************************************************************************
   Return TRUE iff the player ID refers to an in-game player.  Unlike
-  get_player any index larger than nplayers is not considered "valid".
+  player_by_number any index larger than nplayers is not considered "valid".
 **************************************************************************/
 bool is_valid_player_id(int player_id)
 {
@@ -612,7 +595,7 @@ int get_num_human_and_ai_players(void)
 **************************************************************************/
 bool is_player_phase(const struct player *pplayer, int phase)
 {
-  return game.info.simultaneous_phases || pplayer->player_no == phase;
+  return game.info.simultaneous_phases || player_number(pplayer) == phase;
 }
 
 /****************************************************************************

@@ -61,7 +61,7 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
   if (players_on_same_team(p1, p2)) {
     return DIPL_ERROR;
   }
-  if (p1->diplstates[p2->player_no].has_reason_to_cancel == 0
+  if (p1->diplstates[player_index(p2)].has_reason_to_cancel == 0
       && get_player_bonus(p1, EFT_HAS_SENATE) > 0
       && get_player_bonus(p1, EFT_ANY_GOVERNMENT) == 0) {
     return DIPL_SENATE_BLOCKING;
@@ -152,7 +152,7 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
 bool player_has_embassy(const struct player *pplayer,
 			const struct player *pplayer2)
 {
-  return (BV_ISSET(pplayer->embassy, pplayer2->player_no)
+  return (BV_ISSET(pplayer->embassy, player_index(pplayer2))
           || (pplayer == pplayer2)
           || (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0
               && !is_barbarian(pplayer2)));
@@ -163,7 +163,7 @@ bool player_has_embassy(const struct player *pplayer,
 ****************************************************************************/
 bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 {
-  return (pcity && pplayer && pcity->owner == pplayer);
+  return (pcity && pplayer && city_owner(pcity) == pplayer);
 }
 
 /***************************************************************
@@ -230,6 +230,87 @@ void player_init(struct player *plr)
   plr->attribute_block_buffer.data = NULL;
   plr->attribute_block_buffer.length = 0;
   BV_CLR_ALL(plr->debug);
+}
+
+/**************************************************************************
+  Return the first item of players.
+**************************************************************************/
+struct player *player_array_first(void)
+{
+  if (game.info.nplayers > 0) {
+    return game.players;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of players.
+**************************************************************************/
+const struct player *player_array_last(void)
+{
+  if (game.info.nplayers > 0) {
+    return &game.players[game.info.nplayers - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the number of players.
+**************************************************************************/
+const int player_count(void)
+{
+  return game.info.nplayers;
+}
+
+/**************************************************************************
+  Return the player index.
+
+  Currently same as player_number(), paired with player_count()
+  indicates use as an array index.
+**************************************************************************/
+const int player_index(const struct player *pplayer)
+{
+  assert(pplayer);
+  return pplayer - game.players;
+}
+
+/**************************************************************************
+  Return the player index.
+**************************************************************************/
+const int player_number(const struct player *pplayer)
+{
+  assert(pplayer);
+  return pplayer->player_no;
+}
+
+/**************************************************************************
+  Return struct player pointer for the given player index.
+
+  You can retrieve players that are not in the game (with IDs larger than
+  player_count).  An out-of-range player request will return NULL.
+**************************************************************************/
+struct player *player_by_number(const int player_id)
+{
+  if (player_id < 0 || player_id >= ARRAY_SIZE(game.players)) {
+    /* This isn't an error; some callers rely on this behavior. */
+    return NULL;
+  }
+  assert(game.players[player_id].player_no == player_id);
+  return &game.players[player_id];
+}
+
+/**************************************************************************
+  Return pointer iff the player ID refers to an in-game player.  Unlike
+  player_by_number, any index larger than player_count is not "valid".
+**************************************************************************/
+struct player *valid_player_by_number(const int player_id)
+{
+  if (player_id < 0 || player_id >= game.info.nplayers
+   || player_id >= ARRAY_SIZE(game.players)) {
+    return NULL;
+  }
+  assert(game.players[player_id].player_no == player_id);
+  return &game.players[player_id];
 }
 
 /****************************************************************************
@@ -299,7 +380,7 @@ struct player *find_player_by_name_prefix(const char *name,
 			 mystrncasequotecmp, name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
-    return get_player(ind);
+    return player_by_number(ind);
   } else {
     return NULL;
   }
@@ -360,7 +441,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   }
 
   /* Hiding units are only seen by the V_INVIS fog layer. */
-  return BV_ISSET(ptile->tile_seen[V_INVIS], pplayer->player_no);
+  return BV_ISSET(ptile->tile_seen[V_INVIS], player_index(pplayer));
 
   return FALSE;
 }
@@ -433,7 +514,7 @@ struct city *player_find_city_by_id(const struct player *pplayer,
 {
   struct city *pcity = idex_lookup_city(city_id);
 
-  return (pcity && pcity->owner == pplayer) ? pcity : NULL;
+  return (pcity && city_owner(pcity) == pplayer) ? pcity : NULL;
 }
 
 /***************************************************************
@@ -460,7 +541,7 @@ bool player_in_city_radius(const struct player *pplayer,
   map_city_radius_iterate(ptile, ptile1) {
     struct city *pcity = tile_get_city(ptile1);
 
-    if (pcity && pcity->owner == pplayer) {
+    if (pcity && city_owner(pcity) == pplayer) {
       return TRUE;
     }
   } map_city_radius_iterate_end;
@@ -688,7 +769,7 @@ returns diplomatic state type between two players
 const struct player_diplstate *pplayer_get_diplstate(const struct player *pplayer,
 						     const struct player *pplayer2)
 {
-  return &(pplayer->diplstates[pplayer2->player_no]);
+  return &(pplayer->diplstates[player_index(pplayer2)]);
 }
 
 /***************************************************************
@@ -791,7 +872,7 @@ bool is_barbarian(const struct player *pplayer)
 **************************************************************************/
 bool gives_shared_vision(const struct player *me, const struct player *them)
 {
-  return TEST_BIT(me->gives_shared_vision, them->player_no);
+  return TEST_BIT(me->gives_shared_vision, player_index(them));
 }
 
 /**************************************************************************

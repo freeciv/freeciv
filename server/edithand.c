@@ -80,13 +80,13 @@ void handle_edit_tile(struct connection *pc, int x, int y,
 
   old_terrain = ptile->terrain;
 
-  specials_iterate(s) {
+  tile_special_type_iterate(s) {
     if (contains_special(special, s) && !tile_has_special(ptile, s)) {
       tile_add_special(ptile, s);
     } else if (!contains_special(special, s) && tile_has_special(ptile, s)) {
       tile_remove_special(ptile, s);
     }
-  } specials_iterate_end;
+  } tile_special_type_iterate_end;
 
   tile_set_resource(ptile, presource); /* May be NULL. */
 
@@ -109,7 +109,7 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
 {
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   struct unit_type *punittype = utype_by_number(packet->type);
-  struct player *pplayer = get_player(packet->owner);
+  struct player *pplayer = player_by_number(packet->owner);
   struct unit *punit;
 
   if (!can_conn_edit(pc)
@@ -147,7 +147,7 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
 			homecity ? homecity->id : 0,
 			packet->movesleft);
   } else {
-    punit = find_unit_by_id(packet->id);
+    punit = game_find_unit_by_number(packet->id);
     if (!punit) {
       freelog(LOG_ERROR, "can't find unit to edit!");
       return;
@@ -163,7 +163,7 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
   punit->activity_count = packet->activity_count;
   punit->fuel = CLIP(0, packet->fuel, punittype->fuel);
   punit->paradropped = BOOL_VAL(packet->paradropped);
-  if (find_unit_by_id(packet->transported_by)) {
+  if (game_find_unit_by_number(packet->transported_by)) {
     punit->transported_by = packet->transported_by;
   } else {
     punit->transported_by = -1;
@@ -185,7 +185,7 @@ void handle_edit_create_city(struct connection *pc,
 {
   struct tile *ptile = map_pos_to_tile(x, y);
   struct city *pcity;
-  struct player *pplayer = get_player(owner);
+  struct player *pplayer = player_by_number(owner);
 
   if (!can_conn_edit(pc) || !pplayer || !ptile) {
     return;
@@ -223,7 +223,7 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
 {
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   struct city *pcity;
-  struct player *pplayer = get_player(packet->owner);
+  struct player *pplayer = player_by_number(packet->owner);
   int i;
   int old_traderoutes[NUM_TRADEROUTES];
 
@@ -260,8 +260,8 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
     old_traderoutes[i] = pcity->trade[i];
   }
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *oldcity = find_city_by_id(old_traderoutes[i]);
-    struct city *newcity = find_city_by_id(packet->trade[i]);
+    struct city *oldcity = game_find_city_by_number(old_traderoutes[i]);
+    struct city *newcity = game_find_city_by_number(packet->trade[i]);
 
     /*
      * This complicated bit of logic either deletes or creates trade routes.
@@ -310,7 +310,7 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
 void handle_edit_city_size(struct connection *pc,
 			   int id, int size)
 {
-  struct city *pcity = find_city_by_id(id);
+  struct city *pcity = game_find_city_by_number(id);
 
   if (!can_conn_edit(pc) || !pcity) {
     return;
@@ -332,9 +332,9 @@ void handle_edit_city_size(struct connection *pc,
 void handle_edit_player(struct connection *pc, 
                         struct packet_edit_player *packet)
 {
-  struct player *pplayer = get_player(packet->playerno);
+  struct player *pplayer = player_by_number(packet->playerno);
   struct nation_type *pnation = nation_by_number(packet->nation);
-  struct team *pteam = team_get_by_id(packet->team);
+  struct team *pteam = team_by_number(packet->team);
   struct government *pgov = government_by_number(packet->government);
 #if 0 /* Unused: see below */
   struct player_research *research;
@@ -413,7 +413,7 @@ void handle_edit_player(struct connection *pc,
 void handle_edit_vision(struct connection *pc, int plr_no, int x, int y,
                         int mode)
 {
-  struct player *pplayer = get_player(plr_no);
+  struct player *pplayer = player_by_number(plr_no);
   struct tile *ptile = map_pos_to_tile(x, y);
   bool remove_knowledge = FALSE;
 
@@ -461,7 +461,7 @@ void handle_edit_player_tech(struct connection *pc,
                              int playerno, Tech_type_id tech,
                              enum editor_tech_mode mode)
 {
-  struct player *pplayer = get_player(playerno);
+  struct player *pplayer = player_by_number(playerno);
   struct player_research *research;
 
   if (!can_conn_edit(pc) || !pplayer || !tech_exists(tech)) {

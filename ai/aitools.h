@@ -34,8 +34,8 @@ struct pft_amphibious;
   (assert(punit != NULL),						    \
    assert(unit_type(punit) != NULL),						    \
    assert(punit->owner != NULL),					    \
-   assert(&game.players[punit->owner->player_no] == punit->owner),	    \
-   assert(find_unit_by_id(punit->id) != NULL))
+   assert(&game.players[player_index(punit->owner)] == punit->owner),	    \
+   assert(game_find_unit_by_number(punit->id) != NULL))
 #else
 #define CHECK_UNIT(punit) assert(TRUE)
 #endif

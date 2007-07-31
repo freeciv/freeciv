@@ -52,8 +52,8 @@ bool could_meet_with_player(const struct player *pplayer,
           && diplomacy_possible(pplayer,aplayer)
           && (player_has_embassy(aplayer, pplayer) 
               || player_has_embassy(pplayer, aplayer)
-              || pplayer->diplstates[aplayer->player_no].contact_turns_left > 0
-              || aplayer->diplstates[pplayer->player_no].contact_turns_left > 0));
+              || pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
+              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0));
 }
 
 /**************************************************************************
@@ -65,8 +65,8 @@ bool could_intel_with_player(const struct player *pplayer,
   return (pplayer->is_alive
           && aplayer->is_alive
           && pplayer != aplayer
-          && (pplayer->diplstates[aplayer->player_no].contact_turns_left > 0
-              || aplayer->diplstates[pplayer->player_no].contact_turns_left > 0
+          && (pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
+              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0
               || player_has_embassy(pplayer, aplayer)));
 }
 

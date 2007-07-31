@@ -45,15 +45,19 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
 static bool bounds_check_nation(const struct nation_type *pnation,
 				int loglevel, const char *func_name)
 {
-  if (game.control.nation_count == 0) {
+  if (0 == nation_count()) {
     freelog(loglevel, "%s before nations setup", func_name);
     return FALSE;
   }
-  if (pnation->index < 0
-      || pnation->index >= game.control.nation_count
-      || &nations[pnation->index] != pnation) {
+  if (NULL == pnation) {
+    freelog(loglevel, "%s has NULL nation", func_name);
+    return FALSE;
+  }
+  if (pnation->item_number < 0
+      || pnation->item_number >= nation_count()
+      || &nations[nation_index(pnation)] != pnation) {
     freelog(loglevel, "Bad nation id %d (count %d) in %s",
-	    pnation->index, game.control.nation_count, func_name);
+	    pnation->item_number, nation_count(), func_name);
     return FALSE;
   }
   return TRUE;
@@ -166,7 +170,7 @@ const char *nation_plural_for_player(const struct player *pplayer)
 bool is_nation_playable(const struct nation_type *nation)
 {
   if (!bounds_check_nation(nation, LOG_FATAL, "is_nation_playable")) {
-    die("wrong nation %d", nation->index);
+    die("wrong nation %d", nation->item_number);
   }
   return nation->is_playable;
 }
@@ -179,7 +183,7 @@ bool is_nation_playable(const struct nation_type *nation)
 enum barbarian_type nation_barbarian_type(const struct nation_type *nation)
 {
   if (!bounds_check_nation(nation, LOG_FATAL, "nation_barbarian_type")) {
-    die("wrong nation %d", nation->index);
+    die("wrong nation %d", nation->item_number);
   }
   return nation->barb_type;
 }
@@ -191,7 +195,7 @@ sets dim to number of leaders.
 struct leader *get_nation_leaders(const struct nation_type *nation, int *dim)
 {
   if (!bounds_check_nation(nation, LOG_FATAL, "get_nation_leader_names")) {
-    die("wrong nation %d", nation->index);
+    die("wrong nation %d", nation->item_number);
   }
   *dim = nation->leader_count;
   return nation->leaders;
@@ -251,7 +255,7 @@ struct nation_type *nation_of_player(const struct player *plr)
 {
   assert(plr != NULL);
   if (!bounds_check_nation(plr->nation, LOG_FATAL, "nation_of_player")) {
-    die("wrong nation %d", plr->nation->index);
+    die("wrong nation %d", plr->nation->item_number);
   }
   return plr->nation;
 }
@@ -288,6 +292,57 @@ struct nation_type *nation_by_number(const Nation_type_id nation)
   return &nations[nation];
 }
 
+/**************************************************************************
+  Return the nation index.
+**************************************************************************/
+const Nation_type_id nation_number(const struct nation_type *pnation)
+{
+  assert(pnation);
+  return pnation->item_number;
+}
+
+/**************************************************************************
+  Return the nation index.
+
+  Currently same as nation_number(), paired with nation_count()
+  indicates use as an array index.
+**************************************************************************/
+const Nation_type_id nation_index(const struct nation_type *pnation)
+{
+  assert(pnation);
+  return pnation - nations;
+}
+
+/****************************************************************************
+  Return the number of nations.
+****************************************************************************/
+const Nation_type_id nation_count(void)
+{
+  return game.control.nation_count;
+}
+
+/**************************************************************************
+  Return the last item of nations.
+**************************************************************************/
+const struct nation_type *nation_array_last(void)
+{
+  if (game.control.nation_count > 0) {
+    return &nations[game.control.nation_count - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the first item of nations.
+**************************************************************************/
+struct nation_type *nation_array_first(void)
+{
+  if (game.control.nation_count > 0) {
+    return nations;
+  }
+  return NULL;
+}
+
 /***************************************************************
  Allocate space for the given number of nations.
 ***************************************************************/
@@ -299,7 +354,7 @@ void nations_alloc(int num)
   game.control.nation_count = num;
 
   for (i = 0; i < num; i++) {
-    nations[i].index = i;
+    nations[i].item_number = i;
   }
 }
 
@@ -394,7 +449,7 @@ Returns nation's city style
 int city_style_of_nation(const struct nation_type *pnation)
 {
   if (!bounds_check_nation(pnation, LOG_FATAL, "city_style_of_nation")) {
-    die("wrong nation %d", pnation->index);
+    die("wrong nation %d", pnation->item_number);
   }
   return pnation->city_style;
 }
@@ -426,7 +481,7 @@ struct nation_group *add_new_nation_group(const char *name)
   }
 
   group = nation_groups + num_nation_groups;
-  group->index = num_nation_groups;
+  group->item_number = num_nation_groups;
   sz_strlcpy(group->name, name);
   group->match = 0;
 
@@ -438,13 +493,31 @@ struct nation_group *add_new_nation_group(const char *name)
 /****************************************************************************
   Return the number of nation groups.
 ****************************************************************************/
-int get_nation_groups_count(void)
+const int nation_group_count(void)
 {
   return num_nation_groups;
 }
 
+/**************************************************************************
+  Return the nation group index.
+**************************************************************************/
+const int nation_group_index(const struct nation_group *pgroup)
+{
+  assert(pgroup);
+  return pgroup - nation_groups;
+}
+
+/**************************************************************************
+  Return the nation group index.
+**************************************************************************/
+const int nation_group_number(const struct nation_group *pgroup)
+{
+  assert(pgroup);
+  return pgroup->item_number;
+}
+
 /****************************************************************************
-  Return the government with the given index.
+  Return the nation group with the given index.
 
   This function returns NULL for an out-of-range index (some callers
   rely on this).
@@ -489,6 +562,28 @@ bool is_nation_in_group(struct nation_type *nation,
     }
   }
   return FALSE;
+}
+
+/**************************************************************************
+  Return the first item of nation groups.
+**************************************************************************/
+struct nation_group *nation_group_array_first(void)
+{
+  if (num_nation_groups > 0) {
+    return nation_groups;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of nation groups.
+**************************************************************************/
+const struct nation_group *nation_group_array_last(void)
+{
+  if (num_nation_groups > 0) {
+    return &nation_groups[num_nation_groups - 1];
+  }
+  return NULL;
 }
 
 /****************************************************************************

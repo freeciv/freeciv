@@ -277,7 +277,7 @@ void popup_revolution_dialog(struct government *government)
 static void pillage_callback(GtkWidget *w, gpointer data)
 {
   if (data) {
-    struct unit *punit = find_unit_by_id(unit_to_use_to_pillage);
+    struct unit *punit = game_find_unit_by_number(unit_to_use_to_pillage);
     if (punit) {
       request_new_unit_activity_targeted(punit,
 					 ACTIVITY_PILLAGE,
@@ -688,7 +688,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     s = crop_blankspace(get_nation_flag_sprite(tileset, pnation));
     img = sprite_get_pixbuf(s);
     used = (pnation->player != NULL && pnation->player != races_player);
-    gtk_list_store_set(store, &it, 0, pnation->index, 1, used, 2, img, -1);
+    gtk_list_store_set(store, &it, 0, nation_number(pnation), 1, used, 2, img, -1);
     free_sprite(s);
 
     if (pnation->player == races_player) {
@@ -733,7 +733,7 @@ static GtkWidget* create_nation_selection_list(void)
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
   gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
   
-  for (i = 0; i <= get_nation_groups_count(); i++) {
+  for (i = 0; i <= nation_group_count(); i++) {
     struct nation_group* group = (i == 0 ? NULL: nation_group_by_number(i - 1));
     nation_list = create_list_of_nations_in_group(group, i);
     group_name_label = gtk_label_new(group ? Q_(group->name) : _("All"));
@@ -1066,7 +1066,7 @@ void races_toggles_set_sensitive(void)
     return;
   }
 
-  for (i = 0; i <= get_nation_groups_count(); i++) {
+  for (i = 0; i <= nation_group_count(); i++) {
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));
     if (gtk_tree_model_get_iter_first(model, &it)) {
       do {
@@ -1085,7 +1085,7 @@ void races_toggles_set_sensitive(void)
   }
   
   changed = false;
-  for (i = 0; i <= get_nation_groups_count(); i++) {
+  for (i = 0; i <= nation_group_count(); i++) {
     gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list[i]), &path, NULL);
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));    
     if (path) {
@@ -1127,7 +1127,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
        * This can set selected_nation to -1, so we have to copy it
        */
       int selected_nation_copy = selected_nation;      
-      for (i = 0; i <= get_nation_groups_count(); i++) {
+      for (i = 0; i <= nation_group_count(); i++) {
         gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list[i]), &path, NULL);
         model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));    
         if (path) {
@@ -1266,11 +1266,11 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     }
 
     dsend_packet_nation_select_req(&aconnection,
-				   races_player->player_no, selected_nation,
+				   player_number(races_player), selected_nation,
 				   selected_sex, s, selected_city_style);
   } else if (response == GTK_RESPONSE_NO) {
     dsend_packet_nation_select_req(&aconnection,
-				   races_player->player_no,
+				   player_number(races_player),
 				   -1, FALSE, "", 0);
   }
 

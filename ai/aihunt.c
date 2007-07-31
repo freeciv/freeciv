@@ -324,15 +324,15 @@ static void ai_hunter_try_launch(struct player *pplayer,
       } pf_iterator_end;
       pf_destroy_map(map);
       if (sucker) {
-        if (find_unit_by_id(missile->transported_by)) {
+        if (game_find_unit_by_number(missile->transported_by)) {
           unload_unit_from_transporter(missile);
         }
         ai_unit_goto(missile, sucker->tile);
-        sucker = find_unit_by_id(target_sanity); /* Sanity */
+        sucker = game_find_unit_by_number(target_sanity); /* Sanity */
         if (sucker && is_tiles_adjacent(sucker->tile, missile->tile)) {
           ai_unit_attack(missile, sucker->tile);
         }
-        target = find_unit_by_id(target_sanity); /* Sanity */
+        target = game_find_unit_by_number(target_sanity); /* Sanity */
         break; /* try next missile, if any */
       }
     } /* if */
@@ -383,7 +383,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
   struct pf_parameter parameter;
   struct pf_map *map;
   int limit = unit_move_rate(punit) * 6;
-  struct unit *original_target = find_unit_by_id(punit->ai.target);
+  struct unit *original_target = game_find_unit_by_number(punit->ai.target);
   int original_threat = 0, original_cost = 0;
 
   assert(!is_barbarian(pplayer));
@@ -416,7 +416,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
       if (pos.tile->city
           || !can_unit_attack_tile(punit, pos.tile)
-          || TEST_BIT(target->ai.hunted, pplayer->player_no)) {
+          || TEST_BIT(target->ai.hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning
          * of each turn. */
         continue;
@@ -498,7 +498,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       ai_hunter_try_launch(pplayer, punit, target);
 
       /* Check if we have nuked it */
-      if (target != find_unit_by_id(sanity_target)) {
+      if (target != game_find_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (pre)");
         ai_unit_new_role(punit, AIUNIT_NONE, NULL);
         pf_destroy_map(map);
@@ -514,7 +514,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
       pf_destroy_path(path);
 
-      if (target != find_unit_by_id(sanity_target)) {
+      if (target != game_find_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
         ai_unit_new_role(punit, AIUNIT_NONE, NULL);
         pf_destroy_map(map);
@@ -523,7 +523,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
 
       /* Check if we can nuke it now */
       ai_hunter_try_launch(pplayer, punit, target);
-      if (target != find_unit_by_id(sanity_target)) {
+      if (target != game_find_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (post)");
         ai_unit_new_role(punit, AIUNIT_NONE, NULL);
         pf_destroy_map(map);

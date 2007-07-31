@@ -756,7 +756,7 @@ void process_caravan_arrival(struct unit *punit)
     id = *p_id;
     free(p_id);
     p_id = NULL;
-    punit = find_unit_by_id(id);
+    punit = game_find_unit_by_number(id);
 
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
@@ -764,7 +764,7 @@ void process_caravan_arrival(struct unit *punit)
 	    || (game.player_ptr == punit->owner
 		&& !game.player_ptr->ai.control))) {
       struct city *pcity_dest = tile_get_city(punit->tile);
-      struct city *pcity_homecity = find_city_by_id(punit->homecity);
+      struct city *pcity_homecity = game_find_city_by_number(punit->homecity);
 
       if (pcity_dest && pcity_homecity) {
 	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
@@ -811,8 +811,8 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     free(p_ids);
     p_ids = NULL;
     pdiplomat = player_find_unit_by_id(game.player_ptr, diplomat_id);
-    pcity = find_city_by_id(victim_id);
-    punit = find_unit_by_id(victim_id);
+    pcity = game_find_city_by_number(victim_id);
+    punit = game_find_unit_by_number(victim_id);
 
     if (!pdiplomat || !unit_has_type_flag(pdiplomat, F_DIPLOMAT))
       continue;
@@ -1342,7 +1342,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 ****************************************************************************/
 void request_unit_unload(struct unit *pcargo)
 {
-  struct unit *ptrans = find_unit_by_id(pcargo->transported_by);
+  struct unit *ptrans = game_find_unit_by_number(pcargo->transported_by);
 
   if (can_client_issue_orders()
       && ptrans

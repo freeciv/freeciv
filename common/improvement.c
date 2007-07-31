@@ -443,7 +443,7 @@ bool is_improvement(Impr_type_id id)
 **************************************************************************/
 struct city *find_city_from_great_wonder(Impr_type_id id)
 {
-  return (find_city_by_id(game.info.great_wonders[id]));
+  return (game_find_city_by_number(game.info.great_wonders[id]));
 }
 
 /**************************************************************************

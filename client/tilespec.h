@@ -134,8 +134,10 @@ void tileset_setup_resource(struct tileset *t,
 			    const struct resource *presource);
 void tileset_setup_base(struct tileset *t,
                         const struct base_type *pbase);
-void tileset_setup_government(struct tileset *t, int id);
-void tileset_setup_nation_flag(struct tileset *t, int id);
+void tileset_setup_government(struct tileset *t,
+			      struct government *gov);
+void tileset_setup_nation_flag(struct tileset *t, 
+			       struct nation_type *nation);
 void tileset_setup_city_tiles(struct tileset *t, int style);
 
 /* Gfx support */

@@ -171,7 +171,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 **************************************************************************/
 void ai_data_analyze_rulesets(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[pplayer->player_no];
+  struct ai_data *ai = &aidata[player_index(pplayer)];
 
   ai_data_city_impr_calc(pplayer, ai);
 }
@@ -228,7 +228,7 @@ static void count_my_units(struct player *pplayer)
 **************************************************************************/
 void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
-  struct ai_data *ai = &aidata[pplayer->player_no];
+  struct ai_data *ai = &aidata[player_index(pplayer)];
   int i, j, k;
   int nuke_units = num_role_units(F_NUCLEAR);
   bool danger_of_nukes = FALSE;
@@ -443,7 +443,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
    * can be created during a turn, and we don't want those to have 
    * invalid values. */
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    struct player *aplayer = get_player(i);
+    struct player *aplayer = player_by_number(i);
 
     ai->diplomacy.player_intel[i].is_allied_with_enemy = NULL;
     ai->diplomacy.player_intel[i].at_war_with_ally = NULL;
@@ -572,7 +572,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 **************************************************************************/
 void ai_data_phase_done(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[pplayer->player_no];
+  struct ai_data *ai = &aidata[player_index(pplayer)];
 
   free(ai->explore.ocean);
   ai->explore.ocean = NULL;
@@ -601,7 +601,7 @@ void ai_data_phase_done(struct player *pplayer)
 **************************************************************************/
 struct ai_data *ai_data_get(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[pplayer->player_no];
+  struct ai_data *ai = &aidata[player_index(pplayer)];
 
   if (ai->num_continents != map.num_continents
       || ai->num_oceans != map.num_oceans) {
@@ -618,9 +618,9 @@ struct ai_data *ai_data_get(struct player *pplayer)
 const struct ai_dip_intel *ai_diplomacy_get(const struct player *pplayer,
 					    const struct player *aplayer)
 {
-  const struct ai_data *ai = &aidata[pplayer->player_no];
+  const struct ai_data *ai = &aidata[player_index(pplayer)];
 
-  return &ai->diplomacy.player_intel[aplayer->player_no];
+  return &ai->diplomacy.player_intel[player_index(aplayer)];
 }
 
 /**************************************************************************
@@ -628,15 +628,15 @@ const struct ai_dip_intel *ai_diplomacy_get(const struct player *pplayer,
 **************************************************************************/
 void ai_data_init(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[pplayer->player_no];
+  struct ai_data *ai = &aidata[player_index(pplayer)];
   int i;
 
   ai->govt_reeval = 0;
   ai->government_want = fc_realloc(ai->government_want,
-				   ((game.control.government_count + 1)
+				   ((government_count() + 1)
 				    * sizeof(*ai->government_want)));
   memset(ai->government_want, 0,
-	 (game.control.government_count + 1) * sizeof(*ai->government_want));
+	 (government_count() + 1) * sizeof(*ai->government_want));
 
   ai->channels = NULL;
   ai->wonder_city = 0;

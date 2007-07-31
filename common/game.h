@@ -24,7 +24,6 @@
 
 #include "connection.h"		/* struct conn_list */
 #include "fc_types.h"
-#include "improvement.h"	/* Impr_Status */
 #include "player.h"
 #include "packets.h"
 #include "specialist.h"
@@ -135,9 +134,9 @@ void game_advance_year(void);
 
 int civ_population(const struct player *pplayer);
 struct city *game_find_city_by_name(const char *name);
+struct city *game_find_city_by_number(int id);
 
-struct unit *find_unit_by_id(int id);
-struct city *find_city_by_id(int id);
+struct unit *game_find_unit_by_number(int id);
 
 void game_remove_player(struct player *pplayer);
 void game_renumber_players(int plrno);
@@ -146,7 +145,6 @@ void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);
 void initialize_globals(void);
 
-struct player *get_player(int player_id);
 bool is_valid_player_id(int player_id);
 int get_num_human_and_ai_players(void);
 bool is_player_phase(const struct player *pplayer, int phase);

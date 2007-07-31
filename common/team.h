@@ -19,40 +19,52 @@
 #include "tech.h"
 
 #define MAX_NUM_TEAMS (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
-#define NUM_TEAMS (game.info.num_teams)
 
 struct team {
-  Team_type_id index;
+  Team_type_id item_number;
+  int players; /* # of players on the team */
   
   struct player_research research;
-
-  int players; /* # of players on the team */
 };
 
-void teams_init(void);
-struct team *team_find_by_name(const char *team_name);
-struct team *team_get_by_id(Team_type_id id);
+/* General team accessor functions. */
+const Team_type_id team_count(void);
+const Team_type_id team_index(const struct team *pteam);
+const Team_type_id team_number(const struct team *pteam);
+
+struct team *team_by_number(const Team_type_id id);
+struct team *find_team_by_rule_name(const char *team_name);
+
+const char *team_rule_name(const struct team *pteam);
+const char *team_name_translation(struct team *pteam);
+
+/* Ancillary routines */
 void team_add_player(struct player *pplayer, struct team *pteam);
 void team_remove_player(struct player *pplayer);
 
-const char *team_get_name(const struct team *pteam);
-const char *team_get_name_orig(const struct team *pteam);
-
 struct team *find_empty_team(void);
 
-#define team_iterate(pteam)                                                 \
-{                                                                           \
-  struct team *pteam;                                                       \
-  Team_type_id PI_p_itr;                                                    \
-									    \
-  for (PI_p_itr = 0; PI_p_itr < MAX_NUM_TEAMS; PI_p_itr++) {                \
-    pteam = team_get_by_id(PI_p_itr);                                       \
-    if (pteam->players == 0) {						    \
-      continue;                                                             \
-    }
+/* Initialization and iteration */
+void teams_init(void);
 
-#define team_iterate_end                                                    \
-  }                                                                         \
+struct team *team_array_first(void);
+const struct team *team_array_last(void);
+
+/* This is different than other iterators.  It always does the entire
+ * list, but skips unused entries.
+ */
+#define team_iterate(_p)						\
+{									\
+  struct team *_p = team_array_first();					\
+  if (NULL != _p) {							\
+    for (; _p <= team_array_last(); _p++) {				\
+      if (_p->players == 0) {						\
+	continue;							\
+      }
+
+#define team_iterate_end						\
+    }									\
+  }									\
 }
 
 #endif /* FC__TEAM_H */

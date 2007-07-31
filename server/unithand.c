@@ -76,7 +76,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile);
 void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
 
   if (punit && pcity) {
     (void) do_airline(punit, pcity);
@@ -176,7 +176,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 void handle_unit_bribe_inq(struct connection *pc, int unit_id)
 {
   struct player *pplayer = pc->player;
-  struct unit *punit = find_unit_by_id(unit_id);
+  struct unit *punit = game_find_unit_by_number(unit_id);
 
   if (pplayer && punit) {
     punit->bribe_cost = unit_bribe_cost(punit);
@@ -192,8 +192,8 @@ void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
 				 int target_id, int value)
 {
   struct unit *pdiplomat = player_find_unit_by_id(pplayer, diplomat_id);
-  struct unit *pvictim = find_unit_by_id(target_id);
-  struct city *pcity = find_city_by_id(target_id);
+  struct unit *pvictim = game_find_unit_by_number(target_id);
+  struct city *pcity = game_find_city_by_number(target_id);
 
   if (!pdiplomat || !unit_has_type_flag(pdiplomat, F_DIPLOMAT)) {
     return;
@@ -278,7 +278,7 @@ void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
 **************************************************************************/
 void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 {
-  struct city *old_pcity = find_city_by_id(punit->homecity);
+  struct city *old_pcity = game_find_city_by_number(punit->homecity);
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = city_owner(new_pcity);
 
@@ -578,7 +578,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
       int id = punit->id;
       bool more_to_explore = ai_manage_explorer(punit);
 
-      if ((punit = find_unit_by_id(id))) {
+      if ((punit = game_find_unit_by_number(id))) {
 	assert(punit->activity == ACTIVITY_EXPLORE);
 	if (!more_to_explore) {
 	  set_unit_activity(punit, ACTIVITY_IDLE);
@@ -941,7 +941,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   }
 
   /* The attacker may have died for many reasons */
-  if (find_unit_by_id(winner_id) != NULL) {
+  if (game_find_unit_by_number(winner_id) != NULL) {
     send_unit_info(NULL, pwinner);
   }
 }
@@ -1293,7 +1293,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     /* See if there's a trade route we can cancel at the home city. */
     if (home_full) {
       if (get_city_min_trade_route(pcity_homecity, &slot) < trade) {
-	pcity_out_of_home = find_city_by_id(pcity_homecity->trade[slot]);
+	pcity_out_of_home = game_find_city_by_number(pcity_homecity->trade[slot]);
 	assert(pcity_out_of_home != NULL);
       } else {
 	notify_player(pplayer, pcity_dest->tile, E_BAD_COMMAND,
@@ -1311,7 +1311,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     /* See if there's a trade route we can cancel at the dest city. */
     if (can_establish && dest_full) {
       if (get_city_min_trade_route(pcity_dest, &slot) < trade) {
-	pcity_out_of_dest = find_city_by_id(pcity_dest->trade[slot]);
+	pcity_out_of_dest = game_find_city_by_number(pcity_dest->trade[slot]);
 	assert(pcity_out_of_dest != NULL);
       } else {
 	notify_player(pplayer, pcity_dest->tile, E_BAD_COMMAND,
@@ -1603,7 +1603,7 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
    * other players transporters (depending on the rules in
    * can_unit_load). */
   struct unit *pcargo = player_find_unit_by_id(pplayer, cargo_id);
-  struct unit *ptrans = find_unit_by_id(trans_id);
+  struct unit *ptrans = game_find_unit_by_number(trans_id);
 
   if (!pcargo || !ptrans) {
     return;
@@ -1623,8 +1623,8 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
 ****************************************************************************/
 void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
 {
-  struct unit *pcargo = find_unit_by_id(cargo_id);
-  struct unit *ptrans = find_unit_by_id(trans_id);
+  struct unit *pcargo = game_find_unit_by_number(cargo_id);
+  struct unit *ptrans = game_find_unit_by_number(trans_id);
 
   if (!pcargo || !ptrans) {
     return;

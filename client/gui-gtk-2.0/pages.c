@@ -1051,7 +1051,7 @@ static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
 
   if (pteam != conn_menu_player->team) {
     my_snprintf(buf, sizeof(buf), "/team \"%s\" \"%s\"",
-		conn_menu_player->name, team_get_name_orig(pteam));
+		conn_menu_player->name, team_rule_name(pteam));
     send_chat(buf);
   }
 }
@@ -1064,7 +1064,7 @@ static void conn_menu_ready_chosen(GtkMenuItem *menuitem, gpointer data)
   struct player *pplayer = conn_menu_player;
 
   dsend_packet_player_ready(&aconnection,
-			    pplayer->player_no, !pplayer->is_ready);
+			    player_number(pplayer), !pplayer->is_ready);
 }
 
 /****************************************************************************
@@ -1230,7 +1230,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     g_signal_connect(GTK_OBJECT(entry), "activate",
 		     GTK_SIGNAL_FUNC(conn_menu_player_command), "aitoggle");
 
-    if (pplayer->player_no != game.info.player_idx
+    if (player_number(pplayer) != game.info.player_idx
         && game.info.is_new_game) {
       entry = gtk_menu_item_new_with_label(_("Remove player"));
       g_object_set_data_full(G_OBJECT(menu), "remove", entry,
@@ -1305,7 +1305,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
     /* Can't use team_iterate here since it skips empty teams. */
     for (index = 0; index < MAX_NUM_TEAMS; index++) {
-      struct team *pteam = team_get_by_id(index);
+      struct team *pteam = team_by_number(index);
       char text[128];
 
       if (pteam->players == 0) {
@@ -1316,10 +1316,10 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
       }
 
       /* TRANS: e.g., "Put on Team 5" */
-      my_snprintf(text, sizeof(text), _("Put on %s"), team_get_name(pteam));
+      my_snprintf(text, sizeof(text), _("Put on %s"), team_name_translation(pteam));
       entry = gtk_menu_item_new_with_label(text);
       g_object_set_data_full(G_OBJECT(menu),
-			     team_get_name_orig(pteam), entry,
+			     team_rule_name(pteam), entry,
 			     (GtkDestroyNotify) gtk_widget_unref);
       gtk_container_add(GTK_CONTAINER(menu), entry);
       g_signal_connect(GTK_OBJECT(entry), "activate",
@@ -1362,7 +1362,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   gtk_tree_model_get_iter(model, &iter, path);
   gtk_tree_path_free(path);
   gtk_tree_model_get(model, &iter, 0, &player_no, -1);
-  pplayer = get_player(player_no);
+  pplayer = player_by_number(player_no);
   gtk_tree_model_get(model, &iter, 8, &conn_id, -1);
   pconn = find_conn_by_id(conn_id);
 

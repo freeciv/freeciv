@@ -84,21 +84,22 @@ static void get_units_report_data(struct units_entry *entries,
     entries[time_to_build].soonest_completions = FC_INFINITY;
   }
   unit_list_iterate(game.player_ptr->units, pUnit) {
-    (entries[unit_type(pUnit)->index].active_count)++;
+    Unit_type_id uti = utype_index(unit_type(pUnit));
+    (entries[uti].active_count)++;
     (total->active_count)++;
     if (pUnit->homecity) {
       output_type_iterate(o) {
-        free_upkeep[o] = get_city_output_bonus(find_city_by_id(pUnit->homecity),
+        free_upkeep[o] = get_city_output_bonus(game_find_city_by_number(pUnit->homecity),
                            get_output_type(o), EFT_UNIT_UPKEEP_FREE_PER_CITY);
       } output_type_iterate_end;
 
       city_unit_upkeep(pUnit, upkeep_cost, free_upkeep);
       
-      entries[unit_type(pUnit)->index].upkeep_shield += upkeep_cost[O_SHIELD];
+      entries[uti].upkeep_shield += upkeep_cost[O_SHIELD];
       total->upkeep_shield += upkeep_cost[O_SHIELD];
-      entries[unit_type(pUnit)->index].upkeep_food += upkeep_cost[O_FOOD];
+      entries[uti].upkeep_food += upkeep_cost[O_FOOD];
       total->upkeep_food += upkeep_cost[O_FOOD];
-      entries[unit_type(pUnit)->index].upkeep_gold += upkeep_cost[O_GOLD];
+      entries[uti].upkeep_gold += upkeep_cost[O_GOLD];
       total->upkeep_gold += upkeep_cost[O_GOLD];
     }
   } unit_list_iterate_end;
@@ -3371,8 +3372,8 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                      "%2d: The %s ruler %s scored %d points\n",
                      packet->score[i]),
                  i + 1,
-                 nation_name_for_player(get_player(packet->id[i])),
-                 get_player(packet->id[i])->name,
+                 nation_name_for_player(player_by_number(packet->id[i])),
+                 player_by_number(packet->id[i])->name,
                  packet->score[i]);
   }
   popup_notify_dialog(_("Final Report:"),

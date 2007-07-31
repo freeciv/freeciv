@@ -99,7 +99,7 @@ void DIPLO_LOG(int level, const struct player *pplayer,
 
   my_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ", 
               pplayer->name, aplayer->name, 
-              pplayer->ai.love[aplayer->player_no], adip->countdown, 
+              pplayer->ai.love[player_index(aplayer)], adip->countdown, 
               adip->distance, adip->is_allied_with_enemy ? "?" :
               (adip->at_war_with_ally ? "!" : ""));
 
@@ -231,8 +231,8 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
     return;
   }
 
-  pcity = find_city_by_id(punit->ai.charge);
-  pcharge = find_unit_by_id(punit->ai.charge);
+  pcity = game_find_city_by_number(punit->ai.charge);
+  pcharge = game_find_unit_by_number(punit->ai.charge);
   if (pcharge) {
     charge_x = pcharge->tile->x;
     charge_y = pcharge->tile->y;

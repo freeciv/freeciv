@@ -214,7 +214,7 @@ bool unit_can_est_traderoute_here(const struct unit *punit)
 
   return (unit_has_type_flag(punit, F_TRADE_ROUTE)
 	  && (pdestcity = tile_get_city(punit->tile))
-	  && (phomecity = find_city_by_id(punit->homecity))
+	  && (phomecity = game_find_city_by_number(punit->homecity))
 	  && can_cities_trade(phomecity, pdestcity));
 }
 
@@ -300,7 +300,7 @@ bool is_field_unit(const struct unit *punit)
 **************************************************************************/
 bool is_hiding_unit(const struct unit *punit)
 {
-  struct unit *transporter = find_unit_by_id(punit->transported_by);
+  struct unit *transporter = game_find_unit_by_number(punit->transported_by);
 
   return (unit_has_type_flag(punit, F_PARTIAL_INVIS)
 	  || (transporter && unit_has_type_flag(transporter, F_PARTIAL_INVIS)));

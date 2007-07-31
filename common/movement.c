@@ -229,7 +229,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
     return TRUE;
   }
 
-  return BV_ISSET(pterrain->native_to, punitclass->id);
+  return BV_ISSET(pterrain->native_to, uclass_index(punitclass));
 }
 
 /****************************************************************************
@@ -496,7 +496,7 @@ bool can_unit_type_transport(const struct unit_type *transporter,
     return FALSE;
   }
 
-  return BV_ISSET(transporter->cargo, transported->id);
+  return BV_ISSET(transporter->cargo, uclass_index(transported));
 }
 
 /**************************************************************************

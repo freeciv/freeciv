@@ -1936,7 +1936,7 @@ static inline void set_city_production(struct city *pcity)
   /* Add on special extra incomes: trade routes and tithes. */
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade_value[i] =
-	trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
+	trade_between_cities(pcity, game_find_city_by_number(pcity->trade[i]));
     pcity->prod[O_TRADE] += pcity->trade_value[i];
   }
   pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
@@ -1970,7 +1970,7 @@ static inline void set_city_production(struct city *pcity)
 **************************************************************************/
 int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 {
-  struct city *pcity = find_city_by_id(punit->homecity);
+  struct city *pcity = game_find_city_by_number(punit->homecity);
   struct unit_type *ut = unit_type(punit);
   struct player *plr = punit->owner;
   int happy_cost = utype_happy_cost(ut, plr);
@@ -2000,7 +2000,7 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 **************************************************************************/
 void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep)
 {
-  struct city *pcity = find_city_by_id(punit->homecity);
+  struct city *pcity = game_find_city_by_number(punit->homecity);
   struct unit_type *ut = unit_type(punit);
   struct player *plr = punit->owner;
 

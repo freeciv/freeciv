@@ -403,8 +403,8 @@ static VOID Command_List_Sort(struct Command_List *list)
 
 #define PACK_USERDATA(punit,command) ((punit?((punit->id+1) << 8):0) | command)
 #define PACK_CITY_USERDATA(punit,command) ((punit?((punit->id+1) << 8):0) | command)
-#define UNPACK_UNIT(packed) ((packed>>8)?(find_unit_by_id((packed >> 8)-1)):NULL)
-#define UNPACK_CITY(packed) ((packed>>8)?(find_city_by_id((packed >> 8)-1)):NULL)
+#define UNPACK_UNIT(packed) ((packed>>8)?(game_find_unit_by_number((packed >> 8)-1)):NULL)
+#define UNPACK_CITY(packed) ((packed>>8)?(game_find_city_by_number((packed >> 8)-1)):NULL)
 #define UNPACK_COMMAND(packed) (packed&0xff)
 
 VOID Map_MakeContextItem(Object * menu_title, STRPTR name, ULONG udata)

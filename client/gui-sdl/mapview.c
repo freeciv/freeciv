@@ -603,22 +603,22 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
       } else {
   mil++;
       }
-      types_count[unit_type(punit)->index]++;
+      types_count[utype_index(unit_type(punit))]++;
     } unit_list_iterate_end;
 
     top[0] = top[1] = top[2] = NULL;
     unit_type_iterate(utype) {
       if (!top[2]
-    || types_count[top[2]->index] < types_count[utype->index]) {
+    || types_count[utype_index(top[2])] < types_count[utype_index(utype)]) {
   top[2] = utype;
 
   if (!top[1]
-      || types_count[top[1]->index] < types_count[top[2]->index]) {
+      || types_count[utype_index(top[1])] < types_count[utype_index(top[2])]) {
     top[2] = top[1];
     top[1] = utype;
 
     if (!top[0]
-        || types_count[top[0]->index] < types_count[utype->index]) {
+        || types_count[utype_index(top[0])] < types_count[utype_index(utype)]) {
       top[1] = top[0];
       top[0] = utype;
     }
@@ -627,14 +627,14 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
     } unit_type_iterate_end;
 
     for (i = 0; i < 3; i++) {
-      if (top[i] && types_count[top[i]->index] > 0) {
+      if (top[i] && types_count[utype_index(top[i])] > 0) {
   if (utype_has_flag(top[i], F_NONMIL)) {
-    nonmil -= types_count[top[i]->index];
+    nonmil -= types_count[utype_index(top[i])];
   } else {
-    mil -= types_count[top[i]->index];
+    mil -= types_count[utype_index(top[i])];
   }
   astr_add_line(&str, "%d: %s",
-          types_count[top[i]->index], utype_name_translation(top[i]));
+          types_count[utype_index(top[i])], utype_name_translation(top[i]));
       } else {
   astr_add_line(&str, " ");
       }
@@ -746,8 +746,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
               cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
             } else {
 	      if (pTile->owner) {
-                if (game.player_ptr->diplstates[pTile->owner->player_no].type==DS_CEASEFIRE){
-		  int turns = game.player_ptr->diplstates[pTile->owner->player_no].turns_left;
+                if (game.player_ptr->diplstates[player_index(pTile->owner)].type==DS_CEASEFIRE){
+		  int turns = game.player_ptr->diplstates[player_index(pTile->owner)].turns_left;
 		  cat_snprintf(buffer, sizeof(buffer),
 		  	PL_("\n%s territory (%d turn ceasefire)",
 				"\n%s territory (%d turn ceasefire)", turns),
@@ -755,7 +755,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 } else {
 	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
 		    diplo_nation_plural_adjectives[
-		  	game.player_ptr->diplstates[pTile->owner->player_no].type],
+		  	game.player_ptr->diplstates[player_index(pTile->owner)].type],
 		    		nation_plural_for_player(pTile->owner));
                 }
               } else { /* !pTile->owner */
@@ -822,7 +822,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
 		  nation_name_for_player(pOwner),
 		  diplo_city_adjectives[game.player_ptr->
-				   diplstates[pOwner->player_no].type]);
+				   diplstates[player_index(pOwner)].type]);
 	    }
 	    
 	  }
@@ -938,7 +938,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	  }
 	    
 	  pUType = unit_type(aunit);
-          pHome_City = find_city_by_id(aunit->homecity);
+          pHome_City = game_find_city_by_number(aunit->homecity);
           my_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,

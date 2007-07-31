@@ -296,7 +296,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 		intel_close_callback, (XtPointer)pdialog);
   XtAddCallback(pdialog->intel_diplo_command, XtNcallback,
 		intel_diplo_callback,
-		INT_TO_XTPOINTER(pdialog->pplayer->player_no));
+		INT_TO_XTPOINTER(player_number(pdialog->pplayer)));
   XtRealizeWidget(pdialog->intel_dialog_shell);
 
   xaw_horiz_center(pdialog->intel_label);

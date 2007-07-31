@@ -88,8 +88,8 @@ void request_diplomacy_cancel_meeting(struct Treaty *treaty)
 {
   struct packet_diplomacy_info pa;
 
-  pa.plrno0=treaty->plr0->player_no;
-  pa.plrno1=treaty->plr1->player_no;
+  pa.plrno0=player_number(treaty->plr0);
+  pa.plrno1=player_number(treaty->plr1);
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CANCEL_MEETING, 
 			     &pa);
 }
@@ -98,8 +98,8 @@ void request_diplomacy_create_clause(struct Treaty *treaty, int type, int from, 
 {
   struct packet_diplomacy_info pa;
 
-  pa.plrno0=treaty->plr0->player_no;
-  pa.plrno1=treaty->plr1->player_no;
+  pa.plrno0=player_number(treaty->plr0);
+  pa.plrno1=player_number(treaty->plr1);
   pa.clause_type=type;
   pa.plrno_from=from;
   pa.value=value;
@@ -115,9 +115,9 @@ void request_diplomacy_remove_clause_no(struct Treaty *treaty, int clause_no)
     if (i == clause_no) {
       struct packet_diplomacy_info pa;
 
-      pa.plrno0=treaty->plr0->player_no;
-      pa.plrno1=treaty->plr1->player_no;
-      pa.plrno_from=pclause->from->player_no;
+      pa.plrno0=player_number(treaty->plr0);
+      pa.plrno1=player_number(treaty->plr1);
+      pa.plrno_from=player_number(pclause->from);
       pa.clause_type=pclause->type;
       pa.value=pclause->value;
       send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_REMOVE_CLAUSE,
@@ -132,8 +132,8 @@ void request_diplomacy_accept_treaty(struct Treaty *treaty, int from)
 {
   struct packet_diplomacy_info pa;
   
-  pa.plrno0=treaty->plr0->player_no;
-  pa.plrno1=treaty->plr1->player_no;
+  pa.plrno0=player_number(treaty->plr0);
+  pa.plrno1=player_number(treaty->plr1);
   pa.plrno_from=from;
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_ACCEPT_TREATY,
 			     &pa);
@@ -263,7 +263,7 @@ static int fill_diplomacy_tech_menu(Object *menu_title, struct Diplomacy_dialog 
     {
       entry = MUI_MakeObject(MUIO_Menuitem,advance_name_translation(i),NULL,0,0);
       set(entry,MUIA_UserData,i);
-      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_tech, pdialog, plr0->player_no,entry);
+      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_tech, pdialog, player_number(plr0),entry);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
       flag = 1;
     }
@@ -293,7 +293,7 @@ static int fill_diplomacy_city_menu(Object *menu_title, struct Diplomacy_dialog 
     if (!is_capital(pcity)) {
       entry = MUI_MakeObject(MUIO_Menuitem,pcity->name,NULL,0,0);
       set(entry,MUIA_UserData,pcity->id);
-      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_city, pdialog, plr0->player_no,entry);
+      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_city, pdialog, player_number(plr0),entry);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
       flag=1;
     }
@@ -410,10 +410,10 @@ static void diplomacy_dialog_add_pact_clause(struct Diplomacy_data *data, int ty
   struct Diplomacy_dialog *pdialog = data->pdialog;
   struct packet_diplomacy_info pa;
   
-  pa.plrno0 = pdialog->treaty.plr0->player_no;
-  pa.plrno1 = pdialog->treaty.plr1->player_no;
+  pa.plrno0 = player_number(pdialog->treaty.plr0);
+  pa.plrno1 = player_number(pdialog->treaty.plr1);
   pa.clause_type = type;
-  pa.plrno_from = pdialog->treaty.plr0->player_no;
+  pa.plrno_from = player_number(pdialog->treaty.plr0);
   pa.value = 0;
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
 			     &pa);
@@ -451,8 +451,8 @@ void diplomacy_vision(struct Diplomacy_data *data)
   struct Diplomacy_dialog *pdialog = data->pdialog;
   struct packet_diplomacy_info pa;
 
-  pa.plrno0 = pdialog->treaty.plr0->player_no;
-  pa.plrno1 = pdialog->treaty.plr1->player_no;
+  pa.plrno0 = player_number(pdialog->treaty.plr0);
+  pa.plrno1 = player_number(pdialog->treaty.plr1);
   pa.clause_type = CLAUSE_VISION;
   pa.plrno_from = data->playerno;
   pa.value = 0;
@@ -554,11 +554,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     {
        Object *entry;
        entry = MUI_MakeObject(MUIO_Menuitem,_("World-Map"),NULL,0,0);
-       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_world_map, pdialog, plr0->player_no);
+       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_world_map, pdialog, player_number(plr0));
        DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
        entry = MUI_MakeObject(MUIO_Menuitem,_("Sea-Map"),NULL,0,0);
-       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_sea_map, pdialog, plr0->player_no);
+       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_sea_map, pdialog, player_number(plr0));
        DoMethod(menu_title,MUIM_Family_AddTail, entry);
        set(pdialog->plr0_maps_button,MUIA_ContextMenu,menu_strip);
     }
@@ -572,11 +572,11 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     {
       Object *entry;
       entry = MUI_MakeObject(MUIO_Menuitem,_("World-Map"),NULL,0,0);
-      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_world_map, pdialog, plr1->player_no);
+      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_world_map, pdialog, player_number(plr1));
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
 
       entry = MUI_MakeObject(MUIO_Menuitem,_("Sea-Map"),NULL,0,0);
-      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_sea_map, pdialog, plr1->player_no);
+      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,5, MUIM_CallHook, &civstandard_hook, diplomacy_sea_map, pdialog, player_number(plr1));
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
       set(pdialog->plr1_maps_button,MUIA_ContextMenu,menu_strip);
     }
@@ -663,14 +663,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
              ruler_title_translation(plr1),
              plr1->name);
 
-    DoMethod(pdialog->plr0_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, plr0->player_no);
-    DoMethod(pdialog->plr1_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, plr1->player_no);
+    DoMethod(pdialog->plr0_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, player_number(plr0));
+    DoMethod(pdialog->plr1_vision_button, MUIM_Notify, MUIA_Pressed,FALSE, app,5,MUIM_CallHook, &civstandard_hook, diplomacy_vision, pdialog, player_number(plr1));
     DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest,TRUE,app,4,MUIM_CallHook, &civstandard_hook, diplomacy_close,pdialog);
     DoMethod(accept_treaty, MUIM_Notify, MUIA_Pressed,FALSE, app,4,MUIM_CallHook, &civstandard_hook, diplomacy_accept_treaty,pdialog);
     DoMethod(cancel_meeting, MUIM_Notify, MUIA_Pressed,FALSE, app,4,MUIM_CallHook, &civstandard_hook, diplomacy_close,pdialog);
     DoMethod(erase_clause, MUIM_Notify, MUIA_Pressed,FALSE, app,4,MUIM_CallHook, &civstandard_hook, diplomacy_erase_clause,pdialog);
-    DoMethod(pdialog->plr0_gold_integer, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 6, MUIM_CallHook, &civstandard_hook, diplomacy_gold, pdialog, plr0->player_no,pdialog->plr0_gold_integer);
-    DoMethod(pdialog->plr1_gold_integer, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 6, MUIM_CallHook, &civstandard_hook, diplomacy_gold, pdialog, plr1->player_no,pdialog->plr1_gold_integer);
+    DoMethod(pdialog->plr0_gold_integer, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 6, MUIM_CallHook, &civstandard_hook, diplomacy_gold, pdialog, player_number(plr0),pdialog->plr0_gold_integer);
+    DoMethod(pdialog->plr1_gold_integer, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 6, MUIM_CallHook, &civstandard_hook, diplomacy_gold, pdialog, player_number(plr1),pdialog->plr1_gold_integer);
 
     DoMethod(app,OM_ADDMEMBER,pdialog->wnd);
     return pdialog;

@@ -48,7 +48,7 @@ static const char * const help_type_names[] = {
   "Techs", "Terrain", "Governments", NULL
 };
 
-#define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),T_COUNT))
+#define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))
 
 #define SPECLIST_TAG help
 #define SPECLIST_TYPE struct help_item
@@ -168,7 +168,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_GOV:
     cat_snprintf(buf, bufsz, _("Requires the %s government.\n\n"),
-		 government_name_translation(req->source.value.gov));
+		 government_name_translation(req->source.value.govern));
     return;
   case REQ_BUILDING:
     cat_snprintf(buf, bufsz, _("Requires the %s building.\n\n"),
@@ -1226,7 +1226,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
 {
   struct req_source source = {
     .type = REQ_GOV,
-    .value = {.gov = gov }
+    .value = {.govern = gov }
   };
 
   buf[0] = '\0';

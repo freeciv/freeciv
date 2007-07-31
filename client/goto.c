@@ -85,7 +85,7 @@ struct goto_map {
 /* Iterate over goto maps, filtering out dead units. */
 #define goto_map_iterate(gotolist, pgoto, punit)			    \
   goto_map_list_iterate(gotolist, pgoto) {				    \
-    struct unit *punit = find_unit_by_id(pgoto->unit_id);		    \
+    struct unit *punit = game_find_unit_by_number(pgoto->unit_id);		    \
 									    \
     if (punit) {							    \
       assert(unit_is_in_focus(punit));					    \
@@ -302,7 +302,7 @@ static void add_part(struct goto_map *goto_map)
 {
   struct part *p;
   struct pf_parameter parameter = goto_map->template;
-  struct unit *punit = find_unit_by_id(goto_map->unit_id);
+  struct unit *punit = game_find_unit_by_number(goto_map->unit_id);
 
   if (!punit) {
     return;

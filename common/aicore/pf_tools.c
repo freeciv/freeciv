@@ -413,7 +413,7 @@ static int afraid_of_dark_forest(const struct tile *ptile,
 				 enum known_type known,
 				 struct pf_parameter *param)
 {
-  if (ptile->terrain->index == T_FOREST) {
+  if (terrain_number(ptile->terrain) == T_FOREST) {
     /* Willing to spend extra 2 turns to go around a forest tile */
     return PF_TURN_FACTOR * 2;
   }

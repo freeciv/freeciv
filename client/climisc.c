@@ -62,7 +62,7 @@ used throughout the client.
 **************************************************************************/
 void client_remove_player(int plrno)
 {
-  game_remove_player(get_player(plrno));
+  game_remove_player(player_by_number(plrno));
   game_renumber_players(plrno);
   update_conn_list_dialog();
   races_toggles_set_sensitive();
@@ -217,8 +217,8 @@ const char *get_embassy_status(const struct player *me,
     }
   } else if (player_has_embassy(them, me)) {
     return Q_("?embassy:With Us");
-  } else if (me->diplstates[them->player_no].contact_turns_left > 0
-             || them->diplstates[me->player_no].contact_turns_left > 0) {
+  } else if (me->diplstates[player_index(them)].contact_turns_left > 0
+             || them->diplstates[player_index(me)].contact_turns_left > 0) {
     return Q_("?embassy:Contact");
   } else {
     return Q_("?embassy:No Contact");
@@ -259,7 +259,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 		advance_name_for_player(game.player_ptr, pclause->value));
     break;
   case CLAUSE_CITY:
-    pcity = find_city_by_id(pclause->value);
+    pcity = game_find_city_by_number(pclause->value);
     if (pcity) {
       my_snprintf(buf, bufsiz, _("The %s give %s"),
                   nation_plural_translation(pclause->from->nation),
@@ -387,7 +387,7 @@ struct sprite *client_cooling_sprite(void)
 struct sprite *client_government_sprite(void)
 {
   if (can_client_change_view() && game.player_ptr
-      && game.control.government_count > 0) {
+      && government_count() > 0) {
     struct government *gov = government_of_player(game.player_ptr);
 
     return get_government_sprite(tileset, gov);
@@ -659,7 +659,7 @@ int collect_production_targets(struct city_production *targets,
 {
   cid first = append_units ? B_LAST : 0;
   cid last = (append_units
-	      ? game.control.num_unit_types + B_LAST
+	      ? utype_count() + B_LAST
 	      : game.control.num_impr_types);
   cid cid;
   int items_used = 0;

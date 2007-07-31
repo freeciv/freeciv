@@ -207,7 +207,7 @@ static void button_release_event_callback(GtkWidget *widget,
     /* Editor mode */
     if (game.player_ptr) {
       /* Not a global observer */
-      dsend_packet_edit_player_tech(&aconnection, game.player_ptr->player_no,
+      dsend_packet_edit_player_tech(&aconnection, player_number(game.player_ptr),
                                     tech, ETECH_TOGGLE);
     }
   }
@@ -1215,12 +1215,13 @@ void activeunits_report_dialog_update(void)
 
       unit_list_iterate(pcity->units_supported, punit) {
         int upkeep_cost[O_COUNT];
+        Unit_type_id uti = utype_index(unit_type(punit));
 
         city_unit_upkeep(punit, upkeep_cost, free_upkeep);
-        (unitarray[unit_type(punit)->index].active_count)++;
+        (unitarray[uti].active_count)++;
         if (punit->homecity) {
 	  output_type_iterate(o) {
-	    unitarray[unit_type(punit)->index].upkeep[o] += upkeep_cost[o];
+	    unitarray[uti].upkeep[o] += upkeep_cost[o];
 	  } output_type_iterate_end;
         }
       } unit_list_iterate_end;
@@ -1235,20 +1236,21 @@ void activeunits_report_dialog_update(void)
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
     unit_type_iterate(punittype) {
-      if (unitarray[punittype->index].active_count > 0
-	  || unitarray[punittype->index].building_count > 0) {
+      Unit_type_id uti = utype_index(punittype);
+      if (unitarray[uti].active_count > 0
+	  || unitarray[uti].building_count > 0) {
 	can = (can_upgrade_unittype(game.player_ptr, punittype) != NULL);
 	
         gtk_list_store_append(activeunits_store, &it);
 	gtk_list_store_set(activeunits_store, &it,
 		1, can,
-		2, unitarray[punittype->index].building_count,
-		3, unitarray[punittype->index].active_count,
-		4, unitarray[punittype->index].upkeep[O_SHIELD],
-		5, unitarray[punittype->index].upkeep[O_FOOD],
-		6, unitarray[punittype->index].upkeep[O_GOLD],
+		2, unitarray[uti].building_count,
+		3, unitarray[uti].active_count,
+		4, unitarray[uti].upkeep[O_SHIELD],
+		5, unitarray[uti].upkeep[O_FOOD],
+		6, unitarray[uti].upkeep[O_GOLD],
 		7, TRUE,
-		8, ((unitarray[punittype->index].active_count > 0)
+		8, ((unitarray[uti].active_count > 0)
 		    ? punittype->index : U_LAST),
 		-1);
 	g_value_init(&value, G_TYPE_STRING);
@@ -1257,12 +1259,11 @@ void activeunits_report_dialog_update(void)
 	g_value_unset(&value);
 
 	k++;
-	unittotals.active_count += unitarray[punittype->index].active_count;
+	unittotals.active_count += unitarray[uti].active_count;
 	output_type_iterate(o) {
-	  unittotals.upkeep[o] += unitarray[punittype->index].upkeep[o];	  
+	  unittotals.upkeep[o] += unitarray[uti].upkeep[o];	  
 	} output_type_iterate_end;
-	unittotals.building_count
-	  += unitarray[punittype->index].building_count;
+	unittotals.building_count += unitarray[uti].building_count;
       }
     } unit_type_iterate_end;
 
@@ -1374,7 +1375,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
   for (i = 0; i < packet->nscores; i++) {
     gtk_list_store_append(scores_store, &it);
     gtk_list_store_set(scores_store, &it,
-                       0, (gchar *)get_player(packet->id[i])->name,
+                       0, (gchar *)player_by_number(packet->id[i])->name,
                        1, packet->score[i],
                        2, packet->pop[i],
                        3, packet->bnp[i],

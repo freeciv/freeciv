@@ -527,7 +527,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       handle_unit_diplomat_action(pplayer, punit->id, DIPLOMAT_BRIBE,
 				  unit_list_get(ptile->units, 0)->id, -1);
       /* autoattack might kill us as we move in */
-      if (find_unit_by_id(sanity) && punit->moves_left > 0) {
+      if (game_find_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;
       } else {
         return FALSE;

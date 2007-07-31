@@ -163,7 +163,7 @@ static void get_current_as_result(struct city *pcity,
 *****************************************************************************/
 static bool check_city(int city_id, struct cm_parameter *parameter)
 {
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
   struct cm_parameter dummy;
 
   if (!parameter) {
@@ -386,7 +386,7 @@ static void handle_city(struct city *pcity)
       break;
     }
 
-    pcity = find_city_by_id(city_id);
+    pcity = game_find_city_by_number(city_id);
 
     cm_query_result(pcity, &parameter, &result);
     if (!result.found_a_valid) {
@@ -417,7 +417,7 @@ static void handle_city(struct city *pcity)
     }
   }
 
-  pcity = find_city_by_id(city_id);
+  pcity = game_find_city_by_number(city_id);
 
   if (!handled) {
     assert(pcity != NULL);
@@ -443,7 +443,7 @@ static void handle_city(struct city *pcity)
 *****************************************************************************/
 static void city_changed(int city_id)
 {
-  struct city *pcity = find_city_by_id(city_id);
+  struct city *pcity = game_find_city_by_number(city_id);
 
   if (pcity) {
     cm_clear_cache(pcity);

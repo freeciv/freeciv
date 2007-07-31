@@ -1304,7 +1304,7 @@ void present_units_callback(Widget w, XtPointer client_data,
   
   if (((punit = player_find_unit_by_id(game.player_ptr, (size_t)client_data))
        || (can_conn_edit(&aconnection) && !game.player_ptr
-	   && (punit = find_unit_by_id((size_t)client_data))))
+	   && (punit = game_find_unit_by_number((size_t)client_data))))
       && (pcity = tile_get_city(punit->tile))
       && (pdialog = get_city_dialog(pcity))) {
     
@@ -1419,7 +1419,7 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       struct city *pcity;
       x=1;
       total+=pdialog->pcity->trade_value[i];
-      if((pcity=find_city_by_id(pdialog->pcity->trade[i]))) {
+      if((pcity=game_find_city_by_number(pdialog->pcity->trade[i]))) {
 	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
 		    pcity->name, pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
@@ -1582,7 +1582,7 @@ static void support_units_callback(Widget w, XtPointer client_data,
   Widget wd;
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))
-    if((pcity=find_city_by_id(punit->homecity)))
+    if((pcity=game_find_city_by_number(punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))  {
 	if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
 	  set_unit_focus(punit);
@@ -2558,7 +2558,7 @@ void cityopt_cancel_command_callback(Widget w, XtPointer client_data,
 void cityopt_ok_command_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data)
 {
-  struct city *pcity = find_city_by_id(cityopt_city_id);
+  struct city *pcity = game_find_city_by_number(cityopt_city_id);
 
   if (pcity) {
 /*    int i; */

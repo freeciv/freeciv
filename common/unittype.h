@@ -47,7 +47,7 @@ enum hut_behavior { HUT_NORMAL, HUT_NOTHING, HUT_FRIGHTEN };
 enum move_level { MOVE_NONE, MOVE_PARTIAL, MOVE_FULL };
 
 struct unit_class {
-  Unit_Class_id id;
+  Unit_Class_id item_number;
   struct name_translation name;
   enum unit_move_type move_type;
   int min_speed;           /* Minimum speed after damage and effects */
@@ -170,7 +170,7 @@ struct veteran_type {
 };
 
 struct unit_type {
-  int index;
+  Unit_type_id index;
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -183,13 +183,16 @@ struct unit_type {
   int attack_strength;
   int defense_strength;
   int move_rate;
-  int tech_requirement;
-  int impr_requirement;		/* should be Impr_type_id */
+
+  Tech_type_id tech_requirement;
+  Impr_type_id impr_requirement;
   struct government *gov_requirement; /* may be NULL */
+
   int vision_radius_sq;
   int transport_capacity;
   int hp;
   int firepower;
+
 #define U_NOT_OBSOLETED (NULL)
   struct unit_type *obsoleted_by;
   int fuel;
@@ -222,6 +225,10 @@ struct unit_type {
 			     && (utype_by_number((ut)->index) == (ut))))
 
 /* General unit and unit type (matched) routines */
+const Unit_type_id utype_count(void);
+const Unit_type_id utype_index(const struct unit_type *punittype);
+const Unit_type_id utype_number(const struct unit_type *punittype);
+
 struct unit_type *unit_type(const struct unit *punit);
 struct unit_type *utype_by_number(const Unit_type_id id);
 
@@ -261,9 +268,13 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 const char *role_units_translations(int flag);
 
 /* General unit class routines */
+const Unit_Class_id uclass_count(void);
+const Unit_Class_id uclass_index(const struct unit_class *pclass);
+const Unit_Class_id uclass_number(const struct unit_class *pclass);
+
 struct unit_class *unit_class(const struct unit *punit);
 struct unit_class *utype_class(const struct unit_type *punittype);
-struct unit_class *uclass_by_number(const int id);
+struct unit_class *uclass_by_number(const Unit_Class_id id);
 
 struct unit_class *find_unit_class_by_rule_name(const char *s);
 
@@ -303,28 +314,35 @@ bool can_player_eventually_build_unit(const struct player *p,
 void unit_types_init(void);
 void unit_types_free(void);
 
-void unit_classes_init(void);
+struct unit_type *unit_type_array_first(void);
+const struct unit_type *unit_type_array_last(void);
 
-#define unit_type_iterate(punittype)					    \
-{									    \
-  int _index;								    \
-									    \
-  for (_index = 0; _index < game.control.num_unit_types; _index++) {	    \
-    struct unit_type *punittype = utype_by_number(_index);
+#define unit_type_iterate(_p)						\
+{									\
+  struct unit_type *_p = unit_type_array_first();			\
+  if (NULL != _p) {							\
+    for (; _p <= unit_type_array_last(); _p++) {
 
-#define unit_type_iterate_end                                               \
-  }                                                                         \
+#define unit_type_iterate_end						\
+    }									\
+  }									\
 }
 
-#define unit_class_iterate(punitclass)					    \
-{									    \
-  int _index;								    \
-									    \
-  for (_index = 0; _index < game.control.num_unit_classes; _index++) {	    \
-    struct unit_class *punitclass = uclass_by_number(_index);
+/* Initialization and iteration */
+void unit_classes_init(void);
 
-#define unit_class_iterate_end                                              \
-  }                                                                         \
+struct unit_class *unit_class_array_first(void);
+const struct unit_class *unit_class_array_last(void);
+
+#define unit_class_iterate(_p)						\
+{									\
+  struct unit_class *_p = unit_class_array_first();			\
+  if (NULL != _p) {							\
+    for (; _p <= unit_class_array_last(); _p++) {
+
+#define unit_class_iterate_end						\
+    }									\
+  }									\
 }
 
 #endif  /* FC__UNITTYPE_H */

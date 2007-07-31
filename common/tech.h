@@ -17,8 +17,8 @@
 
 #include "fc_types.h"
 
-typedef int Tech_type_id;
 /*
+typedef int Tech_type_id;
   Above typedef replaces old "enum tech_type_id"; see comments about
   Unit_type_id in unit.h, since mainly apply here too, except don't
   use Tech_type_id very widely, and don't use (-1) flag values. (?)

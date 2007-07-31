@@ -2087,12 +2087,12 @@ static bool team_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
 
-  pteam = team_find_by_name(arg[1]);
+  pteam = find_team_by_rule_name(arg[1]);
   if (!pteam) {
     int teamno;
 
     if (sscanf(arg[1], "%d", &teamno) == 1) {
-      pteam = team_get_by_id(teamno);
+      pteam = team_by_number(teamno);
     }
   }
   if (!pteam) {
@@ -2111,7 +2111,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
     team_add_player(pplayer, pteam);
     send_player_info(pplayer, NULL);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
-	      pplayer->name, team_get_name(pteam));
+	      pplayer->name, team_name_translation(pteam));
   }
   res = TRUE;
 
@@ -2133,7 +2133,6 @@ static bool vote_command(struct connection *caller, char *str,
   int ntokens = 0, i;
   const char *usage = _("Undefined arguments. Usage: vote yes|no "
                         "[vote number].");
-  int idx;
   bool res = FALSE;
 
   if (caller == NULL || caller->player == NULL) {
@@ -2169,7 +2168,6 @@ static bool vote_command(struct connection *caller, char *str,
   } if (check) {
     return FALSE; /* cannot vote over having vote! */
   }
-  idx = caller->player->player_no;
 
   sz_strlcpy(buf, str);
   ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
@@ -2206,11 +2204,11 @@ static bool vote_command(struct connection *caller, char *str,
     if (strcmp(arg[0], "yes") == 0) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted for \"%s\""), 
                 vote->command);
-      vote->votes_cast[caller->player->player_no] = VOTE_YES;
+      vote->votes_cast[player_index(caller->player)] = VOTE_YES;
     } else if (strcmp(arg[0], "no") == 0) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted against \"%s\""), 
                 vote->command);
-      vote->votes_cast[caller->player->player_no] = VOTE_NO;
+      vote->votes_cast[player_index(caller->player)] = VOTE_NO;
     }
     check_vote(vote);
   } else {
@@ -2402,7 +2400,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 must be integer."));
       goto cleanup;
     }
-    if (!(punit = find_unit_by_id(id))) {
+    if (!(punit = game_find_unit_by_number(id))) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Unit %d does not exist."), id);
       goto cleanup;
     }
@@ -3180,14 +3178,14 @@ static void send_load_game_info(bool load_successful)
     int i = 0;
 
     players_iterate(pplayer) {
-      if (game.control.nation_count && is_barbarian(pplayer)) {
+      if (nation_count() > 0 && is_barbarian(pplayer)) {
 	continue;
       }
 
       sz_strlcpy(packet.name[i], pplayer->name);
       sz_strlcpy(packet.username[i], pplayer->username);
       if (pplayer->nation != NO_NATION_SELECTED) {
-	packet.nations[i] = pplayer->nation->index;
+	packet.nations[i] = nation_number(pplayer->nation);
       } else { /* No nations picked */
 	packet.nations[i] = -1;
       }
@@ -3472,7 +3470,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       && !check
       && caller->access_level == ALLOW_INFO
       && commands[cmd].level == ALLOW_CTRL) {
-    int idx = caller->player->player_no;
+    int idx = player_index(caller->player);
 
     /* If we already have a vote going, cancel it in favour of the new
      * vote command. You can only have one vote at a time. */
@@ -3697,7 +3695,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
         while (game.info.nplayers > game.info.max_players) {
 	  /* This may erronously remove observer players sometimes.  This
 	   * is a bug but non-fatal. */
-	  server_remove_player(get_player(game.info.max_players));
+	  server_remove_player(player_by_number(game.info.max_players));
         }
 
 	freelog(LOG_VERBOSE,
@@ -3722,7 +3720,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
       /* A detached or observer player can't do /start. */
       return TRUE;
     } else {
-      handle_player_ready(caller->player, caller->player->player_no, TRUE);
+      handle_player_ready(caller->player, player_number(caller->player), TRUE);
       return TRUE;
     }
   case GAME_OVER_STATE:
@@ -4089,7 +4087,7 @@ void show_players(struct connection *caller)
 		     nation_name_for_player(pplayer));
       }
       cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
-		   team_get_name(pplayer->team));
+		   team_name_translation(pplayer->team));
       if (server_state == PRE_GAME_STATE && pplayer->is_connected) {
 	if (pplayer->is_ready) {
 	  cat_snprintf(buf2, sizeof(buf2), _(", ready"));
@@ -4127,15 +4125,12 @@ void show_players(struct connection *caller)
 **************************************************************************/
 static void show_teams(struct connection *caller)
 {
-  Team_type_id team_no;
-
   /* Currently this just lists all teams (typically 32 of them) with their
    * names and # of players on the team.  This could probably be improved. */
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of teams:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
-  for (team_no = 0; team_no < MAX_NUM_TEAMS; team_no++) {
-    struct team *pteam = team_get_by_id(team_no);
 
+  team_iterate(pteam) {
     if (pteam->players > 1) {
       /* PL_() is needed here because some languages may differentiate
        * between 2 and 3 (although English does not). */
@@ -4144,7 +4139,9 @@ static void show_teams(struct connection *caller)
 		PL_("%2d : '%s' : %d player",
 		    "%2d : '%s' : %d players",
 		    pteam->players),
-		team_no, team_get_name(pteam), pteam->players);
+		team_index(pteam),
+		team_name_translation(pteam),
+		pteam->players);
       players_iterate(pplayer) {
 	if (pplayer->team == pteam) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT, "  %s", pplayer->name);
@@ -4162,12 +4159,15 @@ static void show_teams(struct connection *caller)
 
       cmd_reply(CMD_LIST, caller, C_COMMENT,
 		_("%2d : '%s' : 1 player : %s"),
-		team_no, team_get_name(pteam), teamplayer->name);
+		team_index(pteam),
+		team_name_translation(pteam),
+		teamplayer->name);
     }
-  }
+  } team_iterate_end;
+
   cmd_reply(CMD_LIST, caller, C_COMMENT, " ");
   cmd_reply(CMD_LIST, caller, C_COMMENT,
-	    _("Empty team: %s"), team_get_name(find_empty_team()));
+	    _("Empty team: %s"), team_name_translation(find_empty_team()));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
@@ -4321,7 +4321,7 @@ The player names.
 **************************************************************************/
 static const char *playername_accessor(int idx)
 {
-  return get_player(idx)->name;
+  return player_by_number(idx)->name;
 }
 static char *player_generator(const char *text, int state)
 {

@@ -945,21 +945,21 @@ void tilespec_reread(const char *new_tileset_name)
   terrain_type_iterate(pterrain) {
     tileset_setup_tile_type(tileset, pterrain);
   } terrain_type_iterate_end;
-  resource_type_iterate (presource) {
+  resource_type_iterate(presource) {
     tileset_setup_resource(tileset, presource);
   } resource_type_iterate_end;
   unit_type_iterate(punittype) {
     tileset_setup_unit_type(tileset, punittype);
   } unit_type_iterate_end;
   government_iterate(gov) {
-    tileset_setup_government(tileset, gov->index);
+    tileset_setup_government(tileset, gov);
   } government_iterate_end;
   base_type_iterate(pbase) {
     tileset_setup_base(tileset, pbase);
   } base_type_iterate_end;
-  for (id = 0; id < game.control.nation_count; id++) {
-    tileset_setup_nation_flag(tileset, id);
-  }
+  nations_iterate(pnation) {
+    tileset_setup_nation_flag(tileset, pnation);
+  } nations_iterate_end;
   impr_type_iterate(imp_id) {
     tileset_setup_impr_type(tileset, imp_id);
   } impr_type_iterate_end;
@@ -2604,7 +2604,7 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
 ***********************************************************************/
 void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
-  t->sprites.unittype[ut->index]
+  t->sprites.unittype[utype_index(ut)]
     = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
 			    TRUE, "unit_type", utype_rule_name(ut));
 
@@ -2653,10 +2653,8 @@ void tileset_setup_tech_type(struct tileset *t, int id)
 void tileset_setup_resource(struct tileset *t,
 			    const struct resource *presource)
 {
-  const int id = presource->index;
-
-  assert(id >= 0 && id < game.control.resource_count);
-  t->sprites.resource[id]
+  assert(presource);
+  t->sprites.resource[resource_index(presource)]
     = lookup_sprite_tag_alt(t, presource->graphic_str,
 			    presource->graphic_alt,
 			    FALSE, "resource",
@@ -2997,7 +2995,7 @@ void tileset_setup_tile_type(struct tileset *t,
     draw->mine = NULL;
   }
 
-  t->sprites.drawing[pterrain->index] = draw;
+  t->sprites.drawing[terrain_index(pterrain)] = draw;
 
   color_system_setup_terrain(t->color_system, pterrain);
 }
@@ -3006,11 +3004,10 @@ void tileset_setup_tile_type(struct tileset *t,
   Set government sprite value; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-void tileset_setup_government(struct tileset *t, int id)
+void tileset_setup_government(struct tileset *t,
+			      struct government *gov)
 {
-  struct government *gov = government_by_number(id);
-  
-  t->sprites.government[id]
+  t->sprites.government[government_index(gov)]
     = lookup_sprite_tag_alt(t, gov->graphic_str, gov->graphic_alt,
 			    TRUE, "government",
 			    government_name_translation(gov));
@@ -3022,9 +3019,9 @@ void tileset_setup_government(struct tileset *t, int id)
   Set nation flag sprite value; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-void tileset_setup_nation_flag(struct tileset *t, int id)
+void tileset_setup_nation_flag(struct tileset *t, 
+			       struct nation_type *nation)
 {
-  struct nation_type *nation = nation_by_number(id);
   char *tags[] = {nation->flag_graphic_str,
 		  nation->flag_graphic_alt,
 		  "unknown", NULL};
@@ -3047,11 +3044,11 @@ void tileset_setup_nation_flag(struct tileset *t, int id)
     exit(EXIT_FAILURE);
   }
 
-  sprite_vector_reserve(&t->sprites.nation_flag, game.control.nation_count);
-  t->sprites.nation_flag.p[id] = flag;
+  sprite_vector_reserve(&t->sprites.nation_flag, nation_count());
+  t->sprites.nation_flag.p[nation_index(nation)] = flag;
 
-  sprite_vector_reserve(&t->sprites.nation_shield, game.control.nation_count);
-  t->sprites.nation_shield.p[id] = shield;
+  sprite_vector_reserve(&t->sprites.nation_shield, nation_count());
+  t->sprites.nation_shield.p[nation_index(nation)] = shield;
 }
 
 /**********************************************************************
@@ -3072,9 +3069,9 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
   struct nation_type *pnation = nation_of_unit(punit);
 
   if (draw_unit_shields) {
-    return t->sprites.nation_shield.p[pnation->index];
+    return t->sprites.nation_shield.p[nation_index(pnation)];
   } else {
-    return t->sprites.nation_flag.p[pnation->index];
+    return t->sprites.nation_flag.p[nation_index(pnation)];
   }
 }
 
@@ -3149,7 +3146,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  ADD_SPRITE(t->sprites.unittype[unit_type(punit)->index], TRUE,
+  ADD_SPRITE(t->sprites.unittype[utype_index(unit_type(punit))], TRUE,
 	     FULL_TILE_X_OFFSET + t->unit_offset_x,
 	     FULL_TILE_Y_OFFSET + t->unit_offset_y);
 
@@ -3681,12 +3678,12 @@ static int fill_terrain_sprite_blending(const struct tileset *t,
     if (!tile1
 	|| client_tile_get_known(tile1) == TILE_UNKNOWN
 	|| pterrain == (other = tterrain_near[DIR4_TO_DIR8[dir]])
-	|| (0 == t->sprites.drawing[other->index]->blending
-	   &&  NULL == t->sprites.drawing[other->index]->blender)) {
+	|| (0 == t->sprites.drawing[terrain_index(other)]->blending
+	   &&  NULL == t->sprites.drawing[terrain_index(other)]->blender)) {
       continue;
     }
 
-    ADD_SPRITE(t->sprites.drawing[other->index]->blend[dir], TRUE,
+    ADD_SPRITE(t->sprites.drawing[terrain_index(other)]->blend[dir], TRUE,
 	       offsets[dir][0], offsets[dir][1]);
   }
 
@@ -3756,7 +3753,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
   struct terrain *pterrain = tile_get_terrain(ptile);
-  struct drawing_data *draw = t->sprites.drawing[pterrain->index];
+  struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
   struct drawing_layer *dlp = &draw->layer[l];
   int this = dlp->match_index[0];
   int that = dlp->match_index[1];
@@ -3765,8 +3762,8 @@ static int fill_terrain_sprite_array(struct tileset *t,
   int i;
 
 #define MATCH(dir)							    \
-    (t->sprites.drawing[tterrain_near[(dir)]->index]->num_layers > l	    \
-     ? t->sprites.drawing[tterrain_near[(dir)]->index]->layer[l].match_index[0] \
+    (t->sprites.drawing[terrain_index(tterrain_near[(dir)])]->num_layers > l	    \
+     ? t->sprites.drawing[terrain_index(tterrain_near[(dir)])]->layer[l].match_index[0] \
      : -1)
 
   switch (dlp->sprite_type) {
@@ -3976,7 +3973,7 @@ static int fill_terrain_sprite_layer(struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
   struct sprite *sprite;
   struct terrain *pterrain = tile_get_terrain(ptile);
-  struct drawing_data *draw = t->sprites.drawing[pterrain->index];
+  struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
   const int l = (draw->is_reversed
 		 ? (draw->num_layers - layer_num - 1) : layer_num);
 
@@ -4115,11 +4112,11 @@ static int fill_grid_sprite_array(const struct tileset *t,
       if (owner0 != owner1) {
 	if (owner0) {
 	  ADD_SPRITE_SIMPLE(t->sprites.grid.player_borders
-			    [owner0->player_no][pedge->type][0]);
+			    [player_index(owner0)][pedge->type][0]);
 	}
 	if (owner1) {
 	  ADD_SPRITE_SIMPLE(t->sprites.grid.player_borders
-			    [owner1->player_no][pedge->type][1]);
+			    [player_index(owner1)][pedge->type][1]);
 	}
       }
     }
@@ -4269,7 +4266,7 @@ int fill_sprite_array(struct tileset *t,
       }
     }
     if (owner) {
-      ADD_SPRITE_SIMPLE(t->sprites.backgrounds.player[owner->player_no]);
+      ADD_SPRITE_SIMPLE(t->sprites.backgrounds.player[player_index(owner)]);
     } else if (ptile && !draw_terrain) {
       ADD_SPRITE_SIMPLE(t->sprites.backgrounds.background);
     }
@@ -4339,7 +4336,7 @@ int fill_sprite_array(struct tileset *t,
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_specials) {
 	if (ptile->resource) {
-	  ADD_SPRITE_SIMPLE(t->sprites.resource[ptile->resource->index]);
+	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(ptile->resource)]);
 	}
       }
 
@@ -4349,8 +4346,8 @@ int fill_sprite_array(struct tileset *t,
       }
 
       if (draw_mines && contains_special(tspecial, S_MINE)
-	  && t->sprites.drawing[pterrain->index]->mine) {
-	ADD_SPRITE_SIMPLE(t->sprites.drawing[pterrain->index]->mine);
+	  && t->sprites.drawing[terrain_index(pterrain)]->mine) {
+	ADD_SPRITE_SIMPLE(t->sprites.drawing[terrain_index(pterrain)]->mine);
       }
 
       if (draw_specials && contains_special(tspecial, S_HUT)) {
@@ -4724,7 +4721,7 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      const struct nation_type *pnation)
 {
-  return t->sprites.nation_flag.p[pnation->index];
+  return t->sprites.nation_flag.p[nation_index(pnation)];
 }
 
 /**************************************************************************
@@ -4757,11 +4754,11 @@ struct sprite *get_building_sprite(const struct tileset *t, Impr_type_id b)
 struct sprite *get_government_sprite(const struct tileset *t,
 				     const struct government *gov)
 {
-  if (!gov || gov->index < 0 || gov->index >= game.control.government_count) {
+  if (!gov) {
     assert(0);
     return NULL;
   }
-  return t->sprites.government[gov->index];
+  return t->sprites.government[government_index(gov)];
 }
 
 /****************************************************************************
@@ -4774,7 +4771,7 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
     assert(0);
     return NULL;
   }
-  return t->sprites.unittype[punittype->index];
+  return t->sprites.unittype[utype_index(punittype)];
 }
 
 /**************************************************************************

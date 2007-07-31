@@ -31,6 +31,7 @@
 #include "city.h"
 #include "events.h"
 #include "government.h"
+#include "improvement.h"
 #include "idex.h"
 #include "map.h"
 #include "movement.h"
@@ -187,8 +188,8 @@ static int evaluate_city_name_priority(struct tile *ptile,
     /* Now we do the same for every available terrain. */
     goodness
       = is_terrain_near_tile(ptile, pterrain)
-      ? city_name->terrain[pterrain->index]
-      : -city_name->terrain[pterrain->index];
+      ? city_name->terrain[terrain_index(pterrain)]
+      : -city_name->terrain[terrain_index(pterrain)];
     if (goodness > 0) {
       priority /= mult_factor;
     } else if (goodness < 0) {
@@ -350,8 +351,8 @@ by caller.
 char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 {
   int i = 0, j;
-  bool nations_selected[game.control.nation_count];
-  struct nation_type *nation_list[game.control.nation_count];
+  bool nations_selected[nation_count()];
+  struct nation_type *nation_list[nation_count()];
   int queue_size;
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
@@ -384,9 +385,9 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
   queue_size = 1;
   nation_list[0] = nation_of_player(pplayer);
-  nations_selected[nation_list[0]->index] = TRUE;
+  nations_selected[nation_index(nation_list[0])] = TRUE;
 
-  while (i < game.control.nation_count) {
+  while (i < nation_count()) {
     for (; i < queue_size; i++) {
       char *name;
       struct nation_type *nation;
@@ -413,9 +414,9 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
       for (j = 0; nation->parent_nations[j] != NO_NATION_SELECTED; j++) {
 	struct nation_type *n = nation->parent_nations[j];
 
-	if (!nations_selected[n->index]) {
+	if (!nations_selected[nation_index(n)]) {
 	  nation_list[queue_size] = n;
-	  nations_selected[n->index] = TRUE;
+	  nations_selected[nation_index(n)] = TRUE;
 	  queue_size++;
 	  freelog(LOG_DEBUG, "Parent %s.", nation_rule_name(n));
 	}
@@ -425,9 +426,9 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
       for (j = 0; nation->civilwar_nations[j] != NO_NATION_SELECTED; j++) {
 	struct nation_type *n = nation->civilwar_nations[j];
 
-	if (!nations_selected[n->index]) {
+	if (!nations_selected[nation_index(n)]) {
 	  nation_list[queue_size] = n;
-	  nations_selected[n->index] = TRUE;
+	  nations_selected[nation_index(n)] = TRUE;
 	  queue_size++;
 	  freelog(LOG_DEBUG, "Child %s.", nation_rule_name(n));
 	}
@@ -436,9 +437,9 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
     /* Append all remaining nations. */
     nations_iterate(n) {
-      if (!nations_selected[n->index]) {
+      if (!nations_selected[nation_index(n)]) {
 	nation_list[queue_size] = n;
-	nations_selected[n->index] = TRUE;
+	nations_selected[nation_index(n)] = TRUE;
 	queue_size++;
 	freelog(LOG_DEBUG, "Misc nation %s.", nation_rule_name(n));
       }
@@ -695,7 +696,7 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[])
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (cities[i] != 0) {
-      oldtradecity = find_city_by_id(cities[i]);
+      oldtradecity = game_find_city_by_number(cities[i]);
       assert(oldtradecity != NULL);
       if (can_cities_trade(pcity, oldtradecity)
           && can_establish_trade_route(pcity, oldtradecity)) {   
@@ -840,7 +841,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   for (i = 0; i < NUM_TRADEROUTES; i++)
     old_trade_routes[i] = pcity->trade[i];
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *pother_city = find_city_by_id(pcity->trade[i]);
+    struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
 
     assert(pcity->trade[i] == 0 || pother_city != NULL);
 
@@ -855,7 +856,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
    * with the transferred city.
    */
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *pother_city = find_city_by_id(pcity->trade[i]);
+    struct city *pother_city = game_find_city_by_number(pcity->trade[i]);
     if (pother_city) {
       reality_check_city(ptaker, pother_city->tile);
       update_dumb_city(ptaker, pother_city);
@@ -1037,7 +1038,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   maybe_make_contact(ptile, city_owner(pcity));
 
   unit_list_iterate((ptile)->units, punit) {
-    struct city *home = find_city_by_id(punit->homecity);
+    struct city *home = game_find_city_by_number(punit->homecity);
 
     /* Catch fortress building, transforming into ocean, etc. */
     if (!can_unit_continue_current_activity(punit)) {
@@ -1131,7 +1132,7 @@ void remove_city(struct city *pcity)
   } unit_list_iterate_safe_end;
 
   for (o = 0; o < NUM_TRADEROUTES; o++) {
-    struct city *pother_city = find_city_by_id(pcity->trade[o]);
+    struct city *pother_city = game_find_city_by_number(pcity->trade[o]);
 
     assert(pcity->trade[o] == 0 || pother_city != NULL);
 
@@ -1323,7 +1324,7 @@ static bool player_has_traderoute_with_city(struct player *pplayer,
   int i;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *other = find_city_by_id(pcity->trade[i]);
+    struct city *other = game_find_city_by_number(pcity->trade[i]);
     if (other && city_owner(other) == pplayer) {
       return TRUE;
     }
@@ -1344,9 +1345,9 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   packet->id = pdcity->id;
   if (ptile->owner) {
     /* Use tile owner information not city owner information. */
-    packet->owner = ptile->owner->player_no;
+    packet->owner = player_number(ptile->owner);
   } else {
-    packet->owner = pdcity->owner->player_no;
+    packet->owner = player_number(pdcity->owner);
   }
   packet->x = ptile->x;
   packet->y = ptile->y;
@@ -1581,7 +1582,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   int x, y, i;
 
   packet->id=pcity->id;
-  packet->owner = pcity->owner->player_no;
+  packet->owner = player_number(pcity->owner);
   packet->x = pcity->tile->x;
   packet->y = pcity->tile->y;
   sz_strlcpy(packet->name, pcity->name);
@@ -1763,7 +1764,7 @@ static void remove_smallest_trade_route(struct city *pcity)
     return;
   }
 
-  remove_trade_route(pcity, find_city_by_id(pcity->trade[slot]));
+  remove_trade_route(pcity, game_find_city_by_number(pcity->trade[slot]));
 }
 
 /**************************************************************************

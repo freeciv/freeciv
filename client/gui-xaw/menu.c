@@ -292,12 +292,12 @@ void update_menus(void)
     int i;
     int any_cities = FALSE;
 
-    for(i=0; i<game.info.nplayers; i++) {
-      if (city_list_size(game.players[i].cities)) {
+    players_iterate(pplayer) {
+      if (city_list_size(pplayer->cities)) {
 	any_cities = TRUE;
 	break;
       }
-    }
+    } players_iterate_end;
 
     XtSetSensitive(menus[MENU_REPORT]->button, True);
     XtSetSensitive(menus[MENU_VIEW]->button, True);

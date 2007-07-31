@@ -70,7 +70,7 @@ static int exit_goto_dialog_callback(struct widget *pWidget)
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    all_players ^= (1u << (get_player(MAX_ID - pWidget->ID)->player_no));
+    all_players ^= (1u << player_index(player_by_number(MAX_ID - pWidget->ID))));
     update_goto_dialog();
   }
   return -1;
@@ -79,7 +79,7 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 static int goto_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct city *pDestcity = find_city_by_id(MAX_ID - pWidget->ID);
+    struct city *pDestcity = game_find_city_by_number(MAX_ID - pWidget->ID);
   
     if (pDestcity) {
       struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
@@ -107,7 +107,7 @@ static void update_goto_dialog(void)
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128]; 
-  int i, n = 0/*, owner = 0xffff*/;  
+  int n = 0;  
   struct player *owner = NULL;
   
   if(pGotoDlg->pEndActiveWidgetList) {
@@ -121,13 +121,13 @@ static void update_goto_dialog(void)
   
   pLast = pAdd_Dock;
   
-  for(i = 0; i < game.info.nplayers; i++) {
+  players_iterate(pPlayer) {
     
-    if (!TEST_BIT(all_players, game.players[i].player_no)) {
+    if (!TEST_BIT(all_players, player_index(pPlayer))) {
       continue;
     }
 
-    city_list_iterate(game.players[i].cities, pCity) {
+    city_list_iterate(pPlayer->cities, pCity) {
       
       /* FIXME: should use unit_can_airlift_to(). */
       if (!GOTO && !pCity->airlift) {
@@ -139,17 +139,17 @@ static void update_goto_dialog(void)
       pStr = create_str16_from_char(cBuf, adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
    
-      if(pCity->owner != owner) {
-        pLogo = get_nation_flag_surface(nation_of_player(get_player(pCity->owner->player_no)));
+      if(!player_owns_city(owner, pCity)) {
+        pLogo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
         pLogo = crop_visible_part_from_surface(pLogo);
       }
       
       pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pStr, 
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
-      if(pCity->owner != owner) {
+      if(!player_owns_city(owner, pCity)) {
         set_wflag(pBuf, WF_FREE_THEME);
-        owner = pCity->owner;
+        owner = city_owner(pCity);
       }
       
       pBuf->string16->fgcol =
@@ -257,14 +257,14 @@ static void popup_goto_airlift_dialog(void)
   
   col = 0;
   /* --------------------------------------------- */
-  for(i = 0; i < game.info.nplayers; i++) {
-    if(i != game.info.player_idx
+  players_iterate(pPlayer) {
+    if(player_number(pPlayer) != game.info.player_idx
       && pplayer_get_diplstate(
-    		game.player_ptr, &game.players[i])->type == DS_NO_CONTACT) {
+    		game.player_ptr, pPlayer)->type == DS_NO_CONTACT) {
       continue;
     }
     
-    pFlag = ResizeSurfaceBox(get_nation_flag_surface(game.players[i].nation),
+    pFlag = ResizeSurfaceBox(get_nation_flag_surface(pPlayer->nation),
                              adj_size(30), adj_size(30), 1, TRUE, FALSE);
   
     pEnabled = create_icon_theme_surf(pFlag);
@@ -273,20 +273,20 @@ static void popup_goto_airlift_dialog(void)
     FREESURFACE(pFlag);
     
     pBuf = create_checkbox(pWindow->dst,
-      TEST_BIT(all_players, game.players[i].player_no),
+      TEST_BIT(all_players, player_index(pPlayer)),
     	(WF_FREE_STRING|WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL));
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
     
     pBuf->string16 = create_str16_from_char(
-    			nation_name_translation(game.players[i].nation),
+    			nation_name_translation(pPlayer->nation),
     			adj_font(12));
     pBuf->string16->style &= ~SF_CENTER;
     set_wstate(pBuf, FC_WS_NORMAL);
     
     pBuf->action = toggle_goto_nations_cities_dialog_callback;
-    add_to_gui_list(MAX_ID - i, pBuf);
+    add_to_gui_list(MAX_ID - player_number(pPlayer), pBuf);
     col++;  
-  }
+  } players_iterate_end;
     
   pGotoDlg->pBeginWidgetList = pBuf;
 
@@ -367,7 +367,7 @@ void popup_goto_dialog(void)
   if (!can_client_issue_orders() || !unit_list_get(get_units_in_focus(), 0)) {
     return;
   }
-  all_players = (1u << (game.player_ptr->player_no));
+  all_players = (1u << (player_index(game.player_ptr)));
   popup_goto_airlift_dialog();
 }
 
@@ -379,7 +379,7 @@ void popup_airlift_dialog(void)
   if (!can_client_issue_orders() || !unit_list_get(get_units_in_focus(), 0)) {
     return;
   }
-  all_players = (1u << (game.player_ptr->player_no));
+  all_players = (1u << (player_index(game.player_ptr)));
   GOTO = FALSE;
   popup_goto_airlift_dialog();
 }

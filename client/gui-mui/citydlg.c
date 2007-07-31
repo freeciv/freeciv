@@ -861,7 +861,7 @@ static void cancel_city_worklist(void *data)
 **************************************************************************/
 static void city_browse(struct city_browse_msg *msg)
 {
-  struct player *pplayer = get_player(msg->pdialog->pcity->owner);
+  struct player *pplayer = player_by_number(msg->pdialog->pcity->owner);
   struct city *pcity_new;
   struct MinList list;
   struct city_node *node;
@@ -2025,7 +2025,7 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
       x = 1;
       total += pdialog->pcity->trade_value[i];
 
-      if ((pcity = find_city_by_id(pdialog->pcity->trade[i]))) {
+      if ((pcity = game_find_city_by_number(pdialog->pcity->trade[i]))) {
 	my_snprintf(cityname, sizeof(cityname), "%s", pcity->name);
       } else {
 	my_snprintf(cityname, sizeof(cityname), _("%s"), _("Unknown"));

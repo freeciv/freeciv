@@ -124,7 +124,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   pship=&(pdialog->pplayer->spaceship);
 
   if (game.info.spacerace
-     && pplayer->player_no == game.info.player_idx
+     && player_number(pplayer) == game.info.player_idx
      && pship->state == SSHIP_STARTED
      && pship->success_rate > 0) {
     XtSetSensitive(pdialog->launch_command, TRUE);

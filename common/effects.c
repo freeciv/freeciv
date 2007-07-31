@@ -255,7 +255,7 @@ struct effect_list *get_req_source_effects(struct req_source *psource)
 
   switch (type) {
   case REQ_GOV:
-    if (value >= 0 && value < game.control.government_count) {
+    if (value >= 0 && value < government_count()) {
       return ruleset_cache.reqs.govs[value];
     } else {
       return NULL;

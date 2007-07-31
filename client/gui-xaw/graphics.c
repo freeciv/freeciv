@@ -614,7 +614,7 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
   }
 
   /* Finally, put a picture of the unit in the tile */
-/*  if(i<game.control.num_unit_types) { */
+/*  if(i<utype_count()) { */
     struct sprite *s = get_unittype_sprite(tileset, punittype);
 
     XSetClipOrigin(display,civ_gc,0,0);

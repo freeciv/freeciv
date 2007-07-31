@@ -23,6 +23,7 @@
 #include "base.h"
 #include "capability.h"
 #include "city.h"
+#include "effects.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -900,7 +901,7 @@ static void load_unit_names(struct section_file *file)
   game.control.num_unit_classes = nval;
 
   unit_class_iterate(punitclass) {
-    const int i = punitclass->id;
+    const int i = uclass_index(punitclass);
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
     name_strlcpy(punitclass->name.vernacular, name);
@@ -964,7 +965,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 		  		"veteran_system.veteran_names");
 
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
 
     vnlist = secfile_lookup_str_vec(file, &vet_levels,
                                     "%s.veteran_names", sec[i]);
@@ -993,7 +994,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_power_fact");
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
 
     vblist = secfile_lookup_int_vec(file, &vet_levels,
                                     "%s.veteran_power_fact", sec[i]);
@@ -1045,7 +1046,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_move_bonus");
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
 
     vblist = secfile_lookup_int_vec(file, &vet_levels,
   		  	"%s.veteran_move_bonus", sec[i]);
@@ -1068,7 +1069,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   csec = secfile_get_secnames_prefix(file, UNIT_CLASS_SECTION_PREFIX, &nval);
 
   unit_class_iterate(ut) {
-    int i = ut->id;
+    int i = uclass_index(ut);
     char tmp[200] = "\0";
     char *hut_str;
 
@@ -1128,7 +1129,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 
   /* Tech and Gov requirements */  
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
 
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req", TRUE,
 				      filename, u->name.vernacular);
@@ -1143,7 +1144,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   } unit_type_iterate_end;
   
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
 
     u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by", FALSE,
 				       filename, u->name.vernacular);
@@ -1151,7 +1152,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 
   /* main stats: */
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
     struct unit_class *pclass;
 
     u->impr_requirement = lookup_building(file, sec[i], "impr_req", FALSE,
@@ -1236,7 +1237,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
         exit(EXIT_FAILURE);
       }
 
-      BV_SET(u->cargo, class->id);
+      BV_SET(u->cargo, uclass_index(class));
     }
 
     u->helptext = lookup_helptext(file, sec[i]);
@@ -1253,7 +1254,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   
   /* flags */
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
 
     BV_CLR_ALL(u->flags);
     assert(!utype_has_flag(u, F_LAST-1));
@@ -1286,7 +1287,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     
   /* roles */
   unit_type_iterate(u) {
-    const int i = u->index;
+    const int i = utype_index(u);
 
     BV_CLR_ALL(u->roles);
     
@@ -1546,11 +1547,18 @@ static void load_names(struct section_file *file)
             filename);
     exit(EXIT_FAILURE);
   }
+  if (nval > MAX_NUM_TERRAINS) {
+    freelog(LOG_FATAL, "\"%s\": ruleset has too many terrains (%d, max %d)",
+            filename,
+            nval,
+            MAX_NUM_TERRAINS);
+    exit(EXIT_FAILURE);
+  }
   game.control.terrain_count = nval;
 
   terrain_type_iterate(pterrain) {
     char *name = secfile_lookup_str(file, "%s.name",
-				    sec[pterrain->index]);
+				    sec[terrain_index(pterrain)]);
 
     name_strlcpy(pterrain->name.vernacular, name);
     if (0 == strcmp(pterrain->name.vernacular, "unused")) {
@@ -1561,12 +1569,21 @@ static void load_names(struct section_file *file)
 
   free(sec);
 
+  /* resource names */
+
   sec = secfile_get_secnames_prefix(file, RESOURCE_SECTION_PREFIX, &nval);
+  if (nval > MAX_NUM_RESOURCES) {
+    freelog(LOG_FATAL, "\"%s\": ruleset has too many resources (%d, max %d)",
+            filename,
+            nval,
+            MAX_NUM_RESOURCES);
+    exit(EXIT_FAILURE);
+  }
   game.control.resource_count = nval;
 
   resource_type_iterate(presource) {
     char *name = secfile_lookup_str(file, "%s.name",
-				    sec[presource->index]);
+				    sec[resource_index(presource)]);
 
     name_strlcpy(presource->name.vernacular, name);
     if (0 == strcmp(presource->name.vernacular, "unused")) {
@@ -1576,6 +1593,8 @@ static void load_names(struct section_file *file)
   } resource_type_iterate_end;
 
   free(sec);
+
+  /* base names */
 
   game.control.num_base_types = BASE_LAST;
 
@@ -1665,13 +1684,13 @@ static void load_ruleset_terrain(struct section_file *file)
 				   get_output_identifier(o));
   } output_type_iterate_end;
 
-  tsec = secfile_get_secnames_prefix(file, TERRAIN_SECTION_PREFIX, &nval);
-
   /* terrain details */
+
+  tsec = secfile_get_secnames_prefix(file, TERRAIN_SECTION_PREFIX, &nval);
 
   terrain_type_iterate(pterrain) {
     char **slist;
-    const int i = pterrain->index;
+    const int i = terrain_index(pterrain);
 
     sz_strlcpy(pterrain->graphic_str,
 	       secfile_lookup_str(file,"%s.graphic", tsec[i]));
@@ -1820,7 +1839,7 @@ static void load_ruleset_terrain(struct section_file *file)
                 filename, tsec[i]);
         exit(EXIT_FAILURE);
       } else {
-        BV_SET(pterrain->native_to, class->id);
+        BV_SET(pterrain->native_to, uclass_index(class));
       }
     }
     free(slist);
@@ -1829,9 +1848,12 @@ static void load_ruleset_terrain(struct section_file *file)
   } terrain_type_iterate_end;
   free(tsec);
 
+  /* resource details */
+
   rsec = secfile_get_secnames_prefix(file, RESOURCE_SECTION_PREFIX, &nval);
+
   resource_type_iterate(presource) {
-    const int i = presource->index;
+    const int i = resource_index(presource);
 
     output_type_iterate (o) {
       presource->output[o] =
@@ -1867,6 +1889,8 @@ static void load_ruleset_terrain(struct section_file *file)
     }
   } resource_type_iterate_end;
   free(rsec);
+
+  /* base details */
 
   base_type_iterate(pbase) {
     char **slist;
@@ -1910,7 +1934,7 @@ static void load_ruleset_terrain(struct section_file *file)
                 filename, pbase->name, slist[j]);
         exit(EXIT_FAILURE);
       } else {
-        BV_SET(pbase->native_to, class->id);
+        BV_SET(pbase->native_to, uclass_index(class));
       }
     }
     free(slist);
@@ -1973,7 +1997,8 @@ static void load_government_names(struct section_file *file)
   /* Government names are needed early so that get_government_by_name will
    * work. */
   government_iterate(gov) {
-    char *name = secfile_lookup_str(file, "%s.name", sec[gov->index]);
+    char *name = secfile_lookup_str(file, "%s.name",
+                                    sec[government_index(gov)]);
 
     name_strlcpy(gov->name.vernacular, name);
     gov->name.translated = NULL;
@@ -1996,11 +2021,11 @@ static void load_ruleset_governments(struct section_file *file)
 
   game.government_when_anarchy
     = lookup_government(file, "governments.when_anarchy", filename);
-  game.info.government_when_anarchy_id = game.government_when_anarchy->index;
+  game.info.government_when_anarchy_id = government_number(game.government_when_anarchy);
 
   /* easy ones: */
   government_iterate(g) {
-    int i = g->index;
+    const int i = government_index(g);
     struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
 
     if (section_file_lookup(file, "%s.ai_better", sec[i])) {
@@ -2024,8 +2049,8 @@ static void load_ruleset_governments(struct section_file *file)
   
   /* titles */
   government_iterate(g) {
-    int i = g->index;
     struct ruler_title *title;
+    const int i = government_index(g);
 
     g->num_ruler_titles = 1;
     g->ruler_titles = fc_calloc(1, sizeof(*g->ruler_titles));
@@ -2108,17 +2133,17 @@ static char *check_leader_names(Nation_type_id nation,
 static void load_nation_names(struct section_file *file)
 {
   char **sec;
-  int i, j;
+  int j;
 
   (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   sec = secfile_get_secnames_prefix(file, NATION_SECTION_PREFIX, &game.control.nation_count);
   nations_alloc(game.control.nation_count);
 
-  for (i = 0; i < game.control.nation_count; i++) {
+  nations_iterate(pl) {
+    const int i = nation_index(pl);
     char *name        = secfile_lookup_str(file, "%s.name", sec[i]);
     char *name_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
-    struct nation_type *pl = nation_by_number(i);
 
     name_strlcpy(pl->name_single.vernacular, name);
     pl->name_single.translated = NULL;
@@ -2138,7 +2163,7 @@ static void load_nation_names(struct section_file *file)
         exit(EXIT_FAILURE);
       }
     }
-  }
+  } nations_iterate_end;
   free(sec);
 }
 
@@ -2187,7 +2212,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
      * a lot of ugly string handling...
      */
     memset(city_names[j].terrain, 0,
-	   T_COUNT * sizeof(city_names[j].terrain[0]));
+	   terrain_count() * sizeof(city_names[j].terrain[0]));
     city_names[j].river = 0;
 
     if (name) {
@@ -2241,7 +2266,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
                * name for comparison, and handle rivers separately.
                */
 	      if (0 == mystrcasecmp(terrain_rule_name(pterrain), name)) {
-	        city_names[j].terrain[pterrain->index] = setting;
+	        city_names[j].terrain[terrain_index(pterrain)] = setting;
 	        handled = TRUE;
 		break;
 	      }
@@ -2281,7 +2306,6 @@ Load nations.ruleset file
 static void load_ruleset_nations(struct section_file *file)
 {
   char *bad_leader, *govern;
-  struct nation_type *pl;
   struct government *gov;
   int dim, i, i2, j, k, nval, numgroups;
   char temp_name[MAX_LEN_NAME];
@@ -2304,12 +2328,11 @@ static void load_ruleset_nations(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, NATION_SECTION_PREFIX, &nval);
 
-  for (i = 0; i < game.control.nation_count; i++) {
+  nations_iterate(pl) {
+    const int i = nation_index(pl);
     char tmp[200] = "\0";
     char *barb_type;
 
-    pl = nation_by_number(i);
-    
     groups = secfile_lookup_str_vec(file, &dim, "%s.groups", sec[i]);
     pl->num_groups = dim;
     pl->groups = fc_calloc(dim + 1, sizeof(*(pl->groups)));
@@ -2557,11 +2580,11 @@ static void load_ruleset_nations(struct section_file *file)
     }
 
     pl->player = NULL;
-  }
+  } nations_iterate_end;
 
   /* Calculate parent nations.  O(n^2) algorithm. */
   nations_iterate(pl) {
-    struct nation_type *parents[game.control.nation_count];
+    struct nation_type *parents[nation_count()];
     int count = 0;
 
     nations_iterate(p2) {
@@ -2632,6 +2655,7 @@ static void load_ruleset_cities(struct section_file *file)
 
   /* Specialist options */
   sec = secfile_get_secnames_prefix(file, SPECIALIST_SECTION_PREFIX, &nval);
+  game.control.num_specialist_types = nval;
 
   for (i = 0; i < nval; i++) {
     struct specialist *s = &specialists[i];
@@ -2655,7 +2679,6 @@ static void load_ruleset_cities(struct section_file *file)
             "specialist type.", filename);
     exit(EXIT_FAILURE);
   }
-  SP_COUNT = nval;
   free(sec);
 
   /* City Parameters */
@@ -2960,7 +2983,7 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
   struct packet_ruleset_unit_class packet;
 
   unit_class_iterate(c) {
-    packet.id = c->id;
+    packet.id = uclass_number(c);
     sz_strlcpy(packet.name, c->name.vernacular);
     packet.move_type = c->move_type;
     packet.min_speed = c->min_speed;
@@ -2982,7 +3005,7 @@ static void send_ruleset_units(struct conn_list *dest)
   int i;
 
   unit_type_iterate(u) {
-    packet.id = u->index;
+    packet.id = utype_number(u);
     sz_strlcpy(packet.name, u->name.vernacular);
     sz_strlcpy(packet.sound_move, u->sound_move);
     sz_strlcpy(packet.sound_move_alt, u->sound_move_alt);
@@ -2990,7 +3013,7 @@ static void send_ruleset_units(struct conn_list *dest)
     sz_strlcpy(packet.sound_fight_alt, u->sound_fight_alt);
     sz_strlcpy(packet.graphic_str, u->graphic_str);
     sz_strlcpy(packet.graphic_alt, u->graphic_alt);
-    packet.unit_class_id = utype_class(u)->id;
+    packet.unit_class_id = uclass_number(utype_class(u));
     packet.build_cost = u->build_cost;
     packet.pop_cost = u->pop_cost;
     packet.attack_strength = u->attack_strength;
@@ -2998,8 +3021,8 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.move_rate = u->move_rate;
     packet.tech_requirement = u->tech_requirement;
     packet.impr_requirement = u->impr_requirement;
-    packet.gov_requirement
-      = u->gov_requirement ? u->gov_requirement->index : -1;
+    packet.gov_requirement = u->gov_requirement
+                             ? government_number(u->gov_requirement) : -1;
     packet.vision_radius_sq = u->vision_radius_sq;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;
@@ -3139,10 +3162,9 @@ static void send_ruleset_terrain(struct conn_list *dest)
   lsend_packet_ruleset_terrain_control(dest, &terrain_control);
 
   terrain_type_iterate(pterrain) {
-    const int i = pterrain->index;
     struct resource **r;
 
-    packet.id = i;
+    packet.id = terrain_number(pterrain);
     packet.native_to = pterrain->native_to;
 
     sz_strlcpy(packet.name_orig, pterrain->name.vernacular);
@@ -3158,24 +3180,27 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     packet.num_resources = 0;
     for (r = pterrain->resources; *r; r++) {
-      packet.resources[packet.num_resources++] = (*r)->index;
+      packet.resources[packet.num_resources++] = resource_number(*r);
     }
 
     packet.road_trade_incr = pterrain->road_trade_incr;
     packet.road_time = pterrain->road_time;
 
     packet.irrigation_result = (pterrain->irrigation_result
-				? pterrain->irrigation_result->index : -1);
+				? terrain_number(pterrain->irrigation_result)
+				: -1);
     packet.irrigation_food_incr = pterrain->irrigation_food_incr;
     packet.irrigation_time = pterrain->irrigation_time;
 
     packet.mining_result = (pterrain->mining_result
-			    ? pterrain->mining_result->index : -1);
+			    ? terrain_number(pterrain->mining_result)
+			    : -1);
     packet.mining_shield_incr = pterrain->mining_shield_incr;
     packet.mining_time = pterrain->mining_time;
 
     packet.transform_result = (pterrain->transform_result
-			       ? pterrain->transform_result->index : -1);
+			       ? terrain_number(pterrain->transform_result)
+			       : -1);
     packet.transform_time = pterrain->transform_time;
     packet.rail_time = pterrain->rail_time;
     packet.airbase_time = pterrain->airbase_time;
@@ -3203,9 +3228,7 @@ static void send_ruleset_resources(struct conn_list *dest)
   struct packet_ruleset_resource packet;
 
   resource_type_iterate (presource) {
-    const int i = presource->index;
-
-    packet.id = i;
+    packet.id = resource_number(presource);
 
     sz_strlcpy(packet.name_orig, presource->name.vernacular);
     sz_strlcpy(packet.graphic_str, presource->graphic_str);
@@ -3264,7 +3287,7 @@ static void send_ruleset_governments(struct conn_list *dest)
 
   government_iterate(g) {
     /* send one packet_government */
-    gov.id                 = g->index;
+    gov.id = government_number(g);
 
     j = 0;
     requirement_vector_iterate(&g->reqs, preq) {
@@ -3290,9 +3313,9 @@ static void send_ruleset_governments(struct conn_list *dest)
     for(j=0; j<g->num_ruler_titles; j++) {
       p_title = &g->ruler_titles[j];
 
-      title.gov = g->index;
+      title.gov = government_number(g);
       title.id = j;
-      title.nation = p_title->nation ? p_title->nation->index : -1;
+      title.nation = p_title->nation ? nation_number(p_title->nation) : -1;
       sz_strlcpy(title.male_title, p_title->male.vernacular);
       sz_strlcpy(title.female_title, p_title->female.vernacular);
     
@@ -3310,20 +3333,19 @@ void send_ruleset_nations(struct conn_list *dest)
   struct packet_ruleset_nation packet;
   struct packet_ruleset_nation_groups groups_packet;
   struct nation_type *n;
-  int i, k;
+  int i;
 
-  groups_packet.ngroups = get_nation_groups_count();
+  groups_packet.ngroups = nation_group_count();
   nation_groups_iterate(pgroup) {
-    sz_strlcpy(groups_packet.groups[pgroup->index], pgroup->name);
+    sz_strlcpy(groups_packet.groups[nation_group_index(pgroup)], pgroup->name);
   } nation_groups_iterate_end;
   lsend_packet_ruleset_nation_groups(dest, &groups_packet);
 
   assert(sizeof(packet.init_techs) == sizeof(n->init_techs));
   assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
 
-  for( k=0; k<game.control.nation_count; k++) {
-    n = nation_by_number(k);
-    packet.id = k;
+  nations_iterate(n) {
+    packet.id = nation_number(n);
     sz_strlcpy(packet.name, n->name_single.vernacular);
     sz_strlcpy(packet.name_plural, n->name_plural.vernacular);
     sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
@@ -3342,18 +3364,18 @@ void send_ruleset_nations(struct conn_list *dest)
            sizeof(packet.init_buildings));
     memcpy(packet.init_units, n->init_units, 
            sizeof(packet.init_units));
-    packet.init_government = n->init_government->index;
+    packet.init_government = government_number(n->init_government);
 
     sz_strlcpy(packet.legend, n->legend);
 
      /* client needs only the names */
      packet.ngroups = n->num_groups;
      for (i = 0; i < n->num_groups; i++) {
-       packet.groups[i] = n->groups[i]->index;
+       packet.groups[i] = nation_group_number(n->groups[i]);
      }
 
     lsend_packet_ruleset_nation(dest, &packet);
-  }
+  } nations_iterate_end;
 }
 
 /**************************************************************************

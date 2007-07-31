@@ -114,7 +114,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   pship = &(pdialog->pplayer->spaceship);
 
   if (game.spacerace
-      && pplayer->player_no == game.player_idx
+      && player_number(pplayer) == game.player_idx
       && pship->state == SSHIP_STARTED
       && pship->success_rate > 0)
   {
@@ -200,7 +200,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   pdialog->wnd = WindowObject,
     MUIA_Window_Title, pplayer->name,
-    MUIA_Window_ID, MAKE_ID('S','P','A',(pplayer->player_no & 0xff)),
+    MUIA_Window_ID, MAKE_ID('S','P','A',(player_number(pplayer) & 0xff)),
     WindowContents, VGroup,
 	Child, HGroup,
 	    Child, ScrollgroupObject,

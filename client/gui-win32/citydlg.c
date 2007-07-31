@@ -1257,7 +1257,7 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
       x = 1;
       total += pdialog->pcity->trade_value[i];
 
-      if ((pcity = find_city_by_id(pdialog->pcity->trade[i]))) {
+      if ((pcity = game_find_city_by_number(pdialog->pcity->trade[i]))) {
         my_snprintf(cityname, sizeof(cityname), "%s", pcity->name);
       } else {
         my_snprintf(cityname, sizeof(cityname), _("%s"), _("Unknown"));
@@ -1478,7 +1478,7 @@ static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
 
   if((punit=player_find_unit_by_id(game.player_ptr, 
 				   pdialog->support_unit_ids[n])) &&
-     (pcity = find_city_by_id(punit->homecity))) {   
+     (pcity = game_find_city_by_number(punit->homecity))) {   
     wd = popup_message_dialog(NULL,
            /*"supportunitsdialog"*/ _("Unit Commands"),
            unit_description(punit),

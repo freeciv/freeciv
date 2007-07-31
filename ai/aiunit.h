@@ -30,9 +30,9 @@
 /* pplayers_at_war() thinks no contacts equals war, which often is
  * very annoying. */
 #define WAR(plr1, plr2) \
-  (plr1->diplstates[plr2->player_no].type == DS_WAR)
+  (plr1->diplstates[player_index(plr2)].type == DS_WAR)
 #define NEVER_MET(plr1, plr2) \
-  (plr1->diplstates[plr2->player_no].type == DS_NO_CONTACT)
+  (plr1->diplstates[player_index(plr2)].type == DS_NO_CONTACT)
 #define DEFENCE_POWER(punit) \
  (unit_type(punit)->defense_strength * unit_type(punit)->hp \
   * unit_type(punit)->firepower)
@@ -44,7 +44,7 @@
         > unit_type(punit)->transport_capacity)
 #define HOSTILE_PLAYER(pplayer, ai, aplayer) \
   (WAR(pplayer, aplayer)         \
-   || ai->diplomacy.player_intel[aplayer->player_no].countdown >= 0)
+   || ai->diplomacy.player_intel[player_index(aplayer)].countdown >= 0)
 #define UNITTYPE_COSTS(ut)						\
   (ut->pop_cost * 3 + ut->happy_cost					\
    + ut->upkeep[O_SHIELD] + ut->upkeep[O_FOOD] + ut->upkeep[O_GOLD])

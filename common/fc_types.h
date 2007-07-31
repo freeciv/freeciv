@@ -106,23 +106,26 @@ typedef int Terrain_type_id;
 typedef int Resource_type_id;
 typedef int Specialist_type_id;
 typedef int Impr_type_id;
+typedef int Tech_type_id;
 typedef enum output_type_id Output_type_id;
 typedef enum unit_activity Activity_type_id;
 typedef int Nation_type_id;
 typedef int Team_type_id;
 typedef int Unit_type_id;
 
+struct advance;
 struct city;
 struct connection;
 struct government;
+struct impr_type;
 struct nation_type;
+struct output_type;
 struct player;
+struct specialist;
 struct terrain;
 struct tile;
 struct unit;
-struct impr_type;
-struct output_type;
-struct specialist;
+
 
 /* Changing these will break network compatibility. */
 #define SP_MAX 20
@@ -132,8 +135,8 @@ struct specialist;
 #define MAX_RULESET_NAME_LENGTH 64
 #define RULESET_SUFFIX ".serv"
 
+/* Unit Class List, also 32-bit vector? */
 #define UCL_LAST 32
-
 typedef int Unit_Class_id;
 
 /* This has to be put here for now, otherwise movement.h and unittype.h

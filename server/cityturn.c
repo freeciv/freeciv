@@ -443,7 +443,7 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
 
   /* Update cities that have trade routes with us */
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *pcity2 = find_city_by_id(pcity->trade[i]);
+    struct city *pcity2 = game_find_city_by_number(pcity->trade[i]);
 
     if (pcity2) {
       city_refresh(pcity2);
@@ -531,7 +531,7 @@ static void city_increase_size(struct city *pcity)
 
   /* Update cities that have trade routes with us */
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    struct city *pcity2 = find_city_by_id(pcity->trade[i]);
+    struct city *pcity2 = game_find_city_by_number(pcity->trade[i]);
 
     if (pcity2) {
       city_refresh(pcity2);
@@ -798,7 +798,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "it needs %s government.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
-			       government_name_translation(preq->source.value.gov));
+			       government_name_translation(preq->source.value.govern));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
 				 API_TYPE_CITY, pcity,
@@ -1593,7 +1593,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 		       _("The people have overthrown your %s, "
 			 "your country is in turmoil."),
 		       government_name_translation(g));
-      handle_player_change_government(pplayer, g->index);
+      handle_player_change_government(pplayer, government_number(g));
     }
     sanity_check_city(pcity);
   }

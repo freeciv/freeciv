@@ -1210,18 +1210,18 @@ void update_menus(void) /* from menu.c */
   else
   {
     struct unit *punit;
-    int i;
     int any_cities = FALSE;
     punit = get_unit_in_focus();
 
-    for (i = 0; i < game.info.nplayers; i++)
+    players_iterate(pplayer)
     {
-      if (city_list_size(&game.players[i].cities))
+      if (city_list_size(pplayer->cities))
       {
 	any_cities = TRUE;
 	break;
       }
     }
+    players_iterate_end;
 
     menu_title_sensitive(MENU_REPORT, TRUE);
     menu_title_sensitive(MENU_ORDER, punit

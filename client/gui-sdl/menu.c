@@ -1012,7 +1012,7 @@ void update_menus(void)
       
 	/* unit_can_est_traderoute_here(pUnit) */
       if (pTile->city && unit_has_type_flag(pUnit, F_TRADE_ROUTE)
-        && (pHomecity = find_city_by_id(pUnit->homecity))
+        && (pHomecity = game_find_city_by_number(pUnit->homecity))
 	&& can_cities_trade(pHomecity, pTile->city)) {
 	int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pTile->city);
 	

@@ -261,7 +261,7 @@ bool check_for_game_over(void)
 
     if (!loner) {
       notify_conn(NULL, NULL, E_GAME_END,
-                  _("Team victory to %s"), team_get_name_orig(victor->team));
+                  _("Team victory to %s"), team_name_translation(victor->team));
       players_iterate(pplayer) {
 	if (pplayer->team == victor->team) {
 	  ggz_report_victor(pplayer);
@@ -294,7 +294,7 @@ bool check_for_game_over(void)
     } players_iterate_end;
     if (win) {
       notify_conn(game.est_connections, NULL, E_GAME_END,
-		     _("Team victory to %s"), team_get_name_orig(pteam));
+		     _("Team victory to %s"), team_name_translation(pteam));
       players_iterate(pplayer) {
 	if (pplayer->is_alive
 	    && !pplayer->surrendered) {
@@ -461,8 +461,8 @@ static void update_diplomatics(void)
 {
   players_iterate(plr1) {
     players_iterate(plr2) {
-      struct player_diplstate *state = &plr1->diplstates[plr2->player_no];
-      struct player_diplstate *state2 = &plr2->diplstates[plr1->player_no];
+      struct player_diplstate *state = &plr1->diplstates[player_index(plr2)];
+      struct player_diplstate *state2 = &plr2->diplstates[player_index(plr1)];
 
       state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
       state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
@@ -514,10 +514,10 @@ static void update_diplomatics(void)
                             _("Ceasefire between %s and %s has run out. "
                               "They are at war. You cancel your alliance "
                               "with both."), plr1->name, plr2->name);
-              plr3->diplstates[plr1->player_no].has_reason_to_cancel = TRUE;
-              plr3->diplstates[plr2->player_no].has_reason_to_cancel = TRUE;
-              handle_diplomacy_cancel_pact(plr3, plr1->player_no, CLAUSE_ALLIANCE);
-              handle_diplomacy_cancel_pact(plr3, plr2->player_no, CLAUSE_ALLIANCE);
+              plr3->diplstates[player_index(plr1)].has_reason_to_cancel = TRUE;
+              plr3->diplstates[player_index(plr2)].has_reason_to_cancel = TRUE;
+              handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
+              handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
             }
           } players_iterate_end;
           break;
@@ -637,7 +637,7 @@ static void begin_phase(bool is_new_phase)
 
   phase_players_iterate(pplayer) {
     freelog(LOG_DEBUG, "beginning player turn for #%d (%s)",
-	    pplayer->player_no, pplayer->name);
+	    player_number(pplayer), pplayer->name);
     /* human players also need this for building advice */
     ai_data_phase_init(pplayer, is_new_phase);
     if (!pplayer->ai.control) {
@@ -1363,7 +1363,7 @@ void handle_nation_select_req(struct connection *pc,
 			      char *name, int city_style)
 {
   struct nation_type *new_nation;
-  struct player *pplayer = get_player(player_no);
+  struct player *pplayer = player_by_number(player_no);
 
   if (!pplayer || !can_conn_edit_players_nation(pc, pplayer)) {
     return;
@@ -1426,7 +1426,7 @@ void handle_player_ready(struct player *requestor,
 			 int player_no,
 			 bool is_ready)
 {
-  struct player *pplayer = get_player(player_no);
+  struct player *pplayer = player_by_number(player_no);
   bool old_ready;
 
   if (server_state != PRE_GAME_STATE
@@ -1495,7 +1495,7 @@ void aifill(int amount)
 
   while (game.info.nplayers < amount) {
     const int old_nplayers = game.info.nplayers;
-    struct player *pplayer = get_player(old_nplayers);
+    struct player *pplayer = player_by_number(old_nplayers);
     char player_name[ARRAY_SIZE(pplayer->name)];
 
     server_player_init(pplayer, FALSE, TRUE);
@@ -1527,7 +1527,7 @@ void aifill(int amount)
 
   remove = game.info.nplayers - 1;
   while (game.info.nplayers > amount && remove >= 0) {
-    struct player *pplayer = get_player(remove);
+    struct player *pplayer = player_by_number(remove);
 
     if (!pplayer->is_connected && !pplayer->was_created) {
       server_remove_player(pplayer);
@@ -1956,7 +1956,7 @@ static void srv_loop(void)
       
       players_iterate(eplayer) {
         if (players_on_same_team(eplayer, pplayer) &&
-	    eplayer->player_no < pplayer->player_no) {
+	    player_number(eplayer) < player_number(pplayer)) {
           free_techs_already_given = TRUE;
 	  break;
         }
@@ -1985,10 +1985,10 @@ static void srv_loop(void)
    players_iterate(pplayer) {
      players_iterate(pdest) {
       if (players_on_same_team(pplayer, pdest)
-          && pplayer->player_no != pdest->player_no) {
-        pplayer->diplstates[pdest->player_no].type = DS_TEAM;
+          && player_number(pplayer) != player_number(pdest)) {
+        pplayer->diplstates[player_index(pdest)].type = DS_TEAM;
         give_shared_vision(pplayer, pdest);
-	BV_SET(pplayer->embassy, pdest->player_no);
+	BV_SET(pplayer->embassy, player_index(pdest));
       }
     } players_iterate_end;
    } players_iterate_end;

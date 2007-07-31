@@ -319,7 +319,7 @@ static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
 
   gtk_tree_model_get(model, it, 1, &id, -1);
 
-  city_change_production(find_city_by_id(id), target);
+  city_change_production(game_find_city_by_number(id), target);
 }
 
 /****************************************************************
@@ -338,7 +338,7 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
   struct city *pcity;  
 
   gtk_tree_model_get(model, it, 1, &id, -1);
-  pcity = find_city_by_id(id);
+  pcity = game_find_city_by_number(id);
 
   (void) city_queue_insert(pcity, -1, target);
   /* perhaps should warn the user if not successful? */
@@ -362,7 +362,7 @@ static void worklist_first_impr_or_unit_iterate(GtkTreeModel *model,
   struct city *pcity;  
 
   gtk_tree_model_get(model, it, 1, &id, -1);
-  pcity = find_city_by_id(id);
+  pcity = game_find_city_by_number(id);
 
   (void) city_queue_insert(pcity, 0, target);
   /* perhaps should warn the user if not successful? */
@@ -384,7 +384,7 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
   struct city_production target = cid_decode(GPOINTER_TO_INT(data));
 
   gtk_tree_model_get(model, it, 1, &id, -1);
-  pcity = find_city_by_id(id);
+  pcity = game_find_city_by_number(id);
 
   (void) city_queue_insert(pcity, 1, target);
   /* perhaps should warn the user if not successful? */

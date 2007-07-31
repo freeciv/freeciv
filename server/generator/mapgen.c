@@ -227,18 +227,18 @@ static bool terrain_is_too_high(struct tile *ptile,
 ****************************************************************************/
 static struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
 {
-  bool has_flag[T_COUNT];
+  bool has_flag[terrain_count()];
   int count = 0;
 
   terrain_type_iterate(pterrain) {
-    if ((has_flag[pterrain->index] = terrain_has_flag(pterrain, flag))) {
+    if ((has_flag[terrain_index(pterrain)] = terrain_has_flag(pterrain, flag))) {
       count++;
     }
   } terrain_type_iterate_end;
 
   count = myrand(count);
   terrain_type_iterate(pterrain) {
-    if (has_flag[pterrain->index]) {
+    if (has_flag[terrain_index(pterrain)]) {
       if (count == 0) {
 	return pterrain;
       }
@@ -1102,7 +1102,7 @@ static bool is_tiny_island(struct tile *ptile)
 **************************************************************************/
 static void remove_tiny_islands(void)
 {
-  struct terrain *ridge = terrain_by_identifier(TERRAIN_RIDGE_IDENTIFIER);
+  struct terrain *ridge = find_terrain_by_identifier(TERRAIN_RIDGE_IDENTIFIER);
 
   assert(NULL != ridge);
   whole_map_iterate(ptile) {
@@ -1121,17 +1121,17 @@ static void remove_tiny_islands(void)
 static void print_mapgen_map(void)
 {
   const int loglevel = LOG_DEBUG;
-  int terrain_count[T_COUNT];
+  int terrain_counts[terrain_count()];
   int total = 0;
 
   terrain_type_iterate(pterrain) {
-    terrain_count[pterrain->index] = 0;
+    terrain_counts[terrain_index(pterrain)] = 0;
   } terrain_type_iterate_end;
 
   whole_map_iterate(ptile) {
     struct terrain *pterrain = tile_get_terrain(ptile);
 
-    terrain_count[pterrain->index]++;
+    terrain_counts[terrain_index(pterrain)]++;
     if (!is_ocean(pterrain)) {
       total++;
     }
@@ -1140,8 +1140,8 @@ static void print_mapgen_map(void)
   terrain_type_iterate(pterrain) {
     freelog(loglevel, "%20s : %4d %d%%  ",
 	    terrain_rule_name(pterrain),
-	    terrain_count[pterrain->index],
-	    (terrain_count[pterrain->index] * 100 + 50) / total);
+	    terrain_counts[terrain_index(pterrain)],
+	    (terrain_counts[terrain_index(pterrain)] * 100 + 50) / total);
   } terrain_type_iterate_end;
 }
 

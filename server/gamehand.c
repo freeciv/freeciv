@@ -227,10 +227,10 @@ void init_new_game(void)
 	    map.start_positions[i].tile->x,
 	    map.start_positions[i].tile->y,
 	    n ? nation_rule_name(n) : "",
-	    n ? n->index : -1);
+	    n ? nation_number(n) : -1);
   }
   players_iterate(pplayer) {
-    start_pos[pplayer->player_no] = NO_START_POS;
+    start_pos[player_index(pplayer)] = NO_START_POS;
   } players_iterate_end;
 
   /* Second, assign a nation to a start position for that nation. */
@@ -241,9 +241,9 @@ void init_new_game(void)
       if (pplayer->nation == map.start_positions[i].nation) {
 	freelog(LOG_VERBOSE, "Start_pos %d matches player %d (%s).",
 		i,
-		pplayer->player_no,
+		player_number(pplayer),
 		nation_rule_name(nation_of_player(pplayer)));
-	start_pos[pplayer->player_no] = i;
+	start_pos[player_index(pplayer)] = i;
 	pos_used[i] = TRUE;
 	num_used++;
       }
@@ -253,7 +253,7 @@ void init_new_game(void)
   /* Third, assign players randomly to the remaining start positions. */
   freelog(LOG_VERBOSE, "Assigning random nations.");
   players_iterate(pplayer) {
-    if (start_pos[pplayer->player_no] == NO_START_POS) {
+    if (start_pos[player_index(pplayer)] == NO_START_POS) {
       int which = myrand(map.num_start_positions - num_used);
 
       for (i = 0; i < map.num_start_positions; i++) {
@@ -261,10 +261,10 @@ void init_new_game(void)
 	  if (which == 0) {
 	    freelog(LOG_VERBOSE,
 		    "Randomly assigning player %d (%s) to pos %d.",
-		    pplayer->player_no,
+		    player_number(pplayer),
 		    nation_rule_name(nation_of_player(pplayer)),
 		    i);
-	    start_pos[pplayer->player_no] = i;
+	    start_pos[player_index(pplayer)] = i;
 	    pos_used[i] = TRUE;
 	    num_used++;
 	    break;
@@ -273,20 +273,20 @@ void init_new_game(void)
 	}
       }
     }
-    assert(start_pos[pplayer->player_no] != NO_START_POS);
+    assert(start_pos[player_index(pplayer)] != NO_START_POS);
   } players_iterate_end;
 
   /* Loop over all players, creating their initial units... */
   players_iterate(pplayer) {
     struct start_position pos
-      = map.start_positions[start_pos[pplayer->player_no]];
+      = map.start_positions[start_pos[player_index(pplayer)]];
 
     /* Place the first unit. */
     if (place_starting_unit(pos.tile, pplayer,
                             game.info.start_units[0]) != NULL) {
-      placed_units[pplayer->player_no] = 1;
+      placed_units[player_index(pplayer)] = 1;
     } else {
-      placed_units[pplayer->player_no] = 0;
+      placed_units[player_index(pplayer)] = 0;
     }
   } players_iterate_end;
 
@@ -296,7 +296,7 @@ void init_new_game(void)
     struct tile *ptile;
     struct nation_type *nation = nation_of_player(pplayer);
     struct start_position p
-      = map.start_positions[start_pos[pplayer->player_no]];
+      = map.start_positions[start_pos[player_index(pplayer)]];
 
     /* Place global start units */
     for (i = 1; i < strlen(game.info.start_units); i++) {
@@ -305,7 +305,7 @@ void init_new_game(void)
       /* Create the unit of an appropriate type. */
       if (place_starting_unit(ptile, pplayer,
                               game.info.start_units[i]) != NULL) {
-        placed_units[pplayer->player_no]++;
+        placed_units[player_index(pplayer)]++;
       }
     }
 
@@ -314,13 +314,13 @@ void init_new_game(void)
     while (nation->init_units[i] != NULL && i < MAX_NUM_UNIT_LIST) {
       ptile = find_dispersed_position(pplayer, &p);
       create_unit(pplayer, ptile, nation->init_units[i], FALSE, 0, 0);
-      placed_units[pplayer->player_no]++;
+      placed_units[player_index(pplayer)]++;
       i++;
     }
   } players_iterate_end;
 
   players_iterate(pplayer) {
-    if (placed_units[pplayer->player_no] == 0) {
+    if (placed_units[player_index(pplayer)] == 0) {
       /* No units at all for some player! */
       die(_("No units placed for %s!"), pplayer->name);
     }
@@ -346,12 +346,10 @@ void send_start_phase_to_clients(void)
 void send_year_to_clients(int year)
 {
   struct packet_new_year apacket;
-  int i;
   
-  for(i=0; i<game.info.nplayers; i++) {
-    struct player *pplayer = &game.players[i];
+  players_iterate(pplayer) {
     pplayer->nturns_idle++;
-  }
+  } players_iterate_end;
 
   apacket.year = year;
   apacket.turn = game.info.turn;
@@ -401,7 +399,7 @@ void send_game_info(struct conn_list *dest)
 
   conn_list_iterate(dest, pconn) {
     /* ? fixme: check for non-players: */
-    ginfo.player_idx = (pconn->player ? pconn->player->player_no : -1);
+    ginfo.player_idx = (pconn->player ? player_number(pconn->player) : -1);
     send_packet_game_info(pconn, &ginfo);
   }
   conn_list_iterate_end;

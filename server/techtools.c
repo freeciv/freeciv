@@ -214,7 +214,7 @@ static void update_player_after_tech_researched(struct player* plr,
 
   /* Notify a player about new governments available */
   government_iterate(gov) {
-    if (!could_switch_to_government[gov->index]
+    if (!could_switch_to_government[government_index(gov)]
 	&& can_change_to_government(plr, gov)) {
       notify_player(plr, NULL, E_NEW_GOVERNMENT,
 		       _("Discovery of %s makes the government form %s"
@@ -239,7 +239,7 @@ static void fill_can_switch_to_government_array(struct player* plr, bool* can_sw
   government_iterate(gov) {
     /* We do it this way so all requirements are checked, including
      * statue-of-liberty effects. */
-    can_switch[gov->index] = can_change_to_government(plr, gov);
+    can_switch[government_index(gov)] = can_change_to_government(plr, gov);
   } government_iterate_end;
 } 
 
@@ -250,7 +250,7 @@ static void fill_can_switch_to_government_array(struct player* plr, bool* can_sw
 static void fill_have_embassies_array(int* have_embassies)
 {
   players_iterate(aplr) {
-    have_embassies[aplr->player_no]
+    have_embassies[player_index(aplr)]
       = get_player_bonus(aplr, EFT_HAVE_EMBASSIES);
   } players_iterate_end;
 }
@@ -269,7 +269,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   int had_embassies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct city *pcity;
   bool can_switch[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS]
-                 [game.control.government_count];
+                 [government_count()];
   struct player_research *research = get_player_research(plr);
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
@@ -318,7 +318,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       continue;
     }
     fill_can_switch_to_government_array(aplayer,
-                                        can_switch[aplayer->player_no]);
+                                        can_switch[player_index(aplayer)]);
   } players_iterate_end;
 
 
@@ -332,7 +332,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       continue;
     }
     update_player_after_tech_researched(aplayer, tech_found, was_discovery,
-                                        can_switch[aplayer->player_no]);
+                                        can_switch[player_index(aplayer)]);
   } players_iterate_end;
 
   if (tech_found == research->tech_goal) {
@@ -428,7 +428,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
    * Wonder if this wonder has become obsolete.
    */
   players_iterate(owner) {
-    if (had_embassies[owner->player_no]  > 0
+    if (had_embassies[player_index(owner)]  > 0
 	&& get_player_bonus(owner, EFT_HAVE_EMBASSIES) == 0) {
       players_iterate(other_player) {
 	send_player_info(owner, other_player);
@@ -737,7 +737,7 @@ void handle_player_research(struct player *pplayer, int tech)
    */
   players_iterate(aplayer) {
     if (pplayer != aplayer
-	&& pplayer->diplstates[aplayer->player_no].type == DS_TEAM
+	&& pplayer->diplstates[player_index(aplayer)].type == DS_TEAM
 	&& aplayer->is_alive) {
       send_player_info(aplayer, aplayer);
     }
@@ -772,7 +772,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   /* Notify Team members */
   players_iterate(aplayer) {
     if (pplayer != aplayer
-        && pplayer->diplstates[aplayer->player_no].type == DS_TEAM
+        && pplayer->diplstates[player_index(aplayer)].type == DS_TEAM
         && aplayer->is_alive
         && get_player_research(aplayer)->tech_goal != tech_goal) {
       handle_player_tech_goal(aplayer, tech_goal);

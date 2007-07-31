@@ -142,13 +142,13 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {
     if (pplayer != barbarians) {
-      pplayer->diplstates[barbarians->player_no].type = DS_WAR;
-      barbarians->diplstates[pplayer->player_no].type = DS_WAR;
+      pplayer->diplstates[player_index(barbarians)].type = DS_WAR;
+      barbarians->diplstates[player_index(pplayer)].type = DS_WAR;
     }
   } players_iterate_end;
 
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d",
-          barbarians->name, barbarians->player_no);
+          barbarians->name, player_number(barbarians));
   notify_player(NULL, NULL, E_UPRISING,
                 _("%s gain a leader by the name %s. Dangerous "
                   "times may lie ahead."),

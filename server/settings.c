@@ -175,7 +175,7 @@ static bool maxplayers_callback(int value, const char **error_string)
     return FALSE;
   }
 #endif
-  if (value < game.info.nplayers) {
+  if (value < player_count()) {
     *error_string =_("Number of players is higher than requested value; "
 		     "Keeping old value.");
     return FALSE;
