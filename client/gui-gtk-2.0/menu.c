@@ -608,6 +608,7 @@ static void editor_menu_callback(gpointer callback_data,
   switch(callback_action) {
   case MENU_EDITOR_TOGGLE:
     key_editor_toggle();
+    popdown_science_dialog(); /* Unreachbale techs in reqtree on/off */
     break;
   case MENU_EDITOR_TOOLS:
     editdlg_show_tools();

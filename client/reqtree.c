@@ -378,8 +378,10 @@ static void calculate_diagram_layout(struct reqtree *tree)
   Create a "dummy" tech tree from current ruleset.  This tree is then
   fleshed out further (see create_reqtree). This tree doesn't include
   dummy edges. Layering and ordering isn't done also.
+
+  If pplayer is given, add only techs reachable by that player to tree.
 *************************************************************************/
-static struct reqtree *create_dummy_reqtree(void)
+static struct reqtree *create_dummy_reqtree(struct player *pplayer)
 {
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   struct advance *advance;
@@ -388,6 +390,12 @@ static struct reqtree *create_dummy_reqtree(void)
 
   tech_type_iterate(tech) {
     if (!tech_exists(tech) || tech == A_NONE) {
+      nodes[tech] = NULL;
+      continue;
+    }
+    if (pplayer && !tech_is_available(pplayer, tech)) {
+      /* Reqtree requested for particular player and this tech is
+       * unreachable to him/her. */
       nodes[tech] = NULL;
       continue;
     }
@@ -400,13 +408,18 @@ static struct reqtree *create_dummy_reqtree(void)
     if (!tech_exists(tech)) {
       continue;
     }
+    if (nodes[tech] == NULL) {
+      continue;
+    }
+
     advance = &advances[tech];
     /* Don't include redundant edges */
     if (advance->req[0] != A_NONE && advance->req[1] != A_LAST) {
       if ((advance->req[1] != A_NONE
-	   && !is_tech_a_req_for_goal(game.player_ptr, advance->req[0],
-				      advance->req[1]))
-	  || advance->req[1] == A_NONE) {
+          && !is_tech_a_req_for_goal(game.player_ptr, advance->req[0],
+                                     advance->req[1]))
+         || advance->req[1] == A_NONE) {
+
 	add_requirement(nodes[tech], nodes[advance->req[0]]);
       }
 
@@ -800,13 +813,15 @@ static void improve(struct reqtree *tree)
 /*************************************************************************
   Generate optimized tech_tree from current ruleset.
   You should free it by destroy_reqtree.
+
+  If pplayer is not NULL, techs unreachable to that player are not shown.
 *************************************************************************/
-struct reqtree *create_reqtree(void)
+struct reqtree *create_reqtree(struct player *pplayer)
 {
   struct reqtree *tree1, *tree2;
   int i, j;
 
-  tree1 = create_dummy_reqtree();
+  tree1 = create_dummy_reqtree(pplayer);
   longest_path_layering(tree1);
   tree2 = add_dummy_nodes(tree1);
   destroy_reqtree(tree1);

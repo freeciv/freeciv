@@ -235,11 +235,19 @@ static void update_science_drawing_area(GtkWidget *widget, gpointer data)
 static GtkWidget *create_reqtree_diagram(void)
 {
   GtkWidget *sw;
-  struct reqtree *reqtree = create_reqtree();
+  struct reqtree *reqtree;
   GtkAdjustment* adjustment;
   int width, height;
   int x;
   Tech_type_id researching;
+
+  if (can_conn_edit(&aconnection)) {
+    /* Show all techs in editor mode, not only currently reachable ones */
+    reqtree = create_reqtree(NULL);
+  } else {
+    /* Show only at some point reachable techs */
+    reqtree = create_reqtree(game.player_ptr);
+  }
 
   get_reqtree_dimensions(reqtree, &width, &height);
 
