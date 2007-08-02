@@ -206,9 +206,9 @@ struct terrain {
 };
 
 /* General terrain accessor functions. */
-const Terrain_type_id terrain_count(void);
-const Terrain_type_id terrain_index(const struct terrain *pterrain);
-const Terrain_type_id terrain_number(const struct terrain *pterrain);
+Terrain_type_id terrain_count(void);
+Terrain_type_id terrain_index(const struct terrain *pterrain);
+Terrain_type_id terrain_number(const struct terrain *pterrain);
 
 struct terrain *terrain_by_number(const Terrain_type_id type);
 
@@ -216,7 +216,7 @@ struct terrain *find_terrain_by_identifier(const char identifier);
 struct terrain *find_terrain_by_rule_name(const char *name);
 struct terrain *find_terrain_by_translated_name(const char *name);
 
-const char terrain_identifier(const struct terrain *pterrain);
+char terrain_identifier(const struct terrain *pterrain);
 const char *terrain_rule_name(const struct terrain *pterrain);
 const char *terrain_name_translation(struct terrain *pterrain);
 
@@ -249,9 +249,9 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 				     enum mapgen_terrain_property prop);
 
 /* General resource accessor functions. */
-const Resource_type_id resource_count(void);
-const Resource_type_id resource_index(const struct resource *presource);
-const Resource_type_id resource_number(const struct resource *presource);
+Resource_type_id resource_count(void);
+Resource_type_id resource_index(const struct resource *presource);
+Resource_type_id resource_number(const struct resource *presource);
 
 struct resource *resource_by_number(const Resource_type_id id);
 struct resource *find_resource_by_rule_name(const char *name);

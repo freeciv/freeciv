@@ -202,9 +202,9 @@ struct player {
 };
 
 /* General player accessor functions. */
-const int player_count(void);
-const int player_index(const struct player *pplayer);
-const int player_number(const struct player *pplayer);
+int player_count(void);
+int player_index(const struct player *pplayer);
+int player_number(const struct player *pplayer);
 
 struct player *player_by_number(const int player_id);
 struct player *valid_player_by_number(const int player_id);

@@ -72,7 +72,7 @@ const struct team *team_array_last(void)
 /**************************************************************************
   Return the number of teams.
 **************************************************************************/
-const int team_count(void)
+int team_count(void)
 {
   return game.info.num_teams;
 }
@@ -83,7 +83,7 @@ const int team_count(void)
   Currently same as team_number(), paired with team_count()
   indicates use as an array index.
 ****************************************************************************/
-const Team_type_id team_index(const struct team *pteam)
+Team_type_id team_index(const struct team *pteam)
 {
   assert(pteam);
   return pteam - teams;
@@ -92,7 +92,7 @@ const Team_type_id team_index(const struct team *pteam)
 /****************************************************************************
   Return the team index.
 ****************************************************************************/
-const Team_type_id team_number(const struct team *pteam)
+Team_type_id team_number(const struct team *pteam)
 {
   assert(pteam);
   return pteam->item_number;

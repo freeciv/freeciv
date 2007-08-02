@@ -59,9 +59,9 @@ struct government
 
 
 /* General government accessor functions. */
-const int government_count(void);
-const int government_index(const struct government *pgovern);
-const int government_number(const struct government *pgovern);
+int government_count(void);
+int government_index(const struct government *pgovern);
+int government_number(const struct government *pgovern);
 
 struct government *government_by_number(const int gov);
 struct government *government_of_player(const struct player *pplayer);

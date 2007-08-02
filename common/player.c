@@ -257,7 +257,7 @@ const struct player *player_array_last(void)
 /**************************************************************************
   Return the number of players.
 **************************************************************************/
-const int player_count(void)
+int player_count(void)
 {
   return game.info.nplayers;
 }
@@ -268,7 +268,7 @@ const int player_count(void)
   Currently same as player_number(), paired with player_count()
   indicates use as an array index.
 **************************************************************************/
-const int player_index(const struct player *pplayer)
+int player_index(const struct player *pplayer)
 {
   assert(pplayer);
   return pplayer - game.players;
@@ -277,7 +277,7 @@ const int player_index(const struct player *pplayer)
 /**************************************************************************
   Return the player index.
 **************************************************************************/
-const int player_number(const struct player *pplayer)
+int player_number(const struct player *pplayer)
 {
   assert(pplayer);
   return pplayer->player_no;

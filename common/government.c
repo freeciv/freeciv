@@ -67,7 +67,7 @@ struct government *find_government_by_rule_name(const char *name)
 /**************************************************************************
   Return the number of governments.
 **************************************************************************/
-const int government_count(void)
+int government_count(void)
 {
   return game.control.government_count;
 }
@@ -78,7 +78,7 @@ const int government_count(void)
   Currently same as government_number(), paired with government_count()
   indicates use as an array index.
 **************************************************************************/
-const int government_index(const struct government *pgovern)
+int government_index(const struct government *pgovern)
 {
   assert(pgovern);
   return pgovern - governments;
@@ -87,7 +87,7 @@ const int government_index(const struct government *pgovern)
 /**************************************************************************
   Return the government index.
 **************************************************************************/
-const int government_number(const struct government *pgovern)
+int government_number(const struct government *pgovern)
 {
   assert(pgovern);
   return pgovern->item_number;

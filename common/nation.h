@@ -109,9 +109,9 @@ struct nation_type {
 };
 
 /* General nation accessor functions. */
-const Nation_type_id nation_count(void);
-const Nation_type_id nation_index(const struct nation_type *pnation);
-const Nation_type_id nation_number(const struct nation_type *pnation);
+Nation_type_id nation_count(void);
+Nation_type_id nation_index(const struct nation_type *pnation);
+Nation_type_id nation_number(const struct nation_type *pnation);
 
 struct nation_type *nation_by_number(const Nation_type_id nation);
 struct nation_type *nation_of_player(const struct player *pplayer);
@@ -145,9 +145,9 @@ bool check_nation_leader_name(const struct nation_type *nation,
 			      const char *name);
 
 /* General nation group accessor routines */
-const int nation_group_count(void);
-const int nation_group_index(const struct nation_group *pgroup);
-const int nation_group_number(const struct nation_group *pgroup);
+int nation_group_count(void);
+int nation_group_index(const struct nation_group *pgroup);
+int nation_group_number(const struct nation_group *pgroup);
 
 struct nation_group *nation_group_by_number(int id);
 struct nation_group *find_nation_group_by_rule_name(const char *name);

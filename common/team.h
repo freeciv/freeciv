@@ -28,9 +28,9 @@ struct team {
 };
 
 /* General team accessor functions. */
-const Team_type_id team_count(void);
-const Team_type_id team_index(const struct team *pteam);
-const Team_type_id team_number(const struct team *pteam);
+Team_type_id team_count(void);
+Team_type_id team_index(const struct team *pteam);
+Team_type_id team_number(const struct team *pteam);
 
 struct team *team_by_number(const Team_type_id id);
 struct team *find_team_by_rule_name(const char *team_name);

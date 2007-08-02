@@ -102,7 +102,7 @@ const struct terrain *terrain_array_last(void)
 /**************************************************************************
   Return the number of terrains.
 **************************************************************************/
-const Terrain_type_id terrain_count(void)
+Terrain_type_id terrain_count(void)
 {
   return game.control.terrain_count;
 }
@@ -110,7 +110,7 @@ const Terrain_type_id terrain_count(void)
 /**************************************************************************
   Return the terrain identifier.
 **************************************************************************/
-const char terrain_identifier(const struct terrain *pterrain)
+char terrain_identifier(const struct terrain *pterrain)
 {
   assert(pterrain);
   return pterrain->identifier;
@@ -122,7 +122,7 @@ const char terrain_identifier(const struct terrain *pterrain)
   Currently same as terrain_number(), paired with terrain_count()
   indicates use as an array index.
 **************************************************************************/
-const Terrain_type_id terrain_index(const struct terrain *pterrain)
+Terrain_type_id terrain_index(const struct terrain *pterrain)
 {
   assert(pterrain);
   return pterrain - civ_terrains;
@@ -131,7 +131,7 @@ const Terrain_type_id terrain_index(const struct terrain *pterrain)
 /**************************************************************************
   Return the terrain index.
 **************************************************************************/
-const Terrain_type_id terrain_number(const struct terrain *pterrain)
+Terrain_type_id terrain_number(const struct terrain *pterrain)
 {
   assert(pterrain);
   return pterrain->item_number;
@@ -274,7 +274,7 @@ const struct resource *resource_array_last(void)
 /**************************************************************************
   Return the resource count.
 **************************************************************************/
-const Resource_type_id resource_count(void)
+Resource_type_id resource_count(void)
 {
   return game.control.resource_count;
 }
@@ -285,7 +285,7 @@ const Resource_type_id resource_count(void)
   Currently same as resource_number(), paired with resource_count()
   indicates use as an array index.
 **************************************************************************/
-const Resource_type_id resource_index(const struct resource *presource)
+Resource_type_id resource_index(const struct resource *presource)
 {
   assert(presource);
   return presource - civ_resources;
@@ -294,7 +294,7 @@ const Resource_type_id resource_index(const struct resource *presource)
 /**************************************************************************
   Return the resource index.
 **************************************************************************/
-const Resource_type_id resource_number(const struct resource *presource)
+Resource_type_id resource_number(const struct resource *presource)
 {
   assert(presource);
   return presource->item_number;

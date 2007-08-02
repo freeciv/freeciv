@@ -89,7 +89,7 @@ const struct unit_type *unit_type_array_last(void)
 /**************************************************************************
   Return the number of unit types.
 **************************************************************************/
-const Unit_type_id utype_count(void)
+Unit_type_id utype_count(void)
 {
   return game.control.num_unit_types;
 }
@@ -100,7 +100,7 @@ const Unit_type_id utype_count(void)
   Currently same as utype_number(), paired with utype_count()
   indicates use as an array index.
 **************************************************************************/
-const Unit_type_id utype_index(const struct unit_type *punittype)
+Unit_type_id utype_index(const struct unit_type *punittype)
 {
   assert(punittype);
   return punittype - unit_types;
@@ -109,7 +109,7 @@ const Unit_type_id utype_index(const struct unit_type *punittype)
 /**************************************************************************
   Return the unit type index.
 **************************************************************************/
-const Unit_type_id utype_number(const struct unit_type *punittype)
+Unit_type_id utype_number(const struct unit_type *punittype)
 {
   assert(punittype);
   return punittype->index;
@@ -901,7 +901,7 @@ const struct unit_class *unit_class_array_last(void)
 /**************************************************************************
   Return the unit_class count.
 **************************************************************************/
-const Unit_Class_id uclass_count(void)
+Unit_Class_id uclass_count(void)
 {
   return game.control.num_unit_classes;
 }
@@ -912,7 +912,7 @@ const Unit_Class_id uclass_count(void)
   Currently same as uclass_number(), paired with uclass_count()
   indicates use as an array index.
 **************************************************************************/
-const Unit_Class_id uclass_index(const struct unit_class *pclass)
+Unit_Class_id uclass_index(const struct unit_class *pclass)
 {
   assert(pclass);
   return pclass - unit_classes;
@@ -921,7 +921,7 @@ const Unit_Class_id uclass_index(const struct unit_class *pclass)
 /**************************************************************************
   Return the unit_class index.
 **************************************************************************/
-const Unit_Class_id uclass_number(const struct unit_class *pclass)
+Unit_Class_id uclass_number(const struct unit_class *pclass)
 {
   assert(pclass);
   return pclass->item_number;

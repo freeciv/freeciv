@@ -295,7 +295,7 @@ struct nation_type *nation_by_number(const Nation_type_id nation)
 /**************************************************************************
   Return the nation index.
 **************************************************************************/
-const Nation_type_id nation_number(const struct nation_type *pnation)
+Nation_type_id nation_number(const struct nation_type *pnation)
 {
   assert(pnation);
   return pnation->item_number;
@@ -307,7 +307,7 @@ const Nation_type_id nation_number(const struct nation_type *pnation)
   Currently same as nation_number(), paired with nation_count()
   indicates use as an array index.
 **************************************************************************/
-const Nation_type_id nation_index(const struct nation_type *pnation)
+Nation_type_id nation_index(const struct nation_type *pnation)
 {
   assert(pnation);
   return pnation - nations;
@@ -316,7 +316,7 @@ const Nation_type_id nation_index(const struct nation_type *pnation)
 /****************************************************************************
   Return the number of nations.
 ****************************************************************************/
-const Nation_type_id nation_count(void)
+Nation_type_id nation_count(void)
 {
   return game.control.nation_count;
 }
@@ -493,7 +493,7 @@ struct nation_group *add_new_nation_group(const char *name)
 /****************************************************************************
   Return the number of nation groups.
 ****************************************************************************/
-const int nation_group_count(void)
+int nation_group_count(void)
 {
   return num_nation_groups;
 }
@@ -501,7 +501,7 @@ const int nation_group_count(void)
 /**************************************************************************
   Return the nation group index.
 **************************************************************************/
-const int nation_group_index(const struct nation_group *pgroup)
+int nation_group_index(const struct nation_group *pgroup)
 {
   assert(pgroup);
   return pgroup - nation_groups;
@@ -510,7 +510,7 @@ const int nation_group_index(const struct nation_group *pgroup)
 /**************************************************************************
   Return the nation group index.
 **************************************************************************/
-const int nation_group_number(const struct nation_group *pgroup)
+int nation_group_number(const struct nation_group *pgroup)
 {
   assert(pgroup);
   return pgroup->item_number;

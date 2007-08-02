@@ -225,9 +225,9 @@ struct unit_type {
 			     && (utype_by_number((ut)->index) == (ut))))
 
 /* General unit and unit type (matched) routines */
-const Unit_type_id utype_count(void);
-const Unit_type_id utype_index(const struct unit_type *punittype);
-const Unit_type_id utype_number(const struct unit_type *punittype);
+Unit_type_id utype_count(void);
+Unit_type_id utype_index(const struct unit_type *punittype);
+Unit_type_id utype_number(const struct unit_type *punittype);
 
 struct unit_type *unit_type(const struct unit *punit);
 struct unit_type *utype_by_number(const Unit_type_id id);
@@ -268,9 +268,9 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 const char *role_units_translations(int flag);
 
 /* General unit class routines */
-const Unit_Class_id uclass_count(void);
-const Unit_Class_id uclass_index(const struct unit_class *pclass);
-const Unit_Class_id uclass_number(const struct unit_class *pclass);
+Unit_Class_id uclass_count(void);
+Unit_Class_id uclass_index(const struct unit_class *pclass);
+Unit_Class_id uclass_number(const struct unit_class *pclass);
 
 struct unit_class *unit_class(const struct unit *punit);
 struct unit_class *utype_class(const struct unit_type *punittype);
