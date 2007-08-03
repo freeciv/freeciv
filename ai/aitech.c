@@ -284,7 +284,7 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
 	} requirement_vector_iterate_end;
       }
 
-      if (cost < best_cost) {
+      if (cost < best_cost && tech_is_available(pplayer, itech)) {
         best_tech = itech;
         best_cost = cost;
         best_unit = iunit;
