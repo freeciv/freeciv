@@ -927,7 +927,8 @@ void ui_main(int argc, char *argv[])
                        CF_DRAW_PLAYERS_CEASEFIRE_STATUS|
                        CF_DRAW_PLAYERS_PEACE_STATUS|
                        CF_DRAW_PLAYERS_ALLIANCE_STATUS);
-                       
+
+  tileset_init(tileset);
   tileset_load_tiles(tileset);
   tileset_use_prefered_theme(tileset);
       

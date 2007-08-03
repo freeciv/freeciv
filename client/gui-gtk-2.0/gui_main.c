@@ -1470,6 +1470,7 @@ void ui_main(int argc, char **argv)
     gdk_gc_set_foreground(mask_bg_gc, &pixel);
   }
 
+  tileset_init(tileset);
   tileset_load_tiles(tileset);
 
   /* keep the icon of the executable on Windows (see PR#36491) */

@@ -116,6 +116,7 @@ extern struct tileset *tileset;
 const char **get_tileset_list(void);
 
 struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose);
+void tileset_init(struct tileset *t);
 void tileset_free(struct tileset *tileset);
 void tileset_load_tiles(struct tileset *t);
 void tileset_free_tiles(struct tileset *t);

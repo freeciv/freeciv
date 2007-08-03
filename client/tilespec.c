@@ -150,6 +150,7 @@ struct city_sprite {
       struct sprite *sprite;
     } *thresholds;
   } *styles;
+  int num_styles;
 };
 
 struct named_sprites {
@@ -1969,8 +1970,12 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
 {
   /* get style and match the best tile based on city size */
   int style = style_of_city(pcity);
-  int num_thresholds = city_sprite->styles[style].num_thresholds;
+  int num_thresholds;
   int t;
+
+  assert(style < city_sprite->num_styles);
+
+  num_thresholds = city_sprite->styles[style].num_thresholds;
 
   if (num_thresholds == 0) {
     return NULL;
@@ -2001,10 +2006,14 @@ static struct city_sprite *load_city_sprite(struct tileset *t,
   int style, size;
   char buffer[128];
 
-  city_sprite->styles = fc_malloc(game.control.styles_count
+  /* Store number of styles we have allocated memory for.
+   * game.control.styles_count might change if client disconnects from
+   * server and connects new one. */
+  city_sprite->num_styles = game.control.styles_count;
+  city_sprite->styles = fc_malloc(city_sprite->num_styles
 				  * sizeof(*city_sprite->styles));
 
-  for (style = 0; style < game.control.styles_count; style++) {
+  for (style = 0; style < city_sprite->num_styles; style++) {
     int thresholds = 0;
     struct sprite *sprite;
     char *graphic = city_styles[style].graphic;
@@ -2050,7 +2059,7 @@ static void free_city_sprite(struct city_sprite *city_sprite)
   if (!city_sprite) {
     return;
   }
-  for (style = 0; style < game.control.styles_count; style++) {
+  for (style = 0; style < city_sprite->num_styles; style++) {
     if (city_sprite->styles[style].thresholds) {
       free(city_sprite->styles[style].thresholds);
     }
@@ -4489,6 +4498,12 @@ int fill_sprite_array(struct tileset *t,
 void tileset_setup_city_tiles(struct tileset *t, int style)
 {
   if (style == game.control.styles_count - 1) {
+
+    /* Free old sprites */
+    free_city_sprite(t->sprites.city.tile);
+    free_city_sprite(t->sprites.city.wall);
+    free_city_sprite(t->sprites.city.occupied);
+
     t->sprites.city.tile = load_city_sprite(t, "city");
     t->sprites.city.wall = load_city_sprite(t, "wall");
     t->sprites.city.occupied = load_city_sprite(t, "occupied");
@@ -4988,4 +5003,15 @@ void tileset_use_prefered_theme(const struct tileset *t)
                        "none of prefered themes can be used. Using system "
 		       "default");
   gui_clear_theme();
+}
+
+/****************************************************************************
+  Initialize tileset structure
+****************************************************************************/
+void tileset_init(struct tileset *t)
+{
+  /* We currently have no city sprites loaded. */
+  t->sprites.city.tile     = NULL;
+  t->sprites.city.wall     = NULL;
+  t->sprites.city.occupied = NULL;
 }
