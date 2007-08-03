@@ -746,6 +746,7 @@ ui_main(int argc, char *argv[])
   SetMenu(root_window,create_mainmenu());
   ShowWindow(root_window,SW_SHOWNORMAL);
   UpdateWindow(root_window);
+  tileset_init(tileset);
   tileset_load_tiles(tileset);
   init_fog_bmp();
   load_cursors();

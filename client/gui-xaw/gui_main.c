@@ -444,6 +444,7 @@ void ui_main(int argc, char *argv[])
      setup_widgets() has enough colors available:  (on 256-colour systems)
   */
   setup_widgets();
+  tileset_init(tileset);
   tileset_load_tiles(tileset);
   load_intro_gfx();
   load_cursors();
