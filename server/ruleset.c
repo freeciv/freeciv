@@ -2441,9 +2441,23 @@ static void load_ruleset_nations(struct section_file *file)
     if (mystrcasecmp(barb_type, "None") == 0) {
       pl->barb_type = NOT_A_BARBARIAN;
     } else if (mystrcasecmp(barb_type, "Land") == 0) {
+      if (pl->is_playable) {
+        /* We can't allow players to use barbarian nations, barbarians
+         * may run out of nations */
+        freelog(LOG_FATAL, "Nation %s marked both barbarian and playable.",
+                nation_rule_name(pl));
+        exit(EXIT_FAILURE);
+      }
       pl->barb_type = LAND_BARBARIAN;
       barb_land_count++;
     } else if (mystrcasecmp(barb_type, "Sea") == 0) {
+      if (pl->is_playable) {
+        /* We can't allow players to use barbarian nations, barbarians
+         * may run out of nations */
+        freelog(LOG_FATAL, "Nation %s marked both barbarian and playable.",
+                nation_rule_name(pl));
+        exit(EXIT_FAILURE);
+      }
       pl->barb_type = SEA_BARBARIAN;
       barb_sea_count++;
     } else {
