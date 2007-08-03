@@ -952,10 +952,14 @@ static void process_attacker_want(struct city *pcity,
       }
 
       /* Estimate strength of the enemy. */
-      
-      vuln = unittype_def_rating_sq(punittype, victim_unit_type,
-				    victim_player,
-                                    ptile, FALSE, veteran);
+
+      if (victim_unit_type) {
+        vuln = unittype_def_rating_sq(punittype, victim_unit_type,
+                                      victim_player,
+                                      ptile, FALSE, veteran);
+      } else {
+        vuln = 0;
+      }
 
       /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
        * (this is noted elsewhere as terrible bug making warships yoyoing) 
