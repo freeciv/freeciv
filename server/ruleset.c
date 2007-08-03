@@ -2052,6 +2052,7 @@ static void load_ruleset_nations(struct section_file *file)
   char **leaders, **sec, **civilwar_nations, **groups, **conflicts;
   char* name;
   const char *filename = secfile_filename(file);
+  int barbarians = 0;
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
   
@@ -2166,6 +2167,18 @@ static void load_ruleset_nations(struct section_file *file)
 						  "%s.is_playable", sec[i]);
     pl->is_barbarian = secfile_lookup_bool_default(file, FALSE,
 						  "%s.is_barbarian", sec[i]);
+
+    if (pl->is_barbarian) {
+      if (pl->is_playable) {
+        /* We can't allow players to use barbarian nations, barbarians
+         * may run out of nations */
+        /* TRANS: Ruleset error */
+        freelog(LOG_FATAL, "Nation %s marked both barbarian and playable.",
+                nation_rule_name(pl));
+        exit(EXIT_FAILURE);
+      }
+      barbarians++;
+    }
 
     /* Flags */
 
@@ -2318,6 +2331,13 @@ static void load_ruleset_nations(struct section_file *file)
   free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
+
+  if (barbarians < 1) {
+    /* TRANS: Ruleset error */
+    freelog(LOG_FATAL,
+            _("No barbarian nation in rulesets, at least one required!"));
+    exit(EXIT_FAILURE);
+  }
 }
 
 /**************************************************************************
