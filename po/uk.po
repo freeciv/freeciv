@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-02 23:22+0300\n"
+"POT-Creation-Date: 2007-08-04 18:43+0300\n"
 "PO-Revision-Date: 2007-05-22 22:47+0200\n"
 "Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -4103,7 +4103,7 @@ msgstr "%s з %s (%s)"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Не можу знайти доступний файл \"%s.%s\" з правилами."
 
-#: server/ruleset.c:3460
+#: server/ruleset.c:3474
 msgid "Loading rulesets"
 msgstr "Завантажую правила"
 
@@ -10135,31 +10135,31 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Дива: "
 
-#: client/tilespec.c:866
+#: client/tilespec.c:867
 msgid "No usable default tileset found, aborting!"
 msgstr "Не знайдено фон╕в по замовчуванню, перериваюся! "
 
-#: client/tilespec.c:898
+#: client/tilespec.c:899
 #, fuzzy, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Завантажую правила"
 
-#: client/tilespec.c:1332
+#: client/tilespec.c:1333
 #, fuzzy
 msgid "Client does not support isometric tilesets."
 msgstr ""
 "Кл╕╓нт не п╕дтриму╓ ╕зометричн╕ фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:1333 client/tilespec.c:1342
+#: client/tilespec.c:1334 client/tilespec.c:1343
 msgid "Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:1341
+#: client/tilespec.c:1342
 #, fuzzy
 msgid "Client does not support overhead view tilesets."
 msgstr "Кл╕╓нт не п╕дтриму╓ гор╕шн╕ фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:4165
+#: client/tilespec.c:4174
 #, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
@@ -11468,58 +11468,58 @@ msgstr ""
 "А тепер задайте ╖м перцю!\n"
 "Слава Укра╖н╕! Героям слава!"
 
-#: client/gui-gtk-2.0/gui_main.c:1532
+#: client/gui-gtk-2.0/gui_main.c:1533
 msgid "Not _ready"
 msgstr "Не готовий"
 
-#: client/gui-gtk-2.0/gui_main.c:1543 client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/gui_main.c:1544 client/gui-gtk-2.0/pages.c:1591
 msgid "_Ready"
 msgstr "Готовий"
 
-#: client/gui-gtk-2.0/gui_main.c:1547 client/gui-gtk-2.0/gui_main.c:1553
+#: client/gui-gtk-2.0/gui_main.c:1548 client/gui-gtk-2.0/gui_main.c:1554
 #: client/gui-gtk-2.0/pages.c:2118
 msgid "_Start"
 msgstr "Розпочати"
 
-#: client/gui-gtk-2.0/gui_main.c:1558 client/gui-gtk-2.0/pages.c:1581
+#: client/gui-gtk-2.0/gui_main.c:1559 client/gui-gtk-2.0/pages.c:1581
 msgid "Pick _Nation"
 msgstr "Обер╕ть _Нац╕ю"
 
-#: client/gui-gtk-2.0/gui_main.c:1560
+#: client/gui-gtk-2.0/gui_main.c:1561
 msgid "Create _player"
 msgstr "Створити гравця"
 
-#: client/gui-gtk-2.0/gui_main.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1566
 msgid "_Release player"
 msgstr "В╕дпустити гравця"
 
-#: client/gui-gtk-2.0/gui_main.c:1567 client/gui-gtk-2.0/pages.c:1586
+#: client/gui-gtk-2.0/gui_main.c:1568 client/gui-gtk-2.0/pages.c:1586
 msgid "_Observe"
 msgstr "Спостер╕гати"
 
-#: client/gui-gtk-2.0/gui_main.c:1569
+#: client/gui-gtk-2.0/gui_main.c:1570
 msgid "_Do not observe"
 msgstr "Не спостер╕гати"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1592
+#: client/gui-gtk-2.0/gui_main.c:1593
 #, c-format
 msgid "<%s AI>"
 msgstr "<%s Ш╤>"
 
-#: client/gui-gtk-2.0/gui_main.c:1601 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1602 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr "Випадковий"
 
-#: client/gui-gtk-2.0/gui_main.c:1663
+#: client/gui-gtk-2.0/gui_main.c:1664
 msgid "Observer"
 msgstr " Спостер╕гач"
 
-#: client/gui-gtk-2.0/gui_main.c:1663
+#: client/gui-gtk-2.0/gui_main.c:1664
 msgid "Detached"
 msgstr "В╕д'╓днаний"
 
-#: client/gui-gtk-2.0/gui_main.c:1933
+#: client/gui-gtk-2.0/gui_main.c:1934
 msgid "Are you sure you want to quit?"
 msgstr "Ви впевнен╕, що хочете вийти?"
 
