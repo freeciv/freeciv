@@ -192,10 +192,6 @@ int get_unittype_bonus(const struct player *pplayer,
 		       const struct tile *ptile, /* pcity is implied */
 		       const struct unit_type *punittype,
 		       enum effect_type effect_type);
-int get_unittype_bonus(const struct player *pplayer,
-		       const struct tile *ptile, /* pcity is implied */
-		       const struct unit_type *punittype,
-		       enum effect_type effect_type);
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type);
 
 /* miscellaneous auxiliary effects functions */
