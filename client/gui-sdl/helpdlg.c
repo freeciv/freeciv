@@ -1100,7 +1100,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR | WF_FREE_THEME);
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->action = change_gov_callback;
-        pBuf->ID = MAX_ID - gov->index;
+        pBuf->ID = MAX_ID - government_index(gov);
         DownAdd(pBuf, pDock);
         pDock = pBuf;
         gov_count++;

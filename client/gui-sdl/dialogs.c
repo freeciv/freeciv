@@ -1981,7 +1981,7 @@ static void popup_government_dialog(void)
   
   /* create gov. buttons */
   j = 0;
-  government_interate(pGov) {
+  government_iterate(pGov) {
 
     if (pGov == game.government_when_anarchy) {
       continue;
@@ -2760,9 +2760,9 @@ void popup_races_dialog(struct player *pplayer)
     w = MAX(w, pWidget->size.w);
     h = MAX(h, pWidget->size.h);
 
-    add_to_gui_list(MAX_ID - pNation->index, pWidget);
+    add_to_gui_list(MAX_ID - nation_index(pNation), pWidget);
     
-    if (pNation->index > (TARGETS_ROW * TARGETS_COL - 1)) {
+    if (nation_index(pNation) > (TARGETS_ROW * TARGETS_COL - 1)) {
       set_wflag(pWidget, WF_HIDDEN);
     }
     
@@ -3050,14 +3050,14 @@ void races_toggles_set_sensitive()
   
     if (!nation->is_available || nation->player) {
       freelog(LOG_DEBUG,"  [%d]: %d = %s",
-	      nation->index,
+	      nation_index(nation),
 	      (!nation->is_available || nation->player),
 	      nation_rule_name(nation));
 
-      pNat = get_widget_pointer_form_main_list(MAX_ID - nation->index);
+      pNat = get_widget_pointer_form_main_list(MAX_ID - nation_index(nation));
       set_wstate(pNat, FC_WS_DISABLED);
     
-      if (nation->index == pSetup->nation) {
+      if (nation_index(nation) == pSetup->nation) {
         change = TRUE;
       }
     }

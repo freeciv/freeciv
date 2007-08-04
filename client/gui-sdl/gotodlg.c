@@ -70,7 +70,7 @@ static int exit_goto_dialog_callback(struct widget *pWidget)
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    all_players ^= (1u << player_index(player_by_number(MAX_ID - pWidget->ID))));
+    all_players ^= (1u << player_index(player_by_number(MAX_ID - pWidget->ID)));
     update_goto_dialog();
   }
   return -1;
@@ -173,7 +173,7 @@ static void update_goto_dialog(void)
       
       n++;  
     } city_list_iterate_end;
-  }
+  } players_iterate_end;
 
   if (n > 0) {
     pGotoDlg->pBeginWidgetList = pBuf;
