@@ -74,7 +74,7 @@ void te_init(const char *theme, char *example_file)
   my_snprintf(current_res, sizeof(current_res), "%dx%d", size.width,
 	      size.height);
 
-  my_snprintf(filename, sizeof(filename), "themes/%s/%s/%s",
+  my_snprintf(filename, sizeof(filename), "themes/gui-ftwl/%s/%s/%s",
 	      current_theme, current_res, example_file);
   if (!datafilename(filename)) {
     freelog(LOG_FATAL, "ERROR: There is no theme '%s' in resolution '%s'.",
@@ -92,13 +92,13 @@ struct sprite *te_load_gfx(const char *filename)
   char prefix[prefixes][512];
   int i;
 
-  my_snprintf(prefix[0], sizeof(prefix[0]), "themes/%s/%s/", current_theme,
+  my_snprintf(prefix[0], sizeof(prefix[0]), "themes/gui-ftwl/%s/%s/", current_theme,
 	      current_res);
-  my_snprintf(prefix[1], sizeof(prefix[1]), "themes/%s/", current_theme);
-  my_snprintf(prefix[2], sizeof(prefix[2]), "themes/common/%s/",
+  my_snprintf(prefix[1], sizeof(prefix[1]), "themes/gui-ftwl/%s/", current_theme);
+  my_snprintf(prefix[2], sizeof(prefix[2]), "themes/gui-ftwl/common/%s/",
 	      current_res);
-  my_snprintf(prefix[3], sizeof(prefix[3]), "themes/common/");
-  my_snprintf(prefix[4], sizeof(prefix[4]), "themes/");
+  my_snprintf(prefix[3], sizeof(prefix[3]), "themes/gui-ftwl/common/");
+  my_snprintf(prefix[4], sizeof(prefix[4]), "themes/gui-ftwl/");
   my_snprintf(prefix[5], sizeof(prefix[5]), "%s", "");
 
   for (i = 0; i < prefixes; i++) {
@@ -608,7 +608,7 @@ struct section_file *te_open_themed_file(const char *name)
   struct section_file *result = fc_malloc(sizeof(*result));
   char filename[512],*tmp;
 
-  my_snprintf(filename, sizeof(filename), "themes/%s/%s/%s",
+  my_snprintf(filename, sizeof(filename), "themes/gui-ftwl/%s/%s/%s",
 	      current_theme, current_res, name);
   tmp = datafilename_required(filename);
 
