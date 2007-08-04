@@ -2351,37 +2351,32 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
       return;
   }
 
-  if (leader->transported_by != -1) {
-    /* Leader is at boat */
-    struct unit *boat = game_find_unit_by_number(leader->transported_by);
+  if (is_boss_of_boat(leader)) {
+    /* We are in charge. Of course, since we are the leader...
+     * But maybe somebody more militaristic should lead our ship to battle! */
+  
+    /* First release boat from leaders lead */
+    aiferry_clear_boat(leader);
+  
+    unit_list_iterate(leader->tile->units, warrior) {
+      if (!unit_has_type_role(warrior, L_BARBARIAN_LEADER)
+          && get_transporter_capacity(warrior) == 0
+          && warrior->moves_left > 0) {
+        /* This seems like a good warrior to lead us in to conquest! */
+        ai_manage_unit(pplayer, warrior);
 
-    if (boat->ai.passenger == leader->id) {
-      /* We are in charge. Of course, since we are the leader...
-       * But maybe somebody more militaristic should lead our ship to battle! */
-
-      /* First release boat from leaders lead */
-      aiferry_clear_boat(leader);
-
-      unit_list_iterate(leader->tile->units, warrior) {
-        if (!unit_has_type_role(warrior, L_BARBARIAN_LEADER)
-            && get_transporter_capacity(warrior) == 0
-            && warrior->moves_left > 0) {
-          /* This seems like a good warrior to lead us in to conquest! */
-          ai_manage_unit(pplayer, warrior);
-
-          /* If we reached our destination, ferryboat already called
-           * ai_manage_unit() for leader. So no need to continue here.
-           * Leader might even be dead.
-           * If this return is removed, surronding unit_list_iterate()
-           * has to be replaced with unit_list_iterate_safe()*/
-          return;
-        }
-      } unit_list_iterate_end;
-    }
-
-    /* If we are not in charge of the boat, continue as if we
-     * were not in a boat - we may want to leave the ship now. */
+        /* If we reached our destination, ferryboat already called
+         * ai_manage_unit() for leader. So no need to continue here.
+         * Leader might even be dead.
+         * If this return is removed, surronding unit_list_iterate()
+         * has to be replaced with unit_list_iterate_safe()*/
+        return;
+      }
+    } unit_list_iterate_end;
   }
+
+  /* If we are not in charge of the boat, continue as if we
+   * were not in a boat - we may want to leave the ship now. */
 
   /* the following takes much CPU time and could be avoided */
   generate_warmap(tile_get_city(leader->tile), leader);

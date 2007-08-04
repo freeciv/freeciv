@@ -60,6 +60,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
 				    struct pft_amphibious *parameter);
 
 bool is_boat_free(struct unit *boat, struct unit *punit, int cap);
+bool is_boss_of_boat(struct unit *punit);
 
 /*
  * Main boat managing function.  Gets units on board to where they want to

@@ -349,6 +349,28 @@ bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 }
 
 /****************************************************************************
+  Check if unit is boss in ferry
+****************************************************************************/
+bool is_boss_of_boat(struct unit *punit)
+{
+  struct unit *ferry;
+
+  if (punit->transported_by == -1) {
+    /* Not even in boat */
+    return FALSE;
+  }
+
+  ferry = player_find_unit_by_id(unit_owner(punit), punit->transported_by);
+
+  if (ferry != NULL
+      && ferry->ai.passenger == punit->id) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
   Proper and real PF function for finding a boat.  If you don't require
   the path to the ferry, pass path=NULL.
   Return the unit ID of the boat; punit is the passenger.
