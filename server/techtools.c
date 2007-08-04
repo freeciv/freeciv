@@ -278,7 +278,9 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   assert((tech_exists(tech_found)
 	  && get_invention(plr, tech_found) != TECH_KNOWN)
 	 || tech_found == A_FUTURE);
-  assert(tech_is_available(plr, tech_found) || tech_found == A_FUTURE);
+  /* It is possible that !tech_is_available() simply because we are only
+   * setting up initial techs and root_req is one of them.
+   * assert(tech_is_available(plr, tech_found) || tech_found == A_FUTURE); */
 
   /* got_tech allows us to change research without applying techpenalty
    * (without loosing bulbs) */
