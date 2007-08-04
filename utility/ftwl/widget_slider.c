@@ -274,8 +274,12 @@ struct sw_widget *sw_slider_create(struct sw_widget *parent, int width,
     repeat_size2 = repeat_size;
     repeat_size2.height /= 4;
 
+    /* This is outside 'if (center)' -block to avoid
+     * '...might be used uninitialized...' warning from
+     * compiler that does not realize that it's never
+     * used if center == NULL. */
+    center_size2 = center_size;
     if (center) {
-      center_size2 = center_size;
       center_size2.height /= 4;
     }
 
