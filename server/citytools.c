@@ -1595,7 +1595,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     packet->ppl_angry[i]=pcity->ppl_angry[i];
   }
   /* The number of data in specilists[] array */
-  packet->specialists_size = SP_COUNT;
+  packet->specialists_size = specialist_count();
   specialist_type_iterate(sp) {
     packet->specialists[sp] = pcity->specialists[sp];
   } specialist_type_iterate_end;

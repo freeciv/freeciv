@@ -24,11 +24,11 @@
 struct canvas;
 
 enum citizen_category {
-  CITIZEN_SPECIALIST,
-  CITIZEN_CONTENT,
   CITIZEN_HAPPY,
+  CITIZEN_CONTENT,
   CITIZEN_UNHAPPY,
   CITIZEN_ANGRY,
+  CITIZEN_SPECIALIST,		/* assumed to be final category */
   CITIZEN_LAST
 };
 

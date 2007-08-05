@@ -17,10 +17,12 @@
 
 #include <assert.h>
 
-#include "base.h"
+#include "fcintl.h"
 #include "game.h"
 #include "tile.h"
 #include "unit.h"
+
+#include "base.h"
 
 static struct base_type base_types[BASE_LAST];
 
@@ -37,7 +39,7 @@ static const char *base_gui_type_names[] = {
 /****************************************************************************
   Check if base provides effect
 ****************************************************************************/
-bool base_flag(const struct base_type *pbase, enum base_flag_id flag)
+bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag)
 {
   return BV_ISSET(pbase->flags, flag);
 }
@@ -45,38 +47,54 @@ bool base_flag(const struct base_type *pbase, enum base_flag_id flag)
 /****************************************************************************
   Is base native to unit class?
 ****************************************************************************/
-bool is_native_base_to_class(const struct unit_class *pclass,
-                             const struct base_type *pbase)
+bool is_native_base_to_uclass(const struct base_type *pbase,
+                              const struct unit_class *pclass)
 {
   return BV_ISSET(pbase->native_to, uclass_index(pclass));
 }
 
 /****************************************************************************
-  Is base native to unit?
+  Is base native to unit type?
 ****************************************************************************/
-bool is_native_base(const struct unit_type *punittype,
-                    const struct base_type *pbase)
+bool is_native_base_to_utype(const struct base_type *pbase,
+                             const struct unit_type *punittype)
 {
-  return is_native_base_to_class(utype_class(punittype), pbase);
+  return is_native_base_to_uclass(pbase, utype_class(punittype));
 }
 
 /****************************************************************************
   Base provides base flag for unit? Checks if base provides flag and if
   base is native to unit.
 ****************************************************************************/
-bool base_flag_affects_unit(const struct unit_type *punittype,
-                            const struct base_type *pbase,
-                            enum base_flag_id flag)
+bool base_has_flag_for_utype(const struct base_type *pbase,
+                             enum base_flag_id flag,
+                             const struct unit_type *punittype)
 {
-  return base_flag(pbase, flag) && is_native_base(punittype, pbase);
+  return base_has_flag(pbase, flag) && is_native_base_to_utype(pbase, punittype);
 }
 
 /**************************************************************************
-  Return the translated name of the base type.
+  Return the (translated) name of the base type.
+  You don't have to free the return pointer.
 **************************************************************************/
-const char *base_name(const struct base_type *pbase)
+const char *base_name_translation(struct base_type *pbase)
 {
-  return pbase->name;
+  if (NULL == pbase->name.translated) {
+    /* delayed (unified) translation */
+    pbase->name.translated = ('\0' == pbase->name.vernacular[0])
+			      ? pbase->name.vernacular
+			      : Q_(pbase->name.vernacular);
+  }
+  return pbase->name.translated;
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the base type.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *base_rule_name(const struct base_type *pbase)
+{
+  return Qn_(pbase->name.vernacular);
 }
 
 /**************************************************************************
@@ -97,13 +115,13 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
 /****************************************************************************
   Determine base type from specials. Returns NULL if there is no base
 ****************************************************************************/
-struct base_type *base_type_get_from_special(bv_special spe)
+struct base_type *base_of_bv_special(bv_special spe)
 {
   if (contains_special(spe, S_FORTRESS)) {
-    return base_type_get_by_id(BASE_FORTRESS);
+    return base_by_number(BASE_FORTRESS);
   }
   if (contains_special(spe, S_AIRBASE)) {
-    return base_type_get_by_id(BASE_AIRBASE);
+    return base_by_number(BASE_AIRBASE);
   }
 
   return NULL;
@@ -128,25 +146,76 @@ enum base_flag_id base_flag_from_str(const char *s)
 }
   
 /****************************************************************************
-  Returns base type structure for an ID value.
+  Returns base_type entry for an ID value.
 ****************************************************************************/
-struct base_type *base_type_get_by_id(Base_type_id id)
+struct base_type *base_by_number(const Base_type_id id)
 {
-  if (id < 0 || id >= BASE_LAST) {
+  if (id < 0 || id >= game.control.num_base_types) {
     return NULL;
   }
   return &base_types[id];
 }
 
+/**************************************************************************
+  Return the base index.
+**************************************************************************/
+Base_type_id base_number(const struct base_type *pbase)
+{
+  assert(pbase);
+  return pbase->item_number;
+}
+
+/**************************************************************************
+  Return the base index.
+
+  Currently same as base_number(), paired with base_count()
+  indicates use as an array index.
+**************************************************************************/
+Base_type_id base_index(const struct base_type *pbase)
+{
+  assert(pbase);
+  return pbase - base_types;
+}
+
+/**************************************************************************
+  Return the number of base_types.
+**************************************************************************/
+Base_type_id base_count(void)
+{
+  return game.control.num_base_types;
+}
+
+/**************************************************************************
+  Return the last item of base_types.
+**************************************************************************/
+const struct base_type *base_array_last(void)
+{
+  if (game.control.num_base_types > 0) {
+    return &base_types[game.control.num_base_types - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the first item of base_types.
+**************************************************************************/
+struct base_type *base_array_first(void)
+{
+  if (game.control.num_base_types > 0) {
+    return base_types;
+  }
+  return NULL;
+}
+
 /****************************************************************************
-  Inialize base_type structures.
+  Initialize base_type structures.
 ****************************************************************************/
 void base_types_init(void)
 {
   int i;
 
   for (i = 0; i < ARRAY_SIZE(base_types); i++) {
-    base_types[i].id = i;
+    base_types[i].item_number = i;
     requirement_vector_init(&base_types[i].reqs);
   }
 }

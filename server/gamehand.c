@@ -206,8 +206,8 @@ static struct tile *find_dispersed_position(struct player *pplayer,
 void init_new_game(void)
 {
   const int NO_START_POS = -1;
-  int start_pos[game.info.nplayers];
-  int placed_units[game.info.nplayers];
+  int start_pos[player_count()];
+  int placed_units[player_count()];
   bool pos_used[map.num_start_positions];
   int i, num_used = 0;
 

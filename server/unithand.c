@@ -563,7 +563,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     if (activity != ACTIVITY_BASE) {
       handle_unit_activity_request_targeted(punit, activity, activity_target);
     } else {
-      if (!base_type_get_by_id(activity_base)) {
+      if (!base_by_number(activity_base)) {
         /* Illegal base type */
         return;
       }
@@ -1730,7 +1730,7 @@ void handle_unit_orders(struct player *pplayer,
 	}
 	break;
       case ACTIVITY_BASE:
-        if (!base_type_get_by_id(packet->base[i])) {
+        if (!base_by_number(packet->base[i])) {
           return;
         }
       default:

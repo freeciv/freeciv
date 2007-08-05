@@ -1679,7 +1679,7 @@ static void load_player_units(struct player *plr, int plrno,
     }
 
     if (pbase) {
-      set_unit_activity_base(punit, pbase->id);
+      set_unit_activity_base(punit, base_number(pbase));
     }
 
     /* need to do this to assign/deassign settlers correctly -- Syela
@@ -1811,7 +1811,7 @@ static void load_player_units(struct player *plr, int plrno,
           if (pbase) {
             /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
-            order->base = pbase->id;
+            order->base = base_number(pbase);
           }
 	}
       } else {
@@ -2165,7 +2165,7 @@ static void player_load(struct player *plr, int plrno,
 
   update_research(plr);
 
-  for (i = 0; i < game.info.nplayers; i++) {
+  for (i = 0; i < player_count(); i++) {
     plr->diplstates[i].type = 
       secfile_lookup_int_default(file, DS_WAR,
 				 "player%d.diplstate%d.type", plrno, i);
@@ -2188,7 +2188,7 @@ static void player_load(struct player *plr, int plrno,
   }
   /* We don't need this info, but savegames carry it anyway.
      To avoid getting "unused" warnings we touch the values like this. */
-  for (i = game.info.nplayers; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  for (i = player_count(); i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     secfile_lookup_int_default(file, DS_WAR,
 			       "player%d.diplstate%d.type", plrno, i);
     secfile_lookup_int_default(file, 0,
@@ -2263,7 +2263,7 @@ static void player_load(struct player *plr, int plrno,
 
     id = secfile_lookup_int_default(file, -1,
 				    "player%d.c%d.original", plrno, i);
-    if (id >= 0 && id < game.info.nplayers) {
+    if (id >= 0 && id < player_count()) {
       pcity->original = player_by_number(id);
     } else {
       pcity->original = player_by_number(plrno);
@@ -2276,7 +2276,7 @@ static void player_load(struct player *plr, int plrno,
     specialist_type_iterate(sp) {
       pcity->specialists[sp]
 	= secfile_lookup_int(file, "player%d.c%d.n%s", plrno, i,
-			     get_specialist(sp)->name);
+			     specialist_rule_name(specialist_by_number(sp)));
     } specialist_type_iterate_end;
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
@@ -2967,7 +2967,7 @@ static void player_save(struct player *plr, int plrno,
 
     if (activity == ACTIVITY_BASE) {
       struct base_type *pbase;
-      pbase = base_type_get_by_id(punit->activity_base);
+      pbase = base_by_number(punit->activity_base);
 
       if (pbase->gui_type == BASE_GUI_FORTRESS) {
         activity = ACTIVITY_FORTRESS;
@@ -3047,7 +3047,7 @@ static void player_save(struct player *plr, int plrno,
 	case ORDER_ACTIVITY:
           if (punit->orders.list[j].activity == ACTIVITY_BASE) {
             struct base_type *pbase;
-            pbase = base_type_get_by_id(punit->orders.list[j].base);
+            pbase = base_by_number(punit->orders.list[j].base);
 
             if (pbase->gui_type == BASE_GUI_FORTRESS) {
               act_buf[j] = activity2char(ACTIVITY_FORTRESS);
@@ -3125,7 +3125,7 @@ static void player_save(struct player *plr, int plrno,
     specialist_type_iterate(sp) {
       secfile_insert_int(file, pcity->specialists[sp],
 			 "player%d.c%d.n%s", plrno, i,
-			 get_specialist(sp)->name);
+			 specialist_rule_name(specialist_by_number(sp)));
     } specialist_type_iterate_end;
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
@@ -4033,7 +4033,7 @@ void game_load(struct section_file *file)
 
     /* Since the cities must be placed on the map to put them on the
        player map we do this afterwards */
-    for(i = 0; i < game.info.nplayers; i++) {
+    for(i = 0; i < player_count(); i++) {
       player_map_load(&game.players[i], i, file, improvement_order,
 		      improvement_order_size, special_order); 
     }
@@ -4083,10 +4083,10 @@ void game_load(struct section_file *file)
 
   if (secfile_lookup_int_default(file, -1,
 				 "game.shuffled_player_%d", 0) >= 0) {
-    int shuffled_players[game.info.nplayers];
+    int shuffled_players[player_count()];
 
     /* players_iterate() not used here */
-    for (i = 0; i < game.info.nplayers; i++) {
+    for (i = 0; i < player_count(); i++) {
       shuffled_players[i]
 	= secfile_lookup_int(file, "game.shuffled_player_%d", i);
     }
@@ -4417,7 +4417,7 @@ void game_save(struct section_file *file, const char *save_reason)
     } players_iterate_end;
 
     /* shuffled_players_iterate() not used here */
-    for (i = 0; i < game.info.nplayers; i++) {
+    for (i = 0; i < player_count(); i++) {
       secfile_insert_int(file, player_number(shuffled_player(i)),
 			 "game.shuffled_player_%d", i);
     }

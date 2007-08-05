@@ -588,7 +588,7 @@ void popup_pillage_dialog(struct unit *punit,
         XtVaCreateManagedWidget ("button", commandWidgetClass, form,
                                  XtNfromVert, prev,
                                  XtNlabel,
-                                 (XtArgVal)(base_name(pbase)),
+                                 (XtArgVal)(base_name_translation(pbase)),
                                  NULL);
       XtAddCallback(button, XtNcallback, pillage_callback,
                     INT_TO_XTPOINTER(S_PILLAGE_BASE));

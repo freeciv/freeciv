@@ -15,15 +15,22 @@
 
 #include "fc_types.h"
 #include "requirements.h"
-#include "terrain.h"
 
-enum base_type_id { BASE_FORTRESS = 0, BASE_AIRBASE, BASE_LAST };
-
-/* This must correspond to base_gui_type_names[] in base.c */
-enum base_gui_type { BASE_GUI_FORTRESS = 0, BASE_GUI_AIRBASE, BASE_GUI_OTHER,
-                     BASE_GUI_LAST };
+enum base_type_id {
+  BASE_FORTRESS = 0,
+  BASE_AIRBASE,
+  BASE_LAST
+};
 
 typedef enum base_type_id Base_type_id;
+
+/* This must correspond to base_gui_type_names[] in base.c */
+enum base_gui_type {
+  BASE_GUI_FORTRESS = 0,
+  BASE_GUI_AIRBASE,
+  BASE_GUI_OTHER,
+  BASE_GUI_LAST
+};
 
 enum base_flag_id {
   BF_NOT_AGGRESSIVE = 0, /* Unit inside are not considered aggressive
@@ -39,54 +46,67 @@ enum base_flag_id {
 BV_DEFINE(bv_base_flags, BF_LAST);
 
 struct base_type {
-  int id;
-  const char *name;
-  char name_orig[MAX_LEN_NAME];
+  Base_type_id item_number;
+  struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char activity_gfx[MAX_LEN_NAME];
   struct requirement_vector reqs;
   enum base_gui_type gui_type;
-  bv_unit_classes native_to;
 
+  bv_unit_classes native_to;
   bv_base_flags flags;
 };
 
-bool base_flag(const struct base_type *pbase, enum base_flag_id flag);
-bool is_native_base(const struct unit_type *punittype,
-                    const struct base_type *pbase);
-bool is_native_base_to_class(const struct unit_class *pclass,
-                             const struct base_type *pbase);
-bool base_flag_affects_unit(const struct unit_type *punittype,
-                            const struct base_type *pbase,
-                            enum base_flag_id flag);
-const char *base_name(const struct base_type *pbase);
 
-bool can_build_base(const struct unit *punit, const struct base_type *pbase,
-                    const struct tile *ptile);
+/* General base accessor functions. */
+Base_type_id base_count(void);
+Base_type_id base_index(const struct base_type *pbase);
+Base_type_id base_number(const struct base_type *pbase);
 
-struct base_type *base_type_get_from_special(bv_special spe);
+struct base_type *base_by_number(const Base_type_id id);
+struct base_type *base_of_bv_special(bv_special spe);
+
+const char *base_rule_name(const struct base_type *pbase);
+const char *base_name_translation(struct base_type *pbase);
+
+/* Functions to operate on a base flag. */
+bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag);
+bool base_has_flag_for_utype(const struct base_type *pbase,
+                             enum base_flag_id flag,
+                             const struct unit_type *punittype);
+bool is_native_base_to_uclass(const struct base_type *pbase,
+                              const struct unit_class *pclass);
+bool is_native_base_to_utype(const struct base_type *pbase,
+                             const struct unit_type *punittype);
 
 enum base_flag_id base_flag_from_str(const char *s);
-struct base_type *base_type_get_by_id(Base_type_id id);
+
+/* Ancillary functions */
+bool can_build_base(const struct unit *punit, const struct base_type *pbase,
+                    const struct tile *ptile);
 
 enum base_gui_type base_gui_type_from_str(const char *s);
 struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct unit *punit,
                                        const struct tile *ptile);
 
+/* Initialization and iteration */
 void base_types_init(void);
 void base_types_free(void);
 
-#define base_type_iterate(pbase)                                            \
-{                                                                           \
-  int _index;                                                               \
-                                                                            \
-  for (_index = 0; _index < game.control.num_base_types; _index++) {        \
-    struct base_type *pbase = base_type_get_by_id(_index);
+struct base_type *base_array_first(void);
+const struct base_type *base_array_last(void);
 
-#define base_type_iterate_end                                               \
-  }                                                                         \
+#define base_type_iterate(_p)						\
+{									\
+  struct base_type *_p = base_array_first();				\
+  if (NULL != _p) {							\
+    for (; _p <= base_array_last(); _p++) {
+
+#define base_type_iterate_end						\
+    }									\
+  }									\
 }
 
 

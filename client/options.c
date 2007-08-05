@@ -263,7 +263,7 @@ static client_option common_options[] = {
 #undef GEN_STR_OPTION
 
 int num_options;
-client_option *options;
+client_option *fc_options;
 
 /** View Options: **/
 
@@ -322,6 +322,29 @@ view_option view_options[] = {
 /** Message Options: **/
 
 unsigned int messages_where[E_LAST];
+
+
+/**************************************************************************
+  Return the first item of fc_options.
+**************************************************************************/
+struct client_option *client_option_array_first(void)
+{
+  if (num_options > 0) {
+    return fc_options;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of fc_options.
+**************************************************************************/
+const struct client_option *client_option_array_last(void)
+{
+  if (num_options > 0) {
+    return &fc_options[num_options - 1];
+  }
+  return NULL;
+}
 
 /****************************************************************
   These could be a static table initialisation, except
@@ -448,12 +471,12 @@ void load_general_options(void)
   int i, num;
   view_option *v;
 
-  assert(options == NULL);
+  assert(fc_options == NULL);
   num_options = ARRAY_SIZE(common_options) + num_gui_options;
-  options = fc_malloc(num_options * sizeof(*options));
-  memcpy(options, common_options, sizeof(common_options));
-  memcpy(options + ARRAY_SIZE(common_options), gui_options,
-	 num_gui_options * sizeof(*options));
+  fc_options = fc_calloc(num_options, sizeof(*fc_options));
+  memcpy(fc_options, common_options, sizeof(common_options));
+  memcpy(fc_options + ARRAY_SIZE(common_options), gui_options,
+	 num_gui_options * sizeof(*fc_options));
 
   name = option_file_name();
   if (!name) {
@@ -476,9 +499,7 @@ void load_general_options(void)
     secfile_lookup_bool_default(&sf, fullscreen_mode,
 				"%s.fullscreen_mode", prefix);
 
-  for (i = 0; i < num_options; i++) {
-    client_option *o = options + i;
-
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       *(o->p_bool_value) =
@@ -497,7 +518,8 @@ void load_general_options(void)
                      prefix, o->name), o->string_length);
       break;
     }
-  }
+  } client_options_iterate_end;
+
   for (v = view_options; v->name; v++) {
     *(v->p_value) =
 	secfile_lookup_bool_default(&sf, *(v->p_value), "%s.%s", prefix,
@@ -587,9 +609,7 @@ void save_options(void)
   secfile_insert_bool(&sf, save_options_on_exit, "client.save_options_on_exit");
   secfile_insert_bool(&sf, fullscreen_mode, "client.fullscreen_mode");
 
-  for (i = 0; i < num_options; i++) {
-    client_option *o = options + i;
-
+  client_options_iterate(o) {
     switch (o->type) {
     case COT_BOOL:
       secfile_insert_bool(&sf, *(o->p_bool_value), "client.%s", o->name);
@@ -602,7 +622,7 @@ void save_options(void)
       secfile_insert_str(&sf, o->p_string_value, "client.%s", o->name);
       break;
     }
-  }
+  } client_options_iterate_end;
 
   for (v = view_options; v->name; v++) {
     secfile_insert_bool(&sf, *(v->p_value), "client.%s", v->name);

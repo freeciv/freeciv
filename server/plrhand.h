@@ -16,9 +16,9 @@
 #include <stdarg.h>
 
 #include "shared.h"		/* fc__attribute */
-
-#include "events.h"
 #include "fc_types.h"
+
+#include "events.h"		/* enum event_type */
 #include "packets.h"
 
 #include "hand_gen.h"
@@ -78,17 +78,17 @@ void set_shuffled_players(int *shuffled_players);
 struct player *shuffled_player(int i);
 void reset_all_start_commands(void);
 
-#define shuffled_players_iterate(pplayer)                                   \
-{                                                                           \
-  struct player *pplayer;                                                   \
-  int i;                                                                    \
-  for (i = 0; i < game.info.nplayers; i++) {                               \
-    pplayer = shuffled_player(i);                                           \
-    {
+#define shuffled_players_iterate(_p)					\
+{									\
+  int _p##_index;							\
+									\
+  for (_p##_index = 0;							\
+       _p##_index < player_count();					\
+       _p##_index++) {							\
+    struct player *_p = shuffled_player(_p##_index);
 
-#define shuffled_players_iterate_end                                        \
-    }                                                                       \
-  }                                                                         \
+#define shuffled_players_iterate_end					\
+  }									\
 }
 
 #define phase_players_iterate(pplayer) \

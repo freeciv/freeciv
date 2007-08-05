@@ -274,28 +274,31 @@ extern struct terrain_misc terrain_control;
  * starting position must be normal.
  *
  * See also iterate_outward() */
-#define iterate_outward_dxy(start_tile, max_dist, tile_itr, dx_itr, dy_itr) \
+#define iterate_outward_dxy(start_tile, max_dist, _tile, _x, _y)	    \
 {									    \
-  const struct tile *_start_tile = (start_tile);			    \
-  struct tile *tile_itr;						    \
-  int _max_dist = (max_dist), _x_itr, _y_itr, dx_itr, dy_itr, _index;	    \
-  bool _is_border = is_border_tile(_start_tile, _max_dist);		    \
-									    \
-  for (_index = 0; _index < map.num_iterate_outwards_indices; _index++) {   \
-    if (map.iterate_outwards_indices[_index].dist > _max_dist) {	    \
+  int _x, _y, _tile##_x, _tile##_y;					    \
+  struct tile *_tile;							    \
+  const struct tile *_tile##_start = (start_tile);			    \
+  int _tile##_max = (max_dist);						    \
+  bool _tile##_is_border = is_border_tile(_tile##_start, _tile##_max);	    \
+  int _tile##_index = 0;						    \
+  for (;								    \
+       _tile##_index < map.num_iterate_outwards_indices;		    \
+       _tile##_index++) { 						    \
+    if (map.iterate_outwards_indices[_tile##_index].dist > _tile##_max) {   \
       break;								    \
     }									    \
-    dx_itr = map.iterate_outwards_indices[_index].dx;			    \
-    dy_itr = map.iterate_outwards_indices[_index].dy;			    \
-    _x_itr = dx_itr + _start_tile->x;					    \
-    _y_itr = dy_itr + _start_tile->y;					    \
-    if (_is_border && !normalize_map_pos(&_x_itr, &_y_itr)) {		    \
+    _x = map.iterate_outwards_indices[_tile##_index].dx;		    \
+    _y = map.iterate_outwards_indices[_tile##_index].dy;		    \
+    _tile##_x = _x + _tile##_start->x;					    \
+    _tile##_y = _y + _tile##_start->y;					    \
+    if (_tile##_is_border && !normalize_map_pos(&_tile##_x, &_tile##_y)) {  \
       continue;								    \
     }									    \
-    tile_itr = map.tiles + map_pos_to_index(_x_itr, _y_itr);
+    _tile = map.tiles + map_pos_to_index(_tile##_x, _tile##_y);
 
 #define iterate_outward_dxy_end						    \
-  }                                                                         \
+  }									    \
 }
 
 /* See iterate_outward_dxy() */
@@ -341,15 +344,15 @@ extern struct terrain_misc terrain_control;
 /* dx, dy, dr are distance from center to tile in x, y and square distance;
  * do not rely on x, y distance, since they do not work for hex topologies */
 #define circle_dxyr_iterate(center_tile, sq_radius,			    \
-			    tile_itr, dx, dy, dr)			    \
+			    _tile, dx, dy, dr)				    \
 {									    \
-  const int _sq_radius = (sq_radius);					    \
-  const int _cr_radius = (int)sqrt((double)MAX(_sq_radius, 0));		    \
+  const int _tile##_sq_radius = (sq_radius);				    \
+  const int _tile##_cr_radius = (int)sqrt((double)MAX(_tile##_sq_radius, 0)); \
 									    \
-  square_dxy_iterate(center_tile, _cr_radius, tile_itr, dx, dy) {	    \
+  square_dxy_iterate(center_tile, _tile##_cr_radius, _tile, dx, dy) {	    \
     const int dr = map_vector_to_sq_distance(dx, dy);			    \
 									    \
-    if (dr <= _sq_radius) {
+    if (dr <= _tile##_sq_radius) {
 
 #define circle_dxyr_iterate_end						    \
     }									    \
@@ -387,44 +390,49 @@ extern struct terrain_misc terrain_control;
 #define cardinal_adjc_dir_iterate_end adjc_dirlist_iterate_end
 
 /* Iterate through all tiles adjacent to a tile using the given list of
- * directions.  dir_itr is the directional value, (center_x, center_y) is
- * the center tile (which must be normalized), and (x_itr, y_itr) is the
- * position corresponding to dir_itr.
+ * directions.  _dir is the directional value, (center_x, center_y) is
+ * the center tile (which must be normalized).
  *
  * This macro should not be used directly.  Instead, use adjc_dir_iterate
  * or cartesian_adjacent_iterate. */
-#define adjc_dirlist_iterate(center_tile, itr_tile, dir_itr,		    \
+#define adjc_dirlist_iterate(center_tile, _tile, _dir,			    \
 			     dirlist, dircount)				    \
 {									    \
-  const struct tile *_center_tile = (center_tile);			    \
-  struct tile *itr_tile;						    \
-  int _dir_index, _x_itr, _y_itr;					    \
-  enum direction8 dir_itr;						    \
-  bool _is_border = is_border_tile(_center_tile, 1);			    \
-									    \
-  for (_dir_index = 0; _dir_index < (dircount); _dir_index++) {		    \
-    dir_itr = dirlist[_dir_index];					    \
-    DIRSTEP(_x_itr, _y_itr, dir_itr);					    \
-    _x_itr += _center_tile->x;						    \
-    _y_itr += _center_tile->y;						    \
-    if (_is_border && !normalize_map_pos(&_x_itr, &_y_itr)) {		    \
+  enum direction8 _dir;							    \
+  int _tile##_x, _tile##_y;						    \
+  struct tile *_tile;							    \
+  const struct tile *_tile##_center = (center_tile);			    \
+  bool _tile##_is_border = is_border_tile(_tile##_center, 1);		    \
+  int _tile##_index = 0;						    \
+  for (;								    \
+       _tile##_index < (dircount);					    \
+       _tile##_index++) {						    \
+    _dir = dirlist[_tile##_index];					    \
+    DIRSTEP(_tile##_x, _tile##_y, _dir);				    \
+    _tile##_x += _tile##_center->x;					    \
+    _tile##_y += _tile##_center->y;					    \
+    if (_tile##_is_border && !normalize_map_pos(&_tile##_x, &_tile##_y)) {  \
       continue;								    \
     }									    \
-    itr_tile = map.tiles + map_pos_to_index(_x_itr, _y_itr);
+    _tile = map.tiles + map_pos_to_index(_tile##_x, _tile##_y);
 
 #define adjc_dirlist_iterate_end					    \
     }									    \
 }
 
-/* Iterate over all positions on the globe. */
-#define whole_map_iterate(ptile)					    \
-{                                                                           \
-  int _index; /* We use index positions for cache efficiency. */	    \
-  for (_index = 0; _index < MAP_INDEX_SIZE; _index++) {			    \
-    struct tile *ptile = map.tiles + _index;				    \
+/* Iterate over all positions on the globe.
+ * Use index positions for cache efficiency. */
+#define whole_map_iterate(_tile)					    \
+{									    \
+  struct tile *_tile;							    \
+  int _tile##_index = 0;						    \
+  for (;								    \
+       _tile##_index < MAP_INDEX_SIZE;					    \
+       _tile##_index++) {						    \
+    _tile = map.tiles + _tile##_index;
 
-#define whole_map_iterate_end                                               \
-  }                                                                         \
+#define whole_map_iterate_end						    \
+  }									    \
 }
 
 BV_DEFINE(dir_vector, 8);

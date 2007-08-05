@@ -73,8 +73,8 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
     return;
   }
 
-  if (to < 0 || to >= SP_COUNT
-      || from < 0 || from >= SP_COUNT
+  if (to < 0 || to >= specialist_count()
+      || from < 0 || from >= specialist_count()
       || !city_can_use_specialist(pcity, to)
       || pcity->specialists[from] == 0) {
     /* This could easily just be due to clicking faster on the specialist
@@ -126,7 +126,6 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 			     int worker_x, int worker_y)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
-  int i;
 
   if (!is_valid_city_coords(worker_x, worker_y)) {
     freelog(LOG_ERROR, "invalid city coords %d,%d in package",
@@ -150,13 +149,12 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 
   server_set_worker_city(pcity, worker_x, worker_y);
 
-  for (i = 0; i < SP_COUNT; i++) {
+  specialist_type_iterate(i) {
     if (pcity->specialists[i] > 0) {
       pcity->specialists[i]--;
       break;
     }
-  }
-  assert(i < SP_COUNT);
+  } specialist_type_iterate_end;
 
   sanity_check_city(pcity);
   city_refresh(pcity);

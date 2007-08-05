@@ -1781,7 +1781,7 @@ void popup_pillage_dialog(struct unit *pUnit,
       }
     } else {
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              (char *) base_name(pbase), pillage_callback);
+                              (char *) base_name_translation(pbase), pillage_callback);
       pbase = NULL;
     }
 

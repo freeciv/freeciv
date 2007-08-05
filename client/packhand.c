@@ -1393,6 +1393,19 @@ void handle_game_info(struct packet_game_info *pinfo)
 
   game.info = *pinfo;
 
+  /* check the values! */
+#define VALIDATE(_count, _maximum, _string)				\
+  if (game.info._count > _maximum) {					\
+    freelog(LOG_ERROR, "handle_game_info():"				\
+            " Too many " _string "; using %d of %d",			\
+            _maximum, game.info._count);				\
+    game.info._count = _maximum;					\
+  }
+
+  VALIDATE(granary_num_inis,	MAX_GRANARY_INIS,	"granary entries");
+  VALIDATE(num_teams,		MAX_NUM_TEAMS,		"teams");
+#undef VALIDATE
+
   game.government_when_anarchy
     = government_by_number(game.info.government_when_anarchy_id);
   game.player_ptr = player_by_number(game.info.player_idx);
@@ -2125,9 +2138,34 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   ruleset_cache_init();
 
   game.control = *packet;
-  governments_alloc(packet->government_count);
-  nations_alloc(packet->nation_count);
-  city_styles_alloc(packet->styles_count);
+
+  /* check the values! */
+#define VALIDATE(_count, _maximum, _string)				\
+  if (game.control._count > _maximum) {					\
+    freelog(LOG_ERROR, "handle_ruleset_control():"			\
+            " Too many " _string "; using %d of %d",			\
+            _maximum, game.control._count);				\
+    game.control._count = _maximum;					\
+  }
+
+  VALIDATE(num_unit_classes,	UCL_LAST,		"unit classes");
+  VALIDATE(num_unit_types,	U_LAST,			"unit types");
+  VALIDATE(num_impr_types,	B_LAST,			"improvements");
+  VALIDATE(num_tech_types,	A_LAST_REAL,		"advances");
+  VALIDATE(num_base_types,	BASE_LAST,		"bases");
+
+  VALIDATE(government_count,	MAX_NUM_ITEMS,		"governments");
+  VALIDATE(nation_count,	MAX_NUM_ITEMS,		"nations");
+  VALIDATE(styles_count,	MAX_NUM_ITEMS,		"city styles");
+  VALIDATE(terrain_count,	MAX_NUM_TERRAINS,	"terrains");
+  VALIDATE(resource_count,	MAX_NUM_RESOURCES,	"resources");
+
+  VALIDATE(num_specialist_types, SP_MAX,		"specialists");
+#undef VALIDATE
+
+  governments_alloc(game.control.government_count);
+  nations_alloc(game.control.nation_count);
+  city_styles_alloc(game.control.styles_count);
 
   /* We are in inconsistent state. Players point to nations,
    * which do not point to players. Fix */
@@ -2141,16 +2179,14 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 **************************************************************************/
 void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
 {
-  struct unit_class *c;
+  struct unit_class *c = uclass_by_number(p->id);
 
-  if(p->id < 0 || p->id >= uclass_count() || p->id >= UCL_LAST) {
+  if (!c) {
     freelog(LOG_ERROR,
-            "Received bad unit_class id %d in handle_ruleset_unit_class()",
+            "handle_ruleset_unit_class() bad unit_class %d.",
 	    p->id);
     return;
   }
-
-  c = uclass_by_number(p->id);
 
   sz_strlcpy(c->name.vernacular, p->name);
   c->name.translated = NULL;	/* unittype.c uclass_name_translation */
@@ -2167,16 +2203,15 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
 **************************************************************************/
 void handle_ruleset_unit(struct packet_ruleset_unit *p)
 {
-  struct unit_type *u;
   int i;
+  struct unit_type *u = utype_by_number(p->id);
 
-  if(p->id < 0 || p->id >= utype_count() || p->id >= U_LAST) {
+  if(!u) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_unit() bad unit_type %d.",
 	    p->id);
     return;
   }
-  u = utype_by_number(p->id);
 
   sz_strlcpy(u->name.vernacular, p->name);
   u->name.translated = NULL;	/* unittype.c utype_name_translation */
@@ -2260,8 +2295,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 **************************************************************************/
 void handle_ruleset_building(struct packet_ruleset_building *p)
 {
-  struct impr_type *b = improvement_by_number(p->id);
   int i;
+  struct impr_type *b = improvement_by_number(p->id);
 
   if (!b) {
     freelog(LOG_ERROR,
@@ -2317,16 +2352,15 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 **************************************************************************/
 void handle_ruleset_government(struct packet_ruleset_government *p)
 {
-  struct government *gov;
   int j;
+  struct government *gov = government_by_number(p->id);
 
-  if (p->id < 0 || p->id >= government_count()) {
+  if (!gov) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_government() bad government %d.",
 	    p->id);
     return;
   }
-  gov = government_by_number(p->id);
 
   gov->item_number = p->id;
 
@@ -2356,16 +2390,16 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 void handle_ruleset_government_ruler_title
   (struct packet_ruleset_government_ruler_title *p)
 {
-  struct government *gov;
+  struct government *gov = government_by_number(p->gov);
 
-  if(p->gov < 0 || p->gov >= government_count()) {
+  if(!gov) {
     freelog(LOG_ERROR,
             "handle_ruleset_government_ruler_title()"
             " bad government %d.",
             p->gov);
     return;
   }
-  gov = government_by_number(p->gov);
+
   if(p->id < 0 || p->id >= gov->num_ruler_titles) {
     freelog(LOG_ERROR,
             "handle_ruleset_government_ruler_title()"
@@ -2386,8 +2420,8 @@ void handle_ruleset_government_ruler_title
 **************************************************************************/
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
-  struct terrain *pterrain = terrain_by_number(p->id);
   int j;
+  struct terrain *pterrain = terrain_by_number(p->id);
 
   if (!pterrain) {
     freelog(LOG_ERROR,
@@ -2476,22 +2510,18 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
 ****************************************************************************/
 void handle_ruleset_base(struct packet_ruleset_base *p)
 {
-  struct base_type *pbase;
   int i;
-
-  assert(p->id < game.control.num_base_types);
-
-  pbase = base_type_get_by_id(p->id);
+  struct base_type *pbase = base_by_number(p->id);
 
   if (!pbase) {
     freelog(LOG_ERROR,
-            "Received bad base id %d in handle_ruleset_base",
+            "handle_ruleset_base() bad base %d.",
             p->id);
     return;
   }
 
-  sz_strlcpy(pbase->name_orig, p->name);
-  pbase->name = Q_(pbase->name_orig);
+  sz_strlcpy(pbase->name.vernacular, p->name);
+  pbase->name.translated = NULL;	/* base.c base_name_translation */
   sz_strlcpy(pbase->graphic_str, p->graphic_str);
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
   sz_strlcpy(pbase->activity_gfx, p->activity_gfx);
@@ -2541,15 +2571,14 @@ void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
 void handle_ruleset_nation(struct packet_ruleset_nation *p)
 {
   int i;
-  struct nation_type *pl;
+  struct nation_type *pl = nation_by_number(p->id);
 
-  if (p->id < 0 || p->id >= nation_count()) {
+  if (!pl) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_nation() bad nation %d.",
 	    p->id);
     return;
   }
-  pl = nation_by_number(p->id);
 
   sz_strlcpy(pl->name_single.vernacular, p->name);
   pl->name_single.translated = NULL;
@@ -2653,18 +2682,19 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
 {
   int j;
-  struct specialist *s;
+  struct specialist *s = specialist_by_number(p->id);
 
-  if (p->id < 0 || p->id >= game.control.num_specialist_types) {
+  if (!s) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_specialist() bad specialist %d.",
 	    p->id);
+    return;
   }
 
-  s = get_specialist(p->id);
-
-  sz_strlcpy(s->name, p->name);
-  sz_strlcpy(s->short_name, p->short_name);
+  sz_strlcpy(s->name.vernacular, p->name);
+  s->name.translated = NULL;
+  sz_strlcpy(s->abbreviation.vernacular, p->short_name);
+  s->abbreviation.translated = NULL;
 
   for (j = 0; j < p->reqs_count; j++) {
     requirement_vector_append(&s->reqs, &p->reqs[j]);

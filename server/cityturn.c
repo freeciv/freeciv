@@ -410,17 +410,14 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
 
   /* First try to kill off the specialists */
   while (pop_loss > 0 && city_specialists(pcity) > 0) {
-    Specialist_type_id sp;
-
-    for (sp = SP_COUNT - 1; sp >= 0; sp--) {
+    specialist_type_iterate(sp) {
       if (pcity->specialists[sp] > 0) {
 	pcity->specialists[sp]--;
 	pop_loss--;
 	break;
       }
-    }
+    } specialist_type_iterate_end;
   }
-  assert(pop_loss == 0 || city_specialists(pcity) == 0);
 
   /* we consumed all the pop_loss in specialists */
   if (pop_loss == 0) {

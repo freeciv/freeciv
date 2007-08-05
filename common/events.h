@@ -144,9 +144,12 @@ void events_free(void);
 /* Iterates over all events, sorted by the message text string. */
 #define sorted_event_iterate(event)                                           \
 {                                                                             \
-  enum event_type _event, event;                                              \
-  for (_event = 0; _event < E_LAST; _event++) {                               \
-    event = sorted_events[_event];                                            \
+  enum event_type event;                                                      \
+  enum event_type event##_index;                                              \
+  for (event##_index = 0;                                                     \
+       event##_index < E_LAST;                                                \
+       event##_index++) {                                                     \
+    event = sorted_events[event##_index];                                     \
     {
 
 #define sorted_event_iterate_end                                              \

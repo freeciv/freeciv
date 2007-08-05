@@ -495,8 +495,10 @@ struct city_dialog *create_city_dialog(struct city *pcity)
   Dimension widthNext, borderNext, internalNext, spaceNext;
   Dimension widthPrev, borderPrev, internalPrev, spacePrev;
   Widget relative;
-  struct citizen_type c = {.type = CITIZEN_SPECIALIST,
-			   .spec_type = DEFAULT_SPECIALIST};
+  struct citizen_type c = {
+    .type = CITIZEN_SPECIALIST,
+    .spec_type = DEFAULT_SPECIALIST
+  };
 
   if (tileset_tile_height(tileset)<45) dummy_improvement_list[5]=0;
 

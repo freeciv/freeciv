@@ -556,7 +556,7 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
 
   pbase = tile_get_base(ptile);
 
-  if (pbase && is_native_base_to_class(param->uclass, pbase)) {
+  if (pbase && is_native_base_to_uclass(pbase, param->uclass)) {
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;

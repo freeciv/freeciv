@@ -761,7 +761,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct terrain *pterrain = ptile->terrain;
   struct unit_class *pclass = unit_class(punit);
   struct base_type *old_base;
-  struct base_type *pbase = base_type_get_by_id(base);
+  struct base_type *pbase = base_by_number(base);
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -1096,7 +1096,7 @@ const char *unit_activity_text(const struct unit *punit)
    case ACTIVITY_BASE:
      my_snprintf(text, sizeof(text), "%s: %s",
                  get_activity_text(punit->activity),
-                 base_name(base_type_get_by_id(punit->activity_base)));
+                 base_name_translation(base_by_number(punit->activity_base)));
      return text;
    default:
     die("Unknown unit activity %d in unit_activity_text()", punit->activity);

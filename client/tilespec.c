@@ -1705,7 +1705,7 @@ static const char *get_citizen_name(struct citizen_type citizen)
    * translate. */
   switch (citizen.type) {
   case CITIZEN_SPECIALIST:
-    return get_specialist(citizen.spec_type)->name;
+    return specialist_rule_name(specialist_by_number(citizen.spec_type));
   case CITIZEN_HAPPY:
     return "happy";
   case CITIZEN_CONTENT:
@@ -1908,10 +1908,13 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
 {
   /* Load the specialist sprite graphics. */
-  struct citizen_type c = {.type = CITIZEN_SPECIALIST, .spec_type = id};
-  const char *name = get_citizen_name(c);
   char buffer[512];
   int j;
+  struct citizen_type c = {
+    .type = CITIZEN_SPECIALIST,
+    .spec_type = id
+  };
+  const char *name = get_citizen_name(c);
 
   for (j = 0; j < NUM_TILES_CITIZEN; j++) {
     my_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
@@ -1935,14 +1938,10 @@ static void tileset_setup_citizen_types(struct tileset *t)
   int i, j;
   char buffer[512];
 
-  /* Load the citizen sprite graphics. */
-  for (i = 0; i < NUM_TILES_CITIZEN; i++) {
+  /* Load the citizen sprite graphics, no specialist. */
+  for (i = 0; i < CITIZEN_SPECIALIST; i++) {
     struct citizen_type c = {.type = i};
     const char *name = get_citizen_name(c);
-
-    if (i == CITIZEN_SPECIALIST) {
-      continue; /* Handled separately. */
-    }
 
     for (j = 0; j < NUM_TILES_CITIZEN; j++) {
       my_snprintf(buffer, sizeof(buffer), "citizen.%s_%d", name, j);
@@ -2678,9 +2677,9 @@ void tileset_setup_base(struct tileset *t,
                         const struct base_type *pbase)
 {
   char full_tag_name[MAX_LEN_NAME + strlen("_fg")];
-  const int id = pbase->id;
+  const int id = base_index(pbase);
 
-  assert(id >= 0 && id < game.control.num_base_types);
+  assert(id >= 0 && id < base_count());
 
   sz_strlcpy(full_tag_name, pbase->graphic_str);
   strcat(full_tag_name, "_bg");
@@ -2700,7 +2699,9 @@ void tileset_setup_base(struct tileset *t,
     /* No primary graphics at all. Try alternative */
     freelog(LOG_VERBOSE,
 	    "Using alternate graphic \"%s\" (instead of \"%s\") for base \"%s\".",
-            pbase->graphic_alt, pbase->graphic_str, base_name(pbase));
+            pbase->graphic_alt,
+            pbase->graphic_str,
+            base_rule_name(pbase));
 
     sz_strlcpy(full_tag_name, pbase->graphic_alt);
     strcat(full_tag_name, "_bg");
@@ -2718,7 +2719,8 @@ void tileset_setup_base(struct tileset *t,
         && t->sprites.bases[id].middleground == NULL
         && t->sprites.bases[id].foreground == NULL) {
       /* Cannot find alternative graphics either */
-      freelog(LOG_FATAL, "No graphics for base \"%s\" at all!", pbase->name);
+      freelog(LOG_FATAL, "No graphics for base \"%s\" at all!",
+              base_rule_name(pbase));
       exit(EXIT_FAILURE);
     }
   }
@@ -2726,7 +2728,8 @@ void tileset_setup_base(struct tileset *t,
   t->sprites.bases[id].activity = load_sprite(t, pbase->activity_gfx);
   if (t->sprites.bases[id].activity == NULL) {
     freelog(LOG_FATAL, "Missing %s building activity tag \"%s\".",
-            base_name(pbase), pbase->activity_gfx);
+            base_rule_name(pbase),
+            pbase->activity_gfx);
     exit(EXIT_FAILURE);
   }
 }
@@ -4350,8 +4353,8 @@ int fill_sprite_array(struct tileset *t,
       }
 
       if (draw_fortress_airbase && pbase != NULL
-          && t->sprites.bases[pbase->id].background) {
-        ADD_SPRITE_FULL(t->sprites.bases[pbase->id].background);
+          && t->sprites.bases[base_index(pbase)].background) {
+        ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].background);
       }
 
       if (draw_mines && contains_special(tspecial, S_MINE)
@@ -4404,8 +4407,8 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_SPECIAL2:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_fortress_airbase && pbase != NULL
-          && t->sprites.bases[pbase->id].middleground) {
-        ADD_SPRITE_FULL(t->sprites.bases[pbase->id].middleground);
+          && t->sprites.bases[base_index(pbase)].middleground) {
+        ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].middleground);
       }
 
       if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
@@ -4453,10 +4456,10 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_SPECIAL3:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_fortress_airbase && pbase != NULL
-          && t->sprites.bases[pbase->id].foreground) {
+          && t->sprites.bases[base_index(pbase)].foreground) {
 	/* Draw fortress front in iso-view (non-iso view only has a fortress
 	 * back). */
-	ADD_SPRITE_FULL(t->sprites.bases[pbase->id].foreground);
+	ADD_SPRITE_FULL(t->sprites.bases[base_index(pbase)].foreground);
       }
     }
     break;

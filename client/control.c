@@ -24,7 +24,6 @@
 
 #include "map.h"
 #include "movement.h"
-#include "unitlist.h"
 
 #include "audio.h"
 #include "chatline_g.h"
@@ -44,6 +43,7 @@
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
+#include "unitlist.h"
 
 #include "control.h"
 
@@ -1258,14 +1258,15 @@ void request_new_unit_activity_targeted(struct unit *punit,
 /**************************************************************************
   Request base building activity for unit
 **************************************************************************/
-void request_new_unit_activity_base(struct unit *punit, enum base_type_id base)
+void request_new_unit_activity_base(struct unit *punit,
+				    const struct base_type *pbase)
 {
   if (!can_client_issue_orders()) {
     return;
   }
 
   dsend_packet_unit_change_activity(&aconnection, punit->id, ACTIVITY_BASE,
-				    S_LAST, base);
+				    S_LAST, base_number(pbase));
 }
 
 /**************************************************************************
@@ -2370,12 +2371,11 @@ void key_unit_wakeup_others(void)
 void key_unit_airbase(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    struct base_type *pbase;
-
-    pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
+    struct base_type *pbase =
+      get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
 
     if (pbase) {
-      request_new_unit_activity_base(punit, pbase->id);
+      request_new_unit_activity_base(punit, pbase);
     }
   } unit_list_iterate_end;
 }
@@ -2445,12 +2445,11 @@ void key_unit_fortify(void)
 void key_unit_fortress(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    struct base_type *pbase;
-
-    pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
+    struct base_type *pbase =
+      get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
 
     if (pbase) {
-      request_new_unit_activity_base(punit, pbase->id);
+      request_new_unit_activity_base(punit, pbase);
     }
   } unit_list_iterate_end;
 }

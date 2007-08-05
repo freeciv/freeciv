@@ -104,7 +104,7 @@ bool tile_has_any_specials(const struct tile *ptile)
 ****************************************************************************/
 struct base_type *tile_get_base(const struct tile *ptile)
 {
-  return base_type_get_from_special(ptile->special);
+  return base_of_bv_special(ptile->special);
 }
 
 /****************************************************************************
@@ -116,16 +116,20 @@ void tile_add_base(struct tile *ptile, const struct base_type *pbase)
 {
   assert(pbase != NULL);
 
-  if (pbase->id == BASE_FORTRESS) {
+  switch (base_number(pbase)) {
+  case BASE_FORTRESS:
     assert(!tile_has_special(ptile, S_AIRBASE));
     tile_set_special(ptile, S_FORTRESS);
-  } else if (pbase->id == BASE_AIRBASE) {
+    break;
+  case BASE_AIRBASE:
     assert(!tile_has_special(ptile, S_FORTRESS));
     tile_set_special(ptile, S_AIRBASE);
-  } else {
-    freelog(LOG_ERROR, "Impossible base type %d in tile_set_base()",
-            pbase->id);
-  }
+    break;
+  default:
+    freelog(LOG_ERROR, "tile_set_base(): impossible base type %d.",
+            base_number(pbase));
+    break;
+  };
 }
 
 /****************************************************************************
@@ -148,7 +152,7 @@ bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
 
   if (pbase != NULL) {
     /* Some base at tile, check its flags */
-    return base_flag(pbase, flag);
+    return base_has_flag(pbase, flag);
   }
 
   /* No base at tile */
@@ -168,7 +172,7 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
 
   if (pbase != NULL) {
     /* Some base at tile, check its flags */
-    return base_flag_affects_unit(punittype, pbase, flag);
+    return base_has_flag_for_utype(pbase, flag, punittype);
   }
 
   /* No base at tile */
@@ -187,7 +191,7 @@ bool tile_has_native_base(const struct tile *ptile,
 
   if (pbase != NULL) {
     /* Some base at tile, check if it's native */
-    return is_native_base(punittype, pbase);
+    return is_native_base_to_utype(pbase, punittype);
   }
 
   /* No base at tile */

@@ -309,8 +309,14 @@ void game_init(void)
   game.control.num_impr_types = 0;
   game.control.num_tech_types = 0;
   game.control.num_base_types = 0;
-  game.control.nation_count = 0;
+  
   game.control.government_count = 0;
+  game.control.nation_count = 0;
+  game.control.styles_count = 0;
+  game.control.terrain_count = 0;
+  game.control.resource_count = 0;
+
+  game.control.num_specialist_types = 0;
 
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
   sz_strlcpy(game.allow_take, GAME_DEFAULT_ALLOW_TAKE);

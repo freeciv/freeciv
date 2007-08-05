@@ -17,6 +17,7 @@
 
 #include "city.h"
 #include "effects.h"
+#include "fcintl.h"
 #include "game.h"
 #include "specialist.h"
 
@@ -33,7 +34,7 @@ void specialists_init(void)
   for (i = 0; i < ARRAY_SIZE(specialists); i++) {
     struct specialist *p = &specialists[i];
 
-    p->index = i;
+    p->item_number = i;
 
     requirement_vector_init(&p->reqs);
   }
@@ -53,27 +54,101 @@ void specialists_free(void)
   }
 }
 
-/****************************************************************************
-  Return the specialist struct for the given specialist ID.
-****************************************************************************/
-struct specialist *get_specialist(Specialist_type_id spec)
+/**************************************************************************
+  Return the number of specialist_types.
+**************************************************************************/
+Specialist_type_id specialist_count(void)
 {
-  return &specialists[spec];
+  return game.control.num_specialist_types;
 }
 
 /****************************************************************************
-  Return the specialist type with the given (untranslated!) name, or SP_MAX
-  if none is found.
+  Return the specialist index.
+
+  Currently same as specialist_number(), paired with specialist_count()
+  indicates use as an array index.
 ****************************************************************************/
-Specialist_type_id find_specialist_by_name(const char *name)
+Specialist_type_id specialist_index(const struct specialist *sp)
 {
-  specialist_type_iterate(sp) {
-    if (mystrcasecmp(specialists[sp].name, name) == 0) {
+  assert(sp);
+  return sp - specialists;
+}
+
+/****************************************************************************
+  Return the specialist item_number.
+****************************************************************************/
+Specialist_type_id specialist_number(const struct specialist *sp)
+{
+  assert(sp);
+  return sp->item_number;
+}
+
+/****************************************************************************
+  Return the specialist pointer for the given number.
+****************************************************************************/
+struct specialist *specialist_by_number(const Specialist_type_id id)
+{
+  if (id < 0 || id >= game.control.num_specialist_types) {
+    return NULL;
+  }
+  return &specialists[id];
+}
+
+/****************************************************************************
+  Return the specialist type with the given (untranslated!) rule name.
+  Returns NULL if none match.
+****************************************************************************/
+struct specialist *find_specialist_by_rule_name(const char *name)
+{
+  const char *qname = Qn_(name);
+
+  specialist_type_iterate(i) {
+    struct specialist *sp = specialist_by_number(i);
+    if (0 == mystrcasecmp(specialist_rule_name(sp), qname)) {
       return sp;
     }
   } specialist_type_iterate_end;
 
-  return SP_MAX;
+  return NULL;
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the specialist type.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *specialist_rule_name(const struct specialist *sp)
+{
+  return Qn_(sp->name.vernacular);
+}
+
+/**************************************************************************
+  Return the (translated) name of the specialist type.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *specialist_name_translation(struct specialist *sp)
+{
+  if (NULL == sp->name.translated) {
+    /* delayed (unified) translation */
+    sp->name.translated = ('\0' == sp->name.vernacular[0])
+			  ? sp->name.vernacular
+			  : Q_(sp->name.vernacular);
+  }
+  return sp->name.translated;
+}
+
+/**************************************************************************
+  Return the (translated) abbreviation of the specialist type.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *specialist_abbreviation_translation(struct specialist *sp)
+{
+  if (NULL == sp->abbreviation.translated) {
+    /* delayed (unified) translation */
+    sp->abbreviation.translated = ('\0' == sp->abbreviation.vernacular[0])
+				  ? sp->abbreviation.vernacular
+				  : Q_(sp->abbreviation.vernacular);
+  }
+  return sp->abbreviation.translated;
 }
 
 /****************************************************************************

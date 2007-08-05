@@ -889,11 +889,11 @@ static void load_unit_names(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, UNIT_CLASS_SECTION_PREFIX, &nval);
   freelog(LOG_VERBOSE, "%d unit classes", nval);
   if (nval == 0) {
-    freelog(LOG_FATAL, "\"%s\": No unitclasses?!?", filename);
+    freelog(LOG_FATAL, "\"%s\": No unit classes?!?", filename);
     exit(EXIT_FAILURE);
   }
   if(nval > UCL_LAST) {
-    freelog(LOG_FATAL, "\"%s\": Too many unitclasses (%d, max %d)",
+    freelog(LOG_FATAL, "\"%s\": Too many unit classes (%d, max %d)",
             filename, nval, UCL_LAST);
     exit(EXIT_FAILURE);
   }
@@ -912,11 +912,11 @@ static void load_unit_names(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, UNIT_SECTION_PREFIX, &nval);
   freelog(LOG_VERBOSE, "%d unit types (including possibly unused)", nval);
   if(nval == 0) {
-    freelog(LOG_FATAL, "\"%s\": No units?!?", filename);
+    freelog(LOG_FATAL, "\"%s\": No unit types?!?", filename);
     exit(EXIT_FAILURE);
   }
   if(nval > U_LAST) {
-    freelog(LOG_FATAL, "\"%s\": Too many units (%d, max %d)",
+    freelog(LOG_FATAL, "\"%s\": Too many unit types (%d, max %d)",
             filename, nval, U_LAST);
     exit(EXIT_FAILURE);
   }
@@ -953,23 +953,24 @@ static void load_ruleset_units(struct section_file *file)
    */
   sec = secfile_get_secnames_prefix(file, UNIT_SECTION_PREFIX, &nval);
 
-#define CHECK_VETERAN_LIMIT						\
-if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
-  freelog(LOG_FATAL, "\"%s\": Too many veteran levels, %d is the maximum!", \
-          filename, MAX_VET_LEVELS);					\
+#define CHECK_VETERAN_LIMIT(_count, _string)				\
+if (_count > MAX_VET_LEVELS) {						\
+  freelog(LOG_FATAL, "\"%s\": Too many " _string " entries (%d, max %d)", \
+          filename, _count, MAX_VET_LEVELS);				\
   exit(EXIT_FAILURE);							\
 }
 
   /* level names */
   def_vnlist = secfile_lookup_str_vec(file, &vet_levels_default,
 		  		"veteran_system.veteran_names");
+  CHECK_VETERAN_LIMIT(vet_levels_default, "veteran_names");
 
   unit_type_iterate(u) {
     const int i = utype_index(u);
 
     vnlist = secfile_lookup_str_vec(file, &vet_levels,
                                     "%s.veteran_names", sec[i]);
-    CHECK_VETERAN_LIMIT
+    CHECK_VETERAN_LIMIT(vet_levels, "veteran_names");
     if (vnlist) {
       /* unit has own veterancy settings */
       for (j = 0; j < vet_levels; j++) {
@@ -993,12 +994,13 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   /* power factor */
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_power_fact");
+  CHECK_VETERAN_LIMIT(vet_levels_default, "veteran_power_fact");
   unit_type_iterate(u) {
     const int i = utype_index(u);
 
     vblist = secfile_lookup_int_vec(file, &vet_levels,
                                     "%s.veteran_power_fact", sec[i]);
-    CHECK_VETERAN_LIMIT
+    CHECK_VETERAN_LIMIT(vet_levels, "veteran_power_fact");
     if (vblist) {
       for (j = 0; j < vet_levels; j++) {
         u->veteran[j].power_fact = ((double)vblist[j]) / 100;
@@ -1017,7 +1019,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   /* raise chance */
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_raise_chance");
-  CHECK_VETERAN_LIMIT
+  CHECK_VETERAN_LIMIT(vet_levels_default, "veteran_raise_chance");
   for (i = 0; i < vet_levels_default; i++) {
     game.veteran_chance[i] = def_vblist[i];
   }
@@ -1031,7 +1033,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   /* work raise chance */
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                     "veteran_system.veteran_work_raise_chance");
-  CHECK_VETERAN_LIMIT
+  CHECK_VETERAN_LIMIT(vet_levels_default, "veteran_work_raise_chance");
   for (i = 0; i < vet_levels_default; i++) {
     game.work_veteran_chance[i] = def_vblist[i];
   }
@@ -1045,12 +1047,13 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   /* move bonus */
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_move_bonus");
+  CHECK_VETERAN_LIMIT(vet_levels_default, "veteran_move_bonus");
   unit_type_iterate(u) {
     const int i = utype_index(u);
 
     vblist = secfile_lookup_int_vec(file, &vet_levels,
   		  	"%s.veteran_move_bonus", sec[i]);
-    CHECK_VETERAN_LIMIT
+    CHECK_VETERAN_LIMIT(vet_levels, "veteran_move_bonus");
     if (vblist) {
       for (j = 0; j < vet_levels; j++) {
         u->veteran[j].move_bonus = vblist[j];
@@ -1548,7 +1551,7 @@ static void load_names(struct section_file *file)
     exit(EXIT_FAILURE);
   }
   if (nval > MAX_NUM_TERRAINS) {
-    freelog(LOG_FATAL, "\"%s\": ruleset has too many terrains (%d, max %d)",
+    freelog(LOG_FATAL, "\"%s\": Too many terrains (%d, max %d)",
             filename,
             nval,
             MAX_NUM_TERRAINS);
@@ -1573,7 +1576,7 @@ static void load_names(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, RESOURCE_SECTION_PREFIX, &nval);
   if (nval > MAX_NUM_RESOURCES) {
-    freelog(LOG_FATAL, "\"%s\": ruleset has too many resources (%d, max %d)",
+    freelog(LOG_FATAL, "\"%s\": Too many resources (%d, max %d)",
             filename,
             nval,
             MAX_NUM_RESOURCES);
@@ -1602,15 +1605,20 @@ static void load_names(struct section_file *file)
     char *name;
     char *section;
 
-    if (pbase->id == BASE_FORTRESS) {
+    switch (base_number(pbase)) {
+    case BASE_FORTRESS:
       section = "fortress";
-    } else if (pbase->id == BASE_AIRBASE) {
+      break;
+    case BASE_AIRBASE:
       section = "airbase";
-    } else {
-      freelog(LOG_FATAL, "\"%s\": unhandled base type in load_names()",
-              filename);
+      break;
+    default:
+      freelog(LOG_FATAL, "\"%s\": unhandled base type %d in %s.",
+              filename,
+              base_number(pbase),
+              "load_names()");
       exit(EXIT_FAILURE);
-    }
+    };
     name = secfile_lookup_str(file, "%s.name", section);
     if (name == NULL) {
       freelog(LOG_FATAL, "\"%s\" [%s] missing.",
@@ -1618,7 +1626,8 @@ static void load_names(struct section_file *file)
       exit(EXIT_FAILURE);
     }
 
-    name_strlcpy(pbase->name_orig, name);
+    name_strlcpy(pbase->name.vernacular, name);
+    pbase->name.translated = NULL;
   } base_type_iterate_end;
 }
 
@@ -1899,17 +1908,20 @@ static void load_ruleset_terrain(struct section_file *file)
     struct requirement_vector *reqs;
     char *gui_str;
 
-    pbase->name = Q_(pbase->name_orig);
-
-    if (pbase->id == BASE_FORTRESS) {
+    switch (base_number(pbase)) {
+    case BASE_FORTRESS:
       section = "fortress";
-    } else if (pbase->id == BASE_AIRBASE) {
+      break;
+    case BASE_AIRBASE:
       section = "airbase";
-    } else {
-      freelog(LOG_FATAL, "\"%s\": unhandled base type in load_ruleset_terrain()",
-              filename);
+      break;
+    default:
+      freelog(LOG_FATAL, "\"%s\": unhandled base type %d in %s.",
+              filename,
+              base_number(pbase),
+              "load_ruleset_terrain()");
       exit(EXIT_FAILURE);
-    }
+    };
 
     sz_strlcpy(pbase->graphic_str,
                secfile_lookup_str_default(file, "-", "%s.graphic", section));
@@ -1931,7 +1943,9 @@ static void load_ruleset_terrain(struct section_file *file)
       if (!class) {
         freelog(LOG_FATAL,
                 "\"%s\" base \"%s\" is native to unknown unit class \"%s\".",
-                filename, pbase->name, slist[j]);
+                filename,
+                base_rule_name(pbase),
+                slist[j]);
         exit(EXIT_FAILURE);
       } else {
         BV_SET(pbase->native_to, uclass_index(class));
@@ -1943,7 +1957,9 @@ static void load_ruleset_terrain(struct section_file *file)
     pbase->gui_type = base_gui_type_from_str(gui_str);
     if (pbase->gui_type == BASE_GUI_LAST) {
       freelog(LOG_FATAL, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
-              filename, pbase->name, gui_str);
+              filename,
+              base_rule_name(pbase),
+              gui_str);
       exit(EXIT_FAILURE);
     }
 
@@ -1955,7 +1971,9 @@ static void load_ruleset_terrain(struct section_file *file)
 
       if (flag == BF_LAST) {
         freelog(LOG_FATAL, "\"%s\" base \"%s\": unknown flag \"%s\".",
-                filename, pbase->name, sval);
+                filename,
+                base_rule_name(pbase),
+                sval);
         exit(EXIT_FAILURE);
       } else {
         BV_SET(pbase->flags, flag);
@@ -2364,7 +2382,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader", sec[i]);
     if (dim > MAX_NUM_LEADERS) {
-      freelog(LOG_ERROR, "Nation %s: too many leaders; only using %d of %d",
+      freelog(LOG_ERROR, "Nation %s: Too many leaders; using %d of %d",
 	      nation_rule_name(pl),
 	      MAX_NUM_LEADERS,
 	      dim);
@@ -2669,17 +2687,26 @@ static void load_ruleset_cities(struct section_file *file)
 
   /* Specialist options */
   sec = secfile_get_secnames_prefix(file, SPECIALIST_SECTION_PREFIX, &nval);
+  if (nval >= SP_MAX) {
+    freelog(LOG_FATAL, "\"%s\": Too many specialists (%d, max %d).",
+            filename, nval, SP_MAX);
+    exit(EXIT_FAILURE);
+  }
   game.control.num_specialist_types = nval;
 
   for (i = 0; i < nval; i++) {
-    struct specialist *s = &specialists[i];
+    struct specialist *s = specialist_by_number(i);
     struct requirement_vector *reqs;
 
     item = secfile_lookup_str(file, "%s.name", sec[i]);
-    sz_strlcpy(s->name, item);
+    sz_strlcpy(s->name.vernacular, item);
+    s->name.translated = NULL;
 
-    item = secfile_lookup_str_default(file, s->name, "%s.short_name", sec[i]);
-    sz_strlcpy(s->short_name, item);
+    item = secfile_lookup_str_default(file, s->name.vernacular,
+                                      "%s.short_name",
+                                      sec[i]);
+    sz_strlcpy(s->abbreviation.vernacular, item);
+    s->abbreviation.translated = NULL;
 
     reqs = lookup_req_list(file, sec[i], "reqs");
     requirement_vector_copy(&s->reqs, reqs);
@@ -2884,8 +2911,8 @@ static void load_ruleset_game(void)
 				    "civstyle.granary_food_ini");
   if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
     freelog(LOG_FATAL,
-	    "Too many granary_food_ini entries; %d is the maximum!",
-	    MAX_GRANARY_INIS);
+	    "Too many granary_food_ini entries (%d, max %d)",
+	    game.info.granary_num_inis, MAX_GRANARY_INIS);
     exit(EXIT_FAILURE);
   } else if (game.info.granary_num_inis == 0) {
     freelog(LOG_ERROR, "No values for granary_food_ini. Using 1.");
@@ -3078,12 +3105,12 @@ static void send_ruleset_specialists(struct conn_list *dest)
   struct packet_ruleset_specialist packet;
 
   specialist_type_iterate(spec_id) {
-    struct specialist *s = get_specialist(spec_id);
+    struct specialist *s = specialist_by_number(spec_id);
     int j;
 
     packet.id = spec_id;
-    sz_strlcpy(packet.name, s->name);
-    sz_strlcpy(packet.short_name, s->short_name);
+    sz_strlcpy(packet.name, s->name.vernacular);
+    sz_strlcpy(packet.short_name, s->abbreviation.vernacular);
     j = 0;
     requirement_vector_iterate(&s->reqs, preq) {
       packet.reqs[j++] = *preq;
@@ -3267,8 +3294,8 @@ static void send_ruleset_bases(struct conn_list *dest)
   base_type_iterate(b) {
     int j;
 
-    packet.id = b->id;
-    sz_strlcpy(packet.name, b->name);
+    packet.id = base_number(b);
+    sz_strlcpy(packet.name, b->name.vernacular);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);

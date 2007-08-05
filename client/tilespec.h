@@ -125,7 +125,7 @@ void tilespec_try_read(const char *tileset_name, bool verbose);
 void tilespec_reread(const char *tileset_name);
 void tilespec_reread_callback(struct client_option *option);
 
-void tileset_setup_specialist_type(struct tileset *t, int id);
+void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id);
 void tileset_setup_unit_type(struct tileset *t, struct unit_type *punittype);
 void tileset_setup_impr_type(struct tileset *t, int id);
 void tileset_setup_tech_type(struct tileset *t, int id);

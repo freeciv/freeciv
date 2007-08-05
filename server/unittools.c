@@ -735,7 +735,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity == ACTIVITY_BASE) {
     if (total_activity_base(ptile, punit->activity_base)
         >= tile_activity_base_time(ptile, punit->activity_base)) {
-      tile_add_base(ptile, base_type_get_by_id(punit->activity_base));
+      tile_add_base(ptile, base_by_number(punit->activity_base));
 
       /* Watchtower might become effective
        * FIXME: Reqs on other specials will not be updated immediately. */
@@ -1239,11 +1239,11 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 {
   int cap;
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
-  struct base_type *pbase = base_type_get_from_special(plrtile->special);
+  struct base_type *pbase = base_of_bv_special(plrtile->special);
 
   if ((is_allied_city_tile(ptile, pplayer)
        && !is_non_allied_unit_tile(ptile, pplayer))
-      || ((pbase != NULL && is_native_base(type, pbase))
+      || ((pbase != NULL && is_native_base_to_utype(pbase, type))
 	  && !is_non_allied_unit_tile(ptile, pplayer)))
     return TRUE;
 

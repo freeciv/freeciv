@@ -130,7 +130,7 @@ static const char *cr_entry_specialist(const struct city *pcity,
   static char buf[8];
   const struct specialist *sp = data;
 
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[sp->index]);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[specialist_index(sp)]);
   return buf;
 }
 
@@ -556,24 +556,26 @@ void init_city_report_game_data(void)
   struct city_report_spec *p;
   int i;
 
-  num_creport_cols = ARRAY_SIZE(base_city_report_specs) + SP_COUNT;
+  num_creport_cols = ARRAY_SIZE(base_city_report_specs) + specialist_count();
   city_report_specs
     = fc_realloc(city_report_specs,
 		 num_creport_cols * sizeof(*city_report_specs));
   p = &city_report_specs[0];
 
-  specialist_type_iterate(sp) {
+  specialist_type_iterate(i) {
+    struct specialist *s = specialist_by_number(i);
     p->show = FALSE;
     p->width = 2;
     p->space = 1;
     p->title1 = Q_("?specialist:S");
-    p->title2 = Q_(get_specialist(sp)->short_name);
-    my_snprintf(explanation[sp], sizeof(explanation[sp]), "%s: %s",
-		_("Specialists"), _(get_specialist(sp)->name));
-    p->explanation = explanation[sp];
-    p->data = get_specialist(sp);
+    p->title2 = specialist_abbreviation_translation(s);
+    my_snprintf(explanation[i], sizeof(explanation[i]),
+		_("Specialists: %s"),
+		specialist_name_translation(s));
+    p->explanation = explanation[i];
+    p->data = s;
     p->func = cr_entry_specialist;
-    p->tagname = get_specialist(sp)->name;
+    p->tagname = specialist_rule_name(s);
     p++;
   } specialist_type_iterate_end;
 
@@ -591,7 +593,7 @@ void init_city_report_game_data(void)
     p++;
   }
 
-  assert(NUM_CREPORT_COLS == ARRAY_SIZE(base_city_report_specs) + SP_COUNT);
+  assert(NUM_CREPORT_COLS == ARRAY_SIZE(base_city_report_specs) + specialist_count());
 }
 
 /**********************************************************************

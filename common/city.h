@@ -14,8 +14,9 @@
 #define FC__CITY_H
 
 #include "fc_types.h"
+
 #include "improvement.h"
-#include "unit.h"		/* struct unit_list */
+#include "unitlist.h"
 #include "worklist.h"
 
 enum production_class_type {
@@ -80,17 +81,21 @@ extern struct iter_index {
 extern int city_tiles;
 
 /* Iterate a city map, from the center (the city) outwards.
- * (city_x, city_y) will be the city coordinates. */
-#define city_map_iterate_outwards(city_x, city_y)			    \
-{									    \
-  int city_x, city_y, _index;						    \
-									    \
-  for (_index = 0; _index < CITY_TILES; _index++) {			    \
-    city_x = city_map_iterate_outwards_indices[_index].dx + CITY_MAP_RADIUS;\
-    city_y = city_map_iterate_outwards_indices[_index].dy + CITY_MAP_RADIUS;
+ * (_x, _y) will be the city coordinates. */
+#define city_map_iterate_outwards(_x, _y)				\
+{									\
+  int _x, _y;								\
+  int _x##_y##_index = 0;						\
+  for (;								\
+       _x##_y##_index < CITY_TILES;					\
+       _x##_y##_index++) {						\
+    _x = CITY_MAP_RADIUS						\
+       + city_map_iterate_outwards_indices[_x##_y##_index].dx;		\
+    _y = CITY_MAP_RADIUS						\
+       + city_map_iterate_outwards_indices[_x##_y##_index].dy;
 
-#define city_map_iterate_outwards_end                                       \
-  }                                                                         \
+#define city_map_iterate_outwards_end					\
+  }									\
 }
 
 /*
@@ -99,24 +104,24 @@ extern int city_tiles;
  * elements of [0,CITY_MAP_SIZE). mx and my will form the map position
  * (mx,my).
  */
-#define city_map_checked_iterate(city_tile, cx, cy, itr_tile) {     \
-  city_map_iterate_outwards(cx, cy) {                          \
-    struct tile *itr_tile;				       \
-    if ((itr_tile = base_city_map_to_map(city_tile, cx, cy))) {
+#define city_map_checked_iterate(city_tile, cx, cy, _tile) {		\
+  city_map_iterate_outwards(cx, cy) {					\
+    struct tile *_tile = base_city_map_to_map(city_tile, cx, cy);	\
+    if (NULL != _tile) {
 
-#define city_map_checked_iterate_end \
-    }                                \
-  } city_map_iterate_outwards_end    \
+#define city_map_checked_iterate_end					\
+    }									\
+  } city_map_iterate_outwards_end					\
 }
 
 /* Does the same thing as city_map_checked_iterate, but keeps the city
  * coordinates hidden. */
-#define map_city_radius_iterate(city_tile, itr_tile)     \
-{                                                                 \
-  city_map_checked_iterate(city_tile, _cx, _cy, itr_tile) { 
+#define map_city_radius_iterate(city_tile, _tile)			\
+{									\
+  city_map_checked_iterate(city_tile, _tile##_x, _tile##_y, _tile) { 
 
-#define map_city_radius_iterate_end                               \
-  } city_map_checked_iterate_end;                                 \
+#define map_city_radius_iterate_end					\
+  } city_map_checked_iterate_end;					\
 }
 
 /* How much this output type is penalized for unhappy cities: not at all,
@@ -340,8 +345,8 @@ extern struct output_type output_types[];
 
 #define cities_iterate(pcity)                                               \
 {                                                                           \
-  players_iterate(CI_player) {                                              \
-    city_list_iterate(CI_player->cities, pcity) {
+  players_iterate(pcity##_player) {                                         \
+    city_list_iterate(pcity##_player->cities, pcity) {
 
 #define cities_iterate_end                                                  \
     } city_list_iterate_end;                                                \

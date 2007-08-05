@@ -558,9 +558,9 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
   /* Loop through all specialists in order until we find a usable one
    * (or run out of choices). */
   to = from;
-  assert(to >= 0 && to < SP_COUNT);
+  assert(to >= 0 && to < specialist_count());
   do {
-    to = (to + 1) % SP_COUNT;
+    to = (to + 1) % specialist_count();
   } while (to != from && !city_can_use_specialist(pcity, to));
 
   if (from != to) {

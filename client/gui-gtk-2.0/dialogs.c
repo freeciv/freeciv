@@ -327,7 +327,7 @@ void popup_pillage_dialog(struct unit *punit,
           clear_special(&may_pillage, prereq);
         }
       } else {
-        choice_dialog_add(shl, base_name(pbase),
+        choice_dialog_add(shl, base_name_translation(pbase),
                           G_CALLBACK(pillage_callback),
                           GINT_TO_POINTER(S_PILLAGE_BASE));
         pbase = NULL;

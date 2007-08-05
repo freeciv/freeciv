@@ -67,7 +67,7 @@ struct req_source {
     enum unit_flag_id unitflag;         /* source unit flag */
     struct unit_class *unitclass;       /* source unit class */
     Output_type_id outputtype;          /* source output type */
-    Specialist_type_id specialist;      /* specialist type */
+    struct specialist *specialist;      /* specialist type */
     int minsize;                        /* source minsize type */
     enum ai_level level;                /* source AI level */
     enum terrain_class terrainclass;    /* source generic terrain type */

@@ -204,7 +204,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_SPECIALIST:
     cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
-		 _(get_specialist(req->source.value.specialist)->name));
+		 specialist_name_translation(req->source.value.specialist));
     return;
   case REQ_MINSIZE:
     cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n\n"),

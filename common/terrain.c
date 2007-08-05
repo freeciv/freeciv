@@ -646,10 +646,10 @@ const char *get_infrastructure_text(bv_special spe)
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
   }
 
-  pbase = base_type_get_from_special(spe);
+  pbase = base_of_bv_special(spe);
 
   if (pbase != NULL) {
-    cat_snprintf(s, sizeof(s), "%s/", base_name(pbase));
+    cat_snprintf(s, sizeof(s), "%s/", base_name_translation(pbase));
   }
 
   p = s + strlen(s) - 1;

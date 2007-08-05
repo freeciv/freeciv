@@ -166,8 +166,8 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_SPECIALIST:
-    source.value.specialist = find_specialist_by_name(value);
-    if (source.value.specialist != SP_MAX) {
+    source.value.specialist = find_specialist_by_rule_name(value);
+    if (source.value.specialist) {
       return source;
     }
   case REQ_MINSIZE:
@@ -241,7 +241,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.outputtype = value;
     return source;
   case REQ_SPECIALIST:
-    source.value.specialist = value;
+    source.value.specialist = specialist_by_number(value);
     return source;
   case REQ_MINSIZE:
     source.value.minsize = value;
@@ -306,7 +306,7 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.outputtype;
     return;
   case REQ_SPECIALIST:
-    *value = source->value.specialist;
+    *value = specialist_number(source->value.specialist);
     return;
   case REQ_MINSIZE:
     *value = source->value.minsize;
@@ -913,7 +913,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case REQ_SPECIALIST:
     eval = (target_specialist
-	    && target_specialist->index == req->source.value.specialist);
+	    && target_specialist == req->source.value.specialist);
     break;
   case REQ_MINSIZE:
     eval = target_city && target_city->size >= req->source.value.minsize;
@@ -1108,7 +1108,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz);
     break;
   case REQ_SPECIALIST:
-    mystrlcat(buf, get_specialist(psource->value.specialist)->name, bufsz);
+    mystrlcat(buf, specialist_name_translation(psource->value.specialist), bufsz);
     break;
   case REQ_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),

@@ -531,7 +531,7 @@ bool city_can_use_specialist(const struct city *pcity,
 {
   return are_reqs_active(city_owner(pcity), pcity, NULL,
 			 NULL, NULL, NULL, NULL,
-			 &get_specialist(type)->reqs);
+			 &specialist_by_number(type)->reqs);
 }
 
 /****************************************************************************
