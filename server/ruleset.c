@@ -1456,6 +1456,8 @@ static void load_ruleset_buildings(struct section_file *file)
     }
 
     slist = secfile_lookup_str_vec(file, &nflags, "%s.flags", sec[i]);
+    b->flags = 0;
+
     for(j=0; j<nflags; j++) {
       sval = slist[j];
       if(strcmp(sval,"")==0) {
