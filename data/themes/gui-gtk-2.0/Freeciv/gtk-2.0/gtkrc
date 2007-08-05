@@ -1063,7 +1063,7 @@ style "progressbar" {
     {
       function          = BOX
       detail            = "trough"
-      file              = "ProgressBar/trough-progressbar-horiz.png"
+      file              = "ProgressBar/t-progressbar-horiz.png"
       border            = { 2, 2, 2, 2 }
       stretch           = TRUE
 #      orientation      = HORIZONTAL
