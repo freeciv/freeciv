@@ -239,7 +239,7 @@ void audio_real_init(const char *const spec_name,
     freelog(LOG_ERROR, _("Cannot find sound spec-file \"%s\"."), spec_name);
     freelog(LOG_ERROR, _("To get sound you need to download a sound set!"));
     freelog(LOG_ERROR, _("Get sound sets from <%s>."),
-	    "ftp://ftp.freeciv.org/freeciv/contrib/sounds/sets");
+	    "ftp://ftp.freeciv.org/freeciv/contrib/audio/soundsets");
     freelog(LOG_ERROR, _("Will continue with disabled sounds."));
     tagfile = NULL;
     return;
