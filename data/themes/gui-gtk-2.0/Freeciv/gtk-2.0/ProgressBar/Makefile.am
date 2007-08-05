@@ -7,8 +7,8 @@ pkgdata_DATA =          	\
 	progressbar-horiz-1.png	\
 	progressbar-horiz-2.png	\
 	progressbar-horiz.png	\
-	trough-progressbar-horiz-2.png	\
-	trough-progressbar-horiz.png	\
-	trough-progressbar-vert.png
+	t-progressbar-horiz-2.png	\
+	t-progressbar-horiz.png	\
+	t-progressbar-vert.png
 
 EXTRA_DIST = $(pkgdata_DATA)
