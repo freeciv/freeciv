@@ -240,65 +240,73 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 {
   struct ai_data *ai = ai_data_get(pplayer);
   /* Unit type with certain role */
-  struct unit_type *unit_type;
+  struct unit_type *settler_type;
+  struct unit_type *founder_type;
+  int settler_want, founder_want;
 
   init_choice(choice);
 
   /* Find out desire for workers (terrain improvers) */
-  unit_type = best_role_unit(pcity, F_SETTLERS);
+  settler_type = best_role_unit(pcity, F_SETTLERS);
 
-  if (unit_type
-      && (pcity->id != ai->wonder_city || unit_type->pop_cost == 0)
-      && pcity->surplus[O_FOOD] > utype_upkeep_cost(unit_type,
+  /* The worker want is calculated in settlers.c called from
+   * ai_manage_cities.  The expand value is the % that the AI should
+   * value expansion (basically to handicap easier difficutly levels)
+   * and is set when the difficulty level is changed (stdinhand.c). */
+  settler_want = pcity->ai.settler_want * pplayer->ai.expand / 100;
+
+  if (ai->wonder_city == pcity->id) {
+    settler_want /= 5;
+  }
+
+  if (settler_type
+      && (pcity->id != ai->wonder_city || settler_type->pop_cost == 0)
+      && pcity->surplus[O_FOOD] > utype_upkeep_cost(settler_type,
                                                     pplayer, O_FOOD)) {
-    /* The worker want is calculated in settlers.c called from
-     * ai_manage_cities.  The expand value is the % that the AI should
-     * value expansion (basically to handicap easier difficutly levels)
-     * and is set when the difficulty level is changed (stdinhand.c). */
-    int want = pcity->ai.settler_want * pplayer->ai.expand / 100;
-
-    if (ai->wonder_city == pcity->id) {
-      want /= 5;
-    }
-
-    if (want > 0) {
+    if (settler_want > 0) {
       CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
-               want);
-      choice->want = want;
+               settler_want);
+      choice->want = settler_want;
       choice->type = CT_NONMIL;
-      ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);
+      ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, settler_want);
     }
     /* Terrain improvers don't use boats (yet) */
+
+  } else if (!settler_type && settler_want > 0) {
+    /* Can't build settlers. Lets stimulate science */
+    ai_wants_role_unit(pplayer, pcity, F_SETTLERS, settler_want);
   }
 
   /* Find out desire for city founders */
   /* Basically, copied from above and adjusted. -- jjm */
-  unit_type = best_role_unit(pcity, F_CITIES);
+  founder_type = best_role_unit(pcity, F_CITIES);
 
-  if (unit_type
-      && (pcity->id != ai->wonder_city
-          || unit_type->pop_cost == 0)
-      && pcity->surplus[O_FOOD] >= utype_upkeep_cost(unit_type,
-                                                     pplayer, O_FOOD)) {
-    /* founder_want calculated in aisettlers.c */
-    int want = pcity->ai.founder_want;
+  /* founder_want calculated in aisettlers.c */
+  founder_want = pcity->ai.founder_want;
 
-    if (ai->wonder_city == pcity->id) {
-      want /= 5;
-    }
+  if (ai->wonder_city == pcity->id) {
+    founder_want /= 5;
+  }
     
-    if (ai->max_num_cities <= city_list_size(pplayer->cities)) {
-      want /= 100;
-    }
+  if (ai->max_num_cities <= city_list_size(pplayer->cities)) {
+    founder_want /= 100;
+  }
 
-    if (want > choice->want) {
-      CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d", want);
-      choice->want = want;
+  if (founder_type
+      && (pcity->id != ai->wonder_city
+          || founder_type->pop_cost == 0)
+      && pcity->surplus[O_FOOD] >= utype_upkeep_cost(founder_type,
+                                                     pplayer, O_FOOD)) {
+
+    if (founder_want > choice->want) {
+      CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
+               founder_want);
+      choice->want = founder_want;
       choice->need_boat = pcity->ai.founder_boat;
       choice->type = CT_NONMIL;
-      ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, want);
+      ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, founder_want);
       
-    } else if (want < -choice->want) {
+    } else if (founder_want < -choice->want) {
       /* We need boats to colonize! */
       /* We might need boats even if there are boats free,
        * if they are blockaded or in inland seas. */
@@ -306,13 +314,17 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
 	       " for a new boat (%d of %d free)",
-	       want, ai->stats.available_boats, ai->stats.boats);
-      choice->want = 0 - want;
+	       -founder_want, ai->stats.available_boats, ai->stats.boats);
+      choice->want = 0 - founder_want;
       choice->type = CT_NONMIL;
-      choice->choice = unit_type->index; /* default */
+      choice->choice = founder_type->index; /* default */
       choice->need_boat = TRUE;
-      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -want);
+      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -founder_want);
     }
+  } else if (!founder_type
+             && (founder_want > choice->want || founder_want < -choice->want)) {
+    /* Can't build founders. Lets stimulate science */
+    ai_wants_role_unit(pplayer, pcity, F_CITIES, founder_want);
   }
 
   {
