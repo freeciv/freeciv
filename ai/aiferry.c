@@ -327,7 +327,7 @@ static int sea_move(const struct tile *ptile, enum known_type known,
 
 /****************************************************************************
   Runs a few checks to determine if "boat" is a free boat that can carry
-  "cap" units of the same type as "punit".
+  "cap" units of the same type as "punit" over sea.
 ****************************************************************************/
 bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 {
@@ -338,14 +338,21 @@ bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
    * - Only available boats or boats that are already dedicated to this unit
    *   are eligible.
    * - Only boats with enough remaining capacity are eligible.
+   * - Only units that can travel at sea are eligible.
+   * - Units that require fuel are lose hitpoints are not eligible.
    */
+  struct unit_class *ferry_class = unit_class(boat);
+
   return (can_unit_transport(boat, punit)
 	  && !unit_has_orders(boat)
 	  && boat->owner == punit->owner
 	  && (boat->ai.passenger == FERRY_AVAILABLE
 	      || boat->ai.passenger == punit->id)
 	  && (get_transporter_capacity(boat) 
-	      - get_transporter_occupancy(boat) >= cap));
+	      - get_transporter_occupancy(boat) >= cap)
+          && ferry_class->ai.sea_move != MOVE_NONE
+          && !unit_type(boat)->fuel
+          && !is_losing_hp(boat));
 }
 
 /****************************************************************************

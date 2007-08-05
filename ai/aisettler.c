@@ -552,6 +552,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
   struct unit *ferry = NULL;
+  struct unit_class *ferry_class = NULL;
 
   assert(pplayer->ai.control);
   /* Only virtual units may use virtual boats: */
@@ -606,7 +607,9 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
       ferry->tile = punit->tile;
     }
 
-    assert(SEA_MOVING == get_unit_move_type(unit_type(ferry)));
+    ferry_class = unit_class(ferry);
+
+    assert(ferry_class->ai.sea_move != MOVE_NONE);
     pft_fill_unit_overlap_param(&parameter, ferry);
     parameter.get_TB = no_fights_or_unknown;
 
