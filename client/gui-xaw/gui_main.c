@@ -242,6 +242,8 @@ static int myerr(Display *p, XErrorEvent *e)
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
+  fc_fprintf(stderr, _("This client has no special command line options\n\n"));
+
   fc_fprintf(stderr, _("Report bugs at %s.\n"), BUG_URL);
 }
 
