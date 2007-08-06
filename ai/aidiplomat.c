@@ -274,7 +274,8 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
     return;                                                         \
   }
 
-  if (!punit->foul) T(DIPLOMAT_EMBASSY,0);
+  T(DIPLOMAT_EMBASSY,0);
+
   if (pplayers_allied(pplayer, tplayer)) {
     return; /* Don't do the rest to allies */
   }
@@ -335,8 +336,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
     }
     aplayer = city_owner(acity);
 
-    /* sneaky way of avoiding foul diplomat capture  -AJS */
-    has_embassy = player_has_embassy(pplayer, aplayer) || punit->foul;
+    has_embassy = player_has_embassy(pplayer, aplayer);
 
     if (aplayer == pplayer || is_barbarian(aplayer)
         || (pplayers_allied(pplayer, aplayer) && has_embassy)) {

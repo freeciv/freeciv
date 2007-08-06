@@ -1485,10 +1485,6 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
    * (Otherwise could pass moved arg too...)  --dwp */
   punit->moved = (moves_left >= 0);
 
-  /* See if this is a spy that has been moved (corrupt and therefore 
-   * unable to establish an embassy. */
-  punit->foul = (moves_left != -1 && unit_flag(punit, F_SPY));
-
   unit_list_insert(&pplayer->units, punit);
   unit_list_insert(&ptile->units, punit);
   if (pcity && !unit_type_flag(type, F_NOHOME)) {
