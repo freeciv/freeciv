@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-04 21:22+0200\n"
+"POT-Creation-Date: 2007-08-06 11:01+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -2142,9 +2142,9 @@ msgstr "  -R, --Ranklog DATEI\tSchreibe Ranking-Informationen in DATEI\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGebe die Versionsnummer aus\n"
 
-#: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:265
-#: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:202
-#: client/gui-xaw/gui_main.c:245 manual/civmanual.c:384
+#: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:267
+#: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:208
+#: client/gui-xaw/gui_main.c:247 manual/civmanual.c:384
 #, c-format
 msgid "Report bugs at %s.\n"
 msgstr ""
@@ -4016,11 +4016,11 @@ msgstr "Die %s der %s (%s)"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Could not find a readable \"%s.%s\" ruleset file."
 
-#: server/ruleset.c:2338
+#: server/ruleset.c:2340
 msgid "No barbarian nation in rulesets, at least one required!"
 msgstr "Keine Barbarennation im Ruleset, eine wird mindestens benötigt!"
 
-#: server/ruleset.c:3135
+#: server/ruleset.c:3137
 msgid "Loading rulesets"
 msgstr "Lade Regelsätze"
 
@@ -6719,43 +6719,43 @@ msgstr ""
 "Die Entdeckung von %s macht die Regierungsform %s verfügbar. Vielleicht "
 "willst du eine Revolution beginnen?"
 
-#: server/techtools.c:299
+#: server/techtools.c:301
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Die Entdeckung von %s veraltet %s in %s!"
 
-#: server/techtools.c:349
+#: server/techtools.c:351
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr ""
 "%s erforscht. Unsere Wissenschaftler konzentrieren sich auf %s - das Ziel "
 "ist %s."
 
-#: server/techtools.c:367
+#: server/techtools.c:369
 #, c-format
 msgid "Learned %s.  Scientists choose to research %s."
 msgstr ""
 "%s erforscht. Unsere Wissenschaftler entscheiden sich für die Erforschung "
 "von %s."
 
-#: server/techtools.c:374
+#: server/techtools.c:376
 #, c-format
 msgid "Learned %s. "
 msgstr "%s erforscht. "
 
-#: server/techtools.c:377
+#: server/techtools.c:379
 #, c-format
 msgid "Researching %s."
 msgstr "Erforsche %s."
 
-#: server/techtools.c:383
+#: server/techtools.c:385
 #, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
 msgstr ""
 "%s erforscht. Unsere Wissenschaftler wissen nicht, was sie als nächstes "
 "erforschen sollen."
 
-#: server/techtools.c:400
+#: server/techtools.c:402
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -6763,22 +6763,22 @@ msgstr ""
 "Große Wissenschaftler aus aller Welt haben sich deiner Nation angeschlossen: "
 "Ein direkter Fortschritt ist die Folge."
 
-#: server/techtools.c:568
+#: server/techtools.c:570
 #, c-format
 msgid "Technology goal is %s."
 msgstr "Unser Forschungsziel ist %s."
 
-#: server/techtools.c:696
+#: server/techtools.c:698
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Du hast %s von den %s gestohlen."
 
-#: server/techtools.c:701
+#: server/techtools.c:703
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "Die %s haben %s von dir gestohlen!"
 
-#: server/techtools.c:706
+#: server/techtools.c:708
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Die %s haben %s von den %s gestohlen."
@@ -11379,30 +11379,38 @@ msgstr ""
 "Diese Option ergibt eine bessere Art der Darstellung für den 'Nebel des "
 "Krieges'. Sie ist nicht langsamer, benötigt aber mehr Speicher."
 
-#: client/gui-gtk-2.0/gui_main.c:685 client/gui-gtk-2.0/gui_main.c:1311
+#: client/gui-gtk-2.0/gui_main.c:265 client/gui-xaw/gui_main.c:245
+msgid ""
+"This client has no special command line options\n"
+"\n"
+msgstr ""
+"Es gibt keine GUI-bezogenen Kommandozeilenoptionen.\n"
+"\n"
+
+#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1317
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1051 client/gui-gtk-2.0/gui_main.c:1065
+#: client/gui-gtk-2.0/gui_main.c:1053 client/gui-gtk-2.0/gui_main.c:1067
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk-2.0/gui_main.c:1065 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1067 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:1072
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
-#: client/gui-gtk-2.0/gui_main.c:1097
+#: client/gui-gtk-2.0/gui_main.c:1099
 msgid "_Map"
 msgstr "_Karte"
 
-#: client/gui-gtk-2.0/gui_main.c:1178
+#: client/gui-gtk-2.0/gui_main.c:1180
 msgid "_Chat"
 msgstr "_Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:1194 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1196 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11414,72 +11422,72 @@ msgstr ""
 "Siehe unter 'Lizenz' im Hilfemenü.\n"
 "Und nun ... mach' ihnen die Hölle heiß!"
 
-#: client/gui-gtk-2.0/gui_main.c:1455
+#: client/gui-gtk-2.0/gui_main.c:1461
 msgid "Not _ready"
 msgstr "Nicht _bereit"
 
-#: client/gui-gtk-2.0/gui_main.c:1466 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1472 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
 msgstr "_Bereit"
 
-#: client/gui-gtk-2.0/gui_main.c:1470 client/gui-gtk-2.0/gui_main.c:1476
+#: client/gui-gtk-2.0/gui_main.c:1476 client/gui-gtk-2.0/gui_main.c:1482
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
 msgstr "_Start"
 
-#: client/gui-gtk-2.0/gui_main.c:1481 client/gui-gtk-2.0/pages.c:1567
+#: client/gui-gtk-2.0/gui_main.c:1487 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
 msgstr "Wähle _Nation"
 
-#: client/gui-gtk-2.0/gui_main.c:1483
+#: client/gui-gtk-2.0/gui_main.c:1489
 msgid "Create _player"
 msgstr "Spieler _hinzufügen"
 
-#: client/gui-gtk-2.0/gui_main.c:1488
+#: client/gui-gtk-2.0/gui_main.c:1494
 msgid "_Release player"
 msgstr "Spieler _freigeben"
 
-#: client/gui-gtk-2.0/gui_main.c:1490 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1496 client/gui-gtk-2.0/pages.c:1572
 msgid "_Observe"
 msgstr "Be_obachten"
 
-#: client/gui-gtk-2.0/gui_main.c:1492
+#: client/gui-gtk-2.0/gui_main.c:1498
 msgid "_Do not observe"
 msgstr "_Nicht beobachten"
 
-#: client/gui-gtk-2.0/gui_main.c:1514
+#: client/gui-gtk-2.0/gui_main.c:1520
 msgid "<AI>"
 msgstr "<KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1517
+#: client/gui-gtk-2.0/gui_main.c:1523
 msgid "<Novice AI>"
 msgstr "<Anfänger-KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1520
+#: client/gui-gtk-2.0/gui_main.c:1526
 msgid "<Easy AI>"
 msgstr "<Leichte KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1523
+#: client/gui-gtk-2.0/gui_main.c:1529
 msgid "<Normal AI>"
 msgstr "<Normale KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1526
+#: client/gui-gtk-2.0/gui_main.c:1532
 msgid "<Hard AI>"
 msgstr "<Schwere KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1536 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1542 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr "Zufällig"
 
-#: client/gui-gtk-2.0/gui_main.c:1598
+#: client/gui-gtk-2.0/gui_main.c:1604
 msgid "Observer"
 msgstr "Beobachter"
 
-#: client/gui-gtk-2.0/gui_main.c:1598
+#: client/gui-gtk-2.0/gui_main.c:1604
 msgid "Detached"
 msgstr "Nicht verbunden"
 
-#: client/gui-gtk-2.0/gui_main.c:1868
+#: client/gui-gtk-2.0/gui_main.c:1874
 msgid "Are you sure you want to quit?"
 msgstr "Wollen Sie das Programm wirklich beenden?"
 
@@ -14968,11 +14976,11 @@ msgstr ""
 "Mit dieser Option wird das Thema eingestellt. Dies kann auch mit dem "
 "Kommendozeilenparameter -- --theme geschehen."
 
-#: client/gui-sdl/gui_main.c:204
+#: client/gui-sdl/gui_main.c:203
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tStarte Client im Vollbildmodus\n"
 
-#: client/gui-sdl/gui_main.c:205
+#: client/gui-sdl/gui_main.c:204
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
@@ -14980,27 +14988,27 @@ msgstr ""
 "  -e,  --eventthread\tVerwende zweiten Thread für das Event-Subsystem (nur "
 "Linux und BeOS)\n"
 
-#: client/gui-sdl/gui_main.c:207
+#: client/gui-sdl/gui_main.c:206
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 "  -t,  --theme THEMA\tVerwendet THEMA als Thema der Benutzeroberfläche.\n"
 
-#: client/gui-sdl/gui_main.c:653
+#: client/gui-sdl/gui_main.c:654
 #, c-format
 msgid "Making screenshot fc_%05d.bmp"
 msgstr "Erstelle Bildschirmfoto fc_%05d.bmp"
 
-#: client/gui-sdl/gui_main.c:786
+#: client/gui-sdl/gui_main.c:787
 #, c-format
 msgid "Using Video Output: %s"
 msgstr "Videoausgabe auf : %s"
 
-#: client/gui-sdl/gui_main.c:839
+#: client/gui-sdl/gui_main.c:840
 msgid "Initializing Client"
 msgstr "Initialisiere Client"
 
 # CK: TECHNICAL
-#: client/gui-sdl/gui_main.c:850
+#: client/gui-sdl/gui_main.c:851
 msgid "Waiting for the beginning of the game"
 msgstr "Waiting for the beginning of the game"
 
@@ -16440,52 +16448,52 @@ msgid "PNG file has no palette: %s"
 msgstr "PNG file has no palette: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:321
+#: client/gui-xaw/gui_main.c:323
 msgid "No version number in resources."
 msgstr "No version number in resources."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:322
+#: client/gui-xaw/gui_main.c:324
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:330
+#: client/gui-xaw/gui_main.c:332
 msgid "Game version does not match Resource version."
 msgstr "Game version does not match Resource version."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:331
+#: client/gui-xaw/gui_main.c:333
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Game version: %s - Resource version: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:333
+#: client/gui-xaw/gui_main.c:335
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:339
+#: client/gui-xaw/gui_main.c:341
 msgid "Using fallback resources - which is OK"
 msgstr "Benutze Reserveressourcen - OK"
 
-#: client/gui-xaw/gui_main.c:350
+#: client/gui-xaw/gui_main.c:352
 msgid "Only color displays are supported for now..."
 msgstr "Z.Z. werden nur Farbbildschirme unterstützt ..."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:373 client/gui-xaw/gui_main.c:394
+#: client/gui-xaw/gui_main.c:375 client/gui-xaw/gui_main.c:396
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr "Unable to open fontset: %s"
 
 # CK: TECHNICAL
-#: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
+#: client/gui-xaw/gui_main.c:378 client/gui-xaw/gui_main.c:399
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
 msgstr "Doing 'xset fp rehash' may temporarily solve a problem."
 
-#: client/gui-xaw/gui_main.c:380 client/gui-xaw/gui_main.c:401
+#: client/gui-xaw/gui_main.c:382 client/gui-xaw/gui_main.c:403
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "Der Font für den Zeichensatz %s fehlt."
