@@ -296,7 +296,7 @@ if test -n "$GCC"; then
    EXTRA_GCC_DEBUG_CFLAGS="$CFLAGS"
    EXTRA_GCC_DEBUG_CXXFLAGS="$CXXFLAGS"
    CFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
-   CXXFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes"
+   CXXFLAGS="-Wall -Wpointer-arith -Wcast-align"
 fi
 
 FC_DEBUG
