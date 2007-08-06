@@ -368,3 +368,11 @@ void popdown_all_game_dialogs(void)
   /* PORTME */
   clear_focus_tile();
 }
+
+/**************************************************************************
+  Ruleset (modpack) has suggested loading certain tileset. Confirm from
+  user and load.
+**************************************************************************/
+void popup_tileset_suggestion_dialog(void)
+{
+}
