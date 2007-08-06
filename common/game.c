@@ -318,6 +318,8 @@ void game_init(void)
 
   game.control.num_specialist_types = 0;
 
+  game.control.prefered_tileset[0] = '\0';
+
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
   sz_strlcpy(game.allow_take, GAME_DEFAULT_ALLOW_TAKE);
 

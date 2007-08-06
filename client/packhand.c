@@ -2172,6 +2172,14 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     game.players[i].nation = NULL;
   }
+
+  if (packet->prefered_tileset[0] != '\0') {
+    /* There is tileset suggestion */
+    if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
+      /* It's not currently in use */
+      popup_tileset_suggestion_dialog();
+    }
+  }
 }
 
 /**************************************************************************

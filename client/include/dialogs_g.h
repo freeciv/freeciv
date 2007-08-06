@@ -47,6 +47,7 @@ void popup_sabotage_dialog(struct city *pcity);
 void popup_pillage_dialog(struct unit *punit, bv_special may_pillage,
                           struct base_type *pbase);
 void popup_upgrade_dialog(struct unit_list *punits);
+void popup_tileset_suggestion_dialog(void);
 
 void popdown_all_game_dialogs(void);
 

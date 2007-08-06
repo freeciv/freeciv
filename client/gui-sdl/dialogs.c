@@ -3081,3 +3081,11 @@ void races_toggles_set_sensitive()
   redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
   widget_flush(pNationDlg->pEndWidgetList);
 }
+
+/**************************************************************************
+  Ruleset (modpack) has suggested loading certain tileset. Confirm from
+  user and load.
+**************************************************************************/
+void popup_tileset_suggestion_dialog(void)
+{
+}

@@ -1902,3 +1902,11 @@ static LONG APIENTRY msgdialog_proc (
   return (0);  
   
 }
+
+/**************************************************************************
+  Ruleset (modpack) has suggested loading certain tileset. Confirm from
+  user and load.
+**************************************************************************/
+void popup_tileset_suggestion_dialog(void)
+{
+}

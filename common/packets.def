@@ -1314,6 +1314,8 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 terrain_count;
   UINT8 resource_count;
   UINT8 num_specialist_types;
+
+  STRING prefered_tileset[MAX_LEN_NAME];
 end
 
 /*********************************************************

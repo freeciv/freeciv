@@ -1559,6 +1559,14 @@ void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
   common_taxrates_callback((size_t) client_data);
 }
 
+/**************************************************************************
+  Ruleset (modpack) has suggested loading certain tileset. Confirm from
+  user and load.
+**************************************************************************/
+void popup_tileset_suggestion_dialog(void)
+{
+}
+
 /********************************************************************** 
   This function is called when the client disconnects or the game is
   over.  It should close all dialog windows for that game.

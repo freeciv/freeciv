@@ -2855,11 +2855,21 @@ static void load_ruleset_game(void)
   const char *filename;
   int *food_ini;
   int i;
+  char *tileset;
 
   openload_ruleset_file(&file, "game");
   filename = secfile_filename(&file);
   (void) check_ruleset_capabilities(&file, "+1.11.1", filename);
   (void) section_file_lookup(&file, "datafile.description");	/* unused */
+
+  tileset = secfile_lookup_str_default(&file, "", "tileset.prefered");
+  if (tileset[0] != '\0') {
+    /* There was tileset suggestion */
+    sz_strlcpy(game.control.prefered_tileset, tileset);
+  } else {
+    /* No tileset suggestions */
+    game.control.prefered_tileset[0] = '\0';
+  }
 
   game.info.base_pollution = 
         secfile_lookup_int_default(&file, -20, "civstyle.base_pollution");
