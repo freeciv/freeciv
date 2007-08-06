@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 
 tolua_SOURCES = \
 	$(top_srcdir)/dependencies/tolua/include/toluaxx.h \
+	toluaxx.bind.cxx	\
 	main.cxx \
 	main.hxx \
 	parsecmd.cxx \
