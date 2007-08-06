@@ -1537,7 +1537,7 @@ void aifill(int amount)
 }
 
 /**************************************************************************
-generate_ai_players() - Selects a nation for players created with
+   generate_players() - Selects a nation for players created with
    server's "create <PlayerName>" command.  If <PlayerName> matches
    one of the leader names for some nation, we choose that nation.
    (I.e. if we issue "create Shaka" then we will make that AI player's
