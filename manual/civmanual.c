@@ -222,8 +222,8 @@ static bool manual_command(void)
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
       fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
               _("Irrigation"), _("Mining"), _("Road"), _("Transform"), _("turns"));
-      fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>%s</th></tr>\n\n",
-              _("Airbase"), _("Fortress"), _("Rail"),
+      fprintf(doc, "<th>%s<br/>%s<br/>%s</th></tr>\n\n",
+              _("Rail"),
               _("Clean pollution"), _("Clean fallout"));
       terrain_type_iterate(pterrain) {
         struct resource **r;
@@ -281,8 +281,8 @@ static bool manual_command(void)
                 terrain_name_translation(pterrain->transform_result),
                 pterrain->transform_time);
 
-        fprintf(doc, "<td align=\"center\">%d / %d / %d / %d / %d</td></tr>\n\n",
-                pterrain->airbase_time, pterrain->fortress_time, pterrain->rail_time,
+        fprintf(doc, "<td align=\"center\">%d / %d / %d</td></tr>\n\n",
+                pterrain->rail_time,
                 pterrain->clean_pollution_time, pterrain->clean_fallout_time);
       } terrain_type_iterate_end;
       fprintf(doc, "</table>\n");

@@ -53,6 +53,7 @@ struct base_type {
   char activity_gfx[MAX_LEN_NAME];
   struct requirement_vector reqs;
   enum base_gui_type gui_type;
+  int build_time;
 
   bv_unit_classes native_to;
   bv_base_flags flags;

@@ -1264,8 +1264,6 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   TERRAIN transform_result;
   UINT8 transform_time;
   UINT8 rail_time;
-  UINT8 airbase_time;
-  UINT8 fortress_time;
   UINT8 clean_pollution_time;
   UINT8 clean_fallout_time;
   
@@ -1292,6 +1290,7 @@ PACKET_RULESET_BASE=120;sc,lsend
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BASE_GUI gui_type;
   BV_UNIT_CLASSES native_to;
+  UINT8 build_time;
   BV_BASE_FLAGS flags;
 end
 

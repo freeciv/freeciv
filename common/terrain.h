@@ -175,8 +175,6 @@ struct terrain {
   struct terrain *transform_result;
   int transform_time;
   int rail_time;
-  int airbase_time;
-  int fortress_time;
   int clean_pollution_time;
   int clean_fallout_time;
 

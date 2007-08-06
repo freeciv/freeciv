@@ -2467,8 +2467,6 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   pterrain->transform_result = terrain_by_number(p->transform_result);
   pterrain->transform_time = p->transform_time;
   pterrain->rail_time = p->rail_time;
-  pterrain->airbase_time = p->airbase_time;
-  pterrain->fortress_time = p->fortress_time;
   pterrain->clean_pollution_time = p->clean_pollution_time;
   pterrain->clean_fallout_time = p->clean_fallout_time;
   
@@ -2534,6 +2532,8 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->native_to = p->native_to;
 
   pbase->gui_type = p->gui_type;
+
+  pbase->build_time = p->build_time;
 
   pbase->flags = p->flags;
 

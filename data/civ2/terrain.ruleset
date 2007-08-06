@@ -1000,6 +1000,7 @@ identifier  = "u"
 ; reqs 	                  = requirements to build the base (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
+; build_time              = How long it takes for a unit to build this base
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "DefenseBonus"      = Units inside gain defense bonus
@@ -1020,6 +1021,7 @@ reqs         =
       "UnitFlag", "Settlers", "Local"
     }
 gui_type     = "Fortress"
+build_time   = 3
 native_to    = "Land"
 flags        = "NoAggressive", "DefenseBonus", "ClaimTerritory",
                "NoStackDeath", "DiplomatDefense"
@@ -1036,5 +1038,6 @@ reqs         =
       "UnitFlag", "Airbase", "Local"
     }
 gui_type     = "Airbase"
+build_time   = 3
 native_to    = "Air", "Helicopter", "Missile"
 flags        = "NoStackDeath", "DiplomatDefense", "ParadropFrom"
