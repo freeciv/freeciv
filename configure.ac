@@ -101,6 +101,12 @@ AM_CONDITIONAL(FTWL, test x$ftwl != xno)
 if test "$ftwl" = no && test "$client" = ftwl ; then
   AC_MSG_ERROR(You must use --enable-ftwl to use the ftwl client)
 fi
+if test "$ftwl" != no ; then
+  PKG_CHECK_MODULES([CAIRO], [cairo],,
+    [AC_MSG_ERROR([--enable-ftwl requires cairo])])
+  CLIENT_CFLAGS="$CLIENT_CFLAGS $CAIRO_CFLAGS"
+  CLIENT_LIBS="$CLIENT_LIBS $CAIRO_LIBS"
+fi
 
 AC_ARG_WITH(xaw,
 [  --with-xaw              use the Xaw widget set for the xaw client],
@@ -415,7 +421,7 @@ if test x$client != xno; then
   if test "$client" = ftwl ; then
       AC_MSG_CHECKING([will compile gui-ftwl])
       AC_MSG_RESULT([yes])
-      CLIENT_CFLAGS="$CLIENT_FLAGS $FTWL_FLAGS"
+      CLIENT_CFLAGS="$CLIENT_CFLAGS $FTWL_FLAGS"
       CLIENT_LIBS="$CLIENT_LIBS $FTWL_LIBS"
   fi
 
