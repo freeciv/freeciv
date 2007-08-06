@@ -1304,7 +1304,6 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->goto_tile = NULL;
   punit->veteran = veteran_level;
   /* A unit new and fresh ... */
-  punit->foul = FALSE;
   punit->debug = FALSE;
   punit->fuel = unit_type(punit)->fuel;
   punit->birth_turn = game.info.turn;

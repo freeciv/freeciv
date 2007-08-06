@@ -1638,9 +1638,10 @@ static void load_player_units(struct player *plr, int plrno,
     nat_y = secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
     punit->tile = native_pos_to_tile(nat_x, nat_y);
 
-    punit->foul
-      = secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
-				    plrno, i);
+    /* Avoid warning when loading pre-2.1 saves containing foul status */
+    secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
+                                plrno, i);
+
     punit->homecity = secfile_lookup_int(file, "player%d.u%d.homecity",
 					 plrno, i);
 
@@ -2949,8 +2950,6 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->tile->nat_x, "player%d.u%d.x", plrno, i);
     secfile_insert_int(file, punit->tile->nat_y, "player%d.u%d.y", plrno, i);
     secfile_insert_int(file, punit->veteran, "player%d.u%d.veteran", 
-				plrno, i);
-    secfile_insert_bool(file, punit->foul, "player%d.u%d.foul", 
 				plrno, i);
     secfile_insert_int(file, punit->hp, "player%d.u%d.hp", plrno, i);
     secfile_insert_int(file, punit->homecity, "player%d.u%d.homecity",

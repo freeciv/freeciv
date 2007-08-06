@@ -236,7 +236,6 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 
   - Either a Diplomat or Spy can establish an embassy.
 
-  - "Foul" ambassadors are detected and executed.
   - Barbarians always execute ambassadors.
   - Otherwise, the embassy is created.
   - It costs some minimal movement to establish an embassy.
@@ -257,25 +256,6 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
     return;
 
   freelog (LOG_DEBUG, "embassy: unit: %d", pdiplomat->id);
-
-  /* Check for "foul" ambassador. */
-  if (pdiplomat->foul) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-		     _("Your %s was executed in %s on suspicion"
-		       " of spying.  The %s welcome future diplomatic"
-		       " efforts providing the Ambassador is reputable."),
-		     unit_name_translation(pdiplomat),
-		     pcity->name,
-		     nation_plural_for_player(cplayer));
-    notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
-		     _("You executed a %s the %s had sent to establish"
-		       " an embassy in %s for being untrustworthy"),
-		     unit_name_translation(pdiplomat),
-		     nation_plural_for_player(pplayer),
-		     pcity->name);
-    wipe_unit(pdiplomat);
-    return;
-  }
 
   /* Check for Barbarian response. */
   if (get_player_bonus(cplayer, EFT_NO_DIPLOMACY)) {
@@ -470,7 +450,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Copy some more unit fields */
   gained_unit->fuel        = pvictim->fuel;
-  gained_unit->foul        = pvictim->foul;
   gained_unit->paradropped = pvictim->paradropped;
   gained_unit->birth_turn  = pvictim->birth_turn;
 
