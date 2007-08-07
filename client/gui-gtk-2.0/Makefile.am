@@ -90,6 +90,6 @@ libguiclient_a_SOURCES = \
 	sprite.c	\
 	sprite.h	\
 	themes.c	\
+	tileset_dlg.c	\
 	wldlg.c		\
 	wldlg.h	
-

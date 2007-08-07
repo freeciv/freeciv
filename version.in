@@ -27,4 +27,4 @@ FREECIV_RELEASE_MONTH(4)
 #   - Avoid adding a new manditory capbility to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING(["+2.1c, CitywallFix"])
+FREECIV_NETWORK_CAPSTRING(["+2.1c, CitywallFix, PreferedTileset"])

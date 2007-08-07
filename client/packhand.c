@@ -2133,6 +2133,16 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   governments_alloc(packet->government_count);
   nations_alloc(packet->nation_count);
   city_styles_alloc(packet->styles_count);
+
+  if (has_capability("PreferedTileset", aconnection.capability)) {
+    if (packet->prefered_tileset[0] != '\0') {
+      /* There is tileset suggestion */
+      if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
+        /* It's not currently in use */
+        popup_tileset_suggestion_dialog();
+      }
+    }
+  }
 }
 
 /**************************************************************************

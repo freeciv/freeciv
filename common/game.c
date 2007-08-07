@@ -279,6 +279,8 @@ void game_init(void)
   game.control.nation_count = 0;
   game.control.government_count = 0;
 
+  game.control.prefered_tileset[0] = '\0';
+
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
   sz_strlcpy(game.allow_take, GAME_DEFAULT_ALLOW_TAKE);
 
