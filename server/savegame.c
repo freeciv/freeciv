@@ -3947,6 +3947,10 @@ void game_load(struct section_file *file)
       }
     }
 
+    /* Initialize nations we loaded from rulesets. This has to be after
+     * map loading and before we seek nations for players */
+    init_available_nations();
+
     players_iterate(pplayer) {
       player_load(pplayer, pplayer->player_no, file, improvement_order,
 		  improvement_order_size, technology_order,
