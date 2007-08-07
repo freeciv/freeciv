@@ -3277,7 +3277,6 @@ bool load_command(struct connection *caller, char *filename, bool check)
 
   game_load(&file);
   send_server_settings(NULL);
-  init_available_nations();
   section_file_check_unused(&file, arg);
   section_file_free(&file);
 
