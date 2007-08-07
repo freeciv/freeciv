@@ -410,7 +410,7 @@ if test x$client != xno; then
   if test "$client" = ftwl ; then
       AC_MSG_CHECKING([will compile gui-ftwl])
       AC_MSG_RESULT([yes])
-      CLIENT_CFLAGS="$CLIENT_FLAGS $FTWL_FLAGS"
+      CLIENT_CFLAGS="$CLIENT_CFLAGS $FTWL_FLAGS"
       CLIENT_LIBS="$CLIENT_LIBS $FTWL_LIBS"
   fi
 
