@@ -60,7 +60,6 @@ stamp-h1
 stamp-h.in
 tags
 undep.sh
-x.m4
 civmanual
 freeciv.spec
 tolua
