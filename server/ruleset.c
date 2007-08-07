@@ -124,6 +124,10 @@ static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
 
+static bool nation_has_initial_tech(struct nation_type *pnation,
+                                    Tech_type_id tech);
+static bool sanity_check_ruleset_data(void);
+
 /**************************************************************************
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
@@ -3544,6 +3548,8 @@ void load_rulesets(void)
   load_ruleset_effects(&effectfile);
   load_ruleset_game();
 
+  sanity_check_ruleset_data();
+
   precalc_tech_data();
 
   script_free();
@@ -3586,4 +3592,93 @@ void send_rulesets(struct conn_list *dest)
 
   lsend_packet_thaw_hint(dest);
   conn_list_do_unbuffer(dest);
+}
+
+/**************************************************************************
+  Does nation have tech initially?
+**************************************************************************/
+static bool nation_has_initial_tech(struct nation_type *pnation,
+                                    Tech_type_id tech)
+{
+  int i;
+
+  /* See if it's given as global init tech */
+  for (i = 0;
+       i < MAX_NUM_TECH_LIST && game.rgame.global_init_techs[i] != A_LAST;
+       i++) {
+    if (game.rgame.global_init_techs[i] == tech) {
+      return TRUE;
+    }
+  }
+
+  /* See if it's given as national init tech */
+  for (i = 0;
+       i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
+       i++) {
+    if (pnation->init_techs[i] == tech) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Some more sanity checking once all rulesets are loaded. These check
+  for some cross-referencing which was impossible to do while only one
+  party was loaded in load_ruleset_xxx()
+
+  Returns TRUE if everything ok.
+**************************************************************************/
+static bool sanity_check_ruleset_data(void)
+{
+  /* Check that all players can have their initial techs */
+  nations_iterate(pnation) {
+    int i;
+
+    /* Check global initial techs */
+    for (i = 0;
+         i < MAX_NUM_TECH_LIST && game.rgame.global_init_techs[i] != A_LAST;
+         i++) {
+      Tech_type_id tech = game.rgame.global_init_techs[i];
+      if (!tech_exists(tech)) {
+        freelog(LOG_FATAL, "Tech %s does not exist, but is initial "
+                           "tech for everyone.",
+                advance_rule_name(tech));
+        exit(EXIT_FAILURE);
+      }
+      if (advances[tech].root_req != A_NONE
+          && !nation_has_initial_tech(pnation, advances[tech].root_req)) {
+        /* Nation has no root_req for tech */
+        freelog(LOG_FATAL, "Tech %s is initial for everyone, but %s has "
+                           "no root_req for it.",
+                advance_rule_name(tech),
+                nation_rule_name(pnation));
+        exit(EXIT_FAILURE);
+      }
+    }
+
+    /* Check national initial techs */
+    for (i = 0;
+         i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
+         i++) {
+      Tech_type_id tech = pnation->init_techs[i];
+      if (!tech_exists(tech)) {
+        freelog(LOG_FATAL, "Tech %s does not exist, but is tech for %s.",
+                advance_rule_name(tech), nation_rule_name(pnation));
+        exit(EXIT_FAILURE);
+      }
+      if (advances[tech].root_req != A_NONE
+          && !nation_has_initial_tech(pnation, advances[tech].root_req)) {
+        /* Nation has no root_req for tech */
+        freelog(LOG_FATAL, "Tech %s is initial for %s, but they have "
+                           "no root_req for it.",
+                advance_rule_name(tech),
+                nation_rule_name(pnation));
+        exit(EXIT_FAILURE);
+      }
+    }
+  } players_iterate_end;
+
+  return TRUE;
 }
