@@ -965,6 +965,7 @@ struct packet_ruleset_control {
   int terrain_count;
   int resource_count;
   int num_specialist_types;
+  char prefered_tileset[MAX_LEN_NAME];
 };
 
 struct packet_single_want_hack_req {

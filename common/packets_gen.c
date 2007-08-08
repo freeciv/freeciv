@@ -27047,7 +27047,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 9);
+BV_DEFINE(packet_ruleset_control_100_fields, 10);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -27143,6 +27143,9 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->num_specialist_types = readin;
     }
   }
+  if (BV_ISSET(fields, 9)) {
+    dio_get_string(&din, real_packet->prefered_tileset, sizeof(real_packet->prefered_tileset));
+  }
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -27166,6 +27169,229 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
 
   if (!*hash) {
     *hash = hash_new(hash_packet_ruleset_control_100, cmp_packet_ruleset_control_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->num_unit_types != real_packet->num_unit_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->num_impr_types != real_packet->num_impr_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (old->num_tech_types != real_packet->num_tech_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->government_count != real_packet->government_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (old->nation_count != real_packet->nation_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (old->styles_count != real_packet->styles_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
+
+  differ = (old->terrain_count != real_packet->terrain_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 6);}
+
+  differ = (old->resource_count != real_packet->resource_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
+  differ = (old->num_specialist_types != real_packet->num_specialist_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
+  differ = (strcmp(old->prefered_tileset, real_packet->prefered_tileset) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 9);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->num_unit_types);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_uint8(&dout, real_packet->num_impr_types);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_uint8(&dout, real_packet->num_tech_types);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint8(&dout, real_packet->government_count);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->nation_count);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_put_uint8(&dout, real_packet->styles_count);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_put_uint8(&dout, real_packet->terrain_count);
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_put_uint8(&dout, real_packet->resource_count);
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_put_uint8(&dout, real_packet->num_specialist_types);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_put_string(&dout, real_packet->prefered_tileset);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+#define hash_packet_ruleset_control_101 hash_const
+
+#define cmp_packet_ruleset_control_101 cmp_const
+
+BV_DEFINE(packet_ruleset_control_101_fields, 9);
+
+static struct packet_ruleset_control *receive_packet_ruleset_control_101(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_control_101_fields fields;
+  struct packet_ruleset_control *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_control *clone;
+  RECEIVE_PACKET_START(packet_ruleset_control, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_control_101, cmp_packet_ruleset_control_101);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_unit_types = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_impr_types = readin;
+    }
+  }
+  if (BV_ISSET(fields, 2)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_tech_types = readin;
+    }
+  }
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->government_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 4)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->nation_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 5)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->styles_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 6)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->terrain_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 7)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->resource_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 8)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_specialist_types = readin;
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_control_101(struct connection *pc, const struct packet_ruleset_control *packet)
+{
+  const struct packet_ruleset_control *real_packet = packet;
+  packet_ruleset_control_101_fields fields;
+  struct packet_ruleset_control *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_CONTROL];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_CONTROL);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_control_101, cmp_packet_ruleset_control_101);
   }
   BV_CLR_ALL(fields);
 
@@ -27268,8 +27494,10 @@ static void ensure_valid_variant_packet_ruleset_control(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if(TRUE) {
+  } else if((has_capability("PreferedTileset", pc->capability) && has_capability("PreferedTileset", our_capability))) {
     variant = 100;
+  } else if(!(has_capability("PreferedTileset", pc->capability) && has_capability("PreferedTileset", our_capability))) {
+    variant = 101;
   } else {
     die("unknown variant");
   }
@@ -27292,6 +27520,7 @@ struct packet_ruleset_control *receive_packet_ruleset_control(struct connection 
 
   switch(pc->phs.variant[PACKET_RULESET_CONTROL]) {
     case 100: return receive_packet_ruleset_control_100(pc, type);
+    case 101: return receive_packet_ruleset_control_101(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
@@ -27312,6 +27541,7 @@ int send_packet_ruleset_control(struct connection *pc, const struct packet_rules
 
   switch(pc->phs.variant[PACKET_RULESET_CONTROL]) {
     case 100: return send_packet_ruleset_control_100(pc, packet);
+    case 101: return send_packet_ruleset_control_101(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
