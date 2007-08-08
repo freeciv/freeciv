@@ -492,6 +492,19 @@ bool can_unit_do_autosettlers(const struct unit *punit)
 }
 
 /**************************************************************************
+  Return if given activity really is in game. For savegame compatibility
+  activity enum cannot be reordered and there is holes in it.
+**************************************************************************/
+bool is_real_activity(enum unit_activity activity)
+{
+  /* ACTIVITY_FORTRESS and ACTIVITY_AIRBASE are deprecated */
+  return activity != ACTIVITY_FORTRESS
+    && activity != ACTIVITY_AIRBASE
+    && activity != ACTIVITY_UNKNOWN
+    && activity != ACTIVITY_PATROL_UNUSED;
+}
+
+/**************************************************************************
   Return the name of the activity in a static buffer.
 **************************************************************************/
 const char *get_activity_text(enum unit_activity activity)

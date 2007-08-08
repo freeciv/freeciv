@@ -183,14 +183,18 @@ struct unit {
 #define MOVE_COST_RAIL 0
 #define MOVE_COST_ROAD 1
 
+bool is_real_activity(enum unit_activity activity);
+
 /* Iterates over the types of unit activity. */
 #define activity_type_iterate(act)					    \
 {									    \
   Activity_type_id act;			         			    \
 									    \
-  for (act = 0; act < ACTIVITY_LAST; act++) {
+  for (act = 0; act < ACTIVITY_LAST; act++) {				    \
+    if (is_real_activity(act)) {
 
 #define activity_type_iterate_end     					    \
+    }									    \
   }									    \
 }
 
