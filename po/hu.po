@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-04 18:43+0300\n"
-"PO-Revision-Date: 2007-08-06 21:49+0100\n"
+"PO-Revision-Date: 2007-08-08 22:24+0100\n"
 "Last-Translator: Daniel Tar <bdanee88@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -429,9 +429,8 @@ msgid "Gold Found in Hut"
 msgstr "Aranyat találtáltak a kunyhóban"
 
 #: common/events.c:104
-#, fuzzy
 msgid "Killed by Barbarians in a Hut"
-msgstr "Kunyhó: Az egységet barbárok ölték meg a kunyhóban"
+msgstr "Az egységet barbárok ölték meg egy kunyhóban"
 
 #: common/events.c:105
 msgid "Mercenaries Found in Hut"
@@ -659,23 +658,20 @@ msgid "Novice"
 msgstr "Újonc"
 
 #: common/player.c:41
-#, fuzzy
 msgid "Easy"
-msgstr "könnyû"
+msgstr "Könnyû"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Hard"
-msgstr "nehéz"
+msgstr "Nehéz"
 
 #: common/player.c:42
 msgid "Cheating"
 msgstr "Csalás"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Experimental"
-msgstr "Európai"
+msgstr "Profi"
 
 #: common/player.c:718
 msgid "?attitude:Genocidal"
@@ -876,9 +872,8 @@ msgid "Land"
 msgstr "Szárazföld"
 
 #: common/terrain.c:45
-#, fuzzy
 msgid "Oceanic"
-msgstr "Óceán"
+msgstr "Óceáni"
 
 #: common/terrain.c:444
 #: common/terrain.c:635
@@ -2962,7 +2957,7 @@ msgstr "Játék: Nagykövetséget alapítottál %s városában."
 #: server/diplhand.c:350
 #, c-format
 msgid "%s allowed you to create an embassy!"
-msgstr ""
+msgstr "%s engedélyezte számodra egy nagykövetség létrehozását!"
 
 #: server/diplhand.c:366
 #, c-format
@@ -4239,9 +4234,8 @@ msgid "If set to a positive value, then AI players will be automatically created
 msgstr "Ha a játék elkezdésekor aifill-nél kevesebb játékos van, akkor annyi MI játékos keletkezik, hogy a játékosok száma éppen aifill-re egészítõdjön ki."
 
 #: server/settings.c:447
-#, fuzzy
 msgid "List of players' initial units"
-msgstr "Jelenlévõ egységek ki_listázása"
+msgstr "Kezdeti egységek listája"
 
 #: server/settings.c:448
 msgid ""
@@ -5172,9 +5166,9 @@ msgid "Metaserver is now [%s]."
 msgstr "A metaszerver mostantól [%s]."
 
 #: server/stdinhand.c:658
-#, fuzzy, c-format
+#, c-format
 msgid "Server id: %s"
-msgstr "Szerveroperátor: %s"
+msgstr "Szerver azonosító: %s"
 
 #: server/stdinhand.c:741
 #, fuzzy
@@ -5213,18 +5207,16 @@ msgid "That name exceeds the maximum of %d chars."
 msgstr "Ez a név túllépi a megengedett %d karakter hosszt."
 
 #: server/stdinhand.c:865
-#, fuzzy
 msgid "That name is not allowed."
-msgstr "Milyen típusú kapcsolódások engedélyezettek"
+msgstr "Ez a név nem engedélyezett."
 
 #: server/stdinhand.c:871
 msgid "A player already exists by that name."
 msgstr "Van már ilyen nevû játékos."
 
 #: server/stdinhand.c:877
-#, fuzzy
 msgid "A user already exists by that name."
-msgstr "Van már ilyen nevû játékos."
+msgstr "Már van ilyen nevû játékos."
 
 #: server/stdinhand.c:903
 #, c-format
@@ -5350,9 +5342,8 @@ msgid "You already have command access level '%s' or better."
 msgstr "Már rendelkezel '%s' vagy magasabb parancselérési szinttel."
 
 #: server/stdinhand.c:1380
-#, fuzzy
 msgid "Someone else already is game organizer."
-msgstr "Sajnálom, ez már valaki másnak a neve."
+msgstr "Már van a játéknak szervezõje."
 
 #: server/stdinhand.c:1385
 #, c-format
@@ -5486,9 +5477,8 @@ msgid "All options with non-default values"
 msgstr "az '=' jelentése: a beállítás az alapértelmezett értékén van"
 
 #: server/stdinhand.c:1926
-#, fuzzy
 msgid "All options"
-msgstr "Helyi beállítások"
+msgstr "Összes beállítás"
 
 #: server/stdinhand.c:1929
 #, fuzzy
@@ -5590,7 +5580,7 @@ msgstr "Egész számot kell megadni."
 #: server/stdinhand.c:2201
 #, c-format
 msgid "No such vote (%d)."
-msgstr ""
+msgstr "Nincs ilyen szavazat (%d)."
 
 #: server/stdinhand.c:2205
 #, fuzzy, c-format
@@ -5633,9 +5623,8 @@ msgstr ""
 
 #: server/stdinhand.c:2330
 #: server/stdinhand.c:2360
-#, fuzzy
 msgid "Value 2 & 3 must be integer."
-msgstr "Egész számot kell megadni."
+msgstr "A 2. és 3. értéknek számnak kell lennie."
 
 #: server/stdinhand.c:2334
 #: server/stdinhand.c:2364
@@ -5935,7 +5924,7 @@ msgstr "Használat: load <fájlnév>"
 #: server/stdinhand.c:3235
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
-msgstr ""
+msgstr "Nem található mentett játék vagy forgatókönyv \"%s\" néven."
 
 #: server/stdinhand.c:3250
 #, fuzzy
@@ -6155,7 +6144,7 @@ msgstr ", kész"
 
 #: server/stdinhand.c:4095
 msgid ", not ready"
-msgstr ""
+msgstr ", nincs kész"
 
 #: server/stdinhand.c:4103
 #, c-format
@@ -7144,29 +7133,24 @@ msgstr "Munkások: Boldog, Elégedett, Boldogtalan, Lázadó"
 
 #: client/cityrepdata.c:468
 #: client/cityrepdata.c:470
-#, fuzzy
 msgid "Best"
-msgstr "."
+msgstr "Legjobb"
 
 #: client/cityrepdata.c:468
-#, fuzzy
 msgid "attack"
-msgstr "Támadás:"
+msgstr "támadás"
 
 #: client/cityrepdata.c:469
-#, fuzzy
 msgid "Best attacking units"
-msgstr "Automata támadás a légi egységek ellen"
+msgstr "Legjobb támadóegységek"
 
 #: client/cityrepdata.c:470
-#, fuzzy
 msgid "defense"
-msgstr "Védekezés:"
+msgstr "védekezés"
 
 #: client/cityrepdata.c:471
-#, fuzzy
 msgid "Best defending units"
-msgstr "Jelenlévõ egységek ki_listázása"
+msgstr "Legjobb védekezõegységek"
 
 #: client/cityrepdata.c:472
 #: client/cityrepdata.c:474
@@ -7262,9 +7246,8 @@ msgid "?Food surplus [short]:+F"
 msgstr "?Food surplus [short]:+É"
 
 #: client/cityrepdata.c:491
-#, fuzzy
 msgid "Surplus: Food"
-msgstr "Többlet: Élelem"
+msgstr "Többlet: élelem"
 
 #: client/cityrepdata.c:493
 #, fuzzy
@@ -7290,9 +7273,8 @@ msgid "?Trade surplus [short]:+T"
 msgstr "?Trade surplus [short]:+K"
 
 #: client/cityrepdata.c:497
-#, fuzzy
 msgid "Surplus: Trade"
-msgstr "Többlet: Kereskedelem"
+msgstr "Többlet: kereskedelem"
 
 #: client/cityrepdata.c:499
 msgid "?Trade loss (corruption) [short]:-T"
@@ -7327,29 +7309,24 @@ msgid "?Gold:G"
 msgstr "?Arany:A"
 
 #: client/cityrepdata.c:505
-#, fuzzy
 msgid "Economy: Gold"
-msgstr "Gazdaság: Arany"
+msgstr "Gazdaság: arany"
 
 #: client/cityrepdata.c:507
-#, fuzzy
 msgid "?Luxury:L"
 msgstr "?Luxus:L"
 
 #: client/cityrepdata.c:507
-#, fuzzy
 msgid "Economy: Luxury"
-msgstr "Gazdaság: Luxus"
+msgstr "Gazdaság: luxus"
 
 #: client/cityrepdata.c:509
-#, fuzzy
 msgid "?Science:S"
 msgstr "?Tudomány:T"
 
 #: client/cityrepdata.c:509
-#, fuzzy
 msgid "Economy: Science"
-msgstr "Gazdaság: Tudomány"
+msgstr "Gazdaság: tudomány"
 
 #: client/cityrepdata.c:511
 msgid "?number_trade_routes:n"
@@ -7393,14 +7370,12 @@ msgid "Currently Building"
 msgstr "Most épül"
 
 #: client/cityrepdata.c:569
-#, fuzzy
 msgid "?specialist:S"
-msgstr "?Speciálisok:S"
+msgstr "?Szakember:S"
 
 #: client/cityrepdata.c:572
-#, fuzzy
 msgid "Specialists"
-msgstr "Speciálisok"
+msgstr "Szakemberek"
 
 #: client/civclient.c:198
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -7603,14 +7578,12 @@ msgid "Failed looking up host."
 msgstr "Nem sikerült megtalálni a szervert"
 
 #: client/clinet.c:210
-#, fuzzy
 msgid "Connection in progress."
-msgstr "Kapcsolódás"
+msgstr "Kapcsolódás folyamatban."
 
 #: client/clinet.c:284
-#, fuzzy
 msgid "Disconnected from server."
-msgstr "Elszakadás a szervertõl"
+msgstr "A kapcsolat megszakadt a szerverrel."
 
 #: client/clinet.c:466
 #, c-format
@@ -7858,7 +7831,7 @@ msgstr "* %s lehetõvé válik.\n"
 #: client/helpdata.c:773
 #, c-format
 msgid "* Belongs to %s units class.\n"
-msgstr ""
+msgstr "* %s osztályba tartozik.\n"
 
 #: client/helpdata.c:777
 #, c-format
@@ -7908,7 +7881,7 @@ msgstr "* Csak barbárok építhetnek ilyet.\n"
 #: client/helpdata.c:815
 #, c-format
 msgid "* Never has a home city.\n"
-msgstr ""
+msgstr "* Nincs szülõvárosa.\n"
 
 #: client/helpdata.c:819
 #, c-format
@@ -7941,7 +7914,7 @@ msgstr "  * %s egységek\n"
 #: client/helpdata.c:844
 #, c-format
 msgid "* Can establish trade routes (must travel to target city and must be at least 9 tiles [in Manhattan distance] from this unit's home city).\n"
-msgstr ""
+msgstr "* Képes kereskedelmi utakat létesíteni (el kell utaznia a célvárosba, aminek legalább 9 kockányi távolságra kell lennie).\n"
 
 #: client/helpdata.c:851
 #, c-format
@@ -8175,8 +8148,7 @@ msgstr "?or:, "
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "* Az egységnek a városban kell lennie, vagy egy %s létesítményen %d körön belül.\n"
 
 #: client/helpdata.c:1100
 #, c-format
@@ -8271,7 +8243,7 @@ msgstr ""
 #: client/helpdata.c:1286
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
-msgstr ""
+msgstr "* A normális ár %d-szeresét kell fizetned az egyégeid fenntartásához.\n"
 
 #. TRANS: %s is the output type, like 'shields' or 'gold'. There
 #. * is currently no way to control the singular/plural version of
@@ -8349,12 +8321,12 @@ msgstr ""
 #: client/helpdata.c:1362
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Szenátussal rendelkezik, ami megakadályozhatja a hadüzenet küldését.\n"
 
 #: client/helpdata.c:1366
 #, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr ""
+msgstr "* Partizánokat eredményez, ha a város az ellenség kezére kerül.\n"
 
 #: client/helpdata.c:1370
 #, c-format
@@ -9519,9 +9491,9 @@ msgstr ""
 
 #. TRANS: "Republic of the Polish"
 #: client/text.c:1113
-#, fuzzy, c-format
+#, c-format
 msgid "%s of the %s"
-msgstr "A(z) %2$s   (Államforma: %1$s)"
+msgstr "%2$s %1$s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1123
@@ -12723,7 +12695,7 @@ msgstr "Vezetõ"
 
 #: client/gui-gtk-2.0/pages.c:1646
 msgid "Choose Saved Game to Load"
-msgstr ""
+msgstr "Válaszd ki a betöltendõ játékot"
 
 #: client/gui-gtk-2.0/pages.c:1738
 msgid "Choose Saved Game to _Load:"
@@ -15357,12 +15329,12 @@ msgstr ""
 #: client/gui-sdl/graphics.c:1012
 #, c-format
 msgid "Unable to initialize SDL library: %s"
-msgstr ""
+msgstr "Nem sikerült betölteni az SDL könyvtárat: %s"
 
 #: client/gui-sdl/graphics.c:1021
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
-msgstr ""
+msgstr "Nem sikerült betölteni az SDL_ttf könyvtárat: %s"
 
 #: client/gui-sdl/graphics.c:1058
 #, c-format
@@ -18438,17 +18410,19 @@ msgstr "Ha a védõ veszít, és nincs városon vagy erõdön belül, akkor a védõ mezõj
 
 #: data/helpdata.txt:1079
 msgid " Modifying Combat Rules"
-msgstr ""
+msgstr " Csataszabályok módosítása"
 
 #: data/helpdata.txt:1080
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
+"Csataszabályok módosítása\n"
+"----------------------"
 
 #: data/helpdata.txt:1081
 msgid "The combat rules described before can be modified by changing the following modifiers in game.ruleset, section combat_rules: "
-msgstr ""
+msgstr "A fent leírt csataszabályok az alábbi változók átírásával módosíthatóak a game.ruleset fájlban, a combat_rules részben: "
 
 #: data/helpdata.txt:1084
 msgid " - killstack. (default: 1) If set to 0, units in the same tile of a lost defender are not destroyed. "
