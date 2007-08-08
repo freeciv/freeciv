@@ -1918,7 +1918,18 @@ static void player_load(struct player *plr, int plrno,
   pnation = find_nation_by_rule_name(p);
 
   if (pnation != NO_NATION_SELECTED) {
-    player_set_nation(plr, pnation);
+
+    /* 2.1 and earlier savegames have same nation for both barbarian players.
+     * Reassign correct nations for such barbarians. */
+    enum barbarian_type nat_barb_type = nation_barbarian_type(pnation);
+
+    if ((!is_land_barbarian(plr) && nat_barb_type != SEA_BARBARIAN)
+        || (is_land_barbarian(plr) && nat_barb_type != LAND_BARBARIAN)) {
+      freelog(LOG_ERROR, "Reassigning barbarian nation for %s", plr->name);
+      plr->nation = NO_NATION_SELECTED;
+    } else {
+      player_set_nation(plr, pnation);
+    }
   } else {
     plr->nation = NO_NATION_SELECTED;
   }
