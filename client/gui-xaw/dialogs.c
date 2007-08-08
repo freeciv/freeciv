@@ -1223,7 +1223,7 @@ void create_races_dialog(struct player *pplayer)
   }
   for (i = 0; i < nation_count(); i++) {
     if (races_toggles_to_nations[i]) {
-      nation_idx_to_race_toggle[races_toggles_to_nations[i]->index] = i;
+      nation_idx_to_race_toggle[nation_index(races_toggles_to_nations[i])] = i;
     }
   }
 
@@ -1272,6 +1272,7 @@ void races_toggles_set_sensitive(void)
 
   nations_iterate(nation) {
     int selected_nation = -1;
+    int this_index = nation_index(nation);
 
     if (!is_nation_playable(nation)) {
       continue;
@@ -1283,7 +1284,7 @@ void races_toggles_set_sensitive(void)
 
     if (races_buttons_get_current() != -1) {
       selected_nation =
-	  races_toggles_to_nations[races_buttons_get_current()]->index;
+        nation_index(races_toggles_to_nations[races_buttons_get_current()]);
     }
 
     freelog(LOG_DEBUG, "  [%d]: %d = %s",
@@ -1291,12 +1292,12 @@ void races_toggles_set_sensitive(void)
 	    nation_number(nation),
 	    nation_rule_name(nation));
 
-    if (nation_index == selected_nation) {
+    if (this_index == selected_nation) {
       XawToggleUnsetCurrent(races_toggles[0]);
-      XtSetSensitive(races_toggles[nation_idx_to_race_toggle[nation_index]], FALSE);
+      XtSetSensitive(races_toggles[nation_idx_to_race_toggle[this_index]], FALSE);
       select_random_race();
     } else {
-      XtSetSensitive(races_toggles[nation_idx_to_race_toggle[nation_index]], FALSE);
+      XtSetSensitive(races_toggles[nation_idx_to_race_toggle[this_index]], FALSE);
     }
   } nations_iterate_end;
 }
@@ -1504,7 +1505,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
 
   dsend_packet_nation_select_req(&aconnection,
 				 player_number(races_player),
-				 races_toggles_to_nations[selected_index]->index,
+				 nation_index(races_toggles_to_nations[selected_index]),
 				 selected_sex ? FALSE : TRUE,
 				 dp, city_style_idx[selected_style]);
   popdown_races_dialog();

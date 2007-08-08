@@ -738,7 +738,8 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   the proper way to do this is probably something like what Civ II does.
   (One food/shield/mask drawn N times, possibly one top of itself. -- SKi 
 **************************************************************************/
-void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
+void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm,
+                                   int *upkeep_cost, int happy_cost)
 {
   struct canvas store = {pm};
  
@@ -750,7 +751,8 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 		 tileset_tile_height(tileset)
 		 + tileset_small_sprite_height(tileset));
 
-  put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset));
+  put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset),
+                         upkeep_cost, happy_cost);
 }
 
 /**************************************************************************

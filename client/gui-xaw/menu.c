@@ -448,7 +448,7 @@ void update_menus(void)
       } unit_list_iterate_end;
 
       tinfo = ptile->terrain;
-      ttype = tinfo->index;
+      ttype = terrain_index(tinfo);
       can_build = !(ptile->city);
 
       if (units_have_flag(punits, F_CITIES, TRUE)) {
@@ -462,7 +462,7 @@ void update_menus(void)
       }
 
       if ((tinfo->irrigation_result != T_NONE)
-	  && (tinfo->irrigation_result->index != ttype)) {
+	  && (terrain_index(tinfo->irrigation_result) != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
 			  terrain_name_translation(tinfo->irrigation_result));
@@ -477,7 +477,7 @@ void update_menus(void)
       }
 
       if ((tinfo->mining_result != T_NONE)
-	  && (tinfo->mining_result->index != ttype)) {
+	  && (terrain_index(tinfo->mining_result) != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_CHANGE_TO,
 			  terrain_name_translation(tinfo->mining_result));
@@ -487,7 +487,7 @@ void update_menus(void)
       }
 
       if ((tinfo->transform_result != T_NONE)
-	  && (tinfo->transform_result->index != ttype)) {
+	  && (terrain_index(tinfo->transform_result) != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TRANSFORM_TO,
 			  terrain_name_translation(tinfo->transform_result));

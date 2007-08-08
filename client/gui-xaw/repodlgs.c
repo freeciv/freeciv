@@ -1087,16 +1087,28 @@ void activeunits_report_dialog_update(void)
     free((void *) report_title);
 
     memset(unitarray, '\0', sizeof(unitarray));
-    unit_list_iterate(game.player_ptr->units, punit) {
-      Unit_type_id uti = utype_index(unit_type(punit));
-      (unitarray[uti].active_count)++;
-      if (punit->homecity) {
-	unitarray[uti].upkeep_shield += punit->upkeep[O_SHIELD];
-	unitarray[uti].upkeep_food += punit->upkeep[O_FOOD];
-	/* TODO: gold upkeep */
-      }
-    }
-    unit_list_iterate_end;
+
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      int free_upkeep[O_COUNT];
+
+      output_type_iterate(o) {
+        free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o),
+                                               EFT_UNIT_UPKEEP_FREE_PER_CITY);
+      } output_type_iterate_end;
+
+      unit_list_iterate(game.player_ptr->units, punit) {
+        int upkeep_cost[O_COUNT];
+        Unit_type_id uti = utype_index(unit_type(punit));
+
+        city_unit_upkeep(punit, upkeep_cost, free_upkeep);
+        (unitarray[uti].active_count)++;
+        if (punit->homecity) {
+          /* TODO: upkeep for generic output types. */
+          unitarray[uti].upkeep_shield += upkeep_cost[O_SHIELD];
+          unitarray[uti].upkeep_food += upkeep_cost[O_FOOD];
+        }
+      } unit_list_iterate_end;
+    } city_list_iterate_end;
     city_list_iterate(game.player_ptr->cities,pcity) {
       if (pcity->production.is_unit) {
 	(unitarray[pcity->production.value].building_count)++;
