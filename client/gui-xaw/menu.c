@@ -390,9 +390,9 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_TRANSFORM, 
 			   can_units_do_activity(punits, ACTIVITY_TRANSFORM));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_FORTRESS, 
-			   can_units_do_activity(punits, ACTIVITY_FORTRESS));
+			   can_units_do_base_gui(punits, BASE_GUI_FORTRESS));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AIRBASE,
-			   can_units_do_activity(punits, ACTIVITY_AIRBASE));
+			   can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_POLLUTION, 
 			   can_units_do_activity(punits, ACTIVITY_POLLUTION)
 			   || can_units_do(punits, can_unit_paradrop));
