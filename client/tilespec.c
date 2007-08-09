@@ -4996,10 +4996,16 @@ struct color_system *get_color_system(const struct tileset *t)
 void tileset_use_prefered_theme(const struct tileset *t)
 {
   int i;
+    
   for (i = 0; i < t->num_prefered_themes; i++) {
-    freelog(LOG_DEBUG, "trying theme \"%s\".", t->prefered_themes[i]);
-    if (load_theme(t->prefered_themes[i])) {
-      return;
+    if (strcmp(t->prefered_themes[i], default_theme_name)) {
+      if (popup_theme_suggestion_dialog(t->prefered_themes[i])) {
+        freelog(LOG_DEBUG, "trying theme \"%s\".", t->prefered_themes[i]);
+        if (load_theme(t->prefered_themes[i])) {
+          sz_strlcpy(default_theme_name, t->prefered_themes[i]);
+          return;
+        }
+      }
     }
   }
   freelog(LOG_VERBOSE, "The tileset doesn't specify prefered themes or "

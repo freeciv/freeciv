@@ -1568,6 +1568,16 @@ void popup_tileset_suggestion_dialog(void)
 {
 }
 
+/**************************************************************************
+  Tileset (modpack) has suggested loading certain theme. Confirm from
+  user and load.
+**************************************************************************/
+bool popup_theme_suggestion_dialog(const char *theme_name)
+{
+  /* Don't load */
+  return FALSE;
+}
+
 /********************************************************************** 
   This function is called when the client disconnects or the game is
   over.  It should close all dialog windows for that game.

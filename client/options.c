@@ -41,6 +41,7 @@
 #include "overview_common.h"
 #include "plrdlg_common.h"
 #include "servers.h"
+#include "themes_common.h"
 #include "tilespec.h"
 
 /** Defaults for options normally on command line **/
@@ -49,6 +50,7 @@ char default_user_name[512] = "\0";
 char default_server_host[512] = "localhost";
 int  default_server_port = DEFAULT_SOCK_PORT;
 char default_metaserver[512] = METALIST_ADDR;
+char default_theme_name[512] = "\0";
 char default_tileset_name[512] = "\0";
 char default_sound_set_name[512] = "stdsounds";
 char default_sound_plugin_name[512] = "\0";
@@ -132,6 +134,10 @@ static client_option common_options[] = {
 		    "you restart Freeciv.  Changing this is the same as "
 		    "using the -P command-line option."),
 		 COC_SOUND, get_soundplugin_list, NULL),
+  GEN_STR_OPTION(default_theme_name, N_("Theme"),
+		 N_("By changing this option you change the active theme."),
+		 COC_GRAPHICS,
+		 get_themes_list, theme_reread_callback),
   GEN_STR_OPTION(default_tileset_name, N_("Tileset"),
 		 N_("By changing this option you change the active tileset. "
 		    "This is the same as using the -t command-line "

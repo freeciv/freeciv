@@ -91,6 +91,7 @@ libguiclient_a_SOURCES = \
 	spaceshipdlg.h  \
 	sprite.c	\
 	sprite.h	\
+	theme_dlg.c	\
 	themes.c	\
 	tileset_dlg.c	\
 	wldlg.c		\

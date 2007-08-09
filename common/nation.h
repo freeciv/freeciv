@@ -16,6 +16,7 @@
 #include "shared.h"		/* MAX_LEN_NAME */
 
 #include "fc_types.h"
+#include "terrain.h"            /* MAX_NUM_TERRAINS */
 
 #define MAX_NUM_TECH_GOALS 10
 

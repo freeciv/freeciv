@@ -923,7 +923,6 @@ static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
   GtkWidget *frame, *table, *table2, *paned, *sw, *text;
-  GtkStyle *style;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -1125,13 +1124,6 @@ static void setup_widgets(void)
 
   /* turn done */
   turn_done_button = gtk_button_new_with_label(_("Turn Done"));
-
-  /* the turn done button must have its own style. otherwise when we flash
-     the turn done button other widgets may flash too. */
-  if (!(style = gtk_rc_get_style(turn_done_button))) {
-    style = turn_done_button->style;
-  }
-  gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
 
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 10, 2, 3);
 
