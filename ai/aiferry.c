@@ -393,6 +393,14 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
   struct pf_map *search_map;
   int ferryboat = punit->ai.ferryboat; /*currently assigned ferry*/
 
+  /* We may end calling pf_destroy_path for *path if it's not NULL.
+   * Most likely you are passing garbage or path you don't want
+   * destroyed if this assert fails.
+   * Don't try to be clever and pass 'fallback' path that will be returned
+   * if no path is found. Instead check for NULL return value and then
+   * use fallback path in calling function. */
+  assert(path == NULL || *path == NULL);
+
   assert(0 < ferryboat
 	 || FERRY_NONE == ferryboat
 	 || FERRY_WANTED == ferryboat);
@@ -445,6 +453,9 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
 		     aunit->tile->y,
 		     aunit->moves_left);
 	    if (path) {
+             if (*path) {
+                pf_destroy_path(*path);
+              }
 	      *path = pf_next_get_path(search_map);
 	    }
             best_turns = turns;
