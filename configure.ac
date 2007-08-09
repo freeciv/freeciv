@@ -190,33 +190,29 @@ fi
 dnl I18n support
 ALL_LINGUAS="ar cs ca da de el en_GB es et fa fi fr he hu it ja lt nl nb 
 no pl pt pt_BR ro ru sv uk zh_CN"
-AM_GNU_GETTEXT(,need-ngettext)
+AM_GLIB_GNU_GETTEXT
 
-dnl AM_GNU_GETTEXT doesn't have all features we want
+dnl AM_GLIB_GNU_GETTEXT doesn't have all features we want
 dnl or they don't behave correctly.
 dnl Old gettext binaries don't understand plurals. (ngettext, msgid_plural)
 dnl and there are some problems with missing ngettext.
 
 if test "$USE_NLS" = "yes"; then
-  dnl nls_cv_force_use_gnu_gettext is set by AM_GNU_GETTEXT
-  dnl it is "yes" when --with-included-gettext is given
 
-  if test "$nls_cv_force_use_gnu_gettext" != "yes"; then
-    have_working_ngettext=0
-    AC_CHECK_LIB(c, ngettext,
-      [AC_MSG_CHECKING(whether libc's ngettext works at runtime)
-       FC_CHECK_NGETTEXT_RUNTIME(,have_working_ngettext=1,)],)
+  have_working_ngettext=0
+  AC_CHECK_LIB(c, ngettext,
+    [AC_MSG_CHECKING(whether libc's ngettext works at runtime)
+     FC_CHECK_NGETTEXT_RUNTIME(,have_working_ngettext=1,)],)
 
-    if test "$have_working_ngettext" = "0"; then
-      AC_CHECK_LIB(intl, ngettext,
-        [AC_MSG_CHECKING(whether libintl's ngettext works at runtime)
-         FC_CHECK_NGETTEXT_RUNTIME("-lintl",have_working_ngettext=1,)],)
-    fi
+  if test "$have_working_ngettext" = "0"; then
+    AC_CHECK_LIB(intl, ngettext,
+      [AC_MSG_CHECKING(whether libintl's ngettext works at runtime)
+       FC_CHECK_NGETTEXT_RUNTIME("-lintl",have_working_ngettext=1,)],)
+  fi
 
-    if test "$have_working_ngettext" = "0"; then
-      AC_MSG_ERROR(I haven't found a working ngettext function in your system. 
-Try --with-included-gettext or --disable-nls. Read ABOUT-NLS.)
-    fi
+  if test "$have_working_ngettext" = "0"; then
+    AC_MSG_ERROR(I haven't found a working ngettext function in your system. 
+Try --disable-nls. Read ABOUT-NLS.)
   fi
 
   if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
@@ -783,7 +779,6 @@ AC_CONFIG_FILES([Makefile
 	  server/generator/Makefile
 	  server/scripting/Makefile
 	  manual/Makefile
-	  intl/Makefile
 	  po/Makefile.in
 	  doc/Makefile
 	  doc/man/Makefile

@@ -29,7 +29,7 @@ DSUBDIRS =
 endif
 
 
-SUBDIRS=	$(DSUBDIRS) intl utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS)
+SUBDIRS=	$(DSUBDIRS) utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) po doc $(MSUBDIRS)
 
 EXTRA_DIST=	autogen.sh 			\
 		config.mac.h			\
@@ -100,4 +100,3 @@ src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
 
 .PHONY: src-check
-
