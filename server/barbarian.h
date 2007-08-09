@@ -32,5 +32,6 @@
 bool unleash_barbarians(struct tile *ptile);
 void summon_barbarians(void);
 bool is_land_barbarian(struct player *pplayer);
+bool is_sea_barbarian(struct player *pplayer);
 
 #endif  /* FC__BARBARIAN_H */

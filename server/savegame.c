@@ -1923,7 +1923,7 @@ static void player_load(struct player *plr, int plrno,
      * Reassign correct nations for such barbarians. */
     enum barbarian_type nat_barb_type = nation_barbarian_type(pnation);
 
-    if ((!is_land_barbarian(plr) && nat_barb_type != SEA_BARBARIAN)
+    if ((is_sea_barbarian(plr) && nat_barb_type != SEA_BARBARIAN)
         || (is_land_barbarian(plr) && nat_barb_type != LAND_BARBARIAN)) {
       freelog(LOG_ERROR, "Reassigning barbarian nation for %s", plr->name);
       plr->nation = NO_NATION_SELECTED;

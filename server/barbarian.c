@@ -68,7 +68,7 @@ bool is_land_barbarian(struct player *pplayer)
 /**************************************************************************
   Is player a sea barbarian?
 **************************************************************************/
-static bool is_sea_barbarian(struct player *pplayer)
+bool is_sea_barbarian(struct player *pplayer)
 {
   return (pplayer->ai.barbarian_type == SEA_BARBARIAN);
 }
