@@ -347,6 +347,9 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
                      unit_type(aunit)->name, aunit->id, aunit->tile->x,
 		     aunit->tile->y);
 	    if (path) {
+             if (*path) {
+                pf_destroy_path(*path);
+              }
 	      *path = pf_next_get_path(search_map);
 	    }
             best_turns = turns;
