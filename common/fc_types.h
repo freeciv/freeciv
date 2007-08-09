@@ -175,14 +175,16 @@ enum direction8 {
 #define DIR8_COUNT DIR8_LAST
 
 /* AI levels. This must correspond to ai_level_names[] in player.c */
-enum ai_level { AI_LEVEL_AWAY         = 1,
-                AI_LEVEL_NOVICE       = 2,
-                AI_LEVEL_EASY         = 3,
-                AI_LEVEL_NORMAL       = 5,
-                AI_LEVEL_HARD         = 7,
-                AI_LEVEL_CHEATING     = 8,
-                AI_LEVEL_EXPERIMENTAL = 10,
-                AI_LEVEL_LAST};
+enum ai_level {
+  AI_LEVEL_AWAY         = 1,
+  AI_LEVEL_NOVICE       = 2,
+  AI_LEVEL_EASY         = 3,
+  AI_LEVEL_NORMAL       = 5,
+  AI_LEVEL_HARD         = 7,
+  AI_LEVEL_CHEATING     = 8,
+  AI_LEVEL_EXPERIMENTAL = 10,
+  AI_LEVEL_LAST
+};
 
 #define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
 
@@ -218,5 +220,58 @@ struct name_translation
   const char *translated;		/* string doesn't need freeing */
   char vernacular[MAX_LEN_NAME];	/* original string for comparisons */
 };
+
+/* Originally in requirements.h, bumped up and revised to unify with
+ * city_production and worklists.  Functions remain in requirements.c
+ */
+typedef union {
+  struct government *govern;
+  struct nation_type *nation;
+  struct specialist *specialist;
+  struct terrain *terrain;
+  struct unit_class *uclass;
+  struct unit_type *utype;
+
+    Tech_type_id tech;                  /* source tech */
+    Impr_type_id building;              /* source building */
+
+  enum ai_level ai_level;
+  int minsize;
+  Output_type_id outputtype;
+  int terrainclass;			/* enum terrain_class */
+  int special;				/* enum tile_special_type */
+  int unitclassflag;			/* enum unit_class_flag_id */
+  int unitflag;				/* enum unit_flag_id */
+} universals_u;
+
+/* The kind of universals_u (value_union_type was req_source_type).
+ * Note: order must correspond to universal_names[] in requirements.c.
+ */
+enum universals_n {
+  VUT_NONE,
+  VUT_ADVANCE,
+  VUT_GOVERNMENT,
+  VUT_IMPROVEMENT,
+  VUT_SPECIAL,
+  VUT_TERRAIN,
+  VUT_NATION,
+  VUT_UTYPE,
+  VUT_UTFLAG,
+  VUT_UCLASS,
+  VUT_UCFLAG,
+  VUT_OTYPE,
+  VUT_SPECIALIST,
+  VUT_MINSIZE,		/* Minimum size: at city range means city size */
+  VUT_AI_LEVEL,		/* AI level of the player */
+  VUT_TERRAINCLASS,	/* More generic terrain type, currently "Land" or "Ocean" */
+  VUT_LAST
+};
+
+struct universal {
+  universals_u value;
+  enum universals_n kind;		/* formerly .type and .is_unit */
+};
+
+struct ai_choice;			/* incorporates universals_u */
 
 #endif /* FC__FC_TYPES_H */

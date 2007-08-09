@@ -255,6 +255,7 @@ enum unit_flag_id find_unit_flag_by_rule_name(const char *s);
 enum unit_role_id find_unit_role_by_rule_name(const char *s);
 
 const char *unit_flag_rule_name(enum unit_flag_id id);
+const char *unit_role_rule_name(enum unit_role_id id);
 
 /* Functions to operate on various flag and roles. */
 void role_unit_precalcs(void);
@@ -281,8 +282,10 @@ struct unit_class *find_unit_class_by_rule_name(const char *s);
 const char *uclass_rule_name(const struct unit_class *pclass);
 const char *uclass_name_translation(struct unit_class *pclass);
 
-bool uclass_has_flag(const struct unit_class *punitclass, int flag);
+bool uclass_has_flag(const struct unit_class *punitclass,
+		     enum unit_class_flag_id flag);
 enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s);
+const char *unit_class_flag_rule_name(enum unit_class_flag_id id);
 
 /* Ancillary routines */
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,

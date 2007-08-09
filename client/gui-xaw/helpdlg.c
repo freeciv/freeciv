@@ -747,7 +747,7 @@ static void help_update_improvement(const struct help_item *pitem,
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       xaw_set_label(help_improvement_req_data,
-		    get_req_source_text(&preq->source,
+		    universal_name_translation(&preq->source,
 					req_buf, sizeof(req_buf)));
       i++;
       break;
@@ -797,7 +797,7 @@ static void help_update_wonder(const struct help_item *pitem,
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       xaw_set_label(help_improvement_req_data,
-                   get_req_source_text(&preq->source,
+                   universal_name_translation(&preq->source,
                                        req_buf, sizeof(req_buf)));
       i++;
       break;
@@ -910,7 +910,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
        /* FIXME: need a more general mechanism for this, since this
         * helptext needs to be shown in all possible req source types. */
       requirement_vector_iterate(&improvement_by_number(impr_t)->reqs, preq) {
-	if (preq->source.type == REQ_BUILDING
+	if (VUT_IMPROVEMENT == preq->source.kind
 	    && preq->source.value.building == i) {
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		  improvement_name_translation(impr_t));

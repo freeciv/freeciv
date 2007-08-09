@@ -107,8 +107,8 @@ static const char *help_tlabel_name[4][5] =
     { N_("Mine Rslt/Time:"),	NULL, NULL, N_("Trans. Rslt/Time:"),	NULL }
 };
 
-#define REQ_NONE _("None")
-#define REQ_NEVER _("(Never)")
+#define REQ_LABEL_NONE _("None")
+#define REQ_LABEL_NEVER _("(Never)")
 
 static void create_help_dialog(void);
 static void help_update_dialog(const struct help_item *pitem);
@@ -294,8 +294,8 @@ static void help_hyperlink_callback(GtkWidget *w)
   /* FIXME: May be able to skip, or may need to modify, advances[A_NONE]
      below, depending on which i18n is done elsewhere.
   */
-  if (strcmp(s, REQ_NEVER) != 0
-      && strcmp(s, REQ_NONE) != 0
+  if (strcmp(s, REQ_LABEL_NEVER) != 0
+      && strcmp(s, REQ_LABEL_NONE) != 0
       && strcmp(s, advance_name_translation(A_NONE)) != 0)
     select_help_item_string(s, type);
 }
@@ -690,7 +690,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   if (which<game.control.num_impr_types) {
     struct impr_type *imp = improvement_by_number(which);
-    char *req = REQ_NONE;
+    const char *req = REQ_LABEL_NONE;
     char req_buf[512];
 
     sprintf(buf, "%d", impr_build_shield_cost(which));
@@ -703,7 +703,7 @@ static void help_update_improvement(const struct help_item *pitem,
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
     requirement_vector_iterate(&imp->reqs, preq) {
-      req = get_req_source_text(&preq->source, req_buf, sizeof(req_buf));
+      req = universal_name_translation(&preq->source, req_buf, sizeof(req_buf));
       break;
     } requirement_vector_iterate_end;
     gtk_label_set_text(GTK_LABEL(help_ilabel[5]), req);
@@ -712,7 +712,7 @@ static void help_update_improvement(const struct help_item *pitem,
   else {
     gtk_label_set_text(GTK_LABEL(help_ilabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), "0");
-    gtk_label_set_text(GTK_LABEL(help_ilabel[5]), REQ_NEVER);
+    gtk_label_set_text(GTK_LABEL(help_ilabel[5]), REQ_LABEL_NEVER);
 /*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3);*/
   }
   gtk_widget_show(help_itable);
@@ -747,7 +747,7 @@ static void help_update_wonder(const struct help_item *pitem,
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       gtk_label_set_text(GTK_LABEL(help_wlabel[3 + i]),
-			 get_req_source_text(&preq->source,
+			 universal_name_translation(&preq->source,
 					     req_buf, sizeof(req_buf)));
       i++;
       break;
@@ -756,15 +756,15 @@ static void help_update_wonder(const struct help_item *pitem,
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
 			 advance_name_for_player(game.player_ptr, imp->obsolete_by));
     } else {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_NEVER);
+      gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NEVER);
     }
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
     /* can't find wonder */
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), "0");
-    gtk_label_set_text(GTK_LABEL(help_wlabel[3]), REQ_NEVER);
-    gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_NONE);
+    gtk_label_set_text(GTK_LABEL(help_wlabel[3]), REQ_LABEL_NEVER);
+    gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NONE);
 /*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3); */
   }
   gtk_widget_show(help_wtable);
@@ -802,7 +802,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     sprintf(buf, "%d", (int)sqrt((double)utype->vision_radius_sq));
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), buf);
     if(utype->tech_requirement==A_LAST) {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_NEVER);
+      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_LABEL_NEVER);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
 			 advance_name_for_player(game.player_ptr,
@@ -810,7 +810,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     }
 /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_NONE);
+      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_LABEL_NONE);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]),
 			 utype_name_translation(utype->obsoleted_by));
@@ -842,9 +842,9 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), "0");
 
-    gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_NEVER);
+    gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_LABEL_NEVER);
 /*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);*/
-    gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_NONE);
+    gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_LABEL_NONE);
 
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
@@ -931,7 +931,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
       requirement_vector_iterate(&improvement_by_number(j)->reqs, preq) {
-	if (preq->source.type == REQ_TECH
+	if (VUT_ADVANCE == preq->source.kind
 	    && preq->source.value.tech == i) {
 	  hbox = gtk_hbox_new(FALSE, 0);
 	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);

@@ -266,7 +266,7 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
 	struct impr_type *building = improvement_by_number(iimpr);
 
 	requirement_vector_iterate(&building->reqs, preq) {
-	  if (preq->source.type == REQ_TECH
+	  if (VUT_ADVANCE == preq->source.kind
 	      && (get_invention(pplayer, preq->source.value.tech)
 		!= TECH_KNOWN)) {
 	    int iimprtech = preq->source.value.tech;

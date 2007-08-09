@@ -284,6 +284,7 @@ int count_special_near_tile(const struct tile *ptile,
 
 /* Functions to operate on a terrain class. */
 enum terrain_class find_terrain_class_by_rule_name(const char *name);
+const char *terrain_class_rule_name(enum terrain_class tclass);
 const char *terrain_class_name_translation(enum terrain_class tclass);
 
 bool terrain_belongs_to_class(const struct terrain *pterrain,

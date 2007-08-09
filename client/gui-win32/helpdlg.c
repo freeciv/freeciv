@@ -489,7 +489,7 @@ static void help_update_improvement(const struct help_item *pitem,
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       SetWindowText(help_ilabel[5 + i],
-		    get_req_source_text(&preq->source, req_buf,
+		    universal_name_translation(&preq->source, req_buf,
 		    sizeof(req_buf)));
       i++;
     } requirement_vector_iterate_end;
@@ -532,7 +532,7 @@ static void help_update_wonder(const struct help_item *pitem,
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       SetWindowText(help_ilabel[5 + i],
-		    get_req_source_text(&preq->source, req_buf,
+		    universal_name_translation(&preq->source, req_buf,
 		    sizeof(req_buf)));
       i++;
     } requirement_vector_iterate_end;
@@ -771,9 +771,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
      requirement_vector_iterate(&improvement_by_number(j)->reqs, req) {
-	if (req->source.type == REQ_NONE) {
+	if (VUT_NONE == req->source.kind) {
 	  break;
-	} else if (req->source.type == REQ_BUILDING
+	} else if (VUT_IMPROVEMENT == req->source.kind
 		   && req->source.value.building == i) {
 	  hbox = fcwin_hbox_new(helpdlg_win, FALSE);
 	  fcwin_box_add_box(helpdlg_page_vbox, hbox, FALSE, FALSE, 5);

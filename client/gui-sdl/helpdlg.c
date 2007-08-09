@@ -359,7 +359,7 @@ void popup_impr_info(Impr_type_id impr)
      * definition. */
     requirement_vector_iterate(&pImpr_type->reqs, preq) {
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	            get_req_source_text(&preq->source, buffer, sizeof(buffer)),
+	            universal_name_translation(&preq->source, buffer, sizeof(buffer)),
                     adj_font(12), WF_RESTORE_BACKGROUND);
       pBuf->ID = MAX_ID - preq->source.value.tech;
       pBuf->string16->fgcol = *get_tech_color(preq->source.value.tech);
@@ -1091,7 +1091,8 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   gov_count = 0;
   government_iterate(gov) {
     requirement_vector_iterate(&(gov->reqs), preq) {
-      if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
+      if (VUT_ADVANCE == preq->source.kind
+       && (preq->source.value.tech == tech)) {
                   
         pBuf = create_iconlabel_from_chars(adj_surf(get_government_surface(gov)),
                 pWindow->dst,
@@ -1115,7 +1116,8 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
     requirement_vector_iterate(&(improvement_by_number(imp)->reqs), preq) {
-      if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech)) {
+      if (VUT_ADVANCE == preq->source.kind
+       && preq->source.value.tech == tech) {
         pSurf = get_building_surface(imp);
         pBuf = create_iconlabel_from_chars(
                 zoomSurface(pSurf,

@@ -64,8 +64,8 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
   memset(count, 0, sizeof(count));
 
   impr_type_iterate(id) {
-    struct req_source source = {
-      .type = REQ_BUILDING,
+    struct universal source = {
+      .kind = VUT_IMPROVEMENT,
       .value = {.building = id}
     };
 
@@ -92,7 +92,7 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_OUTPUT_WASTE_PCT:
       case EFT_UPKEEP_FREE:
 	requirement_list_iterate(peffect->reqs, preq) {
-	  if (preq->source.type == REQ_BUILDING
+	  if (VUT_IMPROVEMENT == preq->source.kind
 	      && preq->source.value.building == id) {
             if (ai->impr_calc[id] != AI_IMPR_CALCULATE_FULL) {
 	      ai->impr_calc[id] = AI_IMPR_CALCULATE;
@@ -107,7 +107,7 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_OUTPUT_PER_TILE:
       case EFT_OUTPUT_INC_TILE:
 	requirement_list_iterate(peffect->reqs, preq) {
-	  if (preq->source.type == REQ_BUILDING
+	  if (VUT_IMPROVEMENT == preq->source.kind
 	      && preq->source.value.building == id) {
 	    ai->impr_calc[id] = AI_IMPR_CALCULATE_FULL;
 	    if (preq->range > ai->impr_range[id]) {

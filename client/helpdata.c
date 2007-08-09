@@ -48,7 +48,7 @@ static const char * const help_type_names[] = {
   "Techs", "Terrain", "Governments", NULL
 };
 
-#define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))
+/*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
 
 #define SPECLIST_TAG help
 #define SPECLIST_TYPE struct help_item
@@ -157,68 +157,75 @@ static void insert_generated_table(const char* name, char* outbuf)
 static void insert_requirement(struct requirement *req,
 			       char *buf, size_t bufsz)
 {
-  switch (req->source.type) {
-  case REQ_NONE:
+  switch (req->source.kind) {
+  case VUT_NONE:
     return;
-  case REQ_LAST:
-    break;
-  case REQ_TECH:
+  case VUT_ADVANCE:
     cat_snprintf(buf, bufsz, _("Requires the %s technology.\n\n"),
 		 advance_name_for_player(game.player_ptr, req->source.value.tech));
     return;
-  case REQ_GOV:
+  case VUT_GOVERNMENT:
     cat_snprintf(buf, bufsz, _("Requires the %s government.\n\n"),
 		 government_name_translation(req->source.value.govern));
     return;
-  case REQ_BUILDING:
+  case VUT_IMPROVEMENT:
     cat_snprintf(buf, bufsz, _("Requires the %s building.\n\n"),
 		 improvement_name_translation(req->source.value.building));
     return;
-  case REQ_SPECIAL:
+  case VUT_SPECIAL:
     cat_snprintf(buf, bufsz, _("Requires the %s terrain special.\n\n"),
 		 special_name_translation(req->source.value.special));
     return;
-  case REQ_TERRAIN:
+  case VUT_TERRAIN:
     cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n\n"),
 		 terrain_name_translation(req->source.value.terrain));
     return;
-  case REQ_NATION:
+  case VUT_NATION:
     cat_snprintf(buf, bufsz, _("Requires the %s nation.\n\n"),
 		 nation_name_translation(req->source.value.nation));
     return;
-  case REQ_UNITTYPE:
+  case VUT_UTYPE:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-		 utype_name_translation(req->source.value.unittype));
+		 utype_name_translation(req->source.value.utype));
     return;
-  case REQ_UNITFLAG:
-    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
+  case VUT_UTFLAG:
+    cat_snprintf(buf, bufsz, _("Only applies to \"%s\" units.\n\n"),
+                /* flag names are never translated */
                 unit_flag_rule_name(req->source.value.unitflag));
     return;
-  case REQ_UNITCLASS:
+  case VUT_UCLASS:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
-		 uclass_name_translation(req->source.value.unitclass));
+		 uclass_name_translation(req->source.value.uclass));
     return;
-  case REQ_OUTPUTTYPE:
+  case VUT_UCFLAG:
+    cat_snprintf(buf, bufsz, _("Only applies to \"%s\" units.\n\n"),
+                /* flag names are never translated */
+                unit_class_flag_rule_name(req->source.value.unitclassflag));
+    return;
+  case VUT_OTYPE:
     cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
 		 get_output_name(req->source.value.outputtype));
     return;
-  case REQ_SPECIALIST:
+  case VUT_SPECIALIST:
     cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
 		 specialist_name_translation(req->source.value.specialist));
     return;
-  case REQ_MINSIZE:
+  case VUT_MINSIZE:
     cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n\n"),
 		 req->source.value.minsize);
     return;
-  case REQ_AI:
+  case VUT_AI_LEVEL:
     cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n\n"),
-                 ai_level_name(req->source.value.level));
+                 ai_level_name(req->source.value.ai_level));
     return;
-   case REQ_TERRAINCLASS:
+  case VUT_TERRAINCLASS:
      cat_snprintf(buf, bufsz, _("Requires %s terrain.\n\n"),
                   terrain_class_name_translation(req->source.value.terrainclass));
      return;
-  }
+  case VUT_LAST:
+  default:
+    break;
+  };
   assert(0);
 }
 
@@ -232,7 +239,7 @@ static void insert_requirement(struct requirement *req,
   type.  Note this doesn't handle effects but rather production
   requirements (currently only building reqs).
 ****************************************************************************/
-static void insert_allows(struct req_source *psource,
+static void insert_allows(struct universal *psource,
 			  char *buf, size_t bufsz)
 {
   buf[0] = '\0';
@@ -248,14 +255,14 @@ static void insert_allows(struct req_source *psource,
     struct impr_type *building = improvement_by_number(impr_id);
 
     requirement_vector_iterate(&building->reqs, req) {
-      if (are_req_sources_equal(psource, &req->source)) {
+      if (are_universals_equal(psource, &req->source)) {
 	char coreq_buf[512] = "";
 
 	requirement_vector_iterate(&building->reqs, coreq) {
-	  if (!are_req_sources_equal(psource, &coreq->source)) {
+	  if (!are_universals_equal(psource, &coreq->source)) {
 	    char buf2[512];
 
-	    COREQ_APPEND(get_req_source_text(&coreq->source,
+	    COREQ_APPEND(universal_name_translation(&coreq->source,
 					     buf2, sizeof(buf2)));
 	  }
 	} requirement_vector_iterate_end;
@@ -649,8 +656,8 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
 			const char *user_text)
 {
   struct impr_type *imp;
-  struct req_source source = {
-    .type = REQ_BUILDING,
+  struct universal source = {
+    .kind = VUT_IMPROVEMENT,
     .value = {.building = which}
   };
 
@@ -1081,8 +1088,8 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 *****************************************************************/
 void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
 {
-  struct req_source source = {
-    .type = REQ_TECH,
+  struct universal source = {
+    .kind = VUT_ADVANCE,
     .value = {.tech = i}
   };
   assert(buf&&user_text);
@@ -1168,9 +1175,9 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
 void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
 		      const char *user_text)
 {
-  struct req_source source = {
-    .type = REQ_TERRAIN,
-    .value = {.terrain = pterrain}
+  struct universal source = {
+    .kind = VUT_TERRAIN,
+    .value.terrain = pterrain
   };
   buf[0] = '\0';
   
@@ -1224,9 +1231,9 @@ void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
 void helptext_government(char *buf, size_t bufsz, struct government *gov,
 			 const char *user_text)
 {
-  struct req_source source = {
-    .type = REQ_GOV,
-    .value = {.govern = gov }
+  struct universal source = {
+    .kind = VUT_GOVERNMENT,
+    .value.govern = gov
   };
 
   buf[0] = '\0';
@@ -1251,14 +1258,20 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
 
     /* Grab output type, if there is one */
     requirement_list_iterate(peffect->reqs, preq) {
-      if (preq->source.type == REQ_OUTPUTTYPE) {
+      switch (preq->source.kind) {
+      case VUT_OTYPE:
         output_type = preq->source.value.outputtype;
         output = get_output_name(output_type);
-      } else if (preq->source.type == REQ_UNITCLASS) {
-        unitclass = preq->source.value.unitclass;
-      } else if (preq->source.type == REQ_UNITFLAG) {
+        break;
+      case VUT_UCLASS:
+        unitclass = preq->source.value.uclass;
+        break;
+      case VUT_UTFLAG:
         unitflag = preq->source.value.unitflag;
-      }
+        break;
+      default:
+        break;
+      };
     } requirement_list_iterate_end;
 
     switch (peffect->type) {

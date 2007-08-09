@@ -42,7 +42,9 @@ enum tile_special_type infrastructure_specials[] = {
 };
 
 static const char *terrain_class_names[] = {
-  N_("Land"), N_("Oceanic") };
+  N_("Land"),
+  N_("Oceanic")
+};
 
 /* T_UNKNOWN isn't allowed here. */
 #define SANITY_CHECK_TERRAIN(pterrain)					\
@@ -768,7 +770,21 @@ enum terrain_class find_terrain_class_by_rule_name(const char *name)
 }
 
 /****************************************************************************
-  Return the translated name of the given terrain class
+  Return the (untranslated) rule name of the given terrain class.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *terrain_class_rule_name(enum terrain_class tclass)
+{
+  if (tclass < 0 || tclass >= TC_LAST) {
+    return NULL;
+  }
+
+  return terrain_class_names[tclass];
+}
+
+/****************************************************************************
+  Return the (translated) name of the given terrain class.
+  You don't have to free the return pointer.
 ****************************************************************************/
 const char *terrain_class_name_translation(enum terrain_class tclass)
 {

@@ -339,7 +339,7 @@ void ai_best_government(struct player *pplayer)
       /* FIXME: handle reqs other than technologies. */
       dist = 0;
       requirement_vector_iterate(&gov->reqs, preq) {
-	if (preq->source.type == REQ_TECH) {
+	if (VUT_ADVANCE == preq->source.kind) {
 	  dist += MAX(1, num_unknown_techs_for_goal(pplayer,
 						    preq->source.value.tech));
 	}
@@ -373,7 +373,7 @@ void ai_best_government(struct player *pplayer)
       /* FIXME: handle reqs other than technologies. */
       ai->goal.govt.req = A_NONE;
       requirement_vector_iterate(&gov->reqs, preq) {
-	if (preq->source.type == REQ_TECH) {
+	if (VUT_ADVANCE == preq->source.kind) {
 	  ai->goal.govt.req = preq->source.value.tech;
 	  break;
 	}

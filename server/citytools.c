@@ -2131,7 +2131,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
         }
 
 	requirement_vector_iterate(&improvement_by_number(impr)->reqs, preq) {
-	  if (preq->source.type == REQ_TERRAIN
+	  if (VUT_TERRAIN == preq->source.kind
 	      && !is_req_active(city_owner(pcity), pcity, NULL,
 				NULL, NULL, NULL, NULL,
 				preq)) {

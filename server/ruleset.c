@@ -274,12 +274,12 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 	"%s.%s%d.negated", sec, sub, j);
 
     req = req_from_str(type, range, survives, negated, name);
-    if (req.source.type == REQ_LAST) {
+    if (VUT_LAST == req.source.kind) {
       /* Error.  Log it, clear the req and continue. */
       freelog(LOG_ERROR,
           "\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
           filename, sec, type, name);
-      req.source.type = REQ_NONE;
+      req.source.kind = VUT_NONE;
     }
 
     requirement_vector_append(&list, &req);

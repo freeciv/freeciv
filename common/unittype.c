@@ -45,7 +45,7 @@ static const char *unit_class_flag_names[] = {
   "CollectRansom", "ZOC", "CanFortify"
 };
 static const char *flag_names[] = {
-  "TradeRoute" ,"HelpWonder", "IgZOC", "NonMil", "IgTer", 
+  "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
   "AEGIS", "AttackAny", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
@@ -169,7 +169,8 @@ int utype_happy_cost(const struct unit_type *ut,
 /**************************************************************************
   Return whether the given unit class has the flag.
 **************************************************************************/
-bool uclass_has_flag(const struct unit_class *punitclass, int flag)
+bool uclass_has_flag(const struct unit_class *punitclass,
+		     enum unit_class_flag_id flag)
 {
   assert(flag >= 0 && flag < UCF_LAST);
   return BV_ISSET(punitclass->flags, flag);
@@ -521,6 +522,16 @@ enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s)
 }
 
 /**************************************************************************
+  Return the (untranslated) rule name of the unit class flag.
+**************************************************************************/
+const char *unit_class_flag_rule_name(enum unit_class_flag_id id)
+{
+  assert(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST);
+  assert(id >= 0 && id < UCF_LAST);
+  return unit_class_flag_names[id];
+}
+
+/**************************************************************************
   Convert flag names to enum; case insensitive;
   returns F_LAST if can't match.
 **************************************************************************/
@@ -543,6 +554,8 @@ enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
 **************************************************************************/
 const char *unit_flag_rule_name(enum unit_flag_id id)
 {
+  assert(ARRAY_SIZE(flag_names) == F_LAST);
+  assert(id >= 0 && id < F_LAST);
   return flag_names[id];
 }
 
@@ -562,6 +575,16 @@ enum unit_role_id find_unit_role_by_rule_name(const char *s)
     }
   }
   return L_LAST;
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the unit role.
+**************************************************************************/
+const char *unit_role_rule_name(enum unit_role_id id)
+{
+  assert(ARRAY_SIZE(role_names) == L_LAST);
+  assert(id >= 0 && id < L_LAST);
+  return role_names[id];
 }
 
 /**************************************************************************

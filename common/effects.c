@@ -247,20 +247,20 @@ static struct effect_list *get_effects(enum effect_type effect_type)
 
   Note: currently only buildings and governments are supported.
 **************************************************************************/
-struct effect_list *get_req_source_effects(struct req_source *psource)
+struct effect_list *get_req_source_effects(struct universal *psource)
 {
   int type, value;
 
-  req_source_get_values(psource, &type, &value);
+  universal_extraction(psource, &type, &value);
 
   switch (type) {
-  case REQ_GOV:
+  case VUT_GOVERNMENT:
     if (value >= 0 && value < government_count()) {
       return ruleset_cache.reqs.govs[value];
     } else {
       return NULL;
     }
-  case REQ_BUILDING:
+  case VUT_IMPROVEMENT:
     if (value >= 0 && value < game.control.num_impr_types) {
       return ruleset_cache.reqs.buildings[value];
     } else {
@@ -511,7 +511,7 @@ Impr_type_id ai_find_source_building(struct player *pplayer,
    * building instead. */
   effect_list_iterate(get_effects(effect_type), peffect) {
     requirement_list_iterate(peffect->reqs, preq) {
-      if (preq->source.type == REQ_BUILDING) {
+      if (VUT_IMPROVEMENT == preq->source.kind) {
 	Impr_type_id id = preq->source.value.building;
 
 	if (can_player_build_improvement(pplayer, id)
@@ -535,10 +535,10 @@ Impr_type_id ai_find_source_building(struct player *pplayer,
 **************************************************************************/
 bool building_has_effect(Impr_type_id id, enum effect_type effect)
 {
-  struct req_source source;
+  struct universal source;
   struct effect_list *plist;
 
-  source.type = REQ_BUILDING;
+  source.kind = VUT_IMPROVEMENT;
   source.value.building = id;
 
   plist = get_req_source_effects(&source);
@@ -661,7 +661,7 @@ bool is_effect_useful(const struct player *target_player,
     return FALSE;
   }
   requirement_list_iterate(peffect->reqs, preq) {
-    if (preq->source.type == REQ_BUILDING
+    if (VUT_IMPROVEMENT == preq->source.kind
 	&& preq->source.value.building == source) {
       continue;
     }
@@ -681,10 +681,10 @@ bool is_effect_useful(const struct player *target_player,
 **************************************************************************/
 bool is_building_replaced(const struct city *pcity, Impr_type_id building)
 {
-  struct req_source source;
+  struct universal source;
   struct effect_list *plist;
 
-  source.type = REQ_BUILDING;
+  source.kind = VUT_IMPROVEMENT;
   source.value.building = building;
 
   /* A capitalization production is never redundant. */
@@ -994,9 +994,9 @@ int get_current_construction_bonus(const struct city *pcity,
     Impr_type_id id = pcity->production.value;
     int power = 0;
 
-    struct req_source source = {
-      .type = REQ_BUILDING,
-      .value = {.building = id}
+    struct universal source = {
+      .kind = VUT_IMPROVEMENT,
+      .value.building = id
     };
     struct effect_list *plist = get_req_source_effects(&source);
 
@@ -1033,7 +1033,7 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
       mystrlcat(buf, "+", buf_len);
     }
 
-    get_req_source_text(&preq->source,
+    universal_name_translation(&preq->source,
 			buf + strlen(buf), buf_len - strlen(buf));
   } requirement_list_iterate_end;
 }

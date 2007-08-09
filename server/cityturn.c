@@ -762,8 +762,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	  if (!is_req_active(pplayer, pcity, NULL, NULL, NULL, NULL, NULL,
 			     preq)) {
 	    known = TRUE;
-	    switch (preq->source.type) {
-	    case REQ_TECH:
+	    switch (preq->source.kind) {
+	    case VUT_ADVANCE:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "tech %s not yet available.  Postponing..."),
@@ -776,7 +776,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_tech");
 	      break;
-	    case REQ_BUILDING:
+	    case VUT_IMPROVEMENT:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "need to have %s first.  Postponing..."),
@@ -789,7 +789,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_building");
 	      break;
-	    case REQ_GOV:
+	    case VUT_GOVERNMENT:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "it needs %s government.  Postponing..."),
@@ -801,7 +801,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_government");
 	      break;
-	    case REQ_SPECIAL:
+	    case VUT_SPECIAL:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "%s special is required.  Postponing..."),
@@ -813,7 +813,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_special");
 	      break;
-	    case REQ_TERRAIN:
+	    case VUT_TERRAIN:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "%s terrain is required.  Postponing..."),
@@ -825,7 +825,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_terrain");
 	      break;
-	    case REQ_NATION:
+	    case VUT_NATION:
 	      /* FIXME: we should skip rather than postpone, since we'll
 	       * never be able to meet this req... */
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -839,14 +839,15 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_nation");
 	      break;
-	    case REQ_UNITTYPE:
-	    case REQ_UNITFLAG:
-	    case REQ_UNITCLASS:
-	    case REQ_OUTPUTTYPE:
-	    case REQ_SPECIALIST:
+	    case VUT_UTYPE:
+	    case VUT_UTFLAG:
+	    case VUT_UCLASS:
+	    case VUT_UCFLAG:
+	    case VUT_OTYPE:
+	    case VUT_SPECIALIST:
 	      /* Will only happen with a bogus ruleset. */
 	      break;
-	    case REQ_MINSIZE:
+	    case VUT_MINSIZE:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "city must be of size %d.  Postponing..."),
@@ -858,7 +859,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_minsize");
 	      break;
-            case REQ_AI:
+            case VUT_AI_LEVEL:
               /* FIXME: we should skip rather than postpone, since we'll
                * never be able to meet this req... */
               notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -867,13 +868,13 @@ static bool worklist_change_build_target(struct player *pplayer,
                               "Postponing..."),
                             pcity->name,
                             get_impr_name_ex(pcity, building->index),
-                            ai_level_name(preq->source.value.level));
+                            ai_level_name(preq->source.value.ai_level));
               script_signal_emit("building_cant_be_built", 3,
                                  API_TYPE_BUILDING_TYPE, building,
                                  API_TYPE_CITY, pcity,
                                  API_TYPE_STRING, "need_ai_level");
 	      break;
-	    case REQ_TERRAINCLASS:
+	    case VUT_TERRAINCLASS:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "%s terrain class is required.  Postponing..."),
@@ -885,8 +886,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_terrainclass");
 	      break;
-	    case REQ_NONE:
-	    case REQ_LAST:
+	    case VUT_NONE:
+	    case VUT_LAST:
+	    default:
 	      assert(0);
 	      break;
 	    }

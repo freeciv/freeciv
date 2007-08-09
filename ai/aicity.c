@@ -685,10 +685,10 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
     const bool active = is_req_active(pplayer, pcity, pimpr,
                                       pcity->tile, NULL, NULL, NULL, preq);
 
-    if (preq->source.type == REQ_TECH && !active) {
+    if (VUT_ADVANCE == preq->source.kind && !active) {
       /* Found a missing technology requirement for this improvement. */
       tech_vector_append(&needed_techs, &preq->source.value.tech);
-    } else if (preq->source.type == REQ_BUILDING && !active) {
+    } else if (VUT_IMPROVEMENT == preq->source.kind && !active) {
       /* Found a missing improvement requirement for this improvement.
        * For example, in the default ruleset a city must have a Library
        * before it can have a University. */
@@ -786,8 +786,8 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
   bool capital = is_capital(pcity);
   bool can_build = TRUE;
   struct government *gov = government_of_player(pplayer);
-  struct req_source source = {
-    .type = REQ_BUILDING,
+  struct universal source = {
+    .kind = VUT_IMPROVEMENT,
     .value = {.building = pimpr->index}
   };
   const bool is_coinage = improvement_has_flag(pimpr->index, IF_GOLD);
@@ -853,7 +853,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
     requirement_list_iterate(peffect->reqs, preq) {
       /* Check if all the requirements for the currently evaluated effect
        * are met, except for having the building that we are evaluating. */
-      if (preq->source.type == REQ_BUILDING
+      if (VUT_IMPROVEMENT == preq->source.kind
 	  && preq->source.value.building == pimpr->index) {
 	mypreq = preq;
         continue;
@@ -861,7 +861,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
       if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, NULL, NULL,
 			 preq)) {
 	active = FALSE;
-	if (preq->source.type == REQ_TECH) {
+	if (VUT_ADVANCE == preq->source.kind) {
 	  /* This missing requirement is a missing tech requirement.
 	   * This will be for some additional effect
 	   * (For example, in the default ruleset, Mysticism increases

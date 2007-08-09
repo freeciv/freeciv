@@ -322,8 +322,8 @@ static bool manual_command(void)
         requirement_vector_iterate(&pimpr->reqs, req) {
           char text[512];
           fprintf(doc, "%s<br/>",
-                  req->source.type != REQ_NONE
-                  ? get_req_source_text(&req->source, text, sizeof(text))
+                  VUT_NONE != req->source.kind
+                  ? universal_name_translation(&req->source, text, sizeof(text))
                   : _("None"));
         } requirement_vector_iterate_end;
 

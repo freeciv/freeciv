@@ -2379,7 +2379,8 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       pImpr = improvement_by_number(imp);
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
-        if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == tech_id)) {
+        if (VUT_ADVANCE == preq->source.kind
+         && preq->source.value.tech == tech_id) {
           pTmp2 = get_building_surface(imp);
           Surf_Array[w++] = zoomSurface(pTmp2, DEFAULT_ZOOM * ((float)36 / pTmp2->w), DEFAULT_ZOOM * ((float)36 / pTmp2->w), 1);
       }
@@ -2626,7 +2627,8 @@ void science_dialog_update(void)
       pImpr = improvement_by_number(imp);
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
-        if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == get_player_research(game.player_ptr)->researching)) {
+        if (VUT_ADVANCE == preq->source.kind
+         && preq->source.value.tech == get_player_research(game.player_ptr)->researching) {
           pSurf = adj_surf(get_building_surface(imp));
           alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + 1;
@@ -2704,7 +2706,8 @@ void science_dialog_update(void)
       impr_type_iterate(imp) {
         pImpr = improvement_by_number(imp);
 	requirement_vector_iterate(&pImpr->reqs, preq) {  
-          if ((preq->source.type == REQ_TECH) && (preq->source.value.tech == get_player_research(game.player_ptr)->tech_goal)) {
+          if (VUT_ADVANCE == preq->source.kind
+           && preq->source.value.tech == get_player_research(game.player_ptr)->tech_goal) {
             pSurf = adj_surf(get_building_surface(imp));
             alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + 1;

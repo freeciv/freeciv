@@ -195,7 +195,7 @@ int get_unittype_bonus(const struct player *pplayer,
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type);
 
 /* miscellaneous auxiliary effects functions */
-struct effect_list *get_req_source_effects(struct req_source *psource);
+struct effect_list *get_req_source_effects(struct universal *psource);
 bool is_effect_disabled(const struct player *target_player,
 		        const struct city *target_city,
 		        const struct impr_type *target_building,
