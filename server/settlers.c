@@ -87,7 +87,9 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 
   pcity = tile_get_city(ptile);
   if (pcity) {
-    freelog(LOG_ERROR, "%s: There is already a city at (%d, %d)!", 
+    /* This can happen for instance when there was hut at this tile
+     * and it turned in to a city when settler entered tile. */
+    freelog(LOG_DEBUG, "%s: There is already a city at (%d, %d)!", 
             pplayer->name, TILE_XY(ptile));
     return FALSE;
   }
@@ -991,10 +993,15 @@ static void auto_settler_findwork(struct player *pplayer,
       }
       if (same_pos(punit->tile, ptile)) {
         if (!ai_do_build_city(pplayer, punit)) {
-          UNIT_LOG(LOG_ERROR, punit, "could not make city on %s",
+          UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
                    tile_get_info_text(punit->tile));
           ai_unit_new_role(punit, AIUNIT_NONE, NULL);
-          return; /* Avoid infinite recursion at all costs! */
+          /* Only known way to end in here is that hut turned in to a city
+           * when settler entered tile. So this is not going to lead in any
+           * serious recursion. */
+          auto_settler_findwork(pplayer, punit, state, recursion + 1);
+
+          return;
         } else {
           return; /* We came, we saw, we built... */
         }
