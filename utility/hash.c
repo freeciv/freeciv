@@ -40,6 +40,15 @@
    qsort-type comparison function (but the hash table does not make
    use of the ordering information if the return value is non-zero).
 
+   Some constructors also accept following functions to be registered:
+
+     free_key_func: This is called when hash no longer needs key construct.
+   Note that one key construct gets freed even when it is replaced with
+   another that is considered identical by fcmp().
+
+     free_data_func: This is called when hash no longer needs data construct. 
+
+
    Implementation uses closed hashing with simple collision resolution.
    Deleted elements are marked as DELETED rather than UNUSED so that
    lookups on previously added entries work properly.
@@ -344,7 +353,7 @@ struct hash_table *hash_new_full(hash_val_fn_t fval,
 			         hash_free_fn_t free_key_func,
 			         hash_free_fn_t free_data_func)
 {
-  return hash_new_nentries_full(fval, fcmp, NULL, NULL, 0);
+  return hash_new_nentries_full(fval, fcmp, free_key_func, free_data_func, 0);
 }
 
 /**************************************************************************
