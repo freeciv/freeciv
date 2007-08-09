@@ -220,10 +220,6 @@ cd $SRCDIR
   exit 1
 }
 
-# x.252 is autoconf 2.52 compatible version of this macro, while x.213 is
-# the original autoconf 2.13 version; we must suppose 2.52 by default here
-cp m4/x.252 m4/x.m4
-
 # autoconf and autoheader version numbers must be kept in sync
 real_package_name "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 55 || DIE=1
 AUTOCONF=$REALPKGNAME
