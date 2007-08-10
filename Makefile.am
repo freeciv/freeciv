@@ -82,7 +82,6 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/sdl-client.m4		\
 		m4/sdl.m4			\
 		m4/sound.m4			\
-		m4/version.m4			\
 		m4/vsnprintf.m4			\
 		m4/win32-client.m4		\
 		m4/x.m4				\

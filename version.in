@@ -1,18 +1,17 @@
-FREECIV_VERSION_COMMENT("  Copyright (C) 2004 Freeciv team               ")
+#  Copyright (C) 2004 Freeciv team
 
-FREECIV_VERSION_COMMENT("  Programming language independent version      ")
-FREECIV_VERSION_COMMENT("  definition for freeciv. Macros used here      ")
-FREECIV_VERSION_COMMENT("  are defined differently depending on          ")
-FREECIV_VERSION_COMMENT("  language used. Don't add comments             ")
-FREECIV_VERSION_COMMENT("  specific to some language into this file.     ")
+# Version definition for Freeciv.
 
-FREECIV_VERSION_INFO(2,1,99,["-devel"])
+MAJOR_VERSION="2"
+MINOR_VERSION="1"
+PATCH_VERSION="99"
+VERSION_LABEL="-devel"
 
-FREECIV_DEVEL_VERSION(1)
-FREECIV_BETA_VERSION(0)
+IS_DEVEL_VERSION=1
+IS_BETA_VERSION=0
 
-FREECIV_NEXT_VERSION(["2.2.0"])
-FREECIV_RELEASE_MONTH(6)
+NEXT_STABLE_VERSION="2.2.0"
+RELEASE_MONTH=1
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
@@ -24,4 +23,4 @@ FREECIV_RELEASE_MONTH(6)
 #   - Avoid adding a new mandatory capbility to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING(["+Freeciv.Devel.2007.Aug.06-2"])
+NETWORK_CAPSTRING="+Freeciv.Devel.2007.Aug.06-2"
