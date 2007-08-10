@@ -69,15 +69,23 @@ options include:
 
   Strings (enclosed in "")
   ------------------------
-  options               : A capability string, currently "+tilespec3"
+  options               : A capability string, currently "+tilespec4"
   name                  : the name of the tileset
   city_names_font       : an X font string
   city_productions_font : an X font string
   main_intro_file       : GFX file for the intro graphics
   minimap_intro_file    : GFX file for the radar screen intro graphics
 
+  String vectors
+  --------------
+  prefered_themes       : List of prefered client themes to use with this
+                          tileset
+
   Integers
   --------
+  priority              : when user does not specify tileset, client
+                          automatically loads available compatible tileset
+                          with highest priority.
   normal_tile_width     : the width of terrain tiles
   normal_tile_height    : the height of terrain tiles
   small_tile_width      : the width of icon sprites
@@ -93,13 +101,11 @@ options include:
                               directions.  There are thus 256 road and 256
                               rail sprites (64 for a hex tileset).
   fogstyle              : Specifies how fog is drawn.
-                          0 : A single fog sprite is drawn on top of all
+                          0 : Code automatically adds fog.
+                          1 : A single fog sprite is drawn on top of all
                               other sprites for fogged tiles.  The
                               tx.fog sprite is used for this.
-                          1 : Each sprite for a fogged tile is drawn fogged.
-                              The tx.fog sprite may be used for the fog
-                              drawing (but clipped by the mask of the
-                              underlying sprite).
+                          2 : No fog, or fog from darkness_style = 4.
   darkness_style        : Specifies how "encroaching darkness" is drawn.
                           0 : No darkness.
                           1 : A single sprite can be split into 4 parts, each
@@ -111,10 +117,15 @@ options include:
                           3 : The sprite is chosen based on the vector sum of
                               the darkness in all 4 cardinal directions.  15
                               different sprites are needed.
-  flag_offset_x        : Gives an offset from the tile origin at which to
-  flag_offset_y          draw flags behind units and cities.  With isometric
-                         tilesets this should be non-zero so that the flag
-                         is placed correctly behind the unit/city.
+                          4 : Corner darkness & fog, 81 sprites needed.
+  unit_flag_offset_x   : Gives an offset from the tile origin at which to
+  unit_flag_offset_y     draw flags behind units or cities. With isometric
+  city_flag_offset_x     tilesets this should be non-zero so that the flag
+  city_flag_offset_y     is placed correctly behind the unit/city.
+  unit_offset_x        : Gives an offset from the tile origin at which to
+  unit_offset_y          draw units.
+  citybar_offset_y     : Gives an offset from city tile origin at which to
+                         draw citybar text.
   hex_side             : When is_hex is specified (see is_hex, below), this
                          value gives the length of the "extra" side of the
                          hexagon.  This extra side will be on the top/bottom
@@ -131,6 +142,8 @@ options include:
                          "normal" dimensions of 64x32 with a hex_side of 16
                          for an iso-hex tileset will give hexagons of size
                          48x32.
+  city_names_font_size : Font size used in drawing city name
+  city_production_font_size : Font size used in drawing city production
 
   Booleans (0 or 1)
   -----------------
@@ -139,6 +152,8 @@ options include:
                           is also specified then you have an iso-hex tileset.
                           Hex tilesets should be used with topologies 8-11 and
                           iso-hex tilesets with topologies 12-15.
+  is_mountainous        : set to 1 for blending hills and mountains together.
+  is_full_citybar       : set to 1 to enable citybar.
 
   String lists (a comma-separated list of strings)
   ------------------------------------------------
@@ -151,64 +166,61 @@ Terrain options:
 ----------------
 
 The top-level tilespec file also contains information on how to draw each
-terrain type.  For each terrain type include a section "terrain_<terrain>"
-(e.g., "terrain_plains").  This section contains information on how to draw
+terrain type.  For each terrain type include a section "tile_<terrain>"
+(e.g., "tile_plains").  This section contains information on how to draw
 this terrain type.  (The terrain types are specified in the server ruleset
 file under the graphc and graphic_alt flags.)
 
-  [terrain_XXX] options
+  [tile_XXX] options
   ----------------
-  is_blended            : If set, this terrain will be blended with adjacent
-                          terrains.  Blending is done civ2-style with a
-                          dither mask.  Only iso-view currently supports
-                          blending.  Only the base graphic will be blended.
-                          Blending is drawn on top of the first layer (see
-                          below).
+  is_blended            : If non-zero, given layer of this terrain will be
+                          blended with adjacent terrains. Blending is done
+                          civ2-style with a dither mask.  Only iso-view
+                          currently supports blending. Only the base graphic
+                          will be blended.
                           The blending mask has sprite t.dither_tile.
+  is_reversed           : Draw layers in reverse order.
+  mine_sprite           : Mine sprite for this terrain.
   num_layers            : The number of layers in the terrain.  This value
-                          must be either 1 or 2.  Each layer is drawn
+                          must be 1, 2 or 3.  Each layer is drawn
                           separately.  The layerN options below control the
-                          drawing of each layer (N should be either 0 or 1).
+                          drawing of each layer (N should be 0, 1 or 2)
+  layerN_is_tall        : Left right corner of terrain sprites is not based
+                          on normal_tile_width and normal_tile_height, but
+                          to corner of the full tile.
+  layerN_offset_x       : Offset for terrain sprites
+  layerN_offset_y       
   layerN_match_type     : If 0 or unset, no terrain matching will be done and
                           the base sprite will be drawn for the terrain.  If
                           non-zero, then terrain matching will be done.  A
                           matched sprite will be chosen that matches all
                           cardinally adjacent tiles whose terrain has the same
                           match_type.
-  layerN_match_style    : A string telling how matching is to be done for
-                          this layer.
-                          "none" : No matching is to be done.
-                          "bool" : Matching is done based only on whether the
-                                   adjacent tile has the same match type.
-                          "full" : Matching is done against all possible
-                                   match types of adjacent tiles.
-  layerN_cell_type      : With traditional tilesets each tile is drawn using
-                          one sprite.  Which sprite to use may be specified
-                          using a match_type, and there may be multiple layers
-                          (each having one sprite).  This method corresponds
-                          to cell_type "single".  A more sophisticated drawing
-                          method breaks the tile up into 4 rectangles.  Each
-                          rectangular cell is adjacent to 3 different tiles.
-                          Each adjacency is matched, giving 8 different sprites
-                          for each of the 4 cells.
+  layerN_match_with     : List of match_types to match against
+  layerN_sprite_type    :  With traditional tilesets each tile is drawn using
+                          one sprite. This default sprite_type is "whole".
+                           Which sprite to use may be specified using a
+                          match_type, and there may be multiple layers
+                          (each having one sprite). This method corresponds
+                          to sprite_type "single".
+                           A more sophisticated drawing method breaks the tile
+                          up into 4 rectangles. Each rectangular cell is
+                          adjacent to 3 different tiles. Each adjacency is
+                          matched, giving 8 different sprites for each of the
+                          4 cells. This sprite_type is "corner".
 
 Additionally the top-level tilespec file should contain information about
 the drawing of each layer.  This is needed because the way each layer is
-drawn must be consistent between different terrain types.  As an example you
-can mix boolean and no matching but you cannot mix full and boolean matching.
-You may not have more than 2 layers (either in this section or in the
-[terrain_XXX] sections).
+drawn must be consistent between different terrain types. You may not have
+more than 3 layers (either in this section or in the [tile_XXX] sections).
 
   [layerN] options
   ----------------
-  match_style            : Gives the match style for this layer.
-                           "none" : no matching
-                           "bool" : terrains may use "none" or "bool" for
-                                    matching
-                           "full" : terrains may only use "full" matching
   match_types            : Gives a string list of all different match types.
                            This list must include every possible match_type
                            used by terrains for this layer.
+                           First letter of the match_type must be unique
+                           within layer.
 
 ----------------------------------------------------------------------
 Individual spec files:
