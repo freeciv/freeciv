@@ -1682,10 +1682,10 @@ static void main_loop(void)
   /* 
    * This will freeze the reports and agents at the client.
    * 
-   * Do this before the body so that the PACKET_THAW_HINT packet is
+   * Do this before the body so that the PACKET_THAW_CLIENT packet is
    * balanced. 
    */
-  lsend_packet_freeze_hint(game.est_connections);
+  lsend_packet_freeze_client(game.est_connections);
 
   assert(server_state == RUN_GAME_STATE);
   while (server_state == RUN_GAME_STATE) {
@@ -1707,7 +1707,7 @@ static void main_loop(void)
       /* 
        * This will thaw the reports and agents at the client.
        */
-      lsend_packet_thaw_hint(game.est_connections);
+      lsend_packet_thaw_client(game.est_connections);
 
       /* Before sniff (human player activites), report time to now: */
       freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
@@ -1742,7 +1742,7 @@ static void main_loop(void)
       /* 
        * This will freeze the reports and agents at the client.
        */
-      lsend_packet_freeze_hint(game.est_connections);
+      lsend_packet_freeze_client(game.est_connections);
 
       end_phase();
 
@@ -1764,7 +1764,7 @@ static void main_loop(void)
   }
 
   /* This will thaw the reports and agents at the client.  */
-  lsend_packet_thaw_hint(game.est_connections);
+  lsend_packet_thaw_client(game.est_connections);
 
   free_timer(eot_timer);
 }
