@@ -47,6 +47,7 @@
 #include <bzlib.h>
 #endif
 
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
@@ -60,6 +61,7 @@ struct bzip2_struct {
   FILE *plain;
   int error;
   int firstbyte;
+  bool eof;
 };
 #endif
 
@@ -138,17 +140,43 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       /* Try to read first byte out of stream so we can figure out if this
          really is bzip2 file or not. Store byte for later use */
       char tmp;
-      BZ2_bzRead(&fp->u.bz2.error, fp->u.bz2.file, &tmp, 1);
-      if (fp->u.bz2.error != BZ_DATA_ERROR_MAGIC) { /* bzip2 file */
-        if (fp->u.bz2.error != BZ_OK) {
+      int read_len;
+
+      /* We put error to tmp variable when we don't want to overwrite
+       * error already in fp->u.bz2.error. So calls to fz_ferror() or
+       * fz_strerror() will later return what originally went wrong,
+       * and not what happened in error recovery. */
+      int tmp_err;
+
+      read_len = BZ2_bzRead(&fp->u.bz2.error, fp->u.bz2.file, &tmp, 1);
+      if (fp->u.bz2.error != BZ_DATA_ERROR_MAGIC) {
+        /* bzip2 file */
+        if (fp->u.bz2.error == BZ_STREAM_END) {
+          /* We already reached end of file with our read of one byte */
+          if (read_len == 0) {
+            /* 0 byte file */
+            fp->u.bz2.firstbyte = -1;
+          } else {
+            fp->u.bz2.firstbyte = tmp;
+          }
+          fp->u.bz2.eof = TRUE;
+        } else if (fp->u.bz2.error != BZ_OK) {
+          /* Read failed */
+          BZ2_bzReadClose(&tmp_err, fp->u.bz2.file);
           fclose(fp->u.bz2.plain);
           free(fp);
           return NULL;
+        } else {
+          /* Read success and we can continue reading */
+          fp->u.bz2.firstbyte = tmp;
+          fp->u.bz2.eof = FALSE;
         }
         fp->method = FZ_BZIP2;
-        fp->u.bz2.firstbyte = tmp;
         return fp;
       }
+
+      /* Not bzip2 file */
+      BZ2_bzReadClose(&tmp_err, fp->u.bz2.file);
       fclose(fp->u.bz2.plain);
     }
 #endif
@@ -173,6 +201,12 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       assert(mode[0] == 'w');
       fp->u.bz2.file = BZ2_bzWriteOpen(&fp->u.bz2.error, fp->u.bz2.plain,
                                        compress_level, 1, 15);
+      if (fp->u.bz2.error != BZ_OK) {
+        int tmp_err; /* See comments for similar variable
+                      * near BZ2_bzReadOpen() */
+        BZ2_bzWriteClose(&tmp_err, fp->u.bz2.file, 0, NULL, NULL);
+        fp->u.bz2.file = NULL;
+      }
     }
     if (!fp->u.bz2.file) {
       if (fp->u.bz2.plain) {
@@ -289,26 +323,38 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
   case FZ_BZIP2:
     {
       int i = 0;
+      int last_read;
+
       /* See if first byte is already read and stored */
       if (fp->u.bz2.firstbyte >= 0) {
         buffer[0] = fp->u.bz2.firstbyte;
         fp->u.bz2.firstbyte = -1;
         i++;
       } else {
-        BZ2_bzRead(&fp->u.bz2.error, fp->u.bz2.file, buffer + i, 1);
-        i++;
+        if (!fp->u.bz2.eof) {
+          last_read = BZ2_bzRead(&fp->u.bz2.error, fp->u.bz2.file, buffer + i, 1);
+          i += last_read; /* 0 or 1 */
+        }
       }
-      /* Leave space for trailing zero */
-      for (; i < size - 1 && fp->u.bz2.error == BZ_OK && buffer[i - 1] != '\n' ;
-           i++) {
-        BZ2_bzRead(&fp->u.bz2.error, fp->u.bz2.file, buffer + i, 1);
-      }
-      if (fp->u.bz2.error != BZ_OK &&
-          (fp->u.bz2.error != BZ_STREAM_END ||
-          i == 0)) {
-        retval = NULL;
-      } else {
-        retval = buffer;
+      if (!fp->u.bz2.eof) {
+        /* Leave space for trailing zero */
+        for (; i < size - 1
+               && fp->u.bz2.error == BZ_OK && buffer[i - 1] != '\n' ;
+             i += last_read) {
+          last_read = BZ2_bzRead(&fp->u.bz2.error, fp->u.bz2.file,
+                                 buffer + i, 1);
+        }
+        if (fp->u.bz2.error != BZ_OK &&
+            (fp->u.bz2.error != BZ_STREAM_END ||
+             i == 0)) {
+          retval = NULL;
+        } else {
+          retval = buffer;
+        } 
+        if (fp->u.bz2.error == BZ_STREAM_END) {
+          /* EOF reached. Do not BZ2_bzRead() any more. */
+          fp->u.bz2.eof = TRUE;
+        }
       }
       buffer[i] = '\0';
       break;
@@ -446,8 +492,66 @@ const char *fz_strerror(fz_FILE *fp)
   case FZ_BZIP2:
     {
       static char bzip2error[50];
-      my_snprintf(bzip2error, sizeof(bzip2error), "Bzip2 error %d",
-                  fp->u.bz2.error);
+      char *cleartext = NULL;
+
+      /* Rationale for translating these:
+       * - Some of them provide usable information to user
+       * - Messages still contain numerical error code for developers
+       */
+      switch(fp->u.bz2.error) {
+       case BZ_OK:
+         cleartext = _("OK");
+         break;
+       case BZ_RUN_OK:
+         cleartext = _("Run ok");
+         break;
+       case BZ_FLUSH_OK:
+         cleartext = _("Flush ok");
+         break;
+       case BZ_FINISH_OK:
+         cleartext = _("Finish ok");
+         break;
+       case BZ_STREAM_END:
+         cleartext = _("Stream end");
+         break;
+       case BZ_CONFIG_ERROR:
+         cleartext = _("Config error");
+         break;
+       case BZ_SEQUENCE_ERROR:
+         cleartext = _("Sequence error");
+         break;
+       case BZ_PARAM_ERROR:
+         cleartext = _("Parameter error");
+         break;
+       case BZ_MEM_ERROR:
+         cleartext = _("Mem error");
+         break;
+       case BZ_DATA_ERROR:
+         cleartext = _("Data error");
+         break;
+       case BZ_DATA_ERROR_MAGIC:
+         cleartext = _("Not bzip2 file");
+         break;
+       case BZ_IO_ERROR:
+         cleartext = _("IO error");
+         break;
+       case BZ_UNEXPECTED_EOF:
+         cleartext = _("Unexpected EOF");
+         break;
+       case BZ_OUTBUFF_FULL:
+         cleartext = _("Output buffer full");
+         break;
+       default:
+         break;
+      }
+
+      if (cleartext != NULL) {
+        my_snprintf(bzip2error, sizeof(bzip2error), _("Bz2: \"%s\" (%d)"),
+                    cleartext, fp->u.bz2.error);
+      } else {
+        my_snprintf(bzip2error, sizeof(bzip2error), _("Bz2 error %d"),
+                    fp->u.bz2.error);
+      }
       retval = bzip2error;
       break;
     }
