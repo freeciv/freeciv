@@ -8,7 +8,6 @@ EXTRA_DIST =			\
 	HACKING			\
 	INSTALL.Cygwin		\
 	HOWTOPLAY		\
-	PEOPLE			\
 	README.AI		\
 	README.agents		\
 	README.attributes 	\
