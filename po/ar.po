@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-10 14:31+0300\n"
-"PO-Revision-Date: 2006-05-02 10:26+0000\n"
+"POT-Creation-Date: 2007-08-10 17:22+0300\n"
+"PO-Revision-Date: 2007-08-10 18:00+0300\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
 "MIME-Version: 1.0\n"
@@ -2079,7 +2079,7 @@ msgstr "  -v, --version\t\tطباعة رقم اصدارة البرنامج\n"
 #: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:267
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:208
 #: client/gui-xaw/gui_main.c:247 manual/civmanual.c:384
-#, c-format
+#, c-format, fuzzy
 msgid "Report bugs at %s.\n"
 msgstr "ارسل تقارير المشاكل إلى <%s>.\n"
 
@@ -2887,7 +2887,7 @@ msgstr[1] "تم الاتفاق على معاهدة  من %d بندان."
 msgstr[2] "تم الاتفاق على معاهدة  من %d بنود."
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, c-format
+#, c-format, fuzzy
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "لقد دمرت احدى المدن التي اعطاها لنا  %s ! تم الغاء المعاهدة!"
 
@@ -5133,6 +5133,7 @@ msgid "Warning: rejecting old client %s"
 msgstr "تحذير: جاري رفض عميل قديم %s"
 
 #: server/srv_main.c:1027
+#, fuzzy
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "Freeciv 2.0 or later."
@@ -7222,6 +7223,7 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "الهزليون،العلماء،جباة الضريبة"
 
 #: client/cityrepdata.c:450
+#, fuzzy
 msgid "Concise + Rapture, - Disorder"
 msgstr "دقيق + نشوة الطرب, - فوضى"
 
@@ -7315,6 +7317,7 @@ msgid "Units"
 msgstr "الوحدات"
 
 #: client/cityrepdata.c:472
+#, fuzzy
 msgid "?Present (units):Here"
 msgstr "?Present (units):موجودة"
 
@@ -7323,6 +7326,7 @@ msgid "Number of units present"
 msgstr "عدد الوحدات الموجودة"
 
 #: client/cityrepdata.c:474
+#, fuzzy
 msgid "?Supported (units):Owned"
 msgstr "?Supported (units):مدعومة"
 
@@ -7331,10 +7335,12 @@ msgid "Number of units supported"
 msgstr "عدد الوحدات المدعومة"
 
 #: client/cityrepdata.c:477
+#, fuzzy
 msgid "?food (population):Grow"
 msgstr "توسع"
 
 #: client/cityrepdata.c:478 client/cityrepdata.c:523
+#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(المخزون/الهدف)"
 
@@ -7343,6 +7349,7 @@ msgid "Turns until growth/famine"
 msgstr "الأدوار حتى التوسع/المجاعة"
 
 #: client/cityrepdata.c:481
+#, fuzzy
 msgid "?size [short]:Sz"
 msgstr "الحجم"
 
@@ -7371,6 +7378,7 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "الفائض: الطعام، الإنتاج ،التجارة"
 
 #: client/cityrepdata.c:491
+#, fuzzy
 msgid "?Food surplus [short]:+F"
 msgstr "?Food surplus [short]:+ط"
 
@@ -7379,6 +7387,7 @@ msgid "Surplus: Food"
 msgstr "الفائض: الطعام"
 
 #: client/cityrepdata.c:493
+#, fuzzy
 msgid "?Production surplus [short]:+P"
 msgstr "?Production surplus [short]:+ن"
 
@@ -7387,6 +7396,7 @@ msgid "Surplus: Production"
 msgstr "الفائض: الانتاج"
 
 #: client/cityrepdata.c:495
+#, fuzzy
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-ن"
 
@@ -7395,6 +7405,7 @@ msgid "Waste"
 msgstr "النفاية"
 
 #: client/cityrepdata.c:497
+#, fuzzy
 msgid "?Trade surplus [short]:+T"
 msgstr "?Trade surplus [short]:+ت"
 
@@ -7403,6 +7414,7 @@ msgid "Surplus: Trade"
 msgstr "الفائض: التجارة"
 
 #: client/cityrepdata.c:499
+#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-ت"
 
@@ -7477,6 +7489,7 @@ msgid "Citizen Governor"
 msgstr "حاكم المواطنيين "
 
 #: client/cityrepdata.c:519
+#, fuzzy
 msgid "Turns/Buy"
 msgstr "الأدوار/الشراء"
 
@@ -7489,6 +7502,7 @@ msgid "?specialist:S"
 msgstr "?specialist:خ"
 
 #: client/cityrepdata.c:571
+#, fuzzy
 msgid "Specialists"
 msgstr "الإختصاصيون"
 
@@ -8593,65 +8607,65 @@ msgstr "نسخ %s إلى ذاكرة النصوص."
 msgid "Clipboard is empty."
 msgstr "ذاكرة النصوص فارغة."
 
-#: client/options.c:87
+#: client/options.c:89
 msgid "Graphics"
 msgstr "الجرافيكس"
 
-#: client/options.c:88
+#: client/options.c:90
 msgid "Overview"
 msgstr "الملخص"
 
-#: client/options.c:89
+#: client/options.c:91
 msgid "Sound"
 msgstr "الصوت"
 
-#: client/options.c:90
+#: client/options.c:92
 msgid "Interface"
 msgstr "واجهة البرنامج"
 
-#: client/options.c:91
+#: client/options.c:93
 msgid "Network"
 msgstr "الشبكة"
 
-#: client/options.c:96
+#: client/options.c:98
 msgid "Login name"
 msgstr "اسم الدخول"
 
-#: client/options.c:97
+#: client/options.c:99
 #, fuzzy
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr "هذا مع."
 
-#: client/options.c:102
+#: client/options.c:104
 msgid "Server"
 msgstr "الخادم"
 
-#: client/options.c:103
+#: client/options.c:105
 #, fuzzy
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr "هذا مع."
 
-#: client/options.c:108
+#: client/options.c:110
 msgid "Server port"
 msgstr "منفذ الخادم"
 
-#: client/options.c:109
+#: client/options.c:111
 #, fuzzy
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr "هذا مع."
 
-#: client/options.c:114 client/gui-mui/connectdlg.c:178
+#: client/options.c:116 client/gui-mui/connectdlg.c:178
 #: client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metaserver"
 
-#: client/options.c:115
+#: client/options.c:117
 #, fuzzy
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
@@ -8659,23 +8673,23 @@ msgid ""
 "you're doing."
 msgstr "الـ دون."
 
-#: client/options.c:121
+#: client/options.c:123
 msgid "Soundset"
 msgstr "مجموعة أصوات"
 
-#: client/options.c:122
+#: client/options.c:124
 #, fuzzy
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr "هذا التغيير أس - الحرف التاسع عشر في اللغة الإنجليزية."
 
-#: client/options.c:127
+#: client/options.c:129
 #, fuzzy
 msgid "Sound plugin"
 msgstr "الصوت"
 
-#: client/options.c:128
+#: client/options.c:130
 #, fuzzy
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
@@ -8685,23 +8699,33 @@ msgstr ""
 "إذا مع الـ جديد برنامج Freeciv التغيير بي - الحرف السادس عشر في اللغة "
 "الإنجليزية."
 
-#: client/options.c:133
+#: client/options.c:135 client/gui-sdl/gui_main.c:161
+#, fuzzy
+msgid "Theme"
+msgstr "المعبد"
+
+#: client/options.c:136
+#, fuzzy
+msgid "By changing this option you change the active theme."
+msgstr "ب مفعل هذا."
+
+#: client/options.c:139
 msgid "Tileset"
 msgstr "مجموعة بلاطات"
 
-#: client/options.c:134
+#: client/options.c:140
 #, fuzzy
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
 msgstr "ب مفعل هذا."
 
-#: client/options.c:141
+#: client/options.c:147
 #, fuzzy
 msgid "Solid unit background color"
 msgstr "صلب وحدات"
 
-#: client/options.c:142
+#: client/options.c:148
 #, fuzzy
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
@@ -8710,12 +8734,12 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض مع."
 
-#: client/options.c:146 client/gui-sdl/optiondlg.c:968
+#: client/options.c:152 client/gui-sdl/optiondlg.c:968
 #, fuzzy
 msgid "Sound bell at new turn"
 msgstr "الصوت جديد دوران"
 
-#: client/options.c:147
+#: client/options.c:153
 #, fuzzy
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
@@ -8723,23 +8747,23 @@ msgid ""
 "message options."
 msgstr "المجموعة جديد دوران أنت."
 
-#: client/options.c:153
+#: client/options.c:159
 #, fuzzy
 msgid "Unit movement animation time (milliseconds)"
 msgstr "الوحدة"
 
-#: client/options.c:154
+#: client/options.c:160
 #, fuzzy
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr "هذا وحدات وحدات المجموعة."
 
-#: client/options.c:159
+#: client/options.c:165
 msgid "Mapview recentering time (milliseconds)"
 msgstr "وقت إعادة توسيط عرض الخريطة (ملي ثانية)"
 
-#: client/options.c:160
+#: client/options.c:166
 #, fuzzy
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
@@ -8747,24 +8771,24 @@ msgid ""
 "to disable mapview sliding entirely."
 msgstr "متى جديد هذا المجموعة."
 
-#: client/options.c:165 client/gui-sdl/optiondlg.c:1022
+#: client/options.c:171 client/gui-sdl/optiondlg.c:1022
 #, fuzzy
 msgid "Show combat animation"
 msgstr "المعرض"
 
-#: client/options.c:166
+#: client/options.c:172
 #, fuzzy
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr "التعطيل دوران."
 
-#: client/options.c:169
+#: client/options.c:175
 #, fuzzy
 msgid "Draw the citybar"
 msgstr "السحب"
 
-#: client/options.c:170
+#: client/options.c:176
 #, fuzzy
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
@@ -8774,12 +8798,12 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض التعطيل."
 
-#: client/options.c:176
+#: client/options.c:182
 #, fuzzy
 msgid "Show icons in the technology tree"
 msgstr "المعرض"
 
-#: client/options.c:177
+#: client/options.c:183
 #, fuzzy
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
@@ -8788,12 +8812,12 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض المنعطف."
 
-#: client/options.c:182
+#: client/options.c:188
 #, fuzzy
 msgid "Draw shield graphics for units"
 msgstr "السحب درع"
 
-#: client/options.c:183
+#: client/options.c:189
 #, fuzzy
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
@@ -8802,36 +8826,36 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض درع إذا."
 
-#: client/options.c:187
+#: client/options.c:193
 #, fuzzy
 msgid "Manual Turn Done in AI Mode"
 msgstr "الدليل الدور انتهى ذكاء اصطناعي النمط"
 
-#: client/options.c:188
+#: client/options.c:194
 #, fuzzy
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr "يضعف، يعجز، يفقد الأهلية الدور انتهى ذكاء اصطناعي."
 
-#: client/options.c:192 client/gui-sdl/optiondlg.c:1129
+#: client/options.c:198 client/gui-sdl/optiondlg.c:1129
 #, fuzzy
 msgid "Auto Center on Units"
 msgstr "السّيّارة توسيط الوحدات"
 
-#: client/options.c:193
+#: client/options.c:199
 #, fuzzy
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr "المجموعة مفعل وحدات وحدات."
 
-#: client/options.c:196 client/gui-sdl/optiondlg.c:1155
+#: client/options.c:202 client/gui-sdl/optiondlg.c:1155
 #, fuzzy
 msgid "Auto Center on Combat"
 msgstr "السّيّارة توسيط معركة"
 
-#: client/options.c:197
+#: client/options.c:203
 #, fuzzy
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
@@ -8839,22 +8863,22 @@ msgid ""
 "entirely."
 msgstr "المجموعة معوّق، عاجز، فاقد الأهلية أدوار."
 
-#: client/options.c:202 client/gui-sdl/optiondlg.c:1182
+#: client/options.c:208 client/gui-sdl/optiondlg.c:1182
 #, fuzzy
 msgid "Focus on Awakened Units"
 msgstr "التركيز أيقظ الوحدات"
 
-#: client/options.c:203
+#: client/options.c:209
 #, fuzzy
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr "المجموعة."
 
-#: client/options.c:206
+#: client/options.c:212
 #, fuzzy
 msgid "Allow goto into the unknown"
 msgstr "اسمح مجهول"
 
-#: client/options.c:207
+#: client/options.c:213
 #, fuzzy
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
@@ -8863,12 +8887,12 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض متحرك مجهول إذا مسدود مجهول."
 
-#: client/options.c:211
+#: client/options.c:217
 #, fuzzy
 msgid "Center map when Popup city"
 msgstr "توسيط قافزة"
 
-#: client/options.c:212
+#: client/options.c:218
 #, fuzzy
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
@@ -8877,24 +8901,24 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض."
 
-#: client/options.c:215
+#: client/options.c:221
 #, fuzzy
 msgid "Concise City Production"
 msgstr "مصغّر المدينة انتاج"
 
-#: client/options.c:216
+#: client/options.c:222
 #, fuzzy
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr "المجموعة."
 
-#: client/options.c:219 client/gui-sdl/optiondlg.c:1260
+#: client/options.c:225 client/gui-sdl/optiondlg.c:1260
 #, fuzzy
 msgid "End Turn when done moving"
 msgstr "النهاية الدور منتهي متحرك"
 
-#: client/options.c:220
+#: client/options.c:226
 #, fuzzy
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
@@ -8903,24 +8927,24 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض دوران منتهي متحرك."
 
-#: client/options.c:223 client/gui-sdl/optiondlg.c:1234
+#: client/options.c:229 client/gui-sdl/optiondlg.c:1234
 #, fuzzy
 msgid "Prompt for city names"
 msgstr "الأجل"
 
-#: client/options.c:224
+#: client/options.c:230
 #, fuzzy
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
 msgstr "التعطيل."
 
-#: client/options.c:227 client/gui-sdl/optiondlg.c:1208
+#: client/options.c:233 client/gui-sdl/optiondlg.c:1208
 #, fuzzy
 msgid "Pop up city dialog for new cities"
 msgstr "البوب جديد"
 
-#: client/options.c:228
+#: client/options.c:234
 #, fuzzy
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
@@ -8929,80 +8953,80 @@ msgstr ""
 "وضْع :: إطار الفصّ (في خاتم) :: محيط :: خلفيّة :: مكان :: الموسيقى الموضوعة "
 "لقصيدة إلخ :: \"حَضْنَة\" بيض."
 
-#: client/options.c:233
+#: client/options.c:239
 msgid "Background layer"
 msgstr "طبقة الخلفية"
 
-#: client/options.c:234
+#: client/options.c:240
 #, fuzzy
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "الـ."
 
-#: client/options.c:237
+#: client/options.c:243
 #, fuzzy
 msgid "Terrain relief map layer"
 msgstr "طبيعة الأرض"
 
-#: client/options.c:238
+#: client/options.c:244
 #, fuzzy
 msgid "The relief layer shows all terrains on the map."
 msgstr "الـ."
 
-#: client/options.c:241
+#: client/options.c:247
 msgid "Borders layer"
 msgstr "طبقة الحدود"
 
-#: client/options.c:242
+#: client/options.c:248
 #, fuzzy
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr "الـ."
 
-#: client/options.c:246
+#: client/options.c:252
 msgid "Units layer"
 msgstr "طبقة الوحدات"
 
-#: client/options.c:247
+#: client/options.c:253
 #, fuzzy
 msgid "Enabling this will draw units on the overview."
 msgstr "التمكين."
 
-#: client/options.c:250
+#: client/options.c:256
 msgid "Cities layer"
 msgstr "طبقة المدن"
 
-#: client/options.c:251
+#: client/options.c:257
 #, fuzzy
 msgid "Enabling this will draw cities on the overview."
 msgstr "التمكين."
 
-#: client/options.c:254
+#: client/options.c:260
 msgid "Overview fog of war"
 msgstr "ملخص عن ضباب الحرب"
 
-#: client/options.c:255
+#: client/options.c:261
 msgid "Enabling this will show fog of war on the overview."
 msgstr "سيظهر تفعيل هذه ضباب الحرب على الملخص."
 
-#: client/options.c:424
+#: client/options.c:430
 msgid "Cannot find your home directory"
 msgstr "فشل العثور على دليل ملفاتي"
 
-#: client/options.c:577
+#: client/options.c:583
 msgid "Save failed, cannot find a filename."
 msgstr "فشل الحفظ، لا يمكن العثور على اسم ملف."
 
-#: client/options.c:636
+#: client/options.c:642
 #, fuzzy
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr "إذا"
 
-#: client/options.c:647
+#: client/options.c:653
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "فشل الحفظ، لا يمكن الكتابة على ملف %s"
 
-#: client/options.c:650
+#: client/options.c:656
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "تم حفظ الاعدادات على الملف %s"
@@ -10937,30 +10961,30 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1317
+#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1309
 msgid "Freeciv"
 msgstr "برنامج Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1053 client/gui-gtk-2.0/gui_main.c:1067
+#: client/gui-gtk-2.0/gui_main.c:1052 client/gui-gtk-2.0/gui_main.c:1059
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "انتهي الدور"
 
-#: client/gui-gtk-2.0/gui_main.c:1067 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:1072
 msgid "Shift+Return"
 msgstr "كبسة Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1099
+#: client/gui-gtk-2.0/gui_main.c:1091
 msgid "_Map"
 msgstr "_خريطة"
 
-#: client/gui-gtk-2.0/gui_main.c:1180
+#: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_دردشة"
 
-#: client/gui-gtk-2.0/gui_main.c:1196 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1188 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -10971,72 +10995,72 @@ msgstr ""
 "ضمن بعض الشروط، انظر إلى عنصر  \"النسخ\" على قائمة المساعدة.\n"
 "اﻵن.. اذقهم الجحيم!"
 
-#: client/gui-gtk-2.0/gui_main.c:1461
+#: client/gui-gtk-2.0/gui_main.c:1453
 msgid "Not _ready"
 msgstr "غير _جاهز"
 
-#: client/gui-gtk-2.0/gui_main.c:1472 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1464 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
 msgstr "_جاهز"
 
-#: client/gui-gtk-2.0/gui_main.c:1476 client/gui-gtk-2.0/gui_main.c:1482
+#: client/gui-gtk-2.0/gui_main.c:1468 client/gui-gtk-2.0/gui_main.c:1474
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
 msgstr "_بدء"
 
-#: client/gui-gtk-2.0/gui_main.c:1487 client/gui-gtk-2.0/pages.c:1567
+#: client/gui-gtk-2.0/gui_main.c:1479 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
 msgstr "اختيار الأ_مة"
 
-#: client/gui-gtk-2.0/gui_main.c:1489
+#: client/gui-gtk-2.0/gui_main.c:1481
 msgid "Create _player"
 msgstr "انشاء لا_عب"
 
-#: client/gui-gtk-2.0/gui_main.c:1494
+#: client/gui-gtk-2.0/gui_main.c:1486
 msgid "_Release player"
 msgstr "_ترك لاعب"
 
-#: client/gui-gtk-2.0/gui_main.c:1496 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1488 client/gui-gtk-2.0/pages.c:1572
 msgid "_Observe"
 msgstr "_مراقبة"
 
-#: client/gui-gtk-2.0/gui_main.c:1498
+#: client/gui-gtk-2.0/gui_main.c:1490
 msgid "_Do not observe"
 msgstr "_لا تراقب"
 
-#: client/gui-gtk-2.0/gui_main.c:1520
+#: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
 msgstr "<ذ.ا>"
 
-#: client/gui-gtk-2.0/gui_main.c:1523
+#: client/gui-gtk-2.0/gui_main.c:1515
 msgid "<Novice AI>"
 msgstr "<ذ.ا مبتدئ>"
 
-#: client/gui-gtk-2.0/gui_main.c:1526
+#: client/gui-gtk-2.0/gui_main.c:1518
 msgid "<Easy AI>"
 msgstr "<ذ.ا سهل>"
 
-#: client/gui-gtk-2.0/gui_main.c:1529
+#: client/gui-gtk-2.0/gui_main.c:1521
 msgid "<Normal AI>"
 msgstr "<ذ.ا عادي>"
 
-#: client/gui-gtk-2.0/gui_main.c:1532
+#: client/gui-gtk-2.0/gui_main.c:1524
 msgid "<Hard AI>"
 msgstr "<ذ.ا صعب>"
 
-#: client/gui-gtk-2.0/gui_main.c:1542 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1534 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr "عشوائي"
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Observer"
 msgstr "متفرج"
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Detached"
 msgstr "منفصل"
 
-#: client/gui-gtk-2.0/gui_main.c:1874
+#: client/gui-gtk-2.0/gui_main.c:1866
 msgid "Are you sure you want to quit?"
 msgstr "هل تريد الخروج?"
 
@@ -12471,6 +12495,47 @@ msgstr "(مخفي)"
 #: client/gui-gtk-2.0/spaceshipdlg.c:221 client/gui-mui/spaceshipdlg.c:228
 msgid "_Launch"
 msgstr "إ_طلاق"
+
+#: client/gui-gtk-2.0/theme_dlg.c:57
+msgid "Theme suggested"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:60
+#, fuzzy
+msgid "Load theme"
+msgstr "تحميل لعبة"
+
+#: client/gui-gtk-2.0/theme_dlg.c:62
+msgid "Keep current theme"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:69
+#, c-format
+msgid ""
+"Tileset suggests using %s theme.\n"
+"You are currently using %s."
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:51
+msgid "Prefered tileset"
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:54
+#, fuzzy
+msgid "Load tileset"
+msgstr "إ_عادة تحميل مجموعة البلاط"
+
+#: client/gui-gtk-2.0/tileset_dlg.c:56
+msgid "Keep current tileset"
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:63
+#, c-format
+msgid ""
+"Modpack suggest using %s tileset.\n"
+"It might not work with other tilesets.\n"
+"You are currently using tileset %s."
+msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:178
 msgid "new"
@@ -14546,11 +14611,6 @@ msgstr "الطيران في الفضاء"
 #: client/gui-sdl/gui_main.c:158
 msgid "This option saves the height of the selected screen resolution"
 msgstr ""
-
-#: client/gui-sdl/gui_main.c:161
-#, fuzzy
-msgid "Theme"
-msgstr "المعبد"
 
 #: client/gui-sdl/gui_main.c:162
 #, fuzzy
