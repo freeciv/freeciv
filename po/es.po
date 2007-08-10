@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-10 14:31+0300\n"
-"PO-Revision-Date: 2006-04-30 20:57+0300\n"
+"POT-Creation-Date: 2007-08-10 17:22+0300\n"
+"PO-Revision-Date: 2007-08-11 01:51+0300\n"
 "Last-Translator: Claudio M. Camacho <claudiomkd@gmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2128,7 +2128,7 @@ msgstr "  -v, --version\t\tImprimir el número de versión\n"
 #: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:267
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:208
 #: client/gui-xaw/gui_main.c:247 manual/civmanual.c:384
-#, c-format
+#, c-format, fuzzy
 msgid "Report bugs at %s.\n"
 msgstr "Informa de los bugs a <%s>.\n"
 
@@ -3033,7 +3033,7 @@ msgstr[0] "Se ha firmado un pacto con %d punto."
 msgstr[1] "Se ha firmado un pacto con %d puntos."
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, c-format
+#, c-format, fuzzy
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "¡Una de las ciudades que %s está dando está destruida! ¡Se cancela el pacto!"
@@ -5503,6 +5503,7 @@ msgid "Warning: rejecting old client %s"
 msgstr "Aviso: rechazando cliente antiguo %s"
 
 #: server/srv_main.c:1027
+#, fuzzy
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "Freeciv 2.0 or later."
@@ -7671,6 +7672,7 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "Hosteleros, Científicos, Recaudadores"
 
 #: client/cityrepdata.c:450
+#, fuzzy
 msgid "Concise + Rapture, - Disorder"
 msgstr "Breve: + Celebraciones, - Disturbios"
 
@@ -7764,6 +7766,7 @@ msgid "Units"
 msgstr "Unidades"
 
 #: client/cityrepdata.c:472
+#, fuzzy
 msgid "?Present (units):Here"
 msgstr "Pre"
 
@@ -7772,6 +7775,7 @@ msgid "Number of units present"
 msgstr "Número de unidades presentes"
 
 #: client/cityrepdata.c:474
+#, fuzzy
 msgid "?Supported (units):Owned"
 msgstr "Man"
 
@@ -7780,10 +7784,12 @@ msgid "Number of units supported"
 msgstr "Número de unidades mantenidas"
 
 #: client/cityrepdata.c:477
+#, fuzzy
 msgid "?food (population):Grow"
 msgstr "Crece"
 
 #: client/cityrepdata.c:478 client/cityrepdata.c:523
+#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(Construido/Objetivo)"
 
@@ -7792,6 +7798,7 @@ msgid "Turns until growth/famine"
 msgstr "Turnos hasta crecimiento/hambruna"
 
 #: client/cityrepdata.c:481
+#, fuzzy
 msgid "?size [short]:Sz"
 msgstr "Tm"
 
@@ -7820,6 +7827,7 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Superávit: Alimento, Producción, Comercio"
 
 #: client/cityrepdata.c:491
+#, fuzzy
 msgid "?Food surplus [short]:+F"
 msgstr "+A"
 
@@ -7828,6 +7836,7 @@ msgid "Surplus: Food"
 msgstr "Superávit: Comida"
 
 #: client/cityrepdata.c:493
+#, fuzzy
 msgid "?Production surplus [short]:+P"
 msgstr "+P"
 
@@ -7836,6 +7845,7 @@ msgid "Surplus: Production"
 msgstr "Superávit: Producción"
 
 #: client/cityrepdata.c:495
+#, fuzzy
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-P"
 
@@ -7844,6 +7854,7 @@ msgid "Waste"
 msgstr "Desidia"
 
 #: client/cityrepdata.c:497
+#, fuzzy
 msgid "?Trade surplus [short]:+T"
 msgstr "+C"
 
@@ -7852,6 +7863,7 @@ msgid "Surplus: Trade"
 msgstr "Superávit: Comercio"
 
 #: client/cityrepdata.c:499
+#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-C"
 
@@ -7899,10 +7911,12 @@ msgid "Economy: Science"
 msgstr "Economía: Ciencia"
 
 #: client/cityrepdata.c:511
+#, fuzzy
 msgid "?number_trade_routes:n"
 msgstr "R"
 
 #: client/cityrepdata.c:511
+#, fuzzy
 msgid "?number_trade_routes:R"
 msgstr "C"
 
@@ -7926,6 +7940,7 @@ msgid "Citizen Governor"
 msgstr "Gobernador del Pueblo"
 
 #: client/cityrepdata.c:519
+#, fuzzy
 msgid "Turns/Buy"
 msgstr "Turnos/Precio"
 
@@ -7934,10 +7949,12 @@ msgid "Currently Building"
 msgstr "Construyendo"
 
 #: client/cityrepdata.c:568
+#, fuzzy
 msgid "?specialist:S"
 msgstr "?Especialistas:E"
 
 #: client/cityrepdata.c:571
+#, fuzzy
 msgid "Specialists"
 msgstr "Especialistas"
 
@@ -9114,31 +9131,31 @@ msgstr "Copia %s al portapapeles."
 msgid "Clipboard is empty."
 msgstr "El portapapeles está vacío."
 
-#: client/options.c:87
+#: client/options.c:89
 msgid "Graphics"
 msgstr "Gráficos"
 
-#: client/options.c:88
+#: client/options.c:90
 msgid "Overview"
 msgstr "Vista general"
 
-#: client/options.c:89
+#: client/options.c:91
 msgid "Sound"
 msgstr "Sonido"
 
-#: client/options.c:90
+#: client/options.c:92
 msgid "Interface"
 msgstr "Interfaz"
 
-#: client/options.c:91
+#: client/options.c:93
 msgid "Network"
 msgstr "De Red"
 
-#: client/options.c:96
+#: client/options.c:98
 msgid "Login name"
 msgstr "Nombre de usuario"
 
-#: client/options.c:97
+#: client/options.c:99
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -9146,11 +9163,11 @@ msgstr ""
 "Este es el nombre de usuario por defecto que se usará en los diálogos de "
 "conexión o con el párametro -a de la línea de comandos."
 
-#: client/options.c:102
+#: client/options.c:104
 msgid "Server"
 msgstr "Servidor"
 
-#: client/options.c:103
+#: client/options.c:105
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -9158,11 +9175,11 @@ msgstr ""
 "Este es el nombre de servidor por defecto que se usará en los diálogos de "
 "conexión o con el parámetro -a de la línea de comandos."
 
-#: client/options.c:108
+#: client/options.c:110
 msgid "Server port"
 msgstr "Puerto del servidor"
 
-#: client/options.c:109
+#: client/options.c:111
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -9170,12 +9187,12 @@ msgstr ""
 "Este es el puerto por defecto del servidor que se usará en los diálogos de "
 "conexión o con el parámetro -a de la línea de comandos."
 
-#: client/options.c:114 client/gui-mui/connectdlg.c:178
+#: client/options.c:116 client/gui-mui/connectdlg.c:178
 #: client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metaservidor"
 
-#: client/options.c:115
+#: client/options.c:117
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
@@ -9185,11 +9202,11 @@ msgstr ""
 "en Internet. No cambies el valor por defecto a menos que sepas lo que estás "
 "haciendo."
 
-#: client/options.c:121
+#: client/options.c:123
 msgid "Soundset"
 msgstr "Conjunto de sonidos"
 
-#: client/options.c:122
+#: client/options.c:124
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
@@ -9197,11 +9214,11 @@ msgstr ""
 "Este es el conjunto de sonidos que se utilizará. Cambiar esto es igual que "
 "usar el parámetro -S en la línea de comandos."
 
-#: client/options.c:127
+#: client/options.c:129
 msgid "Sound plugin"
 msgstr "Plugin de sonido"
 
-#: client/options.c:128
+#: client/options.c:130
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
@@ -9211,11 +9228,23 @@ msgstr ""
 "El nuevo plugin no funcionará hasta que reinicies Freeciv. Cambiar esto es "
 "lo mismo que usar la opción -P en la línea de comandos."
 
-#: client/options.c:133
+#: client/options.c:135 client/gui-sdl/gui_main.c:161
+#, fuzzy
+msgid "Theme"
+msgstr "Templo"
+
+#: client/options.c:136
+#, fuzzy
+msgid "By changing this option you change the active theme."
+msgstr ""
+"Cambiando esta opción, cambias el tilesect actual. Esto es lo mismo que usar "
+"el parámetro -t en la línea de comandos."
+
+#: client/options.c:139
 msgid "Tileset"
 msgstr "Tileset"
 
-#: client/options.c:134
+#: client/options.c:140
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
@@ -9223,11 +9252,11 @@ msgstr ""
 "Cambiando esta opción, cambias el tilesect actual. Esto es lo mismo que usar "
 "el parámetro -t en la línea de comandos."
 
-#: client/options.c:141
+#: client/options.c:147
 msgid "Solid unit background color"
 msgstr "Unidades con fondo opaco"
 
-#: client/options.c:142
+#: client/options.c:148
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
@@ -9235,11 +9264,11 @@ msgstr ""
 "Poniendo esta opción, harás que las unidades se dibujen en el mapa con un "
 "color de fondo en lugar de una bandera."
 
-#: client/options.c:146 client/gui-sdl/optiondlg.c:968
+#: client/options.c:152 client/gui-sdl/optiondlg.c:968
 msgid "Sound bell at new turn"
 msgstr "Sonido al comenzar el turno"
 
-#: client/options.c:147
+#: client/options.c:153
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -9249,11 +9278,11 @@ msgstr ""
 "turno. Puedes controlar el comportamiento del \"pitido\" editando las "
 "opciones de los mensajes."
 
-#: client/options.c:153
+#: client/options.c:159
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Tiempo de animación de movimiento de unidades (milisegundos)"
 
-#: client/options.c:154
+#: client/options.c:160
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -9261,11 +9290,11 @@ msgstr ""
 "Esta opción controla la duración de las \"animaciones\" cuando las unidades "
 "se mueven en el mapa. Si vale 0, la animación se desactiva."
 
-#: client/options.c:159
+#: client/options.c:165
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Tiempo de recentrado de la vista del mapa (milisegundos)"
 
-#: client/options.c:160
+#: client/options.c:166
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -9275,11 +9304,11 @@ msgstr ""
 "posición. Esta opción controla cuanto tarda dicho desplazamiento. Si se pone "
 "a 0, se desactiva este efecto de movimiento en el mapa."
 
-#: client/options.c:165 client/gui-sdl/optiondlg.c:1022
+#: client/options.c:171 client/gui-sdl/optiondlg.c:1022
 msgid "Show combat animation"
 msgstr "Animar los combates"
 
-#: client/options.c:166
+#: client/options.c:172
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
@@ -9287,11 +9316,11 @@ msgstr ""
 "Desactivando esta opción, se desactivará también las animaciones en los "
 "combates entre unidades en el mapa."
 
-#: client/options.c:169
+#: client/options.c:175
 msgid "Draw the citybar"
 msgstr "Mostrar la barra de ciudad"
 
-#: client/options.c:170
+#: client/options.c:176
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
@@ -9301,11 +9330,11 @@ msgstr ""
 "información útil sobre la ciudad. Desactivando esta opción, sólo se mostrará "
 "el nombre de la ciudad y, opcionalmente, la producción."
 
-#: client/options.c:176
+#: client/options.c:182
 msgid "Show icons in the technology tree"
 msgstr "Mostrar iconos en el árbol de tecnologías"
 
-#: client/options.c:177
+#: client/options.c:183
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -9314,11 +9343,11 @@ msgstr ""
 "tecnologías. Desactivándo esta opción, el árbol de teconlogías se vuelve más "
 "compacto."
 
-#: client/options.c:182
+#: client/options.c:188
 msgid "Draw shield graphics for units"
 msgstr "Muestra el escudo en las unidades."
 
-#: client/options.c:183
+#: client/options.c:189
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
@@ -9326,11 +9355,11 @@ msgstr ""
 "Activando esta opción, se mostrará un escudo como bandera en las unidades. "
 "Si no está activada, se mostará la bandera completa."
 
-#: client/options.c:187
+#: client/options.c:193
 msgid "Manual Turn Done in AI Mode"
 msgstr "Fin de turno manual en modo ordenador"
 
-#: client/options.c:188
+#: client/options.c:194
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -9338,11 +9367,11 @@ msgstr ""
 "Desactiva esta opción si no quieres presionar 'Fin del turno' manualmente "
 "cuando estás observando a un jugador del Ordenador."
 
-#: client/options.c:192 client/gui-sdl/optiondlg.c:1129
+#: client/options.c:198 client/gui-sdl/optiondlg.c:1129
 msgid "Auto Center on Units"
 msgstr "Centrar las unidades"
 
-#: client/options.c:193
+#: client/options.c:199
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -9350,11 +9379,11 @@ msgstr ""
 "Activa esta opción si quieres tener la unidad activa centrada "
 "automáticamente cuando el foco de la unidad cambia."
 
-#: client/options.c:196 client/gui-sdl/optiondlg.c:1155
+#: client/options.c:202 client/gui-sdl/optiondlg.c:1155
 msgid "Auto Center on Combat"
 msgstr "Centrar los combates"
 
-#: client/options.c:197
+#: client/options.c:203
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
@@ -9364,21 +9393,21 @@ msgstr ""
 "automáticamente. Desactivada, hará que los tiempos entre turnos pasen más "
 "rápido, pero también hace que te pierdas el combate por completo."
 
-#: client/options.c:202 client/gui-sdl/optiondlg.c:1182
+#: client/options.c:208 client/gui-sdl/optiondlg.c:1182
 msgid "Focus on Awakened Units"
 msgstr "Observar las unidades activadas"
 
-#: client/options.c:203
+#: client/options.c:209
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 "Activa esta opción para centrar automáticamente las nuevas unidades que "
 "emergen."
 
-#: client/options.c:206
+#: client/options.c:212
 msgid "Allow goto into the unknown"
 msgstr "Permitir ir a sitio desconocido"
 
-#: client/options.c:207
+#: client/options.c:213
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -9387,11 +9416,11 @@ msgstr ""
 "desconocidas. Si no, entonces las reglas de 'Ir' emplearán desvíos o "
 "bloqueos en las casillas desconocidas."
 
-#: client/options.c:211
+#: client/options.c:217
 msgid "Center map when Popup city"
 msgstr "Centrar el mapa al activar una ciudad"
 
-#: client/options.c:212
+#: client/options.c:218
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
@@ -9399,11 +9428,11 @@ msgstr ""
 "Activando esta opción, se centrará la vista en una ciudad cuando el diálogo "
 "de ciudad aparezca."
 
-#: client/options.c:215
+#: client/options.c:221
 msgid "Concise City Production"
 msgstr "Mostrar producción de la ciudad"
 
-#: client/options.c:216
+#: client/options.c:222
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
@@ -9411,11 +9440,11 @@ msgstr ""
 "Activa esta opción para hacer que la producción de la ciudad (como se "
 "muestra en el cuadro de diálogo de la ciudad) sea más compacta."
 
-#: client/options.c:219 client/gui-sdl/optiondlg.c:1260
+#: client/options.c:225 client/gui-sdl/optiondlg.c:1260
 msgid "End Turn when done moving"
 msgstr "Terminar el turno al acabar de mover"
 
-#: client/options.c:220
+#: client/options.c:226
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
@@ -9423,11 +9452,11 @@ msgstr ""
 "Activando esta opción, se termina el turno automáticamente cuando todas las "
 "unidades han sido movidas."
 
-#: client/options.c:223 client/gui-sdl/optiondlg.c:1234
+#: client/options.c:229 client/gui-sdl/optiondlg.c:1234
 msgid "Prompt for city names"
 msgstr "Solicitar nombres de ciudades"
 
-#: client/options.c:224
+#: client/options.c:230
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
@@ -9435,11 +9464,11 @@ msgstr ""
 "Desactivando esta opción, los nombres de las ciudades recién fundadas serán "
 "elegidos automáticamente por el servidor."
 
-#: client/options.c:227 client/gui-sdl/optiondlg.c:1208
+#: client/options.c:233 client/gui-sdl/optiondlg.c:1208
 msgid "Pop up city dialog for new cities"
 msgstr "Solicita al usuario los nombres de las nuevas ciudades"
 
-#: client/options.c:228
+#: client/options.c:234
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
@@ -9447,75 +9476,75 @@ msgstr ""
 "Activando esta opción, se mostrará una ventana automáticamente cuando una "
 "ciudad es fundada."
 
-#: client/options.c:233
+#: client/options.c:239
 msgid "Background layer"
 msgstr "Capa de fondo"
 
-#: client/options.c:234
+#: client/options.c:240
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "La capa de la vista general muestra sólo oceáno y tierra."
 
-#: client/options.c:237
+#: client/options.c:243
 msgid "Terrain relief map layer"
 msgstr "Capa de renovación del terreno"
 
-#: client/options.c:238
+#: client/options.c:244
 msgid "The relief layer shows all terrains on the map."
 msgstr "La renovación de la capa muestra todos los terrenos en el mapa."
 
-#: client/options.c:241
+#: client/options.c:247
 msgid "Borders layer"
 msgstr "Capa de borders"
 
-#: client/options.c:242
+#: client/options.c:248
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 "La capa de bordes de la vista general muestra qué casillas pertenecen a cada "
 "jugador."
 
-#: client/options.c:246
+#: client/options.c:252
 msgid "Units layer"
 msgstr "Capa de unidades"
 
-#: client/options.c:247
+#: client/options.c:253
 msgid "Enabling this will draw units on the overview."
 msgstr "Si se activa, se mostrarán las unidades en la vista general."
 
-#: client/options.c:250
+#: client/options.c:256
 msgid "Cities layer"
 msgstr "Capa de ciudades"
 
-#: client/options.c:251
+#: client/options.c:257
 msgid "Enabling this will draw cities on the overview."
 msgstr "Si se activa, se mostrarán las ciudades en la vista general."
 
-#: client/options.c:254
+#: client/options.c:260
 msgid "Overview fog of war"
 msgstr "Vista general de la niebla en la guerra"
 
-#: client/options.c:255
+#: client/options.c:261
 msgid "Enabling this will show fog of war on the overview."
 msgstr "Si se activa, se mostrará la niebla de la guerra en la vista general."
 
-#: client/options.c:424
+#: client/options.c:430
 msgid "Cannot find your home directory"
 msgstr "No encuentro tu directorio 'home'"
 
-#: client/options.c:577
+#: client/options.c:583
 msgid "Save failed, cannot find a filename."
 msgstr "Grabación cancelada, no se ha dado un nombre al fichero."
 
-#: client/options.c:636
+#: client/options.c:642
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr "Si creas una configuración a mano, actualiza \"number_of_presets\"."
 
-#: client/options.c:647
+#: client/options.c:653
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Grabación cancelada, no puedo escribir el fichero %s"
 
-#: client/options.c:650
+#: client/options.c:656
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Se han grabado las preferencias en el fichero %s"
@@ -10277,7 +10306,7 @@ msgstr ""
 "aspecto por defecto."
 
 #: client/tilespec.c:3978
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug at %s"
@@ -11446,30 +11475,30 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1317
+#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1309
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1053 client/gui-gtk-2.0/gui_main.c:1067
+#: client/gui-gtk-2.0/gui_main.c:1052 client/gui-gtk-2.0/gui_main.c:1059
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Fin del turno"
 
-#: client/gui-gtk-2.0/gui_main.c:1067 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:1072
 msgid "Shift+Return"
 msgstr "Mayúsculas+Intro"
 
-#: client/gui-gtk-2.0/gui_main.c:1099
+#: client/gui-gtk-2.0/gui_main.c:1091
 msgid "_Map"
 msgstr "_Mapa"
 
-#: client/gui-gtk-2.0/gui_main.c:1180
+#: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_Charla"
 
-#: client/gui-gtk-2.0/gui_main.c:1196 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1188 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11480,72 +11509,72 @@ msgstr ""
 "bajo ciertas condiciones; mira el tema \"Copiar\" en el menú de Ayuda.\n"
 "Y ahora... ¡a por ellos!"
 
-#: client/gui-gtk-2.0/gui_main.c:1461
+#: client/gui-gtk-2.0/gui_main.c:1453
 msgid "Not _ready"
 msgstr "No _preparado"
 
-#: client/gui-gtk-2.0/gui_main.c:1472 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1464 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
 msgstr "_Listo"
 
-#: client/gui-gtk-2.0/gui_main.c:1476 client/gui-gtk-2.0/gui_main.c:1482
+#: client/gui-gtk-2.0/gui_main.c:1468 client/gui-gtk-2.0/gui_main.c:1474
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
 msgstr "_Comenzar"
 
-#: client/gui-gtk-2.0/gui_main.c:1487 client/gui-gtk-2.0/pages.c:1567
+#: client/gui-gtk-2.0/gui_main.c:1479 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
 msgstr "Elegir _Nación"
 
-#: client/gui-gtk-2.0/gui_main.c:1489
+#: client/gui-gtk-2.0/gui_main.c:1481
 msgid "Create _player"
 msgstr "Crear _jugador"
 
-#: client/gui-gtk-2.0/gui_main.c:1494
+#: client/gui-gtk-2.0/gui_main.c:1486
 msgid "_Release player"
 msgstr "_Liberar jugador"
 
-#: client/gui-gtk-2.0/gui_main.c:1496 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1488 client/gui-gtk-2.0/pages.c:1572
 msgid "_Observe"
 msgstr "_Observar"
 
-#: client/gui-gtk-2.0/gui_main.c:1498
+#: client/gui-gtk-2.0/gui_main.c:1490
 msgid "_Do not observe"
 msgstr "_No observar"
 
-#: client/gui-gtk-2.0/gui_main.c:1520
+#: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
 msgstr "<Ordenador>"
 
-#: client/gui-gtk-2.0/gui_main.c:1523
+#: client/gui-gtk-2.0/gui_main.c:1515
 msgid "<Novice AI>"
 msgstr "<Ordenador principiante>"
 
-#: client/gui-gtk-2.0/gui_main.c:1526
+#: client/gui-gtk-2.0/gui_main.c:1518
 msgid "<Easy AI>"
 msgstr "<Ordenador fácil>"
 
-#: client/gui-gtk-2.0/gui_main.c:1529
+#: client/gui-gtk-2.0/gui_main.c:1521
 msgid "<Normal AI>"
 msgstr "<Ordenador normal>"
 
-#: client/gui-gtk-2.0/gui_main.c:1532
+#: client/gui-gtk-2.0/gui_main.c:1524
 msgid "<Hard AI>"
 msgstr "<Ordenador difícil>"
 
-#: client/gui-gtk-2.0/gui_main.c:1542 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1534 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr "Aleatorio"
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Observer"
 msgstr "Observador"
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Detached"
 msgstr "Separado"
 
-#: client/gui-gtk-2.0/gui_main.c:1874
+#: client/gui-gtk-2.0/gui_main.c:1866
 msgid "Are you sure you want to quit?"
 msgstr "Seguro que quiere salir?"
 
@@ -12976,6 +13005,47 @@ msgstr "(oculto)"
 #: client/gui-gtk-2.0/spaceshipdlg.c:221 client/gui-mui/spaceshipdlg.c:228
 msgid "_Launch"
 msgstr "_Lanzar"
+
+#: client/gui-gtk-2.0/theme_dlg.c:57
+msgid "Theme suggested"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:60
+#, fuzzy
+msgid "Load theme"
+msgstr "Cargar partida"
+
+#: client/gui-gtk-2.0/theme_dlg.c:62
+msgid "Keep current theme"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:69
+#, c-format
+msgid ""
+"Tileset suggests using %s theme.\n"
+"You are currently using %s."
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:51
+msgid "Prefered tileset"
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:54
+#, fuzzy
+msgid "Load tileset"
+msgstr "_Recargar Tileset"
+
+#: client/gui-gtk-2.0/tileset_dlg.c:56
+msgid "Keep current tileset"
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:63
+#, c-format
+msgid ""
+"Modpack suggest using %s tileset.\n"
+"It might not work with other tilesets.\n"
+"You are currently using tileset %s."
+msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:178
 msgid "new"
@@ -15030,11 +15100,6 @@ msgstr "Vuelo espacial"
 msgid "This option saves the height of the selected screen resolution"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:161
-#, fuzzy
-msgid "Theme"
-msgstr "Templo"
-
 #: client/gui-sdl/gui_main.c:162
 #, fuzzy
 msgid ""
@@ -15314,7 +15379,7 @@ msgid "Options"
 msgstr "Opciones"
 
 #: client/gui-sdl/mapview.c:154
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
@@ -17223,6 +17288,7 @@ msgid "  Present administrators: "
 msgstr "  Administradores actuales: "
 
 #: data/helpdata.txt:56
+#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"

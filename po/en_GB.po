@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-10 14:31+0300\n"
-"PO-Revision-Date: 1999-10-21 20:02+0100\n"
+"POT-Creation-Date: 2007-08-10 17:22+0300\n"
+"PO-Revision-Date: 2007-08-11 01:42+0300\n"
 "Last-Translator: Robert Brady <rwb197@ecs.soton.ac.uk>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2710,7 +2710,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, c-format
+#, c-format, fuzzy
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "One of the cities %s is giving away is destroyed! Treaty cancelled!"
 
@@ -8160,104 +8160,112 @@ msgstr ""
 msgid "Clipboard is empty."
 msgstr ""
 
-#: client/options.c:87
+#: client/options.c:89
 msgid "Graphics"
 msgstr ""
 
-#: client/options.c:88
+#: client/options.c:90
 msgid "Overview"
 msgstr ""
 
-#: client/options.c:89
+#: client/options.c:91
 msgid "Sound"
 msgstr ""
 
-#: client/options.c:90
+#: client/options.c:92
 msgid "Interface"
 msgstr ""
 
-#: client/options.c:91
+#: client/options.c:93
 msgid "Network"
 msgstr ""
 
-#: client/options.c:96
+#: client/options.c:98
 msgid "Login name"
 msgstr ""
 
-#: client/options.c:97
+#: client/options.c:99
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:102
+#: client/options.c:104
 msgid "Server"
 msgstr ""
 
-#: client/options.c:103
+#: client/options.c:105
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:108
+#: client/options.c:110
 msgid "Server port"
 msgstr ""
 
-#: client/options.c:109
+#: client/options.c:111
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:114 client/gui-mui/connectdlg.c:178
+#: client/options.c:116 client/gui-mui/connectdlg.c:178
 #: client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr ""
 
-#: client/options.c:115
+#: client/options.c:117
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
 
-#: client/options.c:121
+#: client/options.c:123
 msgid "Soundset"
 msgstr ""
 
-#: client/options.c:122
+#: client/options.c:124
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
 
-#: client/options.c:127
+#: client/options.c:129
 msgid "Sound plugin"
 msgstr ""
 
-#: client/options.c:128
+#: client/options.c:130
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
 msgstr ""
 
-#: client/options.c:133
+#: client/options.c:135 client/gui-sdl/gui_main.c:161
+msgid "Theme"
+msgstr ""
+
+#: client/options.c:136
+msgid "By changing this option you change the active theme."
+msgstr ""
+
+#: client/options.c:139
 msgid "Tileset"
 msgstr ""
 
-#: client/options.c:134
+#: client/options.c:140
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
 msgstr ""
 
-#: client/options.c:141
+#: client/options.c:147
 msgid "Solid unit background color"
 msgstr "Solid unit background colour"
 
-#: client/options.c:142
+#: client/options.c:148
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
@@ -8265,32 +8273,32 @@ msgstr ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background colour instead of the flag backdrop."
 
-#: client/options.c:146 client/gui-sdl/optiondlg.c:968
+#: client/options.c:152 client/gui-sdl/optiondlg.c:968
 msgid "Sound bell at new turn"
 msgstr ""
 
-#: client/options.c:147
+#: client/options.c:153
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:153
+#: client/options.c:159
 msgid "Unit movement animation time (milliseconds)"
 msgstr ""
 
-#: client/options.c:154
+#: client/options.c:160
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:159
+#: client/options.c:165
 msgid "Mapview recentering time (milliseconds)"
 msgstr ""
 
-#: client/options.c:160
+#: client/options.c:166
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -8300,62 +8308,62 @@ msgstr ""
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 
-#: client/options.c:165 client/gui-sdl/optiondlg.c:1022
+#: client/options.c:171 client/gui-sdl/optiondlg.c:1022
 msgid "Show combat animation"
 msgstr ""
 
-#: client/options.c:166
+#: client/options.c:172
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr ""
 
-#: client/options.c:169
+#: client/options.c:175
 msgid "Draw the citybar"
 msgstr ""
 
-#: client/options.c:170
+#: client/options.c:176
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and optionally, production."
 msgstr ""
 
-#: client/options.c:176
+#: client/options.c:182
 msgid "Show icons in the technology tree"
 msgstr ""
 
-#: client/options.c:177
+#: client/options.c:183
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
 
-#: client/options.c:182
+#: client/options.c:188
 msgid "Draw shield graphics for units"
 msgstr ""
 
-#: client/options.c:183
+#: client/options.c:189
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
 msgstr ""
 
-#: client/options.c:187
+#: client/options.c:193
 msgid "Manual Turn Done in AI Mode"
 msgstr ""
 
-#: client/options.c:188
+#: client/options.c:194
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:192 client/gui-sdl/optiondlg.c:1129
+#: client/options.c:198 client/gui-sdl/optiondlg.c:1129
 msgid "Auto Center on Units"
 msgstr "Auto Centre on Units"
 
-#: client/options.c:193
+#: client/options.c:199
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -8363,11 +8371,11 @@ msgstr ""
 "Set this option to have the active unit centred automatically when the unit "
 "focus changes."
 
-#: client/options.c:196 client/gui-sdl/optiondlg.c:1155
+#: client/options.c:202 client/gui-sdl/optiondlg.c:1155
 msgid "Auto Center on Combat"
 msgstr "Auto Centre on Combat"
 
-#: client/options.c:197
+#: client/options.c:203
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
@@ -8377,29 +8385,29 @@ msgstr ""
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 
-#: client/options.c:202 client/gui-sdl/optiondlg.c:1182
+#: client/options.c:208 client/gui-sdl/optiondlg.c:1182
 msgid "Focus on Awakened Units"
 msgstr ""
 
-#: client/options.c:203
+#: client/options.c:209
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:206
+#: client/options.c:212
 msgid "Allow goto into the unknown"
 msgstr ""
 
-#: client/options.c:207
+#: client/options.c:213
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 
-#: client/options.c:211
+#: client/options.c:217
 msgid "Center map when Popup city"
 msgstr "Centre map when Popup city"
 
-#: client/options.c:212
+#: client/options.c:218
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
@@ -8407,113 +8415,113 @@ msgstr ""
 "Setting this option makes the mapview centre on a city when its city dialog "
 "is popped up."
 
-#: client/options.c:215
+#: client/options.c:221
 msgid "Concise City Production"
 msgstr ""
 
-#: client/options.c:216
+#: client/options.c:222
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:219 client/gui-sdl/optiondlg.c:1260
+#: client/options.c:225 client/gui-sdl/optiondlg.c:1260
 msgid "End Turn when done moving"
 msgstr ""
 
-#: client/options.c:220
+#: client/options.c:226
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:223 client/gui-sdl/optiondlg.c:1234
+#: client/options.c:229 client/gui-sdl/optiondlg.c:1234
 msgid "Prompt for city names"
 msgstr ""
 
-#: client/options.c:224
+#: client/options.c:230
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:227 client/gui-sdl/optiondlg.c:1208
+#: client/options.c:233 client/gui-sdl/optiondlg.c:1208
 msgid "Pop up city dialog for new cities"
 msgstr ""
 
-#: client/options.c:228
+#: client/options.c:234
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:233
+#: client/options.c:239
 msgid "Background layer"
 msgstr ""
 
-#: client/options.c:234
+#: client/options.c:240
 msgid "The background layer of the overview shows just ocean and land."
 msgstr ""
 
-#: client/options.c:237
+#: client/options.c:243
 msgid "Terrain relief map layer"
 msgstr ""
 
-#: client/options.c:238
+#: client/options.c:244
 msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
-#: client/options.c:241
+#: client/options.c:247
 msgid "Borders layer"
 msgstr ""
 
-#: client/options.c:242
+#: client/options.c:248
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
-#: client/options.c:246
+#: client/options.c:252
 msgid "Units layer"
 msgstr ""
 
-#: client/options.c:247
+#: client/options.c:253
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
-#: client/options.c:250
+#: client/options.c:256
 msgid "Cities layer"
 msgstr ""
 
-#: client/options.c:251
+#: client/options.c:257
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
-#: client/options.c:254
+#: client/options.c:260
 msgid "Overview fog of war"
 msgstr ""
 
-#: client/options.c:255
+#: client/options.c:261
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 
-#: client/options.c:424
+#: client/options.c:430
 msgid "Cannot find your home directory"
 msgstr ""
 
-#: client/options.c:577
+#: client/options.c:583
 msgid "Save failed, cannot find a filename."
 msgstr ""
 
-#: client/options.c:636
+#: client/options.c:642
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:647
+#: client/options.c:653
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr ""
 
-#: client/options.c:650
+#: client/options.c:656
 #, c-format
 msgid "Saved settings to file %s"
 msgstr ""
@@ -10389,30 +10397,30 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1317
+#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1309
 msgid "Freeciv"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1053 client/gui-gtk-2.0/gui_main.c:1067
+#: client/gui-gtk-2.0/gui_main.c:1052 client/gui-gtk-2.0/gui_main.c:1059
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1067 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:1072
 msgid "Shift+Return"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1099
+#: client/gui-gtk-2.0/gui_main.c:1091
 msgid "_Map"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1180
+#: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1196 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1188 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -10420,72 +10428,72 @@ msgid ""
 "Now.. Go give'em hell!"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1461
+#: client/gui-gtk-2.0/gui_main.c:1453
 msgid "Not _ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1472 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1464 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1476 client/gui-gtk-2.0/gui_main.c:1482
+#: client/gui-gtk-2.0/gui_main.c:1468 client/gui-gtk-2.0/gui_main.c:1474
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1487 client/gui-gtk-2.0/pages.c:1567
+#: client/gui-gtk-2.0/gui_main.c:1479 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1489
+#: client/gui-gtk-2.0/gui_main.c:1481
 msgid "Create _player"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1494
+#: client/gui-gtk-2.0/gui_main.c:1486
 msgid "_Release player"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1496 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1488 client/gui-gtk-2.0/pages.c:1572
 msgid "_Observe"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1498
+#: client/gui-gtk-2.0/gui_main.c:1490
 msgid "_Do not observe"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1520
+#: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1523
+#: client/gui-gtk-2.0/gui_main.c:1515
 msgid "<Novice AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1526
+#: client/gui-gtk-2.0/gui_main.c:1518
 msgid "<Easy AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1529
+#: client/gui-gtk-2.0/gui_main.c:1521
 msgid "<Normal AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1532
+#: client/gui-gtk-2.0/gui_main.c:1524
 msgid "<Hard AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1542 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1534 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Observer"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Detached"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1874
+#: client/gui-gtk-2.0/gui_main.c:1866
 msgid "Are you sure you want to quit?"
 msgstr ""
 
@@ -11890,6 +11898,45 @@ msgstr ""
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:221 client/gui-mui/spaceshipdlg.c:228
 msgid "_Launch"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:57
+msgid "Theme suggested"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:60
+msgid "Load theme"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:62
+msgid "Keep current theme"
+msgstr ""
+
+#: client/gui-gtk-2.0/theme_dlg.c:69
+#, c-format
+msgid ""
+"Tileset suggests using %s theme.\n"
+"You are currently using %s."
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:51
+msgid "Prefered tileset"
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:54
+msgid "Load tileset"
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:56
+msgid "Keep current tileset"
+msgstr ""
+
+#: client/gui-gtk-2.0/tileset_dlg.c:63
+#, c-format
+msgid ""
+"Modpack suggest using %s tileset.\n"
+"It might not work with other tilesets.\n"
+"You are currently using tileset %s."
 msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:178
@@ -13880,10 +13927,6 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:158
 msgid "This option saves the height of the selected screen resolution"
-msgstr ""
-
-#: client/gui-sdl/gui_main.c:161
-msgid "Theme"
 msgstr ""
 
 #: client/gui-sdl/gui_main.c:162
