@@ -43,11 +43,9 @@ EXTRA_tolua_SOURCES = toluaxx.pxx \
 	lua/tlx_verbatim.lua
 
 tolua_DEPENDENCIES = \
-	$(top_srcdir)/dependencies/lua/src/liblua.a \
-	$(top_srcdir)/dependencies/lua/src/lib/liblualib.a \
+	$(top_builddir)/dependencies/lua/src/liblua.a \
 	../lib/libtolua.a
 
 tolua_LDADD = \
-	$(top_srcdir)/dependencies/lua/src/liblua.a \
-	$(top_srcdir)/dependencies/lua/src/lib/liblualib.a \
+	$(top_builddir)/dependencies/lua/src/liblua.a \
 	../lib/libtolua.a -lm
