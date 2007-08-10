@@ -323,7 +323,8 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 		   / pcity->surplus[O_FOOD];
 
     if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
-	&& get_current_construction_bonus(pcity, EFT_GROWTH_FOOD) > 0
+	&& get_current_construction_bonus(pcity, EFT_GROWTH_FOOD,
+                                          RPT_CERTAIN) > 0
 	&& pcity->surplus[O_SHIELD] > 0) {
       /* From the check above, the surplus must always be positive. */
       turns_granary = (impr_build_shield_cost(pcity->production.value)
@@ -475,8 +476,8 @@ static void city_increase_size(struct city *pcity)
   bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
 
   if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
-    if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ) > 0
-        || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT) > 0) {
+    if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ, RPT_CERTAIN) > 0
+        || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT, RPT_CERTAIN) > 0) {
       notify_player(powner, pcity->tile, E_CITY_AQ_BUILDING,
 		       _("%s needs %s (being built) "
 			 "to grow any further."),
@@ -760,7 +761,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	/* Nope, no use.  *sigh*  */
 	requirement_vector_iterate(&building->reqs, preq) {
 	  if (!is_req_active(pplayer, pcity, NULL, NULL, NULL, NULL, NULL,
-			     preq)) {
+			     preq, RPT_POSSIBLE)) {
 	    known = TRUE;
 	    switch (preq->source.kind) {
 	    case VUT_ADVANCE:
@@ -1160,11 +1161,14 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     }
 
     space_part = TRUE;
-    if (get_current_construction_bonus(pcity, EFT_SS_STRUCTURAL) > 0) {
+    if (get_current_construction_bonus(pcity, EFT_SS_STRUCTURAL,
+                                       RPT_CERTAIN) > 0) {
       pplayer->spaceship.structurals++;
-    } else if (get_current_construction_bonus(pcity, EFT_SS_COMPONENT) > 0) {
+    } else if (get_current_construction_bonus(pcity, EFT_SS_COMPONENT,
+                                              RPT_CERTAIN) > 0) {
       pplayer->spaceship.components++;
-    } else if (get_current_construction_bonus(pcity, EFT_SS_MODULE) > 0) {
+    } else if (get_current_construction_bonus(pcity, EFT_SS_MODULE,
+                                              RPT_CERTAIN) > 0) {
       pplayer->spaceship.modules++;
     } else {
       space_part = FALSE;
@@ -1199,7 +1203,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
      * the vision range of a city */
     city_refresh_vision(pcity);
 
-    if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH))) {
+    if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH,
+                                              RPT_CERTAIN))) {
       int i;
 
       notify_player(pplayer, NULL, E_TECH_GAIN,

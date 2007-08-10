@@ -341,7 +341,7 @@ void sell_all_improvements(Impr_type_id impr, bool obsolete_only,
     if (!pcity->did_sell && city_got_building(pcity, impr)
 	&& (!obsolete_only
 	    || improvement_obsolete(game.player_ptr, impr)
-	    || is_building_replaced(pcity, impr))) {
+	    || is_building_replaced(pcity, impr, RPT_CERTAIN))) {
       count++;
       gold += impr_sell_gold(impr);
       city_sell_improvement(pcity, impr);

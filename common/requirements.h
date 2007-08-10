@@ -80,7 +80,8 @@ bool is_req_active(const struct player *target_player,
 		   const struct unit_type *target_unittype,
 		   const struct output_type *target_output,
 		   const struct specialist *target_specialist,
-		   const struct requirement *req);
+		   const struct requirement *req,
+                   const enum   req_problem_type prob_type);
 bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
 		     const struct impr_type *target_building,
@@ -88,7 +89,8 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct unit_type *target_unittype,
 		     const struct output_type *target_output,
 		     const struct specialist *target_specialist,
-		     const struct requirement_vector *reqs);
+		     const struct requirement_vector *reqs,
+                     const enum   req_problem_type prob_type);
 
 bool is_req_unchanging(const struct requirement *req);
 

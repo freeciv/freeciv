@@ -212,6 +212,18 @@ enum barbarian_type {
   SEA_BARBARIAN = 2
 };
 
+/* Sometimes we don't know (or don't care) if some requirements for effect
+ * are currently fulfilled or not. This enum tells lower level functions
+ * how to handle uncertain requirements.
+ */
+enum req_problem_type {
+  RPT_POSSIBLE, /* We want to know if it is possible that effect is active */
+  RPT_CERTAIN   /* We want to know if it is certain that effect is active  */
+};
+
+#define REVERSED_RPT(x) \
+  (x == RPT_CERTAIN ? RPT_POSSIBLE : RPT_CERTAIN)
+
 /* ruleset strings (such as names) are kept in their original vernacular, 
  * translated upon first use.  The translation is cached for future use.
  */

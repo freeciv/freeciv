@@ -109,7 +109,8 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
   }
 
   return are_reqs_active(unit_owner(punit), NULL, NULL, ptile,
-                         unit_type(punit), NULL, NULL, &pbase->reqs);
+                         unit_type(punit), NULL, NULL, &pbase->reqs,
+                         RPT_CERTAIN);
 }
 
 /****************************************************************************

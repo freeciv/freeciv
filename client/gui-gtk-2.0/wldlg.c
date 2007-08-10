@@ -988,7 +988,9 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
     if (!target.is_unit && *pcity) {
       useless = improvement_obsolete(city_owner(*pcity), target.value)
-	|| is_building_replaced(*pcity, target.value);
+	|| is_building_replaced(*pcity, target.value, RPT_CERTAIN);
+      /* Mark building redundant if we are really certain that there is
+       * no use for it. */
       g_object_set(rend, "strikethrough", useless, NULL);
     } else {
       g_object_set(rend, "strikethrough", FALSE, NULL);

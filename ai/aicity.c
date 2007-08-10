@@ -683,7 +683,8 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
 
   requirement_vector_iterate(&pimpr->reqs, preq) {
     const bool active = is_req_active(pplayer, pcity, pimpr,
-                                      pcity->tile, NULL, NULL, NULL, preq);
+                                      pcity->tile, NULL, NULL, NULL, preq,
+                                      RPT_POSSIBLE);
 
     if (VUT_ADVANCE == preq->source.kind && !active) {
       /* Found a missing technology requirement for this improvement. */
@@ -844,7 +845,12 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
 
     if (is_effect_disabled(pplayer, pcity, pimpr,
 			   NULL, NULL, NULL, NULL,
-			   peffect)) {
+			   peffect, RPT_CERTAIN)) {
+      /* We believe that effect if disabled only if there is no change that it
+       * is not. This should lead AI using wider spectrum of improvements.
+       *
+       * TODO: Select between RPT_POSSIBLE and RPT_CERTAIN dynamically
+       * depending how much AI can take risks. */
       continue;
     }
 
@@ -859,7 +865,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
         continue;
       }
       if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, NULL, NULL,
-			 preq)) {
+			 preq, RPT_POSSIBLE)) {
 	active = FALSE;
 	if (VUT_ADVANCE == preq->source.kind) {
 	  /* This missing requirement is a missing tech requirement.
@@ -1133,7 +1139,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
           pcity->ai.building_want[id] = 0;
         } else if ((!is_coinage
                     && !can_eventually_build_improvement(pcity, id))
-                   || is_building_replaced(pcity, id)) {
+                   || is_building_replaced(pcity, id, RPT_CERTAIN)) {
           /* Don't consider impossible or redundant buildings */
           pcity->ai.building_want[id] = 0;
         } else if (pplayer->ai.control
@@ -1203,7 +1209,8 @@ void ai_manage_buildings(struct player *pplayer)
                                  wonder_city->production.value)
         && !improvement_obsolete(pplayer, wonder_city->production.value)
         && !is_building_replaced(wonder_city, 
-                                 wonder_city->production.value))
+                                 wonder_city->production.value,
+                                 RPT_CERTAIN))
       || wonder_city == NULL) {
     /* Find a new wonder city! */
     int best_candidate_value = 0;
@@ -1713,7 +1720,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
     if(can_city_sell_building(pcity, i) 
        && !building_has_effect(i, EFT_DEFEND_BONUS)
 	      /* selling city walls is really, really dumb -- Syela */
-       && (is_building_replaced(pcity, i)
+       && (is_building_replaced(pcity, i, RPT_CERTAIN)
 	   || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD,

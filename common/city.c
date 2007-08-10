@@ -347,7 +347,8 @@ const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
 
     if (improvement_obsolete(pplayer, id)) {
       state = Q_("?obsolete:O");
-    } else if (is_building_replaced(pcity, id)) {
+    } else if (is_building_replaced(pcity, id, RPT_CERTAIN)) {
+      /* Mark building redundant only if we are CERTAIN that it has no use. */
       state = Q_("?redundant:*");
     }
   }
@@ -411,7 +412,7 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id)
 
   return are_reqs_active(city_owner(pcity), pcity, NULL,
 			 pcity->tile, NULL, NULL, NULL,
-			 &building->reqs);
+			 &building->reqs, RPT_CERTAIN);
 }
 
 /**************************************************************************
@@ -448,7 +449,7 @@ bool can_eventually_build_improvement(const struct city *pcity,
   requirement_vector_iterate(&building->reqs, preq) {
     if (is_req_unchanging(preq)
 	&& !is_req_active(city_owner(pcity), pcity, NULL,
-	  		  pcity->tile, NULL, NULL, NULL, preq)) {
+	  		  pcity->tile, NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -531,7 +532,7 @@ bool city_can_use_specialist(const struct city *pcity,
 {
   return are_reqs_active(city_owner(pcity), pcity, NULL,
 			 NULL, NULL, NULL, NULL,
-			 &specialist_by_number(type)->reqs);
+			 &specialist_by_number(type)->reqs, RPT_POSSIBLE);
 }
 
 /****************************************************************************
@@ -1102,7 +1103,7 @@ int city_style_of_player(const struct player *plr)
   while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
     if (are_reqs_active(plr, NULL, NULL, NULL, NULL, NULL, NULL,
-			&city_styles[replace].reqs)) {
+			&city_styles[replace].reqs, RPT_CERTAIN)) {
       style = replace;
     }
   }

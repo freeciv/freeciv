@@ -567,13 +567,14 @@ bool is_effect_disabled(const struct player *target_player,
 			const struct unit_type *target_unittype,
 			const struct output_type *target_output,
 			const struct specialist *target_specialist,
-		        const struct effect *peffect)
+		        const struct effect *peffect,
+                        const enum   req_problem_type prob_type)
 {
   requirement_list_iterate(peffect->nreqs, preq) {
     if (is_req_active(target_player, target_city, target_building,
 		      target_tile, target_unittype, target_output,
 		      target_specialist,
-		      preq)) {
+		      preq, prob_type)) {
       return TRUE;
     }
   } requirement_list_iterate_end;
@@ -581,7 +582,7 @@ bool is_effect_disabled(const struct player *target_player,
 }
 
 /**************************************************************************
-  Return TRUE iff any of the disabling requirements for this effect are
+  Return TRUE iff all of the enabling requirements for this effect are
   active (an effect is active if all of its enabling requirements and
   none of its disabling ones are active).
 **************************************************************************/
@@ -592,13 +593,14 @@ static bool is_effect_enabled(const struct player *target_player,
 			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist,
-			      const struct effect *peffect)
+			      const struct effect *peffect,
+                              const enum   req_problem_type prob_type)
 {
   requirement_list_iterate(peffect->reqs, preq) {
     if (!is_req_active(target_player, target_city, target_building,
 		       target_tile, target_unittype, target_output,
 		       target_specialist,
-		       preq)) {
+		       preq, prob_type)) {
       return FALSE;
     }
   } requirement_list_iterate_end;
@@ -621,16 +623,18 @@ static bool is_effect_active(const struct player *target_player,
 			     const struct unit_type *target_unittype,
 			     const struct output_type *target_output,
 			     const struct specialist *target_specialist,
-			     const struct effect *peffect)
+			     const struct effect *peffect,
+                             const enum   req_problem_type prob_type)
 {
+  /* Reversed prob_type when checking disabling effects */
   return is_effect_enabled(target_player, target_city, target_building,
 			   target_tile, target_unittype, target_output,
 			   target_specialist,
-			   peffect)
+			   peffect, prob_type)
     && !is_effect_disabled(target_player, target_city, target_building,
 			   target_tile, target_unittype, target_output,
 			   target_specialist,
-			   peffect);
+			   peffect, REVERSED_RPT(prob_type));
 }
 
 /**************************************************************************
@@ -652,12 +656,14 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct unit_type *target_unittype,
 		      const struct output_type *target_output,
 		      const struct specialist *target_specialist,
-		      Impr_type_id source, const struct effect *peffect)
+		      Impr_type_id source, const struct effect *peffect,
+                      const enum   req_problem_type prob_type)
 {
+  /* Reversed prob_type when checking disabling effects */
   if (is_effect_disabled(target_player, target_city, target_building,
 			 target_tile, target_unittype, target_output,
 			 target_specialist,
-			 peffect)) {
+			 peffect, REVERSED_RPT(prob_type))) {
     return FALSE;
   }
   requirement_list_iterate(peffect->reqs, preq) {
@@ -668,7 +674,7 @@ bool is_effect_useful(const struct player *target_player,
     if (!is_req_active(target_player, target_city, target_building,
 		       target_tile, target_unittype, target_output,
 		       target_specialist,
-		       preq)) {
+		       preq, prob_type)) {
       return FALSE;
     }
   } requirement_list_iterate_end;
@@ -678,8 +684,10 @@ bool is_effect_useful(const struct player *target_player,
 /**************************************************************************
   Returns TRUE if a building is replaced.  To be replaced, all its effects
   must be made redundant by groups that it is in.
+  prob_type CERTAIN or POSSIBLE is answer to function name.
 **************************************************************************/
-bool is_building_replaced(const struct city *pcity, Impr_type_id building)
+bool is_building_replaced(const struct city *pcity, Impr_type_id building,
+                          const enum req_problem_type prob_type)
 {
   struct universal source;
   struct effect_list *plist;
@@ -703,10 +711,12 @@ bool is_building_replaced(const struct city *pcity, Impr_type_id building)
     /* We use TARGET_BUILDING as the lowest common denominator.  Note that
      * the building is its own target - but whether this is actually
      * checked depends on the range of the effect. */
+    /* Prob_type is not reversed here. disabled is equal to replaced, not
+     * reverse */
     if (!is_effect_disabled(city_owner(pcity), pcity,
 			    improvement_by_number(building),
 			    NULL, NULL, NULL, NULL,
-			    peffect)) {
+			    peffect, prob_type)) {
       return FALSE;
     }
   } effect_list_iterate_end;
@@ -743,7 +753,7 @@ static int get_target_bonus_effects(struct effect_list *plist,
     if (is_effect_active(target_player, target_city, target_building,
 			 target_tile, target_unittype, target_output,
 			 target_specialist,
-			 peffect)) {
+			 peffect, RPT_CERTAIN)) {
       /* And if so add on the value. */
       bonus += peffect->value;
 
@@ -982,9 +992,13 @@ int get_city_bonus_effects(struct effect_list *plist,
 
   Note this is not called get_current_production_bonus because that would
   be confused with EFT_PROD_BONUS.
+
+  Problem type tells if we need to be CERTAIN about bonus before counting
+  it or is POSSIBLE bonus enough.
 **************************************************************************/
 int get_current_construction_bonus(const struct city *pcity,
-				   enum effect_type effect_type)
+				   enum effect_type effect_type,
+                                   const enum req_problem_type prob_type)
 {
   if (!initialized) {
     return 0;
@@ -1009,7 +1023,7 @@ int get_current_construction_bonus(const struct city *pcity,
 	}
 	if (is_effect_useful(city_owner(pcity), pcity, building,
 			     NULL, NULL, NULL, NULL,
-			     id, peffect)) {
+			     id, peffect, prob_type)) {
 	  power += peffect->value;
 	}
       } effect_list_iterate_end;

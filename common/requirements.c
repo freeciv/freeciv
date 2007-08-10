@@ -836,14 +836,23 @@ static bool is_unittype_in_range(const struct unit_type *target_unittype,
 ****************************************************************************/
 static bool is_unitflag_in_range(const struct unit_type *target_unittype,
 				 enum req_range range, bool survives,
-				 enum unit_flag_id unitflag)
+				 enum unit_flag_id unitflag,
+                                 enum req_problem_type prob_type)
 {
   /* If no target_unittype is given, we allow the req to be met.  This is
    * to allow querying of certain effect types (like the presence of city
    * walls) without actually knowing the target unit. */
-  return (range == REQ_RANGE_LOCAL
-	  && (!target_unittype
-	      || utype_has_flag(target_unittype, unitflag)));
+  if (range != REQ_RANGE_LOCAL) {
+    return FALSE;
+  }
+  if (!target_unittype) {
+    /* Unknow means TRUE  for RPT_POSSIBLE
+     *              FALSE for RPT_CERTAIN
+     */
+    return prob_type == RPT_POSSIBLE;
+  }
+
+  return utype_has_flag(target_unittype, unitflag);
 }
 
 /****************************************************************************
@@ -894,7 +903,8 @@ bool is_req_active(const struct player *target_player,
 		   const struct unit_type *target_unittype,
 		   const struct output_type *target_output,
 		   const struct specialist *target_specialist,
-		   const struct requirement *req)
+		   const struct requirement *req,
+                   const enum   req_problem_type prob_type)
 {
   bool eval = FALSE;
 
@@ -946,7 +956,8 @@ bool is_req_active(const struct player *target_player,
   case VUT_UTFLAG:
     eval = is_unitflag_in_range(target_unittype,
 				req->range, req->survives,
-				req->source.value.unitflag);
+				req->source.value.unitflag,
+                                prob_type);
     break;
   case VUT_UCLASS:
     eval = is_unitclass_in_range(target_unittype,
@@ -1011,13 +1022,14 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct unit_type *target_unittype,
 		     const struct output_type *target_output,
 		     const struct specialist *target_specialist,
-		     const struct requirement_vector *reqs)
+		     const struct requirement_vector *reqs,
+                     const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
     if (!is_req_active(target_player, target_city, target_building,
 		       target_tile, target_unittype, target_output,
 		       target_specialist,
-		       preq)) {
+		       preq, prob_type)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

@@ -164,9 +164,11 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct unit_type *target_unittype,
 		      const struct output_type *target_output,
 		      const struct specialist *target_specialist,
-		      Impr_type_id source, const struct effect *effect);
+		      Impr_type_id source, const struct effect *effect,
+                      const enum   req_problem_type prob_type);
 
-bool is_building_replaced(const struct city *pcity, Impr_type_id building);
+bool is_building_replaced(const struct city *pcity, Impr_type_id building,
+                          const enum req_problem_type prob_type);
 
 /* functions to know the bonuses a certain effect is granting */
 int get_world_bonus(enum effect_type effect_type);
@@ -203,7 +205,8 @@ bool is_effect_disabled(const struct player *target_player,
 			const struct unit_type *target_unittype,
 			const struct output_type *target_output,
 			const struct specialist *target_specialist,
-		        const struct effect *peffect);
+		        const struct effect *peffect,
+                        const enum   req_problem_type prob_type);
 
 int get_player_bonus_effects(struct effect_list *plist,
     const struct player *pplayer, enum effect_type effect_type);
@@ -215,7 +218,8 @@ int get_city_bonus_effects(struct effect_list *plist,
 bool building_has_effect(Impr_type_id building,
 			 enum effect_type effect_type);
 int get_current_construction_bonus(const struct city *pcity,
-				   enum effect_type effect_type);
+				   enum effect_type effect_type,
+                                   const enum req_problem_type prob_type);
 
 Impr_type_id ai_find_source_building(struct player *pplayer,
 				     enum effect_type effect_type);
