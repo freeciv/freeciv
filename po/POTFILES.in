@@ -107,6 +107,8 @@ client/gui-gtk-2.0/plrdlg.c
 client/gui-gtk-2.0/pages.c
 client/gui-gtk-2.0/repodlgs.c
 client/gui-gtk-2.0/spaceshipdlg.c
+client/gui-gtk-2.0/theme_dlg.c
+client/gui-gtk-2.0/tileset_dlg.c
 client/gui-gtk-2.0/wldlg.c
 client/gui-mui/chatline.c
 client/gui-mui/citydlg.c
