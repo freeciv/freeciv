@@ -81,4 +81,8 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev);
 void reset_unit_table(void);
 void popup_quit_dialog(void);
 
+/* There simply is no proper header to place this define. Creating one
+ * just for this seems overkill. */
+#define FC_GTK_DEFAULT_THEME_NAME "Freeciv"
+
 #endif  /* FC__GUI_MAIN_H */

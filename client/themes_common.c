@@ -62,81 +62,23 @@ struct theme_directory *directories;
 ****************************************************************************/
 void init_themes(void)
 {
-  char **directories_paths = fc_malloc(sizeof(char *) * 2);
-  /* length of the directories_paths array */
-  int count = 0;
-  /* allocated size of the directories_paths array */
-  int t_size = 2;
-
-
   int i;
-
-  struct stat stat_result;
-  int gui_directories_count;
-  char **gui_directories;
-
-  char *directory_tokens[strlen(DEFAULT_DATA_PATH)];
-  int num_tokens;
-
-  /* Directories are separated with : or ; */
-  num_tokens = get_tokens(DEFAULT_DATA_PATH,
-                          directory_tokens,
-			  strlen(DEFAULT_DATA_PATH),
-			  ":;");
+    
+  /* get GUI-specific theme directories */
+  char **gui_directories =
+      get_gui_specific_themes_directories(&num_directories);
   
-  for (i = 0; i < num_tokens; i++) {
-    char buf[strlen(DEFAULT_DATA_PATH) + 16];
-
-    /* Check if there's 'themes' subdirectory */
-    my_snprintf(buf, sizeof(buf), "%s/themes", directory_tokens[i]);
+  directories = 
+      fc_malloc(sizeof(struct theme_directory) * num_directories);
+          
+  for (i = 0; i < num_directories; i++) {
+    directories[i].path = gui_directories[i];
     
-    free(directory_tokens[i]);
-    
-    if (stat(buf, &stat_result) != 0) {
-      continue;
-    }
-    if (!S_ISDIR(stat_result.st_mode)) {
-      continue;
-    }
-
-    /* Increase array size if needed */
-    if (t_size == count) {
-      directories_paths =
-	  fc_realloc(directories_paths, t_size * 2 * sizeof(char *));
-      t_size *= 2;
-    }
-
-    directories_paths[count] = mystrdup(buf);
-    count++;
-  }
-
-  /* Add gui specific directories */
-  gui_directories =
-      get_gui_specific_themes_directories(&gui_directories_count);
-
-  for (i = 0; i < gui_directories_count; i++) {
-    if (t_size == count) {
-      directories_paths =
-	  fc_realloc(directories_paths, t_size * 2 * sizeof(char *));
-      t_size *= 2;
-    }
-    /* We are responsible for freeing the memory, so we don't need to copy */
-    directories_paths[count++] = gui_directories[i];
-  }
-  free(gui_directories);
-
-  /* Load useable themes in those directories */
-  directories = fc_malloc(sizeof(struct theme_directory) * count);
-  for (i = 0; i < count; i++) {
-    directories[i].path = directories_paths[i];
-
-    /* Gui specific function must search for themes */
+    /* get useable themes in this directory */
     directories[i].themes =
-	get_useable_themes_in_directory(directories_paths[i],
+	get_useable_themes_in_directory(directories[i].path,
 					&(directories[i].num_themes));
   }
-  num_directories = count;
-  free(directories_paths);
 }
 
 /****************************************************************************
@@ -189,4 +131,13 @@ bool load_theme(const char *theme_name)
     }
   }
   return FALSE;
+}
+
+/****************************************************************************
+  Wrapper for load_theme. It's is used by local options dialog
+****************************************************************************/
+void theme_reread_callback(struct client_option *option)
+{
+  assert(option->p_string_value && *option->p_string_value != '\0');
+  load_theme(option->p_string_value);
 }

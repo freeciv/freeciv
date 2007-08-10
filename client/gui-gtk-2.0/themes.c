@@ -24,6 +24,8 @@
 #include "mem.h"
 #include "support.h"
 
+#include "gui_main.h"
+
 #include "themes_common.h"
 #include "themes_g.h"
 
@@ -65,6 +67,7 @@ static void load_default_files()
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
+  GtkStyle *style;
   char buf[strlen(directory) + strlen(theme_name) + 32];
   
   load_default_files();
@@ -78,6 +81,13 @@ void gui_load_theme(const char *directory, const char *theme_name)
   gtk_rc_set_default_files(default_files);
 
   gtk_rc_reparse_all_for_settings(gtk_settings_get_default(), TRUE);
+    
+  /* the turn done button must have its own style. otherwise when we flash
+     the turn done button other widgets may flash too. */
+  if (!(style = gtk_rc_get_style(turn_done_button))) {
+    style = turn_done_button->style;
+  }
+  gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
 }
 
 /*****************************************************************************
@@ -85,10 +95,34 @@ void gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void gui_clear_theme(void)
 {
-  load_default_files();
-  default_files[num_default_files] = NULL;
-  gtk_rc_set_default_files(default_files);
-  gtk_rc_reparse_all_for_settings(gtk_settings_get_default(), TRUE);
+  GtkStyle *style;
+  bool theme_loaded;
+
+  /* try to load user defined theme */
+  theme_loaded = load_theme(default_theme_name);
+
+  /* no user defined theme loaded -> try to load Freeciv default theme */
+  if (!theme_loaded) {
+    theme_loaded = load_theme(FC_GTK_DEFAULT_THEME_NAME);
+    if (theme_loaded) {
+      sz_strlcpy(default_theme_name, FC_GTK_DEFAULT_THEME_NAME);
+    }
+  }
+    
+  /* still no theme loaded -> load system default theme */
+  if (!theme_loaded) {
+    load_default_files();
+    default_files[num_default_files] = NULL;
+    gtk_rc_set_default_files(default_files);
+    gtk_rc_reparse_all_for_settings(gtk_settings_get_default(), TRUE);
+      
+    /* the turn done button must have its own style. otherwise when we flash
+       the turn done button other widgets may flash too. */
+    if (!(style = gtk_rc_get_style(turn_done_button))) {
+      style = turn_done_button->style;
+    }
+    gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
+  }
 }
 
 /*****************************************************************************
@@ -103,15 +137,28 @@ char **get_gui_specific_themes_directories(int *count)
 {
   gchar *standard_dir;
   char *home_dir;
-  char **directories = fc_malloc(sizeof(char *) * 2);
+  int i;
 
-  *count = 0;
+  const char **data_directories = get_data_dirs(count);
+    
+  char **directories = fc_malloc(sizeof(char *) * (*count + 2));
+    
+  /* Freeciv-specific GTK+ themes directories */
+  for (i = 0; i < *count; i++) {
+    char buf[strlen(data_directories[i]) + strlen("/themes/gui-gtk-2.0") + 1];
+    
+    my_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-2.0", data_directories[i]);
 
+    directories[i] = mystrdup(buf);
+  }
+    
+  /* standard GTK+ themes directory (e.g. /usr/share/themes) */
   standard_dir = gtk_rc_get_theme_dir();
   directories[*count] = mystrdup(standard_dir);
   (*count)++;
   g_free(standard_dir);
 
+  /* user GTK+ themes directory (~/.themes) */
   home_dir = user_home_dir();
   if (home_dir) {
     char buf[strlen(home_dir) + 16];
