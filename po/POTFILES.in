@@ -17,6 +17,7 @@ common/version.c
 common/aicore/cm.c
 utility/fciconv.c
 utility/inputfile.c
+utility/ioz.c
 utility/log.c
 utility/mem.c
 utility/registry.c
