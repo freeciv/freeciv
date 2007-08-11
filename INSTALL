@@ -2,8 +2,9 @@
 Installing Freeciv:
 ===================
 
-This file describes how to compile and install Freeciv. This file is
-last updated 18-Mar-07.
+This file describes how to compile and install Freeciv. Last time we
+made sure this file is up to date was 16-Jul-06.
+Last minor update was 10-Aug-07.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -66,7 +67,7 @@ out whether your system is suitable.  If in doubt, just try it.
 
    Officially released versions of Freeciv are designed to have
    makefiles which work with most make programs.  Development releases
-   and CVS snapshots contain things (like dependencies) which use
+   and svn snapshots contain things (like dependencies) which use
    gmake's enhanced features, so gmake is necessary for development,
    unless you give configure the "--disable-cvs-deps" option.  See the
    section below for more information.
@@ -278,7 +279,7 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
 
 2. Generating Makefiles
 =======================
-This section contains two parts, one for generating makefiles from CVS
+This section contains two parts, one for generating makefiles from svn
 versions and one for generating makefiles from release versions.
 
 2a. Generating the Makefile for svn versions:
@@ -680,7 +681,7 @@ make -f scripts/makefile.gcc CC=i386-mingw32-gcc RANLIB=i386-mingw32-ranlib
 These things have to be put to a place where your compiler will find it.
 
 Autoconf and co:
-If you build from cvs, you will have to replace ./configure with ./autogen.sh 
+If you build from svn, you will have to replace ./configure with ./autogen.sh 
 in the following lines.
 
 Configuring the source:
