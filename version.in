@@ -16,15 +16,21 @@ FREECIV_RELEASE_MONTH(4)
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
-# For reasons I don't understand, any spaces in this string causes it to
-# be seen completely empty.
+# "+2.1c" is the base capability string.
 #
-# +2.1c is the base capability string.
+# "CitywallFix"     fixes problem that cities were sometimes drawn with walls
+#                   even when there was no wall
+#
+# "PreferedTileset" allows server to suggest client what tileset to use
+#
+# "ReportFreezeFix" allows clients to correctly freeze reports and agents
+#                   over turn change.
+#
 #
 #   - No new manditory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-#   - Avoid adding a new manditory capbility to the development branch for
+#   - Avoid adding a new manditory capability to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING(["+2.1c, CitywallFix, PreferedTileset"])
+FREECIV_NETWORK_CAPSTRING(["+2.1c, CitywallFix, PreferedTileset, ReportFreezeFix"])
