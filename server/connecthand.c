@@ -73,6 +73,12 @@ void establish_new_connection(struct connection *pconn)
   pconn->server.status = AS_ESTABLISHED;
 
   conn_list_append(game.est_connections, pconn);
+  if (conn_list_size(game.est_connections) == 1) {
+    /* First connection
+     * Replace "restarting in x seconds" meta message */
+    maybe_automatic_meta_message(default_meta_message_string());
+    (void) send_server_info_to_metaserver(META_INFO);
+  }
 
   /* introduce the server to the connection */
   if (my_gethostname(hostname, sizeof(hostname)) == 0) {

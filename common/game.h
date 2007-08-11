@@ -115,6 +115,11 @@ struct civ_game {
   int veteran_chance[MAX_VET_LEVELS];
 
   struct {
+    bool user_message_set;
+    char user_message[256];
+  } meta_info;
+
+  struct {
     /* Function to be called in game_remove_unit when a unit is deleted. */
     void (*unit_deallocate)(int unit_id);
   } callbacks;

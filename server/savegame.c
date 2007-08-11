@@ -3596,9 +3596,17 @@ void game_load(struct section_file *file)
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),
                                                 "game.metapatches"));
-    set_meta_message_string(secfile_lookup_str_default(file, 
+    game.meta_info.user_message_set = secfile_lookup_bool_default(file,
+                                                                  FALSE,
+                                                "game.user_metamessage");
+    if (game.meta_info.user_message_set) {
+      set_user_meta_message_string(secfile_lookup_str_default(file, 
                                                 default_meta_message_string(),
                                                 "game.metamessage"));
+    } else {
+      /* To avoid warnings when loading pre-2.1 savegames */
+      secfile_lookup_str_default(file, "", "game.metamessage");
+    }
 
     sz_strlcpy(srvarg.metaserver_addr,
 	       secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
@@ -4171,6 +4179,7 @@ void game_save(struct section_file *file, const char *save_reason)
   int version;
   char options[512];
   char temp[B_LAST+1];
+  const char *user_message;
 
   version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
   secfile_insert_int(file, version, "game.version");
@@ -4183,7 +4192,12 @@ void game_save(struct section_file *file, const char *save_reason)
 				  RUN_GAME_STATE), "game.server_state");
   
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
-  secfile_insert_str(file, get_meta_message_string(), "game.metamessage");
+  secfile_insert_bool(file, game.meta_info.user_message_set,
+                      "game.user_metamessage");
+  user_message = get_user_meta_message_string();
+  if (user_message != NULL) {
+    secfile_insert_str(file, user_message, "game.metamessage");
+  }
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
   
   sz_strlcpy(options, SAVEFILE_OPTIONS);
