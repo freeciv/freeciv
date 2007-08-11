@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-10 17:22+0300\n"
+"POT-Creation-Date: 2007-08-11 08:33+0200\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -3036,10 +3036,10 @@ msgstr[0] "Ein Abkommen mit %d Klausel wurde vereinbart."
 msgstr[1] "Ein Abkommen mit %d Klauseln wurde vereinbart."
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, c-format, fuzzy
+#, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
-"Eine der Städte, die %s abgeben möchte, wurde zerstört! Das Abkommen ist "
+"Eine der Städte, die die %s abgeben möchte, wurde zerstört! Das Abkommen ist "
 "gegenstandslos!"
 
 #: server/diplhand.c:272 server/diplhand.c:277
@@ -7632,7 +7632,6 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "Unterhalter, Forscher, Steuerfahnder"
 
 #: client/cityrepdata.c:450
-#, fuzzy
 msgid "Concise + Rapture, - Disorder"
 msgstr "einspaltige Statusanzeige: + begeistert, - in Aufruhr"
 
@@ -7726,7 +7725,6 @@ msgid "Units"
 msgstr "Einheiten"
 
 #: client/cityrepdata.c:472
-#, fuzzy
 msgid "?Present (units):Here"
 msgstr "station."
 
@@ -7735,7 +7733,6 @@ msgid "Number of units present"
 msgstr "Stationierte Einheiten"
 
 #: client/cityrepdata.c:474
-#, fuzzy
 msgid "?Supported (units):Owned"
 msgstr "unterh."
 
@@ -7744,12 +7741,10 @@ msgid "Number of units supported"
 msgstr "Unterstützte Einheiten"
 
 #: client/cityrepdata.c:477
-#, fuzzy
 msgid "?food (population):Grow"
-msgstr "wächst"
+msgstr "Wachstum"
 
 #: client/cityrepdata.c:478 client/cityrepdata.c:523
-#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(aktuell/benötigt)"
 
@@ -7758,9 +7753,8 @@ msgid "Turns until growth/famine"
 msgstr "Runden bis Wachstum/Hungersnot"
 
 #: client/cityrepdata.c:481
-#, fuzzy
 msgid "?size [short]:Sz"
-msgstr "?size:Gr"
+msgstr "Gr"
 
 #: client/cityrepdata.c:481
 msgid "Size"
@@ -7768,7 +7762,7 @@ msgstr "Größe"
 
 #: client/cityrepdata.c:485
 msgid "?city:Name"
-msgstr "?city:Name"
+msgstr "Name"
 
 #: client/cityrepdata.c:485 client/gui-sdl/cityrep.c:169
 msgid "City Name"
@@ -7787,25 +7781,22 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Überschuß: Nahrung, Produktion, Handel"
 
 #: client/cityrepdata.c:491
-#, fuzzy
 msgid "?Food surplus [short]:+F"
-msgstr "?Food surplus [short]:+N"
+msgstr "+N"
 
 #: client/cityrepdata.c:491
 msgid "Surplus: Food"
 msgstr "Überschuß: Nahrung"
 
 #: client/cityrepdata.c:493
-#, fuzzy
 msgid "?Production surplus [short]:+P"
-msgstr "?Production surplus [short]:+P"
+msgstr "+P"
 
 #: client/cityrepdata.c:494
 msgid "Surplus: Production"
 msgstr "Überschuß: Produktion"
 
 #: client/cityrepdata.c:495
-#, fuzzy
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-P"
 
@@ -7814,16 +7805,14 @@ msgid "Waste"
 msgstr "Müll"
 
 #: client/cityrepdata.c:497
-#, fuzzy
 msgid "?Trade surplus [short]:+T"
-msgstr "?Trade surplus [short]:+H"
+msgstr "+H"
 
 #: client/cityrepdata.c:497
 msgid "Surplus: Trade"
 msgstr "Überschuß: Handel"
 
 #: client/cityrepdata.c:499
-#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-H"
 
@@ -7871,14 +7860,12 @@ msgid "Economy: Science"
 msgstr "Wirtschaft: Forschung"
 
 #: client/cityrepdata.c:511
-#, fuzzy
 msgid "?number_trade_routes:n"
-msgstr "?number_trade_routes:#"
+msgstr "#"
 
 #: client/cityrepdata.c:511
-#, fuzzy
 msgid "?number_trade_routes:R"
-msgstr "?number_trade_routes:H"
+msgstr "HW"
 
 #: client/cityrepdata.c:512
 msgid "Number of Trade Routes"
@@ -7886,7 +7873,7 @@ msgstr "Anzahl der Handelswege"
 
 #: client/cityrepdata.c:514
 msgid "?pollution [short]:Pol"
-msgstr "Ver."
+msgstr "UV"
 
 #: client/cityrepdata.c:516
 msgid "?cma:Governor"
@@ -7900,7 +7887,6 @@ msgid "Citizen Governor"
 msgstr "Bürgermeister"
 
 #: client/cityrepdata.c:519
-#, fuzzy
 msgid "Turns/Buy"
 msgstr "Runden/Preis"
 
@@ -7913,7 +7899,6 @@ msgid "?specialist:S"
 msgstr "F"
 
 #: client/cityrepdata.c:571
-#, fuzzy
 msgid "Specialists"
 msgstr "Spezialisten"
 
