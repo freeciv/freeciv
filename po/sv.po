@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-10 14:31+0300\n"
+"POT-Creation-Date: 2007-08-11 14:24+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -3964,7 +3964,7 @@ msgstr "Kunde inte finna en läsbar regelfil med namnet \"%s.%s\"."
 
 #: server/ruleset.c:2344
 msgid "No barbarian nation in rulesets, at least one required!"
-msgstr ""
+msgstr "Reglerna saknar en barbarnation: åtminstone en behövs!"
 
 #: server/ruleset.c:3151
 msgid "Loading rulesets"
@@ -5417,14 +5417,14 @@ msgstr "Okänd redogörelse efterfrågades (slag %d)"
 #: server/srv_main.c:1018
 #, c-format
 msgid "Warning: rejecting old client %s"
-msgstr "Varning: avvisar gammal klient %s"
+msgstr "Varning: avvisar föråldrad klient %s"
 
 #: server/srv_main.c:1027
-#, fuzzy
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "Freeciv 2.0 or later."
-msgstr "Din klient är för gammal. För att använda denna server "
+msgstr "Din klient är för gammal. För att använda denna server måste du "
+"uppgradera till Freeciv 2.0 eller senare."
 
 #: server/srv_main.c:1113
 #, c-format
@@ -8961,31 +8961,31 @@ msgstr "Kopiera %s till klippbord."
 msgid "Clipboard is empty."
 msgstr "Klippbordet är tomt."
 
-#: client/options.c:87
+#: client/options.c:89
 msgid "Graphics"
 msgstr "Bild"
 
-#: client/options.c:88
+#: client/options.c:90
 msgid "Overview"
 msgstr "Översiktskarta"
 
-#: client/options.c:89
+#: client/options.c:91
 msgid "Sound"
 msgstr "Ljud"
 
-#: client/options.c:90
+#: client/options.c:92
 msgid "Interface"
 msgstr "Gränssnitt"
 
-#: client/options.c:91
+#: client/options.c:93
 msgid "Network"
 msgstr "Nätverk"
 
-#: client/options.c:96
+#: client/options.c:98
 msgid "Login name"
 msgstr "Inloggningsnamn"
 
-#: client/options.c:97
+#: client/options.c:99
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -8993,11 +8993,11 @@ msgstr ""
 "Detta är det användarnamn som normalt kommer användas när du loggar in samt "
 "med kommandoradsparametern -a."
 
-#: client/options.c:102
+#: client/options.c:104
 msgid "Server"
 msgstr "Server"
 
-#: client/options.c:103
+#: client/options.c:105
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -9005,11 +9005,11 @@ msgstr ""
 "Detta är det förvalda servervärdsnamnet som kommer användas i "
 "anslutningsdialoger samt med kommandoradsparametern -a."
 
-#: client/options.c:108
+#: client/options.c:110
 msgid "Server port"
 msgstr "Serverport"
 
-#: client/options.c:109
+#: client/options.c:111
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -9017,12 +9017,12 @@ msgstr ""
 "Detta är den förvalda serverporten som kommer användas i anslutningsdialoger "
 "samt med kommandoradsparametern -a."
 
-#: client/options.c:114 client/gui-mui/connectdlg.c:178
+#: client/options.c:116 client/gui-mui/connectdlg.c:178
 #: client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metaserver"
 
-#: client/options.c:115
+#: client/options.c:117
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
@@ -9032,11 +9032,11 @@ msgstr ""
 "tillgängliga på Internet. Ändra inte värdet här om du inte är helt säker på "
 "din sak."
 
-#: client/options.c:121
+#: client/options.c:123
 msgid "Soundset"
 msgstr "Ljuduppsättning"
 
-#: client/options.c:122
+#: client/options.c:124
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
@@ -9044,11 +9044,11 @@ msgstr ""
 "Detta är den ljuduppsättning som kommer användas. Detta motsvarar "
 "kommandoradsparametern -S."
 
-#: client/options.c:127
+#: client/options.c:129
 msgid "Sound plugin"
 msgstr "Insticksprogram för ljud"
 
-#: client/options.c:128
+#: client/options.c:130
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
@@ -9058,11 +9058,19 @@ msgstr ""
 "måste starta om klienten för att använda det nya insticksprogrammet. Detta "
 "motsvarar kommandoradsparametern -P."
 
-#: client/options.c:133
+#: client/options.c:135 client/gui-sdl/gui_main.c:161
+msgid "Theme"
+msgstr "Tema"
+
+#: client/options.c:136
+msgid "By changing this option you change the active theme."
+msgstr "Här kan du byta aktivt tema."
+
+#: client/options.c:139
 msgid "Tileset"
 msgstr "Rutbildsuppsättning"
 
-#: client/options.c:134
+#: client/options.c:140
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
@@ -9070,11 +9078,11 @@ msgstr ""
 "Här kan du byta rutbildsuppsättning. Detta motsvarar kommandoradsparametern -"
 "t."
 
-#: client/options.c:141
+#: client/options.c:147
 msgid "Solid unit background color"
 msgstr "Enkel bakgrundsfärg för enheter"
 
-#: client/options.c:142
+#: client/options.c:148
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
@@ -9082,11 +9090,11 @@ msgstr ""
 "Är detta påslaget visas enheter på kartan med enkel bakgrundsfärg istället "
 "för en flagga eller sköld."
 
-#: client/options.c:146 client/gui-sdl/optiondlg.c:968
+#: client/options.c:152 client/gui-sdl/optiondlg.c:968
 msgid "Sound bell at new turn"
 msgstr "Ring i klocka vid ny omgång"
 
-#: client/options.c:147
+#: client/options.c:153
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -9095,11 +9103,11 @@ msgstr ""
 "Är detta påslaget genereras en \"bell\"-händelse i början av varje omgång. "
 "Du kan ändra \"bell\"-händelsens funktion i meddelandevalmöjligheter."
 
-#: client/options.c:153
+#: client/options.c:159
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Animationstid vid enhetsförflyttning (ms)"
 
-#: client/options.c:154
+#: client/options.c:160
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -9107,11 +9115,11 @@ msgstr ""
 "Detta påverkar hur lång tid animationen av enheter tar när de rör sig på "
 "kartan. Sätt det till 0 för att avaktivera animationen."
 
-#: client/options.c:159
+#: client/options.c:165
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Återfokuseringstid för kartvyn (ms)"
 
-#: client/options.c:160
+#: client/options.c:166
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -9121,21 +9129,21 @@ msgstr ""
 "Detta tillval påverkar hur lång tid denna glidning får ta. Sätt det till 0 "
 "för att avaktivera effekten."
 
-#: client/options.c:165 client/gui-sdl/optiondlg.c:1022
+#: client/options.c:171 client/gui-sdl/optiondlg.c:1022
 msgid "Show combat animation"
 msgstr "Visa kampanimationer"
 
-#: client/options.c:166
+#: client/options.c:172
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr "Detta avgör om kamp mellan enheter på kartan är animerad eller inte."
 
-#: client/options.c:169
+#: client/options.c:175
 msgid "Draw the citybar"
 msgstr "Visa stadsfältet"
 
-#: client/options.c:170
+#: client/options.c:176
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
@@ -9144,11 +9152,11 @@ msgstr ""
 "Är detta påslaget visas ett s.k. stadsfält under varje stad som innehåller "
 "en smärre mängd data om denna."
 
-#: client/options.c:176
+#: client/options.c:182
 msgid "Show icons in the technology tree"
 msgstr "Visa ikoner i teknologiträdet."
 
-#: client/options.c:177
+#: client/options.c:183
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -9156,22 +9164,22 @@ msgstr ""
 "Är detta påslaget visas ikoner i teknologiträdet. Utan detta blir "
 "teknologiträdet kompaktare."
 
-#: client/options.c:182
+#: client/options.c:188
 msgid "Draw shield graphics for units"
 msgstr "Visa sköldgrafik på enheter"
 
-#: client/options.c:183
+#: client/options.c:189
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
 msgstr ""
 "Är detta påslaget visas sköldikoner vid varje enhet istället för flaggor."
 
-#: client/options.c:187
+#: client/options.c:193
 msgid "Manual Turn Done in AI Mode"
 msgstr "Manuell avsluta omgång i datorstyrt läge"
 
-#: client/options.c:188
+#: client/options.c:194
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -9179,21 +9187,21 @@ msgstr ""
 "Med detta avslaget behöver du inte trycka på avsluta omgång-knappen när du "
 "är betraktare av en datorspelare."
 
-#: client/options.c:192 client/gui-sdl/optiondlg.c:1129
+#: client/options.c:198 client/gui-sdl/optiondlg.c:1129
 msgid "Auto Center on Units"
 msgstr "Självcentrering på enheter"
 
-#: client/options.c:193
+#: client/options.c:199
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr "Med detta påslaget fokuseras vyn på nyligen aktiverade enheter direkt."
 
-#: client/options.c:196 client/gui-sdl/optiondlg.c:1155
+#: client/options.c:202 client/gui-sdl/optiondlg.c:1155
 msgid "Auto Center on Combat"
 msgstr "Självcentrering på kamp"
 
-#: client/options.c:197
+#: client/options.c:203
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
@@ -9202,19 +9210,19 @@ msgstr ""
 "Med detta påslaget fokuseras vyn på strid automatiskt. Är det inte påslaget "
 "snabbas en omgång upp, men du riskerar gå miste om striderna."
 
-#: client/options.c:202 client/gui-sdl/optiondlg.c:1182
+#: client/options.c:208 client/gui-sdl/optiondlg.c:1182
 msgid "Focus on Awakened Units"
 msgstr "Fokus på väckta enheter"
 
-#: client/options.c:203
+#: client/options.c:209
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr "Slå på detta val så fokuseras vyn på nyligen väckta enheter direkt."
 
-#: client/options.c:206
+#: client/options.c:212
 msgid "Allow goto into the unknown"
 msgstr "Tillåt gå-till genom okänt land"
 
-#: client/options.c:207
+#: client/options.c:213
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -9222,22 +9230,22 @@ msgstr ""
 "Är detta påslaget kan man utfärda gå-tillbefallningar genom okänt land. Är "
 "det avslaget väljs rutten runt okänt land, eller t.o.m. blockeras av det."
 
-#: client/options.c:211
+#: client/options.c:217
 msgid "Center map when Popup city"
 msgstr "Centrera kartan vid öppning av stadsfönster"
 
-#: client/options.c:212
+#: client/options.c:218
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 "Är detta påslaget, centreras vyn på en stad när dess stadsdialog öppnas."
 
-#: client/options.c:215
+#: client/options.c:221
 msgid "Concise City Production"
 msgstr "Kortfattad visning av vad städer bygger"
 
-#: client/options.c:216
+#: client/options.c:222
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
@@ -9245,11 +9253,11 @@ msgstr ""
 "Är detta påslaget visas i stadsdialogen en sammandragen version av vad "
 "staden bygger."
 
-#: client/options.c:219 client/gui-sdl/optiondlg.c:1260
+#: client/options.c:225 client/gui-sdl/optiondlg.c:1260
 msgid "End Turn when done moving"
 msgstr "Avsluta omgången när allas drag ha slutförts"
 
-#: client/options.c:220
+#: client/options.c:226
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
@@ -9257,95 +9265,95 @@ msgstr ""
 "Är detta påslaget avslutas omgången i samma ögonblick du flyttat färdigt din "
 "sista enhet."
 
-#: client/options.c:223 client/gui-sdl/optiondlg.c:1234
+#: client/options.c:229 client/gui-sdl/optiondlg.c:1234
 msgid "Prompt for city names"
 msgstr "Fråga efter stadsnamn"
 
-#: client/options.c:224
+#: client/options.c:230
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
 msgstr "Är detta avslaget väljs stadsnamn åt dig."
 
-#: client/options.c:227 client/gui-sdl/optiondlg.c:1208
+#: client/options.c:233 client/gui-sdl/optiondlg.c:1208
 msgid "Pop up city dialog for new cities"
 msgstr "Öppna stadsdialog för nya städer"
 
-#: client/options.c:228
+#: client/options.c:234
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr "Är detta påslaget visas en nygrundad stads stadsdialog direkt."
 
-#: client/options.c:233
+#: client/options.c:239
 msgid "Background layer"
 msgstr "Bakgrund"
 
-#: client/options.c:234
+#: client/options.c:240
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "Visar vad som är hav och land på översiktskartan."
 
-#: client/options.c:237
+#: client/options.c:243
 msgid "Terrain relief map layer"
 msgstr "Landskap"
 
-#: client/options.c:238
+#: client/options.c:244
 msgid "The relief layer shows all terrains on the map."
 msgstr "Visar allt landskap på översiktskartan."
 
-#: client/options.c:241
+#: client/options.c:247
 msgid "Borders layer"
 msgstr "Gränser"
 
-#: client/options.c:242
+#: client/options.c:248
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr "Visar varje rutas ägare på översiktskartan."
 
-#: client/options.c:246
+#: client/options.c:252
 msgid "Units layer"
 msgstr "Enheter"
 
-#: client/options.c:247
+#: client/options.c:253
 msgid "Enabling this will draw units on the overview."
 msgstr "Visar enheter på översiktskartan."
 
-#: client/options.c:250
+#: client/options.c:256
 msgid "Cities layer"
 msgstr "Städer"
 
-#: client/options.c:251
+#: client/options.c:257
 msgid "Enabling this will draw cities on the overview."
 msgstr "Visar städer på översiktskartan."
 
-#: client/options.c:254
+#: client/options.c:260
 msgid "Overview fog of war"
 msgstr "Krigsdimma"
 
-#: client/options.c:255
+#: client/options.c:261
 msgid "Enabling this will show fog of war on the overview."
 msgstr "Visar krigsdimma på översiktskartan"
 
-#: client/options.c:424
+#: client/options.c:430
 msgid "Cannot find your home directory"
 msgstr "Kan inte finna din hemkatalog"
 
-#: client/options.c:577
+#: client/options.c:583
 msgid "Save failed, cannot find a filename."
 msgstr "Sparning misslyckades, kan inte hitta ett filnamn."
 
-#: client/options.c:636
+#: client/options.c:642
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Om man lägger till ett förvalt värde för hand bör man även uppdatera "
 "\"number_of_presets\""
 
-#: client/options.c:647
+#: client/options.c:653
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Sparning misslyckades, kan inte skriva till fil %s"
 
-#: client/options.c:650
+#: client/options.c:656
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Sparade inställningar i filen %s"
@@ -11279,32 +11287,34 @@ msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
+"Denna klient har inga speciella kommandoradstillval.\n"
+"\n"
 
-#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1317
+#: client/gui-gtk-2.0/gui_main.c:687 client/gui-gtk-2.0/gui_main.c:1309
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1053 client/gui-gtk-2.0/gui_main.c:1067
+#: client/gui-gtk-2.0/gui_main.c:1052 client/gui-gtk-2.0/gui_main.c:1059
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Avsluta omgång"
 
-#: client/gui-gtk-2.0/gui_main.c:1067 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:1072
 msgid "Shift+Return"
 msgstr "Skift+Retur"
 
-#: client/gui-gtk-2.0/gui_main.c:1099
+#: client/gui-gtk-2.0/gui_main.c:1091
 msgid "_Map"
 msgstr "_Karta"
 
 # DM> tidigare "_Tjatt" - Onödig försvenskning!
-#: client/gui-gtk-2.0/gui_main.c:1180
+#: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_Kommunikation"
 
-#: client/gui-gtk-2.0/gui_main.c:1196 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1188 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11315,72 +11325,72 @@ msgstr ""
 "under särskilda villkor; Se \"Kopiering\" under hjälpmenyn.\n"
 "Nu får du ge dem vad de tål!"
 
-#: client/gui-gtk-2.0/gui_main.c:1461
+#: client/gui-gtk-2.0/gui_main.c:1453
 msgid "Not _ready"
 msgstr "Inte _redo"
 
-#: client/gui-gtk-2.0/gui_main.c:1472 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1464 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
 msgstr "_Redo"
 
-#: client/gui-gtk-2.0/gui_main.c:1476 client/gui-gtk-2.0/gui_main.c:1482
+#: client/gui-gtk-2.0/gui_main.c:1468 client/gui-gtk-2.0/gui_main.c:1474
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
 msgstr "_Sätt igång"
 
-#: client/gui-gtk-2.0/gui_main.c:1487 client/gui-gtk-2.0/pages.c:1567
+#: client/gui-gtk-2.0/gui_main.c:1479 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
 msgstr "Välj ditt _folk"
 
-#: client/gui-gtk-2.0/gui_main.c:1489
+#: client/gui-gtk-2.0/gui_main.c:1481
 msgid "Create _player"
 msgstr "Lägg till s_pelare"
 
-#: client/gui-gtk-2.0/gui_main.c:1494
+#: client/gui-gtk-2.0/gui_main.c:1486
 msgid "_Release player"
 msgstr "Avlägsna spela_re"
 
-#: client/gui-gtk-2.0/gui_main.c:1496 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1488 client/gui-gtk-2.0/pages.c:1572
 msgid "_Observe"
 msgstr "_Iakttag"
 
-#: client/gui-gtk-2.0/gui_main.c:1498
+#: client/gui-gtk-2.0/gui_main.c:1490
 msgid "_Do not observe"
 msgstr "Iakttag ej (_d)"
 
-#: client/gui-gtk-2.0/gui_main.c:1520
+#: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
 msgstr "<Datorstyrd>"
 
-#: client/gui-gtk-2.0/gui_main.c:1523
+#: client/gui-gtk-2.0/gui_main.c:1515
 msgid "<Novice AI>"
 msgstr "<nybörjar-dator>"
 
-#: client/gui-gtk-2.0/gui_main.c:1526
+#: client/gui-gtk-2.0/gui_main.c:1518
 msgid "<Easy AI>"
 msgstr "<lätt dator>"
 
-#: client/gui-gtk-2.0/gui_main.c:1529
+#: client/gui-gtk-2.0/gui_main.c:1521
 msgid "<Normal AI>"
 msgstr "<normal dator>"
 
-#: client/gui-gtk-2.0/gui_main.c:1532
+#: client/gui-gtk-2.0/gui_main.c:1524
 msgid "<Hard AI>"
 msgstr "<svår dator>"
 
-#: client/gui-gtk-2.0/gui_main.c:1542 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1534 client/gui-win32/dialogs.c:599
 msgid "Random"
 msgstr "Slumpvald"
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Observer"
 msgstr "Iakttagare"
 
-#: client/gui-gtk-2.0/gui_main.c:1604
+#: client/gui-gtk-2.0/gui_main.c:1596
 msgid "Detached"
 msgstr "Frånkopplad"
 
-#: client/gui-gtk-2.0/gui_main.c:1874
+#: client/gui-gtk-2.0/gui_main.c:1866
 msgid "Are you sure you want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
@@ -11811,7 +11821,7 @@ msgstr "_Revolution..."
 #: client/gui-gtk-2.0/menu.c:748 client/gui-gtk-2.0/menu.c:949
 #: client/gui-win32/menu.c:429
 msgid "_Government"
-msgstr "Re_gering"
+msgstr "S_tatsskick"
 
 #: client/gui-gtk-2.0/menu.c:751 client/gui-win32/menu.c:334
 msgid "_View"
@@ -12809,6 +12819,50 @@ msgstr "(gömt)"
 #: client/gui-gtk-2.0/spaceshipdlg.c:221 client/gui-mui/spaceshipdlg.c:228
 msgid "_Launch"
 msgstr "_Sänd iväg"
+
+#: client/gui-gtk-2.0/theme_dlg.c:57
+msgid "Theme suggested"
+msgstr "Föreslaget tema"
+
+#: client/gui-gtk-2.0/theme_dlg.c:60
+msgid "Load theme"
+msgstr "Läs in tema"
+
+#: client/gui-gtk-2.0/theme_dlg.c:62
+msgid "Keep current theme"
+msgstr "Behåll nuvarande tema"
+
+#: client/gui-gtk-2.0/theme_dlg.c:69
+#, c-format
+msgid ""
+"Tileset suggests using %s theme.\n"
+"You are currently using %s."
+msgstr ""
+"Rutbildsuppsättningen rekommenderar temat %s.\n"
+"Du använder f.n. %s."
+
+#: client/gui-gtk-2.0/tileset_dlg.c:51
+msgid "Prefered tileset"
+msgstr "Föredraget tema"
+
+#: client/gui-gtk-2.0/tileset_dlg.c:54
+msgid "Load tileset"
+msgstr "Läs in rutbildsuppsättning"
+
+#: client/gui-gtk-2.0/tileset_dlg.c:56
+msgid "Keep current tileset"
+msgstr "Behåll nuvarande rutbildsuppsättning"
+
+#: client/gui-gtk-2.0/tileset_dlg.c:63
+#, c-format
+msgid ""
+"Modpack suggest using %s tileset.\n"
+"It might not work with other tilesets.\n"
+"You are currently using tileset %s."
+msgstr ""
+"Modifieringen föreslår rulbildsuppsättningen %s\n"
+"och fungerar möjligen inte med någon annan.\n"
+"Du änvänder f.n. %s."
 
 #: client/gui-gtk-2.0/wldlg.c:178
 msgid "new"
@@ -14851,10 +14905,6 @@ msgstr "Skärmhöjd"
 msgid "This option saves the height of the selected screen resolution"
 msgstr "Sparar höjden på den valda skärmupplösningen"
 
-#: client/gui-sdl/gui_main.c:161
-msgid "Theme"
-msgstr "Tema"
-
 #: client/gui-sdl/gui_main.c:162
 msgid ""
 "By changing this option you change the active theme. This is the same as "
@@ -15124,14 +15174,14 @@ msgid "Options"
 msgstr "Valmöjligheter"
 
 #: client/gui-sdl/mapview.c:154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
 "report it at %s. Thank you."
 msgstr ""
-"SDLs händelsebuffer är full; du kan stöta på grafikfel\n"
-"p.g.a. detta.  Om du ser detta meddelande ofta,\n"
+"SDLs händelsebuffer är full vilket kan orsaka grafikfel.\n"
+"Om du ser detta meddelande ofta, rapportera till %s."
 
 #: client/gui-sdl/mapview.c:404
 #, c-format
