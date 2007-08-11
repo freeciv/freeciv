@@ -119,6 +119,8 @@ static void announce_ai_player(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static void srv_loop(void);
 
+static void freeze_clients(void);
+static void thaw_clients(void);
 
 /* this is used in strange places, and is 'extern'd where
    needed (hence, it is not 'extern'd in srv_main.h) */
@@ -1506,6 +1508,30 @@ static void announce_ai_player (struct player *pplayer) {
 }
 
 /**************************************************************************
+  Send PACKET_FREEZE_CLIENT to all clients capable of handling it.
+**************************************************************************/
+static void freeze_clients(void)
+{
+  conn_list_iterate(game.game_connections, pconn) {
+    if (has_capability("ReportFreezeFix", pconn->capability)) {
+      send_packet_freeze_client(pconn);
+    }
+  } conn_list_iterate_end;
+}
+
+/**************************************************************************
+  Send PACKET_THAW_CLIENT to all clients capable of handling it.
+**************************************************************************/
+static void thaw_clients(void)
+{
+  conn_list_iterate(game.game_connections, pconn) {
+    if (has_capability("ReportFreezeFix", pconn->capability)) {
+      send_packet_thaw_client(pconn);
+    }
+  } conn_list_iterate_end;
+}
+
+/**************************************************************************
 Play the game! Returns when server_state == GAME_OVER_STATE.
 **************************************************************************/
 static void main_loop(void)
@@ -1522,10 +1548,10 @@ static void main_loop(void)
   /* 
    * This will freeze the reports and agents at the client.
    * 
-   * Do this before the body so that the PACKET_THAW_HINT packet is
-   * balanced. 
+   * Do this before the body so that the PACKET_THAW_CLIENT packet is
+   * balanced.
    */
-  lsend_packet_freeze_hint(&game.game_connections);
+  freeze_clients();
 
   while(server_state==RUN_GAME_STATE) {
     /* The beginning of a turn.
@@ -1542,7 +1568,7 @@ static void main_loop(void)
     /* 
      * This will thaw the reports and agents at the client.
      */
-    lsend_packet_thaw_hint(&game.game_connections);
+    thaw_clients();
 
     /* Before sniff (human player activites), report time to now: */
     freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
@@ -1574,7 +1600,7 @@ static void main_loop(void)
     /* 
      * This will freeze the reports and agents at the client.
      */
-    lsend_packet_freeze_hint(&game.game_connections);
+    freeze_clients();
 
     end_phase();
     end_turn();
@@ -1591,7 +1617,7 @@ static void main_loop(void)
   /* 
    * This will thaw the reports and agents at the client.
    */
-  lsend_packet_thaw_hint(&game.game_connections);
+  thaw_clients();
 
   free_timer(eot_timer);
 }

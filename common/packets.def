@@ -884,6 +884,14 @@ PACKET_NEW_YEAR=92;sc,lsend
   TURN turn;
 end
 
+# Freeze reports and agents
+PACKET_FREEZE_CLIENT=135;sc,lsend
+end
+
+# Thaw reports and agents
+PACKET_THAW_CLIENT=136;sc,lsend
+end
+
 /************** Spaceship packets **********************/
 
 PACKET_SPACESHIP_LAUNCH=93;cs

@@ -323,6 +323,12 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_NEW_YEAR:
     return receive_packet_new_year(pc, type);
 
+  case PACKET_FREEZE_CLIENT:
+    return receive_packet_freeze_client(pc, type);
+
+  case PACKET_THAW_CLIENT:
+    return receive_packet_thaw_client(pc, type);
+
   case PACKET_SPACESHIP_LAUNCH:
     return receive_packet_spaceship_launch(pc, type);
 
@@ -676,6 +682,12 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_NEW_YEAR:
     return "PACKET_NEW_YEAR";
+
+  case PACKET_FREEZE_CLIENT:
+    return "PACKET_FREEZE_CLIENT";
+
+  case PACKET_THAW_CLIENT:
+    return "PACKET_THAW_CLIENT";
 
   case PACKET_SPACESHIP_LAUNCH:
     return "PACKET_SPACESHIP_LAUNCH";
@@ -20261,6 +20273,160 @@ void lsend_packet_new_year(struct conn_list *dest, const struct packet_new_year 
 {
   conn_list_iterate(*dest, pconn) {
     send_packet_new_year(pconn, packet);
+  } conn_list_iterate_end;
+}
+
+static struct packet_freeze_client *receive_packet_freeze_client_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_freeze_client, real_packet);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_freeze_client_100(struct connection *pc)
+{
+  SEND_PACKET_START(PACKET_FREEZE_CLIENT);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_freeze_client(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_FREEZE_CLIENT] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_FREEZE_CLIENT] = variant;
+}
+
+struct packet_freeze_client *receive_packet_freeze_client(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if(is_server) {
+    freelog(LOG_ERROR, "Receiving packet_freeze_client at the server.");
+  }
+  ensure_valid_variant_packet_freeze_client(pc);
+
+  switch(pc->phs.variant[PACKET_FREEZE_CLIENT]) {
+    case 100: return receive_packet_freeze_client_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_freeze_client(struct connection *pc)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if(!is_server) {
+    freelog(LOG_ERROR, "Sending packet_freeze_client from the client.");
+  }
+  ensure_valid_variant_packet_freeze_client(pc);
+
+  switch(pc->phs.variant[PACKET_FREEZE_CLIENT]) {
+    case 100: return send_packet_freeze_client_100(pc);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_freeze_client(struct conn_list *dest)
+{
+  conn_list_iterate(*dest, pconn) {
+    send_packet_freeze_client(pconn);
+  } conn_list_iterate_end;
+}
+
+static struct packet_thaw_client *receive_packet_thaw_client_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_thaw_client, real_packet);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_thaw_client_100(struct connection *pc)
+{
+  SEND_PACKET_START(PACKET_THAW_CLIENT);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_thaw_client(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_THAW_CLIENT] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_THAW_CLIENT] = variant;
+}
+
+struct packet_thaw_client *receive_packet_thaw_client(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if(is_server) {
+    freelog(LOG_ERROR, "Receiving packet_thaw_client at the server.");
+  }
+  ensure_valid_variant_packet_thaw_client(pc);
+
+  switch(pc->phs.variant[PACKET_THAW_CLIENT]) {
+    case 100: return receive_packet_thaw_client_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_thaw_client(struct connection *pc)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if(!is_server) {
+    freelog(LOG_ERROR, "Sending packet_thaw_client from the client.");
+  }
+  ensure_valid_variant_packet_thaw_client(pc);
+
+  switch(pc->phs.variant[PACKET_THAW_CLIENT]) {
+    case 100: return send_packet_thaw_client_100(pc);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_thaw_client(struct conn_list *dest)
+{
+  conn_list_iterate(*dest, pconn) {
+    send_packet_thaw_client(pconn);
   } conn_list_iterate_end;
 }
 

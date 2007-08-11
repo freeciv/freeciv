@@ -133,6 +133,12 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
       compression_level_initialized = TRUE;
     }
 
+    /* TODO: PACKET_FREEZE_HINT and PACKET_THAW_HINT are meaningful
+     * only internally. They should not be sent to connection at all.
+     * Freezing could also be handled via separate functions, and
+     * not by special packets.
+     * Only problem is backward compatibility, so this cannot be
+     * changed in stable branch. */
     if (packet_type == PACKET_PROCESSING_STARTED
 	|| packet_type == PACKET_FREEZE_HINT) {
       if (pc->compression.frozen_level == 0) {

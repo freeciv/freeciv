@@ -252,6 +252,14 @@ bool client_handle_packet(enum packet_type type, void *packet)
       ((struct packet_new_year *)packet)->turn);
     return TRUE;
 
+  case PACKET_FREEZE_CLIENT:
+    handle_freeze_client();
+    return TRUE;
+
+  case PACKET_THAW_CLIENT:
+    handle_thaw_client();
+    return TRUE;
+
   case PACKET_SPACESHIP_INFO:
     handle_spaceship_info(packet);
     return TRUE;
