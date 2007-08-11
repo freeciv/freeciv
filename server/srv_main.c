@@ -1307,7 +1307,24 @@ void init_available_nations(void)
     }
   }
   nations_iterate(nation) {
-    nation->player = NULL;
+    /* Even though this function is called init_available_nations(),
+     * nation->player should never have value assigned to it
+     * (since it has beeen initialized in load_rulesets() ). */
+    if (nation->player != NULL) {
+
+      freelog(LOG_ERROR, "Player assigned to nation before "
+                         "init_available_nations()");
+
+      /* Try to handle error situation as well as we can */
+      if (nation->player->nation == nation) {
+        /* At least assignment is consistent. Leave nation assigned,
+         * and make sure that nation is also marked available. */
+        nation->is_available = TRUE;
+      } else {
+        /* Not consistent. Just initialize the pointer and hope for the best */
+        nation->player = NULL;
+      }
+    }
   } nations_iterate_end;
   send_ruleset_nations(game.est_connections);
 }
@@ -1776,7 +1793,6 @@ void srv_main(void)
   
   con_flush();
 
-  server_game_init();
   stdinhand_init();
   diplhand_init();
 
@@ -1785,6 +1801,8 @@ void srv_main(void)
   if (!with_ggz) {
     server_open_socket();
   }
+
+  server_game_init();
 
   /* load a saved game */
   if (srvarg.load_filename[0] != '\0') {
@@ -1874,8 +1892,6 @@ static void final_ruleset_adjustments()
 **************************************************************************/
 static void srv_loop(void)
 {
-  init_available_nations();
-
   freelog(LOG_NORMAL, _("Now accepting new client connections."));
   while(server_state == PRE_GAME_STATE) {
     sniff_packets(); /* Accepting commands. */
