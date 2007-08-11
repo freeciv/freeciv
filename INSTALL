@@ -14,7 +14,7 @@ This document contains sections and subsections as follows:
           1b. Prerequisites for the Gtk+ 2.0 client:
           1c. Prerequisites for the Xaw client:
      2. Generating Makefiles
-          2a. Generating the Makefile for CVS versions:
+          2a. Generating the Makefile for svn versions:
           2b. Generating the Makefile for release versions:
      3. Compiling Freeciv:
      4. Installation:
@@ -53,7 +53,7 @@ out whether your system is suitable.  If in doubt, just try it.
    Development of Freeciv is primarily done with "gcc", the GNU
    project's excellent C compiler.  Releases can be compiled with gcc
    or most other compilers (such as the unbundled Solaris C compiler).
-   Development releases and CVS snapshots will not work without gcc,
+   Development releases and svn snapshots will not work without gcc,
    unless you give configure the "--disable-cvs-deps" option.  See
    the section below for more information.
    Note that there have been reports that gcc with -O3 miscompiled
@@ -65,7 +65,7 @@ out whether your system is suitable.  If in doubt, just try it.
 
    Officially released versions of Freeciv are designed to have
    makefiles which work with most make programs.  Development releases
-   and CVS snapshots contain things (like dependencies) which use
+   and svn snapshots contain things (like dependencies) which use
    gmake's enhanced features, so gmake is necessary for development,
    unless you give configure the "--disable-cvs-deps" option.  See the
    section below for more information.
@@ -77,13 +77,13 @@ out whether your system is suitable.  If in doubt, just try it.
 
    The output should include "GNU Make" somewhere.
 
-The CVS version has additional requirements. A release version
+The svn version has additional requirements. A release version
 contains the generated files.
 
  - The programs from GNU gettext version 0.10.36 or better
 
    Especial the xgettext program is required to create the *.gmo
-   files which aren't included in the CVS tree.
+   files which aren't included in the svn tree.
 
  - GNU autoconf version 2.13 or better
 
@@ -301,13 +301,13 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
 
 2. Generating Makefiles
 =======================
-This section contains two parts, one for generating makefiles from CVS
+This section contains two parts, one for generating makefiles from svn
 versions and one for generating makefiles from release versions.
 
-2a. Generating the Makefile for CVS versions:
+2a. Generating the Makefile for svn versions:
 =============================================
 
-This step is only needed for CVS versions.
+This step is only needed for svn versions.
 
 To create the makefile just type
 
@@ -339,7 +339,7 @@ script, try the --help option, like this:
 
  % ./configure --help
 
-If you're compiling a development release or a CVS snapshot, and you
+If you're compiling a development release or a svn snapshot, and you
 don't have both GNU make AND gcc, then pass configure the
 "--disable-cvs-deps" option.  You'll especially need to do this if
 you're using the Solaris cc and make programs.
