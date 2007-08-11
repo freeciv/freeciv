@@ -46,6 +46,7 @@
 #include "aiunit.h"		/* update_simple_ai_types */
 
 #include "ruleset.h"
+#include "srv_main.h"
 
 /* RULESET_SUFFIX already used, no leading dot here */
 #define RULES_SUFFIX "ruleset"
@@ -3494,6 +3495,10 @@ static void send_ruleset_game(struct conn_list *dest)
 static void reset_player_nations(void)
 {
   players_iterate(pplayer) {
+    /* We cannot use player_set_nation() here since this is
+     * called before nations are loaded. Player pointers
+     * from nations will be initialized to NULL when nations are
+     * loaded. */
     pplayer->nation = NO_NATION_SELECTED;
     pplayer->city_style = 0;
   } players_iterate_end;
@@ -3547,6 +3552,9 @@ void load_rulesets(void)
   load_ruleset_nations(&nationfile);
   load_ruleset_effects(&effectfile);
   load_ruleset_game();
+
+  /* Init nations we just loaded. */
+  init_available_nations();
 
   sanity_check_ruleset_data();
 
