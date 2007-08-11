@@ -66,6 +66,8 @@ void handle_conn_ping(void);
 void handle_end_phase(void);
 void handle_start_phase(int phase);
 void handle_new_year(int year, int turn);
+void handle_freeze_client(void);
+void handle_thaw_client(void);
 struct packet_spaceship_info;
 void handle_spaceship_info(struct packet_spaceship_info *packet);
 struct packet_ruleset_unit;
