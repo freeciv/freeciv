@@ -138,12 +138,14 @@ AC_ARG_ENABLE(make_include,
 esac], [make_include=false])
 AM_CONDITIONAL(MAKE_CLIENT_INCLUDE, test "$make_include" = "true")
 
-AC_ARG_ENABLE(cvs_deps,
- 	[  --disable-cvs-deps      remove cvs-source deps calcs, which require gmake,gcc],,
-	enable_cvs_deps="maybe"
-)
-CVS_DEPS=$enable_cvs_deps
-AC_SUBST(CVS_DEPS)
+AC_ARG_ENABLE([auto_deps],
+[  --disable-auto-deps     remove automatic deps calcs, which require gmake,gcc],
+[case "${enableval}" in
+  yes) enable_auto_deps=true ;;
+  no)  enable_auto_deps=false;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-auto-deps]) ;;
+esac], [enable_auto_deps="maybe"])
+AUTO_DEPS=$enable_auto_deps
 
 AC_ARG_WITH(efence,
 	[  --with-efence           use Electric Fence, malloc debugger ],
@@ -307,14 +309,15 @@ AC_C99_VARIABLE_ARRAYS
 AC_C99_INITIALIZERS
 AC_C99_STDINT_H
 
-if test "$CVS_DEPS" = "maybe"; then
+if test "$AUTO_DEPS" = "maybe"; then
    dnl Should also check for gmake?
    if test -n "$GCC"; then
-      CVS_DEPS="yes"
+      AUTO_DEPS="yes"
    else
-      CVS_DEPS="no"
+      AUTO_DEPS="no"
    fi
 fi
+AC_SUBST([AUTO_DEPS])
 
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then

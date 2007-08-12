@@ -56,7 +56,7 @@ out whether your system is suitable.  If in doubt, just try it.
    project's excellent C compiler.  Releases can be compiled with gcc
    or most other compilers (such as the unbundled Solaris C compiler).
    Development releases and svn snapshots will not work without gcc,
-   unless you give configure the "--disable-cvs-deps" option.  See
+   unless you give configure the "--disable-auto-deps" option.  See
    the section below for more information.
    Note that there have been reports that gcc with -O3 miscompiled
    freeciv. No problems have been reported with -O2.
@@ -69,7 +69,7 @@ out whether your system is suitable.  If in doubt, just try it.
    makefiles which work with most make programs.  Development releases
    and svn snapshots contain things (like dependencies) which use
    gmake's enhanced features, so gmake is necessary for development,
-   unless you give configure the "--disable-cvs-deps" option.  See the
+   unless you give configure the "--disable-auto-deps" option.  See the
    section below for more information.
 
    You can check if you have GNU make installed on your system by
@@ -319,7 +319,7 @@ script, try the --help option, like this:
 
 If you're compiling a development release or a svn snapshot, and you
 don't have both GNU make AND gcc, then pass configure the
-"--disable-cvs-deps" option.  You'll especially need to do this if
+"--disable-auto-deps" option.  You'll especially need to do this if
 you're using the Solaris cc and make programs.
 
 Note that if you do this, dependency checking is disabled.  If you
@@ -327,7 +327,7 @@ change any Freeciv .h files after this for any reason, you should do
 a "make clean" before doing "make" to ensure everything is compiled
 correctly.
 
-"--disable-cvs-deps" has no effect when run with a stable release.
+"--disable-auto-deps" has no effect when run with a stable release.
 
 By default the configure script will choose the Gtk+ client if the 
 required libraries are found. If you prefer to override this default,
@@ -525,10 +525,10 @@ libraries are on their own in the nonstandard location /path/to/xpm:
   % setenv PATH /opt/SUNWspro/bin:/usr/ccs/bin:/bin
   % unsetenv LD_LIBRARY_PATH
   % ./configure --with-xpm-prefix=/path/to/xpm
-                --disable-cvs-deps --with-included-gettext
+                --disable-auto-deps
   % make
 
-The "--disable-cvs-deps" prevents ./configure from creating Makefiles
+The "--disable-auto-deps" prevents ./configure from creating Makefiles
 specific to GNU make.  The symptoms of this happening are:
 
   make: Fatal error in reader:
