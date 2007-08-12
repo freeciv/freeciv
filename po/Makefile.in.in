@@ -165,7 +165,7 @@ dist2: $(DISTFILES)
 	  cp -p $$dir/$$file $(distdir); \
 	done
 
-update-po: Makefile
+update-po: Makefile nb.po
 	$(MAKE) $(PACKAGE).pot
 	if test "$(PACKAGE)" = "gettext"; then PATH=`pwd`/../src:$$PATH; fi; \
 	cd $(srcdir); \
@@ -173,9 +173,14 @@ update-po: Makefile
 	for cat in $$catalogs; do \
 	  cat=`basename $$cat`; \
 	  lang=`echo $$cat | sed 's/\.gmo$$//'`; \
+	  if test -x "$(builddir)/$$lang.po" ; then \
+	    dir="$(builddir)"; \
+	  else \
+	    dir=. ; \
+	  fi; \
 	  echo "$$lang:"; \
-	  if $(MSGMERGE) $$lang.po $(PACKAGE).pot -o $$lang.new.po; then \
-	    mv -f $$lang.new.po $$lang.po; \
+	  if $(MSGMERGE) $$dir/$$lang.po $(PACKAGE).pot -o $$lang.new.po; then \
+	    mv -f $$lang.new.po $$dir/$$lang.po; \
 	  else \
 	    echo "msgmerge for $$cat failed!"; \
 	    rm -f $$lang.new.po; \
