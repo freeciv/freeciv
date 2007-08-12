@@ -774,8 +774,11 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     cancel_all_meetings(pplayer);
     /* The following is sometimes necessary to avoid using
        uninitialized data... */
-    if (server_state == RUN_GAME_STATE)
+    if (server_state == RUN_GAME_STATE) {
       assess_danger_player(pplayer);
+    }
+    /* In case this was last player who has not pressed turn done. */
+    check_for_full_turn_done();
   } else {
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under human control."), pplayer->name);
