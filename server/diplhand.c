@@ -375,12 +375,16 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	give_map_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, _("Game: You receive %s's worldmap."),
 		      pgiver->name);
+
+        check_city_workers(pdest); /* See CLAUSE_VISION */
         gamelog(GAMELOG_TREATY, GL_MAP, pgiver, pdest);
 	break;
       case CLAUSE_SEAMAP:
 	give_seamap_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, _("Game: You receive %s's seamap."),
 		      pgiver->name);
+
+        check_city_workers(pdest); /* See CLAUSE_VISION */
         gamelog(GAMELOG_TREATY, GL_SEAMAP, pgiver, pdest);
 	break;
       case CLAUSE_CITY:
@@ -463,6 +467,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player_ex(pdest, NULL, E_TREATY_SHARED_VISION,
 			 _("Game: %s gives you shared vision."),
 			 pgiver->name);
+
+        /* Yes, shared vision may let us to _know_ tiles
+         * within radius of our own city. */
+ 	check_city_workers(pdest);
         gamelog(GAMELOG_TREATY, GL_VISION, pgiver, pdest);
 	break;
       case CLAUSE_LAST:
