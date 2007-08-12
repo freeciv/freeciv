@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 10-Aug-07.
+Last minor update was 12-Aug-07.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -458,17 +458,10 @@ Freeciv, there are a few work-arounds you can try:
       % ./configure --disable-nls
       % make
 
-2. If you want Native Language Support, try the version of gettext that
-   is included with Freeciv by specifying the "--with-included-gettext"
-   ./configure option:
-
-      % ./configure --with-included-gettext
-      % make
-
-3. Finally, you can try to install the latest version of GNU gettext.
+2. You can try to install the latest version of GNU gettext.
    It may be obtained from here:
 
-      ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.14.6.tar.gz
+      ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.16.1.tar.gz
 
 
 6. Readline Support:
