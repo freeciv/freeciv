@@ -284,11 +284,11 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.landarea = landarea;
   pplayer->score.settledarea = settledarea;
 
-  tech_type_iterate(i) {
-    if (i > A_NONE && get_invention(pplayer, i) == TECH_KNOWN) {
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_state(pplayer, i) == TECH_KNOWN) {
       pplayer->score.techs++;
     }
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
   pplayer->score.techs += get_player_research(pplayer)->future_tech * 5 / 2;
   
   unit_list_iterate(pplayer->units, punit) {

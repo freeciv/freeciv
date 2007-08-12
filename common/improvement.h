@@ -60,7 +60,7 @@ struct impr_type {
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement_vector reqs;
-  Tech_type_id obsolete_by;		/* A_LAST = never obsolete */
+  struct advance *obsolete_by;		/* A_NEVER = never obsolete */
   Impr_type_id replaced_by;		/* B_LAST = never replaced */
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;

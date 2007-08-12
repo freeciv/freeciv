@@ -95,15 +95,14 @@ science_dialog_update(void)
   SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_TOP), text);
   ListBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_LIST));
 
-  tech_type_iterate(tech_id) {
-    if (get_invention(game.player_ptr, tech_id) == TECH_KNOWN
-	&& tech_id != A_NONE) {
+  advance_index_iterate(A_FIRST, tech_id) {
+    if (player_invention_state(game.player_ptr, tech_id) == TECH_KNOWN) {
       id = ListBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_LIST),
 			     advance_name_for_player(game.player_ptr, tech_id));
       ListBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_LIST), id,
 			  tech_id);
     }
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
 
   ComboBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH));
 
@@ -124,8 +123,8 @@ science_dialog_update(void)
   SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_PROG), text);
 
   if (!is_future_tech(get_player_research(game.player_ptr)->researching)) {
-    tech_type_iterate(tech_id) {
-      if (get_invention(game.player_ptr, tech_id) != TECH_REACHABLE) {
+    advance_index_iterate(A_FIRST, tech_id) {
+      if (player_invention_state(game.player_ptr, tech_id) != TECH_REACHABLE) {
 	continue;
       }
 
@@ -137,9 +136,9 @@ science_dialog_update(void)
 	ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id);
       }
-    } tech_type_iterate_end;
+    } advance_index_iterate_end;
   } else {
-      tech_id = game.control.num_tech_types + 1
+      tech_id = advance_count() + 1
 		+ get_player_research(game.player_ptr)->future_tech;
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			      advance_name_for_player(game.player_ptr, tech_id));
@@ -150,11 +149,9 @@ science_dialog_update(void)
   }
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_GOAL));
     hist=0;
-  tech_type_iterate(tech_id) {
-    if (tech_is_available(game.player_ptr, tech_id)
-        && get_invention(game.player_ptr, tech_id) != TECH_KNOWN
-        && advances[tech_id].req[0] != A_LAST
-	&& advances[tech_id].req[1] != A_LAST
+  advance_index_iterate(A_FIRST, tech_id) {
+    if (player_invention_is_ready(game.player_ptr, tech_id)
+        && player_invention_state(game.player_ptr, tech_id) != TECH_KNOWN
         && (num_unknown_techs_for_goal(game.player_ptr, tech_id) < 11
 	    || tech_id == get_player_research(game.player_ptr)->tech_goal)) {
       id = ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
@@ -166,7 +163,7 @@ science_dialog_update(void)
  			   id);
        
      }
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
 
   if (get_player_research(game.player_ptr)->tech_goal == A_UNSET) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
@@ -214,7 +211,8 @@ static LONG CALLBACK science_proc(HWND hWnd,
 					to);
 	      
 	      if (IsDlgButtonChecked(hWnd, ID_SCIENCE_HELP)) {
-		popup_help_dialog_typed(advance_name_translation(to), HELP_TECH);
+		popup_help_dialog_typed(advance_name_translation(advance_by_number(to)),
+					HELP_TECH);
 		science_dialog_update();
 	      } else {
 		dsend_packet_player_research(&aconnection, to);

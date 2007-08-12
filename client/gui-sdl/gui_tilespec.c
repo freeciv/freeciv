@@ -551,9 +551,9 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
 **************************************************************************/
 SDL_Color * get_tech_color(Tech_type_id tech_id)
 {
-  if (tech_is_available(game.player_ptr, tech_id))
+  if (player_invention_is_ready(game.player_ptr, tech_id))
   {
-    switch (get_invention(game.player_ptr, tech_id))
+    switch (player_invention_state(game.player_ptr, tech_id))
     {
       case TECH_UNKNOWN:
         return get_game_colorRGB(COLOR_REQTREE_UNREACHABLE);	  

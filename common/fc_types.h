@@ -237,6 +237,7 @@ struct name_translation
  * city_production and worklists.  Functions remain in requirements.c
  */
 typedef union {
+  struct advance *advance;
   struct government *govern;
   struct nation_type *nation;
   struct specialist *specialist;
@@ -244,7 +245,6 @@ typedef union {
   struct unit_class *uclass;
   struct unit_type *utype;
 
-    Tech_type_id tech;                  /* source tech */
     Impr_type_id building;              /* source building */
 
   enum ai_level ai_level;

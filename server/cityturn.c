@@ -771,7 +771,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, building->index),
 			       advance_name_for_player(pplayer,
-					     preq->source.value.tech));
+					     advance_number(preq->source.value.advance)));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
 				 API_TYPE_CITY, pcity,
@@ -1320,7 +1320,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		     /* TRANS: <city> is finished building <unit/building>. */
 		     _("%s is finished building %s."),
 		     pcity->name,
-		     utype_name_translation(utype_by_number(pcity->production.value)));
+		     utype_name_translation(utype));
 
     script_signal_emit("unit_built",
 		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
@@ -1645,7 +1645,7 @@ static bool disband_city(struct city *pcity)
 		   /* TRANS: Settler production leads to disbanded city. */
 		   _("%s is disbanded into %s."), 
 		   pcity->name,
-		   utype_name_translation(utype_by_number(pcity->production.value)));
+		   utype_name_translation(utype));
 
   remove_city(pcity);
   return TRUE;

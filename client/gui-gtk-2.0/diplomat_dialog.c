@@ -224,7 +224,6 @@ static void create_advances_list(struct player *pplayer,
 				 struct player *pvictim)
 {  
   GtkWidget *sw, *label, *vbox, *view;
-  int i;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
@@ -285,10 +284,10 @@ static void create_advances_list(struct player *pplayer,
     GtkTreeIter it;
     GValue value = { 0, };
 
-    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-      if(get_invention(pvictim, i)==TECH_KNOWN && 
-	 (get_invention(pplayer, i)==TECH_UNKNOWN || 
-	  get_invention(pplayer, i)==TECH_REACHABLE)) {
+    advance_index_iterate(A_FIRST, i) {
+      if(player_invention_state(pvictim, i)==TECH_KNOWN && 
+	 (player_invention_state(pplayer, i)==TECH_UNKNOWN || 
+	  player_invention_state(pplayer, i)==TECH_REACHABLE)) {
 	gtk_list_store_append(store, &it);
 
 	g_value_init(&value, G_TYPE_STRING);
@@ -298,7 +297,7 @@ static void create_advances_list(struct player *pplayer,
 	g_value_unset(&value);
 	gtk_list_store_set(store, &it, 1, i, -1);
       }
-    }
+    } advance_index_iterate_end;
 
     gtk_list_store_append(store, &it);
 

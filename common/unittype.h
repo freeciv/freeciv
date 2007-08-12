@@ -184,7 +184,7 @@ struct unit_type {
   int defense_strength;
   int move_rate;
 
-  Tech_type_id tech_requirement;
+  struct advance *require_advance;	/* may be NULL */
   Impr_type_id impr_requirement;
   struct government *gov_requirement; /* may be NULL */
 

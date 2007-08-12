@@ -162,7 +162,8 @@ static void insert_requirement(struct requirement *req,
     return;
   case VUT_ADVANCE:
     cat_snprintf(buf, bufsz, _("Requires the %s technology.\n\n"),
-		 advance_name_for_player(game.player_ptr, req->source.value.tech));
+		 advance_name_for_player(game.player_ptr,
+					 advance_number(req->source.value.advance)));
     return;
   case VUT_GOVERNMENT:
     cat_snprintf(buf, bufsz, _("Requires the %s government.\n\n"),
@@ -398,8 +399,8 @@ void boot_help_texts(void)
 	    help_list_append(category_nodes, pitem);
 	  } unit_type_iterate_end;
 	} else if (current_type == HELP_TECH) {
-	  tech_type_iterate(i) {
-	    if (i != A_NONE && tech_exists(i)) {
+	  advance_index_iterate(A_FIRST, i) {
+	    if (valid_advance_by_number(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
 			  advance_name_for_player(game.player_ptr, i));
@@ -407,7 +408,7 @@ void boot_help_texts(void)
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
 	    }
-	  } tech_type_iterate_end;
+	  } advance_index_iterate_end;
 	} else if (current_type == HELP_TERRAIN) {
 	  terrain_type_iterate(pterrain) {
 	    if (0 != strlen(terrain_rule_name(pterrain))) {
@@ -675,30 +676,26 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     cat_snprintf(buf, bufsz, "%s\n\n", _(imp->helptext));
   }
 
-  if (tech_exists(improvement_by_number(which)->obsolete_by)) {
+  if (valid_advance(imp->obsolete_by)) {
     cat_snprintf(buf, bufsz,
 		 _("* The discovery of %s will make %s obsolete.\n"),
 		 advance_name_for_player(game.player_ptr,
-			       improvement_by_number(which)->obsolete_by),
+					 advance_number(imp->obsolete_by)),
 		 improvement_name_translation(which));
   }
 
   if (building_has_effect(which, EFT_ENABLE_NUKE)
       && num_role_units(F_NUCLEAR) > 0) {
-    struct unit_type *u;
-    Tech_type_id t;
-
-    u = get_role_unit(F_NUCLEAR, 0);
+    struct unit_type *u = get_role_unit(F_NUCLEAR, 0);
     CHECK_UNIT_TYPE(u);
-    t = u->tech_requirement;
-    assert(t < game.control.num_tech_types);
 
     /* TRANS: 'Allows all players with knowledge of atomic power to
      * build nuclear units.' */
     cat_snprintf(buf, bufsz,
 		 _("* Allows all players with knowledge of %s "
 		   "to build %s units.\n"),
-		 advance_name_for_player(game.player_ptr, t),
+		 advance_name_for_player(game.player_ptr,
+					 advance_number(u->require_advance)),
 		 utype_name_translation(u));
     cat_snprintf(buf, bufsz, "  ");
   }
@@ -707,10 +704,11 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
 
   unit_type_iterate(u) {
     if (u->impr_requirement == which) {
-      if (u->tech_requirement != A_LAST) {
+      if (A_NEVER != u->require_advance) {
 	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"),
 		     utype_name_translation(u),
-		     advance_name_for_player(game.player_ptr, u->tech_requirement));
+		     advance_name_for_player(game.player_ptr,
+					     advance_number(u->require_advance)));
       } else {
 	cat_snprintf(buf, bufsz, _("* Allows %s.\n"),
 		     utype_name_translation(u));
@@ -1088,26 +1086,28 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 *****************************************************************/
 void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
 {
+  struct advance *vap = valid_advance_by_number(i);
   struct universal source = {
     .kind = VUT_ADVANCE,
-    .value = {.tech = i}
+    .value.advance = vap
   };
+
   assert(buf&&user_text);
   strcpy(buf, user_text);
 
-  if (!tech_exists(i)) {
+  if (NULL == vap) {
     freelog(LOG_ERROR, "Unknown tech %d.", i);
     strcpy(buf, user_text);
     return;
   }
 
-  if (get_invention(game.player_ptr, i) != TECH_KNOWN) {
-    if (get_invention(game.player_ptr, i) == TECH_REACHABLE) {
+  if (player_invention_state(game.player_ptr, i) != TECH_KNOWN) {
+    if (player_invention_state(game.player_ptr, i) == TECH_REACHABLE) {
       sprintf(buf + strlen(buf),
 	      _("If we would now start with %s we would need %d bulbs."),
 	      advance_name_for_player(game.player_ptr, i),
 	      base_total_bulbs_required(game.player_ptr, i));
-    } else if (tech_is_available(game.player_ptr, i)) {
+    } else if (player_invention_is_ready(game.player_ptr, i)) {
       sprintf(buf + strlen(buf),
 	      _("To reach %s we need to obtain %d other "
 		"technologies first. The whole project "
@@ -1119,7 +1119,8 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
       sprintf(buf + strlen(buf),
 	      _("You cannot research this technology."));
     }
-    if (!techs_have_fixed_costs() && tech_is_available(game.player_ptr, i)) {
+    if (!techs_have_fixed_costs()
+     && player_invention_is_ready(game.player_ptr, i)) {
       sprintf(buf + strlen(buf),
 	      _(" This number may vary depending on what "
 		"other players will research.\n"));
@@ -1161,11 +1162,11 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
 	    units_str);
     free((void *) units_str);
   }
-  if (advances[i].helptext && advances[i].helptext[0] != '\0') {
+  if (vap->helptext && vap->helptext[0] != '\0') {
     if (strlen(buf) > 0) {
       sprintf(buf + strlen(buf), "\n");
     }
-    sprintf(buf + strlen(buf), "%s\n", _(advances[i].helptext));
+    sprintf(buf + strlen(buf), "%s\n", _(vap->helptext));
   }
 }
 

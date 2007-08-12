@@ -587,15 +587,6 @@ void game_renumber_players(int plrno)
 }
 
 /**************************************************************************
-  Return TRUE iff the player ID refers to an in-game player.  Unlike
-  player_by_number any index larger than nplayers is not considered "valid".
-**************************************************************************/
-bool is_valid_player_id(int player_id)
-{
-  return player_id >= 0 && player_id < game.info.nplayers;
-}
-
-/**************************************************************************
 This function is used by is_wonder_useful to estimate if it is worthwhile
 to build the great library.
 **************************************************************************/

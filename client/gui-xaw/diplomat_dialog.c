@@ -348,7 +348,7 @@ static int create_advances_list(struct player *pplayer,
   Widget spy_tech_form;
   Widget close_command;
   Dimension width1, width2; 
-  int i, j;
+  int j;
 
   static const char *advances_can_steal[A_LAST+1]; 
 
@@ -395,18 +395,18 @@ static int create_advances_list(struct player *pplayer,
   advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
-    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-      if(get_invention(pvictim, i)==TECH_KNOWN && 
-         (get_invention(pplayer, i)==TECH_UNKNOWN || 
-          get_invention(pplayer, i)==TECH_REACHABLE)) {
+    advance_index_iterate(A_FIRST, i) {
+      if(player_invention_state(pvictim, i)==TECH_KNOWN && 
+         (player_invention_state(pplayer, i)==TECH_UNKNOWN || 
+          player_invention_state(pplayer, i)==TECH_REACHABLE)) {
       
-        advances_can_steal[j] = advance_name_translation(i);
+        advances_can_steal[j] = advance_name_translation(advance_by_number(i));
         advance_type[j++] = i;
       }
     }
     advances_can_steal[j] = _("At Spy's Discretion");
     advance_type[j++] = A_UNSET;
-  }
+  } advance_index_iterate_end;
 
   if(j == 0) j++;
   advances_can_steal[j] = NULL; 

@@ -163,7 +163,7 @@ static LONG APIENTRY HelpdlgWndProc(HWND hWnd,UINT uMsg,
 	    char s[128];
 	    GetWindowText((HWND)lParam,s,sizeof(s));
 	    if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
-		&& strcmp(s, advance_name_translation(A_NONE)) != 0)
+		&& strcmp(s, advance_name_translation(advance_by_number(A_NONE))) != 0)
 	      select_help_item_string(s,page_type_from_id(LOWORD(wParam)));
 	    
 	  }
@@ -469,11 +469,11 @@ static void help_update_improvement(const struct help_item *pitem,
                                     char *title, int which)
 {
   char buf[64000];
+  struct impr_type *imp = improvement_by_number(which);
  
   create_help_page(HELP_IMPROVEMENT);
  
-  if (which < game.control.num_impr_types) {
-    struct impr_type *imp = improvement_by_number(which);
+  if (imp) {
     int i;
     char req_buf[512];
 
@@ -499,7 +499,7 @@ static void help_update_improvement(const struct help_item *pitem,
     SetWindowText(help_ilabel[1], "0");
     SetWindowText(help_ilabel[3], "0");
     SetWindowText(help_ilabel[5], _("(Never)"));
-/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3);*/
   }
   helptext_building(buf, sizeof(buf), which, pitem->text);
   set_help_text(buf);
@@ -512,11 +512,11 @@ static void help_update_wonder(const struct help_item *pitem,
                                char *title, int which)
 {
   char buf[64000];
+  struct impr_type *imp = improvement_by_number(which);
  
   create_help_page(HELP_WONDER);
  
-  if (which < game.control.num_impr_types) {
-    struct impr_type *imp = improvement_by_number(which);
+  if (imp) {
     int i;
     char req_buf[512];
 
@@ -543,7 +543,7 @@ static void help_update_wonder(const struct help_item *pitem,
     SetWindowText(help_ilabel[1], "0");
     SetWindowText(help_ilabel[3], _("(Never)"));
     SetWindowText(help_ilabel[5], _("None"));
-/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3); */
+/*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3); */
   }
  
   helptext_building(buf, sizeof(buf), which, pitem->text);
@@ -554,9 +554,10 @@ static void help_update_wonder(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
-				char *title, struct terrain *pterrain)
+				char *title)
 {
   char buf[64000];
+  struct terrain *pterrain = find_terrain_by_translated_name(title);
 
   create_help_page(HELP_TERRAIN);
 
@@ -693,9 +694,11 @@ static void help_draw_unit(HDC hdc, struct unit_type *utype)
 
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
-				  char *title, struct unit_type *utype)
+				  char *title)
 {
   char buf[64000];
+  struct unit_type *utype = find_unit_type_by_translated_name(title);
+
   create_help_page(HELP_UNIT);
 
   drawn_unit_type = utype;
@@ -716,12 +719,14 @@ static void help_update_unit_type(const struct help_item *pitem,
     SetWindowText(help_ulabel[3][1], helptext_unit_upkeep_str(utype));
     sprintf(buf, "%d", utype->vision_radius_sq);
     SetWindowText(help_ulabel[3][4], buf);
-    if(utype->tech_requirement==A_LAST) {
+    if (A_NEVER == utype->require_advance) {
       SetWindowText(help_ulabel[4][1], _("(Never)"));
     } else {
-      SetWindowText(help_ulabel[4][1], advance_name_translation(utype->tech_requirement));
+      SetWindowText(help_ulabel[4][1],
+                    advance_name_for_player(game.player_ptr,
+				       advance_number(utype->require_advance)));
     }
-    /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
+    /*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
       SetWindowText(help_ulabel[4][4], _("None"));
     } else {
@@ -751,14 +756,16 @@ static void help_update_unit_type(const struct help_item *pitem,
 /**************************************************************************
 
 **************************************************************************/
-static void help_update_tech(const struct help_item *pitem, char *title, int i)
+static void help_update_tech(const struct help_item *pitem, char *title)
 {
-  int j;
   struct fcwin_box *hbox;
   char buf[64000];
+  int i;
+  struct advance *padvance = find_advance_by_translated_name(title);
 
   create_help_page(HELP_TECH);
-  if (!is_future_tech(i)) {
+
+  if (padvance  &&  !is_future_tech(i = advance_number(padvance))) {
     /*    
 	  create_tech_tree(GTK_CTREE(help_tree), i, TECH_TREE_DEPTH,
 	  TECH_TREE_EXPANDED_DEPTH, NULL);
@@ -773,8 +780,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
      requirement_vector_iterate(&improvement_by_number(j)->reqs, req) {
 	if (VUT_NONE == req->source.kind) {
 	  break;
-	} else if (VUT_IMPROVEMENT == req->source.kind
-		   && req->source.value.building == i) {
+	}
+	if (VUT_IMPROVEMENT == req->source.kind
+	 && req->source.value.building == j) {
 	  hbox = fcwin_hbox_new(helpdlg_win, FALSE);
 	  fcwin_box_add_box(helpdlg_page_vbox, hbox, FALSE, FALSE, 5);
 	  fcwin_box_add_static(hbox, _("Allows "), 0, SS_LEFT, FALSE, FALSE,
@@ -784,8 +792,8 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 			       ID_HELP_WONDER_LINK : ID_HELP_IMPROVEMENT_LINK,
 			       0 , FALSE, FALSE, 5);
 	}
-      }
-      if(i==improvement_by_number(j)->obsolete_by) {
+      } requirement_vector_iterate_end;
+      if (padvance == improvement_by_number(j)->obsolete_by) {
 	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_("Obsoletes "),0,SS_LEFT,FALSE,FALSE,5);
@@ -793,53 +801,56 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 			     is_great_wonder(j)?
 			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
 			     0,FALSE,FALSE,5);
-      } requirement_vector_iterate_end;
+      }
     } impr_type_iterate_end;
 
-    unit_type_iterate(j) {
-      if (i != j->tech_requirement) continue;
+    unit_type_iterate(punittype) {
+      if (padvance != punittype->require_advance) {
+	continue;
+      }
       hbox=fcwin_hbox_new(helpdlg_win,FALSE);
       fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
       fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-      fcwin_box_add_button(hbox,j->name,
+      fcwin_box_add_button(hbox,
+			   utype_name_translation(punittype),
 			   ID_HELP_UNIT_LINK,
 			   0,FALSE,FALSE,5);
     } unit_type_iterate_end;
 
-    for (j = 0; j < game.control.num_tech_types; j++) {
-      if(i==advances[j].req[0]) {
-        if(advances[j].req[1]==A_NONE) {
+    advance_iterate(A_NONE, ptest) {
+      if (padvance == advance_requires(ptest, AR_ONE)) {
+	if (advance_by_number(A_NONE) == advance_requires(ptest, AR_TWO)) {
 	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	  fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-	  fcwin_box_add_button(hbox,advance_name_translation(j),
+	  fcwin_box_add_button(hbox,advance_name_translation(ptest),
 			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	} else {
 	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	  fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-	  fcwin_box_add_button(hbox,advance_name_translation(j),
+	  fcwin_box_add_button(hbox,advance_name_translation(ptest),
 			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,_(" (with "),0,SS_LEFT,FALSE,FALSE,5);
-	  fcwin_box_add_button(hbox,advance_name_translation(advances[j].req[1]),
+	  fcwin_box_add_button(hbox,advance_name_translation(advance_requires(ptest, AR_TWO)),
 			       ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	  fcwin_box_add_static(hbox,Q_("?techhelp:)."),
 			       0,SS_LEFT,FALSE,FALSE,5);
 	}
       }
-      if (i==advances[j].req[1]) {
+      if (padvance == advance_requires(ptest, AR_TWO)) {
 	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox,advance_name_translation(j),
+	fcwin_box_add_button(hbox,advance_name_translation(ptest),
 			     ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_(" (with "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox,advance_name_translation(advances[j].req[0]),
+	fcwin_box_add_button(hbox,advance_name_translation(advance_requires(ptest, AR_ONE)),
 			     ID_HELP_TECH_LINK,0,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,Q_("?techhelp:)."),
 			     0,SS_LEFT,FALSE,FALSE,5);
       }
-    }
+    } advance_iterate_end;
   }
 }
 
@@ -847,10 +858,11 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_government(const struct help_item *pitem,
-                                   char *title, struct government *gov)
+                                   char *title)
 {
   char buf[64000];
- 
+  struct government *gov = find_government_by_translated_name(title);
+
   if (!gov) {
     strcat(buf, pitem->text);
   } else {
@@ -886,16 +898,16 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_wonder(pitem, top, i);
     break;
   case HELP_UNIT:
-    help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
+    help_update_unit_type(pitem, top);
     break;
   case HELP_TECH:
-    help_update_tech(pitem, top, find_advance_by_translated_name(top));
+    help_update_tech(pitem, top);
     break;
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top);
     break;
   case HELP_GOVERNMENT:
-    help_update_government(pitem, top, find_government_by_translated_name(top));
+    help_update_government(pitem, top);
     break;
   case HELP_TEXT:
   default:

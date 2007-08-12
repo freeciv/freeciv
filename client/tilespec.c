@@ -964,11 +964,9 @@ void tilespec_reread(const char *new_tileset_name)
   impr_type_iterate(imp_id) {
     tileset_setup_impr_type(tileset, imp_id);
   } impr_type_iterate_end;
-  tech_type_iterate(tech_id) {
-    if (tech_id != A_NONE && tech_exists(tech_id)) {
-      tileset_setup_tech_type(tileset, tech_id);
-    }
-  } tech_type_iterate_end;
+  advance_iterate(A_FIRST, padvance) {
+    tileset_setup_tech_type(tileset, padvance);
+  } advance_iterate_end;
   specialist_type_iterate(sp) {
     tileset_setup_specialist_type(tileset, sp);
   } specialist_type_iterate_end;
@@ -2639,18 +2637,19 @@ void tileset_setup_impr_type(struct tileset *t, int id)
   Set tech_type sprite value; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-void tileset_setup_tech_type(struct tileset *t, int id)
+void tileset_setup_tech_type(struct tileset *t,
+			     struct advance *padvance)
 {
-  if (tech_exists(id)) {
-    t->sprites.tech[id]
-      = lookup_sprite_tag_alt(t, advances[id].graphic_str,
-			      advances[id].graphic_alt,
+  if (valid_advance(padvance)) {
+    t->sprites.tech[advance_index(padvance)]
+      = lookup_sprite_tag_alt(t, padvance->graphic_str,
+			      padvance->graphic_alt,
 			      FALSE, "technology",
-			      advance_rule_name(id));
+			      advance_rule_name(padvance));
 
     /* should maybe do something if NULL, eg generic default? */
   } else {
-    t->sprites.tech[id] = NULL;
+    t->sprites.tech[advance_index(padvance)] = NULL;
   }
 }
 
@@ -4747,7 +4746,7 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 **************************************************************************/
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
 {
-  if (tech < 0 || tech >= game.control.num_tech_types) {
+  if (tech < 0 || tech >= advance_count()) {
     assert(0);
     return NULL;
   }

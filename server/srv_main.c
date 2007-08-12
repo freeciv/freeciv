@@ -733,7 +733,7 @@ static void end_phase(void)
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
-    get_player_research(pplayer)->changed_from=-1;
+    get_player_research(pplayer)->researching_saved = A_UNKNOWN;
     flush_packets();
   } phase_players_iterate_end;
 

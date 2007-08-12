@@ -594,14 +594,13 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
   /* Advances */
   {
-    bool flag = FALSE;
-    int i;
+    int flag = A_NONE;
     
-    for (i = 1; i < game.control.num_tech_types; i++) {
-      if (get_invention(pPlayer0, i) == TECH_KNOWN &&
-         tech_is_available(pPlayer1, i) &&
-	(get_invention(pPlayer1, i) == TECH_UNKNOWN || 
-	 get_invention(pPlayer1, i) == TECH_REACHABLE)) {
+    advance_index_iterate(A_FIRST, i) {
+      if (player_invention_state(pPlayer0, i) == TECH_KNOWN &&
+         player_invention_is_ready(pPlayer1, i) &&
+	(player_invention_state(pPlayer1, i) == TECH_UNKNOWN || 
+	 player_invention_state(pPlayer1, i) == TECH_REACHABLE)) {
 	     
 	     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Advances"), adj_font(12), WF_RESTORE_BACKGROUND);
@@ -611,7 +610,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              add_to_gui_list(ID_LABEL, pBuf);
 	     count++;
 	     
-	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(i));
+	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -623,20 +622,19 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     pBuf->data.cont = pCont;
              add_to_gui_list(MAX_ID - i, pBuf);
 	     count++;	
-	     flag = TRUE;
-	     i++;
+	     flag = ++i;
 	     break;
       }
-    }
+    } advance_index_iterate_end;
     
-    if(flag) {
-      for (; i < game.control.num_tech_types; i++) {
-	if (get_invention(pPlayer0, i) == TECH_KNOWN &&
-	   tech_is_available(pPlayer1, i) &&
-	  (get_invention(pPlayer1, i) == TECH_UNKNOWN || 
-	   get_invention(pPlayer1, i) == TECH_REACHABLE)) {
+    if(flag > A_NONE) {
+      advance_index_iterate(flag, i) {
+	if (player_invention_state(pPlayer0, i) == TECH_KNOWN &&
+	   player_invention_is_ready(pPlayer1, i) &&
+	  (player_invention_state(pPlayer1, i) == TECH_UNKNOWN || 
+	   player_invention_state(pPlayer1, i) == TECH_REACHABLE)) {
 	     
-	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(i));
+	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -650,7 +648,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     count++;
 	}
       }
-    }
+    } advance_index_iterate_end;
     
   }  /* Advances */
   

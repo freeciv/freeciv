@@ -75,9 +75,10 @@ static char *check_ruleset_capabilities(struct section_file *file,
 					const char *us_capstr,
 					const char *filename);
 
-static int lookup_tech(struct section_file *file, const char *prefix,
-		       const char *entry, bool required, const char *filename,
-		       const char *description);
+static struct advance *lookup_tech(struct section_file *file,
+				   const char *prefix, const char *entry,
+				   bool required, const char *filename,
+				   const char *description);
 static void lookup_tech_list(struct section_file *file, const char *prefix,
 			     const char *entry, int *output, const char *filename);
 static struct unit_type *lookup_unit_type(struct section_file *file,
@@ -96,7 +97,7 @@ static void load_tech_names(struct section_file *file);
 static void load_unit_names(struct section_file *file);
 static void load_building_names(struct section_file *file);
 static void load_government_names(struct section_file *file);
-static void load_names(struct section_file *file);
+static void load_terrain_names(struct section_file *file);
 static void load_citystyle_names(struct section_file *file);
 static void load_nation_names(struct section_file *file);
 static struct city_name* load_city_name_list(struct section_file *file,
@@ -126,7 +127,7 @@ static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
 
 static bool nation_has_initial_tech(struct nation_type *pnation,
-                                    Tech_type_id tech);
+                                    struct advance *tech);
 static bool sanity_check_ruleset_data(void);
 
 /**************************************************************************
@@ -297,30 +298,30 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static int lookup_tech(struct section_file *file, const char *prefix,
-		       const char *entry, bool required, const char *filename,
-		       const char *description)
+static struct advance *lookup_tech(struct section_file *file,
+				   const char *prefix, const char *entry,
+				   bool required, const char *filename,
+				   const char *description)
 {
   char *sval;
-  int i;
+  struct advance *padvance;
   
   sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
   if (!sval || (!required && strcmp(sval, "Never") == 0)) {
-    i = A_LAST;
+    padvance = A_NEVER;
   } else {
-    i = find_advance_by_rule_name(sval);
-    if (i==A_LAST) {
+    padvance = find_advance_by_rule_name(sval);
+
+    if (A_NEVER == padvance) {
       freelog((required?LOG_FATAL:LOG_ERROR),
            "\"%s\" %s %s: couldn't match \"%s\".",
-           filename, (description?description:prefix), entry, sval );
+           filename, (description?description:prefix), entry, sval);
       if (required) {
-	exit(EXIT_FAILURE);
-      } else {
-	i = A_LAST;
+        exit(EXIT_FAILURE);
       }
     }
   }
-  return i;
+  return padvance;
 }
 
 /**************************************************************************
@@ -415,7 +416,7 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
  array, which should hold MAX_NUM_TECH_LIST items. The output array is
  either A_LAST terminated or full (contains MAX_NUM_TECH_LIST
  items). All valid entries of the output array are guaranteed to
- tech_exist(). There should be at least one value, but it may be "",
+ exist. There should be at least one value, but it may be "",
  meaning empty list.
 **************************************************************************/
 static void lookup_tech_list(struct section_file *file, const char *prefix,
@@ -445,19 +446,22 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
   }
   for (i=0; i<nval; i++) {
     char *sval = slist[i];
-    int tech = find_advance_by_rule_name(sval);
-    if (tech==A_LAST) {
+    struct advance *padvance = find_advance_by_rule_name(sval);
+
+    if (NULL == padvance) {
       freelog(LOG_FATAL, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
               filename, prefix, entry, i, sval);
       exit(EXIT_FAILURE);
     }
-    if (!tech_exists(tech)) {
+    if (!valid_advance(padvance)) {
       freelog(LOG_FATAL, "\"%s\" %s.%s (%d): \"%s\" is removed.",
               filename, prefix, entry, i, sval);
       exit(EXIT_FAILURE);
     }
-    output[i] = tech;
-    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, tech);
+    output[i] = advance_number(padvance);
+    freelog(LOG_DEBUG, "\"%s\" %s.%s (%d): %s (%d)",
+            filename, prefix, entry, i, sval,
+            advance_number(padvance));
   }
   free(slist);
   return;
@@ -690,7 +694,6 @@ static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
 static void load_tech_names(struct section_file *file)
 {
   char **sec;
-  struct advance *a;
   int num_techs; /* number of techs in the ruleset (means without A_NONE)*/
   int i;
   const char *filename = secfile_filename(file);
@@ -711,15 +714,15 @@ static void load_tech_names(struct section_file *file)
     exit(EXIT_FAILURE);
   }
 
-  game.control.num_tech_types = num_techs + 1; /* includes A_NONE */
+  game.control.num_tech_types = num_techs + A_FIRST; /* includes A_NONE */
 
-  a = &advances[A_FIRST];
-  for (i = 0; i < num_techs; i++ ) {
+  i = 0;
+  advance_iterate(A_FIRST, a) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
     name_strlcpy(a->name.vernacular, name);
     a->name.translated = NULL;
-    a++;
-  }
+    i++;
+  } advance_iterate_end;
   free(sec);
 }
 
@@ -729,48 +732,47 @@ static void load_tech_names(struct section_file *file)
 static void load_ruleset_techs(struct section_file *file)
 {
   char **sec;
-  struct advance *a;
   int num_techs; /* number of techs in the ruleset (means without A_NONE)*/
   int i;
+  struct advance *a_none = advance_by_number(A_NONE);
   const char *filename = secfile_filename(file);
   
   (void) check_ruleset_capabilities(file, "+1.9", filename);
   sec = secfile_get_secnames_prefix(file, ADVANCE_SECTION_PREFIX, &num_techs);
 
   /* Initialize dummy tech A_NONE */
-  advances[A_NONE].req[0] = A_NONE;
-  advances[A_NONE].req[1] = A_NONE;
-  advances[A_NONE].flags = 0;
-  advances[A_NONE].root_req = A_LAST;
+  a_none->require[AR_ONE] = a_none;
+  a_none->require[AR_TWO] = a_none;
+  a_none->require[AR_ROOT] = A_NEVER;
+  a_none->flags = 0;
 
-  a = &advances[A_FIRST];
-  
-  for( i=0; i<num_techs; i++ ) {
+  i = 0;
+  advance_iterate(A_FIRST, a) {
     char *sval, **slist;
     int j,ival,nval;
 
-    a->req[0] = lookup_tech(file, sec[i], "req1", FALSE,
-			    filename, a->name.vernacular);
-    a->req[1] = lookup_tech(file, sec[i], "req2", FALSE,
-			    filename, a->name.vernacular);
-    a->root_req = lookup_tech(file, sec[i], "root_req", FALSE,
-			      filename, a->name.vernacular);
+    a->require[AR_ONE] = lookup_tech(file, sec[i], "req1", FALSE,
+				     filename, a->name.vernacular);
+    a->require[AR_TWO] = lookup_tech(file, sec[i], "req2", FALSE,
+				     filename, a->name.vernacular);
+    a->require[AR_ROOT] = lookup_tech(file, sec[i], "root_req", FALSE,
+				      filename, a->name.vernacular);
 
-    if ((a->req[0]==A_LAST && a->req[1]!=A_LAST) ||
-	(a->req[0]!=A_LAST && a->req[1]==A_LAST)) {
+    if ((A_NEVER == a->require[AR_ONE] && A_NEVER != a->require[AR_TWO])
+     || (A_NEVER != a->require[AR_ONE] && A_NEVER == a->require[AR_TWO])) {
       freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": \"Never\" with non-\"Never\".",
               filename,
               sec[i],
               a->name.vernacular);
-      a->req[0] = a->req[1] = A_LAST;
+      a->require[AR_ONE] = a->require[AR_TWO] = A_NEVER;
     }
-    if (a->req[0]==A_NONE && a->req[1]!=A_NONE) {
+    if (a_none == a->require[AR_ONE] && a_none != a->require[AR_TWO]) {
       freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": should have \"None\" second.",
               filename,
               sec[i],
               a->name.vernacular);
-      a->req[0] = a->req[1];
-      a->req[1] = A_NONE;
+      a->require[AR_ONE] = a->require[AR_TWO];
+      a->require[AR_TWO] = a_none;
     }
 
     a->flags = 0;
@@ -788,8 +790,9 @@ static void load_ruleset_techs(struct section_file *file)
                 sec[i],
                 a->name.vernacular,
                 sval);
+      } else {
+        a->flags |= (1<<ival);
       }
-      a->flags |= (1<<ival);
     }
     free(slist);
 
@@ -805,32 +808,30 @@ static void load_ruleset_techs(struct section_file *file)
 	secfile_lookup_int_default(file, -1, "%s.%s", sec[i], "cost");
     a->num_reqs = 0;
     
-    a++;
-  }
+    i++;
+  } advance_iterate_end;
 
   /* Propagate a root tech up into the tech tree.  Thus if a technology
    * X has Y has a root tech, then any technology requiring X also has
    * Y as a root tech. */
 restart:
-  for (i = A_FIRST; i < A_FIRST + num_techs; i++) {
-    a = &advances[i];
-    if (a->root_req != A_LAST && tech_exists(i)) {
-      int j;
+  advance_iterate(A_FIRST, a) {
+    if (valid_advance(a)
+     && A_NEVER != a->require[AR_ROOT]) {
       bool out_of_order = FALSE;
 
-      /* Now find any tech depending on this technology and update it's
+      /* Now find any tech depending on this technology and update its
        * root_req. */
-      for(j = A_FIRST; j < A_FIRST + num_techs; j++) {
-        struct advance *b = &advances[j];
-        if ((b->req[0] == i || b->req[1] == i)
-            && b->root_req == A_LAST
-            && tech_exists(j)) {
-          b->root_req = a->root_req;
-	  if (j < i) {
+      advance_iterate(A_FIRST, b) {
+        if (valid_advance(b)
+         && A_NEVER == b->require[AR_ROOT]
+         && (a == b->require[AR_ONE] || a == b->require[AR_TWO])) {
+          b->require[AR_ROOT] = a->require[AR_ROOT];
+	  if (b < a) {
 	    out_of_order = TRUE;
           }
         }
-      }
+      } advance_iterate_end;
 
       if (out_of_order) {
 	/* HACK: If we just changed the root_tech of a lower-numbered
@@ -839,40 +840,39 @@ restart:
 	goto restart;   
       }
     }
-  }
-  /* Now rename A_LAST to A_NONE for consistency's sake */
-  for (i = A_NONE; i < A_FIRST + num_techs; i++) {
-    a = &advances[i];
-    if (a->root_req == A_LAST) {
-      a->root_req = A_NONE;
+  } advance_iterate_end;
+
+  /* Now rename A_NEVER to A_NONE for consistency */
+  advance_iterate(A_NONE, a) {
+    if (A_NEVER == a->require[AR_ROOT]) {
+      a->require[AR_ROOT] = a_none;
     }
-  }
+  } advance_iterate_end;
 
   /* Some more consistency checking: 
      Non-removed techs depending on removed techs is too
      broken to fix by default, so die.
   */
-  tech_type_iterate(i) {
-    if (i != A_NONE && tech_exists(i)) {
-      a = &advances[i];
+  advance_iterate(A_FIRST, a) {
+    if (!valid_advance(a)) {
       /* We check for recursive tech loops later,
        * in build_required_techs_helper. */
-      if (!tech_exists(a->req[0])) {
+      if (!valid_advance(a->require[AR_ONE])) {
         freelog(LOG_FATAL, "\"%s\" tech \"%s\": req1 leads to removed tech \"%s\".",
                 filename,
-                advance_rule_name(i),
-                advance_rule_name(a->req[0]));
+                advance_rule_name(a),
+                advance_rule_name(a->require[AR_ONE]));
         exit(EXIT_FAILURE);
       } 
-      if (!tech_exists(a->req[1])) {
+      if (!valid_advance(a->require[AR_TWO])) {
         freelog(LOG_FATAL, "\"%s\" tech \"%s\": req2 leads to removed tech \"%s\".",
                 filename,
-                advance_rule_name(i),
-                advance_rule_name(a->req[1]));
+                advance_rule_name(a),
+                advance_rule_name(a->require[AR_TWO]));
         exit(EXIT_FAILURE);
       }
     }
-  } tech_type_iterate_end;
+  } advance_iterate_end;
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -1139,8 +1139,8 @@ if (_count > MAX_VET_LEVELS) {						\
   unit_type_iterate(u) {
     const int i = utype_index(u);
 
-    u->tech_requirement = lookup_tech(file, sec[i], "tech_req", TRUE,
-				      filename, u->name.vernacular);
+    u->require_advance = lookup_tech(file, sec[i], "tech_req", TRUE,
+				     filename, u->name.vernacular);
     if (section_file_lookup(file, "%s.gov_req", sec[i])) {
       char tmp[200] = "\0";
       mystrlcat(tmp, sec[i], 200);
@@ -1320,13 +1320,13 @@ if (_count > MAX_VET_LEVELS) {						\
 
   /* Some more consistency checking: */
   unit_type_iterate(u) {
-    if (!tech_exists(u->tech_requirement)) {
+    if (!valid_advance(u->require_advance)) {
       freelog(LOG_ERROR,
               "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
               filename,
               utype_rule_name(u),
-              advance_rule_name(u->tech_requirement));
-      u->tech_requirement = A_LAST;
+              advance_rule_name(u->require_advance));
+      u->require_advance = A_NEVER;
     }
   } unit_type_iterate_end;
 
@@ -1484,14 +1484,15 @@ static void load_ruleset_buildings(struct section_file *file)
 
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by", FALSE,
 				 filename, b->name.vernacular);
-    if (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by)) {
+    if (advance_by_number(A_NONE) == b->obsolete_by) {
       /* 
        * The ruleset can specify "None" for a never-obsoleted
        * improvement.  Currently this means A_NONE, which is an
-       * unnecessary special-case.  We use A_LAST to flag a
+       * unnecessary special-case.  We use A_NEVER to flag a
        * never-obsoleted improvement in the code instead.
+       * (Test for valid_advance() later.)
        */
-      b->obsolete_by = A_LAST;
+      b->obsolete_by = A_NEVER;
     }
 
     b->replaced_by = lookup_impr_type(file, sec[i], "replaced_by", FALSE,
@@ -1521,14 +1522,14 @@ static void load_ruleset_buildings(struct section_file *file)
     struct impr_type *b = improvement_by_number(i);
 
     if (improvement_exists(i)) {
-      if (b->obsolete_by != A_LAST
-	  && (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by))) {
+      if (A_NEVER != b->obsolete_by
+          && !valid_advance(b->obsolete_by)) {
         freelog(LOG_ERROR,
                 "\"%s\" improvement \"%s\": obsoleted by removed tech \"%s\".",
                 filename,
                 improvement_rule_name(i),
                 advance_rule_name(b->obsolete_by));
-	b->obsolete_by = A_LAST;
+	b->obsolete_by = A_NEVER;
       }
     }
   } impr_type_iterate_end;
@@ -1541,7 +1542,7 @@ static void load_ruleset_buildings(struct section_file *file)
 /**************************************************************************
   ...  
 **************************************************************************/
-static void load_names(struct section_file *file)
+static void load_terrain_names(struct section_file *file)
 {
   int nval;
   char **sec;
@@ -1623,7 +1624,7 @@ static void load_names(struct section_file *file)
       freelog(LOG_FATAL, "\"%s\": unhandled base type %d in %s.",
               filename,
               base_number(pbase),
-              "load_names()");
+              "load_terrain_names()");
       exit(EXIT_FAILURE);
     };
     name = secfile_lookup_str(file, "%s.name", section);
@@ -3075,7 +3076,8 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.attack_strength = u->attack_strength;
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;
-    packet.tech_requirement = u->tech_requirement;
+    packet.tech_requirement = u->require_advance
+                              ? advance_number(u->require_advance) : -1;
     packet.impr_requirement = u->impr_requirement;
     packet.gov_requirement = u->gov_requirement
                              ? government_number(u->gov_requirement) : -1;
@@ -3144,16 +3146,19 @@ static void send_ruleset_techs(struct conn_list *dest)
 {
   struct packet_ruleset_tech packet;
 
-  tech_type_iterate(tech_id) {
-    struct advance *a = &advances[tech_id];
-
-    packet.id = tech_id;
+  advance_iterate(A_NONE, a) {
+    packet.id = advance_number(a);
     sz_strlcpy(packet.name, a->name.vernacular);
     sz_strlcpy(packet.graphic_str, a->graphic_str);
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);
-    packet.req[0] = a->req[0];
-    packet.req[1] = a->req[1];
-    packet.root_req = a->root_req;
+
+    packet.req[AR_ONE] = a->require[AR_ONE]
+                         ? advance_number(a->require[AR_ONE]) : -1;
+    packet.req[AR_TWO] = a->require[AR_TWO]
+                         ? advance_number(a->require[AR_TWO]) : -1;
+    packet.root_req = a->require[AR_ROOT]
+                      ? advance_number(a->require[AR_ROOT]) : -1;
+
     packet.flags = a->flags;
     packet.preset_cost = a->preset_cost;
     packet.num_reqs = a->num_reqs;
@@ -3164,7 +3169,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     }
 
     lsend_packet_ruleset_tech(dest, &packet);
-  } tech_type_iterate_end;
+  } advance_iterate_end;
 }
 
 /**************************************************************************
@@ -3188,7 +3193,8 @@ static void send_ruleset_buildings(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
-    packet.obsolete_by = b->obsolete_by;
+    packet.obsolete_by = b->obsolete_by
+                         ? advance_number(b->obsolete_by) : -1;
     packet.replaced_by = b->replaced_by;
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
@@ -3533,7 +3539,7 @@ void load_rulesets(void)
   load_unit_names(&unitfile);
 
   openload_ruleset_file(&terrfile, "terrain");
-  load_names(&terrfile);
+  load_terrain_names(&terrfile);
 
   openload_ruleset_file(&cityfile, "cities");
   load_citystyle_names(&cityfile);
@@ -3606,7 +3612,7 @@ void send_rulesets(struct conn_list *dest)
   Does nation have tech initially?
 **************************************************************************/
 static bool nation_has_initial_tech(struct nation_type *pnation,
-                                    Tech_type_id tech)
+                                    struct advance *tech)
 {
   int i;
 
@@ -3614,7 +3620,7 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
   for (i = 0;
        i < MAX_NUM_TECH_LIST && game.rgame.global_init_techs[i] != A_LAST;
        i++) {
-    if (game.rgame.global_init_techs[i] == tech) {
+    if (game.rgame.global_init_techs[i] == advance_number(tech)) {
       return TRUE;
     }
   }
@@ -3623,7 +3629,7 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
   for (i = 0;
        i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
        i++) {
-    if (pnation->init_techs[i] == tech) {
+    if (pnation->init_techs[i] == advance_number(tech)) {
       return TRUE;
     }
   }
@@ -3649,18 +3655,20 @@ static bool sanity_check_ruleset_data(void)
          i < MAX_NUM_TECH_LIST && game.rgame.global_init_techs[i] != A_LAST;
          i++) {
       Tech_type_id tech = game.rgame.global_init_techs[i];
-      if (!tech_exists(tech)) {
+      struct advance *a = valid_advance_by_number(tech);
+
+      if (!a) {
         freelog(LOG_FATAL, "Tech %s does not exist, but is initial "
                            "tech for everyone.",
-                advance_rule_name(tech));
+                advance_rule_name(advance_by_number(tech)));
         exit(EXIT_FAILURE);
       }
-      if (advances[tech].root_req != A_NONE
-          && !nation_has_initial_tech(pnation, advances[tech].root_req)) {
+      if (advance_by_number(A_NONE) != a->require[AR_ROOT]
+          && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
         freelog(LOG_FATAL, "Tech %s is initial for everyone, but %s has "
                            "no root_req for it.",
-                advance_rule_name(tech),
+                advance_rule_name(a),
                 nation_rule_name(pnation));
         exit(EXIT_FAILURE);
       }
@@ -3671,17 +3679,20 @@ static bool sanity_check_ruleset_data(void)
          i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
          i++) {
       Tech_type_id tech = pnation->init_techs[i];
-      if (!tech_exists(tech)) {
+      struct advance *a = valid_advance_by_number(tech);
+
+      if (!a) {
         freelog(LOG_FATAL, "Tech %s does not exist, but is tech for %s.",
-                advance_rule_name(tech), nation_rule_name(pnation));
+                advance_rule_name(advance_by_number(tech)),
+                nation_rule_name(pnation));
         exit(EXIT_FAILURE);
       }
-      if (advances[tech].root_req != A_NONE
-          && !nation_has_initial_tech(pnation, advances[tech].root_req)) {
+      if (advance_by_number(A_NONE) != a->require[AR_ROOT]
+          && !nation_has_initial_tech(pnation, a->require[AR_ROOT])) {
         /* Nation has no root_req for tech */
         freelog(LOG_FATAL, "Tech %s is initial for %s, but they have "
                            "no root_req for it.",
-                advance_rule_name(tech),
+                advance_rule_name(a),
                 nation_rule_name(pnation));
         exit(EXIT_FAILURE);
       }

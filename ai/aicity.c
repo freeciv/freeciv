@@ -60,7 +60,7 @@
 #include "aicity.h"
 
 #define SPECVEC_TAG tech
-#define SPECVEC_TYPE Tech_type_id
+#define SPECVEC_TYPE struct advance *
 #include "specvec.h"
 
 #define SPECVEC_TAG impr
@@ -264,7 +264,7 @@ static int base_want(struct player *pplayer, struct city *pcity,
 static void want_tech_for_improvement_effect(struct player *pplayer,
 					     const struct city *pcity,
 					     const Impr_type_id id,
-					     Tech_type_id tech,
+					     const struct advance *tech,
 					     int building_want)
 {
   /* The conversion factor was determined by experiment,
@@ -279,7 +279,9 @@ static void want_tech_for_improvement_effect(struct player *pplayer,
     pcity->name, get_improvement_name(id),
     building_want, tech_want);
 #endif
-  pplayer->ai.tech_want[tech] += tech_want;
+  if (tech) {
+    pplayer->ai.tech_want[advance_index(tech)] += tech_want;
+  }
 }
 
 /************************************************************************** 
@@ -425,9 +427,9 @@ static int improvement_effect_value(struct player *pplayer,
       players_iterate(aplayer) {
 	int potential = aplayer->bulbs_last_turn
 	  + city_list_size(aplayer->cities) + 1;
-	if (tech_exists(pimpr->obsolete_by)) {
+	if (valid_advance(pimpr->obsolete_by)) {
 	  turns = MIN(turns, 
-		      total_bulbs_required_for_goal(aplayer, pimpr->obsolete_by)
+		      total_bulbs_required_for_goal(aplayer, advance_number(pimpr->obsolete_by))
 		      / (potential + 1));
 	}
 	if (players_on_same_team(aplayer, pplayer)) {
@@ -688,7 +690,7 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
 
     if (VUT_ADVANCE == preq->source.kind && !active) {
       /* Found a missing technology requirement for this improvement. */
-      tech_vector_append(&needed_techs, &preq->source.value.tech);
+      tech_vector_append(&needed_techs, &preq->source.value.advance);
     } else if (VUT_IMPROVEMENT == preq->source.kind && !active) {
       /* Found a missing improvement requirement for this improvement.
        * For example, in the default ruleset a city must have a Library
@@ -872,7 +874,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
 	   * This will be for some additional effect
 	   * (For example, in the default ruleset, Mysticism increases
 	   * the effect of Temples). */
-          tech_vector_append(&needed_techs, &preq->source.value.tech);
+          tech_vector_append(&needed_techs, &preq->source.value.advance);
 	}
       }
     } requirement_list_iterate_end;
@@ -915,7 +917,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
     tech_vector_free(&needed_techs);
   } effect_list_iterate_end;
 
-  if (already && tech_exists(pimpr->obsolete_by)) {
+  if (already && valid_advance(pimpr->obsolete_by)) {
     /* Discourage research of the technology that would make this building
      * obsolete. The bigger the desire for this building, the more
      * we want to discourage the technology. */
@@ -946,8 +948,8 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
     }
 
     /* Reduce want if building gets obsoleted soon */
-    if (tech_exists(pimpr->obsolete_by)) {
-      v -= v / MAX(1, num_unknown_techs_for_goal(pplayer, pimpr->obsolete_by));
+    if (valid_advance(pimpr->obsolete_by)) {
+      v -= v / MAX(1, num_unknown_techs_for_goal(pplayer, advance_number(pimpr->obsolete_by)));
     }
 
     /* Are we wonder city? Try to avoid building non-wonders very much. */

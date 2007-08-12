@@ -1376,65 +1376,28 @@ static void add_improvement_into_old_bitvector(char* bitvector,
 }
 
 /****************************************************************************
-  Nowadays techs are saved by name, but old servers need numbers
-  This function tries to find the correct _old_ id for the
-  technology. It is used when the technology is saved.
-****************************************************************************/
-static int old_tech_id(Tech_type_id tech)
-{
-  const char* technology_name;
-  int i;
-  
-  /* old (1.14.1) servers used to save it as 0 and interpret it from context */
-  if (is_future_tech(tech)) {
-    return 0;
-  }
-
-  /* old (1.14.1) servers used to save it as 0 and interpret it from context */  
-  if (tech == A_UNSET) {
-    return 0;
-  }
-  
-  technology_name = advance_rule_name(tech);
-  
-  /* this is the only place where civ1 was different from 1.14.1 defaults */
-  if (strcmp(game.rulesetdir, "civ1") == 0
-      && mystrcasecmp(technology_name, "Religion") == 0) {
-    return 83;
-  }
-  
-  for (i = 0; i < ARRAY_SIZE(old_default_techs); i++) {
-    if (mystrcasecmp(technology_name, old_default_techs[i]) == 0) {
-      return i;
-    }
-  }
-  
-  /* It's a new technology. Savegame cannot be forward compatible so we can
-   * return anything */
-  return tech;
-}
-
-/****************************************************************************
   Convert an old-style technology id into a tech name.
+  Caller uses -1 to indicate missing value.
 ****************************************************************************/
 static const char* old_tech_name(int id)
 {
+  /* Longstanding value (through 2.1) for A_LAST at 200,
+   * and A_UNSET at 199 */
+  if (id == -1 || id >= 199) {
+    return "A_UNSET";
+  }
+
   /* This was 1.14.1 value for A_FUTURE */
   if (id == 198) {
     return "A_FUTURE";
   }
   
-  if (id == -1 || id == 0) {
+  if (id == 0) {
     return "A_NONE";
   }
   
-  if (id == A_UNSET) {
-    return "A_UNSET";
-  }
-
   if (id < 0 || id >= ARRAY_SIZE(old_default_techs)) {
-    freelog(LOG_FATAL, "Wrong tech type id value (%d)", id);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
 
   if (strcmp(game.rulesetdir, "civ1") == 0 && id == 83) {
@@ -1458,26 +1421,6 @@ static void init_old_technology_bitvector(char* bitvector)
   bitvector[ARRAY_SIZE(old_default_techs)] = '\0';
 }
 
-/****************************************************************************
-  Insert technology into old-style bitvector
-
-  New bitvectors do not depend on ruleset order. However, we want to create
-  savegames which can be read by 1.14.x and earlier servers. 
-  This function adds a technology into the bitvector string according
-  to the 1.14.1 technology ordering.
-****************************************************************************/
-static void add_technology_into_old_bitvector(char* bitvector,
-                                              Tech_type_id id)
-{
-  int old_id;
-
-  old_id = old_tech_id(id);
-  if (old_id < 0 || old_id >= ARRAY_SIZE(old_default_techs)) {
-    return;
-  }
-  bitvector[old_id] = '1';
-}
-
 
 /*****************************************************************************
   Load technology from path_name and if doesn't exist (because savegame
@@ -1488,17 +1431,23 @@ static Tech_type_id load_technology(struct section_file *file,
 {
   char path_with_name[128];
   const char* name;
+  struct advance *padvance;
   int id;
   
   my_snprintf(path_with_name, sizeof(path_with_name), 
               "%s_name", path);
-	      
+
   name = secfile_lookup_str_default(file, NULL, path_with_name, plrno);
   if (!name) {
     id = secfile_lookup_int_default(file, -1, path, plrno);
     name = old_tech_name(id);
+    if (!name) {
+      freelog(LOG_FATAL, "%s: value (%d) out of range.",
+              path, id);
+      exit(EXIT_FAILURE);
+    }
   }
-  
+
   if (mystrcasecmp(name, "A_FUTURE") == 0) {
     return A_FUTURE;
   }
@@ -1509,21 +1458,21 @@ static Tech_type_id load_technology(struct section_file *file,
     return A_UNSET;
   }
   if (name[0] == '\0') {
-    /* it is used by changed_from */
-    return -1;
+    /* used by researching_saved */
+    return A_UNKNOWN;
   }
-  
-  id = find_advance_by_rule_name(name);
-  if (id == A_LAST) {
-    freelog(LOG_FATAL, "Unknown technology \"%s\".", name);
+
+  padvance = find_advance_by_rule_name(name);
+  if (NULL == padvance) {
+    freelog(LOG_FATAL, "%s: unknown technology \"%s\".",
+            path_with_name, name);
     exit(EXIT_FAILURE);    
   }
-  return id;
+  return advance_number(padvance);
 }
 
 /*****************************************************************************
-  Save technology in secfile entry called path_name and for forward
-  compatibility in path(by number).
+  Save technology in secfile entry called path_name.
 *****************************************************************************/
 static void save_technology(struct section_file *file,
                             const char* path, int plrno, Tech_type_id tech)
@@ -1535,7 +1484,7 @@ static void save_technology(struct section_file *file,
               "%s_name", path);
   
   switch (tech) {
-    case -1: /* used in changed_from */
+    case A_UNKNOWN: /* used by researching_saved */
        name = "";
        break;
     case A_NONE:
@@ -1548,11 +1497,10 @@ static void save_technology(struct section_file *file,
       name = "A_FUTURE";
       break;
     default:
-      name = advance_rule_name(tech);
+      name = advance_rule_name(advance_by_number(tech));
       break;
   }
   secfile_insert_str(file, name, path_with_name, plrno);
-  secfile_insert_int(file, old_tech_id(tech), path, plrno);
 }
 
 /****************************************************************************
@@ -2100,15 +2048,16 @@ static void player_load(struct player *plr, int plrno,
   research->future_tech
     = secfile_lookup_int(file, "player%d.futuretech", plrno);
 
-  /* We use default values for bulbs_researched_before, changed_from
+  /* We use default values for bulbs_researching_saved, researching_saved,
    * and got_tech to preserve backwards-compatibility with save files
-   * that didn't store this information. */
+   * that didn't store this information.  But the local variables have
+   * changed to reflect such minor differences. */
   research->bulbs_researched
     = secfile_lookup_int(file, "player%d.researched", plrno);
-  research->bulbs_researched_before =
+  research->bulbs_researching_saved =
 	  secfile_lookup_int_default(file, 0,
 				     "player%d.researched_before", plrno);
-  research->changed_from = 
+  research->researching_saved = 
           load_technology(file, "player%d.research_changed_from", plrno);
   research->got_tech = secfile_lookup_bool_default(file, FALSE,
 					      "player%d.research_got_tech",
@@ -2124,27 +2073,37 @@ static void player_load(struct player *plr, int plrno,
      */
     research->researching = A_FUTURE;
   }
-  
+
+  /* For new savegames using the technology_order[] list, any unknown
+   * inventions are ignored.  Older games are more strictly enforced,
+   * as an invalid index is probably indication of corruption.
+   */
   p = secfile_lookup_str_default(file, NULL, "player%d.invs_new", plrno);
   if (!p) {
     /* old savegames */
     p = secfile_lookup_str(file, "player%d.invs", plrno);
     for (k = 0; p[k];  k++) {
+      const char *name = old_tech_name(k);
+      if (!name) {
+        freelog(LOG_FATAL, "player%d.invs: value (%d) out of range.",
+                plrno, k);
+        exit(EXIT_FAILURE);
+      }
       if (p[k] == '1') {
-	name = old_tech_name(k);
-	id = find_advance_by_rule_name(name);
-	if (id != A_LAST) {
-	  set_invention(plr, id, TECH_KNOWN);
-	}
+        struct advance *padvance = find_advance_by_rule_name(name);
+        if (padvance) {
+          player_invention_set(plr, advance_number(padvance), TECH_KNOWN);
+        }
       }
     }
   } else {
     for (k = 0; k < technology_order_size && p[k]; k++) {
       if (p[k] == '1') {
-	id = find_advance_by_rule_name(technology_order[k]);
-	if (id != A_LAST) {
-	  set_invention(plr, id, TECH_KNOWN);
-	}
+        struct advance *padvance =
+               find_advance_by_rule_name(technology_order[k]);
+        if (padvance) {
+          player_invention_set(plr, advance_number(padvance), TECH_KNOWN);
+        }
       }
     }
   }
@@ -2175,7 +2134,7 @@ static void player_load(struct player *plr, int plrno,
 				   "player%d.revolution_finishes", plrno);
   }
 
-  update_research(plr);
+  player_research_update(plr);
 
   for (i = 0; i < player_count(); i++) {
     plr->diplstates[i].type = 
@@ -2846,12 +2805,12 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_int(file, get_player_research(plr)->bulbs_researched, 
 		     "player%d.researched", plrno);
-  secfile_insert_int(file, get_player_research(plr)->bulbs_researched_before,
+  secfile_insert_int(file, get_player_research(plr)->bulbs_researching_saved,
 		     "player%d.researched_before", plrno);
   secfile_insert_bool(file, get_player_research(plr)->got_tech,
 		      "player%d.research_got_tech", plrno);
   save_technology(file, "player%d.research_changed_from", plrno, 
-                  get_player_research(plr)->changed_from);
+                  get_player_research(plr)->researching_saved);
   secfile_insert_int(file, get_player_research(plr)->techs_researched,
 		     "player%d.researchpoints", plrno);
   save_technology(file, "player%d.researching", plrno,
@@ -2880,18 +2839,13 @@ static void player_save(struct player *plr, int plrno,
   /* 1.14 servers depend on technology order in ruleset. Here we are trying
    * to simulate 1.14.1 default order */
   init_old_technology_bitvector(invs);
-  tech_type_iterate(tech_id) {
-    if (get_invention(plr, tech_id) == TECH_KNOWN) {
-      add_technology_into_old_bitvector(invs, tech_id);
-    }
-  } tech_type_iterate_end;
-  secfile_insert_str(file, invs, "player%d.invs", plrno);
-  
-  /* Save technology lists as bitvector. Note that technology order is 
+  /* removed after 2.1 */
+
+  /* Save technology lists as bytevector. Note that technology order is 
    * saved in savefile.technology_order */
-  tech_type_iterate(tech_id) {
-    invs[tech_id] = (get_invention(plr, tech_id) == TECH_KNOWN) ? '1' : '0';
-  } tech_type_iterate_end;
+  advance_index_iterate(A_NONE, tech_id) {
+    invs[tech_id] = (player_invention_state(plr, tech_id) == TECH_KNOWN) ? '1' : '0';
+  } advance_index_iterate_end;
   invs[game.control.num_tech_types] = '\0';
   secfile_insert_str(file, invs, "player%d.invs_new", plrno);
 
@@ -4233,13 +4187,10 @@ void game_save(struct section_file *file, const char *save_reason)
    * so we can not save the order. */
   if (game.control.num_tech_types > 0) {
     const char* buf[game.control.num_tech_types];
-    tech_type_iterate(tech) {
-      if (tech == A_NONE) {
-        buf[tech] = "A_NONE";
-      } else {
-        buf[tech] = advance_rule_name(tech);
-      }
-    } tech_type_iterate_end;
+    buf[A_NONE] = "A_NONE";
+    advance_iterate(A_FIRST, a) {
+      buf[advance_index(a)] = advance_rule_name(a);
+    } advance_iterate_end;
     secfile_insert_str_vec(file, buf, game.control.num_tech_types,
                            "savefile.technology_order");
   }

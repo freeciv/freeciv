@@ -776,8 +776,8 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
       /* FIXME? Katvrr advises that this should be weighted more heavily in
        * big danger. */
       int tech_cost = total_bulbs_required_for_goal(pplayer,
-					punittype->tech_requirement) / 4
-	/ city_list_size(pplayer->cities);
+			advance_number(punittype->require_advance)) / 4
+		      / city_list_size(pplayer->cities);
         
       /* Contrary to the above, we don't care if walls are actually built 
        * - we're looking into the future now. */
@@ -814,13 +814,13 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   /* Update tech_want for appropriate techs for units we want to build. */
   simple_ai_unit_type_iterate(punittype) {
     if (tech_desire[utype_index(punittype)] > 0) {
-      Tech_type_id tech_req = punittype->tech_requirement;
       /* TODO: Document or fix the algorithm below. I have no idea why
        * it is written this way, and the results seem strange to me. - Per */
       int desire = tech_desire[utype_index(punittype)] * best_unit_cost / best;
 
-      pplayer->ai.tech_want[tech_req] += desire;
-      TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to defend %s",
+      pplayer->ai.tech_want[advance_index(punittype->require_advance)] += desire;
+      TECH_LOG(LOG_DEBUG, pplayer, punittype->require_advance,
+               "+ %d for %s to defend %s",
                desire,
                utype_rule_name(punittype),
                pcity->name);
@@ -886,18 +886,17 @@ static void process_attacker_want(struct city *pcity,
   }
 
   simple_ai_unit_type_iterate(punittype) {
-    Tech_type_id tech_req = punittype->tech_requirement;
-    int move_type = get_unit_move_type(punittype);
+    Tech_type_id tech_req;
     int tech_dist;
+    int move_type = get_unit_move_type(punittype);
     
-    if (tech_req != A_LAST) {
-      tech_dist = num_unknown_techs_for_goal(pplayer, tech_req);
-    } else {
-      tech_dist = 0;
+    if (A_NEVER == punittype->require_advance) {
+      continue;
     }
-    
+    tech_req = advance_number(punittype->require_advance);
+    tech_dist = num_unknown_techs_for_goal(pplayer, tech_req);
+
     if ((move_type == LAND_MOVING || (move_type == SEA_MOVING && shore))
-        && tech_req != A_LAST
         && (tech_dist > 0 
             || punittype->obsoleted_by == U_NOT_OBSOLETED
             || !can_build_unit_direct(pcity, 
@@ -911,7 +910,7 @@ static void process_attacker_want(struct city *pcity,
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
       int tech_cost = total_bulbs_required_for_goal(pplayer,
-                        punittype->tech_requirement) / 4
+                        advance_number(punittype->require_advance)) / 4
                       / city_list_size(pplayer->cities);
       int move_rate = punittype->move_rate;
       int move_time;
@@ -1004,8 +1003,9 @@ static void process_attacker_want(struct city *pcity,
       if (want > 0) {
         if (tech_dist > 0) {
           /* This is a future unit, tell the scientist how much we need it */
-          pplayer->ai.tech_want[tech_req] += want;
-          TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s vs %s(%d,%d)",
+          pplayer->ai.tech_want[advance_index(punittype->require_advance)] += want;
+          TECH_LOG(LOG_DEBUG, pplayer, punittype->require_advance,
+                   "+ %d for %s vs %s(%d,%d)",
                    want,
                    utype_rule_name(punittype),
                    (acity ? acity->name : utype_rule_name(victim_unit_type)),

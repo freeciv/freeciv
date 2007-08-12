@@ -85,7 +85,7 @@ struct Unit_Type {
 };
 
 struct Tech_Type {
-  const int index @ id;
+  const int item_number @ id;
 };
 
 struct Terrain {

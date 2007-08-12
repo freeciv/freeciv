@@ -78,7 +78,7 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
   Tech_Type *result;
 
   if (ptech) {
-    id = ptech->index;
+    id = advance_number(ptech);
   } else {
     if (get_player_research(pplayer)->researching == A_UNSET) {
       choose_random_tech(pplayer);
@@ -86,15 +86,16 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
     id = get_player_research(pplayer)->researching;
   }
 
-  if (get_invention(pplayer, id) != TECH_KNOWN) {
+  if (player_invention_state(pplayer, id) != TECH_KNOWN) {
     do_free_cost(pplayer, id);
     found_new_tech(pplayer, id, FALSE, TRUE);
-    result = api_find_tech_type(id);
+    result = advance_by_number(id);
     script_signal_emit("tech_researched", 3,
-                       API_TYPE_TECH_TYPE, result, API_TYPE_PLAYER, pplayer,
+                       API_TYPE_TECH_TYPE, result,
+                       API_TYPE_PLAYER, pplayer,
                        API_TYPE_STRING, reason);
     return result;
   } else {
-    return api_find_tech_type(A_NONE);
+    return advance_by_number(A_NONE);
   }
 }

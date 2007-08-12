@@ -248,16 +248,15 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
   /* Advances. */
   {
-    bool flag;
-    int i;
+    bool flag = FALSE;
 
     menu = gtk_menu_new();
 
-    for (i = 1, flag = FALSE; i < game.control.num_tech_types; i++) {
-      if (get_invention(plr0, i) == TECH_KNOWN
-	  && (get_invention(plr1, i) == TECH_UNKNOWN
-	      || get_invention(plr1, i) == TECH_REACHABLE)
-          && tech_is_available(plr1, i)) {
+    advance_index_iterate(A_FIRST, i) {
+      if (player_invention_state(plr0, i) == TECH_KNOWN
+          && player_invention_is_ready(plr1, i)
+	  && (player_invention_state(plr1, i) == TECH_UNKNOWN
+	      || player_invention_state(plr1, i) == TECH_REACHABLE)) {
 	item
 	  = gtk_menu_item_new_with_label(advance_name_for_player(game.player_ptr, i));
 
@@ -269,7 +268,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 					 i));
 	flag = TRUE;
       }
-    }
+    } advance_index_iterate_end;
 
     item = gtk_menu_item_new_with_mnemonic(_("_Advances"));
     gtk_widget_set_sensitive(item, flag);

@@ -295,11 +295,14 @@ HOOKPROTONH(advance_display, void, char **array, APTR msg)
   if(which)
   {
     int tech = which-100;
-    if (tech == game.control.num_tech_types) *array = _("At Spy's Discretion");
-    else *array = advance_name_translation(which-100);
-  }
-  else
+    if (tech == advance_count()) {
+      *array = _("At Spy's Discretion");
+    } else {
+      *array = advance_name_translation(advance_by_number(tech));
+    }
+  } else {
     *array = _("Technology");
+  }
 }
 
 
@@ -336,22 +339,21 @@ static void create_advances_list(struct player *pplayer,
 
   if(wnd)
   {
-    int i;
     if (pvictim)
     {
       /* you don't want to know what lag can do -- Syela */
       int any_tech = FALSE;
-      for(i=A_FIRST; i<game.control.num_tech_types; i++)
+      advance_index_iterate(A_FIRST, i)
       {
-        if(get_invention(pvictim, i)==TECH_KNOWN && (get_invention(pplayer, i)==TECH_UNKNOWN || get_invention(pplayer, i)==TECH_REACHABLE))
+        if(player_invention_state(pvictim, i)==TECH_KNOWN && (player_invention_state(pplayer, i)==TECH_UNKNOWN || player_invention_state(pplayer, i)==TECH_REACHABLE))
         {
           DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
           any_tech = TRUE;
         }
-      }
+      } advance_index_iterate_end;
 
       if (any_tech)
-	DoMethod(listview, MUIM_NList_InsertSingle, 100+game.control.num_tech_types,MUIV_NList_Insert_Bottom);
+	DoMethod(listview, MUIM_NList_InsertSingle, 100+advance_count(), MUIV_NList_Insert_Bottom);
     }
 
     DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 5, MUIM_CallHook, &civstandard_hook, spy_close, wnd, listview);

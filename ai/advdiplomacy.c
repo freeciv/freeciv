@@ -124,14 +124,15 @@ static enum diplstate_type pact_clause_to_diplstate_type(enum clause_type type)
 static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
 {
   int bulbs, tech_want, worth;
+  enum tech_state state = player_invention_state(pplayer, tech);
 
-  if (get_invention(pplayer, tech) == TECH_KNOWN) {
+  if (TECH_KNOWN == state) {
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
   tech_want = MAX(pplayer->ai.tech_want[tech], 0) / MAX(game.info.turn, 1);
   worth = bulbs + tech_want;
-  if (get_invention(pplayer, tech) == TECH_REACHABLE) {
+  if (TECH_REACHABLE == state) {
     worth /= 2;
   }
   return worth;
@@ -200,7 +201,7 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
     }
 
     /* Do not bother wanting a tech that we already have. */
-    if (get_invention(taker, tech_id) == TECH_KNOWN) {
+    if (player_invention_state(taker, tech_id) == TECH_KNOWN) {
       return 0;
     }
 
@@ -209,7 +210,7 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
       if (eplayer == giver
           || eplayer == taker
           || !eplayer->is_alive
-          || get_invention(eplayer, tech_id) == TECH_KNOWN) {
+          || player_invention_state(eplayer, tech_id) == TECH_KNOWN) {
         continue;
       }
       
@@ -262,7 +263,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       if (is_dangerous) {
         return -BIG_NUMBER;
       }
-    } else if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
+    } else if (player_invention_state(pplayer, pclause->value) != TECH_KNOWN) {
       worth += compute_tech_sell_price(aplayer, pplayer, pclause->value,
                                        &is_dangerous);
     }
@@ -961,16 +962,14 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
 static void suggest_tech_exchange(struct player* player1,
                                   struct player* player2)
 {
-  int worth[game.control.num_tech_types];
+  int worth[advance_count()];
   bool is_dangerous;
     
-  tech_type_iterate(tech) {
-    if (tech == A_NONE) {
-      worth[tech] = 0;
-      continue;
-    }
-    if (get_invention(player1, tech) == TECH_KNOWN) {
-      if (get_invention(player2, tech) != TECH_KNOWN) {
+  worth[A_NONE] = 0;
+
+  advance_index_iterate(A_FIRST, tech) {
+    if (player_invention_state(player1, tech) == TECH_KNOWN) {
+      if (player_invention_state(player2, tech) != TECH_KNOWN) {
         worth[tech] = -compute_tech_sell_price(player1, player2, tech,
 	                                       &is_dangerous);
 	if (is_dangerous) {
@@ -981,7 +980,7 @@ static void suggest_tech_exchange(struct player* player1,
         worth[tech] = 0;
       }
     } else {
-      if (get_invention(player2, tech) == TECH_KNOWN) {
+      if (player_invention_state(player2, tech) == TECH_KNOWN) {
         worth[tech] = compute_tech_sell_price(player2, player1, tech,
 	                                      &is_dangerous);
 	if (is_dangerous) {
@@ -992,13 +991,13 @@ static void suggest_tech_exchange(struct player* player1,
         worth[tech] = 0;
       }
     }
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
     
-  tech_type_iterate(tech) {
+  advance_index_iterate(A_FIRST, tech) {
     if (worth[tech] <= 0) {
       continue;
     }
-    tech_type_iterate(tech2) {
+    advance_index_iterate(A_FIRST, tech2) {
       int diff;
 
       if (worth[tech2] >= 0) {
@@ -1018,8 +1017,8 @@ static void suggest_tech_exchange(struct player* player1,
 	}
 	return;
       }
-    } tech_type_iterate_end;
-  } tech_type_iterate_end;
+    } advance_index_iterate_end;
+  } advance_index_iterate_end;
 }
 
 /********************************************************************** 
@@ -1027,20 +1026,19 @@ static void suggest_tech_exchange(struct player* player1,
 ***********************************************************************/
 static void ai_share(struct player *pplayer, struct player *aplayer)
 {
-  int index;
   bool gives_vision;
 
   /* Only share techs with team mates */
   if (players_on_same_team(pplayer, aplayer)) {
-    for (index = A_FIRST; index < game.control.num_tech_types; index++) {
-      if ((get_invention(pplayer, index) != TECH_KNOWN)
-          && (get_invention(aplayer, index) == TECH_KNOWN)) {
+    advance_index_iterate(A_FIRST, index) {
+      if ((player_invention_state(pplayer, index) != TECH_KNOWN)
+          && (player_invention_state(aplayer, index) == TECH_KNOWN)) {
        ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
-      } else if ((get_invention(pplayer, index) == TECH_KNOWN)
-          && (get_invention(aplayer, index) != TECH_KNOWN)) {
+      } else if ((player_invention_state(pplayer, index) == TECH_KNOWN)
+          && (player_invention_state(aplayer, index) != TECH_KNOWN)) {
         ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
       }
-    }
+    } advance_index_iterate_end;
   }
 
   /* Only give shared vision if safe. Only ask for shared vision if fair. */

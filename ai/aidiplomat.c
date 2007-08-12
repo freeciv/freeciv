@@ -88,12 +88,12 @@ static int count_stealable_techs(struct player *pplayer, struct player *tplayer)
 {
   int count = 0;
 
-  tech_type_iterate(index) {
-    if ((get_invention(pplayer, index) != TECH_KNOWN)
-        && (get_invention(tplayer, index) == TECH_KNOWN)) {
+  advance_index_iterate(A_FIRST, index) {
+    if ((player_invention_state(pplayer, index) != TECH_KNOWN)
+        && (player_invention_state(tplayer, index) == TECH_KNOWN)) {
       count++;
     }
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
 
   return count;
 }
@@ -127,10 +127,9 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
               "A defensive diplomat is wanted badly in city %s.", pcity->name);
       ut = get_role_unit(F_DIPLOMAT, 0);
       if (ut) {
-        Tech_type_id tech_req = ut->tech_requirement;
-
-        pplayer->ai.tech_want[tech_req] += DIPLO_DEFENSE_WANT;
-        TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s in diplo defense",
+        pplayer->ai.tech_want[advance_index(ut->require_advance)] += DIPLO_DEFENSE_WANT;
+        TECH_LOG(LOG_DEBUG, pplayer, ut->require_advance,
+                 "+ %d for %s in diplo defense",
                  DIPLO_DEFENSE_WANT,
                  utype_rule_name(ut));
       }

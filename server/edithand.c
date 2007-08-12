@@ -464,7 +464,7 @@ void handle_edit_player_tech(struct connection *pc,
   struct player *pplayer = player_by_number(playerno);
   struct player_research *research;
 
-  if (!can_conn_edit(pc) || !pplayer || !tech_exists(tech)) {
+  if (!can_conn_edit(pc) || !pplayer || !valid_advance_by_number(tech)) {
     return;
   }
 
@@ -472,19 +472,19 @@ void handle_edit_player_tech(struct connection *pc,
 
   switch(mode) {
    case ETECH_ADD:
-     set_invention(pplayer, tech, TECH_KNOWN);
+     player_invention_set(pplayer, tech, TECH_KNOWN);
      research->techs_researched++;
      break;
    case ETECH_REMOVE:
-     set_invention(pplayer, tech, TECH_UNKNOWN);
+     player_invention_set(pplayer, tech, TECH_UNKNOWN);
      research->techs_researched--;
      break;
    case ETECH_TOGGLE:
-     if (get_invention(pplayer, tech) == TECH_KNOWN) {
-       set_invention(pplayer, tech, TECH_UNKNOWN);
+     if (player_invention_state(pplayer, tech) == TECH_KNOWN) {
+       player_invention_set(pplayer, tech, TECH_UNKNOWN);
        research->techs_researched--;
      } else {
-       set_invention(pplayer, tech, TECH_KNOWN);
+       player_invention_set(pplayer, tech, TECH_KNOWN);
        research->techs_researched++;
      }
      break;
@@ -492,14 +492,14 @@ void handle_edit_player_tech(struct connection *pc,
      break;
   }
 
-  update_research(pplayer);
+  player_research_update(pplayer);
 
   if (research->researching != A_UNSET
-      && get_invention(pplayer, research->researching) != TECH_REACHABLE) {
+      && player_invention_state(pplayer, research->researching) != TECH_REACHABLE) {
     research->researching = A_UNSET;
   }
   if (research->tech_goal != A_UNSET
-      && get_invention(pplayer, research->tech_goal) == TECH_KNOWN) {
+      && player_invention_state(pplayer, research->tech_goal) == TECH_KNOWN) {
     research->tech_goal = A_UNSET;
   }
 

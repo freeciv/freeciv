@@ -166,25 +166,25 @@ static void popup_tech_menu(struct Diplomacy_dialog *pdialog,int plr)
   RECT rc;
   HMENU menu;
   MENUITEMINFO iteminfo;
-  int i, flag;
-  struct player *plr0;
-  struct player *plr1;
-  plr0=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
-  plr1=plr?pdialog->treaty.plr0:pdialog->treaty.plr1;
+  struct player *plr0 = plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
+  struct player *plr1 = plr?pdialog->treaty.plr0:pdialog->treaty.plr1;
+
   menu=CreatePopupMenu();
-  for(i=1, flag=0; i<game.control.num_tech_types; i++) {
-    if (get_invention(plr0, i) == TECH_KNOWN
-        && (get_invention(plr1, i) == TECH_UNKNOWN  
-            || get_invention(plr1, i) == TECH_REACHABLE)
-        && tech_is_available(plr1, i)) {
-      AppendMenu(menu,MF_STRING,ID_ADVANCES_BASE+i,advance_name_translation(i));
-      iteminfo.dwItemData = plr0->player_no * MAX_NUM_ITEMS * MAX_NUM_ITEMS +
-			    plr1->player_no * MAX_NUM_ITEMS + i;
+
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_state(plr0, i) == TECH_KNOWN
+        && player_invention_is_ready(plr1, i)
+        && (player_invention_state(plr1, i) == TECH_UNKNOWN  
+            || player_invention_state(plr1, i) == TECH_REACHABLE)) {
+      AppendMenu(menu,MF_STRING,ID_ADVANCES_BASE+i,
+		 advance_name_translation(advance_by_number(i)));
+      iteminfo.dwItemData = player_number(plr0) * MAX_NUM_ITEMS * MAX_NUM_ITEMS +
+			    player_number(plr1) * MAX_NUM_ITEMS + i;
       iteminfo.fMask = MIIM_DATA;
       iteminfo.cbSize = sizeof(MENUITEMINFO);
       SetMenuItemInfo(menu, ID_ADVANCES_BASE+i, FALSE, &iteminfo);
     }
-  }
+  } advance_index_iterate_end;
   GetWindowRect(GetDlgItem(pdialog->mainwin,plr?ID_TECH1:ID_TECH0),
 		&rc);
   TrackPopupMenu(menu,0,rc.left,rc.top,0,pdialog->mainwin,NULL);  

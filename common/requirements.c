@@ -110,8 +110,8 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_NONE:
     return source;
   case VUT_ADVANCE:
-    source.value.tech = find_advance_by_rule_name(value);
-    if (source.value.tech != A_LAST) {
+    source.value.advance = find_advance_by_rule_name(value);
+    if (source.value.advance != NULL) {
       return source;
     }
     break;
@@ -224,8 +224,11 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_NONE:
     return source;
   case VUT_ADVANCE:
-    source.value.tech = value;
-    return source;
+    source.value.advance = advance_by_number(value);
+    if (source.value.advance != NULL) {
+      return source;
+    }
+    break;
   case VUT_GOVERNMENT:
     source.value.govern = government_by_number(value);
     if (source.value.govern != NULL) {
@@ -315,7 +318,7 @@ int universal_number(const struct universal *source)
   case VUT_NONE:
     return 0;
   case VUT_ADVANCE:
-    return source->value.tech;
+    return advance_number(source->value.advance);
   case VUT_GOVERNMENT:
     return government_number(source->value.govern);
   case VUT_IMPROVEMENT:
@@ -688,7 +691,7 @@ static bool is_tech_in_range(const struct player *target_player,
   switch (range) {
   case REQ_RANGE_PLAYER:
     return (target_player
-	    && get_invention(target_player, tech) == TECH_KNOWN);
+	    && player_invention_state(target_player, tech) == TECH_KNOWN);
   case REQ_RANGE_WORLD:
     return game.info.global_advances[tech];
   case REQ_RANGE_LOCAL:
@@ -919,7 +922,7 @@ bool is_req_active(const struct player *target_player,
   case VUT_ADVANCE:
     /* The requirement is filled if the player owns the tech. */
     eval = is_tech_in_range(target_player, req->range,
-			    req->source.value.tech);
+			    advance_number(req->source.value.advance));
     break;
   case VUT_GOVERNMENT:
     /* The requirement is filled if the player is using the government. */
@@ -1093,7 +1096,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_NONE:
     return TRUE;
   case VUT_ADVANCE:
-    return psource1->value.tech == psource2->value.tech;
+    return psource1->value.advance == psource2->value.advance;
   case VUT_GOVERNMENT:
     return psource1->value.govern == psource2->value.govern;
   case VUT_IMPROVEMENT:
@@ -1149,7 +1152,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_NONE:
     return "(none)";
   case VUT_ADVANCE:
-    return advance_rule_name(psource->value.tech);
+    return advance_rule_name(psource->value.advance);
   case VUT_GOVERNMENT:
     return government_rule_name(psource->value.govern);
   case VUT_IMPROVEMENT:
@@ -1200,7 +1203,7 @@ const char *universal_name_translation(const struct universal *psource,
     mystrlcat(buf, _("(none)"), bufsz);
     break;
   case VUT_ADVANCE:
-    mystrlcat(buf, advance_name_translation(psource->value.tech), bufsz);
+    mystrlcat(buf, advance_name_translation(psource->value.advance), bufsz);
     break;
   case VUT_GOVERNMENT:
     mystrlcat(buf, government_name_translation(psource->value.govern), bufsz);

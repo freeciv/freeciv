@@ -253,7 +253,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   char *bg="";
   char label[MAX_LEN_NAME+3];
   
-  type = (tech==A_LAST) ? TECH_UNKNOWN : get_invention(game.player_ptr, tech);
+  type = (tech==A_LAST) ? TECH_UNKNOWN : player_invention_state(game.player_ptr, tech);
   switch(type) {
     case TECH_UNKNOWN:
       bg=TREE_NODE_UNKNOWN_TECH_BG;
@@ -267,7 +267,8 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   }
   
   if(tech==A_LAST ||
-     (advances[tech].req[0]==A_LAST && advances[tech].req[1]==A_LAST))  {
+     (advance_required(tech, AR_ONE)==A_LAST
+     && advance_required(tech, AR_TWO)==A_LAST))  {
     sz_strlcpy(label, _("Removed"));
     bg=TREE_NODE_REMOVED_TECH_BG;
     l=XtVaCreateManagedWidget("treenode", commandWidgetClass, 
@@ -280,7 +281,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   }
   
   my_snprintf(label, sizeof(label),
-	      "%s:%d", advance_name_translation(tech),
+	      "%s:%d", advance_name_translation(advance_by_number(tech)),
 	      num_unknown_techs_for_goal(game.player_ptr, tech));
 
   if(parent) {
@@ -307,10 +308,10 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
 
   
   if(--levels>0) {
-    if(advances[tech].req[0]!=A_NONE)
-      create_tech_tree(tree, l, advances[tech].req[0], levels);
-    if(advances[tech].req[1]!=A_NONE)
-      create_tech_tree(tree, l, advances[tech].req[1], levels);
+    if(advance_required(tech, AR_ONE)!=A_NONE)
+      create_tech_tree(tree, l, advance_required(tech, AR_ONE), levels);
+    if(advance_required(tech, AR_TWO)!=A_NONE)
+      create_tech_tree(tree, l, advance_required(tech, AR_TWO), levels);
   }
   
   
@@ -721,13 +722,13 @@ static void help_update_improvement(const struct help_item *pitem,
 				    char *title, int which)
 {
   char buf[64000];
+  struct impr_type *imp = improvement_by_number(which);
   
   create_help_page(HELP_IMPROVEMENT);
   
-  if (which<game.control.num_impr_types) {
-    struct impr_type *imp = improvement_by_number(which);
-    int i;
+  if (imp) {
     char req_buf[512];
+    int i;
 
     sprintf(buf, "%d ", impr_build_shield_cost(which));
     xaw_set_label(help_improvement_cost_data, buf);
@@ -737,7 +738,7 @@ static void help_update_improvement(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
-		    advance_name_translation(imp->tech_req));
+		    advance_name_translation(advance_by_number(imp->tech_req)));
     }*/
     
     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
@@ -747,13 +748,13 @@ static void help_update_improvement(const struct help_item *pitem,
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       xaw_set_label(help_improvement_req_data,
-		    universal_name_translation(&preq->source,
-					req_buf, sizeof(req_buf)));
+                    universal_name_translation(&preq->source,
+                                               req_buf, sizeof(req_buf)));
       i++;
       break;
     } requirement_vector_iterate_end;
 /*    create_tech_tree(help_tech_tree, 0,
-                     imp->req[0].source.value.tech, 3);
+                     imp->req[0].source.value.advance, 3);
 */
   } else {
     xaw_set_label(help_improvement_cost_data, "0 ");
@@ -773,23 +774,17 @@ static void help_update_wonder(const struct help_item *pitem,
 			       char *title, int which)
 {
   char buf[64000];
+  struct impr_type *imp = improvement_by_number(which);
   
   create_help_page(HELP_WONDER);
 
-  if (which<game.control.num_impr_types) {
-    struct impr_type *imp = improvement_by_number(which);
-    int i;
+  if (imp) {
     char req_buf[512];
+    int i;
+    struct advance *vap;
 
     sprintf(buf, "%d ", impr_build_shield_cost(which));
     xaw_set_label(help_improvement_cost_data, buf);
-    /*if (imp->tech_req == A_LAST) {
-      xaw_set_label(help_improvement_req_data, _("(Never)"));
-    } else {
-      xaw_set_label(help_improvement_req_data,
-		    advance_name_translation(imp->tech_req));
-    }*/
-
      /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
       * Currently it's limited to 1 req but this code is partially prepared
       * to be extended.  Remember MAX_NUM_REQS is a compile-time
@@ -797,27 +792,28 @@ static void help_update_wonder(const struct help_item *pitem,
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
       xaw_set_label(help_improvement_req_data,
-                   universal_name_translation(&preq->source,
-                                       req_buf, sizeof(req_buf)));
+                    universal_name_translation(&preq->source,
+                                               req_buf, sizeof(req_buf)));
       i++;
       break;
     } requirement_vector_iterate_end;
 
-    if (tech_exists(imp->obsolete_by)) {
+    vap = valid_advance(imp->obsolete_by);
+    if (vap) {
       xaw_set_label(help_wonder_obsolete_data,
-		    advance_name_translation(imp->obsolete_by));
+		    advance_name_translation(vap));
     } else {
       xaw_set_label(help_wonder_obsolete_data, _("(Never)"));
     }
 /*    create_tech_tree(help_tech_tree, 0, 
-                     imp->req[0].source.value.tech, 3);
+                     imp->req[0].source.value.advance, 3);
 */
   } else {
     /* can't find wonder */
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
     xaw_set_label(help_wonder_obsolete_data, _("None"));
-    create_tech_tree(help_tech_tree, 0, game.control.num_tech_types, 3); 
+    create_tech_tree(help_tech_tree, 0, advance_count(), 3); 
   }
   set_title_topic(pitem);
   helptext_building(buf, sizeof(buf), which, pitem->text);
@@ -828,9 +824,10 @@ static void help_update_wonder(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
-				  char *title, struct unit_type *punittype)
+				  char *title)
 {
   char *buf = &long_buffer[0];
+  struct unit_type *punittype = find_unit_type_by_translated_name(title);
   
   create_help_page(HELP_UNIT);
   if (punittype) {
@@ -851,14 +848,14 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_visrange_data, buf);
     xaw_set_label(help_unit_upkeep_data,
 		  helptext_unit_upkeep_str(punittype));
-    if (punittype->tech_requirement == A_LAST) {
+    if (A_NEVER == punittype->require_advance) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
 		    advance_name_for_player(game.player_ptr,
-				  punittype->tech_requirement));
+				  advance_number(punittype->require_advance)));
     }
-    create_tech_tree(help_tech_tree, 0, punittype->tech_requirement, 3);
+    create_tech_tree(help_tech_tree, 0, advance_number(punittype->require_advance), 3);
     if (punittype->obsoleted_by == U_NOT_OBSOLETED) {
       xaw_set_label(help_wonder_obsolete_data, _("None"));
     } else {
@@ -878,7 +875,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_hp_data, "0 ");
     xaw_set_label(help_unit_visrange_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
-    create_tech_tree(help_tech_tree, 0, game.control.num_tech_types, 3);
+    create_tech_tree(help_tech_tree, 0, advance_count(), 3);
     xaw_set_label(help_wonder_obsolete_data, _("None"));
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
@@ -889,15 +886,16 @@ static void help_update_unit_type(const struct help_item *pitem,
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_tech(const struct help_item *pitem, char *title, int i)
+static void help_update_tech(const struct help_item *pitem, char *title)
 {
   char buf[4096];
-  int j;
+  int i;
+  struct advance *padvance = find_advance_by_translated_name(title);
 
   create_help_page(HELP_TECH);
   set_title_topic(pitem);
 
-  if (!is_future_tech(i)) {
+  if (padvance  &&  !is_future_tech(i = advance_number(padvance))) {
     create_tech_tree(help_tech_tree, 0, i, 3);
     helptext_tech(buf, sizeof(buf), i, pitem->text);
 
@@ -916,33 +914,35 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 		  improvement_name_translation(impr_t));
         }
       } requirement_vector_iterate_end;
-      if (i == improvement_by_number(impr_t)->obsolete_by)
+      if (padvance == improvement_by_number(impr_t)->obsolete_by)
 	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
 		improvement_name_translation(impr_t));
     } impr_type_iterate_end;
 
     unit_type_iterate(punittype) {
-      if (i == punittype->tech_requirement) 
-	sprintf(buf + strlen(buf), _("Allows %s.\n"),
-	        utype_name_translation(punittype));
+      if (padvance != punittype->require_advance) {
+	continue;
+      }
+      sprintf(buf + strlen(buf), _("Allows %s.\n"),
+	      utype_name_translation(punittype));
     } unit_type_iterate_end;
 
-    for (j = 0; j < game.control.num_tech_types; j++) {
-      if(i==advances[j].req[0]) {
-	if(advances[j].req[1]==A_NONE)
+    advance_iterate(A_NONE, ptest) {
+      if (padvance == advance_requires(ptest, AR_ONE)) {
+	if (advance_by_number(A_NONE) == advance_requires(ptest, AR_TWO))
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"), 
-		  advance_name_translation(j));
+		  advance_name_translation(ptest));
 	else
 	  sprintf(buf+strlen(buf), _("Allows %s (with %s).\n"), 
-		  advance_name_translation(j),
-		  advance_name_translation(advances[j].req[1]));
+		  advance_name_translation(ptest),
+		  advance_name_translation(advance_requires(ptest, AR_TWO)));
       }
-      if(i==advances[j].req[1]) {
+      if (padvance == advance_requires(ptest, AR_TWO)) {
 	sprintf(buf+strlen(buf), _("Allows %s (with %s).\n"), 
-		advance_name_translation(j),
-		advance_name_translation(advances[j].req[0]));
+		advance_name_translation(ptest),
+		advance_name_translation(advance_requires(ptest, AR_ONE)));
       }
-    }
+    } advance_iterate_end;
     if (strlen(buf)) strcat(buf, "\n");
 /*
     if (advances[i].helptext) {
@@ -951,7 +951,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 */
   } else {
     create_help_page(HELP_TECH);
-    create_tech_tree(help_tech_tree, 0, game.control.num_tech_types, 3);
+    create_tech_tree(help_tech_tree, 0, advance_count(), 3);
     strcpy(buf, pitem->text);
   }
   wordwrap_string(buf, 68);
@@ -962,9 +962,10 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 ...
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
-				char *title, struct terrain *pterrain)
+				char *title)
 {
   char buf[4096];
+  struct terrain *pterrain = find_terrain_by_translated_name(title);
 
   create_help_page(HELP_TERRAIN);
   set_title_topic(pitem);
@@ -1053,10 +1054,10 @@ static void help_update_terrain(const struct help_item *pitem,
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_government(const struct help_item *pitem,
-				   char *title,
-				   struct government *pgovernment)
+				   char *title)
 {
   char buf[4096];
+  struct government *pgovernment = find_government_by_translated_name(title);
 
   if (!pgovernment) {
     strcat(buf, pitem->text);
@@ -1094,16 +1095,16 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_wonder(pitem, top, i);
     break;
   case HELP_UNIT:
-    help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
+    help_update_unit_type(pitem, top);
     break;
   case HELP_TECH:
-    help_update_tech(pitem, top, find_advance_by_translated_name(top));
+    help_update_tech(pitem, top);
     break;
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top);
     break;
   case HELP_GOVERNMENT:
-    help_update_government(pitem, top, find_government_by_translated_name(top));
+    help_update_government(pitem, top);
     break;
   case HELP_TEXT:
   default:
@@ -1159,10 +1160,10 @@ static void help_tree_node_callback(Widget w, XtPointer client_data,
   size_t tech=(size_t)client_data;
   
   if(!help_tree_destroy_children(w)) {
-    if(advances[tech].req[0]!=A_NONE)
-      create_tech_tree(help_tech_tree, w, advances[tech].req[0], 1);
-    if(advances[tech].req[1]!=A_NONE)
-      create_tech_tree(help_tech_tree, w, advances[tech].req[1], 1);
+    if(advance_required(tech, AR_ONE)!=A_NONE)
+      create_tech_tree(help_tech_tree, w, advance_required(tech, AR_ONE), 1);
+    if(advance_required(tech, AR_TWO)!=A_NONE)
+      create_tech_tree(help_tech_tree, w, advance_required(tech, AR_TWO), 1);
   }
   
 }

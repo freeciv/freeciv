@@ -85,7 +85,7 @@ static void intel_close(void)
 *****************************************************************/
 static void intel_tech( ULONG *tech)
 {
-  popup_help_dialog_typed( advance_name_translation(*tech), HELP_TECH);
+  popup_help_dialog_typed( advance_name_translation(advance_by_number(*tech)), HELP_TECH);
 }
 
 /****************************************************************
@@ -133,7 +133,6 @@ static void intel_create_dialog(struct player *p)
   if (intel_wnd)
   {
     struct city *pcity = find_palace(p);
-    int i;
 
     settextf(title_text, _("Intelligence Information for the %s Empire"),
              nation_name_for_player(p));
@@ -151,13 +150,13 @@ static void intel_create_dialog(struct player *p)
 
     settextf(capital_text, _("Capital: %s"), (pcity == NULL) ? _("(Unknown)") : pcity->name);
 
-    for (i = 1; i < game.control.num_tech_types; i++)
+    advance_index_iterate(A_FIRST, i)
     {
-      if (get_invention(p, i) == TECH_KNOWN)
+      if (player_invention_state(p, i) == TECH_KNOWN)
       {
 	Object *tech = ColorTextObject,
 	    MUIA_ColorText_Contents,
-	    advance_name_translation(i),
+	    advance_name_translation(advance_by_number(i)),
 	    MUIA_ColorText_Background, GetTechBG(i),
 	    MUIA_InputMode, MUIV_InputMode_RelVerify,
 	    End;
@@ -167,7 +166,7 @@ static void intel_create_dialog(struct player *p)
           DoMethod(tech, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, intel_tech, i);
         }
       }
-    }
+    } advance_index_iterate_end;
 
     DoMethod(intel_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 3, MUIM_CallHook, &civstandard_hook, intel_close);
     DoMethod(app, OM_ADDMEMBER, intel_wnd);

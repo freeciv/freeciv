@@ -591,13 +591,13 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
 
       if (boattype == NULL) {
         /* Sea travel not possible yet. Bump tech want for ferries. */
-        struct unit_type *boattype = get_role_unit(L_FERRYBOAT, 0);
+        boattype = get_role_unit(L_FERRYBOAT, 0);
 
-        if (boattype != NULL) {
-          Tech_type_id tech_req = boattype->tech_requirement;
-
-          pplayer->ai.tech_want[tech_req] += FERRY_TECH_WANT;
-          TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to ferry settler",
+        if (NULL != boattype
+         && A_NEVER != boattype->require_advance) {
+          pplayer->ai.tech_want[advance_index(boattype->require_advance)] += FERRY_TECH_WANT;
+          TECH_LOG(LOG_DEBUG, pplayer, boattype->require_advance,
+                   "+ %d for %s to ferry settler",
                    FERRY_TECH_WANT,
                    utype_rule_name(boattype));
         }

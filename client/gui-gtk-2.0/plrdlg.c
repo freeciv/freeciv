@@ -665,10 +665,12 @@ static void build_row(GtkTreeIter *it, int i)
 ...
 **************************************************************************/
 static bool player_should_be_shown(int plrno) {
-  return is_valid_player_id(plrno)
+  struct player *vpp = valid_player_by_number(plrno);
+
+  return NULL != vpp
 	 && (player_dlg_show_dead_players
-	     || game.players[plrno].is_alive)
-	 && (!is_barbarian(&game.players[plrno]));
+	     || vpp->is_alive)
+	 && (!is_barbarian(vpp));
 }
 
 /**************************************************************************

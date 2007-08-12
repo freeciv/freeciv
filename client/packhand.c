@@ -1339,7 +1339,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
   }
 
   if (packet->owner == game.info.player_idx) {
-    freelog(LOG_ERROR, "Got packet_short_unit for own unit.");
+    freelog(LOG_ERROR, "handle_unit_short_info() for own unit.");
   }
 
   punit = unpackage_short_unit(packet);
@@ -1436,7 +1436,7 @@ static bool read_player_info_techs(struct player *pplayer,
 {
   bool need_effect_update = FALSE;
 
-  tech_type_iterate(i) {
+  advance_index_iterate(A_NONE, i) {
     enum tech_state oldstate
       = get_player_research(pplayer)->inventions[i].state;
     enum tech_state newstate = inventions[i] - '0';
@@ -1446,13 +1446,13 @@ static bool read_player_info_techs(struct player *pplayer,
 	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
       need_effect_update = TRUE;
     }
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
 
   if (need_effect_update) {
     update_menus();
   }
 
-  update_research(pplayer);
+  player_research_update(pplayer);
   return need_effect_update;
 }
 
@@ -2236,7 +2236,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->attack_strength    = p->attack_strength;
   u->defense_strength   = p->defense_strength;
   u->move_rate          = p->move_rate;
-  u->tech_requirement   = p->tech_requirement;
+  u->require_advance    = advance_by_number(p->tech_requirement);
   u->impr_requirement   = p->impr_requirement;
   u->gov_requirement = government_by_number(p->gov_requirement);
   u->vision_radius_sq = p->vision_radius_sq;
@@ -2273,29 +2273,28 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
 **************************************************************************/
 void handle_ruleset_tech(struct packet_ruleset_tech *p)
 {
-  struct advance *a;
+  struct advance *a = advance_by_number(p->id);
 
-  if(p->id < 0 || p->id >= game.control.num_tech_types || p->id >= A_LAST) {
+  if(!a) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_tech() bad advance %d.",
 	    p->id);
     return;
   }
-  a = &advances[p->id];
 
   sz_strlcpy(a->name.vernacular, p->name);
   a->name.translated = NULL;	/* tech.c advance_name_translation */
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
-  a->req[0] = p->req[0];
-  a->req[1] = p->req[1];
-  a->root_req = p->root_req;
+  a->require[AR_ONE] = advance_by_number(p->req[AR_ONE]);
+  a->require[AR_TWO] = advance_by_number(p->req[AR_TWO]);
+  a->require[AR_ROOT] = advance_by_number(p->root_req);
   a->flags = p->flags;
   a->preset_cost = p->preset_cost;
   a->num_reqs = p->num_reqs;
   a->helptext = mystrdup(p->helptext);
   
-  tileset_setup_tech_type(tileset, p->id);
+  tileset_setup_tech_type(tileset, a);
 }
 
 /**************************************************************************
@@ -2322,7 +2321,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
     requirement_vector_append(&b->reqs, &p->reqs[i]);
   }
   assert(b->reqs.size == p->reqs_count);
-  b->obsolete_by = p->obsolete_by;
+  b->obsolete_by = advance_by_number(p->obsolete_by);
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
@@ -2336,13 +2335,11 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
     impr_type_iterate(id) {
       b = improvement_by_number(id);
       freelog(LOG_DEBUG, "Impr: %s...",
-	      advance_rule_name(id));
-      if (tech_exists(b->obsolete_by)) {
-	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
-		b->obsolete_by,
+	      improvement_rule_name(id));
+      if (A_NEVER != b->obsolete_by) {
+	freelog(LOG_DEBUG, "  obsolete_by %2d \"%s\"",
+		advance_number(b->obsolete_by),
 		advance_rule_name(b->obsolete_by));
-      } else {
-	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
       }
       freelog(LOG_DEBUG, "  build_cost %3d", b->build_cost);
       freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);

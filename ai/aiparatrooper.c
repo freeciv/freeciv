@@ -326,9 +326,12 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     if (!utype_has_flag(u_type, F_PARATROOPERS)) {
       continue;
     }
+    if (A_NEVER == u_type->require_advance) {
+      continue;
+    }
 
     /* assign tech for paratroopers */
-    tech_req = u_type->tech_requirement;
+    tech_req = advance_index(u_type->require_advance);
     if (tech_req != A_NONE && tech_req != A_UNSET) {
       for (i = 0; i < num_requirements; i++) {
         if (requirements[i] == tech_req) {
@@ -375,11 +378,11 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
 	      pplayer->ai.tech_want[tech_req]);
 
     /* now, we raise want for prerequisites */
-    tech_type_iterate(k) {
+    advance_index_iterate(A_FIRST, k) {
       if (is_tech_a_req_for_goal(pplayer, k, tech_req)) {
         pplayer->ai.tech_want[k] += 1;
       }
-    } tech_type_iterate_end;
+    } advance_index_iterate_end;
   }
   return;
 }

@@ -545,21 +545,21 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
   
   if (technology != A_FUTURE && technology != A_UNSET
-      && !tech_exists(technology)) {
+      && !valid_advance_by_number(technology)) {
     return;
   }
   
   if (technology == A_FUTURE) {
-    if (get_invention(pplayer, A_FUTURE) != TECH_REACHABLE
+    if (player_invention_state(pplayer, A_FUTURE) != TECH_REACHABLE
         || get_player_research(pplayer)->future_tech >= 
 	   get_player_research(pplayer)->future_tech) {
       return;
     }
   } else if (technology != A_UNSET) {
-    if (get_invention(pplayer, technology) == TECH_KNOWN) {
+    if (player_invention_state(pplayer, technology) == TECH_KNOWN) {
       return;
     }
-    if (get_invention(cplayer, technology) != TECH_KNOWN) {
+    if (player_invention_state(cplayer, technology) != TECH_KNOWN) {
       return;
     }
   }

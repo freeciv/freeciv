@@ -137,11 +137,11 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
     return FALSE;
   }
   
-  tech_type_iterate(tech) {
+  advance_index_iterate(A_FIRST, tech) {
     int players_having;
 
-    if (get_invention(pplayer, tech) == TECH_KNOWN
-        || !tech_is_available(pplayer, tech)) {
+    if (!player_invention_is_ready(pplayer, tech)
+        || TECH_KNOWN == player_invention_state(pplayer, tech)) {
       continue;
     }
 
@@ -152,7 +152,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
         continue;
       }
 
-      if (get_invention(aplayer, tech) == TECH_KNOWN
+      if (TECH_KNOWN == player_invention_state(aplayer, tech)
           || get_player_research(aplayer)->researching == tech) {
 	players_having++;
 	if (players_having >= players_needed) {
@@ -160,7 +160,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 	}
       }
     } players_iterate_end;
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
   return FALSE;
 }
 

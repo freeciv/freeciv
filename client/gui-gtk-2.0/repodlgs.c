@@ -192,7 +192,7 @@ static void button_release_event_callback(GtkWidget *widget,
   } else if (!can_conn_edit(&aconnection)) {
     if (event->button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
-      switch (get_invention(game.player_ptr, tech)) {
+      switch (player_invention_state(game.player_ptr, tech)) {
        case TECH_REACHABLE:
          dsend_packet_player_research(&aconnection, tech);
          break;
@@ -452,11 +452,11 @@ void science_dialog_update(void)
   gtk_label_set_text(GTK_LABEL(science_label), science_dialog_text());
   
   /* collect all researched techs in sorting_list */
-  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-    if ((get_invention(game.player_ptr, i)==TECH_KNOWN)) {
+  advance_index_iterate(A_FIRST, i) {
+    if ((player_invention_state(game.player_ptr, i)==TECH_KNOWN)) {
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
-  }
+  } advance_index_iterate_end;
 
   /* sort them, and install them in the list */
   sorting_list = g_list_sort(sorting_list, cmp_func);
@@ -486,17 +486,16 @@ void science_dialog_update(void)
    */
   hist=0;
   if (!is_future_tech(research->researching)) {
-    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-      if(get_invention(game.player_ptr, i)!=TECH_REACHABLE)
+    advance_index_iterate(A_FIRST, i) {
+      if(player_invention_state(game.player_ptr, i)!=TECH_REACHABLE)
 	continue;
 
       if (i == research->researching)
 	hist=i;
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
-    }
+    } advance_index_iterate_end;
   } else {
-    int value = (game.control.num_tech_types
-		 + research->future_tech + 1);
+    int value = (advance_count() + research->future_tech + 1);
 
     sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(value));
   }
@@ -506,14 +505,13 @@ void science_dialog_update(void)
   for (i = 0; i < g_list_length(sorting_list); i++) {
     const gchar *data;
 
-    if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) <
-	game.control.num_tech_types) {
+    if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) < advance_count()) {
       data = advance_name_for_player(game.player_ptr,
 			GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)));
     } else {
       my_snprintf(text, sizeof(text), _("Future Tech. %d"),
 		  GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))
-		  - game.control.num_tech_types);
+		  - advance_count());
       data=text;
     }
 
@@ -552,10 +550,9 @@ void science_dialog_update(void)
    * hist will hold afterwards the techid of the current choice
    */
   hist=0;
-  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i)
-        && get_invention(game.player_ptr, i) != TECH_KNOWN
-        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_is_ready(game.player_ptr, i)
+        && player_invention_state(game.player_ptr, i) != TECH_KNOWN
         && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
 	    || i == research->tech_goal)) {
       if (i == research->tech_goal) {
@@ -563,7 +560,7 @@ void science_dialog_update(void)
       }
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
-  }
+  } advance_index_iterate_end;
 
   group1 = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
   group2 = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);

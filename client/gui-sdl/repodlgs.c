@@ -2380,7 +2380,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if (VUT_ADVANCE == preq->source.kind
-         && preq->source.value.tech == tech_id) {
+         && advance_number(preq->source.value.advance) == tech_id) {
           pTmp2 = get_building_surface(imp);
           Surf_Array[w++] = zoomSurface(pTmp2, DEFAULT_ZOOM * ((float)36 / pTmp2->w), DEFAULT_ZOOM * ((float)36 / pTmp2->w), 1);
       }
@@ -2419,7 +2419,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
     w = 0;
     unit_type_iterate(un) {
       pUnit = un;
-      if (pUnit->tech_requirement == tech_id) {
+      if (advance_number(pUnit->require_advance) == tech_id) {
         Surf_Array[w++] = adj_surf(get_unittype_surface(un));
       }
     } unit_type_iterate_end;
@@ -2628,7 +2628,7 @@ void science_dialog_update(void)
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if (VUT_ADVANCE == preq->source.kind
-         && preq->source.value.tech == get_player_research(game.player_ptr)->researching) {
+         && advance_number(preq->source.value.advance) == get_player_research(game.player_ptr)->researching) {
           pSurf = adj_surf(get_building_surface(imp));
           alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + 1;
@@ -2642,7 +2642,7 @@ void science_dialog_update(void)
     /* units */
     unit_type_iterate(un) {
       pUnit = un;
-      if (pUnit->tech_requirement == get_player_research(game.player_ptr)->researching) {
+      if (advance_number(pUnit->require_advance) == get_player_research(game.player_ptr)->researching) {
 	if (get_unittype_surface(un)->w > 64) {
 	  float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
 	  pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
@@ -2707,7 +2707,7 @@ void science_dialog_update(void)
         pImpr = improvement_by_number(imp);
 	requirement_vector_iterate(&pImpr->reqs, preq) {  
           if (VUT_ADVANCE == preq->source.kind
-           && preq->source.value.tech == get_player_research(game.player_ptr)->tech_goal) {
+           && advance_number(preq->source.value.advance) == get_player_research(game.player_ptr)->tech_goal) {
             pSurf = adj_surf(get_building_surface(imp));
             alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + 1;
@@ -2720,7 +2720,7 @@ void science_dialog_update(void)
       /* units */
       unit_type_iterate(un) {
         pUnit = un;
-        if (pUnit->tech_requirement == get_player_research(game.player_ptr)->tech_goal) {
+        if (advance_number(pUnit->require_advance) == get_player_research(game.player_ptr)->tech_goal) {
 	  if (get_unittype_surface(un)->w > 64) {
 	    float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
 	    pSurf = zoomSurface(get_unittype_surface(un), zoom, zoom, 1);
@@ -2824,13 +2824,13 @@ static void popup_change_research_dialog()
     return;
   }
     
-  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
-    if (!tech_is_available(game.player_ptr, i) ||
-        (get_invention(game.player_ptr, i) != TECH_REACHABLE)) {
+  advance_index_iterate(A_FIRST, i) {
+    if (!player_invention_is_ready(game.player_ptr, i)
+     || player_invention_state(game.player_ptr, i) != TECH_REACHABLE) {
       continue;
     }
     count++;
-  }
+  } advance_index_iterate_end;
   
   if (count < 2) {
     return;
@@ -2891,16 +2891,15 @@ static void popup_change_research_dialog()
   
   count = 0;
   h = col * max_row;
-  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
-    
-    if (!tech_is_available(game.player_ptr, i)
-       || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
+  advance_index_iterate(A_FIRST, i) {
+    if (!player_invention_is_ready(game.player_ptr, i)
+     || player_invention_state(game.player_ptr, i) != TECH_REACHABLE) {
       continue;
     }
     
     count++;  
     
-    copy_chars_to_string16(pStr, advance_name_translation(i));
+    copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
     pSurf = create_sellect_tech_icon(pStr, i, MED_MODE);
     pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -2914,7 +2913,7 @@ static void popup_change_research_dialog()
       set_wflag(pBuf, WF_HIDDEN);
     }
     
-  }
+  } advance_index_iterate_end;
   
   FREESTRING16(pStr);
   
@@ -3010,15 +3009,14 @@ static void popup_change_research_goal_dialog()
   /* collect all techs which are reachable in under 11 steps
    * hist will hold afterwards the techid of the current choice
    */
-  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i)
-        && get_invention(game.player_ptr, i) != TECH_KNOWN
-        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_is_ready(game.player_ptr, i)
+        && player_invention_state(game.player_ptr, i) != TECH_KNOWN
 	&& (num_unknown_techs_for_goal(game.player_ptr, i) < 11
 	    || i == get_player_research(game.player_ptr)->tech_goal)) {
       count++;
     }
-  }
+  } advance_index_iterate_end;
   
   if (count < 1) {
     return;
@@ -3083,16 +3081,17 @@ static void popup_change_research_goal_dialog()
    */
   count = 0;
   h = col * max_row;
-  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i)
-        && get_invention(game.player_ptr, i) != TECH_KNOWN
-        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_is_ready(game.player_ptr, i)
+        && player_invention_state(game.player_ptr, i) != TECH_KNOWN
 	&& ((num = num_unknown_techs_for_goal(game.player_ptr, i)) < 11
 	    || i == get_player_research(game.player_ptr)->tech_goal)) {
-    
+
       count++;
-      my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s", advance_name_translation(i), num,
-	  					PL_("step", "steps", num));
+      my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s",
+                  advance_name_translation(advance_by_number(i)),
+                  num,
+                  PL_("step", "steps", num));
       copy_chars_to_string16(pStr, cBuf);
       pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
@@ -3107,7 +3106,7 @@ static void popup_change_research_goal_dialog()
         set_wflag(pBuf, WF_HIDDEN);
       }
     }
-  }
+  } advance_index_iterate_end;
   
   FREESTRING16(pStr);
   
@@ -3229,7 +3228,7 @@ void popup_science_dialog(bool raise)
   
   SDL_String16 *pStr;
   SDL_Surface *pBackground, *pTechIcon;
-  int count, i;
+  int count;
   SDL_Rect area;
   
   if (pScienceDlg) {
@@ -3271,13 +3270,12 @@ void popup_science_dialog(bool raise)
   
   /* count number of researchable techs */
   count = 0;
-  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i) &&
-        (get_invention(game.player_ptr, i) != TECH_KNOWN) &&
-        (advances[i].req[0] != A_LAST) && (advances[i].req[1] != A_LAST)) {
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_is_ready(game.player_ptr, i)
+     && player_invention_state(game.player_ptr, i) != TECH_KNOWN) {
 	count++;	  
     }
-  }
+  }  advance_index_iterate_end;
 
   /* current research icon */
   pTechIcon = get_tech_icon(get_player_research(game.player_ptr)->researching);

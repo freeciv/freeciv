@@ -220,21 +220,21 @@ static int spy_steal_popup(struct widget *pWidget)
   }
   
   count = 0;
-  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i)
-      && get_invention(pVictim, i)==TECH_KNOWN
-      && (get_invention(game.player_ptr, i)==TECH_UNKNOWN
-      || get_invention(game.player_ptr, i)==TECH_REACHABLE)) {
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_is_ready(game.player_ptr, i)
+      && player_invention_state(pVictim, i)==TECH_KNOWN
+      && (player_invention_state(game.player_ptr, i)==TECH_UNKNOWN
+      || player_invention_state(game.player_ptr, i)==TECH_REACHABLE)) {
 	count++;
       }
-  }
+  } advance_index_iterate_end;
   
   if(!count) {    
     /* if there is no known tech to steal then 
        send steal order at Spy's Discretion */
     int target_id = pVcity->id;
 
-    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, game.control.num_tech_types);
+    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, advance_count());
     return -1;
   }
     
@@ -303,14 +303,14 @@ static int spy_steal_popup(struct widget *pWidget)
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
   
   count = 0;
-  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i)
-      && get_invention(pVictim, i)==TECH_KNOWN
-      && (get_invention(game.player_ptr, i)==TECH_UNKNOWN
-      || get_invention(game.player_ptr, i)==TECH_REACHABLE)) {
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_is_ready(game.player_ptr, i)
+      && player_invention_state(pVictim, i)==TECH_KNOWN
+      && (player_invention_state(game.player_ptr, i)==TECH_UNKNOWN
+      || player_invention_state(game.player_ptr, i)==TECH_REACHABLE)) {
     
       count++;  
-      copy_chars_to_string16(pStr, advance_name_translation(i));
+      copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
       pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
@@ -325,10 +325,10 @@ static int spy_steal_popup(struct widget *pWidget)
         set_wflag(pBuf, WF_HIDDEN);
       }
     }
-  }
+  } advance_index_iterate_end;
   
   /* get spy tech */
-  i = unit_type(game_find_unit_by_number(id))->tech_requirement;
+  i = advance_number(unit_type(game_find_unit_by_number(id))->require_advance);
   copy_chars_to_string16(pStr, _("At Spy's Discretion"));
   pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
 	
@@ -338,7 +338,7 @@ static int spy_steal_popup(struct widget *pWidget)
   pBuf->action = spy_steal_callback;
   pBuf->data.cont = pCont;
     
-  add_to_gui_list(MAX_ID - game.control.num_tech_types, pBuf);
+  add_to_gui_list(MAX_ID - advance_count(), pBuf);
   count++;
   
   /* --------------------------------------------------------- */

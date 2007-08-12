@@ -200,7 +200,7 @@ const char *api_methods_unit_type_name_translation(Unit_Type *punit_type)
 **************************************************************************/
 const char *api_methods_tech_type_rule_name(Tech_Type *ptech)
 {
-  return advance_rule_name(ptech->index);
+  return advance_rule_name(ptech);
 }
 
 /**************************************************************************
@@ -208,7 +208,7 @@ const char *api_methods_tech_type_rule_name(Tech_Type *ptech)
 **************************************************************************/
 const char *api_methods_tech_type_name_translation(Tech_Type *ptech)
 {
-  return advance_name_translation(ptech->index);
+  return advance_name_translation(ptech);
 }
 
 /**************************************************************************

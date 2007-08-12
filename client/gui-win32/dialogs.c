@@ -929,7 +929,6 @@ void races_toggles_set_sensitive(void)
   changed = FALSE;
 
   nations_iterate(nation) {
-
     if (!nation->is_available || nation->player) {
       continue;
     }
@@ -1177,20 +1176,19 @@ static void spy_poison_callback(HWND w, void * data)
 static void create_advances_list(struct player *pplayer,
                                 struct player *pvictim, HWND lb)
 {
-  int i, j;
-  j = 0;
+  int j = 0;
+
   advance_type[j] = -1;
   
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
-    
-    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
-      if(get_invention(pvictim, i)==TECH_KNOWN && 
-         (get_invention(pplayer, i)==TECH_UNKNOWN || 
-          get_invention(pplayer, i)==TECH_REACHABLE)) {
-	ListBox_AddString(lb,advance_name_translation(i));
+    advance_index_iterate(A_FIRST, i) {
+      if(player_invention_state(pvictim, i)==TECH_KNOWN && 
+         (player_invention_state(pplayer, i)==TECH_UNKNOWN || 
+          player_invention_state(pplayer, i)==TECH_REACHABLE)) {
+	ListBox_AddString(lb,advance_name_translation(advance_by_number(i)));
         advance_type[j++] = i;
       }
-    }
+    } advance_index_iterate_end;
     
     if(j > 0) {
       ListBox_AddString(lb,_("At Spy's Discretion"));

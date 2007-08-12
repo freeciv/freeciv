@@ -185,7 +185,8 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   GtkTreeIter   l;
   GValue        value = { 0, };
 
-  if (advances[tech].req[0] == A_LAST && advances[tech].req[1] == A_LAST) {
+  if (advance_required(tech, AR_ONE) == A_LAST
+   && advance_required(tech, AR_TWO) == A_LAST) {
     bg = COLOR_REQTREE_UNREACHABLE;
 
     gtk_tree_store_append(tstore, &l, parent);
@@ -205,7 +206,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   }
 
   bg = COLOR_REQTREE_BACKGROUND;
-  switch (get_invention(game.player_ptr, tech)) {
+  switch (player_invention_state(game.player_ptr, tech)) {
   case TECH_UNKNOWN:
     bg = COLOR_REQTREE_UNREACHABLE;
     break;
@@ -240,10 +241,10 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
 
   if (original) {
     /* only add children to orginals */
-    if (advances[tech].req[0] != A_NONE)
-      create_tech_tree(advances[tech].req[0], levels, &l);
-    if (advances[tech].req[1] != A_NONE)
-      create_tech_tree(advances[tech].req[1], levels, &l);
+    if (advance_required(tech, AR_ONE) != A_NONE)
+      create_tech_tree(advance_required(tech, AR_ONE), levels, &l);
+    if (advance_required(tech, AR_TWO) != A_NONE)
+      create_tech_tree(advance_required(tech, AR_TWO), levels, &l);
   }
   return;
 }
@@ -296,7 +297,7 @@ static void help_hyperlink_callback(GtkWidget *w)
   */
   if (strcmp(s, REQ_LABEL_NEVER) != 0
       && strcmp(s, REQ_LABEL_NONE) != 0
-      && strcmp(s, advance_name_translation(A_NONE)) != 0)
+      && strcmp(s, advance_name_translation(advance_by_number(A_NONE))) != 0)
     select_help_item_string(s, type);
 }
 
@@ -713,7 +714,7 @@ static void help_update_improvement(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ilabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[5]), REQ_LABEL_NEVER);
-/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3);*/
   }
   gtk_widget_show(help_itable);
 
@@ -752,9 +753,9 @@ static void help_update_wonder(const struct help_item *pitem,
       i++;
       break;
     } requirement_vector_iterate_end;
-    if (tech_exists(imp->obsolete_by)) {
+    if (valid_advance(imp->obsolete_by)) {
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
-			 advance_name_for_player(game.player_ptr, imp->obsolete_by));
+			 advance_name_for_player(game.player_ptr, advance_number(imp->obsolete_by)));
     } else {
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NEVER);
     }
@@ -765,7 +766,7 @@ static void help_update_wonder(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_wlabel[3]), REQ_LABEL_NEVER);
     gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NONE);
-/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3); */
+/*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3); */
   }
   gtk_widget_show(help_wtable);
 
@@ -778,9 +779,10 @@ static void help_update_wonder(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
-				  char *title, struct unit_type *utype)
+				  char *title)
 {
   char buf[8192];
+  struct unit_type *utype = find_unit_type_by_translated_name(title);
 
   create_help_page(HELP_UNIT);
 
@@ -801,14 +803,14 @@ static void help_update_unit_type(const struct help_item *pitem,
 		       helptext_unit_upkeep_str(utype));
     sprintf(buf, "%d", (int)sqrt((double)utype->vision_radius_sq));
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), buf);
-    if(utype->tech_requirement==A_LAST) {
+    if (A_NEVER == utype->require_advance) {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_LABEL_NEVER);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
 			 advance_name_for_player(game.player_ptr,
-				       utype->tech_requirement));
+				       advance_number(utype->require_advance)));
     }
-/*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_LABEL_NONE);
     } else {
@@ -874,15 +876,16 @@ static char *my_chomp(char *str, size_t len)
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_tech(const struct help_item *pitem, char *title, int i)
+static void help_update_tech(const struct help_item *pitem, char *title)
 {
-  int j;
+  int i, j;
   GtkWidget *w, *hbox;
   char buf[8192];
+  struct advance *padvance = find_advance_by_translated_name(title);
 
   create_help_page(HELP_TECH);
 
-  if (!is_future_tech(i)) {
+  if (padvance  &&  !is_future_tech(i = advance_number(padvance))) {
     GtkTextBuffer *txt;
     size_t len;
 
@@ -932,7 +935,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
        * helptext needs to be shown in all possible req source types. */
       requirement_vector_iterate(&improvement_by_number(j)->reqs, preq) {
 	if (VUT_ADVANCE == preq->source.kind
-	    && preq->source.value.tech == i) {
+	    && preq->source.value.advance == padvance) {
 	  hbox = gtk_hbox_new(FALSE, 0);
 	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
 	  w = gtk_label_new(_("Allows"));
@@ -944,7 +947,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  gtk_widget_show_all(hbox);
 	}
       } requirement_vector_iterate_end;
-      if (i == improvement_by_number(j)->obsolete_by) {
+      if (padvance == improvement_by_number(j)->obsolete_by) {
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
         w = gtk_label_new(_("Obsoletes"));
@@ -957,7 +960,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     } impr_type_iterate_end;
 
     unit_type_iterate(punittype) {
-      if (i != punittype->tech_requirement) {
+      if (padvance != punittype->require_advance) {
 	continue;
       }
       hbox = gtk_hbox_new(FALSE, 0);
@@ -969,51 +972,50 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_widget_show_all(hbox);
     } unit_type_iterate_end;
 
-    for (j = 0; j < game.control.num_tech_types; j++) {
-      if(i==advances[j].req[0]) {
-	if(advances[j].req[1]==A_NONE) {
+    advance_iterate(A_NONE, ptest) {
+      if (padvance == advance_requires(ptest, AR_ONE)) {
+	if (advance_by_number(A_NONE) == advance_requires(ptest, AR_ONE)) {
           hbox = gtk_hbox_new(FALSE, 0);
           gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
           w = gtk_label_new(_("Allows"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = help_slink_new(advance_name_for_player(game.player_ptr, j), HELP_TECH);
+          w = help_slink_new(advance_name_translation(ptest), HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           gtk_widget_show_all(hbox);
-	}
-	else {
+	} else {
           hbox = gtk_hbox_new(FALSE, 0);
           gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
           w = gtk_label_new(_("Allows"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = help_slink_new(advance_name_for_player(game.player_ptr, j), HELP_TECH);
+          w = help_slink_new(advance_name_translation(ptest), HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = gtk_label_new(_("with"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-          w = help_slink_new(advance_name_for_player(game.player_ptr,
-					   advances[j].req[1]), HELP_TECH);
+          w = help_slink_new(advance_name_translation(advance_requires(ptest, AR_TWO)),
+                             HELP_TECH);
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = gtk_label_new(Q_("?techhelp:"));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           gtk_widget_show_all(hbox);
 	}
       }
-      if(i==advances[j].req[1]) {
+      if (padvance == advance_requires(ptest, AR_TWO)) {
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
         w = gtk_label_new(_("Allows"));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = help_slink_new(advance_name_for_player(game.player_ptr, j), HELP_TECH);
+        w = help_slink_new(advance_name_translation(ptest), HELP_TECH);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(_("with"));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = help_slink_new(advance_name_for_player(game.player_ptr,
-					 advances[j].req[0]), HELP_TECH);
+        w = help_slink_new(advance_name_translation(advance_requires(ptest, AR_ONE)),
+                           HELP_TECH);
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(Q_("?techhelp:"));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         gtk_widget_show_all(hbox);
       }
-    }
+    } advance_iterate_end;
     gtk_widget_show(help_vbox);
   }
 }
@@ -1022,9 +1024,10 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 ...
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
-				char *title, struct terrain *pterrain)
+				char *title)
 {
   char buf[8192];
+  struct terrain *pterrain = find_terrain_by_translated_name(title);
 
   create_help_page(HELP_TERRAIN);
 
@@ -1117,9 +1120,10 @@ static void help_update_terrain(const struct help_item *pitem,
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_government(const struct help_item *pitem,
-				   char *title, struct government *gov)
+				   char *title)
 {
   char buf[8192];
+  struct government *gov = find_government_by_translated_name(title);
 
   if (!gov) {
     strcat(buf, pitem->text);
@@ -1164,16 +1168,16 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_wonder(pitem, top, i);
     break;
   case HELP_UNIT:
-    help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
+    help_update_unit_type(pitem, top);
     break;
   case HELP_TECH:
-    help_update_tech(pitem, top, find_advance_by_translated_name(top));
+    help_update_tech(pitem, top);
     break;
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top);
     break;
   case HELP_GOVERNMENT:
-    help_update_government(pitem, top, find_government_by_translated_name(top));
+    help_update_government(pitem, top);
     break;
   case HELP_TEXT:
   default:

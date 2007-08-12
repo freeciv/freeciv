@@ -98,16 +98,15 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 					int counterpart)
 {
   struct Treaty *ptreaty;
-  struct player *pother;
   bool *player_accept, *other_accept;
   enum dipl_reason diplcheck;
   bool worker_refresh_required = FALSE;
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
+  if (NULL == pother || pplayer == pother) {
     return;
   }
 
-  pother = player_by_number(counterpart);
   ptreaty = find_treaty(pplayer, pother);
 
   if (!ptreaty) {
@@ -139,7 +138,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           }
           break;
 	case CLAUSE_ADVANCE:
-          if (!tech_is_available(pother, pclause->value)) {
+          if (!player_invention_is_ready(pother, pclause->value)) {
 	    /* It is impossible to give a technology to a civilization that
 	     * can never possess it (the client should enforce this). */
 	    freelog(LOG_ERROR, "Treaty: %s can't have tech %s",
@@ -151,7 +150,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  advance_name_for_player(pplayer, pclause->value));
 	    return;
           }
-	  if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
+	  if (player_invention_state(pplayer, pclause->value) != TECH_KNOWN) {
 	    freelog(LOG_ERROR,
                     "Nation %s try to give unknown tech %s to nation %s.",
 		    nation_rule_name(nation_of_player(pplayer)),
@@ -355,7 +354,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         /* It is possible that two players open the diplomacy dialog
          * and try to give us the same tech at the same time. This
          * should be handled discreetly instead of giving a core dump. */
-        if (get_invention(pdest, pclause->value) == TECH_KNOWN) {
+        if (player_invention_state(pdest, pclause->value) == TECH_KNOWN) {
 	  freelog(LOG_VERBOSE,
                   "Nation %s already know tech %s, that %s want to give them.",
 		  nation_rule_name(nation_of_player(pdest)),
@@ -374,7 +373,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 nation_plural_for_player(pgiver));
 
 	script_signal_emit("tech_researched", 3,
-			   API_TYPE_TECH_TYPE, &advances[pclause->value],
+			   API_TYPE_TECH_TYPE, advance_by_number(pclause->value),
 			   API_TYPE_PLAYER, pdest,
 			   API_TYPE_STRING, "traded");
 	do_dipl_cost(pdest, pclause->value);
@@ -550,15 +549,12 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
 					enum clause_type type, int value)
 {
   struct Treaty *ptreaty;
-  struct player *pgiver, *pother;
+  struct player *pgiver = valid_player_by_number(giver);
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart
-      || !is_valid_player_id(giver)) {
+  if (NULL == pother || pplayer == pother || NULL == pgiver) {
     return;
   }
-
-  pother = player_by_number(counterpart);
-  pgiver = player_by_number(giver);
 
   if (pgiver != pplayer && pgiver != pother) {
     return;
@@ -590,15 +586,12 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
 					enum clause_type type, int value)
 {
   struct Treaty *ptreaty;
-  struct player *pgiver, *pother;
+  struct player *pgiver = valid_player_by_number(giver);
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart
-      || !is_valid_player_id(giver)) {
+  if (NULL == pother || pplayer == pother || NULL == pgiver) {
     return;
   }
-
-  pother = player_by_number(counterpart);
-  pgiver = player_by_number(giver);
 
   if (pgiver != pplayer && pgiver != pother) {
     return;
@@ -671,7 +664,9 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
 void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
 					 int counterpart)
 {
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
+  struct player *pother = valid_player_by_number(counterpart);
+
+  if (NULL == pother || pplayer == pother) {
     return;
   }
 
@@ -684,13 +679,11 @@ void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
 void handle_diplomacy_init_meeting_req(struct player *pplayer,
 				       int counterpart)
 {
-  struct player *pother;
+  struct player *pother = valid_player_by_number(counterpart);
 
-  if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
+  if (NULL == pother || pplayer == pother) {
     return;
   }
-
-  pother = player_by_number(counterpart);
 
   if (find_treaty(pplayer, pother)) {
     return;

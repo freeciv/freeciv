@@ -246,23 +246,25 @@ static void popup_diplomacy_dialog(int other_player_id)
 static int fill_diplomacy_tech_menu(Widget popupmenu, 
 				    struct player *plr0, struct player *plr1)
 {
-  int i, flag;
+  int flag = 0;
   
-  for(i=A_FIRST, flag=0; i<game.control.num_tech_types; i++) {
-    if (get_invention(plr0, i) == TECH_KNOWN
-        && (get_invention(plr1, i) == TECH_UNKNOWN
-	    || get_invention(plr1, i) == TECH_REACHABLE)
-        && tech_is_available(plr1, i)) {
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_state(plr0, i) == TECH_KNOWN
+        && player_invention_is_ready(plr1, i)
+        && (player_invention_state(plr1, i) == TECH_UNKNOWN
+	    || player_invention_state(plr1, i) == TECH_REACHABLE)) {
       Widget entry=
-	XtVaCreateManagedWidget(advance_name_translation(i), smeBSBObjectClass, 
-				popupmenu, NULL);
+	XtVaCreateManagedWidget(advance_name_translation(advance_by_number(i)),
+				smeBSBObjectClass,
+				popupmenu,
+				NULL);
       XtAddCallback(entry, XtNcallback, diplomacy_dialog_tech_callback,
 			 INT_TO_XTPOINTER((player_number(plr0) << 24) |
 					 (player_number(plr1) << 16) |
 					 i));
       flag=1;
     }
-  }
+  } advance_index_iterate_end;
   return flag;
 }
 

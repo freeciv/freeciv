@@ -133,7 +133,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
-  if (type == CLAUSE_ADVANCE && !tech_exists(val)) {
+  if (type == CLAUSE_ADVANCE && !valid_advance_by_number(val)) {
     freelog(LOG_ERROR, "Illegal tech value %i in clause.", val);
     return FALSE;
   }

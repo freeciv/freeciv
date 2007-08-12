@@ -341,7 +341,7 @@ void ai_best_government(struct player *pplayer)
       requirement_vector_iterate(&gov->reqs, preq) {
 	if (VUT_ADVANCE == preq->source.kind) {
 	  dist += MAX(1, num_unknown_techs_for_goal(pplayer,
-						    preq->source.value.tech));
+						    advance_number(preq->source.value.advance)));
 	}
       } requirement_vector_iterate_end;
       val = amortize(val, dist);
@@ -374,7 +374,7 @@ void ai_best_government(struct player *pplayer)
       ai->goal.govt.req = A_NONE;
       requirement_vector_iterate(&gov->reqs, preq) {
 	if (VUT_ADVANCE == preq->source.kind) {
-	  ai->goal.govt.req = preq->source.value.tech;
+	  ai->goal.govt.req = advance_number(preq->source.value.advance);
 	  break;
 	}
       } requirement_vector_iterate_end;
@@ -402,7 +402,7 @@ static void ai_manage_government(struct player *pplayer)
 
   /* Crank up tech want */
   if (ai->goal.govt.req == A_UNSET
-      || get_invention(pplayer, ai->goal.govt.req) == TECH_KNOWN) {
+      || player_invention_state(pplayer, ai->goal.govt.req) == TECH_KNOWN) {
     return; /* already got it! */
   } else if (ai->goal.govt.val > 0) {
     /* We have few cities in the beginning, compensate for this to ensure
@@ -416,8 +416,9 @@ static void ai_manage_government(struct player *pplayer)
       want += 25 * game.info.turn;
     }
     pplayer->ai.tech_want[ai->goal.govt.req] += want;
-    TECH_LOG(LOG_DEBUG, pplayer, ai->goal.govt.req, "+ %d for %s in "
-             "ai_manage_government", want,
+    TECH_LOG(LOG_DEBUG, pplayer, advance_by_number(ai->goal.govt.req), 
+             "+ %d for %s in ai_manage_government()",
+             want,
              government_rule_name(ai->goal.govt.gov));
   }
 }

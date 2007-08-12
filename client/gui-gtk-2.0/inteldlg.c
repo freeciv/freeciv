@@ -335,17 +335,18 @@ void update_intel_dialog(struct player *p)
     /* techs tab. */
     gtk_list_store_clear(pdialog->techs);
 
-    for(i=A_FIRST; i<game.control.num_tech_types; i++)
-      if(get_invention(p, i)==TECH_KNOWN) {
+    advance_index_iterate(A_FIRST, i) {
+      if(player_invention_state(p, i)==TECH_KNOWN) {
 	GtkTreeIter it;
 
 	gtk_list_store_append(pdialog->techs, &it);
 
 	gtk_list_store_set(pdialog->techs, &it,
-			   0, (get_invention(game.player_ptr, i)!=TECH_KNOWN),
+			   0, (player_invention_state(game.player_ptr, i)!=TECH_KNOWN),
 			   1, advance_name_for_player(p, i),
 			   -1);
       }
+    } advance_index_iterate_end;
 
     /* table labels. */
     for (i = 0; i < ARRAY_SIZE(pdialog->table_labels); i++) {

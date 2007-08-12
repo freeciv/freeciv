@@ -157,7 +157,7 @@ static void help_hyperlink(Object ** text_obj)
   enum help_page_type type = (enum help_page_type) xget(*text_obj, MUIA_UserData);
 
   if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
-      && strcmp(s, advance_name_translation(A_NONE)) != 0)
+      && strcmp(s, advance_name_translation(advance_by_number(A_NONE))) != 0)
   {
     int idx;
 
@@ -195,7 +195,7 @@ ULONG GetTechBG(int tech)
 {
   ULONG bg;
 
-  switch(get_invention(game.player_ptr, tech))
+  switch(player_invention_state(game.player_ptr, tech))
   {
   case TECH_KNOWN:
     bg = GetColorRGB(COLOR_MUI_TECHKNOWN); /* green */
@@ -227,7 +227,7 @@ static char *GetTechText(int tech)
   else if(tech == TECHTYPE_NONE)
     text = _("None");
   else
-    text = advance_name_translation(tech);
+    text = advance_name_translation(advance_by_number(tech));
 
   return text;
 }
@@ -387,9 +387,10 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
 {
   Object *o;
   APTR leaf = 0;
+  struct impr_type *vap = valid_advance_by_number(tech);
 
   char label[MAX_LEN_NAME+3];
-  if(!tech_exists(tech))
+  if(NULL == vap)
   {
     Object *o = MakeButton(_("Removed"));
     DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
@@ -397,7 +398,7 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
   }
   
   my_snprintf(label, sizeof(label), "%s:%d",
-	      advance_name_translation(tech),
+	      advance_name_translation(vap),
 	      num_unknown_techs_for_goal(game.player_ptr, tech));
 
   o = ColorTextObject,
@@ -417,10 +418,10 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
   }
   
   if(--levels>0) {
-    if(advances[tech].req[0]!=A_NONE)
-      create_tech_tree(tree, leaf, advances[tech].req[0], levels);
-    if(advances[tech].req[1]!=A_NONE)
-      create_tech_tree(tree, leaf, advances[tech].req[1], levels);
+    if(advance_required(tech, AR_ONE)!=A_NONE)
+      create_tech_tree(tree, leaf, advance_required(tech, AR_ONE), levels);
+    if(advance_required(tech, AR_TWO)!=A_NONE)
+      create_tech_tree(tree, leaf, advance_required(tech, AR_TWO), levels);
   }
 }
 
@@ -438,10 +439,10 @@ static void help_tree_leaf( Object **pobj )
 
     if(!DoMethod(help_tech_tree, MUIM_ObjectTree_HasSubNodes, leaf))
     {
-      if(advances[tech].req[0]!=A_NONE)
-	create_tech_tree(help_tech_tree, leaf, advances[tech].req[0], 1);
-      if(advances[tech].req[1]!=A_NONE)
-	create_tech_tree(help_tech_tree, leaf, advances[tech].req[1], 1);
+      if(advance_required(tech, AR_ONE)!=A_NONE)
+	create_tech_tree(help_tech_tree, leaf, advance_required(tech, AR_ONE), 1);
+      if(advance_required(tech, AR_TWO)!=A_NONE)
+	create_tech_tree(help_tech_tree, leaf, advance_required(tech, AR_TWO), 1);
     } else
     {
       DoMethod(help_tech_tree,MUIM_ObjectTree_ClearSubNodes,leaf);
@@ -644,7 +645,7 @@ static void help_update_wonder(const struct help_item *pitem,
 	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(which));
 
     UpdateTechButton(help_wonder_needs_button, imp->tech_req);
-    UpdateTechButton(help_wonder_obsolete_button, imp->obsolete_by);
+    UpdateTechButton(help_wonder_obsolete_button, advance_number(imp->obsolete_by));
   }
   else
   {
@@ -661,20 +662,20 @@ static void help_update_wonder(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
-				  char *title, int i)
+				  char *title)
 {
   char *buf = &long_buffer[0];
+  struct unit_type *utype = find_unit_type_by_translated_name(title);
 
   create_help_page(HELP_UNIT);
 
-  if (i < utype_count())
+  if (utype)
   {
     ULONG bg_color;
-    struct unit_type *utype = utype_by_number(i);
     char *text;
 
     settextf(help_unit_cost_text,
-	     _("Cost: %ld"), unit_build_shield_cost(which));
+	     _("Cost: %ld"), utype_build_shield_cost(utype));
     DoMethod(help_unit_attack_text, MUIM_SetAsString,
 	     MUIA_Text_Contents, "%ld", utype->attack_strength);
     DoMethod(help_unit_defense_text, MUIM_SetAsString,
@@ -686,9 +687,9 @@ static void help_update_unit_type(const struct help_item *pitem,
     settextf(help_unit_hitpoints_text, "%ld", utype->hp);
     settextf(help_unit_vision_text, "%ld", utype->vision_range);
     set(help_unit_basic_upkeep_text, MUIA_Text_Contents,
-	helptext_unit_upkeep_str(i));
+	helptext_unit_upkeep_str(utype));
 
-    UpdateTechButton(help_unit_needs_button, utype->tech_requirement);
+    UpdateTechButton(help_unit_needs_button, advance_by_number(utype->require_advance));
 
     if (utype->obsoleted_by == U_NOT_OBSOLETED)
       text = _("None");
@@ -721,17 +722,17 @@ static void help_update_unit_type(const struct help_item *pitem,
 /**************************************************************************
 ...
 **************************************************************************/
-static void help_update_tech(const struct help_item *pitem, char *title, int i)
+static void help_update_tech(const struct help_item *pitem, char *title)
 {
   char *buf = &long_buffer[0];
+  struct advance *padvance = find_advance_by_translated_name(title);
 
   create_help_page(HELP_TECH);
 
-  if (!is_future_tech(i))
+  if (padvance  &&  !is_future_tech(i = advance_number(padvance)))
   {
     if (help_tech_group)
     {
-      int j;
       DoMethod(help_right_group, MUIM_Group_InitChange);
       DoMethod(help_page_group, OM_REMMEMBER, help_tech_group);
       MUI_DisposeObject(help_tech_group);
@@ -765,7 +766,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
 	unit_type_iterate(j) {
 	  Object *o, *button;
-	  if (i != utype_by_number(j)->tech_requirement)
+	  if (padvance != utype_by_number(j)->require_advance)
 	    continue;
 
 	  o = HGroup,
@@ -781,9 +782,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	} unit_type_iterate_end;
 
 
-	for (j = 0; j < game.control.num_tech_types; j++) {
+	advance_index_iterate(A_NONE, j) {
 	  Object *o, *button;
-	  if (i == advances[j].req[0])
+	  if (i == advance_required(j, AR_ONE))
 	  {
 	    Object *group;
 	    group = o = HGroup,
@@ -795,12 +796,12 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	    if (o)
 	      DoMethod(help_tech_group, OM_ADDMEMBER, o);
 
-	    if (advances[j].req[1] != A_NONE)
+	    if (advance_required(j, AR_TWO) != A_NONE)
 	    {
 	      o = HGroup,
 		GroupSpacing(0),
 		Child, MakeLabel(_(" (with ")),
-		Child, button = MakeHelpButtonTech(advances[j].req[1]),
+		Child, button = MakeHelpButtonTech(advance_required(j, AR_TWO)),
 		Child, MakeLabel(")"),
 		End;
 	      if (o)
@@ -812,7 +813,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	      DoMethod(group, OM_ADDMEMBER, o);
 	  }
 
-	  if (i == advances[j].req[1])
+	  if (i == advance_required(j, AR_TWO))
 	  {
 	    Object *button2;
 	    o = HGroup,
@@ -820,7 +821,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	      Child, MakeLabel(_("Allows ")),
 	      Child, button = MakeHelpButtonTech(j),
 	      Child, MakeLabel(_(" (with ")),
-	      Child, button2 = MakeHelpButtonTech(advances[j].req[0]),
+	      Child, button2 = MakeHelpButtonTech(advance_required(j, AR_ONE)),
 	      Child, MakeLabel(")"),
 	      Child, HSpace(0),
 	      End;
@@ -828,7 +829,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	    if (o)
 	      DoMethod(help_tech_group, OM_ADDMEMBER, o);
 	  }
-	}
+	} advance_index_iterate_end;
 	DoMethod(help_page_group, OM_ADDMEMBER, help_tech_group);
 	DoMethod(help_page_group, MUIM_Group_Sort, help_tech_group, help_tech_scrollgroup, NULL);
       }
@@ -845,20 +846,23 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 ...
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
-				char *title, int i)
+				char *title)
 {
   char *buf = &long_buffer[0];
+  struct terrain *pterrain = find_terrain_by_translated_name(title);
 
   create_help_page(HELP_TERRAIN);
 
-  if (i < terrain_count())
+  if (pterrain)
   {
-    struct terrain *tile = terrain_by_number(i);
     char buf[256];
     Object *o,*g;
 
-    settextf(help_terrain_move_text, _("Movecost: %ld"), terrains[i].movement_cost);
-    settextf(help_terrain_defense_text, _("Defense: %ld.%ld"), (terrains[i].defense_bonus / 10), terrains[i].defense_bonus % 10);
+    settextf(help_terrain_move_text, _("Movecost: %ld"),
+	     pterrain->movement_cost);
+    settextf(help_terrain_defense_text, _("Defense: %ld.%ld"),
+	     pterrain->defense_bonus / 10,
+	     pterrain->defense_bonus % 10);
 
     DoMethod(help_right_group, MUIM_Group_InitChange);
     DoMethod(help_page_group, MUIM_Group_InitChange);
@@ -871,15 +875,20 @@ static void help_update_terrain(const struct help_item *pitem,
     help_terrain_dynamic_group = VGroup,End;
 
     my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),
-		tile->output[O_FOOD], tile->output[O_SHIELD],
-		tile->output[O_TRADE]);
+		pterrain->output[O_FOOD],
+		pterrain->output[O_SHIELD],
+		pterrain->output[O_TRADE]);
     if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, "", End,
-	      Child, SpriteObject, MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
-	        MUIA_FixWidth, tileset_tile_width(tileset),
-	        MUIA_FixHeight, tileset_tile_height(tileset),
-	      	End,
+	      Child, SpriteObject,
+	        MUIA_Sprite_Sprite,
+		pterrain->sprite[NUM_DIRECTION_NSEW - 1],
+		MUIA_FixWidth,
+		tileset_tile_width(tileset),
+		MUIA_FixHeight,
+		tileset_tile_height(tileset),
+		End,
 	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
 	      End))
@@ -890,17 +899,24 @@ static void help_update_terrain(const struct help_item *pitem,
     g = HGroup, Child, HSpace(0), End;
 
     my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),
-		tile->special[0].output[O_FOOD],
-		tile->special[0].output[O_SHIELD],
-		tile->special[0].output[O_TRADE]);
+		pterrain->special[0].output[O_FOOD],
+		pterrain->special[0].output[O_SHIELD],
+		pterrain->special[0].output[O_TRADE]);
     if((o = HGroup,
               Child, HSpace(0),
-	      Child, TextObject, MUIA_Text_Contents, tile->special_1_name, End,
+	      Child, TextObject,
+		  MUIA_Text_Contents,
+		  pterrain->special_1_name,
+		  End,
 	      Child, SpriteObject,
-		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
-		  MUIA_Sprite_OverlaySprite, tile->special[0].sprite,
-		  MUIA_FixWidth, tileset_tile_width(tileset),
-		  MUIA_FixHeight, tileset_tile_height(tileset),
+		  MUIA_Sprite_Sprite,
+		  pterrain->sprite[NUM_DIRECTION_NSEW - 1],
+		  MUIA_Sprite_OverlaySprite,
+		  pterrain->special[0].sprite,
+		  MUIA_FixWidth,
+		  tileset_tile_width(tileset),
+		  MUIA_FixHeight,
+		  tileset_tile_height(tileset),
 		  End,
 	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
@@ -910,18 +926,22 @@ static void help_update_terrain(const struct help_item *pitem,
     }
 
     my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),
-		tile->special[1].output[O_FOOD],
-		tile->special[1].output[O_SHIELD],
-		tile->special[1].output[O_TRADE]);
-    tile->trade_special_2);
+		pterrain->special[1].output[O_FOOD],
+		pterrain->special[1].output[O_SHIELD],
+		pterrain->special[1].output[O_TRADE]);
+    pterrain->trade_special_2);
     if((o = HGroup,
               Child, HSpace(0),
-	      Child, TextObject, MUIA_Text_Contents, tile->special_2_name, End,
+	      Child, TextObject, MUIA_Text_Contents, pterrain->special_2_name, End,
 	      Child, SpriteObject,
-		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
-		  MUIA_Sprite_OverlaySprite, tile->special[1].sprite,
-		  MUIA_FixWidth, tileset_tile_width(tileset),
-		  MUIA_FixHeight, tileset_tile_height(tileset),
+		  MUIA_Sprite_Sprite,
+		  pterrain->sprite[NUM_DIRECTION_NSEW - 1],
+		  MUIA_Sprite_OverlaySprite,
+		  pterrain->special[1].sprite,
+		  MUIA_FixWidth,
+		  tileset_tile_width(tileset),
+		  MUIA_FixHeight,
+		  tileset_tile_height(tileset),
 		  End,
 	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
@@ -939,7 +959,7 @@ static void help_update_terrain(const struct help_item *pitem,
     DoMethod(help_right_group, MUIM_Group_ExitChange);
   }
 
-  helptext_terrain(buf, i, pitem->text);
+  helptext_terrain(buf, pterrain, pitem->text);
 
   DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);
 }
@@ -948,9 +968,10 @@ static void help_update_terrain(const struct help_item *pitem,
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_government(const struct help_item *pitem,
-				   char *title, struct government *gov)
+				   char *title)
 {
   char *buf = &long_buffer[0];
+  struct government *gov = find_government_by_translated_name(title);
 
   create_help_page(HELP_TEXT);
 
@@ -960,7 +981,7 @@ static void help_update_government(const struct help_item *pitem,
   }
   else
   {
-    helptext_government(buf, government_number(gov), pitem->text);
+    helptext_government(buf, gov, pitem->text);
   }
 
   DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);
@@ -1000,19 +1021,19 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
 
   case HELP_UNIT:
-    help_update_unit_type(pitem, top, find_unit_type_by_translated_name(top));
+    help_update_unit_type(pitem, top);
     break;
 
   case HELP_TECH:
-    help_update_tech(pitem, top, find_advance_by_translated_name(top));
+    help_update_tech(pitem, top);
     break;
 
   case HELP_TERRAIN:
-    help_update_terrain(pitem, top, find_terrain_by_translated_name(top));
+    help_update_terrain(pitem, top);
     break;
 
   case HELP_GOVERNMENT:
-    help_update_government(pitem, top, find_government_by_translated_name(top));
+    help_update_government(pitem, top);
     break;
 
   case HELP_TEXT:

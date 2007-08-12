@@ -328,7 +328,7 @@ static bool manual_command(void)
         } requirement_vector_iterate_end;
 
         fprintf(doc, "<em>%s</em></td>\n",
-                tech_exists(pimpr->obsolete_by)
+                valid_advance(pimpr->obsolete_by)
                 ? advance_name_translation(pimpr->obsolete_by)
                 : _("None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);

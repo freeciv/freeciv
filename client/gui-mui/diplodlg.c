@@ -251,23 +251,23 @@ void popup_diplomacy_dialog(struct player *plr0, struct player *plr1)
 static int fill_diplomacy_tech_menu(Object *menu_title, struct Diplomacy_dialog *pdialog,
 				    struct player *plr0, struct player *plr1)
 {
-  int i, flag;
+  bool flag = FALSE;
   Object *entry;
 
-  for(i=1, flag=0; i<game.control.num_tech_types; i++)
+  advance_index_iterate(A_FIRST, i)
   {
-    if (get_invention(plr0, i) == TECH_KNOWN 
-        && (get_invention(plr1, i) == TECH_UNKNOWN
-            || get_invention(plr1, i) == TECH_REACHABLE)
-        && tech_is_available(plr1, i))
+    if (player_invention_state(plr0, i) == TECH_KNOWN
+        && player_invention_is_ready(plr1, i)
+        && (player_invention_state(plr1, i) == TECH_UNKNOWN
+            || player_invention_state(plr1, i) == TECH_REACHABLE))
     {
-      entry = MUI_MakeObject(MUIO_Menuitem,advance_name_translation(i),NULL,0,0);
+      entry = MUI_MakeObject(MUIO_Menuitem,advance_name_translation(advance_by_number(i)),NULL,0,0);
       set(entry,MUIA_UserData,i);
       DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,6, MUIM_CallHook, &civstandard_hook, diplomacy_tech, pdialog, player_number(plr0),entry);
       DoMethod(menu_title,MUIM_Family_AddTail, entry);
-      flag = 1;
+      flag = TRUE;
     }
-  }
+  } advance_index_iterate_end;
 
   if (!flag)
   {

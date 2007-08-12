@@ -79,7 +79,7 @@ static void intel_create_dialog(struct player *p)
   
 
   static char tech_list_names[A_LAST+1][200];
-  int i, j;
+  int j = 0;
   
   intel_dialog=fcwin_create_layouted_window(intel_proc,
 					    _("Foreign Intelligence Report"),
@@ -140,17 +140,18 @@ static void intel_create_dialog(struct player *p)
   lb=fcwin_box_add_list(vbox,10,0,LBS_NOSEL | LBS_SORT | WS_VSCROLL,
 			TRUE,TRUE,5);
   
-  for(i=A_FIRST, j=0; i<game.control.num_tech_types; i++)
-    if(get_invention(p, i)==TECH_KNOWN) {
-      if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-        sz_strlcpy(tech_list_names[j], advance_name_translation(i));
+  advance_index_iterate(A_FIRST, i) {
+    if(player_invention_state(p, i)==TECH_KNOWN) {
+      if(player_invention_state(game.player_ptr, i)==TECH_KNOWN) {
+        sz_strlcpy(tech_list_names[j], advance_name_translation(advance_by_number(i)));
       } else {
         my_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),
-                    "%s*", advance_name_translation(i));
+                    "%s*", advance_name_translation(advance_by_number(i)));
       }
       ListBox_AddString(lb,tech_list_names[j]);
       j++;
     }
+  } advance_index_iterate_end;
 
   fcwin_box_add_button(vbox,_("Close"),IDCANCEL,0,FALSE,FALSE,5);
   fcwin_set_box(intel_dialog,vbox);

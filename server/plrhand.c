@@ -998,11 +998,11 @@ static void package_player_info(struct player *plr,
   /* Send most civ info about the player only to players who have an
    * embassy. */
   if (highest_team_level >= INFO_EMBASSY) {
-    for (i = A_FIRST; i < game.control.num_tech_types; i++) {
+    advance_index_iterate(A_FIRST, i) {
       packet->inventions[i] = 
         research->inventions[i].state + '0';
-    }
-    packet->inventions[i]   = '\0';
+    } advance_index_iterate_end;
+    packet->inventions[advance_count()] = '\0';
     packet->tax             = plr->economic.tax;
     packet->science         = plr->economic.science;
     packet->luxury          = plr->economic.luxury;
@@ -1012,10 +1012,10 @@ static void package_player_info(struct player *plr,
     packet->future_tech = research->future_tech;
     packet->revolution_finishes = plr->revolution_finishes;
   } else {
-    for (i = A_FIRST; i < game.control.num_tech_types; i++) {
+    advance_index_iterate(A_FIRST, i) {
       packet->inventions[i] = '0';
-    }
-    packet->inventions[i]   = '\0';
+    } advance_index_iterate_end;
+    packet->inventions[advance_count()] = '\0';
     packet->tax             = 0;
     packet->science         = 0;
     packet->luxury          = 0;
@@ -1043,12 +1043,13 @@ static void package_player_info(struct player *plr,
    * to have a consistent state here.
    */
   assert(server_state != RUN_GAME_STATE
-	 || ((tech_exists(research->researching)
-	      && research->researching != A_NONE)
-	     || is_future_tech(research->researching)
-             || research->researching == A_UNSET));
-  assert((tech_exists(research->tech_goal) && research->tech_goal != A_NONE)
-	 || research->tech_goal == A_UNSET);
+         || A_UNSET == research->researching
+	 || is_future_tech(research->researching)
+	 || (A_NONE != research->researching
+	     && valid_advance_by_number(research->researching)));
+  assert(A_UNSET == research->tech_goal
+	 || (A_NONE != research->tech_goal
+	     && valid_advance_by_number(research->tech_goal)));
 }
 
 /**************************************************************************
@@ -1526,9 +1527,9 @@ static struct player *split_player(struct player *pplayer)
   new_research->researching = old_research->researching;
   new_research->tech_goal = old_research->tech_goal;
 
-  tech_type_iterate(i) {
+  advance_index_iterate(A_NONE, i) {
     new_research->inventions[i] = old_research->inventions[i];
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
   cplayer->phase_done = TRUE; /* Have other things to think
 				 about - paralysis */
   BV_CLR_ALL(cplayer->embassy);   /* all embassies destroyed */
@@ -1543,9 +1544,9 @@ static struct player *split_player(struct player *pplayer)
   cplayer->ai.frost = pplayer->ai.frost;
   set_ai_level_direct(cplayer, game.info.skill_level);
 
-  tech_type_iterate(i) {
+  advance_index_iterate(A_NONE, i) {
     cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
-  } tech_type_iterate_end;
+  } advance_index_iterate_end;
   
   /* change the original player */
   if (government_of_player(pplayer) != game.government_when_anarchy) {

@@ -625,7 +625,7 @@ bool can_player_build_unit_direct(const struct player *p,
       && punittype->gov_requirement != government_of_player(p)) {
     return FALSE;
   }
-  if (get_invention(p,punittype->tech_requirement) != TECH_KNOWN) {
+  if (player_invention_state(p,advance_number(punittype->require_advance)) != TECH_KNOWN) {
     if (!is_barbarian(p)) {
       /* Normal players can never build units without knowing tech
        * requirements. */
@@ -646,7 +646,7 @@ bool can_player_build_unit_direct(const struct player *p,
        * packet for a barbarian city. City initialization tries
        * to find L_FIRSTBUILD unit. */
 
-      if (!game.info.global_advances[punittype->tech_requirement]) {
+      if (!game.info.global_advances[advance_index(punittype->require_advance)]) {
         /* Nobody knows required tech */
         return FALSE;
       }
