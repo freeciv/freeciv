@@ -469,12 +469,17 @@ static const struct city_report_spec base_city_report_specs[] = {
     N_("Best attacking units"), NULL, FUNC_TAG(attack)},
   { FALSE, 8, 1, N_("Best"), N_("defense"),
     N_("Best defending units"), NULL, FUNC_TAG(defense)},
-  { FALSE, 2, 1, N_("Units"), N_("?Present (units):Here"),
+  { FALSE, 2, 1, N_("Units"),
+    /* TRANS: Header "Number of units inside city" */
+    N_("?Present (units):Here"),
     N_("Number of units present"), NULL, FUNC_TAG(present) },
-  { FALSE, 2, 1, N_("Units"), N_("?Supported (units):Owned"),
+  { FALSE, 2, 1, N_("Units"),
+    /* TRANS: Header "Number of units supported by given city" */
+    N_("?Supported (units):Owned"),
     N_("Number of units supported"), NULL, FUNC_TAG(supported) },
 
-  { TRUE,  14, 1, N_("?food (population):Grow"),
+  { /* TRANS: Header "It will take this many turns before city grows" */
+    TRUE,  14, 1, N_("?food (population):Grow"),
     N_("?Stock/Target:(Have/Need)"),
     N_("Turns until growth/famine"),
     NULL, FUNC_TAG(growturns) },
