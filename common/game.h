@@ -245,6 +245,12 @@ struct civ_game {
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
   int revolution_length; /* 0=> random length, else the fixated length */
+
+  struct {
+    bool user_message_set;
+    char user_message[256];
+  } meta_info;
+ 
 };
 
 /* Unused? */

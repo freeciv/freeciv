@@ -163,6 +163,12 @@ void establish_new_connection(struct connection *pconn)
 
   send_conn_info(dest, &game.est_connections);
   conn_list_insert_back(&game.est_connections, pconn);
+  if (conn_list_size(&game.est_connections) == 1) {
+    /* First connection
+     * Replace "restarting in x seconds" meta message */
+     maybe_automatic_meta_message(default_meta_message_string());
+     (void) send_server_info_to_metaserver(META_INFO);
+  }
   send_conn_info(&game.est_connections, dest);
   (void) send_server_info_to_metaserver(META_INFO);
 }

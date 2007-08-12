@@ -294,6 +294,9 @@ void game_init(void)
   game.player_idx=0;
   game.player_ptr=&game.players[0];
   terrain_control.river_help_text[0] = '\0';
+
+  game.meta_info.user_message_set = FALSE;
+  game.meta_info.user_message[0] = '\0';
 }
 
 /***************************************************************

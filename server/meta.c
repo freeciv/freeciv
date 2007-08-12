@@ -85,20 +85,18 @@ const char *default_meta_topic_string(void)
 
 /*************************************************************************
   Return static string with default info line to send to metaserver.
-  This is a function (instead of a define) to keep meta.h clean of
-  including config.h and version.h
 *************************************************************************/
 const char *default_meta_message_string(void)
 {
 #if IS_BETA_VERSION
   return "unstable pre-" NEXT_STABLE_VERSION ": beware";
-#else
+#else  /* IS_BETA_VERSION */
 #if IS_DEVEL_VERSION
   return "development version: beware";
-#else
+#else  /* IS_DEVEL_VERSION */
   return "(default)";
-#endif
-#endif
+#endif /* IS_DEVEL_VERSION */
+#endif /* IS_BETA_VERSION */
 }
 
 /*************************************************************************
@@ -126,6 +124,41 @@ const char *get_meta_message_string(void)
 }
 
 /*************************************************************************
+ The metaserver message set by user
+*************************************************************************/
+const char *get_user_meta_message_string(void)
+{
+  if (game.meta_info.user_message_set) {
+    return game.meta_info.user_message;
+  }
+
+  return NULL;
+}
+
+/*************************************************************************
+  Update meta message. Set it to user meta message, if it is available.
+  Otherwise use provided message.
+  It is ok to call this with NULL message. Then it only replaces current
+  meta message with user meta message if available.
+*************************************************************************/
+void maybe_automatic_meta_message(const char *automatic)
+{
+  const char *user_message;
+
+  user_message = get_user_meta_message_string();
+
+  if (user_message == NULL) {
+    /* No user message */
+    if (automatic != NULL) {
+      set_meta_message_string(automatic);
+    }
+    return;
+  }
+
+  set_meta_message_string(user_message);
+}
+
+/*************************************************************************
  set the metaserver patches string
 *************************************************************************/
 void set_meta_patches_string(const char *string)
@@ -147,6 +180,23 @@ void set_meta_topic_string(const char *string)
 void set_meta_message_string(const char *string)
 {
   sz_strlcpy(meta_message, string);
+}
+
+/*************************************************************************
+ set user defined metaserver message string
+*************************************************************************/
+void set_user_meta_message_string(const char *string)
+{
+  if (string != NULL && string[0] != '\0') {
+    sz_strlcpy(game.meta_info.user_message, string);
+    game.meta_info.user_message_set = TRUE;
+    set_meta_message_string(string);
+  } else {
+    /* Remove user meta message. We will use automatic messages instead */
+    game.meta_info.user_message[0] = '\0';
+    game.meta_info.user_message_set = FALSE;
+    set_meta_message_string(default_meta_message_string());    
+  }
 }
 
 /*************************************************************************

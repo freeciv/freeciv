@@ -639,7 +639,7 @@ static bool metamessage_command(struct connection *caller,
     return TRUE;
   }
 
-  set_meta_message_string(arg);
+  set_user_meta_message_string(arg);
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
     notify_conn(NULL, _("Metaserver message string set to '%s'."), arg);
