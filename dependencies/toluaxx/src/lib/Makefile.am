@@ -1,11 +1,8 @@
-# SUBDIRS = none
-
 noinst_LIBRARIES = libtolua.a
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/dependencies/lua/include \
 	-I$(top_srcdir)/dependencies/toluaxx/include \
-	-I.
+	-I$(top_srcdir)/dependencies/lua-5.1/src
 
 libtolua_a_SOURCES = \
 	$(top_srcdir)/dependencies/tolua/include/toluaxx.h \

@@ -3,16 +3,17 @@
 noinst_PROGRAMS = tolua
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/dependencies/lua/src/lib \
-	-I$(top_srcdir)/dependencies/lua/include \
-	-I$(top_srcdir)/dependencies/toluaxx/include \
-	-I.
+	-I$(top_srcdir)/dependencies/lua-5.1/src \
+	-I$(top_srcdir)/dependencies/lua-5.1/etc \
+	-I$(top_srcdir)/dependencies/toluaxx/include
 
 tolua_SOURCES = \
-	$(top_srcdir)/dependencies/tolua/include/toluaxx.h \
+	$(top_srcdir)/dependencies/toluaxx/include/toluaxx.h \
 	toluaxx.bind.cxx	\
 	main.cxx \
 	main.hxx \
+	help.cxx \
+	help.hxx \
 	parsecmd.cxx \
 	parsecmd.hxx \
 	platform.hxx
@@ -43,9 +44,9 @@ EXTRA_tolua_SOURCES = toluaxx.pxx \
 	lua/tlx_verbatim.lua
 
 tolua_DEPENDENCIES = \
-	$(top_builddir)/dependencies/lua/src/liblua.a \
+	$(top_builddir)/dependencies/lua-5.1/src/liblua.a \
 	../lib/libtolua.a
 
 tolua_LDADD = \
-	$(top_builddir)/dependencies/lua/src/liblua.a \
+	$(top_builddir)/dependencies/lua-5.1/src/liblua.a \
 	../lib/libtolua.a -lm
