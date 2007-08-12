@@ -211,14 +211,14 @@ int main(int argc, char *argv[])
 			   "Connect to the metaserver at HOST\n"));
       fc_fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
       fc_fprintf(stderr,
-		 _("  -p, --port PORT\tConnect to server port PORT\n"));
+		 _("  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"));
       fc_fprintf(stderr,
 		 _("  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"),
 		 audio_get_all_plugin_names());
       fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE "
 			   "(for spawned server only)\n"));
       fc_fprintf(stderr,
-		 _("  -s, --server HOST\tConnect to the server at HOST\n"));
+		 _("  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"));
       fc_fprintf(stderr,
 		 _("  -S, --Sound FILE\tRead sound tags from FILE\n"));
       fc_fprintf(stderr, _("  -t, --tiles FILE\t"
