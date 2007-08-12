@@ -539,7 +539,10 @@ void game_remove_player(struct player *pplayer)
   pplayer->cities = NULL;
 
   /* This comes last because log calls in the above functions may use it. */
-  player_set_nation(pplayer, NULL);
+  if (pplayer->nation != NULL) {
+    /* There never was nation assigned to this player */
+    player_set_nation(pplayer, NULL);
+  }
 
   if (is_barbarian(pplayer)) game.info.nbarbarians--;
 }
