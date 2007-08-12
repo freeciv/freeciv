@@ -1010,6 +1010,12 @@ void create_city(struct player *pplayer, struct tile *ptile,
   /* Place a worker at the city center; this is the free-worked tile.
    * This must be done before the city refresh (below) so that the city
    * is in a sane state. */
+  /* Ugly detail here is that if another city is currently working
+   * this tile, we first update only ptile->worked and our own
+   * city_map. At that point city_map of both cities claim that they
+   * are working that tile. But then we refresh adjacent cities - one of
+   * which that other city certainly is. And once it notices that
+   * ptile->worked does not point to it, it will give tile up. */
   server_set_tile_city(pcity, CITY_MAP_SIZE/2, CITY_MAP_SIZE/2, C_TILE_WORKER);
 
   /* Refresh the city.  First a city refresh is done (this shouldn't

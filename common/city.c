@@ -301,6 +301,9 @@ void set_worker_city(struct city *pcity, int city_x, int city_y,
     }
     pcity->city_map[city_x][city_y] = type;
     if (type == C_TILE_WORKER) {
+      /* No assert to check that nobody else is working this tile.
+       * City creation relies on claiming tile to new city first,
+       * and freeing it from another city only later. */
       ptile->worked = pcity;
     }
   } else {
