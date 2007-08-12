@@ -213,7 +213,8 @@ int foo(struct city *pcity)
   -Wmissing-declarations -Wstrict-prototypes -Wnested-externs" if you
   use gcc.
 
-- If you send patches, use "diff -u" (or "diff -r -u", or "cvs diff -u").
+- If you send patches, use "diff -u" (or "diff -r -u"). "svn diff" works
+  correctly without extra parameters.
   For further information, see
   <http://www.freeciv.org/index.php/How_to_Contribute>.
   Also, name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
