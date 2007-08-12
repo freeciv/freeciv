@@ -562,9 +562,6 @@ static bool section_file_read_dup(struct section_file *sf,
     }
     exit(EXIT_FAILURE);
   }
-
-  inf_close(inf);
-  inf = NULL;
   
   astr_free(&base_name);
   astr_free(&entry_name);
@@ -586,11 +583,15 @@ bool section_file_load(struct section_file *my_section_file,
 {
   char real_filename[1024];
   struct inputfile *inf;
+  bool success;
 
   interpret_tilde(real_filename, sizeof(real_filename), filename);
   inf = inf_from_file(real_filename, datafilename);
 
-  return section_file_read_dup(my_section_file, real_filename, inf, TRUE);
+  success = section_file_read_dup(my_section_file, real_filename, inf, TRUE);
+  inf_close(inf);
+
+  return success;
 }
 
 /**************************************************************************
@@ -601,11 +602,15 @@ bool section_file_load_nodup(struct section_file *my_section_file,
 {
   char real_filename[1024];
   struct inputfile *inf;
+  bool success;
 
   interpret_tilde(real_filename, sizeof(real_filename), filename);
   inf = inf_from_file(real_filename, datafilename);
 
-  return section_file_read_dup(my_section_file, real_filename, inf, FALSE);
+  success = section_file_read_dup(my_section_file, real_filename, inf, FALSE);
+  inf_close(inf);
+
+  return success;
 }
 
 /**************************************************************************
@@ -615,8 +620,12 @@ bool section_file_load_from_stream(struct section_file *my_section_file,
 				   fz_FILE * stream)
 {
   struct inputfile *inf = inf_from_stream(stream, datafilename);
+  bool success;
 
-  return section_file_read_dup(my_section_file, NULL, inf, TRUE);
+  success = section_file_read_dup(my_section_file, NULL, inf, TRUE);
+  inf_close(inf);
+
+  return success;
 }
 
 /**************************************************************************
