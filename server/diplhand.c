@@ -101,6 +101,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
   struct player *pother;
   bool *player_accept, *other_accept;
   enum dipl_reason diplcheck;
+  bool worker_refresh_required = FALSE;
 
   if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
     return;
@@ -391,12 +392,16 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player(pdest, NULL, E_DIPLOMACY,
 		      _("You receive %s's worldmap."),
 		      pgiver->name);
+
+        worker_refresh_required = TRUE; /* See CLAUSE_VISION */
 	break;
       case CLAUSE_SEAMAP:
 	give_seamap_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, NULL, E_DIPLOMACY,
 		      _("You receive %s's seamap."),
 		      pgiver->name);
+
+        worker_refresh_required = TRUE; /* See CLAUSE_VISION */
 	break;
       case CLAUSE_CITY:
 	{
@@ -434,8 +439,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}
-	check_city_workers(pplayer);
-	check_city_workers(pother);
+
+        worker_refresh_required = TRUE;
 	break;
       case CLAUSE_PEACE:
 	pgiver->diplstates[player_index(pdest)].type = DS_ARMISTICE;
@@ -467,8 +472,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}
-	check_city_workers(pplayer);
-	check_city_workers(pother);
+
+        worker_refresh_required = TRUE;
 	break;
       case CLAUSE_ALLIANCE:
 	pgiver->diplstates[player_index(pdest)].type=DS_ALLIANCE;
@@ -484,8 +489,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 _("You agree on an alliance with %s."),
 			 pgiver->name);
 
-	check_city_workers(pplayer);
-	check_city_workers(pother);
+        worker_refresh_required = TRUE;
 	break;
       case CLAUSE_VISION:
 	give_shared_vision(pgiver, pdest);
@@ -495,6 +499,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
 			 _("%s gives you shared vision."),
 			 pgiver->name);
+
+        /* Yes, shared vision may let us to _know_ tiles
+         * within radius of our own city. */
+        worker_refresh_required = TRUE;
 	break;
       case CLAUSE_LAST:
         freelog(LOG_ERROR, "Received bad clause type");
@@ -502,6 +510,17 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       }
 
     } clause_list_iterate_end;
+
+    /* In theory, we would need refresh only receiving party of
+     * CLAUSE_MAP, CLAUSE_SEAMAP and CLAUSE_VISION clauses.
+     * It's quite unlikely that there is such a clause going one
+     * way but no clauses affecting both parties or going other
+     * way. */
+    if (worker_refresh_required) {
+      check_city_workers(pplayer);
+      check_city_workers(pother);
+    }
+
   cleanup:
     treaty_list_unlink(treaties, ptreaty);
     clear_treaty(ptreaty);
