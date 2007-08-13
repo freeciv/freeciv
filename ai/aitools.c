@@ -238,9 +238,12 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
     /* Assume enemy will build another defender, add it's attack strength */
     struct unit_type *d_type = ai_choose_defender_versus(dcity, punit);
 
-    danger += 
-      unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
-                          SINGLE_MOVE, d_type->hp);
+    if (d_type) {
+      /* Enemy really can build something */
+      danger += 
+        unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
+                            SINGLE_MOVE, d_type->hp);
+    }
   }
   danger *= POWER_DIVIDER;
 
