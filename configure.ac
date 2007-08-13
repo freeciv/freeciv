@@ -192,14 +192,23 @@ fi
 dnl I18n support
 ALL_LINGUAS="ar cs ca da de el en_GB es et fa fi fr he hu it ja lt nl nb 
 no pl pt pt_BR ro ru sv uk zh_CN"
-AM_GLIB_GNU_GETTEXT
 
-dnl AM_GLIB_GNU_GETTEXT doesn't have all features we want
-dnl or they don't behave correctly.
-dnl Old gettext binaries don't understand plurals. (ngettext, msgid_plural)
-dnl and there are some problems with missing ngettext.
+AC_ARG_ENABLE([nls],
+[  --disable-nls        do not use add localization support],
+[case "${enableval}" in
+  yes) USE_NLS=yes ;;
+  no)  USE_NLS=no ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --disable-nls]) ;;
+esac], [USE_NLS=yes])
 
-if test "$USE_NLS" = "yes"; then
+if test "$USE_NLS" = "yes" ; then
+  AM_GLIB_GNU_GETTEXT
+
+  dnl AM_GLIB_GNU_GETTEXT doesn't have all features we want
+  dnl or they don't behave correctly.
+  dnl Old gettext binaries don't understand plurals. (ngettext, msgid_plural)
+  dnl and there are some problems with missing ngettext.
+  dnl Is that ngettext part still true? AM_GLIB_GNU_GETTEXT does check for it
 
   have_working_ngettext=0
   AC_CHECK_LIB(c, ngettext,
