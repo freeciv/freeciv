@@ -324,7 +324,8 @@ bool can_player_build_improvement_direct(const struct player *p,
 
   requirement_vector_iterate(&impr->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
-        && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq)) {
+        && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq,
+                          RPT_CERTAIN)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -404,7 +405,8 @@ bool can_player_eventually_build_improvement(const struct player *p,
   requirement_vector_iterate(&building->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
 	&& is_req_unchanging(preq)
-        && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq)) {
+        && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq,
+                          RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

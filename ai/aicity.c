@@ -310,7 +310,10 @@ static void adjust_building_want_by_effects(struct city *pcity,
 
     if (is_effect_disabled(pplayer, pcity, pimpr,
 			   NULL, NULL, NULL, NULL,
-			   peffect)) {
+ 			   peffect, RPT_POSSIBLE)) {
+
+      /* TODO: Select between RPT_POSSIBLE and RPT_CERTAIN dynamically
+       * depending how much AI can take risks. */
       CITY_LOG(LOG_DEBUG, pcity, "%s has a disabled effect: %s", 
                improvement_rule_name(id),
                effect_type_name(peffect->type));
@@ -328,7 +331,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
         continue;
       }
       if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, NULL, NULL,
-			 preq)) {
+			 preq, RPT_POSSIBLE)) {
 	useful = FALSE;
 	break;
       }
@@ -830,7 +833,8 @@ void ai_manage_buildings(struct player *pplayer)
                                  wonder_city->production.value)
         && !improvement_obsolete(pplayer, wonder_city->production.value)
         && !is_building_replaced(wonder_city, 
-                                 wonder_city->production.value))
+                                 wonder_city->production.value,
+                                 RPT_POSSIBLE))
       || wonder_city == NULL) {
     /* Find a new wonder city! */
     int best_candidate_value = 0;
@@ -899,7 +903,7 @@ void ai_manage_buildings(struct player *pplayer)
       }
       if (city_got_building(pcity, id)
           || !can_build_improvement(pcity, id)
-          || is_building_replaced(pcity, id)) {
+          || is_building_replaced(pcity, id, RPT_POSSIBLE)) {
         continue; /* Don't build redundant buildings */
       }
       adjust_building_want_by_effects(pcity, id);
@@ -1363,7 +1367,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
     if(can_city_sell_building(pcity, i) 
        && !building_has_effect(i, EFT_DEFEND_BONUS)
 	      /* selling city walls is really, really dumb -- Syela */
-       && (is_building_replaced(pcity, i)
+       && (is_building_replaced(pcity, i, RPT_CERTAIN)
 	   || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD,
