@@ -24,7 +24,7 @@
      height="708.661000"
      x="0.000000"
      y="0.000000"
-     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     style="font-size:12;fill:#00579C;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
      id="rect171"
      rx="0.000000"
      ry="0.000000" />
@@ -33,7 +33,7 @@
      height="236.220000"
      x="0.000000"
      y="475.558554"
-     style="font-size:12;fill:#cc1100;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     style="font-size:12;fill:#FFFFFF;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
      id="rect256"
      rx="0.000000"
      ry="0.000000" />
@@ -42,6 +42,6 @@
      height="236.22"
      x="0"
      y="0"
-     style="font-size:12;fill:#0c04cf;fill-rule:evenodd;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;"
+     style="font-size:12;fill:#C63D42;fill-rule:evenodd;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;"
      id="rect255" />
 </svg>
