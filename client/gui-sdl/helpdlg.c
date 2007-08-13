@@ -634,7 +634,7 @@ void popup_unit_info(Unit_type_id type_id)
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_unit_callback;
-      add_to_gui_list(MAX_ID - type->index, pBuf);
+      add_to_gui_list(MAX_ID - utype_index(type), pBuf);
       
       if (++h > 10)
       {
@@ -792,7 +792,7 @@ void popup_unit_info(Unit_type_id type_id)
 	      utype_name_translation(utype),
 	      adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_tech_color(advance_number(utype->require_advance));
-    pBuf->ID = MAX_ID - pUnitType->obsoleted_by->index;
+    pBuf->ID = MAX_ID - utype_index(pUnitType->obsoleted_by);
     pBuf->action = change_unit_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
   }
@@ -1163,7 +1163,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       }
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_unit_callback;
-      pBuf->ID = MAX_ID - un->index;
+      pBuf->ID = MAX_ID - utype_index(un);
       DownAdd(pBuf, pDock);
       pDock = pBuf;
       unit_count++;

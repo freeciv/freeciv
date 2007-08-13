@@ -1568,7 +1568,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    cBuf, unit_help_callback);
       set_wstate(pBuf , FC_WS_NORMAL);
-      add_to_gui_list(MAX_ID - pUnitType->index, pBuf);
+      add_to_gui_list(MAX_ID - utype_index(pUnitType), pBuf);
     
       area.w = MAX(area.w, pBuf->size.w);
       units_h += pBuf->size.h;

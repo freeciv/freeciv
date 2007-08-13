@@ -20,6 +20,7 @@
 #include "fc_types.h"
 
 struct canvas;
+struct worklist;
 
 enum citizen_category {
   CITIZEN_HAPPY,

@@ -26,6 +26,7 @@
 struct sprite;			/* opaque; gui-dep */
 
 struct base_type;
+struct resource;
 
 /* Create the sprite_vector type. */
 #define SPECVEC_TAG sprite

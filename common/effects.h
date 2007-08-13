@@ -18,6 +18,8 @@
 
 #include "connection.h"
 
+struct requirement;
+
 /* Type of effects. (Used in effect.type field)
  * These must correspond to effect_type_names[] in effects.c. */
 enum effect_type {

@@ -3510,7 +3510,6 @@ static void rebuild_imprm_list(struct city *pCity)
   struct widget *pAdd_Dock, *pBuf, *pLast;
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr = NULL;
-  struct impr_type *pImpr = NULL;
   struct player *pOwner = city_owner(pCity);
   int prev_y = 0;
     
