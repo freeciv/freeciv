@@ -592,7 +592,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     } unit_list_iterate_safe_end;
   }
 
-  /* Any remaining units supported by the city are either given new home
+  /* Any units supported by the city are either given new home
      cities or maybe destroyed */
   unit_list_iterate_safe(units, vunit) {
     struct city *new_home_city = tile_get_city(vunit->tile);
@@ -607,7 +607,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       transfer_unit(vunit, pcity, verbose);
     } else {
       /* The unit is lost.  Call notify_player (in all other cases it is
-       * called autmatically). */
+       * called automatically). */
       freelog(LOG_VERBOSE, "Lost %s's %s at (%d,%d) when %s was lost.",
 	      unit_owner(vunit)->name,
 	      unit_rule_name(vunit),
@@ -780,8 +780,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   unit_list_iterate(pcity->units_supported, punit) {
     unit_list_prepend(old_city_units, punit);
-    /* otherwise we might delete the homecity from under the unit
-       in the client. */
+    /* Mark unit to have no homecity at all.
+     * 1. We remove unit from units_supported list here,
+     *    real_change_unit_homecity() should not attempt it.
+     * 2. Otherwise we might delete the homecity from under the unit
+     *    in the client */
     punit->homecity = 0;
     send_unit_info(NULL, punit);
   } unit_list_iterate_end;

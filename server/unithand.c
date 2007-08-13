@@ -282,6 +282,11 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = city_owner(new_pcity);
 
+  /* Calling this function when new_pcity is same as old_pcity should
+   * be safe with current implementation, but it is not meant to
+   * be used that way. */
+  assert(new_pcity != old_pcity);
+
   if (old_owner != new_owner) {
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
@@ -300,11 +305,15 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
     assert(can_unit_exist_at_tile(punit, new_pcity->tile));
     move_unit(punit, new_pcity->tile, 0); /* teleport to location */
   }
-  
-  unit_list_prepend(new_pcity->units_supported, punit);
+
+  /* Remove from old city first and add to new city only after that.
+   * This is more robust in case old_city == new_city (currently
+   * prohibited by assert in the beginning of the function).
+   */
   if (old_pcity) {
     unit_list_unlink(old_pcity->units_supported, punit);
   }
+  unit_list_prepend(new_pcity->units_supported, punit);
 
   punit->homecity = new_pcity->id;
   send_unit_info(unit_owner(punit), punit);
