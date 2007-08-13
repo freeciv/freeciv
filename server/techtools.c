@@ -287,7 +287,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   research->techs_researched++;
   was_first = (!game.info.global_advances[tech_found]);
 
-  if (was_first) {
+  if (was_first && vap) {
     /* Alert the owners of any wonders that have been made obsolete */
     improvement_iterate(pimprove) {
       if (vap == pimprove->obsolete_by
