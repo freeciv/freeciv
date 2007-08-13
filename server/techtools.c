@@ -270,13 +270,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   bool can_switch[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS]
                  [government_count()];
   struct player_research *research = get_player_research(plr);
+  struct advance *vap = valid_advance_by_number(tech_found);
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
    * or may not be the correct thing to do.  For these sanity checks we
    * just special-case it. */
-  assert((valid_advance_by_number(tech_found)
-	  && player_invention_state(plr, tech_found) != TECH_KNOWN)
-	 || tech_found == A_FUTURE);
+  assert(tech_found == A_FUTURE
+	 || (vap && player_invention_state(plr, tech_found) != TECH_KNOWN));
 
   /* got_tech allows us to change research without applying techpenalty
    * (without loosing bulbs) */
@@ -290,9 +290,9 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   if (was_first) {
     /* Alert the owners of any wonders that have been made obsolete */
     improvement_iterate(pimprove) {
-      if (is_great_wonder(pimprove)
+      if (vap == pimprove->obsolete_by
+	  && is_great_wonder(pimprove)
 	  && great_wonder_was_built(pimprove)
-	  && advance_number(pimprove->obsolete_by) == tech_found
 	  && (pcity = find_city_from_great_wonder(pimprove))) {
 	notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
 	                 _("Discovery of %s OBSOLETES %s in %s!"), 

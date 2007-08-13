@@ -642,8 +642,8 @@ static void help_update_wonder(const struct help_item *pitem,
     DoMethod(help_wonder_cost_text, MUIM_SetAsString,
 	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(imp));
 
-    UpdateTechButton(help_wonder_needs_button, advance_number(imp->tech_req));
-    UpdateTechButton(help_wonder_obsolete_button, advance_number(imp->obsolete_by));
+    UpdateTechButton(help_wonder_needs_button, FIXME advance_number(imp->tech_req));
+    UpdateTechButton(help_wonder_obsolete_button, FIXME advance_number(imp->obsolete_by));
   }
   else
   {
