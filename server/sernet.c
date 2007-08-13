@@ -131,6 +131,9 @@ static void send_lanserver_response(void);
 
 static bool no_input = FALSE;
 
+/* Avoid compiler warning about defined, but unused function
+ * by defining it only when needed */
+#if !defined(SOCKET_ZERO_ISNT_STDIN) && !defined(HAVE_READLINE)
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
@@ -142,8 +145,10 @@ static void handle_stdin_close(void)
 #ifndef SOCKET_ZERO_ISNT_STDIN
   freelog(LOG_NORMAL, _("Server cannot read standard input. Ignoring input."));
   no_input = TRUE;
-#endif
+#endif /* SOCKET_ZERO_ISNT_STDIN */
 }
+
+#endif /* !SOCKET_ZERO_ISNT_STDIN && !HAVE_READLINE */
 
 #ifdef HAVE_LIBREADLINE
 /****************************************************************************/
@@ -574,11 +579,11 @@ int sniff_packets(void)
     if (!no_input) {
 #ifdef SOCKET_ZERO_ISNT_STDIN
       my_init_console();
-#else
+#else /* SOCKET_ZERO_ISNT_STDIN */
 #   if !defined(__VMS)
       FD_SET(0, &readfs);
-#   endif	
-#endif
+#   endif /* VMS */	
+#endif /* SOCKET_ZERO_ISNT_STDIN */
     }
 
     if (with_ggz) {
@@ -587,7 +592,7 @@ int sniff_packets(void)
 
       FD_SET(ggz_sock, &readfs);
       max_desc = MAX(sock, ggz_sock);
-#endif
+#endif /* GGZ_SERVER */
     } else {
       FD_SET(sock, &readfs);
       FD_SET(sock, &exceptfs);
@@ -680,7 +685,7 @@ int sniff_packets(void)
 	input_from_ggz(ggz_sock);
       }
     }
-#endif
+#endif /* GGZ_SERVER */
     
 #ifdef SOCKET_ZERO_ISNT_STDIN
     if (!no_input && (bufptr = my_read_console())) {
@@ -800,9 +805,9 @@ static int server_accept_connection(int sockfd)
    * it should be done with a configure check not a platform check. */
 #ifdef HAVE_SOCKLEN_T
   socklen_t fromlen;
-#else
+#else /* HAVE_SOCKLEN_T */
   int fromlen;
-#endif
+#endif /* HAVE_SOCKLEN_T */
 
   int new_sock;
   union my_sockaddr fromend;
@@ -977,7 +982,7 @@ void init_connections(void)
     status = sys$assign(&tt_desc,&tt_chan,0,0);
     if (!$VMS_STATUS_SUCCESS(status)) lib$stop(status);
   }
-#endif
+#endif /* VMS */
 }
 
 /**************************************************************************
