@@ -107,7 +107,6 @@ static void get_units_report_data(struct units_entry *entries,
   city_list_iterate(game.player_ptr->cities, pCity) {
     if (VUT_UTYPE == pCity->production.kind) {
       struct unit_type *pUnitType = pCity->production.value.utype;
-      (unitarray[utype_index(pUnitType)].building_count)++;
       (total->building_count)++;
       entries[utype_index(pUnitType)].soonest_completions =
 	MIN(entries[utype_index(pUnitType)].soonest_completions,
@@ -165,7 +164,7 @@ static int cancel_upgrade_unit_callback(struct widget *pWidget)
 static int popup_upgrade_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct unit_type ut1;
+    struct unit_type *ut1;
     struct unit_type *ut2;
     int value;
     char cBuf[128];
@@ -174,13 +173,13 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     SDL_Surface *pText;
     SDL_Rect dst;
     SDL_Rect area;
-    
-    ut1.index = MAX_ID - pWidget->ID;
-    
+
+    ut1 = utype_by_number(MAX_ID - pWidget->ID);
+
     if (pUnits_Upg_Dlg) {
       return 1;
     }
-    CHECK_UNIT_TYPE(&ut1);
+    CHECK_UNIT_TYPE(ut1);
     
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
@@ -189,13 +188,13 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     
     pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
-    ut2 = can_upgrade_unittype(game.player_ptr, &ut1);
-    value = unit_upgrade_price(game.player_ptr, &ut1, ut2);
+    ut2 = can_upgrade_unittype(game.player_ptr, ut1);
+    value = unit_upgrade_price(game.player_ptr, ut1, ut2);
     
     my_snprintf(cBuf, sizeof(cBuf),
           _("Upgrade as many %s to %s as possible for %d gold each?\n"
             "Treasury contains %d gold."),
-          utype_name_translation(&ut1),
+          utype_name_translation(ut1),
           utype_name_translation(ut2),
           value, game.player_ptr->economic.gold);
    
@@ -888,7 +887,8 @@ void activeunits_report_dialog_update(void)
       pBuf = pWidget;
       if ((units[utype_index(i)].active_count > 0) || (units[utype_index(i)].building_count > 0)) {
         if (utype_number(i) == MAX_ID - pBuf->ID) {
-UPD:	  upgrade = can_upgrade_unittype(game.player_ptr, i)->index;
+        UPD:
+          upgrade = utype_index(can_upgrade_unittype(game.player_ptr, i));
 	  pBuf = pBuf->prev;
 	  if(upgrade) {
 	    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
@@ -2005,7 +2005,7 @@ void popup_economy_report_dialog(bool make_modal)
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
       struct impr_type *pImprove = p->type;
-	
+
       pSurf = crop_rect_from_surface(pBackground, NULL);
       
       my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(pImprove));
@@ -2071,9 +2071,9 @@ void popup_economy_report_dialog(bool make_modal)
     		(WF_RESTORE_BACKGROUND|WF_FREE_THEME|WF_FREE_DATA));
       
       set_wstate(pBuf, FC_WS_NORMAL);
-      
+
       pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
-      pBuf->data.cont->id0 = p->type;
+      pBuf->data.cont->id0 = improvement_index(p->type);
       pBuf->data.cont->id1 = p->count;
       pBuf->action = popup_sell_impv_callback;
       
