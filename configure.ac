@@ -348,6 +348,11 @@ dnl Windows-specific settings
 AC_DIAGNOSE([obsolete],[AC_MINGW32 is obsolete: use AC_CANONICAL_HOST and $host_os])
 
 if test x"$MINGW32" = "xyes"; then
+  AC_CHECK_TOOL([WINDRES], [windres])
+  if test -z $WINDRES; then
+	AC_MSG_ERROR([*** 'windres' missing.  Install binutils, fix your \$PATH, or set \$WINDRES manually. ***])
+  fi
+
   AC_DEFINE(SOCKET_ZERO_ISNT_STDIN, 1, [Mingw32-specific setting - stdin])
   AC_DEFINE(ALWAYS_ROOT, 1, [Mingw32-specific setting - root])
   AC_DEFINE(WIN32_NATIVE, 1, [Mingw32-specific setting - native])
