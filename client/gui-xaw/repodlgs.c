@@ -347,7 +347,7 @@ void create_science_dialog(bool make_modal)
 				  popupmenu,
 				  NULL);
 	XtAddCallback(entry, XtNcallback, science_change_callback,
-		      (XtPointer) i);
+		      INT_TO_XTPOINTER(i));
       flag = 1;
       }
     } advance_index_iterate_end;
@@ -368,7 +368,7 @@ void create_science_dialog(bool make_modal)
 				  goalmenu,
 				  NULL);
 	XtAddCallback(entry, XtNcallback, science_goal_callback, 
-		      (XtPointer) i); 
+		      INT_TO_XTPOINTER(i)); 
 	flag = 1;
       }
     } advance_index_iterate_end;
@@ -557,7 +557,7 @@ void science_dialog_update(void)
 				  popupmenu,
 				  NULL);
 	XtAddCallback(entry, XtNcallback, science_change_callback, 
-		      (XtPointer) i); 
+		      INT_TO_XTPOINTER(i)); 
 	flag=1;
       }
     } advance_index_iterate_end;
@@ -583,7 +583,7 @@ void science_dialog_update(void)
 				  goalmenu,
 				  NULL);
 	XtAddCallback(entry, XtNcallback, science_goal_callback, 
-		      (XtPointer) i); 
+		      INT_TO_XTPOINTER(i)); 
 	flag=1;
       }
     } advance_index_iterate_end;
