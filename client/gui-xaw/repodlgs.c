@@ -86,7 +86,7 @@ static Widget economy_label, economy_label2;
 static Widget economy_list, economy_list_label;
 static Widget sellall_command, sellobsolete_command;
 static int economy_dialog_shell_is_modal;
-static int economy_improvement_type[B_LAST];
+static struct impr_type *economy_improvement_type[B_LAST];
 
 void create_economy_report_dialog(bool make_modal);
 void economy_close_callback(Widget w, XtPointer client_data, 
@@ -727,11 +727,11 @@ void economy_list_callback(Widget w, XtPointer client_data,
 
   if (ret->list_index != XAW_LIST_NONE) {
     /* The user has selected an improvement type. */
-    int i = economy_improvement_type[ret->list_index];
-    bool is_sellable = (improvement_exists(i) && can_sell_building(i));
+    struct impr_type *pimprove = economy_improvement_type[ret->list_index];
+    bool is_sellable = can_sell_building(pimprove);
 
     XtSetSensitive(sellobsolete_command, is_sellable
-		   && improvement_obsolete(game.player_ptr, i));
+		   && improvement_obsolete(game.player_ptr, pimprove));
     XtSetSensitive(sellall_command, is_sellable);
   } else {
     /* No selection has been made. */
@@ -1016,10 +1016,7 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
     punittype1 = utype_by_number(activeunits_type[ret->list_index]);
     CHECK_UNIT_TYPE(punittype1);
 
-    /* puts(unit_types[ut1].name); */
-
-    punittype2 = can_upgrade_unittype(game.player_ptr,
-		   utype_by_number(activeunits_type[ret->list_index]));
+    punittype2 = can_upgrade_unittype(game.player_ptr, punittype1);
 
     my_snprintf(buf, sizeof(buf),
 		_("Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -1121,9 +1118,11 @@ void activeunits_report_dialog_update(void)
         }
       } unit_list_iterate_end;
     } city_list_iterate_end;
+
     city_list_iterate(game.player_ptr->cities,pcity) {
-      if (pcity->production.is_unit) {
-	(unitarray[pcity->production.value].building_count)++;
+      if (VUT_UTYPE == pcity->production.kind) {
+	struct unit_type *punittype = pcity->production.value.utype;
+	(unitarray[utype_index(punittype)].building_count)++;
       }
     }
     city_list_iterate_end;
@@ -1131,7 +1130,7 @@ void activeunits_report_dialog_update(void)
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
     unit_type_iterate(punittype) {
-      i = punittype->index;
+      i = utype_index(punittype);
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
 	my_snprintf
 	  (

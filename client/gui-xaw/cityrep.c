@@ -321,7 +321,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
-    struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+    struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
     struct item items[MAX_NUM_PRODUCTION_TARGETS];
     int targets_used = 0;
     size_t i;
@@ -338,18 +338,18 @@ void city_list_callback(Widget w, XtPointer client_data,
 				        city_change_command,
 				        NULL);
 
-    impr_type_iterate(impr) {
-      if (can_build_improvement(pcity, impr)) {
-	targets[targets_used].is_unit = false;
-	targets[targets_used].value = impr;
+    improvement_iterate(pimprove) {
+      if (can_city_build_improvement_now(pcity, pimprove)) {
+	targets[targets_used].kind = VUT_IMPROVEMENT;
+	targets[targets_used].value.building = pimprove;
 	targets_used++;
       }
-    } impr_type_iterate_end;
+    } improvement_iterate_end;
 
     unit_type_iterate(punittype) {
-      if (can_build_unit(pcity, punittype)) {
-	targets[targets_used].is_unit = true;
-	targets[targets_used].value = punittype->index;
+      if (can_city_build_unit_now(pcity, punittype)) {
+	targets[targets_used].kind = VUT_UTYPE;
+	targets[targets_used].value.utype = punittype;
 	targets_used++;
       }
     } unit_type_iterate_end;
@@ -382,7 +382,7 @@ void city_change_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
   struct city *pcity;
-  struct city_production production;
+  struct universal production;
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
@@ -1078,7 +1078,7 @@ static void chgall_refresh_command_callback(Widget w,
 					    XtPointer call_data)
 {
   struct chgall_data *state = (struct chgall_data *) client_data;
-  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   int i;
 

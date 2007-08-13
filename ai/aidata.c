@@ -63,13 +63,13 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
 
   memset(count, 0, sizeof(count));
 
-  impr_type_iterate(id) {
+  improvement_iterate(pimprove) {
     struct universal source = {
       .kind = VUT_IMPROVEMENT,
-      .value = {.building = id}
+      .value.building = pimprove
     };
 
-    ai->impr_calc[id] = AI_IMPR_ESTIMATE;
+    ai->impr_calc[improvement_index(pimprove)] = AI_IMPR_ESTIMATE;
 
     /* Find largest extension */
     effect_list_iterate(get_req_source_effects(&source), peffect) {
@@ -93,12 +93,12 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_UPKEEP_FREE:
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
-	      && preq->source.value.building == id) {
-            if (ai->impr_calc[id] != AI_IMPR_CALCULATE_FULL) {
-	      ai->impr_calc[id] = AI_IMPR_CALCULATE;
+	      && preq->source.value.building == pimprove) {
+            if (ai->impr_calc[improvement_index(pimprove)] != AI_IMPR_CALCULATE_FULL) {
+	      ai->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE;
             }
-	    if (preq->range > ai->impr_range[id]) {
-	      ai->impr_range[id] = preq->range;
+	    if (preq->range > ai->impr_range[improvement_index(pimprove)]) {
+	      ai->impr_range[improvement_index(pimprove)] = preq->range;
 	    }
 	  }
 	} requirement_list_iterate_end;
@@ -108,10 +108,10 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_OUTPUT_INC_TILE:
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
-	      && preq->source.value.building == id) {
-	    ai->impr_calc[id] = AI_IMPR_CALCULATE_FULL;
-	    if (preq->range > ai->impr_range[id]) {
-	      ai->impr_range[id] = preq->range;
+	      && preq->source.value.building == pimprove) {
+	    ai->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE_FULL;
+	    if (preq->range > ai->impr_range[improvement_index(pimprove)]) {
+	      ai->impr_range[improvement_index(pimprove)] = preq->range;
 	    }
 	  }
 	} requirement_list_iterate_end;
@@ -121,7 +121,7 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       break;
       }
     } effect_list_iterate_end;
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 }
 
 /**************************************************************************

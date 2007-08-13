@@ -78,7 +78,7 @@ static void get_help_build_wonder_button_label(char* buf, int bufsize,
   if (destcity && caravan
       && unit_can_help_build_wonder(caravan, destcity)) {
     my_snprintf(buf, bufsize, _("Help build _Wonder (%d remaining)"),
-	impr_build_shield_cost(destcity->production.value)
+	impr_build_shield_cost(destcity->production.value.building)
 	- destcity->shield_stock);
     *help_build_possible = TRUE;
   } else {

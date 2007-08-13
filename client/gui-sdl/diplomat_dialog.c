@@ -882,16 +882,16 @@ void popup_sabotage_dialog(struct city *pCity)
   area.h += pBuf->next->size.h;
   /* ------------------ */
   n = 0;
-  built_impr_iterate(pCity, imp) {
-    if (improvement_by_number(imp)->sabotage > 0) {
+  city_built_iterate(pCity, pImprove) {
+    if (pImprove->sabotage > 0) {
       
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	      (char *) get_impr_name_ex(pCity, imp),
+	      (char *) city_improvement_name_translation(pCity, pImprove),
 				      sabotage_impr_callback);
       pBuf->data.cont = pCont;
       set_wstate(pBuf , FC_WS_NORMAL);
   
-      add_to_gui_list(MAX_ID - imp, pBuf);
+      add_to_gui_list(MAX_ID - improvement_number(pImprove), pBuf);
     
       area.w = MAX(area.w , pBuf->size.w);
       imp_h += pBuf->size.h;
@@ -901,7 +901,7 @@ void popup_sabotage_dialog(struct city *pCity)
 	pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pBuf;
       }
     
-      if (imp > 9)
+      if (improvement_number(pImprove) > 9)
       {
         set_wflag(pBuf, WF_HIDDEN);
       }
@@ -909,7 +909,7 @@ void popup_sabotage_dialog(struct city *pCity)
       n++;    
       /* ----------- */
     }  
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
   

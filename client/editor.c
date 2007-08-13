@@ -169,7 +169,7 @@ static enum cursor_type editor_unit(struct tile *ptile, bool testing)
     packet.veteran = selected_unit->veteran;
     packet.paradropped = selected_unit->paradropped;
 
-    packet.type = unit_type(selected_unit)->index;
+    packet.type = utype_number(unit_type(selected_unit));
     packet.transported_by = selected_unit->transported_by;
 
     packet.movesleft = unit_type(selected_unit)->move_rate;

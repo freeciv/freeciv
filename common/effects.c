@@ -261,7 +261,7 @@ struct effect_list *get_req_source_effects(struct universal *psource)
       return NULL;
     }
   case VUT_IMPROVEMENT:
-    if (value >= 0 && value < game.control.num_impr_types) {
+    if (value >= 0 && value < improvement_count()) {
       return ruleset_cache.reqs.buildings[value];
     } else {
       return NULL;
@@ -512,12 +512,12 @@ Impr_type_id ai_find_source_building(struct player *pplayer,
   effect_list_iterate(get_effects(effect_type), peffect) {
     requirement_list_iterate(peffect->reqs, preq) {
       if (VUT_IMPROVEMENT == preq->source.kind) {
-	Impr_type_id id = preq->source.value.building;
+	struct impr_type *building = preq->source.value.building;
 
-	if (can_player_build_improvement(pplayer, id)
-	    && !improvement_obsolete(pplayer, id)
-	    && is_improvement(id)) {
-	  return id;
+	if (can_player_build_improvement_now(pplayer, building)
+	    && !improvement_obsolete(pplayer, building)
+	    && is_improvement(building)) {
+	  return improvement_number(building);
 	}
       }
     } requirement_list_iterate_end;
@@ -533,22 +533,22 @@ Impr_type_id ai_find_source_building(struct player *pplayer,
   effect range and may take longer.  This function should only be used
   in situations where the range doesn't matter.
 **************************************************************************/
-bool building_has_effect(Impr_type_id id, enum effect_type effect)
+bool building_has_effect(const struct impr_type *pimprove,
+			 enum effect_type effect_type)
 {
-  struct universal source;
-  struct effect_list *plist;
-
-  source.kind = VUT_IMPROVEMENT;
-  source.value.building = id;
-
-  plist = get_req_source_effects(&source);
+  struct universal source = {
+    .kind = VUT_IMPROVEMENT,
+    /* just to bamboozle the annoying compiler warning */
+    .value.building = improvement_by_number(improvement_number(pimprove))
+  };
+  struct effect_list *plist = get_req_source_effects(&source);
 
   if (!plist) {
     return FALSE;
   }
 
   effect_list_iterate(plist, peffect) {
-    if (peffect->type == effect) {
+    if (peffect->type == effect_type) {
       return TRUE;
     }
   } effect_list_iterate_end;
@@ -656,8 +656,9 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct unit_type *target_unittype,
 		      const struct output_type *target_output,
 		      const struct specialist *target_specialist,
-		      Impr_type_id source, const struct effect *peffect,
-                      const enum   req_problem_type prob_type)
+		      const struct impr_type *source,
+		      const struct effect *peffect,
+		      const enum   req_problem_type prob_type)
 {
   /* Reversed prob_type when checking disabling effects */
   if (is_effect_disabled(target_player, target_city, target_building,
@@ -686,17 +687,18 @@ bool is_effect_useful(const struct player *target_player,
   must be made redundant by groups that it is in.
   prob_type CERTAIN or POSSIBLE is answer to function name.
 **************************************************************************/
-bool is_building_replaced(const struct city *pcity, Impr_type_id building,
+bool is_building_replaced(const struct city *pcity,
+                          struct impr_type *pimprove,
                           const enum req_problem_type prob_type)
 {
-  struct universal source;
   struct effect_list *plist;
-
-  source.kind = VUT_IMPROVEMENT;
-  source.value.building = building;
+  struct universal source = {
+    .kind = VUT_IMPROVEMENT,
+    .value.building = pimprove
+  };
 
   /* A capitalization production is never redundant. */
-  if (improvement_has_flag(building, IF_GOLD)) {
+  if (improvement_has_flag(pimprove, IF_GOLD)) {
     return FALSE;
   }
 
@@ -714,7 +716,7 @@ bool is_building_replaced(const struct city *pcity, Impr_type_id building,
     /* Prob_type is not reversed here. disabled is equal to replaced, not
      * reverse */
     if (!is_effect_disabled(city_owner(pcity), pcity,
-			    improvement_by_number(building),
+			    pimprove,
 			    NULL, NULL, NULL, NULL,
 			    peffect, prob_type)) {
       return FALSE;
@@ -888,17 +890,18 @@ int get_city_output_bonus(const struct city *pcity,
 /**************************************************************************
   Returns the effect bonus at a building.
 **************************************************************************/
-int get_building_bonus(const struct city *pcity, Impr_type_id id,
+int get_building_bonus(const struct city *pcity,
+		       const struct impr_type *building,
 		       enum effect_type effect_type)
 {
   if (!initialized) {
     return 0;
   }
 
-  assert(pcity != NULL && id != B_LAST);
+  assert(NULL != pcity && NULL != building);
   return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity,
-				  improvement_by_number(id),
+				  building,
 				  NULL, NULL, NULL, NULL,
 				  effect_type);
 }
@@ -1004,18 +1007,16 @@ int get_current_construction_bonus(const struct city *pcity,
     return 0;
   }
 
-  if (!pcity->production.is_unit) {
-    Impr_type_id id = pcity->production.value;
-    int power = 0;
-
+  if (VUT_IMPROVEMENT == pcity->production.kind) {
+    struct impr_type *building = pcity->production.value.building;
     struct universal source = {
       .kind = VUT_IMPROVEMENT,
-      .value.building = id
+      .value.building = building
     };
     struct effect_list *plist = get_req_source_effects(&source);
+    int power = 0;
 
     if (plist) {
-      struct impr_type *building = improvement_by_number(id);
 
       effect_list_iterate(plist, peffect) {
 	if (peffect->type != effect_type) {
@@ -1023,7 +1024,7 @@ int get_current_construction_bonus(const struct city *pcity,
 	}
 	if (is_effect_useful(city_owner(pcity), pcity, building,
 			     NULL, NULL, NULL, NULL,
-			     id, peffect, prob_type)) {
+			     building, peffect, prob_type)) {
 	  power += peffect->value;
 	}
       } effect_list_iterate_end;

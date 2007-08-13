@@ -668,17 +668,17 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
     /* FIXME: This might be buggy if it ignores unmet UnitClass reqs. */
     fear += get_city_bonus(pcity, EFT_DEFEND_BONUS);
 
-    built_impr_iterate(pcity, id) {
-      want += impr_build_shield_cost(id);
-      if (improvement_obsolete(pplayer, id)) {
+    city_built_iterate(pcity, pimprove) {
+      want += impr_build_shield_cost(pimprove);
+      if (improvement_obsolete(pplayer, pimprove)) {
         continue;
       }
-      if (is_great_wonder(id)) {
-        want += impr_build_shield_cost(id) * 2;
-      } else if (is_small_wonder(id)) {
-        want += impr_build_shield_cost(id);
+      if (is_great_wonder(pimprove)) {
+        want += impr_build_shield_cost(pimprove) * 2;
+      } else if (is_small_wonder(pimprove)) {
+        want += impr_build_shield_cost(pimprove);
       }
-    } built_impr_iterate_end;
+    } city_built_iterate_end;
   } city_list_iterate_end;
   unit_list_iterate(target->units, punit) {
     fear += ATTACK_POWER(punit);
@@ -698,9 +698,8 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
     }
   } unit_list_iterate_end;
   city_list_iterate(pplayer->cities, pcity) {
-    if (pcity->production.is_unit 
-        && utype_has_flag(utype_by_number(pcity->production.value),
-                          F_CITIES)) {
+    if (VUT_UTYPE == pcity->production.kind 
+        && utype_has_flag(pcity->production.value.utype, F_CITIES)) {
       want -= 150;
       settlers++;
     }

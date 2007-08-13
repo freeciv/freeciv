@@ -53,13 +53,13 @@ void get_economy_report_data(struct improvement_entry *entries,
     return;
   }
 
-  impr_type_iterate(impr_id) {
-    if (is_improvement(impr_id)) {
+  improvement_iterate(pimprove) {
+    if (is_improvement(pimprove)) {
       int count = 0, cost = 0;
       city_list_iterate(game.player_ptr->cities, pcity) {
-	if (city_got_building(pcity, impr_id)) {
+	if (city_has_building(pcity, pimprove)) {
 	  count++;
-	  cost += improvement_upkeep(pcity, impr_id);
+	  cost += city_improvement_upkeep(pcity, pimprove);
 	}
       }
       city_list_iterate_end;
@@ -68,7 +68,7 @@ void get_economy_report_data(struct improvement_entry *entries,
 	continue;
       }
 
-      entries[*num_entries_used].type = impr_id;
+      entries[*num_entries_used].type = pimprove;
       entries[*num_entries_used].count = count;
       entries[*num_entries_used].total_cost = cost;
       entries[*num_entries_used].cost = cost / count;
@@ -81,14 +81,14 @@ void get_economy_report_data(struct improvement_entry *entries,
         *total_cost += cost;
       }
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   *total_income = 0;
+  /* FIXME: almost the same as player_get_expected_income() */
 
   city_list_iterate(game.player_ptr->cities, pcity) {
     *total_income += pcity->prod[O_GOLD];
-    if (!pcity->production.is_unit
-	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
+    if (city_production_has_flag(pcity, IF_GOLD)) {
       *total_income += MAX(0, pcity->surplus[O_SHIELD]);
     }
   } city_list_iterate_end;
@@ -327,7 +327,7 @@ void handle_options_settable(struct packet_options_settable *packet)
   The "message" string will be filled with a GUI-friendly message about
   what was sold.
 ****************************************************************************/
-void sell_all_improvements(Impr_type_id impr, bool obsolete_only,
+void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
 			   char *message, size_t message_sz)
 {
   int count = 0, gold = 0;
@@ -338,24 +338,24 @@ void sell_all_improvements(Impr_type_id impr, bool obsolete_only,
   }
 
   city_list_iterate(game.player_ptr->cities, pcity) {
-    if (!pcity->did_sell && city_got_building(pcity, impr)
+    if (!pcity->did_sell && city_has_building(pcity, pimprove)
 	&& (!obsolete_only
-	    || improvement_obsolete(game.player_ptr, impr)
-	    || is_building_replaced(pcity, impr, RPT_CERTAIN))) {
+	    || improvement_obsolete(game.player_ptr, pimprove)
+	    || is_building_replaced(pcity, pimprove, RPT_CERTAIN))) {
       count++;
-      gold += impr_sell_gold(impr);
-      city_sell_improvement(pcity, impr);
+      gold += impr_sell_gold(pimprove);
+      city_sell_improvement(pcity, improvement_number(pimprove));
     }
   } city_list_iterate_end;
 
   if (count > 0) {
     my_snprintf(message, message_sz, _("Sold %d %s for %d gold."),
 		count,
-		improvement_name_translation(impr),
+		improvement_name_translation(pimprove),
 		gold);
   } else {
     my_snprintf(message, message_sz, _("No %s could be sold."),
-		improvement_name_translation(impr));
+		improvement_name_translation(pimprove));
   }
 }
 

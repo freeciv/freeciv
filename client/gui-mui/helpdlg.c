@@ -606,24 +606,23 @@ static void create_help_page(enum help_page_type type)
 ...
 **************************************************************************/
 static void help_update_improvement(const struct help_item *pitem,
-				    char *title, int which)
+				    char *title)
 {
   char buf[64000];
+  struct impr_type *imp = find_improvement_by_translated_name(title);
 
   create_help_page(HELP_IMPROVEMENT);
 
-  if (which < game.control.num_impr_types)
+  if (imp  &&  !is_great_wonder(imp)) {
   {
-    struct impr_type *imp = &improvement_types[which];
-
     DoMethod(help_imprv_cost_text, MUIM_SetAsString,
-	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(which));
+	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(imp));
     DoMethod(help_imprv_upkeep_text, MUIM_SetAsString,
 	     MUIA_Text_Contents, "%ld", imp->upkeep);
     UpdateTechButton(help_imprv_needs_button, imp->tech_req);
   }
 
-  helptext_building(buf, sizeof(buf), which, pitem->text);
+  helptext_building(buf, sizeof(buf), imp, pitem->text);
   DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);
 }
 
@@ -631,20 +630,19 @@ static void help_update_improvement(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_wonder(const struct help_item *pitem,
-			       char *title, int which)
+			       char *title)
 {
   char buf[64000];
+  struct impr_type *imp = find_improvement_by_translated_name(title);
 
   create_help_page(HELP_WONDER);
 
-  if (which < game.control.num_impr_types)
+  if (imp  &&  is_great_wonder(imp)) {
   {
-    struct impr_type *imp = &improvement_types[which];
-
     DoMethod(help_wonder_cost_text, MUIM_SetAsString,
-	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(which));
+	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(imp));
 
-    UpdateTechButton(help_wonder_needs_button, imp->tech_req);
+    UpdateTechButton(help_wonder_needs_button, advance_number(imp->tech_req));
     UpdateTechButton(help_wonder_obsolete_button, advance_number(imp->obsolete_by));
   }
   else
@@ -654,7 +652,7 @@ static void help_update_wonder(const struct help_item *pitem,
     set(help_wonder_obsolete_button, MUIA_Text_Contents, TECHTYPE_NONE);
   }
 
-  helptext_building(buf, sizeof(buf), which, pitem->text);
+  helptext_building(buf, sizeof(buf), imp, pitem->text);
   DoMethod(help_text_listview, MUIM_NList_Insert, buf, -2, MUIV_List_Insert_Bottom);
 }
 
@@ -691,7 +689,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
     UpdateTechButton(help_unit_needs_button, advance_by_number(utype->require_advance));
 
-    if (utype->obsoleted_by == U_NOT_OBSOLETED)
+    if (U_NOT_OBSOLETED == utype->obsoleted_by)
       text = _("None");
     else
       text = utype_name_translation(utype_by_number(utype->obsoleted_by));
@@ -747,24 +745,29 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 
       if (help_tech_group)
       {
-	impr_type_iterate(j) {
+	improvement_iterate(pimprove) {
 	  Object *o, *button;
-	  if (i != improvement_types[j].tech_req)
+	  if (i != pimprove->tech_req)
 	    continue;
 
 	  o = HGroup,
 	    GroupSpacing(0),
 	    Child, MakeLabel(_("Allows ")),
-	    Child, button = MakeHelpButton(improvement_types[j].name, is_wonder(j) ? HELP_WONDER : HELP_IMPROVEMENT),
-	    Child, is_wonder(j) ? MakeLabel(_(" wonder")) : MakeLabel(_(" improvement")),
+	    Child, button = MakeHelpButton(improvement_name_translation(pimprove),
+		   is_wonder(pimprove)
+		   ? HELP_WONDER
+		   : HELP_IMPROVEMENT),
+	    Child, is_wonder(pimprove)
+	           ? MakeLabel(_(" wonder"))
+	           : MakeLabel(_(" improvement")),
 	    Child, HSpace(0),
 	    End;
 
 	  if (o)
 	    DoMethod(help_tech_group, OM_ADDMEMBER, o);
-	} impr_type_iterate_end;
+	} improvement_iterate_end;
 
-	unit_type_iterate(j) {
+	unit_type_iterate(punittype) {
 	  Object *o, *button;
 	  if (padvance != utype_by_number(j)->require_advance)
 	    continue;
@@ -772,7 +775,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 	  o = HGroup,
 	    GroupSpacing(0),
 	    Child, MakeLabel(_("Allows ")),
-	    Child, button = MakeHelpButton(utype_name_translation(utype_by_number(j)), HELP_UNIT),
+	    Child, button = MakeHelpButton(utype_name_translation(punittype), HELP_UNIT),
 	    Child, MakeLabel(_(" unit")),
 	    Child, HSpace(0),
 	    End;
@@ -1007,17 +1010,11 @@ static void help_update_dialog(const struct help_item *pitem)
   switch (pitem->type)
   {
   case HELP_IMPROVEMENT:
-    i = find_improvement_by_translated_name(top);
-    if (i != B_LAST && is_wonder(i))
-      i = B_LAST;
-    help_update_improvement(pitem, top, i);
+    help_update_improvement(pitem, top);
     break;
 
   case HELP_WONDER:
-    i = find_improvement_by_translated_name(top);
-    if (i != B_LAST && !is_wonder(i))
-      i = B_LAST;
-    help_update_wonder(pitem, top, i);
+    help_update_wonder(pitem, top);
     break;
 
   case HELP_UNIT:

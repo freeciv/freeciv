@@ -51,9 +51,9 @@ typedef int Tech_type_id;
 
    A_UNKNOWN may be passed to other players instead of the actual value.
 
-   A_LAST is a value which is guaranteed to be larger than all
-   actual tech id values.  It is used as a flag value; it can
-   also be used for fixed allocations to ensure able to hold
+   A_LAST is a value that is guaranteed to be larger than all
+   actual Tech_type_id values.  It is used as a flag value; it can
+   also be used for fixed allocations to ensure ability to hold the
    full number of techs.
 
    A_NEVER is the pointer equivalent replacement for A_LAST flag value.

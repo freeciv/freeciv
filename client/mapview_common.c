@@ -1912,11 +1912,11 @@ struct city *find_city_near_tile(const struct tile *ptile)
 void get_city_mapview_production(struct city *pcity,
                                  char *buffer, size_t buffer_len)
 {
-  int turns = city_turns_to_build(pcity, pcity->production, TRUE);
+  int turns = city_production_turns_to_build(pcity, TRUE);
+  /* FIXME: rewrite with universal_name_translation and concatenation */
 				
-  if (pcity->production.is_unit) {
-    struct unit_type *punit_type =
-		utype_by_number(pcity->production.value);
+  if (VUT_UTYPE == pcity->production.kind) {
+    struct unit_type *punit_type = pcity->production.value.utype;
     if (turns < 999) {
       my_snprintf(buffer, buffer_len, "%s %d",
                   utype_name_translation(punit_type),
@@ -1926,17 +1926,17 @@ void get_city_mapview_production(struct city *pcity,
                   utype_name_translation(punit_type));
     }
   } else {
-    if (!pcity->production.is_unit
-	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
+    struct impr_type *pimprove = pcity->production.value.building;
+    if (improvement_has_flag(pimprove, IF_GOLD)) {
       my_snprintf(buffer, buffer_len, "%s",
-		  improvement_name_translation(pcity->production.value));
+		  improvement_name_translation(pimprove));
     } else if (turns < 999) {
       my_snprintf(buffer, buffer_len, "%s %d",
-		  improvement_name_translation(pcity->production.value),
+		  improvement_name_translation(pimprove),
 		  turns);
     } else {
       my_snprintf(buffer, buffer_len, "%s -",
-		  improvement_name_translation(pcity->production.value));
+		  improvement_name_translation(pimprove));
     }
   }
 }

@@ -466,18 +466,18 @@ void create_help_dialog()
 ...
 **************************************************************************/
 static void help_update_improvement(const struct help_item *pitem,
-                                    char *title, int which)
+                                    char *title)
 {
   char buf[64000];
-  struct impr_type *imp = improvement_by_number(which);
- 
-  create_help_page(HELP_IMPROVEMENT);
- 
-  if (imp) {
-    int i;
-    char req_buf[512];
+  struct impr_type *imp = find_improvement_by_translated_name(title);
 
-    sprintf(buf, "%d", impr_build_shield_cost(which));
+  create_help_page(HELP_IMPROVEMENT);
+
+  if (imp  &&  !is_great_wonder(imp)) {
+    char req_buf[512];
+    int i;
+
+    sprintf(buf, "%d", impr_build_shield_cost(imp));
     SetWindowText(help_ilabel[1], buf);
     sprintf(buf, "%d", imp->upkeep);
     SetWindowText(help_ilabel[3], buf);
@@ -501,7 +501,7 @@ static void help_update_improvement(const struct help_item *pitem,
     SetWindowText(help_ilabel[5], _("(Never)"));
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3);*/
   }
-  helptext_building(buf, sizeof(buf), which, pitem->text);
+  helptext_building(buf, sizeof(buf), imp, pitem->text);
   set_help_text(buf);
 
 }
@@ -509,18 +509,18 @@ static void help_update_improvement(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_wonder(const struct help_item *pitem,
-                               char *title, int which)
+                               char *title)
 {
   char buf[64000];
-  struct impr_type *imp = improvement_by_number(which);
- 
-  create_help_page(HELP_WONDER);
- 
-  if (imp) {
-    int i;
-    char req_buf[512];
+  struct impr_type *imp = find_improvement_by_translated_name(title);
 
-    sprintf(buf, "%d", impr_build_shield_cost(which));
+  create_help_page(HELP_WONDER);
+
+  if (imp  &&  is_great_wonder(imp)) {
+    char req_buf[512];
+    int i;
+
+    sprintf(buf, "%d", impr_build_shield_cost(imp));
     SetWindowText(help_ilabel[1], buf);
     sprintf(buf, "%d", imp->upkeep);
     SetWindowText(help_ilabel[3], buf);
@@ -546,7 +546,7 @@ static void help_update_wonder(const struct help_item *pitem,
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3); */
   }
  
-  helptext_building(buf, sizeof(buf), which, pitem->text);
+  helptext_building(buf, sizeof(buf), imp, pitem->text);
   set_help_text(buf);
 }                            
 
@@ -704,7 +704,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   drawn_unit_type = utype;
 
   if (utype) {
-    sprintf(buf, "%d", unit_build_shield_cost(utype));
+    sprintf(buf, "%d", utype_build_shield_cost(utype));
     SetWindowText(help_ulabel[0][1], buf);
     sprintf(buf, "%d", utype->attack_strength);
     SetWindowText(help_ulabel[0][4], buf);
@@ -727,7 +727,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 				       advance_number(utype->require_advance)));
     }
     /*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
-    if (utype->obsoleted_by == U_NOT_OBSOLETED) {
+    if (U_NOT_OBSOLETED == utype->obsoleted_by) {
       SetWindowText(help_ulabel[4][4], _("None"));
     } else {
       SetWindowText(help_ulabel[4][4], utype->obsoleted_by->name);
@@ -774,35 +774,39 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     wordwrap_string(buf, 68);
     fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
 
-    impr_type_iterate(j) {
+    improvement_iterate(pimprove) {
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
-     requirement_vector_iterate(&improvement_by_number(j)->reqs, req) {
+      requirement_vector_iterate(&pimprove->reqs, req) {
 	if (VUT_NONE == req->source.kind) {
 	  break;
 	}
 	if (VUT_IMPROVEMENT == req->source.kind
-	 && req->source.value.building == j) {
+	 && req->source.value.building == pimprove) {
 	  hbox = fcwin_hbox_new(helpdlg_win, FALSE);
 	  fcwin_box_add_box(helpdlg_page_vbox, hbox, FALSE, FALSE, 5);
 	  fcwin_box_add_static(hbox, _("Allows "), 0, SS_LEFT, FALSE, FALSE,
 			       5);
-	  fcwin_box_add_button(hbox, improvement_name_translation(j),
-			       is_great_wonder(j) ?
-			       ID_HELP_WONDER_LINK : ID_HELP_IMPROVEMENT_LINK,
-			       0 , FALSE, FALSE, 5);
+	  fcwin_box_add_button(hbox,
+			       improvement_name_translation(pimprove),
+			       is_great_wonder(pimprove)
+			       ? ID_HELP_WONDER_LINK
+			       : ID_HELP_IMPROVEMENT_LINK,
+			       0, FALSE, FALSE, 5);
 	}
       } requirement_vector_iterate_end;
-      if (padvance == improvement_by_number(j)->obsolete_by) {
+      if (padvance == pimprove->obsolete_by) {
 	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_("Obsoletes "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox, improvement_name_translation(j),
-			     is_great_wonder(j)?
-			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
-			     0,FALSE,FALSE,5);
+	fcwin_box_add_button(hbox,
+			     improvement_name_translation(pimprove),
+			     is_great_wonder(pimprove)
+			     ? ID_HELP_WONDER_LINK
+			     : ID_HELP_IMPROVEMENT_LINK,
+			     0, FALSE, FALSE, 5);
       }
-    } impr_type_iterate_end;
+    } improvement_iterate_end;
 
     unit_type_iterate(punittype) {
       if (padvance != punittype->require_advance) {
@@ -877,7 +881,6 @@ static void help_update_government(const struct help_item *pitem,
 **************************************************************************/
 static void help_update_dialog(const struct help_item *pitem)
 {
-  int i;
   char *top;
   /* figure out what kind of item is required for pitem ingo */
 
@@ -888,14 +891,10 @@ static void help_update_dialog(const struct help_item *pitem)
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
-    i = find_improvement_by_translated_name(top);
-    if(i!=B_LAST && is_great_wonder(i)) i = B_LAST;
-    help_update_improvement(pitem, top, i);
+    help_update_improvement(pitem, top);
     break;
   case HELP_WONDER:
-    i = find_improvement_by_translated_name(top);
-    if(i!=B_LAST && !is_great_wonder(i)) i = B_LAST;
-    help_update_wonder(pitem, top, i);
+    help_update_wonder(pitem, top);
     break;
   case HELP_UNIT:
     help_update_unit_type(pitem, top);

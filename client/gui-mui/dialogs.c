@@ -393,7 +393,7 @@ HOOKPROTONH(imprv_display, void, char **array, APTR which)
   int imprv = ((LONG) which)-100;
   if (imprv == -1) *array = _("City Production");
   else if (imprv == B_LAST) *array = _("At Spy's Discretion");
-  else *array = improvement_name_translation(imprv);
+  else *array = improvement_name_translation(improvement_by_number(imprv));
 }
 
 
@@ -432,13 +432,15 @@ static void create_improvements_list(struct city *pcity)
     int any_improvements=FALSE;
 
     DoMethod(listview, MUIM_NList_InsertSingle, 100-1,MUIV_NList_Insert_Bottom);
-    built_impr_iterate(pcity, i) {
-      if (improvement_by_number(i)->sabotage > 0) {
+    city_built_iterate(pcity, pimprove) {
+      if (pimprove->sabotage > 0) {
       {
-        DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
+        DoMethod(listview, MUIM_NList_InsertSingle,
+                 improvement_number(pimprove) + 100,
+                 MUIV_NList_Insert_Bottom);
         any_improvements = TRUE;
       }
-    } built_impr_iterate_end;
+    } city_built_iterate_end;
 
     if (any_improvements)
     {
@@ -1747,7 +1749,8 @@ void popup_upgrade_dialog(struct unit *punit)
   {
     /* this shouldn't generally happen, but it is conceivable */
     my_snprintf(buf, sizeof(buf),
-		_("Sorry: cannot upgrade %s."), unit_types[ut1].name);
+		_("Sorry: cannot upgrade %s."),
+		utype_name_translation(utype_by_number(ut1)));
     popup_message_dialog( main_wnd, _("Upgrade Unit!"), buf,
 			  _("_Darn"), message_close, 0,
 			  NULL);
@@ -1759,7 +1762,8 @@ void popup_upgrade_dialog(struct unit *punit)
     {
       my_snprintf(buf, sizeof(buf), _("Upgrade %s to %s for %d gold?\n"
 	         "Treasury contains %d gold."),
-	         unit_types[ut1].name, unit_types[ut2].name,
+	         utype_name_translation(utype_by_number(ut1)),
+	         utype_name_translation(utype_by_number(ut2)),
 	         value, game.player_ptr->economic.gold);
       popup_message_dialog(main_wnd, _("Upgrade Obsolete Units"), buf,
 			   _("_Yes"), upgrade_yes, punit->id,
@@ -1769,7 +1773,8 @@ void popup_upgrade_dialog(struct unit *punit)
     {
 	my_snprintf(buf, sizeof(buf), _("Upgrading %s to %s costs %d gold.\n"
 	       "Treasury contains %d gold."),
-	       unit_types[ut1].name, unit_types[ut2].name,
+	       utype_name_translation(utype_by_number(ut1)),
+	       utype_name_translation(utype_by_number(ut2)),
 	       value, game.player_ptr->economic.gold);
 	popup_message_dialog(main_wnd,
 			     _("Upgrade Unit!"), buf,

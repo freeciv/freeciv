@@ -333,20 +333,21 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 }
 
 /**************************************************************************
-  Updates a city's list of improvements from packet data. "impr" identifies
-  the improvement, and "have_impr" specifies whether the improvement should
+  Updates a city's list of improvements from packet data.
+  "have_impr" specifies whether the improvement should
   be added (TRUE) or removed (FALSE).
 **************************************************************************/
 static void update_improvement_from_packet(struct city *pcity,
-					   Impr_type_id impr, bool have_impr)
+					   struct impr_type *pimprove,
+					   bool have_impr)
 {
   if (have_impr) {
-    if (pcity->improvements[impr] == I_NONE) {
-      city_add_improvement(pcity, impr);
+    if (pcity->built[improvement_index(pimprove)].turn <= I_NEVER) {
+      city_add_improvement(pcity, pimprove);
     }
   } else {
-    if (pcity->improvements[impr] != I_NONE) {
-      city_remove_improvement(pcity, impr);
+    if (pcity->built[improvement_index(pimprove)].turn > I_NEVER) {
+      city_remove_improvement(pcity, pimprove);
     }
   }
 }
@@ -400,6 +401,7 @@ void handle_game_state(int value)
 void handle_city_info(struct packet_city_info *packet)
 {
   int i;
+  struct universal product;
   bool city_is_new, city_has_changed_owner = FALSE;
   bool need_units_dialog_update = FALSE;
   struct city *pcity;
@@ -415,6 +417,20 @@ void handle_city_info(struct packet_city_info *packet)
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
+  }
+
+  if (packet->production_kind < VUT_NONE || packet->production_kind >= VUT_LAST) {
+    freelog(LOG_ERROR, "handle_city_info() bad production_kind %d.",
+            packet->production_kind);
+    product.kind = VUT_NONE;
+  } else {
+    product = universal_by_number(packet->production_kind,
+                                     packet->production_value);
+    if (product.kind < VUT_NONE ||  product.kind >= VUT_LAST) {
+      freelog(LOG_ERROR, "handle_city_info() bad production_value %d.",
+              packet->production_value);
+      product.kind = VUT_NONE;
+    }
   }
 
   if(!pcity) {
@@ -434,8 +450,7 @@ void handle_city_info(struct packet_city_info *packet)
     if (draw_city_names && name_changed) {
       update_descriptions = TRUE;
     } else if (DRAW_CITY_PRODUCTIONS
-	       && (pcity->production.is_unit != packet->production_is_unit
-		   || pcity->production.value != packet->production_value
+	       && (!are_universals_equal(&pcity->production, &product)
 		   || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
 		   || pcity->shield_stock != packet->shield_stock)) {
       update_descriptions = TRUE;
@@ -488,21 +503,19 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->pollution=packet->pollution;
 
   if (city_is_new
-      || pcity->production.is_unit != packet->production_is_unit
-      || pcity->production.value != packet->production_value) {
+      || !are_universals_equal(&pcity->production, &product)) {
     need_units_dialog_update = TRUE;
   }
-  if (pcity->production.is_unit != packet->production_is_unit
-      || pcity->production.value != packet->production_value) {
+  if (!are_universals_equal(&pcity->production, &product)) {
     production_changed = TRUE;
   }
-  pcity->production.is_unit = packet->production_is_unit;
-  pcity->production.value = packet->production_value;
+  pcity->production = product;
+
   if (city_is_new) {
     init_worklist(&pcity->worklist);
 
-    for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {
-      pcity->improvements[i] = I_NONE;
+    for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
+      pcity->built[i].turn = I_NEVER;
     }
   }
   copy_worklist(&pcity->worklist, &packet->worklist);
@@ -513,8 +526,22 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->turn_last_built=packet->turn_last_built;
   pcity->turn_founded = packet->turn_founded;
-  pcity->changed_from.value = packet->changed_from_id;
-  pcity->changed_from.is_unit = packet->changed_from_is_unit;
+  
+  if (packet->changed_from_kind < VUT_NONE || packet->changed_from_kind >= VUT_LAST) {
+    freelog(LOG_ERROR, "handle_city_info() bad changed_from_kind %d.",
+            packet->changed_from_kind);
+    product.kind = VUT_NONE;
+  } else {
+    product = universal_by_number(packet->changed_from_kind,
+                                     packet->changed_from_value);
+    if (product.kind < VUT_NONE ||  product.kind >= VUT_LAST) {
+      freelog(LOG_ERROR, "handle_city_info() bad changed_from_value %d.",
+              packet->changed_from_value);
+      product.kind = VUT_NONE;
+    }
+  }
+  pcity->changed_from = product;
+
   pcity->before_change_shields=packet->before_change_shields;
   pcity->disbanded_shields=packet->disbanded_shields;
   pcity->caravan_shields=packet->caravan_shields;
@@ -533,16 +560,14 @@ void handle_city_info(struct packet_city_info *packet)
     }
   }
   
-  impr_type_iterate(i) {
-    if (pcity->improvements[i] == I_NONE
-	&& BV_ISSET(packet->improvements, i)
-	&& !city_is_new) {
-      audio_play_sound(improvement_by_number(i)->soundtag,
-		       improvement_by_number(i)->soundtag_alt);
+  improvement_iterate(pimprove) {
+    bool have = BV_ISSET(packet->improvements, improvement_index(pimprove));
+    if (have  &&  !city_is_new
+     && pcity->built[improvement_index(pimprove)].turn <= I_NEVER) {
+      audio_play_sound(pimprove->soundtag, pimprove->soundtag_alt);
     }
-    update_improvement_from_packet(pcity, i,
-				   BV_ISSET(packet->improvements, i));
-  } impr_type_iterate_end;
+    update_improvement_from_packet(pcity, pimprove, have);
+  } improvement_iterate_end;
 
   /* We should be able to see units in the city.  But for a diplomat
    * investigating an enemy city we can't.  In that case we don't update
@@ -735,15 +760,15 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   if (city_is_new) {
     int i;
 
-    for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {
-      pcity->improvements[i] = I_NONE;
+    for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
+      pcity->built[i].turn = I_NEVER;
     }
   }
 
-  impr_type_iterate(i) {
-    update_improvement_from_packet(pcity, i,
-				   BV_ISSET(packet->improvements, i));
-  } impr_type_iterate_end;
+  improvement_iterate(pimprove) {
+    bool have = BV_ISSET(packet->improvements, improvement_index(pimprove));
+    update_improvement_from_packet(pcity, pimprove, have);
+  } improvement_iterate_end;
 
   /* This sets dumb values for everything else. This is not really required,
      but just want to be at the safe side. */
@@ -765,8 +790,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->shield_stock       = 0;
     pcity->pollution          = 0;
     BV_CLR_ALL(pcity->city_options);
-    pcity->production.is_unit   = FALSE;
-    pcity->production.value = 0;
+    pcity->production.kind    = VUT_NONE;
+    pcity->production.value.building = NULL;
     init_worklist(&pcity->worklist);
     pcity->airlift            = FALSE;
     pcity->did_buy            = FALSE;
@@ -2237,8 +2262,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->defense_strength   = p->defense_strength;
   u->move_rate          = p->move_rate;
   u->require_advance    = advance_by_number(p->tech_requirement);
-  u->impr_requirement   = p->impr_requirement;
-  u->gov_requirement = government_by_number(p->gov_requirement);
+  u->need_improvement   = improvement_by_number(p->impr_requirement);
+  u->need_government    = government_by_number(p->gov_requirement);
   u->vision_radius_sq = p->vision_radius_sq;
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
@@ -2322,6 +2347,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   }
   assert(b->reqs.size == p->reqs_count);
   b->obsolete_by = advance_by_number(p->obsolete_by);
+  b->replaced_by = improvement_by_number(p->replaced_by);
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
@@ -2331,11 +2357,10 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
 #ifdef DEBUG
-  if(p->id == game.control.num_impr_types-1) {
-    impr_type_iterate(id) {
-      b = improvement_by_number(id);
-      freelog(LOG_DEBUG, "Impr: %s...",
-	      improvement_rule_name(id));
+  if(p->id == improvement_count()-1) {
+    improvement_iterate(b) {
+      freelog(LOG_DEBUG, "Improvement: %s...",
+	      improvement_rule_name(b));
       if (A_NEVER != b->obsolete_by) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d \"%s\"",
 		advance_number(b->obsolete_by),
@@ -2345,11 +2370,11 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);
       freelog(LOG_DEBUG, "  sabotage   %3d", b->sabotage);
       freelog(LOG_DEBUG, "  helptext    %s", b->helptext);
-    } impr_type_iterate_end;
+    } improvement_iterate_end;
   }
 #endif
   
-  tileset_setup_impr_type(tileset, p->id);
+  tileset_setup_impr_type(tileset, b);
 }
 
 /**************************************************************************
@@ -2782,9 +2807,11 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
   struct city *pcity = game_find_city_by_number(city_id);
 
   if (punit && pcity && can_client_issue_orders()) {
-    impr_type_iterate(i) {
-      pcity->improvements[i] = BV_ISSET(improvements, i) ? I_ACTIVE : I_NONE;
-    } impr_type_iterate_end;
+    improvement_iterate(pimprove) {
+      if (!BV_ISSET(improvements, improvement_index(pimprove))) {
+        update_improvement_from_packet(pcity, pimprove, FALSE);
+      }
+    } improvement_iterate_end;
 
     popup_sabotage_dialog(pcity);
   }

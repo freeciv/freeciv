@@ -17,8 +17,6 @@
 #include <stddef.h>		/* size_t */
 
 #include "shared.h"		/* bool type */
-
-#include "city.h"		/* Specialist_type_id */
 #include "fc_types.h"
 
 struct canvas;
@@ -51,10 +49,10 @@ void city_dialog_redraw_map(struct city *pcity,
 void get_city_dialog_production(struct city *pcity,
                                 char *buffer, size_t buffer_len);
 void get_city_dialog_production_full(char *buffer, size_t buffer_len,
-				     struct city_production target,
+				     struct universal target,
 				     struct city *pcity);
 void get_city_dialog_production_row(char *buf[], size_t column_size,
-				    struct city_production target,
+				    struct universal target,
 				    struct city *pcity);
 
 void get_city_dialog_output_text(const struct city *pcity,
@@ -69,10 +67,12 @@ void city_rotate_specialist(struct city *pcity, int citizen_index);
 
 void activate_all_units(struct tile *ptile);
 
-int city_change_production(struct city *pcity, struct city_production target);
+int city_change_production(struct city *pcity, struct universal target);
 int city_set_worklist(struct city *pcity, struct worklist *pworklist);
+void city_worklist_commit(struct city *pcity, struct worklist *pwl);
+
 bool city_queue_insert(struct city *pcity, int position,
-		       struct city_production target);
+		       struct universal target);
 bool city_queue_clear(struct city *pcity);
 bool city_queue_insert_worklist(struct city *pcity, int position,
 				struct worklist *worklist);

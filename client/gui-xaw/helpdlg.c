@@ -719,18 +719,18 @@ static void create_help_page(enum help_page_type type)
 ...
 **************************************************************************/
 static void help_update_improvement(const struct help_item *pitem,
-				    char *title, int which)
+				    char *title)
 {
   char buf[64000];
-  struct impr_type *imp = improvement_by_number(which);
+  struct impr_type *imp = find_improvement_by_translated_name(title);
   
   create_help_page(HELP_IMPROVEMENT);
-  
-  if (imp) {
+
+  if (imp  &&  !is_great_wonder(imp)) {
     char req_buf[512];
     int i;
 
-    sprintf(buf, "%d ", impr_build_shield_cost(which));
+    sprintf(buf, "%d ", impr_build_shield_cost(imp));
     xaw_set_label(help_improvement_cost_data, buf);
     sprintf(buf, "%d ", imp->upkeep);
     xaw_set_label(help_improvement_upkeep_data, buf);
@@ -763,7 +763,7 @@ static void help_update_improvement(const struct help_item *pitem,
     create_tech_tree(help_tech_tree, 0, A_LAST, 3);
   }
   set_title_topic(pitem);
-  helptext_building(buf, sizeof(buf), which, pitem->text);
+  helptext_building(buf, sizeof(buf), imp, pitem->text);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
   
@@ -771,19 +771,19 @@ static void help_update_improvement(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_wonder(const struct help_item *pitem,
-			       char *title, int which)
+			       char *title)
 {
   char buf[64000];
-  struct impr_type *imp = improvement_by_number(which);
-  
+  struct impr_type *imp = find_improvement_by_translated_name(title);
+
   create_help_page(HELP_WONDER);
 
-  if (imp) {
+  if (imp  &&  is_great_wonder(imp)) {
     char req_buf[512];
     int i;
     struct advance *vap;
 
-    sprintf(buf, "%d ", impr_build_shield_cost(which));
+    sprintf(buf, "%d ", impr_build_shield_cost(imp));
     xaw_set_label(help_improvement_cost_data, buf);
      /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
       * Currently it's limited to 1 req but this code is partially prepared
@@ -816,7 +816,7 @@ static void help_update_wonder(const struct help_item *pitem,
     create_tech_tree(help_tech_tree, 0, advance_count(), 3); 
   }
   set_title_topic(pitem);
-  helptext_building(buf, sizeof(buf), which, pitem->text);
+  helptext_building(buf, sizeof(buf), imp, pitem->text);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
 
@@ -832,7 +832,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   create_help_page(HELP_UNIT);
   if (punittype) {
 /*    struct unit_type *punittype = utype_by_number(i);*/
-    sprintf(buf, "%d ", unit_build_shield_cost(punittype));
+    sprintf(buf, "%d ", utype_build_shield_cost(punittype));
     xaw_set_label(help_unit_cost_data, buf);
     sprintf(buf, "%d ", punittype->attack_strength);
     xaw_set_label(help_unit_attack_data, buf);
@@ -856,7 +856,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 				  advance_number(punittype->require_advance)));
     }
     create_tech_tree(help_tech_tree, 0, advance_number(punittype->require_advance), 3);
-    if (punittype->obsoleted_by == U_NOT_OBSOLETED) {
+    if (U_NOT_OBSOLETED == punittype->obsoleted_by) {
       xaw_set_label(help_wonder_obsolete_data, _("None"));
     } else {
       xaw_set_label(help_wonder_obsolete_data,
@@ -899,25 +899,25 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     create_tech_tree(help_tech_tree, 0, i, 3);
     helptext_tech(buf, sizeof(buf), i, pitem->text);
 
-    impr_type_iterate(impr_t) {
-      /*if(i==improvement_types[j].tech_req) 
+    improvement_iterate(pimprove) {
+      /*if (i == j->tech_req) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
-		improvement_types[j].name);
+		improvement_name_translation(j));
       */
 
        /* FIXME: need a more general mechanism for this, since this
         * helptext needs to be shown in all possible req source types. */
-      requirement_vector_iterate(&improvement_by_number(impr_t)->reqs, preq) {
+      requirement_vector_iterate(&pimprove->reqs, preq) {
 	if (VUT_IMPROVEMENT == preq->source.kind
-	    && preq->source.value.building == i) {
+	    && preq->source.value.building == pimprove) {
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"),
-		  improvement_name_translation(impr_t));
+		  improvement_name_translation(pimprove));
         }
       } requirement_vector_iterate_end;
-      if (padvance == improvement_by_number(impr_t)->obsolete_by)
+      if (padvance == pimprove->obsolete_by)
 	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
-		improvement_name_translation(impr_t));
-    } impr_type_iterate_end;
+		improvement_name_translation(pimprove));
+    } improvement_iterate_end;
 
     unit_type_iterate(punittype) {
       if (padvance != punittype->require_advance) {
@@ -1074,7 +1074,6 @@ static void help_update_government(const struct help_item *pitem,
 **************************************************************************/
 static void help_update_dialog(const struct help_item *pitem)
 {
-  int i;
   char *top;
 
   /* figure out what kind of item is required for pitem ingo */
@@ -1085,14 +1084,10 @@ static void help_update_dialog(const struct help_item *pitem)
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
-    i = find_improvement_by_translated_name(top);
-    if(i!=B_LAST && is_great_wonder(i)) i = B_LAST;
-    help_update_improvement(pitem, top, i);
+    help_update_improvement(pitem, top);
     break;
   case HELP_WONDER:
-    i = find_improvement_by_translated_name(top);
-    if(i!=B_LAST && !is_great_wonder(i)) i = B_LAST;
-    help_update_wonder(pitem, top, i);
+    help_update_wonder(pitem, top);
     break;
   case HELP_UNIT:
     help_update_unit_type(pitem, top);

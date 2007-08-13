@@ -24,13 +24,15 @@
 #include "log.h"
 #include "support.h"
 
+#include "effects.h"
 #include "game.h"
 #include "government.h"
+#include "improvement.h"
 #include "map.h"
 #include "mem.h"
 #include "movement.h"
 #include "packets.h"
-#include "unitlist.h"
+#include "unit.h"
 
 #include "cm.h"
 
@@ -340,7 +342,8 @@ bool is_worker_here(const struct city *pcity, int city_x, int city_y)
 /**************************************************************************
   Return the extended name of the building.
 **************************************************************************/
-const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
+const char *city_improvement_name_translation(const struct city *pcity,
+					      struct impr_type *pimprove)
 {
   static char buffer[256];
   const char *state = NULL;
@@ -348,15 +351,15 @@ const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
   if (pcity) {
     struct player *pplayer = city_owner(pcity);
 
-    if (improvement_obsolete(pplayer, id)) {
+    if (improvement_obsolete(pplayer, pimprove)) {
       state = Q_("?obsolete:O");
-    } else if (is_building_replaced(pcity, id, RPT_CERTAIN)) {
+    } else if (is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
       /* Mark building redundant only if we are CERTAIN that it has no use. */
       state = Q_("?redundant:*");
     }
   }
-  if (is_great_wonder(id)) {
-    if (great_wonder_was_built(id)) {
+  if (is_great_wonder(pimprove)) {
+    if (great_wonder_was_built(pimprove)) {
       state = Q_("?built:B");
     } else {
       state = Q_("?wonder:w");
@@ -365,28 +368,77 @@ const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
 
   if (state) {
     my_snprintf(buffer, sizeof(buffer), "%s(%s)",
-		improvement_name_translation(id),
+		improvement_name_translation(pimprove),
 		state); 
     return buffer;
   } else {
-    return improvement_name_translation(id);
+    return improvement_name_translation(pimprove);
   }
+}
+
+/**************************************************************************
+  Return the extended name of the current production.
+**************************************************************************/
+const char *city_production_name_translation(const struct city *pcity)
+{
+  switch (pcity->production.kind) {
+  case VUT_IMPROVEMENT:
+    return city_improvement_name_translation(pcity, pcity->production.value.building);
+  case VUT_UTYPE:
+    return utype_name_translation(pcity->production.value.utype);
+  default:
+    /* FIXME: use universal_name_translation() */
+    break;
+  }
+  return _("(unknown)");
+}
+
+/**************************************************************************
+  Return TRUE when the current production has this flag.
+**************************************************************************/
+bool city_production_has_flag(const struct city *pcity,
+			      enum impr_flag_id flag)
+{
+  return VUT_IMPROVEMENT == pcity->production.kind
+      && improvement_has_flag(pcity->production.value.building, IF_GOLD);
+}
+
+/**************************************************************************
+  Return the number of shields it takes to build current city production.
+**************************************************************************/
+bool city_production_build_shield_cost(const struct city *pcity)
+{
+  return universal_build_shield_cost(&pcity->production);
 }
 
 /**************************************************************************
   Return the cost (gold) to buy the current city production.
 **************************************************************************/
-int city_buy_cost(const struct city *pcity)
+int city_production_buy_gold_cost(const struct city *pcity)
 {
-  int cost, build = pcity->shield_stock;
+  int build = pcity->shield_stock;
 
-  if (pcity->production.is_unit) {
-    cost = unit_buy_gold_cost(utype_by_number(pcity->production.value),
+  switch (pcity->production.kind) {
+  case VUT_IMPROVEMENT:
+    return impr_buy_gold_cost(pcity->production.value.building,
 			      build);
-  } else {
-    cost = impr_buy_gold_cost(pcity->production.value, build);
+  case VUT_UTYPE:
+    return utype_buy_gold_cost(pcity->production.value.utype,
+			       build);
+  default:
+    break;
   }
-  return cost;
+  return FC_INFINITY;
+}
+
+/**************************************************************************
+ Calculates the turns which are needed to build the requested
+ production in the city.  GUI Independent.
+**************************************************************************/
+int city_production_turns_to_build(const struct city *pcity,
+				   bool include_shield_stock)
+{
+  return city_turns_to_build(pcity, pcity->production, include_shield_stock);
 }
 
 /**************************************************************************
@@ -401,33 +453,33 @@ struct player *city_owner(const struct city *pcity)
   Return whether given city can build given building, ignoring whether
   it is obsolete.
 **************************************************************************/
-bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id)
+bool can_city_build_improvement_direct(const struct city *pcity,
+				       struct impr_type *pimprove)
 {
-  const struct impr_type *building = improvement_by_number(id);
-
-  if (!can_player_build_improvement_direct(city_owner(pcity), id)) {
+  if (!can_player_build_improvement_direct(city_owner(pcity), pimprove)) {
     return FALSE;
   }
 
-  if (city_got_building(pcity, id)) {
+  if (city_has_building(pcity, pimprove)) {
     return FALSE;
   }
 
   return are_reqs_active(city_owner(pcity), pcity, NULL,
 			 pcity->tile, NULL, NULL, NULL,
-			 &building->reqs, RPT_CERTAIN);
+			 &(pimprove->reqs), RPT_CERTAIN);
 }
 
 /**************************************************************************
   Return whether given city can build given building; returns FALSE if
   the building is obsolete.
 **************************************************************************/
-bool can_build_improvement(const struct city *pcity, Impr_type_id id)
+bool can_city_build_improvement_now(const struct city *pcity,
+				    struct impr_type *pimprove)
 {  
-  if (!can_build_improvement_direct(pcity, id)) {
+  if (!can_city_build_improvement_direct(pcity, pimprove)) {
     return FALSE;
   }
-  if (improvement_obsolete(city_owner(pcity), id)) {
+  if (improvement_obsolete(city_owner(pcity), pimprove)) {
     return FALSE;
   }
   return TRUE;
@@ -437,19 +489,17 @@ bool can_build_improvement(const struct city *pcity, Impr_type_id id)
   Return whether player can eventually build given building in the city;
   returns FALSE if improvement can never possibly be built in this city.
 **************************************************************************/
-bool can_eventually_build_improvement(const struct city *pcity,
-				      Impr_type_id id)
+bool can_city_build_improvement_later(const struct city *pcity,
+				      struct impr_type *pimprove)
 {
-  const struct impr_type *building = improvement_by_number(id);
-
   /* Can the _player_ ever build this improvement? */
-  if (!can_player_eventually_build_improvement(city_owner(pcity), id)) {
+  if (!can_player_build_improvement_later(city_owner(pcity), pimprove)) {
     return FALSE;
   }
 
   /* Check for requirements that aren't met and that are unchanging (so
    * they can never be met). */
-  requirement_vector_iterate(&building->reqs, preq) {
+  requirement_vector_iterate(&pimprove->reqs, preq) {
     if (is_req_unchanging(preq)
 	&& !is_req_active(city_owner(pcity), pcity, NULL,
 	  		  pcity->tile, NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
@@ -463,19 +513,16 @@ bool can_eventually_build_improvement(const struct city *pcity,
   Return whether given city can build given unit, ignoring whether unit 
   is obsolete.
 **************************************************************************/
-bool can_build_unit_direct(const struct city *pcity,
-			   const struct unit_type *punittype)
+bool can_city_build_unit_direct(const struct city *pcity,
+				const struct unit_type *punittype)
 {
-  Impr_type_id impr_req;
-
   if (!can_player_build_unit_direct(city_owner(pcity), punittype)) {
     return FALSE;
   }
 
   /* Check to see if the unit has a building requirement. */
-  impr_req = punittype->impr_requirement;
-  assert(impr_req <= B_LAST && impr_req >= 0);
-  if (impr_req != B_LAST && !city_got_building(pcity, impr_req)) {
+  if (punittype->need_improvement
+   && !city_has_building(pcity, punittype->need_improvement)) {
     return FALSE;
   }
 
@@ -491,10 +538,10 @@ bool can_build_unit_direct(const struct city *pcity,
   Return whether given city can build given unit; returns FALSE if unit is 
   obsolete.
 **************************************************************************/
-bool can_build_unit(const struct city *pcity,
-		    const struct unit_type *punittype)
+bool can_city_build_unit_now(const struct city *pcity,
+			     const struct unit_type *punittype)
 {  
-  if (!can_build_unit_direct(pcity, punittype)) {
+  if (!can_city_build_unit_direct(pcity, punittype)) {
     return FALSE;
   }
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
@@ -509,11 +556,11 @@ bool can_build_unit(const struct city *pcity,
   Return whether player can eventually build given unit in the city;
   returns FALSE if unit can never possibly be built in this city.
 **************************************************************************/
-bool can_eventually_build_unit(const struct city *pcity,
+bool can_city_build_unit_later(const struct city *pcity,
 			       const struct unit_type *punittype)
 {
   /* Can the _player_ ever build this unit? */
-  if (!can_player_eventually_build_unit(city_owner(pcity), punittype)) {
+  if (!can_player_build_unit_later(city_owner(pcity), punittype)) {
     return FALSE;
   }
 
@@ -525,6 +572,45 @@ bool can_eventually_build_unit(const struct city *pcity,
   }
 
   return TRUE;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+bool can_city_build_direct(const struct city *pcity,
+			   struct universal target)
+{
+  if (VUT_UTYPE == target.kind) {
+    return can_city_build_unit_direct(pcity, target.value.utype);
+  } else {
+    return can_city_build_improvement_direct(pcity, target.value.building);
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+bool can_city_build_now(const struct city *pcity,
+			struct universal target)
+{
+  if (VUT_UTYPE == target.kind) {
+    return can_city_build_unit_now(pcity, target.value.utype);
+  } else {
+    return can_city_build_improvement_now(pcity, target.value.building);
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+bool can_city_build_later(const struct city *pcity,
+			  struct universal target)
+{
+  if (VUT_UTYPE == target.kind) {
+    return can_city_build_unit_later(pcity, target.value.utype);
+  } else {
+    return can_city_build_improvement_later(pcity, target.value.building);
+  }
 }
 
 /****************************************************************************
@@ -558,30 +644,33 @@ int city_population(const struct city *pcity)
 /**************************************************************************
   Return TRUE if the city has this building in it.
 **************************************************************************/
-bool city_got_building(const struct city *pcity, Impr_type_id id) 
+bool city_has_building(const struct city *pcity,
+		       const struct impr_type *pimprove)
 {
-  if (!improvement_exists(id)) {
+  if (NULL == pimprove) {
+    /* callers should ensure that any external data is tested with 
+     * valid_improvement_by_number() */
     return FALSE;
-  } else {
-    return (pcity->improvements[id] != I_NONE);
   }
+  return (pcity->built[improvement_index(pimprove)].turn > I_NEVER);
 }
 
 /**************************************************************************
   Return the upkeep (gold) needed each turn to upkeep the given improvement
   in the given city.
 **************************************************************************/
-int improvement_upkeep(const struct city *pcity, Impr_type_id i) 
+int city_improvement_upkeep(const struct city *pcity,
+			    const struct impr_type *b)
 {
   int upkeep;
 
-  if (!improvement_exists(i))
+  if (NULL == b)
     return 0;
-  if (is_wonder(i))
+  if (is_wonder(b))
     return 0;
 
-  upkeep = improvement_by_number(i)->upkeep;
-  if (upkeep <= get_building_bonus(pcity, i, EFT_UPKEEP_FREE)) {
+  upkeep = b->upkeep;
+  if (upkeep <= get_building_bonus(pcity, b, EFT_UPKEEP_FREE)) {
     return 0;
   }
   
@@ -941,22 +1030,6 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
   return FALSE;
 }
 
-/*************************************************************************
-  Calculate how much is needed to pay for buildings in this city.
-*************************************************************************/
-int city_building_upkeep(const struct city *pcity, Output_type_id otype)
-{
-  int cost = 0;
-
-  if (otype == O_GOLD) {
-    built_impr_iterate(pcity, i) {
-      cost += improvement_upkeep(pcity, i);
-    } built_impr_iterate_end;
-  }
-
-  return cost;
-}
-
 /**************************************************************************
   Return TRUE iff this city is its nation's capital.  The capital city is
   special-cased in a number of ways.
@@ -1196,24 +1269,24 @@ bool city_style_has_requirements(const struct citystyle *style)
  original improvement class of this turn, restore lost production.
 **************************************************************************/
 int city_change_production_penalty(const struct city *pcity,
-				   struct city_production target)
+				   struct universal target)
 {
   int shield_stock_after_adjustment;
   enum production_class_type orig_class;
   enum production_class_type new_class;
   int unpenalized_shields = 0, penalized_shields = 0;
 
-  if (pcity->changed_from.is_unit) {
+  if (VUT_UTYPE == pcity->changed_from.kind) {
     orig_class = TYPE_UNIT;
-  } else if (is_wonder(pcity->changed_from.value)) {
+  } else if (is_wonder(pcity->changed_from.value.building)) {
     orig_class = TYPE_WONDER;
   } else {
     orig_class = TYPE_NORMAL_IMPROVEMENT;
   }
 
-  if (target.is_unit) {
+  if (VUT_UTYPE == target.kind) {
     new_class = TYPE_UNIT;
-  } else if (is_wonder(target.value)) {
+  } else if (is_wonder(target.value.building)) {
     new_class = TYPE_WONDER;
   } else {
     new_class = TYPE_NORMAL_IMPROVEMENT;
@@ -1258,15 +1331,13 @@ int city_change_production_penalty(const struct city *pcity,
  improvement in the city.  GUI Independent.
 **************************************************************************/
 int city_turns_to_build(const struct city *pcity,
-			struct city_production target,
+			struct universal target,
 			bool include_shield_stock)
 {
   int city_shield_surplus = pcity->surplus[O_SHIELD];
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, target) : 0;
-  int cost = (target.is_unit
-	      ? unit_build_shield_cost(utype_by_number(target.value))
-	      : impr_build_shield_cost(target.value));
+  int cost = universal_build_shield_cost(&target);
 
   if (include_shield_stock && (city_shield_stock >= cost)) {
     return 1;
@@ -1749,7 +1820,7 @@ static inline void citizen_content_buildings(struct city *pcity, int *content,
   Make citizens happy/unhappy due to units.
 
   This function requires that pcity->martial_law and
-  pcity->unit_happy_cost have already been set in city_support.
+  pcity->unit_happy_cost have already been set in city_support().
 **************************************************************************/
 static inline void citizen_happy_units(struct city *pcity, int *happy,
                                        int *content, int *unhappy,
@@ -2049,7 +2120,9 @@ static inline void city_support(struct city *pcity)
   pcity->unit_happy_upkeep = 0;
 
   /* Add base amounts for building upkeep and citizen consumption. */
-  pcity->usage[O_GOLD] += city_building_upkeep(pcity, O_GOLD);
+  city_built_iterate(pcity, pimprove) {
+    pcity->usage[O_GOLD] += city_improvement_upkeep(pcity, pimprove);
+  } city_built_iterate_end;
   pcity->usage[O_FOOD] += game.info.food_cost * pcity->size;
 
   /* military units in this city (need _not_ be home city) can make
@@ -2221,21 +2294,23 @@ Specialist_type_id best_specialist(Output_type_id otype,
 /**************************************************************************
  Adds an improvement (and its effects) to a city.
 **************************************************************************/
-void city_add_improvement(struct city *pcity, Impr_type_id impr)
+void city_add_improvement(struct city *pcity,
+			  const struct impr_type *pimprove)
 {
-  pcity->improvements[impr] = I_ACTIVE;
+  pcity->built[improvement_index(pimprove)].turn = game.info.turn; /*I_ACTIVE*/
 }
 
 /**************************************************************************
  Removes an improvement (and its effects) from a city.
 **************************************************************************/
-void city_remove_improvement(struct city *pcity, Impr_type_id impr)
+void city_remove_improvement(struct city *pcity,
+			     const struct impr_type *pimprove)
 {
   freelog(LOG_DEBUG,"Improvement %s removed from city %s",
-          improvement_rule_name(impr),
+          improvement_rule_name(pimprove),
           pcity->name);
   
-  pcity->improvements[impr] = I_NONE;
+  pcity->built[improvement_index(pimprove)].turn = I_DESTROYED;
 }
 
 /**************************************************************************
@@ -2305,7 +2380,7 @@ struct city *create_city_virtual(struct player *pplayer,
   int i;
   struct city *pcity;
 
-  pcity = fc_malloc(sizeof(*pcity));
+  pcity = fc_calloc(1, sizeof(*pcity));
 
   pcity->id = 0;
   assert(pplayer != NULL); /* No unowned cities! */
@@ -2332,47 +2407,46 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->original = pplayer;
 
   /* Initialise improvements list */
-  for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {
-    pcity->improvements[i] = I_NONE;
+  for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
+    pcity->built[i].turn = I_NEVER;
   }
 
   /* Set up the worklist */
   init_worklist(&pcity->worklist);
 
   if (!ptile) {
-    /* HACK: if a "dummy" city is created with no tile, the regular
-     * operations to choose a build target would fail.  This situation
-     * probably should be forbidden, but currently it might happen during
-     * map editing.  This fallback may also be dangerous if it gives an
-     * invalid production. */
-    pcity->production.is_unit = TRUE;
-    pcity->production.value = 0;
+    /* When a "dummy" city is created with no tile, then choosing a build 
+     * target could fail.  This currently might happen during map editing.
+     * FIXME: assumes the first unit is always "valid", so check for
+     * obsolete units elsewhere. */
+    pcity->production.kind = VUT_UTYPE;
+    pcity->production.value.utype = utype_by_number(0);
   } else {
     struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);
 
     if (u) {
-      pcity->production.is_unit = TRUE;
-      pcity->production.value = u->index;
+      pcity->production.kind = VUT_UTYPE;
+      pcity->production.value.utype = u;
     } else {
       bool found = FALSE;
 
       /* Just pick the first available item. */
 
-      impr_type_iterate(id) {
-	if (can_build_improvement_direct(pcity, id)) {
+      improvement_iterate(pimprove) {
+	if (can_city_build_improvement_direct(pcity, pimprove)) {
 	  found = TRUE;
-	  pcity->production.is_unit = FALSE;
-	  pcity->production.value = id;
+	  pcity->production.kind = VUT_IMPROVEMENT;
+	  pcity->production.value.building = pimprove;
 	  break;
 	}
-      } impr_type_iterate_end;
+      } improvement_iterate_end;
 
       if (!found) {
 	unit_type_iterate(punittype) {
-	  if (can_build_unit_direct(pcity, punittype)) {
+	  if (can_city_build_unit_direct(pcity, punittype)) {
 	    found = TRUE;
-	    pcity->production.is_unit = TRUE;
-	    pcity->production.value = punittype->index;
+	    pcity->production.kind = VUT_UTYPE;
+	    pcity->production.value.utype = punittype;
 	  }
 	} unit_type_iterate_end;
       }
@@ -2386,8 +2460,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->airlift = FALSE;
 
   pcity->turn_last_built = game.info.turn;
-  pcity->changed_from.value = pcity->production.value;
-  pcity->changed_from.is_unit = pcity->production.is_unit;
+  pcity->changed_from = pcity->production;
   pcity->before_change_shields = 0;
   pcity->disbanded_shields = 0;
   pcity->caravan_shields = 0;

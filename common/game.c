@@ -426,13 +426,13 @@ void initialize_globals(void)
 {
   players_iterate(plr) {
     city_list_iterate(plr->cities, pcity) {
-      built_impr_iterate(pcity, i) {
-	if (is_great_wonder(i)) {
-	  game.info.great_wonders[i] = pcity->id;
-	} else if (is_small_wonder(i)) {
-	  plr->small_wonders[i] = pcity->id;
+      city_built_iterate(pcity, pimprove) {
+	if (is_great_wonder(pimprove)) {
+	  game.info.great_wonders[improvement_index(pimprove)] = pcity->id;
+	} else if (is_small_wonder(pimprove)) {
+	  plr->small_wonders[improvement_index(pimprove)] = pcity->id;
 	}
-      } built_impr_iterate_end;
+      } city_built_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 }

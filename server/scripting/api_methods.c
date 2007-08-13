@@ -95,7 +95,7 @@ bool api_methods_tile_city_exists_within_city_radius(Tile *ptile,
 **************************************************************************/
 bool api_methods_building_type_is_wonder(Building_Type *pbuilding)
 {
-  return is_wonder(pbuilding->index);
+  return is_wonder(pbuilding);
 }
 
 /**************************************************************************
@@ -103,7 +103,7 @@ bool api_methods_building_type_is_wonder(Building_Type *pbuilding)
 **************************************************************************/
 bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding)
 {
-  return is_great_wonder(pbuilding->index);
+  return is_great_wonder(pbuilding);
 }
 
 /**************************************************************************
@@ -111,7 +111,7 @@ bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding)
 **************************************************************************/
 bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding)
 {
-  return is_small_wonder(pbuilding->index);
+  return is_small_wonder(pbuilding);
 }
 
 /**************************************************************************
@@ -119,7 +119,7 @@ bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding)
 **************************************************************************/
 bool api_methods_building_type_is_improvement(Building_Type *pbuilding)
 {
-  return is_improvement(pbuilding->index);
+  return is_improvement(pbuilding);
 }
 
 /**************************************************************************
@@ -167,7 +167,7 @@ const char *api_methods_nation_type_plural_translation(Nation_Type *pnation)
 **************************************************************************/
 const char *api_methods_building_type_rule_name(Building_Type *pbuilding)
 {
-  return improvement_rule_name(pbuilding->index);
+  return improvement_rule_name(pbuilding);
 }
 
 /**************************************************************************
@@ -176,7 +176,7 @@ const char *api_methods_building_type_rule_name(Building_Type *pbuilding)
 const char *api_methods_building_type_name_translation(Building_Type 
                                                        *pbuilding)
 {
-  return improvement_name_translation(pbuilding->index);
+  return improvement_name_translation(pbuilding);
 }
 
 /**************************************************************************

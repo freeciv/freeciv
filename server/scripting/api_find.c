@@ -105,8 +105,7 @@ Building_Type *api_find_building_type(int building_type_id)
 **************************************************************************/
 Building_Type *api_find_building_type_by_name(const char *name_orig)
 {
-  Impr_type_id id = find_improvement_by_rule_name(name_orig);
-  return api_find_building_type(id);
+  return find_improvement_by_rule_name(name_orig);
 }
 
 /**************************************************************************

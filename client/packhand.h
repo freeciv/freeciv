@@ -13,6 +13,9 @@
 #ifndef FC__PACKHAND_H
 #define FC__PACKHAND_H
 
+#include "fc_types.h"		/* struct connection, struct government */
+
+#include "events.h"		/* enum event_type */
 #include "map.h"
 
 #include "packhand_gen.h"

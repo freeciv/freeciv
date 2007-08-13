@@ -60,12 +60,12 @@ struct unit_type *ai_choose_defender_versus(struct city *pcity,
   struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(punittype) {
-    const int move_type = get_unit_move_type(punittype);
+    const int move_type = utype_move_type(punittype);
 
-    if (can_build_unit(pcity, punittype)
+    if (can_city_build_unit_now(pcity, punittype)
 	&& (move_type == LAND_MOVING || move_type == SEA_MOVING)) {
       int fpatt, fpdef, defense, attack;
-      double want, loss, cost = unit_build_shield_cost(punittype);
+      double want, loss, cost = utype_build_shield_cost(punittype);
       struct unit *defender;
       int veteran = get_unittype_bonus(pcity->owner, pcity->tile, punittype,
                                        EFT_VETERAN_BUILD);
@@ -127,12 +127,12 @@ static struct unit_type *ai_choose_attacker(struct city *pcity,
 
   simple_ai_unit_type_iterate(punittype) {
     cur = ai_unit_attack_desirability(punittype);
-    if (which == get_unit_move_type(punittype)) {
-      if (can_build_unit(pcity, punittype)
+    if (which == utype_move_type(punittype)) {
+      if (can_city_build_unit_now(pcity, punittype)
           && (cur > best
               || (cur == best
-                  && unit_build_shield_cost(punittype)
-                     <= unit_build_shield_cost(bestid)))) {
+                  && utype_build_shield_cost(punittype)
+                     <= utype_build_shield_cost(bestid)))) {
         best = cur;
         bestid = punittype;
       }
@@ -166,17 +166,17 @@ static struct unit_type *ai_choose_bodyguard(struct city *pcity,
     }
 
     /* Only consider units of same move type */
-    if (get_unit_move_type(punittype) != move_type) {
+    if (utype_move_type(punittype) != move_type) {
       continue;
     }
 
     /* Now find best */
-    if (can_build_unit(pcity, punittype)) {
+    if (can_city_build_unit_now(pcity, punittype)) {
       const int desire = ai_unit_defence_desirability(punittype);
 
       if (desire > best
-	  || (desire == best && unit_build_shield_cost(punittype) <=
-	      unit_build_shield_cost(bestid))) {
+	  || (desire == best && utype_build_shield_cost(punittype) <=
+	      utype_build_shield_cost(bestid))) {
         best = desire;
         bestid = punittype;
       }
@@ -720,7 +720,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   memset(tech_desire, 0, sizeof(tech_desire));
   
   simple_ai_unit_type_iterate(punittype) {
-    int move_type = get_unit_move_type(punittype);
+    int move_type = utype_move_type(punittype);
     int desire; /* How much we want the unit? */
 
     /* Only consider proper defenders - otherwise waste CPU and
@@ -745,10 +745,10 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
     desire /= POWER_DIVIDER/2; /* Good enough, no rounding errors. */
     desire *= desire;
 
-    if (can_build_unit(pcity, punittype)) {
+    if (can_city_build_unit_now(pcity, punittype)) {
       /* We can build the unit now... */
 
-      int build_cost = unit_build_shield_cost(punittype);
+      int build_cost = utype_build_shield_cost(punittype);
       int limit_cost = pcity->shield_stock + 40;
 
       if (walls && move_type == LAND_MOVING) {
@@ -769,7 +769,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
 	best_unit_type = punittype;
 	best_unit_cost = build_cost;
       }
-    } else if (can_eventually_build_unit(pcity, punittype)) {
+    } else if (can_city_build_unit_later(pcity, punittype)) {
       /* We first need to develop the tech required by the unit... */
 
       /* Cost (shield equivalent) of gaining these techs. */
@@ -788,9 +788,8 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
 
       /* Yes, there's some similarity with kill_desire(). */
       /* TODO: Explain what shield cost has to do with tech want. */
-      tech_desire[utype_index(punittype)] = (desire * danger /
-				       (unit_build_shield_cost(punittype)
-					+ tech_cost));
+      tech_desire[utype_index(punittype)] =
+        (desire * danger / (utype_build_shield_cost(punittype) + tech_cost));
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -799,7 +798,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   }
 
   if (best_unit_type) {
-    if (!walls && get_unit_move_type(best_unit_type) == LAND_MOVING) {
+    if (!walls && utype_move_type(best_unit_type) == LAND_MOVING) {
       best *= pcity->ai.wallvalue;
       best /= POWER_FACTOR;
     }
@@ -831,7 +830,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
     return FALSE;
   }
 
-  choice->choice = best_unit_type->index;
+  choice->value.utype = best_unit_type;
   choice->want = danger;
   choice->type = CT_DEFENDER;
   return TRUE;
@@ -867,7 +866,7 @@ static void process_attacker_want(struct city *pcity,
   /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = tile_get_city(ptile);
   bool shore = is_ocean_near_tile(pcity->tile);
-  int orig_move_type = get_unit_move_type(utype_by_number(best_choice->choice));
+  int orig_move_type = utype_move_type(best_choice->value.utype);
   int victim_count = 1;
   int needferry = 0;
   bool unhap = ai_assess_military_unhappiness(pcity);
@@ -876,7 +875,7 @@ static void process_attacker_want(struct city *pcity,
 
   if (orig_move_type == LAND_MOVING && !boat && boattype) {
     /* cost of ferry */
-    needferry = unit_build_shield_cost(boattype);
+    needferry = utype_build_shield_cost(boattype);
   }
   
   if (!is_stack_vulnerable(ptile)) {
@@ -888,7 +887,7 @@ static void process_attacker_want(struct city *pcity,
   simple_ai_unit_type_iterate(punittype) {
     Tech_type_id tech_req;
     int tech_dist;
-    int move_type = get_unit_move_type(punittype);
+    int move_type = utype_move_type(punittype);
     
     if (A_NEVER == punittype->require_advance) {
       continue;
@@ -898,11 +897,16 @@ static void process_attacker_want(struct city *pcity,
 
     if ((move_type == LAND_MOVING || (move_type == SEA_MOVING && shore))
         && (tech_dist > 0 
-            || punittype->obsoleted_by == U_NOT_OBSOLETED
-            || !can_build_unit_direct(pcity, 
+            || U_NOT_OBSOLETED == punittype->obsoleted_by
+            || !can_city_build_unit_direct(pcity, 
                                       punittype->obsoleted_by))
         && punittype->attack_strength > 0 /* or we'll get SIGFPE */
         && move_type == orig_move_type) {
+      /* Values to be computed */
+      int desire, want;
+      int move_time;
+      int vuln;
+
       /* TODO: check for the right _type_ of building. */
       int will_be_veteran
 	= (ai_find_source_building(pplayer, EFT_VETERAN_BUILD) != B_LAST);
@@ -913,16 +917,13 @@ static void process_attacker_want(struct city *pcity,
                         advance_number(punittype->require_advance)) / 4
                       / city_list_size(pplayer->cities);
       int move_rate = punittype->move_rate;
-      int move_time;
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */
-      int bcost = unit_build_shield_cost(punittype);
-      int vuln;
+      int bcost = utype_build_shield_cost(punittype);
       int attack = unittype_att_rating(punittype, will_be_veteran,
                                        SINGLE_MOVE,
                                        punittype->hp);
-      /* Values to be computed */
-      int desire, want;
+      struct impr_type *impr_req = punittype->need_improvement;
       
       /* Take into account reinforcements strength */
       if (acity) attack += acity->ai.attack;
@@ -1011,35 +1012,35 @@ static void process_attacker_want(struct city *pcity,
                    (acity ? acity->name : utype_rule_name(victim_unit_type)),
                    TILE_XY(ptile));
         } else if (want > best_choice->want) {
-          if (can_build_unit(pcity, punittype)) {
+          if (can_city_build_unit_now(pcity, punittype)) {
             /* This is a real unit and we really want it */
 
             CITY_LOG(LOG_DEBUG, pcity, "overriding %s(%d) with %s(%d)"
                      " [attack=%d,value=%d,move_time=%d,vuln=%d,bcost=%d]",
-                     utype_rule_name(utype_by_number(best_choice->choice)),
+                     utype_rule_name(best_choice->value.utype),
 		     best_choice->want,
                      utype_rule_name(punittype),
                      want,
                      attack, value, move_time, vuln, bcost);
 
-            best_choice->choice = punittype->index;
+            best_choice->value.utype = punittype;
             best_choice->want = want;
             best_choice->type = CT_ATTACKER;
-          } else if (can_build_improvement(pcity,
-					   punittype->impr_requirement)) {
+          } else if (can_city_build_improvement_now(pcity, impr_req)) {
 	    /* Building this unit requires a specific type of improvement.
 	     * So we build this improvement instead.  This may not be the
 	     * best behavior. */
-            Impr_type_id id = punittype->impr_requirement;
-
             CITY_LOG(LOG_DEBUG, pcity, "building %s to build %s",
-                     improvement_rule_name(id),
+                     improvement_rule_name(impr_req),
                      utype_rule_name(punittype));
-            best_choice->choice = id;
+            best_choice->value.building = impr_req;
             best_choice->want = want;
             best_choice->type = CT_BUILDING;
           } else {
 	    /* This should never happen? */
+            CITY_LOG(LOG_DEBUG, pcity, "cannot build %s or %s",
+                     improvement_rule_name(impr_req),
+                     utype_rule_name(punittype));
 	  }
         }
       }
@@ -1082,7 +1083,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct ai_choice best_choice;
 
   init_choice(&best_choice);
-  best_choice.choice = unit_type(myunit)->index;
+  best_choice.value.utype = unit_type(myunit);
   best_choice.type = CT_ATTACKER;
   best_choice.want = choice->want;
 
@@ -1146,7 +1147,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
           boattype = get_role_unit(L_FERRYBOAT, 0);
         }
       }
-      assert(SEA_MOVING == get_unit_move_type(boattype));
+      assert(SEA_MOVING == utype_move_type(boattype));
 
       go_by_boat = !(WARMAP_COST(ptile) <= (MIN(6, move_rate) * THRESHOLD)
                      && goto_is_sane(myunit, acity->tile, TRUE));
@@ -1164,7 +1165,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       def_vet = do_make_unit_veteran(acity, def_type);
       vuln = unittype_def_rating_sq(unit_type(myunit), def_type, acity->owner,
                                     ptile, FALSE, def_vet);
-      benefit = unit_build_shield_cost(def_type);
+      benefit = utype_build_shield_cost(def_type);
     } else {
       vuln = 0;
       benefit = 0;
@@ -1177,7 +1178,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                                      ptile, FALSE, pdef->veteran);
       if (vuln < m) {
         vuln = m;
-        benefit = unit_build_shield_cost(unit_type(pdef));
+        benefit = unit_build_shield_cost(pdef);
         def_vet = pdef->veteran;
         def_type = unit_type(pdef); 
 	def_owner = pdef->owner;
@@ -1197,7 +1198,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       return;
     }
 
-    benefit = unit_build_shield_cost(unit_type(pdef));
+    benefit = unit_build_shield_cost(pdef);
     go_by_boat = FALSE;
 
     def_type = unit_type(pdef);
@@ -1224,7 +1225,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     copy_if_better_choice(&best_choice, choice);
     CITY_LOG(LOG_DEBUG, pcity, "ksw: %s has chosen attacker, %s, want=%d",
 	     pcity->name,
-	     utype_rule_name(utype_by_number(choice->choice)),
+	     utype_rule_name(choice->value.utype),
 	     choice->want);
 
     if (go_by_boat && !ferryboat) { /* need a new ferry */
@@ -1232,13 +1233,13 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
        * if they are blockaded or in inland seas*/
       assert(is_ground_unit(myunit));
       ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, choice->want);
-      if (SEA_MOVING == get_unit_move_type(utype_by_number(choice->choice))) {
+      if (SEA_MOVING == utype_move_type(choice->value.utype)) {
         struct ai_data *ai = ai_data_get(pplayer);
 
         freelog(LOG_DEBUG,
                 "%s has chosen attacker ferry, %s, want=%d, %d of %d free",
                 pcity->name,
-                utype_rule_name(utype_by_number(choice->choice)),
+                utype_rule_name(choice->value.utype),
 		choice->want,
                 ai->stats.available_boats, ai->stats.boats);
       } /* else can not build ferries yet */
@@ -1268,7 +1269,7 @@ static void ai_unit_consider_bodyguard(struct city *pcity,
 
     if (want > choice->want) {
       choice->want = want;
-      choice->choice = punittype->index;
+      choice->value.utype = punittype;
       choice->type = CT_DEFENDER;
     }
   }
@@ -1292,18 +1293,18 @@ static void adjust_ai_unit_choice(struct city *pcity,
 
   /* Sanity */
   if (!is_unit_choice_type(choice->type)
-      || utype_has_flag(utype_by_number(choice->choice), F_NONMIL)
-      || do_make_unit_veteran(pcity, utype_by_number(choice->choice))) {
+      || utype_has_flag(choice->value.utype, F_CIVILIAN)
+      || do_make_unit_veteran(pcity, choice->value.utype)) {
     return;
   }
 
-  move_type = get_unit_move_type(utype_by_number(choice->choice));
+  move_type = utype_move_type(choice->value.utype);
 
   /* TODO: separate checks based on other requirements (e.g., unit class) 
    *  N.B.: have to check that we haven't already built the building --mck */
   if ((id = ai_find_source_building(pplayer, EFT_VETERAN_BUILD)) != B_LAST
-       && !city_got_building(pcity, id)) {
-    choice->choice = id;
+       && !city_has_building(pcity, improvement_by_number(id))) {
+    choice->value.building = improvement_by_number(id);
     choice->type = CT_BUILDING;
   }
 }
@@ -1338,7 +1339,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   ai_choose_diplomat_defensive(pplayer, pcity, choice, our_def);
 
   /* Otherwise no need to defend yet */
-  if (pcity->ai.danger != 0) { 
+  if (pcity->ai.danger != 0) {
+    struct impr_type *pimprove;
     int num_defenders = unit_list_size(ptile->units);
     int wall_id, danger;
 
@@ -1372,16 +1374,17 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     /* HACK: This needs changing if multiple improvements provide
      * this effect. */
     wall_id = ai_find_source_building(pplayer, EFT_DEFEND_BONUS);
+    pimprove = improvement_by_number(wall_id);
 
     if (wall_id != B_LAST
 	&& pcity->ai.building_want[wall_id] != 0 && our_def != 0 
-        && can_build_improvement(pcity, wall_id)
+        && can_city_build_improvement_now(pcity, pimprove)
         && (danger < 101 || num_defenders > 1
             || (pcity->ai.grave_danger == 0 
-                && pplayer->economic.gold > impr_buy_gold_cost(wall_id, pcity->shield_stock)))
+                && pplayer->economic.gold > impr_buy_gold_cost(pimprove, pcity->shield_stock)))
         && ai_fuzzy(pplayer, TRUE)) {
       /* NB: great wall is under domestic */
-      choice->choice = wall_id;
+      choice->value.building = pimprove;
       /* building_want is hacked by assess_danger */
       choice->want = pcity->ai.building_want[wall_id];
       if (urgency == 0 && choice->want > 100) {
@@ -1395,7 +1398,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
       if (process_defender_want(pplayer, pcity, danger, choice)) {
         /* Potential defender found */
         if (urgency == 0
-            && utype_by_number(choice->choice)->defense_strength == 1) {
+            && choice->value.utype->defense_strength == 1) {
           /* FIXME: check other reqs (unit class?) */
           if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
             /* unlikely */
@@ -1407,7 +1410,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
           choice->want = danger;
         }
         CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
-                 utype_rule_name(utype_by_number(choice->choice)),
+                 utype_rule_name(choice->value.utype),
                  choice->want);
       } else {
         CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d cannot select defender");
@@ -1485,10 +1488,11 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor has no advice");
   } else if (is_unit_choice_type(choice->type)) {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             utype_rule_name(utype_by_number(choice->choice)),
+             utype_rule_name(choice->value.utype),
              choice->want);
   } else {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             improvement_rule_name(choice->choice), choice->want);
+             improvement_rule_name(choice->value.building),
+             choice->want);
   }
 }

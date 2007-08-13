@@ -232,10 +232,9 @@ static void unit_callback(GtkSpinButton *spinbutton, gpointer data)
 ****************************************************************************/
 static void unit_type_callback(GtkWidget *button, gpointer data)
 {
-  size_t to = (size_t) data;
   struct unit *punit = editor_get_selected_unit();
 
-  punit->utype = utype_by_number(to);
+  punit->utype = data;
 }
 
 /****************************************************************************
@@ -243,10 +242,9 @@ static void unit_type_callback(GtkWidget *button, gpointer data)
 ****************************************************************************/
 static void unit_owner_callback(GtkWidget *button, gpointer data)
 {
-  size_t to = (size_t) data;
   struct unit *punit = editor_get_selected_unit();
 
-  punit->owner = player_by_number(to);
+  punit->owner = data;
 }
 
 /****************************************************************************
@@ -254,10 +252,9 @@ static void unit_owner_callback(GtkWidget *button, gpointer data)
 ****************************************************************************/
 static void city_callback(GtkWidget *button, gpointer data)
 {
-  size_t to = (size_t) data;
   struct city *pcity = editor_get_selected_city();
 
-  pcity->owner = player_by_number(to);
+  pcity->owner = data;
 }
 
 /****************************************************************************
@@ -265,9 +262,7 @@ static void city_callback(GtkWidget *button, gpointer data)
 ****************************************************************************/
 static void vision_callback(GtkWidget *button, gpointer data)
 {
-  size_t to = (size_t) data;
-
-  editor_set_selected_player(player_by_number(to));
+  editor_set_selected_player(data);
 }
 
 #if 0
@@ -402,7 +397,7 @@ static GtkWidget *create_units_palette(void)
 
     g_signal_connect(item, "activate",
                      G_CALLBACK(unit_type_callback),
-                     GINT_TO_POINTER(ptype->index));
+                     ptype);
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
   } unit_type_iterate_end;
   gtk_widget_show_all(popupmenu);
@@ -433,7 +428,7 @@ static GtkWidget *create_units_palette(void)
 
     g_signal_connect(item, "activate",
                      G_CALLBACK(unit_owner_callback),
-                     GINT_TO_POINTER(player_number(pplayer)));
+                     pplayer);
     gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), item);
   } players_iterate_end;
   gtk_widget_show_all(playermenu);
@@ -499,7 +494,7 @@ static GtkWidget *create_city_palette(void)
 
     g_signal_connect(item, "activate",
                      G_CALLBACK(city_callback),
-                     GINT_TO_POINTER(player_number(pplayer)));
+                     pplayer);
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
   } players_iterate_end;
   gtk_widget_show_all(popupmenu);
@@ -555,7 +550,7 @@ static GtkWidget *create_vision_palette(void)
 
     g_signal_connect(item, "activate",
                      G_CALLBACK(vision_callback),
-                     GINT_TO_POINTER(player_number(pplayer)));
+                     pplayer);
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
   } players_iterate_end;
   gtk_box_pack_start(GTK_BOX(hbox), playermenu, TRUE, TRUE, 0);

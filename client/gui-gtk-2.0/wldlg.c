@@ -540,19 +540,19 @@ static void help_callback(GtkWidget *w, gpointer data)
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
     gint cid;
-    struct city_production target;
+    struct universal target;
 
     gtk_tree_model_get(model, &it, 0, &cid, -1);
     target = cid_decode(cid);
 
-    if (target.is_unit) {
-      popup_help_dialog_typed(utype_name_translation(utype_by_number(target.value)),
+    if (VUT_UTYPE == target.kind) {
+      popup_help_dialog_typed(utype_name_translation(target.value.utype),
 			      HELP_UNIT);
-    } else if (is_great_wonder(target.value)) {
-      popup_help_dialog_typed(improvement_name_translation(target.value),
+    } else if (is_great_wonder(target.value.building)) {
+      popup_help_dialog_typed(improvement_name_translation(target.value.building),
 			      HELP_WONDER);
     } else {
-      popup_help_dialog_typed(improvement_name_translation(target.value),
+      popup_help_dialog_typed(improvement_name_translation(target.value.building),
 			      HELP_IMPROVEMENT);
     }
   } else {
@@ -944,7 +944,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 			     gpointer data)
 {
   gint cid;
-  struct city_production target;
+  struct universal target;
 
   gtk_tree_model_get(model, it, 0, &cid, -1);
   target = cid_production(cid);
@@ -952,7 +952,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
   if (GTK_IS_CELL_RENDERER_PIXBUF(rend)) {
     GdkPixbuf *pix;
 
-    if (target.is_unit) {
+    if (VUT_UTYPE == target.kind) {
       struct canvas store;
 
       pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
@@ -960,12 +960,12 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
       store.type = CANVAS_PIXBUF;
       store.v.pixbuf = pix;
-      create_overlay_unit(&store, utype_by_number(target.value));
+      create_overlay_unit(&store, target.value.utype);
 
       g_object_set(rend, "pixbuf", pix, NULL);
       g_object_unref(pix);
     } else {
-      struct sprite *sprite = get_building_sprite(tileset, target.value);
+      struct sprite *sprite = get_building_sprite(tileset, target.value.building);
 
       pix = sprite_get_pixbuf(sprite);
       g_object_set(rend, "pixbuf", pix, NULL);
@@ -986,9 +986,9 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     get_city_dialog_production_row(row, sizeof(buf[0]), target, *pcity);
     g_object_set(rend, "text", row[column], NULL);
 
-    if (!target.is_unit && *pcity) {
-      useless = improvement_obsolete(city_owner(*pcity), target.value)
-	|| is_building_replaced(*pcity, target.value, RPT_CERTAIN);
+    if (NULL != *pcity  &&  VUT_IMPROVEMENT == target.kind) {
+      useless = improvement_obsolete(city_owner(*pcity), target.value.building)
+	|| is_building_replaced(*pcity, target.value.building, RPT_CERTAIN);
       /* Mark building redundant if we are really certain that there is
        * no use for it. */
       g_object_set(rend, "strikethrough", useless, NULL);
@@ -1325,7 +1325,7 @@ void refresh_worklist(GtkWidget *editor)
   struct worklist_data *ptr;
   struct worklist *pwl, queue;
 
-  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   int i, targets_used;
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
 
@@ -1384,7 +1384,7 @@ void refresh_worklist(GtkWidget *editor)
   }
 
   for (i = 0; i < worklist_length(&queue); i++) {
-    struct city_production target = queue.entries[i];
+    struct universal target = queue.entries[i];
 
     if (!exists) {
       gtk_list_store_append(ptr->dst, &it);

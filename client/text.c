@@ -143,7 +143,7 @@ const char *popup_info_text(struct tile *ptile)
      * borders are in use). */
     struct player *owner = city_owner(pcity);
     bool has_improvements = FALSE;
-    int prev_impr = B_LAST;
+    struct impr_type *prev_impr = NULL;
 
     if (!game.player_ptr || owner == game.player_ptr){
       /* TRANS: "City: Warsaw (Polish)" */
@@ -171,10 +171,11 @@ const char *popup_info_text(struct tile *ptile)
 		      diplo_city_adjectives[ds[player_index(owner)].type]);
       }
     }
-    impr_type_iterate(i) {
-      if (is_improvement_visible(i) && city_got_building(pcity, i)) {
+    improvement_iterate(pimprove) {
+      if (is_improvement_visible(pimprove)
+       && city_has_building(pcity, pimprove)) {
 	/* TRANS: previous lines gave other information about the city. */
-        if (prev_impr != B_LAST) {
+        if (NULL != prev_impr) {
           if (has_improvements) {
             astr_add(&str, Q_("?blistmore:, "));
           }
@@ -183,11 +184,11 @@ const char *popup_info_text(struct tile *ptile)
         } else {
           astr_add(&str, Q_("?blistbegin: with "));
         }
-        prev_impr = i;
+        prev_impr = pimprove;
       }
-    } impr_type_iterate_end;
+    } improvement_iterate_end;
 
-    if (prev_impr != B_LAST) {
+    if (NULL != prev_impr) {
       if (has_improvements) {
         /* More than one improvement */
         /* TRANS: This does not appear if there is only one building in the list */
@@ -743,7 +744,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits)
 
     memset(types_count, 0, sizeof(types_count));
     unit_list_iterate(punits, punit) {
-      if (unit_has_type_flag(punit, F_NONMIL)) {
+      if (unit_has_type_flag(punit, F_CIVILIAN)) {
 	nonmil++;
       } else {
 	mil++;
@@ -773,7 +774,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits)
 
     for (i = 0; i < 3; i++) {
       if (top[i] && types_count[utype_index(top[i])] > 0) {
-	if (utype_has_flag(top[i], F_NONMIL)) {
+	if (utype_has_flag(top[i], F_CIVILIAN)) {
 	  nonmil -= types_count[utype_index(top[i])];
 	} else {
 	  mil -= types_count[utype_index(top[i])];

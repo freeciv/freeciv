@@ -1461,7 +1461,7 @@ static void fill_actions(void)
     struct city *pcity = item->pcity;
     int i;
 
-    if (game.player_ptr->economic.gold >= city_buy_cost(pcity)) {
+    if (game.player_ptr->economic.gold >= city_production_buy_gold_cost(pcity)) {
       ADD("city_buy");
     } else {
       ADD_DIS("city_buy");

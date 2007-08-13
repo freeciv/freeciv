@@ -520,7 +520,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     return TRUE;
   }
 
-  switch (get_unit_move_type(unit_type(punit))) {
+  switch (uclass_move_type(unit_class(punit))) {
 
   case LAND_MOVING:
     if (is_ocean(tile_get_terrain(ptile))) {

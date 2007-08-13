@@ -165,24 +165,24 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 ...
 **************************************************************************/
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
-			     Impr_type_id id)
-{  
+			     struct impr_type *pimprove)
+{
   if (pcity->did_sell) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, 
 		  _("You have already sold something here this turn."));
     return;
   }
 
-  if (!can_city_sell_building(pcity, id))
+  if (!can_city_sell_building(pcity, pimprove))
     return;
 
   pcity->did_sell=TRUE;
   notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		   _("You sell %s in %s for %d gold."), 
-		   improvement_name_translation(id),
+		   improvement_name_translation(pimprove),
 		   pcity->name,
-		   impr_sell_gold(id));
-  do_sell_building(pplayer, pcity, id);
+		   impr_sell_gold(pimprove));
+  do_sell_building(pplayer, pcity, pimprove);
 
   city_refresh(pcity);
 
@@ -197,11 +197,12 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 void handle_city_sell(struct player *pplayer, int city_id, int build_id)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct impr_type *pimprove = improvement_by_number(build_id);
 
-  if (!pcity || build_id >= game.control.num_impr_types) {
+  if (!pcity || !pimprove) {
     return;
   }
-  really_handle_city_sell(pplayer, pcity, build_id);
+  really_handle_city_sell(pplayer, pcity, pimprove);
 }
 
 /**************************************************************************
@@ -209,7 +210,6 @@ void handle_city_sell(struct player *pplayer, int city_id, int build_id)
 **************************************************************************/
 void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
-  /*const char *name;*/
   int cost, total;
 
   /* This function corresponds to city_can_buy() in the client. */
@@ -228,28 +228,21 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if (!pcity->production.is_unit
-      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD)) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND,
                      _("You don't buy %s!"),
-		     improvement_name_translation(pcity->production.value));
+		     improvement_name_translation(pcity->production.value.building));
     return;
   }
 
-  if (pcity->production.is_unit && pcity->anarchy != 0) {
+  if (VUT_UTYPE == pcity->production.kind && pcity->anarchy != 0) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, 
 		     _("Can't buy units when city is in disorder."));
     return;
   }
 
-  if (pcity->production.is_unit) {
-    /*name = utype_name_translation(utype_by_number(pcity->production.value));*/
-    total = unit_build_shield_cost(utype_by_number(pcity->production.value));
-  } else {
-    /*name = improvement_name_translation(pcity->production.value);*/
-    total = impr_build_shield_cost(pcity->production.value);
-  }
-  cost = city_buy_cost(pcity);
+  total = city_production_build_shield_cost(pcity);
+  cost = city_production_buy_gold_cost(pcity);
   if (cost <= 0) {
     return; /* sanity */
   }
@@ -335,27 +328,22 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
 			bool is_build_id_unit_id)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
-  struct city_production prod = {
-    .is_unit = is_build_id_unit_id,
-    .value = build_id
-  };
+  struct universal prod =
+    universal_by_number(is_build_id_unit_id ? VUT_UTYPE : VUT_IMPROVEMENT,
+                           build_id);
 
   if (!pcity) {
     return;
   }
 
-  if (pcity->production.is_unit == is_build_id_unit_id
-      && pcity->production.value == build_id) {
+  if (are_universals_equal(&pcity->production, &prod)) {
     /* The client probably shouldn't send such a packet. */
     return;
   }
 
-  if (is_build_id_unit_id
-      && !can_build_unit(pcity, utype_by_number(build_id))) {
+  if (!can_city_build_now(pcity, prod)) {
     return;
   }
-   if (!is_build_id_unit_id && !can_build_improvement(pcity, build_id))
-     return;
   if (!city_can_change_build(pcity)) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND,
 		     _("You have bought this turn, can't change."));

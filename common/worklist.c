@@ -18,10 +18,12 @@
 #include <stdarg.h>
 #include <string.h>
 
+#include "log.h"
 #include "mem.h"
 #include "support.h"
 
 #include "city.h"
+#include "requirements.h"
 #include "unit.h"
 #include "worklist.h"
 
@@ -39,8 +41,10 @@ void init_worklist(struct worklist *pwl)
   strcpy(pwl->name, "a worklist");
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    pwl->entries[i].is_unit = FALSE;
-    pwl->entries[i].value = -1;
+    /* just setting the entry to zero: */
+    pwl->entries[i].kind = VUT_NONE;
+    /* all the union pointers should be in the same place: */ 
+    pwl->entries[i].value.building = NULL;
   }
 }
 
@@ -68,7 +72,7 @@ bool worklist_is_empty(const struct worklist *pwl)
   if the worklist is non-empty.  Return 1 iff id and is_unit
   are valid.
 ****************************************************************/
-bool worklist_peek(const struct worklist *pwl, struct city_production *prod)
+bool worklist_peek(const struct worklist *pwl, struct universal *prod)
 {
   return worklist_peek_ith(pwl, prod, 0);
 }
@@ -79,12 +83,12 @@ bool worklist_peek(const struct worklist *pwl, struct city_production *prod)
   return FALSE.
 ****************************************************************/
 bool worklist_peek_ith(const struct worklist *pwl,
-		       struct city_production *prod, int idx)
+		       struct universal *prod, int idx)
 {
   /* Out of possible bounds. */
   if (idx < 0 || pwl->length <= idx) {
-    prod->is_unit = FALSE;
-    prod->value = -1;
+    prod->kind = VUT_NONE;
+    prod->value.building = NULL;
     return FALSE;
   }
 
@@ -126,8 +130,10 @@ void worklist_remove(struct worklist *pwl, int idx)
   for (i = idx; i < pwl->length - 1; i++) {
     pwl->entries[i] = pwl->entries[i + 1];
   }
-  pwl->entries[pwl->length - 1].is_unit = FALSE;
-  pwl->entries[pwl->length - 1].value = -1;
+  /* just setting the entry to zero: */
+  pwl->entries[pwl->length - 1].kind = VUT_NONE;
+  /* all the union pointers should be in the same place: */ 
+  pwl->entries[pwl->length - 1].value.building = NULL;
   pwl->length--;
 }
 
@@ -136,7 +142,7 @@ void worklist_remove(struct worklist *pwl, int idx)
   the unit/building to be produced; is_unit specifies whether it's a unit or
   a building.  Returns TRUE if successful.
 ****************************************************************************/
-bool worklist_append(struct worklist *pwl, struct city_production prod)
+bool worklist_append(struct worklist *pwl, struct universal prod)
 {
   int next_index = worklist_length(pwl);
 
@@ -157,7 +163,7 @@ bool worklist_append(struct worklist *pwl, struct city_production prod)
   if successful.
 ****************************************************************************/
 bool worklist_insert(struct worklist *pwl,
-		     struct city_production prod, int idx)
+		     struct universal prod, int idx)
 {
   int new_len = MIN(pwl->length + 1, MAX_LEN_WORKLIST), i;
 
@@ -194,8 +200,7 @@ bool are_worklists_equal(const struct worklist *wlist1,
   }
 
   for (i = 0; i < wlist1->length; i++) {
-    if (wlist1->entries[i].is_unit != wlist2->entries[i].is_unit ||
-	wlist1->entries[i].value != wlist2->entries[i].value) {
+    if (!are_universals_equal(&wlist1->entries[i], &wlist2->entries[i])) {
       return FALSE;
     }
   }
@@ -215,6 +220,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
 		   const char *path, ...)
 {
   int i;
+  const char* kind;
   const char* name;
   char path_str[1024];
   va_list ap;
@@ -235,31 +241,29 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
 					      "%s.wl_is_valid", path_str);
 
   for (i = 0; i < pwl->length; i++) {
-    bool is_unit = secfile_lookup_bool_default(file, FALSE, "%s.wl_is_unit%d",
-					       path_str, i);
+    kind = secfile_lookup_str_default(file, NULL,
+				      "%s.wl_kind%d",
+				      path_str, i);
+    if (!kind) {
+      /* before 2.2.0 unit production was indicated by flag. */
+      bool is_unit = secfile_lookup_bool_default(file, FALSE,
+						 "%s.wl_is_unit%d",
+						 path_str, i);
+      pwl->entries[i].kind = is_unit ? VUT_UTYPE : VUT_IMPROVEMENT;
+      kind = universal_kind_name(&pwl->entries[i]);
+    }
 
     /* We lookup the production value by name.  An invalid entry isn't a
-     * fatal error; we just drop the worklist. */
+     * fatal error; we just truncate the worklist. */
     name = secfile_lookup_str_default(file, "-", "%s.wl_value%d",
 				      path_str, i);
-    if (is_unit) {
-      struct unit_type *punittype = find_unit_type_by_rule_name(name);
-
-      if (!punittype) {
-	pwl->length = i;
-	break;
-      }
-      pwl->entries[i].value = punittype->index;
-    } else {
-      Impr_type_id building = find_improvement_by_rule_name(name);
-
-      if (building == B_LAST) {
-	pwl->length = i;
-	break;
-      }
-      pwl->entries[i].value = building;
+    pwl->entries[i] = universal_by_rule_name(kind, name);
+    if (VUT_LAST == pwl->entries[i].kind) {
+      freelog(LOG_ERROR, "%s.wl_value%d: unknown \"%s\" \"%s\".",
+              path_str, i, kind, name);
+      pwl->length = i;
+      break;
     }
-    pwl->entries[i].is_unit = is_unit;
   }
 }
 
@@ -289,14 +293,15 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
   secfile_insert_bool(file, pwl->is_valid, "%s.wl_is_valid", path_str);
 
   for (i = 0; i < pwl->length; i++) {
-    struct city_production *entry = pwl->entries + i;
-    const char *name = (entry->is_unit
-			? utype_rule_name(utype_by_number(entry->value))
-			: improvement_rule_name(entry->value));
+    struct universal *entry = pwl->entries + i;
 
-    secfile_insert_bool(file, entry->is_unit,
+    /* before 2.2.0 unit production was indicated by flag. */
+    secfile_insert_bool(file, (VUT_UTYPE == entry->kind),
 			"%s.wl_is_unit%d", path_str, i);
-    secfile_insert_str(file, name,
+
+    secfile_insert_str(file, universal_kind_name(entry),
+                       "%s.wl_kind%d", path_str, i);
+    secfile_insert_str(file, universal_rule_name(entry),
 		       "%s.wl_value%d", path_str, i);
   }
 
@@ -305,7 +310,9 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
   /* We want to keep savegame in tabular format, so each line has to be
    * of equal length. Fill table up to maximum worklist size. */
   for (i = pwl->length ; i < max_length; i++) {
+    /* before 2.2.0 unit production was indicated by flag. */
     secfile_insert_bool(file, false, "%s.wl_is_unit%d", path_str, i);
+    secfile_insert_str(file, "", "%s.wl_kind%d", path_str, i);
     secfile_insert_str(file, "", "%s.wl_value%d", path_str, i);
   }
 }

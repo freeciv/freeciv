@@ -112,7 +112,7 @@ Unit_type_id utype_index(const struct unit_type *punittype)
 Unit_type_id utype_number(const struct unit_type *punittype)
 {
   assert(punittype);
-  return punittype->index;
+  return punittype->item_number;
 }
 
 /**************************************************************************
@@ -212,21 +212,29 @@ bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
 }
 
 /****************************************************************************
-  Returns the number of shields it takes to build this unit.
+  Returns the number of shields it takes to build this unit type.
 ****************************************************************************/
-int unit_build_shield_cost(const struct unit_type *punittype)
+int utype_build_shield_cost(const struct unit_type *punittype)
 {
   return MAX(punittype->build_cost * game.info.shieldbox / 100, 1);
 }
 
 /****************************************************************************
+  Returns the number of shields it takes to build this unit.
+****************************************************************************/
+int unit_build_shield_cost(const struct unit *punit)
+{
+  return utype_build_shield_cost(unit_type(punit));
+}
+
+/****************************************************************************
   Returns the amount of gold it takes to rush this unit.
 ****************************************************************************/
-int unit_buy_gold_cost(const struct unit_type *punittype,
-		       int shields_in_stock)
+int utype_buy_gold_cost(const struct unit_type *punittype,
+			int shields_in_stock)
 {
   int cost = 0;
-  const int missing = unit_build_shield_cost(punittype) - shields_in_stock;
+  const int missing = utype_build_shield_cost(punittype) - shields_in_stock;
 
   if (missing > 0) {
     cost = 2 * missing + (missing * missing) / 20;
@@ -238,27 +246,51 @@ int unit_buy_gold_cost(const struct unit_type *punittype,
 }
 
 /****************************************************************************
+  Returns the number of shields received when this unit type is disbanded.
+****************************************************************************/
+int utype_disband_shields(const struct unit_type *punittype)
+{
+  return utype_build_shield_cost(punittype) / 2;
+}
+
+/****************************************************************************
   Returns the number of shields received when this unit is disbanded.
 ****************************************************************************/
-int unit_disband_shields(const struct unit_type *punittype)
+int unit_disband_shields(const struct unit *punit)
 {
-  return unit_build_shield_cost(punittype) / 2;
+  return utype_disband_shields(unit_type(punit));
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int unit_pop_value(const struct unit_type *punittype)
+int utype_pop_value(const struct unit_type *punittype)
 {
   return (punittype->pop_cost);
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+int unit_pop_value(const struct unit *punit)
+{
+  return utype_pop_value(unit_type(punit));
+}
+
+/**************************************************************************
+  Return move type of the unit class
+**************************************************************************/
+enum unit_move_type uclass_move_type(const struct unit_class *pclass)
+{
+  return pclass->move_type;
+}
+
+/**************************************************************************
   Return move type of the unit type
 **************************************************************************/
-enum unit_move_type get_unit_move_type(const struct unit_type *punittype)
+enum unit_move_type utype_move_type(const struct unit_type *punittype)
 {
-  return utype_class(punittype)->move_type;
+  return uclass_move_type(utype_class(punittype));
 }
 
 /**************************************************************************
@@ -421,18 +453,18 @@ const char *role_units_translations(int flag)
   unit type).  Returns NULL if no upgrade is possible.
 **************************************************************************/
 struct unit_type *can_upgrade_unittype(const struct player *pplayer,
-				       const struct unit_type *punittype)
+				       struct unit_type *punittype)
 {
-  struct unit_type *best_upgrade = NULL, *upgrade;
+  struct unit_type *upgrade = punittype;
+  struct unit_type *best_upgrade = NULL;
 
   if (!can_player_build_unit_direct(pplayer, punittype)) {
     return NULL;
   }
-  while ((upgrade = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
+  while ((upgrade = upgrade->obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(pplayer, upgrade)) {
       best_upgrade = upgrade;
     }
-    punittype = upgrade; /* Hack to preserve const-ness */
   }
 
   return best_upgrade;
@@ -448,7 +480,7 @@ int unit_upgrade_price(const struct player *pplayer,
 		       const struct unit_type *from,
 		       const struct unit_type *to)
 {
-  int base_cost = unit_buy_gold_cost(to, unit_disband_shields(from));
+  int base_cost = utype_buy_gold_cost(to, utype_disband_shields(from));
 
   return base_cost
     * (100 + get_player_bonus(pplayer, EFT_UPGRADE_PRICE_PCT))
@@ -595,8 +627,6 @@ player has a coastal city.
 bool can_player_build_unit_direct(const struct player *p,
 				  const struct unit_type *punittype)
 {
-  Impr_type_id impr_req;
-
   CHECK_UNIT_TYPE(punittype);
 
   if (is_barbarian(p)
@@ -621,11 +651,11 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
-  if (punittype->gov_requirement
-      && punittype->gov_requirement != government_of_player(p)) {
+  if (punittype->need_government
+      && punittype->need_government != government_of_player(p)) {
     return FALSE;
   }
-  if (player_invention_state(p,advance_number(punittype->require_advance)) != TECH_KNOWN) {
+  if (player_invention_state(p, advance_number(punittype->require_advance)) != TECH_KNOWN) {
     if (!is_barbarian(p)) {
       /* Normal players can never build units without knowing tech
        * requirements. */
@@ -667,9 +697,8 @@ bool can_player_build_unit_direct(const struct player *p,
   /* If the unit has a building requirement, we check to see if the player
    * can build that building.  Note that individual cities may not have
    * that building, so they still may not be able to build the unit. */
-  impr_req = punittype->impr_requirement;
-  if (impr_req != B_LAST
-      && !can_player_build_improvement_direct(p, impr_req)) {
+  if (punittype->need_improvement
+      && !can_player_build_improvement_direct(p, punittype->need_improvement)) {
     return FALSE;
   }
 
@@ -680,8 +709,8 @@ bool can_player_build_unit_direct(const struct player *p,
 Whether player can build given unit somewhere;
 returns FALSE if unit is obsolete.
 **************************************************************************/
-bool can_player_build_unit(const struct player *p,
-			   const struct unit_type *punittype)
+bool can_player_build_unit_now(const struct player *p,
+			       const struct unit_type *punittype)
 {
   if (!can_player_build_unit_direct(p, punittype)) {
     return FALSE;
@@ -699,8 +728,8 @@ Whether player can _eventually_ build given unit somewhere -- ie,
 returns TRUE if unit is available with current tech OR will be available
 with future tech. Returns FALSE if unit is obsolete.
 **************************************************************************/
-bool can_player_eventually_build_unit(const struct player *p,
-				      const struct unit_type *punittype)
+bool can_player_build_unit_later(const struct player *p,
+				 const struct unit_type *punittype)
 {
   CHECK_UNIT_TYPE(punittype);
   if (utype_has_flag(punittype, F_NOBUILD)) {
@@ -813,7 +842,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
 
   for(j=n_with_role[role]-1; j>=0; j--) {
     u = with_role[role][j];
-    if (can_build_unit(pcity, u)) {
+    if (can_city_build_unit_now(pcity, u)) {
       return u;
     }
   }
@@ -836,7 +865,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
   for(j = n_with_role[role]-1; j >= 0; j--) {
     struct unit_type *utype = with_role[role][j];
 
-    if (can_player_build_unit(pplayer, utype)) {
+    if (can_player_build_unit_now(pplayer, utype)) {
       return utype;
     }
   }
@@ -858,7 +887,7 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
   for(j = 0; j < n_with_role[role]; j++) {
     struct unit_type *utype = with_role[role][j];
 
-    if (can_player_build_unit(pplayer, utype)) {
+    if (can_player_build_unit_now(pplayer, utype)) {
       return utype;
     }
   }
@@ -876,7 +905,7 @@ void unit_types_init(void)
   /* Can't use unit_type_iterate or utype_by_number here because
    * num_unit_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
-    unit_types[i].index = i;
+    unit_types[i].item_number = i;
   }
 }
 

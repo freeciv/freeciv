@@ -144,10 +144,10 @@ void client_remove_city(struct city *pcity)
      and to handle the preservation of "destroyed" effects. */
   effect_update=FALSE;
 
-  built_impr_iterate(pcity, i) {
+  city_built_iterate(pcity, pimprove) {
     effect_update = TRUE;
-    city_remove_improvement(pcity, i);
-  } built_impr_iterate_end;
+    city_remove_improvement(pcity, pimprove);
+  } city_built_iterate_end;
 
   if (effect_update) {
     /* nothing yet */
@@ -163,8 +163,8 @@ void client_remove_city(struct city *pcity)
 Change all cities building X to building Y, if possible.  X and Y
 could be improvements or units. X and Y are compound ids.
 **************************************************************************/
-void client_change_all(struct city_production from,
-		       struct city_production to)
+void client_change_all(struct universal from,
+		       struct universal to)
 {
   int last_request_id = 0;
 
@@ -174,21 +174,17 @@ void client_change_all(struct city_production from,
 
   create_event(NULL, E_CITY_PRODUCTION_CHANGED,
 	       _("Changing production of every %s into %s."),
-	       from.is_unit
-	       ? utype_name_translation(utype_by_number(from.value))
-	       : improvement_name_translation(from.value),
-	       to.is_unit
-	       ? utype_name_translation(utype_by_number(to.value))
-	       : improvement_name_translation(to.value));
+	       VUT_UTYPE == from.kind
+	       ? utype_name_translation(from.value.utype)
+	       : improvement_name_translation(from.value.building),
+	       VUT_UTYPE == to.kind
+	       ? utype_name_translation(to.value.utype)
+	       : improvement_name_translation(to.value.building));
 
   connection_do_buffer(&aconnection);
   city_list_iterate (game.player_ptr->cities, pcity) {
-    if (from.is_unit == pcity->production.is_unit
-	&& from.value == pcity->production.value
-	&& ((to.is_unit
-	     && can_build_unit(pcity, utype_by_number(to.value)))
-	    || (!to.is_unit
-		&& can_build_improvement(pcity, to.value)))) {
+    if (are_universals_equal(&pcity->production, &from)
+	&& can_city_build_now(pcity, to)) {
       last_request_id = city_change_production(pcity, to);
     }
   } city_list_iterate_end;
@@ -452,18 +448,21 @@ void center_on_something(void)
 /****************************************************************************
   Encode a CID for the target production.
 ****************************************************************************/
-cid cid_encode(struct city_production target)
+cid cid_encode(struct universal target)
 {
-  return target.value + (target.is_unit ? B_LAST : 0);
+  return VUT_UTYPE == target.kind
+         ? B_LAST + utype_number(target.value.utype)
+         : improvement_number(target.value.building);
 }
 
 /****************************************************************************
   Encode a CID for the target unit type.
 ****************************************************************************/
-cid cid_encode_unit(const struct unit_type *punittype)
+cid cid_encode_unit(struct unit_type *punittype)
 {
-  struct city_production target
-    = {.is_unit = TRUE, .value = punittype->index};
+  struct universal target = {
+    .kind = VUT_UTYPE,
+    .value.utype = punittype};
 
   return cid_encode(target);
 }
@@ -471,10 +470,12 @@ cid cid_encode_unit(const struct unit_type *punittype)
 /****************************************************************************
   Encode a CID for the target building.
 ****************************************************************************/
-cid cid_encode_building(Impr_type_id building)
+cid cid_encode_building(struct impr_type *pimprove)
 {
-  struct city_production target
-    = {.is_unit = FALSE, .value = building};
+  struct universal target = {
+    .kind = VUT_IMPROVEMENT,
+    .value.building = pimprove
+  };
 
   return cid_encode(target);
 }
@@ -490,27 +491,19 @@ cid cid_encode_from_city(const struct city *pcity)
 /**************************************************************************
   Decode the CID into a city_production structure.
 **************************************************************************/
-struct city_production cid_decode(cid cid)
+struct universal cid_decode(cid cid)
 {
-  struct city_production target = {
-    .value = (cid >= B_LAST) ? (cid - B_LAST) : cid,
-    .is_unit = (cid >= B_LAST)
-  };
+  struct universal target;
+
+  if (cid >= B_LAST) {
+    target.kind = VUT_UTYPE;
+    target.value.utype = utype_by_number(cid - B_LAST);
+  } else {
+    target.kind = VUT_IMPROVEMENT;
+    target.value.building = improvement_by_number(cid);
+  }
 
   return target;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-bool city_can_build_impr_or_unit(const struct city *pcity,
-				 struct city_production target)
-{
-  if (target.is_unit) {
-    return can_build_unit(pcity, utype_by_number(target.value));
-  } else {
-    return can_build_improvement(pcity, target.value);
-  }
 }
 
 /****************************************************************************
@@ -518,10 +511,10 @@ bool city_can_build_impr_or_unit(const struct city *pcity,
   production type (returns FALSE if the production is a building).
 ****************************************************************************/
 bool city_unit_supported(const struct city *pcity,
-			 struct city_production target)
+			 struct universal target)
 {
-  if (target.is_unit) {
-    struct unit_type *tvtype = utype_by_number(target.value);
+  if (VUT_UTYPE == target.kind) {
+    struct unit_type *tvtype = target.value.utype;
 
     unit_list_iterate(pcity->units_supported, punit) {
       if (unit_type(punit) == tvtype)
@@ -536,10 +529,10 @@ bool city_unit_supported(const struct city *pcity,
   production type (returns FALSE if the production is a building).
 ****************************************************************************/
 bool city_unit_present(const struct city *pcity,
-		       struct city_production target)
+		       struct universal target)
 {
-  if (target.is_unit) {
-    struct unit_type *tvtype = utype_by_number(target.value);
+  if (VUT_UTYPE == target.kind) {
+    struct unit_type *tvtype = target.value.utype;
 
     unit_list_iterate(pcity->tile->units, punit) {
       if (unit_type(punit) == tvtype)
@@ -554,26 +547,27 @@ bool city_unit_present(const struct city *pcity,
   A TestCityFunc to tell whether the item is a building and is present.
 ****************************************************************************/
 bool city_building_present(const struct city *pcity,
-			   struct city_production target)
+			   struct universal target)
 {
-  return !target.is_unit && city_got_building(pcity, target.value);
+  return VUT_IMPROVEMENT == target.kind
+      && city_has_building(pcity, target.value.building);
 }
 
 /**************************************************************************
   Return the numerical "section" of an item.  This is used for sorting.
 **************************************************************************/
-static int target_get_section(struct city_production target)
+static int target_get_section(struct universal target)
 {
-  if (target.is_unit) {
-    if (utype_has_flag(utype_by_number(target.value), F_NONMIL)) {
+  if (VUT_UTYPE == target.kind) {
+    if (utype_has_flag(target.value.utype, F_CIVILIAN)) {
       return 2;
     } else {
       return 3;
     }
   } else {
-    if (improvement_has_flag(target.value, IF_GOLD)) {
+    if (improvement_has_flag(target.value.building, IF_GOLD)) {
       return 1;
-    } else if (is_great_wonder(target.value)) {
+    } else if (is_great_wonder(target.value.building)) {
       return 4;
     } else {
       return 0;
@@ -602,33 +596,33 @@ static int my_cmp(const void *p1, const void *p2)
 
  section 0: normal buildings
  section 1: Capitalization
- section 2: F_NONMIL units
+ section 2: F_CIVILIAN units
  section 3: other units
  section 4: wonders
 **************************************************************************/
-void name_and_sort_items(struct city_production *targets, int num_targets,
+void name_and_sort_items(struct universal *targets, int num_targets,
 			 struct item *items,
 			 bool show_cost, struct city *pcity)
 {
   int i;
 
   for (i = 0; i < num_targets; i++) {
-    struct city_production target = targets[i];
+    struct universal target = targets[i];
     int cost;
     struct item *pitem = &items[i];
     const char *name;
 
     pitem->item = target;
 
-    if (target.is_unit) {
-      name = utype_values_translation(utype_by_number(target.value));
-      cost = unit_build_shield_cost(utype_by_number(target.value));
+    if (VUT_UTYPE == target.kind) {
+      name = utype_values_translation(target.value.utype);
+      cost = utype_build_shield_cost(target.value.utype);
     } else {
-      name = get_impr_name_ex(pcity, target.value);
-      if (improvement_has_flag(target.value, IF_GOLD)) {
+      name = city_improvement_name_translation(pcity, target.value.building);
+      if (improvement_has_flag(target.value.building, IF_GOLD)) {
 	cost = -1;
       } else {
-	cost = impr_build_shield_cost(target.value);
+	cost = impr_build_shield_cost(target.value.building);
       }
     }
 
@@ -651,7 +645,7 @@ void name_and_sort_items(struct city_production *targets, int num_targets,
 
   FIXME: this should probably take a pplayer argument.
 **************************************************************************/
-int collect_production_targets(struct city_production *targets,
+int collect_production_targets(struct universal *targets,
 			       struct city **selected_cities,
 			       int num_selected_cities, bool append_units,
 			       bool append_wonders, bool change_prod,
@@ -660,7 +654,7 @@ int collect_production_targets(struct city_production *targets,
   cid first = append_units ? B_LAST : 0;
   cid last = (append_units
 	      ? utype_count() + B_LAST
-	      : game.control.num_impr_types);
+	      : improvement_count());
   cid cid;
   int items_used = 0;
 
@@ -670,9 +664,9 @@ int collect_production_targets(struct city_production *targets,
 
   for (cid = first; cid < last; cid++) {
     bool append = FALSE;
-    struct city_production target = cid_decode(cid);
+    struct universal target = cid_decode(cid);
 
-    if (!append_units && (append_wonders != is_wonder(target.value))) {
+    if (!append_units && (append_wonders != is_wonder(target.value.building))) {
       continue;
     }
 
@@ -704,7 +698,7 @@ int collect_production_targets(struct city_production *targets,
 
   FIXME: this should probably take a pplayer argument.
 **************************************************************************/
-int collect_currently_building_targets(struct city_production *targets)
+int collect_currently_building_targets(struct universal *targets)
 {
   bool mapping[MAX_NUM_PRODUCTION_TARGETS];
   int cids_used = 0;
@@ -735,7 +729,7 @@ int collect_currently_building_targets(struct city_production *targets)
 
   FIXME: this should probably take a pplayer argument.
 **************************************************************************/
-int collect_buildable_targets(struct city_production *targets)
+int collect_buildable_targets(struct universal *targets)
 {
   int cids_used = 0;
 
@@ -743,18 +737,18 @@ int collect_buildable_targets(struct city_production *targets)
     return 0;
   }
 
-  impr_type_iterate(id) {
-    if (can_player_build_improvement(game.player_ptr, id)) {
-      targets[cids_used].is_unit = FALSE;
-      targets[cids_used].value = id;
+  improvement_iterate(pimprove) {
+    if (can_player_build_improvement_now(game.player_ptr, pimprove)) {
+      targets[cids_used].kind = VUT_IMPROVEMENT;
+      targets[cids_used].value.building = pimprove;
       cids_used++;
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   unit_type_iterate(punittype) {
-    if (can_player_build_unit(game.player_ptr, punittype)) {
-      targets[cids_used].is_unit = TRUE;
-      targets[cids_used].value = punittype->index;
+    if (can_player_build_unit_now(game.player_ptr, punittype)) {
+      targets[cids_used].kind = VUT_UTYPE;
+      targets[cids_used].value.utype = punittype;
       cids_used++;
     }
   } unit_type_iterate_end
@@ -768,7 +762,7 @@ int collect_buildable_targets(struct city_production *targets)
 
   FIXME: this should probably take a pplayer argument.
 **************************************************************************/
-int collect_eventually_buildable_targets(struct city_production *targets,
+int collect_eventually_buildable_targets(struct universal *targets,
 					 struct city *pcity,
 					 bool advanced_tech)
 {
@@ -778,42 +772,42 @@ int collect_eventually_buildable_targets(struct city_production *targets,
     return 0;
   }
 
-  impr_type_iterate(id) {
-    bool can_build = can_player_build_improvement(game.player_ptr, id);
+  improvement_iterate(pimprove) {
+    bool can_build = can_player_build_improvement_now(game.player_ptr, pimprove);
     bool can_eventually_build =
-	can_player_eventually_build_improvement(game.player_ptr, id);
+	can_player_build_improvement_later(game.player_ptr, pimprove);
 
     /* If there's a city, can the city build the improvement? */
     if (pcity) {
-      can_build = can_build && can_build_improvement(pcity, id);
+      can_build = can_build && can_city_build_improvement_now(pcity, pimprove);
       can_eventually_build = can_eventually_build &&
-	  can_eventually_build_improvement(pcity, id);
+	  can_city_build_improvement_later(pcity, pimprove);
     }
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      targets[cids_used].is_unit = FALSE;
-      targets[cids_used].value = id;
+      targets[cids_used].kind = VUT_IMPROVEMENT;
+      targets[cids_used].value.building = pimprove;
       cids_used++;
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   unit_type_iterate(punittype) {
-    bool can_build = can_player_build_unit(game.player_ptr, punittype);
+    bool can_build = can_player_build_unit_now(game.player_ptr, punittype);
     bool can_eventually_build =
-	can_player_eventually_build_unit(game.player_ptr, punittype);
+	can_player_build_unit_later(game.player_ptr, punittype);
 
     /* If there's a city, can the city build the unit? */
     if (pcity) {
-      can_build = can_build && can_build_unit(pcity, punittype);
+      can_build = can_build && can_city_build_unit_now(pcity, punittype);
       can_eventually_build = can_eventually_build &&
-	  can_eventually_build_unit(pcity, punittype);
+	  can_city_build_unit_later(pcity, punittype);
     }
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      targets[cids_used].is_unit = TRUE;
-      targets[cids_used].value = punittype->index;
+      targets[cids_used].kind = VUT_UTYPE;
+      targets[cids_used].value.utype = punittype;
       cids_used++;
     }
   } unit_type_iterate_end;
@@ -824,18 +818,18 @@ int collect_eventually_buildable_targets(struct city_production *targets,
 /**************************************************************************
  Collect the cids of all improvements which are built in the given city.
 **************************************************************************/
-int collect_already_built_targets(struct city_production *targets,
+int collect_already_built_targets(struct universal *targets,
 				  struct city *pcity)
 {
   int cids_used = 0;
 
   assert(pcity != NULL);
 
-  built_impr_iterate(pcity, id) {
-    targets[cids_used].is_unit = FALSE;
-    targets[cids_used].value = id;
+  city_built_iterate(pcity, pimprove) {
+    targets[cids_used].kind = VUT_IMPROVEMENT;
+    targets[cids_used].value.building = pimprove;
     cids_used++;
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   return cids_used;
 }
@@ -1032,31 +1026,25 @@ struct city *get_nearest_city(const struct unit *punit, int *sq_dist)
 **************************************************************************/
 void cityrep_buy(struct city *pcity)
 {
-  int value = city_buy_cost(pcity);
+  int value;
 
-  if (!pcity->production.is_unit
-      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD)) {
     create_event(pcity->tile, E_BAD_COMMAND,
 		_("You don't buy %s in %s!"),
-		improvement_name_translation(pcity->production.value),
+		improvement_name_translation(pcity->production.value.building),
 		pcity->name);
     return;
   }
+  value = city_production_buy_gold_cost(pcity);
 
   if (pcity->owner->economic.gold >= value) {
     city_buy_production(pcity);
   } else {
-    const char *name;
-
-    if (pcity->production.is_unit) {
-      name = utype_name_translation(utype_by_number(pcity->production.value));
-    } else {
-      name = get_impr_name_ex(pcity, pcity->production.value);
-    }
-
     create_event(NULL, E_BAD_COMMAND,
 		 _("%s costs %d gold and you only have %d gold."),
-		 name, value, pcity->owner->economic.gold);
+		 city_production_name_translation(pcity),
+		 value,
+		 pcity->owner->economic.gold);
   }
 }
 

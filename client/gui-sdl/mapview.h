@@ -26,6 +26,7 @@
 
 #include "mapview_g.h"
 #include "mapview_common.h"
+#include "unitlist.h"
 
 void redraw_unit_info_label(struct unit_list *punitlist);
 SDL_Surface * create_city_map(struct city *pCity);

@@ -17,8 +17,6 @@
 
 #include "fc_types.h"
 
-struct ai_choice;
-
 void ai_manage_airunit(struct player *pplayer, struct unit *punit);
 bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
 			    struct ai_choice *choice);

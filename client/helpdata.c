@@ -252,14 +252,12 @@ static void insert_allows(struct universal *psource,
    : sz_strlcpy(coreq_buf, (s)))
 
 
-  impr_type_iterate(impr_id) {
-    struct impr_type *building = improvement_by_number(impr_id);
-
-    requirement_vector_iterate(&building->reqs, req) {
+  improvement_iterate(pimprove) {
+    requirement_vector_iterate(&pimprove->reqs, req) {
       if (are_universals_equal(psource, &req->source)) {
 	char coreq_buf[512] = "";
 
-	requirement_vector_iterate(&building->reqs, coreq) {
+	requirement_vector_iterate(&pimprove->reqs, coreq) {
 	  if (!are_universals_equal(psource, &coreq->source)) {
 	    char buf2[512];
 
@@ -270,16 +268,16 @@ static void insert_allows(struct universal *psource,
 
 	if (coreq_buf[0] == '\0') {
 	  cat_snprintf(buf, bufsz, _("Allows %s."),
-		       improvement_name_translation(impr_id));
+		       improvement_name_translation(pimprove));
 	} else {
 	  cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
-		       improvement_name_translation(impr_id),
+		       improvement_name_translation(pimprove),
 		       coreq_buf);
 	}
 	cat_snprintf(buf, bufsz, "\n");
       }
     } requirement_vector_iterate_end;
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
 #undef COREQ_APPEND
 }
@@ -440,27 +438,27 @@ void boot_help_texts(void)
 	    help_list_append(category_nodes, pitem);
 	  } government_iterate_end;
 	} else if (current_type == HELP_IMPROVEMENT) {
-	  impr_type_iterate(i) {
-	    if (improvement_exists(i) && !is_great_wonder(i)) {
+	  improvement_iterate(pimprove) {
+	    if (valid_improvement(pimprove) && !is_great_wonder(pimprove)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  improvement_name_translation(i));
+			  improvement_name_translation(pimprove));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
 	    }
-	  } impr_type_iterate_end;
+	  } improvement_iterate_end;
 	} else if (current_type == HELP_WONDER) {
-	  impr_type_iterate(i) {
-	    if (improvement_exists(i) && is_great_wonder(i)) {
+	  improvement_iterate(pimprove) {
+	    if (valid_improvement(pimprove) && is_great_wonder(pimprove)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  improvement_name_translation(i));
+			  improvement_name_translation(pimprove));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
 	    }
-	  } impr_type_iterate_end;
+	  } improvement_iterate_end;
 	} else {
 	  die("Bad current_type %d", current_type);
 	}
@@ -653,38 +651,35 @@ const struct help_item *help_iter_next(void)
 
   user_text, if non-NULL, will be appended to the text.
 **************************************************************************/
-char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
+char *helptext_building(char *buf, size_t bufsz,
+			struct impr_type *pimprove,
 			const char *user_text)
 {
-  struct impr_type *imp;
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
-    .value = {.building = which}
+    .value.building = pimprove
   };
 
   assert(buf);
   buf[0] = '\0';
 
-  if (!improvement_exists(which)) {
-    freelog(LOG_ERROR, "Unknown building %d.", which);
+  if (NULL == pimprove) {
     return buf;
   }
 
-  imp = improvement_by_number(which);
-  
-  if (imp->helptext && imp->helptext[0] != '\0') {
-    cat_snprintf(buf, bufsz, "%s\n\n", _(imp->helptext));
+  if (pimprove->helptext && pimprove->helptext[0] != '\0') {
+    cat_snprintf(buf, bufsz, "%s\n\n", _(pimprove->helptext));
   }
 
-  if (valid_advance(imp->obsolete_by)) {
+  if (valid_advance(pimprove->obsolete_by)) {
     cat_snprintf(buf, bufsz,
 		 _("* The discovery of %s will make %s obsolete.\n"),
 		 advance_name_for_player(game.player_ptr,
-					 advance_number(imp->obsolete_by)),
-		 improvement_name_translation(which));
+					 advance_number(pimprove->obsolete_by)),
+		 improvement_name_translation(pimprove));
   }
 
-  if (building_has_effect(which, EFT_ENABLE_NUKE)
+  if (building_has_effect(pimprove, EFT_ENABLE_NUKE)
       && num_role_units(F_NUCLEAR) > 0) {
     struct unit_type *u = get_role_unit(F_NUCLEAR, 0);
     CHECK_UNIT_TYPE(u);
@@ -703,7 +698,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   unit_type_iterate(u) {
-    if (u->impr_requirement == which) {
+    if (u->need_improvement == pimprove) {
       if (A_NEVER != u->require_advance) {
 	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"),
 		     utype_name_translation(u),
@@ -778,7 +773,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   sprintf(buf + strlen(buf), _("* Belongs to %s units class.\n"),
           uclass_name_translation(utype_class(utype)));
   if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY)
-      && !utype_has_flag(utype, F_NONMIL)) {
+      && !utype_has_flag(utype, F_CIVILIAN)) {
     sprintf(buf + strlen(buf), _("  * Can occupy empty enemy cities.\n"));
   }
   if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_SPEED)) {
@@ -796,16 +791,16 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
   }
 
-  if (utype->impr_requirement != B_LAST) {
+  if (utype->need_improvement) {
     sprintf(buf + strlen(buf),
 	    _("* Can only be built if there is %s in the city.\n"), 
-            improvement_name_translation(utype->impr_requirement));
+            improvement_name_translation(utype->need_improvement));
   }
 
-  if (utype->gov_requirement) {
+  if (utype->need_government) {
     sprintf(buf + strlen(buf),
 	    _("* Can only be built with %s as government.\n"), 
-            government_name_translation(utype->gov_requirement));
+            government_name_translation(utype->need_government));
   }
   
   if (utype_has_flag(utype, F_NOBUILD)) {
@@ -854,7 +849,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (utype_has_flag(utype, F_HELP_WONDER)) {
     sprintf(buf + strlen(buf),
 	    _("* Can help build wonders (adds %d production).\n"),
-	    unit_build_shield_cost(utype));
+	    utype_build_shield_cost(utype));
   }
   if (utype_has_flag(utype, F_UNDISBANDABLE)) {
     sprintf(buf + strlen(buf), _("* May not be disbanded.\n"));
@@ -868,8 +863,8 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (utype_has_flag(utype, F_ADD_TO_CITY)) {
     sprintf(buf + strlen(buf), _("* Can add on %d population to "
 				 "cities of no more than size %d.\n"),
-	    unit_pop_value(utype),
-	    game.info.add_to_size_limit - unit_pop_value(utype));
+	    utype_pop_value(utype),
+	    game.info.add_to_size_limit - utype_pop_value(utype));
   }
   if (utype_has_flag(utype, F_SETTLERS)) {
     char buf2[1024];
@@ -1003,7 +998,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (utype_has_flag(utype, F_IGZOC)) {
     sprintf(buf + strlen(buf), _("* Ignores zones of control.\n"));
   }
-  if (utype_has_flag(utype, F_NONMIL)) {
+  if (utype_has_flag(utype, F_CIVILIAN)) {
     sprintf(buf + strlen(buf), _("* A non-military unit"
 				 " (cannot attack; no martial law).\n"));
   }
@@ -1445,7 +1440,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
   } effect_list_iterate_end;
 
   unit_type_iterate(utype) {
-    if (utype->gov_requirement == gov) {
+    if (utype->need_government == gov) {
       sprintf(buf + strlen(buf),
 	      _("* Allows you to build %s.\n"),
 	      utype_name_translation(utype));

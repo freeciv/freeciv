@@ -84,11 +84,6 @@ enum output_type_id {
 #define O_COUNT num_output_types
 #define O_MAX O_LAST /* Changing this breaks network compatibility. */
 
-struct city_production {
-  bool is_unit;
-  int value; /* Unit_type_id or Impr_type_id */
-};
-
 /* Changing this enum will break savegame and network compatability. */
 enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
@@ -239,13 +234,12 @@ struct name_translation
 typedef union {
   struct advance *advance;
   struct government *govern;
+  struct impr_type *building;
   struct nation_type *nation;
   struct specialist *specialist;
   struct terrain *terrain;
   struct unit_class *uclass;
   struct unit_type *utype;
-
-    Impr_type_id building;              /* source building */
 
   enum ai_level ai_level;
   int minsize;

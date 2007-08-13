@@ -16,8 +16,6 @@
 #include "fc_types.h"
 #include "unittype.h"
 
-struct ai_choice;
-
 struct unit_type *ai_choose_defender_versus(struct city *pcity,
                                             struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,

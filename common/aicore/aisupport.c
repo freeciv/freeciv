@@ -110,7 +110,7 @@ int city_gold_worth(struct city *pcity)
     = best_role_unit_for_player(city_owner(pcity), F_CITIES);
 
   if (u) {
-    worth += unit_buy_gold_cost(u, 0); /* cost of settler */
+    worth += utype_buy_gold_cost(u, 0); /* cost of settler */
   }
   for (i = 1; i < pcity->size; i++) {
     worth += city_granary_size(i); /* cost of growing city */
@@ -122,20 +122,20 @@ int city_gold_worth(struct city *pcity)
     if (same_pos(punit->tile, pcity->tile)) {
       struct unit_type *punittype = unit_type(punit)->obsoleted_by;
 
-      if (punittype && can_build_unit_direct(pcity, punittype)) {
-        worth += unit_disband_shields(unit_type(punit)) / 2; /* obsolete */
+      if (punittype && can_city_build_unit_direct(pcity, punittype)) {
+        worth += unit_disband_shields(punit) / 2; /* obsolete */
       } else {
-        worth += unit_disband_shields(unit_type(punit)); /* good stuff */
+        worth += unit_disband_shields(punit); /* good stuff */
       }
     }
   } unit_list_iterate_end;
-  built_impr_iterate(pcity, impr) {
-    if (improvement_obsolete(pplayer, impr)) {
-      worth += impr_sell_gold(impr) / 4;
-   } else {
-      worth += impr_sell_gold(impr);
+  city_built_iterate(pcity, pimprove) {
+    if (improvement_obsolete(pplayer, pimprove)) {
+      worth += impr_sell_gold(pimprove) / 4;
+    } else {
+      worth += impr_sell_gold(pimprove);
     }
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
   if (city_unhappy(pcity)) {
     worth *= 0.75;
   }

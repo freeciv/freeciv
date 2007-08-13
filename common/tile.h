@@ -18,7 +18,7 @@
 #include "fc_types.h"
 #include "player.h"
 #include "terrain.h"
-#include "unit.h"
+#include "unitlist.h"
 
 /* Convenience macro for accessing tile coordinates.  This should only be
  * used for debugging. */

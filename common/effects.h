@@ -14,12 +14,9 @@
 #define FC__EFFECTS_H
 
 #include "shared.h"		/* bool */
+#include "fc_types.h"
 
 #include "connection.h"
-#include "fc_types.h"
-#include "requirements.h"
-#include "tech.h"
-#include "terrain.h"
 
 /* Type of effects. (Used in effect.type field)
  * These must correspond to effect_type_names[] in effects.c. */
@@ -164,10 +161,12 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct unit_type *target_unittype,
 		      const struct output_type *target_output,
 		      const struct specialist *target_specialist,
-		      Impr_type_id source, const struct effect *effect,
+		      const struct impr_type *source,
+		      const struct effect *effect,
                       const enum   req_problem_type prob_type);
 
-bool is_building_replaced(const struct city *pcity, Impr_type_id building,
+bool is_building_replaced(const struct city *pcity,
+			  struct impr_type *pimprove,
                           const enum req_problem_type prob_type);
 
 /* functions to know the bonuses a certain effect is granting */
@@ -188,7 +187,8 @@ int get_player_output_bonus(const struct player *pplayer,
 int get_city_output_bonus(const struct city *pcity,
                           const struct output_type *poutput,
                           enum effect_type effect_type);
-int get_building_bonus(const struct city *pcity, Impr_type_id building,
+int get_building_bonus(const struct city *pcity,
+		       const struct impr_type *building,
 		       enum effect_type effect_type);
 int get_unittype_bonus(const struct player *pplayer,
 		       const struct tile *ptile, /* pcity is implied */
@@ -215,7 +215,7 @@ int get_city_bonus_effects(struct effect_list *plist,
 			   const struct output_type *poutput,
 			   enum effect_type effect_type);
 
-bool building_has_effect(Impr_type_id building,
+bool building_has_effect(const struct impr_type *pimprove,
 			 enum effect_type effect_type);
 int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type,

@@ -598,7 +598,7 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
 
     memset(types_count, 0, sizeof(types_count));
     unit_list_iterate(punits, punit) {
-      if (unit_has_type_flag(punit, F_NONMIL)) {
+      if (unit_has_type_flag(punit, F_CIVILIAN)) {
   nonmil++;
       } else {
   mil++;
@@ -628,7 +628,7 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
 
     for (i = 0; i < 3; i++) {
       if (top[i] && types_count[utype_index(top[i])] > 0) {
-  if (utype_has_flag(top[i], F_NONMIL)) {
+  if (utype_has_flag(top[i], F_CIVILIAN)) {
     nonmil -= types_count[utype_index(top[i])];
   } else {
     mil -= types_count[utype_index(top[i])];

@@ -302,24 +302,24 @@ static bool manual_command(void)
               _("Name"), _("Cost"), _("Upkeep"),
               _("Requirement"), _("Obsolete by"), _("More info"));
 
-      impr_type_iterate(id) {
-        struct impr_type *pimpr = improvement_by_number(id);
+      improvement_iterate(pimprove) {
         char buf[64000];
 
-        if (is_great_wonder(id) == (manuals == MANUAL_BUILDINGS)) {
+        if (!valid_improvement(pimprove)
+         || is_great_wonder(pimprove) == (manuals == MANUAL_BUILDINGS)) {
           continue;
         }
 
-        helptext_building(buf, sizeof(buf), id, NULL);
+        helptext_building(buf, sizeof(buf), pimprove, NULL);
 
         fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>\n"
                      "<td align=\"center\"><b>%d</b><br/>%d</td>\n<td>",
-                pimpr->graphic_str,
-                improvement_name_translation(id),
-                pimpr->build_cost,
-                pimpr->upkeep);
+                pimprove->graphic_str,
+                improvement_name_translation(pimprove),
+                pimprove->build_cost,
+                pimprove->upkeep);
 
-        requirement_vector_iterate(&pimpr->reqs, req) {
+        requirement_vector_iterate(&pimprove->reqs, req) {
           char text[512];
           fprintf(doc, "%s<br/>",
                   VUT_NONE != req->source.kind
@@ -328,11 +328,11 @@ static bool manual_command(void)
         } requirement_vector_iterate_end;
 
         fprintf(doc, "<em>%s</em></td>\n",
-                valid_advance(pimpr->obsolete_by)
-                ? advance_name_translation(pimpr->obsolete_by)
+                valid_advance(pimprove->obsolete_by)
+                ? advance_name_translation(pimprove->obsolete_by)
                 : _("None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
-      } impr_type_iterate_end;
+      } improvement_iterate_end;
       break;
 
     case MANUAL_COUNT:

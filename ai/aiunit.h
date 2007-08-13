@@ -53,9 +53,6 @@
 #define INVASION_OCCUPY  0
 #define INVASION_ATTACK  1
 
-struct ai_choice;
-struct pf_path;
-
 extern struct unit_type *simple_ai_types[U_LAST];
 
 #define RAMPAGE_ANYTHING                 1

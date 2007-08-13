@@ -75,13 +75,13 @@ struct Nation_Type {
 struct Building_Type {
   int build_cost;
 
-  const int index @ id;
+  const int item_number @ id;
 };
 
 struct Unit_Type {
   int build_cost;
 
-  const int index @ id;
+  const int item_number @ id;
 };
 
 struct Tech_Type {

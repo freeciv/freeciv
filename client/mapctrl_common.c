@@ -58,7 +58,10 @@ static bool rectangle_append;
 bool tiles_hilited_cities = FALSE;
 
 /* The mapcanvas clipboard */
-struct city_production clipboard = {.value = -1};
+struct universal clipboard =
+{ .kind = VUT_NONE,
+  .value.building = NULL
+};
 
 /* Goto with drag and drop. */
 bool keyboardless_goto_button_down = FALSE;
@@ -383,16 +386,16 @@ void clipboard_copy_production(struct tile *ptile)
 		   unit_name_translation(punit));
       return;
     }
-    clipboard.is_unit = TRUE;
-    clipboard.value = unit_type(punit)->index;
+    clipboard.kind = VUT_UTYPE;
+    clipboard.value.utype = unit_type(punit);
   }
   upgrade_canvas_clipboard();
 
   create_event(ptile, E_CITY_PRODUCTION_CHANGED, /* ? */
 	       _("Copy %s to clipboard."),
-	       clipboard.is_unit
-	       ? utype_name_translation(utype_by_number(clipboard.value))
-	       : improvement_name_translation(clipboard.value));
+	       VUT_UTYPE == clipboard.kind
+	       ? utype_name_translation(clipboard.value.utype)
+	       : improvement_name_translation(clipboard.value.building));
 }
 
 /**************************************************************************
@@ -404,7 +407,7 @@ void clipboard_paste_production(struct city *pcity)
   if (!can_client_issue_orders()) {
     return;
   }
-  if (clipboard.value == -1) {
+  if (NULL == clipboard.value.building) {
     create_event(pcity->tile, E_BAD_COMMAND, _("Clipboard is empty."));
     return;
   }
@@ -430,14 +433,14 @@ void clipboard_paste_production(struct city *pcity)
 **************************************************************************/
 static void clipboard_send_production_packet(struct city *pcity)
 {
-  if ((clipboard.is_unit == pcity->production.is_unit
-       && clipboard.value == pcity->production.value)
-      || !city_can_build_impr_or_unit(pcity, clipboard)) {
+  if (are_universals_equal(&pcity->production, &clipboard)
+      || !can_city_build_now(pcity, clipboard)) {
     return;
   }
 
-  dsend_packet_city_change(&aconnection, pcity->id, clipboard.value,
-			   clipboard.is_unit);
+  dsend_packet_city_change(&aconnection, pcity->id,
+			   universal_number(&clipboard),
+			   VUT_UTYPE == clipboard.kind);
 }
 
 /**************************************************************************
@@ -449,12 +452,12 @@ void upgrade_canvas_clipboard(void)
   if (!can_client_issue_orders()) {
     return;
   }
-  if (clipboard.is_unit)  {
+  if (VUT_UTYPE == clipboard.kind)  {
     struct unit_type *u
-      = can_upgrade_unittype(game.player_ptr, utype_by_number(clipboard.value));
+      = can_upgrade_unittype(game.player_ptr, clipboard.value.utype);
 
     if (u)  {
-      clipboard.value = u->index;
+      clipboard.value.utype = u;
     }
   }
 }

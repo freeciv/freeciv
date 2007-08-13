@@ -72,8 +72,9 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
   unit_type_iterate(ut) {
     int desire;
 
-    if (get_unit_move_type(ut) != umt || !can_build_unit(pcity, ut)
-        || ut->attack_strength < ut->transport_capacity) {
+    if (utype_move_type(ut) != umt
+     || !can_city_build_unit_now(pcity, ut)
+     || ut->attack_strength < ut->transport_capacity) {
       continue;
     }
 
@@ -106,7 +107,7 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
     }
 
     desire = amortize(desire,
-		      (unit_build_shield_cost(ut)
+		      (utype_build_shield_cost(ut)
 		       / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
@@ -151,7 +152,8 @@ static void ai_hunter_missile_want(struct player *pplayer,
   unit_type_iterate(ut) {
     int desire;
 
-    if (!uclass_has_flag(utype_class(ut), UCF_MISSILE) || !can_build_unit(pcity, ut)) {
+    if (!uclass_has_flag(utype_class(ut), UCF_MISSILE)
+     || !can_city_build_unit_now(pcity, ut)) {
       continue;
     }
 
@@ -173,7 +175,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
     }
 
     desire = amortize(desire,
-		      (unit_build_shield_cost(ut)
+		      (utype_build_shield_cost(ut)
 		       / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
@@ -184,9 +186,10 @@ static void ai_hunter_missile_want(struct player *pplayer,
 
   if (best > choice->want) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "pri missile w/ want %d", best);
-    choice->choice = best_unit_type->index;
+    choice->value.utype = best_unit_type;
     choice->want = best;
     choice->type = CT_ATTACKER;
+    choice->need_boat = FALSE;
   } else if (best != -1) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "not pri missile w/ want %d"
              "(old want %d)", best, choice->want);
@@ -209,9 +212,10 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
   destroy_unit_virtual(virtualunit);
   if (want > choice->want) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "pri hunter w/ want %d", want);
-    choice->choice = best_type->index;
+    choice->value.utype = best_type;
     choice->want = want;
     choice->type = CT_ATTACKER;
+    choice->need_boat = FALSE;
   }
 }
 
@@ -309,8 +313,8 @@ static void ai_hunter_try_launch(struct player *pplayer,
           }
           if (ut->move_rate + victim->moves_left > pos.total_MC
               && ATTACK_POWER(victim) > DEFENCE_POWER(punit)
-              && (get_unit_move_type(ut) == SEA_MOVING
-                  || get_unit_move_type(ut) == AIR_MOVING)) {
+              && (utype_move_type(ut) == SEA_MOVING
+                  || utype_move_type(ut) == AIR_MOVING)) {
             /* Threat to our carrier. Kill it. */
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found aux target %d(%d, %d)",
@@ -358,7 +362,7 @@ static void ai_hunter_juiciness(struct player *pplayer, struct unit *punit,
     if (unit_has_type_flag(sucker, F_DIPLOMAT)) {
       *stackthreat += 500; /* extra threatening */
     }
-    *stackcost += unit_build_shield_cost(unit_type(sucker));
+    *stackcost += unit_build_shield_cost(sucker);
   } unit_list_iterate_end;
 
   *stackthreat *= 9; /* WAG - reduced by distance later */
@@ -456,10 +460,10 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
        * if any. */
       ai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
       stackcost *= unit_win_chance(punit, get_defender(punit, target->tile));
-      if (stackcost < unit_build_shield_cost(unit_type(punit))) {
+      if (stackcost < unit_build_shield_cost(punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)", 
                  target->id, stackcost,
-		 unit_build_shield_cost(unit_type(punit)));
+		 unit_build_shield_cost(punit));
         continue; /* Too expensive */
       }
       stackthreat /= pos.total_MC + 1;
@@ -470,7 +474,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
                  target->id, original_target->id);
         continue; /* The threat we found originally was worse than this! */
       }
-      if (stackthreat < unit_build_shield_cost(unit_type(punit))) {
+      if (stackthreat < unit_build_shield_cost(punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is not worth it", target->id);
         continue; /* Not worth it */
       }

@@ -326,18 +326,18 @@ static double wonder_benefit(const struct unit *caravan, int arrival_time,
 
   if (!param->consider_wonders
       || caravan->owner != dest->owner
-      || dest->production.is_unit
-      || !is_wonder(dest->production.value)) {
+      || VUT_UTYPE == dest->production.kind
+      || !is_wonder(dest->production.value.building)) {
     return 0;
   }
 
   shields_at_arrival = dest->shield_stock
     + arrival_time * dest->surplus[O_SHIELD];
 
-  costwithout = impr_buy_gold_cost(dest->production.value,
+  costwithout = impr_buy_gold_cost(dest->production.value.building,
       shields_at_arrival);
-  costwith = impr_buy_gold_cost(dest->production.value,
-      shields_at_arrival + unit_build_shield_cost(unit_type(caravan)));
+  costwith = impr_buy_gold_cost(dest->production.value.building,
+      shields_at_arrival + unit_build_shield_cost(caravan));
 
   assert(costwithout >= costwith);
   return costwithout - costwith;

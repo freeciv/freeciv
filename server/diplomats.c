@@ -217,11 +217,11 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   /* Send city improvements info to player. */
   BV_CLR_ALL(packet.improvements);
 
-  impr_type_iterate(i) {
-    if (city_got_building(pcity, i)) {
-      BV_SET(packet.improvements, i);
+  improvement_iterate(ptarget) {
+    if (city_has_building(pcity, ptarget)) {
+      BV_SET(packet.improvements, improvement_index(ptarget));
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
@@ -797,7 +797,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       struct city *pcity, Impr_type_id improvement)
 {
   struct player *cplayer;
-  int count, which, target;
+  struct impr_type *ptarget;
+  int count, which;
   const char *prod;
   /* Twice as difficult if target is specified. */
   int success_prob = (improvement >= B_LAST ? game.info.diplchance 
@@ -844,19 +845,19 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Examine the city for improvements to sabotage. */
   count = 0;
-  built_impr_iterate(pcity, index) {
-    if (improvement_by_number(index)->sabotage > 0) {
+  city_built_iterate(pcity, pimprove) {
+    if (pimprove->sabotage > 0) {
       count++;
     }
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   freelog (LOG_DEBUG, "sabotage: count of improvements: %d", count);
 
   /* Determine the target (-1 is production). */
   if (improvement < 0) {
     /* If told to sabotage production, do so. */
-    target = -1;
-    freelog (LOG_DEBUG, "sabotage: specified target production: %d", target);
+    ptarget = NULL;
+    freelog (LOG_DEBUG, "sabotage: specified target production");
   } else if (improvement >= B_LAST) {
     /*
      * Pick random:
@@ -876,48 +877,53 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       return;
     }
     if (count == 0 || myrand (2) == 1) {
-      target = -1;
-      freelog (LOG_DEBUG, "sabotage: random: targeted production: %d", target);
+      ptarget = NULL;
+      freelog (LOG_DEBUG, "sabotage: random: targeted production");
     } else {
-      target = -1;
+      ptarget = NULL;
       which = myrand (count);
 
-      built_impr_iterate(pcity, index) {
-	if (improvement_by_number(index)->sabotage > 0) {
+      city_built_iterate(pcity, pimprove) {
+	if (pimprove->sabotage > 0) {
 	  if (which > 0) {
 	    which--;
 	  } else {
-	    target = index;
+	    ptarget = pimprove;
 	    break;
 	  }
 	}
-      } built_impr_iterate_end;
+      } city_built_iterate_end;
 
-      freelog (LOG_DEBUG, "sabotage: random: targeted improvement: %d (%s)",
-	       target,
-	       improvement_rule_name(target));
+      if (NULL != ptarget) {
+	freelog (LOG_DEBUG, "sabotage: random: targeted improvement: %d (%s)",
+		improvement_number(ptarget),
+		improvement_rule_name(ptarget));
+      } else {
+	freelog (LOG_ERROR, "sabotage: random: targeted improvement error!");
+      }
     }
   } else {
+    struct impr_type *pimprove = improvement_by_number(improvement);
     /*
      * Told which improvement to pick:
      * If try for wonder or palace, complain, deduct movement cost and return.
      * If not available, say so, deduct movement cost and return.
      */
-    if (city_got_building (pcity, improvement)) {
-      if (improvement_by_number(improvement)->sabotage > 0) {
-	target = improvement;
+    if (city_has_building(pcity, pimprove)) {
+      if (pimprove->sabotage > 0) {
+	ptarget = pimprove;
 	freelog (LOG_DEBUG, "sabotage: specified target improvement: %d (%s)",
-	       target,
-	       improvement_rule_name(target));
+	       improvement,
+	       improvement_rule_name(pimprove));
       } else {
 	notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 			 _("You cannot sabotage a %s!"),
-			 improvement_name_translation(improvement));
+			 improvement_name_translation(pimprove));
 	diplomat_charge_movement (pdiplomat, pcity->tile);
 	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_DEBUG, "sabotage: disallowed target improvement: %d (%s)",
 	       improvement,
-	       improvement_rule_name(improvement));
+	       improvement_rule_name(pimprove));
 	return;
       }
     } else {
@@ -925,19 +931,19 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       _("Your %s could not find the %s to"
 			 " sabotage in %s."),
 		       unit_name_translation(pdiplomat),
-		       improvement_name_translation(improvement),
+		       improvement_name_translation(pimprove),
 		       pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->tile);
       send_unit_info (pplayer, pdiplomat);
       freelog (LOG_DEBUG, "sabotage: target improvement not found: %d (%s)",
 	       improvement,
-	       improvement_rule_name(improvement));
+	       improvement_rule_name(pimprove));
       return;
     }
   }
 
   /* Now, the fun stuff!  Do the sabotage! */
-  if (target < 0) {
+  if (NULL == ptarget) {
     /* Sabotage current production. */
 
     /* Do it. */
@@ -945,10 +951,11 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     nullify_prechange_production(pcity); /* Make it impossible to recover */
 
     /* Report it. */
-    if (pcity->production.is_unit)
-      prod = utype_name_translation(utype_by_number(pcity->production.value));
+    if (VUT_UTYPE == pcity->production.kind)
+      prod = utype_name_translation(pcity->production.value.utype);
     else
-      prod = improvement_name_translation(pcity->production.value);
+      prod = improvement_name_translation(pcity->production.value.building);
+
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s succeeded in destroying"
 		       " the production of %s in %s."),
@@ -960,7 +967,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		     nation_plural_for_player(pplayer));
     freelog (LOG_DEBUG, "sabotage: sabotaged production");
   } else {
-    int vulnerability;
+    int vulnerability = ptarget->sabotage;
 
     /* Sabotage a city improvement. */
 
@@ -969,10 +976,9 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * If target was specified, and it is in the capital or are
      * City Walls, then there is a 50% chance of getting caught.
      */
-    vulnerability = improvement_by_number(target)->sabotage;
-
     vulnerability -= (vulnerability
 		      * get_city_bonus(pcity, EFT_SPY_RESISTANT) / 100);
+
     if (myrand(100) >= vulnerability) {
       /* Caught! */
       notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
@@ -985,7 +991,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			 " to sabotage the %s in %s!"),
 		       nation_name_for_player(pplayer),
 		       unit_name_translation(pdiplomat),
-		       improvement_name_translation(target),
+		       improvement_name_translation(ptarget),
 		       pcity->name);
       wipe_unit(pdiplomat);
       freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
@@ -996,19 +1002,19 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s destroyed the %s in %s."),
 		     unit_name_translation(pdiplomat),
-		     improvement_name_translation(target),
+		     improvement_name_translation(ptarget),
 		     pcity->name);
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("The %s destroyed the %s in %s."),
 		     nation_name_for_player(pplayer),
-		     improvement_name_translation(target),
+		     improvement_name_translation(ptarget),
 		     pcity->name);
     freelog (LOG_DEBUG, "sabotage: sabotaged improvement: %d (%s)",
-	       target,
-	       improvement_rule_name(target));
+	       improvement_number(ptarget),
+	       improvement_rule_name(ptarget));
 
     /* Do it. */
-    building_lost(pcity, target);
+    building_lost(pcity, ptarget);
   }
 
   /* Update clients. */
@@ -1344,7 +1350,7 @@ int unit_bribe_cost(struct unit *punit)
     dist=32;
   cost /= dist + 2;
 
-  cost *= unit_build_shield_cost(unit_type(punit)) / 10;
+  cost *= unit_build_shield_cost(punit) / 10;
 
   /* FIXME: This is a weird one - should be replaced */
   if (unit_has_type_flag(punit, F_CITIES)) 

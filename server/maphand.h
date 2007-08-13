@@ -14,6 +14,8 @@
 #define FC__MAPHAND_H
 
 #include "fc_types.h"
+
+#include "improvement.h"		/* bv_imprs */
 #include "map.h"
 #include "packets.h"
 #include "terrain.h"

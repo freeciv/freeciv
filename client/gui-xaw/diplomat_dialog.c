@@ -482,12 +482,12 @@ static int create_improvements_list(struct player *pplayer,
   improvements_can_sabotage[j] = _("City Production");
   improvement_type[j++] = -1;
 
-  built_impr_iterate(pcity, i) {
-    if (improvement_by_number(i)->sabotage > 0) {
-      improvements_can_sabotage[j] = get_impr_name_ex(pcity, i);
-      improvement_type[j++] = i;
+  city_built_iterate(pcity, pimprove) {
+    if (pimprove->sabotage > 0) {
+      improvements_can_sabotage[j] = city_improvement_name_translation(pcity, pimprove);
+      improvement_type[j++] = improvement_number(pimprove);
     }  
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   if(j > 1) {
     improvements_can_sabotage[j] = _("At Spy's Discretion");

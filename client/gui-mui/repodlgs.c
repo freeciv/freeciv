@@ -449,7 +449,7 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct improvement_entry *en
     my_snprintf(coststr, sizeof(coststr), "%5d", entry->cost);
     my_snprintf(utotal, sizeof(utotal), "%6d", entry->total_cost);
 
-    *array++ = improvement_name_translation(entry->type);
+    *array++ = improvement_name_translation(improvement_by_number(entry->type));
     *array++ = count;
     *array++ = coststr;
     *array = utotal;
@@ -487,7 +487,7 @@ static void trade_sell(int *data)
   if (entry) {
     char str[1024];
 
-    sell_all_improvements(entry->type, data == NULL, str, sizeof(str));
+    sell_all_improvements(improvement_by_number(entry->type), data == NULL, str, sizeof(str));
     popup_notify_dialog(_("Sell-Off:"), _("Results"), str);
   }
 }
@@ -717,7 +717,8 @@ static void actunit_upgrade(void)
       my_snprintf(buf, sizeof(buf),
 	      _("Upgrade as many %s to %s as possible for %d gold each?\n"
 	      "Treasury contains %d gold."),
-	      unit_types[ut1].name, unit_types[ut2].name,
+	      utype_name_translation(utype_by_number(ut1)),
+	      utype_name_translation(utype_by_number(ut2)),
 	      unit_upgrade_price(game.player_ptr, ut1, ut2),
 	      game.player_ptr->economic.gold);
 
@@ -820,8 +821,9 @@ void activeunits_report_dialog_update(void)
 
   city_list_iterate(game.player_ptr->cities, pcity)
   {
-    if (pcity->production.is_unit) {
-      (unitarray[pcity->production.value].building_count)++;
+    if (VUT_UTYPE == pcity->production.kind) {
+      struct unit_type *punittype = pcity->production.value.utype;
+      (unitarray[utype_index(punittype)].building_count)++;
     }
   }
   city_list_iterate_end;

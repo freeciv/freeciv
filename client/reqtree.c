@@ -184,12 +184,11 @@ static void node_rectangle_minimum_size(struct tree_node *node,
       } unit_type_iterate_end;
     
       /* buildings */
-      impr_type_iterate(impr_type) {
-        struct impr_type* impr = improvement_by_number(impr_type);
-        requirement_vector_iterate(&(impr->reqs), preq) {
+      improvement_iterate(pimprove) {
+        requirement_vector_iterate(&(pimprove->reqs), preq) {
           if (VUT_ADVANCE == preq->source.kind
 	   && advance_number(preq->source.value.advance) == node->tech) {
-	    sprite = get_building_sprite(tileset, impr_type);
+	    sprite = get_building_sprite(tileset, pimprove);
             /* Improvement icons are not guaranteed to exist */
             if (sprite) {
               get_sprite_dimensions(sprite, &swidth, &sheight);
@@ -198,7 +197,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
             }
 	  }
         } requirement_vector_iterate_end;
-      } impr_type_iterate_end;
+      } improvement_iterate_end;
     
       /* governments */
       government_iterate(gov) {
@@ -1065,12 +1064,11 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
  	    icon_startx += swidth + 2;
  	  } unit_type_iterate_end;
        
-          impr_type_iterate(impr_type) {
-	    struct impr_type* impr = improvement_by_number(impr_type);
-            requirement_vector_iterate(&(impr->reqs), preq) {
+          improvement_iterate(pimprove) {
+            requirement_vector_iterate(&(pimprove->reqs), preq) {
               if (VUT_ADVANCE == preq->source.kind
 	       && advance_number(preq->source.value.advance) == node->tech) {
- 	        sprite = get_building_sprite(tileset, impr_type);
+ 	        sprite = get_building_sprite(tileset, pimprove);
                 /* Improvement icons are not guaranteed to exist */
                 if (sprite) {
                   get_sprite_dimensions(sprite, &swidth, &sheight);
@@ -1083,7 +1081,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
                 }
  	      }
  	    } requirement_vector_iterate_end;
-          } impr_type_iterate_end;
+          } improvement_iterate_end;
 
           government_iterate(gov) {
             requirement_vector_iterate(&(gov->reqs), preq) {

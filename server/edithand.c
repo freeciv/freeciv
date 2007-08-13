@@ -291,8 +291,8 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
   pcity->last_turns_shield_surplus
     = MAX(packet->last_turns_shield_surplus, 0);
 
-  /* FIXME: Might want to check these values. */
-  pcity->changed_from.is_unit = packet->changed_from_is_unit;
+  /* FIXME: check these values! */
+  pcity->changed_from.kind = packet->changed_from_is_unit ? VUT_UTYPE ? VUT_IMPROVEMENT;
   pcity->changed_from.value = packet->changed_from_id;
 
   /* make everything sane.  Note some refreshes may already have been
@@ -379,7 +379,7 @@ void handle_edit_player(struct connection *pc,
       = packet->diplstates[i].has_reason_to_cancel;
   }
 
-  for (i = 0; i < B_LAST/*game.num_impr_types*/; i++) {
+  for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
      pplayer->small_wonders[i] = packet->small_wonders[i];
   }
   

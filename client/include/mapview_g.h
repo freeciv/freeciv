@@ -21,6 +21,8 @@
 
 #include "mapview_common.h"
 
+#include "unitlist.h"
+
 void update_info_label(void);
 void update_unit_info_label(struct unit_list *punitlist);
 void update_mouse_cursor(enum cursor_type new_cursor_type);

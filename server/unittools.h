@@ -14,10 +14,10 @@
 #define FC__UNITTOOLS_H
 
 #include "fc_types.h"
-#include "packets.h"		/* enum unit_info_use */
-#include "unit.h"
 
 #include "gotohand.h"
+#include "packets.h"		/* enum unit_info_use */
+#include "unitlist.h"
 
 /* battle related */
 struct unit_type *find_a_unit_type(enum unit_role_id role,

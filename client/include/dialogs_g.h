@@ -18,7 +18,7 @@
 #include "fc_types.h"
 #include "nation.h"		/* Nation_type_id */
 #include "terrain.h"		/* enum tile_special_type */
-#include "unitlist.h"           /* struct unit_list */
+#include "unitlist.h"
 
 struct packet_nations_selected_info;
 

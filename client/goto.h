@@ -14,8 +14,8 @@
 #define FC__GOTO_H
 
 #include "map.h"
-
 #include "path_finding.h"
+#include "unitlist.h"
 
 void init_client_goto(void);
 void free_client_goto(void);

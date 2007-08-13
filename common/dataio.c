@@ -395,8 +395,10 @@ void dio_put_worklist(struct data_out *dout, const struct worklist *pwl)
 
     dio_put_uint8(dout, length);
     for (i = 0; i < length; i++) {
-      dio_put_bool8(dout, pwl->entries[i].is_unit);
-      dio_put_uint8(dout, pwl->entries[i].value);
+      const struct universal *pcp = &(pwl->entries[i]);
+
+      dio_put_uint8(dout, pcp->kind);
+      dio_put_uint8(dout, universal_number(pcp));
     }
   }
 }
@@ -650,10 +652,14 @@ void dio_get_worklist(struct data_in *din, struct worklist *pwl)
 
     dio_get_uint8(din, &length);
     for (i = 0; i < length; i++) {
-      struct city_production prod;
+      struct universal prod;
+      int identifier;
+      int kind;
 
-      dio_get_bool8(din, &prod.is_unit);
-      dio_get_uint8(din, &prod.value);
+      dio_get_uint8(din, &kind);
+      dio_get_uint8(din, &identifier);
+
+      prod = universal_by_number(kind, identifier);
       worklist_append(pwl, prod);
     }
   }

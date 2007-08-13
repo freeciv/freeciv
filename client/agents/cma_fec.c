@@ -284,20 +284,13 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
     return buffer;
   }
 
-  stock = pcity->shield_stock;
-  if (pcity->production.is_unit) {
-    cost = unit_build_shield_cost(utype_by_number(pcity->production.value));
-  } else {
-    if (!pcity->production.is_unit
-	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
-      my_snprintf(buffer, sizeof(buffer),
-		  improvement_name_translation(pcity->production.value));
-      return buffer;
-    }
-    cost = impr_build_shield_cost(pcity->production.value);
+  if (city_production_has_flag(pcity, IF_GOLD)) {
+    my_snprintf(buffer, sizeof(buffer),
+                improvement_name_translation(pcity->production.value.building));
+    return buffer;
   }
-
-  stock += surplus;
+  stock = pcity->shield_stock + surplus;
+  cost = city_production_build_shield_cost(pcity);
 
   if (stock >= cost) {
     turns = 1;

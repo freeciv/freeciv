@@ -525,12 +525,12 @@ PACKET_CITY_INFO=21; sc,lsend
 
   UINT16 pollution;
 
-  BOOL production_is_unit;
+  UINT8 production_kind;
   UINT8 production_value;
 
   TURN turn_last_built;
-  UINT8 changed_from_id;
-  BOOL changed_from_is_unit;
+  UINT8 changed_from_kind;
+  UINT8 changed_from_value;
   UINT16 before_change_shields;
   UINT16 disbanded_shields;
   UINT16 caravan_shields;

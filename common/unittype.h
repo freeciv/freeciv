@@ -72,7 +72,7 @@ enum unit_flag_id {
   F_TRADE_ROUTE=0,
   F_HELP_WONDER,
   F_IGZOC,     
-  F_NONMIL,      
+  F_CIVILIAN,      
   F_IGTER,
   F_ONEATTACK,   
   F_PIKEMEN,     
@@ -170,7 +170,7 @@ struct veteran_type {
 };
 
 struct unit_type {
-  Unit_type_id index;
+  Unit_type_id item_number;
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -185,8 +185,8 @@ struct unit_type {
   int move_rate;
 
   struct advance *require_advance;	/* may be NULL */
-  Impr_type_id impr_requirement;
-  struct government *gov_requirement; /* may be NULL */
+  struct impr_type *need_improvement;	/* may be NULL */
+  struct government *need_government;	/* may be NULL */
 
   int vision_radius_sq;
   int transport_capacity;
@@ -222,7 +222,7 @@ struct unit_type {
 
 
 #define CHECK_UNIT_TYPE(ut) (assert((ut) != NULL			    \
-			     && (utype_by_number((ut)->index) == (ut))))
+			     && (utype_by_number((ut)->item_number) == (ut))))
 
 /* General unit and unit type (matched) routines */
 Unit_type_id utype_count(void);
@@ -288,30 +288,38 @@ enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s);
 const char *unit_class_flag_rule_name(enum unit_class_flag_id id);
 
 /* Ancillary routines */
+int unit_build_shield_cost(const struct unit *punit);
+int utype_build_shield_cost(const struct unit_type *punittype);
+
+int utype_buy_gold_cost(const struct unit_type *punittype,
+			int shields_in_stock);
+
+int unit_disband_shields(const struct unit *punit);
+int utype_disband_shields(const struct unit_type *punittype);
+
+int unit_pop_value(const struct unit *punit);
+int utype_pop_value(const struct unit_type *punittype);
+
+enum unit_move_type utype_move_type(const struct unit_type *punittype);
+enum unit_move_type uclass_move_type(const struct unit_class *pclass);
+
+/* player related unit functions */
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
                       Output_type_id otype);
 int utype_happy_cost(const struct unit_type *ut, const struct player *pplayer);
 
 struct unit_type *can_upgrade_unittype(const struct player *pplayer,
-				       const struct unit_type *punittype);
+				       struct unit_type *punittype);
 int unit_upgrade_price(const struct player *pplayer,
 		       const struct unit_type *from,
 		       const struct unit_type *to);
 
-int unit_build_shield_cost(const struct unit_type *punittype);
-int unit_buy_gold_cost(const struct unit_type *punittype,
-		       int shields_in_stock);
-int unit_disband_shields(const struct unit_type *punittype);
-int unit_pop_value(const struct unit_type *punittype);
-enum unit_move_type get_unit_move_type(const struct unit_type *punittype);
-
-/* player related unit functions */
 bool can_player_build_unit_direct(const struct player *p,
 				  const struct unit_type *punittype);
-bool can_player_build_unit(const struct player *p,
-			   const struct unit_type *punittype);
-bool can_player_eventually_build_unit(const struct player *p,
-				      const struct unit_type *punittype);
+bool can_player_build_unit_later(const struct player *p,
+				 const struct unit_type *punittype);
+bool can_player_build_unit_now(const struct player *p,
+			       const struct unit_type *punittype);
 
 /* Initialization and iteration */
 void unit_types_init(void);

@@ -961,9 +961,9 @@ void tilespec_reread(const char *new_tileset_name)
   nations_iterate(pnation) {
     tileset_setup_nation_flag(tileset, pnation);
   } nations_iterate_end;
-  impr_type_iterate(imp_id) {
-    tileset_setup_impr_type(tileset, imp_id);
-  } impr_type_iterate_end;
+  improvement_iterate(pimprove) {
+    tileset_setup_impr_type(tileset, pimprove);
+  } improvement_iterate_end;
   advance_iterate(A_FIRST, padvance) {
     tileset_setup_tech_type(tileset, padvance);
   } advance_iterate_end;
@@ -2621,14 +2621,14 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
   Set improvement_type sprite value; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-void tileset_setup_impr_type(struct tileset *t, int id)
+void tileset_setup_impr_type(struct tileset *t,
+			     struct impr_type *pimprove)
 {
-  struct impr_type *pimpr = improvement_by_number(id);
-
-  assert(id >= 0 && id < game.control.num_impr_types);
-  t->sprites.building[id]
-    = lookup_sprite_tag_alt(t, pimpr->graphic_str, pimpr->graphic_alt,
-			    FALSE, "impr_type", improvement_rule_name(id));
+  t->sprites.building[improvement_index(pimprove)]
+    = lookup_sprite_tag_alt(t, pimprove->graphic_str,
+			    pimprove->graphic_alt,
+			    FALSE, "impr_type",
+			    improvement_rule_name(pimprove));
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -4756,13 +4756,14 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
 /**************************************************************************
   Return the sprite for the building/improvement.
 **************************************************************************/
-struct sprite *get_building_sprite(const struct tileset *t, Impr_type_id b)
+struct sprite *get_building_sprite(const struct tileset *t,
+				   struct impr_type *pimprove)
 {
-  if (b < 0 || b >= B_LAST || b >= game.control.num_impr_types) {
+  if (!pimprove) {
     assert(0);
     return NULL;
   }
-  return t->sprites.building[b];
+  return t->sprites.building[improvement_index(pimprove)];
 }
 
 /****************************************************************************

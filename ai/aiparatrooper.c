@@ -344,7 +344,7 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     }
 
     /* we only update choice struct if we can build it! */
-    if (!can_build_unit(pcity, u_type)) {
+    if (!can_city_build_unit_now(pcity, u_type)) {
       continue;
     }
 
@@ -358,8 +358,9 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     if (profit > choice->want) {
       /* Update choice */
       choice->want = profit;
-      choice->choice = u_type->index;
+      choice->value.utype = u_type;
       choice->type = CT_ATTACKER;
+      choice->need_boat = FALSE;
       freelog(LOGLEVEL_PARATROOPER, "%s wants to build %s (want=%d)",
 	      pcity->name,
 	      utype_rule_name(u_type),

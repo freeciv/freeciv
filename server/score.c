@@ -297,13 +297,13 @@ void calc_civ_score(struct player *pplayer)
     }
   } unit_list_iterate_end
 
-  impr_type_iterate(i) {
+  improvement_iterate(i) {
     if (is_great_wonder(i)
 	&& (pcity = find_city_from_great_wonder(i))
 	&& player_owns_city(pplayer, pcity)) {
       pplayer->score.wonders++;
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   /* How much should a spaceship be worth?
    * This gives 100 points per 10,000 citizens. */

@@ -253,21 +253,20 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
     struct unit_type *iunit = get_role_unit(role, i);
     struct advance *itech = iunit->require_advance;
 
-    if (can_build_unit(pcity, iunit)) {
+    if (can_city_build_unit_now(pcity, iunit)) {
       build_unit = iunit;
       break;
-    } else if (can_eventually_build_unit(pcity, iunit)) {
+    } else if (can_city_build_unit_later(pcity, iunit)) {
       int cost = 0;
-      Impr_type_id iimpr = iunit->impr_requirement;
 
       if (A_NEVER != itech
        && player_invention_state(pplayer, advance_number(itech)) != TECH_KNOWN) {
         /* See if we want to invent this. */
         cost = total_bulbs_required_for_goal(pplayer, advance_number(itech));
       }
-      if (iimpr != B_LAST 
-          && !can_player_build_improvement_direct(pplayer, iimpr)) {
-	struct impr_type *building = improvement_by_number(iimpr);
+      if (iunit->need_improvement 
+          && !can_player_build_improvement_direct(pplayer, iunit->need_improvement)) {
+        struct impr_type *building = iunit->need_improvement;
 
 	requirement_vector_iterate(&building->reqs, preq) {
 	  if (VUT_ADVANCE == preq->source.kind) {

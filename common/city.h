@@ -124,6 +124,15 @@ extern int city_tiles;
   } city_map_checked_iterate_end;					\
 }
 
+/* Improvement status (for cities' lists of improvements)
+ * (replaced Impr_Status) */
+
+struct built_status {
+  int turn;			/* turn built, negative for old state */
+#define I_NEVER		(-1)	/* Improvement never built */
+#define I_DESTROYED	(-2)	/* Improvement built and destroyed */
+};
+
 /* How much this output type is penalized for unhappy cities: not at all,
  * surplus knocked down to 0, or all production removed. */
 enum output_unhappy_penalty {
@@ -139,8 +148,14 @@ struct output_type {
   enum output_unhappy_penalty unhappy_penalty;
 };
 
-enum choice_type { CT_NONE = 0, CT_BUILDING = 0, CT_NONMIL, CT_ATTACKER,
-                   CT_DEFENDER, CT_LAST };
+enum choice_type {
+  CT_NONE = 0,
+  CT_BUILDING = 0,
+  CT_CIVILIAN,
+  CT_ATTACKER,
+  CT_DEFENDER,
+  CT_LAST
+};
 
 /* FIXME:
 
@@ -155,11 +170,10 @@ enum choice_type { CT_NONE = 0, CT_BUILDING = 0, CT_NONMIL, CT_ATTACKER,
 #define ASSERT_REAL_CHOICE_TYPE(type)                                    \
         assert(type >= 0 && type < CT_LAST /* && type != CT_NONE */ );
 
-
 struct ai_choice {
-  int choice;            /* what the advisor wants */
-  int want;              /* how bad it wants it (0-100) */
-  int type;              /* unit/building or other depending on question */
+  enum choice_type type;
+  universals_u value; /* what the advisor wants */
+  int want;              /* how much it wants it (0-100) */
   bool need_boat;        /* unit being built wants a boat */
 };
 
@@ -255,9 +269,9 @@ struct city {
   /* city can't be incited if INCITE_IMPOSSIBLE_COST */
   int incite_revolt_cost;      
 
-  struct city_production production;
+  struct universal production;
 
-  Impr_Status improvements[B_LAST];
+  struct built_status built[B_LAST];
 
   struct worklist worklist;
 
@@ -266,7 +280,7 @@ struct city {
   struct unit_list *units_supported;
 
   struct {
-    /* Only used at the client (the serer is omniscient). */
+    /* Only used at the client (the server is omniscient). */
     bool occupied;
     bool happy, unhappy;
 
@@ -284,7 +298,7 @@ struct city {
   int turn_last_built;	      /* The last year in which something was built */
 
   /* If changed this turn, what we changed from */
-  struct city_production changed_from;
+  struct universal changed_from;
 
   int disbanded_shields;      /* If you disband unit in a city. Count them */
   int caravan_shields;        /* If caravan has helped city to build wonder. */
@@ -369,10 +383,8 @@ void add_specialist_output(const struct city *pcity, int *output);
 
 struct player *city_owner(const struct city *pcity);
 int city_population(const struct city *pcity);
-int city_building_upkeep(const struct city *pcity, Output_type_id otype);
 int city_unit_unhappiness(struct unit *punit, int *free_happy);
 void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep);
-int city_buy_cost(const struct city *pcity);
 bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
 bool city_unhappy(const struct city *pcity);                /* anarchy??? */
 bool base_city_celebrating(const struct city *pcity);
@@ -381,29 +393,51 @@ bool city_rapture_grow(const struct city *pcity);
 
 /* city related improvement and unit functions */
 
-int improvement_upkeep(const struct city *pcity, Impr_type_id i); 
-bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id);
-bool can_build_improvement(const struct city *pcity, Impr_type_id id);
-bool can_eventually_build_improvement(const struct city *pcity,
-				      Impr_type_id id);
-bool can_build_unit(const struct city *pcity,
-		    const struct unit_type *punittype);
-bool can_build_unit_direct(const struct city *pcity,
-			   const struct unit_type *punittype);
-bool can_eventually_build_unit(const struct city *pcity,
+int city_improvement_upkeep(const struct city *pcity,
+			    const struct impr_type *pimprove);
+
+bool can_city_build_improvement_direct(const struct city *pcity,
+				       struct impr_type *pimprove);
+bool can_city_build_improvement_later(const struct city *pcity,
+				      struct impr_type *pimprove);
+bool can_city_build_improvement_now(const struct city *pcity,
+				    struct impr_type *pimprove);
+
+bool can_city_build_unit_direct(const struct city *pcity,
+				const struct unit_type *punittype);
+bool can_city_build_unit_later(const struct city *pcity,
 			       const struct unit_type *punittype);
+bool can_city_build_unit_now(const struct city *pcity,
+			     const struct unit_type *punittype);
+
+bool can_city_build_direct(const struct city *pcity,
+			   struct universal target);
+bool can_city_build_later(const struct city *pcity,
+			  struct universal target);
+bool can_city_build_now(const struct city *pcity,
+			struct universal target);
+
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type);
-bool city_got_building(const struct city *pcity,  Impr_type_id id); 
+bool city_has_building(const struct city *pcity,
+		       const struct impr_type *pimprove);
 bool is_capital(const struct city *pcity);
 bool city_got_citywalls(const struct city *pcity);
 bool city_got_defense_effect(const struct city *pcity,
                              const struct unit_type *attacker);
-bool building_replaced(const struct city *pcity, Impr_type_id id);
+
+bool city_production_build_shield_cost(const struct city *pcity);
+int city_production_buy_gold_cost(const struct city *pcity);
+
+bool city_production_has_flag(const struct city *pcity,
+			      enum impr_flag_id flag);
+int city_production_turns_to_build(const struct city *pcity,
+				   bool include_shield_stock);
+
 int city_change_production_penalty(const struct city *pcity,
-				   struct city_production target);
+				   struct universal target);
 int city_turns_to_build(const struct city *pcity,
-			struct city_production target,
+			struct universal target,
                         bool include_shield_stock);
 int city_turns_to_grow(const struct city *pcity);
 bool city_can_grow_to(const struct city *pcity, int pop_size);
@@ -411,7 +445,9 @@ bool city_can_change_build(const struct city *pcity);
 
 /* textual representation of buildings */
 
-const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id);
+const char *city_improvement_name_translation(const struct city *pcity,
+					      struct impr_type *pimprove);
+const char *city_production_name_translation(const struct city *pcity);
 
 /* city map functions */
 
@@ -497,8 +533,10 @@ bool city_exists_within_city_radius(const struct tile *ptile,
 /* granary size as a function of city size */
 int city_granary_size(int city_size);
 
-void city_add_improvement(struct city *pcity, Impr_type_id impr);
-void city_remove_improvement(struct city *pcity, Impr_type_id impr);
+void city_add_improvement(struct city *pcity,
+			  const struct impr_type *pimprove);
+void city_remove_improvement(struct city *pcity,
+			     const struct impr_type *pimprove);
 
 /* city update functions */
 void generic_city_refresh(struct city *pcity, bool full_refresh);
@@ -527,16 +565,17 @@ int city_pollution_types(const struct city *pcity, int shield_total,
 int city_pollution(const struct city *pcity, int shield_total);
 
 /*
- * Iterates over all improvements which are built in the given city.
+ * Iterates over all improvements, skipping those not yet built in the
+ * given city.
  */
-#define built_impr_iterate(m_pcity, m_i)                                      \
-  impr_type_iterate(m_i) {                                                    \
-    if((m_pcity)->improvements[m_i] == I_NONE) {                              \
-      continue;                                                               \
+#define city_built_iterate(_pcity, _p)				\
+  improvement_iterate(_p) {						\
+    if ((_pcity)->built[improvement_index(_p)].turn <= I_NEVER) {	\
+      continue;								\
     }
 
-#define built_impr_iterate_end                                                \
-  } impr_type_iterate_end;
+#define city_built_iterate_end					\
+  } improvement_iterate_end;
 
 
 /* Iterates over all output types in the game. */

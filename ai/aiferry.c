@@ -869,18 +869,18 @@ static bool aiferry_find_interested_city(struct unit *pferry)
     
     if (pcity && pcity->owner == pferry->owner
         && (pcity->ai.choice.need_boat 
-            || (pcity->production.is_unit
-		&& utype_has_role(utype_by_number(pcity->production.value),
-				 L_FERRYBOAT)))) {
+            || (VUT_UTYPE == pcity->production.kind
+		&& utype_has_role(pcity->production.value.utype,
+				  L_FERRYBOAT)))) {
       bool really_needed = TRUE;
-      int turns = city_turns_to_build(pcity, pcity->production, TRUE);
+      int turns = city_production_turns_to_build(pcity, TRUE);
 
       UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s (%d, %d) looks promising...", 
                pcity->name, TILE_XY(pcity->tile));
 
-      if (pos.turn > turns && pcity->production.is_unit
-          && utype_has_role(utype_by_number(pcity->production.value),
-			   L_FERRYBOAT)) {
+      if (pos.turn > turns
+          && VUT_UTYPE == pcity->production.kind
+          && utype_has_role(pcity->production.value.utype, L_FERRYBOAT)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
                  "will finish building its own ferry too soon", pcity->name);
         continue;

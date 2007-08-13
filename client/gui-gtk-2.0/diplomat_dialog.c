@@ -427,12 +427,15 @@ static void create_improvements_list(struct player *pplayer,
   gtk_list_store_append(store, &it);
   gtk_list_store_set(store, &it, 0, _("City Production"), 1, -1, -1);
 
-  built_impr_iterate(pcity, i) {
-    if (improvement_by_number(i)->sabotage > 0) {
+  city_built_iterate(pcity, pimprove) {
+    if (pimprove->sabotage > 0) {
       gtk_list_store_append(store, &it);
-      gtk_list_store_set(store, &it, 0, get_impr_name_ex(pcity, i), 1, i, -1);
+      gtk_list_store_set(store, &it,
+                         0, city_improvement_name_translation(pcity, pimprove),
+                         1, improvement_number(pimprove),
+                         -1);
     }  
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   gtk_list_store_append(store, &it);
   gtk_list_store_set(store, &it, 0, _("At Spy's Discretion"), 1, B_LAST, -1);

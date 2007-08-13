@@ -216,11 +216,11 @@ static int nr_wonders(struct city *pcity)
 {
   int result = 0;
 
-  built_impr_iterate(pcity, i) {
+  city_built_iterate(pcity, i) {
     if (is_great_wonder(i)) {
       result++;
     }
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   return result;
 }
@@ -293,26 +293,28 @@ void report_wonders_of_the_world(struct conn_list *dest)
 
   buffer[0] = '\0';
 
-  impr_type_iterate(i) {
+  improvement_iterate(i) {
     if (is_great_wonder(i)) {
       struct city *pcity = find_city_from_great_wonder(i);
 
       if (pcity) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
-		     get_impr_name_ex(pcity, i), pcity->name,
+		     city_improvement_name_translation(pcity, i),
+		     pcity->name,
 		     nation_name_translation(nation_of_city(pcity)));
-      } else if(great_wonder_was_built(i)) {
+      } else if (great_wonder_was_built(i)) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
 		     improvement_name_translation(i));
       }
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
-  impr_type_iterate(i) {
+  improvement_iterate(i) {
     if (is_great_wonder(i)) {
       players_iterate(pplayer) {
 	city_list_iterate(pplayer->cities, pcity) {
-	  if (pcity->production.value == i && !pcity->production.is_unit) {
+	  if (VUT_IMPROVEMENT == pcity->production.kind
+	   && pcity->production.value.building == i) {
 	    cat_snprintf(buffer, sizeof(buffer),
 			 _("(building %s in %s (%s))\n"),
 			 improvement_name_translation(i),
@@ -322,7 +324,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 	} city_list_iterate_end;
       } players_iterate_end;
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   page_conn(dest, _("Traveler's Report:"),
 	    _("Wonders of the World"), buffer);

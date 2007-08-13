@@ -185,10 +185,10 @@ bool unit_can_help_build_wonder(const struct unit *punit,
 
   return (unit_has_type_flag(punit, F_HELP_WONDER)
 	  && punit->owner == pcity->owner
-	  && !pcity->production.is_unit
-	  && is_wonder(pcity->production.value)
+	  && VUT_IMPROVEMENT == pcity->production.kind
+	  && is_wonder(pcity->production.value.building)
 	  && (pcity->shield_stock
-	      < impr_build_shield_cost(pcity->production.value)));
+	      < impr_build_shield_cost(pcity->production.value.building)));
 }
 
 
@@ -241,7 +241,7 @@ bool is_attack_unit(const struct unit *punit)
 **************************************************************************/
 bool is_military_unit(const struct unit *punit)
 {
-  return !unit_has_type_flag(punit, F_NONMIL);
+  return !unit_has_type_flag(punit, F_CIVILIAN);
 }
 
 /**************************************************************************
@@ -313,7 +313,7 @@ bool is_hiding_unit(const struct unit *punit)
 bool kills_citizen_after_attack(const struct unit *punit)
 {
   return TEST_BIT(game.info.killcitizen, 
-                  (int) (get_unit_move_type(unit_type(punit))) - 1);
+                  (int) (uclass_move_type(unit_class(punit))) - 1);
 }
 
 /**************************************************************************
@@ -377,8 +377,8 @@ enum add_build_city_result test_unit_add_or_build_city(const struct unit *
   if (punit->moves_left == 0)
     return AB_NO_MOVES_ADD;
 
-  assert(unit_pop_value(unit_type(punit)) > 0);
-  new_pop = pcity->size + unit_pop_value(unit_type(punit));
+  assert(unit_pop_value(punit) > 0);
+  new_pop = pcity->size + unit_pop_value(punit);
 
   if (new_pop > game.info.add_to_size_limit)
     return AB_TOO_BIG;

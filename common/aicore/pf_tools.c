@@ -606,7 +606,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 {
   pft_fill_unit_default_parameter(parameter, punit);
 
-  switch (get_unit_move_type(unit_type(punit))) {
+  switch (uclass_move_type(unit_class(punit))) {
   case LAND_MOVING:
     if (unit_has_type_flag(punit, F_IGTER)) {
       parameter->get_MC = igter_move_unit;
@@ -657,7 +657,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 {
   pft_fill_unit_default_parameter(parameter, punit);
 
-  switch (get_unit_move_type(unit_type(punit))) {
+  switch (uclass_move_type(unit_class(punit))) {
   case LAND_MOVING:
     parameter->get_MC = land_overlap_move;
     parameter->get_TB = dont_cross_ocean;
@@ -689,7 +689,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 {
   pft_fill_unit_default_parameter(parameter, punit);
 
-  switch (get_unit_move_type(unit_type(punit))) {
+  switch (uclass_move_type(unit_class(punit))) {
   case LAND_MOVING:
     parameter->get_MC = land_attack_move;
     break;

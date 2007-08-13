@@ -233,10 +233,10 @@ void popup_impr_info(Impr_type_id impr)
     putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
     
     h = 0;
-    impr_type_iterate(type)
+    improvement_iterate(pImprove)
     {
       pBack = SDL_DisplayFormatAlpha(pTmp);
-      copy_chars_to_string16(pStr, improvement_name_translation(type));
+      copy_chars_to_string16(pStr, improvement_name_translation(pImprove));
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       /* draw name tech text */ 
       dst.x = adj_size(40) + (pBack->w - pText->w - adj_size(40)) / 2;
@@ -245,7 +245,7 @@ void popup_impr_info(Impr_type_id impr)
       FREESURFACE(pText);
     
       /* draw tech icon */
-      pText = get_building_surface(type);
+      pText = get_building_surface(pImprove);
       pText = zoomSurface(pText, DEFAULT_ZOOM * ((float)36 / pText->w), DEFAULT_ZOOM * ((float)36 / pText->w), 1);
       dst.x = adj_size(5);
       dst.y = (pBack->h - pText->h) / 2;
@@ -257,14 +257,14 @@ void popup_impr_info(Impr_type_id impr)
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_impr_callback;
-      add_to_gui_list(MAX_ID - type, pBuf);
+      add_to_gui_list(MAX_ID - improvement_number(pImprove), pBuf);
       
       if (++h > 10)
       {
         set_wflag(pBuf, WF_HIDDEN);
       }
 
-    } impr_type_iterate_end;
+    } improvement_iterate_end;
     
     FREESURFACE(pTmp);
     
@@ -315,25 +315,25 @@ void popup_impr_info(Impr_type_id impr)
   
   pImpr_type = improvement_by_number(impr);
   
-  pSurf = get_building_surface(impr);
+  pSurf = get_building_surface(pImpr_type);
   pBuf= create_iconlabel_from_chars(
 	  zoomSurface(pSurf, DEFAULT_ZOOM * ((float)108 / pSurf->w), DEFAULT_ZOOM * ((float)108 / pSurf->w), 1),
-	  pWindow->dst, get_impr_name_ex(NULL, impr),
+	  pWindow->dst, city_improvement_name_translation(NULL, pImpr_type),
           adj_font(24), WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if (!improvement_has_flag(impr, IF_GOLD))
+  if (!improvement_has_flag(pImpr_type, IF_GOLD))
   {
-    sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(impr));
+    sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(pImpr_type));
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, buffer, adj_font(12), 0);
     pBuf->ID = ID_LABEL;
     DownAdd(pBuf, pDock);
     pDock = pBuf;
-    if (!is_wonder(impr))
+    if (!is_wonder(pImpr_type))
     {
       sprintf(buffer, "%s %d", N_("Upkeep:"), pImpr_type->upkeep);
       pBuf = create_iconlabel_from_chars(NULL,
@@ -400,7 +400,7 @@ void popup_impr_info(Impr_type_id impr)
   start_x = (area.x + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
-  helptext_building(buffer, sizeof(buffer), impr, NULL);
+  helptext_building(buffer, sizeof(buffer), pImpr_type, NULL);
   if (buffer[0] != '\0')
   {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
@@ -459,12 +459,12 @@ void popup_impr_info(Impr_type_id impr)
   pBuf->size.y = area.y + adj_size(16);
   start_y = pBuf->size.y + pBuf->size.h + adj_size(10);
   
-  if (!improvement_has_flag(impr, IF_GOLD))
+  if (!improvement_has_flag(pImpr_type, IF_GOLD))
   {
     pBuf = pBuf->prev;
     pBuf->size.x = start_x;
     pBuf->size.y = start_y;
-    if (!is_wonder(impr))
+    if (!is_wonder(pImpr_type))
     {
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(20);
@@ -704,8 +704,8 @@ void popup_unit_info(Unit_type_id type_id)
     char local[2048];
     
     my_snprintf(local, sizeof(local), "%s %d %s",
-	      N_("Cost:"), unit_build_shield_cost(pUnitType),
-	      PL_("shield", "shields", unit_build_shield_cost(pUnitType)));
+	      N_("Cost:"), utype_build_shield_cost(pUnitType),
+	      PL_("shield", "shields", utype_build_shield_cost(pUnitType)));
   
     if(pUnitType->pop_cost)
     {
@@ -782,7 +782,7 @@ void popup_unit_info(Unit_type_id type_id)
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if (pUnitType->obsoleted_by == U_NOT_OBSOLETED) {
+  if (U_NOT_OBSOLETED == pUnitType->obsoleted_by) {
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;  
@@ -1113,30 +1113,30 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   
   /* target improvements */
   imp_count = 0;
-  impr_type_iterate(imp) {
+  improvement_iterate(pImprove) {
     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    requirement_vector_iterate(&(improvement_by_number(imp)->reqs), preq) {
+    requirement_vector_iterate(&(pImprove->reqs), preq) {
       if (VUT_ADVANCE == preq->source.kind
        && advance_number(preq->source.value.advance) == tech) {
-        pSurf = get_building_surface(imp);
+        pSurf = get_building_surface(pImprove);
         pBuf = create_iconlabel_from_chars(
                 zoomSurface(pSurf,
                             DEFAULT_ZOOM * ((float)36 / pSurf->w),
                             DEFAULT_ZOOM * ((float)36 / pSurf->w),
                             1),
                 pWindow->dst,
-                improvement_name_translation(imp),
+                improvement_name_translation(pImprove),
                 adj_font(14),
                 WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
-        if (is_wonder(imp))
+        if (is_wonder(pImprove))
         {
                pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_LUX);
         }
         pBuf->action = change_impr_callback;
-        pBuf->ID = MAX_ID - imp;
+        pBuf->ID = MAX_ID - improvement_number(pImprove);
         DownAdd(pBuf, pDock);
         pDock = pBuf;
         imp_count++;
@@ -1144,7 +1144,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       
       break;
     } requirement_vector_iterate_end;	
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
   
   unit_count = 0;
   unit_type_iterate(un) {

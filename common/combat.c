@@ -488,7 +488,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   int defensepower = def_type->defense_strength;
   int db;
 
-  if (get_unit_move_type(def_type) == LAND_MOVING
+  if (utype_move_type(def_type) == LAND_MOVING
       && is_ocean(ptile->terrain)) {
     /* Ground units on ship doesn't defend. */
     return 0;
@@ -567,7 +567,7 @@ struct unit *get_defender(const struct unit *attacker,
      * complicated and is now handled elsewhere. */
     if (unit_can_defend_here(defender)) {
       bool change = FALSE;
-      int build_cost = unit_build_shield_cost(unit_type(defender));
+      int build_cost = unit_build_shield_cost(defender);
       int defense_rating = get_defense_rating(attacker, defender);
       /* This will make units roughly evenly good defenders look alike. */
       int unit_def 
@@ -627,7 +627,7 @@ struct unit *get_attacker(const struct unit *defender,
   int bestvalue = -1, unit_a, best_cost = 0;
 
   unit_list_iterate(ptile->units, attacker) {
-    int build_cost = unit_build_shield_cost(unit_type(attacker));
+    int build_cost = unit_build_shield_cost(attacker);
 
     if (pplayers_allied(unit_owner(defender), unit_owner(attacker))) {
       return NULL;

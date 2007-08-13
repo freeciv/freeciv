@@ -14,9 +14,10 @@
 #ifndef FC__MESSAGEWIN_COMMON_H
 #define FC__MESSAGEWIN_COMMON_H
 
-#include "events.h"
-#include "packets.h"
 #include "shared.h"		/* bool type */
+#include "fc_types.h"		/* struct tile */
+
+#include "events.h"		/* enum event_type */
 
 struct message {
   char *descr;

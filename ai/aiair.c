@@ -111,7 +111,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   /* Ok, we can attack, but is it worth it? */
 
   /* Cost of our unit */
-  unit_cost = unit_build_shield_cost(unit_type(punit));
+  unit_cost = unit_build_shield_cost(punit);
   /* This is to say "wait, ill unit will get better!" */
   unit_cost = unit_cost * unit_type(punit)->hp / punit->hp; 
 
@@ -120,7 +120,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
   if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
-    victim_cost -= unit_build_shield_cost(unit_type(punit));
+    victim_cost -= unit_build_shield_cost(punit);
   }
 
   unit_attack = (int) (PROB_MULTIPLIER 
@@ -415,7 +415,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
       /* We don't consider this a plane */
       continue;
     }
-    if (can_build_unit(pcity, punittype)) {
+    if (can_city_build_unit_now(pcity, punittype)) {
       struct unit *virtual_unit = 
 	create_unit_virtual(pplayer, pcity, punittype, 
                             do_make_unit_veteran(pcity, punittype));
@@ -424,8 +424,9 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
       if (profit > choice->want){
 	/* Update choice */
 	choice->want = profit;
-	choice->choice = punittype->index;
+	choice->value.utype = punittype;
 	choice->type = CT_ATTACKER;
+	choice->need_boat = FALSE;
 	want_something = TRUE;
 	freelog(LOG_DEBUG, "%s wants to build %s (want=%d)",
 		pcity->name,

@@ -1393,12 +1393,12 @@ static void create_improvements_list(struct player *pplayer,
   ListBox_AddString(lb,_("City Production"));
   improvement_type[j++] = -1;
   
-  impr_type_iterate(i) {
-    if (improvement_by_number(i)->sabotage > 0) {
-      ListBox_AddString(lb,get_impr_name_ex(pcity,i));
-      improvement_type[j++] = i;
+  improvement_iterate(pimprove) {
+    if (pimprove->sabotage > 0) {
+      ListBox_AddString(lb,city_improvement_name_translation(pcity, pimprove));
+      improvement_type[j++] = improvement_by_number(pimprove);
     }  
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   if(j > 1) {
     ListBox_AddString(lb,_("At Spy's Discretion"));

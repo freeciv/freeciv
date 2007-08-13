@@ -69,8 +69,8 @@ static void ai_choose_help_wonder(struct city *pcity,
   if (pcity == wonder_city 
       || wonder_city == NULL
       || pcity->ai.distance_to_wonder_city <= 0
-      || wonder_city->production.is_unit
-      || !is_wonder(wonder_city->production.value)) {
+      || VUT_UTYPE == wonder_city->production.kind
+      || !is_wonder(wonder_city->production.value.building)) {
     /* A distance of zero indicates we are very far away, possibly
      * on another continent. */
     return;
@@ -85,9 +85,8 @@ static void ai_choose_help_wonder(struct city *pcity,
 
   /* Count caravans being built */
   city_list_iterate(pplayer->cities, acity) {
-    if (acity->production.is_unit
-        && utype_has_flag(utype_by_number(acity->production.value),
-			  F_HELP_WONDER)
+    if (VUT_UTYPE == acity->production.kind
+        && utype_has_flag(acity->production.value.utype, F_HELP_WONDER)
         && tile_get_continent(acity->tile) == continent) {
       caravans++;
     }
@@ -103,13 +102,13 @@ static void ai_choose_help_wonder(struct city *pcity,
 
   /* Check if wonder needs a little help. */
   if (build_points_left(wonder_city) 
-      > unit_build_shield_cost(unit_type) * caravans) {
-    Impr_type_id wonder = wonder_city->production.value;
-    int want = wonder_city->ai.building_want[wonder];
+      > utype_build_shield_cost(unit_type) * caravans) {
+    struct impr_type *wonder = wonder_city->production.value.building;
+    int want = wonder_city->ai.building_want[improvement_index(wonder)];
     int dist = pcity->ai.distance_to_wonder_city /
                unit_type->move_rate;
 
-    assert(!wonder_city->production.is_unit);
+    assert(VUT_IMPROVEMENT == wonder_city->production.kind);
 
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
@@ -122,8 +121,8 @@ static void ai_choose_help_wonder(struct city *pcity,
       unit_type = ai_wants_role_unit(pplayer, pcity, F_HELP_WONDER, want);
       if (unit_type != NULL) {
         choice->want = want;
-        choice->type = CT_NONMIL;
-        choice->choice = unit_type->index;
+        choice->type = CT_CIVILIAN;
+        choice->value.utype = unit_type;
       } else {
         CITY_LOG(LOG_DEBUG, pcity,
                  "would but could not build F_HELP_WONDER unit, bumped reqs");
@@ -209,7 +208,7 @@ static void ai_choose_trade_route(struct city *pcity,
     want += 5;
   }
 
-  want -= unit_build_shield_cost(unit_type) * SHIELD_WEIGHTING / 150;
+  want -= utype_build_shield_cost(unit_type) * SHIELD_WEIGHTING / 150;
 
   CITY_LOG(LOG_DEBUG, pcity,
            "want for trade route unit is %d (expected initial income %d)",
@@ -221,8 +220,8 @@ static void ai_choose_trade_route(struct city *pcity,
     unit_type = ai_wants_role_unit(pplayer, pcity, F_TRADE_ROUTE, want);
     if (unit_type != NULL) {
       choice->want = want;
-      choice->type = CT_NONMIL;
-      choice->choice = unit_type->index;
+      choice->type = CT_CIVILIAN;
+      choice->value.utype = unit_type;
     } else {
       CITY_LOG(LOG_DEBUG, pcity,
                "would but could not build trade route unit, bumped reqs");
@@ -267,7 +266,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
                settler_want);
       choice->want = settler_want;
-      choice->type = CT_NONMIL;
+      choice->type = CT_CIVILIAN;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, settler_want);
     }
     /* Terrain improvers don't use boats (yet) */
@@ -303,7 +302,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
                founder_want);
       choice->want = founder_want;
       choice->need_boat = pcity->ai.founder_boat;
-      choice->type = CT_NONMIL;
+      choice->type = CT_CIVILIAN;
       ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, founder_want);
       
     } else if (founder_want < -choice->want) {
@@ -316,8 +315,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 	       " for a new boat (%d of %d free)",
 	       -founder_want, ai->stats.available_boats, ai->stats.boats);
       choice->want = 0 - founder_want;
-      choice->type = CT_NONMIL;
-      choice->choice = founder_type->index; /* default */
+      choice->type = CT_CIVILIAN;
+      choice->value.utype = founder_type; /* default */
       choice->need_boat = TRUE;
       ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -founder_want);
     }

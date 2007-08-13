@@ -98,14 +98,14 @@ HOOKPROTONHNO(worklistview_destruct, void, struct worklist_entry *entry)
 *****************************************************************/
 char *get_improvement_info(int id, struct city *pcity)
 {
-  /* from city.c get_impr_name_ex() */
+  /* from city.c city_improvement_name_translation() */
   if (pcity)
   {
     if (wonder_replacement(pcity, id))
       return "*";
   }
 
-  if (is_wonder(id))
+  if (is_wonder(improvement_by_number(id)))
   {
     if (game.global_wonders[id])
       return _("Built");
@@ -150,9 +150,9 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
       case  0:
             /* id is improvement */
             mystrlcpy(buf,get_improvement_info(id,pcity),64);
-	    my_snprintf(buf2, 64, "%d", impr_build_shield_cost(id));
+	    my_snprintf(buf2, 64, "%d", impr_build_shield_cost(improvement_by_number(id)));
 
-	    *array++ = improvement_name_translation(id);
+	    *array++ = improvement_name_translation(improvement_by_number(id));
 	    *array++ = buf;
 	    if (id == B_CAPITAL)
 	    {
@@ -163,7 +163,7 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
       case  1:
 	    /* id is unit */
             mystrlcpy(buf,utype_values_string(id),64);
-	    my_snprintf(buf2, 64, "(%d)", unit_build_shield_cost(id));
+	    my_snprintf(buf2, 64, "(%d)", utype_build_shield_cost(utype_by_number(id)));
 
 	    *array++ = utype_name_translation(id);
 	    *array++ = buf;
@@ -329,16 +329,19 @@ ULONG Worklistview_DragDrop(struct IClass *cl,Object *obj,struct MUIP_DragDrop *
             set(obj,MUIA_NList_Quiet,TRUE);
 
 	    for (i = 0; i < worklist_length(pwl); i++) {
-	      int target;
-	      bool is_unit;
+	      struct universal target;
 	      struct worklist_entry newentry;
 
 	      /* end of list */
-	      if (!worklist_peek_ith(pwl, &target, &is_unit, i))
+	      if (!worklist_peek_ith(pwl, &target, i))
 	        break;
 
 	      newentry.type = 0;
-	      newentry.wid = wid_encode(is_unit, FALSE, target);
+	      if (VUT_UTYPE == target.kind) {
+	        newentry.wid = wid_encode(TRUE, FALSE, utype_number(target.value.utype));
+	      } else {
+	        newentry.wid = wid_encode(FALSE, FALSE, improvement_number(target.value.building));
+	      }
 
 	      if (newentry.wid == WORKLIST_END) break;
               Worklistview_Insert(obj,&newentry,dropmark,NULL);
@@ -462,26 +465,26 @@ void worklist_populate_targets(struct Worklist_Data *data)
   entry.id = 0;
   DoMethod(data->available_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
 
-  impr_type_iterate(i) {
+  improvement_iterate(i) {
     /* Can the player (eventually) build this improvement? */
-    can_build = can_player_build_improvement(pplr,i);
+    can_build = can_player_build_improvement_now(pplr,i);
     can_eventually_build = could_player_eventually_build_improvement(pplr,i);
 
     /* If there's a city, can the city build the improvement? */
     if (data->pcity) {
-      can_build = can_build && can_build_improvement(data->pcity, i);
+      can_build = can_build && can_city_build_improvement_now(data->pcity, i);
       can_eventually_build = can_eventually_build &&
-	can_eventually_build_improvement(data->pcity, i);
+	can_city_build_improvement_later(data->pcity, i);
     }
     
     if (( advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build))
     {
       entry.type = 0;
-      entry.id = i;
+      entry.id = improvement_number(i);
       DoMethod(data->available_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   /*     + Second, units. */
   entry.type = 3;
@@ -490,21 +493,21 @@ void worklist_populate_targets(struct Worklist_Data *data)
 
   unit_type_iterate(i) {
     /* Can the player (eventually) build this improvement? */
-    can_build = can_player_build_unit(pplr,i);
-    can_eventually_build = can_player_eventually_build_unit(pplr,i);
+    can_build = can_player_build_unit_now(pplr,i);
+    can_eventually_build = can_player_build_unit_later(pplr,i);
 
     /* If there's a city, can the city build the improvement? */
     if (data->pcity) {
-      can_build = can_build && can_build_improvement(data->pcity, i);
+      can_build = can_build && can_city_build_improvement_now(data->pcity, i);
       can_eventually_build = can_eventually_build &&
-	can_eventually_build_improvement(data->pcity, i);
+	can_city_build_improvement_later(data->pcity, i);
     }
 
     if (( advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build))
     {
       entry.type = 1;
-      entry.id = i;
+      entry.id = utype_number(i);
       DoMethod(data->available_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
     }
   } unit_type_iterate_end;
@@ -588,21 +591,29 @@ static void worklist_list_update(struct Worklist_Data *data)
   if (data->embedded_in_city && data->pcity)
   {
      entry.type = 0;
-     entry.wid = wid_encode(data->pcity->production.is_unit, FALSE, data->pcity->production.value);
+    if (VUT_UTYPE == data->pcity->production.kind) {
+      entry.wid = wid_encode(TRUE, FALSE, utype_number(data->pcity->production.value.utype));
+    } else {
+      entry.wid = wid_encode(FALSE, FALSE, improvement_number(data->pcity->production.value.building));
+    }
+
      DoMethod(data->current_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
   }
 
   /* Fill in the rest of the worklist list */
   for (i = 0; i < MAX_LEN_WORKLIST - 1; i++) {
-    int target;
-    bool is_unit;
+    struct universal target;
 
     /* end of list */
-    if (!worklist_peek_ith(data->worklist, &target, &is_unit, i))
+    if (!worklist_peek_ith(data->worklist, &target, i))
       break;
 
     entry.type = 0;
-    entry.wid = wid_encode(is_unit, FALSE, target);
+    if (VUT_UTYPE == target.kind) {
+      entry.wid = wid_encode(TRUE, FALSE, utype_number(target.value.utype));
+    } else {
+      entry.wid = wid_encode(FALSE, FALSE, improvement_number(target.value.building));
+    }
 
     if (entry.wid == WORKLIST_END) break;
     DoMethod(data->current_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);

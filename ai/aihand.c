@@ -470,11 +470,3 @@ void ai_do_last_activities(struct player *pplayer)
 
   TIMING_LOG(AIT_ALL, TIMER_STOP);
 }
-
-/**************************************************************************
-  ...
-**************************************************************************/
-bool is_unit_choice_type(enum choice_type type)
-{
-   return type == CT_NONMIL || type == CT_ATTACKER || type == CT_DEFENDER;
-}

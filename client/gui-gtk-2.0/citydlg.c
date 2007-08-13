@@ -1516,30 +1516,22 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 static void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[200];
-  const char *descr;
-  struct city *pcity = pdialog->pcity;
   gdouble pct;
-  int cost;
-  gboolean sensitive = city_can_buy(pcity);
 
   GtkListStore* store;
   GtkTreeIter iter;
-  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   int targets_used, item;
+  struct city *pcity = pdialog->pcity;
+  gboolean sensitive = city_can_buy(pcity);
+  const char *descr = city_production_name_translation(pcity);
+  int cost = city_production_build_shield_cost(pcity);
 
   gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
   gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
-
-  if (pcity->production.is_unit) {
-    cost = unit_build_shield_cost(utype_by_number(pcity->production.value));
-    descr = utype_name_translation(utype_by_number(pcity->production.value));
-  } else {
-    cost = impr_build_shield_cost(pcity->production.value);;
-    descr = get_impr_name_ex(pcity, pcity->production.value);
-  }
 
   if (cost > 0) {
     pct = (gdouble) pcity->shield_stock / (gdouble) cost;
@@ -1570,17 +1562,17 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   name_and_sort_items(targets, targets_used, items, FALSE, pcity);
 
   for (item = 0; item < targets_used; item++) {
-    if (city_can_build_impr_or_unit(pcity, items[item].item)) {
+    if (can_city_build_now(pcity, items[item].item)) {
       const char* name;
       struct sprite* sprite;
-      struct city_production target = items[item].item;
+      struct universal target = items[item].item;
 
-      if (target.is_unit) {
-	name = utype_name_translation(utype_by_number(target.value));
-	sprite = get_unittype_sprite(tileset, utype_by_number(target.value));
+      if (VUT_UTYPE == target.kind) {
+	name = utype_name_translation(target.value.utype);
+	sprite = get_unittype_sprite(tileset, target.value.utype);
       } else {
-	name = improvement_name_translation(target.value);
-	sprite = get_building_sprite(tileset, target.value);
+	name = improvement_name_translation(target.value.building);
+	sprite = get_building_sprite(tileset, target.value.building);
       }
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, sprite_get_pixbuf(sprite),
@@ -1599,7 +1591,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   int total, item, targets_used;
-  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   GtkTreeModel *model;
   GtkListStore *store;
@@ -1618,12 +1610,12 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     GtkTreeIter it;
     int upkeep;
     struct sprite *sprite;
-    struct city_production target = items[item].item;
+    struct universal target = items[item].item;
 
-    assert(!target.is_unit);
+    assert(VUT_IMPROVEMENT == target.kind);
     /* This takes effects (like Adam Smith's) into account. */
-    upkeep = improvement_upkeep(pdialog->pcity, target.value);
-    sprite = get_building_sprite(tileset, target.value);
+    upkeep = city_improvement_upkeep(pdialog->pcity, target.value.building);
+    sprite = get_building_sprite(tileset, target.value.building);
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
@@ -2438,23 +2430,14 @@ static void buy_callback_response(GtkWidget *w, gint response, gpointer data)
 *****************************************************************/
 static void buy_callback(GtkWidget *w, gpointer data)
 {
-  struct city_dialog *pdialog = data;
-  int value;
-  const char *name;
   GtkWidget *shell;
+  struct city_dialog *pdialog = data;
+  const char *name = city_production_name_translation(pdialog->pcity);
+  int value = city_production_buy_gold_cost(pdialog->pcity);
 
   if (!can_client_issue_orders()) {
     return;
   }
-
-  if (pdialog->pcity->production.is_unit) {
-    name = utype_name_translation(utype_by_number(pdialog->pcity->production.value));
-  } else {
-    name =
-	get_impr_name_ex(pdialog->pcity,
-			 pdialog->pcity->production.value);
-  }
-  value = city_buy_cost(pdialog->pcity);
 
   if (game.player_ptr->economic.gold >= value) {
     shell = gtk_message_dialog_new(NULL,
@@ -2504,6 +2487,7 @@ static void change_production_callback(GtkWidget* w,
 *****************************************************************/
 static void sell_callback(Impr_type_id id, gpointer data)
 {
+  struct impr_type *pimprove = improvement_by_number(id);
   struct city_dialog *pdialog = (struct city_dialog *) data;
   GtkWidget *shl;
   
@@ -2516,7 +2500,7 @@ static void sell_callback(Impr_type_id id, gpointer data)
     return;
   }
   
-  if (!can_city_sell_building(pdialog->pcity, id)) {
+  if (!can_city_sell_building(pdialog->pcity, pimprove)) {
     return;
   }
 
@@ -2527,7 +2511,8 @@ static void sell_callback(Impr_type_id id, gpointer data)
     GTK_MESSAGE_QUESTION,
     GTK_BUTTONS_YES_NO,
     _("Sell %s for %d gold?"),
-    get_impr_name_ex(pdialog->pcity, id), impr_sell_gold(id));
+    city_improvement_name_translation(pdialog->pcity, pimprove),
+    impr_sell_gold(pimprove));
   setup_dialog(shl, pdialog->shell);
   pdialog->sell_shell = shl;
   
@@ -2578,10 +2563,11 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
   if (!(mask & GDK_CONTROL_MASK)) {
     sell_callback(id, data);
   } else {
-    if (is_great_wonder(id)) {
-      popup_help_dialog_typed(improvement_name_translation(id), HELP_WONDER);
+    struct impr_type *pimprove = improvement_by_number(id);
+    if (is_great_wonder(pimprove)) {
+      popup_help_dialog_typed(improvement_name_translation(pimprove), HELP_WONDER);
     } else {
-      popup_help_dialog_typed(improvement_name_translation(id), HELP_IMPROVEMENT);
+      popup_help_dialog_typed(improvement_name_translation(pimprove), HELP_IMPROVEMENT);
     }
   }
 }

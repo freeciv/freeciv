@@ -120,7 +120,7 @@ static int wid_id(wid wid)
 static int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first, 
 			 bool advanced_tech)
 {
-  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   int item, targets_used, wids_used = 0;
 
@@ -142,9 +142,13 @@ static int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
   name_and_sort_items(targets, targets_used, items, FALSE, pcity);
 
   for (item = 0; item < targets_used; item++) {
-    struct city_production target = items[item].item;
+    struct universal target = items[item].item;
 
-    dest_wids[wids_used] = wid_encode(target.is_unit, FALSE, target.value);
+    if (VUT_UTYPE == target.kind) {
+      dest_wids[wids_used] = wid_encode(TRUE, FALSE, utype_number(target.value.utype));
+    } else {
+      dest_wids[wids_used] = wid_encode(FALSE, FALSE, improvement_number(target.value.building));
+    }
     wids_used++;
   }
 
@@ -457,10 +461,10 @@ static void worklist_help(int id, bool is_unit)
   if (id >= 0) {
     if (is_unit) {
       popup_help_dialog_typed(utype_name_translation(utype_by_number(id)), HELP_UNIT);
-    } else if (is_great_wonder(id)) {
-      popup_help_dialog_typed(improvement_name_translation(id), HELP_WONDER);
+    } else if (is_great_wonder(improvement_by_number(id))) {
+      popup_help_dialog_typed(improvement_name_translation(improvement_by_number(id)), HELP_WONDER);
     } else {
-      popup_help_dialog_typed(improvement_name_translation(id), HELP_IMPROVEMENT);
+      popup_help_dialog_typed(improvement_name_translation(improvement_by_number(id)), HELP_IMPROVEMENT);
     }
   } else
     popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
@@ -505,14 +509,12 @@ static void copy_editor_to_worklist(struct worklist_editor *peditor,
     if (peditor->worklist_wids[i] == WORKLIST_END) {
       break;
     } else {
-      struct city_production prod;
       wid wid = peditor->worklist_wids[i];
+      struct universal prod =
+        universal_by_number(wid_is_unit(wid) ? VUT_UTYPE : VUT_IMPROVEMENT,
+                               wid_id(wid));
 
       assert(!wid_is_worklist(wid));
-
-      prod.is_unit = wid_is_unit(wid);
-      prod.value = wid_id(wid);
-
       worklist_append(pwl, prod);
     }
   }
@@ -899,24 +901,18 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
                                         int before, wid wid)
 {
   int i, first_free;
-  struct city_production target;
+  struct universal target =
+    universal_by_number(wid_is_unit(wid) ? VUT_UTYPE : VUT_IMPROVEMENT,
+                           wid_id(wid));
 
   assert(!wid_is_worklist(wid));
-
-  target.is_unit = wid_is_unit(wid);
-  target.value = wid_id(wid);
 
   /* If this worklist is a city worklist, double check that the city
      really can (eventually) build the target.  We've made sure that
      the list of available targets is okay for this city, but a global
      worklist may try to insert an odd-ball unit or target. */
   if (peditor->pcity
-      && ((target.is_unit
-	   && !can_eventually_build_unit(peditor->pcity,
-					 utype_by_number(target.value)))
-	  || (!target.is_unit
-	      && !can_eventually_build_improvement(peditor->pcity,
-						   target.value)))) {
+      && !can_city_build_later(peditor->pcity, target)) {
     /* Nope, this city can't build this target, ever.  Don't put it into
        the worklist. */
     return;
@@ -963,7 +959,7 @@ static void copy_worklist_to_editor(struct worklist *pwl,
   int i;
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    struct city_production target;
+    struct universal target;
 
     /* end of list */
     if (!worklist_peek_ith(pwl, &target, i)) {
@@ -971,8 +967,8 @@ static void copy_worklist_to_editor(struct worklist *pwl,
     }
 
     worklist_really_insert_item(peditor, where,
-                                wid_encode(target.is_unit, FALSE,
-					   target.value));
+                                wid_encode(VUT_UTYPE == target.kind, FALSE,
+					   universal_number(&target)));
     if (where < MAX_LEN_WORKLIST)
       where++;
   }
@@ -990,8 +986,8 @@ static void worklist_prep(struct worklist_editor *peditor)
 {
   if (peditor->pcity) {
     peditor->worklist_wids[0] =
-        wid_encode(peditor->pcity->production.is_unit, FALSE,
-                   peditor->pcity->production.value);
+        wid_encode(VUT_UTYPE == peditor->pcity->production.kind, FALSE,
+                   universal_number(&peditor->pcity->production));
     peditor->worklist_wids[1] = WORKLIST_END;
     copy_worklist_to_editor(&peditor->pcity->worklist, peditor,
                             MAX_LEN_WORKLIST);
@@ -1020,8 +1016,7 @@ static void worklist_list_update(struct worklist_editor *peditor)
   /* Fill in the rest of the worklist list */
   for (i = 0; n < MAX_LEN_WORKLIST; i++, n++) {
     wid wid = peditor->worklist_wids[i];
-
-    struct city_production target;
+    struct universal target;
 
     if (wid == WORKLIST_END) {
       break;
@@ -1029,8 +1024,9 @@ static void worklist_list_update(struct worklist_editor *peditor)
 
     assert(!wid_is_worklist(wid));
 
-    target.is_unit = wid_is_unit(wid);
-    target.value = wid_id(wid);
+    target = universal_by_number(wid_is_unit(wid)
+                                    ? VUT_UTYPE : VUT_IMPROVEMENT,
+                                    wid_id(wid));
 
     get_city_dialog_production_row(row, BUFFER_SIZE, target,
                                    peditor->pcity);
@@ -1086,10 +1082,9 @@ static void targets_list_update(struct worklist_editor *peditor)
       my_snprintf(buf[2], BUFFER_SIZE, "---");
       my_snprintf(buf[3], BUFFER_SIZE, "---");
     } else {
-      struct city_production target;
-
-      target.is_unit = wid_is_unit(wid);
-      target.value = wid_id(wid);
+      struct universal target = 
+        universal_by_number(wid_is_unit(wid) ? VUT_UTYPE : VUT_IMPROVEMENT,
+                               wid_id(wid));
 
       get_city_dialog_production_row(row, BUFFER_SIZE, target,
                                      peditor->pcity);

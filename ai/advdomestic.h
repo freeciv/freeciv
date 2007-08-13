@@ -15,8 +15,6 @@
 
 #include "fc_types.h"
 
-struct ai_choice;
-
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice);
 

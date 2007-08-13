@@ -72,11 +72,11 @@ static int count_sabotagable_improvements(struct city *pcity)
 {
   int count = 0;
 
-  built_impr_iterate(pcity, index) {
-    if (improvement_by_number(index)->sabotage > 0) {
+  city_built_iterate(pcity, pimprove) {
+    if (pimprove->sabotage > 0) {
       count++;
     }
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   return count;
 }
@@ -120,7 +120,8 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
        choice->want = 16000; /* diplomat more important than soldiers */
        pcity->ai.urgency = 1;
        choice->type = CT_DEFENDER;
-       choice->choice = ut->index;
+       choice->value.utype = ut;
+       choice->need_boat = FALSE;
     } else if (num_role_units(F_DIPLOMAT) > 0) {
       /* We don't know diplomats yet... */
       freelog(LOG_DIPLOMAT_BUILD,
@@ -203,7 +204,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       gain_theft = total_bulbs_required(pplayer) * TRADE_WEIGHTING;
     }
     gain = MAX(gain_incite, gain_theft);
-    loss = unit_build_shield_cost(ut) * SHIELD_WEIGHTING;
+    loss = utype_build_shield_cost(ut) * SHIELD_WEIGHTING;
 
     /* Probability to succeed, assuming no defending diplomat */
     p_success = game.info.diplchance;
@@ -223,7 +224,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     }
 
     want = military_amortize(pplayer, pcity, want, time_to_dest, 
-                             unit_build_shield_cost(ut));
+                             utype_build_shield_cost(ut));
 
     if (!player_has_embassy(pplayer, city_owner(acity))
         && want < 99) {
@@ -245,8 +246,9 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
               pplayer->economic.gold - pplayer->ai.est_upkeep, 
               gain_theft, time_to_dest);
       choice->want = want;
-      choice->type = CT_NONMIL; /* so we don't build barracks for it */
-      choice->choice = ut->index;
+      choice->type = CT_CIVILIAN; /* so we don't build barracks for it */
+      choice->value.utype = ut;
+      choice->need_boat = FALSE;
       BV_SET(ai->stats.diplomat_reservations, acity->id);
     }
   }

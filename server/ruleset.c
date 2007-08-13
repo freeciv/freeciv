@@ -86,9 +86,6 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
 					  const char *entry, bool required,
 					  const char *filename,
 					  const char *description);
-static Impr_type_id lookup_impr_type(struct section_file *file, const char *prefix,
-				     const char *entry, bool required,
-				     const char *filename, const char *description);
 static char *lookup_helptext(struct section_file *file, char *prefix);
 
 static struct terrain *lookup_terrain(char *name, struct terrain *tthis);
@@ -292,9 +289,9 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
 /**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
- advances id.  If (!required), return A_LAST if match "Never" or can't match.
- If (required), die if can't match.  Note the first tech should have
- name "None" so that will always match.
+ advances pointer.  If (!required), return A_NEVER for match "Never" or
+ can't match.  If (required), die when can't match.  Note the first tech
+ should have name "None" so that will always match.
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
@@ -326,36 +323,35 @@ static struct advance *lookup_tech(struct section_file *file,
 
 /**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
- buildings id.  If (!required), return A_LAST if match "Never" or can't match.
- If (required), die if can't match.  Note the first tech should have
- name "None" so that will always match.
+ improvement pointer.  If (!required), return B_NEVER for match "None" or
+ can't match.  If (required), die when can't match.
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static int lookup_building(struct section_file *file, const char *prefix,
-			   const char *entry, bool required,
-			   const char *filename, const char *description)
+static struct impr_type *lookup_building(struct section_file *file,
+					 const char *prefix, const char *entry,
+					 bool required, const char *filename,
+					 const char *description)
 {
   char *sval;
-  int i;
+  struct impr_type *pimprove;
   
   sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
-  if ((!required && !sval) || strcmp(sval, "None") == 0) {
-    i = B_LAST;
+  if (!sval || (!required && strcmp(sval, "None") == 0)) {
+    pimprove = B_NEVER;
   } else {
-    i = find_improvement_by_rule_name(sval);
-    if (i == B_LAST) {
+    pimprove = find_improvement_by_rule_name(sval);
+
+    if (B_NEVER == pimprove) {
       freelog((required?LOG_FATAL:LOG_ERROR),
            "\"%s\" %s %s: couldn't match \"%s\".",
            filename, (description?description:prefix), entry, sval );
       if (required) {
-	exit(EXIT_FAILURE);
-      } else {
-	i = B_LAST;
+        exit(EXIT_FAILURE);
       }
     }
   }
-  return i;
+  return pimprove;
 }
 
 /**************************************************************************
@@ -404,8 +400,9 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
       exit(EXIT_FAILURE);
     }
     output[i] = punittype;
-    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval,
-            punittype->index);
+    freelog(LOG_DEBUG, "\"%s\" %s.%s (%d): %s (%d)",
+            filename, prefix, entry, i, sval,
+            utype_number(punittype));
   }
   free(slist);
   return;
@@ -471,8 +468,8 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
   Lookup a prefix.entry string vector in the file and fill in the
   array, which should hold MAX_NUM_BUILDING_LIST items. The output array is
   either B_LAST terminated or full (contains MAX_NUM_BUILDING_LIST
-  items). All valid entries of the output array are guaranteed to pass
-  improvement_exist(). There should be at least one value, but it may be
+  items). [All valid entries of the output array are guaranteed to pass
+  improvement_exist()?] There should be at least one value, but it may be
   "", meaning an empty list.
 **************************************************************************/
 static void lookup_building_list(struct section_file *file, const char *prefix,
@@ -503,15 +500,15 @@ static void lookup_building_list(struct section_file *file, const char *prefix,
   }
   for (i = 0; i < nval; i++) {
     char *sval = slist[i];
-    int building = find_improvement_by_rule_name(sval);
+    struct impr_type *pimprove = find_improvement_by_rule_name(sval);
 
-    if (building == B_LAST) {
+    if (NULL == pimprove) {
       freelog(LOG_FATAL, "\"%s\" %s.%s (%d): couldn't match \"%s\".",
               filename, prefix, entry, i, sval);
       exit(EXIT_FAILURE);
     }
-    output[i] = building;
-    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, building);
+    output[i] = improvement_number(pimprove);
+    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, output[i]);
   }
   free(slist);
 }
@@ -554,43 +551,6 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
     }
   }
   return punittype;
-}
-
-/**************************************************************************
- Lookup a string prefix.entry in the file and return the corresponding
- Impr_type_id.  If (!required), return B_LAST if match "None" or can't match.
- If (required), die if can't match.
- If description is not NULL, it is used in the warning message
- instead of prefix (eg pass impr->name instead of prefix="imprs2.b27")
-**************************************************************************/
-static Impr_type_id lookup_impr_type(struct section_file *file, const char *prefix,
-				     const char *entry, bool required,
-				     const char *filename, const char *description)
-{
-  char *sval;
-  Impr_type_id id;
-
-  if (required) {
-    sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
-  } else {
-    sval = secfile_lookup_str_default(file, "None", "%s.%s", prefix, entry);
-  }
-
-  if (strcmp(sval, "None")==0) {
-    id = B_LAST;
-  } else {
-    id = find_improvement_by_rule_name(sval);
-    if (id==B_LAST) {
-      freelog((required?LOG_FATAL:LOG_ERROR),
-           "\"%s\" %s %s: couldn't match \"%s\".",
-           filename, (description?description:prefix), entry, sval );
-      if (required) {
-	exit(EXIT_FAILURE);
-      }
-    }
-  }
-
-  return id;
 }
 
 /**************************************************************************
@@ -929,7 +889,7 @@ static void load_unit_names(struct section_file *file)
   game.control.num_unit_types = nval;
 
   unit_type_iterate(punittype) {
-    const int i = punittype->index;
+    const int i = utype_index(punittype);
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
     name_strlcpy(punittype->name.vernacular, name);
@@ -1145,9 +1105,9 @@ if (_count > MAX_VET_LEVELS) {						\
       char tmp[200] = "\0";
       mystrlcat(tmp, sec[i], 200);
       mystrlcat(tmp, ".gov_req", 200);
-      u->gov_requirement = lookup_government(file, tmp, filename);
+      u->need_government = lookup_government(file, tmp, filename);
     } else {
-      u->gov_requirement = NULL; /* no requirement */
+      u->need_government = NULL; /* no requirement */
     }
   } unit_type_iterate_end;
   
@@ -1163,7 +1123,7 @@ if (_count > MAX_VET_LEVELS) {						\
     const int i = utype_index(u);
     struct unit_class *pclass;
 
-    u->impr_requirement = lookup_building(file, sec[i], "impr_req", FALSE,
+    u->need_improvement = lookup_building(file, sec[i], "impr_req", FALSE,
 					  filename, u->name.vernacular);
 
     sval = secfile_lookup_str(file, "%s.class", sec[i]);
@@ -1371,7 +1331,7 @@ if (_count > MAX_VET_LEVELS) {						\
     exit(EXIT_FAILURE);
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
     u = get_role_unit(L_BARBARIAN_BOAT,0);
-    if(get_unit_move_type(u) != SEA_MOVING) {
+    if(utype_move_type(u) != SEA_MOVING) {
       freelog(LOG_FATAL, "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
               filename,
               utype_rule_name(u));
@@ -1397,7 +1357,7 @@ if (_count > MAX_VET_LEVELS) {						\
 static void load_building_names(struct section_file *file)
 {
   char **sec;
-  int nval;
+  int i, nval;
   const char *filename = secfile_filename(file);
 
   (void) section_file_lookup(file, "datafile.description");	/* unused */
@@ -1417,13 +1377,13 @@ static void load_building_names(struct section_file *file)
 
   game.control.num_impr_types = nval;
 
-  impr_type_iterate(i) {
+  for (i = 0; i < nval; i++) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
     struct impr_type *b = improvement_by_number(i);
 
     name_strlcpy(b->name.vernacular, name);
     b->name.translated = NULL;
-  } impr_type_iterate_end;
+  }
 
   ruleset_cache_init();
 
@@ -1455,7 +1415,7 @@ static void load_ruleset_buildings(struct section_file *file)
       freelog(LOG_FATAL,
               "\"%s\" improvement \"%s\": couldn't match genus \"%s\".",
               filename,
-              improvement_rule_name(i),
+              improvement_rule_name(b),
               item);
       exit(EXIT_FAILURE);
     }
@@ -1473,10 +1433,11 @@ static void load_ruleset_buildings(struct section_file *file)
 	freelog(LOG_ERROR,
 	        "\"%s\" improvement \"%s\": bad flag name \"%s\".",
 		filename,
-		improvement_rule_name(i),
+		improvement_rule_name(b),
 		sval);
+      } else {
+        b->flags |= (1<<ival);
       }
-      b->flags |= (1<<ival);
     }
     free(slist);
 
@@ -1495,8 +1456,8 @@ static void load_ruleset_buildings(struct section_file *file)
       b->obsolete_by = A_NEVER;
     }
 
-    b->replaced_by = lookup_impr_type(file, sec[i], "replaced_by", FALSE,
-				      filename, b->name.vernacular);
+    b->replaced_by = lookup_building(file, sec[i], "replaced_by", FALSE,
+				     filename, b->name.vernacular);
 
     b->build_cost = secfile_lookup_int(file, "%s.build_cost", sec[i]);
 
@@ -1518,21 +1479,19 @@ static void load_ruleset_buildings(struct section_file *file)
   }
 
   /* Some more consistency checking: */
-  impr_type_iterate(i) {
-    struct impr_type *b = improvement_by_number(i);
-
-    if (improvement_exists(i)) {
+  improvement_iterate(b) {
+    if (valid_improvement(b)) {
       if (A_NEVER != b->obsolete_by
           && !valid_advance(b->obsolete_by)) {
         freelog(LOG_ERROR,
                 "\"%s\" improvement \"%s\": obsoleted by removed tech \"%s\".",
                 filename,
-                improvement_rule_name(i),
+                improvement_rule_name(b),
                 advance_rule_name(b->obsolete_by));
 	b->obsolete_by = A_NEVER;
       }
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -3078,14 +3037,16 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.move_rate = u->move_rate;
     packet.tech_requirement = u->require_advance
                               ? advance_number(u->require_advance) : -1;
-    packet.impr_requirement = u->impr_requirement;
-    packet.gov_requirement = u->gov_requirement
-                             ? government_number(u->gov_requirement) : -1;
+    packet.impr_requirement = u->need_improvement
+                              ? improvement_number(u->need_improvement) : -1;
+    packet.gov_requirement = u->need_government
+                             ? government_number(u->need_government) : -1;
     packet.vision_radius_sq = u->vision_radius_sq;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;
     packet.firepower = u->firepower;
-    packet.obsoleted_by = u->obsoleted_by ? u->obsoleted_by->index : -1;
+    packet.obsoleted_by = u->obsoleted_by
+                          ? utype_number(u->obsoleted_by) : -1;
     packet.fuel = u->fuel;
     packet.flags = u->flags;
     packet.roles = u->roles;
@@ -3178,12 +3139,11 @@ static void send_ruleset_techs(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_buildings(struct conn_list *dest)
 {
-  impr_type_iterate(i) {
-    struct impr_type *b = improvement_by_number(i);
+  improvement_iterate(b) {
     struct packet_ruleset_building packet;
     int j;
 
-    packet.id = i;
+    packet.id = improvement_number(b);
     packet.genus = b->genus;
     sz_strlcpy(packet.name, b->name.vernacular);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
@@ -3195,7 +3155,8 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.reqs_count = j;
     packet.obsolete_by = b->obsolete_by
                          ? advance_number(b->obsolete_by) : -1;
-    packet.replaced_by = b->replaced_by;
+    packet.replaced_by = b->replaced_by
+                         ? improvement_number(b->replaced_by) : -1;
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;
@@ -3210,7 +3171,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     }
 
     lsend_packet_ruleset_building(dest, &packet);
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 }
 
 /**************************************************************************

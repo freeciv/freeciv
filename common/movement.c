@@ -23,6 +23,7 @@
 #include "support.h"
 
 #include "base.h"
+#include "effects.h"
 #include "fc_types.h"
 #include "map.h"
 #include "movement.h"
@@ -113,7 +114,7 @@ bool can_attack_from_non_native(struct unit_type *utype)
 ****************************************************************************/
 bool is_sailing_unit(const struct unit *punit)
 {
-  return (get_unit_move_type(unit_type(punit)) == SEA_MOVING);
+  return (uclass_move_type(unit_class(punit)) == SEA_MOVING);
 }
 
 
@@ -122,7 +123,7 @@ bool is_sailing_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_air_unit(const struct unit *punit)
 {
-  return (get_unit_move_type(unit_type(punit)) == AIR_MOVING);
+  return (uclass_move_type(unit_class(punit)) == AIR_MOVING);
 }
 
 
@@ -131,7 +132,7 @@ bool is_air_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_ground_unit(const struct unit *punit)
 {
-  return (get_unit_move_type(unit_type(punit)) == LAND_MOVING);
+  return (uclass_move_type(unit_class(punit)) == LAND_MOVING);
 }
 
 
@@ -140,7 +141,7 @@ bool is_ground_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_sailing_unittype(const struct unit_type *punittype)
 {
-  return (get_unit_move_type(punittype) == SEA_MOVING);
+  return (utype_move_type(punittype) == SEA_MOVING);
 }
 
 
@@ -149,7 +150,7 @@ bool is_sailing_unittype(const struct unit_type *punittype)
 ****************************************************************************/
 bool is_ground_unittype(const struct unit_type *punittype)
 {
-  return (get_unit_move_type(punittype) == LAND_MOVING);
+  return (utype_move_type(punittype) == LAND_MOVING);
 }
 
 
@@ -421,7 +422,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
-  if (get_unit_move_type(punittype) == LAND_MOVING) {
+  if (utype_move_type(punittype) == LAND_MOVING) {
 
     /* Moving from ocean */
     if (is_ocean(src_tile->terrain)) {
@@ -467,7 +468,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   }
 
   /* 9) */
-  if (!utype_has_flag(punittype, F_NONMIL)
+  if (!utype_has_flag(punittype, F_CIVILIAN)
       && dst_tile->owner
       && dst_tile->owner != unit_owner
       && players_non_invade(unit_owner, dst_tile->owner)) {

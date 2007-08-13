@@ -355,25 +355,15 @@ static const char *cr_entry_building(const struct city *pcity,
     worklist_is_empty(&pcity->worklist) ? "" :
     concise_city_production ? "+" : _("(worklist)");
 	
-  if (!pcity->production.is_unit
-      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD)) {
     my_snprintf(buf, sizeof(buf), "%s (%d)%s",
-		get_impr_name_ex(pcity, pcity->production.value),
+		city_production_name_translation(pcity),
 		MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
   } else {
-    const char *name;
-    int cost;
-
-    if(pcity->production.is_unit) {
-      name = utype_name_translation(utype_by_number(pcity->production.value));
-      cost = unit_build_shield_cost(utype_by_number(pcity->production.value));
-    } else {
-      name = get_impr_name_ex(pcity, pcity->production.value);
-      cost = impr_build_shield_cost(pcity->production.value);
-    }
-
-    my_snprintf(buf, sizeof(buf), "%s (%d/%d)%s", name,
-		pcity->shield_stock, cost,
+    my_snprintf(buf, sizeof(buf), "%s (%d/%d)%s",
+		city_production_name_translation(pcity),
+		pcity->shield_stock,
+		city_production_build_shield_cost(pcity),
 		from_worklist);
   }
 
@@ -383,17 +373,18 @@ static const char *cr_entry_building(const struct city *pcity,
 static const char *cr_entry_build_cost(const struct city *pcity,
 				  const void *data)
 {
-  int price = city_buy_cost(pcity);
-  int turns = city_turns_to_build(pcity, pcity->production, TRUE);
   char bufone[8];
   char buftwo[8];
   static char buf[32];
+  int price;
+  int turns;
 
-  if (!pcity->production.is_unit
-      && improvement_has_flag(pcity->production.value, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD)) {
     my_snprintf(buf, sizeof(buf), "*");
     return buf;
   }
+  price = city_production_buy_gold_cost(pcity);
+  turns = city_production_turns_to_build(pcity, TRUE);
 
   if (price > 99999) {
     my_snprintf(bufone, sizeof(bufone), "---");

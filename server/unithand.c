@@ -369,16 +369,16 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
        * However don't actually give the city the extra shields unless
        * they are building a wonder (but switching to a wonder later in
        * the turn will give the extra shields back). */
-      pcity->caravan_shields += unit_build_shield_cost(unit_type(punit));
+      pcity->caravan_shields += unit_build_shield_cost(punit);
       if (unit_can_help_build_wonder(punit, pcity)) {
-	pcity->shield_stock += unit_build_shield_cost(unit_type(punit));
+	pcity->shield_stock += unit_build_shield_cost(punit);
       } else {
-	pcity->shield_stock += unit_disband_shields(unit_type(punit));
+	pcity->shield_stock += unit_disband_shields(punit);
       }
     } else {
-      pcity->shield_stock += unit_disband_shields(unit_type(punit));
+      pcity->shield_stock += unit_disband_shields(punit);
       /* If we change production later at this turn. No penalty is added. */
-      pcity->disbanded_shields += unit_disband_shields(unit_type(punit));
+      pcity->disbanded_shields += unit_disband_shields(punit);
     }
 
     send_city_info(city_owner(pcity), pcity);
@@ -480,10 +480,10 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = tile_get_city(punit->tile);
 
-  assert(unit_pop_value(unit_type(punit)) > 0);
-  pcity->size += unit_pop_value(unit_type(punit));
+  assert(unit_pop_value(punit) > 0);
+  pcity->size += unit_pop_value(punit);
   /* Make the new people something, otherwise city fails the checks */
-  pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(unit_type(punit));
+  pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
   auto_arrange_workers(pcity);
   notify_player(pplayer, pcity->tile, E_CITY_BUILD,
 		   _("%s added to aid %s in growing."),
@@ -1206,8 +1206,8 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
     return;
   }
 
-  pcity_dest->shield_stock += unit_build_shield_cost(unit_type(punit));
-  pcity_dest->caravan_shields += unit_build_shield_cost(unit_type(punit));
+  pcity_dest->shield_stock += unit_build_shield_cost(punit);
+  pcity_dest->caravan_shields += unit_build_shield_cost(punit);
 
   conn_list_do_buffer(pplayer->connections);
 
@@ -1219,7 +1219,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   notify_player(pplayer, pcity_dest->tile, E_CARAVAN_ACTION,
 		   text, /* Must match arguments below. */
 		   unit_name_translation(punit),
-		   improvement_name_translation(pcity_dest->production.value),
+		   improvement_name_translation(pcity_dest->production.value.building),
 		   pcity_dest->name, 
 		   abs(build_points_left(pcity_dest)));
 

@@ -58,7 +58,7 @@ static int *categories;
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
 extern struct connection aconnection;               
-int economy_improvement_type[B_LAST];   
+struct impr_type *economy_improvement_type[B_LAST];   
 struct unit_type *activeunits_type[U_LAST];
 
 #define ID_OPTIONS_BASE 1000
@@ -628,8 +628,9 @@ activeunits_report_dialog_update(void)
 
     unit_list_iterate_end;
     city_list_iterate(game.player_ptr->cities,pcity) {
-      if (pcity->production.is_unit) {
-        (unitarray[pcity->production.value].building_count)++;
+      if (VUT_UTYPE == pcity->production.kind) {
+        struct unit_type *punittype = pcity->production.value.utype;
+        (unitarray[utype_index(punittype)].building_count)++;
       }
     }
     city_list_iterate_end;

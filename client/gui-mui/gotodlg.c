@@ -135,10 +135,13 @@ void update_goto_dialog(void)
   players_iterate(pplayer)
   {
     city_list_iterate(pplayer->cities, pcity)
+    {
       DoMethod(goto_cities_listview, MUIM_NList_InsertSingle, pcity, MUIV_NList_Insert_Bottom);
+    }
     city_list_iterate_end;
   }
   players_iterate_end;
+
   set(goto_cities_listview, MUIA_NList_Quiet, FALSE);
   set(goto_airlift_button, MUIA_Disabled, TRUE);
 }

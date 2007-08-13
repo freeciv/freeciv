@@ -123,7 +123,7 @@ struct universal universal_by_rule_name(const char *kind,
     break;
   case VUT_IMPROVEMENT:
     source.value.building = find_improvement_by_rule_name(value);
-    if (source.value.building != B_LAST) {
+    if (source.value.building != NULL) {
       return source;
     }
     break;
@@ -236,8 +236,11 @@ struct universal universal_by_number(const enum universals_n kind,
     }
     break;
   case VUT_IMPROVEMENT:
-    source.value.building = value;
-    return source;
+    source.value.building = improvement_by_number(value);
+    if (source.value.building != NULL) {
+      return source;
+    }
+    break;
   case VUT_SPECIAL:
     source.value.special = value;
     return source;
@@ -322,7 +325,7 @@ int universal_number(const struct universal *source)
   case VUT_GOVERNMENT:
     return government_number(source->value.govern);
   case VUT_IMPROVEMENT:
-    return source->value.building;
+    return improvement_number(source->value.building);
   case VUT_SPECIAL:
     return source->value.special;
   case VUT_TERRAIN:
@@ -510,7 +513,7 @@ bool are_requirements_equal(const struct requirement *req1,
   Returns the number of total world buildings (this includes buildings
   that have been destroyed).
 ****************************************************************************/
-static int num_world_buildings_total(Impr_type_id building)
+static int num_world_buildings_total(const struct impr_type *building)
 {
   if (is_great_wonder(building)) {
     return (great_wonder_was_built(building) ? 1 : 0);
@@ -525,10 +528,10 @@ static int num_world_buildings_total(Impr_type_id building)
 /****************************************************************************
   Returns the number of buildings of a certain type in the world.
 ****************************************************************************/
-static int num_world_buildings(Impr_type_id id)
+static int num_world_buildings(const struct impr_type *building)
 {
-  if (is_great_wonder(id)) {
-    return (find_city_from_great_wonder(id) ? 1 : 0);
+  if (is_great_wonder(building)) {
+    return (find_city_from_great_wonder(building) ? 1 : 0);
   } else {
     freelog(LOG_ERROR,
 	    /* TRANS: Obscure ruleset error. */
@@ -541,15 +544,15 @@ static int num_world_buildings(Impr_type_id id)
   Returns the player city with the given wonder.
 **************************************************************************/
 static struct city *player_find_city_from_wonder(const struct player *plr,
-						 Impr_type_id id)
+						 const struct impr_type *building)
 {
   int city_id;
   struct city *pcity;
 
-  if (is_great_wonder(id)) {
-    city_id = game.info.great_wonders[id];
-  } else if (is_small_wonder(id)) {
-    city_id = plr->small_wonders[id];
+  if (is_great_wonder(building)) {
+    city_id = game.info.great_wonders[improvement_index(building)];
+  } else if (is_small_wonder(building)) {
+    city_id = plr->small_wonders[improvement_index(building)];
   } else {
     return NULL;
   }
@@ -566,7 +569,7 @@ static struct city *player_find_city_from_wonder(const struct player *plr,
   Returns the number of buildings of a certain type owned by plr.
 ****************************************************************************/
 static int num_player_buildings(const struct player *pplayer,
-				Impr_type_id building)
+				const struct impr_type *building)
 {
   if (is_wonder(building)) {
     return (player_find_city_from_wonder(pplayer, building) ? 1 : 0);
@@ -582,7 +585,8 @@ static int num_player_buildings(const struct player *pplayer,
   Returns the number of buildings of a certain type on a continent.
 ****************************************************************************/
 static int num_continent_buildings(const struct player *pplayer,
-				   int continent, Impr_type_id building)
+				   int continent,
+				   const struct impr_type *building)
 {
   if (is_wonder(building)) {
     const struct city *pcity;
@@ -602,9 +606,10 @@ static int num_continent_buildings(const struct player *pplayer,
 /****************************************************************************
   Returns the number of buildings of a certain type in a city.
 ****************************************************************************/
-static int num_city_buildings(const struct city *pcity, Impr_type_id id)
+static int num_city_buildings(const struct city *pcity,
+			      const struct impr_type *building)
 {
-  return (city_got_building(pcity, id) ? 1 : 0);
+  return (city_has_building(pcity, building) ? 1 : 0);
 }
 
 /****************************************************************************
@@ -627,9 +632,10 @@ static int num_city_buildings(const struct city *pcity, Impr_type_id id)
 ****************************************************************************/
 static int count_buildings_in_range(const struct player *target_player,
 				    const struct city *target_city,
-				    const struct impr_type * target_building,
-				    enum req_range range, bool survives,
-				    Impr_type_id source)
+				    const struct impr_type *target_building,
+				    enum req_range range,
+				    bool survives,
+				    const struct impr_type *source)
 {
   if (improvement_obsolete(target_player, source)) {
     return 0;
@@ -666,7 +672,7 @@ static int count_buildings_in_range(const struct player *target_player,
   case REQ_RANGE_CITY:
     return target_city ? num_city_buildings(target_city, source) : 0;
   case REQ_RANGE_LOCAL:
-    if (target_building && target_building->index == source) {
+    if (target_building && target_building == source) {
       return num_city_buildings(target_city, source);
     } else {
       /* TODO: other local targets */
@@ -1262,4 +1268,20 @@ const char *universal_name_translation(const struct universal *psource,
   }
 
   return buf;
+}
+
+/**************************************************************************
+  Return the number of shields it takes to build this universal.
+**************************************************************************/
+int universal_build_shield_cost(const struct universal *target)
+{
+  switch (target->kind) {
+  case VUT_IMPROVEMENT:
+    return impr_build_shield_cost(target->value.building);
+  case VUT_UTYPE:
+    return utype_build_shield_cost(target->value.utype);
+  default:
+    break;
+  }
+  return FC_INFINITY;
 }

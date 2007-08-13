@@ -366,12 +366,16 @@ void update_players_dialog(void)
 
   set(player_players_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(player_players_listview, MUIM_NList_Clear);
+
   players_iterate(pplayer)
   {
-    if(is_barbarian(pplayer->cities))
+    if(is_barbarian(pplayer))
       continue;
 
-    DoMethod(player_players_listview, MUIM_NList_InsertSingle, player_number(pplayer) + 100, MUIV_NList_Insert_Bottom);
+    DoMethod(player_players_listview, MUIM_NList_InsertSingle,
+	     player_number(pplayer) + 100, MUIV_NList_Insert_Bottom);
   }
+  players_iterate_end;
+
   set(player_players_listview, MUIA_NList_Quiet, FALSE);
 }

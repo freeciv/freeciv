@@ -1129,9 +1129,7 @@ static void map_save(struct section_file *file)
  * backwards compatibility we have here a list of unit names from before
  * the change was made.  When loading an old savegame (one that doesn't
  * have the type string) we need to lookup the type into this array
- * to get the "proper" type string.  And when saving a new savegame we
- * insert the "old" type index into the array so that old servers can
- * load the savegame.
+ * to get the "proper" type string.
  *
  * Note that this list includes the AWACS, which was not in 1.14.1.
  */
@@ -1256,39 +1254,11 @@ const char* old_civ2_governments[] =
 };
 
 /****************************************************************************
-  Nowadays unit types are saved by name, but old servers need the
-  unit_type_id.  This function tries to find the correct _old_ id for the
-  unit's type.  It is used when the unit is saved.
-****************************************************************************/
-static Unit_type_id old_unit_type_id(const struct unit_type *type)
-{
-  const char** types;
-  int num_types, i;
-
-  if (strcmp(game.rulesetdir, "civ1") == 0) {
-    types = old_civ1_unit_types;
-    num_types = ARRAY_SIZE(old_civ1_unit_types);
-  } else {
-    types = old_default_unit_types;
-    num_types = ARRAY_SIZE(old_default_unit_types);
-  }
-
-  for (i = 0; i < num_types; i++) {
-    if (mystrcasecmp(utype_rule_name(type), types[i]) == 0) {
-      return i;
-    }
-  }
-
-  /* It's a new unit. Savegame cannot be forward compatible so we can
-   * return anything */
-  return type->index;
-}
-
-/****************************************************************************
   Convert an old-style unit type id into a unit type name.
 ****************************************************************************/
 static const char* old_unit_type_name(int id)
 {
+  /* before 1.15.0 unit types used to be saved by id */
   if (id < 0) {
     return NULL;
   }
@@ -1306,27 +1276,6 @@ static const char* old_unit_type_name(int id)
   }
 }
 
-/****************************************************************************
-  Nowadays improvement types are saved by name, but old servers need the
-  Impr_type_id.  This function tries to find the correct _old_ id for the
-  improvements's type.  It is used when the improvement is saved.
-****************************************************************************/
-static int old_impr_type_id(Impr_type_id type)
-{
-  int i;
-
-  for (i = 0; i < ARRAY_SIZE(old_impr_types); i++) {
-    if (mystrcasecmp(improvement_rule_name(type),
-                     old_impr_types[i]) == 0) {
-      return i;
-    }
-  }
-
-  /* It's a new improvement. Savegame cannot be forward compatible so we can
-   * return anything */
-  return type;
-}
-
 /***************************************************************
   Convert old-style improvement type id into improvement type name
 ***************************************************************/
@@ -1334,8 +1283,7 @@ static const char* old_impr_type_name(int id)
 {
   /* before 1.15.0 improvement types used to be saved by id */
   if (id < 0 || id >= ARRAY_SIZE(old_impr_types)) {
-    freelog(LOG_FATAL, "Wrong improvement type id value (%d)", id);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
   return old_impr_types[id];
 }
@@ -1352,27 +1300,6 @@ static void init_old_improvement_bitvector(char* bitvector)
     bitvector[i] = '0';
   }
   bitvector[ARRAY_SIZE(old_impr_types)] = '\0';
-}
-
-/****************************************************************************
-  Insert improvement into old-style bitvector
-
-  Improvement lists in cities and destroyed_wonders are saved as a
-  bitvector in a string array.  New bitvectors do not depend on ruleset
-  order. However, we want to create savegames which can be read by 
-  1.14.x and earlier servers.  This function adds an improvement into the
-  bitvector string according to the 1.14.1 improvement ordering.
-****************************************************************************/
-static void add_improvement_into_old_bitvector(char* bitvector,
-                                               Impr_type_id id)
-{
-  int old_id;
-
-  old_id = old_impr_type_id(id);
-  if (old_id < 0 || old_id >= ARRAY_SIZE(old_impr_types)) {
-    return;
-  }
-  bitvector[old_id] = '1';
 }
 
 /****************************************************************************
@@ -2220,6 +2147,7 @@ static void player_load(struct player *plr, int plrno,
     int nat_x = secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     int nat_y = secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
     struct tile *ptile = native_pos_to_tile(nat_x, nat_y);
+    const char* kind;
     const char* name;
     int id, k;
 
@@ -2267,26 +2195,57 @@ static void player_load(struct player *plr, int plrno,
     pcity->was_happy = secfile_lookup_bool(file,
 					   "player%d.c%d.was_happy",
 					   plrno, i);
-    pcity->production.is_unit =
-      secfile_lookup_bool(file, 
-			 "player%d.c%d.is_building_unit", plrno, i);
+
+    kind = secfile_lookup_str_default(file, NULL,
+				      "player%d.c%d.currently_building_kind",
+				      plrno, i);
+    if (!kind) {
+      /* before 2.2.0 unit production was indicated by flag. */
+      bool is_unit = secfile_lookup_bool_default(file, FALSE,
+						 "player%d.c%d.is_building_unit",
+						 plrno, i);
+      pcity->production.kind = is_unit ? VUT_UTYPE : VUT_IMPROVEMENT;
+      kind = universal_kind_name(&pcity->production);
+    }
+
     name = secfile_lookup_str_default(file, NULL,
 				      "player%d.c%d.currently_building_name",
 				      plrno, i);
-    if (pcity->production.is_unit) {
-      if (!name) {
-	id = secfile_lookup_int(file, "player%d.c%d.currently_building", 
-				plrno, i);
-	name = old_unit_type_name(id);
-      }
-      pcity->production.value = find_unit_type_by_rule_name(name)->index;
-    } else {
-      if (!name) {
-	id = secfile_lookup_int(file, "player%d.c%d.currently_building",
-				plrno, i);
-	name = old_impr_type_name(id);
-      }
-      pcity->production.value = find_improvement_by_rule_name(name);
+    if (!name) {
+      /* before 1.15.0 production was saved by id. */
+      int id = secfile_lookup_int_default(file, -1,
+                                          "player%d.c%d.currently_building",
+                                          plrno, i);
+      switch (pcity->production.kind) {
+      case VUT_UTYPE:
+        name = old_unit_type_name(id);
+        if (!name) {
+          freelog(LOG_FATAL,
+                  "player%d.c%d.currently_building: unknown unit (%d)",
+                  plrno, i, id);
+          exit(EXIT_FAILURE);
+        }
+        break;
+      case VUT_IMPROVEMENT:
+        name = old_impr_type_name(id);
+        if (!name) {
+          freelog(LOG_FATAL,
+                  "player%d.c%d.currently_building: unknown improvement (%d)",
+                  plrno, i, id);
+          exit(EXIT_FAILURE);
+        }
+        break;
+      default:
+        freelog(LOG_FATAL, "player%d.c%d.currently_building: version mismatch.",
+                plrno, i);
+        exit(EXIT_FAILURE);
+      };
+    }
+    pcity->production = universal_by_rule_name(kind, name);
+    if (VUT_LAST == pcity->production.kind) {
+      freelog(LOG_FATAL, "player%d.c%d.currently_building: unknown \"%s\" \"%s\".",
+              plrno, i, kind, name);
+      exit(EXIT_FAILURE);
     }
 
     if (has_capability("turn_last_built", savefile_options)) {
@@ -2297,29 +2256,59 @@ static void player_load(struct player *plr, int plrno,
        * way to convert this into a turn value. */
       pcity->turn_last_built = 0;
     }
-    pcity->changed_from.is_unit =
-      secfile_lookup_bool_default(file, pcity->production.is_unit,
-				 "player%d.c%d.changed_from_is_unit",
-				  plrno, i);
+
+    kind = secfile_lookup_str_default(file, NULL,
+				      "player%d.c%d.changed_from_kind",
+				      plrno, i);
+    if (!kind) {
+      /* before 2.2.0 unit production was indicated by flag. */
+      bool is_unit = secfile_lookup_bool_default(file, FALSE,
+						 "player%d.c%d.changed_from_is_unit",
+						 plrno, i);
+      pcity->changed_from.kind = is_unit ? VUT_UTYPE : VUT_IMPROVEMENT;
+      kind = universal_kind_name(&pcity->changed_from);
+    }
+
     name = secfile_lookup_str_default(file, NULL,
 				      "player%d.c%d.changed_from_name",
 				      plrno, i);
-    if (pcity->changed_from.is_unit) {
-      if (!name) {
-	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id", 
-				plrno, i);
-	name = old_unit_type_name(id);
-      }
-      pcity->changed_from.value = find_unit_type_by_rule_name(name)->index;
-    } else {
-      if (!name) {
-	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id",
-				plrno, i);
-	name = old_impr_type_name(id);
-      }
-      pcity->changed_from.value = find_improvement_by_rule_name(name);
+    if (!name) {
+      /* before 1.15.0 production was saved by id. */
+      int id = secfile_lookup_int_default(file, -1,
+                                          "player%d.c%d.changed_from_id",
+                                          plrno, i);
+      switch (pcity->production.kind) {
+      case VUT_UTYPE:
+        name = old_unit_type_name(id);
+        if (!name) {
+          freelog(LOG_FATAL,
+                  "player%d.c%d.changed_from_id: unknown unit (%d)",
+                  plrno, i, id);
+          exit(EXIT_FAILURE);
+        }
+        break;
+      case VUT_IMPROVEMENT:
+        name = old_impr_type_name(id);
+        if (!name) {
+          freelog(LOG_FATAL,
+                  "player%d.c%d.changed_from_id: unknown improvement (%d)",
+                  plrno, i, id);
+          exit(EXIT_FAILURE);
+        }
+        break;
+      default:
+        freelog(LOG_FATAL, "player%d.c%d.changed_from_id: version mismatch.",
+                plrno, i);
+        exit(EXIT_FAILURE);
+      };
     }
-			 
+    pcity->changed_from = universal_by_rule_name(kind, name);
+    if (VUT_LAST == pcity->changed_from.kind) {
+      freelog(LOG_FATAL, "player%d.c%d.changed_from: unknown \"%s\" \"%s\".",
+              plrno, i, kind, name);
+      exit(EXIT_FAILURE);
+    }
+
     pcity->before_change_shields=
       secfile_lookup_int_default(file, pcity->shield_stock,
 				 "player%d.c%d.before_change_shields", plrno, i);
@@ -2422,10 +2411,14 @@ static void player_load(struct player *plr, int plrno,
 
     /* Initialise list of improvements with City- and Building-wide
        equiv_ranges */
-    for (k = 0; k < ARRAY_SIZE(pcity->improvements); k++) {
-      pcity->improvements[k] = I_NONE;
+    for (k = 0; k < ARRAY_SIZE(pcity->built); k++) {
+      pcity->built[k].turn = I_NEVER;
     }
 
+  /* For new savegames using the improvement_order[] list, any unknown
+   * improvements are ignored.  Older games are more strictly enforced,
+   * as an invalid index is probably indication of corruption.
+   */
     p = secfile_lookup_str_default(file, NULL,
 				   "player%d.c%d.improvements_new",
                                    plrno, i);
@@ -2433,22 +2426,29 @@ static void player_load(struct player *plr, int plrno,
       /* old savegames */
       p = secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
       for (k = 0; p[k]; k++) {
+        const char *name = old_impr_type_name(k);
+        if (!name) {
+          freelog(LOG_FATAL,
+                  "player%d.c%d.improvements: unknown building (%d)",
+                  plrno, i, k);
+          exit(EXIT_FAILURE);
+        }
         if (p[k] == '1') {
-	  name = old_impr_type_name(k);
-	  id = find_improvement_by_rule_name(name);
-	  if (id != -1) {
-	    city_add_improvement(pcity, id);
-	  }
-	}
+          struct impr_type *pimprove = find_improvement_by_rule_name(name);
+          if (pimprove) {
+            city_add_improvement(pcity, pimprove);
+          }
+        }
       }
     } else {
       for (k = 0; k < improvement_order_size && p[k]; k++) {
         if (p[k] == '1') {
-	  id = find_improvement_by_rule_name(improvement_order[k]);
-	  if (id != -1) {
-	    city_add_improvement(pcity, id);
-	  }
-	}
+          struct impr_type *pimprove =
+                 find_improvement_by_rule_name(improvement_order[k]);
+          if (pimprove) {
+            city_add_improvement(pcity, pimprove);
+          }
+        }
       }
     }
 
@@ -2677,9 +2677,10 @@ static void player_map_load(struct player *plr, int plrno,
 	} else {
 	  for (k = 0; k < improvement_order_size && p[k]; k++) {
 	    if (p[k] == '1') {
-	      id = find_improvement_by_rule_name(improvement_order[k]);
-	      if (id != -1) {
-		BV_SET(pdcity->improvements, id);
+	      struct impr_type *pimprove =
+			find_improvement_by_rule_name(improvement_order[k]);
+	      if (pimprove) {
+		BV_SET(pdcity->improvements, improvement_index(pimprove));
 	      }
 	    }
 	  }
@@ -2919,10 +2920,6 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->hp, "player%d.u%d.hp", plrno, i);
     secfile_insert_int(file, punit->homecity, "player%d.u%d.homecity",
 				plrno, i);
-    /* .type is actually kept only for forward compatibility */
-    secfile_insert_int(file, old_unit_type_id(unit_type(punit)),
-		       "player%d.u%d.type",
-		       plrno, i);
     secfile_insert_str(file, unit_rule_name(punit),
 		       "player%d.u%d.type_by_name",
 		       plrno, i);
@@ -3102,22 +3099,22 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->turn_last_built,
 		       "player%d.c%d.turn_last_built", plrno, i);
-    secfile_insert_bool(file, pcity->changed_from.is_unit,
-		       "player%d.c%d.changed_from_is_unit", plrno, i);
-    if (pcity->changed_from.is_unit) {
-      struct unit_type *punittype = utype_by_number(pcity->changed_from.value);
 
-      secfile_insert_int(file, old_unit_type_id(punittype),
-		         "player%d.c%d.changed_from_id", plrno, i);
-      secfile_insert_str(file, utype_rule_name(punittype),
-                         "player%d.c%d.changed_from_name", plrno, i);
-    } else {
-      secfile_insert_int(file, old_impr_type_id(pcity->changed_from.value),
-		         "player%d.c%d.changed_from_id", plrno, i);    
-      secfile_insert_str(file, improvement_rule_name(
-                                 pcity->changed_from.value),
-                         "player%d.c%d.changed_from_name", plrno, i);
-    }
+    /* before 2.2.0 unit production was indicated by flag. */
+    secfile_insert_bool(file, VUT_UTYPE == pcity->production.kind, 
+		       "player%d.c%d.is_building_unit", plrno, i);
+    secfile_insert_str(file, universal_kind_name(&pcity->production),
+                       "player%d.c%d.currently_building_kind", plrno, i);
+    secfile_insert_str(file, universal_rule_name(&pcity->production),
+                       "player%d.c%d.currently_building_name", plrno, i);
+
+    /* before 2.2.0 unit production was indicated by flag. */
+    secfile_insert_bool(file, VUT_UTYPE == pcity->changed_from.kind,
+		       "player%d.c%d.changed_from_is_unit", plrno, i);
+    secfile_insert_str(file, universal_kind_name(&pcity->changed_from),
+                       "player%d.c%d.changed_from_kind", plrno, i);
+    secfile_insert_str(file, universal_rule_name(&pcity->changed_from),
+                       "player%d.c%d.changed_from_name", plrno, i);
 
     secfile_insert_int(file, pcity->before_change_shields,
 		       "player%d.c%d.before_change_shields", plrno, i);
@@ -3173,41 +3170,15 @@ static void player_save(struct player *plr, int plrno,
     assert(j < ARRAY_SIZE(citymap_buf));
     secfile_insert_str(file, citymap_buf, "player%d.c%d.workers", plrno, i);
 
-    secfile_insert_bool(file, pcity->production.is_unit, 
-		       "player%d.c%d.is_building_unit", plrno, i);
-    if (pcity->production.is_unit) {
-      struct unit_type *punittype = utype_by_number(pcity->production.value);
-      secfile_insert_int(file, old_unit_type_id(punittype),
-		         "player%d.c%d.currently_building", plrno, i);
-      secfile_insert_str(file, utype_rule_name(punittype),
-                         "player%d.c%d.currently_building_name", plrno, i);
-    } else {
-      secfile_insert_int(file, old_impr_type_id(pcity->production.value),
-                         "player%d.c%d.currently_building", plrno, i);
-      secfile_insert_str(file, improvement_rule_name(
-                                   pcity->production.value),
-                         "player%d.c%d.currently_building_name", plrno, i);
-    }
-
-    /* 1.14 servers depend on improvement order in ruleset. Here we
-     * are trying to simulate 1.14.1 default order
-     */
-    init_old_improvement_bitvector(impr_buf);
-    impr_type_iterate(id) {
-      if (pcity->improvements[id] != I_NONE) {
-        add_improvement_into_old_bitvector(impr_buf, id);
-      }
-    } impr_type_iterate_end;
-    assert(strlen(impr_buf) < sizeof(impr_buf));
-    secfile_insert_str(file, impr_buf, "player%d.c%d.improvements", plrno, i);
-
-    /* Save improvement list as bitvector. Note that improvement order
+    /* Save improvement list as bytevector. Note that improvement order
      * is saved in savefile.improvement_order.
      */
-    impr_type_iterate(id) {
-      impr_buf[id] = (pcity->improvements[id] != I_NONE) ? '1' : '0';
-    } impr_type_iterate_end;
-    impr_buf[game.control.num_impr_types] = '\0';
+    improvement_iterate(pimprove) {
+      impr_buf[improvement_index(pimprove)] =
+        (pcity->built[improvement_index(pimprove)].turn <= I_NEVER)
+        ? '0' : '1';
+    } improvement_iterate_end;
+    impr_buf[improvement_count()] = '\0';
     assert(strlen(impr_buf) < sizeof(impr_buf));
     secfile_insert_str(file, impr_buf,
 		       "player%d.c%d.improvements_new", plrno, i);    
@@ -3306,10 +3277,12 @@ static void player_save(struct player *plr, int plrno,
 	  /* Save improvement list as bitvector. Note that improvement order
 	   * is saved in savefile.improvement_order.
 	   */
-	  impr_type_iterate(id) {
-	    impr_buf[id] = BV_ISSET(pdcity->improvements, id) ? '1' : '0';
-	  } impr_type_iterate_end;
-	  impr_buf[game.control.num_impr_types] = '\0';
+	  improvement_iterate(pimprove) {
+	    impr_buf[improvement_index(pimprove)] =
+	      BV_ISSET(pdcity->improvements, improvement_index(pimprove))
+	      ? '1' : '0';
+	  } improvement_iterate_end;
+	  impr_buf[improvement_count()] = '\0';
 	  assert(strlen(impr_buf) < sizeof(impr_buf));
 	  secfile_insert_str(file, impr_buf,
 			     "player%d.dc%d.improvements", plrno, i);    
@@ -3490,7 +3463,7 @@ static void check_city(struct city *pcity)
 ***************************************************************/
 void game_load(struct section_file *file)
 {
-  int i, k, id;
+  int i, k;
   enum server_states tmp_server_state;
   RANDOM_STATE rstate;
   char *savefile_options;
@@ -3500,7 +3473,6 @@ void game_load(struct section_file *file)
   char** technology_order = NULL;
   enum tile_special_type *special_order = NULL;
   int technology_order_size = 0;
-  const char* name;
   int civstyle = 0;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
@@ -3936,22 +3908,29 @@ void game_load(struct section_file *file)
       string = secfile_lookup_str_default(file, "",
                                           "game.destroyed_wonders");
       for (k = 0; string[k]; k++) {
+        const char *name = old_impr_type_name(k);
+        if (!name) {
+          freelog(LOG_FATAL,
+                  "game.destroyed_wonders: unknown building (%d)",
+                  k);
+          exit(EXIT_FAILURE);
+        }
         if (string[k] == '1') {
-	  name = old_impr_type_name(k);
-	  id = find_improvement_by_rule_name(name);
-	  if (id != -1) {
-	    game.info.great_wonders[id] = -1;
-	  }
-	}
+          struct impr_type *pimprove = find_improvement_by_rule_name(name);
+          if (pimprove) {
+            game.info.great_wonders[improvement_index(pimprove)] = -1;
+          }
+        }
       }
     } else {
       for (k = 0; k < improvement_order_size && string[k]; k++) {
         if (string[k] == '1') {
-	  id = find_improvement_by_rule_name(improvement_order[k]);
-	  if (id != -1) {
-            game.info.great_wonders[id] = -1;
-	  }
-	}
+          struct impr_type *pimprove = 
+                        find_improvement_by_rule_name(improvement_order[k]);
+          if (pimprove) {
+            game.info.great_wonders[improvement_index(pimprove)] = -1;
+          }
+        }
       }
     }
 
@@ -4173,12 +4152,14 @@ void game_save(struct section_file *file, const char *save_reason)
    * If the game isn't started improvements aren't loaded
    * so we can not save the order.
    */
-  if (game.control.num_impr_types > 0) {
-    const char* buf[game.control.num_impr_types];
-    impr_type_iterate(id) {
-      buf[id] = improvement_rule_name(id);
-    } impr_type_iterate_end;
-    secfile_insert_str_vec(file, buf, game.control.num_impr_types,
+  if (improvement_count() > 0) {
+    const char* buf[improvement_count()];
+
+    improvement_iterate(pimprove) {
+      buf[improvement_index(pimprove)] = improvement_rule_name(pimprove);
+    } improvement_iterate_end;
+
+    secfile_insert_str_vec(file, buf, improvement_count(),
                            "savefile.improvement_order");
   }
   
@@ -4367,26 +4348,21 @@ void game_save(struct section_file *file, const char *save_reason)
      * are trying to simulate 1.14.1 default order
      */
     init_old_improvement_bitvector(temp);
-    impr_type_iterate(id) {
-      if (is_great_wonder(id) && great_wonder_was_built(id)
-	  && !find_city_from_great_wonder(id)) {
-        add_improvement_into_old_bitvector(temp, id);
-      } 
-    } impr_type_iterate_end;
-    secfile_insert_str(file, temp, "game.destroyed_wonders");
+    /* removed after 2.1 */
     
     /* Save destroyed wonders as bitvector. Note that improvement order
      * is saved in savefile.improvement_order
      */
-    impr_type_iterate(id) {
-      if (is_great_wonder(id) && great_wonder_was_built(id)
-	  && !find_city_from_great_wonder(id)) {
-	temp[id] = '1';
+    improvement_iterate(pimprove) {
+      if (is_great_wonder(pimprove)
+          && great_wonder_was_built(pimprove)
+          && !find_city_from_great_wonder(pimprove)) {
+        temp[improvement_index(pimprove)] = '1';
       } else {
-        temp[id] = '0';
+        temp[improvement_index(pimprove)] = '0';
       }
-    } impr_type_iterate_end;
-    temp[game.control.num_impr_types] = '\0';
+    } improvement_iterate_end;
+    temp[improvement_count()] = '\0';
     secfile_insert_str(file, temp, "game.destroyed_wonders_new");
 
     calc_unit_ordering();

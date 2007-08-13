@@ -402,7 +402,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
     return;
   }
 
-  if (pcity && (pcity->size + unit_pop_value(unit_type(punit))
+  if (pcity && (pcity->size + unit_pop_value(punit)
 		> game.info.add_to_size_limit)) {
     /* Can't exceed population limit. */
     return;
@@ -510,7 +510,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
      * weeds out very small wants. ie we create a threshold here. */
     /* We also penalise here for using a boat (either virtual or real)
      * it's crude but what isn't? */
-    result.result -= unit_build_shield_cost(unit_type(punit)) + boat_cost;
+    result.result -= unit_build_shield_cost(punit) + boat_cost;
 
     /* Find best spot */
     if (result.result > best->result) {
@@ -618,7 +618,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
      * Building a new boat is like a war against a weaker enemy -- 
      * good for the economy. (c) Bush family */
     if (settler_map_iterate(&parameter, punit, best, pplayer, 
-			    unit_build_shield_cost(unit_type(ferry)))) {
+			    unit_build_shield_cost(ferry))) {
       best->overseas = TRUE;
       best->virt_boat = (ferry->id == 0);
     }

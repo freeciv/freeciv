@@ -185,7 +185,7 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
 				int *selitems,
 				int selcount, int *idcount)
 {
-  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   int item, targets_used, num_selected_cities = 0;
   struct city **selected_cities = NULL;
@@ -417,7 +417,7 @@ static void cityrep_change(HWND hWnd)
   popup=CreatePopupMenu();
   max_changemenu_id=ID_CHANGE_POPUP_BASE;
   append_impr_or_unit_to_menu(popup,TRUE,TRUE,TRUE,
-			      city_can_build_impr_or_unit,
+			      can_city_build_now,
 			      &cityids[0],selcount,&max_changemenu_id);
   GetWindowRect(GetDlgItem(hWnd,ID_CITYREP_CHANGE),&rc);
   menu_shown=popup;
@@ -462,7 +462,7 @@ static void cityrep_select(HWND hWnd)
   AppendMenu(popup,MF_POPUP,(UINT)submenu,_("Available To Build"));
   max_availablemenu_id=ID_AVAILABLE_POPUP_BASE;
   append_impr_or_unit_to_menu(submenu, FALSE, TRUE, TRUE,
-			      city_can_build_impr_or_unit,&cityids,selcount,
+			      can_city_build_now,&cityids,selcount,
 			      &max_availablemenu_id);
   
   submenu=CreatePopupMenu(); 
@@ -486,7 +486,7 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
   int cityids[256];
   int selcount, i, last_request_id = 0;
   struct city *pcity;
-  struct city_production target = cid_production(cid);
+  struct universal target = cid_production(cid);
   
   selcount=ListBox_GetSelCount(GetDlgItem(hWnd,ID_CITYREP_LIST));
   if (selcount==LB_ERR) return;
@@ -591,7 +591,7 @@ static void list_sameisland_select(HWND hLst)
 
 **************************************************************************/
 static void list_impr_or_unit_select(HWND hLst,
-				     struct city_production target,
+				     struct universal target,
 				     TestCityFunc test_func)
 {
   int i,rows;
@@ -611,7 +611,7 @@ static void list_impr_or_unit_select(HWND hLst,
 static void menu_proc(HWND hWnd,int cmd, DWORD num)
 {
   HWND hLst;
-  struct city_production target = cid_decode(num);
+  struct universal target = cid_decode(num);
   hLst=GetDlgItem(hWnd,ID_CITYREP_LIST);
   if ((cmd>=ID_CHANGE_POPUP_BASE)&&
       (cmd<max_changemenu_id))
@@ -634,7 +634,7 @@ static void menu_proc(HWND hWnd,int cmd, DWORD num)
   if ((cmd>=ID_AVAILABLE_POPUP_BASE)&&
       (cmd<max_availablemenu_id))
     {
-      list_impr_or_unit_select(hLst, target, city_can_build_impr_or_unit);
+      list_impr_or_unit_select(hLst, target, can_city_build_now);
       max_availablemenu_id=0;
     }
   if ((cmd>=ID_IMPROVEMENTS_POPUP_BASE)&&
@@ -720,7 +720,7 @@ static void cityrep_changeall(HWND hWnd)
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
   int selid;
-  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   int targets_used;
   cid selected_cid;

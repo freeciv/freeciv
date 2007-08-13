@@ -13,10 +13,9 @@
 #ifndef FC__CITYTOOLS_H
 #define FC__CITYTOOLS_H
 
-#include "city.h"
-#include "events.h"
-#include "nation.h"		/* for struct city_name */
+#include "events.h"		/* enum event_type */
 #include "packets.h"
+#include "unitlist.h"
 
 #define FOOD_WEIGHTING 19
 #define SHIELD_WEIGHTING 17
@@ -68,10 +67,13 @@ void establish_trade_route(struct city *pc1, struct city *pc2);
 void remove_trade_route(struct city *pc1, struct city *pc2);
 
 void do_sell_building(struct player *pplayer, struct city *pcity,
-		      Impr_type_id id);
-void building_lost(struct city *pcity, Impr_type_id id);
+		      struct impr_type *pimprove);
+void building_lost(struct city *pcity, const struct impr_type *pimprove);
+
+bool is_production_equal(const struct universal *one,
+			 const struct universal *two);
 void change_build_target(struct player *pplayer, struct city *pcity,
-			 struct city_production target,
+			 struct universal target,
 			 enum event_type event);
 
 bool is_allowed_city_name(struct player *pplayer, const char *city_name,

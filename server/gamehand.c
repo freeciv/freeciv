@@ -160,7 +160,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
   if (utype != NULL) {
     /* We cannot currently handle sea units as start units.
      * TODO: remove this code block when we can. */
-    if (get_unit_move_type(utype) == SEA_MOVING) {
+    if (utype_move_type(utype) == SEA_MOVING) {
       freelog(LOG_ERROR, "Sea moving start units are not yet supported, "
                            "%s not created.",
                          utype_rule_name(utype));

@@ -280,11 +280,11 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
   free_upkeep[O_GOLD] = get_city_output_bonus(pcity, get_output_type(O_GOLD),
                                               EFT_UNIT_UPKEEP_FREE_PER_CITY);
 
-  built_impr_iterate(pcity, pimpr) {
-    if (can_city_sell_building(pcity, pimpr)) {
-      potential_gold += impr_sell_gold(pimpr);
+  city_built_iterate(pcity, pimprove) {
+    if (can_city_sell_building(pcity, pimprove)) {
+      potential_gold += impr_sell_gold(pimprove);
     }
-  } built_impr_iterate_end;
+  } city_built_iterate_end;
 
   unit_list_iterate_safe(pcity->units_supported, punit) {
     int upkeep[O_COUNT];
@@ -1813,7 +1813,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->y = punit->tile->y;
   packet->homecity = punit->homecity;
   packet->veteran = punit->veteran;
-  packet->type = unit_type(punit)->index;
+  packet->type = utype_number(unit_type(punit));
   packet->movesleft = punit->moves_left;
   packet->hp = punit->hp;
   packet->activity = punit->activity;
@@ -1891,7 +1891,7 @@ void package_short_unit(struct unit *punit,
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->veteran = punit->veteran;
-  packet->type = unit_type(punit)->index;
+  packet->type = utype_number(unit_type(punit));
   packet->hp = punit->hp;
   packet->occupied = (get_transporter_occupancy(punit) > 0);
   if (punit->activity == ACTIVITY_EXPLORE

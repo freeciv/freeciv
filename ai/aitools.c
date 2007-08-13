@@ -477,7 +477,7 @@ static int stack_value(const struct tile *ptile,
   if (is_stack_vulnerable(ptile)) {
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer) {
-	cost += unit_build_shield_cost(unit_type(punit));
+	cost += unit_build_shield_cost(punit);
       }
     } unit_list_iterate_end;
   }
@@ -598,7 +598,7 @@ void ai_avoid_risks(struct pf_parameter *parameter,
   parameter->data = risk_cost;
   parameter->get_EC = prefer_short_stacks;
   parameter->turn_mode = TM_WORST_TIME;
-  risk_cost->base_value = unit_build_shield_cost(unit_type(punit));
+  risk_cost->base_value = unit_build_shield_cost(punit);
   risk_cost->fearfulness = fearfulness * linger_fraction;
 
   risk_cost->enemy_zoc_cost = PF_TURN_FACTOR * 20;
@@ -1077,11 +1077,11 @@ int stack_cost(struct unit *pdef)
   if (is_stack_vulnerable(pdef->tile)) {
     /* lotsa people die */
     unit_list_iterate(pdef->tile->units, aunit) {
-      victim_cost += unit_build_shield_cost(unit_type(aunit));
+      victim_cost += unit_build_shield_cost(aunit);
     } unit_list_iterate_end;
   } else {
     /* Only one unit dies if attack is successful */
-    victim_cost = unit_build_shield_cost(unit_type(pdef));
+    victim_cost = unit_build_shield_cost(pdef);
   }
   
   return victim_cost;
@@ -1120,7 +1120,7 @@ int ai_gold_reserve(struct player *pplayer)
 **************************************************************************/
 void init_choice(struct ai_choice *choice)
 {
-  choice->choice = A_UNSET;
+  choice->value.utype = NULL;
   choice->want = 0;
   choice->type = CT_NONE;
   choice->need_boat = FALSE;
@@ -1139,17 +1139,37 @@ void adjust_choice(int value, struct ai_choice *choice)
 **************************************************************************/
 void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 {
-  if (cur->want > best->want) {
-    best->choice =cur->choice;
-    best->want = cur->want;
-    best->type = cur->type;
-    best->need_boat = cur->need_boat;
+  if (best->want < cur->want) {
+    best = cur;
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+bool is_unit_choice_type(enum choice_type type)
+{
+   return type == CT_CIVILIAN || type == CT_ATTACKER || type == CT_DEFENDER;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void city_production_from_ai_choice(struct universal *product,
+				    struct ai_choice *choice)
+{
+  if (is_unit_choice_type(choice->type)) {
+    product->kind = VUT_UTYPE;
+    product->value.utype = choice->value.utype;
+  } else {
+    product->kind = VUT_IMPROVEMENT;
+    product->value.building = choice->value.building;
   }
 }
 
 /**************************************************************************
   Calls ai_wants_role_unit to choose the best unit with the given role and 
-  set tech wants.  Sets choice->choice if we can build something.
+  set tech wants.  Sets choice->value.utype when we can build something.
 **************************************************************************/
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 			 struct ai_choice *choice, int role, int want)
@@ -1157,7 +1177,7 @@ void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
   struct unit_type *iunit = ai_wants_role_unit(pplayer, pcity, role, want);
 
   if (iunit != NULL) {
-    choice->choice = iunit->index;
+    choice->value.utype = iunit;
   }
 }
 
@@ -1169,30 +1189,34 @@ void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 {
-  Impr_type_id id = B_LAST;
+  struct impr_type *chosen = NULL;
   int want = 0;
   struct player *plr = city_owner(pcity);
 
-  impr_type_iterate(i) {
-    if (!plr->ai.control && is_wonder(i)) {
+  improvement_iterate(pimprove) {
+    if (!plr->ai.control && is_wonder(pimprove)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
-    if (pcity->ai.building_want[i] > want
-        && can_build_improvement(pcity, i)) {
-      want = pcity->ai.building_want[i];
-      id = i;
+    if (pcity->ai.building_want[improvement_index(pimprove)] > want
+        && can_city_build_improvement_now(pcity, pimprove)) {
+      want = pcity->ai.building_want[improvement_index(pimprove)];
+      chosen = pimprove;
     }
-  } impr_type_iterate_end;
+  } improvement_iterate_end;
 
   choice->want = want;
-  choice->choice = id;
-  choice->type = CT_BUILDING;
+  choice->value.building = chosen;
 
-  if (id != B_LAST) {
+  if (chosen) {
+    choice->type = CT_BUILDING;
+
     CITY_LOG(LOG_DEBUG, pcity, "wants most to build %s at %d",
-             improvement_rule_name(id),
+             improvement_rule_name(chosen),
              want);
+  } else {
+    choice->type = CT_NONE;
   }
+  choice->need_boat = FALSE;
 }
 
 /**********************************************************************

@@ -614,7 +614,7 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
   }
 
   /* Finally, put a picture of the unit in the tile */
-/*  if(i<utype_count()) { */
+/*  if(i<utype_count()) */ {
     struct sprite *s = get_unittype_sprite(tileset, punittype);
 
     XSetClipOrigin(display,civ_gc,0,0);
@@ -622,8 +622,7 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
     XCopyArea(display, s->pixmap, pm, civ_gc,
 	      0,0, s->width,s->height, 0,0 );
     XSetClipMask(display,civ_gc,None);
-/*  } */
-
+  }
   return(pm);
 }
 

@@ -569,6 +569,7 @@ int num_known_tech_with_flag(const struct player *pplayer,
 int player_get_expected_income(const struct player *pplayer)
 {
   int income = 0;
+  /* FIXME: almost the same as get_economy_report_data() */
 
   /* City income/expenses. */
   city_list_iterate(pplayer->cities, pcity) {
@@ -576,8 +577,7 @@ int player_get_expected_income(const struct player *pplayer)
     income += pcity->surplus[O_GOLD];
 
     /* Capitalization income. */
-    if (!pcity->production.is_unit
-	&& improvement_has_flag(pcity->production.value, IF_GOLD)) {
+    if (city_production_has_flag(pcity, IF_GOLD)) {
       income += pcity->shield_stock + pcity->surplus[O_SHIELD];
     }
   } city_list_iterate_end;

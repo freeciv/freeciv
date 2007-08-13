@@ -289,17 +289,18 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   if (was_first) {
     /* Alert the owners of any wonders that have been made obsolete */
-    impr_type_iterate(id) {
-      if (is_great_wonder(id) && great_wonder_was_built(id)
-	  && advance_number(improvement_by_number(id)->obsolete_by) == tech_found
-	  && (pcity = find_city_from_great_wonder(id))) {
+    improvement_iterate(pimprove) {
+      if (is_great_wonder(pimprove)
+	  && great_wonder_was_built(pimprove)
+	  && advance_number(pimprove->obsolete_by) == tech_found
+	  && (pcity = find_city_from_great_wonder(pimprove))) {
 	notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
 	                 _("Discovery of %s OBSOLETES %s in %s!"), 
 	                 advance_name_for_player(city_owner(pcity), tech_found),
-			 improvement_name_translation(id),
+			 improvement_name_translation(pimprove),
 	                 pcity->name);
       }
-    } impr_type_iterate_end;
+    } improvement_iterate_end;
   }
 
   if (advance_has_flag(tech_found, TF_BONUS_TECH) && was_first) {
