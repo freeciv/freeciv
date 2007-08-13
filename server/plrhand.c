@@ -1002,7 +1002,6 @@ static void package_player_info(struct player *plr,
       packet->inventions[i] = 
         research->inventions[i].state + '0';
     } advance_index_iterate_end;
-    packet->inventions[advance_count()] = '\0';
     packet->tax             = plr->economic.tax;
     packet->science         = plr->economic.science;
     packet->luxury          = plr->economic.luxury;
@@ -1015,7 +1014,6 @@ static void package_player_info(struct player *plr,
     advance_index_iterate(A_FIRST, i) {
       packet->inventions[i] = '0';
     } advance_index_iterate_end;
-    packet->inventions[advance_count()] = '\0';
     packet->tax             = 0;
     packet->science         = 0;
     packet->luxury          = 0;
@@ -1029,6 +1027,12 @@ static void package_player_info(struct player *plr,
   /* We have to inform the client that the other players also know
    * A_NONE. */
   packet->inventions[A_NONE] = research->inventions[A_NONE].state + '0';
+  packet->inventions[advance_count()] = '\0';
+#ifdef DEBUG
+  freelog(LOG_VERBOSE, "Player%d inventions:%s",
+          player_number(plr),
+          packet->inventions);
+#endif
 
   if (info_level >= INFO_FULL
       || (receiver

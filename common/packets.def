@@ -686,7 +686,7 @@ PACKET_PLAYER_INFO=39; sc
   UINT8 ai_skill_level;
   UINT8 barbarian_type;
   VISION gives_shared_vision;
-  BIT_STRING inventions[A_LAST+1];
+  STRING inventions[A_LAST+1];
   SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
   UINT16 small_wonders[B_LAST]; diff
@@ -1480,7 +1480,7 @@ PACKET_EDIT_PLAYER=128;cs,handle-per-conn,lsend
   BOOL ai;
   UINT8 barbarian_type;
   VISION gives_shared_vision;
-  BIT_STRING inventions[A_LAST+1];
+  STRING inventions[A_LAST+1];
   SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   UINT16 small_wonders[B_LAST]; diff
 end

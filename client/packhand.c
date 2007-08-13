@@ -1461,12 +1461,16 @@ static bool read_player_info_techs(struct player *pplayer,
 {
   bool need_effect_update = FALSE;
 
-  advance_index_iterate(A_NONE, i) {
-    enum tech_state oldstate
-      = get_player_research(pplayer)->inventions[i].state;
-    enum tech_state newstate = inventions[i] - '0';
+#ifdef DEBUG
+  freelog(LOG_VERBOSE, "Player%d inventions:%s",
+          player_number(pplayer),
+          inventions);
+#endif
 
-    get_player_research(pplayer)->inventions[i].state = newstate;
+  advance_index_iterate(A_NONE, i) {
+    enum tech_state newstate = inventions[i] - '0';
+    enum tech_state oldstate = player_invention_set(pplayer, i, newstate);
+
     if (newstate != oldstate
 	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
       need_effect_update = TRUE;
@@ -2318,7 +2322,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->preset_cost = p->preset_cost;
   a->num_reqs = p->num_reqs;
   a->helptext = mystrdup(p->helptext);
-  
+
   tileset_setup_tech_type(tileset, a);
 }
 
