@@ -1038,9 +1038,13 @@ static void process_attacker_want(struct city *pcity,
             best_choice->type = CT_BUILDING;
           } else {
 	    /* This should never happen? */
+            /* FIXME: Restore this when bug causing it to crash is fixed.
+             *        Commented out just as a critical fix to avoid crash. */
+#if 0
             CITY_LOG(LOG_DEBUG, pcity, "cannot build %s or %s",
                      improvement_rule_name(impr_req),
                      utype_rule_name(punittype));
+#endif
 	  }
         }
       }
