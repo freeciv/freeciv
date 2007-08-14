@@ -176,8 +176,8 @@ AM_ICONV
 AM_LIBCHARSET
 AM_LANGINFO_CODESET
 if test "$am_cv_func_iconv" != yes; then
-  AC_MSG_ERROR([Iconv is missing.  You can get it from http://gnu.org/, \
-                or try using --with-libiconv-prefix.])
+  AC_MSG_ERROR([Iconv is missing. You can get libiconv from http://gnu.org/, \
+or try using --with-libiconv-prefix.])
 fi
 LIBS="$LIBS $LIBICONV"
 
