@@ -229,30 +229,30 @@ bool city_dialog_is_open(struct city *pcity)
 void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   LV_COLUMN lvc;
-  int changed, total, item, targets_used;
+  int total, item, targets_used;
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   char buf[100];
+  bool changed;
 
   /* Test if the list improvements of pcity has changed */
-  changed = 0;
+  changed = false;
   improvement_iterate(pimprove) {
-    if (pdialog->pcity->improvements[improvement_index(pimprove)] !=
-        pdialog->last_improvlist_seen[improvement_index(pimprove)]) {
-      changed = 1;
-      break;
+    int index = improvement_index(pimprove);
+    bool has_building = city_has_building(pdialog->pcity, pimprove);
+    bool had_building =
+      pdialog->last_improvlist_seen[index];
+
+    if ((has_building && !had_building)
+        || (!has_building && had_building)) {
+      changed = true;
+      pdialog->last_improvlist_seen[index] = has_building;
     }
   } improvement_iterate_end;
 
   if (!changed) {
     return;
   }
-  
-  /* Update pdialog->last_improvlist_seen */
-  improvement_iterate(pimprove) {
-    pdialog->last_improvlist_seen[improvement_index(pimprove)] = 
-    pdialog->pcity->improvements[improvement_index(pimprove)];
-  } improvement_iterate_end;
   
   targets_used = collect_already_built_targets(targets, pdialog->pcity);
   name_and_sort_items(targets, targets_used, items, FALSE, pdialog->pcity);
@@ -278,7 +278,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
    
     row=fcwin_listview_add_row(pdialog->buildings_list,
 			   item, 2, strings);
-    pdialog->building_values[row] = target.value.building;
+    pdialog->building_values[row] = improvement_index(target.value.building);
     total += upkeep;
   }
   lvc.mask=LVCF_TEXT;
@@ -346,12 +346,21 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
   int i;
   struct unit_list *plist;
   struct canvas store;
+  int free_upkeep[O_COUNT];
+  int free_unhappy;
 
   store.type = CANVAS_DC;
   store.hdc = hdc;
   store.bmp = NULL;
   store.wnd = NULL;
   store.tmp = NULL;
+
+  free_unhappy = get_city_bonus(pdialog->pcity, EFT_MAKE_CONTENT_MIL);
+
+  output_type_iterate(o) {
+    free_upkeep[o] = get_city_output_bonus(pdialog->pcity, get_output_type(o),
+                                           EFT_UNIT_UPKEEP_FREE_PER_CITY);
+  } output_type_iterate_end;
 
   if  (pdialog->pcity->owner != game.player_ptr) {
     plist = pdialog->pcity->info_units_supported;
@@ -373,12 +382,17 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
   i = 0;
   
   unit_list_iterate(plist, punit) {
+    int upkeep_cost[O_COUNT];
+    int happy_cost = city_unit_unhappiness(punit, &free_unhappy);
+        
+    city_unit_upkeep(punit, upkeep_cost, free_upkeep);
+
     put_unit(punit, &store,
 	     pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
 	     pdialog->supported_y);
     put_unit_city_overlays(punit, &store,
-	     pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
-	     pdialog->supported_y);
+             pdialog->pop_x + i * (tileset_small_sprite_width(tileset) + tileset_tile_width(tileset)),
+                           pdialog->supported_y, upkeep_cost, happy_cost);
     pdialog->support_unit_ids[i] = punit->id;
     i++;
     if (i == NUM_UNITS_SHOWN) {
@@ -888,9 +902,10 @@ static void buy_callback_no(HWND w, void * data)
 **************************************************************************/
 static void buy_callback(struct city_dialog *pdialog)
 {
-  char buf[512];    
+  char buf[512];
+  struct city *pcity = pdialog->pcity;
   const char *name = city_production_name_translation(pcity);
-  int value = city_production_buy_gold_cost(pdialog->pcity);
+  int value = city_production_buy_gold_cost(pcity);
  
   if(game.player_ptr->economic.gold>=value) {
     my_snprintf(buf, sizeof(buf),

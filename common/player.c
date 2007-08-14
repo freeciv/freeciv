@@ -1003,3 +1003,28 @@ bool is_settable_ai_level(enum ai_level level)
   /* It's usable if it has name */
   return ai_level_cmd(level) != NULL;
 }
+
+/***************************************************************
+  Return number of AI levels in game
+***************************************************************/
+int number_of_ai_levels(void)
+{
+  /* We determine this runtime instead of hardcoding correct answer.
+   * But as this is constant, we determine it only once. */
+  static int count = 0;
+  enum ai_level level;
+
+  if (count) {
+    /* Answer already known */
+    return count;
+  }
+
+  /* Determine how many levels are actually usable */
+  for (level = 0; level < AI_LEVEL_LAST; level++) {
+    if (is_settable_ai_level(level)) {
+      count++;
+    }
+  }
+
+  return count;
+}

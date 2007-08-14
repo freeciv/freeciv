@@ -315,5 +315,6 @@ enum ai_level find_ai_level_by_name(const char *name);
 const char *ai_level_name(enum ai_level level);
 const char *ai_level_cmd(enum ai_level level);
 bool is_settable_ai_level(enum ai_level level);
+int number_of_ai_levels(void);
 
 #endif  /* FC__PLAYER_H */

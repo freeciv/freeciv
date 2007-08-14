@@ -794,7 +794,7 @@ static void set_new_game_params(HWND win)
   aiskill = ComboBox_GetCurSel(GetDlgItem(newgame_dlg,
 					  ID_NEWGAMEDLG_AISKILL));
 
-  my_snprintf(buf, sizeof(buf), "/%s", skill_level_names[aiskill]);
+  my_snprintf(buf, sizeof(buf), "/%s", ai_level_cmd(aiskill));
   send_chat(buf);
 
 #if 0 
@@ -925,6 +925,7 @@ void gui_server_connect()
   struct fcwin_box *players_vbox;
   struct fcwin_box *newgame_vbox;
   LV_COLUMN lvc;
+  enum ai_level level;
   
   titles[0] =_(titles_[0]);
   titles[1] =_(titles_[1]);
@@ -1019,11 +1020,16 @@ void gui_server_connect()
 
   fcwin_box_add_static(hbox, _("AI skill level:"), 0, SS_LEFT, TRUE, TRUE,
 		       5);
-  fcwin_box_add_combo(hbox, NUM_SKILL_LEVELS, ID_NEWGAMEDLG_AISKILL,
+
+  fcwin_box_add_combo(hbox, number_of_ai_levels(), ID_NEWGAMEDLG_AISKILL,
 		      CBS_DROPDOWN | WS_VSCROLL, TRUE, TRUE, 5);
-  for (i = 0; i < NUM_SKILL_LEVELS; i++) {
-    ComboBox_AddString(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AISKILL), 
-		       _(skill_level_names[i]));
+  for (level = 0; level < AI_LEVEL_LAST; level++) {
+    if (is_settable_ai_level(level)) {
+      /* We insert translated ai_level_name here. This cannot be used as
+       * command for setting ai level (that would be ai_level_cmd(level) */
+      ComboBox_AddString(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AISKILL),
+                         ai_level_name(level));
+    }
   }
   ComboBox_SetCurSel(GetDlgItem(newgame_dlg, ID_NEWGAMEDLG_AISKILL), 1);
 

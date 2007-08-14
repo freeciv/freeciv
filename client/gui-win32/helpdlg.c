@@ -730,7 +730,8 @@ static void help_update_unit_type(const struct help_item *pitem,
     if (U_NOT_OBSOLETED == utype->obsoleted_by) {
       SetWindowText(help_ulabel[4][4], _("None"));
     } else {
-      SetWindowText(help_ulabel[4][4], utype->obsoleted_by->name);
+      SetWindowText(help_ulabel[4][4],
+                    utype_name_translation(utype->obsoleted_by));
     }
 
     helptext_unit(buf, utype, pitem->text);

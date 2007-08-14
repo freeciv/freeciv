@@ -104,8 +104,10 @@ struct message_dialog {
 static HWND races_dlg;
 struct player *races_player;
 static HWND races_listview;
+/*
 static HWND races_class;
 static HWND races_legend;
+*/
 int visible_nations[MAX_NUM_ITEMS];
 int selected_leader_sex;
 int selected_style;
@@ -282,11 +284,14 @@ static void update_radio_buttons(int id)
 **************************************************************************/
 static void update_nation_info()
 {
+  /*
   int i;
   char buf[255];
   struct nation_type *nation = nation_by_number(selected_nation);
  
   buf[0] = '\0';
+  */
+
 /*
   for (i = 0; i < nation->num_groups; i++) {
     sz_strlcat(buf, nation->groups[i]->name);
@@ -456,16 +461,6 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
   return 0;
 }
 
-
-/****************************************************************
-...
-*****************************************************************/
-static int cmp_func(const void * a_p, const void * b_p)
-{
-  return strcmp(nation_name_translation(nation_by_number((*(int *)a_p)-ID_RACESDLG_NATION_BASE)),
-                nation_name_translation(nation_by_number((*(int *)b_p)-ID_RACESDLG_NATION_BASE)));
-}
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -483,14 +478,15 @@ static void populate_nation_listview(struct nation_group* group, HWND listview)
       continue;
     }
 
-    if (group != NULL && !is_nation_in_group(pnation, group->name)) {
+    if (group != NULL && !is_nation_in_group(pnation, group)) {
       continue;
     }
 
-    strings[0] = nation_name_translation(pnation);
+    /* FIXME: Casting const away!!! */
+    strings[0] = (char *) nation_name_translation(pnation);
 
-    fcwin_listview_add_row(listview, pnation->index, 1, strings);
-    visible_nations[n++] = pnation->index;
+    fcwin_listview_add_row(listview, nation_index(pnation), 1, strings);
+    visible_nations[n++] = nation_index(pnation);
 
   } nations_iterate_end;
 
@@ -1396,7 +1392,7 @@ static void create_improvements_list(struct player *pplayer,
   improvement_iterate(pimprove) {
     if (pimprove->sabotage > 0) {
       ListBox_AddString(lb,city_improvement_name_translation(pcity, pimprove));
-      improvement_type[j++] = improvement_by_number(pimprove);
+      improvement_type[j++] = improvement_index(pimprove);
     }  
   } improvement_iterate_end;
 
@@ -1734,14 +1730,15 @@ static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
 
 **************************************************************************/
 void popup_pillage_dialog(struct unit *punit,
-			  bv_special may_pillage)
+			  bv_special may_pillage,
+                          struct base_type *pbase)
 {
   HWND dlg;
   struct fcwin_box *vbox;
   enum tile_special_type what, prereq;
 
   if (!is_showing_pillage_dialog) {
-    is_showing_pillage_dialog = TRUE;   
+    is_showing_pillage_dialog = TRUE;
     unit_to_use_to_pillage = punit->id;
     dlg=fcwin_create_layouted_window(pillage_proc,_("What To Pillage"),
 				     WS_OVERLAPPEDWINDOW,
@@ -1752,19 +1749,25 @@ void popup_pillage_dialog(struct unit *punit,
     vbox=fcwin_vbox_new(dlg,FALSE);
     fcwin_box_add_static(vbox,_("Select what to pillage:"),0,SS_LEFT,
 			 FALSE,FALSE,10);
-    while ((what = get_preferred_pillage(may_pillage)) != S_LAST) {
+    while ((what = get_preferred_pillage(may_pillage, pbase)) != S_LAST) {
       bv_special what_bv;
 
-      BV_CLR_ALL(what_bv);
-      BV_SET(what_bv, what);
+      if (what != S_PILLAGE_BASE) {
+        BV_CLR_ALL(what_bv);
+        BV_SET(what_bv, what);
 
-      fcwin_box_add_button(vbox, get_infrastructure_text(what_bv),
-			   ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
+        fcwin_box_add_button(vbox, get_infrastructure_text(what_bv),
+                             ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
 
-      clear_special(&may_pillage, what);
-      prereq = get_infrastructure_prereq(what);
-      if (prereq != S_LAST) {
-	clear_special(&may_pillage, prereq);
+        clear_special(&may_pillage, what);
+        prereq = get_infrastructure_prereq(what);
+        if (prereq != S_LAST) {
+          clear_special(&may_pillage, prereq);
+        }
+      } else {
+        fcwin_box_add_button(vbox, base_name_translation(pbase),
+                             ID_PILLAGE_BASE + what, 0, TRUE, FALSE, 5);
+        pbase = NULL;
       }
     }
     fcwin_box_add_button(vbox,_("Cancel"),IDCANCEL,0,TRUE,FALSE,5);

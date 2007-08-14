@@ -1406,7 +1406,7 @@ char *convertnl2crnl(const char *str)
 /**************************************************************************
 
 **************************************************************************/
-int fcwin_listview_add_row(HWND lv,int row_nr,int columns,char **row)
+int fcwin_listview_add_row(HWND lv, int row_nr, int columns, char **row)
 {
   LV_ITEM lvi;
   int i,id;
