@@ -317,6 +317,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       choice->want = 0 - founder_want;
       choice->type = CT_CIVILIAN;
       choice->value.utype = founder_type; /* default */
+      choice->need_boat = TRUE;
 
       /* Then try to overwrite it with ferryboat information
        * If no ferryboat is found, above founder choice stays. */
