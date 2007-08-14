@@ -498,8 +498,6 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
     pplayer_get_diplstate(pplayer, aplayer)->type;
   int given_cities = 0;
 
-  assert(!is_barbarian(pplayer));
-  
   clause_list_iterate(ptreaty->clauses, pclause) {
     if (is_pact_clause(pclause->type)) {
       ds_after = pact_clause_to_diplstate_type(pclause->type);
