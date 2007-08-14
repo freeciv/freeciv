@@ -1225,8 +1225,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     copy_if_better_choice(&best_choice, choice);
     CITY_LOG(LOG_DEBUG, pcity, "ksw: %s has chosen attacker, %s, want=%d",
 	     pcity->name,
-	     utype_rule_name(choice->value.utype),
-	     choice->want);
+	     utype_rule_name(best_choice.value.utype),
+	     best_choice.want);
 
     if (go_by_boat && !ferryboat) { /* need a new ferry */
       /* We might need a new boat even if there are boats free,
