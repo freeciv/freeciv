@@ -1232,7 +1232,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
       assert(is_ground_unit(myunit));
-      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, choice->want);
+      ai_choose_role_unit(pplayer, pcity, choice, CT_ATTACKER,
+                          L_FERRYBOAT, choice->want, TRUE);
       if (SEA_MOVING == utype_move_type(choice->value.utype)) {
         struct ai_data *ai = ai_data_get(pplayer);
 

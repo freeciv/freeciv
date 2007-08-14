@@ -265,9 +265,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     if (settler_want > 0) {
       CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
                settler_want);
-      choice->want = settler_want;
-      choice->type = CT_CIVILIAN;
-      ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, settler_want);
+      ai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
+                          F_SETTLERS, settler_want, FALSE);
     }
     /* Terrain improvers don't use boats (yet) */
 
@@ -300,11 +299,10 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     if (founder_want > choice->want) {
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
                founder_want);
-      choice->want = founder_want;
-      choice->need_boat = pcity->ai.founder_boat;
-      choice->type = CT_CIVILIAN;
-      ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, founder_want);
-      
+      ai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
+                          F_CITIES, founder_want,
+                          pcity->ai.founder_boat);
+
     } else if (founder_want < -choice->want) {
       /* We need boats to colonize! */
       /* We might need boats even if there are boats free,
@@ -314,11 +312,16 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
 	       " for a new boat (%d of %d free)",
 	       -founder_want, ai->stats.available_boats, ai->stats.boats);
+
+      /* First fill choice with founder information */
       choice->want = 0 - founder_want;
       choice->type = CT_CIVILIAN;
       choice->value.utype = founder_type; /* default */
-      choice->need_boat = TRUE;
-      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -founder_want);
+
+      /* Then try to overwrite it with ferryboat information
+       * If no ferryboat is found, above founder choice stays. */
+      ai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
+                          L_FERRYBOAT, -founder_want, TRUE);
     }
   } else if (!founder_type
              && (founder_want > choice->want || founder_want < -choice->want)) {

@@ -97,8 +97,9 @@ bool is_unit_choice_type(enum choice_type type);
 void city_production_from_ai_choice(struct universal *product,
 				    struct ai_choice *choice);
 
-void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-                         struct ai_choice *choice, int role, int want);
+bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
+                         struct ai_choice *choice, enum choice_type type,
+                         int role, int want, bool need_boat);
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice);
 bool ai_assess_military_unhappiness(struct city *pcity);
 
