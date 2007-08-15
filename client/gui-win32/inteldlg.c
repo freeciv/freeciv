@@ -124,10 +124,14 @@ static void intel_create_dialog(struct player *p)
   
   hbox=fcwin_hbox_new(intel_dialog,FALSE);
    
-  my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
-	      advance_name_researching(p),
-	      get_player_research(p)->bulbs_researched,
-	      total_bulbs_required(p));
+  if (get_player_research(p)->researching != A_UNKNOWN) {
+    my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
+	        advance_name_researching(p),
+	        get_player_research(p)->bulbs_researched,
+	        total_bulbs_required(p));
+  } else {
+    my_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
+  }
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);
   
   pcity = find_palace(p);
