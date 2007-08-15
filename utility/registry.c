@@ -397,9 +397,6 @@ static bool section_file_read_dup(struct section_file *sf,
   struct astring entry_name = ASTRING_INIT;
   struct astring_vector columns;    /* astrings for column headings */
 
-  if (!inf) {
-    return FALSE;
-  }
   section_file_init(sf);
   if (filename) {
     sf->filename = mystrdup(filename);
@@ -588,7 +585,11 @@ bool section_file_load(struct section_file *my_section_file,
   interpret_tilde(real_filename, sizeof(real_filename), filename);
   inf = inf_from_file(real_filename, datafilename);
 
+  if (!inf) {
+    return FALSE;
+  }
   success = section_file_read_dup(my_section_file, real_filename, inf, TRUE);
+
   inf_close(inf);
 
   return success;
@@ -607,7 +608,11 @@ bool section_file_load_nodup(struct section_file *my_section_file,
   interpret_tilde(real_filename, sizeof(real_filename), filename);
   inf = inf_from_file(real_filename, datafilename);
 
+  if (!inf) {
+    return FALSE;
+  }
   success = section_file_read_dup(my_section_file, real_filename, inf, FALSE);
+
   inf_close(inf);
 
   return success;
@@ -619,10 +624,14 @@ bool section_file_load_nodup(struct section_file *my_section_file,
 bool section_file_load_from_stream(struct section_file *my_section_file,
 				   fz_FILE * stream)
 {
-  struct inputfile *inf = inf_from_stream(stream, datafilename);
   bool success;
+  struct inputfile *inf = inf_from_stream(stream, datafilename);
 
+  if (!inf) {
+    return FALSE;
+  }
   success = section_file_read_dup(my_section_file, NULL, inf, TRUE);
+
   inf_close(inf);
 
   return success;
