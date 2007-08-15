@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-12 15:02+0300\n"
+"POT-Creation-Date: 2007-08-15 17:42+0900\n"
 "PO-Revision-Date: 2007-08-12 15:37+0300\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -60,15 +60,15 @@ msgstr "Tudomány"
 msgid "?obsolete:O"
 msgstr "?obsolate:E"
 
-#: common/city.c:351
+#: common/city.c:352
 msgid "?redundant:*"
 msgstr "?redundant:*"
 
-#: common/city.c:356
+#: common/city.c:357
 msgid "?built:B"
 msgstr "?built:M"
 
-#: common/city.c:358
+#: common/city.c:359
 msgid "?wonder:w"
 msgstr "?wonder:cs"
 
@@ -604,19 +604,19 @@ msgid "Surviving requirements are only supported at world range."
 msgstr ""
 
 #. TRANS: (none) as in "Resources: (none)".
-#: common/requirements.c:1001 common/team.c:131
+#: common/requirements.c:1013 common/team.c:131
 #: client/gui-gtk-2.0/helpdlg.c:1058 client/gui-win32/helpdlg.c:586
 #: client/gui-xaw/helpdlg.c:993
 #, fuzzy, c-format
 msgid "(none)"
 msgstr "semmi"
 
-#: common/requirements.c:1025 common/requirements.c:1029
+#: common/requirements.c:1037 common/requirements.c:1041
 #, fuzzy, c-format
 msgid "%s units"
 msgstr " egység"
 
-#: common/requirements.c:1039
+#: common/requirements.c:1051
 #, fuzzy, c-format
 msgid "Size %d"
 msgstr "Méret"
@@ -677,7 +677,7 @@ msgid "Mine"
 msgstr "Bánya"
 
 #: common/terrain.c:366 common/unit.c:550 server/report.c:123
-#: client/cityrepdata.c:514 client/gui-sdl/optiondlg.c:1781
+#: client/cityrepdata.c:519 client/gui-sdl/optiondlg.c:1781
 msgid "Pollution"
 msgstr "Szennyezés"
 
@@ -1065,17 +1065,17 @@ msgstr ""
 msgid "error %d (compiled without strerror)"
 msgstr "hiba: %d (strerror nélkül lett lefordítva)"
 
-#: ai/aicity.c:1035 server/citytools.c:1866
+#: ai/aicity.c:1039 server/citytools.c:1866
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Játék: A(z) %s abbahagyták a(z) %s építését %s városában."
 
-#: ai/aicity.c:1046 server/citytools.c:1906
+#: ai/aicity.c:1050 server/citytools.c:1906
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Játék: A(z) %s elkezdték a(z) %s építését %s városában."
 
-#: ai/aicity.c:1370
+#: ai/aicity.c:1374
 #, fuzzy, c-format
 msgid "%s is selling %s (not needed) for %d."
 msgstr "Játék: %s eladja a (szükségtelen) %s épületet %d aranyért."
@@ -1117,71 +1117,71 @@ msgstr ""
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr ""
 
-#: ai/advdiplomacy.c:552
+#: ai/advdiplomacy.c:550
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr ""
 
-#: ai/advdiplomacy.c:573
+#: ai/advdiplomacy.c:571
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr ""
 
-#: ai/advdiplomacy.c:576
+#: ai/advdiplomacy.c:574
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
 msgstr ""
 
-#: ai/advdiplomacy.c:582
+#: ai/advdiplomacy.c:580
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr ""
 
-#: ai/advdiplomacy.c:587
+#: ai/advdiplomacy.c:585
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr ""
 
-#: ai/advdiplomacy.c:800
+#: ai/advdiplomacy.c:798
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1078
+#: ai/advdiplomacy.c:1076
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr ""
 
-#: ai/advdiplomacy.c:1082
+#: ai/advdiplomacy.c:1080
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1087
+#: ai/advdiplomacy.c:1085
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr ""
 
-#: ai/advdiplomacy.c:1092
+#: ai/advdiplomacy.c:1090
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1098
+#: ai/advdiplomacy.c:1096
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1104
+#: ai/advdiplomacy.c:1102
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1187
+#: ai/advdiplomacy.c:1185
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -1191,14 +1191,14 @@ msgid_plural ""
 "the spaceship launch."
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1195
+#: ai/advdiplomacy.c:1193
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1200
+#: ai/advdiplomacy.c:1198
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -1210,7 +1210,7 @@ msgid_plural ""
 "us and do likewise!"
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1211
+#: ai/advdiplomacy.c:1209
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -1220,13 +1220,13 @@ msgid_plural ""
 "declare war in %d turns."
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1217
+#: ai/advdiplomacy.c:1215
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1221
+#: ai/advdiplomacy.c:1219
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -1236,12 +1236,12 @@ msgid_plural ""
 "apart. We declare war in %d turns."
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1229
+#: ai/advdiplomacy.c:1227
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 
-#: ai/advdiplomacy.c:1234
+#: ai/advdiplomacy.c:1232
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
@@ -1251,7 +1251,7 @@ msgid_plural ""
 "Hold on - we are coming!"
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1241
+#: ai/advdiplomacy.c:1239
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
@@ -1261,47 +1261,47 @@ msgid_plural ""
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 
-#: ai/advdiplomacy.c:1308
+#: ai/advdiplomacy.c:1306
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1322
+#: ai/advdiplomacy.c:1320
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
 msgstr ""
 
-#: ai/advdiplomacy.c:1324
+#: ai/advdiplomacy.c:1322
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1435
+#: ai/advdiplomacy.c:1433
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 
-#: ai/advdiplomacy.c:1510
+#: ai/advdiplomacy.c:1508
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
 msgstr ""
 
-#: ai/advdiplomacy.c:1515
+#: ai/advdiplomacy.c:1513
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
 "s. Why do I need to remind you of your promises?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1520
+#: ai/advdiplomacy.c:1518
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -1309,26 +1309,26 @@ msgid ""
 "more!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1548
+#: ai/advdiplomacy.c:1546
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1563
+#: ai/advdiplomacy.c:1561
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1577
+#: ai/advdiplomacy.c:1575
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1697
+#: ai/advdiplomacy.c:1695
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
@@ -1672,7 +1672,7 @@ msgstr "Játék: %s %s (elavult) épületet ad el %d aranyért."
 msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Játék: Figyelem, a(z) %2$si %1$s a következõ körben megépül."
 
-#: server/cityturn.c:337
+#: server/cityturn.c:338
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
@@ -1680,51 +1680,51 @@ msgstr ""
 "Játék: Javasolom a növekedés visszafogását %s városában, mert így a (most "
 "épülõ) %sat jobban ki lehet használni."
 
-#: server/cityturn.c:349
+#: server/cityturn.c:350
 #, c-format
 msgid "%s may soon grow to size %i."
 msgstr "Játék: %s hamarosan %i méretûre nõhet."
 
-#: server/cityturn.c:357
+#: server/cityturn.c:358
 #, c-format
 msgid "Warning: Famine feared in %s."
 msgstr "Játék: Figyelmeztetés: Éhínség van %s városában."
 
-#: server/cityturn.c:380
+#: server/cityturn.c:381
 msgid "WARNING, we're LOW on FUNDS sire."
 msgstr "Játék: FIGYELEM, KEVÉS PÉNZÜNK van."
 
-#: server/cityturn.c:472
+#: server/cityturn.c:473
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
 msgstr "Játék: %s növekedéséhez %s szükséges. (épül)"
 
-#: server/cityturn.c:478
+#: server/cityturn.c:479
 #, fuzzy, c-format
 msgid "%s needs an improvement to grow any further."
 msgstr "Játék: %s növekedéséhez %s szükséges."
 
-#: server/cityturn.c:521
+#: server/cityturn.c:522
 #, c-format
 msgid "%s grows to size %d."
 msgstr "Játék: %s %d méretûre nõtt."
 
-#: server/cityturn.c:552
+#: server/cityturn.c:553
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "Játék: Éhínség van %s városában, egy %s elveszett!"
 
-#: server/cityturn.c:565
+#: server/cityturn.c:566
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "Játék: Éhínség miatt csökken a népesség %s városában."
 
-#: server/cityturn.c:569
+#: server/cityturn.c:570
 #, fuzzy, c-format
 msgid "Famine destroys %s entirely."
 msgstr "Játék: %s városát teljesen megsemmisítetted."
 
-#: server/cityturn.c:643
+#: server/cityturn.c:644
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
@@ -1732,19 +1732,19 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; a technológia "
 "még nem elérhetõ.  Elhalasztva..."
 
-#: server/cityturn.c:656 server/cityturn.c:692
+#: server/cityturn.c:657 server/cityturn.c:693
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
 msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s.  Törölve..."
 
-#: server/cityturn.c:676 server/cityturn.c:838 server/cityturn.c:937
-#: server/cityturn.c:985
+#: server/cityturn.c:677 server/cityturn.c:839 server/cityturn.c:938
+#: server/cityturn.c:986
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Játék: A(z) %s helyett inkább %s épül %s városában."
 
-#: server/cityturn.c:724
+#: server/cityturn.c:725
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
@@ -1753,7 +1753,7 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; a technológia "
 "még nem elérhetõ.  Elhalasztva..."
 
-#: server/cityturn.c:737
+#: server/cityturn.c:738
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
@@ -1761,7 +1761,7 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
 "hozzá.  Elhalasztva..."
 
-#: server/cityturn.c:750
+#: server/cityturn.c:751
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
@@ -1769,7 +1769,7 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
 "hozzá.  Elhalasztva..."
 
-#: server/cityturn.c:762
+#: server/cityturn.c:763
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
@@ -1777,7 +1777,7 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
 "hozzá.  Elhalasztva..."
 
-#: server/cityturn.c:774
+#: server/cityturn.c:775
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
@@ -1785,7 +1785,7 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
 "hozzá.  Elhalasztva..."
 
-#: server/cityturn.c:788
+#: server/cityturn.c:789
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
@@ -1793,7 +1793,7 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
 "hozzá.  Elhalasztva..."
 
-#: server/cityturn.c:807
+#: server/cityturn.c:808
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
@@ -1801,116 +1801,116 @@ msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; %s szökséges "
 "hozzá.  Elhalasztva..."
 
-#: server/cityturn.c:829
+#: server/cityturn.c:830
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 "Játék: %s városában nem épülhet a munkatervben szereplõ %s; Az ok "
 "ismeretlen!  Elhalasztva..."
 
-#: server/cityturn.c:863
+#: server/cityturn.c:864
 #, c-format
 msgid "%s's worklist is now empty."
 msgstr "Játék: %s munkaterve most üres."
 
-#: server/cityturn.c:1007
+#: server/cityturn.c:1008
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "Játék: Egy %si %s feloszlott, mert a város nem tudja fenntartani."
 
-#: server/cityturn.c:1027
+#: server/cityturn.c:1028
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr ""
 
-#: server/cityturn.c:1072 server/cityturn.c:1187
+#: server/cityturn.c:1073 server/cityturn.c:1192
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr ""
 "Játék: %s olyan épületet próbál építeni (%s), ami már nem építhetõ meg."
 
-#: server/cityturn.c:1110
+#: server/cityturn.c:1114
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Játék: A(z) %s befejezték a(z) %s építését %s városában."
 
-#: server/cityturn.c:1120
+#: server/cityturn.c:1124
 #, c-format
 msgid "%s has finished building %s."
 msgstr "Játék: %s befejezte a(z) %s építését."
 
-#: server/cityturn.c:1135
+#: server/cityturn.c:1140
 #, fuzzy, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "Játék: A(z) %s felgyorsítja a kutatást, kapsz 2 tudományt."
 
-#: server/cityturn.c:1145 server/techtools.c:176
+#: server/cityturn.c:1150 server/techtools.c:176
 #, fuzzy, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "Játék: A(z) %s megszerezték a(z) %s tudományt a(z) %s népétõl."
 
-#: server/cityturn.c:1153
+#: server/cityturn.c:1158
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "Játék: A(z) %s ûrhajó építésébe kezdtek!"
 
-#: server/cityturn.c:1212
+#: server/cityturn.c:1217
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "Játék: %s városában még nem épülhet %s."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1245
+#: server/cityturn.c:1250
 #, c-format
 msgid "%s is finished building %s."
 msgstr "Játék: %s befejezte a(z) %s építését."
 
-#: server/cityturn.c:1288
+#: server/cityturn.c:1293
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Játék: Nem tudsz pénzt fordítani a(z) %2$si %1$s fenntartására, ezért azt "
 "eladtuk!"
 
-#: server/cityturn.c:1324
+#: server/cityturn.c:1329
 #, c-format
 msgid "Pollution near %s."
 msgstr "Játék: Szennyezés %s közelében."
 
-#: server/cityturn.c:1471
+#: server/cityturn.c:1476
 #, c-format
 msgid "We Love The %s Day celebrated in %s."
 msgstr "Játék: Éljen a(z) %s napot ünnepelnek %s városában."
 
-#: server/cityturn.c:1478
+#: server/cityturn.c:1483
 #, c-format
 msgid "We Love The %s Day canceled in %s."
 msgstr "Játék: Az Éljen a(z) %s napot megszüntették %s városában."
 
-#: server/cityturn.c:1507
+#: server/cityturn.c:1512
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Játék: Polgári lázadás %s városában."
 
-#: server/cityturn.c:1510
+#: server/cityturn.c:1515
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Játék: A(z) %si POLGÁRI LÁZADÁS TOVÁBB FOLYTATÓDIK."
 
-#: server/cityturn.c:1516
+#: server/cityturn.c:1521
 #, c-format
 msgid "Order restored in %s."
 msgstr "Játék: Helyreállt a rend %s városában."
 
-#: server/cityturn.c:1525
+#: server/cityturn.c:1530
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Játék: Országodban megdõlt a(z) %s, az emberek között nagy nyugtalanság "
 "uralkodik."
 
-#: server/cityturn.c:1550
+#: server/cityturn.c:1555
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -1918,7 +1918,7 @@ msgstr ""
 "városunkat."
 
 #. TRANS: Settler production leads to disbanded city.
-#: server/cityturn.c:1574
+#: server/cityturn.c:1579
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "Játék: A(z) %s beolvasztva %s városába."
@@ -2050,7 +2050,7 @@ msgstr "  -v, --version\t\tVerziószám kiíratása\n"
 #: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:267
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:208
 #: client/gui-xaw/gui_main.c:247 manual/civmanual.c:384
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Report bugs at %s.\n"
 msgstr "Hibajelentéseket a(z) <%s> címre küldj.\n"
 
@@ -2961,7 +2961,7 @@ msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] "Játék: Egy %d pontból álló egyezmény köttetett meg."
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Játék: Megsemmisült az egyik %s által felajánlott város! Az egyezmény "
@@ -3010,27 +3010,27 @@ msgstr "Játék: Kapsz %d aranyat."
 msgid "You receive %s's worldmap."
 msgstr "Játék: Megkapod %s világtérképét."
 
-#: server/diplhand.c:398
+#: server/diplhand.c:400
 #, c-format
 msgid "You receive %s's seamap."
 msgstr "Játék: Megkapod %s hajózási térképét."
 
-#: server/diplhand.c:413
+#: server/diplhand.c:417
 #, c-format
 msgid "You receive city of %s from %s."
 msgstr "Játék: %2$s átadja neked %1$s városát."
 
-#: server/diplhand.c:417
+#: server/diplhand.c:421
 #, c-format
 msgid "You give city of %s to %s."
 msgstr "Játék: %2$s megkapja tõled %1$s városát."
 
-#: server/diplhand.c:429 server/diplhand.c:432
+#: server/diplhand.c:433 server/diplhand.c:436
 #, c-format
 msgid "You agree on a cease-fire with %s."
 msgstr "Játék: Tûzszünetet kötöttél %s játékossal."
 
-#: server/diplhand.c:450 server/diplhand.c:459
+#: server/diplhand.c:454 server/diplhand.c:463
 #, c-format
 msgid ""
 "You agree on an armistice with %s. In %d turn it will turn into a peace "
@@ -3040,32 +3040,32 @@ msgid_plural ""
 "treaty. Move your units out of %s's territory."
 msgstr[0] ""
 
-#: server/diplhand.c:481 server/diplhand.c:484
+#: server/diplhand.c:485 server/diplhand.c:488
 #, c-format
 msgid "You agree on an alliance with %s."
 msgstr "Játék: Szövetséget kötöttél %s játékossal."
 
-#: server/diplhand.c:493
+#: server/diplhand.c:497
 #, c-format
 msgid "You give shared vision to %s."
 msgstr "Játék: Közös látványt biztosítasz %s számára."
 
-#: server/diplhand.c:496
+#: server/diplhand.c:500
 #, c-format
 msgid "%s gives you shared vision."
 msgstr "Játék: %s közös látványt biztosít neked."
 
-#: server/diplhand.c:634
+#: server/diplhand.c:642
 #, c-format
 msgid "%s canceled the meeting!"
 msgstr "Játék: %s megszakította a találkozót!"
 
-#: server/diplhand.c:641
+#: server/diplhand.c:649
 #, c-format
 msgid "Meeting with %s canceled."
 msgstr "Játék: Megszakítottuk a találkozót %s játékossal."
 
-#: server/diplhand.c:683
+#: server/diplhand.c:691
 msgid "Your diplomatic envoy was decapitated!"
 msgstr ""
 
@@ -3758,7 +3758,7 @@ msgstr "Kutatási sebesség"
 msgid "Literacy"
 msgstr "Mûveltség"
 
-#: server/report.c:120 client/cityrepdata.c:519 client/cityrepdata.c:520
+#: server/report.c:120 client/cityrepdata.c:524 client/cityrepdata.c:525
 #: client/gui-mui/citydlg.c:1448 client/gui-sdl/cityrep.c:174
 msgid "Production"
 msgstr "Termelés"
@@ -5179,13 +5179,13 @@ msgstr ""
 "\"civscore.log\" fájl végére.  Ezek a statisztikák fejlõdési grafikonok "
 "készítéséhez használhatók fel a játék után."
 
-#: server/sernet.c:143
+#: server/sernet.c:146
 msgid "Server cannot read standard input. Ignoring input."
 msgstr ""
 "A szerver nem tudja olvasni a standard bemenetet. Bemenet figyelmen kívül "
 "hagyása."
 
-#: server/sernet.c:906
+#: server/sernet.c:911
 #, fuzzy, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Metaszerver: rossz cím: [%s]."
@@ -7628,7 +7628,7 @@ msgstr "Védekezés:"
 msgid "Best defending units"
 msgstr "Jelenlévõ egységek ki_listázása"
 
-#: client/cityrepdata.c:472 client/cityrepdata.c:474
+#: client/cityrepdata.c:472 client/cityrepdata.c:476
 #: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk-2.0/cityrep.c:1229
 #: client/gui-gtk-2.0/cityrep.c:1248 client/gui-gtk-2.0/cityrep.c:1267
 #: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/repodlgs.c:958
@@ -7643,187 +7643,190 @@ msgstr "Jelenlévõ egységek ki_listázása"
 msgid "Units"
 msgstr "Egységek"
 
-#: client/cityrepdata.c:472
+#. TRANS: Header "Number of units inside city"
+#: client/cityrepdata.c:474
 #, fuzzy
 msgid "?Present (units):Here"
 msgstr "Jelenlévõ"
 
-#: client/cityrepdata.c:473
+#: client/cityrepdata.c:475
 #, fuzzy
 msgid "Number of units present"
 msgstr "Jelenlévõ egységek"
 
-#: client/cityrepdata.c:474
+#. TRANS: Header "Number of units supported by given city"
+#: client/cityrepdata.c:478
 #, fuzzy
 msgid "?Supported (units):Owned"
 msgstr "Eltartott"
 
-#: client/cityrepdata.c:475
+#: client/cityrepdata.c:479
 #, fuzzy
 msgid "Number of units supported"
 msgstr "Eltartott egységek"
 
-#: client/cityrepdata.c:477
+#. TRANS: Header "It will take this many turns before city grows"
+#: client/cityrepdata.c:482
 #, fuzzy
 msgid "?food (population):Grow"
 msgstr "Élelem"
 
-#: client/cityrepdata.c:478 client/cityrepdata.c:523
+#: client/cityrepdata.c:483 client/cityrepdata.c:528
 #, fuzzy
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(Raktár/Cél)"
 
-#: client/cityrepdata.c:479
+#: client/cityrepdata.c:484
 #, fuzzy
 msgid "Turns until growth/famine"
 msgstr "Körök Élelem"
 
-#: client/cityrepdata.c:481
+#: client/cityrepdata.c:486
 msgid "?size [short]:Sz"
 msgstr "?size:Mrt"
 
-#: client/cityrepdata.c:481
+#: client/cityrepdata.c:486
 msgid "Size"
 msgstr "Méret"
 
-#: client/cityrepdata.c:485
+#: client/cityrepdata.c:490
 msgid "?city:Name"
 msgstr "?city:Név"
 
-#: client/cityrepdata.c:485 client/gui-sdl/cityrep.c:169
+#: client/cityrepdata.c:490 client/gui-sdl/cityrep.c:169
 msgid "City Name"
 msgstr "Városnév"
 
-#: client/cityrepdata.c:488
+#: client/cityrepdata.c:493
 msgid "Surplus"
 msgstr "Többlet"
 
-#: client/cityrepdata.c:488
+#: client/cityrepdata.c:493
 msgid "?food/production/trade:F/P/T"
 msgstr "?food/production/trade:É/T/K"
 
-#: client/cityrepdata.c:489
+#: client/cityrepdata.c:494
 msgid "Surplus: Food, Production, Trade"
 msgstr "Többlet: Élelem, Termelés, Kereskedelem"
 
-#: client/cityrepdata.c:491
+#: client/cityrepdata.c:496
 #, fuzzy
 msgid "?Food surplus [short]:+F"
 msgstr "?Food surplus [short]:+É"
 
-#: client/cityrepdata.c:491
+#: client/cityrepdata.c:496
 #, fuzzy
 msgid "Surplus: Food"
 msgstr "Többlet: Élelem"
 
-#: client/cityrepdata.c:493
+#: client/cityrepdata.c:498
 #, fuzzy
 msgid "?Production surplus [short]:+P"
 msgstr "?Termelési munkaterv:+T"
 
-#: client/cityrepdata.c:494
+#: client/cityrepdata.c:499
 #, fuzzy
 msgid "Surplus: Production"
 msgstr "Többlet: Termelés"
 
-#: client/cityrepdata.c:495
+#: client/cityrepdata.c:500
 #, fuzzy
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-T"
 
-#: client/cityrepdata.c:496
+#: client/cityrepdata.c:501
 #, fuzzy
 msgid "Waste"
 msgstr "Várakozik"
 
-#: client/cityrepdata.c:497
+#: client/cityrepdata.c:502
 #, fuzzy
 msgid "?Trade surplus [short]:+T"
 msgstr "?Trade surplus [short]:+K"
 
-#: client/cityrepdata.c:497
+#: client/cityrepdata.c:502
 #, fuzzy
 msgid "Surplus: Trade"
 msgstr "Többlet: Kereskedelem"
 
-#: client/cityrepdata.c:499
+#: client/cityrepdata.c:504
 #, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-K"
 
-#: client/cityrepdata.c:500
+#: client/cityrepdata.c:505
 msgid "Corruption"
 msgstr "Korrupció"
 
-#: client/cityrepdata.c:502 client/gui-gtk-2.0/repodlgs.c:652
+#: client/cityrepdata.c:507 client/gui-gtk-2.0/repodlgs.c:652
 #: client/gui-sdl/mapctrl.c:1400 client/gui-win32/repodlgs.c:332
 #: client/gui-xaw/menu.c:221 client/gui-xaw/repodlgs.c:642
 #: client/gui-xaw/repodlgs.c:771 data/Freeciv.in:1819
 msgid "Economy"
 msgstr "Gazdaság"
 
-#: client/cityrepdata.c:502
+#: client/cityrepdata.c:507
 msgid "?gold/luxury/science:G/L/S"
 msgstr "?gold/luxury/science:A/L/T"
 
-#: client/cityrepdata.c:503
+#: client/cityrepdata.c:508
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "Gazdaság: Arany, Luxus, Tudomány"
 
-#: client/cityrepdata.c:505
+#: client/cityrepdata.c:510
 #, fuzzy
 msgid "?Gold:G"
 msgstr "?Arany:A"
 
-#: client/cityrepdata.c:505
+#: client/cityrepdata.c:510
 #, fuzzy
 msgid "Economy: Gold"
 msgstr "Gazdaság: Arany"
 
-#: client/cityrepdata.c:507
+#: client/cityrepdata.c:512
 #, fuzzy
 msgid "?Luxury:L"
 msgstr "?Luxus:L"
 
-#: client/cityrepdata.c:507
+#: client/cityrepdata.c:512
 #, fuzzy
 msgid "Economy: Luxury"
 msgstr "Gazdaság: Luxus"
 
-#: client/cityrepdata.c:509
+#: client/cityrepdata.c:514
 #, fuzzy
 msgid "?Science:S"
 msgstr "?Tudomány:T"
 
-#: client/cityrepdata.c:509
+#: client/cityrepdata.c:514
 #, fuzzy
 msgid "Economy: Science"
 msgstr "Gazdaság: Tudomány"
 
-#: client/cityrepdata.c:511
+#: client/cityrepdata.c:516
 #, fuzzy
 msgid "?number_trade_routes:n"
 msgstr "?number_trade_routes:sz"
 
-#: client/cityrepdata.c:511
+#: client/cityrepdata.c:516
 #, fuzzy
 msgid "?number_trade_routes:R"
 msgstr "?number_trade_routes:KK"
 
-#: client/cityrepdata.c:512
+#: client/cityrepdata.c:517
 msgid "Number of Trade Routes"
 msgstr "Kereskedelmi kapcsolatok száma"
 
-#: client/cityrepdata.c:514
+#: client/cityrepdata.c:519
 msgid "?pollution [short]:Pol"
 msgstr "?pollution [short]:Szenny"
 
-#: client/cityrepdata.c:516
+#: client/cityrepdata.c:521
 #, fuzzy
 msgid "?cma:Governor"
 msgstr "?cma:Helytartó"
 
-#: client/cityrepdata.c:516 client/gui-gtk-2.0/cityrep.c:1214
+#: client/cityrepdata.c:521 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1363
 #: client/gui-sdl/citydlg.c:3817 client/gui-sdl/cma_fe.c:854
 #: client/gui-win32/citydlg.c:730 data/Freeciv.in:1459 data/helpdata.txt:821
@@ -7831,21 +7834,21 @@ msgstr "?cma:Helytartó"
 msgid "Citizen Governor"
 msgstr "Városi helytartó"
 
-#: client/cityrepdata.c:519
+#: client/cityrepdata.c:524
 #, fuzzy
 msgid "Turns/Buy"
 msgstr "Körök/Ár"
 
-#: client/cityrepdata.c:522 client/cityrepdata.c:524
+#: client/cityrepdata.c:527 client/cityrepdata.c:529
 msgid "Currently Building"
 msgstr "Most épül"
 
-#: client/cityrepdata.c:568
+#: client/cityrepdata.c:573
 #, fuzzy
 msgid "?specialist:S"
 msgstr "?Speciálisok:S"
 
-#: client/cityrepdata.c:571
+#: client/cityrepdata.c:576
 #, fuzzy
 msgid "Specialists"
 msgstr "Speciálisok"
@@ -7868,7 +7871,8 @@ msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NÉV\tA NÉV név használata\n"
 
 #: client/civclient.c:214
-msgid "  -p, --port PORT\tConnect to server port PORT\n"
+#, fuzzy
+msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port PORT\tKapcsolódás a szerver PORT portjára\n"
 
 #: client/civclient.c:216
@@ -7882,7 +7886,8 @@ msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read FÁJL\tA FÁJL inicializáló szkript futtatása\n"
 
 #: client/civclient.c:221
-msgid "  -s, --server HOST\tConnect to the server at HOST\n"
+#, fuzzy
+msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr ""
 "  -s, --server HOST\tA HOST címen található szerverhez való kapcsolódás\n"
 
@@ -10525,7 +10530,7 @@ msgstr "Szennyezés:"
 msgid "_Overview"
 msgstr "Általános _jellemzõk"
 
-#: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1031
+#: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1033
 #: client/gui-mui/citydlg.c:623 client/gui-mui/worklistclass.c:216
 #: client/gui-win32/citydlg.c:1091 client/gui-win32/wldlg.c:801
 #: client/gui-win32/wldlg.c:807
@@ -11024,7 +11029,7 @@ msgid "Unit"
 msgstr "Egységek"
 
 #: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1482
-#: client/gui-gtk-2.0/pages.c:2055 client/gui-gtk-2.0/wldlg.c:1031
+#: client/gui-gtk-2.0/pages.c:2055 client/gui-gtk-2.0/wldlg.c:1033
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:983
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
@@ -12685,7 +12690,7 @@ msgid "Choose a _Scenario:"
 msgstr "Scenario betöltése"
 
 #: client/gui-gtk-2.0/pages.c:2063 client/gui-gtk-2.0/repodlgs.c:632
-#: client/gui-gtk-2.0/wldlg.c:1031 client/gui-mui/citydlg.c:622
+#: client/gui-gtk-2.0/wldlg.c:1033 client/gui-mui/citydlg.c:622
 #: client/gui-mui/citydlg.c:651 client/gui-mui/worklistclass.c:215
 #: client/gui-win32/citydlg.c:1088 client/gui-win32/connectdlg.c:998
 #: client/gui-win32/wldlg.c:800 client/gui-win32/wldlg.c:806
@@ -12740,7 +12745,7 @@ msgstr "Épület Neve"
 msgid "Count"
 msgstr "Db"
 
-#: client/gui-gtk-2.0/repodlgs.c:635 client/gui-gtk-2.0/wldlg.c:1031
+#: client/gui-gtk-2.0/repodlgs.c:635 client/gui-gtk-2.0/wldlg.c:1033
 #: client/gui-mui/citydlg.c:625 client/gui-mui/repodlgs.c:462
 #: client/gui-mui/worklistclass.c:217 client/gui-win32/citydlg.c:1095
 #: client/gui-win32/repodlgs.c:464 client/gui-win32/wldlg.c:802
@@ -12993,31 +12998,31 @@ msgstr "_Munkaterv"
 msgid "Edit Global _Worklists"
 msgstr "Munkatervek szerkesztése"
 
-#: client/gui-gtk-2.0/wldlg.c:1031 client/gui-win32/citydlg.c:1097
+#: client/gui-gtk-2.0/wldlg.c:1033 client/gui-win32/citydlg.c:1097
 #: client/gui-win32/wldlg.c:809
 msgid "Turns"
 msgstr "Körök"
 
-#: client/gui-gtk-2.0/wldlg.c:1142
+#: client/gui-gtk-2.0/wldlg.c:1144
 msgid "Source _Tasks:"
 msgstr ""
 
-#: client/gui-gtk-2.0/wldlg.c:1147
+#: client/gui-gtk-2.0/wldlg.c:1149
 #, fuzzy
 msgid "Show _Future Targets"
 msgstr "Mutasd a jövõbeli célokat"
 
-#: client/gui-gtk-2.0/wldlg.c:1234
+#: client/gui-gtk-2.0/wldlg.c:1236
 #, fuzzy
 msgid "Target _Worklist:"
 msgstr "_Munkaterv"
 
-#: client/gui-gtk-2.0/wldlg.c:1252
+#: client/gui-gtk-2.0/wldlg.c:1254
 #, fuzzy
 msgid "_Add Global Worklist"
 msgstr "Lehetséges Munkatervek"
 
-#: client/gui-gtk-2.0/wldlg.c:1268
+#: client/gui-gtk-2.0/wldlg.c:1270
 #, fuzzy
 msgid "Chan_ge Production"
 msgstr "Termelés átállítása"

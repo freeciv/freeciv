@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-14 09:59+0900\n"
+"POT-Creation-Date: 2007-08-15 17:42+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -1144,32 +1144,32 @@ msgstr ""
 "*%s (datorstyrd)* Jag är rädd för att det inte är vist att dela anblick med "
 "Er."
 
-#: ai/advdiplomacy.c:552
+#: ai/advdiplomacy.c:550
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s (datorstyrd)* Det här är inte ett acceptabelt avtal, %s!"
 
-#: ai/advdiplomacy.c:573
+#: ai/advdiplomacy.c:571
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (datorstyrd)* Välkommen i vårt förbund %s!"
 
-#: ai/advdiplomacy.c:576
+#: ai/advdiplomacy.c:574
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
 msgstr "*%s (datorstyrd)* Ja, må vi stå enade för evigt, %s"
 
-#: ai/advdiplomacy.c:582
+#: ai/advdiplomacy.c:580
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (datorstyrd)* Ja, fred i vår tid!"
 
-#: ai/advdiplomacy.c:587
+#: ai/advdiplomacy.c:585
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (datorstyrd)* Låt gå. Inga fler fientligheter, %s"
 
-#: ai/advdiplomacy.c:800
+#: ai/advdiplomacy.c:798
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
@@ -1178,24 +1178,24 @@ msgstr ""
 "*%s (datorstyrd)* Var hälsad %s! Får vi lov att föreslå ett vapenstillestånd "
 "medan vi lär känna varandra bättre?"
 
-#: ai/advdiplomacy.c:1078
+#: ai/advdiplomacy.c:1076
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (datorstyrd)* Rymden må aldrig bli din."
 
-#: ai/advdiplomacy.c:1082
+#: ai/advdiplomacy.c:1080
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr ""
 "*%s (datorstyrd)* Jag har fått stå ut med dina nycker länge nog! Nu drar vi "
 "ut i krig!"
 
-#: ai/advdiplomacy.c:1087
+#: ai/advdiplomacy.c:1085
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (datorstyrd)* Fred i ... någon annan tid"
 
-#: ai/advdiplomacy.c:1092
+#: ai/advdiplomacy.c:1090
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -1204,17 +1204,17 @@ msgstr ""
 "*%s (datorstyrd)* Slutligen möts vi! Trodde du verkligen att du skulle komma "
 "undan med dina förbrytelser?"
 
-#: ai/advdiplomacy.c:1098
+#: ai/advdiplomacy.c:1096
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (datorstyrd)* Dina skumraskaffärer har kostat dig detta krig!"
 
-#: ai/advdiplomacy.c:1104
+#: ai/advdiplomacy.c:1102
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (datorstyrd)* Dina fientligheter mot %s var ditt sista mistag!"
 
-#: ai/advdiplomacy.c:1187
+#: ai/advdiplomacy.c:1185
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -1229,7 +1229,7 @@ msgstr[1] ""
 "*%s (datorstyrd)* Jag kommer starta krig mot %s om %d omgångar för att sätta "
 "stopp för dennes rymdskepp."
 
-#: ai/advdiplomacy.c:1195
+#: ai/advdiplomacy.c:1193
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -1238,7 +1238,7 @@ msgstr ""
 "*%s (datorstyrd)* Jag ser fram emot din hjälp i detta ärende. Länge leve "
 "vårt storslagna förbund!"
 
-#: ai/advdiplomacy.c:1200
+#: ai/advdiplomacy.c:1198
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -1257,7 +1257,7 @@ msgstr[1] ""
 "egen vinnings skull. Jag kommer förklara krig om %d omgångar och förväntar "
 "mig att ni gör detsamma!"
 
-#: ai/advdiplomacy.c:1211
+#: ai/advdiplomacy.c:1209
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -1272,7 +1272,7 @@ msgstr[1] ""
 "*%s (datorstyrd)* Jag har för avsikt förklara krig mot %s om %d omgångar för "
 "att plundra dem på deras rikedomar."
 
-#: ai/advdiplomacy.c:1217
+#: ai/advdiplomacy.c:1215
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
@@ -1280,7 +1280,7 @@ msgstr ""
 "*%s (datorstyrd)* Önskar du ha del i krigsbytet så varsågod att ta del i "
 "kampen också."
 
-#: ai/advdiplomacy.c:1221
+#: ai/advdiplomacy.c:1219
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -1295,14 +1295,14 @@ msgstr[1] ""
 "*%s (datorstyrd)* Jag har fått nog av %s. Tiden har kommit att slita dem i "
 "stycken. Jag förklarar krig om %d omgångar."
 
-#: ai/advdiplomacy.c:1229
+#: ai/advdiplomacy.c:1227
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (datorstyrd)* Jag förutsätter att ni, min betrodde bundsförvant, "
 "medverkar i detta krig."
 
-#: ai/advdiplomacy.c:1234
+#: ai/advdiplomacy.c:1232
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
@@ -1317,7 +1317,7 @@ msgstr[1] ""
 "*%s (datorstyrd)* Jag har för avsikt att hedra vårt förbund och förklara "
 "krig mot %s om %d omgångar. Håll ut - vi är på väg!"
 
-#: ai/advdiplomacy.c:1241
+#: ai/advdiplomacy.c:1239
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
@@ -1332,7 +1332,7 @@ msgstr[1] ""
 "*%s (datorstyrd)* Jag har för avsikt att hedra mitt förbund med %s och "
 "förklara krig mot %s om %d omgångar. Vi förutsätter att ni gör detsamma."
 
-#: ai/advdiplomacy.c:1308
+#: ai/advdiplomacy.c:1306
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
@@ -1341,7 +1341,7 @@ msgstr ""
 "*%s (datorstyrd)* Ditt försök att erövra utrymme för endast dig själv "
 "avslöjar dina sanna avsikter, så jag har nog av vårt förbund!"
 
-#: ai/advdiplomacy.c:1322
+#: ai/advdiplomacy.c:1320
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -1350,7 +1350,7 @@ msgstr ""
 "*%s (datorstyrd)* Ditt försök att ensam härska i yttre rymden är mycket "
 "anstötligt."
 
-#: ai/advdiplomacy.c:1324
+#: ai/advdiplomacy.c:1322
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -1359,14 +1359,14 @@ msgstr ""
 "*%s (datorstyrd)* Såvida du inte avbrytter ditt rymdskeppsbygge måste jag "
 "vidtaga åtgärder!"
 
-#: ai/advdiplomacy.c:1435
+#: ai/advdiplomacy.c:1433
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (datorstyrd)* Jag är rädd för att det inte längre är vist att dela "
 "anblick med Er."
 
-#: ai/advdiplomacy.c:1510
+#: ai/advdiplomacy.c:1508
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -1375,7 +1375,7 @@ msgstr ""
 "*%s (datorstyrd)* Var hälsad vår mest pålitliga bundsförvant, vi uppmanar er "
 "att utplåna vår fiende, %s"
 
-#: ai/advdiplomacy.c:1515
+#: ai/advdiplomacy.c:1513
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -1385,7 +1385,7 @@ msgstr ""
 "förklarat krig mot vår fiende, %s. Varför behöver jag påminna dig om dina "
 "löften?"
 
-#: ai/advdiplomacy.c:1520
+#: ai/advdiplomacy.c:1518
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -1396,7 +1396,7 @@ msgstr ""
 "fred med vår dödsfiende, %s! Detta är ej godtagbard, vårt förbund har "
 "upphört."
 
-#: ai/advdiplomacy.c:1548
+#: ai/advdiplomacy.c:1546
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -1405,12 +1405,12 @@ msgstr ""
 "*%s (datorstyrd)* Var hälsad vän, får jag föreslå att vi ingår ett förbund "
 "med varandra?"
 
-#: ai/advdiplomacy.c:1563
+#: ai/advdiplomacy.c:1561
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr "*%s (datorstyrd)* Var hälsad granne, vad sägs om ett fredsfördrag?"
 
-#: ai/advdiplomacy.c:1577
+#: ai/advdiplomacy.c:1575
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -1419,7 +1419,7 @@ msgstr ""
 "*%s (datorstyrd)* All denna blodspillan leder ingen vart. Är det inte dags "
 "att gräva ner stridsyxan?"
 
-#: ai/advdiplomacy.c:1697
+#: ai/advdiplomacy.c:1695
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
