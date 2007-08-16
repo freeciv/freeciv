@@ -133,7 +133,8 @@ static bool no_input = FALSE;
 
 /* Avoid compiler warning about defined, but unused function
  * by defining it only when needed */
-#if !defined(SOCKET_ZERO_ISNT_STDIN) && !defined(HAVE_READLINE)
+#if defined(HAVE_LIBREADLINE) || \
+    (!defined(SOCKET_ZERO_ISNT_STDIN) && !defined(HAVE_LIBREADLINE))  
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
@@ -148,7 +149,7 @@ static void handle_stdin_close(void)
 #endif /* SOCKET_ZERO_ISNT_STDIN */
 }
 
-#endif /* !SOCKET_ZERO_ISNT_STDIN && !HAVE_READLINE */
+#endif /* HAVE_LIBREADLINE || (!SOCKET_ZERO_ISNT_STDIN && !HAVE_LIBREADLINE) */
 
 #ifdef HAVE_LIBREADLINE
 /****************************************************************************/
