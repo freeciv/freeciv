@@ -57,17 +57,16 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
   fc__attribute((__format__ (__printf__, 4, 5)));
 
 /* Iterate over all entries in the worklist. */
-#define worklist_iterate(worklist, prod)				    \
-{									    \
-  struct worklist *_worklist = (worklist);				    \
-  int _iter, _length = worklist_length(_worklist);			    \
-  struct city_production prod;						    \
-									    \
-  for (_iter = 0; _iter < _length; _iter++) {				    \
-    worklist_peek_ith(_worklist, &prod, _iter);
+#define worklist_iterate(_list, _p)					\
+{									\
+  struct city_production _p;						\
+  int _p##_index = 0;							\
+									\
+  while (_p##_index < worklist_length(_list)) {				\
+    worklist_peek_ith(_list, &_p, _p##_index++);
 
-#define worklist_iterate_end						    \
-  }									    \
+#define worklist_iterate_end						\
+  }									\
 }
 
 #endif /* FC__WORKLIST_H */
