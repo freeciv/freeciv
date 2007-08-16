@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-15 17:42+0900\n"
+"POT-Creation-Date: 2007-08-16 11:22+0200\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -665,7 +665,7 @@ msgstr "Zukunftstechnologie"
 #: common/tech.c:783 client/gui-gtk-2.0/inteldlg.c:366
 #: client/gui-gtk-2.0/inteldlg.c:387 client/gui-mui/inteldlg.c:152
 #: client/gui-sdl/inteldlg.c:288 client/gui-sdl/inteldlg.c:299
-#: client/gui-win32/inteldlg.c:135 client/gui-xaw/inteldlg.c:259
+#: client/gui-win32/inteldlg.c:139 client/gui-xaw/inteldlg.c:259
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
@@ -13971,13 +13971,13 @@ msgstr "Forschung: %d%%"
 msgid "Luxury: %d%%"
 msgstr "Luxus: %d%%"
 
-#: client/gui-mui/inteldlg.c:148 client/gui-win32/inteldlg.c:127
+#: client/gui-mui/inteldlg.c:148 client/gui-win32/inteldlg.c:128
 #: client/gui-xaw/inteldlg.c:245
 #, c-format
 msgid "Researching: %s(%d/%d)"
 msgstr "Erforsche: %s(%d/%d)"
 
-#: client/gui-mui/inteldlg.c:152 client/gui-win32/inteldlg.c:134
+#: client/gui-mui/inteldlg.c:152 client/gui-win32/inteldlg.c:138
 #: client/gui-xaw/inteldlg.c:258
 #, c-format
 msgid "Capital: %s"
@@ -15996,7 +15996,7 @@ msgstr "zu unterhaltende Einheiten"
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:188
 #: client/gui-win32/dialogs.c:256 client/gui-win32/dialogs.c:767
 #: client/gui-win32/dialogs.c:1298 client/gui-win32/dialogs.c:1497
-#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:155
+#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:159
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:162
 #: client/gui-win32/plrdlg.c:351 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:450 client/gui-win32/repodlgs.c:713
@@ -16263,6 +16263,10 @@ msgstr "Veraltet "
 #: client/gui-win32/helpdlg.c:815 client/gui-win32/helpdlg.c:828
 msgid "?techhelp:)."
 msgstr "?techhelp:)."
+
+#: client/gui-win32/inteldlg.c:133
+msgid "Researching: (Unknown)"
+msgstr "Erforsche: (unbekannt)"
 
 #: client/gui-win32/mapview.c:170
 #, c-format
