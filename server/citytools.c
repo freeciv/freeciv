@@ -620,6 +620,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       if (unit_owner(vunit) == pvictim) {
 	transfer_unit(vunit, pcity, verbose);
 	unit_list_unlink(units, vunit);
+        wipe_unit(vunit);
       } else if (!pplayers_allied(pplayer, unit_owner(vunit))) {
         /* the owner of vunit is allied to pvictim but not to pplayer */
         bounce_unit(vunit, verbose);
