@@ -1054,9 +1054,6 @@ log_civ_score_disable:
 **************************************************************************/
 void make_history_report(void)
 {
-  static enum historian_type report = HISTORIAN_FIRST;
-  static int time_to_report=20;
-
   if (game.scorelog) {
     log_civ_score();
   }
@@ -1065,20 +1062,14 @@ void make_history_report(void)
     return;
   }
 
-  time_to_report--;
-
-  if (time_to_report > 0) {
+  if (game.scoreturn > game.info.turn) {
     return;
   }
 
-  time_to_report=myrand(20) + 20;
+  game.scoreturn = game.info.turn + GAME_DEFAULT_SCORETURN
+                 + myrand(GAME_DEFAULT_SCORETURN);
 
-  historian_generic(report);
-  
-  report++;
-  if (report > HISTORIAN_LAST) {
-    report = HISTORIAN_FIRST;
-  }
+  historian_generic(game.scoreturn % HISTORIAN_LAST);
 }
 
 /**************************************************************************

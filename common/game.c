@@ -287,6 +287,11 @@ void game_init(void)
 
   game.info.is_new_game   = TRUE;
   game.info.is_edit_mode = FALSE;
+
+  game.info.aifill      = GAME_DEFAULT_AIFILL;
+  sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
+
+  game.fogofwar_old = game.info.fogofwar;
   game.simultaneous_phases_stored = GAME_DEFAULT_SIMULTANEOUS_PHASES;
   game.timeoutint    = GAME_DEFAULT_TIMEOUTINT;
   game.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
@@ -294,13 +299,12 @@ void game_init(void)
   game.timeoutincmult= GAME_DEFAULT_TIMEOUTINCMULT;
   game.timeoutcounter= 1;
   game.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
-  game.last_ping     = 0;
-  game.info.aifill      = GAME_DEFAULT_AIFILL;
-  sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
 
-  game.seed = GAME_DEFAULT_SEED;
+  game.last_ping     = 0;
   game.scorelog    = GAME_DEFAULT_SCORELOG;
-  game.fogofwar_old = game.info.fogofwar;
+  game.scoreturn   = GAME_DEFAULT_SCORETURN;
+  game.seed = GAME_DEFAULT_SEED;
+
   sz_strlcpy(game.save_name, GAME_DEFAULT_SAVE_NAME);
   sz_strlcpy(game.rulesetdir, GAME_DEFAULT_RULESETDIR);
 

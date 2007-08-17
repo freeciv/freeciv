@@ -3654,6 +3654,9 @@ void game_load(struct section_file *file)
     game.info.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
     game.scorelog = secfile_lookup_bool_default(file, FALSE, "game.scorelog");
+    game.scoreturn =
+      secfile_lookup_int_default(file, game.info.turn + GAME_DEFAULT_SCORETURN,
+				       "game.scoreturn");
     sz_strlcpy(game.id, secfile_lookup_str_default(file, "", "game.id"));
 
     game.info.fogofwar = secfile_lookup_bool_default(file, FALSE, "game.fogofwar");
@@ -4244,6 +4247,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_str(file, game.save_name, "game.save_name");
   secfile_insert_int(file, game.info.aifill, "game.aifill");
   secfile_insert_bool(file, game.scorelog, "game.scorelog");
+  secfile_insert_int(file, game.scoreturn, "game.scoreturn");
   secfile_insert_str(file, game.id, "game.id");
   secfile_insert_bool(file, game.info.fogofwar, "game.fogofwar");
   secfile_insert_bool(file, game.info.spacerace, "game.spacerace");

@@ -71,6 +71,7 @@ struct civ_game {
   int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
   time_t last_ping;
   struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
+
   /* The .info.simultaneous_phases value indicates the phase mode currently in
    * use.  The "stored" value is a value the player can change; it won't
    * take effect until the next turn. */
@@ -82,6 +83,7 @@ struct civ_game {
   struct conn_list *est_connections;        /* all established client conns */
   char save_name[MAX_LEN_NAME];
   bool scorelog;
+  int scoreturn;			/* next make_history_report() */
   int seed;
   bool fogofwar_old;	/* as the fog_of_war bit get changed by setting
 			   the server we need to remember the old setting */
@@ -278,6 +280,7 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MAX_CIVSTYLE            2
 
 #define GAME_DEFAULT_SCORELOG        FALSE
+#define GAME_DEFAULT_SCORETURN       20
 
 #define GAME_DEFAULT_SPACERACE       TRUE
 
