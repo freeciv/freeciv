@@ -262,7 +262,9 @@ void game_init(void)
   game.timeoutinc    = GAME_DEFAULT_TIMEOUTINC;
   game.timeoutincmult= GAME_DEFAULT_TIMEOUTINCMULT;
   game.timeoutcounter= 1;
-  game.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
+  game.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE;
+  game.info.aifill      = GAME_DEFAULT_AIFILL;
+  sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
 
   game.last_ping     = 0;
   game.scorelog    = GAME_DEFAULT_SCORELOG;
