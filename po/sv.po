@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-15 17:42+0900\n"
+"POT-Creation-Date: 2007-08-18 19:33+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -670,7 +670,7 @@ msgstr "Framtidsteknologi."
 #: common/tech.c:783 client/gui-gtk-2.0/inteldlg.c:366
 #: client/gui-gtk-2.0/inteldlg.c:387 client/gui-mui/inteldlg.c:152
 #: client/gui-sdl/inteldlg.c:288 client/gui-sdl/inteldlg.c:299
-#: client/gui-win32/inteldlg.c:135 client/gui-xaw/inteldlg.c:259
+#: client/gui-win32/inteldlg.c:139 client/gui-xaw/inteldlg.c:259
 msgid "(Unknown)"
 msgstr "(Okänd)"
 
@@ -3544,7 +3544,7 @@ msgstr "Metaserver: felaktig adress: [%s:%d]."
 #: server/plrhand.c:146
 #, c-format
 msgid "The %s are no more!"
-msgstr "%s finnas ej mer!"
+msgstr "%s finns ej mer!"
 
 #: server/plrhand.c:195
 msgid "Cannot change rates before game start."
@@ -3576,9 +3576,11 @@ msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
 msgstr[0] ""
-"%s har anstiftat ett uppror! Efter %d omgång av anarki övergår det i %s."
+"%s har anstiftat ett uppror! Efter %d omgång av anarki övergår statsskicket "
+"till %s."
 msgstr[1] ""
-"%s har anstiftat ett uppror! Efter %d omgångar av anarki övergår det i %s."
+"%s har anstiftat ett uppror! Efter %d omgångar av anarki övergår "
+"statsskicket till %s."
 
 #: server/plrhand.c:351
 msgid "Revolution: returning to anarchy."
@@ -3757,7 +3759,7 @@ msgstr "Thukydides"
 
 #: server/report.c:65
 msgid "Pliny the Elder's"
-msgstr "Plinius den äldres"
+msgstr "Plinius den äldre"
 
 #: server/report.c:66
 msgid "Livy's"
@@ -3766,19 +3768,19 @@ msgstr "Livius"
 # DM> Byter ut Brittiska historiker mot vissa svenska populärhistoriker...
 #: server/report.c:67
 msgid "Toynbee's"
-msgstr "Herman Lindqvists"
+msgstr "Herman Lindqvist"
 
 #: server/report.c:68
 msgid "Gibbon's"
-msgstr "Peter Englunds"
+msgstr "Peter Englund"
 
 #: server/report.c:69
 msgid "Ssu-ma Ch'ien's"
-msgstr "Ssu-ma Ch'iens"
+msgstr "Ssu-ma Ch'ien"
 
 #: server/report.c:70
 msgid "Pan Ku's"
-msgstr "Pan Kus"
+msgstr "Pan Ku"
 
 #: server/report.c:115
 msgid "Population"
@@ -4010,13 +4012,13 @@ msgstr "Anledning: rad för kort (förväntade %d, fick %lu"
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Sparat spel är för gammalt. Minst version 1.9.0 krävs."
 
-#: server/savegame.c:3755
+#: server/savegame.c:3758
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 
-#: server/savegame.c:3764
+#: server/savegame.c:3767
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4025,7 +4027,7 @@ msgstr ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 
-#: server/savegame.c:3993
+#: server/savegame.c:3996
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -5265,11 +5267,11 @@ msgstr ""
 "Om satt till 1, läggs spelarstatistik till i filen \"civscore.log\" varje "
 "omgång. Denna statistik kan användas för att skapa styrkegrafer efter spelet."
 
-#: server/sernet.c:146
+#: server/sernet.c:147
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Servern kan inte läsa standardinmatning. Bortser från inmatning."
 
-#: server/sernet.c:911
+#: server/sernet.c:912
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Server: felaktig adress: [%s:%d]."
@@ -5710,7 +5712,7 @@ msgstr "Namnet \"%s\" är otillåtet av säkerhetsskäl."
 #: server/stdinhand.c:1021
 #, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Ingen kommandoskript med nanmet \"%s\" kunde finnas."
+msgstr "Ingen kommandoskript med namnet \"%s\" kunde finnas."
 
 #: server/stdinhand.c:1029
 #, c-format
@@ -8008,7 +8010,7 @@ msgstr "%s ger beskickning"
 
 #: client/climisc.c:904
 msgid "Popup Request"
-msgstr "Öppna förfrågan"
+msgstr "Meddelande"
 
 #: client/climisc.c:934
 msgid "Exporting output window to civgame.log ..."
@@ -8042,7 +8044,7 @@ msgstr "Misslyckades få kontakt med värd."
 
 #: client/clinet.c:210
 msgid "Connection in progress."
-msgstr "Pågående anslutning."
+msgstr "Ansluter..."
 
 #: client/clinet.c:284
 msgid "Disconnected from server."
@@ -10808,7 +10810,7 @@ msgstr "_Välj"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
 msgid "S_how"
-msgstr "_Visa"
+msgstr "Vi_sa"
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
 #: client/gui-mui/diplodlg.c:489 client/gui-mui/diplodlg.c:524
@@ -11710,7 +11712,7 @@ msgstr "_Teknologi"
 #: client/gui-gtk-2.0/inteldlg.c:299
 #, c-format
 msgid "Foreign Intelligence: %s Empire"
-msgstr "Underrättelser (%s)"
+msgstr "Underrättelser - %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:195 client/gui-sdl/mapctrl.c:2528
 #: client/gui-sdl/menu.c:798 client/gui-sdl/menu.c:978
@@ -12367,7 +12369,7 @@ msgstr "Spelare"
 
 #: client/gui-gtk-2.0/plrdlg.c:441 client/gui-mui/plrdlg.c:332
 msgid "_Intelligence"
-msgstr "_Underrättelse"
+msgstr "_Underrättelser"
 
 #: client/gui-gtk-2.0/plrdlg.c:448 client/gui-mui/plrdlg.c:333
 msgid "_Meet"
@@ -13484,8 +13486,8 @@ msgid ""
 "Could not get the mask although there must be one (%s)! Graphics may look "
 "corrupt.\n"
 msgstr ""
-"Kunde inte få masken fast det måste finnas en (%s)! Bilder kan visas "
-"felaktigt.\n"
+"Kunde inte emottaga en mask trots att det måste finnas en (%s)! Bilder kan "
+"komma att visas felaktigt.\n"
 
 #: client/gui-mui/gui_main.c:209
 msgid "Options..."
@@ -13884,13 +13886,13 @@ msgstr "Forskning: %d%%"
 msgid "Luxury: %d%%"
 msgstr "Välfärd: %d%%"
 
-#: client/gui-mui/inteldlg.c:148 client/gui-win32/inteldlg.c:127
+#: client/gui-mui/inteldlg.c:148 client/gui-win32/inteldlg.c:128
 #: client/gui-xaw/inteldlg.c:245
 #, c-format
 msgid "Researching: %s(%d/%d)"
 msgstr "Forskar fram: %s(%d/%d)"
 
-#: client/gui-mui/inteldlg.c:152 client/gui-win32/inteldlg.c:134
+#: client/gui-mui/inteldlg.c:152 client/gui-win32/inteldlg.c:138
 #: client/gui-xaw/inteldlg.c:258
 #, c-format
 msgid "Capital: %s"
@@ -15898,7 +15900,7 @@ msgstr "Understödda enheter"
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:188
 #: client/gui-win32/dialogs.c:256 client/gui-win32/dialogs.c:767
 #: client/gui-win32/dialogs.c:1298 client/gui-win32/dialogs.c:1497
-#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:155
+#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:159
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:162
 #: client/gui-win32/plrdlg.c:351 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:450 client/gui-win32/repodlgs.c:713
@@ -16165,6 +16167,10 @@ msgstr "Föråldrar "
 #: client/gui-win32/helpdlg.c:815 client/gui-win32/helpdlg.c:828
 msgid "?techhelp:)."
 msgstr "?techhelp:)."
+
+#: client/gui-win32/inteldlg.c:133
+msgid "Researching: (Unknown)"
+msgstr "Forskar fram: (okänt)"
 
 #: client/gui-win32/mapview.c:170
 #, c-format
@@ -25653,7 +25659,7 @@ msgid ""
 msgstr ""
 "Välkommen till Freeciv. Du är ledaren av en civilisation.\n"
 "Din uppgift är att härska över världen! Du bör starta med\n"
-"att utforska landet omkring dig med din upptäcksresande,\n"
+"att utforska din omgivning med din upptäcksresande,\n"
 "samt använda dina bosättare för att finna en bra plats att\n"
 "att bygga en stad. Använd det numeriska tangentbordet för\n"
 "att flytta dina enheter."
@@ -25691,13 +25697,14 @@ msgstr ""
 "Nu har du byggt din första stad. Stadsfönstret borde ha öppnats\n"
 "automatiskt; i annat fall klicka på staden för att få fram det. Städer\n"
 "är ett grundläggande koncept i Freeciv, så du bör bekanta dig med dem\n"
-"genom att leka runt här. Se hjälpmenyn för med information.\n"
+"genom att prova dig fram här. Se hjälpmenyn för mer information.\n"
 "\n"
-"Du bör antagligen bygga några bosättare först, för att expandera din\n"
-"civilisation. Klicka på produktionsfliken, sedan på bosättare i listan\n"
-"över olika produkter, samt slutligen på byt-knappen för att börja bygga\n"
-"den. När du är färdig, stäng ner stadsfönstret. Om allt går väl, kommer\n"
-"se att en bosättare håller på att byggas i fältet under staden."
+"Du bör helst bygga några bosättare först, för att expandera din\n"
+"civilisation. Klicka på tillverkningsfliken, sedan på bosättare i listan\n"
+"över olika produkter, samt slutligen på knappen med \"Ändra tillverkning\"\n"
+"för att börja bygga en. När du är färdig, stäng ner stadsfönstret. Om allt\n"
+"går väl, kan du se att en bosättare håller på att byggas i fältet under\n"
+"staden."
 
 #: data/scenario/tutorial.sav:62
 msgid ""
@@ -25707,7 +25714,7 @@ msgid ""
 "settlers here too."
 msgstr ""
 "Gratulerar, du har grundlagt din andra stad. Denna stad fungerar nästan\n"
-"precis som den första - det enda som skiljer är terrängen omkring den. \n"
+"precis som den första - det enda som skiljer är terrängen som omger den. \n"
 "Du kommer antagligen vilja bygga bosättare här också."
 
 #: data/scenario/tutorial.sav:68
@@ -25726,10 +25733,10 @@ msgid ""
 "append it to the worklist.  As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
-"Du har byggt din tredje stad! Din civilisation tycks frodas. Det är\n"
-"nu dags att börja tänka på en militär. Välj ut en av dina städer som\n"
-"har en hög produktion och gör om den till en militärbas. Bygg först\n"
-"kaserner, börja sedan producera militära enheter. Välj den starkaste\n"
+"Du har byggt din tredje stad! Din civilisation verkar frodas. Det är\n"
+"nu dags att börja tänka på det militära. Välj ut en av dina städer som\n"
+"har en god produktion och gör om den till en militärbas. Bygg först\n"
+"kaserner och börja sedan producera militära enheter. Välj den starkaste\n"
 "enhet du har tillgänglig - i början av spelet är krigare de enda som\n"
 "du kan bygga, men du kommer så småningom ha mycket att välja på.\n"
 "\n"
@@ -25753,7 +25760,7 @@ msgid ""
 "will take; it also shows how long the city will take to grow to the\n"
 "next largest size."
 msgstr ""
-"Ännu en stad! Du börjar bli bra på det här. Du har antagligen en god\n"
+"Ännu en stad, bra gjort! Du har vid det här laget antagligen en god\n"
 "uppfattning om hur en ny stad ska hanteras. Ta nu en titt på inforutan\n"
 "under staden på kartan. Den visar användbar information om staden.\n"
 "Flaggan och bakgrundsfärgen indikerar vilken civilisation staden tillhör\n"
@@ -25775,10 +25782,10 @@ msgid ""
 "from this report.  The full power of the city report is beyond the\n"
 "scope of this tutorial, however."
 msgstr ""
-"Medan antalet städer i ditt rike växer, desto svårare blir det att\n"
-"hantera enskilda städer. Här kommer stadsrapporten till god nytta.\n"
+"Desto fler städer du har i ditt rike, desto svårare blir det att\n"
+"hantera var och en. Här kommer stadsrapporten till god nytta.\n"
 "Tryck F1 för att ta fram den. Rapporten visar en lista av städer med\n"
-"statistik om var och en. Lek runt med den en smula om du vill. Återgå\n"
+"statistik för var och en. Lek runt med den en smula om du vill. Återgå\n"
 "till spelkartan genom att klicka på fliken Karta. Med lite övning är\n"
 "det möjligt att kontrollera nästan varje aspekt av städerna genom\n"
 "denna rapport. Vi kommer inte gå in mer på detaljer i denna inledning\n"
@@ -25802,7 +25809,7 @@ msgstr ""
 "vilken det går åt en enhet av befolkning.\n"
 "\n"
 "Om din stad håller på att bygga bosättare just nu, bör du överväga\n"
-"att köpa den. Öppna stadsfönstret och klicka på knappen Köp. På\n"
+"att köpa den. Öppna stadsfönstret och klicka på knappen \"Köp\". På\n"
 "detta vis byter du in guld (om du har tillräckligt av det) mot att\n"
 "omedelbart slutföra en produktion. Din bosättare kommer vara färdig\n"
 "nästa runda."
@@ -25869,7 +25876,7 @@ msgstr ""
 "Det finns ett flertal åtgärder. En enkel lösning är att bygga\n"
 "ett tempel (eller annan kulturell byggnad) vilket gör en missnöjd\n"
 "medborgare nöjd (see hjälptexten för info om andra byggnader). Allt\n"
-"eftersom du får fler stor städer, kan det vara lönsamt att ändra\n"
+"eftersom du får fler storstäder, kan det vara lönsamt att ändra\n"
 "skattesatserna (genom att trycka skift-T) för att satsa en del av\n"
 "skatten direkt på välfärd (varannan välfärd lugnar ner en medborgare).\n"
 "Att bygga en marknadsplats gynnar detta eftersom den bidrar med +50%%\n"
@@ -25975,8 +25982,8 @@ msgstr ""
 "denna kontur av stadens egen kontur av utnyttjat område. Vanligtvis\n"
 "bör du se till att alla rutor täcks av minst en stad, men utöver det\n"
 "bör städer överlappa varandra så lite som möjligt. Genom att sprida\n"
-"ut städer väl, ger det varje stad tillgång till bättre resurser och\n"
-"ser till att de växer till större storlekar."
+"ut städer väl, får varje stad tillgång till bättre resurser och\n"
+"ser till att de växer sig större."
 
 #: data/scenario/tutorial.sav:245
 msgid ""
@@ -26072,11 +26079,11 @@ msgid ""
 msgstr ""
 "Du har forskat fram din första teknologi! Teknologiska framsteg är\n"
 "ett centralt koncept i Freeciv. Nya teknologier ger tillgång till\n"
-"nya byggnader, enheter, statsskick samt en samling fria bonusar.\n"
+"nya byggnader, enheter, statsskick samt en uppsjö med bonusar.\n"
 "\n"
-"Besök nu forskningsdialogen och lek runt lite där. Tryck F6 för att\n"
+"Besök nu forskningsfliken och prova dig fram där. Tryck F6 för att\n"
 "få tillgång till den (eller klicka på teknologifliken i huvudfönstret).\n"
-"Leta reda på teknologin som heter 'republiken' och klicka på den.\n"
+"Leta reda på teknologin som heter 'republik' och klicka på den.\n"
 "Nu är republiken ditt forskningsmål, vilket innebär att nästa\n"
 "teknologi på vägen till detta mål kommer väljas automatiskt. I den\n"
 "övre delen av fönstret kan du se hur mycket forskning du producerar\n"
@@ -26112,7 +26119,7 @@ msgstr ""
 "I samma omgång som en forskning är avklarad kan du välja en ny teknologi\n"
 "att forska fram. Om du å andra sidan byter forskning halvvägs igenom\n"
 "förlorar du de glödlampor som producerats hittils. Genom att sätta\n"
-"ett forskningmål väl slipper du bry dig om att välja en ny forsning\n"
+"ett forskningmål väl slipper du bry dig om att välja en ny forskning\n"
 "varje gång en är slutförd."
 
 #: data/scenario/tutorial.sav:338
