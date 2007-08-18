@@ -887,8 +887,8 @@ void activeunits_report_dialog_update(void)
       pBuf = pWidget;
       if ((units[utype_index(i)].active_count > 0) || (units[utype_index(i)].building_count > 0)) {
         if (utype_number(i) == MAX_ID - pBuf->ID) {
-        UPD:
-          upgrade = utype_index(can_upgrade_unittype(game.player_ptr, i));
+UPD:
+          upgrade = (can_upgrade_unittype(game.player_ptr, i) != NULL);
 	  pBuf = pBuf->prev;
 	  if(upgrade) {
 	    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
@@ -2073,7 +2073,7 @@ void popup_economy_report_dialog(bool make_modal)
       set_wstate(pBuf, FC_WS_NORMAL);
 
       pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
-      pBuf->data.cont->id0 = improvement_index(p->type);
+      pBuf->data.cont->id0 = improvement_number(p->type);
       pBuf->data.cont->id1 = p->count;
       pBuf->action = popup_sell_impv_callback;
       

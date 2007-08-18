@@ -298,7 +298,7 @@ static bool are_the_same_class(const struct universal one,
     if (is_wonder(one.value.building)) {
       return is_wonder(two.value.building);
     }
-    return one.value.building == two.value.building;
+    return (one.value.building == two.value.building);
   }
   return FALSE;
 }
@@ -766,13 +766,13 @@ static void set_global_worklist(struct widget *pWidget)
 	    create_str16_from_char(utype_name_translation(target.value.utype),
 				   adj_font(10)),
 				   (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-	  pBuf->ID = MAX_ID - B_LAST - utype_index(target.value.utype);
+	  pBuf->ID = MAX_ID - B_LAST - utype_number(target.value.utype);
         } else {
 	  pBuf = create_iconlabel(NULL, pWidget->dst,
 	    create_str16_from_char(city_improvement_name_translation(pEditor->pCity, target.value.building),
 				   adj_font(10)),
 				   (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-	  pBuf->ID = MAX_ID - improvement_index(target.value.building);
+	  pBuf->ID = MAX_ID - improvement_number(target.value.building);
         }
         pBuf->string16->style |= SF_CENTER;
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1355,7 +1355,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
       if(pCity) {
         if(!improvement_has_flag(pImprove, IF_GOLD)) {
-          turns = city_turns_to_build(pCity, cid_production(improvement_number(pImprove)), TRUE);
+          turns = city_turns_to_build(pCity, cid_production(cid_encode_building(pImprove)), TRUE);
             
           if (turns == FC_INFINITY) {
 	    if(state) {
@@ -1483,10 +1483,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
   
       if (pCity) {
-        /* FIXME: under the current definition of cid_decode, the following
-         * line yields an improvement, not a unit_type */
-        turns = city_turns_to_build(pCity, cid_production(utype_index(un)),
-                                    TRUE);
+        turns = city_turns_to_build(pCity, cid_production(cid_encode_unit(un)), TRUE);
         if (turns == FC_INFINITY) {
           my_snprintf(cBuf, sizeof(cBuf),
 		    _("(%d/%d/%d)\n%d/%d %s\nnever"),
