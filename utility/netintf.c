@@ -60,17 +60,81 @@
 #define INADDR_NONE 0xffffffff
 #endif
 
+#ifdef HAVE_WINSOCK
+/***************************************************************
+  Set errno variable on Winsock error
+***************************************************************/
+static void set_socket_errno(void)
+{
+  switch(WSAGetLastError()) {
+    /* these have mappings to symbolic errno names in netintf.h */ 
+    case WSAEINTR:
+    case WSAEWOULDBLOCK:
+    case WSAECONNRESET:
+      errno = WSAGetLastError();
+      return;
+    default:
+      freelog(LOG_ERROR, "Missing errno mapping for Winsock error #%d. "
+                         "Please report this message at %s.",
+                         WSAGetLastError(), BUG_URL);
+  }
+}
+#endif
+
+/***************************************************************
+  Connect a socket to an address
+***************************************************************/
+int my_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
+{
+  int result;
+  
+  result = connect(sockfd, serv_addr, addrlen);
+  
+#ifdef HAVE_WINSOCK
+  if (result == -1) {
+    set_socket_errno();
+  }
+#endif
+
+  return result;
+}
+
+/***************************************************************
+  Wait for a number of sockets to change status
+**************************************************************/
+int my_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+              struct timeval *timeout)
+{
+  int result;
+  
+  result = select(n, readfds, writefds, exceptfds, timeout);
+  
+#ifdef HAVE_WINSOCK
+  if (result == -1) {
+    set_socket_errno();
+  }
+#endif
+
+  return result;       
+}
 
 /***************************************************************
   Read from a socket.
 ***************************************************************/
 int my_readsocket(int sock, void *buf, size_t size)
 {
+  int result;
+  
 #ifdef HAVE_WINSOCK
-  return recv(sock, buf, size, 0);
+  result = recv(sock, buf, size, 0);
+  if (result == -1) {
+    set_socket_errno();
+  }
 #else
-  return read(sock, buf, size);
+  result = read(sock, buf, size);
 #endif
+
+  return result;
 }
 
 /***************************************************************
@@ -78,11 +142,18 @@ int my_readsocket(int sock, void *buf, size_t size)
 ***************************************************************/
 int my_writesocket(int sock, const void *buf, size_t size)
 {
+  int result;
+        
 #ifdef HAVE_WINSOCK
-  return send(sock, buf, size, 0);
+  result = send(sock, buf, size, 0);
+  if (result == -1) {
+    set_socket_errno();
+  }
 #else
-  return write(sock, buf, size);
+  result = write(sock, buf, size);
 #endif
+
+  return result;
 }
 
 /***************************************************************
@@ -132,6 +203,10 @@ void my_shutdown_network(void)
 void my_nonblock(int sockfd)
 {
 #ifdef NONBLOCKING_SOCKETS
+#ifdef HAVE_WINSOCK
+  unsigned long b = 1;
+  ioctlsocket(sockfd, FIONBIO, &b);
+#else
 #ifdef HAVE_FCNTL
   int f_set;
 
@@ -151,6 +226,7 @@ void my_nonblock(int sockfd)
   if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
     freelog(LOG_ERROR, "ioctl failed: %s", mystrerror());
   }
+#endif
 #endif
 #endif
 #else

@@ -323,7 +323,7 @@ void flush_packets(void)
       return;
     }
 
-    if(select(max_desc+1, NULL, &writefs, &exceptfs, &tv)<=0) {
+    if(my_select(max_desc+1, NULL, &writefs, &exceptfs, &tv)<=0) {
       return;
     }
 
@@ -612,7 +612,7 @@ int sniff_packets(void)
     }
     con_prompt_off();		/* output doesn't generate a new prompt */
 
-    if (select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv) == 0) {
+    if (my_select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv) == 0) {
       /* timeout */
       (void) send_server_info_to_metaserver(META_REFRESH);
       if (game.info.timeout > 0
@@ -804,11 +804,7 @@ static int server_accept_connection(int sockfd)
 {
   /* This used to have size_t for some platforms.  If this is necessary
    * it should be done with a configure check not a platform check. */
-#ifdef HAVE_SOCKLEN_T
   socklen_t fromlen;
-#else /* HAVE_SOCKLEN_T */
-  int fromlen;
-#endif /* HAVE_SOCKLEN_T */
 
   int new_sock;
   union my_sockaddr fromend;
@@ -1093,7 +1089,7 @@ static void get_lanserver_announcement(void)
   tv.tv_sec = 0;
   tv.tv_usec = 0;
 
-  while (select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
+  while (my_select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
     if (errno != EINTR) {
       freelog(LOG_ERROR, "select failed: %s", mystrerror());
       return;
@@ -1134,7 +1130,9 @@ static void send_lanserver_response(void)
   int socksend, setting = 1;
   const char *group;
   size_t size;
+#ifndef HAVE_WINSOCK
   unsigned char ttl;
+#endif
 
   /* Create a socket to broadcast to client. */
   if ((socksend = socket(AF_INET,SOCK_DGRAM, 0)) < 0) {
@@ -1149,6 +1147,9 @@ static void send_lanserver_response(void)
   addr.sockaddr_in.sin_addr.s_addr = inet_addr(group);
   addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT + 1);
 
+/* this setsockopt call fails on Windows 98, so we stick with the default
+ * value of 1 on Windows, which should be fine in most cases */
+#ifndef HAVE_WINSOCK
   /* Set the Time-to-Live field for the packet.  */
   ttl = SERVER_LAN_TTL;
   if (setsockopt(socksend, IPPROTO_IP, IP_MULTICAST_TTL, 
@@ -1156,6 +1157,7 @@ static void send_lanserver_response(void)
     freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
     return;
   }
+#endif
 
   if (setsockopt(socksend, SOL_SOCKET, SO_BROADCAST, 
                  (const char*)&setting, sizeof(setting))) {

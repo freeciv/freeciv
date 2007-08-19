@@ -37,11 +37,22 @@
 #include <unistd.h>
 #endif
 #ifdef HAVE_WINSOCK
-# include <winsock.h>
+#include <winsock.h>
 #endif
 
 #include "ioz.h"
 #include "shared.h"		/* bool type */
+
+/* map symbolic Winsock error names to symbolic errno names */
+#ifdef HAVE_WINSOCK
+#undef EINTR
+#undef EINPROGRESS
+#undef EWOULDBLOCK
+#define EINTR         WSAEINTR
+#define EINPROGRESS   WSAEWOULDBLOCK
+#define EWOULDBLOCK   WSAEWOULDBLOCK
+#define ECONNRESET    WSAECONNRESET
+#endif   
 
 #ifdef FD_ZERO
 #define MY_FD_ZERO FD_ZERO
@@ -49,11 +60,18 @@
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 #endif
 
+#ifndef HAVE_SOCKLEN_T
+typedef int socklen_t;
+#endif
+
 union my_sockaddr {
   struct sockaddr sockaddr;
   struct sockaddr_in sockaddr_in;
 };
 
+int my_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
+int my_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+              struct timeval *timeout);
 int my_readsocket(int sock, void *buf, size_t size);
 int my_writesocket(int sock, const void *buf, size_t size); 
 void my_closesocket(int sock);

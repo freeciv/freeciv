@@ -216,12 +216,12 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
     return -1;
   }
 
-  if (connect(aconnection.sock, &server_addr.sockaddr,
+  if (my_connect(aconnection.sock, &server_addr.sockaddr,
       sizeof(server_addr)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(), errbufsize);
     my_closesocket(aconnection.sock);
     aconnection.sock = -1;
-#ifdef WIN32_NATIVE
+#ifdef HAVE_WINSOCK
     return -1;
 #else
     return errno;
@@ -320,12 +320,12 @@ static int read_from_connection(struct connection *pc, bool block)
       MY_FD_ZERO(&writefs);
       FD_SET(socket_fd, &writefs);
       n =
-	  select(socket_fd + 1, &readfs, &writefs, &exceptfs,
-		 block ? NULL : &tv);
+	  my_select(socket_fd + 1, &readfs, &writefs, &exceptfs,
+		    block ? NULL : &tv);
     } else {
       n =
-	  select(socket_fd + 1, &readfs, NULL, &exceptfs,
-		 block ? NULL : &tv);
+	  my_select(socket_fd + 1, &readfs, NULL, &exceptfs,
+		    block ? NULL : &tv);
     }
 
     /* the socket is neither readable, writeable nor got an

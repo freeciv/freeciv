@@ -262,7 +262,7 @@ restart:
     }
   }
 
-  ret = select(highest + 1, &readfds, NULL, &exceptfds, timeout);
+  ret = my_select(highest + 1, &readfds, NULL, &exceptfds, timeout);
   if (ret == 0) {
     // timed out
     event->type = BE_TIMEOUT;

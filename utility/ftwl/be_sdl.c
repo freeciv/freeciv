@@ -192,7 +192,7 @@ void be_next_blocking_event(struct be_event *event, struct timeval *timeout)
       zero_timeout.tv_sec = 0;
       zero_timeout.tv_usec = 0;
 
-      ret = select(other_fd + 1, &readfds, NULL, &exceptfds, &zero_timeout);
+      ret = my_select(other_fd + 1, &readfds, NULL, &exceptfds, &zero_timeout);
       if (ret > 0 && (FD_ISSET(other_fd, &readfds) ||
 		      FD_ISSET(other_fd, &exceptfds))) {
 	event->type = BE_DATA_OTHER_FD;

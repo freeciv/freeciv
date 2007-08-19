@@ -212,7 +212,7 @@ static int write_socket_data(struct connection *pc,
 
     tv.tv_sec = 0; tv.tv_usec = 0;
 
-    if (select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
+    if (my_select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
       if (errno != EINTR) {
 	break;
       } else {
