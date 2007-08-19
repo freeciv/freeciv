@@ -421,14 +421,8 @@ static bool begin_metaserver_scan(struct server_scan *scan)
 
   my_nonblock(s);
   
-  if (connect(s, (struct sockaddr *) &addr.sockaddr, sizeof(addr)) == -1) {
-    if (
-#ifdef HAVE_WINSOCK
-	errno == WSAEINPROGRESS
-#else
-	errno == EINPROGRESS
-#endif
-	) {
+  if (my_connect(s, (struct sockaddr *) &addr.sockaddr, sizeof(addr)) == -1) {
+    if (errno == EINPROGRESS) {
       /* With non-blocking sockets this is the expected result. */
       scan->meta.state = META_CONNECTING;
       scan->sock = s;
@@ -466,7 +460,7 @@ static struct server_list *get_metaserver_list(struct server_scan *scan)
 
   switch (scan->meta.state) {
   case META_CONNECTING:
-    if (select(scan->sock + 1, NULL, &sockset, NULL, &tv) < 0) {
+    if (my_select(scan->sock + 1, NULL, &sockset, NULL, &tv) < 0) {
       (scan->error_func)(scan, mystrerror());
     } else if (FD_ISSET(scan->sock, &sockset)) {
       meta_send_request(scan);
@@ -475,7 +469,7 @@ static struct server_list *get_metaserver_list(struct server_scan *scan)
     }
     return NULL;
   case META_WAITING:
-    if (select(scan->sock + 1, &sockset, NULL, NULL, &tv) < 0) {
+    if (my_select(scan->sock + 1, &sockset, NULL, NULL, &tv) < 0) {
       (scan->error_func)(scan, mystrerror());
     } else if (FD_ISSET(scan->sock, &sockset)) {
       meta_read_response(scan);
@@ -542,8 +536,10 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   unsigned char buffer[MAX_LEN_PACKET];
   struct ip_mreq mreq;
   const char *group;
-  unsigned char ttl;
   size_t size;
+#ifndef HAVE_WINSOCK
+  unsigned char ttl;
+#endif
 
   /* Create a socket for broadcasting to servers. */
   if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
@@ -563,6 +559,9 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   addr.sockaddr_in.sin_addr.s_addr = inet_addr(get_multicast_group());
   addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT);
 
+/* this setsockopt call fails on Windows 98, so we stick with the default
+ * value of 1 on Windows, which should be fine in most cases */
+#ifndef HAVE_WINSOCK
   /* Set the Time-to-Live field for the packet  */
   ttl = SERVER_LAN_TTL;
   if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
@@ -570,6 +569,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
     return FALSE;
   }
+#endif
 
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
@@ -636,11 +636,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 **************************************************************************/
 static struct server_list *get_lan_server_list(struct server_scan *scan)
 {
-#ifdef HAVE_SOCKLEN_T
   socklen_t fromlen;
-# else
-  int fromlen;
-# endif
   union my_sockaddr fromend;
   struct hostent *from;
   char msgbuf[128];

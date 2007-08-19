@@ -565,7 +565,7 @@ bool process_net_input()
     FD_SET(net_input, &civfdset);
     tv.tv_sec = 0;
     tv.tv_usec = 0;
-    if (select(1, &civfdset, NULL, NULL, &tv)) {
+    if (my_select(1, &civfdset, NULL, NULL, &tv)) {
       if (FD_ISSET(net_input, &civfdset)) {
 	input_from_server(net_input);
 	processed = TRUE;
