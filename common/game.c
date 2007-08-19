@@ -256,6 +256,7 @@ void game_init(void)
   game.info.government_when_anarchy_id = G_MAGIC;   /* flag */
 
   game.info.is_new_game   = TRUE;
+  game.fogofwar_old = game.info.fogofwar;
   game.simultaneous_phases_stored = GAME_DEFAULT_SIMULTANEOUS_PHASES;
   game.timeoutint    = GAME_DEFAULT_TIMEOUTINT;
   game.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
