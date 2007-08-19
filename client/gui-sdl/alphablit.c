@@ -20,7 +20,7 @@
     pete@shinners.org
 */
 
-#include <SDL.h>
+#include "SDL.h"
 
 int pygame_AlphaBlit (SDL_Surface *src, SDL_Rect *srcrect,
                    SDL_Surface *dst, SDL_Rect *dstrect);

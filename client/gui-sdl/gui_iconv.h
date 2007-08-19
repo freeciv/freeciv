@@ -26,7 +26,7 @@
 #ifndef FC__GUI_ICONV_H
 #define FC__GUI_ICONV_H
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulenght,
 			      const char *pFromString);

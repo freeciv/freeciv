@@ -32,8 +32,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <SDL/SDL_byteorder.h>
-#include <SDL/SDL_types.h>
+#include "SDL_byteorder.h"
+#include "SDL_types.h"
 
 #ifdef HAVE_LIBCHARSET
 #include <libcharset.h>

@@ -14,7 +14,7 @@
 #ifndef FC__REPODLGS_H
 #define FC__REPODLGS_H
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #include "gui_string.h"
 

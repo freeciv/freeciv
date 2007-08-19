@@ -17,8 +17,8 @@
 
 #include <string.h>
 
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include "SDL.h"
+#include "SDL_mixer.h"
 
 #include "log.h"
 #include "support.h"
