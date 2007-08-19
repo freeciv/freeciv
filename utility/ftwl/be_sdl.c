@@ -19,7 +19,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #include "back_end.h"
 

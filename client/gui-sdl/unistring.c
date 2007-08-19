@@ -25,7 +25,7 @@
 
 #include <string.h>
 
-#include <SDL/SDL_types.h>
+#include "SDL_types.h"
 
 /* utility */
 #include "mem.h"

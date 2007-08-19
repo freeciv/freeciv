@@ -15,7 +15,7 @@
 #include <config.h>
 #endif
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /* gui-sdl */
 #include "colors.h"

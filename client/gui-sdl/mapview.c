@@ -25,7 +25,7 @@
 
 /* #define SDL_CVS */
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /* utility */
 #include "astring.h"

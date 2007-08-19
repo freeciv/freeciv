@@ -22,7 +22,7 @@
 #ifndef FC__MAPVIEW_H
 #define FC__MAPVIEW_H
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #include "mapview_g.h"
 #include "mapview_common.h"

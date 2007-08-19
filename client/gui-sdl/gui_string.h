@@ -22,7 +22,7 @@
 #ifndef __STRING_H
 #define __STRING_H
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #include "fc_types.h"
 

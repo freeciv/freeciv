@@ -22,7 +22,7 @@
 #ifndef FC__COLORS_H
 #define FC__COLORS_H
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #include "colors_g.h"
 
