@@ -10,7 +10,7 @@
 #   
 # Keld Simonsen <keld@dkuug.dk>, 2001-2002, 2004.
 # Ole Laursen <olau@hardworking.dk>, 2004.
-# Joe Hansen <joedalton2@yahoo.dk>, 2006,2007.
+# Joe Hansen <joedalton2@yahoo.dk>, 2006, 2007.
 # Herudover har Dansk-Gruppen været behjælpelig med teknik og diverse sprogspørgsmål.
 #
 msgid ""
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-10 16:58+0300\n"
-"PO-Revision-Date: 2007-08-10 18:48+0300\n"
+"PO-Revision-Date: 2007-08-20 18:48+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <<dansk@dansk-gruppen.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -109,130 +109,106 @@ msgid "City"
 msgstr "By"
 
 #: common/events.c:44
-#, fuzzy
 msgid "Building Unavailable Item"
-msgstr "By: Bygger noget som ikke er tilgængelig"
+msgstr "Bygger noget som ikke er tilgængelig"
 
 #: common/events.c:45
-#, fuzzy
 msgid "Captured/Destroyed"
-msgstr "By: Indtaget/ødelagt"
+msgstr "Indtaget/ødelagt"
 
 #: common/events.c:46
-#, fuzzy
 msgid "Celebrating"
-msgstr " - fester"
+msgstr "Fester"
 
 #: common/events.c:47
-#, fuzzy
 msgid "Civil Disorder"
-msgstr "By: Uroligheder"
+msgstr "Uroligheder"
 
 #: common/events.c:48
-#, fuzzy
 msgid "Famine"
-msgstr "By: Hungersnød"
+msgstr "Hungersnød"
 
 #: common/events.c:49
-#, fuzzy
 msgid "Famine Feared"
-msgstr "By: Hungersnød frygtet"
+msgstr "Hungersnød frygtet"
 
 #: common/events.c:50
-#, fuzzy
 msgid "Growth"
 msgstr "Byvækst"
 
 #: common/events.c:51
-#, fuzzy
 msgid "May Soon Grow"
-msgstr "By: Byen kan vokse snart"
+msgstr "Byen kan vokse snart"
 
 #: common/events.c:52
-#, fuzzy
 msgid "Needs Aqueduct"
-msgstr "By: Behøver akvædukt"
+msgstr "Behøver akvædukt"
 
 #: common/events.c:53
-#, fuzzy
 msgid "Needs Aqueduct Being Built"
-msgstr "By: Behøver akvædukt bliver bygget"
+msgstr "Behøver akvædukt. Bliver bygget"
 
 #: common/events.c:54 common/player.c:41
-#, fuzzy
 msgid "Normal"
-msgstr "normal"
+msgstr "Normal"
 
 #: common/events.c:55
-#, fuzzy
 msgid "Nuked"
-msgstr "Duke"
+msgstr "Bombet med atomvåben"
 
 #: common/events.c:56
-#, fuzzy
 msgid "Released from citizen governor"
-msgstr "By: Frigjort fra byleder"
+msgstr "Frigjort fra byleder"
 
 #: common/events.c:57
-#, fuzzy
 msgid "Suggest Growth Throttling"
-msgstr "By: Forslag om standset vækst"
+msgstr "Forslag om standset vækst"
 
 #: common/events.c:58
-#, fuzzy
 msgid "Transfer"
 msgstr "Transformér"
 
 #: common/events.c:59
-#, fuzzy
 msgid "Was Built"
-msgstr "By: Enhed bygget"
+msgstr "Enhed bygget"
 
 #: common/events.c:60
-#, fuzzy
 msgid "Worklist Events"
-msgstr "By: Arbejdsliste hændelser"
+msgstr "Arbejdsliste hændelser"
 
 #: common/events.c:61
-#, fuzzy
 msgid "Production changed"
-msgstr "By: Produktion ændret"
+msgstr "Produktion ændret"
 
 #: common/events.c:62 common/events.c:63 common/events.c:64 common/events.c:65
 #: common/events.c:66 common/events.c:67 common/events.c:68 common/events.c:69
 #: common/events.c:70 common/events.c:71
 msgid "Civ"
-msgstr ""
+msgstr "Civ"
 
 #: common/events.c:62
-#, fuzzy
 msgid "Barbarian Uprising"
-msgstr "Civ: Barbaroprør"
+msgstr "Barbaroprør"
 
 #: common/events.c:63
-#, fuzzy
 msgid "Civil War"
-msgstr " Borgerkrig"
+msgstr "Borgerkrig"
 
 #: common/events.c:64
-#, fuzzy
 msgid "Collapse to Anarchy"
-msgstr "Civ: Kollaps til anarki"
+msgstr "Kollaps til anarki"
 
 #: common/events.c:65
-#, fuzzy
 msgid "First Contact"
-msgstr "Civ: Første kontakt"
+msgstr "Første kontakt"
 
 #: common/events.c:66
-#, fuzzy
 msgid "Learned New Government"
-msgstr "Civ: Lærte om ny styreform"
+msgstr "Lærte om ny styreform"
 
 #: common/events.c:67
-#, fuzzy
 msgid "Low Funds"
-msgstr "Civ: Mangler penge"
+msgstr "Mangler penge"
 
 #: common/events.c:68 common/terrain.c:450 common/unit.c:519
 #: server/report.c:123 client/cityrepdata.c:514
@@ -241,39 +217,34 @@ msgid "Pollution"
 msgstr "Forurening"
 
 #: common/events.c:69
-#, fuzzy
 msgid "Revolt Ended"
-msgstr "Civ: Oprør forbi"
+msgstr "Oprør forbi"
 
 #: common/events.c:70
-#, fuzzy
 msgid "Revolt Started"
-msgstr "Civ: Oprør startet"
+msgstr "Oprør startet"
 
 #: common/events.c:71
-#, fuzzy
 msgid "Spaceship Events"
-msgstr "Civ: Rumskib hændelser"
+msgstr "Rumskib hændelser"
 
 #: common/events.c:72 common/events.c:73 common/events.c:74 common/events.c:75
 #: common/events.c:76 common/events.c:77 common/events.c:78 common/events.c:79
 #: common/events.c:80
-#, fuzzy
 msgid "Diplomat Action"
-msgstr "Diplomat/Spion - Handlinger"
+msgstr "Diplomathandlinger"
 
 #: common/events.c:72 common/events.c:81
 msgid "Bribe"
-msgstr ""
+msgstr "Bestikkelse"
 
 #: common/events.c:73
-#, fuzzy
 msgid "Caused Incident"
-msgstr "%s begivenhed !"
+msgstr "Førte til episode"
 
 #: common/events.c:74
 msgid "Escape"
-msgstr ""
+msgstr "Flugt"
 
 #: common/events.c:75 common/events.c:82 common/events.c:138
 #: client/plrdlg_common.c:258 client/gui-mui/plrdlg.c:168
@@ -283,19 +254,16 @@ msgid "Embassy"
 msgstr "Ambassade"
 
 #: common/events.c:76 common/events.c:83
-#, fuzzy
 msgid "Failed"
-msgstr "Hunkøn"
+msgstr "Mislykkedes"
 
 #: common/events.c:77 common/events.c:84
-#, fuzzy
 msgid "Incite"
-msgstr "Inuit"
+msgstr "Opildne"
 
 #: common/events.c:78 common/events.c:85
-#, fuzzy
 msgid "Poison"
-msgstr "Forgift byens drikkevand"
+msgstr "Gift"
 
 #: common/events.c:79 common/events.c:86 client/gui-win32/dialogs.c:1494
 #: data/Freeciv.in:2415
@@ -303,19 +271,17 @@ msgid "Sabotage"
 msgstr "Sabotér"
 
 #: common/events.c:80 common/events.c:87
-#, fuzzy
 msgid "Theft"
-msgstr "Tema"
+msgstr "Tyveri"
 
 #: common/events.c:81 common/events.c:82 common/events.c:83 common/events.c:84
 #: common/events.c:85 common/events.c:86 common/events.c:87
-#, fuzzy
 msgid "Enemy Diplomat"
-msgstr "Fjendtlig diplomat: Bestikkelse"
+msgstr "Fjendtlig diplomat"
 
 #: common/events.c:88
 msgid "Caravan actions"
-msgstr "Karavane handlinger"
+msgstr "Karavanehandlinger"
 
 #: common/events.c:89
 msgid "Tutorial message"
@@ -358,19 +324,16 @@ msgid "Year Advance"
 msgstr "Året går"
 
 #: common/events.c:99 common/events.c:100
-#, fuzzy
 msgid "Global"
-msgstr "Mål"
+msgstr "Verdensomfattende"
 
 #: common/events.c:99
-#, fuzzy
 msgid "Eco-Disaster"
-msgstr "Global: Øko-katastrofe"
+msgstr "Øko-katastrofe"
 
 #: common/events.c:100
-#, fuzzy
 msgid "Nuke Detonated"
-msgstr "Globalt: Atombombe detoneret"
+msgstr "Atombombe detoneret"
 
 #: common/events.c:101 common/events.c:102 common/events.c:103
 #: common/events.c:104 common/events.c:105 common/events.c:106
@@ -379,44 +342,36 @@ msgid "Hut"
 msgstr "Landsby"
 
 #: common/events.c:101
-#, fuzzy
 msgid "Barbarians in a Hut Roused"
-msgstr "Landsby: Barbarer undsluppet fra landsby"
+msgstr "Barbarer undsluppet fra landsby"
 
 #: common/events.c:102
-#, fuzzy
 msgid "City Founded from Hut"
-msgstr "Landsby: By grundlagt fra en landsby"
+msgstr "By grundlagt fra en landsby"
 
 #: common/events.c:103
-#, fuzzy
 msgid "Gold Found in Hut"
-msgstr "Landsby: Guld fundet i en landsby"
+msgstr "Guld fundet i en landsby"
 
 #: common/events.c:104
-#, fuzzy
 msgid "Killed by Barbarians in a Hut"
-msgstr "Landsby: Dræbt af barbarer i en landsby"
+msgstr "Dræbt af barbarer i en landsby"
 
 #: common/events.c:105
-#, fuzzy
 msgid "Mercenaries Found in Hut"
-msgstr "Landsby: Lejetropper fundet i en landsby"
+msgstr "Lejetropper fundet i en landsby"
 
 #: common/events.c:106
-#, fuzzy
 msgid "Settler Found in Hut"
-msgstr "Landsby: Nybygger fundet i en landsby"
+msgstr "Nybygger fundet i en landsby"
 
 #: common/events.c:107
-#, fuzzy
 msgid "Tech Found in Hut"
-msgstr "Landsby: Teknologi fundet i en landsby"
+msgstr "Teknologi fundet i en landsby"
 
 #: common/events.c:108
-#, fuzzy
 msgid "Unit Spared by Barbarians"
-msgstr "Landsby: Enhed reddet fra barbarer"
+msgstr "Enhed reddet fra barbarer"
 
 #: common/events.c:109 common/events.c:110 common/events.c:111
 #: common/events.c:112 common/events.c:113 client/gui-win32/citydlg.c:850
@@ -424,9 +379,8 @@ msgid "Improvement"
 msgstr "Forbedring"
 
 #: common/events.c:109 common/events.c:124
-#, fuzzy
 msgid "Bought"
-msgstr "Enhed: Købt"
+msgstr "Købt"
 
 #: common/events.c:110 common/events.c:125 client/citydlg_common.c:333
 #: client/citydlg_common.c:341 client/gui-mui/citydlg.c:595
@@ -436,68 +390,55 @@ msgid "Built"
 msgstr "Bygget"
 
 #: common/events.c:111
-#, fuzzy
 msgid "Forced to Sell"
-msgstr "Forbedringer: Tvangssalg"
+msgstr "Tvangssalg"
 
 #: common/events.c:112
-#, fuzzy
 msgid "New Improvement Selected"
-msgstr "Forbedringer: Ny forbedring valgt"
+msgstr "Ny forbedring valgt"
 
 #: common/events.c:113
-#, fuzzy
 msgid "Sold"
-msgstr "Guld"
+msgstr "Solgt"
 
 #: common/events.c:114 common/events.c:115 common/events.c:116
-#, fuzzy
 msgid "Tech"
-msgstr "_Teknologier"
+msgstr "Teknologi"
 
 #: common/events.c:114
-#, fuzzy
 msgid "Learned From Great Library"
-msgstr "Teknologi: Lært fra Verdensbiblioteket"
+msgstr "Lært fra Verdensbiblioteket"
 
 #: common/events.c:115
-#, fuzzy
 msgid "Learned New Tech"
 msgstr "Ny teknologi opdaget"
 
 #: common/events.c:116
-#, fuzzy
 msgid "Selected New Goal"
-msgstr "Vælg fremskridt som skal stjæles"
+msgstr "Valgt nyt mål"
 
 #: common/events.c:117 common/events.c:118 common/events.c:119
 #: common/events.c:120 common/events.c:121 common/events.c:138
-#, fuzzy
 msgid "Treaty"
-msgstr "store"
+msgstr "Traktat"
 
 #: common/events.c:117
-#, fuzzy
 msgid "Alliance"
-msgstr "Traktat: Alliance"
+msgstr "Alliance"
 
 #: common/events.c:118
-#, fuzzy
 msgid "Broken"
-msgstr "Bror"
+msgstr "Brudt"
 
 #: common/events.c:119
-#, fuzzy
 msgid "Cease-fire"
-msgstr "Traktat: Våbenhvile"
+msgstr "Våbenhvile"
 
 #: common/events.c:120
-#, fuzzy
 msgid "Peace"
-msgstr "Slot"
+msgstr "Fred"
 
 #: common/events.c:121
-#, fuzzy
 msgid "Shared Vision"
 msgstr "Delt udsyn"
 
@@ -510,44 +451,36 @@ msgid "Unit"
 msgstr "Enhed"
 
 #: common/events.c:122
-#, fuzzy
 msgid "Attack Failed"
-msgstr "Enhed: Angreb mislykket"
+msgstr "Angreb mislykket"
 
 #: common/events.c:123
-#, fuzzy
 msgid "Attack Succeeded"
-msgstr "Enhed: Angreb vellykket"
+msgstr "Angreb vellykket"
 
 #: common/events.c:126
-#, fuzzy
 msgid "Defender Destroyed"
-msgstr "Enhed: Forsvarer knust"
+msgstr "Forsvarer knust"
 
 #: common/events.c:127
-#, fuzzy
 msgid "Defender Survived"
-msgstr "Enhed: Forsvarer overlevede"
+msgstr "Forsvarer overlevede"
 
 #: common/events.c:128
-#, fuzzy
 msgid "Became More Veteran"
-msgstr "Enhed: Fik mere erfaring"
+msgstr "Fik mere erfaring"
 
 #: common/events.c:129
-#, fuzzy
 msgid "Production Upgraded"
-msgstr "Enhed: Produktion opgraderet"
+msgstr "Produktion opgraderet"
 
 #: common/events.c:130
-#, fuzzy
 msgid "Relocated"
-msgstr "Enhed: Flyttet"
+msgstr "Flyttet"
 
 #: common/events.c:131
-#, fuzzy
 msgid "Orders / goto events"
-msgstr "Enhed: Ordrer/gå til-hændelser"
+msgstr "Ordrer/gå til-hændelser"
 
 #: common/events.c:132 common/events.c:133 common/events.c:134
 #: common/events.c:135 common/events.c:136 client/gui-mui/citydlg.c:593
@@ -557,29 +490,24 @@ msgid "Wonder"
 msgstr "Vidunder"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Finished"
 msgstr "Færdig"
 
 #: common/events.c:133
-#, fuzzy
 msgid "Made Obsolete"
-msgstr "Sælg forældede"
+msgstr "Gjort forældet"
 
 #: common/events.c:134
-#, fuzzy
 msgid "Started"
-msgstr "Status"
+msgstr "Begyndt"
 
 #: common/events.c:135
-#, fuzzy
 msgid "Stopped"
-msgstr "Vidunder: Arbejde standset"
+msgstr "Arbejde standset"
 
 #: common/events.c:136
-#, fuzzy
 msgid "Will Finish Next Turn"
-msgstr "Vidunder: Færdigbygget næste runde"
+msgstr "Færdigbygget næste runde"
 
 #: common/events.c:137
 msgid "Diplomatic Message"
@@ -615,32 +543,27 @@ msgstr "Spiller indstillinger"
 
 #: common/player.c:41
 msgid "Away"
-msgstr ""
+msgstr "Væk"
 
 #: common/player.c:41
-#, fuzzy
 msgid "Novice"
-msgstr "begynder"
+msgstr "Begynder"
 
 #: common/player.c:41
-#, fuzzy
 msgid "Easy"
-msgstr "let"
+msgstr "Let"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Hard"
-msgstr "vanskelig"
+msgstr "Vanskelig"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Cheating"
-msgstr "Snakkekanal"
+msgstr "Snyderi"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Experimental"
-msgstr "eksperimentel"
+msgstr "Eksperimentel"
 
 #: common/player.c:718
 msgid "?attitude:Genocidal"
@@ -749,9 +672,9 @@ msgid "(none)"
 msgstr "(ingen)"
 
 #: common/requirements.c:1212 common/requirements.c:1221
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" units"
-msgstr "%s enheder"
+msgstr "\"%s\" enheder"
 
 #: common/requirements.c:1217
 #, c-format
@@ -765,14 +688,14 @@ msgstr "Størrelse %d"
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1237
-#, fuzzy, c-format
+#, c-format
 msgid "%s AI"
-msgstr "%d e.Kr."
+msgstr "%s computer"
 
 #: common/requirements.c:1241
-#, fuzzy, c-format
+#, c-format
 msgid "%s terrain"
-msgstr "Terræn"
+msgstr "%s terræn"
 
 #: common/tech.c:695 client/gui-gtk-2.0/repodlgs.c:514
 #, c-format
@@ -813,7 +736,6 @@ msgid "Land"
 msgstr "Land"
 
 #: common/terrain.c:46
-#, fuzzy
 msgid "Oceanic"
 msgstr "Hav"
 
@@ -899,9 +821,8 @@ msgid "Transform"
 msgstr "Transformér"
 
 #: common/unit.c:549
-#, fuzzy
 msgid "Base"
-msgstr "Basker"
+msgstr "Base"
 
 #: common/unit.c:557 client/gui-gtk-2.0/editdlg.c:77
 #: client/gui-mui/citydlg.c:2031 client/gui-sdl/citydlg.c:1983
@@ -1287,7 +1208,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1086
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr "*%s (AI)* Rummet vil aldrig blive dit!"
+msgstr "*%s (AI)* Rummet vil aldrig blive dit. "
 
 #: ai/advdiplomacy.c:1090
 #, c-format
@@ -1968,7 +1889,7 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; skal have %s terræn først.  "
+"%s kan ikke bygge %s fra arbejdslisten; skal have %s terræn først.  "
 "Udsætter..."
 
 #: server/cityturn.c:832
@@ -1976,7 +1897,7 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; kun %s må bygge dette.  "
+"%s kan ikke bygge %s fra arbejdslisten; kun %s må bygge dette.  "
 "Udsætter..."
 
 #: server/cityturn.c:852
@@ -1984,7 +1905,7 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; byen skal have størrelse %d "
+"%s kan ikke bygge %s fra arbejdslisten; byen skal have størrelse %d "
 "først.  Udsætter..."
 
 #: server/cityturn.c:866
@@ -1993,93 +1914,93 @@ msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
 "Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; kun %s må bygge dette.  "
+"%s kan ikke bygge %s fra arbejdslisten; kun %s må bygge dette.  "
 "Udsætter..."
 
 #: server/cityturn.c:879
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; skal have %s terræn først.  "
+"%s kan ikke bygge %s fra arbejdslisten; skal have %s terræn først.  "
 "Udsætter..."
 
 #: server/cityturn.c:902
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
-"Spil: %s kan ikke bygge %s fra arbejdslisten; årsag ukendt!  Udsætter..."
+"%s kan ikke bygge %s fra arbejdslisten; årsag ukendt!  Udsætter..."
 
 #: server/cityturn.c:936
 #, c-format
 msgid "%s's worklist is now empty."
-msgstr "Spil: Arbejdslisten i %s er nu tom."
+msgstr "Arbejdslisten i %s er nu tom."
 
 #: server/cityturn.c:1078
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr "Spil: %s kan ikke opretholde %s, enhed opløst."
+msgstr "%s kan ikke opretholde %s, enhed opløst."
 
 #: server/cityturn.c:1098
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
-msgstr "Spil: Borgere i %s dør i deres mislykkedes forsøg på at opretholde %s!"
+msgstr "Borgere i %s dør i deres mislykkedes forsøg på at opretholde %s!"
 
 #: server/cityturn.c:1143 server/cityturn.c:1258
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr "Spil: Folkeslaget %s bygger %s som ikke længere er tilgængelig."
+msgstr "Folkeslaget %s bygger %s som ikke længere er tilgængelig."
 
 #: server/cityturn.c:1181
 #, c-format
 msgid "The %s have finished building %s in %s."
-msgstr "Spil: Folkeslaget %s har fuldført bygningen af %s i %s."
+msgstr "Folkeslaget %s har fuldført bygningen af %s i %s."
 
 #: server/cityturn.c:1191
 #, c-format
 msgid "%s has finished building %s."
-msgstr "Spil: Folkeslaget %s har fuldført bygningen af %s."
+msgstr "Folkeslaget %s har fuldført bygningen af %s."
 
 #: server/cityturn.c:1206
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] ""
-"Spil: %s giver landvindinger i forskningen. Du får %d umiddelbare fremskridt."
+"%s giver landvindinger i forskningen. Du får %d umiddelbare fremskridt."
 msgstr[1] ""
-"Spil: %s giver landvindinger i forskningen. Du får %d umiddelbare fremskridt."
+"%s giver landvindinger i forskningen. Du får %d umiddelbare fremskridt."
 
 #: server/cityturn.c:1216 server/techtools.c:176
 #, c-format
 msgid "The %s have acquired %s from %s."
-msgstr "Spil: %s har skaffet %s fra %s."
+msgstr "%s har skaffet %s fra %s."
 
 #: server/cityturn.c:1224
 #, c-format
 msgid "The %s have started building a spaceship!"
-msgstr "Spil: Folkeslaget %s har startet bygningen af et rumskib!"
+msgstr "Folkeslaget %s har startet bygningen af et rumskib!"
 
 #: server/cityturn.c:1283
 #, c-format
 msgid "%s can't build %s yet."
-msgstr "Spil: %s kan ikke bygge %s endnu."
+msgstr "%s kan ikke bygge %s endnu."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1316
 #, c-format
 msgid "%s is finished building %s."
-msgstr "Spil: Byen %s har fuldført bygningen af %s."
+msgstr "Byen %s har fuldført bygningen af %s."
 
 #: server/cityturn.c:1360
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
-msgstr "Spil: Har ikke råd til at opretholde %s i %s, bygning solgt!"
+msgstr "Har ikke råd til at opretholde %s i %s, bygning solgt!"
 
 #: server/cityturn.c:1396
 #, c-format
 msgid "Pollution near %s."
-msgstr "Spil: Forurening nær %s."
+msgstr "Forurening nær %s."
 
 #: server/cityturn.c:1540
 #, c-format
@@ -2089,48 +2010,48 @@ msgstr "Fest afholdes til din ære i %s."
 #: server/cityturn.c:1546
 #, c-format
 msgid "Celebrations cancelled in %s."
-msgstr "Spil: Festlighederne i %s er aflyst."
+msgstr "Festlighederne i %s er aflyst."
 
 #: server/cityturn.c:1574
 #, c-format
 msgid "Civil disorder in %s."
-msgstr "Spil: Uroligheder i %s."
+msgstr "Uroligheder i %s."
 
 #: server/cityturn.c:1577
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
-msgstr "Spil: UROLIGHEDERNE FORTSÆTTER i %s."
+msgstr "UROLIGHEDERNE FORTSÆTTER i %s."
 
 #: server/cityturn.c:1583
 #, c-format
 msgid "Order restored in %s."
-msgstr "Spil: Lov og orden er genindført i %s."
+msgstr "Lov og orden er genindført i %s."
 
 #: server/cityturn.c:1592
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
-msgstr "Spil: Folket har forkastet din ledelse som %s. Hele landet er i oprør."
+msgstr "Folket har forkastet din ledelse som %s. Hele landet er i oprør."
 
 #: server/cityturn.c:1617
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
-"Spil: %s kan ikke bygge %s endnu, og vi kan ikke forlade vor eneste by."
+"%s kan ikke bygge %s endnu, og vi kan ikke forlade vor eneste by."
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1641
 #, c-format
 msgid "%s is disbanded into %s."
-msgstr "Spil: %s er opløst i %s."
+msgstr "%s er opløst i %s."
 
 #: server/civserver.c:78
 msgid "Setting timeout to 0. Autogame will stop.\n"
-msgstr ""
+msgstr "Indstiller tidsudløb til 0. Automatisk spil stopper.\n"
 
 #: server/civserver.c:82
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
 msgstr ""
-"Du må afbryde Freeciv to gang indenfor et sekund for at det eksisterer.\n"
+"Du må afbryde Freeciv to gang indenfor et sekund for at det afsluttes.\n"
 
 #: server/civserver.c:140
 #, c-format
@@ -2253,9 +2174,9 @@ msgstr "  -v, --version\t\tUdskriv versionsnummeret\n"
 #: server/civserver.c:252 client/gui-gtk-2.0/gui_main.c:340
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:208
 #: client/gui-xaw/gui_main.c:247 manual/civmanual.c:384
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s.\n"
-msgstr "Rapportér fejl til <%s>.\n"
+msgstr "Rapportér fejl til %s.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
@@ -2756,28 +2677,27 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:255
-#, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
-msgstr "create <spillernavn>"
+msgstr ""
+"cheating\n"
+"cheating <spillernavn>"
 
 #: server/commands.c:257
-#, fuzzy
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Sæt en eller alle AI-spillere til 'let'."
+msgstr "Sæt en eller alle computerspillere til 'snyd'."
 
 #: server/commands.c:258
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
 "the default level for any new AI players to 'cheating'.  With an argument, "
 "sets the skill level for that player only."
 msgstr ""
-"Uden argument sætter denne kommando alle datastyrede spilleres sværhedsgrad "
-"til \"easy\", og sætter standardsværhedsgraden for alle nye datastyrede "
-"spillere til \"easy\". Med et argument sætter kommandoen sværhedsgraden kun "
-"for den spiller"
+"Uden argument sætter denne kommando alle computerstyrede spilleres sværhedsgrad "
+"til »snyd« og sætter standardsværhedsgraden for alle nye computerstyrede "
+"spillere til »snyd«. Med et argument sætter kommandoen sværhedsgraden kun "
+"for den spiller."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:264
@@ -2785,8 +2705,8 @@ msgid ""
 "experimental\n"
 "experimental <player-name>"
 msgstr ""
-" \n"
-"<spillernavn>"
+"experimental\n"
+"experimental <spillernavn>"
 
 #: server/commands.c:266
 msgid "Set one or all AI players to 'experimental'."
@@ -3138,12 +3058,12 @@ msgstr "Skriv 'help' for introduktionshjælp."
 #: server/diplhand.c:148
 #, c-format
 msgid "The %s can't accept %s."
-msgstr "Spil: Folkeslaget %s kan ikke acceptere %s."
+msgstr "Folkeslaget %s kan ikke acceptere %s."
 
 #: server/diplhand.c:160
 #, c-format
 msgid "You don't have tech %s, you can't accept treaty."
-msgstr "Spil: Du har ikke teknologien %s, du kan ikke acceptere traktaten."
+msgstr "Du har ikke teknologien %s, du kan ikke acceptere traktaten."
 
 #: server/diplhand.c:169
 msgid "City you are trying to give no longer exists, you can't accept treaty."
@@ -3159,11 +3079,11 @@ msgstr "Du ejer ikke %s, du kan ikke acceptere traktaten."
 #: server/diplhand.c:181 server/diplhand.c:285
 #, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
-msgstr "Spil: Din hovedstad (%s) er forlangt, du kan ikke acceptere traktaten."
+msgstr "Din hovedstad (%s) er forlangt, du kan ikke acceptere traktaten."
 
 #: server/diplhand.c:208
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr "Spil: Du har ikke nok guld, du kan ikke acceptere traktaten."
+msgstr "Du har ikke nok guld, du kan ikke acceptere traktaten."
 
 #: server/diplhand.c:240 server/diplhand.c:245
 #, c-format
@@ -3173,71 +3093,71 @@ msgstr[0] "Der blev enighed om en traktat indeholdende %d klausul."
 msgstr[1] "Der blev enighed om en traktat indeholdende %d klausul."
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, c-format, fuzzy
+#, c-format,
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
-msgstr "Spil: En af byerne som %s giver bort, er ødelagt! Traktat brudt!"
+msgstr "En af byerne som %s giver bort, er ødelagt! Traktat brudt!"
 
 #: server/diplhand.c:272 server/diplhand.c:277
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr "Spil: Folkeslaget %s kontrollerer ikke længere %s! Traktaten brudt!"
+msgstr "Folkeslaget %s kontrollerer ikke længere %s! Traktaten brudt!"
 
 #: server/diplhand.c:314 server/diplhand.c:318
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
-"Spil: Folkeslaget %s har ikke så meget guld som de har lovet! Traktaten "
+"Folkeslaget %s har ikke så meget guld som de har lovet! Traktaten "
 "brudt!"
 
 #: server/diplhand.c:347
 #, c-format
 msgid "You gave an embassy to %s."
-msgstr "Spil: Du gav en ambassade til %s."
+msgstr "Du gav en ambassade til %s."
 
 #: server/diplhand.c:350
 #, c-format
 msgid "%s allowed you to create an embassy!"
-msgstr "Spil: %s tillod dig at oprette en ambassade!"
+msgstr "%s tillod dig at oprette en ambassade!"
 
 #: server/diplhand.c:366
 #, c-format
 msgid "You are taught the knowledge of %s."
-msgstr "Spil: Du opnår kundskab om %s."
+msgstr "Du opnår kundskab om %s."
 
 #: server/diplhand.c:370
 #, c-format
 msgid "The %s have acquired %s from the %s."
-msgstr "Spil: Folkeslaget %s har skaffet %s fra %s."
+msgstr "Folkeslaget %s har skaffet %s fra %s."
 
 #: server/diplhand.c:385
 #, c-format
 msgid "You get %d gold."
-msgstr "Spil: Du får %d guld."
+msgstr "Du får %d guld."
 
 #: server/diplhand.c:392
 #, c-format
 msgid "You receive %s's worldmap."
-msgstr "Spil: Du får verdenskortet som %s opfatter det."
+msgstr "Du får verdenskortet som %s opfatter det."
 
 #: server/diplhand.c:398
 #, c-format
 msgid "You receive %s's seamap."
-msgstr "Spil: Du får søkortet som %s opfatter det."
+msgstr "Du får søkortet som %s opfatter det."
 
 #: server/diplhand.c:413
 #, c-format
 msgid "You receive city of %s from %s."
-msgstr "Spil: Du får byen %s af %s."
+msgstr "Du får byen %s af %s."
 
 #: server/diplhand.c:417
 #, c-format
 msgid "You give city of %s to %s."
-msgstr "Spil: Du giver byen %s bort til %s."
+msgstr "Du giver byen %s bort til %s."
 
 #: server/diplhand.c:429 server/diplhand.c:432
 #, c-format
 msgid "You agree on a cease-fire with %s."
-msgstr "Spil: Du accepterer en våbenhvile med %s."
+msgstr "Du accepterer en våbenhvile med %s."
 
 #: server/diplhand.c:450 server/diplhand.c:459
 #, c-format
@@ -3257,27 +3177,27 @@ msgstr[1] ""
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
 msgid "You agree on an alliance with %s."
-msgstr "Spil: Du accepterer en alliance med %s."
+msgstr "Du accepterer en alliance med %s."
 
 #: server/diplhand.c:493
 #, c-format
 msgid "You give shared vision to %s."
-msgstr "Spil: Du deler dit synsfelt med %s."
+msgstr "Du deler dit synsfelt med %s."
 
 #: server/diplhand.c:496
 #, c-format
 msgid "%s gives you shared vision."
-msgstr "Spil: %s deler sit synsfelt med dig."
+msgstr "%s deler sit synsfelt med dig."
 
 #: server/diplhand.c:634
 #, c-format
 msgid "%s canceled the meeting!"
-msgstr "Spil: %s afbrød mødet!"
+msgstr "%s afbrød mødet!"
 
 #: server/diplhand.c:641
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr "Spil: Mødet med %s blev aflyst."
+msgstr "Mødet med %s blev aflyst."
 
 #: server/diplhand.c:683
 msgid "Your diplomatic envoy was decapitated!"
@@ -3286,76 +3206,76 @@ msgstr "Din diplomatiske udsending blev halshugget!"
 #: server/diplomats.c:98
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
-msgstr "Spil: Din %s kunne ikke forgifte vandtilførselen til %s."
+msgstr "Din %s kunne ikke forgifte vandtilførselen til %s."
 
 #: server/diplomats.c:113
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
-msgstr "Spil: Din %s forgiftede vandtilførselen til %s."
+msgstr "Din %s forgiftede vandtilførselen til %s."
 
 #: server/diplomats.c:117
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr "Spil: %s er mistænkt for at have forgiftet vandtilførselen til %s."
+msgstr "%s er mistænkt for at have forgiftet vandtilførselen til %s."
 
 #: server/diplomats.c:263
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
-msgstr "Spil: Din %s blev henrettet i %s af det primitive folkeslag %s."
+msgstr "Din %s blev henrettet i %s af det primitive folkeslag %s."
 
 #: server/diplomats.c:277
 #, c-format
 msgid "You have established an embassy in %s."
-msgstr "Spil: Du har etableret en ambassade i %s."
+msgstr "Du har etableret en ambassade i %s."
 
 #: server/diplomats.c:280
 #, c-format
 msgid "The %s have established an embassy in %s."
-msgstr "Spil: Folkeslaget %s har etableret en ambassade i %s."
+msgstr "Folkeslaget %s har etableret en ambassade i %s."
 
 #: server/diplomats.c:336
 #, c-format
 msgid "Your %s could not sabotage %s's %s."
-msgstr "Spil: Din %s kunne ikke sabotere %s's %s."
+msgstr "Din %s kunne ikke sabotere %s's %s."
 
 #: server/diplomats.c:358
 #, c-format
 msgid "Your %s succeeded in sabotaging %s's %s."
-msgstr "Spil: Din %s saboterede %s's %s."
+msgstr "Din %s saboterede %s's %s."
 
 #: server/diplomats.c:364
 #, c-format
 msgid "Your %s was sabotaged by %s!"
-msgstr "Spil: Din %s blev saboteret af %s!"
+msgstr "Din %s blev saboteret af %s!"
 
 #: server/diplomats.c:420
 msgid "You can't bribe a unit from this nation."
-msgstr "Spil: Du kan ikke bestikke en enhed fra denne nation."
+msgstr "Du kan ikke bestikke en enhed fra denne nation."
 
 #: server/diplomats.c:428
 #, c-format
 msgid "You don't have enough gold to bribe %s's %s."
-msgstr "Spil: Du har ikke nok guld til at bestikke %s's %s."
+msgstr "Du har ikke nok guld til at bestikke %s's %s."
 
 #: server/diplomats.c:438
 #, c-format
 msgid "You cannot bribe %s!"
-msgstr "Spil: Du kan ikke bestikke %s!"
+msgstr "Du kan ikke bestikke %s!"
 
 #: server/diplomats.c:465
 #, c-format
 msgid "Your %s succeeded in bribing %s's %s and became more experienced."
-msgstr "Spil: Din %s bestak %s's %s og blev mere erfaren."
+msgstr "Din %s bestak %s's %s og blev mere erfaren."
 
 #: server/diplomats.c:472
 #, c-format
 msgid "Your %s succeeded in bribing %s's %s."
-msgstr "Spil: Din %s bestak %s's %s."
+msgstr "Din %s bestak %s's %s."
 
 #: server/diplomats.c:478
 #, c-format
 msgid "Your %s was bribed by %s."
-msgstr "Spil: Din %s-enhed blev bestukket af %s."
+msgstr "Din %s-enhed blev bestukket af %s."
 
 #: server/diplomats.c:609
 #, c-format
@@ -3370,127 +3290,127 @@ msgstr ""
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr ""
-"Spil: Din %s-enhed blev fanget i forsøget på at stjæle teknologi fra %s."
+"Din %s-enhed blev fanget i forsøget på at stjæle teknologi fra %s."
 
 #: server/diplomats.c:621
 #, c-format
 msgid "%s's %s failed to steal technology from %s."
-msgstr "Spil: %s's %s mislykkedes i forsøget på at stjæle teknologi fra %s."
+msgstr "%s's %s mislykkedes i forsøget på at stjæle teknologi fra %s."
 
 #: server/diplomats.c:635
 #, c-format
 msgid "No new technology found in %s."
-msgstr "Spil: Ingen ny teknologi fundet i %s."
+msgstr "Ingen ny teknologi fundet i %s."
 
 #: server/diplomats.c:691
 msgid "You can't subvert this city."
-msgstr "Spil: Du kan ikke omstyrte denne by."
+msgstr "Du kan ikke omstyrte denne by."
 
 #: server/diplomats.c:702
 #, c-format
 msgid "You don't have enough gold to subvert %s."
-msgstr "Spil: Du har ikke nok guld til at bestikke %s over på din side."
+msgstr "Du har ikke nok guld til at bestikke %s over på din side."
 
 #: server/diplomats.c:719
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
-msgstr "Spil: Din %s blev fanget i forsøget på at anspore til oprør!"
+msgstr "Din %s blev fanget i forsøget på at anspore til oprør!"
 
 #: server/diplomats.c:723
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
-"Spil: Du afslørede og fangede %s %s som forsøgte at anspore til oprør i %s!"
+"Du afslørede og fangede %s %s som forsøgte at anspore til oprør i %s!"
 
 #: server/diplomats.c:746
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
-msgstr "Spil: Oprør ansporet i %s, du styrer nu byen!"
+msgstr "Oprør ansporet i %s, du styrer nu byen!"
 
 #: server/diplomats.c:749
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr ""
-"Spil: %s gør oprør, %s er mistænkt for at have en finger med i spillet."
+"%s gør oprør, %s er mistænkt for at have en finger med i spillet."
 
 #: server/diplomats.c:830
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
-msgstr "Spil: Din %s blev fanget i forsøget på industriel sabotage!"
+msgstr "Din %s blev fanget i forsøget på industriel sabotage!"
 
 #: server/diplomats.c:834
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
-msgstr "Spil: Du afslørede og fangede en %s %s som forsøgte på sabotage i %s!"
+msgstr "Du afslørede og fangede en %s %s som forsøgte på sabotage i %s!"
 
 #: server/diplomats.c:869
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
-msgstr "Spil: Din %s kunne ikke finde noget at sabotere i %s."
+msgstr "Din %s kunne ikke finde noget at sabotere i %s."
 
 # uden ubestemt artikel pga. problemer med en/et
 #: server/diplomats.c:914
 #, c-format
 msgid "You cannot sabotage a %s!"
-msgstr "Spil: Du kan ikke sabotere %s!"
+msgstr "Du kan ikke sabotere %s!"
 
 #: server/diplomats.c:925
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
-msgstr "Spil: Din %s kunne ikke finde %s som skulle saboteres i %s."
+msgstr "Din %s kunne ikke finde %s som skulle saboteres i %s."
 
 #: server/diplomats.c:953
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
-msgstr "Spil: Din %s ødelagde bygningen af %s i %s."
+msgstr "Din %s ødelagde bygningen af %s i %s."
 
 #: server/diplomats.c:958
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
-msgstr "Spil: Bygningen af %s i %s blev ødelagt, %s mistænkes."
+msgstr "Bygningen af %s i %s blev ødelagt, %s mistænkes."
 
 #: server/diplomats.c:979
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
-msgstr "Spil: Din %s blev afsløret og fanget i sabotageforsøg!"
+msgstr "Din %s blev afsløret og fanget i sabotageforsøg!"
 
 #: server/diplomats.c:984
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
-msgstr "Spil: Du fangede en %s %s som forsøgte at sabotere %s i %s!"
+msgstr "Du fangede en %s %s som forsøgte at sabotere %s i %s!"
 
 # %s er diplomat/spion, derfor o.k.
 #: server/diplomats.c:997
 #, c-format
 msgid "Your %s destroyed the %s in %s."
-msgstr "Spil: Din %s ødelagde %s i %s."
+msgstr "Din %s ødelagde %s i %s."
 
 #: server/diplomats.c:1002
 #, c-format
 msgid "The %s destroyed the %s in %s."
-msgstr "Spil: Folkeslaget %s ødelagde %s i %s."
+msgstr "Folkeslaget %s ødelagde %s i %s."
 
 #: server/diplomats.c:1102
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
-msgstr "Spil: Din %s er blevet udslettet under forsvar af %s mod %s."
+msgstr "Din %s er blevet udslettet under forsvar af %s mod %s."
 
 #: server/diplomats.c:1108
 #, c-format
 msgid "An enemy %s has been eliminated defending %s."
-msgstr "Spil: En fjendtlig %s er blevet udslettet under forsvar af %s."
+msgstr "En fjendtlig %s er blevet udslettet under forsvar af %s."
 
 #: server/diplomats.c:1123
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
-msgstr "Spil: Din %s blev udslettet af en forsvarende %s"
+msgstr "Din %s blev udslettet af en forsvarende %s"
 
 #: server/diplomats.c:1131
 #, c-format
 msgid ""
 "Eliminated %s %s while infiltrating %s. The defender became more experienced."
 msgstr ""
-"Spil: Udslettede %s %s under infiltration af %s. Forsvareren fik mere "
+"Udslettede %s %s under infiltration af %s. Forsvareren fik mere "
 "erfaring."
 
 #: server/diplomats.c:1139
@@ -3499,19 +3419,19 @@ msgid ""
 "Eliminated %s %s while infiltrating our troops. The defender became more "
 "experienced."
 msgstr ""
-"Spil: Udslettede %s %s under infiltration af vore tropper. Forsvareren fik "
+"Udslettede %s %s under infiltration af vore tropper. Forsvareren fik "
 "mere erfaring."
 
 #: server/diplomats.c:1149
 #, c-format
 msgid "Eliminated %s %s while infiltrating %s."
-msgstr "Spil: Udslettede %s %s under infiltration af %s."
+msgstr "Udslettede %s %s under infiltration af %s."
 
 # problem
 #: server/diplomats.c:1157
 #, c-format
 msgid "Eliminated %s %s while infiltrating our troops."
-msgstr "Spil: Udslettede %s %s under infiltration af vore tropper."
+msgstr "Udslettede %s %s under infiltration af vore tropper."
 
 #: server/diplomats.c:1210
 #, c-format
@@ -3519,54 +3439,54 @@ msgid ""
 "Your %s has successfully completed her mission and returned unharmed to %s "
 "and has become more experienced."
 msgstr ""
-"Spil: Din %s har klaret sin mission og er returneret uskadt til %s med mere "
+"Din %s har klaret sin mission og er returneret uskadt til %s med mere "
 "erfaring."
 
 #: server/diplomats.c:1217
 #, c-format
 msgid ""
 "Your %s has successfully completed her mission and returned unharmed to %s."
-msgstr "Spil: Din %s har klaret sin mission og er returneret uskadt til %s."
+msgstr "Din %s har klaret sin mission og er returneret uskadt til %s."
 
 #: server/diplomats.c:1234
 #, c-format
 msgid "Your %s was captured after completing her mission in %s."
-msgstr "Spil: Din %s blev fanget efter at have fuldført sin mission i %s."
+msgstr "Din %s blev fanget efter at have fuldført sin mission i %s."
 
 #: server/diplomats.c:1240
 #, c-format
 msgid "Your %s was captured after completing her mission."
-msgstr "Spil: Din %s blev fanget efter at have fuldført sin mission."
+msgstr "Din %s blev fanget efter at have fuldført sin mission."
 
 #: server/diplomats.c:1272
 #, c-format
 msgid "You have caused an incident while bribing %s's %s."
-msgstr "Spil: Du har forårsaget en skandale ved at bestikke %s's %s."
+msgstr "Du har forårsaget en skandale ved at bestikke %s's %s."
 
 #: server/diplomats.c:1277
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
-msgstr "Spil: %s har forårsaget en skandale ved at bestikke din %s."
+msgstr "%s har forårsaget en skandale ved at bestikke din %s."
 
 #: server/diplomats.c:1284
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
-msgstr "Spil: Du har forårsaget en skandale ved teknologityveriet fra %s."
+msgstr "Du har forårsaget en skandale ved teknologityveriet fra %s."
 
 #: server/diplomats.c:1288
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
-msgstr "Spil: %s har forårsaget en skandale ved at stjæle teknologi fra dig."
+msgstr "%s har forårsaget en skandale ved at stjæle teknologi fra dig."
 
 #: server/diplomats.c:1294
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
-msgstr "Spil: Du har forårsaget en skandale ved at anspore til oprør i %s."
+msgstr "Du har forårsaget en skandale ved at anspore til oprør i %s."
 
 #: server/diplomats.c:1297
 #, c-format
 msgid "%s have caused an incident while inciting a revolt in %s."
-msgstr "Spil: %s har forårsaget en skandale ved at anspore til oprør i %s."
+msgstr "%s har forårsaget en skandale ved at anspore til oprør i %s."
 
 #: server/edithand.c:53
 msgid " *** Server set to edit mode! *** "
@@ -3578,16 +3498,16 @@ msgstr " *** Serverindstillinger kan nu ikke rettes! *** "
 
 #: server/edithand.c:131
 msgid "Cannot create unit on enemy tile."
-msgstr "Spil: Kan ikke skabe enhed på fjendtlig grund."
+msgstr "Kan ikke skabe enhed på fjendtlig grund."
 
 #: server/edithand.c:140
 #, c-format
 msgid "Cannot create %s unit on this terrain."
-msgstr "Spil: Kan ikke skabe %s enhed på dette terræn."
+msgstr "Kan ikke skabe %s enhed på dette terræn."
 
 #: server/edithand.c:196 server/edithand.c:238
 msgid "Cannot build city on this tile."
-msgstr "Spil: Kan ikke bygge by på denne grund."
+msgstr "Kan ikke bygge by på denne grund."
 
 #: server/edithand.c:209 server/edithand.c:248
 msgid "Could not create city."
@@ -3599,11 +3519,11 @@ msgstr "Kunne ikke ændre bystørrelsen."
 
 #: server/edithand.c:434
 msgid "Cannot remove knowledge about own city."
-msgstr ""
+msgstr "Kan ikke fjerne kendskab til egen by."
 
 #: server/edithand.c:441
 msgid "Cannot remove knowledge about own unit."
-msgstr ""
+msgstr "Kan ikke fjerne kendskab til egen enhed."
 
 #: server/gamehand.c:168
 #, c-format
@@ -3636,17 +3556,17 @@ msgstr "Alene GGZ klienten må kalde civclient i ggz mode!\n"
 #: server/handchat.c:66
 #, c-format
 msgid "%s is an ambiguous player name-prefix."
-msgstr "Spil: %s er et tvetydigt spillernavnspræfiks."
+msgstr "%s er et tvetydigt spillernavnspræfiks."
 
 #: server/handchat.c:70
 #, c-format
 msgid "%s is an ambiguous connection name-prefix."
-msgstr "Spil: %s er et tvetydigt tilslutningsnavns-præfiks."
+msgstr "%s er et tvetydigt tilslutningsnavns-præfiks."
 
 #: server/handchat.c:74
 #, c-format
 msgid "%s is an anonymous name. Use connection name"
-msgstr "Spil: %s er et tvetydigt navn. Brug tilslutningsnavn"
+msgstr "%s er et tvetydigt navn. Brug tilslutningsnavn"
 
 #: server/handchat.c:186
 msgid "You are not attached to a player."
@@ -3660,38 +3580,38 @@ msgstr "%s til allierede: %s"
 #: server/handchat.c:288
 #, c-format
 msgid "%s is not connected."
-msgstr "Spil: %s er ikke tilsluttet."
+msgstr "%s er ikke tilsluttet."
 
 #: server/handchat.c:300
 #, c-format
 msgid "There is no connection by the name %s."
-msgstr "Spil: Der er ingen tilslutning ved navn %s."
+msgstr "Der er ingen tilslutning ved navn %s."
 
 #: server/handchat.c:303
 #, c-format
 msgid "There is no player nor connection by the name %s."
-msgstr "Spil: Der er ingen spiller eller tilslutning ved navn %s."
+msgstr "Der er ingen spiller eller tilslutning ved navn %s."
 
 #: server/maphand.c:393
 msgid "Global warming has occurred!"
-msgstr "Spil: Der er sket en global opvarmning!"
+msgstr "Der er sket en global opvarmning!"
 
 #: server/maphand.c:395
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
-"Spil: Kystlinjer er blevet oversvømmet og vidtstrakte græsområder er blevet "
+"Kystlinjer er blevet oversvømmet og vidtstrakte græsområder er blevet "
 "til ørken."
 
 #: server/maphand.c:437
 msgid "Nuclear winter has occurred!"
-msgstr "Spil: Atomvinter er opstået!"
+msgstr "Atomvinter er opstået!"
 
 #: server/maphand.c:439
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
-"Spil: Vådområder er tørret ud og vidtstrakte græsområder er blevet til "
+"Vådområder er tørret ud og vidtstrakte græsområder er blevet til "
 "tundra."
 
 #: server/maphand.c:460
@@ -3700,7 +3620,7 @@ msgid ""
 "is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Spil: Nyt håb spreder sig som en steppebrand da opdagelsen af jernbanen "
+"Nyt håb spreder sig som en steppebrand da opdagelsen af jernbanen "
 "bliver kundgjort.\n"
 "      Arbejderne samler sig spontant og bygger jernbaner i samtlige byer."
 
@@ -3710,19 +3630,19 @@ msgid ""
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Spil: Folket er tilfreds med at dine forskere endelig har opdaget "
+"Folket er tilfreds med at dine forskere endelig har opdaget "
 "jernbanen.\n"
 "      Arbejderne samler sig spontant og bygger jernbaner i samtlige byer."
 
 #: server/maphand.c:1527
 #, c-format
 msgid "Moved your %s due to changing terrain."
-msgstr "Spil: Flyttede din %s på grund af ændret terræn."
+msgstr "Flyttede din %s på grund af ændret terræn."
 
 #: server/maphand.c:1545
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
-msgstr "Spil: Opløste din %s på grund af ændret terræn."
+msgstr "Opløste din %s på grund af ændret terræn."
 
 #: server/meta.c:140
 msgid "Not reporting to the metaserver in this game."
@@ -3736,11 +3656,11 @@ msgstr "Metaserver: ugyldig adresse: [%s:%d]."
 #: server/plrhand.c:147
 #, c-format
 msgid "The %s are no more!"
-msgstr "Spil: Folkeslaget %s findes ikke længere!"
+msgstr "Folkeslaget %s findes ikke længere!"
 
 #: server/plrhand.c:203
 msgid "Cannot change rates before game start."
-msgstr "Spil: Kan ikke ændre niveauer før spilstart."
+msgstr "Kan ikke ændre niveauer før spilstart."
 
 #: server/plrhand.c:219 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-win32/ratesdlg.c:309
@@ -3750,12 +3670,12 @@ msgstr "Skat"
 #: server/plrhand.c:227
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
-msgstr "Spil: Niveauet for %s er større end maks. niveau for %s."
+msgstr "Niveauet for %s er større end maks. niveau for %s."
 
 #: server/plrhand.c:267
 #, c-format
 msgid "%s now governs the %s as a %s."
-msgstr "Spil: %s leder nu %s som %s."
+msgstr "%s leder nu %s som %s."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
@@ -3783,17 +3703,17 @@ msgstr "Du burde vælge en ny styreform fra ledelses menuen."
 #: server/plrhand.c:446
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
-msgstr "Spil: Skatteniveauet er højere end maks. niveau for %s; justeret."
+msgstr "Skatteniveauet er højere end maks. niveau for %s; justeret."
 
 #: server/plrhand.c:452
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
-msgstr "Spil: Forskningsniveauet er højere end maks. niveau for %s; justeret."
+msgstr "Forskningsniveauet er højere end maks. niveau for %s; justeret."
 
 #: server/plrhand.c:458
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
-msgstr "Spil: Luksusniveauet er højere end maks. niveua for %s; justeret."
+msgstr "Luksusniveauet er højere end maks. niveua for %s; justeret."
 
 #: server/plrhand.c:513
 #, c-format
@@ -3827,7 +3747,7 @@ msgstr ""
 #: server/plrhand.c:614
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
-msgstr "Spil: Den diplomatiske status mellem %s og %s er nu %s."
+msgstr "Den diplomatiske status mellem %s og %s er nu %s."
 
 #: server/plrhand.c:620
 #, c-format
@@ -3835,7 +3755,7 @@ msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
-"Spil: Folkeslaget %s afbrød den diplomatiske aftale! Det diplomatiske "
+"Folkeslaget %s afbrød den diplomatiske aftale! Det diplomatiske "
 "forhold mellem %s og %s er nu %s."
 
 #: server/plrhand.c:637
@@ -3843,7 +3763,7 @@ msgstr ""
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
-"Spil: %s har angrebet din allierede %s! Du ophæver alliancen med aggressoren."
+"%s har angrebet din allierede %s! Du ophæver alliancen med aggressoren."
 
 #: server/plrhand.c:648
 #, c-format
@@ -3851,7 +3771,7 @@ msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr ""
-"Spil: Din holdkammerat %s erklærede krig med %s. Du er nødt til at annullere "
+"Din holdkammerat %s erklærede krig med %s. Du er nødt til at annullere "
 "alliancen med %s."
 
 #: server/plrhand.c:1120
@@ -3861,24 +3781,24 @@ msgstr "Fjerner spiller %s."
 
 #: server/plrhand.c:1122
 msgid "You've been removed from the game!"
-msgstr "Spil: Du er blevet fjernet fra spillet!"
+msgstr "Du er blevet fjernet fra spillet!"
 
 #: server/plrhand.c:1125
 #, c-format
 msgid "%s has been removed from the game."
-msgstr "Spil: %s er blevet fjernet fra spillet."
+msgstr "%s er blevet fjernet fra spillet."
 
 #: server/plrhand.c:1166 server/plrhand.c:1171
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
-msgstr "Spil: Du har fået kontakt med %s, ledet af %s."
+msgstr "Du har fået kontakt med %s, ledet af %s."
 
 #: server/plrhand.c:1191
 #, c-format
 msgid ""
 "%s and %s meet and go to instant war. You cancel your alliance with both."
 msgstr ""
-"Spil: %s og %s mødes og går i øjeblikkelig krig. Du ophæver alliancen med "
+"%s og %s mødes og går i øjeblikkelig krig. Du ophæver alliancen med "
 "begge."
 
 #: server/plrhand.c:1672
@@ -3892,13 +3812,13 @@ msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
 "rebel states."
 msgstr ""
-"Spil: Din nation er splittet i en borgerkrig. %s er proklameret leder for de "
+"Din nation er splittet i en borgerkrig. %s er proklameret leder for de "
 "oprørske landsdele."
 
 #: server/plrhand.c:1714
 #, c-format
 msgid "%s declares allegiance to %s."
-msgstr "Spil: %s erklærer troskab mod %s."
+msgstr "%s erklærer troskab mod %s."
 
 #: server/plrhand.c:1728
 #, c-format
@@ -5461,15 +5381,15 @@ msgstr "Server: Ugyldig adresse: [%s:%d]."
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
-msgstr "Spil: Du skal have en hovedstad for at sende et rumskib op."
+msgstr "Du skal have en hovedstad for at sende et rumskib op."
 
 #: server/spacerace.c:171
 msgid "Your spaceship is already launched!"
-msgstr "Spil: Dit rumskib er allerede sendt af sted!"
+msgstr "Dit rumskib er allerede sendt af sted!"
 
 #: server/spacerace.c:177
 msgid "Your spaceship can't be launched yet!"
-msgstr "Spil: Dit rumskib kan ikke sendes endnu!"
+msgstr "Dit rumskib kan ikke sendes endnu!"
 
 #: server/spacerace.c:186
 #, c-format
@@ -5477,57 +5397,57 @@ msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
-"Spil: %s har sendt et rumskib af sted! Beregnet ankomst på Alfa Centauri er %"
+"%s har sendt et rumskib af sted! Beregnet ankomst på Alfa Centauri er %"
 "s."
 
 #: server/spacerace.c:204
 msgid "Spaceship action received, but you don't have a spaceship!"
-msgstr "Spil: Rumskib-kommando modtaget, men du har ikke noget rumskib!"
+msgstr "Rumskib-kommando modtaget, men du har ikke noget rumskib!"
 
 #: server/spacerace.c:210
 msgid "You can't modify your spaceship after launch!"
-msgstr "Spil: Du kan ikke ændre rumskibet efter at det er sendt ud!"
+msgstr "Du kan ikke ændre rumskibet efter at det er sendt ud!"
 
 #: server/spacerace.c:219
 msgid "You don't have any unplaced Space Structurals!"
-msgstr "Spil: Du har ingen uplacerede Rumstrukturer!"
+msgstr "Du har ingen uplacerede Rumstrukturer!"
 
 #: server/spacerace.c:224
 msgid "That Space Structural would not be connected!"
-msgstr "Spil: Rumstrukturen kunne ikke tilkobles!"
+msgstr "Rumstrukturen kunne ikke tilkobles!"
 
 #: server/spacerace.c:239 server/spacerace.c:260
 msgid "You don't have any unplaced Space Components!"
-msgstr "Spil: Du har ingen uplacerede Rumkomponenter!"
+msgstr "Du har ingen uplacerede Rumkomponenter!"
 
 #: server/spacerace.c:245
 msgid "Your spaceship already has the maximum number of Fuel Components!"
-msgstr "Spil: Dit rumskib har allerede maksimalt antal drivstofskomponenter!"
+msgstr "Dit rumskib har allerede maksimalt antal drivstofskomponenter!"
 
 #: server/spacerace.c:266
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
-msgstr "Spil: Dit rumskib har allerede maksimalt antal fremdriftskomponenter!"
+msgstr "Dit rumskib har allerede maksimalt antal fremdriftskomponenter!"
 
 #: server/spacerace.c:282 server/spacerace.c:304 server/spacerace.c:326
 msgid "You don't have any unplaced Space Modules!"
-msgstr "Spil: Du har ingen uplacerede rummoduler!"
+msgstr "Du har ingen uplacerede rummoduler!"
 
 #: server/spacerace.c:288
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
-msgstr "Spil: Dit rumskib har allerede maksimalt antal passagermoduler"
+msgstr "Dit rumskib har allerede maksimalt antal passagermoduler"
 
 #: server/spacerace.c:310
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
-msgstr "Spil: Dit rumskib har allerede maksimalt antal overlevelsesmoduler!"
+msgstr "Dit rumskib har allerede maksimalt antal overlevelsesmoduler!"
 
 #: server/spacerace.c:332
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr "Spil: Dit rumskib har allerede maksimalt antal solcelle-moduler!"
+msgstr "Dit rumskib har allerede maksimalt antal solcelle-moduler!"
 
 #: server/spacerace.c:351
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
-msgstr "Spil: Uden vejledning fra hovedstaden er %s rumskibet tabt!"
+msgstr "Uden vejledning fra hovedstaden er %s rumskibet tabt!"
 
 #: server/srv_main.c:217
 msgid "Game ended in a draw as end year exceeded"
@@ -5615,13 +5535,12 @@ msgid "Warning: rejecting old client %s"
 msgstr "Advarsel: Afviser ældre klient %s"
 
 #: server/srv_main.c:1066
-#, fuzzy
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "Freeciv 2.0 or later."
 msgstr ""
 "Din klient er for gammel. For at anvende denne server skal du opgradere din "
-"klient til en CVS version fra 2003-11-28 eller Freeciv 2.0 eller senere."
+"klient til Freeciv 2.0 eller senere."
 
 #: server/srv_main.c:1155
 #, c-format
@@ -5653,17 +5572,17 @@ msgstr "%s nation er ikke tilgængelig i dette scenarie."
 #: server/srv_main.c:1391
 #, c-format
 msgid "%s nation is already in use."
-msgstr "Spil: Nation %s er allerede i brug."
+msgstr "Nation %s er allerede i brug."
 
 #: server/srv_main.c:1409
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr "Spil: %s er %s hersker %s."
+msgstr "%s er %s hersker %s."
 
 #: server/srv_main.c:1467
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr "Kan ikke starte spil: %d ud af %d spillere er allerede i gang."
+msgstr "Kan ikke starte %d ud af %d spillere er allerede i gang."
 
 #: server/srv_main.c:1472
 msgid "All players are ready; starting game."
@@ -5682,7 +5601,7 @@ msgstr "Spiller %d"
 #: server/srv_main.c:1657 server/srv_main.c:1663
 #, c-format
 msgid "%s rules the %s."
-msgstr "Spil: %s styrer %s."
+msgstr "%s styrer %s."
 
 #: server/srv_main.c:1810
 #, c-format
@@ -5691,7 +5610,7 @@ msgstr "Sender info til metaserver [%s]"
 
 #: server/srv_main.c:1838
 msgid "The game is over..."
-msgstr "Spil: Spillet er forbi..."
+msgstr "Spillet er forbi..."
 
 #: server/srv_main.c:1894
 msgid "Now accepting new client connections."
@@ -5929,7 +5848,7 @@ msgstr ""
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
-"Spil: Alle kan få kommando-adgangsniveau '%s' nu ved at bruge 'firstlevel' "
+"Alle kan få kommando-adgangsniveau '%s' nu ved at bruge 'firstlevel' "
 "kommandoen."
 
 #: server/stdinhand.c:1245
@@ -6231,13 +6150,12 @@ msgid "You voted against \"%s\""
 msgstr "Du stemte imod \"%s\""
 
 #: server/stdinhand.c:2236
-#, fuzzy
 msgid ""
 "Undefined arguments. Usage: debug < diplomacy <player> | city <x> <y> | "
 "units <x> <y> | unit <id> | tech <player> | timing | info | ferries >."
 msgstr ""
 "Udefinerede argumenter. Brug: debug <diplomati <spiller> | by <x> <y> | "
-"enhed <x> <y> | enhed <id> | tech <spiller> | timing | info>."
+"enheder <x> <y> | enhed <id> | tech <spiller> | timing | info | ferries >."
 
 #: server/stdinhand.c:2243
 msgid "Can only use this command once game has begun."
@@ -6504,7 +6422,7 @@ msgstr "Brug: løs <tilslutningsnavn>"
 
 #: server/stdinhand.c:3081
 msgid "You can not detach other users."
-msgstr "Spil: Du kan ikke løsne andre brugere."
+msgstr "Du kan ikke løsne andre brugere."
 
 #: server/stdinhand.c:3090
 #, c-format
@@ -6747,7 +6665,7 @@ msgstr ", nation: %s"
 #: server/stdinhand.c:4088
 #, c-format
 msgid ", team %s"
-msgstr " hold %s"
+msgstr ", hold %s"
 
 #: server/stdinhand.c:4092
 msgid ", ready"
@@ -6761,8 +6679,8 @@ msgstr ", ikke klar"
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
-msgstr[0] "%d forbindelse:"
-msgstr[1] "%d forbindelser:"
+msgstr[0] " %d forbindelse:"
+msgstr[1] " %d forbindelser:"
 
 #: server/stdinhand.c:4108
 #, c-format
@@ -6810,13 +6728,13 @@ msgstr "Tilgængelige scenarier"
 #: server/techtools.c:110
 #, c-format
 msgid "The %s have researched %s."
-msgstr "Spil: Folkeslaget %s har opnået kundskab om %s."
+msgstr "Folkeslaget %s har opnået kundskab om %s."
 
 #: server/techtools.c:116
 #, c-format
 msgid "The %s have researched Future Tech. %d."
 msgstr ""
-"Spil: Folkeslaget %s har forsket sig frem til fremtidsteknologi nr. %d."
+"Folkeslaget %s har forsket sig frem til fremtidsteknologi nr. %d."
 
 #: server/techtools.c:168
 #, c-format
@@ -6829,28 +6747,28 @@ msgid ""
 "Discovery of %s makes the government form %s available. You may want to "
 "start a revolution."
 msgstr ""
-"Spil: Opdagelsen af %s gør styreformen %s tilgængelig. Måske ønsker du at "
+"Opdagelsen af %s gør styreformen %s tilgængelig. Måske ønsker du at "
 "starte en revolution."
 
 #: server/techtools.c:298
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
-msgstr "Spil: Opdagelsen af %s FORÆLDER %s i %s!"
+msgstr "Opdagelsen af %s FORÆLDER %s i %s!"
 
 #: server/techtools.c:348
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr "Spil: Lærte %s. Vore forskere koncentrerer sig om %s; målet er %s."
+msgstr "Lærte %s. Vore forskere koncentrerer sig om %s; målet er %s."
 
 #: server/techtools.c:366
 #, c-format
 msgid "Learned %s.  Scientists choose to research %s."
-msgstr "Spil: Lærte %s. Forskerne vælger at forske på %s."
+msgstr "Lærte %s. Forskerne vælger at forske på %s."
 
 #: server/techtools.c:373
 #, c-format
 msgid "Learned %s. "
-msgstr "Spil: Lærte %s."
+msgstr "Lærte %s. "
 
 #: server/techtools.c:376
 #, c-format
@@ -6861,126 +6779,126 @@ msgstr "Forsker på %s."
 #, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
 msgstr ""
-"Spil: Lærte %s. Forskerne ved ikke hvad der skal forskes på som det næste."
+"Lærte %s. Forskerne ved ikke hvad der skal forskes på som det næste."
 
 #: server/techtools.c:399
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Spil: Dygtige videnskabsfolk fra hele verden tilslutter sig dig; du får et "
+"Dygtige videnskabsfolk fra hele verden tilslutter sig dig: Du får et "
 "umiddelbart gennembrud."
 
 #: server/techtools.c:567
 #, c-format
 msgid "Technology goal is %s."
-msgstr "Spil: Det teknologiske mål er %s."
+msgstr "Det teknologiske mål er %s."
 
 #: server/techtools.c:695
 #, c-format
 msgid "You steal %s from the %s."
-msgstr "Spil: Du stjæler %s fra %s."
+msgstr "Du stjæler %s fra %s."
 
 #: server/techtools.c:700
 #, c-format
 msgid "The %s stole %s from you!"
-msgstr "Spil: Folkeslaget %s stjal %s fra dig!"
+msgstr "Folkeslaget %s stjal %s fra dig!"
 
 #: server/techtools.c:705
 #, c-format
 msgid "The %s have stolen %s from the %s."
-msgstr "Spil: Din %s stjal %s fra %s."
+msgstr "Din %s stjal %s fra %s."
 
 #: server/unithand.c:101
 #, c-format
 msgid "Illegal packet, can't upgrade %s (yet)."
-msgstr "Spil: Ulovlig pakke, kan ikke opgradere %s (endnu)."
+msgstr "Ulovlig pakke, kan ikke opgradere %s (endnu)."
 
 #: server/unithand.c:129
 #, c-format
 msgid "%d %s upgraded to %s for %d gold."
-msgstr "Spil: %d %s opgraderet til %s for %d guld."
+msgstr "%d %s opgraderet til %s for %d guld."
 
 #: server/unithand.c:137
 msgid "No units could be upgraded."
-msgstr "Spil: Ingen enheder kunne opgraderes."
+msgstr "Ingen enheder kunne opgraderes."
 
 #: server/unithand.c:161
 #, c-format
 msgid "%s upgraded to %s for %d gold."
-msgstr "Spil: %s opgraderet til %s for %d guld."
+msgstr "%s opgraderet til %s for %d guld."
 
 #: server/unithand.c:354
 #, c-format
 msgid "%s refuses to disband!"
-msgstr "Spil: %s nægter at opløse sig selv!"
+msgstr "%s nægter at opløse sig selv!"
 
 #: server/unithand.c:407
 msgid "Can't place city here."
-msgstr "Spil: Kan ikke placere by her."
+msgstr "Kan ikke placere by her."
 
 #: server/unithand.c:414
 #, c-format
 msgid "Only %s can build a city."
-msgstr "Spil: Kun %s kan bygge en by."
+msgstr "Kun %s kan bygge en by."
 
 #: server/unithand.c:419
 msgid "Can't build a city."
-msgstr "Spil: Kan ikke bygge en by."
+msgstr "Kan ikke bygge en by."
 
 #: server/unithand.c:428
 #, c-format
 msgid "Only %s can add to a city."
-msgstr "Spil: Kun %s kan tilføje til en by."
+msgstr "Kun %s kan tilføje til en by."
 
 #: server/unithand.c:433
 msgid "Can't add to a city."
-msgstr "Spil: Kan ikke tilføje på en by her."
+msgstr "Kan ikke tilføje på en by her."
 
 #: server/unithand.c:439
 #, c-format
 msgid "%s unit has no moves left to add to %s."
-msgstr "Spil: %s enhed har ikke flere træk at tilføje %s."
+msgstr "%s enhed har ikke flere træk at tilføje %s."
 
 #: server/unithand.c:445
 #, c-format
 msgid "%s unit has no moves left to build city."
-msgstr "Spil: %s enhed har ingen træk igen til at bygge by."
+msgstr "%s enhed har ingen træk igen til at bygge by."
 
 #: server/unithand.c:450
 #, c-format
 msgid "%s is too big to add %s."
-msgstr "Spil: %s er for stor til at tilføje %s."
+msgstr "%s er for stor til at tilføje %s."
 
 #: server/unithand.c:456
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr ""
-"Spil: %s er afhænig af en forbedring for at vokse, så du kan ikke tilføje %s."
+"%s er afhænig af en forbedring for at vokse, så du kan ikke tilføje %s."
 
 #: server/unithand.c:467
 #, c-format
 msgid "Can't add %s to %s."
-msgstr "Spil: Kan ikke tilføje %s til %s."
+msgstr "Kan ikke tilføje %s til %s."
 
 #: server/unithand.c:489
 #, c-format
 msgid "%s added to aid %s in growing."
-msgstr "Spil: %s tilføjet for at hjælpe %s med at vokse."
+msgstr "%s tilføjet for at hjælpe %s med at vokse."
 
 #: server/unithand.c:754
 #, c-format
 msgid "Your bombarding %s%s became more experienced!"
-msgstr "Spil: Din bombeenhed %s%s blev mere erfaren."
+msgstr "Din bombeenhed %s%s blev mere erfaren."
 
 #: server/unithand.c:798
 msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
-msgstr "Spil: Din atomraket blev skudt ned af SDI-forsvar. Sikke et spild."
+msgstr "Din atomraket blev skudt ned af SDI-forsvar. Sikke et spild."
 
 #: server/unithand.c:801
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
-msgstr "Spil: Atomangrebet på %s blev undgået af dit SDI-forsvar."
+msgstr "Atomangrebet på %s blev undgået af dit SDI-forsvar."
 
 #: server/unithand.c:872
 #, c-format
@@ -6988,53 +6906,53 @@ msgid ""
 "Your %s%s survived the pathetic attack from %s's %s and became more "
 "experienced!"
 msgstr ""
-"Spil: Din %s%s overlevede det ynkelige angreb fra %s %s og blev mere erfaren!"
+"Din %s%s overlevede det ynkelige angreb fra %s %s og blev mere erfaren!"
 
 #: server/unithand.c:882
 #, c-format
 msgid "Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Spil: Din %s%s overlevede det ynkelige angreb fra %ss %s."
+msgstr "Din %s%s overlevede det ynkelige angreb fra %ss %s."
 
 #: server/unithand.c:893
 #, c-format
 msgid "Your attacking %s failed against %s's %s%s!"
-msgstr "Spil: Din %s mislykkes i angrebet mod %ss %s%s!"
+msgstr "Din %s mislykkes i angrebet mod %ss %s%s!"
 
 #: server/unithand.c:970
 #, c-format
 msgid "Only %s can attack from sea."
-msgstr "Spil: Kun %s kan angribe fra havet."
+msgstr "Kun %s kan angribe fra havet."
 
 #: server/unithand.c:975
 msgid "Cannot attack from sea."
-msgstr "Spil: Kan ikke angribe fra havet."
+msgstr "Kan ikke angribe fra havet."
 
 #: server/unithand.c:980 server/unittools.c:2189
 msgid "Cannot attack unless you declare war first."
-msgstr "Spil: Kan ikke angribe hvis du ikke erklærer krig først."
+msgstr "Kan ikke angribe hvis du ikke erklærer krig først."
 
 #: server/unithand.c:983
 #, c-format
 msgid "%s can only move into your own zone of control."
-msgstr "Spil: %s kan kun bevæge sig i din kontrolzone."
+msgstr "%s kan kun bevæge sig i din kontrolzone."
 
 #: server/unithand.c:987
 #, c-format
 msgid "%s cannot move that far from the coast line."
-msgstr ""
+msgstr "%s kan ikke bevæge sig så langt væk fra kystlinjen."
 
 #: server/unithand.c:991
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot invade unless you break peace with %s first."
-msgstr "Spil: Kan ikke angribe hvis du ikke erklærer krig først."
+msgstr "Kan ikke angribe hvis du ikke først bryder freden med %s."
 
 #: server/unithand.c:1029
 msgid "This unit has no moves left."
-msgstr "Spil: Denne enhed har ingen træk igen."
+msgstr "Denne enhed har ingen træk igen."
 
 #: server/unithand.c:1083
 msgid "No diplomat action possible."
-msgstr "Spil: Ikke muligt at udføre diplomattjenester."
+msgstr "Ikke muligt at udføre diplomattjenester."
 
 #: server/unithand.c:1086
 #, c-format
@@ -7048,15 +6966,15 @@ msgstr "Du må først erklære %s krig. Prøv at bruge spillerdialogboksen (F3).
 
 #: server/unithand.c:1120
 msgid "This unit is being transported, and so cannot bombard."
-msgstr "Spil: Denne enhed er under transport og kan derfor ikke bombe."
+msgstr "Denne enhed er under transport og kan derfor ikke bombe."
 
 #: server/unithand.c:1135
 msgid "You can't attack there."
-msgstr "Spil: Du kan ikke angribe der."
+msgstr "Du kan ikke angribe der."
 
 #: server/unithand.c:1155
 msgid "This type of troops cannot take over a city."
-msgstr "Spil: Denne type enheder kan ikke overtage en by."
+msgstr "Denne type enheder kan ikke overtage en by."
 
 #: server/unithand.c:1173
 msgid "A transported unit is not allied to all units or city on target tile."
@@ -7067,31 +6985,31 @@ msgstr ""
 #: server/unithand.c:1215
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
-msgstr "Spil: Din %s hjælper med at bygge %s i %s (%d udestående)."
+msgstr "Din %s hjælper med at bygge %s i %s (%d udestående)."
 
 #: server/unithand.c:1217
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
-msgstr "Spil: Din %s hjælper med at bygge %s i %s (%d i overskud)."
+msgstr "Din %s hjælper med at bygge %s i %s (%d i overskud)."
 
 #: server/unithand.c:1261
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr ""
-"Spil: Beklager, din %s kan ikke etablere en handelsrute her da den ingen "
+"Beklager, din %s kan ikke etablere en handelsrute her da den ingen "
 "hjemby har.!"
 
 #: server/unithand.c:1271
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr ""
-"Spil: Beklager, din %s kan ikke etablere en handelsrute mellem %s og %s"
+"Beklager, din %s kan ikke etablere en handelsrute mellem %s og %s"
 
 #: server/unithand.c:1300 server/unithand.c:1318
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
-msgstr "Spil: Beklager, din %s kan ikke etablere en handelsrute her!"
+msgstr "Beklager, din %s kan ikke etablere en handelsrute her!"
 
 #: server/unithand.c:1304 server/unithand.c:1322
 #, c-format
@@ -7114,7 +7032,7 @@ msgstr ""
 #: server/unittools.c:258
 #, c-format
 msgid "%s was upgraded for free to %s%s."
-msgstr "Spil: %s blev opgraderet gratis til %s%s."
+msgstr "%s blev opgraderet gratis til %s%s."
 
 #: server/unittools.c:300
 #, c-format
@@ -7124,22 +7042,22 @@ msgstr "Ikke nok guld. %s opløst"
 #: server/unittools.c:343
 #, c-format
 msgid "Your %s has run out of hit points."
-msgstr "Spil: Din %s er løbet tør for træfkapacitet."
+msgstr "Din %s er løbet tør for træfkapacitet."
 
 #: server/unittools.c:416
 #, c-format
 msgid "Your %s has returned to refuel."
-msgstr "Spil: Din %s er returneret for brændstofpåfyldning."
+msgstr "Din %s er returneret for brændstofpåfyldning."
 
 #: server/unittools.c:447
 #, c-format
 msgid "Your %s has run out of fuel."
-msgstr "Spil: Din %s er løbet tør for brændstof."
+msgstr "Din %s er løbet tør for brændstof."
 
 #: server/unittools.c:642
 #, c-format
 msgid "Your %s became more experienced!"
-msgstr "Spil: Din %s blev mere erfaren!"
+msgstr "Din %s blev mere erfaren!"
 
 # problem
 #: server/unittools.c:873
@@ -7168,12 +7086,12 @@ msgstr " nær %s"
 #: server/unittools.c:1088
 #, c-format
 msgid "Teleported your %s to %s."
-msgstr "Spil: Teleporterede din %s til %s."
+msgstr "Teleporterede din %s til %s."
 
 #: server/unittools.c:1119
 #, c-format
 msgid "Disbanded your %s."
-msgstr "Spil: Opløste din %s."
+msgstr "Opløste din %s."
 
 #: server/unittools.c:1453
 #, c-format
@@ -7189,33 +7107,33 @@ msgstr "Tab af %s indebar at du tabte spillet! Vær mere forsigtig næste gang!"
 #: server/unittools.c:1497
 #, c-format
 msgid "%s lost when %s was lost."
-msgstr "Spil: %s gik tabt da %s gik tabt."
+msgstr "%s gik tabt da %s gik tabt."
 
 #: server/unittools.c:1565
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
-msgstr "Spil: %s undslap ødelæggelsen af %s, og flygtede til %s. "
+msgstr "%s undslap ødelæggelsen af %s, og flygtede til %s. "
 
 #: server/unittools.c:1628
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
-msgstr "Spil: Barbarleder fanget, %d guld betalt i løsepenge."
+msgstr "Barbarleder fanget, %d guld betalt i løsepenge."
 
 #: server/unittools.c:1646
 #, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "Spil: Din %s lykkedes i angrebet mod %ss %s%s og blev mere erfaren!"
+msgstr "Din %s lykkedes i angrebet mod %ss %s%s og blev mere erfaren!"
 
 #: server/unittools.c:1655
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Spil: Din %s lykkedes i angrebet mod %ss %s%s!"
+msgstr "Din %s lykkedes i angrebet mod %ss %s%s!"
 
 #: server/unittools.c:1663
 #, c-format
 msgid "%s lost to an attack by %s's %s%s."
-msgstr "Spil: %s gik tabt i et angreb fra %ss %s %s."
+msgstr "%s gik tabt i et angreb fra %ss %s %s."
 
 #: server/unittools.c:1697
 #, c-format
@@ -7226,10 +7144,10 @@ msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
 msgstr[0] ""
-"Spil: Din %s lykkedes i angrebet mod %ss %s (og %d anden enhed)%s og blev "
+"Din %s lykkedes i angrebet mod %ss %s (og %d anden enhed)%s og blev "
 "mere erfaren"
 msgstr[1] ""
-"Spil: Din %s lykkedes i angrebet mod %ss %s (og %d andre enheder)%s og blev "
+"Din %s lykkedes i angrebet mod %ss %s (og %d andre enheder)%s og blev "
 "mere erfaren"
 
 #: server/unittools.c:1710
@@ -7237,9 +7155,9 @@ msgstr[1] ""
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Spil: Din %s lykkedes i angrebet mod %ss %s (og %d anden enhed)%s!"
+msgstr[0] "Din %s lykkedes i angrebet mod %ss %s (og %d anden enhed)%s!"
 msgstr[1] ""
-"Spil: Din %s lykkedes i angrebet mod %ss %s (og %d andre enheder)%s!"
+"Din %s lykkedes i angrebet mod %ss %s (og %d andre enheder)%s!"
 
 # problem
 #. TRANS: "Cannon lost to an attack from John's
@@ -7247,7 +7165,7 @@ msgstr[1] ""
 #: server/unittools.c:1735
 #, c-format
 msgid "%s lost to an attack from %s's %s."
-msgstr "Spil: %s gik tabt i et angreb fra %ss %s."
+msgstr "%s gik tabt i et angreb fra %ss %s."
 
 # problem
 #. TRANS: "Cannon lost when John's Destroyer
@@ -7255,7 +7173,7 @@ msgstr "Spil: %s gik tabt i et angreb fra %ss %s."
 #: server/unittools.c:1744
 #, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
-msgstr "Spil: %s gik tabt da %ss %s angreb %ss %s."
+msgstr "%s gik tabt da %ss %s angreb %ss %s."
 
 # problem
 #. TRANS: "Musketeers (and Cannon) lost to an
@@ -7263,7 +7181,7 @@ msgstr "Spil: %s gik tabt da %ss %s angreb %ss %s."
 #: server/unittools.c:1759
 #, c-format
 msgid "%s (and %s) lost to an attack from %s's %s."
-msgstr "Spil: %s (og %s) gik tabt i et angreb fra %ss %s."
+msgstr "%s (og %s) gik tabt i et angreb fra %ss %s."
 
 # problem
 #. TRANS: "Musketeers and 3 other units lost to
@@ -7273,8 +7191,8 @@ msgstr "Spil: %s (og %s) gik tabt i et angreb fra %ss %s."
 #, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
-msgstr[0] "Spil: %s og %d anden enhed gik tabt i et angreb fra %ss %s."
-msgstr[1] "Spil: %s og %d andre enheder gik tabt i et angreb fra %ss %s."
+msgstr[0] "%s og %d anden enhed gik tabt i et angreb fra %ss %s."
+msgstr[1] "%s og %d andre enheder gik tabt i et angreb fra %ss %s."
 
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
@@ -7283,13 +7201,13 @@ msgstr[1] "Spil: %s og %d andre enheder gik tabt i et angreb fra %ss %s."
 #, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
-msgstr[0] "Spil: %d enhed tabt da %ss %s angreb %ss %s"
-msgstr[1] "Spil: %d enheder tabt da %ss %s angreb %ss %s"
+msgstr[0] "%d enhed tabt da %ss %s angreb %ss %s"
+msgstr[1] "%d enheder tabt da %ss %s angreb %ss %s"
 
 #: server/unittools.c:2044
 #, c-format
 msgid "Your %s was nuked by %s."
-msgstr "Spil: Din %s blev udsat for atomangreb fra %s."
+msgstr "Din %s blev udsat for atomangreb fra %s."
 
 #: server/unittools.c:2046 server/unittools.c:2062
 msgid "yourself"
@@ -7299,100 +7217,100 @@ msgstr "dig selv"
 #: server/unittools.c:2050
 #, c-format
 msgid "%s's %s was nuked."
-msgstr "Spil: %ss %s blev udsat for atomangreb."
+msgstr "%ss %s blev udsat for atomangreb."
 
 #: server/unittools.c:2060
 #, c-format
 msgid "%s was nuked by %s."
-msgstr "Spil: %s blev udsat for atomangreb fra %s."
+msgstr "%s blev udsat for atomangreb fra %s."
 
 #: server/unittools.c:2067
 #, c-format
 msgid "You nuked %s."
-msgstr "Spil: Du udførte et atomangreb mod %s."
+msgstr "Du udførte et atomangreb mod %s."
 
 #: server/unittools.c:2108
 #, c-format
 msgid "%s detonated a nuke!"
-msgstr "Spil: %s detonerede en atombombe!"
+msgstr "%s detonerede en atombombe!"
 
 #: server/unittools.c:2131
 #, c-format
 msgid "%s transported succesfully."
-msgstr "Spil: %s blev transporteret uskadt frem."
+msgstr "%s blev transporteret uskadt frem."
 
 #: server/unittools.c:2154
 msgid "This unit type can not be paradropped."
-msgstr "Spil: Denne enhed kan ikke lave faldskærmsudspring."
+msgstr "Denne enhed kan ikke lave faldskærmsudspring."
 
 #: server/unittools.c:2164
 msgid "You cannot paradrop a transporter unit."
-msgstr "Spil: Du kan ikke foretage faldskærmudspring med en transportenhed."
+msgstr "Du kan ikke foretage faldskærmudspring med en transportenhed."
 
 #: server/unittools.c:2169
 msgid "The destination location is not known."
-msgstr "Spil: Bestemmelsesstedet er ukendt."
+msgstr "Bestemmelsesstedet er ukendt."
 
 #: server/unittools.c:2178
 #, c-format
 msgid "This unit cannot paradrop into %s."
-msgstr "Spil: Denne enhed kan ikke foretage faldskærmudspring i %s."
+msgstr "Denne enhed kan ikke foretage faldskærmudspring i %s."
 
 #: server/unittools.c:2198
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr "Spil: Afstanden til målet (%i) er større end enhedens rækkevidde (%i)."
+msgstr "Afstanden til målet (%i) er større end enhedens rækkevidde (%i)."
 
 #: server/unittools.c:2209
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
-msgstr "Spil: Dine %s udførte faldskærmsudspring på %s og gik til grunde."
+msgstr "Dine %s udførte faldskærmsudspring på %s og gik til grunde."
 
 #: server/unittools.c:2222
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr "Spil: Dine %s blev dræbt af modstanderens enheder på udspringsstedet."
+msgstr "Dine %s blev dræbt af modstanderens enheder på udspringsstedet."
 
 #: server/unittools.c:2251 data/default/script.lua:16
 #, c-format
 msgid "You found %d gold."
-msgstr "Spil: Du fandt %d guld."
+msgstr "Du fandt %d guld."
 
 #: server/unittools.c:2256 data/default/script.lua:83
 msgid "An abandoned village is here."
-msgstr "Spil: En forladt landsby er her."
+msgstr "En forladt landsby er her."
 
 #: server/unittools.c:2263 data/default/script.lua:93
 #, c-format
 msgid "Your %s has been killed by barbarians!"
-msgstr "Spil: Dine %s er blevet dræbt af barbarer."
+msgstr "Dine %s er blevet dræbt af barbarer."
 
 #: server/unittools.c:2287
 msgid "Your overflight frightens the tribe; they scatter in terror."
-msgstr "Spil: Din overflyvning skræmmer stammen; de spreder sig i frygt."
+msgstr "Din overflyvning skræmmer stammen; de spreder sig i frygt."
 
 #: server/unittools.c:2515
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
-"Spil: Ordre for %s blev afbrudt efter at fjendens bevægelser blev opdaget."
+"Ordre for %s blev afbrudt efter at fjendens bevægelser blev opdaget."
 
 #: server/unittools.c:2952
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
-msgstr "Spil: Ordre for %s blev afbrudt, da der er enheder i vejen."
+msgstr "Ordre for %s blev afbrudt, da der er enheder i vejen."
 
 #: server/unittools.c:3004
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
-"Spil: Ordre for %s blev afbrudt på grund af, at bygningen af byen ikke "
+"Ordre for %s blev afbrudt på grund af, at bygningen af byen ikke "
 "lykkedes."
 
 #: server/unittools.c:3020
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
-msgstr "Spil: Ordre for %s afbrudt, da de medfører en ugyldig aktivitet."
+msgstr "Ordre for %s afbrudt, da de medfører en ugyldig aktivitet."
 
 #: server/unittools.c:3039
 #, c-format
@@ -7402,7 +7320,7 @@ msgstr "Ordre for %s afbrudt, da de medfører en ugyldig placering."
 #: server/unittools.c:3049
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
-msgstr "Spil: Ordre for %s afbrudt da der er enheder i vejen."
+msgstr "Ordre for %s afbrudt da der er enheder i vejen."
 
 #: server/unittools.c:3075
 #, c-format
@@ -7412,7 +7330,7 @@ msgstr "Ordre for %s afbrudt da bevægelse ikke kunne gennemføres."
 #: server/unittools.c:3116
 #, c-format
 msgid "Attempt to change homecity for %s failed."
-msgstr "Spil: Forsøg på at ændre hjembyen for %s mislykkedes."
+msgstr "Forsøg på at ændre hjembyen for %s mislykkedes."
 
 #: server/unittools.c:3127
 #, c-format
@@ -7427,7 +7345,7 @@ msgstr "Forsøg på at bygge vidunder for %s mislykkedes."
 #: server/unittools.c:3148
 #, c-format
 msgid "Your %s has invalid orders."
-msgstr "Spil: Din %s har ugyldige ordre."
+msgstr "Din %s har ugyldige ordre."
 
 #: server/generator/mapgen.c:1739
 msgid "High landmass - this may take a few seconds."
@@ -7826,14 +7744,12 @@ msgid "Number of units supported"
 msgstr "Antal enheder understøttet"
 
 #: client/cityrepdata.c:477
-#, fuzzy
 msgid "?food (population):Grow"
-msgstr "Voks"
+msgstr "?food (befolkning):Voks"
 
 #: client/cityrepdata.c:478 client/cityrepdata.c:524
-#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
-msgstr "(opsamlet/mål)"
+msgstr "?Stock/Target:(opsamlet/mål)"
 
 #: client/cityrepdata.c:479
 msgid "Turns until growth/famine"
@@ -7982,9 +7898,8 @@ msgid "Citizen Governor"
 msgstr "Byleder"
 
 #: client/cityrepdata.c:519
-#, fuzzy
 msgid "Turns/Buy"
-msgstr "runder/købspris"
+msgstr "Runder/købspris"
 
 #: client/cityrepdata.c:523 client/cityrepdata.c:525
 msgid "Currently Building"
@@ -7995,9 +7910,9 @@ msgid "?specialist:S"
 msgstr "?specialist:S"
 
 #: client/cityrepdata.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "Specialists: %s"
-msgstr "Specialister"
+msgstr "Specialister: %s"
 
 #: client/civclient.c:198
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -8082,7 +7997,7 @@ msgstr "Der opstod en fejl under automatisk tilslutning, afbryder."
 #: client/climisc.c:176
 #, c-format
 msgid "Changing production of every %s into %s."
-msgstr "Spil: Ændrer produktion for alle %s til %s."
+msgstr "Ændrer produktion for alle %s til %s."
 
 #: client/climisc.c:214
 msgid "?embassy:Both"
@@ -8182,12 +8097,12 @@ msgstr "Eksport fejlede, kunne ikke skrive til fil."
 #: client/climisc.c:1040
 #, c-format
 msgid "You don't buy %s in %s!"
-msgstr "Spil: Du køber ikke %s i %s!"
+msgstr "Du køber ikke %s i %s!"
 
 #: client/climisc.c:1058
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
-msgstr "Spil: %s koster %d guld og du har kun %d guld."
+msgstr "%s koster %d guld og du har kun %d guld."
 
 #: client/clinet.c:143
 msgid "Lost connection to server!"
@@ -8264,31 +8179,31 @@ msgstr "Vi kan ikke få kontrol med serveren, forsøget at slå den ned."
 
 #: client/control.c:1067
 msgid "Only transporter units can be unloaded."
-msgstr "Spil: Kun transportenheder kan aflastes."
+msgstr "Kun transportenheder kan aflastes."
 
 #: client/control.c:1314
 msgid "Only settler units can be put into auto mode."
-msgstr "Spil: Kun nybyggere kan placeres i autotilstand."
+msgstr "Kun nybyggere kan placeres i autotilstand."
 
 #: client/control.c:1405
 msgid "Only nuclear units can do this."
-msgstr "Spil: Kun atombombe-enheder kan gøre dette."
+msgstr "Kun atombombe-enheder kan gøre dette."
 
 #: client/control.c:1434
 msgid "Only paratrooper units can do this."
-msgstr "Spil: Kun faldskærmsjægere kan gøre dette."
+msgstr "Kun faldskærmsjægere kan gøre dette."
 
 #: client/control.c:1884
 msgid "Too far for this unit."
-msgstr "Spil: For langt for denne enhed."
+msgstr "For langt for denne enhed."
 
 #: client/control.c:2098 client/control.c:2132 client/control.c:2152
 msgid "Didn't find a route to the destination!"
-msgstr "Spil: Fandt ingen rute til målet."
+msgstr "Fandt ingen rute til målet."
 
 #: client/control.c:2194
 msgid "Oh my! You seem to have no capital!"
-msgstr "Spil: Jammen dog! Det ser ud til at du ikke har nogen hovedstad!"
+msgstr "Jammen dog! Det ser ud til at du ikke har nogen hovedstad!"
 
 #: client/helpdata.c:120
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -8394,9 +8309,11 @@ msgid ""
 "Requires AI player of level %s.\n"
 "\n"
 msgstr ""
+"Kræver computerspiller på niveau %s.\n"
+"\n"
 
 #: client/helpdata.c:222
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires %s terrain.\n"
 "\n"
@@ -8501,9 +8418,9 @@ msgid "* May not be built in cities.\n"
 msgstr "* Kan ikke bygges i byer.\n"
 
 #: client/helpdata.c:819
-#, fuzzy, c-format
+#, c-format
 msgid "* Only barbarians may build this.\n"
-msgstr "Spil: Kun faldskærmsjægere kan gøre dette."
+msgstr "* Kun barbarer kan bygge denne.\n"
 
 #: client/helpdata.c:822
 #, c-format
@@ -9677,27 +9594,27 @@ msgstr "Solgt %d %s for %d guld."
 #: client/repodlgs_common.c:357
 #, c-format
 msgid "No %s could be sold."
-msgstr "Spil: Ingen %s kunne sælges."
+msgstr "Ingen %s kunne sælges."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:376
 msgid "You cannot disband units."
-msgstr "Spil: Du kan ikke opløse enheder."
+msgstr "Du kan ikke opløse enheder."
 
 #: client/repodlgs_common.c:381
 #, c-format
 msgid "%s cannot be disbanded."
-msgstr "Spil: %s kan ikke opløses."
+msgstr "%s kan ikke opløses."
 
 #: client/repodlgs_common.c:402
 #, c-format
 msgid "Disbanded %d %s."
-msgstr "Spil: Opløste %d%s."
+msgstr "Opløste %d%s."
 
 #: client/repodlgs_common.c:406
 #, c-format
 msgid "No %s could be disbanded."
-msgstr "Spil: Ingen %s kunne opløses."
+msgstr "Ingen %s kunne opløses."
 
 #: client/servers.c:345
 msgid "Could not open temp file."
@@ -10097,7 +10014,7 @@ msgstr[1] "%d enheder valgt"
 
 #: client/text.c:716 client/gui-sdl/mapview.c:571
 msgid "No units selected."
-msgstr "Spil: Ingen enheder valgt."
+msgstr "Ingen enheder valgt."
 
 #: client/text.c:790 client/gui-sdl/mapview.c:644
 #, c-format
@@ -10116,11 +10033,11 @@ msgstr "Andre: %d militær"
 
 #: client/text.c:825
 msgid "No units to upgrade!"
-msgstr "Spil: Ingen enheder kunne opgraderes!"
+msgstr "Ingen enheder kunne opgraderes!"
 
 #: client/text.c:850
 msgid "None of these units may be upgraded."
-msgstr "Spil: Ingen enheder kan opgraderes."
+msgstr "Ingen enheder kan opgraderes."
 
 #: client/text.c:856
 #, c-format
@@ -10302,34 +10219,30 @@ msgid "No usable default tileset found, aborting!"
 msgstr "Intet brugbart standardfeltsæt fundet, afbryder!"
 
 #: client/tilespec.c:899
-#, fuzzy, c-format
+#, c-format
 msgid "Loading tileset \"%s\"."
-msgstr "Indlæser regelsæt"
+msgstr "Indlæser regelsæt \"%s\"."
 
 #: client/tilespec.c:1333
-#, fuzzy
 msgid "Client does not support isometric tilesets."
-msgstr ""
-"Klienten understøtter ikke isometrisk grafik. Bruger almindelig grafik."
+msgstr "Klienten understøtter ikke isometrisk grafik."
 
 #: client/tilespec.c:1334 client/tilespec.c:1343
 msgid "Using default tileset instead."
-msgstr ""
+msgstr "Bruger almindelig grafik."
 
 #: client/tilespec.c:1342
-#, fuzzy
 msgid "Client does not support overhead view tilesets."
-msgstr ""
-"Klienten understøtter ikke grafik sæt ovenfra. Benytter standard grafik."
+msgstr "Klienten understøtter ikke grafik sæt ovenfra."
 
 #: client/tilespec.c:4177
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug at %s"
 msgstr ""
 "Veje længere end 99 runder er ikke understøttet.\n"
-"Meld denne fejl til bugs@freeciv.org."
+"Meld denne fejl til %s"
 
 #: client/agents/cma_core.c:398
 #, c-format
@@ -10627,13 +10540,12 @@ msgid "clear all"
 msgstr "slet alle"
 
 #: client/gui-gtk-2.0/editdlg.c:76
-#, fuzzy
 msgid "Known"
-msgstr "Ukendt"
+msgstr "Kendt"
 
 #: client/gui-gtk-2.0/editdlg.c:78
 msgid "Toggle"
-msgstr ""
+msgstr "Til/fra"
 
 #: client/gui-gtk-2.0/editdlg.c:82
 msgid "Paint"
@@ -11413,7 +11325,7 @@ msgstr "--- Denne traktat er tom. Venligst tilføj klausuler. ---"
 #: client/gui-sdl/diplodlg.c:369 client/gui-win32/diplodlg.c:263
 #: client/gui-xaw/diplodlg.c:949
 msgid "Invalid amount of gold specified."
-msgstr "Spil: Ugyldig mængde guld specificeret."
+msgstr "Ugyldig mængde guld specificeret."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-mui/finddlg.c:95
 #: client/gui-sdl/finddlg.c:127 client/gui-sdl/mapctrl.c:1589
@@ -11674,9 +11586,9 @@ msgstr "Un_dlad at observere"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1591
-#, fuzzy, c-format
+#, c-format
 msgid "<%s AI>"
-msgstr "<Nem AI>"
+msgstr "<%s computer>"
 
 #: client/gui-gtk-2.0/gui_main.c:1600 client/gui-win32/dialogs.c:599
 msgid "Random"
@@ -13148,16 +13060,15 @@ msgstr "Opskydning"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
-msgstr ""
+msgstr "Foreslået tema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
-#, fuzzy
 msgid "Load theme"
-msgstr "Fortsæt et spil"
+msgstr "Hent tema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
-msgstr ""
+msgstr "Behold nuværende tema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:69
 #, c-format
@@ -13165,19 +13076,20 @@ msgid ""
 "Tileset suggests using %s theme.\n"
 "You are currently using %s."
 msgstr ""
+"Feltsæt anbefaler brug af temaet %s.\n"
+"Du anvender for nuværende %s."
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
 msgid "Prefered tileset"
-msgstr ""
+msgstr "Anbefalet feltsæt"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
-#, fuzzy
 msgid "Load tileset"
-msgstr "Genindlæs feltsæt"
+msgstr "Hent feltsæt"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:56
 msgid "Keep current tileset"
-msgstr ""
+msgstr "Behold nuværende feltsæt"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
@@ -14328,7 +14240,7 @@ msgstr "Vært"
 #: client/gui-mui/plrdlg.c:255 client/gui-win32/plrdlg.c:72
 #: client/gui-xaw/plrdlg.c:366
 msgid "You need an embassy to establish a diplomatic meeting."
-msgstr "Spil: Du behøver en ambassade for at have et diplomatisk møde."
+msgstr "Du behøver en ambassade for at have et diplomatisk møde."
 
 #: client/gui-mui/repodlgs.c:129 client/gui-mui/repodlgs.c:355
 #, c-format
@@ -14629,14 +14541,12 @@ msgstr ""
 "nybygger på størrelse 1"
 
 #: client/gui-sdl/citydlg.c:1176
-#, fuzzy
 msgid "Sorry, You have already bought here in this turn."
-msgstr "Spil: Beklager, du har allerede købt i denne runde."
+msgstr "Beklager, du har allerede købt her i denne runde."
 
 #: client/gui-sdl/citydlg.c:1179
-#, fuzzy
 msgid "Sorry, You can't buy here in this turn."
-msgstr "Spil: Beklager, du har allerede købt i denne runde."
+msgstr "Beklager, du kan ikke købe her i denne runde."
 
 #: client/gui-sdl/citydlg.c:1183
 msgid "Buy It?"
@@ -14813,7 +14723,7 @@ msgstr "Vedligeholdelsesoversigt"
 
 #: client/gui-sdl/citydlg.c:3735
 msgid "Garrison panel"
-msgstr "Spil: Garrisonsoversigt"
+msgstr "Garrisonsoversigt"
 
 #: client/gui-sdl/citydlg.c:3759
 msgid "Information panel"
@@ -14866,7 +14776,7 @@ msgstr "Side for lykke"
 
 #: client/gui-sdl/cityrep.c:235
 msgid "Garrison Report"
-msgstr "Spil: Garrisonsrapport"
+msgstr "Garrisonsrapport"
 
 #: client/gui-sdl/cityrep.c:246
 msgid "Maintenance Report"
@@ -14923,13 +14833,12 @@ msgid "Creating Server List..."
 msgstr "Skaber server liste..."
 
 #: client/gui-sdl/connectdlg.c:279 client/gui-sdl/connectdlg.c:343
-#, fuzzy
 msgid "No LAN servers found"
-msgstr "LAN-servere"
+msgstr "Ingen LAN-servere lokaliseret"
 
 #: client/gui-sdl/connectdlg.c:281 client/gui-sdl/connectdlg.c:345
 msgid "No public servers found"
-msgstr ""
+msgstr "Ingen offentlige servere lokaliseret"
 
 #: client/gui-sdl/connectdlg.c:555
 msgid "Player Name :"
@@ -15081,12 +14990,12 @@ msgid "Foreign Minister"
 msgstr "Udenrigsminister"
 
 #: client/gui-sdl/diplodlg.c:1442
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
-"Hr.!, %s ambassadør er ankommet\n"
+"Hr.!, %s ambassadøren er ankommet\n"
 "Hvad er dine ønsker?"
 
 #: client/gui-sdl/diplodlg.c:1458
@@ -15310,11 +15219,10 @@ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
 msgstr "Fejl i unload_font: Trying unload fra tom font ARRAY"
 
 #: client/gui-sdl/gui_string.c:684
-#, fuzzy
 msgid ""
 "Error in unload_font: Trying unload Font which is not included in Font ARRAY"
 msgstr ""
-"Fejl i unload_font: Trying unload Font som ikke er inkluderet i Font ARRAY"
+"Fejl i unload_font: Forsøger med unload Font som ikke er inkluderet i Font ARRAY"
 
 #. TRANS: Future Technology
 #: client/gui-sdl/gui_tilespec.c:504
@@ -15322,7 +15230,6 @@ msgid "FT"
 msgstr "FT"
 
 #: client/gui-sdl/helpdlg.c:199
-#, fuzzy
 msgid "Help : Improvements"
 msgstr "Hjælp : Forbedringer"
 
@@ -15360,9 +15267,8 @@ msgstr[0] "Guld"
 msgstr[1] "Guld"
 
 #: client/gui-sdl/helpdlg.c:966
-#, fuzzy
 msgid "( with "
-msgstr " (som "
+msgstr "( med "
 
 #: client/gui-sdl/helpdlg.c:969
 msgid " )"
@@ -15373,7 +15279,7 @@ msgid "Help : Advances Tree"
 msgstr "Hjælp : Forskningstræ"
 
 #: client/gui-sdl/inteldlg.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Information about the %s Spaceship"
 msgstr "Efterretningsinfo om %s rumskib"
 
@@ -15424,12 +15330,10 @@ msgid "Hide MiniMap"
 msgstr "Skjul minikortet"
 
 #: client/gui-sdl/mapctrl.c:514
-#, fuzzy
 msgid "Show Messages (F10)"
 msgstr "Vis log (F10)"
 
 #: client/gui-sdl/mapctrl.c:517
-#, fuzzy
 msgid "Hide Messages (F10)"
 msgstr "Skjul log (F10)"
 
@@ -15463,7 +15367,6 @@ msgstr "Højde"
 
 #: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:331
 #: client/gui-sdl/mapview.c:334 client/gui-sdl/mapview.c:339
-#, fuzzy
 msgid "Research"
 msgstr "Forsker på"
 
@@ -15473,19 +15376,16 @@ msgid "Revolution"
 msgstr "Revolution"
 
 #: client/gui-sdl/mapctrl.c:1589
-#, fuzzy
 msgid "or"
-msgstr " eller "
+msgstr "eller"
 
 #: client/gui-sdl/mapctrl.c:1613
-#, fuzzy
 msgid "Hide Messages"
-msgstr "Beskeder"
+msgstr "Skjul beskeder"
 
 #: client/gui-sdl/mapctrl.c:1623
-#, fuzzy
 msgid "Toggle Minimap Mode"
-msgstr "Ændr minikort indstilling (Shift + \\)"
+msgstr "Ændr minikort indstilling"
 
 #: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2164
 #: client/gui-sdl/pages.c:230 data/Freeciv.in:1217
@@ -15493,15 +15393,15 @@ msgid "Options"
 msgstr "Indstillinger"
 
 #: client/gui-sdl/mapview.c:154
-#, c-format, fuzzy
+#, c-format,
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
 "report it at %s. Thank you."
 msgstr ""
-"SDL event bufferen er opbrugt; du får måske tegne fejl\n"
+"SDL event bufferen er opbrugt; du får måske tegnefejl\n"
 "Hvis du ser denne besked ofte så rapporter den til \n"
-"%s."
+"%s. På forhånd tak."
 
 #: client/gui-sdl/mapview.c:404
 #, c-format
@@ -15602,11 +15502,8 @@ msgstr ""
 "Mad/Prod/Handel: %s"
 
 #: client/gui-sdl/mapview.c:1077
-#, fuzzy
 msgid "End of Turn"
-msgstr ""
-"Slut på runde\n"
-"(Tryk Enter)"
+msgstr "Slut på runde"
 
 #: client/gui-sdl/mapview.c:1077
 #, fuzzy
@@ -15619,9 +15516,8 @@ msgid "No orders"
 msgstr "Ingen ordrer"
 
 #: client/gui-sdl/menu.c:359
-#, fuzzy
 msgid "Space"
-msgstr "Krydder"
+msgstr "Rummet"
 
 #: client/gui-sdl/menu.c:398
 msgid "Diplomat|Spy Actions"
@@ -15647,14 +15543,12 @@ msgid "Connect irrigation"
 msgstr "Forbind/Overrisling"
 
 #: client/gui-sdl/menu.c:510
-#, fuzzy
 msgid "Connect road"
 msgstr "Kobl til/vej"
 
 #: client/gui-sdl/menu.c:523
-#, fuzzy
 msgid "Connect railroad"
-msgstr "Kobl til/vej"
+msgstr "Kobl til/jernbane"
 
 #: client/gui-sdl/menu.c:536
 msgid "Auto-Explore"
@@ -15834,28 +15728,23 @@ msgstr "LAN-servere"
 
 #: client/gui-sdl/pages.c:297
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "SDLClient byder dig velkommen..."
 
 #: client/gui-sdl/pages.c:298
-#, fuzzy
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
 "Freeciv er et frit program, og du er velkommen til at distribuere kopier af "
-"det under bestemte betingelser - se punktet \"kopiering\" i menuen \"hjælp"
-"\". Kontakt venligst <dansk@klid.dk> vedrørende oversættelsen til dansk (f."
-"eks. i tilfælde af fejl).\n"
-"\n"
-"Og giv dem så tørt på!"
+"det under bestemte betingelser;"
 
 #: client/gui-sdl/pages.c:301
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr "Se punktet \"Kopiering\" i hjælpemenuen."
 
 #: client/gui-sdl/pages.c:303
 msgid "Now.. Go give'em hell!"
-msgstr ""
+msgstr "Og giv dem så tørt på!"
 
 #: client/gui-sdl/plrdlg.c:602
 msgid "Nations"
@@ -15894,7 +15783,7 @@ msgid "Units Report"
 msgstr "Byrapport"
 
 #: client/gui-sdl/repodlgs.c:1500
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "We have %d of %s\n"
 "(total value is : %d)\n"
@@ -15902,12 +15791,12 @@ msgid ""
 msgstr ""
 "Vi har %d af %s\n"
 "(total værdi er : %d)\n"
-"Vi kan sælge %d af dem for %d guld"
+"Vi kan sælge %d af dem for %d guld."
 
 #: client/gui-sdl/repodlgs.c:1507
-#, fuzzy, c-format
+#, c-format
 msgid "We can't sell any %s in this turn."
-msgstr "Vi kan ikke sælge %s i denne runde"
+msgstr "Vi kan ikke en/et %s i denne runde"
 
 #: client/gui-sdl/repodlgs.c:1743
 msgid "Economy Report"
@@ -15948,7 +15837,6 @@ msgid "What should we focus on now?"
 msgstr "Hvad skal vi fokusere på nu?"
 
 #: client/gui-sdl/repodlgs.c:3029
-#, fuzzy
 msgid "Select target :"
 msgstr "Vælg mål :"
 
@@ -16261,15 +16149,15 @@ msgstr "Tilgængelig for bygning"
 
 #: client/gui-win32/cityrep.c:683
 msgid "Select a unit or improvement to change production from."
-msgstr "Spil: Vælg en enhed eller forbedring at ændre produktion i."
+msgstr "Vælg en enhed eller forbedring at ændre produktion i."
 
 #: client/gui-win32/cityrep.c:692
 msgid "Select a unit or improvement to change production to."
-msgstr "Spil: Vælg en enhed eller forbedring at ændre produktion i."
+msgstr "Vælg en enhed eller forbedring at ændre produktion i."
 
 #: client/gui-win32/cityrep.c:698
 msgid "That's the same thing!"
-msgstr "Spil: Det er den samme ting!"
+msgstr "Det er den samme ting!"
 
 #: client/gui-win32/cityrep.c:733 data/Freeciv.in:1739
 msgid "Change Production Everywhere"
@@ -17402,19 +17290,16 @@ msgid "  Present administrators: "
 msgstr "  Nuværende administratorer: "
 
 #: data/helpdata.txt:56
-#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
 "  http://bugs.freeciv.org/"
 msgstr ""
-"Hvis du finder en fejl, så send os venligst en rapport. Dette gøres mest "
+"Hvis du finder en fejl, så send os venligst en rapport.  Dette gøres mest "
 "hensigtsmæssig ved at besøge Freeciv Bug Tracking System, på:\n"
 "\n"
-"  http://bugs.freeciv.org/\n"
-"\n"
-"eller ved at sende epost til:  bugs@cvs.freeciv.org"
+"  http://bugs.freeciv.org/"
 
 #: data/helpdata.txt:61
 msgid ""
@@ -21356,31 +21241,31 @@ msgstr ""
 #: data/default/script.lua:27
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr "Spil: Du fandt %s i ældgamle skriftruller med viden."
+msgstr "Du fandt %s i ældgamle skriftruller med viden."
 
 #: data/default/script.lua:30
 #, fuzzy, c-format
 msgid ""
 "The %s have acquired %s from ancient scrolls of                      wisdom."
-msgstr "Spil: %s har tilegnet sig %s fra ældgamle skriftruller med viden."
+msgstr "%s har tilegnet sig %s fra ældgamle skriftruller med viden."
 
 #: data/default/script.lua:49
 msgid "A band of friendly mercenaries joins your cause."
-msgstr "Spil: En gruppe venligtsindede lejesoldater slutter sig til dig."
+msgstr "En gruppe venligtsindede lejesoldater slutter sig til dig."
 
 #: data/default/script.lua:65
 msgid "You found a friendly city."
-msgstr "Spil: Du fandt en venligtsindet by."
+msgstr "Du fandt en venligtsindet by."
 
 #: data/default/script.lua:69
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
-"Spil: Venligtsindede nomader er imponerede af din kunnen og slutter sig til "
+"Venligtsindede nomader er imponerede af din kunnen og slutter sig til "
 "dig."
 
 #: data/default/script.lua:90
 msgid "You have unleashed a horde of barbarians!"
-msgstr "Spil: Du er blevet overrasket af fjendtlige barbarer!"
+msgstr "Du er blevet overrasket af fjendtlige barbarer!"
 
 #: data/default/techs.ruleset:53 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -21663,7 +21548,7 @@ msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
-"Spil: Kloge filosofer fra hele verden flytter til din civilisation; du får "
+"Kloge filosofer fra hele verden flytter til din civilisation; du får "
 "et umiddelbart gennembrud."
 
 #: data/default/techs.ruleset:531 data/civ2/techs.ruleset:528
@@ -23266,9 +23151,8 @@ msgstr "Khan"
 #: data/nation/azeri.ruleset:40 data/nation/kazakh.ruleset:26
 #: data/nation/kyrgyz.ruleset:25 data/nation/tajik.ruleset:23
 #: data/nation/turkmen.ruleset:22 data/nation/uzbek.ruleset:27
-#, fuzzy
 msgid "Khatan"
-msgstr "Khagan"
+msgstr "Khatan"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
 #: data/nation/persian.ruleset:21
@@ -23415,14 +23299,12 @@ msgstr ""
 "kongedømmer."
 
 #: data/nation/belarusian.ruleset:3
-#, fuzzy
 msgid "Belarusian"
-msgstr "Bulgarer"
+msgstr "Hviderusser"
 
 #: data/nation/belarusian.ruleset:4
-#, fuzzy
 msgid "?plural:Belarusians"
-msgstr "?plural:Bulgarierne"
+msgstr "?plural:Hviderusserne"
 
 #: data/nation/belarusian.ruleset:6
 msgid ""
@@ -23674,14 +23556,12 @@ msgid "Sayama"
 msgstr "Sayama"
 
 #: data/nation/burundi.ruleset:3
-#, fuzzy
 msgid "Burundi"
-msgstr "Buruzagi"
+msgstr "Burundi"
 
 #: data/nation/burundi.ruleset:4
-#, fuzzy
 msgid "?plural:Burundi"
-msgstr "?plural:Briterne"
+msgstr "?plural:Burundierne"
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -23695,14 +23575,12 @@ msgstr ""
 #. TRANS: Mwami/Mwamikazi = King/Queen
 #. TRANS: Mwami = King
 #: data/nation/burundi.ruleset:28 data/nation/rwandan.ruleset:23
-#, fuzzy
 msgid "Mwami"
-msgstr "Mama"
+msgstr "Mwami"
 
 #: data/nation/burundi.ruleset:28
-#, fuzzy
 msgid "Mwamikazi"
-msgstr "Malikta"
+msgstr "Mwamikazi"
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
@@ -23960,14 +23838,12 @@ msgid "Dowager"
 msgstr "Dowager"
 
 #: data/nation/chola.ruleset:3
-#, fuzzy
 msgid "Chola"
-msgstr "Kul"
+msgstr "Chola"
 
 #: data/nation/chola.ruleset:4
-#, fuzzy
 msgid "?plural:Cholas"
-msgstr "?plural:Chilenerne"
+msgstr "?plural:Cholaserne"
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -24061,14 +23937,12 @@ msgid "?female:Chieftain"
 msgstr "?female:Chieftain"
 
 #: data/nation/cree.ruleset:3
-#, fuzzy
 msgid "Cree"
-msgstr "grøn"
+msgstr "Cree"
 
 #: data/nation/cree.ruleset:4
-#, fuzzy
 msgid "?plural:Cree"
-msgstr "?plural:Grækerne"
+msgstr "?plural:Cree'erne"
 
 #: data/nation/cree.ruleset:7
 msgid ""
@@ -24082,21 +23956,21 @@ msgstr ""
 #. TRANS: Uchimaahkaaniskweu = Chief's wife
 #: data/nation/cree.ruleset:21
 msgid "Uchimaahkaan"
-msgstr ""
+msgstr "Uchimaahkaan"
 
 #: data/nation/cree.ruleset:21
 msgid "Uchimaahkaaniskweu"
-msgstr ""
+msgstr "Uchimaahkaaniskweu"
 
 #. TRANS: Chihchiuchimaau = King
 #. TRANS: Chihchiuchimaaskweu = Queen
 #: data/nation/cree.ruleset:24
 msgid "Chihchiuchimaau"
-msgstr ""
+msgstr "Chihchiuchimaau"
 
 #: data/nation/cree.ruleset:24
 msgid "Chihchiuchimaaskweu"
-msgstr ""
+msgstr "Chihchiuchimaaskweu"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -24272,14 +24146,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/emirati.ruleset:26 data/nation/kurd.ruleset:26
-#, fuzzy
 msgid "Sheikh"
-msgstr "Svensker"
+msgstr "Sheikh"
 
 #: data/nation/emirati.ruleset:26
-#, fuzzy
 msgid "Sheikhah"
-msgstr "Shah"
+msgstr "Sheikhah"
 
 #: data/nation/english.ruleset:3
 msgid "English"
@@ -25605,19 +25477,16 @@ msgid ""
 msgstr ""
 
 #: data/nation/mapuche.ruleset:19
-#, fuzzy
 msgid "Toqui"
-msgstr "Irokeser"
+msgstr "Toqui"
 
 #: data/nation/mapuche.ruleset:20
-#, fuzzy
 msgid "Lonko"
-msgstr "Lås"
+msgstr "Lonko"
 
 #: data/nation/mapuche.ruleset:21
-#, fuzzy
 msgid "Machi"
-msgstr "Marts"
+msgstr "Machi"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -25659,12 +25528,11 @@ msgstr "?female:Ajaw"
 #. TRANS: Ah kin = Priest
 #: data/nation/mayan.ruleset:22
 msgid "Ah kin"
-msgstr ""
+msgstr "Ah kin"
 
 #: data/nation/mayan.ruleset:22
-#, fuzzy
 msgid "?female:Ah kin"
-msgstr "?female:Khan"
+msgstr "?female:Ah kin"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -25709,11 +25577,11 @@ msgstr "Doamna"
 
 #: data/nation/moldovan.ruleset:24
 msgid "Gospodar"
-msgstr ""
+msgstr "Gospodar"
 
 #: data/nation/moldovan.ruleset:24
 msgid "Gospodarynya"
-msgstr ""
+msgstr "Gospodarynya"
 
 #. TRANS: Tovaras/Tovarasa = Comrade
 #: data/nation/moldovan.ruleset:26 data/nation/romanian.ruleset:38
@@ -25820,7 +25688,7 @@ msgstr ""
 #. TRANS: translates as the Great leader
 #: data/nation/northkorean.ruleset:22
 msgid "Widaehan suryong"
-msgstr ""
+msgstr "Widaehan suryong"
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
@@ -25909,14 +25777,13 @@ msgstr ""
 
 #. TRANS: Chaabat = Chief
 #: data/nation/nuu-chah-nulth.ruleset:25
-#, fuzzy
 msgid "Chaabat"
-msgstr "_Snak"
+msgstr "Chaabat"
 
 #. TRANS: Ha'wiih = Hereditary Chief
 #: data/nation/nuu-chah-nulth.ruleset:27
 msgid "Ha'wiih"
-msgstr ""
+msgstr "Ha'wiih"
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -25960,20 +25827,20 @@ msgid "Imparator"
 msgstr "imperator"
 
 #: data/nation/pakistani.ruleset:3
-#, fuzzy
 msgid "Pakistani"
-msgstr "Partisaner"
+msgstr "Pakistani"
 
 #: data/nation/pakistani.ruleset:4
-#, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "?plural:Lojbanistanierne"
+msgstr "?plural:Pakistanerne"
 
 #: data/nation/pakistani.ruleset:6
 msgid ""
 "The Federation of Pakistan was formed from the predominantly Muslim regions "
 "of British India in 1947."
 msgstr ""
+"Føderationen Pakistan blev dannet af den hovedsagelig muslimske del af det "
+"britiske Indien i 1947."
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
@@ -26008,14 +25875,12 @@ msgstr ""
 "- 642 e.Kr."
 
 #: data/nation/peruvian.ruleset:3
-#, fuzzy
 msgid "Peruvian"
-msgstr "Perser"
+msgstr "Peruianer"
 
 #: data/nation/peruvian.ruleset:4
-#, fuzzy
 msgid "?plural:Peruvians"
-msgstr "?plural:Perserne"
+msgstr "?plural:Peruianerne"
 
 #: data/nation/peruvian.ruleset:6
 msgid ""
@@ -26024,9 +25889,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/peruvian.ruleset:25
-#, fuzzy
 msgid "Protector"
-msgstr "Lord Protector"
+msgstr "Protector"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -26060,17 +25924,15 @@ msgstr "Krigere"
 
 #: data/nation/phoenician.ruleset:29
 msgid "Suffet"
-msgstr ""
+msgstr "Suffet"
 
 #: data/nation/pirate.ruleset:3
-#, fuzzy
 msgid "Pirate"
-msgstr "Flybase"
+msgstr "Pirat"
 
 #: data/nation/pirate.ruleset:4
-#, fuzzy
 msgid "?plural:Pirates"
-msgstr "?plural:Portugiserne"
+msgstr "?plural:Piraterne"
 
 #: data/nation/pirate.ruleset:5
 msgid ""
@@ -26675,12 +26537,11 @@ msgstr "?female:Konsul"
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
-msgstr ""
+msgstr "Sri Vijaya"
 
 #: data/nation/srivijaya.ruleset:4
-#, fuzzy
 msgid "?plural:Sri Vijaya"
-msgstr "?plural:Mayaerne"
+msgstr "?plural:Sri Vijaya'erne"
 
 #: data/nation/srivijaya.ruleset:7
 msgid ""
@@ -26692,9 +26553,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/srivijaya.ruleset:21
-#, fuzzy
 msgid "Datu"
-msgstr "Status"
+msgstr "Datu"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -27470,6 +27330,12 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
+"Velkommen til Freeciv.  Du er leder af en civilisation.  \n"
+"Din opgave er at erobre verden!  Du bør starte med at\n"
+"udforske landet omkring dig med din spejder,\n"
+"og brug din bosætter til at finde et godt sted at\n"
+"bygge en by.  Brug det numeriske tastatur til at flytte\n"
+"enheder omkring med."
 
 #: data/scenario/tutorial.sav:34
 msgid ""
@@ -27480,6 +27346,12 @@ msgid ""
 "is the most important resource for any city.  Grassland and plains\n"
 "provide plenty of food."
 msgstr ""
+"Dette ligner et godt sted at bygge en by.  Næste gang denne\n"
+"enhed kan flytte så tryk (b) for at grundlægge en by.\n"
+"\n"
+"Generelt er det bedst at bygge byer på åbent land tæt på vand.  Mad\n"
+"er den vigtigste ressource for enhver by.  Græsenge og stepper\n"
+"giver masser af mad."
 
 #: data/scenario/tutorial.sav:49
 msgid ""
@@ -27495,6 +27367,16 @@ msgid ""
 "dialog.  If all goes well the city should display the settler\n"
 "production on the map view."
 msgstr ""
+"Nu har du bygget din første by.  Byvinduet bør være åbnet automatisk;\n"
+"hvis ikke så klik på byen for at åbne det.  Byer er et fundamentalt\n"
+"koncept i Freeciv, så du bør gøre dig bekendt med dem ved at kigge dig\n"
+"omkring i byvinduet.  Se hjælpemenuen for mere.\n"
+"\n"
+"Du ønsker sikkert at bygge nogle nybyggere først, så din civilisation\n"
+"kan ekspandere yderligere.  Klik på produktionsknappen og klik så på\n"
+"ændr knappen for at begynde produktionen.  Når du er færdig, så luk\n"
+"bydialogvinduet.  Hvis alt går godt så vil byen vise nybyggerproduktionen\n"
+"på kortet."
 
 #: data/scenario/tutorial.sav:62
 msgid ""
@@ -27503,6 +27385,10 @@ msgid ""
 "because of the terrain around it.  You probably want to build\n"
 "settlers here too."
 msgstr ""
+"Tillyke du har grundlagt din anden by.  Denne by vil opføre sig\n"
+"på næsten samme måde som den første - den vil være marginalt anderledes\n"
+"på grund af terrænet omkring den.  Du vil sikkert også her bygge\n"
+"bosættere."
 
 #: data/scenario/tutorial.sav:68
 msgid ""
@@ -27520,6 +27406,18 @@ msgid ""
 "append it to the worklist.  As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
+"Du har bygget din tredje by!  Din civilisation ser ud til at trives.\n"
+"Det er måske på tide at tænke på militære enheder.  Vælg en af byerne\n"
+"som har høj produktionskapacitet, og sæt den til at producere en\n"
+"militær enhed.  Vælg den bedste enhed du har til rådighed -\n"
+"i begyndelsen af spillet vil krigere være din eneste valgmulighed,\n"
+"men snart vil du have mange produktionsmuligheder.\n"
+"\n"
+"Dette kan være et godt tidspunkt at anvende arbejdslistemuligheden fra\n"
+"bydialogproduktionsrapporten.  Klik på Kaserne, klik så på ændre for at\n"
+"begynde produktionen.  Dobbeltklik så på en militærenhed for at tilføje\n"
+"den til arbejdslisten.  Så snart kasernen er færdig vil byproduktionen\n"
+"automatisk ændre sig til at producere militærenheden."
 
 #: data/scenario/tutorial.sav:83
 msgid ""
@@ -27935,9 +27833,8 @@ msgid "Team 32"
 msgstr "Hold 32"
 
 #: data/default/game.ruleset:126
-#, fuzzy
 msgid "Team 0"
-msgstr "Hold 10"
+msgstr "Hold 0"
 
 #~ msgid ""
 #~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
