@@ -555,7 +555,10 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_HEADER_TIME
 AC_STRUCT_TM
-AC_CHECK_TYPES([socklen_t])
+AC_CHECK_TYPES(socklen_t, [], [],
+[#include <sys/types.h>
+#include <sys/socket.h>
+])
 
 dnl Checks for library functions.
 AC_TYPE_SIGNAL
