@@ -568,15 +568,7 @@ void handle_city_info(struct packet_city_info *packet)
     agents_city_changed(pcity);
   }
 
-  if (has_capability("CitywallFix", aconnection.capability)) {
-    pcity->client.walls = packet->walls;
-  } else {
-    /* Try to guess
-     * Note that we cannot use city_got_citywalls() here, as
-     * server without "CitywallFix" has not sent us VisibleWalls
-     * effect either */
-    pcity->client.walls = city_got_defense_effect(pcity, NULL);
-  }
+  pcity->client.walls = packet->walls;
 
   handle_city_packet_common(pcity, city_is_new, popup,
 			    packet->diplomat_investigate);
@@ -798,15 +790,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     agents_city_changed(pcity);
   }
 
-  if (has_capability("CitywallFix", aconnection.capability)) {
-    pcity->client.walls = packet->walls;
-  } else {
-    /* Try to guess
-     * Note that we cannot use city_got_citywalls() here, as
-     * server without "CitywallFix" has not sent us VisibleWalls
-     * effect either */
-    pcity->client.walls = city_got_defense_effect(pcity, NULL);
-  }
+  pcity->client.walls = packet->walls;
 
   handle_city_packet_common(pcity, city_is_new, FALSE, FALSE);
 
@@ -2134,13 +2118,11 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   nations_alloc(packet->nation_count);
   city_styles_alloc(packet->styles_count);
 
-  if (has_capability("PreferedTileset", aconnection.capability)) {
-    if (packet->prefered_tileset[0] != '\0') {
-      /* There is tileset suggestion */
-      if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
-        /* It's not currently in use */
-        popup_tileset_suggestion_dialog();
-      }
+  if (packet->prefered_tileset[0] != '\0') {
+    /* There is tileset suggestion */
+    if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
+      /* It's not currently in use */
+      popup_tileset_suggestion_dialog();
     }
   }
 }
@@ -2275,8 +2257,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   if(p->id == game.control.num_impr_types-1) {
     impr_type_iterate(id) {
       b = improvement_by_number(id);
-      freelog(LOG_DEBUG, "Impr: %s...",
-	      advance_rule_name(id));
+      freelog(LOG_DEBUG, "Improvement: %s...",
+	      improvement_rule_name(id));
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
 		b->obsolete_by,

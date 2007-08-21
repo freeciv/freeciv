@@ -12,16 +12,11 @@ FREECIV_DEVEL_VERSION(0)
 FREECIV_BETA_VERSION(1)
 
 FREECIV_NEXT_VERSION(["2.1.0"])
-FREECIV_RELEASE_MONTH(4)
+FREECIV_RELEASE_MONTH(10)
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
-# "+2.1c" is the base capability string.
-#
-# "CitywallFix"     fixes problem that cities were sometimes drawn with walls
-#                   even when there was no wall
-#
-# "PreferedTileset" allows server to suggest client what tileset to use
+# "+2.1f" is the base capability string.
 #
 # "ReportFreezeFix" allows clients to correctly freeze reports and agents
 #                   over turn change.
@@ -33,4 +28,4 @@ FREECIV_RELEASE_MONTH(4)
 #   - Avoid adding a new manditory capability to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING(["+2.1c, CitywallFix, PreferedTileset, ReportFreezeFix"])
+FREECIV_NETWORK_CAPSTRING(["+2.1f, ReportFreezeFix"])

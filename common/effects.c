@@ -18,7 +18,6 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -451,7 +450,6 @@ void recv_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
 void send_ruleset_cache(struct conn_list *dest)
 {
   unsigned id = 0;
-  unsigned id_no_walls = 0;
 
   effect_list_iterate(ruleset_cache.tracker, peffect) {
     struct packet_ruleset_effect effect_packet;
@@ -459,16 +457,7 @@ void send_ruleset_cache(struct conn_list *dest)
     effect_packet.effect_type = peffect->type;
     effect_packet.effect_value = peffect->value;
 
-    if (peffect->type != EFT_VISIBLE_WALLS) {
-      lsend_packet_ruleset_effect(dest, &effect_packet);
-    } else {
-      /* Send EFT_VISIBLE_WALLS only to clients capable of handling it */
-      conn_list_iterate(dest, pconn) {
-        if (has_capability("CitywallFix", pconn->capability)) {
-          send_packet_ruleset_effect(pconn, &effect_packet);
-        }
-      } conn_list_iterate_end;
-    }
+    lsend_packet_ruleset_effect(dest, &effect_packet);
 
     requirement_list_iterate(peffect->reqs, preq) {
       struct packet_ruleset_effect_req packet;
@@ -484,18 +473,7 @@ void send_ruleset_cache(struct conn_list *dest)
       packet.survives = survives;
       packet.negated = FALSE;
 
-      conn_list_iterate(dest, pconn) {
-        if (has_capability("CitywallFix", pconn->capability)) {
-          packet.effect_id = id;
-          send_packet_ruleset_effect_req(pconn, &packet);
-        } else {
-          /* No capability to handle EFT_VISIBLE_WALLS */
-          if (peffect->type != EFT_VISIBLE_WALLS) {
-            packet.effect_id = id_no_walls;
-            send_packet_ruleset_effect_req(pconn, &packet);
-          }
-        }
-      } conn_list_iterate_end;
+      lsend_packet_ruleset_effect_req(dest, &packet);
     } requirement_list_iterate_end;
 
     requirement_list_iterate(peffect->nreqs, preq) {
@@ -512,26 +490,10 @@ void send_ruleset_cache(struct conn_list *dest)
       packet.survives = survives;
       packet.negated = FALSE;
 
-      conn_list_iterate(dest, pconn) {
-        if (has_capability("CitywallFix", pconn->capability)) {
-          packet.effect_id = id;
-          send_packet_ruleset_effect_req(pconn, &packet);
-        } else {
-          /* No capability to handle EFT_VISIBLE_WALLS */
-          if (peffect->type != EFT_VISIBLE_WALLS) {
-            packet.effect_id = id_no_walls;
-            send_packet_ruleset_effect_req(pconn, &packet);
-          }
-        }
-      } conn_list_iterate_end;
+      lsend_packet_ruleset_effect_req(dest, &packet);
     } requirement_list_iterate_end;
 
     id++;
-
-    if (peffect->type != EFT_VISIBLE_WALLS) {
-      id_no_walls++;
-    }
-
   } effect_list_iterate_end;
 }
 

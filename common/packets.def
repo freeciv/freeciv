@@ -536,7 +536,7 @@ PACKET_CITY_INFO=21; sc,lsend
   BV_CITY_OPTIONS city_options;
   TURN turn_founded;
 
-  BOOL walls; add-cap(CitywallFix)
+  BOOL walls;
 end
 
 PACKET_CITY_SHORT_INFO=22; sc,lsend
@@ -1282,9 +1282,8 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 resource_count;
   UINT8 num_specialist_types;
 
-  STRING prefered_tileset[MAX_LEN_NAME]; add-cap(PreferedTileset)
+  STRING prefered_tileset[MAX_LEN_NAME];
 end
-
 
 /*********************************************************
  Below are the packets that control single-player mode.  
