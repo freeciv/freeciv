@@ -43,6 +43,7 @@
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
+#include "netintf.h"
 
 /* common */
 #include "unitlist.h"

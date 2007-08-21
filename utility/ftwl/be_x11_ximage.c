@@ -33,6 +33,7 @@
 #include "shared.h"
 
 #include "mem.h"
+#include "netintf.h"
 
 // fixme
 #include "timing.h"
