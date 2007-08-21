@@ -27,6 +27,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "netintf.h"
 #include "shared.h"
 #include "support.h"
 #include "version.h"

@@ -28,6 +28,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "netintf.h"
 
 static int other_fd = -1;
 
