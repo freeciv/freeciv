@@ -1326,7 +1326,9 @@ void init_available_nations(void)
       }
     }
   } nations_iterate_end;
-  send_ruleset_nations(game.est_connections);
+  if (game.est_connections) {
+    send_ruleset_nations(game.est_connections);
+  }
 }
 
 /**************************************************************************
