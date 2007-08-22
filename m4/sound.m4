@@ -15,7 +15,8 @@ AC_DEFUN([FC_CHECK_SOUND],[
       if test "x$SDL_mixer" = "xyes"; then
         SOUND_CFLAGS="$SOUND_CFLAGS $SDL_CFLAGS"
         SOUND_LIBS="$SOUND_LIBS $SDL_LIBS -lSDL_mixer"
-        AC_DEFINE(SDL, 1, [SDL_Mixer support])
+        AC_DEFINE(AUDIO_SDL, 1, [SDL_Mixer support])
+        AC_DEFINE(SDL, 1, [SDL is used])
         AC_MSG_RESULT(yes)
       else
         AC_MSG_RESULT([no, found header but not library!])

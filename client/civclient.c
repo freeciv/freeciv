@@ -19,6 +19,10 @@
 #include <windows.h>	/* LoadLibrary() */
 #endif
 
+#ifdef SDL
+#include "SDL.h"
+#endif
+
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>

@@ -27,10 +27,10 @@ GUI_SUBDIR = gui-ftwl
 LIBFTWL = ../utility/ftwl/libftwl.a
 endif
 
-ALL_SDL_FILES=audio_sdl.c audio_sdl.h
+ALL_AUDIO_SDL_FILES=audio_sdl.c audio_sdl.h
 
-if SDL
-SDL_FILES=$(ALL_SDL_FILES)
+if AUDIO_SDL
+AUDIO_SDL_FILES=$(ALL_AUDIO_SDL_FILES)
 endif
 
 if MINGW32
@@ -105,7 +105,7 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/worklistclass.c          \
 		gui-mui/worklistclass.h          \
 		\
-		$(ALL_SDL_FILES)
+		$(ALL_AUDIO_SDL_FILES)
 
 
 ## This is usually false, so "include" is not recursed into 
@@ -126,7 +126,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
-civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
+civclient_SOURCES = $(AUDIO_SDL_FILES) \
 	attribute.h	\
 	attribute.c	\
 	citydlg_common.c \

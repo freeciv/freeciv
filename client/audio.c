@@ -29,7 +29,7 @@
 #include "support.h"
 
 #include "audio_none.h"
-#ifdef SDL
+#ifdef AUDIO_SDL
 #include "audio_sdl.h"
 #endif
 
@@ -142,7 +142,7 @@ void audio_init()
   assert(num_plugins_used == 1);
   selected_plugin = 0;
 
-#ifdef SDL
+#ifdef AUDIO_SDL
   audio_sdl_init();
 #endif
 }
@@ -250,7 +250,7 @@ void audio_real_init(const char *const spec_name,
     return;
   }
 
-#ifdef SDL
+#ifdef AUDIO_SDL
   if (audio_select_plugin("sdl")) return; 
 #endif
   freelog(LOG_ERROR,
