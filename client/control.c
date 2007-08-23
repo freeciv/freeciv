@@ -1036,18 +1036,18 @@ prompt player for entering destination point for unit connect
 **************************************************************************/
 void request_unit_connect(enum unit_activity activity)
 {
-  if (!can_units_do_connect(get_units_in_focus(), activity)) {
+  struct unit_list *punits = get_units_in_focus();
+
+  if (!can_units_do_connect(punits, activity)) {
     return;
   }
 
   if (hover_state != HOVER_CONNECT || connect_activity != activity) {
-    /* Enter or change the hover connect state. */
-    set_hover_state(get_units_in_focus(), HOVER_CONNECT,
-		    activity, ORDER_LAST);
-    update_unit_info_label(get_units_in_focus());
-
-    enter_goto_state(get_units_in_focus());
+    set_hover_state(punits, HOVER_CONNECT, activity, ORDER_LAST);
+    enter_goto_state(punits);
     create_line_at_mouse_pos();
+    update_unit_info_label(punits);
+    handle_mouse_cursor(NULL);
   } else {
     assert(goto_is_active());
     goto_add_waypoint();
@@ -2078,20 +2078,16 @@ static struct unit *quickselect(struct tile *ptile,
 }
 
 /**************************************************************************
- Finish the goto mode and let the unit which is stored in hover_unit move
+ Finish the goto mode and let the units stored in hover_units move
  to a given location.
 **************************************************************************/
 void do_unit_goto(struct tile *ptile)
 {
-  struct tile *dest_tile;
-
   if (hover_state != HOVER_GOTO && hover_state != HOVER_NUKE) {
     return;
   }
 
-  draw_line(ptile);
-  dest_tile = get_line_dest();
-  if (ptile == dest_tile) {
+  if (is_valid_goto_draw_line(ptile)) {
     send_goto_route();
   } else {
     create_event(ptile, E_BAD_COMMAND,
@@ -2120,15 +2116,11 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 **************************************************************************/
 void do_unit_patrol_to(struct tile *ptile)
 {
-  struct tile *dest_tile;
-
-  draw_line(ptile);
-  dest_tile = get_line_dest();
-  if (ptile == dest_tile
+  if (is_valid_goto_draw_line(ptile)
       && !is_non_allied_unit_tile(ptile, game.player_ptr)) {
     send_patrol_route();
   } else {
-    create_event(dest_tile, E_BAD_COMMAND,
+    create_event(ptile, E_BAD_COMMAND,
 		 _("Didn't find a route to the destination!"));
   }
 
@@ -2141,11 +2133,7 @@ void do_unit_patrol_to(struct tile *ptile)
 void do_unit_connect(struct tile *ptile,
 		     enum unit_activity activity)
 {
-  struct tile *dest_tile;
-
-  draw_line(ptile);
-  dest_tile = get_line_dest();
-  if (same_pos(dest_tile, ptile)) {
+  if (is_valid_goto_draw_line(ptile)) {
     send_connect_route(activity);
   } else {
     create_event(ptile, E_BAD_COMMAND,
@@ -2164,9 +2152,14 @@ void key_cancel_action(void)
 
   cancel_tile_hiliting();
 
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
+  switch (hover_state) {
+  case HOVER_GOTO:
+  case HOVER_PATROL:
+  case HOVER_CONNECT:
     popped = goto_pop_waypoint();
-  }
+  default:
+    break;
+  };
 
   if (hover_state != HOVER_NONE && !popped) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);

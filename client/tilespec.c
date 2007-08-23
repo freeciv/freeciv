@@ -4159,15 +4159,10 @@ static int fill_goto_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
 
-  if (!goto_is_active()) {
-    return 0;
-  }
-  if (ptile && ptile == get_line_dest()) {
+  if (is_valid_goto_destination(ptile)) {
     int length, units, tens;
 
     goto_get_turns(NULL, &length);
-    units = length % NUM_TILES_DIGITS;
-    tens = (length / 10) % NUM_TILES_DIGITS;
     if (length < 0 || length >= 100) {
       static bool reported = FALSE;
 
@@ -4178,6 +4173,9 @@ static int fill_goto_sprite_array(const struct tileset *t,
 	reported = TRUE;
       }
       tens = units = 9;
+    } else {
+      tens = (length / 10) % NUM_TILES_DIGITS;
+      units = length % NUM_TILES_DIGITS;
     }
 
     ADD_SPRITE_SIMPLE(t->sprites.path.turns[units]);
@@ -4482,7 +4480,9 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_GOTO:
-    sprs += fill_goto_sprite_array(t, sprs, ptile, pedge, pcorner);
+    if (ptile && goto_is_active()) {
+      sprs += fill_goto_sprite_array(t, sprs, ptile, pedge, pcorner);
+    }
     break;
 
   case LAYER_COUNT:

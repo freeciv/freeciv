@@ -654,21 +654,18 @@ void update_turn_done_button_state()
 **************************************************************************/
 void update_line(int canvas_x, int canvas_y)
 {
-  if (hover_state == HOVER_GOTO
-      || hover_state == HOVER_PATROL
-      || hover_state == HOVER_CONNECT) {
-    struct tile *ptile, *old_tile;
+  struct tile *ptile;
 
+  switch (hover_state) {
+  case HOVER_GOTO:
+  case HOVER_PATROL:
+  case HOVER_CONNECT:
     ptile = canvas_pos_to_tile(canvas_x, canvas_y);
-    if (!ptile) {
-      return;
-    }
 
-    old_tile = get_line_dest();
-    if (!same_pos(old_tile, ptile)) {
-      draw_line(ptile);
-    }
-  }
+    is_valid_goto_draw_line(ptile);
+  default:
+    break;
+  };
 }
 
 /****************************************************************************
@@ -676,20 +673,20 @@ void update_line(int canvas_x, int canvas_y)
 ****************************************************************************/
 void overview_update_line(int overview_x, int overview_y)
 {
-  if (hover_state == HOVER_GOTO
-      || hover_state == HOVER_PATROL
-      || hover_state == HOVER_CONNECT) {
-    struct tile *ptile, *old_tile;
-    int x, y;
+  struct tile *ptile;
+  int x, y;
 
+  switch (hover_state) {
+  case HOVER_GOTO:
+  case HOVER_PATROL:
+  case HOVER_CONNECT:
     overview_to_map_pos(&x, &y, overview_x, overview_y);
     ptile = map_pos_to_tile(x, y);
 
-    old_tile = get_line_dest();
-    if (!same_pos(ptile, old_tile)) {
-      draw_line(ptile);
-    }
-  }
+    is_valid_goto_draw_line(ptile);
+  default:
+    break;
+  };
 }
 
 /****************************************************************************
