@@ -5,14 +5,13 @@
 # Albert Astals Cid <astals11@terra.es>, 2003.
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creus at gmail dot com>, 2007.
-# David <david.gaya@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-08-23 16:36+0200\n"
-"Last-Translator: David <david.gaya@gmail.com>\n"
+"PO-Revision-Date: 2007-08-23 22:29+0200\n"
+"Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6927,7 +6926,7 @@ msgstr "El teu %s s'ha quedat sense combustible."
 #: server/unittools.c:632
 #, c-format
 msgid "Your %s became more experienced!"
-msgstr ""
+msgstr "El teu %s ha guanyat experiència!"
 
 #: server/unittools.c:857
 #, c-format
@@ -6985,83 +6984,93 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Joc: S'ha capturat el líder bàrbar, ens paguen un rescar de %d."
 
 #: server/unittools.c:1607
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
+msgstr ""
+"Joc: El teu %1$s ha tingut èxit atacant%4$s contra %3$s de %2$s i ha guanyat "
+"experiència!"
 
 #: server/unittools.c:1616
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
+msgstr "El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s!"
 
 #: server/unittools.c:1624
 #, c-format
 msgid "%s lost to an attack by %s's %s%s."
-msgstr "Joc: %s perdut en un atac de %s amb %s%s."
+msgstr "%s perdut en un atac de %s amb %s%s."
 
 #: server/unittools.c:1658
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
 "more experienced!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
-msgstr[0] "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
-msgstr[1] "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
+msgstr[0] ""
+"El teu %1$s ha tingut èxit atacant%5$s contra %3$s de %2$s (i %4$d altra "
+"unitat) i ha guanyat experiència!"
+msgstr[1] ""
+"El teu %1$s ha tingut èxit atacant%5$s contra %3$s de %2$s (i %4$d unitats "
+"més) i ha guanyat experiència!"
 
 #: server/unittools.c:1671
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
-msgstr[1] "Joc: El teu %1$s ha tingut èxit%4$s contra %3$s de %2$s"
+msgstr[0] ""
+"El teu %1$s ha tingut èxit atacant%5$s contra %3$s de %2$s (i %4$d altra "
+"unitat)!"
+msgstr[1] ""
+"El teu %1$s ha tingut èxit atacant%5$s contra %3$s de %2$s (i %4$d unitats "
+"més)!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
 #: server/unittools.c:1696
 #, c-format
 msgid "%s lost to an attack from %s's %s."
-msgstr "Joc: Has perdut %s en un atac de %s amb %s."
+msgstr "Has perdut %s en un atac de %s amb %s."
 
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
 #: server/unittools.c:1705
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
-msgstr "Joc: Has perdut %s en un atac de %s amb %s."
+msgstr "Has perdut %1$s quan %2$s ha atacat amb %3$s els %5$s de %4$s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from John's Destroyer."
 #: server/unittools.c:1720
-#, fuzzy, c-format
+#, c-format
 msgid "%s (and %s) lost to an attack from %s's %s."
-msgstr "Joc: Has perdut %s en un atac de %s amb %s."
+msgstr "%s (i %s) perduts en un atac de %s amb %s."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from John's Destroyer." (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1730
-#, fuzzy, c-format
+#, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
-msgstr[0] "Joc: Has perdut %s en un atac de %s amb %s."
-msgstr[1] "Joc: Has perdut %s en un atac de %s amb %s."
+msgstr[0] "%s i %d altra unitat perduts en un atac de %s amb %s."
+msgstr[1] "%s i %d unitats més perduts en un atac de %s amb %s."
 
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1744
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
-msgstr[0] "Joc: Auto-Atac: %2$s de %1$s està atacant a %4$s de %3$s "
-msgstr[1] "Joc: Auto-Atac: %2$s de %1$s està atacant a %4$s de %3$s "
+msgstr[0] "%1$d unitat perduda quan %3$s de %2$s han atacat a %5$s de %4$s "
+msgstr[1] "%1$d unitats perdudes quan %3$s de %2$s han atacat a %5$s de %4$s "
 
 #: server/unittools.c:2008
 #, c-format
 msgid "Your %s was nuked by %s."
-msgstr "Joc: %s atacada nuclear per %s."
+msgstr "Els teus %s han estat atacats per %s amb una arma nuclear."
 
 #: server/unittools.c:2010 server/unittools.c:2026
 msgid "yourself"
@@ -7070,143 +7079,138 @@ msgstr "tu mateix"
 #: server/unittools.c:2014
 #, c-format
 msgid "%s's %s was nuked."
-msgstr "Joc: %2$s de %1$s atacada nuclear."
+msgstr "%2$s de %1$s atacat amb una arma nuclear."
 
 #: server/unittools.c:2024
 #, c-format
 msgid "%s was nuked by %s."
-msgstr "Joc: %s atacada nuclear per %s."
+msgstr "%s atacada amb una arma nuclear per %s."
 
 #: server/unittools.c:2031
 #, c-format
 msgid "You nuked %s."
-msgstr "Joc: Has atacat nuclearment a %s."
+msgstr "Has atacat amb una arma nuclear %s."
 
 #: server/unittools.c:2072
 #, c-format
 msgid "%s detonated a nuke!"
-msgstr "Joc: %s ha detonat una arma nuclear!"
+msgstr "%s ha detonat una arma nuclear!"
 
 #: server/unittools.c:2095
 #, c-format
 msgid "%s transported succesfully."
-msgstr "Joc: s'ha transportat a %s satisfactoriament"
+msgstr "S'ha transportat a %s satisfactòriament"
 
 #: server/unittools.c:2118
 msgid "This unit type can not be paradropped."
-msgstr "Joc: Aquesta unitat no pot ser llançada amb paracaigudes."
+msgstr "Aquest tipus d'unitat no pot ser llançat amb paracaigudes."
 
 #: server/unittools.c:2128
-#, fuzzy
 msgid "You cannot paradrop a transporter unit."
-msgstr "Joc: Aquesta unitat no es pot llançar en paracaigudes a l'oceà."
+msgstr "No es pot llançar en paracaigudes una unitat de transport."
 
 #: server/unittools.c:2133
 msgid "The destination location is not known."
-msgstr "Joc: L'ubicació de destí és desconeguda."
+msgstr "L'ubicació de destí és desconeguda."
 
 #: server/unittools.c:2140
-#, fuzzy, c-format
+#, c-format
 msgid "This unit cannot paradrop into %s."
-msgstr "Joc: Aquesta unitat no es pot llançar en paracaigudes a l'oceà."
+msgstr "Aquesta unitat no es pot llançar en paracaigudes a %s."
 
 #: server/unittools.c:2160
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr ""
-"Joc: La distància a l'objectiu (%i) és més gran que el rang de la unitat (%"
-"i)."
+msgstr "La distància a l'objectiu (%i) és més gran que el rang de la unitat (%i)."
 
 #: server/unittools.c:2171
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s paradropped into the %s and was lost."
-msgstr "Joc: El teu %s s'ha llançat en paracaigudes sobre l'oceà i ha mort."
+msgstr "El teu %s s'ha llançat en paracaigudes a %s i ha mort."
 
 #: server/unittools.c:2184
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr ""
-"Joc: El teu %s ha estat mort per unitats enemigues a la destinació de "
-"llançament."
+msgstr "El teu %s ha estat mort per unitats enemigues a la destinació de llançament."
 
 #: server/unittools.c:2206
 #, c-format
 msgid "You found %d gold."
-msgstr "Joc: Has trobat %d peces d'or."
+msgstr "Has trobat %d peces d'or."
 
 #: server/unittools.c:2223
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr "Joc: Has trobat uns antics pergamins sobre %s."
+msgstr "Has trobat uns antics pergamins sobre %s."
 
 #: server/unittools.c:2230
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
-msgstr "Joc: Els %s han adquirit %s d'antics pergamins."
+msgstr "Els %s han adquirit %s d'antics pergamins."
 
 #: server/unittools.c:2244
 msgid "A band of friendly mercenaries joins your cause."
-msgstr "Joc: Una banda de mercenaris s'uneix a la teva causa."
+msgstr "Una banda de mercenaris s'uneix a la teva causa."
 
 #: server/unittools.c:2262
 msgid "An abandoned village is here."
-msgstr "Joc: Només hi ha un poble abandonat."
+msgstr "Només hi ha un poble abandonat."
 
 #: server/unittools.c:2272
 msgid "You have unleashed a horde of barbarians!"
-msgstr "Joc: Has alliberat a una horda de bàrbars!"
+msgstr "Has alliberat a una horda de bàrbars!"
 
 #: server/unittools.c:2275
 #, c-format
 msgid "Your %s has been killed by barbarians!"
-msgstr "Joc: El teu %s ha mort a mans de bàrbars!"
+msgstr "El teu %s ha mort a mans de bàrbars!"
 
 #: server/unittools.c:2291
 msgid "You found a friendly city."
-msgstr "Joc: Has trobat una ciutat amistosa."
+msgstr "Has trobat una ciutat amistosa."
 
 #: server/unittools.c:2305
 msgid "Friendly nomads are impressed by you, and join you."
-msgstr "Joc: Impressiones a uns nòmades i s'uneixen a tu."
+msgstr "Impressiones a uns nòmades i s'uneixen a tu."
 
 #: server/unittools.c:2330
 msgid "Your overflight frightens the tribe; they scatter in terror."
-msgstr "Joc: La teva sobrevolada ha espantat a la tribu, s'escampen plens de terror."
+msgstr "La teva sobrevolada ha espantat a la tribu, s'escampen aterrits."
 
 #: server/unittools.c:2588
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
-msgstr "Joc: %s interromput ANAR A perque hi ha unitats al mig."
+msgstr "Les ordres per %s s'han avortat en veure moviment d'enemics."
 
 #: server/unittools.c:3021
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted as there are units nearby."
-msgstr "Joc: %s interromput ANAR A perque hi ha unitats al mig."
+msgstr "Les ordres per %s s'han avortat perquè hi ha unitats a la vora."
 
 #: server/unittools.c:3073
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted because building of city failed."
-msgstr "Joc: %s interromput ANAR A perque hi ha unitats al mig."
+msgstr "Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
 
 #: server/unittools.c:3086
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
-msgstr ""
+msgstr "Les ordres per %s s'han avortat perquè provoquen una activitat no vàlida."
 
 #: server/unittools.c:3100
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
-msgstr ""
+msgstr "Les ordres per %s s'han avortat perquè donen una ubicació no vàlida."
 
 #: server/unittools.c:3110
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted as there are units in the way."
-msgstr "Joc: %s interromput ANAR A perque hi ha unitats al mig."
+msgstr "Les ordres per %s s'han avortat perquè hi ha unitats al mig del pas."
 
 #: server/unittools.c:3136
 #, c-format
 msgid "Orders for %s aborted because of failed move."
-msgstr ""
+msgstr "Les ordres per %s s'han avortat per moviment incorrecte."
 
 #: server/unittools.c:3177
 #, c-format
@@ -7521,7 +7525,6 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "Artistes, Científics, Recaptadors"
 
 #: client/cityrepdata.c:450
-#, fuzzy
 msgid "Concise + Rapture, - Disorder"
 msgstr "Concís + En festa, - Desordre"
 
@@ -8922,34 +8925,30 @@ msgid "%s%d unhappy"
 msgstr "%s%d descontents"
 
 #: client/mapctrl_common.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "You don't know how to build %s!"
-msgstr "Joc: No compres %s!"
+msgstr "No saps com construir %s!"
 
 #: client/mapctrl_common.c:392
 #, c-format
 msgid "Copy %s to clipboard."
-msgstr ""
+msgstr "Copiar %s al portapapers."
 
 #: client/mapctrl_common.c:408
-#, fuzzy
 msgid "Clipboard is empty."
-msgstr "Joc: La llista de treball de %s està buida."
+msgstr "El portapapers és buit."
 
 #: client/options.c:89
-#, fuzzy
 msgid "Graphics"
-msgstr "Demografia"
+msgstr "Gràfics"
 
 #: client/options.c:90
-#, fuzzy
 msgid "Overview"
-msgstr "_Vista prèvia"
+msgstr "Resum"
 
 #: client/options.c:91
-#, fuzzy
 msgid "Sound"
-msgstr "Tombs"
+msgstr "So"
 
 #: client/options.c:92
 #, fuzzy
@@ -9922,9 +9921,9 @@ msgstr ""
 "%d."
 
 #: client/text.c:894
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Pol·lució:  %d"
+msgstr "Taxa de contaminació: %d%%"
 
 #: client/text.c:896
 #, c-format
@@ -10482,7 +10481,7 @@ msgstr "Contaminació:"
 
 #: client/gui-gtk-2.0/citydlg.c:642 client/gui-gtk-2.0/inteldlg.c:191
 msgid "_Overview"
-msgstr "_Vista prèvia"
+msgstr "_Resum"
 
 #: client/gui-gtk-2.0/citydlg.c:670 client/gui-gtk-2.0/wldlg.c:1033
 #: client/gui-mui/citydlg.c:623 client/gui-mui/worklistclass.c:216
@@ -10552,7 +10551,7 @@ msgstr "Desmantellar si es construeix un colon amb mida de ciutat 1"
 
 #: client/gui-gtk-2.0/citydlg.c:1036
 msgid "Overview page"
-msgstr "Pàgina Vista prèvia"
+msgstr "Pàgina resum"
 
 #: client/gui-gtk-2.0/citydlg.c:1037
 msgid "Production page"
@@ -13017,7 +13016,7 @@ msgstr "_Afegir prefixat"
 
 #: client/gui-mui/citydlg.c:1539
 msgid "_Delete preset"
-msgstr "_Esborrar prefixats"
+msgstr "_Esborrar prefixat"
 
 #: client/gui-mui/citydlg.c:1545
 msgid "Name:"
@@ -13444,7 +13443,7 @@ msgstr "Opcions sobre els missatges..."
 
 #: client/gui-mui/gui_main.c:211 client/gui-xaw/menu.c:113
 msgid "Save Settings"
-msgstr "Guardar l'arranjament"
+msgstr "Guardar Configuracions"
 
 #: client/gui-mui/gui_main.c:213
 msgid "Players..."
@@ -14549,7 +14548,7 @@ msgstr "Ciutat de %s (població %s ciutadans) : %s"
 
 #: client/gui-sdl/cma_fe.c:967
 msgid "Save settings as..."
-msgstr "Guardar arranjament com..."
+msgstr "Guardar configuracions com..."
 
 #: client/gui-sdl/cma_fe.c:976
 msgid "Load settings"
@@ -17145,7 +17144,6 @@ msgstr ""
 "metaserver, els noms dels jugadors s'hi poden trobar allà."
 
 #: data/helpdata.txt:431
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -17190,61 +17188,48 @@ msgid ""
 "Shift-Ctrl-L: Connect current and target tile with rai(L)\n"
 "Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n"
 msgstr ""
-"Teclat\n"
-"=========\n"
-"  a: (a)uto-colonitzar  (colons/enginyers)\n"
-"  a: (a)uto-atacar  (unitats militars)\n"
-"  b: fundar ciutat  (colons/enginyers)\n"
-"  b: ajudar construir meravella (caravanes)\n"
-"  c: (c)entrar vista a unitat\n"
-"  C: (c)onnectar  (després fer clic esquerra per destinació)\n"
-"  d: accions (d)iplomàtiques/espia (diplomàtics/espies)\n"
-"  D: (D)esmantellar unitat\n"
-"  e: construir base aèria (unitats base aèria)\n"
-"  f: (f)ortificar unitat  (unitats militars)\n"
-"  f: construir (f)ortificació  (colons/enginyers)\n"
-"  F: obrir diàleg Cercar ciutat\n"
-"  g: anar a (després fer clic esquerra per destinació)\n"
-"  h: canviar ciutat llar (a la ciutat actual)\n"
-"  i: construir (i)rrigació/horta (colons/enginyers; poden convertir "
-"terreny)\n"
-"  l: aerotransportar a ciutat\n"
-"  L: obrir diàleg Llista treball\n"
-"  m: construir (m)ina (colons/enginyers; poden convertir terreny)\n"
-"  n: (n)etejar residus nuclears\n"
-"  N: explotar (N)uclear\n"
-"  o: transf(o)rmar terreny\n"
-"  p: netejar (p)ol·lució (colons/enginyers)\n"
-"  p: saltar en (p)aracaigudes  (unitats paracaigudistes)\n"
-"  P: (P)illatge amb alteració de terreny\n"
-"  q: patrullar (després fer clic esquerra per destinació)\n"
-"  r: construir camí/ferrocarril (colons/enginyers)\n"
-"  r: establir ruta comercial (caravanes)\n"
-"  R: incitar una (R)evolta\n"
-"  s: centinella\n"
-"  t: mostrar caselles que usa ciutat (ratolí a sobre ciutat o a prop)\n"
-"  T: obrir diàleg Ratis Imp/Lux/Cie \n"
-"  u: desembarcar \n"
-"  w: esperar \n"
-"  W: Despertar altres unitats en casella\n"
-"  x: auto-e(x)plorar\n"
+"Ordres per Unitats\n"
+"============\n"
+"    a: (a)uto-colonitzar  (colons/enginyers)\n"
+"    b: fundar ciutat  (colons/enginyers)\n"
+"    b: ajudar construir meravella (caravanes)\n"
+"    C: (c)onnectar  (després fer clic esquerre per destinació)\n"
+"    d: accions (d)iplomàtiques/espia (diplomàtics/espies)\n"
+"    D: (D)esmantellar unitat\n"
+"    e: construir bas(e) aèria (unitats base aèria)\n"
+"    f: (f)ortificar unitat  (unitats militars)\n"
+"    f: construir (f)ortificació  (colons/enginyers)\n"
+"    g: anar a (després fer clic esquerre per destinació)\n"
+"    g: afegir un punt de camí (quan estàs en mode \"anar a\")\n"
+"    G: Anar/tornar a la ciutat més pròxima\n"
+"    h: canviar ciutat llar (a la ciutat actual)\n"
+"    i: construir (i)rrigació o convertir terreny (colons/enginyers)\n"
+"    l: embarcar unitat\n"
+"    L: anar/vo(l)ar a ciutat\n"
+"    m: construir (m)ina o convertir terreny (colons/enginyers)\n"
+"    n: (n)etejar residus nuclears\n"
+"    N: explotar (N)uclear\n"
+"    o: transf(o)rmar terreny (unitat d'enginyers)\n"
+"    p: netejar contaminació (colons/enginyers)\n"
+"    p: saltar en (p)aracaigudes  (unitats paracaigudistes)\n"
+"    P: (P)illatge d'una alteració de terreny\n"
+"    q: patrullar unitat (després fer clic esquerre per destinació)\n"
+"    q: afegir un punt de pas de la patrulla (en mode patrulla)\n"
+"    r: construir camí/ferrocarril (colons/enginyers)\n"
+"    r: establir ruta comercial (caravanes)\n"
+"    s: posar unitat en sentinella\n"
+"    u: desembarcar unitat d'un vaixell\n"
+"    U: desembarcar totes les unitats d'un vaixell\n"
+"    W: Despertar altres unitats en casella\n"
+"    x: auto-e(x)plorar\n"
+"    y: Seleccionar totes les unitats aturades del mateix tipus que la unitat activa\n"
+"espai: saltar unitat\n"
 "\n"
-"  1: moure sud oest                  F1: obrir Informe ciutats\n"
-"  2: moure sud                       F2: obrir Informe Unitats\n"
-"  3: moure sud est                   F3: obrir Diàleg jugadors\n"
-"  4: moure oest                      F5: obrir Informe econòmic\n"
-"  5: enfocar següent unitat          F6: obrir Informe ciència\n"
-"  6: moure est                       F7: obrir Meravelles del Món\n"
-"  7: moure nord oest                 F8: obrir Millors cinc ciutats\n"
-"  8: moure nord                      F10: obrir Diàleg missatges\n"
-"  9: moure nord est                  F11: obrir Demografia\n"
-"                                     F12: obrir Nau espacial\n"
-"\n"
-"\n"
-"     Inici: centrar en la capital\n"
-"  fletxes: moure unitat             Control-g: graella act/desact\n"
-"    espai: passar unitat            Control-n: noms ciutats act/desact\n"
-"    Intro: Acabar torn              Control-p: producció ciutat act/desact\n"
+"       Ctrl-U: millorar (u)nitat\n"
+"Maj-Ctrl-B: Anar a fundar ciutat a destí\n"
+"Maj-Ctrl-R: Connectar casella actual i destí amb Camí\n"
+"Maj-Ctrl-L: Connectar casella actual i destí amb Ferrocarri(L)\n"
+"Maj-Ctrl-I: Connectar casella actual i destí amb (I)rrigació\n"
 
 #: data/helpdata.txt:474
 msgid ""
@@ -17263,6 +17248,20 @@ msgid ""
 "  w: focus on next unit (wait)\n"
 "  c: center view on unit\n"
 msgstr ""
+"Moviment d'Unitats:\n"
+"=============\n"
+"  1: moure cap al sudoest\n"
+"  2: moure cap al sud \n"
+"  3: moure cap al sudest\n"
+"  4: moure cap a l'oest\n"
+"  6: moure cap a l'est\n"
+"  7: moure cap al nordoest\n"
+"  8: moure cap al nord\n"
+"  9: moure cap al nordest\n"
+"\n"
+"  5: enfocar la unitat prèvia\n"
+"  w: enfocar la unitat següent (esperar)\n"
+"  c: centrar la vista sobre la unitat\n"
 
 #: data/helpdata.txt:489
 msgid ""
@@ -17781,7 +17780,6 @@ msgstr ""
 "jugadors."
 
 #: data/helpdata.txt:735
-#, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -17792,17 +17790,15 @@ msgid ""
 "entry under the embassy column is not blank and the other player is "
 "connected (or is a server AI) then a diplomacy menu will pop up."
 msgstr ""
-"10. Interactuar amb d'altres jugadors (diplomàcia).\n"
+"10. Interactuar amb d'altres jugadors (Diplomàcia).\n"
 "\n"
-"    Si has establert contacte o una ambaixada amb un altre jugador,llavors "
+"    Si has establert contacte o una ambaixada amb un altre jugador, llavors "
 "pots convocar trobades diplomàtiques. Això es fa anant al menú 'Informes', "
-"seleccionant Jugadors i prement a sobre del jugador amb el que vols trobar-"
-"te i seleccionar 'Trobar' del menú 'Jugador'. Si l'entrada sota la columna "
-"ambaixada no està en blanc i l'altre jugador està connectat (o és una IA) "
-"llavors apareix un menú diplomàtic."
+"seleccionant 'Jugadors', clicant el jugador amb qui vols trobar-te i finalment clicar el botó 'Cimera' de sota. Si l'entrada sota la columna "
+"'ambaixada' no està en blanc i l'altre jugador està connectat (o és una IA) "
+"llavors apareixerà un menú diplomàtic."
 
 #: data/helpdata.txt:745
-#, fuzzy
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -17820,15 +17816,21 @@ msgid ""
 "\n"
 "   - and Give Gold."
 msgstr ""
-"    En aquest menú pots triar :\n"
+"    En aquest menú pots decidir:\n"
 "\n"
-"   - Intercanviar mapes (marítims o complerts),\n"
+"   - Intercanviar Mapes (marítims o complerts),\n"
 "\n"
-"   - Intercanviar avenços,\n"
+"   - Intercanviar Avenços,\n"
 "\n"
-"   - Intercanviar ciutats,\n"
+"   - Intercanviar Ciutats,\n"
 "\n"
-"   - entregar or."
+"   - Intercanviar Visió Compartida,\n"
+"\n"
+"   - Intercanviar Ambaixades,\n"
+"\n"
+"   - Crear Tractats,\n"
+"\n"
+"   - i Donar Or."
 
 #: data/helpdata.txt:761
 msgid ""
@@ -17873,7 +17875,7 @@ msgid ""
 "     There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the default state, while the "
 "others can be achieved by signing diplomatic treaties."
-msgstr ""
+msgstr "     Hi ha cinc estats diplomàtics entre jugadors: Guerra, Alto el Foc, Armistici, Pau, i Aliança. El primer és l'estat per defecte, mentre que als altres s'hi pot arribar mitjançant tractats diplomàtics."
 
 #: data/helpdata.txt:782
 msgid ""
@@ -17883,14 +17885,14 @@ msgid ""
 "player, or vice versa. Unless you establish an embassy with that player, you "
 "may again lose contact with them after a set number of turns without direct "
 "physical contact."
-msgstr ""
+msgstr "     Per tenir una relació diplomàtica amb un altre jugador, primer has d'establir contacte amb aquest jugador. Per establir contacte per primer cop, has de moure una de les teves unitats al costat d'una ciutat o unitat que pertanyi a aquest jugador, o viceversa. Si no estableixes una ambaixada amb aquest jugador, pot ser que hi perdis el contacte al cap d'un nombre donat de torns sense contacte físic directe."
 
 #: data/helpdata.txt:789
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move you units inside enemy territory and attack their units and "
 "cities at will."
-msgstr ""
+msgstr "     L'estat diplomàtic entre jugadors és Guerra per defecte. En estat de Guerra, pots moure lliurement les teves unitats dins de territori enemic i atacar les seves unitats i ciutats quan vulguis."
 
 #: data/helpdata.txt:793
 msgid ""
@@ -17898,7 +17900,7 @@ msgid ""
 "on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
 "lead back to War. Upon first contact with an AI player, it will "
 "automatically offer you a Cease-fire treaty."
-msgstr ""
+msgstr "Quan dos jugadors decideixen d'acabar les hostilitats entre ells, poden acordar un tractat d'Alto el foc. Després d'un nombre donat de torns, l'Alto el foc es convertirà un altre cop en Guerra. Quan tinguis el primer contacte amb un jugador d'IA, t'oferirà automàticament un tractat d'Alto el foc."
 
 #: data/helpdata.txt:798
 msgid ""
@@ -17906,7 +17908,7 @@ msgid ""
 "player, you may enter an Armistice, that after another set number of turns "
 "will turn into a permanent Peace treaty. Breaking an Armistice will drop you "
 "directly back to War."
-msgstr ""
+msgstr "Si desitges una coexistència pacífica més permanent amb un altre jugador, pots entrar en un Armistici, que al cap d'un altre nombre donat de torns es convertirà en un tractat de Pau permanent. Trencar un Armistici et retornarà directament a la Guerra."
 
 #: data/helpdata.txt:803
 msgid ""
@@ -17916,7 +17918,7 @@ msgid ""
 "this, you may not move units into the other's territory until you either "
 "declare War, or forge an Alliance. Breaking a Peace treaty will drop you "
 "directly back to War."
-msgstr ""
+msgstr "     En el moment que dos jugadors entren en l'estat diplomàtic de Pau, totes les unitats de qualsevol dels dos jugadors que es trobin dins de les fronteres de l'altre seran desmantellades automàticament segons el tractat. Després d'això, no pots moure unitats cap al territori de l'altre fins que o bé declaris la Guerra, o arribis a una Aliança. Trencar un tractat de Pau et retornarà directament a la Guerra."
 
 #: data/helpdata.txt:810
 msgid ""
@@ -17981,6 +17983,21 @@ msgid ""
 "hints, some background information, and some preset examples in the file "
 "README.cma, included with Freeciv.\n"
 msgstr ""
+"El Gestor de Ciutadans (conegut abans com AGC) t'ajuda a gestionar les teves ciutats. Desplega els treballadors disponibles per les caselles lliures dels voltants de la ciutat per tal d'obtenir la màxima productivitat per part de la ciutat. També converteix treballadors en científics, recaptadors d'impostos, o artistes, si cal. I el gestor té una altra capacitat: mentre sigui possible, manté felices les teves ciutats.\n"
+"\n"
+"Hi ha diverses maneres de dir-li al gestor quin tipus de producció vols. Obre la finestra de ciutat, i clica a la pestanya del gestor. Hi ha dos tipus de controls: a mà esquerra, pots fixar un Excedent Mínim per cada tipus de producció; p. ex. Or = +3 vol dir que la ciutat ha de guanyar 3 peces d'or més del que necessita per mantenir els seus edificis i millores. A mà cdreta, els controls et deixen definir en quin grau prefereixes un tipus de producció abans d'un altre; fixar ciència a 3 vol dir que prefereixes una sola bombeta abans que tres escuts (o or, comerç, ...). Pots fixar factors diferents per cada tipus de proudcció, segons les teves necessitats.\n"
+"\n"
+"Si configures alguns Excedents Mínims que siguin impossibles de complir, el gestor no es pot activar. En el moment que el gestor no pot complir la seva tasca durant la partida en curs, et retorna el control. Per tant, val més que no defineixis un excedent massa alt; en comptes d'això, utilitza els factors per tal d'aconseguir els teus objectius.\n"
+"\n"
+"La casella \"En festa\" permet que la teva ciutat faci celebracions. Això només funcionarà amb taxes de luxe altes. Veure l'ajuda sobre 'Felicitat'.\n"
+"\n"
+"Clicar a 'Controlar ciutat' posa la ciutat sota el control del gestor, 'No controlar ciutat' et retorna el control.\n"
+"\n"
+"Per facilitar l'ús, pots guardar la posició dels controls com a prefixat amb un nom. Clica a 'afegir prefixat' i introdueix un nom per aquesta configuració. Pots fer servir aquest prefixat a les ciutats que vulguis només clicant sobre el seu nom. També pots controlar-ho des de dins de l'informe de ciutats, a la columna \"gestor\". I des d'allà també pots modificar-ho (amb 'canvi'--> 'Gestor de Ciutadans'), si l'has guardat com a prefixat.\n"
+"\n"
+"Utilitza 'Joc'--> 'Guardar Configuracions' per guardar els prefixats de forma permanent.\n"
+"\n"
+"Però vigila! Si fas servir el gestor per algunes ciutats, pots trobar problemes gestionant les ciutats de la vora a mà. És millor gestionar totes les ciutats d'una illa de la mateixa forma: a mà o amb gestor. Llegeix més consells, una mica d'informació contextual, i alguns exemples de prefixats al fitxer README.cma, que s'inclou amb Freeciv.\n"
 
 #: data/helpdata.txt:872
 msgid ""
@@ -20045,12 +20062,11 @@ msgid "Pyramids"
 msgstr "Piràmides"
 
 #: data/default/buildings.ruleset:1392
-#, fuzzy
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
-msgstr "Graner."
+msgstr "La quantitat de menjar emmagatzemat que es perd quan una de les teves ciutats creix o decreix es redueix en un 25%. Això ajuda a les ciutats a créixer més ràpid i aguantar més fàcilment èpoques de fam. S'acumula amb l'efecte del Graner."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -20536,7 +20552,6 @@ msgid "scientist"
 msgstr "científic"
 
 #: data/default/cities.ruleset:38 data/civ2/cities.ruleset:38
-#, fuzzy
 msgid "?Scientist:S"
 msgstr "C"
 
@@ -20545,7 +20560,6 @@ msgid "taxman"
 msgstr "recaptador"
 
 #: data/default/cities.ruleset:46 data/civ2/cities.ruleset:46
-#, fuzzy
 msgid "?Taxman:T"
 msgstr "R"
 
@@ -20554,7 +20568,6 @@ msgid "?citystyle:European"
 msgstr "Europeu"
 
 #: data/default/cities.ruleset:83 data/civ2/cities.ruleset:83
-#, fuzzy
 msgid "?citystyle:Classical"
 msgstr "Clàssic"
 
@@ -20588,7 +20601,7 @@ msgstr "Postmodern"
 
 #: data/civ2/cities.ruleset:128
 msgid "?citystyle:Renaissance"
-msgstr "Renaixement"
+msgstr "Renaixentista"
 
 #: data/default/governments.ruleset:51 data/civ2/governments.ruleset:49
 #: data/civ1/governments.ruleset:51
@@ -20614,6 +20627,13 @@ msgid ""
 "Anarchy offers slightly less corruption than Despotism, but slightly more "
 "unhappiness."
 msgstr ""
+"L'Anarquia és simplement l'absència de qualsevol govern recognoscible. Els "
+"ciutadans estan desorganitzats i són improductius, i es gastaran els seus "
+"ingressos tan ràpid com sigui possible, abans que pagar impostos o fer "
+"recerca.\n"
+"\n"
+"L'Anarquia ofereix una mica menys de corrupció que el Despotisme, però també "
+"un pèl més d'infelicitat."
 
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
@@ -20640,6 +20660,11 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
+"Sota el Despotisme, ets el governant absolut de la teva gent. El teu control "
+"sobre els ciutadans es manté principalment per la llei marcial.\n"
+"\n"
+"El Despotisme pateix el nivell de corrupció més elevat de totes les formes "
+"de govern."
 
 #: data/default/governments.ruleset:92 data/civ2/governments.ruleset:90
 #: data/civ1/governments.ruleset:92 data/default/techs.ruleset:481
@@ -20670,6 +20695,10 @@ msgid ""
 "\n"
 "Monarchy suffers the same small amount of corruption that the Republic does."
 msgstr ""
+"Sota la Monarquia, un rei o reina serveix com a cap hereditari del teu "
+"govern.\n"
+"\n"
+"La Monarquia pateix la mateixa quantitat reduïda de corrupció que la República."
 
 #: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
 #: data/civ1/governments.ruleset:114 data/default/techs.ruleset:175
@@ -20688,7 +20717,6 @@ msgid "?female:Comrade"
 msgstr "Camarada"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -20697,8 +20725,14 @@ msgid ""
 "Under Communism, corruption does not vary by distance from the capital; all "
 "cities (including the capital) have a modest amount of corruption."
 msgstr ""
-"Tot Comunisme Comunisme Unitats Diplomàtic Comunisme Comunisme Comunisme "
-"Comunisme Comunisme."
+"Un govern Comunista està basat en l'ideal que totes les persones són iguals. "
+"Tots els béns són propietat de l'estat, en comptes dels ciutadans. El "
+"Comunisme dóna un equilibri entre els estils de govern militars i "
+"comercials.\n"
+"\n"
+"Sota el Comunisme, la corrupció no varia amb la distància des de la capital; "
+"totes les ciutats (inclosa la capital) tenen una quantitat modesta de "
+"corrupció. "
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -20712,7 +20746,6 @@ msgstr "Cònsol"
 
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:146
-#, fuzzy
 msgid "?female:Consul"
 msgstr "Cònsol"
 
@@ -20725,6 +20758,12 @@ msgid ""
 "freedom.  Citizens under the Republic become unhappy easily, but the self-"
 "sufficiency of your citizens allows high levels of trade."
 msgstr ""
+"Sota un govern republicà, els ciutadans celebren eleccions per tal de triar "
+"un representant que els governi; com que els líders electes han de mantenir "
+"la seva popularitat per conservar el poder, els ciutadans reben un grau "
+"major de llibertat. Els ciutadans sota la República es converteixen en "
+"descontents fàcilment, però l'autosuficiència dels teus ciutadans permet "
+"nivells alts de comerç."
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:216
@@ -20750,9 +20789,8 @@ msgstr "President"
 
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
-#, fuzzy
 msgid "?female:President"
-msgstr "President"
+msgstr "Presidenta"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -20761,6 +20799,10 @@ msgid ""
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
 msgstr ""
+"Sota la Democràcia, els ciutadans governen directament votant sobre els "
+"temes. La Democràcia ofereix el nivell de comerç més alt possible, però "
+"també té el potencial d'infelicitat més alt. No hi ha corrupció en "
+"Democràcia, però els ciutadans es preocupen molt per les guerres."
 
 #: data/civ2/governments.ruleset:57
 msgid ""
@@ -20771,6 +20813,12 @@ msgid ""
 "Anarchy offers slightly less corruption and waste than Despotism, but "
 "slightly more unhappiness."
 msgstr ""
+"L'Anarquia és simplement l'absència de qualsevol govern recognoscible. Els "
+"ciutadans estan desorganitzats i són improductius, i es gastaran els seus "
+"ingressos tan ràpid com sigui possible, abans que pagar impostos o fer "
+"recerca.\n"
+"\n"
+"L'Anarquia ofereix una mica menys de corrupció i malbaratament que el Despotisme, però també un pèl més d'infelicitat."
 
 #: data/civ2/governments.ruleset:79
 msgid ""
@@ -20780,6 +20828,11 @@ msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
 msgstr ""
+"Sota el Despotisme, ets el governant absolut de la teva gent. El teu control "
+"sobre els ciutadans es manté principalment per la llei marcial.\n"
+"\n"
+"El Despotisme pateix el nivell de corrupció i malbaratament més elevat de totes les formes "
+"de govern."
 
 #: data/civ2/governments.ruleset:101
 msgid ""
@@ -20789,9 +20842,12 @@ msgid ""
 "Monarchy suffers the same small amount of corruption and waste that the "
 "Republic does."
 msgstr ""
+"Sota la Monarquia, un rei o reina serveix com a cap hereditari del teu "
+"govern.\n"
+"\n"
+"La Monarquia pateix la mateixa quantitat reduïda de corrupció i malbaratament que la República."
 
 #: data/civ2/governments.ruleset:122
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -20801,8 +20857,13 @@ msgid ""
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
 msgstr ""
-"Tot Comunisme Comunisme Unitats Diplomàtic Comunisme Comunisme Comunisme "
-"Comunisme Comunisme."
+"Un govern Comunista està basat en l'ideal que totes les persones són iguals. "
+"Tots els béns són propietat de l'estat, en comptes dels ciutadans. El "
+"Comunisme dóna un equilibri entre els estils de govern militars i "
+"comercials.\n"
+"\n"
+"Sota el Comunisme, la corrupció i el malbaratament no varien amb la distància des de la capital; totes les ciutats (inclosa la capital) tenen una quantitat modesta de "
+"corrupció."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:297
 #: data/civ2/techs.ruleset:284 data/civ1/techs.ruleset:282
@@ -20818,7 +20879,6 @@ msgid "High Priestess"
 msgstr "Alta sacerdotessa"
 
 #: data/civ2/governments.ruleset:146
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -20831,8 +20891,18 @@ msgid ""
 "produces `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
-"Fonamentalisme Fonamentalisme Fanàtic Fonamentalisme Fonamentalisme "
-"Fonamentalisme."
+"El Fonamentalisme és una forma de govern organitzada al voltant d'un conjunt "
+"central de creences. Les creences, normalment de natura religiosa, formen "
+"una guia rígida per les accions i les reaccions tant dels governants com de "
+"la gent.\n"
+"\n"
+"En una societat fonamentalista, la gent i els governants estan dedicats en "
+"cos i ànima a les seves creences, i normalment estan disposats a morir per "
+"conservar-los.\n"
+"\n"
+"Les millores que normalment converteixen ciutadans descontents en contents, "
+"produeixen 'almoines'.(or) equivalents al nombre de gent que convertirien "
+"normalment, i no requereixen manteniment."
 
 #: data/civ2/governments.ruleset:196
 msgid ""
@@ -22831,7 +22901,7 @@ msgstr "Birmans"
 msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
-msgstr ""
+msgstr "La Unió de Birmània (oficialment \"Myanmar\") és el país més gran del continent al Sudest asiàtic."
 
 #: data/nation/burmese.ruleset:21
 msgid "Bohmugyi"
@@ -22861,11 +22931,11 @@ msgid ""
 "until 1453 when its capital fell to the Ottomans. At the time of Justinian "
 "I, the Byzanines controlled nearly all of Middle East, nothern Africa, Italy "
 "and parts of Spain."
-msgstr ""
+msgstr "A l'època del declivi de l'antic imperi romà, l'Emperador Constantí va canviar la capital de l'imperi cap a Bizanci i va formar-hi un nou imperi conegut principalment com a Imperi Romà d'Orient o Imperi Bizantí. Aquest imperi va durar fins el 1453, quan la seva capital va caure en mans dels otomans. A l'època de Justinià I, els bizantins controlaven gairebé tot l'Orient Mitjà, el nord d'Àfrica, Itàlia i parts d'Espanya."
 
 #: data/nation/byzantium.ruleset:27
 msgid "Basileus"
-msgstr ""
+msgstr "Basileus"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
