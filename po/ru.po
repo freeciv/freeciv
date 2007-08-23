@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-15 17:42+0900\n"
+"POT-Creation-Date: 2007-08-23 19:22+0900\n"
 "PO-Revision-Date: 2006-02-03 19:42+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -660,7 +660,7 @@ msgstr "Технология будущего"
 #: common/tech.c:783 client/gui-gtk-2.0/inteldlg.c:366
 #: client/gui-gtk-2.0/inteldlg.c:387 client/gui-mui/inteldlg.c:152
 #: client/gui-sdl/inteldlg.c:288 client/gui-sdl/inteldlg.c:299
-#: client/gui-win32/inteldlg.c:135 client/gui-xaw/inteldlg.c:259
+#: client/gui-win32/inteldlg.c:139 client/gui-xaw/inteldlg.c:259
 msgid "(Unknown)"
 msgstr "(Неизвестно)"
 
@@ -2079,7 +2079,7 @@ msgstr "Это сервер для %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Вы можете узнать больше о Freeciv на %s"
 
-#: server/civserver.c:205 client/civclient.c:196 manual/civmanual.c:380
+#: server/civserver.c:205 client/civclient.c:200 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2107,14 +2107,14 @@ msgstr ""
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b  --bind ADDR\tЖдать подключения клиентов по адресу ADDR\n"
 
-#: server/civserver.c:215 client/civclient.c:200
+#: server/civserver.c:215 client/civclient.c:204
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tУстановить уровень журнала отладки  (0 до 4,или 4:file1,"
 "min,max:...)\n"
 
-#: server/civserver.c:219 client/civclient.c:204
+#: server/civserver.c:219 client/civclient.c:208
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tУстановить уровень журнала отладки  (0 до 3)\n"
 
@@ -2122,7 +2122,7 @@ msgstr "  -d, --debug NUM\tУстановить уровень журнала о
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\tЗагрузить сохранённую игру FILE\n"
 
-#: server/civserver.c:223 client/civclient.c:207 manual/civmanual.c:382
+#: server/civserver.c:223 client/civclient.c:211 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tНапечатать список настроек\n"
 
@@ -2172,12 +2172,12 @@ msgstr "  -r, --read FILE\tПрочитать начальный скрипт FI
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FILE\tИспользовать FILE для записи рейтинга\n"
 
-#: server/civserver.c:245 client/civclient.c:226 manual/civmanual.c:383
+#: server/civserver.c:245 client/civclient.c:230 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tВыдать номер версии\n"
 
 #: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:267
-#: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:208
+#: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:209
 #: client/gui-xaw/gui_main.c:247 manual/civmanual.c:384
 #, c-format
 msgid "Report bugs at %s.\n"
@@ -4047,14 +4047,14 @@ msgstr "Причина: строка слишком короткая (ожида
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Сохранённая игра слишком старая, нужна по крайней мере версия 1.9.0."
 
-#: server/savegame.c:3755
+#: server/savegame.c:3758
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Сохранённая игра использует \"классический\" набор рельефа, который больше "
 "не поддерживается."
 
-#: server/savegame.c:3764
+#: server/savegame.c:3767
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4063,7 +4063,7 @@ msgstr ""
 "Разные каталоги наборов правил (%s и %s) больше не поддерживаются. "
 "Используем '%s'."
 
-#: server/savegame.c:3993
+#: server/savegame.c:3996
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -5319,11 +5319,11 @@ msgstr ""
 "log\" каждый ход. Эта статистика может быть использована для создания "
 "графиков силы после игры."
 
-#: server/sernet.c:146
+#: server/sernet.c:147
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Сервер не может читать со стандартного ввода. Игнорируем ввод."
 
-#: server/sernet.c:911
+#: server/sernet.c:908
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Сервер: неправильный адрес: [%s:%d]."
@@ -5526,55 +5526,55 @@ msgstr ""
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Пожалуйста, выберите имя, содержащее только ASCII символы."
 
-#: server/srv_main.c:1364
+#: server/srv_main.c:1366
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Народ %s недоступен в данном сценарии."
 
-#: server/srv_main.c:1370
+#: server/srv_main.c:1372
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Народ %s уже используется."
 
-#: server/srv_main.c:1388
+#: server/srv_main.c:1390
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s - %s правитель %s."
 
-#: server/srv_main.c:1446
+#: server/srv_main.c:1448
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Ждём начала игры: %d из %d игроков готовы начать."
 
-#: server/srv_main.c:1451
+#: server/srv_main.c:1453
 msgid "All players are ready; starting game."
 msgstr "Все игроки готовы; начинаем игру."
 
-#: server/srv_main.c:1493 server/srv_main.c:1497
+#: server/srv_main.c:1495 server/srv_main.c:1499
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s был добавлен как %s уровень игрока, управляемого компьютером."
 
-#: server/srv_main.c:1624
+#: server/srv_main.c:1626
 #, c-format
 msgid "Player %d"
 msgstr "Игрок %d"
 
-#: server/srv_main.c:1635 server/srv_main.c:1641
+#: server/srv_main.c:1637 server/srv_main.c:1643
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s правит народом %s."
 
-#: server/srv_main.c:1813
+#: server/srv_main.c:1815
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Посылаем информацию на метасервер [%s]"
 
-#: server/srv_main.c:1841
+#: server/srv_main.c:1843
 msgid "The game is over..."
 msgstr "Игра закончена..."
 
-#: server/srv_main.c:1895
+#: server/srv_main.c:1897
 msgid "Now accepting new client connections."
 msgstr "Принимаются подключения новых клиентов."
 
@@ -7926,54 +7926,54 @@ msgstr "?специалист:С"
 msgid "Specialists"
 msgstr "Специалисты"
 
-#: client/civclient.c:198
+#: client/civclient.c:202
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tПропустить диалог подключения\n"
 
-#: client/civclient.c:208
+#: client/civclient.c:212
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 "  -l, --log FILE\tИспользовать FILE для записи журнала (сервер также "
 "использует эту команду)\n"
 
-#: client/civclient.c:210
+#: client/civclient.c:214
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tПодключиться к метасерверу HOST\n"
 
-#: client/civclient.c:212
+#: client/civclient.c:216
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\tИспользовать NAME как имя\n"
 
-#: client/civclient.c:214
+#: client/civclient.c:218
 #, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port PORT\tПодключиться к порту PORT сервера\n"
 
-#: client/civclient.c:216
+#: client/civclient.c:220
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tИспользовать PLUGIN для звукового вывода %s\n"
 
-#: client/civclient.c:218
+#: client/civclient.c:222
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 "  -r, --read FILE\tПрочитать начальный скрипт FILE (только для сервера)\n"
 
-#: client/civclient.c:221
+#: client/civclient.c:225
 #, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr "  -s, --server HOST\tПодключиться к серверу HOST\n"
 
-#: client/civclient.c:223
+#: client/civclient.c:227
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FILE\tПрочитать звуковую информацию из FILE\n"
 
-#: client/civclient.c:224
+#: client/civclient.c:228
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr ""
 "  -t, --tiles FILE\tИспользовать файл данных FILE.tilespec для ячеек карты\n"
 
-#: client/civclient.c:227
+#: client/civclient.c:231
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7983,30 +7983,30 @@ msgstr ""
 "\t\t\tПопробуйте \"%s -- --help\", если Вам нужна дополнительная "
 "информация.\n"
 
-#: client/civclient.c:253
+#: client/civclient.c:257
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Неверный порт \"%s\" указан настройкой --port.\n"
 
-#: client/civclient.c:255 client/civclient.c:270
+#: client/civclient.c:259 client/civclient.c:274
 msgid "Try using --help.\n"
 msgstr "Попробуйте использовать --help.\n"
 
-#: client/civclient.c:268
+#: client/civclient.c:272
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Неверный уровень настройки \"%s\" указан настройкой --debug.\n"
 
-#: client/civclient.c:281
+#: client/civclient.c:285
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Непонятная настройка: \"%s\"\n"
 
-#: client/civclient.c:515
+#: client/civclient.c:519
 msgid "Game started."
 msgstr "Игра началась."
 
-#: client/civclient.c:550
+#: client/civclient.c:554
 msgid "There was an error while auto connecting; aborting."
 msgstr "Ошибка во время подключения, прерываем выполнение."
 
@@ -9187,7 +9187,7 @@ msgstr ""
 "Новый модуль будет работать только после рестарта Freeciv. Поменять эту "
 "настройку можно и через командную строку, используя параметр -P."
 
-#: client/options.c:135 client/gui-sdl/gui_main.c:161
+#: client/options.c:135 client/gui-sdl/gui_main.c:162
 msgid "Theme"
 msgstr "Тема"
 
@@ -9520,21 +9520,21 @@ msgstr "Строка возможностей клиента: %s"
 msgid "Server capability string: %s"
 msgstr "Строка возможностей сервера: %s"
 
-#: client/packhand.c:852
+#: client/packhand.c:836
 #, c-format
 msgid "Start of turn %d"
 msgstr "Начало хода %d"
 
-#: client/packhand.c:1569
+#: client/packhand.c:1553
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Компьютерный режим %s."
 
-#: client/packhand.c:1570
+#: client/packhand.c:1554
 msgid "ON"
 msgstr "ВКЛ"
 
-#: client/packhand.c:1570
+#: client/packhand.c:1554
 msgid "OFF"
 msgstr "ВЫКЛ"
 
@@ -11427,11 +11427,11 @@ msgstr ""
 "Если данная настройка включена, то отчёты будут открываться в отдельных "
 "вкладках, а не в появляющихся окнах."
 
-#: client/gui-gtk-2.0/gui_main.c:177 client/gui-win32/gui_main.c:109
+#: client/gui-gtk-2.0/gui_main.c:177 client/gui-win32/gui_main.c:110
 msgid "Better fog-of-war drawing"
 msgstr "Улучшенная прорисовка дыма войны"
 
-#: client/gui-gtk-2.0/gui_main.c:178 client/gui-win32/gui_main.c:110
+#: client/gui-gtk-2.0/gui_main.c:178 client/gui-win32/gui_main.c:111
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -11450,7 +11450,7 @@ msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1052 client/gui-gtk-2.0/gui_main.c:1059
-#: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:481
+#: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Ход сделан"
@@ -11469,7 +11469,7 @@ msgid "_Chat"
 msgstr "_Общение"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-mui/gui_main.c:1044
-#: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
+#: client/gui-win32/gui_main.c:538 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -14022,13 +14022,13 @@ msgstr "Наука: %d%%"
 msgid "Luxury: %d%%"
 msgstr "Роскошь: %d%%"
 
-#: client/gui-mui/inteldlg.c:148 client/gui-win32/inteldlg.c:127
+#: client/gui-mui/inteldlg.c:148 client/gui-win32/inteldlg.c:128
 #: client/gui-xaw/inteldlg.c:245
 #, c-format
 msgid "Researching: %s(%d/%d)"
 msgstr "Исследуется: %s(%d/%d)"
 
-#: client/gui-mui/inteldlg.c:152 client/gui-win32/inteldlg.c:134
+#: client/gui-mui/inteldlg.c:152 client/gui-win32/inteldlg.c:138
 #: client/gui-xaw/inteldlg.c:258
 #, c-format
 msgid "Capital: %s"
@@ -15054,11 +15054,11 @@ msgstr "Невозможно установить разрешение: %d x %d,
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr "Устанавливаем разрешение: %d x %d, %d бит"
 
-#: client/gui-sdl/gui_main.c:149
+#: client/gui-sdl/gui_main.c:150
 msgid "Full Screen"
 msgstr "Полноэкранный режим"
 
-#: client/gui-sdl/gui_main.c:150
+#: client/gui-sdl/gui_main.c:151
 #, fuzzy
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
@@ -15066,23 +15066,23 @@ msgstr ""
 "Если данная настройка установлена, то когда открыт диалог города, данный "
 "город центрируется автоматически."
 
-#: client/gui-sdl/gui_main.c:153
+#: client/gui-sdl/gui_main.c:154
 msgid "Screen width"
 msgstr "Ширина экрана"
 
-#: client/gui-sdl/gui_main.c:154
+#: client/gui-sdl/gui_main.c:155
 msgid "This option saves the width of the selected screen resolution"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:157
+#: client/gui-sdl/gui_main.c:158
 msgid "Screen height"
 msgstr "Высота экрана"
 
-#: client/gui-sdl/gui_main.c:158
+#: client/gui-sdl/gui_main.c:159
 msgid "This option saves the height of the selected screen resolution"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:162
+#: client/gui-sdl/gui_main.c:163
 #, fuzzy
 msgid ""
 "By changing this option you change the active theme. This is the same as "
@@ -15091,36 +15091,36 @@ msgstr ""
 "Меняя данную настройку, Вы меняете активный набор графики. Поменять эту "
 "настройку можно и через командную строку, используя параметр -t."
 
-#: client/gui-sdl/gui_main.c:203
+#: client/gui-sdl/gui_main.c:204
 #, fuzzy
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
 msgstr "  -f,  --fullscreen\tЗапустить клиент в полноэранном режиме\n"
 
-#: client/gui-sdl/gui_main.c:204
+#: client/gui-sdl/gui_main.c:205
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:206
+#: client/gui-sdl/gui_main.c:207
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:654
+#: client/gui-sdl/gui_main.c:655
 #, c-format
 msgid "Making screenshot fc_%05d.bmp"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:787
+#: client/gui-sdl/gui_main.c:788
 #, c-format
 msgid "Using Video Output: %s"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:840
+#: client/gui-sdl/gui_main.c:841
 msgid "Initializing Client"
 msgstr "Инициализация клиента"
 
-#: client/gui-sdl/gui_main.c:851
+#: client/gui-sdl/gui_main.c:852
 msgid "Waiting for the beginning of the game"
 msgstr "Ожидание начала игры"
 
@@ -16036,7 +16036,7 @@ msgstr "Поддерживаемые войска"
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:188
 #: client/gui-win32/dialogs.c:256 client/gui-win32/dialogs.c:767
 #: client/gui-win32/dialogs.c:1298 client/gui-win32/dialogs.c:1497
-#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:155
+#: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:159
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:162
 #: client/gui-win32/plrdlg.c:351 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:450 client/gui-win32/repodlgs.c:713
@@ -16282,11 +16282,11 @@ msgstr "Убрать статью"
 msgid "Select a city:"
 msgstr "Выберите город:"
 
-#: client/gui-win32/gui_main.c:115
+#: client/gui-win32/gui_main.c:116
 msgid "Enable alpha blending"
 msgstr "Включить альфа-смешивание"
 
-#: client/gui-win32/gui_main.c:116
+#: client/gui-win32/gui_main.c:117
 msgid ""
 "If this is enabled, then alpha blending will be used in rendering, instead "
 "of an ordered dither.  If there is no hardware support for alpha blending, "
@@ -16304,6 +16304,11 @@ msgstr "Упраздняет"
 #: client/gui-win32/helpdlg.c:815 client/gui-win32/helpdlg.c:828
 msgid "?techhelp:)."
 msgstr "?techheelp:)."
+
+#: client/gui-win32/inteldlg.c:133
+#, fuzzy
+msgid "Researching: (Unknown)"
+msgstr "Исследуется: Неизвестно(%d/-)"
 
 #: client/gui-win32/mapview.c:170
 #, c-format
