@@ -553,8 +553,9 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
   if (count > 0 && unit_list_size(hover_units) > 0) {
     int min, max;
 
-    goto_get_turns(&min, &max);
-    if (min == max) {
+    if (!goto_get_turns(&min, &max)) {
+      astr_add_line(&str, _("Turns to target: %d"), min);
+    } else if (min == max) {
       astr_add_line(&str, _("Turns to target: %d"), max);
     } else {
       astr_add_line(&str, _("Turns to target: %d to %d"), min, max);
