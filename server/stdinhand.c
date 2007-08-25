@@ -3665,7 +3665,7 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
     caller->player->surrendered = TRUE;
     return TRUE;
   } else {
-    cmd_reply(CMD_END_GAME, caller, C_FAIL, _("You cannot surrender now."));
+    cmd_reply(CMD_SURRENDER, caller, C_FAIL, _("You cannot surrender now."));
     return FALSE;
   }
 }
