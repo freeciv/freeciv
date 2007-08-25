@@ -14,8 +14,8 @@ nodist_noinst_DATA = \
 CLEANFILES = $(nodist_noinst_DATA)
 
 clienticon.o: clienticon.rc
-	$(WINDRES) -i clienticon.rc -o clienticon.o
+	$(WINDRES) -I$(srcdir) -i $(srcdir)/clienticon.rc -o clienticon.o
 
 servericon.o: servericon.rc
-	$(WINDRES) -i servericon.rc -o servericon.o
+	$(WINDRES) -I$(srcdir) -i $(srcdir)/servericon.rc -o servericon.o
 endif
