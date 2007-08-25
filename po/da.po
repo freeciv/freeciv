@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-10 16:58+0300\n"
-"PO-Revision-Date: 2007-08-20 18:48+0300\n"
+"PO-Revision-Date: 2007-08-25 18:48+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <<dansk@dansk-gruppen.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -15470,7 +15470,7 @@ msgstr ""
 #: client/gui-sdl/mapview.c:795 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
-msgstr "Barakker"
+msgstr "Kaserne"
 
 #: client/gui-sdl/mapview.c:807 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
@@ -18412,7 +18412,7 @@ msgid ""
 msgstr ""
 "Enheder som er blevet skadet i kamp vil få træfpoint tilbage hver runde som "
 "de ikke flytter sig. Normalt vil en enhed som ikke har flyttet sig få et "
-"træfpoint tilbage hver runde. En landenhed i en by med barakker, eller en "
+"træfpoint tilbage hver runde. En landenhed i en by med kaserne, eller en "
 "søenhed i en by med havneområde eller en flyenhed i en by med lufthavn vil "
 "få alle træfpointene tilbage hvis de opholder sig en hel runde i byen uden "
 "at flytte sig. Ellers får en enhed som opholder sig en runde i en by en "
@@ -18733,7 +18733,7 @@ msgid ""
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
 "Antag at et veteranslagskib (A:12, F:12, TP:40, F:2) med 3 flyttepoint igen "
-"angriber Alpine veteran-tropper (A:5, F:5, TP:20, F:1) inde i en by som er "
+"angriber veteran alpejægere (A:5, F:5, TP:20, F:1) inde i en by som er "
 "bygget på en græseng, med bymure og kystforsvar."
 
 #: data/helpdata.txt:1134
@@ -19481,19 +19481,19 @@ msgid ""
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
 msgstr ""
-"Med barakker bliver alle nye landenheder veteraner. Det betyder at deres "
+"Med kaserne bliver alle nye landenheder veteraner. Det betyder at deres "
 "angrebs- og forsvars-styrke øger med 50%. Skadede landenheder som bliver i "
 "byen for en hel runde uden at flytte sig bliver repareret fuldstændigt."
 
 #: data/default/buildings.ruleset:138 data/civ2/buildings.ruleset:120
 #: data/civ1/buildings.ruleset:93
 msgid "Barracks II"
-msgstr "Barakker II"
+msgstr "Kaserne II"
 
 #: data/default/buildings.ruleset:163 data/civ2/buildings.ruleset:144
 #: data/civ1/buildings.ruleset:117
 msgid "Barracks III"
-msgstr "Barakker III"
+msgstr "Kaserne III"
 
 #: data/default/buildings.ruleset:187 data/civ2/buildings.ruleset:168
 #: data/civ1/buildings.ruleset:141
@@ -19787,7 +19787,7 @@ msgid "Power Plant"
 msgstr "Kulkraftværk"
 
 #: data/default/buildings.ruleset:634
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 75% production bonus, and a "
@@ -19797,12 +19797,14 @@ msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
 msgstr ""
-"Det øger skjoldproduktionen fra en fabrik eller et fabrikskompleks i en by: "
-"en fabrik og et fabrikskompleks giver til sammen 75%  produktionsbonus, og "
-"en fabrik, et fabrikskompleks og et kraftværk giver tilsammen 150% "
-"produktionsbonus.\n"
+"Kulkraftværket øger skjoldproduktionen fra en fabrik eller et fabrikskompleks "
+"i en by: En fabrik og et fabrikskompleks giver til sammen 75 % produktionsbonus, "
+"og en fabrik, et fabrikskompleks og et kulkraftværk giver tilsammen 150 % "
+"produktionsbonus. Den ekstra forurening kan føre til at byen udleder mere "
+"forurening.\n"
 "\n"
-"En by kan kun have et vandkraftværk, kraftværk eller atomkraftværk. "
+"En by kan kun have et kulkraftværk, vandkraftværk, atomkraftværk eller "
+"solkraftværk."
 
 #: data/default/buildings.ruleset:649 data/civ2/buildings.ruleset:611
 #: data/civ1/buildings.ruleset:473
@@ -19945,11 +19947,11 @@ msgstr ""
 "Rum-moduler er de dyreste dele af et rumskib. Det findes 3 slags rum-"
 "moduler:\n"
 "\n"
-"- Boligmodul: har boliger til 10000 mennesker.\n"
+"- Boligmodul: Har boliger til 10.000 mennesker.\n"
 "\n"
-"- Overlevelsesmoduler: har mad og vand til indbyggere i et boligmodul.\n"
+"- Overlevelsesmoduler: Har mad og vand til indbyggere i et boligmodul.\n"
 "\n"
-". - Solcellepanelmodul: producerer energi til de to andre moduler.\n"
+". - Solcellepanelmodul: Producerer energi til de to andre moduler.\n"
 "\n"
 "Man kan bruge op til 4 rum-moduler af hver slags.\n"
 "\n"
@@ -20000,7 +20002,7 @@ msgstr "Motorveje"
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr ""
-"Øger handelsressurserne med 50% på alle felter med veje eller jernbaner."
+"Øger handelsressourcerne med 50 % på alle felter med veje eller jernbaner."
 
 #: data/default/buildings.ruleset:915 data/civ2/buildings.ruleset:872
 msgid "Supermarket"
@@ -20687,7 +20689,7 @@ msgid ""
 "increased by 50%.  Also, damaged units which stay in town for one full turn "
 "without moving are completely restored."
 msgstr ""
-"Med barakker får alle nye enheder i byen automatisk veteran status, som "
+"Med kaserne får alle nye enheder i byen automatisk veteran status, som "
 "betyder at deres angrebs- og forsvars-styrke øges med 50%. Desuden bliver "
 "skadede enheder som bliver i byen en hel runde uden at flytte sig "
 "fuldstendigt repareret."
@@ -22815,12 +22817,11 @@ msgstr "?female:Statsminister"
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
-msgstr ""
+msgstr "Ainu"
 
 #: data/nation/ainu.ruleset:4
-#, fuzzy
 msgid "?plural:Ainu"
-msgstr "?plural:Finnerne"
+msgstr "?plural:Ainuerne"
 
 #: data/nation/ainu.ruleset:7
 msgid ""
@@ -22831,21 +22832,20 @@ msgstr ""
 #. TRANS: Nipa = Chief
 #: data/nation/ainu.ruleset:20
 msgid "Nipa"
-msgstr ""
+msgstr "Nipa"
 
 #. TRANS: Nipsa = Master
 #: data/nation/ainu.ruleset:22
 msgid "Nipsa"
-msgstr ""
+msgstr "Nipsa"
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
-msgstr ""
+msgstr "Akwe"
 
 #: data/nation/akwe.ruleset:4
-#, fuzzy
 msgid "?plural:Akwe"
-msgstr "?plural:Aztekerne"
+msgstr "?plural:Akweerne"
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -22859,13 +22859,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/akwe.ruleset:23
-#, fuzzy
 msgid "He'a"
-msgstr "Hetman"
+msgstr "He'a"
 
 #: data/nation/akwe.ruleset:24 data/nation/srivijaya.ruleset:22
 msgid "Senapati"
-msgstr ""
+msgstr "Senapati"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
@@ -28509,25 +28508,11 @@ msgstr "Hold 0"
 #~ msgid "Elected Priestess"
 #~ msgstr "Valgt ypperstepræstinde"
 
-#~ msgid "Venezuela"
-#~ msgstr "Venezuela"
-
 #~ msgid "Vote \"%s\" is passed %d to %d with %d blanke."
 #~ msgstr "Afstemning \"%s\" er afsluttet %d til %d med %d imod."
 
 #~ msgid "Vote \"%s\" failed with %d against, %d for and %d blanke."
 #~ msgstr "Afstemning \"%s\" faldt med %d mod %d for og %d imod."
-
-#~ msgid ""
-#~ "Bengal er et område i den østligste del af det indiske underkontinent. "
-#~ "Den første registrerede uafhængige konge var Shashanka som var ved magten "
-#~ "omkring 606 e.Kr. I dag er områdets østlige del en del af Bangladesh og "
-#~ "den vestlige del en del af Indien. "
-#~ msgstr ""
-#~ "Bengal er et område i den østligste del af det indiske underkontinent. "
-#~ "Den første registrerede uafhængige konge var Shashanka som var ved magten "
-#~ "omkring 606 e.Kr. I dag er områdets østlige del en del af Bangladesh og "
-#~ "den vestlige del en del af Indien. "
 
 #~ msgid ""
 #~ "According to traditional Japanese mythology, Japan was founded in the 7th "
