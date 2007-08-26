@@ -93,8 +93,9 @@ int ai_gold_reserve(struct player *pplayer);
 void init_choice(struct ai_choice *choice);
 void adjust_choice(int value, struct ai_choice *choice);
 void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best);
-void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-                         struct ai_choice *choice, int role, int want);
+bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
+                         struct ai_choice *choice, enum choice_type type,
+                         int role, int want, bool need_boat);
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice);
 bool ai_assess_military_unhappiness(struct city *pcity, struct government *g);
 

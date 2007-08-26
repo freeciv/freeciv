@@ -1158,14 +1158,23 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
   Calls ai_wants_role_unit to choose the best unit with the given role and 
   set tech wants.  Sets choice->choice if we can build something.
 **************************************************************************/
-void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-			 struct ai_choice *choice, int role, int want)
+bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
+			 struct ai_choice *choice, enum choice_type type,
+                         int role, int want, bool need_boat)
 {
   struct unit_type *iunit = ai_wants_role_unit(pplayer, pcity, role, want);
 
   if (iunit != NULL) {
+    choice->type = type;
     choice->choice = iunit->index;
+    choice->want = want;
+
+    choice->need_boat = need_boat;
+
+    return TRUE;
   }
+
+  return FALSE;
 }
 
 /**************************************************************************
