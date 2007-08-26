@@ -377,7 +377,7 @@ end
 hutmsg = false
 signal.connect('hut_enter', 'hut_entered_callback')
 
-print('Loading tutorial events.')
+print(_("Loading tutorial events."))
 $
 
 [game]
