@@ -104,8 +104,8 @@ fi
 if test "$ftwl" != no ; then
   PKG_CHECK_MODULES([CAIRO], [cairo],,
     [AC_MSG_ERROR([--enable-ftwl requires cairo])])
-  CLIENT_CFLAGS="$CLIENT_CFLAGS $CAIRO_CFLAGS"
-  CLIENT_LIBS="$CLIENT_LIBS $CAIRO_LIBS"
+  FTWL_CFLAGS="$FTWL_CFLAGS $CAIRO_CFLAGS"
+  FTWL_LIBS="$FTWL_LIBS $CAIRO_LIBS"
 fi
 
 AC_ARG_WITH(xaw,
@@ -394,19 +394,19 @@ AC_CHECK_HEADERS(bzlib.h)
 
 dnl Check and compile ftwl
 if test "$ftwl" = x11 ; then
-     FTWL_CFLAGS=`freetype-config --cflags`
-     FTWL_LIBS="-L/usr/X11R6/lib -lX11 -lpng "`freetype-config --libs`
+     FTWL_CFLAGS="$FTWL_CFLAGS "`freetype-config --cflags`
+     FTWL_LIBS="$FTWL_LIBS -L/usr/X11R6/lib -lX11 -lpng "`freetype-config --libs`
 fi
 
 if test "$ftwl" = sdl ; then
-     FTWL_CFLAGS=`sdl-config --cflags`" "`freetype-config --cflags`
-     FTWL_LIBS=`sdl-config --libs`" -lpng "`freetype-config --libs`
+     FTWL_CFLAGS="$FTWL_CFLAGS "`sdl-config --cflags`" "`freetype-config --cflags`
+     FTWL_LIBS="$FTWL_LIBS "`sdl-config --libs`" -lpng "`freetype-config --libs`
      AC_DEFINE(SDL, 1, [SDL is used])
 fi
 
 if test "$ftwl" = opengl ; then
-     FTWL_CFLAGS=`sdl-config --cflags`" "`freetype-config --cflags`
-     FTWL_LIBS=`sdl-config --libs`" -lpng "`freetype-config --libs -lGL -lGLU`
+     FTWL_CFLAGS="$FTWL_CFLAGS "`sdl-config --cflags`" "`freetype-config --cflags`
+     FTWL_LIBS="$FTWL_LIBS "`sdl-config --libs`" -lpng "`freetype-config --libs -lGL -lGLU`
 fi
 
 dnl Check and choose clients
@@ -436,7 +436,7 @@ if test x$client != xno; then
   if test "$client" = ftwl ; then
       AC_MSG_CHECKING([will compile gui-ftwl])
       AC_MSG_RESULT([yes])
-      CLIENT_CFLAGS="$CLIENT_CFLAGS $FTWL_FLAGS"
+      CLIENT_CFLAGS="$CLIENT_CFLAGS $FTWL_CFLAGS"
       CLIENT_LIBS="$CLIENT_LIBS $FTWL_LIBS"
   fi
 
@@ -496,6 +496,7 @@ AC_SUBST(CLIENT_LIBS)
 AC_SUBST(CLIENT_LDFLAGS)
 AC_SUBST(SOUND_CFLAGS)
 AC_SUBST(SOUND_LIBS)
+AC_SUBST(FTWL_CFLAGS)
 AC_SUBST([VERSION_WITHOUT_LABEL])
 AC_SUBST([VERSION_LABEL])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" = "xyes")
