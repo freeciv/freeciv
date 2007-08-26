@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-08-10 18:43+0300\n"
+"PO-Revision-Date: 2007-08-26 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <<dansk@dansk-gruppen.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -7531,7 +7531,6 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "Underholdere, forskere, skatteopkrævere"
 
 #: client/cityrepdata.c:450
-#, fuzzy
 msgid "Concise + Rapture, - Disorder"
 msgstr "Kort + fest, - uroligheder"
 
@@ -7636,9 +7635,8 @@ msgstr "Antal enheder til stede"
 
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:478
-#, fuzzy
 msgid "?Supported (units):Owned"
-msgstr "?Supported (units):Und"
+msgstr "?Supported (enheder):Ejet"
 
 #: client/cityrepdata.c:479
 msgid "Number of units supported"
@@ -7815,7 +7813,6 @@ msgid "?specialist:S"
 msgstr "?specialist:S"
 
 #: client/cityrepdata.c:576
-#, fuzzy
 msgid "Specialists"
 msgstr "Specialister"
 
@@ -7837,9 +7834,8 @@ msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAVN\\tBrug NAVN som navn\n"
 
 #: client/civclient.c:218
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
-msgstr "  -p, --port PORT\tTilslut til serverport PORT\n"
+msgstr "  -p, --port PORT\tTilslut til serverport PORT (normalt med -a)\n"
 
 # %s er vist liste af moduler
 #: client/civclient.c:220
@@ -7853,9 +7849,8 @@ msgstr ""
 "  -r, --read FIL\tIndlæs startkommandoer fra FIL (for startet server kun)\n"
 
 #: client/civclient.c:225
-#, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
-msgstr "  -s, --server VÆRT\tTilslut til serveren på VÆRT\n"
+msgstr "  -s, --server VÆRT\tTilslut til serveren på VÆRT (normalt med -a)\n"
 
 #: client/civclient.c:227
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
@@ -9065,11 +9060,8 @@ msgid "Theme"
 msgstr "Tema"
 
 #: client/options.c:136
-#, fuzzy
 msgid "By changing this option you change the active theme."
-msgstr ""
-"Ved at skifte denne indstilling ændrer du det aktive feltsæt. Det svarer til "
-"at anvende -t kommandolinje parametre."
+msgstr "Ved at skifte denne indstilling ændrer du det aktive feltsæt."
 
 #: client/options.c:139
 msgid "Tileset"
@@ -10132,7 +10124,7 @@ msgstr ""
 "Klienten understøtter ikke grafik sæt ovenfra. Benytter standard grafik."
 
 #: client/tilespec.c:3978
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug at %s"
@@ -12841,16 +12833,15 @@ msgstr "Opskydning"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
-msgstr ""
+msgstr "Tema foreslået"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
-#, fuzzy
 msgid "Load theme"
-msgstr "Fortsæt et spil"
+msgstr "Hent tema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
-msgstr ""
+msgstr "Behold nuværende tema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:69
 #, c-format
@@ -12858,19 +12849,20 @@ msgid ""
 "Tileset suggests using %s theme.\n"
 "You are currently using %s."
 msgstr ""
+"Feltsæt foreslår brug af %s tema.\n"
+"Du anvender for nuværende %s."
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
 msgid "Prefered tileset"
-msgstr ""
+msgstr "Foretrukket feltsæt"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
-#, fuzzy
 msgid "Load tileset"
-msgstr "Genindlæs feltsæt"
+msgstr "Hent feltsæt"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:56
 msgid "Keep current tileset"
-msgstr ""
+msgstr "Behold nuværende feltsæt"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
@@ -14336,12 +14328,10 @@ msgstr ""
 "nybygger på størrelse 1"
 
 #: client/gui-sdl/citydlg.c:1160
-#, fuzzy
 msgid "Sorry, You have already bought here in this turn."
 msgstr "Beklager, du har allerede købt i denne runde."
 
 #: client/gui-sdl/citydlg.c:1163
-#, fuzzy
 msgid "Sorry, You can't buy here in this turn."
 msgstr "Beklager, du har allerede købt i denne runde."
 
@@ -14787,7 +14777,7 @@ msgid "Foreign Minister"
 msgstr "Udenrigsminister"
 
 #: client/gui-sdl/diplodlg.c:1442
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
 "What are your wishes?"
@@ -15077,7 +15067,7 @@ msgid "Help : Advances Tree"
 msgstr "Hjælp : Forskningstræ"
 
 #: client/gui-sdl/inteldlg.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Information about the %s Spaceship"
 msgstr "Efterretningsinfo om %s rumskib"
 
@@ -15191,15 +15181,15 @@ msgid "Options"
 msgstr "Indstillinger"
 
 #: client/gui-sdl/mapview.c:154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
 "report it at %s. Thank you."
 msgstr ""
-"SDL event bufferen er opbrugt; du får måske tegne fejl\n"
+"SDL event bufferen er opbrugt; du får måske tegne fejl.\n"
 "Hvis du ser denne besked ofte så rapporter den til \n"
-"freeciv-dev@freeciv.org."
+"%s. Tak."
 
 #: client/gui-sdl/mapview.c:404
 #, c-format
@@ -15508,23 +15498,20 @@ msgid "Load Game"
 msgstr "Fortsæt et spil"
 
 #: client/gui-sdl/pages.c:188
-#, fuzzy
 msgid "Join Game"
-msgstr "Opkoblingsnavn"
+msgstr "Slut til spil"
 
 #: client/gui-sdl/pages.c:202
-#, fuzzy
 msgid "Join Pubserver"
-msgstr " (observatør)"
+msgstr "Slut til pubserver"
 
 #: client/gui-sdl/pages.c:216
-#, fuzzy
 msgid "Join LAN Server"
-msgstr "LAN-servere"
+msgstr "Slut til LAN-server"
 
 #: client/gui-sdl/pages.c:297
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "SDLClient ønsker dig velkommen..."
 
 #: client/gui-sdl/pages.c:298
 #, fuzzy
@@ -15533,19 +15520,15 @@ msgid ""
 "under certain conditions;"
 msgstr ""
 "Freeciv er et frit program, og du er velkommen til at distribuere kopier af "
-"det under bestemte betingelser - se punktet \"kopiering\" i menuen \"hjælp"
-"\". Kontakt venligst <dansk@klid.dk> vedrørende oversættelsen til dansk (f."
-"eks. i tilfælde af fejl).\n"
-"\n"
-"Og giv dem så tørt på!"
+"det under bestemte betingelser."
 
 #: client/gui-sdl/pages.c:301
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr "Se punktet \"kopiering\" i menuen hjælp."
 
 #: client/gui-sdl/pages.c:303
 msgid "Now.. Go give'em hell!"
-msgstr ""
+msgstr "Og giv dem så tørt på!"
 
 #: client/gui-sdl/plrdlg.c:606
 msgid "Nations"
@@ -15584,7 +15567,7 @@ msgid "Units Report"
 msgstr "Byrapport"
 
 #: client/gui-sdl/repodlgs.c:1488
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "We have %d of %s\n"
 "(total value is : %d)\n"
@@ -15592,12 +15575,12 @@ msgid ""
 msgstr ""
 "Vi har %d af %s\n"
 "(total værdi er : %d)\n"
-"Vi kan sælge %d af dem for %d guld"
+"Vi kan sælge %d af dem for %d guld."
 
 #: client/gui-sdl/repodlgs.c:1495
-#, fuzzy, c-format
+#, c-format
 msgid "We can't sell any %s in this turn."
-msgstr "Vi kan ikke sælge %s i denne runde"
+msgstr "Vi kan ikke sælge %s i denne runde."
 
 #: client/gui-sdl/repodlgs.c:1731
 msgid "Economy Report"
@@ -18559,7 +18542,7 @@ msgid ""
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
 "Antag at et veteranslagskib (A:12, F:12, TP:40, F:2) med 3 flyttepoint igen "
-"angriber Alpine veteran-tropper (A:5, F:5, TP:20, F:1) inde i en by som er "
+"angriber veteran alpejægere (A:5, F:5, TP:20, F:1) inde i en by som er "
 "bygget på en græseng, med bymure og kystforsvar."
 
 #: data/helpdata.txt:1134
