@@ -1101,8 +1101,16 @@ static void auto_settler_findwork(struct player *pplayer,
     state[best_tile->index].eta = completion_time;
       
     if (displaced) {
+      int saved_id = punit->id;
+
       displaced->goto_tile = NULL;
       auto_settler_findwork(pplayer, displaced, state, recursion + 1);
+      if (player_find_unit_by_id(pplayer, saved_id) == NULL) {
+        /* Actions of the displaced settler somehow caused this settler
+         * to die. (maybe by recursively giving control back to this unit)
+         */
+        return;
+      }
     }
 
     pft_fill_unit_parameter(&parameter, punit);
@@ -1258,7 +1266,7 @@ void auto_settlers_player(struct player *pplayer)
    * player auto-settler mode) or if the player is an AI.  But don't
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
-  unit_list_iterate(pplayer->units, punit) {
+  unit_list_iterate_safe(pplayer->units, punit) {
     if ((punit->ai.control || pplayer->ai.control)
 	&& (unit_has_type_flag(punit, F_SETTLERS)
 	    || unit_has_type_flag(punit, F_CITIES))
@@ -1276,7 +1284,7 @@ void auto_settlers_player(struct player *pplayer)
         auto_settler_findwork(pplayer, punit, state, 0);
       }
     }
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 
   if (timer_in_use(t)) {
     freelog(LOG_VERBOSE, "%s's autosettlers consumed %g milliseconds.",
