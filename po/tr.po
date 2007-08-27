@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-27 09:54+0300\n"
-"PO-Revision-Date: 2007-08-27 17:51+0200\n"
+"PO-Revision-Date: 2007-08-27 23:17+0200\n"
 "Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
 "Language-Team: Turkish <email@katpatuka.org>\n"
 "MIME-Version: 1.0\n"
@@ -848,7 +848,7 @@ msgstr ""
 
 #: common/unit.c:1596
 msgid "You can only upgrade units in your cities."
-msgstr ""
+msgstr "Birliklerin yükseltmesi sadece şehirdeken yapılabilir."
 
 #: common/unit.c:1600
 #, c-format
@@ -1037,8 +1037,7 @@ msgstr ""
 #, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "son mesajı %d defa tekrarlandı"
 
 #: utility/log.c:295
 #: utility/log.c:314
@@ -1321,7 +1320,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1433
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr ""
+msgstr "*%s (YZ)* Kusura bakma, artık benim görüşlerim seninle paylaşmak istemem."
 
 #: ai/advdiplomacy.c:1508
 #, c-format
@@ -1356,7 +1355,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1695
 #, c-format
 msgid "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honour our glorious alliance and your name will never be forgotten!"
-msgstr ""
+msgstr "*%s (YZ)* %s bize arkadan vurdular! Yardım ihtiyacımız var. Yardm edersen vallahi hiç unutmayacağız!"
 
 #: server/auth.c:136
 #, c-format
@@ -1459,11 +1458,11 @@ msgstr ""
 #: server/barbarian.c:486
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr ""
+msgstr "%s yakınlarında korsan görüldü!"
 
 #: server/cityhand.c:117
 msgid "You don't have a worker here."
-msgstr ""
+msgstr "Burada işçin yok."
 
 #: server/cityhand.c:174
 msgid "You have already sold something here this turn."
@@ -1472,11 +1471,11 @@ msgstr ""
 #: server/cityhand.c:183
 #, c-format
 msgid "You sell %s in %s for %d gold."
-msgstr ""
+msgstr "%s %s şehrinde %d altına satıyorsun."
 
 #: server/cityhand.c:223
 msgid "Cannot buy in city created this turn."
-msgstr ""
+msgstr "Bu rauntta yeni kurluldu şehrinde bir şeyler satın alınmaz."
 
 #: server/cityhand.c:229
 msgid "You have already bought this turn."
@@ -1485,7 +1484,7 @@ msgstr "Bu rauntta zaten alış veriş yapıldı."
 #: server/cityhand.c:236
 #, c-format
 msgid "You don't buy %s!"
-msgstr ""
+msgstr "%s satın alamazsın!"
 
 #: server/cityhand.c:243
 msgid "Can't buy units when city is in disorder."
@@ -14565,7 +14564,7 @@ msgstr ""
 
 #: client/gui-sdl/diplodlg.c:1315
 msgid "Shall we declare WAR on them?"
-msgstr ""
+msgstr "SAVAŞ ilanı edelim mi?"
 
 #: client/gui-sdl/diplodlg.c:1426
 msgid "Foreign Minister"
@@ -14859,6 +14858,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
+"Lider: %s %s  Hükümet: %s\n"
+"Başkent: %s  Altın: %d\n"
+"Vergi: %d%% Bilim: %d%% Lüks: %d%%\n"
+"Araştırma: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:294
 #, c-format
@@ -14868,6 +14871,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: Unknown"
 msgstr ""
+"Lider: %s %s  Hükümet: %s\n"
+"Başkent: %s  Altın: %d\n"
+"Vergi: %d%% Bilim: %d%% Lüks: %d%%\n"
+"Araştırma: bilinmiyor"
 
 #: client/gui-sdl/inteldlg.c:355
 msgid "Their techs that we don't have :"
@@ -14905,11 +14912,11 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:684
 msgid "Single Tile Width"
-msgstr ""
+msgstr "Tek Karenin Genişliği"
 
 #: client/gui-sdl/mapctrl.c:688
 msgid "Single Tile Height"
-msgstr ""
+msgstr "Tek Karenin Yükselliği"
 
 #: client/gui-sdl/mapctrl.c:733
 #: client/gui-sdl/mapctrl.c:1077
@@ -15390,7 +15397,7 @@ msgstr "Net Gelir: "
 #: client/gui-sdl/repodlgs.c:1852
 #, c-format
 msgid "%s max rate : %d%%"
-msgstr ""
+msgstr "%s max. oranı : %d%%"
 
 #: client/gui-sdl/repodlgs.c:1951
 #: client/gui-win32/connectdlg.c:1081
@@ -15453,7 +15460,7 @@ msgstr ""
 #: client/gui-sdl/themespec.c:341
 #, c-format
 msgid "Trying \"%s\" theme."
-msgstr ""
+msgstr "\"%s\" teması deniyeceğim."
 
 #: client/gui-sdl/themespec.c:490
 #: client/gui-sdl/themespec.c:524
@@ -15489,6 +15496,8 @@ msgid ""
 "%s\n"
 "%d gold per turn"
 msgstr ""
+"%s\n"
+"raunt başı %d altın"
 
 #: client/gui-sdl/wldlg.c:899
 #: client/gui-sdl/wldlg.c:1073
@@ -15497,6 +15506,8 @@ msgid ""
 "%s\n"
 "blocked!"
 msgstr ""
+"%s\n"
+"kilitli!"
 
 #: client/gui-sdl/wldlg.c:901
 #: client/gui-sdl/wldlg.c:1075
@@ -15750,12 +15761,12 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:698
 msgid "That's the same thing!"
-msgstr ""
+msgstr "Aynı şey!"
 
 #: client/gui-win32/cityrep.c:733
 #: data/Freeciv.in:1739
 msgid "Change Production Everywhere"
-msgstr ""
+msgstr "Üretimi Her Yerde Değiştir"
 
 #: client/gui-win32/cityrep.c:741
 #: data/Freeciv.in:1745
@@ -15772,7 +15783,7 @@ msgstr ""
 #: data/Freeciv.in:1085
 #: data/Freeciv.in:1613
 msgid "Center"
-msgstr ""
+msgstr "Ortala"
 
 #: client/gui-win32/cityrep.c:877
 #: data/Freeciv.in:1621
@@ -15781,7 +15792,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:880
 msgid "Change All"
-msgstr ""
+msgstr "Hepsi Değiştir"
 
 #: client/gui-win32/cityrep.c:881
 #: client/gui-win32/repodlgs.c:717
@@ -15813,7 +15824,7 @@ msgstr ""
 
 #: client/gui-win32/cma_fe.c:311
 msgid "see README.cma."
-msgstr ""
+msgstr "README.cma'ya bak."
 
 #: client/gui-win32/cma_fe.c:467
 msgid "New"
@@ -16067,7 +16078,7 @@ msgstr "Yapılacakları listesi yeniden adlandır"
 #: client/gui-win32/wldlg.c:363
 #: client/gui-xaw/wldlg.c:623
 msgid "What should the new name be?"
-msgstr ""
+msgstr "Yeni adı ne olsun?"
 
 #: client/gui-win32/wldlg.c:425
 #: data/Freeciv.in:1973
@@ -16184,7 +16195,7 @@ msgstr "Hedef şablonunun adı ne olsun?"
 #: client/gui-xaw/cma_fe.c:448
 #, c-format
 msgid "Do you really want to remove %s?"
-msgstr ""
+msgstr "Gerçekten %s kaldırmak istermisin?"
 
 #: client/gui-xaw/connectdlg.c:178
 msgid "Pass"
@@ -16192,7 +16203,7 @@ msgstr ""
 
 #: client/gui-xaw/dialogs.c:1471
 msgid "You must select a nation."
-msgstr ""
+msgstr "Milletin seçsene!"
 
 #: client/gui-xaw/graphics.c:343
 #, c-format
@@ -16265,7 +16276,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:933
 #, c-format
 msgid "Allows %s.\n"
-msgstr ""
+msgstr "%s sağlar.\n"
 
 #: client/gui-xaw/helpdlg.c:920
 #, c-format
@@ -16276,12 +16287,12 @@ msgstr "Geçersiz kılıyor %s.\n"
 #: client/gui-xaw/helpdlg.c:941
 #, c-format
 msgid "Allows %s (with %s).\n"
-msgstr ""
+msgstr "%s ile %s sağlar.\n"
 
 #: client/gui-xaw/inteldlg.c:242
 #, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr ""
+msgstr "Araştırma: bilimeyen(%d/-)"
 
 #: client/gui-xaw/inteldlg.c:417
 #, c-format
@@ -16351,7 +16362,7 @@ msgstr ""
 #: client/gui-xaw/menu.c:241
 #: data/helpdata.txt:987
 msgid "Combat"
-msgstr ""
+msgstr "Cenk"
 
 #: client/gui-xaw/menu.c:242
 msgid "ZOC"
@@ -16371,7 +16382,7 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:489
 #, c-format
 msgid "Researching %s: %d/%s"
-msgstr ""
+msgstr "Araştırma %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:231
 #: client/gui-xaw/repodlgs.c:492
@@ -16382,7 +16393,7 @@ msgstr "bilinmeyen"
 #: client/gui-xaw/repodlgs.c:495
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr ""
+msgstr "Araştırma %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:242
 #: client/gui-xaw/repodlgs.c:247
@@ -16418,7 +16429,7 @@ msgstr ""
 #: manual/civmanual.c:144
 #, c-format
 msgid "Level: %s.<br>"
-msgstr ""
+msgstr "Düzey: %s.<br>"
 
 #: manual/civmanual.c:145
 #, c-format
@@ -16461,6 +16472,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Min.: %d, Standart: %d, Max.: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -16468,6 +16481,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Standart: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:180
 #, c-format
@@ -16502,6 +16517,10 @@ msgid ""
 "<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
 "<td>"
 msgstr ""
+"<table>\n"
+"<tr>\n"
+"<td valign=\"top\"><pre>Özet:</pre></td>\n"
+"<td>"
 
 #: manual/civmanual.c:202
 #, c-format
@@ -16509,6 +16528,8 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">Düzey: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:211
 #, c-format
@@ -16541,11 +16562,11 @@ msgstr ""
 
 #: manual/civmanual.c:222
 msgid "Defense bonus"
-msgstr ""
+msgstr "Savunma ikramiye"
 
 #: manual/civmanual.c:224
 msgid "Mining"
-msgstr ""
+msgstr "Madencilik"
 
 #: manual/civmanual.c:224
 msgid "turns"
@@ -16581,6 +16602,8 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s mucize yardımı</h1>\n"
+"\n"
 
 #: manual/civmanual.c:303
 msgid "Requirement"
@@ -16596,7 +16619,7 @@ msgstr "Ayrıntılı bilgi"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
-msgstr ""
+msgstr "LAN Sunucular"
 
 #: data/Freeciv.in:129
 msgid "Freeciv Server List"
@@ -17157,7 +17180,7 @@ msgstr ""
 
 #: data/helpdata.txt:592
 msgid "Strategy and tactics"
-msgstr ""
+msgstr "Strateji ve Taktik"
 
 #: data/helpdata.txt:593
 msgid "While every game is different, there's a basic strategy which most players follow, especially at the start of the game."
@@ -17530,7 +17553,7 @@ msgstr ""
 
 #: data/helpdata.txt:1090
 msgid " Combat example 1"
-msgstr ""
+msgstr " Cenk örneği 1"
 
 #: data/helpdata.txt:1091
 msgid "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither are veteran."
@@ -17560,7 +17583,7 @@ msgstr ""
 
 #: data/helpdata.txt:1128
 msgid " Combat example 2"
-msgstr ""
+msgstr " Cenk örneği 2"
 
 #: data/helpdata.txt:1129
 msgid "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built on a Grassland tile, with City Walls and a Coastal Defense."
@@ -20761,7 +20784,7 @@ msgstr ""
 #: data/nation/brazilian.ruleset:25
 #: data/nation/chinese.ruleset:32
 msgid "Chairman"
-msgstr ""
+msgstr "Başkan"
 
 #: data/nation/brazilian.ruleset:25
 #: data/nation/chinese.ruleset:32
@@ -20861,7 +20884,7 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:27
 msgid "Basileus"
-msgstr ""
+msgstr "Basileus"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -21285,7 +21308,7 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:23
 msgid "Druid"
-msgstr ""
+msgstr "Druid"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
@@ -21333,7 +21356,7 @@ msgstr ""
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
-msgstr ""
+msgstr "İstibdatçı"
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
@@ -21357,7 +21380,7 @@ msgstr "?plural:Hititler"
 
 #: data/nation/hittite.ruleset:6
 msgid "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the first civilisation to discover iron working. At its height, they controlled central Anatolia, north-western Syria and Mesopotamia down to Babylon."
-msgstr ""
+msgstr "Hititler, tarihte Anadolu'da devlet kurmuş bir halk. M.Ö. 1680 yıllarında Anadolu'ya göç ederek yerli Hatti Beylikleri üzerinde hakimiyet kurdukları bilinmektedir. Murşili istilalara güneyde devam ederek ve Suriye’deki şehir devletlerini devreden çıkartarak, Mezopotamya ticaret yollarını kontrol altına aldı. Ordu Babil'e kadar ilerledi."
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -21429,15 +21452,15 @@ msgstr ""
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
-msgstr ""
+msgstr "Raja"
 
 #: data/nation/indian.ruleset:20
 msgid "Maharaja"
-msgstr ""
+msgstr "Maharaja"
 
 #: data/nation/indian.ruleset:21
 msgid "Mahatma"
-msgstr ""
+msgstr "Mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -21497,11 +21520,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:45
 msgid "High King"
-msgstr ""
+msgstr "Büyük Kral"
 
 #: data/nation/irish.ruleset:45
 msgid "High Queen"
-msgstr ""
+msgstr "Büyük Kralliçe"
 
 #: data/nation/irish.ruleset:46
 msgid "Mother Superior"
@@ -21513,11 +21536,11 @@ msgstr ""
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr ""
+msgstr "İrokez"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr ""
+msgstr "?plural:Iİokezler"
 
 #: data/nation/iroquois.ruleset:6
 msgid "The Iroquois Confederacy - known as Haudenosaunee in their own language - was a North American group of nations with common language and culture. They were based in what is now upstate New York and consisted originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a written constitution and a currency system making them the most advanced state in North America upon the arrival of the Europeans."
@@ -21526,21 +21549,21 @@ msgstr ""
 #: data/nation/iroquois.ruleset:27
 #: data/nation/sioux.ruleset:29
 msgid "Great Chief"
-msgstr ""
+msgstr "Büyük Şef"
 
 #: data/nation/iroquois.ruleset:28
 #: data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30
 #: data/nation/zulu.ruleset:39
 msgid "Spokesman"
-msgstr ""
+msgstr "Sözcü"
 
 #: data/nation/iroquois.ruleset:28
 #: data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30
 #: data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "Kadın Sözcüsü"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -21582,7 +21605,7 @@ msgstr ""
 #: data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
 msgid "Empress"
-msgstr ""
+msgstr "İmparatoriçe"
 
 #: data/nation/japanese.ruleset:21
 msgid "Shogun"
@@ -21627,7 +21650,7 @@ msgstr ""
 
 #: data/nation/kenyan.ruleset:18
 msgid "Nabongo"
-msgstr ""
+msgstr "Nabongo"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -21644,7 +21667,7 @@ msgstr ""
 #: data/nation/korean.ruleset:32
 #: data/nation/soviet.ruleset:28
 msgid "Great Leader"
-msgstr ""
+msgstr "Büyük Önder"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
@@ -21662,13 +21685,13 @@ msgstr ""
 #: data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Prince"
-msgstr ""
+msgstr "Prens"
 
 #: data/nation/lankese.ruleset:20
 #: data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Princess"
-msgstr ""
+msgstr "Prenses"
 
 #: data/nation/lankese.ruleset:21
 #: data/nation/quebecois.ruleset:20
@@ -21710,7 +21733,7 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:24
 msgid "Colonel"
-msgstr ""
+msgstr "Albay"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -21764,12 +21787,12 @@ msgstr ""
 #: data/nation/singaporean.ruleset:31
 #: data/nation/turk.ruleset:27
 msgid "Sultan"
-msgstr ""
+msgstr "Sultan"
 
 #: data/nation/malaysian.ruleset:22
 #: data/nation/turk.ruleset:27
 msgid "Sultana"
-msgstr ""
+msgstr "Sultana"
 
 #: data/nation/malaysian.ruleset:23
 msgid "Tun"
@@ -22028,7 +22051,7 @@ msgstr "Portekizli"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr ""
+msgstr "?plural:Portekizliler"
 
 #: data/nation/portuguese.ruleset:6
 msgid "Portugal founded the first of the great mercantile empires in the 1400s on the shipbuilding advances funded by Prince Henry the Navigator."
@@ -22036,11 +22059,11 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "Quebecli"
+msgstr "Quebec'li"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr ""
+msgstr "?plural:Quebec'liler"
 
 #: data/nation/quebecois.ruleset:6
 msgid "Quebec is the largest province of Canada, housing the majority of the Francophone population of America."
@@ -22166,7 +22189,7 @@ msgstr ""
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
-msgstr ""
+msgstr "Noaydde"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -22222,7 +22245,7 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:32
 msgid "Encik"
-msgstr ""
+msgstr "Encik"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -22314,7 +22337,7 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:29
 msgid "Cardinal"
-msgstr ""
+msgstr "Kardinal"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -22342,7 +22365,7 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
-msgstr ""
+msgstr "Ensi"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
@@ -22358,11 +22381,11 @@ msgstr ""
 
 #: data/nation/swazi.ruleset:23
 msgid "Ngwenyama"
-msgstr ""
+msgstr "Ngvenyama"
 
 #: data/nation/swazi.ruleset:23
 msgid "Indovuzaki"
-msgstr ""
+msgstr "Indovuzaki"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -22519,7 +22542,7 @@ msgstr "Uygur"
 
 #: data/nation/uyghur.ruleset:4
 msgid "?plural:Uyghurs"
-msgstr ""
+msgstr "?plural:Uygurlar"
 
 #: data/nation/uyghur.ruleset:6
 msgid "Uyghur was an east Turk empire and civilization. At its height in 820 AD it controlled most of Central and North Asia. After clashing with the Chinese for several centuries, they were finally subdued by the Qing dynasty in the 1700s. Today, descendants of the Uyghur form the populations of the Central Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the main minority of the Xinjiang province of China."
@@ -22527,11 +22550,11 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuelalı"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
-msgstr ""
+msgstr "?plural:Venezuelalılar"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
