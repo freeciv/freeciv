@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-23 19:22+0900\n"
+"POT-Creation-Date: 2007-08-27 08:19+0200\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -649,7 +649,7 @@ msgstr "Zukunftstechnologie %d"
 #: client/gui-mui/repodlgs.c:181 client/gui-sdl/citydlg.c:702
 #: client/gui-sdl/gui_tilespec.c:480 client/gui-sdl/helpdlg.c:354
 #: client/gui-sdl/helpdlg.c:384 client/gui-sdl/helpdlg.c:762
-#: client/gui-sdl/helpdlg.c:786 client/gui-sdl/mapview.c:944
+#: client/gui-sdl/helpdlg.c:786 client/gui-sdl/mapview.c:945
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
 #: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
@@ -1588,7 +1588,7 @@ msgstr "%d Goldstücke benötigt. Vorhanden sind nur %d Goldstücke."
 msgid "You have bought this turn, can't change."
 msgstr "Es wurde bereits gekauft, und kann nicht mehr geändert werden."
 
-#: server/cityhand.c:388 client/text.c:1137 client/text.c:1174
+#: server/cityhand.c:388 client/text.c:1138 client/text.c:1175
 #: client/gui-mui/citydlg.c:2031 client/gui-win32/citydlg.c:1263
 #, c-format
 msgid "%s"
@@ -8225,11 +8225,11 @@ msgstr "Das können nur Fallschirmspringer."
 msgid "Too far for this unit."
 msgstr "Zu weit für diese Einheit."
 
-#: client/control.c:2050 client/control.c:2084 client/control.c:2104
+#: client/control.c:2046 client/control.c:2076 client/control.c:2092
 msgid "Didn't find a route to the destination!"
 msgstr "Es gibt keinen Weg zu diesem Ziel!"
 
-#: client/control.c:2146
+#: client/control.c:2139
 msgid "Oh my! You seem to have no capital!"
 msgstr "Oh je! Es scheint keine Hauptstadt zu geben!"
 
@@ -9635,23 +9635,23 @@ msgid "Failed looking up metaserver's host"
 msgstr "Metaserver nicht gefunden"
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
-#: client/gui-sdl/mapview.c:741
+#: client/gui-sdl/mapview.c:742
 msgid "?nation:Neutral"
 msgstr "neutral"
 
-#: client/text.c:83 client/gui-sdl/mapview.c:741
+#: client/text.c:83 client/gui-sdl/mapview.c:742
 msgid "?nation:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:743
+#: client/text.c:85 client/gui-sdl/mapview.c:744
 msgid "?nation:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:743
+#: client/text.c:85 client/gui-sdl/mapview.c:744
 msgid "?nation:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:86 client/gui-sdl/mapview.c:744
+#: client/text.c:86 client/gui-sdl/mapview.c:745
 msgid "?nation:Mysterious"
 msgstr "unbekannt"
 
@@ -9659,23 +9659,23 @@ msgstr "unbekannt"
 msgid "?nation:Friendly(team)"
 msgstr "befreundet (Team)"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:774
+#: client/text.c:88 client/gui-sdl/mapview.c:775
 msgid "?city:Neutral"
 msgstr "neutral"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:774
+#: client/text.c:88 client/gui-sdl/mapview.c:775
 msgid "?city:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:775
+#: client/text.c:90 client/gui-sdl/mapview.c:776
 msgid "?city:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:776
+#: client/text.c:90 client/gui-sdl/mapview.c:777
 msgid "?city:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:776
+#: client/text.c:90 client/gui-sdl/mapview.c:777
 msgid "?city:Mysterious"
 msgstr "unbekannt"
 
@@ -9749,7 +9749,7 @@ msgstr[1] "Stadt: %s (%s, %d Runden Feuerpause)"
 msgid "City: %s (%s, %s)"
 msgstr "Stadt: %s (%s, %s)"
 
-#: client/text.c:179 client/gui-sdl/mapview.c:790
+#: client/text.c:179 client/gui-sdl/mapview.c:791
 msgid " with "
 msgstr " mit "
 
@@ -9984,51 +9984,52 @@ msgid_plural "%d units"
 msgstr[0] "%d Einheit"
 msgstr[1] "%d Einheiten"
 
-#: client/text.c:690 client/gui-sdl/mapview.c:558
+#: client/text.c:689 client/text.c:691 client/gui-sdl/mapview.c:557
+#: client/gui-sdl/mapview.c:559
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Runden zum Ziel: %d"
 
-#: client/text.c:692 client/gui-sdl/mapview.c:560
+#: client/text.c:693 client/gui-sdl/mapview.c:561
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Runden zum Ziel: %d bis %d"
 
-#: client/text.c:698 client/gui-sdl/mapview.c:566
+#: client/text.c:699 client/gui-sdl/mapview.c:567
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d Einheit ausgewählt"
 msgstr[1] "%d Einheiten ausgewählt"
 
-#: client/text.c:703 client/gui-sdl/mapview.c:571
+#: client/text.c:704 client/gui-sdl/mapview.c:572
 msgid "No units selected."
 msgstr "Keine ausgewählt"
 
-#: client/text.c:777 client/gui-sdl/mapview.c:644
+#: client/text.c:778 client/gui-sdl/mapview.c:645
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Andere: %d zivil, %d militärisch"
 
-#: client/text.c:779 client/gui-sdl/mapview.c:646
+#: client/text.c:780 client/gui-sdl/mapview.c:647
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Andere: %d zivil"
 
-#: client/text.c:781 client/gui-sdl/mapview.c:648
+#: client/text.c:782 client/gui-sdl/mapview.c:649
 #, c-format
 msgid "Others: %d military"
 msgstr "Andere: %d militärisch"
 
-#: client/text.c:812
+#: client/text.c:813
 msgid "No units to upgrade!"
 msgstr "Es konnten keine Einheiten erneuert werden."
 
-#: client/text.c:837
+#: client/text.c:838
 msgid "None of these units may be upgraded."
 msgstr "Keine dieser Einheiten können erneuert werden."
 
-#: client/text.c:843
+#: client/text.c:844
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -10043,72 +10044,72 @@ msgstr[1] ""
 "%d Einheiten für %d Goldstücke modernisieren?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/text.c:864
+#: client/text.c:865
 msgid "Shows your progress in researching the current technology."
 msgstr "Zeigt den Stand der Erforschung der aktuellen Technologie."
 
-#: client/text.c:870
+#: client/text.c:871
 msgid "no research target."
 msgstr "kein Forschungsziel"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:873
+#: client/text.c:874
 #, c-format
 msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
-#: client/text.c:893
+#: client/text.c:894
 msgid "Shows the progress of global warming:"
 msgstr "Zeigt das Fortschreiten der Globalen Erwärmung an:"
 
-#: client/text.c:894
+#: client/text.c:895
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Umweltverschmutzung: %d %%"
 
-#: client/text.c:896
+#: client/text.c:897
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "Risiko einer katastrophalen Erwärmung pro Runde: %d %%"
 
-#: client/text.c:912
+#: client/text.c:913
 msgid "Shows the progress of nuclear winter:"
 msgstr "Zeigt das Fortschreiten des Nuklearen Winters an:"
 
-#: client/text.c:913
+#: client/text.c:914
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Fallout-Rate: %d %%"
 
-#: client/text.c:915
+#: client/text.c:916
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Risiko eines katastrophalen nuklearen Winters pro Runde: %d %%"
 
-#: client/text.c:930
+#: client/text.c:931
 msgid "Shows your current government:"
 msgstr "Gegenwärtige Regierungsform:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:954
+#: client/text.c:955
 #, c-format
 msgid "Population:      %5d"
 msgstr "Bevölkerung:     %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:957
+#: client/text.c:958
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Lebenshaltung:   %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:961
+#: client/text.c:962
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Energie:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:965
+#: client/text.c:966
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -10116,90 +10117,90 @@ msgstr[0] "Gewicht:         %5d t"
 msgstr[1] "Gewicht:         %5d t"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:971
+#: client/text.c:972
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisezeit:       %5.1f Jahre"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:975
+#: client/text.c:976
 msgid "Travel time:        N/A     "
 msgstr "Reisezeit:          ?       "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:979
+#: client/text.c:980
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Erfolgschance:   %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:983
+#: client/text.c:984
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Ankunftsjahr:    %8s"
 
-#: client/text.c:1003
+#: client/text.c:1004
 msgid "?timeout:off"
 msgstr "?timeout:aus"
 
-#: client/text.c:1027
+#: client/text.c:1028
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02dSek"
 
-#: client/text.c:1029
+#: client/text.c:1030
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dMin %02dSek"
 
-#: client/text.c:1031
+#: client/text.c:1032
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02dStd %02dMin"
 
-#: client/text.c:1033
+#: client/text.c:1034
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dTge %02dStd"
 
-#: client/text.c:1036
+#: client/text.c:1037
 msgid "?duration:overflow"
 msgstr "?duration:überschritten"
 
-#: client/text.c:1057
+#: client/text.c:1058
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: "Republic of the Polish"
-#: client/text.c:1100
+#: client/text.c:1101
 #, c-format
 msgid "%s of the %s"
 msgstr "Die %s der %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1110
+#: client/text.c:1111
 #, c-format
 msgid "Observer: %s"
 msgstr "Beobachter: %s"
 
-#: client/text.c:1128
+#: client/text.c:1129
 msgid "Buildings: "
 msgstr "Gebäude: "
 
-#: client/text.c:1134 client/text.c:1171
+#: client/text.c:1135 client/text.c:1172
 msgid ", "
 msgstr ", "
 
-#: client/text.c:1144 client/text.c:1182
+#: client/text.c:1145 client/text.c:1183
 msgid "None. "
 msgstr "Keine."
 
-#: client/text.c:1146 client/text.c:1184
+#: client/text.c:1147 client/text.c:1185
 msgid "."
 msgstr "."
 
-#: client/text.c:1164
+#: client/text.c:1165
 msgid "Wonders: "
 msgstr "Weltwunder: "
 
@@ -10223,7 +10224,7 @@ msgstr ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
 
-#: client/tilespec.c:3978
+#: client/tilespec.c:3973
 #, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
@@ -11407,7 +11408,7 @@ msgid "Turn Done"
 msgstr "Fertig!"
 
 #: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
-#: client/gui-sdl/mapview.c:1072
+#: client/gui-sdl/mapview.c:1073
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
@@ -12512,7 +12513,7 @@ msgid "Server Name"
 msgstr "Server"
 
 #: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:161
-#: client/gui-sdl/mapview.c:798 client/gui-win32/connectdlg.c:914
+#: client/gui-sdl/mapview.c:799 client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
@@ -14408,7 +14409,7 @@ msgstr "Einheit auflösen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: client/gui-sdl/citydlg.c:699 client/gui-sdl/mapview.c:941
+#: client/gui-sdl/citydlg.c:699 client/gui-sdl/mapview.c:942
 msgid ""
 "\n"
 "veteran"
@@ -15314,12 +15315,12 @@ msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d St: %d Lux: %d For: %d "
 
-#: client/gui-sdl/mapview.c:716 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:717 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "Veteran"
 
-#: client/gui-sdl/mapview.c:746
+#: client/gui-sdl/mapview.c:747
 msgid ""
 "\n"
 "Our Territory"
@@ -15327,7 +15328,7 @@ msgstr ""
 "\n"
 "Unser Gebiet"
 
-#: client/gui-sdl/mapview.c:752
+#: client/gui-sdl/mapview.c:753
 #, c-format
 msgid ""
 "\n"
@@ -15342,7 +15343,7 @@ msgstr[1] ""
 "\n"
 "%ses Gebiet (%d Runden Feuerpause)"
 
-#: client/gui-sdl/mapview.c:756
+#: client/gui-sdl/mapview.c:757
 #, c-format
 msgid ""
 "\n"
@@ -15351,7 +15352,7 @@ msgstr ""
 "\n"
 "Gebiet der %2$s, %1$s"
 
-#: client/gui-sdl/mapview.c:762
+#: client/gui-sdl/mapview.c:763
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -15359,7 +15360,7 @@ msgstr ""
 "\n"
 "Neutrales Gebiet"
 
-#: client/gui-sdl/mapview.c:778
+#: client/gui-sdl/mapview.c:779
 #, c-format
 msgid ""
 "\n"
@@ -15368,23 +15369,23 @@ msgstr ""
 "\n"
 "Stadt %s"
 
-#: client/gui-sdl/mapview.c:792 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:793 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Kasernen"
 
-#: client/gui-sdl/mapview.c:804 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:805 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "Flughafen"
 
-#: client/gui-sdl/mapview.c:810 data/default/buildings.ruleset:209
+#: client/gui-sdl/mapview.c:811 data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189 data/civ1/buildings.ruleset:158
 msgid "City Walls"
 msgstr "Stadtmauer"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:817
+#: client/gui-sdl/mapview.c:818
 #, c-format
 msgid ""
 "\n"
@@ -15393,7 +15394,7 @@ msgstr ""
 "\n"
 "(%s, %s)"
 
-#: client/gui-sdl/mapview.c:828
+#: client/gui-sdl/mapview.c:829
 #, c-format
 msgid ""
 "\n"
@@ -15402,11 +15403,11 @@ msgstr ""
 "\n"
 "Nahrung/Produktion/Handel: %s"
 
-#: client/gui-sdl/mapview.c:1072
+#: client/gui-sdl/mapview.c:1073
 msgid "End of Turn"
 msgstr "Fertig!"
 
-#: client/gui-sdl/mapview.c:1072
+#: client/gui-sdl/mapview.c:1073
 msgid "Press"
 msgstr "Drücke"
 
@@ -26029,6 +26030,10 @@ msgstr ""
 "Barbaren hausen, die deine Einheit sofort vernichten. Im\n"
 "Durchschnitt ist es vorteilhaft, Dörfer ausfindig zu machen und\n"
 "sofort zu betreten."
+
+#: data/scenario/tutorial.sav:380
+msgid "Loading tutorial events."
+msgstr "Lade Ereignisse der Einführung."
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:130
