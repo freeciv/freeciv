@@ -2475,8 +2475,7 @@ static void sell_callback(Impr_type_id id, gpointer data)
     return;
   }
 
-  if (pdialog->pcity->did_buy || pdialog->pcity->did_sell
-      || pdialog->pcity->owner != game.player_ptr) {
+  if (pdialog->pcity->did_sell || pdialog->pcity->owner != game.player_ptr) {
     return;
   }
   
