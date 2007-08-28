@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-27 09:54+0300\n"
-"PO-Revision-Date: 2007-08-28 11:51+0200\n"
+"PO-Revision-Date: 2007-08-28 22:18+0200\n"
 "Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
 "Language-Team: Turkish <email@katpatuka.org>\n"
 "MIME-Version: 1.0\n"
@@ -145,11 +145,11 @@ msgstr "Kent: Yakın zamanda büyüyebilir"
 
 #: common/events.c:50
 msgid "City: Needs Aqueduct"
-msgstr "Kent: Sukemerinin lazım"
+msgstr "Kent: Su kemeri lazım"
 
 #: common/events.c:51
 msgid "City: Needs Aqueduct Being Built"
-msgstr "Kent: Sukemeri yapmak gerek"
+msgstr "Kent: Su kemeri yapmak gerek"
 
 #: common/events.c:52
 msgid "City: Normal"
@@ -1869,12 +1869,12 @@ msgstr "%s Bayramı %s şehrinde iptal edindi."
 #: server/cityturn.c:1512
 #, c-format
 msgid "Civil disorder in %s."
-msgstr "%s'de halkı ayaklandı"
+msgstr "%s'de halkı ayaklandı."
 
 #: server/cityturn.c:1515
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
-msgstr "%s'DE HALEN AYAKLANMA DEVAM!"
+msgstr "%s ŞEHRİNDE HALEN AYAKLANMA DEVAM!"
 
 #: server/cityturn.c:1521
 #, c-format
@@ -3471,7 +3471,7 @@ msgstr "%2d: %s %s\n"
 
 #: server/report.c:207
 msgid "Historian Publishes!"
-msgstr "Tarihçilerin Yayını!"
+msgstr "Tarihçilerin Yayınlarından!"
 
 #: server/report.c:269
 #, c-format
@@ -6015,7 +6015,7 @@ msgstr ""
 #: server/unittools.c:253
 #, c-format
 msgid "%s was upgraded for free to %s%s."
-msgstr ""
+msgstr "%s bedava %s yükseltildi %s."
 
 #: server/unittools.c:298
 #, c-format
@@ -9586,7 +9586,7 @@ msgstr "Şehir planı"
 
 #: client/gui-gtk-2.0/citydlg.c:772
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "Bir gelişim satmak için çift tıkla ya da ENTER bas."
 
 #: client/gui-gtk-2.0/citydlg.c:790
 #: client/gui-gtk-2.0/citydlg.c:910
@@ -9776,11 +9776,11 @@ msgstr "Birlik işten çı_kar"
 
 #: client/gui-gtk-2.0/citydlg.c:2053
 msgid "_Load unit"
-msgstr "Birliğine _bindir"
+msgstr "Araca _bindir"
 
 #: client/gui-gtk-2.0/citydlg.c:2063
 msgid "_Unload unit"
-msgstr "Birlikten _indir"
+msgstr "Araçtan _indir"
 
 #: client/gui-gtk-2.0/citydlg.c:2074
 #: client/gui-win32/citydlg.c:1520
@@ -10115,7 +10115,7 @@ msgstr "_Oraya git"
 #: client/gui-gtk-2.0/messagewin.c:190
 #: client/gui-mui/messagewin.c:210
 msgid "_Popup City"
-msgstr "Şehir _Penceresi"
+msgstr "Kent _Tanıtım"
 
 #: client/gui-gtk-2.0/dialogs.c:256
 #: client/gui-mui/dialogs.c:1043
@@ -12126,7 +12126,7 @@ msgstr "Masraf"
 #: client/gui-sdl/repodlgs.c:2004
 #: client/gui-win32/repodlgs.c:466
 msgid "U Total"
-msgstr ""
+msgstr "M Toplam"
 
 #: client/gui-gtk-2.0/repodlgs.c:706
 msgid "Total Cost:"
@@ -12145,7 +12145,7 @@ msgstr "_Tümünü Sat"
 #: client/gui-gtk-2.0/repodlgs.c:795
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr ""
+msgstr "%s gerçekten satmak istermisin?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
 msgid "Sell Improvements"
@@ -17883,7 +17883,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:54
 #: data/civ1/buildings.ruleset:28
 msgid "Aqueduct"
-msgstr "Sukemeri"
+msgstr "Su kemeri"
 
 #: data/default/buildings.ruleset:85
 #: data/civ2/buildings.ruleset:68
@@ -19260,7 +19260,7 @@ msgstr "Muhtelif Muharip Sınıflar"
 #: data/civ2/techs.ruleset:154
 #: data/civ1/techs.ruleset:154
 msgid "Combustion"
-msgstr "İçten Yanmalı motor"
+msgstr "İçten Yanmalı Motor"
 
 #: data/default/techs.ruleset:181
 #: data/civ2/techs.ruleset:168
@@ -19277,7 +19277,7 @@ msgstr "Bilgisayar"
 #: data/civ2/techs.ruleset:179
 #: data/civ1/techs.ruleset:178
 msgid "Conscription"
-msgstr "Kura"
+msgstr "Askerlik"
 
 #: data/default/techs.ruleset:200
 #: data/civ2/techs.ruleset:187
@@ -19561,7 +19561,7 @@ msgstr "Geri Dönüşüm"
 #: data/civ2/techs.ruleset:582
 #: data/civ1/techs.ruleset:579
 msgid "Refining"
-msgstr "Tasfiye"
+msgstr "Arıtma"
 
 #: data/default/techs.ruleset:605
 #: data/civ2/techs.ruleset:590
@@ -20332,7 +20332,7 @@ msgstr ""
 #: data/default/units.ruleset:1676
 #: data/civ2/units.ruleset:1619
 msgid "Freight"
-msgstr "Yük"
+msgstr "Kamyon"
 
 #: data/default/units.ruleset:1702
 #: data/civ2/units.ruleset:1645
@@ -21354,7 +21354,7 @@ msgstr ""
 
 #: data/nation/german.ruleset:34
 msgid "Chancellor"
-msgstr "Başbakan"
+msgstr "Şansölye"
 
 #: data/nation/german.ruleset:36
 msgid "First Secretary"
@@ -21458,11 +21458,11 @@ msgstr ""
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "Kizilderili"
+msgstr "Hintli"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr "?plural:Kizilderililer"
+msgstr "?plural:Hintliler"
 
 #: data/nation/indian.ruleset:6
 msgid "The cradle of Ancient Indian civilization lay in the Indus river valley in modern-day Pakistan."
