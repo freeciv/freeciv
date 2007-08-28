@@ -5,13 +5,14 @@
 # Albert Astals Cid <astals11@terra.es>, 2003.
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creus at gmail dot com>, 2007.
+# David <david.gaya@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-08-27 22:51+0200\n"
-"Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
+"PO-Revision-Date: 2007-08-28 09:53+0200\n"
+"Last-Translator: David <david.gaya@gmail.com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7619,9 +7620,8 @@ msgstr "Unitats"
 
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:474
-#, fuzzy
 msgid "?Present (units):Here"
-msgstr "Prs"
+msgstr "Aquí"
 
 #: client/cityrepdata.c:475
 msgid "Number of units present"
@@ -7629,9 +7629,8 @@ msgstr "Nombre d'unitats presents"
 
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:478
-#, fuzzy
 msgid "?Supported (units):Owned"
-msgstr "Sup"
+msgstr "Propietat"
 
 #: client/cityrepdata.c:479
 msgid "Number of units supported"
@@ -7639,12 +7638,10 @@ msgstr "Nombre d'unitats suportades"
 
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:482
-#, fuzzy
 msgid "?food (population):Grow"
-msgstr "Turons"
+msgstr "Creix"
 
 #: client/cityrepdata.c:483 client/cityrepdata.c:528
-#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(Fet/Necessari)"
 
@@ -7653,7 +7650,6 @@ msgid "Turns until growth/famine"
 msgstr "Torns fins creixement/fam"
 
 #: client/cityrepdata.c:486
-#, fuzzy
 msgid "?size [short]:Sz"
 msgstr "Mi"
 
@@ -7682,7 +7678,6 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Excedent: Menjar, Producció, Comerç"
 
 #: client/cityrepdata.c:496
-#, fuzzy
 msgid "?Food surplus [short]:+F"
 msgstr "+M"
 
@@ -7691,7 +7686,6 @@ msgid "Surplus: Food"
 msgstr "Excedent: Menjar"
 
 #: client/cityrepdata.c:498
-#, fuzzy
 msgid "?Production surplus [short]:+P"
 msgstr "+P"
 
@@ -7700,7 +7694,6 @@ msgid "Surplus: Production"
 msgstr "Excedent: Producció"
 
 #: client/cityrepdata.c:500
-#, fuzzy
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-M"
 
@@ -7709,7 +7702,6 @@ msgid "Waste"
 msgstr "Malbaratament"
 
 #: client/cityrepdata.c:502
-#, fuzzy
 msgid "?Trade surplus [short]:+T"
 msgstr "+C"
 
@@ -7718,7 +7710,6 @@ msgid "Surplus: Trade"
 msgstr "Excedent: Comerç"
 
 #: client/cityrepdata.c:504
-#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-C"
 
@@ -9326,9 +9317,8 @@ msgid "R.I.P"
 msgstr "R.I.P"
 
 #: client/plrdlg_common.c:202
-#, fuzzy
 msgid "waiting"
-msgstr "Estan esperant"
+msgstr "estan esperant"
 
 #: client/plrdlg_common.c:204 client/gui-mui/plrdlg.c:119
 #: client/gui-sdl/plrdlg.c:646 client/gui-win32/plrdlg.c:155
@@ -9442,18 +9432,16 @@ msgid "No %s could be disbanded."
 msgstr "No s'ha pogut desmantellar cap %s."
 
 #: client/servers.c:345
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "No s'ha pogut obrir \"%s\"."
+msgstr "No s'ha pogut obrir l'arxiu temporal."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "Valor de metaservidor o $http_proxy invàlids, ha de començar amb 'http://'"
 
 #: client/servers.c:413
-#, fuzzy
 msgid "Failed looking up metaserver's host"
-msgstr "Fallida al cercar el host."
+msgstr "Fallida al cercar el host metaservidor."
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
 #: client/gui-sdl/mapview.c:741
@@ -9529,17 +9517,17 @@ msgstr "Territori nostre"
 
 #. TRANS: "Territory of the Polish"
 #: client/text.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of the %s"
-msgstr "Territori dels %s %s"
+msgstr "Territori dels %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] "territori de %s (%d torn de treva)"
-msgstr[1] "territori de %s (%d torns de treva)"
+msgstr[0] "Territori de %s (%d torn de treva)"
+msgstr[1] "Territori de %s (%d torns de treva)"
 
 #: client/text.c:133
 #, c-format
@@ -9558,7 +9546,7 @@ msgstr "Ciutat: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
 #: client/text.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
 msgstr[0] "Ciutat: %s (%s, %d torn de treva)"
@@ -9566,9 +9554,9 @@ msgstr[1] "Ciutat: %s (%s, %d torns de treva)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %s)"
-msgstr "Ciutat: %s(%s%s)"
+msgstr "Ciutat: %s (%s, %s)"
 
 #: client/text.c:179 client/gui-sdl/mapview.c:790
 msgid " with "
@@ -9598,17 +9586,17 @@ msgstr "Unitat: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Ciutat: %s (%s, %d torn de treva)"
-msgstr[1] "Ciutat: %s (%s, %d torns de treva)"
+msgstr[0] "Unitat: %s (%s, %d torn de treva)"
+msgstr[1] "Unitat: %s (%s, %d torns de treva)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr "Unitat: %s(%s%s)"
+msgstr "Unitat: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:268
@@ -9619,7 +9607,7 @@ msgstr "Prob. guanyar: A:%d%% D:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:275
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
 msgstr "A:%d D:%d PF:%d V:%d/%d%s"
 
@@ -9655,16 +9643,15 @@ msgid "Progress: no research"
 msgstr "Progrés: sense recerca"
 
 #: client/text.c:450
-#, fuzzy
 msgid "Progress: no research target"
-msgstr "Puntuacions de progrés:"
+msgstr "Progrés: cap objectiu de recerca"
 
 #: client/text.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "Velocitat d'investigació: %d torn/avenç"
-msgstr[1] "Velocitat d'investigació: %d torns/avenç"
+msgstr[0] "Progrés: %d torn/avenç"
+msgstr[1] "Progrés: %d torns/avenç"
 
 #: client/text.c:460
 #, c-format
@@ -10830,7 +10817,7 @@ msgid ""
 "see README.cma."
 msgstr ""
 "Per informació sobre\n"
-"AGC i prefixats del gestor,\n"
+"el gestor i prefixats del gestor,\n"
 "incloent mostres de prefixats,\n"
 "veure README.cma."
 
@@ -12472,9 +12459,8 @@ msgid "Record"
 msgstr "Registrar"
 
 #: client/gui-gtk-2.0/pages.c:1491
-#, fuzzy
 msgid "Rating"
-msgstr "Estan esperant"
+msgstr "Puntuació"
 
 #: client/gui-gtk-2.0/pages.c:1497
 msgid "Ready"
@@ -13074,7 +13060,7 @@ msgstr "Luxes: %d total (màxim %d usables). "
 
 #: client/gui-mui/cityrep.c:270 client/gui-win32/cityrep.c:99
 msgid "Configure City Report"
-msgstr "Configurar informe ciutat"
+msgstr "Configurar informe ciutats"
 
 #: client/gui-mui/cityrep.c:273 client/gui-win32/cityrep.c:127
 #: data/Freeciv.in:1725
@@ -13092,7 +13078,7 @@ msgstr "_Bé"
 #: client/gui-mui/cityrep.c:351 client/gui-mui/cityrep.c:379
 #: client/gui-win32/cityrep.c:1077
 msgid "City Report"
-msgstr "Informe ciutat"
+msgstr "Informe de ciutats"
 
 #: client/gui-mui/cityrep.c:371
 msgid "_Refresh"
@@ -13619,7 +13605,7 @@ msgstr "Esperar"
 
 #: client/gui-mui/gui_main.c:290
 msgid "City Report..."
-msgstr "Informe Ciutat..."
+msgstr "Informe de Ciutats..."
 
 #: client/gui-mui/gui_main.c:291
 msgid "Science Report..."
@@ -14418,7 +14404,7 @@ msgstr "Ciutat de %s (Població %s ciutadans)"
 
 #: client/gui-sdl/citydlg.c:3616
 msgid " - under Citizen Governor control."
-msgstr " - sota control de l'AGC."
+msgstr " - sota control del gestor de ciutadans."
 
 #: client/gui-sdl/citydlg.c:3708
 msgid "Maintenance panel"
@@ -14597,7 +14583,7 @@ msgstr "Apropar a: %s"
 
 #: client/gui-sdl/dialogs.c:1279
 msgid "Change City Governor settings"
-msgstr "Canviar arranjament AGC"
+msgstr "Canviar arranjament del gestor de ciutadans"
 
 #: client/gui-sdl/dialogs.c:1300
 msgid "Goto here"
@@ -16253,9 +16239,9 @@ msgstr ""
 "Comerç total %d Comerç/Any\n"
 
 #: client/gui-xaw/citydlg.c:1769
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens  Governor: %s"
-msgstr "%s - %s ciutadans AGC: %s"
+msgstr "%s - %s gestor de ciutadans: %s"
 
 #: client/gui-xaw/cma_fe.c:431
 msgid "What should we name the new preset?"
@@ -16395,9 +16381,8 @@ msgid "Connect/Irrigation"
 msgstr "Connectar/Irrigació"
 
 #: client/gui-xaw/menu.c:211
-#, fuzzy
 msgid "Select Same Type"
-msgstr "Escull una ciutat"
+msgstr "Tria el mateix tipus"
 
 #: client/gui-xaw/menu.c:233 data/helpdata.txt:379
 msgid "Languages"
@@ -23606,11 +23591,11 @@ msgstr "Indonèsia és un país gran a l'arxipèlag malai amb un govern central 
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr "Inuit"
+msgstr "Inuït"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr "Inuits"
+msgstr "Inuïts"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -25109,6 +25094,13 @@ msgid ""
 "is the most important resource for any city.  Grassland and plains\n"
 "provide plenty of food."
 msgstr ""
+"Aquest sembla un bon lloc per a fundar una ciutat. La propera\n"
+"vegada que puguis moure aquesta unitat, polsa (b) per a fundar\n"
+"una ciutat.\n"
+"\n"
+"En general, les ciutats s'han de fundar en terra oberta i aprop de\n"
+"l'aigua. El menjar és el recurs més important de qualsevol ciutat.\n"
+"Els prats i les planures proporcionen molt menjar."
 
 #: data/scenario/tutorial.sav:49
 msgid ""
@@ -25124,6 +25116,18 @@ msgid ""
 "dialog.  If all goes well the city should display the settler\n"
 "production on the map view."
 msgstr ""
+"Acabes de fundar la teva primera ciutat. S'hauria d'haver obert\n"
+"la finestra de la ciutat, si no polsa a sobre de la ciutat per obrir-la.\n"
+"Les ciutat són un concepte fonamental a Freeciv, per tant paga la\n"
+"pena perdre una mica de temps familiaritzant-te amb aquesta finestra.\n"
+"Consulta el menú d'ajuda.\n"
+"\n"
+"Primers que res hauries de construir alguns colons, per tal d'expandir la\n"
+"teva civilització. Polsa a la pestanya Producció, després polsa en els\n"
+"colons que es troba a la llista de possibles produccions, després polsa\n"
+"el botó Canviar per a començar a construir-los. Quan hagis acabat, tanca\n"
+"la finestra de la ciutat. Si tot va bé, la ciutat hauria de mostrar la \n"
+"producció dels colons a la vista del mapa."
 
 #: data/scenario/tutorial.sav:62
 msgid ""
@@ -25132,6 +25136,10 @@ msgid ""
 "because of the terrain around it.  You probably want to build\n"
 "settlers here too."
 msgstr ""
+"Felicitats, has fundad la teva segona ciutat. Aquesta ciutat es\n"
+"comportarà exactament igual que la primera, però serà diferent\n"
+"a causa del terreny que l'envolta. També hauries de construir \n"
+"colons en aquesta ciutat."
 
 #: data/scenario/tutorial.sav:68
 msgid ""
@@ -25149,6 +25157,20 @@ msgid ""
 "append it to the worklist.  As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
+"Has construït la teva tercera ciutat! La teva civilització sembla \n"
+"que prospera. Ja va sent hora de pensar en un exercit. Tria una\n"
+"de les teves ciutats que tingui una bona producció, i converteix-la\n"
+"en una base militar. Primer que res construeix-hi Casernes, i després\n"
+"passa a construir una unitat militar. Tria la millor unitat que tinguis \n"
+"disponible per a construir, al començament només podràs triar \n"
+"Guerrers, però desseguida tindràs moltes més opcions. \n"
+"\n"
+"Ara podria ser un bon moment per a començar a fer anar la funció\n"
+"de llista de tasques que hi ha a la part de producció del diàleg de ciutat.\n"
+"Polsa en Caserna, després polsa en Canviar per a començar a \n"
+"construir-la. Després fes doble clic a sobre d'una unitat militar per a \n"
+"que es fiqui a la llista. Tan aviat s'acabi de construir la Caserna, la \n"
+"ciutat començarà a construir la unitat. "
 
 #: data/scenario/tutorial.sav:83
 msgid ""
@@ -25164,6 +25186,15 @@ msgid ""
 "will take; it also shows how long the city will take to grow to the\n"
 "next largest size."
 msgstr ""
+"Una altra ciutat! Ja ho comences a dominar. Segur que ara mateix\n"
+"ja saps que fer amb les ciutats recent creades. Fixat un moment \n"
+"en la barra que hi ha a sota de la ciutat en el mapa. Mostra \n"
+"informació força útil de la ciutat. La bandera i el color de fons \n"
+"assenyalen a quina civilització pertany (et serà útil quan contactis\n"
+"amb altres civilitzacions). La primera línia de la barra mostra el nom\n"
+"i la mida de la ciutat, i hi haurà estrelles indicant la presència d'unitats\n"
+"a dintre de la ciutat. La segona línia mostra què s'està construint a la \n"
+"ciutat, quan trigarà a construir-ho i quan trigarà la ciutat a créixer."
 
 #: data/scenario/tutorial.sav:96
 msgid ""
@@ -25176,6 +25207,14 @@ msgid ""
 "from this report.  The full power of the city report is beyond the\n"
 "scope of this tutorial, however."
 msgstr ""
+"Quan el nombre de ciutats del teu imperi creix, cada cop es fa més \n"
+"difícil gestionar cada una de les ciutats. Aquí és on apareix l'utilitat\n"
+"de l'informe de ciutats. Polsa F1 per a obrir-lo. Aquest informe mostra\n"
+"una llista de ciutats amb algunes estadístiques de cada una. Si vols\n"
+"pots entretenir-t'hi una mica, per a tornar al mapa polsa en la pestanya\n"
+"Mapa. Amb una mica de pràctica es pot controlar gairebé tots els \n"
+"aspectes d'una ciutats des d'aquest informe. Però l'objectiu d'aquesta\n"
+"guia no és mostrar tota la potència del informe de ciutats."
 
 #: data/scenario/tutorial.sav:115
 msgid ""
@@ -25403,6 +25442,15 @@ msgid ""
 "unit instantly.  On average, it is beneficial to search out and enter\n"
 "any huts you find as soon as possible."
 msgstr ""
+"La teva unitat ha trobat una cabana. Les cabanes són petites vil·les\n"
+"escampades pel territori. Quan una unitat entra en una poden passar\n"
+"diferents coses. La més probable és que trobis algunes monedes d'or.\n"
+"També és possible que en una cabana hi trobis avanços tecnològics o\n"
+"unitats mercenaries. Algunes cabanes contenen colons nadius que\n"
+"s'uniran a la teva civilització i que donaran lloc a una nova ciutat per\n"
+"al teu imperi. Finalment, algunes cabanes contenen bàrbars que \n"
+"mataran la teva unitat instantàniament. De mitja, es beneficiós\n"
+"cercar-les i entrar-hi tant aviat com puguis. "
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:130
