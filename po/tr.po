@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-27 09:54+0300\n"
-"PO-Revision-Date: 2007-08-27 23:17+0200\n"
+"PO-Revision-Date: 2007-08-28 11:51+0200\n"
 "Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
 "Language-Team: Turkish <email@katpatuka.org>\n"
 "MIME-Version: 1.0\n"
@@ -1493,7 +1493,7 @@ msgstr ""
 #: server/cityhand.c:262
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr ""
+msgstr "%d altın lazım. Senin sadece %d altın var."
 
 #: server/cityhand.c:363
 msgid "You have bought this turn, can't change."
@@ -1511,12 +1511,12 @@ msgstr "%s"
 #: server/citytools.c:270
 #, c-format
 msgid "You already have a city called %s."
-msgstr ""
+msgstr "O adıyla zaten bir şehrin var: %s."
 
 #: server/citytools.c:282
 #, c-format
 msgid "A city called %s already exists."
-msgstr ""
+msgstr "O adıyla zaten bir şehrin var: %s."
 
 #: server/citytools.c:309
 #, c-format
@@ -1531,7 +1531,7 @@ msgstr ""
 #: server/citytools.c:448
 #, c-format
 msgid "City no. %d"
-msgstr ""
+msgstr "Şehir No. %d"
 
 #: server/citytools.c:456
 msgid "A poorly-named city"
@@ -1540,7 +1540,7 @@ msgstr ""
 #: server/citytools.c:507
 #, c-format
 msgid "Changed homecity of %s to %s."
-msgstr ""
+msgstr "Changed homecity of %s to %s."
 
 #: server/citytools.c:520
 #, c-format
@@ -1909,7 +1909,7 @@ msgstr ""
 #: server/civserver.c:188
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr ""
+msgstr "Hata: bilimeyen tercih '%s'\n"
 
 #: server/civserver.c:199
 #, c-format
@@ -1919,7 +1919,7 @@ msgstr ""
 #: server/civserver.c:200
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr ""
+msgstr "Freeciv hakkında %s sitesinde çok öğrenecek şeyler var."
 
 #: server/civserver.c:205
 #: client/civclient.c:200
@@ -2072,7 +2072,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:74
 msgid "cut <connection-name>"
-msgstr ""
+msgstr "cut <bağlantı adı>"
 
 #: server/commands.c:75
 msgid "Cut a client's connection to server."
@@ -2235,7 +2235,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:178
 msgid "aitoggle <player-name>"
-msgstr ""
+msgstr "aitoggle <oyuncu adı>"
 
 #: server/commands.c:179
 msgid "Toggle AI status of player."
@@ -2244,7 +2244,7 @@ msgstr ""
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:183
 msgid "take [connection-name] <player-name>"
-msgstr ""
+msgstr "take [bağlantı adı] <oyuncu adı>"
 
 #: server/commands.c:184
 msgid "Take over a player's place in the game."
@@ -2270,7 +2270,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:203
 msgid "detach <connection-name>"
-msgstr ""
+msgstr "detach <bağlantı adı>"
 
 #: server/commands.c:204
 msgid "detach from a player."
@@ -2313,6 +2313,8 @@ msgid ""
 "novice\n"
 "novice <player-name>"
 msgstr ""
+"novice\n"
+"novice <oyuncu adı>"
 
 #: server/commands.c:225
 msgid "Set one or all AI players to 'novice'."
@@ -2345,6 +2347,8 @@ msgid ""
 "normal\n"
 "normal <player-name>"
 msgstr ""
+"normal\n"
+"normal <oyuncu adı>"
 
 #: server/commands.c:243
 msgid "Set one or all AI players to 'normal'."
@@ -2360,6 +2364,8 @@ msgid ""
 "hard\n"
 "hard <player-name>"
 msgstr ""
+"hard\n"
+"hard <oyuncu adı>"
 
 #: server/commands.c:252
 msgid "Set one or all AI players to 'hard'."
@@ -2375,6 +2381,8 @@ msgid ""
 "experimental\n"
 "experimental <player-name>"
 msgstr ""
+"experimental\n"
+"experimental <oyuncu adı>"
 
 #: server/commands.c:261
 msgid "Set one or all AI players to 'experimental'."
@@ -2393,6 +2401,11 @@ msgid ""
 "cmdlevel <level> first\n"
 "cmdlevel <level> <connection-name>"
 msgstr ""
+"cmdlevel\n"
+"cmdlevel <level>\n"
+"cmdlevel <level> new\n"
+"cmdlevel <level> first\n"
+"cmdlevel <level> <bağlantı adı>"
 
 #: server/commands.c:275
 msgid "Query or set command access level access."
@@ -3487,7 +3500,7 @@ msgstr "Dünya'nın en büyük beş şehirler!"
 #: server/report.c:300
 #, c-format
 msgid "%s in %s (%s)\n"
-msgstr ""
+msgstr "%s %s şehrinde (%s)\n"
 
 #: server/report.c:304
 #, c-format
@@ -5369,15 +5382,15 @@ msgstr ""
 
 #: server/stdinhand.c:2895
 msgid "Usage: take <connection-name> <player-name>"
-msgstr ""
+msgstr "Kullanım: take <bağlantı adı> <oyuncu adı>"
 
 #: server/stdinhand.c:2900
 msgid "Usage: take <player-name>"
-msgstr ""
+msgstr "Kullanım: take <oyuncu adı>"
 
 #: server/stdinhand.c:2906
 msgid "Usage: take [connection-name] <player-name>"
-msgstr ""
+msgstr "Kullanım: take [bağlantı adı] <oyuncu adı>"
 
 #: server/stdinhand.c:2936
 #, c-format
@@ -5435,7 +5448,7 @@ msgstr "Ölü"
 
 #: server/stdinhand.c:3062
 msgid "Usage: detach <connection-name>"
-msgstr ""
+msgstr "Kullanım: detach <bağlantı adı>"
 
 #: server/stdinhand.c:3082
 msgid "You can not detach other users."
@@ -13966,18 +13979,18 @@ msgstr "Devam et"
 #: client/gui-sdl/chatline.c:469
 #, c-format
 msgid "Total users logged in : %d"
-msgstr ""
+msgstr "Toplam girdiği kullanıcı sayısı : %d"
 
 #: client/gui-sdl/chatline.c:523
 #: client/gui-sdl/optiondlg.c:2200
 #: client/gui-win32/connectdlg.c:1094
 msgid "Back"
-msgstr ""
+msgstr "Geri"
 
 #: client/gui-sdl/chatline.c:533
 #: data/Freeciv.in:3379
 msgid "Start"
-msgstr ""
+msgstr "Başla"
 
 #: client/gui-sdl/chatline.c:554
 msgid "Server Settings"
@@ -13995,13 +14008,13 @@ msgstr "Birlik Komutları"
 #: data/Freeciv.in:1162
 #: data/Freeciv.in:1198
 msgid "Activate unit"
-msgstr ""
+msgstr "Birliği seç"
 
 #: client/gui-sdl/citydlg.c:454
 #: data/Freeciv.in:1166
 #: data/Freeciv.in:1202
 msgid "Activate unit, close dialog"
-msgstr ""
+msgstr "Birliği seçip pencere kapat"
 
 #: client/gui-sdl/citydlg.c:467
 #: data/Freeciv.in:1170
@@ -14011,7 +14024,7 @@ msgstr "Nöbetçi asker"
 #: client/gui-sdl/citydlg.c:482
 #: data/Freeciv.in:1174
 msgid "Fortify unit"
-msgstr ""
+msgstr "Birliği güçlendir"
 
 #: client/gui-sdl/citydlg.c:498
 #: data/Freeciv.in:1178
@@ -14064,7 +14077,7 @@ msgstr ""
 #: data/Freeciv.in:3364
 #: data/Freeciv.in:3422
 msgid "Cancel"
-msgstr ""
+msgstr "İptal et"
 
 #: client/gui-sdl/citydlg.c:699
 #: client/gui-sdl/mapview.c:942
@@ -14072,6 +14085,8 @@ msgid ""
 "\n"
 "veteran"
 msgstr ""
+"\n"
+"kıdemli"
 
 #: client/gui-sdl/citydlg.c:935
 msgid ""
@@ -14089,17 +14104,17 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:1167
 msgid "Buy It?"
-msgstr ""
+msgstr "Satın alınsın?"
 
 #: client/gui-sdl/citydlg.c:1382
 #: client/gui-sdl/repodlgs.c:1500
 msgid "Sell It?"
-msgstr ""
+msgstr "Satılsın mı?"
 
 #: client/gui-sdl/citydlg.c:1415
 #: client/gui-win32/citydlg.c:791
 msgid "Sell"
-msgstr ""
+msgstr "Sat"
 
 #: client/gui-sdl/citydlg.c:1727
 #: client/gui-sdl/citydlg.c:3774
@@ -14115,8 +14130,7 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:1832
 msgid "unit"
 msgid_plural "units"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "birlik"
 
 #: client/gui-sdl/citydlg.c:1831
 #, c-format
@@ -14143,7 +14157,7 @@ msgstr "Kervanyolları:"
 #: client/gui-sdl/citydlg.c:1992
 #, c-format
 msgid "Trade: +%d"
-msgstr ""
+msgstr "Ticaret: +%d"
 
 #: client/gui-sdl/citydlg.c:2037
 #: client/gui-sdl/citydlg.c:3731
@@ -14162,22 +14176,22 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:2598
 #, c-format
 msgid "?food:Surplus: %d"
-msgstr ""
+msgstr "?food:Fazlası: %d"
 
 #: client/gui-sdl/citydlg.c:2646
 #, c-format
 msgid "Production: %d (%d) per turn"
-msgstr ""
+msgstr "Üretim: %d (%d) raunt başı"
 
 #: client/gui-sdl/citydlg.c:2692
 #, c-format
 msgid "?production:Support: %d"
-msgstr ""
+msgstr "?production:Destek: %d"
 
 #: client/gui-sdl/citydlg.c:2730
 #, c-format
 msgid "Trade: %d per turn"
-msgstr ""
+msgstr "Ticaret: raunt başı %d"
 
 #: client/gui-sdl/citydlg.c:2764
 #, c-format
@@ -14265,12 +14279,12 @@ msgstr "Ambar"
 
 #: client/gui-sdl/citydlg.c:3300
 msgid "finished"
-msgstr ""
+msgstr "bitti"
 
 #: client/gui-sdl/citydlg.c:3600
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr ""
+msgstr "%s şehri (Nüfus %s)"
 
 #: client/gui-sdl/citydlg.c:3616
 msgid " - under Citizen Governor control."
@@ -14293,12 +14307,12 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1063
 #: data/Freeciv.in:2073
 msgid "Change Production"
-msgstr ""
+msgstr "Üretimi Değiştir"
 
 #: client/gui-sdl/citydlg.c:3802
 #: client/gui-sdl/dialogs.c:1267
 msgid "Hurry production"
-msgstr ""
+msgstr "Üretimi hızlandır"
 
 #: client/gui-sdl/citydlg.c:3833
 msgid "Prev city"
@@ -14310,13 +14324,15 @@ msgstr "Sonraki Şehir"
 
 #: client/gui-sdl/cityrep.c:160
 msgid "size"
-msgstr ""
+msgstr "boyut"
 
 #: client/gui-sdl/cityrep.c:165
 msgid ""
 "time\n"
 "to grow"
 msgstr ""
+"büyüme\n"
+"zamanı"
 
 #: client/gui-sdl/cityrep.c:184
 #: client/gui-sdl/mapctrl.c:1588
@@ -14325,7 +14341,7 @@ msgstr "Şehir Raporu"
 
 #: client/gui-sdl/cityrep.c:202
 msgid "Exit Report"
-msgstr ""
+msgstr "Raporu kapat"
 
 #: client/gui-sdl/cityrep.c:213
 msgid "Information Report"
@@ -14337,11 +14353,11 @@ msgstr "Mutluluk Raporu"
 
 #: client/gui-sdl/cityrep.c:235
 msgid "Garrison Report"
-msgstr ""
+msgstr "Garnizon Raporu"
 
 #: client/gui-sdl/cityrep.c:246
 msgid "Maintenance Report"
-msgstr ""
+msgstr "Bakım Raporu"
 
 #: client/gui-sdl/cityrep.c:511
 #: client/gui-sdl/cityrep.c:1029
@@ -14353,6 +14369,8 @@ msgid ""
 "\n"
 "finshed"
 msgstr ""
+"\n"
+"bitti"
 
 #: client/gui-sdl/cma_fe.c:450
 #: client/gui-win32/cma_fe.c:458
@@ -14362,19 +14380,19 @@ msgstr "Hedef Şablonları"
 #: client/gui-sdl/cma_fe.c:852
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
-msgstr ""
+msgstr "%s şehri (Nüfusu %s) : %s"
 
 #: client/gui-sdl/cma_fe.c:967
 msgid "Save settings as..."
-msgstr ""
+msgstr "Ayarları farklı kaydet..."
 
 #: client/gui-sdl/cma_fe.c:976
 msgid "Load settings"
-msgstr ""
+msgstr "Ayarları aç"
 
 #: client/gui-sdl/cma_fe.c:985
 msgid "Delete settings"
-msgstr ""
+msgstr "Ayarları sil"
 
 #: client/gui-sdl/cma_fe.c:994
 #: client/gui-win32/cma_fe.c:490
