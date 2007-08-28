@@ -5,13 +5,14 @@
 # Albert Astals Cid <astals11@terra.es>, 2003.
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creus at gmail dot com>, 2007.
+# David <david.gaya@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-08-23 22:29+0200\n"
-"Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
+"PO-Revision-Date: 2007-08-28 09:53+0200\n"
+"Last-Translator: David <david.gaya@gmail.com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5453,7 +5454,7 @@ msgstr "Esperant per començar el joc: %d de %d jugadors estan preparats per com
 
 #: server/srv_main.c:1453
 msgid "All players are ready; starting game."
-msgstr "Tots els jugadors estan llestos; començant la partida"
+msgstr "Tots els jugadors estan a punt; començant la partida"
 
 #: server/srv_main.c:1495 server/srv_main.c:1499
 #, c-format
@@ -7526,7 +7527,7 @@ msgstr "Artistes, Científics, Recaptadors"
 
 #: client/cityrepdata.c:450
 msgid "Concise + Rapture, - Disorder"
-msgstr "Concís + En festa, - Desordre"
+msgstr "Concise + Rapture, - Disorder"
 
 #: client/cityrepdata.c:452 client/plrdlg_common.c:261
 #: client/gui-mui/plrdlg.c:172 client/gui-win32/plrdlg.c:337
@@ -7619,9 +7620,8 @@ msgstr "Unitats"
 
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:474
-#, fuzzy
 msgid "?Present (units):Here"
-msgstr "Prs"
+msgstr "Aquí"
 
 #: client/cityrepdata.c:475
 msgid "Number of units present"
@@ -7629,9 +7629,8 @@ msgstr "Nombre d'unitats presents"
 
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:478
-#, fuzzy
 msgid "?Supported (units):Owned"
-msgstr "Sup"
+msgstr "Propietat"
 
 #: client/cityrepdata.c:479
 msgid "Number of units supported"
@@ -7639,12 +7638,10 @@ msgstr "Nombre d'unitats suportades"
 
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:482
-#, fuzzy
 msgid "?food (population):Grow"
-msgstr "Turons"
+msgstr "Creix"
 
 #: client/cityrepdata.c:483 client/cityrepdata.c:528
-#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
 msgstr "(Fet/Necessari)"
 
@@ -7653,7 +7650,6 @@ msgid "Turns until growth/famine"
 msgstr "Torns fins creixement/fam"
 
 #: client/cityrepdata.c:486
-#, fuzzy
 msgid "?size [short]:Sz"
 msgstr "Mi"
 
@@ -7682,7 +7678,6 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Excedent: Menjar, Producció, Comerç"
 
 #: client/cityrepdata.c:496
-#, fuzzy
 msgid "?Food surplus [short]:+F"
 msgstr "+M"
 
@@ -7691,7 +7686,6 @@ msgid "Surplus: Food"
 msgstr "Excedent: Menjar"
 
 #: client/cityrepdata.c:498
-#, fuzzy
 msgid "?Production surplus [short]:+P"
 msgstr "+P"
 
@@ -7700,7 +7694,6 @@ msgid "Surplus: Production"
 msgstr "Excedent: Producció"
 
 #: client/cityrepdata.c:500
-#, fuzzy
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-M"
 
@@ -7709,7 +7702,6 @@ msgid "Waste"
 msgstr "Malbaratament"
 
 #: client/cityrepdata.c:502
-#, fuzzy
 msgid "?Trade surplus [short]:+T"
 msgstr "+C"
 
@@ -7718,7 +7710,6 @@ msgid "Surplus: Trade"
 msgstr "Excedent: Comerç"
 
 #: client/cityrepdata.c:504
-#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-C"
 
@@ -7827,9 +7818,8 @@ msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NOM\tUsa NOM com a nom\n"
 
 #: client/civclient.c:218
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
-msgstr "  -p, --port PORT\tConnecta al port de servidor PORT\n"
+msgstr "  -p, --port PORT\tConnecta al port del servidor PORT (normalment amb -a)\n"
 
 #: client/civclient.c:220
 #, c-format
@@ -7843,9 +7833,8 @@ msgstr ""
 "en spawn)\n"
 
 #: client/civclient.c:225
-#, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
-msgstr "  -s, --server HOST\tConnecta al servidor HOST\n"
+msgstr "  -s, --server HOST\tConnecta al servidor HOST (normalment amb -a)\n"
 
 #: client/civclient.c:227
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
@@ -8745,178 +8734,176 @@ msgstr ""
 #: client/helpdata.c:1335
 #, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
-msgstr ""
+msgstr "* Cadascuna de les teves ciutats evitarà de pagar %d per manteniment d'unitat.\n"
 
 #: client/helpdata.c:1340
 #, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-msgstr ""
+msgstr "* La probabilitat de guerra civil és del %d%% si perds la teva capital.\n"
 
 #: client/helpdata.c:1344
 #, c-format
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
 "appear when you have %d cities.\n"
-msgstr ""
+msgstr "* El primer ciutadà descontent de cada ciutat degut a la mida de la civilització apareixerà quan tinguis %d ciutats.\n"
 
 #: client/helpdata.c:1349
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
-msgstr ""
+msgstr "* Després del primer ciutadà descontent degut a la mida de la ciutat, per cada %d ciutats addicionals, n'apareixerà un altre.\n"
 
 #: client/helpdata.c:1356
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr ""
+msgstr "La taxa màxima que pots fixar per ciència, or o luxes és del %d%%.\n"
 
 #: client/helpdata.c:1360
 #, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
-msgstr ""
+msgstr "No té cap límit per les taxes de ciència/or/luxes.\n"
 
 #: client/helpdata.c:1365
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force an unhappy citizen to become content.\n"
-msgstr ""
+msgstr "* Les teves unitats poden imposar la llei marcial.Cada unitat militar dins d'una ciutat forçarà que un ciutadà descontent estigui content.\n"
 
 #: client/helpdata.c:1369
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
-msgstr ""
+msgstr "* Les teves unitats poden imposar la llei marcial.Cada unitat militar dins d'una ciutat forçarà que %d ciutadans descontents estiguin contents.\n"
 
 #: client/helpdata.c:1376
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr ""
+msgstr "* Un màxim de %d unitats a cada ciutat poden imposar la llei marcial.\n"
 
 #: client/helpdata.c:1381
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
 "least size %d before they can grown in this manner.\n"
-msgstr ""
+msgstr "* Pots fer que les teves ciutats creixin a base de festes. Les teves ciutats han de ser almenys de mida %d abans que no puguin créixer d'aquesta manera.\n"
 
 #: client/helpdata.c:1387
-#, fuzzy, c-format
+#, c-format
 msgid "* Your units cannot be bribed.\n"
-msgstr "Joc: Aquesta unitat no pot ser subornada."
+msgstr "* Les teves unitats no poden ser subornades.\n"
 
 #: client/helpdata.c:1390
-#, fuzzy, c-format
+#, c-format
 msgid "* Your cities cannot be incited.\n"
-msgstr "La ciutat no pot ser incitada!"
+msgstr "* Les teves ciutats no poden ser incitades a la revolta.\n"
 
 #: client/helpdata.c:1393
 #, c-format
 msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
 "two turns in a row.\n"
-msgstr ""
+msgstr "* El govern caurà en l'anarquia si qualsevol ciutat roman en desordre durant meś de dos torns seguits.\n"
 
 #: client/helpdata.c:1398
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Té un senat que pot impedir una declaració de guerra.\n"
 
 #: client/helpdata.c:1402
 #, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr ""
+msgstr "* Permet partisans quan les ciutats són capturades per l'enemic.\n"
 
 #: client/helpdata.c:1406
 #, c-format
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
-msgstr ""
+msgstr "* Els edificis que normalment serveixen per mitigar la infelicitat generaran or.\n"
 
 #: client/helpdata.c:1410
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
-msgstr ""
+msgstr "* No paga manteniment pels fanàtics.\n"
 
 #: client/helpdata.c:1413
-#, fuzzy, c-format
+#, c-format
 msgid "* Has no unhappy citizens.\n"
-msgstr "%d ciutadans descontents addicionals."
+msgstr "* No té ciutadans descontents.\n"
 
 #: client/helpdata.c:1417 client/helpdata.c:1420
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr ""
+msgstr "* Unitats %s veterans.\n"
 
 #: client/helpdata.c:1423
-#, fuzzy, c-format
+#, c-format
 msgid "* Veteran units.\n"
-msgstr "Unitats marítimes"
+msgstr "* Unitats veteranes.\n"
 
 #: client/helpdata.c:1427
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
 "not celebrating.\n"
-msgstr ""
+msgstr "* Cada casella treballada que doni més de %d %s tindrà una penalització de -1 quan no s'estigui en festa.\n"
 
 #: client/helpdata.c:1432
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when "
 "celebrating.\n"
-msgstr ""
+msgstr "* Cada casella treballada que tingui almenys 1 %s donarà %d %s addicionals quan s'estigui en festa.\n"
 
 #: client/helpdata.c:1437
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
-msgstr ""
+msgstr "* Cada casella treballada que tingui almenys 1 %s donarà %d %s addicionals.\n"
 
 #: client/helpdata.c:1443
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr ""
+msgstr "* La producció de %s patirà malbaratament massiu.\n"
 
 #: client/helpdata.c:1446
 #, c-format
 msgid "* %s production will suffer some waste.\n"
-msgstr ""
+msgstr "* La producció de %s patirà malbaratament.\n"
 
 #: client/helpdata.c:1449
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
-msgstr ""
+msgstr "* La producció de %s patirà una petita quantitat de malbaratament.\n"
 
 #: client/helpdata.c:1455
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr ""
+msgstr "* El malbaratament de %s augmentarà ràpidament amb la distància des de la capital.\n"
 
 #: client/helpdata.c:1458
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* El malbaratament de %s augmentarà amb la distància des de la capital.\n"
 
 #: client/helpdata.c:1461
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr ""
+msgstr "* El malbaratament de %s augmentarà lentament amb la distància des de la capital.\n"
 
 #: client/helpdata.c:1472
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows you to build %s.\n"
-msgstr "Permet als %s construir bases aèries.\n"
+msgstr "* Et permet de construir %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
 #: client/helpdata.c:1498
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d %s"
-msgstr ""
-"%s\n"
-"%d %s"
+msgstr "%s%d %s"
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1506
@@ -8951,46 +8938,42 @@ msgid "Sound"
 msgstr "So"
 
 #: client/options.c:92
-#, fuzzy
 msgid "Interface"
-msgstr "Industrial"
+msgstr "Interfície"
 
 #: client/options.c:93
 msgid "Network"
-msgstr ""
+msgstr "Xarxa"
 
 #: client/options.c:98
-#, fuzzy
 msgid "Login name"
-msgstr "Unir-se a una partida"
+msgstr "Nom de login"
 
 #: client/options.c:99
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
-msgstr ""
+msgstr "Aquest és el nom d'usuari per defecte que es farà servir als diàlegs de connexió o amb el paràmetre de línia de comandes -a."
 
 #: client/options.c:104
-#, fuzzy
 msgid "Server"
-msgstr "mai"
+msgstr "Servidor"
 
 #: client/options.c:105
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
-msgstr ""
+msgstr "És el nom del host servidor per defecte que es farà servir als diàlegs de connexió o amb el paràmetre de línia de comandes -a."
 
 #: client/options.c:110
-#, fuzzy
 msgid "Server port"
-msgstr "Mostra les opcions del servidor."
+msgstr "Port del servidor."
 
 #: client/options.c:111
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
-msgstr ""
+msgstr "És el port del servidor per defecte que es farà servir als diàlegs de connexió o amb el paràmetre de línia de comandes -a."
 
 #: client/options.c:116 client/gui-mui/connectdlg.c:178
 #: client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
@@ -9002,49 +8985,46 @@ msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
-msgstr ""
+msgstr "El metaservidor és un host que el client contacta per esbrinar on hi ha partides en curs a Internet. No modifiquis el seu valor per defecte si no saps el que estàs fent."
 
 #: client/options.c:123
-#, fuzzy
 msgid "Soundset"
-msgstr "Tombs"
+msgstr "Joc de sons"
 
 #: client/options.c:124
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
-msgstr ""
+msgstr "Aquest és el joc de sons que es farà servir. Modificar això és el mateix que fer servir el paràmetre de línia de comandes -S."
 
 #: client/options.c:129
-#, fuzzy
 msgid "Sound plugin"
-msgstr "Opcions de so"
+msgstr "Plugin de so"
 
 #: client/options.c:130
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
-msgstr ""
+msgstr "Si tens algun problema amb el so, intenta de canviar el plugin de so. El plugin nou no es farà servir fins que no aturis i tornis a engegar el Freeciv. Modificar això és el mateix que fer servir la línia de comandes -P."
 
 #: client/options.c:135 client/gui-sdl/gui_main.c:162
-#, fuzzy
 msgid "Theme"
-msgstr "Temple"
+msgstr "Tema"
 
 #: client/options.c:136
 msgid "By changing this option you change the active theme."
-msgstr ""
+msgstr "Modificant aquesta opció, canvies el tema actiu."
 
 #: client/options.c:139
 msgid "Tileset"
-msgstr "Conjunt de caselles"
+msgstr "Joc de caselles"
 
 #: client/options.c:140
 msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
-msgstr ""
+msgstr "Modificant aquesta opció, canvies el joc de caselles actiu. És el mateix que fer servir el paràmetre de línia de comandes -t."
 
 #: client/options.c:147
 msgid "Solid unit background color"
@@ -9054,18 +9034,18 @@ msgstr "Color de fons d'unitat sòlid"
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
-msgstr ""
+msgstr "Fixar aquesta opció farà que, a la vista de mapa, les unitats es dibuixin amb un color de fons sòlid en comptes de la bandera."
 
 #: client/options.c:152 client/gui-sdl/optiondlg.c:968
 msgid "Sound bell at new turn"
-msgstr "Fer sonar l'altaveu intern a cada nou torn"
+msgstr "Fer sonar la campana a cada nou torn"
 
 #: client/options.c:153
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
-msgstr ""
+msgstr "Fixa aquesta opció perquè es generi un esdeveniment \"campana\" al principi de cada torn. Pots controlar el comportament de l'esdeveniment \"campana\" editant les opcions de missatge."
 
 #: client/options.c:159
 msgid "Unit movement animation time (milliseconds)"
@@ -9075,7 +9055,7 @@ msgstr "Temps d'animació de moviment d'unitat (milisegons)"
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
-msgstr ""
+msgstr "Aquesta opció controla quant dura l'\"animació\" quan es mou una unitat en la vista de mapa. Deixa'l a 0 per inhabilitar del tot l'animació."
 
 #: client/options.c:165
 msgid "Mapview recentering time (milliseconds)"
@@ -9086,7 +9066,7 @@ msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
-msgstr ""
+msgstr "Quan es torna a centrar la vista de mapa, mourà suaument el mapa cap a la nova posició. Aquesta opció controla quant de temps dura aquest moviment. Deixa'l a 0 perquè sigui instantani."
 
 #: client/options.c:171 client/gui-sdl/optiondlg.c:1022
 msgid "Show combat animation"
@@ -9096,39 +9076,38 @@ msgstr "Mostrar animació de combat"
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
-msgstr ""
+msgstr "Inhabilitar aquesta opció eliminarà l'animació de combats entre unitats a la vista de mapa."
 
 #: client/options.c:175
-#, fuzzy
 msgid "Draw the citybar"
-msgstr "Dibuixar graella mapa ciutat"
+msgstr "Dibuixar la barra de ciutat"
 
 #: client/options.c:176
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and optionally, production."
-msgstr ""
+msgstr "Amb aquesta opció permesa, es mostrarà una 'barra de ciutat' amb informació útil a sota de cada ciutat. Sense aquesta opció es mostrarà només el nom de la ciutat i, opcionalment, la producció."
 
 #: client/options.c:182
 msgid "Show icons in the technology tree"
-msgstr ""
+msgstr "Mostrar icones a l'arbre de tecnologia"
 
 #: client/options.c:183
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
-msgstr ""
+msgstr "Amb aquesta opció permesa es mostraran icones al diagrama de l'arbre de tecnologies. Sense aquesta opció, l'arbre queda més compacte."
 
 #: client/options.c:188
 msgid "Draw shield graphics for units"
-msgstr ""
+msgstr "Dibuixar gràfic en escut per les unitats"
 
 #: client/options.c:189
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
-msgstr ""
+msgstr "Amb aquesta opció permesa es dibuixarà un escut com a bandera per les unitats. Sense aquesta opció, es dibuixarà la bandera sencera."
 
 #: client/options.c:193
 msgid "Manual Turn Done in AI Mode"
@@ -9138,7 +9117,7 @@ msgstr "Passar el torn manualment en mode d'IA"
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
-msgstr ""
+msgstr "Inhabilita aquesta opció si no vols prémer manualment el botó \"Acabar el Torn\" quan estiguis observant un jugador IA."
 
 #: client/options.c:198 client/gui-sdl/optiondlg.c:1129
 msgid "Auto Center on Units"
@@ -9148,7 +9127,7 @@ msgstr "Centrar automàticament a les unitats"
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
-msgstr ""
+msgstr "Selecciona aquesta opció perquè la unitat activa quedi centrada automàticament quan canviï el focus de la unitat."
 
 #: client/options.c:202 client/gui-sdl/optiondlg.c:1155
 msgid "Auto Center on Combat"
@@ -9159,7 +9138,7 @@ msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
-msgstr ""
+msgstr "Selecciona aquesta opció per fer que qualsevol combat quedi centrat automàticament. Amb això inhabilitat el temps entre torns serà més ràpid però pot ser que et perdis del tot alguns combats."
 
 #: client/options.c:208 client/gui-sdl/optiondlg.c:1182
 msgid "Focus on Awakened Units"
@@ -9167,7 +9146,7 @@ msgstr "Focalitzar en unitats despertades"
 
 #: client/options.c:209
 msgid "Set this option to have newly awoken units be focused automatically."
-msgstr ""
+msgstr "Selecciona aquesta opció perquè les unitats que s'acaben de despertar rebin el focus automàticament."
 
 #: client/options.c:212
 msgid "Allow goto into the unknown"
@@ -9177,7 +9156,7 @@ msgstr "Permetre anar cap a terreny desconegut"
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
-msgstr ""
+msgstr "Seleccionar aquesta opció farà que el joc permeti el moviment cap a caselles desconegudes. Si no, les rutes donaran la volta o quedaran bloquejades per les caselles desconegudes."
 
 #: client/options.c:217
 msgid "Center map when Popup city"
@@ -9187,7 +9166,7 @@ msgstr "Centrar mapa quan s'obre ciutat"
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
-msgstr ""
+msgstr "Seleccionar aquesta opció farà que la vista de mapa se centri sobre una ciutat quan s'obre el seu diàleg."
 
 #: client/options.c:221
 msgid "Concise City Production"
@@ -9197,7 +9176,7 @@ msgstr "Producció de ciutat concisa"
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
-msgstr ""
+msgstr "Selecciona aquesta opció per fer que la producció de la ciutat (tal com la mostra el diàleg de ciutat) es mostri de forma més compacta."
 
 #: client/options.c:225 client/gui-sdl/optiondlg.c:1260
 msgid "End Turn when done moving"
@@ -9207,7 +9186,7 @@ msgstr "Acabar el torn un cop s'hagin fet tots els moviments"
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
-msgstr ""
+msgstr "Seleccionar aquesta opció fa que el teu torn s'acabi automàticament quan totes les teves unitats s'hagin acabat de moure."
 
 #: client/options.c:229 client/gui-sdl/optiondlg.c:1234
 msgid "Prompt for city names"
@@ -9217,7 +9196,7 @@ msgstr "Demanar els noms de les ciutats"
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
-msgstr ""
+msgstr "Inhabilitar aquesta opció farà que els noms de les noves ciutats es triïn automàticament per part del servidor."
 
 #: client/options.c:233 client/gui-sdl/optiondlg.c:1208
 msgid "Pop up city dialog for new cities"
@@ -9227,68 +9206,55 @@ msgstr "Mostrar el diàleg de ciutat en crear-ne una"
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
-msgstr ""
+msgstr "Seleccionar aquesta opció farà que s'obri el diàleg de ciutat en el moment de la fundació."
 
 #: client/options.c:239
 msgid "Background layer"
-msgstr ""
+msgstr "Capa de fons"
 
 #: client/options.c:240
 msgid "The background layer of the overview shows just ocean and land."
-msgstr ""
+msgstr "La capa de fons del resum mostra només l'oceà i terra."
 
 #: client/options.c:243
 msgid "Terrain relief map layer"
-msgstr ""
+msgstr "Capa de relleu del terreny"
 
 #: client/options.c:244
 msgid "The relief layer shows all terrains on the map."
-msgstr ""
+msgstr "La capa de relleu mostra tots els terrenys del mapa."
 
 #: client/options.c:247
-#, fuzzy
 msgid "Borders layer"
-msgstr "Frontera"
+msgstr "Capa de fronteres"
 
 #: client/options.c:248
 msgid "The borders layer of the overview shows which tiles are owned by each player."
-msgstr ""
+msgstr "La capa de fronteres del resum mostra quines caselles pertanyen a cada jugador."
 
 #: client/options.c:252
-#, fuzzy
 msgid "Units layer"
-msgstr "Pàgina d'unitats"
+msgstr "Capa d'unitats"
 
 #: client/options.c:253
-#, fuzzy
 msgid "Enabling this will draw units on the overview."
-msgstr ""
-"Si està activada, els noms de les ciutats es basaran en el terreny del "
-"voltants."
+msgstr "Permetre-la farà que es dibuixin les unitats al resum."
 
 #: client/options.c:256
-#, fuzzy
 msgid "Cities layer"
-msgstr "Informe de ciutats"
+msgstr "Capa de ciutats"
 
 #: client/options.c:257
-#, fuzzy
 msgid "Enabling this will draw cities on the overview."
-msgstr ""
-"Si està activada, els noms de les ciutats es basaran en el terreny del "
-"voltants."
+msgstr "Permetre-la farà que es dibuixin les ciutats al resum."
 
 #: client/options.c:260
-#, fuzzy
 msgid "Overview fog of war"
-msgstr "Pàgina Vista prèvia"
+msgstr "Penombra al resum"
 
 #: client/options.c:261
-#, fuzzy
 msgid "Enabling this will show fog of war on the overview."
-msgstr ""
-"Si està activada, els noms de les ciutats es basaran en el terreny del "
-"voltants."
+msgstr "Si està activat, es mostrarà la penombra de guerra al resum."
 
 #: client/options.c:430
 msgid "Cannot find your home directory"
@@ -9351,9 +9317,8 @@ msgid "R.I.P"
 msgstr "R.I.P"
 
 #: client/plrdlg_common.c:202
-#, fuzzy
 msgid "waiting"
-msgstr "Estan esperant"
+msgstr "estan esperant"
 
 #: client/plrdlg_common.c:204 client/gui-mui/plrdlg.c:119
 #: client/gui-sdl/plrdlg.c:646 client/gui-win32/plrdlg.c:155
@@ -9467,18 +9432,16 @@ msgid "No %s could be disbanded."
 msgstr "No s'ha pogut desmantellar cap %s."
 
 #: client/servers.c:345
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "No s'ha pogut obrir \"%s\"."
+msgstr "No s'ha pogut obrir l'arxiu temporal."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "Valor de metaservidor o $http_proxy invàlids, ha de començar amb 'http://'"
 
 #: client/servers.c:413
-#, fuzzy
 msgid "Failed looking up metaserver's host"
-msgstr "Fallida al cercar el host."
+msgstr "Fallida al cercar el host metaservidor."
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
 #: client/gui-sdl/mapview.c:741
@@ -9554,17 +9517,17 @@ msgstr "Territori nostre"
 
 #. TRANS: "Territory of the Polish"
 #: client/text.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of the %s"
-msgstr "Territori dels %s %s"
+msgstr "Territori dels %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] "territori de %s (%d torn de treva)"
-msgstr[1] "territori de %s (%d torns de treva)"
+msgstr[0] "Territori de %s (%d torn de treva)"
+msgstr[1] "Territori de %s (%d torns de treva)"
 
 #: client/text.c:133
 #, c-format
@@ -9583,7 +9546,7 @@ msgstr "Ciutat: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
 #: client/text.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
 msgstr[0] "Ciutat: %s (%s, %d torn de treva)"
@@ -9591,9 +9554,9 @@ msgstr[1] "Ciutat: %s (%s, %d torns de treva)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %s)"
-msgstr "Ciutat: %s(%s%s)"
+msgstr "Ciutat: %s (%s, %s)"
 
 #: client/text.c:179 client/gui-sdl/mapview.c:790
 msgid " with "
@@ -9623,17 +9586,17 @@ msgstr "Unitat: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Ciutat: %s (%s, %d torn de treva)"
-msgstr[1] "Ciutat: %s (%s, %d torns de treva)"
+msgstr[0] "Unitat: %s (%s, %d torn de treva)"
+msgstr[1] "Unitat: %s (%s, %d torns de treva)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr "Unitat: %s(%s%s)"
+msgstr "Unitat: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:268
@@ -9644,7 +9607,7 @@ msgstr "Prob. guanyar: A:%d%% D:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:275
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
 msgstr "A:%d D:%d PF:%d V:%d/%d%s"
 
@@ -9680,61 +9643,60 @@ msgid "Progress: no research"
 msgstr "Progrés: sense recerca"
 
 #: client/text.c:450
-#, fuzzy
 msgid "Progress: no research target"
-msgstr "Puntuacions de progrés:"
+msgstr "Progrés: cap objectiu de recerca"
 
 #: client/text.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "Velocitat d'investigació: %d torn/avenç"
-msgstr[1] "Velocitat d'investigació: %d torns/avenç"
+msgstr[0] "Progrés: %d torn/avenç"
+msgstr[1] "Progrés: %d torns/avenç"
 
 #: client/text.c:460
-#, fuzzy, c-format
+#, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d torn"
-msgstr[1] "%d torns"
+msgstr[0] "%d bombeta/torn"
+msgstr[1] "%d bombetes/torn"
 
 #: client/text.c:465
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d bombeta/torn de l'equip"
+msgstr[1] ", %d bombetes/torn de l'equip"
 
 #: client/text.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "%d/- (never)"
-msgstr "(mai)"
+msgstr "%d/- (mai)"
 
 #: client/text.c:504
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
-msgstr[0] "%d/%d %d torns"
-msgstr[1] "%d/%d %d torns"
+msgstr[0] "%d/%d (%d torn)"
+msgstr[1] "%d/%d (%d torns)"
 
 #: client/text.c:507
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (never)"
-msgstr "(mai)"
+msgstr "%d/%d (mai)"
 
 #: client/text.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "%d step"
 msgid_plural "%d steps"
-msgstr[0] "(%d pas)"
-msgstr[1] "(%d passos)"
+msgstr[0] "%d pas"
+msgstr[1] "%d passos"
 
 #: client/text.c:546
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d bombeta"
+msgstr[1] "%d bombetes"
 
 #: client/text.c:550 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
 #: client/gui-gtk-2.0/citydlg.c:1422 client/gui-mui/citydlg.c:125
@@ -9752,14 +9714,14 @@ msgid "Population: %s"
 msgstr "Població: %s"
 
 #: client/text.c:575
-#, fuzzy, c-format
+#, c-format
 msgid "Year: %s (T%d)"
-msgstr "Any: %s"
+msgstr "Any: %s (T%d)"
 
 #: client/text.c:578
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%+d)"
-msgstr "Or: %d"
+msgstr "Or: %d (%+d)"
 
 #: client/text.c:580
 #, c-format
@@ -9767,23 +9729,23 @@ msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Imp:%d Lux:%d Ciè:%d"
 
 #: client/text.c:586
-#, fuzzy, c-format
+#, c-format
 msgid "Moving: %s"
-msgstr "a %s"
+msgstr "Movent: %s"
 
 #: client/text.c:588
 msgid "(Click for more info)"
-msgstr ""
+msgstr "(Clica per més info)"
 
 #: client/text.c:604
-#, fuzzy, c-format
+#, c-format
 msgid "%s People"
-msgstr "Benvingut %s"
+msgstr "%s Persones"
 
 #: client/text.c:608
-#, fuzzy, c-format
+#, c-format
 msgid "Turn: %d"
-msgstr "Terreny: %s"
+msgstr "Torn: %d"
 
 #: client/text.c:610 client/gui-mui/inteldlg.c:144
 #: client/gui-mui/mapview.c:193 client/gui-win32/inteldlg.c:111
@@ -9793,30 +9755,30 @@ msgid "Gold: %d"
 msgstr "Or: %d"
 
 #: client/text.c:611
-#, fuzzy, c-format
+#, c-format
 msgid "Net Income: %d"
-msgstr "Ingressos nets: "
+msgstr "Ingressos nets: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:614
-#, fuzzy, c-format
+#, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "Imp:%d Lux:%d Cie:%d"
+msgstr "Taxes: Or:%d%% Luxe:%d%% Ciè:%d%%"
 
 #: client/text.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %s"
-msgstr "S'està investigant %s: %d/%d"
+msgstr "Investigant %s: %s"
 
 #: client/text.c:625
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Probabilitat d'escalfament global: %d%% (%+d%%/torn)"
 
 #: client/text.c:628
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Probabilitat d'hivern nuclear: %d%% (%+d%%/torn)"
 
 #: client/text.c:633 client/gui-mui/inteldlg.c:142
 #: client/gui-win32/inteldlg.c:104 client/gui-xaw/inteldlg.c:200
@@ -9825,11 +9787,11 @@ msgid "Government: %s"
 msgstr "Govern: %s"
 
 #: client/text.c:657
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] " unitat"
-msgstr[1] " unitat"
+msgstr[0] "%d unitat"
+msgstr[1] "%d unitats"
 
 #: client/text.c:690 client/gui-sdl/mapview.c:558
 #, c-format
@@ -9839,47 +9801,44 @@ msgstr "Torns fins l'objectiu: %d"
 #: client/text.c:692 client/gui-sdl/mapview.c:560
 #, c-format
 msgid "Turns to target: %d to %d"
-msgstr ""
+msgstr "Torns fins l'objectiu: %d a %d"
 
 #: client/text.c:698 client/gui-sdl/mapview.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] "Selecció unitat"
-msgstr[1] "Selecció unitat"
+msgstr[0] "%d unitat seleccionada"
+msgstr[1] "%d unitats seleccionades"
 
 #: client/text.c:703 client/gui-sdl/mapview.c:571
-#, fuzzy
 msgid "No units selected."
-msgstr "Joc: S'escull la nació"
+msgstr "Cap unitat seleccionada."
 
 #: client/text.c:777 client/gui-sdl/mapview.c:644
 #, c-format
 msgid "Others: %d civil; %d military"
-msgstr ""
+msgstr "Altres: %d civils; %d militars"
 
 #: client/text.c:779 client/gui-sdl/mapview.c:646
 #, c-format
 msgid "Others: %d civilian"
-msgstr ""
+msgstr "Altres: %d civils"
 
 #: client/text.c:781 client/gui-sdl/mapview.c:648
 #, c-format
 msgid "Others: %d military"
-msgstr ""
+msgstr "Altres: %d militars"
 
 #: client/text.c:812
-#, fuzzy
 msgid "No units to upgrade!"
-msgstr "Joc: No s'ha pogut millorar cap unitat."
+msgstr "No hi ha unitats a millorar!"
 
 #: client/text.c:837
-#, fuzzy
 msgid "None of these units may be upgraded."
-msgstr "Joc: No s'ha pogut millorar cap unitat."
+msgstr "Cap d'aquestes unitats no es pot millorar."
 
 #: client/text.c:843
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9887,38 +9846,29 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Millorar %s a %s per %d d'or?\n"
-"Tens %d peces d'or."
+"Millorar %d unitat per %d peces d'or?\n"
+"El tresor conté %d peces d'or."
 msgstr[1] ""
-"Millorar %s a %s per %d d'or?\n"
-"Tens %d peces d'or."
+"Millorar %d unitats per %d peces d'or?\n"
+"El tresor conté %d peces d'or."
 
 #: client/text.c:864
-#, fuzzy
 msgid "Shows your progress in researching the current technology."
-msgstr ""
-"Mostra el teu progrés investigant la tecnologia actual.\n"
-"%s: %d/%d."
+msgstr "Mostra el teu progrés investigant la tecnologia actual."
 
 #: client/text.c:870
-#, fuzzy
 msgid "no research target."
-msgstr ""
-"\n"
-"(no hi ha investigació)"
+msgstr "sense objectiu d'investigació."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:873
 #, c-format
 msgid "%s: %d/%d."
-msgstr ""
+msgstr "%s: %d/%d."
 
 #: client/text.c:893
-#, fuzzy
 msgid "Shows the progress of global warming:"
-msgstr ""
-"Mostra el progrés de l'escalfament global:\n"
-"%d."
+msgstr "Mostra el progrés de l'escalfament global:"
 
 #: client/text.c:894
 #, c-format
@@ -9928,24 +9878,21 @@ msgstr "Taxa de contaminació: %d%%"
 #: client/text.c:896
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
-msgstr ""
+msgstr "Probabilitat d'escalfament catastròfic a cada torn: %d%%"
 
 #: client/text.c:912
-#, fuzzy
 msgid "Shows the progress of nuclear winter:"
-msgstr ""
-"Mostra el progrés de l'hivern nuclear:\n"
-"%d."
+msgstr "Mostra el progrés de l'hivern nuclear:"
 
 #: client/text.c:913
-#, fuzzy, c-format
+#, c-format
 msgid "Fallout rate: %d%%"
-msgstr "La taxa màxima en %s és de %d%%"
+msgstr "Taxa de radioactivitat: %d%%"
 
 #: client/text.c:915
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
-msgstr ""
+msgstr "Probabilitat d'hivern nuclear a cada torn: %d%%"
 
 #: client/text.c:930
 msgid "Shows your current government:"
@@ -10067,21 +10014,21 @@ msgstr "Meravelles: "
 
 #: client/tilespec.c:859
 msgid "No usable default tileset found, aborting!"
-msgstr "No s'ha trobat cap conjunt de caselles usable, s'avorta l'execució!"
+msgstr "No s'ha trobat cap joc de caselles usable, s'avorta l'execució!"
 
 #: client/tilespec.c:1337
 msgid "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
-"EL client no suporta conjunts de caselles isomètrics. Per tant s'usarà el "
-"conjunt de caselles per defecte."
+"EL client no suporta jocs de caselles isomètrics. Per tant s'usarà el "
+"joc de caselles per defecte."
 
 #: client/tilespec.c:1346
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
 msgstr ""
-"EL client no suporta conjunts de caselles zenitals. Per tant s'usarà el "
-"conjunt de caselles per defecte."
+"EL client no suporta jocs de caselles zenitals. Per tant s'usarà el "
+"joc de caselles per defecte."
 
 #: client/tilespec.c:3978
 #, c-format
@@ -10870,7 +10817,7 @@ msgid ""
 "see README.cma."
 msgstr ""
 "Per informació sobre\n"
-"AGC i prefixats del gestor,\n"
+"el gestor i prefixats del gestor,\n"
 "incloent mostres de prefixats,\n"
 "veure README.cma."
 
@@ -12512,9 +12459,8 @@ msgid "Record"
 msgstr "Registrar"
 
 #: client/gui-gtk-2.0/pages.c:1491
-#, fuzzy
 msgid "Rating"
-msgstr "Estan esperant"
+msgstr "Puntuació"
 
 #: client/gui-gtk-2.0/pages.c:1497
 msgid "Ready"
@@ -13114,7 +13060,7 @@ msgstr "Luxes: %d total (màxim %d usables). "
 
 #: client/gui-mui/cityrep.c:270 client/gui-win32/cityrep.c:99
 msgid "Configure City Report"
-msgstr "Configurar informe ciutat"
+msgstr "Configurar informe ciutats"
 
 #: client/gui-mui/cityrep.c:273 client/gui-win32/cityrep.c:127
 #: data/Freeciv.in:1725
@@ -13132,7 +13078,7 @@ msgstr "_Bé"
 #: client/gui-mui/cityrep.c:351 client/gui-mui/cityrep.c:379
 #: client/gui-win32/cityrep.c:1077
 msgid "City Report"
-msgstr "Informe ciutat"
+msgstr "Informe de ciutats"
 
 #: client/gui-mui/cityrep.c:371
 msgid "_Refresh"
@@ -13659,7 +13605,7 @@ msgstr "Esperar"
 
 #: client/gui-mui/gui_main.c:290
 msgid "City Report..."
-msgstr "Informe Ciutat..."
+msgstr "Informe de Ciutats..."
 
 #: client/gui-mui/gui_main.c:291
 msgid "Science Report..."
@@ -14458,7 +14404,7 @@ msgstr "Ciutat de %s (Població %s ciutadans)"
 
 #: client/gui-sdl/citydlg.c:3616
 msgid " - under Citizen Governor control."
-msgstr " - sota control de l'AGC."
+msgstr " - sota control del gestor de ciutadans."
 
 #: client/gui-sdl/citydlg.c:3708
 msgid "Maintenance panel"
@@ -14637,7 +14583,7 @@ msgstr "Apropar a: %s"
 
 #: client/gui-sdl/dialogs.c:1279
 msgid "Change City Governor settings"
-msgstr "Canviar arranjament AGC"
+msgstr "Canviar arranjament del gestor de ciutadans"
 
 #: client/gui-sdl/dialogs.c:1300
 msgid "Goto here"
@@ -16293,9 +16239,9 @@ msgstr ""
 "Comerç total %d Comerç/Any\n"
 
 #: client/gui-xaw/citydlg.c:1769
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens  Governor: %s"
-msgstr "%s - %s ciutadans AGC: %s"
+msgstr "%s - %s gestor de ciutadans: %s"
 
 #: client/gui-xaw/cma_fe.c:431
 msgid "What should we name the new preset?"
@@ -16435,9 +16381,8 @@ msgid "Connect/Irrigation"
 msgstr "Connectar/Irrigació"
 
 #: client/gui-xaw/menu.c:211
-#, fuzzy
 msgid "Select Same Type"
-msgstr "Escull una ciutat"
+msgstr "Tria el mateix tipus"
 
 #: client/gui-xaw/menu.c:233 data/helpdata.txt:379
 msgid "Languages"
@@ -22762,7 +22707,7 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
-msgstr "Bòsnia i Herzegovina"
+msgstr "Bòsnia i Hercegovina"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
@@ -22949,7 +22894,7 @@ msgstr "Canadencs"
 msgid ""
 "Canada is the geographically northernmost country in world: The Magnetic "
 "North Pole currently lies on Canadian territory."
-msgstr ""
+msgstr "Canadà és el país geogràficament més septentrional del món: el Pol Nord magnètic es troba actualment en territori canadenc."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -23091,7 +23036,7 @@ msgid ""
 "Amerindian cultural center in pre-European time. The Spanish began settling "
 "Colombia's north coast around 1500. In 1819 the The Republic of Colombia "
 "gained independence."
-msgstr ""
+msgstr "Colòmbia és un país del nord de Sudamèrica. La regió era un centre cultural amerindi durant l'època pre-europea. Els espanyols van començar a colonitzar la costa nord de Colòmbia al voltant del 1500. El 1819, la República de Colòmbia va obtenir la independència."
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
 msgid "General"
@@ -23119,7 +23064,7 @@ msgid ""
 "during the American Civil War. It was formed in 1861 by six Southern states "
 "but had to abandon their claims of independence a few years later after "
 "several military defeats by United States troops."
-msgstr ""
+msgstr "Els Estats Confederats d'Amèrica van ser una nació escindida dels Estats Units durant la Guerra Civil americana. Es va formar el 1861 per sis estats del Sud, però van haver d'abandonar les seves pretensions d'independència al cap d'alguns anys després de diverses derrotes militars per les tropes dels Estats Units."
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -23176,7 +23121,7 @@ msgid ""
 "Cuba came under Spanish control in the 16th century. In the following "
 "centuries, the island became one of the leading producers of tobacco, sugar "
 "and coffee in the world. Cuba was granted nominal independence in 1902."
-msgstr ""
+msgstr "Cuba va quedar sota el control espanyol durant el segle XVI. Durant els següents segles, l'illa es va convertir en un dels principals productors de tabac, sucre i cafè del món. Cuba va obtenir una independència nominal el 1902."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -23235,7 +23180,7 @@ msgid ""
 "people of the Netherlands revolted and declared themselves independent, "
 "forming the Union of Utrecht in 1579. The Netherlands grew to be a dominant "
 "maritime and economic power in the 17th century."
-msgstr ""
+msgstr "Quan l'Emperador del Sacre Imperi Romà va sentenciar tota la població a mort, el poble dels Països Baixos es va revoltar i van declarar-se independents, formant la Unió d'Utrecht el 1579. Els Països Baixos van arribar a ser una potència marítima i econòmica de primer ordre durant el segle XVII."
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
@@ -23317,7 +23262,7 @@ msgstr "Etíops"
 msgid ""
 "Ethiopia is the oldest nation in Africa and the only one to remain "
 "independent during European colonialism."
-msgstr ""
+msgstr "Etiòpia és la nació més antiga d'Àfrica i l'única que va conservar la seva independència durant l'època colonial."
 
 #: data/nation/ethiopian.ruleset:24
 msgid "Emporer"
@@ -23369,7 +23314,7 @@ msgid ""
 "France has long been a major power in Europe. French conquerer kings like "
 "Napoleon and Charlemagne each united large parts of Europe under the French "
 "flag."
-msgstr ""
+msgstr "França ha estat durant molt de temps una de les potències principals d'Europa. Els reis conqueridors francesos com Napoleó i Carlemany van reunir grans parts d'Europa sota la bandera francesa."
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
@@ -23506,7 +23451,7 @@ msgstr "Hel·lènics"
 msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
-msgstr ""
+msgstr "La República Hel·lènica - coneguda també com a Grècia - va ser creada quan el poble hel·lènic va guanyar la independència de l'Imperi Otomà el 1832."
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
@@ -23537,7 +23482,7 @@ msgstr "Hongaresos"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
-msgstr ""
+msgstr "La llegenda diu que Hongria va ser fundada per Arpad el segle IX."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -23553,15 +23498,15 @@ msgid ""
 "it was settled by Norwegian Vikings in the late 9th century. The island was "
 "kept initially under the Norwegian and later the Danish crown until "
 "independence from Denmark in 1944."
-msgstr ""
+msgstr "Islàndia va ser durant molt temps una de les illes inhabitades més grans del món, fins que va ser colonitzada per víkings noruecs a finals del segle IX. L'illa es va mantenir inicialment sota la corona noruega i després la danesa fins que es va independitzar de Dinamarca el 1944."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr ""
+msgstr "Il·liri"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
-msgstr ""
+msgstr "Il·liris"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -23571,7 +23516,7 @@ msgid ""
 "with Thracians in Dardania to the east,  and settling Messapia across the "
 "Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until "
 "conquered by the Roman Republic."
-msgstr ""
+msgstr "Els il·liris eren tribus indoeuropees que van aparèixer a la part occidental de la península dels Balcans abans de l'any 1000 a.C. Incloïen els dàlmates al nord, l'illa de Corcira i la badia d'Ambràcia a l'Epirus prehistòric al sud, barrejant-se amb tracis a Dardània cap a l'est, i colonitzant Messàpia a l'altra banda del Mar Adriàtic. Els regnes il·liris van ser independents durant segles, fins que van ser conquerits per la República de Roma."
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
@@ -23615,7 +23560,7 @@ msgstr "Indis"
 msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
-msgstr ""
+msgstr "El bressol de la civilització índia antiga va ser la vall del riu Indus al que avui en dia és Pakistan."
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
@@ -23642,7 +23587,7 @@ msgid ""
 "Indonesia is a large country on the Malay Archipelago with central "
 "government on the island of Java. The country has a Muslim majority and is "
 "one of the most populous in the world."
-msgstr ""
+msgstr "Indonèsia és un país gran a l'arxipèlag malai amb un govern central a l'illa de Java. El país té majoria de musulmans i és un dels més poblats del món."
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
@@ -23658,7 +23603,7 @@ msgid ""
 "the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the west "
 "coast of Greenland in the 10th century. All Inuit of today are descendents "
 "of the Thule culture."
-msgstr ""
+msgstr "El poble inuit habita el nord del Canadà i Groenlàndia. La llegenda diu que el Gran Xaman Qitdlarssuaq va guiar el seu poble cap a Thule (Qaanaaq) a la costa oest de Groenlàndia el segle X. Tots els inuits d'avui en dia són descendents de la cultura Thule."
 
 #: data/nation/inuit.ruleset:20
 msgid "Shaman"
@@ -23670,7 +23615,7 @@ msgstr "Gran Xaman"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
-msgstr "Iraquí"
+msgstr "Iraquià"
 
 #: data/nation/iraqi.ruleset:4
 msgid "?plural:Iraqis"
@@ -23681,7 +23626,7 @@ msgid ""
 "Iraq was founded after the fall of the Ottoman empire. It is encompassing "
 "the ancient region of Mesopotamia at the confluence of the Tigris and "
 "Euphrates rivers."
-msgstr ""
+msgstr "Iraq va ser fundat després de la caiguda de l'imperi otomà. Comprèn l'antiga regió de Mesopotàmia a la confluència dels rius Tigris i Eufrates."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -23737,7 +23682,7 @@ msgid ""
 "nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a "
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
-msgstr ""
+msgstr "La Confederació Iroquesa - coneguda com a Haudenosaunee en la seva llengua pròpia - era un grup de nacions nord-americà amb una llengua i cultura comunes. Es trobaven al que ara és la part nord de l'estat de Nova York i consistien originalment de cinc nacions: Seneca, Cayuga, Onondaga, Oneida i Mohawk. La confederació tenia una constitució escrita i un sistema de moneda, cosa que els convertia en l'estat més avançat de Nordamèrica el el moment de l'arribada dels europeus."
 
 #: data/nation/iroquois.ruleset:27 data/nation/sioux.ruleset:29
 msgid "Great Chief"
@@ -23804,7 +23749,7 @@ msgstr "Japonesos"
 msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
-msgstr ""
+msgstr "Segons la mitologia tradicional japonesa, el Japó va ser fundat el segle VII a.C. per l'Emperador ancestral Jimmu."
 
 #: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
@@ -23827,7 +23772,7 @@ msgstr "Cambodjans"
 msgid ""
 "Kampuchea is the modern successor state of the mighty Khmer Empire, which "
 "ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
-msgstr ""
+msgstr "Cambodja és l'estat modern que ha succeït el poderós Imperi Khmer, que va dominar la major part de la península d'Indoxina entre els segles XI i XIV."
 
 #: data/nation/kampuchean.ruleset:20 data/nation/manchu.ruleset:20
 msgid "Warlord"
@@ -23872,7 +23817,7 @@ msgid ""
 "in 668 by king Munmu. Today the Korean peninsula is divided into two states, "
 "North and South Korea as a result of the stalemate after the Korean war in "
 "1953."
-msgstr ""
+msgstr "Segons la llegenda, el primer regne coreà va ser fundat durant la prehistòria pels Tangun ancestrals a Manxúria del sud. Els regnes coreans va ser unificats el 668 pel rei Munmu. Avui en dia, la península coreana està dividida en dos estats, Corea del Nord i del Sud com a resultat de l'armistici posterior a la guerra de Corea el 1953."
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:28
 msgid "Great Leader"
@@ -23880,18 +23825,18 @@ msgstr "Gran Líder"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr ""
+msgstr "Singalès"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
-msgstr ""
+msgstr "Singalesos"
 
 #: data/nation/lankese.ruleset:6
 msgid ""
 "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India during "
 "the 6th century BC and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
-msgstr ""
+msgstr "El príncep Vijaya va arribar a Sri Lanka des d'Orissa, al nordest de l'Índia, durant el segle VI a.C. i hi va fundar el regne singalès. Durant el colonialisme britànic, el país era conegut com a Ceilan."
 
 #: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
@@ -23925,7 +23870,7 @@ msgid ""
 "In the aftermath of WWI Latvia proclaimed its independence from Russia. In "
 "1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
 "of Soviet Union in 1991 Latvia restored its independence."
-msgstr ""
+msgstr "Després de la Primera Guerra Mundial, Letònia va proclamar la seva independència de Rússia. El 1940, Letònia va ser ocupada a la força per la Unió Soviètica. Després del col·lapse de la Unió Soviètica el 1991, Letònia va recuperar la independència."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -23941,11 +23886,11 @@ msgid ""
 "the Arab civilization in the 7th century. In 1912 it came under the control "
 "of Italy and after the Second World War Libya was granted independence as a "
 "condition of the Allied peace treaty with Italy."
-msgstr ""
+msgstr "La regió que ara és Líbia va ser una colònia romana fins que va ser conquerida per la civilització àrab al segle VII. El 1912 va quedar sota el control d'Itàlia, i després de la Segona Guerra Mundial a Líbia se li va concedir la independència com a condició del tractat de pau aliat amb Itàlia."
 
 #: data/nation/libyan.ruleset:23
 msgid "Dey"
-msgstr ""
+msgstr "Dey"
 
 #: data/nation/libyan.ruleset:24
 msgid "Colonel"
@@ -23979,17 +23924,17 @@ msgstr "Gran duquessa"
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr ""
+msgstr "Malgaix"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
-msgstr ""
+msgstr "Malgaixos"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
 "The Malagasy are the people of Madagascar. For centuries, tribes from "
 "Indonesia, East Africa and the Arab world have gathered on the island."
-msgstr ""
+msgstr "Els Malagasy són la gent de Madagascar. Durant segles, tribus d'Indonèsia, Àfrica Oriental i el món àrab s'han trobat a l'illa."
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
@@ -24007,7 +23952,7 @@ msgstr "Malaisis"
 msgid ""
 "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in "
 "the early 14th century."
-msgstr ""
+msgstr "Malàisia va començar amb la fundació de Malaca (Melaka) per Parameswara a principis del segle XIV."
 
 #: data/nation/malaysian.ruleset:22 data/nation/singaporean.ruleset:31
 #: data/nation/turk.ruleset:24
@@ -24038,7 +23983,7 @@ msgid ""
 "capital in Timbuktu was the most influential. This empire reigned from the "
 "14th to the 17th century and was famed for it's wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
-msgstr ""
+msgstr "L'Àfrica subsahariana ha estat un gresol cultural i ètnic durant mil·lennis. Durant l'època medieval, la regió va ser el centre d'una successió d'imperis anomenats regnes sahelians. D'aquests, l'imperi islàmic de Mali, amb la seva capital a Tombuctú, va ser el més influent. Aquest imperi va regnar dels segles XIV fins al XVII i va ser famós per la seva riquesa i els seus reis benevolents. La República de Mali moderna deriva el seu nom d'aquest imperi."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
@@ -24046,33 +23991,33 @@ msgstr "Mansa"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr "Mantxú"
+msgstr "Manxú"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr "Mantxús"
+msgstr "Manxús"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
 "The Manchus were a semi-nomadic people originating from the region called "
 "Manchuria in Northeast Asia. In the 17th century they conquered and ruled "
 "China as the Manchu Empire until 1911."
-msgstr ""
+msgstr "Els manxús eren un poble semi-nòmada originari de la regió anomenada Manxúria al Nordest asiàtic. Durant el segle XVII van conquerir i dirigir Xina com a Imperi Manxú fins el 1911."
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr "Maorí"
+msgstr "Maori"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
-msgstr "Maorís"
+msgstr "Maoris"
 
 #: data/nation/maori.ruleset:6
 msgid ""
 "The Maori are a Polynesian people that migrated to and settled the island "
 "group that is now New Zealand. According to archeological evidence, the "
 "migration commenced in the 900s and continued until the 1400s."
-msgstr ""
+msgstr "Els maori són un poble polinesi que van emigrar i colonitzar el grup d'illes que és ara Nova Zelanda, Segons evidències arqueològiques, la migració va començar el segle X i va continuar fins el segle XV."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -24150,18 +24095,18 @@ msgstr "Khagan"
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr "Nou Zelandès"
+msgstr "Neozelandès"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
-msgstr "Nou zelandesos"
+msgstr "Neozelandesos"
 
 #: data/nation/newzealand.ruleset:7
 msgid ""
 "The island group of New Zealand was annexed by Britain in 1840. Following a "
 "royal proclamation in 1907, the country became an independent dominion "
 "within the Commonwealth of Nations."
-msgstr ""
+msgstr "El grup d'illes de Nova Zelanda va ser annexionat per Gran Bretanya el 1840. Després d'una proclamació real el 1907, el país va convertir-se en un domini independent dins de la Commonwealth."
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
@@ -24173,7 +24118,7 @@ msgstr "Nigerians"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr ""
+msgstr "Nigèria va aconseguir la independència total de l'Imperi Britànic el 1960."
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
@@ -24188,7 +24133,7 @@ msgid ""
 "After centuries of Danish rule, the Norwegians made their own constitution "
 "in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
 "independence after a union with Sweden."
-msgstr ""
+msgstr "Després de segles de dominació danesa, els noruecs van fer la seva pròpia constitució a Eidsvoll, el 1814 d.C. Finalment, el 1905 els noruecs van obtenir la seva independència després d'una unió amb Suècia."
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -24207,7 +24152,7 @@ msgid ""
 "eastern Europe, the Islamic Arab world as well as Egypt and much of north "
 "Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
-msgstr ""
+msgstr "A principis del segle XIV Osman,un líder d'una tribu Turca menor de l'oest d'Anatòlia, va conquerir totes les tribus veïnes. Un segle després la capital de Bizanci va caure sota el domini turc, cosa que va donar a l'imperi otomà accés a Europa. Els otomans van conquerir més endavant grans parts del sudest europeu, el món àrab islàmic així com Egipte i bona part del Nord d'Àfrica, convertint-se en una superpotència regional fins a la seva dissolució després de la Primera Guerra Mundial."
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:28
 msgid "Bey"
@@ -24227,15 +24172,15 @@ msgstr "Emperador"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr "Papuanès"
+msgstr "Papú"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr "Papuanesos"
+msgstr "Papús"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
-msgstr ""
+msgstr "Els papús són un poble melanesi de l'illa de Nova Guinea."
 
 #: data/nation/papuan.ruleset:16
 msgid "Governor-General"
@@ -24281,7 +24226,7 @@ msgstr "Fenicis"
 msgid ""
 "Phoenicia was an ancient civilization, based in what is now the coastal "
 "regions of Lebanon and Syria."
-msgstr ""
+msgstr "Fenícia va ser una civilització antiga, basada en el que són ara les regions costeres del Líban i Síria."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
@@ -24295,7 +24240,7 @@ msgstr "Polonesos"
 msgid ""
 "The Polish state was formed about a millennium ago, and reached its Golden "
 "Age near the end of the 16th century."
-msgstr ""
+msgstr "L'estat polonès es va formar fa aproximadament un mil·lenni, i va tenir la seva època daurada cap al final del segle XVI."
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
@@ -24342,7 +24287,7 @@ msgstr "Quebequesos"
 msgid ""
 "Quebec is the largest province of Canada, housing the majority of the "
 "Francophone population of America."
-msgstr ""
+msgstr "El Quebec és la província més gran del Canadà, i acull la majoria de la població francòfona d'Amèrica."
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -24359,7 +24304,7 @@ msgid ""
 "inhabited by people speaking a language reminiscent from the time of ancient "
 "Rome. It's history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
-msgstr ""
+msgstr "La nació romanesa va ser formada al començament del segle XX, quan els estats de Transsilvània, Valàquia i Moldàvia es van fusionar. La llengua que s'hi parla recorda la de l'antiga Roma. La seva història és tumultuosa ja que sempre ha estat al costat de grans imperis: el Romà, l'Otomà, l'Austro-hongarès i el Rus."
 
 #: data/nation/romanian.ruleset:33
 msgid "Voievod"
@@ -24426,7 +24371,7 @@ msgid ""
 "socialist revolution dethroned the last Russian emperor. After USSR "
 "dissolution in 1991 Russia appeared on world map again, now as a federative "
 "republic."
-msgstr ""
+msgstr "Segons la llegenda, les tribus Eslaves i Fineses de Novgorod van convidar l'any 862 el rei Varangès (Víking) Rurik a portar ordre a la seva terra. El rei Rurik va establir en aquest reialme Kievan Rus, el primer estat Rus. Al segle XI, Kievan Rus s'havia desintegrat en principats menors, que es van tornar a reunir en un estat per Ivan III el segle XV. Després de la victòria decisiva sobre Suècia i d'obtenir grans quantitats de territori, Pere I va proclamar l'Imperi Rus el 1721. L'Imperi Rus va durar fins el 1917 quan una revolució socialista va destronar l'últim emperador rus. Després de la dissolució de la URSS el 1991, Rússia va reaparèixer al mapa mundial, ara com una república federal."
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
@@ -24460,7 +24405,7 @@ msgstr "Ryukyuans"
 msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
-msgstr ""
+msgstr "El regne Ryukyu (1372-1879) era la \"Terra de la cortesia\", una nació marítima, pacífica i comercial que al final va ser envaïda, ocupada i annexionada pel Japó."
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
@@ -24483,7 +24428,7 @@ msgid ""
 "The Sami are a people of northern Scandinavia. Their nation spans over the "
 "northernmost regions of the Scandinavian countries: Finnmark of Norway and "
 "Lapland of Sweden and Finland."
-msgstr ""
+msgstr "Els Sami són un poble del nord d'Escandinàvia. La seva nació s'estén per les regions més septentrionals dels països escandinaus: Finnmark de Noruega i Lapland de Suècia i Finlàndia."
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
@@ -24576,7 +24521,7 @@ msgid ""
 "The Sioux was a North American nation that fought several decisive battles "
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
-msgstr ""
+msgstr "Els Sioux eren una nació nordamericana que va lluitar diverses batalles decisives contra els Estats Units. Consistia en tres grups de tribus diferents: els Lakota, els Dakota i els Nakota."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -24606,7 +24551,7 @@ msgstr "Eslovacs"
 msgid ""
 "Slovakia is a country in the heart of Europe. Formerly part of "
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
-msgstr ""
+msgstr "Eslovàquia és un país situat al cor d'Europa. Antigament part de Txecoslovàquia, fins el 1918 va ser part de l'imperi Austro-Hongarès."
 
 #: data/nation/slovakian.ruleset:29
 msgid "Pope"
@@ -24634,7 +24579,7 @@ msgid ""
 "the country's first non-racial constitution in 1994, long-time political "
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
-msgstr ""
+msgstr "Colons holandesos van començar a colonitzar el Sud d'Àfrica al segle XVII. Després de moltes guerres principalment entre Bòers (descendents dels colons holandesos), les forces britàniques i Zulus, la Unió Sudafricana va ser creada el 1910. El govern sudafricà va guanyar notorietat per la seva política d'\"apartheid\": la desigualtat davant la llei segons el color de la pell d'un ciutadà. Després de l'adopció de la primera constitució no racista del país el 1994, Nelson Mandela, que havia estat durant molt temps un pres polític, va ser proclamat primer president de Sudàfrica triat d'una forma realment democràtica."
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
@@ -24651,7 +24596,7 @@ msgid ""
 "republics integrated into one country. Soviet Union became one of most "
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
-msgstr ""
+msgstr "La història de la Unió Soviètica comença el Novembre de 1917, quan Lenin lidera una revolució bolxevic. El 31 de desembre de 1922, 4 repúbliques soviètiques es van integrar en un país. La Unió Soviètica es va convertir en un dels estats més poderosos del segle XX. Però cap a finals de 1991, degut a múltiples tensions socials, es va desintegrar en quinze països independents diferents."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -24697,7 +24642,7 @@ msgstr "Sudanesos"
 msgid ""
 "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became "
 "independent in 1956."
-msgstr ""
+msgstr "El 1820 Sudan va quedar sota domini d'Egipte i més endavant britànic. Sudan va aconseguir la independència el 1956."
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
@@ -24712,7 +24657,7 @@ msgid ""
 "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets "
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
-msgstr ""
+msgstr "Sumer controlava el sud de Mesopotàmia fins l'ascens de Babilònia. S'han descobert taules d'escriptura sumèria de 5500 anys d'antiguitat, que són anteriors a qualsevol altre escrit històric."
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
@@ -24720,26 +24665,26 @@ msgstr "Ensi"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
-msgstr ""
+msgstr "Swazi"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
-msgstr ""
+msgstr "Swazis"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
 "The Swazis is a Bantu people of southern Africa. Under the leadership of "
 "Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized "
 "the southern frontier with the Zulus."
-msgstr ""
+msgstr "Els swazis són un poble bantú de l'Àfrica meridional. Sota el lideratge de Mswati II (1820 - 1868), els swazis van expandir el seu territori i van estabilitzar la frontera sud amb els Zulus."
 
 #: data/nation/swazi.ruleset:23
 msgid "Ngwenyama"
-msgstr ""
+msgstr "Ngwenyama"
 
 #: data/nation/swazi.ruleset:23
 msgid "Indovuzaki"
-msgstr ""
+msgstr "Indovuzaki"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -24758,7 +24703,7 @@ msgid ""
 "economy and several disastrous defeats to Russia, Sweden soon lost most of "
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
-msgstr ""
+msgstr "El Regne de Suècia va ser cristianitzat i es va consolidar com a ens polític el segle XII d.C. El país va guanyar prominència com a gran potència europea el segle XVII, després de conquestes militars notables per part dels anomenats Reis Guerrers. No obstant, degut al deteriorament de l'economia i a diverses desfetes desastroses davant de Rússia, Suècia va perdre aviat la major part del territori que havia guanyat. El país no ha estat implicat en cap conflicte armat des de 1814."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -24772,11 +24717,11 @@ msgstr "Suïssos"
 msgid ""
 "Switzerland is a federation of cantons, some of which have more than 700 "
 "years of history as a confederacy."
-msgstr ""
+msgstr "Suïssa és una federació de cantons, alguns dels quals tenen més de 700 anys d'història dins de la confederació."
 
 #: data/nation/swiss.ruleset:20
 msgid "Bailiff"
-msgstr ""
+msgstr "Prebost"
 
 #: data/nation/swiss.ruleset:21
 msgid "Elected King"
@@ -24815,7 +24760,7 @@ msgid ""
 "When the Chinese nationalists lost the armed struggle against the Chinese "
 "communists, the nationalist government evacuated to the island of Taiwan "
 "where they formed the Republic of China."
-msgstr ""
+msgstr "Quan els nacionalistes xinesos van perdre el conflicte armat contra els comunistes xinesos, el govern nacionalista va ser evacuat a l'illa de Taiwan, on van formar la República de Xina."
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -24829,7 +24774,7 @@ msgstr "Texans"
 msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for it's \"larger than life\" cowboy mentality."
-msgstr ""
+msgstr "Texas és el segon estat més gran i populós  dels EUA, famós per la seva mentalitat de cowboy, i de \"tot ben gros\"."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -24865,7 +24810,7 @@ msgid ""
 "rule had weakened, Lozang Gyatso - born 1617 and the 5th Dalai Lama - "
 "established a buddhist religious state under the control of the Gelugpa "
 "school of Tibetan Buddhism."
-msgstr ""
+msgstr "El territori original del Tíbet s'anomena de vegades el \"Sostre del Món\", la regió més elevada del món. El segle VII, Tíbet va emergir com un imperi formidable sota el lideratge del rei Sogtsen Gampo, sent reconegut tant per la Xina com per l'Índia. Aquesta dinastia va durar fins el segle XI, quan Tíbet va ser conquerit pels mongols. Al cap d'uns segles, quan la dominació mongol s'havia debilitat, Lozang Gyatso - nascut el 1617 i cinquè Dalai Lama - va establir un estat religiós budista sota el control de l'escola Gelugpa de budisme tibetà."
 
 #: data/nation/tibetan.ruleset:27
 msgid "Lama"
@@ -24893,7 +24838,7 @@ msgid ""
 "16th century. Tunisia became mostly autonomous from the Ottoman empire in "
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
-msgstr ""
+msgstr "Els fenicis van fundar Cartago a l'àrea on Tunísia es troba actualment. Cartago es va convertir més endavant en una potència de la regió mediterrània fins a la seva desfeta a mans dels romans l'any 146 a.C. Més tard, la conquesta dels musulmans el segle VII va aportar immigració dels països àrabs i otomans. Però van haver-hi també molts jueus i musulmans espanyols que s'hi van traslladar a finals del segle XVI. Tunísia va aconseguir una àmplia autonomia de l'imperi otomà el 1861. Però el 1881, Tunísia va ser envaïda pels francesos i es va convertir en un protectorat francès. El país va obtenir la independència el 1956."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -24937,11 +24882,11 @@ msgstr "Hetman"
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr "Uyghur"
+msgstr "Uigur"
 
 #: data/nation/uyghur.ruleset:4
 msgid "?plural:Uyghurs"
-msgstr "Uyghurs"
+msgstr "Uigurs"
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -24951,7 +24896,7 @@ msgid ""
 "1700s. Today, descendants of the Uyghur form the populations of the Central "
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
-msgstr ""
+msgstr "Uyghur era un imperi i civilització dels turcs orientals. En el moment del seu apogeu, l'any 820 d.C., controlava la major part de l'Àsia Central i del Nord. Després de lluitar contra els xinesos durant segles, al final van ser sotmesos per la dinastia Qing el segle XVIII. Avui en dia, els descendents dels uigurs formen les poblacions dels estats asiàtics d'Uzbekistan, Kazakhstan i Kirguizistan. També formen la minoria principal de la província xina de Xinjiang."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
@@ -25034,18 +24979,18 @@ msgstr ""
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr ""
+msgstr "Westfalià"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
-msgstr ""
+msgstr "Westfalians"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
 "Westphalia, before becoming a Prussian province, was the western region the "
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
-msgstr ""
+msgstr "Westfàlia, abans de convertir-se en una província de Prússia, era la regió occidental del ducat de Saxònia. Avui en dia consisteix en la part septentrional de l'estat federal alemany més gran, Rin del Nord-Westfàlia."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
@@ -25133,6 +25078,12 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
+"Benvingut a Freeciv. Ets el líder d'una civilització. La\n"
+"teva feina és conquerir el món! Cal que comencis per\n"
+"explorar el terreny dels teus voltants amb el teu\n"
+"explorador, i fer servir els teus colons per trobar un\n"
+"bon lloc on fundar una ciutat. Fes servir el teclat\n"
+"numèric per fer moure les unitats."
 
 #: data/scenario/tutorial.sav:34
 msgid ""
@@ -25143,6 +25094,13 @@ msgid ""
 "is the most important resource for any city.  Grassland and plains\n"
 "provide plenty of food."
 msgstr ""
+"Aquest sembla un bon lloc per a fundar una ciutat. La propera\n"
+"vegada que puguis moure aquesta unitat, polsa (b) per a fundar\n"
+"una ciutat.\n"
+"\n"
+"En general, les ciutats s'han de fundar en terra oberta i aprop de\n"
+"l'aigua. El menjar és el recurs més important de qualsevol ciutat.\n"
+"Els prats i les planures proporcionen molt menjar."
 
 #: data/scenario/tutorial.sav:49
 msgid ""
@@ -25158,6 +25116,18 @@ msgid ""
 "dialog.  If all goes well the city should display the settler\n"
 "production on the map view."
 msgstr ""
+"Acabes de fundar la teva primera ciutat. S'hauria d'haver obert\n"
+"la finestra de la ciutat, si no polsa a sobre de la ciutat per obrir-la.\n"
+"Les ciutat són un concepte fonamental a Freeciv, per tant paga la\n"
+"pena perdre una mica de temps familiaritzant-te amb aquesta finestra.\n"
+"Consulta el menú d'ajuda.\n"
+"\n"
+"Primers que res hauries de construir alguns colons, per tal d'expandir la\n"
+"teva civilització. Polsa a la pestanya Producció, després polsa en els\n"
+"colons que es troba a la llista de possibles produccions, després polsa\n"
+"el botó Canviar per a començar a construir-los. Quan hagis acabat, tanca\n"
+"la finestra de la ciutat. Si tot va bé, la ciutat hauria de mostrar la \n"
+"producció dels colons a la vista del mapa."
 
 #: data/scenario/tutorial.sav:62
 msgid ""
@@ -25166,6 +25136,10 @@ msgid ""
 "because of the terrain around it.  You probably want to build\n"
 "settlers here too."
 msgstr ""
+"Felicitats, has fundad la teva segona ciutat. Aquesta ciutat es\n"
+"comportarà exactament igual que la primera, però serà diferent\n"
+"a causa del terreny que l'envolta. També hauries de construir \n"
+"colons en aquesta ciutat."
 
 #: data/scenario/tutorial.sav:68
 msgid ""
@@ -25183,6 +25157,20 @@ msgid ""
 "append it to the worklist.  As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
+"Has construït la teva tercera ciutat! La teva civilització sembla \n"
+"que prospera. Ja va sent hora de pensar en un exercit. Tria una\n"
+"de les teves ciutats que tingui una bona producció, i converteix-la\n"
+"en una base militar. Primer que res construeix-hi Casernes, i després\n"
+"passa a construir una unitat militar. Tria la millor unitat que tinguis \n"
+"disponible per a construir, al començament només podràs triar \n"
+"Guerrers, però desseguida tindràs moltes més opcions. \n"
+"\n"
+"Ara podria ser un bon moment per a començar a fer anar la funció\n"
+"de llista de tasques que hi ha a la part de producció del diàleg de ciutat.\n"
+"Polsa en Caserna, després polsa en Canviar per a començar a \n"
+"construir-la. Després fes doble clic a sobre d'una unitat militar per a \n"
+"que es fiqui a la llista. Tan aviat s'acabi de construir la Caserna, la \n"
+"ciutat començarà a construir la unitat. "
 
 #: data/scenario/tutorial.sav:83
 msgid ""
@@ -25198,6 +25186,15 @@ msgid ""
 "will take; it also shows how long the city will take to grow to the\n"
 "next largest size."
 msgstr ""
+"Una altra ciutat! Ja ho comences a dominar. Segur que ara mateix\n"
+"ja saps que fer amb les ciutats recent creades. Fixat un moment \n"
+"en la barra que hi ha a sota de la ciutat en el mapa. Mostra \n"
+"informació força útil de la ciutat. La bandera i el color de fons \n"
+"assenyalen a quina civilització pertany (et serà útil quan contactis\n"
+"amb altres civilitzacions). La primera línia de la barra mostra el nom\n"
+"i la mida de la ciutat, i hi haurà estrelles indicant la presència d'unitats\n"
+"a dintre de la ciutat. La segona línia mostra què s'està construint a la \n"
+"ciutat, quan trigarà a construir-ho i quan trigarà la ciutat a créixer."
 
 #: data/scenario/tutorial.sav:96
 msgid ""
@@ -25210,6 +25207,14 @@ msgid ""
 "from this report.  The full power of the city report is beyond the\n"
 "scope of this tutorial, however."
 msgstr ""
+"Quan el nombre de ciutats del teu imperi creix, cada cop es fa més \n"
+"difícil gestionar cada una de les ciutats. Aquí és on apareix l'utilitat\n"
+"de l'informe de ciutats. Polsa F1 per a obrir-lo. Aquest informe mostra\n"
+"una llista de ciutats amb algunes estadístiques de cada una. Si vols\n"
+"pots entretenir-t'hi una mica, per a tornar al mapa polsa en la pestanya\n"
+"Mapa. Amb una mica de pràctica es pot controlar gairebé tots els \n"
+"aspectes d'una ciutats des d'aquest informe. Però l'objectiu d'aquesta\n"
+"guia no és mostrar tota la potència del informe de ciutats."
 
 #: data/scenario/tutorial.sav:115
 msgid ""
@@ -25437,6 +25442,15 @@ msgid ""
 "unit instantly.  On average, it is beneficial to search out and enter\n"
 "any huts you find as soon as possible."
 msgstr ""
+"La teva unitat ha trobat una cabana. Les cabanes són petites vil·les\n"
+"escampades pel territori. Quan una unitat entra en una poden passar\n"
+"diferents coses. La més probable és que trobis algunes monedes d'or.\n"
+"També és possible que en una cabana hi trobis avanços tecnològics o\n"
+"unitats mercenaries. Algunes cabanes contenen colons nadius que\n"
+"s'uniran a la teva civilització i que donaran lloc a una nova ciutat per\n"
+"al teu imperi. Finalment, algunes cabanes contenen bàrbars que \n"
+"mataran la teva unitat instantàniament. De mitja, es beneficiós\n"
+"cercar-les i entrar-hi tant aviat com puguis. "
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:130
