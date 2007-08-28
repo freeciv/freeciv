@@ -565,7 +565,8 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 	      my_snprintf(buf, sizeof(buf),
 			  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 			    "Treasury contains %d gold."),
-			  ut1->name, ut2->name,
+			  utype_name_translation(ut1),
+                          utype_name_translation(ut2),
 			  unit_upgrade_price(game.player_ptr, ut1, ut2),
 			  game.player_ptr->economic.gold);    
 
@@ -576,7 +577,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 				   (void *)(activeunits_type[sel]),
 				   _("No"), upgrade_callback_no, 0, 0);
 	    }                                                           
-	  break;	
+	  break;
 	}
       break;
     default:

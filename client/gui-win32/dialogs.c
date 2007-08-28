@@ -104,8 +104,10 @@ struct message_dialog {
 static HWND races_dlg;
 struct player *races_player;
 static HWND races_listview;
+/*
 static HWND races_class;
 static HWND races_legend;
+*/
 int visible_nations[MAX_NUM_ITEMS];
 int selected_leader_sex;
 int selected_style;
@@ -282,12 +284,13 @@ static void update_radio_buttons(int id)
 **************************************************************************/
 static void update_nation_info()
 {
+/*
   int i;
   char buf[255];
   struct nation_type *nation = nation_by_number(selected_nation);
  
   buf[0] = '\0';
-/*
+
   for (i = 0; i < nation->num_groups; i++) {
     sz_strlcat(buf, nation->groups[i]->name);
     if (i != nation->num_groups - 1) {
@@ -456,16 +459,6 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
   return 0;
 }
 
-
-/****************************************************************
-...
-*****************************************************************/
-static int cmp_func(const void * a_p, const void * b_p)
-{
-  return strcmp(nation_name_translation(nation_by_number((*(int *)a_p)-ID_RACESDLG_NATION_BASE)),
-                nation_name_translation(nation_by_number((*(int *)b_p)-ID_RACESDLG_NATION_BASE)));
-}
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -483,11 +476,13 @@ static void populate_nation_listview(struct nation_group* group, HWND listview)
       continue;
     }
 
-    if (group != NULL && !is_nation_in_group(pnation, group->name)) {
+    if (group != NULL && !is_nation_in_group(pnation, group)) {
       continue;
     }
 
-    strings[0] = nation_name_translation(pnation);
+    /* FIXME: fcwin_listview_add_row() should be fixed to handle
+     *        const strings. Now we just cast const away */
+    strings[0] = (char *) nation_name_translation(pnation);
 
     fcwin_listview_add_row(listview, pnation->index, 1, strings);
     visible_nations[n++] = pnation->index;
