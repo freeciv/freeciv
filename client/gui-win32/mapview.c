@@ -201,6 +201,11 @@ update_unit_info_label(struct unit_list *punitlist)
   SetWindowText(unit_info_frame, get_unit_info_label_text1(punitlist));
   SetWindowText(unit_info_label, get_unit_info_label_text2(punitlist));
 
+  /* Cursor handling has changed a lot. New form is not yet implemented
+   * for gui-win32. Old code below is probably never needed again, but
+   * I left it here just in case. Remove when new implementation is in
+   * place. */
+#if 0
   switch (hover_state) {
     case HOVER_NONE:
       if (action_state == CURSOR_ACTION_SELECT) {
@@ -245,6 +250,7 @@ update_unit_info_label(struct unit_list *punitlist)
       cursor_type = CURSOR_PARADROP;
       break;
   }
+#endif
 
   do_mainwin_layout();
 }
@@ -255,6 +261,14 @@ update_unit_info_label(struct unit_list *punitlist)
 void update_timeout_label(void)
 {
   SetWindowText(timeout_label, get_timeout_label_text());
+}
+
+/**************************************************************************
+  This function will change the current mouse cursor.
+**************************************************************************/
+void update_mouse_cursor(enum cursor_type new_cursor_type)
+{
+  /* PORT ME */
 }
 
 /**************************************************************************

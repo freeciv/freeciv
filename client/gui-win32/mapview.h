@@ -22,6 +22,7 @@ void map_expose(int x, int y, int width, int height);
 void overview_expose(HDC hdc);
 void map_handle_hscroll(int pos);
 void map_handle_vscroll(int pos);
+void anim_cursor(float time);
 
 /* These values are stored in the mapview struct now. */
 #define map_view_x 	mapview.map_x0

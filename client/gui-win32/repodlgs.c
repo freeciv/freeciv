@@ -563,8 +563,9 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 	      my_snprintf(buf, sizeof(buf),
 			  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 			    "Treasury contains %d gold."),
-			  ut1->name, ut2->name,
-			  unit_upgrade_price(game.player_ptr, ut1, ut2),
+			  utype_name_translation(ut1),
+                          utype_name_translation(ut2),
+                          unit_upgrade_price(game.player_ptr, ut1, ut2),
 			  game.player_ptr->economic.gold);    
 
 	      popup_message_dialog(NULL, 
@@ -616,17 +617,30 @@ activeunits_report_dialog_update(void)
     }
 
     memset(unitarray, '\0', sizeof(unitarray));
-    unit_list_iterate(game.player_ptr->units, punit) {
-      Unit_type_id uti = utype_index(unit_type(punit));
-      (unitarray[uti].active_count)++;
-      if (punit->homecity) {
-        unitarray[uti].upkeep_shield += punit->upkeep[O_SHIELD];
-        unitarray[uti].upkeep_food += punit->upkeep[O_FOOD];
-	/* TODO: gold upkeep */
-      }
-    }
 
-    unit_list_iterate_end;
+   city_list_iterate(game.player_ptr->cities, pcity) {
+      int free_upkeep[O_COUNT];
+
+      output_type_iterate(o) {
+        free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o),
+                                               EFT_UNIT_UPKEEP_FREE_PER_CITY);
+      } output_type_iterate_end;
+
+      unit_list_iterate(game.player_ptr->units, punit) {
+        int upkeep_cost[O_COUNT];
+        Unit_type_id uti = utype_index(unit_type(punit));
+
+        city_unit_upkeep(punit, upkeep_cost, free_upkeep);
+        (unitarray[uti].active_count)++;
+        if (punit->homecity) {
+          /* TODO: upkeep for generic output types. */
+          unitarray[uti].upkeep_shield += upkeep_cost[O_SHIELD];
+          unitarray[uti].upkeep_food += upkeep_cost[O_FOOD];
+        }
+      } unit_list_iterate_end;
+   } city_list_iterate_end;
+
+
     city_list_iterate(game.player_ptr->cities,pcity) {
       if (VUT_UTYPE == pcity->production.kind) {
         struct unit_type *punittype = pcity->production.value.utype;
@@ -637,27 +651,29 @@ activeunits_report_dialog_update(void)
 
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
-    unit_type_iterate(i) {
-      if ((unitarray[i->index].active_count > 0)
-	  || (unitarray[i->index].building_count > 0)) {
-        can = (can_upgrade_unittype(game.player_ptr, i) != NULL);
-        my_snprintf(buf[0], sizeof(buf[0]), "%s", utype_name_translation(i));
+    unit_type_iterate(putype) {
+      int index = utype_index(putype);
+      if ((unitarray[index].active_count > 0)
+	  || (unitarray[index].building_count > 0)) {
+        can = (can_upgrade_unittype(game.player_ptr, putype) != NULL);
+        my_snprintf(buf[0], sizeof(buf[0]), "%s",
+                    utype_name_translation(putype));
         my_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');
         my_snprintf(buf[2], sizeof(buf[2]), "%3d",
-				   unitarray[i->index].building_count);
+                    unitarray[index].building_count);
         my_snprintf(buf[3], sizeof(buf[3]), "%3d",
-				   unitarray[i->index].active_count);
+                    unitarray[index].active_count);
         my_snprintf(buf[4], sizeof(buf[4]), "%3d",
-				   unitarray[i->index].upkeep_shield);
+                    unitarray[index].upkeep_shield);
         my_snprintf(buf[5], sizeof(buf[5]), "%3d",
-				   unitarray[i->index].upkeep_food);
+				   unitarray[index].upkeep_food);
 	fcwin_listview_add_row(lv,k,AU_COL,row);
-        activeunits_type[k]=(unitarray[i->index].active_count > 0) ? i : NULL;
+        activeunits_type[k]=(unitarray[index].active_count > 0) ? putype : NULL;
         k++;
-        unittotals.active_count += unitarray[i->index].active_count;
-        unittotals.upkeep_shield += unitarray[i->index].upkeep_shield;
-        unittotals.upkeep_food += unitarray[i->index].upkeep_food;
-        unittotals.building_count += unitarray[i->index].building_count;
+        unittotals.active_count += unitarray[index].active_count;
+        unittotals.upkeep_shield += unitarray[index].upkeep_shield;
+        unittotals.upkeep_food += unitarray[index].upkeep_food;
+        unittotals.building_count += unitarray[index].building_count;
       }
     } unit_type_iterate_end;
 

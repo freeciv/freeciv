@@ -90,8 +90,7 @@ void load_intro_gfx(void)
   Load the cursors (mouse substitute sprites), including a goto cursor,
   an airdrop cursor, a nuke cursor, and a patrol cursor.
 **************************************************************************/
-void
-load_cursors(void)
+void load_cursors(void)
 {
   enum cursor_type cursor;
   ICONINFO ii;
