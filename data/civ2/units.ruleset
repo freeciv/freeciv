@@ -229,6 +229,9 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "DefendGood", "FirstBuild"
+helptext      = _("\
+The Phalanx is armored infantry, suitable for defending your cities.\
+")
 
 [unit_archers]
 name          = _("Archers")
@@ -257,6 +260,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "DefendOk"
+helptext      = _("\
+Archers fight with bows and arrows and has a good offensive\
+ value as well as decent defense.\
+")
 
 [unit_legion]
 name          = _("Legion")
@@ -285,6 +292,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "DefendOk", "Hut", "BarbarianBuild", "BarbarianSea"
+helptext      = _("\
+Legions are heavily armed and well disciplined infantry\
+ units with an excellent offensive value.\
+")
 
 [unit_pikemen]
 name          = _("Pikemen")
@@ -313,6 +324,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Pikemen"
 roles         = "DefendGood", "FirstBuild"
+helptext      = _("\
+Equipped with long pikes, Pikemen replaces Phalanx\
+ as the preferred city defender.\
+")
 
 [unit_musketeers]
 name          = _("Musketeers")
@@ -342,6 +357,11 @@ uk_gold       = 0
 flags         = ""
 roles         = "DefendGood", "FirstBuild", "HutTech",
                 "BarbarianTech", "BarbarianBuildTech", "BarbarianSeaTech"
+helptext      = _("\
+Musketeers are infantry equipped with early\
+ firearms and replace Pikemen as the preferred\
+ city defender.\
+")
 
 [unit_fanatics]
 name          = _("Fanatics")
@@ -443,6 +463,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "IgTer"
 roles         = "DefendGood"
+helptext      = _("\
+Alpine Troops are highly mobile units as well as\
+ excellent defenders.\
+")
 
 [unit_riflemen]
 name          = _("Riflemen")
@@ -471,6 +495,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "DefendGood", "FirstBuild"
+helptext      = _("\
+Riflemen are World War-era infantry, very good\
+ at defending your cities.\
+")
 
 [unit_marines]
 name          = _("Marines")
@@ -499,6 +527,9 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Marines"
 roles         = "DefendOk", "BarbarianSeaTech"
+helptext      = _("\
+Marines are infantry who are experts at marine warfare.\
+")
 
 [unit_paratroopers]
 name          = _("Paratroopers")
@@ -527,6 +558,9 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Paratroopers"
 roles         = "DefendOk"
+helptext      = _("\
+Paratroopers are experts at airborne attacks.\
+")
 
 paratroopers_range = 10
 paratroopers_mr_req = 1
@@ -592,6 +626,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "Hut", "Barbarian", "Hunter"
+helptext      = _("\
+Horsemen are mounted warriors and an early\
+ shock-troop that can penetrate deep into\
+ enemy territory.\
+")
 
 [unit_chariot]
 name          = _("Chariot")
@@ -620,6 +659,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "Hut", "Hunter"
+helptext      = _("\
+Chariots are horse-pulled war wagons, stronger\
+ but more expensive than horsemen.\
+")
 
 [unit_elephants]
 name          = _("Elephants")
@@ -648,6 +691,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast"
+helptext      = _("\
+Elephants are towering animals trained for war,\
+ but are easily dispersed if caught off guard.\
+")
 
 [unit_crusaders]
 name          = _("Crusaders")
@@ -676,6 +723,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast"
+helptext      = _("\
+Crusaders are highly disciplined mounted\
+ warriors driven by a higher cause.\
+")
 
 [unit_knights]
 name          = _("Knights")
@@ -705,6 +756,9 @@ uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "HutTech", "BarbarianTech",
                 "BarbarianBuildTech", "BarbarianSeaTech", "Hunter"
+helptext      = _("\
+Knights are mounted and heavily armored warriors.\
+")
 
 [unit_dragoons]
 name          = _("Dragoons")
@@ -734,6 +788,9 @@ uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "BarbarianBuildTech", "BarbarianSeaTech",
                 "Hunter"
+helptext      = _("\
+Dragoons are mounted warriors carrying early firearms.\
+")
 
 [unit_cavalry]
 name          = _("Cavalry")
@@ -762,6 +819,9 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "AttackFast", "Hunter"
+helptext      = _("\
+Cavalry are mounted and highly trained soldiers.\
+")
 
 [unit_armor]
 name          = _("Armor")
@@ -790,6 +850,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "AttackFast", "Hunter"
+helptext      = _("\
+Armors are motorized war wagons that are faster,\
+ stronger, and can take more damage than earlier\
+ military units.\
+")
 
 [unit_catapult]
 name          = _("Catapult")
@@ -818,6 +883,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "AttackStrong"
+helptext      = _("\
+Catapults are large rock-throwing machines of war.\
+ They are very strong attackers but equally weak\
+ defenders and will need an escort to be effective.\
+")
 
 [unit_cannon]
 name          = _("Cannon")
@@ -846,6 +916,12 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "AttackStrong", "BarbarianTech", "BarbarianBuildTech"
+helptext      = _("\
+Cannons are large firearms that can fire heavy\
+ projectiles over long distances. They are very\
+ strong attackers but equally weak defenders and\
+ will need an escort to be effective.\
+")
 
 [unit_artillery]
 name          = _("Artillery")
@@ -874,6 +950,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "AttackStrong"
+helptext      = _("\
+Artillery is an upgraded cannon. They are very\
+ strong attackers but equally weak defenders and\
+ will need an escort to be effective.\
+")
 
 [unit_howitzer]
 name          = _("Howitzer")
@@ -902,6 +983,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "IgWall"
 roles         = "AttackStrong"
+helptext      = _("\
+Howitzers are upgraded artillery with improved\
+ defensive as well as offensive capabilities.\
+")
 
 [unit_fighter]
 name          = _("Fighter")
@@ -930,6 +1015,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Fighter"
 roles         = ""
+helptext      = _("\
+Fighters are your first airborne units. They can\
+ move anywhere and attack any unit.\
+")
 
 [unit_bomber]
 name          = _("Bomber")
@@ -958,6 +1047,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "OneAttack"
 roles         = ""
+helptext      = _("\
+Bombers are specialized airborne units that may\
+ only attack ground targets, not other airborne\
+ units.\
+")
 
 [unit_helicopter]
 name          = _("Helicopter")
@@ -1084,6 +1178,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Trireme", "BadCityDefender"
 roles         = "Ferryboat"
+helptext      = _("\
+The Trireme is your first boat unit. It can act\
+ as a transport ship and has rudimentary offensive\
+ capabilities, but may not stray too far from the shore.\
+")
 
 [unit_caravel]
 name          = _("Caravel")
@@ -1112,6 +1211,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
+helptext      = _("\
+The Caravel replaces the Trireme and is much\
+ more reliable on the open seas.\
+")
 
 [unit_galleon]
 name          = _("Galleon")
@@ -1140,6 +1243,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
+helptext      = _("\
+The Galleon is a pure transport ship and cannot\
+ attack other ships, though is may still defend\
+ itself when attacked.\
+")
 
 [unit_frigate]
 name          = _("Frigate")
@@ -1168,6 +1276,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "BadCityDefender"
 roles         = "Hunter"
+helptext      = _("\
+The Frigate is a highly versatile boat unit,\
+ that is both a strong offensive unit as well\
+ as a decent transport ship.\
+")
 
 [unit_ironclad]
 name          = _("Ironclad")
@@ -1196,6 +1309,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "BadCityDefender"
 roles         = "Hunter"
+helptext      = _("\
+The Ironclad is an armored ship that is\
+ much more sturdy than the Frigate but\
+ loses the latter's transport capability.\
+")
 
 [unit_destroyer]
 name          = _("Destroyer")
@@ -1256,6 +1374,9 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "BadCityDefender"
 roles         = ""
+helptext      = _("\
+The Cruiser is a strong offensive boat unit.\
+")
 
 [unit_aegis_cruiser]
 name          = _("AEGIS Cruiser")
@@ -1284,6 +1405,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "AEGIS", "BadCityDefender"
 roles         = ""
+helptext      = _("\
+The AEGIS Cruiser is equipped with an advanced\
+ defensive missile system.\
+")
 
 [unit_battleship]
 name          = _("Battleship")
@@ -1312,6 +1437,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "BadCityDefender"
 roles         = ""
+helptext      = _("\
+The Battleship is the supreme naval unit with\
+ excellent offensive and defensive values.\
+")
 
 [unit_submarine]
 name          = _("Submarine")
@@ -1406,6 +1535,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "BadCityDefender"
 roles         = "Ferryboat"
+helptext      = _("\
+The Transport cannot attack on its own but\
+ may defend itself when under attack.\
+")
 
 [unit_cruise_missile]
 name          = _("Cruise Missile")
