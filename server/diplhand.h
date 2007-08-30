@@ -27,6 +27,7 @@ void establish_embassy(struct player *pplayer, struct player *aplayer);
 
 void diplhand_init(void);
 void diplhand_free(void);
+void free_treaties(void);
 
 struct Treaty *find_treaty(struct player *plr0, struct player *plr1);
 

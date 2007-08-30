@@ -1952,8 +1952,11 @@ main_start_players:
 /**************************************************************************
  ...
 **************************************************************************/
-void server_game_free()
+void server_game_free(void)
 {
+  /* Free all the treaties that were left open when game finished. */
+  free_treaties();
+
   players_iterate(pplayer) {
     player_map_free(pplayer);
   } players_iterate_end;
