@@ -1380,7 +1380,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   }
 
   if (pcity->ai.choice.want != 0) { 
-    ASSERT_REAL_CHOICE_TYPE(pcity->ai.choice.type);
+    ASSERT_CHOICE(pcity->ai.choice);
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
 	     is_unit_choice_type(pcity->ai.choice.type)
@@ -1532,7 +1532,7 @@ static void ai_spend_gold(struct player *pplayer)
     /* Not dealing with this city a second time */
     pcity->ai.choice.want = 0;
 
-    ASSERT_REAL_CHOICE_TYPE(bestchoice.type);
+    ASSERT_CHOICE(bestchoice);
 
     /* Try upgrade units at danger location (high want is usually danger) */
     if (pcity->ai.urgency > 1) {
@@ -1692,6 +1692,7 @@ void ai_manage_cities(struct player *pplayer)
         game.info.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
     }
     TIMING_LOG(AIT_CITY_SETTLERS, TIMER_STOP);
+    ASSERT_CHOICE(pcity->ai.choice);
   } city_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) {

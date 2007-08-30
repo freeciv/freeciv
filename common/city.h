@@ -150,25 +150,26 @@ struct output_type {
 
 enum choice_type {
   CT_NONE = 0,
-  CT_BUILDING = 0,
+  CT_BUILDING = 1,
   CT_CIVILIAN,
   CT_ATTACKER,
   CT_DEFENDER,
   CT_LAST
 };
 
-/* FIXME:
-
-   This should detect also cases where type is just initialized with
-   CT_NONE (probably in order to silence compiler warnings), but no real value
-   is given. You have to change value of CT_BUILDING into 1 before you
-   can add this check. It's left this way for now, is case hardcoded
-   value 0 is still used somewhere instead of CT_BUILDING.
-
-   -- Caz
-*/
-#define ASSERT_REAL_CHOICE_TYPE(type)                                    \
-        assert(type >= 0 && type < CT_LAST /* && type != CT_NONE */ );
+#define ASSERT_CHOICE(c)                                                 \
+  do {                                                                   \
+    if ((c).want > 0) {                                                  \
+      assert((c).type >= 0 && (c).type < CT_LAST && (c).type != CT_NONE);\
+      if ((c).type == CT_BUILDING) {                                     \
+        int _iindex = improvement_index((c).value.building);             \
+        assert(_iindex >= 0 && _iindex < game.control.num_impr_types);   \
+      } else {                                                           \
+        int _uindex = utype_index((c).value.utype);                      \
+        assert(_uindex >= 0 && _uindex < game.control.num_unit_types);   \
+      }                                                                  \
+    }                                                                    \
+  } while(0);
 
 struct ai_choice {
   enum choice_type type;
