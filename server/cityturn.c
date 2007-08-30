@@ -1373,7 +1373,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
       if (pplayer->economic.gold - upkeep < 0) {
 	notify_player(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Can't afford to maintain %s in %s, "
-			   "pimprove sold!"),
+			   "improvement sold!"),
 			 improvement_name_translation(pimprove),
 			 pcity->name);
 	do_sell_building(pplayer, pcity, pimprove);
