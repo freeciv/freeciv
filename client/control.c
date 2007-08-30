@@ -1156,6 +1156,26 @@ void request_unit_select_same_type(struct unit_list *punits)
   }
 }
 
+/****************************************************************************
+ Select all units of the same type as the given unit that have the same tile
+****************************************************************************/
+void request_unit_select_same_type_tile(struct unit_list *punits)
+{
+  if (can_client_change_view()) {
+    unit_list_iterate(punits, punit) {
+      unit_list_iterate(punit->tile->units, punit2) {
+	if (unit_type(punit2) == unit_type(punit)
+	    && !unit_list_search(punits, punit2)
+	    && punit2->activity == ACTIVITY_IDLE
+	    && !punit2->ai.control
+	    && !unit_has_orders(punit2)) {
+	  add_unit_focus(punit2);
+	}
+      } unit_list_iterate_end;
+    } unit_list_iterate_end;
+  }
+}
+
 /**************************************************************************
   Request a diplomat to do a specific action.
   - action : The action to be requested.

@@ -147,6 +147,7 @@ enum MenuID {
   MENU_ORDER_DIPLOMAT_DLG,
   MENU_ORDER_NUKE,
   MENU_ORDER_SELECT_SAME_TYPE,
+  MENU_ORDER_SELECT_SAME_TYPE_TILE,
   MENU_ORDER_WAIT,
   MENU_ORDER_DONE,
 
@@ -406,6 +407,9 @@ static void orders_menu_callback(gpointer callback_data,
   switch(callback_action) {
   case MENU_ORDER_SELECT_SAME_TYPE:
     request_unit_select_same_type(get_units_in_focus());
+    break;
+  case MENU_ORDER_SELECT_SAME_TYPE_TILE:
+    request_unit_select_same_type_tile(get_units_in_focus());
     break;
   case MENU_ORDER_BUILD_CITY:
     unit_list_iterate(get_units_in_focus(), punit) {
@@ -917,6 +921,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Orders") "/" N_("Select same type"), "y",
     orders_menu_callback, MENU_ORDER_SELECT_SAME_TYPE },
+  { "/" N_("Orders") "/" N_("Select same type in tile"), "<shift>y",
+    orders_menu_callback, MENU_ORDER_SELECT_SAME_TYPE_TILE },
   { "/" N_("Orders") "/" N_("_Wait"),			"w",
 	orders_menu_callback,	MENU_ORDER_WAIT						},
   { "/" N_("Orders") "/" N_("Done"),			"space",

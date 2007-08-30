@@ -71,6 +71,7 @@ static GtkTextBuffer *races_text;
 /******************************************************************/
 #define SELECT_UNIT_READY  1
 #define SELECT_UNIT_SENTRY 2
+#define SELECT_UNIT_ALL    3
 
 static GtkWidget *unit_select_dialog_shell;
 static GtkTreeStore *unit_select_store;
@@ -491,6 +492,20 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
     }
     break;
 
+  case SELECT_UNIT_ALL:
+    {
+      unit_list_iterate(ptile->units, punit) {
+        if (game.player_ptr == punit->owner) {
+          if (punit->activity == ACTIVITY_IDLE &&
+              !punit->ai.control) {
+            /* Give focus to it */
+            add_unit_focus(punit);
+          }
+        }
+      } unit_list_iterate_end;
+    }
+    break;
+
   default:
     break;
   }
@@ -508,7 +523,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   if (!unit_select_dialog_shell) {
     GtkTreeStore *store;
     GtkWidget *shell, *view, *sw, *hbox;
-    GtkWidget *ready_cmd, *sentry_cmd, *close_cmd;
+    GtkWidget *ready_cmd, *sentry_cmd, *select_all_cmd, *close_cmd;
 
     static const char *titles[NUM_UNIT_SELECT_COLUMNS] = {
       N_("Unit"),
@@ -600,6 +615,14 @@ void popup_unit_select_dialog(struct tile *ptile)
     gtk_button_box_set_child_secondary(
       GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
       sentry_cmd, TRUE);
+
+    select_all_cmd =
+    gtk_dialog_add_button(GTK_DIALOG(shell),
+      _("Select _all"), SELECT_UNIT_ALL);
+
+    gtk_button_box_set_child_secondary(
+      GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
+      select_all_cmd, TRUE);
 
     close_cmd =
     gtk_dialog_add_button(GTK_DIALOG(shell),

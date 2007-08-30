@@ -91,6 +91,7 @@ void request_unit_upgrade(struct unit *punit);
 void request_units_wait(struct unit_list *punits);
 void request_unit_wakeup(struct unit *punit);
 void request_unit_select_same_type(struct unit_list *punits);
+void request_unit_select_same_type_tile(struct unit_list *punits);
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value);
 void request_toggle_city_outlines(void);
