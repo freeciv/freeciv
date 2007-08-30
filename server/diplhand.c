@@ -59,19 +59,34 @@ static struct treaty_list *treaties = NULL;
 /**************************************************************************
 ...
 **************************************************************************/
-void diplhand_init()
+void diplhand_init(void)
 {
   treaties = treaty_list_new();
 }
 
 /**************************************************************************
-...
+  Free all the resources allocated by diplhand.
 **************************************************************************/
-void diplhand_free()
+void diplhand_free(void)
 {
-  treaty_list_unlink_all(treaties);
+  free_treaties();
+
   treaty_list_free(treaties);
   treaties = NULL;
+}
+
+/**************************************************************************
+  Free all the treaties currently in treaty list.
+**************************************************************************/
+void free_treaties(void)
+{
+  /* Free memory allocated for treaties */
+  treaty_list_iterate(treaties, pt) {
+    clear_treaty(pt);
+    free(pt);
+  } treaty_list_iterate_end;
+
+  treaty_list_unlink_all(treaties);
 }
 
 /**************************************************************************

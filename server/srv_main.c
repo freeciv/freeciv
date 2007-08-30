@@ -2063,8 +2063,11 @@ void server_game_init(void)
   Bear in mind that this function is called when the 'load' command is
   used, for instance.
 **************************************************************************/
-void server_game_free()
+void server_game_free(void)
 {
+  /* Free all the treaties that were left open when game finished. */
+  free_treaties();
+
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
       vision_free(punit->server.vision);
