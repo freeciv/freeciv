@@ -1326,11 +1326,11 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
       case EFT_MAX_RATES:
         if (peffect->value < 100 && game.info.changable_tax) {
           sprintf(buf + strlen(buf), 
-                  _("The maximum rate you can set for science, "
+                  _("* The maximum rate you can set for science, "
 	                  "gold, or luxuries is %d%%.\n"), peffect->value);
         } else if (game.info.changable_tax) {
           sprintf(buf + strlen(buf), 
-                  _("Has unlimited science/gold/luxuries rates.\n"));
+                  _("* Has unlimited science/gold/luxuries rates.\n"));
         }
         break;
       case EFT_MARTIAL_LAW_EACH:
