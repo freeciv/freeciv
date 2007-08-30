@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-23 19:22+0900\n"
+"POT-Creation-Date: 2007-08-30 21:28+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -52,32 +52,32 @@ msgstr ""
 
 #: common/city.c:53 client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-mui/citydlg.c:1585 client/gui-mui/repodlgs.c:669
-#: client/gui-win32/repodlgs.c:693
+#: client/gui-win32/repodlgs.c:694
 msgid "Food"
-msgstr "Mat"
+msgstr "mat"
 
 #: common/city.c:54 client/gui-gtk-2.0/repodlgs.c:935
 #: client/gui-mui/citydlg.c:1589 client/gui-mui/repodlgs.c:668
-#: client/gui-win32/repodlgs.c:693
+#: client/gui-win32/repodlgs.c:694
 msgid "Shield"
-msgstr "Sköld"
+msgstr "sköld"
 
 #: common/city.c:55 client/gui-mui/citydlg.c:1593 data/Freeciv.in:3060
 #: data/default/techs.ruleset:734 data/civ2/techs.ruleset:719
 #: data/civ1/techs.ruleset:715
 msgid "Trade"
-msgstr "Handel"
+msgstr "handel"
 
 #: common/city.c:56 client/gui-gtk-2.0/repodlgs.c:937
 #: client/gui-mui/citydlg.c:1597 data/default/terrain.ruleset:672
 #: data/civ2/terrain.ruleset:603 data/civ1/terrain.ruleset:542
 msgid "Gold"
-msgstr "Guld"
+msgstr "guld"
 
 #: common/city.c:57 server/plrhand.c:213 client/gui-gtk-2.0/gamedlgs.c:262
 #: client/gui-mui/citydlg.c:1601 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
-msgstr "Välfärd"
+msgstr "välfärd"
 
 #: common/city.c:58 server/plrhand.c:215 client/gui-gtk-2.0/gamedlgs.c:282
 #: client/gui-gtk-2.0/repodlgs.c:281 client/gui-mui/citydlg.c:1605
@@ -86,7 +86,7 @@ msgstr "Välfärd"
 #: client/gui-xaw/menu.c:222 client/gui-xaw/repodlgs.c:273
 #: client/gui-xaw/repodlgs.c:483 data/Freeciv.in:1366
 msgid "Science"
-msgstr "Forskning"
+msgstr "forskning"
 
 #: common/city.c:349
 msgid "?obsolete:O"
@@ -654,7 +654,7 @@ msgstr "Framtidsteknologi %d"
 #: client/gui-mui/repodlgs.c:181 client/gui-sdl/citydlg.c:702
 #: client/gui-sdl/gui_tilespec.c:480 client/gui-sdl/helpdlg.c:354
 #: client/gui-sdl/helpdlg.c:384 client/gui-sdl/helpdlg.c:762
-#: client/gui-sdl/helpdlg.c:786 client/gui-sdl/mapview.c:944
+#: client/gui-sdl/helpdlg.c:786 client/gui-sdl/mapview.c:945
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
 #: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
@@ -818,8 +818,8 @@ msgstr "land"
 msgid "Sea"
 msgstr "hav"
 
-#: common/unittype.c:64 data/default/units.ruleset:1020
-#: data/civ2/units.ruleset:963
+#: common/unittype.c:64 data/default/units.ruleset:1106
+#: data/civ2/units.ruleset:1057
 msgid "Helicopter"
 msgstr "helikopter"
 
@@ -827,8 +827,8 @@ msgstr "helikopter"
 msgid "Air"
 msgstr "luft"
 
-#: common/unittype.c:66 data/default/units.ruleset:1500
-#: data/civ2/units.ruleset:1443 data/civ1/units.ruleset:833
+#: common/unittype.c:66 data/default/units.ruleset:1625
+#: data/civ2/units.ruleset:1576 data/civ1/units.ruleset:920
 msgid "Nuclear"
 msgstr "kärnvapen"
 
@@ -1586,7 +1586,7 @@ msgstr "%d guld krävs och vi har bara %d guld."
 msgid "You have bought this turn, can't change."
 msgstr "Ändring ej tillåten efter köp samma omgång."
 
-#: server/cityhand.c:388 client/text.c:1137 client/text.c:1174
+#: server/cityhand.c:388 client/text.c:1138 client/text.c:1175
 #: client/gui-mui/citydlg.c:2031 client/gui-win32/citydlg.c:1263
 #, c-format
 msgid "%s"
@@ -4065,7 +4065,7 @@ msgid "Networking"
 msgstr "Nätverk"
 
 #: server/settings.c:41 client/gui-gtk-2.0/dialogs.c:730
-#: client/gui-win32/dialogs.c:537
+#: client/gui-win32/dialogs.c:532
 msgid "All"
 msgstr "Alla"
 
@@ -7652,8 +7652,8 @@ msgstr "Bästa försvarare"
 #: client/gui-mui/citydlg.c:1360 client/gui-mui/gui_main.c:246
 #: client/gui-sdl/helpdlg.c:660 client/gui-sdl/mapctrl.c:1603
 #: client/gui-sdl/optiondlg.c:1835 client/gui-sdl/repodlgs.c:355
-#: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:613
-#: client/gui-win32/repodlgs.c:698 client/gui-win32/repodlgs.c:707
+#: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:614
+#: client/gui-win32/repodlgs.c:699 client/gui-win32/repodlgs.c:708
 #: client/gui-xaw/menu.c:157 client/gui-xaw/menu.c:219
 #: client/gui-xaw/menu.c:240 client/gui-xaw/repodlgs.c:879
 #: client/gui-xaw/repodlgs.c:1067 data/Freeciv.in:1895 data/helpdata.txt:910
@@ -8147,11 +8147,11 @@ msgstr "Endast fallskärmsjägare kan göra detta."
 msgid "Too far for this unit."
 msgstr "För långt för denna enhet."
 
-#: client/control.c:2050 client/control.c:2084 client/control.c:2104
+#: client/control.c:2046 client/control.c:2076 client/control.c:2092
 msgid "Didn't find a route to the destination!"
 msgstr "Hittade ingen väg till målet!"
 
-#: client/control.c:2146
+#: client/control.c:2139
 msgid "Oh my! You seem to have no capital!"
 msgstr "Hoppsan! Vi tycks sakna huvudstad!"
 
@@ -8258,12 +8258,12 @@ msgstr "Möjliggör %s (med %s)."
 #. TRANS: preserve single space at beginning
 #: client/helpdata.c:411
 msgid " Rivers"
-msgstr " Floder"
+msgstr " floder"
 
 #: client/helpdata.c:569
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
-msgstr "Inget hjälpavsnitt för %s.\n"
+msgstr "Hjälpavsnitt saknas för %s.\n"
 
 #: client/helpdata.c:573
 #, c-format
@@ -8589,7 +8589,7 @@ msgstr ""
 #: client/helpdata.c:990
 #, c-format
 msgid "* Will never achieve veteran status.\n"
-msgstr "* Blir aldrig mer erfarna.\n"
+msgstr "* Blir aldrig mer erfaren.\n"
 
 #: client/helpdata.c:993
 #, c-format
@@ -9450,7 +9450,7 @@ msgstr "Flagga"
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
 #: client/gui-gtk-2.0/pages.c:1508 client/gui-gtk-2.0/pages.c:2059
 #: client/gui-mui/plrdlg.c:167 client/gui-sdl/repodlgs.c:2036
-#: client/gui-win32/connectdlg.c:988 client/gui-win32/dialogs.c:547
+#: client/gui-win32/connectdlg.c:988 client/gui-win32/dialogs.c:542
 #: client/gui-win32/plrdlg.c:335
 msgid "Nation"
 msgstr "Folkslag"
@@ -9546,23 +9546,23 @@ msgid "Failed looking up metaserver's host"
 msgstr "Misslyckades få kontakt med metaserverns värd."
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
-#: client/gui-sdl/mapview.c:741
+#: client/gui-sdl/mapview.c:742
 msgid "?nation:Neutral"
 msgstr "?nation:neutrala"
 
-#: client/text.c:83 client/gui-sdl/mapview.c:741
+#: client/text.c:83 client/gui-sdl/mapview.c:742
 msgid "?nation:Hostile"
 msgstr "?nation:fientliga"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:743
+#: client/text.c:85 client/gui-sdl/mapview.c:744
 msgid "?nation:Peaceful"
 msgstr "?nation:fredliga"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:743
+#: client/text.c:85 client/gui-sdl/mapview.c:744
 msgid "?nation:Friendly"
 msgstr "?nation:vänliga"
 
-#: client/text.c:86 client/gui-sdl/mapview.c:744
+#: client/text.c:86 client/gui-sdl/mapview.c:745
 msgid "?nation:Mysterious"
 msgstr "?nation:mystiska"
 
@@ -9570,23 +9570,23 @@ msgstr "?nation:mystiska"
 msgid "?nation:Friendly(team)"
 msgstr "?nation:vänliga(lag)"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:774
+#: client/text.c:88 client/gui-sdl/mapview.c:775
 msgid "?city:Neutral"
 msgstr "?city:neutral"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:774
+#: client/text.c:88 client/gui-sdl/mapview.c:775
 msgid "?city:Hostile"
 msgstr "?city:fientlig"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:775
+#: client/text.c:90 client/gui-sdl/mapview.c:776
 msgid "?city:Peaceful"
 msgstr "?city:fredlig"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:776
+#: client/text.c:90 client/gui-sdl/mapview.c:777
 msgid "?city:Friendly"
 msgstr "?city:vänlig"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:776
+#: client/text.c:90 client/gui-sdl/mapview.c:777
 msgid "?city:Mysterious"
 msgstr "?city:mystisk"
 
@@ -9660,7 +9660,7 @@ msgstr[1] "Stad: %s (%s, %d omgångar vapenstillestånd)"
 msgid "City: %s (%s, %s)"
 msgstr "Stad: %s (%s, %s)"
 
-#: client/text.c:179 client/gui-sdl/mapview.c:790
+#: client/text.c:179 client/gui-sdl/mapview.c:791
 msgid " with "
 msgstr " med "
 
@@ -9898,51 +9898,52 @@ msgid_plural "%d units"
 msgstr[0] "%d enhet"
 msgstr[1] "%d enheter"
 
-#: client/text.c:690 client/gui-sdl/mapview.c:558
+#: client/text.c:689 client/text.c:691 client/gui-sdl/mapview.c:557
+#: client/gui-sdl/mapview.c:559
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Omgångar till målet: %d"
 
-#: client/text.c:692 client/gui-sdl/mapview.c:560
+#: client/text.c:693 client/gui-sdl/mapview.c:561
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Omgångar till målet: %d to %d"
 
-#: client/text.c:698 client/gui-sdl/mapview.c:566
+#: client/text.c:699 client/gui-sdl/mapview.c:567
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d enhet markerad"
 msgstr[1] "%d enheter markerade"
 
-#: client/text.c:703 client/gui-sdl/mapview.c:571
+#: client/text.c:704 client/gui-sdl/mapview.c:572
 msgid "No units selected."
 msgstr "Ingen enhet markerad"
 
-#: client/text.c:777 client/gui-sdl/mapview.c:644
+#: client/text.c:778 client/gui-sdl/mapview.c:645
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Övriga: %d civila; %d militära"
 
-#: client/text.c:779 client/gui-sdl/mapview.c:646
+#: client/text.c:780 client/gui-sdl/mapview.c:647
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Övriga: %d civila"
 
-#: client/text.c:781 client/gui-sdl/mapview.c:648
+#: client/text.c:782 client/gui-sdl/mapview.c:649
 #, c-format
 msgid "Others: %d military"
 msgstr "Övriga: %d militära"
 
-#: client/text.c:812
+#: client/text.c:813
 msgid "No units to upgrade!"
 msgstr "Inga enheter att ersätta!"
 
-#: client/text.c:837
+#: client/text.c:838
 msgid "None of these units may be upgraded."
 msgstr "Inga av dessa enheter kan ersättas."
 
-#: client/text.c:843
+#: client/text.c:844
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -9957,72 +9958,72 @@ msgstr[1] ""
 "Ersätt %d enheter för %d guld?\n"
 "Skattkammaren innehåller %d guld."
 
-#: client/text.c:864
+#: client/text.c:865
 msgid "Shows your progress in researching the current technology."
 msgstr "Visar hur långt utforskandet av nuvarande teknologi har kommit."
 
-#: client/text.c:870
+#: client/text.c:871
 msgid "no research target."
 msgstr "inget forskningsmål."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:873
+#: client/text.c:874
 #, c-format
 msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
-#: client/text.c:893
+#: client/text.c:894
 msgid "Shows the progress of global warming:"
 msgstr "Visar hur långt framskriden den globala uppvärmningen är:"
 
-#: client/text.c:894
+#: client/text.c:895
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Utsläpp: %d%%"
 
-#: client/text.c:896
+#: client/text.c:897
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "Risken för katastrofal uppvärmning varje omgång: %d%%"
 
-#: client/text.c:912
+#: client/text.c:913
 msgid "Shows the progress of nuclear winter:"
 msgstr "Visar hur långt framskriden atomvintern är:"
 
-#: client/text.c:913
+#: client/text.c:914
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Nedfall: %d%%"
 
-#: client/text.c:915
+#: client/text.c:916
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Risken för katastrofal nedkylning varje omgång: %d%%"
 
-#: client/text.c:930
+#: client/text.c:931
 msgid "Shows your current government:"
 msgstr "Visar vårt nuvarande statsskick:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:954
+#: client/text.c:955
 #, c-format
 msgid "Population:      %5d"
 msgstr "Folkmängd:       %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:957
+#: client/text.c:958
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Underhåll:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:961
+#: client/text.c:962
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Energi:          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:965
+#: client/text.c:966
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -10030,91 +10031,91 @@ msgstr[0] "Massa:           %5d ton"
 msgstr[1] "Massa:           %5d ton"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:971
+#: client/text.c:972
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Restid:          %5.1f år"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:975
+#: client/text.c:976
 msgid "Travel time:        N/A     "
 msgstr "Restid:             E/A     "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:979
+#: client/text.c:980
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Sannolikh.lyck.: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:983
+#: client/text.c:984
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Ankomstår:       %8s"
 
-#: client/text.c:1003
+#: client/text.c:1004
 msgid "?timeout:off"
 msgstr "av"
 
-#: client/text.c:1027
+#: client/text.c:1028
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "%02ds"
 
-#: client/text.c:1029
+#: client/text.c:1030
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "%02dm %02ds"
 
-#: client/text.c:1031
+#: client/text.c:1032
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "%02dtim %02d'"
 
-#: client/text.c:1033
+#: client/text.c:1034
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "%02dd %02dtim"
 
 # DM> FIXME
-#: client/text.c:1036
+#: client/text.c:1037
 msgid "?duration:overflow"
 msgstr "överflöde"
 
-#: client/text.c:1057
+#: client/text.c:1058
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: "Republic of the Polish"
-#: client/text.c:1100
+#: client/text.c:1101
 #, c-format
 msgid "%s of the %s"
 msgstr "%ss %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1110
+#: client/text.c:1111
 #, c-format
 msgid "Observer: %s"
 msgstr "Iakttagare: %s"
 
-#: client/text.c:1128
+#: client/text.c:1129
 msgid "Buildings: "
 msgstr "Byggnader: "
 
-#: client/text.c:1134 client/text.c:1171
+#: client/text.c:1135 client/text.c:1172
 msgid ", "
 msgstr ", "
 
-#: client/text.c:1144 client/text.c:1182
+#: client/text.c:1145 client/text.c:1183
 msgid "None. "
 msgstr "Inga. "
 
-#: client/text.c:1146 client/text.c:1184
+#: client/text.c:1147 client/text.c:1185
 msgid "."
 msgstr "."
 
-#: client/text.c:1164
+#: client/text.c:1165
 msgid "Wonders: "
 msgstr "Underverk: "
 
@@ -10137,7 +10138,7 @@ msgstr ""
 "Klienten klarar inte av att visa rätvinkliga rutbilder. Använder "
 "standardrutbilder i stället."
 
-#: client/tilespec.c:3978
+#: client/tilespec.c:3973
 #, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
@@ -10217,16 +10218,16 @@ msgstr "?cma:Max guld"
 msgid "?cma:Max science"
 msgstr "?cma:Max forskning"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:83 client/gui-win32/dialogs.c:1369
+#: client/gui-gtk-2.0/diplomat_dialog.c:83 client/gui-win32/dialogs.c:1364
 msgid "Ooops..."
 msgstr "Oj oj..."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:84 client/gui-win32/dialogs.c:1370
+#: client/gui-gtk-2.0/diplomat_dialog.c:84 client/gui-win32/dialogs.c:1365
 msgid "This unit cannot be bribed!"
 msgstr "Denna enhet kan inte mutas!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:91 client/gui-mui/dialogs.c:221
-#: client/gui-sdl/diplomat_dialog.c:1390 client/gui-win32/dialogs.c:1374
+#: client/gui-sdl/diplomat_dialog.c:1390 client/gui-win32/dialogs.c:1369
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -10237,12 +10238,12 @@ msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:93 client/gui-mui/dialogs.c:224
 #: client/gui-sdl/diplomat_dialog.c:697 client/gui-sdl/diplomat_dialog.c:1372
-#: client/gui-win32/dialogs.c:1376 data/Freeciv.in:2419 data/Freeciv.in:2432
+#: client/gui-win32/dialogs.c:1371 data/Freeciv.in:2419 data/Freeciv.in:2432
 msgid "Bribe Enemy Unit"
 msgstr "Muta fientlig enhet"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:99 client/gui-mui/dialogs.c:230
-#: client/gui-sdl/diplomat_dialog.c:1436 client/gui-win32/dialogs.c:1382
+#: client/gui-sdl/diplomat_dialog.c:1436 client/gui-win32/dialogs.c:1377
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -10254,13 +10255,13 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:101
 #: client/gui-gtk-2.0/diplomat_dialog.c:556 client/gui-mui/dialogs.c:233
 #: client/gui-mui/dialogs.c:501 client/gui-sdl/diplomat_dialog.c:1244
-#: client/gui-sdl/diplomat_dialog.c:1449 client/gui-win32/dialogs.c:1386
-#: client/gui-win32/dialogs.c:1569 data/Freeciv.in:2454
+#: client/gui-sdl/diplomat_dialog.c:1449 client/gui-win32/dialogs.c:1381
+#: client/gui-win32/dialogs.c:1564 data/Freeciv.in:2454
 msgid "Traitors Demand Too Much!"
 msgstr "Förrädarna begär för mycket!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:232 client/gui-mui/dialogs.c:318
-#: client/gui-sdl/diplomat_dialog.c:646 client/gui-win32/dialogs.c:1285
+#: client/gui-sdl/diplomat_dialog.c:646 client/gui-win32/dialogs.c:1280
 #: data/Freeciv.in:2285 data/Freeciv.in:2318 data/Freeciv.in:2335
 msgid "Steal Technology"
 msgstr "Stjäl teknologi"
@@ -10270,7 +10271,7 @@ msgid "_Steal"
 msgstr "_Stjäl"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:246 client/gui-mui/dialogs.c:322
-#: client/gui-sdl/diplomat_dialog.c:250 client/gui-win32/dialogs.c:1295
+#: client/gui-sdl/diplomat_dialog.c:250 client/gui-win32/dialogs.c:1290
 #: data/Freeciv.in:2350
 msgid "Select Advance to Steal"
 msgstr "Välj en teknologi att stjäla"
@@ -10282,13 +10283,13 @@ msgstr "Fr_amsteg:"
 #: client/gui-gtk-2.0/diplomat_dialog.c:306
 #: client/gui-gtk-2.0/diplomat_dialog.c:439 client/gui-mui/dialogs.c:298
 #: client/gui-mui/dialogs.c:393 client/gui-sdl/diplomat_dialog.c:332
-#: client/gui-sdl/diplomat_dialog.c:925 client/gui-win32/dialogs.c:1198
-#: client/gui-win32/dialogs.c:1410
+#: client/gui-sdl/diplomat_dialog.c:925 client/gui-win32/dialogs.c:1193
+#: client/gui-win32/dialogs.c:1405
 msgid "At Spy's Discretion"
 msgstr "Låt spionen välja"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:376 client/gui-mui/dialogs.c:409
-#: client/gui-win32/dialogs.c:1484 data/Freeciv.in:2377
+#: client/gui-win32/dialogs.c:1479 data/Freeciv.in:2377
 msgid "Sabotage Improvements"
 msgstr "Förstör stadsförbättringar"
 
@@ -10297,7 +10298,7 @@ msgid "_Sabotage"
 msgstr "För_stör"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:390 client/gui-mui/dialogs.c:413
-#: client/gui-sdl/diplomat_dialog.c:842 client/gui-win32/dialogs.c:1494
+#: client/gui-sdl/diplomat_dialog.c:842 client/gui-win32/dialogs.c:1489
 #: data/Freeciv.in:2392
 msgid "Select Improvement to Sabotage"
 msgstr "Välj en stadsförbättring att förstöra"
@@ -10308,23 +10309,23 @@ msgstr "Förbättr_ingar:"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:429 client/gui-mui/dialogs.c:392
 #: client/gui-sdl/diplomat_dialog.c:869 client/gui-sdl/optiondlg.c:1591
-#: client/gui-win32/dialogs.c:1399
+#: client/gui-win32/dialogs.c:1394
 msgid "City Production"
 msgstr "Stadens tillverkning"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:538 client/gui-mui/dialogs.c:483
-#: client/gui-sdl/diplomat_dialog.c:1162 client/gui-win32/dialogs.c:1552
+#: client/gui-sdl/diplomat_dialog.c:1162 client/gui-win32/dialogs.c:1547
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Vi kan inte anstifta ett uppror i %s."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:540 client/gui-mui/dialogs.c:485
-#: client/gui-sdl/diplomat_dialog.c:1173 client/gui-win32/dialogs.c:1554
+#: client/gui-sdl/diplomat_dialog.c:1173 client/gui-win32/dialogs.c:1549
 msgid "City can't be incited!"
 msgstr "Kan inte anstifta uppror i staden!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:546 client/gui-mui/dialogs.c:488
-#: client/gui-sdl/diplomat_dialog.c:1182 client/gui-win32/dialogs.c:1558
+#: client/gui-sdl/diplomat_dialog.c:1182 client/gui-win32/dialogs.c:1553
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -10334,13 +10335,13 @@ msgstr ""
 "Skattkammaren innehåller %d guld."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:548 client/gui-mui/dialogs.c:492
-#: client/gui-sdl/diplomat_dialog.c:1132 client/gui-win32/dialogs.c:1561
+#: client/gui-sdl/diplomat_dialog.c:1132 client/gui-win32/dialogs.c:1556
 #: data/Freeciv.in:2443
 msgid "Incite a Revolt!"
 msgstr "Anstifta ett uppror!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:554 client/gui-mui/dialogs.c:499
-#: client/gui-sdl/diplomat_dialog.c:1230 client/gui-win32/dialogs.c:1566
+#: client/gui-sdl/diplomat_dialog.c:1230 client/gui-win32/dialogs.c:1561
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -10349,7 +10350,7 @@ msgstr ""
 "Anstiftar ett uppror för %d guld.\n"
 "Skattkammaren innehåller %d guld."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:617 client/gui-win32/dialogs.c:1605
+#: client/gui-gtk-2.0/diplomat_dialog.c:617 client/gui-win32/dialogs.c:1600
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -10358,35 +10359,35 @@ msgstr ""
 "Vår %s har anlänt till %s.\n"
 "Vilket är ditt kommando?"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:623 client/gui-win32/dialogs.c:1611
+#: client/gui-gtk-2.0/diplomat_dialog.c:623 client/gui-win32/dialogs.c:1606
 msgid " Choose Your Diplomat's Strategy"
 msgstr " Välj bår budbärares strategi"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:624
-#: client/gui-gtk-2.0/diplomat_dialog.c:648 client/gui-win32/dialogs.c:1612
-#: client/gui-win32/dialogs.c:1633
+#: client/gui-gtk-2.0/diplomat_dialog.c:648 client/gui-win32/dialogs.c:1607
+#: client/gui-win32/dialogs.c:1628
 msgid "Establish _Embassy"
 msgstr "Inrätta B_eskickning"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:625
-#: client/gui-gtk-2.0/diplomat_dialog.c:649 client/gui-win32/dialogs.c:1613
-#: client/gui-win32/dialogs.c:1634
+#: client/gui-gtk-2.0/diplomat_dialog.c:649 client/gui-win32/dialogs.c:1608
+#: client/gui-win32/dialogs.c:1629
 msgid "_Investigate City"
 msgstr "Undersök staden"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:626 client/gui-win32/dialogs.c:1614
+#: client/gui-gtk-2.0/diplomat_dialog.c:626 client/gui-win32/dialogs.c:1609
 msgid "_Sabotage City"
 msgstr "För_stör i staden"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:627
-#: client/gui-gtk-2.0/diplomat_dialog.c:652 client/gui-win32/dialogs.c:1615
-#: client/gui-win32/dialogs.c:1637
+#: client/gui-gtk-2.0/diplomat_dialog.c:652 client/gui-win32/dialogs.c:1610
+#: client/gui-win32/dialogs.c:1632
 msgid "Steal _Technology"
 msgstr "Stjäl _Teknologi"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:628
-#: client/gui-gtk-2.0/diplomat_dialog.c:653 client/gui-win32/dialogs.c:1616
-#: client/gui-win32/dialogs.c:1638
+#: client/gui-gtk-2.0/diplomat_dialog.c:653 client/gui-win32/dialogs.c:1611
+#: client/gui-win32/dialogs.c:1633
 msgid "Incite a _Revolt"
 msgstr "Anstifta ett upp_ror"
 
@@ -10394,47 +10395,47 @@ msgstr "Anstifta ett upp_ror"
 #: client/gui-gtk-2.0/diplomat_dialog.c:654
 #: client/gui-gtk-2.0/caravan_dialog.c:119 client/gui-mui/dialogs.c:771
 #: client/gui-mui/dialogs.c:838 client/gui-mui/dialogs.c:1010
-#: client/gui-win32/dialogs.c:1059
+#: client/gui-win32/dialogs.c:1054
 msgid "_Keep moving"
 msgstr "_Fortsätt drag"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:647 client/gui-mui/dialogs.c:850
-#: client/gui-sdl/diplomat_dialog.c:548 client/gui-win32/dialogs.c:1632
+#: client/gui-sdl/diplomat_dialog.c:548 client/gui-win32/dialogs.c:1627
 #: data/Freeciv.in:2299
 msgid "Choose Your Spy's Strategy"
 msgstr "Välj vår spions strategi"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1635
+#: client/gui-gtk-2.0/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1630
 msgid "_Poison City"
 msgstr "För_gifta stad"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:651 client/gui-win32/dialogs.c:1636
+#: client/gui-gtk-2.0/diplomat_dialog.c:651 client/gui-win32/dialogs.c:1631
 msgid "Industrial _Sabotage"
 msgstr "För_stör industri"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:688 client/gui-mui/dialogs.c:885
-#: client/gui-sdl/diplomat_dialog.c:557 client/gui-win32/dialogs.c:1663
+#: client/gui-sdl/diplomat_dialog.c:557 client/gui-win32/dialogs.c:1658
 #: data/Freeciv.in:2430
 msgid "Subvert Enemy Unit"
 msgstr "Omvänd fientlig enhet"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:690 client/gui-mui/dialogs.c:784
-#: client/gui-mui/dialogs.c:887 client/gui-win32/dialogs.c:1665
+#: client/gui-mui/dialogs.c:887 client/gui-win32/dialogs.c:1660
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Min herre, budbäraren väntar på ditt kommando"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:691 client/gui-mui/dialogs.c:851
-#: client/gui-mui/dialogs.c:888 client/gui-win32/dialogs.c:1666
+#: client/gui-mui/dialogs.c:888 client/gui-win32/dialogs.c:1661
 msgid "Sir, the spy is waiting for your command"
 msgstr "Min herre, spionen väntar på ditt kommando"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-mui/dialogs.c:865
-#: client/gui-win32/dialogs.c:1667
+#: client/gui-win32/dialogs.c:1662
 msgid "_Bribe Enemy Unit"
 msgstr "Muta fientlig enhet"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:693 client/gui-mui/dialogs.c:873
-#: client/gui-win32/dialogs.c:1668
+#: client/gui-win32/dialogs.c:1663
 msgid "_Sabotage Enemy Unit"
 msgstr "För_stör fientlig enhet"
 
@@ -10443,12 +10444,12 @@ msgstr "För_stör fientlig enhet"
 msgid "Help build _Wonder (%d remaining)"
 msgstr "_Hjälp till att bygga underverk (%d återstår)"
 
-#: client/gui-gtk-2.0/caravan_dialog.c:85 client/gui-win32/dialogs.c:1058
+#: client/gui-gtk-2.0/caravan_dialog.c:85 client/gui-win32/dialogs.c:1053
 msgid "Help build _Wonder"
 msgstr "_Hjälp till att bygga underverk"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:100 client/gui-mui/dialogs.c:973
-#: client/gui-win32/dialogs.c:1043 client/gui-xaw/dialogs.c:443
+#: client/gui-win32/dialogs.c:1038 client/gui-xaw/dialogs.c:443
 #, c-format
 msgid ""
 "Your caravan from %s reaches the city of %s.\n"
@@ -10458,15 +10459,15 @@ msgstr ""
 "Vad nu?"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:114 client/gui-mui/dialogs.c:1016
-#: client/gui-win32/dialogs.c:1054 data/Freeciv.in:2259
+#: client/gui-win32/dialogs.c:1049 data/Freeciv.in:2259
 msgid "Your Caravan Has Arrived"
 msgstr "Vår karavan har anlänt"
 
-#: client/gui-gtk-2.0/caravan_dialog.c:116 client/gui-win32/dialogs.c:1056
+#: client/gui-gtk-2.0/caravan_dialog.c:116 client/gui-win32/dialogs.c:1051
 msgid "Establish _Traderoute"
 msgstr "Inrä_tta handelsled"
 
-#: client/gui-gtk-2.0/caravan_dialog.c:117 client/gui-win32/dialogs.c:1057
+#: client/gui-gtk-2.0/caravan_dialog.c:117 client/gui-win32/dialogs.c:1052
 msgid "Enter Marketplace"
 msgstr "Beträd marknadsplats"
 
@@ -10606,15 +10607,15 @@ msgstr "Överge staden när bosättare byggs vid storlek 1"
 
 #: client/gui-gtk-2.0/citydlg.c:1036
 msgid "Overview page"
-msgstr "Översiktssida"
+msgstr "Översiktssidan"
 
 #: client/gui-gtk-2.0/citydlg.c:1037
 msgid "Production page"
-msgstr "Tillverkningssida"
+msgstr "Tillverkningssidan"
 
 #: client/gui-gtk-2.0/citydlg.c:1038 client/gui-mui/citydlg.c:1370
 msgid "Happiness page"
-msgstr "Belåtenhetssida"
+msgstr "Belåtenhetssidan"
 
 #: client/gui-gtk-2.0/citydlg.c:1039 client/gui-mui/citydlg.c:1371
 msgid "Governor page"
@@ -10622,7 +10623,7 @@ msgstr "Förvaltarsidan"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "This Settings page"
-msgstr "Denna inställningssida"
+msgstr "Denna inställningssidan"
 
 #: client/gui-gtk-2.0/citydlg.c:1041 client/gui-mui/citydlg.c:1374
 msgid "Last active page"
@@ -10766,23 +10767,23 @@ msgstr ""
 "%s kostar %d guld.\n"
 "Skattkammaren innehåller %d guld."
 
-#: client/gui-gtk-2.0/citydlg.c:2493 client/gui-mui/citydlg.c:987
+#: client/gui-gtk-2.0/citydlg.c:2492 client/gui-mui/citydlg.c:987
 #: client/gui-sdl/citydlg.c:1395 client/gui-win32/citydlg.c:962
 #: client/gui-xaw/citydlg.c:2304
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Sälj %s för %d guld?"
 
-#: client/gui-gtk-2.0/citydlg.c:2498 client/gui-mui/citydlg.c:992
+#: client/gui-gtk-2.0/citydlg.c:2497 client/gui-mui/citydlg.c:992
 #: client/gui-win32/citydlg.c:967 data/Freeciv.in:2239
 msgid "Sell It!"
 msgstr "Sälj det!"
 
-#: client/gui-gtk-2.0/citydlg.c:2574 client/gui-win32/citydlg.c:1207
+#: client/gui-gtk-2.0/citydlg.c:2573 client/gui-win32/citydlg.c:1207
 msgid "Rename City"
 msgstr "Byt namn på staden"
 
-#: client/gui-gtk-2.0/citydlg.c:2576 client/gui-win32/citydlg.c:1208
+#: client/gui-gtk-2.0/citydlg.c:2575 client/gui-win32/citydlg.c:1208
 #: client/gui-xaw/citydlg.c:1381
 msgid "What should we rename the city to?"
 msgstr "Vad ska vi kalla staden?"
@@ -10995,24 +10996,24 @@ msgid "_Popup City"
 msgstr "Ö_ppna stad"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-mui/dialogs.c:1043
-#: client/gui-sdl/dialogs.c:2081 client/gui-win32/dialogs.c:981
+#: client/gui-sdl/dialogs.c:2081 client/gui-win32/dialogs.c:976
 #: client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
 msgstr "Vill du göra revolution?"
 
 #: client/gui-gtk-2.0/dialogs.c:257 client/gui-mui/dialogs.c:1043
-#: client/gui-sdl/dialogs.c:2100 client/gui-win32/dialogs.c:980
+#: client/gui-sdl/dialogs.c:2100 client/gui-win32/dialogs.c:975
 #: data/Freeciv.in:2462
 msgid "Revolution!"
 msgstr "Revolution!"
 
 #: client/gui-gtk-2.0/dialogs.c:310 client/gui-sdl/dialogs.c:1739
-#: client/gui-win32/dialogs.c:1752 data/Freeciv.in:2500
+#: client/gui-win32/dialogs.c:1747 data/Freeciv.in:2500
 msgid "What To Pillage"
 msgstr "Plundra vad?"
 
 #: client/gui-gtk-2.0/dialogs.c:311 client/gui-mui/dialogs.c:1117
-#: client/gui-win32/dialogs.c:1759 data/Freeciv.in:2502
+#: client/gui-win32/dialogs.c:1754 data/Freeciv.in:2502
 msgid "Select what to pillage:"
 msgstr "Välj något att plundra:"
 
@@ -11056,7 +11057,7 @@ msgstr "Välj folkslag"
 msgid "Random Nation"
 msgstr "Slumpvalt folkslag"
 
-#: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:522
+#: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
 msgstr "Välj ett folkslag"
 
@@ -11093,7 +11094,7 @@ msgid "You must select your city style."
 msgstr "Du måste välja en stadstyp."
 
 #: client/gui-gtk-2.0/dialogs.c:1245 client/gui-mui/dialogs.c:1521
-#: client/gui-sdl/dialogs.c:2199 client/gui-win32/dialogs.c:355
+#: client/gui-sdl/dialogs.c:2199 client/gui-win32/dialogs.c:358
 #: client/gui-xaw/dialogs.c:1489
 msgid "You must type a legal name."
 msgstr "Du måste skriva ett tillåtet namn."
@@ -11107,7 +11108,7 @@ msgstr "Ersätt enhet!"
 #: client/gui-gtk-2.0/dialogs.c:1298 client/gui-gtk-2.0/repodlgs.c:1162
 #: client/gui-mui/dialogs.c:1762 client/gui-mui/repodlgs.c:725
 #: client/gui-sdl/dialogs.c:422 client/gui-sdl/repodlgs.c:191
-#: client/gui-win32/citydlg.c:1453 client/gui-win32/repodlgs.c:574
+#: client/gui-win32/citydlg.c:1453 client/gui-win32/repodlgs.c:575
 #: data/Freeciv.in:2473
 msgid "Upgrade Obsolete Units"
 msgstr "Ersätt föråldrade enheter"
@@ -11322,7 +11323,7 @@ msgid "Turn Done"
 msgstr "Avsluta omgång"
 
 #: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
-#: client/gui-sdl/mapview.c:1072
+#: client/gui-sdl/mapview.c:1073
 msgid "Shift+Return"
 msgstr "Skift+Retur"
 
@@ -11399,7 +11400,7 @@ msgstr "<normal dator>"
 msgid "<Hard AI>"
 msgstr "<svår dator>"
 
-#: client/gui-gtk-2.0/gui_main.c:1534 client/gui-win32/dialogs.c:599
+#: client/gui-gtk-2.0/gui_main.c:1534 client/gui-win32/dialogs.c:594
 msgid "Random"
 msgstr "Slumpvald"
 
@@ -11459,22 +11460,22 @@ msgid "Luxury: %d total."
 msgstr "Välfärd: %d sammanlagt."
 
 #: client/gui-gtk-2.0/happiness.c:297 client/gui-mui/citydlg.c:2232
-#: client/gui-win32/happiness.c:248
+#: client/gui-win32/happiness.c:247
 msgid "Units: "
 msgstr "Enheter: "
 
 #: client/gui-gtk-2.0/happiness.c:301 client/gui-mui/citydlg.c:2236
-#: client/gui-win32/happiness.c:252
+#: client/gui-win32/happiness.c:251
 msgid "Martial law in effect ("
 msgstr "Undantagstillstånd råder ("
 
 #: client/gui-gtk-2.0/happiness.c:305 client/gui-mui/citydlg.c:2240
-#: client/gui-win32/happiness.c:256
+#: client/gui-win32/happiness.c:255
 msgid "no maximum, "
 msgstr "inget högsta värde, "
 
 #: client/gui-gtk-2.0/happiness.c:307 client/gui-mui/citydlg.c:2242
-#: client/gui-win32/happiness.c:258
+#: client/gui-win32/happiness.c:257
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
@@ -11482,17 +11483,17 @@ msgstr[0] "högst %d enhet"
 msgstr[1] "högst %d enheter"
 
 #: client/gui-gtk-2.0/happiness.c:311 client/gui-mui/citydlg.c:2246
-#: client/gui-win32/happiness.c:262
+#: client/gui-win32/happiness.c:261
 #, c-format
 msgid "%d per unit). "
 msgstr "%d per enhet). "
 
 #: client/gui-gtk-2.0/happiness.c:316 client/gui-mui/citydlg.c:2249
-#: client/gui-win32/happiness.c:267
+#: client/gui-win32/happiness.c:266
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Krigsenheter i fält kan orsaka missnöjdhet. "
 
-#: client/gui-gtk-2.0/happiness.c:320 client/gui-win32/happiness.c:271
+#: client/gui-gtk-2.0/happiness.c:320 client/gui-win32/happiness.c:270
 msgid "Military units have no happiness effect. "
 msgstr "Krigsenheter har ingen påsverkan på belåtenhet."
 
@@ -12222,7 +12223,7 @@ msgstr "Stadsförvalt_ning"
 
 #: client/gui-gtk-2.0/menu.c:931 client/gui-win32/menu.c:420
 msgid "_Playing"
-msgstr "S_pela"
+msgstr "Hur man s_pelar"
 
 #: client/gui-gtk-2.0/menu.c:935 client/gui-win32/menu.c:422
 msgid "City _Improvements"
@@ -12426,7 +12427,7 @@ msgid "Server Name"
 msgstr "Servernamn"
 
 #: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:161
-#: client/gui-sdl/mapview.c:798 client/gui-win32/connectdlg.c:914
+#: client/gui-sdl/mapview.c:799 client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
@@ -12574,7 +12575,7 @@ msgstr "Grad"
 msgid "Ready"
 msgstr "Redo"
 
-#: client/gui-gtk-2.0/pages.c:1504 data/default/units.ruleset:1738
+#: client/gui-gtk-2.0/pages.c:1504 data/default/units.ruleset:1863
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Ledare"
@@ -12694,22 +12695,22 @@ msgid "Income: %d    Total Costs: %d"
 msgstr "Inkomst: %d Sammanlagt kostnad: %d"
 
 #: client/gui-gtk-2.0/repodlgs.c:931 client/gui-mui/repodlgs.c:664
-#: client/gui-win32/repodlgs.c:691
+#: client/gui-win32/repodlgs.c:692
 msgid "Unit Type"
 msgstr "Enhetstyp"
 
 #: client/gui-gtk-2.0/repodlgs.c:932 client/gui-mui/repodlgs.c:665
-#: client/gui-win32/repodlgs.c:691
+#: client/gui-win32/repodlgs.c:692
 msgid "U"
 msgstr "U"
 
 #: client/gui-gtk-2.0/repodlgs.c:933 client/gui-mui/repodlgs.c:666
-#: client/gui-win32/repodlgs.c:692
+#: client/gui-win32/repodlgs.c:693
 msgid "In-Prog"
 msgstr "På gång"
 
 #: client/gui-gtk-2.0/repodlgs.c:934 client/gui-mui/repodlgs.c:667
-#: client/gui-win32/repodlgs.c:692
+#: client/gui-win32/repodlgs.c:693
 msgid "Active"
 msgstr "Verks."
 
@@ -12959,8 +12960,8 @@ msgstr "Underhåll"
 #: client/gui-mui/dialogs.c:493 client/gui-mui/dialogs.c:1044
 #: client/gui-mui/dialogs.c:1763 client/gui-mui/repodlgs.c:726
 #: client/gui-win32/citydlg.c:913 client/gui-win32/citydlg.c:967
-#: client/gui-win32/citydlg.c:1454 client/gui-win32/dialogs.c:982
-#: client/gui-win32/dialogs.c:1378 client/gui-win32/dialogs.c:1562
+#: client/gui-win32/citydlg.c:1454 client/gui-win32/dialogs.c:977
+#: client/gui-win32/dialogs.c:1373 client/gui-win32/dialogs.c:1557
 msgid "_Yes"
 msgstr "_Ja"
 
@@ -12968,8 +12969,8 @@ msgstr "_Ja"
 #: client/gui-mui/dialogs.c:494 client/gui-mui/dialogs.c:1045
 #: client/gui-mui/dialogs.c:1764 client/gui-mui/repodlgs.c:727
 #: client/gui-win32/citydlg.c:914 client/gui-win32/citydlg.c:968
-#: client/gui-win32/citydlg.c:1456 client/gui-win32/dialogs.c:983
-#: client/gui-win32/dialogs.c:1379 client/gui-win32/dialogs.c:1563
+#: client/gui-win32/citydlg.c:1456 client/gui-win32/dialogs.c:978
+#: client/gui-win32/dialogs.c:1374 client/gui-win32/dialogs.c:1558
 msgid "_No"
 msgstr "_Nej"
 
@@ -12991,8 +12992,8 @@ msgstr "Freeciv - stadens tillverkning"
 #: client/gui-mui/gotodlg.c:171 client/gui-mui/inputdlg.c:82
 #: client/gui-mui/messagedlg.c:91 client/gui-mui/worklistclass.c:695
 #: client/gui-win32/citydlg.c:1491 client/gui-win32/citydlg.c:1530
-#: client/gui-win32/dialogs.c:1617 client/gui-win32/dialogs.c:1639
-#: client/gui-win32/dialogs.c:1669
+#: client/gui-win32/dialogs.c:1612 client/gui-win32/dialogs.c:1634
+#: client/gui-win32/dialogs.c:1664
 msgid "_Cancel"
 msgstr "_Avbryt"
 
@@ -13230,7 +13231,7 @@ msgstr "_Gå till och stäng"
 #: client/gui-sdl/cma_fe.c:316 client/gui-sdl/diplodlg.c:1338
 #: client/gui-sdl/diplomat_dialog.c:1195 client/gui-sdl/diplomat_dialog.c:1402
 #: client/gui-sdl/plrdlg.c:222 client/gui-sdl/repodlgs.c:231
-#: client/gui-win32/repodlgs.c:575 client/gui-xaw/citydlg.c:2430
+#: client/gui-win32/repodlgs.c:576 client/gui-xaw/citydlg.c:2430
 #: client/gui-xaw/cityrep.c:666 client/gui-xaw/cma_fe.c:327
 #: client/gui-xaw/cma_fe.c:511 client/gui-xaw/cma_fe.c:765
 #: client/gui-xaw/messagedlg.c:72 client/gui-xaw/optiondlg.c:76
@@ -13246,7 +13247,7 @@ msgstr "Ja"
 #: client/gui-sdl/cma_fe.c:325 client/gui-sdl/diplodlg.c:1328
 #: client/gui-sdl/diplomat_dialog.c:1206 client/gui-sdl/diplomat_dialog.c:1412
 #: client/gui-sdl/plrdlg.c:222 client/gui-sdl/repodlgs.c:220
-#: client/gui-sdl/repodlgs.c:1529 client/gui-win32/repodlgs.c:577
+#: client/gui-sdl/repodlgs.c:1529 client/gui-win32/repodlgs.c:578
 #: client/gui-xaw/citydlg.c:2430 client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
 #: client/gui-xaw/cma_fe.c:765 client/gui-xaw/messagedlg.c:72
@@ -13260,8 +13261,8 @@ msgstr "Nej"
 
 #: client/gui-mui/dialogs.c:234 client/gui-mui/dialogs.c:486
 #: client/gui-mui/dialogs.c:502 client/gui-win32/citydlg.c:922
-#: client/gui-win32/citydlg.c:1461 client/gui-win32/dialogs.c:1386
-#: client/gui-win32/dialogs.c:1555 client/gui-win32/dialogs.c:1570
+#: client/gui-win32/citydlg.c:1461 client/gui-win32/dialogs.c:1381
+#: client/gui-win32/dialogs.c:1550 client/gui-win32/dialogs.c:1565
 #: data/Freeciv.in:2252 data/Freeciv.in:2456 data/Freeciv.in:2486
 msgid "Darn"
 msgstr "Synd"
@@ -13342,12 +13343,12 @@ msgstr " (erfaren)"
 
 #: client/gui-mui/dialogs.c:1593 client/gui-sdl/dialogs.c:2229
 #: client/gui-sdl/dialogs.c:2613 client/gui-sdl/dialogs.c:2824
-#: client/gui-win32/dialogs.c:570
+#: client/gui-win32/dialogs.c:565
 msgid "Male"
 msgstr "Man"
 
 #: client/gui-mui/dialogs.c:1594 client/gui-sdl/dialogs.c:2227
-#: client/gui-sdl/dialogs.c:2615 client/gui-win32/dialogs.c:572
+#: client/gui-sdl/dialogs.c:2615 client/gui-win32/dialogs.c:567
 #: data/Freeciv.in:3159
 msgid "Female"
 msgstr "Kvinna"
@@ -13978,7 +13979,7 @@ msgid "Make new homecity"
 msgstr "Gör till ny hemstad"
 
 #: client/gui-mui/mapclass.c:2981 client/gui-sdl/dialogs.c:462
-#: client/gui-sdl/menu.c:423 client/gui-win32/repodlgs.c:715
+#: client/gui-sdl/menu.c:423 client/gui-win32/repodlgs.c:716
 #: data/Freeciv.in:1951
 msgid "Upgrade"
 msgstr "Ersätt"
@@ -14111,7 +14112,7 @@ msgid "Military Report"
 msgstr "Enheter"
 
 #: client/gui-mui/repodlgs.c:862 client/gui-sdl/repodlgs.c:3359
-#: client/gui-win32/repodlgs.c:755 client/gui-xaw/repodlgs.c:1151
+#: client/gui-win32/repodlgs.c:756 client/gui-xaw/repodlgs.c:1151
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -14119,12 +14120,12 @@ msgstr[0] "%2d: %s ledare %s värderades till %d\n"
 msgstr[1] "%2d: %s ledare %s värderades till %d\n"
 
 #: client/gui-mui/repodlgs.c:870 client/gui-sdl/repodlgs.c:3367
-#: client/gui-win32/repodlgs.c:763 client/gui-xaw/repodlgs.c:1159
+#: client/gui-win32/repodlgs.c:764 client/gui-xaw/repodlgs.c:1159
 msgid "Final Report:"
 msgstr "Slutredogörelse:"
 
 #: client/gui-mui/repodlgs.c:871 client/gui-sdl/repodlgs.c:3368
-#: client/gui-win32/repodlgs.c:764 client/gui-xaw/repodlgs.c:1160
+#: client/gui-win32/repodlgs.c:765 client/gui-xaw/repodlgs.c:1160
 msgid "The Greatest Civilizations in the world."
 msgstr "De största civilisationerna i världen."
 
@@ -14309,10 +14310,10 @@ msgstr "Upplös enhet"
 #: client/gui-sdl/dialogs.c:2887 client/gui-sdl/diplomat_dialog.c:727
 #: client/gui-sdl/mapctrl.c:2548 client/gui-sdl/repodlgs.c:1961
 #: client/gui-win32/citydlg.c:1080 client/gui-win32/cityrep.c:753
-#: client/gui-win32/connectdlg.c:1039 client/gui-win32/dialogs.c:1776
+#: client/gui-win32/connectdlg.c:1039 client/gui-win32/dialogs.c:1771
 #: client/gui-win32/finddlg.c:128 client/gui-win32/gotodlg.c:171
 #: client/gui-win32/inputdlg.c:146 client/gui-win32/messagedlg.c:216
-#: client/gui-win32/ratesdlg.c:328 client/gui-win32/repodlgs.c:980
+#: client/gui-win32/ratesdlg.c:328 client/gui-win32/repodlgs.c:981
 #: client/gui-win32/wldlg.c:855 client/gui-xaw/inputdlg.c:110
 #: data/Freeciv.in:1092 data/Freeciv.in:1148 data/Freeciv.in:1190
 #: data/Freeciv.in:1210 data/Freeciv.in:1247 data/Freeciv.in:1280
@@ -14323,7 +14324,7 @@ msgstr "Upplös enhet"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: client/gui-sdl/citydlg.c:699 client/gui-sdl/mapview.c:941
+#: client/gui-sdl/citydlg.c:699 client/gui-sdl/mapview.c:942
 msgid ""
 "\n"
 "veteran"
@@ -14721,7 +14722,7 @@ msgstr "Aktivera %s (%d / %d) %s (%d,%d,%d) %s"
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%s %s %s (A:%d F:%d D:%d EK:%d) TP:%d%%"
 
-#: client/gui-sdl/dialogs.c:1471 client/gui-win32/dialogs.c:766
+#: client/gui-sdl/dialogs.c:1471 client/gui-win32/dialogs.c:761
 #: data/Freeciv.in:561
 msgid "Ready all"
 msgstr "Gör alla tillgängliga"
@@ -14744,12 +14745,12 @@ msgid "REVOLUTION!"
 msgstr "REVOLUTION!"
 
 #: client/gui-sdl/dialogs.c:2473 client/gui-sdl/dialogs.c:2896
-#: client/gui-sdl/mapctrl.c:2538 client/gui-win32/dialogs.c:598
-#: client/gui-win32/inputdlg.c:145 client/gui-win32/repodlgs.c:979
+#: client/gui-sdl/mapctrl.c:2538 client/gui-win32/dialogs.c:593
+#: client/gui-win32/inputdlg.c:145 client/gui-win32/repodlgs.c:980
 msgid "OK"
 msgstr "OK"
 
-#: client/gui-sdl/dialogs.c:2679 client/gui-win32/dialogs.c:510
+#: client/gui-sdl/dialogs.c:2679 client/gui-win32/dialogs.c:505
 msgid "What nation will you be?"
 msgstr "Vilket folk ska du styra?"
 
@@ -15214,12 +15215,12 @@ msgstr "%s - folkmängd: %s  år: %s  guld %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s - folkmängd: %s  år: %s  guld %d skt: %d väl: %d for: %d "
 
-#: client/gui-sdl/mapview.c:716 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:717 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "erfaren"
 
-#: client/gui-sdl/mapview.c:746
+#: client/gui-sdl/mapview.c:747
 msgid ""
 "\n"
 "Our Territory"
@@ -15227,7 +15228,7 @@ msgstr ""
 "\n"
 "Vårt land"
 
-#: client/gui-sdl/mapview.c:752
+#: client/gui-sdl/mapview.c:753
 #, c-format
 msgid ""
 "\n"
@@ -15242,7 +15243,7 @@ msgstr[1] ""
 "\n"
 "%s territory (%d omgångar vapenstillestånd)"
 
-#: client/gui-sdl/mapview.c:756
+#: client/gui-sdl/mapview.c:757
 #, c-format
 msgid ""
 "\n"
@@ -15251,7 +15252,7 @@ msgstr ""
 "\n"
 "De %s %ss land"
 
-#: client/gui-sdl/mapview.c:762
+#: client/gui-sdl/mapview.c:763
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -15259,7 +15260,7 @@ msgstr ""
 "\n"
 "Land utan anspråk"
 
-#: client/gui-sdl/mapview.c:778
+#: client/gui-sdl/mapview.c:779
 #, c-format
 msgid ""
 "\n"
@@ -15268,23 +15269,23 @@ msgstr ""
 "\n"
 "Stad %s"
 
-#: client/gui-sdl/mapview.c:792 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:793 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "kaserner"
 
-#: client/gui-sdl/mapview.c:804 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:805 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "flygplats"
 
-#: client/gui-sdl/mapview.c:810 data/default/buildings.ruleset:209
+#: client/gui-sdl/mapview.c:811 data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189 data/civ1/buildings.ruleset:158
 msgid "City Walls"
 msgstr "stadsmurar"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:817
+#: client/gui-sdl/mapview.c:818
 #, c-format
 msgid ""
 "\n"
@@ -15293,7 +15294,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl/mapview.c:828
+#: client/gui-sdl/mapview.c:829
 #, c-format
 msgid ""
 "\n"
@@ -15302,11 +15303,11 @@ msgstr ""
 "\n"
 "Mat/Tillv/Handel: %s"
 
-#: client/gui-sdl/mapview.c:1072
+#: client/gui-sdl/mapview.c:1073
 msgid "End of Turn"
 msgstr "Omgången är över,"
 
-#: client/gui-sdl/mapview.c:1072
+#: client/gui-sdl/mapview.c:1073
 msgid "Press"
 msgstr "tryck"
 
@@ -15897,13 +15898,13 @@ msgid "Supported units"
 msgstr "Understödda enheter"
 
 #: client/gui-win32/citydlg.c:823 client/gui-win32/cityrep.c:132
-#: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:188
-#: client/gui-win32/dialogs.c:256 client/gui-win32/dialogs.c:767
-#: client/gui-win32/dialogs.c:1298 client/gui-win32/dialogs.c:1497
+#: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:190
+#: client/gui-win32/dialogs.c:258 client/gui-win32/dialogs.c:762
+#: client/gui-win32/dialogs.c:1293 client/gui-win32/dialogs.c:1492
 #: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:159
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:162
 #: client/gui-win32/plrdlg.c:351 client/gui-win32/repodlgs.c:301
-#: client/gui-win32/repodlgs.c:450 client/gui-win32/repodlgs.c:713
+#: client/gui-win32/repodlgs.c:450 client/gui-win32/repodlgs.c:714
 #: client/gui-win32/spaceshipdlg.c:239 client/gui-win32/wldlg.c:428
 #: data/Freeciv.in:162 data/Freeciv.in:212 data/Freeciv.in:237
 #: data/Freeciv.in:541 data/Freeciv.in:560 data/Freeciv.in:605
@@ -15993,7 +15994,7 @@ msgstr "Öppna"
 msgid "Change All"
 msgstr "Ändra alla"
 
-#: client/gui-win32/cityrep.c:881 client/gui-win32/repodlgs.c:717
+#: client/gui-win32/cityrep.c:881 client/gui-win32/repodlgs.c:718
 #: data/Freeciv.in:1653 data/Freeciv.in:1800 data/Freeciv.in:1959
 msgid "Refresh"
 msgstr "Uppdatera"
@@ -16075,7 +16076,7 @@ msgstr "Antal spelare (inklusive datorstyrda):"
 msgid "AI skill level:"
 msgstr "Datorspelarens färdighetsnivå:"
 
-#: client/gui-win32/connectdlg.c:1034 client/gui-win32/repodlgs.c:924
+#: client/gui-win32/connectdlg.c:1034 client/gui-win32/repodlgs.c:925
 msgid "Game Options"
 msgstr "Spelinställningar"
 
@@ -16096,31 +16097,31 @@ msgstr "Värd:"
 msgid "Port:"
 msgstr "Port:"
 
-#: client/gui-win32/dialogs.c:189 data/Freeciv.in:549
+#: client/gui-win32/dialogs.c:191 data/Freeciv.in:549
 msgid "Goto and Close"
 msgstr "Gå till och stäng"
 
-#: client/gui-win32/dialogs.c:560
+#: client/gui-win32/dialogs.c:555
 msgid "Leader:"
 msgstr "Ledare:"
 
-#: client/gui-win32/dialogs.c:580
+#: client/gui-win32/dialogs.c:575
 msgid "City Style:"
 msgstr "Stadstyper:"
 
-#: client/gui-win32/dialogs.c:784
+#: client/gui-win32/dialogs.c:779
 msgid "Unit Selection"
 msgstr "Enhetsval"
 
-#: client/gui-win32/dialogs.c:1203
+#: client/gui-win32/dialogs.c:1198
 msgid "NONE"
 msgstr "INGEN"
 
-#: client/gui-win32/dialogs.c:1299 data/Freeciv.in:2366
+#: client/gui-win32/dialogs.c:1294 data/Freeciv.in:2366
 msgid "Steal"
 msgstr "Stjäl"
 
-#: client/gui-win32/dialogs.c:1498 data/Freeciv.in:2408
+#: client/gui-win32/dialogs.c:1493 data/Freeciv.in:2408
 msgid "Sabotage"
 msgstr "Förstör"
 
@@ -16252,7 +16253,7 @@ msgstr "Sälj föråldrade"
 msgid "Sell All"
 msgstr "Sälj alla"
 
-#: client/gui-win32/repodlgs.c:664
+#: client/gui-win32/repodlgs.c:665
 msgid "Totals"
 msgstr "Sammanlagt"
 
@@ -17165,6 +17166,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"2007-08-30\n"
+"  DM> Översatt några nyligen introducerade strängar, mest om enheter.\n"
 "2007-08-11\n"
 "  DM> Översatt några nyligen introducerade strängar, samt moderniserat\n"
 "  språket ytterligare.\n"
@@ -21973,7 +21976,8 @@ msgstr "krigare"
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr ""
-"Denna enhet kan byggas från spelets början. Det är den svagaste enheten."
+"Denna enhet kan byggas från spelets början. Det är den svagaste offensiva "
+"enheten."
 
 # DM> tidigare "falanx"
 #: data/default/units.ruleset:352 data/civ2/units.ruleset:206
@@ -21981,31 +21985,68 @@ msgstr ""
 msgid "Phalanx"
 msgstr "falang"
 
-#: data/default/units.ruleset:380 data/civ2/units.ruleset:234
+#: data/default/units.ruleset:378 data/civ2/units.ruleset:232
+#: data/civ1/units.ruleset:199
+msgid "The Phalanx is armored infantry, suitable for defending your cities."
+msgstr "Falangen är bepansrat infanteri, lämplig för försvar av städer."
+
+#: data/default/units.ruleset:383 data/civ2/units.ruleset:237
 msgid "Archers"
 msgstr "bågskyttar"
 
-#: data/default/units.ruleset:408 data/civ2/units.ruleset:262
-#: data/civ1/units.ruleset:201
+#: data/default/units.ruleset:409 data/civ2/units.ruleset:263
+msgid ""
+"Archers fight with bows and arrows and has a good offensive value as well as "
+"decent defense."
+msgstr ""
+"Bågskyttar strider med pil och båge och är bra på både anfall och försvar."
+
+#: data/default/units.ruleset:415 data/civ2/units.ruleset:269
+#: data/civ1/units.ruleset:204
 msgid "Legion"
 msgstr "legion"
 
+#: data/default/units.ruleset:441 data/civ2/units.ruleset:295
+#: data/civ1/units.ruleset:230
+msgid ""
+"Legions are heavily armed and well disciplined infantry units with an "
+"excellent offensive value."
+msgstr ""
+"Legionen är en väl bepansrad och disciplinerad fotsoldat som är utmärkt i "
+"anfall."
+
 # DM> tidigare "pikmän"
-#: data/default/units.ruleset:436 data/civ2/units.ruleset:290
+#: data/default/units.ruleset:447 data/civ2/units.ruleset:301
 msgid "Pikemen"
 msgstr "spjutbärare"
 
-#: data/default/units.ruleset:464 data/civ2/units.ruleset:318
-#: data/civ1/units.ruleset:229
+#: data/default/units.ruleset:473 data/civ2/units.ruleset:327
+msgid ""
+"Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
+"defender."
+msgstr ""
+"Spjutbäraren är utrustad med långa spjut och ersätter falangen som främsta "
+"försvarare av städer."
+
+#: data/default/units.ruleset:479 data/civ2/units.ruleset:333
+#: data/civ1/units.ruleset:236
 msgid "Musketeers"
 msgstr "musketerare"
 
+#: data/default/units.ruleset:506 data/civ2/units.ruleset:360
+msgid ""
+"Musketeers are infantry equipped with early firearms and replace Pikemen as "
+"the preferred city defender."
+msgstr ""
+"Musketeraren är en fotsoldat utrustad med tidiga skjutvapen och ersätter "
+"spjutbäraren som främsta försvarare av städer."
+
 # DM> tidigare "frihetskämpe"
-#: data/default/units.ruleset:493 data/civ2/units.ruleset:380
+#: data/default/units.ruleset:513 data/civ2/units.ruleset:400
 msgid "Partisan"
 msgstr "gerilla"
 
-#: data/default/units.ruleset:519 data/civ2/units.ruleset:406
+#: data/default/units.ruleset:539 data/civ2/units.ruleset:426
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -22018,6 +22059,9 @@ msgid ""
 "\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
+"Gerillakrigare strider för sin frihet och utnyttjar terrängen till sin "
+"fördel.\n"
+"\n"
 "Man får ett antal partisaner utan kostnad när man förlorar en stad till "
 "fienden, men bara enligt dessa villkor:\n"
 "\n"
@@ -22030,101 +22074,213 @@ msgstr ""
 " - Man måste ha folkstyre eller kommunism som statsskick."
 
 # DM> tidigare "bergstrupper"
-#: data/default/units.ruleset:533 data/civ2/units.ruleset:420
+#: data/default/units.ruleset:553 data/civ2/units.ruleset:440
 msgid "Alpine Troops"
 msgstr "fjälljägare"
 
+#: data/default/units.ruleset:579 data/civ2/units.ruleset:466
+msgid "Alpine Troops are highly mobile units as well as excellent defenders."
+msgstr "Fjälljägare är rörliga terrängtrupper som är utmärkta försvarare."
+
 # DM> Tidigare "gevärsskytt"
-#: data/default/units.ruleset:561 data/civ2/units.ruleset:448
-#: data/civ1/units.ruleset:258
+#: data/default/units.ruleset:585 data/civ2/units.ruleset:472
+#: data/civ1/units.ruleset:270
 msgid "Riflemen"
 msgstr "infanteri"
 
+#: data/default/units.ruleset:611 data/civ2/units.ruleset:498
+#: data/civ1/units.ruleset:296
+msgid ""
+"Riflemen are World War-era infantry, very good at defending your cities."
+msgstr ""
+"Infanteri är den typ av fotsoldater som fanns under världskrigstiden. De är "
+"utomordentliga försvarare."
+
 # DM> Tidigare "marintrupper"
-#: data/default/units.ruleset:589 data/civ2/units.ruleset:476
+#: data/default/units.ruleset:617 data/civ2/units.ruleset:504
 msgid "Marines"
 msgstr "marinsoldater"
 
+#: data/default/units.ruleset:643 data/civ2/units.ruleset:530
+msgid "Marines are infantry who are experts at marine warfare."
+msgstr ""
+"Marinsoldater är fotsoldater som är specialiserare på marin krigsföring."
+
 # DM> tidigare "fallskärmstrupper"
-#: data/default/units.ruleset:617 data/civ2/units.ruleset:504
+#: data/default/units.ruleset:648 data/civ2/units.ruleset:535
 msgid "Paratroopers"
 msgstr "fallskärmsjägare"
 
-#: data/default/units.ruleset:649 data/civ2/units.ruleset:536
-#: data/civ1/units.ruleset:286
+#: data/default/units.ruleset:674 data/civ2/units.ruleset:561
+msgid "Paratroopers are experts at airborne attacks."
+msgstr "Fallskärmsjägare är specialister på luftattacker."
+
+#: data/default/units.ruleset:683 data/civ2/units.ruleset:570
+#: data/civ1/units.ruleset:302
 msgid "Mech. Inf."
 msgstr "mekaniserat infanteri"
 
-#: data/default/units.ruleset:675 data/civ2/units.ruleset:562
-#: data/civ1/units.ruleset:312
+#: data/default/units.ruleset:709 data/civ2/units.ruleset:596
+#: data/civ1/units.ruleset:328
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
-"Mekaniserat infanteri; denna enhet har starkast försvarsförmåga av alla "
-"landenheter, men är endast tillgänglig nära slutet av teknologiträdet."
+"Mekaniserat infanteri har starkast försvarsförmåga av alla landenheter, men "
+"är endast tillgänglig nära slutet av teknologiträdet."
 
-#: data/default/units.ruleset:682 data/civ2/units.ruleset:569
+#: data/default/units.ruleset:716 data/civ2/units.ruleset:603
 msgid "Horsemen"
 msgstr "ryttare"
 
-#: data/default/units.ruleset:710 data/civ2/units.ruleset:597
-#: data/civ1/units.ruleset:347
+#: data/default/units.ruleset:742 data/civ2/units.ruleset:629
+msgid ""
+"Horsemen are mounted warriors and an early shock-troop that can penetrate "
+"deep into enemy territory."
+msgstr ""
+"Ryttare är ridande krigare och en tidig shocktrupp som kan tränga djupt in i "
+"fiendeland."
+
+#: data/default/units.ruleset:749 data/civ2/units.ruleset:636
+#: data/civ1/units.ruleset:368
 msgid "Chariot"
 msgstr "stridsvagn"
 
+#: data/default/units.ruleset:775 data/civ2/units.ruleset:662
+#: data/civ1/units.ruleset:394
+msgid ""
+"Chariots are horse-pulled war wagons, stronger but more expensive than "
+"horsemen."
+msgstr "Stridsvagnar är starkare men dyrare än ryttare."
+
 # DM> Tidigare "knektar"
-#: data/default/units.ruleset:738 data/civ2/units.ruleset:681
-#: data/civ1/units.ruleset:375
+#: data/default/units.ruleset:781 data/civ2/units.ruleset:732
+#: data/civ1/units.ruleset:400
 msgid "Knights"
 msgstr "riddare"
 
-#: data/default/units.ruleset:767 data/civ2/units.ruleset:710
+#: data/default/units.ruleset:808 data/civ2/units.ruleset:759
+#: data/civ1/units.ruleset:427
+msgid "Knights are mounted and heavily armored warriors."
+msgstr "Riddare är ridande och tungt bepansrade krigare."
+
+#: data/default/units.ruleset:813 data/civ2/units.ruleset:764
 msgid "Dragoons"
 msgstr "dragoner"
 
-#: data/default/units.ruleset:796 data/civ2/units.ruleset:739
-#: data/civ1/units.ruleset:319
+#: data/default/units.ruleset:840 data/civ2/units.ruleset:791
+msgid "Dragoons are mounted warriors carrying early firearms."
+msgstr "Dragoner är ridande krigare utrustade med tidiage eldvapen."
+
+#: data/default/units.ruleset:845 data/civ2/units.ruleset:796
+#: data/civ1/units.ruleset:335
 msgid "Cavalry"
 msgstr "kavalleri"
 
+#: data/default/units.ruleset:871 data/civ2/units.ruleset:822
+msgid "Cavalry are mounted and highly trained soldiers."
+msgstr "Kavalleri är ridande och väl disciplinerade soldater."
+
 # DM> Tidigare "pansar"
-#: data/default/units.ruleset:824 data/civ2/units.ruleset:767
-#: data/civ1/units.ruleset:404
+#: data/default/units.ruleset:876 data/civ2/units.ruleset:827
+#: data/civ1/units.ruleset:432
 msgid "Armor"
 msgstr "pansarvagn"
 
-#: data/default/units.ruleset:852 data/civ2/units.ruleset:795
-#: data/civ1/units.ruleset:432
+#: data/default/units.ruleset:902 data/civ2/units.ruleset:853
+#: data/civ1/units.ruleset:458
+msgid ""
+"Armors are motorized war wagons that are faster, stronger, and can take more "
+"damage than any mounted unit."
+msgstr ""
+"Pansarvagnar är motoriserade och bepansrade krigsmaskiner som är snabbare, "
+"starkare och kan ta mer stryk än traditionella trupper."
+
+#: data/default/units.ruleset:909 data/civ2/units.ruleset:860
+#: data/civ1/units.ruleset:465
 msgid "Catapult"
 msgstr "katapult"
 
-#: data/default/units.ruleset:880 data/civ2/units.ruleset:823
-#: data/civ1/units.ruleset:460
+#: data/default/units.ruleset:935 data/civ2/units.ruleset:886
+#: data/civ1/units.ruleset:491
+msgid ""
+"Catapults are large rock-throwing machines of war. They are very strong "
+"attackers but equally weak defenders and will need an escort to be effective."
+msgstr ""
+"Katapulter är stora stenkastande krigsmaskiner. De är mycket starka i "
+"angrepp men svaga i försvar, så de behöver eskorteras för att vara effektiva "
+"i strid."
+
+#: data/default/units.ruleset:942 data/civ2/units.ruleset:893
+#: data/civ1/units.ruleset:498
 msgid "Cannon"
 msgstr "kanon"
 
-#: data/default/units.ruleset:908 data/civ2/units.ruleset:851
-#: data/civ1/units.ruleset:488
+#: data/default/units.ruleset:968 data/civ2/units.ruleset:919
+#: data/civ1/units.ruleset:524
+msgid ""
+"Cannons are large firearms that can fire heavy projectiles over long "
+"distances. They are very strong attackers but equally weak defenders and "
+"will need an escort to be effective."
+msgstr ""
+"Kanoner är mäktiga eldvapen som kan avfyra tunga projektiler över långa "
+"avstånd. De är mycket starka i angrepp men svaga i försvar, så de behöver "
+"eskorteras för att vara effektiva i strid."
+
+#: data/default/units.ruleset:976 data/civ2/units.ruleset:927
+#: data/civ1/units.ruleset:532
 msgid "Artillery"
 msgstr "artilleri"
 
-#: data/default/units.ruleset:936 data/civ2/units.ruleset:879
+#: data/default/units.ruleset:1002 data/civ2/units.ruleset:953
+msgid ""
+"The artillery is an upgraded cannon. It is a very strong attacker but "
+"equally weak defender and will need an escort to be effective."
+msgstr ""
+"Artilleriet är en uppgraderad kanon. Den är mycket stark i angrepp men svag i "
+"försvar, så den behöver eskorteras för att vara effektiv i strid."
+
+#: data/default/units.ruleset:1009 data/civ2/units.ruleset:960
 msgid "Howitzer"
 msgstr "haubits"
 
+#: data/default/units.ruleset:1035 data/civ2/units.ruleset:986
+msgid ""
+"Howitzers are upgraded artillery with improved defensive as well as "
+"offensive capabilities."
+msgstr ""
+"Haubits är ett uppgraderat artilleri med både förbättrat försvar och attack."
+
 # DM> tidigare "stridsflygplan"
-#: data/default/units.ruleset:964 data/civ2/units.ruleset:907
-#: data/civ1/units.ruleset:516
+#: data/default/units.ruleset:1041 data/civ2/units.ruleset:992
+#: data/civ1/units.ruleset:564
 msgid "Fighter"
 msgstr "jaktflygplan"
 
-#: data/default/units.ruleset:992 data/civ2/units.ruleset:935
-#: data/civ1/units.ruleset:544
+#: data/default/units.ruleset:1067 data/civ2/units.ruleset:1018
+#: data/civ1/units.ruleset:590
+msgid ""
+"Fighters are your first airborne units. They can move anywhere and attack "
+"any unit."
+msgstr ""
+"Jaktflygplanet är din första flygande enhet. De kan färdas var som helst och "
+"attackera vilken enhet som helst."
+
+#: data/default/units.ruleset:1073 data/civ2/units.ruleset:1024
+#: data/civ1/units.ruleset:596
 msgid "Bomber"
 msgstr "bombflygplan"
 
-#: data/default/units.ruleset:1046 data/civ2/units.ruleset:989
+#: data/default/units.ruleset:1099 data/civ2/units.ruleset:1050
+#: data/civ1/units.ruleset:622
+msgid ""
+"Bombers are specialized airborne units that may only attack ground targets, "
+"not other airborne units."
+msgstr ""
+"Bombflygplan är specialiserade på att attackera mål på marken, så det kan "
+"inte ge sig på andra flygande enheter."
+
+#: data/default/units.ruleset:1132 data/civ2/units.ruleset:1083
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -22137,120 +22293,198 @@ msgstr ""
 "Förenta Nationerna."
 
 # DM> tidigare "smygstridsflygplan"
-#: data/default/units.ruleset:1054 data/civ2/units.ruleset:997
+#: data/default/units.ruleset:1140 data/civ2/units.ruleset:1091
 msgid "Stealth Fighter"
 msgstr "smygjaktflygplan"
 
-#: data/default/units.ruleset:1080 data/civ2/units.ruleset:1023
+#: data/default/units.ruleset:1166 data/civ2/units.ruleset:1117
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Ett förbättrat jaktflygplan, med förbättrad angreppsstyrka och högre "
 "rörlighet."
 
-#: data/default/units.ruleset:1086 data/civ2/units.ruleset:1029
+#: data/default/units.ruleset:1172 data/civ2/units.ruleset:1123
 msgid "Stealth Bomber"
 msgstr "smygbombplan"
 
-#: data/default/units.ruleset:1112 data/civ2/units.ruleset:1055
+#: data/default/units.ruleset:1198 data/civ2/units.ruleset:1149
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 "Ett förbättrat bombflygplan, med bättre angreppsstyrka och högre rörlighet."
 
-#: data/default/units.ruleset:1118 data/civ2/units.ruleset:1061
-#: data/civ1/units.ruleset:572
+#: data/default/units.ruleset:1204 data/civ2/units.ruleset:1155
+#: data/civ1/units.ruleset:629
 msgid "Trireme"
 msgstr "trirem"
 
-#: data/default/units.ruleset:1146 data/civ2/units.ruleset:1089
+#: data/default/units.ruleset:1230 data/civ2/units.ruleset:1181
+#: data/civ1/units.ruleset:655
+msgid ""
+"The Trireme is your first boat unit. It can act as a transport ship and has "
+"rudimentary offensive capabilities, but may not stray too far from the shore."
+msgstr ""
+"Triremen är din första båtenhet. Den kan agera transportskepp likväl som "
+"slagskepp, men de kan inte bege sig för långt från kusten."
+
+#: data/default/units.ruleset:1237 data/civ2/units.ruleset:1188
 msgid "Caravel"
 msgstr "karavell"
 
-#: data/default/units.ruleset:1174 data/civ2/units.ruleset:1117
+#: data/default/units.ruleset:1263 data/civ2/units.ruleset:1214
+msgid ""
+"The Caravel replaces the Trireme and is much more reliable on the open seas."
+msgstr ""
+"Karavellen ersätter triremen och är mycket mer tillförlitlig på öppet hav."
+
+#: data/default/units.ruleset:1269 data/civ2/units.ruleset:1220
 msgid "Galleon"
 msgstr "galeon"
 
-#: data/default/units.ruleset:1202 data/civ2/units.ruleset:1145
-#: data/civ1/units.ruleset:628
+#: data/default/units.ruleset:1295 data/civ2/units.ruleset:1246
+msgid ""
+"The Galleon is a pure transport ship and cannot attack other ships, though "
+"is may still defend itself when attacked."
+msgstr ""
+"Galeonen är ett renodlat transportskepp och kan inte attackera, men kan "
+"försvara sig när den attackeras."
+
+#: data/default/units.ruleset:1302 data/civ2/units.ruleset:1253
+#: data/civ1/units.ruleset:694
 msgid "Frigate"
 msgstr "fregatt"
 
+#: data/default/units.ruleset:1328 data/civ2/units.ruleset:1279
+#: data/civ1/units.ruleset:720
+msgid ""
+"The Frigate is a highly versatile boat unit, that is both a strong offensive "
+"unit as well as a decent transport ship."
+msgstr ""
+"Fregatten är en högst mångsidig båtenhet, med både goda offensiva "
+"kvaliteter, samt förmågan att transportera andra enheter."
+
 # DM> tidigare "järnbeklätt slagskepp"
-#: data/default/units.ruleset:1230 data/civ2/units.ruleset:1173
-#: data/civ1/units.ruleset:656
+#: data/default/units.ruleset:1335 data/civ2/units.ruleset:1286
+#: data/civ1/units.ruleset:727
 msgid "Ironclad"
 msgstr "pansarfartyg"
 
-#: data/default/units.ruleset:1258 data/civ2/units.ruleset:1201
+#: data/default/units.ruleset:1361 data/civ2/units.ruleset:1312
+#: data/civ1/units.ruleset:753
+msgid ""
+"The Ironclad is an armored ship that is much more sturdy than the Frigate "
+"but loses the latter's transport capability."
+msgstr ""
+"Pansarfartyget har bättre försvar än fregatten, men har förlorat den senares "
+"transportförmåga."
+
+#: data/default/units.ruleset:1368 data/civ2/units.ruleset:1319
 msgid "Destroyer"
 msgstr "jagare"
 
-#: data/default/units.ruleset:1284 data/civ2/units.ruleset:1227
+#: data/default/units.ruleset:1394 data/civ2/units.ruleset:1345
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
 msgstr ""
+"Jagaren har bättre sikt och är snabbare än tidigare båtenheter.\n"
+"\n"
 "TIPS: En mycket snabb enhet, som är mycket användbar för att jaga och sänka "
 "fiendens fraktskepp."
 
-#: data/default/units.ruleset:1290 data/civ2/units.ruleset:1233
-#: data/civ1/units.ruleset:684
+#: data/default/units.ruleset:1400 data/civ2/units.ruleset:1351
+#: data/civ1/units.ruleset:760
 msgid "Cruiser"
 msgstr "kryssare"
 
-# DM> tidigare "beskyddskryssare"
-#: data/default/units.ruleset:1318 data/civ2/units.ruleset:1261
-msgid "AEGIS Cruiser"
-msgstr "AEGIS-kryssare"
+#: data/default/units.ruleset:1426 data/civ2/units.ruleset:1377
+#: data/civ1/units.ruleset:786
+msgid "The Cruiser is a strong offensive boat unit."
+msgstr "Kryssaren är en stark attackbåtenhet."
 
-#: data/default/units.ruleset:1346 data/civ2/units.ruleset:1289
-#: data/civ1/units.ruleset:712
+# DM> tidigare "beskyddskryssare"
+#: data/default/units.ruleset:1431 data/civ2/units.ruleset:1382
+msgid "AEGIS Cruiser"
+msgstr "Aegis-kryssare"
+
+#: data/default/units.ruleset:1457 data/civ2/units.ruleset:1408
+msgid ""
+"The AEGIS Cruiser is equipped with an advanced defensive missile system."
+msgstr ""
+"Aegis-kryssaren är utrustad med ett avancerad missilsystem till försvar."
+
+#: data/default/units.ruleset:1463 data/civ2/units.ruleset:1414
+#: data/civ1/units.ruleset:791
 msgid "Battleship"
 msgstr "slagskepp"
 
+#: data/default/units.ruleset:1489 data/civ2/units.ruleset:1440
+#: data/civ1/units.ruleset:817
+msgid ""
+"The Battleship is the supreme naval unit with excellent offensive and "
+"defensive values."
+msgstr ""
+"Slagskeppet är den mäktigaste båtenheten och har utomordentligt anfall och "
+"försvar."
+
 # DM> Tidigare "undervattensbåt"
-#: data/default/units.ruleset:1374 data/civ2/units.ruleset:1317
-#: data/civ1/units.ruleset:740
+#: data/default/units.ruleset:1495 data/civ2/units.ruleset:1446
+#: data/civ1/units.ruleset:823
 msgid "Submarine"
 msgstr "ubåt"
 
-#: data/default/units.ruleset:1401 data/civ2/units.ruleset:1344
-#: data/civ1/units.ruleset:766
+#: data/default/units.ruleset:1522 data/civ2/units.ruleset:1473
+#: data/civ1/units.ruleset:849
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr "Ubåtar har mycket högt strategiskt värde, men svagt försvar."
 
-#: data/default/units.ruleset:1407 data/civ2/units.ruleset:1350
-#: data/civ1/units.ruleset:772
+#: data/default/units.ruleset:1528 data/civ2/units.ruleset:1479
+#: data/civ1/units.ruleset:855
 msgid "Carrier"
 msgstr "hangarfartyg"
 
-#: data/default/units.ruleset:1433 data/civ2/units.ruleset:1376
-#: data/civ1/units.ruleset:798
+#: data/default/units.ruleset:1554 data/civ2/units.ruleset:1505
+#: data/civ1/units.ruleset:881
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
+"Hangarfartyget är en flytande flygplats. Det kan inte attackera själv, men "
+"kan försvara sig om det blir attackerad.\n"
+"\n"
 "TIPS: Beskydda hangarfartyg med en handfull snabbrörliga skepp och ett "
 "slagskepp eftersom det är MYCKET plågsamt och dyrt att förlora ett fullt "
 "utrustat hangarfartyg."
 
-#: data/default/units.ruleset:1440 data/civ2/units.ruleset:1383
-#: data/civ1/units.ruleset:805
+#: data/default/units.ruleset:1561 data/civ2/units.ruleset:1512
+#: data/civ1/units.ruleset:888
 msgid "Transport"
 msgstr "fraktskepp"
 
-#: data/default/units.ruleset:1468 data/civ2/units.ruleset:1411
+#: data/default/units.ruleset:1587 data/civ2/units.ruleset:1538
+#: data/civ1/units.ruleset:914
+msgid ""
+"The Transport cannot attack on its own but may defend itself when under "
+"attack."
+msgstr ""
+"Fraktskeppet kan inte attackera själv, men kan försvara sig om det blir "
+"attackerat."
+
+#: data/default/units.ruleset:1593 data/civ2/units.ruleset:1544
 msgid "Cruise Missile"
 msgstr "kryssningsmissil"
 
-#: data/default/units.ruleset:1494 data/civ2/units.ruleset:1437
+#: data/default/units.ruleset:1619 data/civ2/units.ruleset:1570
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr ""
+"Kryssningsmissilen är en långdistandsrobot som kan slå ner djupt inne i "
+"fiendeland.\n"
+"\n"
 "TIPS: En handfull av dessa kan med framgång hålla vattnen kring ens dyrbara "
 "hemland fritt från fientliga skepp."
 
-#: data/default/units.ruleset:1526 data/civ2/units.ruleset:1469
+#: data/default/units.ruleset:1651 data/civ2/units.ruleset:1602
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -22284,13 +22518,13 @@ msgstr ""
 "sprids. Då minskar man sannolikheten för atomvinter betydligt. Miljövänliga "
 "kärnvapen!"
 
-#: data/default/units.ruleset:1547 data/civ2/units.ruleset:1490
-#: data/civ1/units.ruleset:880
+#: data/default/units.ruleset:1672 data/civ2/units.ruleset:1623
+#: data/civ1/units.ruleset:967
 msgid "Diplomat"
 msgstr "budbärare"
 
-#: data/default/units.ruleset:1573 data/civ2/units.ruleset:1516
-#: data/civ1/units.ruleset:906
+#: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
+#: data/civ1/units.ruleset:993
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
 "another player's city.\n"
@@ -22308,6 +22542,9 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"Budbäraren har tillåtelse att föra din talan hos främmande härskare. Han kan "
+"dessutom utföra spionage eller sabotera för dina motståndare.\n"
+"\n"
 "- En budbärare kan inrätta beskickningar hos andra civilisationer genom att "
 "besöka en annan spelares stad.\n"
 "\n"
@@ -22326,11 +22563,11 @@ msgstr ""
 "fruktan!"
 
 # DM> Tidigare "spejare" (lämpligt eftersom de kommer ganska sent i spelet)
-#: data/default/units.ruleset:1593 data/civ2/units.ruleset:1536
+#: data/default/units.ruleset:1718 data/civ2/units.ruleset:1669
 msgid "Spy"
 msgstr "spion"
 
-#: data/default/units.ruleset:1619 data/civ2/units.ruleset:1562
+#: data/default/units.ruleset:1744 data/civ2/units.ruleset:1695
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -22350,12 +22587,12 @@ msgid ""
 "A Spy can also be of aid on the battlefield - sabotaging enemy units as well "
 "as bribing them to change allegiance."
 msgstr ""
-"En spion är en heltidsanställd yrkesmänniska och som sådan mycket "
-"skickligare på spioneri än sin föregångare, budbäraren.\n"
+"En spion är en vältränad specialist och som sådan mycket skickligare på "
+"spioneri än sin föregångare, budbäraren.\n"
 "\n"
 "Spionens fredligaste funktion är att undersöka städer för utförliga "
 "upplysningar, samt att inrätta beskickningar. Men om ens spion har fått "
-"dåligt rykte, blir den avrättad om den försöker inrätta en beskickning.\n"
+"dåligt rykte, blir hon avrättad om hon försöker inrätta en beskickning.\n"
 "\n"
 "Spionen kan även användas för att förgifta vattenförsörjningen för en "
 "fientlig stad (vilket minskar befolkningen); stjäla särskilda teknologier; "
@@ -22364,16 +22601,16 @@ msgstr ""
 "för tillfångatagande). En spion kan även infiltrera en stad och anstifta "
 "uppror.\n"
 "\n"
-"En spion kan även hjälpa till på slagfältet - förstöra fientliga enheter "
+"En spion kan dessutom hjälpa till på slagfältet - förstöra fientliga enheter "
 "såväl som muta dem till att byta sida."
 
-#: data/default/units.ruleset:1640 data/civ2/units.ruleset:1583
-#: data/civ1/units.ruleset:926
+#: data/default/units.ruleset:1765 data/civ2/units.ruleset:1716
+#: data/civ1/units.ruleset:1013
 msgid "Caravan"
 msgstr "karavan"
 
-#: data/default/units.ruleset:1666 data/civ2/units.ruleset:1609
-#: data/civ1/units.ruleset:952
+#: data/default/units.ruleset:1791 data/civ2/units.ruleset:1742
+#: data/civ1/units.ruleset:1039
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -22382,6 +22619,9 @@ msgid ""
 "into a city where you have started to build a wonder, and finish it in only "
 "one turn!"
 msgstr ""
+"Karavanen fraktar gods för att handla med främmande länder eller hjälpa till "
+"att bygga underverk i dina egna städer.\n"
+"\n"
 "Varje karavan som används för att bygga ett underverk bidrager med 50 "
 "sköldar till bygget.\n"
 "\n"
@@ -22389,47 +22629,49 @@ msgstr ""
 "när man har börjat bygga ett underverk, och färdigställa det på bara en "
 "omgång!"
 
-#: data/default/units.ruleset:1676 data/civ2/units.ruleset:1619
+#: data/default/units.ruleset:1801 data/civ2/units.ruleset:1752
 msgid "Freight"
 msgstr "godsvagn"
 
-#: data/default/units.ruleset:1702 data/civ2/units.ruleset:1645
+#: data/default/units.ruleset:1827 data/civ2/units.ruleset:1778
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr "Godsvagnen ersätter karavanen och rör sig dubbelt så fort."
 
 # DM> Tidigare "utforskare"
-#: data/default/units.ruleset:1707 data/civ2/units.ruleset:1650
+#: data/default/units.ruleset:1832 data/civ2/units.ruleset:1783
 msgid "Explorer"
 msgstr "upptäcksresande"
 
-#: data/default/units.ruleset:1733 data/civ2/units.ruleset:1676
+#: data/default/units.ruleset:1858 data/civ2/units.ruleset:1809
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr ""
 "Upptäcksresanden är mycket användbara för att kartlägga okända områden."
 
-#: data/default/units.ruleset:1766
+#: data/default/units.ruleset:1891
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "Detta är du. Besegras denna enhet förlorar du spelet. Försök undvika det."
 
-#: data/default/units.ruleset:1771 data/civ2/units.ruleset:1681
-#: data/civ1/units.ruleset:962
+#: data/default/units.ruleset:1896 data/civ2/units.ruleset:1814
+#: data/civ1/units.ruleset:1049
 msgid "Barbarian Leader"
 msgstr "barbarhövding"
 
-#: data/default/units.ruleset:1798 data/civ2/units.ruleset:1707
+#: data/default/units.ruleset:1923 data/civ2/units.ruleset:1840
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
 msgstr ""
+"En barbarhövdig framträder för varje barbaruppror som sker ute i världen.\n"
+"\n"
 "När en barbarhövding besegras av landenhet eller helikopter på en ruta utan "
 "försvarande enheter, betalas 100 guld ut i lösen."
 
-#: data/default/units.ruleset:1804
+#: data/default/units.ruleset:1929
 msgid "AWACS"
 msgstr "AWACS"
 
-#: data/default/units.ruleset:1830
+#: data/default/units.ruleset:1955
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -22494,23 +22736,38 @@ msgstr ""
 "fram sprängämnen innan den blir föråldrad. På så sätt uppgraderas ens "
 "bosättare utan kostnad."
 
-#: data/civ2/units.ruleset:347
+#: data/civ2/units.ruleset:367
 msgid "Fanatics"
 msgstr "fanatiker"
 
-#: data/civ2/units.ruleset:374
+#: data/civ2/units.ruleset:394
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
-msgstr "Fundamentalistiska nationer slipper betala underhåll för fanatiker."
+msgstr ""
+"Fanatiker är krigare som strider för sin plats i himmelriket. "
+"Fundamentalistiska nationer slipper betala underhåll för fanatiker."
 
-#: data/civ2/units.ruleset:625
+#: data/civ2/units.ruleset:668
 msgid "Elephants"
 msgstr "elefanter"
 
-#: data/civ2/units.ruleset:653
+#: data/civ2/units.ruleset:694
+msgid ""
+"Elephants are towering animals trained for war, but are easily dispersed if "
+"caught off guard."
+msgstr ""
+"Elefanter är mäktiga djur tränade för strid. Om de överrumplas är de dock "
+"enkelt besegrade."
+
+#: data/civ2/units.ruleset:700
 msgid "Crusaders"
 msgstr "korsfarare"
+
+#: data/civ2/units.ruleset:726
+msgid ""
+"Crusaders are highly disciplined mounted warriors driven by a higher cause."
+msgstr "Korsfarare är ridande soldater som strider för en högre sak."
 
 #: data/civ1/units.ruleset:123
 msgid ""
@@ -22545,12 +22802,41 @@ msgstr ""
 msgid "Militia"
 msgstr "soldat"
 
+#: data/civ1/units.ruleset:263
+msgid ""
+"Musketeers are infantry equipped with early firearms and replace Phalanx as "
+"the preferred city defender."
+msgstr ""
+"Musketeraren är en fotsoldat utrustad med tidiga skjutvapen och ersätter "
+"falangen som främsta försvarare av städer."
+
+#: data/civ1/units.ruleset:361
+msgid ""
+"Cavalry are mounted warriors and an early shock-troop that can penetrate "
+"deep into enemy territory."
+msgstr ""
+"Kavalleri är ridande krigare och en tidig shocktrupp som kan tränga djupt in "
+"i fiendeland."
+
+#: data/civ1/units.ruleset:558
+msgid ""
+"The artillery is an upgraded cannon with improved defensive as well as "
+"offensive capabilities."
+msgstr ""
+"Artilleri är en uppgraderad kanon med både förbättrat försvar och attack."
+
 # DM> tidigare "segel"
-#: data/civ1/units.ruleset:600
+#: data/civ1/units.ruleset:662
 msgid "Sail"
 msgstr "segelbåt"
 
-#: data/civ1/units.ruleset:859
+#: data/civ1/units.ruleset:688
+msgid ""
+"The Sail replaces the Trireme and is much more reliable on the open seas."
+msgstr ""
+"Segelbåten ersätter triremen och är mycket mer tillförlitlig på öppna havet."
+
+#: data/civ1/units.ruleset:946
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -22584,7 +22870,7 @@ msgstr ""
 "sprids. Då minskar man sannolikheten för atomvinter betydligt. Miljövänliga "
 "kärnvapen!"
 
-#: data/civ1/units.ruleset:988
+#: data/civ1/units.ruleset:1075
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
@@ -25385,7 +25671,7 @@ msgstr "lama"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
-msgstr "Daläi-lama"
+msgstr "daläi-lama"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
@@ -26175,6 +26461,10 @@ msgstr ""
 "omedelbart. Det är hur som helst generellt sett förmånligt att utforska\n"
 "hyddor."
 
+#: data/scenario/tutorial.sav:380
+msgid "Loading tutorial events."
+msgstr "Läser in handledningshändelser."
+
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:130
 msgid "Team 1"
@@ -26318,7 +26608,7 @@ msgstr "Lag 28"
 #: data/civ1/game.ruleset:129 data/civ2/game.ruleset:129
 #: data/default/game.ruleset:158
 msgid "Team 29"
-msgstr "Lag"
+msgstr "Lag 29"
 
 #: data/civ1/game.ruleset:130 data/civ2/game.ruleset:130
 #: data/default/game.ruleset:159
