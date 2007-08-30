@@ -1028,7 +1028,7 @@ uk_gold       = 0
 flags         = ""
 roles         = "AttackStrong"
 helptext      = _("\
-Artillery is an upgraded cannon. They are very\
+The artillery is an upgraded cannon. They are very\
  strong attackers but equally weak defenders and\
  will need an escort to be effective.\
 ")
