@@ -929,8 +929,8 @@ flags         = ""
 roles         = "AttackFast", "Hunter"
 helptext      = _("\
 Armors are motorized war wagons that are faster,\
- stronger, and can take more damage than earlier\
- military units.\
+ stronger, and can take more damage than any\
+ mounted unit.\
 ")
 
 [unit_catapult]
