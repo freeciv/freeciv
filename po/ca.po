@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-29 17:35+0200\n"
-"PO-Revision-Date: 2007-08-29 19:46+0200\n"
+"PO-Revision-Date: 2007-08-30 19:41+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -106,105 +106,86 @@ msgid "City"
 msgstr "Ciutat"
 
 #: common/events.c:44
-#, fuzzy
 msgid "Building Unavailable Item"
-msgstr "Ciutat: Construint un element no disponible"
+msgstr "Construint element no disponible"
 
 #: common/events.c:45
-#, fuzzy
 msgid "Captured/Destroyed"
-msgstr "Ciutat: Capturada/Destruïda"
+msgstr "Capturada/Destruïda"
 
 #: common/events.c:46
-#, fuzzy
 msgid "Celebrating"
-msgstr " - celebrant"
+msgstr " - en festa"
 
 #: common/events.c:47
-#, fuzzy
 msgid "Civil Disorder"
-msgstr "Ciutat: Desordre"
+msgstr "Desordre Civil"
 
 #: common/events.c:48
-#, fuzzy
 msgid "Famine"
-msgstr "Ciutat: Fam"
+msgstr "Fam"
 
 #: common/events.c:49
-#, fuzzy
 msgid "Famine Feared"
-msgstr "Ciutat: Es tem fam"
+msgstr "Es tem fam"
 
 #: common/events.c:50
-#, fuzzy
 msgid "Growth"
-msgstr "Creixement de la Ciutat"
+msgstr "Creixement"
 
 #: common/events.c:51
-#, fuzzy
 msgid "May Soon Grow"
-msgstr "Ciutat: Pot créixer aviat"
+msgstr "Pot créixer aviat"
 
 #: common/events.c:52
-#, fuzzy
 msgid "Needs Aqueduct"
-msgstr "Ciutat: Necessita un aqüeducte"
+msgstr "Necessita Aqüeducte"
 
 #: common/events.c:53
-#, fuzzy
 msgid "Needs Aqueduct Being Built"
-msgstr "Ciutat: Necessita un aqüeducte que està en construcció"
+msgstr "Necessita un aqüeducte que està en construcció"
 
 #: common/events.c:54 common/player.c:41
-#, fuzzy
 msgid "Normal"
-msgstr "normal"
+msgstr "Normal"
 
 #: common/events.c:55
-#, fuzzy
 msgid "Nuked"
-msgstr "Duc"
+msgstr "Atacada nuclearment"
 
 #: common/events.c:56
-#, fuzzy
 msgid "Released from citizen governor"
-msgstr "Ciutat: No controlada per gestor de ciutadans"
+msgstr "No controlada per gestor de ciutadans"
 
 #: common/events.c:57
-#, fuzzy
 msgid "Suggest Growth Throttling"
-msgstr "Ciutat: Suggerir augment de creixement"
+msgstr "Suggerir augment de creixement"
 
 #: common/events.c:58
-#, fuzzy
 msgid "Transfer"
-msgstr "Transformar"
+msgstr "Transferir"
 
 #: common/events.c:59
-#, fuzzy
 msgid "Was Built"
-msgstr "Ciutat: Construïda"
+msgstr "Construïda"
 
 #: common/events.c:60
-#, fuzzy
 msgid "Worklist Events"
-msgstr "Ciutat: Successos de llista treball"
+msgstr "Successos de llista de treball"
 
 #: common/events.c:61
-#, fuzzy
 msgid "Production changed"
-msgstr "Ciutat: Producció canviada"
+msgstr "Producció canviada"
 
 #: common/events.c:62 common/events.c:63 common/events.c:64 common/events.c:65
 #: common/events.c:66 common/events.c:67 common/events.c:68 common/events.c:69
 #: common/events.c:70 common/events.c:71
 msgid "Civ"
-msgstr ""
+msgstr "Civ"
 
 #: common/events.c:62
-#, fuzzy
 msgid "Barbarian Uprising"
-msgstr "Civ: Aparició de bàrbars"
+msgstr "Aparició de bàrbars"
 
 #: common/events.c:63
 #, fuzzy
@@ -212,24 +193,20 @@ msgid "Civil War"
 msgstr " Guerra civil"
 
 #: common/events.c:64
-#, fuzzy
 msgid "Collapse to Anarchy"
-msgstr "Civ: Col·lapse a l'Anarquia"
+msgstr "Col·lapse a l'Anarquia"
 
 #: common/events.c:65
-#, fuzzy
 msgid "First Contact"
-msgstr "Civ: Primer contacte"
+msgstr "Primer contacte"
 
 #: common/events.c:66
-#, fuzzy
 msgid "Learned New Government"
-msgstr "Civ: S'aprèn un nou govern"
+msgstr "S'aprèn un nou govern"
 
 #: common/events.c:67
-#, fuzzy
 msgid "Low Funds"
-msgstr "Civ: Pocs diners"
+msgstr "Pocs diners"
 
 #: common/events.c:68 common/terrain.c:450 common/unit.c:519
 #: server/report.c:123 client/cityrepdata.c:510
@@ -238,39 +215,34 @@ msgid "Pollution"
 msgstr "Contaminació"
 
 #: common/events.c:69
-#, fuzzy
 msgid "Revolt Ended"
-msgstr "Civ: S'acaba una revolta"
+msgstr "S'acaba una revolta"
 
 #: common/events.c:70
-#, fuzzy
 msgid "Revolt Started"
-msgstr "Civ: S'inicia una revolta"
+msgstr "S'inicia una revolta"
 
 #: common/events.c:71
-#, fuzzy
 msgid "Spaceship Events"
-msgstr "Civ: Esdeveniment de Nau espacial"
+msgstr "Esdeveniments de Nau espacial"
 
 #: common/events.c:72 common/events.c:73 common/events.c:74 common/events.c:75
 #: common/events.c:76 common/events.c:77 common/events.c:78 common/events.c:79
 #: common/events.c:80
-#, fuzzy
 msgid "Diplomat Action"
-msgstr "Diplomàtic/Accions d'espia"
+msgstr "Acció Diplomàtica"
 
 #: common/events.c:72 common/events.c:81
 msgid "Bribe"
-msgstr ""
+msgstr "Suborn"
 
 #: common/events.c:73
-#, fuzzy
 msgid "Caused Incident"
-msgstr "Incident %s !"
+msgstr "Provocat incident"
 
 #: common/events.c:74
 msgid "Escape"
-msgstr ""
+msgstr "Escapada"
 
 #: common/events.c:75 common/events.c:82 common/events.c:138
 #: client/plrdlg_common.c:258 client/gui-mui/plrdlg.c:168
@@ -280,19 +252,16 @@ msgid "Embassy"
 msgstr "Ambaixada"
 
 #: common/events.c:76 common/events.c:83
-#, fuzzy
 msgid "Failed"
-msgstr "Dona"
+msgstr "Fallat"
 
 #: common/events.c:77 common/events.c:84
-#, fuzzy
 msgid "Incite"
-msgstr "Inuit"
+msgstr "Incitar"
 
 #: common/events.c:78 common/events.c:85
-#, fuzzy
 msgid "Poison"
-msgstr "Enverinar ciutat"
+msgstr "Enverinar"
 
 #: common/events.c:79 common/events.c:86 client/gui-win32/dialogs.c:1488
 #: data/Freeciv.in:2415
@@ -300,15 +269,13 @@ msgid "Sabotage"
 msgstr "Sabotatge"
 
 #: common/events.c:80 common/events.c:87
-#, fuzzy
 msgid "Theft"
-msgstr "Tema"
+msgstr "Robatori"
 
 #: common/events.c:81 common/events.c:82 common/events.c:83 common/events.c:84
 #: common/events.c:85 common/events.c:86 common/events.c:87
-#, fuzzy
 msgid "Enemy Diplomat"
-msgstr "Diplomàtic enemic: Subornar"
+msgstr "Diplomàtic enemic"
 
 #: common/events.c:88
 msgid "Caravan actions"
@@ -355,19 +322,16 @@ msgid "Year Advance"
 msgstr "Avanç d'any"
 
 #: common/events.c:99 common/events.c:100
-#, fuzzy
 msgid "Global"
-msgstr "Objectiu"
+msgstr "Global"
 
 #: common/events.c:99
-#, fuzzy
 msgid "Eco-Disaster"
-msgstr "Global: Desastre ecològic"
+msgstr "Desastre ecològic"
 
 #: common/events.c:100
-#, fuzzy
 msgid "Nuke Detonated"
-msgstr "Global: Arma nuclear detonada"
+msgstr "Arma nuclear detonada"
 
 #: common/events.c:101 common/events.c:102 common/events.c:103
 #: common/events.c:104 common/events.c:105 common/events.c:106
@@ -376,44 +340,36 @@ msgid "Hut"
 msgstr "Cabana"
 
 #: common/events.c:101
-#, fuzzy
 msgid "Barbarians in a Hut Roused"
-msgstr "Cabana: Bàrbars d'una cabana empipats"
+msgstr "Bàrbars d'una cabana empipats"
 
 #: common/events.c:102
-#, fuzzy
 msgid "City Founded from Hut"
-msgstr "Cabana: Ciutat trobada en cabana"
+msgstr "Ciutat fundada per cabana"
 
 #: common/events.c:103
-#, fuzzy
 msgid "Gold Found in Hut"
-msgstr "Cabana: Or trobat en cabana"
+msgstr "Or trobat en cabana"
 
 #: common/events.c:104
-#, fuzzy
 msgid "Killed by Barbarians in a Hut"
-msgstr "Cabana: Mort per bàrbars en cabana"
+msgstr "Mort per bàrbars en cabana"
 
 #: common/events.c:105
-#, fuzzy
 msgid "Mercenaries Found in Hut"
-msgstr "Cabana: Mercenaris trobats a cabana"
+msgstr "Mercenaris trobats a cabana"
 
 #: common/events.c:106
-#, fuzzy
 msgid "Settler Found in Hut"
-msgstr "Cabana: Colon trobat a cabana"
+msgstr "Colon trobat a cabana"
 
 #: common/events.c:107
-#, fuzzy
 msgid "Tech Found in Hut"
-msgstr "Cabana: Tecnologia trobada en cabana"
+msgstr "Tecnologia trobada a cabana"
 
 #: common/events.c:108
-#, fuzzy
 msgid "Unit Spared by Barbarians"
-msgstr "Cabana: Unitat no morta per bàrbars"
+msgstr "Unitat no morta per bàrbars"
 
 #: common/events.c:109 common/events.c:110 common/events.c:111
 #: common/events.c:112 common/events.c:113 client/gui-win32/citydlg.c:859
@@ -421,9 +377,8 @@ msgid "Improvement"
 msgstr "Edifici"
 
 #: common/events.c:109 common/events.c:124
-#, fuzzy
 msgid "Bought"
-msgstr "Unitat: Comprada"
+msgstr "Comprat"
 
 #: common/events.c:110 common/events.c:125 client/citydlg_common.c:326
 #: client/citydlg_common.c:334 client/gui-mui/citydlg.c:593
@@ -433,68 +388,55 @@ msgid "Built"
 msgstr "Construït"
 
 #: common/events.c:111
-#, fuzzy
 msgid "Forced to Sell"
-msgstr "Edificis: Forçat a vendre"
+msgstr " Forçat a vendre"
 
 #: common/events.c:112
-#, fuzzy
 msgid "New Improvement Selected"
-msgstr "Edificis: Seleccionat nou edifici"
+msgstr "Seleccionat nou edifici"
 
 #: common/events.c:113
-#, fuzzy
 msgid "Sold"
-msgstr "Or"
+msgstr "Vengut"
 
 #: common/events.c:114 common/events.c:115 common/events.c:116
-#, fuzzy
 msgid "Tech"
-msgstr "_Tecnologies"
+msgstr "Tecno"
 
 #: common/events.c:114
-#, fuzzy
 msgid "Learned From Great Library"
-msgstr "Tec: Apresa de la Gran Biblioteca"
+msgstr "Apresa de la Gran Biblioteca"
 
 #: common/events.c:115
-#, fuzzy
 msgid "Learned New Tech"
-msgstr "Tec: Nova tecnologia apresa"
+msgstr "Nova tecnologia apresa"
 
 #: common/events.c:116
-#, fuzzy
 msgid "Selected New Goal"
-msgstr "Escull l'avenç a robar"
+msgstr "Nou objectiu seleccionat"
 
 #: common/events.c:117 common/events.c:118 common/events.c:119
 #: common/events.c:120 common/events.c:121 common/events.c:138
-#, fuzzy
 msgid "Treaty"
-msgstr "Grans"
+msgstr "Tractat"
 
 #: common/events.c:117
-#, fuzzy
 msgid "Alliance"
-msgstr "Tractat: Aliança"
+msgstr "Aliança"
 
 #: common/events.c:118
-#, fuzzy
 msgid "Broken"
-msgstr "Germà"
+msgstr "Trencat"
 
 #: common/events.c:119
-#, fuzzy
 msgid "Cease-fire"
-msgstr "Tractat: Treva"
+msgstr "Alto el foc"
 
 #: common/events.c:120
-#, fuzzy
 msgid "Peace"
-msgstr "Palau"
+msgstr "Pau"
 
 #: common/events.c:121
-#, fuzzy
 msgid "Shared Vision"
 msgstr "Visió compartida"
 
@@ -507,44 +449,36 @@ msgid "Unit"
 msgstr "Unitat"
 
 #: common/events.c:122
-#, fuzzy
 msgid "Attack Failed"
-msgstr "Unitat: Atac fallat"
+msgstr "Atac fallat"
 
 #: common/events.c:123
-#, fuzzy
 msgid "Attack Succeeded"
-msgstr "Unitat: Atac exitós"
+msgstr "Atac reeixit"
 
 #: common/events.c:126
-#, fuzzy
 msgid "Defender Destroyed"
-msgstr "Unitat: Defensor destruït"
+msgstr "Defensor destruït"
 
 #: common/events.c:127
-#, fuzzy
 msgid "Defender Survived"
-msgstr "Unitat: Defensor sobreviu"
+msgstr "Defensor sobreviu"
 
 #: common/events.c:128
-#, fuzzy
 msgid "Became More Veteran"
-msgstr "Unitat: Guanya Veterania"
+msgstr "Guanya Veterania"
 
 #: common/events.c:129
-#, fuzzy
 msgid "Production Upgraded"
-msgstr "Unitat: Producció millorada"
+msgstr "Producció millorada"
 
 #: common/events.c:130
-#, fuzzy
 msgid "Relocated"
-msgstr "Unitat: Resituada"
+msgstr "Resituada"
 
 #: common/events.c:131
-#, fuzzy
 msgid "Orders / goto events"
-msgstr "Unitat: Ordres / esdeveniments d'anada"
+msgstr "Ordres / esdeveniments d'anada"
 
 #: common/events.c:132 common/events.c:133 common/events.c:134
 #: common/events.c:135 common/events.c:136 client/gui-mui/citydlg.c:591
@@ -554,29 +488,24 @@ msgid "Wonder"
 msgstr "Meravella"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Finished"
-msgstr "acabat"
+msgstr "acabada"
 
 #: common/events.c:133
-#, fuzzy
 msgid "Made Obsolete"
-msgstr "Vendre obsolets"
+msgstr "Feta obsoleta"
 
 #: common/events.c:134
-#, fuzzy
 msgid "Started"
-msgstr "Estat"
+msgstr "Iniciada"
 
 #: common/events.c:135
-#, fuzzy
 msgid "Stopped"
-msgstr "Meravella: Es para"
+msgstr "Aturada"
 
 #: common/events.c:136
-#, fuzzy
 msgid "Will Finish Next Turn"
-msgstr "Meravella: S'acabarà el proper torn"
+msgstr "S'acabarà el proper torn"
 
 #: common/events.c:137
 msgid "Diplomatic Message"
@@ -616,29 +545,24 @@ msgid "Away"
 msgstr ""
 
 #: common/player.c:41
-#, fuzzy
 msgid "Novice"
-msgstr "principiant"
+msgstr "Principiant"
 
 #: common/player.c:41
-#, fuzzy
 msgid "Easy"
-msgstr "fàcil"
+msgstr "Fàcil"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Hard"
-msgstr "difícil"
+msgstr "Difícil"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Cheating"
-msgstr "Xat"
+msgstr "Trampós"
 
 #: common/player.c:42
-#, fuzzy
 msgid "Experimental"
-msgstr "experimental"
+msgstr "Experimental"
 
 #: common/player.c:718
 msgid "?attitude:Genocidal"
@@ -747,9 +671,9 @@ msgid "(none)"
 msgstr "(cap)"
 
 #: common/requirements.c:1233 common/requirements.c:1242
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" units"
-msgstr "%s unitats"
+msgstr "\"%s\" unitats"
 
 #: common/requirements.c:1238
 #, c-format
@@ -763,14 +687,14 @@ msgstr "Mida %d"
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1258
-#, fuzzy, c-format
+#, c-format
 msgid "%s AI"
-msgstr "%d d.C."
+msgstr "IA %s"
 
 #: common/requirements.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "%s terrain"
-msgstr "Terreny"
+msgstr "Terreny %s"
 
 #: common/tech.c:810 client/gui-gtk-2.0/repodlgs.c:508
 #, c-format
@@ -810,9 +734,8 @@ msgid "Land"
 msgstr "Terra"
 
 #: common/terrain.c:46
-#, fuzzy
 msgid "Oceanic"
-msgstr "Oceà"
+msgstr "Oceànic"
 
 #: common/terrain.c:446 common/terrain.c:637 common/unit.c:521
 #: manual/civmanual.c:224
@@ -896,9 +819,8 @@ msgid "Transform"
 msgstr "Transformar"
 
 #: common/unit.c:549
-#, fuzzy
 msgid "Base"
-msgstr "Malbaratament"
+msgstr "Base"
 
 #: common/unit.c:557 client/gui-gtk-2.0/editdlg.c:77
 #: client/gui-mui/citydlg.c:1971 client/gui-sdl/citydlg.c:1976
@@ -1121,9 +1043,9 @@ msgid "Output buffer full"
 msgstr ""
 
 #: utility/ioz.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Bz2: \"%s\" (%d)"
-msgstr "Any: %s (T%d)"
+msgstr "Bz2: \"%s\" (%d)"
 
 #: utility/ioz.c:552
 #, c-format
@@ -1851,11 +1773,9 @@ msgid "You have founded %s."
 msgstr "Has fundat %s."
 
 #: server/citytools.c:1121
-#, fuzzy, c-format
+#, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
-msgstr ""
-"S'ha mogut %s fora de la ciutat %s que s'ha desmantellat per evitar quedar "
-"atrapat a terra."
+msgstr "S'ha mogut %s fora de la ciutat %s que s'ha desmantellat perquè no es pot quedar a %s."
 
 #: server/citytools.c:1133
 #, c-format
@@ -2066,21 +1986,21 @@ msgstr ""
 "d.  Es posposa..."
 
 #: server/cityturn.c:877
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; només %s pot construir-ho.  "
+"%s no pot construir %s de la llista de treball; només IA de nivell %s pot construir-ho.  "
 "Es posposa..."
 
 #: server/cityturn.c:890
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, necessita terreny %s.  Es "
+"%s no pot construir %s de la llista de treball, necessita classe de terreny %s.  Es "
 "posposa..."
 
 #: server/cityturn.c:913
@@ -2164,9 +2084,9 @@ msgid "Wild celebrations in your honour in %s."
 msgstr ""
 
 #: server/cityturn.c:1558
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations cancelled in %s."
-msgstr "Es cancel·la el dia Amem el %s a %s."
+msgstr "Festes cancel·lades a %s."
 
 #: server/cityturn.c:1586
 #, c-format
@@ -2833,26 +2753,25 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:259
-#, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
-msgstr "create <nom-jugador>"
+msgstr ""
+"cheating\n"
+"cheating <nom-jugador>"
 
 #: server/commands.c:261
-#, fuzzy
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Estableix un o tots el jugadors a 'fàcil'."
+msgstr "Assigna un o tots el jugadors IA a 'trampós'."
 
 #: server/commands.c:262
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
 "the default level for any new AI players to 'cheating'.  With an argument, "
 "sets the skill level for that player only."
 msgstr ""
 "Sense arguments, estableix tots els jugadors controlats per la IA al nivell "
-"'fàcil' i estableix el nivell per defecte per nous jugadors a 'fàcil'. Amb "
+"'trampós' i estableix el nivell per defecte per nous jugadors IA a 'trampós'. Amb "
 "un argument, només estableix la dificultat per al jugador donat."
 
 #. TRANS: translate text between <> only
@@ -3636,35 +3555,32 @@ msgstr "%s han causat un incident en incitar una revolta a %s."
 
 #: server/edithand.c:53
 msgid " *** Server set to edit mode! *** "
-msgstr ""
+msgstr " *** Servidor en mode d'edició! ***"
 
 #: server/edithand.c:57
 msgid " *** Server is leaving edit mode. *** "
-msgstr ""
+msgstr " *** El servidor surt del mode d'edició. ***"
 
 #: server/edithand.c:131
 msgid "Cannot create unit on enemy tile."
-msgstr ""
+msgstr "No es pot crear una unitat en una casella enemiga."
 
 #: server/edithand.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create %s unit on this terrain."
-msgstr "* No pots construir ciutats sobre aquest terreny."
+msgstr "No es pot crear unitat de %s sobre aquest terreny."
 
 #: server/edithand.c:196 server/edithand.c:238
-#, fuzzy
 msgid "Cannot build city on this tile."
-msgstr "* No pots construir ciutats sobre aquest terreny."
+msgstr "No es pot fundar una ciutat en aquesta casella."
 
 #: server/edithand.c:209 server/edithand.c:248
-#, fuzzy
 msgid "Could not create city."
-msgstr "No s'ha pogut obrir l'arxiu temporal."
+msgstr "No s'ha pogut crear la ciutat."
 
 #: server/edithand.c:324
-#, fuzzy
 msgid "Could not change city size."
-msgstr "No s'ha pogut obrir l'arxiu temporal."
+msgstr "No s'ha pogut canviar la mida de la ciutat."
 
 #: server/edithand.c:434
 msgid "Cannot remove knowledge about own city."
@@ -3901,12 +3817,12 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "L'estat diplomàtic entre %s i %s ara és %s."
 
 #: server/plrhand.c:620
-#, fuzzy, c-format
+#, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
-" %s ha cancel·lat el tractat diplomàtic! L'estat diplomàtic entre %s i %s "
+" %s ha cancel·lat el tractat diplomàtic! L'estat diplomàtic entre els %s i els %s "
 "ara és %s."
 
 #: server/plrhand.c:637
@@ -3984,29 +3900,29 @@ msgstr ""
 "      i els naixents %s ara manen a %d províncies rebels."
 
 #: server/report.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the RICHEST Civilizations in the World %s."
-msgstr "L'informe de %s sobre les civilitzacions MÉS RIQUES del món."
+msgstr "L'informe de %s sobre les civilitzacions MÉS RIQUES del món %s."
 
 #: server/report.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World %s."
-msgstr "L'informe de %s sobre les civilitzacions MÉS AVANÇADES del món."
+msgstr "L'informe de %s sobre les civilitzacions MÉS AVANÇADES del món %s."
 
 #: server/report.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World %s."
-msgstr "L'informe de %s sobre les civilitzacions MÉS MILITARITZADES del món."
+msgstr "L'informe de %s sobre les civilitzacions MÉS MILITARITZADES del món %s."
 
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World %s."
-msgstr "L'informe de %s sobre les civilitzacions MÉS FELICES del món."
+msgstr "L'informe de %s sobre les civilitzacions MÉS FELICES del món %s."
 
 #: server/report.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the LARGEST Civilizations in the World %s."
-msgstr "L'informe de %s sobre les civilitzacions MÉS GRANS del món."
+msgstr "L'informe de %s sobre les civilitzacions MÉS GRANS del món %s."
 
 #: server/report.c:63
 msgid "Herodotus'"
@@ -5471,7 +5387,7 @@ msgstr ""
 
 #: server/settings.c:974
 msgid "Savegame compression level"
-msgstr "Nivell de compresió dels jocs guardats"
+msgstr "Nivell de compressió dels jocs guardats"
 
 #: server/settings.c:975
 #, fuzzy
@@ -5485,9 +5401,8 @@ msgstr ""
 "utilitzés zlib."
 
 #: server/settings.c:984
-#, fuzzy
 msgid "Savegame compression algorithm"
-msgstr "Nivell de compresió dels jocs guardats"
+msgstr "Algorisme de compressió dels jocs guardats"
 
 #: server/settings.c:985
 msgid ""
@@ -5949,7 +5864,7 @@ msgstr "Error en crear el nou jugador d'IA: %s."
 
 #: server/stdinhand.c:946
 msgid "Players cannot be removed once the game has started."
-msgstr "Els jugadors no es poden borrar un cop el joc ja ha començat."
+msgstr "Els jugadors no es poden esborrar un cop el joc ja ha començat."
 
 #: server/stdinhand.c:957
 #, c-format
@@ -6662,7 +6577,6 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Comanda desconeguda.  Prova '%shelp'."
 
 #: server/stdinhand.c:3481
-#, fuzzy
 msgid "Your new vote canceled your previous vote."
 msgstr "El teu nou vot ha cancel·lat l'anterior."
 
@@ -7095,12 +7009,12 @@ msgstr "%s només es pot moure cap a la teva zona de control."
 #: server/unithand.c:996
 #, c-format
 msgid "%s cannot move that far from the coast line."
-msgstr ""
+msgstr "%s no pot moure's tan lluny de la costa."
 
 #: server/unithand.c:1000
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot invade unless you break peace with %s first."
-msgstr "Joc: No pots envair si no trenques primer la pau amb %s."
+msgstr "No pots envair si no trenques primer la pau amb %s."
 
 #: server/unithand.c:1038
 msgid "This unit has no moves left."
@@ -8051,9 +7965,9 @@ msgid "?specialist:S"
 msgstr "E"
 
 #: client/cityrepdata.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "Specialists: %s"
-msgstr "Especialistes"
+msgstr "Especialistes: %s"
 
 #: client/civclient.c:202
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
@@ -8421,12 +8335,12 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:193 client/helpdata.c:202
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Only applies to \"%s\" units.\n"
 "\n"
 msgstr ""
-"Només s'aplica a unitats %s.\n"
+"Només s'aplica a unitats \"%s\".\n"
 "\n"
 
 #: client/helpdata.c:207 client/helpdata.c:211
@@ -8453,9 +8367,11 @@ msgid ""
 "Requires AI player of level %s.\n"
 "\n"
 msgstr ""
+"Requereix jugador IA de nivell %s.\n"
+"\n"
 
 #: client/helpdata.c:223
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires %s terrain.\n"
 "\n"
@@ -8515,14 +8431,14 @@ msgid "* Allows %s.\n"
 msgstr "* Permet %s.\n"
 
 #: client/helpdata.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "* Belongs to %s units class.\n"
-msgstr "* Unitats %s veterans.\n"
+msgstr "* Pertany a la classe %s d'unitats.\n"
 
 #: client/helpdata.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "  * Can occupy empty enemy cities.\n"
-msgstr "* Pot construir noves ciutats.\n"
+msgstr "* Pot ocupar ciutats enemigues buides.\n"
 
 #: client/helpdata.c:780
 #, c-format
@@ -8532,7 +8448,7 @@ msgstr ""
 #: client/helpdata.c:783
 #, c-format
 msgid "  * Slowed down while damaged\n"
-msgstr ""
+msgstr "  * S'alenteix quan és ferida\n"
 
 #: client/helpdata.c:787
 #, fuzzy, c-format
@@ -8542,7 +8458,7 @@ msgstr "* Un míssil: es gasta en fer un atac.\n"
 #: client/helpdata.c:791
 #, c-format
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
-msgstr ""
+msgstr "  * És inabastable. La majoria d'unitats no la poden atacar.\n"
 
 #: client/helpdata.c:796
 #, c-format
@@ -9000,12 +8916,12 @@ msgstr ""
 "civilització apareixerà quan tinguis %d ciutats.\n"
 
 #: client/helpdata.c:1322
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities, another unhappy citizen will appear.\n"
 msgstr ""
-"* Després del primer ciutadà descontent degut a la mida de la ciutat, per "
+"* Després del primer ciutadà descontent degut a la mida de la civilització, per "
 "cada %d ciutats addicionals, n'apareixerà un altre.\n"
 
 #: client/helpdata.c:1329
@@ -12155,7 +12071,7 @@ msgstr "E_xportar la llista de missatges"
 
 #: client/gui-gtk-2.0/menu.c:756
 msgid "_Clear Log"
-msgstr "_Borrar la llista de missatges"
+msgstr "Es_borrar la llista de missatges"
 
 #: client/gui-gtk-2.0/menu.c:760
 msgid "_Leave"
@@ -15378,25 +15294,23 @@ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
 msgstr "Error a unload_font: Intentant descarregar del vector de font buit"
 
 #: client/gui-sdl/gui_string.c:684
-#, fuzzy
 msgid "Error in unload_font: Trying unload Font which is not included in Font ARRAY"
 msgstr ""
-"Error a unload_font:  Intentant descarregar font que no està inclòs al "
+"Error a unload_font:  Intentant descarregar font que no està inclosa al "
 "vector de font"
 
 #. TRANS: Future Technology
 #: client/gui-sdl/gui_tilespec.c:504
 msgid "FT"
-msgstr "FT"
+msgstr "TF"
 
 #: client/gui-sdl/helpdlg.c:199
 msgid "Help : Improvements"
 msgstr "Ajuda : Millores"
 
 #: client/gui-sdl/helpdlg.c:384
-#, fuzzy
 msgid "Never"
-msgstr "(mai)"
+msgstr "Mai"
 
 #: client/gui-sdl/helpdlg.c:571
 msgid "Help : Units"
@@ -16849,16 +16763,15 @@ msgstr "Seleccionar Tipus Igual"
 
 #: client/gui-xaw/menu.c:233
 msgid "Editing Mode"
-msgstr ""
+msgstr "Mode d'Edició"
 
 #: client/gui-xaw/menu.c:234
-#, fuzzy
 msgid "Tools"
-msgstr "Totals"
+msgstr "Eines"
 
 #: client/gui-xaw/menu.c:239 data/helpdata.txt:379
 msgid "Languages"
-msgstr "Idiomes"
+msgstr "Llengües"
 
 #: client/gui-xaw/menu.c:240 data/helpdata.txt:402
 msgid "Connecting"
@@ -16874,7 +16787,7 @@ msgstr "Xat"
 
 #: client/gui-xaw/menu.c:243
 msgid "Playing"
-msgstr "Jugant"
+msgstr "Joc"
 
 #: client/gui-xaw/menu.c:247 data/helpdata.txt:987
 msgid "Combat"
@@ -17298,9 +17211,8 @@ msgid "Rename worklist"
 msgstr "Renomenar llista treball"
 
 #: data/Freeciv.in:2031
-#, fuzzy
 msgid "Editor"
-msgstr "Editar"
+msgstr "Editor"
 
 #: data/Freeciv.in:2082
 msgid "Select new production"
@@ -19840,7 +19752,6 @@ msgid "Harbour"
 msgstr "Port"
 
 #: data/default/buildings.ruleset:361 data/civ2/buildings.ruleset:340
-#, fuzzy
 msgid ""
 "Gives one extra food resource on all Oceanic squares.  The city needs to be "
 "coastal to build this improvement."
@@ -19854,7 +19765,7 @@ msgid "Hydro Plant"
 msgstr "Central Hidràulica"
 
 #: data/default/buildings.ruleset:384
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -19869,12 +19780,12 @@ msgstr ""
 "Redueix la quantitat de contaminació generada per la producció d'una ciutat "
 "en un 50%. També augmenta la producció d'escuts d'una Fàbrica o Planta de "
 "Fabricació que hi hagi a la ciutat: una Fàbrica i una Central Hidràulica "
-"juntes donen un bonus de producció del 75%, i una Fàbrica, Planta de "
+"juntes donen una bonificació de producció del 75%, i una Fàbrica, Planta de "
 "Fabricació i Central Hidràulica juntes donen un bonus de producció del "
 "150%.\n"
 "\n"
-"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica o Nuclear. Una "
-"ciutat només pot construir una Central Hidràulica si està al costat de (o a "
+"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, Nuclear o Solar. Una "
+"ciutat només pot construir una Central Hidràulica si és al costat de (o a "
 "sobre) d'una casella de Muntanya o Riu."
 
 #: data/default/buildings.ruleset:401 data/civ2/buildings.ruleset:377
@@ -19933,7 +19844,7 @@ msgid "Nuclear Plant"
 msgstr "Central Nuclear"
 
 #: data/default/buildings.ruleset:500
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -19947,23 +19858,22 @@ msgstr ""
 "Redueix la quantitat de contaminació generada per la producció d'una ciutat "
 "en un 50%. També augmenta la producció d'escuts d'una Fàbrica o Planta de "
 "Fabricació de la ciutat: una Fàbrica i una Central Nuclear juntes donen un "
-"bonus de producció del 75%, i una Fàbrica, una Planta de Fabricació i una "
-"Central Nuclear juntes donen un bonus de producció  del 150%.\n"
+"bonificació de producció del 75%, i una Fàbrica, una Planta de Fabricació i una "
+"Central Nuclear juntes donen una bonificació de producció del 150%.\n"
 "\n"
-"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica o Nuclear."
+"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, Nuclear o Solar."
 
 #: data/default/buildings.ruleset:518 data/civ2/buildings.ruleset:491
 msgid "Offshore Platform"
 msgstr "Plataforma costanera"
 
 #: data/default/buildings.ruleset:533 data/civ2/buildings.ruleset:506
-#, fuzzy
 msgid ""
 "Adds 1 extra shield resource on all Oceanic squares in a city.  The city "
 "needs to be coastal to build this improvement."
 msgstr ""
 "Afegeix un escut extra a totes les caselles d'oceà de la ciutat. La ciutat "
-"ha d'estar a la costa per poder construir aquesta millora."
+"ha de ser a la costa per poder construir aquesta millora."
 
 #: data/default/buildings.ruleset:539 data/civ2/buildings.ruleset:512
 #: data/civ1/buildings.ruleset:417
@@ -20032,7 +19942,7 @@ msgid "Power Plant"
 msgstr "Central Tèrmica"
 
 #: data/default/buildings.ruleset:634
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 75% production bonus, and a "
@@ -20048,7 +19958,7 @@ msgstr ""
 "una bonificació de producció del 150%. La producció addicional pot fer que "
 "la ciutat generi més contaminació.\n"
 "\n"
-"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica o Nuclear."
+"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, Nuclear o Solar."
 
 #: data/default/buildings.ruleset:649 data/civ2/buildings.ruleset:611
 #: data/civ1/buildings.ruleset:473
@@ -20126,7 +20036,7 @@ msgid "Solar Plant"
 msgstr "Central Solar"
 
 #: data/default/buildings.ruleset:774
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
@@ -20139,7 +20049,7 @@ msgstr ""
 "Elimina tota la contaminació generada per producció en una ciutat. També "
 "augmenta la producció d'escuts d'una Fàbrica o Planta de Fabricació de la "
 "ciutat: una Fàbrica i una Central Solar juntes donen una bonificació del "
-"100% de producció, i una Fàbrica, Planta de Fabricació i Central Solar "
+"75% de producció, i una Fàbrica, Planta de Fabricació i Central Solar "
 "juntes dóna una bonificació de producció del 150%.\n"
 "\n"
 "Una ciutat només pot tenir una Central: Solar, Hidràulica, Tèrmica, o "
@@ -20501,14 +20411,10 @@ msgid "Lighthouse"
 msgstr "Far"
 
 #: data/default/buildings.ruleset:1304
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all your cities)."
-msgstr ""
-"Dóna a totes les teves unitats marítimes 1 punt addicional de moviment i "
-"elimina el risc de perdre Trirrems en alta mar. Fa que totes les noves "
-"unitats marítimes siguin veteranes (per totes les teves ciutats)."
+msgstr "Dóna a totes les teves unitats marítimes 1 punt addicional de moviment. Fa que totes les noves unitats marítimes siguin veteranes (per totes les teves ciutats)."
 
 #: data/default/buildings.ruleset:1310 data/civ2/buildings.ruleset:1264
 #: data/civ1/buildings.ruleset:891
@@ -20726,7 +20632,7 @@ msgstr ""
 "revolta."
 
 #: data/civ2/buildings.ruleset:363
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -20744,8 +20650,8 @@ msgstr ""
 "una bonificació del 100% de producció, i una Fàbrica, Planta de Fabricació i "
 "Central Hidràulica juntes donen una bonificació de producció del 150%.\n"
 "\n"
-"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, o Nuclear. Una "
-"ciutat només pot construir una Central Hidràulica si està al costat o (a "
+"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, Nuclear o Solar. Una "
+"ciutat només pot construir una Central Hidràulica si és al costat o (a "
 "sobre d') una casella de Muntanya o Riu."
 
 #: data/civ2/buildings.ruleset:392 data/civ1/buildings.ruleset:318
@@ -20754,7 +20660,7 @@ msgid "Increases the science output in a city by 50%."
 msgstr "Augmenta en un 50% la producció de ciència de la ciutat."
 
 #: data/civ2/buildings.ruleset:475
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -20771,7 +20677,7 @@ msgstr ""
 "bonificació del 100% de producció, i una Fàbrica, Planta de Fabricació i "
 "Central Nuclear juntes donen una bonificació de producció del 150%.\n"
 "\n"
-"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, o Nuclear."
+"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, Nuclear o Solar."
 
 #: data/civ2/buildings.ruleset:527 data/civ1/buildings.ruleset:432
 msgid ""
@@ -20796,7 +20702,7 @@ msgstr ""
 "qualsevol nau espacial que puguis tenir."
 
 #: data/civ2/buildings.ruleset:599
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 100% production bonus, and a "
@@ -20812,7 +20718,7 @@ msgstr ""
 "juntes donen una bonificació de producció del 150%. La producció addicional "
 "pot fer que la ciutat generi més contaminació.\n"
 "\n"
-"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, o Nuclear."
+"Una ciutat només pot tenir una Central: Hidràulica, Tèrmica, Nuclear o Solar."
 
 #: data/civ2/buildings.ruleset:648
 #, no-c-format
@@ -20827,7 +20733,7 @@ msgstr ""
 "ciutat en un 150%."
 
 #: data/civ2/buildings.ruleset:736
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
@@ -20841,7 +20747,7 @@ msgstr ""
 "augmenta la producció d'escuts d'una Fàbrica o Planta de Fabricació de la "
 "ciutat: una Fàbrica i una Central Solar juntes donen una bonificació del "
 "100% de producció, i una Fàbrica, Planta de Fabricació i Central Solar "
-"juntes dóna una bonificació de producció del 150%.\n"
+"juntes donen una bonificació de producció del 150%.\n"
 "\n"
 "Una ciutat només pot tenir una Central: Solar, Hidràulica, Tèrmica, o "
 "Nuclear."
@@ -20888,14 +20794,10 @@ msgid "Works as a City Wall in all cities."
 msgstr "Actua con a muralla a totes les teves ciutats."
 
 #: data/civ2/buildings.ruleset:1258 data/civ1/buildings.ruleset:883
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all cities)."
-msgstr ""
-"Dóna a totes les teves unitats marítimes 1 punt addicional de moviment i "
-"elimina el risc de perdre Trirrems en alta mar. Fa que totes les noves "
-"unitats marítimes siguin veteranes (per totes les teves ciutats)."
+msgstr "Dóna a totes les teves unitats marítimes 1 punt addicional de moviment. Fa que totes les noves unitats marítimes siguin veteranes (per totes les teves ciutats)."
 
 #: data/civ2/buildings.ruleset:1278
 msgid "Gives all sea units 2 additional movement points."
@@ -21537,7 +21439,7 @@ msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Has trobat uns antics pergamins sobre %s."
 
 #: data/default/script.lua:30
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from ancient scrolls of                      wisdom."
 msgstr "Els %s han adquirit %s d'antics pergamins."
 
@@ -21986,9 +21888,8 @@ msgstr ""
 
 #: data/default/terrain.ruleset:186 data/civ2/terrain.ruleset:186
 #: data/civ1/terrain.ruleset:178
-#, fuzzy
 msgid "Water"
-msgstr "Malbaratament"
+msgstr "Aigua"
 
 #: data/default/terrain.ruleset:216 data/default/terrain.ruleset:254
 #: data/default/terrain.ruleset:292 data/default/terrain.ruleset:330
@@ -22017,9 +21918,8 @@ msgstr ""
 
 #: data/default/terrain.ruleset:224 data/civ2/terrain.ruleset:221
 #: data/civ1/terrain.ruleset:213
-#, fuzzy
 msgid "Lake"
-msgstr "Singalès"
+msgstr "Llac"
 
 #: data/default/terrain.ruleset:262 data/civ2/terrain.ruleset:256
 #: data/civ1/terrain.ruleset:248 data/default/units.ruleset:96
@@ -23112,34 +23012,32 @@ msgstr "Primer ministre"
 #: data/nation/slovakian.ruleset:28 data/nation/spanish.ruleset:31
 #: data/nation/swedish.ruleset:32 data/nation/tibetan.ruleset:30
 #: data/nation/welsh.ruleset:27
-#, fuzzy
 msgid "?female:Prime Minister"
-msgstr "Primer ministre"
+msgstr "Primera ministra"
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
-msgstr ""
+msgstr "Ainu"
 
 #: data/nation/ainu.ruleset:4
-#, fuzzy
 msgid "?plural:Ainu"
-msgstr "Finesos"
+msgstr "Ainus"
 
 #: data/nation/ainu.ruleset:7
 msgid ""
 "The Ainu are the indigenous people of northern Japan, the Kuril islands, "
 "Sakhalin, and the southern part of the Kamchatka peninsula."
-msgstr ""
+msgstr "Els ainus són el poble indígena del nord del Japó, les illes Kurils, Sakhalin i la part meridional de la península de Kamtxatka."
 
 #. TRANS: Nipa = Chief
 #: data/nation/ainu.ruleset:20
 msgid "Nipa"
-msgstr ""
+msgstr "Nipa"
 
 #. TRANS: Nipsa = Master
 #: data/nation/ainu.ruleset:22
 msgid "Nipsa"
-msgstr ""
+msgstr "Nipsa"
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
@@ -23344,7 +23242,7 @@ msgid ""
 "comprising of several colonies (New South Wales, Victora, Queensland, South "
 "Australia, Western Australia and Tasmania) it became a single country in "
 "1902. It is the only country on earth to occupy an entire continent."
-msgstr ""
+msgstr "Austràlia va ser fundada com a colònia penal britànica l'any 1788. Originalment comprenia diferents colònies (Nova Gal·les del Sud, Victòria, Queensland, Austràlia del Sud, Austràlia Occidental i Tasmània), que es van unificar en un país l'any 1902. És l'únic país del món que ocupa un continent sencer."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -23363,21 +23261,19 @@ msgstr ""
 "més oriental del Sacre Imperi Romà Germànic medieval."
 
 #: data/nation/aymara.ruleset:3
-#, fuzzy
 msgid "Aymara"
-msgstr "Àrab"
+msgstr "Aymara"
 
 #: data/nation/aymara.ruleset:4
-#, fuzzy
 msgid "?plural:Aymaras"
-msgstr "Àrabs"
+msgstr "Aymaras"
 
 #: data/nation/aymara.ruleset:6
 msgid ""
 "After the collapse of the Tiwanaku civilization in the Andes, their heirs "
 "reorganized into a set of culturally close Aymara kingdoms that thrived "
 "around the Titicaca lake until they were conquered by the Incas."
-msgstr ""
+msgstr "Després del col·lapse de la civilització Tiwanaku als Andes, els seus hereus es van reorganitzar en un estol de regnes Aymara culturalment pròxims que van desenvolupar-se al voltant del llac Titicaca fins que van ser conquerits pels Inques."
 
 #: data/nation/aymara.ruleset:30
 #, fuzzy
@@ -23416,14 +23312,12 @@ msgid "Markachiri"
 msgstr "Març"
 
 #: data/nation/azeri.ruleset:3
-#, fuzzy
 msgid "Azeri"
-msgstr "Algerià"
+msgstr "Àzeri"
 
 #: data/nation/azeri.ruleset:4
-#, fuzzy
 msgid "?plural:Azeris"
-msgstr "Asteques"
+msgstr "Àzeris"
 
 #: data/nation/azeri.ruleset:5 data/nation/dominican.ruleset:5
 #: data/nation/pakistani.ruleset:5 data/nation/peruvian.ruleset:5
@@ -23446,7 +23340,7 @@ msgid ""
 "followed by a short period of independence in 1918-1920 - as the first "
 "Islamic republic in history. Then Azerbaijan became part of the Soviet Union "
 "until its dissolution in 1991."
-msgstr ""
+msgstr "Els àzeris són el poble de l'Azerbaidjan. El territori de l'Azerbaidjan modern va ser l'escenari dels apogeus i caigudes de diferents estats antics de la regió caucàsica. El 1813, l'Azerbaidjan va passar a l'Imperi Rus, cosa que va ser seguida per un període curt d'independència entre els anys 1918 i 1920 - com a primera república islàmica de la història. Llavors, l'Azerbaidjan va passar a ser part de la Unió Soviètica fins la seva dissolució el 1991."
 
 #: data/nation/azeri.ruleset:40 data/nation/kazakh.ruleset:26
 #: data/nation/kyrgyz.ruleset:25 data/nation/mongol.ruleset:29
@@ -23539,12 +23433,11 @@ msgstr ""
 
 #: data/nation/basque.ruleset:3
 msgid "Basque"
-msgstr ""
+msgstr "Basc"
 
 #: data/nation/basque.ruleset:4
-#, fuzzy
 msgid "?plural:Basques"
-msgstr "Birmans"
+msgstr "Bascos"
 
 #: data/nation/basque.ruleset:6
 msgid ""
@@ -23553,7 +23446,7 @@ msgid ""
 "their historic identity alive, the Basques provide a link with man's distant "
 "past. Euskara, the language spoken by the Basque people, is probably the "
 "oldest living language in Europe."
-msgstr ""
+msgstr "Els Bascos han viscut des de temps immemorials a les estribacions occidentals dels Pirineus. Mantenint les seves tradicions culturals ancestrals, i mantenint viva la seva identitat històrica, els bascos proporcionen un enllaç amb el passat més antic de la humanitat. L'euskara, la llengua que parlen els bascos, és probablement el llenguatge viu més antic d'Europa."
 
 #. TRANS: Buruzagi = Leader, head (like spanish Caudillo)
 #: data/nation/basque.ruleset:33
@@ -25511,7 +25404,7 @@ msgstr "Kenyans"
 msgid ""
 "Nation in Central Asia. Conquered by the Russian Empire in 19th century, "
 "Kyrgyzstan got independence from the Soviet Union in 1991."
-msgstr ""
+msgstr "Nació de l'Àsia Central. Conquerida per l'Imperi Rus al segle XIX. Kyrgyzstan va aconseguir la independència de la Unió Soviètica el 1991."
 
 #. TRANS: Khagan = Great Khan
 #: data/nation/kyrgyz.ruleset:26 data/nation/mongol.ruleset:31
@@ -26216,7 +26109,7 @@ msgstr "Malians"
 msgid ""
 "The Federation of Pakistan was formed from the predominantly Muslim regions "
 "of British India in 1947."
-msgstr ""
+msgstr "La Federació del Pakistan va ser formada dels regions Musulmanes predominants de la Índia Anglesa al 1947"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
@@ -27103,7 +26996,7 @@ msgstr "Serbis"
 msgid ""
 "The modern Syrian Arab Republic was formed from a French mandate and "
 "gradually gained independence during the 1940s."
-msgstr ""
+msgstr "La República Àrab Síria moderna va ser formada per un mandat francès i va guanyar la independència gradualment durant la dècada dels 1940."
 
 #: data/nation/taino.ruleset:3
 #, fuzzy
@@ -27193,20 +27086,18 @@ msgstr ""
 "Taiwan, on van formar la República de Xina."
 
 #: data/nation/tajik.ruleset:3
-#, fuzzy
 msgid "Tajik"
-msgstr "Tailandès"
+msgstr "Tadjik"
 
 #: data/nation/tajik.ruleset:4
-#, fuzzy
 msgid "?plural:Tajiks"
-msgstr "Tailandesos"
+msgstr "?plural:Tadjiks"
 
 #: data/nation/tajik.ruleset:6
 msgid ""
 "Nation in Central Asia. Conquered by the Russian Empire in 19th century, "
 "Tajikistan got independence from the Soviet Union in 1991."
-msgstr ""
+msgstr "Nació de l'Àsia Central. Conquerida per l'Imperi Rus el segle XIX. Tadjikistan va aconseguir la independència de la Unió Soviètica el 1991."
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -27217,13 +27108,12 @@ msgid "?plural:Texans"
 msgstr "Texans"
 
 #: data/nation/texan.ruleset:6
-#, fuzzy
 msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for its \"larger than life\" cowboy mentality."
 msgstr ""
 "Texas és el segon estat més gran i populós  dels EUA, famós per la seva "
-"mentalitat de cowboy, i de \"tot ben gros\"."
+"mentalitat exagerada de cowboy."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -27242,23 +27132,20 @@ msgstr ""
 "independència durant l'era colonial dels segles XVIII i XIX."
 
 #: data/nation/thracian.ruleset:3
-#, fuzzy
 msgid "Thracian"
-msgstr "Terreny"
+msgstr "Traci"
 
 #: data/nation/thracian.ruleset:4
-#, fuzzy
 msgid "?plural:Thracians"
-msgstr "Tailandesos"
+msgstr "Tracis"
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
-msgstr ""
+msgstr "El segon poble més nombrós del món antic a Occident."
 
 #: data/nation/thracian.ruleset:19
-#, fuzzy
 msgid "Rhesos"
-msgstr "Recursos"
+msgstr "Rhesos"
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
@@ -27293,9 +27180,8 @@ msgid "Lama"
 msgstr "Lama"
 
 #: data/nation/tibetan.ruleset:28
-#, fuzzy
 msgid "Dharma King"
-msgstr "Director"
+msgstr "Rei Dharma"
 
 #: data/nation/tibetan.ruleset:29
 msgid "Dalai Lama"
@@ -27395,29 +27281,26 @@ msgstr ""
 #. TRANS: Morubixaba = Chief
 #: data/nation/tupi.ruleset:24
 msgid "Morubixaba"
-msgstr ""
+msgstr "Morubixaba"
 
 #. TRANS: Paje = Shaman
 #: data/nation/tupi.ruleset:26
-#, fuzzy
 msgid "Paje"
-msgstr "Palau"
+msgstr "Paje"
 
 #: data/nation/turkmen.ruleset:3
-#, fuzzy
 msgid "Turkmen"
-msgstr "Turc"
+msgstr "Turcman"
 
 #: data/nation/turkmen.ruleset:4
-#, fuzzy
 msgid "?plural:Turkmens"
-msgstr "Turcs"
+msgstr "Turcmans"
 
 #: data/nation/turkmen.ruleset:6
 msgid ""
 "Nation in Central Asia. Conquered by the Russian Empire in 19th century, "
 "Turkmenistan got independence from the Soviet Union in 1991."
-msgstr ""
+msgstr "Nació de l'Àsia Central. Conquerida per l'Imperi Rus el segle XIX, el Turkmenistan va obtenir la independència de la Unió Soviètica el 1991."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -27460,62 +27343,55 @@ msgid "Hetman"
 msgstr "Hetman"
 
 #: data/nation/un.ruleset:3
-#, fuzzy
 msgid "UN"
-msgstr "U"
+msgstr "NU"
 
 #: data/nation/un.ruleset:4
-#, fuzzy
 msgid "?plural:UN"
-msgstr "Samis"
+msgstr "NU"
 
 #: data/nation/un.ruleset:5
-#, fuzzy
 msgid "Fictional"
-msgstr "Situacional"
+msgstr "Fictici"
 
 #: data/nation/un.ruleset:6
 msgid "The United Nations believe in human rights and the protection of the weak."
-msgstr ""
+msgstr "Les Nacions Unides creuen en els drets humans i la protecció dels dèbils."
 
 #: data/nation/un.ruleset:23
-#, fuzzy
 msgid "?female:Chairperson"
-msgstr "Cap"
+msgstr "Presidenta"
 
 #: data/nation/un.ruleset:24
-#, fuzzy
 msgid "Secretary-General"
-msgstr "Governador-General"
+msgstr "Secretari General"
 
 #: data/nation/un.ruleset:24
 msgid "?female:Secretary-General"
-msgstr ""
+msgstr "Secretària General"
 
 #: data/nation/un.ruleset:25
 msgid "Representative"
-msgstr ""
+msgstr "Representant"
 
 #: data/nation/un.ruleset:25
-#, fuzzy
 msgid "?female:Representative"
-msgstr "Presidenta"
+msgstr "Representant"
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
-msgstr ""
+msgstr "Uruguaià"
 
 #: data/nation/uruguayan.ruleset:4
-#, fuzzy
 msgid "?plural:Uruguayans"
-msgstr "Búlgars"
+msgstr "Uruguaians"
 
 #: data/nation/uruguayan.ruleset:6
 msgid ""
 "Uruguay, a small South American country sometimes referred to as "
 "\"Switzerland of the Americas\" due to its once higly developed social "
 "welfare system."
-msgstr ""
+msgstr "Uruguai, un petit país sudamericà, a vegades anomenat \"La Suïssa de les Amèriques\" degut al seu sistema de benestar social que havia estat molt desenvolupat."
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
@@ -27559,7 +27435,6 @@ msgid ""
 msgstr "Nació de l'Àsia Central. L'Uzbekistan va ser el centre d'estats antics com ara Khoresm, el Khanat de Bukhara, el khanat de Kokand i d'altres. Conquerida per l'imperi rus el segle XIX, l'Uzbekistan va obtenir la independència de la Unió Soviètica el 1991."
 
 #: data/nation/venezuelan.ruleset:3
-#, fuzzy
 msgid "Venezuelan"
 msgstr "Veneçolà"
 
@@ -27587,7 +27462,6 @@ msgid "Terrateniente"
 msgstr "Terratinent"
 
 #: data/nation/venezuelan.ruleset:29
-#, fuzzy
 msgid "Terratenienta"
 msgstr "Terratinent"
 
