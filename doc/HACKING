@@ -54,7 +54,7 @@ call waits for packets or input on stdin(server-op commands).
 Server Autogame Testing
 ===========================================================================
 Code changes should always be tested before submission for inclusion
-into the CVS source tree. It is useful to run the client and server as
+into the svn source tree. It is useful to run the client and server as
 autogames to verify either a particular savegame no longer shows a
 fixed bug, or as a random sequence of games in a while loop overnight.
 
@@ -1031,7 +1031,7 @@ See CodingStyle in this directory.
 - When doing a "diff" for a patch, be sure to exclude unnecessary files
   by using the "-X" argument to "diff".  E.g.:
 
-    % diff -ruN -Xdiff_ignore freeciv_cvs freeciv >/tmp/fix-foo-bug-0.diff
+    % diff -ruN -Xdiff_ignore freeciv_svn freeciv >/tmp/fix-foo-bug-0.diff
 
   A suggested "diff_ignore" file is included in the Freeciv distribution.
 

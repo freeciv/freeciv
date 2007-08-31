@@ -122,7 +122,7 @@ Here's what to do:
      assertion oject->ref_count > 0' failed.
 
    ) please restart your client and append "-- --g-fatal-warnings" to
-   the command line. Unfortunately this only works with a current CVS
+   the command line. Unfortunately this only works with a current svn
    or with version 1.15 or better. You will get a core dump this
    way. Please include in your bug report the "stack trace" of this
    core dump.

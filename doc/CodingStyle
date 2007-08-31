@@ -223,7 +223,7 @@ int foo(struct city *pcity)
 - When doing a "diff" for a patch, be sure to exclude unnecessary files
   by using the "-X" argument to "diff".  E.g.:
 
-    % diff -ruN -Xdiff_ignore freeciv_cvs freeciv >/tmp/fix-foo-bug-0.diff
+    % diff -ruN -Xdiff_ignore freeciv_svn freeciv >/tmp/fix-foo-bug-0.diff
 
   A suggested "diff_ignore" file is included in the Freeciv distribution.
 

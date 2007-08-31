@@ -23,9 +23,9 @@ the Freeciv website in the tar format. You will either need to unpack them
 with eg "tar -xzvf stdsoundsX.tar.gz" or use WinZip (for Windows), and
 put the files in the data directory mentioned above.
 
-Note that the CVS version neither includes any sound files nor any
+Note that the svn version neither includes any sound files nor any
 sound spec file. You can get soundsets (sound files and a spec file)
-from <ftp://ftp.freeciv.org/freeciv/contrib/sounds/>. At this address
+from <ftp://ftp.freeciv.org/freeciv/contrib/audio/soundsets/>. At this address
 you find also extra sound files to change an existing soundset or
 create a new one.
 
