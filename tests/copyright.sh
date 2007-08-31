@@ -12,7 +12,11 @@ files=`find $1 -name "*.c" -o -name "*.h" \
        | grep -v mmx.h \
        | grep -v SDL_ttf \
        | grep -v xaw/canvas \
-       | grep -v pixcomm`
+       | grep -v pixcomm \
+       | grep -v dependencies \
+       | grep -v utility/md5\.. \
+       | grep -v client/gui-sdl/SDL_rotozoom\.. \
+       | grep -v client/gui-sdl/alphablit.c `
 
 echo "# No Freeciv Copyright:"
 echo "# Excludes: generated files, amiga, various 3rd party sources"
