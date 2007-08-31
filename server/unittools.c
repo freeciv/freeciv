@@ -2892,6 +2892,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 		     API_TYPE_TILE, pdesttile);
   wakeup_neighbor_sentries(punit);
   if (!unit_survive_autoattack(punit)) {
+    conn_list_do_unbuffer(pplayer->connections);
     return FALSE;
   }
   maybe_make_contact(pdesttile, unit_owner(punit));
