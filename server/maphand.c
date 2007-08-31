@@ -1700,15 +1700,7 @@ int get_ocean_size(Continent_id id)
 }
 
 /* Vision structure - see documentation in maphand.h */
-struct vision {
-  /* These values cannot be changed after initialization. */
-  struct player *player;
-  struct tile *tile;
-  bool can_reveal_tiles;
 
-  /* The radius of the vision source. */
-  int radius_sq[V_COUNT];
-};
 
 /****************************************************************************
   Create a new vision source.
@@ -1753,8 +1745,6 @@ void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 		   vision->radius_sq[vlayer], radius_sq,
 		   vision->can_reveal_tiles, vlayer);
   vision->radius_sq[vlayer] = radius_sq;
-
-  assert(vision->radius_sq[V_MAIN] >= vision->radius_sq[V_INVIS]);
 }
 
 /****************************************************************************
