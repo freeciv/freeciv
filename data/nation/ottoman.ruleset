@@ -4,7 +4,7 @@ name=_("Ottoman")
 plural=_("?plural:Ottomans")
 groups="Medieval", "Asian", "European"
 legend=_("In the beginning of the 14th century Osman, a leader of a\
- minor Turkic tribe in western Anatolia, conquered all his neigboring\
+ minor Turkic tribe in western Anatolia, conquered all his neighboring\
  tribes. A century later the Byzantine capital fell to\
  Turkic rule which gave the Ottoman empire access to Europe. The\
  Ottomans subsequently conquered large parts of south-eastern\
