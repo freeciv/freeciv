@@ -153,7 +153,17 @@ int get_ocean_size(Continent_id id);
   vision sources are active.  The same process applies when transferring
   a unit or city between players, etc.
 ****************************************************************************/
-struct vision;
+
+struct vision {
+  /* These values cannot be changed after initialization. */
+  struct player *player;
+  struct tile *tile;
+  bool can_reveal_tiles;
+
+  /* The radius of the vision source. */
+  int radius_sq[V_COUNT];
+};
+
 struct vision *vision_new(struct player *pplayer, struct tile *ptile);
 bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
 int vision_get_sight(const struct vision *vision, enum vision_layer vlayer);
@@ -161,5 +171,10 @@ void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 			 int radius_sq);
 void vision_clear_sight(struct vision *vision);
 void vision_free(struct vision *vision);
+
+#define ASSERT_VISION(v)                                                  \
+ do {                                                                     \
+   assert((v)->radius_sq[V_MAIN] >= (v)->radius_sq[V_INVIS]);             \
+ } while(FALSE);
 
 #endif  /* FC__MAPHAND_H */

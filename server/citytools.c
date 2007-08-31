@@ -772,7 +772,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   int old_trade_routes[NUM_TRADEROUTES];
   bv_imprs had_small_wonders;
   char old_city_name[MAX_LEN_NAME];
-  struct vision *old_vision;
+  struct vision *old_vision, *new_vision;
 
   assert(pgiver != ptaker);
 
@@ -807,12 +807,15 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
   old_vision = pcity->server.vision;
-  pcity->server.vision = vision_new(ptaker, pcity->tile);
-  vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
+  new_vision = vision_new(ptaker, pcity->tile);
+  pcity->server.vision = new_vision;
+  vision_reveal_tiles(new_vision, game.info.city_reveal_tiles);
   vision_layer_iterate(v) {
-    vision_change_sight(pcity->server.vision, v,
+    vision_change_sight(new_vision, v,
 			vision_get_sight(old_vision, v));
   } vision_layer_iterate_end;
+
+  ASSERT_VISION(new_vision);
 
   sz_strlcpy(old_city_name, pcity->name);
   if (game.info.allowed_city_names == 1
@@ -2179,4 +2182,6 @@ void city_refresh_vision(struct city *pcity)
 
   vision_change_sight(pcity->server.vision, V_MAIN, radius_sq);
   vision_change_sight(pcity->server.vision, V_INVIS, 2);
+
+  ASSERT_VISION(pcity->server.vision);
 }

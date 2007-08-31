@@ -2654,6 +2654,7 @@ void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   struct city *pcity;
   struct unit *ptransporter = NULL;
   struct vision *old_vision = punit->server.vision;
+  struct vision *new_vision;
     
   conn_list_do_buffer(pplayer->connections);
 
@@ -2674,12 +2675,15 @@ void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
       struct vision *old_vision = pcargo->server.vision;
+      struct vision *new_vision = vision_new(pcargo->owner, pdesttile);
 
-      pcargo->server.vision = vision_new(pcargo->owner, pdesttile);
+      pcargo->server.vision = new_vision;
       vision_layer_iterate(v) {
-	vision_change_sight(pcargo->server.vision, v,
+	vision_change_sight(new_vision, v,
 			    get_unit_vision_at(pcargo, pdesttile, v));
       } vision_layer_iterate_end;
+
+      ASSERT_VISION(new_vision);
 
       /* Silently free orders since they won't be applicable anymore. */
       free_unit_orders(pcargo);
@@ -2706,11 +2710,14 @@ void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
      move */
 
   /* Enhance vision if unit steps into a fortress */
-  punit->server.vision = vision_new(punit->owner, pdesttile);
+  new_vision = vision_new(punit->owner, pdesttile);
+  punit->server.vision = new_vision;
   vision_layer_iterate(v) {
-    vision_change_sight(punit->server.vision, v,
+    vision_change_sight(new_vision, v,
 			get_unit_vision_at(punit, pdesttile, v));
   } vision_layer_iterate_end;
+
+  ASSERT_VISION(new_vision);
 
   /* Claim ownership of fortress? */
   if (tile_has_base_flag_for_unit(pdesttile, unit_type(punit),
@@ -3199,12 +3206,16 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
 ****************************************************************************/
 void unit_refresh_vision(struct unit *punit)
 {
+  struct vision *uvision = punit->server.vision;
+
   vision_layer_iterate(v) {
     /* This requires two calls to get_unit_vision_at...it could be
      * optimized. */
-    vision_change_sight(punit->server.vision, v,
+    vision_change_sight(uvision, v,
 			get_unit_vision_at(punit, punit->tile, v));
   } vision_layer_iterate_end;
+
+  ASSERT_VISION(uvision);
 }
 
 /****************************************************************************
