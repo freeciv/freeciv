@@ -14,10 +14,10 @@ unstable distributions.
 
 Of course, maybe the source tree where you're reading this file is newer
 than any version available on your Debian CD or in the ftp mirrors -
-probably a CVS grab - or you want to build it yourself for some other
+probably a svn grab - or you want to build it yourself for some other
 reason (like applying unofficial patches). Ok, you can have your cake and
 eat it too; we made a script to easily build a .deb package directly out of
-the source tree - and get a nice version number if it's a CVS snapshot, too.
+the source tree - and get a nice version number if it's a svn snapshot, too.
 
 First you will need to check if you have the following packages installed:
 
@@ -55,7 +55,7 @@ $ export EMAIL="Your Name <address@host.com>"
 $ make distclean
 $ fakeroot build.debian
 $ su
-# dpkg -i ../freeciv_1.11.5+cvs20010419_i386.deb
+# dpkg -i ../freeciv_1.11.5+svn20010419_i386.deb
 # exit
 $
 
