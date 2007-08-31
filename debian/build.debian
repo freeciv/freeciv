@@ -43,12 +43,12 @@ lastversion="`dpkg-parsechangelog -ldebian/changelog.save |grep Version |cut -f 
 MAJOR_VERSION=`awk -F= '$1 == "MAJOR_VERSION" {print $2}' configure.in`
 MINOR_VERSION=`awk -F= '$1 == "MINOR_VERSION" {print $2}' configure.in`
 PATCH_VERSION=`awk -F= '$1 == "PATCH_VERSION" {print $2}' configure.in`
-snapversion="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-cvs`date +%Y%m%d`"
+snapversion="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-svn`date +%Y%m%d`"
 
 cat >debian/changelog <<EOF
 freeciv ($snapversion) experimental; urgency=low
 
-  * New upstream release (CVS snapshot)
+  * New upstream release (svn snapshot)
 
  -- $EMAIL  `822-date`
 
