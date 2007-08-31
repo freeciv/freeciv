@@ -87,7 +87,7 @@ view.  This display shows some useful information about the city.\n\
 The flag and background color indicate what civilization the city\n\
 belongs to (this will be useful when you meet other civilizations).\n\
 The top row of the bar also shows the name and size of the city, and\n\
-will show one or more starts to indicate if there are units in the\n\
+will show one or more stars to indicate if there are units in the\n\
 city.  The bottom row shows what the city is building, and how long it\n\
 will take; it also shows how long the city will take to grow to the\n\
 next largest size."))
@@ -227,7 +227,7 @@ already on the map view that shows which tiles are covered by your\n\
 existing cities.  Generally when building new cities you want to make\n\
 sure that all tiles are covered by at least one city, but after that\n\
 it is best that your cities overlap as little as possible.  Spreading\n\
-out cities properly gives each city access to more resrouces, allowing\n\
+out cities properly gives each city access to more resources, allowing\n\
 them to grow to larger sizes."))
     end
     settlersbuilt = settlersbuilt + 1
@@ -344,7 +344,7 @@ government options will give you some choice of whether your\n\
 civilization is to be a peaceful trading nation or a conquering\n\
 juggernaut.  Each has advantages.\n\
 \n\
-For now, you probably want to switch staight into Republic.  In the\n\
+For now, you probably want to switch straight into Republic.  In the\n\
 Government menu, go to the Change Government submenu and choose\n\
 Republic.  Yes you want a revolution!  Changing governments means\n\
 going through a few turns of anarchy, so it is not without cost.\n\
