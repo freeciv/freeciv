@@ -3607,6 +3607,8 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 **************************************************************************/
 static bool sanity_check_ruleset_data(void)
 {
+  int num_utypes;
+
   /* Check that all players can have their initial techs */
   nations_iterate(pnation) {
     int i;
@@ -3659,6 +3661,23 @@ static bool sanity_check_ruleset_data(void)
       }
     }
   } players_iterate_end;
+
+  /* Check against unit upgrade loops */
+  num_utypes = game.control.num_unit_types;
+  unit_type_iterate(putype) {
+    int chain_length = 0;
+    struct unit_type *upgraded = putype;
+
+    while(upgraded != NULL) {
+      upgraded = upgraded->obsoleted_by;
+      chain_length++;
+      if (chain_length > num_utypes) {
+        freelog(LOG_FATAL, "There seems to be obsoleted_by loop in update "
+                "chain that starts from %s", utype_rule_name(putype));
+        exit(EXIT_FAILURE);
+      }
+    }
+  } unit_type_iterate_end;
 
   return TRUE;
 }
