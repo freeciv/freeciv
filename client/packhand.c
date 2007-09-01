@@ -2118,6 +2118,12 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   nations_alloc(packet->nation_count);
   city_styles_alloc(packet->styles_count);
 
+  /* After nation ruleset free/alloc, nation->player pointers are NULL.
+   * We have to initialize player->nation too, to keep state consistent. */ 
+  players_iterate(pplayer) {
+    pplayer->nation = NO_NATION_SELECTED;
+  } players_iterate_end;
+
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */
     if (strcmp(packet->prefered_tileset, tileset_get_name(tileset))) {
