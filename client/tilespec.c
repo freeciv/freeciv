@@ -438,6 +438,13 @@ struct tileset *tileset;
 
 int focus_unit_state = 0;
 
+/****************************************************************************
+  Hash callback for freeing key
+****************************************************************************/
+static void sprite_hash_free_key(void *key)
+{
+  free(key);
+}
 
 /****************************************************************************
   Return the name of the given tileset.
@@ -1652,7 +1659,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   }
 
   assert(t->sprite_hash == NULL);
-  t->sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
+  t->sprite_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
+                                 sprite_hash_free_key, NULL);
   for (i = 0; i < num_spec_files; i++) {
     struct specfile *sf = fc_malloc(sizeof(*sf));
     char *dname;
@@ -4641,7 +4649,6 @@ void tileset_free_tiles(struct tileset *t)
       const char *key = hash_key_by_number(t->sprite_hash, 0);
 
       hash_delete_entry(t->sprite_hash, key);
-      free((void *) key);
     }
 
     hash_free(t->sprite_hash);
