@@ -54,7 +54,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Chain of similar flags: Previously "serbian"
+; Chain of similar flags:
 conflicts_with="slovenian", "slovakian",
 ; Transitional state
  "soviet"

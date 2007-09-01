@@ -10,8 +10,10 @@ leader=
  "Pierre Trudeau",
  "John A. MacDonald",
  "John Diefenbaker",
- "Mackenzie King"
-leader_sex="Male", "Male", "Male", "Male"
+ "Mackenzie King",
+ "Wilfrid Laurier",
+ "Robert Borden"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="canada"
 flag_alt = "united_kingdom"
 city_style = "Celtic"

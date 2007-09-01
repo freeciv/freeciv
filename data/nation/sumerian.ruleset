@@ -7,29 +7,63 @@ legend=_("Sumer controlled southern Mesopotamia until the rise of\
  Babylonia. Tablets of Sumerian writing some 5500 years old have been\
  found, pre-dating every other writing in history.")
 leader=
+ "Shulgi",
  "Gilgamesh",
+ "Ur-Nina",
  "Lagislazuli",
+ "Enmerkar",
  "Urukagina",
+ "Etana",
  "Urnammu",
- "Ibissin"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+ "Ibissin",
+ "Nin-Kasalsi"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male"
 flag = "sumeria"
 flag_alt = "-"
 city_style = "Babylonian"
 
-ruler_titles = { "government",	"male_title",	"female_title"
-		 "Monarchy",	_("Lugal"),	 _("Lugal")
-		 "Communism",	_("Ensi"),       _("Ensi")
-	       } 
+ruler_titles = { "government", "male_title", "female_title"
+		 "Despotism",  _("Nin"),     _("Nin")
+                 "Monarchy",   _("Lugal"),   _("Lugal")
+                 "Communism",  _("Ensi"),    _("Ensi")
+		 "Fundamentalism", _("Sanga"), _("Sanga")
+               }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="egyptian", "ethiopian"
+civilwar_nations="assyrian", "egyptian"
 
 cities =
-  "Uruk", "Eridu", "Ur", "Lagash", "Nippur", "Umma",
-  "Larsa", "Kish", "Adab", "Susa", "Mari", "Hit", 
-  "Babylon", "Dilmun", "Eschnunna", "Der", "Sippur",
-  "Karkemish", "Ebla", "Arbel", "Larsa", "Cyprus"
+ "Unug", ; Uruk
+ "Eridug", ; Eridu
+ "Ur",
+ "Sirpurla", ; Lagash
+ "Nibru", ; Nippur
+ "Umma",
+ "Larsa",
+ "Kish",
+ "Adab",
+ "Hit",
+ "Agade", ; Akkad
+ "Borsippa",
+ "Isin",
+ "Shuruppak",
+ "Girsu",
+ "Bad-tibira",
+ "Sippar",
+ "Kutha",
+ "Dilbat",
+ "Marad",
+ "Larsa",
+ "Kisurra",
+ "Zabala",
+ "Kisiga",
+ "Awan",
+ "Hamazi",
+ "Eshnunna",
+ "Akshak",
+ "Zimbir",
+ "Babylon"

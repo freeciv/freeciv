@@ -42,9 +42,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Chain of similar flags
-conflicts_with="russian", "slovenian", "slovakian"
-civilwar_nations = "slovenian"
+civilwar_nations = "slovenian", "croatian", "bosnia"
 
 cities =
  "Beograd",

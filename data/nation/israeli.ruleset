@@ -11,8 +11,9 @@ leader=
  "David",
  "David Ben-Gurion",
  "Ze'ev Zabotinsky",
- "Golda Meir"
-leader_sex="Male", "Male", "Male", "Male", "Female"
+ "Golda Meir", 
+ "Moshe Dayan"
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
 flag="israel"
 flag_alt = "-"
 city_style = "Babylonian"
