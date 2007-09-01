@@ -661,6 +661,12 @@ void send_attribute_block(const struct player *pplayer,
 	   packet.chunk_length);
     bytes_left -= packet.chunk_length;
 
+    if (packet.chunk_length < ATTRIBUTE_CHUNK_SIZE) {
+      /* Last chunk is not full. Make sure that delta does
+       * not use random data. */
+      memset(packet.data, 0, ATTRIBUTE_CHUNK_SIZE - packet.chunk_length);
+    }
+
     send_packet_player_attribute_chunk(pconn, &packet);
   }
 
