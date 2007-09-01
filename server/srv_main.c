@@ -674,6 +674,13 @@ static void begin_phase(bool is_new_phase)
   game.phase_timer = renew_timer_start(game.phase_timer,
 				       TIMER_USER, TIMER_ACTIVE);
   send_game_info(NULL);
+
+  if (game.info.num_phases == 1) {
+    /* All players in the same phase.
+     * This means that AI has been handled above, and server
+     * will be responsive again */
+    lsend_packet_begin_turn(game.est_connections);
+  }
 }
 
 /**************************************************************************
@@ -760,12 +767,14 @@ static void end_turn(void)
   freelog(LOG_DEBUG, "Endturn");
 
   /* Hack: because observer players never get an end-phase packet we send
-   * one here.  It would be better perhaps to have a full end-turn packet. */
+   * one here. */
   conn_list_iterate(game.est_connections, pconn) {
     if (!pconn->player) {
       send_packet_end_phase(pconn);
     }
   } conn_list_iterate_end;
+
+  lsend_packet_end_turn(game.est_connections);
 
   map_calculate_borders();
 
@@ -1716,6 +1725,14 @@ static void main_loop(void)
      * loading a game we don't want to do these actions (like AI unit
      * movement and AI diplomacy). */
     begin_turn(is_new_turn);
+
+    if (game.info.num_phases != 1) {
+      /* We allow everyone to begin adjusting cities and such
+       * from the beginning of the turn.
+       * With simultaneous movement we send begin_turn packet in
+       * begin_phase() only after AI players have finished their actions. */
+      lsend_packet_begin_turn(game.est_connections);
+    }
 
     for (; game.info.phase < game.info.num_phases; game.info.phase++) {
       freelog(LOG_DEBUG, "Starting phase %d/%d.", game.info.phase,

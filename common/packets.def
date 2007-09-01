@@ -251,7 +251,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 131.
+The last used packet number is 138.
 ****************************************************/
 
 
@@ -1011,6 +1011,14 @@ end
 PACKET_NEW_YEAR=92;sc,lsend
   YEAR year;
   TURN turn;
+end
+
+# Server has finished processing turn change
+PACKET_BEGIN_TURN=137;sc,lsend
+end
+
+# Server starts processing turn change
+PACKET_END_TURN=138;sc,lsend
 end
 
 # Freeze reports and agents

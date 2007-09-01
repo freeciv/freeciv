@@ -890,7 +890,8 @@ void handle_mouse_cursor(struct tile *ptile)
     return;
   }
 
-  if (turn_done_sent || waiting_for_end_turn) {
+  if (is_server_busy()) {
+    /* Server will not accept any commands. */
     update_mouse_cursor(CURSOR_WAIT);
     return;
   }

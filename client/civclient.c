@@ -103,6 +103,11 @@ bool waiting_for_end_turn = FALSE;
  */
 bool turn_done_sent = FALSE;
 
+/*
+ * TRUE between receiving PACKET_END_TURN and PACKET_BEGIN_TURN
+ */
+static bool server_busy = FALSE;
+
 /**************************************************************************
   Convert a text string from the internal to the data encoding, when it
   is written to the network.
@@ -761,4 +766,27 @@ bool can_client_change_view(void)
   return ((game.player_ptr || client_is_observer())
 	  && (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	      || get_client_state() == CLIENT_GAME_OVER_STATE));
+}
+
+/**************************************************************************
+  Sets if server is considered busy. Currently it is considered busy
+  between turns.
+**************************************************************************/
+void set_server_busy(bool busy)
+{
+  if (busy != server_busy) {
+    /* server_busy value will change */
+    server_busy = busy;
+
+    /* This may mean that we have to change from or to wait cursor */
+    handle_mouse_cursor(NULL);
+  }
+}
+
+/**************************************************************************
+  Returns if server is considered busy at the moment
+**************************************************************************/
+bool is_server_busy(void)
+{
+  return server_busy;
 }

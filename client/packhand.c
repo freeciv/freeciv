@@ -183,7 +183,8 @@ void handle_server_join_reply(bool you_can_join, char *message,
     aconnection.id = conn_id;
     agents_game_joined();
     update_menus();
-    
+
+    set_server_busy(FALSE);
     
     if (get_client_page() == PAGE_MAIN
 	|| get_client_page() == PAGE_NETWORK
@@ -389,8 +390,13 @@ void handle_game_state(int value)
     update_unit_info_label(NULL); 
   }
 
-  if (changed && can_client_change_view()) {
-    update_map_canvas_visible();
+  if (changed) {
+    if (can_client_change_view()) {
+      update_map_canvas_visible();
+    }
+
+    /* If turn was going to change, that is now aborted. */
+    set_server_busy(FALSE);
   }
 }
 
@@ -915,6 +921,30 @@ void handle_start_phase(int phase)
   }
 
   update_info_label();
+}
+
+/**************************************************************************
+  Called when begin-turn packet is received. Server has finished processing
+  turn change.
+**************************************************************************/
+void handle_begin_turn(void)
+{
+  freelog(LOG_DEBUG, "handle_begin_turn()");
+
+  /* Possibly replace wait cursor with something else */
+  set_server_busy(FALSE);
+}
+
+/**************************************************************************
+  Called when end-turn packet is received. Server starts processing turn
+  change.
+**************************************************************************/
+void handle_end_turn(void)
+{
+  freelog(LOG_DEBUG, "handle_end_turn()");
+
+  /* Make sure wait cursor is in use */
+  set_server_busy(TRUE);
 }
 
 /**************************************************************************
