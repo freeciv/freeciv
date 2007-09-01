@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-29 17:35+0200\n"
-"PO-Revision-Date: 2007-08-30 19:41+0200\n"
+"PO-Revision-Date: 2007-09-01 19:35+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -986,61 +986,55 @@ msgstr "Bé"
 
 #: utility/ioz.c:506
 msgid "Run ok"
-msgstr ""
+msgstr "Execució correcta"
 
 #: utility/ioz.c:509
 msgid "Flush ok"
-msgstr ""
+msgstr "Buidat correcte"
 
 #: utility/ioz.c:512
-#, fuzzy
 msgid "Finish ok"
-msgstr "Finès"
+msgstr "Final correcte"
 
 #: utility/ioz.c:515
-#, fuzzy
 msgid "Stream end"
-msgstr "Motor de Vapor"
+msgstr "Final d'entrada"
 
 #: utility/ioz.c:518
-#, fuzzy
 msgid "Config error"
-msgstr "Configurar"
+msgstr "Error de configuració"
 
 #: utility/ioz.c:521
-#, fuzzy
 msgid "Sequence error"
-msgstr "Informe de ciència"
+msgstr "Error de seqüència"
 
 #: utility/ioz.c:524
 msgid "Parameter error"
-msgstr ""
+msgstr "Error de paràmetre"
 
 #: utility/ioz.c:527
-#, fuzzy
 msgid "Mem error"
-msgstr "Emperador"
+msgstr "Error de memòria"
 
 #: utility/ioz.c:530
 msgid "Data error"
-msgstr ""
+msgstr "Error de dades"
 
 #: utility/ioz.c:533
 msgid "Not bzip2 file"
-msgstr ""
+msgstr "Fitxer no bzip2"
 
 #: utility/ioz.c:536
-#, fuzzy
 msgid "IO error"
-msgstr "Territori nostre"
+msgstr "Error d'E/S"
 
 #: utility/ioz.c:539
 msgid "Unexpected EOF"
-msgstr ""
+msgstr "Final de fitxer inesperat"
 
 #: utility/ioz.c:542
 msgid "Output buffer full"
-msgstr ""
+msgstr "Buffer de sortida ple"
 
 #: utility/ioz.c:549
 #, c-format
@@ -1050,7 +1044,7 @@ msgstr "Bz2: \"%s\" (%d)"
 #: utility/ioz.c:552
 #, c-format
 msgid "Bz2 error %d"
-msgstr ""
+msgstr "Error de Bz2 %d"
 
 #: utility/log.c:84
 #, c-format
@@ -2081,7 +2075,7 @@ msgstr "Contaminació a prop de %s."
 #: server/cityturn.c:1552
 #, c-format
 msgid "Wild celebrations in your honour in %s."
-msgstr ""
+msgstr "Festes desenfrenades en honor teu a %s"
 
 #: server/cityturn.c:1558
 #, c-format
@@ -2119,7 +2113,7 @@ msgstr ""
 #: server/cityturn.c:1653
 #, c-format
 msgid "%s is disbanded into %s."
-msgstr "%s desmantellada a %s."
+msgstr "%s desmantellada en %s."
 
 #: server/civserver.c:78
 msgid "Setting timeout to 0. Autogame will stop.\n"
@@ -3584,11 +3578,11 @@ msgstr "No s'ha pogut canviar la mida de la ciutat."
 
 #: server/edithand.c:434
 msgid "Cannot remove knowledge about own city."
-msgstr ""
+msgstr "No es pot anul·lar el coneixement d'una ciutat pròpia"
 
 #: server/edithand.c:441
 msgid "Cannot remove knowledge about own unit."
-msgstr ""
+msgstr "No es pot anul·lar el coneixement d'una unitat pròpia"
 
 #: server/gamehand.c:168
 #, c-format
@@ -3596,9 +3590,9 @@ msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr "Les unitats marines d'inici encara no estan suportades. Ningú no obté %s."
 
 #: server/gamehand.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "No units placed for %s!"
-msgstr "Cap unitat seleccionada."
+msgstr "Cap unitat situada per %s!"
 
 #: server/gamehand.c:359 client/text.c:621 client/gui-mui/mapview.c:192
 #, c-format
@@ -5390,15 +5384,12 @@ msgid "Savegame compression level"
 msgstr "Nivell de compressió dels jocs guardats"
 
 #: server/settings.c:975
-#, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format) or "
 "bzip2. Larger values will give better compression but take longer."
 msgstr ""
-"Si no és zero, els jocs que es guarden es comprimeixen usant zlib (format "
-"gzip). Com més gran sigui aquest valor més es comprimiran però trigaran més. "
-"Si el valor màxim és zero vol dir que el servidor no es va compilar perquè "
-"utilitzés zlib."
+"Si no és zero, els jocs que es desen es comprimeixen usant zlib (format "
+"gzip) o bzip2. Com més gran sigui aquest valor, més es comprimiran però trigaran més."
 
 #: server/settings.c:984
 msgid "Savegame compression algorithm"
@@ -5412,17 +5403,22 @@ msgid ""
 " 2 - bzip2\n"
 "Not all servers support all compression methods."
 msgstr ""
+"Llibreria de compressió a fer servir per partides desades.\n"
+" 0 - cap\n"
+" 1 - zlib (format gzip)\n"
+" 2 - bzip2\n"
+"No tots els servidors suporten tots els mètodes de compressió."
 
 #: server/settings.c:1000
 msgid "Auto-save name prefix"
-msgstr "Prefix dels noms de guardar automàtic"
+msgstr "Prefix dels noms de desar automàtic"
 
 #: server/settings.c:1001
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\". This "
 "setting sets the <prefix> part."
 msgstr ""
-"Els jocs guardats automàticament tindran el nom \"<prefix><any>.sav\".\n"
+"Els jocs desats automàticament tindran el nom \"<prefix><any>.sav\".\n"
 "Aquest paràmetre fixa la part <prefix>."
 
 #: server/settings.c:1008
@@ -6221,13 +6217,12 @@ msgid "You voted against \"%s\""
 msgstr "Has votat en contra de \"%s\""
 
 #: server/stdinhand.c:2239
-#, fuzzy
 msgid ""
 "Undefined arguments. Usage: debug < diplomacy <player> | city <x> <y> | "
 "units <x> <y> | unit <id> | tech <player> | timing | info | ferries >."
 msgstr ""
 "Arguments no definits. Ús: debug <diplomacy <jugador> | city <x> <y> | units "
-"<x> <y> | unit <id> | tech <jugador> | timing | info>."
+"<x> <y> | unit <id> | tech <jugador> | timing | info | ferries >."
 
 #: server/stdinhand.c:2246
 msgid "Can only use this command once game has begun."
@@ -6281,13 +6276,12 @@ msgid "%s's %s debugged."
 msgstr "Depurat %2$s de %1$s."
 
 #: server/stdinhand.c:2388
-#, fuzzy
 msgid "Ferry system is no longer in debug mode."
-msgstr "Ja no es depura a %2$s de %1$s"
+msgstr "Ja no es depura el sistema de ferry."
 
 #: server/stdinhand.c:2392
 msgid "Ferry system in debug mode."
-msgstr ""
+msgstr "Depurant el sistema de ferry."
 
 #: server/stdinhand.c:2403
 msgid "Value 2 must be integer."
@@ -7025,9 +7019,9 @@ msgid "No diplomat action possible."
 msgstr "No hi ha cap acció diplomàtica possible."
 
 #: server/unithand.c:1095
-#, fuzzy, c-format
+#, c-format
 msgid "Unit cannot perform diplomatic action from %s."
-msgstr "* Pot dur a terme accions diplomàtiques.\n"
+msgstr "La unitat no pot dur a terme l'acció diplomàtic des de %s."
 
 #: server/unithand.c:1113
 #, c-format
@@ -8443,7 +8437,7 @@ msgstr "* Pot ocupar ciutats enemigues buides.\n"
 #: client/helpdata.c:780
 #, c-format
 msgid "  * Speed is not affected by terrain.\n"
-msgstr ""
+msgstr "  * El terreny no afecta la seva velocitat.\n"
 
 #: client/helpdata.c:783
 #, c-format
@@ -8451,9 +8445,9 @@ msgid "  * Slowed down while damaged\n"
 msgstr "  * S'alenteix quan és ferida\n"
 
 #: client/helpdata.c:787
-#, fuzzy, c-format
+#, c-format
 msgid "  * Gets used up in making an attack.\n"
-msgstr "* Un míssil: es gasta en fer un atac.\n"
+msgstr "* Es consumeix en fer un atac.\n"
 
 #: client/helpdata.c:791
 #, c-format
@@ -8476,9 +8470,9 @@ msgid "* May not be built in cities.\n"
 msgstr "* No es pot construir en ciutats.\n"
 
 #: client/helpdata.c:812
-#, fuzzy, c-format
+#, c-format
 msgid "* Only barbarians may build this.\n"
-msgstr "Només els paracaigudistes poden fer això."
+msgstr "* Només els bàrbars ho poden construir.\n"
 
 #: client/helpdata.c:815
 #, c-format
@@ -8501,16 +8495,16 @@ msgid "* Requires %d population to build.\n"
 msgstr "* Requereix població %d per construir-se.\n"
 
 #: client/helpdata.c:831
-#, fuzzy, c-format
+#, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
-msgstr[0] "* Pot transportar i carregar combustible a %d unitat aèria.\n"
-msgstr[1] "* Pot transportar i carregar combustible a %d unitats aèries.\n"
+msgstr[0] "* Pot transportar i carregar combustible a %d unitat de les següents classes:\n"
+msgstr[1] "* Pot transportar i carregar combustible a %d unitats de les següents classes:\n"
 
 #: client/helpdata.c:836
-#, fuzzy, c-format
+#, c-format
 msgid "  * %s units\n"
-msgstr "%s unitats"
+msgstr "  * Unitats %s\n"
 
 #. TRANS: "Manhattan" distance is the distance along gridlines, with
 #. * no diagonals allowed.
@@ -8521,7 +8515,7 @@ msgid ""
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
 msgstr ""
 "* Pot establir rutes comercials (ha de viatjar fins a la ciutat objectiu i "
-"ha d'estar almenys a 9 caselles (en distància Manhattan) des de la ciutat "
+"ha d'estar almenys a 9 caselles (seguint la graella, sense diagonals) des de la ciutat "
 "original d'aquesta unitat).\n"
 
 #: client/helpdata.c:851
@@ -8632,9 +8626,9 @@ msgid "* May not be bribed.\n"
 msgstr "* No pot ser subornat.\n"
 
 #: client/helpdata.c:928
-#, fuzzy, c-format
+#, c-format
 msgid "* Can attack otherwise unreachable enemy units.\n"
-msgstr "* Pot atacar unitats aèries enemigues.\n"
+msgstr "* Pot atacar unitats enemigues que altrament serien inaccessibles.\n"
 
 #: client/helpdata.c:931
 #, c-format
@@ -8671,19 +8665,19 @@ msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Compta com a una unitat 'muntada' contra certs defensors.\n"
 
 #: client/helpdata.c:958
-#, fuzzy, c-format
+#, c-format
 msgid "* Counts as 'helicopter' against certain attackers.\n"
-msgstr "* Compta com a una unitat 'muntada' contra certs defensors.\n"
+msgstr "* Compta com a 'helicòpter' contra certs atacants.\n"
 
 #: client/helpdata.c:962
 #, c-format
 msgid "* Very good at attacking 'helicopter' units.\n"
-msgstr ""
+msgstr "* Molt bo per atacar unitats 'helicòpter'.\n"
 
 #: client/helpdata.c:966
-#, fuzzy, c-format
+#, c-format
 msgid "* Very bad at attacking AEGIS units.\n"
-msgstr "Les unitats d'atac millors"
+msgstr "* Molt dolent per atacar unitats AEGIS.\n"
 
 #: client/helpdata.c:971
 #, c-format
@@ -9135,9 +9129,8 @@ msgid "Network"
 msgstr "Xarxa"
 
 #: client/options.c:95
-#, fuzzy
 msgid "Font"
-msgstr "Quantitat"
+msgstr "Font"
 
 #: client/options.c:100
 msgid "Login name"
@@ -9807,22 +9800,21 @@ msgstr "Ciutat: %s (%s, %s)"
 
 #: client/text.c:180 client/gui-sdl/mapview.c:798 client/gui-sdl/mapview.c:804
 #: client/gui-sdl/mapview.c:810
-#, fuzzy
 msgid "?blistmore:, "
 msgstr ", "
 
 #: client/text.c:185 client/gui-sdl/mapview.c:794
 msgid "?blistbegin: with "
-msgstr ""
+msgstr " amb "
 
 #. TRANS: This does not appear if there is only one building in the list
 #: client/text.c:195
 msgid "?blistlast: and "
-msgstr ""
+msgstr "i"
 
 #: client/text.c:198 client/gui-sdl/mapview.c:817
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:208
@@ -10280,27 +10272,21 @@ msgid "No usable default tileset found, aborting!"
 msgstr "No s'ha trobat cap joc de caselles usable, s'avorta l'execució!"
 
 #: client/tilespec.c:899
-#, fuzzy, c-format
+#, c-format
 msgid "Loading tileset \"%s\"."
-msgstr "S'està carregant el conjunt de regles"
+msgstr "S'està carregant el joc de caselles \"%s\"."
 
 #: client/tilespec.c:1331
-#, fuzzy
 msgid "Client does not support isometric tilesets."
-msgstr ""
-"EL client no suporta jocs de caselles isomètrics. Per tant s'usarà el joc de "
-"caselles per defecte."
+msgstr "EL client no suporta jocs de caselles isomètrics."
 
 #: client/tilespec.c:1332 client/tilespec.c:1341
 msgid "Using default tileset instead."
-msgstr ""
+msgstr "Es farà servir el joc de caselles per defecte."
 
 #: client/tilespec.c:1340
-#, fuzzy
 msgid "Client does not support overhead view tilesets."
-msgstr ""
-"EL client no suporta jocs de caselles zenitals. Per tant s'usarà el joc de "
-"caselles per defecte."
+msgstr "EL client no suporta jocs de caselles zenitals."
 
 #: client/tilespec.c:4171
 #, c-format
@@ -10610,13 +10596,12 @@ msgid "clear all"
 msgstr "Totes llestes"
 
 #: client/gui-gtk-2.0/editdlg.c:76
-#, fuzzy
 msgid "Known"
-msgstr "Desconegut"
+msgstr "Conegut"
 
 #: client/gui-gtk-2.0/editdlg.c:78
 msgid "Toggle"
-msgstr ""
+msgstr "Commutar"
 
 #: client/gui-gtk-2.0/editdlg.c:82
 #, fuzzy
@@ -10624,9 +10609,8 @@ msgid "Paint"
 msgstr "Planures"
 
 #: client/gui-gtk-2.0/editdlg.c:82 client/gui-gtk-2.0/editdlg.c:530
-#, fuzzy
 msgid "Player"
-msgstr "Jugadors"
+msgstr "Jugador"
 
 #: client/gui-gtk-2.0/editdlg.c:82 client/gui-win32/cma_fe.c:470
 #: client/gui-win32/wldlg.c:435 data/Freeciv.in:2016 data/Freeciv.in:2165
@@ -10634,9 +10618,8 @@ msgid "Delete"
 msgstr "Esborrar"
 
 #: client/gui-gtk-2.0/editdlg.c:368
-#, fuzzy
 msgid "Activity"
-msgstr "Activitat: %s"
+msgstr "Activitat"
 
 #: client/gui-gtk-2.0/editdlg.c:369
 #, fuzzy
@@ -11673,9 +11656,9 @@ msgstr "No O_bservar"
 
 #. TRANS: "<Novice AI>"
 #: client/gui-gtk-2.0/gui_main.c:1591
-#, fuzzy, c-format
+#, c-format
 msgid "<%s AI>"
-msgstr "<IA Fàcil>"
+msgstr "<IA %s>"
 
 #: client/gui-gtk-2.0/gui_main.c:1600 client/gui-win32/dialogs.c:595
 msgid "Random"
@@ -12458,20 +12441,19 @@ msgstr "_Editar"
 
 #: client/gui-gtk-2.0/menu.c:955
 msgid "_Editing Mode"
-msgstr ""
+msgstr "_Mode d'Edició"
 
 #: client/gui-gtk-2.0/menu.c:957
-#, fuzzy
 msgid "_Tools"
-msgstr "C_ontrols"
+msgstr "_Eines"
 
 #: client/gui-gtk-2.0/menu.c:959
 msgid "Recalculate _Borders"
-msgstr ""
+msgstr "Recalcular _Fronteres"
 
 #: client/gui-gtk-2.0/menu.c:961
 msgid "Regenerate _Water"
-msgstr ""
+msgstr "Regenerar _Aigua"
 
 #: client/gui-gtk-2.0/menu.c:965 client/gui-mui/citydlg.c:1182
 #: client/gui-win32/menu.c:413
@@ -15809,16 +15791,16 @@ msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv és software lliure i està permés distribuir-ne copies\n"
+"Freeciv és programari lliure i està permès de distribuir-ne còpies\n"
 "sota certes condicions;"
 
 #: client/gui-sdl/pages.c:301
 msgid "See the \"Copying\" item on the Help menu."
-msgstr "Consulta el tema \"Llicència\" en el menúº d'ajuda."
+msgstr "Consulta el tema \"Llicència\" en el menú d'ajuda."
 
 #: client/gui-sdl/pages.c:303
 msgid "Now.. Go give'em hell!"
-msgstr "Ara.. Dona'ls canya!!!"
+msgstr "Ara.. Desperta ferro!!!"
 
 #: client/gui-sdl/plrdlg.c:602
 msgid "Nations"
@@ -21935,7 +21917,7 @@ msgstr "Oceà"
 #: data/default/terrain.ruleset:338 data/civ2/terrain.ruleset:326
 #: data/civ1/terrain.ruleset:318
 msgid "?ocean:Shelf"
-msgstr ""
+msgstr "Plataforma"
 
 #: data/default/terrain.ruleset:376 data/civ2/terrain.ruleset:361
 #: data/civ1/terrain.ruleset:353
@@ -21945,18 +21927,17 @@ msgstr ""
 #: data/default/terrain.ruleset:414 data/civ2/terrain.ruleset:396
 #: data/civ1/terrain.ruleset:388
 msgid "?ocean:Abyss"
-msgstr ""
+msgstr "Regió Abissal"
 
 #: data/default/terrain.ruleset:452 data/civ2/terrain.ruleset:431
 #: data/civ1/terrain.ruleset:423
 msgid "Oceanic Ridge"
-msgstr ""
+msgstr "Serralada Submarina"
 
 #: data/default/terrain.ruleset:490 data/civ2/terrain.ruleset:466
 #: data/civ1/terrain.ruleset:458
-#, fuzzy
 msgid "Oceanic Vent"
-msgstr "Magnífics"
+msgstr "Volcà submarí"
 
 #: data/default/terrain.ruleset:528 data/civ2/terrain.ruleset:501
 msgid "Glacier"
@@ -23041,12 +23022,11 @@ msgstr "Nipsa"
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
-msgstr ""
+msgstr "Akwe"
 
 #: data/nation/akwe.ruleset:4
-#, fuzzy
 msgid "?plural:Akwe"
-msgstr "Asteques"
+msgstr "Akwes"
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -23057,16 +23037,15 @@ msgid ""
 "they are ruled by councils of elders who elect a chief and have likely lived "
 "in large ring villages since about the 9th century CE. They are Ge speakers "
 "who farm maize, manioc, sweet potatoes and yams."
-msgstr ""
+msgstr "Els akwe es coneixen també per tres diferents noms de tribu en portuguès, Xavante, Xakriaba i Xerente. Tenen un sistema de clans patrilineal i viuen als estats brasilers del Mato Grosso i Tocantins, encara que els brasilers els han forçat a traslladar-se diverses vegades al llarg de la seva història. Tradicionalment, són dirigits per consells d'ancians que trien un cap i probablement han viscut en grans pobles en forma d'anell des del segle IX d.C., aproximadament. Parlen Ge i conreen blat de moro, iuca, moniatos i nyams."
 
 #: data/nation/akwe.ruleset:23
-#, fuzzy
 msgid "He'a"
-msgstr "Hetman"
+msgstr "He'a"
 
 #: data/nation/akwe.ruleset:24 data/nation/srivijaya.ruleset:22
 msgid "Senapati"
-msgstr ""
+msgstr "Senapati"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
@@ -23106,18 +23085,16 @@ msgid "Speaker"
 msgstr "Portaveu"
 
 #: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
-#, fuzzy
 msgid "?female:Speaker"
-msgstr "Usurpadora"
+msgstr "Portaveu"
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
 msgid "Reverend"
 msgstr "Reverend"
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
-#, fuzzy
 msgid "?female:Reverend"
-msgstr "Presidenta"
+msgstr "Reverenda"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
@@ -23276,40 +23253,33 @@ msgid ""
 msgstr "Després del col·lapse de la civilització Tiwanaku als Andes, els seus hereus es van reorganitzar en un estol de regnes Aymara culturalment pròxims que van desenvolupar-se al voltant del llac Titicaca fins que van ser conquerits pels Inques."
 
 #: data/nation/aymara.ruleset:30
-#, fuzzy
 msgid "Jiliri"
-msgstr "Milícia"
+msgstr "Jiliri"
 
 #: data/nation/aymara.ruleset:31 data/nation/aymara.ruleset:32
-#, fuzzy
 msgid "Mallku"
-msgstr "Malka"
+msgstr "Mallku"
 
 #: data/nation/aymara.ruleset:31 data/nation/aymara.ruleset:32
-#, fuzzy
 msgid "Ttalla"
-msgstr "Total"
+msgstr "Ttalla"
 
 #: data/nation/aymara.ruleset:33
-#, fuzzy
 msgid "Willka"
-msgstr "Saquejar"
+msgstr "Willka"
 
 #: data/nation/aymara.ruleset:34
-#, fuzzy
 msgid "Tata"
-msgstr "Total"
+msgstr "Tata"
 
 #. TRANS: Mama = Priest
 #: data/nation/aymara.ruleset:34 data/nation/tairona.ruleset:30
-#, fuzzy
 msgid "Mama"
-msgstr "Lama"
+msgstr "Mama"
 
 #: data/nation/aymara.ruleset:35
-#, fuzzy
 msgid "Markachiri"
-msgstr "Març"
+msgstr "Markachiri"
 
 #: data/nation/azeri.ruleset:3
 msgid "Azeri"
@@ -23352,9 +23322,8 @@ msgstr "Khan"
 #: data/nation/azeri.ruleset:40 data/nation/kazakh.ruleset:26
 #: data/nation/kyrgyz.ruleset:25 data/nation/tajik.ruleset:23
 #: data/nation/turkmen.ruleset:22 data/nation/uzbek.ruleset:27
-#, fuzzy
 msgid "Khatan"
-msgstr "Khagan"
+msgstr "Khatan"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
 #: data/nation/persian.ruleset:21
@@ -23451,43 +23420,39 @@ msgstr "Els Bascos han viscut des de temps immemorials a les estribacions occide
 #. TRANS: Buruzagi = Leader, head (like spanish Caudillo)
 #: data/nation/basque.ruleset:33
 msgid "Buruzagi"
-msgstr ""
+msgstr "Buruzagi"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy
 msgid "?female:Buruzagi"
-msgstr "Usurpadora"
+msgstr "?female:Buruzagi"
 
 #. TRANS: Apaiz nagusi = Pope, Lord Protector
 #: data/nation/basque.ruleset:35
 msgid "Apaiz nagusi"
-msgstr ""
+msgstr "Apaiz nagusi"
 
 #: data/nation/basque.ruleset:35
 msgid "Emakume Apaiz nagusi"
-msgstr ""
+msgstr "Emakume Apaiz nagusi"
 
 #. TRANS: Errege and Erregina = King and Queen
 #: data/nation/basque.ruleset:37
-#, fuzzy
 msgid "Errege"
-msgstr "Abans de començar"
+msgstr "Errege"
 
 #: data/nation/basque.ruleset:37
-#, fuzzy
 msgid "Erregina"
-msgstr "Reina"
+msgstr "Erregina"
 
 #. TRANS: Lehendakari = similar to President
 #. ; /* TRANS: (but is quite inexact for Basques to call him/her "president")
 #: data/nation/basque.ruleset:40 data/nation/basque.ruleset:41
 msgid "Lehendakari"
-msgstr ""
+msgstr "Lehendakari"
 
 #: data/nation/basque.ruleset:40 data/nation/basque.ruleset:41
-#, fuzzy
 msgid "?female:Lehendakari"
-msgstr "Cap"
+msgstr "?female:Lehendakari"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -23506,14 +23471,12 @@ msgstr ""
 "alemanys més grans."
 
 #: data/nation/belarusian.ruleset:3
-#, fuzzy
 msgid "Belarusian"
-msgstr "Búlgar"
+msgstr "Bielorús"
 
 #: data/nation/belarusian.ruleset:4
-#, fuzzy
 msgid "?plural:Belarusians"
-msgstr "Búlgars"
+msgstr "Bielorussos"
 
 #: data/nation/belarusian.ruleset:6
 msgid ""
@@ -23521,7 +23484,7 @@ msgid ""
 "subsequently Lithuania, Rzeczpospolita, the Russian Empire and the Soviet "
 "Union. Belarus became independent in 1991 with the dissolution of the Soviet "
 "Union."
-msgstr ""
+msgstr "Bielorússia era part de l'antic estat eslau de Kievan Rus, i més endavant Lituània, Rzeczpospolita, l'Imperi Rus i la Unió Soviètica. Bielorússia va obtenir la independència el 1991 amb la dissolució de la Unió Soviètica."
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
@@ -23570,18 +23533,16 @@ msgid "Nabob"
 msgstr "Nabob"
 
 #: data/nation/bengali.ruleset:25
-#, fuzzy
 msgid "?female:Nabob"
-msgstr "Cònsol"
+msgstr "?female:Nabob"
 
 #: data/nation/bengali.ruleset:26
 msgid "Major"
 msgstr "Major"
 
 #: data/nation/bengali.ruleset:26
-#, fuzzy
 msgid "?female:Major"
-msgstr "Camarada"
+msgstr "?female:Major"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -23603,9 +23564,8 @@ msgstr ""
 "de 1899-1902."
 
 #: data/nation/bosnia.ruleset:3
-#, fuzzy
 msgid "Bosnian-Herzegovinian"
-msgstr "Bòsnia i Hercegovina"
+msgstr "Bosnià"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
@@ -23673,9 +23633,8 @@ msgid "Director-President"
 msgstr "Director-President"
 
 #: data/nation/brazilian.ruleset:25
-#, fuzzy
 msgid "?female:Director-President"
-msgstr "Director-President"
+msgstr "Directora-President"
 
 #: data/nation/british.ruleset:3
 msgid "British"
@@ -23760,9 +23719,8 @@ msgid "Bohmugyi"
 msgstr "Bohmugyi"
 
 #: data/nation/burmese.ruleset:21
-#, fuzzy
 msgid "?female:Bohmugyi"
-msgstr "Cap"
+msgstr "?female:Bohmugyi"
 
 #: data/nation/burmese.ruleset:22
 msgid "Saya"
@@ -26002,14 +25960,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/numidian.ruleset:3
-#, fuzzy
 msgid "Numidian"
-msgstr "Nigerià"
+msgstr "Númida"
 
 #: data/nation/numidian.ruleset:4
-#, fuzzy
 msgid "?plural:Numidians"
-msgstr "Nigerians"
+msgstr "Númides"
 
 #: data/nation/numidian.ruleset:7
 msgid ""
@@ -26022,7 +25978,7 @@ msgid ""
 "given to the Mauretanian king by the Romans following the death of King "
 "Jugurtha. Eventually all of Numidia and Mauretania were added to the Roman "
 "realm."
-msgstr ""
+msgstr "Els númides eren un antic poble berber, de molt renom per la seva habilitat en l'art de muntar a cavall, que estaven composats per dues tribus principals de la zona on ara hi ha Algèria i Tunísia: els Massyli cap a l'est i els Massaesyli cap a l'oest. Les va unir el rei Massinissa, que tenia la posició garantida pels seus aliats romans després de la segona guerra Púnica, en la qual va ajudar els romans a derrotar els cartaginesos. El seu regne unificat va durar poc, però, ja que els romans van donar la part de l'oest al rei maurità després de la mort del rei Jugurtha. Al final, tant Numídia com Mauritània es van afegir al domini romà."
 
 #: data/nation/nuu-chah-nulth.ruleset:3
 msgid "Nuu-chah-nulth"
@@ -26044,9 +26000,8 @@ msgstr ""
 
 #. TRANS: Chaabat = Chief
 #: data/nation/nuu-chah-nulth.ruleset:25
-#, fuzzy
 msgid "Chaabat"
-msgstr "_Xat"
+msgstr "Chaabat"
 
 #. TRANS: Ha'wiih = Hereditary Chief
 #: data/nation/nuu-chah-nulth.ruleset:27
@@ -26096,20 +26051,18 @@ msgid "Imparator"
 msgstr "Emperador"
 
 #: data/nation/pakistani.ruleset:3
-#, fuzzy
 msgid "Pakistani"
-msgstr "Guerriller"
+msgstr "Pakistanès"
 
 #: data/nation/pakistani.ruleset:4
-#, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "Malians"
+msgstr "Pakistanesos"
 
 #: data/nation/pakistani.ruleset:6
 msgid ""
 "The Federation of Pakistan was formed from the predominantly Muslim regions "
 "of British India in 1947."
-msgstr "La Federació del Pakistan va ser formada dels regions Musulmanes predominants de la Índia Anglesa al 1947"
+msgstr "La Federació del Pakistan va ser formada a partir de les regions predominantment musulmanes de l'Índia britànica el 1947"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
@@ -26144,25 +26097,22 @@ msgstr ""
 "C; el segon (Sassànida), des del 226 d.C fins el 642 d.C.  "
 
 #: data/nation/peruvian.ruleset:3
-#, fuzzy
 msgid "Peruvian"
-msgstr "Persa"
+msgstr "Peruà"
 
 #: data/nation/peruvian.ruleset:4
-#, fuzzy
 msgid "?plural:Peruvians"
-msgstr "Perses"
+msgstr "Peruans"
 
 #: data/nation/peruvian.ruleset:6
 msgid ""
 "Peru was the cradle of the Inca Empire and civilization. It is still today a "
 "major center of indigenous South American culture."
-msgstr ""
+msgstr "El Perú va ser el bressol de l'Imperi i la civilització inca. Encara és avui en dia un centre principal de cultura indígena sudamericana."
 
 #: data/nation/peruvian.ruleset:25
-#, fuzzy
 msgid "Protector"
-msgstr "Lord protector"
+msgstr "Protector"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -26185,34 +26135,30 @@ msgid ""
 msgstr ""
 
 #: data/nation/phoenician.ruleset:28
-#, fuzzy
 msgid "Milk"
-msgstr "Seda"
+msgstr "Milk"
 
 #: data/nation/phoenician.ruleset:28
-#, fuzzy
 msgid "Milkot"
-msgstr "Milícia"
+msgstr "Milkot"
 
 #: data/nation/phoenician.ruleset:29
 msgid "Suffet"
 msgstr ""
 
 #: data/nation/pirate.ruleset:3
-#, fuzzy
 msgid "Pirate"
-msgstr "Base aèria"
+msgstr "Pirata"
 
 #: data/nation/pirate.ruleset:4
-#, fuzzy
 msgid "?plural:Pirates"
-msgstr "Portuguesos"
+msgstr "Pirates"
 
 #: data/nation/pirate.ruleset:5
 msgid ""
 "As long as honest men have sailed the seas, pirates have been a scourge of "
 "them and of all coastal dwelling peoples."
-msgstr ""
+msgstr "D'ençà que els homes honrats han viatjat pels mars, els pirates han estat un flagell per ells i per tota la gent que viu a la costa."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
@@ -26245,9 +26191,8 @@ msgid "Prymas"
 msgstr "Prymas"
 
 #: data/nation/polish.ruleset:29
-#, fuzzy
 msgid "?female:Prymas"
-msgstr "Presidenta"
+msgstr "?female:Prymas"
 
 #. TRANS: Pierwszy Sekretarz = First Secretary
 #: data/nation/polish.ruleset:31
@@ -26255,19 +26200,16 @@ msgid "Pierwszy Sekretarz"
 msgstr "Pierwszy Sekretarz"
 
 #: data/nation/polish.ruleset:31
-#, fuzzy
 msgid "?female:Pierwszy Sekretarz"
-msgstr "Pierwszy Sekretarz"
+msgstr "?female:Pierwszy Sekretarz"
 
 #: data/nation/polynesian.ruleset:3
-#, fuzzy
 msgid "Polynesian"
-msgstr "Persa"
+msgstr "Polinesi"
 
 #: data/nation/polynesian.ruleset:4
-#, fuzzy
 msgid "?plural:Polynesian"
-msgstr "Polonesos"
+msgstr "Polinesis"
 
 #: data/nation/polynesian.ruleset:6
 msgid ""
@@ -26293,14 +26235,12 @@ msgstr ""
 "el Navegant."
 
 #: data/nation/prussian.ruleset:3
-#, fuzzy
 msgid "Prussian"
-msgstr "Persa"
+msgstr "Prussià"
 
 #: data/nation/prussian.ruleset:4
-#, fuzzy
 msgid "?plural:Prussians"
-msgstr "Perses"
+msgstr "Prussians"
 
 #: data/nation/prussian.ruleset:7
 msgid ""
@@ -26314,9 +26254,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/prussian.ruleset:25
-#, fuzzy
 msgid "Grand Master"
-msgstr "Gran Bard"
+msgstr "Gran Mestre"
 
 #: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
 #: data/nation/samogitian.ruleset:20 data/nation/serbian.ruleset:36
@@ -26329,9 +26268,8 @@ msgid "Duchess"
 msgstr "Duquessa"
 
 #: data/nation/prussian.ruleset:27
-#, fuzzy
 msgid "Elector"
-msgstr "Electricitat"
+msgstr "Elector"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
@@ -26360,9 +26298,8 @@ msgstr ""
 
 #. TRANS: Caconzi = King
 #: data/nation/purhepecha.ruleset:32
-#, fuzzy
 msgid "Caconzi"
-msgstr "Canó"
+msgstr "Caconzi"
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -26469,14 +26406,12 @@ msgid "Tsaritsa"
 msgstr "Tsarina"
 
 #: data/nation/rwandan.ruleset:3
-#, fuzzy
 msgid "Rwandan"
-msgstr "Canadenc"
+msgstr "Rwandès"
 
 #: data/nation/rwandan.ruleset:4
-#, fuzzy
 msgid "?plural:Rwandans"
-msgstr "Canadencs"
+msgstr "Rwandesos"
 
 #: data/nation/rwandan.ruleset:5
 #, fuzzy
@@ -26487,7 +26422,7 @@ msgstr "Americà"
 msgid ""
 "Rwanda is a hilly and very fertile country in the Great Lakes region of "
 "eastern Africa. It supports the densest population of the continent."
-msgstr ""
+msgstr "Rwanda és un país de turons molt fèrtils a la regió dels Grans Llacs de l'Àfrica oriental. Te la densitat de població més alta de tot el continent."
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
@@ -26524,14 +26459,12 @@ msgid "?plural:Sami"
 msgstr "Samis"
 
 #: data/nation/sami.ruleset:6
-#, fuzzy
 msgid ""
 "The Sami are a people of northern Scandinavia. Their nation spans over the "
 "northernmost regions of the Scandinavian countries and northwestern Russia."
 msgstr ""
 "Els Sami són un poble del nord d'Escandinàvia. La seva nació s'estén per les "
-"regions més septentrionals dels països escandinaus: Finnmark de Noruega i "
-"Lapland de Suècia i Finlàndia."
+"regions més septentrionals dels països escandinaus i el nord-oest de Rússia."
 
 #. TRANS: Noaydde = Shaman
 #: data/nation/sami.ruleset:22
@@ -26539,25 +26472,22 @@ msgid "Noaydde"
 msgstr "Noaydde"
 
 #: data/nation/sami.ruleset:22
-#, fuzzy
 msgid "?female:Noaydde"
-msgstr "Camarada"
+msgstr "?female:Noaydde"
 
 #: data/nation/samogitian.ruleset:3
-#, fuzzy
 msgid "Samogitian"
-msgstr "Xaman"
+msgstr "Samogiti"
 
 #: data/nation/samogitian.ruleset:4
-#, fuzzy
 msgid "?plural:Samogitians"
-msgstr "Letons"
+msgstr "Samogitis"
 
 #: data/nation/samogitian.ruleset:6
 msgid ""
 "Samogitia - historical country near the Baltic Sea - home to the last pagans "
 "in Europe (official until 1413). Today, Samogitia is a region of Lithuania"
-msgstr ""
+msgstr "Samogítia - país històric a prop del mar Bàltic - va ser la llarg dels últims pagans d'Europa (oficialment fins el 1413). Avui en dia, Samogítica és una regió de Lituània."
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -26582,9 +26512,8 @@ msgid "First Minister"
 msgstr "Primer ministre"
 
 #: data/nation/scottish.ruleset:26
-#, fuzzy
 msgid "?female:First Minister"
-msgstr "Primer ministre"
+msgstr "Primera ministra"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -26640,9 +26569,8 @@ msgid "Encik"
 msgstr "Encik"
 
 #: data/nation/singaporean.ruleset:34
-#, fuzzy
 msgid "?female:Encik"
-msgstr "Cap"
+msgstr "?female:Encik"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -26679,18 +26607,16 @@ msgstr ""
 "Txecoslovàquia, fins el 1918 va ser part de l'imperi Austro-Hongarès."
 
 #: data/nation/slovakian.ruleset:26
-#, fuzzy
 msgid "?female:Leader"
-msgstr "Camarada"
+msgstr "Líder"
 
 #: data/nation/slovakian.ruleset:29
 msgid "Priestess"
 msgstr "Sacerdotessa"
 
 #: data/nation/slovakian.ruleset:30 data/nation/soviet.ruleset:27
-#, fuzzy
 msgid "?female:General Secretary"
-msgstr "Secretari General"
+msgstr "Secretària General"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -26738,14 +26664,12 @@ msgstr ""
 "forma realment democràtica."
 
 #: data/nation/southkorean.ruleset:3
-#, fuzzy
 msgid "South Korean"
-msgstr "Sud-africà"
+msgstr "Sudcoreà"
 
 #: data/nation/southkorean.ruleset:4
-#, fuzzy
 msgid "?plural:South Koreans"
-msgstr "Sud-africans"
+msgstr "Sudcoreans"
 
 #: data/nation/southkorean.ruleset:6
 msgid ""
@@ -26754,7 +26678,7 @@ msgid ""
 "stalemate after the Korean War in 1953. The South Korean government was "
 "formed from the nationalist and anti-communist \"Provisional Government of "
 "the Republic of Korea\" in 1948."
-msgstr ""
+msgstr "La península de Corea, que havia constituït un estat coreà unificat, es troba avui en dia dividida en dos estats - Corea del Nord i Corea del Sud - com a resultat de la situació d'estancament que es va produir després de la guerra de Corea de 1953. El govern sudcoreà es va formar a partir del \"Govern Provisional de la República de Corea\", nacionalista i anticomunista, el 1948."
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
@@ -26784,9 +26708,8 @@ msgid "Great Leader"
 msgstr "Gran Líder"
 
 #: data/nation/soviet.ruleset:28
-#, fuzzy
 msgid "?female:Great Leader"
-msgstr "Gran Líder"
+msgstr "?female:Great Leader"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -26821,18 +26744,16 @@ msgid "Cardinal"
 msgstr "Cardenal"
 
 #: data/nation/spanish.ruleset:29
-#, fuzzy
 msgid "?female:Cardinal"
-msgstr "Cònsol"
+msgstr "Cardenal"
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
-msgstr ""
+msgstr "Srivijaia"
 
 #: data/nation/srivijaya.ruleset:4
-#, fuzzy
 msgid "?plural:Sri Vijaya"
-msgstr "Maies"
+msgstr "Srivijaia"
 
 #: data/nation/srivijaya.ruleset:7
 msgid ""
@@ -26841,12 +26762,11 @@ msgid ""
 "Borneo and the Malay peninsula. It was founded sometime in the 3rd century "
 "CE and lasted until roughly 1400, falling first to Jambi, then to Singhasari "
 "and other regional powers, including the South Indian Chola dynasty."
-msgstr ""
+msgstr "Sri Vijaia va ser un imperi amb centre a Palembang, a l'est de Sumatra, que va estendre el seu control per bona part de les regions costeres de Sumatra, Java, Borneu i la península malaia. Es va fundar en algun moment del segle III d.C. i va durar fins al voltant del 1400, caient primer en mans dels Jambi, després dels Singhasari i altres potències regionals, inclosa la dinastia Xola del sud de l'Índia."
 
 #: data/nation/srivijaya.ruleset:21
-#, fuzzy
 msgid "Datu"
-msgstr "Estat"
+msgstr "Datu"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -26956,18 +26876,16 @@ msgstr ""
 "d'història dins de la confederació."
 
 #: data/nation/swiss.ruleset:19
-#, fuzzy
 msgid "?female:General"
-msgstr "Cònsol"
+msgstr "General"
 
 #: data/nation/swiss.ruleset:20
 msgid "Bailiff"
 msgstr "Prebost"
 
 #: data/nation/swiss.ruleset:20
-#, fuzzy
 msgid "?female:Bailiff"
-msgstr "Cap"
+msgstr "Prebost"
 
 #: data/nation/swiss.ruleset:21 data/nation/swiss.ruleset:22
 msgid "President of the Confederation"
@@ -26975,22 +26893,19 @@ msgstr "President de la Confederació"
 
 #: data/nation/swiss.ruleset:23
 msgid "Federal Chancellor"
-msgstr "Canceller"
+msgstr "Canceller Federal"
 
 #: data/nation/swiss.ruleset:23
-#, fuzzy
 msgid "?female:Federal Chancellor"
-msgstr "Canceller"
+msgstr "Cancellera Federal"
 
 #: data/nation/syrian.ruleset:3
-#, fuzzy
 msgid "Syrian"
-msgstr "Serbi"
+msgstr "Siri"
 
 #: data/nation/syrian.ruleset:4
-#, fuzzy
 msgid "?plural:Syrians"
-msgstr "Serbis"
+msgstr "Siris"
 
 #: data/nation/syrian.ruleset:6
 msgid ""
@@ -26999,14 +26914,12 @@ msgid ""
 msgstr "La República Àrab Síria moderna va ser formada per un mandat francès i va guanyar la independència gradualment durant la dècada dels 1940."
 
 #: data/nation/taino.ruleset:3
-#, fuzzy
 msgid "Taino"
-msgstr "Terreny"
+msgstr "Taïno"
 
 #: data/nation/taino.ruleset:4
-#, fuzzy
 msgid "?plural:Taino"
-msgstr "Tailandesos"
+msgstr "Taïnos"
 
 #: data/nation/taino.ruleset:7
 msgid ""
@@ -27021,29 +26934,25 @@ msgid ""
 "dugout canoes, which were often nearly as long as Columbus' ships, ferried "
 "traders between islands. Recent genetic studies show that roughly half of "
 "Puerto Ricans have Taino maternal descent."
-msgstr ""
+msgstr "Són els habitants nadius de les Bahames, Cuba, la Hispaniola, Puerto Rico, Jamaica i d'altres illes del Carib, que ens van donar les paraules originals d'huracà, tabac, patata, canoa, barbacoa, hamaca i iuca. Eren un poble matrilineal, i van ser els primers amb qui va contactar Colom el 1492. Malgrat tenir una població de centenars de milers, o possiblement milions, per tot el Carib, els taïno van caure víctimes de l'esclavatge i les malalties, i la seva població va decaure ràpidament. Les cròniques espanyoles els descriuen com un poble pacífic, comparat amb els seus veïns caribs del sud. Les seves canoes a base de troncs buidats, que sovint eren gairebé tan llargues com els vaixells d'en Colom, traslladaven comerciants d'illa en illa. Estudis genètics recents mostren que al voltant de la meitat dels porto-riquenys tenen ascendència taïno per via materna."
 
 #. TRANS: Cacike = Chief
 #: data/nation/taino.ruleset:31
-#, fuzzy
 msgid "Cacike"
-msgstr "Cancel·lar"
+msgstr "Cacike"
 
 #. TRANS: Bohike = Priest
 #: data/nation/taino.ruleset:33
-#, fuzzy
 msgid "Bohike"
-msgstr "Germà"
+msgstr "Bohike"
 
 #: data/nation/tairona.ruleset:3
-#, fuzzy
 msgid "Tairona"
-msgstr "Ferrocarril"
+msgstr "Tairona"
 
 #: data/nation/tairona.ruleset:4
-#, fuzzy
 msgid "?plural:Tairona"
-msgstr "Tailandesos"
+msgstr "?plural:Tairona"
 
 #: data/nation/tairona.ruleset:7
 msgid ""
@@ -27054,18 +26963,17 @@ msgid ""
 "terraces on steep hillsides in order to farm the region. Though they fought "
 "against the Spanish for 75 years, eventually they succumb to the various "
 "pressures that all Native American peoples were subject to at the period."
-msgstr ""
+msgstr "Els Tairona, poble relacionat amb els Kuna de Panamà i els Muisca de Colòmbia central que parla xibxa, viuen al nord de Colòmbia, als departaments de Magdalena i La Guajira. La seva ciutat de Teyuna es va fundar al voltant de l'any 500 a.C. Els Tairona, que vivien en una zona de muntanya, van construir escales i feixes de pedra en pendents pronunciats per poder llaurar a la regió. Encara que van lluitar contra els espanyols durant 75 anys, al final van cedir a les diferents pressions a les quals estaven subjectes tots els pobles nadius americans de l'època."
 
 #. TRANS: Hankwa = Chief
 #: data/nation/tairona.ruleset:26
-#, fuzzy
 msgid "Hankwa"
-msgstr "Hakan"
+msgstr "Hankwa"
 
 #. TRANS: Guacanaoma = Paramount Chief
 #: data/nation/tairona.ruleset:28
 msgid "Guacanaoma"
-msgstr ""
+msgstr "Guacanaoma"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -27188,14 +27096,12 @@ msgid "Dalai Lama"
 msgstr "Dalai Lama"
 
 #: data/nation/tocharian.ruleset:3
-#, fuzzy
 msgid "Tocharian"
-msgstr "Marcià"
+msgstr "Tokhari"
 
 #: data/nation/tocharian.ruleset:4
-#, fuzzy
 msgid "?plural:Tocharians"
-msgstr "Marcians"
+msgstr "Tokharis"
 
 #: data/nation/tocharian.ruleset:7
 msgid ""
@@ -27214,21 +27120,29 @@ msgid ""
 "Islam spread and took the place of Buddhism as the predominant religion in "
 "the region."
 msgstr ""
+"Els tokharis van ser uns indo-europeus que vivien al que ara és Xinjiang a la Xina occidental. Degut a la seva posició geopolítica singular, els seus regnes"
+"de Shanshan, Kucha i Khotan (així com d'altres més petits) van ser"
+"influïts per les cultures xinesa, persa, índia, sogdiana, escita i tibetana. "
+"La seva religió, vestimenta, escriptura i art reflecteixen aquestes influències variades. "
+"Van viure en vil·les i ciutats oasi al llarg de la Ruta de la Seda, per la qual "
+"el budisme va expandir-se fins a la Xina. La zona va ser en diferents èpoques "
+"un protectorat militar de Xina, com ara durant les dinasties Han i Tang. "
+"Durant el declivi d'aquesta última dinastia, la tribu turca uigur va dirigir-se cap a la conca del Tarim, quedant-s'hi i expandint el seu khanat per les terres dels tokharis. Els uigur van barrejar-se amb els tokharis i va suplantar la seva llengua en tots els àmbits, excepte el litúrgic. Fins i tot aquest ús va decaure quan l'Islam es"
+"va estendre i va prendre el lloc del Budisme com a religió predominant de la "
+"regió."
 
 #: data/nation/tocharian.ruleset:33
 msgid "Kakmartik"
-msgstr ""
+msgstr "Kakmartik"
 
 #. TRANS: Lant/Lantsa = King/Queen
 #: data/nation/tocharian.ruleset:35
-#, fuzzy
 msgid "Lant"
-msgstr "Terra"
+msgstr "Lant"
 
 #: data/nation/tocharian.ruleset:35
-#, fuzzy
 msgid "Lantsa"
-msgstr "Mansa"
+msgstr "Lantsa"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
@@ -27261,12 +27175,11 @@ msgstr ""
 
 #: data/nation/tupi.ruleset:3
 msgid "Tupi"
-msgstr ""
+msgstr "Tupí"
 
 #: data/nation/tupi.ruleset:4
-#, fuzzy
 msgid "?plural:Tupi"
-msgstr "Tailandesos"
+msgstr "Tupí"
 
 #: data/nation/tupi.ruleset:7
 msgid ""
@@ -27276,7 +27189,7 @@ msgid ""
 "through Portuguese slave-raids, the creation of mission-villages, and "
 "disease. The Tupi intermarried with African slaves and Europeans alike and a "
 "great many Brazilian place names are derived from Tupi words. "
-msgstr ""
+msgstr "Els Tupí són un poble indígena del Brasil, relacionat amb els guaranís, que vivien als estats brasilers actuals de Paraiba, Pernambuco, Ceara, Rio Grande do Norte, Alagoas, Sergipe, i d'altres. Els seus dominis van ser destruïts arran de la captura d'esclaus per part dels portuguesos, la creació de pobles-missió, i les malaties. Els Tupí es van barrejar tant amb esclaus africans com amb europeus. Molts topònims brasilers són derivats de paraules tupí."
 
 #. TRANS: Morubixaba = Chief
 #: data/nation/tupi.ruleset:24
@@ -27835,7 +27748,22 @@ msgid ""
 "your taxes directly to luxuries (every two luxuries will pacify one\n"
 "citizen).  Building a marketplace enhances the benefit from this\n"
 "by providing +50%% luxuries to the city."
-msgstr "+50%% genau luxes"
+msgstr ""
+"Ara la ciutat ha crescut a mida cinc. A mesura que les ciutats\n"
+"creixen, l'agitació es converteix en un problema. Una ciutat d'aquesta\n"
+"mida sol tenir un ciutadà descontent si no s'utilitza algun element\n"
+"pacificador; això vol dir que cal un especialista artista per mantenir\n"
+"contents els teus ciutadans. Això significa malgastar un ciutadà.\n"
+"\n"
+"Hi ha diferents coses que s'hi poden fer. Una solució ràpida és\n"
+"construir un temple (o algun altre edifici cultural) que converteixi\n"
+"en content un ciutadà descontent (veure l'ajuda sobre edificis per\n"
+"les especificacions de cada tipus d'edifici). A mesura que vas tenint\n"
+"més ciutats grans, pot valer la pena canviar els teus percentatges de\n"
+"taxes (prement Maj-T) per dedicar part de les teves taxes directament\n"
+"a luxe (cada dos punts de luxe pacificaran un ciutadà). Construir un\n"
+"mercat multiplica el benefici d'aquest pas en proporcionar +50%% de\n"
+"luxes per la ciutat."
 
 #: data/scenario/tutorial.sav:162
 msgid ""
