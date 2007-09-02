@@ -76,7 +76,6 @@ static int join_game_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_client_page(PAGE_NETWORK);
-    popup_join_game_dialog();
   }
   return -1;
 }
@@ -326,10 +325,15 @@ static void popdown_start_menu()
 **************************************************************************/
 void set_client_page(enum client_pages page)
 {
-
   switch (old_page) {
     case PAGE_MAIN:
       popdown_start_menu();
+      break;
+    case PAGE_NETWORK:
+      close_connection_dialog();
+      break;
+    case PAGE_START:
+      popdown_conn_list_dialog();
       break;
     case PAGE_GAME:
       close_game_page();
@@ -341,6 +345,9 @@ void set_client_page(enum client_pages page)
   switch (page) {
     case PAGE_MAIN:
       show_main_page();
+      break;
+    case PAGE_NETWORK:
+      popup_join_game_dialog();
       break;
     case PAGE_GAME:
       show_game_page();
