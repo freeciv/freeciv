@@ -1240,7 +1240,13 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
   if (!is_ground_unit(punit) && !is_sailing_unit(punit)) {
     /* Don't know what to do with them! */
-    UNIT_LOG(LOG_ERROR, punit, "bad unit type passed to fstk");
+    /* This is not LOG_ERROR in stable branch, as calling
+     * fstk is in many cases right thing to do when custom
+     * rulesets are used - and callers correctly handle cases
+     * where fstk failed to find target.
+     * In trunk, handling of units different to those in default
+     * ruleset should be improved. */
+    UNIT_LOG(LOG_DEBUG, punit, "bad unit type passed to fstk");
     return 0;
   }
 
