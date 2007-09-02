@@ -144,7 +144,8 @@ enum output_unhappy_penalty {
 struct output_type {
   int index;
   const char *name; /* Untranslated name */
-  const char *id; /* Identifier string (for rulesets, etc.) */
+  const char *id;   /* Identifier string (for rulesets, etc.) */
+  bool harvested;   /* Is this output type gathered by city workers? */
   enum output_unhappy_penalty unhappy_penalty;
 };
 

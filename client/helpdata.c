@@ -1249,26 +1249,111 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
+    struct unit_type *unittype = NULL;
     enum unit_flag_id unitflag = F_LAST;
-    const char *output = "All";
+    struct astring outputs_or = ASTRING_INIT;
+    struct astring outputs_and = ASTRING_INIT;
+    bool extra_reqs = FALSE;
+
+    astr_clear(&outputs_or);
+    astr_clear(&outputs_and);
 
     /* Grab output type, if there is one */
     requirement_list_iterate(peffect->reqs, preq) {
       switch (preq->source.kind) {
-      case VUT_OTYPE:
-        output_type = preq->source.value.outputtype;
-        output = get_output_name(output_type);
-        break;
-      case VUT_UCLASS:
-        unitclass = preq->source.value.uclass;
-        break;
-      case VUT_UTFLAG:
-        unitflag = preq->source.value.unitflag;
-        break;
-      default:
-        break;
+       case VUT_OTYPE:
+         if (output_type == O_LAST) {
+           /* We should never have multiple outputtype requirements
+            * in one list in the first place (it simply makes no sense,
+            * output cannot be of multiple types)
+            * Ruleset loading code should check against that. */
+           const char *oname;
+           
+           output_type = preq->source.value.outputtype;
+           oname = get_output_name(output_type);
+           astr_add(&outputs_or, oname);
+           astr_add(&outputs_and, oname);
+         }
+         break;
+       case VUT_UCLASS:
+         if (unitclass == NULL) {
+           unitclass = preq->source.value.uclass;
+         }
+         break;
+       case VUT_UTYPE:
+         if (unittype == NULL) {
+           unittype = preq->source.value.utype;
+         }
+         break;
+       case VUT_UTFLAG:
+         if (unitflag == F_LAST) {
+           /* FIXME: We should list all the unit flag requirements,
+            *        not only first one. */
+           unitflag = preq->source.value.unitflag;
+         }
+         break;
+       case VUT_GOVERNMENT:
+         /* This is government we are generating helptext for.
+          * ...or if not, it's ruleset bug that should never make it
+          * this far. Fix ruleset loading code. */
+         break;
+       default:
+         extra_reqs = TRUE;
+         break;
       };
     } requirement_list_iterate_end;
+
+    if (!extra_reqs) {
+      /* Only list effects that have no special requirements. */
+ 
+      if (output_type == O_LAST) {
+        /* There was no outputtype requirement. Effect is active for all
+         * output types. Generate lists for that. */
+        const char *prev  = NULL;
+        const char *prev2 = NULL;
+        bool harvested_only = TRUE; /* Consider only output types from fields */
+
+        if (peffect->type == EFT_UPKEEP_FACTOR
+            || peffect->type == EFT_UNIT_UPKEEP_FREE_PER_CITY
+            || peffect->type == EFT_OUTPUT_BONUS
+            || peffect->type == EFT_OUTPUT_BONUS_2) {
+          /* Effect can use or require any kind of output */
+          harvested_only = FALSE;
+        }
+ 
+        output_type_iterate(ot) {
+          struct output_type *pot = get_output_type(ot);
+ 
+          if (!harvested_only || pot->harvested) {
+            if (prev2 != NULL) {
+              astr_add(&outputs_or,  prev2);
+              astr_add(&outputs_or,  ", ");
+              astr_add(&outputs_and, prev2);
+              astr_add(&outputs_and, ", ");
+            }
+            prev2 = prev;
+            prev = _(pot->name);
+          }
+        } output_type_iterate_end;
+        if (prev2 != NULL) {
+          astr_add(&outputs_or, prev2);
+          /* TRANS: List of possible output types has this between
+           *        last two elements */
+          astr_add(&outputs_or,  Q_("?outputlist: or "));
+          astr_add(&outputs_and, prev2);
+          /* TRANS: List of possible output types has this between
+           *        last two elements */
+          astr_add(&outputs_and, Q_("?outputlist: and "));
+        }
+        if (prev != NULL) {
+          astr_add(&outputs_or, prev);
+          astr_add(&outputs_and, prev);
+        } else {
+          /* TRANS: Empty output type list, should never happen. */
+          astr_add(&outputs_or,  Q_("?outputlist: Nothing "));
+          astr_add(&outputs_and, Q_("?outputlist: Nothing "));
+        }
+      }
 
     switch (peffect->type) {
       case EFT_UNHAPPY_FACTOR:
@@ -1289,22 +1374,35 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
         break;
       case EFT_UPKEEP_FACTOR:
         if (peffect->value > 1 && output_type != O_LAST) {
-          sprintf(buf + strlen(buf), _("* You pay %d times normal %s "
-                  "upkeep for your units.\n"), peffect->value, output);
+          /* TRANS: %s is always only one output type, never list */
+          sprintf(buf + strlen(buf),
+                  _("* You pay %d times normal %s upkeep for your units.\n"),
+                  peffect->value, outputs_and.str);
         } else if (peffect->value > 1) {
           sprintf(buf + strlen(buf), _("* You pay %d times normal "
                   "upkeep for your units.\n"), peffect->value);
+         } else if (peffect->value == 0 && output_type != O_LAST) {
+          /* TRANS: %s is output type */
+          sprintf(buf + strlen(buf),
+                  _("* You pay no %s upkeep for your units.\n"),
+                  outputs_and.str);
+        } else if (peffect->value == 0) {
+          /* TRANS: No upkeep of any type */
+          sprintf(buf + strlen(buf),
+                   _("* You pay no upkeep for your units.\n"));
         }
         break;
       case EFT_UNIT_UPKEEP_FREE_PER_CITY:
         if (output_type != O_LAST) {
-	  /* TRANS: %s is the output type, like 'shields' or 'gold'. There
+	  /* TRANS: %s is the output type, like 'shield' or 'gold'. There
 	   * is currently no way to control the singular/plural version of
 	   * this. */
           sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
                   "paying %d %s towards unit upkeep.\n"), peffect->value, 
-                  output);
+                  outputs_and.str);
         } else {
+          /* TRANS: Amount is subtracted from upkeep cost in each upkeep
+           *        type. */
           sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
                   "paying %d towards unit upkeep.\n"), peffect->value);
         }
@@ -1386,9 +1484,17 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
         sprintf(buf + strlen(buf), _("* Has no unhappy citizens.\n"));
         break;
       case EFT_VETERAN_BUILD:
+        /* FIXME: There could be both class and flag requirement.
+         *        meaning that only some units from class are affected.
+         *          Should class related string, type related strings and
+         *        flag related string to be at least qualified to allow
+         *        different translations? */
         if (unitclass) {
           sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
                   uclass_name_translation(unitclass));
+        } else if (unittype != NULL) {
+          sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
+                  utype_name_translation(unittype));
         } else if (unitflag != F_LAST) {
           sprintf(buf + strlen(buf), _("* Veteran %s units.\n"),
                   unit_flag_rule_name(unitflag));
@@ -1397,46 +1503,67 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
         }
         break;
       case EFT_OUTPUT_PENALTY_TILE:
+        /* TRANS: %s is list of output types, with 'or' */
         sprintf(buf + strlen(buf), _("* Each worked tile that gives more "
                 "than %d %s will suffer a -1 penalty when not "
-                "celebrating.\n"), peffect->value, output);
+                "celebrating.\n"), peffect->value, outputs_or.str);
         break;
       case EFT_OUTPUT_INC_TILE_CELEBRATE:
+        /* TRANS: %s is list of output types, with 'or' */
         sprintf(buf + strlen(buf), _("* Each worked tile with at least 1 "
-                "%s will yield %d additional %s when celebrating.\n"),
-                output, peffect->value, output);
+                "%s will yield %d more of it when celebrating.\n"),
+                outputs_or.str, peffect->value);
         break;
       case EFT_OUTPUT_INC_TILE:
+        /* TRANS: %s is list of output types, with 'or' */
         sprintf(buf + strlen(buf), _("* Each worked tile with at least 1 "
-                "%s will yield %d additional %s.\n"), output, 
-                peffect->value, output);
+                "%s will yield %d more of it.\n"), outputs_or.str, 
+                peffect->value);
+        break;
+      case EFT_OUTPUT_BONUS:
+      case EFT_OUTPUT_BONUS_2:
+        /* TRANS: %s is list of output types, with 'and' */
+        sprintf(buf + strlen(buf), _("* %s production is increased %d%%.\n"),
+                outputs_and.str, peffect->value);
         break;
       case EFT_OUTPUT_WASTE:
         if (peffect->value > 30) {
+          /* TRANS: %s is list of output types, with 'and' */
           sprintf(buf + strlen(buf), _("* %s production will suffer "
-                  "massive waste.\n"), output);
+                  "massive waste.\n"), outputs_and.str);
         } else if (peffect->value >= 15) {
+          /* TRANS: %s is list of output types, with 'and' */
           sprintf(buf + strlen(buf), _("* %s production will suffer "
-                  "some waste.\n"), output);
+                  "some waste.\n"), outputs_and.str);
         } else {
+          /* TRANS: %s is list of output types, with 'and' */
           sprintf(buf + strlen(buf), _("* %s production will suffer "
-                  "a small amount of waste.\n"), output);
+                  "a small amount of waste.\n"), outputs_and.str);
         }
         break;
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
         if (peffect->value >= 3) {
+          /* TRANS: %s is list of output types, with 'and' */
           sprintf(buf + strlen(buf), _("* %s waste will increase quickly "
-                  "with distance from capital.\n"), output);
+                  "with distance from capital.\n"), outputs_and.str);
         } else if (peffect->value == 2) {
+          /* TRANS: %s is list of output types, with 'and' */
           sprintf(buf + strlen(buf), _("* %s waste will increase "
-                  "with distance from capital.\n"), output);
+                  "with distance from capital.\n"), outputs_and.str);
         } else {
+          /* TRANS: %s is list of output types, with 'and' */
           sprintf(buf + strlen(buf), _("* %s waste will increase slowly "
-                  "with distance from capital.\n"), output);
+                  "with distance from capital.\n"), outputs_and.str);
         }
       default:
         break;
     }
+
+    }
+
+    astr_clear(&outputs_or);
+    astr_clear(&outputs_and);
+
   } effect_list_iterate_end;
 
   unit_type_iterate(utype) {

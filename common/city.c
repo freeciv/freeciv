@@ -52,12 +52,12 @@ int city_tiles;
  * they're just an easy way to access information about each output type. */
 const Output_type_id num_output_types = O_LAST;
 struct output_type output_types[O_LAST] = {
-  {O_FOOD, N_("Food"), "food", UNHAPPY_PENALTY_SURPLUS},
-  {O_SHIELD, N_("Shield"), "shield", UNHAPPY_PENALTY_SURPLUS},
-  {O_TRADE, N_("Trade"), "trade", UNHAPPY_PENALTY_NONE},
-  {O_GOLD, N_("Gold"), "gold", UNHAPPY_PENALTY_ALL_PRODUCTION},
-  {O_LUXURY, N_("Luxury"), "luxury", UNHAPPY_PENALTY_NONE},
-  {O_SCIENCE, N_("Science"), "science", UNHAPPY_PENALTY_ALL_PRODUCTION}
+  {O_FOOD, N_("Food"), "food", TRUE, UNHAPPY_PENALTY_SURPLUS},
+  {O_SHIELD, N_("Shield"), "shield", TRUE, UNHAPPY_PENALTY_SURPLUS},
+  {O_TRADE, N_("Trade"), "trade", TRUE, UNHAPPY_PENALTY_NONE},
+  {O_GOLD, N_("Gold"), "gold", FALSE, UNHAPPY_PENALTY_ALL_PRODUCTION},
+  {O_LUXURY, N_("Luxury"), "luxury", FALSE, UNHAPPY_PENALTY_NONE},
+  {O_SCIENCE, N_("Science"), "science", FALSE, UNHAPPY_PENALTY_ALL_PRODUCTION}
 };
 
 /**************************************************************************
