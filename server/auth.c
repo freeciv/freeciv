@@ -415,7 +415,7 @@ static bool authdb_check_password(struct connection *pconn,
 #ifdef HAVE_AUTH
   bool ok = FALSE;
   char buffer[512] = "";
-  unsigned char checksum[DIGEST_HEX_BYTES];
+  char checksum[DIGEST_HEX_BYTES];
   MYSQL *sock, mysql;
 
   /* do the password checking right here */
