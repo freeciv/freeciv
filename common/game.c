@@ -236,6 +236,7 @@ void game_init(void)
   game.info.nplayers	   = 0;
   game.info.pingtimeout   = GAME_DEFAULT_PINGTIMEOUT;
   game.info.pingtime      = GAME_DEFAULT_PINGTIME;
+  game.info.diplomacy     = GAME_DEFAULT_DIPLOMACY;
   game.info.diplcost      = GAME_DEFAULT_DIPLCOST;
   game.info.diplchance    = GAME_DEFAULT_DIPLCHANCE;
   game.info.freecost      = GAME_DEFAULT_FREECOST;
