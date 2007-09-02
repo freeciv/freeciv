@@ -280,12 +280,15 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
     break;
   }
 
-  freelog(LOG_DEBUG,
-	  _("SDL_create_str16_surf: Font is generally %d big, and "
-	    "string is %hd big"), TTF_FontHeight(pString->font), pText->h);
-  freelog(LOG_DEBUG, _("SDL_create_str16_surf: String is %d lenght"),
-	  pText->w);
-
+  if (pText != NULL) {
+    freelog(LOG_DEBUG,
+            _("SDL_create_str16_surf: Font is generally %d big, and "
+              "string is %hd big"), TTF_FontHeight(pString->font), pText->h);
+    freelog(LOG_DEBUG, _("SDL_create_str16_surf: String is %d lenght"),
+            pText->w);
+  } else {
+    freelog(LOG_DEBUG, "SDL_create_str16_surf: pText NULL");
+  }
 
   if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {
     TTF_SetFontStyle(pString->font, TTF_STYLE_NORMAL);
