@@ -205,6 +205,7 @@ void game_init(void)
   game.researchcost = GAME_DEFAULT_RESEARCHCOST;
   game.diplcost    = GAME_DEFAULT_DIPLCOST;
   game.diplchance  = GAME_DEFAULT_DIPLCHANCE;
+  game.diplomacy   = GAME_DEFAULT_DIPLOMACY;
   game.freecost    = GAME_DEFAULT_FREECOST;
   game.conquercost = GAME_DEFAULT_CONQUERCOST;
   sz_strlcpy(game.start_units, GAME_DEFAULT_START_UNITS);
