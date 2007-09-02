@@ -132,7 +132,7 @@ static int exit_meta_severs_dlg_callback(struct widget *pWidget)
     pServer_scan = NULL;
     pServer_list = NULL;
       
-    popup_join_game_dialog();
+    set_client_page(PAGE_NETWORK);
     popup_meswin_dialog(true);
   }    
   return -1;
@@ -281,7 +281,7 @@ void popup_connection_dialog(bool lan_scan)
       append_output_window(_("No public servers found")); 
     }        
     real_update_meswin_dialog();
-    popup_join_game_dialog();
+    set_client_page(PAGE_NETWORK);
     return;
   }
   
@@ -345,7 +345,7 @@ void popup_connection_dialog(bool lan_scan)
       append_output_window(_("No public servers found")); 
     }        
     real_update_meswin_dialog();
-    popup_join_game_dialog();
+    set_client_page(PAGE_NETWORK);
     return;
   }
   

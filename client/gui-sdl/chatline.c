@@ -66,7 +66,6 @@ struct CONNLIST {
   int active;
 } *pConnDlg = NULL;
 
-static bool popdown_conn_list_dialog(void);
 static void popup_conn_list_dialog(void);
 static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc);
 
@@ -581,7 +580,7 @@ static void popup_conn_list_dialog(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static bool popdown_conn_list_dialog(void)
+bool popdown_conn_list_dialog(void)
 {
   if (pConnDlg) {
     
