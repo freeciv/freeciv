@@ -1215,6 +1215,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
+  bv_player saw_entering;
 
   /* If not at war, may peacefully enter city. Or, if we cannot occupy
    * the city, this unit entering will not trigger the effects below. */
@@ -1229,6 +1230,16 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
      - Kris Bubendorfer
      Also check spaceships --dwp
   */
+
+  /* Store information who saw unit entering city.
+   * This means old owner + allies + shared vision */
+  BV_CLR_ALL(saw_entering);
+  players_iterate(pplayer) {
+    if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)) {
+      BV_SET(saw_entering, pplayer->player_no);
+    }
+  } players_iterate_end;
+
   if (is_capital(pcity)
       && (cplayer->spaceship.state == SSHIP_STARTED
           || cplayer->spaceship.state == SSHIP_LAUNCHED)) {
@@ -1321,6 +1332,21 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */
   transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE);
+
+  /* After city has been transferred, some players may no longer see inside. */
+  players_iterate(pplayer) {
+    if (BV_ISSET(saw_entering, pplayer->player_no)
+        && !can_player_see_unit_at(pplayer, punit, pcity->tile)) {
+      /* Player saw unit entering, but now unit is hiding inside city */
+      unit_goes_out_of_sight(pplayer, punit);
+    } else if (!BV_ISSET(saw_entering, pplayer->player_no)
+               && can_player_see_unit_at(pplayer, punit, pcity->tile)) {
+      /* Player sees inside cities of new owner */
+      send_unit_info_to_onlookers(pplayer->connections, punit,
+                                  pcity->tile, FALSE);
+    }
+  } players_iterate_end;
+
   city_reduce_size(pcity, 1);
   send_player_info(pplayer, pplayer); /* Update techs */
 

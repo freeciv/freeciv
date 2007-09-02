@@ -2755,7 +2755,11 @@ void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   
   /* Send updated information to anyone watching.  If the unit moves
    * in or out of a city we update the 'occupied' field.  Note there may
-   * be cities at both src and dest under some rulesets. */
+   * be cities at both src and dest under some rulesets.
+   *   If unit is about to take over enemy city, unit is seen by
+   * those players seeing inside cities of old city owner. After city
+   * has been transferred, updated info is sent inside
+   * handle_unit_enter_city() */
   send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
     
   /* Special checks for ground units in the ocean. */
