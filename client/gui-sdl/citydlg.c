@@ -1483,7 +1483,8 @@ void enable_city_dlg_widgets(void)
     set_group_state(pCityDlg->pBeginCityWidgetList,
 		  pCityDlg->pEndCityWidgetList->prev, FC_WS_NORMAL);
   
-    if (pCityDlg->pImprv->pEndWidgetList) {
+    if (pCityDlg->pImprv->pEndActiveWidgetList) {
+        
       if (pCityDlg->pImprv->pScroll) {
         set_wstate(pCityDlg->pImprv->pScroll->pScrollBar, FC_WS_NORMAL);	/* vscroll */
         set_wstate(pCityDlg->pImprv->pScroll->pUp_Left_Button, FC_WS_NORMAL); /* up */
