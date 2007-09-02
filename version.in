@@ -11,7 +11,7 @@ FREECIV_VERSION_COMMENT("  common/version.h                              ")
 FREECIV_VERSION_COMMENT("  must be updated manually when ever this file  ")
 FREECIV_VERSION_COMMENT("  changes.                                      ")
 
-FREECIV_VERSION_INFO(2,0,9,"")
+FREECIV_VERSION_INFO(2,0,9,"+")
 
 FREECIV_DEVEL_VERSION(0)
 FREECIV_BETA_VERSION(0)
