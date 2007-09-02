@@ -91,6 +91,9 @@ packets_generate: packets.def generate_packets.py
 	cd $(srcdir) && ./generate_packets.py
 	touch packets_generate
 
+.PHONY : fc_svnrev_gen.h
+fc_svnrev_gen.h :
+	$(top_srcdir)/bootstrap/generate_svnrev.sh $(top_srcdir) $(top_builddir)
+
 #libcivcommon_a_DEPENDENCIES = ../utility/libcivutility.a
 #libcivcommon_a_LIBADD       = ../utility/libcivutility.a
-
