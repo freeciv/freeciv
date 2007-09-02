@@ -465,7 +465,7 @@ static void remove_preset(Widget w, XtPointer list,
 static void remove_preset_yes(Widget w, XtPointer row,
                               XtPointer call_data)
 {
-  cmafec_preset_remove((int)row);
+  cmafec_preset_remove(XTPOINTER_TO_INT(row));
   update_cma_preset_list();
   destroy_message_dialog(w);
 }

@@ -325,7 +325,7 @@ void update_menus(void)
       w = XtCreateManagedWidget(gov->name, smeBSBObjectClass,
 				menus[MENU_GOVERNMENT]->shell, NULL, 0);
       XtAddCallback(w, XtNcallback, revolution_menu_callback,
-		    (XtPointer)gov->index);
+		    INT_TO_XTPOINTER(gov->index));
       XtSetSensitive(w, can_change_to_government(game.player_ptr,
 						 gov->index));
 

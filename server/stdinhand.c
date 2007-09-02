@@ -3173,7 +3173,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
    * srvarg.load_filename, which we edit down below. */
   sz_strlcpy(arg, filename);
 
-  if (!arg || arg[0] == '\0') {
+  if (arg[0] == '\0') {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <filename>"));
     send_load_game_info(FALSE);
     return FALSE;
