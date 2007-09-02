@@ -5,17 +5,19 @@
 AC_DEFUN([FC_CHECK_AUTH],
 [
   dnl  no=do not compile in authentication,  yes=compile in auth,  *=error
-  AC_ARG_ENABLE(auth, 
-  [  --enable-auth        compile in authentication],
+  AC_ARG_ENABLE([auth], 
+  [  --enable-auth[[=no/yes/try]] compile in authentication [[default=no]]],
   [case "${enableval}" in
-    yes) auth=true ;;
+    yes) auth=true
+         must_auth=true ;;
     no)  auth=false ;;
-    *)   AC_MSG_ERROR(bad value ${enableval} for --enable-auth) ;;
+    try) auth=true ;;
+    *)   AC_MSG_ERROR([bad value ${enableval} for --enable-auth]) ;;
    esac], [auth=false])
 
-  if test x$auth = xtrue; then
+  if test x$auth = xtrue ; then
 
-    AC_CHECK_HEADER(mysql/mysql.h, , 
+    AC_CHECK_HEADER([mysql/mysql.h], , 
                     [AC_MSG_WARN([couldn't find mysql header: disabling auth]);
                      auth=false])
 
@@ -51,7 +53,11 @@ AC_DEFUN([FC_CHECK_AUTH],
     done
 
     if test x$auth = xfalse; then
-      AC_MSG_WARN([can't find mysql -- disabling authentication])
+      if test x$must_auth = xtrue; then
+        AC_MSG_ERROR([can't find mysql: cannot build authentication support])
+      else
+        AC_MSG_WARN([can't find mysql -- disabling authentication])
+      fi
     fi
 
     AC_SUBST(LDFLAGS)
