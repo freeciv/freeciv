@@ -19,8 +19,8 @@
     email                : Rafał Bursig <bursig@poczta.fm>
  **********************************************************************/
 
-#ifndef __STRING_H
-#define __STRING_H
+#ifndef FC__GUISTRING_H
+#define FC__GUISTRING_H
 
 #include "SDL.h"
 
@@ -95,4 +95,4 @@ do {						\
 #define create_str16_from_char(pInCharString, iPtsize) \
         copy_chars_to_string16(create_string16(NULL, 0,iPtsize), pInCharString)
 
-#endif
+#endif /* FC__GUISTRING_H */

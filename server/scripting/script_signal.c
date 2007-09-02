@@ -42,6 +42,7 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 
 #include "hash.h"
 #include "log.h"

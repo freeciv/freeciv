@@ -14,6 +14,8 @@
 #include <config.h>
 #endif
 
+#include <stdarg.h>
+
 #include <gtk/gtk.h>
 
 #include "support.h"
