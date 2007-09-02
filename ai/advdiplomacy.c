@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 #include <string.h>
 
 #include "aisupport.h"

@@ -19,8 +19,8 @@
     email                : Rafał Bursig <bursig@poczta.fm>
  **********************************************************************/
 
-#ifndef __UNISTRING_H
-#define __UNISTRING_H
+#ifndef FC__UNISTRING_H
+#define FC__UNISTRING_H
 
 #include "SDL.h"
 
@@ -31,4 +31,4 @@ Uint16 *unistrcat(Uint16 *pToUniString,
 Uint16 *unistrdup(const Uint16 *pUniString);
 Uint16 **create_new_line_unistrings(const Uint16 *pUnistring);
 
-#endif /* __UNISTRING_H */
+#endif /* FC__UNISTRING_H */
