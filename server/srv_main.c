@@ -1851,6 +1851,7 @@ void srv_main(void)
     server_open_meta(); /* open socket for meta server */ 
   }
 
+  maybe_automatic_meta_message(default_meta_message_string());
   (void) send_server_info_to_metaserver(META_INFO);
 
   /* accept new players, wait for serverop to start..*/
