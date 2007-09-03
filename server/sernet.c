@@ -513,6 +513,9 @@ int sniff_packets(void)
 	      /* No need for anything more; just quit. */
 	      server_quit();
 	    }
+
+            /* Do not restart before someone has connected and left again */
+            connections = FALSE;
 	  }
 	} else {
           char buf[256];
