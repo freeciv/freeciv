@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-27 09:54+0300\n"
-"PO-Revision-Date: 2007-08-28 22:18+0200\n"
+"POT-Creation-Date: 2007-09-03 22:03+0300\n"
+"PO-Revision-Date: 2007-09-03 22:30+0200\n"
 "Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
 "Language-Team: Turkish <email@katpatuka.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-mui/citydlg.c:1585
 #: client/gui-mui/repodlgs.c:669
-#: client/gui-win32/repodlgs.c:693
+#: client/gui-win32/repodlgs.c:694
 msgid "Food"
 msgstr "Gıda"
 
@@ -31,7 +31,7 @@ msgstr "Gıda"
 #: client/gui-gtk-2.0/repodlgs.c:935
 #: client/gui-mui/citydlg.c:1589
 #: client/gui-mui/repodlgs.c:668
-#: client/gui-win32/repodlgs.c:693
+#: client/gui-win32/repodlgs.c:694
 msgid "Shield"
 msgstr "Kalkan"
 
@@ -658,10 +658,10 @@ msgstr "Geleceğin Teknolojisi %d"
 #: client/gui-mui/repodlgs.c:181
 #: client/gui-sdl/citydlg.c:702
 #: client/gui-sdl/gui_tilespec.c:480
-#: client/gui-sdl/helpdlg.c:354
-#: client/gui-sdl/helpdlg.c:384
-#: client/gui-sdl/helpdlg.c:762
-#: client/gui-sdl/helpdlg.c:786
+#: client/gui-sdl/helpdlg.c:374
+#: client/gui-sdl/helpdlg.c:406
+#: client/gui-sdl/helpdlg.c:797
+#: client/gui-sdl/helpdlg.c:822
 #: client/gui-sdl/mapview.c:945
 #: client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:545
@@ -815,7 +815,7 @@ msgstr "Dönüştür"
 
 #: common/unit.c:586
 #: client/gui-mui/citydlg.c:2031
-#: client/gui-sdl/citydlg.c:1967
+#: client/gui-sdl/citydlg.c:1968
 #: client/gui-win32/citydlg.c:1263
 #: client/gui-xaw/citydlg.c:1424
 msgid "Unknown"
@@ -868,8 +868,8 @@ msgid "Sea"
 msgstr "Deniz"
 
 #: common/unittype.c:64
-#: data/default/units.ruleset:1020
-#: data/civ2/units.ruleset:963
+#: data/default/units.ruleset:1106
+#: data/civ2/units.ruleset:1057
 msgid "Helicopter"
 msgstr "Helikopter"
 
@@ -878,9 +878,9 @@ msgid "Air"
 msgstr "Hava"
 
 #: common/unittype.c:66
-#: data/default/units.ruleset:1500
-#: data/civ2/units.ruleset:1443
-#: data/civ1/units.ruleset:833
+#: data/default/units.ruleset:1625
+#: data/civ2/units.ruleset:1576
+#: data/civ1/units.ruleset:920
 msgid "Nuclear"
 msgstr "Nükleer"
 
@@ -977,7 +977,7 @@ msgstr ""
 msgid "'Cause civilization should be free!"
 msgstr "Cünkü medeniyetin sahibi olamaz!"
 
-#: utility/fciconv.c:132
+#: utility/fciconv.c:133
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv.  Unless\n"
@@ -988,7 +988,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. * TRANS: <error string>."
-#: utility/fciconv.c:205
+#: utility/fciconv.c:206
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr ""
@@ -1134,13 +1134,13 @@ msgid "error %d (compiled without strerror)"
 msgstr ""
 
 #: ai/aicity.c:1039
-#: server/citytools.c:1866
+#: server/citytools.c:1895
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s %s yapımını %s'de durdurdular."
 
 #: ai/aicity.c:1050
-#: server/citytools.c:1906
+#: server/citytools.c:1935
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s %s yapımı %s'de başladılar."
@@ -1150,209 +1150,209 @@ msgstr "%s %s yapımı %s'de başladılar."
 msgid "%s is selling %s (not needed) for %d."
 msgstr "%s artık gerek kalmadığı için %s satıyorlar (fiyat %d)."
 
-#: ai/advdiplomacy.c:278
+#: ai/advdiplomacy.c:279
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
 msgstr ""
 
-#: ai/advdiplomacy.c:288
+#: ai/advdiplomacy.c:289
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
 msgstr "*%s (YZ)* Önce %s ile yapıldı antlaşması bozman lazım, %s."
 
-#: ai/advdiplomacy.c:300
+#: ai/advdiplomacy.c:301
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
 msgstr "*%s (YZ)* Önce ateşkes imzala, %s."
 
-#: ai/advdiplomacy.c:304
+#: ai/advdiplomacy.c:305
 #, c-format
 msgid "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer first, %s."
 msgstr "*%s (YZ)* Önce ateşkes biraz daha sürerse iyi olur, %s."
 
-#: ai/advdiplomacy.c:326
+#: ai/advdiplomacy.c:327
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr "*%s (AI)* Antlaşama konusunda sana henüz güvenemem, %s."
 
-#: ai/advdiplomacy.c:417
+#: ai/advdiplomacy.c:418
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
 msgstr "*%s (YZ)* Bahsettiğin şehri tanımıyorum."
 
-#: ai/advdiplomacy.c:444
+#: ai/advdiplomacy.c:445
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr "*%s (YZ)* Affedersin, bizce görüşleri paylaşmak uygun değil."
 
-#: ai/advdiplomacy.c:550
+#: ai/advdiplomacy.c:551
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s (YZ)* Bu anlaşma bize yaramazdı, %s!"
 
-#: ai/advdiplomacy.c:571
+#: ai/advdiplomacy.c:572
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (AI)* İyi ki bu antlaşma oldu %s!"
 
-#: ai/advdiplomacy.c:574
+#: ai/advdiplomacy.c:575
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
 msgstr "*%s (YK)* Evet, sonuna kadar beraberiz, %s."
 
-#: ai/advdiplomacy.c:580
+#: ai/advdiplomacy.c:581
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (YZ)* Evet, barış olsun!"
 
-#: ai/advdiplomacy.c:585
+#: ai/advdiplomacy.c:586
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (YZ)* Anlaştık. Düşmanlık artık yok, %s."
 
-#: ai/advdiplomacy.c:798
+#: ai/advdiplomacy.c:799
 #, c-format
 msgid "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each other better?"
 msgstr "*%s (YZ)* Merhaba %s! Birbirimize daha iyi tanışabilmek için bir ateşkes önerebilir miyiz?"
 
-#: ai/advdiplomacy.c:1076
+#: ai/advdiplomacy.c:1077
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (YZ)* Uzay sana göre değil!"
 
-#: ai/advdiplomacy.c:1080
+#: ai/advdiplomacy.c:1081
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (YZ)* Yeter artık! Sana fazla dayanamıyacağım! Savaş!"
 
-#: ai/advdiplomacy.c:1085
+#: ai/advdiplomacy.c:1086
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (YZ)* Barış? ... sonra."
 
-#: ai/advdiplomacy.c:1090
+#: ai/advdiplomacy.c:1091
 #, c-format
 msgid "*%s (AI)* Finally I get around to you! Did you really think you could get away with your crimes?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1096
+#: ai/advdiplomacy.c:1097
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1102
+#: ai/advdiplomacy.c:1103
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1185
+#: ai/advdiplomacy.c:1186
 #, c-format
 msgid "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop the spaceship launch."
 msgid_plural "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop the spaceship launch."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ai/advdiplomacy.c:1193
+#: ai/advdiplomacy.c:1194
 #, c-format
 msgid "*%s (AI)* Your aid in this matter will be expected. Long live our glorious alliance!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1198
+#: ai/advdiplomacy.c:1199
 #, c-format
 msgid "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will answer in force in %d turn and expect you to honour your alliance with us and do likewise!"
 msgid_plural "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will answer in force in %d turns and expect you to honour your alliance with us and do likewise!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ai/advdiplomacy.c:1209
+#: ai/advdiplomacy.c:1210
 #, c-format
 msgid "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We declare war in %d turn."
 msgid_plural "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We declare war in %d turns."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ai/advdiplomacy.c:1215
+#: ai/advdiplomacy.c:1216
 #, c-format
 msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1219
+#: ai/advdiplomacy.c:1220
 #, c-format
 msgid "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization apart. We declare war in %d turn."
 msgid_plural "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization apart. We declare war in %d turns."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ai/advdiplomacy.c:1227
+#: ai/advdiplomacy.c:1228
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 
-#: ai/advdiplomacy.c:1232
+#: ai/advdiplomacy.c:1233
 #, c-format
 msgid "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  Hold on - we are coming!"
 msgid_plural "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  Hold on - we are coming!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ai/advdiplomacy.c:1239
+#: ai/advdiplomacy.c:1240
 #, c-format
 msgid "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
 msgid_plural "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ai/advdiplomacy.c:1306
+#: ai/advdiplomacy.c:1307
 #, c-format
 msgid "*%s (AI)* Your attempt to conquer space for yourself alone betray your true intentions, and I will have no more of our alliance!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1320
+#: ai/advdiplomacy.c:1321
 #, c-format
 msgid "*%s (AI)* Your attempt to unilaterally dominate outer space is highly offensive."
 msgstr ""
 
-#: ai/advdiplomacy.c:1322
+#: ai/advdiplomacy.c:1323
 #, c-format
 msgid "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to take action!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1433
+#: ai/advdiplomacy.c:1434
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr "*%s (YZ)* Kusura bakma, artık benim görüşlerim seninle paylaşmak istemem."
 
-#: ai/advdiplomacy.c:1508
+#: ai/advdiplomacy.c:1509
 #, c-format
 msgid "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy our enemy, %s."
 msgstr ""
 
-#: ai/advdiplomacy.c:1513
+#: ai/advdiplomacy.c:1514
 #, c-format
 msgid "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. Why do I need to remind you of your promises?"
 msgstr "*%s (YZ)* Merhaba dostum, henüz düşmanımiz %s savaş ilan etmedin... Neden sözünü tutmuyorsun?"
 
-#: ai/advdiplomacy.c:1518
+#: ai/advdiplomacy.c:1519
 #, c-format
 msgid "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at peace with our mortal enemy, %s! This is unacceptable; our alliance is no more!"
 msgstr ""
 
-#: ai/advdiplomacy.c:1546
+#: ai/advdiplomacy.c:1547
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest making a common cause and join in an alliance?"
 msgstr "*%s (YZ)* Merhaba gardeş, bir anlaşma yapalım mı?"
 
-#: ai/advdiplomacy.c:1561
+#: ai/advdiplomacy.c:1562
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr "*%s (YZ)* Merhaba komşu, biraz daha barışık ilişkiler kuralım mı?"
 
-#: ai/advdiplomacy.c:1575
+#: ai/advdiplomacy.c:1576
 #, c-format
 msgid "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a cessation of hostilities?"
 msgstr ""
 
-#: ai/advdiplomacy.c:1695
+#: ai/advdiplomacy.c:1696
 #, c-format
 msgid "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honour our glorious alliance and your name will never be forgotten!"
 msgstr "*%s (YZ)* %s bize arkadan vurdular! Yardım ihtiyacımız var. Yardm edersen vallahi hiç unutmayacağız!"
@@ -1567,103 +1567,103 @@ msgstr ""
 msgid "You lost %s. A new %s was built in %s."
 msgstr ""
 
-#: server/citytools.c:815
+#: server/citytools.c:818
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
 
-#: server/citytools.c:904
+#: server/citytools.c:907
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 
-#: server/citytools.c:1031
+#: server/citytools.c:1034
 #, c-format
 msgid "You have founded %s."
 msgstr "%s kuruldu."
 
-#: server/citytools.c:1102
+#: server/citytools.c:1105
 #, c-format
 msgid "Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr ""
 
-#: server/citytools.c:1113
-#: server/citytools.c:1125
+#: server/citytools.c:1116
+#: server/citytools.c:1128
 #, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 
-#: server/citytools.c:1249
+#: server/citytools.c:1263
 #, c-format
 msgid "You destroy %s completely."
 msgstr "%s tamamen yıktıldı."
 
-#: server/citytools.c:1251
+#: server/citytools.c:1265
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s %s tarafından yıkıldı."
 
-#: server/citytools.c:1268
+#: server/citytools.c:1282
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1274
+#: server/citytools.c:1288
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1281
+#: server/citytools.c:1295
 #, c-format
 msgid "You conquer %s"
 msgstr "%s zaptettin."
 
-#: server/citytools.c:1283
+#: server/citytools.c:1297
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s %s zaptetti."
 
-#: server/citytools.c:1288
+#: server/citytools.c:1302
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1294
+#: server/citytools.c:1308
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1301
+#: server/citytools.c:1315
 #, c-format
 msgid "You have liberated %s!"
 msgstr "%s kurtuldun!"
 
-#: server/citytools.c:1303
+#: server/citytools.c:1317
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s %s şehrinin kurtuluşu sağladılar."
 
-#: server/citytools.c:1887
+#: server/citytools.c:1916
 msgid " from the worklist"
 msgstr " yapılacakları listesinden"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:1899
+#: server/citytools.c:1928
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s %s%s yapılmakta."
 
-#: server/citytools.c:2144
+#: server/citytools.c:2173
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr ""
@@ -2441,7 +2441,7 @@ msgstr ""
 
 #: server/commands.c:303
 msgid "See \"help timeoutincrease\"."
-msgstr ""
+msgstr "\"help timeoutincrease\" bak."
 
 #: server/commands.c:304
 msgid "Every <turn> turns, add <value> to timeout timer, then add <turninc> to <turn> and multiply <value> by <valuemult>.  Use this command in concert with the option \"timeout\". Defaults are 0 0 0 1"
@@ -2654,7 +2654,7 @@ msgstr ""
 #: server/connecthand.c:312
 #, c-format
 msgid "Lost connection: %s."
-msgstr ""
+msgstr "Bağlantı kesildi: %s."
 
 #: server/console.c:167
 msgid "Ok. RFC-style set."
@@ -2668,146 +2668,146 @@ msgstr ""
 msgid "For introductory help, type 'help'."
 msgstr "Yardım için 'help' yaz."
 
-#: server/diplhand.c:148
+#: server/diplhand.c:163
 #, c-format
 msgid "The %s can't accept %s."
 msgstr ""
 
-#: server/diplhand.c:160
+#: server/diplhand.c:175
 #, c-format
 msgid "You don't have tech %s, you can't accept treaty."
 msgstr ""
 
-#: server/diplhand.c:169
+#: server/diplhand.c:184
 msgid "City you are trying to give no longer exists, you can't accept treaty."
 msgstr ""
 
-#: server/diplhand.c:175
+#: server/diplhand.c:190
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr ""
 
-#: server/diplhand.c:181
-#: server/diplhand.c:285
+#: server/diplhand.c:196
+#: server/diplhand.c:300
 #, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr ""
 
-#: server/diplhand.c:208
+#: server/diplhand.c:223
 msgid "You don't have enough gold, you can't accept treaty."
 msgstr ""
 
-#: server/diplhand.c:240
-#: server/diplhand.c:245
+#: server/diplhand.c:255
+#: server/diplhand.c:260
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] "%d şartla olan bir antlaşma imzalandı."
 
-#: server/diplhand.c:261
-#: server/diplhand.c:265
+#: server/diplhand.c:276
+#: server/diplhand.c:280
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr ""
 
-#: server/diplhand.c:272
-#: server/diplhand.c:277
+#: server/diplhand.c:287
+#: server/diplhand.c:292
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
 msgstr ""
 
-#: server/diplhand.c:314
-#: server/diplhand.c:318
+#: server/diplhand.c:329
+#: server/diplhand.c:333
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr ""
 
-#: server/diplhand.c:347
+#: server/diplhand.c:362
 #, c-format
 msgid "You gave an embassy to %s."
 msgstr "%s'ye bir büyükelçilik verdin.."
 
-#: server/diplhand.c:350
+#: server/diplhand.c:365
 #, c-format
 msgid "%s allowed you to create an embassy!"
 msgstr "%s büyükelçilik kurmak için izin verdiler!"
 
-#: server/diplhand.c:366
+#: server/diplhand.c:381
 #, c-format
 msgid "You are taught the knowledge of %s."
 msgstr "%s teknolojisi öğrendin."
 
-#: server/diplhand.c:370
+#: server/diplhand.c:385
 #, c-format
 msgid "The %s have acquired %s from the %s."
 msgstr ""
 
-#: server/diplhand.c:385
+#: server/diplhand.c:400
 #, c-format
 msgid "You get %d gold."
 msgstr "%d altın eline geçti."
 
-#: server/diplhand.c:392
+#: server/diplhand.c:407
 #, c-format
 msgid "You receive %s's worldmap."
 msgstr ""
 
-#: server/diplhand.c:400
+#: server/diplhand.c:415
 #, c-format
 msgid "You receive %s's seamap."
 msgstr ""
 
-#: server/diplhand.c:417
+#: server/diplhand.c:432
 #, c-format
 msgid "You receive city of %s from %s."
 msgstr ""
 
-#: server/diplhand.c:421
+#: server/diplhand.c:436
 #, c-format
 msgid "You give city of %s to %s."
 msgstr ""
 
-#: server/diplhand.c:433
-#: server/diplhand.c:436
+#: server/diplhand.c:448
+#: server/diplhand.c:451
 #, c-format
 msgid "You agree on a cease-fire with %s."
 msgstr "%s ile ateşkes imzalandı."
 
-#: server/diplhand.c:454
-#: server/diplhand.c:463
+#: server/diplhand.c:469
+#: server/diplhand.c:478
 #, c-format
 msgid "You agree on an armistice with %s. In %d turn it will turn into a peace treaty. Move your units out of %s's territory."
 msgid_plural "You agree on an armistice with %s. In %d turns it will turn into a peace treaty. Move your units out of %s's territory."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/diplhand.c:485
-#: server/diplhand.c:488
+#: server/diplhand.c:500
+#: server/diplhand.c:503
 #, c-format
 msgid "You agree on an alliance with %s."
 msgstr ""
 
-#: server/diplhand.c:497
+#: server/diplhand.c:512
 #, c-format
 msgid "You give shared vision to %s."
 msgstr "%s ile görüşlerini paylaşıyorsun."
 
-#: server/diplhand.c:500
+#: server/diplhand.c:515
 #, c-format
 msgid "%s gives you shared vision."
 msgstr "%s seninle görüşlerini paylaşıyor."
 
-#: server/diplhand.c:642
+#: server/diplhand.c:657
 #, c-format
 msgid "%s canceled the meeting!"
 msgstr "%s buluşması iptal etti!"
 
-#: server/diplhand.c:649
+#: server/diplhand.c:664
 #, c-format
 msgid "Meeting with %s canceled."
 msgstr "%s ile buluşma iptal edindi."
 
-#: server/diplhand.c:691
+#: server/diplhand.c:706
 msgid "Your diplomatic envoy was decapitated!"
 msgstr ""
 
@@ -3622,7 +3622,7 @@ msgstr ""
 msgid "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. Using '%s'."
 msgstr ""
 
-#: server/savegame.c:3996
+#: server/savegame.c:4002
 #, c-format
 msgid "Illegal alliance structure detected: %s's alliance to %s reduced to peace treaty."
 msgstr ""
@@ -3657,7 +3657,7 @@ msgstr "Ağ İşlemleri"
 
 #: server/settings.c:41
 #: client/gui-gtk-2.0/dialogs.c:730
-#: client/gui-win32/dialogs.c:537
+#: client/gui-win32/dialogs.c:532
 msgid "All"
 msgstr "Bütün"
 
@@ -3938,7 +3938,7 @@ msgstr ""
 
 #: server/settings.c:471
 msgid "Starting gold per player"
-msgstr ""
+msgstr "Başlangıçta oyuncu başı altın miktarı"
 
 #: server/settings.c:472
 msgid "At the beginning of the game, each player is given this much gold."
@@ -4269,7 +4269,7 @@ msgstr ""
 
 #: server/settings.c:874
 msgid "Year the game ends"
-msgstr ""
+msgstr "Oyunun bitiş yılı"
 
 #: server/settings.c:875
 msgid "The game will end at the end of the given year."
@@ -4409,7 +4409,7 @@ msgstr ""
 msgid "Server cannot read standard input. Ignoring input."
 msgstr ""
 
-#: server/sernet.c:908
+#: server/sernet.c:911
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr ""
@@ -4420,11 +4420,11 @@ msgstr ""
 
 #: server/spacerace.c:171
 msgid "Your spaceship is already launched!"
-msgstr ""
+msgstr "Uzay geminin zaten fırlattın!"
 
 #: server/spacerace.c:177
 msgid "Your spaceship can't be launched yet!"
-msgstr ""
+msgstr "Uzay geminin henüz fırlatamazsın!"
 
 #: server/spacerace.c:186
 #, c-format
@@ -4590,57 +4590,57 @@ msgstr ""
 msgid "Please choose a name containing only ASCII characters."
 msgstr ""
 
-#: server/srv_main.c:1366
+#: server/srv_main.c:1363
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr ""
 
-#: server/srv_main.c:1372
+#: server/srv_main.c:1369
 #, c-format
 msgid "%s nation is already in use."
 msgstr ""
 
-#: server/srv_main.c:1390
+#: server/srv_main.c:1387
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr ""
 
-#: server/srv_main.c:1448
+#: server/srv_main.c:1445
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 
-#: server/srv_main.c:1453
+#: server/srv_main.c:1450
 msgid "All players are ready; starting game."
 msgstr "Bütün oyuncular hazır; oyunu başlatılıyor."
 
-#: server/srv_main.c:1495
-#: server/srv_main.c:1499
+#: server/srv_main.c:1492
+#: server/srv_main.c:1496
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr ""
 
-#: server/srv_main.c:1626
+#: server/srv_main.c:1623
 #, c-format
 msgid "Player %d"
 msgstr "Oyuncu %d"
 
-#: server/srv_main.c:1637
-#: server/srv_main.c:1643
+#: server/srv_main.c:1634
+#: server/srv_main.c:1640
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s %s hükmediyor."
 
-#: server/srv_main.c:1815
+#: server/srv_main.c:1812
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr ""
 
-#: server/srv_main.c:1843
+#: server/srv_main.c:1840
 msgid "The game is over..."
 msgstr "Oyun bitti..."
 
-#: server/srv_main.c:1897
+#: server/srv_main.c:1894
 msgid "Now accepting new client connections."
 msgstr ""
 
@@ -5571,11 +5571,11 @@ msgstr ""
 
 #: server/stdinhand.c:3669
 msgid "You cannot surrender now."
-msgstr ""
+msgstr "Şu anda teslim olamazsın."
 
 #: server/stdinhand.c:3715
 msgid "Not enough players, game will not start."
-msgstr ""
+msgstr "Yeterli oyuncu sayısı olmayınca oyunu başlatılmaz."
 
 #: server/stdinhand.c:3732
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
@@ -5588,7 +5588,7 @@ msgstr ""
 #: server/stdinhand.c:3768
 #, c-format
 msgid "Cutting connection %s."
-msgstr ""
+msgstr "Bağlantı kesilir %s."
 
 #: server/stdinhand.c:3787
 msgid ""
@@ -5614,16 +5614,16 @@ msgstr ""
 #: server/stdinhand.c:3822
 #: server/stdinhand.c:3825
 msgid "Command:"
-msgstr ""
+msgstr "Komut:"
 
 #: server/stdinhand.c:3829
 msgid "Synopsis: "
-msgstr ""
+msgstr "Özet:"
 
 #: server/stdinhand.c:3838
 #, c-format
 msgid "Level: %s"
-msgstr ""
+msgstr "Düzey: %s"
 
 #: server/stdinhand.c:3863
 msgid "The following server commands are available:"
@@ -6298,52 +6298,52 @@ msgstr ""
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 
-#: server/unittools.c:3021
+#: server/unittools.c:3033
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 
-#: server/unittools.c:3073
+#: server/unittools.c:3085
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 
-#: server/unittools.c:3086
+#: server/unittools.c:3098
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
-#: server/unittools.c:3100
+#: server/unittools.c:3112
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
-#: server/unittools.c:3110
+#: server/unittools.c:3122
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 
-#: server/unittools.c:3136
+#: server/unittools.c:3148
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 
-#: server/unittools.c:3177
+#: server/unittools.c:3189
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 
-#: server/unittools.c:3188
+#: server/unittools.c:3200
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr ""
 
-#: server/unittools.c:3200
+#: server/unittools.c:3212
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr ""
 
-#: server/unittools.c:3209
+#: server/unittools.c:3221
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr ""
@@ -6740,14 +6740,14 @@ msgstr "En İyi Savunabilen Birlikler"
 #: client/gui-gtk-2.0/repodlgs.c:958
 #: client/gui-mui/citydlg.c:1360
 #: client/gui-mui/gui_main.c:246
-#: client/gui-sdl/helpdlg.c:660
+#: client/gui-sdl/helpdlg.c:693
 #: client/gui-sdl/mapctrl.c:1603
 #: client/gui-sdl/optiondlg.c:1835
 #: client/gui-sdl/repodlgs.c:355
 #: client/gui-win32/menu.c:351
-#: client/gui-win32/repodlgs.c:613
-#: client/gui-win32/repodlgs.c:698
-#: client/gui-win32/repodlgs.c:707
+#: client/gui-win32/repodlgs.c:614
+#: client/gui-win32/repodlgs.c:699
+#: client/gui-win32/repodlgs.c:708
 #: client/gui-xaw/menu.c:157
 #: client/gui-xaw/menu.c:219
 #: client/gui-xaw/menu.c:240
@@ -6926,7 +6926,7 @@ msgstr "?cma:Vali"
 #: client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487
 #: client/gui-mui/citydlg.c:1363
-#: client/gui-sdl/citydlg.c:3817
+#: client/gui-sdl/citydlg.c:3818
 #: client/gui-sdl/cma_fe.c:854
 #: client/gui-win32/citydlg.c:730
 #: data/Freeciv.in:1459
@@ -7787,198 +7787,244 @@ msgstr ""
 msgid "Features:\n"
 msgstr ""
 
-#: client/helpdata.c:1303
+#. TRANS: List of possible output types has this between
+#. *        last two elements
+#: client/helpdata.c:1375
+msgid "?outputlist: or "
+msgstr ""
+
+#. TRANS: List of possible output types has this between
+#. *        last two elements
+#: client/helpdata.c:1379
+msgid "?outputlist: and "
+msgstr ""
+
+#. TRANS: Empty output type list, should never happen.
+#: client/helpdata.c:1386
+#: client/helpdata.c:1387
+msgid "?outputlist: Nothing "
+msgstr ""
+
+#: client/helpdata.c:1394
 #, c-format
 msgid "* Military units away from home and field units will cause one citizen to become unhappy.\n"
 msgstr ""
 
-#: client/helpdata.c:1306
+#: client/helpdata.c:1397
 #, c-format
 msgid "* Military units away from home and field units will cause %d citizens to become unhappy.\n"
 msgstr ""
 
-#: client/helpdata.c:1313
+#: client/helpdata.c:1404
 #, c-format
 msgid "* Each of your cities will avoid %d unhappiness that would otherwise be caused by units.\n"
 msgstr ""
 
-#: client/helpdata.c:1319
+#: client/helpdata.c:1412
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1322
+#: client/helpdata.c:1415
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr ""
 
-#. TRANS: %s is the output type, like 'shields' or 'gold'. There
+#: client/helpdata.c:1420
+#, c-format
+msgid "* You pay no %s upkeep for your units.\n"
+msgstr ""
+
+#: client/helpdata.c:1425
+#, c-format
+msgid "* You pay no upkeep for your units.\n"
+msgstr ""
+
+#. TRANS: %s is the output type, like 'shield' or 'gold'. There
 #. * is currently no way to control the singular/plural version of
 #. * this.
-#: client/helpdata.c:1331
+#: client/helpdata.c:1433
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
 msgstr ""
 
-#: client/helpdata.c:1335
+#. TRANS: Amount is subtracted from upkeep cost in each upkeep
+#. *        type.
+#: client/helpdata.c:1439
 #, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
 msgstr ""
 
-#: client/helpdata.c:1340
+#: client/helpdata.c:1444
 #, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1344
+#: client/helpdata.c:1448
 #, c-format
 msgid "* The first unhappy citizen in each city due to civilization size will appear when you have %d cities.\n"
 msgstr ""
 
-#: client/helpdata.c:1349
+#: client/helpdata.c:1453
 #, c-format
 msgid "* After the first unhappy citizen due to city size, for each %d additional cities, another unhappy citizen will appear.\n"
 msgstr ""
 
-#: client/helpdata.c:1356
+#: client/helpdata.c:1460
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
-#: client/helpdata.c:1360
+#: client/helpdata.c:1464
 #, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 
-#: client/helpdata.c:1365
+#: client/helpdata.c:1469
 #, c-format
 msgid "* Your units may impose martial law. Each military unit inside a city will force an unhappy citizen to become content.\n"
 msgstr ""
 
-#: client/helpdata.c:1369
+#: client/helpdata.c:1473
 #, c-format
 msgid "* Your units may impose martial law. Each military unit inside a city will force %d unhappy citizens to become content.\n"
 msgstr ""
 
-#: client/helpdata.c:1376
+#: client/helpdata.c:1480
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr ""
 
-#: client/helpdata.c:1381
+#: client/helpdata.c:1485
 #, c-format
 msgid "* You may grow your cities by means of celebrations.  Your cities must be at least size %d before they can grown in this manner.\n"
 msgstr ""
 
-#: client/helpdata.c:1387
+#: client/helpdata.c:1491
 #, c-format
 msgid "* Your units cannot be bribed.\n"
 msgstr ""
 
-#: client/helpdata.c:1390
+#: client/helpdata.c:1494
 #, c-format
 msgid "* Your cities cannot be incited.\n"
 msgstr ""
 
-#: client/helpdata.c:1393
+#: client/helpdata.c:1497
 #, c-format
 msgid "* Government will fall into anarchy if any city is in disorder for more than two turns in a row.\n"
 msgstr ""
 
-#: client/helpdata.c:1398
+#: client/helpdata.c:1502
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr ""
 
-#: client/helpdata.c:1402
+#: client/helpdata.c:1506
 #, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 
-#: client/helpdata.c:1406
+#: client/helpdata.c:1510
 #, c-format
 msgid "* Buildings that normally confer bonuses against unhappiness will instead give gold.\n"
 msgstr ""
 
-#: client/helpdata.c:1410
+#: client/helpdata.c:1514
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
-#: client/helpdata.c:1413
+#: client/helpdata.c:1517
 #, c-format
 msgid "* Has no unhappy citizens.\n"
 msgstr ""
 
-#: client/helpdata.c:1417
-#: client/helpdata.c:1420
+#: client/helpdata.c:1526
+#: client/helpdata.c:1529
+#: client/helpdata.c:1532
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr ""
 
-#: client/helpdata.c:1423
+#: client/helpdata.c:1535
 #, c-format
 msgid "* Veteran units.\n"
 msgstr ""
 
-#: client/helpdata.c:1427
+#. TRANS: %s is list of output types, with 'or'
+#: client/helpdata.c:1540
 #, c-format
 msgid "* Each worked tile that gives more than %d %s will suffer a -1 penalty when not celebrating.\n"
 msgstr ""
 
-#: client/helpdata.c:1432
+#. TRANS: %s is list of output types, with 'or'
+#: client/helpdata.c:1546
 #, c-format
-msgid "* Each worked tile with at least 1 %s will yield %d additional %s when celebrating.\n"
+msgid "* Each worked tile with at least 1 %s will yield %d more of it when celebrating.\n"
 msgstr ""
 
-#: client/helpdata.c:1437
+#. TRANS: %s is list of output types, with 'or'
+#: client/helpdata.c:1552
 #, c-format
-msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
+msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
 
-#: client/helpdata.c:1443
+#. TRANS: %s is list of output types, with 'and'
+#: client/helpdata.c:1559
+#, c-format
+msgid "* %s production is increased %d%%.\n"
+msgstr ""
+
+#. TRANS: %s is list of output types, with 'and'
+#: client/helpdata.c:1565
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr ""
 
-#: client/helpdata.c:1446
+#. TRANS: %s is list of output types, with 'and'
+#: client/helpdata.c:1569
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr ""
 
-#: client/helpdata.c:1449
+#. TRANS: %s is list of output types, with 'and'
+#: client/helpdata.c:1573
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr ""
 
-#: client/helpdata.c:1455
+#. TRANS: %s is list of output types, with 'and'
+#: client/helpdata.c:1580
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1458
+#. TRANS: %s is list of output types, with 'and'
+#: client/helpdata.c:1584
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1461
+#. TRANS: %s is list of output types, with 'and'
+#: client/helpdata.c:1588
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1472
+#: client/helpdata.c:1605
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr ""
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1498
+#: client/helpdata.c:1631
 #, c-format
 msgid "%s%d %s"
 msgstr ""
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1506
+#: client/helpdata.c:1639
 #, c-format
 msgid "%s%d unhappy"
 msgstr ""
@@ -7999,27 +8045,27 @@ msgstr ""
 
 #: client/options.c:89
 msgid "Graphics"
-msgstr ""
+msgstr "Grafik"
 
 #: client/options.c:90
 msgid "Overview"
-msgstr ""
+msgstr ";yet"
 
 #: client/options.c:91
 msgid "Sound"
-msgstr ""
+msgstr "Ses"
 
 #: client/options.c:92
 msgid "Interface"
-msgstr ""
+msgstr "Arayüzü"
 
 #: client/options.c:93
 msgid "Network"
-msgstr ""
+msgstr "Ağ"
 
 #: client/options.c:98
 msgid "Login name"
-msgstr ""
+msgstr "Giriş adı"
 
 #: client/options.c:99
 msgid "This is the default login username that will be used in the connection dialogs or with the -a command-line parameter."
@@ -8027,7 +8073,7 @@ msgstr ""
 
 #: client/options.c:104
 msgid "Server"
-msgstr ""
+msgstr "Sunucu"
 
 #: client/options.c:105
 msgid "This is the default server hostname that will be used in the connection dialogs or with the -a command-line parameter."
@@ -8035,7 +8081,7 @@ msgstr ""
 
 #: client/options.c:110
 msgid "Server port"
-msgstr ""
+msgstr "Sunucu port"
 
 #: client/options.c:111
 msgid "This is the default server port that will be used in the connection dialogs or with the -a command-line parameter."
@@ -8062,7 +8108,7 @@ msgstr ""
 
 #: client/options.c:129
 msgid "Sound plugin"
-msgstr ""
+msgstr "Ses eklentisi"
 
 #: client/options.c:130
 msgid "If you have a problem with sound, try changing the sound plugin.  The new plugin won't take effect until you restart Freeciv.  Changing this is the same as using the -P command-line option."
@@ -8071,7 +8117,7 @@ msgstr ""
 #: client/options.c:135
 #: client/gui-sdl/gui_main.c:162
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: client/options.c:136
 msgid "By changing this option you change the active theme."
@@ -8388,7 +8434,7 @@ msgstr "Bayrak"
 #: client/gui-mui/plrdlg.c:167
 #: client/gui-sdl/repodlgs.c:2036
 #: client/gui-win32/connectdlg.c:988
-#: client/gui-win32/dialogs.c:547
+#: client/gui-win32/dialogs.c:542
 #: client/gui-win32/plrdlg.c:335
 msgid "Nation"
 msgstr "Millet"
@@ -8936,7 +8982,7 @@ msgstr ""
 #: client/text.c:895
 #, c-format
 msgid "Pollution rate: %d%%"
-msgstr ""
+msgstr "Kirlilik oranı: %d%%"
 
 #: client/text.c:897
 #, c-format
@@ -9077,19 +9123,19 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Mucize:"
 
-#: client/tilespec.c:859
+#: client/tilespec.c:866
 msgid "No usable default tileset found, aborting!"
 msgstr ""
 
-#: client/tilespec.c:1337
+#: client/tilespec.c:1344
 msgid "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:1346
+#: client/tilespec.c:1353
 msgid "Client does not support overhead view tilesets. Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:3973
+#: client/tilespec.c:3981
 #, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
@@ -9110,7 +9156,7 @@ msgstr ""
 #: client/agents/cma_fec.c:218
 #: client/gui-gtk-2.0/cityrep.c:546
 #: client/gui-gtk-2.0/cityrep.c:565
-#: client/gui-sdl/citydlg.c:2004
+#: client/gui-sdl/citydlg.c:2005
 msgid "none"
 msgstr "hiç"
 
@@ -9166,19 +9212,19 @@ msgid "?cma:Max science"
 msgstr "?cma:Max. bilim"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:83
-#: client/gui-win32/dialogs.c:1369
+#: client/gui-win32/dialogs.c:1364
 msgid "Ooops..."
 msgstr "Hayrulla..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:84
-#: client/gui-win32/dialogs.c:1370
+#: client/gui-win32/dialogs.c:1365
 msgid "This unit cannot be bribed!"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:91
 #: client/gui-mui/dialogs.c:221
 #: client/gui-sdl/diplomat_dialog.c:1390
-#: client/gui-win32/dialogs.c:1374
+#: client/gui-win32/dialogs.c:1369
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -9189,7 +9235,7 @@ msgstr ""
 #: client/gui-mui/dialogs.c:224
 #: client/gui-sdl/diplomat_dialog.c:697
 #: client/gui-sdl/diplomat_dialog.c:1372
-#: client/gui-win32/dialogs.c:1376
+#: client/gui-win32/dialogs.c:1371
 #: data/Freeciv.in:2419
 #: data/Freeciv.in:2432
 msgid "Bribe Enemy Unit"
@@ -9198,7 +9244,7 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:99
 #: client/gui-mui/dialogs.c:230
 #: client/gui-sdl/diplomat_dialog.c:1436
-#: client/gui-win32/dialogs.c:1382
+#: client/gui-win32/dialogs.c:1377
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -9211,8 +9257,8 @@ msgstr ""
 #: client/gui-mui/dialogs.c:501
 #: client/gui-sdl/diplomat_dialog.c:1244
 #: client/gui-sdl/diplomat_dialog.c:1449
-#: client/gui-win32/dialogs.c:1386
-#: client/gui-win32/dialogs.c:1569
+#: client/gui-win32/dialogs.c:1381
+#: client/gui-win32/dialogs.c:1564
 #: data/Freeciv.in:2454
 msgid "Traitors Demand Too Much!"
 msgstr ""
@@ -9220,7 +9266,7 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:232
 #: client/gui-mui/dialogs.c:318
 #: client/gui-sdl/diplomat_dialog.c:646
-#: client/gui-win32/dialogs.c:1285
+#: client/gui-win32/dialogs.c:1280
 #: data/Freeciv.in:2285
 #: data/Freeciv.in:2318
 #: data/Freeciv.in:2335
@@ -9235,7 +9281,7 @@ msgstr "_Çal"
 #: client/gui-gtk-2.0/diplomat_dialog.c:246
 #: client/gui-mui/dialogs.c:322
 #: client/gui-sdl/diplomat_dialog.c:250
-#: client/gui-win32/dialogs.c:1295
+#: client/gui-win32/dialogs.c:1290
 #: data/Freeciv.in:2350
 msgid "Select Advance to Steal"
 msgstr "Çalınacak Teknolojisi Seç"
@@ -9250,14 +9296,14 @@ msgstr "_İlerlemeler:"
 #: client/gui-mui/dialogs.c:393
 #: client/gui-sdl/diplomat_dialog.c:332
 #: client/gui-sdl/diplomat_dialog.c:925
-#: client/gui-win32/dialogs.c:1198
-#: client/gui-win32/dialogs.c:1410
+#: client/gui-win32/dialogs.c:1193
+#: client/gui-win32/dialogs.c:1405
 msgid "At Spy's Discretion"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:376
 #: client/gui-mui/dialogs.c:409
-#: client/gui-win32/dialogs.c:1484
+#: client/gui-win32/dialogs.c:1479
 #: data/Freeciv.in:2377
 msgid "Sabotage Improvements"
 msgstr "Gelişimleri sabote et"
@@ -9270,7 +9316,7 @@ msgstr "_Sabotaj"
 #: client/gui-gtk-2.0/diplomat_dialog.c:390
 #: client/gui-mui/dialogs.c:413
 #: client/gui-sdl/diplomat_dialog.c:842
-#: client/gui-win32/dialogs.c:1494
+#: client/gui-win32/dialogs.c:1489
 #: data/Freeciv.in:2392
 msgid "Select Improvement to Sabotage"
 msgstr ""
@@ -9284,14 +9330,14 @@ msgstr "_Gelişimler:"
 #: client/gui-mui/dialogs.c:392
 #: client/gui-sdl/diplomat_dialog.c:869
 #: client/gui-sdl/optiondlg.c:1591
-#: client/gui-win32/dialogs.c:1399
+#: client/gui-win32/dialogs.c:1394
 msgid "City Production"
 msgstr "Kent Prodüksiyonu"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:538
 #: client/gui-mui/dialogs.c:483
 #: client/gui-sdl/diplomat_dialog.c:1162
-#: client/gui-win32/dialogs.c:1552
+#: client/gui-win32/dialogs.c:1547
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "%s şehirde bir isyan başlatamazsın."
@@ -9299,14 +9345,14 @@ msgstr "%s şehirde bir isyan başlatamazsın."
 #: client/gui-gtk-2.0/diplomat_dialog.c:540
 #: client/gui-mui/dialogs.c:485
 #: client/gui-sdl/diplomat_dialog.c:1173
-#: client/gui-win32/dialogs.c:1554
+#: client/gui-win32/dialogs.c:1549
 msgid "City can't be incited!"
 msgstr "Bu şehirde isyan başlatılmaz!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:546
 #: client/gui-mui/dialogs.c:488
 #: client/gui-sdl/diplomat_dialog.c:1182
-#: client/gui-win32/dialogs.c:1558
+#: client/gui-win32/dialogs.c:1553
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -9318,7 +9364,7 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:548
 #: client/gui-mui/dialogs.c:492
 #: client/gui-sdl/diplomat_dialog.c:1132
-#: client/gui-win32/dialogs.c:1561
+#: client/gui-win32/dialogs.c:1556
 #: data/Freeciv.in:2443
 msgid "Incite a Revolt!"
 msgstr "İsyanı Başlat!"
@@ -9326,7 +9372,7 @@ msgstr "İsyanı Başlat!"
 #: client/gui-gtk-2.0/diplomat_dialog.c:554
 #: client/gui-mui/dialogs.c:499
 #: client/gui-sdl/diplomat_dialog.c:1230
-#: client/gui-win32/dialogs.c:1566
+#: client/gui-win32/dialogs.c:1561
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -9336,7 +9382,7 @@ msgstr ""
 "Hazinede %d altın var."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:617
-#: client/gui-win32/dialogs.c:1605
+#: client/gui-win32/dialogs.c:1600
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -9344,40 +9390,40 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:623
-#: client/gui-win32/dialogs.c:1611
+#: client/gui-win32/dialogs.c:1606
 msgid " Choose Your Diplomat's Strategy"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:624
 #: client/gui-gtk-2.0/diplomat_dialog.c:648
-#: client/gui-win32/dialogs.c:1612
-#: client/gui-win32/dialogs.c:1633
+#: client/gui-win32/dialogs.c:1607
+#: client/gui-win32/dialogs.c:1628
 msgid "Establish _Embassy"
 msgstr "Büyükelçilik Aç"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:625
 #: client/gui-gtk-2.0/diplomat_dialog.c:649
-#: client/gui-win32/dialogs.c:1613
-#: client/gui-win32/dialogs.c:1634
+#: client/gui-win32/dialogs.c:1608
+#: client/gui-win32/dialogs.c:1629
 msgid "_Investigate City"
 msgstr "Kent _Araştırması"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:626
-#: client/gui-win32/dialogs.c:1614
+#: client/gui-win32/dialogs.c:1609
 msgid "_Sabotage City"
 msgstr "_Kenti Sabote Et"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:627
 #: client/gui-gtk-2.0/diplomat_dialog.c:652
-#: client/gui-win32/dialogs.c:1615
-#: client/gui-win32/dialogs.c:1637
+#: client/gui-win32/dialogs.c:1610
+#: client/gui-win32/dialogs.c:1632
 msgid "Steal _Technology"
 msgstr "_Teknoloji Çal"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:628
 #: client/gui-gtk-2.0/diplomat_dialog.c:653
-#: client/gui-win32/dialogs.c:1616
-#: client/gui-win32/dialogs.c:1638
+#: client/gui-win32/dialogs.c:1611
+#: client/gui-win32/dialogs.c:1633
 msgid "Incite a _Revolt"
 msgstr ""
 
@@ -9387,32 +9433,32 @@ msgstr ""
 #: client/gui-mui/dialogs.c:771
 #: client/gui-mui/dialogs.c:838
 #: client/gui-mui/dialogs.c:1010
-#: client/gui-win32/dialogs.c:1059
+#: client/gui-win32/dialogs.c:1054
 msgid "_Keep moving"
 msgstr "_Devam et"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:647
 #: client/gui-mui/dialogs.c:850
 #: client/gui-sdl/diplomat_dialog.c:548
-#: client/gui-win32/dialogs.c:1632
+#: client/gui-win32/dialogs.c:1627
 #: data/Freeciv.in:2299
 msgid "Choose Your Spy's Strategy"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:650
-#: client/gui-win32/dialogs.c:1635
+#: client/gui-win32/dialogs.c:1630
 msgid "_Poison City"
 msgstr "_Kenti Zehirle"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:651
-#: client/gui-win32/dialogs.c:1636
+#: client/gui-win32/dialogs.c:1631
 msgid "Industrial _Sabotage"
 msgstr "Industri _Sabotaj"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:688
 #: client/gui-mui/dialogs.c:885
 #: client/gui-sdl/diplomat_dialog.c:557
-#: client/gui-win32/dialogs.c:1663
+#: client/gui-win32/dialogs.c:1658
 #: data/Freeciv.in:2430
 msgid "Subvert Enemy Unit"
 msgstr ""
@@ -9420,26 +9466,26 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:690
 #: client/gui-mui/dialogs.c:784
 #: client/gui-mui/dialogs.c:887
-#: client/gui-win32/dialogs.c:1665
+#: client/gui-win32/dialogs.c:1660
 msgid "Sir, the diplomat is waiting for your command"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:691
 #: client/gui-mui/dialogs.c:851
 #: client/gui-mui/dialogs.c:888
-#: client/gui-win32/dialogs.c:1666
+#: client/gui-win32/dialogs.c:1661
 msgid "Sir, the spy is waiting for your command"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:692
 #: client/gui-mui/dialogs.c:865
-#: client/gui-win32/dialogs.c:1667
+#: client/gui-win32/dialogs.c:1662
 msgid "_Bribe Enemy Unit"
 msgstr "Karşı Birliğine _Rüşvet Ver"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:693
 #: client/gui-mui/dialogs.c:873
-#: client/gui-win32/dialogs.c:1668
+#: client/gui-win32/dialogs.c:1663
 msgid "_Sabotage Enemy Unit"
 msgstr "Karşı Birliği Baltala"
 
@@ -9449,13 +9495,13 @@ msgid "Help build _Wonder (%d remaining)"
 msgstr "Mucize yaratmasında yardım et (kalan %d)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:85
-#: client/gui-win32/dialogs.c:1058
+#: client/gui-win32/dialogs.c:1053
 msgid "Help build _Wonder"
 msgstr "Mucize yaratmasında yardım et"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:100
 #: client/gui-mui/dialogs.c:973
-#: client/gui-win32/dialogs.c:1043
+#: client/gui-win32/dialogs.c:1038
 #: client/gui-xaw/dialogs.c:443
 #, c-format
 msgid ""
@@ -9467,18 +9513,18 @@ msgstr ""
 
 #: client/gui-gtk-2.0/caravan_dialog.c:114
 #: client/gui-mui/dialogs.c:1016
-#: client/gui-win32/dialogs.c:1054
+#: client/gui-win32/dialogs.c:1049
 #: data/Freeciv.in:2259
 msgid "Your Caravan Has Arrived"
 msgstr "Kervanı ulaştı:"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:116
-#: client/gui-win32/dialogs.c:1056
+#: client/gui-win32/dialogs.c:1051
 msgid "Establish _Traderoute"
 msgstr "Ticaret Yolu Aç"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:117
-#: client/gui-win32/dialogs.c:1057
+#: client/gui-win32/dialogs.c:1052
 msgid "Enter Marketplace"
 msgstr "Çarşıya Git"
 
@@ -9579,7 +9625,7 @@ msgid "Info"
 msgstr "İnfo"
 
 #: client/gui-gtk-2.0/citydlg.c:678
-#: client/gui-sdl/citydlg.c:2517
+#: client/gui-sdl/citydlg.c:2518
 #: client/gui-win32/citydlg.c:786
 msgid "City map"
 msgstr "Şehir planı"
@@ -9714,25 +9760,25 @@ msgstr "<b>%s</b> - Nüfus: %s"
 
 #: client/gui-gtk-2.0/citydlg.c:1324
 #: client/gui-mui/citydlg.c:2054
-#: client/gui-sdl/citydlg.c:3604
+#: client/gui-sdl/citydlg.c:3605
 msgid " - DISORDER"
 msgstr "- KARGAŞA"
 
 #: client/gui-gtk-2.0/citydlg.c:1326
 #: client/gui-mui/citydlg.c:2056
-#: client/gui-sdl/citydlg.c:3607
+#: client/gui-sdl/citydlg.c:3608
 msgid " - celebrating"
 msgstr "- kutlama"
 
 #: client/gui-gtk-2.0/citydlg.c:1328
 #: client/gui-mui/citydlg.c:2058
-#: client/gui-sdl/citydlg.c:3610
+#: client/gui-sdl/citydlg.c:3611
 msgid " - happy"
 msgstr "- mutlu"
 
 #: client/gui-gtk-2.0/citydlg.c:1415
 #: client/gui-mui/citydlg.c:1814
-#: client/gui-sdl/citydlg.c:3293
+#: client/gui-sdl/citydlg.c:3294
 #: client/gui-win32/citydlg.c:453
 msgid "blocked"
 msgstr ""
@@ -9838,7 +9884,7 @@ msgstr ""
 "%s fiyatı %d altın.\n"
 "Hazinede %d altın var."
 
-#: client/gui-gtk-2.0/citydlg.c:2493
+#: client/gui-gtk-2.0/citydlg.c:2492
 #: client/gui-mui/citydlg.c:987
 #: client/gui-sdl/citydlg.c:1395
 #: client/gui-win32/citydlg.c:962
@@ -9847,19 +9893,19 @@ msgstr ""
 msgid "Sell %s for %d gold?"
 msgstr "%s %d altın için satalım mı?"
 
-#: client/gui-gtk-2.0/citydlg.c:2498
+#: client/gui-gtk-2.0/citydlg.c:2497
 #: client/gui-mui/citydlg.c:992
 #: client/gui-win32/citydlg.c:967
 #: data/Freeciv.in:2239
 msgid "Sell It!"
 msgstr "Sat!"
 
-#: client/gui-gtk-2.0/citydlg.c:2574
+#: client/gui-gtk-2.0/citydlg.c:2573
 #: client/gui-win32/citydlg.c:1207
 msgid "Rename City"
 msgstr "Şehir Yeniden Adlandır"
 
-#: client/gui-gtk-2.0/citydlg.c:2576
+#: client/gui-gtk-2.0/citydlg.c:2575
 #: client/gui-win32/citydlg.c:1208
 #: client/gui-xaw/citydlg.c:1381
 msgid "What should we rename the city to?"
@@ -9931,7 +9977,7 @@ msgstr "_Popup"
 #: client/gui-gtk-2.0/menu.c:782
 #: client/gui-gtk-2.0/menu.c:784
 #: client/gui-mui/gui_main.c:238
-#: client/gui-sdl/helpdlg.c:283
+#: client/gui-sdl/helpdlg.c:299
 #: client/gui-win32/menu.c:342
 #: client/gui-xaw/menu.c:239
 msgid "Improvements"
@@ -10120,7 +10166,7 @@ msgstr "Kent _Tanıtım"
 #: client/gui-gtk-2.0/dialogs.c:256
 #: client/gui-mui/dialogs.c:1043
 #: client/gui-sdl/dialogs.c:2081
-#: client/gui-win32/dialogs.c:981
+#: client/gui-win32/dialogs.c:976
 #: client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
 msgstr "Hükümetini gerçekten devrilmek ister misin?"
@@ -10128,21 +10174,21 @@ msgstr "Hükümetini gerçekten devrilmek ister misin?"
 #: client/gui-gtk-2.0/dialogs.c:257
 #: client/gui-mui/dialogs.c:1043
 #: client/gui-sdl/dialogs.c:2100
-#: client/gui-win32/dialogs.c:980
+#: client/gui-win32/dialogs.c:975
 #: data/Freeciv.in:2462
 msgid "Revolution!"
 msgstr "Devrim!"
 
 #: client/gui-gtk-2.0/dialogs.c:310
 #: client/gui-sdl/dialogs.c:1739
-#: client/gui-win32/dialogs.c:1752
+#: client/gui-win32/dialogs.c:1747
 #: data/Freeciv.in:2500
 msgid "What To Pillage"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:311
 #: client/gui-mui/dialogs.c:1117
-#: client/gui-win32/dialogs.c:1759
+#: client/gui-win32/dialogs.c:1754
 #: data/Freeciv.in:2502
 msgid "Select what to pillage:"
 msgstr ""
@@ -10186,7 +10232,7 @@ msgid "What Nation Will You Be?"
 msgstr "Nerelisin?"
 
 #: client/gui-gtk-2.0/dialogs.c:764
-#: client/gui-sdl/chatline.c:543
+#: client/gui-sdl/chatline.c:542
 #: client/gui-win32/connectdlg.c:1036
 #: data/Freeciv.in:3371
 msgid "Pick Nation"
@@ -10197,7 +10243,7 @@ msgid "Random Nation"
 msgstr "Rastgele Ulus"
 
 #: client/gui-gtk-2.0/dialogs.c:785
-#: client/gui-win32/dialogs.c:522
+#: client/gui-win32/dialogs.c:517
 msgid "Select a nation"
 msgstr "Ulus seç"
 
@@ -10238,7 +10284,7 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:1245
 #: client/gui-mui/dialogs.c:1521
 #: client/gui-sdl/dialogs.c:2199
-#: client/gui-win32/dialogs.c:355
+#: client/gui-win32/dialogs.c:358
 #: client/gui-xaw/dialogs.c:1489
 msgid "You must type a legal name."
 msgstr ""
@@ -10258,7 +10304,7 @@ msgstr "Birliği Yükselt!"
 #: client/gui-sdl/dialogs.c:422
 #: client/gui-sdl/repodlgs.c:191
 #: client/gui-win32/citydlg.c:1453
-#: client/gui-win32/repodlgs.c:574
+#: client/gui-win32/repodlgs.c:575
 #: data/Freeciv.in:2473
 msgid "Upgrade Obsolete Units"
 msgstr ""
@@ -10566,7 +10612,7 @@ msgid "<Hard AI>"
 msgstr "<Sert YZ>"
 
 #: client/gui-gtk-2.0/gui_main.c:1534
-#: client/gui-win32/dialogs.c:599
+#: client/gui-win32/dialogs.c:594
 msgid "Random"
 msgstr "Rastgele"
 
@@ -10634,25 +10680,25 @@ msgstr "Lüks: toplam %d."
 
 #: client/gui-gtk-2.0/happiness.c:297
 #: client/gui-mui/citydlg.c:2232
-#: client/gui-win32/happiness.c:248
+#: client/gui-win32/happiness.c:247
 msgid "Units: "
 msgstr "Birlikler:"
 
 #: client/gui-gtk-2.0/happiness.c:301
 #: client/gui-mui/citydlg.c:2236
-#: client/gui-win32/happiness.c:252
+#: client/gui-win32/happiness.c:251
 msgid "Martial law in effect ("
 msgstr ""
 
 #: client/gui-gtk-2.0/happiness.c:305
 #: client/gui-mui/citydlg.c:2240
-#: client/gui-win32/happiness.c:256
+#: client/gui-win32/happiness.c:255
 msgid "no maximum, "
 msgstr "maksimum yok,"
 
 #: client/gui-gtk-2.0/happiness.c:307
 #: client/gui-mui/citydlg.c:2242
-#: client/gui-win32/happiness.c:258
+#: client/gui-win32/happiness.c:257
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
@@ -10661,19 +10707,19 @@ msgstr[1] ""
 
 #: client/gui-gtk-2.0/happiness.c:311
 #: client/gui-mui/citydlg.c:2246
-#: client/gui-win32/happiness.c:262
+#: client/gui-win32/happiness.c:261
 #, c-format
 msgid "%d per unit). "
 msgstr ""
 
 #: client/gui-gtk-2.0/happiness.c:316
 #: client/gui-mui/citydlg.c:2249
-#: client/gui-win32/happiness.c:267
+#: client/gui-win32/happiness.c:266
 msgid "Military units in the field may cause unhappiness. "
 msgstr ""
 
 #: client/gui-gtk-2.0/happiness.c:320
-#: client/gui-win32/happiness.c:271
+#: client/gui-win32/happiness.c:270
 msgid "Military units have no happiness effect. "
 msgstr ""
 
@@ -10682,8 +10728,8 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:95
 #: client/gui-mui/helpdlg.c:488
 #: client/gui-mui/helpdlg.c:504
-#: client/gui-sdl/helpdlg.c:330
-#: client/gui-sdl/helpdlg.c:707
+#: client/gui-sdl/helpdlg.c:347
+#: client/gui-sdl/helpdlg.c:740
 #: client/gui-win32/helpdlg.c:79
 #: client/gui-win32/helpdlg.c:82
 #: client/gui-win32/helpdlg.c:86
@@ -10694,8 +10740,8 @@ msgstr "Masraf:"
 
 #: client/gui-gtk-2.0/helpdlg.c:88
 #: client/gui-mui/helpdlg.c:490
-#: client/gui-sdl/helpdlg.c:338
-#: client/gui-sdl/helpdlg.c:716
+#: client/gui-sdl/helpdlg.c:355
+#: client/gui-sdl/helpdlg.c:749
 #: client/gui-win32/helpdlg.c:79
 #: data/Freeciv.in:653
 msgid "Upkeep:"
@@ -10707,8 +10753,8 @@ msgstr "Bakım Masrafı:"
 #: client/gui-mui/helpdlg.c:492
 #: client/gui-mui/helpdlg.c:506
 #: client/gui-mui/helpdlg.c:571
-#: client/gui-sdl/helpdlg.c:347
-#: client/gui-sdl/helpdlg.c:754
+#: client/gui-sdl/helpdlg.c:366
+#: client/gui-sdl/helpdlg.c:789
 #: client/gui-win32/helpdlg.c:79
 #: client/gui-win32/helpdlg.c:82
 #: client/gui-win32/helpdlg.c:90
@@ -10720,8 +10766,8 @@ msgstr "Gereksinim:"
 #: client/gui-gtk-2.0/helpdlg.c:99
 #: client/gui-mui/helpdlg.c:508
 #: client/gui-mui/helpdlg.c:573
-#: client/gui-sdl/helpdlg.c:376
-#: client/gui-sdl/helpdlg.c:779
+#: client/gui-sdl/helpdlg.c:398
+#: client/gui-sdl/helpdlg.c:814
 #: client/gui-win32/helpdlg.c:82
 #: client/gui-win32/helpdlg.c:90
 #: data/Freeciv.in:732
@@ -10730,7 +10776,7 @@ msgstr "Kullanımdan kalkar:"
 
 #: client/gui-gtk-2.0/helpdlg.c:95
 #: client/gui-mui/helpdlg.c:555
-#: client/gui-sdl/helpdlg.c:740
+#: client/gui-sdl/helpdlg.c:773
 #: client/gui-win32/helpdlg.c:86
 #: data/Freeciv.in:795
 msgid "Attack:"
@@ -10738,7 +10784,7 @@ msgstr "Saldırı:"
 
 #: client/gui-gtk-2.0/helpdlg.c:96
 #: client/gui-mui/helpdlg.c:557
-#: client/gui-sdl/helpdlg.c:741
+#: client/gui-sdl/helpdlg.c:774
 #: client/gui-win32/helpdlg.c:87
 #: data/Freeciv.in:813
 msgid "Defense:"
@@ -10746,21 +10792,21 @@ msgstr "Savunma:"
 
 #: client/gui-gtk-2.0/helpdlg.c:96
 #: client/gui-mui/helpdlg.c:559
-#: client/gui-sdl/helpdlg.c:742
+#: client/gui-sdl/helpdlg.c:775
 #: client/gui-win32/helpdlg.c:87
 #: data/Freeciv.in:831
 msgid "Move:"
 msgstr "Adım:"
 
 #: client/gui-gtk-2.0/helpdlg.c:97
-#: client/gui-sdl/helpdlg.c:744
+#: client/gui-sdl/helpdlg.c:777
 #: client/gui-win32/helpdlg.c:88
 msgid "FirePower:"
 msgstr "Ateş gücü:"
 
 #: client/gui-gtk-2.0/helpdlg.c:97
 #: client/gui-mui/helpdlg.c:565
-#: client/gui-sdl/helpdlg.c:745
+#: client/gui-sdl/helpdlg.c:778
 #: client/gui-win32/helpdlg.c:88
 #: data/Freeciv.in:876
 msgid "Hitpoints:"
@@ -10775,7 +10821,7 @@ msgstr "Temel Bakım Masrafı:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98
 #: client/gui-mui/helpdlg.c:561
-#: client/gui-sdl/helpdlg.c:743
+#: client/gui-sdl/helpdlg.c:776
 #: client/gui-win32/helpdlg.c:89
 #: data/Freeciv.in:894
 msgid "Vision:"
@@ -10866,7 +10912,7 @@ msgstr "Hepsini Katla"
 #: client/gui-gtk-2.0/helpdlg.c:981
 #: client/gui-gtk-2.0/helpdlg.c:990
 #: client/gui-gtk-2.0/helpdlg.c:1007
-#: client/gui-sdl/helpdlg.c:944
+#: client/gui-sdl/helpdlg.c:983
 msgid "Allows"
 msgstr "Sağladıkları:"
 
@@ -12022,7 +12068,7 @@ msgid "Ready"
 msgstr "Hazır"
 
 #: client/gui-gtk-2.0/pages.c:1504
-#: data/default/units.ruleset:1738
+#: data/default/units.ruleset:1863
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Önder"
@@ -12162,25 +12208,25 @@ msgstr "Gelir: %d    Toplam Masraf: %d"
 
 #: client/gui-gtk-2.0/repodlgs.c:931
 #: client/gui-mui/repodlgs.c:664
-#: client/gui-win32/repodlgs.c:691
+#: client/gui-win32/repodlgs.c:692
 msgid "Unit Type"
 msgstr "Birlikler"
 
 #: client/gui-gtk-2.0/repodlgs.c:932
 #: client/gui-mui/repodlgs.c:665
-#: client/gui-win32/repodlgs.c:691
+#: client/gui-win32/repodlgs.c:692
 msgid "U"
 msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:933
 #: client/gui-mui/repodlgs.c:666
-#: client/gui-win32/repodlgs.c:692
+#: client/gui-win32/repodlgs.c:693
 msgid "In-Prog"
 msgstr "Yapılır"
 
 #: client/gui-gtk-2.0/repodlgs.c:934
 #: client/gui-mui/repodlgs.c:667
-#: client/gui-win32/repodlgs.c:692
+#: client/gui-win32/repodlgs.c:693
 msgid "Active"
 msgstr "Etkin"
 
@@ -12444,9 +12490,9 @@ msgstr "Bakım Masrafı"
 #: client/gui-win32/citydlg.c:913
 #: client/gui-win32/citydlg.c:967
 #: client/gui-win32/citydlg.c:1454
-#: client/gui-win32/dialogs.c:982
-#: client/gui-win32/dialogs.c:1378
-#: client/gui-win32/dialogs.c:1562
+#: client/gui-win32/dialogs.c:977
+#: client/gui-win32/dialogs.c:1373
+#: client/gui-win32/dialogs.c:1557
 msgid "_Yes"
 msgstr "_Evet"
 
@@ -12459,9 +12505,9 @@ msgstr "_Evet"
 #: client/gui-win32/citydlg.c:914
 #: client/gui-win32/citydlg.c:968
 #: client/gui-win32/citydlg.c:1456
-#: client/gui-win32/dialogs.c:983
-#: client/gui-win32/dialogs.c:1379
-#: client/gui-win32/dialogs.c:1563
+#: client/gui-win32/dialogs.c:978
+#: client/gui-win32/dialogs.c:1374
+#: client/gui-win32/dialogs.c:1558
 msgid "_No"
 msgstr "_Hayır"
 
@@ -12493,9 +12539,9 @@ msgstr "Freeciv - Şehrin Üretimi"
 #: client/gui-mui/worklistclass.c:695
 #: client/gui-win32/citydlg.c:1491
 #: client/gui-win32/citydlg.c:1530
-#: client/gui-win32/dialogs.c:1617
-#: client/gui-win32/dialogs.c:1639
-#: client/gui-win32/dialogs.c:1669
+#: client/gui-win32/dialogs.c:1612
+#: client/gui-win32/dialogs.c:1634
+#: client/gui-win32/dialogs.c:1664
 msgid "_Cancel"
 msgstr "İ_ptal"
 
@@ -12566,7 +12612,7 @@ msgid "Units present"
 msgstr "Varolan birlikler"
 
 #: client/gui-mui/citydlg.c:1458
-#: client/gui-sdl/citydlg.c:2546
+#: client/gui-sdl/citydlg.c:2547
 #: data/helpdata.txt:871
 msgid "City Improvements"
 msgstr "Şehir Gelişimleri"
@@ -12770,7 +12816,7 @@ msgstr "_Git ve Kapat"
 #: client/gui-sdl/diplomat_dialog.c:1402
 #: client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:231
-#: client/gui-win32/repodlgs.c:575
+#: client/gui-win32/repodlgs.c:576
 #: client/gui-xaw/citydlg.c:2430
 #: client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327
@@ -12802,7 +12848,7 @@ msgstr "Evet"
 #: client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:220
 #: client/gui-sdl/repodlgs.c:1529
-#: client/gui-win32/repodlgs.c:577
+#: client/gui-win32/repodlgs.c:578
 #: client/gui-xaw/citydlg.c:2430
 #: client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327
@@ -12830,9 +12876,9 @@ msgstr "Hayır"
 #: client/gui-mui/dialogs.c:502
 #: client/gui-win32/citydlg.c:922
 #: client/gui-win32/citydlg.c:1461
-#: client/gui-win32/dialogs.c:1386
-#: client/gui-win32/dialogs.c:1555
-#: client/gui-win32/dialogs.c:1570
+#: client/gui-win32/dialogs.c:1381
+#: client/gui-win32/dialogs.c:1550
+#: client/gui-win32/dialogs.c:1565
 #: data/Freeciv.in:2252
 #: data/Freeciv.in:2456
 #: data/Freeciv.in:2486
@@ -12925,14 +12971,14 @@ msgstr " (kidemli)"
 #: client/gui-sdl/dialogs.c:2229
 #: client/gui-sdl/dialogs.c:2613
 #: client/gui-sdl/dialogs.c:2824
-#: client/gui-win32/dialogs.c:570
+#: client/gui-win32/dialogs.c:565
 msgid "Male"
 msgstr "Erkek"
 
 #: client/gui-mui/dialogs.c:1594
 #: client/gui-sdl/dialogs.c:2227
 #: client/gui-sdl/dialogs.c:2615
-#: client/gui-win32/dialogs.c:572
+#: client/gui-win32/dialogs.c:567
 #: data/Freeciv.in:3159
 msgid "Female"
 msgstr "Kadın"
@@ -12992,7 +13038,7 @@ msgstr "Haritalar"
 #: client/gui-mui/diplodlg.c:585
 #: client/gui-mui/diplodlg.c:595
 #: client/gui-sdl/diplodlg.c:607
-#: client/gui-sdl/helpdlg.c:1929
+#: client/gui-sdl/helpdlg.c:1967
 #: client/gui-win32/diplodlg.c:610
 #: client/gui-win32/diplodlg.c:662
 #: data/Freeciv.in:392
@@ -13142,7 +13188,7 @@ msgstr "Başlantı Kaes"
 
 #: client/gui-mui/gui_main.c:221
 #: client/gui-sdl/optiondlg.c:2179
-#: client/gui-sdl/pages.c:244
+#: client/gui-sdl/pages.c:243
 #: client/gui-win32/connectdlg.c:1098
 #: client/gui-xaw/menu.c:121
 #: data/Freeciv.in:115
@@ -13687,7 +13733,7 @@ msgstr "Yeni memleket olsun"
 #: client/gui-mui/mapclass.c:2981
 #: client/gui-sdl/dialogs.c:462
 #: client/gui-sdl/menu.c:423
-#: client/gui-win32/repodlgs.c:715
+#: client/gui-win32/repodlgs.c:716
 #: data/Freeciv.in:1951
 msgid "Upgrade"
 msgstr "Yükselt"
@@ -13786,12 +13832,12 @@ msgstr[1] ""
 #: client/gui-mui/repodlgs.c:326
 #: client/gui-mui/repodlgs.c:327
 msgid "_Goal"
-msgstr ""
+msgstr "_Hedef"
 
 #: client/gui-mui/repodlgs.c:331
 #: client/gui-mui/repodlgs.c:332
 msgid "_Research"
-msgstr ""
+msgstr "_Araştırma"
 
 #: client/gui-mui/repodlgs.c:460
 #: client/gui-win32/repodlgs.c:457
@@ -13807,7 +13853,7 @@ msgstr ""
 #: client/gui-mui/repodlgs.c:506
 #: client/gui-win32/repodlgs.c:436
 msgid "Trade Report"
-msgstr ""
+msgstr "Ticaret Raporu"
 
 #: client/gui-mui/repodlgs.c:530
 #: client/gui-mui/repodlgs.c:556
@@ -13819,17 +13865,17 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:797
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
-msgstr ""
+msgstr "Gelir:%6d    Toplam Masraf: %6d"
 
 #: client/gui-mui/repodlgs.c:747
 #: client/gui-mui/repodlgs.c:773
 #: client/gui-mui/repodlgs.c:808
 msgid "Military Report"
-msgstr ""
+msgstr "Askeri Raporu"
 
 #: client/gui-mui/repodlgs.c:862
 #: client/gui-sdl/repodlgs.c:3359
-#: client/gui-win32/repodlgs.c:755
+#: client/gui-win32/repodlgs.c:756
 #: client/gui-xaw/repodlgs.c:1151
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
@@ -13839,14 +13885,14 @@ msgstr[1] ""
 
 #: client/gui-mui/repodlgs.c:870
 #: client/gui-sdl/repodlgs.c:3367
-#: client/gui-win32/repodlgs.c:763
+#: client/gui-win32/repodlgs.c:764
 #: client/gui-xaw/repodlgs.c:1159
 msgid "Final Report:"
 msgstr ""
 
 #: client/gui-mui/repodlgs.c:871
 #: client/gui-sdl/repodlgs.c:3368
-#: client/gui-win32/repodlgs.c:764
+#: client/gui-win32/repodlgs.c:765
 #: client/gui-xaw/repodlgs.c:1160
 msgid "The Greatest Civilizations in the world."
 msgstr ""
@@ -13976,23 +14022,23 @@ msgstr "Mucize yapımında yardım et"
 msgid "Keep moving"
 msgstr "Devam et"
 
-#: client/gui-sdl/chatline.c:469
+#: client/gui-sdl/chatline.c:468
 #, c-format
 msgid "Total users logged in : %d"
 msgstr "Toplam girdiği kullanıcı sayısı : %d"
 
-#: client/gui-sdl/chatline.c:523
+#: client/gui-sdl/chatline.c:522
 #: client/gui-sdl/optiondlg.c:2200
 #: client/gui-win32/connectdlg.c:1094
 msgid "Back"
 msgstr "Geri"
 
-#: client/gui-sdl/chatline.c:533
+#: client/gui-sdl/chatline.c:532
 #: data/Freeciv.in:3379
 msgid "Start"
 msgstr "Başla"
 
-#: client/gui-sdl/chatline.c:554
+#: client/gui-sdl/chatline.c:553
 msgid "Server Settings"
 msgstr "Server Ayarları"
 
@@ -14034,8 +14080,8 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:540
 #: client/gui-sdl/citydlg.c:1407
-#: client/gui-sdl/citydlg.c:3683
-#: client/gui-sdl/citydlg.c:3696
+#: client/gui-sdl/citydlg.c:3684
+#: client/gui-sdl/citydlg.c:3697
 #: client/gui-sdl/connectdlg.c:307
 #: client/gui-sdl/connectdlg.c:616
 #: client/gui-sdl/connectdlg.c:802
@@ -14049,13 +14095,13 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1080
 #: client/gui-win32/cityrep.c:753
 #: client/gui-win32/connectdlg.c:1039
-#: client/gui-win32/dialogs.c:1776
+#: client/gui-win32/dialogs.c:1771
 #: client/gui-win32/finddlg.c:128
 #: client/gui-win32/gotodlg.c:171
 #: client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:216
 #: client/gui-win32/ratesdlg.c:328
-#: client/gui-win32/repodlgs.c:980
+#: client/gui-win32/repodlgs.c:981
 #: client/gui-win32/wldlg.c:855
 #: client/gui-xaw/inputdlg.c:110
 #: data/Freeciv.in:1092
@@ -14116,124 +14162,124 @@ msgstr "Satılsın mı?"
 msgid "Sell"
 msgstr "Sat"
 
-#: client/gui-sdl/citydlg.c:1727
-#: client/gui-sdl/citydlg.c:3774
+#: client/gui-sdl/citydlg.c:1728
+#: client/gui-sdl/citydlg.c:3775
 msgid "Options panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1772
+#: client/gui-sdl/citydlg.c:1773
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1773
-#: client/gui-sdl/citydlg.c:1832
+#: client/gui-sdl/citydlg.c:1774
+#: client/gui-sdl/citydlg.c:1833
 msgid "unit"
 msgid_plural "units"
 msgstr[0] "birlik"
 
-#: client/gui-sdl/citydlg.c:1831
+#: client/gui-sdl/citydlg.c:1832
 #, c-format
 msgid "Garrison Panel (%d %s)"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1881
+#: client/gui-sdl/citydlg.c:1882
 msgid "Info Panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:1902
+#: client/gui-sdl/citydlg.c:1903
 #, c-format
 msgid "Pollution: %d"
 msgstr "Kirlilik: %d"
 
-#: client/gui-sdl/citydlg.c:1930
+#: client/gui-sdl/citydlg.c:1931
 msgid "Pollution: none"
 msgstr "Kirlilik: yok"
 
-#: client/gui-sdl/citydlg.c:1943
+#: client/gui-sdl/citydlg.c:1944
 msgid "Trade routes: "
 msgstr "Kervanyolları:"
 
-#: client/gui-sdl/citydlg.c:1992
+#: client/gui-sdl/citydlg.c:1993
 #, c-format
 msgid "Trade: +%d"
 msgstr "Ticaret: +%d"
 
-#: client/gui-sdl/citydlg.c:2037
-#: client/gui-sdl/citydlg.c:3731
+#: client/gui-sdl/citydlg.c:2038
+#: client/gui-sdl/citydlg.c:3732
 msgid "Happiness panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:2532
+#: client/gui-sdl/citydlg.c:2533
 msgid "Citizens"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:2561
+#: client/gui-sdl/citydlg.c:2562
 #, c-format
 msgid "Food: %d per turn"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:2598
+#: client/gui-sdl/citydlg.c:2599
 #, c-format
 msgid "?food:Surplus: %d"
 msgstr "?food:Fazlası: %d"
 
-#: client/gui-sdl/citydlg.c:2646
+#: client/gui-sdl/citydlg.c:2647
 #, c-format
 msgid "Production: %d (%d) per turn"
 msgstr "Üretim: %d (%d) raunt başı"
 
-#: client/gui-sdl/citydlg.c:2692
+#: client/gui-sdl/citydlg.c:2693
 #, c-format
 msgid "?production:Support: %d"
 msgstr "?production:Destek: %d"
 
-#: client/gui-sdl/citydlg.c:2730
+#: client/gui-sdl/citydlg.c:2731
 #, c-format
 msgid "Trade: %d per turn"
 msgstr "Ticaret: raunt başı %d"
 
-#: client/gui-sdl/citydlg.c:2764
+#: client/gui-sdl/citydlg.c:2765
 #, c-format
 msgid "Corruption: %d"
 msgstr "Yolsuzluk: %d"
 
-#: client/gui-sdl/citydlg.c:2801
+#: client/gui-sdl/citydlg.c:2802
 #, c-format
 msgid "Gold: %d (%d) per turn"
 msgstr "Altın: %d (%d) raunt başı"
 
-#: client/gui-sdl/citydlg.c:2848
+#: client/gui-sdl/citydlg.c:2849
 #, c-format
 msgid "Upkeep: %d"
 msgstr "Bakım Masrafı: %d"
 
-#: client/gui-sdl/citydlg.c:2887
+#: client/gui-sdl/citydlg.c:2888
 #, c-format
 msgid "Science: %d per turn"
 msgstr "Bilim: %d raunt başı"
 
-#: client/gui-sdl/citydlg.c:2927
+#: client/gui-sdl/citydlg.c:2928
 #, c-format
 msgid "Luxury: %d per turn"
 msgstr "Lüks: %d raunt başı"
 
-#: client/gui-sdl/citydlg.c:2965
+#: client/gui-sdl/citydlg.c:2966
 msgid "City growth: blocked"
 msgstr "Kent büyüme: kilitli"
 
-#: client/gui-sdl/citydlg.c:2967
+#: client/gui-sdl/citydlg.c:2968
 msgid "City growth: never"
 msgstr "Kent büyüme: asla"
 
-#: client/gui-sdl/citydlg.c:2971
+#: client/gui-sdl/citydlg.c:2972
 #, c-format
 msgid "City shrinks: %d %s"
 msgstr "Kent küçülme: %d %s"
 
-#: client/gui-sdl/citydlg.c:2972
-#: client/gui-sdl/citydlg.c:2976
-#: client/gui-sdl/citydlg.c:3296
+#: client/gui-sdl/citydlg.c:2973
+#: client/gui-sdl/citydlg.c:2977
+#: client/gui-sdl/citydlg.c:3297
 #: client/gui-sdl/cityrep.c:529
 #: client/gui-sdl/cityrep.c:1050
 #: client/gui-sdl/menu.c:761
@@ -14260,65 +14306,65 @@ msgid_plural "turns"
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/gui-sdl/citydlg.c:2975
+#: client/gui-sdl/citydlg.c:2976
 #, c-format
 msgid "City growth: %d %s"
 msgstr "Kent büyüme: %d %s"
 
-#: client/gui-sdl/citydlg.c:3014
-#: client/gui-sdl/citydlg.c:3126
+#: client/gui-sdl/citydlg.c:3015
+#: client/gui-sdl/citydlg.c:3127
 msgid "Stock"
 msgstr "Stok"
 
-#: client/gui-sdl/citydlg.c:3025
+#: client/gui-sdl/citydlg.c:3026
 #: data/default/buildings.ruleset:317
 #: data/civ2/buildings.ruleset:296
 #: data/civ1/buildings.ruleset:243
 msgid "Granary"
 msgstr "Ambar"
 
-#: client/gui-sdl/citydlg.c:3300
+#: client/gui-sdl/citydlg.c:3301
 msgid "finished"
 msgstr "bitti"
 
-#: client/gui-sdl/citydlg.c:3600
+#: client/gui-sdl/citydlg.c:3601
 #, c-format
 msgid "City of %s (Population %s citizens)"
 msgstr "%s şehri (Nüfus %s)"
 
-#: client/gui-sdl/citydlg.c:3616
+#: client/gui-sdl/citydlg.c:3617
 msgid " - under Citizen Governor control."
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3708
+#: client/gui-sdl/citydlg.c:3709
 msgid "Maintenance panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3719
+#: client/gui-sdl/citydlg.c:3720
 msgid "Garrison panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3743
+#: client/gui-sdl/citydlg.c:3744
 msgid "Information panel"
 msgstr ""
 
-#: client/gui-sdl/citydlg.c:3788
+#: client/gui-sdl/citydlg.c:3789
 #: client/gui-sdl/dialogs.c:1255
 #: client/gui-win32/citydlg.c:1063
 #: data/Freeciv.in:2073
 msgid "Change Production"
 msgstr "Üretimi Değiştir"
 
-#: client/gui-sdl/citydlg.c:3802
+#: client/gui-sdl/citydlg.c:3803
 #: client/gui-sdl/dialogs.c:1267
 msgid "Hurry production"
 msgstr "Üretimi hızlandır"
 
-#: client/gui-sdl/citydlg.c:3833
+#: client/gui-sdl/citydlg.c:3834
 msgid "Prev city"
 msgstr "Önceki Şehir"
 
-#: client/gui-sdl/citydlg.c:3848
+#: client/gui-sdl/citydlg.c:3849
 msgid "Next city"
 msgstr "Sonraki Şehir"
 
@@ -14515,7 +14561,7 @@ msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr ""
 
 #: client/gui-sdl/dialogs.c:1471
-#: client/gui-win32/dialogs.c:766
+#: client/gui-win32/dialogs.c:761
 #: data/Freeciv.in:561
 msgid "Ready all"
 msgstr ""
@@ -14540,14 +14586,14 @@ msgstr "DEVRİM!"
 #: client/gui-sdl/dialogs.c:2473
 #: client/gui-sdl/dialogs.c:2896
 #: client/gui-sdl/mapctrl.c:2538
-#: client/gui-win32/dialogs.c:598
+#: client/gui-win32/dialogs.c:593
 #: client/gui-win32/inputdlg.c:145
-#: client/gui-win32/repodlgs.c:979
+#: client/gui-win32/repodlgs.c:980
 msgid "OK"
 msgstr "Tamam"
 
 #: client/gui-sdl/dialogs.c:2679
-#: client/gui-win32/dialogs.c:510
+#: client/gui-win32/dialogs.c:505
 msgid "What nation will you be?"
 msgstr ""
 
@@ -14776,34 +14822,34 @@ msgstr ""
 msgid "Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
 msgstr ""
 
-#: client/gui-sdl/gui_string.c:284
+#: client/gui-sdl/gui_string.c:285
 #, c-format
 msgid "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
 msgstr ""
 
-#: client/gui-sdl/gui_string.c:286
+#: client/gui-sdl/gui_string.c:287
 #, c-format
 msgid "SDL_create_str16_surf: String is %d lenght"
 msgstr ""
 
-#: client/gui-sdl/gui_string.c:581
+#: client/gui-sdl/gui_string.c:584
 msgid "Error in change_ptsize: Change ptsize failed"
 msgstr ""
 
-#: client/gui-sdl/gui_string.c:617
+#: client/gui-sdl/gui_string.c:620
 msgid "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font to data dir as stdfont.ttf"
 msgstr ""
 
-#: client/gui-sdl/gui_string.c:629
+#: client/gui-sdl/gui_string.c:632
 #, c-format
 msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
 msgstr ""
 
-#: client/gui-sdl/gui_string.c:670
+#: client/gui-sdl/gui_string.c:673
 msgid "Error in unload_font: Trying unload from empty Font ARRAY"
 msgstr ""
 
-#: client/gui-sdl/gui_string.c:684
+#: client/gui-sdl/gui_string.c:687
 msgid "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
 msgstr ""
 
@@ -14812,16 +14858,16 @@ msgstr ""
 msgid "FT"
 msgstr ""
 
-#: client/gui-sdl/helpdlg.c:199
+#: client/gui-sdl/helpdlg.c:212
 msgid "Help : Improvements"
 msgstr "Yardım: Gelişimler"
 
-#: client/gui-sdl/helpdlg.c:571
+#: client/gui-sdl/helpdlg.c:604
 msgid "Help : Units"
 msgstr "Yardım : Birlikler"
 
-#: client/gui-sdl/helpdlg.c:708
-#: client/gui-sdl/helpdlg.c:721
+#: client/gui-sdl/helpdlg.c:741
+#: client/gui-sdl/helpdlg.c:754
 #: client/gui-sdl/wldlg.c:1356
 #: client/gui-sdl/wldlg.c:1362
 #: client/gui-sdl/wldlg.c:1370
@@ -14835,31 +14881,31 @@ msgid "shield"
 msgid_plural "shields"
 msgstr[0] "kalkan"
 
-#: client/gui-sdl/helpdlg.c:713
-#: client/gui-sdl/helpdlg.c:736
+#: client/gui-sdl/helpdlg.c:746
+#: client/gui-sdl/helpdlg.c:769
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "vatandaş"
 
-#: client/gui-sdl/helpdlg.c:726
+#: client/gui-sdl/helpdlg.c:759
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "gıda"
 
-#: client/gui-sdl/helpdlg.c:731
+#: client/gui-sdl/helpdlg.c:764
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "altın"
 
-#: client/gui-sdl/helpdlg.c:966
+#: client/gui-sdl/helpdlg.c:1005
 msgid "( with "
 msgstr "(  "
 
-#: client/gui-sdl/helpdlg.c:969
+#: client/gui-sdl/helpdlg.c:1008
 msgid " )"
 msgstr " ile )"
 
-#: client/gui-sdl/helpdlg.c:1863
+#: client/gui-sdl/helpdlg.c:1901
 msgid "Help : Advances Tree"
 msgstr "Help : Gelişim Ağacı"
 
@@ -14981,7 +15027,7 @@ msgstr "Ufak Harita Modunu Göster/Gizle"
 
 #: client/gui-sdl/mapctrl.c:1635
 #: client/gui-sdl/optiondlg.c:2165
-#: client/gui-sdl/pages.c:230
+#: client/gui-sdl/pages.c:229
 #: data/Freeciv.in:1217
 msgid "Options"
 msgstr "Tercihler"
@@ -15303,41 +15349,41 @@ msgstr "Harita tercihleri"
 msgid "Worklists"
 msgstr "Yapılacakları Listeleri"
 
-#: client/gui-sdl/pages.c:159
+#: client/gui-sdl/pages.c:158
 #: client/gui-win32/connectdlg.c:963
 msgid "Start New Game"
 msgstr "Yeni Oyun Başla"
 
-#: client/gui-sdl/pages.c:174
+#: client/gui-sdl/pages.c:173
 #: client/gui-win32/connectdlg.c:775
 msgid "Load Game"
 msgstr "Oyunu Aç"
 
-#: client/gui-sdl/pages.c:188
+#: client/gui-sdl/pages.c:187
 msgid "Join Game"
 msgstr "Oyuna Katıl"
 
-#: client/gui-sdl/pages.c:202
+#: client/gui-sdl/pages.c:201
 msgid "Join Pubserver"
 msgstr ""
 
-#: client/gui-sdl/pages.c:216
+#: client/gui-sdl/pages.c:215
 msgid "Join LAN Server"
 msgstr ""
 
-#: client/gui-sdl/pages.c:297
+#: client/gui-sdl/pages.c:296
 msgid "SDLClient welcomes you..."
 msgstr ""
 
-#: client/gui-sdl/pages.c:298
+#: client/gui-sdl/pages.c:297
 msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
 msgstr ""
 
-#: client/gui-sdl/pages.c:301
+#: client/gui-sdl/pages.c:300
 msgid "See the \"Copying\" item on the Help menu."
 msgstr ""
 
-#: client/gui-sdl/pages.c:303
+#: client/gui-sdl/pages.c:302
 msgid "Now.. Go give'em hell!"
 msgstr "Haydi... Bastır!"
 
@@ -15689,11 +15735,11 @@ msgstr "Desteklenen birlikler"
 #: client/gui-win32/citydlg.c:823
 #: client/gui-win32/cityrep.c:132
 #: client/gui-win32/cityrep.c:875
-#: client/gui-win32/dialogs.c:188
-#: client/gui-win32/dialogs.c:256
-#: client/gui-win32/dialogs.c:767
-#: client/gui-win32/dialogs.c:1298
-#: client/gui-win32/dialogs.c:1497
+#: client/gui-win32/dialogs.c:190
+#: client/gui-win32/dialogs.c:258
+#: client/gui-win32/dialogs.c:762
+#: client/gui-win32/dialogs.c:1293
+#: client/gui-win32/dialogs.c:1492
 #: client/gui-win32/helpdlg.c:453
 #: client/gui-win32/inteldlg.c:159
 #: client/gui-win32/messagewin.c:148
@@ -15701,7 +15747,7 @@ msgstr "Desteklenen birlikler"
 #: client/gui-win32/plrdlg.c:351
 #: client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:450
-#: client/gui-win32/repodlgs.c:713
+#: client/gui-win32/repodlgs.c:714
 #: client/gui-win32/spaceshipdlg.c:239
 #: client/gui-win32/wldlg.c:428
 #: data/Freeciv.in:162
@@ -15813,7 +15859,7 @@ msgid "Change All"
 msgstr "Hepsi Değiştir"
 
 #: client/gui-win32/cityrep.c:881
-#: client/gui-win32/repodlgs.c:717
+#: client/gui-win32/repodlgs.c:718
 #: data/Freeciv.in:1653
 #: data/Freeciv.in:1800
 #: data/Freeciv.in:1959
@@ -15902,7 +15948,7 @@ msgid "AI skill level:"
 msgstr "YZ ustalık derecesi:"
 
 #: client/gui-win32/connectdlg.c:1034
-#: client/gui-win32/repodlgs.c:924
+#: client/gui-win32/repodlgs.c:925
 msgid "Game Options"
 msgstr "Oyun Tercihleri"
 
@@ -15922,33 +15968,33 @@ msgstr "Host:"
 msgid "Port:"
 msgstr "Port:"
 
-#: client/gui-win32/dialogs.c:189
+#: client/gui-win32/dialogs.c:191
 #: data/Freeciv.in:549
 msgid "Goto and Close"
 msgstr "Git ve Kapat"
 
-#: client/gui-win32/dialogs.c:560
+#: client/gui-win32/dialogs.c:555
 msgid "Leader:"
 msgstr "Önder:"
 
-#: client/gui-win32/dialogs.c:580
+#: client/gui-win32/dialogs.c:575
 msgid "City Style:"
 msgstr "Kentin tarzı:"
 
-#: client/gui-win32/dialogs.c:784
+#: client/gui-win32/dialogs.c:779
 msgid "Unit Selection"
 msgstr "Birlik Seçimi"
 
-#: client/gui-win32/dialogs.c:1203
+#: client/gui-win32/dialogs.c:1198
 msgid "NONE"
 msgstr "HİÇ"
 
-#: client/gui-win32/dialogs.c:1299
+#: client/gui-win32/dialogs.c:1294
 #: data/Freeciv.in:2366
 msgid "Steal"
 msgstr "Çal"
 
-#: client/gui-win32/dialogs.c:1498
+#: client/gui-win32/dialogs.c:1493
 #: data/Freeciv.in:2408
 msgid "Sabotage"
 msgstr "Sabotaj"
@@ -16085,7 +16131,7 @@ msgstr "Kullanımdan Kalkanları Sat"
 msgid "Sell All"
 msgstr "Hepsini Sat"
 
-#: client/gui-win32/repodlgs.c:664
+#: client/gui-win32/repodlgs.c:665
 msgid "Totals"
 msgstr "Toplam"
 
@@ -18303,7 +18349,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:935
 #: data/civ1/buildings.ruleset:634
 msgid "Apollo Program"
-msgstr "Apollo Program"
+msgstr "Apollo Programı"
 
 #: data/default/buildings.ruleset:962
 #: data/civ2/buildings.ruleset:949
@@ -18313,7 +18359,7 @@ msgstr ""
 #: data/default/buildings.ruleset:969
 #: data/civ2/buildings.ruleset:956
 msgid "A.Smith's Trading Co."
-msgstr "A.Smith's Trading Co."
+msgstr ""
 
 #: data/default/buildings.ruleset:983
 msgid "City improvements which would normally have an upkeep of 1 are free of upkeep, for all your cities."
@@ -18369,7 +18415,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1072
 #: data/civ2/buildings.ruleset:1057
 msgid "Eiffel Tower"
-msgstr "Eyfel_Kulesi"
+msgstr "Eyfel Kulesi"
 
 #: data/default/buildings.ruleset:1087
 #, no-c-format
@@ -20001,35 +20047,62 @@ msgstr ""
 msgid "Phalanx"
 msgstr "Falanks"
 
-#: data/default/units.ruleset:380
-#: data/civ2/units.ruleset:234
+#: data/default/units.ruleset:378
+#: data/civ2/units.ruleset:232
+#: data/civ1/units.ruleset:199
+msgid "The Phalanx is armored infantry, suitable for defending your cities."
+msgstr ""
+
+#: data/default/units.ruleset:383
+#: data/civ2/units.ruleset:237
 msgid "Archers"
 msgstr "Okçular"
 
-#: data/default/units.ruleset:408
-#: data/civ2/units.ruleset:262
-#: data/civ1/units.ruleset:201
+#: data/default/units.ruleset:409
+#: data/civ2/units.ruleset:263
+msgid "Archers fight with bows and arrows and has a good offensive value as well as decent defense."
+msgstr ""
+
+#: data/default/units.ruleset:415
+#: data/civ2/units.ruleset:269
+#: data/civ1/units.ruleset:204
 msgid "Legion"
 msgstr "Lejyon"
 
-#: data/default/units.ruleset:436
-#: data/civ2/units.ruleset:290
+#: data/default/units.ruleset:441
+#: data/civ2/units.ruleset:295
+#: data/civ1/units.ruleset:230
+msgid "Legions are heavily armed and well disciplined infantry units with an excellent offensive value."
+msgstr ""
+
+#: data/default/units.ruleset:447
+#: data/civ2/units.ruleset:301
 msgid "Pikemen"
 msgstr "Pikemen"
 
-#: data/default/units.ruleset:464
-#: data/civ2/units.ruleset:318
-#: data/civ1/units.ruleset:229
+#: data/default/units.ruleset:473
+#: data/civ2/units.ruleset:327
+msgid "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city defender."
+msgstr ""
+
+#: data/default/units.ruleset:479
+#: data/civ2/units.ruleset:333
+#: data/civ1/units.ruleset:236
 msgid "Musketeers"
 msgstr "Silahşör"
 
-#: data/default/units.ruleset:493
-#: data/civ2/units.ruleset:380
+#: data/default/units.ruleset:506
+#: data/civ2/units.ruleset:360
+msgid "Musketeers are infantry equipped with early firearms and replace Pikemen as the preferred city defender."
+msgstr ""
+
+#: data/default/units.ruleset:513
+#: data/civ2/units.ruleset:400
 msgid "Partisan"
 msgstr "Partizan"
 
-#: data/default/units.ruleset:519
-#: data/civ2/units.ruleset:406
+#: data/default/units.ruleset:539
+#: data/civ2/units.ruleset:426
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but only under these conditions:\n"
 "\n"
@@ -20042,230 +20115,369 @@ msgid ""
 " - You must run either a Democracy or a Communist government."
 msgstr ""
 
-#: data/default/units.ruleset:533
-#: data/civ2/units.ruleset:420
+#: data/default/units.ruleset:553
+#: data/civ2/units.ruleset:440
 msgid "Alpine Troops"
 msgstr "Dağ Timi"
 
-#: data/default/units.ruleset:561
-#: data/civ2/units.ruleset:448
-#: data/civ1/units.ruleset:258
+#: data/default/units.ruleset:579
+#: data/civ2/units.ruleset:466
+msgid "Alpine Troops are highly mobile units as well as excellent defenders."
+msgstr ""
+
+#: data/default/units.ruleset:585
+#: data/civ2/units.ruleset:472
+#: data/civ1/units.ruleset:270
 msgid "Riflemen"
 msgstr ""
 
-#: data/default/units.ruleset:589
-#: data/civ2/units.ruleset:476
-msgid "Marines"
+#: data/default/units.ruleset:611
+#: data/civ2/units.ruleset:498
+#: data/civ1/units.ruleset:296
+msgid "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
 
 #: data/default/units.ruleset:617
 #: data/civ2/units.ruleset:504
+msgid "Marines"
+msgstr ""
+
+#: data/default/units.ruleset:643
+#: data/civ2/units.ruleset:530
+msgid "Marines are infantry who are experts at marine warfare."
+msgstr ""
+
+#: data/default/units.ruleset:648
+#: data/civ2/units.ruleset:535
 msgid "Paratroopers"
 msgstr ""
 
-#: data/default/units.ruleset:649
-#: data/civ2/units.ruleset:536
-#: data/civ1/units.ruleset:286
+#: data/default/units.ruleset:674
+#: data/civ2/units.ruleset:561
+msgid "Paratroopers are experts at airborne attacks."
+msgstr ""
+
+#: data/default/units.ruleset:683
+#: data/civ2/units.ruleset:570
+#: data/civ1/units.ruleset:302
 msgid "Mech. Inf."
 msgstr ""
 
-#: data/default/units.ruleset:675
-#: data/civ2/units.ruleset:562
-#: data/civ1/units.ruleset:312
+#: data/default/units.ruleset:709
+#: data/civ2/units.ruleset:596
+#: data/civ1/units.ruleset:328
 msgid "Mechanized Infantry; this unit has the strongest defence strength of any land unit, but is only available near the end of the technology tree."
 msgstr ""
 
-#: data/default/units.ruleset:682
-#: data/civ2/units.ruleset:569
+#: data/default/units.ruleset:716
+#: data/civ2/units.ruleset:603
 msgid "Horsemen"
 msgstr ""
 
-#: data/default/units.ruleset:710
-#: data/civ2/units.ruleset:597
-#: data/civ1/units.ruleset:347
+#: data/default/units.ruleset:742
+#: data/civ2/units.ruleset:629
+msgid "Horsemen are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
+msgstr ""
+
+#: data/default/units.ruleset:749
+#: data/civ2/units.ruleset:636
+#: data/civ1/units.ruleset:368
 msgid "Chariot"
 msgstr "Binici"
 
-#: data/default/units.ruleset:738
-#: data/civ2/units.ruleset:681
-#: data/civ1/units.ruleset:375
+#: data/default/units.ruleset:775
+#: data/civ2/units.ruleset:662
+#: data/civ1/units.ruleset:394
+msgid "Chariots are horse-pulled war wagons, stronger but more expensive than horsemen."
+msgstr ""
+
+#: data/default/units.ruleset:781
+#: data/civ2/units.ruleset:732
+#: data/civ1/units.ruleset:400
 msgid "Knights"
 msgstr "Şövalye"
 
-#: data/default/units.ruleset:767
-#: data/civ2/units.ruleset:710
+#: data/default/units.ruleset:808
+#: data/civ2/units.ruleset:759
+#: data/civ1/units.ruleset:427
+msgid "Knights are mounted and heavily armored warriors."
+msgstr ""
+
+#: data/default/units.ruleset:813
+#: data/civ2/units.ruleset:764
 msgid "Dragoons"
 msgstr ""
 
-#: data/default/units.ruleset:796
-#: data/civ2/units.ruleset:739
-#: data/civ1/units.ruleset:319
+#: data/default/units.ruleset:840
+#: data/civ2/units.ruleset:791
+msgid "Dragoons are mounted warriors carrying early firearms."
+msgstr ""
+
+#: data/default/units.ruleset:845
+#: data/civ2/units.ruleset:796
+#: data/civ1/units.ruleset:335
 msgid "Cavalry"
 msgstr "Süvari birlik"
 
-#: data/default/units.ruleset:824
-#: data/civ2/units.ruleset:767
-#: data/civ1/units.ruleset:404
+#: data/default/units.ruleset:871
+#: data/civ2/units.ruleset:822
+msgid "Cavalry are mounted and highly trained soldiers."
+msgstr ""
+
+#: data/default/units.ruleset:876
+#: data/civ2/units.ruleset:827
+#: data/civ1/units.ruleset:432
 msgid "Armor"
 msgstr "Tank"
 
-#: data/default/units.ruleset:852
-#: data/civ2/units.ruleset:795
-#: data/civ1/units.ruleset:432
+#: data/default/units.ruleset:902
+#: data/civ2/units.ruleset:853
+#: data/civ1/units.ruleset:458
+msgid "Armors are motorized war wagons that are faster, stronger, and can take more damage than any mounted unit."
+msgstr ""
+
+#: data/default/units.ruleset:909
+#: data/civ2/units.ruleset:860
+#: data/civ1/units.ruleset:465
 msgid "Catapult"
 msgstr "Katapult"
 
-#: data/default/units.ruleset:880
-#: data/civ2/units.ruleset:823
-#: data/civ1/units.ruleset:460
+#: data/default/units.ruleset:935
+#: data/civ2/units.ruleset:886
+#: data/civ1/units.ruleset:491
+msgid "Catapults are large rock-throwing machines of war. They are very strong attackers but equally weak defenders and will need an escort to be effective."
+msgstr ""
+
+#: data/default/units.ruleset:942
+#: data/civ2/units.ruleset:893
+#: data/civ1/units.ruleset:498
 msgid "Cannon"
 msgstr "Savaş Topu"
 
-#: data/default/units.ruleset:908
-#: data/civ2/units.ruleset:851
-#: data/civ1/units.ruleset:488
+#: data/default/units.ruleset:968
+#: data/civ2/units.ruleset:919
+#: data/civ1/units.ruleset:524
+msgid "Cannons are large firearms that can fire heavy projectiles over long distances. They are very strong attackers but equally weak defenders and will need an escort to be effective."
+msgstr ""
+
+#: data/default/units.ruleset:976
+#: data/civ2/units.ruleset:927
+#: data/civ1/units.ruleset:532
 msgid "Artillery"
 msgstr "Topçular"
 
-#: data/default/units.ruleset:936
-#: data/civ2/units.ruleset:879
+#: data/default/units.ruleset:1002
+#: data/civ2/units.ruleset:953
+msgid "The artillery is an upgraded cannon. It is a very strong attacker but equally weak defender and will need an escort to be effective."
+msgstr ""
+
+#: data/default/units.ruleset:1009
+#: data/civ2/units.ruleset:960
 msgid "Howitzer"
 msgstr "Obüs"
 
-#: data/default/units.ruleset:964
-#: data/civ2/units.ruleset:907
-#: data/civ1/units.ruleset:516
+#: data/default/units.ruleset:1035
+#: data/civ2/units.ruleset:986
+msgid "Howitzers are upgraded artillery with improved defensive as well as offensive capabilities."
+msgstr ""
+
+#: data/default/units.ruleset:1041
+#: data/civ2/units.ruleset:992
+#: data/civ1/units.ruleset:564
 msgid "Fighter"
 msgstr "Avcı uçağı"
 
-#: data/default/units.ruleset:992
-#: data/civ2/units.ruleset:935
-#: data/civ1/units.ruleset:544
+#: data/default/units.ruleset:1067
+#: data/civ2/units.ruleset:1018
+#: data/civ1/units.ruleset:590
+msgid "Fighters are your first airborne units. They can move anywhere and attack any unit."
+msgstr ""
+
+#: data/default/units.ruleset:1073
+#: data/civ2/units.ruleset:1024
+#: data/civ1/units.ruleset:596
 msgid "Bomber"
 msgstr "Bombardıman uçağı"
 
-#: data/default/units.ruleset:1046
-#: data/civ2/units.ruleset:989
+#: data/default/units.ruleset:1099
+#: data/civ2/units.ruleset:1050
+#: data/civ1/units.ruleset:622
+msgid "Bombers are specialized airborne units that may only attack ground targets, not other airborne units."
+msgstr ""
+
+#: data/default/units.ruleset:1132
+#: data/civ2/units.ruleset:1083
 msgid "The Helicopter is a very powerful unit, as it can both fly and conquer cities.  Care must be exercised, because Helicopters lose a small amount of health for every turn not spent in a city, unless you have the United Nations wonder."
 msgstr ""
 
-#: data/default/units.ruleset:1054
-#: data/civ2/units.ruleset:997
+#: data/default/units.ruleset:1140
+#: data/civ2/units.ruleset:1091
 msgid "Stealth Fighter"
 msgstr ""
 
-#: data/default/units.ruleset:1080
-#: data/civ2/units.ruleset:1023
+#: data/default/units.ruleset:1166
+#: data/civ2/units.ruleset:1117
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 
-#: data/default/units.ruleset:1086
-#: data/civ2/units.ruleset:1029
+#: data/default/units.ruleset:1172
+#: data/civ2/units.ruleset:1123
 msgid "Stealth Bomber"
 msgstr ""
 
-#: data/default/units.ruleset:1112
-#: data/civ2/units.ruleset:1055
+#: data/default/units.ruleset:1198
+#: data/civ2/units.ruleset:1149
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 
-#: data/default/units.ruleset:1118
-#: data/civ2/units.ruleset:1061
-#: data/civ1/units.ruleset:572
+#: data/default/units.ruleset:1204
+#: data/civ2/units.ruleset:1155
+#: data/civ1/units.ruleset:629
 msgid "Trireme"
 msgstr "Trireme"
 
-#: data/default/units.ruleset:1146
-#: data/civ2/units.ruleset:1089
+#: data/default/units.ruleset:1230
+#: data/civ2/units.ruleset:1181
+#: data/civ1/units.ruleset:655
+msgid "The Trireme is your first boat unit. It can act as a transport ship and has rudimentary offensive capabilities, but may not stray too far from the shore."
+msgstr ""
+
+#: data/default/units.ruleset:1237
+#: data/civ2/units.ruleset:1188
 msgid "Caravel"
 msgstr "Karavel"
 
-#: data/default/units.ruleset:1174
-#: data/civ2/units.ruleset:1117
+#: data/default/units.ruleset:1263
+#: data/civ2/units.ruleset:1214
+msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
+msgstr ""
+
+#: data/default/units.ruleset:1269
+#: data/civ2/units.ruleset:1220
 msgid "Galleon"
 msgstr "Kalyon"
 
-#: data/default/units.ruleset:1202
-#: data/civ2/units.ruleset:1145
-#: data/civ1/units.ruleset:628
+#: data/default/units.ruleset:1295
+#: data/civ2/units.ruleset:1246
+msgid "The Galleon is a pure transport ship and cannot attack other ships, though is may still defend itself when attacked."
+msgstr ""
+
+#: data/default/units.ruleset:1302
+#: data/civ2/units.ruleset:1253
+#: data/civ1/units.ruleset:694
 msgid "Frigate"
 msgstr "Frigate"
 
-#: data/default/units.ruleset:1230
-#: data/civ2/units.ruleset:1173
-#: data/civ1/units.ruleset:656
+#: data/default/units.ruleset:1328
+#: data/civ2/units.ruleset:1279
+#: data/civ1/units.ruleset:720
+msgid "The Frigate is a highly versatile boat unit, that is both a strong offensive unit as well as a decent transport ship."
+msgstr ""
+
+#: data/default/units.ruleset:1335
+#: data/civ2/units.ruleset:1286
+#: data/civ1/units.ruleset:727
 msgid "Ironclad"
 msgstr "Zırhlı"
 
-#: data/default/units.ruleset:1258
-#: data/civ2/units.ruleset:1201
+#: data/default/units.ruleset:1361
+#: data/civ2/units.ruleset:1312
+#: data/civ1/units.ruleset:753
+msgid "The Ironclad is an armored ship that is much more sturdy than the Frigate but loses the latter's transport capability."
+msgstr ""
+
+#: data/default/units.ruleset:1368
+#: data/civ2/units.ruleset:1319
 msgid "Destroyer"
 msgstr "Muhrip"
 
-#: data/default/units.ruleset:1284
-#: data/civ2/units.ruleset:1227
+#: data/default/units.ruleset:1394
+#: data/civ2/units.ruleset:1345
 msgid "TIP:  A very fast unit, which is very useful for hunting down enemy Transports."
 msgstr ""
 
-#: data/default/units.ruleset:1290
-#: data/civ2/units.ruleset:1233
-#: data/civ1/units.ruleset:684
+#: data/default/units.ruleset:1400
+#: data/civ2/units.ruleset:1351
+#: data/civ1/units.ruleset:760
 msgid "Cruiser"
 msgstr "Kruvazör"
 
-#: data/default/units.ruleset:1318
-#: data/civ2/units.ruleset:1261
+#: data/default/units.ruleset:1426
+#: data/civ2/units.ruleset:1377
+#: data/civ1/units.ruleset:786
+msgid "The Cruiser is a strong offensive boat unit."
+msgstr ""
+
+#: data/default/units.ruleset:1431
+#: data/civ2/units.ruleset:1382
 msgid "AEGIS Cruiser"
 msgstr "AEGIS Kruvazör"
 
-#: data/default/units.ruleset:1346
-#: data/civ2/units.ruleset:1289
-#: data/civ1/units.ruleset:712
+#: data/default/units.ruleset:1457
+#: data/civ2/units.ruleset:1408
+msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
+msgstr ""
+
+#: data/default/units.ruleset:1463
+#: data/civ2/units.ruleset:1414
+#: data/civ1/units.ruleset:791
 msgid "Battleship"
 msgstr "Savaş Gemisi"
 
-#: data/default/units.ruleset:1374
-#: data/civ2/units.ruleset:1317
-#: data/civ1/units.ruleset:740
+#: data/default/units.ruleset:1489
+#: data/civ2/units.ruleset:1440
+#: data/civ1/units.ruleset:817
+msgid "The Battleship is the supreme naval unit with excellent offensive and defensive values."
+msgstr ""
+
+#: data/default/units.ruleset:1495
+#: data/civ2/units.ruleset:1446
+#: data/civ1/units.ruleset:823
 msgid "Submarine"
 msgstr "Denizaltı"
 
-#: data/default/units.ruleset:1401
-#: data/civ2/units.ruleset:1344
-#: data/civ1/units.ruleset:766
+#: data/default/units.ruleset:1522
+#: data/civ2/units.ruleset:1473
+#: data/civ1/units.ruleset:849
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr ""
 
-#: data/default/units.ruleset:1407
-#: data/civ2/units.ruleset:1350
-#: data/civ1/units.ruleset:772
+#: data/default/units.ruleset:1528
+#: data/civ2/units.ruleset:1479
+#: data/civ1/units.ruleset:855
 msgid "Carrier"
 msgstr ""
 
-#: data/default/units.ruleset:1433
-#: data/civ2/units.ruleset:1376
-#: data/civ1/units.ruleset:798
+#: data/default/units.ruleset:1554
+#: data/civ2/units.ruleset:1505
+#: data/civ1/units.ruleset:881
 msgid "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
 
-#: data/default/units.ruleset:1440
-#: data/civ2/units.ruleset:1383
-#: data/civ1/units.ruleset:805
+#: data/default/units.ruleset:1561
+#: data/civ2/units.ruleset:1512
+#: data/civ1/units.ruleset:888
 msgid "Transport"
 msgstr "Nakliyat"
 
-#: data/default/units.ruleset:1468
-#: data/civ2/units.ruleset:1411
+#: data/default/units.ruleset:1587
+#: data/civ2/units.ruleset:1538
+#: data/civ1/units.ruleset:914
+msgid "The Transport cannot attack on its own but may defend itself when under attack."
+msgstr ""
+
+#: data/default/units.ruleset:1593
+#: data/civ2/units.ruleset:1544
 msgid "Cruise Missile"
 msgstr "Füze"
 
-#: data/default/units.ruleset:1494
-#: data/civ2/units.ruleset:1437
+#: data/default/units.ruleset:1619
+#: data/civ2/units.ruleset:1570
 msgid "TIP:  A handful of these can successfully keep the waters around your treasured homeland free of enemy ships."
 msgstr ""
 
-#: data/default/units.ruleset:1526
-#: data/civ2/units.ruleset:1469
+#: data/default/units.ruleset:1651
+#: data/civ2/units.ruleset:1602
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -20276,15 +20488,15 @@ msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city and have them ready to fix the fallout on the same turn it occurs!  This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 
-#: data/default/units.ruleset:1547
-#: data/civ2/units.ruleset:1490
-#: data/civ1/units.ruleset:880
+#: data/default/units.ruleset:1672
+#: data/civ2/units.ruleset:1623
+#: data/civ1/units.ruleset:967
 msgid "Diplomat"
 msgstr "Diplomat"
 
-#: data/default/units.ruleset:1573
-#: data/civ2/units.ruleset:1516
-#: data/civ1/units.ruleset:906
+#: data/default/units.ruleset:1698
+#: data/civ2/units.ruleset:1649
+#: data/civ1/units.ruleset:993
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into another player's city.\n"
 "\n"
@@ -20297,13 +20509,13 @@ msgid ""
 "- In some game strategies, hordes of Diplomats can be used to wreak havoc on the enemy.  Little wonder that Diplomats are often viewed with suspicion and fear!"
 msgstr ""
 
-#: data/default/units.ruleset:1593
-#: data/civ2/units.ruleset:1536
+#: data/default/units.ruleset:1718
+#: data/civ2/units.ruleset:1669
 msgid "Spy"
 msgstr "Casus"
 
-#: data/default/units.ruleset:1619
-#: data/civ2/units.ruleset:1562
+#: data/default/units.ruleset:1744
+#: data/civ2/units.ruleset:1695
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the arts of espionage than her Diplomat predecessor.\n"
 "\n"
@@ -20314,61 +20526,61 @@ msgid ""
 "A Spy can also be of aid on the battlefield - sabotaging enemy units as well as bribing them to change allegiance."
 msgstr ""
 
-#: data/default/units.ruleset:1640
-#: data/civ2/units.ruleset:1583
-#: data/civ1/units.ruleset:926
+#: data/default/units.ruleset:1765
+#: data/civ2/units.ruleset:1716
+#: data/civ1/units.ruleset:1013
 msgid "Caravan"
 msgstr "Kervan"
 
-#: data/default/units.ruleset:1666
-#: data/civ2/units.ruleset:1609
-#: data/civ1/units.ruleset:952
+#: data/default/units.ruleset:1791
+#: data/civ2/units.ruleset:1742
+#: data/civ1/units.ruleset:1039
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the production of the wonder.\n"
 "\n"
 "TIP:  You can stockpile a stack of Caravans in advance and bring them all into a city where you have started to build a wonder, and finish it in only one turn!"
 msgstr ""
 
-#: data/default/units.ruleset:1676
-#: data/civ2/units.ruleset:1619
+#: data/default/units.ruleset:1801
+#: data/civ2/units.ruleset:1752
 msgid "Freight"
 msgstr "Kamyon"
 
-#: data/default/units.ruleset:1702
-#: data/civ2/units.ruleset:1645
+#: data/default/units.ruleset:1827
+#: data/civ2/units.ruleset:1778
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 
-#: data/default/units.ruleset:1707
-#: data/civ2/units.ruleset:1650
+#: data/default/units.ruleset:1832
+#: data/civ2/units.ruleset:1783
 msgid "Explorer"
 msgstr "İzci"
 
-#: data/default/units.ruleset:1733
-#: data/civ2/units.ruleset:1676
+#: data/default/units.ruleset:1858
+#: data/civ2/units.ruleset:1809
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr ""
 
-#: data/default/units.ruleset:1766
+#: data/default/units.ruleset:1891
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 
-#: data/default/units.ruleset:1771
-#: data/civ2/units.ruleset:1681
-#: data/civ1/units.ruleset:962
+#: data/default/units.ruleset:1896
+#: data/civ2/units.ruleset:1814
+#: data/civ1/units.ruleset:1049
 msgid "Barbarian Leader"
 msgstr "Barbarların Şefi"
 
-#: data/default/units.ruleset:1798
-#: data/civ2/units.ruleset:1707
+#: data/default/units.ruleset:1923
+#: data/civ2/units.ruleset:1840
 msgid "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units and helicopters."
 msgstr ""
 
-#: data/default/units.ruleset:1804
+#: data/default/units.ruleset:1929
 msgid "AWACS"
 msgstr "AWACS"
 
-#: data/default/units.ruleset:1830
+#: data/default/units.ruleset:1955
 msgid "The AWACS (Airborne Warning and Control System) is an airplane with an advanced radar that can determine the location of enemy units over a wide area."
 msgstr ""
 
@@ -20388,21 +20600,29 @@ msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives before the Workshop becomes obsolete.  This way, your Settler units will be upgraded for free."
 msgstr ""
 
-#: data/civ2/units.ruleset:347
+#: data/civ2/units.ruleset:367
 msgid "Fanatics"
 msgstr "Fanatikler"
 
-#: data/civ2/units.ruleset:374
+#: data/civ2/units.ruleset:394
 msgid "Fundamentalist nations can maintain Fanatic units without having to pay any shields for upkeep."
 msgstr ""
 
-#: data/civ2/units.ruleset:625
+#: data/civ2/units.ruleset:668
 msgid "Elephants"
 msgstr "Filler"
 
-#: data/civ2/units.ruleset:653
+#: data/civ2/units.ruleset:694
+msgid "Elephants are towering animals trained for war, but are easily dispersed if caught off guard."
+msgstr ""
+
+#: data/civ2/units.ruleset:700
 msgid "Crusaders"
 msgstr "Haçlılar"
+
+#: data/civ2/units.ruleset:726
+msgid "Crusaders are highly disciplined mounted warriors driven by a higher cause."
+msgstr ""
 
 #: data/civ1/units.ruleset:123
 msgid ""
@@ -20415,11 +20635,27 @@ msgstr ""
 msgid "Militia"
 msgstr ""
 
-#: data/civ1/units.ruleset:600
+#: data/civ1/units.ruleset:263
+msgid "Musketeers are infantry equipped with early firearms and replace Phalanx as the preferred city defender."
+msgstr ""
+
+#: data/civ1/units.ruleset:361
+msgid "Cavalry are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
+msgstr ""
+
+#: data/civ1/units.ruleset:558
+msgid "The artillery is an upgraded cannon with improved defensive as well as offensive capabilities."
+msgstr ""
+
+#: data/civ1/units.ruleset:662
 msgid "Sail"
 msgstr "yelkenliyle git"
 
-#: data/civ1/units.ruleset:859
+#: data/civ1/units.ruleset:688
+msgid "The Sail replaces the Trireme and is much more reliable on the open seas."
+msgstr ""
+
+#: data/civ1/units.ruleset:946
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -20430,7 +20666,7 @@ msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers next to the city and have them ready to fix the fallout on the same turn it occurs!  This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 
-#: data/civ1/units.ruleset:988
+#: data/civ1/units.ruleset:1075
 msgid "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units."
 msgstr ""
 
@@ -22021,7 +22257,7 @@ msgstr ""
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr ""
+msgstr "Ayetullah"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
