@@ -94,7 +94,7 @@ const char *default_meta_message_string(void)
 #if IS_DEVEL_VERSION
   return "development version: beware";
 #else  /* IS_DEVEL_VERSION */
-  return "(default)";
+  return "-";
 #endif /* IS_DEVEL_VERSION */
 #endif /* IS_BETA_VERSION */
 }
