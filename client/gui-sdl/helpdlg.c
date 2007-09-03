@@ -168,136 +168,153 @@ void popup_impr_info(Impr_type_id impr)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
 
-  struct widget *pWidget, *pHelpText = NULL;
-  struct widget *pDock;
   struct widget *pWindow;
   struct UNITS_BUTTONS *pStore;
-  SDL_String16 *pStr;
+
+  struct widget *pCloseButton = NULL;
+  struct widget *pListToggleButton = NULL;
+  struct widget *pImprovementButton = NULL;
+  struct widget *pImprNameLabel = NULL;
+  struct widget *pCostLabel = NULL;
+  struct widget *pUpkeepLabel = NULL;
+  struct widget *pRequirementLabel = NULL;
+  struct widget *pRequirementLabel2 = NULL;
+  struct widget *pObsoleteByLabel = NULL;
+  struct widget *pObsoleteByLabel2 = NULL;
+  struct widget *pHelptextLabel = NULL;
+  
+  struct widget *pDock;
+  SDL_String16 *pTitle, *pStr;
   SDL_Surface *pSurf;
-  int h, start_x, start_y;
+  int h, start_x, start_y, impr_type_count;
   bool created, text = FALSE;
-  int width = 0;
+  int scrollbar_width = 0;
   struct impr_type *pImpr_type;
   char buffer[64000];
   SDL_Rect area;
 
-  if(current_help_dlg != HELP_IMPROVEMENT)
-  {
+  if(current_help_dlg != HELP_IMPROVEMENT) {
     popdown_help_dialog();
   }
 
-  if (!pHelpDlg)
-  {
-    SDL_Surface *pText, *pBackground, *pTmp;
+  if (!pHelpDlg) {
+    SDL_Surface *pBackgroundTmpl, *pBackground, *pText, *pIcon;
     SDL_Rect dst;
 
     current_help_dlg = HELP_IMPROVEMENT;
     created = TRUE;
+    
+    /* create dialog */
     pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
-    pStr = create_str16_from_char(_("Help : Improvements"), adj_font(12));
-    pStr->style |= TTF_STYLE_BOLD;
+    /* create window */
+    pTitle = create_str16_from_char(_("Help : Improvements"), adj_font(12));
+    pTitle->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, pTitle, WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
     add_to_gui_list(ID_WINDOW, pWindow);
+    
     pHelpDlg->pEndWidgetList = pWindow;
 
     area = pWindow->area;
     /* ------------------ */
 
-    /* exit button */
-    pWidget = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                                WF_RESTORE_BACKGROUND);
+    /* close button */
+    pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+                                    WF_RESTORE_BACKGROUND);
 
-    /*w += pWidget->size.w + 10;*/
-    pWidget->action = exit_help_dlg_callback;
-    set_wstate(pWidget, FC_WS_NORMAL);
-    pWidget->key = SDLK_ESCAPE;
+    pCloseButton->action = exit_help_dlg_callback;
+    set_wstate(pCloseButton, FC_WS_NORMAL);
+    pCloseButton->key = SDLK_ESCAPE;
 
-    add_to_gui_list(ID_BUTTON, pWidget);
+    add_to_gui_list(ID_BUTTON, pCloseButton);
 
     /* ------------------ */
-    pDock = pWidget;
+    pDock = pCloseButton;
 
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-    pText = create_surf_alpha(adj_size(140), adj_size(40), SDL_SWSURFACE);
-    pTmp = pText;
+    /* background template for entries in scroll list */
+    pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
+    SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
+    putframe(pBackgroundTmpl, 0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
+             map_rgba(pBackgroundTmpl->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
 
-    SDL_FillRect(pTmp, NULL, map_rgba(pTmp->format, bg_color));
-    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
-
-    h = 0;
-    improvement_iterate(pImprove)
-    {
-      pBackground = SDL_DisplayFormatAlpha(pTmp);
+    impr_type_count = 0;
+    improvement_iterate(pImprove) {
+      
+      /* copy background surface */  
+      pBackground = SDL_DisplayFormatAlpha(pBackgroundTmpl);
+      
+      /* blit improvement name */
       copy_chars_to_string16(pStr, improvement_name_translation(pImprove));
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
-      /* draw name tech text */
       dst.x = adj_size(40) + (pBackground->w - pText->w - adj_size(40)) / 2;
       dst.y = (pBackground->h - pText->h) / 2;
       alphablit(pText, NULL, pBackground, &dst);
       FREESURFACE(pText);
 
-      /* draw tech icon */
-      pText = get_building_surface(pImprove);
-      pText = zoomSurface(pText, DEFAULT_ZOOM * ((float)36 / pText->w), DEFAULT_ZOOM * ((float)36 / pText->w), 1);
-      dst.x = adj_size(5);
-      dst.y = (pBackground->h - pText->h) / 2;
-      alphablit(pText, NULL, pBackground, &dst);
-      FREESURFACE(pText);
-
-      pWidget = create_icon2(pBackground, pWindow->dst,
-                WF_FREE_THEME | WF_RESTORE_BACKGROUND);
-
-      set_wstate(pWidget, FC_WS_NORMAL);
-      pWidget->action = change_impr_callback;
-      add_to_gui_list(MAX_ID - improvement_number(pImprove), pWidget);
-
-      if (++h > 10)
+      /* blit improvement icon */
       {
-        set_wflag(pWidget, WF_HIDDEN);
+        float zoom = DEFAULT_ZOOM * ((float)36 / get_building_surface(pImprove)->w);
+        pIcon = zoomSurface(get_building_surface(pImprove), zoom, zoom, 1);
+      }
+      dst.x = adj_size(5);
+      dst.y = (pBackground->h - pIcon->h) / 2;
+      alphablit(pIcon, NULL, pBackground, &dst);
+      FREESURFACE(pIcon);
+
+      pImprovementButton = create_icon2(pBackground, pWindow->dst,
+                                        WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+
+      set_wstate(pImprovementButton, FC_WS_NORMAL);
+      pImprovementButton->action = change_impr_callback;
+      add_to_gui_list(MAX_ID - improvement_number(pImprove), pImprovementButton);
+
+      if (++impr_type_count > 10) {
+        set_wflag(pImprovementButton, WF_HIDDEN);
       }
 
     } improvement_iterate_end;
 
-    FREESURFACE(pTmp);
+    FREESURFACE(pBackgroundTmpl);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
-    pHelpDlg->pBeginWidgetList = pWidget;/* IMPORTANT */
+    pHelpDlg->pBeginWidgetList = pImprovementButton ? pImprovementButton : pCloseButton;
     pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
 
-    if (h > 10) {
+    if (impr_type_count > 10) {
       pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
-      width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
+      scrollbar_width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
-
 
     /* toggle techs list button */
-    pWidget = create_themeicon_button_from_chars(pTheme->UP_Icon,
-              pWindow->dst,  _("Improvements"), adj_font(10), 0);
-    /*pWidget->action = toggle_full_tree_mode_in_help_dlg_callback;
-   if (pStore->show_tree)
-    {
-      set_wstate(pWidget, FC_WS_NORMAL);
-    }
-*/
-    pWidget->size.w = adj_size(160);
-    pWidget->size.h = adj_size(15);
-    pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
+    pListToggleButton = create_themeicon_button_from_chars(pTheme->UP_Icon,
+                                                           pWindow->dst,
+                                                           _("Improvements"),
+                                                           adj_font(10), 0);
+#if 0
+   pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
+   if (pStore->show_tree) {
+      set_wstate(pListToggleButton, FC_WS_NORMAL);
+   }
+#endif
 
-    add_to_gui_list(ID_BUTTON, pWidget);
+    widget_resize(pListToggleButton, adj_size(160), adj_size(15));
+    pListToggleButton->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
 
-    pDock = pWidget;
+    add_to_gui_list(ID_BUTTON, pListToggleButton);
+
+    pDock = pListToggleButton;
     pStore->pDock = pDock;
   } else {
     created = FALSE;
-    width = (pHelpDlg->pScroll ? pHelpDlg->pScroll->pUp_Left_Button->size.w: 0);
+    scrollbar_width = (pHelpDlg->pScroll ? pHelpDlg->pScroll->pUp_Left_Button->size.w : 0);
     pWindow = pHelpDlg->pEndWidgetList;
     pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
     pDock = pStore->pDock;
@@ -308,7 +325,7 @@ void popup_impr_info(Impr_type_id impr)
     if (pDock  != pHelpDlg->pBeginWidgetList)
     {
       del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList,
-                                       pDock->prev);
+                                         pDock->prev);
       pHelpDlg->pBeginWidgetList = pDock;
     }
   }
@@ -316,88 +333,93 @@ void popup_impr_info(Impr_type_id impr)
   pImpr_type = improvement_by_number(impr);
 
   pSurf = get_building_surface(pImpr_type);
-  pWidget= create_iconlabel_from_chars(
-          zoomSurface(pSurf, DEFAULT_ZOOM * ((float)108 / pSurf->w), DEFAULT_ZOOM * ((float)108 / pSurf->w), 1),
-          pWindow->dst, city_improvement_name_translation(NULL, pImpr_type),
-          adj_font(24), WF_FREE_THEME);
+  pImprNameLabel = create_iconlabel_from_chars(
+                     zoomSurface(pSurf, DEFAULT_ZOOM * ((float)108 / pSurf->w),
+                                        DEFAULT_ZOOM * ((float)108 / pSurf->w), 1),
+                     pWindow->dst, city_improvement_name_translation(NULL, pImpr_type),
+                     adj_font(24), WF_FREE_THEME);
 
-  pWidget->ID = ID_LABEL;
-  DownAdd(pWidget, pDock);
-  pDock = pWidget;
+  pImprNameLabel->ID = ID_LABEL;
+  DownAdd(pImprNameLabel, pDock);
+  pDock = pImprNameLabel;
 
-  if (!improvement_has_flag(pImpr_type, IF_GOLD))
-  {
+  if (!improvement_has_flag(pImpr_type, IF_GOLD)) {
     sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(pImpr_type));
-    pWidget = create_iconlabel_from_chars(NULL,
-                    pWindow->dst, buffer, adj_font(12), 0);
-    pWidget->ID = ID_LABEL;
-    DownAdd(pWidget, pDock);
-    pDock = pWidget;
-    if (!is_wonder(pImpr_type))
-    {
+    pCostLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
+                                             buffer, adj_font(12), 0);
+    pCostLabel->ID = ID_LABEL;
+    DownAdd(pCostLabel, pDock);
+    pDock = pCostLabel;
+    
+    if (!is_wonder(pImpr_type)) {
       sprintf(buffer, "%s %d", N_("Upkeep:"), pImpr_type->upkeep);
-      pWidget = create_iconlabel_from_chars(NULL,
-                    pWindow->dst, buffer, adj_font(12), 0);
-      pWidget->ID = ID_LABEL;
-      DownAdd(pWidget, pDock);
-      pDock = pWidget;
+      pUpkeepLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
+                                                 buffer, adj_font(12), 0);
+      pUpkeepLabel->ID = ID_LABEL;
+      DownAdd(pUpkeepLabel, pDock);
+      pDock = pUpkeepLabel;
     }
   }
-  pWidget = create_iconlabel_from_chars(NULL,
-                    pWindow->dst, N_("Requirement:"), adj_font(12), 0);
-  pWidget->ID = ID_LABEL;
-  DownAdd(pWidget, pDock);
-  pDock = pWidget;
+  
+  /* requirement */
+  pRequirementLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
+                                                  N_("Requirement:"),
+                                                  adj_font(12), 0);
+  pRequirementLabel->ID = ID_LABEL;
+  DownAdd(pRequirementLabel, pDock);
+  pDock = pRequirementLabel;
 
   if (!(requirement_vector_size(&pImpr_type->reqs) > 0)) {
-    pWidget = create_iconlabel_from_chars(NULL,
-                    pWindow->dst, _("None"), adj_font(12), 0);
-    pWidget->ID = ID_LABEL;
+    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
+                                                     _("None"),
+                                                     adj_font(12), 0);
+    pRequirementLabel2->ID = ID_LABEL;
   } else {
     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
     requirement_vector_iterate(&pImpr_type->reqs, preq) {
-      pWidget = create_iconlabel_from_chars(NULL, pWindow->dst,
-                    universal_name_translation(&preq->source, buffer, sizeof(buffer)),
-                    adj_font(12), WF_RESTORE_BACKGROUND);
-      pWidget->ID = MAX_ID - advance_number(preq->source.value.advance);
-      pWidget->string16->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
-      pWidget->action = change_tech_callback;
-      set_wstate(pWidget, FC_WS_NORMAL);
+      pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
+                             universal_name_translation(&preq->source, buffer, sizeof(buffer)),
+                             adj_font(12), WF_RESTORE_BACKGROUND);
+      pRequirementLabel2->ID = MAX_ID - advance_number(preq->source.value.advance);
+      pRequirementLabel2->string16->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
+      pRequirementLabel2->action = change_tech_callback;
+      set_wstate(pRequirementLabel2, FC_WS_NORMAL);
       break;
     } requirement_vector_iterate_end;
   }
-  DownAdd(pWidget, pDock);
-  pDock = pWidget;
-  pStore->pRequirementButton = pWidget;
+  DownAdd(pRequirementLabel2, pDock);
+  pDock = pRequirementLabel2;
+  pStore->pRequirementButton = pRequirementLabel2;
 
-  pWidget = create_iconlabel_from_chars(NULL,
-                    pWindow->dst, N_("Obsolete by:"), adj_font(12), 0);
-  pWidget->ID = ID_LABEL;
-  DownAdd(pWidget, pDock);
-  pDock = pWidget;
+  /* obsolete by */
+  pObsoleteByLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
+                                                 N_("Obsolete by:"),
+                                                 adj_font(12), 0);
+  pObsoleteByLabel->ID = ID_LABEL;
+  DownAdd(pObsoleteByLabel, pDock);
+  pDock = pObsoleteByLabel;
 
-  if (A_NEVER == pImpr_type->obsolete_by)
-  {
-    pWidget = create_iconlabel_from_chars(NULL,
-                    pWindow->dst, _("Never"), adj_font(12), 0);
-    pWidget->ID = ID_LABEL;
+  if (A_NEVER == pImpr_type->obsolete_by) {
+    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
+                                                    _("Never"), adj_font(12), 0);
+    pObsoleteByLabel2->ID = ID_LABEL;
   } else {
-    pWidget = create_iconlabel_from_chars(NULL, pWindow->dst,
-              advance_name_translation(pImpr_type->obsolete_by),
-              adj_font(12),
-                          WF_RESTORE_BACKGROUND);
-    pWidget->ID = MAX_ID - advance_number(pImpr_type->obsolete_by);
-    pWidget->string16->fgcol = *get_tech_color(advance_number(pImpr_type->obsolete_by));
-    pWidget->action = change_tech_callback;
-    set_wstate(pWidget, FC_WS_NORMAL);
+    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
+                          advance_name_translation(pImpr_type->obsolete_by),
+                          adj_font(12), WF_RESTORE_BACKGROUND);
+    pObsoleteByLabel2->ID = MAX_ID - advance_number(pImpr_type->obsolete_by);
+    pObsoleteByLabel2->string16->fgcol = *get_tech_color(advance_number(pImpr_type->obsolete_by));
+    pObsoleteByLabel2->action = change_tech_callback;
+    set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }
-  DownAdd(pWidget, pDock);
-  pDock = pWidget;
-  pStore->pObsoleteByButton = pWidget;
+  DownAdd(pObsoleteByLabel2, pDock);
+  pDock = pObsoleteByLabel2;
+  pStore->pObsoleteByButton = pObsoleteByLabel2;
 
-  start_x = (area.x + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
+  /* helptext */
+  start_x = (area.x + 1 + scrollbar_width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
 
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), pImpr_type, NULL);
@@ -405,23 +427,20 @@ void popup_impr_info(Impr_type_id impr)
   {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
     convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
-    pWidget = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    pWidget->ID = ID_LABEL;
-    DownAdd(pWidget, pDock);
-    pDock = pWidget;
-    pHelpText = pWidget;
+    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+    pHelptextLabel->ID = ID_LABEL;
+    DownAdd(pHelptextLabel, pDock);
+    pDock = pHelptextLabel;
     text = TRUE;
   }
 
-  pHelpDlg->pBeginWidgetList = pWidget;
+  pHelpDlg->pBeginWidgetList = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
 
   /* --------------------------------------------------------- */
   if (created)
   {
-    /* alloca window theme and win background buffer */
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480)))
-    {
+    if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480))) {
       FREESURFACE(pSurf);
     }
 
@@ -432,72 +451,73 @@ void popup_impr_info(Impr_type_id impr)
                         (Main.screen->h - pWindow->size.h) / 2);
 
     /* exit button */
-    pWidget = pWindow->prev;
-    pWidget->size.x = area.x + area.w - pWidget->size.w - 1;
-    pWidget->size.y = pWindow->size.y + 1;
+    pCloseButton = pWindow->prev;
+    widget_set_position(pCloseButton,
+                        area.x + area.w - pCloseButton->size.w - 1,
+                        pWindow->size.y + 1);
 
-    /* toggle button */
-    pStore->pDock->size.x = area.x;
-    pStore->pDock->size.y = area.y;
+    /* list toggle button */
+    pListToggleButton = pStore->pDock;
+    widget_set_position(pListToggleButton, area.x, area.y);
 
-    h = setup_vertical_widgets_position(1, area.x + width,
-                  area.y + adj_size(13), 0, 0,
-                  pHelpDlg->pBeginActiveWidgetList,
-                  pHelpDlg->pEndActiveWidgetList);
+    /* list entries */
+    h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
+                                           area.y + pListToggleButton->size.h, 0, 0,
+                                           pHelpDlg->pBeginActiveWidgetList,
+                                           pHelpDlg->pEndActiveWidgetList);
 
-    if (pHelpDlg->pScroll)
-    {
+    /* scrollbar */
+    if (pHelpDlg->pScroll) {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-        area.x, area.y + adj_size(13),
-        h, FALSE);
+                                    area.x, area.y + pListToggleButton->size.h,
+                                    h, FALSE);
     }
   }
 
-  /* unittype  icon and label */
-  pWidget = pStore->pDock->prev;
-  pWidget->size.x = start_x;
-  pWidget->size.y = area.y + adj_size(16);
-  start_y = pWidget->size.y + pWidget->size.h + adj_size(10);
+  pImprNameLabel = pStore->pDock->prev;
+  widget_set_position(pImprNameLabel, start_x, area.y + adj_size(16));
+  
+  start_y = pImprNameLabel->size.y + pImprNameLabel->size.h + adj_size(10);
 
-  if (!improvement_has_flag(pImpr_type, IF_GOLD))
-  {
-    pWidget = pWidget->prev;
-    pWidget->size.x = start_x;
-    pWidget->size.y = start_y;
-    if (!is_wonder(pImpr_type))
-    {
-      pWidget = pWidget->prev;
-      pWidget->size.x = pWidget->next->size.x + pWidget->next->size.w + adj_size(20);
-      pWidget->size.y = start_y;
+  if (!improvement_has_flag(pImpr_type, IF_GOLD)) {
+    pCostLabel = pImprNameLabel->prev;
+    widget_set_position(pCostLabel, start_x, start_y);
+    if (!is_wonder(pImpr_type)) {
+      pUpkeepLabel = pCostLabel->prev;
+      widget_set_position(pUpkeepLabel,
+                          pCostLabel->size.x + pCostLabel->size.w + adj_size(20),
+                          start_y);
     }
-    start_y += pWidget->size.h;
+    start_y += pCostLabel->size.h;
   }
 
-  pWidget = pStore->pRequirementButton->next;
-  pWidget->size.x = start_x;
-  pWidget->size.y = start_y;
+  pRequirementLabel = pStore->pRequirementButton->next;
+  widget_set_position(pRequirementLabel, start_x, start_y);
 
-  pStore->pRequirementButton->size.x = pWidget->size.x + pWidget->size.w + adj_size(5);
-  pStore->pRequirementButton->size.y = start_y;
+  pRequirementLabel2 = pStore->pRequirementButton;
+  widget_set_position(pRequirementLabel2,
+                      pRequirementLabel->size.x + pRequirementLabel->size.w + adj_size(5),
+                      start_y);
 
-  if (pStore->pObsoleteByButton)
-  {
-    pWidget = pStore->pObsoleteByButton->next;
-    pWidget->size.x = pStore->pRequirementButton->size.x + pStore->pRequirementButton->size.w + adj_size(10);
-    pWidget->size.y = start_y;
+  if (pStore->pObsoleteByButton) {
+    pObsoleteByLabel = pStore->pObsoleteByButton->next;
+    widget_set_position(pObsoleteByLabel,
+                        pRequirementLabel2->size.x + pRequirementLabel2->size.w + adj_size(10),
+                        start_y);
 
-    pStore->pObsoleteByButton->size.x = pWidget->size.x + pWidget->size.w + adj_size(5);
-    pStore->pObsoleteByButton->size.y = start_y;
-    start_y += pStore->pObsoleteByButton->size.h;
+    pObsoleteByLabel2 = pStore->pObsoleteByButton;
+    widget_set_position(pObsoleteByLabel2,
+                        pObsoleteByLabel->size.x + pObsoleteByLabel->size.w + adj_size(5),
+                        start_y);
+                        
+    start_y += pObsoleteByLabel2->size.h;
   }
 
   start_y += adj_size(30);
-  if (text)
-  {
-    pHelpText->size.x = start_x;
-    pHelpText->size.y = start_y;
+  
+  if (text) {
+    widget_set_position(pHelptextLabel, start_x, start_y);
   }
-
 
   redraw_impr_info_dlg();
 }
