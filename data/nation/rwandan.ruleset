@@ -2,7 +2,7 @@
 
 name=_("Rwandan")
 plural=_("?plural:Rwandans")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("Rwanda is a hilly and very fertile country in the Great Lakes\
  region of eastern Africa. It supports the densest population of\
  the continent.")

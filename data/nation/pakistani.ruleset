@@ -2,7 +2,7 @@
 
 name=_("Pakistani")
 plural=_("?plural:Pakistanis")
-groups=_("Modern"), _("Asian")
+groups="Modern", "Asian"
 legend=_("The Federation of Pakistan was formed from the\
  predominantly Muslim regions of British India in 1947.")
 

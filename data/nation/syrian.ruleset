@@ -2,7 +2,7 @@
 
 name=_("Syrian")
 plural=_("?plural:Syrians")
-groups=_("Modern"), _("Asian")
+groups="Modern", "Asian"
 legend=_("The modern Syrian Arab Republic was formed from a French mandate\
  and gradually gained independence during the 1940s.")
 leader=
