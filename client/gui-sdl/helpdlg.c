@@ -260,10 +260,8 @@ void popup_impr_info(Impr_type_id impr)
       FREESURFACE(pText);
 
       /* blit improvement icon */
-      {
-        float zoom = DEFAULT_ZOOM * ((float)36 / get_building_surface(pImprove)->w);
-        pIcon = zoomSurface(get_building_surface(pImprove), zoom, zoom, 1);
-      }
+      pIcon = ResizeSurfaceBox(get_building_surface(pImprove),
+                               adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = adj_size(5);
       dst.y = (pBackground->h - pIcon->h) / 2;
       alphablit(pIcon, NULL, pBackground, &dst);
@@ -321,9 +319,8 @@ void popup_impr_info(Impr_type_id impr)
 
     area = pWindow->area;
 
-    /* del. all usless widget */
-    if (pDock  != pHelpDlg->pBeginWidgetList)
-    {
+    /* delete any previous list entries */
+    if (pDock != pHelpDlg->pBeginWidgetList) {
       del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList,
                                          pDock->prev);
       pHelpDlg->pBeginWidgetList = pDock;
@@ -334,8 +331,7 @@ void popup_impr_info(Impr_type_id impr)
 
   pSurf = get_building_surface(pImpr_type);
   pImprNameLabel = create_iconlabel_from_chars(
-                     zoomSurface(pSurf, DEFAULT_ZOOM * ((float)108 / pSurf->w),
-                                        DEFAULT_ZOOM * ((float)108 / pSurf->w), 1),
+                     ResizeSurfaceBox(pSurf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
                      pWindow->dst, city_improvement_name_translation(NULL, pImpr_type),
                      adj_font(24), WF_FREE_THEME);
 
@@ -437,8 +433,8 @@ void popup_impr_info(Impr_type_id impr)
   pHelpDlg->pBeginWidgetList = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
 
   /* --------------------------------------------------------- */
-  if (created)
-  {
+  if (created) {
+        
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
     if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480))) {
       FREESURFACE(pSurf);
@@ -655,10 +651,8 @@ void popup_unit_info(Unit_type_id type_id)
       FREESURFACE(pText);
 
       /* blit unit icon */
-      {
-        float zoom = DEFAULT_ZOOM * (25.0 / get_unittype_surface(ut)->h);
-        pIcon = zoomSurface(get_unittype_surface(ut), zoom, zoom, 1);
-      }
+      pIcon = ResizeSurfaceBox(get_unittype_surface(ut),
+                               adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = (adj_size(35) - pIcon->w) / 2;
       dst.y = (pBackground->h - pIcon->h) / 2;
       alphablit(pIcon, NULL, pBackground, &dst);
@@ -714,7 +708,7 @@ void popup_unit_info(Unit_type_id type_id)
 
     area = pWindow->area;
 
-    /* del. all usless widget */
+    /* delete any previous list entries */
     if (pDock != pHelpDlg->pBeginWidgetList) {
       del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList,
                                          pDock->prev);
@@ -1162,10 +1156,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
        && advance_number(preq->source.value.advance) == tech) {
         pSurf = get_building_surface(pImprove);
         pWidget = create_iconlabel_from_chars(
-                zoomSurface(pSurf,
-                            DEFAULT_ZOOM * ((float)36 / pSurf->w),
-                            DEFAULT_ZOOM * ((float)36 / pSurf->w),
-                            1),
+                ResizeSurfaceBox(pSurf, adj_size(48), adj_size(48), 1, TRUE, TRUE),
                 pWindow->dst,
                 improvement_name_translation(pImprove),
                 adj_font(14),
@@ -1190,17 +1181,11 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   unit_type_iterate(un) {
     struct unit_type *pUnitType = un;
     if (advance_number(pUnitType->require_advance) == tech) {
-      if (get_unittype_surface(un)->w > 64)
-      {
-        float zoom = DEFAULT_ZOOM * (64.0 / get_unittype_surface(un)->w);
-        pWidget = create_iconlabel_from_chars(zoomSurface(get_unittype_surface(un), zoom, zoom, 1),
-              pWindow->dst, utype_name_translation(pUnitType), adj_font(14),
-              (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
-      } else {
-        pWidget = create_iconlabel_from_chars(adj_surf(get_unittype_surface(un)),
-              pWindow->dst, utype_name_translation(pUnitType), adj_font(14),
-              (WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR | WF_FREE_THEME));
-      }
+      pWidget = create_iconlabel_from_chars(
+                  ResizeSurfaceBox(get_unittype_surface(un),
+                                   adj_size(48), adj_size(48), 1, TRUE, TRUE),
+                  pWindow->dst, utype_name_translation(pUnitType), adj_font(14),
+                  (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       set_wstate(pWidget, FC_WS_NORMAL);
       pWidget->action = change_unit_callback;
       pWidget->ID = MAX_ID - utype_number(un);
@@ -1882,83 +1867,86 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
 
 void popup_tech_info(Tech_type_id tech)
 {
-  struct widget *pWidget;
-  struct widget *pDock;
   struct widget *pWindow;
   struct TECHS_BUTTONS *pStore;
-  SDL_String16 *pStr;
+  
+  struct widget *pCloseButton = NULL;
+  struct widget *pAdvanceLabel = NULL;
+  struct widget *pListToggleButton = NULL;
+  
+  struct widget *pDock;
+  SDL_String16 *pTitle, *pStr;
   SDL_Surface *pSurf;
-  int h;
+  int h, tech_count;
   bool created;
-  int width = 0;
+  int scrollbar_width = 0;
   SDL_Rect area;
 
-  if(current_help_dlg != HELP_TECH)
-  {
+  if(current_help_dlg != HELP_TECH) {
     popdown_help_dialog();
   }
 
-  if (!pHelpDlg)
-  {
-    created = TRUE;
+  /* create new dialog if it doesn't exist yet */
+  if (!pHelpDlg) {
     current_help_dlg = HELP_TECH;
+    created = TRUE;
+    
+    /* create dialog */
     pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     pStore = fc_calloc(1, sizeof(struct TECHS_BUTTONS));
-
-    memset(pStore, 0, sizeof(struct TECHS_BUTTONS));
 
     pStore->show_tree = FALSE;
     pStore->show_full_tree = FALSE;
 
-    pStr = create_str16_from_char(_("Help : Advances Tree"), adj_font(12));
-    pStr->style |= TTF_STYLE_BOLD;
+    /* create window */
+    pTitle = create_str16_from_char(_("Help : Advances Tree"), adj_font(12));
+    pTitle->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, pTitle, WF_FREE_DATA);
     pWindow->data.ptr = (void *)pStore;
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
 
     add_to_gui_list(ID_WINDOW, pWindow);
+    
     pHelpDlg->pEndWidgetList = pWindow;
 
     area = pWindow->area;
 
     /* ------------------ */
 
-    /* exit button */
-    pWidget = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                                WF_RESTORE_BACKGROUND);
+    /* close button */
+    pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+                                    WF_RESTORE_BACKGROUND);
 
-    /*w += pWidget->size.w + 10;*/
-    pWidget->action = exit_help_dlg_callback;
-    set_wstate(pWidget, FC_WS_NORMAL);
-    pWidget->key = SDLK_ESCAPE;
+    pCloseButton->action = exit_help_dlg_callback;
+    set_wstate(pCloseButton, FC_WS_NORMAL);
+    pCloseButton->key = SDLK_ESCAPE;
 
-    add_to_gui_list(ID_BUTTON, pWidget);
+    add_to_gui_list(ID_BUTTON, pCloseButton);
 
     /* ------------------ */
-    pDock = pWidget;
+    pDock = pCloseButton;
+    
+    /* --- create scrollable advance list on the left side ---*/
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-    h = 0;
-    advance_index_iterate(A_FIRST, i)
-    {
+    tech_count = 0;
+    advance_index_iterate(A_FIRST, i) {
       struct advance *vap = valid_advance_by_number(i);;
-      if (vap)
-      {
+      if (vap) {
         copy_chars_to_string16(pStr, advance_name_translation(vap));
         pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
-        pWidget = create_icon2(pSurf, pWindow->dst,
-                WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+        pAdvanceLabel = create_icon2(pSurf, pWindow->dst,
+                                     WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
-        set_wstate(pWidget, FC_WS_NORMAL);
-        pWidget->action = change_tech_callback;
-        add_to_gui_list(MAX_ID - i, pWidget);
+        set_wstate(pAdvanceLabel, FC_WS_NORMAL);
+        pAdvanceLabel->action = change_tech_callback;
+        add_to_gui_list(MAX_ID - i, pAdvanceLabel);
 
-        if (++h > 10)
-        {
-          set_wflag(pWidget, WF_HIDDEN);
+        if (++tech_count > 10) {
+          set_wflag(pAdvanceLabel, WF_HIDDEN);
         }
       }
     } advance_index_iterate_end;
@@ -1966,82 +1954,76 @@ void popup_tech_info(Tech_type_id tech)
     FREESTRING16(pStr);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
-    pHelpDlg->pBeginWidgetList = pWidget;/* IMPORTANT */
+    pHelpDlg->pBeginWidgetList = pAdvanceLabel ? pAdvanceLabel : pCloseButton;
     pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
 
-    if (h > 10) {
+    if (tech_count > 10) {
       pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
-      width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
+      scrollbar_width = create_vertical_scrollbar(pHelpDlg, 1, 10, TRUE, TRUE);
     }
-
 
     /* toggle techs list button */
-    pWidget = create_themeicon_button_from_chars(pTheme->UP_Icon,
-              pWindow->dst,  _("Advances"), adj_font(10), 0);
-    pWidget->action = toggle_full_tree_mode_in_help_dlg_callback;
-    if (pStore->show_tree)
-    {
-      set_wstate(pWidget, FC_WS_NORMAL);
+    pListToggleButton = create_themeicon_button_from_chars(pTheme->UP_Icon,
+                                                           pWindow->dst,
+                                                           _("Advances"),
+                                                           adj_font(10), 0);
+    pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
+    if (pStore->show_tree) {
+      set_wstate(pListToggleButton, FC_WS_NORMAL);
     }
-    pWidget->size.w = adj_size(160);
-    pWidget->size.h = adj_size(15);
-    pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
-    /*pWidget->key = SDLK_ESCAPE;*/
+    widget_resize(pListToggleButton, adj_size(160), adj_size(15));
+    pListToggleButton->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
 
-    add_to_gui_list(ID_BUTTON, pWidget);
+    add_to_gui_list(ID_BUTTON, pListToggleButton);
 
-    pDock = pWidget;
+    pDock = pListToggleButton;
     pStore->pDock = pDock;
   } else {
     created = FALSE;
-    width = (pHelpDlg->pScroll ? pHelpDlg->pScroll->pUp_Left_Button->size.w: 0);
+    scrollbar_width = (pHelpDlg->pScroll ? pHelpDlg->pScroll->pUp_Left_Button->size.w: 0);
     pWindow = pHelpDlg->pEndWidgetList;
     pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
     pDock = pStore->pDock;
 
     area = pWindow->area;
 
-    /* del. all usless widget */
-    if (pDock  != pHelpDlg->pBeginWidgetList)
-    {
-      del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList,
-                                       pDock->prev);
+    /* delete any previous list entries */
+    if (pDock != pHelpDlg->pBeginWidgetList) {
+      del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList, pDock->prev);
       pHelpDlg->pBeginWidgetList = pDock;
     }
 
     /* show/hide techs list */
-    if (pStore->show_tree)
-    {
-      set_wstate(pDock, FC_WS_NORMAL);
+    pListToggleButton = pDock;
+    
+    if (pStore->show_tree) {
+      set_wstate(pListToggleButton, FC_WS_NORMAL);
     } else {
-      set_wstate(pDock, FC_WS_DISABLED);
+      set_wstate(pListToggleButton, FC_WS_DISABLED);
     }
 
-    if (pStore->show_full_tree)
-    {
+    if (pStore->show_full_tree) {
+      /* all entries are visible without scrolling */
       hide_group(pHelpDlg->pBeginActiveWidgetList,
-                pHelpDlg->pEndActiveWidgetList);
+                 pHelpDlg->pEndActiveWidgetList);
       hide_scrollbar(pHelpDlg->pScroll);
     } else {
       int count = pHelpDlg->pScroll->active;
-      pWidget = pHelpDlg->pActiveWidgetList;
-      while(pWidget && count--)
-      {
-        pWidget = pWidget->prev;
+      pAdvanceLabel = pHelpDlg->pActiveWidgetList;
+      while(pAdvanceLabel && count--) {
+        pAdvanceLabel = pAdvanceLabel->prev;
       }
-      pWidget = pWidget->next;
-      show_group(pWidget, pHelpDlg->pActiveWidgetList);
+      pAdvanceLabel = pAdvanceLabel->next;
+      show_group(pAdvanceLabel, pHelpDlg->pActiveWidgetList);
       show_scrollbar(pHelpDlg->pScroll);
     }
   }
 
   /* --------------------------------------------------------- */
-  if (created)
-  {
-    /* alloca window theme and win background buffer */
+  if (created) {
+
     pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480)))
-    {
+    if (resize_window(pWindow, pSurf, NULL, adj_size(640), adj_size(480))) {
       FREESURFACE(pSurf);
     }
 
@@ -2052,33 +2034,33 @@ void popup_tech_info(Tech_type_id tech)
                         (Main.screen->h - pWindow->size.h) / 2);
 
     /* exit button */
-    pWidget = pWindow->prev;
-    pWidget->size.x = area.x + area.w - pWidget->size.w - 1;
-    pWidget->size.y = pWindow->size.y + 1;
+    pCloseButton = pWindow->prev;
+    widget_set_position(pCloseButton,
+                        area.x + area.w - pCloseButton->size.w - 1,
+                        pWindow->size.y + 1);
 
-    /* toggle button */
-    pStore->pDock->size.x = area.x;
-    pStore->pDock->size.y = area.y;
+    /* list toggle button */
+    pListToggleButton = pStore->pDock;
+    widget_set_position(pListToggleButton, area.x, area.y);
 
-    h = setup_vertical_widgets_position(1, area.x + width,
-                  area.y + adj_size(13), 0, 0,
-                  pHelpDlg->pBeginActiveWidgetList,
-                  pHelpDlg->pEndActiveWidgetList);
-
-    if (pHelpDlg->pScroll)
-    {
+    /* list entries */
+    h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
+                                        area.y + pListToggleButton->size.h, 0, 0,
+                                        pHelpDlg->pBeginActiveWidgetList,
+                                        pHelpDlg->pEndActiveWidgetList);
+    /* scrollbar */
+    if (pHelpDlg->pScroll) {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-        area.x, area.y + adj_size(13),
-        h, FALSE);
+                                    area.x, area.y + pListToggleButton->size.h,
+                                    h, FALSE);
     }
   }
 
-  if (pStore->show_tree)
-  {
-    pHelpDlg->pBeginWidgetList = create_tech_tree(tech, width, pWindow, pStore);
+  if (pStore->show_tree) {
+    pHelpDlg->pBeginWidgetList = create_tech_tree(tech, scrollbar_width, pWindow, pStore);
     redraw_tech_tree_dlg();
   } else {
-    pHelpDlg->pBeginWidgetList = create_tech_info(tech, width, pWindow, pStore);
+    pHelpDlg->pBeginWidgetList = create_tech_info(tech, scrollbar_width, pWindow, pStore);
     redraw_tech_info_dlg();
   }
 }
