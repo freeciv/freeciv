@@ -29,7 +29,9 @@ flag_files =				\
 		boer.png		\
 		bosnia.png		\
 		brasil.png		\
+		brittany.png		\
 		bulgaria.png		\
+		burgundy.png		\
 		burundi.png		\
 		byzantium.png		\
 		canada.png		\
@@ -123,6 +125,7 @@ flag_files =				\
 		nigeria.png		\
 		north_korea.png		\
 		norway.png		\
+		normandy.png		\
 		nubia.png		\
 		numidia.png		\
 		nuu-chah-nulth.png	\
@@ -171,6 +174,7 @@ flag_files =				\
 		tairona.png		\
 		taiwan.png		\
 		tajikistan.png		\
+		templar.png		\
 		texas.png		\
 		thailand.png		\
 		thrace.png		\
@@ -222,7 +226,9 @@ shield_files =					\
 		boer-shield.png			\
 		bosnia-shield.png		\
 		brasil-shield.png		\
+		brittany-shield.png		\
 		bulgaria-shield.png		\
+		burgundy-shield.png		\
 		burundi-shield.png		\
 		byzantium-shield.png		\
 		canada-shield.png		\
@@ -314,6 +320,7 @@ shield_files =					\
 		netherlands-shield.png		\
 		newzealand-shield.png		\
 		nigeria-shield.png		\
+		normandy-shield.png		\
 		north_korea-shield.png		\
 		norway-shield.png		\
 		nubia-shield.png		\
@@ -364,6 +371,7 @@ shield_files =					\
 		tairona-shield.png		\
 		taiwan-shield.png		\
 		tajikistan-shield.png		\
+		templar-shield.png		\
 		texas-shield.png		\
 		thailand-shield.png		\
 		thrace-shield.png		\
@@ -415,7 +423,9 @@ svg_files = 				\
 		boer.svg		\
 		bosnia.svg		\
 		brasil.svg		\
+		brittany.svg		\
 		bulgaria.svg		\
+		burgundy.svg		\
 		burundi.svg		\
 		byzantium.svg		\
 		canada.svg		\
@@ -507,6 +517,7 @@ svg_files = 				\
 		netherlands.svg		\
 		newzealand.svg		\
 		nigeria.svg		\
+		normandy.svg		\
 		north_korea.svg		\
 		norway.svg		\
 		nubia.svg		\
@@ -557,6 +568,7 @@ svg_files = 				\
 		tairona.svg		\
 		taiwan.svg		\
 		tajikistan.svg		\
+		templar.svg		\
 		texas.svg		\
 		thailand.svg		\
 		thrace.svg		\

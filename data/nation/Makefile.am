@@ -32,8 +32,10 @@ pkgdata_DATA = \
 		boer.ruleset \
 		bosnia.ruleset \
 		brazilian.ruleset \
+		breton.ruleset \
 		british.ruleset \
 		bulgarian.ruleset \
+		burgundian.ruleset \
 		burmese.ruleset \
 		burundi.ruleset \
 		byzantium.ruleset \
@@ -120,6 +122,7 @@ pkgdata_DATA = \
 		muskogee.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \
+		norman.ruleset \
 		northkorean.ruleset \
 		norwegian.ruleset \
 		nubian.ruleset \
@@ -167,6 +170,7 @@ pkgdata_DATA = \
 		tairona.ruleset \
 		taiwanese.ruleset \
 		tajik.ruleset \
+		templar.ruleset \
 		texan.ruleset \
 		thai.ruleset \
 		thracian.ruleset \

@@ -34,7 +34,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "gallic"
-civilwar_nations = "canadian", "quebecois", "belgian", "gallic"
+civilwar_nations = "quebecois", "burgundian", "norman", "breton"
 
 cities =
   "Paris",

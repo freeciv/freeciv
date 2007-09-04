@@ -37,7 +37,9 @@ artists = "
    Boer			Caleb Moore
    Bosnia		Daniel McRae
    Brasil		Cezary Biele
+   Brittany		Lexicon
    Bulgaria		Daniel McRae
+   Burgundy		Daniel Markstedt
    Burundi		Sebastian Koppehel
    Byzantium		Dragases
    Canada		James Leigh
@@ -129,10 +131,11 @@ artists = "
    Netherlands		Marc Maurer
    New Zealand		Daniel McRae
    Nigeria		Brett Roper
+   Normandy		Syryatsu
    North Korea		Zachary Harden
    Norway		Christian Schaller
    Nubia		Daniel Markstedt
-   Numidia		Osgoodelawyer and Dan Cottrell
+   Numidia		Lexicon and Dan Cottrell
    Nuu-chah-nulth	Daniel Markstedt
    Ottoman		Daniel Markstedt
    Pakistan		Lauris Kaplinski
@@ -179,6 +182,7 @@ artists = "
    Tairona		Dan Cottrell and Daniel Markstedt
    Taiwan		Cezary Biele
    Tajikistan		Matthew Gatto and Daniil Ivanov
+   Templar		Daniel Markstedt
    Texas		Paul B. Joiner
    Thailand		Lauris Kaplinski
    Thrace		William Allen Simpson and Daniel Markstedt
@@ -233,7 +237,9 @@ sprites =
 		"f.boer", "flags/boer"			; old south african
 		"f.bosnia", "flags/bosnia"
 		"f.brasil", "flags/brasil"
+		"f.brittany", "flags/brittany"
 		"f.bulgaria", "flags/bulgaria"
+		"f.burgundy", "flags/burgundy"
 		"f.burundi", "flags/burundi"
 		"f.byzantium", "flags/byzantium"
 		"f.canada", "flags/canada"
@@ -327,6 +333,7 @@ sprites =
 		"f.netherlands", "flags/netherlands"
 		"f.newzealand", "flags/newzealand"
 		"f.nigeria", "flags/nigeria"
+		"f.normandy", "flags/normandy"
 		"f.north_korea", "flags/north_korea"
 		"f.norway", "flags/norway"
 		"f.nubia", "flags/nubia"
@@ -377,6 +384,7 @@ sprites =
 		"f.tairona", "flags/tairona"
 		"f.taiwan", "flags/taiwan"
 		"f.tajikistan", "flags/tajikistan"
+		"f.templar", "flags/templar"
 		"f.texas", "flags/texas"
 		"f.thailand", "flags/thailand"
 		"f.thrace", "flags/thrace"

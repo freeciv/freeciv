@@ -262,8 +262,10 @@ data/nation/bengali.ruleset
 data/nation/boer.ruleset
 data/nation/bosnia.ruleset
 data/nation/brazilian.ruleset
+data/nation/breton.ruleset
 data/nation/british.ruleset
 data/nation/bulgarian.ruleset
+data/nation/burgundian.ruleset
 data/nation/burmese.ruleset
 data/nation/burundi.ruleset
 data/nation/byzantium.ruleset
@@ -350,6 +352,7 @@ data/nation/mongol.ruleset
 data/nation/muskogee.ruleset
 data/nation/newzealand.ruleset
 data/nation/nigerian.ruleset
+data/nation/norman.ruleset
 data/nation/northkorean.ruleset
 data/nation/norwegian.ruleset
 data/nation/nubian.ruleset
@@ -397,6 +400,7 @@ data/nation/taino.ruleset
 data/nation/tairona.ruleset
 data/nation/taiwanese.ruleset
 data/nation/tajik.ruleset
+data/nation/templar.ruleset
 data/nation/texan.ruleset
 data/nation/thai.ruleset
 data/nation/thracian.ruleset
