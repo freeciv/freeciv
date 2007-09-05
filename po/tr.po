@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-03 22:03+0300\n"
-"PO-Revision-Date: 2007-09-03 22:30+0200\n"
+"PO-Revision-Date: 2007-09-06 00:12+0200\n"
 "Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
 "Language-Team: Turkish <email@katpatuka.org>\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr "Araştırma"
 
 #: common/city.c:349
 msgid "?obsolete:O"
-msgstr "?geçmiş:O"
+msgstr "?geçmiş:G"
 
 #: common/city.c:352
 msgid "?redundant:*"
@@ -87,11 +87,11 @@ msgstr "?çift:*"
 
 #: common/city.c:357
 msgid "?built:B"
-msgstr "?yapıldı:B"
+msgstr "?yapıldı:Y"
 
 #: common/city.c:359
 msgid "?wonder:w"
-msgstr "?mucize:w"
+msgstr "?mucize:m"
 
 #: common/connection.c:514
 #, c-format
@@ -5349,11 +5349,11 @@ msgstr ""
 
 #: server/stdinhand.c:2727
 msgid "Usage: observe [connection-name [player-name]]"
-msgstr ""
+msgstr "Kullanım: observe [bağlantı adı [oyuncu adı]]"
 
 #: server/stdinhand.c:2733
 msgid "Usage: observe [player-name]"
-msgstr ""
+msgstr "Kullanım: observe [oyuncu adı]"
 
 #: server/stdinhand.c:2783
 #, c-format
@@ -5476,7 +5476,7 @@ msgstr ""
 
 #: server/stdinhand.c:3216
 msgid "Usage: load <game name>"
-msgstr ""
+msgstr "Kullanım: load <oyun adı>"
 
 #: server/stdinhand.c:3236
 #, c-format
@@ -5697,7 +5697,7 @@ msgstr ""
 
 #: server/stdinhand.c:4117
 msgid " (observer mode)"
-msgstr ""
+msgstr "(gözlemci modu)"
 
 #: server/stdinhand.c:4135
 msgid "List of teams:"
@@ -5708,18 +5708,17 @@ msgstr "Takım listesi:"
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2d : '%s' : %d oyuncu"
 
 #: server/stdinhand.c:4165
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
-msgstr ""
+msgstr "%2d : '%s' : 1 oyuncu : %s"
 
 #: server/stdinhand.c:4171
 #, c-format
 msgid "Empty team: %s"
-msgstr ""
+msgstr "Boş takım: %s"
 
 #: server/stdinhand.c:4182
 msgid "List of connections to server:"
@@ -5959,7 +5958,7 @@ msgstr ""
 
 #: server/unithand.c:1114
 msgid "You can't attack there."
-msgstr ""
+msgstr "Burada saldıramazsın."
 
 #: server/unithand.c:1134
 msgid "This type of troops cannot take over a city."
@@ -6020,7 +6019,7 @@ msgstr "%s bedava %s yükseltildi %s."
 #: server/unittools.c:298
 #, c-format
 msgid "Not enough gold. %s disbanded"
-msgstr ""
+msgstr "Altın yetmedi. %s kaçtı"
 
 #: server/unittools.c:343
 #, c-format
@@ -7679,7 +7678,7 @@ msgstr ""
 
 #: client/helpdata.c:1057
 msgid " or "
-msgstr ""
+msgstr " ya da "
 
 #: client/helpdata.c:1059
 msgid "?or:, "
@@ -7785,7 +7784,7 @@ msgstr ""
 #: client/helpdata.c:1280
 #, c-format
 msgid "Features:\n"
-msgstr ""
+msgstr "Özellik:\n"
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
@@ -12195,7 +12194,7 @@ msgstr "%s gerçekten satmak istermisin?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
 msgid "Sell Improvements"
-msgstr ""
+msgstr "Gelişimleri Sat"
 
 #: client/gui-gtk-2.0/repodlgs.c:824
 msgid "Sell-Off: Results"
@@ -13004,7 +13003,7 @@ msgstr "Bağlantı _Kes"
 #: client/gui-mui/dialogs.c:1748
 #, c-format
 msgid "Sorry: cannot upgrade %s."
-msgstr ""
+msgstr "Kusura bakm: %s yükseltilmez."
 
 #: client/gui-mui/diplodlg.c:274
 msgid "No technology"
@@ -13570,7 +13569,7 @@ msgstr ""
 #: client/gui-mui/helpdlg.c:861
 #, c-format
 msgid "Defense: %ld.%ld"
-msgstr ""
+msgstr "Savunma: %ld.%ld"
 
 #: client/gui-mui/helpdlg.c:873
 #: client/gui-mui/helpdlg.c:892
@@ -13787,7 +13786,7 @@ msgstr[1] ""
 
 #: client/gui-mui/plrdlg.c:171
 msgid "Reputation"
-msgstr ""
+msgstr "Şan"
 
 #: client/gui-mui/plrdlg.c:173
 #: client/gui-win32/plrdlg.c:337
@@ -13805,7 +13804,7 @@ msgstr ""
 #: client/gui-mui/repodlgs.c:355
 #, c-format
 msgid "(%ld steps)"
-msgstr ""
+msgstr "(%ld adım)"
 
 #: client/gui-mui/repodlgs.c:302
 msgid "Science Advisor"
@@ -13978,13 +13977,13 @@ msgstr ""
 
 #: client/gui-mui/worklistclass.c:724
 msgid "Available Targets"
-msgstr ""
+msgstr "Mevcut Hedefler"
 
 #: client/gui-mui/worklistclass.c:732
 #: client/gui-mui/worklistclass.c:733
 #: client/gui-win32/wldlg.c:844
 msgid "Show future targets"
-msgstr ""
+msgstr "Geleceğinin gelişimleri görüntüle"
 
 #: client/gui-mui/worklistclass.c:794
 msgid "Worklist for city"
@@ -14212,12 +14211,12 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:2533
 msgid "Citizens"
-msgstr ""
+msgstr "Vatandaş"
 
 #: client/gui-sdl/citydlg.c:2562
 #, c-format
 msgid "Food: %d per turn"
-msgstr ""
+msgstr "Gıda: %d raunt başı"
 
 #: client/gui-sdl/citydlg.c:2599
 #, c-format
@@ -14472,7 +14471,7 @@ msgstr ""
 
 #: client/gui-sdl/connectdlg.c:555
 msgid "Player Name :"
-msgstr ""
+msgstr "Oyuncu Adı :"
 
 #: client/gui-sdl/connectdlg.c:571
 msgid "Freeciv Server :"
@@ -14480,7 +14479,7 @@ msgstr "Freeciv Sunucusu :"
 
 #: client/gui-sdl/connectdlg.c:588
 msgid "Port :"
-msgstr ""
+msgstr "Port :"
 
 #: client/gui-sdl/connectdlg.c:794
 #: client/gui-sdl/connectdlg.c:977
@@ -14564,7 +14563,7 @@ msgstr ""
 #: client/gui-win32/dialogs.c:761
 #: data/Freeciv.in:561
 msgid "Ready all"
-msgstr ""
+msgstr "Herkes hazır"
 
 #: client/gui-sdl/dialogs.c:1480
 msgid "Sentry idle"
@@ -15813,7 +15812,7 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:462
 msgid "Available To Build"
-msgstr ""
+msgstr "Olabilir İnşaat"
 
 #: client/gui-win32/cityrep.c:683
 msgid "Select a unit or improvement to change production from."
@@ -16272,7 +16271,7 @@ msgstr "Milletin seçsene!"
 #: client/gui-xaw/graphics.c:343
 #, c-format
 msgid "Failed reading PNG file: %s"
-msgstr ""
+msgstr "PNG dosyası okunamadı: %s"
 
 #: client/gui-xaw/graphics.c:349
 #: client/gui-xaw/graphics.c:355
@@ -16659,6 +16658,8 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s inşaat yardımı</h1>\n"
+"\n"
 
 #: manual/civmanual.c:297
 #, c-format
@@ -16863,7 +16864,7 @@ msgstr "Üretim Yapılacakları Listesi"
 
 #: data/Freeciv.in:2120
 msgid "Available targets"
-msgstr ""
+msgstr "Mevcut hedefler"
 
 #: data/Freeciv.in:2146
 msgid "Prepend"
@@ -16875,7 +16876,7 @@ msgstr "  Tamam  "
 
 #: data/Freeciv.in:2200
 msgid "Show future targets:"
-msgstr ""
+msgstr "Geleceğinin gelişimleri görüntüle"
 
 #: data/Freeciv.in:2261
 msgid "Establish traderoute"
@@ -18158,7 +18159,7 @@ msgstr ""
 #: data/default/buildings.ruleset:593
 #: data/civ2/buildings.ruleset:559
 msgid "Port Facility"
-msgstr "Liman"
+msgstr "Tersane"
 
 #: data/default/buildings.ruleset:608
 #: data/civ2/buildings.ruleset:574
@@ -18359,7 +18360,7 @@ msgstr ""
 #: data/default/buildings.ruleset:969
 #: data/civ2/buildings.ruleset:956
 msgid "A.Smith's Trading Co."
-msgstr ""
+msgstr "Sabancı Holding"
 
 #: data/default/buildings.ruleset:983
 msgid "City improvements which would normally have an upkeep of 1 are free of upkeep, for all your cities."
@@ -18502,7 +18503,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1239
 #: data/civ2/buildings.ruleset:1223
 msgid "Leonardo's Workshop"
-msgstr "Leonardo'nun Workshop"
+msgstr "Leonardo'nun Atölyesi"
 
 #: data/default/buildings.ruleset:1253
 #: data/civ2/buildings.ruleset:1237
@@ -18580,7 +18581,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
 msgid "SETI Program"
-msgstr "SETI Programı"
+msgstr "SETİ Programı"
 
 #: data/default/buildings.ruleset:1413
 msgid "Boosts science production in each city with a Research Lab by 100%. "
