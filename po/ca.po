@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-02 15:10+0200\n"
-"PO-Revision-Date: 2007-09-04 00:26+0200\n"
+"PO-Revision-Date: 2007-09-06 01:44+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -535,13 +535,12 @@ msgid "AI Debug messages"
 msgstr "Missatges de depuració d'IA"
 
 #: common/events.c:145
-#, fuzzy
 msgid "Player settings"
-msgstr "Esborrar arranjament"
+msgstr "Paràmetres de Jugador"
 
 #: common/player.c:41
 msgid "Away"
-msgstr ""
+msgstr "Fora"
 
 #: common/player.c:41
 msgid "Novice"
@@ -2118,7 +2117,7 @@ msgstr "%s desmantellada en %s."
 
 #: server/civserver.c:78
 msgid "Setting timeout to 0. Autogame will stop.\n"
-msgstr ""
+msgstr "Fixant el temporitzador a 0. El joc automàtic s'aturarà.\n"
 
 #: server/civserver.c:82
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
@@ -8852,7 +8851,7 @@ msgstr "Característiques:\n"
 #. *        last two elements
 #: client/helpdata.c:1342
 msgid "?outputlist: or "
-msgstr ""
+msgstr " o "
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
@@ -8863,7 +8862,7 @@ msgstr " i "
 #. TRANS: Empty output type list, should never happen.
 #: client/helpdata.c:1353 client/helpdata.c:1354
 msgid "?outputlist: Nothing "
-msgstr ""
+msgstr "Res"
 
 #: client/helpdata.c:1361
 #, c-format
@@ -12419,9 +12418,8 @@ msgid "Select same type"
 msgstr "Triar el mateix tipus"
 
 #: client/gui-gtk-2.0/menu.c:924
-#, fuzzy
 msgid "Select same type in tile"
-msgstr "Triar el mateix tipus"
+msgstr "Triar el mateix tipus dins la casella"
 
 #: client/gui-gtk-2.0/menu.c:926 client/gui-win32/menu.c:393
 msgid "_Wait"
@@ -22363,7 +22361,7 @@ msgstr "Falange"
 #: data/default/units.ruleset:450 data/civ2/units.ruleset:304
 #: data/civ1/units.ruleset:264
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr ""
+msgstr "La Falange és infanteria amb cuirassa, apropiada per la defensa de les teves ciutats."
 
 #: data/default/units.ruleset:455 data/civ2/units.ruleset:309
 msgid "Archers"
@@ -22373,7 +22371,7 @@ msgstr "Arquers"
 msgid ""
 "Archers fight with bows and arrows and has a good offensive value as well as "
 "decent defense."
-msgstr ""
+msgstr "Els Arquers lluiten amb arcs i fletxes i tenen un bon valor ofensiu així com una defensa decent."
 
 #: data/default/units.ruleset:487 data/civ2/units.ruleset:341
 #: data/civ1/units.ruleset:269
@@ -22385,7 +22383,7 @@ msgstr "Legionari"
 msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
-msgstr ""
+msgstr "Les Legions són unitats d'infanteria fortament armades i molt disciplinades amb un valor ofensiu excel·lent."
 
 #: data/default/units.ruleset:519 data/civ2/units.ruleset:373
 msgid "Pikemen"
@@ -22395,7 +22393,7 @@ msgstr "Piquers"
 msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
-msgstr ""
+msgstr "Equipats amb piques llargues, els Piquers substitueixen la Falange com a millors defensors de ciutats."
 
 #: data/default/units.ruleset:551 data/civ2/units.ruleset:405
 #: data/civ1/units.ruleset:301
@@ -22406,7 +22404,7 @@ msgstr "Mosqueters"
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
-msgstr ""
+msgstr "Els Mosqueters són infanteria equipada amb armes de foc primitives i substitueixen els Piquers com a millors defensors de ciutats."
 
 #: data/default/units.ruleset:585 data/civ2/units.ruleset:474
 msgid "Partisan"
@@ -22447,7 +22445,7 @@ msgstr "Tropes Alpines"
 
 #: data/default/units.ruleset:654 data/civ2/units.ruleset:543
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
-msgstr ""
+msgstr "Les Tropes Alpines són unitats altament mòbils apart de defensors excel·lents."
 
 #: data/default/units.ruleset:660 data/civ2/units.ruleset:549
 #: data/civ1/units.ruleset:335
@@ -22457,7 +22455,7 @@ msgstr "Fusellers"
 #: data/default/units.ruleset:686 data/civ2/units.ruleset:575
 #: data/civ1/units.ruleset:361
 msgid "Riflemen are World War-era infantry, very good at defending your cities."
-msgstr ""
+msgstr "Els Fusellers són infanteria de l'època de les guerres mundials, molt bons per la defensa de les teves ciutats."
 
 #: data/default/units.ruleset:692 data/civ2/units.ruleset:581
 msgid "Marines"
@@ -22465,7 +22463,7 @@ msgstr "Marines"
 
 #: data/default/units.ruleset:718 data/civ2/units.ruleset:607
 msgid "Marines are infantry who are experts at marine warfare."
-msgstr ""
+msgstr "Els Marines són infanteria experta en la guerra al mar."
 
 #: data/default/units.ruleset:723 data/civ2/units.ruleset:612
 msgid "Paratroopers"
@@ -22473,7 +22471,7 @@ msgstr "Paracaigudistes"
 
 #: data/default/units.ruleset:749 data/civ2/units.ruleset:638
 msgid "Paratroopers are experts at airborne attacks."
-msgstr ""
+msgstr "Els paracaigudistes són experts en atacs des del cel."
 
 #: data/default/units.ruleset:758 data/civ2/units.ruleset:647
 #: data/civ1/units.ruleset:367
@@ -22496,7 +22494,7 @@ msgstr "Genets"
 msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
-msgstr ""
+msgstr "Els Genets són guerrers muntats i constitueixen una unitat de sorpresa primitiva que pot introduir-se ben endins del territori enemic."
 
 #: data/default/units.ruleset:824 data/civ2/units.ruleset:713
 #: data/civ1/units.ruleset:433
@@ -22508,7 +22506,7 @@ msgstr "Carro"
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
-msgstr ""
+msgstr "Els Carros són vehicles de guerra tibats per cavalls, més forts però més cars que els Genets."
 
 #: data/default/units.ruleset:856 data/civ2/units.ruleset:809
 #: data/civ1/units.ruleset:465
@@ -22518,7 +22516,7 @@ msgstr "Cavallers"
 #: data/default/units.ruleset:883 data/civ2/units.ruleset:836
 #: data/civ1/units.ruleset:492
 msgid "Knights are mounted and heavily armored warriors."
-msgstr ""
+msgstr "Els Cavallers són guerrers muntats i fortament protegits amb armadures."
 
 #: data/default/units.ruleset:888 data/civ2/units.ruleset:841
 msgid "Dragoons"
@@ -22526,7 +22524,7 @@ msgstr "Dragons"
 
 #: data/default/units.ruleset:915 data/civ2/units.ruleset:868
 msgid "Dragoons are mounted warriors carrying early firearms."
-msgstr ""
+msgstr "Els Dragons són guerrers a cavall que porten armes de foc primitives."
 
 #: data/default/units.ruleset:920 data/civ2/units.ruleset:873
 #: data/civ1/units.ruleset:400
@@ -22535,7 +22533,7 @@ msgstr "Cavalleria"
 
 #: data/default/units.ruleset:946 data/civ2/units.ruleset:899
 msgid "Cavalry are mounted and highly trained soldiers."
-msgstr ""
+msgstr "La Cavalleria són soldats a cavall molt ben entrenats."
 
 #: data/default/units.ruleset:951 data/civ2/units.ruleset:904
 #: data/civ1/units.ruleset:497
@@ -22547,7 +22545,7 @@ msgstr "Tanc"
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
-msgstr ""
+msgstr "Els Tancs són vehicles de guerra amb motor que són més ràpids, més forts, i poden aguantar més dany que cap altra arma muntada."
 
 #: data/default/units.ruleset:984 data/civ2/units.ruleset:937
 #: data/civ1/units.ruleset:530
@@ -22559,7 +22557,7 @@ msgstr "Catapulta"
 msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
-msgstr ""
+msgstr "Les Catapultes són màquines de guerra que llencen roques grans. Són atacants molt potents, però al mateix temps són dèbils en defensa i necessitaran escorta per ser efectius."
 
 #: data/default/units.ruleset:1017 data/civ2/units.ruleset:970
 #: data/civ1/units.ruleset:563
@@ -22572,7 +22570,7 @@ msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
 "distances. They are very strong attackers but equally weak defenders and "
 "will need an escort to be effective."
-msgstr ""
+msgstr "Els canons són armes de foc grans que poden disparar projectils pesants a llargues distàncies. Són atacants molt potents però al mateix temps són dèbils en defensa i necessitaran escorta per ser efectius."
 
 #: data/default/units.ruleset:1051 data/civ2/units.ruleset:1004
 #: data/civ1/units.ruleset:597
@@ -22583,7 +22581,7 @@ msgstr "Artilleria"
 msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
-msgstr ""
+msgstr "L'artilleria és un canó millorat. És molt potent en atac, però al mateix temps molt dèbil en defensa, i necessitarà escorta per ser efectiva."
 
 #: data/default/units.ruleset:1084 data/civ2/units.ruleset:1037
 msgid "Howitzer"
@@ -22593,7 +22591,7 @@ msgstr "Obús"
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities."
-msgstr ""
+msgstr "Els Obusos són artilleria millorada amb capacitats defensiva i ofensiva superiors."
 
 #: data/default/units.ruleset:1116 data/civ2/units.ruleset:1069
 #: data/civ1/units.ruleset:629
@@ -22605,7 +22603,7 @@ msgstr "Caça"
 msgid ""
 "Fighters are your first airborne units. They can move anywhere and attack "
 "any unit."
-msgstr ""
+msgstr "Els Caces són les primeres unitats aèries que pots tenir. Poden moure's per tot arreu i atacar qualsevol unitat."
 
 #: data/default/units.ruleset:1148 data/civ2/units.ruleset:1101
 #: data/civ1/units.ruleset:661
@@ -22617,7 +22615,7 @@ msgstr "Bombarder"
 msgid ""
 "Bombers are specialized airborne units that may only attack ground targets, "
 "not other airborne units."
-msgstr ""
+msgstr "Els Bombarders són unitats aèries especialitzades que només poden atacar objectius a la superfície; no altres unitats aèries."
 
 #: data/default/units.ruleset:1207 data/civ2/units.ruleset:1160
 msgid ""
@@ -22657,7 +22655,7 @@ msgstr "Trirrem"
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not stray too far from the shore."
-msgstr ""
+msgstr "El Trirem és la primera unitat marítima que pots tenir. Pot fer de vaixell de transport i té una capacitat ofensiva rudimentària, però no pot aventurar-se massa lluny de terra."
 
 #: data/default/units.ruleset:1313 data/civ2/units.ruleset:1266
 msgid "Caravel"
@@ -22665,7 +22663,7 @@ msgstr "Caravel·la"
 
 #: data/default/units.ruleset:1340 data/civ2/units.ruleset:1293
 msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
-msgstr ""
+msgstr "La Caravel·la substitueix el Trirem i és molt més segura a mar obert."
 
 #: data/default/units.ruleset:1346 data/civ2/units.ruleset:1299
 msgid "Galleon"
@@ -22675,7 +22673,7 @@ msgstr "Galeó"
 msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "is may still defend itself when attacked."
-msgstr ""
+msgstr "El Galeó és purament un vaixell de transport i no pot atacar d'altres vaixells, encara que pot defensar-se si l'ataquen."
 
 #: data/default/units.ruleset:1380 data/civ2/units.ruleset:1333
 #: data/civ1/units.ruleset:761
@@ -22687,7 +22685,7 @@ msgstr "Fragata"
 msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
-msgstr ""
+msgstr "La Fragata és una barca molt versàtil que és alhora una unitat força ofensiva i un vaixell de transport decent."
 
 #: data/default/units.ruleset:1414 data/civ2/units.ruleset:1367
 #: data/civ1/units.ruleset:795
@@ -23100,7 +23098,7 @@ msgstr "Elefants"
 msgid ""
 "Elephants are towering animals trained for war, but are easily dispersed if "
 "caught off guard."
-msgstr ""
+msgstr "Els Elefants són animals enormes ensinistrats per la guerra, però es dispersen fàcilment si els agafen per sorpresa."
 
 #: data/civ2/units.ruleset:777
 msgid "Crusaders"
@@ -23108,7 +23106,7 @@ msgstr "Croats"
 
 #: data/civ2/units.ruleset:803
 msgid "Crusaders are highly disciplined mounted warriors driven by a higher cause."
-msgstr ""
+msgstr "Els Croats són guerrers a cavall molt disciplinats, motivats per una causa superior."
 
 #: data/civ2/units.ruleset:1942
 msgid ""
@@ -23159,7 +23157,7 @@ msgstr "Milícia"
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Phalanx as "
 "the preferred city defender."
-msgstr ""
+msgstr "Els Mosqueters són infanteria equipada amb armes de foc primitives i substitueixen la Falange com a millors defensors de ciutats."
 
 #: data/civ1/units.ruleset:393
 msgid ""
@@ -23173,21 +23171,21 @@ msgstr ""
 msgid ""
 "Cavalry are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
-msgstr ""
+msgstr "La Cavalleria són guerrers muntats i constitueixen una unitat de sorpresa primerenca que pot introduir-se ben endins del territori enemic."
 
 #: data/civ1/units.ruleset:623
 msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities."
-msgstr ""
+msgstr "L'artilleria és un canó millorat amb capacitats defensiva i ofensiva superiors."
 
 #: data/civ1/units.ruleset:728
 msgid "Sail"
-msgstr "Vaixell"
+msgstr "Vela"
 
 #: data/civ1/units.ruleset:755
 msgid "The Sail replaces the Trireme and is much more reliable on the open seas."
-msgstr ""
+msgstr "La Vela substitueix el Trirem i és molt més segura a mar obert."
 
 #: data/civ1/units.ruleset:1020
 msgid ""
@@ -25035,45 +25033,39 @@ msgid "Maharajadhiraja"
 msgstr "Maharajadhiraja"
 
 #: data/nation/hacker.ruleset:3
-#, fuzzy
 msgid "Hacker"
-msgstr "Glacera"
+msgstr "Hacker"
 
 #: data/nation/hacker.ruleset:4
-#, fuzzy
 msgid "?plural:Hackers"
-msgstr "Singalesos"
+msgstr "Hackers"
 
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
-msgstr ""
+msgstr "h4xx0r r0xx0rz!"
 
 #: data/nation/hacker.ruleset:39
-#, fuzzy
 msgid "?title:Hacker"
-msgstr "Inca"
+msgstr "?title:Hacker"
 
 #: data/nation/hacker.ruleset:39
-#, fuzzy
 msgid "?female:Hacker"
-msgstr "Usurpadora"
+msgstr "?female:Hacker"
 
 #: data/nation/hawaiian.ruleset:3
-#, fuzzy
 msgid "Hawaiian"
-msgstr "esperant"
+msgstr "Hawaià"
 
 #: data/nation/hawaiian.ruleset:4
-#, fuzzy
 msgid "?plural:Hawaiians"
-msgstr "Bavaresos"
+msgstr "Hawaians"
 
 #: data/nation/hawaiian.ruleset:7
 msgid ""
 "The Kingdom of Hawaii was established in 1810 by King Kamehameha the Great. "
 "Abolished in 1893, and subsequently annexed to the United States, the former "
 "kingdom became the 50th state of the United States on August 21, 1959."
-msgstr ""
+msgstr "El Regne de Hawaii va ser establert el 1810 pel Rei Kamehameha el Gran. Abolit el 1893, i annexat després als Estats Units, l'antic regne es va convertir en el cinquantè estat dels Estats Units el 21 d'agost de 1959."
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
@@ -25092,14 +25084,12 @@ msgstr ""
 "el poble hel·lènic va guanyar la independència de l'Imperi Otomà el 1832."
 
 #: data/nation/himyarite.ruleset:3
-#, fuzzy
 msgid "Himyarite"
-msgstr "Hitita"
+msgstr "Himiarita"
 
 #: data/nation/himyarite.ruleset:4
-#, fuzzy
 msgid "?plural:Himyar"
-msgstr "Libis"
+msgstr "Himiarites"
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -25115,7 +25105,7 @@ msgid ""
 "to Sassanid in 575 and in 628, the fifth Sassanid satrap of \"al-Yaman\" "
 "converted to Islam and Southern Arabia was incorporated into the new, "
 "expanding Muslim empire."
-msgstr ""
+msgstr "Els himiarites eren originalment una tribu de muntanya del Iemen actual que va conquerir els altres regnes del sud d'Aràbia, fins i tot el regne de Saba el 115 a.C., que eren rics gràcies al comerç de l'incens. Els himiarites construïen castells, en trobar necessàries les ciutadelles per protegir-se dels atacs beduïns. El regne Axumita d'Etiòpia va dominar Saba des del 340 al 378 d.C., però la zona va ser reconquerida per forces himiarites el 525. La caiguda de la nació va ser un procés lent que va implicar els estats cristians d'Axum i l'Imperi Bizantí per una banda, l'Imper Sassànida de Pèrsia per l'altra, i diverses faccions del sud d'Aràbia dividides entremig. El país va canviar de la dominació axumita a la sassànida el 575 i, el 628, el cinquè sàtrapa sassànida d'\"al-Yaman\" es va convertir a l'Islam i el sud d'Aràbia es va incorporar al nou i puixant imperi musulmà."
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
@@ -28228,7 +28218,7 @@ msgstr ""
 "amb el contorn que ja està dibuixat al mapa i que mostra quines\n"
 "caselles estan cobertes per les ciutats que ja tens. Normalment,\n"
 "quan fundes noves ciutats, vols assegurar-te que totes les\n"
-"caselles estan cobertes per almenys una ciutat, però després\n"
+"caselles estiguin cobertes per almenys una ciutat, però després\n"
 "d'això, el millor és que les teves ciutats es cavalquin tan poc com\n"
 "sigui possible. Si s'escampen les ciutats de manera apropiada, cada\n"
 "ciutat tindrà accés a més recursos, permetent que creixin més."
