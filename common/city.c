@@ -406,7 +406,7 @@ bool city_production_has_flag(const struct city *pcity,
 /**************************************************************************
   Return the number of shields it takes to build current city production.
 **************************************************************************/
-bool city_production_build_shield_cost(const struct city *pcity)
+int city_production_build_shield_cost(const struct city *pcity)
 {
   return universal_build_shield_cost(&pcity->production);
 }
