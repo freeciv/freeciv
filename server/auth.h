@@ -24,4 +24,7 @@ bool authenticate_user(struct connection *pconn, char *username);
 void process_authentication_status(struct connection *pconn);
 bool handle_authentication_reply(struct connection *pc, char *password);
 
+bool auth_init(const char *conf_file);
+void auth_free(void);
+
 #endif /* FC__AUTH_H */

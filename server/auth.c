@@ -40,12 +40,12 @@
 #include "srv_main.h"
 
 /* where our mysql database is located and how to get to it */
-#define HOST            "localhost"
-#define USER            "anonymous"
-#define PASSWORD        ""
+#define DEFAULT_AUTH_HOST     "localhost"
+#define DEFAULT_AUTH_USER     "anonymous"
+#define DEFAULT_AUTH_PASSWORD ""
 
 /* the database where our table is located */
-#define DATABASE        "test"
+#define DEFAULT_AUTH_DATABASE "test"
 
 /* the tables where we will do our lookups and inserts.
  * the tables can be created with the following:
@@ -76,8 +76,8 @@
  * N.B. if the tables are not of this format, then the select,insert,
  *      and update syntax in the auth_db_* functions below must be changed.
  */
-#define AUTH_TABLE      "auth"
-#define LOGIN_TABLE     "loginlog"
+#define DEFAULT_AUTH_TABLE           "auth"
+#define DEFAULT_AUTH_LOGIN_TABLE     "loginlog"
 
 #define GUEST_NAME "guest"
 
@@ -113,6 +113,243 @@ enum authdb_status {
   AUTH_DB_SUCCESS,
   AUTH_DB_NOT_FOUND
 };
+
+#ifdef HAVE_AUTH
+
+enum auth_option_source {
+  AOS_DEFAULT,  /* Internal default         */
+  AOS_FILE,     /* Read from config file    */
+  AOS_SET       /* Set, currently not used  */
+};
+
+struct auth_option {
+  const char              *name;
+  char                    *value;
+  enum auth_option_source source;
+};
+
+static struct authentication_conf {
+  struct auth_option host;
+  struct auth_option user;
+  struct auth_option password;
+  struct auth_option database;
+  struct auth_option table;
+  struct auth_option login_table;
+} auth_config;
+
+/* How much information dump functions show */
+enum show_source_type {
+  SST_NONE,
+  SST_DEFAULT,
+  SST_ALL
+};
+
+/**************************************************************************
+  Output information about one auth option.
+**************************************************************************/
+static void print_auth_option(int loglevel, enum show_source_type show_source,
+                              bool show_value, const struct auth_option *target)
+{
+  char buffer[512];
+  bool real_show_source;
+
+  buffer[0] = '\0';
+
+  real_show_source = (show_source == SST_ALL
+                      || (show_source == SST_DEFAULT && target->source == AOS_DEFAULT));
+
+  if (show_value || real_show_source) {
+    /* We will print this line. Begin it. */
+    /* TRANS: Further information about option will follow. */
+    my_snprintf(buffer, sizeof(buffer), _("Auth option \"%s\":"), target->name);
+  }
+
+  if (show_value) {
+    cat_snprintf(buffer, sizeof(buffer), " \"%s\"", target->value);
+  }
+  if (real_show_source) {
+    switch(target->source) {
+     case AOS_DEFAULT:
+       if (show_source == SST_DEFAULT) {
+         /* TRANS: After 'Auth option "user":'. Option value may have been inserted
+          * between these. */
+         cat_snprintf(buffer, sizeof(buffer),
+                      _(" missing from config file (using default)"));
+       } else {
+         /* TRANS: auth option originates from internal default */
+         cat_snprintf(buffer, sizeof(buffer), _(" (default)"));
+       }
+       break;
+     case AOS_FILE:
+       /* TRANS: auth option originates from config file */
+       cat_snprintf(buffer, sizeof(buffer), _(" (config)"));
+       break;
+     case AOS_SET:
+       /* TRANS: auth option has been set from prompt */
+       cat_snprintf(buffer, sizeof(buffer), _(" (set)"));
+       break;
+    }
+  }
+
+  if (buffer[0] != '\0') {
+    /* There is line to print */
+    freelog(loglevel, buffer);
+  }
+}
+
+/**************************************************************************
+  Output auth config information.
+**************************************************************************/
+static void print_auth_config(int loglevel, enum show_source_type show_source,
+                              bool show_value)
+{
+  print_auth_option(loglevel, show_source, show_value, &auth_config.host);
+  print_auth_option(loglevel, show_source, show_value, &auth_config.user);
+  print_auth_option(loglevel, show_source, FALSE, &auth_config.password);
+  print_auth_option(loglevel, show_source, show_value, &auth_config.database);
+  print_auth_option(loglevel, show_source, show_value, &auth_config.table);
+  print_auth_option(loglevel, show_source, show_value, &auth_config.login_table);
+}
+
+/**************************************************************************
+  Set one auth option.
+**************************************************************************/
+static void set_auth_option(struct auth_option *target, const char *value,
+                            enum auth_option_source source)
+{
+  if (value == NULL) {
+    if (target->value != NULL) {
+      free(target->value);
+    }
+    target->value = NULL;
+  } else {
+    target->value = fc_realloc(target->value, strlen(value) + 1);
+    memcpy(target->value, value, strlen(value) + 1);
+  }
+  target->source = source;
+}
+
+/**************************************************************************
+  Load value for one auth option from section_file.
+**************************************************************************/
+static void load_auth_option(struct section_file *file,
+                             struct auth_option *target)
+{
+  const char *value;
+  char option[512];
+
+  my_snprintf(option, sizeof(option), "auth.%s", target->name);
+
+  value = secfile_lookup_str_default(file, "", option);
+  if (value[0] != '\0') {
+    /* We really loaded something from file */
+    set_auth_option(target, value, AOS_FILE);
+  }
+}
+
+/**************************************************************************
+  Load auth configuration from file.
+  We use filename just like user gave it to us.
+  No searching from datadirs, if file with same name exist there!
+**************************************************************************/
+static bool load_auth_config(const char *filename)
+{
+  struct section_file file;
+
+  assert(filename != NULL);
+
+  if (!is_safe_filename(filename)) {
+    freelog(LOG_ERROR, _("Auth config filename \"%s\" not allowed!"), filename);
+    return FALSE;
+  }
+
+  if (!section_file_load_nodup(&file, filename)) {
+    freelog(LOG_ERROR, _("Cannot load auth config file \"%s\"!"), filename);
+    return FALSE;
+  }
+
+  load_auth_option(&file, &auth_config.host);
+  load_auth_option(&file, &auth_config.user);
+  load_auth_option(&file, &auth_config.password);
+  load_auth_option(&file, &auth_config.database);
+  load_auth_option(&file, &auth_config.table);
+  load_auth_option(&file, &auth_config.login_table);
+
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
+
+  return TRUE;
+}
+#endif /* HAVE_AUTH */
+
+/**************************************************************************
+  Initialize authentication system
+**************************************************************************/
+bool auth_init(const char *conf_file)
+{
+#ifdef HAVE_AUTH
+  static bool first_init = TRUE;
+
+  if (first_init) {
+    /* Run just once when program starts */
+    auth_config.host.value        = NULL;
+    auth_config.user.value        = NULL;
+    auth_config.password.value    = NULL;
+    auth_config.database.value    = NULL;
+    auth_config.table.value       = NULL;
+    auth_config.login_table.value = NULL;
+
+    auth_config.host.name         = "host";
+    auth_config.user.name         = "user";
+    auth_config.password.name     = "password";
+    auth_config.database.name     = "database";
+    auth_config.table.name        = "table";
+    auth_config.login_table.name  = "login_table";
+
+    first_init = FALSE;
+  }
+
+  set_auth_option(&auth_config.host, DEFAULT_AUTH_HOST, AOS_DEFAULT);
+  set_auth_option(&auth_config.user, DEFAULT_AUTH_USER, AOS_DEFAULT);
+  set_auth_option(&auth_config.password, DEFAULT_AUTH_PASSWORD, AOS_DEFAULT);
+  set_auth_option(&auth_config.database, DEFAULT_AUTH_DATABASE, AOS_DEFAULT);
+  set_auth_option(&auth_config.table, DEFAULT_AUTH_TABLE, AOS_DEFAULT);
+  set_auth_option(&auth_config.login_table, DEFAULT_AUTH_LOGIN_TABLE, AOS_DEFAULT);
+
+  if (strcmp(conf_file, "-")) {
+    if (!load_auth_config(conf_file)) {
+      return FALSE;
+    }
+
+    /* Print all options in LOG_DEBUG level... */
+    print_auth_config(LOG_DEBUG, SST_ALL, TRUE);
+
+    /* ...and those missing from config file with LOG_NORMAL too */
+    print_auth_config(LOG_NORMAL, SST_DEFAULT, FALSE);
+
+  } else {
+    freelog(LOG_DEBUG, "No auth config file. Using defaults");
+  }
+
+#endif /* HAVE_AUTH */
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Free resources allocated by auth system.
+**************************************************************************/
+void auth_free(void)
+{
+#ifdef HAVE_AUTH
+  set_auth_option(&auth_config.host, NULL, AOS_DEFAULT);
+  set_auth_option(&auth_config.user, NULL, AOS_DEFAULT);
+  set_auth_option(&auth_config.password, NULL, AOS_DEFAULT);
+  set_auth_option(&auth_config.database, NULL, AOS_DEFAULT);
+  set_auth_option(&auth_config.table, NULL, AOS_DEFAULT);
+  set_auth_option(&auth_config.login_table, NULL, AOS_DEFAULT);
+#endif /* HAVE_AUTH */
+}
 
 /**************************************************************************
   handle authentication of a user; called by handle_login_request()
@@ -428,13 +665,15 @@ static bool authdb_check_password(struct connection *pconn,
   mysql_init(&mysql);
 
   /* attempt to connect to the server */
-  if ((sock = mysql_real_connect(&mysql, HOST, USER, PASSWORD, 
-                                 DATABASE, 0, NULL, 0))) {
+  if ((sock = mysql_real_connect(&mysql, auth_config.host.value,
+                                 auth_config.user.value, auth_config.password.value, 
+                                 auth_config.database.value, 0, NULL, 0))) {
     /* insert an entry into our log */
     my_snprintf(buffer, sizeof(buffer),
-                    "insert into %s (name, logintime, address, succeed) "
-                    "values ('%s',unix_timestamp(),'%s','%s')", LOGIN_TABLE,
-                    pconn->username, pconn->server.ipaddr, ok ? "S" : "F");
+                "insert into %s (name, logintime, address, succeed) "
+                "values ('%s',unix_timestamp(),'%s','%s')",
+                auth_config.login_table.value,
+                pconn->username, pconn->server.ipaddr, ok ? "S" : "F");
 
     if (mysql_query(sock, buffer)) {
       freelog(LOG_ERROR, "check_pass insert loginlog failed for user: %s (%s)",
@@ -446,9 +685,9 @@ static bool authdb_check_password(struct connection *pconn,
   }
 
   return ok;
-#else
+#else  /* HAVE_AUTH */
   return TRUE;
-#endif
+#endif /* HAVE_AUTH */
 }
 
 /**************************************************************************
@@ -466,7 +705,10 @@ static enum authdb_status auth_db_load(struct connection *pconn)
   mysql_init(&mysql);
 
   /* attempt to connect to the server */
-  if (!(sock = mysql_real_connect(&mysql, HOST, USER, PASSWORD, DATABASE,
+  if (!(sock = mysql_real_connect(&mysql, auth_config.host.value,
+                                  auth_config.user.value,
+                                  auth_config.password.value,
+                                  auth_config.database.value,
                                   0, NULL, 0))) {
     freelog(LOG_ERROR, "Can't connect to server! (%s)", mysql_error(&mysql));
     return AUTH_DB_ERROR;
@@ -475,7 +717,7 @@ static enum authdb_status auth_db_load(struct connection *pconn)
   /* select the password from the entry */
   my_snprintf(buffer, sizeof(buffer), 
               "select password from %s where name = '%s'",
-              AUTH_TABLE, pconn->username);
+              auth_config.table.value, pconn->username);
 
   if (mysql_query(sock, buffer)) {
     freelog(LOG_ERROR, "db_load query failed for user: %s (%s)",
@@ -511,7 +753,7 @@ static enum authdb_status auth_db_load(struct connection *pconn)
   my_snprintf(buffer, sizeof(buffer),
                  "update %s set accesstime=unix_timestamp(), address='%s', "
                  "logincount=logincount+1 where strcmp(name, '%s') = 0",
-                 AUTH_TABLE, pconn->server.ipaddr, pconn->username);
+                 auth_config.table.value, pconn->server.ipaddr, pconn->username);
 
   if (mysql_query(sock, buffer)) {
     freelog(LOG_ERROR, "db_load update accesstime failed for user: %s (%s)",
@@ -536,7 +778,9 @@ static bool auth_db_save(struct connection *pconn)
   mysql_init(&mysql);
 
   /* attempt to connect to the server */
-  if (!(sock = mysql_real_connect(&mysql, HOST, USER, PASSWORD, DATABASE,
+  if (!(sock = mysql_real_connect(&mysql, auth_config.host.value,
+                                  auth_config.user.value, auth_config.password.value,
+                                  auth_config.database.value,
                                   0, NULL, 0))) {
     freelog(LOG_ERROR, "Can't connect to server! (%s)", mysql_error(&mysql));
     return FALSE;
@@ -548,7 +792,7 @@ static bool auth_db_save(struct connection *pconn)
   my_snprintf(buffer, sizeof(buffer),
           "insert into %s values "
           "(NULL, '%s', md5('%s'), NULL, unix_timestamp(), unix_timestamp(),"
-          "'%s', '%s', 0)", AUTH_TABLE, pconn->username,
+          "'%s', '%s', 0)", auth_config.table.value, pconn->username,
           pconn->server.password, pconn->server.ipaddr, pconn->server.ipaddr);
 
   if (mysql_query(sock, buffer)) {
@@ -561,9 +805,10 @@ static bool auth_db_save(struct connection *pconn)
   /* insert an entry into our log */
   memset(buffer, 0, sizeof(buffer));
   my_snprintf(buffer, sizeof(buffer),
-                 "insert into %s (name, logintime, address, succeed) "
-                 "values ('%s',unix_timestamp(),'%s', 'S')", LOGIN_TABLE,
-                 pconn->username, pconn->server.ipaddr);
+              "insert into %s (name, logintime, address, succeed) "
+              "values ('%s',unix_timestamp(),'%s', 'S')",
+              auth_config.login_table.value,
+              pconn->username, pconn->server.ipaddr);
 
   if (mysql_query(sock, buffer)) {
     freelog(LOG_ERROR, "db_load insert loginlog failed for user: %s (%s)",
