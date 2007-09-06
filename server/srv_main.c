@@ -181,6 +181,7 @@ void srv_init(void)
   srvarg.quitidle = 0;
 
   srvarg.auth_enabled = FALSE;
+  srvarg.auth_conf = NULL;
   srvarg.auth_allow_guests = FALSE;
   srvarg.auth_allow_newusers = FALSE;
 
@@ -971,6 +972,9 @@ void server_quit(void)
   server_state = GAME_OVER_STATE;
   server_game_free();
   diplhand_free();
+#ifdef HAVE_AUTH
+  auth_free();
+#endif /* HAVE_AUTH */
   stdinhand_free();
   close_connections_and_socket();
   exit(EXIT_SUCCESS);
@@ -1839,6 +1843,19 @@ void srv_main(void)
   }
 
   server_game_init();
+
+#ifdef HAVE_AUTH
+  if (srvarg.auth_enabled) {
+    bool success;
+
+    success = auth_init(srvarg.auth_conf);
+    free(srvarg.auth_conf); /* Never needed again */
+    srvarg.auth_conf = NULL;
+    if (!success) {
+      exit(EXIT_FAILURE);
+    }
+  }
+#endif /* HAVE_AUTH */
 
   /* load a saved game */
   if (srvarg.load_filename[0] != '\0') {

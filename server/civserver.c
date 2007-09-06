@@ -174,8 +174,9 @@ int main(int argc, char *argv[])
       }
       free(option);
 #ifdef HAVE_AUTH
-    } else if (is_option("--auth", argv[inx])) {
+    } else if ((option = get_option_malloc("--auth", argv, &inx, argc))) {
       srvarg.auth_enabled = TRUE;
+      srvarg.auth_conf = option;
     } else if (is_option("--Guests", argv[inx])) {
       srvarg.auth_allow_guests = TRUE;
     } else if (is_option("--Newusers", argv[inx])) {
@@ -210,7 +211,8 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr,
 	       _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
 #ifdef HAVE_AUTH
-    fc_fprintf(stderr, _("  -a  --auth\t\tEnable server authentication.\n"));
+    fc_fprintf(stderr, _("  -a  --auth FILE\tEnable server authentication "
+                         "with configuration from FILE.\n"));
     fc_fprintf(stderr, _("  -G  --Guests\t\tAllow guests to "
 			 "login if auth is enabled.\n"));
     fc_fprintf(stderr, _("  -N  --Newusers\tAllow new users to "
@@ -278,7 +280,7 @@ static void Mac_options(int argc)
 #ifdef HARDCODED_OPT
   srvarg.log_filename="log.out";
   srvarg.loglevel=LOG_DEBUG;
-#else
+#else  /* HARDCODED_OPT */
   if (argc == 0)
   {
     OSErr err;
@@ -332,9 +334,9 @@ static void Mac_options(int argc)
 
     while(!done)/*loop*/
     {
-      ModalDialog(0L, &the_item);/*don't feed 0 where a upp is expected?*/
-      	/*old book sugests using OL(NIL) as the first argument, but
-      	It doesn't include anything about UPPs either, so...*/
+      ModalDialog(0L, &the_item);/* don't feed 0 where a upp is expected? */
+      	/* old book suggests using OL(NIL) as the first argument, but
+           It doesn't include anything about UPPs either, so... */
       switch (the_item)
       {
         case 1:
@@ -359,7 +361,7 @@ static void Mac_options(int argc)
         break;
       }
     }
-    /*now, load the dialog items into the corect variables interpritation*/
+    /* now, load the dialog items into the correct variables interpritation */
     GetDItem( optptr, 4, &the_type, &the_handle, &the_rect);
     GetIText( the_handle, (unsigned char *)srvarg.load_filename);
     GetDItem( optptr, 8, &the_type, &the_handle, &the_rect);
@@ -387,7 +389,7 @@ static void Mac_options(int argc)
     DisposeDialog(optptr);/*get rid of the dialog after sorting out the options*/
     DisposePtr(storage);/*clean up the allocated memory*/
   }
-#endif
+#endif /* HARDCODED_OPT */
 #undef  HARDCODED_OPT
 }
-#endif
+#endif /* GENERATING_MAC */

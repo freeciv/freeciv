@@ -45,6 +45,7 @@ struct server_arguments {
   bool exit_on_end;
   /* authentication options */
   bool auth_enabled;            /* defaults to FALSE */
+  char *auth_conf;              /* auth configuration file */
   bool auth_allow_guests;       /* defaults to TRUE */
   bool auth_allow_newusers;     /* defaults to TRUE */
 };
