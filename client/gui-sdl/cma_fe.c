@@ -463,7 +463,8 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+	                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = cancel_SLD_cma_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -531,7 +532,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   /* exit button */
   pBuf = pWindow->prev; 
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   pBuf = pBuf->prev;
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
@@ -868,7 +869,8 @@ void popup_city_cma_dialog(struct city *pCity)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  	                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = exit_cma_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -1048,7 +1050,7 @@ void popup_city_cma_dialog(struct city *pCity)
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   /* ---------- */
   dst.x = pCity_Map->w + adj_size(80) +

@@ -264,8 +264,8 @@ static int spy_steal_popup(struct widget *pWidget)
   /* ------------------ */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
-  
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_spy_steal_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -382,7 +382,7 @@ static int spy_steal_popup(struct widget *pWidget)
     /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   setup_vertical_widgets_position(col, area.x + 1,
 		  area.y, 0, 0,
@@ -856,7 +856,8 @@ void popup_sabotage_dialog(struct city *pCity)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = diplomat_close_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -976,7 +977,7 @@ void popup_sabotage_dialog(struct city *pCity)
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   /* Production sabotage */
   pBuf = pBuf->prev;
@@ -1149,7 +1150,8 @@ void popup_incite_dialog(struct city *pCity)
     
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);  
+  			    WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);  
+    pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
     area.w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1216,7 +1218,8 @@ void popup_incite_dialog(struct city *pCity)
   } else {
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			    WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
     area.w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1269,7 +1272,7 @@ void popup_incite_dialog(struct city *pCity)
   {/* exit button */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-    pBuf->size.y = pWindow->size.y + 1;
+    pBuf->size.y = pWindow->size.y + adj_size(2);
   }
   
   pBuf = pBuf->prev;
@@ -1422,7 +1425,8 @@ void popup_bribe_dialog(struct unit *pUnit)
   } else {
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			    WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+    pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
     area.w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_bribe_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1474,7 +1478,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   {/* exit button */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-    pBuf->size.y = pWindow->size.y + 1;
+    pBuf->size.y = pWindow->size.y + adj_size(2);
   }
   
   pBuf = pBuf->prev;

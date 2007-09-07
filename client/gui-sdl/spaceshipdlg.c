@@ -158,7 +158,8 @@ void popup_spaceship_dialog(struct player *pPlayer)
     /* ---------- */
     /* create exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			    WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+    pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
     pBuf->data.player = pPlayer;
     pBuf->action = exit_space_dialog_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -200,7 +201,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     /* exit button */
     pBuf = pWindow->prev;
     pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-    pBuf->size.y = pWindow->size.y + 1;
+    pBuf->size.y = pWindow->size.y + adj_size(2);
 
     /* launch button */
     pBuf = pBuf->prev;
