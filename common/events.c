@@ -149,8 +149,7 @@ static struct {
  */
 static int event_to_index[E_LAST];
 
-int sorted_events[E_LAST];
-
+enum event_type sorted_events[E_LAST];
 
 /**************************************************************************
   Returns the translated description of the given event.
@@ -162,8 +161,10 @@ const char *get_event_message_text(enum event_type event)
   if (events[event_to_index[event]].event == event) {
     return events[event_to_index[event]].descr;
   }
+
   freelog(LOG_ERROR, "unknown event %d", event);
-  return "UNKNOWN EVENT";
+  return "UNKNOWN EVENT"; /* FIXME: Should be marked for translation?
+                           * we get non-translated in log message. */
 }
 
 /**************************************************************************
@@ -172,8 +173,8 @@ const char *get_event_message_text(enum event_type event)
 **************************************************************************/
 static int compar_event_message_texts(const void *i1, const void *i2)
 {
-  const int *j1 = i1;
-  const int *j2 = i2;
+  const enum event_type *j1 = i1;
+  const enum event_type *j2 = i2;
   
   return mystrcasecmp(get_event_message_text(*j1),
 		      get_event_message_text(*j2));
