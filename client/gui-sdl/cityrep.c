@@ -175,6 +175,7 @@ static void real_info_city_report_dialog_update(void)
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYREP_TEXT);
   pText4 = create_text_surf_from_str16(pStr);
+  prod_w = pText4->w;
   FREESTRING16(pStr);
   
   pUnits_Icon = create_icon_from_theme(pTheme->UNITS_Icon, 0);
@@ -195,16 +196,17 @@ static void real_info_city_report_dialog_update(void)
   
   /* ------------------------- */
   /* exit button */
-  pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
-			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_RESTORE_BACKGROUND));
-
-  pBuf->string16 = create_str16_from_char(_("Exit Report"), adj_font(12));
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+			  (WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND));
+  pBuf->string16 = create_str16_from_char(_("Close Dialog"), adj_font(12));
   pBuf->action = exit_city_report_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_BUTTON, pBuf);
+  
+/* FIXME: not implemented yet */
+#if 0
   /* ------------------------- */
   pBuf = create_themeicon(pTheme->INFO_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
@@ -250,7 +252,8 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------ */
-    
+#endif
+  
   pLast = pBuf;
   count = 0; 
   city_list_iterate(game.player_ptr->cities, pCity) {
@@ -607,13 +610,15 @@ static void real_info_city_report_dialog_update(void)
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(25);
-  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
 
+/* FIXME: not implemented yet */
+#if 0
   /* info button */
   pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x - adj_size(5) - pBuf->size.w;
-  pBuf->size.y = pBuf->next->size.y;
+  pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(5);
+  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
 
   /* happy button */
   pBuf = pBuf->prev;
@@ -629,6 +634,7 @@ static void real_info_city_report_dialog_update(void)
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x - adj_size(5) - pBuf->size.w;
   pBuf->size.y = pBuf->next->size.y;
+#endif
   
   /* cities background and labels */
   dst.x = area.x + adj_size(2);

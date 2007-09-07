@@ -247,7 +247,8 @@ static void popup_goto_airlift_dialog(void)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = exit_goto_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -325,7 +326,7 @@ static void popup_goto_airlift_dialog(void)
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
 
   /* nations buttons */
   pBuf = pBuf->prev;

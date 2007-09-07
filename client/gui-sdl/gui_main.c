@@ -800,7 +800,7 @@ void ui_init(void)
 #endif
   
   if(pBgd && SDL_GetVideoInfo()->wm_available) {
-    set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+    set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT);
 #if 0    
     /*
      * call this for other that X enviroments - currently not supported.
@@ -954,7 +954,7 @@ void ui_main(int argc, char *argv[])
       #else
         /* small screen on desktop -> don't set 320x240 fullscreen mode */
         set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
-                       SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+                       SDL_SWSURFACE | SDL_ANYFORMAT);
       #endif
     #else
       set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
@@ -969,11 +969,11 @@ void ui_main(int argc, char *argv[])
                      SDL_SWSURFACE | SDL_ANYFORMAT);
       #else
       set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
-                     SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+                     SDL_SWSURFACE | SDL_ANYFORMAT);
       #endif
     #else
     set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
-      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+      SDL_SWSURFACE | SDL_ANYFORMAT);
     #endif
     
 #if 0    

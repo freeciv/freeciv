@@ -3682,31 +3682,18 @@ void popup_city_dialog(struct city *pCity)
 
   /* ============================================================= */
 
-#if 0  
-  /* in title bar */
-  pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst->surface,
+  /* close dialog button */
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
 			   WF_RESTORE_BACKGROUND));
-  pBuf->string16 = create_str16_from_char(_("Cancel"), adj_font(12));
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = exit_city_dlg_callback;
   pBuf->size.x = area.x + area.w - pBuf->size.w;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   pBuf->key = SDLK_ESCAPE;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_CITY_DLG_EXIT_BUTTON, pBuf);
-#endif
 
-  /* Buttons */
-  pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
-			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_RESTORE_BACKGROUND));
-  pBuf->string16 = create_str16_from_char(_("Cancel"), adj_font(12));
-  pBuf->action = exit_city_dlg_callback;
-  pBuf->key = SDLK_ESCAPE;
-  pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(7);
-  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_CITY_DLG_EXIT_BUTTON, pBuf);
   /* -------- */
   
   pBuf = create_themeicon(pTheme->Support_Icon, pWindow->dst,

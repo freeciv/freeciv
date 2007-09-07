@@ -386,7 +386,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* ------------------------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = exit_units_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -628,7 +629,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   /* totals background and label */
   dst.x = area.x + adj_size(2);
@@ -2847,7 +2848,8 @@ static void popup_change_research_dialog()
   /* ------------------------- */
     /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -2950,7 +2952,7 @@ static void popup_change_research_dialog()
     /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   setup_vertical_widgets_position(col, area.x + 1,
 		  area.y, 0, 0,
@@ -3033,7 +3035,8 @@ static void popup_change_research_goal_dialog()
   /* ------------------------- */
     /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3143,7 +3146,7 @@ static void popup_change_research_goal_dialog()
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   setup_vertical_widgets_position(col, area.x + 1,
 		  area.y, 0, 0,
@@ -3296,8 +3299,8 @@ void popup_science_dialog(bool raise)
   /* ------ */
   /* exit button */
   pExitButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                                   WF_RESTORE_BACKGROUND);
-  
+                                 WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pExitButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pExitButton->action = popdown_science_dialog_callback;
   set_wstate(pExitButton, FC_WS_NORMAL);
   pExitButton->key = SDLK_ESCAPE;
@@ -3306,7 +3309,7 @@ void popup_science_dialog(bool raise)
 
   widget_set_position(pExitButton, 
     area.x + area.w - pExitButton->size.w - adj_size(1),
-    pWindow->size.y + adj_size(1));
+    pWindow->size.y + adj_size(2));
     
   /* ======================== */
   pScienceDlg->pBeginWidgetList = pExitButton;

@@ -427,7 +427,6 @@ static int change_mode_callback(struct widget *pWidget)
   
     if (gui_sdl_fullscreen != BOOL_VAL(Main.screen->flags & SDL_FULLSCREEN)) {
       tmp_flags ^= SDL_FULLSCREEN;
-      tmp_flags ^= SDL_RESIZABLE;
     }
   
     mode = MAX_ID - pWidget->ID;

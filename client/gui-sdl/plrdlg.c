@@ -339,7 +339,8 @@ void popup_players_dialog(bool raise)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -454,7 +455,7 @@ void popup_players_dialog(bool raise)
   pBuf = pWindow->prev;
   
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
     
   n = area.y;
   pStr = create_string16(NULL, 0, adj_font(10));
@@ -615,7 +616,8 @@ void popup_players_nations_dialog(void)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_RESTORE_BACKGROUND);
+  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -769,7 +771,7 @@ void popup_players_nations_dialog(void)
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2);
   
   /* cities */
   pBuf = pBuf->prev;
