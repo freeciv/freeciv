@@ -17,7 +17,10 @@
 
 /* Add new event types to the end. Client saves message settings by
  * type number and installing new event type in between would cause
- * erronous loading of existing .civclientrc */
+ * erronous loading of existing .civclientrc
+ * When adding events to stable branch, there is risk that TRUNK
+ * already has allocated next slot for something else (and has
+ * new event in upper slot) */
 enum event_type {
   E_CITY_CANTBUILD,
   E_CITY_LOST,
@@ -124,13 +127,13 @@ enum event_type {
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in common/events.c using GEN_EV and to
-   * data/stdsounds.spec.
+   * data/stdsounds.soundspec.
    */
   E_LAST
 };
 
-extern int sorted_events[];	        /* [E_LAST], sorted by the
-					   translated message text */
+extern enum event_type sorted_events[];	   /* [E_LAST], sorted by the
+					    * translated message text */
 
 const char *get_event_message_text(enum event_type event);
 const char *get_event_sound_tag(enum event_type event);
@@ -158,4 +161,3 @@ void events_free(void);
 }
 
 #endif /* FC__EVENTS_H */
-
