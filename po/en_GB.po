@@ -4,7 +4,7 @@
 #
 # Translated words are:
 #
-#   traveller, centre, railway, cancelled, colour
+#   traveller, centre, railway, cancelled, colour, neighbour
 #
 msgid ""
 msgstr ""
@@ -20967,6 +20967,7 @@ msgstr ""
 msgid "?plural:Byzantines"
 msgstr ""
 
+# typo fix
 #: data/nation/byzantium.ruleset:6
 msgid ""
 "At the time of the decline of the old Roman empire, the Emperor Constantine "
@@ -20976,6 +20977,12 @@ msgid ""
 "I, the Byzanines controlled nearly all of Middle East, nothern Africa, Italy "
 "and parts of Spain."
 msgstr ""
+"At the time of the decline of the old Roman empire, the Emperor Constantine "
+"moved the empire's capital to Byzantium and formed a new empire mostly known "
+"as the Eastern Roman empire or the Byzantine empire. This empire lasted "
+"until 1453 when its capital fell to the Ottomans. At the time of Justinian "
+"I, the Byzantines controlled nearly all of the Middle East, nothern Africa, "
+"Italy, and parts of Spain."
 
 #: data/nation/byzantium.ruleset:27
 msgid "Basileus"
@@ -21128,7 +21135,7 @@ msgid ""
 msgstr ""
 "Colombia is a country in northern South America. The region was an "
 "Amerindian cultural centre in pre-European time. The Spanish began settling "
-"Colombia's north coast around 1500. In 1819 the The Republic of Colombia "
+"Colombia's north coast around 1500. In 1819 the Republic of Colombia "
 "gained independence."
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
@@ -21379,12 +21386,16 @@ msgstr ""
 msgid "?plural:French"
 msgstr ""
 
+#typo fix
 #: data/nation/french.ruleset:6
 msgid ""
 "France has long been a major power in Europe. French conquerer kings like "
 "Napoleon and Charlemagne each united large parts of Europe under the French "
 "flag."
 msgstr ""
+"France has long been a major power in Europe. French conqueror kings like "
+"Napoleon and Charlemagne each united large parts of Europe under the French "
+"flag."
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
@@ -22015,6 +22026,7 @@ msgstr ""
 msgid "?plural:Malians"
 msgstr ""
 
+# typo fix
 #: data/nation/malian.ruleset:6
 msgid ""
 "Sub-Saharan Africa has been a cultural and ethnical melting pot for "
@@ -22024,6 +22036,12 @@ msgid ""
 "14th to the 17th century and was famed for it's wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
 msgstr ""
+"Sub-Saharan Africa has been a cultural and ethnical melting pot for "
+"millennia. In medieval times, the region was home to a succession of empires "
+"called the Sahelian kingdoms. Of these, the Islamic Mali empire with its "
+"capital in Timbuktu was the most influential. This empire reigned from the "
+"14th to the 17th century and was famed for it's wealth and benevolent kings. "
+"The modern Republic of Mali derives its name from this empire."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
@@ -22186,6 +22204,13 @@ msgid ""
 "Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
 msgstr ""
+"In the beginning of the 14th century Osman, a leader of a minor Turkic tribe "
+"in western Anatolia, conquered all his neighbouring tribes. A century later "
+"the Byzantine capital fell to Turkic rule which gave the Ottoman empire "
+"access to Europe. The Ottomans subsequently conquered large parts of south-"
+"eastern Europe, the Islamic Arab world as well as Egypt and much of North "
+"Africa, making it a regional superpower until its dissolution in the "
+"aftermath of WWI."
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:28
 msgid "Bey"
@@ -22333,6 +22358,11 @@ msgid ""
 "Rome. It's history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
 msgstr ""
+"Romania as a nation was formed at the beginning of the 20th century, when "
+"the states of Transylvania, Wallachia, and Moldavia merged. It is a country "
+"inhabited by people speaking a language reminiscent from the time of ancient "
+"Rome. Its history is convoluted as it was always at the borders of great "
+"empires: Roman, Ottoman, Austro-Hungarian, and Russian."
 
 #: data/nation/romanian.ruleset:33
 msgid "Voievod"
@@ -22983,12 +23013,16 @@ msgstr ""
 msgid "?plural:Westphalians"
 msgstr ""
 
+# typo fix
 #: data/nation/westphalian.ruleset:6
 msgid ""
 "Westphalia, before becoming a Prussian province, was the western region the "
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
+"Westphalia, before becoming a Prussian province, was the western region of "
+"the Duchy of Saxony. Today it make up the northern part of the largest German "
+"federal state, North Rhine-Westphalia."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
