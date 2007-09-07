@@ -22,6 +22,10 @@
 
 #include "version.h"
 
+#ifdef SVNREV
+#include "fc_svnrev_gen.h"
+#endif /* SVNREV */
+
 
 /**********************************************************************
   ...
@@ -33,6 +37,9 @@ const char *freeciv_name_version(void)
 #if IS_BETA_VERSION
   my_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s %s"),
               VERSION_STRING, _("(beta version)"));
+#elif defined(SVNREV) && !defined(FC_SVNREV_OFF)
+  my_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s (%s)"),
+              VERSION_STRING, fc_svn_revision());
 #else
   my_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s"),
               VERSION_STRING);
@@ -51,6 +58,19 @@ const char *word_version(void)
 #else
   return _("version ");
 #endif
+}
+
+/**********************************************************************
+  Returns string with svn revision information if it is possible to
+  determine. Can return also some fallback string or even NULL.
+***********************************************************************/
+const char *fc_svn_revision(void)
+{
+#if defined(SVNREV) && !defined(FC_SVNREV_OFF)
+  return FC_SVNREV; /* Either revision, or modified revision */
+#else  /* FC_SVNREV_OFF */
+  return NULL;
+#endif /* FC_SVNREV_OFF */
 }
 
 /**********************************************************************

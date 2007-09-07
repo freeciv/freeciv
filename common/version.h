@@ -28,6 +28,7 @@
 /* version informational strings */
 const char *freeciv_name_version(void);
 const char *word_version(void);
+const char *fc_svn_revision(void);
 
 const char *freeciv_motto(void);
 

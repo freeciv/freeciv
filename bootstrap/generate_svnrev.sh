@@ -28,6 +28,7 @@ REV="dist"
        REVSTATE=ON
        REV="$REVTMP"
      else
+       REVSTATE=MOD
        REV="modified $REVTMP"
      fi
    fi

@@ -18,9 +18,11 @@
 #ifndef FC__FC_SVNREV_H
 #define FC__FC_SVNREV_H
 
-/* Either FC_SVNREV_OFF or FC_SVNREV_ON macro defined.
+/* One of the macros FC_SVNREV_OFF, FC_SVNREV_ON or FC_SVNREV_MOD defined.
  * If FC_SVNREV_ON is defined, FC_SVNREV contains valid svn revision number
  * string (currently starting with 'r')
+ * If FC_SVNREV_MOD is defined, this seems to be modified svn checkout.
+ * In that case FC_SVNREV contains revision number and word "modified".
  * If FC_SVNREV_OFF is defined, you should not use FC_SVNREV even though
  * it does contain fallback string (currently "dist") */
 #define FC_SVNREV_<SVNREVSTATE>
