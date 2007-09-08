@@ -699,8 +699,7 @@ AC_CONFIG_COMMANDS([fc_default-2],[[if test -f po/Makefile ; then
 dnl Most of the C comments copied to freeciv.pot are spurious; 
 dnl change to only copy those with prefix "TRANS:"
 dnl Also add --escape to the arguments to convert extended
-dnl characters to escape characters.  This affects some of the 
-dnl gui-mui strings, which use 0x1B escape character.
+dnl characters to escape characters.
 AC_CONFIG_COMMANDS([fc_default-4],[[if test -f po/Makefile ; then
      if grep 'add-comments="TRANS:" --escape' po/Makefile >/dev/null 2>&1 ; then
        # has already been modified

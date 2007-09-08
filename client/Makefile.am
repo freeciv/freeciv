@@ -37,76 +37,7 @@ if MINGW32
 CLIENTICON=../win32/clienticon.o
 endif
 
-EXTRA_DIST= 	gui-mui/autogroupclass.c         \
-		gui-mui/autogroupclass.h         \
-		gui-mui/chatline.c               \
-		gui-mui/chatline.h               \
-		gui-mui/citydlg.c                \
-		gui-mui/citydlg.h                \
-		gui-mui/cityrep.c                \
-		gui-mui/cityrep.h                \
-		gui-mui/colors.c                 \
-		gui-mui/colors.h                 \
-		gui-mui/colortextclass.c         \
-		gui-mui/colortextclass.h         \
-		gui-mui/connectdlg.c             \
-		gui-mui/connectdlg.h             \
-		gui-mui/dialogs.c                \
-		gui-mui/dialogs.h                \
-		gui-mui/diplodlg.c               \
-		gui-mui/diplodlg.h               \
-		gui-mui/finddlg.c                \
-		gui-mui/finddlg.h                \
-		gui-mui/gamedlgs.c               \
-		gui-mui/gotodlg.c                \
-		gui-mui/gotodlg.h                \
-		gui-mui/graphics.c               \
-		gui-mui/graphics.h               \
-		gui-mui/gui_main.c               \
-		gui-mui/gui_main.h               \
-		gui-mui/helpdlg.c                \
-		gui-mui/helpdlg.h                \
-		gui-mui/historystringclass.c     \
-		gui-mui/historystringclass.h     \
-		gui-mui/inputdlg.c               \
-		gui-mui/inputdlg.h               \
-		gui-mui/inteldlg.c               \
-		gui-mui/inteldlg.h               \
-		gui-mui/mapclass.c               \
-		gui-mui/mapclass.h               \
-		gui-mui/mapctrl.c                \
-		gui-mui/mapctrl.h                \
-		gui-mui/mapview.c                \
-		gui-mui/mapview.h                \
-		gui-mui/messagedlg.c             \
-		gui-mui/messagedlg.h             \
-		gui-mui/messagewin.c             \
-		gui-mui/messagewin.h             \
-		gui-mui/muistuff.c               \
-		gui-mui/muistuff.h               \
-		gui-mui/objecttreeclass.c        \
-		gui-mui/objecttreeclass.h        \
-		gui-mui/optiondlg.h              \
-		gui-mui/overviewclass.c          \
-		gui-mui/overviewclass.h          \
-		gui-mui/plrdlg.c                 \
-		gui-mui/plrdlg.h                 \
-		gui-mui/ratesdlg.h               \
-		gui-mui/repodlgs.c               \
-		gui-mui/repodlgs.h               \
-		gui-mui/scrollbuttonclass.c      \
-		gui-mui/scrollbuttonclass.h      \
-		gui-mui/spaceshipdlg.c           \
-		gui-mui/spaceshipdlg.h           \
-		gui-mui/transparentstringclass.c \
-		gui-mui/transparentstringclass.h \
-		gui-mui/wldlg.c                  \
-		gui-mui/wldlg.h                  \
-		gui-mui/worklistclass.c          \
-		gui-mui/worklistclass.h          \
-		\
-		$(ALL_AUDIO_SDL_FILES)
-
+EXTRA_DIST= $(ALL_AUDIO_SDL_FILES)
 
 ## This is usually false, so "include" is not recursed into 
 ## by 'make', but it can be enabled in configure, and it is
