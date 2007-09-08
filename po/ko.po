@@ -56,24 +56,24 @@ msgstr "과학"
 
 #: common/city.c:349
 msgid "?obsolete:O"
-msgstr ""
+msgstr "?폐기:폐"
 
 #: common/city.c:352
 msgid "?redundant:*"
-msgstr ""
+msgstr "*"
 
 #: common/city.c:357
 msgid "?built:B"
-msgstr ""
+msgstr "?건설:건"
 
 #: common/city.c:359
 msgid "?wonder:w"
-msgstr ""
+msgstr "?볼가사의:불"
 
 #: common/connection.c:514
 #, c-format
 msgid "%s from %s"
-msgstr ""
+msgstr "%2$s에서 오시는 %1$s"
 
 #: common/connection.c:520
 msgid " (connection incomplete)"
@@ -5873,11 +5873,11 @@ msgstr ""
 
 #: server/stdinhand.c:4049
 msgid "List of players:"
-msgstr ""
+msgstr "플레이어의 목록:"
 
 #: server/stdinhand.c:4054
 msgid "<no players>"
-msgstr ""
+msgstr "<플레이어 없음>"
 
 #: server/stdinhand.c:4071
 #, c-format
@@ -5896,20 +5896,20 @@ msgstr ""
 #: server/stdinhand.c:4089
 #, c-format
 msgid ", nation %s"
-msgstr ""
+msgstr ", %s민족"
 
 #: server/stdinhand.c:4092
 #, c-format
 msgid ", team %s"
-msgstr ""
+msgstr ", %s팀"
 
 #: server/stdinhand.c:4096
 msgid ", ready"
-msgstr ""
+msgstr ", 준비 됐슴"
 
 #: server/stdinhand.c:4098
 msgid ", not ready"
-msgstr ""
+msgstr ", 준비 안 됐슴"
 
 #: server/stdinhand.c:4106
 #, c-format
@@ -5925,11 +5925,11 @@ msgstr ""
 
 #: server/stdinhand.c:4117
 msgid " (observer mode)"
-msgstr ""
+msgstr " (관찰자 모드)"
 
 #: server/stdinhand.c:4135
 msgid "List of teams:"
-msgstr ""
+msgstr "팀의 목록:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:4145
@@ -10511,7 +10511,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1453
 msgid "Not _ready"
-msgstr ""
+msgstr "준비 안 됐슴(_R)"
 
 #: client/gui-gtk-2.0/gui_main.c:1464 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
@@ -10520,7 +10520,7 @@ msgstr "준비 됐슴(_R)"
 #: client/gui-gtk-2.0/gui_main.c:1468 client/gui-gtk-2.0/gui_main.c:1474
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
-msgstr "준비 안 됐슴(_S)"
+msgstr "시작(_S)"
 
 #: client/gui-gtk-2.0/gui_main.c:1479 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
@@ -10584,7 +10584,7 @@ msgid ""
 "Close Tab:\n"
 "%s"
 msgstr ""
-"탭를 닫다:\n"
+"탭을 닫다:\n"
 "%s"
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
@@ -19678,7 +19678,7 @@ msgstr ""
 #: data/default/units.ruleset:683 data/civ2/units.ruleset:570
 #: data/civ1/units.ruleset:302
 msgid "Mech. Inf."
-msgstr ""
+msgstr "기계화 보병"
 
 #: data/default/units.ruleset:709 data/civ2/units.ruleset:596
 #: data/civ1/units.ruleset:328
@@ -19689,7 +19689,7 @@ msgstr ""
 
 #: data/default/units.ruleset:716 data/civ2/units.ruleset:603
 msgid "Horsemen"
-msgstr ""
+msgstr "기수"
 
 #: data/default/units.ruleset:742 data/civ2/units.ruleset:629
 msgid ""
@@ -19700,7 +19700,7 @@ msgstr ""
 #: data/default/units.ruleset:749 data/civ2/units.ruleset:636
 #: data/civ1/units.ruleset:368
 msgid "Chariot"
-msgstr ""
+msgstr "전차"
 
 #: data/default/units.ruleset:775 data/civ2/units.ruleset:662
 #: data/civ1/units.ruleset:394
@@ -19712,7 +19712,7 @@ msgstr ""
 #: data/default/units.ruleset:781 data/civ2/units.ruleset:732
 #: data/civ1/units.ruleset:400
 msgid "Knights"
-msgstr ""
+msgstr "기사"
 
 #: data/default/units.ruleset:808 data/civ2/units.ruleset:759
 #: data/civ1/units.ruleset:427
@@ -19721,7 +19721,7 @@ msgstr ""
 
 #: data/default/units.ruleset:813 data/civ2/units.ruleset:764
 msgid "Dragoons"
-msgstr ""
+msgstr "용기병"
 
 #: data/default/units.ruleset:840 data/civ2/units.ruleset:791
 msgid "Dragoons are mounted warriors carrying early firearms."
@@ -19730,7 +19730,7 @@ msgstr ""
 #: data/default/units.ruleset:845 data/civ2/units.ruleset:796
 #: data/civ1/units.ruleset:335
 msgid "Cavalry"
-msgstr ""
+msgstr "기병"
 
 #: data/default/units.ruleset:871 data/civ2/units.ruleset:822
 msgid "Cavalry are mounted and highly trained soldiers."
@@ -19739,7 +19739,7 @@ msgstr ""
 #: data/default/units.ruleset:876 data/civ2/units.ruleset:827
 #: data/civ1/units.ruleset:432
 msgid "Armor"
-msgstr ""
+msgstr "탱크"
 
 #: data/default/units.ruleset:902 data/civ2/units.ruleset:853
 #: data/civ1/units.ruleset:458
@@ -19751,7 +19751,7 @@ msgstr ""
 #: data/default/units.ruleset:909 data/civ2/units.ruleset:860
 #: data/civ1/units.ruleset:465
 msgid "Catapult"
-msgstr ""
+msgstr "투석기"
 
 #: data/default/units.ruleset:935 data/civ2/units.ruleset:886
 #: data/civ1/units.ruleset:491
@@ -19763,7 +19763,7 @@ msgstr ""
 #: data/default/units.ruleset:942 data/civ2/units.ruleset:893
 #: data/civ1/units.ruleset:498
 msgid "Cannon"
-msgstr ""
+msgstr "캐논포"
 
 #: data/default/units.ruleset:968 data/civ2/units.ruleset:919
 #: data/civ1/units.ruleset:524
@@ -19776,7 +19776,7 @@ msgstr ""
 #: data/default/units.ruleset:976 data/civ2/units.ruleset:927
 #: data/civ1/units.ruleset:532
 msgid "Artillery"
-msgstr ""
+msgstr "대포"
 
 #: data/default/units.ruleset:1002 data/civ2/units.ruleset:953
 msgid ""
@@ -19786,7 +19786,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1009 data/civ2/units.ruleset:960
 msgid "Howitzer"
-msgstr ""
+msgstr "유탄포"
 
 #: data/default/units.ruleset:1035 data/civ2/units.ruleset:986
 msgid ""
@@ -19797,7 +19797,7 @@ msgstr ""
 #: data/default/units.ruleset:1041 data/civ2/units.ruleset:992
 #: data/civ1/units.ruleset:564
 msgid "Fighter"
-msgstr ""
+msgstr "전투기"
 
 #: data/default/units.ruleset:1067 data/civ2/units.ruleset:1018
 #: data/civ1/units.ruleset:590
@@ -19809,7 +19809,7 @@ msgstr ""
 #: data/default/units.ruleset:1073 data/civ2/units.ruleset:1024
 #: data/civ1/units.ruleset:596
 msgid "Bomber"
-msgstr ""
+msgstr "폭력기"
 
 #: data/default/units.ruleset:1099 data/civ2/units.ruleset:1050
 #: data/civ1/units.ruleset:622
@@ -19828,7 +19828,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1140 data/civ2/units.ruleset:1091
 msgid "Stealth Fighter"
-msgstr ""
+msgstr "스텔스 전투기"
 
 #: data/default/units.ruleset:1166 data/civ2/units.ruleset:1117
 msgid "An improved Fighter, with improved attack and a higher movement radius."
@@ -19836,7 +19836,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1172 data/civ2/units.ruleset:1123
 msgid "Stealth Bomber"
-msgstr ""
+msgstr "스텔스 폭력기"
 
 #: data/default/units.ruleset:1198 data/civ2/units.ruleset:1149
 msgid "An improved Bomber, with improved attack and a higher movement radius."
@@ -19845,7 +19845,7 @@ msgstr ""
 #: data/default/units.ruleset:1204 data/civ2/units.ruleset:1155
 #: data/civ1/units.ruleset:629
 msgid "Trireme"
-msgstr ""
+msgstr "갤리선"
 
 #: data/default/units.ruleset:1230 data/civ2/units.ruleset:1181
 #: data/civ1/units.ruleset:655
@@ -19856,7 +19856,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1237 data/civ2/units.ruleset:1188
 msgid "Caravel"
-msgstr ""
+msgstr "카라벨선"
 
 #: data/default/units.ruleset:1263 data/civ2/units.ruleset:1214
 msgid ""
@@ -19865,7 +19865,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1269 data/civ2/units.ruleset:1220
 msgid "Galleon"
-msgstr ""
+msgstr "갈레온선"
 
 #: data/default/units.ruleset:1295 data/civ2/units.ruleset:1246
 msgid ""
@@ -19876,7 +19876,7 @@ msgstr ""
 #: data/default/units.ruleset:1302 data/civ2/units.ruleset:1253
 #: data/civ1/units.ruleset:694
 msgid "Frigate"
-msgstr ""
+msgstr "프리깃함"
 
 #: data/default/units.ruleset:1328 data/civ2/units.ruleset:1279
 #: data/civ1/units.ruleset:720
@@ -19888,7 +19888,7 @@ msgstr ""
 #: data/default/units.ruleset:1335 data/civ2/units.ruleset:1286
 #: data/civ1/units.ruleset:727
 msgid "Ironclad"
-msgstr ""
+msgstr "철갑함"
 
 #: data/default/units.ruleset:1361 data/civ2/units.ruleset:1312
 #: data/civ1/units.ruleset:753
@@ -19899,7 +19899,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1368 data/civ2/units.ruleset:1319
 msgid "Destroyer"
-msgstr ""
+msgstr "구축함"
 
 #: data/default/units.ruleset:1394 data/civ2/units.ruleset:1345
 msgid ""
@@ -19910,7 +19910,7 @@ msgstr ""
 #: data/default/units.ruleset:1400 data/civ2/units.ruleset:1351
 #: data/civ1/units.ruleset:760
 msgid "Cruiser"
-msgstr ""
+msgstr "순양함"
 
 #: data/default/units.ruleset:1426 data/civ2/units.ruleset:1377
 #: data/civ1/units.ruleset:786
@@ -19919,7 +19919,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1431 data/civ2/units.ruleset:1382
 msgid "AEGIS Cruiser"
-msgstr ""
+msgstr "이지스 순양함"
 
 #: data/default/units.ruleset:1457 data/civ2/units.ruleset:1408
 msgid ""
@@ -19929,7 +19929,7 @@ msgstr ""
 #: data/default/units.ruleset:1463 data/civ2/units.ruleset:1414
 #: data/civ1/units.ruleset:791
 msgid "Battleship"
-msgstr ""
+msgstr "전함"
 
 #: data/default/units.ruleset:1489 data/civ2/units.ruleset:1440
 #: data/civ1/units.ruleset:817
@@ -19941,7 +19941,7 @@ msgstr ""
 #: data/default/units.ruleset:1495 data/civ2/units.ruleset:1446
 #: data/civ1/units.ruleset:823
 msgid "Submarine"
-msgstr ""
+msgstr "잠수함"
 
 #: data/default/units.ruleset:1522 data/civ2/units.ruleset:1473
 #: data/civ1/units.ruleset:849
@@ -19951,7 +19951,7 @@ msgstr ""
 #: data/default/units.ruleset:1528 data/civ2/units.ruleset:1479
 #: data/civ1/units.ruleset:855
 msgid "Carrier"
-msgstr ""
+msgstr "항공 모함"
 
 #: data/default/units.ruleset:1554 data/civ2/units.ruleset:1505
 #: data/civ1/units.ruleset:881
@@ -19963,7 +19963,7 @@ msgstr ""
 #: data/default/units.ruleset:1561 data/civ2/units.ruleset:1512
 #: data/civ1/units.ruleset:888
 msgid "Transport"
-msgstr ""
+msgstr "수송선"
 
 #: data/default/units.ruleset:1587 data/civ2/units.ruleset:1538
 #: data/civ1/units.ruleset:914
@@ -19974,7 +19974,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1593 data/civ2/units.ruleset:1544
 msgid "Cruise Missile"
-msgstr ""
+msgstr "순항 미사일"
 
 #: data/default/units.ruleset:1619 data/civ2/units.ruleset:1570
 msgid ""
@@ -20004,7 +20004,7 @@ msgstr ""
 #: data/default/units.ruleset:1672 data/civ2/units.ruleset:1623
 #: data/civ1/units.ruleset:967
 msgid "Diplomat"
-msgstr ""
+msgstr "외교관"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
@@ -20028,7 +20028,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1718 data/civ2/units.ruleset:1669
 msgid "Spy"
-msgstr ""
+msgstr "간첩"
 
 #: data/default/units.ruleset:1744 data/civ2/units.ruleset:1695
 msgid ""
@@ -20054,7 +20054,7 @@ msgstr ""
 #: data/default/units.ruleset:1765 data/civ2/units.ruleset:1716
 #: data/civ1/units.ruleset:1013
 msgid "Caravan"
-msgstr ""
+msgstr "캐러밴"
 
 #: data/default/units.ruleset:1791 data/civ2/units.ruleset:1742
 #: data/civ1/units.ruleset:1039
@@ -20069,7 +20069,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1801 data/civ2/units.ruleset:1752
 msgid "Freight"
-msgstr ""
+msgstr "운반차"
 
 #: data/default/units.ruleset:1827 data/civ2/units.ruleset:1778
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -20077,7 +20077,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1832 data/civ2/units.ruleset:1783
 msgid "Explorer"
-msgstr ""
+msgstr "탐험자"
 
 #: data/default/units.ruleset:1858 data/civ2/units.ruleset:1809
 msgid "Explorers are very useful for mapping unknown territory."
@@ -20090,7 +20090,7 @@ msgstr ""
 #: data/default/units.ruleset:1896 data/civ2/units.ruleset:1814
 #: data/civ1/units.ruleset:1049
 msgid "Barbarian Leader"
-msgstr ""
+msgstr "야만인의 수령"
 
 #: data/default/units.ruleset:1923 data/civ2/units.ruleset:1840
 msgid ""
@@ -20100,7 +20100,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1929
 msgid "AWACS"
-msgstr ""
+msgstr "AWACS"
 
 #: data/default/units.ruleset:1955
 msgid ""
@@ -20163,7 +20163,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:700
 msgid "Crusaders"
-msgstr ""
+msgstr "십자군"
 
 #: data/civ2/units.ruleset:726
 msgid ""
@@ -20210,7 +20210,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:662
 msgid "Sail"
-msgstr ""
+msgstr "돛"
 
 #: data/civ1/units.ruleset:688
 msgid ""
@@ -20244,11 +20244,11 @@ msgstr ""
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
-msgstr ""
+msgstr "애보리지니"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
-msgstr ""
+msgstr "애보리지니 사람"
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -20260,11 +20260,11 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr ""
+msgstr "아프가니스탄"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
-msgstr ""
+msgstr "아프가니스탄 사람"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -20282,11 +20282,11 @@ msgstr ""
 #: data/nation/afghani.ruleset:25 data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:27
 msgid "General Secretary"
-msgstr ""
+msgstr "서기장"
 
 #: data/nation/afghani.ruleset:26
 msgid "Mullah"
-msgstr ""
+msgstr "물라"
 
 #: data/nation/afghani.ruleset:27 data/nation/australian.ruleset:25
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:24
@@ -20303,15 +20303,15 @@ msgstr ""
 #: data/nation/swedish.ruleset:33 data/nation/tibetan.ruleset:29
 #: data/nation/welsh.ruleset:27
 msgid "Prime Minister"
-msgstr ""
+msgstr "총리"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
-msgstr ""
+msgstr "알제리"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
-msgstr ""
+msgstr "알제리 사람"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -20321,11 +20321,11 @@ msgstr ""
 
 #: data/nation/american.ruleset:3
 msgid "American"
-msgstr ""
+msgstr "미국"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
-msgstr ""
+msgstr "미국 사람"
 
 #: data/nation/american.ruleset:6
 msgid ""
@@ -20339,15 +20339,15 @@ msgstr ""
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
 msgid "Reverend"
-msgstr ""
+msgstr "신부"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr ""
+msgstr "남극"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
-msgstr ""
+msgstr "남극 사람"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
@@ -20355,11 +20355,11 @@ msgstr ""
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
-msgstr ""
+msgstr "아랍"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr ""
+msgstr "아랍 사람"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -20367,15 +20367,15 @@ msgstr ""
 
 #: data/nation/arab.ruleset:20
 msgid "Caliph"
-msgstr ""
+msgstr "칼리프"
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
-msgstr ""
+msgstr "아람"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
-msgstr ""
+msgstr "아람 사람"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -20385,11 +20385,11 @@ msgstr ""
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
-msgstr ""
+msgstr "아르메니아"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
-msgstr ""
+msgstr "아르메니아 사람"
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -20400,11 +20400,11 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr ""
+msgstr "아시리아"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
-msgstr ""
+msgstr "아시리아 시람"
 
 #: data/nation/assyrian.ruleset:6
 msgid ""
@@ -20421,11 +20421,11 @@ msgstr ""
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
-msgstr ""
+msgstr "아르헨티나"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
-msgstr ""
+msgstr "아르헨티나 사람"
 
 #. TRANS: The fourth letter in "Peron" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -20441,11 +20441,11 @@ msgstr ""
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr ""
+msgstr "호주"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
-msgstr ""
+msgstr "호주 사람"
 
 #: data/nation/australian.ruleset:6
 msgid ""
@@ -20455,11 +20455,11 @@ msgstr ""
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
-msgstr ""
+msgstr "오스트리아"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
-msgstr ""
+msgstr "오스트리아 사람"
 
 #: data/nation/austrian.ruleset:6
 msgid ""
@@ -20469,11 +20469,11 @@ msgstr ""
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
-msgstr ""
+msgstr "아즈텍"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
-msgstr ""
+msgstr "아즈텍 사람"
 
 #: data/nation/aztec.ruleset:6
 msgid ""
@@ -20493,11 +20493,11 @@ msgstr ""
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr ""
+msgstr "바빌론"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
-msgstr ""
+msgstr "바빌론 사람"
 
 #: data/nation/babylonian.ruleset:6
 msgid ""
@@ -20512,7 +20512,7 @@ msgstr ""
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
-msgstr ""
+msgstr "야만 사람"
 
 #: data/nation/barbarian.ruleset:5
 msgid ""
@@ -20522,11 +20522,11 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr ""
+msgstr "바이에른"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr ""
+msgstr "바이에른 사람"
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
@@ -20536,11 +20536,11 @@ msgstr ""
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr ""
+msgstr "벨기에"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
-msgstr ""
+msgstr "벨기에 사람"
 
 #: data/nation/belgian.ruleset:6
 msgid ""
@@ -20552,11 +20552,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr ""
+msgstr "벵골"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
-msgstr ""
+msgstr "벵골 사람"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -20577,11 +20577,11 @@ msgstr ""
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr ""
+msgstr "보어"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr ""
+msgstr "보어 사람"
 
 #: data/nation/boer.ruleset:6
 msgid ""
@@ -20592,11 +20592,11 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
-msgstr ""
+msgstr "보스니아 헤르체고비나"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
-msgstr ""
+msgstr "보스니아 사람"
 
 #: data/nation/bosnia.ruleset:6
 msgid ""
@@ -20610,11 +20610,11 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr ""
+msgstr "브라질"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr ""
+msgstr "브라질 사람"
 
 #: data/nation/brazilian.ruleset:6
 msgid ""
@@ -20655,11 +20655,11 @@ msgstr ""
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr ""
+msgstr "영국"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:Britons"
-msgstr ""
+msgstr "영국 사람"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -20671,11 +20671,11 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr ""
+msgstr "불가리아"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr ""
+msgstr "불가리아 사람"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
@@ -20710,11 +20710,11 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr ""
+msgstr "미얀마"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
-msgstr ""
+msgstr "미얀마 사람"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -20736,11 +20736,11 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr ""
+msgstr "비잔티움"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
-msgstr ""
+msgstr "비잔티움 사람"
 
 #: data/nation/byzantium.ruleset:6
 msgid ""
@@ -20758,11 +20758,11 @@ msgstr ""
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr ""
+msgstr "카나다"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr ""
+msgstr "카나다 사람"
 
 #: data/nation/canadian.ruleset:7
 msgid ""
@@ -20772,11 +20772,11 @@ msgstr ""
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr ""
+msgstr "카르타고"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr ""
+msgstr "카르타고 사람"
 
 #: data/nation/carthaginian.ruleset:8
 msgid ""
@@ -20787,11 +20787,11 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr ""
+msgstr "카탈로니아"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr ""
+msgstr "카탈로니아 사람"
 
 #: data/nation/catalan.ruleset:6
 msgid ""
@@ -20835,11 +20835,11 @@ msgstr ""
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr ""
+msgstr "칠레"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr ""
+msgstr "칠레 사람"
 
 #: data/nation/chilean.ruleset:6
 msgid "Chile is located on the south-western coast of South America."
@@ -20860,11 +20860,11 @@ msgstr ""
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr ""
+msgstr "중국"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr ""
+msgstr "중국 사람"
 
 #: data/nation/chinese.ruleset:6
 msgid ""
@@ -20880,7 +20880,7 @@ msgstr ""
 #: data/nation/chinese.ruleset:31 data/nation/japanese.ruleset:20
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
 msgid "Emperor"
-msgstr ""
+msgstr "황제"
 
 #: data/nation/chinese.ruleset:31
 msgid "Dowager"
@@ -20888,11 +20888,11 @@ msgstr ""
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
-msgstr ""
+msgstr "콜롬비아"
 
 #: data/nation/colombian.ruleset:4
 msgid "?plural:Colombians"
-msgstr ""
+msgstr "콜롬비아 사람"
 
 #: data/nation/colombian.ruleset:6
 msgid ""
@@ -20904,7 +20904,7 @@ msgstr ""
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
 msgid "General"
-msgstr ""
+msgstr "장군"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governador"
@@ -20916,11 +20916,11 @@ msgstr ""
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr ""
+msgstr "남부동맹"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr ""
+msgstr "남부동맹 사람"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -20932,11 +20932,11 @@ msgstr ""
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr ""
+msgstr "콘월"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr ""
+msgstr "콘월 사람"
 
 #: data/nation/cornish.ruleset:6
 msgid ""
@@ -20952,11 +20952,11 @@ msgstr ""
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr ""
+msgstr "크로아티아"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr ""
+msgstr "크로아티아 사람"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
@@ -20968,11 +20968,11 @@ msgstr ""
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
-msgstr ""
+msgstr "쿠바"
 
 #: data/nation/cuban.ruleset:4
 msgid "?plural:Cubans"
-msgstr ""
+msgstr "쿠바 사람"
 
 #: data/nation/cuban.ruleset:6
 msgid ""
@@ -20983,11 +20983,11 @@ msgstr ""
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr ""
+msgstr "체코"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr ""
+msgstr "체코 사람"
 
 #: data/nation/czech.ruleset:6
 msgid ""
@@ -21005,11 +21005,11 @@ msgstr ""
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr ""
+msgstr "덴마크"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr ""
+msgstr "덴마크 사람"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
@@ -21022,11 +21022,11 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr ""
+msgstr "네덜란드"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr ""
+msgstr "네덜란드 사람"
 
 #: data/nation/dutch.ruleset:6
 msgid ""
@@ -21038,11 +21038,11 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr ""
+msgstr "이집트"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr ""
+msgstr "이집트 사람"
 
 #: data/nation/egyptian.ruleset:6
 msgid ""
@@ -21053,19 +21053,19 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:26
 msgid "Pharaoh"
-msgstr ""
+msgstr "파라오"
 
 #: data/nation/egyptian.ruleset:27
 msgid "Great Pharaoh"
-msgstr ""
+msgstr "大파라오"
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr ""
+msgstr "잉글랜드"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr ""
+msgstr "잉글랜드 사람"
 
 #: data/nation/english.ruleset:6
 msgid ""
@@ -21076,19 +21076,19 @@ msgstr ""
 
 #: data/nation/english.ruleset:26
 msgid "Lord Protector"
-msgstr ""
+msgstr "호민관"
 
 #: data/nation/english.ruleset:26
 msgid "Lady Protector"
-msgstr ""
+msgstr "호민관"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr ""
+msgstr "에스토니아"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr ""
+msgstr "에스토니아 사람"
 
 #: data/nation/estonian.ruleset:6
 msgid ""
@@ -21098,11 +21098,11 @@ msgstr ""
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr ""
+msgstr "에티오피아"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
-msgstr ""
+msgstr "에티오피아 사람"
 
 #: data/nation/ethiopian.ruleset:6
 msgid ""
@@ -21116,11 +21116,11 @@ msgstr ""
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr ""
+msgstr "필리핀"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr ""
+msgstr "필리핀 사람"
 
 #: data/nation/filipino.ruleset:7
 msgid ""
@@ -21130,11 +21130,11 @@ msgstr ""
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr ""
+msgstr "핀란드"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr ""
+msgstr "핀란드 사람"
 
 #: data/nation/finnish.ruleset:6
 msgid ""
@@ -21144,11 +21144,11 @@ msgstr ""
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr ""
+msgstr "프랑스"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr ""
+msgstr "프랑스 사람"
 
 #: data/nation/french.ruleset:6
 msgid ""
@@ -21163,11 +21163,11 @@ msgstr ""
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr ""
+msgstr "갈리시아"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr ""
+msgstr "갈리시아 사람"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -21205,11 +21205,11 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr ""
+msgstr "골"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
-msgstr ""
+msgstr "골 사람"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -21222,11 +21222,11 @@ msgstr ""
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr ""
+msgstr "그루지아"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
-msgstr ""
+msgstr "그루지아 사람"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
@@ -21236,11 +21236,11 @@ msgstr ""
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr ""
+msgstr "독일"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr ""
+msgstr "독일 사람"
 
 #: data/nation/german.ruleset:7
 msgid ""
@@ -21260,11 +21260,11 @@ msgstr ""
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr ""
+msgstr "헬라스"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr ""
+msgstr "헬라스 사람"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
@@ -21276,11 +21276,11 @@ msgstr ""
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr ""
+msgstr "그리스"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr ""
+msgstr "그리스 사람"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -21290,11 +21290,11 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr ""
+msgstr "히타이트"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
-msgstr ""
+msgstr "히타이트 사람"
 
 #: data/nation/hittite.ruleset:6
 msgid ""
@@ -21306,11 +21306,11 @@ msgstr ""
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr ""
+msgstr "헝가리"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr ""
+msgstr "헝가리 사람"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
@@ -21318,11 +21318,11 @@ msgstr ""
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr ""
+msgstr "아이슬란드"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
-msgstr ""
+msgstr "아이슬란드 사람"
 
 #: data/nation/icelandic.ruleset:6
 msgid ""
@@ -21334,11 +21334,11 @@ msgstr ""
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr ""
+msgstr "일리리아"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
-msgstr ""
+msgstr "일리리아 사람"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -21352,11 +21352,11 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr ""
+msgstr "잉카"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr ""
+msgstr "잉카 사람"
 
 #: data/nation/inca.ruleset:6
 msgid ""
@@ -21369,19 +21369,19 @@ msgstr ""
 
 #: data/nation/inca.ruleset:23
 msgid "?title:Inca"
-msgstr ""
+msgstr "잉카"
 
 #: data/nation/inca.ruleset:24
 msgid "Sapa Inca"
-msgstr ""
+msgstr "사파 잉카"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr ""
+msgstr "인도"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr ""
+msgstr "인도 사림"
 
 #: data/nation/indian.ruleset:6
 msgid ""
@@ -21403,11 +21403,11 @@ msgstr ""
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr ""
+msgstr "인도네시아"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
-msgstr ""
+msgstr "인도네시아 사람"
 
 #: data/nation/indonesian.ruleset:6
 msgid ""
@@ -21418,11 +21418,11 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr ""
+msgstr "이뉴잇"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr ""
+msgstr "이뉴잇 사람"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -21434,19 +21434,19 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:20
 msgid "Shaman"
-msgstr ""
+msgstr "샤먼"
 
 #: data/nation/inuit.ruleset:21
 msgid "Great Shaman"
-msgstr ""
+msgstr "大샤먼"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
-msgstr ""
+msgstr "이라크"
 
 #: data/nation/iraqi.ruleset:4
 msgid "?plural:Iraqis"
-msgstr ""
+msgstr "이라크 사람"
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
@@ -21457,11 +21457,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr ""
+msgstr "아일랜드"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr ""
+msgstr "아일랜드 사람"
 
 #: data/nation/irish.ruleset:6
 msgid ""
@@ -21482,19 +21482,19 @@ msgstr ""
 
 #: data/nation/irish.ruleset:46
 msgid "Mother Superior"
-msgstr ""
+msgstr "수녀원장"
 
 #: data/nation/irish.ruleset:47
 msgid "Taoiseach"
-msgstr ""
+msgstr "수상"
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr ""
+msgstr "이러쿼이"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr ""
+msgstr "이러쿼이 사람"
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -21522,11 +21522,11 @@ msgstr ""
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr ""
+msgstr "이스라엘"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr ""
+msgstr "이스라엘 사람"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
@@ -21537,11 +21537,11 @@ msgstr ""
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr ""
+msgstr "이탈리아"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr ""
+msgstr "이탈리아 사람"
 
 #: data/nation/italian.ruleset:6
 msgid ""
@@ -21553,11 +21553,11 @@ msgstr ""
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
-msgstr ""
+msgstr "일본"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
-msgstr ""
+msgstr "일본 사람"
 
 #: data/nation/japanese.ruleset:6
 msgid ""
@@ -21568,19 +21568,19 @@ msgstr ""
 #: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
 msgid "Empress"
-msgstr ""
+msgstr "여제"
 
 #: data/nation/japanese.ruleset:21
 msgid "Shogun"
-msgstr ""
+msgstr "쇼군"
 
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr ""
+msgstr "캄보디아"
 
 #: data/nation/kampuchean.ruleset:4
 msgid "?plural:Kampucheans"
-msgstr ""
+msgstr "캄보디아 사람"
 
 #: data/nation/kampuchean.ruleset:6
 msgid ""
@@ -21602,11 +21602,11 @@ msgstr ""
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr ""
+msgstr "케냐"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr ""
+msgstr "케냐 사람"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -21618,11 +21618,11 @@ msgstr ""
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr ""
+msgstr "한국"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr ""
+msgstr "한국 사람"
 
 #: data/nation/korean.ruleset:6
 msgid ""
@@ -21635,15 +21635,15 @@ msgstr ""
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:28
 msgid "Great Leader"
-msgstr ""
+msgstr "위대한 수령"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr ""
+msgstr "스리랑카"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
-msgstr ""
+msgstr "스리랑카 사람"
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -21655,12 +21655,12 @@ msgstr ""
 #: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Prince"
-msgstr ""
+msgstr "왕자"
 
 #: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Princess"
-msgstr ""
+msgstr "왕비"
 
 #: data/nation/lankese.ruleset:21 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
@@ -21673,11 +21673,11 @@ msgstr ""
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr ""
+msgstr "라트비아"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr ""
+msgstr "라트비아 사람"
 
 #: data/nation/latvian.ruleset:7
 msgid ""
@@ -21688,11 +21688,11 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr ""
+msgstr "리비아"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
-msgstr ""
+msgstr "리비아 사람"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -21704,19 +21704,19 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:23
 msgid "Dey"
-msgstr ""
+msgstr "데이"
 
 #: data/nation/libyan.ruleset:24
 msgid "Colonel"
-msgstr ""
+msgstr "대령"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr ""
+msgstr "리투아니아"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr ""
+msgstr "리투아니아 사람"
 
 #: data/nation/lithuanian.ruleset:6
 msgid ""
@@ -21735,11 +21735,11 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr ""
+msgstr "마다가스카르"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
-msgstr ""
+msgstr "마다가스카르 사람"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -21753,11 +21753,11 @@ msgstr ""
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr ""
+msgstr "말레이시아"
 
 #: data/nation/malaysian.ruleset:4
 msgid "?plural:Malaysians"
-msgstr ""
+msgstr "말레이시아 사람"
 
 #: data/nation/malaysian.ruleset:6
 msgid ""
@@ -21768,23 +21768,23 @@ msgstr ""
 #: data/nation/malaysian.ruleset:22 data/nation/singaporean.ruleset:31
 #: data/nation/turk.ruleset:24
 msgid "Sultan"
-msgstr ""
+msgstr "술탄"
 
 #: data/nation/malaysian.ruleset:22 data/nation/turk.ruleset:24
 msgid "Sultana"
-msgstr ""
+msgstr "술타나"
 
 #: data/nation/malaysian.ruleset:23
 msgid "Tun"
-msgstr ""
+msgstr "툰"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
-msgstr ""
+msgstr "말리"
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
-msgstr ""
+msgstr "말리 사람"
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -21802,11 +21802,11 @@ msgstr ""
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr ""
+msgstr "만주"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr ""
+msgstr "만주 사람"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -21817,11 +21817,11 @@ msgstr ""
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr ""
+msgstr "마오리"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
-msgstr ""
+msgstr "마오리 사람"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -21832,11 +21832,11 @@ msgstr ""
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
-msgstr ""
+msgstr "화성"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
-msgstr ""
+msgstr "화성 사람"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
@@ -21844,11 +21844,11 @@ msgstr ""
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
-msgstr ""
+msgstr "마야"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
-msgstr ""
+msgstr "마야 사람"
 
 #: data/nation/mayan.ruleset:6
 msgid ""
@@ -21862,11 +21862,11 @@ msgstr ""
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
-msgstr ""
+msgstr "멕시코"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
-msgstr ""
+msgstr "멕시코 사람"
 
 #: data/nation/mexican.ruleset:6
 msgid ""
@@ -21875,11 +21875,11 @@ msgstr ""
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
-msgstr ""
+msgstr "몽골"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr ""
+msgstr "몽골 사람"
 
 #: data/nation/mongol.ruleset:6
 msgid ""
@@ -21891,19 +21891,19 @@ msgstr ""
 
 #: data/nation/mongol.ruleset:29 data/nation/uyghur.ruleset:29
 msgid "Khan"
-msgstr ""
+msgstr "칸"
 
 #: data/nation/mongol.ruleset:30 data/nation/uyghur.ruleset:30
 msgid "Khagan"
-msgstr ""
+msgstr "가한"
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr ""
+msgstr "뉴질랜드"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
-msgstr ""
+msgstr "뉴질랜드 사람"
 
 #: data/nation/newzealand.ruleset:7
 msgid ""
@@ -21914,11 +21914,11 @@ msgstr ""
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr ""
+msgstr "나이지리아"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
-msgstr ""
+msgstr "나이지리아 사람"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
@@ -21926,11 +21926,11 @@ msgstr ""
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
-msgstr ""
+msgstr "노르웨이"
 
 #: data/nation/norwegian.ruleset:4
 msgid "?plural:Norwegians"
-msgstr ""
+msgstr "노르웨이 사람"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -21941,11 +21941,11 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
-msgstr ""
+msgstr "오스만"
 
 #: data/nation/ottoman.ruleset:4
 msgid "?plural:Ottomans"
-msgstr ""
+msgstr "오스만 사람"
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -21976,11 +21976,11 @@ msgstr ""
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr ""
+msgstr "파푸아"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr ""
+msgstr "파푸아 사람"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -21992,11 +21992,11 @@ msgstr ""
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr ""
+msgstr "페르시아"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr ""
+msgstr "페르시아 사람"
 
 #: data/nation/persian.ruleset:6
 msgid ""
@@ -22006,23 +22006,23 @@ msgstr ""
 
 #: data/nation/persian.ruleset:21
 msgid "Shah"
-msgstr ""
+msgstr "샤"
 
 #: data/nation/persian.ruleset:21
 msgid "Shahbanu"
-msgstr ""
+msgstr "샤바누"
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr ""
+msgstr "아야톨라"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr ""
+msgstr "페니키아"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
-msgstr ""
+msgstr "페니키아 사람"
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
@@ -22032,11 +22032,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr ""
+msgstr "폴란드"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
-msgstr ""
+msgstr "폴란드 사람"
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -22062,11 +22062,11 @@ msgstr ""
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr ""
+msgstr "포르투갈"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr ""
+msgstr "포르투갈 사람"
 
 #: data/nation/portuguese.ruleset:6
 msgid ""
@@ -22076,11 +22076,11 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr ""
+msgstr "퀘벡"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr ""
+msgstr "퀘벡 사람"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -22090,11 +22090,11 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
-msgstr ""
+msgstr "루마니아"
 
 #: data/nation/romanian.ruleset:4
 msgid "?plural:Romanians"
-msgstr ""
+msgstr "루마니아 사람"
 
 #: data/nation/romanian.ruleset:6
 msgid ""
@@ -22135,11 +22135,11 @@ msgstr ""
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr ""
+msgstr "로마"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr ""
+msgstr "로마 사람"
 
 #: data/nation/roman.ruleset:6
 msgid ""
@@ -22149,11 +22149,11 @@ msgstr ""
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr ""
+msgstr "러시아"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr ""
+msgstr "러시아 사람"
 
 #: data/nation/russian.ruleset:6
 msgid ""
@@ -22191,11 +22191,11 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr ""
+msgstr "류큐"
 
 #: data/nation/ryukyuan.ruleset:4
 msgid "?plural:Ryukyuans"
-msgstr ""
+msgstr "류큐 사람"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -22205,19 +22205,19 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
-msgstr ""
+msgstr "국왕"
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Jo-o"
-msgstr ""
+msgstr "여왕"
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr ""
+msgstr "사미"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
-msgstr ""
+msgstr "사미 사람"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -22232,11 +22232,11 @@ msgstr ""
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr ""
+msgstr "스코틀랜드"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr ""
+msgstr "스코틀랜드 사람"
 
 #: data/nation/scottish.ruleset:6
 msgid ""
@@ -22251,11 +22251,11 @@ msgstr ""
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr ""
+msgstr "세르비아"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr ""
+msgstr "세르비아 사람"
 
 #: data/nation/serbian.ruleset:6
 msgid ""
@@ -22266,11 +22266,11 @@ msgstr ""
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr ""
+msgstr "실레지아"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr ""
+msgstr "실레지아 사람"
 
 #: data/nation/silesian.ruleset:6
 msgid ""
@@ -22280,11 +22280,11 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr ""
+msgstr "싱가포르"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr ""
+msgstr "싱가포르 사람"
 
 #: data/nation/singaporean.ruleset:18
 msgid ""
@@ -22298,11 +22298,11 @@ msgstr ""
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr ""
+msgstr "수"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "수 사람"
 
 #: data/nation/sioux.ruleset:6
 msgid ""
@@ -22313,11 +22313,11 @@ msgstr ""
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr ""
+msgstr "슬로베니아"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr ""
+msgstr "슬로베니아 사람"
 
 #: data/nation/slovenian.ruleset:6
 msgid ""
@@ -22327,11 +22327,11 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:3
 msgid "Slovakian"
-msgstr ""
+msgstr "슬로바키아"
 
 #: data/nation/slovakian.ruleset:4
 msgid "?plural:Slovakians"
-msgstr ""
+msgstr "슬로바키아 사람"
 
 #: data/nation/slovakian.ruleset:6
 msgid ""
@@ -22353,7 +22353,7 @@ msgstr "남아프리카"
 
 #: data/nation/southafrican.ruleset:4
 msgid "?plural:South Africans"
-msgstr "남아프리카사람"
+msgstr "남아프리카 사람"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -22369,11 +22369,11 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr "소비에트사람"
+msgstr "소비에트"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr "소비에트사람"
+msgstr "소비에트 사람"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -22386,11 +22386,11 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr "스패인사람"
+msgstr "스패인"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr "스패인사람"
+msgstr "스패인 사람"
 
 #: data/nation/spanish.ruleset:6
 msgid ""
@@ -22414,11 +22414,11 @@ msgstr ""
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr "수단사람"
+msgstr "수단"
 
 #: data/nation/sudanese.ruleset:4
 msgid "?plural:Sudanese"
-msgstr "수단사람"
+msgstr "수단 사람"
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
@@ -22428,11 +22428,11 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "수메르사람"
+msgstr "수메르"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
-msgstr "수메르사람"
+msgstr "수메르 사람"
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -22447,11 +22447,11 @@ msgstr ""
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
-msgstr "스와지사람"
+msgstr "스와지"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
-msgstr "스와지사람"
+msgstr "스와지 사람"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -22470,11 +22470,11 @@ msgstr ""
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr "스웨덴사람"
+msgstr "스웨덴"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "스웨덴사람"
+msgstr "스웨덴 사람"
 
 #: data/nation/swedish.ruleset:6
 msgid ""
@@ -22489,11 +22489,11 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
-msgstr "스의스사람"
+msgstr "스의스"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
-msgstr "스의스사람"
+msgstr "스의스 사람"
 
 #: data/nation/swiss.ruleset:6
 msgid ""
@@ -22531,11 +22531,11 @@ msgstr ""
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr "대만사람"
+msgstr "대만"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
-msgstr "대만사람"
+msgstr "대만 사람"
 
 #: data/nation/taiwanese.ruleset:6
 msgid ""
@@ -22546,11 +22546,11 @@ msgstr ""
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
-msgstr "테크사스사람"
+msgstr "테크사스"
 
 #: data/nation/texan.ruleset:4
 msgid "?plural:Texans"
-msgstr "테크사스사람"
+msgstr "테크사스 사람"
 
 #: data/nation/texan.ruleset:6
 msgid ""
@@ -22560,11 +22560,11 @@ msgstr ""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
-msgstr "태국사람"
+msgstr "태국"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
-msgstr "태국사람"
+msgstr "태국 사람"
 
 #: data/nation/thai.ruleset:6
 msgid ""
@@ -22574,11 +22574,11 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr "티벳사람"
+msgstr "티벳"
 
 #: data/nation/tibetan.ruleset:4
 msgid "?plural:Tibetans"
-msgstr "티벳사람"
+msgstr "티벳 사람"
 
 #: data/nation/tibetan.ruleset:6
 msgid ""
@@ -22602,11 +22602,11 @@ msgstr ""
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
-msgstr "튀니시아사람"
+msgstr "튀니시아"
 
 #: data/nation/tunisian.ruleset:4
 msgid "?plural:Tunisians"
-msgstr "튀니시아사람"
+msgstr "튀니시아 사람"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -22622,11 +22622,11 @@ msgstr ""
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
-msgstr "터키사람"
+msgstr "터키"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr "터키사람"
+msgstr "터키 사람"
 
 #: data/nation/turk.ruleset:6
 msgid ""
@@ -22638,11 +22638,11 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "우크라이나사암"
+msgstr "우크라이나"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr "우크라이나사암"
+msgstr "우크라이나 사암"
 
 #: data/nation/ukrainian.ruleset:6
 msgid ""
@@ -22656,11 +22656,11 @@ msgstr ""
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr "위구르사람"
+msgstr "위구르"
 
 #: data/nation/uyghur.ruleset:4
 msgid "?plural:Uyghurs"
-msgstr "위구르사람"
+msgstr "위구르 사람"
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -22674,11 +22674,11 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
-msgstr "베네수엘라사람"
+msgstr "베네수엘라"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
-msgstr "베네수엘라사람"
+msgstr "베네수엘라 사람"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -22697,11 +22697,11 @@ msgstr ""
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr "베트남사람"
+msgstr "베트남"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
-msgstr "베트남사람"
+msgstr "베트남 사람"
 
 #: data/nation/vietnamese.ruleset:6
 msgid ""
@@ -22715,7 +22715,7 @@ msgstr "바이킹"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr "바이킹"
+msgstr "바이킹 사람"
 
 #: data/nation/viking.ruleset:6
 msgid ""
@@ -22726,11 +22726,11 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "웨일스사람"
+msgstr "웨일스"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "웨일스사람"
+msgstr "웨일스 사람"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
@@ -22740,11 +22740,11 @@ msgstr ""
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr "베스트팔리아사람"
+msgstr "베스트팔리아"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
-msgstr "베스트팔리아사람"
+msgstr "베스트팔리아 사람"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -22755,11 +22755,11 @@ msgstr ""
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
-msgstr "줄루사람"
+msgstr "줄루"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
-msgstr "줄루사람"
+msgstr "줄루 사람"
 
 #: data/nation/zulu.ruleset:6
 msgid ""
