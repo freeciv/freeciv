@@ -4,7 +4,7 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-sdl/human
 
 pkgdata_DATA =          	\
-	Vera.ttf		\
+	DejaVuSans.ttf		\
 	backgrounds.themespec 	\
 	bg.png			\
 	bg2.png			\
