@@ -716,9 +716,10 @@ PACKET_PLAYER_ATTRIBUTE_BLOCK=46;cs
 end
 
 PACKET_PLAYER_ATTRIBUTE_CHUNK=47; pre-send, sc,cs,handle-via-packet
-  UINT32 offset, total_length, chunk_length;
+  UINT32 offset; key
+  UINT32 total_length, chunk_length;
   /* to keep memory management simple don't allocate dynamic memory */
-  MEMORY data[ATTRIBUTE_CHUNK_SIZE:chunk_length];
+  MEMORY data[ATTRIBUTE_CHUNK_SIZE:chunk_length]; diff
 end
 
 /************** Unit packets **********************/
