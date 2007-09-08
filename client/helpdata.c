@@ -163,51 +163,51 @@ static void insert_requirement(struct requirement *req,
   case REQ_LAST:
     break;
   case REQ_TECH:
-    cat_snprintf(buf, bufsz, _("Requires the %s technology.\n\n"),
+    cat_snprintf(buf, bufsz, _("Requires the %s technology.\n"),
 		 advance_name_for_player(game.player_ptr, req->source.value.tech));
     return;
   case REQ_GOV:
-    cat_snprintf(buf, bufsz, _("Requires the %s government.\n\n"),
+    cat_snprintf(buf, bufsz, _("Requires the %s government.\n"),
 		 government_name_translation(req->source.value.gov));
     return;
   case REQ_BUILDING:
-    cat_snprintf(buf, bufsz, _("Requires the %s building.\n\n"),
+    cat_snprintf(buf, bufsz, _("Requires the %s building.\n"),
 		 improvement_name_translation(req->source.value.building));
     return;
   case REQ_SPECIAL:
-    cat_snprintf(buf, bufsz, _("Requires the %s terrain special.\n\n"),
+    cat_snprintf(buf, bufsz, _("Requires the %s terrain special.\n"),
 		 special_name_translation(req->source.value.special));
     return;
   case REQ_TERRAIN:
-    cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n\n"),
+    cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n"),
 		 terrain_name_translation(req->source.value.terrain));
     return;
   case REQ_NATION:
-    cat_snprintf(buf, bufsz, _("Requires the %s nation.\n\n"),
+    cat_snprintf(buf, bufsz, _("Requires the %s nation.\n"),
 		 nation_name_translation(req->source.value.nation));
     return;
   case REQ_UNITTYPE:
-    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
+    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n"),
 		 utype_name_translation(req->source.value.unittype));
     return;
   case REQ_UNITFLAG:
-    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
+    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n"),
                 unit_flag_rule_name(req->source.value.unitflag));
     return;
   case REQ_UNITCLASS:
-    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
+    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n"),
 		 uclass_name_translation(req->source.value.unitclass));
     return;
   case REQ_OUTPUTTYPE:
-    cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
+    cat_snprintf(buf, bufsz, _("Applies only to %s.\n"),
 		 get_output_name(req->source.value.outputtype));
     return;
   case REQ_SPECIALIST:
-    cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
+    cat_snprintf(buf, bufsz, _("Applies only to %s.\n"),
 		 _(get_specialist(req->source.value.specialist)->name));
     return;
   case REQ_MINSIZE:
-    cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n\n"),
+    cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n"),
 		 req->source.value.minsize);
     return;
   }
@@ -645,6 +645,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     .type = REQ_BUILDING,
     .value = {.building = which}
   };
+  bool has_req = FALSE;
 
   assert(buf);
   buf[0] = '\0';
@@ -655,9 +656,20 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
   }
 
   imp = improvement_by_number(which);
-  
+
   if (imp->helptext && imp->helptext[0] != '\0') {
     cat_snprintf(buf, bufsz, "%s\n\n", _(imp->helptext));
+  }
+
+  requirement_vector_iterate(&imp->reqs, preq) {
+    insert_requirement(preq, buf, bufsz);
+    has_req = TRUE;
+  } requirement_vector_iterate_end;
+
+  if (has_req) {
+    cat_snprintf(buf, bufsz, "\n");
+  } else {
+    cat_snprintf(buf, bufsz, _("Requires: Nothing\n\n"));
   }
 
   if (tech_exists(improvement_by_number(which)->obsolete_by)) {
@@ -1264,6 +1276,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
     .type = REQ_GOV,
     .value = {.gov = gov }
   };
+  bool has_req = FALSE;
 
   buf[0] = '\0';
 
@@ -1274,11 +1287,16 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
   /* Add requirement text for government itself */
   requirement_vector_iterate(&gov->reqs, preq) {
     insert_requirement(preq, buf, bufsz);
+    has_req = TRUE;
   } requirement_vector_iterate_end;
+
+  if (has_req) {
+    cat_snprintf(buf, bufsz, "\n");
+  }
 
   /* Effects */
   sprintf(buf + strlen(buf), _("Features:\n"));
-  insert_allows(&source, buf, bufsz);
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
