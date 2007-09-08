@@ -1325,7 +1325,7 @@ flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
 The Galleon is a pure transport ship and cannot\
- attack other ships, though is may still defend\
+ attack other ships, though it may still defend\
  itself when attacked.\
 ")
 
