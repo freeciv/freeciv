@@ -24,7 +24,7 @@ endif
 
 if MAKE_DATA
 DSUBDIRS = data
-elses
+else
 DSUBDIRS =
 endif
 
