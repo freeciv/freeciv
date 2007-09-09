@@ -255,6 +255,8 @@ void auto_center_on_focus_unit(void)
 **************************************************************************/
 void set_unit_focus(struct unit *punit)
 {
+  bool focus_changed = FALSE;
+
   if (punit && game.player_ptr && punit->owner != game.player_ptr) {
     /* Callers should make sure this never happens. */
     return;
@@ -266,6 +268,7 @@ void set_unit_focus(struct unit *punit)
   if (!(get_num_units_in_focus() == 1
 	&& punit == unit_list_get(get_units_in_focus(), 0))) {
     store_focus();
+    focus_changed = TRUE;
   }
 
   /* Redraw the old focus unit (to fix blinking or remove the selection
@@ -302,6 +305,10 @@ void set_unit_focus(struct unit *punit)
     }
   }
 
+  if (focus_changed) {
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+  }
+
   update_unit_info_label(pfocus_units);
   update_menus();
 }
@@ -320,6 +327,12 @@ void add_unit_focus(struct unit *punit)
   }
   if (unit_is_in_focus(punit)) {
     return;
+  }
+
+  if (hover_state != HOVER_NONE) {
+    /* Can't continue with current goto if set of focus units
+     * change. Cancel it. */
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
 
   unit_list_append(pfocus_units, punit);
