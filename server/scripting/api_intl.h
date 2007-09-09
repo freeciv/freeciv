@@ -14,10 +14,9 @@
 #ifndef FC__API_INTL_H
 #define FC__API_INTL_H
 
-const char *api_intl__(const char *string);
-const char *api_intl_N_(const char *string);
-const char *api_intl_Q_(const char *string);
-const char *api_intl_PL_(const char *string1, const char *string2, int n);
+const char *api_intl__(const char *untranslated);
+const char *api_intl_N_(const char *untranslated);
+const char *api_intl_Q_(const char *untranslated);
+const char *api_intl_PL_(const char *singular, const char *plural, int n);
 
-#endif
-
+#endif /* FC__API_INTL_H */

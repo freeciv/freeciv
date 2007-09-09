@@ -353,10 +353,10 @@ module signal {
 }
 
 /* Intl module. */
-const char *api_intl__ @ _ (const char *string);
-const char *api_intl_N_ @ N_ (const char *string);
-const char *api_intl_Q_ @ Q_ (const char *string);
-const char *api_intl_PL_ @ PL_ (const char *string1, const char *string2,
+const char *api_intl__ @ _ (const char *untranslated);
+const char *api_intl_N_ @ N_ (const char *untranslated);
+const char *api_intl_Q_ @ Q_ (const char *untranslated);
+const char *api_intl_PL_ @ PL_ (const char *singular, const char *plural,
 				int n);
 
 /* Notify module. */

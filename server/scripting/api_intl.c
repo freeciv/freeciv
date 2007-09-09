@@ -19,19 +19,19 @@
 
 #include "api_intl.h"
 
-const char *api_intl__(const char *string) {
-  return _(string);
+const char *api_intl__(const char *untranslated) {
+  return _(untranslated);
 }
 
-const char *api_intl_N_(const char *string) {
-  return N_(string);
+const char *api_intl_N_(const char *untranslated) {
+  return N_(untranslated);
 }
 
-const char *api_intl_Q_(const char *string) {
-  return Q_(string);
+const char *api_intl_Q_(const char *untranslated) {
+  return Q_(untranslated);
 }
 
-const char *api_intl_PL_(const char *string1, const char *string2, int n) {
-  return PL_(string1, string2, n);
+const char *api_intl_PL_(const char *singular, const char *plural, int n) {
+  return PL_(singular, plural, n);
 }
 
