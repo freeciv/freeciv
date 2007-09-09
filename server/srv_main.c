@@ -973,7 +973,10 @@ void server_quit(void)
   server_game_free();
   diplhand_free();
 #ifdef HAVE_AUTH
-  auth_free();
+  if (srvarg.auth_enabled) {
+    /* If auth has been initialized */
+    auth_free();
+  }
 #endif /* HAVE_AUTH */
   stdinhand_free();
   close_connections_and_socket();
@@ -1816,6 +1819,12 @@ static void main_loop(void)
 **************************************************************************/
 void srv_main(void)
 {
+#ifdef HAVE_AUTH
+  if (!srvarg.auth_enabled) {
+    con_write(C_COMMENT, _("This civserver program has player authentication support, but it's currently not in use."));
+  }
+#endif /* HAVE_AUTH */
+
   /* make sure it's initialized */
   if (!has_been_srv_init) {
     srv_init();
