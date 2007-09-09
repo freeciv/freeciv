@@ -35,21 +35,6 @@ EXTRA_DIST=	autogen.sh 			\
 		config.mac.h			\
 		configure.ac			\
 		diff_ignore			\
-		amiga/Freeciv.start		\
-		amiga/amigaclient.c		\
-		amiga/amigaserver.c		\
-		amiga/config.h			\
-		amiga/declgate.h		\
-		amiga/gettext.c			\
-		amiga/libintl.h			\
-		amiga/myregargs.h		\
-		amiga/ReadMe			\
-		amiga/ReadMe.2Amigas		\
-		amiga/ReadMe.developer		\
-		amiga/SDI_compiler.h		\
-		amiga/smakefile			\
-		amiga/vmakefile			\
-		amiga/vsnprintf.c		\
 		bootstrap/civ.in		\
 		bootstrap/ser.in		\
 		bootstrap/fc_svnrev_gen.h.in	\
