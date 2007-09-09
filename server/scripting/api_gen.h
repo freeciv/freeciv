@@ -1,6 +1,6 @@
 /*
 ** Lua binding: api
-** Generated automatically by tolua 5.0a on Tue Jul  3 13:43:12 2007.
+** Generated automatically by tolua 5.0a on Mon Sep 10 00:15:07 2007.
 */
 
 /* Exported function */
