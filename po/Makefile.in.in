@@ -47,8 +47,9 @@ COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
 
 POFILES = @POFILES@
 GMOFILES = @GMOFILES@
-DISTFILES = ChangeLog Makefile.in.in POTFILES.in POTFILES.skip \
-            $(PACKAGE).pot $(POFILES) $(GMOFILES)
+
+# Keep this in one line, since configure replaces it when NLS disabled
+DISTFILES = ChangeLog Makefile.in.in POTFILES.in POTFILES.skip $(PACKAGE).pot $(POFILES) $(GMOFILES)
 
 POTFILES = \
 
@@ -154,6 +155,9 @@ maintainer-clean: distclean
 	rm -f $(GMOFILES)
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+# If you change following line, update also configure.ac where it
+# builds Makefile if NLS disabled.
 dist distdir:
 	$(MAKE) update-po
 	@$(MAKE) dist2
@@ -165,6 +169,8 @@ dist2: $(DISTFILES)
 	  cp -p $$dir/$$file $(distdir); \
 	done
 
+# If you change following line, update also configure.ac where it
+# builds Makefile if NLS disabled.
 update-po: Makefile nb.po
 	$(MAKE) $(PACKAGE).pot
 	if test "$(PACKAGE)" = "gettext"; then PATH=`pwd`/../src:$$PATH; fi; \

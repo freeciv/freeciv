@@ -206,11 +206,16 @@ ALL_LINGUAS="ar cs ca da de el en_GB es et fa fi fr he hu it ja lt nl nb
 no pl pt pt_BR ro ru sv uk zh_CN"
 
 AC_ARG_ENABLE([nls],
-[  --disable-nls        do not use add localization support],
+[  --disable-nls        do not add localization support],
 [case "${enableval}" in
   yes) USE_NLS=yes ;;
-  no)  USE_NLS=no ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --disable-nls]) ;;
+  no)  USE_NLS=no  ;;
+
+  dnl NLS disabled, but 'make dist' allowed. That dist will lack
+  dnl all generated localization files.
+  no-gmo-dist) USE_NLS=no
+               FORCE_DIST=yes ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-nls]) ;;
 esac], [USE_NLS=yes])
 
 if test "$USE_NLS" = "yes" ; then
@@ -312,6 +317,13 @@ gettext package. We recommend you versions >= 0.10.38. Or use
     echo error
     )
   fi
+else
+  dnl Setup POFILES even when NLS disabled.
+  dnl AM_GLIB_GNU_GETTEXT does this when NLS enabled.
+  for lang in $ALL_LINGUAS; do
+    POFILES="$POFILES $lang.po"
+  done
+  AC_SUBST([POFILES])
 fi
 
 EXTRA_GCC_DEBUG_CFLAGS=""
@@ -667,7 +679,7 @@ dnl and builds 'po/Makefile.in' then 'po/Makefile'.  In order for the
 dnl commonly used _() and N_() macros to work, there should be somewhere
 dnl in that 'po/Makefile' a call to xgettext with "--keyword=_" and
 dnl "--keyword=N_" as arguments.  To support Q_() and PL_(),
-dnl the following simply dnl replaces instances of 
+dnl the following simply replaces instances of 
 dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_:1,2"
 dnl in the 'po/Makefile' file.
 AC_CONFIG_COMMANDS([fc_default-1],[[if test -f po/Makefile ; then
@@ -829,4 +841,35 @@ AC_CONFIG_FILES([Makefile
 AC_CONFIG_FILES([civ:bootstrap/civ.in], [chmod +x civ])
 AC_CONFIG_FILES([ser:bootstrap/ser.in], [chmod +x ser])
 AC_CONFIG_COMMANDS([default],[[ chmod +x bootstrap/undep.sh ; bootstrap/undep.sh ]],[[]])
+
+if test "$USE_NLS" != "yes" ; then
+
+  dnl Produced config.status will have constant value of FORCE_DIST,
+  dnl but it still checks 'if test x$FORCE_DIST = xyes'. We cannot
+  dnl do that check in configure when producing config.status.
+  AC_CONFIG_COMMANDS([po/Makefile], [
+    dnl Usually glib-gettext.m4:AM_GLIB_GNU_GETTEXT outputs commands to
+    dnl generate po/Makefile.
+    dnl If NLS is disabled, we generate one here.
+    rm -f po/Makefile
+
+    dnl - Add nonls_warn as dependency to dist -target
+    dnl - Remove dependencies from update-po, so it is never rebuilt
+    dnl - Set list of distributed files (no generated files)
+    sed -e 's/^dist distdir:.*/dist distdir: nonls_warn/' \
+        -e 's/^update-po:.*/update-po:/' \
+        -e 's/^DISTFILES =.*/DISTFILES = ChangeLog Makefile.in.in POTFILES.in POTFILES.skip \$(POFILES)/' \
+        po/Makefile.in > po/Makefile
+
+    dnl Create nonls_warn target.
+    echo >> po/Makefile
+    echo nonls_warn: >> po/Makefile
+    if test "x$FORCE_DIST" = "xyes" ; then
+      echo "	@echo Building dist without generated localization files!" >> po/Makefile
+    else
+      echo "	@echo Cannot build dist with NLS disabled! && /bin/false" >> po/Makefile
+    fi
+  ], [FORCE_DIST=$FORCE_DIST])
+fi
+
 AC_OUTPUT
