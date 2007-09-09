@@ -22,6 +22,8 @@ pkgdata_DATA =          	\
 	moderncities.spec	\
 	nuke.png		\
 	nuke.spec		\
+	ocean.png		\
+	ocean.spec		\
 	select-alpha.png	\
 	select.png		\
 	select.spec		\
