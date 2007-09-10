@@ -400,7 +400,7 @@ bool city_production_has_flag(const struct city *pcity,
 			      enum impr_flag_id flag)
 {
   return VUT_IMPROVEMENT == pcity->production.kind
-      && improvement_has_flag(pcity->production.value.building, IF_GOLD);
+      && improvement_has_flag(pcity->production.value.building, flag);
 }
 
 /**************************************************************************
