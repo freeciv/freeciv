@@ -551,7 +551,7 @@ struct unit *get_defender(const struct unit *attacker,
 			  const struct tile *ptile)
 {
   struct unit *bestdef = NULL;
-  int bestvalue = -1, best_cost = 0, rating_of_best = 0;
+  int bestvalue = -99, best_cost = 0, rating_of_best = 0;
 
   /* Simply call win_chance with all the possible defenders in turn, and
    * take the best one.  It currently uses build cost as a tiebreaker in
@@ -574,6 +574,12 @@ struct unit *get_defender(const struct unit *attacker,
         = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
 
       assert(unit_def >= 0);
+
+      if (unit_has_type_flag(defender, F_GAMELOSS)
+          && !is_stack_vulnerable(defender->tile)) {
+        unit_def = -1; // then always use leader as last defender
+        // FIXME: multiple gameloss units with varying defense value not handled
+      }
 
       if (unit_def > bestvalue) {
 	change = TRUE;
