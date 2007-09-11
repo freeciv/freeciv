@@ -53,6 +53,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "cma_core.h"		/* kludge */
+#include "connectdlg_common.h"  /* client_kill_server() */
 #include "connectdlg_g.h"
 #include "control.h" 
 #include "dialogs_g.h"
@@ -156,6 +157,15 @@ static void charsets_init(void)
 {
   dio_set_put_conv_callback(put_conv);
   dio_set_get_conv_callback(get_conv);
+}
+
+/**************************************************************************
+ This is called at program exit.
+**************************************************************************/
+static void at_exit(void)
+{
+  client_kill_server(TRUE);
+  my_shutdown_network();
 }
 
 /**************************************************************************
@@ -306,6 +316,10 @@ int main(int argc, char *argv[])
   ui_init();
   charsets_init();
   my_init_network();
+
+  /* register exit handler */ 
+  atexit(at_exit);
+
   chatline_common_init();
   init_messages_where();
   init_city_report_data();
@@ -360,7 +374,6 @@ void ui_exit(void)
 {
   attribute_flush();
   client_remove_all_cli_conn();
-  my_shutdown_network();
 
   client_game_free();
 
