@@ -51,13 +51,11 @@ bool could_meet_with_player(const struct player *pplayer,
           && pplayer != aplayer
           && diplomacy_possible(pplayer,aplayer)
           && (player_has_embassy(aplayer, pplayer) 
-              || player_has_embassy(pplayer, aplayer)
-              || pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
-              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0));
+              || player_has_embassy(pplayer, aplayer)));
 }
 
 /**************************************************************************
-  Returns TRUE iff pplayer could do diplomatic meetings with aplayer.
+  Returns TRUE iff pplayer could get intelligence from aplayer.
 **************************************************************************/
 bool could_intel_with_player(const struct player *pplayer,
 			     const struct player *aplayer)
@@ -65,9 +63,7 @@ bool could_intel_with_player(const struct player *pplayer,
   return (pplayer->is_alive
           && aplayer->is_alive
           && pplayer != aplayer
-          && (pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
-              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0
-              || player_has_embassy(pplayer, aplayer)));
+          && player_has_embassy(pplayer, aplayer));
 }
 
 /****************************************************************

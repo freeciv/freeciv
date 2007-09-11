@@ -714,7 +714,6 @@ void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds)
   dio_get_uint8(din, &value);
   pds->type = value;
   dio_get_uint16(din, &pds->turns_left);
-  dio_get_uint16(din, &pds->contact_turns_left);
   dio_get_uint8(din, &pds->has_reason_to_cancel);
   dio_get_uint16(din, &pds->first_contact_turn);
   value = 0;
@@ -731,7 +730,6 @@ void dio_put_diplstate(struct data_out *dout,
   /* backward compatible order defined for this transaction */
   dio_put_uint8(dout, pds->type);
   dio_put_uint16(dout, pds->turns_left);
-  dio_put_uint16(dout, pds->contact_turns_left);
   dio_put_uint8(dout, pds->has_reason_to_cancel);
   dio_put_uint16(dout, pds->first_contact_turn);
   dio_put_uint8(dout, pds->max_state);

@@ -18,7 +18,7 @@
 enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
 		   CLAUSE_SEAMAP, CLAUSE_CITY, 
 		   CLAUSE_CEASEFIRE, CLAUSE_PEACE, CLAUSE_ALLIANCE,
-		   CLAUSE_VISION, CLAUSE_EMBASSY, CLAUSE_LAST };
+		   CLAUSE_VISION, CLAUSE_LAST };
 
 #define is_pact_clause(x)                                                   \
   ((x == CLAUSE_CEASEFIRE) || (x == CLAUSE_PEACE) || (x == CLAUSE_ALLIANCE))

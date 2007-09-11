@@ -145,19 +145,6 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
-{
-  if(game_find_unit_by_number(diplomat_id) && 
-     (game_find_city_by_number(diplomat_target_id))) { 
-    request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
-			    diplomat_target_id, 0);
-  }
-  gtk_widget_destroy(diplomat_dialog);
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static void spy_poison_callback(GtkWidget *w, gpointer data)
 {
   if(game_find_unit_by_number(diplomat_id) &&
@@ -623,7 +610,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     if (!unit_has_type_flag(punit, F_SPY)){
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_(" Choose Your Diplomat's Strategy"), buf,
-	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
 	_("_Sabotage City"), diplomat_sabotage_callback, NULL,
 	_("Steal _Technology"), diplomat_steal_callback, NULL,
@@ -632,8 +618,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
 
-      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
-	choice_dialog_button_set_sensitive(shl, 0, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
 	choice_dialog_button_set_sensitive(shl, 1, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
@@ -647,7 +631,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     } else {
        shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_("Choose Your Spy's Strategy"), buf,
-	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
 	_("_Poison City"), spy_poison_callback, NULL,
 	_("Industrial _Sabotage"), spy_request_sabotage_list, NULL,
@@ -657,8 +640,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
 
-      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
-	choice_dialog_button_set_sensitive(shl, 0, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
 	choice_dialog_button_set_sensitive(shl, 1, FALSE);
       if (!diplomat_can_do_action(punit, SPY_POISON, dest_tile))

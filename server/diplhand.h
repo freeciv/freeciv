@@ -21,8 +21,6 @@ struct Treaty;
 struct packet_diplomacy_info;
 struct connection;
 
-void establish_embassy(struct player *pplayer, struct player *aplayer);
-
 void diplhand_init(void);
 void diplhand_free(void);
 void free_treaties(void);

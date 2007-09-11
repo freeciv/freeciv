@@ -459,24 +459,6 @@ static int ai_goldequiv_clause(struct player *pplayer,
     }
     break;
 
-  case CLAUSE_EMBASSY:
-    if (give) {
-      if (ds_after == DS_ALLIANCE) {
-        worth = 0;
-      } else if (ds_after == DS_PEACE) {
-        worth = -5 * game.info.turn;
-      } else {
-        worth = MIN(-50 * game.info.turn
-                    + pplayer->ai.love[player_index(aplayer)], 
-                    -5 * game.info.turn);
-      }
-    } else {
-      worth = 0; /* We don't need no stinkin' embassy, do we? */
-    }
-    DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "embassy clause worth %d",
-              worth);
-    break;
-
   case CLAUSE_LAST:
     break;
   } /* end of switch */
@@ -1052,13 +1034,6 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
     ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_VISION, 0);
   }
 
-  if (!player_has_embassy(pplayer, aplayer)) {
-    ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_EMBASSY, 0);
-  }
-  if (!player_has_embassy(aplayer, pplayer)) {
-    ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_EMBASSY, 0);
-  }
-  
   if (!ai_handicap(pplayer, H_DIPLOMACY) || !aplayer->ai.control) {
     suggest_tech_exchange(pplayer, aplayer);
   }

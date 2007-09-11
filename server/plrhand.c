@@ -728,7 +728,8 @@ void notify_player(const struct player *pplayer, struct tile *ptile,
 
 /**************************************************************************
   Send message to all players who have an embassy with pplayer,
-  but excluding pplayer and specified player.
+  but excluding pplayer and specified player. Embassy is defined
+  as being in contact.
 **************************************************************************/
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      struct tile *ptile, enum event_type event,
@@ -892,9 +893,8 @@ static void package_player_common(struct player *plr,
 
 /**************************************************************************
   Package player info depending on info_level. We send everything to
-  plr's connections, we send almost everything to players with embassy
-  to plr, we send a little to players we are in contact with and almost
-  nothing to everyone else.
+  plr's connections, we send almost everything to players we are in contact 
+  with and almost nothing to everyone else.
 
   Receiver may be NULL in which cases dummy values are sent for some
   fields.
@@ -928,7 +928,7 @@ static void package_player_info(struct player *plr,
   } players_iterate_end;
 
   /* Only send score if we have contact */
-  if (info_level >= INFO_MEETING) {
+  if (info_level >= INFO_EMBASSY) {
     packet->score = plr->score.game;
   } else {
     packet->score = 0;
@@ -936,31 +936,18 @@ static void package_player_info(struct player *plr,
 
   /* Send diplomatic status of the player to everyone they are in
    * contact with. */
-  if (info_level >= INFO_EMBASSY
-      || (receiver
-	  && receiver->diplstates[player_index(plr)].contact_turns_left > 0)) {
+  if (info_level >= INFO_EMBASSY) {
     packet->target_government = plr->target_government
                                 ? government_number(plr->target_government)
                                 : -1;
-    memset(&packet->embassy, 0, sizeof(packet->embassy));
-    players_iterate(pother) {
-      packet->embassy[player_index(pother)]
-	= BV_ISSET(plr->embassy, player_index(pother));
-    } players_iterate_end;
     packet->gives_shared_vision = plr->gives_shared_vision;
     for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
       packet->diplstates[i].type       = plr->diplstates[i].type;
       packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
-      packet->diplstates[i].contact_turns_left = 
-         plr->diplstates[i].contact_turns_left;
       packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
     }
   } else {
     packet->target_government = packet->government;
-    memset(&packet->embassy, 0, sizeof(packet->embassy));
-    if (receiver && player_has_embassy(plr, receiver)) {
-      packet->embassy[player_index(receiver)] = TRUE;
-    }
     if (!receiver || !gives_shared_vision(plr, receiver)) {
       packet->gives_shared_vision = 0;
     } else {
@@ -971,7 +958,6 @@ static void package_player_info(struct player *plr,
       packet->diplstates[i].type       = DS_WAR;
       packet->diplstates[i].turns_left = 0;
       packet->diplstates[i].has_reason_to_cancel = 0;
-      packet->diplstates[i].contact_turns_left = 0;
     }
     /* We always know the player's relation to us */
     if (receiver) {
@@ -979,8 +965,6 @@ static void package_player_info(struct player *plr,
 
       packet->diplstates[p_no].type       = plr->diplstates[p_no].type;
       packet->diplstates[p_no].turns_left = plr->diplstates[p_no].turns_left;
-      packet->diplstates[p_no].contact_turns_left = 
-         plr->diplstates[p_no].contact_turns_left;
       packet->diplstates[p_no].has_reason_to_cancel =
 	plr->diplstates[p_no].has_reason_to_cancel;
     }
@@ -1071,9 +1055,6 @@ static enum plr_info_level player_info_level(struct player *plr,
   if (receiver && player_has_embassy(receiver, plr)) {
     return INFO_EMBASSY;
   }
-  if (receiver && could_intel_with_player(receiver, plr)) {
-    return INFO_MEETING;
-  }
   return INFO_MINIMUM;
 }
 
@@ -1158,8 +1139,6 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   }
   if (get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) == 0
       && get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) == 0) {
-    pplayer1->diplstates[player2].contact_turns_left = game.info.contactturns;
-    pplayer2->diplstates[player1].contact_turns_left = game.info.contactturns;
   }
   if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
     pplayer1->diplstates[player2].type = DS_WAR;
@@ -1500,10 +1479,8 @@ static struct player *split_player(struct player *pplayer)
 
     cplayer->diplstates[player_index(other_player)].has_reason_to_cancel = 0;
     cplayer->diplstates[player_index(other_player)].turns_left = 0;
-    cplayer->diplstates[player_index(other_player)].contact_turns_left = 0;
     other_player->diplstates[player_index(cplayer)].has_reason_to_cancel = 0;
     other_player->diplstates[player_index(cplayer)].turns_left = 0;
-    other_player->diplstates[player_index(cplayer)].contact_turns_left = 0;
     
     /* Send so that other_player sees updated diplomatic info;
      * pplayer will be sent later anyway
@@ -1536,7 +1513,6 @@ static struct player *split_player(struct player *pplayer)
   } advance_index_iterate_end;
   cplayer->phase_done = TRUE; /* Have other things to think
 				 about - paralysis */
-  BV_CLR_ALL(cplayer->embassy);   /* all embassies destroyed */
 
   /* Do the ai */
 
@@ -1558,17 +1534,6 @@ static struct player *split_player(struct player *pplayer)
     pplayer->revolution_finishes = game.info.turn + 1;
   }
   get_player_research(pplayer)->bulbs_researched = 0;
-  BV_CLR_ALL(pplayer->embassy);   /* all embassies destroyed */
-
-  /* give splitted player the embassies to his team mates back, if any */
-  if (pplayer->team) {
-    players_iterate(pdest) {
-      if (pplayer->team == pdest->team
-          && pplayer != pdest) {
-        establish_embassy(pplayer, pdest);
-      }
-    } players_iterate_end;
-  }
 
   player_limit_to_government_rates(pplayer);
 

@@ -1861,27 +1861,6 @@ static void player_load(struct player *plr, int plrno,
     plr->target_government = government_of_player(plr);
   }
 
-  BV_CLR_ALL(plr->embassy);
-  if (has_capability("embassies", savefile_options)) {
-    players_iterate(pother) {
-      if (secfile_lookup_bool(file, "player%d.embassy%d",
-			      plrno, player_number(pother))) {
-	BV_SET(plr->embassy, player_index(pother));
-      }
-    } players_iterate_end;
-  } else {
-    /* Required for 2.0 and earlier savegames.  Remove eventually and make
-     * the cap check mandatory. */
-    int embassy = secfile_lookup_int(file, "player%d.embassy", plrno);
-
-    players_iterate(pother) {
-      if (embassy & (1 << player_index(pother))) {
-	BV_SET(plr->embassy, player_index(pother));
-      }
-    } players_iterate_end;
-
-  }
-
   p = secfile_lookup_str_default(file, NULL, "player%d.city_style_by_name",
                                  plrno);
   if (!p) {
@@ -2080,9 +2059,6 @@ static void player_load(struct player *plr, int plrno,
       secfile_lookup_int_default(file, 0,
 				 "player%d.diplstate%d.has_reason_to_cancel",
 				 plrno, i);
-    plr->diplstates[i].contact_turns_left = 
-      secfile_lookup_int_default(file, 0,
-			   "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
   /* We don't need this info, but savegames carry it anyway.
      To avoid getting "unused" warnings we touch the values like this. */
@@ -2094,8 +2070,6 @@ static void player_load(struct player *plr, int plrno,
     secfile_lookup_int_default(file, 0,
 			       "player%d.diplstate%d.has_reason_to_cancel",
 			       plrno, i);
-    secfile_lookup_int_default(file, 0,
-			   "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
 
   { /* spacerace */
@@ -2749,11 +2723,6 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.target_government_name", plrno);
   }
 
-  players_iterate(pother) {
-    secfile_insert_bool(file, BV_ISSET(plr->embassy, player_index(pother)),
-			"player%d.embassy%d", plrno, player_number(pother));
-  } players_iterate_end;
-
   /* Required for 2.0 and earlier servers.  Remove eventually. */
   secfile_insert_int(file, 0, "player%d.embassy", plrno);
 
@@ -2861,8 +2830,6 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.diplstate%d.turns_left", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].has_reason_to_cancel,
 		       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
-    secfile_insert_int(file, plr->diplstates[i].contact_turns_left,
-		       "player%d.diplstate%d.contact_turns_left", plrno, i);
   }
 
   {

@@ -194,34 +194,6 @@ void client_change_all(struct universal from,
 }
 
 /***************************************************************************
-  Return a string indicating one nation's embassy status with another
-***************************************************************************/
-const char *get_embassy_status(const struct player *me,
-			       const struct player *them)
-{
-  if (!me || !them
-      || me == them
-      || !them->is_alive
-      || !me->is_alive) {
-    return "-";
-  }
-  if (player_has_embassy(me, them)) {
-    if (player_has_embassy(them, me)) {
-      return Q_("?embassy:Both");
-    } else {
-      return Q_("?embassy:Yes");
-    }
-  } else if (player_has_embassy(them, me)) {
-    return Q_("?embassy:With Us");
-  } else if (me->diplstates[player_index(them)].contact_turns_left > 0
-             || them->diplstates[player_index(me)].contact_turns_left > 0) {
-    return Q_("?embassy:Contact");
-  } else {
-    return Q_("?embassy:No Contact");
-  }
-}
-
-/***************************************************************************
   Return a string indicating one nation's shaed vision status with another
 ***************************************************************************/
 const char *get_vision_status(const struct player *me,
@@ -290,10 +262,6 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   case CLAUSE_VISION:
     my_snprintf(buf, bufsiz, _("The %s gives shared vision"),
 		nation_plural_translation(pclause->from->nation));
-    break;
-  case CLAUSE_EMBASSY:
-    my_snprintf(buf, bufsiz, _("The %s gives an embassy"),
-                nation_plural_translation(pclause->from->nation));
     break;
   default:
     assert(FALSE);

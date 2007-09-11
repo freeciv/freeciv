@@ -466,7 +466,6 @@ static void update_diplomatics(void)
       struct player_diplstate *state2 = &plr2->diplstates[player_index(plr1)];
 
       state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
-      state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
 
       if (state->type == DS_ARMISTICE) {
         state->turns_left--;
@@ -2052,7 +2051,6 @@ static void srv_loop(void)
           && player_number(pplayer) != player_number(pdest)) {
         pplayer->diplstates[player_index(pdest)].type = DS_TEAM;
         give_shared_vision(pplayer, pdest);
-	BV_SET(pplayer->embassy, player_index(pdest));
       }
     } players_iterate_end;
    } players_iterate_end;

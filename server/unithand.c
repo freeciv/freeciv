@@ -232,12 +232,6 @@ void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
 	diplomat_investigate(pplayer, pdiplomat, pcity);
       }
       break;
-    case DIPLOMAT_EMBASSY:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY,
-					 pcity->tile)) {
-	diplomat_embassy(pplayer, pdiplomat, pcity);
-      }
-      break;
     case DIPLOMAT_INCITE:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
 					 pcity->tile)) {

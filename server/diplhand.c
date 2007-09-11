@@ -145,13 +145,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
       if (pclause->from == pplayer) {
 	switch(pclause->type) {
-	case CLAUSE_EMBASSY:
-          if (player_has_embassy(pother, pplayer)) {
-            freelog(LOG_ERROR, "%s tried to give embassy to %s, who already "
-                    "has an embassy", pplayer->name, pother->name);
-            return;
-          }
-          break;
 	case CLAUSE_ADVANCE:
           if (!player_invention_is_ready(pother, pclause->value)) {
 	    /* It is impossible to give a technology to a civilization that
@@ -356,15 +349,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         pgiver->diplstates[player_index(pdest)].type;
 
       switch (pclause->type) {
-      case CLAUSE_EMBASSY:
-        establish_embassy(pdest, pgiver); /* sic */
-        notify_player(pgiver, NULL, E_TREATY_SHARED_VISION,
-                         _("You gave an embassy to %s."),
-                         pdest->name);
-        notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
-                         _("%s allowed you to create an embassy!"),
-                         pgiver->name);
-        break;
       case CLAUSE_ADVANCE:
         /* It is possible that two players open the diplomacy dialog
          * and try to give us the same tech at the same time. This
@@ -542,18 +526,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     send_player_info(pplayer, NULL);
     send_player_info(pother, NULL);
   }
-}
-
-/****************************************************************************
-  Create an embassy. pplayer gets an embassy with aplayer.
-****************************************************************************/
-void establish_embassy(struct player *pplayer, struct player *aplayer)
-{
-  /* Establish the embassy. */
-  BV_SET(pplayer->embassy, player_index(aplayer));
-  send_player_info(pplayer, pplayer);
-  send_player_info(pplayer, aplayer);  /* update player dialog with embassy */
-  send_player_info(aplayer, pplayer);  /* INFO_EMBASSY level info */
 }
 
 /**************************************************************************

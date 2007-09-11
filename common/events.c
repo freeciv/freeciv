@@ -72,14 +72,14 @@ static struct {
   GEN_EV(N_("Diplomat Action"), N_("Bribe"),                E_MY_DIPLOMAT_BRIBE),
   GEN_EV(N_("Diplomat Action"), N_("Caused Incident"),      E_DIPLOMATIC_INCIDENT),
   GEN_EV(N_("Diplomat Action"), N_("Escape"),               E_MY_DIPLOMAT_ESCAPE),
-  GEN_EV(N_("Diplomat Action"), N_("Embassy"),              E_MY_DIPLOMAT_EMBASSY),
+  GEN_EV(N_("Diplomat Action"), N_("Embassy"),              E_UNUSED1),
   GEN_EV(N_("Diplomat Action"), N_("Failed"),               E_MY_DIPLOMAT_FAILED),
   GEN_EV(N_("Diplomat Action"), N_("Incite"),               E_MY_DIPLOMAT_INCITE),
   GEN_EV(N_("Diplomat Action"), N_("Poison"),               E_MY_DIPLOMAT_POISON),
   GEN_EV(N_("Diplomat Action"), N_("Sabotage"),             E_MY_DIPLOMAT_SABOTAGE),
   GEN_EV(N_("Diplomat Action"), N_("Theft"),                E_MY_DIPLOMAT_THEFT),
   GEN_EV(N_("Enemy Diplomat"), N_("Bribe"),                 E_ENEMY_DIPLOMAT_BRIBE),
-  GEN_EV(N_("Enemy Diplomat"), N_("Embassy"),               E_ENEMY_DIPLOMAT_EMBASSY),
+  GEN_EV(N_("Enemy Diplomat"), N_("Embassy"),               E_UNUSED2),
   GEN_EV(N_("Enemy Diplomat"), N_("Failed"),                E_ENEMY_DIPLOMAT_FAILED),
   GEN_EV(N_("Enemy Diplomat"), N_("Incite"),                E_ENEMY_DIPLOMAT_INCITE),
   GEN_EV(N_("Enemy Diplomat"), N_("Poison"),                E_ENEMY_DIPLOMAT_POISON),
@@ -135,7 +135,7 @@ static struct {
   GEN_EV(N_("Wonder"), N_("Stopped"),                       E_WONDER_STOPPED),
   GEN_EV(N_("Wonder"), N_("Will Finish Next Turn"),         E_WONDER_WILL_BE_BUILT),
   GEN_EV(NULL, N_("Diplomatic Message"),                    E_DIPLOMACY),
-  GEN_EV(N_("Treaty"), N_("Embassy"),                       E_TREATY_EMBASSY),
+  GEN_EV(N_("Treaty"), N_("Embassy"),                       E_UNUSED3),
   GEN_EV(NULL, N_("Error message from bad command"),        E_BAD_COMMAND),
   GEN_EV(NULL, N_("Server settings changed"),               E_SETTING),
   GEN_EV(NULL, N_("Chat messages"),                         E_CHAT_MSG),
@@ -215,14 +215,12 @@ bool is_city_event(enum event_type event)
   case E_UNIT_LOST:
   case E_UNIT_WIN:
   case E_ENEMY_DIPLOMAT_FAILED:
-  case E_ENEMY_DIPLOMAT_EMBASSY:
   case E_ENEMY_DIPLOMAT_POISON:
   case E_ENEMY_DIPLOMAT_BRIBE:
   case E_ENEMY_DIPLOMAT_INCITE:
   case E_ENEMY_DIPLOMAT_SABOTAGE:
   case E_ENEMY_DIPLOMAT_THEFT:
   case E_MY_DIPLOMAT_FAILED:
-  case E_MY_DIPLOMAT_EMBASSY:
   case E_MY_DIPLOMAT_POISON:
   case E_MY_DIPLOMAT_BRIBE:
   case E_MY_DIPLOMAT_INCITE:

@@ -373,8 +373,6 @@ void handle_edit_player(struct connection *pc,
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     pplayer->diplstates[i].type = packet->diplstates[i].type;
     pplayer->diplstates[i].turns_left = packet->diplstates[i].turns_left;
-    pplayer->diplstates[i].contact_turns_left
-      = packet->diplstates[i].contact_turns_left;
     pplayer->diplstates[i].has_reason_to_cancel
       = packet->diplstates[i].has_reason_to_cancel;
   }

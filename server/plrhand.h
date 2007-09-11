@@ -27,7 +27,7 @@ struct section_file;
 struct connection;
 struct conn_list;
 
-enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
+enum plr_info_level { INFO_MINIMUM, INFO_EMBASSY, INFO_FULL };
 
 void server_player_init(struct player *pplayer,
 			bool initmap, bool needs_team);

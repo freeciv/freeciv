@@ -1563,12 +1563,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.luxury=pinfo->luxury;
   pplayer->government = government_by_number(pinfo->government);
   pplayer->target_government = government_by_number(pinfo->target_government);
-  BV_CLR_ALL(pplayer->embassy);
-  players_iterate(pother) {
-    if (pinfo->embassy[player_index(pother)]) {
-      BV_SET(pplayer->embassy, player_index(pother));
-    }
-  } players_iterate_end;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->city_style=pinfo->city_style;
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -1601,8 +1595,6 @@ void handle_player_info(struct packet_player_info *pinfo)
       pinfo->diplstates[i].type;
     pplayer->diplstates[i].turns_left =
       pinfo->diplstates[i].turns_left;
-    pplayer->diplstates[i].contact_turns_left =
-      pinfo->diplstates[i].contact_turns_left;
     pplayer->diplstates[i].has_reason_to_cancel =
       pinfo->diplstates[i].has_reason_to_cancel;
   }

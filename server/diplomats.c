@@ -232,73 +232,6 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 }
 
 /******************************************************************************
-  Establish an embassy.
-
-  - Either a Diplomat or Spy can establish an embassy.
-
-  - Barbarians always execute ambassadors.
-  - Otherwise, the embassy is created.
-  - It costs some minimal movement to establish an embassy.
-
-  - Diplomats are consumed in creation of embassy.
-  - Spies always survive.
-****************************************************************************/
-void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-		      struct city *pcity)
-{
-  struct player *cplayer;
-
-  /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
-    return;
-  cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || !cplayer)
-    return;
-
-  freelog (LOG_DEBUG, "embassy: unit: %d", pdiplomat->id);
-
-  /* Check for Barbarian response. */
-  if (get_player_bonus(cplayer, EFT_NO_DIPLOMACY)) {
-    notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-		     _("Your %s was executed in %s by primitive %s."),
-		     unit_name_translation(pdiplomat),
-		     pcity->name,
-		     nation_plural_for_player(cplayer));
-    wipe_unit(pdiplomat);
-    return;
-  }
-
-  freelog (LOG_DEBUG, "embassy: succeeded");
-
-  establish_embassy(pplayer, cplayer);
-
-  /* Notify everybody involved. */
-  notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_EMBASSY,
-		   _("You have established an embassy in %s."),
-		   pcity->name);
-  notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_EMBASSY,
-		   _("The %s have established an embassy in %s."),
-		   nation_plural_for_player(pplayer),
-		   pcity->name);
-
-  /* Charge a nominal amount of movement for this. */
-  (pdiplomat->moves_left)--;
-  if (pdiplomat->moves_left < 0) {
-    pdiplomat->moves_left = 0;
-  }
-
-  /* this may cause a diplomatic incident */
-  maybe_cause_incident(DIPLOMAT_EMBASSY, pplayer, NULL, pcity);
-
-  /* Spies always survive. Diplomats never do. */
-  if (!unit_has_type_flag(pdiplomat, F_SPY)) {
-    wipe_unit(pdiplomat);
-  } else {
-    send_unit_info (pplayer, pdiplomat);
-  }
-}
-
-/******************************************************************************
   Sabotage an enemy unit.
 
   - Only a Spy can sabotage an enemy unit.
@@ -1304,7 +1237,6 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
  			 "revolt in %s."), offender->name, victim_city->name);
       break;
     case DIPLOMAT_MOVE:
-    case DIPLOMAT_EMBASSY:
     case DIPLOMAT_INVESTIGATE:
     case SPY_GET_SABOTAGE_LIST:
       return; /* These are not considered offences */

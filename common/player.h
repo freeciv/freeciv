@@ -132,7 +132,6 @@ struct player_diplstate {
   int first_contact_turn; /* turn we had first contact with this player */
   int turns_left;		/* until pact (e.g., cease-fire) ends */
   int has_reason_to_cancel;	/* 0: no, 1: this turn, 2: this or next turn */
-  int contact_turns_left;	/* until contact ends */
 };
 
 /***************************************************************************
@@ -174,7 +173,6 @@ struct player {
   int revolution_finishes;
 
   bool capital; /* used to give player init_buildings in first city. */
-  bv_player embassy;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;
   struct unit_list *units;

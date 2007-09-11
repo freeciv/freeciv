@@ -109,15 +109,6 @@ static bool col_ai(const struct player *plr)
 }
 
 /******************************************************************
-  Returns a translated string giving the embassy status
-  (none/with us/with them/both).
-*******************************************************************/
-static const char *col_embassy(const struct player *player)
-{
-  return get_embassy_status(game.player_ptr, player);
-}
-
-/******************************************************************
   Returns a translated string giving the diplomatic status
   ("war" or "ceasefire (5)").
 *******************************************************************/
@@ -255,7 +246,6 @@ struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_TEXT, N_("Team"), col_team, NULL, NULL,  "team"},
   {TRUE, COL_BOOLEAN, N_("AI"), NULL, col_ai, NULL,  "ai"},
   {TRUE, COL_TEXT, N_("Attitude"), col_love, NULL, cmp_love,  "attitude"},
-  {TRUE, COL_TEXT, N_("Embassy"), col_embassy, NULL, NULL,  "embassy"},
   {TRUE, COL_TEXT, N_("Dipl.State"), col_diplstate, NULL, NULL,  "diplstate"},
   {TRUE, COL_TEXT, N_("Vision"), col_vision, NULL, NULL,  "vision"},
   {TRUE, COL_TEXT, N_("State"), col_state, NULL, NULL,  "state"},
