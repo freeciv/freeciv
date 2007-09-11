@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-09-03 21:56+0300\n"
+"PO-Revision-Date: 2007-09-09 23:45+0300\n"
 "Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17210,7 +17210,7 @@ msgstr ""
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
-msgstr ""
+msgstr "Olenevalt serveri seadetest võivad need sammud erineda, kuid üldiselt on need sammud järgmised:"
 
 #: data/helpdata.txt:599
 msgid ""
@@ -17754,6 +17754,8 @@ msgid ""
 "Default Combat Rules\n"
 "---------------------"
 msgstr ""
+"Vaikimisi lahingureeglid\n"
+"---------------------"
 
 #: data/helpdata.txt:989
 msgid ""
@@ -17892,40 +17894,44 @@ msgstr ""
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
-msgstr ""
+msgstr "Kui kaitsja kaotab ja ta pole linnas ega kindluses, siis hävinevad kõik kaitsjaga samal ruudul olevad üksused."
 
 #: data/helpdata.txt:1079
 msgid " Modifying Combat Rules"
-msgstr ""
+msgstr "Lahingureeglite muutmine"
 
 #: data/helpdata.txt:1080
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
+"Lahingureeglite muutmine\n"
+"----------------------"
 
 #: data/helpdata.txt:1081
+#, fuzzy
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
-msgstr ""
+msgstr "Eelnevalt kirjeldatud lahingureegleid saab muuta, kui muudad järgnevaid väärtusi game.ruleset failis, combat_rules peatükis:"
 
 #: data/helpdata.txt:1084
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
-msgstr ""
+msgstr "- killstack. (vaikimisi 1) Kui väärtus on 0, siis kaitseüksuse hukkumisel ei hävine samal ruudul olevad kaitseüksused."
 
 #: data/helpdata.txt:1090
 msgid " Combat example 1"
-msgstr ""
+msgstr "Lahingunäide 1"
 
 #: data/helpdata.txt:1091
+#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
-msgstr ""
+msgstr "Oletame, et Kahur (A:8, D:1, HP:20, F:1) ründab musketäri (A:3, D:3, HP:20, F:1), kes on linnas, millel on kaitsemüür ja mis asub metsas. Kumbki pole veteran."
 
 #: data/helpdata.txt:1095
 msgid ""
@@ -17933,18 +17939,18 @@ msgid ""
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
 "to 13.5.  It is a ground unit inside a city, so its strength is increased to "
 "20.25."
-msgstr ""
+msgstr "Kaitsva üksuse tugevus on 3. Metsas asumise tõttu tõuseb 4,5 peale. Kuna linnal on kaitsemüür, tõuseb tugevus kolmekordseks, 13,5 peale. Musketär on maaüksus ja asub linnas, seega tõuseb kaitsetugevus 20,25 peale."
 
 #: data/helpdata.txt:1100
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
 "strength is 202."
-msgstr ""
+msgstr "Mängusiseselt korrutatakse tegelikult tugevused 10-ga ja komakohad jäetakse ära, seega on ründaja tugevus 80 ja kaitsja tugevus 202. "
 
 #: data/helpdata.txt:1104
 msgid "Both units keep their firepower of 1 unchanged."
-msgstr ""
+msgstr "Mõlema üksuse tulejõud jääb samale tasemele, milleks on 1."
 
 #: data/helpdata.txt:1107
 #, no-c-format
@@ -17952,7 +17958,7 @@ msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
 "the number is greater than 202 (about a 28% chance), the defender loses 1 "
 "hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
-msgstr ""
+msgstr "Iga käigu ajal lahingus valitakse suvaline number 1 ja 282 vahel. Kui see number on suurem, kui 202 (umbes 28% tõenäosus), siis kaotab kaitsja 1 elupunkti. Vastasel juhul (tõenäosus 72%) kaotab elupunkti ründaja."
 
 #: data/helpdata.txt:1118
 #, no-c-format
@@ -17962,22 +17968,22 @@ msgid ""
 "points during the fight.  But the outcome is never certain as long as both "
 "units have non-zero strengths; the defender might emerge untouched, or it "
 "might lose most of its hit points, or it might even lose the battle."
-msgstr ""
+msgstr "Kuna mõlemal üksusel on 20 elupunkti, on tõenäolisem, et võidab kaitsja. Samas kaotab kaitsja lahingus tõenäoliselt ligikaudu 40% elupunktidest. Tulemus ei ole kunagi kindel, kui lahingus osalejatel on tugevus kõrgem, kui 0. Kaitsja võib lahingust täiesti tervelt väljuda, või siis kaotada enamuse elupunktidest või hoopis lahingu kaotada."
 
 #: data/helpdata.txt:1128
 msgid " Combat example 2"
-msgstr ""
+msgstr "Lahingunäide 2"
 
 #: data/helpdata.txt:1129
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
 "on a Grassland tile, with City Walls and a Coastal Defense."
-msgstr ""
+msgstr "Oletame, et veteranist sõjalaev (A:12, D:12, HP:40, F:2), kellel on 3 liikumispunkti, ründab veteranidest Alpi Sõdureid (A:5, D:5, HP:20, F:1), kes on rohumaale ehitatud linnas, mida kaitsevad linnamüür ja rannakaitse."
 
 #: data/helpdata.txt:1134
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
-msgstr ""
+msgstr "Ründaja ründejõud on 12, veterani staatuse tõttu tõuseb see 18 peale."
 
 #: data/helpdata.txt:1137
 msgid ""
@@ -17986,17 +17992,17 @@ msgid ""
 "defender's strength to 15. (The City Walls have no effect against attacking "
 "sea units.) The defender is a ground unit inside a city, so its total "
 "strength is 22.5."
-msgstr ""
+msgstr "Kaitsja kaitsejõud on 5, mis tõuseb veterani staatuse tõttu 7,5 peale. Maastiku kaitsefaktor on 1 (ei avalda mingit mõju). Rannakaitse tõstab kaitsja jõu kahekordseks 15 peale. (Linnamüür ei avalda mereüksuste rünnakutele mingit mõju.) Kaitsja on maaüksus ja asub linnas, mis teeb tema tugevuseks kokku 22,5."
 
 #: data/helpdata.txt:1143
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
-msgstr ""
+msgstr "Mängusiseselt on ründaja ja kaitsja tugevus vastavalt 180 ja 225."
 
 #: data/helpdata.txt:1146
 msgid "The firepower of the Battleship is set from 2 to 1."
-msgstr ""
+msgstr "Lahingulaeva tulejõud väheneb 2 pealt 1 peale."
 
 #: data/helpdata.txt:1149
 #, no-c-format
@@ -18004,7 +18010,7 @@ msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
 "than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
 "the attacker loses 1 hit point."
-msgstr ""
+msgstr "Iga käigu ajal valitakse suvaline number 1 ja 405 vahel. Kui valitud number on suurem, kui 225 (umbes 44% tõenäosus), kaotab kaitsja elupunkti. Vastasel juhul kaotab elupunkti ründaja."
 
 #: data/helpdata.txt:1160
 #, no-c-format
@@ -18014,7 +18020,7 @@ msgid ""
 "twice as many hit points. The Battleship should expect to lose about 60% of "
 "its hit points during the fight, and should expect to have no movement "
 "points left."
-msgstr ""
+msgstr "Antud juhul on ründajal suuremad šansid võitmiseks. Lahingulaeval on vastase tabamise tõenäosus 25% väiksem, kuid samas on tal kaks korda rohkem elupunkte. Lahingu tulemusena kaotab lahingulaev tõenäoliselt 60% elupunktidest ja ei saa lahingu lõppedes samal käigul enam liikuda."
 
 #: data/helpdata.txt:1169
 msgid "Zones of Control"
@@ -18098,7 +18104,7 @@ msgstr ""
 
 #: data/helpdata.txt:1236
 msgid " Terrain Alterations"
-msgstr ""
+msgstr "Maastiku muutmine"
 
 #: data/helpdata.txt:1237
 msgid ""
@@ -19182,7 +19188,7 @@ msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
-msgstr ""
+msgstr "Linna kasvamisel või kahanemisel kaotsi mineva toidu hulk väheneb 25%. See aitab linnal kiiremini kasvada ja kergemini näljahäda üle elada. Mõju liitub viljaaida mõjule."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -19384,13 +19390,16 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Tõstab linnas oleva vabriku või manufaktuuri toodangut. Vabrik ja manufaktuur koos annavad 100% toodangulisa; vabrik, manufaktuur ja elektrijaam kolmekesi annavad aga 150% boonuse. Toodangu kasv aga võib tekitada rohkem reostust.\n"
+"\n"
+"Linnas saab korraga olla ainult üks elektrijaam - päikese- , hüdro-, tuuma- või tavaline elektrijaam."
 
 #: data/civ2/buildings.ruleset:644
 msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
-msgstr ""
+msgstr "Raamatukoguga koos tõstab teaduslabor teadustoodangut 100%. Koos raamatukogu ja ülikooliga tõstab teaduslabor teadustoodangut 150%."
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
@@ -21064,6 +21073,15 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"- Diplomaat võib rajada saatkondi teiste tsivilisatsioonidega, kui ta rändab teiste mängijate linnadesse.\n"
+"\n"
+"- diplomaadid võivad ka vastaste toodangut saboteerida või varastada vastase linnast mõni tehnoloogia. (Igast linnast saab pihta panna ainult ühe tehnoloogia).\n"
+"\n"
+"- diplomaat võib samuti pakkuda vastase üksusele pistist, kui see üksus on ainukesena oma ruudul.\n"
+"\n"
+"- kui sul on piisavalt raha, võivad diplomaadid alustada vastase linnas revolutsiooni ja muuta see linn sinu omaks.\n"
+"\n"
+"- osad mängustrateegiad näevad ette suure hulga diplomaatide treenimist ja nende abil vastaste purustamist. Pole siis ime, et diplomaate kardetakse ja umbusaldatakse."
 
 #: data/default/units.ruleset:1593 data/civ2/units.ruleset:1536
 msgid "Spy"
@@ -21089,6 +21107,13 @@ msgid ""
 "A Spy can also be of aid on the battlefield - sabotaging enemy units as well "
 "as bribing them to change allegiance."
 msgstr ""
+"Spioon on täielik professionaal ja seega on ta ka osavam, kui tema töökaaslane diplomaat.\n"
+"\n"
+"Kõige rahumeelsem spiooni oskus on võime koguda linnade uurimine - detailse info kogumine ja saatkondade loomine. Kui aga su spioon on saanud kurikuulsaks oma salapärase käitumise tõttu ja ta üritab saatkonda luua, siis ta hukatakse.\n"
+"\n"
+"Spiooni abil saab veel vaenlase linna veevarud mürgitada (vähendab rahvaarvu); varastada mingi kindla tehnoloogia ja saboteerida eelnevalt määratud sihtmärki (olgu öeldud, et linnamüüride ja pealinna ehitiste saboteerimisel on vahele jäämise tõenäosus palju suurem). Spioon võib ka linnas mässu alustada.\n"
+"\n"
+"Spiooni saab kasutada ka lahingus - kas siis vaenlase üksuste saboteerijana või siis pistise pakkujana, et vaenlase üksusi oma poolele saada."
 
 #: data/default/units.ruleset:1640 data/civ2/units.ruleset:1583
 #: data/civ1/units.ruleset:926
@@ -21960,7 +21985,7 @@ msgid ""
 "the People's Republic of China, established by the Communists in 1949, "
 "occupies the mainland, while the former Nationalist government of the "
 "Republic of China had fled to the island of Taiwan after the civil war."
-msgstr ""
+msgstr "Hiina on vanim suurtest tsivilisatsioonidest, mis ka praegu eksisteerib. Varaseimad kirjalikud andmed Hiina kohta on üle 3500 aasta vanad. Pärast seda, kui Qini dünastia ühendas aastal 221 e.m.a. Hiina ühtseks riigiks, on Hiinas erinevatel perioodidel olnud ühtne riik ja killustatud riigid, samuti on Hiina olnud korduvalt väliste jõudude poolt vallutatud. Tänapäeva Hiina Rahvavabariik, millele panid aluse kommunistid aastal 1949, asub mandril, endise Hiina Vabariigi valitsus aga põgenes pärast kodusõda Taiwanile."
 
 #: data/nation/chinese.ruleset:31 data/nation/japanese.ruleset:20
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
@@ -22017,11 +22042,11 @@ msgstr "Ameerika konföderatsioon eraldus Ameerika Ühendriikidest kodusõja aja
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr ""
+msgstr "Cornlane"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr ""
+msgstr "?plural:Cornlaseds"
 
 #: data/nation/cornish.ruleset:6
 msgid ""
@@ -22173,11 +22198,11 @@ msgstr ""
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "eestlane"
+msgstr "Eestlane"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr "?plural:eestlased"
+msgstr "?plural:Eestlased"
 
 #: data/nation/estonian.ruleset:6
 msgid ""
@@ -22927,7 +22952,7 @@ msgid ""
 "capital in Timbuktu was the most influential. This empire reigned from the "
 "14th to the 17th century and was famed for it's wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
-msgstr ""
+msgstr "Sahhaara kõrbest lõunasse jääv piirkond on juba tuhat aastat olnud erinevate rahvuste segunemise kohaks. Keskajal asusid selles piirkonnas mitmed saheli kuningriigid. Mõjukaim neist oli islamistlik Mali impeerium. See kuningriik püsis 14. sajandist 17. sajandini ja oli kuulus oma jõukuse ja heldete kuningate poolest. Tänapäeva Mali vabariik saigi oma nime just sellelt kuningriigilt."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
@@ -22935,11 +22960,11 @@ msgstr "Mansa"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr "mantšu"
+msgstr "Mantšu"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr "?plural:mantšud"
+msgstr "?plural:Mantšud"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
