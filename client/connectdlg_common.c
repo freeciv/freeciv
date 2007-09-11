@@ -171,14 +171,6 @@ void client_kill_server(bool force)
   client_has_hack = FALSE;
 }   
 
-/**************************************************************************
- This is called at program exit.
-**************************************************************************/
-static void server_shutdown(void)
-{
-  client_kill_server(TRUE);
-}
-                                                                               
 /**************************************************************** 
 forks a server if it can. returns FALSE is we find we couldn't start
 the server.
@@ -204,17 +196,11 @@ bool client_start_server(void)
   char logcmdline[512];
   char scriptcmdline[512];
 # endif
-  static bool initialized = FALSE;
 
   /* only one server (forked from this client) shall be running at a time */
   /* This also resets client_has_hack. */
   client_kill_server(TRUE);
   
-  if (!initialized) {
-    atexit(server_shutdown);
-    initialized = TRUE;
-  }
-
   append_output_window(_("Starting server..."));
 
   /* find a free port */ 
