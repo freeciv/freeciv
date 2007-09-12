@@ -270,23 +270,6 @@ static int vision_callback(struct widget *pWidget)
   return -1;
 }
 
-static int embassy_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct diplomacy_dialog *pdialog;
-      
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-    }
-  
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
-                                             player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
-                                             CLAUSE_EMBASSY, 0);
-  }
-  return -1;
-}
-
 static int maps_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -552,20 +535,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     count++;
   }
   
-  if (!player_has_embassy(pPlayer1, pPlayer0)) {  
-    pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-        _("Give embassy"), adj_font(12),
-                (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-    width = MAX(width, pBuf->size.w);
-    height = MAX(height, pBuf->size.h);
-    pBuf->action = embassy_callback;
-    pBuf->data.cont = pCont;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    add_to_gui_list(ID_LABEL, pBuf);
-    count++;
-  }
-    
   /* ---------------------------- */
   if(pPlayer0->economic.gold > 0) {
     pCont->value = pPlayer0->economic.gold;

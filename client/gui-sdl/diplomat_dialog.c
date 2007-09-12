@@ -77,23 +77,6 @@ static int diplomat_dlg_window_callback(struct widget *pWindow)
 /****************************************************************
 ...
 *****************************************************************/
-static int diplomat_embassy_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (game_find_unit_by_number(pDiplomat_Dlg->diplomat_id)
-       && game_find_city_by_number(pDiplomat_Dlg->diplomat_target_id)) {  
-      request_diplomat_action(DIPLOMAT_EMBASSY, pDiplomat_Dlg->diplomat_id,
-                                         pDiplomat_Dlg->diplomat_target_id, 0);
-    }
-  
-    popdown_diplomat_dialog();  
-  }
-  return -1;
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static int diplomat_investigate_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -578,22 +561,6 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
 
     pDiplomat_Dlg->diplomat_target_id = pCity->id;    
     
-    /* -------------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_EMBASSY, ptile))
-    {
-	
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Establish Embassy"), diplomat_embassy_callback);
-      
-      pBuf->data.city = pCity;
-      set_wstate(pBuf, FC_WS_NORMAL);
-  
-      add_to_gui_list(MAX_ID - pUnit->id, pBuf);
-    
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-  
     /* ---------- */
     if (diplomat_can_do_action(pUnit, DIPLOMAT_INVESTIGATE, ptile)) {
     
