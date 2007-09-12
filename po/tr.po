@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# FIRST AUTHOR <email@katpatuka.org>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-09 16:21+0300\n"
-"PO-Revision-Date: 2007-09-09 18:17+0200\n"
+"POT-Creation-Date: 2007-09-12 09:57+0300\n"
+"PO-Revision-Date: 2007-09-12 10:13+0200\n"
 "Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
 "Language-Team: Turkish <email@katpatuka.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr " (bağlantı tamamlanmadı)"
 #: common/connection.c:524
 #, c-format
 msgid " (player %s)"
-msgstr "(oyuncu %s)"
+msgstr " (oyuncu %s)"
 
 #: common/connection.c:528
 msgid " (observer)"
@@ -116,7 +116,7 @@ msgstr "Kent: Kutlama"
 
 #: common/events.c:45
 msgid "City: Civil Disorder"
-msgstr "Kent: Medeni Kargaşa"
+msgstr "Kent: İsyan"
 
 #: common/events.c:46
 msgid "City: Famine"
@@ -184,7 +184,7 @@ msgstr "Civ: İç Savaş"
 
 #: common/events.c:62
 msgid "Civ: Collapse to Anarchy"
-msgstr "Civ: Anarşi zamanı"
+msgstr "Civ: Anarşi oldu"
 
 #: common/events.c:63
 msgid "Civ: First Contact"
@@ -280,7 +280,7 @@ msgstr "Karşı Diplomat: Hırsızlık"
 
 #: common/events.c:86
 msgid "Caravan actions"
-msgstr "Kervan hareketleri"
+msgstr "Kervan işlemleri"
 
 #: common/events.c:87
 msgid "Tutorial message"
@@ -1928,7 +1928,7 @@ msgid "You can learn a lot about Freeciv at %s"
 msgstr "Freeciv hakkında %s sitesinde çok öğrenecek şeyler var."
 
 #: server/civserver.c:206
-#: client/civclient.c:200
+#: client/civclient.c:210
 #: manual/civmanual.c:380
 #, c-format
 msgid ""
@@ -1953,12 +1953,12 @@ msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr ""
 
 #: server/civserver.c:217
-#: client/civclient.c:204
+#: client/civclient.c:214
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 
 #: server/civserver.c:221
-#: client/civclient.c:208
+#: client/civclient.c:218
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr ""
 
@@ -1967,7 +1967,7 @@ msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr ""
 
 #: server/civserver.c:225
-#: client/civclient.c:211
+#: client/civclient.c:221
 #: manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr ""
@@ -2017,7 +2017,7 @@ msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr ""
 
 #: server/civserver.c:247
-#: client/civclient.c:230
+#: client/civclient.c:240
 #: manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr ""
@@ -3866,7 +3866,7 @@ msgstr ""
 
 #: server/settings.c:386
 msgid "Game random seed"
-msgstr ""
+msgstr "Oyunun rastgele sayısı"
 
 #: server/settings.c:387
 msgid "For zero (the default) a seed will be chosen based on the time. This setting is usually only of interest while debugging the game"
@@ -3882,7 +3882,7 @@ msgstr ""
 
 #: server/settings.c:402
 msgid "Amount of huts (minor tribe villages)"
-msgstr ""
+msgstr "Dam sayısı (ufak yerel köyler)"
 
 #: server/settings.c:403
 msgid "This setting gives the exact number of huts that will be placed on the entire map. Huts are small tribal villages that may be investiged by units."
@@ -3890,7 +3890,7 @@ msgstr ""
 
 #: server/settings.c:416
 msgid "Minimum number of players"
-msgstr ""
+msgstr "Asgari oyuncu sayısı"
 
 #: server/settings.c:417
 msgid "There must be at least this many players (connected human players or AI players) before the game can start."
@@ -3898,7 +3898,7 @@ msgstr ""
 
 #: server/settings.c:424
 msgid "Maximum number of players"
-msgstr ""
+msgstr "Azami oyuncu sayısı"
 
 #: server/settings.c:425
 msgid "The maximal number of human and AI players who can be in the game. When this number of players are connected in the pregame state, any new players who try to connect will be rejected."
@@ -3906,7 +3906,7 @@ msgstr ""
 
 #: server/settings.c:433
 msgid "Total number of players (including AI players)"
-msgstr ""
+msgstr "Toplam oyuncu sayısı (YZ dahil)"
 
 #: server/settings.c:434
 msgid "If set to a positive value, then AI players will be automatically created or removed to keep the total number of players at this amount."
@@ -3914,7 +3914,7 @@ msgstr ""
 
 #: server/settings.c:446
 msgid "List of players' initial units"
-msgstr ""
+msgstr "Başlangıçta ki birlik listesi"
 
 #: server/settings.c:447
 msgid ""
@@ -3948,7 +3948,7 @@ msgstr ""
 
 #: server/settings.c:478
 msgid "Number of initial techs per player"
-msgstr ""
+msgstr "Başlangıçta ki teknoloji sayısı"
 
 #: server/settings.c:479
 msgid "At the beginning of the game, each player is given this many technologies. The technologies chosen are random for each player. Depending on the value of tech_cost_style in the ruleset, a big value for techlevel can make the next techs really expensive."
@@ -3956,7 +3956,7 @@ msgstr ""
 
 #: server/settings.c:488
 msgid "Technology cost multiplier percentage"
-msgstr ""
+msgstr "Teknoloji masrafın çarpanı  (%)"
 
 #: server/settings.c:489
 msgid "This affects how quickly players can research new technology. All tech costs are multiplied by this amount (as a percentage). The base tech costs are determined by the ruleset or other game settings."
@@ -3964,7 +3964,7 @@ msgstr ""
 
 #: server/settings.c:498
 msgid "Percentage penalty when changing tech"
-msgstr ""
+msgstr "Teknoloji değişiminde ki ceza (%)"
 
 #: server/settings.c:499
 msgid "If you change your current research technology, and you have positive research points, you lose this percentage of those research points. This does not apply if you have just gained a technology this turn."
@@ -3996,7 +3996,7 @@ msgstr ""
 
 #: server/settings.c:540
 msgid "Food required for a city to grow"
-msgstr ""
+msgstr "Şehrin büyümesi için gerekli gıda oranı"
 
 #: server/settings.c:541
 msgid "This is the base amount of food required to grow a city. This value is multiplied by another factor that comes from the ruleset and is dependent on the size of the city."
@@ -4052,7 +4052,7 @@ msgstr ""
 
 #: server/settings.c:614
 msgid "Minimum distance between cities"
-msgstr ""
+msgstr "Şehirler arası asgari mesafe"
 
 #: server/settings.c:615
 msgid "When a player founds a new city, it is checked if there is no other city in citymindist distance. For example, if citymindist is 3, there have to be at least two empty fields between two cities in every direction. If set to 0 (default), the ruleset value will be used."
@@ -4556,93 +4556,97 @@ msgstr ""
 msgid "Starting game."
 msgstr "Oyun başlıyor."
 
-#: server/srv_main.c:962
+#: server/srv_main.c:965
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr ""
 
-#: server/srv_main.c:1024
+#: server/srv_main.c:1027
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr ""
 
-#: server/srv_main.c:1033
+#: server/srv_main.c:1036
 msgid "Your client is too old. To use this server please upgrade your client to a Freeciv 2.0 or later."
 msgstr ""
 
-#: server/srv_main.c:1119
+#: server/srv_main.c:1122
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr ""
 
-#: server/srv_main.c:1220
+#: server/srv_main.c:1223
 msgid "Please choose a non-blank name."
 msgstr ""
 
-#: server/srv_main.c:1236
+#: server/srv_main.c:1239
 msgid "That nation is already in use."
 msgstr ""
 
-#: server/srv_main.c:1252
+#: server/srv_main.c:1255
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 
-#: server/srv_main.c:1273
+#: server/srv_main.c:1276
 msgid "Please choose a name containing only ASCII characters."
 msgstr ""
 
-#: server/srv_main.c:1367
+#: server/srv_main.c:1370
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr ""
 
-#: server/srv_main.c:1373
+#: server/srv_main.c:1376
 #, c-format
 msgid "%s nation is already in use."
 msgstr ""
 
-#: server/srv_main.c:1391
+#: server/srv_main.c:1394
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr ""
 
-#: server/srv_main.c:1449
+#: server/srv_main.c:1452
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 
-#: server/srv_main.c:1454
+#: server/srv_main.c:1457
 msgid "All players are ready; starting game."
 msgstr "Bütün oyuncular hazır; oyunu başlatılıyor."
 
-#: server/srv_main.c:1496
-#: server/srv_main.c:1500
+#: server/srv_main.c:1499
+#: server/srv_main.c:1503
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr ""
 
-#: server/srv_main.c:1627
+#: server/srv_main.c:1630
 #, c-format
 msgid "Player %d"
 msgstr "Oyuncu %d"
 
-#: server/srv_main.c:1638
-#: server/srv_main.c:1644
+#: server/srv_main.c:1641
+#: server/srv_main.c:1647
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s %s hükmediyor."
 
-#: server/srv_main.c:1829
+#: server/srv_main.c:1787
+msgid "This civserver program has player authentication support, but it's currently not in use."
+msgstr ""
+
+#: server/srv_main.c:1838
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr ""
 
-#: server/srv_main.c:1858
+#: server/srv_main.c:1867
 msgid "The game is over..."
 msgstr "Oyun bitti..."
 
-#: server/srv_main.c:1912
+#: server/srv_main.c:1921
 msgid "Now accepting new client connections."
 msgstr ""
 
@@ -5920,12 +5924,12 @@ msgstr ""
 
 #: server/unithand.c:961
 msgid "Cannot attack from sea."
-msgstr ""
+msgstr "Deniz tarafından saldırılamaz."
 
 #: server/unithand.c:966
 #: server/unittools.c:2151
 msgid "Cannot attack unless you declare war first."
-msgstr ""
+msgstr "Savaş ilanı etmeden saldırılamaz."
 
 #: server/unithand.c:969
 #, c-format
@@ -6940,79 +6944,79 @@ msgstr "?Uzman:U"
 msgid "Specialists"
 msgstr "Uzmanlar"
 
-#: client/civclient.c:202
+#: client/civclient.c:212
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr ""
 
-#: client/civclient.c:212
+#: client/civclient.c:222
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 
-#: client/civclient.c:214
+#: client/civclient.c:224
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr ""
 
-#: client/civclient.c:216
+#: client/civclient.c:226
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr ""
 
-#: client/civclient.c:218
+#: client/civclient.c:228
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr ""
 
-#: client/civclient.c:220
+#: client/civclient.c:230
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr ""
 
-#: client/civclient.c:222
+#: client/civclient.c:232
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 
-#: client/civclient.c:225
+#: client/civclient.c:235
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr ""
 
-#: client/civclient.c:227
+#: client/civclient.c:237
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr ""
 
-#: client/civclient.c:228
+#: client/civclient.c:238
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr ""
 
-#: client/civclient.c:231
+#: client/civclient.c:241
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
 
-#: client/civclient.c:257
+#: client/civclient.c:267
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr ""
 
-#: client/civclient.c:259
-#: client/civclient.c:274
+#: client/civclient.c:269
+#: client/civclient.c:284
 msgid "Try using --help.\n"
 msgstr ""
 
-#: client/civclient.c:272
+#: client/civclient.c:282
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
 
-#: client/civclient.c:285
+#: client/civclient.c:295
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr ""
 
-#: client/civclient.c:519
+#: client/civclient.c:532
 msgid "Game started."
 msgstr "Oyun başladı."
 
-#: client/civclient.c:554
+#: client/civclient.c:567
 msgid "There was an error while auto connecting; aborting."
 msgstr ""
 
@@ -7190,62 +7194,62 @@ msgstr "sert"
 msgid "experimental"
 msgstr "deneysel"
 
-#: client/connectdlg_common.c:225
+#: client/connectdlg_common.c:211
 msgid "Starting server..."
 msgstr "Sunucuya bağlanıyor... "
 
-#: client/connectdlg_common.c:342
+#: client/connectdlg_common.c:328
 msgid "Couldn't start the server."
-msgstr ""
+msgstr "Sunucu başlatılamadı."
 
-#: client/connectdlg_common.c:343
-#: client/connectdlg_common.c:376
+#: client/connectdlg_common.c:329
+#: client/connectdlg_common.c:362
 msgid "You'll have to start one manually. Sorry..."
 msgstr ""
 
-#: client/connectdlg_common.c:374
+#: client/connectdlg_common.c:360
 msgid "Couldn't connect to the server."
 msgstr ""
 
-#: client/connectdlg_common.c:375
+#: client/connectdlg_common.c:361
 msgid "We probably couldn't start it from here."
 msgstr ""
 
-#: client/connectdlg_common.c:495
+#: client/connectdlg_common.c:481
 msgid "We have control of the server (command access level hack)"
 msgstr ""
 
-#: client/connectdlg_common.c:500
+#: client/connectdlg_common.c:486
 msgid "We can't take control of server, attempting to kill it."
 msgstr ""
 
-#: client/control.c:1035
+#: client/control.c:1048
 msgid "Only transporter units can be unloaded."
 msgstr ""
 
-#: client/control.c:1267
+#: client/control.c:1280
 msgid "Only settler units can be put into auto mode."
 msgstr ""
 
-#: client/control.c:1358
+#: client/control.c:1371
 msgid "Only nuclear units can do this."
 msgstr ""
 
-#: client/control.c:1387
+#: client/control.c:1400
 msgid "Only paratrooper units can do this."
 msgstr ""
 
-#: client/control.c:1836
+#: client/control.c:1849
 msgid "Too far for this unit."
-msgstr ""
+msgstr "Bu birlik için fazla uzak."
 
-#: client/control.c:2046
-#: client/control.c:2076
-#: client/control.c:2092
+#: client/control.c:2059
+#: client/control.c:2089
+#: client/control.c:2105
 msgid "Didn't find a route to the destination!"
 msgstr ""
 
-#: client/control.c:2139
+#: client/control.c:2152
 msgid "Oh my! You seem to have no capital!"
 msgstr "Allah Allah! Başkentin yokmuş!"
 
@@ -7260,32 +7264,32 @@ msgstr ""
 #: client/helpdata.c:166
 #, c-format
 msgid "Requires the %s technology.\n"
-msgstr ""
+msgstr "%s teknolojisi gerektirir.\n"
 
 #: client/helpdata.c:170
 #, c-format
 msgid "Requires the %s government.\n"
-msgstr ""
+msgstr "%s hükümetini gerektirir.\n"
 
 #: client/helpdata.c:174
 #, c-format
 msgid "Requires the %s building.\n"
-msgstr ""
+msgstr "%s yapımı gerektirir.\n"
 
 #: client/helpdata.c:178
 #, c-format
 msgid "Requires the %s terrain special.\n"
-msgstr ""
+msgstr "%s yerey özelliğini gerektirir.\n"
 
 #: client/helpdata.c:182
 #, c-format
 msgid "Requires the %s terrain.\n"
-msgstr ""
+msgstr "%s yereyi gerektirir.\n"
 
 #: client/helpdata.c:186
 #, c-format
 msgid "Requires the %s nation.\n"
-msgstr ""
+msgstr "%s milletini gerektirir.\n"
 
 #: client/helpdata.c:190
 #: client/helpdata.c:194
@@ -7768,19 +7772,19 @@ msgstr "Özellik:\n"
 #. *        last two elements
 #: client/helpdata.c:1393
 msgid "?outputlist: or "
-msgstr ""
+msgstr "?outputlist: ya da "
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
 #: client/helpdata.c:1397
 msgid "?outputlist: and "
-msgstr ""
+msgstr "?outputlist: ve "
 
 #. TRANS: Empty output type list, should never happen.
 #: client/helpdata.c:1404
 #: client/helpdata.c:1405
 msgid "?outputlist: Nothing "
-msgstr ""
+msgstr "?outputlist: Hiç "
 
 #: client/helpdata.c:1412
 #, c-format
@@ -10489,7 +10493,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:122
 #: client/gui-sdl/citydlg.c:2036
@@ -11224,16 +11228,16 @@ msgstr "_Nöbetçi asker"
 #: client/gui-gtk-2.0/menu.c:837
 #: client/gui-win32/menu.c:372
 msgid "Make _Homecity"
-msgstr "_Başkenti Yap"
+msgstr "_Memleketi Yap"
 
 #: client/gui-gtk-2.0/menu.c:839
 #: client/gui-win32/menu.c:373
 msgid "_Load"
-msgstr "_Aç"
+msgstr "_Araca bindir"
 
 #: client/gui-gtk-2.0/menu.c:841
 msgid "_Unload Transporter"
-msgstr "_Kamyon Boşalt"
+msgstr "_Araçtan İndir"
 
 #: client/gui-gtk-2.0/menu.c:843
 #: client/gui-win32/menu.c:374
