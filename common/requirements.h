@@ -142,4 +142,6 @@ bool are_req_sources_equal(const struct req_source *psource1,
 char *get_req_source_text(const struct req_source *psource,
 			  char *buf, size_t bufsz);
 
+const char *get_req_source_type_name_orig(const struct req_source *psource);
+
 #endif  /* FC__REQUIREMENTS_H */

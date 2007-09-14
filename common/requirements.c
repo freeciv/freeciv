@@ -1058,3 +1058,12 @@ char *get_req_source_text(const struct req_source *psource,
 
   return buf;
 }
+
+
+/****************************************************************************
+  Return untranslated name of the requirement source name.
+*****************************************************************************/
+const char *get_req_source_type_name_orig(const struct req_source *psource)
+{
+  return req_source_type_names[psource->type];
+}
