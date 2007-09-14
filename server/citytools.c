@@ -581,8 +581,14 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
    * Only relevant if we are transferring to another player. */
   if (pplayer != pvictim) {
     unit_list_iterate_safe((ptile)->units, vunit)  {
-      /* Don't transfer units already owned by new city-owner --wegge */ 
+      /* Don't transfer units already owned by new city-owner --wegge */
       if (unit_owner(vunit) == pvictim) {
+        /* vunit may die during transfer_unit().
+         * unit_list_unlink() is still safe using vunit pointer, as
+         * pointer is not used for dereferencing, only as value.
+         * Not sure if it would be safe to unlink first and transfer only
+         * after that. Not sure if it is correct to unlink at all in
+         * some cases, depending which list 'units' points to. */
 	transfer_unit(vunit, pcity, verbose);
 	unit_list_unlink(units, vunit);
       } else if (!pplayers_allied(pplayer, unit_owner(vunit))) {

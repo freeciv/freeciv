@@ -269,12 +269,15 @@ void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
   Transfer a unit from one homecity to another. If unit is not presently
   in its new homecity, it will be moved there. This new homecity must
   be valid for this unit.
+
+  Note that unit may die in the process.
 **************************************************************************/
 void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 {
   struct city *old_pcity = game_find_city_by_number(punit->homecity);
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = city_owner(new_pcity);
+  bool unit_alive = TRUE;
 
   /* Calling this function when new_pcity is same as old_pcity should
    * be safe with current implementation, but it is not meant to
@@ -297,7 +300,8 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 
   if (!same_pos(punit->tile, new_pcity->tile)) {
     assert(can_unit_exist_at_tile(punit, new_pcity->tile));
-    move_unit(punit, new_pcity->tile, 0); /* teleport to location */
+    /* Teleport to location */
+    unit_alive = move_unit(punit, new_pcity->tile, 0);
   }
 
   /* Remove from old city first and add to new city only after that.
@@ -305,12 +309,16 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
    * prohibited by assert in the beginning of the function).
    */
   if (old_pcity) {
+    /* Even if unit is dead, we have to unlink unit pointer (punit). */
     unit_list_unlink(old_pcity->units_supported, punit);
   }
-  unit_list_prepend(new_pcity->units_supported, punit);
 
-  punit->homecity = new_pcity->id;
-  send_unit_info(unit_owner(punit), punit);
+  if (unit_alive) {
+    unit_list_prepend(new_pcity->units_supported, punit);
+
+    punit->homecity = new_pcity->id;
+    send_unit_info(unit_owner(punit), punit);
+  }
 
   city_refresh(new_pcity);
   send_city_info(new_owner, new_pcity);
@@ -320,7 +328,8 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
     city_refresh(old_pcity);
     send_city_info(old_owner, old_pcity);
   }
-  assert(unit_owner(punit) == city_owner(new_pcity));
+
+  assert(!unit_alive || unit_owner(punit) == city_owner(new_pcity));
 }
 
 /**************************************************************************
@@ -1145,8 +1154,10 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
       assert(is_enemy_city_tile(pdesttile, pplayer) != NULL);
 
       if (unit_has_type_flag(punit, F_NUCLEAR)) {
-        move_unit(punit, pcity->tile, 0);
-        handle_unit_attack_request(punit, punit); /* Boom! */
+        if (move_unit(punit, pcity->tile, 0)) {
+          /* Survived dangers of moving */
+          handle_unit_attack_request(punit, punit); /* Boom! */
+        }
         return TRUE;
       }
 

@@ -1510,6 +1510,8 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
 static void bounce_units_on_terrain_change(struct tile *ptile)
 {
   unit_list_iterate_safe(ptile->units, punit) {
+    bool unit_alive = TRUE;
+
     if (punit->tile == ptile
 	&& punit->transported_by == -1
 	&& !can_unit_exist_at_tile(punit, ptile)) {
@@ -1526,14 +1528,14 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 			   punit->tile, E_UNIT_RELOCATED,
 			   _("Moved your %s due to changing terrain."),
 			   unit_name_translation(punit));
-	  move_unit(punit, ptile2, 0);
-	  if (punit->activity == ACTIVITY_SENTRY) {
+	  unit_alive = move_unit(punit, ptile2, 0);
+	  if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
 	    handle_unit_activity_request(punit, ACTIVITY_IDLE);
 	  }
 	  break;
 	}
       } adjc_iterate_end;
-      if (punit->tile == ptile) {
+      if (unit_alive && punit->tile == ptile) {
 	/* if we get here we could not move punit */
 	freelog(LOG_VERBOSE,
 		"Disbanded %s's %s due to changing land to sea at (%d,%d).",

@@ -85,7 +85,7 @@ bool do_airline(struct unit *punit, struct city *city2);
 bool do_paradrop(struct unit *punit, struct tile *ptile);
 void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans);
 void unload_unit_from_transporter(struct unit *punit);
-void move_unit(struct unit *punit, struct tile *ptile, int move_cost);
+bool move_unit(struct unit *punit, struct tile *ptile, int move_cost);
 bool execute_orders(struct unit *punit);
 
 #endif  /* FC__UNITTOOLS_H */
