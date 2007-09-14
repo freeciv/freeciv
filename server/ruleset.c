@@ -34,6 +34,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "registry.h"
+#include "requirements.h"
 #include "shared.h"
 #include "support.h"
 #include "tech.h"
@@ -3599,11 +3600,148 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 }
 
 /**************************************************************************
+  Check if requirement list is free of conflicting requirements.
+  max_tiles is number of tiles that can provide requirement. Value -1
+  disables checking based on number of tiles.
+
+  Returns TRUE iff everything ok.
+
+  TODO: This is based on current hardcoded range limitations.
+        - There should be method of automatically determining these
+          limitations for each requirement type
+        - This function should check also problems caused by defining
+          range to less than hardcoded max for requirement type
+**************************************************************************/
+static bool sanity_check_req_list(const struct requirement_list *preqs,
+                                  int max_tiles,
+                                  const char *list_for)
+{
+  int reqs_of_type[VUT_LAST];
+
+  /* Initialize requirement counters */
+  memset(reqs_of_type, 0, sizeof(reqs_of_type));
+
+  requirement_list_iterate(preqs, preq) {
+    int rc;
+
+    assert(preq->source.kind >= 0 && preq->source.kind < VUT_LAST);
+
+    /* Add to counter */
+    reqs_of_type[preq->source.kind]++;
+    rc = reqs_of_type[preq->source.kind];
+
+    if (rc > 1) {
+      /* Multiple requirements of same the type */
+      switch (preq->source.kind) {
+       case VUT_GOVERNMENT:
+       case VUT_NATION:
+       case VUT_UTYPE:
+       case VUT_UCLASS:
+       case VUT_OTYPE:
+       case VUT_SPECIALIST:
+       case VUT_MINSIZE: /* Breaks nothing, but has no sense either */
+       case VUT_AI_LEVEL:
+       case VUT_TERRAINCLASS:
+         /* There can be only one requirement of these types (with current
+          * range limitations)
+          * Requirements might be identical, but we consider multiple
+          * declarations error anyway. */
+
+         freelog(LOG_ERROR,
+                 "%s: Requirement list has multiple %s requirements",
+                 list_for,
+                 universal_type_rule_name(&preq->source));
+         return FALSE;
+         break;
+
+       case VUT_SPECIAL:
+       case VUT_TERRAIN:
+         /* There can be only up to max_tiles requirements of these types */
+         if (max_tiles != 1 && rc > max_tiles) {
+           freelog(LOG_ERROR,
+                   "%s: Requirement list has more %s requirements than "
+                   "can ever be fullfilled.",
+                   list_for,
+                   universal_type_rule_name(&preq->source));
+           return FALSE;
+         }
+         break;
+
+       case VUT_NONE:
+       case VUT_ADVANCE:
+       case VUT_IMPROVEMENT:
+       case VUT_UTFLAG:
+       case VUT_UCFLAG:
+         /* Can have multiple requirements of these types */
+         break;
+       case VUT_LAST:
+         /* Should never be in requirement vector */
+         assert(FALSE);
+         return FALSE;
+         break;
+       /* No default handling here, as we want compiler warning
+        * if new requirement type is added to enum and it's not handled
+        * here. */
+      }
+    }
+  } requirement_list_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Check that requirement vector and negated requirements vector do not have
+  confliciting requirements.
+
+  Returns TRUE iff everything ok.
+**************************************************************************/
+static bool sanity_check_req_nreq_list(const struct requirement_list *preqs,
+                                       const struct requirement_list *pnreqs,
+                                       int one_tile,
+                                       const char *list_for)
+{
+  /* Check internal sanity of requirement list */
+  if (!sanity_check_req_list(preqs, one_tile, list_for)) {
+    return FALSE;
+  }
+
+  /* There is no pnreqs in all cases */
+  if (pnreqs != NULL) {
+    /* Check sanity between reqs and nreqs */
+    requirement_list_iterate(preqs, preq) {
+      requirement_list_iterate(pnreqs, pnreq) {
+        if (are_requirements_equal(preq, pnreq)) {
+          freelog(LOG_ERROR,
+                  "%s: Identical %s requirement in requirements and negated requirements.",
+                  list_for,
+                  universal_type_rule_name(&preq->source));
+          return FALSE;
+        }
+      } requirement_list_iterate_end;
+    } requirement_list_iterate_end;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Sanity check callback for iterating effects cache.
+**************************************************************************/
+static bool effect_sanity_cb(const struct effect *peffect)
+{
+  int one_tile = -1; /* TODO: Determine correct value from effect.
+                      *       -1 disables checking */
+
+  return sanity_check_req_nreq_list(peffect->reqs, peffect->nreqs, one_tile,
+                                    effect_type_name(peffect->type));
+}
+
+/**************************************************************************
   Some more sanity checking once all rulesets are loaded. These check
   for some cross-referencing which was impossible to do while only one
   party was loaded in load_ruleset_xxx()
 
-  Returns TRUE if everything ok.
+  Returns TRUE iff everything ok.
 **************************************************************************/
 static bool sanity_check_ruleset_data(void)
 {
@@ -3678,6 +3816,16 @@ static bool sanity_check_ruleset_data(void)
       }
     }
   } unit_type_iterate_end;
+
+  /* Check requirement lists against conflicting requirements */
+  /* Effects */
+  if (!iterate_effect_cache(effect_sanity_cb)) {
+    exit(EXIT_FAILURE);
+  }
+  /* TODO: Check other requirement lists also
+   *       (Governments, Buildings, Specialists, City styles)
+   *       These use currently requirement_vector, when effects
+   *       (and sanity checking) use requirement_list. */
 
   return TRUE;
 }

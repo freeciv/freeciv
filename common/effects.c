@@ -1053,3 +1053,21 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
   } requirement_list_iterate_end;
 }
 
+/**************************************************************************
+  Iterate through all the effects in cache, and call callback for each.
+  This is currently not very generic implementation, as we have only one user;
+  ruleset sanity checking. If any callback returns FALSE, there is no
+  further checking and this will return FALSE.
+**************************************************************************/
+bool iterate_effect_cache(iec_cb cb)
+{
+  assert(cb != NULL);
+
+  effect_list_iterate(ruleset_cache.tracker, peffect) {
+    if (!cb(peffect)) {
+      return FALSE;
+    }
+  } effect_list_iterate_end;
+
+  return TRUE;
+}

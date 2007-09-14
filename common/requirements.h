@@ -111,6 +111,7 @@ const char *universal_kind_name(const struct universal *psource);
 const char *universal_rule_name(const struct universal *psource);
 const char *universal_name_translation(const struct universal *psource,
 				       char *buf, size_t bufsz);
+const char *universal_type_rule_name(const struct universal *psource);
 
 int universal_build_shield_cost(const struct universal *target);
 

@@ -1270,6 +1270,14 @@ const char *universal_name_translation(const struct universal *psource,
   return buf;
 }
 
+/****************************************************************************
+  Return untranslated name of the universal source name.
+*****************************************************************************/
+const char *universal_type_rule_name(const struct universal *psource)
+{
+  return universal_names[psource->kind];
+}
+
 /**************************************************************************
   Return the number of shields it takes to build this universal.
 **************************************************************************/
