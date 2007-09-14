@@ -3,14 +3,14 @@
 # Version definition for Freeciv.
 
 MAJOR_VERSION="2"
-MINOR_VERSION="1"
+MINOR_VERSION="2"
 PATCH_VERSION="99"
 VERSION_LABEL="-devel"
 
 IS_DEVEL_VERSION=1
 IS_BETA_VERSION=0
 
-NEXT_STABLE_VERSION="2.2.0"
+NEXT_STABLE_VERSION="2.3.0"
 RELEASE_MONTH=1
 
 # Freeciv network capstring: see documentation in common/capstr.c
