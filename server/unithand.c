@@ -1094,8 +1094,10 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
       assert(is_enemy_city_tile(pdesttile, pplayer) != NULL);
 
       if (unit_flag(punit, F_NUCLEAR)) {
-        move_unit(punit, pcity->tile, 0);
-        handle_unit_attack_request(punit, punit); /* Boom! */
+        if (move_unit(punit, pcity->tile, 0)) {
+          /* Survived dangers of moving */
+          handle_unit_attack_request(punit, punit); /* Boom! */
+        }
         return TRUE;
       }
 
