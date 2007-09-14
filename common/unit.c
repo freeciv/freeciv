@@ -1528,3 +1528,18 @@ bool unit_type_is_losing_hp(const struct player *pplayer,
     < (punittype->hp *
        utype_class(punittype)->hp_loss_pct / 100);
 }
+
+/**************************************************************************
+  Check if unit with given id is still alive. Use this before using
+  old unit pointers when unit might have dead.
+**************************************************************************/
+bool unit_alive(int id)
+{
+  /* Check if unit exist for any player
+   * (this is just one fast idex_lookup_unit() ) */
+  if (player_find_unit_by_id(NULL, id)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}

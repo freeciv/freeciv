@@ -303,4 +303,6 @@ bool is_losing_hp(const struct unit *punit);
 bool unit_type_is_losing_hp(const struct player *pplayer,
                             const struct unit_type *punittype);
 
+bool unit_alive(int id);
+
 #endif  /* FC__UNIT_H */

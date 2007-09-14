@@ -2646,8 +2646,10 @@ static void check_unit_activity(struct unit *punit)
   the transported_by unit field correctly. take_from_land is only relevant 
   if you have set transport_units. Note that the src and dest need not be 
   adjacent.
+
+  Returns TRUE iff unit still alive.
 **************************************************************************/
-void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
+bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 {
   struct player *pplayer = unit_owner(punit);
   struct tile *psrctile = punit->tile;
@@ -2829,7 +2831,7 @@ void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   wakeup_neighbor_sentries(punit);
   if (!unit_survive_autoattack(punit)) {
     conn_list_do_unbuffer(pplayer->connections);
-    return;
+    return FALSE;
   }
   maybe_make_contact(pdesttile, unit_owner(punit));
 
@@ -2861,8 +2863,14 @@ void move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
    * right order.  This is probably not a bug. */
 
   if (tile_has_special(pdesttile, S_HUT)) {
+    int saved_id = punit->id;
+
     unit_enter_hut(punit);
+
+    return unit_alive(saved_id);
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
