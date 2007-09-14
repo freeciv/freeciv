@@ -2715,6 +2715,8 @@ static void check_unit_activity(struct unit *punit)
   the transported_by unit field correctly. take_from_land is only relevant 
   if you have set transport_units. Note that the src and dest need not be 
   adjacent.
+
+  Returns TRUE iff unit still alive.
 **************************************************************************/
 bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 {
