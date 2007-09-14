@@ -78,7 +78,8 @@ EXTRA_DIST=	autogen.sh 			\
 		vms/freeciv_h.vms		\
 		vms/imlib_config.h_vms		\
 		vms/readme.vms			\
-		vms/vms_build.com
+		vms/vms_build.com		\
+		scripts/setup_auth_server.sh
 
 noinst_HEADERS= version.in
 
