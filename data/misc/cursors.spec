@@ -64,4 +64,10 @@ tiles = { "row", "column", "tag", "hot_x", "hot_y"
        3, 6, "cursor.attack3", 16, 16
        4, 6, "cursor.attack4", 16, 16
        5, 6, "cursor.attack5", 16, 16
+       0, 7, "cursor.wait0", 16, 16
+       1, 7, "cursor.wait1", 16, 16
+       2, 7, "cursor.wait2", 16, 16
+       3, 7, "cursor.wait3", 16, 16
+       4, 7, "cursor.wait4", 16, 16
+       5, 7, "cursor.wait5", 16, 16
 }
