@@ -226,5 +226,7 @@ int get_current_construction_bonus(const struct city *pcity,
 Impr_type_id ai_find_source_building(struct player *pplayer,
 				     enum effect_type effect_type);
 
-#endif  /* FC__EFFECTS_H */
+typedef bool (*iec_cb)(const struct effect*);
+bool iterate_effect_cache(iec_cb cb);
 
+#endif  /* FC__EFFECTS_H */
