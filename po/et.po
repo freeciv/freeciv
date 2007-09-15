@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-09-09 23:45+0300\n"
+"PO-Revision-Date: 2007-09-12 23:37+0300\n"
 "Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17665,14 +17665,14 @@ msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
 "unit's strength in attack and defense, and its ability to move."
-msgstr ""
+msgstr "Üksusi saab kasutada kolmer erineval eesmärgil: rünnak, kaitse ja luure. Selle, kui hästi mingi üksus millekski sobib, määravad ära tema kaitse- ja rünnakujõud ning liikumisoskus."
 
 #: data/helpdata.txt:916
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
-msgstr ""
+msgstr "Üksusi on nelja põhilist tüüpi: maa-, mere-, õhu- ja helikoperiüksused. (Helikopterid on õhuüksustest piisavalt erinevad, et neid eraldi tüübiks pidada.)"
 
 #: data/helpdata.txt:921
 #, no-c-format
@@ -17688,7 +17688,7 @@ msgid ""
 "Land units with zero attack strength are non-military units: they require no "
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
-msgstr ""
+msgstr "Maaüksused liiguvad maad mööda, nende liikumisele avaldab maastik mõju, kuid seda aitavad leevendada teed ja raudteed. Merel saavad nad liikuda ainult vastavas laevas. Ja kui nad juba merel on, ei suuda nad rünnata ega end kaitsta, vaid peavad lootma, et neid kandev laev neid kaitseb. Maaüksused on ainsad, kellele avaldavad kontrolltsoonid mõju. Maa peal olles võivad maaüksused jääda kindlustatud asendisse, mis annab 50% kaitseboonuse. Linnas saavad maaüksused selle boonuse nii kui nii. Kui maaüksus vallutab linna, kus pole linnamüüri, kaotab linn ühe elanikupunkti. Maaüksused, kellel on ründejõud null, polegi üldse sõjaväeüksused - neil ülalpidamiskulud puuduvad, meeleolu neid ei mõjuta, samuti ei saa nad vastaseid rünnata ega linnu vallutada."
 
 #: data/helpdata.txt:934
 msgid ""
@@ -17698,7 +17698,7 @@ msgid ""
 "advance of Nuclear Power.  Most sea units can attack units on the coast and "
 "in coastal cities, but they cannot enter an enemy city to capture it, even "
 "if the city is undefended."
-msgstr ""
+msgstr "Mereüksused liiguvad mööda merd ja saavad siseneda mereäärsetesse linnadesse. Laevu saab ehitada ainult mereäärsetes linnades. Laevade liikumisvõimet mõjutavad mitmed ilmaimed (tuletorn, Magellani ekspeditsioon) ja ka tuumaenergia tundmine. Enamus laevu saavad rünnata rannikul olevaid vaenlase üksusi ja ka rannaäärseid linnu, kuid nad ei saa neisse linnadesse isegi siis siseneda, kui kedagi linnas pole."
 
 #: data/helpdata.txt:941
 msgid ""
@@ -17712,7 +17712,7 @@ msgid ""
 "attacked by Fighters (or Stealth Fighters).  Air units cannot be used to "
 "explore villages; depending upon server options, an overflown village may "
 "disband."
-msgstr ""
+msgstr "Õhuüksused saavad liikuda igal ruudul, kus parasjagu pole vastaste üksust ega linna. Liikumisvõime ei olene sellest, kui palju elupunkte õhuüksusel on.Õhuüksused vajavad aga liikumiseks kütust, mida tangitakse, kui üksus maandub mõnes sinu või su liitlase linnas, lennuväljal või lennukikandjal (või hoopis allveelaeval, kui on tegemist raketiga). Kui kaua õhuüksus suudab tankimata õhus püsida, sõltub juba konkreetsest üksusest (vaata üksuste lisainfot). Nagu ka laevad, ei suuda lennukid siseneda vastaste linna, et seda omale saada. Väljaspool linnu saavad õhuüksusi rünnata ainult hävitajad (ja Stealth hävitajad). Lennukitega ei saa uurida ka leitud külasid. Olenevalt serveri seadetest võib külast lennukiga üle lendamisel küla ka laiali joosta."
 
 #: data/helpdata.txt:953
 msgid ""
@@ -17722,9 +17722,10 @@ msgid ""
 "health for every turn not spent in a city or an Airbase, unless you have the "
 "United Nations wonder.  Unlike other air units, Helicopters can capture "
 "enemy cities."
-msgstr ""
+msgstr "Nagu ka lennukid, saavad helikopterid liikuda igal ruudul, kus pole vaenlase üksust ega linna, ning nende liikumist ei mõjuta elupunktide arv. Helikopterid ei vaja lendamiseks kütust, kuid nad kaotavad väikese osa elupunktidest igal käigul, mida nad ei lõpeta linnas ega lennujaamas -- välja arvatud juhul, kui sa oled ehitanud ÜRO ilmaime. Helikopterid saavad vastase linnu okupeerida."
 
 #: data/helpdata.txt:960
+#, fuzzy
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -17740,14 +17741,14 @@ msgid ""
 "points (or gain two hit points less than they otherwise would) each turn "
 "that they do not end in a city.  Damaged units in Sentry mode will wake up "
 "when they have regained all of their hit points."
-msgstr ""
+msgstr "Lahingus viga saanud üksused saavad tagasi elupunkte igal käigul, kui nad ei liigu. Tavatingimustes saab paigale jäänud üksus igal käigul tagasi ühe elupunkti. Täielikult saavad oma elupunktid tagasi maaüksused linnas, kus on kasarmud, laevad sadamalinnas ja lennukid lennujaamas -- seda juhul, kui nad käigu jooksul ei liigu. Muudel juhtudel saavad liikumatuks jäädes tagasi kolmandiku esialgsetest elupunktidest, kui nad on linnas. Kindluses ühe käigu veetnud üksused saavad tagasi neljandiku elupunktidest. Kindlustatud üksused saavad tagasi ühe elupunkti lisaks. Kui aga mängija on ehitanud ÜRO ilmaime, saavad tema üksused igal käigul tagasi kaks elupunkti, ka siis, kui üksused liiguvad. Helikopterid, mis ei lõpeta käiku linnas, kaotavad kaks elupunkti (või siis saavad juurde kaks punkti vähem). Sentry olekust ärkavad viga saanud üksused üles, kui nad on oma elupunktid täielikult taastanud."
 
 #: data/helpdata.txt:977
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
 "attack."
-msgstr ""
+msgstr "Olenevalt serveri seadetest võib iga üksusetüüp vähendada linna ründamisel selle linna elanike arvu ühe võrra, kui sellel linnal puudub linnamüür ja rünnak õnnestub."
 
 #: data/helpdata.txt:988
 msgid ""
@@ -17762,7 +17763,7 @@ msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
-msgstr ""
+msgstr "Kui üksus ründab teist üksust, saab tulemuseks olla ainult ühe üksuse hukkumine -- mitte kunagi ei saa surma mõlemad korraga (kui just ründaja pole rakett). Lahingu tulemus sõltub mitmest faktorist, kaasa arvatud õnnest."
 
 #: data/helpdata.txt:994
 msgid "First, the attacker's strength is modified."
@@ -18999,7 +19000,7 @@ msgstr "Vähiravi"
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
-msgstr ""
+msgstr "See suurepärane tehnoloogiline läbimurre muudab igas su linnas ühe õnnetu kodaniku rahulolevaks."
 
 #: data/default/buildings.ruleset:1051 data/civ2/buildings.ruleset:1036
 #: data/civ1/buildings.ruleset:713
@@ -19062,7 +19063,7 @@ msgid ""
 "of 3).  In the unlikely event where there are no content citizens to get the "
 "effect of Hanging Gardens, the wonder applies to unhappy citizens (making "
 "them content instead)."
-msgstr ""
+msgstr "Muudab igas linnas ühe rahuloleva kodanikku õnnelikuks. Linnas, kuhu on rippaiad ehitatud, muudatakse lisaks veel kaks (kokku siis 3) rahulolevat kodanikku õnnelikuks. Kui juhtumisi pole linnas ühtki rahulolevat kodanikku, muudetakse nende asemel õnnetuid kodanikke rahulolevaks."
 
 #: data/default/buildings.ruleset:1159 data/civ2/buildings.ruleset:1144
 #: data/civ1/buildings.ruleset:798
@@ -19167,7 +19168,7 @@ msgid ""
 "effect of a Cathedral, making an additional unhappy citizen content.  The "
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
-msgstr ""
+msgstr "Sama, mis katedraali ehitamine igasse linna ehk muudab igas linnas 3 õnnetut kodanikku rahulolevaks. Teoloogia avastamine suurendab katedraali efekti, muutes veel ühe õnnetu kodaniku rahulolevaks. Kommunismi avastamine vähendab katedraali mõju ehk rahulolevaks muudetakse üks õnnetu kodanik vähem."
 
 #: data/default/buildings.ruleset:1359 data/civ2/buildings.ruleset:1343
 #: data/civ1/buildings.ruleset:941
