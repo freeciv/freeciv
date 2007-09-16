@@ -19,6 +19,9 @@ endif
 if CLIENT_GUI_STUB
 GUI_SUBDIR = gui-stub
 endif
+if CLIENT_GUI_WEB
+GUI_SUBDIR = gui-web
+endif
 if CLIENT_GUI_WIN32
 GUI_SUBDIR = gui-win32
 endif

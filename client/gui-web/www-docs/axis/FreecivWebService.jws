@@ -1,0 +1,185 @@
+import org.apache.axis.AxisFault;
+import org.apache.axis.MessageContext;
+import org.apache.axis.transport.http.HTTPConstants;
+
+import org.apache.axis.client.Call;
+import org.apache.axis.client.Service;
+
+import javax.xml.namespace.QName;
+
+import javax.servlet.http.*;
+import java.util.*;
+
+/**
+ *   The Freeciv Web Service.
+ */
+public class FreecivWebService {
+
+    private static final String civclientURL = "http://localhost";
+    private static final String urn = "urn:freeciv.org";
+    private static final int processTimeout = 3600000;
+    /**
+     * 
+     * @return
+     */
+  public String getFreecivMessages() throws AxisFault {
+    String result;
+      
+    try {
+      Call call = initCivclientCall ();
+
+      call.setOperationName(new QName(urn, "get_freeciv_messages") );
+      call.setReturnType(org.apache.axis.Constants.XSD_STRING);
+      result = (String) call.invoke( new Object[] { } );
+    } catch (Exception err) {
+      throw (AxisFault)err;
+    }
+
+    return result;
+  }
+
+    /**
+     * 
+     * @return
+     */
+  public String addFreecivMessage(String message) throws AxisFault {
+      
+    try {
+      Call call = initCivclientCall ();
+
+      call.setOperationName(new QName(urn, "add_freeciv_message") );
+      call.addParameter("message",
+                        org.apache.axis.Constants.XSD_STRING,
+                        javax.xml.rpc.ParameterMode.IN);
+      call.setReturnType(org.apache.axis.Constants.XSD_STRING);
+      call.invoke( new Object[] { message } );
+    } catch (Exception err) {
+      throw (AxisFault)err;
+    }
+
+    return "OK";
+  }
+
+    /**
+     * 
+     * @return
+     */
+  public int getFreecivState() throws AxisFault {
+    int result;
+      
+    try {
+      Call call = initCivclientCall ();
+
+      call.setOperationName(new QName(urn, "get_freeciv_state") );
+      call.setReturnType(org.apache.axis.Constants.XSD_INT);
+      result = (Integer) call.invoke( new Object[] { } );
+    } catch (Exception err) {
+      throw (AxisFault)err;
+    }
+
+    return result;
+  }
+
+
+    /**
+     * 
+     * @return
+     */
+  public Object[] getFreecivTileset() throws AxisFault {
+    List result = new ArrayList();
+    try {
+      Call call = initCivclientCall ();
+
+      call.setOperationName(new QName(urn, "get_freeciv_tileset") );
+      result.add(call.invoke( new Object[] { }));
+      result.addAll(call.getOutputValues());
+
+    } catch (Exception err) {
+      throw new AxisFault(err.toString());
+    }
+    return result.toArray();
+  }
+
+
+    /**
+     * 
+     * @return
+     */
+  public Object[] getFreecivMapview() throws AxisFault {
+    List result = new ArrayList();
+    try {
+      Call call = initCivclientCall ();
+
+      call.setOperationName(new QName(urn, "get_freeciv_mapview") );
+      result.add(call.invoke( new Object[] { }));
+      result.addAll(call.getOutputValues());
+
+    } catch (Exception err) {
+      throw new AxisFault(err.toString());
+    }
+    return result.toArray();
+  }
+
+
+   /**
+     * Creates a webservice Call object for communication with the civclient,
+     * which can be invoked by the exported webservice methods in this class.
+     * @return
+     */
+  private Call initCivclientCall () throws Exception {
+    int userPort;
+    HttpSession session = getRequest().getSession();
+
+    /* Find existing port, or wssign a new specific port for this user. */
+    if (session.getAttribute("currentWebservicePort") != null) {
+      userPort = (Integer)session.getAttribute("currentWebservicePort");
+    } else {
+	throw new AxisFault ("civclient not found in session.");
+    }
+
+    /* Idle client process detecion.*/
+    HashMap clientProcs = (HashMap)session.getServletContext().getAttribute("clientProcesses");
+    if (clientProcs != null) {
+      Iterator itr = clientProcs.keySet().iterator();
+      while(itr.hasNext()) {
+	Object key = itr.next();
+        Object[] o = (Object[])clientProcs.get(key);
+        Process p = (Process)o[0];
+        long ts = ((Date)(o[1])).getTime(); 
+
+	/* Update timestamp of current session to indicate that it is alive. */
+	if (userPort == (Integer)key) {
+          o[1] = new Date();
+        }
+	
+        /* Remove idle and zobmie processes which have not called 
+           the webservice in the last hour. */
+	if (new Date().getTime() >= ts + processTimeout) {
+          System.out.println("Killing client: " + key);
+	  clientProcs.remove(key); 
+  	  session.setAttribute("currentWebservicePort", null);
+	  p.destroy();
+	}
+      }
+    }
+
+    String endpoint = civclientURL + ":" + userPort + "/civwebserver";
+
+    Service  service = new Service();
+    Call call =  (Call) service.createCall();
+    call.setTargetEndpointAddress( new java.net.URL(endpoint) );
+
+    return call;
+
+  }	    
+      
+    /** Retuns the current HttpServletRequest
+     * @return HttpServletRequest 
+     */
+    private HttpServletRequest getRequest() {
+        MessageContext context = MessageContext.getCurrentContext();
+        HttpServletRequest req = (HttpServletRequest) context.getProperty(HTTPConstants.MC_HTTP_SERVLETREQUEST);
+        return req;
+    }
+
+}

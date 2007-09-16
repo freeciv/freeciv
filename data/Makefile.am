@@ -4,6 +4,7 @@ if CLIENT
 COMMON_CLIENT_FILES =			\
 	hex2t.tilespec			\
 	amplio.tilespec			\
+	web.tilespec		\
 	isophex.tilespec		\
 	isotrident.tilespec		\
 	trident.tilespec		\
@@ -42,6 +43,7 @@ EXTRA_DIST = \
 	civserver.room.in	\
 	hex2t.tilespec	\
 	amplio.tilespec	\
+	web.tilespec	\
 	isophex.tilespec	\
 	isotrident.tilespec \
 	trident.tilespec	\

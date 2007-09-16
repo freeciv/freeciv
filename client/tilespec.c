@@ -59,383 +59,6 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+tilespec4.2007.Jul.13 duplicates_ok"
-/*
- * Tilespec capabilities acceptable to this program:
- *
- * +tilespec4     -  basic format; required
- *
- * duplicates_ok  -  we can handle existence of duplicate tags
- *                   (lattermost tag which appears is used; tilesets which
- *		     have duplicates should specify "+duplicates_ok")
- */
-
-#define SPEC_CAPSTR "+spec3"
-/*
- * Individual spec file capabilities acceptable to this program:
- * +spec3          -  basic format, required
- */
-
-#define TILESPEC_SUFFIX ".tilespec"
-#define TILE_SECTION_PREFIX "tile_"
-
-/* This the way directional indices are now encoded: */
-#define MAX_INDEX_CARDINAL 		64
-#define MAX_INDEX_HALF                  16
-#define MAX_INDEX_VALID			256
-
-#define NUM_TILES_CITIZEN CITIZEN_LAST
-#define NUM_TILES_HP_BAR 11
-#define NUM_TILES_DIGITS 10
-#define NUM_TILES_SELECT 4
-#define MAX_NUM_CITIZEN_SPRITES 6
-
-/* This could be moved to common/map.h if there's more use for it. */
-enum direction4 {
-  DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
-};
-static const char direction4letters[4] = "udrl";
-
-static const int DIR4_TO_DIR8[4] =
-    { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
-
-enum match_style {
-  MATCH_NONE,
-  MATCH_SAME,		/* "boolean" match */
-  MATCH_PAIR,
-  MATCH_FULL
-};
-
-enum sprite_type {
-  CELL_WHOLE,		/* entire tile */
-  CELL_CORNER		/* corner of tile */
-};
-
-struct drawing_data {
-  char *name;
-  char *mine_tag;
-
-  int num_layers; /* 1 thru MAX_NUM_LAYERS. */
-#define MAX_NUM_LAYERS 3
-
-  struct drawing_layer {
-    bool is_tall;
-    int offset_x, offset_y;
-
-    enum match_style match_style;
-    int match_index[1 + MATCH_FULL];
-    int match_indices; /* 0 = no match_type, 1 = no match_with */
-
-    enum sprite_type sprite_type;
-
-    struct sprite_vector base;
-    struct sprite *match[MAX_INDEX_CARDINAL];
-    struct sprite **cells;
-  } layer[MAX_NUM_LAYERS];
-
-  bool is_reversed;
-
-  int blending; /* layer, 0 = none */
-  struct sprite *blender;
-  struct sprite *blend[4]; /* indexed by a direction4 */
-
-  struct sprite *mine;
-};
-
-struct city_sprite {
-  struct {
-    int num_thresholds;
-    struct {
-      int city_size;
-      struct sprite *sprite;
-    } *thresholds;
-  } *styles;
-  int num_styles;
-};
-
-struct named_sprites {
-  struct sprite
-    *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
-    *treaty_thumb[2],     /* 0=disagree, 1=agree */
-    *arrow[ARROW_LAST], /* 0=right arrow, 1=plus, 2=minus */
-
-    *icon[ICON_COUNT],
-
-    /* The panel sprites for showing tax % allocations. */
-    *tax_luxury, *tax_science, *tax_gold,
-    *dither_tile;     /* only used for isometric view */
-
-  struct {
-    struct sprite
-      *tile,
-      *worked_tile,
-      *unworked_tile;
-  } mask;
-
-  struct sprite *tech[A_LAST];
-  struct sprite *building[B_LAST];
-  struct sprite *government[G_MAGIC];
-  struct sprite *unittype[U_LAST];
-  struct sprite *resource[MAX_NUM_RESOURCES];
-
-  struct sprite_vector nation_flag;
-  struct sprite_vector nation_shield;
-
-  struct citizen_graphic {
-    /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
-     * sprites, as defined by the tileset. */
-    int count;
-    struct sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
-  } citizen[NUM_TILES_CITIZEN], specialist[SP_MAX];
-  struct sprite *spaceship[SPACESHIP_COUNT];
-  struct {
-    int hot_x, hot_y;
-    struct sprite *frame[NUM_CURSOR_FRAMES];
-  } cursor[CURSOR_LAST];
-  struct {
-    struct sprite
-      /* for roadstyle 0 */
-      *dir[8],     /* all entries used */
-      /* for roadstyle 1 */
-      *even[MAX_INDEX_HALF],    /* first unused */
-      *odd[MAX_INDEX_HALF],     /* first unused */
-      /* for roadstyle 0 and 1 */
-      *isolated,
-      *corner[8], /* Indexed by direction; only non-cardinal dirs used. */
-      *total[MAX_INDEX_VALID];     /* includes all possibilities */
-  } road, rail;
-  struct {
-    struct sprite_vector unit;
-    struct sprite *nuke;
-  } explode;
-  struct {
-    struct sprite
-      *hp_bar[NUM_TILES_HP_BAR],
-      *vet_lev[MAX_VET_LEVELS],
-      *select[NUM_TILES_SELECT],
-      *auto_attack,
-      *auto_settler,
-      *auto_explore,
-      *fallout,
-      *fortified,
-      *fortifying,
-      *go_to,			/* goto is a C keyword :-) */
-      *irrigate,
-      *mine,
-      *pillage,
-      *pollution,
-      *road,
-      *sentry,
-      *stack,
-      *loaded,
-      *transform,
-      *connect,
-      *patrol,
-      *battlegroup[MAX_NUM_BATTLEGROUPS],
-      *lowfuel,
-      *tired;
-  } unit;
-  struct {
-    struct sprite
-      *unhappy[2],
-      *output[O_MAX][2];
-  } upkeep;
-  struct {
-    struct sprite
-      *disorder,
-      *size[NUM_TILES_DIGITS],
-      *size_tens[NUM_TILES_DIGITS],		/* first unused */
-      *tile_foodnum[NUM_TILES_DIGITS],
-      *tile_shieldnum[NUM_TILES_DIGITS],
-      *tile_tradenum[NUM_TILES_DIGITS];
-    struct city_sprite
-      *tile,
-      *wall,
-      *occupied;
-    struct sprite_vector worked_tile_overlay;
-    struct sprite_vector unworked_tile_overlay;
-  } city;
-  struct citybar_sprites citybar;
-  struct {
-    struct sprite
-      *turns[NUM_TILES_DIGITS],
-      *turns_tens[NUM_TILES_DIGITS];
-  } path;
-  struct {
-    struct sprite *attention;
-  } user;
-  struct {
-    struct sprite
-      *farmland[MAX_INDEX_CARDINAL],
-      *irrigation[MAX_INDEX_CARDINAL],
-      *pollution,
-      *village,
-      *fallout,
-      *fog,
-      **fullfog,
-      *spec_river[MAX_INDEX_CARDINAL],
-      *darkness[MAX_INDEX_CARDINAL],         /* first unused */
-      *river_outlet[4];		/* indexed by enum direction4 */
-  } tx;				/* terrain extra */
-  struct {
-    struct sprite
-      *background,
-      *middleground,
-      *foreground,
-      *activity;
-  } bases[BASE_LAST];
-  struct {
-    struct sprite
-      *main[EDGE_COUNT],
-      *city[EDGE_COUNT],
-      *worked[EDGE_COUNT],
-      *unavailable,
-      *selected[EDGE_COUNT],
-      *coastline[EDGE_COUNT],
-      *borders[EDGE_COUNT][2],
-      *player_borders[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][EDGE_COUNT][2];
-  } grid;
-  struct {
-    struct sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-    struct sprite *background; /* Generic background */
-  } backgrounds;
-  struct {
-    struct sprite_vector overlays;
-    struct sprite *background; /* Generic background color */
-    struct sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-  } colors;
-
-  struct drawing_data *drawing[MAX_NUM_ITEMS];
-};
-
-/* Don't reorder this enum since tilesets depend on it. */
-enum fog_style {
-  FOG_AUTO, /* Fog is automatically appended by the code. */
-  FOG_SPRITE, /* A single fog sprite is provided by the tileset (tx.fog). */
-  FOG_NONE /* No fog. */
-};
-
-/* Darkness style.  Don't reorder this enum since tilesets depend on it. */
-enum darkness_style {
-  /* No darkness sprites are drawn. */
-  DARKNESS_NONE = 0,
-
-  /* 1 sprite that is split into 4 parts and treated as a darkness4.  Only
-   * works in iso-view. */
-  DARKNESS_ISORECT = 1,
-
-  /* 4 sprites, one per direction.  More than one sprite per tile may be
-   * drawn. */
-  DARKNESS_CARD_SINGLE = 2,
-
-  /* 15=2^4-1 sprites.  A single sprite is drawn, chosen based on whether
-   * there's darkness in _each_ of the cardinal directions. */
-  DARKNESS_CARD_FULL = 3,
-
-  /* Corner darkness & fog.  3^4 = 81 sprites. */
-  DARKNESS_CORNER = 4
-};
-
-struct specfile {
-  struct sprite *big_sprite;
-  char *file_name;
-};
-
-#define SPECLIST_TAG specfile
-#define SPECLIST_TYPE struct specfile
-#include "speclist.h"
-
-#define specfile_list_iterate(list, pitem) \
-    TYPED_LIST_ITERATE(struct specfile, list, pitem)
-#define specfile_list_iterate_end  LIST_ITERATE_END
-
-/* 
- * Information about an individual sprite. All fields except 'sprite' are
- * filled at the time of the scan of the specfile. 'Sprite' is
- * set/cleared on demand in load_sprite/unload_sprite.
- */
-struct small_sprite {
-  int ref_count;
-
-  /* The sprite is in this file. */
-  char *file;
-
-  /* Or, the sprite is in this file at the location. */
-  struct specfile *sf;
-  int x, y, width, height;
-
-  /* A little more (optional) data. */
-  int hot_x, hot_y;
-
-  struct sprite *sprite;
-};
-
-#define SPECLIST_TAG small_sprite
-#define SPECLIST_TYPE struct small_sprite
-#include "speclist.h"
-
-#define small_sprite_list_iterate(list, pitem) \
-    TYPED_LIST_ITERATE(struct small_sprite, list, pitem)
-#define small_sprite_list_iterate_end  LIST_ITERATE_END
-
-struct tileset {
-  char name[512];
-  int priority;
-
-  bool is_isometric;
-  int hex_width, hex_height;
-
-  int normal_tile_width, normal_tile_height;
-  int full_tile_width, full_tile_height;
-  int small_sprite_width, small_sprite_height;
-
-  char *main_intro_filename;
-  char *minimap_intro_filename;
-
-  int city_names_font_size, city_productions_font_size;
-
-  int roadstyle;
-  enum fog_style fogstyle;
-  enum darkness_style darkness_style;
-
-  int unit_flag_offset_x, unit_flag_offset_y;
-  int city_flag_offset_x, city_flag_offset_y;
-  int unit_offset_x, unit_offset_y;
-
-  int citybar_offset_y;
-
-#define NUM_CORNER_DIRS 4
-#define TILES_PER_CORNER 4
-  int num_valid_tileset_dirs, num_cardinal_tileset_dirs;
-  int num_index_valid, num_index_cardinal;
-  enum direction8 valid_tileset_dirs[8], cardinal_tileset_dirs[8];
-
-  struct tileset_layer {
-    char **match_types;
-    int match_count;
-  } layers[MAX_NUM_LAYERS];
-
-  struct specfile_list *specfiles;
-  struct small_sprite_list *small_sprites;
-
-  /*
-   * This hash table maps tilespec tags to struct small_sprites.
-   */
-  struct hash_table *sprite_hash;
-
-  /* This hash table maps terrain graphic strings to drawing data. */
-  struct hash_table *tile_hash;
-
-  struct named_sprites sprites;
-
-  struct color_system *color_system;
-  
-  int num_prefered_themes;
-  char** prefered_themes;
-};
-
-struct tileset *tileset;
-
 int focus_unit_state = 0;
 
 /****************************************************************************
@@ -1016,7 +639,8 @@ void tilespec_reread_callback(struct client_option *option)
   Loads the given graphics file (found in the data path) into a newly
   allocated sprite.
 **************************************************************************/
-static struct sprite *load_gfx_file(const char *gfx_filename)
+static struct sprite *load_gfx_file(const char *gfx_filename,
+                                    const char *tag_name)
 {
   const char **gfx_fileexts = gfx_fileextensions(), *gfx_fileext;
   struct sprite *s;
@@ -1024,12 +648,12 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
   /* Try out all supported file extensions to find one that works. */
   while ((gfx_fileext = *gfx_fileexts++)) {
     char *real_full_name;
-    char full_name[strlen(gfx_filename) + strlen(gfx_fileext) + 2];
+    char *full_name = fc_malloc(strlen(gfx_filename) + strlen(gfx_fileext) + 2);
 
     sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
     if ((real_full_name = datafilename(full_name))) {
       freelog(LOG_DEBUG, "trying to load gfx file \"%s\".", real_full_name);
-      s = load_gfxfile(real_full_name);
+      s = load_gfxfile(real_full_name, full_name, tag_name);
       if (s) {
 	return s;
       }
@@ -1043,7 +667,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
 /**************************************************************************
   Ensure that the big sprite of the given spec file is loaded.
 **************************************************************************/
-static void ensure_big_sprite(struct specfile *sf)
+static void ensure_big_sprite(struct specfile *sf, const char *tag_name)
 {
   struct section_file the_file, *file = &the_file;
   const char *gfx_filename;
@@ -1068,7 +692,9 @@ static void ensure_big_sprite(struct specfile *sf)
 
   gfx_filename = secfile_lookup_str(file, "file.gfx");
 
-  sf->big_sprite = load_gfx_file(gfx_filename);
+  freelog(LOG_NORMAL, "Taaffa  %s", gfx_filename);
+
+  sf->big_sprite = load_gfx_file(gfx_filename, tag_name);
 
   if (!sf->big_sprite) {
     freelog(LOG_FATAL, "Could not load gfx file for the spec file \"%s\".",
@@ -1789,7 +1415,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
     /* If the sprite hasn't been loaded already, then load it. */
     assert(ss->ref_count == 0);
     if (ss->file) {
-      ss->sprite = load_gfx_file(ss->file);
+      ss->sprite = load_gfx_file(ss->file, tag_name);
       if (!ss->sprite) {
 	freelog(LOG_FATAL, "Couldn't load gfx file \"%s\" for sprite '%s'.",
 		ss->file, tag_name);
@@ -1798,7 +1424,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
     } else {
       int sf_w, sf_h;
 
-      ensure_big_sprite(ss->sf);
+      ensure_big_sprite(ss->sf, tag_name);
       get_sprite_dimensions(ss->sf->big_sprite, &sf_w, &sf_h);
       if (ss->x < 0 || ss->x + ss->width > sf_w
 	  || ss->y < 0 || ss->y + ss->height > sf_h) {
