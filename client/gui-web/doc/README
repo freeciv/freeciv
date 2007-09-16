@@ -1,0 +1,96 @@
+Freeciv Web Client
+==================
+
+It uses a webservice which allows a browser to communicate with a civclient process
+on the server. The mapview is rendered using the HTML canvas element which is drawn
+upon using Javascript.
+
+This assumes that web application is installed under /home/projects/freecivweb
+It is suggested to install Resin under /opt/resin
+
+Java
+====
+Install Java JDK 6
+http://java.sun.com/javase/downloads/index.jsp
+Make sure that java and javac are installed correctly,
+and that the classpath is setup correctly for Java and Resin.
+
+Resin Application Server
+========================
+
+resin-3.1.2 - http://www.caucho.com/download/
+Use the example resin.conf as a starting point.
+
+
+GZIP Servlet Filter
+===================
+http://www.onjava.com/onjava/2003/11/19/examples/jspbook.jar
+A GPL replacement should be found.
+
+Apache Axis 
+===========
+http://ws.apache.org/axis/index.html
+
+- Download axis-bin-1_4.zip from http://www.powertech.no/apache/dist/ws/axis/1_4/
+
+- Install Axis. New contents of /home/projects/freecivweb/WEB-INF/lib
+axis-ant.jar  commons-discovery-0.2.jar  jaxrpc.jar       saaj.jar
+axis.jar      commons-logging-1.0.4.jar  log4j-1.2.8.jar  wsdl4j-1.5.1.jar
+
+csoap
+=====
+csoap 1.1.0 - http://csoap.sourceforge.net/
+
+
+Compile Freeciv web client
+==========================
+
+- SVN checkout webclient branch like this:
+svn co svn://svn.gna.org/svn/freeciv/branches/freeciv-web/ freeciv
+
+- Compile Freeciv client:
+First run:  ./autogen.sh --enable-client=web
+Then run:   make && make install
+
+Install webapp
+==============
+
+1. Copy /client/gui-web/www-docs to /home/projects/freecivweb
+2. Copy the main Freeciv source (everything!) to /home/projects/freecivweb/freeciv
+
+Running the web client from the browser
+=======================================
+
+- Start Resin 'bin/httpd.sh start'
+
+- Point your web browser to  http://localhost:8080
+
+- Press 'Start new game'. Wait until you see that the civclient and civserver
+have been started (logging to message box at bottom of screen).
+
+- Enter the '/start' command in the textfield at the bottom of the screen.
+Then the game will start. Wait...
+
+Debugging:
+==========
+
+If something goes wrong, see the Javascript console in Firefox.
+
+- Testing the civclient:
+gdb --args civclient -a --debug=3 -- -NHTTPport 2000 -autostartserver
+
+- WSDL for the Freeciv webservice:
+http://localhost:8080/axis/FreecivWebService.jws?wsdl
+
+- Testing a Freeciv webservice (Java) method:
+http://localhost:8080/axis/FreecivWebService.jws?method=getFreecivState
+
+- Testing the civclient C webservice:
+http://localhost:2000/civwebserver
+Always returns: "Sorry! I only speak with 'POST' method".
+Meaning that at least there is a server socket listening at port 2000.
+
+-Logging:
+See resin/log/jvm-default.log  (The civclient and civserver will log std.err and std.out here).
+
+
