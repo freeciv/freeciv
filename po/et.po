@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-09-12 23:37+0300\n"
+"PO-Revision-Date: 2007-09-16 14:17+0300\n"
 "Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6635,7 +6635,7 @@ msgstr "Su pommitav %s%s sai kogenumaks!"
 
 #: server/unithand.c:785
 msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
-msgstr "Su tuumaka lasi SDI kaitse alla. Milline raiskamine."
+msgstr "SDI kaitse lasi su tuumapommi alla. Milline raiskamine."
 
 #: server/unithand.c:788
 #, c-format
@@ -17725,7 +17725,6 @@ msgid ""
 msgstr "Nagu ka lennukid, saavad helikopterid liikuda igal ruudul, kus pole vaenlase üksust ega linna, ning nende liikumist ei mõjuta elupunktide arv. Helikopterid ei vaja lendamiseks kütust, kuid nad kaotavad väikese osa elupunktidest igal käigul, mida nad ei lõpeta linnas ega lennujaamas -- välja arvatud juhul, kui sa oled ehitanud ÜRO ilmaime. Helikopterid saavad vastase linnu okupeerida."
 
 #: data/helpdata.txt:960
-#, fuzzy
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -17741,7 +17740,7 @@ msgid ""
 "points (or gain two hit points less than they otherwise would) each turn "
 "that they do not end in a city.  Damaged units in Sentry mode will wake up "
 "when they have regained all of their hit points."
-msgstr "Lahingus viga saanud üksused saavad tagasi elupunkte igal käigul, kui nad ei liigu. Tavatingimustes saab paigale jäänud üksus igal käigul tagasi ühe elupunkti. Täielikult saavad oma elupunktid tagasi maaüksused linnas, kus on kasarmud, laevad sadamalinnas ja lennukid lennujaamas -- seda juhul, kui nad käigu jooksul ei liigu. Muudel juhtudel saavad liikumatuks jäädes tagasi kolmandiku esialgsetest elupunktidest, kui nad on linnas. Kindluses ühe käigu veetnud üksused saavad tagasi neljandiku elupunktidest. Kindlustatud üksused saavad tagasi ühe elupunkti lisaks. Kui aga mängija on ehitanud ÜRO ilmaime, saavad tema üksused igal käigul tagasi kaks elupunkti, ka siis, kui üksused liiguvad. Helikopterid, mis ei lõpeta käiku linnas, kaotavad kaks elupunkti (või siis saavad juurde kaks punkti vähem). Sentry olekust ärkavad viga saanud üksused üles, kui nad on oma elupunktid täielikult taastanud."
+msgstr "Lahingus viga saanud üksused saavad tagasi elupunkte igal käigul, kui nad ei liigu. Tavatingimustes saab paigale jäänud üksus igal käigul tagasi ühe elupunkti. Täielikult saavad oma elupunktid tagasi maaüksused linnas, kus on kasarmud, laevad sõjaväesadamaga linnas ja lennukid lennujaamas -- seda juhul, kui nad käigu jooksul ei liigu. Muudel juhtudel saavad liikumatuks jäädes tagasi kolmandiku esialgsetest elupunktidest, kui nad on linnas. Kindluses ühe käigu veetnud üksused saavad tagasi neljandiku elupunktidest. Kindlustatud üksused saavad tagasi ühe elupunkti lisaks. Kui aga mängija on ehitanud ÜRO ilmaime, saavad tema üksused igal käigul tagasi kaks elupunkti, ka siis, kui üksused liiguvad. Helikopterid, mis ei lõpeta käiku linnas, kaotavad kaks elupunkti (või siis saavad juurde kaks punkti vähem). Sentry olekust ärkavad viga saanud üksused üles, kui nad on oma elupunktid täielikult taastanud."
 
 #: data/helpdata.txt:977
 msgid ""
@@ -18310,13 +18309,13 @@ msgid ""
 "capital (palace).  Up to half of your cities will rebel and declare "
 "allegiance to a new (AI) leader, who will loot half of your treasury and "
 "retain all of your scientific advances."
-msgstr ""
+msgstr "Kodusõda on iga impeeriumi jaoks hävitav, kodusõda põhjustab pealinna (ja palee) kaotamine. Kuni pooled su linnad alustavad mässu ja vannuvad truudust uuele (arvutist) juhile, kes aga paneb pihta poole su rahast ja võtab omale kõik su teadusavastused."
 
 #: data/helpdata.txt:1368
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
-msgstr ""
+msgstr "Kodusõda kestab ainult ühe käigu, misjärel langeb impeerium anarhiasse."
 
 #: data/helpdata.txt:1371
 msgid ""
@@ -18348,7 +18347,7 @@ msgid ""
 "Freeciv.  When your citizens become unhappy, your cities will fall into "
 "disorder (which disrupts production); but when your citizens are happy, your "
 "cities will celebrate, and your production will increase greatly."
-msgstr ""
+msgstr "Kodanikud võivad olla õnnelikud, rahulolevad või õnnetud. Kodanike õnnelikuna (või vähemalt rahulolevana) hoidmine on üks olulisemaid eesmärke Freecivis. Kui kodanikud on õnnetud, tekivad linnades rahutused (mis halvavad linna toodangu), kuid kui su kodanikud on õnnelikud, suureneb toodang märkimisväärselt."
 
 #: data/helpdata.txt:1400
 msgid ""
@@ -18357,7 +18356,7 @@ msgid ""
 "produces nothing.  Cities which are in disorder are easier for enemy "
 "Diplomats and Spies to incite to revolt. Prolonged disorder under Democracy "
 "can lead to a spontaneous revolution, overthrowing your government."
-msgstr ""
+msgstr "Kui linnas on rohkem õnnetuid kodanikke, kui õnnelikke, siis tekivad linnas rahutused. Rahutuste ajal ei tooda linn midagi. Rahutuste ajal on vaenlase spioonidel ja diplomaatidel palju lihtsam mässu tekitada. Demokraatia ajal võivad pikaajalised rahutused põhjustada iseeneslikku revolutsiooni, mis kukutab su valitsuse."
 
 #: data/helpdata.txt:1407
 msgid ""
@@ -18387,7 +18386,7 @@ msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
-msgstr ""
+msgstr "- Vabariigi või demokraatia ajal suureneb su linna rahvaarv igal käigul ühe võrra, kuni toitu enam üle ei jää või pole enam piisavalt õnnelikke kodanikke pidustuste korraldamiseks."
 
 #: data/helpdata.txt:1427
 msgid ""
@@ -18397,7 +18396,7 @@ msgid ""
 "server) will be generated unhappy, instead of content.  If you have a large "
 "number of cities (depending on your government as well as the server option "
 "cityfactor), the limit on content citizens is reduced to 3."
-msgstr ""
+msgstr "Kõige tavalisem kodaniku meeleolu on rahulolu. Aga mida suuremaks su linn kasvab, seda rohkem kodanikke muutub rahvaarvu suurenemise tõttu õnnetuks. Pärast neljandat kodanikku juurde tulevad kodanikud on kohe alguses õnnetud (see oleneb serveri seade unhappysize väärtusest). Kui sul on väga palju linnu (sõltuvalt valitsuse tüübist ja serveri seadest cityfactor), siis on pärast kolmandat kodanikku juurde tulevad kodanikud õnnetud."
 
 #: data/helpdata.txt:1437
 msgid ""
@@ -18409,7 +18408,7 @@ msgid ""
 "After converting all content citizens to happy citizens, unhappy citizens "
 "are converted to happy and/or content.  Some wonders of the world have also "
 "effects on citizens' happiness (see the appropriate sections for details)."
-msgstr ""
+msgstr "Et õnnetust meeleolust lahti saada, võid ehitada maju, mis muudavad õnnetuid kodanikke rahulolevateks (näiteks tempel, Kolosseum või katedraal, või isega kohtumaja, kui sul on demokraatlik valitsus), ja/või vastavaid ilmaimesid ja/või muuta osa kaubandusest hüvedeks.Kaks ühikut hüvesid muudab ühe rahuloleva kodaniku õnnelikuks. Kui kõik rahulolevad kodanikud on õnnetuks muudetud, hakatakse õnnetuid rahulolevateks/õnnelikeks muutma. Mõned ilmaimed avaldavad samuti meeleolule mõju (vaata vastavat sektsiooni lisainfo saamiseks)."
 
 #: data/helpdata.txt:1447
 msgid ""
@@ -18433,7 +18432,7 @@ msgid ""
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
 "game is over and you have won. (However it is possible for this option to be "
 "off as a server option.)"
-msgstr ""
+msgstr "Lisaks kõigi vastaste hävitamisele on mängu võitmiseks võimalik võita kosmosevõidujooks. Kui sinu kosmoselaev jõuab esimesena Alfa Centaurini, siis ongi mäng läbi ja sa oled võitnud. (Siiski on võimalik, et serveri seadetes ei ole kosmosevõidujooks võimaldatud.)"
 
 #: data/helpdata.txt:1472
 msgid ""
@@ -18443,34 +18442,34 @@ msgid ""
 "Component, and Space Module, under City Improvements.  (If there are no help "
 "texts for these items, it probably means the spacerace server option is off "
 "for your game.)"
-msgstr ""
+msgstr "Enne, kui saad hakata kosmoselaeva osi ehitama, peab üks mängija (ükskõik kes) ehitama Apollo programmi. Samuti peavad sul olema avastatud spetsiifilised tehnoloogiad: vaata abitekste kosmoselaeva küttesüsteemi, liitekohtade ja kosmosemooduli kohta linna ehitiste alt. (Kui abitekste nende ehitiste kohta pole, siis tõenäoliselt ei ole selles serveri seadetes võimaldatud kosmosevõidujooks.)"
 
 #: data/helpdata.txt:1480
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Players dialog and click \"Spaceship\"."
-msgstr ""
+msgstr "Kui oled alustanud kosmoselaeva ehitamist, näed seda Raporti menüüs Kosmoselaeva osas. Teiste mängijate kosmoselaeva nägemiseks vali mängijate aknast soovitud mängija ja vajuta nupule \"Kosmoselaev\"."
 
 #: data/helpdata.txt:1485
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
-msgstr ""
+msgstr "Kui õnnestumise tõenäosus on alla 100%, ei pruugi kõik inimesed reisi üle elada. See võtab kosmoselaeva eest saadavaid punkte maha, kuid läheb siiski võiduna kirja."
 
 #: data/helpdata.txt:1489
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
-msgstr ""
+msgstr "Kui tsivilisatsiooni pealinn kaotatakse, kaotatakse ka õhku tõusnud kosmoselaev, nii et kaitse oma pealinna hoolikalt!"
 
 #: data/helpdata.txt:1492
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
 "earlier.  The only other option is to capture their capital."
-msgstr ""
+msgstr "Nõuanne: kui vastane saadab kosmoselaeva teele, ürita kiiresti ehitada väike kosmoselaev, millel on mitu reaktiivmootorit ja mis seega jõuab kiiremini kohale. Ainus alternatiiv on vastase pealinn ära vallutada."
 
 #: data/default/buildings.ruleset:59 data/civ2/buildings.ruleset:42
 msgid ""
@@ -18482,6 +18481,9 @@ msgid ""
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
+"Võimaldab ehitada veteran-õhuüksusi. Samuti parandatakse viga saanud õhuüksused täielikult ära, kui nad püsivad linnas vähemalt ühe käigu.\n"
+"\n"
+"Ühest lennujaamaga linnast saab üksuse teise linna transportida kõigest ühe käiguga. Lennutransport viib üksuse koheselt ühest linnast teise ja kasutab ära kõik üksuse liikumispunktid. Õhutranspordi kasutamiseks peab üksusel alles olema mõni liikumispunkt."
 
 #: data/default/buildings.ruleset:71 data/civ2/buildings.ruleset:54
 #: data/civ1/buildings.ruleset:28
@@ -18507,7 +18509,7 @@ msgstr "Pank"
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
-msgstr ""
+msgstr "Turuga koos tõstab pank maksudest ja hüvedest saadavat tulu 100%."
 
 #: data/default/buildings.ruleset:128 data/default/buildings.ruleset:152
 #: data/default/buildings.ruleset:175 data/civ2/buildings.ruleset:110
@@ -18517,7 +18519,7 @@ msgid ""
 "Veteran status, which means that its attack and defence strengths are "
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
-msgstr ""
+msgstr "Kasarmud muudavad iga uue üksuse koheselt veteraniks, mis tähendab, et nende üksuste kaitse- ja ründejõud suurenevad 50%. Samuti paranevad viga saanud maaüksused täielikult, kui nad püsivad linnas vähemalt ühe käigu."
 
 #: data/default/buildings.ruleset:137 data/civ2/buildings.ruleset:119
 #: data/civ1/buildings.ruleset:92
@@ -18542,6 +18544,8 @@ msgid ""
 "of Communism lessens the effect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
 msgstr ""
+"Katedraal teeb 4 õnnetut kodanikku rahulolevaks antud linnas, muutes rahu "
+"säilitamise seal linnas lihtamaks. Teoloogia avastamine suurendab katedraali efekti, muutes veel ühe õnnetu kodaniku rahulolevaks. Kommunismi avastamine vähendab katedraali mõju ehk rahulolevaks muudetakse üks õnnetu kodanik vähem."
 
 #: data/default/buildings.ruleset:224 data/civ2/buildings.ruleset:204
 msgid ""
@@ -18551,6 +18555,10 @@ msgid ""
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
 msgstr ""
+"Linnamüür muudab linna kaitsmise lihtsamaks.Linnamüür kolmekordistab linnas "
+"paiknevate üksuste kaitsetugevuse maa-, mere- ja helikopterirünnakute vastu. "
+"Ei avalda mõju muude õhurünnakute ja suurtükirünnaku korral. Linnamüür hoiab "
+"ära inimkaod, mis tekivad kaitsva üksuse hukkumisel maaüksuse rünnakus."
 
 #: data/default/buildings.ruleset:233 data/civ2/buildings.ruleset:213
 msgid "Coastal Defense"
@@ -18560,7 +18568,7 @@ msgstr "Rannakaitse"
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
-msgstr ""
+msgstr "Tõstab linnas olevate üksuste kaitsejõudu 2 korda, kui kaitstakse vaenlase laevadelt tuleva pommitamise vastu."
 
 #: data/default/buildings.ruleset:254 data/civ2/buildings.ruleset:234
 #: data/civ1/buildings.ruleset:182
@@ -18571,7 +18579,7 @@ msgstr "Kolosseum"
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
-msgstr ""
+msgstr "Pakub kodanikele meelelahutust, muutes 3 õnnetut kodanikku rahulolevaks. (Kui on avastatud elekter, siis 4 kodanikku)."
 
 #: data/default/buildings.ruleset:276 data/civ2/buildings.ruleset:254
 #: data/civ1/buildings.ruleset:201
@@ -18583,7 +18591,7 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
-msgstr ""
+msgstr "Vähendab korruptsiooni ja jäätmete hulka linnas 50%. Demokraatlikus riigis muudab kohus ühe õnnetu kodaniku rahulolevaks. Samuti muudab mässu algatamise kulu 4 korda suuremaks."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -18595,7 +18603,7 @@ msgstr "Tehas"
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
-msgstr ""
+msgstr "Tõstab linna toodangut 50%. Samas võib see tähendada ka päris suurt reostustaseme tõusu."
 
 #: data/default/buildings.ruleset:331 data/civ2/buildings.ruleset:310
 #: data/civ1/buildings.ruleset:257
@@ -18603,7 +18611,7 @@ msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
-msgstr ""
+msgstr "Kui viljaaidaga linn kasvab või kahaneb, pannakse olemasoleva toidu hulk maksimaalsest poole peale. See aitab linnal kiiremini kasvada ja ka taluda näljahäda."
 
 #: data/default/buildings.ruleset:341 data/civ2/buildings.ruleset:320
 msgid "Harbour"
@@ -18613,7 +18621,7 @@ msgstr "Sadam"
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
-msgstr ""
+msgstr "Lisab kõigile mereruudukestele ühe punkti toidutoodangut. Saab ehitada ainult mereäärsetes linnades."
 
 #: data/default/buildings.ruleset:362 data/civ2/buildings.ruleset:341
 #: data/civ1/buildings.ruleset:267
@@ -18687,7 +18695,7 @@ msgstr "Manufaktuur"
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
-msgstr ""
+msgstr "Koos tehasega tõstab manufaktuur linna toodangut 100%."
 
 #: data/default/buildings.ruleset:480 data/civ2/buildings.ruleset:456
 #: data/civ1/buildings.ruleset:380
@@ -18704,16 +18712,19 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Vähendab tootmisest tuleneva reostuse hulka 50%. Samuti suurendab tehase ja manufaktuuri tootlikkust: vabrik ja tuumaelektrijaam annavad 75% lisa; teahs, manufaktuur ja tuumaelektrijaam koos annavad 150% lisa.\n"
+"\n"
+"Linnas saab korraga olla ainult üks elektrijaam - päikese- , hüdro-, tuuma- või tavaline elektrijaam."
 
 #: data/default/buildings.ruleset:515 data/civ2/buildings.ruleset:488
 msgid "Offshore Platform"
-msgstr ""
+msgstr "Mereplatvorm"
 
 #: data/default/buildings.ruleset:530 data/civ2/buildings.ruleset:503
 msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
-msgstr ""
+msgstr "Lisab 1 toodangupunkti kõigile mereruudukestele linna ümbruses. Saab ehitada ainult mereäärsetes linnades."
 
 #: data/default/buildings.ruleset:536 data/civ2/buildings.ruleset:509
 #: data/civ1/buildings.ruleset:410
@@ -18736,6 +18747,11 @@ msgid ""
 "Under Despotism the palace gives you a +75% production bonus, and under "
 "Monarchy a +50% production bonus."
 msgstr ""
+"Muudab linna pealinnaks ja su riigi keskuseks. Korruptsiooni tase sõltub sellest, kui kaugel on su linnad  pealinnast, välja arvatud demokraatia ja kommunismi korral. Mässu algatamine sõltub samuti sellest, kui kaugel on linn pealinnast (kõigi valitsusvormide korral).\n"
+"\n"
+"Hoolitse oma pealinna eest hästi, kuna selle kaotamine võib põhjustada kodusõja. Palee kaotamine tähendab ka seda, et kaotad kõik oma kosmoselaeva osad.\n"
+"\n"
+"Despootlikus riigis annab palee 75% toodangulisa, monarhia korral 50% toodangulisa."
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:538
 msgid "Police Station"
@@ -18746,17 +18762,17 @@ msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
-msgstr ""
+msgstr "Vähendab võrra meeleolu langust, mis on põhjustatud linna läheduses asuvate sõdurite poolt, demokraatia korral 2, vabariigi korral 1 võrra. Muude valitsusvormide korral pole sellest ehitisest midagi kasu."
 
 #: data/default/buildings.ruleset:593 data/civ2/buildings.ruleset:559
 msgid "Port Facility"
-msgstr ""
+msgstr "Sõjaväesadam"
 
 #: data/default/buildings.ruleset:608 data/civ2/buildings.ruleset:574
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
-msgstr ""
+msgstr "Võimaldab ehitada veteranlaevu. Samuti parandab täielikult ära viga saanud laevad, mis jäävad linna vähemalt üheks käiguks."
 
 #: data/default/buildings.ruleset:615 data/civ2/buildings.ruleset:581
 #: data/civ1/buildings.ruleset:439
@@ -18773,6 +18789,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Tõstab linnas oleva vabriku või manufaktuuri toodangut. Tehas ja manufaktuur koos annavad 75% toodangulisa; tehas, manufaktuur ja elektrijaam kolmekesi annavad aga 150% boonuse. Toodangu kasv aga võib tekitada rohkem reostust.\n"
+"\n"
+"Linnas saab korraga olla ainult üks elektrijaam - päikese- , hüdro-, tuuma- või tavaline elektrijaam."
 
 #: data/default/buildings.ruleset:646 data/civ2/buildings.ruleset:608
 #: data/civ1/buildings.ruleset:466
@@ -18785,7 +18804,7 @@ msgstr "Ümbertöötlemise keskus"
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
-msgstr ""
+msgstr "Ümbertöötlemise keskus vähendab linna poolt tekitatavat reostust 66%."
 
 #: data/default/buildings.ruleset:667 data/civ2/buildings.ruleset:629
 msgid "Research Lab"
@@ -18796,17 +18815,17 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 200%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 450%."
-msgstr ""
+msgstr "Raamatukoguga koos tõstab uuringukeskus teadustoodangut 200%. Koos raamatukogu ja ülikooliga tõstab uuringukeskus teadustoodangut 450%."
 
 #: data/default/buildings.ruleset:690 data/civ2/buildings.ruleset:652
 msgid "SAM Battery"
-msgstr ""
+msgstr "Õhutõrjesüsteem"
 
 #: data/default/buildings.ruleset:704 data/civ2/buildings.ruleset:666
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
-msgstr ""
+msgstr "Tõstab kõigi linnas asuvate üksuste kaitsejõudu, kui neid ründab mõni õhuüksus (välja arvatud tuumapomm)"
 
 #: data/default/buildings.ruleset:710 data/civ2/buildings.ruleset:672
 #: data/civ1/buildings.ruleset:487
@@ -18819,7 +18838,7 @@ msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
 "missiles."
-msgstr ""
+msgstr "Kaitseb linna tuumarünnakute eest. Kui SDI kaitse on olemas, ei tee tuumapommid linnale mitte kui midagi. Samuti tõstab kaitset rakettide (välja arvatud tuumapommid) vastu kaks korda."
 
 #: data/default/buildings.ruleset:733 data/civ2/buildings.ruleset:695
 msgid "Sewer System"
@@ -18829,12 +18848,12 @@ msgstr "Kanalisatsioon"
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
-msgstr ""
+msgstr "Võimaldab linnal kasvada suuremaks, kui 12. Eelnevalt peab olemas olema akvedukt, et oleks võimalik kasvada suuremaks, kui 8."
 
 #: data/default/buildings.ruleset:754 data/civ2/buildings.ruleset:746
 #: data/civ1/buildings.ruleset:510
 msgid "Space Component"
-msgstr ""
+msgstr "Kosmoselaeva küttesüsteem"
 
 #: data/default/buildings.ruleset:769 data/civ2/buildings.ruleset:760
 #: data/civ1/buildings.ruleset:524
@@ -18846,11 +18865,14 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Kosmoselaeva küttesüsteem jaguneb reaktiivmootoriks ja kütusepaagiks. Nende ehitamine vähendab kosmoselaeva kohalejõudmiseks kuluvat aega. Küttesüsteemi osi saad ehitada kuni 8 paari.\n"
+"\n"
+"Enne kui saad hakata kosmoselaeva osi ehitama, peab üks mängijatest olema ehitanud valmis Apollo programmi ilmaime."
 
 #: data/default/buildings.ruleset:779 data/civ2/buildings.ruleset:770
 #: data/civ1/buildings.ruleset:534
 msgid "Space Module"
-msgstr ""
+msgstr "Kosmosemoodul"
 
 #: data/default/buildings.ruleset:794 data/civ2/buildings.ruleset:784
 #: data/civ1/buildings.ruleset:548
@@ -18871,14 +18893,27 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Kosmosemoodulid on kosmoselaeva kõige kallimad osad. Mooduleid on kolme tüüpi:\n"
+"\n"
+"- Elamismoodul: suudab majutada 10 000 inimest.\n"
+"\n"
+"- "
+"\n"
+"- Päikesepaneelid: annavad eelnevale kahele moodulile töös püsimiseks energiat.\n"
+"\n"
+"Igat moodulit võid ehitada kuni 4 tükki.\n"
+"\n"
+"Enne kui saad hakata kosmoselaeva osi ehitama, peab üks mängijatest olema ehitanud valmis Apollo programmi ilmaime."
 
 #: data/default/buildings.ruleset:813 data/civ2/buildings.ruleset:803
 #: data/civ1/buildings.ruleset:567
+#, fuzzy
 msgid "Space Structural"
-msgstr ""
+msgstr "Kosmoselaeva liitekohad"
 
 #: data/default/buildings.ruleset:828 data/civ2/buildings.ruleset:817
 #: data/civ1/buildings.ruleset:581
+#, fuzzy
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -18887,6 +18922,9 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Kosmoselaeva liitekohad on kosmoselaeva tugiosad. Et kosmoselaeva osad saaks korralikult töötada, peavad nad liitekohtadega ühendatud olema. Liitekohti saab ehitada kuni 32 tükki.\n"
+"\n"
+"Enne kui saad hakata kosmoselaeva osi ehitama, peab üks mängijatest olema ehitanud valmis Apollo programmi ilmaime."
 
 #: data/default/buildings.ruleset:838 data/civ2/buildings.ruleset:827
 msgid "Stock Exchange"
@@ -18897,7 +18935,7 @@ msgstr "Börs"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr ""
+msgstr "Turu ja pangaga üheskoos tõstab börs maksudest ja hüvedest saadavat tulu 150%."
 
 #: data/default/buildings.ruleset:860 data/civ2/buildings.ruleset:849
 msgid "Super Highways"
@@ -18906,7 +18944,7 @@ msgstr "Super kiirtee"
 #: data/default/buildings.ruleset:875 data/civ2/buildings.ruleset:864
 #, no-c-format
 msgid "Increases trade resources by 50% on all squares with roads or railroads."
-msgstr ""
+msgstr "Suurendab kaubanduse tootlikkust 50% ruudukestel, millel on teed või raudteed."
 
 #: data/default/buildings.ruleset:883 data/civ2/buildings.ruleset:870
 msgid "Supermarket"
@@ -18918,7 +18956,7 @@ msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
 "used around the city.  Farmland squares are those which have been irrigated "
 "a second time."
-msgstr ""
+msgstr "Tõstab linna ümbruses olevate põllumaade toidutoodangut 50%. Põllumaadeks peetakse ruudukesi, mida on kaks korda niisutatud."
 
 #: data/default/buildings.ruleset:905 data/civ2/buildings.ruleset:892
 #: data/civ1/buildings.ruleset:591
@@ -18931,7 +18969,7 @@ msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
 "citizens are made content."
-msgstr ""
+msgstr "Muudab ühe õnnetu kodaniku rahulolevaks. Müstika ja Oraakel muudavad selle mõju kahekordseks. Kui on olemas nii müstika kui Oraakel, muudetakse rahulolevaks 4 kodanikku."
 
 #: data/default/buildings.ruleset:926 data/civ2/buildings.ruleset:913
 #: data/civ1/buildings.ruleset:612 data/default/techs.ruleset:742
@@ -18956,17 +18994,17 @@ msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
 "necessary technologies)."
-msgstr ""
+msgstr "Mängija, kellel on see ilmaime, näeb kogu maailmakaarti. Samuti võimaldab hakata ehitama kosmoselaeva osi (eeldusel, et vajalikud tehnoloogiad on avastatud)."
 
 #: data/default/buildings.ruleset:969 data/civ2/buildings.ruleset:956
 msgid "A.Smith's Trading Co."
-msgstr ""
+msgstr "A. Smithi kaubafirma"
 
 #: data/default/buildings.ruleset:983
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
-msgstr ""
+msgstr "Ehitised, mille ülalpidamiskulu on 1 kuldraha, vabastatakse ülalpidamiskulust. Kehtib kõigis linnades."
 
 #: data/default/buildings.ruleset:989 data/civ2/buildings.ruleset:976
 #: data/civ1/buildings.ruleset:653
@@ -19005,7 +19043,7 @@ msgstr "See suurepärane tehnoloogiline läbimurre muudab igas su linnas ühe õ
 #: data/default/buildings.ruleset:1051 data/civ2/buildings.ruleset:1036
 #: data/civ1/buildings.ruleset:713
 msgid "Darwin's Voyage"
-msgstr ""
+msgstr "Darwini retk"
 
 #: data/default/buildings.ruleset:1065 data/civ2/buildings.ruleset:1050
 #: data/civ1/buildings.ruleset:727
@@ -19013,7 +19051,7 @@ msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
 "technology advances."
-msgstr ""
+msgstr "Charles Darwini retk pani aluse liikide evolutsiooni avastamisele, mis süvendas inimeste usku teadustöösse. Annab sulle koheselt kaks seni avastamata tehnoloogiat."
 
 #: data/default/buildings.ruleset:1072 data/civ2/buildings.ruleset:1057
 msgid "Eiffel Tower"
@@ -19025,7 +19063,7 @@ msgid ""
 "Your reputation and goodwill among other nations is increased while you "
 "possess this wonder.  Reputation is recovered twice as fast as it would "
 "otherwise."
-msgstr ""
+msgstr "Kui sul on see ilmaime, hindavad su vastased sind kõrgemalt ja suhtuvad sinusse paremini. Su reputatsioon paraneb kaks korda kiiremini."
 
 #: data/default/buildings.ruleset:1094 data/civ2/buildings.ruleset:1080
 #: data/civ1/buildings.ruleset:734
@@ -19198,7 +19236,7 @@ msgstr "SETI programm"
 
 #: data/default/buildings.ruleset:1413
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr "Tõstab kõigi teaduslaborit omavate linnade teadustoodangut 100%."
+msgstr "Tõstab kõigi uuringukeskust omavate linnade teadustoodangut 100%."
 
 #: data/default/buildings.ruleset:1418 data/civ2/buildings.ruleset:1401
 #: data/civ1/buildings.ruleset:1001
@@ -19338,8 +19376,8 @@ msgid ""
 "tile."
 msgstr ""
 "Vähendab linnas tootmisest tulenevat reostust 50%. Samutis suurendab linna "
-"käsitöövabriku või tehase kogutoodangut: tehas ja hüdroelektrijaam annavad "
-"100% boonuse, kuid tehas, käsitöövabrik ja hüdroelektrijaam üheskoos annavad "
+"tehase ja manufaktuuri kogutoodangut: tehas ja hüdroelektrijaam annavad "
+"100% boonuse, kuid tehas, manufaktuur ja hüdroelektrijaam üheskoos annavad "
 "150%-lise toodanguboonuse.\n"
 "\n"
 "Linnas saab olla ainult üks hüdroelektrijaam, elektrijaam või "
@@ -19361,7 +19399,7 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Vähendab tootmisest tuleneva reostuse hulka 50%. Samuti suurendab vabriku ja manufaktuuri tootlikkust: vabrik ja tuumaelektrijaam annavad 100% lisa; vabrik, manufaktuur ja tuumaelektrijaam koos annavad 150% lisa.\n"
+"Vähendab tootmisest tuleneva reostuse hulka 50%. Samuti suurendab tehase ja manufaktuuri tootlikkust: tehas ja tuumaelektrijaam annavad 100% lisa; tehas, manufaktuur ja tuumaelektrijaam koos annavad 150% lisa.\n"
 "\n"
 "Linnas saab korraga olla ainult üks elektrijaam - päikese- , hüdro-, tuuma- või tavaline elektrijaam."
 
@@ -19391,7 +19429,7 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Tõstab linnas oleva vabriku või manufaktuuri toodangut. Vabrik ja manufaktuur koos annavad 100% toodangulisa; vabrik, manufaktuur ja elektrijaam kolmekesi annavad aga 150% boonuse. Toodangu kasv aga võib tekitada rohkem reostust.\n"
+"Tõstab linnas oleva vabriku või manufaktuuri toodangut. Tehas ja manufaktuur koos annavad 100% toodangulisa; tehas, manufaktuur ja elektrijaam kolmekesi annavad aga 150% boonuse. Toodangu kasv aga võib tekitada rohkem reostust.\n"
 "\n"
 "Linnas saab korraga olla ainult üks elektrijaam - päikese- , hüdro-, tuuma- või tavaline elektrijaam."
 
@@ -19400,7 +19438,7 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
-msgstr "Raamatukoguga koos tõstab teaduslabor teadustoodangut 100%. Koos raamatukogu ja ülikooliga tõstab teaduslabor teadustoodangut 150%."
+msgstr "Raamatukoguga koos tõstab uuringukeskus teadustoodangut 100%. Koos raamatukogu ja ülikooliga tõstab uuringukeskus teadustoodangut 150%."
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
@@ -19417,7 +19455,7 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Eemaldab kogu reostuse, mis tuleneb linnas tootmisest. Samuti suurendab vabriku ja manufaktuuri toodangut.Vabrik ja päikeseelektrijaam lisavad toodangule 100%; manufaktuur, vabrik ja päikeseelektrijaam koos annavad lisa 150%.\n"
+"Eemaldab kogu reostuse, mis tuleneb linnas tootmisest. Samuti suurendab tehase ja manufaktuuri toodangut. Tehas ja päikeseelektrijaam lisavad toodangule 100%; manufaktuur, tehas ja päikeseelektrijaam koos annavad lisa 150%.\n"
 "\n"
 "Linnas saab korraga olla ainult üks elektrijaam - päikese- , hüdro-, tuuma- või tavaline elektrijaam."
 
@@ -19432,7 +19470,7 @@ msgstr "Raamatukoguga koos tõstab ülikool linna teadustoodangut 100%."
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
-msgstr ""
+msgstr "Ehitised, mille ülalpidamiskulu on 1 kuldraha, vabastatakse ülalpidamiskulust. Kehtib kõigis linnades."
 
 #: data/civ2/buildings.ruleset:1011 data/civ1/buildings.ruleset:688
 #, no-c-format
@@ -20817,6 +20855,15 @@ msgid ""
 "\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
+"Kui sinu linn vallutatakse, antakse sulle tasuta teatav hulk sisse, kuid ainult neil tingimustel:\n"
+"\n"
+"- Vähemalt üks mängija peab olema avastanud geriljavõitluse.\n"
+"\n"
+"- Sa pead olema selle linna ise ehitanud.\n"
+"\n"
+"- Samuti peab olema avastatud kommunism ja püssirohi.\n"
+"\n"
+"- SU valitsus peab olema kas demokraatlik või kommunistlik."
 
 #: data/default/units.ruleset:533 data/civ2/units.ruleset:420
 msgid "Alpine Troops"
@@ -21172,14 +21219,14 @@ msgstr ""
 
 #: data/default/units.ruleset:1804
 msgid "AWACS"
-msgstr ""
+msgstr "LHKS"
 
 #: data/default/units.ruleset:1830
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
-msgstr ""
+msgstr "LHKS (Lendav hoiatus- ja kontrollsüsteem) on lennuk, millel on ülihea radar, mille abil saab üsna suurel alal vaenlaste üksuste asukoha täpselt kindlaks määrata."
 
 #: data/civ2/units.ruleset:115
 msgid ""
@@ -21665,7 +21712,7 @@ msgid ""
 "around 606 AD. Today the People's Republic of Bangladesh occupies the "
 "eastern part of the region, while the western part is the Indian state of "
 "West Bengal."
-msgstr ""
+msgstr "Bengal asub Hindustani poolsaare idaosas. Esimene kirjalik teave Bengali kunigate kohta on kuningas Shashanka kohta, kes valitses ligikaudu aastal 606 m.a.j. Tänapäeva Bangladeshi Rahvavabariik hõlmab selle ala idaosa, lääneosas asub India osariik Lääne-Bengal."
 
 #: data/nation/bengali.ruleset:25
 msgid "Nabob"
@@ -22072,12 +22119,13 @@ msgid "?plural:Croatians"
 msgstr "?plural:Horvaadid"
 
 #: data/nation/croatian.ruleset:6
+#, fuzzy
 msgid ""
 "Croatia is the region of the Southern Slavs that was held by the Austro-"
 "Hungarian Empire, rather than coming under Ottoman rule after the collapse "
 "of Byzantium. During most of the 20th century it was part of the Yugoslav "
 "Federation."
-msgstr ""
+msgstr "Horvaatia on lõuna-slaavi piirkond, mis jäi Ottomanide võimu alla langemise asemel hoopis Austria-Ungari impeeriumi kätte pärast Bütsantsi lagunemist. Enamuse 20. sajandist oli Horvaatia Jugoslaavia Föderatsiooni koosseisus."
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
@@ -24412,7 +24460,7 @@ msgstr ""
 "annab meeletu koguse toodangut, kui korralikult vajalikke uuendusi\n"
 "teha. Vaata, et sul kogutaks piisavalt makse ja et oleks piisaval\n"
 "hulgal kultuurihooneid, et rahvas rahul oleks. Soovitav on ka ehitada\n"
-"hooneid, mis tõstavad linna tootlikkust. Raamatukogu, turg, vabrik ja\n"
+"hooneid, mis tõstavad linna tootlikkust. Raamatukogu, turg, tehas ja\n"
 "mereplatvorm on neli paremat ehitist, mis annavad suurtele linnadele\n"
 "kõvasti boonuseid. Muidugi pead vaatama, kas ehitise poolt antavad\n"
 "boonused on suuremad, kui kulud. Nii suurtest linnadest kogutakse\n"
