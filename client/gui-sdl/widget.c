@@ -478,8 +478,6 @@ void redraw_widget_info_label(SDL_Rect *rect)
   
     pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
   
-    /*pWidget->string16->render = 3;*/
-    
     color = pWidget->string16->fgcol;
     pWidget->string16->style |= TTF_STYLE_BOLD;
     pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_QUICK_INFO_TEXT);
