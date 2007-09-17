@@ -282,8 +282,8 @@ static GtkWidget *create_map_palette(void)
 {
   GtkWidget *button, *vbox;
   GtkWidget *table = gtk_table_new(12, TABLE_WIDTH, TRUE);
-  int i, j, sig; 
-  int magic[4] = { 0, 5, 10, 16 }; /* magic numbers to make the table look good */
+  int i, j, sig;
+  int col = 0, row = 0; 
   int types_num[] = { terrain_count(), SPECIALS_NUM,
                       resource_count() + 1 };
   paint_item *ptype[EPAINT_LAST] = { NULL, specials, NULL };
@@ -325,10 +325,14 @@ static GtkWidget *create_map_palette(void)
 
       button = gtk_toggle_button_new_with_label(item->name);
 
+      col = j % TABLE_WIDTH;
+      if ((j > 0) && ((j % TABLE_WIDTH) == 0)) {
+        row++;
+      }
+      
       gtk_table_attach(GTK_TABLE(table), button,
-                       j % TABLE_WIDTH, j % TABLE_WIDTH + 1,
-                       j / TABLE_WIDTH + magic[i],  
-                       j / TABLE_WIDTH + magic[i] + 1, 
+                       col, col + 1,
+                       row, row + 1, 
                        GTK_FILL|GTK_EXPAND, GTK_FILL, 0, 0);
 
       gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(button),
@@ -345,6 +349,7 @@ static GtkWidget *create_map_palette(void)
                        (gpointer)map_group);
       g_object_set_data(G_OBJECT(button), "sigid", GINT_TO_POINTER(sig));
     }
+    row += 2;
   }
   
   editor_set_selected_terrain(terrain_by_number(terrains[0].paint));
