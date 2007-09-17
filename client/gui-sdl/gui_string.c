@@ -273,11 +273,6 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
     pText = TTF_RenderUNICODE_Blended(pString->font,
 				      pString->text, pString->fgcol);
     break;
-  
-  case 3:
-    pText = TTF_RenderUNICODE_Blended_Shaded(pString->font,
-			pString->text, pString->fgcol, pString->bgcol);
-    break;
   }
 
   if (pText != NULL) {
@@ -344,14 +339,6 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 				     w, count * pTmp[0]->h, pTmp[0]->flags);
       SDL_FillRect(pText, NULL, color);
     break;
-  case 3:
-      pText = create_surf_with_format(pTmp[0]->format,
-				     w, count * pTmp[0]->h, pTmp[0]->flags);
-      SDL_FillRect(pText, NULL,
-      	SDL_MapRGBA(pText->format,
-	      pString->bgcol.r, pString->bgcol.g,
-      		pString->bgcol.b, pString->bgcol.unused));
-    break;  
   default:
     pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
     SDL_FillRect(pText, NULL, color);

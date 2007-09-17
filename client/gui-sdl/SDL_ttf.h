@@ -1,6 +1,6 @@
 /*
     SDL_ttf:  A companion library to SDL for working with TrueType (tm) fonts
-    Copyright (C) 1997, 1998, 1999, 2000, 2001  Sam Lantinga
+    Copyright (C) 1997-2004 Sam Lantinga
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
     Sam Lantinga
     slouken@libsdl.org
@@ -27,8 +27,8 @@
 	http://www.freetype.org/
 */
 
-#ifndef _SDLttf_h
-#define _SDLttf_h
+#ifndef _SDL_TTF_H
+#define _SDL_TTF_H
 
 #include "SDL.h"
 #include "begin_code.h"
@@ -40,23 +40,30 @@ extern "C" {
 
 /* Printable format: "%d.%d.%d", MAJOR, MINOR, PATCHLEVEL
 */
-#define TTF_MAJOR_VERSION	2
-#define TTF_MINOR_VERSION	0
-#define TTF_PATCHLEVEL		7
+#define SDL_TTF_MAJOR_VERSION	2
+#define SDL_TTF_MINOR_VERSION	0
+#define SDL_TTF_PATCHLEVEL	7
+#define SDL_TTF_WESNOTH         1
 
 /* This macro can be used to fill a version structure with the compile-time
  * version of the SDL_ttf library.
  */
-#define TTF_VERSION(X)							\
+#define SDL_TTF_VERSION(X)						\
 {									\
-	(X)->major = TTF_MAJOR_VERSION;					\
-	(X)->minor = TTF_MINOR_VERSION;					\
-	(X)->patch = TTF_PATCHLEVEL;					\
+	(X)->major = SDL_TTF_MAJOR_VERSION;				\
+	(X)->minor = SDL_TTF_MINOR_VERSION;				\
+	(X)->patch = SDL_TTF_PATCHLEVEL;				\
 }
+
+/* Backwards compatibility */
+#define TTF_MAJOR_VERSION	SDL_TTF_MAJOR_VERSION
+#define TTF_MINOR_VERSION	SDL_TTF_MINOR_VERSION
+#define TTF_PATCHLEVEL		SDL_TTF_PATCHLEVEL
+#define TTF_VERSION(X)		SDL_TTF_VERSION(X)
 
 /* This function gets the version of the dynamically linked SDL_ttf library.
    it should NOT be used to fill a version structure, instead you should
-   use the TTF_VERSION() macro.
+   use the SDL_TTF_VERSION() macro.
  */
 extern DECLSPEC const SDL_version * SDLCALL TTF_Linked_Version(void);
 
@@ -120,7 +127,10 @@ extern DECLSPEC int SDLCALL TTF_FontFaceIsFixedWidth(TTF_Font *font);
 extern DECLSPEC char * SDLCALL TTF_FontFaceFamilyName(TTF_Font *font);
 extern DECLSPEC char * SDLCALL TTF_FontFaceStyleName(TTF_Font *font);
 
-/* Get the metrics (dimensions) of a glyph */
+/* Get the metrics (dimensions) of a glyph
+   To understand what these metrics mean, here is a useful link:
+    http://freetype.sourceforge.net/freetype2/docs/tutorial/step2.html
+ */
 extern DECLSPEC int SDLCALL TTF_GlyphMetrics(TTF_Font *font, Uint16 ch,
 				     int *minx, int *maxx,
                                      int *miny, int *maxy, int *advance);
@@ -195,29 +205,6 @@ extern DECLSPEC SDL_Surface * SDLCALL TTF_RenderUNICODE_Blended(TTF_Font *font,
 extern DECLSPEC SDL_Surface * SDLCALL TTF_RenderGlyph_Blended(TTF_Font *font,
 						Uint16 ch, SDL_Color fg);
 
-
-/* Create a 32-bit ARGB surface, fill it with the given background, and
-   render the given text at high quality.  Alpha blending is used to dither
-   the font with the given color on top of the background color (which
-   may itself be partially transparent).  This function returns the new
-   surface, or NULL if there was an error. */
-extern DECLSPEC SDL_Surface * SDLCALL TTF_RenderText_Blended_Shaded(
-	    TTF_Font *font, const char *text, SDL_Color fg, SDL_Color bg);
-extern DECLSPEC SDL_Surface * SDLCALL TTF_RenderUTF8_Blended_Shaded(
-	    TTF_Font *font, const char *text, SDL_Color fg,  SDL_Color bg);
-extern DECLSPEC SDL_Surface * SDLCALL TTF_RenderUNICODE_Blended_Shaded(
-	    TTF_Font *font, const Uint16 *text, SDL_Color fg, SDL_Color bg);
-
-/* Create a 32-bit ARGB surface, fill it with the given background, and
-   render the given glyph at high quality.  Alpha blending is used to dither
-   the font with the given color on top of the background color (which
-   may itself be partially transparent).  The glyph is rendered without any
-   padding or centering in the X direction, and aligned normally in the Y
-   direction.  This function returns the new surface, or NULL if there was
-   an error. */
-extern DECLSPEC SDL_Surface * SDLCALL TTF_RenderGlyph_Blended_Shaded(
-	    TTF_Font *font, Uint16 ch, SDL_Color fg, SDL_Color bg);
-
 /* For compatibility with previous versions, here are the old functions */
 #define TTF_RenderText(font, text, fg, bg)	\
 	TTF_RenderText_Shaded(font, text, fg, bg)
@@ -245,4 +232,4 @@ extern DECLSPEC int SDLCALL TTF_WasInit(void);
 #endif
 #include "close_code.h"
 
-#endif /* _SDLttf_h */
+#endif /* _SDL_TTF_H */
