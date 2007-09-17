@@ -83,13 +83,6 @@ static int redraw_label(struct widget *pLabel)
       }
     } else {
       SDL_FillRectAlpha(pLabel->dst->surface, &area, &bar_color);
-
-      if (pLabel->string16 && (pLabel->string16->render == 3)) {
-        backup_color = pLabel->string16->bgcol;
-        SDL_GetRGBA(getpixel(pLabel->dst->surface, area.x , area.y), pLabel->dst->surface->format,
-	      &pLabel->string16->bgcol.r, &pLabel->string16->bgcol.g,
-      		&pLabel->string16->bgcol.b, &pLabel->string16->bgcol.unused);
-      }
     }
   }
 
