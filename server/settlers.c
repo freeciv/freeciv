@@ -994,7 +994,7 @@ static void auto_settler_findwork(struct player *pplayer,
       if (same_pos(punit->tile, ptile)) {
         if (!ai_do_build_city(pplayer, punit)) {
           UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
-                   tile_get_info_text(punit->tile));
+                   tile_get_info_text(punit->tile, 0));
           ai_unit_new_role(punit, AIUNIT_NONE, NULL);
           /* Only known way to end in here is that hut turned in to a city
            * when settler entered tile. So this is not going to lead in any

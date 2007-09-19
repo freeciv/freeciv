@@ -555,6 +555,34 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
 }
 
 /****************************************************************************
+  Add one entry about pollution situation to buffer.
+  Return if there has been any pollution (even prior calling this)
+****************************************************************************/
+static bool tile_info_pollution(char *buf, int bufsz,
+                                const struct tile *ptile,
+                                enum tile_special_type special,
+                                bool prevp, bool linebreak)
+{
+  if (tile_has_special(ptile, special)) {
+    if (!prevp) {
+      if (linebreak) {
+        mystrlcat(buf, "\n[", bufsz);
+      } else {
+        mystrlcat(buf, " [", bufsz);
+      }
+    } else {
+      mystrlcat(buf, "/", bufsz);
+    }
+
+    mystrlcat(buf, special_name_translation(special), bufsz);
+
+    return TRUE;
+  }
+
+  return prevp;
+}
+
+/****************************************************************************
   Return a (static) string with tile name describing terrain and specials.
 
   Examples:
@@ -562,41 +590,53 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
     "Hills (Coals)"
     "Hills (Coals) [Pollution]"
 ****************************************************************************/
-const char *tile_get_info_text(const struct tile *ptile)
+const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
 {
   static char s[256];
-  bool first;
+  int bufsz;
+  bool pollution;
+  bool lb = FALSE;
+
+  bufsz = sizeof(s);
 
   sz_strlcpy(s, terrain_name_translation(ptile->terrain));
+  if (linebreaks & TILE_LB_TERRAIN_RIVER) {
+    /* Linebreak needed before next text */
+    lb = TRUE;
+  }
+
   if (tile_has_special(ptile, S_RIVER)) {
-    sz_strlcat(s, "/");
+    if (lb) {
+      sz_strlcat(s, "\n");
+      lb = FALSE;
+    } else {
+      sz_strlcat(s, "/");
+    }
     sz_strlcat(s, special_name_translation(S_RIVER));
+  }
+  if (linebreaks & TILE_LB_RIVER_RESOURCE) {
+    /* New linebreak requested */
+    lb = TRUE;
   }
 
   if (ptile->resource) {
-    cat_snprintf(s, sizeof(s), " (%s)", resource_name_translation(ptile->resource));
+    if (lb) {
+      sz_strlcat(s, "\n");
+      lb = FALSE;
+    } else {
+      sz_strlcat(s, " ");
+    }
+    cat_snprintf(s, sizeof(s), "(%s)", resource_name_translation(ptile->resource));
+  }
+  if (linebreaks & TILE_LB_RESOURCE_POLL) {
+    /* New linebreak requested */
+    lb = TRUE;
   }
 
-  first = TRUE;
-  if (tile_has_special(ptile, S_POLLUTION)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, " [");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, special_name_translation(S_POLLUTION));
-  }
-  if (tile_has_special(ptile, S_FALLOUT)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, " [");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, special_name_translation(S_FALLOUT));
-  }
-  if (!first) {
+  pollution = FALSE;
+  pollution = tile_info_pollution(s, bufsz, ptile, S_POLLUTION, pollution, lb);
+  pollution = tile_info_pollution(s, bufsz, ptile, S_FALLOUT, pollution, lb);
+  if (pollution) {
     sz_strlcat(s, "]");
   }
 

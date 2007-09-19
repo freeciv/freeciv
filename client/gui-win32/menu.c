@@ -995,7 +995,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   struct tile newtile = *ptile;
 
   tile_apply_activity(&newtile, activity);
-  return tile_get_info_text(ptile);
+  return tile_get_info_text(ptile, 0);
 }
 
 /**************************************************************************
