@@ -4,10 +4,6 @@ SUBDIRS=        ftwl
 
 noinst_LIBRARIES = libcivutility.a
 
-AM_CPPFLAGS = -I../intl
-
-## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
-
 libcivutility_a_SOURCES = \
 		astring.c       \
 		astring.h       \

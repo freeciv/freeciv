@@ -2,9 +2,7 @@
 
 noinst_LIBRARIES = libguiclient.a
 
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../agents -I$(top_srcdir)/utility -I$(srcdir)/../include -I$(top_srcdir)/common/aicore -I$(top_srcdir)/common -I../../intl $(CLIENT_CFLAGS)
-
-## Above, note -I../../intl instead of -I$(top_srdir)/intl is deliberate.
+AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../agents -I$(top_srcdir)/utility -I$(srcdir)/../include -I$(top_srcdir)/common/aicore -I$(top_srcdir)/common $(CLIENT_CFLAGS)
 
 libguiclient_a_SOURCES = \
 	canvas.c	\
