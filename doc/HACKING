@@ -73,10 +73,11 @@ set aifill 7            # fill to 7 players
 hard                    # make the AI do complex things
 create Caesar           # first player (with known name) created and 
                         # toggled to AI mode
-start
+start                   # start game
 
-Note: After the start command the server prompt is unusable in
-autogame mode.
+Note: The server prompt is unusable when game with timeout set to -1
+is running. You can stop such game with single ctrl+c, and continue by
+setting timeout to -1 again.
 
 The commandline to run server-only games can be typed as variations
 of:
