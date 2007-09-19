@@ -703,7 +703,8 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     int min, max;
 
     if (!goto_get_turns(&min, &max)) {
-      astr_add_line(&str, _("Turns to target: %d"), min);
+      /* TRANS: Impossible to reach goto target tile */
+      astr_add_line(&str, Q_("?goto:Unreachable"));
     } else if (min == max) {
       astr_add_line(&str, _("Turns to target: %d"), max);
     } else {
