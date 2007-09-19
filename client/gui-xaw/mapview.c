@@ -207,8 +207,8 @@ void update_unit_info_label(struct unit_list *punitlist)
   char buffer[512];
 
   my_snprintf(buffer, sizeof(buffer), "%s\n%s",
-		get_unit_info_label_text1(punitlist),
-		get_unit_info_label_text2(punitlist));
+              get_unit_info_label_text1(punitlist),
+              get_unit_info_label_text2(punitlist, 0));
   xaw_set_label(unit_info_label, buffer);
 
   if (unit_list_size(punitlist) > 0) {

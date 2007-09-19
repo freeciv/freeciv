@@ -212,7 +212,7 @@ void update_unit_info_label(struct unit_list *punits)
 		     get_unit_info_label_text1(punits));
 
   gtk_label_set_text(GTK_LABEL(unit_info_label),
-		     get_unit_info_label_text2(punits));
+		     get_unit_info_label_text2(punits, 0));
 
   update_unit_pix_label(punits);
 }

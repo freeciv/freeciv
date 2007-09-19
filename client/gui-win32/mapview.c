@@ -199,7 +199,7 @@ void
 update_unit_info_label(struct unit_list *punitlist)
 {
   SetWindowText(unit_info_frame, get_unit_info_label_text1(punitlist));
-  SetWindowText(unit_info_label, get_unit_info_label_text2(punitlist));
+  SetWindowText(unit_info_label, get_unit_info_label_text2(punitlist, 0));
 
   /* Cursor handling has changed a lot. New form is not yet implemented
    * for gui-win32. Old code below is probably never needed again, but

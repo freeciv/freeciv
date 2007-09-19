@@ -404,7 +404,7 @@ static void check_units(void) {
 	freelog(LOG_ERROR, "%s at %d,%d (%s) has activity %s, "
 		"which it can't continue!",
 		unit_rule_name(punit),
-		TILE_XY(ptile), tile_get_info_text(ptile),
+		TILE_XY(ptile), tile_get_info_text(ptile, 0),
 		get_activity_text(punit->activity));
       }
 

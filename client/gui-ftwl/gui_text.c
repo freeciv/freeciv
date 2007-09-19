@@ -145,7 +145,7 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
   add_line(_("Location: (%d, %d) [%d]"),
 	   ptile->x, ptile->y, ptile->continent);
 #endif
-  add_line("%s", tile_get_info_text(ptile));
+  add_line("%s", tile_get_info_text(ptile, 0));
   if (count > 0) {
     add_line("%s",
 	     get_infrastructure_text(infrastructure));

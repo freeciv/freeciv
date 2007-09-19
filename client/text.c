@@ -98,7 +98,7 @@ const char *popup_info_text(struct tile *ptile)
   astr_add_line(&str, _("Location: (%d, %d) [%d]"), 
 		ptile->x, ptile->y, ptile->continent); 
 #endif /*DEBUG*/
-  astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile));
+  astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile, 0));
   astr_add_line(&str, _("Food/Prod/Trade: %s"),
 		get_tile_output_text(ptile));
   if (tile_has_special(ptile, S_HUT)) {
@@ -679,7 +679,7 @@ const char *get_unit_info_label_text1(struct unit_list *punits)
 
   FIXME: this should be renamed.
 ****************************************************************************/
-const char *get_unit_info_label_text2(struct unit_list *punits)
+const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
 {
   static struct astring str = ASTRING_INIT;
   int count;
@@ -692,8 +692,11 @@ const char *get_unit_info_label_text2(struct unit_list *punits)
 
   count = unit_list_size(punits);
 
-  /* This text should always have the same number of lines.  Otherwise the
-   * GUI widgets may be confused and try to resize themselves. */
+  /* This text should always have the same number of lines if
+   * 'linebreaks' has no flags at all. Otherwise the GUI widgets may be
+   * confused and try to resize themselves. If caller asks for
+   * conditional 'linebreaks', it should take care of these problems
+   * itself. */
 
   /* Line 1. Goto or activity text. */
   if (count > 0 && unit_list_size(hover_units) > 0) {
@@ -727,7 +730,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits)
     bv_special infrastructure =
       get_tile_infrastructure_set(punit->tile, &infracount);
 
-    astr_add_line(&str, "%s", tile_get_info_text(punit->tile));
+    astr_add_line(&str, "%s", tile_get_info_text(punit->tile, linebreaks));
     if (infracount > 0) {
       astr_add_line(&str, "%s", get_infrastructure_text(infrastructure));
     } else {
