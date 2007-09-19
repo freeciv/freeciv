@@ -53,9 +53,7 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
 
 bin_PROGRAMS = civclient
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents $(CLIENT_CFLAGS) $(SOUND_CFLAGS) $(LIBGGZ_INCLUDES) $(GGZMOD_INCLUDES) $(GGZ_GTK_INCLUDES)
-
-## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/agents $(CLIENT_CFLAGS) $(SOUND_CFLAGS) $(LIBGGZ_INCLUDES) $(GGZMOD_INCLUDES) $(GGZ_GTK_INCLUDES)
 
 civclient_SOURCES = $(AUDIO_SDL_FILES) \
 	attribute.h	\

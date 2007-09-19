@@ -8,7 +8,7 @@ endif
 
 noinst_LIBRARIES = $(FTWLLIB)
 
-AM_CPPFLAGS = -I. -I$(top_srcdir)/utility  -I../../intl $(FTWL_CFLAGS)
+AM_CPPFLAGS = -I. -I$(top_srcdir)/utility $(FTWL_CFLAGS)
 
 BACKEND_COMMON_FILES=		\
 	be_common_32.c		\
@@ -79,8 +79,6 @@ endif
 if FTWL
 OTHER_FILES=$(ALL_OTHER_FILES)
 endif
-
-## Above, note -I../../intl instead of -I$(top_srdir)/intl is deliberate.
 
 libftwl_a_SOURCES = $(BACKEND_X11_FILES) \
 	$(BACKEND_SDL_FILES) $(OTHER_FILES)

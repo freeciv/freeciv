@@ -2,9 +2,7 @@
 
 noinst_LIBRARIES = libguiclient.a
 
-AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../../intl -I$(srcdir)/../agents $(CLIENT_CFLAGS)
-
-## Above, note -I../../intl instead of -I$(top_srdir/intl) is deliberate.
+AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(CLIENT_CFLAGS)
 
 libguiclient_a_SOURCES = \
 	SDL_rotozoom.c	\
