@@ -7,7 +7,7 @@ AC_PREREQ(2.55)
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AM_CONFIG_HEADER(config.h)
-AC_CANONICAL_TARGET
+AC_CANONICAL_HOST
 
 PACKAGE=freeciv
 
@@ -366,33 +366,40 @@ if test x`$UNAME -s` = xBeOS ; then
   # necessary with a working automake.
 fi
 
-case $host_os in
-  *mingw32* ) MINGW32=yes;;
-  *amigaos* ) AMIGA=yes;;
-  * ) AMIGA=no; MINGW32=no;;
+dnl Defaults
+MINGW32=no
+AMIGA=no
+
+dnl Settings specific to host OS
+case "$host_os" in
+
+  *mingw32*)
+    dnl Windows-specific settings
+    MINGW32=yes
+    AC_CHECK_TOOL([WINDRES], [windres])
+    if test -z $WINDRES; then
+	  AC_MSG_ERROR([*** 'windres' missing.  Install binutils, fix your \$PATH, or set \$WINDRES manually. ***])
+    fi
+
+    AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [Mingw32-specific setting - stdin])
+    AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw32])
+    AC_DEFINE([WIN32_NATIVE], [1], [Mingw32-specific setting - native])
+    AC_DEFINE([HAVE_WINSOCK], [1], [Mingw32-specific setting - winsock])
+    AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
+    LIBS="$LIBS -lwsock32"
+    ;;
+
+  *skyos*)
+    dnl SkyOS specific settings
+    AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - SkyOS])
+    ;;
+
+  *amigaos*)
+    AMIGA=yes
+    AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Amiga])
+    ;;
+
 esac
-
-dnl Amiga-specific settings
-if test x"$AMIGA" = "xyes"; then
-  AC_DEFINE(ALWAYS_ROOT, 1, [Amiga-specific setting - root])
-fi
-
-dnl Windows-specific settings
-AC_DIAGNOSE([obsolete],[AC_MINGW32 is obsolete: use AC_CANONICAL_HOST and $host_os])
-
-if test x"$MINGW32" = "xyes"; then
-  AC_CHECK_TOOL([WINDRES], [windres])
-  if test -z $WINDRES; then
-	AC_MSG_ERROR([*** 'windres' missing.  Install binutils, fix your \$PATH, or set \$WINDRES manually. ***])
-  fi
-
-  AC_DEFINE(SOCKET_ZERO_ISNT_STDIN, 1, [Mingw32-specific setting - stdin])
-  AC_DEFINE(ALWAYS_ROOT, 1, [Mingw32-specific setting - root])
-  AC_DEFINE(WIN32_NATIVE, 1, [Mingw32-specific setting - native])
-  AC_DEFINE(HAVE_WINSOCK, 1, [Mingw32-specific setting - winsock])
-  AC_DEFINE(NONBLOCKING_SOCKETS, 1, [nonblocking sockets support])
-  LIBS="$LIBS -lwsock32"
-fi
 
 dnl note this has to match the path installed by po/Makefile
 if test x"$MINGW32" != "xyes"; then
