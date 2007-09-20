@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-18 10:15+0300\n"
-"PO-Revision-Date: 2007-09-18 11:33+0200\n"
+"POT-Creation-Date: 2007-09-20 15:39+0300\n"
+"PO-Revision-Date: 2007-09-20 15:58+0200\n"
 "Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
 "Language-Team: Turkish <email@katpatuka.org>\n"
 "MIME-Version: 1.0\n"
@@ -645,7 +645,7 @@ msgstr "Geleceğin Teknolojisi %d"
 #: client/gui-sdl/helpdlg.c:403
 #: client/gui-sdl/helpdlg.c:792
 #: client/gui-sdl/helpdlg.c:817
-#: client/gui-sdl/mapview.c:945
+#: client/gui-sdl/mapview.c:946
 #: client/gui-win32/helpdlg.c:165
 #: client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715
@@ -1507,8 +1507,8 @@ msgid "You have bought this turn, can't change."
 msgstr ""
 
 #: server/cityhand.c:388
-#: client/text.c:1138
-#: client/text.c:1175
+#: client/text.c:1139
+#: client/text.c:1176
 #: client/gui-win32/citydlg.c:1263
 #, c-format
 msgid "%s"
@@ -6467,13 +6467,13 @@ msgstr "dosya: \"%s\""
 #: client/audio.c:238
 #, c-format
 msgid "file options: %s"
-msgstr ""
+msgstr "dosya seçenekleri: %s"
 
 #: client/audio.c:231
 #: client/audio.c:239
 #, c-format
 msgid "supported options: %s"
-msgstr ""
+msgstr "desteklenen seçenekler: %s"
 
 #: client/audio.c:235
 msgid "sound spec-file claims required option(s) which we don't support:"
@@ -6490,7 +6490,7 @@ msgstr ""
 #: client/audio.c:282
 #, c-format
 msgid "Cannot find audio file %s"
-msgstr ""
+msgstr "Ses dosyası %s bulunanadı"
 
 #: client/citydlg_common.c:215
 msgid "?filler:XXX/XXX XXX turns"
@@ -7000,7 +7000,7 @@ msgstr ""
 #: client/civclient.c:269
 #: client/civclient.c:284
 msgid "Try using --help.\n"
-msgstr ""
+msgstr "-- help kullanmaya bir dene\n"
 
 #: client/civclient.c:282
 #, c-format
@@ -8002,7 +8002,7 @@ msgstr "* %s yapma imkanı sağlar.\n"
 #: client/helpdata.c:1649
 #, c-format
 msgid "%s%d %s"
-msgstr ""
+msgstr "%s%d %s"
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1657
@@ -8072,7 +8072,7 @@ msgstr ""
 #: client/gui-win32/connectdlg.c:912
 #: data/Freeciv.in:107
 msgid "Metaserver"
-msgstr ""
+msgstr "Metaserver"
 
 #: client/options.c:117
 msgid "The metaserver is a host that the client contacts to find out about games on the internet.  Don't change this from its default value unless you know what you're doing."
@@ -8511,27 +8511,27 @@ msgstr ""
 #: client/text.c:83
 #: client/text.c:84
 #: client/text.c:89
-#: client/gui-sdl/mapview.c:742
+#: client/gui-sdl/mapview.c:743
 msgid "?nation:Neutral"
 msgstr "?nation:Tarafsız"
 
 #: client/text.c:83
-#: client/gui-sdl/mapview.c:742
+#: client/gui-sdl/mapview.c:743
 msgid "?nation:Hostile"
 msgstr "?nation:Düşmanca"
 
 #: client/text.c:85
-#: client/gui-sdl/mapview.c:744
+#: client/gui-sdl/mapview.c:745
 msgid "?nation:Peaceful"
 msgstr "?nation:Huzurlu"
 
 #: client/text.c:85
-#: client/gui-sdl/mapview.c:744
+#: client/gui-sdl/mapview.c:745
 msgid "?nation:Friendly"
 msgstr "?nation:Dostça"
 
 #: client/text.c:86
-#: client/gui-sdl/mapview.c:745
+#: client/gui-sdl/mapview.c:746
 msgid "?nation:Mysterious"
 msgstr "?nation:Acayıp"
 
@@ -8540,27 +8540,27 @@ msgid "?nation:Friendly(team)"
 msgstr "?nation:Dostça(takım)"
 
 #: client/text.c:88
-#: client/gui-sdl/mapview.c:775
+#: client/gui-sdl/mapview.c:776
 msgid "?city:Neutral"
 msgstr "?city:Tarafsız"
 
 #: client/text.c:88
-#: client/gui-sdl/mapview.c:775
+#: client/gui-sdl/mapview.c:776
 msgid "?city:Hostile"
 msgstr "?city:Düşmanca"
 
 #: client/text.c:90
-#: client/gui-sdl/mapview.c:776
+#: client/gui-sdl/mapview.c:777
 msgid "?city:Peaceful"
 msgstr "?city:Huzurlu"
 
 #: client/text.c:90
-#: client/gui-sdl/mapview.c:777
+#: client/gui-sdl/mapview.c:778
 msgid "?city:Friendly"
 msgstr "?city:Dostça"
 
 #: client/text.c:90
-#: client/gui-sdl/mapview.c:777
+#: client/gui-sdl/mapview.c:778
 msgid "?city:Mysterious"
 msgstr "?city:Acayıp"
 
@@ -8633,7 +8633,7 @@ msgid "City: %s (%s, %s)"
 msgstr "Şehir: %s (%s, %s)"
 
 #: client/text.c:179
-#: client/gui-sdl/mapview.c:791
+#: client/gui-sdl/mapview.c:792
 msgid " with "
 msgstr " ile "
 
@@ -8861,59 +8861,63 @@ msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] "%d birlik"
 
-#: client/text.c:689
-#: client/text.c:691
-#: client/gui-sdl/mapview.c:557
-#: client/gui-sdl/mapview.c:559
+#. TRANS: Impossible to reach goto target tile
+#: client/text.c:690
+#: client/gui-sdl/mapview.c:558
+msgid "?goto:Unreachable"
+msgstr ""
+
+#: client/text.c:692
+#: client/gui-sdl/mapview.c:560
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Hedefe kadar raunt: %d"
 
-#: client/text.c:693
-#: client/gui-sdl/mapview.c:561
+#: client/text.c:694
+#: client/gui-sdl/mapview.c:562
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Hedefe kadar raunt: %d - %d"
 
-#: client/text.c:699
-#: client/gui-sdl/mapview.c:567
+#: client/text.c:700
+#: client/gui-sdl/mapview.c:568
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d birlik seçildi"
 
-#: client/text.c:704
-#: client/gui-sdl/mapview.c:572
+#: client/text.c:705
+#: client/gui-sdl/mapview.c:573
 msgid "No units selected."
 msgstr "Seçilmiş birlik yok."
 
-#: client/text.c:778
-#: client/gui-sdl/mapview.c:645
+#: client/text.c:779
+#: client/gui-sdl/mapview.c:646
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Diğer: %d sivil; %d askeri"
 
-#: client/text.c:780
-#: client/gui-sdl/mapview.c:647
+#: client/text.c:781
+#: client/gui-sdl/mapview.c:648
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Diğer: %d sivil"
 
-#: client/text.c:782
-#: client/gui-sdl/mapview.c:649
+#: client/text.c:783
+#: client/gui-sdl/mapview.c:650
 #, c-format
 msgid "Others: %d military"
 msgstr "Diğer: %d askeri"
 
-#: client/text.c:813
+#: client/text.c:814
 msgid "No units to upgrade!"
 msgstr ""
 
-#: client/text.c:838
+#: client/text.c:839
 msgid "None of these units may be upgraded."
 msgstr ""
 
-#: client/text.c:844
+#: client/text.c:845
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -8924,165 +8928,165 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/text.c:865
+#: client/text.c:866
 msgid "Shows your progress in researching the current technology."
 msgstr ""
 
-#: client/text.c:871
+#: client/text.c:872
 msgid "no research target."
 msgstr ""
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:874
+#: client/text.c:875
 #, c-format
 msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
-#: client/text.c:894
+#: client/text.c:895
 msgid "Shows the progress of global warming:"
 msgstr ""
 
-#: client/text.c:895
+#: client/text.c:896
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Kirlilik oranı: %d%%"
 
-#: client/text.c:897
+#: client/text.c:898
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr ""
 
-#: client/text.c:913
+#: client/text.c:914
 msgid "Shows the progress of nuclear winter:"
 msgstr ""
 
-#: client/text.c:914
+#: client/text.c:915
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Serpinti oranı: %d%%"
 
-#: client/text.c:916
+#: client/text.c:917
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr ""
 
-#: client/text.c:931
+#: client/text.c:932
 msgid "Shows your current government:"
 msgstr "Varolan hükümetini gösterir:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:955
+#: client/text.c:956
 #, c-format
 msgid "Population:      %5d"
 msgstr "Nüfüs:            %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:958
+#: client/text.c:959
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Destek:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:962
+#: client/text.c:963
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Enerji:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:966
+#: client/text.c:967
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Yük:             %5d ton"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:972
+#: client/text.c:973
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Varış:           %5.1f yıl"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:976
+#: client/text.c:977
 msgid "Travel time:        N/A     "
 msgstr "Varış:           N/A     "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:980
+#: client/text.c:981
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Başarma olasılığı: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:984
+#: client/text.c:985
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Variş yılı:      %8s"
 
-#: client/text.c:1004
+#: client/text.c:1005
 msgid "?timeout:off"
 msgstr ""
 
-#: client/text.c:1028
+#: client/text.c:1029
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02ds"
 
-#: client/text.c:1030
+#: client/text.c:1031
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dd %02ds"
 
-#: client/text.c:1032
+#: client/text.c:1033
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02ds %02dd"
 
-#: client/text.c:1034
+#: client/text.c:1035
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dg %02ds"
 
-#: client/text.c:1037
+#: client/text.c:1038
 msgid "?duration:overflow"
 msgstr ""
 
-#: client/text.c:1058
+#: client/text.c:1059
 #, c-format
 msgid "%6d.%02d ms"
 msgstr ""
 
 #. TRANS: "Republic of the Polish"
-#: client/text.c:1101
+#: client/text.c:1102
 #, c-format
 msgid "%s of the %s"
 msgstr ""
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1111
+#: client/text.c:1112
 #, c-format
 msgid "Observer: %s"
 msgstr "Gözleyici: %s"
 
-#: client/text.c:1129
+#: client/text.c:1130
 msgid "Buildings: "
 msgstr "Yapı:"
 
-#: client/text.c:1135
-#: client/text.c:1172
+#: client/text.c:1136
+#: client/text.c:1173
 msgid ", "
 msgstr ", "
 
-#: client/text.c:1145
-#: client/text.c:1183
+#: client/text.c:1146
+#: client/text.c:1184
 msgid "None. "
 msgstr "Hiç. "
 
-#: client/text.c:1147
-#: client/text.c:1185
+#: client/text.c:1148
+#: client/text.c:1186
 msgid "."
 msgstr "."
 
-#: client/text.c:1165
+#: client/text.c:1166
 msgid "Wonders: "
 msgstr "Mucize:"
 
@@ -10387,7 +10391,7 @@ msgstr "Tamam, devam"
 
 #: client/gui-gtk-2.0/gui_main.c:1059
 #: client/gui-sdl/mapctrl.c:1565
-#: client/gui-sdl/mapview.c:1073
+#: client/gui-sdl/mapview.c:1074
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
@@ -10769,7 +10773,7 @@ msgstr "+%d Ticaret / %d"
 #: client/gui-xaw/helpdlg.c:1002
 #, c-format
 msgid "no extra / %d"
-msgstr ""
+msgstr "ekstra yok / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1070
 #: client/gui-gtk-2.0/helpdlg.c:1074
@@ -11707,7 +11711,7 @@ msgid "Server Name"
 msgstr "Sunucu Adı"
 
 #: client/gui-gtk-2.0/pages.c:701
-#: client/gui-sdl/mapview.c:799
+#: client/gui-sdl/mapview.c:800
 #: client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
@@ -11788,7 +11792,7 @@ msgstr "%s info"
 
 #: client/gui-gtk-2.0/pages.c:1169
 msgid "Toggle player ready"
-msgstr ""
+msgstr "Oyuncu hazır/hayır değil değiştirir"
 
 #: client/gui-gtk-2.0/pages.c:1177
 msgid "Pick nation"
@@ -11800,7 +11804,7 @@ msgstr "Bu oyuncu izle"
 
 #: client/gui-gtk-2.0/pages.c:1194
 msgid "Take this player"
-msgstr ""
+msgstr "Bu oyuncu al"
 
 #: client/gui-gtk-2.0/pages.c:1211
 msgid "Cut connection"
@@ -12351,7 +12355,7 @@ msgid "Cancel"
 msgstr "İptal et"
 
 #: client/gui-sdl/citydlg.c:711
-#: client/gui-sdl/mapview.c:942
+#: client/gui-sdl/mapview.c:943
 msgid ""
 "\n"
 "veteran"
@@ -12643,7 +12647,7 @@ msgstr ""
 #: client/gui-sdl/repodlgs.c:3296
 #: client/gui-sdl/spaceshipdlg.c:162
 msgid "Close Dialog (Esc)"
-msgstr ""
+msgstr "Pencere kapat (Esc)"
 
 #: client/gui-sdl/citydlg.c:3688
 msgid "Present units"
@@ -12690,7 +12694,7 @@ msgstr "Şehir Raporu"
 
 #: client/gui-sdl/cityrep.c:201
 msgid "Close Dialog"
-msgstr ""
+msgstr "Pencere kapat"
 
 #: client/gui-sdl/cityrep.c:215
 msgid "Information Report"
@@ -12746,7 +12750,7 @@ msgstr "Ayarları sil"
 #: client/gui-sdl/cma_fe.c:996
 #: client/gui-win32/cma_fe.c:490
 msgid "Control city"
-msgstr ""
+msgstr "Sehri yönet"
 
 #: client/gui-sdl/cma_fe.c:1005
 #: client/gui-win32/cma_fe.c:488
@@ -12766,7 +12770,7 @@ msgstr ""
 #: client/gui-sdl/connectdlg.c:279
 #: client/gui-sdl/connectdlg.c:343
 msgid "No LAN servers found"
-msgstr ""
+msgstr "Yerel (LAN) sunucuları bulunmadı"
 
 #: client/gui-sdl/connectdlg.c:281
 #: client/gui-sdl/connectdlg.c:345
@@ -12797,7 +12801,7 @@ msgstr "Bağlan"
 #: client/gui-sdl/connectdlg.c:977
 #: client/gui-xaw/connectdlg.c:145
 msgid "Next"
-msgstr ""
+msgstr "Devam"
 
 #: client/gui-sdl/dialogs.c:463
 #: client/gui-sdl/menu.c:423
@@ -12844,7 +12848,7 @@ msgstr "Gelişmiş Ayarları"
 #: client/gui-sdl/dialogs.c:1244
 #, c-format
 msgid "Zoom to : %s"
-msgstr ""
+msgstr "Büyüt : %s"
 
 #: client/gui-sdl/dialogs.c:1258
 #: client/gui-win32/citydlg.c:1063
@@ -12858,7 +12862,7 @@ msgstr ""
 
 #: client/gui-sdl/dialogs.c:1303
 msgid "Goto here"
-msgstr ""
+msgstr "Oraya git"
 
 #: client/gui-sdl/dialogs.c:1314
 msgid "Patrol here"
@@ -12866,7 +12870,7 @@ msgstr "Burada devriye gezdir"
 
 #: client/gui-sdl/dialogs.c:1327
 msgid "Connect here"
-msgstr ""
+msgstr "Oraya bağlan"
 
 #: client/gui-sdl/dialogs.c:1348
 msgid "Paradrop here"
@@ -12989,7 +12993,7 @@ msgstr "Gelişimler"
 #: client/gui-win32/diplodlg.c:598
 #: data/Freeciv.in:269
 msgid "Diplomacy meeting"
-msgstr ""
+msgstr "Diplomatik buluşması"
 
 #: client/gui-sdl/diplodlg.c:877
 #: client/gui-win32/diplodlg.c:680
@@ -13006,7 +13010,7 @@ msgstr "Antlaşma kabul et"
 #: client/gui-sdl/diplodlg.c:1298
 #, c-format
 msgid "%s incident !"
-msgstr ""
+msgstr "%s Olay !"
 
 #: client/gui-sdl/diplodlg.c:1315
 msgid "Shall we declare WAR on them?"
@@ -13451,14 +13455,14 @@ msgstr "%s: Nüfus %s  Yıl: %s  Altın %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s Nüfus: %s  Yıl: %s  Altın %d Vergi: %d Lüks: %d Fen: %d "
 
-#: client/gui-sdl/mapview.c:717
+#: client/gui-sdl/mapview.c:718
 #: data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18
 #: data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "kidemli"
 
-#: client/gui-sdl/mapview.c:747
+#: client/gui-sdl/mapview.c:748
 msgid ""
 "\n"
 "Our Territory"
@@ -13466,7 +13470,7 @@ msgstr ""
 "\n"
 "Bizim Toprak"
 
-#: client/gui-sdl/mapview.c:753
+#: client/gui-sdl/mapview.c:754
 #, c-format
 msgid ""
 "\n"
@@ -13478,7 +13482,7 @@ msgstr[0] ""
 "\n"
 "%s toprak (%d raunt ateşkes)"
 
-#: client/gui-sdl/mapview.c:757
+#: client/gui-sdl/mapview.c:758
 #, c-format
 msgid ""
 "\n"
@@ -13487,7 +13491,7 @@ msgstr ""
 "\n"
 "%s'nin toprakları %s"
 
-#: client/gui-sdl/mapview.c:763
+#: client/gui-sdl/mapview.c:764
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -13495,7 +13499,7 @@ msgstr ""
 "\n"
 "Sahibi çıkmamış toprak"
 
-#: client/gui-sdl/mapview.c:779
+#: client/gui-sdl/mapview.c:780
 #, c-format
 msgid ""
 "\n"
@@ -13504,20 +13508,20 @@ msgstr ""
 "\n"
 "Şehir: %s"
 
-#: client/gui-sdl/mapview.c:793
+#: client/gui-sdl/mapview.c:794
 #: data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96
 #: data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Kışla"
 
-#: client/gui-sdl/mapview.c:805
+#: client/gui-sdl/mapview.c:806
 #: data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "Havaalanı"
 
-#: client/gui-sdl/mapview.c:811
+#: client/gui-sdl/mapview.c:812
 #: data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189
 #: data/civ1/buildings.ruleset:158
@@ -13525,7 +13529,7 @@ msgid "City Walls"
 msgstr "Surlar"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:818
+#: client/gui-sdl/mapview.c:819
 #, c-format
 msgid ""
 "\n"
@@ -13534,7 +13538,7 @@ msgstr ""
 "\n"
 "(%s,%s)"
 
-#: client/gui-sdl/mapview.c:829
+#: client/gui-sdl/mapview.c:830
 #, c-format
 msgid ""
 "\n"
@@ -13543,11 +13547,11 @@ msgstr ""
 "\n"
 "Gıda/Üret./Tic.: %s"
 
-#: client/gui-sdl/mapview.c:1073
+#: client/gui-sdl/mapview.c:1074
 msgid "End of Turn"
 msgstr "Raunt sonu"
 
-#: client/gui-sdl/mapview.c:1073
+#: client/gui-sdl/mapview.c:1074
 msgid "Press"
 msgstr ""
 
@@ -13897,7 +13901,7 @@ msgstr ""
 
 #: client/gui-sdl/pages.c:215
 msgid "Join LAN Server"
-msgstr ""
+msgstr "Yerel (LAN) sunucuna katıl"
 
 #: client/gui-sdl/pages.c:296
 msgid "SDLClient welcomes you..."
@@ -14039,7 +14043,7 @@ msgstr ""
 #: client/gui-win32/repodlgs.c:765
 #: client/gui-xaw/repodlgs.c:1160
 msgid "The Greatest Civilizations in the world."
-msgstr ""
+msgstr "Dünya'nın en Gelişmiş Toplumu"
 
 #: client/gui-sdl/spaceshipdlg.c:142
 #, c-format
@@ -15256,7 +15260,7 @@ msgstr "Memleketi Yap"
 
 #: client/gui-xaw/menu.c:188
 msgid "Unload Transporter"
-msgstr ""
+msgstr "Araçtan İndir"
 
 #: client/gui-xaw/menu.c:190
 msgid "Load"
@@ -15344,7 +15348,7 @@ msgstr "Uzay Yolu Yarışması"
 #: client/gui-xaw/menu.c:250
 #: data/helpdata.txt:77
 msgid "Copying"
-msgstr ""
+msgstr "Kopyalanıyor"
 
 #: client/gui-xaw/repodlgs.c:228
 #: client/gui-xaw/repodlgs.c:489
@@ -15701,7 +15705,7 @@ msgstr "Hedef Şablonu Sil"
 
 #: data/Freeciv.in:1471
 msgid "Control City"
-msgstr ""
+msgstr "Şehri Yönet"
 
 #: data/Freeciv.in:1472
 msgid "Release City"
