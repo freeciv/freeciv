@@ -991,46 +991,51 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
 
   static bool titles_done;
   gint i;
-
+  GtkCellRenderer *rend;
+  GtkTreeViewColumn *col;
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
-  for (i = 0; i < ARRAY_SIZE(titles); i++) {
-    GtkCellRenderer *rend;
-    GtkTreeViewColumn *col;
+  /* Case i == 0 taken out of the loop to workaround gcc-4.2.1 bug
+   * http://gcc.gnu.org/PR33381
+   * Some values would 'stick' from i == 0 round. */
+  i = 0;
 
-    if (i == 0) {
-      rend = gtk_cell_renderer_pixbuf_new();
+  rend = gtk_cell_renderer_pixbuf_new();
 
-      gtk_tree_view_insert_column_with_data_func(view,
-	  i, titles[i], rend, cell_render_func, ppcity, NULL);
-      col = gtk_tree_view_get_column(view, i);
+  gtk_tree_view_insert_column_with_data_func(view,
+                   i, titles[i], rend, cell_render_func, ppcity, NULL);
+  col = gtk_tree_view_get_column(view, i);
 
-      if (show_task_icons) {
-	if (max_unit_width == -1 || max_unit_height == -1) {
-	  update_max_unit_size();
-	}
-      } else {
-	g_object_set(col, "visible", FALSE, NULL);
-      }
-    } else {
-      gint pos = i-1;
+  if (show_task_icons) {
+    if (max_unit_width == -1 || max_unit_height == -1) {
+      update_max_unit_size();
+    }
+  } else {
+    g_object_set(col, "visible", FALSE, NULL);
+  }
+  if (show_task_icons) {
+    g_object_set(rend, "height", max_unit_height, NULL);
+  }
 
-      rend = gtk_cell_renderer_text_new();
-      g_object_set_data(G_OBJECT(rend), "column", GINT_TO_POINTER(pos));
+  for (i = 1; i < ARRAY_SIZE(titles); i++) {
 
-      gtk_tree_view_insert_column_with_data_func(view,
-	  i, titles[i], rend, cell_render_func, ppcity, NULL); 
-      col = gtk_tree_view_get_column(view, i);
+    gint pos = i-1;
 
-      if (pos >= 2) {
-	g_object_set(G_OBJECT(rend), "xalign", 1.0, NULL);
-	gtk_tree_view_column_set_alignment(col, 1.0);
-      }
+    rend = gtk_cell_renderer_text_new();
+    g_object_set_data(G_OBJECT(rend), "column", GINT_TO_POINTER(pos));
 
-      if (pos == 3) {
-	*pcol = col;
-      }
+    gtk_tree_view_insert_column_with_data_func(view,
+	i, titles[i], rend, cell_render_func, ppcity, NULL); 
+    col = gtk_tree_view_get_column(view, i);
+
+    if (pos >= 2) {
+      g_object_set(G_OBJECT(rend), "xalign", 1.0, NULL);
+      gtk_tree_view_column_set_alignment(col, 1.0);
+    }
+
+    if (pos == 3) {
+      *pcol = col;
     }
     if (show_task_icons) {
       g_object_set(rend, "height", max_unit_height, NULL);
