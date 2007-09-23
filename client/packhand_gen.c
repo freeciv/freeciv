@@ -243,6 +243,14 @@ bool client_handle_packet(enum packet_type type, void *packet)
       ((struct packet_new_year *)packet)->turn);
     return TRUE;
 
+  case PACKET_BEGIN_TURN:
+    handle_begin_turn();
+    return TRUE;
+
+  case PACKET_END_TURN:
+    handle_end_turn();
+    return TRUE;
+
   case PACKET_FREEZE_CLIENT:
     handle_freeze_client();
     return TRUE;

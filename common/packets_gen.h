@@ -733,6 +733,14 @@ struct packet_new_year {
   int turn;
 };
 
+struct packet_begin_turn {
+  char __dummy;			/* to avoid malloc(0); */
+};
+
+struct packet_end_turn {
+  char __dummy;			/* to avoid malloc(0); */
+};
+
 struct packet_freeze_client {
   char __dummy;			/* to avoid malloc(0); */
 };
@@ -1165,6 +1173,8 @@ enum packet_type {
   PACKET_RULESET_RESOURCE,
   PACKET_FREEZE_CLIENT = 135,
   PACKET_THAW_CLIENT,
+  PACKET_BEGIN_TURN,
+  PACKET_END_TURN,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1549,6 +1559,14 @@ void dlsend_packet_start_phase(struct conn_list *dest, int phase);
 struct packet_new_year *receive_packet_new_year(struct connection *pc, enum packet_type type);
 int send_packet_new_year(struct connection *pc, const struct packet_new_year *packet);
 void lsend_packet_new_year(struct conn_list *dest, const struct packet_new_year *packet);
+
+struct packet_begin_turn *receive_packet_begin_turn(struct connection *pc, enum packet_type type);
+int send_packet_begin_turn(struct connection *pc);
+void lsend_packet_begin_turn(struct conn_list *dest);
+
+struct packet_end_turn *receive_packet_end_turn(struct connection *pc, enum packet_type type);
+int send_packet_end_turn(struct connection *pc);
+void lsend_packet_end_turn(struct conn_list *dest);
 
 struct packet_freeze_client *receive_packet_freeze_client(struct connection *pc, enum packet_type type);
 int send_packet_freeze_client(struct connection *pc);

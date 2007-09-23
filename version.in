@@ -21,6 +21,9 @@ FREECIV_RELEASE_MONTH(10)
 # "ReportFreezeFix" allows clients to correctly freeze reports and agents
 #                   over turn change.
 #
+# "CF"              CursorFix makes sure that wait cursor is in use between
+#                   turns and only between turns.
+#
 #
 #   - No new manditory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
@@ -28,4 +31,4 @@ FREECIV_RELEASE_MONTH(10)
 #   - Avoid adding a new manditory capability to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-FREECIV_NETWORK_CAPSTRING(["+2.1f, ReportFreezeFix"])
+FREECIV_NETWORK_CAPSTRING(["+2.1f, ReportFreezeFix CF"])

@@ -398,7 +398,11 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
       unsellect_widget_action();
     } else {
       if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-        handle_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
+        struct tile *ptile = canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y);
+
+        handle_mouse_cursor(ptile);
+        hover_tile = ptile;
+
 #ifndef UNDER_CE
         check_scroll_area(pMotionEvent->x, pMotionEvent->y);
 #endif          

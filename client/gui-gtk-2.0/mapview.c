@@ -215,6 +215,9 @@ void update_unit_info_label(struct unit_list *punits)
   gtk_label_set_text(GTK_LABEL(unit_info_label),
 		     get_unit_info_label_text2(punits));
 
+  if (action_state == CURSOR_ACTION_WAIT) {
+    mouse_cursor_type = CURSOR_WAIT;
+  } else {
   switch (hover_state) {
   case HOVER_NONE:
     if (action_state == CURSOR_ACTION_SELECT) {
@@ -258,6 +261,7 @@ void update_unit_info_label(struct unit_list *punits)
   case HOVER_PARADROP:
     mouse_cursor_type = CURSOR_PARADROP;
     break;
+  }
   }
 
   modify_mouse_cursor(mouse_cursor_type);

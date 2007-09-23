@@ -201,6 +201,9 @@ update_unit_info_label(struct unit_list *punitlist)
   SetWindowText(unit_info_frame, get_unit_info_label_text1(punitlist));
   SetWindowText(unit_info_label, get_unit_info_label_text2(punitlist));
 
+  if (action_state == CURSOR_ACTION_WAIT) {
+    cursor_type = CURSOR_WAIT;
+  } else {
   switch (hover_state) {
     case HOVER_NONE:
       if (action_state == CURSOR_ACTION_SELECT) {
@@ -244,6 +247,7 @@ update_unit_info_label(struct unit_list *punitlist)
     case HOVER_PARADROP:
       cursor_type = CURSOR_PARADROP;
       break;
+  }
   }
 
   do_mainwin_layout();

@@ -31,7 +31,8 @@ enum cursor_action_state {
   CURSOR_ACTION_INVALID,
   CURSOR_ACTION_ATTACK,
   CURSOR_ACTION_NUKE,
-  CURSOR_ACTION_PARATROOPER
+  CURSOR_ACTION_PARATROOPER,
+  CURSOR_ACTION_WAIT
 };
 
 /* Selecting unit from a stack without popup. */

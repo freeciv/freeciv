@@ -897,6 +897,13 @@ void handle_mouse_cursor(struct tile *ptile)
   struct city *pcity = NULL;
   struct unit_list *active_units = get_units_in_focus();
 
+  if (is_server_busy()) {
+    /* Server will not accept any commands. */
+    action_state = CURSOR_ACTION_WAIT;
+    update_unit_info_label(active_units);
+    return;
+  }
+
   if (!ptile) {
     if (hover_tile) {
       /* hover_tile is the tile which is currently under the mouse cursor. */

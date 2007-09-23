@@ -317,6 +317,12 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_NEW_YEAR:
     return receive_packet_new_year(pc, type);
 
+  case PACKET_BEGIN_TURN:
+    return receive_packet_begin_turn(pc, type);
+
+  case PACKET_END_TURN:
+    return receive_packet_end_turn(pc, type);
+
   case PACKET_FREEZE_CLIENT:
     return receive_packet_freeze_client(pc, type);
 
@@ -682,6 +688,12 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_NEW_YEAR:
     return "PACKET_NEW_YEAR";
+
+  case PACKET_BEGIN_TURN:
+    return "PACKET_BEGIN_TURN";
+
+  case PACKET_END_TURN:
+    return "PACKET_END_TURN";
 
   case PACKET_FREEZE_CLIENT:
     return "PACKET_FREEZE_CLIENT";
@@ -20952,6 +20964,160 @@ void lsend_packet_new_year(struct conn_list *dest, const struct packet_new_year 
 {
   conn_list_iterate(dest, pconn) {
     send_packet_new_year(pconn, packet);
+  } conn_list_iterate_end;
+}
+
+static struct packet_begin_turn *receive_packet_begin_turn_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_begin_turn, real_packet);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_begin_turn_100(struct connection *pc)
+{
+  SEND_PACKET_START(PACKET_BEGIN_TURN);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_begin_turn(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_BEGIN_TURN] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_BEGIN_TURN] = variant;
+}
+
+struct packet_begin_turn *receive_packet_begin_turn(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_begin_turn at the server.");
+  }
+  ensure_valid_variant_packet_begin_turn(pc);
+
+  switch(pc->phs.variant[PACKET_BEGIN_TURN]) {
+    case 100: return receive_packet_begin_turn_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_begin_turn(struct connection *pc)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_begin_turn from the client.");
+  }
+  ensure_valid_variant_packet_begin_turn(pc);
+
+  switch(pc->phs.variant[PACKET_BEGIN_TURN]) {
+    case 100: return send_packet_begin_turn_100(pc);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_begin_turn(struct conn_list *dest)
+{
+  conn_list_iterate(dest, pconn) {
+    send_packet_begin_turn(pconn);
+  } conn_list_iterate_end;
+}
+
+static struct packet_end_turn *receive_packet_end_turn_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_end_turn, real_packet);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_end_turn_100(struct connection *pc)
+{
+  SEND_PACKET_START(PACKET_END_TURN);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_end_turn(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_END_TURN] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_END_TURN] = variant;
+}
+
+struct packet_end_turn *receive_packet_end_turn(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_end_turn at the server.");
+  }
+  ensure_valid_variant_packet_end_turn(pc);
+
+  switch(pc->phs.variant[PACKET_END_TURN]) {
+    case 100: return receive_packet_end_turn_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_end_turn(struct connection *pc)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_end_turn from the client.");
+  }
+  ensure_valid_variant_packet_end_turn(pc);
+
+  switch(pc->phs.variant[PACKET_END_TURN]) {
+    case 100: return send_packet_end_turn_100(pc);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_end_turn(struct conn_list *dest)
+{
+  conn_list_iterate(dest, pconn) {
+    send_packet_end_turn(pconn);
   } conn_list_iterate_end;
 }
 

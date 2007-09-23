@@ -2068,7 +2068,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     for (f = 0; f < NUM_CURSOR_FRAMES; f++) {
       const char *names[CURSOR_LAST] =
                {"goto", "patrol", "paradrop", "nuke", "select", 
-		"invalid", "attack"};
+		"invalid", "attack", "wait"};
       struct small_sprite *ss;
 
       my_snprintf(buffer, sizeof(buffer), "cursor.%s%d", names[i], f);

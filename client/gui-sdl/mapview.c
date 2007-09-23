@@ -1145,6 +1145,9 @@ void update_unit_info_label(struct unit_list *punitlist)
     if(!is_anim_enabled()) {
       enable_focus_animation();
     }
+    if (action_state == CURSOR_ACTION_WAIT) {
+      update_mouse_cursor(CURSOR_WAIT);
+    } else {
     switch (hover_state) {
     case HOVER_NONE:
       if (action_state == CURSOR_ACTION_SELECT) {
@@ -1188,6 +1191,7 @@ void update_unit_info_label(struct unit_list *punitlist)
     case HOVER_PARADROP:
       update_mouse_cursor(CURSOR_PARADROP);
       break;
+    }
     }
   } else {
     disable_focus_animation();
