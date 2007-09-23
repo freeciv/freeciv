@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-sdl/human
 
 pkgdata_DATA =          	\
+	COPYING.DejaVu		\
 	DejaVuSans.ttf		\
 	backgrounds.themespec 	\
 	bg.png			\
