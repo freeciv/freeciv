@@ -517,14 +517,27 @@ bool can_player_see_city_internals(const struct player *pplayer,
  return pointer to the city struct.  Else return NULL.
  Now always uses fast idex_lookup_city.
 
-  pplayer may be NULL in which case all cities will be considered.
+ pplayer may be NULL in which case all cities registered to
+ hash are considered - even those not currently owned by any
+ player. Callers expect this behavior.
 ***************************************************************/
 struct city *player_find_city_by_id(const struct player *pplayer,
 				    int city_id)
 {
+  /* We call idex directly. Should use game_find_city_by_id()
+   * instead? */
   struct city *pcity = idex_lookup_city(city_id);
 
-  return (pcity && city_owner(pcity) == pplayer) ? pcity : NULL;
+  if (!pcity) {
+    return NULL;
+  }
+
+  if (!pplayer || (city_owner(pcity) == pplayer)) {
+    /* Correct owner */
+    return pcity;
+  }
+
+  return NULL;
 }
 
 /***************************************************************
@@ -532,14 +545,27 @@ struct city *player_find_city_by_id(const struct player *pplayer,
  return pointer to the unit struct.  Else return NULL.
  Uses fast idex_lookup_city.
 
-  pplayer may be NULL in which case all units will be considered.
+ pplayer may be NULL in which case all units registered to
+ hash are considered - even those not currently owned by any
+ player. Callers expect this behavior.
 ***************************************************************/
 struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id)
 {
+  /* We call idex directly. Should use game_find_unit_by_id()
+   * instead? */
   struct unit *punit = idex_lookup_unit(unit_id);
 
-  return (punit && punit->owner == pplayer) ? punit : NULL;
+  if (!punit) {
+    return NULL;
+  }
+
+  if (!pplayer || (punit->owner == pplayer)) {
+    /* Correct owner */
+    return punit;
+  }
+
+  return NULL;
 }
 
 /*************************************************************************

@@ -1520,9 +1520,8 @@ bool unit_type_is_losing_hp(const struct player *pplayer,
 **************************************************************************/
 bool unit_alive(int id)
 {
-  /* Check if unit exist for any player
-   * (this is just one fast idex_lookup_unit() ) */
-  if (player_find_unit_by_id(NULL, id)) {
+  /* Check if unit exist in game */
+  if (game_find_unit_by_number(id)) {
     return TRUE;
   }
 
