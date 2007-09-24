@@ -1,23 +1,25 @@
-# SOME DESCRIPTIVE TITLE.
+# translation of tr.po to Turkish
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <email@katpatuka.org>, 2007.
 #
+# Roman Neumüller <email@katpatuka.org>, 2007.
+# Uğur Çetin <jnmbk@users.sourceforge.net>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 2.1-beta1\n"
+"Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-20 15:58+0200\n"
-"Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
-"Language-Team: Turkish <email@katpatuka.org>\n"
+"PO-Revision-Date: 2007-09-24 00:33+0300\n"
+"Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
+"Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Turkish\n"
 "X-Poedit-Country: TURKEY\n"
 "X-Poedit-Bookmarks: 3893,2189,-1,-1,-1,-1,-1,-1,-1,-1\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: common/city.c:53
 #: client/gui-gtk-2.0/repodlgs.c:936
@@ -37,7 +39,7 @@ msgstr "Kalkan"
 #: data/civ2/techs.ruleset:719
 #: data/civ1/techs.ruleset:715
 msgid "Trade"
-msgstr "Esnaf"
+msgstr "Ticaret"
 
 #: common/city.c:56
 #: client/gui-gtk-2.0/repodlgs.c:937
@@ -70,7 +72,7 @@ msgstr "Araştırma"
 
 #: common/city.c:349
 msgid "?obsolete:O"
-msgstr "?geçmiş:G"
+msgstr "?geçersiz:G"
 
 #: common/city.c:352
 msgid "?redundant:*"
@@ -82,7 +84,7 @@ msgstr "?yapıldı:Y"
 
 #: common/city.c:359
 msgid "?wonder:w"
-msgstr "?mucize:+"
+msgstr "?harika:+"
 
 #: common/connection.c:514
 #, c-format
@@ -100,119 +102,119 @@ msgstr " (oyuncu %s)"
 
 #: common/connection.c:528
 msgid " (observer)"
-msgstr " (seyretici)"
+msgstr " (seyirci)"
 
 #: common/events.c:42
 msgid "City: Building Unavailable Item"
-msgstr "Kent: Olmayan bir şey yapılmakta"
+msgstr "Şehir: Geçersiz Bir Üretim Yapıyor"
 
 #: common/events.c:43
 msgid "City: Captured/Destroyed"
-msgstr "Kent: Kapındı/Yok edindi"
+msgstr "Şehir: Fethedildi/Yok edildi"
 
 #: common/events.c:44
 msgid "City: Celebrating"
-msgstr "Kent: Kutlama"
+msgstr "Şehir: Kutlama"
 
 #: common/events.c:45
 msgid "City: Civil Disorder"
-msgstr "Kent: İsyan"
+msgstr "Şehir: İsyan"
 
 #: common/events.c:46
 msgid "City: Famine"
-msgstr "Kent: Açlık"
+msgstr "Şehir: Kıtlık"
 
 #: common/events.c:47
 msgid "City: Famine Feared"
-msgstr "Kent: Açlık kapıda"
+msgstr "Şehir: Kıtlıktan Korkuluyor"
 
 #: common/events.c:48
 msgid "City: Growth"
-msgstr "Kent: Büyüme"
+msgstr "Şehir: Büyüme"
 
 #: common/events.c:49
 msgid "City: May Soon Grow"
-msgstr "Kent: Yakın zamanda büyüyebilir"
+msgstr "Şehir: Yakın Zamanda Büyüyebilir"
 
 #: common/events.c:50
 msgid "City: Needs Aqueduct"
-msgstr "Kent: Su kemeri lazım"
+msgstr "Şehir: Su Kemeri Gerekiyor"
 
 #: common/events.c:51
 msgid "City: Needs Aqueduct Being Built"
-msgstr "Kent: Su kemeri yapmak gerek"
+msgstr "Şehir: Su Kemeri Gerekiyor Üretimde"
 
 #: common/events.c:52
 msgid "City: Normal"
-msgstr "Kent: Normal"
+msgstr "Şehir: Normal"
 
 #: common/events.c:53
 msgid "City: Nuked"
-msgstr "Kent: Yok edindi"
+msgstr "Şehir: Atom Bombası Atıldı"
 
 #: common/events.c:54
 msgid "City: Released from citizen governor"
-msgstr "Kent: Belediye Reisi İlgilenmiyor"
+msgstr "Şehir: Belediye başkanı görevden alındı"
 
 #: common/events.c:55
 msgid "City: Suggest Growth Throttling"
-msgstr "Kent: Büyüme Yavaşlaması Önerilir"
+msgstr "Şehir: Nüfus Planlaması Önerildi"
 
 #: common/events.c:56
 msgid "City: Transfer"
-msgstr "Kent: Transfer"
+msgstr "Şehir: El Değiştirdi"
 
 #: common/events.c:57
 msgid "City: Was Built"
-msgstr "Kent: Yapıldı"
+msgstr "Şehir: Kuruldu"
 
 #: common/events.c:58
 msgid "City: Worklist Events"
-msgstr "Kent: Yapılacakları listesi olayları"
+msgstr "Şehir: İş Listesi Olayları"
 
 #: common/events.c:59
 msgid "City: Production changed"
-msgstr "Kent: Üretim değişti"
+msgstr "Şehir: Üretim değişti"
 
 #: common/events.c:60
 msgid "Civ: Barbarian Uprising"
-msgstr "Civ: Barbarlar Ayağa Kalktılar"
+msgstr "Uyg: Barbarlar Ayaklandı"
 
 #: common/events.c:61
 msgid "Civ: Civil War"
-msgstr "Civ: İç Savaş"
+msgstr "Uyg: İç Savaş"
 
 #: common/events.c:62
 msgid "Civ: Collapse to Anarchy"
-msgstr "Civ: Anarşi oldu"
+msgstr "Uyg: Anarşi Oldu"
 
 #: common/events.c:63
 msgid "Civ: First Contact"
-msgstr "Civ: İlk Tanışma"
+msgstr "Uyg: İlk Tanışma"
 
 #: common/events.c:64
 msgid "Civ: Learned New Government"
-msgstr "Civ: Yeni Yönetim Sistemi Öğrenildi"
+msgstr "Uyg: Yeni Yönetim Biçimi Öğrenildi"
 
 #: common/events.c:65
 msgid "Civ: Low Funds"
-msgstr "Civ: Nakit Para Az"
+msgstr "Uyg: Hazine Boşalıyor"
 
 #: common/events.c:66
 msgid "Civ: Pollution"
-msgstr "Civ: Kirlilik"
+msgstr "Uyg: Kirlilik"
 
 #: common/events.c:67
 msgid "Civ: Revolt Ended"
-msgstr "Civ: Ayaklanma Bitti"
+msgstr "Uyg: İhtilal Sonuçlandı"
 
 #: common/events.c:68
 msgid "Civ: Revolt Started"
-msgstr "Civ: Ayaklanma Başladı"
+msgstr "Uyg: İhtilal Başladı"
 
 #: common/events.c:69
 msgid "Civ: Spaceship Events"
-msgstr "Civ: Uzay Gemi Olayları"
+msgstr "Uyg: Uzay Gemisi Olayları"
 
 #: common/events.c:70
 msgid "Diplomat Action: Bribe"
@@ -228,7 +230,7 @@ msgstr "Diplomat Eylemi: Kaçma"
 
 #: common/events.c:73
 msgid "Diplomat Action: Embassy"
-msgstr "Diplomat Eylemi: Büyükelçilik"
+msgstr "Diplomat Eylemi: Elçilik"
 
 #: common/events.c:74
 msgid "Diplomat Action: Failed"
@@ -236,7 +238,7 @@ msgstr "Diplomat Eylemi: Başarısız"
 
 #: common/events.c:75
 msgid "Diplomat Action: Incite"
-msgstr "Diplomat Eylemi: Kışkırtı"
+msgstr "Diplomat Eylemi: Kışkırtma"
 
 #: common/events.c:76
 msgid "Diplomat Action: Poison"
@@ -252,31 +254,31 @@ msgstr "Diplomat Eylemi: Hırsızlık"
 
 #: common/events.c:79
 msgid "Enemy Diplomat: Bribe"
-msgstr "Karşı Diplomat: Rüşvet"
+msgstr "Düşman Diplomat: Rüşvet"
 
 #: common/events.c:80
 msgid "Enemy Diplomat: Embassy"
-msgstr "Karşı Diplomat: Büyükelçilik"
+msgstr "Düşman Diplomat: Elçilik"
 
 #: common/events.c:81
 msgid "Enemy Diplomat: Failed"
-msgstr "Karşı Diplomat: Başarısız"
+msgstr "Düşman Diplomat: Başarısız"
 
 #: common/events.c:82
 msgid "Enemy Diplomat: Incite"
-msgstr "Karşı Diplomat: Kışkırtı"
+msgstr "Düşman Diplomat: Kışkırtma"
 
 #: common/events.c:83
 msgid "Enemy Diplomat: Poison"
-msgstr "Karşı Diplomat: Zehir"
+msgstr "Düşman Diplomat: Zehir"
 
 #: common/events.c:84
 msgid "Enemy Diplomat: Sabotage"
-msgstr "Karşı Diplomat: Sabotaj"
+msgstr "Düşman Diplomat: Sabotaj"
 
 #: common/events.c:85
 msgid "Enemy Diplomat: Theft"
-msgstr "Karşı Diplomat: Hırsızlık"
+msgstr "Düşman Diplomat: Hırsızlık"
 
 #: common/events.c:86
 msgid "Caravan actions"
@@ -284,7 +286,7 @@ msgstr "Kervan işlemleri"
 
 #: common/events.c:87
 msgid "Tutorial message"
-msgstr "Ders mesajı"
+msgstr "Öğretici mesajı"
 
 #: common/events.c:88
 msgid "Broadcast Report"
@@ -300,15 +302,15 @@ msgstr "Oyun Başladı"
 
 #: common/events.c:91
 msgid "Message from Server Operator"
-msgstr "Server Operatörden Mesaj"
+msgstr "Sunucu Yöneticisinden Gelen İleti"
 
 #: common/events.c:92
 msgid "Nation Selected"
-msgstr "Seçildi Ulus"
+msgstr "Millet Seçildi"
 
 #: common/events.c:93
 msgid "Player Destroyed"
-msgstr "Oyuncu Yok Edindi"
+msgstr "Oyuncu Yok Edildi"
 
 #: common/events.c:94
 msgid "Report"
@@ -316,51 +318,53 @@ msgstr "Rapor"
 
 #: common/events.c:95
 msgid "Turn Bell"
-msgstr "Sili Çal"
+msgstr "Zili Çal"
 
 #: common/events.c:96
+#, fuzzy
 msgid "Year Advance"
 msgstr "Yıl İlerle"
 
 #: common/events.c:97
 msgid "Global: Eco-Disaster"
-msgstr "Global: Çevre Façası"
+msgstr "Küresel: Çevre Felaketi"
 
 #: common/events.c:98
 msgid "Global: Nuke Detonated"
-msgstr "Global: Atom Bombası Patladı"
+msgstr "Küresel: Atom Bombası Atıldı"
 
 #: common/events.c:99
 msgid "Hut: Barbarians in a Hut Roused"
-msgstr "Kabile: Barbarlar ayaklandı"
+msgstr "Kulübe: Kulübedeki Barbarlar Ayaklandı"
 
 #: common/events.c:100
 msgid "Hut: City Founded from Hut"
-msgstr "Kabile: Kent Kuruldu"
+msgstr "Kullübe: Kulübeden Kent Kuruldu"
 
 #: common/events.c:101
 msgid "Hut: Gold Found in Hut"
-msgstr "Kabile: Altın Bulundu"
+msgstr "Kulübe: Kulübede Altın Bulundu"
 
 #: common/events.c:102
 msgid "Hut: Killed by Barbarians in a Hut"
-msgstr "Kabile: Barbarlar Öldürdüler"
+msgstr "Kulübe: Kulübedeki Barbarlar Tarafından Öldürüldü"
 
 #: common/events.c:103
 msgid "Hut: Mercenaries Found in Hut"
-msgstr "Kabile: Paralı Asker Çıktı"
+msgstr "Kulübe: Kulübede Paralı Asker Bulundu"
 
 #: common/events.c:104
 msgid "Hut: Settler Found in Hut"
-msgstr "Kabile: Göçmen Çıktı"
+msgstr "Kulübe: Kulübede Göçmen Bulundu"
 
 #: common/events.c:105
 msgid "Hut: Tech Found in Hut"
-msgstr "Kabile: Teknoloji Keşfetildi"
+msgstr "Kulübe: Kulübede Teknoloji Bulundu"
 
 #: common/events.c:106
+#, fuzzy
 msgid "Hut: Unit Spared by Barbarians"
-msgstr "Kabile: Unit Spared by Barbarians"
+msgstr "Kulübe: Birim Barbarlarla Paylaşıldı"
 
 #: common/events.c:107
 msgid "Improvement: Bought"
@@ -22378,270 +22382,4 @@ msgstr "Takım 32"
 #: data/default/game.ruleset:129
 msgid "Team 0"
 msgstr "Takım 0"
-
-#~ msgid "u8Unitsn"
-#~ msgstr "u8Birliklern"
-#~ msgid "u8Improvementsn"
-#~ msgstr "u8Gelişimlerin"
-#~ msgid "Rounds"
-#~ msgstr "Raunt"
-#~ msgid "Freeciv - Cityproduction"
-#~ msgstr "Freeciv - Şehrin Üretimi"
-#~ msgid "Shields"
-#~ msgstr "Kalkan"
-#~ msgid "City Overview page"
-#~ msgstr "Şehir Tanıtım Sayfası"
-#~ msgid "Units page"
-#~ msgstr "Birlikler sayfası"
-#~ msgid "Worklist page"
-#~ msgstr "Yapılacakları Listesi Sayfası"
-#~ msgid "Trade Routes page"
-#~ msgstr "Kervanyolu Sayfası"
-#~ msgid "This Misc. Settings page"
-#~ msgstr "Diğer Ayarların Sayfası"
-#~ msgid "Freeciv - Cityview"
-#~ msgstr "Freeciv - Şehir Görüntüsü"
-#~ msgid "City Output"
-#~ msgstr "Şehir Output"
-#~ msgid "Citymap"
-#~ msgstr "Şehir Planı"
-#~ msgid "_Sell"
-#~ msgstr "_Sat"
-#~ msgid "_Add preset"
-#~ msgstr "Hedef şablonu _ekle"
-#~ msgid "_Delete preset"
-#~ msgstr "Hedef şablonu _sil"
-#~ msgid "Name:"
-#~ msgstr "Ad:"
-#~ msgid "People (W/E/S/T):"
-#~ msgstr "Nüfus (W/E/S/T):"
-#~ msgid "City grows:"
-#~ msgstr "Kent büyüyor:"
-#~ msgid "Production completed:"
-#~ msgstr "Üretim bitti:"
-#~ msgid "_Change"
-#~ msgstr "_Değiştir"
-#~ msgid "C_hange permanent"
-#~ msgstr "_Kalıcı değiştir"
-#~ msgid "_Release city"
-#~ msgstr "Şehiri bırak"
-#~ msgid "Auto attack vs"
-#~ msgstr "Otomatik saldırı"
-#~ msgid "Land units"
-#~ msgstr "Kara kuvvetler"
-#~ msgid "Sea units"
-#~ msgstr "Deniz kuvvetler"
-#~ msgid "Helicopters"
-#~ msgstr "Helikopterler"
-#~ msgid "Air units"
-#~ msgstr "Hava kuvvetler"
-#~ msgid "_Disband if build settler at size 1"
-#~ msgstr "_Disband if build settler at size 1"
-#~ msgid "_Close"
-#~ msgstr "_Kapat"
-#~ msgid "%s (%s) (worklist)"
-#~ msgstr "%s (%s) (yapılacakları listesi)"
-#~ msgid "%s citizens%s"
-#~ msgstr "%s nüfus%s"
-#~ msgid "%s - %s citizens%s"
-#~ msgstr "%s - %s nüfus%s"
-#~ msgid "Luxury: %d total (maximum %d usable). "
-#~ msgstr "Lüks: %d toplam (max. %d kullanılır). "
-#~ msgid "_Ok"
-#~ msgstr "_Tamam"
-#~ msgid "_Refresh"
-#~ msgstr "_Güncelle"
-#~ msgid "Con_figure"
-#~ msgstr "_Ayarla"
-#~ msgid "Server Selection"
-#~ msgstr "Sunucu Seçimi"
-#~ msgid "_Name"
-#~ msgstr "A_d"
-#~ msgid "_Host"
-#~ msgstr "_Host"
-#~ msgid "_Port"
-#~ msgstr "_Port"
-#~ msgid "_Goto and Close"
-#~ msgstr "_Git ve Kapat"
-#~ msgid "_Establish embassy"
-#~ msgstr "Büyükelçilik _Aç"
-#~ msgid "_Investigate city"
-#~ msgstr "Şehri A_raştır"
-#~ msgid "_Sabotage city"
-#~ msgstr "Şehri Sabote _Et"
-#~ msgid "Steal _technology"
-#~ msgstr "Teknoloji Ça_l"
-#~ msgid "Incite a _revolt"
-#~ msgstr "İsyan _Başlat"
-#~ msgid "_Poison city"
-#~ msgstr "Şehri _Zehirle"
-#~ msgid "Industrial _sabotage"
-#~ msgstr "En_düstri Sabotaj"
-#~ msgid "_Establish traderoute"
-#~ msgstr "_Kervanyolu Aç"
-#~ msgid "_Enter Marketplace"
-#~ msgstr "_Çarşıya Git"
-#~ msgid "_Help build Wonder"
-#~ msgstr "_Mucize yapımında yardım et"
-#~ msgid "Freeciv - Pillage"
-#~ msgstr "Freeciv - Yağmala"
-#~ msgid "Freeciv - Connect"
-#~ msgstr "Freeciv - Bağlan"
-#~ msgid "Freeciv - Select an unit"
-#~ msgstr "Freeciv - Bir birlik seç"
-#~ msgid "_Ready All"
-#~ msgstr "_Herkes Hazır"
-#~ msgid " (veteran)"
-#~ msgstr " (kidemli)"
-#~ msgid "Freeciv - Select a Nation"
-#~ msgstr "Freeciv - Milletin Seç"
-#~ msgid "_Leader Name"
-#~ msgstr "_Önderin Adı"
-#~ msgid "_City Style"
-#~ msgstr "_Şehrin Cinsi"
-#~ msgid "Sorry: cannot upgrade %s."
-#~ msgstr "Kusura bakm: %s yükseltilmez."
-#~ msgid "No technology"
-#~ msgstr "teknoloji yok"
-#~ msgid "No city"
-#~ msgstr "şehir yok"
-#~ msgid "_Accept treaty"
-#~ msgstr "Antlaşma Kabul Et"
-#~ msgid "World-Map"
-#~ msgstr "Dünya Haritası"
-#~ msgid "Sea-Map"
-#~ msgstr "Deniz Haritası"
-#~ msgid "Select a city"
-#~ msgstr "Sehri seç"
-#~ msgid "Set tax, luxury and science rates"
-#~ msgstr "Vergi, lüks ve bilim oranları seç"
-#~ msgid "_Airlift"
-#~ msgstr "_Havayolu taşıması"
-#~ msgid "Options..."
-#~ msgstr "Tercihleri..."
-#~ msgid "Message Options..."
-#~ msgstr "Mesaj Tercihleri..."
-#~ msgid "Players..."
-#~ msgstr "Oyuncular..."
-#~ msgid "Message..."
-#~ msgstr "Mesaj..."
-#~ msgid "Kingdom"
-#~ msgstr "Krallık"
-#~ msgid "Tax Rate..."
-#~ msgstr "Vergi Oranı..."
-#~ msgid "Find City..."
-#~ msgstr "Şehir Bul..."
-#~ msgid "Worklists..."
-#~ msgstr "Yapılacakları Listeleri..."
-#~ msgid "REVOLUTION..."
-#~ msgstr "DEVRİM..."
-#~ msgid "Road & Rails"
-#~ msgstr "Yollar & Demiryolları"
-#~ msgid "City Report..."
-#~ msgstr "Şehir Raporu..."
-#~ msgid "Science Report..."
-#~ msgstr "Bilim Raporu..."
-#~ msgid "Trade Report..."
-#~ msgstr "Ticaret Raporu..."
-#~ msgid "Military Report..."
-#~ msgstr "Askeri Raporu..."
-#~ msgid ""
-#~ "Turn\n"
-#~ "Done"
-#~ msgstr ""
-#~ "Raunt\n"
-#~ "Tamam"
-#~ msgid "Cost: %ld"
-#~ msgstr "Masraf: %ld"
-#~ msgid " wonder"
-#~ msgstr " mucize"
-#~ msgid " improvement"
-#~ msgstr " gelişim"
-#~ msgid " unit"
-#~ msgstr " birlik"
-#~ msgid "Defense: %ld.%ld"
-#~ msgstr "Savunma: %ld.%ld"
-#~ msgid ""
-#~ "Food:   %d\n"
-#~ "Shield: %d\n"
-#~ "Trade:  %d"
-#~ msgstr ""
-#~ "Gıda:   %d\n"
-#~ "Kalkan: %d\n"
-#~ "Ticaret:  %d"
-#~ msgid "City: %s(%s)"
-#~ msgstr "Şehir: %s(%s)"
-#~ msgid "with City Walls"
-#~ msgstr "Surlarla"
-#~ msgid "Infrastructure: "
-#~ msgstr "Altyapı: "
-#~ msgid "Unit: %s(%s%s)"
-#~ msgstr "Birlik: %s(%s%s)"
-#~ msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-#~ msgstr "A:%d D:%d FP:%d HP:%d/%d%s%s"
-#~ msgid "A:%d D:%d FP:%d HP:%d0%%"
-#~ msgstr "A:%d D:%d FP:%d HP:%d0%%"
-#~ msgid "City %s"
-#~ msgstr "Şehir %s"
-#~ msgid "Unit %s"
-#~ msgstr "Birlik %s"
-#~ msgid "Tile %s"
-#~ msgstr "Kare %s"
-#~ msgid "Wake up"
-#~ msgstr "Uyan"
-#~ msgid "Activate"
-#~ msgstr "Etkinleştir"
-#~ msgid "List all units"
-#~ msgstr "Bütün birlikler listele"
-#~ msgid "Connect to this location"
-#~ msgstr "Bu yere bağlan"
-#~ msgid "Goto this location"
-#~ msgstr "Git"
-#~ msgid "City_name"
-#~ msgstr "Şehir _adı"
-#~ msgid "Tax:%d Lux:%d Sci:%d"
-#~ msgstr "Vergi:%d Lüks:%d Fen:%d"
-#~ msgid "_Goto Location"
-#~ msgstr "_Oraya Git"
-#~ msgid "Reputation"
-#~ msgstr "Şan"
-#~ msgid "(%ld steps)"
-#~ msgstr "(%ld adım)"
-#~ msgid "_Goal"
-#~ msgstr "_Hedef"
-#~ msgid "_Research"
-#~ msgstr "_Araştırma"
-#~ msgid "Military Report"
-#~ msgstr "Askeri Raporu"
-#~ msgid "Freeciv - Edit Worklists"
-#~ msgstr "Freeciv - Yapılacakları Listeleri Düzenle"
-#~ msgid "Available Worklists"
-#~ msgstr "Mevcut Yapılacakları Listeleri"
-#~ msgid "_Edit"
-#~ msgstr "_Düzenle"
-#~ msgid "_New"
-#~ msgstr "_Yeni"
-#~ msgid "_Remove"
-#~ msgstr "_Kaldır"
-#~ msgid "Freeciv - Edit Worklist"
-#~ msgstr "Freeciv - Yapılacakları Listesi Düzenle"
-#~ msgid "u8Worklistsn"
-#~ msgstr "u8Yapılacakları Listelerin"
-#~ msgid "Accept"
-#~ msgstr "Kabul et"
-#~ msgid "Available Targets"
-#~ msgstr "Mevcut Hedefler"
-#~ msgid "Worklist for city"
-#~ msgstr "Şehrin yapılacakları listesi"
-#~ msgid "Name of Worklist"
-#~ msgstr "Yapılacakları Listesinin Adı"
-#~ msgid "unit"
-#~ msgid_plural "units"
-#~ msgstr[0] "birlik"
-#~ msgid "Exit Report"
-#~ msgstr "Raporu kapat"
-#~ msgid "Player settings"
-#~ msgstr "Oyuncu ayarları"
-#~ msgid "tech \"%s\": requires itself"
-#~ msgstr "teknoloji \"%s\": requires itself"
 
