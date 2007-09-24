@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-24 00:33+0300\n"
+"PO-Revision-Date: 2007-09-24 20:45+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -72,22 +72,23 @@ msgstr "Araştırma"
 
 #: common/city.c:349
 msgid "?obsolete:O"
-msgstr "?geçersiz:G"
+msgstr "G"
 
 #: common/city.c:352
 msgid "?redundant:*"
-msgstr "?çift:*"
+msgstr "*"
 
 #: common/city.c:357
 msgid "?built:B"
-msgstr "?yapıldı:Y"
+msgstr "Y"
 
 #: common/city.c:359
 msgid "?wonder:w"
-msgstr "?harika:+"
+msgstr "h"
 
 #: common/connection.c:514
 #, c-format
+#, fuzzy
 msgid "%s from %s"
 msgstr "%s 'den %s"
 
@@ -318,7 +319,7 @@ msgstr "Rapor"
 
 #: common/events.c:95
 msgid "Turn Bell"
-msgstr "Zili Çal"
+msgstr "Sıra Zili"
 
 #: common/events.c:96
 #, fuzzy
@@ -362,29 +363,28 @@ msgid "Hut: Tech Found in Hut"
 msgstr "Kulübe: Kulübede Teknoloji Bulundu"
 
 #: common/events.c:106
-#, fuzzy
 msgid "Hut: Unit Spared by Barbarians"
-msgstr "Kulübe: Birim Barbarlarla Paylaşıldı"
+msgstr "Kulübe: Barbarlar birimi bağışladı"
 
 #: common/events.c:107
 msgid "Improvement: Bought"
-msgstr "Gelişim: Satın Alındı"
+msgstr "Yapı: Satın Alındı"
 
 #: common/events.c:108
 msgid "Improvement: Built"
-msgstr "Gelişim: Yapıldı"
+msgstr "Yapı: İnşa Edildi"
 
 #: common/events.c:109
 msgid "Improvement: Forced to Sell"
-msgstr "Gelişim: Satmak Zorundaydı"
+msgstr "Yapı: Satılmak Zorunda Kalındı"
 
 #: common/events.c:110
 msgid "Improvement: New Improvement Selected"
-msgstr "Gelişim: Yeni Gelişme Seçildi"
+msgstr "Yapı: Yeni Yapı Seçildi"
 
 #: common/events.c:111
 msgid "Improvement: Sold"
-msgstr "Gelişim: Satıldı"
+msgstr "Yapı: Satıldı"
 
 #: common/events.c:112
 msgid "Tech: Learned From Great Library"
@@ -400,7 +400,7 @@ msgstr "Antlaşma: İttifak"
 
 #: common/events.c:115
 msgid "Treaty: Broken"
-msgstr "Antlaşma: Kırıldı"
+msgstr "Antlaşma: Bozuldu"
 
 #: common/events.c:116
 msgid "Treaty: Cease-fire"
@@ -412,67 +412,67 @@ msgstr "Antlaşma: Barış"
 
 #: common/events.c:118
 msgid "Treaty: Shared Vision"
-msgstr "Antlaşma: Paylaştığı Görüşleri"
+msgstr "Antlaşma: Görüş Sahası Paylaşımı"
 
 #: common/events.c:119
 msgid "Unit: Attack Failed"
-msgstr "Birlik: Saldırma Başarısız"
+msgstr "Birim: Saldırı Başarısız Oldu"
 
 #: common/events.c:120
 msgid "Unit: Attack Succeeded"
-msgstr "Birlik: Saldırma Başarılı"
+msgstr "Birim: Saldırı Başarılı Oldu"
 
 #: common/events.c:121
 msgid "Unit: Bought"
-msgstr "Birlik: Satın Alındı"
+msgstr "Birim: Satın Alındı"
 
 #: common/events.c:122
 msgid "Unit: Built"
-msgstr "Birlik: Yapıldı"
+msgstr "Birim: Yapıldı"
 
 #: common/events.c:123
 msgid "Unit: Defender Destroyed"
-msgstr "Birlik: Savuncu Yok Edindi"
+msgstr "Birim: Savunma Yok Edildi"
 
 #: common/events.c:124
 msgid "Unit: Defender Survived"
-msgstr "Birlik: Savuncu Hayatta Kaldı"
+msgstr "Birim: Savunma Hayatta Kaldı"
 
 #: common/events.c:125
 msgid "Unit: Became More Veteran"
-msgstr "Birlik: Veteran Statüsü Yükseldi"
+msgstr "Birim: Kıdemi Arttı"
 
 #: common/events.c:126
 msgid "Unit: Production Upgraded"
-msgstr "Birlik: Prodüksyon seviyesi yükseldi"
+msgstr "Birim: Üretim Yeni Birime Yükseltildi"
 
 #: common/events.c:127
 msgid "Unit: Relocated"
-msgstr "Birlik: Tayin Çıktı"
+msgstr "Birim: Yer Değiştirdi"
 
 #: common/events.c:128
 msgid "Unit: Orders / goto events"
-msgstr "Birlik: Emir / Tahin Olayı"
+msgstr "Birim: Emir / Git olayları"
 
 #: common/events.c:129
 msgid "Wonder: Finished"
-msgstr "Mucize: Bitti"
+msgstr "Harika: Bitirildi"
 
 #: common/events.c:130
 msgid "Wonder: Made Obsolete"
-msgstr "Mucize: Geçersiz Kılındı"
+msgstr "Harika: Geçersiz Kılındı"
 
 #: common/events.c:131
 msgid "Wonder: Started"
-msgstr "Mucize: Başladı"
+msgstr "Harika: Başlatıldı"
 
 #: common/events.c:132
 msgid "Wonder: Stopped"
-msgstr "Mucize: Durduruldu"
+msgstr "Harika: Durduruldu"
 
 #: common/events.c:133
 msgid "Wonder: Will Finish Next Turn"
-msgstr "Mucize: Sonraki Dönümde Biter"
+msgstr "Harika: Sonraki Sırada Bitecek"
 
 #: common/events.c:134
 msgid "Diplomatic Message"
@@ -480,15 +480,15 @@ msgstr "Diplomatik Mesaj"
 
 #: common/events.c:135
 msgid "Treaty: Embassy"
-msgstr "Antlaşma: Büyükelçilik"
+msgstr "Antlaşma: Elçilik"
 
 #: common/events.c:136
 msgid "Error message from bad command"
-msgstr "Hata mesajı (yanlış komut)"
+msgstr "Yanlış komuttan gelen hata mesajı"
 
 #: common/events.c:137
 msgid "Server settings changed"
-msgstr "Server ayarları değişti"
+msgstr "Sunucu ayarları değiştirildi"
 
 #: common/events.c:138
 msgid "Chat messages"
@@ -500,63 +500,63 @@ msgstr "Sohbet hata mesajları"
 
 #: common/events.c:140
 msgid "Connect/disconnect messages"
-msgstr "Bağlantı/Bağlantı kesme mesajları"
+msgstr "Bağlantı kurma/kesme mesajları"
 
 #: common/events.c:141
 msgid "AI Debug messages"
-msgstr "YZ Debug Mesajları"
+msgstr "YZ Hata ayıklama mesajları"
 
 #: common/player.c:630
 msgid "?attitude:Genocidal"
-msgstr "?attitude:Soykırım peşinde"
+msgstr "Soykırım peşinde"
 
 #: common/player.c:632
 msgid "?attitude:Belligerent"
-msgstr "?attitude:Dövüşçü"
+msgstr "Savaşçıl"
 
 #: common/player.c:634
 msgid "?attitude:Hostile"
-msgstr "?attitude:Düşman"
+msgstr "Düşmancıl"
 
 #: common/player.c:636
 msgid "?attitude:Uncooperative"
-msgstr "?attitude:Kooperatif Değil"
+msgstr "Söz Dinlemiyor"
 
 #: common/player.c:638
 msgid "?attitude:Uneasy"
-msgstr "?attitude:Huzursuz"
+msgstr "Huzursuz"
 
 #: common/player.c:640
 msgid "?attitude:Neutral"
-msgstr "?attitude:Bitaraf"
+msgstr "Tarafsız"
 
 #: common/player.c:642
 msgid "?attitude:Respectful"
-msgstr "?attitude:Saygılı"
+msgstr "Saygılı"
 
 #: common/player.c:644
 msgid "?attitude:Helpful"
-msgstr "?attitude:Yardımsever"
+msgstr "Yardımsever"
 
 #: common/player.c:646
 msgid "?attitude:Enthusiastic"
-msgstr "?attitude:Coştu"
+msgstr "Hevesli"
 
 #: common/player.c:648
 msgid "?attitude:Admiring"
-msgstr "?attitude:Hayran"
+msgstr "Hayran"
 
 #: common/player.c:651
 msgid "?attitude:Worshipful"
-msgstr "?attitude:Tapıyor"
+msgstr "Tapıyor"
 
 #: common/player.c:662
 msgid "?diplomatic_state:Armistice"
-msgstr "?diplomatic_state:Ateşkes"
+msgstr "Mütareke"
 
 #: common/player.c:663
 msgid "?diplomatic_state:War"
-msgstr "?diplomatic_state:Savaş"
+msgstr "Savaş"
 
 #: common/player.c:664
 #: client/gui-gtk-2.0/diplodlg.c:361
@@ -564,7 +564,7 @@ msgstr "?diplomatic_state:Savaş"
 #: client/gui-win32/diplodlg.c:307
 #: client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
-msgstr "?diplomatic_state:Süreli Ateşkes"
+msgstr "Süreli Ateşkes"
 
 #: common/player.c:665
 #: client/gui-gtk-2.0/diplodlg.c:366
@@ -572,7 +572,7 @@ msgstr "?diplomatic_state:Süreli Ateşkes"
 #: client/gui-win32/diplodlg.c:308
 #: client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
-msgstr "?diplomatic_state:Barış"
+msgstr "Barış"
 
 #: common/player.c:666
 #: client/gui-gtk-2.0/diplodlg.c:371
@@ -580,36 +580,40 @@ msgstr "?diplomatic_state:Barış"
 #: client/gui-win32/diplodlg.c:309
 #: client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
-msgstr "?diplomatic_state:İttifak"
+msgstr "İttifak"
 
 #: common/player.c:667
 msgid "?diplomatic_state:Never met"
-msgstr "?diplomatic_state:Tanışmadık"
+msgstr "Tanışmadık"
 
 #: common/player.c:668
 msgid "?diplomatic_state:Team"
-msgstr "?diplomatic_state:Takım"
+msgstr "Takım"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:456
 #: common/requirements.c:471
+#, fuzzy
 msgid "World-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "Dünya-kapsamlı gereksinimler sadece harikalar için desteklenir."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:512
+#, fuzzy
 msgid "Player-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "Oyuncu-kapsamlı gereksinimler sadece harikalar için desteklenir."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:533
+#, fuzzy
 msgid "Island-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "Ada-kapsamlı gereksinimler sadece harikalar için desteklenir."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:581
+#, fuzzy
 msgid "Surviving requirements are only supported at world range."
-msgstr ""
+msgstr "Hayatta kalma gereksinimleri sade dünya kapsamında geçerlidir."
 
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1013
@@ -625,7 +629,7 @@ msgstr "(hiç)"
 #: common/requirements.c:1041
 #, c-format
 msgid "%s units"
-msgstr "%s birlik"
+msgstr "%s birim"
 
 #: common/requirements.c:1051
 #, c-format
@@ -702,7 +706,7 @@ msgstr "Sulama"
 #: data/civ2/techs.ruleset:566
 #: data/civ1/techs.ruleset:563
 msgid "Railroad"
-msgstr "Demiryolu"
+msgstr "Ray"
 
 #: common/terrain.c:365
 #: common/terrain.c:555
@@ -720,7 +724,7 @@ msgstr "Kirlilik"
 
 #: common/terrain.c:367
 msgid "Hut"
-msgstr "Kabile"
+msgstr "Kulübe"
 
 #: common/terrain.c:368
 #: common/terrain.c:559
@@ -731,7 +735,7 @@ msgstr "Kale"
 
 #: common/terrain.c:369
 msgid "River"
-msgstr "İrmak"
+msgstr "Nehir"
 
 #: common/terrain.c:370
 #: common/terrain.c:549
@@ -753,21 +757,21 @@ msgstr "Radyoaktif Serpinti"
 #: common/unit.c:548
 #: client/gui-win32/plrdlg.c:337
 msgid "Idle"
-msgstr "İşsiz"
+msgstr "Boşta"
 
 #: common/unit.c:558
 msgid "Fortifying"
-msgstr "Berkitme"
+msgstr "Savunuyor"
 
 #: common/unit.c:560
 msgid "Fortified"
-msgstr "Berkitti"
+msgstr "Savunmada"
 
 #: common/unit.c:564
 #: client/gui-sdl/menu.c:620
 #: client/gui-xaw/menu.c:184
 msgid "Sentry"
-msgstr "Nöbetçi asker"
+msgstr "Nöbet Tut"
 
 #: common/unit.c:568
 #: client/gui-gtk-2.0/menu.c:833
@@ -785,7 +789,7 @@ msgstr "Git"
 
 #: common/unit.c:572
 msgid "Explore"
-msgstr "Araştır"
+msgstr "Keşfe Çık"
 
 #: common/unit.c:574
 #: manual/civmanual.c:224
@@ -809,11 +813,13 @@ msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"%s -> %s geliştirmesi yapılsın mı? (%d altın)\n"
+"Hazinede %d altın var."
 
 #: common/unit.c:1581
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
-msgstr "Maalesef %s henüz yükseltilmez."
+msgstr "Üzgünüm, %s henüz yükseltilmez."
 
 #: common/unit.c:1587
 #, c-format
@@ -821,15 +827,17 @@ msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"%s -> %s geliştirmesi %d altın karşılığında yapılsın mı?\n"
+"Hazinede %d altın var."
 
 #: common/unit.c:1596
 msgid "You can only upgrade units in your cities."
-msgstr "Birliklerin yükseltmesi sadece şehirdeken yapılabilir."
+msgstr "Birimlerin yükseltmesi sadece şehirdeken yapılabilir."
 
 #: common/unit.c:1600
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
-msgstr ""
+msgstr "Bu %s birimini yükseltirseniz içinde taşıdığı birimler dışarı çıkacaktır."
 
 #: common/unittype.c:61
 msgid "Missile"
@@ -865,13 +873,14 @@ msgid " and "
 msgstr " ve "
 
 #: common/unittype.c:355
+#, fuzzy
 msgid "?and:, "
-msgstr "?and:, "
+msgstr "?ve:, "
 
 #: common/version.c:34
 #, c-format
 msgid "Freeciv version %s %s"
-msgstr "Freeciv Sürümü %s %s"
+msgstr "Freeciv sürüm %s %s"
 
 #: common/version.c:35
 msgid "(beta version)"
@@ -880,7 +889,7 @@ msgstr "(beta sürümü)"
 #: common/version.c:37
 #, c-format
 msgid "Freeciv version %s"
-msgstr "Freeciv Sürümü %s"
+msgstr "Freeciv Sürüm %s"
 
 #: common/version.c:50
 msgid "betatest version "
@@ -888,7 +897,7 @@ msgstr "betatest sürümü "
 
 #: common/version.c:52
 msgid "version "
-msgstr "sürüm"
+msgstr "sürüm "
 
 #: common/version.c:67
 msgid "January"
@@ -945,13 +954,13 @@ msgid ""
 "Freeciv %s will be released in\n"
 "%s, at %s"
 msgstr ""
-"BU BİR BETA SÜRÜMÜ\n"
-"Freeciv %s %s ayında çıkacak\n"
-"%s adresinde indirilir"
+"BU BİR BETA SÜRÜMÜDÜR\n"
+"Freeciv %s çıkış tarihi: %s\n"
+"Adres: %s"
 
 #: common/version.c:103
 msgid "'Cause civilization should be free!"
-msgstr "Cünkü medeniyetin sahibi olamaz!"
+msgstr "Çünkü uygarlık özgür olmalıdır!"
 
 #: utility/fciconv.c:133
 #, c-format
@@ -961,18 +970,22 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/.\n"
 msgstr ""
+"Freeciv'i iconv olmadan çalıştırıyorsunuz. latin1 karakter \n"
+"setini kullanmıyorsanız bazı karakterler düzgün \n"
+"görüntülenmeyebilir. iconv'yi http://gnu.org/ adresinden\n"
+"indirebilirsiniz.\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. * TRANS: <error string>."
 #: utility/fciconv.c:206
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr ""
+msgstr "Yazı %s kodlamasından %s kodlamasına çevrilemedi: %s"
 
 #: utility/log.c:84
 #, c-format
 msgid "Bad log level \"%s\".\n"
-msgstr ""
+msgstr "Kötü kütük seviyesi \"%s\".\n"
 
 #: utility/log.c:90
 #, c-format
@@ -1013,7 +1026,7 @@ msgstr ""
 #, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
-msgstr[0] "son mesajı %d defa tekrarlandı"
+msgstr[0] "son mesaj %d defa tekrarlandı"
 
 #: utility/log.c:295
 #: utility/log.c:314
@@ -1050,7 +1063,7 @@ msgstr ""
 #: utility/shared.c:966
 #, c-format
 msgid "Could not read data directory %s: %s."
-msgstr "Veri klasörü okunamadı %s: %s."
+msgstr "Veri dizini okunamadı %s: %s."
 
 #: utility/shared.c:1217
 msgid "The data path may be set via the environment variable FREECIV_PATH."
@@ -1097,7 +1110,7 @@ msgstr "fazla uzun"
 
 #: utility/shared.c:1368
 msgid "non-match"
-msgstr ""
+msgstr "birbirini tutmuyor"
 
 #: utility/support.c:171
 #, c-format
@@ -1119,12 +1132,12 @@ msgstr "%s %s yapımını %s'de durdurdular."
 #: server/citytools.c:1941
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr "%s %s yapımı %s'de başladılar."
+msgstr "%s %s yapımına %s'de başladılar."
 
 #: ai/aicity.c:1374
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
-msgstr "%s artık gerek kalmadığı için %s satıyorlar (fiyat %d)."
+msgstr "%s %s yapısını (gereksiz olduğundan) satıyorlar (fiyat %d)."
 
 #: ai/advdiplomacy.c:279
 #, c-format
@@ -1194,7 +1207,7 @@ msgstr "*%s (YZ)* Merhaba %s! Birbirimize daha iyi tanışabilmek için bir ate�
 #: ai/advdiplomacy.c:1077
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr "*%s (YZ)* Uzay sana göre değil!"
+msgstr "*%s (YZ)* Uzayı sana kaptırmayacağız. "
 
 #: ai/advdiplomacy.c:1081
 #, c-format
@@ -1686,7 +1699,7 @@ msgstr ""
 #: server/cityturn.c:303
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr "Not: %s mucizesin yapımı %s şehrinde önümüzündeki raunt bitecek."
+msgstr "Duyuru: %s harikasının yapımı %s şehrinde önümüzündeki tur bitecek."
 
 #: server/cityturn.c:338
 #, c-format
@@ -2867,7 +2880,7 @@ msgstr ""
 
 #: server/diplomats.c:419
 msgid "You can't bribe a unit from this nation."
-msgstr "Bu milletinin birlikleri rüşvet almazlar."
+msgstr "Bu milletinin birimleri rüşvet almazlar."
 
 #: server/diplomats.c:427
 #, c-format
@@ -3483,17 +3496,17 @@ msgstr "Tarihçilerin Yayınlarından!"
 #: server/report.c:269
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
-msgstr "%2d: %s %s kenti - boyut %d, "
+msgstr "%2d: %s %s şehri - boyut %d, "
 
 #: server/report.c:275
 msgid "with no wonders\n"
-msgstr "mucize yok\n"
+msgstr "harikalar olmadan\n"
 
 #: server/report.c:278
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
-msgstr[0] "%d mucize ile\n"
+msgstr[0] "%d harikası ile\n"
 
 #: server/report.c:281
 #: server/report.c:326
@@ -3523,7 +3536,7 @@ msgstr "(%s %s şehrinde yapmındadır (%s))\n"
 #: client/gui-xaw/menu.c:224
 #: data/helpdata.txt:899
 msgid "Wonders of the World"
-msgstr "Dünya'nın Mucizeleri"
+msgstr "Dünyanın Harikaları"
 
 #: server/report.c:544
 msgid " sq. mi."
@@ -3918,7 +3931,7 @@ msgstr ""
 
 #: server/settings.c:446
 msgid "List of players' initial units"
-msgstr "Başlangıçta ki birlik listesi"
+msgstr "Başlangıçta ki birim listesi"
 
 #: server/settings.c:447
 msgid ""
@@ -5828,7 +5841,7 @@ msgstr "%d %s %s yükseltti (masraf %d altın)."
 
 #: server/unithand.c:135
 msgid "No units could be upgraded."
-msgstr "Hiç bir birlik yükseltildi. "
+msgstr "Hiç bir birim yükseltildi. "
 
 #: server/unithand.c:159
 #, c-format
@@ -6561,11 +6574,11 @@ msgstr "Yapıldı"
 
 #: client/citydlg_common.c:335
 msgid "Great Wonder"
-msgstr "Büyük Mucize"
+msgstr "Büyük Harika"
 
 #: client/citydlg_common.c:339
 msgid "Small Wonder"
-msgstr "Ufak Mucize"
+msgstr "Küçük Harika"
 
 #: client/citydlg_common.c:358
 #, c-format
@@ -6720,7 +6733,7 @@ msgstr "saldırı"
 
 #: client/cityrepdata.c:469
 msgid "Best attacking units"
-msgstr "En İyi Saldırabilen Birlikler"
+msgstr "En İyi Saldırabilen Birimler"
 
 #: client/cityrepdata.c:470
 msgid "defense"
@@ -6728,7 +6741,7 @@ msgstr "savunma"
 
 #: client/cityrepdata.c:471
 msgid "Best defending units"
-msgstr "En İyi Savunabilen Birlikler"
+msgstr "En İyi Savunabilen Birimler"
 
 #: client/cityrepdata.c:472
 #: client/cityrepdata.c:476
@@ -6754,7 +6767,7 @@ msgstr "En İyi Savunabilen Birlikler"
 #: data/Freeciv.in:1895
 #: data/helpdata.txt:910
 msgid "Units"
-msgstr "Birlikler"
+msgstr "Birimler"
 
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:474
@@ -6763,16 +6776,16 @@ msgstr "?Present (units):Burada"
 
 #: client/cityrepdata.c:475
 msgid "Number of units present"
-msgstr "Toplam Birlik Sayısı"
+msgstr "Toplam Birim Sayısı"
 
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:478
 msgid "?Supported (units):Owned"
-msgstr "?Supported (units):Kendi Birlikler"
+msgstr "?Supported (units):Kendi Birimler"
 
 #: client/cityrepdata.c:479
 msgid "Number of units supported"
-msgstr "Toplam Desteklenen Birlik Sayısı"
+msgstr "Desteklenen birlim sayısı"
 
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:482
@@ -7245,7 +7258,7 @@ msgstr ""
 
 #: client/control.c:1849
 msgid "Too far for this unit."
-msgstr "Bu birlik için fazla uzak."
+msgstr "Bu birim için fazla uzak."
 
 #: client/control.c:2059
 #: client/control.c:2089
@@ -7430,7 +7443,7 @@ msgstr ""
 #: client/helpdata.c:836
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
-msgstr "* Mucize yapımında yardım edebilir (üretim %d artıyor).\n"
+msgstr "* Harika yapımına yardım edebilir (%d üretim ekler).\n"
 
 #: client/helpdata.c:840
 #, c-format
@@ -7888,7 +7901,7 @@ msgstr ""
 #: client/helpdata.c:1509
 #, c-format
 msgid "* Your units cannot be bribed.\n"
-msgstr "* Birliklerin rüşvet kabul etmezler.\n"
+msgstr "* Birimlerin rüşvet kabul etmezler.\n"
 
 #: client/helpdata.c:1512
 #, c-format
@@ -7930,12 +7943,12 @@ msgstr "* Mutsuz vatandaş hiç yok.\n"
 #: client/helpdata.c:1550
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr "* Kidemli %s birlikler.\n"
+msgstr "* Kıdemli %s birimler.\n"
 
 #: client/helpdata.c:1553
 #, c-format
 msgid "* Veteran units.\n"
-msgstr "* Kidemli birlikler.\n"
+msgstr "* Kıdemli birimler.\n"
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1558
@@ -8293,7 +8306,7 @@ msgstr ""
 
 #: client/options.c:252
 msgid "Units layer"
-msgstr "Birlik tabakası"
+msgstr "Birim tabakası"
 
 #: client/options.c:253
 msgid "Enabling this will draw units on the overview."
@@ -8661,20 +8674,20 @@ msgstr "Faaliyet: %s"
 #: client/text.c:221
 #, c-format
 msgid "Unit: %s (%s%s)"
-msgstr "Birlik: %s (%s%s)"
+msgstr "Birim: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:234
 #, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Birlik: %s (%s, %d raunt ateşkes)"
+msgstr[0] "Birim: %s (%s, %d raunt ateşkes)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:242
 #, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr "Birlik: %s (%s, %s)"
+msgstr "Birim: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:268
@@ -8863,7 +8876,7 @@ msgstr "Devlet: %s"
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] "%d birlik"
+msgstr[0] "%d birim"
 
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:690
@@ -8888,12 +8901,12 @@ msgstr "Hedefe kadar raunt: %d - %d"
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] "%d birlik seçildi"
+msgstr[0] "%d birim seçildi"
 
 #: client/text.c:705
 #: client/gui-sdl/mapview.c:573
 msgid "No units selected."
-msgstr "Seçilmiş birlik yok."
+msgstr "Seçilmiş birim yok."
 
 #: client/text.c:779
 #: client/gui-sdl/mapview.c:646
@@ -9092,7 +9105,7 @@ msgstr "."
 
 #: client/text.c:1166
 msgid "Wonders: "
-msgstr "Mucize:"
+msgstr "Harikalar: "
 
 #: client/tilespec.c:866
 msgid "No usable default tileset found, aborting!"
@@ -9189,7 +9202,7 @@ msgstr "Hayrulla..."
 #: client/gui-gtk-2.0/diplomat_dialog.c:84
 #: client/gui-win32/dialogs.c:1365
 msgid "This unit cannot be bribed!"
-msgstr "Bu birlik rüşvet kabul etmez!"
+msgstr "Bu birim rüşvet kabul etmez!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:91
 #: client/gui-sdl/diplomat_dialog.c:1393
@@ -9432,12 +9445,12 @@ msgstr "Karşı Birliği Baltala"
 #: client/gui-gtk-2.0/caravan_dialog.c:80
 #, c-format
 msgid "Help build _Wonder (%d remaining)"
-msgstr "Mucize yaratmasında yardım et (kalan %d)"
+msgstr "_Harika yapımına yardım et (kalan %d)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:85
 #: client/gui-win32/dialogs.c:1053
 msgid "Help build _Wonder"
-msgstr "Mucize yaratmasında yardım et"
+msgstr "_Harika yapımına yardım et"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:100
 #: client/gui-win32/dialogs.c:1038
@@ -9652,7 +9665,7 @@ msgstr "_Yeniden adlandır..."
 
 #: client/gui-gtk-2.0/citydlg.c:1251
 msgid "_List present units..."
-msgstr "_Varolan birlikler göster..."
+msgstr "_Varolan birimler göster..."
 
 #: client/gui-gtk-2.0/citydlg.c:1261
 msgid "_Prev city"
@@ -9691,12 +9704,12 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:1745
 #, c-format
 msgid "Supported units %d"
-msgstr "Desteklenen birlikler: %d"
+msgstr "Desteklenen birimler: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1859
 #, c-format
 msgid "Present units %d"
-msgstr "Varolan birlikler: %d"
+msgstr "Varolan birimler: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1982
 #: client/gui-gtk-2.0/cityrep.c:800
@@ -9708,21 +9721,21 @@ msgstr "_Ortala"
 #: client/gui-win32/citydlg.c:1485
 #: client/gui-win32/citydlg.c:1516
 msgid "_Activate unit"
-msgstr "_Birlik seç"
+msgstr "_Birim seç"
 
 #: client/gui-gtk-2.0/citydlg.c:1994
 #: client/gui-gtk-2.0/citydlg.c:2047
 #: client/gui-win32/citydlg.c:1487
 #: client/gui-win32/citydlg.c:1518
 msgid "Activate unit, _close dialog"
-msgstr "Birlik seç ve pencereyi kapat"
+msgstr "Birim seç ve pencereyi kapat"
 
 #: client/gui-gtk-2.0/citydlg.c:2000
 #: client/gui-gtk-2.0/citydlg.c:2096
 #: client/gui-win32/citydlg.c:1489
 #: client/gui-win32/citydlg.c:1524
 msgid "_Disband unit"
-msgstr "Birlik işten çı_kar"
+msgstr "Birim işten çı_kar"
 
 #: client/gui-gtk-2.0/citydlg.c:2053
 msgid "_Load unit"
@@ -9740,7 +9753,7 @@ msgstr "_Nöbetçi asker"
 #: client/gui-gtk-2.0/citydlg.c:2085
 #: client/gui-win32/citydlg.c:1522
 msgid "_Fortify unit"
-msgstr "_Birlik güçlendir"
+msgstr "_Birim güçlendir"
 
 #: client/gui-gtk-2.0/citydlg.c:2102
 #: client/gui-win32/citydlg.c:1526
@@ -9749,7 +9762,7 @@ msgstr "Yeni memleketi olsun"
 
 #: client/gui-gtk-2.0/citydlg.c:2109
 msgid "U_pgrade unit"
-msgstr "Birlik Yük_selt"
+msgstr "Birim Yük_selt"
 
 #: client/gui-gtk-2.0/citydlg.c:2427
 #: client/gui-sdl/citydlg.c:1151
@@ -9877,7 +9890,7 @@ msgstr "Gelişimleri"
 #: client/gui-gtk-2.0/cityrep.c:1271
 #: client/gui-xaw/menu.c:245
 msgid "Wonders"
-msgstr "Mucizeler"
+msgstr "Harikalar"
 
 #: client/gui-gtk-2.0/cityrep.c:1383
 #: client/gui-win32/cityrep.c:439
@@ -9898,19 +9911,20 @@ msgstr "Seçimi Tersine Çevir"
 
 #: client/gui-gtk-2.0/cityrep.c:1403
 msgid "Building Units"
-msgstr "Yapımında olan Birlikler"
+msgstr "Yapımında olan Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1409
 msgid "Building Improvements"
 msgstr "Yapımında olan Gelişimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1415
+#, fuzzy
 msgid "Building Wonders"
-msgstr "Yapımında olan Mucizeler"
+msgstr "Yapım aşamasındaki Harikalar"
 
 #: client/gui-gtk-2.0/cityrep.c:1427
 msgid "Building Unit"
-msgstr "Yapımında olan Birlik"
+msgstr "Yapımında olan Birim"
 
 #: client/gui-gtk-2.0/cityrep.c:1431
 msgid "Building Improvement"
@@ -9918,7 +9932,7 @@ msgstr "Yapımında olan Gelişim"
 
 #: client/gui-gtk-2.0/cityrep.c:1435
 msgid "Building Wonder"
-msgstr "Yapımında olan Mucize"
+msgstr "Harika Yapıyor"
 
 #: client/gui-gtk-2.0/cityrep.c:1443
 #: client/gui-win32/cityrep.c:443
@@ -9933,12 +9947,12 @@ msgstr "Aynı Adadakiler"
 #: client/gui-gtk-2.0/cityrep.c:1458
 #: client/gui-win32/cityrep.c:447
 msgid "Supported Units"
-msgstr "Desteklenen Birlikler"
+msgstr "Desteklenen Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1461
 #: client/gui-win32/cityrep.c:454
 msgid "Units Present"
-msgstr "Varolan Birlikler"
+msgstr "Varolan Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1465
 #: client/gui-win32/cityrep.c:469
@@ -9947,11 +9961,11 @@ msgstr "Sehirin Gelişimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1469
 msgid "Wonders in City"
-msgstr "Sehirin Mucizeler"
+msgstr "Şehirdeki Harikalar"
 
 #: client/gui-gtk-2.0/cityrep.c:1478
 msgid "Available Units"
-msgstr "Kullanılabilir Birlikler"
+msgstr "Kullanılabilir Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1481
 msgid "Available Improvements"
@@ -9959,7 +9973,7 @@ msgstr "Kullanılabilir Gelişimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1484
 msgid "Available Wonders"
-msgstr "Kullanılabilir Mucizeler"
+msgstr "Mümkün Olan Harikalar"
 
 #: client/gui-gtk-2.0/cma_fe.c:253
 #: client/gui-xaw/cma_fe.c:78
@@ -10071,7 +10085,7 @@ msgstr "Ne yağmalamak istiyorsun?"
 
 #: client/gui-gtk-2.0/dialogs.c:505
 msgid "Unit"
-msgstr "Birlik"
+msgstr "Birim"
 
 #: client/gui-gtk-2.0/dialogs.c:506
 #: client/gui-gtk-2.0/pages.c:1482
@@ -10087,7 +10101,7 @@ msgstr "Ad"
 #: client/gui-gtk-2.0/dialogs.c:518
 #: client/gui-sdl/dialogs.c:627
 msgid "Unit selection"
-msgstr "Birlik seçimi"
+msgstr "Birim seçimi"
 
 #: client/gui-gtk-2.0/dialogs.c:581
 msgid "_Ready all"
@@ -10540,7 +10554,7 @@ msgstr "Lüks: toplam %d."
 #: client/gui-gtk-2.0/happiness.c:297
 #: client/gui-win32/happiness.c:247
 msgid "Units: "
-msgstr "Birlikler:"
+msgstr "Birimler:"
 
 #: client/gui-gtk-2.0/happiness.c:301
 #: client/gui-win32/happiness.c:251
@@ -11111,7 +11125,7 @@ msgstr "Kirlilik & Nükleer Serpintisi"
 #: client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:158
 msgid "Focus Unit"
-msgstr "_Birlik Ortala"
+msgstr "_Birim Ortala"
 
 #: client/gui-gtk-2.0/menu.c:796
 #: client/gui-sdl/optiondlg.c:1861
@@ -11319,7 +11333,7 @@ msgstr "En yakın şehire dön"
 #: client/gui-win32/menu.c:389
 #: client/gui-xaw/menu.c:205
 msgid "Disband Unit"
-msgstr "Birlik serbest bırak"
+msgstr "Birim serbest bırak"
 
 #: client/gui-gtk-2.0/menu.c:873
 #: client/gui-sdl/citydlg.c:524
@@ -11379,7 +11393,7 @@ msgstr "Raporlar"
 #: client/gui-win32/menu.c:400
 #: client/gui-win32/menu.c:423
 msgid "_Units"
-msgstr "_Birlikler"
+msgstr "_Birimler"
 
 #: client/gui-gtk-2.0/menu.c:896
 #: client/gui-win32/menu.c:401
@@ -11399,7 +11413,7 @@ msgstr "_Bilim"
 #: client/gui-gtk-2.0/menu.c:904
 #: client/gui-win32/menu.c:405
 msgid "_Wonders of the World"
-msgstr "_Dünya Mucizeleri"
+msgstr "_Dünyanın Harikaları"
 
 #: client/gui-gtk-2.0/menu.c:906
 #: client/gui-win32/menu.c:406
@@ -11523,7 +11537,7 @@ msgstr "_Yerey"
 #: client/gui-gtk-2.0/menu.c:947
 #: client/gui-win32/menu.c:428
 msgid "Won_ders"
-msgstr "_Mucizeler"
+msgstr "_Harikalar"
 
 #: client/gui-gtk-2.0/menu.c:951
 #: client/gui-win32/menu.c:430
@@ -11567,7 +11581,7 @@ msgstr "%s ile _değiştir"
 
 #: client/gui-gtk-2.0/menu.c:1396
 msgid "Help _Build Wonder"
-msgstr "Mucize Yapımında Yardım Et"
+msgstr "Harika _Yapımına Yardım Et"
 
 #: client/gui-gtk-2.0/menu.c:1410
 msgid "Add to City (_B)"
@@ -11996,7 +12010,7 @@ msgstr "Gelir: %d    Toplam Masraf: %d"
 #: client/gui-gtk-2.0/repodlgs.c:931
 #: client/gui-win32/repodlgs.c:692
 msgid "Unit Type"
-msgstr "Birlikler"
+msgstr "Birimler"
 
 #: client/gui-gtk-2.0/repodlgs.c:932
 #: client/gui-win32/repodlgs.c:692
@@ -12083,7 +12097,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1289
 msgid "Wonders\n"
-msgstr "Mucize\n"
+msgstr "Harikalar\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1290
 msgid ""
@@ -12246,7 +12260,7 @@ msgstr ""
 #: client/gui-sdl/caravan_dialog.c:181
 #: data/Freeciv.in:2263
 msgid "Help build Wonder"
-msgstr "Mucize yapımında yardım et"
+msgstr "Harika yapımına yardım et"
 
 #: client/gui-sdl/caravan_dialog.c:194
 #: client/gui-sdl/diplomat_dialog.c:675
@@ -12278,7 +12292,7 @@ msgstr "Server Ayarları"
 
 #: client/gui-sdl/citydlg.c:417
 msgid "Unit commands"
-msgstr "Birlik komutları"
+msgstr "Birim komutları"
 
 #: client/gui-sdl/citydlg.c:441
 #: data/Freeciv.in:1162
@@ -12463,12 +12477,12 @@ msgstr "Şehir ayarları"
 #: client/gui-sdl/citydlg.c:1773
 #, c-format
 msgid "Supported units: %d"
-msgstr "Desteklenen birlikler: %d"
+msgstr "Desteklenen birimler: %d"
 
 #: client/gui-sdl/citydlg.c:1831
 #, c-format
 msgid "Present units: %d"
-msgstr "Varolan birlikler: %d"
+msgstr "Varolan birimler: %d"
 
 #: client/gui-sdl/citydlg.c:1880
 #: client/gui-sdl/citydlg.c:3723
@@ -12655,12 +12669,12 @@ msgstr "Pencere kapat (Esc)"
 
 #: client/gui-sdl/citydlg.c:3688
 msgid "Present units"
-msgstr "Varolan birlikler"
+msgstr "Varolan birimler"
 
 #: client/gui-sdl/citydlg.c:3699
 #: client/gui-win32/citydlg.c:811
 msgid "Supported units"
-msgstr "Desteklenen birlikler"
+msgstr "Desteklenen birimler"
 
 #: client/gui-sdl/citydlg.c:3770
 msgid "Change production"
@@ -13259,7 +13273,7 @@ msgstr "Yardım: Gelişimler"
 
 #: client/gui-sdl/helpdlg.c:601
 msgid "Help : Units"
-msgstr "Yardım : Birlikler"
+msgstr "Yardım : Birimler"
 
 #: client/gui-sdl/helpdlg.c:736
 #: client/gui-sdl/helpdlg.c:749
@@ -13355,12 +13369,12 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:274
 msgid "Show Unit Info Window"
-msgstr "Birlik Ayrıntısının Penceresi Görüntüle"
+msgstr "Birim Ayrıntısının Penceresi Görüntüle"
 
 #: client/gui-sdl/mapctrl.c:330
 #: client/gui-sdl/mapctrl.c:1446
 msgid "Hide Unit Info Window"
-msgstr "Birlik Ayrıntısının Penceresi Gizle"
+msgstr "Birim Ayrıntısının Penceresi Gizle"
 
 #: client/gui-sdl/mapctrl.c:384
 msgid "Show MiniMap"
@@ -13717,7 +13731,7 @@ msgstr "Yolu Yap"
 #: client/gui-win32/menu.c:1188
 #: client/gui-xaw/menu.c:206
 msgid "Help Build Wonder"
-msgstr "Mucize Yapmaya Yardım Et"
+msgstr "Harika Yapımına Yardım Et"
 
 #: client/gui-sdl/menu.c:796
 #: client/gui-sdl/menu.c:976
@@ -13955,7 +13969,7 @@ msgstr "Toplam"
 
 #: client/gui-sdl/repodlgs.c:362
 msgid "Units Report"
-msgstr "Birlik Raporu"
+msgstr "Birim Raporu"
 
 #: client/gui-sdl/repodlgs.c:1489
 #, c-format
@@ -14013,7 +14027,7 @@ msgstr "Güncelle"
 #: client/gui-sdl/repodlgs.c:2039
 #: client/gui-sdl/wldlg.c:1340
 msgid "Wonder"
-msgstr "Mucize"
+msgstr "Harika"
 
 #: client/gui-sdl/repodlgs.c:2827
 msgid "What should we focus on now?"
@@ -14311,7 +14325,7 @@ msgstr "Değiştir"
 
 #: client/gui-win32/citydlg.c:817
 msgid "Units present"
-msgstr "Varolan birlikler"
+msgstr "Varolan birimler"
 
 #: client/gui-win32/citydlg.c:823
 #: client/gui-win32/cityrep.c:132
@@ -14362,11 +14376,11 @@ msgstr "Yeniden adlandır"
 #: client/gui-win32/citydlg.c:829
 #: data/Freeciv.in:3062
 msgid "Activate Units"
-msgstr "Birlikler Etkinleştir"
+msgstr "Birimler Etkinleştir"
 
 #: client/gui-win32/citydlg.c:832
 msgid "Unit List"
-msgstr "Birlik Listesi"
+msgstr "Birim Listesi"
 
 #: client/gui-win32/citydlg.c:850
 msgid "Improvement"
@@ -14425,7 +14439,7 @@ msgstr "Kervanyollardan Toplam Geliri: %d"
 #: data/Freeciv.in:1160
 #: data/Freeciv.in:1196
 msgid "Unit Commands"
-msgstr "Birlik Komutları"
+msgstr "Birim Komutları"
 
 #: client/gui-win32/citydlg.c:1491
 #: client/gui-win32/citydlg.c:1530
@@ -14645,7 +14659,7 @@ msgstr "Kentin tarzı:"
 
 #: client/gui-win32/dialogs.c:779
 msgid "Unit Selection"
-msgstr "Birlik Seçimi"
+msgstr "Birim Seçimi"
 
 #: client/gui-win32/dialogs.c:1198
 msgid "NONE"
@@ -15580,7 +15594,7 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s mucize yardımı</h1>\n"
+"<h1>Freeciv %s harikalar yardımı</h1>\n"
 "\n"
 
 #: manual/civmanual.c:303
@@ -15773,7 +15787,7 @@ msgstr "Yapı Adı       Sayaç Masraf Toplam"
 
 #: data/Freeciv.in:1922
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Birlik Tip            Yükseltme  Hareket   Etkin   Kalkan     Gıda"
+msgstr "Birim Tip            Yükseltme  Hareket   Etkin   Kalkan     Gıda"
 
 #: data/Freeciv.in:2006
 msgid "Rename worklist"
@@ -15825,7 +15839,7 @@ msgstr "Hükümetin cinsi seç:"
 
 #: data/Freeciv.in:2512
 msgid "Choose unit activity:"
-msgstr "Birlik Hareketi Seç"
+msgstr "Birim Hareketi Seç"
 
 #: data/Freeciv.in:3051
 msgid " Sell "
@@ -15837,7 +15851,7 @@ msgstr "Yeniden adlandır..."
 
 #: data/Freeciv.in:3064
 msgid "Unit List..."
-msgstr "Birlik Listesi..."
+msgstr "Birim Listesi..."
 
 #: data/Freeciv.in:3066
 msgid "City Options..."
@@ -15857,11 +15871,11 @@ msgstr "Yapılacakları listesi"
 
 #: data/Freeciv.in:3074
 msgid "Supported units:"
-msgstr "Desteklenen birlikler:"
+msgstr "Desteklenen birimler:"
 
 #: data/Freeciv.in:3097
 msgid "Units present:"
-msgstr "Varolan Birlikler:"
+msgstr "Varolan Birimler:"
 
 #: data/Freeciv.in:3135
 msgid "Select nation and name:"
@@ -16030,7 +16044,7 @@ msgid ""
 "  w: focus on next unit (wait)\n"
 "  c: center view on unit\n"
 msgstr ""
-"Birlik Hareketleri:\n"
+"Birim Hareketleri:\n"
 "==============\n"
 "  1: güney batıya git\n"
 "  2: güneye git\n"
@@ -16110,23 +16124,23 @@ msgid ""
 msgstr ""
 "Pencereler ve Raporlar:\n"
 "====================\n"
-"     F1: Şehir Raporu aç\n"
-"     F2: Birlik Raporu aç\n"
-"     F3: Oyuncu Penceresi aç\n"
-"     F5: Ekonomi Raporu aç\n"
-"     F6: Bilim Raporu aç\n"
-"     F7: Dünya'nın Mucizeleri Penceresi aç\n"
-"     F8: En üst 5 Şehir Raporu aç\n"
-"     F9: Mesaj Penceresi aç\n"
-"    F11: Demografi Raporu aç\n"
-"    F12: Uzay Gemisi Raporu aç\n"
+"     F1: Şehir Raporunu aç\n"
+"     F2: Birim Raporunu aç\n"
+"     F3: Oyuncular penceresini aç\n"
+"     F5: Ekonomi Raporunu aç\n"
+"     F6: Bilim Raporunu aç\n"
+"     F7: Dünya'nın Harikalarını aç\n"
+"     F8: En İyi Beş Şehri aç\n"
+"     F9: Mesaj penceresini aç\n"
+"    F11: İstatistikleri aç\n"
+"    F12: Uzay Gemisini aç\n"
 "\n"
-"      T: Vergi/Lüks/Fen oranların penceresi aç\n"
-"      F: Şehir Bul penceresi aç\n"
-" Ctrl-L: Yapılacakları Listesi penceresi aç\n"
-"      R: Devrim penceresi aç\n"
+"      T: Vergi/Lüks/Bilim oranları penceresini aç\n"
+"      F: Şehir Bul penceresini aç\n"
+" Ctrl-L: İş Listeleri penceresini aç\n"
+"      R: Devrim penceresini aç\n"
 "\n"
-"Shift-Return: Raunt bitir"
+"Shift-Return: Sırayı bitir"
 
 #: data/helpdata.txt:548
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
@@ -18489,7 +18503,7 @@ msgstr "Nükleer Enerji"
 #: data/default/techs.ruleset:528
 #: data/civ2/techs.ruleset:515
 msgid "Gives sea units one extra move."
-msgstr "Deniz birliklerin bir adım daha sağlar."
+msgstr "Deniz birimlerin bir adım daha sağlar."
 
 #: data/default/techs.ruleset:531
 #: data/civ2/techs.ruleset:518
@@ -19151,7 +19165,7 @@ msgstr ""
 #: data/civ2/units.ruleset:796
 #: data/civ1/units.ruleset:335
 msgid "Cavalry"
-msgstr "Süvari birlik"
+msgstr "Süvari birim"
 
 #: data/default/units.ruleset:871
 #: data/civ2/units.ruleset:822
