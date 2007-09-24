@@ -2139,6 +2139,8 @@ void handle_player_remove(int player_id)
 **************************************************************************/
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
+  int i;
+
   ruleset_data_free();
 
   ruleset_cache_init();
@@ -2149,10 +2151,13 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   city_styles_alloc(packet->styles_count);
 
   /* After nation ruleset free/alloc, nation->player pointers are NULL.
-   * We have to initialize player->nation too, to keep state consistent. */ 
-  players_iterate(pplayer) {
-    pplayer->nation = NO_NATION_SELECTED;
-  } players_iterate_end;
+   * We have to initialize player->nation too, to keep state consistent.
+   * In case of /taking player, number of players has been reseted, so
+   * we can't use players_iterate() here, but have to go through all
+   * possible player slots instead. */ 
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    game.players[i].nation = NULL;
+  }
 
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */
