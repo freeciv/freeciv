@@ -472,7 +472,7 @@ void release_goto_button(int canvas_x, int canvas_y)
   if (keyboardless_goto_active && hover_state == HOVER_GOTO && ptile) {
     do_unit_goto(ptile);
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-    update_unit_info_label(hover_units);
+    update_unit_info_label(get_units_in_focus());
   }
   keyboardless_goto_active = FALSE;
   keyboardless_goto_button_down = FALSE;

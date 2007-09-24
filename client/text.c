@@ -699,7 +699,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
    * itself. */
 
   /* Line 1. Goto or activity text. */
-  if (count > 0 && unit_list_size(hover_units) > 0) {
+  if (count > 0 && hover_state != HOVER_NONE) {
     int min, max;
 
     if (!goto_get_turns(&min, &max)) {

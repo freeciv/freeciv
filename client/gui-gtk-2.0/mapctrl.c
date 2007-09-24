@@ -395,7 +395,6 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 **************************************************************************/
 gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
 {
-  struct unit_list *active_units = get_units_in_focus();
   int canvas_x, canvas_y;
 
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))
@@ -417,7 +416,7 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
     update_mouse_cursor(CURSOR_DEFAULT);
   }
 
-  update_unit_info_label(active_units);
+  update_unit_info_label(get_units_in_focus());
   return TRUE;
 }
 

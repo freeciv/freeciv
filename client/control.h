@@ -37,7 +37,6 @@ void control_unit_killed(struct unit *punit);
 void unit_change_battlegroup(struct unit *punit, int battlegroup);
 void unit_register_battlegroup(struct unit *punit);
 
-extern struct unit_list *hover_units; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;
 extern enum unit_orders goto_last_order;
