@@ -2226,17 +2226,14 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   nations_alloc(game.control.nation_count);
   city_styles_alloc(game.control.styles_count);
 
-  /* We are in inconsistent state. Players point to nations,
-   * which do not point to players. Fix */
+  /* After nation ruleset free/alloc, nation->player pointers are NULL.
+   * We have to initialize player->nation too, to keep state consistent.
+   * In case of /taking player, number of players has been reseted, so
+   * we can't use players_iterate() here, but have to go through all
+   * possible player slots instead. */ 
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     game.players[i].nation = NULL;
   }
-
-  /* After nation ruleset free/alloc, nation->player pointers are NULL.
-   * We have to initialize player->nation too, to keep state consistent. */ 
-  players_iterate(pplayer) {
-    pplayer->nation = NO_NATION_SELECTED;
-  } players_iterate_end;
 
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */
