@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-24 20:45+0300\n"
+"PO-Revision-Date: 2007-09-25 09:46+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -873,9 +873,8 @@ msgid " and "
 msgstr " ve "
 
 #: common/unittype.c:355
-#, fuzzy
 msgid "?and:, "
-msgstr "?ve:, "
+msgstr ", "
 
 #: common/version.c:34
 #, c-format
@@ -990,20 +989,20 @@ msgstr "Kötü kütük seviyesi \"%s\".\n"
 #: utility/log.c:90
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr ""
+msgstr "%d geçerli bir kütük seviyesi değil \"%s\".\n"
 
 #: utility/log.c:92
 #: utility/log.c:103
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr ""
+msgstr "%d. hata ayıklama seviyesini kullanabilmek için Freeciv DEBUG bayrağıyla derlenmelidir.\n"
 
 #: utility/log.c:108
 #: utility/log.c:120
 #: utility/log.c:161
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr ""
+msgstr "Hatalı biçimde kütük seviyesi değişkeni \"%s\".\n"
 
 #: utility/log.c:138
 #: utility/log.c:143
@@ -1014,12 +1013,12 @@ msgstr "Tamsayı değil: '%s'\n"
 #: utility/log.c:150
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
-msgstr ""
+msgstr "Kütük seviyesi değişkeninde boş dosya adı \"%s\".\n"
 
 #: utility/log.c:276
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr ""
+msgstr "%s kütük dosyası \"%s\" dosyasına eklenmek için açılamadı.\n"
 
 #: utility/log.c:290
 #: utility/log.c:309
@@ -1033,18 +1032,17 @@ msgstr[0] "son mesaj %d defa tekrarlandı"
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " (toplam %d defa)"
 
 #: utility/shared.c:171
 #, c-format
 msgid "Empty argument for \"%s\".\n"
-msgstr ""
+msgstr "\"%s\" için boş değişken.\n"
 
 #: utility/shared.c:175
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr ""
+msgstr "\"%s\" için eksik değişken.\n"
 
 #: utility/shared.c:463
 #, c-format
@@ -1058,7 +1056,7 @@ msgstr "MS %d"
 
 #: utility/shared.c:862
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr ""
+msgstr "FREECIV_PATH atanmış ama boş; bunun yerine varsayılan yol kullanılacak."
 
 #: utility/shared.c:966
 #, c-format
@@ -1067,7 +1065,7 @@ msgstr "Veri dizini okunamadı %s: %s."
 
 #: utility/shared.c:1217
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr ""
+msgstr "Veri yolu FREECIV_PATH ortam değişkeniyle belirlenebilir."
 
 #: utility/shared.c:1219
 #, c-format
@@ -1077,7 +1075,7 @@ msgstr "Geçerli veri yolu: \"%s\""
 #: utility/shared.c:1221
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr ""
+msgstr "\"%s\" dosyası gerekli ... durduruluyor!"
 
 #: utility/shared.c:1345
 #, c-format
@@ -1109,13 +1107,14 @@ msgid "too long"
 msgstr "fazla uzun"
 
 #: utility/shared.c:1368
+#, fuzzy
 msgid "non-match"
-msgstr "birbirini tutmuyor"
+msgstr "birbirini tutmayan"
 
 #: utility/support.c:171
 #, c-format
 msgid "error %ld (failed FormatMessage)"
-msgstr ""
+msgstr "hata %ld (başarısız BiçimMesajı)"
 
 #: utility/support.c:181
 #, c-format
@@ -1142,67 +1141,67 @@ msgstr "%s %s yapısını (gereksiz olduğundan) satıyorlar (fiyat %d)."
 #: ai/advdiplomacy.c:279
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr ""
+msgstr "*%s (AI)* Uzakta modundayken YZ bu tür bir antlaşma imzalayamaz."
 
 #: ai/advdiplomacy.c:289
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
-msgstr "*%s (YZ)* Önce %s ile yapıldı antlaşması bozman lazım, %s."
+msgstr "*%s (YZ)* Önce %s ile yaptığın ittifakı boz, %s."
 
 #: ai/advdiplomacy.c:301
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
-msgstr "*%s (YZ)* Önce ateşkes imzala, %s."
+msgstr "*%s (YZ)* Önce ateşkes yapalım, %s."
 
 #: ai/advdiplomacy.c:305
 #, c-format
 msgid "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer first, %s."
-msgstr "*%s (YZ)* Önce ateşkes biraz daha sürerse iyi olur, %s."
+msgstr "*%s (YZ)* Ateşkesi daha yeni yaptık, biraz böyle kalalım sonra bakarız, %s."
 
 #: ai/advdiplomacy.c:327
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "*%s (AI)* Antlaşama konusunda sana henüz güvenemem, %s."
+msgstr "*%s (AI)* İttifak konusunda henüz sana yeterince güvenmiyorum, %s."
 
 #: ai/advdiplomacy.c:418
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
-msgstr "*%s (YZ)* Bahsettiğin şehri tanımıyorum."
+msgstr "*%s (YZ)* Bahsettiğin şehri hiç görmedim."
 
 #: ai/advdiplomacy.c:445
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "*%s (YZ)* Affedersin, bizce görüşleri paylaşmak uygun değil."
+msgstr "*%s (YZ)* Üzgünüm, seninle görüş sahamızı paylaşmak güvenli değil."
 
 #: ai/advdiplomacy.c:551
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr "*%s (YZ)* Bu anlaşma bize yaramazdı, %s!"
+msgstr "*%s (YZ)* Bu anlaşma bize uymaz, %s!"
 
 #: ai/advdiplomacy.c:572
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr "*%s (AI)* İyi ki bu antlaşma oldu %s!"
+msgstr "*%s (AI)* İttifakımıza hoş geldin %s!"
 
 #: ai/advdiplomacy.c:575
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr "*%s (YK)* Evet, sonuna kadar beraberiz, %s."
+msgstr "*%s (YK)* Evet, sonsuza kadar birlik olalım, %s."
 
 #: ai/advdiplomacy.c:581
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
-msgstr "*%s (YZ)* Evet, barış olsun!"
+msgstr "*%s (YZ)* Yurtta barış, cihanda barış!"
 
 #: ai/advdiplomacy.c:586
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "*%s (YZ)* Anlaştık. Düşmanlık artık yok, %s."
+msgstr "*%s (YZ)* Anlaştık. Savaşa son, %s."
 
 #: ai/advdiplomacy.c:799
 #, c-format
 msgid "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each other better?"
-msgstr "*%s (YZ)* Merhaba %s! Birbirimize daha iyi tanışabilmek için bir ateşkes önerebilir miyiz?"
+msgstr "*%s (YZ)* Merhaba %s! Birbirimizi daha iyi tanıyabilmek için bir ateşkes yapabilir miyiz?"
 
 #: ai/advdiplomacy.c:1077
 #, c-format
@@ -1212,124 +1211,118 @@ msgstr "*%s (YZ)* Uzayı sana kaptırmayacağız. "
 #: ai/advdiplomacy.c:1081
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr "*%s (YZ)* Yeter artık! Sana fazla dayanamıyacağım! Savaş!"
+msgstr "*%s (YZ)* Bu küstahça soytarılığa daha fazla dayanamam! Sana savaş açıyorum!"
 
 #: ai/advdiplomacy.c:1086
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (YZ)* Barış? ... sonra."
+msgstr "*%s (YZ)* Başka zaman barışalım."
 
 #: ai/advdiplomacy.c:1091
 #, c-format
 msgid "*%s (AI)* Finally I get around to you! Did you really think you could get away with your crimes?"
-msgstr ""
+msgstr "*%s (AI)* Sonunda senin hakkından geldim! Bu kadar sinirimi bozduktan sonra benden kaçabileceğini mi sandın?"
 
 #: ai/advdiplomacy.c:1097
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr ""
+msgstr "*%s (AI)* Gizli düşmanlığın sana savaş getirdi!"
 
 #: ai/advdiplomacy.c:1103
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr ""
+msgstr "*%s (AI)* %s üzerine saldırmak senin son hatandı!"
 
 #: ai/advdiplomacy.c:1186
 #, c-format
 msgid "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop the spaceship launch."
 msgid_plural "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop the spaceship launch."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Uzay gemisini durdurmak için %s üzerine %d sıra sonra tüm gücümüzle saldıracağız."
 
 #: ai/advdiplomacy.c:1194
 #, c-format
 msgid "*%s (AI)* Your aid in this matter will be expected. Long live our glorious alliance!"
-msgstr ""
+msgstr "*%s (AI)* Bu konuda yardımını bekliyoruz. Yaşasın ittifakımız!"
 
 #: ai/advdiplomacy.c:1199
 #, c-format
 msgid "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will answer in force in %d turn and expect you to honour your alliance with us and do likewise!"
 msgid_plural "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will answer in force in %d turns and expect you to honour your alliance with us and do likewise!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* %s kendi menfaatleri için bizimle olan antlaşmasını bozdu. %d sıra sonra onlara saldıracağız ve senden de müttefikin olarak destek bekliyoruz!"
 
 #: ai/advdiplomacy.c:1210
 #, c-format
 msgid "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We declare war in %d turn."
 msgid_plural "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* %s bu aralar çok zengin, onlara saldırıp yağmalayacağız. %d sıra sonra savaş açıyoruz."
 
 #: ai/advdiplomacy.c:1216
 #, c-format
 msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr ""
+msgstr "*%s (AI)* Ganimetten pay istiyorsan bizim gibi yap ve saldır!"
 
 #: ai/advdiplomacy.c:1220
 #, c-format
 msgid "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization apart. We declare war in %d turn."
 msgid_plural "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization apart. We declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* %s artık canımıza tak etti. Hadi bu zavallıları parçalayalım. %d sıra sonra savaşa başlayacağız."
 
 #: ai/advdiplomacy.c:1228
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr ""
+msgstr "*%s (AI)* Müttefikin olarak bu savaşta desteğini esirgemeyeceğini umuyoruz."
 
 #: ai/advdiplomacy.c:1233
 #, c-format
 msgid "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  Hold on - we are coming!"
 msgid_plural "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  Hold on - we are coming!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Müttefikin olduğumuz için %s artık bizim de düşmanımızdır. %d sıra sonra onlara savaş açacağız.  Bekle, geliyoruz!"
 
 #: ai/advdiplomacy.c:1240
 #, c-format
 msgid "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
 msgid_plural "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* %s ile ittifakımız nedeniyle %s artık bizim düşmanımız. %d tur sonra onlara savaş açıyoruz.  Senden de benzer davranışlar bekliyoruz."
 
 #: ai/advdiplomacy.c:1307
 #, c-format
 msgid "*%s (AI)* Your attempt to conquer space for yourself alone betray your true intentions, and I will have no more of our alliance!"
-msgstr ""
+msgstr "*%s (AI)* Uzayı yalnız başına ele geçirme planların bize gerçek amacının ne olduğunu gösterdi. Artık müttefikin değiliz!"
 
 #: ai/advdiplomacy.c:1321
 #, c-format
 msgid "*%s (AI)* Your attempt to unilaterally dominate outer space is highly offensive."
-msgstr ""
+msgstr "*%s (AI)* Uzayı bencilce ele geçirme denemelerin bizi kızdırıyor."
 
 #: ai/advdiplomacy.c:1323
 #, c-format
 msgid "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to take action!"
-msgstr ""
+msgstr "*%s (AI)* Uzay gemisi yapmayı bırakmazsan biz sana ne yapacağımızı biliriz!"
 
 #: ai/advdiplomacy.c:1434
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr "*%s (YZ)* Kusura bakma, artık benim görüşlerim seninle paylaşmak istemem."
+msgstr "*%s (YZ)* Üzgünüm, seninle görüş sahasını paylaşmak artık güvenli değil."
 
 #: ai/advdiplomacy.c:1509
 #, c-format
 msgid "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy our enemy, %s."
-msgstr ""
+msgstr "*%s (AI)* Merhaba en güvendiğimiz müttefikimiz. Sizi düşmanımız olan %s ile savaşmaya davet ediyoruz."
 
 #: ai/advdiplomacy.c:1514
 #, c-format
 msgid "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. Why do I need to remind you of your promises?"
-msgstr "*%s (YZ)* Merhaba dostum, henüz düşmanımiz %s savaş ilan etmedin... Neden sözünü tutmuyorsun?"
+msgstr "*%s (YZ)* Selam kanka, hâlâ düşmanımız %s ile savaşa başlamadın... Yoksa sen beni beğenmiyor musun?"
 
 #: ai/advdiplomacy.c:1519
 #, c-format
 msgid "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at peace with our mortal enemy, %s! This is unacceptable; our alliance is no more!"
-msgstr ""
+msgstr "*%s (AI)* Demek %s ile savaşa girmeyip ittifakımızı hiçe sayıyorsun! Bu yaptığın kabul edilemez, artık seninle müttefik değiliz!"
 
 #: ai/advdiplomacy.c:1547
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest making a common cause and join in an alliance?"
-msgstr "*%s (YZ)* Merhaba gardeş, bir anlaşma yapalım mı?"
+msgstr "*%s (YZ)* Merhaba dostum, bizim ittifaka katılmak ister misin?"
 
 #: ai/advdiplomacy.c:1562
 #, c-format
@@ -1339,12 +1332,12 @@ msgstr "*%s (YZ)* Merhaba komşu, biraz daha barışık ilişkiler kuralım mı?
 #: ai/advdiplomacy.c:1576
 #, c-format
 msgid "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a cessation of hostilities?"
-msgstr ""
+msgstr "*%s (AI)* Bu kan davasından bıktık artık. Bir süreliğine ateşkes yapmak istiyoruz, ne dersin?"
 
 #: ai/advdiplomacy.c:1696
 #, c-format
 msgid "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honour our glorious alliance and your name will never be forgotten!"
-msgstr "*%s (YZ)* %s bize arkadan vurdular! Yardım ihtiyacımız var. Yardm edersen vallahi hiç unutmayacağız!"
+msgstr "*%s (YZ)* %s bize arkadan vurdular! Yardıma ihtiyacımız var. Yardım edersen vallahi hiç unutmayacağız!"
 
 #. TRANS: Further information about option will follow.
 #: server/auth.c:164
@@ -1354,135 +1347,135 @@ msgstr ""
 
 #: server/auth.c:177
 msgid " missing from config file (using default)"
-msgstr ""
+msgstr " ayar dosyasında yok (varsayılan deper kullanılıyor)"
 
 #. TRANS: auth option originates from internal default
 #: server/auth.c:180
 msgid " (default)"
-msgstr ""
+msgstr " (varsayılan)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:185
 msgid " (config)"
-msgstr ""
+msgstr " (ayar)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:189
 msgid " (set)"
-msgstr ""
+msgstr " (ayarla)"
 
 #: server/auth.c:262
 #, c-format
 msgid "Auth config filename \"%s\" not allowed!"
-msgstr ""
+msgstr "Kimlik ayarı için dosya adı \"%s\" olamaz!"
 
 #: server/auth.c:267
 #, c-format
 msgid "Cannot load auth config file \"%s\"!"
-msgstr ""
+msgstr "Kimlik ayarı dosyası \"%s\" açılamadı!"
 
 #: server/auth.c:373
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
-msgstr ""
+msgstr "Uyarı: '%s' adını başkası kullanıyor, isminiz '%s' olarak değiştirildi."
 
 #: server/auth.c:379
 msgid "Guests are not allowed on this server. Sorry."
-msgstr "Maalesef bu sunucuda misafir olarak girilmez, kusura bakma."
+msgstr "Üzgünüm, bu sunucuya misafir olarak girilmez."
 
 #: server/auth.c:381
 #, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s ret edindi: Misafirler kabul edilmez."
+msgstr "%s red edildi: Misafir kabul edilmiyor."
 
 #: server/auth.c:400
 #, c-format
 msgid "There was an error reading the user database, logging in as guest connection '%s'."
-msgstr ""
+msgstr "Kullanıcı veritabanı okunurken bir hata oluştu. Misafir olarak giriliyor: '%s'."
 
 #: server/auth.c:405
 msgid "There was an error reading the user database and guest logins are not allowed. Sorry"
-msgstr ""
+msgstr "Üzgünüm, kullanıcı veritabanı okunurken bir hata oluştu ve misafir girişlere izin verilmiyor."
 
 #: server/auth.c:409
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr ""
+msgstr "%s red edildi: Veritabanı hatası ve misafirlere izin verilmiyor."
 
 #: server/auth.c:416
 #, c-format
 msgid "Enter password for %s:"
-msgstr "%s için şifre gir:"
+msgstr "%s için parolayı girin:"
 
 #: server/auth.c:425
 msgid "Enter a new password (and remember it)."
-msgstr "Yeni şifre yaz (unutma ama!)."
+msgstr "Yeni bir parola girin (ve unutmayın)."
 
 #: server/auth.c:430
 msgid "This server allows only preregistered users. Sorry."
-msgstr ""
+msgstr "Üzgünüm, bu sunucuya sade önceden kayıt yaptıranlar girebilir."
 
 #: server/auth.c:433
 #, c-format
 msgid "%s was rejected: Only preregister users allowed."
-msgstr ""
+msgstr "%s red edildi: Sadece önceden kayıt yaptıranlar izinli."
 
 #: server/auth.c:461
 #: server/auth.c:519
 msgid "Sorry, too many wrong tries..."
-msgstr "Fazla deneyimler oldu, kusura bakma..."
+msgstr "Üzgünüm, çok fazla hatalı deneme..."
 
 #: server/auth.c:462
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr ""
+msgstr "%s red edildi: Yeni bir kullanıcı için çok fazla yanlış parola."
 
 #: server/auth.c:478
 msgid "Warning: There was an error in saving to the database. Continuing, but your stats will not be saved."
-msgstr ""
+msgstr "Uyarı: Veritabanına kaydederken bir hata oluştu. Devam ediliyor fakat istatistikler kaydedilmeyecek."
 
 #: server/auth.c:521
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr ""
+msgstr "%s red edildi: Çok fazla hatalı parola denemesi."
 
 #: server/auth.c:530
 msgid "Your password is incorrect. Try again."
-msgstr "Şifren yanlış, bir daha dene."
+msgstr "Parola yanlış, bir daha deneyin."
 
 #: server/auth.c:540
 msgid "Sorry, your connection timed out..."
-msgstr "Bağlantının zaman aşımı oldu, kusura bakma..."
+msgstr "Üzgünüm, bağlantın zaman aşımına uğradı..."
 
 #: server/auth.c:542
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr ""
+msgstr "%s red edildi: Parola beklerken bağlantı zaman aşımına uğradı."
 
 #: server/auth.c:607
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
-msgstr "Şifren çok kısa. En az %d harf ve/veya rakam içermeli. Bir daha dene."
+msgstr "Parolanız çok kısa. En az %d harf ve/veya rakam içermeli. Tekrar deneyin."
 
 #: server/auth.c:613
 #, c-format
 msgid "The password must have at least %d capital letters, %d numbers, and be at minimum %d [printable] characters long. Try again."
-msgstr "Şifren en az %d BÜYÜK HARF, %d rakam ve toplam en az %d hane içermeli. Bir daha dene."
+msgstr "Parolanız en az %d büyük harf, %d rakam ve toplamda en az %d karakterden oluşmalı. Tekrar deneyin."
 
 #: server/barbarian.c:190
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
-msgstr ""
+msgstr "%s, %s adında bir liderin önderliğinde ayaklandı. Onlara karşı hazırlıklı olmalıyız."
 
 #: server/barbarian.c:482
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr ""
+msgstr "%s yakınlarındaki yerliler %s önderliğinde ayaklandı."
 
 #: server/barbarian.c:486
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr "%s yakınlarında korsan görüldü!"
+msgstr "%s yakınlarında korsanlar görüldü!"
 
 #: server/cityhand.c:117
 msgid "You don't have a worker here."
@@ -1490,20 +1483,20 @@ msgstr "Burada işçin yok."
 
 #: server/cityhand.c:174
 msgid "You have already sold something here this turn."
-msgstr ""
+msgstr "Bu turda zaten bir şeyler satmıştın."
 
 #: server/cityhand.c:183
 #, c-format
 msgid "You sell %s in %s for %d gold."
-msgstr "%s %s şehrinde %d altına satıyorsun."
+msgstr "%s, %s şehrinde %d altına satıldı."
 
 #: server/cityhand.c:223
 msgid "Cannot buy in city created this turn."
-msgstr "Bu rauntta yeni kurluldu şehrinde bir şeyler satın alınmaz."
+msgstr "Bu turda kurulan şehirde bir şey satın alınamaz."
 
 #: server/cityhand.c:229
 msgid "You have already bought this turn."
-msgstr "Bu rauntta zaten alış veriş yapıldı."
+msgstr "Bu turda zaten bir şey satın almıştın."
 
 #: server/cityhand.c:236
 #, c-format
@@ -1512,16 +1505,16 @@ msgstr "%s satın alamazsın!"
 
 #: server/cityhand.c:243
 msgid "Can't buy units when city is in disorder."
-msgstr ""
+msgstr "Şehirde ayaklanma varken birim satın alamazsın."
 
 #: server/cityhand.c:262
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr "%d altın lazım. Senin sadece %d altın var."
+msgstr "%d altın lazım. Senin sadece %d altının var."
 
 #: server/cityhand.c:363
 msgid "You have bought this turn, can't change."
-msgstr ""
+msgstr "Bu tur satın aldın, değiştirilemiyor."
 
 #: server/cityhand.c:388
 #: client/text.c:1139
@@ -1534,41 +1527,42 @@ msgstr "%s"
 #: server/citytools.c:270
 #, c-format
 msgid "You already have a city called %s."
-msgstr "O adıyla zaten bir şehrin var: %s."
+msgstr "Zaten %s adında bir şehrin var."
 
 #: server/citytools.c:282
 #, c-format
 msgid "A city called %s already exists."
-msgstr "O adıyla zaten bir şehrin var: %s."
+msgstr "Dünyada zaten %s adında bir şehir var."
 
 #: server/citytools.c:309
 #, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr ""
+msgstr "%s bir şehir adı olamaz. O %s için ayrıldı."
 
 #: server/citytools.c:329
 #, c-format
 msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr ""
+msgstr "%s geçerli bir isim değil. Şehirlere sadece ASCII karakterli ve kural setindeki isimler verilebilir."
 
 #: server/citytools.c:448
 #, c-format
 msgid "City no. %d"
-msgstr "Şehir No. %d"
+msgstr "Şehir no. %d"
 
 #: server/citytools.c:456
 msgid "A poorly-named city"
-msgstr "Bu ne biçim şehir adı!"
+msgstr "Böyle şehir adı olmaz"
 
 #: server/citytools.c:507
 #, c-format
 msgid "Changed homecity of %s to %s."
-msgstr "Changed homecity of %s to %s."
+msgstr "%s artık %s memleketinden."
 
 #: server/citytools.c:520
 #, c-format
+#, fuzzy
 msgid "Transfered %s in %s from %s to %s."
-msgstr ""
+msgstr "%s, %s şehrinden taşındı. %s'den %s'e."
 
 #: server/citytools.c:531
 #, c-format
@@ -1587,13 +1581,14 @@ msgstr ""
 
 #: server/citytools.c:749
 #, c-format
+#, fuzzy
 msgid "You lost %s. A new %s was built in %s."
 msgstr "%s kaybettin. Yeni bir %s %s'de yapıldı."
 
 #: server/citytools.c:824
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
-msgstr ""
+msgstr "Zaten %s adında bir şehrin var. Şehrin adı %s olarak değiştirildi."
 
 #: server/citytools.c:913
 #, c-format
@@ -1601,11 +1596,13 @@ msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
+"%s şehrindeki insanlar teknolojinize hayran kaldı!\n"
+"      İşçiler hemen toplanıp şehir içinde ray inşa etti."
 
 #: server/citytools.c:1040
 #, c-format
 msgid "You have founded %s."
-msgstr "%s kuruldu."
+msgstr "%s şehri kuruldu."
 
 #: server/citytools.c:1111
 #, c-format
@@ -1621,70 +1618,66 @@ msgstr ""
 #: server/citytools.c:1269
 #, c-format
 msgid "You destroy %s completely."
-msgstr "%s tamamen yıktıldı."
+msgstr "%s, bizim tarafımızdan yok edildi."
 
 #: server/citytools.c:1271
 #, c-format
 msgid "%s has been destroyed by %s."
-msgstr "%s %s tarafından yıkıldı."
+msgstr "%s, %s tarafından yok edildi."
 
 #: server/citytools.c:1288
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s ele geçirildi; ganimet olarak %d altın toplandı!"
 
 #: server/citytools.c:1294
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s, %s şehrini ele geçirdi ve %d altın ganimet elde etti."
 
 #: server/citytools.c:1301
 #, c-format
 msgid "You conquer %s"
-msgstr "%s zaptettin."
+msgstr "%s ele geçirildi."
 
 #: server/citytools.c:1303
 #, c-format
 msgid "%s conquered %s."
-msgstr "%s %s zaptetti."
+msgstr "%s, %s şehrini ele geçirdi."
 
 #: server/citytools.c:1308
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s şehrini serbest bıraktın! %d altın ganimet alındı."
 
 #: server/citytools.c:1314
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s, %s şehrini serbest bıraktı ve %d altın ganimet elde etti."
 
 #: server/citytools.c:1321
 #, c-format
 msgid "You have liberated %s!"
-msgstr "%s kurtuldun!"
+msgstr "%s şehrini serbest bıraktın!"
 
 #: server/citytools.c:1323
 #, c-format
 msgid "%s liberated %s."
-msgstr "%s %s şehrinin kurtuluşu sağladılar."
+msgstr "%s, %s şehrini serbest bıraktı."
 
 #: server/citytools.c:1922
 msgid " from the worklist"
-msgstr " yapılacakları listesinden"
+msgstr " iş listesinden"
 
 #. TRANS: "<city> is building <production><source>."
 #: server/citytools.c:1934
 #, c-format
 msgid "%s is building %s%s."
-msgstr "%s %s%s yapılmakta."
+msgstr "%s şehri %s%s inşa ediyor."
 
 #: server/citytools.c:2179
 #, c-format
@@ -1845,7 +1838,6 @@ msgstr "%s'deki %s üretimi sona erdi."
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/cityturn.c:1150
 #: server/techtools.c:176
@@ -2801,7 +2793,6 @@ msgstr "%s ile ateşkes imzalandı."
 msgid "You agree on an armistice with %s. In %d turn it will turn into a peace treaty. Move your units out of %s's territory."
 msgid_plural "You agree on an armistice with %s. In %d turns it will turn into a peace treaty. Move your units out of %s's territory."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/diplhand.c:500
 #: server/diplhand.c:503
@@ -2812,12 +2803,12 @@ msgstr "%s ile ittifak kabul ettin."
 #: server/diplhand.c:512
 #, c-format
 msgid "You give shared vision to %s."
-msgstr "%s ile görüşlerini paylaşıyorsun."
+msgstr "%s ile görüş sahanı paylaşıyorsun."
 
 #: server/diplhand.c:515
 #, c-format
 msgid "%s gives you shared vision."
-msgstr "%s seninle görüşlerini paylaşıyor."
+msgstr "%s seninle görüş sahasını paylaşıyor."
 
 #: server/diplhand.c:657
 #, c-format
@@ -3265,7 +3256,7 @@ msgstr ""
 #: server/plrhand.c:506
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr "%s seninle artık görüşlerinı paylaşmıyor!"
+msgstr "%s artık seninle görüş sahasını paylaşmıyor!"
 
 #: server/plrhand.c:517
 #, c-format
@@ -6154,14 +6145,12 @@ msgstr ""
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became more experienced!"
 msgid_plural "Your attacking %s succeeded against %s's %s (and %d other units)%s and became more experienced!"
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/unittools.c:1671
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
@@ -6192,7 +6181,6 @@ msgstr ""
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
@@ -6202,7 +6190,6 @@ msgstr[1] ""
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/unittools.c:2008
 #, c-format
@@ -7115,7 +7102,7 @@ msgstr ""
 #: client/climisc.c:295
 #, c-format
 msgid "The %s gives shared vision"
-msgstr "%s görüşlerini paylaşıyor"
+msgstr "%s görüş sahasını paylaşıyor"
 
 #: client/climisc.c:299
 #, c-format
@@ -7688,7 +7675,6 @@ msgstr ""
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:1121
 #, c-format
@@ -8943,7 +8929,6 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/text.c:866
 msgid "Shows your progress in researching the current technology."
@@ -10223,7 +10208,7 @@ msgstr "Şe_hirler"
 
 #: client/gui-gtk-2.0/diplodlg.c:333
 msgid "_Give shared vision"
-msgstr "Görüşlerini _paylaş"
+msgstr "_Görüş sahasını paylaş"
 
 #: client/gui-gtk-2.0/diplodlg.c:346
 msgid "Give _embassy"
@@ -10572,7 +10557,6 @@ msgstr "maksimum yok,"
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-gtk-2.0/happiness.c:311
 #: client/gui-win32/happiness.c:261
@@ -12606,7 +12590,6 @@ msgstr "Kent küçülme: %d %s"
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-sdl/citydlg.c:2974
 #, c-format
@@ -12967,7 +12950,7 @@ msgstr "Antlaşmalar"
 #: client/gui-win32/diplodlg.c:618
 #: client/gui-win32/diplodlg.c:670
 msgid "Give shared vision"
-msgstr "Görüşlerini paylaş"
+msgstr "Görüş sahasını paylaş"
 
 #: client/gui-sdl/diplodlg.c:519
 #: client/gui-win32/diplodlg.c:609
@@ -14049,7 +14032,6 @@ msgstr[0] "adım"
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-sdl/repodlgs.c:3370
 #: client/gui-win32/repodlgs.c:764
@@ -14941,7 +14923,6 @@ msgstr ""
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-win32/plrdlg.c:337
 #: data/Freeciv.in:88
@@ -15640,7 +15621,7 @@ msgstr ""
 #: data/Freeciv.in:474
 #: data/Freeciv.in:483
 msgid "Shared vision"
-msgstr "Paylaştığı görüşleri"
+msgstr "Görüş sahası paylaşımı"
 
 #: data/Freeciv.in:558
 msgid "Select Unit(s)"
