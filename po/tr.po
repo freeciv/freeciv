@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-25 09:46+0300\n"
+"PO-Revision-Date: 2007-09-25 13:58+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1282,7 +1282,7 @@ msgstr[0] "*%s (AI)* Müttefikin olduğumuz için %s artık bizim de düşmanım
 #, c-format
 msgid "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
 msgid_plural "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
-msgstr[0] "*%s (AI)* %s ile ittifakımız nedeniyle %s artık bizim düşmanımız. %d tur sonra onlara savaş açıyoruz.  Senden de benzer davranışlar bekliyoruz."
+msgstr[0] "*%s (AI)* %s ile ittifakımız nedeniyle %s artık bizim düşmanımız. %d sıra sonra onlara savaş açıyoruz.  Senden de benzer davranışlar bekliyoruz."
 
 #: ai/advdiplomacy.c:1307
 #, c-format
@@ -1445,7 +1445,7 @@ msgstr "Parola yanlış, bir daha deneyin."
 
 #: server/auth.c:540
 msgid "Sorry, your connection timed out..."
-msgstr "Üzgünüm, bağlantın zaman aşımına uğradı..."
+msgstr "Üzgünüm, bağlantınız zaman aşımına uğradı..."
 
 #: server/auth.c:542
 #, c-format
@@ -1479,11 +1479,11 @@ msgstr "%s yakınlarında korsanlar görüldü!"
 
 #: server/cityhand.c:117
 msgid "You don't have a worker here."
-msgstr "Burada işçin yok."
+msgstr "Burada işçiniz yok."
 
 #: server/cityhand.c:174
 msgid "You have already sold something here this turn."
-msgstr "Bu turda zaten bir şeyler satmıştın."
+msgstr "Bu turda zaten bir şeyler satmıştınız."
 
 #: server/cityhand.c:183
 #, c-format
@@ -1496,25 +1496,25 @@ msgstr "Bu turda kurulan şehirde bir şey satın alınamaz."
 
 #: server/cityhand.c:229
 msgid "You have already bought this turn."
-msgstr "Bu turda zaten bir şey satın almıştın."
+msgstr "Bu turda zaten bir şey satın almıştınız."
 
 #: server/cityhand.c:236
 #, c-format
 msgid "You don't buy %s!"
-msgstr "%s satın alamazsın!"
+msgstr "%s satın alamazsınız!"
 
 #: server/cityhand.c:243
 msgid "Can't buy units when city is in disorder."
-msgstr "Şehirde ayaklanma varken birim satın alamazsın."
+msgstr "Şehirde ayaklanma varken birim satın alamazsınız."
 
 #: server/cityhand.c:262
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr "%d altın lazım. Senin sadece %d altının var."
+msgstr "%d altın lazım. Sizin sadece %d altınınız var."
 
 #: server/cityhand.c:363
 msgid "You have bought this turn, can't change."
-msgstr "Bu tur satın aldın, değiştirilemiyor."
+msgstr "Bu sırada satın aldınız, değiştirilemiyor."
 
 #: server/cityhand.c:388
 #: client/text.c:1139
@@ -1527,7 +1527,7 @@ msgstr "%s"
 #: server/citytools.c:270
 #, c-format
 msgid "You already have a city called %s."
-msgstr "Zaten %s adında bir şehrin var."
+msgstr "Zaten %s adında bir şehriniz var."
 
 #: server/citytools.c:282
 #, c-format
@@ -1687,17 +1687,17 @@ msgstr ""
 #: server/cityturn.c:124
 #, c-format
 msgid "%s is selling %s (obsolete) for %d."
-msgstr ""
+msgstr "%s şehri %s yapısını %d altına satıyor (eskidi)"
 
 #: server/cityturn.c:303
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr "Duyuru: %s harikasının yapımı %s şehrinde önümüzündeki tur bitecek."
+msgstr "Duyuru: %s harikasının yapımı %s şehrinde önümüzündeki sırada bitecek."
 
 #: server/cityturn.c:338
 #, c-format
 msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr ""
+msgstr "%s şehrinde %s (inşada) yapısının daha faydalı olması için nüfus planlaması yapılmalı."
 
 #: server/cityturn.c:350
 #, c-format
@@ -1707,52 +1707,52 @@ msgstr "%s yakın zamanda %i boyutuna büyüyecek."
 #: server/cityturn.c:358
 #, c-format
 msgid "Warning: Famine feared in %s."
-msgstr "UYARI: %s'de açlık kapıda!"
+msgstr "Uyarı: %s şehrinde kıtlıktan korkuluyor."
 
 #: server/cityturn.c:381
 msgid "WARNING, we're LOW on FUNDS sire."
-msgstr "UYARI, Paramız çok az kaldı!"
+msgstr "UYARI, hazinemizde ÇOK AZ altın kaldı efendim."
 
 #: server/cityturn.c:473
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
-msgstr "%s şehrini büyütmek için %s yapması gerekir."
+msgstr "%s şehrinin genişlemesi için %s (inşada) yapısı gerekli."
 
 #: server/cityturn.c:479
 #, c-format
 msgid "%s needs an improvement to grow any further."
-msgstr "%s şehrinin büyütmek için bir gelişim yapması gerek."
+msgstr "%s şehrinin genişlemesi için bir yapı gerekiyor."
 
 #: server/cityturn.c:522
 #, c-format
 msgid "%s grows to size %d."
-msgstr "%s'nin boyutu %d oldu."
+msgstr "%s şehri genişleyerek %d boyutuna ulaştı."
 
 #: server/cityturn.c:553
 #, c-format
 msgid "Famine feared in %s, %s lost!"
-msgstr "%s'de açlık bekleniyor, %s kayıp!"
+msgstr "%s şehrinde kıtlık yaşandı, %s artık yok!"
 
 #: server/cityturn.c:566
 #, c-format
 msgid "Famine causes population loss in %s."
-msgstr "%s'de açlık yüzünden nüfüsu azaldı."
+msgstr "%s şehrinde kıtlık yüzünden nüfus azaldı."
 
 #: server/cityturn.c:570
 #, c-format
 msgid "Famine destroys %s entirely."
-msgstr "Açlık %s tamamen sildi."
+msgstr "Kıtlık %s şehrini haritadan sildi."
 
 #: server/cityturn.c:644
 #, c-format
 msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; teknoloji yetersiz.  Erteleniyor..."
 
 #: server/cityturn.c:657
 #: server/cityturn.c:693
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor.  Listeden silindi..."
 
 #: server/cityturn.c:677
 #: server/cityturn.c:839
@@ -1760,57 +1760,57 @@ msgstr ""
 #: server/cityturn.c:986
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
-msgstr "%s üretimi %s yükseltti (%s şehrinde)."
+msgstr "%s üretimi %s olarak yükseltildi (%s şehrinde)."
 
 #: server/cityturn.c:725
 #, c-format
 msgid "%s can't build %s from the worklist; tech %s not yet available.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; %s teknolojisi henüz bilinmiyor.  Erteleniyor..."
 
 #: server/cityturn.c:738
 #, c-format
 msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; önce %s yapılması lazım.  Erteleniyor..."
 
 #: server/cityturn.c:751
 #, c-format
 msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; bunun için %s yönetim biçimi gerekli.  Erteleniyor..."
 
 #: server/cityturn.c:763
 #, c-format
 msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; %s özelliği gerekli.  Erteleniyor..."
 
 #: server/cityturn.c:775
 #, c-format
 msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; %s arazi gerekli.  Erteleniyor..."
 
 #: server/cityturn.c:789
 #, c-format
 msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; sadece %s bunu yapabilir.  Erteleniyor..."
 
 #: server/cityturn.c:808
 #, c-format
 msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; şehir %d büyüklüğünde olmalı. Erteleniyor..."
 
 #: server/cityturn.c:830
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
-msgstr ""
+msgstr "%s iş listesindeki %s yapısını inşa edemiyor; Sebebi bilinmiyor!  Erteleniyor..."
 
 #: server/cityturn.c:864
 #, c-format
 msgid "%s's worklist is now empty."
-msgstr "%s şehrinin yapılacakları listesi şimdi boş."
+msgstr "%s şehrinin is listesi boşaldı."
 
 #: server/cityturn.c:1008
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr ""
+msgstr "%s, %s birimini destekleyemiyor. Birim terhis edildi."
 
 #: server/cityturn.c:1028
 #, c-format
@@ -1826,115 +1826,116 @@ msgstr ""
 #: server/cityturn.c:1114
 #, c-format
 msgid "The %s have finished building %s in %s."
-msgstr ""
+msgstr "%s, %s harikasını %s şehrinde bitirdi."
 
 #: server/cityturn.c:1124
 #, c-format
 msgid "%s has finished building %s."
-msgstr "%s'deki %s üretimi sona erdi."
+msgstr "%s şehrindeki %s inşası bitti."
 
 #: server/cityturn.c:1140
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] ""
+msgstr[0] "%s araştırmalara ivme kazandırdı; %d tane teknolojiyi anında öğreneceksin."
 
 #: server/cityturn.c:1150
 #: server/techtools.c:176
 #, c-format
 msgid "The %s have acquired %s from %s."
-msgstr ""
+msgstr "%s, %s teknolojisini %s tarafından öğrendi."
 
 #: server/cityturn.c:1158
 #, c-format
 msgid "The %s have started building a spaceship!"
-msgstr ""
+msgstr "%s uzay gemisi yapmaya başladı!"
 
 #: server/cityturn.c:1217
 #, c-format
 msgid "%s can't build %s yet."
-msgstr "%s şu anda %s üretemez."
+msgstr "%s şu anda %s inşa edemez."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1250
 #, c-format
 msgid "%s is finished building %s."
-msgstr "%s'deki %s üretimi sona erdi."
+msgstr "%s şehrindeki %s inşası bitti."
 
 #: server/cityturn.c:1293
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
-msgstr ""
+msgstr "%s için %s şehrinde bakım yapılamıyor, yapı satıldı!"
 
 #: server/cityturn.c:1329
 #, c-format
 msgid "Pollution near %s."
-msgstr "%s civarında kirlilik göründü..."
+msgstr "%s civarında kirlilik görüldü."
 
 #: server/cityturn.c:1476
 #, c-format
 msgid "We Love The %s Day celebrated in %s."
-msgstr "%s Bayramı %s şehrinde kutluyorlar."
+msgstr "En Büyük %s Bizimkidir Bayramı %s şehrinde kutlandı."
 
 #: server/cityturn.c:1483
 #, c-format
 msgid "We Love The %s Day canceled in %s."
-msgstr "%s Bayramı %s şehrinde iptal edindi."
+msgstr "En Büyük %s Bizimkidir Bayramı %s şehrinde iptal edildi."
 
 #: server/cityturn.c:1512
 #, c-format
 msgid "Civil disorder in %s."
-msgstr "%s'de halkı ayaklandı."
+msgstr "%s şehrinde ayaklanma oldu."
 
 #: server/cityturn.c:1515
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
-msgstr "%s ŞEHRİNDE HALEN AYAKLANMA DEVAM!"
+msgstr "%s ŞEHRİNDEKİ AYAKLANMA DEVAM EDİYOR!"
 
 #: server/cityturn.c:1521
 #, c-format
 msgid "Order restored in %s."
-msgstr "%s rahatladı."
+msgstr "%s şehrindeki ayaklanma bastırıldı."
 
 #: server/cityturn.c:1530
 #, c-format
+#, fuzzy
 msgid "The people have overthrown your %s, your country is in turmoil."
-msgstr ""
+msgstr "İnsanlar sizin %s bıraktı, fetret dönemine girdik."
 
 #: server/cityturn.c:1555
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
-msgstr ""
+msgstr "%s henüz %s yapamıyor, ve elimizde kalan tek şehri terkedemeyiz."
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1579
 #, c-format
 msgid "%s is disbanded into %s."
-msgstr ""
+msgstr "%s şehri terkedildi ve %s oluştu."
 
 #: server/civserver.c:77
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
-msgstr ""
+msgstr "Freeciv'den çıkmak için bir saniye içinde iki kez kesme yapmalısınız.\n"
 
 #: server/civserver.c:134
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr ""
+msgstr "Uyarı: %s seçeneği eskidi. Metasunucuyu aktif yapmak için -m kullanın.\n"
 
 #: server/civserver.c:189
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr "Hata: bilimeyen tercih '%s'\n"
+msgstr "Hata: bilimeyen seçenek '%s'\n"
 
 #: server/civserver.c:200
 #, c-format
 msgid "This is the server for %s"
-msgstr ""
+msgstr "Bu sunucu %s içindir"
 
 #: server/civserver.c:201
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr "Freeciv hakkında %s sitesinde çok öğrenecek şeyler var."
+msgstr "Freeciv hakkında bilgi edinmek için %s sitesine bakabilirsiniz"
 
 #: server/civserver.c:206
 #: client/civclient.c:210
@@ -2038,11 +2039,11 @@ msgstr ""
 #: manual/civmanual.c:384
 #, c-format
 msgid "Report bugs at %s.\n"
-msgstr "Eğer program hata varsa (bugs) %s adresine gönderiniz.\n"
+msgstr "Hataları %s adresine bildiriniz.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
-msgstr ""
+msgstr "Oyunu başlat veya kayıtlı bir oyunu yükleyip baştan başlat"
 
 #: server/commands.c:29
 msgid "This command starts the game.  When starting a new game, it should be used after all human players have connected, and AI players have been created (if required), and any desired changes to initial server options have been made.  After 'start', each human player will be able to choose their nation, and then the game will begin.  This command is also required after loading a savegame for the game to recommence.  Once the game is running this command is no longer available, since it would have no effect."
@@ -2065,7 +2066,7 @@ msgstr ""
 
 #: server/commands.c:47
 msgid "Show help about server commands and server options."
-msgstr "Sunucu komutları ve tercihleri listesini gösterir"
+msgstr "Sunucu komutları ve seçenekleri hakkında yardım göster."
 
 #: server/commands.c:48
 msgid "With no arguments gives some introductory help.  With argument \"commands\" or \"options\" gives respectively a list of all commands or all options.  Otherwise the argument is taken as a command name or option name, and help is given for that command or option.  For options, the help information includes the current and default values for that option.  The argument may be abbreviated where unambiguous."
@@ -2081,7 +2082,7 @@ msgstr ""
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
-msgstr "Oyun kapatıp sunucu sonlandır."
+msgstr "Oyundan çık ve sunucuyu kapat."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:74
@@ -2123,7 +2124,7 @@ msgstr ""
 
 #: server/commands.c:96
 msgid "Show server options."
-msgstr "Server ayarları göster."
+msgstr "Sunucu ayarlarını göster."
 
 #: server/commands.c:97
 msgid "With no arguments, shows all server options (or available options, when used by clients).  With an argument, show only the named option, or options with that prefix."
@@ -2168,11 +2169,11 @@ msgstr ""
 
 #: server/commands.c:129
 msgid "set <option-name> <value>"
-msgstr "set <opsiyon-adı> <değer>"
+msgstr "set <ayar-adı> <değer>"
 
 #: server/commands.c:130
 msgid "Set server option."
-msgstr "Sunucu tercihi ayarla."
+msgstr "Sunucu tercihini ayarla."
 
 #: server/commands.c:133
 msgid "team <player> [team]"
@@ -2203,7 +2204,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:150
 msgid "metainfo <meta-line>"
-msgstr "metainfo <sunucu özeti>"
+msgstr "metainfo <özet-satırı>"
 
 #: server/commands.c:151
 msgid "Set metaserver info line."
@@ -2220,7 +2221,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:159
 msgid "metapatch <meta-line>"
-msgstr "metapatch <sunucu özeti>"
+msgstr "metapatch <özet-satırı>"
 
 #: server/commands.c:160
 msgid "Set metaserver patches line."
@@ -2249,16 +2250,16 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:178
 msgid "aitoggle <player-name>"
-msgstr "aitoggle <oyuncu adı>"
+msgstr "aitoggle <oyuncu-adı>"
 
 #: server/commands.c:179
 msgid "Toggle AI status of player."
-msgstr "Oyuncunun YZ statüsü değiştir."
+msgstr "Oyuncunun YZ durumunu değiştir."
 
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:183
 msgid "take [connection-name] <player-name>"
-msgstr "take [bağlantı adı] <oyuncu adı>"
+msgstr "take [bağlantı-adı] <oyuncu-adı>"
 
 #: server/commands.c:184
 msgid "Take over a player's place in the game."
@@ -2271,7 +2272,7 @@ msgstr ""
 #. TRANS: translate text between [] only
 #: server/commands.c:193
 msgid "observe [connection-name] [player-name]"
-msgstr "observe [bağlantı adı] [oyuncu adı]"
+msgstr "observe [bağlantı-adı] [oyuncu-adı]"
 
 #: server/commands.c:194
 msgid "Observe a player or the whole game."
@@ -2284,7 +2285,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:203
 msgid "detach <connection-name>"
-msgstr "detach <bağlantı adı>"
+msgstr "detach <bağlantı-adı>"
 
 #: server/commands.c:204
 msgid "detach from a player."
@@ -2297,11 +2298,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:210
 msgid "create <player-name>"
-msgstr "create <oyuncu adı>"
+msgstr "create <oyuncu-adı>"
 
 #: server/commands.c:211
 msgid "Create an AI player with a given name."
-msgstr "Oyuna yeni giren YZ oyuncuların adını yaratır."
+msgstr "Verilen isimde bir YZ oyuncusu oluşturur."
 
 #: server/commands.c:212
 msgid "The 'create' command is only available before the game has been started."
@@ -2328,7 +2329,7 @@ msgid ""
 "novice <player-name>"
 msgstr ""
 "novice\n"
-"novice <oyuncu adı>"
+"novice <oyuncu-adı>"
 
 #: server/commands.c:225
 msgid "Set one or all AI players to 'novice'."
@@ -2345,7 +2346,7 @@ msgid ""
 "easy <player-name>"
 msgstr ""
 "easy\n"
-"easy <oyuncu adı>"
+"easy <oyuncu-adı>"
 
 #: server/commands.c:234
 msgid "Set one or all AI players to 'easy'."
@@ -2362,7 +2363,7 @@ msgid ""
 "normal <player-name>"
 msgstr ""
 "normal\n"
-"normal <oyuncu adı>"
+"normal <oyuncu-adı>"
 
 #: server/commands.c:243
 msgid "Set one or all AI players to 'normal'."
@@ -2379,7 +2380,7 @@ msgid ""
 "hard <player-name>"
 msgstr ""
 "hard\n"
-"hard <oyuncu adı>"
+"hard <oyuncu-adı>"
 
 #: server/commands.c:252
 msgid "Set one or all AI players to 'hard'."
@@ -2396,7 +2397,7 @@ msgid ""
 "experimental <player-name>"
 msgstr ""
 "experimental\n"
-"experimental <oyuncu adı>"
+"experimental <oyuncu-adı>"
 
 #: server/commands.c:261
 msgid "Set one or all AI players to 'experimental'."
@@ -2419,7 +2420,7 @@ msgstr ""
 "cmdlevel <level>\n"
 "cmdlevel <level> new\n"
 "cmdlevel <level> first\n"
-"cmdlevel <level> <bağlantı adı>"
+"cmdlevel <level> <bağlantı-adı>"
 
 #: server/commands.c:275
 msgid "Query or set command access level access."
@@ -2455,7 +2456,7 @@ msgstr ""
 
 #: server/commands.c:303
 msgid "See \"help timeoutincrease\"."
-msgstr "\"help timeoutincrease\" bak."
+msgstr "bkz. \"help timeoutincrease\"."
 
 #: server/commands.c:304
 msgid "Every <turn> turns, add <value> to timeout timer, then add <turninc> to <turn> and multiply <value> by <valuemult>.  Use this command in concert with the option \"timeout\". Defaults are 0 0 0 1"
@@ -2486,11 +2487,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:323
 msgid "remove <player-name>"
-msgstr "remove <oyuncu adı>"
+msgstr "remove <oyuncu-adı>"
 
 #: server/commands.c:324
 msgid "Fully remove player from game."
-msgstr "Oyuncunu tamamen oyundan siler."
+msgstr "Oyuncuyu tamamen sil."
 
 #: server/commands.c:325
 msgid "This *completely* removes a player from the game, including all cities and units etc.  Use with care!"
@@ -2503,7 +2504,7 @@ msgid ""
 "save <file-name>"
 msgstr ""
 "save\n"
-"save <dosya adı>"
+"save <dosya-adı>"
 
 #: server/commands.c:332
 msgid "Save game to file."
@@ -2563,7 +2564,7 @@ msgstr ""
 #: server/connecthand.c:65
 #, c-format
 msgid "%s Welcome"
-msgstr "Hoş Geldin, %s"
+msgstr "Hoş Geldin %s"
 
 #: server/connecthand.c:86
 #, c-format
@@ -2647,7 +2648,7 @@ msgstr ""
 #: server/connecthand.c:262
 #, c-format
 msgid "Invalid username '%s'"
-msgstr "Geçersiz kullanıcı adı %s'"
+msgstr "Geçersiz kullanıcı adı '%s'"
 
 #: server/connecthand.c:264
 #, c-format
@@ -2680,7 +2681,7 @@ msgstr ""
 
 #: server/console.c:189
 msgid "For introductory help, type 'help'."
-msgstr "Yardım için 'help' yaz."
+msgstr "Tanıtıcı yardım için 'help' yazın."
 
 #: server/diplhand.c:163
 #, c-format
@@ -2716,7 +2717,7 @@ msgstr ""
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
-msgstr[0] "%d şartla olan bir antlaşma imzalandı."
+msgstr[0] "%d maddeden oluşan bir antlaşma imzalandı."
 
 #: server/diplhand.c:276
 #: server/diplhand.c:280
@@ -2739,47 +2740,47 @@ msgstr ""
 #: server/diplhand.c:362
 #, c-format
 msgid "You gave an embassy to %s."
-msgstr "%s'ye bir büyükelçilik verdin.."
+msgstr "%s tarafına elçilik verdiniz."
 
 #: server/diplhand.c:365
 #, c-format
 msgid "%s allowed you to create an embassy!"
-msgstr "%s büyükelçilik kurmak için izin verdiler!"
+msgstr "%s elçilik kurmanıza izin verdiler!"
 
 #: server/diplhand.c:381
 #, c-format
 msgid "You are taught the knowledge of %s."
-msgstr "%s teknolojisi öğrendin."
+msgstr "%s teknolojisini öğrendiniz."
 
 #: server/diplhand.c:385
 #, c-format
 msgid "The %s have acquired %s from the %s."
-msgstr ""
+msgstr "%s, %s teknolojisini %s tarafından öğrendi."
 
 #: server/diplhand.c:400
 #, c-format
 msgid "You get %d gold."
-msgstr "%d altın eline geçti."
+msgstr "%d altın aldınız."
 
 #: server/diplhand.c:407
 #, c-format
 msgid "You receive %s's worldmap."
-msgstr "%s sana bütün haritaları verdi."
+msgstr "%s sana dünya haritasını verdi."
 
 #: server/diplhand.c:415
 #, c-format
 msgid "You receive %s's seamap."
-msgstr "%s sana deniz haritaları verdi."
+msgstr "%s sana deniz haritasını verdi."
 
 #: server/diplhand.c:432
 #, c-format
 msgid "You receive city of %s from %s."
-msgstr ""
+msgstr "%s şehrini %s tarafından aldınız."
 
 #: server/diplhand.c:436
 #, c-format
 msgid "You give city of %s to %s."
-msgstr "Sen %s sehrini %s'ye verdin."
+msgstr "%s şehrini %s tarafına verdiniz."
 
 #: server/diplhand.c:448
 #: server/diplhand.c:451
@@ -2792,145 +2793,145 @@ msgstr "%s ile ateşkes imzalandı."
 #, c-format
 msgid "You agree on an armistice with %s. In %d turn it will turn into a peace treaty. Move your units out of %s's territory."
 msgid_plural "You agree on an armistice with %s. In %d turns it will turn into a peace treaty. Move your units out of %s's territory."
-msgstr[0] ""
+msgstr[0] "%s ile mütareke imzaladınız. %d sıra sonra barış antlaşmasına dönüşecek. Birimlerinizi %s tarafının sınırları dışına çıkarmalısınız."
 
 #: server/diplhand.c:500
 #: server/diplhand.c:503
 #, c-format
 msgid "You agree on an alliance with %s."
-msgstr "%s ile ittifak kabul ettin."
+msgstr "%s ile ittifak kabul ettiniz."
 
 #: server/diplhand.c:512
 #, c-format
 msgid "You give shared vision to %s."
-msgstr "%s ile görüş sahanı paylaşıyorsun."
+msgstr "%s ile görüş sahanı paylaşıyorsunuz."
 
 #: server/diplhand.c:515
 #, c-format
 msgid "%s gives you shared vision."
-msgstr "%s seninle görüş sahasını paylaşıyor."
+msgstr "%s sizinle görüş sahasını paylaşıyor."
 
 #: server/diplhand.c:657
 #, c-format
 msgid "%s canceled the meeting!"
-msgstr "%s buluşması iptal etti!"
+msgstr "%s buluşmayı iptal etti!"
 
 #: server/diplhand.c:664
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr "%s ile buluşma iptal edindi."
+msgstr "%s ile buluşma iptal edildi."
 
 #: server/diplhand.c:706
 msgid "Your diplomatic envoy was decapitated!"
-msgstr ""
+msgstr "Elçinizin kellesi uçuruldu!"
 
 #: server/diplomats.c:97
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
-msgstr ""
+msgstr "Sizin %s, %s şehrinin su kaynağını zehirleyemedi."
 
 #: server/diplomats.c:112
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
-msgstr ""
+msgstr "Sizin %s, %s şehrinin su kaynağını zehirledi."
 
 #: server/diplomats.c:116
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr ""
+msgstr "%s, %s şehrinin su kaynağını zehirlemiş olabilir."
 
 #: server/diplomats.c:262
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
-msgstr ""
+msgstr "Sizin %s, %s şehrinde ilkel %s tarafından idam edildi."
 
 #: server/diplomats.c:276
 #, c-format
 msgid "You have established an embassy in %s."
-msgstr "%s sehrinde bir büyükelçiliği kurdun."
+msgstr "%s şehrinde bir elçilik kurdun."
 
 #: server/diplomats.c:279
 #, c-format
 msgid "The %s have established an embassy in %s."
-msgstr "%s %s sehrinde bir büyükelçiliği kurdular."
+msgstr "%s, %s şehrinde bir elçilik kurdular."
 
 #: server/diplomats.c:335
 #, c-format
 msgid "Your %s could not sabotage %s's %s."
-msgstr ""
+msgstr "Sizin %s, %s şehrinin %s üretimini durduramadı."
 
 #: server/diplomats.c:357
 #, c-format
 msgid "Your %s succeeded in sabotaging %s's %s."
-msgstr ""
+msgstr "Sizin %s, %s şehrinin %s üretimini durdurdu."
 
 #: server/diplomats.c:363
 #, c-format
 msgid "Your %s was sabotaged by %s!"
-msgstr ""
+msgstr "Sizin %s üretimi, %s tarafından durduruldu!"
 
 #: server/diplomats.c:419
 msgid "You can't bribe a unit from this nation."
-msgstr "Bu milletinin birimleri rüşvet almazlar."
+msgstr "Bu milletin birimleri rüşvet almıyorlar."
 
 #: server/diplomats.c:427
 #, c-format
 msgid "You don't have enough gold to bribe %s's %s."
-msgstr ""
+msgstr "%s tarafındaki %s birimine rüşvet verecek kadar altınınız yok."
 
 #: server/diplomats.c:437
 #, c-format
 msgid "You cannot bribe %s!"
-msgstr "%s rüşvet kabul etmez!"
+msgstr "%s rüşvet kabul etmiyor!"
 
 #: server/diplomats.c:463
 #, c-format
 msgid "Your %s succeeded in bribing %s's %s and became more experienced."
-msgstr ""
+msgstr "Sizin %s, %s tarafındaki %s birimini rüşvetle aldı ve kıdemi arttı."
 
 #: server/diplomats.c:470
 #, c-format
 msgid "Your %s succeeded in bribing %s's %s."
-msgstr ""
+msgstr "Sizin %s, %s taradındaki %s birimini rüşvetle aldı."
 
 #: server/diplomats.c:476
 #, c-format
 msgid "Your %s was bribed by %s."
-msgstr ""
+msgstr "Sizin %s, %s tarafından rüşvetle alındı."
 
 #: server/diplomats.c:607
 #, c-format
 msgid "%s was expecting your attempt to steal technology again. Your %s was caught and executed."
-msgstr ""
+msgstr "%s tekrar teknoloji çalmak isteyeceğinizi bildiği için %s yakalandı ve idam edildi."
 
 #: server/diplomats.c:613
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
-msgstr ""
+msgstr "Sizin %s, %s şehrinden teknoloji çalmaya çalışırken yakalandı."
 
 #: server/diplomats.c:619
 #, c-format
 msgid "%s's %s failed to steal technology from %s."
-msgstr ""
+msgstr "%s tarafındaki %s birimi %s şehrinden teknoloji çalamadı."
 
 #: server/diplomats.c:633
 #, c-format
 msgid "No new technology found in %s."
-msgstr ""
+msgstr "%s şehrinde yeni bir teknoloji bulunamadı."
 
 #: server/diplomats.c:689
 msgid "You can't subvert this city."
-msgstr ""
+msgstr "Bu şehri yıkamazsınız."
 
 #: server/diplomats.c:700
 #, c-format
 msgid "You don't have enough gold to subvert %s."
-msgstr ""
+msgstr "%s şehrini yıkmak için altınınız yetersiz."
 
 #: server/diplomats.c:717
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
-msgstr ""
+msgstr "Sizin %s, ayaklanma çıkartırken yakalandı!"
 
 #: server/diplomats.c:721
 #, c-format
@@ -2960,12 +2961,12 @@ msgstr ""
 #: server/diplomats.c:867
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
-msgstr ""
+msgstr "Sizin %s, %s şehrinde üretimi durdurulacak bir şey bulamadı."
 
 #: server/diplomats.c:912
 #, c-format
 msgid "You cannot sabotage a %s!"
-msgstr ""
+msgstr "%s üretimini durduramazsınız!"
 
 #: server/diplomats.c:923
 #, c-format
@@ -3200,11 +3201,11 @@ msgstr ""
 #: server/plrhand.c:146
 #, c-format
 msgid "The %s are no more!"
-msgstr "%s yok edindi!"
+msgstr "%s artık yok!"
 
 #: server/plrhand.c:195
 msgid "Cannot change rates before game start."
-msgstr ""
+msgstr "Oyun başlamadan önce oranları değiştiremezsiniz."
 
 #: server/plrhand.c:211
 #: client/gui-gtk-2.0/gamedlgs.c:242
@@ -3228,15 +3229,15 @@ msgstr ""
 #, c-format
 msgid "The %s have incited a revolt! %d turn of anarchy will ensue! Target government is %s."
 msgid_plural "The %s have incited a revolt! %d turns of anarchy will ensue! Target government is %s."
-msgstr[0] "%s hükümetini devirdiler! %d raunt anarşi dayandıktan sonra hükümeti %s olacak."
+msgstr[0] "%s devrim başlattı! %d sıra anarşiden sonra yönetim biçimi %s olacak."
 
 #: server/plrhand.c:351
 msgid "Revolution: returning to anarchy."
-msgstr "Devrim: anarşiye dönüş."
+msgstr "Devrim: anarşiye dönüyor."
 
 #: server/plrhand.c:411
 msgid "You should choose a new government from the government menu."
-msgstr ""
+msgstr "Hükümet menüsünden bir yönetim biçimi seçmelisiniz."
 
 #: server/plrhand.c:438
 #, c-format
@@ -3261,7 +3262,7 @@ msgstr "%s artık seninle görüş sahasını paylaşmıyor!"
 #: server/plrhand.c:517
 #, c-format
 msgid "The senate will not allow you to break treaty with the %s.  You must either dissolve the senate or wait until a more timely moment."
-msgstr ""
+msgstr "Senato %s ile olan antlaşmayı bozmanıza onay vermedi.  Senatoyu dağıtabilir veya daha zamanlı hareket edebilirisiniz."
 
 #: server/plrhand.c:570
 #, c-format
@@ -3276,7 +3277,7 @@ msgstr ""
 #: server/plrhand.c:607
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
-msgstr "%s ile %s arasındaki diplomatik statüsü %s'a döndü."
+msgstr "%s ile %s arasındaki diplomatik ilişki artık %s."
 
 #: server/plrhand.c:613
 #, c-format
@@ -3296,22 +3297,22 @@ msgstr ""
 #: server/plrhand.c:1112
 #, c-format
 msgid "Removing player %s."
-msgstr "oyuncu %s silinir."
+msgstr "Oyuncu %s siliniyor."
 
 #: server/plrhand.c:1114
 msgid "You've been removed from the game!"
-msgstr ""
+msgstr "Oyundan silindiniz!"
 
 #: server/plrhand.c:1117
 #, c-format
 msgid "%s has been removed from the game."
-msgstr ""
+msgstr "%s oyundan silindi."
 
 #: server/plrhand.c:1158
 #: server/plrhand.c:1163
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
-msgstr "%s ile karşılaştın, onların önder %s."
+msgstr "%s ile karşılaştınız, önderlerinin adı %s."
 
 #: server/plrhand.c:1183
 #, c-format
@@ -3331,7 +3332,7 @@ msgstr ""
 #: server/plrhand.c:1704
 #, c-format
 msgid "%s declares allegiance to %s."
-msgstr ""
+msgstr "%s, %s ile müttefik oldu."
 
 #: server/plrhand.c:1718
 #, c-format
@@ -3372,15 +3373,15 @@ msgstr "Herodot'un"
 
 #: server/report.c:64
 msgid "Thucydides'"
-msgstr "Tukididis'"
+msgstr "Tukididis'in"
 
 #: server/report.c:65
 msgid "Pliny the Elder's"
-msgstr "Büyük Plinius'"
+msgstr "Büyük Plinius'un"
 
 #: server/report.c:66
 msgid "Livy's"
-msgstr "Titus Livius'"
+msgstr "Titus Livius'un"
 
 #: server/report.c:67
 msgid "Toynbee's"
@@ -3453,7 +3454,7 @@ msgstr "Büyük"
 
 #: server/report.c:148
 msgid "Decent"
-msgstr "Ahlaklı"
+msgstr "Nazik"
 
 #: server/report.c:149
 msgid "Mediocre"
@@ -3461,7 +3462,7 @@ msgstr "Vasat"
 
 #: server/report.c:149
 msgid "Hilarious"
-msgstr "Şenli"
+msgstr "Neşeli"
 
 #: server/report.c:149
 msgid "Worthless"
@@ -3469,7 +3470,7 @@ msgstr "Değersiz"
 
 #: server/report.c:149
 msgid "Pathetic"
-msgstr "Gariban"
+msgstr "Zavallı"
 
 #: server/report.c:150
 msgid "Useless"
@@ -3482,12 +3483,12 @@ msgstr "%2d: %s %s\n"
 
 #: server/report.c:207
 msgid "Historian Publishes!"
-msgstr "Tarihçilerin Yayınlarından!"
+msgstr "Tarihçiler Yazıyor!"
 
 #: server/report.c:269
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
-msgstr "%2d: %s %s şehri - boyut %d, "
+msgstr "%2d: %s tarafındaki %s şehri - boyut %d, "
 
 #: server/report.c:275
 msgid "with no wonders\n"
@@ -3502,11 +3503,11 @@ msgstr[0] "%d harikası ile\n"
 #: server/report.c:281
 #: server/report.c:326
 msgid "Traveler's Report:"
-msgstr "Seyyarların dedikoduna göre:"
+msgstr "Kaşifin Raporu:"
 
 #: server/report.c:282
 msgid "The Five Greatest Cities in the World!"
-msgstr "Dünya'nın en büyük beş şehirler!"
+msgstr "Dünya'nın En Mükemmel Beş Şehri!"
 
 #: server/report.c:300
 #, c-format
@@ -3516,12 +3517,12 @@ msgstr "%s %s şehrinde (%s)\n"
 #: server/report.c:304
 #, c-format
 msgid "%s has been DESTROYED\n"
-msgstr "%s YOK EDİNDİ\n"
+msgstr "%s YOK EDİLDİ\n"
 
 #: server/report.c:316
 #, c-format
 msgid "(building %s in %s (%s))\n"
-msgstr "(%s %s şehrinde yapmındadır (%s))\n"
+msgstr "(%s, %s şehrinde inşa ediliyor (%s))\n"
 
 #: server/report.c:327
 #: client/gui-xaw/menu.c:224
@@ -3531,7 +3532,7 @@ msgstr "Dünyanın Harikaları"
 
 #: server/report.c:544
 msgid " sq. mi."
-msgstr " km kare"
+msgstr " milkare"
 
 #: server/report.c:554
 msgid " M tons"
@@ -3539,11 +3540,11 @@ msgstr " M ton"
 
 #: server/report.c:559
 msgid " M goods"
-msgstr " M mal varlığı"
+msgstr " M eşya"
 
 #: server/report.c:564
 msgid " bulbs"
-msgstr " puan"
+msgstr " ampül"
 
 #: server/report.c:569
 msgid " month"
@@ -3573,21 +3574,22 @@ msgstr "."
 
 #: server/report.c:695
 msgid "Demography string contains invalid characters. Try \"help demography\"."
-msgstr ""
+msgstr "İstatistik dizgesi geçersiz karakterler içeriyor. \"help demography\" komutunu deneyin."
 
 #: server/report.c:738
 #: server/report.c:761
 msgid "Demographics Report:"
-msgstr "Demografik Rapor:"
+msgstr "İstatistikler:"
 
 #: server/report.c:739
 msgid "Sorry, the Demographics report is unavailable."
-msgstr "Maalesef, demografik bir rapor yok."
+msgstr "Üzgünüm, istatistik çıkaramıyoruz."
 
 #: server/report.c:743
 #, c-format
+#, fuzzy
 msgid "The %s of the %s (%s)"
-msgstr "%s yönetimli %s (%s)"
+msgstr "%s yönetimindeki %s (%s)"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:164
@@ -3597,11 +3599,11 @@ msgstr ""
 
 #: server/ruleset.c:2346
 msgid "No barbarian nation in rulesets, at least one required!"
-msgstr ""
+msgstr "Kural setlerinde barbar kavimleri yok, en azından bir tane gerekli!"
 
 #: server/ruleset.c:3157
 msgid "Loading rulesets"
-msgstr "Kural tabanı yükleniyor"
+msgstr "Kural seti yükleniyor"
 
 #. TRANS: Error message.
 #: server/savegame.c:156
@@ -3611,13 +3613,13 @@ msgstr ""
 #. TRANS: Error message.
 #: server/savegame.c:162
 msgid "Reason: line not found"
-msgstr ""
+msgstr "Sebep: satır bulunamadı"
 
 #. TRANS: Error message.
 #: server/savegame.c:165
 #, c-format
 msgid "Reason: line too short (expected %d got %lu"
-msgstr ""
+msgstr "Sebep: satır çok kısa (%d beklenirken %lu geldi)"
 
 #: server/savegame.c:3534
 msgid "Savegame too old, at least version 1.9.0 required."
@@ -3639,11 +3641,11 @@ msgstr ""
 
 #: server/settings.c:31
 msgid "Geological"
-msgstr "Jeoloji"
+msgstr "Jeolojik"
 
 #: server/settings.c:32
 msgid "Sociological"
-msgstr "Sosyoloji"
+msgstr "Sosyolojik"
 
 #: server/settings.c:33
 msgid "Economic"
@@ -3655,21 +3657,22 @@ msgstr "Askeri"
 
 #: server/settings.c:35
 msgid "Scientific"
-msgstr "Fenni"
+msgstr "Bilimsel"
 
 #: server/settings.c:36
+#, fuzzy
 msgid "Internal"
-msgstr ""
+msgstr "İçişleri"
 
 #: server/settings.c:37
 msgid "Networking"
-msgstr "Ağ İşlemleri"
+msgstr "Ağ"
 
 #: server/settings.c:41
 #: client/gui-gtk-2.0/dialogs.c:730
 #: client/gui-win32/dialogs.c:532
 msgid "All"
-msgstr "Bütün"
+msgstr "Hepsi"
 
 #: server/settings.c:42
 msgid "Vital"
@@ -3677,7 +3680,7 @@ msgstr "Hayati"
 
 #: server/settings.c:43
 msgid "Situational"
-msgstr "Durumuna göre"
+msgstr "Duruma göre"
 
 #: server/settings.c:44
 msgid "Rare"
@@ -3685,7 +3688,7 @@ msgstr "Nadiren"
 
 #: server/settings.c:45
 msgid "Changed"
-msgstr "Değişildi"
+msgstr "Değiştirildi"
 
 #: server/settings.c:100
 msgid ""
@@ -3708,7 +3711,7 @@ msgstr ""
 
 #: server/settings.c:157
 msgid "Cannot set endyear earlier than current year."
-msgstr ""
+msgstr "Bitiş yılı başlama yılından erken olamaz."
 
 #: server/settings.c:173
 msgid "Cannot change maxplayers in GGZ mode."
@@ -3720,7 +3723,7 @@ msgstr ""
 
 #: server/settings.c:234
 msgid "Map size (in thousands of tiles)"
-msgstr "Harita Boyutu (bin kare)"
+msgstr "Harita Boyutu (bin kare cinsinden)"
 
 #: server/settings.c:235
 msgid ""
@@ -3731,7 +3734,7 @@ msgstr ""
 
 #: server/settings.c:241
 msgid "Map topology index"
-msgstr ""
+msgstr "Harita topolojisi"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:243
@@ -3769,7 +3772,7 @@ msgstr ""
 
 #: server/settings.c:285
 msgid "Method used to generate map"
-msgstr ""
+msgstr "Harita yapımında kullanılacak yöntem"
 
 #: server/settings.c:286
 msgid ""
@@ -3783,7 +3786,7 @@ msgstr ""
 
 #: server/settings.c:299
 msgid "Method used to choose start positions"
-msgstr ""
+msgstr "Başlangıç noktalarını seçme yöntemi"
 
 #: server/settings.c:300
 msgid ""
@@ -3799,7 +3802,7 @@ msgstr ""
 
 #: server/settings.c:313
 msgid "Presence of 1x1 islands"
-msgstr "1x1 adaları mümkün."
+msgstr "1x1 adaların varlığı"
 
 #: server/settings.c:314
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
@@ -3807,7 +3810,7 @@ msgstr ""
 
 #: server/settings.c:319
 msgid "Whether the poles are separate continents"
-msgstr ""
+msgstr "Kutuplar ayrı kıtalarda"
 
 #: server/settings.c:320
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
@@ -3815,7 +3818,7 @@ msgstr ""
 
 #: server/settings.c:326
 msgid "All the map is temperate"
-msgstr ""
+msgstr "Haritanın tamamı ılıman"
 
 #: server/settings.c:327
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
@@ -3823,7 +3826,7 @@ msgstr ""
 
 #: server/settings.c:332
 msgid "Average temperature of the planet"
-msgstr ""
+msgstr "Gezegenin ortalama ısısı"
 
 #: server/settings.c:333
 msgid ""
@@ -3842,7 +3845,7 @@ msgstr ""
 
 #: server/settings.c:350
 msgid "Percentage of the map that is land"
-msgstr ""
+msgstr "Karaların denizlere oranı"
 
 #: server/settings.c:351
 msgid "This setting gives the approximate percentage of the map that will be made into land."
@@ -3850,7 +3853,7 @@ msgstr ""
 
 #: server/settings.c:357
 msgid "Amount of hills/mountains"
-msgstr "Tepelerin ve dağların sayısı"
+msgstr "Tepe ve dağların miktarı"
 
 #: server/settings.c:358
 msgid "Small values give flat maps, while higher values give a steeper map with more hills and mountains."
@@ -3858,7 +3861,7 @@ msgstr ""
 
 #: server/settings.c:364
 msgid "Amount of water on lands"
-msgstr ""
+msgstr "Karadaki su miktarı"
 
 #: server/settings.c:365
 msgid "Small values mean lots of dry, desert-like land; higher values give a wetter map with more swamps, jungles, and rivers."
@@ -3866,7 +3869,7 @@ msgstr ""
 
 #: server/settings.c:372
 msgid "Map generation random seed"
-msgstr ""
+msgstr "Harita yapımında kullanılan rastgele tohum"
 
 #: server/settings.c:373
 msgid "The same seed will always produce the same map; for zero (the default) a seed will be chosen based on the time to give a random map. This setting is usually only of interest while debugging the game."
@@ -3882,7 +3885,7 @@ msgstr ""
 
 #: server/settings.c:394
 msgid "Amount of \"special\" resource squares"
-msgstr ""
+msgstr "\"Özel\" kaynaklı kare miktarı"
 
 #: server/settings.c:395
 msgid "Special resources improve the basic terrain type they are on. The server variable's scale is parts per thousand."
@@ -3890,7 +3893,7 @@ msgstr ""
 
 #: server/settings.c:402
 msgid "Amount of huts (minor tribe villages)"
-msgstr "Dam sayısı (ufak yerel köyler)"
+msgstr "Kulübe sayısı (ufak yerel köyler)"
 
 #: server/settings.c:403
 msgid "This setting gives the exact number of huts that will be placed on the entire map. Huts are small tribal villages that may be investiged by units."
@@ -3898,7 +3901,7 @@ msgstr ""
 
 #: server/settings.c:416
 msgid "Minimum number of players"
-msgstr "Asgari oyuncu sayısı"
+msgstr "En az oyuncu sayısı"
 
 #: server/settings.c:417
 msgid "There must be at least this many players (connected human players or AI players) before the game can start."
@@ -3906,7 +3909,7 @@ msgstr ""
 
 #: server/settings.c:424
 msgid "Maximum number of players"
-msgstr "Azami oyuncu sayısı"
+msgstr "En fazla oyuncu sayısı"
 
 #: server/settings.c:425
 msgid "The maximal number of human and AI players who can be in the game. When this number of players are connected in the pregame state, any new players who try to connect will be rejected."
@@ -3914,7 +3917,7 @@ msgstr ""
 
 #: server/settings.c:433
 msgid "Total number of players (including AI players)"
-msgstr "Toplam oyuncu sayısı (YZ dahil)"
+msgstr "Toplam oyuncu sayısı (YZ oyuncular dahil)"
 
 #: server/settings.c:434
 msgid "If set to a positive value, then AI players will be automatically created or removed to keep the total number of players at this amount."
@@ -3922,7 +3925,7 @@ msgstr ""
 
 #: server/settings.c:446
 msgid "List of players' initial units"
-msgstr "Başlangıçta ki birim listesi"
+msgstr "Başlangıçtaki birim listesi"
 
 #: server/settings.c:447
 msgid ""
@@ -3940,7 +3943,7 @@ msgstr ""
 
 #: server/settings.c:464
 msgid "Area where initial units are located"
-msgstr ""
+msgstr "Başlangıçtaki birimlerin yerleştirileceği alan"
 
 #: server/settings.c:465
 msgid "This is the radius within which the initial units are dispersed."
@@ -3948,7 +3951,7 @@ msgstr ""
 
 #: server/settings.c:471
 msgid "Starting gold per player"
-msgstr "Başlangıçta oyuncu başı altın miktarı"
+msgstr "Başlangıçta oyunculara verilen altın miktarı"
 
 #: server/settings.c:472
 msgid "At the beginning of the game, each player is given this much gold."
@@ -3956,7 +3959,7 @@ msgstr ""
 
 #: server/settings.c:478
 msgid "Number of initial techs per player"
-msgstr "Başlangıçta ki teknoloji sayısı"
+msgstr "Başlangıçta oyunculara verilen teknoloji sayısı"
 
 #: server/settings.c:479
 msgid "At the beginning of the game, each player is given this many technologies. The technologies chosen are random for each player. Depending on the value of tech_cost_style in the ruleset, a big value for techlevel can make the next techs really expensive."
@@ -3964,7 +3967,7 @@ msgstr ""
 
 #: server/settings.c:488
 msgid "Technology cost multiplier percentage"
-msgstr "Teknoloji masrafın çarpanı  (%)"
+msgstr "Teknoloji masrafı çarpanının yüzdesi"
 
 #: server/settings.c:489
 msgid "This affects how quickly players can research new technology. All tech costs are multiplied by this amount (as a percentage). The base tech costs are determined by the ruleset or other game settings."
@@ -3972,7 +3975,7 @@ msgstr ""
 
 #: server/settings.c:498
 msgid "Percentage penalty when changing tech"
-msgstr "Teknoloji değişiminde ki ceza (%)"
+msgstr "Teknoloji değişiminde ceza yüzdesi"
 
 #: server/settings.c:499
 msgid "If you change your current research technology, and you have positive research points, you lose this percentage of those research points. This does not apply if you have just gained a technology this turn."
@@ -3980,7 +3983,7 @@ msgstr ""
 
 #: server/settings.c:508
 msgid "Penalty when getting tech or gold from treaty"
-msgstr ""
+msgstr "Antlaşmadan alınan teknoloji ve altına ceza"
 
 #: server/settings.c:509
 msgid "For each technology you gain from a diplomatic treaty, you lost research points equal to this percentage of the cost to research a new technology. You can end up with negative research points if this is non-zero. Also applies to gold transfers in diplomatic treaties."
@@ -3988,7 +3991,7 @@ msgstr ""
 
 #: server/settings.c:518
 msgid "Penalty when getting tech from conquering"
-msgstr ""
+msgstr "Fetihten gelen teknolojiye ceza"
 
 #: server/settings.c:519
 msgid "For each technology you gain by conquering an enemy city, you lose research points equal to this percentage of the cost to research a new technology. You can end up with negative research points if this is non-zero."
@@ -3996,7 +3999,7 @@ msgstr ""
 
 #: server/settings.c:528
 msgid "Penalty when getting a free tech"
-msgstr ""
+msgstr "Ücretsiz teknoloji alana ceza"
 
 #: server/settings.c:529
 msgid "For each technology you gain \"for free\" (other than covered by diplcost or conquercost: specifically, from huts or from Great Library effects), you lose research points equal to this percentage of the cost to research a new technology. You can end up with negative research points if this is non-zero."
@@ -4004,7 +4007,7 @@ msgstr ""
 
 #: server/settings.c:540
 msgid "Food required for a city to grow"
-msgstr "Şehrin büyümesi için gerekli gıda oranı"
+msgstr "Şehrin büyümesi için gerekli gıda"
 
 #: server/settings.c:541
 msgid "This is the base amount of food required to grow a city. This value is multiplied by another factor that comes from the ruleset and is dependent on the size of the city."
@@ -4012,7 +4015,7 @@ msgstr ""
 
 #: server/settings.c:549
 msgid "Percentage food lost when need aqueduct"
-msgstr ""
+msgstr "Su kemeri lazımken kaybedilen gıda yüzdesi"
 
 #: server/settings.c:550
 msgid "If a city would expand, but it can't because it needs an Aqueduct (or Sewer System), it loses this percentage of its foodbox (or half that amount if it has a Granary)."
@@ -4020,7 +4023,7 @@ msgstr ""
 
 #: server/settings.c:559
 msgid "Multiplier percentage for production costs"
-msgstr ""
+msgstr "Üretim fiyatları çarpanı yüzdesi"
 
 #: server/settings.c:560
 msgid "This affects how quickly units and buildings can be produced.  The base costs are multiplied by this value (as a percentage)."
@@ -4028,7 +4031,7 @@ msgstr ""
 
 #: server/settings.c:574
 msgid "Minimum city size to get full trade"
-msgstr ""
+msgstr "Tam ticaret alabilecek en düşük şehir boyutu"
 
 #: server/settings.c:575
 msgid "There is a trade penalty in all cities smaller than this. The penalty is 100% (no trade at all) for sizes up to notradesize, and decreases gradually to 0% (no penalty except the normal corruption) for size=fulltradesize. See also notradesize."
@@ -4036,7 +4039,7 @@ msgstr ""
 
 #: server/settings.c:585
 msgid "Maximum size of a city without trade"
-msgstr ""
+msgstr "Ticaret alamayacak en büyük şehir boyutu"
 
 #: server/settings.c:586
 msgid "Cities do not produce any trade at all unless their size is larger than this amount. The produced trade increases gradually for cities larger than notradesize and smaller than fulltradesize. See also fulltradesize."
@@ -4044,7 +4047,7 @@ msgstr ""
 
 #: server/settings.c:595
 msgid "City size before people become unhappy"
-msgstr ""
+msgstr "İnsanların mutsuz olmaya başlayacağı şehir boyutu"
 
 #: server/settings.c:596
 msgid "Before other adjustments, the first unhappysize citizens in a city are content, and subsequent citizens are unhappy. See also cityfactor."
@@ -4052,7 +4055,7 @@ msgstr ""
 
 #: server/settings.c:604
 msgid "Number of cities for higher unhappiness"
-msgstr ""
+msgstr "Mutsuzluğu arttıracak şehir sayısı"
 
 #: server/settings.c:605
 msgid "When the number of cities a player owns is greater than cityfactor, one extra citizen is unhappy before other adjustments; see also unhappysize. This assumes a Democracy; for other governments the effect occurs at smaller numbers of cities."
@@ -4060,7 +4063,7 @@ msgstr ""
 
 #: server/settings.c:614
 msgid "Minimum distance between cities"
-msgstr "Şehirler arası asgari mesafe"
+msgstr "Şehirler arası en düşük mesafe"
 
 #: server/settings.c:615
 msgid "When a player founds a new city, it is checked if there is no other city in citymindist distance. For example, if citymindist is 3, there have to be at least two empty fields between two cities in every direction. If set to 0 (default), the ruleset value will be used."
@@ -4068,7 +4071,7 @@ msgstr ""
 
 #: server/settings.c:626
 msgid "Number of turns between rapture effect"
-msgstr ""
+msgstr "Kendinden geçme etkisi için sıra sayısı"
 
 #: server/settings.c:627
 msgid "Sets the number of turns between rapture growth of a city. If set to n a city will grow after celebrating for n+1 turns."
@@ -4076,7 +4079,7 @@ msgstr ""
 
 #: server/settings.c:636
 msgid "Chance for conquered building destruction"
-msgstr ""
+msgstr "Fetih sırasında yapıların yıkılması şansı"
 
 #: server/settings.c:637
 msgid "When a player conquers a city, each city improvement has this percentage chance to be destroyed."
@@ -4084,7 +4087,7 @@ msgstr ""
 
 #: server/settings.c:643
 msgid "Chance of moving into tile after attack"
-msgstr ""
+msgstr "Saldırıdan sonra yenilen tarafa ilerleme şansı"
 
 #: server/settings.c:644
 msgid "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). If set to 100, attacking units will always move into the tile they attacked if they win the combat (and no enemy units remain in the tile). If set to a value between 0 and 100, this will be used as the percent chance of \"occupying\" territory."
@@ -4092,7 +4095,7 @@ msgstr ""
 
 #: server/settings.c:655
 msgid "Turn on/off server-side autoattack"
-msgstr ""
+msgstr "Sunucu taraflı otomatik saldırıyı aç/kapa"
 
 #: server/settings.c:656
 msgid "If set to on, units with move left will automatically consider attacking enemy units that move adjacent to them."
@@ -4100,7 +4103,7 @@ msgstr ""
 
 #: server/settings.c:662
 msgid "Reduce city population after attack"
-msgstr ""
+msgstr "Saldırıdan sonra şehir nüfusunu azalt"
 
 #: server/settings.c:663
 msgid ""
@@ -4113,7 +4116,7 @@ msgstr ""
 
 #: server/settings.c:675
 msgid "National borders radius"
-msgstr ""
+msgstr "Ulusal sınır yarıçapı"
 
 #: server/settings.c:676
 msgid "If this is set to greater than 0, then any land tiles within the given radius of a city will be owned by that nation. Special rules apply for ocean tiles or tiles within range of more than one nation's cities."
@@ -4121,7 +4124,7 @@ msgstr ""
 
 #: server/settings.c:686
 msgid "Units inside borders cause no unhappiness"
-msgstr ""
+msgstr "Sınır içindeki birimler mutsuzluk yaratmaz"
 
 #: server/settings.c:687
 msgid "If this is set, units will not cause unhappiness when inside your own borders."
@@ -4129,7 +4132,7 @@ msgstr ""
 
 #: server/settings.c:693
 msgid "Ability to do diplomacy with other players"
-msgstr ""
+msgstr "Diğer oyuncularla diplomasi yapılabilir"
 
 #: server/settings.c:694
 msgid ""
@@ -4142,7 +4145,7 @@ msgstr ""
 
 #: server/settings.c:703
 msgid "Allowed city names"
-msgstr ""
+msgstr "İzin verilen şehir adları"
 
 #: server/settings.c:704
 msgid ""
@@ -4157,7 +4160,7 @@ msgstr ""
 
 #: server/settings.c:732
 msgid "Barbarian appearance frequency"
-msgstr ""
+msgstr "Barbarların ortaya çıkma sıklığı"
 
 #: server/settings.c:733
 msgid ""
@@ -4170,15 +4173,15 @@ msgstr ""
 
 #: server/settings.c:743
 msgid "Barbarian onset year"
-msgstr ""
+msgstr "Barbarların başlama yılı"
 
 #: server/settings.c:744
 msgid "Barbarians will not appear before this year."
-msgstr ""
+msgstr "Barbar bu yıldan önce ortaya çıkmazlar"
 
 #: server/settings.c:750
 msgid "Length in turns of revolution"
-msgstr ""
+msgstr "Devrim için gerekli sıra miktarı"
 
 #: server/settings.c:751
 msgid "When changing governments, a period of anarchy lasting this many turns will occur. Setting this value to 0 will give a random length of 1-6 turns."
@@ -4186,7 +4189,7 @@ msgstr ""
 
 #: server/settings.c:760
 msgid "Whether to enable fog of war"
-msgstr ""
+msgstr "Savaşın gölgesi aktif"
 
 #: server/settings.c:761
 msgid "If this is set to 1, only those units and cities within the vision range of your own units and cities will be revealed to you. You will not see new cities or terrain changes in tiles not observed."
@@ -4194,7 +4197,7 @@ msgstr ""
 
 #: server/settings.c:769
 msgid "Base chance for diplomats and spies to succeed."
-msgstr ""
+msgstr "Diplomat ve casusların en düşük başarı yüzdesi"
 
 #: server/settings.c:771
 #, no-c-format
@@ -4203,7 +4206,7 @@ msgstr ""
 
 #: server/settings.c:778
 msgid "Whether to allow space race"
-msgstr ""
+msgstr "Uzay yarışı izinli"
 
 #: server/settings.c:779
 msgid "If this option is set to 1, players can build spaceships."
@@ -4211,7 +4214,7 @@ msgstr ""
 
 #: server/settings.c:785
 msgid "Minimum number of cities for civil war"
-msgstr ""
+msgstr "İç savaş için en düşük şehir sayısı"
 
 #: server/settings.c:786
 msgid "A civil war is triggered if a player has at least this many cities and the player's capital is captured. If this option is set to the maximum value, civil wars are turned off altogether."
@@ -4219,7 +4222,7 @@ msgstr ""
 
 #: server/settings.c:795
 msgid "Turns until player contact is lost"
-msgstr ""
+msgstr "Oyuncu ile etkileşimin kaybolacağı sıra sayısı"
 
 #: server/settings.c:796
 msgid "Players may meet for diplomacy this number of turns after their units have last met, even if they do not have an embassy. If set to zero then players cannot meet unless they have an embassy."
@@ -4227,7 +4230,7 @@ msgstr ""
 
 #: server/settings.c:806
 msgid "Rebuild palace if capital is conquered"
-msgstr ""
+msgstr "Başkent fethedilince sarayı yeniden yap"
 
 #: server/settings.c:807
 msgid "If this is set to 1, then when the capital is conquered the palace is automatically rebuilt for free in another randomly choosen city. This is significant because the technology requirement for building a palace will be ignored."
@@ -4235,7 +4238,7 @@ msgstr ""
 
 #: server/settings.c:817
 msgid "Whether to use natural city names"
-msgstr ""
+msgstr "Doğal şehir adları kullanılsın"
 
 #: server/settings.c:818
 msgid "If enabled, the default city names will be determined based on the surrounding terrain."
@@ -4243,7 +4246,7 @@ msgstr ""
 
 #: server/settings.c:831
 msgid "Players that users are allowed to take"
-msgstr ""
+msgstr "Kullanıcıların alabileceği oyuncu sayısı"
 
 #: server/settings.c:832
 msgid ""
@@ -4271,7 +4274,7 @@ msgstr ""
 
 #: server/settings.c:867
 msgid "Whether AI-status toggles with connection"
-msgstr ""
+msgstr "Bağlantı durumuna göre YZ devreye girsin/devreden çıksın"
 
 #: server/settings.c:868
 msgid "If this is set to 1, AI status is turned off when a player connects, and on when a player disconnects."
@@ -4287,15 +4290,16 @@ msgstr ""
 
 #: server/settings.c:881
 msgid "Maximum seconds per turn"
-msgstr ""
+msgstr "Bir sırada harcanacak en fazla süre"
 
 #: server/settings.c:882
 msgid "If all players have not hit \"Turn Done\" before this time is up, then the turn ends automatically. Zero means there is no timeout. In servers compiled with debugging, a timeout of -1 sets the autogame test mode. Use this with the command \"timeoutincrease\" to have a dynamic timer."
 msgstr ""
 
 #: server/settings.c:892
+#, fuzzy
 msgid "Timeout at least n seconds when enemy moved"
-msgstr ""
+msgstr "Düşman hareket edince zaman aşımı"
 
 #: server/settings.c:893
 msgid "Any time a unit moves when in sight of an enemy player, the remaining timeout is set to this value if it was lower."
@@ -4303,15 +4307,16 @@ msgstr ""
 
 #: server/settings.c:902
 msgid "Whether to have simultaneous player phases."
-msgstr ""
+msgstr "Eş zamanlı sıra"
 
 #: server/settings.c:903
 msgid "If true, all players' movement phases will occur simultaneously; if false then players will alternate movement."
 msgstr ""
 
 #: server/settings.c:910
+#, fuzzy
 msgid "Seconds to let a client's network connection block"
-msgstr ""
+msgstr "İstemcinin ağ bağlantısını"
 
 #: server/settings.c:911
 msgid "If a network connection is blocking for a time greater than this value, then the connection is closed. Zero means there is no timeout (although connections will be automatically disconnected eventually)."
@@ -4327,7 +4332,7 @@ msgstr ""
 
 #: server/settings.c:929
 msgid "Seconds between PINGs"
-msgstr ""
+msgstr "PINGler arasındaki bekleme"
 
 #: server/settings.c:930
 msgid "The civserver will poll the clients with a PING request each time this period elapses."
@@ -4335,7 +4340,7 @@ msgstr ""
 
 #: server/settings.c:937
 msgid "Time to cut a client"
-msgstr ""
+msgstr "İstemciyi oyundan atma süresi"
 
 #: server/settings.c:938
 msgid "If a client doesn't reply to a PING in this time the client is disconnected."
@@ -4343,7 +4348,7 @@ msgstr ""
 
 #: server/settings.c:944
 msgid "Turn-blocking game play mode"
-msgstr ""
+msgstr "Sırayı bitirmeyen oyun modu"
 
 #: server/settings.c:945
 msgid "If this is set to 1 the game turn is not advanced until all players have finished their turn, including disconnected players."
@@ -4359,7 +4364,7 @@ msgstr ""
 
 #: server/settings.c:960
 msgid "What is in the Demographics report"
-msgstr ""
+msgstr "İstatistiklerde görünecek bilgiler"
 
 #: server/settings.c:961
 msgid ""
@@ -4383,7 +4388,7 @@ msgstr ""
 
 #: server/settings.c:985
 msgid "Turns per auto-save"
-msgstr ""
+msgstr "Oto-kayıt için sıra sayısı"
 
 #: server/settings.c:986
 msgid "The game will be automatically saved per this number of turns. Zero means never auto-save."
@@ -4392,7 +4397,7 @@ msgstr ""
 #: server/settings.c:996
 #: server/settings.c:1007
 msgid "Savegame compression level"
-msgstr ""
+msgstr "Kayıtlı oyunu sıkıştırma seviyesi"
 
 #: server/settings.c:997
 #: server/settings.c:1008
@@ -4401,7 +4406,7 @@ msgstr ""
 
 #: server/settings.c:1019
 msgid "Auto-save name prefix"
-msgstr ""
+msgstr "Oto-kayıt isim öneki"
 
 #: server/settings.c:1020
 msgid "Automatically saved games will have name \"<prefix><year>.sav\". This setting sets the <prefix> part."
@@ -4409,7 +4414,7 @@ msgstr ""
 
 #: server/settings.c:1027
 msgid "Whether to log player statistics"
-msgstr ""
+msgstr "Oyuncu istatistiklerini kaydet"
 
 #: server/settings.c:1028
 msgid "If this is set to 1, player statistics are appended to the file \"civscore.log\" every turn. These statistics can be used to create power graphs after the game."
@@ -4426,15 +4431,15 @@ msgstr ""
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
-msgstr ""
+msgstr "Uzay gemisini fırlatmak için bir başkentiniz olması gerekiyor"
 
 #: server/spacerace.c:171
 msgid "Your spaceship is already launched!"
-msgstr "Uzay geminin zaten fırlattın!"
+msgstr "Uzay gemisini zaten fırlattınız!"
 
 #: server/spacerace.c:177
 msgid "Your spaceship can't be launched yet!"
-msgstr "Uzay geminin henüz fırlatamazsın!"
+msgstr "Uzay gemisini henüz fırlatamazsın!"
 
 #: server/spacerace.c:186
 #, c-format
@@ -4495,7 +4500,7 @@ msgstr ""
 
 #: server/srv_main.c:223
 msgid "Game ended in a draw as end year exceeded"
-msgstr "Oyun berabere sona erdi cünkü son yılı aştı."
+msgstr "Bitiş yılına geldik ve oyun berabere bitti"
 
 #: server/srv_main.c:257
 #, c-format
@@ -4506,45 +4511,45 @@ msgstr ""
 #: server/srv_main.c:303
 #, c-format
 msgid "Team victory to %s"
-msgstr "Takım kazandı: %s"
+msgstr "Kazanan takım: %s"
 
 #: server/srv_main.c:279
 #: server/srv_main.c:318
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr "%s kazandı."
+msgstr "%s oyunu kazandı"
 
 #: server/srv_main.c:324
 msgid "Game ended in a draw"
-msgstr "Oyun berabere sona erdi."
+msgstr "Oyun berabere bitti"
 
 #: server/srv_main.c:439
 #: server/srv_main.c:451
 #, c-format
 msgid "Your %s unit %s was disbanded in accordance with your peace treaty with the %s."
-msgstr ""
+msgstr "%s biriminiz %s; %s ile olan barış antlaşması gereğince terhis edildi."
 
 #: server/srv_main.c:492
 #: server/srv_main.c:495
 #, c-format
 msgid "Concerned citizens point out that the cease-fire with %s will run out soon."
-msgstr ""
+msgstr "Vatandaşlarınız %s ile olan ateşkesin bitmek üzere olmasından endişe duyuyor."
 
 #: server/srv_main.c:499
 #: server/srv_main.c:503
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr ""
+msgstr "%s ile olan ateşkesin süresi doldu. Artık %s ile savaştasınız."
 
 #: server/srv_main.c:520
 #, c-format
 msgid "Ceasefire between %s and %s has run out. They are at war. You cancel your alliance with both."
-msgstr ""
+msgstr "%s ve %s arasındaki ateşkes bitti. Artık savaştalar. İkisiyle olan ittifakınız iptal edildi."
 
 #: server/srv_main.c:867
 #, c-format
 msgid "Failed saving game as %s"
-msgstr ""
+msgstr "Oyun %s olarak kaydedilemedi"
 
 #: server/srv_main.c:869
 #, c-format
@@ -4553,7 +4558,7 @@ msgstr "Oyun %s olarak kaydedildi"
 
 #: server/srv_main.c:899
 msgid "The game is already running."
-msgstr ""
+msgstr "Oyun zaten başladı."
 
 #: server/srv_main.c:907
 #, c-format
@@ -4585,11 +4590,11 @@ msgstr ""
 
 #: server/srv_main.c:1223
 msgid "Please choose a non-blank name."
-msgstr ""
+msgstr "Lütfen boş olmayan bir isim seçin."
 
 #: server/srv_main.c:1239
 msgid "That nation is already in use."
-msgstr ""
+msgstr "Bu ulusu başkası almış."
 
 #: server/srv_main.c:1255
 #, c-format
@@ -4603,12 +4608,12 @@ msgstr ""
 #: server/srv_main.c:1370
 #, c-format
 msgid "%s nation is not available in this scenario."
-msgstr ""
+msgstr "Bu senaryoda %s ulusu yok."
 
 #: server/srv_main.c:1376
 #, c-format
 msgid "%s nation is already in use."
-msgstr ""
+msgstr "%s ulusunu başkası almış."
 
 #: server/srv_main.c:1394
 #, c-format
@@ -4656,7 +4661,7 @@ msgstr "Oyun bitti..."
 
 #: server/srv_main.c:1921
 msgid "Now accepting new client connections."
-msgstr ""
+msgstr "Yeni istemcilerin bağlantıları kabul ediliyor."
 
 #: server/stdinhand.c:247
 #, c-format
@@ -4679,11 +4684,11 @@ msgstr "(bilinmeyen)"
 
 #: server/stdinhand.c:454
 msgid "Name is empty, so cannot be a player."
-msgstr ""
+msgstr "İsim boş, o zaman oyuncu olamaz."
 
 #: server/stdinhand.c:458
 msgid "Name is too long, so cannot be a player."
-msgstr ""
+msgstr "İsim çok uzun, o zaman oyuncu olamaz."
 
 #: server/stdinhand.c:462
 #, c-format
@@ -4974,7 +4979,7 @@ msgstr ""
 #: server/stdinhand.c:1531
 #: server/stdinhand.c:1534
 msgid "Option:"
-msgstr "Tercih:"
+msgstr "Seçenek:"
 
 #: server/stdinhand.c:1544
 #: server/stdinhand.c:3846
@@ -4984,15 +4989,15 @@ msgstr "Tanım:"
 #: server/stdinhand.c:1549
 #, c-format
 msgid "Status: %s"
-msgstr "Statüs: %s"
+msgstr "Durum: %s"
 
 #: server/stdinhand.c:1550
 msgid "changeable"
-msgstr "değiştirilir"
+msgstr "değişken"
 
 #: server/stdinhand.c:1550
 msgid "fixed"
-msgstr "sabıt"
+msgstr "sabit"
 
 #: server/stdinhand.c:1556
 #, c-format
@@ -5025,14 +5030,14 @@ msgstr ""
 #: server/stdinhand.c:1654
 #, c-format
 msgid "Server Operator: %s"
-msgstr "Server Operatör: %s"
+msgstr "Sunucu Yöneticisi: %s"
 
 #: server/stdinhand.c:1776
 #: server/stdinhand.c:1802
 #: server/stdinhand.c:1818
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr "Oyuncu '%s'nin YZ derecesi şimdilik '%s'dir."
+msgstr "Oyuncu '%s' YZ derecesi artık '%s'."
 
 #: server/stdinhand.c:1806
 #, c-format
@@ -5083,19 +5088,19 @@ msgstr ""
 
 #: server/stdinhand.c:1935
 msgid "All options"
-msgstr "Bütün tercihler"
+msgstr "Bütün seçenekler"
 
 #: server/stdinhand.c:1938
 msgid "Vital options"
-msgstr "Hayati tercihler"
+msgstr "Hayati seçenekler"
 
 #: server/stdinhand.c:1941
 msgid "Situational options"
-msgstr "Durumuna göre tercihler"
+msgstr "Durumuna göre seçenekler"
 
 #: server/stdinhand.c:1944
 msgid "Rarely used options"
-msgstr "Nadiren kullanacak tercihler"
+msgstr "Nadiren kullanacak seçenekler"
 
 #: server/stdinhand.c:1947
 msgid "+ means you may change the option"
@@ -5108,11 +5113,11 @@ msgstr ""
 #: server/stdinhand.c:1951
 #, c-format
 msgid "%-*s value   (min,max)      "
-msgstr "%-*s değer   (min,max)      "
+msgstr "%-*s değer   (asg,aza)      "
 
 #: server/stdinhand.c:1951
 msgid "Option"
-msgstr "Tercih"
+msgstr "Seçenek"
 
 #: server/stdinhand.c:1954
 msgid "description"
@@ -5152,7 +5157,7 @@ msgstr ""
 
 #: server/stdinhand.c:2152
 msgid "Observers cannot vote."
-msgstr "Bir Gözleyici oy vermez."
+msgstr "Seyirciler oy veremez."
 
 #: server/stdinhand.c:2155
 msgid "You can only vote in a running game.  Use 'first' to become the game organizer if there currently is none."
@@ -5256,7 +5261,7 @@ msgstr ""
 #: server/stdinhand.c:2405
 #, c-format
 msgid "Unit %d does not exist."
-msgstr "%d birliği yok."
+msgstr "%d birimi yok."
 
 #: server/stdinhand.c:2463
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -5363,11 +5368,11 @@ msgstr ""
 
 #: server/stdinhand.c:2727
 msgid "Usage: observe [connection-name [player-name]]"
-msgstr "Kullanım: observe [bağlantı adı [oyuncu adı]]"
+msgstr "Kullanım: observe [bağlantı-adı [oyuncu-adı]]"
 
 #: server/stdinhand.c:2733
 msgid "Usage: observe [player-name]"
-msgstr "Kullanım: observe [oyuncu adı]"
+msgstr "Kullanım: observe [oyuncu-adı]"
 
 #: server/stdinhand.c:2783
 #, c-format
@@ -5396,15 +5401,15 @@ msgstr ""
 
 #: server/stdinhand.c:2895
 msgid "Usage: take <connection-name> <player-name>"
-msgstr "Kullanım: take <bağlantı adı> <oyuncu adı>"
+msgstr "Kullanım: take <bağlantı-adı> <oyuncu-adı>"
 
 #: server/stdinhand.c:2900
 msgid "Usage: take <player-name>"
-msgstr "Kullanım: take <oyuncu adı>"
+msgstr "Kullanım: take <oyuncu-adı>"
 
 #: server/stdinhand.c:2906
 msgid "Usage: take [connection-name] <player-name>"
-msgstr "Kullanım: take [bağlantı adı] <oyuncu adı>"
+msgstr "Kullanım: take [bağlantı-adı] <oyuncu-adı>"
 
 #: server/stdinhand.c:2936
 #, c-format
@@ -5462,7 +5467,7 @@ msgstr "Ölü"
 
 #: server/stdinhand.c:3062
 msgid "Usage: detach <connection-name>"
-msgstr "Kullanım: detach <bağlantı adı>"
+msgstr "Kullanım: detach <bağlantı-adı>"
 
 #: server/stdinhand.c:3082
 msgid "You can not detach other users."
@@ -5490,7 +5495,7 @@ msgstr ""
 
 #: server/stdinhand.c:3216
 msgid "Usage: load <game name>"
-msgstr "Kullanım: load <oyun adı>"
+msgstr "Kullanım: load <oyun-adı>"
 
 #: server/stdinhand.c:3236
 #, c-format
@@ -5509,7 +5514,7 @@ msgstr ""
 #: server/stdinhand.c:3327
 #, c-format
 msgid "Current ruleset directory is \"%s\""
-msgstr "Geçerli kural tabanı klasörü: \"%s\""
+msgstr "Geçerli kural seti dizini: \"%s\""
 
 #: server/stdinhand.c:3333
 #, c-format
@@ -5519,21 +5524,21 @@ msgstr ""
 #: server/stdinhand.c:3341
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
-msgstr "Kural tabanı klasörü \"%s\" bulunmadı."
+msgstr "Kural seti dizini \"%s\" bulunmadı."
 
 #: server/stdinhand.c:3347
 #, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr "Kural tabanı klasörü zaten \"%s\""
+msgstr "Kural seti dizini zaten \"%s\""
 
 #: server/stdinhand.c:3351
 #, c-format
 msgid "Ruleset directory set to \"%s\""
-msgstr "Kural tabanı klasörü \"%s\" olarak ayarlandı"
+msgstr "Kural seti dizini \"%s\" olarak ayarlandı"
 
 #: server/stdinhand.c:3390
 msgid "Goodbye."
-msgstr "Görüşürüz."
+msgstr "Hoşçakal."
 
 #: server/stdinhand.c:3421
 msgid "Sorry, you are not allowed to use server commands."
@@ -5568,7 +5573,7 @@ msgstr ""
 
 #: server/stdinhand.c:3639
 msgid "Game ended in a draw."
-msgstr "Oyun berabere sona erdi."
+msgstr "Oyun berabere bitti."
 
 #: server/stdinhand.c:3643
 msgid "Ending the game. The server will restart once all clients have disconnected."
@@ -5589,7 +5594,7 @@ msgstr "Şu anda teslim olamazsın."
 
 #: server/stdinhand.c:3715
 msgid "Not enough players, game will not start."
-msgstr "Yeterli oyuncu sayısı olmayınca oyunu başlatılmaz."
+msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
 #: server/stdinhand.c:3732
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
@@ -5602,7 +5607,7 @@ msgstr ""
 #: server/stdinhand.c:3768
 #, c-format
 msgid "Cutting connection %s."
-msgstr "Bağlantı kesilir %s."
+msgstr "Bağlantı kesiliyor %s."
 
 #: server/stdinhand.c:3787
 msgid ""
@@ -5637,7 +5642,7 @@ msgstr "Özet:"
 #: server/stdinhand.c:3838
 #, c-format
 msgid "Level: %s"
-msgstr "Düzey: %s"
+msgstr "Seviye: %s"
 
 #: server/stdinhand.c:3863
 msgid "The following server commands are available:"
@@ -5711,7 +5716,7 @@ msgstr ""
 
 #: server/stdinhand.c:4117
 msgid " (observer mode)"
-msgstr "(gözlemci modu)"
+msgstr " (izleyici modu)"
 
 #: server/stdinhand.c:4135
 msgid "List of teams:"
@@ -5740,7 +5745,7 @@ msgstr ""
 
 #: server/stdinhand.c:4186
 msgid "<no connections>"
-msgstr "<başlantılar yok>"
+msgstr "<hiç bağlantı yok>"
 
 #: server/stdinhand.c:4210
 msgid "List of scenarios available:"
@@ -5754,12 +5759,12 @@ msgstr "%s %s öğrenmişler."
 #: server/techtools.c:116
 #, c-format
 msgid "The %s have researched Future Tech. %d."
-msgstr "%s geleceğinin teknolojisi %d öğrenmişler."
+msgstr "%s Geleceğin Teknolojisi %d öğrenmişler."
 
 #: server/techtools.c:168
 #, c-format
 msgid "%s acquired from %s!"
-msgstr "%s bilgisi %s'dan öğrenildi!"
+msgstr "%s teknolojisi %s tarafından öğrenildi!"
 
 #: server/techtools.c:220
 #, c-format
@@ -5774,7 +5779,7 @@ msgstr ""
 #: server/techtools.c:351
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr "%s öğrendik. Bilim adamlarımız simdi %s öğrenmeye başlarlar; hedef: %s."
+msgstr "%s teknolojisini öğrendik. Bilim adamlarımız şimdi %s üzerinde çalışıyorlar; hedefimiz: %s."
 
 #: server/techtools.c:369
 #, c-format
@@ -5784,41 +5789,41 @@ msgstr ""
 #: server/techtools.c:376
 #, c-format
 msgid "Learned %s. "
-msgstr "%s araştırıldı. "
+msgstr "%s öğrenildi. "
 
 #: server/techtools.c:379
 #, c-format
 msgid "Researching %s."
-msgstr "%s araştırmakta."
+msgstr "%s üzerinde çalışılıyor."
 
 #: server/techtools.c:385
 #, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
-msgstr "%s öğrenildi. Bilim adamları şimdi ne araştıracağını karar veremediler."
+msgstr "%s teknolojisi öğrenildi. Hedefimiz olmadığı için bilim adamları şimdi ne üzerinde çalışacaklarını bilmiyorlar."
 
 #: server/techtools.c:402
 msgid "Great scientists from all the world join your civilization: you get an immediate advance."
-msgstr ""
+msgstr "Dünyanın dört bir yanından gelen bilim adamları sizin uygarlığınıza katıldılar: bir tane teknolojiyi hemen öğrendiniz."
 
 #: server/techtools.c:570
 #, c-format
 msgid "Technology goal is %s."
-msgstr "Teknoloji hedefi %s'dir."
+msgstr "Teknoloji hedefimiz %s."
 
 #: server/techtools.c:698
 #, c-format
 msgid "You steal %s from the %s."
-msgstr "%s bilgisi %s'den çaldın."
+msgstr "%s teknolojisini %s tarafından çaldınız."
 
 #: server/techtools.c:703
 #, c-format
 msgid "The %s stole %s from you!"
-msgstr "%s senden %s bilgisi çalmışlar!"
+msgstr "%s sizden %s teknolojisini çaldı!"
 
 #: server/techtools.c:708
 #, c-format
 msgid "The %s have stolen %s from the %s."
-msgstr "%s %s bilgisi %s'den çalmışlar!"
+msgstr "%s, %s teknolojisini %s tarafından çaldı."
 
 #: server/unithand.c:99
 #, c-format
