@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-09-16 14:17+0300\n"
+"PO-Revision-Date: 2007-09-25 21:30+0300\n"
 "Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2056,9 +2056,9 @@ msgstr "  -v, --version\t\tNäita versiooninumbrit\n"
 #: server/civserver.c:246 client/gui-gtk-2.0/gui_main.c:267
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:209
 #: client/gui-xaw/gui_main.c:247 manual/civmanual.c:384
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s.\n"
-msgstr "Teata vigadest aadressile <%s>.\n"
+msgstr "Teata vigadest aadressile %s.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
@@ -2932,9 +2932,9 @@ msgstr[0] "Nõustuti leppega, milles on %d tingimus."
 msgstr[1] "Nõustuti leppega, milles on %d tingimust."
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, fuzzy, c-format
+#, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
-msgstr "Linn, mille %s pakkusid, on hävitatud! Lepe tühistatud!"
+msgstr "Linn, mille %s ära annavad, on hävitatud! Lepe tühistatud!"
 
 #: server/diplhand.c:272 server/diplhand.c:277
 #, c-format
@@ -3856,7 +3856,7 @@ msgstr "Ei suutnud leida loetavat \"%s.%s\" reeglistiku faili."
 
 #: server/ruleset.c:2345
 msgid "No barbarian nation in rulesets, at least one required!"
-msgstr ""
+msgstr "Reeglistikus pole ühtki barbari rahvust, vähemalt üks barbari rahvus on kohustuslik!"
 
 #: server/ruleset.c:3156
 msgid "Loading rulesets"
@@ -5295,14 +5295,12 @@ msgid "Warning: rejecting old client %s"
 msgstr "Hoiatus: ei luba sisse vana klienti %s"
 
 #: server/srv_main.c:1029
-#, fuzzy
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "Freeciv 2.0 or later."
 msgstr ""
 "Su klient on liiga vana. Et seda serverit kasutada, pead uuendama oma "
-"kliendi vähemalt CVS-versioonile ajast 2003-11-28 või väljalaskele Freeciv "
-"2.0."
+"kliendi versioonile Freeciv 2.0 või hilisemale."
 
 #: server/srv_main.c:1115
 #, c-format
@@ -6938,7 +6936,7 @@ msgstr[1] "Kaotasime %d üksust, kui %s-ide %s ründas %s-ide %s."
 #: server/unittools.c:2008
 #, c-format
 msgid "Your %s was nuked by %s."
-msgstr ""
+msgstr "Sinu linn %s sai  pihta %s tuumapommiga."
 
 #: server/unittools.c:2010 server/unittools.c:2026
 msgid "yourself"
@@ -6952,7 +6950,7 @@ msgstr ""
 #: server/unittools.c:2024
 #, c-format
 msgid "%s was nuked by %s."
-msgstr ""
+msgstr "%s sai pihta %s tuumapommiga."
 
 #: server/unittools.c:2031
 #, c-format
@@ -7165,7 +7163,7 @@ msgstr "Jätkan ilma heli toeta."
 
 #: client/audio.c:197
 msgid "No real audio plugin present, proceeding with sound support disabled"
-msgstr ""
+msgstr "Ühtki audio-plugina ei leitud, jätkan heli toeta."
 
 #: client/audio.c:200
 msgid "For sound support, install SDL_mixer"
@@ -7231,7 +7229,7 @@ msgstr ""
 
 #: client/audio.c:259
 msgid "Perhaps there is some misconfigurationg or bad permissions"
-msgstr ""
+msgstr "Võibolla on asi vigastes seadetes või valedes pääsuõigustes"
 
 #: client/audio.c:282
 #, c-format
@@ -7381,9 +7379,8 @@ msgid "Special"
 msgstr "Spetsiaal"
 
 #: client/cityrepdata.c:446
-#, fuzzy
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr "E/T/M"
+msgstr "?entertainers/scientists/taxmen:E/T/M"
 
 #: client/cityrepdata.c:447
 msgid "Entertainers, Scientists, Taxmen"
@@ -7400,41 +7397,36 @@ msgid "State"
 msgstr "Staatus"
 
 #: client/cityrepdata.c:452
-#, fuzzy
 msgid "Rapture/Peace/Disorder"
 msgstr "Joovastus/Rahu/Rahutused"
 
 #: client/cityrepdata.c:455
-#, fuzzy
 msgid "?Happy workers:H"
-msgstr "l"
+msgstr "?Happy workers:Õ"
 
 #: client/cityrepdata.c:455
 msgid "Workers: Happy"
 msgstr "Töölised: õnnelikud"
 
 #: client/cityrepdata.c:457
-#, fuzzy
 msgid "?Content workers:C"
-msgstr "R"
+msgstr "?Content workers:R"
 
 #: client/cityrepdata.c:457
 msgid "Workers: Content"
 msgstr "Töölised: Rahul"
 
 #: client/cityrepdata.c:459
-#, fuzzy
 msgid "?Unhappy workers:U"
-msgstr "t"
+msgstr "?Unhappy workers:K"
 
 #: client/cityrepdata.c:459
 msgid "Workers: Unhappy"
-msgstr "Töölised: Õnnetud"
+msgstr "Töölised: Kurvad"
 
 #: client/cityrepdata.c:461
-#, fuzzy
 msgid "?Angry workers:A"
-msgstr "V"
+msgstr "?Angry workers:V"
 
 #: client/cityrepdata.c:461
 msgid "Workers: Angry"
@@ -7446,9 +7438,8 @@ msgid "Workers"
 msgstr "Töölised"
 
 #: client/cityrepdata.c:464
-#, fuzzy
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr "l/R/t/V"
+msgstr "?happy/content/unhappy/angry:Õ/R/K/V"
 
 #: client/cityrepdata.c:465
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -7509,23 +7500,20 @@ msgstr "Toetatud üksuste arv"
 
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:482
-#, fuzzy
 msgid "?food (population):Grow"
-msgstr "Kasv"
+msgstr "?food (population):Kasvab"
 
 #: client/cityrepdata.c:483 client/cityrepdata.c:528
-#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
-msgstr "(Tehtud/Siht)"
+msgstr "?Stock/Target:(On/Vaja)"
 
 #: client/cityrepdata.c:484
 msgid "Turns until growth/famine"
 msgstr "Käike kasvamise/näljani"
 
 #: client/cityrepdata.c:486
-#, fuzzy
 msgid "?size [short]:Sz"
-msgstr "Ss"
+msgstr "?size [short]:Ss"
 
 #: client/cityrepdata.c:486
 msgid "Size"
@@ -7544,55 +7532,48 @@ msgid "Surplus"
 msgstr "Ülejääk"
 
 #: client/cityrepdata.c:493
-#, fuzzy
 msgid "?food/production/trade:F/P/T"
-msgstr "T/Tm/K"
+msgstr "?food/production/trade:T/Tm/K"
 
 #: client/cityrepdata.c:494
 msgid "Surplus: Food, Production, Trade"
 msgstr "Ülejääk: Toit, Tootmine, Kaubandus"
 
 #: client/cityrepdata.c:496
-#, fuzzy
 msgid "?Food surplus [short]:+F"
-msgstr "+T"
+msgstr "?Food surplus [short]:+T"
 
 #: client/cityrepdata.c:496
 msgid "Surplus: Food"
 msgstr "Jääk: Toit"
 
 #: client/cityrepdata.c:498
-#, fuzzy
 msgid "?Production surplus [short]:+P"
-msgstr "+Tm"
+msgstr "?Production surplus [short]:+Tm"
 
 #: client/cityrepdata.c:499
-#, fuzzy
 msgid "Surplus: Production"
 msgstr "Ülejääk: Tootmine"
 
 #: client/cityrepdata.c:500
-#, fuzzy
 msgid "?Production loss (waste) [short]:-P"
-msgstr "-Tm"
+msgstr "?Production loss (waste) [short]:-Tm"
 
 #: client/cityrepdata.c:501
 msgid "Waste"
 msgstr "Jäätmed"
 
 #: client/cityrepdata.c:502
-#, fuzzy
 msgid "?Trade surplus [short]:+T"
-msgstr "+K"
+msgstr "?Trade surplus [short]:+K"
 
 #: client/cityrepdata.c:502
 msgid "Surplus: Trade"
-msgstr "Jääk: Taubandus"
+msgstr "Ülejääk: Taubandus"
 
 #: client/cityrepdata.c:504
-#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
-msgstr "-K"
+msgstr "?Trade loss (corruption) [short]:-K"
 
 #: client/cityrepdata.c:505
 msgid "Corruption"
@@ -7606,35 +7587,32 @@ msgid "Economy"
 msgstr "Majandus"
 
 #: client/cityrepdata.c:507
-#, fuzzy
 msgid "?gold/luxury/science:G/L/S"
-msgstr "K/N/T"
+msgstr "?gold/luxury/science:K/H/T"
 
 #: client/cityrepdata.c:508
 msgid "Economy: Gold, Luxuries, Science"
-msgstr "Majandus: Kuld, Naudingud, Teadus"
+msgstr "Majandus: Kuld, Hüved, Teadus"
 
 #: client/cityrepdata.c:510
 msgid "?Gold:G"
-msgstr "K"
+msgstr "?Gold:K"
 
 #: client/cityrepdata.c:510
 msgid "Economy: Gold"
 msgstr "Majandus: Kuld"
 
 #: client/cityrepdata.c:512
-#, fuzzy
 msgid "?Luxury:L"
-msgstr "N"
+msgstr "?Luxury:N"
 
 #: client/cityrepdata.c:512
-#, fuzzy
 msgid "Economy: Luxury"
 msgstr "Majandus: Naudingud"
 
 #: client/cityrepdata.c:514
 msgid "?Science:S"
-msgstr "T"
+msgstr "?Science:T"
 
 #: client/cityrepdata.c:514
 msgid "Economy: Science"
@@ -7670,7 +7648,6 @@ msgid "Citizen Governor"
 msgstr "Linnapea"
 
 #: client/cityrepdata.c:524
-#, fuzzy
 msgid "Turns/Buy"
 msgstr "Käike/Hind"
 
@@ -7683,7 +7660,6 @@ msgid "?specialist:S"
 msgstr "?specialist:S"
 
 #: client/cityrepdata.c:576
-#, fuzzy
 msgid "Specialists"
 msgstr "Spetsialistid"
 
@@ -7704,9 +7680,8 @@ msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NIMI\tKasuta NIME oma nimena\n"
 
 #: client/civclient.c:218
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
-msgstr "  -p, --port PORT\tÜhenda serveri porti PORT\n"
+msgstr "  -p, --port PORT\tÜhendu serveri porti PORT (tavaliselt koos valikuga -a)\n"
 
 #: client/civclient.c:220
 #, c-format
@@ -7720,9 +7695,8 @@ msgstr ""
 "jaoks)\n"
 
 #: client/civclient.c:225
-#, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
-msgstr "  -s, --server AADRESS\tÜhenda serveriga AADRESSil\n"
+msgstr "  -s, --server AADRESS\tÜhendu serveriga AADRESSil (tavaliselt koos valikuga -a)\n"
 
 #: client/civclient.c:227
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
@@ -8061,6 +8035,8 @@ msgid ""
 "Only applies to %s units.\n"
 "\n"
 msgstr ""
+"Kehtib ainult üksustele %s.\n"
+"\n"
 
 #: client/helpdata.c:202 client/helpdata.c:206
 #, c-format
@@ -8068,6 +8044,8 @@ msgid ""
 "Applies only to %s.\n"
 "\n"
 msgstr ""
+"Kehtib ainult üksustele %s.\n"
+"\n"
 
 #: client/helpdata.c:210
 #, c-format
@@ -8173,8 +8151,8 @@ msgstr[1] "* Saab kanda ja tankida %d õhuüksust.\n"
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "* Suudab kanda ja tankida %d raketi.\n"
+msgstr[1] "* Suudab kanda ja tankida %d raketti.\n"
 
 #: client/helpdata.c:809
 #, c-format
@@ -8344,12 +8322,12 @@ msgstr ""
 #: client/helpdata.c:938
 #, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
-msgstr ""
+msgstr "* Kahekordne kaitsejõud ratsaüksuste vastu kaitstes.\n"
 
 #: client/helpdata.c:943
 #, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
-msgstr ""
+msgstr "* Arvestatakse teatud üksuste ründamisel ratsaüksuseks.\n"
 
 #: client/helpdata.c:947
 #, c-format
@@ -8449,8 +8427,8 @@ msgstr "?or:,"
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "* Peab olema linnas või ehitises %s %d käigu järel.\n"
+msgstr[1] "* Peab olema linnas või ehitises %s %d käigu järel.\n"
 
 #: client/helpdata.c:1109
 #, c-format
@@ -8477,9 +8455,9 @@ msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
 
 #: client/helpdata.c:1137
-#, fuzzy, c-format
+#, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
-msgstr "* Esimene mängija, kes avastab %s, saab ühe kohese boonuse.\n"
+msgstr "* Esimene mängija, kes avastab %s, saab kohe ühe tehnoloogia lisaks.\n"
 
 #: client/helpdata.c:1142
 #, c-format
@@ -8575,7 +8553,7 @@ msgstr ""
 #: client/helpdata.c:1319
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
-msgstr ""
+msgstr "* Maksad %d korda tavalisest kõrgemat %s ülalpidamiskulu.\n"
 
 #: client/helpdata.c:1322
 #, c-format
@@ -8605,7 +8583,7 @@ msgstr "* Tõenäosus kodusõjaks pealinna kaotamisel on %d%%.\n"
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
 "appear when you have %d cities.\n"
-msgstr ""
+msgstr "* Esimene kodanik, kes on õnnetu rahvaarvu suuruse tõttu, ilmub siis, kui sul on %d linna.\n"
 
 #: client/helpdata.c:1349
 #, c-format
@@ -8617,12 +8595,12 @@ msgstr ""
 #: client/helpdata.c:1356
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr ""
+msgstr "Maksimaalne teaduse, maksude või hüvede määr on  %d%%.\n"
 
 #: client/helpdata.c:1360
 #, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
-msgstr ""
+msgstr "Piiramata suurusega teaduse/maksude/hüvede määr.\n"
 
 #: client/helpdata.c:1365
 #, c-format
@@ -8940,14 +8918,14 @@ msgstr ""
 
 #: client/options.c:165
 msgid "Mapview recentering time (milliseconds)"
-msgstr ""
+msgstr "Kaardivaate tsentreerimise aeg (millisekundites)"
 
 #: client/options.c:166
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
-msgstr ""
+msgstr "Kui kaardi vaade on tsentreeritud, läheb vaade sujuvalt üle uude asukohta. See valik määrab, kui kaua vaate liikumist animeeritakse. Sisesta väärtuseks 0, kui soovid vaate sujuvat liikumist keelata."
 
 #: client/options.c:171 client/gui-sdl/optiondlg.c:1022
 msgid "Show combat animation"
@@ -9262,7 +9240,6 @@ msgstr "Saatkond"
 
 #: client/plrdlg_common.c:259 client/gui-mui/plrdlg.c:169
 #: client/gui-win32/plrdlg.c:336
-#, fuzzy
 msgid "Dipl.State"
 msgstr "Dipl. olek"
 
@@ -9717,7 +9694,7 @@ msgstr ""
 
 #: client/text.c:812
 msgid "No units to upgrade!"
-msgstr ""
+msgstr "Pole ühtki uuendamist vajavat üksust!"
 
 #: client/text.c:837
 msgid "None of these units may be upgraded."
@@ -10111,7 +10088,7 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:1132 client/gui-win32/dialogs.c:1561
 #: data/Freeciv.in:2443
 msgid "Incite a Revolt!"
-msgstr ""
+msgstr "Alusta mäss!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:554 client/gui-mui/dialogs.c:499
 #: client/gui-sdl/diplomat_dialog.c:1230 client/gui-win32/dialogs.c:1566
@@ -10120,6 +10097,8 @@ msgid ""
 "Inciting a revolt costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"Mässu alustamine maksab %d kulda.\n"
+"Meil on %d kulda."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:617 client/gui-win32/dialogs.c:1605
 #, c-format
@@ -10160,7 +10139,7 @@ msgstr "Varasta _Tehnoloogia"
 #: client/gui-gtk-2.0/diplomat_dialog.c:653 client/gui-win32/dialogs.c:1616
 #: client/gui-win32/dialogs.c:1638
 msgid "Incite a _Revolt"
-msgstr ""
+msgstr "Alusta mäss"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:629
 #: client/gui-gtk-2.0/diplomat_dialog.c:654
@@ -10297,7 +10276,7 @@ msgstr "Korruptsioon:"
 #: client/gui-gtk-2.0/citydlg.c:587 client/gui-mui/citydlg.c:1332
 #: client/gui-win32/citydlg.c:675
 msgid "Waste:"
-msgstr ""
+msgstr "Jäätmed:"
 
 #: client/gui-gtk-2.0/citydlg.c:588 client/gui-mui/citydlg.c:1334
 #: client/gui-win32/citydlg.c:676
@@ -10384,7 +10363,7 @@ msgstr "Toodangu leht"
 
 #: client/gui-gtk-2.0/citydlg.c:1038 client/gui-mui/citydlg.c:1370
 msgid "Happiness page"
-msgstr ""
+msgstr "Meeleolu leht"
 
 #: client/gui-gtk-2.0/citydlg.c:1039 client/gui-mui/citydlg.c:1371
 msgid "Governor page"
@@ -11020,13 +10999,13 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:161
 msgid "Keep dialogs on top"
-msgstr ""
+msgstr "Hoia aknad kõige peal"
 
 #: client/gui-gtk-2.0/gui_main.c:162
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
-msgstr ""
+msgstr "Kui see valik on aktiivne, siis jäävad avanenud aknad Freecivi põhiakna peale. Täisekraani korral ei muuda selle valiku keelamine midagi."
 
 #: client/gui-gtk-2.0/gui_main.c:166
 msgid "Show worklist task icons"
@@ -12136,7 +12115,7 @@ msgstr "Katkesta leping"
 
 #: client/gui-gtk-2.0/plrdlg.c:462 client/gui-mui/plrdlg.c:335
 msgid "_Withdraw vision"
-msgstr ""
+msgstr "Võta vaade tagasi"
 
 #: client/gui-gtk-2.0/plrdlg.c:469 client/gui-mui/plrdlg.c:336
 msgid "_Spaceship"
@@ -12596,9 +12575,8 @@ msgid "Theme suggested"
 msgstr "Soovituslik teema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
-#, fuzzy
 msgid "Load theme"
-msgstr "Lae mäng"
+msgstr "Lae teema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
@@ -12618,9 +12596,8 @@ msgid "Prefered tileset"
 msgstr "Soovituslik ruudustik"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
-#, fuzzy
 msgid "Load tileset"
-msgstr "Laen reeglistikke"
+msgstr "Lae ruudustik"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:56
 msgid "Keep current tileset"
@@ -12640,7 +12617,7 @@ msgstr "uus"
 
 #: client/gui-gtk-2.0/wldlg.c:242 client/gui-win32/wldlg.c:415
 msgid "Edit worklists"
-msgstr ""
+msgstr "Muuda töönimekirju"
 
 #: client/gui-gtk-2.0/wldlg.c:292
 msgid "_Worklists:"
@@ -12807,7 +12784,7 @@ msgstr "Kohalolevad väed"
 #: client/gui-mui/citydlg.c:1458 client/gui-sdl/citydlg.c:2546
 #: data/helpdata.txt:871
 msgid "City Improvements"
-msgstr ""
+msgstr "Linna ehitised"
 
 #: client/gui-mui/citydlg.c:1467
 msgid "_Sell"
@@ -13127,7 +13104,7 @@ msgstr ""
 
 #: client/gui-mui/diplodlg.c:304
 msgid "No city"
-msgstr ""
+msgstr "Linna pole"
 
 #: client/gui-mui/diplodlg.c:480 client/gui-sdl/diplodlg.c:825
 #: client/gui-win32/diplodlg.c:598 data/Freeciv.in:269
@@ -13561,7 +13538,7 @@ msgstr " ilmaime"
 
 #: client/gui-mui/helpdlg.c:758
 msgid " improvement"
-msgstr ""
+msgstr "ehitis"
 
 #: client/gui-mui/helpdlg.c:775
 msgid " unit"
@@ -13648,7 +13625,7 @@ msgstr "Linn: %s(%s)"
 
 #: client/gui-mui/mapclass.c:123
 msgid "with City Walls"
-msgstr ""
+msgstr "linnamüüridega"
 
 #: client/gui-mui/mapclass.c:131
 msgid "Infrastructure: "
@@ -14238,7 +14215,7 @@ msgstr "lõpetatud"
 #: client/gui-sdl/citydlg.c:3600
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr ""
+msgstr "Linn %s (rahvaarv %s kodanikku)"
 
 #: client/gui-sdl/citydlg.c:3616
 msgid " - under Citizen Governor control."
@@ -14246,15 +14223,15 @@ msgstr " - linnapea juhtimise all."
 
 #: client/gui-sdl/citydlg.c:3708
 msgid "Maintenance panel"
-msgstr ""
+msgstr "Hoolduspaneel"
 
 #: client/gui-sdl/citydlg.c:3719
 msgid "Garrison panel"
-msgstr ""
+msgstr "Kasarmupaneel"
 
 #: client/gui-sdl/citydlg.c:3743
 msgid "Information panel"
-msgstr ""
+msgstr "Infopaneel"
 
 #: client/gui-sdl/citydlg.c:3788 client/gui-sdl/dialogs.c:1255
 #: client/gui-win32/citydlg.c:1063 data/Freeciv.in:2073
@@ -14349,7 +14326,7 @@ msgstr ""
 #: client/gui-sdl/cma_fe.c:1003 client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
 msgid "Apply once"
-msgstr ""
+msgstr "Kehtib vaid korra"
 
 #: client/gui-sdl/cma_fe.c:1012 client/gui-win32/cma_fe.c:492
 msgid "Release city"
@@ -14505,8 +14482,9 @@ msgstr "Nõustu lepinguga"
 
 #: client/gui-sdl/diplodlg.c:1298
 #, c-format
+#, fuzzy
 msgid "%s incident !"
-msgstr ""
+msgstr "%s vahejuhtum!"
 
 #: client/gui-sdl/diplodlg.c:1315
 msgid "Shall we declare WAR on them?"
@@ -14675,7 +14653,7 @@ msgstr ""
 #: client/gui-sdl/gui_main.c:655
 #, c-format
 msgid "Making screenshot fc_%05d.bmp"
-msgstr ""
+msgstr "Teen ekraanipildi fc_%05d.bmp"
 
 #: client/gui-sdl/gui_main.c:788
 #, c-format
@@ -14692,7 +14670,7 @@ msgstr "Ootan mängu algust"
 
 #: client/gui-sdl/gui_string.c:173
 msgid "Error in create_string16: Aborting ..."
-msgstr ""
+msgstr "Viga funktsioonis create_string16: katkestan tegevuse  ..."
 
 #: client/gui-sdl/gui_string.c:225
 #, c-format
@@ -14702,7 +14680,7 @@ msgstr "Ei suuda teskti ekraanile kuvada: %s."
 #: client/gui-sdl/gui_string.c:263
 #, c-format
 msgid "Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
-msgstr ""
+msgstr "Viga funktsioonis SDL_create_str16_surf: ei suudetud muuta teksti kuvatavale kujule: %s"
 
 #: client/gui-sdl/gui_string.c:284
 #, c-format
@@ -14712,7 +14690,7 @@ msgstr ""
 #: client/gui-sdl/gui_string.c:286
 #, c-format
 msgid "SDL_create_str16_surf: String is %d lenght"
-msgstr ""
+msgstr "SDL_create_str16_surf: String on %d märki pikk"
 
 #: client/gui-sdl/gui_string.c:581
 msgid "Error in change_ptsize: Change ptsize failed"
@@ -14722,12 +14700,12 @@ msgstr ""
 msgid ""
 "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font to "
 "data dir as stdfont.ttf"
-msgstr ""
+msgstr "Ei leidnud faili stdfont.ttf. Palun lingi/kopeeri/liiguta ükskõik milline unicode ttf font andmekataloogi selliselt, et ta oleks nimega stdfont.ttf"
 
 #: client/gui-sdl/gui_string.c:629
 #, c-format
 msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-msgstr ""
+msgstr "Viga kohas load_font: ei suutnud laadida %d pt fonti asukohast %s: %s"
 
 #: client/gui-sdl/gui_string.c:670
 msgid "Error in unload_font: Trying unload from empty Font ARRAY"
@@ -14906,7 +14884,6 @@ msgid "Options"
 msgstr "Seaded"
 
 #: client/gui-sdl/mapview.c:154
-#, fuzzy, c-format
 msgid ""
 "The SDL event buffer is full; you may see drawing errors\n"
 "as a result.  If you see this message often, please\n"
@@ -15151,7 +15128,7 @@ msgstr "Täisekraan"
 
 #: client/gui-sdl/optiondlg.c:995
 msgid "Smooth unit move steps"
-msgstr ""
+msgstr "Sujuvad üksuste sammud"
 
 #: client/gui-sdl/optiondlg.c:1049
 msgid "Show focus animation"
@@ -15163,7 +15140,7 @@ msgstr "Animeeri kursor"
 
 #: client/gui-sdl/optiondlg.c:1103
 msgid "Use color cursors"
-msgstr ""
+msgstr "Kasuta värvilisi kursoreid"
 
 #: client/gui-sdl/optiondlg.c:1617 client/gui-xaw/menu.c:141
 msgid "National Borders"
@@ -15248,7 +15225,7 @@ msgstr ""
 
 #: client/gui-sdl/pages.c:301
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr "Loe lähemalt Abi menüü kopeerimise osast"
 
 #: client/gui-sdl/pages.c:303
 msgid "Now.. Go give'em hell!"
@@ -15372,6 +15349,10 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"%s fail paistab olevat ebasobiv:\n"
+"fail: \"%s\"\n"
+"fail valikud: %s\n"
+"toetatud valikud: %s"
 
 #: client/gui-sdl/themespec.c:259
 #, c-format
@@ -15568,7 +15549,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:285
 #, c-format
 msgid "Upkeep (Total: %d)"
-msgstr ""
+msgstr "Ülalpidamine (kokku: %d)"
 
 #: client/gui-win32/citydlg.c:782
 msgid "City info"
@@ -15624,7 +15605,7 @@ msgstr "Üksuste Nimekiri"
 
 #: client/gui-win32/citydlg.c:850
 msgid "Improvement"
-msgstr ""
+msgstr "Ehitis"
 
 #: client/gui-win32/citydlg.c:1528
 msgid "_Upgrade unit"
@@ -15636,27 +15617,27 @@ msgstr "Elvised"
 
 #: client/gui-win32/cityrep.c:245
 msgid "No Buildings Available"
-msgstr ""
+msgstr "Ühtki ehitist pole saadaval"
 
 #: client/gui-win32/cityrep.c:255
 msgid "No Units Available"
-msgstr ""
+msgstr "Ühtki üksust pole saadaval"
 
 #: client/gui-win32/cityrep.c:268
 msgid "No Wonders Available"
-msgstr ""
+msgstr "Ühtki ilmaime pole saadaval"
 
 #: client/gui-win32/cityrep.c:462
 msgid "Available To Build"
-msgstr ""
+msgstr "Ehitamiseks valmis:"
 
 #: client/gui-win32/cityrep.c:683
 msgid "Select a unit or improvement to change production from."
-msgstr ""
+msgstr "Vali ehitis või üksus, mille tootmist muuta."
 
 #: client/gui-win32/cityrep.c:692
 msgid "Select a unit or improvement to change production to."
-msgstr ""
+msgstr "Vali ehitis või üksus, mida tootma hakata."
 
 #: client/gui-win32/cityrep.c:698
 msgid "That's the same thing!"
@@ -15677,7 +15658,7 @@ msgstr "Kuhu:"
 #: client/gui-win32/cityrep.c:876 client/gui-win32/finddlg.c:127
 #: data/Freeciv.in:1085 data/Freeciv.in:1613
 msgid "Center"
-msgstr ""
+msgstr "Keskele"
 
 #: client/gui-win32/cityrep.c:877 data/Freeciv.in:1621
 msgid "Popup"
@@ -15807,7 +15788,7 @@ msgstr "Üksuse valik"
 
 #: client/gui-win32/dialogs.c:1203
 msgid "NONE"
-msgstr ""
+msgstr "POLE"
 
 #: client/gui-win32/dialogs.c:1299 data/Freeciv.in:2366
 msgid "Steal"
@@ -15855,9 +15836,8 @@ msgid "?techhelp:)."
 msgstr "?techhelp:)."
 
 #: client/gui-win32/inteldlg.c:133
-#, fuzzy
 msgid "Researching: (Unknown)"
-msgstr "Uuritakse: Teadmata(%d/-)"
+msgstr "Uuritakse: (Teadmata)"
 
 #: client/gui-win32/mapview.c:170
 #, c-format
@@ -15903,7 +15883,7 @@ msgstr "Muuda mägedeks"
 #: client/gui-win32/menu.c:1109 client/gui-xaw/menu.c:176
 #, c-format
 msgid "Transform to %s"
-msgstr ""
+msgstr "Muuda %s-ks"
 
 #: client/gui-win32/messagedlg.c:215 client/gui-win32/ratesdlg.c:327
 #: client/gui-win32/wldlg.c:854 client/gui-xaw/inputdlg.c:103
@@ -15953,7 +15933,7 @@ msgstr "Mis peaks saama uueks nimeks ?"
 
 #: client/gui-win32/wldlg.c:425 data/Freeciv.in:1973
 msgid "Available worklists"
-msgstr ""
+msgstr "Olemasolevad töönimekirjad"
 
 #: client/gui-win32/wldlg.c:429 data/Freeciv.in:1995
 msgid "Edit"
@@ -16281,7 +16261,7 @@ msgstr "Tase: %s.<br>"
 #: manual/civmanual.c:145
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "Kategooria: %s.<br>"
 
 #: manual/civmanual.c:148
 #, c-format
@@ -16303,7 +16283,7 @@ msgstr "<b>Ei saa</b> muuta mängu kestel."
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
-msgstr ""
+msgstr "<p class=\"bounds\">Miinimum: 0, vaikimisi: %d, maksimum: 1</p>\n"
 
 #: manual/civmanual.c:162 manual/civmanual.c:172
 #, c-format
@@ -16311,6 +16291,8 @@ msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Väärtuseks seati %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:167
 #, c-format
@@ -16318,6 +16300,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Miinimum: %d, vaikimisi: %d, maksimum: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -16325,6 +16309,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Vaikimisi: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:180
 #, c-format
@@ -16332,6 +16318,8 @@ msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Väärtuseks seati %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:189
 #, c-format
@@ -16339,6 +16327,8 @@ msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s serverikäsud</h1>\n"
+"\n"
 
 #: manual/civmanual.c:195
 #, c-format
@@ -16364,6 +16354,8 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">Tase: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:211
 #, c-format
@@ -16380,6 +16372,8 @@ msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s maastiku abiinfo</h1>\n"
+"\n"
 
 #: manual/civmanual.c:221 data/default/terrain.ruleset:636
 #: data/civ2/terrain.ruleset:567 data/civ1/terrain.ruleset:574
@@ -16424,6 +16418,8 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s ehitiste lisainfo</h1>\n"
+"\n"
 
 #: manual/civmanual.c:297
 #, c-format
@@ -16431,6 +16427,8 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s ilmaimede lisainfo</h1>\n"
+"\n"
 
 #: manual/civmanual.c:303
 msgid "Requirement"
@@ -16574,7 +16572,7 @@ msgstr "Linna suvandid"
 
 #: data/Freeciv.in:1512
 msgid "Make new citizens into:     "
-msgstr ""
+msgstr "Uued kodanikud hakkavad ametilt:"
 
 #: data/Freeciv.in:1520
 msgid "Disband if build settler at size 1:"
@@ -17494,7 +17492,6 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:765
-#, fuzzy
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -17506,7 +17503,7 @@ msgstr ""
 "\n"
 "    - pealinna ei saa ära anda.\n"
 "\n"
-"    - kui sa oma linna kaardil ei näe, siis ei saa sa selle linna akent avada. "
+"    - kui sa oma linna kaardil ei näe, siis ei saa sa seda küsida. "
 
 #: data/helpdata.txt:771
 msgid ""
@@ -17515,7 +17512,7 @@ msgid ""
 "note: any units in the field and supported by that city are also transferred "
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
-msgstr ""
+msgstr "    Muidugi võib linna omanik ikkagi linna sulle anda, misjärel muutub linna ümbrus kaardil nähtavaks. Olgu ära mainitud, et linnaga koos antakse üle ka linnas elavad sõjaüksused (välja arvatud need, kes on teistes linnades). Nii et pane tähele, et teine mängija ei saa tehingust magusamat tükki, kui sa anda plaanisid."
 
 #: data/helpdata.txt:778
 msgid ""
@@ -17532,14 +17529,14 @@ msgid ""
 "player, or vice versa. Unless you establish an embassy with that player, you "
 "may again lose contact with them after a set number of turns without direct "
 "physical contact."
-msgstr ""
+msgstr "    Et teise mängijaga diplomaatilised suhted luua, pead temaga kõigepealt kokku saama. Selleks pead oma üksusega minema tema linna või üksuse lähedusse, või vastupidi. Kui sa just selle mängijaga saatkonda ei loo, siis võib teievaheline leping katkeda, kui möödub teatav arv käike, mil puudub teievaheline otsene kontakt."
 
 #: data/helpdata.txt:789
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move you units inside enemy territory and attack their units and "
 "cities at will."
-msgstr ""
+msgstr "    Vaikimisi on mängijad üksteisega sõjajalal. Sõja ajal võid vabalt liikuda vastase maadel ringi ja tema üksusi ja linnu rünnata."
 
 #: data/helpdata.txt:793
 msgid ""
@@ -17547,7 +17544,7 @@ msgid ""
 "on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
 "lead back to War. Upon first contact with an AI player, it will "
 "automatically offer you a Cease-fire treaty."
-msgstr ""
+msgstr "    Kui kaks mängijat on otsustanud sõdimise lõpetada, saavad nad sõlmida vaherahu. Teatud arvu käikude möödudes aga saab vaherahu läbi ja sõda hakkab uuesti pihta. Arvuti poolt juhitava mängijaga esmakordsel kohtumisel pakub ta automaatselt vaherahu sõlmimist."
 
 #: data/helpdata.txt:798
 msgid ""
@@ -17555,7 +17552,7 @@ msgid ""
 "player, you may enter an Armistice, that after another set number of turns "
 "will turn into a permanent Peace treaty. Breaking an Armistice will drop you "
 "directly back to War."
-msgstr ""
+msgstr "    Kui soovid pikemaajalist rahumeelset läbisaamist teise mängijaga, võid sõlmida relvarahu, mis muutub teatud arvu käikude möödudes rahulepinguks. Relvarahu rikkumisel oled koheselt sõjajalal tagasi."
 
 #: data/helpdata.txt:803
 msgid ""
@@ -17565,7 +17562,7 @@ msgid ""
 "this, you may not move units into the other's territory until you either "
 "declare War, or forge an Alliance. Breaking a Peace treaty will drop you "
 "directly back to War."
-msgstr ""
+msgstr "    Kui kaks mängijat sõlmivad rahu, siis -- nagu näeb ette rahuleping -- saadetakse laiali kõik üksused, mis on mängijal lepingu teiseks pooleks oleva mängija aladel. Pärast lepingu sõlmimist ei tohi sa viia oma üksusi teise mängija aladele, kui sa just ei kuuluta talle sõda või ei hakka tema liitlaseks. Rahulepingu rikkumisel kaevatakse jälle sõjakirves välja ja oled tagasi sõjajalal."
 
 #: data/helpdata.txt:810
 msgid ""
@@ -17576,7 +17573,7 @@ msgid ""
 "technologies and cities. The only drawback with an alliance, is that it will "
 "draw you into to any wars your ally enters against other players. Breaking "
 "an Alliance will drop you to an Armistice treaty."
-msgstr ""
+msgstr "    Kõige paremad on diplomaatilised suhted kahe mängija vahel siis, kui nad on liitlased. Sel korral võite oma üksustega siseneda üksteise linnadesse ja olla samal ajal samal ruudul. Arvutist liitlane annab hea meelega sulle maailmakaardi, jagatud vaate ning on valmis vahetama tehnoloogiaid ning linnu. Liitlussuhte ainsaks miinuseks on see, et kui liitlane alustab mõne teise mängijaga sõda, oled ka sina selle mängijaga sõjajalal. Liitlassuhete rikkumise korral hakkab kehtima relvarahu."
 
 #: data/helpdata.txt:822
 msgid ""
@@ -17644,7 +17641,7 @@ msgid ""
 "science production, etc.  Most improvements require you to pay an upkeep "
 "every turn.  If you can't afford the upkeep for a building, then it'll be "
 "automatically sold."
-msgstr ""
+msgstr "Ehitisi ehitatakse linnadesse, et suurendada kaubanduse tulu, teadustoodangut jms sissetulekuid. Enamusel ehitistest on ka teatav ülalpidamiskulu, mida makstakse igal käigul. Kui sul pole piisavalt raha, et ehitise ülalpidamiskulu maksta, müüakse see ehitis automaatselt maha."
 
 #: data/helpdata.txt:889
 msgid ""
@@ -17784,26 +17781,26 @@ msgstr "- kui kaitsja on veteran, kasvab jõud 1,5-kordseks."
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
-msgstr ""
+msgstr "- kaitsja kaitsejõud korrutatakse maastiku, millel kaitsja asub, kaitseteguriga."
 
 #: data/helpdata.txt:1006
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
-msgstr ""
+msgstr "- Kaitsja jõud kahekordistub, kui ta on piigimees ja kaitseb ratsaüksuse vastu."
 
 #: data/helpdata.txt:1009
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
-msgstr ""
+msgstr "- Kui kaitsja on AEGIS ristleja ja tõrjub lennukite, helikopterite või rakettide rünnakut, siis kaitsejõud neljakordistub."
 
 #: data/helpdata.txt:1013
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
 "missile."
-msgstr ""
+msgstr "- kaitsja jõud kahekordistub, kui ta on linnas, kus on õhutõrjepatarei ja ründaja on lennuk või rakett."
 
 #: data/helpdata.txt:1017
 msgid ""
@@ -17815,13 +17812,13 @@ msgstr ""
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
-msgstr ""
+msgstr "- kui ründaja on laev ja kaitsja on linnas, millel on rannakaitse, siis kaitsja jõud kahekordistub."
 
 #: data/helpdata.txt:1023
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
-msgstr ""
+msgstr "- maaüksuste (välja arvatud haubitsad) ja helikopterite rünnakute tõrjumisel linnas, kus on linnamüür, kaitsja jõud kolmekordistub."
 
 #: data/helpdata.txt:1027
 msgid ""
@@ -17833,36 +17830,36 @@ msgstr "- Kui kaitsja on kindluses (mitte linnas), tema tugevus kahekordistub."
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
-msgstr ""
+msgstr "- viimaseks, kui kaitsja on maaüksus ja ta on kindlustatud või linnas, siis ta jõud korrutatakse 1,5-ga."
 
 #: data/helpdata.txt:1033
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
 "defender loses."
-msgstr ""
+msgstr "Kui pärast neid muudatusi on ründajal ikka ründejõud 0, siis ta saab automaatselt pähe. Kui kaitsjal jääb jõud nulli peale, saab tema kotti."
 
 #: data/helpdata.txt:1037
 msgid "The firepower of the attacker and defender are also modified."
-msgstr ""
+msgstr "Muutub ka nii kaitsja kui ründaja tulejõud."
 
 #: data/helpdata.txt:1039
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
-msgstr ""
+msgstr "- kui kaitsja on laev ja ta on linnas, siis ründaja tulejõud kahekordistub ja laeva tulejõud seatakse tasemele 1."
 
 #: data/helpdata.txt:1042
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
-msgstr ""
+msgstr "- kui hävitaja ründab helikopterit, seatakse helikopteri tulejõud tasemele 1."
 
 #: data/helpdata.txt:1045
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
-msgstr ""
+msgstr "- kui laev ründab maaüksust, seatakse mõlema tulejõud tasemele 1."
 
 #: data/helpdata.txt:1048
 msgid ""
@@ -17873,7 +17870,7 @@ msgid ""
 "defender loses hit points equal to the attacker's firepower.  Otherwise, the "
 "attacker loses hit points equal to the defender's firepower. The first unit "
 "to reach 0 hit points (or negative hit points) loses. "
-msgstr ""
+msgstr "Võttes arvesse eelnevad muudatused, toimub lahing nii kaua, kui mõlemad üksused on elus (s.t. elupunkte on rohkem, kui 0). Igal ringil genereeritakse suvaline number, mis vahemikus 1 kuni kaitsja ja ründaja jõudude summa. Kui valitud number on suurem, kui kaitsja jõud, kaotab ta ründaja tulejõu jagu elupunkte. Vastasel juhul kaotab ründaja kaitsja tulejõu jagu elupunkte. Kes esimesena elupunktidega nulli jõuab (või jõuab negatiivse arvuni), on kaotanud."
 
 #: data/helpdata.txt:1063
 #, no-c-format
@@ -17882,13 +17879,13 @@ msgid ""
 "was not a veteran already.  If the winner's civilization has the Sun Tzu's "
 "War Academy (and if it isn't obsolete), the unit will always become a "
 "veteran.  Otherwise, the chance of becoming a veteran is 50%."
-msgstr ""
+msgstr "Kui lahingu võitja pole juba veteran, siis tal on võimalus selleks saada. Kui võitja riigil on Sun Tzu akadeemia (ja see pole iganenud), siis saab võitjaüksus alati veteraniks. Muudel juhtudel on veteraniks saamise tõenäosus 50%."
 
 #: data/helpdata.txt:1069
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
-msgstr ""
+msgstr "Kui ründaja on maaüksus ja võidab ning kaitsja on linnas, kus pole linnamüüri, siis väheneb linna suurus ühe võrra."
 
 #: data/helpdata.txt:1072
 msgid ""
@@ -18024,13 +18021,13 @@ msgstr "Antud juhul on ründajal suuremad šansid võitmiseks. Lahingulaeval on 
 
 #: data/helpdata.txt:1169
 msgid "Zones of Control"
-msgstr ""
+msgstr "Kontrolltsoonid"
 
 #: data/helpdata.txt:1170
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
-msgstr ""
+msgstr "Kontrolltsoonid ehk lühendatult KTS on mängu põhimõte, mis takistab sul vabalt liikumast piirkondades, mis on sinu vastaste (osalise) kontrolli all."
 
 #: data/helpdata.txt:1174
 msgid ""
@@ -18094,13 +18091,13 @@ msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
 "producing squares nearby to support your growing population."
-msgstr ""
+msgstr "Igal maastikutüübil on oma head ja vead. Linna asukoha valimisel veendu, et läheduses oleks ikka piisavalt ruudukesi, kust saab linna kasvatamiseks küllaldaselt toitu."
 
 #: data/helpdata.txt:1227
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
-msgstr ""
+msgstr "Ruudukese toodangu hulk sõltub nii valitsuse tüübist, kui linnas olevatest ehitistest ja ilmaimedest."
 
 #: data/helpdata.txt:1236
 msgid " Terrain Alterations"
@@ -18208,7 +18205,7 @@ msgid ""
 "irrigation, although they are not actually irrigated. Finally the city "
 "center may have a ruleset-dependent minimum for food, shield, and trade "
 "output."
-msgstr ""
+msgstr "Linna keskus (ruuduke, millele on ehitatud linn) on eriline. Linna keskuses tehakse vaikimisi reeglite korral tööd tasuta. Linna ehitamisel ehitatakse automaatselt linna ka tee ja kui raudtee ehitamine on võimalik, siis ehitatakse linna ka raudtee. Linna keskused on automaatse niisutusega: neil on niisutatud maa boonused, kuigi linna keskusi ei saa niisutada. Linna keskusel on ka reeglistikuga määratud minimaalne toidu, toodangu ja kaubanduse tootmise tase."
 
 #: data/helpdata.txt:1295
 msgid "  Pillaging"
@@ -18220,7 +18217,7 @@ msgid ""
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
 "Depending upon server settings, you may be given a choice of which terrain "
 "alteration to pillage, or they will be pillaged in the following order:"
-msgstr ""
+msgstr "Kõik maaüksused oskavad rüüstamise abil maastikumuudatusi lõhkuda. Rüüstamine purustab igal käigul ühe maastikumuudatuse. Olenevalt serveriseadetest võidakse sulle anda valida, millist muudatust hävitada, või siis rüüstatakse ruudul olemvad muudatused selles järjekorras:"
 
 #: data/helpdata.txt:1302
 msgid ""
@@ -18248,13 +18245,13 @@ msgid ""
 "example, if you have irrigated a Forest tile to convert it into a Plain, "
 "pillaging will not convert it back into a Forest -- to do so, you would have "
 "to convert the tile again with a Settler or Engineer."
-msgstr ""
+msgstr "Kui ruudukesel pole tehtud muudatusi (ehitatud põllumaa, niisutus, kaevandus, kindlus, lennubaas, raudtee, tee), siis ei saa seda ruudukest rüüstada. Samuti ei saa rüüstamise abil maastikumuudatusi tagasi võtta. Näiteks kui oled niisutamise abil muutnud metsaruudu lagendikuks, siis rüüstamine ei tee sellest ruudust jälle metsa -- selle jaoks peaksid kasutama asunikku või inseneri."
 
 #: data/helpdata.txt:1322
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
-msgstr ""
+msgstr "Valitsuse tüüp mõjutab su linnade tootlikkust ja kaubandust, kodanike meeleolu ja palju muid mängu tegureid."
 
 #: data/helpdata.txt:1325
 msgid ""
@@ -18263,7 +18260,7 @@ msgid ""
 "to change your form of government, you must start a revolution.  This will "
 "cause your civilization to undergo a period of Anarchy (lasting 1-5 turns); "
 "at the end of this time, you will be able to choose your new government."
-msgstr ""
+msgstr "Mängu alguses on valitsusvormiks despootlus. Teaduse arenedes võid aga allpool olevate valitsusvormide hulgast omale mõne muu valida. Valitsuse muutmiseks pead korraldama revolutsiooni, mis tähendab, et su riigis valitseb mõnda aega anarhia (1 kuni 5 käiku). Seejärel saad omale uue valitsusvormi valida."
 
 #: data/helpdata.txt:1332
 msgid ""
@@ -18272,7 +18269,7 @@ msgid ""
 "trade will be lost to corruption.  (If you do not have a capital, your "
 "cities will suffer extremely high levels of corruption.)  A Courthouse will "
 "reduce the level of corruption in a city."
-msgstr ""
+msgstr "Korruptsioon tähendab kaubanduse kadu ahnuse ja halva töökorralduse tõttu. Enamiku valitsusvormide korral on korruptsiooni tase vastavuses kaugusega pealinnast. (Kui sul aga pealinna pole, siis on korruptsioonitase hirmsalt kõrge.) Kohtumaja ehitamisega saad natuke korruptsioonitaset vähendada."
 
 #: data/helpdata.txt:1339
 msgid ""
@@ -18281,7 +18278,7 @@ msgid ""
 "will be lost to waste.  (If you do not have a capital, your cities will "
 "suffer extremely high levels of waste.)  A Courthouse will reduce the level "
 "of waste in a city. Waste can result in your cities not building anything."
-msgstr ""
+msgstr "Jäätmed tekivad ahnuse ja toodangu tootmise halva korralduse tõttu. Enamiku valitsusvormide korral on jäätmete tekke tase vastavuses kaugusega pealinnast. (Kui sul aga pealinna pole, siis on jäätmete tekke tase hirmsalt kõrge.) Kohtumaja ehitamisega saad natuke jäätmete tekkimist vähendada."
 
 #: data/helpdata.txt:1346
 msgid ""
@@ -18289,7 +18286,7 @@ msgid ""
 "Democratic governments unless you give your citizens lots of luxuries to "
 "keep them happy.  When conquering other civilizations, it may be helpful to "
 "switch to one of the more militant styles of government."
-msgstr ""
+msgstr "Nõuanne 1: sõdaderohket mängu on raske mängida vabariikliku või demokraatliku valitsusega, kui sa just ei taha oma kodanikele hulganisti hüvesid pakkuda, et neid õnnelikuna hoida. Vastaste vallutamisel võibki olla mõistlik vahetada valitsus mõne sõjalembelisema vastu."
 
 #: data/helpdata.txt:1352
 msgid ""
@@ -18297,7 +18294,7 @@ msgid ""
 "easier to achieve under Republican and Democratic governments.  Consider "
 "switching to the Republic as soon as you can; gaining advanced technology "
 "early in the game puts you at an advantage."
-msgstr ""
+msgstr "Nõuanne 2: Kiire teadustöö jaoks on vajalik kõrge kaubandustase -- seda on märksa lihtsam saavutada vabariikliku või demokraatliku valitsusega. Mõistlik on võimalikult kiiresti muuta valitsus vabariigiks, kuna mängu varajases faasis kuluvad teadusavastused marjaks ära."
 
 #: data/helpdata.txt:1361
 msgid " Civil War"
@@ -18323,14 +18320,14 @@ msgid ""
 "treated your people with kindness, you are more likely to retain their "
 "loyalty.  Each city that is celebrating reduces the chance of civil war, "
 "while each revolting city increases the likelihood."
-msgstr ""
+msgstr "Pealinna vallutamisel ei puhke alati kodusõda. Kui oled oma rahva vastu lahke olnud, siis nad on sulle ka lojaalsemad. Iga pidutsev linn vähendab kodusõja puhkemise tõenäosust, samas kui rahutustega linnad seda tõenäosust tõstavad."
 
 #: data/helpdata.txt:1377
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
 "revolt than those more despotic in nature."
-msgstr ""
+msgstr "Lisaks sõltub kodusõja puhkemise tõenäosus ka valitsusvormist. Mitmekülgsemate valitsusvormide puhul on kodusõja tõenäosus tunduvalt väiksem, kui despootlikku tüüpi valitsusvormide korral."
 
 #: data/helpdata.txt:1381
 msgid ""
@@ -18338,7 +18335,7 @@ msgid ""
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
 "civil war.  However, this is a server option, and may vary upwards from a "
 "minimum of 6."
-msgstr ""
+msgstr "Kodusõja puhkemiseks peab riigil olema vähemalt 10 linna. See tähendab, et kui riigil on vähem, kui 10 linna, siis selles riigis kodusõda puhkeda ei saa. See on serveri seade, nii et linnade arvu väärtus võib olla vabalt valitud arv, mis on suurem, kui 6."
 
 #: data/helpdata.txt:1393
 msgid ""
@@ -18365,7 +18362,7 @@ msgid ""
 "city, and the city has at least 3 citizens, then the city celebrates.  This "
 "is designated by the term \"Rapture\" on the City Report.  The effects of "
 "celebration vary depending on your government type:"
-msgstr ""
+msgstr "Kui aga su linnas on vähemalt sama palju õnnelikke inimesi, kui on rahulolevaid, ja pole ühtki õnnetut kodanikku ning linnas on vähemalt 3 kodanikku, siis korraldatakse pidustused. Linnaraportis on see näha nimetuse \"Pidustused\" all. Pidustuste mõju on erinevate valitsuste korral erinev:"
 
 #: data/helpdata.txt:1414
 msgid ""
@@ -18379,7 +18376,7 @@ msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
 "produces at least 1 trade."
-msgstr ""
+msgstr "- Monarhia või kommunismi korral saab su linn kaubandusboonuse, kui teeb kaupa teise vabariikliku/demokraatliku riigiga: lisandub 1 kaubaühik iga ruudu kohta, mis juba annab vähemalt ühe ühiku kaupa."
 
 #: data/helpdata.txt:1422
 msgid ""
@@ -18557,7 +18554,7 @@ msgid ""
 msgstr ""
 "Linnamüür muudab linna kaitsmise lihtsamaks.Linnamüür kolmekordistab linnas "
 "paiknevate üksuste kaitsetugevuse maa-, mere- ja helikopterirünnakute vastu. "
-"Ei avalda mõju muude õhurünnakute ja suurtükirünnaku korral. Linnamüür hoiab "
+"Ei avalda mõju muude õhurünnakute ja haubitsa korral. Linnamüür hoiab "
 "ära inimkaod, mis tekivad kaitsva üksuse hukkumisel maaüksuse rünnakus."
 
 #: data/default/buildings.ruleset:233 data/civ2/buildings.ruleset:213
@@ -18907,7 +18904,6 @@ msgstr ""
 
 #: data/default/buildings.ruleset:813 data/civ2/buildings.ruleset:803
 #: data/civ1/buildings.ruleset:567
-#, fuzzy
 msgid "Space Structural"
 msgstr "Kosmoselaeva liitekohad"
 
