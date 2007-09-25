@@ -3801,7 +3801,7 @@ msgstr " M kaupa"
 
 #: server/report.c:564
 msgid " bulbs"
-msgstr " lampi"
+msgstr " pirni"
 
 #: server/report.c:569
 msgid " month"
@@ -8433,7 +8433,7 @@ msgstr[1] "* Peab olema linnas või ehitises %s %d käigu järel.\n"
 #: client/helpdata.c:1109
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
-msgstr "Kui me nüüd hakkaks pihta teadusega %s, oleks meil tarvis %d lampi."
+msgstr "Kui me nüüd hakkaks pihta teadusega %s, oleks meil tarvis %d pirni."
 
 #: client/helpdata.c:1114
 #, c-format
@@ -8442,7 +8442,7 @@ msgid ""
 "will require %d bulbs to complete."
 msgstr ""
 "Et jõuda tehnoloogiani %s, peame me enne %d muud tehnoloogiat saama. Kogu "
-"selle projekti peale läheb %d lampi."
+"selle projekti peale läheb %d pirni."
 
 #: client/helpdata.c:1122
 #, c-format
@@ -9513,22 +9513,22 @@ msgstr "Progress: pole teadustöö eesmärki"
 #, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "Progress: %d käik/avastus"
-msgstr[1] "Progress: %d käiku/avastus"
+msgstr[0] "Progress: %d käik avastuseni"
+msgstr[1] "Progress: %d käiku avastuseni"
 
 #: client/text.c:460
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d pirn käigu kohta"
-msgstr[1] "%d pirni käigu kohta"
+msgstr[0] "%d pirn käigus"
+msgstr[1] "%d pirni käigus"
 
 #: client/text.c:465
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ", %d lamp/käigus meeskonnalt"
-msgstr[1] ", %d lampi/käigus meeskonnalt"
+msgstr[0] ", %d pirn/käigus meeskonnalt"
+msgstr[1] ", %d pirni/käigus meeskonnalt"
 
 #: client/text.c:492
 #, c-format
@@ -9558,8 +9558,8 @@ msgstr[1] "%d sammu"
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] "%d lamp"
-msgstr[1] "%d lampi"
+msgstr[0] "%d pirn"
+msgstr[1] "%d pirni"
 
 #: client/text.c:550 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
 #: client/gui-gtk-2.0/citydlg.c:1422 client/gui-mui/citydlg.c:125
@@ -10396,7 +10396,7 @@ msgstr "Nimeta ümber..."
 
 #: client/gui-gtk-2.0/citydlg.c:1251
 msgid "_List present units..."
-msgstr ""
+msgstr "_Kohalolevate üksuste nimekiri..."
 
 #: client/gui-gtk-2.0/citydlg.c:1261
 msgid "_Prev city"
@@ -10676,7 +10676,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:269
 msgid "_Presets:"
-msgstr ""
+msgstr "_Mallid:"
 
 #: client/gui-gtk-2.0/cma_fe.c:302 client/gui-mui/citydlg.c:1543
 #: client/gui-mui/repodlgs.c:492 client/gui-win32/cma_fe.c:482
@@ -12131,7 +12131,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
-msgstr "Alusta uut mängu"
+msgstr "_Alusta uut mängu"
 
 #: client/gui-gtk-2.0/pages.c:214
 msgid "Start _Scenario Game"
@@ -12139,7 +12139,7 @@ msgstr "Alusta uut s_tsenaariumi"
 
 #: client/gui-gtk-2.0/pages.c:220
 msgid "_Load Saved Game"
-msgstr "L_ae salvestatud mäng"
+msgstr "Lae _salvestatud mäng"
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
@@ -12634,23 +12634,23 @@ msgstr "Käike"
 
 #: client/gui-gtk-2.0/wldlg.c:1144
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "_Võimalikud tööd:"
 
 #: client/gui-gtk-2.0/wldlg.c:1149
 msgid "Show _Future Targets"
-msgstr "Näita tuleviku sihtmärke:"
+msgstr "Näita _tuleviku sihtmärke:"
 
 #: client/gui-gtk-2.0/wldlg.c:1236
 msgid "Target _Worklist:"
-msgstr ""
+msgstr "_Tööde nimekiri:"
 
 #: client/gui-gtk-2.0/wldlg.c:1254
 msgid "_Add Global Worklist"
-msgstr "_Lisa üldine tööde nimekiri"
+msgstr "_Lisa tööde nimekiri"
 
 #: client/gui-gtk-2.0/wldlg.c:1270
 msgid "Chan_ge Production"
-msgstr "Muuda tootmist"
+msgstr "_Muuda tootmist"
 
 #: client/gui-mui/chatline.c:79
 msgid "Cleared output window.\n"
@@ -14300,7 +14300,7 @@ msgstr ""
 
 #: client/gui-sdl/cma_fe.c:450 client/gui-win32/cma_fe.c:458
 msgid "Presets"
-msgstr ""
+msgstr "Mallid"
 
 #: client/gui-sdl/cma_fe.c:852
 #, c-format
@@ -16640,7 +16640,7 @@ msgstr "  Ok  "
 
 #: data/Freeciv.in:2200
 msgid "Show future targets:"
-msgstr "Näita tuleviku sihtmärke:"
+msgstr "Näita tulevasi töid:"
 
 #: data/Freeciv.in:2261
 msgid "Establish traderoute"
