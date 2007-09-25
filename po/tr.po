@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-25 13:58+0300\n"
+"PO-Revision-Date: 2007-09-25 23:03+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1815,13 +1815,13 @@ msgstr "%s, %s birimini destekleyemiyor. Birim terhis edildi."
 #: server/cityturn.c:1028
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
-msgstr ""
+msgstr "%s şehrindeki vatandaşlar %s yapısına bakamadıkları için telef oldular."
 
 #: server/cityturn.c:1073
 #: server/cityturn.c:1192
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr ""
+msgstr "%s şehrinde yapılan %s artık geçerliliğini yitirdi."
 
 #: server/cityturn.c:1114
 #, c-format
@@ -2941,17 +2941,17 @@ msgstr ""
 #: server/diplomats.c:744
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
-msgstr ""
+msgstr "%s şehrinde ayaklanma başlatıldı, şehir artık sizin yönetiminizde!"
 
 #: server/diplomats.c:747
 #, c-format
 msgid "%s has revolted, %s influence suspected."
-msgstr ""
+msgstr "%s ayaklandı, %s propaganda yapmış olabilirler."
 
 #: server/diplomats.c:828
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
-msgstr ""
+msgstr "Sizin %s üretimi durdurmaya çalışırken yakalandı!"
 
 #: server/diplomats.c:832
 #, c-format
@@ -3144,7 +3144,7 @@ msgstr "%s bağlı değildir."
 #: server/handchat.c:300
 #, c-format
 msgid "There is no connection by the name %s."
-msgstr ""
+msgstr "%s isimli bir bağlantı yok."
 
 #: server/handchat.c:303
 #, c-format
@@ -7669,11 +7669,11 @@ msgstr ""
 
 #: client/helpdata.c:1069
 msgid " or "
-msgstr " ya da "
+msgstr " veya "
 
 #: client/helpdata.c:1071
 msgid "?or:, "
-msgstr ""
+msgstr ", "
 
 #: client/helpdata.c:1083
 #, c-format
@@ -7694,7 +7694,7 @@ msgstr ""
 #: client/helpdata.c:1134
 #, c-format
 msgid "You cannot research this technology."
-msgstr ""
+msgstr "Bu teknolojiyi araştıramazsınız."
 
 #: client/helpdata.c:1138
 #, c-format
@@ -7780,19 +7780,19 @@ msgstr "Özellik:\n"
 #. *        last two elements
 #: client/helpdata.c:1393
 msgid "?outputlist: or "
-msgstr "?outputlist: ya da "
+msgstr " ya da "
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
 #: client/helpdata.c:1397
 msgid "?outputlist: and "
-msgstr "?outputlist: ve "
+msgstr " ve "
 
 #. TRANS: Empty output type list, should never happen.
 #: client/helpdata.c:1404
 #: client/helpdata.c:1405
 msgid "?outputlist: Nothing "
-msgstr "?outputlist: Hiç "
+msgstr " Hiç "
 
 #: client/helpdata.c:1412
 #, c-format
@@ -7927,14 +7927,14 @@ msgstr ""
 #: client/helpdata.c:1535
 #, c-format
 msgid "* Has no unhappy citizens.\n"
-msgstr "* Mutsuz vatandaş hiç yok.\n"
+msgstr "* Hiç mutsuz vatandaşı yok.\n"
 
 #: client/helpdata.c:1544
 #: client/helpdata.c:1547
 #: client/helpdata.c:1550
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr "* Kıdemli %s birimler.\n"
+msgstr "* Kıdemli %s birimleri.\n"
 
 #: client/helpdata.c:1553
 #, c-format
@@ -8004,7 +8004,7 @@ msgstr ""
 #: client/helpdata.c:1623
 #, c-format
 msgid "* Allows you to build %s.\n"
-msgstr "* %s yapma imkanı sağlar.\n"
+msgstr "* %s inşa etmeye imkan sağlar.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
 #: client/helpdata.c:1649
@@ -8021,7 +8021,7 @@ msgstr "%s%d mutsuz"
 #: client/mapctrl_common.c:382
 #, c-format
 msgid "You don't know how to build %s!"
-msgstr ""
+msgstr "%s inşa etmesini bilmiyorsunuz!"
 
 #: client/mapctrl_common.c:392
 #, c-format
@@ -8034,11 +8034,11 @@ msgstr "Pano boş."
 
 #: client/options.c:89
 msgid "Graphics"
-msgstr "Grafik"
+msgstr "Görüntü"
 
 #: client/options.c:90
 msgid "Overview"
-msgstr ";yet"
+msgstr "Genel"
 
 #: client/options.c:91
 msgid "Sound"
@@ -8046,7 +8046,7 @@ msgstr "Ses"
 
 #: client/options.c:92
 msgid "Interface"
-msgstr "Arayüzü"
+msgstr "Arayüz"
 
 #: client/options.c:93
 msgid "Network"
@@ -8080,7 +8080,7 @@ msgstr ""
 #: client/gui-win32/connectdlg.c:912
 #: data/Freeciv.in:107
 msgid "Metaserver"
-msgstr "Metaserver"
+msgstr "Metasunucu"
 
 #: client/options.c:117
 msgid "The metaserver is a host that the client contacts to find out about games on the internet.  Don't change this from its default value unless you know what you're doing."
@@ -8088,7 +8088,7 @@ msgstr ""
 
 #: client/options.c:123
 msgid "Soundset"
-msgstr ""
+msgstr "Ses seti"
 
 #: client/options.c:124
 msgid "This is the soundset that will be used.  Changing this is the same as using the -S command-line parameter."
@@ -8113,7 +8113,7 @@ msgstr ""
 
 #: client/options.c:139
 msgid "Tileset"
-msgstr "Alan takımı"
+msgstr "Arazi seti"
 
 #: client/options.c:140
 msgid "By changing this option you change the active tileset. This is the same as using the -t command-line parameter."
@@ -8121,7 +8121,7 @@ msgstr ""
 
 #: client/options.c:147
 msgid "Solid unit background color"
-msgstr ""
+msgstr "Mat birim arkaplanı"
 
 #: client/options.c:148
 msgid "Setting this option will cause units on the map view to be drawn with a solid background color instead of the flag backdrop."
@@ -8130,7 +8130,7 @@ msgstr ""
 #: client/options.c:152
 #: client/gui-sdl/optiondlg.c:967
 msgid "Sound bell at new turn"
-msgstr ""
+msgstr "Sıra gelince zil çal"
 
 #: client/options.c:153
 msgid "Set this option to have a \"bell\" event be generated at the start of a new turn.  You can control the behavior of the \"bell\" event by editing the message options."
@@ -8138,7 +8138,7 @@ msgstr ""
 
 #: client/options.c:159
 msgid "Unit movement animation time (milliseconds)"
-msgstr ""
+msgstr "Birim hareketinin süresi (milisaniye)"
 
 #: client/options.c:160
 msgid "This option controls how long unit \"animation\" takes when a unit moves on the map view.  Set it to 0 to disable animation entirely."
@@ -8146,7 +8146,7 @@ msgstr ""
 
 #: client/options.c:165
 msgid "Mapview recentering time (milliseconds)"
-msgstr ""
+msgstr "Harita ortalama süresi (milisaniye)"
 
 #: client/options.c:166
 msgid "When the map view is recentered, it will slide smoothly over the map to its new position.  This option controls how long this slide lasts.  Set it to 0 to disable mapview sliding entirely."
@@ -8155,7 +8155,7 @@ msgstr ""
 #: client/options.c:171
 #: client/gui-sdl/optiondlg.c:1021
 msgid "Show combat animation"
-msgstr ""
+msgstr "Savaş hareketlerini göster"
 
 #: client/options.c:172
 msgid "Disabling this option will turn off combat animation between units on the mapview."
@@ -8163,7 +8163,7 @@ msgstr ""
 
 #: client/options.c:175
 msgid "Draw the citybar"
-msgstr ""
+msgstr "Şehir çubuğunu çiz"
 
 #: client/options.c:176
 msgid "Setting this option will display a 'citybar' containing useful information beneath each city. Disabling this option will display only the city's name and optionally, production."
@@ -8171,7 +8171,7 @@ msgstr ""
 
 #: client/options.c:182
 msgid "Show icons in the technology tree"
-msgstr ""
+msgstr "Teknoloji ağacında simgeler göster"
 
 #: client/options.c:183
 msgid "Setting this option will display icons on the technology tree diagram. Turning this option off makes the technology tree more compact."
@@ -8179,7 +8179,7 @@ msgstr ""
 
 #: client/options.c:188
 msgid "Draw shield graphics for units"
-msgstr ""
+msgstr "Birimler için kalkan resmini çiz"
 
 #: client/options.c:189
 msgid "Setting this option will draw a shield icon as the flags on units.  If unset, the full flag will be drawn."
@@ -8187,7 +8187,7 @@ msgstr ""
 
 #: client/options.c:193
 msgid "Manual Turn Done in AI Mode"
-msgstr ""
+msgstr "YZ Modundayken Sırayı Elle Geçir"
 
 #: client/options.c:194
 msgid "Disable this option if you do not want to press the Turn Done button manually when watching an AI player."
@@ -8196,7 +8196,7 @@ msgstr ""
 #: client/options.c:198
 #: client/gui-sdl/optiondlg.c:1128
 msgid "Auto Center on Units"
-msgstr ""
+msgstr "Birimleri Otomatik Ortala"
 
 #: client/options.c:199
 msgid "Set this option to have the active unit centered automatically when the unit focus changes."
@@ -8205,7 +8205,7 @@ msgstr ""
 #: client/options.c:202
 #: client/gui-sdl/optiondlg.c:1154
 msgid "Auto Center on Combat"
-msgstr ""
+msgstr "Savaşı Otomatik Ortala"
 
 #: client/options.c:203
 msgid "Set this option to have any combat be centered automatically.  Disabled this will speed up the time between turns but may cause you to miss combat entirely."
@@ -8214,7 +8214,7 @@ msgstr ""
 #: client/options.c:208
 #: client/gui-sdl/optiondlg.c:1181
 msgid "Focus on Awakened Units"
-msgstr ""
+msgstr "Uyanmış Birimlere Odaklan"
 
 #: client/options.c:209
 msgid "Set this option to have newly awoken units be focused automatically."
@@ -8222,7 +8222,7 @@ msgstr ""
 
 #: client/options.c:212
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Bilinmeyen bölgelere git komutu verilebilsin"
 
 #: client/options.c:213
 msgid "Setting this option will make the game consider moving into unknown tiles.  If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -8230,7 +8230,7 @@ msgstr ""
 
 #: client/options.c:217
 msgid "Center map when Popup city"
-msgstr ""
+msgstr "Şehir penceresi açılınca haritayı ortala"
 
 #: client/options.c:218
 msgid "Setting this option makes the mapview center on a city when its city dialog is popped up."
@@ -8238,7 +8238,7 @@ msgstr ""
 
 #: client/options.c:221
 msgid "Concise City Production"
-msgstr ""
+msgstr "Şehir Üretimini Özetle Göster"
 
 #: client/options.c:222
 msgid "Set this option to make the city production (as shown in the city dialog) to be more compact."
@@ -8247,7 +8247,7 @@ msgstr ""
 #: client/options.c:225
 #: client/gui-sdl/optiondlg.c:1259
 msgid "End Turn when done moving"
-msgstr ""
+msgstr "Yapılacak hareket kalmayınca sırayı geçir"
 
 #: client/options.c:226
 msgid "Setting this option makes your turn end automatically when all your units are done moving."
@@ -8256,7 +8256,7 @@ msgstr ""
 #: client/options.c:229
 #: client/gui-sdl/optiondlg.c:1233
 msgid "Prompt for city names"
-msgstr ""
+msgstr "Şehir kurarken isim sor"
 
 #: client/options.c:230
 msgid "Disabling this option will make the names of newly founded cities chosen automatically by the server."
@@ -8265,7 +8265,7 @@ msgstr ""
 #: client/options.c:233
 #: client/gui-sdl/optiondlg.c:1207
 msgid "Pop up city dialog for new cities"
-msgstr ""
+msgstr "Yeni şehir kurulunca şehir penceresini göster"
 
 #: client/options.c:234
 msgid "Setting this option will pop up a newly-founded city's city dialog automatically."
@@ -8273,7 +8273,7 @@ msgstr ""
 
 #: client/options.c:239
 msgid "Background layer"
-msgstr ""
+msgstr "Arka plan katmanı"
 
 #: client/options.c:240
 msgid "The background layer of the overview shows just ocean and land."
@@ -8289,7 +8289,7 @@ msgstr ""
 
 #: client/options.c:247
 msgid "Borders layer"
-msgstr ""
+msgstr "Sınırlar katmanı"
 
 #: client/options.c:248
 msgid "The borders layer of the overview shows which tiles are owned by each player."
@@ -8297,7 +8297,7 @@ msgstr ""
 
 #: client/options.c:252
 msgid "Units layer"
-msgstr "Birim tabakası"
+msgstr "Birimler katmanı"
 
 #: client/options.c:253
 msgid "Enabling this will draw units on the overview."
@@ -8305,7 +8305,7 @@ msgstr ""
 
 #: client/options.c:256
 msgid "Cities layer"
-msgstr "Kent tabakası"
+msgstr "Şehirler katmanı"
 
 #: client/options.c:257
 msgid "Enabling this will draw cities on the overview."
@@ -8313,7 +8313,7 @@ msgstr ""
 
 #: client/options.c:260
 msgid "Overview fog of war"
-msgstr ""
+msgstr "Savaş sisi genel görünümde olsun"
 
 #: client/options.c:261
 msgid "Enabling this will show fog of war on the overview."
@@ -8321,7 +8321,7 @@ msgstr ""
 
 #: client/options.c:430
 msgid "Cannot find your home directory"
-msgstr ""
+msgstr "Ev dizininiz bulunamadı"
 
 #: client/options.c:583
 msgid "Save failed, cannot find a filename."
@@ -8378,18 +8378,18 @@ msgstr "KAPALI"
 #: client/gui-win32/plrdlg.c:163
 #: client/gui-xaw/plrdlg.c:246
 msgid "R.I.P"
-msgstr ""
+msgstr "rahmetli"
 
 #: client/plrdlg_common.c:202
 msgid "waiting"
-msgstr "beklemekte"
+msgstr "bekliyor"
 
 #: client/plrdlg_common.c:204
 #: client/gui-sdl/plrdlg.c:648
 #: client/gui-win32/plrdlg.c:155
 #: client/gui-xaw/plrdlg.c:238
 msgid "done"
-msgstr "tamam"
+msgstr "bitirdi"
 
 #: client/plrdlg_common.c:206
 #: client/gui-sdl/plrdlg.c:650
@@ -8400,7 +8400,7 @@ msgstr "hareket ediyor"
 
 #: client/plrdlg_common.c:249
 msgid "?Player:Name"
-msgstr "?Oyuncu:Adı"
+msgstr "İsim"
 
 #: client/plrdlg_common.c:250
 msgid "Username"
@@ -8425,7 +8425,7 @@ msgstr "Millet"
 
 #: client/plrdlg_common.c:253
 msgid "Border"
-msgstr "Sınırlar"
+msgstr "Sınır"
 
 #: client/plrdlg_common.c:254
 #: client/gui-gtk-2.0/repodlgs.c:1317
@@ -8439,32 +8439,32 @@ msgstr "Takım"
 
 #: client/plrdlg_common.c:257
 msgid "Attitude"
-msgstr "Davranış"
+msgstr "Tutumu"
 
 #: client/plrdlg_common.c:258
 #: client/gui-win32/diplodlg.c:612
 #: client/gui-win32/diplodlg.c:664
 #: client/gui-win32/plrdlg.c:336
 msgid "Embassy"
-msgstr "Büyükelçilik"
+msgstr "Elçilik"
 
 #: client/plrdlg_common.c:259
 #: client/gui-win32/plrdlg.c:336
 msgid "Dipl.State"
-msgstr "Dipl.Statüs"
+msgstr "Dipl.Durum"
 
 #: client/plrdlg_common.c:260
 #: client/gui-win32/plrdlg.c:336
 msgid "Vision"
-msgstr "Görüşler"
+msgstr "Görüş"
 
 #: client/plrdlg_common.c:262
 msgid "?Player_dlg:Host"
-msgstr "?Player_dlg:Host"
+msgstr "Kurucu"
 
 #: client/plrdlg_common.c:263
 msgid "?Player_dlg:Idle"
-msgstr "?Player_dlg:İşsiz"
+msgstr "Boşta"
 
 #: client/plrdlg_common.c:264
 msgid "Ping"
@@ -8472,17 +8472,17 @@ msgstr "Ping"
 
 #: client/repodlgs_common.c:329
 msgid "You cannot sell improvements."
-msgstr ""
+msgstr "Yapıları satamazsınız."
 
 #: client/repodlgs_common.c:345
 #, c-format
 msgid "Sold %d %s for %d gold."
-msgstr ""
+msgstr "%d tane %s, %d altına satıldı."
 
 #: client/repodlgs_common.c:350
 #, c-format
 msgid "No %s could be sold."
-msgstr ""
+msgstr "Hiçbir %s satılamadı."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:369
@@ -8521,60 +8521,60 @@ msgstr ""
 #: client/text.c:89
 #: client/gui-sdl/mapview.c:743
 msgid "?nation:Neutral"
-msgstr "?nation:Tarafsız"
+msgstr "Tarafsız"
 
 #: client/text.c:83
 #: client/gui-sdl/mapview.c:743
 msgid "?nation:Hostile"
-msgstr "?nation:Düşmanca"
+msgstr "Düşmanca"
 
 #: client/text.c:85
 #: client/gui-sdl/mapview.c:745
 msgid "?nation:Peaceful"
-msgstr "?nation:Huzurlu"
+msgstr "Barışçıl"
 
 #: client/text.c:85
 #: client/gui-sdl/mapview.c:745
 msgid "?nation:Friendly"
-msgstr "?nation:Dostça"
+msgstr "Arkadaşça"
 
 #: client/text.c:86
 #: client/gui-sdl/mapview.c:746
 msgid "?nation:Mysterious"
-msgstr "?nation:Acayıp"
+msgstr "Gizemli"
 
 #: client/text.c:86
 msgid "?nation:Friendly(team)"
-msgstr "?nation:Dostça(takım)"
+msgstr "Arkadaşça(takım)"
 
 #: client/text.c:88
 #: client/gui-sdl/mapview.c:776
 msgid "?city:Neutral"
-msgstr "?city:Tarafsız"
+msgstr "Tarafsız"
 
 #: client/text.c:88
 #: client/gui-sdl/mapview.c:776
 msgid "?city:Hostile"
-msgstr "?city:Düşmanca"
+msgstr "Düşmanca"
 
 #: client/text.c:90
 #: client/gui-sdl/mapview.c:777
 msgid "?city:Peaceful"
-msgstr "?city:Huzurlu"
+msgstr "Barışçıl"
 
 #: client/text.c:90
 #: client/gui-sdl/mapview.c:778
 msgid "?city:Friendly"
-msgstr "?city:Dostça"
+msgstr "Arkadaşça"
 
 #: client/text.c:90
 #: client/gui-sdl/mapview.c:778
 msgid "?city:Mysterious"
-msgstr "?city:Acayıp"
+msgstr "Gizemli"
 
 #: client/text.c:91
 msgid "?city:Friendly(team)"
-msgstr "?city:Dostça(takım)"
+msgstr "Arkadaşça(takım)"
 
 #: client/text.c:98
 #, c-format
@@ -8584,7 +8584,7 @@ msgstr "Yer: (%d, %d) [%d]"
 #: client/text.c:101
 #, c-format
 msgid "Terrain: %s"
-msgstr "Yerey: %s"
+msgstr "Arazi: %s"
 
 #: client/text.c:102
 #, c-format
@@ -8593,17 +8593,17 @@ msgstr "Gıda/Üretim/Ticaret: %s"
 
 #: client/text.c:105
 msgid "Minor Tribe Village"
-msgstr "Önemsiz Yerli Köy"
+msgstr "Ufak Yerli Köy"
 
 #: client/text.c:111
 msgid "Our Territory"
-msgstr "Bizim Toprak"
+msgstr "Bizim Topraklarımız"
 
 #. TRANS: "Territory of the Polish"
 #: client/text.c:114
 #, c-format
 msgid "Territory of the %s"
-msgstr "%s'nin Toprakları"
+msgstr "%s hakimiyetindeki Topraklar"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:123
@@ -8614,12 +8614,13 @@ msgstr[0] "%s 'nin toprakları (%d raunt ateşkes)"
 
 #: client/text.c:133
 #, c-format
+#, fuzzy
 msgid "Territory of the %s %s"
 msgstr "%s'nin toprakları %s"
 
 #: client/text.c:138
 msgid "Unclaimed territory"
-msgstr "Sahibi çıkmamış toprak"
+msgstr "Sahipsiz bölge"
 
 #. TRANS: "City: Warsaw (Polish)"
 #: client/text.c:149
@@ -8672,7 +8673,7 @@ msgstr "Birim: %s (%s%s)"
 #, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Birim: %s (%s, %d raunt ateşkes)"
+msgstr[0] "Birim: %s (%s, %d sıra ateşkes)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:242
@@ -8684,7 +8685,7 @@ msgstr "Birim: %s (%s, %s)"
 #: client/text.c:268
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr "Kazanma olasılığı: A:%d%% D:%d%%"
+msgstr "Kazanma olasılığı: A:%%%d D:%%%d"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
@@ -8697,12 +8698,12 @@ msgstr "A:%d D:%d FP:%d HP:%d/%d (%s)"
 #: client/text.c:284
 #, c-format
 msgid "  (%d more)"
-msgstr "  (%d daha)"
+msgstr "  (%d fazla)"
 
 #: client/text.c:351
 #, c-format
 msgid "far from %s"
-msgstr "%s'den uzak"
+msgstr "%s şehri açıklarında"
 
 #: client/text.c:352
 #, c-format
@@ -8712,7 +8713,7 @@ msgstr "%s yakınlarında"
 #: client/text.c:353
 #, c-format
 msgid "in %s"
-msgstr "%s'de"
+msgstr "%s şehrinde"
 
 #. TRANS: "from Warsaw"
 #: client/text.c:383
@@ -8726,25 +8727,25 @@ msgstr "İlerleme: araştırma yok"
 
 #: client/text.c:450
 msgid "Progress: no research target"
-msgstr "İlerleme: hedefleyen araştırma yok"
+msgstr "İlerleme: hedeflenmiş bir teknoloji yok"
 
 #: client/text.c:455
 #, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "İlerleme: %d raunt/gelişim"
+msgstr[0] "İlerleme: %d sıra/gelişim"
 
 #: client/text.c:460
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d puan/raunt"
+msgstr[0] "%d ampül/sıra"
 
 #: client/text.c:465
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ", takımdan %d puan/raunt"
+msgstr[0] ", takımdan %d ampül/sıra"
 
 #: client/text.c:492
 #, c-format
@@ -8755,7 +8756,7 @@ msgstr "%d/- (asla)"
 #, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
-msgstr[0] "%d/%d (%d raunt)"
+msgstr[0] "%d/%d (%d sıra)"
 
 #: client/text.c:507
 #, c-format
@@ -8772,7 +8773,7 @@ msgstr[0] "%d adım"
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] "%d puan"
+msgstr[0] "%d ampül"
 
 #: client/text.c:550
 #: client/agents/cma_fec.c:269
@@ -8782,7 +8783,7 @@ msgstr[0] "%d puan"
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
-msgstr[0] "%d raunt"
+msgstr[0] "%d sıra"
 
 #: client/text.c:572
 #, c-format
@@ -8802,7 +8803,7 @@ msgstr "Altın: %d (%+d)"
 #: client/text.c:580
 #, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
-msgstr "Vergi: %d Lüks: %d Fen: %d"
+msgstr "Vergi: %d Lüks: %d Bilim: %d"
 
 #: client/text.c:586
 #, c-format
@@ -8811,17 +8812,17 @@ msgstr "Hareket ediyor: %s"
 
 #: client/text.c:588
 msgid "(Click for more info)"
-msgstr "(Ayrıntılı bilgi için tıkla)"
+msgstr "(Ayrıntılı bilgi için tıklayın)"
 
 #: client/text.c:604
 #, c-format
 msgid "%s People"
-msgstr "Nüfus: %s"
+msgstr "%s İnsan"
 
 #: client/text.c:608
 #, c-format
 msgid "Turn: %d"
-msgstr "Raunt: %d"
+msgstr "Sıra: %d"
 
 #: client/text.c:610
 #: client/gui-win32/inteldlg.c:111
@@ -8833,35 +8834,35 @@ msgstr "Altın: %d"
 #: client/text.c:611
 #, c-format
 msgid "Net Income: %d"
-msgstr "Net Geliri: %d"
+msgstr "Net Gelir: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:614
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "Vergi: Altın:%d%% Lüks:%d%% Bilim:%d%%"
+msgstr "Vergi oranları: Altın:%%%d Lüks:%%%d Bilim:%%%d"
 
 #: client/text.c:618
 #, c-format
 msgid "Researching %s: %s"
-msgstr "Araştırılır %s: %s"
+msgstr "%s araştırılıyor: %s"
 
 #: client/text.c:625
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr "Küresel ısınma olasılığı: %d%% (%+d%%/raunt)"
+msgstr "Küresel ısınma olasılığı: %%%d (%%%+d/sıra)"
 
 #: client/text.c:628
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr "Nükleer kış olasılıği: %d%% (%+d%%/raunt)"
+msgstr "Nükleer kış olasılığı: %%%d (%%%+d/sıra)"
 
 #: client/text.c:633
 #: client/gui-win32/inteldlg.c:104
 #: client/gui-xaw/inteldlg.c:200
 #, c-format
 msgid "Government: %s"
-msgstr "Devlet: %s"
+msgstr "Yönetim biçimi: %s"
 
 #: client/text.c:657
 #, c-format
@@ -8873,19 +8874,19 @@ msgstr[0] "%d birim"
 #: client/text.c:690
 #: client/gui-sdl/mapview.c:558
 msgid "?goto:Unreachable"
-msgstr ""
+msgstr "Gidilemez"
 
 #: client/text.c:692
 #: client/gui-sdl/mapview.c:560
 #, c-format
 msgid "Turns to target: %d"
-msgstr "Hedefe kadar raunt: %d"
+msgstr "Hedefe %d sıra kaldı"
 
 #: client/text.c:694
 #: client/gui-sdl/mapview.c:562
 #, c-format
 msgid "Turns to target: %d to %d"
-msgstr "Hedefe kadar raunt: %d - %d"
+msgstr "Hedefe %d - %d sıra kaldı"
 
 #: client/text.c:700
 #: client/gui-sdl/mapview.c:568
@@ -8919,11 +8920,11 @@ msgstr "Diğer: %d askeri"
 
 #: client/text.c:814
 msgid "No units to upgrade!"
-msgstr ""
+msgstr "Yükseltilecek birim yok!"
 
 #: client/text.c:839
 msgid "None of these units may be upgraded."
-msgstr ""
+msgstr "Bu birimlerin hiçbiri yükseltilemez."
 
 #: client/text.c:845
 #, c-format
@@ -8934,14 +8935,16 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
+"%d birim, %d altın karşılığında yükseltilsin mi?\n"
+"Hazinede %d altın var."
 
 #: client/text.c:866
 msgid "Shows your progress in researching the current technology."
-msgstr ""
+msgstr "Sıradaki teknolojinin araştırma durumunu gösterir."
 
 #: client/text.c:872
 msgid "no research target."
-msgstr ""
+msgstr "teknoloji hedefi yok."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:875
@@ -8951,12 +8954,12 @@ msgstr "%s: %d/%d."
 
 #: client/text.c:895
 msgid "Shows the progress of global warming:"
-msgstr ""
+msgstr "Küresel ısınmanın durumunu gösterir:"
 
 #: client/text.c:896
 #, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Kirlilik oranı: %d%%"
+msgstr "Kirlilik oranı: %%%d"
 
 #: client/text.c:898
 #, c-format
@@ -8965,12 +8968,12 @@ msgstr ""
 
 #: client/text.c:914
 msgid "Shows the progress of nuclear winter:"
-msgstr ""
+msgstr "Nükleer kışın durumunu gösterir:"
 
 #: client/text.c:915
 #, c-format
 msgid "Fallout rate: %d%%"
-msgstr "Serpinti oranı: %d%%"
+msgstr "Serpinti oranı: %%%d"
 
 #: client/text.c:917
 #, c-format
@@ -8979,25 +8982,25 @@ msgstr ""
 
 #: client/text.c:932
 msgid "Shows your current government:"
-msgstr "Varolan hükümetini gösterir:"
+msgstr "Şu anki yönetim biçiminizi gösterir:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:956
 #, c-format
 msgid "Population:      %5d"
-msgstr "Nüfüs:            %5d"
+msgstr "Nüfüs:           %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:959
 #, c-format
 msgid "Support:         %5d %%"
-msgstr "Destek:         %5d %%"
+msgstr "Destek:         %% %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:963
 #, c-format
 msgid "Energy:          %5d %%"
-msgstr "Enerji:         %5d %%"
+msgstr "Enerji:          %% %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:967
@@ -9010,24 +9013,24 @@ msgstr[0] "Yük:             %5d ton"
 #: client/text.c:973
 #, c-format
 msgid "Travel time:     %5.1f years"
-msgstr "Varış:           %5.1f yıl"
+msgstr "Seyahat süresi:    %5.1f yıl"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:977
 msgid "Travel time:        N/A     "
-msgstr "Varış:           N/A     "
+msgstr "Seyahat süresi:     YOK     "
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:981
 #, c-format
 msgid "Success prob.:   %5d %%"
-msgstr "Başarma olasılığı: %5d %%"
+msgstr "Başarı olaslğı.: %% %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:985
 #, c-format
 msgid "Year of arrival: %8s"
-msgstr "Variş yılı:      %8s"
+msgstr "Varış yılı:      %8s"
 
 #: client/text.c:1005
 msgid "?timeout:off"
@@ -9072,11 +9075,11 @@ msgstr ""
 #: client/text.c:1112
 #, c-format
 msgid "Observer: %s"
-msgstr "Gözleyici: %s"
+msgstr "Seyirci: %s"
 
 #: client/text.c:1130
 msgid "Buildings: "
-msgstr "Yapı:"
+msgstr "Yapılar: "
 
 #: client/text.c:1136
 #: client/text.c:1173
@@ -9166,28 +9169,28 @@ msgstr ""
 
 #: client/agents/cma_fec.c:418
 msgid "?cma:Very happy"
-msgstr "?cma:Çok Mutlu"
+msgstr "Çok Mutlu"
 
 #: client/agents/cma_fec.c:419
 msgid "?cma:Max food"
-msgstr "?cma:Max. gıda"
+msgstr "Azami gıda"
 
 #: client/agents/cma_fec.c:420
 msgid "?cma:Max production"
-msgstr "?cma:Max. üretim"
+msgstr "Azami üretim"
 
 #: client/agents/cma_fec.c:421
 msgid "?cma:Max gold"
-msgstr "?cma:Max. altın"
+msgstr "Azami altın"
 
 #: client/agents/cma_fec.c:422
 msgid "?cma:Max science"
-msgstr "?cma:Max. bilim"
+msgstr "Azami bilim"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:83
 #: client/gui-win32/dialogs.c:1364
 msgid "Ooops..."
-msgstr "Hayrulla..."
+msgstr "Hayda..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:84
 #: client/gui-win32/dialogs.c:1365
@@ -9210,7 +9213,7 @@ msgstr ""
 #: data/Freeciv.in:2419
 #: data/Freeciv.in:2432
 msgid "Bribe Enemy Unit"
-msgstr "Karşı Birliğine Rüşvet Ver"
+msgstr "Düşman Birimine Rüşvet Ver"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:99
 #: client/gui-sdl/diplomat_dialog.c:1440
@@ -9249,7 +9252,7 @@ msgstr "_Çal"
 #: client/gui-win32/dialogs.c:1290
 #: data/Freeciv.in:2350
 msgid "Select Advance to Steal"
-msgstr "Çalınacak Teknolojisi Seç"
+msgstr "Çalınacak Teknolojiyi Seç"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:266
 msgid "_Advances:"
@@ -9262,13 +9265,13 @@ msgstr "_İlerlemeler:"
 #: client/gui-win32/dialogs.c:1193
 #: client/gui-win32/dialogs.c:1405
 msgid "At Spy's Discretion"
-msgstr ""
+msgstr "Kararı Casus Versin"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:376
 #: client/gui-win32/dialogs.c:1479
 #: data/Freeciv.in:2377
 msgid "Sabotage Improvements"
-msgstr "Gelişimleri sabote et"
+msgstr "Yapıları sabote et"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:381
 msgid "_Sabotage"
@@ -9279,19 +9282,19 @@ msgstr "_Sabotaj"
 #: client/gui-win32/dialogs.c:1489
 #: data/Freeciv.in:2392
 msgid "Select Improvement to Sabotage"
-msgstr ""
+msgstr "Sabote Edilecek Yapıyı Seçin"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:410
 #: client/gui-gtk-2.0/citydlg.c:840
 msgid "_Improvements:"
-msgstr "_Gelişimler:"
+msgstr "_Yapılar:"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:429
 #: client/gui-sdl/diplomat_dialog.c:870
 #: client/gui-sdl/optiondlg.c:1590
 #: client/gui-win32/dialogs.c:1394
 msgid "City Production"
-msgstr "Kent Prodüksiyonu"
+msgstr "Şehir Üretimi"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:538
 #: client/gui-sdl/diplomat_dialog.c:1164
@@ -9353,19 +9356,19 @@ msgstr ""
 #: client/gui-win32/dialogs.c:1607
 #: client/gui-win32/dialogs.c:1628
 msgid "Establish _Embassy"
-msgstr "Büyükelçilik Aç"
+msgstr "Elçilik Aç"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:625
 #: client/gui-gtk-2.0/diplomat_dialog.c:649
 #: client/gui-win32/dialogs.c:1608
 #: client/gui-win32/dialogs.c:1629
 msgid "_Investigate City"
-msgstr "Kent _Araştırması"
+msgstr "Şehri _Gez"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:626
 #: client/gui-win32/dialogs.c:1609
 msgid "_Sabotage City"
-msgstr "_Kenti Sabote Et"
+msgstr "Şehri _Sabote Et"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:627
 #: client/gui-gtk-2.0/diplomat_dialog.c:652
@@ -9398,12 +9401,12 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:650
 #: client/gui-win32/dialogs.c:1630
 msgid "_Poison City"
-msgstr "_Kenti Zehirle"
+msgstr "Şehri _Zehirle"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:651
 #: client/gui-win32/dialogs.c:1631
 msgid "Industrial _Sabotage"
-msgstr "Industri _Sabotaj"
+msgstr "Üretimi _Durdur"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:688
 #: client/gui-sdl/diplomat_dialog.c:557
@@ -9462,12 +9465,12 @@ msgstr "Kervanı ulaştı:"
 #: client/gui-gtk-2.0/caravan_dialog.c:116
 #: client/gui-win32/dialogs.c:1051
 msgid "Establish _Traderoute"
-msgstr "Ticaret Yolu Aç"
+msgstr "_Ticaret Yolu Aç"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:117
 #: client/gui-win32/dialogs.c:1052
 msgid "Enter Marketplace"
-msgstr "Çarşıya Git"
+msgstr "Markete Gir"
 
 #: client/gui-gtk-2.0/chatline.c:144
 #: client/gui-win32/chatline.c:134
@@ -9516,7 +9519,7 @@ msgstr "Ambar:"
 #: client/gui-gtk-2.0/citydlg.c:585
 #: client/gui-win32/citydlg.c:673
 msgid "Change in:"
-msgstr "Güncelleme:"
+msgstr "Değişim:"
 
 #: client/gui-gtk-2.0/citydlg.c:586
 #: client/gui-win32/citydlg.c:674
@@ -9544,7 +9547,7 @@ msgstr "_Özet"
 #: client/gui-win32/wldlg.c:801
 #: client/gui-win32/wldlg.c:807
 msgid "Info"
-msgstr "İnfo"
+msgstr "Bilgi"
 
 #: client/gui-gtk-2.0/citydlg.c:678
 #: client/gui-sdl/citydlg.c:2516
@@ -9554,7 +9557,7 @@ msgstr "Şehir planı"
 
 #: client/gui-gtk-2.0/citydlg.c:772
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr "Bir gelişim satmak için çift tıkla ya da ENTER bas."
+msgstr "Bir yapıyı satmak için üzerine çift tıklayın veya ENTER tuşuna basın."
 
 #: client/gui-gtk-2.0/citydlg.c:790
 #: client/gui-gtk-2.0/citydlg.c:910
@@ -9565,7 +9568,7 @@ msgstr "Üretim:"
 #: client/gui-gtk-2.0/citydlg.c:920
 #, c-format
 msgid "%d/%d %d turns"
-msgstr "%d/%d %d raunt"
+msgstr "%d/%d %d sıra"
 
 #: client/gui-gtk-2.0/citydlg.c:830
 #: client/gui-gtk-2.0/citydlg.c:927
@@ -9588,23 +9591,23 @@ msgstr "_Vali"
 
 #: client/gui-gtk-2.0/citydlg.c:1025
 msgid "_Settings"
-msgstr "A_yarları"
+msgstr "_Ayarlar"
 
 #: client/gui-gtk-2.0/citydlg.c:1028
 msgid "Entertainers"
-msgstr "İşçiler"
+msgstr "Sanatçılar"
 
 #: client/gui-gtk-2.0/citydlg.c:1029
 #: client/gui-win32/citydlg.c:1995
 #: client/gui-xaw/citydlg.c:2404
 msgid "Scientists"
-msgstr "Bilim adamı"
+msgstr "Bilim adamları"
 
 #: client/gui-gtk-2.0/citydlg.c:1030
 #: client/gui-win32/citydlg.c:1997
 #: client/gui-xaw/citydlg.c:2404
 msgid "Taxmen"
-msgstr "Maliyeci"
+msgstr "Maliyeciler"
 
 #: client/gui-gtk-2.0/citydlg.c:1033
 #: client/gui-win32/citydlg.c:2000
@@ -9629,25 +9632,25 @@ msgstr "Vali Sayfası"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "This Settings page"
-msgstr "Ayarları Sayfası"
+msgstr "Ayarlar Sayfası"
 
 #: client/gui-gtk-2.0/citydlg.c:1041
 msgid "Last active page"
-msgstr "Son açıldığı sayfa"
+msgstr "Son açılan sayfa"
 
 #: client/gui-gtk-2.0/citydlg.c:1067
 #: client/gui-sdl/citydlg.c:960
 #: client/gui-win32/citydlg.c:1992
 msgid "New citizens are"
-msgstr "Yeni vatandaş ne olacak?"
+msgstr "Yeni vatandaşlar"
 
 #: client/gui-gtk-2.0/citydlg.c:1087
 msgid "Next time open"
-msgstr "Sonraki sefer aç"
+msgstr "Sonraki sefer bunu aç"
 
 #: client/gui-gtk-2.0/citydlg.c:1109
 msgid "City"
-msgstr "Kent"
+msgstr "Şehir"
 
 #: client/gui-gtk-2.0/citydlg.c:1116
 msgid "_Rename..."
@@ -9655,11 +9658,11 @@ msgstr "_Yeniden adlandır..."
 
 #: client/gui-gtk-2.0/citydlg.c:1251
 msgid "_List present units..."
-msgstr "_Varolan birimler göster..."
+msgstr "_Mevcut birimleri göster..."
 
 #: client/gui-gtk-2.0/citydlg.c:1261
 msgid "_Prev city"
-msgstr "Ön_ceki Şehir"
+msgstr "Ö_nceki Şehir"
 
 #: client/gui-gtk-2.0/citydlg.c:1266
 msgid "_Next city"
@@ -9668,28 +9671,28 @@ msgstr "_Sonraki Şehir"
 #: client/gui-gtk-2.0/citydlg.c:1319
 #, c-format
 msgid "<b>%s</b> - %s citizens"
-msgstr "<b>%s</b> - Nüfus: %s"
+msgstr "<b>%s</b> - %s vatandaş"
 
 #: client/gui-gtk-2.0/citydlg.c:1324
 #: client/gui-sdl/citydlg.c:3597
 msgid " - DISORDER"
-msgstr "- KARGAŞA"
+msgstr " - AYAKLANMA"
 
 #: client/gui-gtk-2.0/citydlg.c:1326
 #: client/gui-sdl/citydlg.c:3600
 msgid " - celebrating"
-msgstr "- kutlama"
+msgstr " - kutlama"
 
 #: client/gui-gtk-2.0/citydlg.c:1328
 #: client/gui-sdl/citydlg.c:3603
 msgid " - happy"
-msgstr "- mutlu"
+msgstr " - mutlu"
 
 #: client/gui-gtk-2.0/citydlg.c:1415
 #: client/gui-sdl/citydlg.c:3292
 #: client/gui-win32/citydlg.c:453
 msgid "blocked"
-msgstr ""
+msgstr "engellendi"
 
 #: client/gui-gtk-2.0/citydlg.c:1745
 #, c-format
@@ -9699,7 +9702,7 @@ msgstr "Desteklenen birimler: %d"
 #: client/gui-gtk-2.0/citydlg.c:1859
 #, c-format
 msgid "Present units %d"
-msgstr "Varolan birimler: %d"
+msgstr "Mevcut birimler: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1982
 #: client/gui-gtk-2.0/cityrep.c:800
@@ -9711,44 +9714,44 @@ msgstr "_Ortala"
 #: client/gui-win32/citydlg.c:1485
 #: client/gui-win32/citydlg.c:1516
 msgid "_Activate unit"
-msgstr "_Birim seç"
+msgstr "_Birimi seç"
 
 #: client/gui-gtk-2.0/citydlg.c:1994
 #: client/gui-gtk-2.0/citydlg.c:2047
 #: client/gui-win32/citydlg.c:1487
 #: client/gui-win32/citydlg.c:1518
 msgid "Activate unit, _close dialog"
-msgstr "Birim seç ve pencereyi kapat"
+msgstr "Birimi _seç ve pencereyi kapat"
 
 #: client/gui-gtk-2.0/citydlg.c:2000
 #: client/gui-gtk-2.0/citydlg.c:2096
 #: client/gui-win32/citydlg.c:1489
 #: client/gui-win32/citydlg.c:1524
 msgid "_Disband unit"
-msgstr "Birim işten çı_kar"
+msgstr "Birimi _terhis et"
 
 #: client/gui-gtk-2.0/citydlg.c:2053
 msgid "_Load unit"
-msgstr "Araca _bindir"
+msgstr "_Araca bindir"
 
 #: client/gui-gtk-2.0/citydlg.c:2063
 msgid "_Unload unit"
-msgstr "Araçtan _indir"
+msgstr "A_raçtan indir"
 
 #: client/gui-gtk-2.0/citydlg.c:2074
 #: client/gui-win32/citydlg.c:1520
 msgid "_Sentry unit"
-msgstr "_Nöbetçi asker"
+msgstr "_Nöbetçi yap"
 
 #: client/gui-gtk-2.0/citydlg.c:2085
 #: client/gui-win32/citydlg.c:1522
 msgid "_Fortify unit"
-msgstr "_Birim güçlendir"
+msgstr "_Güçlendir"
 
 #: client/gui-gtk-2.0/citydlg.c:2102
 #: client/gui-win32/citydlg.c:1526
 msgid "Make new _homecity"
-msgstr "Yeni memleketi olsun"
+msgstr "Yeni _memleketi olsun"
 
 #: client/gui-gtk-2.0/citydlg.c:2109
 msgid "U_pgrade unit"
@@ -9763,7 +9766,7 @@ msgid ""
 "Buy %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
-"%s %d altın için satın alınsın?.\n"
+"%s, %d altına satın alınsın?.\n"
 "Hazinede %d altın var."
 
 #: client/gui-gtk-2.0/citydlg.c:2430
@@ -9784,7 +9787,7 @@ msgid ""
 "%s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"%s fiyatı %d altın.\n"
+"%s, %d altın ediyor.\n"
 "Hazinede %d altın var."
 
 #: client/gui-gtk-2.0/citydlg.c:2492
@@ -9793,7 +9796,7 @@ msgstr ""
 #: client/gui-xaw/citydlg.c:2304
 #, c-format
 msgid "Sell %s for %d gold?"
-msgstr "%s %d altın için satalım mı?"
+msgstr "%s, %d altın için satılsın mı?"
 
 #: client/gui-gtk-2.0/citydlg.c:2497
 #: client/gui-win32/citydlg.c:967
@@ -9804,7 +9807,7 @@ msgstr "Sat!"
 #: client/gui-gtk-2.0/citydlg.c:2573
 #: client/gui-win32/citydlg.c:1207
 msgid "Rename City"
-msgstr "Şehir Yeniden Adlandır"
+msgstr "Şehri Yeniden Adlandır"
 
 #: client/gui-gtk-2.0/citydlg.c:2575
 #: client/gui-win32/citydlg.c:1208
@@ -9822,11 +9825,11 @@ msgstr "Ö_ncellikle ekle"
 
 #: client/gui-gtk-2.0/cityrep.c:694
 msgid "Add _Next"
-msgstr "_Sonra ekle"
+msgstr "_Sonrakine ekle"
 
 #: client/gui-gtk-2.0/cityrep.c:698
 msgid "Add _Last"
-msgstr "_En son ekle"
+msgstr "_En sona ekle"
 
 #: client/gui-gtk-2.0/cityrep.c:702
 msgid "_Select"
@@ -9855,6 +9858,7 @@ msgid "Cities"
 msgstr "Şehirler"
 
 #: client/gui-gtk-2.0/cityrep.c:804
+#, fuzzy
 msgid "_Popup"
 msgstr "_Popup"
 
@@ -9872,7 +9876,7 @@ msgstr "_Popup"
 #: client/gui-win32/menu.c:342
 #: client/gui-xaw/menu.c:239
 msgid "Improvements"
-msgstr "Gelişimleri"
+msgstr "Yapılar"
 
 #: client/gui-gtk-2.0/cityrep.c:1212
 #: client/gui-gtk-2.0/cityrep.c:1233
@@ -9892,7 +9896,7 @@ msgstr "Bütün Şehirler"
 #: client/gui-gtk-2.0/cityrep.c:1388
 #: client/gui-win32/cityrep.c:440
 msgid "No Cities"
-msgstr "Hiç Bir Şehir"
+msgstr "Hiç Şehir Yok"
 
 #: client/gui-gtk-2.0/cityrep.c:1393
 #: client/gui-win32/cityrep.c:441
@@ -9901,33 +9905,36 @@ msgstr "Seçimi Tersine Çevir"
 
 #: client/gui-gtk-2.0/cityrep.c:1403
 msgid "Building Units"
-msgstr "Yapımında olan Birimler"
+msgstr "Yapımda Olan Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1409
 msgid "Building Improvements"
-msgstr "Yapımında olan Gelişimler"
+msgstr "İnşa Halindeki Yapılar"
 
 #: client/gui-gtk-2.0/cityrep.c:1415
 #, fuzzy
 msgid "Building Wonders"
-msgstr "Yapım aşamasındaki Harikalar"
+msgstr "Yapımda olan Harikalar"
 
 #: client/gui-gtk-2.0/cityrep.c:1427
+#, fuzzy
 msgid "Building Unit"
 msgstr "Yapımında olan Birim"
 
 #: client/gui-gtk-2.0/cityrep.c:1431
+#, fuzzy
 msgid "Building Improvement"
 msgstr "Yapımında olan Gelişim"
 
 #: client/gui-gtk-2.0/cityrep.c:1435
+#, fuzzy
 msgid "Building Wonder"
 msgstr "Harika Yapıyor"
 
 #: client/gui-gtk-2.0/cityrep.c:1443
 #: client/gui-win32/cityrep.c:443
 msgid "Coastal Cities"
-msgstr "Sahil Kentleri"
+msgstr "Sahil Şehirleri"
 
 #: client/gui-gtk-2.0/cityrep.c:1448
 #: client/gui-win32/cityrep.c:444
@@ -9942,12 +9949,12 @@ msgstr "Desteklenen Birimler"
 #: client/gui-gtk-2.0/cityrep.c:1461
 #: client/gui-win32/cityrep.c:454
 msgid "Units Present"
-msgstr "Varolan Birimler"
+msgstr "Mevcut Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1465
 #: client/gui-win32/cityrep.c:469
 msgid "Improvements in City"
-msgstr "Sehirin Gelişimler"
+msgstr "Şehirdeki Yapılar"
 
 #: client/gui-gtk-2.0/cityrep.c:1469
 msgid "Wonders in City"
@@ -9955,11 +9962,11 @@ msgstr "Şehirdeki Harikalar"
 
 #: client/gui-gtk-2.0/cityrep.c:1478
 msgid "Available Units"
-msgstr "Kullanılabilir Birimler"
+msgstr "Mümkün Olan Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1481
 msgid "Available Improvements"
-msgstr "Kullanılabilir Gelişimler"
+msgstr "Mümkün Olan Yapılar"
 
 #: client/gui-gtk-2.0/cityrep.c:1484
 msgid "Available Wonders"
@@ -9995,7 +10002,7 @@ msgstr "Asgari Bakiye"
 #: client/gui-sdl/cma_fe.c:887
 #: client/gui-win32/cma_fe.c:216
 msgid "Factor"
-msgstr "Faktör"
+msgstr "Çarpan"
 
 #: client/gui-gtk-2.0/cma_fe.c:354
 #: client/gui-sdl/cma_fe.c:934
@@ -10011,7 +10018,7 @@ msgstr "Vali _Etkin"
 
 #: client/gui-gtk-2.0/cma_fe.c:468
 msgid "Governor Disabl_ed"
-msgstr "Vali _Etkin Değil"
+msgstr "Vali Etkin _Değil"
 
 #: client/gui-gtk-2.0/cma_fe.c:536
 #: client/gui-sdl/cma_fe.c:234
@@ -10043,6 +10050,7 @@ msgstr "_Oraya git"
 
 #: client/gui-gtk-2.0/dialogs.c:200
 #: client/gui-gtk-2.0/messagewin.c:190
+#, fuzzy
 msgid "_Popup City"
 msgstr "Kent _Tanıtım"
 
@@ -10051,7 +10059,7 @@ msgstr "Kent _Tanıtım"
 #: client/gui-win32/dialogs.c:976
 #: client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
-msgstr "Hükümetini gerçekten devrilmek ister misin?"
+msgstr "Devrim istediğinizden emin misiniz?"
 
 #: client/gui-gtk-2.0/dialogs.c:257
 #: client/gui-sdl/dialogs.c:2104
@@ -10065,13 +10073,13 @@ msgstr "Devrim!"
 #: client/gui-win32/dialogs.c:1747
 #: data/Freeciv.in:2500
 msgid "What To Pillage"
-msgstr "Yağmalacakları"
+msgstr "Yağmalanacak Olan"
 
 #: client/gui-gtk-2.0/dialogs.c:311
 #: client/gui-win32/dialogs.c:1754
 #: data/Freeciv.in:2502
 msgid "Select what to pillage:"
-msgstr "Ne yağmalamak istiyorsun?"
+msgstr "Neyin yağmalanacağını seçin:"
 
 #: client/gui-gtk-2.0/dialogs.c:505
 msgid "Unit"
@@ -10095,11 +10103,11 @@ msgstr "Birim seçimi"
 
 #: client/gui-gtk-2.0/dialogs.c:581
 msgid "_Ready all"
-msgstr "_Herkes Hazır"
+msgstr "_Herkes Hazır Olsun"
 
 #: client/gui-gtk-2.0/dialogs.c:589
 msgid "_Sentry idle"
-msgstr "_Nöbetçi asker uyusun"
+msgstr "_Boştakiler nöbet tutsun"
 
 #: client/gui-gtk-2.0/dialogs.c:717
 msgid "_Nations:"
@@ -10108,7 +10116,7 @@ msgstr "_Uluslar:"
 #: client/gui-gtk-2.0/dialogs.c:762
 #: data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
-msgstr "Nerelisin?"
+msgstr "Hangi Ulusu Alacaksınız?"
 
 #: client/gui-gtk-2.0/dialogs.c:764
 #: client/gui-sdl/chatline.c:542
@@ -10128,7 +10136,7 @@ msgstr "Ulus seç"
 
 #: client/gui-gtk-2.0/dialogs.c:803
 msgid "_Properties"
-msgstr "Ö_zellikleri"
+msgstr "Ö_zellikler"
 
 #: client/gui-gtk-2.0/dialogs.c:823
 msgid "_Leader:"
@@ -10148,12 +10156,12 @@ msgstr "_Kent Tarzı:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
 msgid "L_egend"
-msgstr "_Lejand"
+msgstr "_Lejant"
 
 #: client/gui-gtk-2.0/dialogs.c:1231
 #: client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
-msgstr "Cinsiyetin seçmen lazım."
+msgstr "Cinsiyetinizi seçmelisiniz."
 
 #: client/gui-gtk-2.0/dialogs.c:1236
 #: client/gui-xaw/dialogs.c:1481
@@ -10171,7 +10179,7 @@ msgstr "Lütfen geçerli bir adı yaz."
 #: client/gui-win32/citydlg.c:1460
 #: data/Freeciv.in:2484
 msgid "Upgrade Unit!"
-msgstr "Birliği Yükselt!"
+msgstr "Birimi Yükselt!"
 
 #: client/gui-gtk-2.0/dialogs.c:1298
 #: client/gui-gtk-2.0/repodlgs.c:1162
@@ -10181,7 +10189,7 @@ msgstr "Birliği Yükselt!"
 #: client/gui-win32/repodlgs.c:575
 #: data/Freeciv.in:2473
 msgid "Upgrade Obsolete Units"
-msgstr ""
+msgstr "Eski Birimleri Yükselt"
 
 #: client/gui-gtk-2.0/diplodlg.c:231
 #: client/gui-win32/diplodlg.c:151
@@ -10203,7 +10211,7 @@ msgstr "_Haritalar"
 
 #: client/gui-gtk-2.0/diplodlg.c:274
 msgid "_Advances"
-msgstr "_Gelişimler"
+msgstr "_Teknolojiler"
 
 #: client/gui-gtk-2.0/diplodlg.c:324
 #: client/gui-gtk-2.0/menu.c:892
@@ -10217,7 +10225,7 @@ msgstr "_Görüş sahasını paylaş"
 
 #: client/gui-gtk-2.0/diplodlg.c:346
 msgid "Give _embassy"
-msgstr "_Büyükelçilik Ver"
+msgstr "_Elçilik Ver"
 
 #: client/gui-gtk-2.0/diplodlg.c:376
 msgid "_Pacts"
@@ -10230,11 +10238,11 @@ msgstr "Diplomasi: %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:476
 msgid "_Cancel meeting"
-msgstr "_Görüşmeleri iptal et"
+msgstr "_Görüşmeyi iptal et"
 
 #: client/gui-gtk-2.0/diplodlg.c:478
 msgid "Accept _treaty"
-msgstr "Antlaşma kabul et"
+msgstr "Antlaşmayı kabul et"
 
 #: client/gui-gtk-2.0/diplodlg.c:506
 msgid "C_lauses:"
@@ -10278,7 +10286,7 @@ msgstr "Şe_hirler:"
 #: client/gui-gtk-2.0/gamedlgs.c:227
 #: client/gui-win32/ratesdlg.c:295
 msgid "Select tax, luxury and science rates"
-msgstr "Vergi, Lüks ve Bilim oranları ayarla"
+msgstr "Vergi, Lüks ve Bilim oranlarını seçin"
 
 #: client/gui-gtk-2.0/gamedlgs.c:259
 #: client/gui-gtk-2.0/gamedlgs.c:279
@@ -10299,13 +10307,13 @@ msgstr "Kilitle"
 #: client/gui-xaw/ratesdlg.c:98
 #, c-format
 msgid "%s max rate: %d%%"
-msgstr "%s max oranı: %d%%"
+msgstr "%s azami oranı: %%%d"
 
 #: client/gui-gtk-2.0/gamedlgs.c:440
 #: client/gui-win32/optiondlg.c:106
 #: data/Freeciv.in:1228
 msgid "Set local options"
-msgstr "Yerel tercihleri ayarla"
+msgstr "Yerel seçenekleri ayarla"
 
 #: client/gui-gtk-2.0/gotodlg.c:122
 #: client/gui-win32/gotodlg.c:153
@@ -10325,7 +10333,7 @@ msgstr "Gidecek yeri seç"
 
 #: client/gui-gtk-2.0/gotodlg.c:183
 msgid "Show _All Cities"
-msgstr "_Bütün Şehirleri Görüntüle"
+msgstr "_Bütün Şehirleri Göster"
 
 #: client/gui-gtk-2.0/gui_main.c:150
 msgid "Show Map Scrollbars"
