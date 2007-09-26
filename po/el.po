@@ -22205,7 +22205,7 @@ msgstr ""
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -22516,7 +22516,7 @@ msgstr ""
 
 #: data/nation/aymara.ruleset:4
 msgid "?plural:Aymaras"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/aymara.ruleset:6
 msgid ""
@@ -22777,7 +22777,7 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -23304,7 +23304,7 @@ msgstr ""
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -23320,7 +23320,7 @@ msgstr ""
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/cornish.ruleset:6
 msgid ""
@@ -23711,7 +23711,7 @@ msgstr ""
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -23943,7 +23943,7 @@ msgstr "Χιττιτικό"
 #: data/nation/himyarite.ruleset:4
 #, fuzzy
 msgid "?plural:Himyar"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -23984,7 +23984,7 @@ msgstr ""
 #: data/nation/hopi.ruleset:4
 #, fuzzy
 msgid "?plural:Hopis"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/hopi.ruleset:7
 msgid ""
@@ -24141,7 +24141,7 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -24257,7 +24257,7 @@ msgstr ""
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -24473,7 +24473,7 @@ msgstr ""
 #: data/nation/kyrgyz.ruleset:4
 #, fuzzy
 msgid "?plural:Kyrgyzs"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/kyrgyz.ruleset:6
 msgid ""
@@ -24493,7 +24493,7 @@ msgstr ""
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -24717,7 +24717,7 @@ msgstr ""
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -24740,7 +24740,7 @@ msgstr ""
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -24867,7 +24867,7 @@ msgstr ""
 #: data/nation/moldovan.ruleset:4
 #, fuzzy
 msgid "?plural:Moldovans"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/moldovan.ruleset:6
 msgid ""
@@ -25515,7 +25515,7 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:4
 msgid "?plural:Ryukyuans"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -25538,7 +25538,7 @@ msgstr ""
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -25561,7 +25561,7 @@ msgstr ""
 
 #: data/nation/samogitian.ruleset:4
 msgid "?plural:Samogitians"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/samogitian.ruleset:6
 msgid ""
@@ -25627,7 +25627,7 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/singaporean.ruleset:18
 msgid ""
@@ -25650,7 +25650,7 @@ msgstr ""
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/sioux.ruleset:6
 msgid ""
@@ -26283,7 +26283,7 @@ msgstr "U"
 #: data/nation/un.ruleset:4
 #, fuzzy
 msgid "?plural:UN"
-msgstr "?plural:"
+msgstr ""
 
 #: data/nation/un.ruleset:5
 #, fuzzy
