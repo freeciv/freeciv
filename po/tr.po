@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-25 23:03+0300\n"
+"PO-Revision-Date: 2007-09-26 20:20+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11519,7 +11519,7 @@ msgstr "Cenk"
 #: client/gui-gtk-2.0/menu.c:941
 #: client/gui-win32/menu.c:425
 msgid "_ZOC"
-msgstr "Kontrol _Bölgeleri"
+msgstr "_KOB"
 
 #: client/gui-gtk-2.0/menu.c:943
 #: client/gui-win32/menu.c:426
@@ -15231,7 +15231,7 @@ msgstr "%s ile %s sağlar.\n"
 #: client/gui-xaw/inteldlg.c:242
 #, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr "Araştırma: bilimeyen(%d/-)"
+msgstr "Araştırma: Bilimeyen(%d/-)"
 
 #: client/gui-xaw/inteldlg.c:417
 #, c-format
@@ -15252,11 +15252,11 @@ msgstr "Sunucu Ayarları"
 
 #: client/gui-xaw/menu.c:117
 msgid "Export Log"
-msgstr "Kaydı Ver"
+msgstr "Kütüğü Aktar"
 
 #: client/gui-xaw/menu.c:118
 msgid "Clear Log"
-msgstr "Kaydı Sil"
+msgstr "Kütüğü Sil"
 
 #: client/gui-xaw/menu.c:144
 msgid "City Growth"
@@ -15272,7 +15272,7 @@ msgstr "Memleketi Yap"
 
 #: client/gui-xaw/menu.c:188
 msgid "Unload Transporter"
-msgstr "Araçtan İndir"
+msgstr "Araçı Boşalt"
 
 #: client/gui-xaw/menu.c:190
 msgid "Load"
@@ -15280,7 +15280,7 @@ msgstr "Bindir"
 
 #: client/gui-xaw/menu.c:192
 msgid "Wake up others"
-msgstr "Diğerleri Uyandır"
+msgstr "Diğerlerini uyandır"
 
 #: client/gui-xaw/menu.c:196
 msgid "Auto Explore"
@@ -15288,15 +15288,15 @@ msgstr "Otomatik Keşif"
 
 #: client/gui-xaw/menu.c:197
 msgid "Connect/Road"
-msgstr "Bağlan/Yol"
+msgstr "Bağla/Yol"
 
 #: client/gui-xaw/menu.c:198
 msgid "Connect/Rail"
-msgstr "Bağlan/Demiryolu"
+msgstr "Bağla/Demiryolu"
 
 #: client/gui-xaw/menu.c:199
 msgid "Connect/Irrigation"
-msgstr "Bağlan/Sulama"
+msgstr "Bağla/Sulama"
 
 #: client/gui-xaw/menu.c:201
 msgid "Go to"
@@ -15308,11 +15308,11 @@ msgstr "Aynı Cins Seç"
 
 #: client/gui-xaw/menu.c:225
 msgid "Top Five Cities"
-msgstr "Beş En İyi Şehirler"
+msgstr "En İyi Beş Şehir"
 
 #: client/gui-xaw/menu.c:227
 msgid "Demographics"
-msgstr "Demografi"
+msgstr "İstatistikler"
 
 #: client/gui-xaw/menu.c:233
 #: data/helpdata.txt:379
@@ -15322,30 +15322,30 @@ msgstr "Diller"
 #: client/gui-xaw/menu.c:234
 #: data/helpdata.txt:402
 msgid "Connecting"
-msgstr "Bağlantı"
+msgstr "Bağlantı Kurmak"
 
 #: client/gui-xaw/menu.c:235
 #: data/helpdata.txt:430
 msgid "Controls"
-msgstr "Tuşlar"
+msgstr "Kontroller"
 
 #: client/gui-xaw/menu.c:236
 #: data/helpdata.txt:547
 msgid "Chatline"
-msgstr "Sohbet Alanı"
+msgstr "Sohbet Satırı"
 
 #: client/gui-xaw/menu.c:237
 msgid "Playing"
-msgstr ""
+msgstr "Oynanış"
 
 #: client/gui-xaw/menu.c:241
 #: data/helpdata.txt:987
 msgid "Combat"
-msgstr "Cenk"
+msgstr "Savaş"
 
 #: client/gui-xaw/menu.c:242
 msgid "ZOC"
-msgstr ""
+msgstr "KOB"
 
 #: client/gui-xaw/menu.c:243
 #: data/helpdata.txt:888
@@ -15355,18 +15355,18 @@ msgstr "Teknoloji"
 #: client/gui-xaw/menu.c:248
 #: data/helpdata.txt:1465
 msgid "Space Race"
-msgstr "Uzay Yolu Yarışması"
+msgstr "Uzay Yarışı"
 
 #: client/gui-xaw/menu.c:250
 #: data/helpdata.txt:77
 msgid "Copying"
-msgstr "Kopyalanıyor"
+msgstr "Kopyalama"
 
 #: client/gui-xaw/repodlgs.c:228
 #: client/gui-xaw/repodlgs.c:489
 #, c-format
 msgid "Researching %s: %d/%s"
-msgstr "Araştırma %s: %d/%s"
+msgstr "Araştırılan teknoloji %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:231
 #: client/gui-xaw/repodlgs.c:492
@@ -15377,7 +15377,7 @@ msgstr "bilinmeyen"
 #: client/gui-xaw/repodlgs.c:495
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr "Araştırma %s: %d/%d"
+msgstr "Araştırılan teknoloji %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:242
 #: client/gui-xaw/repodlgs.c:247
@@ -15413,7 +15413,7 @@ msgstr ""
 #: manual/civmanual.c:144
 #, c-format
 msgid "Level: %s.<br>"
-msgstr "Düzey: %s.<br>"
+msgstr "Seviye: %s.<br>"
 
 #: manual/civmanual.c:145
 #, c-format
@@ -15542,27 +15542,27 @@ msgstr "Kaynaklar"
 
 #: manual/civmanual.c:222
 msgid "Move cost"
-msgstr ""
+msgstr "Hareket pahası"
 
 #: manual/civmanual.c:222
 msgid "Defense bonus"
-msgstr "Savunma ikramiye"
+msgstr "Savunma ikramiyesi"
 
 #: manual/civmanual.c:224
 msgid "Mining"
-msgstr "Madencilik"
+msgstr "Madenci"
 
 #: manual/civmanual.c:224
 msgid "turns"
-msgstr ""
+msgstr "sıra"
 
 #: manual/civmanual.c:226
 msgid "Rail"
-msgstr "Demiryolu"
+msgstr "Ray"
 
 #: manual/civmanual.c:227
 msgid "Clean pollution"
-msgstr "Kirliliği Temizle"
+msgstr "Kirliliği temizle"
 
 #: manual/civmanual.c:227
 msgid "Clean fallout"
@@ -15597,7 +15597,7 @@ msgstr "Gereksinim"
 
 #: manual/civmanual.c:303
 msgid "Obsolete by"
-msgstr "Geçersiz kılınıyor:"
+msgstr "Geçersiz kılan:"
 
 #: manual/civmanual.c:303
 msgid "More info"
@@ -15605,15 +15605,15 @@ msgstr "Ayrıntılı bilgi"
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
-msgstr "Freeciv Sunucuna Bağlan"
+msgstr "Freeciv Sunucusuna Bağlan"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
-msgstr "LAN Sunucular"
+msgstr "Yerel Ağ Sunucuları"
 
 #: data/Freeciv.in:129
 msgid "Freeciv Server List"
-msgstr "Freeciv Sunucu Listesi"
+msgstr "Freeciv Sunucuları Listesi"
 
 #: data/Freeciv.in:132
 msgid "Server Name                         Port  Version     Status  Players  Comment"
@@ -15693,7 +15693,7 @@ msgstr ""
 
 #: data/Freeciv.in:1287
 msgid "Rates"
-msgstr ""
+msgstr "Oranlar"
 
 #: data/Freeciv.in:1289
 msgid "Select tax, luxury and science rates:"
@@ -15705,7 +15705,7 @@ msgstr "Yardım:"
 
 #: data/Freeciv.in:1465
 msgid "Citizen governor..."
-msgstr ""
+msgstr "Şehir valisi..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
@@ -15721,7 +15721,7 @@ msgstr "Şehri Yönet"
 
 #: data/Freeciv.in:1472
 msgid "Release City"
-msgstr "Şehri Boz"
+msgstr "Şehri Bırak"
 
 #: data/Freeciv.in:1474
 msgid "Minimal Surplus:"
@@ -15729,11 +15729,11 @@ msgstr "Asgari Bakiye:"
 
 #: data/Freeciv.in:1476
 msgid "Factor:"
-msgstr "Faktör:"
+msgstr "Çarpan:"
 
 #: data/Freeciv.in:1491
 msgid "Remove preset?"
-msgstr "Hedef şablonu silinsin?"
+msgstr "Şablonu silinsin mi?"
 
 #: data/Freeciv.in:1502
 msgid "City Options"
@@ -15745,23 +15745,23 @@ msgstr "Yeni vatandaşların mesleği:"
 
 #: data/Freeciv.in:1520
 msgid "Disband if build settler at size 1:"
-msgstr ""
+msgstr "Boyutu 1 iken göçmen çıkarsa terket:"
 
 #: data/Freeciv.in:1526
 msgid "Auto-attack vs land units:         "
-msgstr ""
+msgstr "Kara birimlerine otomatik saldır:"
 
 #: data/Freeciv.in:1532
 msgid "Auto-attack vs sea units:          "
-msgstr ""
+msgstr "Deniz birimlerine otomatik saldır:"
 
 #: data/Freeciv.in:1538
 msgid "Auto-attack vs air units:          "
-msgstr ""
+msgstr "Hava birimlerine otomatik saldır:"
 
 #: data/Freeciv.in:1544
 msgid "Auto-attack vs helicopters:        "
-msgstr ""
+msgstr "Helikopter birimlerine otomatik saldır:"
 
 #: data/Freeciv.in:1645
 msgid "Change All..."
@@ -15773,35 +15773,35 @@ msgstr "Ayarla..."
 
 #: data/Freeciv.in:1720
 msgid "Configure Cities Report"
-msgstr "Şehir Raporu Ayarla"
+msgstr "Şehirler Raporunu Ayarla"
 
 #: data/Freeciv.in:1846
 msgid "Building Name       Count Cost Total"
-msgstr "Yapı Adı       Sayaç Masraf Toplam"
+msgstr "Yapı Adı       Sayı Masraf Toplam"
 
 #: data/Freeciv.in:1922
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Birim Tip            Yükseltme  Hareket   Etkin   Kalkan     Gıda"
+msgstr "Birim Türü            Yükseltme  Hareket   Etkin   Kalkan     Gıda"
 
 #: data/Freeciv.in:2006
 msgid "Rename worklist"
-msgstr "Yapılacakları listesi yeniden adlandır"
+msgstr "İş listesini yeniden adlandır"
 
 #: data/Freeciv.in:2075
 msgid "Select new production"
-msgstr "Yeni Üretim Seç"
+msgstr "Yeni üretim seç"
 
 #: data/Freeciv.in:2111
 msgid "Production Worklist"
-msgstr "Üretim Yapılacakları Listesi"
+msgstr "Üretim İşleri Listesi"
 
 #: data/Freeciv.in:2120
 msgid "Available targets"
-msgstr "Mevcut hedefler"
+msgstr "Mümkün olan hedefler"
 
 #: data/Freeciv.in:2146
 msgid "Prepend"
-msgstr ""
+msgstr "Öne ekle"
 
 #: data/Freeciv.in:2182
 msgid "  Ok  "
@@ -15809,31 +15809,31 @@ msgstr "  Tamam  "
 
 #: data/Freeciv.in:2200
 msgid "Show future targets:"
-msgstr "Geleceğinin gelişimleri görüntüle"
+msgstr "Gelecekteki yapıları göster:"
 
 #: data/Freeciv.in:2261
 msgid "Establish traderoute"
-msgstr "Kervanyolu yarat"
+msgstr "Ticaret yolu oluştur"
 
 #: data/Freeciv.in:2307
 msgid "Investigate City (free)"
-msgstr "Şehri Araştır (serbest)"
+msgstr "Şehri Araştır (bedava)"
 
 #: data/Freeciv.in:2314
 msgid "Industrial Sabotage"
-msgstr "Endüstri Sabotaj"
+msgstr "Üretimi Durdur"
 
 #: data/Freeciv.in:2492
 msgid "Your New Government"
-msgstr "Yeni Hükümetiniz"
+msgstr "Yeni Yönetim Biçiminiz"
 
 #: data/Freeciv.in:2494
 msgid "Select government type:"
-msgstr "Hükümetin cinsi seç:"
+msgstr "Yönetim biçimini seçin:"
 
 #: data/Freeciv.in:2512
 msgid "Choose unit activity:"
-msgstr "Birim Hareketi Seç"
+msgstr "Birim hareketini seçin:"
 
 #: data/Freeciv.in:3051
 msgid " Sell "
@@ -15853,7 +15853,7 @@ msgstr "Şehir Ayarları..."
 
 #: data/Freeciv.in:3068
 msgid " Buy "
-msgstr " Satın al "
+msgstr " Satın Al "
 
 #: data/Freeciv.in:3070
 msgid "Change..."
@@ -15861,7 +15861,7 @@ msgstr "Değiştir..."
 
 #: data/Freeciv.in:3072
 msgid "Worklist..."
-msgstr "Yapılacakları listesi"
+msgstr "İş listesi..."
 
 #: data/Freeciv.in:3074
 msgid "Supported units:"
@@ -15869,19 +15869,19 @@ msgstr "Desteklenen birimler:"
 
 #: data/Freeciv.in:3097
 msgid "Units present:"
-msgstr "Varolan Birimler:"
+msgstr "Mevcut Birimler:"
 
 #: data/Freeciv.in:3135
 msgid "Select nation and name:"
-msgstr "Millet ve adı seç:"
+msgstr "Ulusunuzu ve adınızı seçin:"
 
 #: data/Freeciv.in:3150
 msgid "Pick Name"
-msgstr "Adı seç"
+msgstr "Adı Seç"
 
 #: data/Freeciv.in:3154
 msgid "Select your sex:"
-msgstr "Cinsiyetin seç:"
+msgstr "Cinsiyet seçin:"
 
 #: data/Freeciv.in:3158
 msgid "Male  "
@@ -15889,7 +15889,7 @@ msgstr "Erkek"
 
 #: data/Freeciv.in:3165
 msgid "Select city style:"
-msgstr "Şehir tipi seç:"
+msgstr "Şehir tipi seçin:"
 
 #: data/Freeciv.in:3176
 msgid " Ok "
@@ -15897,34 +15897,36 @@ msgstr " Tamam "
 
 #: data/Freeciv.in:3209
 msgid "Name             Nation       Embassy  Dipl.State      Vision   Reputation    State    Host"
-msgstr "Adı             Ulus       Büyükelçilik  Dipl.Statüs      Görüşler   Şan    Durum    Host"
+msgstr "Ad             Ulus          Elçilik  Dipl.Durum      Görüş   İtibar    Durum    Host"
 
 #: data/Freeciv.in:3246
 msgid "Cancel pact"
-msgstr "Antlaşma boz"
+msgstr "Antlaşmayı boz"
 
 #: data/Freeciv.in:3333
 #: data/Freeciv.in:3334
 msgid "Pregame"
-msgstr ""
+msgstr "Oyun öncesi"
 
 #: data/Freeciv.in:3350
 msgid "Name              Ready Leader          Nation          "
-msgstr "Adı              Hazır Önder          Millet          "
+msgstr "Ad               Hazır Önder          Ulus          "
 
 #: data/helpdata.txt:38
 msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization, fighting to obtain the ultimate goal: the extinction of all other civilizations."
-msgstr "Freeciv sıra tabanlı bir strateji oyunudur. Amacınız şehirler kurarak oluşturduğunuz medeniyeti yönetmek ve medeniyetinizi güçlendirmek için topraklarınız üzerinde üretim yapmak, madenleri bulmak, bilimsel araştırmalar yapmak, vergi toplamak ve diğer medeniyetler ile alışverişte bulunmak veya savaşmak."
+msgstr "Freeciv, sıra tabanlı bir strateji oyunudur. Her oyuncu bir ulusun lideri olur ve diğer ulusları yok ederek dünyanın hakimi olmaya çalışır."
 
 #: data/helpdata.txt:42
 msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
 msgstr ""
+"  İlk yazarlar:\n"
+"   (artık hiçbir ilgileri bulunmamaktadır, lütfen onlara ileti göndermeyin!)"
 
 #: data/helpdata.txt:49
 msgid "  Present administrators: "
-msgstr ""
+msgstr "  Şimdiki yöneticiler: "
 
 #: data/helpdata.txt:56
 msgid ""
@@ -15939,7 +15941,7 @@ msgstr ""
 
 #: data/helpdata.txt:78
 msgid "Freeciv is covered by the GPL, which is included here: "
-msgstr ""
+msgstr "Freeciv lisans olarak GPL kullanır, içeriği şöyledir: "
 
 #: data/helpdata.txt:380
 msgid ""
@@ -16158,7 +16160,7 @@ msgstr ""
 
 #: data/helpdata.txt:568
 msgid "Worklist Editor"
-msgstr "Yapılacakları Listesi Editörü"
+msgstr "İş Listesi Düzenleyicisi"
 
 #: data/helpdata.txt:569
 msgid "The worklist editor is used to edit both worklists for each city (from the city dialog) and global worklists. Using this editor you can create lists specifying what to build in the turns to come."
@@ -16182,7 +16184,7 @@ msgstr ""
 
 #: data/helpdata.txt:592
 msgid "Strategy and tactics"
-msgstr "Strateji ve Taktik"
+msgstr "Taktik ve strateji"
 
 #: data/helpdata.txt:593
 msgid "While every game is different, there's a basic strategy which most players follow, especially at the start of the game."
@@ -16393,7 +16395,7 @@ msgstr ""
 
 #: data/helpdata.txt:871
 msgid "City Improvements"
-msgstr "Şehir Gelişimleri"
+msgstr "Şehir Yapıları"
 
 #: data/helpdata.txt:872
 msgid "City improvements are built in each of your cities to improve trade revenue, science production, etc.  Most improvements require you to pay an upkeep every turn.  If you can't afford the upkeep for a building, then it'll be automatically sold."
@@ -16445,6 +16447,8 @@ msgid ""
 "Default Combat Rules\n"
 "---------------------"
 msgstr ""
+"Öntanımlı Savaş Kuralları\n"
+"---------------------"
 
 #: data/helpdata.txt:989
 msgid "When one unit attacks another unit, either the attacker will be destroyed, or the defender will be destroyed -- never both (unless the attacker was a missile).  The outcome depends on several factors, including chance."
@@ -16541,13 +16545,15 @@ msgstr ""
 
 #: data/helpdata.txt:1079
 msgid " Modifying Combat Rules"
-msgstr ""
+msgstr " Savaş Kurallarını Değiştirmek"
 
 #: data/helpdata.txt:1080
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
+"Savaş Kurallarını Değiştirmek\n"
+"----------------------"
 
 #: data/helpdata.txt:1081
 msgid "The combat rules described before can be modified by changing the following modifiers in game.ruleset, section combat_rules: "
@@ -16559,7 +16565,7 @@ msgstr ""
 
 #: data/helpdata.txt:1090
 msgid " Combat example 1"
-msgstr " Cenk örneği 1"
+msgstr " Savaş örneği 1"
 
 #: data/helpdata.txt:1091
 msgid "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither are veteran."
@@ -16589,7 +16595,7 @@ msgstr ""
 
 #: data/helpdata.txt:1128
 msgid " Combat example 2"
-msgstr " Cenk örneği 2"
+msgstr " Savaş örneği 2"
 
 #: data/helpdata.txt:1129
 msgid "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built on a Grassland tile, with City Walls and a Coastal Defense."
@@ -16623,11 +16629,11 @@ msgstr ""
 
 #: data/helpdata.txt:1169
 msgid "Zones of Control"
-msgstr ""
+msgstr "Kontrol Bölgeleri"
 
 #: data/helpdata.txt:1170
 msgid "Zones of Control, abbreviated as ZOC, is a game concept which prevents you moving freely in zones controlled (or partially controlled) by enemy forces."
-msgstr ""
+msgstr "Kontrol Bölgeleri, KOB olarak kısaltılan bir oyun kuralıdır. Bu kural düşman kuvvetlerinin kontrolü altında bulunan bölgelerde rahatça ilerlemenizi engeller."
 
 #: data/helpdata.txt:1174
 msgid "The general rule is that a land unit which is adjacent to an enemy occupied square cannot move directly to another square which is also adjacent to an enemy occupied square.  Here an enemy occupied square means a land square with an enemy unit on it.  Adjacency means any of the eight squares surrounding a unit."
@@ -16678,7 +16684,7 @@ msgstr ""
 
 #: data/helpdata.txt:1236
 msgid " Terrain Alterations"
-msgstr ""
+msgstr " Arazi Düzenlemeleri"
 
 #: data/helpdata.txt:1237
 msgid "Settlers and Engineers have the ability to alter terrain squares in several ways."
@@ -16730,7 +16736,7 @@ msgstr ""
 
 #: data/helpdata.txt:1295
 msgid "  Pillaging"
-msgstr ""
+msgstr "  Yağmalama"
 
 #: data/helpdata.txt:1296
 msgid "All ground units have the ability to destroy terrain alterations, by pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  Depending upon server settings, you may be given a choice of which terrain alteration to pillage, or they will be pillaged in the following order:"
@@ -16931,7 +16937,7 @@ msgstr ""
 #: data/default/buildings.ruleset:233
 #: data/civ2/buildings.ruleset:213
 msgid "Coastal Defense"
-msgstr "Sahil Güvenliği"
+msgstr "Sahil Güvenlik"
 
 #: data/default/buildings.ruleset:248
 #: data/civ2/buildings.ruleset:228
@@ -16942,7 +16948,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:234
 #: data/civ1/buildings.ruleset:182
 msgid "Colosseum"
-msgstr "Kolezyum"
+msgstr "Açık tiyatro"
 
 #: data/default/buildings.ruleset:268
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electricity.)"
@@ -17014,7 +17020,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:393
 #: data/civ1/buildings.ruleset:317
 msgid "Marketplace"
-msgstr "Kapalı Çarşı"
+msgstr "Market"
 
 #: data/default/buildings.ruleset:432
 #: data/civ2/buildings.ruleset:408
@@ -17027,7 +17033,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:413
 #: data/civ1/buildings.ruleset:337
 msgid "Mass Transit"
-msgstr "Gar & Otogar"
+msgstr "Toplu Taşıma"
 
 #: data/default/buildings.ruleset:451
 #: data/civ2/buildings.ruleset:427
@@ -17075,7 +17081,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:509
 #: data/civ1/buildings.ruleset:410
 msgid "Palace"
-msgstr "Palas"
+msgstr "Saray"
 
 #: data/default/buildings.ruleset:552
 #, no-c-format
@@ -17090,7 +17096,7 @@ msgstr ""
 #: data/default/buildings.ruleset:569
 #: data/civ2/buildings.ruleset:538
 msgid "Police Station"
-msgstr "Jandarma"
+msgstr "Karakol"
 
 #: data/default/buildings.ruleset:583
 #: data/civ2/buildings.ruleset:552
@@ -17111,7 +17117,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:581
 #: data/civ1/buildings.ruleset:439
 msgid "Power Plant"
-msgstr "Elektrik Santral"
+msgstr "Elektrik Santrali"
 
 #: data/default/buildings.ruleset:631
 #, no-c-format
@@ -17125,7 +17131,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:608
 #: data/civ1/buildings.ruleset:466
 msgid "Recycling Center"
-msgstr "Geri Dönüşüm Santralı"
+msgstr "Geri Dönüşüm Merkezi"
 
 #: data/default/buildings.ruleset:661
 #: data/civ2/buildings.ruleset:623
@@ -17146,7 +17152,7 @@ msgstr ""
 #: data/default/buildings.ruleset:690
 #: data/civ2/buildings.ruleset:652
 msgid "SAM Battery"
-msgstr "SAM Batarya"
+msgstr "Hava Savunması"
 
 #: data/default/buildings.ruleset:704
 #: data/civ2/buildings.ruleset:666
@@ -17157,7 +17163,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:672
 #: data/civ1/buildings.ruleset:487
 msgid "SDI Defense"
-msgstr "SDI Savunma"
+msgstr "Nükleer Savunma"
 
 #: data/default/buildings.ruleset:724
 #: data/civ2/buildings.ruleset:686
@@ -17179,7 +17185,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:746
 #: data/civ1/buildings.ruleset:510
 msgid "Space Component"
-msgstr "Uzay Gemisinin Parçası"
+msgstr "Uzay Gemisi Parçası"
 
 #: data/default/buildings.ruleset:769
 #: data/civ2/buildings.ruleset:760
@@ -17194,7 +17200,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:770
 #: data/civ1/buildings.ruleset:534
 msgid "Space Module"
-msgstr "Uzay Gemisinin Modülü"
+msgstr "Uzay Gemisi Modülü"
 
 #: data/default/buildings.ruleset:794
 #: data/civ2/buildings.ruleset:784
@@ -17217,7 +17223,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:803
 #: data/civ1/buildings.ruleset:567
 msgid "Space Structural"
-msgstr "Uzay Gemisinin İskelesi"
+msgstr "Uzay Gemisi İskelesi"
 
 #: data/default/buildings.ruleset:828
 #: data/civ2/buildings.ruleset:817
@@ -17301,7 +17307,7 @@ msgstr ""
 #: data/default/buildings.ruleset:969
 #: data/civ2/buildings.ruleset:956
 msgid "A.Smith's Trading Co."
-msgstr "Sabancı Holding"
+msgstr "A.Smith Tic. Şti."
 
 #: data/default/buildings.ruleset:983
 msgid "City improvements which would normally have an upkeep of 1 are free of upkeep, for all your cities."
@@ -17311,7 +17317,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:976
 #: data/civ1/buildings.ruleset:653
 msgid "Colossus"
-msgstr "Rodos Heykeli"
+msgstr "Büyük Heykel"
 
 #: data/default/buildings.ruleset:1003
 #: data/civ2/buildings.ruleset:990
@@ -17336,7 +17342,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1016
 #: data/civ1/buildings.ruleset:693
 msgid "Cure For Cancer"
-msgstr "Kanserin Çaresi"
+msgstr "Kansere Çare"
 
 #: data/default/buildings.ruleset:1043
 msgid "This stunning technological achievement makes one unhappy citizen content in all your cities."
@@ -17368,7 +17374,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1080
 #: data/civ1/buildings.ruleset:734
 msgid "Great Library"
-msgstr "İskenderiye Kütüphanesi"
+msgstr "Büyük Kütüphane"
 
 #: data/default/buildings.ruleset:1108
 #: data/civ2/buildings.ruleset:1094
@@ -17380,7 +17386,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1100
 #: data/civ1/buildings.ruleset:754
 msgid "Great Wall"
-msgstr "Çin Seddi"
+msgstr "Büyük Duvar"
 
 #: data/default/buildings.ruleset:1128
 msgid "Works as a City Wall in all your cities."
@@ -17390,7 +17396,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1121
 #: data/civ1/buildings.ruleset:775
 msgid "Hanging Gardens"
-msgstr "Asma Bahçeleri"
+msgstr "Asma Bahçeler"
 
 #: data/default/buildings.ruleset:1150
 #: data/civ2/buildings.ruleset:1135
@@ -17413,7 +17419,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1164
 #: data/civ1/buildings.ruleset:822
 msgid "Isaac Newton's College"
-msgstr "Isaac Newton's College"
+msgstr "Newton'un Koleji"
 
 #: data/default/buildings.ruleset:1194
 #, no-c-format
@@ -17424,7 +17430,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1184
 #: data/civ1/buildings.ruleset:842
 msgid "J.S. Bach's Cathedral"
-msgstr "J.S. Bach's Katedral"
+msgstr "J.S. Bach Katedrali"
 
 #: data/default/buildings.ruleset:1214
 #: data/civ2/buildings.ruleset:1198
@@ -17434,7 +17440,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1219
 #: data/civ2/buildings.ruleset:1203
 msgid "King Richard's Crusade"
-msgstr "Büyük İskender'in Yolculuğu"
+msgstr "Haçlı Seferleri"
 
 #: data/default/buildings.ruleset:1233
 #: data/civ2/buildings.ruleset:1217
@@ -17465,7 +17471,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1263
 #: data/civ1/buildings.ruleset:885
 msgid "Magellan's Expedition"
-msgstr "Magellan'ın Seyahatname"
+msgstr "Macellan'ın Yolculuğu"
 
 #: data/default/buildings.ruleset:1293
 msgid "Gives all your sea units 2 additional movement points."
@@ -17480,7 +17486,7 @@ msgstr "Manhattan Projesi"
 #: data/default/buildings.ruleset:1316
 #: data/civ2/buildings.ruleset:1300
 msgid "Marco Polo's Embassy"
-msgstr "Marco Polo'nun Büyükelçiliği"
+msgstr "Marko Polo'nun Elçiliği"
 
 #: data/default/buildings.ruleset:1330
 #: data/civ2/buildings.ruleset:1314
@@ -17491,7 +17497,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1319
 #: data/civ1/buildings.ruleset:922
 msgid "Michelangelo's Chapel"
-msgstr "Michelangelo'nun Şapeli"
+msgstr "Mikalenjelo'nun Şapeli"
 
 #: data/default/buildings.ruleset:1349
 #: data/civ2/buildings.ruleset:1333
@@ -17522,7 +17528,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
 msgid "SETI Program"
-msgstr "SETİ Programı"
+msgstr "SETI Programı"
 
 #: data/default/buildings.ruleset:1413
 msgid "Boosts science production in each city with a Research Lab by 100%. "
@@ -17532,7 +17538,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1401
 #: data/civ1/buildings.ruleset:1001
 msgid "Shakespeare's Theatre"
-msgstr "Shakespeare'in Tiyatrosu"
+msgstr "Şekspir'in Tiyatrosu"
 
 #: data/default/buildings.ruleset:1432
 #: data/civ2/buildings.ruleset:1415
@@ -17584,7 +17590,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1531
 msgid "Coinage"
-msgstr "Darbhane"
+msgstr "Para basımı"
 
 #: data/default/buildings.ruleset:1552
 msgid "This is not a normal improvement.  Instead, setting a city's production to Coinage means its shield production is converted to tax output (money, coins!)."
@@ -17592,39 +17598,39 @@ msgstr ""
 
 #: data/default/nations.ruleset:20
 msgid "?nationgroup:Ancient"
-msgstr "?nationgroup:Antik çağ"
+msgstr "Antik çağ"
 
 #: data/default/nations.ruleset:23
 msgid "?nationgroup:Medieval"
-msgstr "?nationgroup:Ortaçağ"
+msgstr "Orta çağ"
 
 #: data/default/nations.ruleset:26
 msgid "?nationgroup:Modern"
-msgstr "?nationgroup:Modern"
+msgstr "Modern"
 
 #: data/default/nations.ruleset:29
 msgid "?nationgroup:African"
-msgstr "?nationgroup:Afrikalı"
+msgstr "Afrikalı"
 
 #: data/default/nations.ruleset:32
 msgid "?nationgroup:American"
-msgstr "?nationgroup:Amerikalı"
+msgstr "Amerikalı"
 
 #: data/default/nations.ruleset:35
 msgid "?nationgroup:Asian"
-msgstr "?nationgroup:Asyalı"
+msgstr "Asyalı"
 
 #: data/default/nations.ruleset:38
 msgid "?nationgroup:European"
-msgstr "?nationgroup:Avrupalı"
+msgstr "Avrupalı"
 
 #: data/default/nations.ruleset:41
 msgid "?nationgroup:Oceanian"
-msgstr "?nationgroup:Okyanuslu"
+msgstr "Okyanusyalı"
 
 #: data/default/nations.ruleset:44
 msgid "?nationgroup:Fictional"
-msgstr "?nationgroup:Yapay"
+msgstr "Fantastik"
 
 #: data/civ2/buildings.ruleset:248
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electronics.)"
@@ -17679,7 +17685,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
-msgstr "Güneş Enerji Santralı"
+msgstr "Güneş Enerjisi Santralı"
 
 #: data/civ2/buildings.ruleset:731
 #, no-c-format
@@ -17717,6 +17723,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1114
 #: data/civ1/buildings.ruleset:768
+#, fuzzy
 msgid "Works as a City Wall in all cities."
 msgstr "Bütün şehirlerin sur yapılığı gibi etkisi var."
 
@@ -17732,7 +17739,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1357
 #: data/civ1/buildings.ruleset:955
 msgid "Doubles the effect of Temples, in all cities."
-msgstr "Bütün şehirlerinde ki tapınakların etkisi ikiye katlar."
+msgstr "Bütün şehirlerdeki Tapınakların etkisi ikiye katlanır."
 
 #: data/civ2/buildings.ruleset:1376
 msgid "Counts as having a Granary in every city."
@@ -17752,7 +17759,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1511
 msgid "Capitalization"
-msgstr "Kapitalizasyon"
+msgstr "Kapitülasyon"
 
 #: data/civ2/buildings.ruleset:1524
 msgid "This is not a normal improvement.  Instead, setting a city's production to Capitalization means its shield production is converted to tax output (money)."
@@ -17760,7 +17767,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:42
 msgid "Allows a city to grow larger than size 10."
-msgstr "Bir şehrin 10'dan fazla büyümesi sağlar."
+msgstr "Şehrin 10'dan çok büyüyebilmesini sağlar."
 
 #: data/civ1/buildings.ruleset:83
 #: data/civ1/buildings.ruleset:106
@@ -17807,7 +17814,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:996
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
-msgstr "Bütün şehirlerde bilim araştırmaları %50'yi yükseltir."
+msgstr "Bütün şehirlerde bilim üretimini %50 yükseltir."
 
 #: data/civ1/buildings.ruleset:1060
 msgid "In all cities, the unhappiness effect of every unit is reduced by 1. This means that in a Republic, units do not cause unhappiness, and in a Democracy, aggressive units cause only 1 unhappy citizen each."
@@ -17816,22 +17823,22 @@ msgstr ""
 #: data/default/cities.ruleset:29
 #: data/civ2/cities.ruleset:29
 msgid "elvis"
-msgstr "İşçi"
+msgstr "sanatçı"
 
 #: data/default/cities.ruleset:30
 #: data/civ2/cities.ruleset:30
 msgid "?Elvis:E"
-msgstr "?İşçi:İ"
+msgstr "S"
 
 #: data/default/cities.ruleset:37
 #: data/civ2/cities.ruleset:37
 msgid "scientist"
-msgstr "Bilim adamı"
+msgstr "bilim adamı"
 
 #: data/default/cities.ruleset:38
 #: data/civ2/cities.ruleset:38
 msgid "?Scientist:S"
-msgstr "?Bilim adamı:B"
+msgstr "B"
 
 #: data/default/cities.ruleset:45
 #: data/civ2/cities.ruleset:45
@@ -17841,56 +17848,56 @@ msgstr "Maliyeci"
 #: data/default/cities.ruleset:46
 #: data/civ2/cities.ruleset:46
 msgid "?Taxman:T"
-msgstr "?Maliyeci:M"
+msgstr "M"
 
 #: data/default/cities.ruleset:74
 #: data/civ2/cities.ruleset:74
 msgid "?citystyle:European"
-msgstr "?citystyle:Avrupalı"
+msgstr "Avrupa tarzı"
 
 #: data/default/cities.ruleset:83
 #: data/civ2/cities.ruleset:83
 msgid "?citystyle:Classical"
-msgstr "?citystyle:Klasik"
+msgstr "Klasik"
 
 #: data/default/cities.ruleset:92
 #: data/civ2/cities.ruleset:92
 msgid "?citystyle:Tropical"
-msgstr "?citystyle:Tropik"
+msgstr "Tropik"
 
 #: data/default/cities.ruleset:101
 #: data/civ2/cities.ruleset:101
 msgid "?citystyle:Asian"
-msgstr "?citystyle:Asyalı"
+msgstr "Asya tarzı"
 
 #: data/default/cities.ruleset:110
 #: data/civ2/cities.ruleset:110
 msgid "?citystyle:Babylonian"
-msgstr "?citystyle:Babili"
+msgstr "Babil tarzı"
 
 #: data/default/cities.ruleset:119
 #: data/civ2/cities.ruleset:119
 msgid "?citystyle:Celtic"
-msgstr "?citystyle:Keltik"
+msgstr "Kelt tarzı"
 
 #: data/default/cities.ruleset:128
 #: data/civ2/cities.ruleset:139
 msgid "?citystyle:Industrial"
-msgstr "?citystyle:Endüstriyel"
+msgstr "Endüstriyel"
 
 #: data/default/cities.ruleset:139
 #: data/civ2/cities.ruleset:150
 msgid "?citystyle:Modern"
-msgstr "?citystyle:Modern"
+msgstr "Modern"
 
 #: data/default/cities.ruleset:150
 #: data/civ2/cities.ruleset:161
 msgid "?citystyle:PostModern"
-msgstr "?citystyle:Post Modern"
+msgstr "Post Modern"
 
 #: data/civ2/cities.ruleset:128
 msgid "?citystyle:Renaissance"
-msgstr "?citystyle:Rönesans"
+msgstr "Rönesans"
 
 #: data/default/governments.ruleset:51
 #: data/civ2/governments.ruleset:49
@@ -17903,13 +17910,13 @@ msgstr "Anarşi"
 #: data/civ1/governments.ruleset:56
 #: data/nation/roman.ruleset:41
 msgid "Usurper"
-msgstr "Gaspçı"
+msgstr "Darbeci"
 
 #: data/default/governments.ruleset:57
 #: data/civ2/governments.ruleset:55
 #: data/civ1/governments.ruleset:57
 msgid "?female:Usurper"
-msgstr "?female:Gaspçı"
+msgstr "Darbeci"
 
 #: data/default/governments.ruleset:59
 #: data/civ1/governments.ruleset:59
@@ -17923,7 +17930,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
 msgid "Despotism"
-msgstr "Despotizm"
+msgstr "Despotluk"
 
 #: data/default/governments.ruleset:78
 #: data/civ2/governments.ruleset:76
@@ -17941,7 +17948,7 @@ msgstr "Reis"
 #: data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
 msgid "?female:Chief"
-msgstr "?female:Şef"
+msgstr "Şef"
 
 #: data/default/governments.ruleset:81
 #: data/civ1/governments.ruleset:81
@@ -17958,7 +17965,7 @@ msgstr ""
 #: data/civ2/techs.ruleset:468
 #: data/civ1/techs.ruleset:466
 msgid "Monarchy"
-msgstr "Krallık"
+msgstr "Monarşi"
 
 #: data/default/governments.ruleset:100
 #: data/civ2/governments.ruleset:98
@@ -18006,13 +18013,13 @@ msgstr "Komünizm"
 #: data/civ1/governments.ruleset:121
 #: data/nation/soviet.ruleset:26
 msgid "Comrade"
-msgstr "Dadaş"
+msgstr "Yoldaş"
 
 #: data/default/governments.ruleset:122
 #: data/civ2/governments.ruleset:120
 #: data/civ1/governments.ruleset:122
 msgid "?female:Comrade"
-msgstr "?female:Dost"
+msgstr "Yoldaş"
 
 #: data/default/governments.ruleset:124
 #: data/civ1/governments.ruleset:124
@@ -18038,7 +18045,7 @@ msgstr "Konsolos"
 #: data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:146
 msgid "?female:Consul"
-msgstr "?female:Konsolos"
+msgstr "Konsolos"
 
 #: data/default/governments.ruleset:148
 #: data/civ2/governments.ruleset:174
@@ -18082,13 +18089,13 @@ msgstr "Demokrasi"
 #: data/nation/slovakian.ruleset:27
 #: data/nation/turk.ruleset:26
 msgid "President"
-msgstr "Cumhurbaşkan"
+msgstr "Cumhurbaşkanı"
 
 #: data/default/governments.ruleset:168
 #: data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
 msgid "?female:President"
-msgstr "?female:Cumhurbaşkan"
+msgstr "Cumhurbaşkanı"
 
 #: data/default/governments.ruleset:170
 msgid "Under Democracy, citizens govern directly by voting on issues. Democracy offers the highest possible level of trade, but also offers the most potential for unhappiness.  There is no corruption during Democracy, but citizens become very upset during wars."
@@ -18170,7 +18177,7 @@ msgstr "Gelişmiş Uçuş"
 #: data/civ2/techs.ruleset:50
 #: data/civ1/techs.ruleset:50
 msgid "Alphabet"
-msgstr "Abece"
+msgstr "Alfabe"
 
 #: data/default/techs.ruleset:71
 #: data/civ2/techs.ruleset:58
@@ -18182,7 +18189,7 @@ msgstr "Amfibik Savaş"
 #: data/civ2/techs.ruleset:66
 #: data/civ1/techs.ruleset:66
 msgid "Astronomy"
-msgstr "Gökbilim"
+msgstr "Gök Bilimi"
 
 #: data/default/techs.ruleset:87
 #: data/civ2/techs.ruleset:74
@@ -18194,7 +18201,7 @@ msgstr "Atom Teorisi"
 #: data/civ2/techs.ruleset:82
 #: data/civ1/techs.ruleset:82
 msgid "Automobile"
-msgstr "Oto"
+msgstr "Otomobil"
 
 #: data/default/techs.ruleset:103
 #: data/civ2/techs.ruleset:90
@@ -18212,13 +18219,13 @@ msgstr "Köprü Yapımı"
 #: data/civ2/techs.ruleset:106
 #: data/civ1/techs.ruleset:106
 msgid "Bronze Working"
-msgstr "Tunç İşlemesi"
+msgstr "Tunç İşleme"
 
 #: data/default/techs.ruleset:127
 #: data/civ2/techs.ruleset:114
 #: data/civ1/techs.ruleset:114
 msgid "Ceremonial Burial"
-msgstr "Seremoniyel Defin"
+msgstr "Cenaze Töreni"
 
 #: data/default/techs.ruleset:135
 #: data/civ2/techs.ruleset:122
@@ -18236,11 +18243,12 @@ msgstr "Şövalyelik"
 #: data/civ2/techs.ruleset:138
 #: data/civ1/techs.ruleset:138
 msgid "Code of Laws"
-msgstr "Anayasa"
+msgstr "Kanunlar"
 
 #: data/default/techs.ruleset:159
 #: data/civ2/techs.ruleset:146
 #: data/civ1/techs.ruleset:146
+#, fuzzy
 msgid "Combined Arms"
 msgstr "Muhtelif Muharip Sınıflar"
 
@@ -18253,7 +18261,7 @@ msgstr "İçten Yanmalı Motor"
 #: data/default/techs.ruleset:181
 #: data/civ2/techs.ruleset:168
 msgid "Reduces the effect of Cathedrals."
-msgstr ""
+msgstr "Katedrallerin etkisini azaltır."
 
 #: data/default/techs.ruleset:184
 #: data/civ2/techs.ruleset:171
@@ -18265,13 +18273,13 @@ msgstr "Bilgisayar"
 #: data/civ2/techs.ruleset:179
 #: data/civ1/techs.ruleset:178
 msgid "Conscription"
-msgstr "Askerlik"
+msgstr "Mecburi Askerlik"
 
 #: data/default/techs.ruleset:200
 #: data/civ2/techs.ruleset:187
 #: data/civ1/techs.ruleset:186
 msgid "Construction"
-msgstr "İnşaat"
+msgstr "Mimarlık"
 
 #: data/default/techs.ruleset:208
 #: data/civ2/techs.ruleset:195
@@ -18288,7 +18296,7 @@ msgstr "Elektrik"
 #: data/default/techs.ruleset:238
 #: data/civ2/techs.ruleset:225
 msgid "Improves the effect of Colosseums."
-msgstr ""
+msgstr "Açık Tiyatroların etkisini arttırır."
 
 #: data/default/techs.ruleset:241
 #: data/civ2/techs.ruleset:228
@@ -18306,7 +18314,7 @@ msgstr "Mühendislik"
 #: data/civ2/techs.ruleset:244
 #: data/civ1/techs.ruleset:242
 msgid "Environmentalism"
-msgstr "Çevre Korunması"
+msgstr "Çevrecilik"
 
 #: data/default/techs.ruleset:265
 #: data/civ2/techs.ruleset:252
@@ -18318,7 +18326,7 @@ msgstr "Casusluk"
 #: data/civ2/techs.ruleset:260
 #: data/civ1/techs.ruleset:258
 msgid "Explosives"
-msgstr "Patlayıcı Maddeler"
+msgstr "Patlayıcılar"
 
 #: data/default/techs.ruleset:281
 #: data/civ2/techs.ruleset:268
@@ -18336,7 +18344,7 @@ msgstr "Uçuş"
 #: data/civ2/techs.ruleset:292
 #: data/civ1/techs.ruleset:290
 msgid "Fusion Power"
-msgstr "Füzyon"
+msgstr "Füzyon Enerjisi"
 
 #: data/default/techs.ruleset:313
 #: data/civ2/techs.ruleset:300
@@ -18348,7 +18356,7 @@ msgstr "Genetik Mühendisliği"
 #: data/civ2/techs.ruleset:308
 #: data/civ1/techs.ruleset:306
 msgid "Guerilla Warfare"
-msgstr "Gerilla Savaşı"
+msgstr "Eşkiyalık"
 
 #: data/default/techs.ruleset:329
 #: data/civ2/techs.ruleset:316
@@ -18360,19 +18368,19 @@ msgstr "Barut"
 #: data/civ2/techs.ruleset:324
 #: data/civ1/techs.ruleset:322
 msgid "Horseback Riding"
-msgstr "Binicilik"
+msgstr "At Biniciliği"
 
 #: data/default/techs.ruleset:345
 #: data/civ2/techs.ruleset:332
 #: data/civ1/techs.ruleset:330
 msgid "Industrialization"
-msgstr "Endüstrileşme"
+msgstr "Endüstri Devrimi"
 
 #: data/default/techs.ruleset:353
 #: data/civ2/techs.ruleset:340
 #: data/civ1/techs.ruleset:338
 msgid "Invention"
-msgstr "İcat"
+msgstr "İcat Etme"
 
 #: data/default/techs.ruleset:361
 #: data/civ2/techs.ruleset:348
@@ -18402,19 +18410,19 @@ msgstr "Önderlik"
 #: data/civ2/techs.ruleset:388
 #: data/civ1/techs.ruleset:386
 msgid "Machine Tools"
-msgstr "Makina Araçları"
+msgstr "Makineler"
 
 #: data/default/techs.ruleset:409
 #: data/civ2/techs.ruleset:396
 #: data/civ1/techs.ruleset:394
 msgid "Magnetism"
-msgstr "Mıknatıslık"
+msgstr "Manyetizma"
 
 #: data/default/techs.ruleset:417
 #: data/civ2/techs.ruleset:404
 #: data/civ1/techs.ruleset:402
 msgid "Map Making"
-msgstr "Haritacılık"
+msgstr "Harita Yapımı"
 
 #: data/default/techs.ruleset:425
 #: data/civ2/techs.ruleset:412
@@ -18456,7 +18464,7 @@ msgstr "Minyatürleştirme"
 #: data/civ2/techs.ruleset:460
 #: data/civ1/techs.ruleset:458
 msgid "Mobile Warfare"
-msgstr "Hareketli Savaş"
+msgstr "Tank"
 
 #: data/default/techs.ruleset:489
 #: data/civ2/techs.ruleset:476
@@ -18468,25 +18476,25 @@ msgstr "Tektanrıcılık"
 #: data/civ2/techs.ruleset:484
 #: data/civ1/techs.ruleset:482
 msgid "Mysticism"
-msgstr "Mistisizm"
+msgstr "Tasavvuf"
 
 #: data/default/techs.ruleset:503
 #: data/civ2/techs.ruleset:490
 #: data/civ1/techs.ruleset:488
 msgid "Improves the effect of Temples."
-msgstr "Tapınakların etkisi yükseltir."
+msgstr "Tapınakların etkisini yükseltir."
 
 #: data/default/techs.ruleset:506
 #: data/civ2/techs.ruleset:493
 #: data/civ1/techs.ruleset:491
 msgid "Navigation"
-msgstr "Seyrüsefer"
+msgstr "Deniz Yolculuğu"
 
 #: data/default/techs.ruleset:514
 #: data/civ2/techs.ruleset:501
 #: data/civ1/techs.ruleset:499
 msgid "Nuclear Fission"
-msgstr "Çekirdek Parçalanması"
+msgstr "Atom Parçalanması"
 
 #: data/default/techs.ruleset:522
 #: data/civ2/techs.ruleset:509
@@ -18497,7 +18505,7 @@ msgstr "Nükleer Enerji"
 #: data/default/techs.ruleset:528
 #: data/civ2/techs.ruleset:515
 msgid "Gives sea units one extra move."
-msgstr "Deniz birimlerin bir adım daha sağlar."
+msgstr "Deniz birimleri bir adım fazla gider."
 
 #: data/default/techs.ruleset:531
 #: data/civ2/techs.ruleset:518
@@ -18507,7 +18515,7 @@ msgstr "Felsefe"
 
 #: data/default/techs.ruleset:535
 msgid "Great philosophers from all the world join your civilization: you get an immediate advance."
-msgstr ""
+msgstr "Dünyanın dört bir yanından gelen filozoflar uygarlığınıza katıldı: bir tane teknolojiyi anında öğrendiniz."
 
 #: data/default/techs.ruleset:541
 #: data/civ2/techs.ruleset:526
@@ -18555,7 +18563,7 @@ msgstr "Arıtma"
 #: data/civ2/techs.ruleset:590
 #: data/civ1/techs.ruleset:587
 msgid "Refrigeration"
-msgstr "Soğutma"
+msgstr "Buz Dolabı"
 
 #: data/default/techs.ruleset:613
 #: data/civ2/techs.ruleset:598
@@ -18573,7 +18581,7 @@ msgstr "Roket"
 #: data/civ2/techs.ruleset:614
 #: data/civ1/techs.ruleset:611
 msgid "Sanitation"
-msgstr "Su Arıtma"
+msgstr "Sağlık Teşkilatı"
 
 #: data/default/techs.ruleset:637
 #: data/civ2/techs.ruleset:622
@@ -18585,19 +18593,19 @@ msgstr "Denizcilik"
 #: data/civ2/techs.ruleset:630
 #: data/civ1/techs.ruleset:627
 msgid "Space Flight"
-msgstr "Uzay Uçuşu"
+msgstr "Uzay Yolculuğu"
 
 #: data/default/techs.ruleset:653
 #: data/civ2/techs.ruleset:638
 #: data/civ1/techs.ruleset:635
 msgid "Stealth"
-msgstr "Stealth"
+msgstr "Görünmezlik"
 
 #: data/default/techs.ruleset:661
 #: data/civ2/techs.ruleset:646
 #: data/civ1/techs.ruleset:643
 msgid "Steam Engine"
-msgstr "Buhar Makinası"
+msgstr "Buharlı Makine"
 
 #: data/default/techs.ruleset:669
 #: data/civ2/techs.ruleset:654
@@ -18609,7 +18617,7 @@ msgstr "Çelik"
 #: data/civ2/techs.ruleset:662
 #: data/civ1/techs.ruleset:659
 msgid "Superconductors"
-msgstr "Üstün İletken"
+msgstr "Süperiletkenler"
 
 #: data/default/techs.ruleset:685
 #: data/civ2/techs.ruleset:670
@@ -18621,7 +18629,7 @@ msgstr "Taktik"
 #: data/civ2/techs.ruleset:678
 #: data/civ1/techs.ruleset:675
 msgid "The Corporation"
-msgstr "Ticari Şirket"
+msgstr "Şirket Kurma"
 
 #: data/default/techs.ruleset:701
 #: data/civ2/techs.ruleset:686
@@ -18638,12 +18646,12 @@ msgstr "Tekerlek"
 #: data/default/techs.ruleset:717
 #: data/civ2/techs.ruleset:702
 msgid "Theology"
-msgstr "Theoloji"
+msgstr "İlahiyat"
 
 #: data/default/techs.ruleset:723
 #: data/civ2/techs.ruleset:708
 msgid "Improves the effect of Cathedrals."
-msgstr ""
+msgstr "Katedrallerin etkisini arttırır."
 
 #: data/default/techs.ruleset:726
 #: data/civ2/techs.ruleset:711
@@ -18655,13 +18663,13 @@ msgstr "Yerçekimi Teorisi"
 #: data/civ2/techs.ruleset:735
 #: data/civ1/techs.ruleset:731
 msgid "Warrior Code"
-msgstr "Savaşçı Kodeks"
+msgstr "Savaşçılık"
 
 #: data/default/techs.ruleset:758
 #: data/civ2/techs.ruleset:743
 #: data/civ1/techs.ruleset:739
 msgid "Writing"
-msgstr "Yazma"
+msgstr "Yazışma"
 
 #: data/civ1/techs.ruleset:699
 msgid "Religion"
@@ -18725,7 +18733,7 @@ msgstr ""
 #: data/civ2/terrain.ruleset:293
 #: data/civ1/terrain.ruleset:283
 msgid "Hills"
-msgstr "Bayır"
+msgstr "Tepe"
 
 #: data/default/terrain.ruleset:365
 #: data/civ2/terrain.ruleset:320
@@ -18737,7 +18745,7 @@ msgstr ""
 #: data/civ2/terrain.ruleset:326
 #: data/civ1/terrain.ruleset:316
 msgid "Jungle"
-msgstr "Cengel"
+msgstr "Sık Orman"
 
 #: data/default/terrain.ruleset:404
 #: data/civ2/terrain.ruleset:354
@@ -18749,7 +18757,7 @@ msgstr ""
 #: data/civ2/terrain.ruleset:360
 #: data/civ1/terrain.ruleset:348
 msgid "Mountains"
-msgstr "Dağlar"
+msgstr "Dağ"
 
 #: data/default/terrain.ruleset:441
 #: data/civ2/terrain.ruleset:386
@@ -18886,7 +18894,7 @@ msgstr "Buğday"
 #: data/default/terrain.ruleset:715
 #: data/civ2/terrain.ruleset:646
 msgid "Peat"
-msgstr "Torf"
+msgstr "Odun Kömürü"
 
 #: data/default/terrain.ruleset:722
 #: data/civ2/terrain.ruleset:653
@@ -18897,7 +18905,7 @@ msgstr "Baharat"
 #: data/civ2/terrain.ruleset:661
 #: data/civ1/terrain.ruleset:510
 msgid "?animals:Game"
-msgstr "?animals:Avcılık"
+msgstr "Av"
 
 #: data/default/terrain.ruleset:738
 #: data/civ2/terrain.ruleset:669
@@ -18910,7 +18918,7 @@ msgstr "Petrol kulesi"
 
 #: data/civ1/terrain.ruleset:153
 msgid "Arctic"
-msgstr "Arctik"
+msgstr "Buz"
 
 #: data/civ1/terrain.ruleset:179
 msgid "Arctic squares are found only in the most northerly or southerly reaches of the world.  They are very cold, and hence difficult to work with."
@@ -18961,7 +18969,7 @@ msgstr ""
 #: data/default/units.ruleset:279
 #: data/civ2/units.ruleset:133
 msgid "Engineers"
-msgstr "Mühendisler"
+msgstr "Mühendis"
 
 #: data/default/units.ruleset:305
 msgid ""
@@ -18975,7 +18983,7 @@ msgstr ""
 #: data/default/units.ruleset:320
 #: data/civ2/units.ruleset:174
 msgid "Warriors"
-msgstr "Savaşçılar"
+msgstr "Savaşçı"
 
 #: data/default/units.ruleset:346
 #: data/civ2/units.ruleset:200
@@ -18987,7 +18995,7 @@ msgstr ""
 #: data/civ2/units.ruleset:206
 #: data/civ1/units.ruleset:173
 msgid "Phalanx"
-msgstr "Falanks"
+msgstr "Kalkanlı"
 
 #: data/default/units.ruleset:378
 #: data/civ2/units.ruleset:232
@@ -18998,7 +19006,7 @@ msgstr ""
 #: data/default/units.ruleset:383
 #: data/civ2/units.ruleset:237
 msgid "Archers"
-msgstr "Okçular"
+msgstr "Okçu"
 
 #: data/default/units.ruleset:409
 #: data/civ2/units.ruleset:263
@@ -19009,7 +19017,7 @@ msgstr ""
 #: data/civ2/units.ruleset:269
 #: data/civ1/units.ruleset:204
 msgid "Legion"
-msgstr "Lejyon"
+msgstr "Lejyoner"
 
 #: data/default/units.ruleset:441
 #: data/civ2/units.ruleset:295
@@ -19041,7 +19049,7 @@ msgstr ""
 #: data/default/units.ruleset:513
 #: data/civ2/units.ruleset:400
 msgid "Partisan"
-msgstr "Partizan"
+msgstr "Eşkiya"
 
 #: data/default/units.ruleset:539
 #: data/civ2/units.ruleset:426
@@ -19071,7 +19079,7 @@ msgstr ""
 #: data/civ2/units.ruleset:472
 #: data/civ1/units.ruleset:270
 msgid "Riflemen"
-msgstr ""
+msgstr "Tüfekçi"
 
 #: data/default/units.ruleset:611
 #: data/civ2/units.ruleset:498
@@ -19082,7 +19090,7 @@ msgstr ""
 #: data/default/units.ruleset:617
 #: data/civ2/units.ruleset:504
 msgid "Marines"
-msgstr ""
+msgstr "Denizci"
 
 #: data/default/units.ruleset:643
 #: data/civ2/units.ruleset:530
@@ -19092,7 +19100,7 @@ msgstr ""
 #: data/default/units.ruleset:648
 #: data/civ2/units.ruleset:535
 msgid "Paratroopers"
-msgstr ""
+msgstr "Paraşütçü"
 
 #: data/default/units.ruleset:674
 #: data/civ2/units.ruleset:561
@@ -19103,7 +19111,7 @@ msgstr ""
 #: data/civ2/units.ruleset:570
 #: data/civ1/units.ruleset:302
 msgid "Mech. Inf."
-msgstr ""
+msgstr "Mek. Piyade"
 
 #: data/default/units.ruleset:709
 #: data/civ2/units.ruleset:596
@@ -19114,7 +19122,7 @@ msgstr ""
 #: data/default/units.ruleset:716
 #: data/civ2/units.ruleset:603
 msgid "Horsemen"
-msgstr "At binici"
+msgstr "Atlı"
 
 #: data/default/units.ruleset:742
 #: data/civ2/units.ruleset:629
@@ -19125,7 +19133,7 @@ msgstr ""
 #: data/civ2/units.ruleset:636
 #: data/civ1/units.ruleset:368
 msgid "Chariot"
-msgstr "Harp arabası"
+msgstr "At Arabası"
 
 #: data/default/units.ruleset:775
 #: data/civ2/units.ruleset:662
@@ -19148,7 +19156,7 @@ msgstr ""
 #: data/default/units.ruleset:813
 #: data/civ2/units.ruleset:764
 msgid "Dragoons"
-msgstr ""
+msgstr "Ağır Süvari"
 
 #: data/default/units.ruleset:840
 #: data/civ2/units.ruleset:791
@@ -19159,7 +19167,7 @@ msgstr ""
 #: data/civ2/units.ruleset:796
 #: data/civ1/units.ruleset:335
 msgid "Cavalry"
-msgstr "Süvari birim"
+msgstr "Süvari"
 
 #: data/default/units.ruleset:871
 #: data/civ2/units.ruleset:822
@@ -19182,7 +19190,7 @@ msgstr ""
 #: data/civ2/units.ruleset:860
 #: data/civ1/units.ruleset:465
 msgid "Catapult"
-msgstr "Katapult"
+msgstr "Mancınık"
 
 #: data/default/units.ruleset:935
 #: data/civ2/units.ruleset:886
@@ -19216,7 +19224,7 @@ msgstr ""
 #: data/default/units.ruleset:1009
 #: data/civ2/units.ruleset:960
 msgid "Howitzer"
-msgstr "Obüs topçu"
+msgstr "Havan Topu"
 
 #: data/default/units.ruleset:1035
 #: data/civ2/units.ruleset:986
@@ -19227,7 +19235,7 @@ msgstr ""
 #: data/civ2/units.ruleset:992
 #: data/civ1/units.ruleset:564
 msgid "Fighter"
-msgstr "Avcı uçağı"
+msgstr "Avcı"
 
 #: data/default/units.ruleset:1067
 #: data/civ2/units.ruleset:1018
@@ -19239,7 +19247,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1024
 #: data/civ1/units.ruleset:596
 msgid "Bomber"
-msgstr "Bombardıman uçağı"
+msgstr "Bombacı"
 
 #: data/default/units.ruleset:1099
 #: data/civ2/units.ruleset:1050
@@ -19255,7 +19263,7 @@ msgstr ""
 #: data/default/units.ruleset:1140
 #: data/civ2/units.ruleset:1091
 msgid "Stealth Fighter"
-msgstr ""
+msgstr "Görünmez Avcı"
 
 #: data/default/units.ruleset:1166
 #: data/civ2/units.ruleset:1117
@@ -19265,7 +19273,7 @@ msgstr ""
 #: data/default/units.ruleset:1172
 #: data/civ2/units.ruleset:1123
 msgid "Stealth Bomber"
-msgstr ""
+msgstr "Görünmez Bombacı"
 
 #: data/default/units.ruleset:1198
 #: data/civ2/units.ruleset:1149
@@ -19276,7 +19284,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1155
 #: data/civ1/units.ruleset:629
 msgid "Trireme"
-msgstr "Trireme"
+msgstr "Kadırga"
 
 #: data/default/units.ruleset:1230
 #: data/civ2/units.ruleset:1181
@@ -19287,7 +19295,7 @@ msgstr ""
 #: data/default/units.ruleset:1237
 #: data/civ2/units.ruleset:1188
 msgid "Caravel"
-msgstr "Karavel"
+msgstr "Karavela"
 
 #: data/default/units.ruleset:1263
 #: data/civ2/units.ruleset:1214
@@ -19308,7 +19316,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1253
 #: data/civ1/units.ruleset:694
 msgid "Frigate"
-msgstr "Frigate"
+msgstr "Firkateyn"
 
 #: data/default/units.ruleset:1328
 #: data/civ2/units.ruleset:1279
@@ -19320,7 +19328,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1286
 #: data/civ1/units.ruleset:727
 msgid "Ironclad"
-msgstr "Zırhlı"
+msgstr "Zırhlı Gemi"
 
 #: data/default/units.ruleset:1361
 #: data/civ2/units.ruleset:1312
@@ -19353,7 +19361,7 @@ msgstr ""
 #: data/default/units.ruleset:1431
 #: data/civ2/units.ruleset:1382
 msgid "AEGIS Cruiser"
-msgstr "AEGIS Kruvazör"
+msgstr "AEGIS Kruvazörü"
 
 #: data/default/units.ruleset:1457
 #: data/civ2/units.ruleset:1408
@@ -19388,7 +19396,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1479
 #: data/civ1/units.ruleset:855
 msgid "Carrier"
-msgstr "Uçak gemisi"
+msgstr "Uçak Gemisi"
 
 #: data/default/units.ruleset:1554
 #: data/civ2/units.ruleset:1505
@@ -19400,7 +19408,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1512
 #: data/civ1/units.ruleset:888
 msgid "Transport"
-msgstr "Nakliyat"
+msgstr "Nakliyat Gemisi"
 
 #: data/default/units.ruleset:1587
 #: data/civ2/units.ruleset:1538
@@ -19511,7 +19519,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1814
 #: data/civ1/units.ruleset:1049
 msgid "Barbarian Leader"
-msgstr "Barbarların Şefi"
+msgstr "Barbar Lideri"
 
 #: data/default/units.ruleset:1923
 #: data/civ2/units.ruleset:1840
@@ -19544,7 +19552,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:367
 msgid "Fanatics"
-msgstr "Fanatikler"
+msgstr "Müfrit"
 
 #: data/civ2/units.ruleset:394
 msgid "Fundamentalist nations can maintain Fanatic units without having to pay any shields for upkeep."
@@ -19552,7 +19560,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:668
 msgid "Elephants"
-msgstr "Filler"
+msgstr "Fil"
 
 #: data/civ2/units.ruleset:694
 msgid "Elephants are towering animals trained for war, but are easily dispersed if caught off guard."
@@ -19560,7 +19568,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:700
 msgid "Crusaders"
-msgstr "Haçlılar"
+msgstr "Haçlı Askeri"
 
 #: data/civ2/units.ruleset:726
 msgid "Crusaders are highly disciplined mounted warriors driven by a higher cause."
@@ -19575,7 +19583,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:141
 msgid "Militia"
-msgstr ""
+msgstr "Milis"
 
 #: data/civ1/units.ruleset:263
 msgid "Musketeers are infantry equipped with early firearms and replace Phalanx as the preferred city defender."
@@ -19591,7 +19599,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:662
 msgid "Sail"
-msgstr "yelkenliyle git"
+msgstr "Yelkenli"
 
 #: data/civ1/units.ruleset:688
 msgid "The Sail replaces the Trireme and is much more reliable on the open seas."
@@ -19618,7 +19626,7 @@ msgstr "Aborjin"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
-msgstr "?plural:Aborjinler"
+msgstr "Aborjinler"
 
 #: data/nation/aborigines.ruleset:6
 msgid "Australian Aborigines is a collective term for the original inhabitants of the Australian continent. Aborigines from different parts of Australia refer to themselves with different names, including Koori, Yamaji, Nunga, and Murri."
@@ -19630,7 +19638,7 @@ msgstr "Afgan"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
-msgstr "?plural:Afganlar"
+msgstr "Afganlar"
 
 #: data/nation/afghani.ruleset:6
 msgid "Afghanistan, often called the crossroads of Central Asia, has had a very turbulent history. Through the ages, the country has been occupied by many forces including the Persian Empire, Genghis Khan and Alexander the Great. The Afghanistan nation-state as it is known today came into existence in 1746 when Ahmad Shah founded the Durrani Empire."
@@ -19648,7 +19656,7 @@ msgstr "General Sekreter"
 
 #: data/nation/afghani.ruleset:26
 msgid "Mullah"
-msgstr "Mullah"
+msgstr "Molla"
 
 #: data/nation/afghani.ruleset:27
 #: data/nation/australian.ruleset:25
@@ -19686,7 +19694,7 @@ msgstr "Faslı"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
-msgstr "?plural:Faslılar"
+msgstr "Faslılar"
 
 #: data/nation/algerian.ruleset:6
 msgid "Algeria is an Arabic nation in North Africa. It is historically inhabited by the Berber people."
@@ -19698,7 +19706,7 @@ msgstr "Amerikalı"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
-msgstr "?plural:Amerikalılar"
+msgstr "Amerikalılar"
 
 #: data/nation/american.ruleset:6
 msgid "Formally named the United States of America.  Independent from Great Britain after a revolution in 1776-1783AD."
@@ -19707,12 +19715,12 @@ msgstr ""
 #: data/nation/american.ruleset:51
 #: data/nation/scottish.ruleset:25
 msgid "Speaker"
-msgstr "Spiker"
+msgstr "Hatip"
 
 #: data/nation/american.ruleset:52
 #: data/nation/texan.ruleset:20
 msgid "Reverend"
-msgstr ""
+msgstr "Saygıdeğer"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
@@ -19720,7 +19728,7 @@ msgstr "Antarktikalı"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
-msgstr "?plural:Antarktikalılar"
+msgstr "Antarktikalılar"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
@@ -19732,7 +19740,7 @@ msgstr "Arap"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr "?plural:Araplar"
+msgstr "Araplar"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -19748,7 +19756,7 @@ msgstr "Aram"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
-msgstr "?plural:Aramlar"
+msgstr "Aramlar"
 
 #: data/nation/aramean.ruleset:6
 msgid "According to legend, the Aramean people are the descendants of Aram, the grandson of Noah."
@@ -19760,7 +19768,7 @@ msgstr "Ermeni"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
-msgstr "?plural:Ermeniler"
+msgstr "Ermeniler"
 
 #: data/nation/armenian.ruleset:6
 msgid "According to legend, the Armenian people are the descendants of Haik - the great-great-grandson of Noah. The modern Republic of Armenia gained independence from Soviet in 1991 AD"
@@ -19772,7 +19780,7 @@ msgstr "Asur"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
-msgstr "?plural:Asurlar"
+msgstr "Asurlular"
 
 #: data/nation/assyrian.ruleset:6
 msgid "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
@@ -19788,11 +19796,11 @@ msgstr "Malikta"
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
-msgstr "Arjantinli"
+msgstr "Arjantin"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
-msgstr "?plural:Arjantinliler"
+msgstr "Arjantinliler"
 
 #. TRANS: The fourth letter in "Peron" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -19803,11 +19811,11 @@ msgstr ""
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr "Avustralyalı"
+msgstr "Avustralya"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
-msgstr "?plural:Avustralyalılar"
+msgstr "Avustralyalılar"
 
 #: data/nation/australian.ruleset:6
 msgid "Australia was founded as a British penal colony in 1788AD. It is the only country on earth to occupy an entire continent."
@@ -19815,11 +19823,11 @@ msgstr ""
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
-msgstr "Avusturyalı"
+msgstr "Avusturya"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
-msgstr "?plural:Avusturyalılar"
+msgstr "Avusturyalılar"
 
 #: data/nation/austrian.ruleset:6
 msgid "Austria means Eastern Realm, given its position as the far east territory of the medieval Holy Roman Empire."
@@ -19831,7 +19839,7 @@ msgstr "Aztek"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
-msgstr "?plural:Aztekler"
+msgstr "Aztekler"
 
 #: data/nation/aztec.ruleset:6
 msgid "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized control of the Toltec-derived civilizations of Central Mexico during the 15th century AD, reviving the practice of human sacrifice.  They were conquered by the Spanish under Cortez in 1524."
@@ -19847,11 +19855,11 @@ msgstr "Huey Tlatoani"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr "Babili"
+msgstr "Babil"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
-msgstr "?plural:Babililer"
+msgstr "Babilliler"
 
 #: data/nation/babylonian.ruleset:6
 msgid "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries BC under a succession of peoples including Amorites, Kassites, Assyrians, and Chaldeans."
@@ -19864,7 +19872,7 @@ msgstr "Lugal"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
-msgstr "?plural:Barbarlar"
+msgstr "Barbarlar"
 
 #: data/nation/barbarian.ruleset:5
 msgid "Since the dawn of civilization, barbarians have been a threat to cultured peoples everywhere."
@@ -19872,11 +19880,11 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "Bavyeralı"
+msgstr "Bavyera"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "?plural:Bavyeralılar"
+msgstr "Bavyeralılar"
 
 #: data/nation/bavarian.ruleset:6
 msgid "Bavaria, before national unification in 1870AD, was one of the largest of the German kingdoms."
@@ -19884,11 +19892,11 @@ msgstr ""
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr "Belçikalı"
+msgstr "Belçika"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
-msgstr "?plural:Belçikalılar"
+msgstr "Belçikalılar"
 
 #: data/nation/belgian.ruleset:6
 msgid "Belgium gained independance from the Dutch Kingdom in 1830. Belgium is mainly characterized by its movement from a unified state to a federal one. This is the result of the Flemish and the Walloon's nationalist (almost) peaceful fights."
@@ -19896,11 +19904,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr "Bengali"
+msgstr "Bengal"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
-msgstr "?plural:Bengaliler"
+msgstr "Bengalliler"
 
 #: data/nation/bengali.ruleset:6
 msgid "Bengal is a region in the easternmost part of the Indian subcontinent. The first recorded independent king of the Bengali is Shashanka who reigned around 606 AD. Today the People's Republic of Bangladesh occupies the eastern part of the region, while the western part is the Indian state of West Bengal."
@@ -19912,15 +19920,15 @@ msgstr "Nabob"
 
 #: data/nation/bengali.ruleset:26
 msgid "Major"
-msgstr ""
+msgstr "Yüce"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "Afrikaner"
+msgstr "Boer"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "?plural:Afrikanerler"
+msgstr "Boerler"
 
 #: data/nation/boer.ruleset:6
 msgid "The Boers were Dutch settlers in British-controlled South Africa from 1650AD.  They briefly controlled two republics, the Transvaal and the Orange Free State, before being defeated by the British in the war of 1899-1902."
@@ -19928,11 +19936,11 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
-msgstr "Boşnak"
+msgstr "Bosna-Hersek"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
-msgstr "?plural:Boşnaklar"
+msgstr "Boşnaklar"
 
 #: data/nation/bosnia.ruleset:6
 msgid "Bosnia and Herzegovina is a country in south-east Europe, and the home of three constituent peoples: Bosniaks, Serbs, and Croats."
@@ -19944,11 +19952,11 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "Brezilyalı"
+msgstr "Brezilya"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr "?plural:Brezilyalılar"
+msgstr "Brezilyalılar"
 
 #: data/nation/brazilian.ruleset:6
 msgid "Brazil was founded as a colony of Portugal but became independent in 1822AD. It is the only country in the New World that has been the seat of a monarchy."
@@ -19969,7 +19977,7 @@ msgstr ""
 #: data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperator"
-msgstr ""
+msgstr "İmparator"
 
 #: data/nation/brazilian.ruleset:23
 #: data/nation/byzantium.ruleset:25
@@ -19994,11 +20002,11 @@ msgstr ""
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr "Britanyalı"
+msgstr "Britanya"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:Britons"
-msgstr "?plural:Britanyalılar"
+msgstr "Britanyalılar"
 
 #: data/nation/british.ruleset:6
 msgid "The United Kingdom was created in 1707 as a negotiated agreement between the kingdom of England and the kingdom of Scotland. The country - also known as Great Britain - became the leading industrial and maritime power in the 19th century."
@@ -20010,7 +20018,7 @@ msgstr "Bulgar"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr "?plural:Bulgarlar"
+msgstr "Bulgarlar"
 
 #: data/nation/bulgarian.ruleset:6
 msgid "Bulgar leader Khan Asparukh led his people into the northern Balkans, and founded Bulgaria in 681. This was the first Slavic nation-state in history."
@@ -20044,11 +20052,11 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "Burmalı"
+msgstr "Burma"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
-msgstr "?plural:Burmalılar"
+msgstr "Burmalılar"
 
 #: data/nation/burmese.ruleset:6
 msgid "The Union of Burma (officially \"Myanmar\") is the largest country in mainland Southeast Asia."
@@ -20068,11 +20076,11 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr "Bizanslı"
+msgstr "Bizans"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
-msgstr "?plural:Bizanslılar"
+msgstr "Bizanslılar"
 
 #: data/nation/byzantium.ruleset:6
 msgid "At the time of the decline of the old Roman empire, the Emperor Constantine moved the empire's capital to Byzantium and formed a new empire mostly known as the Eastern Roman empire or the Byzantine empire. This empire lasted until 1453 when its capital fell to the Ottomans. At the time of Justinian I, the Byzanines controlled nearly all of Middle East, nothern Africa, Italy and parts of Spain."
@@ -20084,11 +20092,11 @@ msgstr "Basileus"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr "Kanadalı"
+msgstr "Kanada"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr "?plural:Kanadalılar"
+msgstr "Kanadalılar"
 
 #: data/nation/canadian.ruleset:7
 msgid "Canada is the geographically northernmost country in world: The Magnetic North Pole currently lies on Canadian territory."
@@ -20096,11 +20104,11 @@ msgstr ""
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr "Kartacalı"
+msgstr "Kartaca"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr "?plural:Kartacalılar"
+msgstr "Kartacalılar"
 
 #: data/nation/carthaginian.ruleset:8
 msgid "The Carthaginians, descendants of Phoenician traders, ran a naval empire in the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed by Rome in 146BC."
@@ -20108,11 +20116,11 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr "Katalan"
+msgstr "Katalonya"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr "?plural:Katalanlar"
+msgstr "Katalanlar"
 
 #: data/nation/catalan.ruleset:6
 msgid "Catalunya (aka Catalonia in English) is the north-eastern-most coastal region of Spain near the southern foot of the Pyrenees."
@@ -20130,7 +20138,7 @@ msgstr ""
 #: data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictador"
-msgstr "Diktador"
+msgstr "Diktatör"
 
 #: data/nation/catalan.ruleset:23
 #: data/nation/galician.ruleset:23
@@ -20157,11 +20165,11 @@ msgstr ""
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr "Şilili"
+msgstr "Şili"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr "?plural:Şilililer"
+msgstr "Şilililer"
 
 #: data/nation/chilean.ruleset:6
 msgid "Chile is located on the south-western coast of South America."
@@ -20184,11 +20192,11 @@ msgstr ""
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr "Çinli"
+msgstr "Çin"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr "?plural:Çinliler"
+msgstr "Çinliler"
 
 #: data/nation/chinese.ruleset:6
 msgid "China is the oldest major civilization that is still in existence today, with written records dating back over 3,500 years.  After first being unified by the Qin dynasty in 221BC, China alternated between periods of unity and disunity, and was often conquered by external ethnicities.  Today, the People's Republic of China, established by the Communists in 1949, occupies the mainland, while the former Nationalist government of the Republic of China had fled to the island of Taiwan after the civil war."
@@ -20207,11 +20215,11 @@ msgstr ""
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
-msgstr "Kolombiyalı"
+msgstr "Kolombiya"
 
 #: data/nation/colombian.ruleset:4
 msgid "?plural:Colombians"
-msgstr "?plural:Kolombiyalılar"
+msgstr "Kolombiyalılar"
 
 #: data/nation/colombian.ruleset:6
 msgid "Colombia is a country in northern South America. The region was an Amerindian cultural center in pre-European time. The Spanish began settling Colombia's north coast around 1500. In 1819 the The Republic of Colombia gained independence."
@@ -20220,7 +20228,7 @@ msgstr ""
 #: data/nation/colombian.ruleset:21
 #: data/nation/swiss.ruleset:19
 msgid "General"
-msgstr "Jeneral"
+msgstr "General"
 
 #: data/nation/colombian.ruleset:22
 #: data/nation/venezuelan.ruleset:27
@@ -20234,11 +20242,11 @@ msgstr ""
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr "Konfederasyonlu"
+msgstr "Amerika Konfederasyonu"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr "?plural:Konfederasyonlular"
+msgstr "Konfederasyonlular"
 
 #: data/nation/confederate.ruleset:6
 msgid "The Confederate States of America was a splinter nation of the United States during the American Civil War. It was formed in 1861 by six Southern states but had to abandon their claims of independence a few years later after several military defeats by United States troops."
@@ -20246,11 +20254,11 @@ msgstr ""
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr "Kornvallı"
+msgstr "Kornval"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr "?plural:Kornvallılar"
+msgstr "Kornvallılar"
 
 #: data/nation/cornish.ruleset:6
 msgid "Cornwall is a region in the extreme southwest of England, traditionally the home of the legendary King Arthur."
@@ -20271,7 +20279,7 @@ msgstr "Hırvat"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr "?plural:Hırvatlar"
+msgstr "Hırvatlar"
 
 #: data/nation/croatian.ruleset:6
 msgid "Croatia is the region of the Southern Slavs that was held by the Austro-Hungarian Empire, rather than coming under Ottoman rule after the collapse of Byzantium. During most of the 20th century it was part of the Yugoslav Federation."
@@ -20279,11 +20287,11 @@ msgstr ""
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
-msgstr "Kubalı"
+msgstr "Küba"
 
 #: data/nation/cuban.ruleset:4
 msgid "?plural:Cubans"
-msgstr "?plural:Kubalılar"
+msgstr "Kübalılar"
 
 #: data/nation/cuban.ruleset:6
 msgid "Cuba came under Spanish control in the 16th century. In the following centuries, the island became one of the leading producers of tobacco, sugar and coffee in the world. Cuba was granted nominal independence in 1902."
@@ -20295,7 +20303,7 @@ msgstr "Çek"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr "?plural:Çekler"
+msgstr "Çekler"
 
 #: data/nation/czech.ruleset:6
 msgid "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been until 1918 part of the Austro-Hungarian Empire."
@@ -20311,11 +20319,11 @@ msgstr ""
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr "Danimarkalı"
+msgstr "Danimarka"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr "?plural:Danimarkalı"
+msgstr "Danimarkalılar"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
@@ -20326,11 +20334,11 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr "hollandalı"
+msgstr "Hollanda"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr "?plural:hollandalılar"
+msgstr "Hollandalılar"
 
 #: data/nation/dutch.ruleset:6
 msgid "When the Holy Roman Emperor sentenced the entire population to death, the people of the Netherlands revolted and declared themselves independent, forming the Union of Utrecht in 1579. The Netherlands grew to be a dominant maritime and economic power in the 17th century."
@@ -20338,13 +20346,14 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr "Mısırlı"
+msgstr "Mısır"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr "?plural:Mısırlılar"
+msgstr "Mısırlılar"
 
 #: data/nation/egyptian.ruleset:6
+#, fuzzy
 msgid "Egypt was the second-oldest of the world's civilizations.  Since ancient times it has been unusually urbanized, supporting a large population on silt deposited by the annual floodings of the Nile."
 msgstr "Mısır Kuzey Afrika'nın en kalabalık ülkesidir. Nüfusun büyük bir bölümü Nil Nehri boyunca yerleşmiştir. Mısır tarihi ve medeniyeti 7.000 yılık bir geçmişe sahiptir."
 
@@ -20362,7 +20371,7 @@ msgstr "İngiliz"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "?plural:İngilizler"
+msgstr "İngilizler"
 
 #: data/nation/english.ruleset:6
 msgid "England was unified by Alfred the Great of Wessex in the late 9th century AD, only to be conquered by William of Normandy a century later, in the last successful invasion of the country."
@@ -20378,25 +20387,27 @@ msgstr ""
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "Estonyalı"
+msgstr "Estonya"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr "?plural:Estonyalılar"
+msgstr "Estonyalılar"
 
 #: data/nation/estonian.ruleset:6
+#, fuzzy
 msgid "Estonia is a small country on the south shore of the eastern Baltic Sea.  Its people and language are closely related to those of Finland."
 msgstr "Estonya Kuzey Avrupa'da bulunan bir Baltık Devleti'dir. Estonya 1227'de Almanlar'ın Kılıç Kardeşliği ve Danimarkalılar tarafından fethedilmesiyle Hristiyanlaştılırmıştır. Estonya tarihin değişik dönemlerinde Danimarka, İsveç, Polonya ve Rusya egemenliği altına girmiştir."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr "Etyopyalı"
+msgstr "Etiyopya"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
-msgstr "?plural:Etyopyalılar"
+msgstr "Etiyopyalılar"
 
 #: data/nation/ethiopian.ruleset:6
+#, fuzzy
 msgid "Ethiopia is the oldest nation in Africa and the only one to remain independent during European colonialism."
 msgstr "Etiyopya, M.Ö. 1237 yılında kurulmuştur, Afrika'nın ve dünyanın en eski bağımsız uluslarındandır. 1936-1941 yılları arasında İtalya'nın işgali dışında hiçbir ülkeye bağımlı olmamış, tarih kayıtlarında hakkında çok şey aktarılmış bir ülkedir."
 
@@ -20406,11 +20417,11 @@ msgstr "Hükümdar"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "Filipin"
+msgstr "Filipinler"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "?plural:Filipinler"
+msgstr "Filipinliler"
 
 #: data/nation/filipino.ruleset:7
 msgid "After centuries of Spanish rule, the Philippines were ceded to the Americans in 1898. They attained home rule in 1935 and independence in 1946."
@@ -20418,13 +20429,14 @@ msgstr ""
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr "Finlandiyalı"
+msgstr "Finlandiya"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr "?plural:Finlandiyalılar"
+msgstr "Finlandiyalılar"
 
 #: data/nation/finnish.ruleset:6
+#, fuzzy
 msgid "Finland is a small, cold country on the northern fringe of Europe, noted for exporting timber, cellular phones, and world-class operating systems."
 msgstr "Finlandiya Cumhuriyeti Kuzey Avrupa'da Baltık Denizi kıyısında bir ülkesi. İskandinavya yarım adasındadır. Nefis cep telefonları ve işlem sistemleri üretiyorlar."
 
@@ -20434,7 +20446,7 @@ msgstr "Fransız"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr "?plural:Fransızlar"
+msgstr "Fransızlar"
 
 #: data/nation/french.ruleset:6
 msgid "France has long been a major power in Europe. French conquerer kings like Napoleon and Charlemagne each united large parts of Europe under the French flag."
@@ -20446,11 +20458,11 @@ msgstr ""
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr "Galiçyalı"
+msgstr "Galiçya"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr "?plural:Galiçyalılar"
+msgstr "Galiçyalılar"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -20496,9 +20508,10 @@ msgstr "Gal"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
-msgstr "?plural:Galler"
+msgstr "Galler"
 
 #: data/nation/gallic.ruleset:6
+#, fuzzy
 msgid "The Gauls were a Celtic people occupying what is now France and Belgium."
 msgstr "Galya günümüzde başta Fransa olmak üzere Batı Avrupa'nın büyük bir bölümüne tarihte verilen isimdi. Galya'nın sınırları Fransa'nın yanısıra günümüzdeki Kuzey İtalya, Belçika, İsviçre'nin batısı, Hollanda'nın bazı kısımlarıyla Almanya'daki Ren Nehri'nin batı kıyısındaki bölgeleri de içeriyordu."
 
@@ -20508,13 +20521,14 @@ msgstr "Druid"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr "Gürcistanlı"
+msgstr "Gürcistan"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
-msgstr "?plural:Gürcistanlılar"
+msgstr "Gürcistanlılar"
 
 #: data/nation/georgian.ruleset:6
+#, fuzzy
 msgid "The Georgians were one of the first peoples in history to adopt Christianity, in the 300s AD."
 msgstr "Gürcistan, MS 337'de Hıristiyanlığı kabul ettikten sonra, üç yüz yıl boyunca Bizans ve Pers imparatorlukları arasındaki savaşlara sahne oldu."
 
@@ -20524,7 +20538,7 @@ msgstr "Alman"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr "?plural:Almanlar"
+msgstr "Almanlar"
 
 #: data/nation/german.ruleset:7
 msgid "Germany was united in 1871 by the Prussian military force.  After World War I it became a republic, but fell into Nazism 1933 and started World War II.  After the war it was split into two states, which reunited in 1990 at the end of the Cold War."
@@ -20540,11 +20554,11 @@ msgstr ""
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "Yunanlı"
+msgstr "Yunan"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr "?plural:Yunanlılar"
+msgstr "Yunanlılar"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
@@ -20552,7 +20566,7 @@ msgstr ""
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
-msgstr "İstibdatçı"
+msgstr "Despot"
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
@@ -20560,7 +20574,7 @@ msgstr "Helen"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr "?plural:Helenler"
+msgstr "Helenler"
 
 #: data/nation/hellenic.ruleset:6
 msgid "The Hellenic Republic - also known as Greece - was created when the Hellenic people gained independence from the Ottoman Empire in 1832."
@@ -20572,9 +20586,10 @@ msgstr "Hitit"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
-msgstr "?plural:Hititler"
+msgstr "Hititliler"
 
 #: data/nation/hittite.ruleset:6
+#, fuzzy
 msgid "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the first civilisation to discover iron working. At its height, they controlled central Anatolia, north-western Syria and Mesopotamia down to Babylon."
 msgstr "Hititler, tarihte Anadolu'da devlet kurmuş bir halk. M.Ö. 1680 yıllarında Anadolu'ya göç ederek yerli Hatti Beylikleri üzerinde hakimiyet kurdukları bilinmektedir. Murşili istilalara güneyde devam ederek ve Suriye’deki şehir devletlerini devreden çıkartarak, Mezopotamya ticaret yollarını kontrol altına aldı. Ordu Babil'e kadar ilerledi."
 
@@ -20584,7 +20599,7 @@ msgstr "Macar"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr "?plural:Macarlar"
+msgstr "Macarlar"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
@@ -20592,23 +20607,24 @@ msgstr ""
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr "İzlandalı"
+msgstr "İzlanda"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
-msgstr "?plural:İzlandalılar"
+msgstr "İzlandalılar"
 
 #: data/nation/icelandic.ruleset:6
+#, fuzzy
 msgid "Iceland was long one of the largest uninhabited islands in the world, until it was settled by Norwegian Vikings in the late 9th century. The island was kept initially under the Norwegian and later the Danish crown until independence from Denmark in 1944."
 msgstr "İzlanda'ya ilk yerleşim konusunda değişik fikirler mevcut olsa da, ilk büyük yerleşim, 9. yüzyılda, Norveç'ten kaçan Vikingler ve onların yanlarında getirdikleri İrlandalı ve İskoçyalılar tarafından yapılmıştır. 14. yüzyıla kadar bağımsız kalan ülke, bu zamanda Norveç-Danimarka krallığının bir parçası oldu. 19. yüzyılda bağımsızlık anlayışının güçlenmesiyle, 1944'te İzlanda Cumhuriyet kuruldu."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr "İlliryalı"
+msgstr "İllirya"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
-msgstr "?plural:İlliryalılar"
+msgstr "İlliryalılar"
 
 #: data/nation/illyrian.ruleset:6
 msgid "Illyrians were Indo-European tribes who appeared in the  western part of the Balkan Peninsula before 1000 BC,  including the Dalmatians to the north,  Corcyra island and Ambracia bay in prehistoric Epirus to the south,  mixing with Thracians in Dardania to the east,  and settling Messapia across the Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until conquered by the Roman Republic."
@@ -20616,11 +20632,11 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr "Inka"
+msgstr "İnka"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr "?plural:Inkalar"
+msgstr "İnkalar"
 
 #: data/nation/inca.ruleset:6
 msgid "The Inca were an Amerind people of the Northern Andes who conquered an empire stretching along the west coast of South America from what is now southern Chile nearly to the Equator. They had the bad timing to do it just a few decades before the Spanish conquistadors arrived in their part of the world in the mid-1500s AD."
@@ -20628,7 +20644,7 @@ msgstr ""
 
 #: data/nation/inca.ruleset:23
 msgid "?title:Inca"
-msgstr "?title:Inka"
+msgstr "İnka"
 
 #: data/nation/inca.ruleset:24
 msgid "Sapa Inca"
@@ -20636,11 +20652,11 @@ msgstr "Sapa İnka"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "Hintli"
+msgstr "Hint"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr "?plural:Hintliler"
+msgstr "Hintliler"
 
 #: data/nation/indian.ruleset:6
 msgid "The cradle of Ancient Indian civilization lay in the Indus river valley in modern-day Pakistan."
@@ -20660,11 +20676,11 @@ msgstr "Mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr "Endonezyalı"
+msgstr "Endonezya"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
-msgstr "?plural:Endonezyalılar"
+msgstr "Endonezyalılar"
 
 #: data/nation/indonesian.ruleset:6
 msgid "Indonesia is a large country on the Malay Archipelago with central government on the island of Java. The country has a Muslim majority and is one of the most populous in the world."
@@ -20676,7 +20692,7 @@ msgstr "İnuit"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr "?plural:İnuitlar"
+msgstr "İnuitlar"
 
 #: data/nation/inuit.ruleset:6
 msgid "The Inuit people inhabits northern Canada and Greenland. Legend says that the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the west coast of Greenland in the 10th century. All Inuit of today are descendents of the Thule culture."
@@ -20692,23 +20708,24 @@ msgstr "Büyük Şaman"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
-msgstr "Iraklı"
+msgstr "Irak"
 
 #: data/nation/iraqi.ruleset:4
 msgid "?plural:Iraqis"
-msgstr "?plural:Iraklılar"
+msgstr "Iraklılar"
 
 #: data/nation/iraqi.ruleset:6
+#, fuzzy
 msgid "Iraq was founded after the fall of the Ottoman empire. It is encompassing the ancient region of Mesopotamia at the confluence of the Tigris and Euphrates rivers."
 msgstr "Irak, Osmanlı Devleti'nin çöküşünün ardından Ortadoğu'da Mezopotamya bölgesinde kurulmuş ve Fırat-Dicle Havzasını kontrolü altına alan bir devletidir."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr "İrlandalı"
+msgstr "İrlanda"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "?plural:İrlandalılar"
+msgstr "İrlandalılar"
 
 #: data/nation/irish.ruleset:6
 msgid "Ireland held out against the Romans and Vikings but was conquered by the Normans in 1171.  It was ruled by the English until 1922 when most of the country was granted limited autonomy, becoming a republic in 1949.  The North of Ireland was settled in the 17th century by Scottish and English planters and is now part of the United Kingdom."
@@ -20736,7 +20753,7 @@ msgstr "İrokez"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr "?plural:Iİokezler"
+msgstr "İrokezler"
 
 #: data/nation/iroquois.ruleset:6
 msgid "The Iroquois Confederacy - known as Haudenosaunee in their own language - was a North American group of nations with common language and culture. They were based in what is now upstate New York and consisted originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a written constitution and a currency system making them the most advanced state in North America upon the arrival of the Europeans."
@@ -20759,15 +20776,15 @@ msgstr "Sözcü"
 #: data/nation/sioux.ruleset:30
 #: data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr "Kadın Sözcüsü"
+msgstr "Sözcü"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "İsrailli"
+msgstr "İsrail"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "?plural:İsrailliler"
+msgstr "İsrailliler"
 
 #: data/nation/israeli.ruleset:6
 msgid "The nation of Israel was founded in 1948 as a scattered collection of cantons in British Palestine, and has gradually expanded through winning a series of wars launched against it in 1948, 1967 and 1973."
@@ -20779,7 +20796,7 @@ msgstr "İtalyan"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr "?plural:İtalyanlar"
+msgstr "İtalyanlar"
 
 #: data/nation/italian.ruleset:6
 msgid "The Italian nation was unified in 1870AD after decades of campaigning by indigenous nationalists. It was a monarchy under the House of Savoy until 1922, then a fascist state until 1945 after which democracy was restored by the WWII victors."
@@ -20791,7 +20808,7 @@ msgstr "Japon"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
-msgstr "?plural:Japonlar"
+msgstr "Japonlar"
 
 #: data/nation/japanese.ruleset:6
 msgid "According to traditional Japanese mythology, Japan was founded in the 7th century BC by the ancestral Emperor Jimmu."
@@ -20809,11 +20826,11 @@ msgstr "Şogun"
 
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr "Kamboçyalı"
+msgstr "Kamboçya"
 
 #: data/nation/kampuchean.ruleset:4
 msgid "?plural:Kampucheans"
-msgstr "?plural:Kamboçyalılar"
+msgstr "Kamboçyalılar"
 
 #: data/nation/kampuchean.ruleset:6
 msgid "Kampuchea is the modern successor state of the mighty Khmer Empire, which ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
@@ -20834,11 +20851,11 @@ msgstr ""
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr "Kenyalı"
+msgstr "Kenya"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "?plural:Kenyalılar"
+msgstr "Kenyalılar"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -20850,11 +20867,11 @@ msgstr "Nabongo"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr "Koreli"
+msgstr "Kore"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr "?plural:Koreliler"
+msgstr "Koreliler"
 
 #: data/nation/korean.ruleset:6
 msgid "According to legend, the first Korean kingdom was founded in prehistory by the ancestral Tangun in southern Manchuria. The Korean kingdoms was united in 668 by king Munmu. Today the Korean peninsula is divided into two states, North and South Korea as a result of the stalemate after the Korean war in 1953."
@@ -20867,11 +20884,11 @@ msgstr "Büyük Önder"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr "Sri Lankalı"
+msgstr "Sri Lanka"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
-msgstr "?plural:Sri Lankalılar"
+msgstr "Sri Lankalılar"
 
 #: data/nation/lankese.ruleset:6
 msgid "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India during the 6th century BC and founded the Sinhalese kingdom there. During British colonialism the country was known as Ceylon."
@@ -20901,11 +20918,11 @@ msgstr ""
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr "Letonyalı"
+msgstr "Letonya"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr "?plural:Letonyalılar"
+msgstr "Letonyalılar"
 
 #: data/nation/latvian.ruleset:7
 msgid "In the aftermath of WWI Latvia proclaimed its independence from Russia. In 1940, Latvia was forcibly occupied by the Soviet Union. After the collapse of Soviet Union in 1991 Latvia restored its independence."
@@ -20913,11 +20930,11 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr "Libyalı"
+msgstr "Libya"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
-msgstr "?plural:Libyalılar"
+msgstr "Libyalılar"
 
 #: data/nation/libyan.ruleset:6
 msgid "The region that is now Libya was a Roman colony until it was conquered by the Arab civilization in the 7th century. In 1912 it came under the control of Italy and after the Second World War Libya was granted independence as a condition of the Allied peace treaty with Italy."
@@ -20933,11 +20950,11 @@ msgstr "Albay"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "Litvanyalı"
+msgstr "Litvanya"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "?plural:Litvanyalılar"
+msgstr "Litvanyalılar"
 
 #: data/nation/lithuanian.ruleset:6
 msgid "Lithuania is a small country on the south coast of the Baltic Sea, northeast of Poland.  Lithuanian is the most archaic and complex of the northern Indo-European languages"
@@ -20953,11 +20970,11 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr "Madagaskarlı"
+msgstr "Madagaskar"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
-msgstr "?plural:Madagaskarlılar"
+msgstr "Madagaskarlılar"
 
 #: data/nation/malagasy.ruleset:6
 msgid "The Malagasy are the people of Madagascar. For centuries, tribes from Indonesia, East Africa and the Arab world have gathered on the island."
@@ -20969,11 +20986,11 @@ msgstr ""
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr "Malezyalı"
+msgstr "Malezya"
 
 #: data/nation/malaysian.ruleset:4
 msgid "?plural:Malaysians"
-msgstr "?plural:Malezyalılar"
+msgstr "Malezyalılar"
 
 #: data/nation/malaysian.ruleset:6
 msgid "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in the early 14th century."
@@ -20988,7 +21005,7 @@ msgstr "Sultan"
 #: data/nation/malaysian.ruleset:22
 #: data/nation/turk.ruleset:27
 msgid "Sultana"
-msgstr "Sultana"
+msgstr "Sultan"
 
 #: data/nation/malaysian.ruleset:23
 msgid "Tun"
@@ -20996,11 +21013,11 @@ msgstr ""
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
-msgstr "Malili"
+msgstr "Mali"
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
-msgstr "?plural:Malililer"
+msgstr "Malililer"
 
 #: data/nation/malian.ruleset:6
 msgid "Sub-Saharan Africa has been a cultural and ethnical melting pot for millennia. In medieval times, the region was home to a succession of empires called the Sahelian kingdoms. Of these, the Islamic Mali empire with it's capital in Timbuktu was the most influential. This empire reigned from the 14th to the 17th century and was famed for it's wealth and benevolent kings. The modern Republic of Mali derives its name from this empire."
@@ -21016,7 +21033,7 @@ msgstr "Mançu"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr "?plural:Mançular"
+msgstr "Mançular"
 
 #: data/nation/manchu.ruleset:6
 msgid "The Manchus were a semi-nomadic people originating from the region called Manchuria in Northeast Asia. In the 17th century they conquered and ruled China as the Manchu Empire until 1911."
@@ -21028,7 +21045,7 @@ msgstr "Maori"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
-msgstr "?plural:Maoriler"
+msgstr "Maoriler"
 
 #: data/nation/maori.ruleset:6
 msgid "The Maori are a Polynesian people that migrated to and settled the island group that is now New Zealand. According to archeological evidence, the migration commenced in the 900s and continued until the 1400s."
@@ -21036,11 +21053,11 @@ msgstr ""
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
-msgstr "Marslı"
+msgstr "Mars"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
-msgstr "?plural:Marslılar"
+msgstr "Marslılar"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
@@ -21052,7 +21069,7 @@ msgstr "Maya"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
-msgstr "?plural:Mayalar"
+msgstr "Mayalar"
 
 #: data/nation/mayan.ruleset:6
 msgid "The Mayans were a Mesoamerican civilization. Famous for building great pyramids and palaces in the jungle."
@@ -21064,11 +21081,11 @@ msgstr ""
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
-msgstr "Meksikalı"
+msgstr "Meksika"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
-msgstr "?plural:Meksikalılar"
+msgstr "Meksikalılar"
 
 #: data/nation/mexican.ruleset:6
 msgid "Mexico borrows its name from the Mexica people, another name for the Aztecs."
@@ -21080,7 +21097,7 @@ msgstr "Moğol"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr "?plural:Moğolllar"
+msgstr "Moğolllar"
 
 #: data/nation/mongol.ruleset:6
 msgid "In the centuries after their unification by Genghis Khan, the Mongols conquered the largest empire in human history, encompassing most of the continent of Asia.  They became notorious for the utter ruthlessness in warfare."
@@ -21094,15 +21111,15 @@ msgstr "Han"
 #: data/nation/mongol.ruleset:30
 #: data/nation/uyghur.ruleset:30
 msgid "Khagan"
-msgstr ""
+msgstr "Kağan"
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr "Yeni Zelandalı"
+msgstr "Yeni Zelanda"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
-msgstr "?plural:Yeni Zelandalılar"
+msgstr "Yeni Zelandalılar"
 
 #: data/nation/newzealand.ruleset:7
 msgid "The island group of New Zealand was annexed by Britain in 1840. Following a royal proclamation in 1907, the country became an independent dominion within the Commonwealth of Nations."
@@ -21110,11 +21127,11 @@ msgstr ""
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr "Nijeryalı"
+msgstr "Nijerya"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
-msgstr "?plural:Nijeryalılar"
+msgstr "Nijeryalılar"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
@@ -21122,11 +21139,11 @@ msgstr ""
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
-msgstr "Norveçli"
+msgstr "Norveç"
 
 #: data/nation/norwegian.ruleset:4
 msgid "?plural:Norwegians"
-msgstr "?plural:Norveçliler"
+msgstr "Norveçliler"
 
 #: data/nation/norwegian.ruleset:6
 msgid "After centuries of Danish rule, the Norwegians made their own constitution in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their independence after a union with Sweden."
@@ -21138,7 +21155,7 @@ msgstr "Osmanlı"
 
 #: data/nation/ottoman.ruleset:4
 msgid "?plural:Ottomans"
-msgstr "?plural:Osmanlılar"
+msgstr "Osmanlılar"
 
 #: data/nation/ottoman.ruleset:6
 msgid "In the beginning of the 14th century Osman, a leader of a minor Turkic tribe in western Anatolia, conquered all his neigboring tribes. A century later the Byzantine capital fell to Turkic rule which gave the Ottoman empire access to Europe. The Ottomans subsequently conquered large parts of south-eastern Europe, the Islamic Arab world as well as Egypt and much of north Africa, making it a regional superpower until its dissolution in the aftermath of WWI."
@@ -21163,11 +21180,11 @@ msgstr "İmparator"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr "Papualı"
+msgstr "Papua"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr "?plural:Papualılar"
+msgstr "Papualılar"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -21179,11 +21196,11 @@ msgstr ""
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr "Farsi"
+msgstr "Pers"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr "?plural:Faslılar"
+msgstr "Persliler"
 
 #: data/nation/persian.ruleset:6
 msgid "The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; the second (Sassanid) from 226AD to 642AD."
@@ -21195,7 +21212,7 @@ msgstr "Şah"
 
 #: data/nation/persian.ruleset:21
 msgid "Shahbanu"
-msgstr ""
+msgstr "Şahbanu"
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
@@ -21203,11 +21220,11 @@ msgstr "Ayetullah"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "Finikeli"
+msgstr "Finike"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
-msgstr "?plural:Finikeliler"
+msgstr "Finikeliler"
 
 #: data/nation/phoenician.ruleset:6
 msgid "Phoenicia was an ancient civilization, based in what is now the coastal regions of Lebanon and Syria."
@@ -21215,11 +21232,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Polonyalı"
+msgstr "Polonya"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
-msgstr "?plural:Polonyalılar"
+msgstr "Polonyalılar"
 
 #: data/nation/polish.ruleset:6
 msgid "The Polish state was formed about a millennium ago, and reached its Golden Age near the end of the 16th century."
@@ -21231,7 +21248,7 @@ msgstr "Diktatör"
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktatorka"
-msgstr ""
+msgstr "Diktatör"
 
 #: data/nation/polish.ruleset:27
 msgid "Prymas"
@@ -21243,11 +21260,11 @@ msgstr ""
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr "Portekizli"
+msgstr "Portekiz"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr "?plural:Portekizliler"
+msgstr "Portekizliler"
 
 #: data/nation/portuguese.ruleset:6
 msgid "Portugal founded the first of the great mercantile empires in the 1400s on the shipbuilding advances funded by Prince Henry the Navigator."
@@ -21255,11 +21272,11 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "Quebec'li"
+msgstr "Quebec"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr "?plural:Quebec'liler"
+msgstr "Quebecliler"
 
 #: data/nation/quebecois.ruleset:6
 msgid "Quebec is the largest province of Canada, housing the majority of the Francophone population of America."
@@ -21267,11 +21284,11 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
-msgstr "Romanyalı"
+msgstr "Romanya"
 
 #: data/nation/romanian.ruleset:4
 msgid "?plural:Romanians"
-msgstr "?plural:Romanyalılar"
+msgstr "Romanyalılar"
 
 #: data/nation/romanian.ruleset:6
 msgid "Romania as a nation was formed at the beginning of the 20th century, when the states of Transylvania, Wallachia, and Moldavia merged. It is a country inhabited by people speaking a language reminiscent from the time of ancient Rome. It's history is convoluted as it was always at the borders of great empires: Roman, Ottoman, Austro-Hungarian, and Russian."
@@ -21307,11 +21324,11 @@ msgstr "Tovarasa"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr "Romalı"
+msgstr "Roma"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr "?plural:Romalı"
+msgstr "Romalılar"
 
 #: data/nation/roman.ruleset:6
 msgid "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome controlled nearly all of Europe, northern Africa and Mesopotamia."
@@ -21323,7 +21340,7 @@ msgstr "Rus"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "?plural:Ruslar"
+msgstr "Ruslar"
 
 #: data/nation/russian.ruleset:6
 msgid "According to legend, Slavic and Finnic tribes of Novgorod invited in the year 862 the Varangian (Viking) king Rurik to bring order to their land. Rurik established Kievan Rus in this realm, the first Russian state. By the 11th century, Kievan Rus had disintegrated into lesser princedoms, which were once again united into one state by Ivan III in the 15th century. After decisive victory over Sweden and large territorial gains, Peter I pronounced the Russian Empire in 1721. The Russian Empire lasted until 1917 when a socialist revolution dethroned the last Russian emperor. After USSR dissolution in 1991 Russia appeared on world map again, now as a federative republic."
@@ -21345,19 +21362,19 @@ msgstr "Çar"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsaritsa"
-msgstr ""
+msgstr "Çar"
 
 #: data/nation/russian.ruleset:49
 msgid "Matriarch"
-msgstr "Hanımağa"
+msgstr "Matrişya"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr "Ryukyulu"
+msgstr "Ryukyu"
 
 #: data/nation/ryukyuan.ruleset:4
 msgid "?plural:Ryukyuans"
-msgstr "?plural:Ryukyulular"
+msgstr "Ryukyulular"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful maritime trading nation eventually invaded, occupied, and annexed by Japan."
@@ -21377,7 +21394,7 @@ msgstr "Sami"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
-msgstr "?plural:Sami"
+msgstr "Samiler"
 
 #: data/nation/sami.ruleset:6
 msgid "The Sami are a people of northern Scandinavia. Their nation spans over the northernmost regions of the Scandinavian countries: Finnmark of Norway and Lapland of Sweden and Finland."
@@ -21389,11 +21406,11 @@ msgstr "Noaydde"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr "İskotçalı"
+msgstr "İskoç"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr "?plural:İskotçalılar"
+msgstr "İskoçyalılar"
 
 #: data/nation/scottish.ruleset:6
 msgid "Scotland, originally settled in late Roman times by Irish raiders who displaced the native Picts, was an independent kingdom from around 1034AD to the Union of Crowns with England in 1701."
@@ -21409,7 +21426,7 @@ msgstr "Sırp"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr "?plural:Sırplar"
+msgstr "Sırplar"
 
 #: data/nation/serbian.ruleset:6
 msgid "Serbia is part of the region of the Southern Slavs that was conquered by the Ottomans after the collapse of the Byzantine Empire.  During most of the 20th century it was part of the Yugoslav Federation."
@@ -21417,11 +21434,11 @@ msgstr ""
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr "Silezyalı"
+msgstr "Silezya"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr "?plural:Silezyalılar"
+msgstr "Silezyalılar"
 
 #: data/nation/silesian.ruleset:6
 msgid "Silesia is a region of southern Poland that was at one time an independent kingdom."
@@ -21429,11 +21446,11 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr "Singapurlu"
+msgstr "Singapur"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "?plural:Singapurlular"
+msgstr "Singapurlular"
 
 #: data/nation/singaporean.ruleset:18
 msgid "Singapore is a mercantile city-state located at the southernmost tip of the Malaysian Peninsula."
@@ -21441,7 +21458,7 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:32
 msgid "Encik"
-msgstr "Encik"
+msgstr ""
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -21449,7 +21466,7 @@ msgstr "Siyu"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr "?plural:Siyular"
+msgstr "Siyular"
 
 #: data/nation/sioux.ruleset:6
 msgid "The Sioux was a North American nation that fought several decisive battles against the United States. It consisted of three distinct groups of tribes: the Lakota, the Dakota and the Nakota."
@@ -21461,7 +21478,7 @@ msgstr "Sloven"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr "?plural:Slovenler"
+msgstr "Slovenler"
 
 #: data/nation/slovenian.ruleset:6
 msgid "Slovenia was the most western and northern republic of the old Yugoslav Federation."
@@ -21473,7 +21490,7 @@ msgstr "Slovak"
 
 #: data/nation/slovakian.ruleset:4
 msgid "?plural:Slovakians"
-msgstr "?plural:Slovaklar"
+msgstr "Slovaklar"
 
 #: data/nation/slovakian.ruleset:6
 msgid "Slovakia is a country in the heart of Europe. Formerly part of Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
@@ -21481,19 +21498,19 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:29
 msgid "Pope"
-msgstr "Papaz"
+msgstr "Papa"
 
 #: data/nation/slovakian.ruleset:29
 msgid "Priestess"
-msgstr ""
+msgstr "Rahibe"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
-msgstr "Güney Afrikalı"
+msgstr "Güney Afrika"
 
 #: data/nation/southafrican.ruleset:4
 msgid "?plural:South Africans"
-msgstr "?plural:Güney Afrikalılar"
+msgstr "Güney Afrikalılar"
 
 #: data/nation/southafrican.ruleset:6
 msgid "Dutch settlers began colonizing southern Africa in the 17th century. After many wars between primarily Boers (descendants of Dutch settlers), British forces and Zulus, the Union of South Africa was created in 1910. The South African government became notorious for its \"apartheid\" policy of legal inequality based on the color of a citizen's skin. Following the adoption of the country's first non-racial constitution in 1994, long-time political prisoner Nelson Mandela was elected the first truly democratically elected president of South Africa."
@@ -21505,7 +21522,7 @@ msgstr "Sovyet"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr "?plural:Sovyetler"
+msgstr "Sovyetler"
 
 #: data/nation/soviet.ruleset:6
 msgid "Soviet Union's history starts in November 1917, when under Lenin's leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet republics integrated into one country. Soviet Union became one of most powerful states in the 20th century. But by the end of 1991 due to many social shocks it disintegrated into fifteen independent countries"
@@ -21517,7 +21534,7 @@ msgstr "İspanyol"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr "?plural:İspanyollar"
+msgstr "İspanyollar"
 
 #: data/nation/spanish.ruleset:6
 msgid "The modern Spanish nation was formed when the rulers of the kingdoms of Castille and Aragon led the recapture of the Iberian peninsula from the Moslems.  The Reconquista was completed in 1492AD, the same year Columbus sailed."
@@ -21537,11 +21554,11 @@ msgstr "Kardinal"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr "Sudanlı"
+msgstr "Sudan"
 
 #: data/nation/sudanese.ruleset:4
 msgid "?plural:Sudanese"
-msgstr "?plural:Sudanlılar"
+msgstr "Sudanlılar"
 
 #: data/nation/sudanese.ruleset:6
 msgid "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became independent in 1956."
@@ -21553,7 +21570,7 @@ msgstr "Sümer"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
-msgstr "?plural:Sümerler"
+msgstr "Sümerler"
 
 #: data/nation/sumerian.ruleset:6
 msgid "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets of Sumerian writing some 5500 years old have been found, pre-dating every other writing in history."
@@ -21569,7 +21586,7 @@ msgstr "Svazi"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
-msgstr "?plural:Svaziler"
+msgstr "Svaziler"
 
 #: data/nation/swazi.ruleset:6
 msgid "The Swazis is a Bantu people of southern Africa. Under the leadership of Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized the southern frontier with the Zulus."
@@ -21585,11 +21602,11 @@ msgstr "Indovuzaki"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr "İsveçli"
+msgstr "İsveç"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "?plural:İsveçliler"
+msgstr "İsveçliler"
 
 #: data/nation/swedish.ruleset:6
 msgid "The Kingdom of Sweden was christianized and consolidated as a political entity by the 12th century AD. The country rose to prominence as one of the great powers of Europe in the 17th century, following substantial military conquests by the so called Warrior Kings. However, due to a worsening economy and several disastrous defeats to Russia, Sweden soon lost most of its gained territory. The country has not been involved in an armed conflict since 1814."
@@ -21597,11 +21614,11 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
-msgstr "İsviçreli"
+msgstr "İsviçre"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
-msgstr "?plural:İsviçreli"
+msgstr "İsviçreliler"
 
 #: data/nation/swiss.ruleset:6
 msgid "Switzerland is a federation of cantons, some of which have more than 700 years of history as a confederacy."
@@ -21638,11 +21655,11 @@ msgstr ""
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr "Tayvanlı"
+msgstr "Tayvan"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
-msgstr "?plural:Tayvanlılar"
+msgstr "Tayvanlılar"
 
 #: data/nation/taiwanese.ruleset:6
 msgid "When the Chinese nationalists lost the armed struggle against the Chinese communists, the nationalist government evacuated to the island of Taiwan where they formed the Republic of China."
@@ -21650,11 +21667,11 @@ msgstr ""
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
-msgstr "Texaslı"
+msgstr "Teksas"
 
 #: data/nation/texan.ruleset:4
 msgid "?plural:Texans"
-msgstr "?plural:Texaslılar"
+msgstr "Teksaslılar"
 
 #: data/nation/texan.ruleset:6
 msgid "Texas is second largest and second most populous state of the USA, famous for it's \"larger than life\" cowboy mentality."
@@ -21662,11 +21679,11 @@ msgstr ""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
-msgstr "Taylandlı"
+msgstr "Tayland"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
-msgstr "?plural:Taylandlılar"
+msgstr "Taylandlılar"
 
 #: data/nation/thai.ruleset:6
 msgid "The Thai kingdom was the only country in Southeast Asia to preserve its independence throught the colonial era of the 18th and 19th centuries AD."
@@ -21674,11 +21691,11 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr "Tibetli"
+msgstr "Tibet"
 
 #: data/nation/tibetan.ruleset:4
 msgid "?plural:Tibetans"
-msgstr "?plural:Tibetliler"
+msgstr "Tibetliler"
 
 #: data/nation/tibetan.ruleset:6
 msgid "The Tibetan homeland is sometimes called the \"Roof of the World\", the highest elevated region in the world. In the 7th century, Tibet emerged as a formidable empire under the leadership of king Songtsen Gampo, being recognized by both China and India. This dynasty lasted until the 11th century, when Tibet was overrun by the Mongols. Centuries later when Mongol rule had weakened, Lozang Gyatso - born 1617 and the 5th Dalai Lama - established a buddhist religious state under the control of the Gelugpa school of Tibetan Buddhism."
@@ -21694,11 +21711,11 @@ msgstr "Dalay Lama"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
-msgstr "Tunuslu"
+msgstr "Tunus"
 
 #: data/nation/tunisian.ruleset:4
 msgid "?plural:Tunisians"
-msgstr "?plural:Tunuslular"
+msgstr "Tunuslular"
 
 #: data/nation/tunisian.ruleset:6
 msgid "The Phoenicians founded Carthage in the area where Tunisia is today. Carthage later became a major power in the Mediterranean region until it was defeated by the Romans in 146 BC. Later the Arab Muslim conquest in the 7th century led to migration from the Arab and Ottoman countries. But there where also a lot of Jews and Spanish Moors who moved there at the end of the 16th century. Tunisia became mostly autonomous from the Ottoman empire in 1861. But in 1881 Tunisia was invaded by the French and was made a French protectorate. The country became independent in 1956."
@@ -21710,19 +21727,20 @@ msgstr "Türk"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr "?plural:Türkler"
+msgstr "Türkler"
 
 #: data/nation/turk.ruleset:7
+#, fuzzy
 msgid "Modern Turkey is the successor state of the Ottoman Empire, which collapsed and was dismembered by the victors in World War I after backing the Central Powers.  The country was subsequently reformed and secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
 msgstr "Türkiye, rejimi demokrasi olan bir cumhuriyettir. Osmanlı Devleti'nin I. Dünya Savaşı sonunda 20. yüzyıl başında yıkılmasından sonra, 1923 yılında Türk Kurtuluş Savaşı ile, Mustafa Kemal Atatürk önderliğinde kurulmuştur. Türkiye, Müslüman çoğunluğa sahip ülkeler arasında en gelişmiş ve modern ülke hâline gelmiştir."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "Ukraynalı"
+msgstr "Ukrayna"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr "?plural:Ukraynalılar"
+msgstr "Ukraynalılar"
 
 #: data/nation/ukrainian.ruleset:6
 msgid "The Ukraine is a vast region on the westernmost marches of the former Soviet Union. It includes some of the most fertile black-soil cropland on Earth."
@@ -21738,7 +21756,7 @@ msgstr "Uygur"
 
 #: data/nation/uyghur.ruleset:4
 msgid "?plural:Uyghurs"
-msgstr "?plural:Uygurlar"
+msgstr "Uygurlar"
 
 #: data/nation/uyghur.ruleset:6
 msgid "Uyghur was an east Turk empire and civilization. At its height in 820 AD it controlled most of Central and North Asia. After clashing with the Chinese for several centuries, they were finally subdued by the Qing dynasty in the 1700s. Today, descendants of the Uyghur form the populations of the Central Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the main minority of the Xinjiang province of China."
@@ -21746,11 +21764,11 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
-msgstr "Venezuelalı"
+msgstr "Venezuela"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
-msgstr "?plural:Venezuelalılar"
+msgstr "Venezuelalılar"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -21765,11 +21783,11 @@ msgstr ""
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr "Vietnamlı"
+msgstr "Vietnam"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
-msgstr "?plural:Vietnamlılar"
+msgstr "Vietnamlılar"
 
 #: data/nation/vietnamese.ruleset:6
 msgid "The Vietnamese nation was founded in the first century AD by twin sisters who became the war leaders of a revolt against a Chinese military governor."
@@ -21781,7 +21799,7 @@ msgstr "Viking"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr "?plural:Viking"
+msgstr "Vikingler"
 
 #: data/nation/viking.ruleset:6
 msgid "The Vikings raided and traded along the coasts of Europe between 800AD and 1100AD. Viking raiders eventually became the rulers of Normandy, Russia, and a short-lived kingdom in Sicily."
@@ -21789,11 +21807,11 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "Galler"
+msgstr "Galya"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "?plural:Galler"
+msgstr "Galler"
 
 #: data/nation/welsh.ruleset:6
 msgid "The Welsh at one time controlled all of what is now England until being driven into the mountainous western reaches by invading Saxons."
@@ -21801,11 +21819,11 @@ msgstr ""
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr "Vestfalyalı"
+msgstr "Vestfalya"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
-msgstr "?plural:Vestfalyalılar"
+msgstr "Vestfalyalılar"
 
 #: data/nation/westphalian.ruleset:6
 msgid "Westphalia, before becoming a Prussian province, was the western region the duchy of Saxony. Present-day it consists of the Northern part of the largest German federal state, North Rhine-Westphalia."
@@ -21817,7 +21835,7 @@ msgstr "Zulu"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
-msgstr "?plural:Zulu"
+msgstr "Zulular"
 
 #: data/nation/zulu.ruleset:6
 msgid "The Zulus are a warlike Bantu people who migrated from west-central Africa into southern Africa beginning in the early 1700s, conquering the native Khoisan peoples and clashing with European settlers."
@@ -21825,7 +21843,7 @@ msgstr ""
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr "Birleşik Krallık (klasik, orta)"
+msgstr "Birleşik Krallık (orta/klasik)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
@@ -21841,7 +21859,7 @@ msgstr ""
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
-msgstr "Dünya (klasik, ufak)"
+msgstr "Dünya (klasik, küçük)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
@@ -21849,7 +21867,7 @@ msgstr ""
 
 #: data/scenario/europe-200x100-v2.sav:3
 msgid "Europe (giant/classic)"
-msgstr "Avrupa (klasik, kocaman)"
+msgstr "Avrupa (kocaman/klasik)"
 
 #: data/scenario/europe-200x100-v2.sav:4
 msgid "Very large classic-style map of Europe."
@@ -21865,7 +21883,7 @@ msgstr ""
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
-msgstr "İber Yarımadası (klasik, büyük)"
+msgstr "İber Yarımadası (klasik/büyük)"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
 msgid "Large classic-style map of the Iberian Peninsula (modern-day Spain and Portugal)."
@@ -21873,11 +21891,11 @@ msgstr ""
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
-msgstr "Ders"
+msgstr "Öğretici"
 
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
-msgstr "Ders Senaryosu"
+msgstr "Öğretici Senaryo"
 
 #: data/scenario/tutorial.sav:18
 msgid ""
@@ -22194,7 +22212,7 @@ msgstr ""
 
 #: data/scenario/tutorial.sav:380
 msgid "Loading tutorial events."
-msgstr ""
+msgstr "Öğretici olayları yükleniyor."
 
 #: data/civ1/game.ruleset:101
 #: data/civ2/game.ruleset:101
