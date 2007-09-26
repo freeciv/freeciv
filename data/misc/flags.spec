@@ -149,7 +149,7 @@ artists = "
    Unknown		Jason Short
    USA			Daniel McRae
    Uyghur		Daniel Markstedt
-   Venezuela		Sigge Kotliar
+   Venezuela		Zach Harden et.al.
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
    Wales		Tobias Jakobs
