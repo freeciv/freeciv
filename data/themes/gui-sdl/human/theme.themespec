@@ -9,6 +9,9 @@ priority = 20
 
 ; The font to be used:
 font_file         = "themes/gui-sdl/human/DejaVuSans.ttf"
+font_file_zh_CN   = "themes/gui-sdl/human/fireflysung.ttf"
+font_file_ja      = "themes/gui-sdl/human/sazanami-gothic.ttf"
+font_file_ko      = "themes/gui-sdl/human/UnDotum.ttf"
 default_font_size = 18
 
 ; Below, the graphics spec files; must be somewhere (anywhere) in 

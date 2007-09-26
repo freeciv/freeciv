@@ -196,6 +196,7 @@ char *datafilename(const char *filename);
 char **datafilenames(const char *filename);
 char *datafilename_required(const char *filename);
 
+char *get_langname(void);
 void init_nls(void);
 void dont_run_as_root(const char *argv0, const char *fallback);
 
