@@ -1223,6 +1223,97 @@ char *datafilename_required(const char *filename)
   }
 }
 
+char *get_langname(void)
+{
+  char *langname = NULL;      
+        
+#ifdef ENABLE_NLS
+
+  langname = getenv("LANG");
+  
+#ifdef WIN32_NATIVE
+  /* set LANG by hand if it is not set */
+  if (!langname) {
+    switch (PRIMARYLANGID(GetUserDefaultLangID())) {
+      case LANG_ARABIC:
+        return "ar";
+      case LANG_CATALAN:
+        return "ca";
+      case LANG_CZECH:
+        return "cs";
+      case LANG_DANISH:
+        return "da"; 
+      case LANG_GERMAN:
+        return "de";
+      case LANG_GREEK:
+        return "el";
+      case LANG_ENGLISH:
+        switch (SUBLANGID(GetUserDefaultLangID())) {
+          case SUBLANG_ENGLISH_UK:
+            return "en_GB";
+          default:
+            return "en"; 
+        }
+      case LANG_SPANISH:
+        return "es";
+      case LANG_ESTONIAN:
+        return "et";
+      case LANG_FARSI:
+        return "fa";
+      case LANG_FINNISH:
+        return "fi";
+      case LANG_FRENCH:
+        return "fr";
+      case LANG_HEBREW:
+        return "he";
+      case LANG_HUNGARIAN:
+        return "hu";
+      case LANG_ITALIAN:
+        return "it";
+      case LANG_JAPANESE:
+        return "ja";
+      case LANG_KOREAN:
+        return "ko";
+      case LANG_LITHUANIAN:
+        return "lt";
+      case LANG_DUTCH:
+        return "nl";
+      case LANG_NORWEGIAN:
+        switch (SUBLANGID(GetUserDefaultLangID())) {
+          case SUBLANG_NORWEGIAN_BOKMAL:
+            return "nb";
+          default:
+            return "no";
+        }
+      case LANG_POLISH:
+        return "pl";
+      case LANG_PORTUGUESE:
+        switch (SUBLANGID(GetUserDefaultLangID())) {
+          case SUBLANG_PORTUGUESE_BRAZILIAN:
+            return "pt_BR";
+          default:
+            return "pt";
+        }
+      case LANG_ROMANIAN:
+        return "ro";
+      case LANG_RUSSIAN:
+        return "ru";
+      case LANG_SWEDISH:
+        return "sv";
+      case LANG_TURKISH:
+        return "tr";
+      case LANG_UKRAINIAN:
+        return "uk";
+      case LANG_CHINESE:
+        return "zh_CN";
+    }
+  }
+#endif /* WIN32_NATIVE */
+#endif /* ENABLE_NLS */
+
+  return langname;
+}
+        
 /***************************************************************************
   Setup for Native Language Support, if configured to use it.
   (Call this only once, or it may leak memory.)
@@ -1237,55 +1328,14 @@ void init_nls(void)
   grouping_sep = mystrdup(",");
 
 #ifdef ENABLE_NLS
+
 #ifdef WIN32_NATIVE
-  /* set LANG by hand if it is not set */
-  if (!getenv("LANG")) {
-    char *langname = NULL;
+  char *langname = get_langname();  
+  if (langname) {
+    static char envstr[40];
 
-    switch (PRIMARYLANGID(LANGIDFROMLCID(GetUserDefaultLCID()))) {
-    case LANG_SPANISH:
-      langname = "es";
-      break;
-    case LANG_GERMAN:
-      langname = "de";
-      break;
-    case LANG_ENGLISH:
-      langname = "en";
-      break;
-    case LANG_FRENCH:
-      langname = "fr";
-      break;
-    case LANG_DUTCH:
-      langname = "nl";
-      break;
-    case LANG_POLISH:
-      langname = "pl";
-      break;
-    case LANG_HUNGARIAN:
-      langname = "hu";
-      break;
-    case LANG_NORWEGIAN:
-      langname = "no";
-      break;
-    case LANG_JAPANESE:
-      langname = "ja";
-      break;
-    case LANG_PORTUGUESE:
-      langname = "pt";
-      break;
-    case LANG_ROMANIAN:
-      langname = "ro";
-      break;
-    case LANG_RUSSIAN:
-      langname = "ru";
-      break;
-    }
-    if (langname) {
-      static char envstr[40];
-
-      my_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
-      putenv(envstr);
-    }
+    my_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
+    putenv(envstr);
   }
 #endif
 
