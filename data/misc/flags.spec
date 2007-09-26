@@ -201,7 +201,7 @@ artists = "
    USA			Daniel McRae
    Uyghur		Daniel Markstedt
    Uzbekistan		Zachary Harden
-   Venezuela		Sigge Kotliar
+   Venezuela		Zachary Harden et.al.
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
    Wales		Tobias Jakobs
