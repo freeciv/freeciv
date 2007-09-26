@@ -283,6 +283,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
             pText->w);
   } else {
     freelog(LOG_DEBUG, "SDL_create_str16_surf: pText NULL");
+    pText = create_surf_alpha(0, 0, SDL_SWSURFACE);
   }
 
   if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {
