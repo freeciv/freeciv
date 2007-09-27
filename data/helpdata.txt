@@ -780,15 +780,15 @@ other player isn't getting a better deal than you expect.\
 Cease-fire, Armistice, Peace, and Alliance. The first is the default state, \
 while the others can be achieved by signing diplomatic treaties.\
 "), _("\
-     To have a diplomatic relationship with another player, you must fist \
-establish first contact with that player. To establish first contact, you \
-have to move one of your units next to a city or unit belonging to that \
+     To have a diplomatic relationship with another player, you must \
+establish contact with that player. Contact occurs whenever \
+one of your units is within sight of a city or unit belonging to another \
 player, or vice versa. Unless you establish an embassy with that player, \
-you may again lose contact with them after a set number of turns without \
-direct physical contact.\
+you may again lose contact with them a set number of turns after \
+most recent contact.\
 "), _("\
      The diplomatic state between players defaults to War. \
-During War, you can freely move you units inside enemy territory and \
+During War, you can freely move your units inside enemy territory and \
 attack their units and cities at will.\
 "), _("\
      When two players decide to end hostilities between them, they can \
@@ -803,7 +803,7 @@ you directly back to War.\
 "), _("\
      At the moment two players enter into the diplomatic state of Peace, \
 all units belonging to either player that happen to be within the other's \
-borders, will be automatically disbanded according to the treaty. After \
+borders will be automatically disbanded according to the treaty. After \
 this, you may not move units into the other's territory until you either \
 declare War, or forge an Alliance. Breaking a Peace treaty will drop you \
 directly back to War.\
@@ -812,8 +812,8 @@ directly back to War.\
 players. In this state, you may move units into each other's cities and \
 your units may share the same square. An allied AI player will freely give \
 you its world maps, shared vision, as well as seriously consider trading \
-technologies and cities. The only drawback with an alliance, is that it \
-will draw you into to any wars your ally enters against other players. \
+technologies and cities. The only drawback with an alliance is that it \
+will draw you into any wars your ally enters against other players. \
 Breaking an Alliance will drop you to an Armistice treaty.\
 ")
 
