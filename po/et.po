@@ -2467,7 +2467,7 @@ msgstr ""
 
 #: server/commands.c:225
 msgid "Set one or all AI players to 'novice'."
-msgstr "Märgib ühe või kõik tehisintellekti mängijatest lihtsaks."
+msgstr "Märgib ühe või kõik tehisintellekti mängijatest algajaks."
 
 #: server/commands.c:226
 msgid ""
@@ -2964,7 +2964,7 @@ msgstr "Sulle õpetatakse %s tarkus."
 #: server/diplhand.c:370
 #, c-format
 msgid "The %s have acquired %s from the %s."
-msgstr "%s said %s %s-idelt."
+msgstr "%s said teaduse %s rahvuselt %s."
 
 #: server/diplhand.c:385
 #, c-format
@@ -4054,7 +4054,7 @@ msgstr ""
 "lõuna ja ida-lääne suunas tasase kaardi, silindri või toori (sõõriku) "
 "tekitamiseks. Ühikruudud võivad olla ruudukujulised või kuusnurksed, kas "
 "klassikalise või isomeetrilise paigutusega - seda peaks sättima vastavalt "
-"kasutatavale 'tileset'ile (TÕLGIMIND).\n"
+"kasutatavale ruudustikule.\n"
 "   0 Tasane Maa (keerdumata)\n"
 "   1 Maa (keerdub E-W)\n"
 "   2 Uraan (keerdub N-S)\n"
@@ -5278,7 +5278,7 @@ msgstr "Mäng juba käib."
 #: server/srv_main.c:906
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
-msgstr "%s kaotas control cmdlevel TÕLGIMIND mängu alguses.  Nüüd peab hääletama."
+msgstr "%s kaotas käsutaseme mängu alguses.  Edaspidi peab hääletama."
 
 #: server/srv_main.c:913
 msgid "Starting game."
@@ -6678,7 +6678,7 @@ msgstr "%s võib liikuda ainult oma kontrolltsoonis."
 #: server/unithand.c:973
 #, c-format
 msgid "Game: Cannot invade unless you break peace with %s first."
-msgstr "Mäng: Ei saa linna vallutada, peab enne sõja kuulutama %s-tele."
+msgstr "Mäng: Ei saa territooriumile tungida, peab enne sõja kuulutama %s-tele."
 
 #: server/unithand.c:1011
 msgid "This unit has no moves left."
@@ -6803,7 +6803,7 @@ msgstr "Üksus %s sai kogemust juurde!"
 #: server/unittools.c:857
 #, c-format
 msgid " at %s"
-msgstr "at %s (TÕLGIMIND)"
+msgstr " linna %s lähedal"
 
 #: server/unittools.c:859
 #, c-format
@@ -6813,7 +6813,7 @@ msgstr " linnas %s"
 #: server/unittools.c:866
 #, c-format
 msgid " outside %s"
-msgstr " linna %s juures"
+msgstr " linna %s all"
 
 #: server/unittools.c:869
 #, c-format
@@ -6868,7 +6868,7 @@ msgstr "Sinu ründav üksus %s võitis lahingu %s-te %s%s vastu!"
 #: server/unittools.c:1624
 #, c-format
 msgid "%s lost to an attack by %s's %s%s."
-msgstr "%s kaotati %s rünnakus üksusega %s%s."
+msgstr "%s kaotati %s rünnakus üksusega %s %s."
 
 #: server/unittools.c:1658
 #, c-format
@@ -6965,15 +6965,15 @@ msgstr "Rahvus %s lasi tuumapommi õhku!"
 #: server/unittools.c:2095
 #, c-format
 msgid "%s transported succesfully."
-msgstr ""
+msgstr "%s edukalt transporditud."
 
 #: server/unittools.c:2118
 msgid "This unit type can not be paradropped."
-msgstr ""
+msgstr "Seda tüüpi üksust ei saa langevarjutada."
 
 #: server/unittools.c:2128
 msgid "You cannot paradrop a transporter unit."
-msgstr ""
+msgstr "Ei saa langevarjutada transportüksust."
 
 #: server/unittools.c:2133
 msgid "The destination location is not known."
@@ -7029,7 +7029,7 @@ msgstr "Sa vallandasid barbarite hordi viha!"
 #: server/unittools.c:2275
 #, c-format
 msgid "Your %s has been killed by barbarians!"
-msgstr "Barbarid lõikasid su %s kõri!"
+msgstr "Barbarid lõikasid su üksuse %s kõri!"
 
 #: server/unittools.c:2291
 msgid "You found a friendly city."
@@ -7337,7 +7337,7 @@ msgstr ""
 #: client/citydlg_common.c:458
 #, c-format
 msgid "%+4d : Waste\n"
-msgstr "%+4d : Jäätmed\n"
+msgstr "%+4d : Saast\n"
 
 #: client/citydlg_common.c:464
 #, c-format
@@ -7819,7 +7819,7 @@ msgstr "Osapooled loovad alliantsi"
 #: client/climisc.c:295
 #, c-format
 msgid "The %s gives shared vision"
-msgstr "The %s annavad jagatud vaate"
+msgstr "%s annavad jagatud vaate"
 
 #: client/climisc.c:299
 #, c-format
@@ -7858,7 +7858,7 @@ msgstr "Kadus ühendus serveriga!"
 
 #: client/clinet.c:186
 msgid "Failed looking up host."
-msgstr ""
+msgstr "Ei suutnud hosti nime resolvida."
 
 #: client/clinet.c:210
 msgid "Connection in progress."
@@ -7871,7 +7871,7 @@ msgstr "Ühendus serveriga katkestati."
 #: client/clinet.c:466
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
-msgstr ""
+msgstr "Ei suutnud ühenduda serveri \"%s\" porti %d mängijana \"%s\" %d katsega"
 
 #: client/clinet.c:481 client/clinet.c:483
 msgid "Connection to server refused. Please start the server."
@@ -7882,14 +7882,15 @@ msgstr "Serveriga ühendamisest keelduti. Palun käivita server."
 msgid ""
 "Error contacting server \"%s\" at port %d as \"%s\":\n"
 " %s\n"
-msgstr ""
+msgstr "Viga ühendumisel serveri \"%s\" porti %d mängijana \"%s\":\n"
+" %s\n"
 
 #: client/clinet.c:511
 #, c-format
 msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for "
 "%d times"
-msgstr ""
+msgstr "Automaatselt ühendun serveri \"%s\" porti %d mängijana \"%s\" iga %f sekundi takka %d korda"
 
 #: client/connectdlg_common.c:78 client/gui-gtk-2.0/pages.c:1261
 msgid "novice"
@@ -8195,7 +8196,7 @@ msgstr "* Saab ehitada uusi linnu.\n"
 #: client/helpdata.c:837
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
-msgstr ""
+msgstr "* Võib lisada %d rahvaarvule linnades, mille suurus on ülimalt %d.\n"
 
 #: client/helpdata.c:846
 #, c-format
@@ -8245,17 +8246,17 @@ msgstr "* Saab ehitada kindlusi (kui üks järgnevatest on olemas: %s).\n"
 #: client/helpdata.c:883
 #, c-format
 msgid "* Can clean pollution from tiles.\n"
-msgstr "* Saab ruutudelt eemaldada reostust.\n"
+msgstr "* Võib ruutudelt eemaldada reostust.\n"
 
 #: client/helpdata.c:885
 #, c-format
 msgid "* Can clean nuclear fallout from tiles.\n"
-msgstr "* Suudab puhastada kaardiruute tuumajäätmetest.\n"
+msgstr "* Võib puhastada kaardiruute tuumajäätmetest.\n"
 
 #: client/helpdata.c:888
 #, c-format
 msgid "* Can transform tiles.\n"
-msgstr "* Suudab muuta kaardiruute.\n"
+msgstr "* Võib muuta kaardiruute.\n"
 
 #: client/helpdata.c:891
 #, c-format
@@ -8265,7 +8266,7 @@ msgstr "* Võib ehitada lennubaase.\n"
 #: client/helpdata.c:895
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr ""
+msgstr "* Võib ehitada kindlustusi, lisades 50%% kaitseboonust.\n"
 
 #: client/helpdata.c:899
 #, c-format
@@ -10607,27 +10608,27 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:1403
 msgid "Building Units"
-msgstr ""
+msgstr "Ehitavad üksusi"
 
 #: client/gui-gtk-2.0/cityrep.c:1409
 msgid "Building Improvements"
-msgstr ""
+msgstr "Ehitavad ehitisi"
 
 #: client/gui-gtk-2.0/cityrep.c:1415
 msgid "Building Wonders"
-msgstr ""
+msgstr "Ehitavad imesid"
 
 #: client/gui-gtk-2.0/cityrep.c:1427
 msgid "Building Unit"
-msgstr ""
+msgstr "Ehitavad seda üksust"
 
 #: client/gui-gtk-2.0/cityrep.c:1431
 msgid "Building Improvement"
-msgstr ""
+msgstr "Ehitavad seda ehitist"
 
 #: client/gui-gtk-2.0/cityrep.c:1435
 msgid "Building Wonder"
-msgstr ""
+msgstr "Ehitavad seda imet"
 
 #: client/gui-gtk-2.0/cityrep.c:1443 client/gui-win32/cityrep.c:443
 msgid "Coastal Cities"
@@ -10635,7 +10636,7 @@ msgstr "Rannikulinnad"
 
 #: client/gui-gtk-2.0/cityrep.c:1448 client/gui-win32/cityrep.c:444
 msgid "Same Island"
-msgstr "Sama saar"
+msgstr "Samal saarel"
 
 #: client/gui-gtk-2.0/cityrep.c:1458 client/gui-mui/citydlg.c:1441
 #: client/gui-mui/citydlg.c:1480 client/gui-win32/cityrep.c:447
