@@ -518,7 +518,7 @@ static void real_info_city_report_dialog_update(void)
     } else {
       my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)%s",
       	pName, pCity->shield_stock, togrow,
-	      pCity->shield_stock > togrow ? _("\nfinshed"): "" );
+	      pCity->shield_stock > togrow ? _("\nfinished"): "" );
     }
     
     /* info string */
