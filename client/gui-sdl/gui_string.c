@@ -170,7 +170,7 @@ SDL_String16 * create_string16(Uint16 *pInTextString,
   }
   
   if ((str->font = load_font(str->ptsize)) == NULL) {
-    freelog(LOG_ERROR, _("Error in create_string16: Aborting ..."));
+    freelog(LOG_ERROR, "create_string16: load_font failed");
     FC_FREE(str);
     return str;
   }
@@ -222,7 +222,7 @@ int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
   SDL_Surface *pText = create_text_surf_from_str16(pString);
 
   if (alphablit(pText, NULL, pDest, &dst_rect) < 0) {
-    freelog(LOG_ERROR, _("Couldn't blit text to display: %s"),
+    freelog(LOG_ERROR, "write_text16: couldn't blit text to display: %s",
 	    SDL_GetError());
     FREESURFACE(pText);
     return -1;
@@ -260,8 +260,8 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 
     if ((pText = SDL_DisplayFormat(pTmp)) == NULL) {
       freelog(LOG_ERROR,
-	      _("Error in SDL_create_str16_surf: Couldn't convert text "
-		"to display format: %s"), SDL_GetError());
+	      "SDL_create_str16_surf: couldn't convert text "
+	      "to display format: %s", SDL_GetError());
       pText = pTmp;
     } else {
       FREESURFACE( pTmp );
@@ -277,9 +277,9 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 
   if (pText != NULL) {
     freelog(LOG_DEBUG,
-            _("SDL_create_str16_surf: Font is generally %d big, and "
-              "string is %hd big"), TTF_FontHeight(pString->font), pText->h);
-    freelog(LOG_DEBUG, _("SDL_create_str16_surf: String is %d lenght"),
+            "SDL_create_str16_surf: Font is generally %d big, and "
+              "string is %hd big", TTF_FontHeight(pString->font), pText->h);
+    freelog(LOG_DEBUG, "SDL_create_str16_surf: String is %d length",
             pText->w);
   } else {
     freelog(LOG_DEBUG, "SDL_create_str16_surf: pText NULL");
@@ -569,7 +569,7 @@ void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize)
   }
   
   if ((pBuf = load_font(new_ptsize)) == NULL) {
-    freelog(LOG_ERROR, _("Error in change_ptsize: Change ptsize failed"));
+    freelog(LOG_ERROR, "change_ptsize: load_font failed");
     return;
   }
 
@@ -617,7 +617,7 @@ static TTF_Font * load_font(Uint16 ptsize)
   /* Load Font */
   if ((font_tmp = TTF_OpenFont(pFont_with_FullPath, ptsize)) == NULL) {
     freelog(LOG_ERROR,
-	    _("Error in load_font: Couldn't load %d pt font from %s: %s"),
+	    "load_font: Couldn't load %d pt font from %s: %s",
 	    ptsize, pFont_with_FullPath, SDL_GetError());
     return font_tmp;
   }
@@ -658,7 +658,7 @@ void unload_font(Uint16 ptsize)
 
   if (Sizeof_Font_TAB == 0) {
     freelog(LOG_ERROR,
-	 _("Error in unload_font: Trying unload from empty Font ARRAY"));
+	    "unload_font: Trying unload from empty Font ARRAY");
     return;
   }
 
@@ -672,8 +672,8 @@ void unload_font(Uint16 ptsize)
 
   if (index == Sizeof_Font_TAB) {
     freelog(LOG_ERROR,
-	    _("Error in unload_font: Trying unload Font which is "
-	      "not included in Font ARRAY"));
+	    "unload_font: Trying unload Font which is "
+	    "not included in Font ARRAY");
     return;
   }
 
