@@ -176,7 +176,7 @@ static bool maxplayers_callback(int value, const char **error_string)
   }
 #endif
   if (value < player_count()) {
-    *error_string =_("Number of players is higher than requested value; "
+    *error_string =_("Number of players is higher than requested value;\n"
 		     "Keeping old value.");
     return FALSE;
   }
@@ -403,8 +403,8 @@ struct settings_s settings[] = {
 	  N_("Amount of huts (minor tribe villages)"),
 	  N_("This setting gives the exact number of huts that will be "
 	     "placed on the entire map. Huts are small tribal villages "
-	     "that may be investiged by units."), NULL,
-	  MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
+	     "that may be investigated by units."),
+	  NULL, MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
 
   /* Options affecting numbers of players and AI players.  These only
    * affect the start of the game and can not be adjusted after that.
@@ -499,7 +499,7 @@ struct settings_s settings[] = {
 	  N_("Percentage penalty when changing tech"),
 	  N_("If you change your current research technology, and you have "
 	     "positive research points, you lose this percentage of those "
-	     "research points. This does not apply if you have just gained "
+	     "research points. This does not apply when you have just gained "
 	     "a technology this turn."), NULL,
 	  GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY,
 	  GAME_DEFAULT_TECHPENALTY)
@@ -508,19 +508,21 @@ struct settings_s settings[] = {
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Penalty when getting tech or gold from treaty"),
 	  N_("For each technology you gain from a diplomatic treaty, you "
-	     "lost research points equal to this percentage of the cost to "
-	     "research a new technology. You can end up with negative "
-	     "research points if this is non-zero. Also applies to gold "
-             "transfers in diplomatic treaties."), NULL,
+	     "lose research points equal to this percentage of the cost to "
+	     "research a new technology. If this is non-zero, you can end up "
+	     "with negative research points. Also applies to gold "
+             "transfers in diplomatic treaties."),
+          NULL,
 	  GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST)
 
   GEN_INT("conquercost", game.info.conquercost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Penalty when getting tech from conquering"),
 	  N_("For each technology you gain by conquering an enemy city, you "
-	     "lose research points equal to this percentage of the cost "
-	     "to research a new technology. You can end up with negative "
-	     "research points if this is non-zero."), NULL,
+	     "lose research points equal to this percentage of the cost to "
+	     "research a new technology. If this is non-zero, you can end up "
+	     "with negative research points."),
+	  NULL,
 	  GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST,
 	  GAME_DEFAULT_CONQUERCOST)
 
@@ -531,8 +533,8 @@ struct settings_s settings[] = {
 	     "covered by diplcost or conquercost: specifically, from huts "
 	     "or from Great Library effects), you lose research points "
 	     "equal to this percentage of the cost to research a new "
-	     "technology. You can end up with negative research points if "
-	     "this is non-zero."), 
+	     "technology. If this is non-zero, you can end up "
+	     "with negative research points."), 
 	  NULL, 
 	  GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST)
 
@@ -547,10 +549,10 @@ struct settings_s settings[] = {
 
   GEN_INT("aqueductloss", game.info.aqueductloss,
 	  SSET_RULES, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Percentage food lost when need aqueduct"),
+	  N_("Percentage food lost when building needed"),
 	  N_("If a city would expand, but it can't because it needs "
 	     "an Aqueduct (or Sewer System), it loses this percentage "
-	     "of its foodbox (or half that amount if it has a "
+	     "of its foodbox (or half that amount when it has a "
 	     "Granary)."), NULL, 
 	  GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, 
 	  GAME_DEFAULT_AQUEDUCTLOSS)
@@ -594,9 +596,9 @@ struct settings_s settings[] = {
   GEN_INT("citymindist", game.info.citymindist,
 	  SSET_RULES, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Minimum distance between cities"),
-	  N_("When a player founds a new city, it is checked if there is "
-	     "no other city in citymindist distance. For example, if "
-	     "citymindist is 3, there have to be at least two empty "
+	  N_("When a player attempts to found a new city, there may be "
+	     "no other city in this distance. For example, when "
+	     "this value is 3, there have to be at least two empty "
 	     "fields between two cities in every direction. If set "
 	     "to 0 (default), the ruleset value will be used."),
 	  NULL,
@@ -625,7 +627,7 @@ struct settings_s settings[] = {
 	  N_("Chance of moving into tile after attack"),
 	  N_("If set to 0, combat is Civ1/2-style (when you attack, "
 	     "you remain in place). If set to 100, attacking units "
-	     "will always move into the tile they attacked if they win "
+	     "will always move into the tile they attacked when they win "
 	     "the combat (and no enemy units remain in the tile). If "
 	     "set to a value between 0 and 100, this will be used as "
 	     "the percent chance of \"occupying\" territory."), NULL, 
@@ -642,7 +644,7 @@ struct settings_s settings[] = {
   GEN_INT("killcitizen", game.info.killcitizen,
 	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Reduce city population after attack"),
-	  N_("This flag indicates if city population is reduced "
+	  N_("This flag indicates whether city population is reduced "
 	     "after successful attack of enemy unit, depending on "
 	     "its movement type (OR-ed):\n"
 	     "  1 = land\n"
@@ -765,7 +767,7 @@ struct settings_s settings[] = {
   GEN_INT("civilwarsize", game.info.civilwarsize,
 	  SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Minimum number of cities for civil war"),
-	  N_("A civil war is triggered if a player has at least this "
+	  N_("A civil war is triggered when a player has at least this "
 	     "many cities and the player's capital is captured. If "
 	     "this option is set to the maximum value, civil wars are "
 	     "turned off altogether."), NULL, 
@@ -776,8 +778,8 @@ struct settings_s settings[] = {
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Turns until player contact is lost"),
 	  N_("Players may meet for diplomacy this number of turns "
-	     "after their units have last met, even if they do not have "
-	     "an embassy. If set to zero then players cannot meet unless "
+	     "after their units have last met, even when they do not have "
+	     "an embassy. If set to zero, then players cannot meet unless "
 	     "they have an embassy."),
 	  NULL,
 	  GAME_MIN_CONTACTTURNS, GAME_MAX_CONTACTTURNS, 
@@ -785,10 +787,9 @@ struct settings_s settings[] = {
 
   GEN_BOOL("savepalace", game.info.savepalace,
 	   SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	   N_("Rebuild palace if capital is conquered"),
-	   N_("If this is set to 1, then when the capital is conquered the "
-	      "palace "
-	      "is automatically rebuilt for free in another randomly "
+	   N_("Rebuild palace whenever capital is conquered"),
+	   N_("If this is set to 1, when the capital is conquered the "
+	      "palace is automatically rebuilt for free in another randomly "
 	      "choosen city. This is significant because the technology "
 	      "requirement for building a palace will be ignored."),
 	   NULL,
@@ -833,7 +834,7 @@ struct settings_s settings[] = {
                 "of connection:\n\n"
                 "(none) = Controller allowed, observers allowed, "
                 "can displace connections. (Displacing a connection means "
-		"that you may take over a player, even if another user "
+		"that you may take over a player, even when another user "
 		"already controls that player.)\n\n"
                 "1 = Controller allowed, observers allowed, "
                 "can't displace connections;\n\n"
@@ -872,8 +873,8 @@ struct settings_s settings[] = {
   GEN_INT("timeaddenemymove", game.timeoutaddenemymove,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Timeout at least n seconds when enemy moved"),
-	  N_("Any time a unit moves when in sight of an enemy player, "
-	     "the remaining timeout is set to this value if it was lower."),
+	  N_("Any time a unit moves while in sight of an enemy player, "
+	     "the remaining timeout is increased to this value."),
 	  NULL, 0, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUTADDEMOVE)
   
   /* This setting points to the "stored" value; changing it won't have
@@ -883,7 +884,7 @@ struct settings_s settings[] = {
 	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Whether to have simultaneous player phases."),
 	   N_("If true, all players' movement phases will occur "
-	      "simultaneously; if false then players will "
+	      "simultaneously; if false, then players will "
 	      "alternate movement."), NULL,
 	   GAME_DEFAULT_SIMULTANEOUS_PHASES)
 
@@ -933,7 +934,7 @@ struct settings_s settings[] = {
 	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Fixed-length turns play mode"),
 	   N_("If this is set to 1 the game turn will not advance "
-	      "until the timeout has expired, even if all players "
+	      "until the timeout has expired, even after all players "
 	      "have clicked on \"Turn Done\"."), NULL,
 	   FALSE)
 
