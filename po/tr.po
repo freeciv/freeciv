@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-27 10:24+0300\n"
+"PO-Revision-Date: 2007-09-28 06:01+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12171,6 +12171,8 @@ msgid ""
 "Tileset suggests using %s theme.\n"
 "You are currently using %s."
 msgstr ""
+"Arazi seti %s temasını kullanmanızı öneriyor.\n"
+"Siz ise %s temasını kullanıyorsunuz."
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
 msgid "Prefered tileset"
@@ -12191,6 +12193,9 @@ msgid ""
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
+"Mod paketi %s arazi setini kullanmanızı öneriyor.\n"
+"Diğer arazi setleriyle düzgün çalışmayabilir.\n"
+"Şu an %s arazi setini kullanıyorsunuz."
 
 #: client/gui-gtk-2.0/wldlg.c:178
 msgid "new"
@@ -12243,12 +12248,12 @@ msgstr "Kervanın %s ulaştı."
 #: client/gui-sdl/caravan_dialog.c:157
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr "%s ile ticaret yolu yap ( %d R&G + %d ticaret )"
+msgstr "%s ile ticaret yolu yap ( %d Ar&Al + %d ticaret )"
 
 #: client/gui-sdl/caravan_dialog.c:163
 #, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr ""
+msgstr "Markete Gir ( %d Ar&Al ikramiye )"
 
 #: client/gui-sdl/caravan_dialog.c:181
 #: data/Freeciv.in:2263
@@ -12261,12 +12266,12 @@ msgstr "Harika yapımına yardım et"
 #: data/Freeciv.in:2290
 #: data/Freeciv.in:2325
 msgid "Keep moving"
-msgstr "Devam et"
+msgstr "İlerlemeye devam et"
 
 #: client/gui-sdl/chatline.c:468
 #, c-format
 msgid "Total users logged in : %d"
-msgstr "Toplam girdiği kullanıcı sayısı : %d"
+msgstr "Giriş yapmış kullanıcı sayısı : %d"
 
 #: client/gui-sdl/chatline.c:522
 #: client/gui-sdl/optiondlg.c:2199
@@ -12281,7 +12286,7 @@ msgstr "Başlat"
 
 #: client/gui-sdl/chatline.c:553
 msgid "Server Settings"
-msgstr "Server Ayarları"
+msgstr "Sunucu Ayarları"
 
 #: client/gui-sdl/citydlg.c:417
 msgid "Unit commands"
@@ -12291,34 +12296,34 @@ msgstr "Birim komutları"
 #: data/Freeciv.in:1162
 #: data/Freeciv.in:1198
 msgid "Activate unit"
-msgstr "Birliği seç"
+msgstr "Birimi seç"
 
 #: client/gui-sdl/citydlg.c:452
 #: data/Freeciv.in:1166
 #: data/Freeciv.in:1202
 msgid "Activate unit, close dialog"
-msgstr "Birliği seçip pencere kapat"
+msgstr "Birimi seçip pencereyi kapat"
 
 #: client/gui-sdl/citydlg.c:465
 #: data/Freeciv.in:1170
 msgid "Sentry unit"
-msgstr "Nöbetçi asker"
+msgstr "Nöbet tut"
 
 #: client/gui-sdl/citydlg.c:480
 #: data/Freeciv.in:1174
 msgid "Fortify unit"
-msgstr "Birliği güçlendir"
+msgstr "Güçlendir"
 
 #: client/gui-sdl/citydlg.c:496
 #: data/Freeciv.in:1178
 #: data/Freeciv.in:1206
 msgid "Disband unit"
-msgstr ""
+msgstr "Terhis et"
 
 #: client/gui-sdl/citydlg.c:510
 #: data/Freeciv.in:1182
 msgid "Make new homecity"
-msgstr "Yeni memleket olsun"
+msgstr "Memleketi Yap"
 
 #: client/gui-sdl/citydlg.c:538
 #: client/gui-sdl/citydlg.c:1410
@@ -12363,7 +12368,7 @@ msgstr "Yeni memleket olsun"
 #: data/Freeciv.in:3364
 #: data/Freeciv.in:3422
 msgid "Cancel"
-msgstr "İptal et"
+msgstr "İptal"
 
 #: client/gui-sdl/citydlg.c:711
 #: client/gui-sdl/mapview.c:943
@@ -12379,18 +12384,20 @@ msgid ""
 "Disband if build\n"
 "settler at size 1"
 msgstr ""
+"Boyutu 1 iken\n"
+"göçmen çıkarsa yoket"
 
 #: client/gui-sdl/citydlg.c:1163
 msgid "Sorry, you have already bought here in this turn."
-msgstr "Bu rauntta zaten alış veriş yaptın."
+msgstr "Üzgünüm, daha önce bu sırada satın alma işlemi yaptınız."
 
 #: client/gui-sdl/citydlg.c:1166
 msgid "Sorry, you can't buy here in this turn."
-msgstr ""
+msgstr "Üzgünüm, bu sırada satın alma işlemi yapamazsınız."
 
 #: client/gui-sdl/citydlg.c:1170
 msgid "Buy it?"
-msgstr "Satın alalım mı?"
+msgstr "Satın alınsın mı?"
 
 #: client/gui-sdl/citydlg.c:1196
 #: client/gui-sdl/cma_fe.c:325
@@ -12455,7 +12462,7 @@ msgstr "Evet"
 
 #: client/gui-sdl/citydlg.c:1385
 msgid "Sell it?"
-msgstr "Satalım mı?"
+msgstr "Satılsın mı?"
 
 #: client/gui-sdl/citydlg.c:1418
 #: client/gui-win32/citydlg.c:791
@@ -12475,13 +12482,13 @@ msgstr "Desteklenen birimler: %d"
 #: client/gui-sdl/citydlg.c:1831
 #, c-format
 msgid "Present units: %d"
-msgstr "Varolan birimler: %d"
+msgstr "Mevcut birimler: %d"
 
 #: client/gui-sdl/citydlg.c:1880
 #: client/gui-sdl/citydlg.c:3723
 #: client/gui-win32/citydlg.c:782
 msgid "City info"
-msgstr "Sehir Ayrıntıları"
+msgstr "Şehir bilgisi"
 
 #: client/gui-sdl/citydlg.c:1901
 #, c-format
@@ -12507,7 +12514,7 @@ msgstr "Vatandaş"
 
 #: client/gui-sdl/citydlg.c:2545
 msgid "City improvements"
-msgstr "Şehir gelişimleri"
+msgstr "Şehir yapıları"
 
 #: client/gui-sdl/citydlg.c:2560
 #, c-format
@@ -12561,7 +12568,7 @@ msgstr "Lüks: sıra başına %d"
 
 #: client/gui-sdl/citydlg.c:2964
 msgid "City growth: blocked"
-msgstr "Şehir büyümesi: kilitli"
+msgstr "Şehir büyümesi: engellenmiş"
 
 #: client/gui-sdl/citydlg.c:2966
 msgid "City growth: never"
@@ -12598,7 +12605,7 @@ msgstr "Şehir küçülmesi: %d %s"
 #: client/gui-sdl/wldlg.c:1492
 msgid "turn"
 msgid_plural "turns"
-msgstr[0] ""
+msgstr[0] "sıra"
 
 #: client/gui-sdl/citydlg.c:2974
 #, c-format
@@ -12628,7 +12635,7 @@ msgstr "%s şehri (Nüfus %s)"
 
 #: client/gui-sdl/citydlg.c:3609
 msgid " - under Citizen Governor control."
-msgstr ""
+msgstr " - Valinin yönetimi altında."
 
 #: client/gui-sdl/citydlg.c:3675
 #: client/gui-sdl/cma_fe.c:467
@@ -12657,11 +12664,11 @@ msgstr ""
 #: client/gui-sdl/repodlgs.c:3296
 #: client/gui-sdl/spaceshipdlg.c:162
 msgid "Close Dialog (Esc)"
-msgstr "Pencere kapat (Esc)"
+msgstr "Pencereyi kapat (Esc)"
 
 #: client/gui-sdl/citydlg.c:3688
 msgid "Present units"
-msgstr "Varolan birimler"
+msgstr "Mevcut birimler"
 
 #: client/gui-sdl/citydlg.c:3699
 #: client/gui-win32/citydlg.c:811
@@ -12700,15 +12707,15 @@ msgstr ""
 #: client/gui-sdl/cityrep.c:185
 #: client/gui-sdl/mapctrl.c:1588
 msgid "Cities Report"
-msgstr "Şehir Raporu"
+msgstr "Şehirler Raporu"
 
 #: client/gui-sdl/cityrep.c:201
 msgid "Close Dialog"
-msgstr "Pencere kapat"
+msgstr "Pencereyi Kapat"
 
 #: client/gui-sdl/cityrep.c:215
 msgid "Information Report"
-msgstr "Enformasyon Raporu"
+msgstr "Bilgi Raporu"
 
 #: client/gui-sdl/cityrep.c:226
 msgid "Happiness Report"
@@ -12738,7 +12745,7 @@ msgstr ""
 #: client/gui-sdl/cma_fe.c:450
 #: client/gui-win32/cma_fe.c:458
 msgid "Presets"
-msgstr "Hedef Şablonları"
+msgstr "Şablonlar"
 
 #: client/gui-sdl/cma_fe.c:853
 #, c-format
@@ -12766,26 +12773,26 @@ msgstr "Sehri yönet"
 #: client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
 msgid "Apply once"
-msgstr ""
+msgstr "Bir kere uygula"
 
 #: client/gui-sdl/cma_fe.c:1014
 #: client/gui-win32/cma_fe.c:492
 msgid "Release city"
-msgstr ""
+msgstr "Şehri bırak"
 
 #: client/gui-sdl/connectdlg.c:238
 msgid "Creating Server List..."
-msgstr ""
+msgstr "Sunucu Listesi Yapılıyor..."
 
 #: client/gui-sdl/connectdlg.c:279
 #: client/gui-sdl/connectdlg.c:343
 msgid "No LAN servers found"
-msgstr "Yerel (LAN) sunucuları bulunmadı"
+msgstr "Yerel ağ (LAN) sunucuları bulunmadı"
 
 #: client/gui-sdl/connectdlg.c:281
 #: client/gui-sdl/connectdlg.c:345
 msgid "No public servers found"
-msgstr ""
+msgstr "Halka açık sunucu bulunamadı"
 
 #: client/gui-sdl/connectdlg.c:555
 msgid "Player Name :"
@@ -12811,7 +12818,7 @@ msgstr "Bağlan"
 #: client/gui-sdl/connectdlg.c:977
 #: client/gui-xaw/connectdlg.c:145
 msgid "Next"
-msgstr "Devam"
+msgstr "Sonraki"
 
 #: client/gui-sdl/dialogs.c:463
 #: client/gui-sdl/menu.c:423
@@ -12823,7 +12830,7 @@ msgstr "Yükselt"
 #: client/gui-sdl/dialogs.c:660
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-msgstr ""
+msgstr "%s ile görüş (%d / %d) %s(%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:661
 #: client/gui-sdl/dialogs.c:673
@@ -12837,28 +12844,28 @@ msgstr "Kıdemli"
 #: client/gui-sdl/dialogs.c:671
 #, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr ""
+msgstr "%s %s %s(Sal:%d Sav:%d H:%d GP:%d) S:%d%%"
 
 #: client/gui-sdl/dialogs.c:683
 #: client/gui-sdl/dialogs.c:1425
 #: client/gui-sdl/dialogs.c:1550
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr ""
+msgstr " Şeh: Sal:%d%% Sav:%d%%"
 
 #: client/gui-sdl/dialogs.c:837
 #: client/gui-sdl/dialogs.c:1216
 msgid "Terrain Info"
-msgstr "Yerey bilgisi"
+msgstr "Arazi bilgisi"
 
 #: client/gui-sdl/dialogs.c:1190
 msgid "Advanced Menu"
-msgstr "Gelişmiş Ayarları"
+msgstr "Gelişmiş Menü"
 
 #: client/gui-sdl/dialogs.c:1244
 #, c-format
 msgid "Zoom to : %s"
-msgstr "Büyüt : %s"
+msgstr "%s şehrine odaklan"
 
 #: client/gui-sdl/dialogs.c:1258
 #: client/gui-win32/citydlg.c:1063
@@ -12868,23 +12875,23 @@ msgstr "Üretimi Değiştir"
 
 #: client/gui-sdl/dialogs.c:1282
 msgid "Change City Governor settings"
-msgstr ""
+msgstr "Şehir Valisi ayarlarını değiştir"
 
 #: client/gui-sdl/dialogs.c:1303
 msgid "Goto here"
-msgstr "Oraya git"
+msgstr "Buraya git"
 
 #: client/gui-sdl/dialogs.c:1314
 msgid "Patrol here"
-msgstr "Burada devriye gezdir"
+msgstr "Burada devriye gez"
 
 #: client/gui-sdl/dialogs.c:1327
 msgid "Connect here"
-msgstr "Oraya bağlan"
+msgstr "Buraya bağla"
 
 #: client/gui-sdl/dialogs.c:1348
 msgid "Paradrop here"
-msgstr ""
+msgstr "Paraşütle atla"
 
 #: client/gui-sdl/dialogs.c:1395
 #: client/gui-sdl/dialogs.c:1511
@@ -12902,20 +12909,20 @@ msgstr ""
 #: client/gui-win32/dialogs.c:761
 #: data/Freeciv.in:561
 msgid "Ready all"
-msgstr "Herkes hazır"
+msgstr "Herkesi hazırla"
 
 #: client/gui-sdl/dialogs.c:1483
 msgid "Sentry idle"
-msgstr "Nöbetçi asker uyuyor"
+msgstr "Boştakiler nöbete"
 
 #: client/gui-sdl/dialogs.c:1569
 #, c-format
 msgid "View Civiliopedia entry for %s"
-msgstr ""
+msgstr "%s için Uygarlopedi girdisine bak"
 
 #: client/gui-sdl/dialogs.c:1969
 msgid "Choose Your New Government"
-msgstr "Yeni hükümetini seç"
+msgstr "Yeni Yönetim Biçiminizi Seçin"
 
 #: client/gui-sdl/dialogs.c:2073
 msgid "REVOLUTION!"
@@ -12947,7 +12954,7 @@ msgstr "Tamam"
 #: client/gui-sdl/dialogs.c:2683
 #: client/gui-win32/dialogs.c:505
 msgid "What nation will you be?"
-msgstr "Hangi millet seçeceksin?"
+msgstr "Hangi ulusu istiyorsunuz?"
 
 #: client/gui-sdl/diplodlg.c:447
 #: client/gui-win32/diplodlg.c:620
@@ -12979,7 +12986,7 @@ msgstr "Deniz haritası"
 
 #: client/gui-sdl/diplodlg.c:557
 msgid "Give embassy"
-msgstr "Büyükelçiliği ver"
+msgstr "Elçilik ver"
 
 #: client/gui-sdl/diplodlg.c:573
 #: client/gui-win32/diplodlg.c:614
@@ -12988,7 +12995,7 @@ msgstr "Büyükelçiliği ver"
 #: client/gui-xaw/diplodlg.c:485
 #, c-format
 msgid "Gold(max %d)"
-msgstr "Altın(max. %d)"
+msgstr "Altın(azm. %d)"
 
 #: client/gui-sdl/diplodlg.c:607
 #: client/gui-sdl/helpdlg.c:1956
@@ -12997,34 +13004,34 @@ msgstr "Altın(max. %d)"
 #: data/Freeciv.in:392
 #: data/Freeciv.in:401
 msgid "Advances"
-msgstr "Gelişimler"
+msgstr "İlerlemeler"
 
 #: client/gui-sdl/diplodlg.c:825
 #: client/gui-win32/diplodlg.c:598
 #: data/Freeciv.in:269
 msgid "Diplomacy meeting"
-msgstr "Diplomatik buluşması"
+msgstr "Diplomatik buluşma"
 
 #: client/gui-sdl/diplodlg.c:877
 #: client/gui-win32/diplodlg.c:680
 #: data/Freeciv.in:510
 msgid "Cancel meeting"
-msgstr "Buluşma iptal et"
+msgstr "Buluşmayı iptal et"
 
 #: client/gui-sdl/diplodlg.c:889
 #: client/gui-win32/diplodlg.c:679
 #: data/Freeciv.in:501
 msgid "Accept treaty"
-msgstr "Antlaşma kabul et"
+msgstr "Antlaşmayı kabul et"
 
 #: client/gui-sdl/diplodlg.c:1298
 #, c-format
 msgid "%s incident !"
-msgstr "%s Olay !"
+msgstr "%s olayı !"
 
 #: client/gui-sdl/diplodlg.c:1315
 msgid "Shall we declare WAR on them?"
-msgstr "SAVAŞ ilanı edelim mi?"
+msgstr "SAVAŞ ilan edelim mi?"
 
 #: client/gui-sdl/diplodlg.c:1426
 msgid "Foreign Minister"
@@ -13036,6 +13043,8 @@ msgid ""
 "Sir!, the %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
+"Komutanım! %s büyükelçisi geldi\n"
+"Emirlerinizi bekliyorum."
 
 #: client/gui-sdl/diplodlg.c:1458
 msgid "Declare WAR"
@@ -13044,32 +13053,32 @@ msgstr "SAVAŞ ilan et"
 #: client/gui-sdl/diplodlg.c:1460
 #: client/gui-win32/plrdlg.c:354
 msgid "Cancel Treaty"
-msgstr "Antlaşma Boz"
+msgstr "Antlaşmayı Boz"
 
 #: client/gui-sdl/diplodlg.c:1483
 #: client/gui-win32/plrdlg.c:355
 #: data/Freeciv.in:3254
 msgid "Withdraw vision"
-msgstr "Görüşleri geri çek"
+msgstr "Görüş sahasını paylaşma"
 
 #: client/gui-sdl/diplodlg.c:1500
 msgid "Call Diplomatic Meeting"
-msgstr ""
+msgstr "Diplomatik Buluşmaya Çağır"
 
 #: client/gui-sdl/diplodlg.c:1514
 msgid "Send him back"
-msgstr "Onu geri gönder"
+msgstr "Geri gönder"
 
 #: client/gui-sdl/diplomat_dialog.c:552
 #: data/Freeciv.in:2273
 msgid "Choose Your Diplomat's Strategy"
-msgstr ""
+msgstr "Diplomatınızın Nasıl Davranacağını Seçin"
 
 #: client/gui-sdl/diplomat_dialog.c:586
 #: data/Freeciv.in:2278
 #: data/Freeciv.in:2304
 msgid "Establish Embassy"
-msgstr "Elçiliği Yap"
+msgstr "Elçilik Yap"
 
 #: client/gui-sdl/diplomat_dialog.c:601
 #: data/Freeciv.in:2280
@@ -13079,7 +13088,7 @@ msgstr "Şehri Araştır"
 #: client/gui-sdl/diplomat_dialog.c:616
 #: data/Freeciv.in:2311
 msgid "Poison City"
-msgstr "Şehri Zehirlendir"
+msgstr "Şehri Zehirle"
 
 #: client/gui-sdl/diplomat_dialog.c:630
 #: data/Freeciv.in:2283
@@ -13090,32 +13099,32 @@ msgstr "Şehri Sabote et"
 #: data/Freeciv.in:2288
 #: data/Freeciv.in:2321
 msgid "Incite a Revolt"
-msgstr ""
+msgstr "Ayaklanma Başlat"
 
 #: client/gui-sdl/diplomat_dialog.c:712
 #: data/Freeciv.in:2434
 msgid "Sabotage Enemy Unit"
-msgstr ""
+msgstr "Düşman Birimini Sabote Et"
 
 #: client/gui-sdl/graphics.c:283
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
-msgstr ""
+msgstr "%s görüntü dosyası yüklenemedi!"
 
 #: client/gui-sdl/graphics.c:291
 #, c-format
 msgid "load_surf: Unable to convert file %s into screen's format!"
-msgstr ""
+msgstr "%s dosyası ekranın biçimine dönüştürülemedi!"
 
 #: client/gui-sdl/graphics.c:313
 #, c-format
 msgid "load_surf_with_flags: Unable to load file %s."
-msgstr ""
+msgstr "%s dosyası yüklenemedi."
 
 #: client/gui-sdl/graphics.c:319
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
-msgstr ""
+msgstr "%s dosyasındaki resim %d biçimine dönüştürülemedi."
 
 #: client/gui-sdl/graphics.c:344
 #, c-format
@@ -13387,7 +13396,7 @@ msgstr "Mesajları sakla (F10)"
 
 #: client/gui-sdl/mapctrl.c:673
 msgid "Scale Minimap"
-msgstr ""
+msgstr "Ufak Haritayı Ölçekle"
 
 #: client/gui-sdl/mapctrl.c:684
 msgid "Single Tile Width"
@@ -13404,15 +13413,15 @@ msgstr "Çıkış"
 
 #: client/gui-sdl/mapctrl.c:1031
 msgid "Scale Unit Info"
-msgstr ""
+msgstr "Birim Bilgisini Ölçekle"
 
 #: client/gui-sdl/mapctrl.c:1041
 msgid "Width"
-msgstr "Genişliği"
+msgstr "Genişlik"
 
 #: client/gui-sdl/mapctrl.c:1045
 msgid "Height"
-msgstr "Yüksekliği"
+msgstr "Yükseklik"
 
 #: client/gui-sdl/mapctrl.c:1412
 #: client/gui-sdl/mapview.c:331
@@ -13777,6 +13786,8 @@ msgid ""
 "Current Setup\n"
 "Fullscreen %dx%d"
 msgstr ""
+"Şimdiki Ayar\n"
+"%dx%d tam ekran"
 
 #: client/gui-sdl/optiondlg.c:450
 #: client/gui-sdl/optiondlg.c:635
@@ -13785,6 +13796,8 @@ msgid ""
 "Current Setup\n"
 "%dx%d"
 msgstr ""
+"Şimdiki Ayar\n"
+"%dx%d"
 
 #: client/gui-sdl/optiondlg.c:611
 msgid "No modes available!"
@@ -13853,7 +13866,7 @@ msgstr "Kale ve Hava Üssü"
 
 #: client/gui-sdl/optiondlg.c:1994
 msgid "Civ3 city text style"
-msgstr ""
+msgstr "Civ3 tarzı şehir yazıları"
 
 #: client/gui-sdl/optiondlg.c:2178
 #: client/gui-sdl/pages.c:243
@@ -13908,27 +13921,27 @@ msgstr "Oyuna Katıl"
 
 #: client/gui-sdl/pages.c:201
 msgid "Join Pubserver"
-msgstr ""
+msgstr "Halka Açık Sunucuya Katıl"
 
 #: client/gui-sdl/pages.c:215
 msgid "Join LAN Server"
-msgstr "Yerel (LAN) sunucuna katıl"
+msgstr "Yerel (LAN) Sunucuya Katıl"
 
 #: client/gui-sdl/pages.c:296
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "SDL İstemciye hoş geldiniz..."
 
 #: client/gui-sdl/pages.c:297
 msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
-msgstr ""
+msgstr "Freeciv özgür bir yazılımdır ve aşağıdaki şartlar altında istediğiniz gibi dağıtımını yapabilirsiniz;"
 
 #: client/gui-sdl/pages.c:300
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr "Yardım menüsündeki \"Kopyalama\" bölümüne bakın."
 
 #: client/gui-sdl/pages.c:302
 msgid "Now.. Go give'em hell!"
-msgstr "Haydi... Bastır!"
+msgstr "Haydi bastır!"
 
 #: client/gui-sdl/plrdlg.c:607
 msgid "Nations"
@@ -13947,7 +13960,7 @@ msgid ""
 "under\n"
 "construction"
 msgstr ""
-"yapim\n"
+"yapım\n"
 "aşamasında"
 
 #: client/gui-sdl/repodlgs.c:347
@@ -13955,6 +13968,8 @@ msgid ""
 "soonest\n"
 "completion"
 msgstr ""
+"en son\n"
+"tamamlanan"
 
 #: client/gui-sdl/repodlgs.c:351
 msgid "Total"
@@ -13962,7 +13977,7 @@ msgstr "Toplam"
 
 #: client/gui-sdl/repodlgs.c:362
 msgid "Units Report"
-msgstr "Birim Raporu"
+msgstr "Birimler Raporu"
 
 #: client/gui-sdl/repodlgs.c:1489
 #, c-format
@@ -13975,7 +13990,7 @@ msgstr ""
 #: client/gui-sdl/repodlgs.c:1496
 #, c-format
 msgid "We can't sell any %s in this turn."
-msgstr ""
+msgstr "Bu sırada hiç %s satamayız."
 
 #: client/gui-sdl/repodlgs.c:1501
 msgid "Sell It?"
@@ -13987,19 +14002,19 @@ msgstr "Ekonomi Raporu"
 
 #: client/gui-sdl/repodlgs.c:1747
 msgid "Treasury: "
-msgstr "Hazine:"
+msgstr "Hazine: "
 
 #: client/gui-sdl/repodlgs.c:1769
 msgid "Tax Rate: "
-msgstr "Vergi Oranı:"
+msgstr "Vergi Oranı: "
 
 #: client/gui-sdl/repodlgs.c:1790
 msgid "Total Income: "
-msgstr "Toplam Gelir:"
+msgstr "Toplam Gelir: "
 
 #: client/gui-sdl/repodlgs.c:1810
 msgid "Total Cost: "
-msgstr "Toplam Gider:"
+msgstr "Toplam Gider: "
 
 #: client/gui-sdl/repodlgs.c:1829
 msgid "Net Income: "
@@ -14008,7 +14023,7 @@ msgstr "Net Gelir: "
 #: client/gui-sdl/repodlgs.c:1853
 #, c-format
 msgid "%s max rate : %d%%"
-msgstr "%s max. oranı : %d%%"
+msgstr "%s azm. oran : %d%%"
 
 #: client/gui-sdl/repodlgs.c:1952
 #: client/gui-win32/connectdlg.c:1081
@@ -14024,7 +14039,7 @@ msgstr "Harika"
 
 #: client/gui-sdl/repodlgs.c:2827
 msgid "What should we focus on now?"
-msgstr "Şimdi ne yapalım?"
+msgstr "Şimdi neyi araştıralım?"
 
 #: client/gui-sdl/repodlgs.c:3016
 msgid "Select target :"
@@ -14047,29 +14062,29 @@ msgstr[0] ""
 #: client/gui-win32/repodlgs.c:764
 #: client/gui-xaw/repodlgs.c:1159
 msgid "Final Report:"
-msgstr ""
+msgstr "Bitiş Raporu:"
 
 #: client/gui-sdl/repodlgs.c:3371
 #: client/gui-win32/repodlgs.c:765
 #: client/gui-xaw/repodlgs.c:1160
 msgid "The Greatest Civilizations in the world."
-msgstr "Dünya'nın en Gelişmiş Toplumu"
+msgstr "Dünyanın En Büyük Uygarlıkları."
 
 #: client/gui-sdl/spaceshipdlg.c:142
 #, c-format
 msgid "%s's SpaceShip"
-msgstr "%s'nin Uzay Gemisi"
+msgstr "%s tarafının Uzay Gemisi"
 
 #: client/gui-sdl/spaceshipdlg.c:172
 #: client/gui-win32/spaceshipdlg.c:240
 #: data/Freeciv.in:1709
 msgid "Launch"
-msgstr "Başlat"
+msgstr "Gönder"
 
 #: client/gui-sdl/sprite.c:60
 #, c-format
 msgid "load_gfxfile: Unable to load graphic file %s!"
-msgstr ""
+msgstr "%s resim dosyası yüklenemedi!"
 
 #: client/gui-sdl/themespec.c:251
 #, c-format
@@ -14091,12 +14106,12 @@ msgstr ""
 
 #: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
-msgstr ""
+msgstr "Kullanılabilir bir varsayılan tema bulunamadı, çıkıyor!"
 
 #: client/gui-sdl/themespec.c:341
 #, c-format
 msgid "Trying \"%s\" theme."
-msgstr "\"%s\" teması deniyeceğim."
+msgstr "\"%s\" teması deneniyor."
 
 #: client/gui-sdl/themespec.c:490
 #: client/gui-sdl/themespec.c:524
@@ -14143,7 +14158,7 @@ msgid ""
 "blocked!"
 msgstr ""
 "%s\n"
-"kilitli!"
+"engellenmiş!"
 
 #: client/gui-sdl/wldlg.c:901
 #: client/gui-sdl/wldlg.c:1075
@@ -14169,7 +14184,7 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1050
 #, c-format
 msgid "( %d entries )"
-msgstr ""
+msgstr "( %d girdi )"
 
 #: client/gui-sdl/wldlg.c:1037
 #, c-format
@@ -14177,7 +14192,7 @@ msgid ""
 "Worklist of\n"
 "%s"
 msgstr ""
-"(İş Listesi)\n"
+"İş Listesi\n"
 "%s"
 
 #: client/gui-sdl/wldlg.c:1353
@@ -14223,7 +14238,7 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1383
 #, c-format
 msgid "%d gold per turn"
-msgstr "rauntta %d altın"
+msgstr "sıra başına %d altın"
 
 #: client/gui-sdl/wldlg.c:1390
 #, c-format
@@ -14241,7 +14256,7 @@ msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1401
 msgid "shields into gold"
-msgstr ""
+msgstr "kalkanlar altına"
 
 #: client/gui-sdl/wldlg.c:1480
 #, c-format
@@ -14281,7 +14296,7 @@ msgstr "Bakım Masrafı (Toplam: %d)"
 
 #: client/gui-win32/citydlg.c:729
 msgid "City Overview"
-msgstr "Şehir Tanıtımı"
+msgstr "Şehir Gözlemi"
 
 #: client/gui-win32/citydlg.c:729
 #: client/gui-win32/wldlg.c:1088
@@ -14296,7 +14311,7 @@ msgstr "Ticaret Yolları"
 
 #: client/gui-win32/citydlg.c:732
 msgid "Misc. Settings"
-msgstr "Diğer Ayarları"
+msgstr "Diğer Ayarlar"
 
 #: client/gui-win32/citydlg.c:796
 #: client/gui-win32/cityrep.c:878
@@ -14317,7 +14332,7 @@ msgstr "Değiştir"
 
 #: client/gui-win32/citydlg.c:817
 msgid "Units present"
-msgstr "Varolan birimler"
+msgstr "Mevcut birimler"
 
 #: client/gui-win32/citydlg.c:823
 #: client/gui-win32/cityrep.c:132
@@ -14368,7 +14383,7 @@ msgstr "Yeniden adlandır"
 #: client/gui-win32/citydlg.c:829
 #: data/Freeciv.in:3062
 msgid "Activate Units"
-msgstr "Birimler Etkinleştir"
+msgstr "Birimleri Seç"
 
 #: client/gui-win32/citydlg.c:832
 msgid "Unit List"
@@ -14376,7 +14391,7 @@ msgstr "Birim Listesi"
 
 #: client/gui-win32/citydlg.c:850
 msgid "Improvement"
-msgstr "Gelişim"
+msgstr "Yapı"
 
 #: client/gui-win32/citydlg.c:853
 #: manual/civmanual.c:302
@@ -14410,12 +14425,12 @@ msgstr "_Hayır"
 #: data/Freeciv.in:2456
 #: data/Freeciv.in:2486
 msgid "Darn"
-msgstr ""
+msgstr "Tamir Et"
 
 #: client/gui-win32/citydlg.c:1265
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
-msgstr "%s ile ticaret %d gelir verir.\n"
+msgstr "%s ile %d ticaret geliri verir.\n"
 
 #: client/gui-win32/citydlg.c:1270
 msgid "No trade routes exist."
@@ -14443,11 +14458,11 @@ msgstr "İ_ptal"
 
 #: client/gui-win32/citydlg.c:1528
 msgid "_Upgrade unit"
-msgstr "Birliği _yükselt"
+msgstr "Birimi _yükselt"
 
 #: client/gui-win32/citydlg.c:1993
 msgid "Elvises"
-msgstr "İşçiler"
+msgstr "Sanatçılar"
 
 #: client/gui-win32/cityrep.c:99
 msgid "Configure City Report"
@@ -14456,35 +14471,35 @@ msgstr "Şehir Raporunu Ayarla"
 #: client/gui-win32/cityrep.c:127
 #: data/Freeciv.in:1725
 msgid "Set columns shown"
-msgstr "Gösterilecek Sütunlar Seç"
+msgstr "Gösterilecek sütunları seç"
 
 #: client/gui-win32/cityrep.c:245
 msgid "No Buildings Available"
-msgstr ""
+msgstr "Hiç Bina Yok"
 
 #: client/gui-win32/cityrep.c:255
 msgid "No Units Available"
-msgstr ""
+msgstr "Hiç Birim Yok"
 
 #: client/gui-win32/cityrep.c:268
 msgid "No Wonders Available"
-msgstr ""
+msgstr "Hiç Harika Yok"
 
 #: client/gui-win32/cityrep.c:462
 msgid "Available To Build"
-msgstr "Olabilir İnşaat"
+msgstr "İnşası Mümkün"
 
 #: client/gui-win32/cityrep.c:683
 msgid "Select a unit or improvement to change production from."
-msgstr ""
+msgstr "Üretimi değiştirilecek birimi veya yapıyı seçin."
 
 #: client/gui-win32/cityrep.c:692
 msgid "Select a unit or improvement to change production to."
-msgstr ""
+msgstr "Üretimin değiştirileceği birimi veya yapıyı seçin."
 
 #: client/gui-win32/cityrep.c:698
 msgid "That's the same thing!"
-msgstr "Aynı şey!"
+msgstr "Aynı şeyi seçtiniz!"
 
 #: client/gui-win32/cityrep.c:733
 #: data/Freeciv.in:1739
@@ -14494,12 +14509,12 @@ msgstr "Üretimi Her Yerde Değiştir"
 #: client/gui-win32/cityrep.c:741
 #: data/Freeciv.in:1745
 msgid "From:"
-msgstr ""
+msgstr "Buradan:"
 
 #: client/gui-win32/cityrep.c:749
 #: data/Freeciv.in:1755
 msgid "To:"
-msgstr ""
+msgstr "Buraya:"
 
 #: client/gui-win32/cityrep.c:876
 #: client/gui-win32/finddlg.c:127
@@ -14511,11 +14526,11 @@ msgstr "Ortala"
 #: client/gui-win32/cityrep.c:877
 #: data/Freeciv.in:1621
 msgid "Popup"
-msgstr ""
+msgstr "Odaklan"
 
 #: client/gui-win32/cityrep.c:880
 msgid "Change All"
-msgstr "Hepsi Değiştir"
+msgstr "Hepsini Değiştir"
 
 #: client/gui-win32/cityrep.c:881
 #: client/gui-win32/repodlgs.c:718
@@ -14544,19 +14559,19 @@ msgstr "Şehir Raporu"
 
 #: client/gui-win32/cma_fe.c:308
 msgid "For information on:"
-msgstr ""
+msgstr "Hakkında bilgi için:"
 
 #: client/gui-win32/cma_fe.c:309
 msgid "CMA and presets"
-msgstr "CMA ve hedef şablonları"
+msgstr "CMA ve şablonlar"
 
 #: client/gui-win32/cma_fe.c:310
 msgid "including sample presets,"
-msgstr ""
+msgstr "örnek şablonlarla birlikte,"
 
 #: client/gui-win32/cma_fe.c:311
 msgid "see README.cma."
-msgstr "README.cma'ya bak."
+msgstr "README.cma'ya bakınız."
 
 #: client/gui-win32/cma_fe.c:467
 msgid "New"
@@ -14571,21 +14586,21 @@ msgstr "Sil"
 
 #: client/gui-win32/connectdlg.c:147
 msgid "Password:"
-msgstr "Şifre:"
+msgstr "Parola:"
 
 #: client/gui-win32/connectdlg.c:169
 msgid "Couldn't load the savegame"
-msgstr "Kayıtlı oyunu açamadım"
+msgstr "Kayıtlı oyun açılamadı"
 
 #: client/gui-win32/connectdlg.c:284
 #: client/gui-xaw/connectdlg.c:311
 msgid "Verify Password"
-msgstr "Şifre Denetle"
+msgstr "Parolayı Doğrula"
 
 #: client/gui-win32/connectdlg.c:912
 #: data/Freeciv.in:73
 msgid "Freeciv Server Selection"
-msgstr "Freeciv Sunucu Seçimi"
+msgstr "Freeciv Sunucusu Seçimi"
 
 #: client/gui-win32/connectdlg.c:913
 msgid "Local Area Network"
@@ -14593,11 +14608,11 @@ msgstr "Yerel Ağ (LAN)"
 
 #: client/gui-win32/connectdlg.c:947
 msgid "Welcome to Freeciv"
-msgstr "Freeciv'de Hoş Geldin"
+msgstr "Freeciv'e Hoş Geldiniz"
 
 #: client/gui-win32/connectdlg.c:965
 msgid "Load Saved Game"
-msgstr "Kayıtlı oyunu aç"
+msgstr "Kayıtlı Oyun Aç"
 
 #: client/gui-win32/connectdlg.c:967
 msgid "Connect To Network Game"
@@ -14605,7 +14620,7 @@ msgstr "Ağ Oyununa Bağlan"
 
 #: client/gui-win32/connectdlg.c:977
 msgid "Choose a nation to play"
-msgstr "Bir ulus seç"
+msgstr "Bir ulus seçin"
 
 #: client/gui-win32/connectdlg.c:1012
 msgid "Number of players (Including AI):"
@@ -14618,7 +14633,7 @@ msgstr "YZ ustalık derecesi:"
 #: client/gui-win32/connectdlg.c:1034
 #: client/gui-win32/repodlgs.c:925
 msgid "Game Options"
-msgstr "Oyun Tercihleri"
+msgstr "Oyun Ayarları"
 
 #: client/gui-win32/connectdlg.c:1038
 msgid "Start Game"
@@ -14647,7 +14662,7 @@ msgstr "Önder:"
 
 #: client/gui-win32/dialogs.c:575
 msgid "City Style:"
-msgstr "Şehrin tarzı:"
+msgstr "Şehir Tarzı:"
 
 #: client/gui-win32/dialogs.c:779
 msgid "Unit Selection"
@@ -14673,7 +14688,7 @@ msgstr "Sabotaj"
 #: client/gui-xaw/diplodlg.c:364
 #, c-format
 msgid "The %s offerings"
-msgstr ""
+msgstr "%s teklifleri"
 
 #: client/gui-win32/diplodlg.c:626
 #: client/gui-xaw/diplodlg.c:538
@@ -14692,16 +14707,16 @@ msgstr ""
 #: client/gui-xaw/diplodlg.c:590
 #, c-format
 msgid "%s view:"
-msgstr "%s görüşümü"
+msgstr "%s görünümü:"
 
 #: client/gui-win32/diplodlg.c:672
 msgid "Erase Clause"
-msgstr ""
+msgstr "Maddeyi Sil"
 
 #: client/gui-win32/finddlg.c:123
 #: data/Freeciv.in:1067
 msgid "Select a city:"
-msgstr "Şehir Seç:"
+msgstr "Şehir Seçin:"
 
 #: client/gui-win32/gui_main.c:116
 msgid "Enable alpha blending"
@@ -14717,21 +14732,21 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:809
 #: client/gui-win32/helpdlg.c:822
 msgid "Allows "
-msgstr "Sağlar:"
+msgstr "Sağladıkları "
 
 #: client/gui-win32/helpdlg.c:780
 msgid "Obsoletes "
-msgstr "Kullanımdan Kalkar"
+msgstr "Eskittikleri "
 
 #: client/gui-win32/helpdlg.c:812
 #: client/gui-win32/helpdlg.c:825
 msgid " (with "
-msgstr " (with "
+msgstr " (bununla birlikte: "
 
 #: client/gui-win32/helpdlg.c:815
 #: client/gui-win32/helpdlg.c:828
 msgid "?techhelp:)."
-msgstr ""
+msgstr ")."
 
 #: client/gui-win32/inteldlg.c:99
 #: client/gui-xaw/inteldlg.c:191
@@ -14745,31 +14760,31 @@ msgstr "Önder: %s %s"
 #: client/gui-xaw/ratesdlg.c:311
 #, c-format
 msgid "Tax: %d%%"
-msgstr "Vergi: %d%%"
+msgstr "Vergi: %%%d"
 
 #: client/gui-win32/inteldlg.c:117
 #: client/gui-xaw/inteldlg.c:224
 #: client/gui-xaw/ratesdlg.c:327
 #, c-format
 msgid "Science: %d%%"
-msgstr "Bilim: %d%%"
+msgstr "Bilim: %%%d"
 
 #: client/gui-win32/inteldlg.c:120
 #: client/gui-xaw/inteldlg.c:232
 #: client/gui-xaw/ratesdlg.c:319
 #, c-format
 msgid "Luxury: %d%%"
-msgstr "Lüks: %d%%"
+msgstr "Lüks: %%%d"
 
 #: client/gui-win32/inteldlg.c:128
 #: client/gui-xaw/inteldlg.c:245
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr "Araştırma: %s(%d/%d)"
+msgstr "Araştırılan: %s(%d/%d)"
 
 #: client/gui-win32/inteldlg.c:133
 msgid "Researching: (Unknown)"
-msgstr "Araştırma: (bilinmeyen)"
+msgstr "Araştırılan: (Bilinmiyor)"
 
 #: client/gui-win32/inteldlg.c:138
 #: client/gui-xaw/inteldlg.c:258
@@ -14788,7 +14803,7 @@ msgstr ""
 "Nüfus: %s\n"
 "Yıl: %s\n"
 "Altın: %d\n"
-"Vergi: %d Lüks: %d Fen: %d"
+"Vergi: %d Lüks: %d Bilim: %d"
 
 #: client/gui-win32/menu.c:306
 msgid "Sa_ve Settings"
@@ -14796,11 +14811,11 @@ msgstr "Ayarları _Kaydet"
 
 #: client/gui-win32/menu.c:314
 msgid "Clear _Log"
-msgstr "Kayıdı Sil"
+msgstr "Kütüğü _Sil"
 
 #: client/gui-win32/menu.c:316
 msgid "_Disconnect"
-msgstr "Bağlantı _Kes"
+msgstr "Bağlantıyı _Kes"
 
 #: client/gui-win32/menu.c:321
 msgid "Gov_ernment"
@@ -14813,7 +14828,7 @@ msgstr "Vergi Oranları"
 
 #: client/gui-win32/menu.c:325
 msgid "Work_lists"
-msgstr "Çalışma _Listeleri"
+msgstr "İş _Listeleri"
 
 #: client/gui-win32/menu.c:328
 msgid "_Revolution"
@@ -14826,23 +14841,23 @@ msgstr "Görüntüyü Ortala"
 
 #: client/gui-win32/menu.c:363
 msgid "Transf_orm to Hills"
-msgstr "Bayıra Dönüştür"
+msgstr "_Tepeye Dönüştür"
 
 #: client/gui-win32/menu.c:377
 #: client/gui-win32/menu.c:1265
 #: client/gui-xaw/menu.c:194
 msgid "Auto Settler"
-msgstr "Otomatik Göç"
+msgstr "Otomatik Göçmen"
 
 #: client/gui-win32/menu.c:386
 #: client/gui-xaw/menu.c:202
 msgid "Go/Airlift to City"
-msgstr "Git/Havayolu taşıması"
+msgstr "Git/Havayolu Taşıması"
 
 #: client/gui-win32/menu.c:390
 #: client/gui-xaw/menu.c:208
 msgid "Diplomat/Spy Actions"
-msgstr ""
+msgstr "Diplomat/Casus Hareketleri"
 
 #: client/gui-win32/menu.c:1107
 #: client/gui-win32/menu.c:1108
@@ -14856,18 +14871,18 @@ msgstr "%s ile değiştir"
 #: client/gui-xaw/menu.c:176
 #, c-format
 msgid "Transform to %s"
-msgstr "%s ile dönüştür"
+msgstr "%s dönüşümü"
 
 #: client/gui-win32/menu.c:1116
 #: client/gui-xaw/menu.c:175
 msgid "Transform Terrain"
-msgstr "Yerey Dönüştür"
+msgstr "Araziyi Dönüştür"
 
 #: client/gui-win32/menu.c:1195
 #: client/gui-win32/menu.c:1199
 #: client/gui-xaw/menu.c:166
 msgid "Build City"
-msgstr "Şehir inşa et"
+msgstr "Şehir Yap"
 
 #: client/gui-win32/menu.c:1203
 #: client/gui-xaw/menu.c:207
@@ -14877,12 +14892,12 @@ msgstr "Ticaret Yolu Yap"
 #: client/gui-win32/menu.c:1227
 #: client/gui-xaw/menu.c:171
 msgid "Build Farmland"
-msgstr "Otlak Yap"
+msgstr "Tarla Yap"
 
 #: client/gui-win32/menu.c:1262
 #: client/gui-xaw/menu.c:195
 msgid "Auto Attack"
-msgstr "Otomatik Saldırı"
+msgstr "Oto-Saldırı"
 
 #: client/gui-win32/messagedlg.c:138
 #: client/gui-win32/messagedlg.c:142
@@ -14897,7 +14912,7 @@ msgstr ""
 #: client/gui-win32/messagedlg.c:140
 #: client/gui-win32/messagedlg.c:144
 msgid "Pop:"
-msgstr ""
+msgstr "Nüf:"
 
 #: client/gui-win32/messagedlg.c:184
 msgid ""
@@ -14920,7 +14935,7 @@ msgstr "Tamam"
 #: client/gui-win32/messagewin.c:151
 #: data/Freeciv.in:3322
 msgid "Popup City"
-msgstr "Şehir Enformasyon"
+msgstr "Şehre Odaklan"
 
 #: client/gui-win32/plrdlg.c:72
 #: client/gui-xaw/plrdlg.c:361
@@ -15594,7 +15609,7 @@ msgstr "Gereksinim"
 
 #: manual/civmanual.c:303
 msgid "Obsolete by"
-msgstr "Geçersiz kılan:"
+msgstr "Geçersiz kılan"
 
 #: manual/civmanual.c:303
 msgid "More info"
@@ -15622,11 +15637,11 @@ msgstr "Diplomasi"
 
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
-msgstr ""
+msgstr "Aşağıdaki maddeler üzerinde uzlaşıldı:"
 
 #: data/Freeciv.in:366
 msgid "Erase clause"
-msgstr ""
+msgstr "Maddeyi sil"
 
 #: data/Freeciv.in:474
 #: data/Freeciv.in:483
@@ -15635,20 +15650,20 @@ msgstr "Görüş sahası paylaşımı"
 
 #: data/Freeciv.in:558
 msgid "Select Unit(s)"
-msgstr ""
+msgstr "Birim(ler)i seç"
 
 #: data/Freeciv.in:672
 #: data/Freeciv.in:751
 msgid "Variant:"
-msgstr ""
+msgstr "Değişken: "
 
 #: data/Freeciv.in:859
 msgid "Firepower:"
-msgstr ""
+msgstr "Ateş gücü:"
 
 #: data/Freeciv.in:932
 msgid "Movement/Defense:"
-msgstr ""
+msgstr "Hareket/Savunma:"
 
 #: data/Freeciv.in:951
 msgid "Food/Resources/Trade:"
@@ -15656,27 +15671,27 @@ msgstr "Gıda/Kaynaklar/Ticaret:"
 
 #: data/Freeciv.in:980
 msgid "Road Result/Time:"
-msgstr ""
+msgstr "Yol Sonuç/Zaman:"
 
 #: data/Freeciv.in:1000
 msgid "Irrig. Result/Time:"
-msgstr ""
+msgstr "Sulama Sonuç/Zaman:"
 
 #: data/Freeciv.in:1021
 msgid "Mine Result/Time:"
-msgstr ""
+msgstr "Maden Sonuç/Zaman:"
 
 #: data/Freeciv.in:1041
 msgid "Trans. Result/Time:"
-msgstr ""
+msgstr "Dönüşüm Sonuç/Zaman:"
 
 #: data/Freeciv.in:1105
 msgid "Select destination:"
-msgstr ""
+msgstr "Hedefi seç:"
 
 #: data/Freeciv.in:1264
 msgid "Where to Display Messages"
-msgstr ""
+msgstr "Mesajların Gösterileceği Yer"
 
 #: data/Freeciv.in:1265
 msgid ""
@@ -15694,7 +15709,7 @@ msgstr "Oranlar"
 
 #: data/Freeciv.in:1289
 msgid "Select tax, luxury and science rates:"
-msgstr ""
+msgstr "Vergi, lüks ve bilim oranlarını seçin:"
 
 #: data/Freeciv.in:1397
 msgid "Help:"
@@ -15706,11 +15721,11 @@ msgstr "Şehir valisi..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
-msgstr "Hedef Şablonu Ekle"
+msgstr "Şablon Ekle"
 
 #: data/Freeciv.in:1469
 msgid "Remove Preset"
-msgstr "Hedef Şablonu Sil"
+msgstr "Şablonu Sil"
 
 #: data/Freeciv.in:1471
 msgid "Control City"
@@ -15730,7 +15745,7 @@ msgstr "Çarpan:"
 
 #: data/Freeciv.in:1491
 msgid "Remove preset?"
-msgstr "Şablonu silinsin mi?"
+msgstr "Şablon silinsin mi?"
 
 #: data/Freeciv.in:1502
 msgid "City Options"
@@ -15778,7 +15793,7 @@ msgstr "Yapı Adı       Sayı Masraf Toplam"
 
 #: data/Freeciv.in:1922
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Birim Türü            Yükseltme  Hareket   Etkin   Kalkan     Gıda"
+msgstr "Birim Türü            Yükseltme  Hareket   Etkinlik   Kalkan     Gıda"
 
 #: data/Freeciv.in:2006
 msgid "Rename worklist"
@@ -15810,7 +15825,7 @@ msgstr "Gelecekteki yapıları göster:"
 
 #: data/Freeciv.in:2261
 msgid "Establish traderoute"
-msgstr "Ticaret yolu oluştur"
+msgstr "Ticaret yolu yap"
 
 #: data/Freeciv.in:2307
 msgid "Investigate City (free)"
@@ -15882,11 +15897,11 @@ msgstr "Cinsiyet seçin:"
 
 #: data/Freeciv.in:3158
 msgid "Male  "
-msgstr "Erkek"
+msgstr "Erkek  "
 
 #: data/Freeciv.in:3165
 msgid "Select city style:"
-msgstr "Şehir tipi seçin:"
+msgstr "Şehir tarzını seçin:"
 
 #: data/Freeciv.in:3176
 msgid " Ok "
@@ -16048,9 +16063,9 @@ msgstr ""
 "  8: kuzeye git\n"
 "  9: kuzey doğuya git\n"
 "\n"
-"  5: önceki birliğine geç\n"
-"  w: sonraki birliğine geç (bekle)\n"
-"  c: birliği penceresinde ortala\n"
+"  5: önceki birime geç\n"
+"  w: sonraki birime geç (bekle)\n"
+"  c: birimi ortala\n"
 
 #: data/helpdata.txt:489
 msgid ""
@@ -16133,7 +16148,7 @@ msgstr ""
 " Ctrl-L: İş Listeleri penceresini aç\n"
 "      R: Devrim penceresini aç\n"
 "\n"
-"Shift-Return: Sırayı bitir"
+"Shift-Return: Sırayı geçir"
 
 #: data/helpdata.txt:548
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
@@ -16185,11 +16200,11 @@ msgstr "Taktik ve strateji"
 
 #: data/helpdata.txt:593
 msgid "While every game is different, there's a basic strategy which most players follow, especially at the start of the game."
-msgstr ""
+msgstr "Her oyun birbirinden farklı olmasına rağmen pek çok oyuncunun kullandığı belli stratejiler vardır. Özellikle oyun başlangıcı konusunda..."
 
 #: data/helpdata.txt:596
 msgid "These steps may vary depending upon the server options, but in general, the steps are: "
-msgstr ""
+msgstr "Bu adımlar sunucu ayarlarına göre farklılık gösterebilir, ama genelde burada olduğu gibidir: "
 
 #: data/helpdata.txt:599
 msgid ""
@@ -16205,6 +16220,16 @@ msgid ""
 " 9. Making your own strategy for the game.\n"
 "10. Interacting with other players (Diplomacy).\n"
 msgstr ""
+"1. Yakın Çevreyi dolaşmak.\n"
+"2. Şehirleri savunmak.\n"
+"3. İlk yapılacak birimleri belirlemek.\n"
+"4. Toprağı işlemek.\n"
+"5. Şehirlerin yapılacağı yerleri belirlemek.\n"
+"6. Şehirlerin bakımını yapmak.\n"
+"7. Dünyayı dolaşmak.\n"
+"8. Olan biteni akılda tutmak.\n"
+"9. Kendi oyun stratejini belirlemek.\n"
+"10. Diğer oyuncularla iletişim kurmak (Diplomasi).\n"
 
 #: data/helpdata.txt:611
 msgid ""
@@ -16212,6 +16237,9 @@ msgid ""
 "\n"
 "    Start the game by wandering around BRIEFLY to find a good place to build the first city.  Don't feel tempted to investigate any yellow-roofed villages yet - they might contain barbarian tribes.  Build the city close to resources and perhaps close to the sea.  Keep in mind that the city you build first will be your capital!  The idea is to balance the quality of the site you find against getting your first city established as early as possible."
 msgstr ""
+" 0. İlk şehrin yerini belirlemek.\n"
+"\n"
+"    Oyuna fazla abartmadan ilk şehri kurmak için uygun bir yer bulana kadar gezerek başlayın.  Kulübelere girerken dikkatli olun, içinden barbarlar çıkabilir.  Şehri doğal kaynaklara ve denize yakın yapın.  İlk şehrinizin başkent olacağını aklınızdan çıkarmayın!  Yapmanız gereken başkenti güzel bir yere yapmakla çabuk yapmak arasındaki dengeyi bulmaktır."
 
 #: data/helpdata.txt:622
 msgid ""
@@ -16219,6 +16247,9 @@ msgid ""
 "\n"
 "    After the capital city has been founded, it will start producing a warrior unit.  These units can be used to rove around exploring the countryside.  Remember, it is risky to leave a city undefended, so perhaps keep the first warrior in the city, and use the following one to explore.  If you started the game with an explorer unit, use that to explore, obviously!"
 msgstr ""
+" 1. Yakın çevreyi dolaşmak.\n"
+"\n"
+"    Başkant kurulduktan sonra bir savaşçı birimi yapmaya başlayacaktır.  Bu birimler etrafı dolaşmak için kullanılabilirler.  Şehri savunmasız bırakmanın riskli olabileceğini unutmayın.  Bu yüzden belki de en iyisi ilk savaşçıyı şehirde bırakıp ikinciyi dolaşmaya göndermek olabilir.  Eğer oyuna başlarken elinizde kâşif birimi varsa hiç düşünmeden dolaşmak için onu kullanın!"
 
 #: data/helpdata.txt:631
 msgid ""
@@ -16226,11 +16257,14 @@ msgid ""
 "\n"
 "    At this point, defend your cities by always leaving a warrior unit in them.  As your civilization develops units with a greater defense strength, replace the obsolete units with new ones to ensure your cities have maximum defense.  The units most often used for defense are (in order of strength):  Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
+" 2. Şehirleri savunmak.\n"
+"\n"
+"    Şehirleri savunmak için her zaman garnizonda bir savaşçı tutun.  Uygarlığınız daha iyi savunma yapan birimler geliştirdikçe bu savaşçıları yükseltmeyi ihmal etmeyin.  Savunma için kullanılan birimler genelde şunlardır: Savaşçı, Kalkanlı, Mızrakçı, Silahşör ve Tüfekçi."
 
 #: data/helpdata.txt:641
 #, no-c-format
 msgid "    Keep in mind that with some types of government, military units inside or outside cities can reduce or create unhappiness. Also remember that when a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  When a new city is built, the city starts to build the best available defensive unit from the above list."
-msgstr ""
+msgstr "    Bazı yönetim biçimlerinde, şehir içindeki ve dışındaki askerlerin mutsuzluğa yol açabileceğini aklınızda tutun.  Ayrıca şehir içindeki birimin güçlendirme yapılmış gibi %50 savunma ikramiyesi kazandığını da unutmayın.  Yeni bir şehir kurulduğunda, üstteki listede verilen askerlerden mümkün olan en yenisini üretmeye başlayacaktır."
 
 #: data/helpdata.txt:648
 msgid ""
@@ -16238,6 +16272,9 @@ msgid ""
 "\n"
 "    After building one or two Warrior units, start building Settlers.  The second Settler can be used to build roads and irrigate the farmland close to the city, and the third can be used to build a new city.  Or, you can use the second Settler to build another city, and use the third Settler for agricultural improvements in the farmland around the cities.  Keep in mind that a large population increases both the amount of productivity and your civilization's research rate."
 msgstr ""
+" 3. İlk yapılacak birimleri belirlemek.\n"
+"\n"
+"    Bir-iki tane savaşçı yaptıktan sonra Göçmen yapmaya başlayın.  İkinci göçmen yol yapımında veya şehrin yakınındaki bölgelerde sulama yapmak için kullanılabilir.  Ya da ikinci göçmeni yeni bir kurmak için kullanıp üçüncü bir göçmeni bu işlerde kullanabilirsiniz. Yüksek nüfusun üretim ve bilimin daha iyi olmasını sağlayacağını unutmayın."
 
 #: data/helpdata.txt:659
 msgid ""
@@ -16245,6 +16282,9 @@ msgid ""
 "\n"
 "    Each city has an area of farmland around it that can be used for growing food, producing goods, and generating trade.  This can be increased by using Settlers to improve the farmland. The land can be improved with roads, irrigation, mines, and others."
 msgstr ""
+" 4. Toprağı işlemek.\n"
+"\n"
+"    Her şehrin etrafında gıda üretimi, eşya yapımı ve ticaret yapılabilecek araziler bulunur.  Buraların üretim miktarı Göçmenler kullanılarak arttırılabilir. Araziyi, yollar, sulama, maden ve diğerlerini kullanarak işleyebilirsiniz."
 
 #: data/helpdata.txt:667
 msgid ""
@@ -16252,6 +16292,9 @@ msgid ""
 "\n"
 "    The best location for a city is a matter of taste.  A city which is placed near the sea is easier to spot by opponents, but can also serve as a port for sea-going units.  (They also usually need a coastal defense later on.)  The best strategy is to build a few of both, but keep in mind that your opponents will find it harder to locate your city if you don't build it by the sea."
 msgstr ""
+" 5. Şehirlerin yapılacağı yerleri belirlemek.\n"
+"\n"
+"    Bir şehir için en iyi yeri belirlemek zevk meselesidir.  Deniz kenarına kurulan bir şehir düşmanlar tarafından daha rahat görülebilir, fakat bu şehirler aynı zamanda donanma yapımında da kullanılabilir.  (İlerleyen zamanlarda sahil güvenlik yapılması gerekebilir.)  En iyi strateji her türden birkaç tane yapmaktır. Yine de siz kıyıdan uzak yapılan şehirlerin düşmanlarca görülme şansının daha düşük olduğunu aklınızdan çıkarmayın."
 
 #: data/helpdata.txt:676
 msgid ""
@@ -16259,18 +16302,21 @@ msgid ""
 "\n"
 "    Every city has a band of citizens.  The number of citizens depends on the city's population.  When you click on a city, you can see how the farmland around the city is being used.  You can assign your citizens to the farmland, or they can be scientists, entertainers or taxmen.  Especially at the start of the game, care should be taken to ensure that the citizens are employed so that they maximise growth, trade and production."
 msgstr ""
+" 6 Şehirlerin bakımını yapmak.\n"
+"\n"
+"    Her şehirde bir grup vatandaş bulunur.  Bunların sayısı şehrin nüfusuna göre değişir.  Bir şehre tıkladığınızda etrafındaki arazinin nasıl kullanıldığını görebilirsiniz.  Vatandaşları bir arazide çalışmak için atayabileceğiniz gibi onları bilim adamı, sanatçı veya maliyeci olarak da atayabilirsiniz.  Özellikle oyunun başlarında nüfusun çalıştığı araziye dikkat ederek gıda, ticaret ve üretimin yüksek olmasını sağlayın."
 
 #: data/helpdata.txt:686
 msgid "    If too much food is being generated, a citizen can be taken off the farmland by clicking on the occupied farmland square.  This citizen can then be transferred to the other duties mentioned previously."
-msgstr ""
+msgstr "    Eğer çok fazla gıda üretimi varsa bir vatandaşı çalıştığı araziye tıklayarak işten çıkarın ve üretimi yüksek olan başka bir araziye tıklayıp burada çalışmasını sağlayın.  Demin de belirtildiği gibi vatandaşlar arazi üzerinde çalışmak zorunda değiller, diğer görevlere de atanabilirler."
 
 #: data/helpdata.txt:691
 msgid "    If you move all of your citizens into the city and right-click on the central tile of the farmland, the citizens will be rearranged to maximise food production."
-msgstr ""
+msgstr "    Eğer bütün işçilerini görevden alıp şehrin ortasına sağ tıklarsanız, işçiler gıda üretimini en yüksek seviyeye getirecek şekilde yeniden dizileceklerdir."
 
 #: data/helpdata.txt:697
 msgid "    The golden rule of taking care of a city is that there should be at least as many happy citizens as unhappy citizens.  A city where this is not so is labelled with a lightning bolt.  Take care not to let this happen to any of your cities, as unhappy cities produce nothing, and will soon revolt."
-msgstr ""
+msgstr "    Şehir bakımının altın kuralı mutsuz insan sayısı kadar mutlu insan olmasını sağlamaktır.  Bu dengeyi sağlayamayan bir şehirde isyan çıkacak ve üretim duracaktır."
 
 #: data/helpdata.txt:703
 msgid ""
@@ -16278,6 +16324,9 @@ msgid ""
 "\n"
 "    After you have fortified your cities with troops, build Triremes in the cities near the sea.  Use the Triremes to map the world in search of opponents and new lands.  If you are on an island, you should spend less on military and more on expansion.  Or if you are located close to an opponent, it is truly a good idea to make a peace treaty and share the advances you have made. Diplomatic units are very useful here, and WILL pay off later."
 msgstr ""
+" 7. Dünyayı dolaşmak.\n"
+"\n"
+"    Şehirleri güçlendirilmiş birimlerle garantiye aldıktan sonra kıyıdaki şehirlerden Kadırga yapın.  Kadırgaları rakipleri ve yeni araziler bulmada kullanın.  Eğer bir ada üzerindeyseniz, orduya az, yayılmaya çok önem vermelisiniz.  Eğer çok yakınlarınızda bir rakip bulunuyorsa onunla barış yapıp teknolojilerinizi paylaşmak iyi bir fikir olabilir. Diplomatik birimler bu konuda çok kullanışlıdırlar, ilerleyen zamanlarda haklarını fazlasıyla ödeyeceklerdir."
 
 #: data/helpdata.txt:713
 msgid ""
@@ -16291,6 +16340,18 @@ msgid ""
 "\n"
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
+" 8. Olan biteni akılda tutmak.\n"
+"\n"
+"Her tur akılda tutulması gereken şeyler şunlardır: "
+"\n"
+"  - Sonra öğrenilecek teknolojinin ne olacağı.\n"
+"\n"
+"  - Vergi, lüks ve bilim oranlarının neye ayarlı olduğu.\n"
+"\n"
+"  - Antlaşmaların kolay bozulabildiğini, bu nedenle bir savunmayı ihmal etmemek gerektiğini...\n"
+"\n"
+"\n"
+"  - Bazı harikaların gelişen teknolojiyle etkisiz hale geldiğini."
 
 #: data/helpdata.txt:724
 msgid ""
@@ -16299,6 +16360,10 @@ msgid ""
 "    These basic concepts will allow you to play the game pretty well, especially in the beginning of the game.  But to improve, you need to study the various units and advances, and PRACTICE, PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't played a similar game before, try consulting the Freeciv WWW pages at http://www.freeciv.org/\n"
 "You'll find more tips for playing, and details of how to contact other players."
 msgstr ""
+" 9 Kendi oyun stratejini belirlemek.\n"
+"\n"
+"    Bu ilk adımlar oyunu gayet güzel oynamanızı sağlayacaktır, özellikle de oyun başlangıcında. Kendinizi geliştirmek için pek çok birimi ve teknolojiyi öğrenmelisiniz. Yani DENEYEREK ÖĞRENİN!  Freeciv öğrenmesi zot bir oyundur. Daha önce benzer bir oyun oynamadıysanız http://www.freeciv.org/ adresini gezin.\n"
+"Orada oyun hakkında daha fazla ipucu ve diğer oyuncularla nasıl iletişim kurulacağının ayrıntılarını bulabilirsiniz."
 
 #: data/helpdata.txt:735
 msgid ""
