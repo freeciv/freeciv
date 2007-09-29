@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-29 09:24+0300\n"
+"PO-Revision-Date: 2007-09-29 16:51+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1962,67 +1962,67 @@ msgstr "  -d, --debug SAYI\tKütük seviyesini ayarla (0-4 arası veya 4:dosya1,
 #: server/civserver.c:221
 #: client/civclient.c:218
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
-msgstr ""
+msgstr "  -d, --debug SAYI\tHata ayıklama kütük seviyesini ayarla (0'dan 3'e kadar)\n"
 
 #: server/civserver.c:223
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
-msgstr ""
+msgstr "  -f, --file DOSYA\tDOSYA'dan Kayıtlı oyunu yükle\n"
 
 #: server/civserver.c:225
 #: client/civclient.c:221
 #: manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
-msgstr ""
+msgstr "  -h, --help\t\tAyarların bir özetini yazdır\n"
 
 #: server/civserver.c:226
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
-msgstr ""
+msgstr "  -l, --log DOSYA\tDOSYA'yı kütük dosyası olarak kullan\n"
 
 #: server/civserver.c:227
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
-msgstr ""
+msgstr "  -m, -meta\t\tmetasunucuyu bilgilendir ve sunucunun bilgisini gönder\n"
 
 #: server/civserver.c:229
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-msgstr ""
+msgstr "  -M, --Metaserver ADRES\tADRES'i metasunucunun adresi olarak ayarla\n"
 
 #: server/civserver.c:232
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
-msgstr ""
+msgstr "  -p, --port PORT\tİstemcileri PORT portundan dinle\n"
 
 #: server/civserver.c:234
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
-msgstr ""
+msgstr "  -q, --quitidle ZAMAN\tZAMAN saniye boyunca oyuncu gelmezse çık\n"
 
 #: server/civserver.c:236
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr ""
+msgstr "  -e, --exit-on-end\tOyun bitince baştan başlatmak yerine çık\n"
 
 #: server/civserver.c:239
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
-msgstr ""
+msgstr "  -s, --saves DİZİN\tOyunları DİZİN'e kaydet\n"
 
 #: server/civserver.c:241
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr ""
+msgstr "  -S, --Serverid KİMLİK\tsunucunun kimliğini KİMLİK yap\n"
 
 #: server/civserver.c:243
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tOyunu kaydederken haritanın ppmlerini de kaydet.\n"
 
 #: server/civserver.c:244
 msgid "  -r, --read FILE\tRead startup script FILE\n"
-msgstr ""
+msgstr "  -r, --read DOSYA\tBaşlama betiği olarak DOSYA'yı oku\n"
 
 #: server/civserver.c:246
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr ""
+msgstr "  -R, --Ranklog DOSYA\tDOSYA'yı derece kaydını tutmada kullan\n"
 
 #: server/civserver.c:247
 #: client/civclient.c:240
 #: manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
-msgstr ""
+msgstr "  -v, --version\t\tSürüm numarasını yazdır\n"
 
 #: server/civserver.c:248
 #: client/gui-gtk-2.0/gui_main.c:267
@@ -2066,11 +2066,11 @@ msgstr ""
 
 #: server/commands.c:63
 msgid "Show a list of players, teams, connections, or scenarios."
-msgstr ""
+msgstr "Oyuncuların, takımların bağlantıların veya senaryoların bir listesini ver."
 
 #: server/commands.c:64
 msgid "Show a list of players in the game, teams of players, connections to the server, or available scenarios.  The argument may be abbreviated, and defaults to 'players' if absent."
-msgstr ""
+msgstr "Oyuncuların, takımların bağlantıların veya senaryoların bir listesini verir. Değişken kısaltılarak yazılabilir, verilmediğinde 'players' girilmiş olarak kabul edilir."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -2083,11 +2083,11 @@ msgstr "cut <bağlantı-adı>"
 
 #: server/commands.c:75
 msgid "Cut a client's connection to server."
-msgstr ""
+msgstr "Bir istemcinin sunucuyla olan bağlantısını kes."
 
 #: server/commands.c:76
 msgid "Cut specified client's connection to the server, removing that client from the game.  If the game has not yet started that client's player is removed from the game, otherwise there is no effect on the player.  Note that this command now takes connection names, not player names."
-msgstr ""
+msgstr "Bir istemcinin sunucuyla olan bağlantısını keser ve oyuncu oyundan atılır.  Oyun başladıktan sonra bir etkisi yoktur.  Bu komut oyuncu isimleriyle değil bağlantı isimleriyle çalışır."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:83
@@ -2136,11 +2136,11 @@ msgstr ""
 
 #: server/commands.c:108
 msgid "vote yes|no [vote number]"
-msgstr ""
+msgstr "vote yes|no [oy numarası]"
 
 #: server/commands.c:109
 msgid "Cast a vote."
-msgstr ""
+msgstr "Oy ver."
 
 #: server/commands.c:111
 #, no-c-format
@@ -2181,7 +2181,7 @@ msgstr ""
 
 #: server/commands.c:142
 msgid "rulesetdir <directory>"
-msgstr ""
+msgstr "rulesetdir <dizin>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
@@ -2305,14 +2305,16 @@ msgid ""
 "away\n"
 "away"
 msgstr ""
+"away\n"
+"away"
 
 #: server/commands.c:218
 msgid "Set yourself in away mode. The AI will watch your back."
-msgstr ""
+msgstr "Uzakta moduna geçer. YZ sizin yerinize bakacaktır."
 
 #: server/commands.c:219
 msgid "The AI will govern your nation but do minimal changes."
-msgstr ""
+msgstr "YZ ulusunuzu yönetecektir fakat asgari düzeyde değişiklik yapacaktır."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:223
@@ -2534,7 +2536,7 @@ msgstr "read <dosya-adı>"
 
 #: server/commands.c:351
 msgid "Process server commands from file."
-msgstr ""
+msgstr "Dosyadan sunucu komutlarını çalıştır."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:355
@@ -2543,7 +2545,7 @@ msgstr "write <dosya-adı>"
 
 #: server/commands.c:356
 msgid "Write current settings as server commands to file."
-msgstr ""
+msgstr "Şimdiki ayarları sunucu komutları olarak dosyaya yaz."
 
 #: server/commands.c:360
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -2561,26 +2563,26 @@ msgstr "Hoş Geldin %s"
 #: server/connecthand.c:86
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr ""
+msgstr "%s Sunucusuna hoş geldiniz (%s üzerindeki %d portunda çalışıyor)."
 
 #: server/connecthand.c:90
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr ""
+msgstr "%s Sunucusuna hoş geldiniz (%d portunda çalışıyor)."
 
 #: server/connecthand.c:98
 #, c-format
 msgid "%s has connected from %s."
-msgstr ""
+msgstr "%s, %s adresinden bağlandı."
 
 #: server/connecthand.c:103
 #, c-format
 msgid "Server: %s has connected from %s."
-msgstr ""
+msgstr "Sunucu: %s, %s adresinden bağlandı."
 
 #: server/connecthand.c:137
 msgid "Couldn't attach your connection to new player."
-msgstr ""
+msgstr "Bağlantınız yeni oyuncuya bağlanamadı."
 
 #: server/connecthand.c:147
 #, c-format
@@ -2628,7 +2630,7 @@ msgstr ""
 #: server/connecthand.c:253
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
-msgstr ""
+msgstr "%s reddedildi: Yetenekler uyuşmuyor."
 
 #: server/connecthand.c:246
 #, c-format
@@ -2645,17 +2647,17 @@ msgstr "Geçersiz kullanıcı adı '%s'"
 #: server/connecthand.c:264
 #, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr ""
+msgstr "%s reddedildi: Geçersiz isim [%s]."
 
 #: server/connecthand.c:272
 #, c-format
 msgid "'%s' already connected."
-msgstr ""
+msgstr "'%s' zaten bağlı."
 
 #: server/connecthand.c:275
 #, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr ""
+msgstr "%s reddedildi: Tekrarlayan giriş adı [%s]."
 
 #: server/connecthand.c:303
 #: server/connecthand.c:312
@@ -2665,11 +2667,11 @@ msgstr "Bağlantı kesildi: %s."
 
 #: server/console.c:167
 msgid "Ok. RFC-style set."
-msgstr ""
+msgstr "Tamam. RFC tarzı ayarlandı."
 
 #: server/console.c:169
 msgid "Ok. Standard style set."
-msgstr ""
+msgstr "Tamam. Standart tarz ayarlandı"
 
 #: server/console.c:189
 msgid "For introductory help, type 'help'."
@@ -2678,31 +2680,31 @@ msgstr "Tanıtıcı yardım için 'help' yazın."
 #: server/diplhand.c:163
 #, c-format
 msgid "The %s can't accept %s."
-msgstr ""
+msgstr "%s, %s kabul etmiyor."
 
 #: server/diplhand.c:175
 #, c-format
 msgid "You don't have tech %s, you can't accept treaty."
-msgstr ""
+msgstr "%s teknolojiniz yok, antlaşma imzalayamazsınız."
 
 #: server/diplhand.c:184
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr ""
+msgstr "Vermek istediğiniz şehir artık yok, antlaşmayı imzalayamazsınız."
 
 #: server/diplhand.c:190
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
-msgstr ""
+msgstr "%s şehrinin sahibi değilsiniz, antlaşmayı imzalayamazsınız."
 
 #: server/diplhand.c:196
 #: server/diplhand.c:300
 #, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
-msgstr ""
+msgstr "Başkentiniz (%s) isteniyor, antlaşmayı imzalayamazsınız."
 
 #: server/diplhand.c:223
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr ""
+msgstr "Yeterli altınınız yok, antlaşmayı imzalayamazsınız."
 
 #: server/diplhand.c:255
 #: server/diplhand.c:260
@@ -4344,9 +4346,8 @@ msgid "If all players have not hit \"Turn Done\" before this time is up, then th
 msgstr ""
 
 #: server/settings.c:892
-#, fuzzy
 msgid "Timeout at least n seconds when enemy moved"
-msgstr "Düşman hareket edince zaman aşımı"
+msgstr "Düşman hareket edince en az n saniye zaman aşımı"
 
 #: server/settings.c:893
 msgid "Any time a unit moves when in sight of an enemy player, the remaining timeout is set to this value if it was lower."
@@ -4361,9 +4362,8 @@ msgid "If true, all players' movement phases will occur simultaneously; if false
 msgstr ""
 
 #: server/settings.c:910
-#, fuzzy
 msgid "Seconds to let a client's network connection block"
-msgstr "İstemcinin ağ bağlantısını"
+msgstr "İstemcinin ağ bağlantısını engellemesine izin vermek için geçecek saniye"
 
 #: server/settings.c:911
 msgid "If a network connection is blocking for a time greater than this value, then the connection is closed. Zero means there is no timeout (although connections will be automatically disconnected eventually)."
@@ -8661,9 +8661,8 @@ msgstr[0] "%s 'nin toprakları (%d sıra ateşkes)"
 
 #: client/text.c:133
 #, c-format
-#, fuzzy
 msgid "Territory of the %s %s"
-msgstr "%s'nin toprakları %s"
+msgstr "%s (%s) tarafının toprakları"
 
 #: client/text.c:138
 msgid "Unclaimed territory"
@@ -9942,7 +9941,7 @@ msgstr "Bütün Şehirler"
 #: client/gui-gtk-2.0/cityrep.c:1388
 #: client/gui-win32/cityrep.c:440
 msgid "No Cities"
-msgstr "Hiç Şehir Yok"
+msgstr "Hiçbir Şehir"
 
 #: client/gui-gtk-2.0/cityrep.c:1393
 #: client/gui-win32/cityrep.c:441
@@ -9951,31 +9950,27 @@ msgstr "Seçimi Tersine Çevir"
 
 #: client/gui-gtk-2.0/cityrep.c:1403
 msgid "Building Units"
-msgstr "Yapımda Olan Birimler"
+msgstr "Üretilen Birimler"
 
 #: client/gui-gtk-2.0/cityrep.c:1409
 msgid "Building Improvements"
 msgstr "İnşa Halindeki Yapılar"
 
 #: client/gui-gtk-2.0/cityrep.c:1415
-#, fuzzy
 msgid "Building Wonders"
-msgstr "Yapımda olan Harikalar"
+msgstr "Yapım Aşamasındaki Harikalar"
 
 #: client/gui-gtk-2.0/cityrep.c:1427
-#, fuzzy
 msgid "Building Unit"
-msgstr "Yapımında olan Birim"
+msgstr "Üretilen Birim"
 
 #: client/gui-gtk-2.0/cityrep.c:1431
-#, fuzzy
 msgid "Building Improvement"
-msgstr "Yapımında olan Gelişim"
+msgstr "İnşa Edilen Yapı"
 
 #: client/gui-gtk-2.0/cityrep.c:1435
-#, fuzzy
 msgid "Building Wonder"
-msgstr "Harika Yapıyor"
+msgstr "Harika Yapılıyor"
 
 #: client/gui-gtk-2.0/cityrep.c:1443
 #: client/gui-win32/cityrep.c:443
@@ -10026,6 +10021,10 @@ msgid ""
 "including sample presets,\n"
 "see README.cma."
 msgstr ""
+"Şehir valisi ve şablonları\n"
+"hakkında bilgi almak için, örnek şablonları da\n"
+"içeren README.cma dosyasına\n"
+"bakın."
 
 #: client/gui-gtk-2.0/cma_fe.c:269
 msgid "_Presets:"
@@ -10161,7 +10160,7 @@ msgstr "_Uluslar:"
 #: client/gui-gtk-2.0/dialogs.c:762
 #: data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
-msgstr "Hangi Ulusu Alacaksınız?"
+msgstr "Hangi Ulusu Yöneteceksiniz?"
 
 #: client/gui-gtk-2.0/dialogs.c:764
 #: client/gui-sdl/chatline.c:542
@@ -10211,7 +10210,7 @@ msgstr "Cinsiyetinizi seçmelisiniz."
 #: client/gui-gtk-2.0/dialogs.c:1236
 #: client/gui-xaw/dialogs.c:1481
 msgid "You must select your city style."
-msgstr ""
+msgstr "Şehir tarzınızı seçmelisiniz."
 
 #: client/gui-gtk-2.0/dialogs.c:1245
 #: client/gui-sdl/dialogs.c:2203
@@ -10312,7 +10311,7 @@ msgstr "--- Antlaşma boş. Lütfen şartlar ekle. ---"
 #: client/gui-win32/diplodlg.c:263
 #: client/gui-xaw/diplodlg.c:950
 msgid "Invalid amount of gold specified."
-msgstr "Altın miktarı geçersiz."
+msgstr "İstenen altın miktarı geçersiz."
 
 #: client/gui-gtk-2.0/finddlg.c:64
 #: client/gui-sdl/finddlg.c:129
@@ -10374,7 +10373,7 @@ msgstr "_Havayolu taşıması"
 #: client/gui-gtk-2.0/gotodlg.c:140
 #: client/gui-sdl/gotodlg.c:234
 msgid "Select destination"
-msgstr "Gidecek yeri seç"
+msgstr "Gidilecek yeri seç"
 
 #: client/gui-gtk-2.0/gotodlg.c:183
 msgid "Show _All Cities"
@@ -10382,7 +10381,7 @@ msgstr "_Bütün Şehirleri Göster"
 
 #: client/gui-gtk-2.0/gui_main.c:150
 msgid "Show Map Scrollbars"
-msgstr ""
+msgstr "Harita Kaydırma Çubuklarını Göster"
 
 #: client/gui-gtk-2.0/gui_main.c:151
 msgid "Disable this option to hide the scrollbars on the map view."
@@ -10390,7 +10389,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:155
 msgid "Keyboardless goto"
-msgstr ""
+msgstr "Klavyesiz git komutu"
 
 #: client/gui-gtk-2.0/gui_main.c:156
 msgid "If this option is set then a goto may be initiated by left-clicking and then holding down the mouse button while dragging the mouse onto a different tile."
@@ -10398,7 +10397,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:161
 msgid "Keep dialogs on top"
-msgstr ""
+msgstr "Pencereleri üstte tut"
 
 #: client/gui-gtk-2.0/gui_main.c:162
 msgid "If this option is set then dialog windows will always remain in front of the main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -10406,7 +10405,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:166
 msgid "Show worklist task icons"
-msgstr ""
+msgstr "İş listesinde görev simgelerini çiz"
 
 #: client/gui-gtk-2.0/gui_main.c:167
 msgid "Disabling this will turn off the unit and building icons in the worklist dialog and the production tab of the city dialog."
@@ -10414,7 +10413,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:171
 msgid "Enable status report tabs"
-msgstr ""
+msgstr "Durum raporu sekmeleri etkin"
 
 #: client/gui-gtk-2.0/gui_main.c:172
 msgid "If this option is enabled then report dialogs will be shown as separate tabs rather than in popup dialogs."
@@ -10423,7 +10422,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:177
 #: client/gui-win32/gui_main.c:110
 msgid "Better fog-of-war drawing"
-msgstr ""
+msgstr "Daha iyi savaş sisi çizimi"
 
 #: client/gui-gtk-2.0/gui_main.c:178
 #: client/gui-win32/gui_main.c:111
@@ -10436,6 +10435,8 @@ msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
+"Bu istemcinin hiç özel komut satırı ayarı yok\n"
+"\n"
 
 #: client/gui-gtk-2.0/gui_main.c:687
 #: client/gui-gtk-2.0/gui_main.c:1309
@@ -10472,6 +10473,10 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
+"Freeciv özgür bir yazılımdır ve belli şartlar altında onun kopyalarını\n"
+"dağıtmakta serbestsiniz; yardım menüsündeki \"Kopyalama\"\n"
+"bölümüne bakınız.\n"
+"Kolay Gelsin!"
 
 #: client/gui-gtk-2.0/gui_main.c:1453
 msgid "Not _ready"
@@ -10491,15 +10496,15 @@ msgstr "_Başlat"
 #: client/gui-gtk-2.0/gui_main.c:1479
 #: client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
-msgstr "Ulusu _Seç"
+msgstr "Ulus _Seç"
 
 #: client/gui-gtk-2.0/gui_main.c:1481
 msgid "Create _player"
-msgstr "Oyuncu _Yarat"
+msgstr "O_yuncu Oluştur"
 
 #: client/gui-gtk-2.0/gui_main.c:1486
 msgid "_Release player"
-msgstr "_Oyuncu Bırak"
+msgstr "_Oyuncuyu Bırak"
 
 #: client/gui-gtk-2.0/gui_main.c:1488
 #: client/gui-gtk-2.0/pages.c:1572
@@ -10528,7 +10533,7 @@ msgstr "<Normal YZ>"
 
 #: client/gui-gtk-2.0/gui_main.c:1524
 msgid "<Hard AI>"
-msgstr "<Sert YZ>"
+msgstr "<Zor YZ>"
 
 #: client/gui-gtk-2.0/gui_main.c:1534
 #: client/gui-win32/dialogs.c:594
@@ -10553,7 +10558,7 @@ msgid ""
 "Close Tab:\n"
 "%s"
 msgstr ""
-"Sekme kapat:\n"
+"Sekmeyi kapat:\n"
 "%s"
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
@@ -10580,13 +10585,13 @@ msgstr "Şehir sayısı: toplam %d, eşiği geçen: %d, eşik: %d şehir.\n"
 #: client/gui-win32/happiness.c:201
 #, c-format
 msgid "%d content before penalty with "
-msgstr ""
+msgstr "%d ceza alınması için kalan içerik "
 
 #: client/gui-gtk-2.0/happiness.c:254
 #: client/gui-win32/happiness.c:203
 #, c-format
 msgid "%d additional unhappy citizens."
-msgstr ""
+msgstr "%d fazladan mutsuz vatandaş."
 
 #: client/gui-gtk-2.0/happiness.c:270
 #: client/gui-win32/happiness.c:220
@@ -10700,7 +10705,7 @@ msgstr "Adım:"
 #: client/gui-sdl/helpdlg.c:772
 #: client/gui-win32/helpdlg.c:88
 msgid "FirePower:"
-msgstr "Ateş gücü:"
+msgstr "Ateş Gücü:"
 
 #: client/gui-gtk-2.0/helpdlg.c:97
 #: client/gui-sdl/helpdlg.c:773
@@ -10720,7 +10725,7 @@ msgstr "Temel Bakım Masrafı:"
 #: client/gui-win32/helpdlg.c:89
 #: data/Freeciv.in:894
 msgid "Vision:"
-msgstr "Görüş:"
+msgstr "Görüş Sahası:"
 
 #: client/gui-gtk-2.0/helpdlg.c:104
 #: client/gui-win32/helpdlg.c:95
@@ -10741,22 +10746,22 @@ msgstr "Kaynaklar:"
 #: client/gui-gtk-2.0/helpdlg.c:106
 #: client/gui-win32/helpdlg.c:97
 msgid "Road Rslt/Time:"
-msgstr ""
+msgstr "Yol Yap/Süre: "
 
 #: client/gui-gtk-2.0/helpdlg.c:106
 #: client/gui-win32/helpdlg.c:97
 msgid "Irrig. Rslt/Time:"
-msgstr ""
+msgstr "Sulm. Yap/Süre:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107
 #: client/gui-win32/helpdlg.c:98
 msgid "Mine Rslt/Time:"
-msgstr ""
+msgstr "Maden Yap/Süre:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107
 #: client/gui-win32/helpdlg.c:98
 msgid "Trans. Rslt/Time:"
-msgstr ""
+msgstr "Dönüş. Yap/Süre:"
 
 #: client/gui-gtk-2.0/helpdlg.c:111
 #: client/gui-win32/helpdlg.c:165
@@ -10782,13 +10787,13 @@ msgstr "Hakkında"
 #: client/gui-gtk-2.0/helpdlg.c:199
 #: client/gui-xaw/helpdlg.c:271
 msgid "Removed"
-msgstr "Silindi"
+msgstr "Kaldırıldı"
 
 #: client/gui-gtk-2.0/helpdlg.c:429
 #: client/gui-win32/helpdlg.c:424
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
-msgstr "Freeciv Yardım Penceresi"
+msgstr "Freeciv Yardım Gezgini"
 
 #: client/gui-gtk-2.0/helpdlg.c:657
 msgid "Expand All"
@@ -10805,11 +10810,11 @@ msgstr "Hepsini Katla"
 #: client/gui-gtk-2.0/helpdlg.c:1007
 #: client/gui-sdl/helpdlg.c:978
 msgid "Allows"
-msgstr "Sağladıkları:"
+msgstr "Sağladığı"
 
 #: client/gui-gtk-2.0/helpdlg.c:954
 msgid "Obsoletes"
-msgstr "Kullanımdan Kalkar"
+msgstr "Geçersiz Kıldığı"
 
 #: client/gui-gtk-2.0/helpdlg.c:994
 #: client/gui-gtk-2.0/helpdlg.c:1011
@@ -10819,7 +10824,7 @@ msgstr "ile"
 #: client/gui-gtk-2.0/helpdlg.c:999
 #: client/gui-gtk-2.0/helpdlg.c:1016
 msgid "?techhelp:"
-msgstr ""
+msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1063
 #: client/gui-win32/helpdlg.c:591
@@ -10833,7 +10838,7 @@ msgstr "+%d Ticaret / %d"
 #: client/gui-xaw/helpdlg.c:1002
 #, c-format
 msgid "no extra / %d"
-msgstr "ekstra yok / %d"
+msgstr "fazladan yok / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1070
 #: client/gui-gtk-2.0/helpdlg.c:1074
@@ -10847,7 +10852,7 @@ msgstr "ekstra yok / %d"
 #: client/gui-xaw/helpdlg.c:1022
 #: client/gui-xaw/helpdlg.c:1041
 msgid "n/a"
-msgstr ""
+msgstr "bilinmiyor"
 
 #: client/gui-gtk-2.0/helpdlg.c:1077
 #: client/gui-win32/helpdlg.c:605
@@ -10881,7 +10886,7 @@ msgstr "Vergi:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50
 msgid "Researching:"
-msgstr "Araştırma:"
+msgstr "Araştırılan:"
 
 #: client/gui-gtk-2.0/inteldlg.c:239
 msgid "_Diplomacy"
@@ -10889,12 +10894,12 @@ msgstr "_Diplomasi"
 
 #: client/gui-gtk-2.0/inteldlg.c:274
 msgid "_Techs"
-msgstr "_Teknoloji"
+msgstr "_Teknolojiler"
 
 #: client/gui-gtk-2.0/inteldlg.c:299
 #, c-format
 msgid "Foreign Intelligence: %s Empire"
-msgstr "İstihbarat: %s İmparatorluk"
+msgstr "İstihbarat: %s İmparatorluğu"
 
 #: client/gui-gtk-2.0/mapctrl.c:195
 #: client/gui-sdl/mapctrl.c:2528
@@ -10902,14 +10907,14 @@ msgstr "İstihbarat: %s İmparatorluk"
 #: client/gui-sdl/menu.c:978
 #: client/gui-win32/mapctrl.c:357
 msgid "Build New City"
-msgstr "Yeni Şehir Kur"
+msgstr "Yeni Şehir İnşa Et"
 
 #: client/gui-gtk-2.0/mapctrl.c:196
 #: client/gui-sdl/mapctrl.c:2557
 #: client/gui-win32/mapctrl.c:358
 #: client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
-msgstr "Şehrin adı ne olsun?"
+msgstr "Yeni şehrimizin adı ne olsun?"
 
 #: client/gui-gtk-2.0/mapview.c:147
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
@@ -10922,7 +10927,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:248
 msgid "Leaving a local game will end it!"
-msgstr "Oyunu bıraktığı zaman oyun bitiyor."
+msgstr "Yerel bir oyundan çıkarsanız oyun bitecektir!"
 
 #: client/gui-gtk-2.0/menu.c:685
 #: client/gui-win32/menu.c:303
@@ -10954,29 +10959,29 @@ msgstr "Oyun"
 #: client/gui-gtk-2.0/menu.c:689
 #: client/gui-win32/menu.c:304
 msgid "Local _Options"
-msgstr "Yerel _Tercihler"
+msgstr "Yerel _Ayarlar"
 
 #: client/gui-gtk-2.0/menu.c:691
 #: client/gui-win32/menu.c:305
 msgid "_Message Options"
-msgstr "_Mesaj Tercihleri"
+msgstr "_Mesaj Ayarları"
 
 #: client/gui-gtk-2.0/menu.c:696
 msgid "_Reload Tileset"
-msgstr "Alan Takımı _yeniden yükle"
+msgstr "Arazi Setini _Yeniden Yükle"
 
 #: client/gui-gtk-2.0/menu.c:699
 msgid "Save Options on _Exit"
-msgstr "_Çıkışta Tercihleri Kaydetsin"
+msgstr "Çıkışta Aya_rları Kaydet"
 
 #: client/gui-gtk-2.0/menu.c:701
 msgid "Sa_ve Options"
-msgstr "Tercihleri _Kaydet"
+msgstr "Ayarları _Kaydet"
 
 #: client/gui-gtk-2.0/menu.c:705
 #: client/gui-win32/menu.c:308
 msgid "Server O_ptions"
-msgstr "_Server Tercihleri"
+msgstr "_Sunucu Ayarları"
 
 #: client/gui-gtk-2.0/menu.c:709
 #: client/gui-win32/menu.c:310
@@ -10991,11 +10996,11 @@ msgstr "Oyunu _Farklı Kaydet"
 #: client/gui-gtk-2.0/menu.c:717
 #: client/gui-win32/menu.c:313
 msgid "E_xport Log"
-msgstr "Kaydı _Ver"
+msgstr "Kütüğü _Dışarı Aktar"
 
 #: client/gui-gtk-2.0/menu.c:719
 msgid "_Clear Log"
-msgstr "Kaydı Si_l"
+msgstr "Kütüğü Si_l"
 
 #: client/gui-gtk-2.0/menu.c:723
 msgid "_Leave"
@@ -11057,7 +11062,7 @@ msgstr "_Hükümet"
 #: client/gui-gtk-2.0/menu.c:751
 #: client/gui-win32/menu.c:334
 msgid "_View"
-msgstr "_Göster"
+msgstr "_Görünüm"
 
 #: client/gui-gtk-2.0/menu.c:753
 #: client/gui-gtk-2.0/menu.c:755
@@ -11087,7 +11092,7 @@ msgstr "_Göster"
 #: client/gui-gtk-2.0/menu.c:804
 #: data/Freeciv.in:2028
 msgid "View"
-msgstr "Göster"
+msgstr "Görünüm"
 
 #: client/gui-gtk-2.0/menu.c:755
 msgid "City Outlines"
@@ -11096,12 +11101,12 @@ msgstr "Şehir Sınır_ları"
 #: client/gui-gtk-2.0/menu.c:757
 #: client/gui-win32/menu.c:335
 msgid "Map _Grid"
-msgstr "Harita Çız_gıları"
+msgstr "_Harita Izgarası"
 
 #: client/gui-gtk-2.0/menu.c:759
 #: client/gui-win32/menu.c:336
 msgid "National _Borders"
-msgstr "_Milli Sınırları"
+msgstr "_Milli Sınırlar"
 
 #: client/gui-gtk-2.0/menu.c:761
 #: client/gui-win32/menu.c:337
@@ -11116,7 +11121,7 @@ msgstr "Şehir _Büyüme"
 #: client/gui-gtk-2.0/menu.c:766
 #: client/gui-win32/menu.c:339
 msgid "City _Productions"
-msgstr "Şehir _Üretimi"
+msgstr "Şe_hir Üretimi"
 
 #: client/gui-gtk-2.0/menu.c:770
 #: client/gui-sdl/optiondlg.c:1642
@@ -11126,7 +11131,7 @@ msgstr "Şehir _Üretimi"
 #: manual/civmanual.c:220
 #: data/helpdata.txt:1221
 msgid "Terrain"
-msgstr "Yerey"
+msgstr "Arazi"
 
 #: client/gui-gtk-2.0/menu.c:772
 #: client/gui-win32/menu.c:341
@@ -11155,19 +11160,19 @@ msgstr "Kale & Hava Üssü"
 #: client/gui-win32/menu.c:348
 #: client/gui-xaw/menu.c:154
 msgid "Specials"
-msgstr "Özel Alanlar"
+msgstr "Özellikler"
 
 #: client/gui-gtk-2.0/menu.c:788
 #: client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:155
 msgid "Pollution & Fallout"
-msgstr "Kirlilik & Nükleer Serpintisi"
+msgstr "Kirlilik & Nükleer Serpinti"
 
 #: client/gui-gtk-2.0/menu.c:794
 #: client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:158
 msgid "Focus Unit"
-msgstr "_Birim Ortala"
+msgstr "_Birime Odaklan"
 
 #: client/gui-gtk-2.0/menu.c:796
 #: client/gui-sdl/optiondlg.c:1861
@@ -11182,7 +11187,7 @@ msgstr "_Tam Ekran"
 
 #: client/gui-gtk-2.0/menu.c:804
 msgid "_Center View"
-msgstr "_Görüntü _Ortala"
+msgstr "Görüntüyü _Ortala"
 
 #: client/gui-gtk-2.0/menu.c:807
 #: client/gui-win32/menu.c:358
@@ -11260,7 +11265,7 @@ msgstr "_Maden Yap"
 #: client/gui-gtk-2.0/menu.c:819
 #: client/gui-gtk-2.0/menu.c:1331
 msgid "Transf_orm Terrain"
-msgstr "Yerey _Dönüştür"
+msgstr "Araziyi _Dönüştür"
 
 #: client/gui-gtk-2.0/menu.c:821
 #: client/gui-gtk-2.0/menu.c:1477
@@ -11282,22 +11287,22 @@ msgstr "Kirliliği _Temizle"
 #: client/gui-gtk-2.0/menu.c:827
 #: client/gui-win32/menu.c:367
 msgid "Clean _Nuclear Fallout"
-msgstr "_Nükleer Serpintini Temizle"
+msgstr "_Nükleer Serpintiyi Temizle"
 
 #: client/gui-gtk-2.0/menu.c:831
 #: client/gui-win32/menu.c:369
 msgid "_Sentry"
-msgstr "_Nöbetçi asker"
+msgstr "_Nöbet tut"
 
 #: client/gui-gtk-2.0/menu.c:837
 #: client/gui-win32/menu.c:372
 msgid "Make _Homecity"
-msgstr "_Memleketi Yap"
+msgstr "Memleketi Ya_p"
 
 #: client/gui-gtk-2.0/menu.c:839
 #: client/gui-win32/menu.c:373
 msgid "_Load"
-msgstr "_Araca bindir"
+msgstr "Araca _bindir"
 
 #: client/gui-gtk-2.0/menu.c:841
 msgid "_Unload Transporter"
@@ -11306,7 +11311,7 @@ msgstr "_Araçtan İndir"
 #: client/gui-gtk-2.0/menu.c:843
 #: client/gui-win32/menu.c:374
 msgid "_Unload"
-msgstr "_Boşalt"
+msgstr "B_oşalt"
 
 #: client/gui-gtk-2.0/menu.c:845
 #: client/gui-win32/menu.c:375
@@ -11315,7 +11320,7 @@ msgstr "_Diğerleri Kaldır"
 
 #: client/gui-gtk-2.0/menu.c:849
 msgid "_Auto Settler"
-msgstr "_Otomatik Göç"
+msgstr "Oto-Göç_men"
 
 #: client/gui-gtk-2.0/menu.c:851
 #: client/gui-win32/menu.c:378
@@ -11353,12 +11358,12 @@ msgstr "Şehir inşa _et"
 
 #: client/gui-gtk-2.0/menu.c:861
 msgid "Patrol (_Q)"
-msgstr "Devriye gezdirme (_Q)"
+msgstr "Devriye gez (_Q)"
 
 #: client/gui-gtk-2.0/menu.c:863
 #: client/gui-win32/menu.c:385
 msgid "_Go to"
-msgstr "_Git"
+msgstr "Gi_t"
 
 #: client/gui-gtk-2.0/menu.c:865
 msgid "Go\\/Airlift to City"
@@ -11369,19 +11374,19 @@ msgstr "Git\\/Havayolu taşıması"
 #: client/gui-win32/menu.c:387
 #: client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
-msgstr "En yakın şehire dön"
+msgstr "En yakın şehre dön"
 
 #: client/gui-gtk-2.0/menu.c:871
 #: client/gui-win32/menu.c:389
 #: client/gui-xaw/menu.c:205
 msgid "Disband Unit"
-msgstr "Birim serbest bırak"
+msgstr "Birimi Terhis Et"
 
 #: client/gui-gtk-2.0/menu.c:873
 #: client/gui-sdl/citydlg.c:524
 #: data/Freeciv.in:1186
 msgid "Upgrade unit"
-msgstr "Birliği yükselt"
+msgstr "Birimi yükselt"
 
 #: client/gui-gtk-2.0/menu.c:875
 msgid "Diplomat\\/Spy Actions"
@@ -11392,11 +11397,11 @@ msgstr "Diplomat\\/Casus Hareketleri"
 #: client/gui-win32/menu.c:391
 #: client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
-msgstr "Atom Bombası patlat"
+msgstr "Atom Bombasını patlat"
 
 #: client/gui-gtk-2.0/menu.c:881
 msgid "Select same type"
-msgstr "Aynı tip seç"
+msgstr "Aynı türdekileri seç"
 
 #: client/gui-gtk-2.0/menu.c:883
 #: client/gui-win32/menu.c:393
@@ -11529,17 +11534,17 @@ msgstr "_Bağlantı"
 #: client/gui-gtk-2.0/menu.c:923
 #: client/gui-win32/menu.c:416
 msgid "C_ontrols"
-msgstr "_Tuşlar"
+msgstr "Tuşla_r"
 
 #: client/gui-gtk-2.0/menu.c:925
 #: client/gui-win32/menu.c:417
 msgid "C_hatline"
-msgstr "So_hbet Alanı"
+msgstr "So_hbet Satırı"
 
 #: client/gui-gtk-2.0/menu.c:927
 #: client/gui-win32/menu.c:418
 msgid "_Worklist Editor"
-msgstr "_İş Listesi Düzenleyicisi"
+msgstr "İş Listesi _Düzenleyicisi"
 
 #: client/gui-gtk-2.0/menu.c:929
 #: client/gui-win32/menu.c:419
@@ -11554,12 +11559,12 @@ msgstr "_Oynamak"
 #: client/gui-gtk-2.0/menu.c:935
 #: client/gui-win32/menu.c:422
 msgid "City _Improvements"
-msgstr "Şehirdeki _Yapılar"
+msgstr "Şehir _Yapıları"
 
 #: client/gui-gtk-2.0/menu.c:939
 #: client/gui-win32/menu.c:424
 msgid "Com_bat"
-msgstr "Cenk"
+msgstr "_Savaş"
 
 #: client/gui-gtk-2.0/menu.c:941
 #: client/gui-win32/menu.c:425
@@ -11569,12 +11574,12 @@ msgstr "_KOB"
 #: client/gui-gtk-2.0/menu.c:943
 #: client/gui-win32/menu.c:426
 msgid "Techno_logy"
-msgstr "Teknolo_ji"
+msgstr "_Teknoloji"
 
 #: client/gui-gtk-2.0/menu.c:945
 #: client/gui-win32/menu.c:427
 msgid "_Terrain"
-msgstr "_Yerey"
+msgstr "_Arazi"
 
 #: client/gui-gtk-2.0/menu.c:947
 #: client/gui-win32/menu.c:428
@@ -11584,17 +11589,17 @@ msgstr "_Harikalar"
 #: client/gui-gtk-2.0/menu.c:951
 #: client/gui-win32/menu.c:430
 msgid "Happin_ess"
-msgstr "M_utluluk"
+msgstr "_Mutluluk"
 
 #: client/gui-gtk-2.0/menu.c:953
 #: client/gui-win32/menu.c:431
 msgid "Space _Race"
-msgstr "Uzay Ya_rışı"
+msgstr "_Uzay Yarışı"
 
 #: client/gui-gtk-2.0/menu.c:957
 #: client/gui-win32/menu.c:433
 msgid "_Copying"
-msgstr "Lis_ans"
+msgstr "_Lisans"
 
 #: client/gui-gtk-2.0/menu.c:959
 #: client/gui-win32/menu.c:434
@@ -13552,13 +13557,12 @@ msgstr[0] ""
 
 #: client/gui-sdl/mapview.c:758
 #, c-format
-#, fuzzy
 msgid ""
 "\n"
 "Territory of the %s %s"
 msgstr ""
 "\n"
-"%s tarafının toprakları %s"
+"%s (%s) tarafının toprakları"
 
 #: client/gui-sdl/mapview.c:764
 msgid ""
@@ -15591,7 +15595,7 @@ msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s Yerey Yardımı</h1>\n"
+"<h1>Freeciv %s arazi yardımı</h1>\n"
 "\n"
 
 #: manual/civmanual.c:221
@@ -16323,7 +16327,7 @@ msgid ""
 msgstr ""
 " 3. İlk yapılacak birimleri belirlemek.\n"
 "\n"
-"    Bir-iki tane savaşçı yaptıktan sonra Göçmen yapmaya başlayın.  İkinci göçmen yol yapımında veya şehrin yakınındaki bölgelerde sulama yapmak için kullanılabilir.  Ya da ikinci göçmeni yeni bir kurmak için kullanıp üçüncü bir göçmeni bu işlerde kullanabilirsiniz. Yüksek nüfusun üretim ve bilimin daha iyi olmasını sağlayacağını unutmayın."
+"    Bir-iki tane savaşçı yaptıktan sonra Göçmen yapmaya başlayın.  İkinci göçmen yol yapımında veya şehrin yakınındaki bölgelerde sulama yapmak için kullanılabilir.  Ya da ikinci göçmeni yeni bir şehir kurmak için kullanıp üçüncü bir göçmeni bu işlerde kullanabilirsiniz. Yüksek nüfusun üretim ve bilimin daha iyi olmasını sağlayacağını unutmayın."
 
 #: data/helpdata.txt:659
 msgid ""
@@ -16333,7 +16337,7 @@ msgid ""
 msgstr ""
 " 4. Toprağı işlemek.\n"
 "\n"
-"    Her şehrin etrafında gıda üretimi, eşya yapımı ve ticaret yapılabilecek araziler bulunur.  Buraların üretim miktarı Göçmenler kullanılarak arttırılabilir. Araziyi, yollar, sulama, maden ve diğerlerini kullanarak işleyebilirsiniz."
+"    Her şehrin etrafında gıda üretme, eşya yapma ve ticaret yapmanın mümkün olduğu araziler bulunur.  Buraların üretim miktarı Göçmenler kullanılarak arttırılabilir. Araziyi, yollar, sulama, maden ve diğerlerini kullanarak işleyebilirsiniz."
 
 #: data/helpdata.txt:667
 msgid ""
@@ -17857,9 +17861,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1114
 #: data/civ1/buildings.ruleset:768
-#, fuzzy
 msgid "Works as a City Wall in all cities."
-msgstr "Bütün şehirlerin sur yapılığı gibi etkisi var."
+msgstr "Bütün şehirlere Sur yapılmış gibi bir etkisi vardır."
 
 #: data/civ2/buildings.ruleset:1256
 #: data/civ1/buildings.ruleset:876
@@ -19055,7 +19058,7 @@ msgstr "Buz"
 
 #: data/civ1/terrain.ruleset:179
 msgid "Arctic squares are found only in the most northerly or southerly reaches of the world.  They are very cold, and hence difficult to work with."
-msgstr ""
+msgstr "Buzlu araziler dünyanın en güneyinde ve en kuzeyinde bulunurlar.  Çok soğuk oldukları için üzerinde çalışmak oldukça zordur."
 
 #: data/civ1/terrain.ruleset:550
 msgid "Horses"
@@ -19122,7 +19125,7 @@ msgstr "Savaşçı"
 #: data/civ2/units.ruleset:200
 #: data/civ1/units.ruleset:167
 msgid "This unit may be built from the start of the game.  It is the weakest unit."
-msgstr ""
+msgstr "Bu birim oyunun en başında üretilebilen, en zayıf birimdir."
 
 #: data/default/units.ruleset:352
 #: data/civ2/units.ruleset:206
@@ -19134,7 +19137,7 @@ msgstr "Kalkanlı"
 #: data/civ2/units.ruleset:232
 #: data/civ1/units.ruleset:199
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr ""
+msgstr "Kalkanlı birimi, şehir savunması için uygun olan zırhlı bir birimdir."
 
 #: data/default/units.ruleset:383
 #: data/civ2/units.ruleset:237
@@ -19144,7 +19147,7 @@ msgstr "Okçu"
 #: data/default/units.ruleset:409
 #: data/civ2/units.ruleset:263
 msgid "Archers fight with bows and arrows and has a good offensive value as well as decent defense."
-msgstr ""
+msgstr "Okçular oklarla savaşırlar ve savunma kabiliyetlerine oranla daha iyi saldırı kabiliyetleri vardır."
 
 #: data/default/units.ruleset:415
 #: data/civ2/units.ruleset:269
@@ -19156,7 +19159,7 @@ msgstr "Lejyoner"
 #: data/civ2/units.ruleset:295
 #: data/civ1/units.ruleset:230
 msgid "Legions are heavily armed and well disciplined infantry units with an excellent offensive value."
-msgstr ""
+msgstr "Lejyonerler yüksek saldırı kabiliyetine sahip, zırhlı ve iyi eğitimli piyadelerdir."
 
 #: data/default/units.ruleset:447
 #: data/civ2/units.ruleset:301
@@ -19166,7 +19169,7 @@ msgstr "Mızrakçı"
 #: data/default/units.ruleset:473
 #: data/civ2/units.ruleset:327
 msgid "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city defender."
-msgstr ""
+msgstr "Uzun bir mızrağa sahip Mızrakçılar, Kalkanlı biriminin yerini alırlar."
 
 #: data/default/units.ruleset:479
 #: data/civ2/units.ruleset:333
@@ -19177,7 +19180,7 @@ msgstr "Silahşör"
 #: data/default/units.ruleset:506
 #: data/civ2/units.ruleset:360
 msgid "Musketeers are infantry equipped with early firearms and replace Pikemen as the preferred city defender."
-msgstr ""
+msgstr "Silahşörler, Mızrakçıların yerini alan ve ilkel ateşli silahlara sahip piyadelerdir."
 
 #: data/default/units.ruleset:513
 #: data/civ2/units.ruleset:400
@@ -19197,6 +19200,15 @@ msgid ""
 "\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
+"Aşağıdaki şartları sağlayabiliyorsanız, düşmanlar bir şehrinizi ele geçirdiklerinde ücretsiz olarak bu birimlerden elde edersiniz:\n"
+"\n"
+" - Eşkiyalık en azından bir oyuncu tarafından keşfedilmiş olmalı.\n"
+"\n"
+" - Şehri ilk yapan oyuncu siz olmalısınız.\n"
+"\n"
+" - Komunizm ve Barut teknolojilerine sahip olmalısınız.\n"
+"\n"
+" - Yönetim biçimi olarak Demokrasi veya Komunizm kullanıyor olmalısınız."
 
 #: data/default/units.ruleset:553
 #: data/civ2/units.ruleset:440
@@ -19206,7 +19218,7 @@ msgstr "Dağ Timi"
 #: data/default/units.ruleset:579
 #: data/civ2/units.ruleset:466
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
-msgstr ""
+msgstr "Dağ timleri hızlı hareket edebilen ve iyi savunma yapabilen birimlerdir."
 
 #: data/default/units.ruleset:585
 #: data/civ2/units.ruleset:472
@@ -19218,7 +19230,7 @@ msgstr "Tüfekçi"
 #: data/civ2/units.ruleset:498
 #: data/civ1/units.ruleset:296
 msgid "Riflemen are World War-era infantry, very good at defending your cities."
-msgstr ""
+msgstr "Tüfekçiler dünya savaşının piyadeleridirler. Şehirleri savunmada gayet iyidirler."
 
 #: data/default/units.ruleset:617
 #: data/civ2/units.ruleset:504
@@ -19228,7 +19240,7 @@ msgstr "Denizci"
 #: data/default/units.ruleset:643
 #: data/civ2/units.ruleset:530
 msgid "Marines are infantry who are experts at marine warfare."
-msgstr ""
+msgstr "Denizciler, deniz üzerinde yapılan saldırılarda uzmandırlar."
 
 #: data/default/units.ruleset:648
 #: data/civ2/units.ruleset:535
@@ -19238,7 +19250,7 @@ msgstr "Paraşütçü"
 #: data/default/units.ruleset:674
 #: data/civ2/units.ruleset:561
 msgid "Paratroopers are experts at airborne attacks."
-msgstr ""
+msgstr "Paraşütçüler hava saldırılarında uzmandırlar."
 
 #: data/default/units.ruleset:683
 #: data/civ2/units.ruleset:570
@@ -19272,7 +19284,7 @@ msgstr "At Arabası"
 #: data/civ2/units.ruleset:662
 #: data/civ1/units.ruleset:394
 msgid "Chariots are horse-pulled war wagons, stronger but more expensive than horsemen."
-msgstr ""
+msgstr "At arabaları, Atlı biriminden daha güçlü ve pahalı birimlerdir."
 
 #: data/default/units.ruleset:781
 #: data/civ2/units.ruleset:732
@@ -19284,7 +19296,7 @@ msgstr "Şövalye"
 #: data/civ2/units.ruleset:759
 #: data/civ1/units.ruleset:427
 msgid "Knights are mounted and heavily armored warriors."
-msgstr ""
+msgstr "Şovalyeler atlı ve zırhlı savaşçılardır."
 
 #: data/default/units.ruleset:813
 #: data/civ2/units.ruleset:764
@@ -19294,7 +19306,7 @@ msgstr "Ağır Süvari"
 #: data/default/units.ruleset:840
 #: data/civ2/units.ruleset:791
 msgid "Dragoons are mounted warriors carrying early firearms."
-msgstr ""
+msgstr "Ağır süvariler, ilkel ateşli silahlar kullanan atlı savaşçılardır."
 
 #: data/default/units.ruleset:845
 #: data/civ2/units.ruleset:796
@@ -19305,7 +19317,7 @@ msgstr "Süvari"
 #: data/default/units.ruleset:871
 #: data/civ2/units.ruleset:822
 msgid "Cavalry are mounted and highly trained soldiers."
-msgstr ""
+msgstr "Süvariler atlı ve iyi eğitimli askerlerdir."
 
 #: data/default/units.ruleset:876
 #: data/civ2/units.ruleset:827
@@ -19401,7 +19413,7 @@ msgstr "Görünmez Avcı"
 #: data/default/units.ruleset:1166
 #: data/civ2/units.ruleset:1117
 msgid "An improved Fighter, with improved attack and a higher movement radius."
-msgstr ""
+msgstr "Gelişmiş bir Avcı, daha çok saldırı gücüne ve hareket yarıçapına sahiptir."
 
 #: data/default/units.ruleset:1172
 #: data/civ2/units.ruleset:1123
@@ -19411,7 +19423,7 @@ msgstr "Görünmez Bombacı"
 #: data/default/units.ruleset:1198
 #: data/civ2/units.ruleset:1149
 msgid "An improved Bomber, with improved attack and a higher movement radius."
-msgstr ""
+msgstr "Gelişmiş bir Bombacı, daha çok saldırı gücüne ve hareket yarıçapına sahiptir."
 
 #: data/default/units.ruleset:1204
 #: data/civ2/units.ruleset:1155
@@ -19423,7 +19435,7 @@ msgstr "Kadırga"
 #: data/civ2/units.ruleset:1181
 #: data/civ1/units.ruleset:655
 msgid "The Trireme is your first boat unit. It can act as a transport ship and has rudimentary offensive capabilities, but may not stray too far from the shore."
-msgstr ""
+msgstr "Kadırga, ilk bulunan gemi türüdür. Kara birimlerini taşıyabilir ve diğer gemilere saldırabilir. Sahilden uzaklaşması tehlikeli olabilir."
 
 #: data/default/units.ruleset:1237
 #: data/civ2/units.ruleset:1188
@@ -19433,7 +19445,7 @@ msgstr "Karavela"
 #: data/default/units.ruleset:1263
 #: data/civ2/units.ruleset:1214
 msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
-msgstr ""
+msgstr "Karavela, Kadırga'nın yerini alan ve ondan daha güvenilir olan bir gemidir."
 
 #: data/default/units.ruleset:1269
 #: data/civ2/units.ruleset:1220
@@ -19443,7 +19455,7 @@ msgstr "Kalyon"
 #: data/default/units.ruleset:1295
 #: data/civ2/units.ruleset:1246
 msgid "The Galleon is a pure transport ship and cannot attack other ships, though it may still defend itself when attacked."
-msgstr ""
+msgstr "Kalyon, diğer gemilere saldıramayan, fakat kendini savunabilen bir taşıma gemisidir."
 
 #: data/default/units.ruleset:1302
 #: data/civ2/units.ruleset:1253
@@ -19455,7 +19467,7 @@ msgstr "Firkateyn"
 #: data/civ2/units.ruleset:1279
 #: data/civ1/units.ruleset:720
 msgid "The Frigate is a highly versatile boat unit, that is both a strong offensive unit as well as a decent transport ship."
-msgstr ""
+msgstr "Firkateyn, oldukça becerikli bir gemidir. Hem güçlü bir saldırı birimi hem de ortalama bir taşıyıcıdır."
 
 #: data/default/units.ruleset:1335
 #: data/civ2/units.ruleset:1286
@@ -19467,7 +19479,7 @@ msgstr "Zırhlı Gemi"
 #: data/civ2/units.ruleset:1312
 #: data/civ1/units.ruleset:753
 msgid "The Ironclad is an armored ship that is much more sturdy than the Frigate but loses the latter's transport capability."
-msgstr ""
+msgstr "Zırhlı Gemi, Firkateyn'den çok daha dayanıklı olan fakat ondan daha az birim taşıyabilen bir gemidir."
 
 #: data/default/units.ruleset:1368
 #: data/civ2/units.ruleset:1319
@@ -19477,7 +19489,7 @@ msgstr "Muhrip"
 #: data/default/units.ruleset:1394
 #: data/civ2/units.ruleset:1345
 msgid "TIP:  A very fast unit, which is very useful for hunting down enemy Transports."
-msgstr ""
+msgstr "İpucu: Çok hızlı bir birimdir, özellikle düşman nakliyat gemilerini batırmada üstüne yoktur."
 
 #: data/default/units.ruleset:1400
 #: data/civ2/units.ruleset:1351
@@ -19489,7 +19501,7 @@ msgstr "Kruvazör"
 #: data/civ2/units.ruleset:1377
 #: data/civ1/units.ruleset:786
 msgid "The Cruiser is a strong offensive boat unit."
-msgstr ""
+msgstr "Kruvazör güçlü bir saldırı gemisidir."
 
 #: data/default/units.ruleset:1431
 #: data/civ2/units.ruleset:1382
@@ -19499,7 +19511,7 @@ msgstr "AEGIS Kruvazörü"
 #: data/default/units.ruleset:1457
 #: data/civ2/units.ruleset:1408
 msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
-msgstr ""
+msgstr "AEGIS Kruvazörü gelişmiş bir savunma mekanizmasına sahiptir."
 
 #: data/default/units.ruleset:1463
 #: data/civ2/units.ruleset:1414
@@ -19511,7 +19523,7 @@ msgstr "Savaş Gemisi"
 #: data/civ2/units.ruleset:1440
 #: data/civ1/units.ruleset:817
 msgid "The Battleship is the supreme naval unit with excellent offensive and defensive values."
-msgstr ""
+msgstr "Savaş Gemisi en yüksek savunma ve saldırı değerlerine sahip olan, önemli bir deniz birimidir."
 
 #: data/default/units.ruleset:1495
 #: data/civ2/units.ruleset:1446
@@ -19523,7 +19535,7 @@ msgstr "Denizaltı"
 #: data/civ2/units.ruleset:1473
 #: data/civ1/units.ruleset:849
 msgid "Submarines have a very high strategic value, but have a weak defence."
-msgstr ""
+msgstr "Denizaltıların stratejik önemi büyüktür fakat zayıf bir savunmaya sahiptirler."
 
 #: data/default/units.ruleset:1528
 #: data/civ2/units.ruleset:1479
@@ -19535,7 +19547,7 @@ msgstr "Uçak Gemisi"
 #: data/civ2/units.ruleset:1505
 #: data/civ1/units.ruleset:881
 msgid "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, as losing a fully-equipped Carrier is VERY painful and expensive."
-msgstr ""
+msgstr "İpucu: Uçak Gemilerini birkaç hızlı gemiyle ve bir Savaş Gemisiyle koruyun. Çünkü tamamen dolu bir Uçak Gemisini kaybetmek bundan çok daha pahalıya malolacaktır."
 
 #: data/default/units.ruleset:1561
 #: data/civ2/units.ruleset:1512
@@ -19547,7 +19559,7 @@ msgstr "Nakliyat Gemisi"
 #: data/civ2/units.ruleset:1538
 #: data/civ1/units.ruleset:914
 msgid "The Transport cannot attack on its own but may defend itself when under attack."
-msgstr ""
+msgstr "Nakliyat Gemisi saldrı yapamaz fakat saldırı yapıldığında kendini savunabilir."
 
 #: data/default/units.ruleset:1593
 #: data/civ2/units.ruleset:1544
@@ -19557,7 +19569,7 @@ msgstr "Füze"
 #: data/default/units.ruleset:1619
 #: data/civ2/units.ruleset:1570
 msgid "TIP:  A handful of these can successfully keep the waters around your treasured homeland free of enemy ships."
-msgstr ""
+msgstr "İpucu:  Bunlardan bir avuç kullanarak düşman gemilerini değerli topraklarınızdan rahatlıkla uzak tutabilirsiniz."
 
 #: data/default/units.ruleset:1651
 #: data/civ2/units.ruleset:1602
@@ -19632,7 +19644,7 @@ msgstr "Kamyon"
 #: data/default/units.ruleset:1827
 #: data/civ2/units.ruleset:1778
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr ""
+msgstr "Kamyonlar, Kervan biriminin yerini alırlar ve iki kat daha hızlı hareket edebilirler."
 
 #: data/default/units.ruleset:1832
 #: data/civ2/units.ruleset:1783
@@ -19642,11 +19654,11 @@ msgstr "Kâşif"
 #: data/default/units.ruleset:1858
 #: data/civ2/units.ruleset:1809
 msgid "Explorers are very useful for mapping unknown territory."
-msgstr ""
+msgstr "Kâşifler bilinmeyen bölgeleri keşfetmede oldukça kullanışlıdırlar."
 
 #: data/default/units.ruleset:1891
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr ""
+msgstr "Bu sizsiniz. Bu birimi kaybederseniz oyunu da kaybedersiniz. Yani kendinize dikkat edin."
 
 #: data/default/units.ruleset:1896
 #: data/civ2/units.ruleset:1814
@@ -19657,7 +19669,7 @@ msgstr "Barbar Lideri"
 #: data/default/units.ruleset:1923
 #: data/civ2/units.ruleset:1840
 msgid "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units and helicopters."
-msgstr ""
+msgstr "Barbar lideri, yanında savunma yapan herhangi bir birim olmadan öldürülürse 100 altın ganimet elde edilir (sadece kara birimleri ve helikopterlere)."
 
 #: data/default/units.ruleset:1929
 msgid "AWACS"
@@ -19665,7 +19677,7 @@ msgstr "AWACS"
 
 #: data/default/units.ruleset:1955
 msgid "The AWACS (Airborne Warning and Control System) is an airplane with an advanced radar that can determine the location of enemy units over a wide area."
-msgstr ""
+msgstr "AWACS (Airborne Warning and Control System), geniş bir alandaki tüm düşman birimlerini görebilmenizi sağlayan bir radara sahip olan uçak birimidir."
 
 #: data/civ2/units.ruleset:115
 msgid ""
@@ -19689,7 +19701,7 @@ msgstr "Müfrit"
 
 #: data/civ2/units.ruleset:394
 msgid "Fundamentalist nations can maintain Fanatic units without having to pay any shields for upkeep."
-msgstr ""
+msgstr "Aşırı dinci uluslar Müfrit birimlerini desteklemek için hiç kalkan ödemezler."
 
 #: data/civ2/units.ruleset:668
 msgid "Elephants"
@@ -19697,7 +19709,7 @@ msgstr "Fil"
 
 #: data/civ2/units.ruleset:694
 msgid "Elephants are towering animals trained for war, but are easily dispersed if caught off guard."
-msgstr ""
+msgstr "Filler savaş için eğitilmiş yıkıcı hayvanlardır. Savunmasız yakalandıklarında kolayca öldürülebilirler."
 
 #: data/civ2/units.ruleset:700
 msgid "Crusaders"
@@ -19705,7 +19717,7 @@ msgstr "Haçlı Askeri"
 
 #: data/civ2/units.ruleset:726
 msgid "Crusaders are highly disciplined mounted warriors driven by a higher cause."
-msgstr ""
+msgstr "Haçlı askerleri yüksek disiplinli atlı birimlerden oluşur."
 
 #: data/civ1/units.ruleset:123
 msgid ""
@@ -19713,6 +19725,9 @@ msgid ""
 "\n"
 "Settlers may work together to decrease the amount of time required for long projects.  If two or more Settlers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers is highly vulnerable to enemy attacks."
 msgstr ""
+"Göçmenler oyundaki en önemli birimlerdendir.  Yeni şehirler inşa etmede, sulamada, yol ve ray yapımında, kale ve maden yapımında, kirlilik ve radyoaktif atıkları temizlemede kullanılabilirler.  Göçmenlerin bakımı için hem gıda hem de üretim harcanır.  Bakımını yapan şehirde yiyecek kalmazsa göçmenler ölebilir.\n"
+"\n"
+"Uzun sürecek işlerde birden fazla göçmen birimi çalışarak zamandan kazanabilirler.  Yine de aynı işe çok fazla göçmen atadığınızda bazılarının emeği boşa gidecektir.  Ayrıca aynı arazide duran birkaç göçmenin düşman saldırılarına karşı oldukça savunmasız olabileceğini unutmayın."
 
 #: data/civ1/units.ruleset:141
 msgid "Militia"
@@ -19720,15 +19735,15 @@ msgstr "Milis"
 
 #: data/civ1/units.ruleset:263
 msgid "Musketeers are infantry equipped with early firearms and replace Phalanx as the preferred city defender."
-msgstr ""
+msgstr "Silahşörler ilkel ateşli silahları kullanan piyade birimlerdir. Şehir savunucusu olarak Kalkanlı biriminin yerini alırlar."
 
 #: data/civ1/units.ruleset:361
 msgid "Cavalry are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
-msgstr ""
+msgstr "Süvariler, sürüler halinde düşman bölgesine girdiklerinde durdurulması zor olan atlı birimlerdir."
 
 #: data/civ1/units.ruleset:558
 msgid "The artillery is an upgraded cannon with improved defensive as well as offensive capabilities."
-msgstr ""
+msgstr "Topçular, Savaş Topu biriminden farklı olarak aynı zamanda kendilerini savunabilen birimlerdir."
 
 #: data/civ1/units.ruleset:662
 msgid "Sail"
@@ -19736,7 +19751,7 @@ msgstr "Yelkenli"
 
 #: data/civ1/units.ruleset:688
 msgid "The Sail replaces the Trireme and is much more reliable on the open seas."
-msgstr ""
+msgstr "Yelkenli, Kadırga'nın yerini alan ve açık denizlerde daha güvenilir olan bir birimdir."
 
 #: data/civ1/units.ruleset:946
 msgid ""
@@ -20486,9 +20501,8 @@ msgid "?plural:Egyptians"
 msgstr "Mısırlılar"
 
 #: data/nation/egyptian.ruleset:6
-#, fuzzy
 msgid "Egypt was the second-oldest of the world's civilizations.  Since ancient times it has been unusually urbanized, supporting a large population on silt deposited by the annual floodings of the Nile."
-msgstr "Mısır Kuzey Afrika'nın en kalabalık ülkesidir. Nüfusun büyük bir bölümü Nil Nehri boyunca yerleşmiştir. Mısır tarihi ve medeniyeti 7.000 yılık bir geçmişe sahiptir."
+msgstr "Mısır, dünyanın en eski ikinci medeniyetidir.  Antik çağlardan beri olağan dışı bir şekilde şehirleşmişlerdir. Nil'in her yıl taşarak getirdiği alüvyonlar sayesinde büyük bir nüfusa sahip olabilmiştir."
 
 #: data/nation/egyptian.ruleset:26
 msgid "Pharaoh"
@@ -20527,9 +20541,8 @@ msgid "?plural:Estonians"
 msgstr "Estonyalılar"
 
 #: data/nation/estonian.ruleset:6
-#, fuzzy
 msgid "Estonia is a small country on the south shore of the eastern Baltic Sea.  Its people and language are closely related to those of Finland."
-msgstr "Estonya Kuzey Avrupa'da bulunan bir Baltık Devleti'dir. Estonya 1227'de Almanlar'ın Kılıç Kardeşliği ve Danimarkalılar tarafından fethedilmesiyle Hristiyanlaştılırmıştır. Estonya tarihin değişik dönemlerinde Danimarka, İsveç, Polonya ve Rusya egemenliği altına girmiştir."
+msgstr "Estonya, doğu Baltık Denizi'nin güney kıyısında bulunan küçük bir ülkedir.  İnsanları ve dilleri Finlandiya'ya çok yakındır."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -20540,9 +20553,8 @@ msgid "?plural:Ethiopians"
 msgstr "Etiyopyalılar"
 
 #: data/nation/ethiopian.ruleset:6
-#, fuzzy
 msgid "Ethiopia is the oldest nation in Africa and the only one to remain independent during European colonialism."
-msgstr "Etiyopya, M.Ö. 1237 yılında kurulmuştur, Afrika'nın ve dünyanın en eski bağımsız uluslarındandır. 1936-1941 yılları arasında İtalya'nın işgali dışında hiçbir ülkeye bağımlı olmamış, tarih kayıtlarında hakkında çok şey aktarılmış bir ülkedir."
+msgstr "Etiyopya, Afrika'nın en eski medeniyetidir. Avrupa'nın kolonileştirmesi sırasında bağımsız kalabilen tek devlettir."
 
 #: data/nation/ethiopian.ruleset:24
 msgid "Emporer"
@@ -20569,9 +20581,8 @@ msgid "?plural:Finns"
 msgstr "Finlandiyalılar"
 
 #: data/nation/finnish.ruleset:6
-#, fuzzy
 msgid "Finland is a small, cold country on the northern fringe of Europe, noted for exporting timber, cellular phones, and world-class operating systems."
-msgstr "Finlandiya Cumhuriyeti Kuzey Avrupa'da Baltık Denizi kıyısında bir ülkesi. İskandinavya yarım adasındadır. Nefis cep telefonları ve işlem sistemleri üretiyorlar."
+msgstr "Finlandiya Avrupa'nın kuzeyinde bulunan küçük, soğuk bir ülkedir. Odun, cep telefonu ve birinci sınıf işletim sistemleri ihraç etmesiyle ünlüdür."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -20644,9 +20655,8 @@ msgid "?plural:Gauls"
 msgstr "Galler"
 
 #: data/nation/gallic.ruleset:6
-#, fuzzy
 msgid "The Gauls were a Celtic people occupying what is now France and Belgium."
-msgstr "Galya günümüzde başta Fransa olmak üzere Batı Avrupa'nın büyük bir bölümüne tarihte verilen isimdi. Galya'nın sınırları Fransa'nın yanısıra günümüzdeki Kuzey İtalya, Belçika, İsviçre'nin batısı, Hollanda'nın bazı kısımlarıyla Almanya'daki Ren Nehri'nin batı kıyısındaki bölgeleri de içeriyordu."
+msgstr "Galya, günümüzdeki Fransa ve Belçika'nın topraklarında bulunan Keltler'den oluşuyordu."
 
 #: data/nation/gallic.ruleset:23
 msgid "Druid"
@@ -20661,9 +20671,8 @@ msgid "?plural:Georgians"
 msgstr "Gürcistanlılar"
 
 #: data/nation/georgian.ruleset:6
-#, fuzzy
 msgid "The Georgians were one of the first peoples in history to adopt Christianity, in the 300s AD."
-msgstr "Gürcistan, MS 337'de Hıristiyanlığı kabul ettikten sonra, üç yüz yıl boyunca Bizans ve Pers imparatorlukları arasındaki savaşlara sahne oldu."
+msgstr "Gürcüler, MS 300'lü yıllarda Hristiyanlığa geçen ilk milletlerden biridir."
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -20722,9 +20731,8 @@ msgid "?plural:Hittites"
 msgstr "Hititliler"
 
 #: data/nation/hittite.ruleset:6
-#, fuzzy
 msgid "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the first civilisation to discover iron working. At its height, they controlled central Anatolia, north-western Syria and Mesopotamia down to Babylon."
-msgstr "Hititler, tarihte Anadolu'da devlet kurmuş bir halk. M.Ö. 1680 yıllarında Anadolu'ya göç ederek yerli Hatti Beylikleri üzerinde hakimiyet kurdukları bilinmektedir. Murşili istilalara güneyde devam ederek ve Suriye’deki şehir devletlerini devreden çıkartarak, Mezopotamya ticaret yollarını kontrol altına aldı. Ordu Babil'e kadar ilerledi."
+msgstr "Hititler, M.Ö. 1680'den MÖ 1180'e kadar yaşamış bir uygarlıktır. Demiri işleyebilen ilk medeniyet onlardı. En parlak dönemlerinde Anadolu'yu Suriye'nin batısını, Mezopotamya'yı ve Babil'i onlar yönetiyordu."
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -20747,9 +20755,8 @@ msgid "?plural:Icelanders"
 msgstr "İzlandalılar"
 
 #: data/nation/icelandic.ruleset:6
-#, fuzzy
 msgid "Iceland was long one of the largest uninhabited islands in the world, until it was settled by Norwegian Vikings in the late 9th century. The island was kept initially under the Norwegian and later the Danish crown until independence from Denmark in 1944."
-msgstr "İzlanda'ya ilk yerleşim konusunda değişik fikirler mevcut olsa da, ilk büyük yerleşim, 9. yüzyılda, Norveç'ten kaçan Vikingler ve onların yanlarında getirdikleri İrlandalı ve İskoçyalılar tarafından yapılmıştır. 14. yüzyıla kadar bağımsız kalan ülke, bu zamanda Norveç-Danimarka krallığının bir parçası oldu. 19. yüzyılda bağımsızlık anlayışının güçlenmesiyle, 1944'te İzlanda Cumhuriyet kuruldu."
+msgstr ""
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -20848,9 +20855,8 @@ msgid "?plural:Iraqis"
 msgstr "Iraklılar"
 
 #: data/nation/iraqi.ruleset:6
-#, fuzzy
 msgid "Iraq was founded after the fall of the Ottoman empire. It is encompassing the ancient region of Mesopotamia at the confluence of the Tigris and Euphrates rivers."
-msgstr "Irak, Osmanlı Devleti'nin çöküşünün ardından Ortadoğu'da Mezopotamya bölgesinde kurulmuş ve Fırat-Dicle Havzasını kontrolü altına alan bir devletidir."
+msgstr "Irak, Osmanlı Devleti'nin çöküşünün ardından Mezopotamya bölgesindeki Fırat-Dicle havzasında kurulmuştur."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -21754,9 +21760,8 @@ msgid "?plural:Swiss"
 msgstr "İsviçreliler"
 
 #: data/nation/swiss.ruleset:6
-#, fuzzy
 msgid "Switzerland is a federation of cantons, some of which have more than 700 years of history as a confederacy."
-msgstr "İsviçre Konfederasyonu, Orta Avrupa'da Alp Dağlarında yer alan ve denize kıyısı bulunmayan bir ülke 1848 yılından beri bir federasyondur."
+msgstr "İsviçre Konfederasyonu, bazıları 700 yıldan uzun süredir üyesi olan eyaletlerden oluşmuştur."
 
 #: data/nation/swiss.ruleset:20
 msgid "Bailiff"
@@ -21864,9 +21869,8 @@ msgid "?plural:Turks"
 msgstr "Türkler"
 
 #: data/nation/turk.ruleset:7
-#, fuzzy
 msgid "Modern Turkey is the successor state of the Ottoman Empire, which collapsed and was dismembered by the victors in World War I after backing the Central Powers.  The country was subsequently reformed and secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
-msgstr "Türkiye, rejimi demokrasi olan bir cumhuriyettir. Osmanlı Devleti'nin I. Dünya Savaşı sonunda 20. yüzyıl başında yıkılmasından sonra, 1923 yılında Türk Kurtuluş Savaşı ile, Mustafa Kemal Atatürk önderliğinde kurulmuştur. Türkiye, Müslüman çoğunluğa sahip ülkeler arasında en gelişmiş ve modern ülke hâline gelmiştir."
+msgstr "Modern Türkiye, rejimi demokrasi olan bir cumhuriyettir. Osmanlı Devleti'nin I. Dünya Savaşı sonunda  yıkılmasından sonra, 1923 yılında Türk Kurtuluş Savaşı ile, Mustafa Kemal Atatürk önderliğinde kurulmuştur. Türkiye, Müslüman çoğunluğa sahip ülkeler arasında en gelişmiş ve modern ülke hâline gelmiştir."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
