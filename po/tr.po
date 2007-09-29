@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-20 15:39+0300\n"
-"PO-Revision-Date: 2007-09-28 06:01+0300\n"
+"PO-Revision-Date: 2007-09-29 09:24+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -88,9 +88,8 @@ msgstr "h"
 
 #: common/connection.c:514
 #, c-format
-#, fuzzy
 msgid "%s from %s"
-msgstr "%s 'den %s"
+msgstr "%s, adresi %s"
 
 #: common/connection.c:520
 msgid " (connection incomplete)"
@@ -322,9 +321,8 @@ msgid "Turn Bell"
 msgstr "Sıra Zili"
 
 #: common/events.c:96
-#, fuzzy
 msgid "Year Advance"
-msgstr "Yıl İlerle"
+msgstr "Geçen Yıllar"
 
 #: common/events.c:97
 msgid "Global: Eco-Disaster"
@@ -593,27 +591,23 @@ msgstr "Takım"
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:456
 #: common/requirements.c:471
-#, fuzzy
 msgid "World-ranged requirements are only supported for wonders."
-msgstr "Dünya-kapsamlı gereksinimler sadece harikalar için desteklenir."
+msgstr "Dünya kapsamlı gereksinimler sadece harikalar için desteklenir."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:512
-#, fuzzy
 msgid "Player-ranged requirements are only supported for wonders."
-msgstr "Oyuncu-kapsamlı gereksinimler sadece harikalar için desteklenir."
+msgstr "Oyuncu kapsamlı gereksinimler sadece harikalar için desteklenir."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:533
-#, fuzzy
 msgid "Island-ranged requirements are only supported for wonders."
-msgstr "Ada-kapsamlı gereksinimler sadece harikalar için desteklenir."
+msgstr "Ada kapsamlı gereksinimler sadece harikalar için desteklenir."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:581
-#, fuzzy
 msgid "Surviving requirements are only supported at world range."
-msgstr "Hayatta kalma gereksinimleri sade dünya kapsamında geçerlidir."
+msgstr "Hayatta kalma gereksinimleri sadece dünya kapsamında geçerlidir."
 
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1013
@@ -623,7 +617,7 @@ msgstr "Hayatta kalma gereksinimleri sade dünya kapsamında geçerlidir."
 #: client/gui-xaw/helpdlg.c:993
 #, c-format
 msgid "(none)"
-msgstr "(hiç)"
+msgstr "(yok)"
 
 #: common/requirements.c:1037
 #: common/requirements.c:1041
@@ -664,7 +658,7 @@ msgstr "Geleceğin Teknolojisi %d"
 #: manual/civmanual.c:327
 #: manual/civmanual.c:333
 msgid "None"
-msgstr "Hiç"
+msgstr "Yok"
 
 #: common/tech.c:778
 msgid "Future Tech."
@@ -1088,15 +1082,15 @@ msgstr "Normal bir kullanıcı olarak çalıştır.\n"
 
 #: utility/shared.c:1363
 msgid "exact match"
-msgstr ""
+msgstr "tam isabet"
 
 #: utility/shared.c:1364
 msgid "only match"
-msgstr ""
+msgstr "sadece isabet"
 
 #: utility/shared.c:1365
 msgid "ambiguous"
-msgstr "ikianlamlı"
+msgstr "iki anlamlı"
 
 #: utility/shared.c:1366
 msgid "empty"
@@ -1107,7 +1101,6 @@ msgid "too long"
 msgstr "fazla uzun"
 
 #: utility/shared.c:1368
-#, fuzzy
 msgid "non-match"
 msgstr "birbirini tutmayan"
 
@@ -1119,7 +1112,7 @@ msgstr "hata %ld (başarısız BiçimMesajı)"
 #: utility/support.c:181
 #, c-format
 msgid "error %d (compiled without strerror)"
-msgstr ""
+msgstr "hata %d (strerror olmadan derlenmiş)"
 
 #: ai/aicity.c:1039
 #: server/citytools.c:1901
@@ -1343,7 +1336,7 @@ msgstr "*%s (YZ)* %s bize arkadan vurdular! Yardıma ihtiyacımız var. Yardım 
 #: server/auth.c:164
 #, c-format
 msgid "Auth option \"%s\":"
-msgstr ""
+msgstr "Doğrulama ayarı \"%s\":"
 
 #: server/auth.c:177
 msgid " missing from config file (using default)"
@@ -1560,30 +1553,28 @@ msgstr "%s artık %s memleketinden."
 
 #: server/citytools.c:520
 #, c-format
-#, fuzzy
 msgid "Transfered %s in %s from %s to %s."
-msgstr "%s, %s şehrinden taşındı. %s'den %s'e."
+msgstr "%s, %s şehrinden aktarıldı. %s sahipliğinden %s sahipliğine."
 
 #: server/citytools.c:531
 #, c-format
 msgid "Transfered %s from %s to %s."
-msgstr ""
+msgstr "%s, %s sahipliğinden %s sahipliğine aktarıldı."
 
 #: server/citytools.c:541
 #, c-format
 msgid "%s from %s lost in transfer to %s's %s"
-msgstr ""
+msgstr "%s, %s oyuncusundan %s oyuncusunun %s şehrine aktarılırken kayboldu"
 
 #: server/citytools.c:621
 #, c-format
 msgid "%s lost along with control of %s."
-msgstr ""
+msgstr "%s, %s şehrinin kontrolüyle birlikte kayboldu."
 
 #: server/citytools.c:749
 #, c-format
-#, fuzzy
 msgid "You lost %s. A new %s was built in %s."
-msgstr "%s kaybettin. Yeni bir %s %s'de yapıldı."
+msgstr "%s şehrini kaybettin. Yeni bir %s, %s şehrinde yapıldı."
 
 #: server/citytools.c:824
 #, c-format
@@ -1607,13 +1598,13 @@ msgstr "%s şehri kuruldu."
 #: server/citytools.c:1111
 #, c-format
 msgid "Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "%s, terkedilen %s şehrinde karaya oturmasın diye taşındı."
 
 #: server/citytools.c:1122
 #: server/citytools.c:1134
 #, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr ""
+msgstr "%s şehri terk edildiğinde %s gidecek yer bulamadı ve kaybedildi."
 
 #: server/citytools.c:1269
 #, c-format
@@ -1682,7 +1673,7 @@ msgstr "%s şehri %s%s inşa ediyor."
 #: server/citytools.c:2179
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
-msgstr ""
+msgstr "%s, %s şehrinde (karaya oturan) %d altına satıldı."
 
 #: server/cityturn.c:124
 #, c-format
@@ -1898,9 +1889,8 @@ msgstr "%s şehrindeki ayaklanma bastırıldı."
 
 #: server/cityturn.c:1530
 #, c-format
-#, fuzzy
 msgid "The people have overthrown your %s, your country is in turmoil."
-msgstr "İnsanlar sizin %s bıraktı, fetret dönemine girdik."
+msgstr "İnsanlar %s yönetiminizi devirdi, fetret dönemine girdik."
 
 #: server/cityturn.c:1555
 #, c-format
@@ -1945,27 +1935,29 @@ msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
+"Kullanım: %s [ayar ...]\n"
+"Geçerli ayarlar:\n"
 
 #: server/civserver.c:208
 msgid "  -a  --auth FILE\tEnable server authentication with configuration from FILE.\n"
-msgstr ""
+msgstr "  -a --auth DOSYA\tSunucu kimlik doğrulamasını DOSYA'dan okunan ayarlarla yap.\n"
 
 #: server/civserver.c:210
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
-msgstr ""
+msgstr "  -G --Misafirler\t\tKimlik doğrulama açıksa misafirlerin de giriş yapmasına izin ver.\n"
 
 #: server/civserver.c:212
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
-msgstr ""
+msgstr "  -N --Newusers\tKimlik doğrulama açıksa yeni kullanıcıların giriş yapmasına izin ver.\n"
 
 #: server/civserver.c:215
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-msgstr ""
+msgstr "  -b  --bind ADRES\tADRESten bağlanacak istemcileri dinle\n"
 
 #: server/civserver.c:217
 #: client/civclient.c:214
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
-msgstr ""
+msgstr "  -d, --debug SAYI\tKütük seviyesini ayarla (0-4 arası veya 4:dosya1,asg,aza:...)\n"
 
 #: server/civserver.c:221
 #: client/civclient.c:218
@@ -2047,7 +2039,7 @@ msgstr "Oyunu başlat veya kayıtlı bir oyunu yükleyip baştan başlat"
 
 #: server/commands.c:29
 msgid "This command starts the game.  When starting a new game, it should be used after all human players have connected, and AI players have been created (if required), and any desired changes to initial server options have been made.  After 'start', each human player will be able to choose their nation, and then the game will begin.  This command is also required after loading a savegame for the game to recommence.  Once the game is running this command is no longer available, since it would have no effect."
-msgstr ""
+msgstr "Bu komut oyunu başlatır.  Komut, yeni bir oyun başlatılırken tüm insan oyuncular bağlandıktan, YZ oyuncular oluşturulduktan ve ilk sunucu ayarları yapıldıktan sonra çalıştırılmalıdır.  'start'tan sonra her insan oyuncu ulus seçimini yapacak ve oyun başlayacaktır.  Ayrıca bu komut kayıtlı bir oyunu tekrar devam ettirmek için de gereklidir. Oyun başladıktan sonra komutun hiçbir etkisi olmayacağı için kullanımdan kalkacaktır."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:42
@@ -2061,8 +2053,8 @@ msgstr ""
 "help\n"
 "help commands\n"
 "help options\n"
-"help <komut adı>\n"
-"help <tercih adı>"
+"help <komut-adı>\n"
+"help <ayar-adı>"
 
 #: server/commands.c:47
 msgid "Show help about server commands and server options."
@@ -2087,7 +2079,7 @@ msgstr "Oyundan çık ve sunucuyu kapat."
 #. TRANS: translate text between <> only
 #: server/commands.c:74
 msgid "cut <connection-name>"
-msgstr "cut <bağlantı adı>"
+msgstr "cut <bağlantı-adı>"
 
 #: server/commands.c:75
 msgid "Cut a client's connection to server."
@@ -2104,7 +2096,7 @@ msgid ""
 "explain <option-name>"
 msgstr ""
 "explain\n"
-"explain <tercih adı>"
+"explain <tercih-adı>"
 
 #: server/commands.c:85
 msgid "Explain server options."
@@ -3717,7 +3709,7 @@ msgstr ""
 
 #: server/settings.c:178
 msgid "Number of players is higher than requested value; Keeping old value."
-msgstr ""
+msgstr "Oyuncu sayısı istenen değerden yüksek; eski değer kullanılıyor"
 
 #: server/settings.c:234
 msgid "Map size (in thousands of tiles)"
@@ -3729,6 +3721,9 @@ msgid ""
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
 "  size = 20 is a huge map of 20,000 tiles"
 msgstr ""
+"Bu değer haritanın boyutlarını belirlemede kullanılır.\n"
+"  boyut = 4 4.000 kareden oluşan normal bir harita olur\n"
+"  boyut = 20 20.000 kareden oluşan kocaman bir harita olur"
 
 #: server/settings.c:241
 msgid "Map topology index"
@@ -3767,6 +3762,35 @@ msgid ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 msgstr ""
+"Freeciv haritaları her zaman iki boyutludur. Düz, silindir veya simit şeklinde harita oluşturmak da mümkündür. Kareler klasik veya altıgen olabilir. Görünüm olarak da kullanılan arazi setine bağlı olarak klasik veya izometrik seçilebilir.\n"
+"   0 Düz Dünya (doğu-batı geçişi yok)\n"
+"   1 Dünya (doğu-batı geçişli)\n"
+"   2 Uranüs (güney-kuzey geçişli)\n"
+"   3 Simit Dünya (her yönden geçişli)\n"
+"   4 Düz Dünya (izometrik)\n"
+"   5 Dünya (izometrik)\n"
+"   6 Uranüs (izometrik)\n"
+"   7 Simit Dünya (izometrik)\n"
+"   8 Düz Dünya (altıgen)\n"
+"   9 Dünya (altıgen)\n"
+"  10 Uranüs (altıgen)\n"
+"  11 Simit Dünya (altıgen)\n"
+"  12 Düz Dünya (izo-altıgen)\n"
+"  13 Dünya (izo-altıgen)\n"
+"  14 Uranüs (izo-altıgen)\n"
+"  15 Simit Dünya (izo-altıgen)\n"
+"Klasik dikdörtgen:      İzometrik dikdörtgen:\n"
+"      _________               /\\/\\/\\/\\/\\ \n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
+"     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
+"                             \\/\\/\\/\\/\\/  \n"
+"Altıgen kareler:          İzo-altıgen:\n"
+"  /\\/\\/\\/\\/\\/\\               _   _   _   _   _       \n"
+"  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\      \n"
+"  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/  \n"
+"   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
+"   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 
 #: server/settings.c:285
 msgid "Method used to generate map"
@@ -3781,6 +3805,12 @@ msgid ""
 "\n"
 "Numbers in [] give the default values for placement of starting positions.  If the default value of startpos is used then a startpos setting will be chosen based on the generator.  See the \"startpos\" setting."
 msgstr ""
+"0 = Senaryo haritası - oluşturucu yok;\n"
+"1 = Tamamen rastgele yükseklik oluşturucu;         [4]\n"
+"2 = Yarı yarıya yükseklik oluşturucu;                    [3]\n"
+"3 = Ada tabanlı oluşturucu (daha adil ama sıkıcı)  [1]\n"
+"\n"
+"[] içindeki rakamlar başlangıç yerlerinin varsayılan yerleşimidir.  startpos ayarının öntanımlı değeri kullanılırsa oluşturucuya göre bir startpos ayarı ayarlanacaktır.  Arıca bkz. \"startpos\" ayarı."
 
 #: server/settings.c:299
 msgid "Method used to choose start positions"
@@ -3797,6 +3827,14 @@ msgid ""
 "4 = Place players depending on size of continents.\n"
 "Note: generators try to create the right number of continents for the choice of start pos and to the number of players"
 msgstr ""
+"0 = Oluşturucunun istediği gibi.  Bunu seçerseniz\n"
+"    oluşturucunun türüne göre öntanımlı bir değer atanacaktır.\n"
+"    Ayrıca bkz. \"oluşturucu\" ayarı."
+"1 = Her kıtaya bir oyuncu koymaya çalış.\n"
+"2 = Her kıtaya iki oyuncu koymaya çalış.\n"
+"3 = Her oyuncuyu tek bir kıtaya koymaya çalış.\n"
+"4 = Oyuncuları kıtaların büyüklüğüne göre dağıt.\n"
+"Not: Oluşturucular, oyuncu sayısı ve başlama yeri seçimine göre uygun sayıda kıta yapmaya çalışırlar"
 
 #: server/settings.c:313
 msgid "Presence of 1x1 islands"
@@ -3804,7 +3842,7 @@ msgstr "1x1 adaların varlığı"
 
 #: server/settings.c:314
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
-msgstr ""
+msgstr "0 = 1x1 ada olmasın; 1 = biraz 1x1 ada olsun"
 
 #: server/settings.c:319
 msgid "Whether the poles are separate continents"
@@ -3812,7 +3850,7 @@ msgstr "Kutuplar ayrı kıtalarda"
 
 #: server/settings.c:320
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
-msgstr ""
+msgstr "0 = kıtalar kutuplara yapışık olabilir; 1 = kutuplar büyük oranda ayrık olur"
 
 #: server/settings.c:326
 msgid "All the map is temperate"
@@ -3820,7 +3858,7 @@ msgstr "Haritanın tamamı ılıman"
 
 #: server/settings.c:327
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
-msgstr ""
+msgstr "0 = normal Dünya gibi gezegen; 1 = tamamı ılıman gezegen "
 
 #: server/settings.c:332
 msgid "Average temperature of the planet"
@@ -3840,6 +3878,17 @@ msgid ""
 "\n"
 "0 means a very cold planet with large polar zones and no tropics"
 msgstr ""
+"Düşük değerler soğuk, yüksek değerler de sıcak bir dünya yapar.\n"
+"\n"
+"100 verilirse kutupları olmayan, her tarafı tropik ve kuru arazi ile kaplı bir gezegen oluşacaktır.\n"
+"\n"
+"70 verilirse az miktarda kutup buzu olan sıcak bir gezegen olur.\n"
+"\n"
+"50 verilirse her tür arazisi bulunan, ılıman bir gezegen oluşur. "
+"\n"
+"30 verilirse az miktarda tropik araziye sahip soğuk bir gezegen olur.\n"
+"\n"
+"0 verilirse büyük kutupları olan çok soğuk bir gezegen olur."
 
 #: server/settings.c:350
 msgid "Percentage of the map that is land"
@@ -3847,7 +3896,7 @@ msgstr "Karaların denizlere oranı"
 
 #: server/settings.c:351
 msgid "This setting gives the approximate percentage of the map that will be made into land."
-msgstr ""
+msgstr "Bu ayar haritanın yaklaşık olarak yüzde kaçının karalarla kaplı olacağını belirler."
 
 #: server/settings.c:357
 msgid "Amount of hills/mountains"
@@ -3855,7 +3904,7 @@ msgstr "Tepe ve dağların miktarı"
 
 #: server/settings.c:358
 msgid "Small values give flat maps, while higher values give a steeper map with more hills and mountains."
-msgstr ""
+msgstr "Küçük değerler engebesiz haritalar yaparken büyük değerler dağlarla ve tepelerle kaplı bir gezegen yapacaktır."
 
 #: server/settings.c:364
 msgid "Amount of water on lands"
@@ -3863,7 +3912,7 @@ msgstr "Karadaki su miktarı"
 
 #: server/settings.c:365
 msgid "Small values mean lots of dry, desert-like land; higher values give a wetter map with more swamps, jungles, and rivers."
-msgstr ""
+msgstr "Küçük değerler bolca çöl benzeri araziler oluştururken; yüksek değerler bataklık, sık orman, nehir gibi araziler oluşturur."
 
 #: server/settings.c:372
 msgid "Map generation random seed"
@@ -3871,7 +3920,7 @@ msgstr "Harita yapımında kullanılan rastgele tohum"
 
 #: server/settings.c:373
 msgid "The same seed will always produce the same map; for zero (the default) a seed will be chosen based on the time to give a random map. This setting is usually only of interest while debugging the game."
-msgstr ""
+msgstr "Aynı tohum her zaman aynı haritayı oluşturacaktır; değer 0 ise bilgisayarın zamanına göre rastgele bir sayı oluşturulacaktır. Bu, genelde geliştiricilerin hata ayıklarken kullandığı bir ayardır."
 
 #: server/settings.c:386
 msgid "Game random seed"
@@ -16371,6 +16420,9 @@ msgid ""
 "\n"
 "    If you have recently contacted (or established an embassy with) another player, then you can arrange a diplomatic meeting. This is done by going to the `Reports' menu, selecting `Players', clicking on the player with whom you wish to meet, and finally clicking the `Meet' button below.  If the entry under the embassy column is not blank and the other player is connected (or is a server AI) then a diplomacy menu will pop up."
 msgstr ""
+" 10. Diğer oyuncularla iletişim kurmak (Diplomasi).\n"
+"\n"
+"    Eğer daha önce bir oyuncuyla karşılaştıysanız veya bir elçilik kurduysanız, bu oyuncuyla diplomatik buluşma yapabilirsiniz. Bunu yapmak için `Raporlar' menüsünden `Oyuncular'ı açıp, buluşmak istediğiniz oyuncuyu seçin ve aşağıdaki `Buluş' düğmesine basın.  Eğer elçilik sütunu boş değilse ve diğer oyuncu bağlıysa (veya bir YZ oyuncusuysa) diplomasi menüsü çıkacaktır."
 
 #: data/helpdata.txt:745
 msgid ""
@@ -16390,10 +16442,25 @@ msgid ""
 "\n"
 "   - and Give Gold."
 msgstr ""
+"    Bu menüde şu işlemleri yapabilirsiniz:\n"
+"\n"
+"   - Haritaları Paylaşmak (deniz haritası veya tüm harita),\n"
+"\n"
+"   - Teknolojileri Paylaşmak,\n"
+"\n"
+"   - Şehirleri Paylaşmak,\n"
+"\n"
+"   - Görüş Sahasını Paylaşmak,\n"
+"\n"
+"   - Elçilik Yaptırmak,\n"
+"\n"
+"   - Mütareke Oluşturmak,\n"
+"\n"
+"   - ve Altın Vermek."
 
 #: data/helpdata.txt:761
 msgid "    There is no need to trade like for like, by trading say, an advance or city for gold - you can consider this buying and selling."
-msgstr ""
+msgstr "    İki tarafta da aynı şeylerin bulunması gerekmez, yani bunu alış veriş gibi düşünebilirsiniz. Altın karşılığında teknoloji veya bir şehir verebilirsiniz."
 
 #: data/helpdata.txt:765
 msgid ""
@@ -16403,6 +16470,11 @@ msgid ""
 "\n"
 "   - If you can't see a city on your map, then you can't request it."
 msgstr ""
+"    Birkaç not:\n"
+"\n"
+"   - Başkentinizi veremezsiniz.\n"
+"\n"
+"   - Haritanızda göremediğiniz bir şehri isteyemezsiniz."
 
 #: data/helpdata.txt:771
 msgid "     Of course, the owner of that city can still give it to you, in which case the area around the city is shown on your map.  One important thing to note: any units in the field and supported by that city are also transferred (but not those sitting in other cities).  So make sure the other player isn't getting a better deal than you expect."
