@@ -1,10 +1,10 @@
-=====================
-Freeciv Version 2.0.1
-=====================
+===================
+Freeciv Version 2.0
+===================
 
 Welcome to Freeciv!
 
-This archive contains Freeciv, a free Civilization clone, primarily
+This archive contains Freeciv, a free Civilization-like game, primarily
 for X under Unix.  It has support for multiplayer games locally or
 over a network, and an AI which gives most people a run for their money.
 
@@ -15,9 +15,6 @@ adjustable parameters to make customizing games possible.
 
 Freeciv has been implemented completely independently of Civilization;
 you do not need to own Civilization to play Freeciv.
-
-Allthough the computer players can't yet negotiate, the rules are very
-complete, and our multiplayer and networking code is excellent.
 
 
 Translations:
@@ -168,21 +165,20 @@ Client:
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with 2 main tilesets:
-  - isotrident: An isometric tileset similar in shape to the one in civ 2. 
+  distribution comes with 3 main tilesets:
+  - isotrident: An isometric tileset similar in shape to the one in Civ 2.
     (not yet supported by the Xaw client.)
-  - trident: a civ1-style tileset with 30x30 tiles.
+  - trident: a Civ 1-style tileset with 30x30 tiles.
     The trident tileset has a variant called "trident_shields".
+  - isophex: an isometric hexagonal tileset
 
-  In this release the isotrident tileset is the default in the GTK+,
-  amiga, and win32 clients, while the Xaw client has trident as default. 
-  The "_shields" variants use a shield-shaped flag, which is smaller and 
-  may be less obscured. Try them both and decide for yourself -- to
-  use the trident tileset start the client with:
+  In this release the isotrident tileset is the default tileset.
+  The "_shields" variants use a smaller shield-shaped flag.
+  To try another tileset, for instance trident, start the client with:
 
   |  % civclient --tiles trident
 
-  Other tilesets are available from the ftp and websites.
+  Other tilesets are available from http://www.freeciv.org/wiki/Tilesets
 
 
   Clients can be authorized to issue server commands.  To allow them
@@ -282,8 +278,8 @@ operator can alter this value at any time with the 'set' command.
 Have a look at the online help system. All three mouse-buttons are
 used, and documented in the help.
 
-Players can push the 'Return' key to announce the end of their turn,
-or just push the 'Turn Done' button.
+Players can hold down 'Shift' and push the 'Return' key to announce
+the end of their turn, or just push the 'Turn Done' button.
 
 Use the 'Players' dialog to see who has announced their end of turn,
 and who you're waiting for.  (Hey feller, are you asleep or what?? ;).
@@ -325,7 +321,7 @@ For lots more information about the client, the server, and the
 concepts and rules of the game, see the Freeciv manual, available
 at the web pages at:
 
-  http://www.freeciv.org/index.php/Manual
+  http://www.freeciv.org/wiki/Manual
 
 
 Ending the game:
@@ -369,7 +365,7 @@ The game may then be restarted with the 'start' command as usual.
 Native Language Support:
 ========================
 
-Freeciv supports several local languages.
+Freeciv supports several languages.
 
 You may choose which local language to use by specifying a "locale".
 Each locale has a standard name (e.g., 'de' for German).  If you have
