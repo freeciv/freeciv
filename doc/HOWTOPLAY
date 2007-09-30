@@ -9,7 +9,7 @@ If you're looking for how to get Freeciv running, look in README.
 If you have never played the Civilization games, it's easiest to 
 start by reading the Freeciv Manual, available separately at:
 
-     http://www.freeciv.org/manual/
+     http://www.freeciv.org/wiki/Manual
 
 If you're looking for ideas on playing Freeciv, then keep reading!!
 
@@ -146,9 +146,9 @@ Additional questions:
 Q. What other strategies are there?
 
 	There are a number of tutorials and strategy guides available at
-the Freeciv web pages, at:
+the Freeciv wiki:
 
-	 http://www.freeciv.org/tutorials/
+	 http://www.freeciv.org/wiki/Tutorials
 
 Plus, the Freeciv online help describes another strategy.
 
@@ -183,16 +183,30 @@ have five or more people, you probably want to consider one that's
 
 Q. What is that "generator" option?
 
-	That alters the map generation process.  If you play Freeciv
+	It alters the map generation process.  If you play Freeciv
 a few times without changing this setting, you are sure to hear of (or
 experience) the horrors of a tiny island.  Tiny Island Syndrome (TIS)
-is known to make people go insane.  To fix this, our loving and kind
-coders installed the generator option.  When set to 1, it gives the 
-normal map, with islands of different (and possibly unfair) sizes.
-But when set to 2, 3, or 4, it generates islands of equal size 
-(sometimes with some smaller islands thrown in).  This way, nobody 
-can whine about losing "on account of that d**ned island."
+is known to make people go insane.  To fix this, our kind and loving
+coders installed the generator option.  
+- When set to 1, it creates the map using a random hight generator,
+  with islands of different (and potentially unfair) sizes.
+- When set to 2 it generates the map using a pseudo fractal hight
+  generator. This means that the mountains and the hills will be
+  placed according to everlasting mathematical figures.
+- 3 generates islands of equal size (sometimes with some smaller
+  islands thrown in).  This way, nobody can whine about losing "on
+  account of that d**ned island."
+- 0 is used for premade maps. (Load a map by typing in
+  /load /dir/savegame.sav.gz in the input field at the bottom of the
+  screen, in this way it is possible to change the settings of a game.
+  Use the map editor to change a map.)
 
+Below the generator option there is the startpos option. This setting
+determines how many players are placed on the same continent. Each
+generator option has its own default startpos value. Which is loaded
+when startpos is 0. (The default startpos for the fractal hight
+generator is 3, which means that the generator will try to place all
+the players on the same continent.
 
 Q. Should I make the game easier by increasing the starting gold?
 
