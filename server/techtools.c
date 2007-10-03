@@ -203,7 +203,8 @@ static void update_player_after_tech_researched(struct player* plr,
   remove_obsolete_buildings(plr);
   
   /* Give free rails in every city */
-  if (advance_has_flag(tech_found, TF_RAILROAD)) {
+  if (tech_found != A_FUTURE
+   && advance_has_flag(tech_found, TF_RAILROAD)) {
     upgrade_city_rails(plr, was_discovery);  
   }
   
@@ -303,7 +304,8 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     } improvement_iterate_end;
   }
 
-  if (advance_has_flag(tech_found, TF_BONUS_TECH) && was_first) {
+  if (was_first && tech_found != A_FUTURE
+   && advance_has_flag(tech_found, TF_BONUS_TECH)) {
     bonus_tech_hack = TRUE;
   }
   
