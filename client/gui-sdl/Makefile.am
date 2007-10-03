@@ -108,5 +108,3 @@ libguiclient_a_SOURCES = \
 	widget_window.h \
 	wldlg.c		\
 	wldlg.h
-
-EXTRA_DIST = README.SDLClient
