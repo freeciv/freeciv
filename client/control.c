@@ -59,7 +59,6 @@ static struct unit_list *pfocus_units;
 static struct unit_list *previous_focus;
 
 /* These should be set via set_hover_state() */
-struct unit_list *hover_units;
 enum cursor_hover_state hover_state = HOVER_NONE;
 struct tile *hover_tile = NULL;
 enum unit_activity connect_activity;
@@ -97,7 +96,6 @@ void control_init(void)
 
   caravan_arrival_queue = genlist_new();
   diplomat_arrival_queue = genlist_new();
-  hover_units = unit_list_new();
   pfocus_units = unit_list_new();
   previous_focus = unit_list_new();
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
@@ -114,7 +112,6 @@ void control_done(void)
 
   genlist_free(caravan_arrival_queue);
   genlist_free(diplomat_arrival_queue);
-  unit_list_free(hover_units);
   unit_list_free(pfocus_units);
   unit_list_free(previous_focus);
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
@@ -130,7 +127,10 @@ void control_unit_killed(struct unit *punit)
   int i;
 
   unit_list_unlink(get_units_in_focus(), punit);
-  unit_list_unlink(hover_units, punit);
+  if (get_num_units_in_focus() < 1) {
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+  }
+  update_unit_info_label(get_units_in_focus());
   unit_list_unlink(previous_focus, punit);
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     unit_list_unlink(battlegroups[i], punit);
@@ -182,12 +182,6 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   assert((punits && unit_list_size(punits) > 0) || state == HOVER_NONE);
   assert(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
   assert(state == HOVER_GOTO || order == ORDER_LAST);
-  unit_list_unlink_all(hover_units);
-  if (punits) {
-    unit_list_iterate(punits, punit) {
-      unit_list_append(hover_units, punit);
-    } unit_list_iterate_end;
-  }
   hover_state = state;
   connect_activity = activity;
   goto_last_order = order;
@@ -1893,12 +1887,12 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 {
   struct city *pcity = tile_get_city(ptile);
-  struct unit_list *punits = hover_units;
+  struct unit_list *punits = get_units_in_focus();
   bool maybe_goto = FALSE;
   bool possible = FALSE;
   struct tile *offender = NULL;
 
-  if (unit_list_size(punits) > 0 && hover_state != HOVER_NONE) {
+  if (hover_state != HOVER_NONE) {
     switch (hover_state) {
     case HOVER_NONE:
       die("well; shouldn't get here :)");
@@ -2112,7 +2106,7 @@ static struct unit *quickselect(struct tile *ptile,
 }
 
 /**************************************************************************
- Finish the goto mode and let the units stored in hover_units move
+ Finish the goto mode and let the units stored in goto_map_list move
  to a given location.
 **************************************************************************/
 void do_unit_goto(struct tile *ptile)
@@ -2182,27 +2176,24 @@ void do_unit_connect(struct tile *ptile,
 **************************************************************************/
 void key_cancel_action(void)
 {
-  bool popped = FALSE;
-
   cancel_tile_hiliting();
 
   switch (hover_state) {
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
-    popped = goto_pop_waypoint();
+    if (!goto_pop_waypoint()) {
+      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+      update_unit_info_label(get_units_in_focus());
+
+      keyboardless_goto_button_down = FALSE;
+      keyboardless_goto_active = FALSE;
+      keyboardless_goto_start_tile = NULL;
+    }
+    break;
   default:
     break;
   };
-
-  if (hover_state != HOVER_NONE && !popped) {
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-    update_unit_info_label(hover_units);
-
-    keyboardless_goto_button_down = FALSE;
-    keyboardless_goto_active = FALSE;
-    keyboardless_goto_start_tile = NULL;
-  }
 }
 
 /**************************************************************************

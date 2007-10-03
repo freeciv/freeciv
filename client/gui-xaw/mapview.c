@@ -212,23 +212,6 @@ void update_unit_info_label(struct unit_list *punitlist)
   xaw_set_label(unit_info_label, buffer);
 
   if (unit_list_size(punitlist) > 0) {
-#if 0 /* Somebody sures this hack is not needed */
-    if (unit_list_size(hover_units) > 0) {
-      bool is_hover = FALSE;
-
-      unit_list_iterate(hover_units, punit2) {
-	if (hover_unit != punit->id) {
-	  is_hover = TRUE;
-	  break;
-	}
-      } unit_list_iterate_end;
-
-      if (!is_hover) {
-	set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-      }
-    }
-#endif
-
     switch (hover_state) {
     case HOVER_NONE:
       XUndefineCursor(display, XtWindow(map_canvas));
