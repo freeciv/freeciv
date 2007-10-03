@@ -19,5 +19,6 @@ EXTRA_DIST =			\
 	README.nations		\
 	README.rulesets		\
 	README.scorelog		\
+	README.SDLClient	\
 	README.sound		\
 	TODO
