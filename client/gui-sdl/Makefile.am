@@ -98,5 +98,3 @@ libguiclient_a_SOURCES = \
 	SDL_ttf.c	\
 	SDL_ttf.h	\
 	mmx.h
-
-EXTRA_DIST = README.SDLClient
