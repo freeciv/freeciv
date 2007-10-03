@@ -411,10 +411,8 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
     handle_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));
     /* update_unit_info_label is handled inside handle_mouse_cursor. */
   } else {
-    struct unit_list *active_units = get_units_in_focus();
-
     action_state = CURSOR_ACTION_DEFAULT;
-    update_unit_info_label(active_units);
+    update_unit_info_label(get_units_in_focus());
   }
   return TRUE;
 }
