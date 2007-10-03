@@ -142,7 +142,6 @@ enum tech_state player_invention_set(struct player *pplayer,
   if (old == value) {
     return old;
   }
-  assert(tech != A_FUTURE);
   research->inventions[tech].state = value;
 
   if (value == TECH_KNOWN) {
