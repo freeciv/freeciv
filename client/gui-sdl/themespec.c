@@ -735,7 +735,11 @@ struct theme *theme_read_toplevel(const char *theme_name)
   if (t->font_filename) {
     t->font_filename = mystrdup(t->font_filename);
   } else {
-    freelog(LOG_ERROR, "Could not open font: %s", c);
+    freelog(LOG_FATAL, "Could not open font: %s", c);
+    section_file_free(file);
+    FC_FREE(fname);
+    theme_free(t);
+    return NULL;
   }
   freelog(LOG_DEBUG, "theme font file %s", t->font_filename);
 
