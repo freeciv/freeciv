@@ -7,7 +7,7 @@ pkgdata_DATA =          	\
 	COPYING.DejaVu		\
 	COPYING.UnDotum		\
 	COPYING.fireflysung	\
-	COPYING.sazanami-gothic	\
+	COPYING.sazanami	\
 	DejaVuSans.ttf		\
 	UnDotum.ttf		\
 	backgrounds.themespec 	\
