@@ -5,7 +5,11 @@ pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-sdl/human
 
 pkgdata_DATA =          	\
 	COPYING.DejaVu		\
+	COPYING.UnDotum		\
+	COPYING.fireflysung	\
+	COPYING.sazanami	\
 	DejaVuSans.ttf		\
+	UnDotum.ttf		\
 	backgrounds.themespec 	\
 	bg.png			\
 	bg2.png			\
@@ -16,10 +20,12 @@ pkgdata_DATA =          	\
 	colors.themespec	\
 	dip_icons.png		\
 	dip_icons.spec		\
+	fireflysung.ttf		\
 	icons.png		\
 	icons.spec		\
 	intro.png		\
 	options_bg.png		\
+	sazanami-gothic.ttf	\
 	small_theme_buttons.png		\
 	small_theme_buttons.spec	\
 	tech_tree.png		\
