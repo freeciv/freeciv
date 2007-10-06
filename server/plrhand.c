@@ -247,12 +247,16 @@ static void finish_revolution(struct player *pplayer)
 {
   struct government *government = pplayer->target_government;
 
-  if (pplayer->target_government == game.government_when_anarchy) {
-    assert(0);
+  if (pplayer->target_government == game.government_when_anarchy
+      || pplayer->target_government == NULL) {
+    /* More descriptive assert than just assert(FALSE) */
+    assert(pplayer->target_government != game.government_when_anarchy
+           && pplayer->target_government != NULL);
     return;
   }
   if (pplayer->revolution_finishes > game.info.turn) {
-    assert(0);
+    /* More descriptive assert than just assert(FALSE) */
+    assert(pplayer->revolution_finishes <= game.info.turn);
     return;
   }
 
@@ -1530,6 +1534,7 @@ static struct player *split_player(struct player *pplayer)
   
   /* change the original player */
   if (government_of_player(pplayer) != game.government_when_anarchy) {
+    pplayer->target_government = pplayer->government;
     pplayer->government = game.government_when_anarchy;
     pplayer->revolution_finishes = game.info.turn + 1;
   }
