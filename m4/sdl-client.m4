@@ -28,7 +28,7 @@ AC_DEFUN([FC_SDL_CLIENT],
 	  AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
           if test "$freetype_found" = yes; then
 	    CLIENT_CFLAGS="$SDL_CFLAGS $FT2_CFLAGS"
-	    CLIENT_LIBS="$SDL_LIBS -lSDL_image $FT2_LIBS"
+	    CLIENT_LIBS="-lSDL_image $SDL_LIBS $FT2_LIBS"
 	    AC_DEFINE(SDL, 1, [SDL is used])
 	    found_client=yes
           elif test "$client" = "sdl"; then
