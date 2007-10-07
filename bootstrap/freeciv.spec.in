@@ -1,6 +1,12 @@
 # This is spec file provided by www.freeciv.org
 # We strongly suggest that you base the RPM which will be 
 # included in your distribution on this file.
+#
+# One thing to add is handling of icons. They can be found as
+# data/freeciv-client.png and data/freeciv-server.png from source tree
+#
+# Another thing missing is handling of SDL -client
+#
 
 %define version_full @VERSION@
 %define name @PACKAGE@
@@ -10,7 +16,7 @@
 %define def_without() %{expand:%%{!?_with_%{1}: %%{!?_without_%{1}: %%global _without_%{1} --without-%{1}}}}
 %define if_with() %if %{expand:%%{?_with_%{1}:1}%%{!?_with_%{1}:0}}
 
-Summary:	Turn-based strategy game, inspired by the commercial Civilization series
+Summary:	Turn-based strategy game inspired by the history of human civilization
 Name:		%{name}
 Version:	@VERSION_WITHOUT_LABEL@
 Release:	1
@@ -23,12 +29,11 @@ Requires: %name-client = %version-%release
 Requires: %name-server = %version-%release
 
 %def_with gtk2
-%def_with gtk
 %def_with xaw
-%define clients_list %{?_with_gtk2:gtk2} %{?_with_gtk:gtk} %{?_with_xaw:xaw}
+%define clients_list %{?_with_gtk2:gtk2} %{?_with_xaw:xaw}
 
 BuildRoot:	%{_tmppath}/%{name}-%{version_full}-buildroot
-Packager:	Freeciv Team <rt@freeciv.org>
+Packager:	Freeciv Team, http://www.freeciv.org
 
 %package common
 Summary: Turn-based strategy game, inspired by the commercial Civilization series - common files
@@ -46,12 +51,6 @@ Requires: %name-client-gui = %version-%release
 
 %package client-gtk2
 Summary: Turn-based strategy game, inspired by the commercial Civilization series - GTK2 client
-Group: Games/Strategy
-Provides: %name-client-gui = %version-%release
-Requires: %name-common = %version-%release
-
-%package client-gtk
-Summary: Turn-based strategy game, inspired by the commercial Civilization series - GTK client
 Group: Games/Strategy
 Provides: %name-client-gui = %version-%release
 Requires: %name-common = %version-%release
@@ -82,7 +81,7 @@ Freeciv is maintained by an international team of coders and
 enthusiasts, and is easily one of the most fun and addictive network 
 games out there! 
 
-This package contains files common for client ans server.
+This package contains files common for client and server.
 
 %description server
 Freeciv is a free turn-based multiplayer strategy game, in which each 
@@ -120,18 +119,6 @@ games out there!
 
 This package contains Freeciv client with Gtk2 interface (default
 Freeciv GUI).
-
-%description client-gtk
-Freeciv is a free turn-based multiplayer strategy game, in which each 
-player becomes the leader of a civilization, fighting to obtain the 
-ultimate goal: To become the greatest civilization.
-Players of Civilization II by Microprose should feel at home, since 
-one aim of Freeciv is to have compatible rules.
-Freeciv is maintained by an international team of coders and 
-enthusiasts, and is easily one of the most fun and addictive network 
-games out there! 
-
-This package contains Freeciv client with Gtk+ interface.
 
 %description client-xaw
 Freeciv is a free turn-based multiplayer strategy game, in which each 
@@ -223,18 +210,6 @@ rm -fr %buildroot
 				%name-client \
 				%{_gamesbindir}/civclient-gtk2
 
-%post client-gtk
-/usr/sbin/update-alternatives --install \
-				%{_gamesbindir}/civclient \
-				%name-client \
-				%{_gamesbindir}/civclient-gtk 20
-
-%preun client-gtk
-[ $1 = 0 ] || exit 0
-/usr/sbin/update-alternatives --remove \
-				%name-client \
-				%{_gamesbindir}/civclient-gtk
-
 %post client-xaw
 /usr/sbin/update-alternatives --install \
 				%{_gamesbindir}/civclient \
@@ -250,14 +225,14 @@ rm -fr %buildroot
 
 %files common -f %name.lang
 %defattr(644, root, root, 0755)
-%doc COPYING NEWS doc/BUGS doc/HOWTOPLAY doc/PEOPLE doc/README
+%doc COPYING NEWS doc/BUGS doc/HOWTOPLAY doc/README
 
 %files server
 %defattr(755, root, games, 0755)
 %{_gamesbindir}/civserver
 %defattr(644, root, root, 0755)
 %doc COPYING NEWS
-%doc doc/BUGS doc/HACKING doc/PEOPLE doc/README
+%doc doc/BUGS doc/HACKING doc/README
 %doc doc/README.AI doc/README.agents doc/README.attributes doc/README.cma
 %doc doc/README.delta doc/README.effects doc/README.ftwl
 #README.graphics and README.sound are included in client package
@@ -265,12 +240,10 @@ rm -fr %buildroot
 %{_gamesdatadir}/%{name}/civ1
 %{_gamesdatadir}/%{name}/civ2	
 %{_gamesdatadir}/%{name}/default
-%{_gamesdatadir}/%{name}/history
 %{_gamesdatadir}/%{name}/nation
 %{_gamesdatadir}/%{name}/scenario
 %{_gamesdatadir}/%{name}/civ1.serv
 %{_gamesdatadir}/%{name}/civ2.serv
-%{_gamesdatadir}/%{name}/history.serv
 %{_mandir}/man6/civserver.6
 
 %files client
@@ -280,10 +253,16 @@ rm -fr %buildroot
 %{_gamesdatadir}/%{name}/flags
 %{_gamesdatadir}/%{name}/isotrident
 %{_gamesdatadir}/%{name}/misc
+%{_gamesdatadir}/%{name}/amplio
 %{_gamesdatadir}/%{name}/trident
 %{_gamesdatadir}/%{name}/isophex
+%{_gamesdatadir}/%{name}/hex2t
+%{_gamesdatadir}/%{name}/wonders
+%{_gamesdatadir}/%{name}/buildings
 %{_gamesdatadir}/%{name}/helpdata.txt
 %{_gamesdatadir}/%{name}/*.tilespec
+%{_gamesdatadir}/%{name}/stdsounds
+%{_gamesdatadir}/%{name}/*.soundspec
 %{_mandir}/man6/civclient.6
 /usr/share/applications/freeciv.desktop
 %defattr(755, root, games, 0755)
@@ -293,12 +272,6 @@ rm -fr %buildroot
 %{_gamesdatadir}/%{name}/freeciv.rc-2.0
 %{_gamesbindir}/civclient-gtk2
 %endif #gtk2
-
-%if_with gtk
-%files client-gtk
-%{_gamesdatadir}/%{name}/freeciv.rc
-%{_gamesbindir}/civclient-gtk
-%endif #gtk
 
 %if_with xaw
 %files client-xaw
