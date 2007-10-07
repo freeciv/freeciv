@@ -312,6 +312,10 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_spaceship_place *)packet)->num);
     return TRUE;
 
+  case PACKET_SINGLE_WANT_HACK_REQ:
+    handle_single_want_hack_req(pconn, packet);
+    return TRUE;
+
   default:
     return FALSE;
   }

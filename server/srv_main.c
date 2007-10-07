@@ -949,7 +949,7 @@ void server_quit(void)
 }
 
 /**************************************************************************
-...
+  
 **************************************************************************/
 void handle_report_req(struct connection *pconn, enum report_type type)
 {
@@ -957,6 +957,12 @@ void handle_report_req(struct connection *pconn, enum report_type type)
   
   if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE) {
     freelog(LOG_ERROR, "Got a report request %d before game start", type);
+    return;
+  }
+
+  if (pconn->player == NULL && !pconn->observer) {
+    freelog(LOG_ERROR,
+            "Got a report request %d from detached connection", type);
     return;
   }
 
@@ -1088,15 +1094,13 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   }
   
   /* valid packets from established connections but non-players */
-  if (type == PACKET_CHAT_MSG_REQ) {
-    handle_chat_msg_req(pconn,
-			((struct packet_chat_msg_req *) packet)->message);
-    return TRUE;
-  }
-
-  if (type == PACKET_SINGLE_WANT_HACK_REQ) {
-    handle_single_want_hack_req(pconn,
-		                (struct packet_single_want_hack_req *) packet);
+  if (type == PACKET_CHAT_MSG_REQ
+      || type == PACKET_SINGLE_WANT_HACK_REQ
+      || type == PACKET_REPORT_REQ) {
+    if (!server_handle_packet(type, packet, NULL, pconn)) {
+      freelog(LOG_ERROR, "Received unknown packet %d from %s",
+	      type, conn_description(pconn));
+    }
     return TRUE;
   }
 

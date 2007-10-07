@@ -1296,7 +1296,7 @@ end
 /*********************************************************
  Below are the packets that control single-player mode.  
 *********************************************************/
-PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,no-handle
+PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,handle-via-packet
  STRING token[MAX_LEN_NAME];
 end
 

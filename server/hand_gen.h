@@ -73,5 +73,7 @@ void handle_report_req(struct connection *pc, enum report_type type);
 void handle_conn_pong(struct connection *pc);
 void handle_spaceship_launch(struct player *pplayer);
 void handle_spaceship_place(struct player *pplayer, enum spaceship_place_type type, int num);
+struct packet_single_want_hack_req;
+void handle_single_want_hack_req(struct connection *pc, struct packet_single_want_hack_req *packet);
 
 #endif /* FC__HAND_GEN_H */
