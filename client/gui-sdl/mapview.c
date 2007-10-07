@@ -495,7 +495,8 @@ static const char *gui_sdl_tile_get_info_text(const struct tile *ptile)
     sz_strlcat(s, special_name_translation(S_RIVER));
   }
 
-  if (ptile->resource) {
+  if (ptile->resource
+   && terrain_has_resource(ptile->terrain, ptile->resource)) {
     cat_snprintf(s, sizeof(s), " (%s)",
 		 resource_name_translation(ptile->resource));
   }

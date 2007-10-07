@@ -608,7 +608,8 @@ static int base_get_output_tile(const struct tile *ptile,
   }
 
   prod = pterrain->output[otype];
-  if (ptile->resource) {
+  if (ptile->resource
+   && terrain_has_resource(ptile->terrain, ptile->resource)) {
     prod += ptile->resource->output[otype];
   }
 

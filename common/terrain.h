@@ -181,6 +181,10 @@ const char *terrain_name_translation(struct terrain *pterrain);
 enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
 struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag);
+
+bool terrain_has_resource(const struct terrain *pterrain,
+			  const struct resource *presource);
+
 void terrains_free(void);
 
 /* General resource accessor functions. */

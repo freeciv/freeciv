@@ -208,6 +208,23 @@ struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
 }
 
 /****************************************************************************
+  Check for resource in terrain resources list.
+****************************************************************************/
+bool terrain_has_resource(const struct terrain *pterrain,
+			  const struct resource *presource)
+{
+  struct resource **r = pterrain->resources;
+
+  while (NULL != *r) {
+    if (*r == presource) {
+      return TRUE;
+    }
+    r++;
+  }
+  return FALSE;
+}
+
+/****************************************************************************
   Free memory which is associated with terrain types.
 ****************************************************************************/
 void terrains_free(void)
