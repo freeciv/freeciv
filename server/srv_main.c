@@ -994,6 +994,12 @@ void handle_report_req(struct connection *pconn, enum report_type type)
     return;
   }
 
+  if (pconn->player == NULL && !pconn->observer) {
+    freelog(LOG_ERROR,
+            "Got a report request %d from detached connection", type);
+    return;
+  }
+
   switch(type) {
   case REPORT_WONDERS_OF_THE_WORLD:
     report_wonders_of_the_world(dest);
@@ -1125,6 +1131,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   if (type == PACKET_CHAT_MSG_REQ
       || type == PACKET_SINGLE_WANT_HACK_REQ
       || type == PACKET_NATION_SELECT_REQ
+      || type == PACKET_REPORT_REQ
       || type == PACKET_EDIT_MODE
       || type == PACKET_EDIT_TILE
       || type == PACKET_EDIT_UNIT
