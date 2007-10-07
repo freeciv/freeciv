@@ -892,6 +892,13 @@ void handle_end_phase(void)
 **************************************************************************/
 void handle_start_phase(int phase)
 {
+
+  if (phase < 0 || phase >= game.info.nplayers) {
+    /* Illegal phase */
+    freelog(LOG_ERROR, "Illegal phase %d received from server!", phase);
+    return;
+  }
+
   game.info.phase = phase;
 
   if (game.player_ptr && is_player_phase(game.player_ptr, phase)) {
