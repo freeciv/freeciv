@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-04 07:35+0200\n"
+"POT-Creation-Date: 2007-10-08 10:10+0200\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -643,7 +643,7 @@ msgstr "Zukunftstechnologie %d"
 #: client/gui-gtk-2.0/helpdlg.c:110 client/gui-sdl/citydlg.c:714
 #: client/gui-sdl/gui_tilespec.c:480 client/gui-sdl/helpdlg.c:371
 #: client/gui-sdl/helpdlg.c:403 client/gui-sdl/helpdlg.c:792
-#: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:946
+#: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:947
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
 #: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
@@ -663,56 +663,56 @@ msgstr "Zukunftstechnologie"
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
-#: common/terrain.c:362 common/terrain.c:544 common/unit.c:552
+#: common/terrain.c:379 common/terrain.c:561 common/unit.c:552
 #: manual/civmanual.c:224
 msgid "Road"
 msgstr "Straße"
 
-#: common/terrain.c:363 common/terrain.c:551 common/unit.c:556
+#: common/terrain.c:380 common/terrain.c:568 common/unit.c:556
 #: client/gui-gtk-2.0/menu.c:780 client/gui-sdl/optiondlg.c:1913
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
 msgstr "Bewässerung"
 
-#: common/terrain.c:364 common/terrain.c:542 common/unit.c:566
+#: common/terrain.c:381 common/terrain.c:559 common/unit.c:566
 #: data/default/techs.ruleset:581 data/civ2/techs.ruleset:566
 #: data/civ1/techs.ruleset:563
 msgid "Railroad"
 msgstr "Eisenbahn"
 
-#: common/terrain.c:365 common/terrain.c:555 common/unit.c:554
+#: common/terrain.c:382 common/terrain.c:572 common/unit.c:554
 msgid "Mine"
 msgstr "Bergwerk"
 
-#: common/terrain.c:366 common/unit.c:550 server/report.c:123
+#: common/terrain.c:383 common/unit.c:550 server/report.c:123
 #: client/cityrepdata.c:519 client/gui-sdl/optiondlg.c:1780
 msgid "Pollution"
 msgstr "Verschmutzung"
 
-#: common/terrain.c:367
+#: common/terrain.c:384
 msgid "Hut"
 msgstr "Hütte"
 
-#: common/terrain.c:368 common/terrain.c:559 common/unit.c:562
+#: common/terrain.c:385 common/terrain.c:576 common/unit.c:562
 #: manual/civmanual.c:226
 msgid "Fortress"
 msgstr "Befestigung"
 
-#: common/terrain.c:369
+#: common/terrain.c:386
 msgid "River"
 msgstr "Fluß"
 
-#: common/terrain.c:370 common/terrain.c:549
+#: common/terrain.c:387 common/terrain.c:566
 msgid "Farmland"
 msgstr "Ackerland"
 
-#: common/terrain.c:371 common/terrain.c:563 common/unit.c:576
+#: common/terrain.c:388 common/terrain.c:580 common/unit.c:576
 #: manual/civmanual.c:226
 msgid "Airbase"
 msgstr "Fliegerhorst"
 
-#: common/terrain.c:372 common/unit.c:578
+#: common/terrain.c:389 common/unit.c:578
 msgid "Fallout"
 msgstr "Fallout"
 
@@ -1441,8 +1441,7 @@ msgstr " (Konsole)"
 #, c-format
 msgid "Auth config filename \"%s\" not allowed!"
 msgstr ""
-"Konfigurationsdatei für Authentifizierung: Dateiname '%s' ist nicht "
-"erlaubt!"
+"Konfigurationsdatei für Authentifizierung: Dateiname '%s' ist nicht erlaubt!"
 
 #: server/auth.c:267
 #, c-format
@@ -2090,8 +2089,8 @@ msgid ""
 "  -a  --auth FILE\tEnable server authentication with configuration from "
 "FILE.\n"
 msgstr ""
-"  -a  --auth DATEI\tServerauthentifizierung einschalten und "
-"Konfiguration aus DATEI lesen.\n"
+"  -a  --auth DATEI\tServerauthentifizierung einschalten und Konfiguration "
+"aus DATEI lesen.\n"
 
 #: server/civserver.c:210
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
@@ -3625,14 +3624,14 @@ msgstr "Steuern"
 msgid "%s rate exceeds the max rate for %s."
 msgstr "Die Quote für %s übersteigt die für eine %s geltende Höchstgrenze."
 
-#: server/plrhand.c:259
+#: server/plrhand.c:263
 #, c-format
 msgid "%s now governs the %s as a %s."
 msgstr "%s regiert die %s jetzt als %s."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
-#: server/plrhand.c:338
+#: server/plrhand.c:342
 #, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
@@ -3645,35 +3644,35 @@ msgstr[0] ""
 msgstr[1] ""
 "Die %s haben revoltiert! Es folgen %d Runden Anarchie! Das Ziel ist %s."
 
-#: server/plrhand.c:351
+#: server/plrhand.c:355
 msgid "Revolution: returning to anarchy."
 msgstr "Revolution: Rückkehr zur Anarchie."
 
-#: server/plrhand.c:411
+#: server/plrhand.c:415
 msgid "You should choose a new government from the government menu."
 msgstr "Bitte wählen Sie eine neue Regierung im Menü Regierung."
 
-#: server/plrhand.c:438
+#: server/plrhand.c:442
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Die Steuerquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:444
+#: server/plrhand.c:448
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "Die Forschungsquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:450
+#: server/plrhand.c:454
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:506
+#: server/plrhand.c:510
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s läßt uns nicht mehr in die Karte sehen!"
 
-#: server/plrhand.c:517
+#: server/plrhand.c:521
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -3682,7 +3681,7 @@ msgstr ""
 "Der Senat erlaubt nicht den Bruch des Paktes mit den %s. Du mußt entweder "
 "den Senat auflösen oder auf einen passenderen Moment warten."
 
-#: server/plrhand.c:570
+#: server/plrhand.c:574
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -3690,7 +3689,7 @@ msgstr ""
 "Aufgrund der ständigen Provokationen durch die %s stimmt der Senat der "
 "Vorlage zu."
 
-#: server/plrhand.c:575
+#: server/plrhand.c:579
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -3699,12 +3698,12 @@ msgstr ""
 "Der Senat weigert sich den Pakt mit den %s zu brechen, aber du hast keine "
 "Schwierigkeiten, einen neuen Senat zu finden."
 
-#: server/plrhand.c:607
+#: server/plrhand.c:611
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Die %s und die %s haben jetzt %s."
 
-#: server/plrhand.c:613
+#: server/plrhand.c:617
 #, c-format
 msgid ""
 " %s cancelled the diplomatic agreement! The diplomatic state between the %s "
@@ -3713,7 +3712,7 @@ msgstr ""
 "Die %s haben das Abkommen gekündigt! Zwischen den %s und den %s herrscht nun "
 "%s."
 
-#: server/plrhand.c:630
+#: server/plrhand.c:634
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
@@ -3721,7 +3720,7 @@ msgstr ""
 "%s hat Ihren Alliierten %s angegriffen! Sie beenden ihre Allianz mit dem "
 "Angreifer!"
 
-#: server/plrhand.c:641
+#: server/plrhand.c:645
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -3730,26 +3729,26 @@ msgstr ""
 "Ihr Teampartner %s hat den %s den Krieg erklärt. Sie sind verpflichtet, Ihre "
 "Allianz mit %s zu beenden."
 
-#: server/plrhand.c:1112
+#: server/plrhand.c:1116
 #, c-format
 msgid "Removing player %s."
 msgstr "Spieler %s wird entfernt."
 
-#: server/plrhand.c:1114
+#: server/plrhand.c:1118
 msgid "You've been removed from the game!"
 msgstr "Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:1117
+#: server/plrhand.c:1121
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:1158 server/plrhand.c:1163
+#: server/plrhand.c:1162 server/plrhand.c:1167
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Die %s entdeckt. Ihr Herrscher ist %s."
 
-#: server/plrhand.c:1183
+#: server/plrhand.c:1187
 #, c-format
 msgid ""
 "%s and %s meet and go to instant war. You cancel your alliance with both."
@@ -3757,12 +3756,12 @@ msgstr ""
 "%s und %s treffen aufeinander und beginnen sofort einen Krieg. Du beendest  "
 "deine Allianz mit beiden."
 
-#: server/plrhand.c:1662
+#: server/plrhand.c:1667
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Bürgerkrieg der %s ist nicht möglich - zu viele Spieler"
 
-#: server/plrhand.c:1684
+#: server/plrhand.c:1689
 #, c-format
 msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
@@ -3771,12 +3770,12 @@ msgstr ""
 "Die Nation wird vom Bürgerkrieg gespalten. %s ist der Anführer der "
 "revoltierenden Provinzen."
 
-#: server/plrhand.c:1704
+#: server/plrhand.c:1709
 #, c-format
 msgid "%s declares allegiance to %s."
 msgstr "%s erklärt ihre Loyalität zu %s."
 
-#: server/plrhand.c:1718
+#: server/plrhand.c:1723
 #, c-format
 msgid ""
 "The capture of %s's capital and the destruction of the empire's "
@@ -5501,17 +5500,17 @@ msgid "Starting game."
 msgstr "Spiel begonnen."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:976
+#: server/srv_main.c:982
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "request for unknown report (type %d)"
 
-#: server/srv_main.c:1038
+#: server/srv_main.c:1044
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Warnung: Client %s ist zu alt und wurde abgewiesen"
 
-#: server/srv_main.c:1047
+#: server/srv_main.c:1053
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "Freeciv 2.0 or later."
@@ -5520,87 +5519,87 @@ msgstr ""
 "Version 2.0 oder neuer."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:1133
+#: server/srv_main.c:1137
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Got a packet of type %d from a dead or observer player"
 
-#: server/srv_main.c:1234
+#: server/srv_main.c:1238
 msgid "Please choose a non-blank name."
 msgstr "Es muß ein Name gewählt werden."
 
-#: server/srv_main.c:1250
+#: server/srv_main.c:1254
 msgid "That nation is already in use."
 msgstr "Diese Nation ist bereits vergeben."
 
-#: server/srv_main.c:1266
+#: server/srv_main.c:1270
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. Bitte "
 "wählen Sie einen anderen Namen."
 
-#: server/srv_main.c:1287
+#: server/srv_main.c:1291
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Bitte wählen Sie einen Namen, der nur ASCII-Zeichen enthält."
 
-#: server/srv_main.c:1381
+#: server/srv_main.c:1385
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Die Nation der %s ist in diesem Szenario nicht verfügbar."
 
-#: server/srv_main.c:1387
+#: server/srv_main.c:1391
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Die Nation der %s ist bereits vergeben."
 
-#: server/srv_main.c:1405
+#: server/srv_main.c:1409
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s ist der %se Herrscher %s."
 
-#: server/srv_main.c:1463
+#: server/srv_main.c:1467
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Warten auf Spielstart: %d von %d Spielern sind bereit zu starten."
 
-#: server/srv_main.c:1468
+#: server/srv_main.c:1472
 msgid "All players are ready; starting game."
 msgstr "Alle Spieler sind bereit, das Spiel wird gestartet."
 
-#: server/srv_main.c:1510 server/srv_main.c:1514
+#: server/srv_main.c:1514 server/srv_main.c:1518
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s ist als KI-Spieler mit dem Level '%s' dazu gekommen."
 
-#: server/srv_main.c:1641
+#: server/srv_main.c:1645
 #, c-format
 msgid "Player %d"
 msgstr "Spieler %d"
 
-#: server/srv_main.c:1652 server/srv_main.c:1658
+#: server/srv_main.c:1656 server/srv_main.c:1662
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s beherrscht die %s."
 
-#: server/srv_main.c:1830
+#: server/srv_main.c:1834
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
-"Unterstützung für Spieler-Authentifizierung verfügbar, wird aber "
-"nicht verwendet."
+"Unterstützung für Spieler-Authentifizierung verfügbar, wird aber nicht "
+"verwendet."
 
-#: server/srv_main.c:1881
+#: server/srv_main.c:1885
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sende Informationen an den Metaserver [%s]"
 
-#: server/srv_main.c:1910
+#: server/srv_main.c:1914
 msgid "The game is over..."
 msgstr "Das Spiel ist vorbei..."
 
-#: server/srv_main.c:1964
+#: server/srv_main.c:1968
 msgid "Now accepting new client connections."
 msgstr "Warte auf Spieler..."
 
@@ -9533,16 +9532,16 @@ msgstr "Server capability string: %s"
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:1583
+#: client/packhand.c:1590
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1584
+#: client/packhand.c:1591
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1584
+#: client/packhand.c:1591
 msgid "OFF"
 msgstr "AUS"
 
@@ -9676,23 +9675,23 @@ msgid "Failed looking up metaserver's host"
 msgstr "Metaserver nicht gefunden"
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
-#: client/gui-sdl/mapview.c:743
+#: client/gui-sdl/mapview.c:744
 msgid "?nation:Neutral"
 msgstr "neutral"
 
-#: client/text.c:83 client/gui-sdl/mapview.c:743
+#: client/text.c:83 client/gui-sdl/mapview.c:744
 msgid "?nation:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:745
+#: client/text.c:85 client/gui-sdl/mapview.c:746
 msgid "?nation:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:745
+#: client/text.c:85 client/gui-sdl/mapview.c:746
 msgid "?nation:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:86 client/gui-sdl/mapview.c:746
+#: client/text.c:86 client/gui-sdl/mapview.c:747
 msgid "?nation:Mysterious"
 msgstr "unbekannt"
 
@@ -9700,23 +9699,23 @@ msgstr "unbekannt"
 msgid "?nation:Friendly(team)"
 msgstr "befreundet (Team)"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:776
+#: client/text.c:88 client/gui-sdl/mapview.c:777
 msgid "?city:Neutral"
 msgstr "neutral"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:776
+#: client/text.c:88 client/gui-sdl/mapview.c:777
 msgid "?city:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:777
+#: client/text.c:90 client/gui-sdl/mapview.c:778
 msgid "?city:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:778
+#: client/text.c:90 client/gui-sdl/mapview.c:779
 msgid "?city:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:778
+#: client/text.c:90 client/gui-sdl/mapview.c:779
 msgid "?city:Mysterious"
 msgstr "unbekannt"
 
@@ -9790,7 +9789,7 @@ msgstr[1] "Stadt: %s (%s, %d Runden Feuerpause)"
 msgid "City: %s (%s, %s)"
 msgstr "Stadt: %s (%s, %s)"
 
-#: client/text.c:179 client/gui-sdl/mapview.c:792
+#: client/text.c:179 client/gui-sdl/mapview.c:793
 msgid " with "
 msgstr " mit "
 
@@ -10023,42 +10022,42 @@ msgstr[0] "%d Einheit"
 msgstr[1] "%d Einheiten"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:690 client/gui-sdl/mapview.c:558
+#: client/text.c:690 client/gui-sdl/mapview.c:559
 msgid "?goto:Unreachable"
 msgstr "Nicht erreichbar"
 
-#: client/text.c:692 client/gui-sdl/mapview.c:560
+#: client/text.c:692 client/gui-sdl/mapview.c:561
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Runden zum Ziel: %d"
 
-#: client/text.c:694 client/gui-sdl/mapview.c:562
+#: client/text.c:694 client/gui-sdl/mapview.c:563
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Runden zum Ziel: %d bis %d"
 
-#: client/text.c:700 client/gui-sdl/mapview.c:568
+#: client/text.c:700 client/gui-sdl/mapview.c:569
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d Einheit ausgewählt"
 msgstr[1] "%d Einheiten ausgewählt"
 
-#: client/text.c:705 client/gui-sdl/mapview.c:573
+#: client/text.c:705 client/gui-sdl/mapview.c:574
 msgid "No units selected."
 msgstr "Keine ausgewählt"
 
-#: client/text.c:779 client/gui-sdl/mapview.c:646
+#: client/text.c:779 client/gui-sdl/mapview.c:647
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Andere: %d zivil, %d militärisch"
 
-#: client/text.c:781 client/gui-sdl/mapview.c:648
+#: client/text.c:781 client/gui-sdl/mapview.c:649
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Andere: %d zivil"
 
-#: client/text.c:783 client/gui-sdl/mapview.c:650
+#: client/text.c:783 client/gui-sdl/mapview.c:651
 #, c-format
 msgid "Others: %d military"
 msgstr "Andere: %d militärisch"
@@ -11406,7 +11405,7 @@ msgid "Turn Done"
 msgstr "Fertig!"
 
 #: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
-#: client/gui-sdl/mapview.c:1074
+#: client/gui-sdl/mapview.c:1075
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
@@ -12478,7 +12477,7 @@ msgstr "Keine Übereinstimmung, Paßwort eingeben."
 msgid "Server Name"
 msgstr "Server"
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:800
+#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:801
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
@@ -13057,7 +13056,7 @@ msgstr "Standort als neue Heimatstadt wählen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: client/gui-sdl/citydlg.c:711 client/gui-sdl/mapview.c:943
+#: client/gui-sdl/citydlg.c:711 client/gui-sdl/mapview.c:944
 msgid ""
 "\n"
 "veteran"
@@ -14073,12 +14072,12 @@ msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d St: %d Lux: %d For: %d "
 
-#: client/gui-sdl/mapview.c:718 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:719 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "Veteran"
 
-#: client/gui-sdl/mapview.c:748
+#: client/gui-sdl/mapview.c:749
 msgid ""
 "\n"
 "Our Territory"
@@ -14086,7 +14085,7 @@ msgstr ""
 "\n"
 "Unser Gebiet"
 
-#: client/gui-sdl/mapview.c:754
+#: client/gui-sdl/mapview.c:755
 #, c-format
 msgid ""
 "\n"
@@ -14101,7 +14100,7 @@ msgstr[1] ""
 "\n"
 "%ses Gebiet (%d Runden Feuerpause)"
 
-#: client/gui-sdl/mapview.c:758
+#: client/gui-sdl/mapview.c:759
 #, c-format
 msgid ""
 "\n"
@@ -14110,7 +14109,7 @@ msgstr ""
 "\n"
 "Gebiet der %2$s, %1$s"
 
-#: client/gui-sdl/mapview.c:764
+#: client/gui-sdl/mapview.c:765
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -14118,7 +14117,7 @@ msgstr ""
 "\n"
 "Neutrales Gebiet"
 
-#: client/gui-sdl/mapview.c:780
+#: client/gui-sdl/mapview.c:781
 #, c-format
 msgid ""
 "\n"
@@ -14127,23 +14126,23 @@ msgstr ""
 "\n"
 "Stadt %s"
 
-#: client/gui-sdl/mapview.c:794 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:795 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Kasernen"
 
-#: client/gui-sdl/mapview.c:806 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:807 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "Flughafen"
 
-#: client/gui-sdl/mapview.c:812 data/default/buildings.ruleset:209
+#: client/gui-sdl/mapview.c:813 data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189 data/civ1/buildings.ruleset:158
 msgid "City Walls"
 msgstr "Stadtmauer"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:819
+#: client/gui-sdl/mapview.c:820
 #, c-format
 msgid ""
 "\n"
@@ -14152,7 +14151,7 @@ msgstr ""
 "\n"
 "(%s, %s)"
 
-#: client/gui-sdl/mapview.c:830
+#: client/gui-sdl/mapview.c:831
 #, c-format
 msgid ""
 "\n"
@@ -14161,11 +14160,11 @@ msgstr ""
 "\n"
 "Nahrung/Produktion/Handel: %s"
 
-#: client/gui-sdl/mapview.c:1074
+#: client/gui-sdl/mapview.c:1075
 msgid "End of Turn"
 msgstr "Fertig!"
 
-#: client/gui-sdl/mapview.c:1074
+#: client/gui-sdl/mapview.c:1075
 msgid "Press"
 msgstr "Drücke"
 
@@ -14697,13 +14696,13 @@ msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Couldn't find a supported gfx file extension for %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-sdl/themespec.c:814
+#: client/gui-sdl/themespec.c:818
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Couldn't load gfx file %s for sprite %s"
 
 # CK: TECHNICAL
-#: client/gui-sdl/themespec.c:965
+#: client/gui-sdl/themespec.c:969
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Don't have graphics tags %s or %s for %s %s"
@@ -21123,8 +21122,8 @@ msgstr "Phalanx"
 #: data/civ1/units.ruleset:199
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
 msgstr ""
-"Die Phalanx ist eine gepanzerte Fußtruppe, geeignet zur Verteidigung "
-"deiner Städte."
+"Die Phalanx ist eine gepanzerte Fußtruppe, geeignet zur Verteidigung deiner "
+"Städte."
 
 #: data/default/units.ruleset:383 data/civ2/units.ruleset:237
 msgid "Archers"
@@ -21135,8 +21134,8 @@ msgid ""
 "Archers fight with bows and arrows and has a good offensive value as well as "
 "decent defense."
 msgstr ""
-"Bogenschützen kämpfen mit Pfeil und Bogen und haben einen guten "
-"Angriffs- und einen akzeptablen Verteidigungswert."
+"Bogenschützen kämpfen mit Pfeil und Bogen und haben einen guten Angriffs- "
+"und einen akzeptablen Verteidigungswert."
 
 #: data/default/units.ruleset:415 data/civ2/units.ruleset:269
 #: data/civ1/units.ruleset:204
@@ -21149,8 +21148,8 @@ msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
 msgstr ""
-"Legionen sind schwer gepanzerte und disziplinierte Fußtruppen "
-"mit einem hervorragenden Angriffswert."
+"Legionen sind schwer gepanzerte und disziplinierte Fußtruppen mit einem "
+"hervorragenden Angriffswert."
 
 #: data/default/units.ruleset:447 data/civ2/units.ruleset:301
 msgid "Pikemen"
@@ -21161,8 +21160,8 @@ msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
 msgstr ""
-"Bewaffnet mit langen Lanzen, ersetzen die Lanzenkämpfer die "
-"Phalanx als bevorzugte Stadtverteidigung."
+"Bewaffnet mit langen Lanzen, ersetzen die Lanzenkämpfer die Phalanx als "
+"bevorzugte Stadtverteidigung."
 
 #: data/default/units.ruleset:479 data/civ2/units.ruleset:333
 #: data/civ1/units.ruleset:236
@@ -21174,8 +21173,8 @@ msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
 msgstr ""
-"Musketiere sind Fußtruppen mit einfachen Feuerwaffen und ersetzen "
-"die Lanzenkämpfer als bevorzugte Stadtverteidigung."
+"Musketiere sind Fußtruppen mit einfachen Feuerwaffen und ersetzen die "
+"Lanzenkämpfer als bevorzugte Stadtverteidigung."
 
 #: data/default/units.ruleset:513 data/civ2/units.ruleset:400
 msgid "Partisan"
@@ -21220,8 +21219,8 @@ msgstr "Schützen"
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
-"Schützen sind die Fußtruppen der Weltkriegsära, sehr geeignet "
-"zur Stadtverteidigung."
+"Schützen sind die Fußtruppen der Weltkriegsära, sehr geeignet zur "
+"Stadtverteidigung."
 
 #: data/default/units.ruleset:617 data/civ2/units.ruleset:504
 msgid "Marines"
@@ -21262,8 +21261,8 @@ msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
 msgstr ""
-"Reiter sind berittene Krieger für den Überraschungsangriff, die tief "
-"ins Feindesland eindringen können."
+"Reiter sind berittene Krieger für den Überraschungsangriff, die tief ins "
+"Feindesland eindringen können."
 
 #: data/default/units.ruleset:749 data/civ2/units.ruleset:636
 #: data/civ1/units.ruleset:368
@@ -21276,8 +21275,8 @@ msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
 msgstr ""
-"Streitwagen sind von Pferden gezogene Wagen, stärker, aber auch teurer "
-"als Reiter."
+"Streitwagen sind von Pferden gezogene Wagen, stärker, aber auch teurer als "
+"Reiter."
 
 #: data/default/units.ruleset:781 data/civ2/units.ruleset:732
 #: data/civ1/units.ruleset:400
@@ -21331,9 +21330,9 @@ msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
 msgstr ""
-"Katapulte sind große, steinschleudernde Kriegsmaschinen. Sie sind "
-"sehr stark im Angriff und sehr schwach in der Verteidigung, und "
-"benötigen eine Eskorte, um wirksam angreifen zu können."
+"Katapulte sind große, steinschleudernde Kriegsmaschinen. Sie sind sehr stark "
+"im Angriff und sehr schwach in der Verteidigung, und benötigen eine Eskorte, "
+"um wirksam angreifen zu können."
 
 #: data/default/units.ruleset:942 data/civ2/units.ruleset:893
 #: data/civ1/units.ruleset:498
@@ -21347,10 +21346,10 @@ msgid ""
 "distances. They are very strong attackers but equally weak defenders and "
 "will need an escort to be effective."
 msgstr ""
-"Kanonen sind lange Feuerwaffen, die schwere Projektile über "
-"große Entfernungen abfeuern können. Sie sind "
-"sehr stark im Angriff und sehr schwach in der Verteidigung, und "
-"benötigen eine Eskorte, um wirksam angreifen zu können."
+"Kanonen sind lange Feuerwaffen, die schwere Projektile über große "
+"Entfernungen abfeuern können. Sie sind sehr stark im Angriff und sehr "
+"schwach in der Verteidigung, und benötigen eine Eskorte, um wirksam "
+"angreifen zu können."
 
 #: data/default/units.ruleset:976 data/civ2/units.ruleset:927
 #: data/civ1/units.ruleset:532
@@ -21362,9 +21361,9 @@ msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
 msgstr ""
-"Die Artillerie ist eine verbesserte Kanone. Sie ist "
-"sehr stark im Angriff und sehr schwach in der Verteidigung, und "
-"benötigen eine Eskorte, um wirksam angreifen zu können."
+"Die Artillerie ist eine verbesserte Kanone. Sie ist sehr stark im Angriff "
+"und sehr schwach in der Verteidigung, und benötigen eine Eskorte, um wirksam "
+"angreifen zu können."
 
 #: data/default/units.ruleset:1009 data/civ2/units.ruleset:960
 msgid "Howitzer"
@@ -21375,8 +21374,8 @@ msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities."
 msgstr ""
-"Haubitzen sind weiterentwickelte Artillerie mit verbesserten "
-"Verteidigungs- und Angriffsfähigkeiten."
+"Haubitzen sind weiterentwickelte Artillerie mit verbesserten Verteidigungs- "
+"und Angriffsfähigkeiten."
 
 #: data/default/units.ruleset:1041 data/civ2/units.ruleset:992
 #: data/civ1/units.ruleset:564
@@ -21403,8 +21402,8 @@ msgid ""
 "Bombers are specialized airborne units that may only attack ground targets, "
 "not other airborne units."
 msgstr ""
-"Bomber sind spezialisierte Lufteinheiten, die nur Bodeneinheiten, "
-"jedoch keine anderen Lufteinheiten angreifen können."
+"Bomber sind spezialisierte Lufteinheiten, die nur Bodeneinheiten, jedoch "
+"keine anderen Lufteinheiten angreifen können."
 
 #: data/default/units.ruleset:1132 data/civ2/units.ruleset:1083
 msgid ""
@@ -21448,9 +21447,9 @@ msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not stray too far from the shore."
 msgstr ""
-"Die Trireme ist deine erste See-Einheit. Sie kann als Transportschiff "
-"dienen und hat einfache Angriffsstärke, darf sich aber nicht zu weit "
-"von der Küste entfernen."
+"Die Trireme ist deine erste See-Einheit. Sie kann als Transportschiff dienen "
+"und hat einfache Angriffsstärke, darf sich aber nicht zu weit von der Küste "
+"entfernen."
 
 #: data/default/units.ruleset:1237 data/civ2/units.ruleset:1188
 msgid "Caravel"
@@ -21460,8 +21459,7 @@ msgstr "Karavelle"
 msgid ""
 "The Caravel replaces the Trireme and is much more reliable on the open seas."
 msgstr ""
-"Die Karavelle ersetzt die Trireme und ist viel verläßlicher "
-"auf hoher See."
+"Die Karavelle ersetzt die Trireme und ist viel verläßlicher auf hoher See."
 
 #: data/default/units.ruleset:1269 data/civ2/units.ruleset:1220
 msgid "Galleon"
@@ -21486,8 +21484,8 @@ msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
 msgstr ""
-"Die Fregatte ist ein sehr vielseitiges Schiff, das gleichermaßen über "
-"einen starken Angriff verfügt und zum Transport genutzt werden kann."
+"Die Fregatte ist ein sehr vielseitiges Schiff, das gleichermaßen über einen "
+"starken Angriff verfügt und zum Transport genutzt werden kann."
 
 #: data/default/units.ruleset:1335 data/civ2/units.ruleset:1286
 #: data/civ1/units.ruleset:727
@@ -21534,8 +21532,8 @@ msgstr "AEGIS-Kreuzer"
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr ""
-"Der AEGIS-Kreuzer ist mit einem fortschrittlichen "
-"Raketenabwehrsystem ausgerüstet."
+"Der AEGIS-Kreuzer ist mit einem fortschrittlichen Raketenabwehrsystem "
+"ausgerüstet."
 
 #: data/default/units.ruleset:1463 data/civ2/units.ruleset:1414
 #: data/civ1/units.ruleset:791
@@ -21589,8 +21587,7 @@ msgid ""
 "The Transport cannot attack on its own but may defend itself when under "
 "attack."
 msgstr ""
-"Das Landungsschiff verfügt über keinen Angriff, kann sich aber "
-"verteidigen."
+"Das Landungsschiff verfügt über keinen Angriff, kann sich aber verteidigen."
 
 #: data/default/units.ruleset:1593 data/civ2/units.ruleset:1544
 msgid "Cruise Missile"
@@ -21864,8 +21861,8 @@ msgstr "Kreuzfahrer"
 msgid ""
 "Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr ""
-"Kreuzfahrer sind hochdisziplinierte berittene Krieger, die von einer "
-"höheren Einsicht getrieben sind."
+"Kreuzfahrer sind hochdisziplinierte berittene Krieger, die von einer höheren "
+"Einsicht getrieben sind."
 
 #: data/civ1/units.ruleset:123
 msgid ""
@@ -21906,8 +21903,8 @@ msgid ""
 "Musketeers are infantry equipped with early firearms and replace Phalanx as "
 "the preferred city defender."
 msgstr ""
-"Musketiere sind Fußtruppen mit einfachen Feuerwaffen und ersetzen "
-"die Phanlanx als bevorzugte Stadtverteidigung."
+"Musketiere sind Fußtruppen mit einfachen Feuerwaffen und ersetzen die "
+"Phanlanx als bevorzugte Stadtverteidigung."
 
 #: data/civ1/units.ruleset:361
 msgid ""
@@ -21922,8 +21919,8 @@ msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities."
 msgstr ""
-"Die Artillerie ist eine verbesserte Kanone mit verbesserten "
-"Angriffs- und Verteidigungswerten."
+"Die Artillerie ist eine verbesserte Kanone mit verbesserten Angriffs- und "
+"Verteidigungswerten."
 
 #: data/civ1/units.ruleset:662
 msgid "Sail"
@@ -25668,533 +25665,3 @@ msgstr "Team 32"
 #: data/default/game.ruleset:129
 msgid "Team 0"
 msgstr "Team 0"
-
-#~ msgid "Cleared output window.\n"
-#~ msgstr "Textfenster gelöscht.\n"
-
-#~ msgid "u8Unitsn"
-#~ msgstr "u8Einheitenn"
-
-#~ msgid "u8Improvementsn"
-#~ msgstr "u8Stadterweiterungenn"
-
-#~ msgid "Rounds"
-#~ msgstr "Runden"
-
-#~ msgid "_Darn"
-#~ msgstr "_Zurück"
-
-#~ msgid "Freeciv - Cityproduction"
-#~ msgstr "Freeciv - Cityproduktion"
-
-#~ msgid "Shields"
-#~ msgstr "Schilde"
-
-#~ msgid "City Overview page"
-#~ msgstr "Übersicht"
-
-#~ msgid "Units page"
-#~ msgstr "Einheiten"
-
-#~ msgid "Worklist page"
-#~ msgstr "Arbeitsliste"
-
-#~ msgid "Trade Routes page"
-#~ msgstr "Handelswege"
-
-#~ msgid "This Misc. Settings page"
-#~ msgstr "Sonstige Einstellungen"
-
-#~ msgid "Freeciv - Cityview"
-#~ msgstr "Freeciv - Stadtansicht"
-
-#~ msgid "City Output"
-#~ msgstr "Stadtproduktion"
-
-#~ msgid "Citymap"
-#~ msgstr "Stadtplan"
-
-#~ msgid "_Sell"
-#~ msgstr "_Verkaufen"
-
-#~ msgid "_Add preset"
-#~ msgstr "Vorgabe _speichern"
-
-#~ msgid "_Delete preset"
-#~ msgstr "Vorgabe _löschen"
-
-#~ msgid "Name:"
-#~ msgstr "Spielername:"
-
-#~ msgid "People (W/E/S/T):"
-#~ msgstr "Bürger (A/U/W/S):"
-
-#~ msgid "City grows:"
-#~ msgstr "Stadt wächst:"
-
-#~ msgid "Production completed:"
-#~ msgstr "Produktion fertig:"
-
-#~ msgid "_Change"
-#~ msgstr "_Ändern"
-
-#~ msgid "C_hange permanent"
-#~ msgstr "_Aktivieren"
-
-#~ msgid "_Release city"
-#~ msgstr "_Deaktivieren"
-
-#~ msgid "Auto attack vs"
-#~ msgstr "Selbständiger Angriff gegen"
-
-#~ msgid "Land units"
-#~ msgstr "Bodentruppen"
-
-#~ msgid "Sea units"
-#~ msgstr "Schiffe"
-
-#~ msgid "Helicopters"
-#~ msgstr "Hubschrauber"
-
-#~ msgid "Air units"
-#~ msgstr "Flugzeuge"
-
-#~ msgid "_Disband if build settler at size 1"
-#~ msgstr "_Auflösen, wenn die Stadt Größe 1 hat und Siedler baut"
-
-#~ msgid "_Close"
-#~ msgstr "_Schließen"
-
-#~ msgid "%s (%s) (worklist)"
-#~ msgstr "%s (%s) (Arbeitsliste)"
-
-#~ msgid "%s citizens%s"
-#~ msgstr "%s Bürger%s"
-
-#~ msgid "%s - %s citizens%s"
-#~ msgstr "%s - %s Bürger%s"
-
-#~ msgid "Luxury: %d total (maximum %d usable). "
-#~ msgstr "Luxus: %d insgesamt (höchstens %d verwendbar). "
-
-#~ msgid "_Ok"
-#~ msgstr "_OK"
-
-#~ msgid "_Refresh"
-#~ msgstr "Neu _Laden"
-
-#~ msgid "Con_figure"
-#~ msgstr "_Einstellungen"
-
-#~ msgid "Server Selection"
-#~ msgstr "Server wählen"
-
-#~ msgid "_Name"
-#~ msgstr "_Name"
-
-#~ msgid "_Host"
-#~ msgstr "_Server"
-
-#~ msgid "_Port"
-#~ msgstr "_Port"
-
-#~ msgid "_Goto and Close"
-#~ msgstr "_Hingehen und Schließen"
-
-#~ msgid "_Establish embassy"
-#~ msgstr "_Botschaft eröffnen"
-
-#~ msgid "_Investigate city"
-#~ msgstr "Stadt _auskundschaften"
-
-#~ msgid "_Sabotage city"
-#~ msgstr "Stadt _sabotieren"
-
-#~ msgid "Steal _technology"
-#~ msgstr "_Forschungsergebnisse stehlen"
-
-#~ msgid "Incite a _revolt"
-#~ msgstr "Zur _Revolte anstiften"
-
-#~ msgid "_Poison city"
-#~ msgstr "_Wasser vergiften"
-
-#~ msgid "Industrial _sabotage"
-#~ msgstr "_Industrie sabotieren"
-
-#~ msgid "_Establish traderoute"
-#~ msgstr "_Handelsweg gründen"
-
-#~ msgid "_Enter Marketplace"
-#~ msgstr "_Marktplatz betreten"
-
-#~ msgid "_Help build Wonder"
-#~ msgstr "Beim Bau des _Weltwunders helfen"
-
-#~ msgid "Freeciv - Pillage"
-#~ msgstr "Freeciv - Plündern"
-
-#~ msgid "Freeciv - Connect"
-#~ msgstr "Freeciv - Verbinden"
-
-#~ msgid "Freeciv - Select an unit"
-#~ msgstr "Freeciv - Einheit wählen"
-
-#~ msgid "_Ready All"
-#~ msgstr "_Alle aktivieren"
-
-#~ msgid "Freeciv - Select a Nation"
-#~ msgstr "Freeciv - Nation wählen"
-
-#~ msgid "_Leader Name"
-#~ msgstr "_Anführer"
-
-#~ msgid "_City Style"
-#~ msgstr "_Bauweise"
-
-#~ msgid "Sorry: cannot upgrade %s."
-#~ msgstr "%s können nicht modernisiert werden."
-
-#~ msgid "No technology"
-#~ msgstr "Keine Forschungsergebnisse"
-
-#~ msgid "No city"
-#~ msgstr "Keine Stadt"
-
-#~ msgid "_Accept treaty"
-#~ msgstr "Abkommen _unterzeichnen"
-
-#~ msgid "World-Map"
-#~ msgstr "Weltkarte"
-
-#~ msgid "Sea-Map"
-#~ msgstr "Seekarte"
-
-#~ msgid ""
-#~ "This Eternal Treaty\n"
-#~ "marks the results\n"
-#~ "of the diplomatic work between\n"
-#~ "The %s %s %s\n"
-#~ "and\n"
-#~ "The %s %s %s"
-#~ msgstr ""
-#~ "In diesem auf ewig geltenden Abkommen\n"
-#~ "sind die Vereinbarungen zwischen\n"
-#~ "dem %sen %s %s\n"
-#~ "und\n"
-#~ "dem %sen %s %s"
-
-#~ msgid "Select a city"
-#~ msgstr "Wähle eine Stadt"
-
-#~ msgid "Set tax, luxury and science rates"
-#~ msgstr "Steuer-, Luxus- und Forschungsquote setzen"
-
-#~ msgid "_Airlift"
-#~ msgstr "_Luftbeförderung"
-
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#~ msgid ""
-#~ "Could not get the mask although there must be one (%s)! Graphics may look "
-#~ "corrupt.\n"
-#~ msgstr ""
-#~ "Could not get the mask although there must be one (%s)! Graphics may look "
-#~ "corrupt.\n"
-
-#~ msgid "Options..."
-#~ msgstr "Optionen..."
-
-#~ msgid "Message Options..."
-#~ msgstr "Nachrichtendarstellung..."
-
-#~ msgid "Players..."
-#~ msgstr "Spieler..."
-
-#~ msgid "Message..."
-#~ msgstr "Nachricht..."
-
-#~ msgid "Server opt initial..."
-#~ msgstr "Serveroptionen zur Spielgenerierung..."
-
-#~ msgid "Server opt ongoing..."
-#~ msgstr "Andere Serveroptionen..."
-
-#~ msgid "Kingdom"
-#~ msgstr "Königreich"
-
-#~ msgid "Tax Rate..."
-#~ msgstr "Steuern..."
-
-#~ msgid "Find City..."
-#~ msgstr "Finde Stadt..."
-
-#~ msgid "Worklists..."
-#~ msgstr "Arbeitslisten..."
-
-#~ msgid "REVOLUTION..."
-#~ msgstr "REVOLUTION..."
-
-#~ msgid "Road & Rails"
-#~ msgstr "Straßen und Eisenbahnen"
-
-#~ msgid "Order"
-#~ msgstr "Befehle"
-
-#~ msgid "City Report..."
-#~ msgstr "Stadtbericht..."
-
-#~ msgid "Science Report..."
-#~ msgstr "Forschungsbericht..."
-
-#~ msgid "Trade Report..."
-#~ msgstr "Handelsbericht..."
-
-#~ msgid "Military Report..."
-#~ msgstr "Militärischer Bericht..."
-
-#~ msgid "Freeciv Client"
-#~ msgstr "Freeciv Client"
-
-#~ msgid "Client for Freeciv"
-#~ msgstr "Freeciv Client"
-
-#~ msgid ""
-#~ "Turn\n"
-#~ "Done"
-#~ msgstr ""
-#~ "Runde\n"
-#~ "fertig!"
-
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden
-#~ msgid ""
-#~ "Couldn't open the main window (Gfx memory problem or screensize too "
-#~ "small)\n"
-#~ msgstr ""
-#~ "Couldn't open the main window (Gfx memory problem or screensize too "
-#~ "small)\n"
-
-#~ msgid "Cost: %ld"
-#~ msgstr "Kosten: %ld"
-
-#~ msgid " wonder"
-#~ msgstr " Weltwunder"
-
-#~ msgid " improvement"
-#~ msgstr " Stadterweiterung"
-
-#~ msgid " unit"
-#~ msgstr " Einheit"
-
-#~ msgid "Movecost: %ld"
-#~ msgstr "Bewegungskosten: %ld"
-
-#~ msgid "Defense: %ld.%ld"
-#~ msgstr "Verteidigung: %ld.%ld"
-
-#~ msgid ""
-#~ "Food:   %d\n"
-#~ "Shield: %d\n"
-#~ "Trade:  %d"
-#~ msgstr ""
-#~ "Nahrung: %d\n"
-#~ "Prod:    %d\n"
-#~ "Handel:  %d"
-
-#~ msgid "City: %s(%s)"
-#~ msgstr "Stadt: %s(%s)"
-
-#~ msgid "with City Walls"
-#~ msgstr "mit Stadtmauern"
-
-#~ msgid "Infrastructure: "
-#~ msgstr "Infrastruktur: "
-
-#~ msgid "Unit: %s(%s%s)"
-#~ msgstr "Einheit: %s(%s,%s)"
-
-#~ msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-#~ msgstr "A:%d V:%d FK:%d TP:%d/%d%s%s"
-
-#~ msgid "A:%d D:%d FP:%d HP:%d0%%"
-#~ msgstr "A:%d V:%d FK:%d TP:%d0%%"
-
-#~ msgid "City %s"
-#~ msgstr "Stadt %s"
-
-#~ msgid "Unit %s"
-#~ msgstr "Einheit %s"
-
-#~ msgid "Tile %s"
-#~ msgstr "Geländeform %s"
-
-#~ msgid "Wake up"
-#~ msgstr "Andere alarmieren"
-
-#~ msgid "Activate"
-#~ msgstr "aktivieren"
-
-#~ msgid "List all units"
-#~ msgstr "Einheiten anzeigen"
-
-#~ msgid "Connect to this location"
-#~ msgstr "Verbinde mit"
-
-#~ msgid "Goto this location"
-#~ msgstr "Gehe nach"
-
-#~ msgid "City_name"
-#~ msgstr "_Name der Stadt"
-
-#~ msgid "Tax:%d Lux:%d Sci:%d"
-#~ msgstr "Ste:%d Lux:%d For:%d"
-
-#~ msgid "_Goto Location"
-#~ msgstr "_Gehe nach"
-
-#~ msgid "Reputation"
-#~ msgstr "Reputation"
-
-#~ msgid "(%ld steps)"
-#~ msgstr "(%ld Schritte)"
-
-#~ msgid "Science Advisor"
-#~ msgstr "Wissenschaftlicher Ratgeber"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "(no research)"
-#~ msgstr ""
-#~ "%s\n"
-#~ "(keine Forschung)"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "(%d turn/advance)"
-#~ msgid_plural ""
-#~ "%s\n"
-#~ "(%d turns/advance)"
-#~ msgstr[0] ""
-#~ "%s\n"
-#~ "(1 Runde / Fortschritt)"
-#~ msgstr[1] ""
-#~ "%s\n"
-#~ "(%d Runden / Fortschritt)"
-
-#~ msgid "_Goal"
-#~ msgstr "_Ziel"
-
-#~ msgid "_Research"
-#~ msgstr "_Erforsche"
-
-#~ msgid "Trade Advisor"
-#~ msgstr "Handelsratgeber"
-
-#~ msgid "Military Report"
-#~ msgstr "Militärischer Bericht"
-
-#~ msgid ""
-#~ "Population:\n"
-#~ "Support:\n"
-#~ "Energy:\n"
-#~ "Mass:\n"
-#~ "Travel time:\n"
-#~ "Success prob.:\n"
-#~ "Year of arrival:"
-#~ msgstr ""
-#~ "Passagiere:\n"
-#~ "Lebenserhaltungssysteme:\n"
-#~ "Energieversorgung:\n"
-#~ "Masse:\n"
-#~ "Reisezeit:\n"
-#~ "Erfolgswahrscheinlichkeit:\n"
-#~ "Ankunftsjahr:"
-
-#~ msgid ""
-#~ "%5d\n"
-#~ "%5d %%\n"
-#~ "%5d %%\n"
-#~ "%5d tons\n"
-#~ "%5.1f years\n"
-#~ "%5d %%\n"
-#~ "%8s"
-#~ msgstr ""
-#~ "%5d\n"
-#~ "%5d %%\n"
-#~ "%5d %%\n"
-#~ "%5d Tonnen\n"
-#~ "%5.1f Jahre\n"
-#~ "%5d %%\n"
-#~ "%8s"
-
-#~ msgid "Freeciv - Edit Worklists"
-#~ msgstr "Arbeitslisten bearbeiten"
-
-#~ msgid "Available Worklists"
-#~ msgstr "Verfügbare Arbeitslisten"
-
-#~ msgid "_Edit"
-#~ msgstr "_Bearbeiten"
-
-#~ msgid "_New"
-#~ msgstr "_Neu"
-
-#~ msgid "_Remove"
-#~ msgstr "_Entfernen"
-
-#~ msgid "Freeciv - Edit Worklist"
-#~ msgstr "Arbeitsliste bearbeiten"
-
-#~ msgid "entry"
-#~ msgid_plural "entries"
-#~ msgstr[0] "Eintrag"
-#~ msgstr[1] "Einträge"
-
-#~ msgid "u8Worklistsn"
-#~ msgstr "u8Arbeitslistenn"
-
-#~ msgid "Accept"
-#~ msgstr "Zustimmen"
-
-#~ msgid "Current Targets"
-#~ msgstr "Momentane Ziele"
-
-#~ msgid "Available Targets"
-#~ msgstr "Verfügbare Ziele"
-
-#~ msgid "Worklist for city"
-#~ msgstr "Arbeitsliste für die Stadt"
-
-#~ msgid "Name of Worklist"
-#~ msgstr "Name der Arbeitsliste"
-
-#~ msgid "Options panel"
-#~ msgstr "Optionen"
-
-#~ msgid "Unit maintenance panel (%d %s)"
-#~ msgstr "Unterstütze Einheiten (%d %s)"
-
-#~ msgid "unit"
-#~ msgid_plural "units"
-#~ msgstr[0] "Einheit"
-#~ msgstr[1] "Einheiten"
-
-#~ msgid "Garrison Panel (%d %s)"
-#~ msgstr "Garnisonenpanel (%d %s)"
-
-#~ msgid "Info Panel"
-#~ msgstr "Übersicht"
-
-#~ msgid "Happiness panel"
-#~ msgstr "Zufriedenheit"
-
-#~ msgid "Maintenance panel"
-#~ msgstr "Unterstütze Einheiten"
-
-#~ msgid "Garrison panel"
-#~ msgstr "Stationierte Einheiten"
-
-#~ msgid "Information panel"
-#~ msgstr "Informationsleiste"
-
-#~ msgid "Exit Report"
-#~ msgstr "Schlußbericht"
