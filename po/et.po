@@ -1,4 +1,4 @@
-# translation of et.po to estonian
+# translation of et.po to eesti
 # Estonian translation of Freeciv po file.
 # Copyright (C) 2002,2003,2004, 2006, 2007 Free Software Foundation, Inc.
 #
@@ -11,9 +11,9 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-23 19:22+0900\n"
-"PO-Revision-Date: 2007-09-25 21:30+0300\n"
+"PO-Revision-Date: 2007-10-02 21:29+0200\n"
 "Last-Translator: Silver Juurik <silverjuurik@gmail.com>\n"
-"Language-Team: estonian <et@li.org>\n"
+"Language-Team: eesti\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6783,7 +6783,7 @@ msgstr "Sinu %s sai tänu osavale seilamisele tugevamaks!"
 #: server/unittools.c:377
 #, c-format
 msgid "Your %s has been lost on unsafe terrain."
-msgstr ""
+msgstr "%s sai hukka, kuna rändas ringi ohtlikus piirkonnas."
 
 #: server/unittools.c:431
 #, c-format
@@ -6823,12 +6823,12 @@ msgstr " linna %s lähedal"
 #: server/unittools.c:1072
 #, c-format
 msgid "Teleported your %s to %s."
-msgstr ""
+msgstr "Sinu %s teleporditi linna %s."
 
 #: server/unittools.c:1102
 #, c-format
 msgid "Disbanded your %s."
-msgstr ""
+msgstr "Sinu %s saadeti laiali."
 
 #: server/unittools.c:1424
 #, c-format
@@ -6897,7 +6897,7 @@ msgstr[1] ""
 #: server/unittools.c:1696
 #, c-format
 msgid "%s lost to an attack from %s's %s."
-msgstr ""
+msgstr "Üksus %s hukkus võitluses mängija %s üksusega %s."
 
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
@@ -6945,7 +6945,7 @@ msgstr "iseennast"
 #: server/unittools.c:2014
 #, c-format
 msgid "%s's %s was nuked."
-msgstr ""
+msgstr "Mängija %s %s sai tuumapommiga pihta."
 
 #: server/unittools.c:2024
 #, c-format
@@ -6987,7 +6987,7 @@ msgstr ""
 #: server/unittools.c:2160
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr ""
+msgstr "Kaugus sihtmärgini (%i) on suurem, kui üksuse laskeulatus (%i)."
 
 #: server/unittools.c:2171
 #, c-format
@@ -7180,7 +7180,7 @@ msgstr ""
 #: client/audio.c:213
 #, c-format
 msgid "Cannot find sound spec-file \"%s\"."
-msgstr ""
+msgstr "Ei leidnud heli spec-faili \"%s\"."
 
 #: client/audio.c:214
 msgid "To get sound you need to download a sound set!"
@@ -7317,7 +7317,7 @@ msgstr "%+4d : Kodanikud\n"
 #: client/citydlg_common.c:396
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : Maksud kaubandusest\n"
 
 #: client/citydlg_common.c:414
 #, c-format
@@ -7351,7 +7351,7 @@ msgstr "%+4d : Kasutatud\n"
 
 #: client/citydlg_common.c:475
 msgid "==== : Adds up to\n"
-msgstr ""
+msgstr "====: Kokku\n"
 
 #: client/citydlg_common.c:477
 #, c-format
@@ -7744,8 +7744,9 @@ msgstr "Automaatse ühendamise käigus tekkis viga; katkestan ühendamise."
 
 #: client/climisc.c:176
 #, c-format
+#, fuzzy
 msgid "Changing production of every %s into %s."
-msgstr ""
+msgstr "%s asemel hakatakse tootma %s."
 
 #: client/climisc.c:214
 msgid "?embassy:Both"
@@ -7882,7 +7883,8 @@ msgstr "Serveriga ühendamisest keelduti. Palun käivita server."
 msgid ""
 "Error contacting server \"%s\" at port %d as \"%s\":\n"
 " %s\n"
-msgstr "Viga ühendumisel serveri \"%s\" porti %d mängijana \"%s\":\n"
+msgstr ""
+"Viga ühendumisel serveri \"%s\" porti %d mängijana \"%s\":\n"
 " %s\n"
 
 #: client/clinet.c:511
@@ -8271,12 +8273,12 @@ msgstr "* Võib ehitada kindlustusi, lisades 50%% kaitseboonust.\n"
 #: client/helpdata.c:899
 #, c-format
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr ""
+msgstr "* Võib ruudukesi infrastruktuuri hävitamiseks rüüstada.\n"
 
 #: client/helpdata.c:903
 #, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
-msgstr ""
+msgstr "* Oskab lisaks diplomaatilistele tegevustele ka spiooni tegevusi.\n"
 
 #: client/helpdata.c:906
 #, c-format
@@ -8360,7 +8362,7 @@ msgstr "* Linnamüüride mõju ei lähe arvesse.\n"
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender but has no risk to the attacker.\n"
-msgstr ""
+msgstr "* Teeb pommitusrünnakuid (%d rünnakut käigu kohta). Need rünnakud kahjustavad (kuid ei tapa kunagi) kaitsjat, kuid ei ole ründajale ohtlikud.\n"
 
 #: client/helpdata.c:971
 #, c-format
@@ -8370,12 +8372,12 @@ msgstr "* Neljakordselt tugev kaitse õhurünnakute vastu.\n"
 #: client/helpdata.c:975
 #, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
-msgstr ""
+msgstr "* Maastik ei mõjuta seda üksust (kõik ruudukesed käituvad teedena).\n"
 
 #: client/helpdata.c:978
 #, c-format
 msgid "* Ignores zones of control.\n"
-msgstr ""
+msgstr "* Ei tee välja kontrolltsoonidest.\n"
 
 #: client/helpdata.c:981
 #, c-format
@@ -8453,7 +8455,7 @@ msgstr "Seda teadust sa ei saa uurida."
 #: client/helpdata.c:1126
 #, c-format
 msgid " This number may vary depending on what other players will research.\n"
-msgstr ""
+msgstr "See number võib erineda, sõltuvalt sellest, millist tehnoloogiat teised mängijad uurivad.\n"
 
 #: client/helpdata.c:1137
 #, c-format
@@ -8549,7 +8551,7 @@ msgstr ""
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
 "caused by units.\n"
-msgstr ""
+msgstr "* Igas su linnas muutub %d kodanikku vähem süjaväeüksuste tõttu õnnetuks.\n"
 
 #: client/helpdata.c:1319
 #, c-format
@@ -8627,7 +8629,7 @@ msgstr ""
 msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
 "least size %d before they can grown in this manner.\n"
-msgstr ""
+msgstr "* Kasvada saab ka pidustuste korraldamise abil. Su linna suurus peab olema vähemalt %d, et sel viisil kasvada.\n"
 
 #: client/helpdata.c:1387
 #, c-format
@@ -8663,7 +8665,7 @@ msgstr "* Lubab partisanidel tegutsema hakata, kui linnad vallutatakse.\n"
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
-msgstr ""
+msgstr "* Ehitised, mis muidu annaks boonuseid õnnetu meeleolu vastu, toodavad hoopis kulda.\n"
 
 #: client/helpdata.c:1410
 #, c-format
@@ -8707,32 +8709,33 @@ msgstr ""
 #: client/helpdata.c:1443
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr ""
+msgstr "* %s tootmisel läheb väga suur osa toodangust raisku.\n"
 
 #: client/helpdata.c:1446
 #, c-format
 msgid "* %s production will suffer some waste.\n"
-msgstr ""
+msgstr "* %s tootmisel läheb veidike toodangust raisku.\n"
 
 #: client/helpdata.c:1449
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
-msgstr ""
+msgstr "* %s tootmisel läheb väike kogus toodangust raisku.\n"
 
 #: client/helpdata.c:1455
 #, c-format
+#, fuzzy
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr ""
+msgstr "* %s tootmisel kasvab raisku minev hulk kiiresti võrreldes kaugusega pealinnast.\n"
 
 #: client/helpdata.c:1458
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* %s tootmisel kasvab raisku minev hulk võrreldes kaugusega pealinnast.\n"
 
 #: client/helpdata.c:1461
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr ""
+msgstr "* %s tootmisel kasvab raisku minev hulk aeglaselt võrreldes kaugusega pealinnast.\n"
 
 #: client/helpdata.c:1472
 #, c-format
@@ -8749,7 +8752,7 @@ msgstr "%s%d %s"
 #: client/helpdata.c:1506
 #, c-format
 msgid "%s%d unhappy"
-msgstr ""
+msgstr "%s%d õnnetus"
 
 #: client/mapctrl_common.c:382
 #, c-format
@@ -9012,13 +9015,13 @@ msgstr ""
 
 #: client/options.c:212
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Luba tundmatusse rännata"
 
 #: client/options.c:213
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
-msgstr ""
+msgstr "Selle seade aktiveerimine võimaldab mängul kaaluda tundmatutele ruutudele minemist. Muidu aga üritatakse minna ümber tundmatute ruutude või siis jäävad tundmatud ruudud teed blokeerima."
 
 #: client/options.c:217
 msgid "Center map when Popup city"
@@ -9028,7 +9031,7 @@ msgstr ""
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
-msgstr ""
+msgstr "Selle seade aktiveerimisel liigub kaardivaade automaatselt selle linna peale, mille kohta avati aken."
 
 #: client/options.c:221
 msgid "Concise City Production"
@@ -9130,7 +9133,7 @@ msgstr "Salvestamine ebaõnnestus, faili nime ei suuda leida."
 
 #: client/options.c:642
 msgid "If you add a preset by hand, also update \"number_of_presets\""
-msgstr ""
+msgstr "Kui lisad käsitsi uue malli, uuenda ka \"number_of_presets\" väärtust."
 
 #: client/options.c:653
 #, c-format
@@ -9150,12 +9153,12 @@ msgstr "Sind ei võetud mängu: %s"
 #: client/packhand.c:214
 #, c-format
 msgid "Client capability string: %s"
-msgstr ""
+msgstr "Kliendi oskused: %s"
 
 #: client/packhand.c:217
 #, c-format
 msgid "Server capability string: %s"
-msgstr ""
+msgstr "Serveri oskused: %s"
 
 #: client/packhand.c:836
 #, c-format
@@ -10674,6 +10677,9 @@ msgid ""
 "including sample presets,\n"
 "see README.cma."
 msgstr ""
+"Linnapea, linnapea mallide ja\n"
+"näidismallide kohta leiad infot \n"
+"README.cma failist"
 
 #: client/gui-gtk-2.0/cma_fe.c:269
 msgid "_Presets:"
@@ -10714,21 +10720,21 @@ msgstr "_Valitseja välja lülitatud"
 #: client/gui-sdl/cma_fe.c:306 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
-msgstr ""
+msgstr "uus mall"
 
 #: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:279
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
-msgstr ""
+msgstr "Anna uuele mallile nimi"
 
 #: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:295
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
-msgstr ""
+msgstr "Milline oleks sobiv nimi uuele mallile?"
 
 #: client/gui-gtk-2.0/cma_fe.c:648
 msgid "Remove this preset?"
-msgstr ""
+msgstr "Eemalda see mall?"
 
 #: client/gui-gtk-2.0/dialogs.c:195
 msgid "_Goto location"
@@ -12268,11 +12274,11 @@ msgstr "Eemalda mängija"
 
 #: client/gui-gtk-2.0/pages.c:1241
 msgid "Give info access"
-msgstr ""
+msgstr "Anna käsutase info "
 
 #: client/gui-gtk-2.0/pages.c:1249
 msgid "Give ctrl access"
-msgstr ""
+msgstr "Anna käsutase ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1310
@@ -12793,11 +12799,11 @@ msgstr "Müü"
 
 #: client/gui-mui/citydlg.c:1538
 msgid "_Add preset"
-msgstr ""
+msgstr "Lis_a mall"
 
 #: client/gui-mui/citydlg.c:1539
 msgid "_Delete preset"
-msgstr ""
+msgstr "Kustuta mall"
 
 #: client/gui-mui/citydlg.c:1545
 msgid "Name:"
@@ -12866,8 +12872,9 @@ msgstr "%s (%s) (nimekirjast)"
 
 #: client/gui-mui/citydlg.c:2033 client/gui-win32/citydlg.c:1265
 #, c-format
+#, fuzzy
 msgid "Trade with %s gives %d trade.\n"
-msgstr ""
+msgstr "%s-ga kauplemine annab %d ühikut kaupa.\n"
 
 #: client/gui-mui/citydlg.c:2038 client/gui-win32/citydlg.c:1270
 msgid "No trade routes exist."
@@ -12881,12 +12888,12 @@ msgstr "Kokku kaupa kaubateedelt: %d"
 #: client/gui-mui/citydlg.c:2064
 #, c-format
 msgid "%s citizens%s"
-msgstr ""
+msgstr "%s kodanikku%s"
 
 #: client/gui-mui/citydlg.c:2068
 #, c-format
 msgid "%s - %s citizens%s"
-msgstr ""
+msgstr "%s - %s kodanikku%s"
 
 #: client/gui-mui/citydlg.c:2218
 #, c-format
@@ -13777,6 +13784,8 @@ msgid ""
 "%s\n"
 "(no research)"
 msgstr ""
+"%s\n"
+"(teadustööd ei tehta)"
 
 #: client/gui-mui/repodlgs.c:309
 #, c-format
@@ -13787,6 +13796,11 @@ msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
 msgstr[0] ""
+"%s\n"
+"(%d käik/avastus)"
+msgstr[1] ""
+"%s\n"
+"(%d käiku/avastus)"
 
 #: client/gui-mui/repodlgs.c:326 client/gui-mui/repodlgs.c:327
 msgid "_Goal"
@@ -13852,6 +13866,13 @@ msgid ""
 "Success prob.:\n"
 "Year of arrival:"
 msgstr ""
+"Rahvaarv:\n"
+"Support:\n"
+"Energia:\n"
+"Mass:\n"
+"Lennuaeg:\n"
+"Õnnestumise tõen.:\n"
+"Saabumisaasta:"
 
 #: client/gui-mui/spaceshipdlg.c:268
 #, c-format
@@ -14083,11 +14104,11 @@ msgstr[1] "üksused"
 #: client/gui-sdl/citydlg.c:1831
 #, c-format
 msgid "Garrison Panel (%d %s)"
-msgstr ""
+msgstr "Garnisonipaneel (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1881
 msgid "Info Panel"
-msgstr ""
+msgstr "Infopaneel"
 
 #: client/gui-sdl/citydlg.c:1902
 #, c-format
@@ -14228,7 +14249,7 @@ msgstr "Hoolduspaneel"
 
 #: client/gui-sdl/citydlg.c:3719
 msgid "Garrison panel"
-msgstr "Kasarmupaneel"
+msgstr "Garnisonipaneel"
 
 #: client/gui-sdl/citydlg.c:3743
 msgid "Information panel"
@@ -14306,7 +14327,7 @@ msgstr "Mallid"
 #: client/gui-sdl/cma_fe.c:852
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
-msgstr ""
+msgstr "Linn %s (rahvaarv %s kodanikku) : %s"
 
 #: client/gui-sdl/cma_fe.c:967
 msgid "Save settings as..."
@@ -15688,7 +15709,7 @@ msgstr ""
 
 #: client/gui-win32/cma_fe.c:309
 msgid "CMA and presets"
-msgstr ""
+msgstr "Linnapea ja mallid"
 
 #: client/gui-win32/cma_fe.c:310
 msgid "including sample presets,"
@@ -16034,7 +16055,7 @@ msgstr "%s - %s linnaelanikku  Valitseja: %s"
 
 #: client/gui-xaw/cma_fe.c:431
 msgid "What should we name the new preset?"
-msgstr ""
+msgstr "Milline on sobiv nimi uue mallile?"
 
 #: client/gui-xaw/cma_fe.c:448
 #, c-format
@@ -16348,6 +16369,10 @@ msgid ""
 "<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
 "<td>"
 msgstr ""
+"<table>\n"
+"<tr>\n"
+"<td valign=\"top\"><pre>Üldine kirjeldus:</pre></td>\n"
+"<td>"
 
 #: manual/civmanual.c:202
 #, c-format
@@ -16541,11 +16566,11 @@ msgstr "Linnapea..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
-msgstr ""
+msgstr "Lisa mall"
 
 #: data/Freeciv.in:1469
 msgid "Remove Preset"
-msgstr ""
+msgstr "Eemalda mall"
 
 #: data/Freeciv.in:1471
 msgid "Control City"
@@ -16565,7 +16590,7 @@ msgstr "Faktor:"
 
 #: data/Freeciv.in:1491
 msgid "Remove preset?"
-msgstr ""
+msgstr "Eemaldan malli?"
 
 #: data/Freeciv.in:1502
 msgid "City Options"
@@ -16633,7 +16658,7 @@ msgstr "Võimalikud sihtmärgid"
 
 #: data/Freeciv.in:2146
 msgid "Prepend"
-msgstr ""
+msgstr "Lisa esimeseks"
 
 #: data/Freeciv.in:2182
 msgid "  Ok  "
@@ -16847,6 +16872,9 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
+"Klient võib samuti seda lehekülge näha: kasuta Metaserveri nuppu ühenduse loomise aknas. Kui mingeid tulemusi ei ilmu, kontrolli, kas su veebilehitseja kasutab HTTP proxyt. Kui soovid, et civclient kasutaks sama proxyt, anna enne civclienti käivitamist keskkonnamuutujale $http_proxy seesugune väärtus: \n"
+"\n"
+"  http://proxyaadress:proxypordinumber/"
 
 #: data/helpdata.txt:419
 msgid ""
@@ -17648,7 +17676,7 @@ msgstr "Ehitisi ehitatakse linnadesse, et suurendada kaubanduse tulu, teadustood
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
-msgstr ""
+msgstr "Selle tehnoloogia avastamine on vajalik, et su riik saaks arendada uusi ehitisi ja sõjaväeüksusi."
 
 #: data/helpdata.txt:900
 msgid ""
@@ -17807,7 +17835,7 @@ msgstr "- kaitsja jõud kahekordistub, kui ta on linnas, kus on õhutõrjepatare
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
-msgstr ""
+msgstr "- SDI kaitse kahekordistab veelkord kaitsja jõu raketirünnakute vastu."
 
 #: data/helpdata.txt:1020
 msgid ""
@@ -18080,12 +18108,16 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1213
+#, fuzzy
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
 "- Enemy cities with no units in them no longer impose ZOC.\n"
 "- The special case for land units disembarking is new."
 msgstr ""
+"Need reeglid erinevad veidi eelmiste Freecivi  versioonide (1.8.0 ja varasemad) reeglitest sel moel:\n"
+"- Vaenlase linnad, kus pole kedagi sees, ei kehtesta kontrolltsooni.\n"
+"- The special case for land units disembarking is new."
 
 #: data/helpdata.txt:1222
 msgid ""
@@ -18370,7 +18402,7 @@ msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
 "shields or trade)."
-msgstr ""
+msgstr "- Anarhia ja despootluse korral ei kaota sa sellest midagi, kui mõni ruuduke toodab  (toitu, toodangut või kaubandust) rohkem, kui 2 ühikut."
 
 #: data/helpdata.txt:1418
 msgid ""
@@ -19013,7 +19045,7 @@ msgstr "Kolossus"
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
-msgstr ""
+msgstr "Linnas, kus see ilmaime on ehitatud, hakkavad kõik juba midagi tootvad ruudukesed tootma kõike ühe ühiku võrra rohkem."
 
 #: data/default/buildings.ruleset:1009 data/civ2/buildings.ruleset:996
 #: data/civ1/buildings.ruleset:673
@@ -21740,7 +21772,7 @@ msgstr "Bosnia & Hertsegoviina"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
-msgstr "?plural:bosnialased"
+msgstr "?plural:Bosnialased"
 
 #: data/nation/bosnia.ruleset:6
 msgid ""
@@ -21756,11 +21788,11 @@ msgstr "Ban"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "brasiillane"
+msgstr "Brasiillane"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr "?plural:brasiillased"
+msgstr "?plural:Brasiillased"
 
 #: data/nation/brazilian.ruleset:6
 msgid ""
@@ -21819,11 +21851,11 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr "bulgaarlane"
+msgstr "Bulgaarlane"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr "?plural:bulgaarlased"
+msgstr "?plural:Bulgaarlased"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
@@ -21990,11 +22022,11 @@ msgstr "Gran Bruixa"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr "tšiillane"
+msgstr "Tšiillane"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr "?plural:tšiillased"
+msgstr "?plural:Tšiillased"
 
 #: data/nation/chilean.ruleset:6
 msgid "Chile is located on the south-western coast of South America."
@@ -22071,11 +22103,11 @@ msgstr "Governadora"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr "konföderaat"
+msgstr "Konföderaat"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr "?plural:konföderaadid"
+msgstr "?plural:Konföderaadid"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -22280,7 +22312,7 @@ msgstr "Emporer"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "filipiin"
+msgstr "Filipiin"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
@@ -22332,11 +22364,11 @@ msgstr ""
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr "galicialane"
+msgstr "Galicialane"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr "?plural:galicialased"
+msgstr "?plural:Galicialased"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -22406,11 +22438,11 @@ msgstr ""
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr "sakslane"
+msgstr "Sakslane"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr "?plural:sakslased"
+msgstr "?plural:Sakslased"
 
 #: data/nation/german.ruleset:7
 msgid ""
@@ -22430,7 +22462,7 @@ msgstr "Peasekretär"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "kreeklane"
+msgstr "Kreeklane"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
@@ -22525,11 +22557,11 @@ msgstr "Illüürlased olid Indo-Euroopa hõimud, kes asusid veidi enne 1000. a. 
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr "inka"
+msgstr "Inka"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr "inkad"
+msgstr "Inkad"
 
 #: data/nation/inca.ruleset:6
 msgid ""
@@ -22550,11 +22582,11 @@ msgstr "Sapa Inca"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "indialane"
+msgstr "Indialane"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr "?plural:indialased"
+msgstr "?plural:Indialased"
 
 #: data/nation/indian.ruleset:6
 msgid ""
@@ -22578,11 +22610,11 @@ msgstr "Mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr "indoneeslane"
+msgstr "Indoneeslane"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
-msgstr "?plural:indoneeslased"
+msgstr "?plural:Indoneeslased"
 
 #: data/nation/indonesian.ruleset:6
 msgid ""
@@ -22593,11 +22625,11 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr "innuit"
+msgstr "Innuit"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr "?plural:innuitid"
+msgstr "?plural:Innuitid"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -22634,11 +22666,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr "iirlane"
+msgstr "Iirlane"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "?plural:iirlased"
+msgstr "?plural:Iirlased"
 
 #: data/nation/irish.ruleset:6
 msgid ""
@@ -22705,11 +22737,11 @@ msgstr "Eestkostja"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "iisraellane"
+msgstr "Iisraellane"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "?plural:iisraellased"
+msgstr "?plural:Iisraellased"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
@@ -22723,11 +22755,11 @@ msgstr ""
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr "itaallane"
+msgstr "Itaallane"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr "itaallased"
+msgstr "Itaallased"
 
 #: data/nation/italian.ruleset:6
 msgid ""
@@ -22739,11 +22771,11 @@ msgstr ""
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
-msgstr "jaapanlane"
+msgstr "Jaapanlane"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
-msgstr "jaapanlased"
+msgstr "Jaapanlased"
 
 #: data/nation/japanese.ruleset:6
 msgid ""
@@ -22792,11 +22824,11 @@ msgstr "Õde"
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr "keenialane"
+msgstr "Keenialane"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "keenialased"
+msgstr "Keenialased"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -22808,11 +22840,11 @@ msgstr "Nabongo"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr "korealane"
+msgstr "Korealane"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr "korealased"
+msgstr "Korealased"
 
 #: data/nation/korean.ruleset:6
 msgid ""
@@ -22882,11 +22914,11 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr "liibüalane"
+msgstr "Liibüalane"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
-msgstr "liibüalased"
+msgstr "Liibüalased"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -22910,11 +22942,11 @@ msgstr "Kolonel"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "leedukas"
+msgstr "Leedukas"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "leedukad"
+msgstr "Leedukad"
 
 #: data/nation/lithuanian.ruleset:6
 msgid ""
@@ -23114,11 +23146,11 @@ msgstr "Khaan"
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr "uusmeremaalane"
+msgstr "Uusmeremaalane"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
-msgstr "uusmeremaalased"
+msgstr "Uusmeremaalased"
 
 #: data/nation/newzealand.ruleset:7
 msgid ""
@@ -23131,11 +23163,11 @@ msgstr ""
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr "nigeerlane"
+msgstr "Nigeerlane"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
-msgstr "nigeerlased"
+msgstr "Nigeerlased"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
@@ -23143,11 +23175,11 @@ msgstr "Nigeeria vabanes briti võimu alt ja saavutas iseseisvuse 1960. a."
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
-msgstr "norralane"
+msgstr "Norralane"
 
 #: data/nation/norwegian.ruleset:4
 msgid "?plural:Norwegians"
-msgstr "?plural:norralased"
+msgstr "?plural:Norralased"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -23202,11 +23234,11 @@ msgstr "Imparator"
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr "paapualane"
+msgstr "Paapualane"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr "paapualased"
+msgstr "Paapualased"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -23218,11 +23250,11 @@ msgstr "Kindral-kuberner"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr "pärslane"
+msgstr "Pärslane"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr "pärslased"
+msgstr "Pärslased"
 
 #: data/nation/persian.ruleset:6
 msgid ""
@@ -23246,11 +23278,11 @@ msgstr "ajatolla"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "foiniiklane"
+msgstr "Foiniiklane"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
-msgstr "foiniiklased"
+msgstr "Foiniiklased"
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
@@ -23262,11 +23294,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "poolakas"
+msgstr "Poolakas"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
-msgstr "poolakad"
+msgstr "Poolakad"
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -23294,11 +23326,11 @@ msgstr "Pierwszy Sekretarz"
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr "portugaallane"
+msgstr "Portugaallane"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr "portugaallased"
+msgstr "Portugaallased"
 
 #: data/nation/portuguese.ruleset:6
 msgid ""
@@ -23311,11 +23343,11 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "quebeklane"
+msgstr "Quebeklane"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr "quebeklased"
+msgstr "Quebeklased"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -23512,11 +23544,11 @@ msgstr "siseminister"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr "serblane"
+msgstr "Serblane"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr "serblased"
+msgstr "Serblased"
 
 #: data/nation/serbian.ruleset:6
 msgid ""
@@ -23530,11 +23562,11 @@ msgstr ""
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr "sileeslane"
+msgstr "Sileeslane"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr "sileeslased"
+msgstr "Sileeslased"
 
 #: data/nation/silesian.ruleset:6
 msgid ""
@@ -23544,11 +23576,11 @@ msgstr "Sileesia on  piirkond Lõuna-Poolas, ta oli kunagi iseseisev kuningriik.
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr "singapurlane"
+msgstr "Singapurlane"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "singapurlased"
+msgstr "Singapurlased"
 
 #: data/nation/singaporean.ruleset:18
 msgid ""
@@ -23562,11 +23594,11 @@ msgstr "Encik"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr "siuu"
+msgstr "Siuu"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr "siuud"
+msgstr "Siuud"
 
 #: data/nation/sioux.ruleset:6
 msgid ""
@@ -23580,11 +23612,11 @@ msgstr ""
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr "sloveenlane"
+msgstr "Sloveenlane"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr "sloveenlased"
+msgstr "Sloveenlased"
 
 #: data/nation/slovenian.ruleset:6
 msgid ""
@@ -23594,11 +23626,11 @@ msgstr "Sloveenia oli Jugoslaavi Föderatsiooni loodepoolseim osa."
 
 #: data/nation/slovakian.ruleset:3
 msgid "Slovakian"
-msgstr "slovakk"
+msgstr "Slovakk"
 
 #: data/nation/slovakian.ruleset:4
 msgid "?plural:Slovakians"
-msgstr "slovakid"
+msgstr "Slovakid"
 
 #: data/nation/slovakian.ruleset:6
 msgid ""
@@ -23618,11 +23650,11 @@ msgstr "Preestrinna"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
-msgstr "lõuna-aafriklane"
+msgstr "Lõuna-aafriklane"
 
 #: data/nation/southafrican.ruleset:4
 msgid "?plural:South Africans"
-msgstr "lõuna-aafriklased"
+msgstr "Lõuna-aafriklased"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -23646,11 +23678,11 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr "sovjet"
+msgstr "Sovjet"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr "sovjetid"
+msgstr "Sovjetid"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -23668,11 +23700,11 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr "hispaanlane"
+msgstr "Hispaanlane"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr "hispaanlased"
+msgstr "Hispaanlased"
 
 #: data/nation/spanish.ruleset:6
 msgid ""
@@ -23700,11 +23732,11 @@ msgstr "Kardinal"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr "sudaan"
+msgstr "Sudaan"
 
 #: data/nation/sudanese.ruleset:4
 msgid "?plural:Sudanese"
-msgstr "sudaanid"
+msgstr "Sudaanid"
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
@@ -23716,11 +23748,11 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "sumer"
+msgstr "Sumer"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
-msgstr "sumerid"
+msgstr "Sumerid"
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -23738,11 +23770,11 @@ msgstr "Ensi"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
-msgstr "svaas"
+msgstr "Svaas"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
-msgstr "svaasid"
+msgstr "Svaasid"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
