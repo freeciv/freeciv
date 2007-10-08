@@ -574,11 +574,13 @@ msgstr "Voorwaarden op de gehele wereld zijn alleen mogelijk bij wonderen."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:512
+#, fuzzy
 msgid "Player-ranged requirements are only supported for wonders."
 msgstr "Voorwaarden·op·een speler·zijn·alleen·mogelijk·bij·wonderen."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:533
+#, fuzzy
 msgid "Island-ranged requirements are only supported for wonders."
 msgstr "Voorwaarden op een·continent zijn alleen mogelijk bij wonderen."
 
@@ -1094,7 +1096,7 @@ msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr "*%s (AI)* Ik vertrouw je nog niet genoeg voor een alliantie, %s."
 
 #: ai/advdiplomacy.c:417
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* I do not know the city you mention."
 msgstr "*%s·(AI)*·I·ken de stad die je noemt niet."
 
@@ -1105,7 +1107,7 @@ msgstr ""
 "%s (AI)* Sorry, het delen van mijn gezichtsveld met jou is me te gevaarlijk"
 
 #: ai/advdiplomacy.c:550
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s·(AI)*·Deze zaak was niet zo goed voor ons,·%s!"
 
@@ -1130,7 +1132,7 @@ msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (AI)* Akkoord. Geen vijandelijkheden meer, %s."
 
 #: ai/advdiplomacy.c:798
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
@@ -1144,7 +1146,7 @@ msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (AI)* De ruimte zal je nooit kunnen beheersen."
 
 #: ai/advdiplomacy.c:1080
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr ""
 "*%s·(AI)*·Ik heb uw gemene streken lang genoeg getolereerd! Ten oorlog!"
@@ -1164,7 +1166,7 @@ msgstr ""
 "komen met je misdaden?"
 
 #: ai/advdiplomacy.c:1096
-#, c-format
+#, fuzzy, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr ""
 "*%s·(AI)*·Uw achterbakse vijandelijkheden hebben u in deze oorlog geduwd!"
@@ -1372,7 +1374,7 @@ msgstr ""
 "van een einde aan het gevecht?"
 
 #: ai/advdiplomacy.c:1695
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 "Honour our glorious alliance and your name will never be forgotten!"
@@ -1442,7 +1444,7 @@ msgstr "Sorry, teveel mislukte pogingen..."
 #: server/auth.c:225
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr "%s afgewezen: Te veel  verkeerde paswoorden voor nieuwe gebruiker."
+msgstr "%s afgewezen: Te veel verkeerde paswoorden voor nieuwe gebruiker."
 
 #: server/auth.c:241
 msgid ""
@@ -1541,6 +1543,7 @@ msgstr "U hebt gekocht deze beurt. U kunt niet meer wijzigen."
 #: server/cityhand.c:388 client/text.c:1138 client/text.c:1175
 #: client/gui-mui/citydlg.c:2031 client/gui-win32/citydlg.c:1263
 #, c-format
+#, fuzzy
 msgid "%s"
 msgstr "Spel: %s"
 
@@ -3172,7 +3175,7 @@ msgid "Your %s was bribed by %s."
 msgstr "Uw %s is omgekocht door %s."
 
 #: server/diplomats.c:607
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
@@ -4106,6 +4109,7 @@ msgstr "De kaarttopologie-index"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:243
+#, fuzzy
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
 "and east-west directions to form a flat map, a cylinder, or a torus (donut). "
@@ -4194,6 +4198,7 @@ msgid "Method used to choose start positions"
 msgstr "Methode om startposities te kiezen"
 
 #: server/settings.c:300
+#, fuzzy
 msgid ""
 "0 = Generator's choice.  Selecting this setting means\n"
 "    the default value will be picked based on the generator\n"
@@ -4934,6 +4939,7 @@ msgid "Players that users are allowed to take"
 msgstr "Type spelers dat gebruikers toegestaan is te 'take'-en"
 
 #: server/settings.c:832
+#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -6571,10 +6577,10 @@ msgstr "Lijst van teams:"
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : %s : %d speler"
-msgstr[1] "%2d: %s' : %d spelers"
+msgstr[1] "%2d : %s' : %d spelers"
 
 #: server/stdinhand.c:4165
-#, c-format
+#, fuzzy, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d·:·'%s'·:·1·speler·:·%s"
 
@@ -7460,7 +7466,7 @@ msgid "%d/turn"
 msgstr "%d/beurt"
 
 #: client/citydlg_common.c:389
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Citizens\n"
 msgstr "%+4dÃ‚Â·:Ã‚Â·Stedelingen\n"
 
@@ -7470,12 +7476,12 @@ msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Handelsbelasting\n"
 
 #: client/citydlg_common.c:414
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4dÃ‚Â·:Ã‚Â·Handelsroute met %s\n"
 
 #: client/citydlg_common.c:423
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4dÃ‚Â·: In belastingen\n"
 
@@ -8879,7 +8885,7 @@ msgid "* Has no unhappy citizens.\n"
 msgstr "* Heeft geen ontevreden burgers.\n"
 
 #: client/helpdata.c:1417 client/helpdata.c:1420
-#, c-format
+#, fuzzy, c-format
 msgid "* Veteran %s units.\n"
 msgstr "*·Veteraan·%s·eenheden.\n"
 
@@ -9021,6 +9027,7 @@ msgid "Server port"
 msgstr "Server poort"
 
 #: client/options.c:111
+#, fuzzy
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -9329,6 +9336,7 @@ msgid "Terrain relief map layer"
 msgstr "Terrein reliëf kaart laag"
 
 #: client/options.c:244
+#, fuzzy
 msgid "The relief layer shows all terrains on the map."
 msgstr "Terrein·reliëf·kaart·laag toont alle terrein op de kaart"
 
@@ -10120,7 +10128,7 @@ msgstr "Geen."
 
 #: client/text.c:1147 client/text.c:1185
 msgid "."
-msgstr ". "
+msgstr "."
 
 #: client/text.c:1165
 msgid "Wonders: "
@@ -11180,7 +11188,7 @@ msgstr "Extra cl_ausule..."
 
 #: client/gui-gtk-2.0/diplodlg.c:702
 msgid "--- This treaty is blank. Please add some clauses. ---"
-msgstr "--  Dit is een leeg verdrag. Voeg clausules toe. ---"
+msgstr "---  Dit is een leeg verdrag. Voeg clausules toe. ---"
 
 #: client/gui-gtk-2.0/diplodlg.c:908 client/gui-mui/diplodlg.c:382
 #: client/gui-sdl/diplodlg.c:369 client/gui-win32/diplodlg.c:263
@@ -11411,6 +11419,7 @@ msgid "Random"
 msgstr "Willekeurig"
 
 #: client/gui-gtk-2.0/gui_main.c:1596
+#, fuzzy
 msgid "Observer"
 msgstr " (waarnemer)"
 
@@ -12417,7 +12426,7 @@ msgstr "_Laad Bewaard Spel"
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
-msgstr "Verbind met netwerkspel (_o)"
+msgstr "Verbind met netwerkspel (_O)"
 
 #: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
@@ -15559,6 +15568,7 @@ msgid "SDLClient welcomes you..."
 msgstr "SDLClient heet u welkom..."
 
 #: client/gui-sdl/pages.c:298
+#, fuzzy
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
@@ -15568,6 +15578,7 @@ msgstr ""
 "ervan te verspreiden;"
 
 #: client/gui-sdl/pages.c:301
+#, fuzzy
 msgid "See the \"Copying\" item on the Help menu."
 msgstr ""
 "Zie het "
@@ -15599,6 +15610,7 @@ msgstr ""
 "gebouwd"
 
 #: client/gui-sdl/repodlgs.c:347
+#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
@@ -16638,7 +16650,7 @@ msgid "Can <b>not</b> be changed during a game. "
 msgstr "Kan <b>niet</b> veranderd worden tijdens een spel. "
 
 #: manual/civmanual.c:158
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
@@ -16654,7 +16666,7 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:167
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
@@ -16699,7 +16711,7 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:198
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<table>\n"
 "<tr>\n"
@@ -17380,6 +17392,7 @@ msgstr ""
 "             t: toon stadsarbeiders (met muis dichtbij stad)\n"
 
 #: data/helpdata.txt:500
+#, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -20908,7 +20921,7 @@ msgstr "President"
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
 msgid "?female:President"
-msgstr "?female: Presidente"
+msgstr "?female:Presidente"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -21045,6 +21058,7 @@ msgstr ""
 "niet tot opstand gebracht worden door vijandige Diplomaten en Spionnen."
 
 #: data/civ1/governments.ruleset:170
+#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -22980,6 +22994,7 @@ msgid "Tlatoani"
 msgstr "Tlatoani"
 
 #: data/nation/aztec.ruleset:22
+#, fuzzy
 msgid "Huey Tlatoani"
 msgstr "Huey·Tlatoani"
 
@@ -23227,6 +23242,7 @@ msgid "Patriarch"
 msgstr "Patriarch"
 
 #: data/nation/bulgarian.ruleset:35
+#, fuzzy
 msgid "Sveta Maika"
 msgstr "Sveta·Maika"
 
@@ -23259,6 +23275,7 @@ msgid "Sayama"
 msgstr "Sayama"
 
 #: data/nation/byzantium.ruleset:3
+#, fuzzy
 msgid "Byzantine"
 msgstr "ByzantiÃƒÂ«"
 
@@ -25312,6 +25329,7 @@ msgid "Elected Queen"
 msgstr "Verkozen Koningin"
 
 #: data/nation/swiss.ruleset:22
+#, fuzzy
 msgid "Elected Priest"
 msgstr "Verkozen·Priester"
 
@@ -25411,6 +25429,7 @@ msgid "Lama"
 msgstr "Lama"
 
 #: data/nation/tibetan.ruleset:28
+#, fuzzy
 msgid "Dalai Lama"
 msgstr "Dalai·Lama"
 
