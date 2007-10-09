@@ -4,5 +4,4 @@ EXTRA_DIST =			\
 	BUGS.fr			\
 	HOWTOPLAY.fr		\
 	INSTALL.fr		\
-	README.fr		\
-	README.cma.fr
+	README.fr

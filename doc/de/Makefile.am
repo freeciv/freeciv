@@ -3,11 +3,5 @@
 EXTRA_DIST =			\
 	BUGS.de			\
 	HOWTOPLAY.de		\
-	INHALT			\
 	INSTALL.de		\
-	INSTALL.debian.de	\
-	NEWS.de			\
-	README.cma.de		\
-	README.de		\
-	README.rulesets.de	\
-	README.sound.de
+	README.de
