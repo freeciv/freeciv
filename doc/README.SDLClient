@@ -1,18 +1,17 @@
-First off all :
+______________
+First of all :
+--------------
 
- -  Some part of graphic and SDL gfx code come from Michael Speck
-    and his "LGeneral" Great Thaks for his job... but I don't known
-    if he agree that I use his graphic ( but LGeneral is on GPL )
+ -  Some part of graphics and SDL gfx code come from Michael Speck
+    and his "LGeneral" (GPL). Great thanks for his job.
      
- -  zoom and putline functions come from SDL_gfx-2.0 lib and
-    it is on LGPL licence. I won't use new lib only to this functions.
-    AA_ZoomSurfaceFastRGBA(...) funtion and some others in SDLClient are 
-    my invention.
-
- -  City graphics come from Tim F. Smith (yoohootim@hotmail.com) GPL.
+ -  The zoom and putline functions come from SDL_gfx-2.0 lib (LGPL).
+    AA_ZoomSurfaceFastRGBA(...) function and some others in SDLClient
+    are my invention.
  
- 
+_____________
 Requirements:
+-------------
 
 SDL
 SDL_image ( req: libpng )
@@ -26,19 +25,18 @@ configure --enable-client=sdl
 make
 and pray :)
 
-Some Infos:
+See also the section on SDLClient in INSTALL
 
-Current GUI Theme graphics is loaded via tilesets.
-You must have tileset with support of those graphics to proper run SDLClient.
-Default tileset for SDLClient is "Deluxe" tileset which can be found in
-ftp.freeciv.org/pub/freeciv/incoming ftp site.
-Please run client with -t deluxe option.
+__________
+Some Info:
+----------
 
-Current Deluxe version is DELUXE5.tar.bz2
+Current default GUI theme is "Human" by Hogne Håskjold. To use
+another theme, start the client with the --theme yourtheme option.
 
-Please link/copy/move unicode ttf font to game/data dir as "stdfont.ttf".
+See also http://www.freeciv.org/wiki/Themes
 
-If you have current cvs version of SDL (or >= 1.2.6) then uncommnet
+If you have current cvs version of SDL (or >= 1.2.6) then uncomment
 #define SDL_CVS line (36) from gui-sdl/mapview.c
 
 If your CPU has MMX1 registers then goto gui-sdl/graphics.h line 31 and 
@@ -47,20 +45,22 @@ If your CPU has MMX1 registers then goto gui-sdl/graphics.h line 31 and
 If you want report draw bug in SDLClient then please attach your 
 screen bits per pixel coding.
 
-In Game:
-    - <Right Shift> + Enter to show input dialog.
-    - <F10> hide/show log window
+_________________
+In-game controls:
+-----------------
+
+    - <Tab> to show input dialog (chatline)
     - <ctrl - w> hide/show fog of war
-    - <ctrl - r> hide/show road/RR
-    - <ctrl - t> hide/show terrains
-    - <ctrl - i> hide/show irrigations/farmlands
+    - <ctrl - r> hide/show road/railroad
+    - <ctrl - t> hide/show terrain
+    - <ctrl - i> hide/show irrigation/farmlands
     - <ctrl - u> hide/show units    
-    - <ctrl - o> hide/show pollutions
-    - <ctrl - p> hide/show city productions
+    - <ctrl - o> hide/show pollution
+    - <ctrl - p> hide/show city production
     - <ctrl - s> hide/show map specials
-    - <ctrl - g> hide/show map grids
+    - <ctrl - g> hide/show map grid
     - <ctrl - b> hide/show national borders
-    - <ctrl - l> hide/show nuke wast
+    - <ctrl - l> hide/show nuke waste
     - <ctrl - c> hide/show cities
     - <ctrl - n> hide/show city names
     - <print screen> make screenschot
@@ -73,33 +73,35 @@ In Game:
     - <F8> - top 5 cities
     - <F10> - hide/show log
     - <F11> - demographic
-    - <F12> - your space ship
-    - <MMB> - advenced menu    
-    - <Left Shift + LMB> - advenced menu
-    - <left CTRL + LBM on city> - open prduction dialog.
+    - <F12> - your spaceship
+    - <MMB> - advanced menu    
+    - <Left Shift + LMB> - advanced menu
+    - <left CTRL + LBM on city> - open production dialog.
     - <left ALT + LBM on city> - open buy production dialog
-                                 (work only in fullscreen).
-    - if active unit stay on city then <Enter> key enter the city.
-    - <Tab> - options dlg.
-    - in options dlg <q> key exit game.
-    in city dlg:
+    - if active unit stays on city then <Enter> opens the city dialog
+    - <Esc> - options dialog
+    - <Shift + Enter> - end turn
+  In options dialog:
+    - <q> exit game
+  In city dialog:
     - <c> change production dlg.
     - <h> hurry production dlg.
-    - <a> cma dlg.
-    all dlgs:
-    - <ESC> - exit/close dlg.
-    - <ENTER> - ok/commit/etc.
-    In Worklit dlg.
+    - <a> governor dlg.
+  All dialogs:
+    - <Esc> - exit/close dlg.
+    - <Enter> - ok/commit/etc.
+  In Worklist dialog:
     - <LMB> on "target" - change production to "target"
     - <RMB> on "target" - add "target" to work list
-    - <MMB> on "target" - callhelp about "target" - not implemented !
+    - <MMB> on "target" - call help about "target"
     - <LMB> on "worklist item" - swap "item" up
     - <RMB> on "worklist item" - swap "item" down
     - <MMB> on "worklist item" - remove "item" from worklist.
-    In MiniMap :
-    - <LMB> center map here.
-    - <RMB> open minimap scalling dialog.
-    In Unit Info Window
+  In Science dialog:
+    - <MMB> on "target" - call help about "target"
+  In Unit Info Window
     - <LMB> - next unit.
     - <RMB> - center on focused unit.
-    
+  On MiniMap :
+    - <RMB> center map here.
+    - <???> open minimap scaling dialog.
