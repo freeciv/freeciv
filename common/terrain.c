@@ -251,6 +251,27 @@ enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
   return TER_LAST;
 }
 
+/****************************************************************************
+  Check for resource in terrain resources list.
+****************************************************************************/
+bool terrain_has_resource(const struct terrain *pterrain,
+			  const struct resource *presource)
+{
+  struct resource **r = pterrain->resources;
+
+  if (game.info.is_edit_mode) {
+    return TRUE;
+  }
+
+  while (NULL != *r) {
+    if (*r == presource) {
+      return TRUE;
+    }
+    r++;
+  }
+  return FALSE;
+}
+
 /**************************************************************************
   Return the first item of resources.
 **************************************************************************/

@@ -315,7 +315,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     if (ptile->city && terrain_has_flag(new_terrain, TER_NO_CITIES)) {
       return -1;
     }
-    ptile->terrain = new_terrain;
+    tile_change_terrain(ptile, new_terrain);
     tile_clear_special(ptile, S_MINE);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->terrain = old_terrain;
@@ -379,7 +379,7 @@ static int ai_calc_mine(struct city *pcity,
     if (ptile->city && terrain_has_flag(new_terrain, TER_NO_CITIES)) {
       return -1;
     }
-    ptile->terrain = new_terrain;
+    tile_change_terrain(ptile, new_terrain);
     tile_clear_special(ptile, S_IRRIGATION);
     tile_clear_special(ptile, S_FARMLAND);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
@@ -443,16 +443,7 @@ static int ai_calc_transform(struct city *pcity,
     return -1;
   }
 
-  ptile->terrain = new_terrain;
-
-  if (new_terrain->mining_result != new_terrain) {
-    tile_clear_special(ptile, S_MINE);
-  }
-  if (new_terrain->irrigation_result != new_terrain) {
-    tile_clear_special(ptile, S_FARMLAND);
-    tile_clear_special(ptile, S_IRRIGATION);
-  }
-    
+  tile_change_terrain(ptile, new_terrain);
   goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
 
   ptile->terrain = old_terrain;

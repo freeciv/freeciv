@@ -4352,8 +4352,8 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_SPECIAL1:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_specials) {
-	if (ptile->resource) {
-	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(ptile->resource)]);
+	if (tile_resource_is_valid(ptile)) {
+	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(tile_get_resource(ptile))]);
 	}
       }
 

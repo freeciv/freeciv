@@ -848,6 +848,16 @@ static void map_load(struct section_file *file,
 	set_savegame_old_resource(&ptile->resource, ptile->terrain, ch, 1));
   }
 
+  /* after the resources are loaded, indicate those currently valid */
+  whole_map_iterate(ptile) {
+    if (NULL != ptile->terrain
+     && NULL != ptile->resource
+     && terrain_has_resource(ptile->terrain, ptile->resource)) {
+      /* cannot use set_special() for internal values */
+      BV_SET(ptile->special, S_RESOURCE_VALID);
+    }
+  } whole_map_iterate_end;
+
   /* Owner and ownership source are stored as plain numbers */
   if (has_capability("new_owner_map", savefile_options)) {
     int x, y;

@@ -688,30 +688,29 @@ static int base_get_output_tile(const struct tile *ptile,
 				int city_x, int city_y, bool is_celebrating,
 				Output_type_id otype)
 {
-  const struct terrain *pterrain = ptile->terrain;
   struct tile tile;
   int prod;
-  const struct output_type *output = &output_types[otype];
+  struct terrain *pterrain = tile_get_terrain(ptile);
 
   assert(otype >= 0 && otype < O_LAST);
 
-  if (ptile->terrain == T_UNKNOWN) {
+  if (T_UNKNOWN == pterrain) {
     /* Special case for the client.  The server doesn't allow unknown tiles
      * to be worked but we don't necessarily know what player is involved. */
     return 0;
   }
 
   prod = pterrain->output[otype];
-  if (ptile->resource) {
-    prod += ptile->resource->output[otype];
+  if (tile_resource_is_valid(ptile)) {
+    prod += tile_get_resource(ptile)->output[otype];
   }
 
   /* create dummy tile which has the city center bonuses. */
-  tile.terrain = tile_get_terrain(ptile);
+  tile.terrain = pterrain;
   tile.special = tile_get_special(ptile);
 
   if (pcity && is_city_center(city_x, city_y)
-      && ptile->terrain == pterrain->irrigation_result
+      && pterrain == pterrain->irrigation_result
       && terrain_control.may_irrigate) {
     /* The center tile is auto-irrigated. */
     tile_set_special(&tile, S_IRRIGATION);
@@ -752,6 +751,8 @@ static int base_get_output_tile(const struct tile *ptile,
   }
 
   if (pcity) {
+    const struct output_type *output = &output_types[otype];
+
     prod += get_city_tile_output_bonus(pcity, ptile, output,
 				       EFT_OUTPUT_ADD_TILE);
     if (prod > 0) {

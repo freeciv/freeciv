@@ -40,16 +40,20 @@ enum tile_special_type {
   S_FARMLAND,
   S_AIRBASE,
   S_FALLOUT,
-  S_LAST
-};
 
-/* Special value for pillaging bases */
-#define S_PILLAGE_BASE (S_LAST + 1)
+  /* internal values not saved */
+  S_LAST,
+  S_RESOURCE_VALID = S_LAST,
+
+  /* internal values not saved and never set */
+  S_LAST_PLUS,
+  S_PILLAGE_BASE = S_LAST_PLUS,
+};
 
 /* S_LAST-terminated */
 extern enum tile_special_type infrastructure_specials[];
 
-BV_DEFINE(bv_special, S_LAST);
+BV_DEFINE(bv_special, S_LAST_PLUS);
 
 /* currently only used in edithand.c */
 #define tile_special_type_iterate(special)				    \
@@ -235,6 +239,9 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
   is_terrain_flag_near_tile(ptile, TER_OCEANIC)
 #define count_ocean_near_tile(ptile, cardinal_only, percentage)		\
   count_terrain_flag_near_tile(ptile, cardinal_only, percentage, TER_OCEANIC)
+
+bool terrain_has_resource(const struct terrain *pterrain,
+			  const struct resource *presource);
 
 /* Functions to operate on a general terrain type. */
 bool is_terrain_near_tile(const struct tile *ptile,
