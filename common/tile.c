@@ -69,6 +69,14 @@ struct terrain *tile_get_terrain(const struct tile *ptile)
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 {
   ptile->terrain = pterrain;
+  if (NULL != pterrain
+   && NULL != ptile->resource
+   && terrain_has_resource(pterrain, ptile->resource)) {
+    /* cannot use set_special() for internal values */
+    BV_SET(ptile->special, S_RESOURCE_VALID);
+  } else {
+    BV_CLR(ptile->special, S_RESOURCE_VALID);
+  }
 }
 
 /****************************************************************************
@@ -225,6 +233,14 @@ const struct resource *tile_get_resource(const struct tile *ptile)
 void tile_set_resource(struct tile *ptile, struct resource *presource)
 {
   ptile->resource = presource;
+  if (NULL != ptile->terrain
+   && NULL != presource
+   && terrain_has_resource(ptile->terrain, presource)) {
+    /* cannot use set_special() for internal values */
+    BV_SET(ptile->special, S_RESOURCE_VALID);
+  } else {
+    BV_CLR(ptile->special, S_RESOURCE_VALID);
+  }
 }
 
 /****************************************************************************
@@ -408,7 +424,7 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
   case S_RIVER:
   case S_AIRBASE:
   case S_FALLOUT:
-  case S_LAST:
+  default:
     break;
   }
 }
@@ -438,7 +454,7 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
   case S_FARMLAND:
   case S_AIRBASE:
   case S_FALLOUT:
-  case S_LAST:
+  default:
     break;
   }
 }
@@ -593,11 +609,9 @@ static bool tile_info_pollution(char *buf, int bufsz,
 const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
 {
   static char s[256];
-  int bufsz;
   bool pollution;
   bool lb = FALSE;
-
-  bufsz = sizeof(s);
+  int bufsz = sizeof(s);
 
   sz_strlcpy(s, terrain_name_translation(ptile->terrain));
   if (linebreaks & TILE_LB_TERRAIN_RIVER) {
@@ -619,14 +633,15 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
     lb = TRUE;
   }
 
-  if (ptile->resource) {
+  if (tile_resource_is_valid(ptile)) {
     if (lb) {
       sz_strlcat(s, "\n");
       lb = FALSE;
     } else {
       sz_strlcat(s, " ");
     }
-    cat_snprintf(s, sizeof(s), "(%s)", resource_name_translation(ptile->resource));
+    cat_snprintf(s, sizeof(s), "(%s)",
+		 resource_name_translation(ptile->resource));
   }
   if (linebreaks & TILE_LB_RESOURCE_POLL) {
     /* New linebreak requested */

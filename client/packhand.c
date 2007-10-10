@@ -2022,7 +2022,6 @@ void handle_tile_info(struct packet_tile_info *packet)
 {
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   enum known_type old_known = client_tile_get_known(ptile);
-  int old_resource;
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
   enum tile_special_type spe;
@@ -2045,17 +2044,15 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  if (ptile->resource) {
-    old_resource = resource_number(ptile->resource);
+  if (NULL != ptile->resource) {
+    tile_changed = (resource_number(ptile->resource) != packet->resource);
   } else {
-    old_resource = -1;
+    tile_changed = (-1 != packet->resource);
   }
 
-  if (old_resource != packet->resource) {
-    tile_changed = TRUE;
-  }
+  /* always called after setting terrain */
+  tile_set_resource(ptile, resource_by_number(packet->resource));
 
-  ptile->resource = resource_by_number(packet->resource);
   if (packet->owner == MAP_TILE_OWNER_NULL) {
     if (ptile->owner) {
       ptile->owner = NULL;
@@ -2090,7 +2087,9 @@ void handle_tile_info(struct packet_tile_info *packet)
     case TILE_UNKNOWN:
       break;
     default:
-      freelog(LOG_NORMAL, "Unknown tile value %d.", packet->known);
+      freelog(LOG_ERROR,
+              "handle_tile_info() unknown tile value %d.",
+              packet->known);
       break;
     }
   }

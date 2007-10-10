@@ -29,14 +29,14 @@ struct tile {
   int x, y; /* Cartesian (map) coordinates of the tile. */
   int nat_x, nat_y; /* Native coordinates of the tile. */
   int index; /* Index coordinate of the tile. */
-  struct terrain *terrain; /* May be NULL for unknown tiles. */
+  Continent_id continent;
+  bv_player tile_known, tile_seen[V_COUNT];
   bv_special special;
   struct resource *resource; /* available resource, or NULL */
+  struct terrain *terrain; /* May be NULL for unknown tiles. */
   struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
-  bv_player tile_known, tile_seen[V_COUNT];
   struct city *worked;      /* city working tile, or NULL if none */
-  Continent_id continent;
   struct player *owner;     /* Player owning this tile, or NULL. */
   struct tile *owner_source; /* what makes it owned by owner */
   char *spec_sprite;
@@ -54,15 +54,28 @@ struct tile {
 /* Tile accessor functions. */
 struct player *tile_get_owner(const struct tile *ptile);
 void tile_set_owner(struct tile *ptile, struct player *pplayer);
+
 struct city *tile_get_city(const struct tile *ptile);
 void tile_set_city(struct tile *ptile, struct city *pcity);
+
 struct terrain *tile_get_terrain(const struct tile *ptile);
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
+
 bv_special tile_get_special(const struct tile *ptile);
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
 bool tile_has_any_specials(const struct tile *ptile);
 void tile_set_special(struct tile *ptile, enum tile_special_type spe);
+void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
+void tile_clear_all_specials(struct tile *ptile);
+
+#define tile_resource_is_valid(vtile) BV_ISSET(vtile->special, S_RESOURCE_VALID)
+const struct resource *tile_get_resource(const struct tile *ptile);
+void tile_set_resource(struct tile *ptile, struct resource *presource);
+
+Continent_id tile_get_continent(const struct tile *ptile);
+void tile_set_continent(struct tile *ptile, Continent_id val);
+
 struct base_type *tile_get_base(const struct tile *ptile);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile);
@@ -72,12 +85,7 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
                                  enum base_flag_id flag);
 bool tile_has_native_base(const struct tile *ptile,
                           const struct unit_type *punittype);
-const struct resource *tile_get_resource(const struct tile *ptile);
-void tile_set_resource(struct tile *ptile, struct resource *presource);
-void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
-void tile_clear_all_specials(struct tile *ptile);
-void tile_set_continent(struct tile *ptile, Continent_id val);
-Continent_id tile_get_continent(const struct tile *ptile);
+
 enum known_type tile_get_known(const struct tile *ptile,
 			      const struct player *pplayer);
 
