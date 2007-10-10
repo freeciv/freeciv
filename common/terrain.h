@@ -18,7 +18,10 @@
 #include "fc_types.h"
 
 enum special_river_move {
-  RMV_NORMAL=0, RMV_FAST_STRICT=1, RMV_FAST_RELAXED=2, RMV_FAST_ALWAYS=3
+  RMV_NORMAL = 0,
+  RMV_FAST_STRICT = 1,
+  RMV_FAST_RELAXED = 2,
+  RMV_FAST_ALWAYS = 3,
 };
 
 enum tile_special_type {
@@ -33,13 +36,19 @@ enum tile_special_type {
   S_FARMLAND,
   S_AIRBASE,
   S_FALLOUT,
-  S_LAST
+
+  /* internal values not saved */
+  S_LAST,
+  S_RESOURCE_VALID = S_LAST,
+
+  /* internal values not saved and never set */
+  S_LAST_PLUS,
 };
 
 /* S_LAST-terminated */
 extern enum tile_special_type infrastructure_specials[];
 
-BV_DEFINE(bv_special, S_LAST);
+BV_DEFINE(bv_special, S_LAST_PLUS);
 
 #define T_NONE (NULL) /* A special flag meaning no terrain type. */
 #define T_UNKNOWN (NULL) /* An unknown terrain. */

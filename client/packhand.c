@@ -1388,7 +1388,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
   }
 
   if (packet->owner == game.info.player_idx) {
-    freelog(LOG_ERROR, "Got packet_short_unit for own unit.");
+    freelog(LOG_ERROR, "handle_unit_short_info() for own unit.");
   }
 
   punit = unpackage_short_unit(packet);
@@ -2012,7 +2012,15 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  ptile->resource = resource_by_number(packet->resource);
+  if (NULL != ptile->resource) {
+    tile_changed = (ptile->resource->index != packet->resource);
+  } else {
+    tile_changed = (-1 != packet->resource);
+  }
+
+  /* always called after setting terrain */
+  tile_set_resource(ptile, resource_by_number(packet->resource));
+
   if (packet->owner == MAP_TILE_OWNER_NULL) {
     if (ptile->owner) {
       ptile->owner = NULL;
@@ -2047,7 +2055,9 @@ void handle_tile_info(struct packet_tile_info *packet)
     case TILE_UNKNOWN:
       break;
     default:
-      freelog(LOG_NORMAL, "Unknown tile value %d.", packet->known);
+      freelog(LOG_ERROR,
+              "handle_tile_info() unknown tile value %d.",
+              packet->known);
       break;
     }
   }
@@ -2273,8 +2283,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 **************************************************************************/
 void handle_ruleset_building(struct packet_ruleset_building *p)
 {
-  struct impr_type *b = improvement_by_number(p->id);
   int i;
+  struct impr_type *b = improvement_by_number(p->id);
 
   if (!b) {
     freelog(LOG_ERROR,
@@ -2399,8 +2409,8 @@ void handle_ruleset_government_ruler_title
 **************************************************************************/
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
-  struct terrain *pterrain = terrain_by_number(p->id);
   int j;
+  struct terrain *pterrain = terrain_by_number(p->id);
 
   if (!pterrain) {
     freelog(LOG_ERROR,
