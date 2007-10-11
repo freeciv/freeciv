@@ -284,8 +284,8 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   if (diplomat_can_do_action(punit, my_act, ctarget->tile)) {	    \
     freelog(LOG_DIPLOMAT, "Player %s's diplomat %d does " #my_act   \
             " on %s", pplayer->name, punit->id, ctarget->name);     \
-    handle_unit_diplomat_action(pplayer, punit->id, my_act,         \
-                                ctarget->id, my_val);               \
+    handle_unit_diplomat_action(pplayer, punit->id,                 \
+                                ctarget->id, my_val, my_act);       \
     return;                                                         \
   }
 
@@ -499,7 +499,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       continue;
     }
     /* Should we make the expense? */
-    cost = pvictim->bribe_cost = unit_bribe_cost(pvictim);
+    cost = unit_bribe_cost(pvictim);
     if (!threat) {
       /* Don't empty our treasure without good reason! */
       gold_avail = pplayer->economic.gold - ai_gold_reserve(pplayer);
@@ -525,8 +525,9 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     }
 
     if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, pos.tile)) {
-      handle_unit_diplomat_action(pplayer, punit->id, DIPLOMAT_BRIBE,
-				  unit_list_get(ptile->units, 0)->id, -1);
+      handle_unit_diplomat_action(pplayer, punit->id,
+				  unit_list_get(ptile->units, 0)->id, -1,
+				  DIPLOMAT_BRIBE);
       /* autoattack might kill us as we move in */
       if (game_find_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;

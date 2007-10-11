@@ -1276,7 +1276,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     punit->veteran = packet_unit->veteran;
     punit->moves_left = packet_unit->moves_left;
-    punit->bribe_cost = 0;
     punit->fuel = packet_unit->fuel;
     punit->goto_tile = packet_unit->goto_tile;
     punit->paradropped = packet_unit->paradropped;
@@ -2778,36 +2777,6 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-void handle_unit_bribe_info(int unit_id, int cost)
-{
-  struct unit *punit = game_find_unit_by_number(unit_id);
-
-  if (punit) {
-    punit->bribe_cost = cost;
-    if (game.player_ptr && !game.player_ptr->ai.control) {
-      popup_bribe_dialog(punit);
-    }
-  }
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void handle_city_incite_info(int city_id, int cost)
-{
-  struct city *pcity = game_find_city_by_number(city_id);
-
-  if (pcity) {
-    pcity->incite_revolt_cost = cost;
-    if (game.player_ptr && !game.player_ptr->ai.control) {
-      popup_incite_dialog(pcity);
-    }
-  }
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void handle_city_name_suggestion_info(int unit_id, char *name)
@@ -2830,14 +2799,45 @@ void handle_city_name_suggestion_info(int unit_id, char *name)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_diplomat_popup_dialog(int diplomat_id, int target_id)
+void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
+				 enum diplomat_actions action_type)
 {
+  struct city *pcity = game_find_city_by_number(target_id);
+  struct unit *punit = game_find_unit_by_number(target_id);
   struct unit *pdiplomat =
       player_find_unit_by_id(game.player_ptr, diplomat_id);
 
-  if (pdiplomat && can_client_issue_orders()) {
-    process_diplomat_arrival(pdiplomat, target_id);
+  if (NULL == pdiplomat) {
+    return;
   }
+
+  switch (action_type) {
+  case DIPLOMAT_BRIBE:
+    if (punit) {
+      if (game.player_ptr && !game.player_ptr->ai.control) {
+        popup_bribe_dialog(punit, cost);
+      }
+    }
+    break;
+  case DIPLOMAT_INCITE:
+    if (pcity) {
+      if (game.player_ptr && !game.player_ptr->ai.control) {
+        popup_incite_dialog(pcity, cost);
+      }
+    }
+    break;
+  case DIPLOMAT_MOVE:
+    if (can_client_issue_orders()) {
+      process_diplomat_arrival(pdiplomat, target_id);
+    }
+    break;
+  default:
+    freelog(LOG_ERROR,
+	    "handle_unit_diplomat_answer()"
+	    " invalid action_type (%d).",
+	    action_type);
+    break;
+  };
 }
 
 /**************************************************************************

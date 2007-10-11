@@ -209,8 +209,8 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   Only send back to the originating connection, if there is one. (?)
 ****************************************************************************/
-void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
-			   struct city *pcity)
+void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
+			    struct city *pcity)
 {
   struct packet_city_sabotage_list packet;
 
@@ -225,10 +225,7 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
-  lsend_packet_city_sabotage_list(player_reply_dest(pplayer), &packet);
-
-  /* this may cause a diplomatic incident */
-  maybe_cause_incident(SPY_GET_SABOTAGE_LIST, pplayer, NULL, pcity);
+  send_packet_city_sabotage_list(pc, &packet);
 }
 
 /******************************************************************************
@@ -391,8 +388,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		    struct unit *pvictim)
 {
   struct player *uplayer;
-  int diplomat_id;
   struct tile *victim_tile;
+  int bribe_cost;
+  int diplomat_id;
   bool vet = FALSE;
   struct unit *gained_unit = NULL;
   
@@ -406,13 +404,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   freelog (LOG_DEBUG, "bribe-unit: unit: %d", pdiplomat->id);
 
-  /* Update bribe cost. */
-  if (pvictim->bribe_cost == -1) {
-    freelog (LOG_ERROR, "Bribe cost -1 in diplomat_bribe by %s",
-	     pplayer->name);
-    pvictim->bribe_cost = unit_bribe_cost (pvictim);
-  }
-
   /* Check for unit from a bribable government. */
   if (get_player_bonus(uplayer, EFT_UNBRIBABLE_UNITS)) {
     notify_player(pplayer, pdiplomat->tile,
@@ -421,8 +412,11 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
+  /* Get bribe cost, ignoring any previously saved value. */
+  bribe_cost = unit_bribe_cost(pvictim);
+
   /* If player doesn't have enough gold, can't bribe. */
-  if (pplayer->economic.gold < pvictim->bribe_cost) {
+  if (pplayer->economic.gold < bribe_cost) {
     notify_player(pplayer, pdiplomat->tile,
 		     E_MY_DIPLOMAT_FAILED,
 		     _("You don't have enough gold to"
@@ -480,7 +474,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		   pplayer->name);
 
   /* This costs! */
-  pplayer->economic.gold -= pvictim->bribe_cost;
+  pplayer->economic.gold -= bribe_cost;
 
   /* This may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_BRIBE, pplayer, pvictim, NULL);
@@ -693,7 +687,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  /* Get incite cost. */
+  /* Get incite cost, ignoring any previously saved value. */
   revolt_cost = city_incite_cost(pplayer, pcity);
 
   /* If player doesn't have enough gold, can't incite a revolt. */
@@ -1306,7 +1300,6 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     case DIPLOMAT_MOVE:
     case DIPLOMAT_EMBASSY:
     case DIPLOMAT_INVESTIGATE:
-    case SPY_GET_SABOTAGE_LIST:
       return; /* These are not considered offences */
     case DIPLOMAT_ANY_ACTION:
     case SPY_POISON:

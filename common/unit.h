@@ -24,9 +24,14 @@ struct unit_order;
 
 /* Changing this enum will break network compatability. */
 enum unit_orders {
-  ORDER_MOVE, ORDER_ACTIVITY,
-  ORDER_FULL_MP, ORDER_BUILD_CITY, ORDER_DISBAND, ORDER_BUILD_WONDER,
-  ORDER_TRADEROUTE, ORDER_HOMECITY,
+  ORDER_MOVE = 0,
+  ORDER_ACTIVITY = 1,
+  ORDER_FULL_MP = 2,
+  ORDER_BUILD_CITY = 3,
+  ORDER_DISBAND = 4,
+  ORDER_BUILD_WONDER = 5,
+  ORDER_TRADEROUTE = 6,
+  ORDER_HOMECITY = 7,
   /* and plenty more for later... */
   ORDER_LAST
 };
@@ -35,12 +40,17 @@ enum unit_focus_status {
   FOCUS_AVAIL, FOCUS_WAIT, FOCUS_DONE  
 };
 
+/* Changing this enum will break network compatability. */
 enum diplomat_actions {
-  DIPLOMAT_BRIBE, DIPLOMAT_EMBASSY, DIPLOMAT_SABOTAGE,
-  DIPLOMAT_STEAL, DIPLOMAT_INCITE, SPY_POISON, 
-  DIPLOMAT_INVESTIGATE, SPY_SABOTAGE_UNIT,
-  SPY_GET_SABOTAGE_LIST,
-  DIPLOMAT_MOVE,	/* move onto city square - only for allied cities */
+  DIPLOMAT_MOVE = 0,	/* move onto city square - only for allied cities */
+  DIPLOMAT_EMBASSY = 1,
+  DIPLOMAT_BRIBE = 2,
+  DIPLOMAT_INCITE = 3,
+  DIPLOMAT_INVESTIGATE = 4,
+  DIPLOMAT_SABOTAGE = 5,
+  DIPLOMAT_STEAL = 6,
+  SPY_POISON = 7, 
+  SPY_SABOTAGE_UNIT = 8,
   DIPLOMAT_ANY_ACTION   /* leave this one last */
 };
 
@@ -125,7 +135,6 @@ struct unit {
   int veteran;
   int fuel;
   int birth_turn;
-  int bribe_cost;
   struct unit_ai ai;
   enum unit_activity activity;
   struct tile *goto_tile; /* May be NULL. */

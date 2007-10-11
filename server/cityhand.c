@@ -397,19 +397,3 @@ void handle_city_options_req(struct player *pplayer, int city_id,
 
   send_city_info(pplayer, pcity);
 }
-
-/***************************************************************
-  Tell the client the cost of inciting a revolt or bribing a unit.
-  Only send result back to the requesting connection, not all
-  connections for that player.
-***************************************************************/
-void handle_city_incite_inq(struct connection *pc, int city_id)
-{
-  struct player *pplayer = pc->player;
-  struct city *pcity = game_find_city_by_number(city_id);
-
-  if (pplayer && pcity) {
-    dsend_packet_city_incite_info(pc, city_id,
-				  city_incite_cost(pplayer, pcity));
-  }
-}

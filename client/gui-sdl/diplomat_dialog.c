@@ -133,7 +133,7 @@ static int spy_sabotage_request(struct widget *pWidget)
 {
   if (game_find_unit_by_number(pDiplomat_Dlg->diplomat_id)
      && game_find_city_by_number(pDiplomat_Dlg->diplomat_target_id)) {  
-    request_diplomat_action(SPY_GET_SABOTAGE_LIST, pDiplomat_Dlg->diplomat_id,
+    request_diplomat_answer(DIPLOMAT_SABOTAGE, pDiplomat_Dlg->diplomat_id,
                                        pDiplomat_Dlg->diplomat_target_id, 0);
   }
 
@@ -426,7 +426,9 @@ static int diplomat_incite_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (game_find_unit_by_number(pDiplomat_Dlg->diplomat_id)
        && game_find_city_by_number(pDiplomat_Dlg->diplomat_target_id)) {  
-      dsend_packet_city_incite_inq(&aconnection, pDiplomat_Dlg->diplomat_target_id);       
+      request_diplomat_answer(DIPLOMAT_INCITE,
+			      pDiplomat_Dlg->diplomat_id,
+			      pDiplomat_Dlg->diplomat_target_id, 0);
     }
     
     popdown_diplomat_dialog();
@@ -465,7 +467,9 @@ static int diplomat_bribe_callback(struct widget *pWidget)
   
     if (game_find_unit_by_number(pDiplomat_Dlg->diplomat_id)
        && game_find_unit_by_number(pDiplomat_Dlg->diplomat_target_id)) {  
-      dsend_packet_unit_bribe_inq(&aconnection, pDiplomat_Dlg->diplomat_target_id);
+      request_diplomat_answer(DIPLOMAT_BRIBE,
+			      pDiplomat_Dlg->diplomat_id,
+			      pDiplomat_Dlg->diplomat_target_id, 0);
     }
     
     popdown_diplomat_dialog();
@@ -1102,7 +1106,7 @@ void popdown_incite_dialog(void)
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct city *pCity)
+void popup_incite_dialog(struct city *pCity, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
@@ -1146,7 +1150,7 @@ void popup_incite_dialog(struct city *pCity)
   area.w  =MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
   
-  if (pCity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
+  if (INCITE_IMPOSSIBLE_COST == cost) {
     
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
@@ -1179,10 +1183,10 @@ void popup_incite_dialog(struct city *pCity)
     area.w = MAX(area.w , pBuf->size.w);
     area.h += pBuf->size.h;
     
-  } else if (game.player_ptr->economic.gold >= pCity->incite_revolt_cost) {
+  } else if (game.player_ptr->economic.gold >= cost) {
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		pCity->incite_revolt_cost, game.player_ptr->economic.gold);
+		cost, game.player_ptr->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
@@ -1232,7 +1236,7 @@ void popup_incite_dialog(struct city *pCity)
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		pCity->incite_revolt_cost, game.player_ptr->economic.gold);
+		cost, game.player_ptr->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
@@ -1344,7 +1348,7 @@ void popdown_bribe_dialog(void)
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *pUnit)
+void popup_bribe_dialog(struct unit *pUnit, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
@@ -1388,10 +1392,10 @@ void popup_bribe_dialog(struct unit *pUnit)
   area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
   
-  if(game.player_ptr->economic.gold >= pUnit->bribe_cost) {
+  if (game.player_ptr->economic.gold >= cost) {
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-		pUnit->bribe_cost, game.player_ptr->economic.gold);
+		cost, game.player_ptr->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   
@@ -1439,7 +1443,7 @@ void popup_bribe_dialog(struct unit *pUnit)
     my_snprintf(cBuf, sizeof(cBuf),
 		_("Bribing the unit costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		pUnit->bribe_cost, game.player_ptr->economic.gold);
+		cost, game.player_ptr->economic.gold);
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   

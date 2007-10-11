@@ -268,8 +268,6 @@ struct city {
   int food_stock;
   int shield_stock;
   int pollution;
-  /* city can't be incited if INCITE_IMPOSSIBLE_COST */
-  int incite_revolt_cost;      
 
   struct universal production;
 

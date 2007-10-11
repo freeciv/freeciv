@@ -1195,9 +1195,26 @@ void request_unit_select_same_type_tile(struct unit_list *punits)
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value)
 {
-  dsend_packet_unit_diplomat_action(&aconnection, dipl_id,action,target_id,value);
+  dsend_packet_unit_diplomat_action(&aconnection, dipl_id,target_id,value,action);
 }
 
+/**************************************************************************
+  Query a diplomat about costs and infrastructure.
+  - action : The action to be requested.
+  - dipl_id : The unit ID of the diplomatic unit.
+  - target_id : The ID of the target unit or city.
+  - value : For DIPLOMAT_STEAL or DIPLOMAT_SABOTAGE, the technology
+            or building to aim for (spies only).
+**************************************************************************/
+void request_diplomat_answer(enum diplomat_actions action, int dipl_id,
+			     int target_id, int value)
+{
+  dsend_packet_unit_diplomat_query(&aconnection, dipl_id,target_id,value,action);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 void wakeup_sentried_units(struct tile *ptile)
 {
   if (!can_client_issue_orders()) {

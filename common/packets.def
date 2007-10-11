@@ -613,14 +613,7 @@ PACKET_CITY_REFRESH=32;cs,dsend
   CITY city_id;
 end
 
-PACKET_CITY_INCITE_INQ=33;cs,handle-per-conn,dsend
-  CITY city_id;
-end
-
-PACKET_CITY_INCITE_INFO=34;sc,dsend
-  CITY city_id;
-  GOLD cost;
-end
+# 33-34 removed in 2.1
 
 # For city name suggestions, client sends unit id of unit building the
 # city.  The server does not use the id, but sends it back to the
@@ -866,14 +859,14 @@ PACKET_UNIT_AIRLIFT=65;cs,dsend
   CITY city_id;
 end
 
-PACKET_UNIT_BRIBE_INQ=67;cs,handle-per-conn,dsend
-  UNIT unit_id;
+PACKET_UNIT_DIPLOMAT_QUERY=66;cs,handle-per-conn,dsend
+  UNIT diplomat_id;
+  UNIT target_id;   # city_id or unit_id target_id;
+  SINT16 value;
+  DIPLOMAT_ACTION action_type;
 end
 
-PACKET_UNIT_BRIBE_INFO=68;sc,dsend
-  UNIT unit_id;
-  GOLD cost;
-end
+# 67-68 removed in 2.1
 
 PACKET_UNIT_TYPE_UPGRADE=69;cs,dsend
   UNIT_TYPE type;
@@ -881,14 +874,16 @@ end
 
 PACKET_UNIT_DIPLOMAT_ACTION=70;cs,dsend
   UNIT diplomat_id;
-  DIPLOMAT_ACTION action_type;
   UNIT target_id;   # city_id or unit_id target_id;
   SINT16 value;
+  DIPLOMAT_ACTION action_type;
 end
 
-PACKET_UNIT_DIPLOMAT_POPUP_DIALOG=71;sc,dsend,lsend
+PACKET_UNIT_DIPLOMAT_ANSWER=71;sc,dsend,lsend
   UNIT diplomat_id;
-  UINT32 target_id;
+  UNIT target_id;   # city_id or unit_id target_id;
+  GOLD cost;
+  DIPLOMAT_ACTION action_type;
 end
 
 PACKET_UNIT_CHANGE_ACTIVITY=72; cs,dsend
