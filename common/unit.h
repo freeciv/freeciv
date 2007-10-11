@@ -23,20 +23,37 @@ struct unit_order;
 
 /* Changing this enum will break savegame and network compatability. */
 enum unit_activity {
-  ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
-  ACTIVITY_IRRIGATE, ACTIVITY_FORTIFIED, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
-  ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
-  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE, ACTIVITY_FORTIFYING,
-  ACTIVITY_FALLOUT,
-  ACTIVITY_PATROL_UNUSED, /* Needed for savegame compatability. */
+  ACTIVITY_IDLE = 0,
+  ACTIVITY_POLLUTION = 1,
+  ACTIVITY_ROAD = 2,
+  ACTIVITY_MINE = 3,
+  ACTIVITY_IRRIGATE = 4,
+  ACTIVITY_FORTIFIED = 5,
+  ACTIVITY_FORTRESS = 6,
+  ACTIVITY_SENTRY = 7,
+  ACTIVITY_RAILROAD = 8,
+  ACTIVITY_PILLAGE = 9,
+  ACTIVITY_GOTO = 10,
+  ACTIVITY_EXPLORE = 11,
+  ACTIVITY_TRANSFORM = 12,
+  ACTIVITY_UNKNOWN = 13,		/* savegame compatability. */
+  ACTIVITY_AIRBASE = 14,
+  ACTIVITY_FORTIFYING = 15,
+  ACTIVITY_FALLOUT = 16,
+  ACTIVITY_PATROL_UNUSED = 17,		/* savegame compatability. */
   ACTIVITY_LAST   /* leave this one last */
 };
 
 /* Changing this enum will break network compatability. */
 enum unit_orders {
-  ORDER_MOVE, ORDER_ACTIVITY,
-  ORDER_FULL_MP, ORDER_BUILD_CITY, ORDER_DISBAND, ORDER_BUILD_WONDER,
-  ORDER_TRADEROUTE, ORDER_HOMECITY,
+  ORDER_MOVE = 0,
+  ORDER_ACTIVITY = 1,
+  ORDER_FULL_MP = 2,
+  ORDER_BUILD_CITY = 3,
+  ORDER_DISBAND = 4,
+  ORDER_BUILD_WONDER = 5,
+  ORDER_TRADEROUTE = 6,
+  ORDER_HOMECITY = 7,
   /* and plenty more for later... */
   ORDER_LAST
 };
@@ -45,12 +62,17 @@ enum unit_focus_status {
   FOCUS_AVAIL, FOCUS_WAIT, FOCUS_DONE  
 };
 
+/* Changing this enum will break network compatability. */
 enum diplomat_actions {
-  DIPLOMAT_BRIBE, DIPLOMAT_EMBASSY, DIPLOMAT_SABOTAGE,
-  DIPLOMAT_STEAL, DIPLOMAT_INCITE, SPY_POISON, 
-  DIPLOMAT_INVESTIGATE, SPY_SABOTAGE_UNIT,
-  SPY_GET_SABOTAGE_LIST,
-  DIPLOMAT_MOVE,	/* move onto city square - only for allied cities */
+  DIPLOMAT_MOVE = 0,	/* move onto city square - only for allied cities */
+  DIPLOMAT_EMBASSY = 1,
+  DIPLOMAT_BRIBE = 2,
+  DIPLOMAT_INCITE = 3,
+  DIPLOMAT_INVESTIGATE = 4,
+  DIPLOMAT_SABOTAGE = 5,
+  DIPLOMAT_STEAL = 6,
+  SPY_POISON = 7, 
+  SPY_SABOTAGE_UNIT = 8,
   DIPLOMAT_ANY_ACTION   /* leave this one last */
 };
 
@@ -136,7 +158,6 @@ struct unit {
   int unhappiness;
   int upkeep[O_MAX];
   int fuel;
-  int bribe_cost;
   struct unit_ai ai;
   enum unit_activity activity;
   struct tile *goto_tile; /* May be NULL. */

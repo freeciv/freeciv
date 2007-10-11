@@ -348,15 +348,6 @@ struct packet_city_refresh {
   int city_id;
 };
 
-struct packet_city_incite_inq {
-  int city_id;
-};
-
-struct packet_city_incite_info {
-  int city_id;
-  int cost;
-};
-
 struct packet_city_name_suggestion_req {
   int unit_id;
 };
@@ -593,13 +584,11 @@ struct packet_unit_airlift {
   int city_id;
 };
 
-struct packet_unit_bribe_inq {
-  int unit_id;
-};
-
-struct packet_unit_bribe_info {
-  int unit_id;
-  int cost;
+struct packet_unit_diplomat_query {
+  int diplomat_id;
+  int target_id;
+  int value;
+  enum diplomat_actions action_type;
 };
 
 struct packet_unit_type_upgrade {
@@ -608,14 +597,16 @@ struct packet_unit_type_upgrade {
 
 struct packet_unit_diplomat_action {
   int diplomat_id;
-  enum diplomat_actions action_type;
   int target_id;
   int value;
+  enum diplomat_actions action_type;
 };
 
-struct packet_unit_diplomat_popup_dialog {
+struct packet_unit_diplomat_answer {
   int diplomat_id;
   int target_id;
+  int cost;
+  enum diplomat_actions action_type;
 };
 
 struct packet_unit_change_activity {
@@ -1086,9 +1077,7 @@ enum packet_type {
   PACKET_CITY_RENAME,                    /* 30 */
   PACKET_CITY_OPTIONS_REQ,
   PACKET_CITY_REFRESH,
-  PACKET_CITY_INCITE_INQ,
-  PACKET_CITY_INCITE_INFO,
-  PACKET_CITY_NAME_SUGGESTION_REQ,
+  PACKET_CITY_NAME_SUGGESTION_REQ = 35,
   PACKET_CITY_NAME_SUGGESTION_INFO,
   PACKET_CITY_SABOTAGE_LIST,
   PACKET_PLAYER_REMOVE,
@@ -1118,11 +1107,10 @@ enum packet_type {
   PACKET_UNIT_NUKE,
   PACKET_UNIT_PARADROP_TO,
   PACKET_UNIT_AIRLIFT,
-  PACKET_UNIT_BRIBE_INQ = 67,
-  PACKET_UNIT_BRIBE_INFO,
-  PACKET_UNIT_TYPE_UPGRADE,
+  PACKET_UNIT_DIPLOMAT_QUERY,
+  PACKET_UNIT_TYPE_UPGRADE = 69,
   PACKET_UNIT_DIPLOMAT_ACTION,           /* 70 */
-  PACKET_UNIT_DIPLOMAT_POPUP_DIALOG,
+  PACKET_UNIT_DIPLOMAT_ANSWER,
   PACKET_UNIT_CHANGE_ACTIVITY,
   PACKET_DIPLOMACY_INIT_MEETING_REQ,
   PACKET_DIPLOMACY_INIT_MEETING,
@@ -1310,14 +1298,6 @@ struct packet_city_refresh *receive_packet_city_refresh(struct connection *pc, e
 int send_packet_city_refresh(struct connection *pc, const struct packet_city_refresh *packet);
 int dsend_packet_city_refresh(struct connection *pc, int city_id);
 
-struct packet_city_incite_inq *receive_packet_city_incite_inq(struct connection *pc, enum packet_type type);
-int send_packet_city_incite_inq(struct connection *pc, const struct packet_city_incite_inq *packet);
-int dsend_packet_city_incite_inq(struct connection *pc, int city_id);
-
-struct packet_city_incite_info *receive_packet_city_incite_info(struct connection *pc, enum packet_type type);
-int send_packet_city_incite_info(struct connection *pc, const struct packet_city_incite_info *packet);
-int dsend_packet_city_incite_info(struct connection *pc, int city_id, int cost);
-
 struct packet_city_name_suggestion_req *receive_packet_city_name_suggestion_req(struct connection *pc, enum packet_type type);
 int send_packet_city_name_suggestion_req(struct connection *pc, const struct packet_city_name_suggestion_req *packet);
 int dsend_packet_city_name_suggestion_req(struct connection *pc, int unit_id);
@@ -1444,13 +1424,9 @@ struct packet_unit_airlift *receive_packet_unit_airlift(struct connection *pc, e
 int send_packet_unit_airlift(struct connection *pc, const struct packet_unit_airlift *packet);
 int dsend_packet_unit_airlift(struct connection *pc, int unit_id, int city_id);
 
-struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq(struct connection *pc, enum packet_type type);
-int send_packet_unit_bribe_inq(struct connection *pc, const struct packet_unit_bribe_inq *packet);
-int dsend_packet_unit_bribe_inq(struct connection *pc, int unit_id);
-
-struct packet_unit_bribe_info *receive_packet_unit_bribe_info(struct connection *pc, enum packet_type type);
-int send_packet_unit_bribe_info(struct connection *pc, const struct packet_unit_bribe_info *packet);
-int dsend_packet_unit_bribe_info(struct connection *pc, int unit_id, int cost);
+struct packet_unit_diplomat_query *receive_packet_unit_diplomat_query(struct connection *pc, enum packet_type type);
+int send_packet_unit_diplomat_query(struct connection *pc, const struct packet_unit_diplomat_query *packet);
+int dsend_packet_unit_diplomat_query(struct connection *pc, int diplomat_id, int target_id, int value, enum diplomat_actions action_type);
 
 struct packet_unit_type_upgrade *receive_packet_unit_type_upgrade(struct connection *pc, enum packet_type type);
 int send_packet_unit_type_upgrade(struct connection *pc, const struct packet_unit_type_upgrade *packet);
@@ -1458,13 +1434,13 @@ int dsend_packet_unit_type_upgrade(struct connection *pc, Unit_type_id type);
 
 struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action(struct connection *pc, enum packet_type type);
 int send_packet_unit_diplomat_action(struct connection *pc, const struct packet_unit_diplomat_action *packet);
-int dsend_packet_unit_diplomat_action(struct connection *pc, int diplomat_id, enum diplomat_actions action_type, int target_id, int value);
+int dsend_packet_unit_diplomat_action(struct connection *pc, int diplomat_id, int target_id, int value, enum diplomat_actions action_type);
 
-struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_popup_dialog(struct connection *pc, enum packet_type type);
-int send_packet_unit_diplomat_popup_dialog(struct connection *pc, const struct packet_unit_diplomat_popup_dialog *packet);
-void lsend_packet_unit_diplomat_popup_dialog(struct conn_list *dest, const struct packet_unit_diplomat_popup_dialog *packet);
-int dsend_packet_unit_diplomat_popup_dialog(struct connection *pc, int diplomat_id, int target_id);
-void dlsend_packet_unit_diplomat_popup_dialog(struct conn_list *dest, int diplomat_id, int target_id);
+struct packet_unit_diplomat_answer *receive_packet_unit_diplomat_answer(struct connection *pc, enum packet_type type);
+int send_packet_unit_diplomat_answer(struct connection *pc, const struct packet_unit_diplomat_answer *packet);
+void lsend_packet_unit_diplomat_answer(struct conn_list *dest, const struct packet_unit_diplomat_answer *packet);
+int dsend_packet_unit_diplomat_answer(struct connection *pc, int diplomat_id, int target_id, int cost, enum diplomat_actions action_type);
+void dlsend_packet_unit_diplomat_answer(struct conn_list *dest, int diplomat_id, int target_id, int cost, enum diplomat_actions action_type);
 
 struct packet_unit_change_activity *receive_packet_unit_change_activity(struct connection *pc, enum packet_type type);
 int send_packet_unit_change_activity(struct connection *pc, const struct packet_unit_change_activity *packet);

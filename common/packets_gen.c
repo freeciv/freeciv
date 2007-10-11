@@ -140,12 +140,6 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_CITY_REFRESH:
     return receive_packet_city_refresh(pc, type);
 
-  case PACKET_CITY_INCITE_INQ:
-    return receive_packet_city_incite_inq(pc, type);
-
-  case PACKET_CITY_INCITE_INFO:
-    return receive_packet_city_incite_info(pc, type);
-
   case PACKET_CITY_NAME_SUGGESTION_REQ:
     return receive_packet_city_name_suggestion_req(pc, type);
 
@@ -239,11 +233,8 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_UNIT_AIRLIFT:
     return receive_packet_unit_airlift(pc, type);
 
-  case PACKET_UNIT_BRIBE_INQ:
-    return receive_packet_unit_bribe_inq(pc, type);
-
-  case PACKET_UNIT_BRIBE_INFO:
-    return receive_packet_unit_bribe_info(pc, type);
+  case PACKET_UNIT_DIPLOMAT_QUERY:
+    return receive_packet_unit_diplomat_query(pc, type);
 
   case PACKET_UNIT_TYPE_UPGRADE:
     return receive_packet_unit_type_upgrade(pc, type);
@@ -251,8 +242,8 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_UNIT_DIPLOMAT_ACTION:
     return receive_packet_unit_diplomat_action(pc, type);
 
-  case PACKET_UNIT_DIPLOMAT_POPUP_DIALOG:
-    return receive_packet_unit_diplomat_popup_dialog(pc, type);
+  case PACKET_UNIT_DIPLOMAT_ANSWER:
+    return receive_packet_unit_diplomat_answer(pc, type);
 
   case PACKET_UNIT_CHANGE_ACTIVITY:
     return receive_packet_unit_change_activity(pc, type);
@@ -512,12 +503,6 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_CITY_REFRESH:
     return "PACKET_CITY_REFRESH";
 
-  case PACKET_CITY_INCITE_INQ:
-    return "PACKET_CITY_INCITE_INQ";
-
-  case PACKET_CITY_INCITE_INFO:
-    return "PACKET_CITY_INCITE_INFO";
-
   case PACKET_CITY_NAME_SUGGESTION_REQ:
     return "PACKET_CITY_NAME_SUGGESTION_REQ";
 
@@ -611,11 +596,8 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_UNIT_AIRLIFT:
     return "PACKET_UNIT_AIRLIFT";
 
-  case PACKET_UNIT_BRIBE_INQ:
-    return "PACKET_UNIT_BRIBE_INQ";
-
-  case PACKET_UNIT_BRIBE_INFO:
-    return "PACKET_UNIT_BRIBE_INFO";
+  case PACKET_UNIT_DIPLOMAT_QUERY:
+    return "PACKET_UNIT_DIPLOMAT_QUERY";
 
   case PACKET_UNIT_TYPE_UPGRADE:
     return "PACKET_UNIT_TYPE_UPGRADE";
@@ -623,8 +605,8 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_UNIT_DIPLOMAT_ACTION:
     return "PACKET_UNIT_DIPLOMAT_ACTION";
 
-  case PACKET_UNIT_DIPLOMAT_POPUP_DIALOG:
-    return "PACKET_UNIT_DIPLOMAT_POPUP_DIALOG";
+  case PACKET_UNIT_DIPLOMAT_ANSWER:
+    return "PACKET_UNIT_DIPLOMAT_ANSWER";
 
   case PACKET_UNIT_CHANGE_ACTIVITY:
     return "PACKET_UNIT_CHANGE_ACTIVITY";
@@ -9207,346 +9189,6 @@ int dsend_packet_city_refresh(struct connection *pc, int city_id)
   return send_packet_city_refresh(pc, real_packet);
 }
 
-#define hash_packet_city_incite_inq_100 hash_const
-
-#define cmp_packet_city_incite_inq_100 cmp_const
-
-BV_DEFINE(packet_city_incite_inq_100_fields, 1);
-
-static struct packet_city_incite_inq *receive_packet_city_incite_inq_100(struct connection *pc, enum packet_type type)
-{
-  packet_city_incite_inq_100_fields fields;
-  struct packet_city_incite_inq *old;
-  struct hash_table **hash = &pc->phs.received[type];
-  struct packet_city_incite_inq *clone;
-  RECEIVE_PACKET_START(packet_city_incite_inq, real_packet);
-
-  DIO_BV_GET(&din, fields);
-
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_city_incite_inq_100, cmp_packet_city_incite_inq_100);
-  }
-  old = hash_delete_entry(*hash, real_packet);
-
-  if (old) {
-    *real_packet = *old;
-  } else {
-    memset(real_packet, 0, sizeof(*real_packet));
-  }
-
-  if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->city_id = readin;
-    }
-  }
-
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
-  }
-  hash_insert(*hash, clone, clone);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_city_incite_inq_100(struct connection *pc, const struct packet_city_incite_inq *packet)
-{
-  const struct packet_city_incite_inq *real_packet = packet;
-  packet_city_incite_inq_100_fields fields;
-  struct packet_city_incite_inq *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_CITY_INCITE_INQ];
-  int different = 0;
-  SEND_PACKET_START(PACKET_CITY_INCITE_INQ);
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_city_incite_inq_100, cmp_packet_city_incite_inq_100);
-  }
-  BV_CLR_ALL(fields);
-
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
-    old = fc_malloc(sizeof(*old));
-    memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
-  }
-
-  differ = (old->city_id != real_packet->city_id);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
-  if (different == 0 && !force_send_of_unchanged) {
-    return 0;
-  }
-
-  DIO_BV_PUT(&dout, fields);
-
-  if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->city_id);
-  }
-
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_city_incite_inq(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_CITY_INCITE_INQ] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_CITY_INCITE_INQ] = variant;
-}
-
-struct packet_city_incite_inq *receive_packet_city_incite_inq(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_city_incite_inq at the client.");
-  }
-  ensure_valid_variant_packet_city_incite_inq(pc);
-
-  switch(pc->phs.variant[PACKET_CITY_INCITE_INQ]) {
-    case 100: return receive_packet_city_incite_inq_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_city_incite_inq(struct connection *pc, const struct packet_city_incite_inq *packet)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if (pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_city_incite_inq from the server.");
-  }
-  ensure_valid_variant_packet_city_incite_inq(pc);
-
-  switch(pc->phs.variant[PACKET_CITY_INCITE_INQ]) {
-    case 100: return send_packet_city_incite_inq_100(pc, packet);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-int dsend_packet_city_incite_inq(struct connection *pc, int city_id)
-{
-  struct packet_city_incite_inq packet, *real_packet = &packet;
-
-  real_packet->city_id = city_id;
-  
-  return send_packet_city_incite_inq(pc, real_packet);
-}
-
-#define hash_packet_city_incite_info_100 hash_const
-
-#define cmp_packet_city_incite_info_100 cmp_const
-
-BV_DEFINE(packet_city_incite_info_100_fields, 2);
-
-static struct packet_city_incite_info *receive_packet_city_incite_info_100(struct connection *pc, enum packet_type type)
-{
-  packet_city_incite_info_100_fields fields;
-  struct packet_city_incite_info *old;
-  struct hash_table **hash = &pc->phs.received[type];
-  struct packet_city_incite_info *clone;
-  RECEIVE_PACKET_START(packet_city_incite_info, real_packet);
-
-  DIO_BV_GET(&din, fields);
-
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_city_incite_info_100, cmp_packet_city_incite_info_100);
-  }
-  old = hash_delete_entry(*hash, real_packet);
-
-  if (old) {
-    *real_packet = *old;
-  } else {
-    memset(real_packet, 0, sizeof(*real_packet));
-  }
-
-  if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->city_id = readin;
-    }
-  }
-  if (BV_ISSET(fields, 1)) {
-    {
-      int readin;
-    
-      dio_get_uint32(&din, &readin);
-      real_packet->cost = readin;
-    }
-  }
-
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
-  }
-  hash_insert(*hash, clone, clone);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_city_incite_info_100(struct connection *pc, const struct packet_city_incite_info *packet)
-{
-  const struct packet_city_incite_info *real_packet = packet;
-  packet_city_incite_info_100_fields fields;
-  struct packet_city_incite_info *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_CITY_INCITE_INFO];
-  int different = 0;
-  SEND_PACKET_START(PACKET_CITY_INCITE_INFO);
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_city_incite_info_100, cmp_packet_city_incite_info_100);
-  }
-  BV_CLR_ALL(fields);
-
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
-    old = fc_malloc(sizeof(*old));
-    memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
-  }
-
-  differ = (old->city_id != real_packet->city_id);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
-  differ = (old->cost != real_packet->cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
-
-  if (different == 0 && !force_send_of_unchanged) {
-    return 0;
-  }
-
-  DIO_BV_PUT(&dout, fields);
-
-  if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->city_id);
-  }
-  if (BV_ISSET(fields, 1)) {
-    dio_put_uint32(&dout, real_packet->cost);
-  }
-
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_city_incite_info(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_CITY_INCITE_INFO] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_CITY_INCITE_INFO] = variant;
-}
-
-struct packet_city_incite_info *receive_packet_city_incite_info(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_city_incite_info at the server.");
-  }
-  ensure_valid_variant_packet_city_incite_info(pc);
-
-  switch(pc->phs.variant[PACKET_CITY_INCITE_INFO]) {
-    case 100: return receive_packet_city_incite_info_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_city_incite_info(struct connection *pc, const struct packet_city_incite_info *packet)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_city_incite_info from the client.");
-  }
-  ensure_valid_variant_packet_city_incite_info(pc);
-
-  switch(pc->phs.variant[PACKET_CITY_INCITE_INFO]) {
-    case 100: return send_packet_city_incite_info_100(pc, packet);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-int dsend_packet_city_incite_info(struct connection *pc, int city_id, int cost)
-{
-  struct packet_city_incite_info packet, *real_packet = &packet;
-
-  real_packet->city_id = city_id;
-  real_packet->cost = cost;
-  
-  return send_packet_city_incite_info(pc, real_packet);
-}
-
 #define hash_packet_city_name_suggestion_req_100 hash_const
 
 #define cmp_packet_city_name_suggestion_req_100 cmp_const
@@ -16339,25 +15981,25 @@ int dsend_packet_unit_airlift(struct connection *pc, int unit_id, int city_id)
   return send_packet_unit_airlift(pc, real_packet);
 }
 
-#define hash_packet_unit_bribe_inq_100 hash_const
+#define hash_packet_unit_diplomat_query_100 hash_const
 
-#define cmp_packet_unit_bribe_inq_100 cmp_const
+#define cmp_packet_unit_diplomat_query_100 cmp_const
 
-BV_DEFINE(packet_unit_bribe_inq_100_fields, 1);
+BV_DEFINE(packet_unit_diplomat_query_100_fields, 4);
 
-static struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq_100(struct connection *pc, enum packet_type type)
+static struct packet_unit_diplomat_query *receive_packet_unit_diplomat_query_100(struct connection *pc, enum packet_type type)
 {
-  packet_unit_bribe_inq_100_fields fields;
-  struct packet_unit_bribe_inq *old;
+  packet_unit_diplomat_query_100_fields fields;
+  struct packet_unit_diplomat_query *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_unit_bribe_inq *clone;
-  RECEIVE_PACKET_START(packet_unit_bribe_inq, real_packet);
+  struct packet_unit_diplomat_query *clone;
+  RECEIVE_PACKET_START(packet_unit_diplomat_query, real_packet);
 
   DIO_BV_GET(&din, fields);
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_unit_bribe_inq_100, cmp_packet_unit_bribe_inq_100);
+    *hash = hash_new(hash_packet_unit_diplomat_query_100, cmp_packet_unit_diplomat_query_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -16372,177 +16014,31 @@ static struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq_100(struct co
       int readin;
     
       dio_get_uint16(&din, &readin);
-      real_packet->unit_id = readin;
-    }
-  }
-
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
-  }
-  hash_insert(*hash, clone, clone);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_unit_bribe_inq_100(struct connection *pc, const struct packet_unit_bribe_inq *packet)
-{
-  const struct packet_unit_bribe_inq *real_packet = packet;
-  packet_unit_bribe_inq_100_fields fields;
-  struct packet_unit_bribe_inq *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_BRIBE_INQ];
-  int different = 0;
-  SEND_PACKET_START(PACKET_UNIT_BRIBE_INQ);
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_unit_bribe_inq_100, cmp_packet_unit_bribe_inq_100);
-  }
-  BV_CLR_ALL(fields);
-
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
-    old = fc_malloc(sizeof(*old));
-    memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
-  }
-
-  differ = (old->unit_id != real_packet->unit_id);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
-  if (different == 0 && !force_send_of_unchanged) {
-    return 0;
-  }
-
-  DIO_BV_PUT(&dout, fields);
-
-  if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->unit_id);
-  }
-
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_unit_bribe_inq(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_UNIT_BRIBE_INQ] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_UNIT_BRIBE_INQ] = variant;
-}
-
-struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_unit_bribe_inq at the client.");
-  }
-  ensure_valid_variant_packet_unit_bribe_inq(pc);
-
-  switch(pc->phs.variant[PACKET_UNIT_BRIBE_INQ]) {
-    case 100: return receive_packet_unit_bribe_inq_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_unit_bribe_inq(struct connection *pc, const struct packet_unit_bribe_inq *packet)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if (pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_unit_bribe_inq from the server.");
-  }
-  ensure_valid_variant_packet_unit_bribe_inq(pc);
-
-  switch(pc->phs.variant[PACKET_UNIT_BRIBE_INQ]) {
-    case 100: return send_packet_unit_bribe_inq_100(pc, packet);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-int dsend_packet_unit_bribe_inq(struct connection *pc, int unit_id)
-{
-  struct packet_unit_bribe_inq packet, *real_packet = &packet;
-
-  real_packet->unit_id = unit_id;
-  
-  return send_packet_unit_bribe_inq(pc, real_packet);
-}
-
-#define hash_packet_unit_bribe_info_100 hash_const
-
-#define cmp_packet_unit_bribe_info_100 cmp_const
-
-BV_DEFINE(packet_unit_bribe_info_100_fields, 2);
-
-static struct packet_unit_bribe_info *receive_packet_unit_bribe_info_100(struct connection *pc, enum packet_type type)
-{
-  packet_unit_bribe_info_100_fields fields;
-  struct packet_unit_bribe_info *old;
-  struct hash_table **hash = &pc->phs.received[type];
-  struct packet_unit_bribe_info *clone;
-  RECEIVE_PACKET_START(packet_unit_bribe_info, real_packet);
-
-  DIO_BV_GET(&din, fields);
-
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_unit_bribe_info_100, cmp_packet_unit_bribe_info_100);
-  }
-  old = hash_delete_entry(*hash, real_packet);
-
-  if (old) {
-    *real_packet = *old;
-  } else {
-    memset(real_packet, 0, sizeof(*real_packet));
-  }
-
-  if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->unit_id = readin;
+      real_packet->diplomat_id = readin;
     }
   }
   if (BV_ISSET(fields, 1)) {
     {
       int readin;
     
-      dio_get_uint32(&din, &readin);
-      real_packet->cost = readin;
+      dio_get_uint16(&din, &readin);
+      real_packet->target_id = readin;
+    }
+  }
+  if (BV_ISSET(fields, 2)) {
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->value = readin;
+    }
+  }
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->action_type = readin;
     }
   }
 
@@ -16556,18 +16052,18 @@ static struct packet_unit_bribe_info *receive_packet_unit_bribe_info_100(struct 
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_unit_bribe_info_100(struct connection *pc, const struct packet_unit_bribe_info *packet)
+static int send_packet_unit_diplomat_query_100(struct connection *pc, const struct packet_unit_diplomat_query *packet)
 {
-  const struct packet_unit_bribe_info *real_packet = packet;
-  packet_unit_bribe_info_100_fields fields;
-  struct packet_unit_bribe_info *old, *clone;
+  const struct packet_unit_diplomat_query *real_packet = packet;
+  packet_unit_diplomat_query_100_fields fields;
+  struct packet_unit_diplomat_query *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_BRIBE_INFO];
+  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_DIPLOMAT_QUERY];
   int different = 0;
-  SEND_PACKET_START(PACKET_UNIT_BRIBE_INFO);
+  SEND_PACKET_START(PACKET_UNIT_DIPLOMAT_QUERY);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_unit_bribe_info_100, cmp_packet_unit_bribe_info_100);
+    *hash = hash_new(hash_packet_unit_diplomat_query_100, cmp_packet_unit_diplomat_query_100);
   }
   BV_CLR_ALL(fields);
 
@@ -16579,14 +16075,22 @@ static int send_packet_unit_bribe_info_100(struct connection *pc, const struct p
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->unit_id != real_packet->unit_id);
+  differ = (old->diplomat_id != real_packet->diplomat_id);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->cost != real_packet->cost);
+  differ = (old->target_id != real_packet->target_id);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
+  differ = (old->value != real_packet->value);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->action_type != real_packet->action_type);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -16594,10 +16098,16 @@ static int send_packet_unit_bribe_info_100(struct connection *pc, const struct p
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->unit_id);
+    dio_put_uint16(&dout, real_packet->diplomat_id);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint32(&dout, real_packet->cost);
+    dio_put_uint16(&dout, real_packet->target_id);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_sint16(&dout, real_packet->value);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint8(&dout, real_packet->action_type);
   }
 
 
@@ -16612,11 +16122,11 @@ static int send_packet_unit_bribe_info_100(struct connection *pc, const struct p
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_unit_bribe_info(struct connection *pc)
+static void ensure_valid_variant_packet_unit_diplomat_query(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_UNIT_BRIBE_INFO] != -1) {
+  if(pc->phs.variant[PACKET_UNIT_DIPLOMAT_QUERY] != -1) {
     return;
   }
 
@@ -16626,10 +16136,10 @@ static void ensure_valid_variant_packet_unit_bribe_info(struct connection *pc)
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_UNIT_BRIBE_INFO] = variant;
+  pc->phs.variant[PACKET_UNIT_DIPLOMAT_QUERY] = variant;
 }
 
-struct packet_unit_bribe_info *receive_packet_unit_bribe_info(struct connection *pc, enum packet_type type)
+struct packet_unit_diplomat_query *receive_packet_unit_diplomat_query(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -16638,18 +16148,18 @@ struct packet_unit_bribe_info *receive_packet_unit_bribe_info(struct connection 
     return NULL;
   }
   assert(pc->phs.variant != NULL);
-  if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_unit_bribe_info at the server.");
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_unit_diplomat_query at the client.");
   }
-  ensure_valid_variant_packet_unit_bribe_info(pc);
+  ensure_valid_variant_packet_unit_diplomat_query(pc);
 
-  switch(pc->phs.variant[PACKET_UNIT_BRIBE_INFO]) {
-    case 100: return receive_packet_unit_bribe_info_100(pc, type);
+  switch(pc->phs.variant[PACKET_UNIT_DIPLOMAT_QUERY]) {
+    case 100: return receive_packet_unit_diplomat_query_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_unit_bribe_info(struct connection *pc, const struct packet_unit_bribe_info *packet)
+int send_packet_unit_diplomat_query(struct connection *pc, const struct packet_unit_diplomat_query *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -16658,25 +16168,27 @@ int send_packet_unit_bribe_info(struct connection *pc, const struct packet_unit_
     return -1;
   }
   assert(pc->phs.variant != NULL);
-  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_unit_bribe_info from the client.");
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_unit_diplomat_query from the server.");
   }
-  ensure_valid_variant_packet_unit_bribe_info(pc);
+  ensure_valid_variant_packet_unit_diplomat_query(pc);
 
-  switch(pc->phs.variant[PACKET_UNIT_BRIBE_INFO]) {
-    case 100: return send_packet_unit_bribe_info_100(pc, packet);
+  switch(pc->phs.variant[PACKET_UNIT_DIPLOMAT_QUERY]) {
+    case 100: return send_packet_unit_diplomat_query_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-int dsend_packet_unit_bribe_info(struct connection *pc, int unit_id, int cost)
+int dsend_packet_unit_diplomat_query(struct connection *pc, int diplomat_id, int target_id, int value, enum diplomat_actions action_type)
 {
-  struct packet_unit_bribe_info packet, *real_packet = &packet;
+  struct packet_unit_diplomat_query packet, *real_packet = &packet;
 
-  real_packet->unit_id = unit_id;
-  real_packet->cost = cost;
+  real_packet->diplomat_id = diplomat_id;
+  real_packet->target_id = target_id;
+  real_packet->value = value;
+  real_packet->action_type = action_type;
   
-  return send_packet_unit_bribe_info(pc, real_packet);
+  return send_packet_unit_diplomat_query(pc, real_packet);
 }
 
 #define hash_packet_unit_type_upgrade_100 hash_const
@@ -16881,24 +16393,24 @@ static struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action_1
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->action_type = readin;
+      dio_get_uint16(&din, &readin);
+      real_packet->target_id = readin;
     }
   }
   if (BV_ISSET(fields, 2)) {
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
-      real_packet->target_id = readin;
+      dio_get_sint16(&din, &readin);
+      real_packet->value = readin;
     }
   }
   if (BV_ISSET(fields, 3)) {
     {
       int readin;
     
-      dio_get_sint16(&din, &readin);
-      real_packet->value = readin;
+      dio_get_uint8(&din, &readin);
+      real_packet->action_type = readin;
     }
   }
 
@@ -16939,15 +16451,15 @@ static int send_packet_unit_diplomat_action_100(struct connection *pc, const str
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->action_type != real_packet->action_type);
+  differ = (old->target_id != real_packet->target_id);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->target_id != real_packet->target_id);
+  differ = (old->value != real_packet->value);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->value != real_packet->value);
+  differ = (old->action_type != real_packet->action_type);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
@@ -16961,13 +16473,13 @@ static int send_packet_unit_diplomat_action_100(struct connection *pc, const str
     dio_put_uint16(&dout, real_packet->diplomat_id);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->action_type);
-  }
-  if (BV_ISSET(fields, 2)) {
     dio_put_uint16(&dout, real_packet->target_id);
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 2)) {
     dio_put_sint16(&dout, real_packet->value);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint8(&dout, real_packet->action_type);
   }
 
 
@@ -17039,37 +16551,37 @@ int send_packet_unit_diplomat_action(struct connection *pc, const struct packet_
   }
 }
 
-int dsend_packet_unit_diplomat_action(struct connection *pc, int diplomat_id, enum diplomat_actions action_type, int target_id, int value)
+int dsend_packet_unit_diplomat_action(struct connection *pc, int diplomat_id, int target_id, int value, enum diplomat_actions action_type)
 {
   struct packet_unit_diplomat_action packet, *real_packet = &packet;
 
   real_packet->diplomat_id = diplomat_id;
-  real_packet->action_type = action_type;
   real_packet->target_id = target_id;
   real_packet->value = value;
+  real_packet->action_type = action_type;
   
   return send_packet_unit_diplomat_action(pc, real_packet);
 }
 
-#define hash_packet_unit_diplomat_popup_dialog_100 hash_const
+#define hash_packet_unit_diplomat_answer_100 hash_const
 
-#define cmp_packet_unit_diplomat_popup_dialog_100 cmp_const
+#define cmp_packet_unit_diplomat_answer_100 cmp_const
 
-BV_DEFINE(packet_unit_diplomat_popup_dialog_100_fields, 2);
+BV_DEFINE(packet_unit_diplomat_answer_100_fields, 4);
 
-static struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_popup_dialog_100(struct connection *pc, enum packet_type type)
+static struct packet_unit_diplomat_answer *receive_packet_unit_diplomat_answer_100(struct connection *pc, enum packet_type type)
 {
-  packet_unit_diplomat_popup_dialog_100_fields fields;
-  struct packet_unit_diplomat_popup_dialog *old;
+  packet_unit_diplomat_answer_100_fields fields;
+  struct packet_unit_diplomat_answer *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_unit_diplomat_popup_dialog *clone;
-  RECEIVE_PACKET_START(packet_unit_diplomat_popup_dialog, real_packet);
+  struct packet_unit_diplomat_answer *clone;
+  RECEIVE_PACKET_START(packet_unit_diplomat_answer, real_packet);
 
   DIO_BV_GET(&din, fields);
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_unit_diplomat_popup_dialog_100, cmp_packet_unit_diplomat_popup_dialog_100);
+    *hash = hash_new(hash_packet_unit_diplomat_answer_100, cmp_packet_unit_diplomat_answer_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -17091,8 +16603,24 @@ static struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_po
     {
       int readin;
     
-      dio_get_uint32(&din, &readin);
+      dio_get_uint16(&din, &readin);
       real_packet->target_id = readin;
+    }
+  }
+  if (BV_ISSET(fields, 2)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->cost = readin;
+    }
+  }
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->action_type = readin;
     }
   }
 
@@ -17106,18 +16634,18 @@ static struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_po
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_unit_diplomat_popup_dialog_100(struct connection *pc, const struct packet_unit_diplomat_popup_dialog *packet)
+static int send_packet_unit_diplomat_answer_100(struct connection *pc, const struct packet_unit_diplomat_answer *packet)
 {
-  const struct packet_unit_diplomat_popup_dialog *real_packet = packet;
-  packet_unit_diplomat_popup_dialog_100_fields fields;
-  struct packet_unit_diplomat_popup_dialog *old, *clone;
+  const struct packet_unit_diplomat_answer *real_packet = packet;
+  packet_unit_diplomat_answer_100_fields fields;
+  struct packet_unit_diplomat_answer *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_DIPLOMAT_POPUP_DIALOG];
+  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_DIPLOMAT_ANSWER];
   int different = 0;
-  SEND_PACKET_START(PACKET_UNIT_DIPLOMAT_POPUP_DIALOG);
+  SEND_PACKET_START(PACKET_UNIT_DIPLOMAT_ANSWER);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_unit_diplomat_popup_dialog_100, cmp_packet_unit_diplomat_popup_dialog_100);
+    *hash = hash_new(hash_packet_unit_diplomat_answer_100, cmp_packet_unit_diplomat_answer_100);
   }
   BV_CLR_ALL(fields);
 
@@ -17137,6 +16665,14 @@ static int send_packet_unit_diplomat_popup_dialog_100(struct connection *pc, con
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
+  differ = (old->cost != real_packet->cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->action_type != real_packet->action_type);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -17147,7 +16683,13 @@ static int send_packet_unit_diplomat_popup_dialog_100(struct connection *pc, con
     dio_put_uint16(&dout, real_packet->diplomat_id);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint32(&dout, real_packet->target_id);
+    dio_put_uint16(&dout, real_packet->target_id);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_uint32(&dout, real_packet->cost);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint8(&dout, real_packet->action_type);
   }
 
 
@@ -17162,11 +16704,11 @@ static int send_packet_unit_diplomat_popup_dialog_100(struct connection *pc, con
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_unit_diplomat_popup_dialog(struct connection *pc)
+static void ensure_valid_variant_packet_unit_diplomat_answer(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_UNIT_DIPLOMAT_POPUP_DIALOG] != -1) {
+  if(pc->phs.variant[PACKET_UNIT_DIPLOMAT_ANSWER] != -1) {
     return;
   }
 
@@ -17176,10 +16718,10 @@ static void ensure_valid_variant_packet_unit_diplomat_popup_dialog(struct connec
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_UNIT_DIPLOMAT_POPUP_DIALOG] = variant;
+  pc->phs.variant[PACKET_UNIT_DIPLOMAT_ANSWER] = variant;
 }
 
-struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_popup_dialog(struct connection *pc, enum packet_type type)
+struct packet_unit_diplomat_answer *receive_packet_unit_diplomat_answer(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -17189,17 +16731,17 @@ struct packet_unit_diplomat_popup_dialog *receive_packet_unit_diplomat_popup_dia
   }
   assert(pc->phs.variant != NULL);
   if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_unit_diplomat_popup_dialog at the server.");
+    freelog(LOG_ERROR, "Receiving packet_unit_diplomat_answer at the server.");
   }
-  ensure_valid_variant_packet_unit_diplomat_popup_dialog(pc);
+  ensure_valid_variant_packet_unit_diplomat_answer(pc);
 
-  switch(pc->phs.variant[PACKET_UNIT_DIPLOMAT_POPUP_DIALOG]) {
-    case 100: return receive_packet_unit_diplomat_popup_dialog_100(pc, type);
+  switch(pc->phs.variant[PACKET_UNIT_DIPLOMAT_ANSWER]) {
+    case 100: return receive_packet_unit_diplomat_answer_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_unit_diplomat_popup_dialog(struct connection *pc, const struct packet_unit_diplomat_popup_dialog *packet)
+int send_packet_unit_diplomat_answer(struct connection *pc, const struct packet_unit_diplomat_answer *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -17209,41 +16751,45 @@ int send_packet_unit_diplomat_popup_dialog(struct connection *pc, const struct p
   }
   assert(pc->phs.variant != NULL);
   if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_unit_diplomat_popup_dialog from the client.");
+    freelog(LOG_ERROR, "Sending packet_unit_diplomat_answer from the client.");
   }
-  ensure_valid_variant_packet_unit_diplomat_popup_dialog(pc);
+  ensure_valid_variant_packet_unit_diplomat_answer(pc);
 
-  switch(pc->phs.variant[PACKET_UNIT_DIPLOMAT_POPUP_DIALOG]) {
-    case 100: return send_packet_unit_diplomat_popup_dialog_100(pc, packet);
+  switch(pc->phs.variant[PACKET_UNIT_DIPLOMAT_ANSWER]) {
+    case 100: return send_packet_unit_diplomat_answer_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-void lsend_packet_unit_diplomat_popup_dialog(struct conn_list *dest, const struct packet_unit_diplomat_popup_dialog *packet)
+void lsend_packet_unit_diplomat_answer(struct conn_list *dest, const struct packet_unit_diplomat_answer *packet)
 {
   conn_list_iterate(dest, pconn) {
-    send_packet_unit_diplomat_popup_dialog(pconn, packet);
+    send_packet_unit_diplomat_answer(pconn, packet);
   } conn_list_iterate_end;
 }
 
-int dsend_packet_unit_diplomat_popup_dialog(struct connection *pc, int diplomat_id, int target_id)
+int dsend_packet_unit_diplomat_answer(struct connection *pc, int diplomat_id, int target_id, int cost, enum diplomat_actions action_type)
 {
-  struct packet_unit_diplomat_popup_dialog packet, *real_packet = &packet;
+  struct packet_unit_diplomat_answer packet, *real_packet = &packet;
 
   real_packet->diplomat_id = diplomat_id;
   real_packet->target_id = target_id;
+  real_packet->cost = cost;
+  real_packet->action_type = action_type;
   
-  return send_packet_unit_diplomat_popup_dialog(pc, real_packet);
+  return send_packet_unit_diplomat_answer(pc, real_packet);
 }
 
-void dlsend_packet_unit_diplomat_popup_dialog(struct conn_list *dest, int diplomat_id, int target_id)
+void dlsend_packet_unit_diplomat_answer(struct conn_list *dest, int diplomat_id, int target_id, int cost, enum diplomat_actions action_type)
 {
-  struct packet_unit_diplomat_popup_dialog packet, *real_packet = &packet;
+  struct packet_unit_diplomat_answer packet, *real_packet = &packet;
 
   real_packet->diplomat_id = diplomat_id;
   real_packet->target_id = target_id;
+  real_packet->cost = cost;
+  real_packet->action_type = action_type;
   
-  lsend_packet_unit_diplomat_popup_dialog(dest, real_packet);
+  lsend_packet_unit_diplomat_answer(dest, real_packet);
 }
 
 #define hash_packet_unit_change_activity_100 hash_const

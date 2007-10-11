@@ -102,11 +102,6 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_city_refresh *)packet)->city_id);
     return TRUE;
 
-  case PACKET_CITY_INCITE_INQ:
-    handle_city_incite_inq(pconn,
-      ((struct packet_city_incite_inq *)packet)->city_id);
-    return TRUE;
-
   case PACKET_CITY_NAME_SUGGESTION_REQ:
     handle_city_name_suggestion_req(pplayer,
       ((struct packet_city_name_suggestion_req *)packet)->unit_id);
@@ -231,9 +226,12 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_unit_airlift *)packet)->city_id);
     return TRUE;
 
-  case PACKET_UNIT_BRIBE_INQ:
-    handle_unit_bribe_inq(pconn,
-      ((struct packet_unit_bribe_inq *)packet)->unit_id);
+  case PACKET_UNIT_DIPLOMAT_QUERY:
+    handle_unit_diplomat_query(pconn,
+      ((struct packet_unit_diplomat_query *)packet)->diplomat_id,
+      ((struct packet_unit_diplomat_query *)packet)->target_id,
+      ((struct packet_unit_diplomat_query *)packet)->value,
+      ((struct packet_unit_diplomat_query *)packet)->action_type);
     return TRUE;
 
   case PACKET_UNIT_TYPE_UPGRADE:
@@ -244,9 +242,9 @@ bool server_handle_packet(enum packet_type type, void *packet,
   case PACKET_UNIT_DIPLOMAT_ACTION:
     handle_unit_diplomat_action(pplayer,
       ((struct packet_unit_diplomat_action *)packet)->diplomat_id,
-      ((struct packet_unit_diplomat_action *)packet)->action_type,
       ((struct packet_unit_diplomat_action *)packet)->target_id,
-      ((struct packet_unit_diplomat_action *)packet)->value);
+      ((struct packet_unit_diplomat_action *)packet)->value,
+      ((struct packet_unit_diplomat_action *)packet)->action_type);
     return TRUE;
 
   case PACKET_UNIT_CHANGE_ACTIVITY:

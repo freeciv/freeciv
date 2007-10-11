@@ -106,12 +106,6 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_city_short_info(packet);
     return TRUE;
 
-  case PACKET_CITY_INCITE_INFO:
-    handle_city_incite_info(
-      ((struct packet_city_incite_info *)packet)->city_id,
-      ((struct packet_city_incite_info *)packet)->cost);
-    return TRUE;
-
   case PACKET_CITY_NAME_SUGGESTION_INFO:
     handle_city_name_suggestion_info(
       ((struct packet_city_name_suggestion_info *)packet)->unit_id,
@@ -160,16 +154,12 @@ bool client_handle_packet(enum packet_type type, void *packet)
       ((struct packet_unit_combat_info *)packet)->make_winner_veteran);
     return TRUE;
 
-  case PACKET_UNIT_BRIBE_INFO:
-    handle_unit_bribe_info(
-      ((struct packet_unit_bribe_info *)packet)->unit_id,
-      ((struct packet_unit_bribe_info *)packet)->cost);
-    return TRUE;
-
-  case PACKET_UNIT_DIPLOMAT_POPUP_DIALOG:
-    handle_unit_diplomat_popup_dialog(
-      ((struct packet_unit_diplomat_popup_dialog *)packet)->diplomat_id,
-      ((struct packet_unit_diplomat_popup_dialog *)packet)->target_id);
+  case PACKET_UNIT_DIPLOMAT_ANSWER:
+    handle_unit_diplomat_answer(
+      ((struct packet_unit_diplomat_answer *)packet)->diplomat_id,
+      ((struct packet_unit_diplomat_answer *)packet)->target_id,
+      ((struct packet_unit_diplomat_answer *)packet)->cost,
+      ((struct packet_unit_diplomat_answer *)packet)->action_type);
     return TRUE;
 
   case PACKET_DIPLOMACY_INIT_MEETING:

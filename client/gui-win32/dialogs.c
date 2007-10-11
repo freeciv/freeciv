@@ -1312,7 +1312,7 @@ static void spy_request_sabotage_list(HWND w, void * data)
 
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
-    request_diplomat_action(SPY_GET_SABOTAGE_LIST, diplomat_id,
+    request_diplomat_answer(DIPLOMAT_SABOTAGE, diplomat_id,
 			    diplomat_target_id, 0);
   }
 }
@@ -1349,7 +1349,8 @@ static void diplomat_bribe_callback(HWND w, void * data)
   
   if (find_unit_by_id(diplomat_id)
       && find_unit_by_id(diplomat_target_id)) { 
-    dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
+    request_diplomat_answer(DIPLOMAT_BRIBE, diplomat_id,
+			    diplomat_target_id, 0);
    }
 
 }
@@ -1357,17 +1358,17 @@ static void diplomat_bribe_callback(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_bribe_dialog(struct unit *punit)
+void popup_bribe_dialog(struct unit *punit, int cost)
 {
   char buf[128];
   if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
     popup_message_dialog(root_window, _("Ooops..."),
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0);
-  } else if(game.player_ptr->economic.gold>=punit->bribe_cost) {
+  } else if (game.player_ptr->economic.gold >= cost) {
     my_snprintf(buf, sizeof(buf),
                 _("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-                punit->bribe_cost, game.player_ptr->economic.gold);
+                cost, game.player_ptr->economic.gold);
     popup_message_dialog(root_window, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"
 ), buf,
                         _("_Yes"), diplomat_bribe_yes_callback, 0,
@@ -1376,7 +1377,7 @@ void popup_bribe_dialog(struct unit *punit)
     my_snprintf(buf, sizeof(buf),
                 _("Bribing the unit costs %d gold.\n"
                   "Treasury contains %d gold."), 
-                punit->bribe_cost, game.player_ptr->economic.gold);
+                cost, game.player_ptr->economic.gold);
     popup_message_dialog(root_window, /*"diplomatnogolddialog"*/
 	    	_("Traitors Demand Too Much!"), buf, _("Darn"),
 		diplomat_bribe_no_callback, 0, 0);
@@ -1532,26 +1533,27 @@ static void diplomat_incite_callback(HWND w, void * data)
   diplomat_dialog = 0;
 
   if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
-    dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
+    request_diplomat_answer(DIPLOMAT_INCITE, diplomat_id,
+			    diplomat_target_id, 0);
   }
 }
 
 /****************************************************************
 Popup the yes/no dialog for inciting, since we know the cost now
 *****************************************************************/
-void popup_incite_dialog(struct city *pcity)
+void popup_incite_dialog(struct city *pcity, int cost)
 {
   char buf[128];
 
-  if (pcity->incite_revolt_cost == INCITE_IMPOSSIBLE_COST) {
+  if (INCITE_IMPOSSIBLE_COST == cost) {
     my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		pcity->name);
     popup_message_dialog(root_window, _("City can't be incited!"), buf,
 			 _("Darn"), diplomat_incite_no_callback, 0, 0);
-  } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
+  } else if (game.player_ptr->economic.gold >= cost) {
     my_snprintf(buf, sizeof(buf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+		cost, game.player_ptr->economic.gold);
    diplomat_target_id = pcity->id;
    popup_message_dialog(root_window, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
 		       _("_Yes"), diplomat_incite_yes_callback, 0,
@@ -1560,7 +1562,7 @@ void popup_incite_dialog(struct city *pcity)
     my_snprintf(buf, sizeof(buf),
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
-		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+		cost, game.player_ptr->economic.gold);
    popup_message_dialog(root_window, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
 		       _("Darn"), diplomat_incite_no_callback, 0, 
 		       0);
