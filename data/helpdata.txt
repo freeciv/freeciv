@@ -385,17 +385,17 @@ on how to use one of these languages.\
 If you would like to add a localization (translation) for your \
 language, please see the instructions at:\
 \n\n\
-  http://www.freeciv.org/index.php/Localization\
+  http://www.freeciv.org/wiki/Localization\
 \n\n\
 Check first if a localization is already in progress \
 for your language:\
 \n\n\
-  http://www.freeciv.org/index.php/Translations\
+  http://www.freeciv.org/wiki/Translations\
 \n\n\
 You are also welcome to send any questions to the freeciv-i18n \
 mailing list:\
 \n\n\
-  freeciv-i18n@freeciv.org\
+  freeciv-i18n@gna.org\
 ")
 
 [help_connecting]
