@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-03 10:43+0300\n"
-"PO-Revision-Date: 2007-10-03 11:43+0200\n"
-"Last-Translator: Roman Neumüller <email@katpatuka.org>\n"
+"PO-Revision-Date: 2007-10-12 14:44+0300\n"
+"Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2062,7 +2062,7 @@ msgstr "Sunucu komutları ve seçenekleri hakkında yardım göster."
 
 #: server/commands.c:48
 msgid "With no arguments gives some introductory help.  With argument \"commands\" or \"options\" gives respectively a list of all commands or all options.  Otherwise the argument is taken as a command name or option name, and help is given for that command or option.  For options, the help information includes the current and default values for that option.  The argument may be abbreviated where unambiguous."
-msgstr ""
+msgstr "Parametre verilmezse özet şeklinde yardım bilgisi verir.  \"commands\" parametresi ile komutlar hakkında, \"options\" parametresi ile de ayarlar hakkında ayrıntılı yardım alınabilir.  Parametre olarak başka bir komut veya ayar adı girilirse onun hakkında ayrıntılı bilgi verir.  Aynı harflerle başlayan başka komut yoksa parametre olarak ilk birkaç harfini vermek yeterlidir."
 
 #: server/commands.c:63
 msgid "Show a list of players, teams, connections, or scenarios."
@@ -2104,7 +2104,7 @@ msgstr "Ad, komut veya oyun kurumu üzerinde bilgi gösterir"
 
 #: server/commands.c:86
 msgid "The 'explain' command gives a subset of the functionality of 'help', and is included for backward compatibility.  With no arguments it gives a list of options (like 'help options'), and with an argument it gives help for a particular option (like 'help <option-name>')."
-msgstr ""
+msgstr "'explain' komutu 'help' komutunun bir alt kümesidir.  Bu komut geriye uyumluluk için tutulmaktadır. Parametre verilmezse ayarların bir listesini verir.  Diğer türlü ise parametre olarak verilen ayar hakkında bilgi verir (tıpkı 'help <ayar-adı>' komutu gibi)."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:93
@@ -2113,6 +2113,9 @@ msgid ""
 "show <option-name>\n"
 "show <option-prefix>"
 msgstr ""
+"show\n"
+"show <ayar-adı>\n"
+"show <ayar-öneki>"
 
 #: server/commands.c:96
 msgid "Show server options."
@@ -2120,7 +2123,7 @@ msgstr "Sunucu ayarlarını göster."
 
 #: server/commands.c:97
 msgid "With no arguments, shows all server options (or available options, when used by clients).  With an argument, show only the named option, or options with that prefix."
-msgstr ""
+msgstr "Parametre verilmezse bütün sunucu ayarlarını gösterir (oyun başlamışsa mümkün olanları).  Parametre verilirse o parametreyle başlayan ayarlar hakkında bilgi verir."
 
 #: server/commands.c:102
 msgid "wall <message>"
@@ -2128,11 +2131,11 @@ msgstr "wall <mesaj>"
 
 #: server/commands.c:103
 msgid "Send message to all connections."
-msgstr ""
+msgstr "Bütün bağlantılara mesaj gönder."
 
 #: server/commands.c:104
 msgid "For each connected client, pops up a window showing the message entered."
-msgstr ""
+msgstr "Bağlı olan her istemcide bu mesajı içeren bir pencere gösterir."
 
 #: server/commands.c:108
 msgid "vote yes|no [vote number]"
@@ -2149,11 +2152,11 @@ msgstr ""
 
 #: server/commands.c:122
 msgid "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech <player> | timing | info]"
-msgstr ""
+msgstr "debug [ player <oyuncu> | city <x> <y> | units <x> <y> | unit <tanım no> | tech <oyuncu> | timing | info]"
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
-msgstr ""
+msgstr "Verilen kişi için YZ hata ayıklamasını açıp kapar."
 
 #: server/commands.c:125
 msgid "Print AI debug information about given entity and turn continous debugging output for this entity on or off."
@@ -2173,7 +2176,7 @@ msgstr "team <oyuncu> [takım]"
 
 #: server/commands.c:134
 msgid "Change, add or remove a player's team affiliation."
-msgstr ""
+msgstr "Oyuncunun takım bilgisini değiştirir."
 
 #: server/commands.c:135
 msgid "Sets a player as member of a team. If no team specified, the player is set teamless. Use \"\" if names contain whitespace. A team is a group of players that start out allied, with shared vision and embassies, and fight together to achieve team victory with averaged individual scores."
@@ -2185,13 +2188,15 @@ msgstr "rulesetdir <dizin>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
-msgstr ""
+msgstr "Yeni bir kural seti dizini veya mod paketi seç."
 
 #: server/commands.c:144
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
 msgstr ""
+"Yeni bir kural seti dizini veya mod paketi seçer. Bunu\n"
+"hiçbir parametre olmadan verirseniz o an kullanılan kural setini gösterir."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:150
@@ -2217,11 +2222,11 @@ msgstr "metapatch <özet-satırı>"
 
 #: server/commands.c:160
 msgid "Set metaserver patches line."
-msgstr ""
+msgstr "Metasunucu yama satırını ayarla."
 
 #: server/commands.c:166
 msgid "Control metaserver connection."
-msgstr ""
+msgstr "Metasunucu bağlantısını yönet."
 
 #: server/commands.c:167
 msgid ""
@@ -2446,7 +2451,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:302
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
-msgstr ""
+msgstr "timeoutincrease <sıra> <sıra-artışı> <değer> <değer-çarpanı>"
 
 #: server/commands.c:303
 msgid "See \"help timeoutincrease\"."
@@ -2454,25 +2459,25 @@ msgstr "bkz. \"help timeoutincrease\"."
 
 #: server/commands.c:304
 msgid "Every <turn> turns, add <value> to timeout timer, then add <turninc> to <turn> and multiply <value> by <valuemult>.  Use this command in concert with the option \"timeout\". Defaults are 0 0 0 1"
-msgstr ""
+msgstr "Her <sıra> sıra geçtikten sonra, zaman aşımı zamanlayıcısına <değer> ekle ve <değer>i <değer çarpanı> ile çarp.  Bu komutu \"timeout\" ayarıyla birlikte kullanın. Öntanımlı değerleri şöyledir: 0 0 0 1"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:310
 msgid "endgame"
-msgstr ""
+msgstr "endgame"
 
 #: server/commands.c:311
 msgid "End the game immediately in a draw."
-msgstr ""
+msgstr "Oyunu berabere olarak bitir."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:315
 msgid "surrender"
-msgstr ""
+msgstr "surrender"
 
 #: server/commands.c:316
 msgid "Concede the game."
-msgstr ""
+msgstr "Yenilgiyi kabul ederek bitir."
 
 #: server/commands.c:317
 msgid "This tells everyone else that you concede the game, and if all but one player (or one team) have conceded the game in this way then the game ends."
@@ -2489,7 +2494,7 @@ msgstr "Oyuncuyu tamamen sil."
 
 #: server/commands.c:325
 msgid "This *completely* removes a player from the game, including all cities and units etc.  Use with care!"
-msgstr ""
+msgstr "Bu bir oyuncuyu *tamamen* oyundan atar. Sahip olduğu şehirler, birimler, vb haritadan silinir.  Dikkatli kullanın!"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:330
@@ -2502,7 +2507,7 @@ msgstr ""
 
 #: server/commands.c:332
 msgid "Save game to file."
-msgstr ""
+msgstr "Oyunu dosyaya kaydet."
 
 #: server/commands.c:333
 msgid ""
@@ -2523,11 +2528,11 @@ msgstr ""
 
 #: server/commands.c:344
 msgid "Load game from file."
-msgstr ""
+msgstr "Oyunu dosyadan yükle."
 
 #: server/commands.c:345
 msgid "Load a game from <file-name>. Any current data including players, rulesets and server options are lost.\n"
-msgstr ""
+msgstr "Oyunu <dosya-adı> dosyasından yükler. O anki bütün oyuncu bilgileri, kural setleri ve sunucu ayarları kayıtlı oyundan tekrar yüklenecektir.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:350
@@ -2587,27 +2592,27 @@ msgstr "Bağlantınız yeni oyuncuya bağlanamadı."
 #: server/connecthand.c:147
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
-msgstr ""
+msgstr "'%s' olarak giriş yaptınız, başka hiçbir oyuncu yok."
 
 #: server/connecthand.c:151
 #, c-format
 msgid "You are logged in as '%s' connected to an anonymous player."
-msgstr ""
+msgstr "'%s' olarak giriş yaptınız, anonim bir oyuncuya bağlısınız."
 
 #: server/connecthand.c:156
 #, c-format
 msgid "You are logged in as '%s' connected to %s."
-msgstr ""
+msgstr "'%s' olarak giriş yaptınız, %s oyuncusuna bağlısınız."
 
 #: server/connecthand.c:168
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
-msgstr ""
+msgstr "Sıra tabanlı oyun: %s oyuncusunun sırasını geçirmesi bekleniyor..."
 
 #: server/connecthand.c:204
 #, c-format
 msgid "Client rejected: %s."
-msgstr ""
+msgstr "Oyuncu reddetti: %s."
 
 #: server/connecthand.c:217
 #, c-format
@@ -2625,6 +2630,8 @@ msgid ""
 "The client is missing a capability that this server needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
+"İstemci, sunucunun gerektirdiği bir yeteneğe sahip değil.\n"
+"Sunucu sürümü: %d.%d.%d%s İstemci sürümü: %d.%d.%d%s.  Güncellemek işe yarayabilir!"
 
 #: server/connecthand.c:238
 #: server/connecthand.c:253
@@ -2638,6 +2645,8 @@ msgid ""
 "The server is missing a capability that the client needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
+"Sunucu, istemcinin gerektirdiği bir yeteneğe sahip değil.\n"
+"Sunucu sürümü: %d.%d.%d%s İstemci sürümü: %d.%d.%d%s.  Güncellemek işe yarayabilir!"
 
 #: server/connecthand.c:262
 #, c-format
@@ -2717,19 +2726,19 @@ msgstr[0] "%d maddeden oluşan bir antlaşma imzalandı."
 #: server/diplhand.c:280
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
-msgstr ""
+msgstr "%s tarafından verilen şehirlerden biri yıkılmış! Antlaşma iptal edildi!"
 
 #: server/diplhand.c:287
 #: server/diplhand.c:292
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr ""
+msgstr "%s artık %s şehrine sahip değil! Antlaşma iptal edildi!"
 
 #: server/diplhand.c:329
 #: server/diplhand.c:333
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr ""
+msgstr "%s söz verdikleri kadar altına sahip değiller! Antlaşma iptal edildi!"
 
 #: server/diplhand.c:362
 #, c-format
@@ -2965,12 +2974,12 @@ msgstr "%s üretimini durduramazsınız!"
 #: server/diplomats.c:923
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
-msgstr ""
+msgstr "Sizin %s, %s bulamadı ve onu %s şehrinde sabote edemedi."
 
 #: server/diplomats.c:951
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
-msgstr ""
+msgstr "Sizin %s, %s üretimini %s şehrinde durdurdu."
 
 #: server/diplomats.c:956
 #, c-format
@@ -2980,7 +2989,7 @@ msgstr ""
 #: server/diplomats.c:977
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
-msgstr ""
+msgstr "Sizin %s, sabotaj yaparken yakalandı!"
 
 #: server/diplomats.c:982
 #, c-format
@@ -3005,7 +3014,7 @@ msgstr ""
 #: server/diplomats.c:1106
 #, c-format
 msgid "An enemy %s has been eliminated defending %s."
-msgstr ""
+msgstr "Düşmana ait %s biriminin icabına, %s şehrini savunamadan bakıldı."
 
 #: server/diplomats.c:1121
 #, c-format
@@ -3045,12 +3054,12 @@ msgstr ""
 #: server/diplomats.c:1232
 #, c-format
 msgid "Your %s was captured after completing her mission in %s."
-msgstr ""
+msgstr "Sizin %s görevini bitirdikten sonra %s şehrinde yakalandı."
 
 #: server/diplomats.c:1238
 #, c-format
 msgid "Your %s was captured after completing her mission."
-msgstr ""
+msgstr "Sizin %s görevini bitirdikten sonra yakalandı."
 
 #: server/diplomats.c:1270
 #, c-format
@@ -3099,7 +3108,7 @@ msgstr ""
 
 #: server/gamehand.c:392
 msgid "The turn timeout is smaller than zero, fixing at zero."
-msgstr ""
+msgstr "Sıra zaman aşımı sıfırdan düşük, sıfır yapılıyor."
 
 #: server/ggzserver.c:207
 #: client/ggzclient.c:109
@@ -3109,7 +3118,7 @@ msgstr ""
 #: server/handchat.c:66
 #, c-format
 msgid "%s is an ambiguous player name-prefix."
-msgstr ""
+msgstr "%s zaten kullanımda olan bir oyuncu adı öneki."
 
 #: server/handchat.c:70
 #, c-format
@@ -3123,7 +3132,7 @@ msgstr ""
 
 #: server/handchat.c:186
 msgid "You are not attached to a player."
-msgstr ""
+msgstr "Bir oyuncuya bağlı değilsiniz."
 
 #: server/handchat.c:194
 #, c-format
@@ -3151,7 +3160,7 @@ msgstr "Küresel Isınma başladı!"
 
 #: server/maphand.c:255
 msgid "Coastlines have been flooded and vast ranges of grassland have become deserts."
-msgstr ""
+msgstr "Kıyılara sel bastı ve ovalar çöl oldu."
 
 #: server/maphand.c:297
 msgid "Nuclear winter has occurred!"
@@ -3159,7 +3168,7 @@ msgstr "Nükleer Kış başladı!"
 
 #: server/maphand.c:299
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr ""
+msgstr "Yaş araziler kurudu ve otlaklar tundraya dönüştü."
 
 #: server/maphand.c:320
 msgid ""
@@ -22543,11 +22552,4 @@ msgstr "Takım 32"
 #: data/default/game.ruleset:129
 msgid "Team 0"
 msgstr "Takım 0"
-
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr ""
-#~ "\n"
-#~ "bitti"
 
