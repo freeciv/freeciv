@@ -1670,9 +1670,7 @@ static void announce_player (struct player *pplayer)
 static void freeze_clients(void)
 {
   conn_list_iterate(game.est_connections, pconn) {
-    if (has_capability("ReportFreezeFix", pconn->capability)) {
-      send_packet_freeze_client(pconn);
-    }
+    send_packet_freeze_client(pconn);
   } conn_list_iterate_end;
 }
 
@@ -1682,9 +1680,7 @@ static void freeze_clients(void)
 static void thaw_clients(void)
 {
   conn_list_iterate(game.est_connections, pconn) {
-    if (has_capability("ReportFreezeFix", pconn->capability)) {
-      send_packet_thaw_client(pconn);
-    }
+    send_packet_thaw_client(pconn);
   } conn_list_iterate_end;
 }
 
@@ -1694,9 +1690,7 @@ static void thaw_clients(void)
 static void send_begin_turn(void)
 {
   conn_list_iterate(game.est_connections, pconn) {
-    if (has_capability("CF", pconn->capability)) {
-      send_packet_begin_turn(pconn);
-    }
+    send_packet_begin_turn(pconn);
   } conn_list_iterate_end;
 }
 
@@ -1706,9 +1700,7 @@ static void send_begin_turn(void)
 static void send_end_turn(void)
 {
   conn_list_iterate(game.est_connections, pconn) {
-    if (has_capability("CF", pconn->capability)) {
-      send_packet_end_turn(pconn);
-    }
+    send_packet_end_turn(pconn);
   } conn_list_iterate_end;
 }
 
