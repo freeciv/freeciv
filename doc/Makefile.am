@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = man de fr it ja nl sv
+SUBDIRS = man ca de fr it ja nl sv
 
 EXTRA_DIST =			\
 	BUGS			\
