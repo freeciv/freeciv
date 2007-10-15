@@ -148,7 +148,7 @@ Client:
   |  % civclient
 
   This assumes the server is running on the same machine.  If not, you
-  can either specify it on the command use with the '--server' option,
+  can either specify it on the command line with the '--server' option,
   or enter it into the first dialog box once the client starts.
 
   For example, suppose the server is running on a different machine
@@ -259,8 +259,8 @@ Caveats:
 Playing the game:
 =================
 
-The game may be saved the game at any time using the 'save' server
-command, like so:
+The game may be saved at any time using the 'save' server command,
+like so:
 
   |  > save mygame.sav
 
