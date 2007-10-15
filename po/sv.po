@@ -36,6 +36,7 @@
 #  • unrest -> oro
 #  • wonder -> underverk
 #  • entertainer -> trubadur
+#  • option -> tillval
 #
 msgid ""
 msgstr ""
@@ -1014,7 +1015,7 @@ msgstr "Kunde inte läsa datakatalogen %s: %s."
 
 #: utility/shared.c:1217
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr "Datasökvägen kan sättas med omgivningsvariabeln FREECIV_PATH."
+msgstr "Datasökvägen kan ställas in med omgivningsvariabeln FREECIV_PATH."
 
 #: utility/shared.c:1219
 #, c-format
@@ -2038,13 +2039,13 @@ msgstr "Man måste hejda Freeciv två gånger på en sekund för att avsluta det
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
-"Varning: valmöjligheten %s är föråldrad. Använd -m för att aktivera "
+"Varning: tillvalet %s är föråldrad. Använd -m för att aktivera "
 "metaservern.\n"
 
 #: server/civserver.c:189
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr "Fel: \"%s\" är inte en känd valmöjlighet.\n"
+msgstr "Fel: \"%s\" är inte ett känt tillval.\n"
 
 #: server/civserver.c:200
 #, c-format
@@ -2062,8 +2063,8 @@ msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
-"Användning: %s [valmöjlighet ...]\n"
-"Giltiga valmöjligheter är:\n"
+"Användning: %s [tillval ...]\n"
+"Giltiga tillval är:\n"
 
 #: server/civserver.c:208
 msgid ""
@@ -2102,7 +2103,7 @@ msgstr "  -f, --file FIL\tLäs in sparat spel FIL\n"
 
 #: server/civserver.c:225 client/civclient.c:226 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
-msgstr "  -h , --help\t\tVisar en sammanfattning av valmöjligheterna\n"
+msgstr "  -h , --help\t\tVisar en sammanfattning av tillvalen\n"
 
 #: server/civserver.c:226
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
@@ -2194,12 +2195,12 @@ msgstr ""
 "help\n"
 "help commands\n"
 "help options\n"
-"help <kommandonamn>\n"
-"help <valmöjlighetsnamn>"
+"help <kommando>\n"
+"help <tillval>"
 
 #: server/commands.c:47
 msgid "Show help about server commands and server options."
-msgstr "Visa hjälp om serverkommandon och servervalmöjligheter."
+msgstr "Visa hjälp om serverkommandon och servertillval."
 
 #: server/commands.c:48
 msgid ""
@@ -2211,9 +2212,9 @@ msgid ""
 "be abbreviated where unambiguous."
 msgstr ""
 "Utan argument ger det inledande hjälp. Med argumenten \"commands\" eller "
-"\"options\" ger det en lista över alla kommandon respektive valmöjligheter. "
-"Annars tolkas argumentet som ett kommandonamn eller valmöjlighetsnamn, och "
-"hjälp ges för detta kommando eller denna valmöjlighet. För valmöjligheter "
+"\"options\" ger det en lista över alla kommandon respektive tillval. "
+"Annars tolkas argumentet som ett kommando eller tillval, och "
+"hjälp ges för detta kommando eller tillval. För tillval "
 "innehåller hjälpen upplysningar om det nuvarande värdet och standardvärdet. "
 "Förkortningar för argument kan användas i entydiga fall."
 
@@ -2262,11 +2263,11 @@ msgid ""
 "explain <option-name>"
 msgstr ""
 "explain\n"
-"explain <valmöjlighetsnamn>"
+"explain <tillval>"
 
 #: server/commands.c:85
 msgid "Explain server options."
-msgstr "Förklara servervalmöjligheter."
+msgstr "Förklara servertillval."
 
 #: server/commands.c:86
 msgid ""
@@ -2277,9 +2278,9 @@ msgid ""
 msgstr ""
 "Kommandot \"explain\" tillhandahåller en delmängd av funktionaliteten hos "
 "kommandot \"help\", och är till för bakåtkompatibelitet. Utan argument ger "
-"det en lista över valmöjligheter (som \"help options\"), och med ett "
-"argument ger det hjälp för en särskild valmöjlighet (som \"help "
-"<valmöjlighetsnamn>\")."
+"det en lista över tillval (som \"help options\"), och med ett "
+"argument ger det hjälp för ett särskilt tillval (som \"help "
+"<tillval>\")."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:93
@@ -2289,12 +2290,12 @@ msgid ""
 "show <option-prefix>"
 msgstr ""
 "show\n"
-"show <valmöjlighetsnamn>\n"
-"show <valmöjlighetsförstavelse>"
+"show <tillval>\n"
+"show <tillvalsprefix>"
 
 #: server/commands.c:96
 msgid "Show server options."
-msgstr "Visa servervalmöjligheter."
+msgstr "Visa servertillval."
 
 #: server/commands.c:97
 msgid ""
@@ -2302,9 +2303,9 @@ msgid ""
 "by clients).  With an argument, show only the named option, or options with "
 "that prefix."
 msgstr ""
-"Utan argument visar kommandot alla servervalmöjligheter (eller tillgängliga "
-"valmöjligheter när det används av klienter). Med ett argument visar "
-"kommandot endast den nämnda valmöjligheten, eller valmöjligheter med nämnd "
+"Utan argument visar kommandot alla servertillval (eller tillgängliga "
+"tillval när det används av klienter). Med ett argument visar "
+"kommandot endast den nämnda tillval, eller tillval med nämnd "
 "förstavelse."
 
 #: server/commands.c:102
@@ -2370,11 +2371,11 @@ msgstr ""
 
 #: server/commands.c:129
 msgid "set <option-name> <value>"
-msgstr "set <valmöjlighetsnamn> <värde>"
+msgstr "set <tillval> <värde>"
 
 #: server/commands.c:130
 msgid "Set server option."
-msgstr "Ställer in servervalmöjlighet."
+msgstr "Ställer in servertillval."
 
 #: server/commands.c:133
 msgid "team <player> [team]"
@@ -2867,7 +2868,7 @@ msgid ""
 "and server options are lost.\n"
 msgstr ""
 "Läser in ett spel från <filnamn>. All nuvarande data om spelare, regler och "
-"servervalmöjligheter går förlorade eftersom de ersätts med data från filen.\n"
+"servertillval går förlorade eftersom de ersätts med data från filen.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:350
@@ -4949,8 +4950,8 @@ msgid ""
 "civil wars are turned off altogether."
 msgstr ""
 "Ett inbördeskrig utlöses om en spelare har minst så här många städer och "
-"dennes huvudstad faller. Om denna valmöjlighet är satt till sitt största "
-"värde är inbördeskrig helt avstängda."
+"dennes huvudstad faller. Om detta tillval är satt till sitt största "
+"värde är inbördeskrig helt avstängt."
 
 #: server/settings.c:795
 msgid "Turns until player contact is lost"
@@ -5868,7 +5869,7 @@ msgstr "Självförändrande omgångstidsgräns satt till %d %d %d %d"
 
 #: server/stdinhand.c:1531 server/stdinhand.c:1534
 msgid "Option:"
-msgstr "Valmöjlighet:"
+msgstr "Tillval:"
 
 #: server/stdinhand.c:1544 server/stdinhand.c:3846
 msgid "Description:"
@@ -5877,7 +5878,7 @@ msgstr "Beskrivning:"
 #: server/stdinhand.c:1549
 #, c-format
 msgid "Status: %s"
-msgstr "Denna valmöjlighet är %s."
+msgstr "Status: %s"
 
 #: server/stdinhand.c:1550
 msgid "changeable"
@@ -5904,7 +5905,7 @@ msgstr "Värde \"%s\", Standard: \"%s\""
 
 #: server/stdinhand.c:1586
 msgid "Explanations are available for the following server options:"
-msgstr "Förklaringar är tillgängliga för följande servervalmöjligheter:"
+msgstr "Förklaringar är tillgängliga för följande servertillval:"
 
 #: server/stdinhand.c:1631
 msgid "No explanation for that yet."
@@ -5912,7 +5913,7 @@ msgstr "Ingen förklaring för detta än."
 
 #: server/stdinhand.c:1634 server/stdinhand.c:2468
 msgid "Ambiguous option name."
-msgstr "Flertydigt valmöjlighetsnamn."
+msgstr "Flertydigt tillval."
 
 #: server/stdinhand.c:1654
 #, c-format
@@ -5959,12 +5960,12 @@ msgstr "%s återvände till spel."
 #: server/stdinhand.c:1901
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr "Du har inte åtkomst att visa valmöjligheten '%s'."
+msgstr "Du har inte åtkomst att visa tillvalet '%s'."
 
 #: server/stdinhand.c:1907
 #, c-format
 msgid "Unknown option '%s'."
-msgstr "Okänd valmöjlighet '%s'."
+msgstr "Okänt tillval '%s'."
 
 #: server/stdinhand.c:1932
 msgid "All options with non-default values"
@@ -5988,11 +5989,11 @@ msgstr "Ovanliga inställningar"
 
 #: server/stdinhand.c:1947
 msgid "+ means you may change the option"
-msgstr "+ betyder att man kan ändra valmöjligheten"
+msgstr "+ betyder att man kan ändra tillvalet"
 
 #: server/stdinhand.c:1948
 msgid "= means the option is on its default value"
-msgstr "= betyder att valmöjligheten har sitt standardvärde"
+msgstr "= betyder att tillvalet har sitt standardvärde"
 
 #: server/stdinhand.c:1951
 #, c-format
@@ -6001,7 +6002,7 @@ msgstr "%-*s värde  (minsta,största)"
 
 #: server/stdinhand.c:1951
 msgid "Option"
-msgstr "Valmöjlighet"
+msgstr "Tillval"
 
 #: server/stdinhand.c:1954
 msgid "description"
@@ -6155,11 +6156,11 @@ msgstr "Enhet %d finns ej."
 
 #: server/stdinhand.c:2463
 msgid "Undefined argument.  Usage: set <option> <value>."
-msgstr "Oklart argument. Användning: set <valmöjlighet> <värde>."
+msgstr "Oklart argument. Användning: set <tillval> <värde>."
 
 #: server/stdinhand.c:2473
 msgid "You are not allowed to set this option."
-msgstr "Du har inte tillåtelse att sätta denna valmöjlighet."
+msgstr "Du har inte tillåtelse att sätta detta tillval."
 
 #: server/stdinhand.c:2478
 msgid "This setting can't be modified after the game has started."
@@ -6181,7 +6182,7 @@ msgstr "Värde utanför spännvidd (minsta: 0, största: 1)."
 #: server/stdinhand.c:2520 server/stdinhand.c:2560
 #, c-format
 msgid "Option: %s has been set to %d."
-msgstr "Valmöjlighet: %s har satts till %d."
+msgstr "Tillval: %s har satts till %d."
 
 #: server/stdinhand.c:2540
 #, c-format
@@ -6195,12 +6196,12 @@ msgstr "Värde utanför spännvidd (minsta: %d, största: %d)."
 
 #: server/stdinhand.c:2570
 msgid "String value too long.  Usage: set <option> <value>."
-msgstr "Strängvärdet är för långt. Användning: set <valmöjlighet> <värde>."
+msgstr "Strängvärdet är för långt. Användning: set <tillval> <värde>."
 
 #: server/stdinhand.c:2582
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
-msgstr "Valmöjlighet: %s har satts till \"%s\"."
+msgstr "Tillval: %s har satts till \"%s\"."
 
 #: server/stdinhand.c:2623
 msgid "Sorry, one can't observe globally in this game."
@@ -6514,19 +6515,18 @@ msgid ""
 msgstr ""
 "Välkommen - detta är den inledande hjälptexten för Freecivservern.\n"
 "\n"
-"2 Viktiga serverbegrepp är kommandon och valmöjligheter.\n"
+"2 Viktiga serverbegrepp är kommandon och tillval.\n"
 "Kommandon, såsom \"help\", användas för att växelverka med servern.\n"
 "Vissa kommandon ta ett eller flera argument, åtskilda av blanksteg.\n"
 "I många fall kan kommandon och kommandoargument förkortas.\n"
-"Valmöjligheter är inställningar som styr servern medan den är i\n"
-"gång.\n"
+"Tillval är inställningar som styr servern medan den är i gång.\n"
 "\n"
 "För att ta reda på hur man får ytterligare upplysningar om kommandon\n"
-"och valmöjligheter, använd \"help help\"\n"
+"och tillval, använd \"help help\"\n"
 "\n"
 "För den otålige visas här kommandona för att komma i gång:\n"
-"  show   -  se nuvarande valmöjligheter\n"
-"  set    -  sätt valmöjligheter\n"
+"  show   -  se nuvarande tillval\n"
+"  set    -  sätt tillval\n"
 "  start  -  sätt i gång spelet när spelarna anslutit sig\n"
 "  save   -  spara nuvarande spel\n"
 "  quit   -  avsluta"
@@ -7417,16 +7417,16 @@ msgstr "fil: \"%s\""
 #: client/audio.c:230 client/audio.c:238
 #, c-format
 msgid "file options: %s"
-msgstr "filvalmöjligheter: %s"
+msgstr "filtillval: %s"
 
 #: client/audio.c:231 client/audio.c:239
 #, c-format
 msgid "supported options: %s"
-msgstr "tillhandahållna valmöjligheter: %s"
+msgstr "tillhandahållna tillval: %s"
 
 #: client/audio.c:235
 msgid "sound spec-file claims required option(s) which we don't support:"
-msgstr "ljudupplysningsfilen fordrar valmöjlighet(er) som inte stöds:"
+msgstr "ljudupplysningsfilen fordrar tillval som inte stöds:"
 
 #: client/audio.c:257
 msgid "No real audio subsystem managed to initialize!"
@@ -7922,8 +7922,7 @@ msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
-"      --\t\tSkicka alla efterföljande valmöjligheter till "
-"användargränssnittet.\n"
+"      --\t\tSkicka alla efterföljande tillval till användargränssnittet.\n"
 "\t\t\tProva \"%s -- --help\" för mer.\n"
 
 #: client/civclient.c:272
@@ -7943,7 +7942,7 @@ msgstr "Invalid debug level \"%s\" specified with --debug option.\n"
 #: client/civclient.c:300
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr "Okänd valmöjlighet: \"%s\"\n"
+msgstr "Okänt tillval: \"%s\"\n"
 
 #: client/civclient.c:537
 msgid "Game started."
@@ -9167,7 +9166,7 @@ msgid ""
 "message options."
 msgstr ""
 "Är detta påslaget genereras en \"bell\"-händelse i början av varje omgång. "
-"Du kan ändra \"bell\"-händelsens funktion i meddelandevalmöjligheter."
+"Du kan ändra \"bell\"-händelsens funktion i meddelandetillval."
 
 #: client/options.c:159
 msgid "Unit movement animation time (milliseconds)"
@@ -11213,7 +11212,7 @@ msgstr "%s, högsta sats: %d%%"
 #: client/gui-gtk-2.0/gamedlgs.c:440 client/gui-win32/optiondlg.c:106
 #: data/Freeciv.in:1228
 msgid "Set local options"
-msgstr "Sätt lokala valmöjligheter"
+msgstr "Ställ in lokala tillval"
 
 #: client/gui-gtk-2.0/gotodlg.c:122 client/gui-win32/gotodlg.c:153
 #: client/gui-win32/gotodlg.c:161 data/Freeciv.in:1104
@@ -11736,15 +11735,15 @@ msgstr "Spel"
 
 #: client/gui-gtk-2.0/menu.c:689 client/gui-win32/menu.c:304
 msgid "Local _Options"
-msgstr "Lokala _valmöjligheter"
+msgstr "L_okala tillval"
 
 #: client/gui-gtk-2.0/menu.c:691 client/gui-win32/menu.c:305
 msgid "_Message Options"
-msgstr "_Meddelandevalmöjligheter"
+msgstr "_Meddelandetillval"
 
 #: client/gui-gtk-2.0/menu.c:696
 msgid "_Reload Tileset"
-msgstr "Läs om _rutbildsuppsättning"
+msgstr "Ladda om _rutbildsuppsättning"
 
 #: client/gui-gtk-2.0/menu.c:699
 msgid "Save Options on _Exit"
@@ -11756,7 +11755,7 @@ msgstr "Spara _val nu"
 
 #: client/gui-gtk-2.0/menu.c:705 client/gui-win32/menu.c:308
 msgid "Server O_ptions"
-msgstr "_Servervalmöjligheter"
+msgstr "_Servertillval"
 
 #: client/gui-gtk-2.0/menu.c:709 client/gui-win32/menu.c:310
 msgid "_Save Game"
@@ -13040,7 +13039,7 @@ msgstr "Sälj"
 
 #: client/gui-sdl/citydlg.c:1728 client/gui-sdl/citydlg.c:3756
 msgid "City options"
-msgstr "Stadsvalmöjligheter"
+msgstr "Stadstillval"
 
 #: client/gui-sdl/citydlg.c:1773
 #, c-format
@@ -13950,7 +13949,7 @@ msgstr "Växla kartläge"
 #: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2164
 #: client/gui-sdl/pages.c:229 data/Freeciv.in:1217
 msgid "Options"
-msgstr "Valmöjligheter"
+msgstr "Tillval"
 
 #: client/gui-sdl/mapview.c:154
 #, c-format
@@ -15204,11 +15203,11 @@ msgstr ""
 
 #: client/gui-win32/menu.c:306
 msgid "Sa_ve Settings"
-msgstr "Spara inställda valmöjligheter"
+msgstr "Spara inställningar (_V)"
 
 #: client/gui-win32/menu.c:314
 msgid "Clear _Log"
-msgstr "Rensa logg"
+msgstr "Rensa _logg"
 
 #: client/gui-win32/menu.c:316
 msgid "_Disconnect"
@@ -15216,7 +15215,7 @@ msgstr "_Koppla från"
 
 #: client/gui-win32/menu.c:321
 msgid "Gov_ernment"
-msgstr "Statsskick (_e)"
+msgstr "Statsskick (_E)"
 
 #: client/gui-win32/menu.c:322 client/gui-xaw/menu.c:126
 msgid "Tax Rates"
@@ -15607,7 +15606,7 @@ msgstr "Underrättelser från %s-fokets rike"
 
 #: client/gui-xaw/menu.c:111
 msgid "Local Options"
-msgstr "Lokala valmöjligheter"
+msgstr "Lokala tillval"
 
 #: client/gui-xaw/menu.c:113
 msgid "Save Settings"
@@ -15615,7 +15614,7 @@ msgstr "Spara inställningar"
 
 #: client/gui-xaw/menu.c:115
 msgid "Server Options"
-msgstr "Servervalmöjligheter"
+msgstr "Servertillval"
 
 #: client/gui-xaw/menu.c:117
 msgid "Export Log"
@@ -15761,7 +15760,7 @@ msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s servervalmöjligheter</h1>\n"
+"<h1>Freeciv %s servertillval</h1>\n"
 "\n"
 
 #: manual/civmanual.c:144
@@ -16098,7 +16097,7 @@ msgstr "Tag bort förvalt värde?"
 
 #: data/Freeciv.in:1502
 msgid "City Options"
-msgstr "Stadsvalmöjligheter"
+msgstr "Stadstillval"
 
 #: data/Freeciv.in:1512
 msgid "Make new citizens into:     "
@@ -16210,7 +16209,7 @@ msgstr "Enhetslista..."
 
 #: data/Freeciv.in:3066
 msgid "City Options..."
-msgstr "Stadsvalmöjligheter..."
+msgstr "Stadstillval..."
 
 #: data/Freeciv.in:3068
 msgid " Buy "
@@ -16949,7 +16948,7 @@ msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
 msgstr ""
-"Dessa steg kan variera beroende på servervalmöjligheterna, men i allmänhet "
+"Dessa steg kan variera beroende på servertillval, men i allmänhet "
 "är stegen:"
 
 #: data/helpdata.txt:599
@@ -17615,7 +17614,7 @@ msgstr ""
 "enskild enhet). Liksom sjöenheter kan flygenheter inte intaga fientliga "
 "städer. Flygenheter utanför städer kan endast angripas av jaktflygplan "
 "(eller smygjaktflygplan). Flygenheter kan inte användas för att utforska "
-"hyddor; beroende på servervalmöjligheter, kan en överflugen hydda upplösas."
+"hyddor; beroende på servertillval, kan en överflugen hydda upplösas."
 
 #: data/helpdata.txt:953
 msgid ""
@@ -17671,7 +17670,7 @@ msgid ""
 "population of a City without City Walls by one point upon a successful "
 "attack."
 msgstr ""
-"Beroende på servervalmöjligheter, kan en godtycklig uppsättning enhetsslag "
+"Beroende på servertillval, kan en godtycklig uppsättning enhetsslag "
 "minska städer utan stadsmurars invånarantal med 1 vid ett lyckat angrepp."
 
 #: data/helpdata.txt:988
@@ -18222,7 +18221,7 @@ msgid ""
 "resources, or may increase shield resources by an amount other than 50%.)"
 msgstr ""
 " - En järnväg ökar antalet sköldar som utvinns från en ruta med 50%. "
-"(Beroende på servervalmöjligheter kan järnvägar även öka mat och handel, "
+"(Beroende på servertillval kan järnvägar även öka mat och handel, "
 "eller öka sköldarna med en annan faktor än 50%.)"
 
 #: data/helpdata.txt:1270
@@ -18447,7 +18446,7 @@ msgid ""
 msgstr ""
 "Antalet städer som ett rike behöver för att ett inbördeskrig skall kunna "
 "utbryta är 10 som standard. Det betyder att riken med färre än 10 städer är "
-"helt säkra mot inbördeskrig. Detta är dock en servervalmöjlighet som kan "
+"helt säkra mot inbördeskrig. Detta är dock ett servertillval som kan "
 "väljas från 6 och uppåt."
 
 #: data/helpdata.txt:1393
@@ -18532,9 +18531,9 @@ msgid ""
 msgstr ""
 "En medborgares grundtillstånd är nöjd. Men när en stad växer sig större gör "
 "trångboddhet att invånarna blir missnöjda. Varje medborgare i en stad efter "
-"den fjärde (det är ursprungsvärdet på servervalmöjligheten \"unhappysize\") "
+"den fjärde (det är ursprungsvärdet på servertillvalet \"unhappysize\") "
 "skapas som missnöjd i stället för nöjd. Om man har många städer (beror på "
-"statsskicket såväl som servervalmöjligheten \"cityfactor\"), minskas gränsen "
+"statsskicket såväl som servertillvalet \"cityfactor\"), minskas gränsen "
 "till 3."
 
 #: data/helpdata.txt:1437
@@ -18592,7 +18591,7 @@ msgid ""
 msgstr ""
 "Rymdkapplöpningen är en andra valmöjlighet att vinna spelet, förutom att "
 "utrota alla andra civilisationer. Man vinner spelet om ens rymdskett "
-"anländer först till Alfa Kentauri. (Denna servervalmöjlighet kan dock vara "
+"anländer först till Alfa Kentauri. (Detta servertillval kan dock vara "
 "avstängd.)"
 
 #: data/helpdata.txt:1472
@@ -18609,7 +18608,7 @@ msgstr ""
 "att bygga de olika rymdskeppsdelarna: se hjälptexterna för "
 "\"rymdförbindelsestycke\", \"rymdkomponent\" och \"rymdmodul\" under "
 "\"stadsförbättringar\". (Om det inte finns några hjälptexter för dessa "
-"objekt, betyder det troligtvis att servervalmöjligheten \"spacerace\" är "
+"objekt, betyder det troligtvis att servertillvalet \"spacerace\" är "
 "avstängd i detta spel.)"
 
 #: data/helpdata.txt:1480
