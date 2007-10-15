@@ -835,6 +835,7 @@ AC_CONFIG_FILES([Makefile
 	  po/Makefile.in
 	  doc/Makefile
 	  doc/man/Makefile
+	  doc/ca/Makefile
 	  doc/de/Makefile
 	  doc/fr/Makefile
 	  doc/it/Makefile
