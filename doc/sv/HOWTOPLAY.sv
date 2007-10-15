@@ -5,10 +5,11 @@ Hur man spelar Freeciv
 För upplysningar om hur man installerar Freeciv, se INSTALL.sv
 För upplysningar om hur man kör Freeciv, se README.sv
 
-Om man aldrig har spelat civilisationsspel är det enklast om man börjar
-med att läsa Freecivs handbok som är tillgänglig vid:
+Om man aldrig har spelat något av spelen i Civilization-serien
+är det bäst om man börjar med att läsa Freecivs handbok som är
+tillgänglig vid:
 
-     http://www.freeciv.org/manual/manual.html
+     http://www.freeciv.org/wiki/Manual
 
 För upplysningar om hur man spelar Freeciv, fortsätt läsa!
 
@@ -150,7 +151,7 @@ Fråga: Vilka andra strategier finns det?
 	Det finns ett antal handledningar och strategianvisningar
 tillgängliga vid Freecivs webplats vid:
 
-	 http://www.freeciv.org/tutorials/
+	 http://www.freeciv.org/wiki/Tutorials
 
 Dessutom beskriver Freecivs inbyggda hjälp en annan strategi.
 
@@ -180,19 +181,29 @@ man har > 3 spelare bör man använda en 80x80-karta. Om man är > 5
 spelare bör man ha en 100x100-karta.
 
 
-Fråga: Vad innebär servervalmöjligheten "generator"?
+Fråga: Vad innebär servertillvalet "generator"?
 
 	Den påverkar det sätt på vilket kartan skapas. Om man spelat
-Freeciv några gånger utan att ändra på denna servervalmöjlighet har
+Freeciv några gånger utan att ändra på denna servertillvalet har
 man säkerligen hört talas om (och/eller upplevt) problemen med en
 alldeles för liten ö. Att behöva börja på en alldeles för liten ö kan
 göra folk vansinniga. För att åtgärda detta har våra godhjärtade
-hjältar till programmerare byggt in servervalmöjligheten "generator".
-När det är satt till 1 ger det en vanlig karta med öar av olika
-(orättvisa) storlekar. När den är satt till 2, 3 eller 4 ger den öar
-med lika storlek (ibland även några ytterligare småöar). Genom att
-spela med likvärdiga öar kan man se till att ingen kan beklaga sig
-över att förlora på grund av "den där förbannade lilla ön".
+hjältar till programmerare byggt in servertillvalet "generator".
+- När den är satt till 1 ger det en vanlig karta med öar av olika
+  (orättvisa) storlekar. 
+- När den är satt till 2 skapas en karta m.h.a. en pseudo-fraktal
+  generator. Det innebär att berg och kullar placeras i enlighet
+  med en naturlig matematisk formel.
+- När den är satt till 3 skapas en lika stor ö för varje spelare,
+  så att ingen kan skylla på sin ö om de förlorar.
+- 0 används för färdiga kartor. Ladda en karta med /load 
+  /katalog/savegame.sav.gz i chatraden.
+
+Under "generator" finns även tillvalet "startpos". Detta tillval
+avgör hur många spelare som startar på samma ö. Varje "generator"-
+tillval has sitt egen standardvärde som används när "startpos" är
+satt till 0. Standardvärdet för "generator" 2 till exempel är 3,
+vilket innbär att den försöker placera samtliga spelare på samma ö.
 
 Fråga: Ska man förenkla spelet genom att öka mängden guld som spelarna
        får att börja med?
