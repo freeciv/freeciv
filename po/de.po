@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-08 10:10+0200\n"
+"POT-Creation-Date: 2007-10-15 14:30+0200\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -643,7 +643,7 @@ msgstr "Zukunftstechnologie %d"
 #: client/gui-gtk-2.0/helpdlg.c:110 client/gui-sdl/citydlg.c:714
 #: client/gui-sdl/gui_tilespec.c:480 client/gui-sdl/helpdlg.c:371
 #: client/gui-sdl/helpdlg.c:403 client/gui-sdl/helpdlg.c:792
-#: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:947
+#: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:946
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
 #: client/gui-win32/helpdlg.c:715 client/gui-win32/helpdlg.c:735
 #: client/gui-xaw/helpdlg.c:819 client/gui-xaw/helpdlg.c:863
@@ -663,29 +663,29 @@ msgstr "Zukunftstechnologie"
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
-#: common/terrain.c:379 common/terrain.c:561 common/unit.c:552
+#: common/terrain.c:379 common/terrain.c:561 common/unit.c:550
 #: manual/civmanual.c:224
 msgid "Road"
 msgstr "Straße"
 
-#: common/terrain.c:380 common/terrain.c:568 common/unit.c:556
+#: common/terrain.c:380 common/terrain.c:568 common/unit.c:554
 #: client/gui-gtk-2.0/menu.c:780 client/gui-sdl/optiondlg.c:1913
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
 msgstr "Bewässerung"
 
-#: common/terrain.c:381 common/terrain.c:559 common/unit.c:566
+#: common/terrain.c:381 common/terrain.c:559 common/unit.c:564
 #: data/default/techs.ruleset:581 data/civ2/techs.ruleset:566
 #: data/civ1/techs.ruleset:563
 msgid "Railroad"
 msgstr "Eisenbahn"
 
-#: common/terrain.c:382 common/terrain.c:572 common/unit.c:554
+#: common/terrain.c:382 common/terrain.c:572 common/unit.c:552
 msgid "Mine"
 msgstr "Bergwerk"
 
-#: common/terrain.c:383 common/unit.c:550 server/report.c:123
+#: common/terrain.c:383 common/unit.c:548 server/report.c:123
 #: client/cityrepdata.c:519 client/gui-sdl/optiondlg.c:1780
 msgid "Pollution"
 msgstr "Verschmutzung"
@@ -694,7 +694,7 @@ msgstr "Verschmutzung"
 msgid "Hut"
 msgstr "Hütte"
 
-#: common/terrain.c:385 common/terrain.c:576 common/unit.c:562
+#: common/terrain.c:385 common/terrain.c:576 common/unit.c:560
 #: manual/civmanual.c:226
 msgid "Fortress"
 msgstr "Befestigung"
@@ -707,58 +707,58 @@ msgstr "Fluß"
 msgid "Farmland"
 msgstr "Ackerland"
 
-#: common/terrain.c:388 common/terrain.c:580 common/unit.c:576
+#: common/terrain.c:388 common/terrain.c:580 common/unit.c:574
 #: manual/civmanual.c:226
 msgid "Airbase"
 msgstr "Fliegerhorst"
 
-#: common/terrain.c:389 common/unit.c:578
+#: common/terrain.c:389 common/unit.c:576
 msgid "Fallout"
 msgstr "Fallout"
 
-#: common/unit.c:548 client/gui-win32/plrdlg.c:337
+#: common/unit.c:546 client/gui-win32/plrdlg.c:337
 msgid "Idle"
 msgstr "untätig"
 
-#: common/unit.c:558
+#: common/unit.c:556
 msgid "Fortifying"
 msgstr "beim befestigen"
 
-#: common/unit.c:560
+#: common/unit.c:558
 msgid "Fortified"
 msgstr "Befestigt"
 
-#: common/unit.c:564 client/gui-sdl/menu.c:620 client/gui-xaw/menu.c:184
+#: common/unit.c:562 client/gui-sdl/menu.c:620 client/gui-xaw/menu.c:184
 msgid "Sentry"
 msgstr "Bewachen"
 
-#: common/unit.c:568 client/gui-gtk-2.0/menu.c:833 client/gui-sdl/menu.c:607
+#: common/unit.c:566 client/gui-gtk-2.0/menu.c:833 client/gui-sdl/menu.c:607
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
 msgid "Pillage"
 msgstr "Brandschatzen"
 
-#: common/unit.c:570 client/gui-win32/gotodlg.c:165 data/Freeciv.in:1123
+#: common/unit.c:568 client/gui-win32/gotodlg.c:165 data/Freeciv.in:1123
 msgid "Goto"
 msgstr "Gehe nach"
 
-#: common/unit.c:572
+#: common/unit.c:570
 msgid "Explore"
 msgstr "Erkunde"
 
-#: common/unit.c:574 manual/civmanual.c:224
+#: common/unit.c:572 manual/civmanual.c:224
 msgid "Transform"
 msgstr "Verändern"
 
-#: common/unit.c:586 client/gui-sdl/citydlg.c:1966
+#: common/unit.c:584 client/gui-sdl/citydlg.c:1966
 #: client/gui-win32/citydlg.c:1263 client/gui-xaw/citydlg.c:1424
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: common/unit.c:1024
+#: common/unit.c:1022
 msgid "Moves"
 msgstr "Züge"
 
-#: common/unit.c:1573
+#: common/unit.c:1570
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -767,12 +767,12 @@ msgstr ""
 "%s zu %s für %d Goldstücke modernisieren?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: common/unit.c:1581
+#: common/unit.c:1578
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "%s können (noch) nicht modernisiert werden."
 
-#: common/unit.c:1587
+#: common/unit.c:1584
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -781,11 +781,11 @@ msgstr ""
 "Modernisierung von %s zu %s kostet %d Goldstücke.\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: common/unit.c:1596
+#: common/unit.c:1593
 msgid "You can only upgrade units in your cities."
 msgstr "Sie können nur Einheiten in Städten modernisieren."
 
-#: common/unit.c:1600
+#: common/unit.c:1597
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Modernisieren der %s würde die transportierten Einheiten stranden."
@@ -3204,66 +3204,66 @@ msgstr "%s vergiftete das Wasser in %s."
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "%s wird verdächtigt, das Wasser in %s vergiftet zu haben."
 
-#: server/diplomats.c:262
+#: server/diplomats.c:259
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
 msgstr "%s wurde in %s von primitiven %s hingerichtet."
 
-#: server/diplomats.c:276
+#: server/diplomats.c:273
 #, c-format
 msgid "You have established an embassy in %s."
 msgstr "Botschaft in %s eröffnet."
 
-#: server/diplomats.c:279
+#: server/diplomats.c:276
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "Die %s haben eine Botschaft in %s eröffnet."
 
-#: server/diplomats.c:335
+#: server/diplomats.c:332
 #, c-format
 msgid "Your %s could not sabotage %s's %s."
 msgstr "%s konnte %ss %s nicht sabotieren."
 
-#: server/diplomats.c:357
+#: server/diplomats.c:354
 #, c-format
 msgid "Your %s succeeded in sabotaging %s's %s."
 msgstr "%s hat %ss %s sabotiert."
 
-#: server/diplomats.c:363
+#: server/diplomats.c:360
 #, c-format
 msgid "Your %s was sabotaged by %s!"
 msgstr "%s wurde von %s sabotiert!"
 
-#: server/diplomats.c:419
+#: server/diplomats.c:410
 msgid "You can't bribe a unit from this nation."
 msgstr "Es ist nicht möglich, eine Einheit dieses Staates zu bestechen"
 
-#: server/diplomats.c:427
+#: server/diplomats.c:421
 #, c-format
 msgid "You don't have enough gold to bribe %s's %s."
 msgstr "Nicht genug Gold, um %ss %s zu bestechen."
 
-#: server/diplomats.c:437
+#: server/diplomats.c:431
 #, c-format
 msgid "You cannot bribe %s!"
 msgstr "%s kann nicht bestochen werden!"
 
-#: server/diplomats.c:463
+#: server/diplomats.c:457
 #, c-format
 msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 msgstr "%s hat erfolgreich %ss %s bestochen und sammelte Erfahrung."
 
-#: server/diplomats.c:470
+#: server/diplomats.c:464
 #, c-format
 msgid "Your %s succeeded in bribing %s's %s."
 msgstr "Ihr %s hat erfolgreich %ss %s bestochen."
 
-#: server/diplomats.c:476
+#: server/diplomats.c:470
 #, c-format
 msgid "Your %s was bribed by %s."
 msgstr "%s wurde von %s bestochen."
 
-#: server/diplomats.c:607
+#: server/diplomats.c:601
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -3272,123 +3272,123 @@ msgstr ""
 "%s hat deinen Versuch, erneut eine Technologie zu stehlen, erwartet. %s "
 "wurde gefangen und hingerichtet."
 
-#: server/diplomats.c:613
+#: server/diplomats.c:607
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr ""
 "%s wurde beim Versuch gefangen, Forschungsergebnisse von %s zu stehlen."
 
-#: server/diplomats.c:619
+#: server/diplomats.c:613
 #, c-format
 msgid "%s's %s failed to steal technology from %s."
 msgstr "%ss %s schaffte es nicht, Forschungsergebnisse von %s zu stehlen."
 
-#: server/diplomats.c:633
+#: server/diplomats.c:627
 #, c-format
 msgid "No new technology found in %s."
 msgstr "In %s wurde kein neues Forschungsergebnis gefunden."
 
-#: server/diplomats.c:689
+#: server/diplomats.c:683
 msgid "You can't subvert this city."
 msgstr "Dies Stadt kann nicht unterwandert werden."
 
-#: server/diplomats.c:700
+#: server/diplomats.c:694
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "Nicht genug Gold, um %s zu unterwandern."
 
-#: server/diplomats.c:717
+#: server/diplomats.c:711
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "%s wurde beim Versuch eine Revolte auszulösen festgenommen!"
 
-#: server/diplomats.c:721
+#: server/diplomats.c:715
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "%ser %s beim Versuch, eine Revolte in %s auszulösen, gefaßt!"
 
-#: server/diplomats.c:744
+#: server/diplomats.c:738
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "%s erfolgreich unterwandert; Regierung übernommen!"
 
-#: server/diplomats.c:747
+#: server/diplomats.c:741
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "%s hat revoltiert, gehört jetzt vermutlich zu %s."
 
-#: server/diplomats.c:828
+#: server/diplomats.c:822
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "%s wurde bei einem Sabotageversuch festgenommen!"
 
-#: server/diplomats.c:832
+#: server/diplomats.c:826
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "%ser %s bei Sabotageversuch in %s gefaßt!"
 
-#: server/diplomats.c:867
+#: server/diplomats.c:861
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "%s konnte in %s nichts finden, das sabotiert werden konnte!"
 
-#: server/diplomats.c:912
+#: server/diplomats.c:906
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "%s können nicht sabotiert werden!"
 
-#: server/diplomats.c:923
+#: server/diplomats.c:917
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr ""
 "%s konnte die zu sabotierende Stadterweiterung (%s) in %s nicht finden."
 
-#: server/diplomats.c:951
+#: server/diplomats.c:945
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "%s hat die Produktion von %s in %s vernichtet."
 
-#: server/diplomats.c:956
+#: server/diplomats.c:950
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "In %2$s wurde die Produktion von %1$s vernichtet, %3$s verdächtigt."
 
-#: server/diplomats.c:977
+#: server/diplomats.c:971
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "%s wurde bei einem Sabotageversuch festgenommen!"
 
-#: server/diplomats.c:982
+#: server/diplomats.c:976
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "%ser %s bei dem Versuch gefaßt, %s in %s zu sabotieren!"
 
-#: server/diplomats.c:995
+#: server/diplomats.c:989
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "%s vernichtete %s in %s."
 
-#: server/diplomats.c:1000
+#: server/diplomats.c:994
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "Die %s vernichteten %s in %s."
 
-#: server/diplomats.c:1100
+#: server/diplomats.c:1094
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "%s wurde während des Dienstes von einem %s in %s getötet."
 
-#: server/diplomats.c:1106
+#: server/diplomats.c:1100
 #, c-format
 msgid "An enemy %s has been eliminated defending %s."
 msgstr "Ein feindlicher %s wurde bei der Verteidigung von %s getötet."
 
-#: server/diplomats.c:1121
+#: server/diplomats.c:1115
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "%s wurde von einem Wächter (%s) getötet."
 
-#: server/diplomats.c:1129
+#: server/diplomats.c:1123
 #, c-format
 msgid ""
 "Eliminated %s %s while infiltrating %s. The defender became more experienced."
@@ -3396,7 +3396,7 @@ msgstr ""
 "%ser %s wurde bei dem Versuch %s zu unterwandern getötet. Der Verteidiger "
 "sammelte Erfahrung."
 
-#: server/diplomats.c:1137
+#: server/diplomats.c:1131
 #, c-format
 msgid ""
 "Eliminated %s %s while infiltrating our troops. The defender became more "
@@ -3405,17 +3405,17 @@ msgstr ""
 "%ser %s wurde bei dem Versuch unsere Einheiten zu bestechen getötet. Der "
 "Verteidiger sammelte Erfahrung."
 
-#: server/diplomats.c:1147
+#: server/diplomats.c:1141
 #, c-format
 msgid "Eliminated %s %s while infiltrating %s."
 msgstr "%ser %s wurde bei dem Versuch %s zu unterwandern getötet."
 
-#: server/diplomats.c:1155
+#: server/diplomats.c:1149
 #, c-format
 msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "%ser %s wurde bei dem Versuch unsere Einheiten zu bestechen getötet."
 
-#: server/diplomats.c:1208
+#: server/diplomats.c:1202
 #, c-format
 msgid ""
 "Your %s has successfully completed her mission and returned unharmed to %s "
@@ -3424,7 +3424,7 @@ msgstr ""
 "%s hat seine Mission erfolgreich beendet, ist unverletzt nach %s "
 "zurückgekehrt und erwarb Erfahrung."
 
-#: server/diplomats.c:1215
+#: server/diplomats.c:1209
 #, c-format
 msgid ""
 "Your %s has successfully completed her mission and returned unharmed to %s."
@@ -3432,48 +3432,48 @@ msgstr ""
 "%s hat seine Mission erfolgreich beendet und ist unverletzt nach %s "
 "zurückgekehrt."
 
-#: server/diplomats.c:1232
+#: server/diplomats.c:1226
 #, c-format
 msgid "Your %s was captured after completing her mission in %s."
 msgstr "%s wurde nach Beendigung seiner Mission in %s gefangen genommen."
 
-#: server/diplomats.c:1238
+#: server/diplomats.c:1232
 #, c-format
 msgid "Your %s was captured after completing her mission."
 msgstr "%s wurde nach Beendigung seiner Mission gefangen."
 
-#: server/diplomats.c:1270
+#: server/diplomats.c:1264
 #, c-format
 msgid "You have caused an incident while bribing %s's %s."
 msgstr "Die Bestechung von %ss %s hat eine diplomatische Krise verursacht."
 
-#: server/diplomats.c:1275
+#: server/diplomats.c:1269
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
 msgstr "%s hat mit der Bestechung von %s eine diplomatische Krise verursacht."
 
-#: server/diplomats.c:1282
+#: server/diplomats.c:1276
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr ""
 "Du hast durch den Diebstahl eines Forschungsergebnisses von den %s einen "
 "diplomatischen Zwischenfall verursacht."
 
-#: server/diplomats.c:1286
+#: server/diplomats.c:1280
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr ""
 "Die %s haben durch den Diebstahl eines Forschungsergebnisses von dir einen "
 "diplomatischen Zwischenfall verursacht."
 
-#: server/diplomats.c:1292
+#: server/diplomats.c:1286
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr ""
 "Die Anstiftung zu einer Revolte in %s hat eine diplomatische Krise "
 "verursacht."
 
-#: server/diplomats.c:1295
+#: server/diplomats.c:1289
 #, c-format
 msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr ""
@@ -4070,18 +4070,18 @@ msgstr "Reason: line not found"
 msgid "Reason: line too short (expected %d got %lu"
 msgstr "Reason: line too short (expected %d got %lu"
 
-#: server/savegame.c:3534
+#: server/savegame.c:3544
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 
-#: server/savegame.c:3758
+#: server/savegame.c:3768
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Das abgespeicherte Spiel verwendet Gelände-Regeln, die nicht mehr "
 "unterstützt werden."
 
-#: server/savegame.c:3767
+#: server/savegame.c:3777
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4091,7 +4091,7 @@ msgstr ""
 "Stattdessen wird das Verzeichnis '%s' benutzt."
 
 # CK: TECHNICAL
-#: server/savegame.c:4002
+#: server/savegame.c:4012
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -5582,7 +5582,7 @@ msgstr "Spieler %d"
 msgid "%s rules the %s."
 msgstr "%s beherrscht die %s."
 
-#: server/srv_main.c:1834
+#: server/srv_main.c:1826
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
@@ -5590,16 +5590,16 @@ msgstr ""
 "Unterstützung für Spieler-Authentifizierung verfügbar, wird aber nicht "
 "verwendet."
 
-#: server/srv_main.c:1885
+#: server/srv_main.c:1877
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sende Informationen an den Metaserver [%s]"
 
-#: server/srv_main.c:1914
+#: server/srv_main.c:1906
 msgid "The game is over..."
 msgstr "Das Spiel ist vorbei..."
 
-#: server/srv_main.c:1968
+#: server/srv_main.c:1960
 msgid "Now accepting new client connections."
 msgstr "Warte auf Spieler..."
 
@@ -6833,193 +6833,193 @@ msgstr "Es konnten keine Einheiten erneuert werden."
 msgid "%s upgraded to %s for %d gold."
 msgstr "%s durch %s ersetzt (Kosten: %d Goldstücke)."
 
-#: server/unithand.c:361
+#: server/unithand.c:395
 #, c-format
 msgid "%s refuses to disband!"
 msgstr "%s will sich nicht auflösen!"
 
-#: server/unithand.c:414
+#: server/unithand.c:448
 msgid "Can't place city here."
 msgstr "Hier kann keine Stadt gebaut werden."
 
-#: server/unithand.c:421
+#: server/unithand.c:455
 #, c-format
 msgid "Only %s can build a city."
 msgstr "Nur %s können eine Stadt erbauen."
 
-#: server/unithand.c:426
+#: server/unithand.c:460
 msgid "Can't build a city."
 msgstr "Stadt kann nicht erbaut werden."
 
-#: server/unithand.c:435
+#: server/unithand.c:469
 #, c-format
 msgid "Only %s can add to a city."
 msgstr "Eine Stadt kann nur mit %s erweitert werden."
 
-#: server/unithand.c:440
+#: server/unithand.c:474
 msgid "Can't add to a city."
 msgstr "Stadt kann nicht erweitert werden."
 
-#: server/unithand.c:446
+#: server/unithand.c:480
 #, c-format
 msgid "%s unit has no moves left to add to %s."
 msgstr ""
 "Die %s können %s nicht erweitern, da sie keine Bewegungspunkte mehr haben."
 
-#: server/unithand.c:452
+#: server/unithand.c:486
 #, c-format
 msgid "%s unit has no moves left to build city."
 msgstr "Die %s Einheit kann keine Stadt mehr bauen."
 
-#: server/unithand.c:457
+#: server/unithand.c:491
 #, c-format
 msgid "%s is too big to add %s."
 msgstr "%s ist zu groß, um %s hinzufügen zu können."
 
-#: server/unithand.c:463
+#: server/unithand.c:497
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr ""
 "%s braucht für weiteres Wachstum eine Stadterweiterung, daher kann %s kann "
 "nicht hinzugefügt werden."
 
-#: server/unithand.c:474
+#: server/unithand.c:508
 #, c-format
 msgid "Can't add %s to %s."
 msgstr "%s kann nicht zu %s hinzugefügt werden."
 
-#: server/unithand.c:496
+#: server/unithand.c:530
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s hinzugefügt, um beim Wachstum von %s zu helfen."
 
-#: server/unithand.c:750
+#: server/unithand.c:784
 #, c-format
 msgid "Your bombarding %s%s became more experienced!"
 msgstr "%s%s gewannen beim bombardieren Kampferfahrung!"
 
-#: server/unithand.c:794
+#: server/unithand.c:828
 msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr "Atomrakete von SDI-Verteidigung abgeschossen."
 
-#: server/unithand.c:797
+#: server/unithand.c:831
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Der nukleare Angriff auf %s wurde von der SDI-Verteidigung abgewehrt."
 
-#: server/unithand.c:868
+#: server/unithand.c:902
 #, c-format
 msgid ""
 "Your %s%s survived the pathetic attack from %s's %s and became more "
 "experienced!"
 msgstr "%s%s überlebte den Angriff von %ss %s und sammelte Erfahrung!"
 
-#: server/unithand.c:878
+#: server/unithand.c:912
 #, c-format
 msgid "Your %s%s survived the pathetic attack from %s's %s."
 msgstr "%s%s überlebte den Angriff von %ss %s."
 
-#: server/unithand.c:889
+#: server/unithand.c:923
 #, c-format
 msgid "Your attacking %s failed against %s's %s%s!"
 msgstr "Der Angriff der %s gegen %ss %s%s ist fehlgeschlagen!"
 
-#: server/unithand.c:965
+#: server/unithand.c:999
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Nur %s können von See aus angreifen."
 
-#: server/unithand.c:970
+#: server/unithand.c:1004
 msgid "Cannot attack from sea."
 msgstr "Kann nicht von See aus angreifen."
 
-#: server/unithand.c:975 server/unittools.c:2151
+#: server/unithand.c:1009 server/unittools.c:2151
 msgid "Cannot attack unless you declare war first."
 msgstr "Kann erst nach Kriegserklärung angreifen."
 
-#: server/unithand.c:978
+#: server/unithand.c:1012
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s können sich nur in der eigenen Kontrollzone bewegen."
 
-#: server/unithand.c:982
+#: server/unithand.c:1016
 #, c-format
 msgid "Game: Cannot invade unless you break peace with %s first."
 msgstr "Spiel: Kann erst nach Kriegserklärung an %s einmaschieren."
 
-#: server/unithand.c:1020
+#: server/unithand.c:1054
 msgid "This unit has no moves left."
 msgstr "Diese Einheit kann nicht mehr ziehen."
 
-#: server/unithand.c:1074
+#: server/unithand.c:1109
 msgid "Unit must be on land to perform diplomatic action."
 msgstr "Diplomatische Tätigkeiten können nur an Land erfolgen."
 
-#: server/unithand.c:1076
+#: server/unithand.c:1111
 msgid "No diplomat action possible."
 msgstr "Verhandlungen sind nicht möglich."
 
-#: server/unithand.c:1092
+#: server/unithand.c:1127
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr ""
 "Du mußt %s erst den Krieg erklären. Versuche es mit dem Spieler-Bericht (F3)."
 
-#: server/unithand.c:1108
+#: server/unithand.c:1143
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Diese Einheit wird transportiert und kann daher nicht bombardieren."
 
-#: server/unithand.c:1123
+#: server/unithand.c:1158
 msgid "You can't attack there."
 msgstr "Da ist kein Angriff möglich."
 
-#: server/unithand.c:1145
+#: server/unithand.c:1180
 msgid "This type of troops cannot take over a city."
 msgstr "Diese Truppenart kann keine Stadt einnehmen."
 
-#: server/unithand.c:1163
+#: server/unithand.c:1198
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Eine transportierte Einheit ist nicht mit allen Einheiten oder der Stadt auf "
 "dem Zielfeld alliiert."
 
-#: server/unithand.c:1205
+#: server/unithand.c:1240
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%s hilft, %s in %s zu bauen (Restkosten: %d)."
 
-#: server/unithand.c:1207
+#: server/unithand.c:1242
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s hilft, %s in %s zu bauen (Überschuß: %d)."
 
-#: server/unithand.c:1251
+#: server/unithand.c:1286
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr "%s kann keinen Handelsweg gründen, da sie keine Heimatstadt haben."
 
-#: server/unithand.c:1261
+#: server/unithand.c:1296
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "%s kann keinen Handelsweg zwischen %s und %s gründen."
 
-#: server/unithand.c:1290 server/unithand.c:1308
+#: server/unithand.c:1325 server/unithand.c:1343
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s kann hier keinen Handelsweg gründen!"
 
-#: server/unithand.c:1294 server/unithand.c:1312
+#: server/unithand.c:1329 server/unithand.c:1347
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      Die Stadt %s hat bereits %d bessere Handelswege!"
 
-#: server/unithand.c:1324 server/unithand.c:1335
+#: server/unithand.c:1359 server/unithand.c:1370
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr "%s hat die Handelsroute zwischen %s und Ihrer Stadt %s aufgehoben."
 
-#: server/unithand.c:1367
+#: server/unithand.c:1402
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -8240,27 +8240,27 @@ msgstr "Kann Server nicht kontrollieren, versuche zu beenden."
 msgid "Only transporter units can be unloaded."
 msgstr "Nur Schiffe können entladen werden."
 
-#: client/control.c:1281
+#: client/control.c:1298
 msgid "Only settler units can be put into auto mode."
 msgstr "Nur Siedler können automatisch agieren."
 
-#: client/control.c:1372
+#: client/control.c:1389
 msgid "Only nuclear units can do this."
 msgstr "Das können nur Nuklear-Einheiten."
 
-#: client/control.c:1401
+#: client/control.c:1418
 msgid "Only paratrooper units can do this."
 msgstr "Das können nur Fallschirmspringer."
 
-#: client/control.c:1850
+#: client/control.c:1867
 msgid "Too far for this unit."
 msgstr "Zu weit für diese Einheit."
 
-#: client/control.c:2060 client/control.c:2090 client/control.c:2106
+#: client/control.c:2077 client/control.c:2107 client/control.c:2123
 msgid "Didn't find a route to the destination!"
 msgstr "Es gibt keinen Weg zu diesem Ziel!"
 
-#: client/control.c:2150
+#: client/control.c:2167
 msgid "Oh my! You seem to have no capital!"
 msgstr "Oh je! Es scheint keine Hauptstadt zu geben!"
 
@@ -9532,16 +9532,16 @@ msgstr "Server capability string: %s"
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:1590
+#: client/packhand.c:1589
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1591
+#: client/packhand.c:1590
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1591
+#: client/packhand.c:1590
 msgid "OFF"
 msgstr "AUS"
 
@@ -9675,23 +9675,23 @@ msgid "Failed looking up metaserver's host"
 msgstr "Metaserver nicht gefunden"
 
 #: client/text.c:83 client/text.c:84 client/text.c:89
-#: client/gui-sdl/mapview.c:744
+#: client/gui-sdl/mapview.c:743
 msgid "?nation:Neutral"
 msgstr "neutral"
 
-#: client/text.c:83 client/gui-sdl/mapview.c:744
+#: client/text.c:83 client/gui-sdl/mapview.c:743
 msgid "?nation:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:746
+#: client/text.c:85 client/gui-sdl/mapview.c:745
 msgid "?nation:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:85 client/gui-sdl/mapview.c:746
+#: client/text.c:85 client/gui-sdl/mapview.c:745
 msgid "?nation:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:86 client/gui-sdl/mapview.c:747
+#: client/text.c:86 client/gui-sdl/mapview.c:746
 msgid "?nation:Mysterious"
 msgstr "unbekannt"
 
@@ -9699,23 +9699,23 @@ msgstr "unbekannt"
 msgid "?nation:Friendly(team)"
 msgstr "befreundet (Team)"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:777
+#: client/text.c:88 client/gui-sdl/mapview.c:776
 msgid "?city:Neutral"
 msgstr "neutral"
 
-#: client/text.c:88 client/gui-sdl/mapview.c:777
+#: client/text.c:88 client/gui-sdl/mapview.c:776
 msgid "?city:Hostile"
 msgstr "feindselig"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:778
+#: client/text.c:90 client/gui-sdl/mapview.c:777
 msgid "?city:Peaceful"
 msgstr "friedlich"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:779
+#: client/text.c:90 client/gui-sdl/mapview.c:778
 msgid "?city:Friendly"
 msgstr "befreundet"
 
-#: client/text.c:90 client/gui-sdl/mapview.c:779
+#: client/text.c:90 client/gui-sdl/mapview.c:778
 msgid "?city:Mysterious"
 msgstr "unbekannt"
 
@@ -9789,7 +9789,7 @@ msgstr[1] "Stadt: %s (%s, %d Runden Feuerpause)"
 msgid "City: %s (%s, %s)"
 msgstr "Stadt: %s (%s, %s)"
 
-#: client/text.c:179 client/gui-sdl/mapview.c:793
+#: client/text.c:179 client/gui-sdl/mapview.c:792
 msgid " with "
 msgstr " mit "
 
@@ -10022,42 +10022,42 @@ msgstr[0] "%d Einheit"
 msgstr[1] "%d Einheiten"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:690 client/gui-sdl/mapview.c:559
+#: client/text.c:690 client/gui-sdl/mapview.c:558
 msgid "?goto:Unreachable"
 msgstr "Nicht erreichbar"
 
-#: client/text.c:692 client/gui-sdl/mapview.c:561
+#: client/text.c:692 client/gui-sdl/mapview.c:560
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Runden zum Ziel: %d"
 
-#: client/text.c:694 client/gui-sdl/mapview.c:563
+#: client/text.c:694 client/gui-sdl/mapview.c:562
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Runden zum Ziel: %d bis %d"
 
-#: client/text.c:700 client/gui-sdl/mapview.c:569
+#: client/text.c:700 client/gui-sdl/mapview.c:568
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d Einheit ausgewählt"
 msgstr[1] "%d Einheiten ausgewählt"
 
-#: client/text.c:705 client/gui-sdl/mapview.c:574
+#: client/text.c:705 client/gui-sdl/mapview.c:573
 msgid "No units selected."
 msgstr "Keine ausgewählt"
 
-#: client/text.c:779 client/gui-sdl/mapview.c:647
+#: client/text.c:779 client/gui-sdl/mapview.c:646
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Andere: %d zivil, %d militärisch"
 
-#: client/text.c:781 client/gui-sdl/mapview.c:649
+#: client/text.c:781 client/gui-sdl/mapview.c:648
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Andere: %d zivil"
 
-#: client/text.c:783 client/gui-sdl/mapview.c:651
+#: client/text.c:783 client/gui-sdl/mapview.c:650
 #, c-format
 msgid "Others: %d military"
 msgstr "Andere: %d militärisch"
@@ -10345,16 +10345,16 @@ msgstr "Max. Gold"
 msgid "?cma:Max science"
 msgstr "Max. Forschung"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:83 client/gui-win32/dialogs.c:1364
+#: client/gui-gtk-2.0/diplomat_dialog.c:84 client/gui-win32/dialogs.c:1365
 msgid "Ooops..."
 msgstr "Hoppla..."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:84 client/gui-win32/dialogs.c:1365
+#: client/gui-gtk-2.0/diplomat_dialog.c:85 client/gui-win32/dialogs.c:1366
 msgid "This unit cannot be bribed!"
 msgstr "Diese Einheit ist unbestechlich!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:91
-#: client/gui-sdl/diplomat_dialog.c:1393 client/gui-win32/dialogs.c:1369
+#: client/gui-gtk-2.0/diplomat_dialog.c:92
+#: client/gui-sdl/diplomat_dialog.c:1397 client/gui-win32/dialogs.c:1370
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -10363,14 +10363,14 @@ msgstr ""
 "Einheit mit %d Goldstücken bestechen?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:93
-#: client/gui-sdl/diplomat_dialog.c:697 client/gui-sdl/diplomat_dialog.c:1375
-#: client/gui-win32/dialogs.c:1371 data/Freeciv.in:2419 data/Freeciv.in:2432
+#: client/gui-gtk-2.0/diplomat_dialog.c:94
+#: client/gui-sdl/diplomat_dialog.c:701 client/gui-sdl/diplomat_dialog.c:1379
+#: client/gui-win32/dialogs.c:1372 data/Freeciv.in:2419 data/Freeciv.in:2432
 msgid "Bribe Enemy Unit"
 msgstr "Feindliche Einheit bestechen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:99
-#: client/gui-sdl/diplomat_dialog.c:1440 client/gui-win32/dialogs.c:1377
+#: client/gui-gtk-2.0/diplomat_dialog.c:100
+#: client/gui-sdl/diplomat_dialog.c:1444 client/gui-win32/dialogs.c:1378
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -10379,79 +10379,79 @@ msgstr ""
 "Das Bestechen der Einheit kostet %d Goldstücke.\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:101
-#: client/gui-gtk-2.0/diplomat_dialog.c:556
-#: client/gui-sdl/diplomat_dialog.c:1247 client/gui-sdl/diplomat_dialog.c:1453
-#: client/gui-win32/dialogs.c:1381 client/gui-win32/dialogs.c:1564
+#: client/gui-gtk-2.0/diplomat_dialog.c:102
+#: client/gui-gtk-2.0/diplomat_dialog.c:558
+#: client/gui-sdl/diplomat_dialog.c:1251 client/gui-sdl/diplomat_dialog.c:1457
+#: client/gui-win32/dialogs.c:1382 client/gui-win32/dialogs.c:1566
 #: data/Freeciv.in:2454
 msgid "Traitors Demand Too Much!"
 msgstr "Verräter verlangen zu viel!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:232
-#: client/gui-sdl/diplomat_dialog.c:646 client/gui-win32/dialogs.c:1280
+#: client/gui-gtk-2.0/diplomat_dialog.c:233
+#: client/gui-sdl/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1280
 #: data/Freeciv.in:2285 data/Freeciv.in:2318 data/Freeciv.in:2335
 msgid "Steal Technology"
 msgstr "Forschungsergebnis stehlen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:237
+#: client/gui-gtk-2.0/diplomat_dialog.c:238
 msgid "_Steal"
 msgstr "_Stehlen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:246
+#: client/gui-gtk-2.0/diplomat_dialog.c:247
 #: client/gui-sdl/diplomat_dialog.c:250 client/gui-win32/dialogs.c:1290
 #: data/Freeciv.in:2350
 msgid "Select Advance to Steal"
 msgstr "Wähle das zu stehlende Forschungsergebnis"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:266
+#: client/gui-gtk-2.0/diplomat_dialog.c:267
 msgid "_Advances:"
 msgstr "_Forschungsergebnisse:"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:306
-#: client/gui-gtk-2.0/diplomat_dialog.c:439
-#: client/gui-sdl/diplomat_dialog.c:332 client/gui-sdl/diplomat_dialog.c:926
-#: client/gui-win32/dialogs.c:1193 client/gui-win32/dialogs.c:1405
+#: client/gui-gtk-2.0/diplomat_dialog.c:307
+#: client/gui-gtk-2.0/diplomat_dialog.c:440
+#: client/gui-sdl/diplomat_dialog.c:332 client/gui-sdl/diplomat_dialog.c:930
+#: client/gui-win32/dialogs.c:1193 client/gui-win32/dialogs.c:1406
 msgid "At Spy's Discretion"
 msgstr "Nach Wahl des Spions"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:376 client/gui-win32/dialogs.c:1479
+#: client/gui-gtk-2.0/diplomat_dialog.c:377 client/gui-win32/dialogs.c:1480
 #: data/Freeciv.in:2377
 msgid "Sabotage Improvements"
 msgstr "Sabotiere Stadterweiterung"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:381
+#: client/gui-gtk-2.0/diplomat_dialog.c:382
 msgid "_Sabotage"
 msgstr "_Sabotiere"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:390
-#: client/gui-sdl/diplomat_dialog.c:842 client/gui-win32/dialogs.c:1489
+#: client/gui-gtk-2.0/diplomat_dialog.c:391
+#: client/gui-sdl/diplomat_dialog.c:846 client/gui-win32/dialogs.c:1490
 #: data/Freeciv.in:2392
 msgid "Select Improvement to Sabotage"
 msgstr "Wähle die zu sabotierende Stadterweiterung"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:410 client/gui-gtk-2.0/citydlg.c:840
+#: client/gui-gtk-2.0/diplomat_dialog.c:411 client/gui-gtk-2.0/citydlg.c:840
 msgid "_Improvements:"
 msgstr "_Stadterweiterungen:"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:429
-#: client/gui-sdl/diplomat_dialog.c:870 client/gui-sdl/optiondlg.c:1590
-#: client/gui-win32/dialogs.c:1394
+#: client/gui-gtk-2.0/diplomat_dialog.c:430
+#: client/gui-sdl/diplomat_dialog.c:874 client/gui-sdl/optiondlg.c:1590
+#: client/gui-win32/dialogs.c:1395
 msgid "City Production"
 msgstr "Produktion ändern"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:538
-#: client/gui-sdl/diplomat_dialog.c:1164 client/gui-win32/dialogs.c:1547
+#: client/gui-gtk-2.0/diplomat_dialog.c:540
+#: client/gui-sdl/diplomat_dialog.c:1168 client/gui-win32/dialogs.c:1549
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Es kann keine Revolte in %s eingeleitet werden."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:540
-#: client/gui-sdl/diplomat_dialog.c:1175 client/gui-win32/dialogs.c:1549
+#: client/gui-gtk-2.0/diplomat_dialog.c:542
+#: client/gui-sdl/diplomat_dialog.c:1179 client/gui-win32/dialogs.c:1551
 msgid "City can't be incited!"
 msgstr "Eine Revolte ist hier z.Z. nicht möglich!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:546
-#: client/gui-sdl/diplomat_dialog.c:1184 client/gui-win32/dialogs.c:1553
+#: client/gui-gtk-2.0/diplomat_dialog.c:548
+#: client/gui-sdl/diplomat_dialog.c:1188 client/gui-win32/dialogs.c:1555
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -10460,14 +10460,14 @@ msgstr ""
 "Für %d Goldstücke zu einer Revolte anstiften?\n"
 "Die Schatzkammer enthält %d Gold."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:548
-#: client/gui-sdl/diplomat_dialog.c:1133 client/gui-win32/dialogs.c:1556
+#: client/gui-gtk-2.0/diplomat_dialog.c:550
+#: client/gui-sdl/diplomat_dialog.c:1137 client/gui-win32/dialogs.c:1558
 #: data/Freeciv.in:2443
 msgid "Incite a Revolt!"
 msgstr "Zu einer Revolte anstiften!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:554
-#: client/gui-sdl/diplomat_dialog.c:1233 client/gui-win32/dialogs.c:1561
+#: client/gui-gtk-2.0/diplomat_dialog.c:556
+#: client/gui-sdl/diplomat_dialog.c:1237 client/gui-win32/dialogs.c:1563
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -10476,7 +10476,7 @@ msgstr ""
 "Eine Revolte anzustiften kostet %d Goldstücke.\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:617 client/gui-win32/dialogs.c:1600
+#: client/gui-gtk-2.0/diplomat_dialog.c:619 client/gui-win32/dialogs.c:1602
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -10485,77 +10485,77 @@ msgstr ""
 "%s ist in %s angekommen.\n"
 "Befehle?"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:623 client/gui-win32/dialogs.c:1606
+#: client/gui-gtk-2.0/diplomat_dialog.c:625 client/gui-win32/dialogs.c:1608
 msgid " Choose Your Diplomat's Strategy"
 msgstr "Strategie des Diplomaten wählen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:624
-#: client/gui-gtk-2.0/diplomat_dialog.c:648 client/gui-win32/dialogs.c:1607
-#: client/gui-win32/dialogs.c:1628
+#: client/gui-gtk-2.0/diplomat_dialog.c:626
+#: client/gui-gtk-2.0/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1609
+#: client/gui-win32/dialogs.c:1630
 msgid "Establish _Embassy"
 msgstr "_Botschaft eröffnen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:625
-#: client/gui-gtk-2.0/diplomat_dialog.c:649 client/gui-win32/dialogs.c:1608
-#: client/gui-win32/dialogs.c:1629
+#: client/gui-gtk-2.0/diplomat_dialog.c:627
+#: client/gui-gtk-2.0/diplomat_dialog.c:651 client/gui-win32/dialogs.c:1610
+#: client/gui-win32/dialogs.c:1631
 msgid "_Investigate City"
 msgstr "Stadt _auskundschaften"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:626 client/gui-win32/dialogs.c:1609
+#: client/gui-gtk-2.0/diplomat_dialog.c:628 client/gui-win32/dialogs.c:1611
 msgid "_Sabotage City"
 msgstr "Stadt _sabotieren"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:627
-#: client/gui-gtk-2.0/diplomat_dialog.c:652 client/gui-win32/dialogs.c:1610
-#: client/gui-win32/dialogs.c:1632
+#: client/gui-gtk-2.0/diplomat_dialog.c:629
+#: client/gui-gtk-2.0/diplomat_dialog.c:654 client/gui-win32/dialogs.c:1612
+#: client/gui-win32/dialogs.c:1634
 msgid "Steal _Technology"
 msgstr "_Forschungsergebnisse stehlen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:628
-#: client/gui-gtk-2.0/diplomat_dialog.c:653 client/gui-win32/dialogs.c:1611
-#: client/gui-win32/dialogs.c:1633
+#: client/gui-gtk-2.0/diplomat_dialog.c:630
+#: client/gui-gtk-2.0/diplomat_dialog.c:655 client/gui-win32/dialogs.c:1613
+#: client/gui-win32/dialogs.c:1635
 msgid "Incite a _Revolt"
 msgstr "Zur _Revolte anstiften"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:629
-#: client/gui-gtk-2.0/diplomat_dialog.c:654
+#: client/gui-gtk-2.0/diplomat_dialog.c:631
+#: client/gui-gtk-2.0/diplomat_dialog.c:656
 #: client/gui-gtk-2.0/caravan_dialog.c:119 client/gui-win32/dialogs.c:1054
 msgid "_Keep moving"
 msgstr "_Weiterziehen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:647
-#: client/gui-sdl/diplomat_dialog.c:548 client/gui-win32/dialogs.c:1627
+#: client/gui-gtk-2.0/diplomat_dialog.c:649
+#: client/gui-sdl/diplomat_dialog.c:552 client/gui-win32/dialogs.c:1629
 #: data/Freeciv.in:2299
 msgid "Choose Your Spy's Strategy"
 msgstr "Strategie des Spions wählen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1630
+#: client/gui-gtk-2.0/diplomat_dialog.c:652 client/gui-win32/dialogs.c:1632
 msgid "_Poison City"
 msgstr "_Wasser vergiften"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:651 client/gui-win32/dialogs.c:1631
+#: client/gui-gtk-2.0/diplomat_dialog.c:653 client/gui-win32/dialogs.c:1633
 msgid "Industrial _Sabotage"
 msgstr "_Industrie sabotieren"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:688
-#: client/gui-sdl/diplomat_dialog.c:557 client/gui-win32/dialogs.c:1658
+#: client/gui-gtk-2.0/diplomat_dialog.c:690
+#: client/gui-sdl/diplomat_dialog.c:561 client/gui-win32/dialogs.c:1660
 #: data/Freeciv.in:2430
 msgid "Subvert Enemy Unit"
 msgstr "Feindliche Einheit unterwandern"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:690 client/gui-win32/dialogs.c:1660
+#: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-win32/dialogs.c:1662
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Der Diplomat erwartet seine Anweisungen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:691 client/gui-win32/dialogs.c:1661
+#: client/gui-gtk-2.0/diplomat_dialog.c:693 client/gui-win32/dialogs.c:1663
 msgid "Sir, the spy is waiting for your command"
 msgstr "Der Spion erwartet seine Anweisungen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-win32/dialogs.c:1662
+#: client/gui-gtk-2.0/diplomat_dialog.c:694 client/gui-win32/dialogs.c:1664
 msgid "_Bribe Enemy Unit"
 msgstr "Feindliche Einheit _bestechen"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:693 client/gui-win32/dialogs.c:1663
+#: client/gui-gtk-2.0/diplomat_dialog.c:695 client/gui-win32/dialogs.c:1665
 msgid "_Sabotage Enemy Unit"
 msgstr "Feindliche Einheit _sabotieren"
 
@@ -11097,11 +11097,11 @@ msgid "Revolution!"
 msgstr "Revolution!"
 
 #: client/gui-gtk-2.0/dialogs.c:310 client/gui-sdl/dialogs.c:1742
-#: client/gui-win32/dialogs.c:1747 data/Freeciv.in:2500
+#: client/gui-win32/dialogs.c:1749 data/Freeciv.in:2500
 msgid "What To Pillage"
 msgstr "Was gebrandschatzt werden soll"
 
-#: client/gui-gtk-2.0/dialogs.c:311 client/gui-win32/dialogs.c:1754
+#: client/gui-gtk-2.0/dialogs.c:311 client/gui-win32/dialogs.c:1756
 #: data/Freeciv.in:2502
 msgid "Select what to pillage:"
 msgstr "Wähle aus, was gebrandschatzt werden soll:"
@@ -11405,7 +11405,7 @@ msgid "Turn Done"
 msgstr "Fertig!"
 
 #: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
-#: client/gui-sdl/mapview.c:1075
+#: client/gui-sdl/mapview.c:1074
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
@@ -12477,7 +12477,7 @@ msgstr "Keine Übereinstimmung, Paßwort eingeben."
 msgid "Server Name"
 msgstr "Server"
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:801
+#: client/gui-gtk-2.0/pages.c:701 client/gui-sdl/mapview.c:800
 #: client/gui-win32/connectdlg.c:914 data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
@@ -12984,7 +12984,7 @@ msgstr "Marktplatz betreten (%d Forschung + Gold)"
 msgid "Help build Wonder"
 msgstr "Beim Bau des Weltwunders helfen"
 
-#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:675
+#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:679
 #: data/Freeciv.in:2266 data/Freeciv.in:2290 data/Freeciv.in:2325
 msgid "Keep moving"
 msgstr "Weiterziehen"
@@ -13039,10 +13039,10 @@ msgstr "Standort als neue Heimatstadt wählen"
 #: client/gui-sdl/connectdlg.c:307 client/gui-sdl/connectdlg.c:616
 #: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
 #: client/gui-sdl/dialogs.c:452 client/gui-sdl/dialogs.c:2095
-#: client/gui-sdl/dialogs.c:2891 client/gui-sdl/diplomat_dialog.c:727
+#: client/gui-sdl/dialogs.c:2891 client/gui-sdl/diplomat_dialog.c:731
 #: client/gui-sdl/mapctrl.c:2548 client/gui-sdl/repodlgs.c:1962
 #: client/gui-win32/citydlg.c:1080 client/gui-win32/cityrep.c:753
-#: client/gui-win32/connectdlg.c:1039 client/gui-win32/dialogs.c:1771
+#: client/gui-win32/connectdlg.c:1039 client/gui-win32/dialogs.c:1773
 #: client/gui-win32/finddlg.c:128 client/gui-win32/gotodlg.c:171
 #: client/gui-win32/inputdlg.c:146 client/gui-win32/messagedlg.c:216
 #: client/gui-win32/ratesdlg.c:328 client/gui-win32/repodlgs.c:981
@@ -13056,7 +13056,7 @@ msgstr "Standort als neue Heimatstadt wählen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: client/gui-sdl/citydlg.c:711 client/gui-sdl/mapview.c:944
+#: client/gui-sdl/citydlg.c:711 client/gui-sdl/mapview.c:943
 msgid ""
 "\n"
 "veteran"
@@ -13085,8 +13085,8 @@ msgid "Buy it?"
 msgstr "Kaufen?"
 
 #: client/gui-sdl/citydlg.c:1196 client/gui-sdl/cma_fe.c:325
-#: client/gui-sdl/diplodlg.c:1328 client/gui-sdl/diplomat_dialog.c:1208
-#: client/gui-sdl/diplomat_dialog.c:1415 client/gui-sdl/plrdlg.c:222
+#: client/gui-sdl/diplodlg.c:1328 client/gui-sdl/diplomat_dialog.c:1212
+#: client/gui-sdl/diplomat_dialog.c:1419 client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:220 client/gui-sdl/repodlgs.c:1530
 #: client/gui-win32/repodlgs.c:578 client/gui-xaw/citydlg.c:2430
 #: client/gui-xaw/cityrep.c:666 client/gui-xaw/cma_fe.c:327
@@ -13101,8 +13101,8 @@ msgid "No"
 msgstr "Nein"
 
 #: client/gui-sdl/citydlg.c:1207 client/gui-sdl/cma_fe.c:316
-#: client/gui-sdl/diplodlg.c:1338 client/gui-sdl/diplomat_dialog.c:1197
-#: client/gui-sdl/diplomat_dialog.c:1405 client/gui-sdl/plrdlg.c:222
+#: client/gui-sdl/diplodlg.c:1338 client/gui-sdl/diplomat_dialog.c:1201
+#: client/gui-sdl/diplomat_dialog.c:1409 client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:231 client/gui-win32/repodlgs.c:576
 #: client/gui-xaw/citydlg.c:2430 client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
@@ -13279,9 +13279,9 @@ msgstr " - Kontrolle durch Bürgermeister."
 #: client/gui-sdl/cma_fe.c:873 client/gui-sdl/dialogs.c:280
 #: client/gui-sdl/dialogs.c:645 client/gui-sdl/dialogs.c:879
 #: client/gui-sdl/dialogs.c:1207 client/gui-sdl/dialogs.c:1761
-#: client/gui-sdl/diplomat_dialog.c:268 client/gui-sdl/diplomat_dialog.c:860
-#: client/gui-sdl/diplomat_dialog.c:1154 client/gui-sdl/diplomat_dialog.c:1222
-#: client/gui-sdl/diplomat_dialog.c:1429 client/gui-sdl/finddlg.c:146
+#: client/gui-sdl/diplomat_dialog.c:268 client/gui-sdl/diplomat_dialog.c:864
+#: client/gui-sdl/diplomat_dialog.c:1158 client/gui-sdl/diplomat_dialog.c:1226
+#: client/gui-sdl/diplomat_dialog.c:1433 client/gui-sdl/finddlg.c:146
 #: client/gui-sdl/gotodlg.c:251 client/gui-sdl/helpdlg.c:229
 #: client/gui-sdl/helpdlg.c:619 client/gui-sdl/helpdlg.c:1910
 #: client/gui-sdl/inteldlg.c:236 client/gui-sdl/plrdlg.c:344
@@ -13648,33 +13648,33 @@ msgstr "Konferenz einberufen"
 msgid "Send him back"
 msgstr "Sende ihn zurück"
 
-#: client/gui-sdl/diplomat_dialog.c:552 data/Freeciv.in:2273
+#: client/gui-sdl/diplomat_dialog.c:556 data/Freeciv.in:2273
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Strategie des Diplomaten wählen"
 
-#: client/gui-sdl/diplomat_dialog.c:586 data/Freeciv.in:2278
+#: client/gui-sdl/diplomat_dialog.c:590 data/Freeciv.in:2278
 #: data/Freeciv.in:2304
 msgid "Establish Embassy"
 msgstr "Botschaft eröffnen"
 
-#: client/gui-sdl/diplomat_dialog.c:601 data/Freeciv.in:2280
+#: client/gui-sdl/diplomat_dialog.c:605 data/Freeciv.in:2280
 msgid "Investigate City"
 msgstr "Stadt auskundschaften"
 
-#: client/gui-sdl/diplomat_dialog.c:616 data/Freeciv.in:2311
+#: client/gui-sdl/diplomat_dialog.c:620 data/Freeciv.in:2311
 msgid "Poison City"
 msgstr "Wasser vergiften"
 
-#: client/gui-sdl/diplomat_dialog.c:630 data/Freeciv.in:2283
+#: client/gui-sdl/diplomat_dialog.c:634 data/Freeciv.in:2283
 msgid "Sabotage City"
 msgstr "Stadt _sabotieren"
 
-#: client/gui-sdl/diplomat_dialog.c:661 data/Freeciv.in:2288
+#: client/gui-sdl/diplomat_dialog.c:665 data/Freeciv.in:2288
 #: data/Freeciv.in:2321
 msgid "Incite a Revolt"
 msgstr "Zur Revolte anstiften"
 
-#: client/gui-sdl/diplomat_dialog.c:712 data/Freeciv.in:2434
+#: client/gui-sdl/diplomat_dialog.c:716 data/Freeciv.in:2434
 msgid "Sabotage Enemy Unit"
 msgstr "Feindliche Einheit sabotieren"
 
@@ -14072,12 +14072,12 @@ msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d St: %d Lux: %d For: %d "
 
-#: client/gui-sdl/mapview.c:719 data/default/units.ruleset:24
+#: client/gui-sdl/mapview.c:718 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
 msgid "veteran"
 msgstr "Veteran"
 
-#: client/gui-sdl/mapview.c:749
+#: client/gui-sdl/mapview.c:748
 msgid ""
 "\n"
 "Our Territory"
@@ -14085,7 +14085,7 @@ msgstr ""
 "\n"
 "Unser Gebiet"
 
-#: client/gui-sdl/mapview.c:755
+#: client/gui-sdl/mapview.c:754
 #, c-format
 msgid ""
 "\n"
@@ -14100,7 +14100,7 @@ msgstr[1] ""
 "\n"
 "%ses Gebiet (%d Runden Feuerpause)"
 
-#: client/gui-sdl/mapview.c:759
+#: client/gui-sdl/mapview.c:758
 #, c-format
 msgid ""
 "\n"
@@ -14109,7 +14109,7 @@ msgstr ""
 "\n"
 "Gebiet der %2$s, %1$s"
 
-#: client/gui-sdl/mapview.c:765
+#: client/gui-sdl/mapview.c:764
 msgid ""
 "\n"
 "Unclaimed territory"
@@ -14117,7 +14117,7 @@ msgstr ""
 "\n"
 "Neutrales Gebiet"
 
-#: client/gui-sdl/mapview.c:781
+#: client/gui-sdl/mapview.c:780
 #, c-format
 msgid ""
 "\n"
@@ -14126,23 +14126,23 @@ msgstr ""
 "\n"
 "Stadt %s"
 
-#: client/gui-sdl/mapview.c:795 data/default/buildings.ruleset:113
+#: client/gui-sdl/mapview.c:794 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
 msgstr "Kasernen"
 
-#: client/gui-sdl/mapview.c:807 data/default/buildings.ruleset:45
+#: client/gui-sdl/mapview.c:806 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
 msgstr "Flughafen"
 
-#: client/gui-sdl/mapview.c:813 data/default/buildings.ruleset:209
+#: client/gui-sdl/mapview.c:812 data/default/buildings.ruleset:209
 #: data/civ2/buildings.ruleset:189 data/civ1/buildings.ruleset:158
 msgid "City Walls"
 msgstr "Stadtmauer"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
-#: client/gui-sdl/mapview.c:820
+#: client/gui-sdl/mapview.c:819
 #, c-format
 msgid ""
 "\n"
@@ -14151,7 +14151,7 @@ msgstr ""
 "\n"
 "(%s, %s)"
 
-#: client/gui-sdl/mapview.c:831
+#: client/gui-sdl/mapview.c:830
 #, c-format
 msgid ""
 "\n"
@@ -14160,11 +14160,11 @@ msgstr ""
 "\n"
 "Nahrung/Produktion/Handel: %s"
 
-#: client/gui-sdl/mapview.c:1075
+#: client/gui-sdl/mapview.c:1074
 msgid "End of Turn"
 msgstr "Fertig!"
 
-#: client/gui-sdl/mapview.c:1075
+#: client/gui-sdl/mapview.c:1074
 msgid "Press"
 msgstr "Drücke"
 
@@ -14892,7 +14892,7 @@ msgstr "stationierte Einheiten"
 #: client/gui-win32/citydlg.c:823 client/gui-win32/cityrep.c:132
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:190
 #: client/gui-win32/dialogs.c:258 client/gui-win32/dialogs.c:762
-#: client/gui-win32/dialogs.c:1293 client/gui-win32/dialogs.c:1492
+#: client/gui-win32/dialogs.c:1293 client/gui-win32/dialogs.c:1493
 #: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:159
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:162
 #: client/gui-win32/plrdlg.c:351 client/gui-win32/repodlgs.c:301
@@ -14931,19 +14931,19 @@ msgstr "Unterhalt"
 
 #: client/gui-win32/citydlg.c:913 client/gui-win32/citydlg.c:967
 #: client/gui-win32/citydlg.c:1454 client/gui-win32/dialogs.c:977
-#: client/gui-win32/dialogs.c:1373 client/gui-win32/dialogs.c:1557
+#: client/gui-win32/dialogs.c:1374 client/gui-win32/dialogs.c:1559
 msgid "_Yes"
 msgstr "_Ja"
 
 #: client/gui-win32/citydlg.c:914 client/gui-win32/citydlg.c:968
 #: client/gui-win32/citydlg.c:1456 client/gui-win32/dialogs.c:978
-#: client/gui-win32/dialogs.c:1374 client/gui-win32/dialogs.c:1558
+#: client/gui-win32/dialogs.c:1375 client/gui-win32/dialogs.c:1560
 msgid "_No"
 msgstr "_Nein"
 
 #: client/gui-win32/citydlg.c:922 client/gui-win32/citydlg.c:1461
-#: client/gui-win32/dialogs.c:1381 client/gui-win32/dialogs.c:1550
-#: client/gui-win32/dialogs.c:1565 data/Freeciv.in:2252 data/Freeciv.in:2456
+#: client/gui-win32/dialogs.c:1382 client/gui-win32/dialogs.c:1552
+#: client/gui-win32/dialogs.c:1567 data/Freeciv.in:2252 data/Freeciv.in:2456
 #: data/Freeciv.in:2486
 msgid "Darn"
 msgstr "Zurück"
@@ -14968,8 +14968,8 @@ msgid "Unit Commands"
 msgstr "Befehle an Einheiten"
 
 #: client/gui-win32/citydlg.c:1491 client/gui-win32/citydlg.c:1530
-#: client/gui-win32/dialogs.c:1612 client/gui-win32/dialogs.c:1634
-#: client/gui-win32/dialogs.c:1664
+#: client/gui-win32/dialogs.c:1614 client/gui-win32/dialogs.c:1636
+#: client/gui-win32/dialogs.c:1666
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -15176,7 +15176,7 @@ msgstr "NICHTS"
 msgid "Steal"
 msgstr "Stehlen"
 
-#: client/gui-win32/dialogs.c:1493 data/Freeciv.in:2408
+#: client/gui-win32/dialogs.c:1494 data/Freeciv.in:2408
 msgid "Sabotage"
 msgstr "Sabotiere"
 
@@ -16441,16 +16441,16 @@ msgid ""
 "If you would like to add a localization (translation) for your language, "
 "please see the instructions at:\n"
 "\n"
-"  http://www.freeciv.org/index.php/Localization\n"
+"  http://www.freeciv.org/wiki/Localization\n"
 "\n"
 "Check first if a localization is already in progress for your language:\n"
 "\n"
-"  http://www.freeciv.org/index.php/Translations\n"
+"  http://www.freeciv.org/wiki/Translations\n"
 "\n"
 "You are also welcome to send any questions to the freeciv-i18n mailing "
 "list:\n"
 "\n"
-"  freeciv-i18n@freeciv.org"
+"  freeciv-i18n@gna.org"
 msgstr ""
 "Freeciv ist ein ursprünglich englisches Programm; die erste vollständige "
 "Übersetzung ins Deutsche stammt von Egbert Hinzen. Seitdem wird sie ständig "
