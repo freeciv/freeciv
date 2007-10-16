@@ -45,10 +45,10 @@ nuke_contamination	= "Pollution"
 
 ; Parameters used to generalize the calculation of city granary size:
 ;   if city_size <= num_inis:
-;     city_granary_size = (granary_food_ini[city_size] * foodbox)
+;     city_granary_size = (granary_food_ini[city_size] * foodbox / 100)
 ;   if city_size > num_inis;
-;     city_granary_size = (granary_food_ini[num_inis] * foodbox) +
-;        (granary_food_inc * (city_size - num_inis)) * foodbox / 100
+;     city_granary_size = (granary_food_ini[num_inis] +
+;        granary_food_inc * (city_size - num_inis)) * foodbox / 100
 granary_food_ini	= 20
 granary_food_inc	= 10
 
@@ -77,7 +77,7 @@ tech_cost_double_year = 1
 
 ; city_incite_cost = 
 ; total_factor * (city_size) *
-; (base + (units_cost) * unit_factor + 
+; (base_incite_cost + (units_cost) * unit_factor + 
 ;   (improvements_cost) * improvement_factor) 
 ;  / (distance * 100)
 ; See city_incite_cost() for more details
@@ -95,6 +95,7 @@ killstack               = 1
 
 [teams]
 names =
+ _("Team 0"),
  _("Team 1"),
  _("Team 2"),
  _("Team 3"),
@@ -125,5 +126,4 @@ names =
  _("Team 28"),
  _("Team 29"),
  _("Team 30"),
- _("Team 31"),
- _("Team 32")
+ _("Team 31")
