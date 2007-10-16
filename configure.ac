@@ -807,6 +807,7 @@ AC_CONFIG_FILES([Makefile
 	  data/themes/gui-sdl/Makefile
 	  data/themes/gui-sdl/human/Makefile
 	  data/wonders/Makefile
+	  data/icons/Makefile
 	  utility/Makefile
 	  utility/ftwl/Makefile
 	  dependencies/Makefile
