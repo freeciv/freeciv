@@ -107,5 +107,7 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/tolua/libtolua.a \
       $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
-
+desktopfiledir = $(prefix)/share/applications
+desktopfile_DATA = \
+	freeciv-server.desktop
 

@@ -40,6 +40,7 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/fc_svnrev_gen.h.in	\
 		bootstrap/generate_svnrev.sh	\
 		bootstrap/freeciv.desktop.in	\
+		bootstrap/freeciv-server.desktop.in	\
 		bootstrap/freeciv.spec.in	\
 		bootstrap/undep.sh.in		\
 		m4/ac_path_lib.m4		\
