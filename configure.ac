@@ -846,7 +846,8 @@ AC_CONFIG_FILES([Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
 	  bootstrap/undep.sh
 	  data/Freeciv
-	  client/freeciv.desktop:bootstrap/freeciv.desktop.in])
+	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
+	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in])
 AC_CONFIG_FILES([civ:bootstrap/civ.in], [chmod +x civ])
 AC_CONFIG_FILES([ser:bootstrap/ser.in], [chmod +x ser])
 AC_CONFIG_COMMANDS([default],[[ chmod +x bootstrap/undep.sh ; bootstrap/undep.sh ]],[[]])
