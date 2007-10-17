@@ -12,11 +12,11 @@ legend=_("In the beginning of the 14th century Osman, a leader of a\
  Egypt and much of north Africa, making it a regional superpower\
  until its dissolution in the aftermath of WWI.")
 leader=
- "Fatih sultan Mehmed",
- "Yavuz sultan Selim",
+ "Fatih Sultan Mehmed",
+ "Yavuz Sultan Selim",
  "Osman Gâzi",
  "Orhan Gâzi",
- "Kânûnî sultan Süleyman"
+ "Kânûnî Sultan Süleyman"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag ="ottoman"
 flag_alt = "turkey"
