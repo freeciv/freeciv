@@ -1,11 +1,11 @@
-====================
-Freeciv Version 1.11
-====================
+===================
+Freeciv Version 2.1
+===================
 
 Bienvenue à Freeciv !
 
-Cette archive contient Freeciv, un clone libre de Civilization pour X,
-principalement sous Unix. Il permet les parties multijoueurs locales ou
+Cette archive contient Freeciv, un clone libre de Civilization, principalement
+pour X sous Unix. Il permet les parties multijoueurs locales ou
 à travers un réseau, et inclut une IA qui donne du fil à retordre à la
 plupart des joueurs.
 
@@ -17,10 +17,6 @@ parties.
 
 Freeciv a été implémenté totalement indépendamment de Civilization ;
 vous n'avez pas besoin de posséder Civilization pour jouer à Freeciv.
-
-Bien que les graphismes ne soient pas aussi soignés que ceux de
-Civilization II, les règles sont très complètes et notre code réseau et
-multijoueurs est excellent.
 
 
 Site web :
@@ -37,8 +33,8 @@ consulter le métaserveur Freeciv, qui répertorie des parties du monde
 entier.
 
 
-Licence:
-========
+Licence :
+=========
 
 Freeciv est distribué sous la GNU GPL. En bref, vous pouvez copier ce
 programme (y compris ses sources) librement. Tous les détails se
@@ -52,8 +48,8 @@ Merci de lire attentivement le fichier INSTALL.fr pour savoir comment
 compiler et installer Freeciv sur votre machine.
 
 
-Commencer une partie:
-=====================
+Commencer une partie :
+======================
 
 Freeciv se compose en fait de deux programmes : un serveur et un
 client. Lorsqu'une partie est en cours, il y a un programme serveur qui
@@ -235,7 +231,7 @@ Annoncer la partie :
 Si vous ne voulez pas limiter la concurrence à vos amis ou aux joueurs
 IA, visitez le métaserveur Freeciv :
 
-  http://meta.freeciv.org/metaserver/
+  http://meta.freeciv.org/metaserver.phtml/
 
 C'est une liste de serveurs Freeciv. Pour que votre propre serveur
 s'y annonce lui-même, lancez civserver avec l'option '--meta', ou '-m'.
@@ -244,11 +240,8 @@ Remarques :
 
  1) Étant donnée l'inclusion de nouvelles fonctionnalités, des versions
     différentes du client et du serveur sont souvent
-    incompatibles. Toutes les incompatibilités ne peuvent pas être
-    repérées et rapportées facilement. Par exemple, si un client de
-    version 1.8.0 (ou plus récente) essaie de se connecter à un serveur
-    1.7.2 : le client semble se connecter, mais il ne reçoit jamais
-    aucun message du serveur.
+    incompatibles. Par exemple, un client de version 2.0.0 est incompatible
+    avec un serveur de version 1.14.2.
 
  2) Si le bouton Métaserveur dans la boîte de dialogue de connexion ne
     fonctionne pas, vérifiez si votre fournisser d'accès utilise un
@@ -301,16 +294,14 @@ messages aux autres joueurs.
 
 Vous pouvez envoyer un message à un seul joueur (par exemple 'pascal') :
 
-  |  pascal: enlève ce char *maintenant* !
+  |  pascal: enlève ce tank *maintenant* !
 
 Le serveur est suffisamment intelligent pour "compléter" les
 noms. Ainsi, si vous avez tapez "pas:", il cherchera un nom de joueur
 qui commence par 'pas'.
 
-Sur les serveurs récents (version 1.8.1 ou plus récente, ainsi que
-quelques versions de développement 1.8.0), vous pouvez exécuter des
-commandes du serveur depuis la ligne de saisie du client en les
-préfixant de '/' :
+Vous pouvez exécuter des commandes du serveur depuis la ligne de saisie
+du client en les préfixant de '/' :
 
   |  /list
   |  /set settlers 4
@@ -332,7 +323,7 @@ Pour avoir beaucoup plus de renseignements à propos du client, du
 serveur et des concepts et règles du jeu, consultez le manuel de Freeciv
 disponible sur le site web :
 
-  http://www.freeciv.org/manual/manual.html
+  http://www.freeciv.org/wiki/Manual
 
 
 Fin de la partie :
@@ -374,14 +365,6 @@ partie était en cours, s'ils veulent pouvoir la rejoindre.
 
 La partie peut ensuite être redémarrée avec la commande 'start', comme
 d'habitude.
-
-
-Autodémarrage du serveur :
-==========================
-
-Lorsque le nombre maximum de joueurs s'est connecté, le serveur démarre
-automatiquement. Le nombre maximum de joueurs peut être réglé avec
-l'option 'maxplayers'.
 
 
 Localisation :
@@ -466,7 +449,7 @@ Bogues :
 ========
 
 Vous avez trouvé un bogue ? Prévenez-nous, afin que nous puissions le
-corriger. Consultez le fichier BUGS pour avoir une liste des bogues
+corriger. Consultez le fichier BUGS.fr pour avoir une liste des bogues
 connus dans cette distribution, ainsi que des renseignements pour
 signaler de nouveaux bogues.
 
@@ -476,64 +459,36 @@ Listes de diffusion :
 
 Nous maintenons 6 listes de diffusion :
 
-  freeciv          Discussions générales.
   freeciv-announce Annonces d'intérêt général.
 		   C'est une liste en "lecture seule", avec des messages
 		   peu fréquents. En d'autres termes, vous ne pouvez que
 		   la lire, et pas y écrire. Les annonces qui y sont
 		   envoyées le sont aussi sur freeciv.
+  freeciv-i18n     Traduction de Freeciv.
+                   Toutes les discussions à propos des traductions du code
+                   de Freeciv, documentation et du website, vers d'autre
+                   langues que l'anglais.
   freeciv-dev      Développement de Freeciv.
-  freeciv-data     Développement du répertoire "data".
-		   Discussions sur les règles, les tiles, etc.
-  freeciv-java     Développement du client Freeciv en Java.
-  freeciv-cvs      Annonces de changements sur le CVS.
+  freeciv-commits  Annonces de changements sur le SVN.
 		   C'est une liste en "lecture seule", diffusant des
 		   messages automatisés. En d'autres termes, vous ne
 		   pouvez que la lire, et pas y écrire.
 
 Toutes ces listes sont publiques et chacun est le bienvenu pour s'y
-inscrire.
+inscrire. Seuls les contributeurs peuvent poster des items sur les listes
+-announce et -commits.
+
+Les listes sont hebergées à gna.org. Pour plus d'informations, pour se joindre,
+ou quitter ces listes, allez à https://gna.org/mail/?group=freeciv
 
 
-Pour s'inscrire (ou se désinscrire) à ces listes, procédez comme suit :
+Internet Relay Chat (IRC)
+=========================
 
-  1. Envoyez un e-mail à <listar@freeciv.org>.
-  2. Laissez le sujet vide.
-  3. Dans le corps de l'e-mail, mettez un des messages suivants :
-      Pour vous inscrire :
-        subscribe freeciv
-        subscribe freeciv-announce
-        subscribe freeciv-dev
-        subscribe freeciv-data
-        subscribe freeciv-java
-        subscribe freeciv-cvs
-      Pour vous désinscrire :
-        unsubscribe freeciv
-        unsubscribe freeciv-announce
-        unsubscribe freeciv-dev
-        unsubscribe freeciv-data
-        unsubscribe freeciv-java
-        unsubscribe freeciv-cvs
+Certains joueurs et programmateurs sont disponibles sur les canaux #freeciv et
+#freeciv-dev du réseau freenode. Essayez de connecter le serveur
 
-Pour envoyer un e-mail sur les listes, adressez-le à :
-
-  Pour freeciv, il doit être envoyé à <freeciv@freeciv.org>.
-  Pour freeciv-dev, il doit être envoyé à <freeciv-dev@freeciv.org>.  
-  Pour freeciv-data, il doit être envoyé à <freeciv-data@freeciv.org>.
-  Pour freeciv-java, il doit être envoyé à <freeciv-java@freeciv.org>.
-
-En plus de tout ceci, vous pouvez participer à la liste des traducteurs
-français de Freeciv à l'adresse suivante : freeciv-fr@egroups.fr La
-chasse aux bogues de traduction et aux mauvaises traductions est ouverte
-toute l'année et à tous, et les beta-tests sont rarement désagréables :-)
-
-
-Nouvelles versions :
-====================
-
-Nous sortons une nouvelle version de Freeciv environ tous les trois
-mois. Consultez le site web de Freeciv de temps en temps pour voir si
-une version plus récente est sortie !
+	irc.freenode.net
 
 
 Et pour conclure :
