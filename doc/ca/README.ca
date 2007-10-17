@@ -68,6 +68,11 @@ la compilació i la instal·lació de Freeciv a la teva màquina.
 Engegar una partida nova:
 =========================
 
+(Avís: no us espanteu per l'explicació que ve a continuació. Això
+serveix per entendre com funciona, i poder-hi fer retocs. Si el que
+vols és jugar, les versions noves engeguen alhora el client i el
+servidor, i t'estalvien la major part de la feina).
+
 De fet, el Freeciv són dos programes: un servidor i un client. Quan
 una partida està en progrés, hi haurà un programa servidor en execució,
 i tants programes client com jugadors humans. El servidor no necessita
@@ -502,6 +507,6 @@ de la xarxa freenode. Prova de connectar-te al servidor
 I per acabar:
 =============
 
-Diverteit-te i dona'ls canya!
+Diverteix-te i dona'ls canya!
 
                                    -- L'equip de Freeciv.
