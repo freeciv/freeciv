@@ -722,12 +722,16 @@ struct theme *theme_read_toplevel(const char *theme_name)
   t->priority = secfile_lookup_int(file, "themespec.priority");
   
   char *langname = get_langname();
-  if (strstr(langname, "zh_CN") != NULL) {
-    c = secfile_lookup_str(file, "themespec.font_file_zh_CN");
-  } else if (strstr(langname, "ja") != NULL) {
-    c = secfile_lookup_str(file, "themespec.font_file_ja");
-  } else if (strstr(langname, "ko") != NULL) {
-    c = secfile_lookup_str(file, "themespec.font_file_ko");
+  if (langname) {
+    if (strstr(langname, "zh_CN") != NULL) {
+      c = secfile_lookup_str(file, "themespec.font_file_zh_CN");
+    } else if (strstr(langname, "ja") != NULL) {
+      c = secfile_lookup_str(file, "themespec.font_file_ja");
+    } else if (strstr(langname, "ko") != NULL) {
+      c = secfile_lookup_str(file, "themespec.font_file_ko");
+    } else {
+      c = secfile_lookup_str(file, "themespec.font_file");
+    }
   } else {
     c = secfile_lookup_str(file, "themespec.font_file");
   }
