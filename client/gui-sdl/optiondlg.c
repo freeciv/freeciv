@@ -39,6 +39,7 @@
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "connectdlg_common.h"
 
 /* gui-sdl */
 #include "colors.h"
@@ -2126,6 +2127,15 @@ void init_options_button(void)
   enable_options_button();
 }
 
+static int save_game_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    send_save_game(NULL);
+    back_callback(NULL);
+  }
+  return -1;
+}
+
 static int exit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -2141,7 +2151,7 @@ static int exit_callback(struct widget *pWidget)
 void popup_optiondlg(void)
 {
   struct widget *pTmp_GUI, *pWindow;
-  struct widget *pQuit, *pDisconnect = NULL, *pBack;
+  struct widget *pCloseButton;
   SDL_String16 *pStr;
   SDL_Surface *pLogo;
   int longest = 0;
@@ -2171,39 +2181,18 @@ void popup_optiondlg(void)
   pOption_Dlg->pEndOptionsWidgetList = pWindow;
 
   area = pWindow->area;
-  
-  /* create exit button */
-  pQuit = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-				pWindow->dst, _("Quit"), adj_font(12), 0);
-  pQuit->action = exit_callback;
-  pQuit->key = SDLK_q;
-  set_wstate(pQuit, FC_WS_NORMAL);
-  add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pQuit);
-  
-  area.w += adj_size(10) + pQuit->size.w;  
 
-  /* create disconnection button */
-  if(aconnection.established) {
-    pDisconnect = create_themeicon_button_from_chars(pTheme->BACK_Icon,
-				pWindow->dst, _("Disconnect"), adj_font(12), 0);
-    pDisconnect->action = disconnect_callback;
-    set_wstate(pDisconnect, FC_WS_NORMAL);
-    add_to_gui_list(ID_OPTIONS_DISC_BUTTON, pDisconnect);
-    
-    area.w += adj_size(10) + pDisconnect->size.w + adj_size(10);
-  }
+  /* close button */
+  pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+                                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pCloseButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+  pCloseButton->action = back_callback;
+  set_wstate(pCloseButton, FC_WS_NORMAL);
+  pCloseButton->key = SDLK_ESCAPE;
   
-  /* create back button */
-  pBack = create_themeicon_button_from_chars(pTheme->BACK_Icon,
-				pWindow->dst, _("Back"), adj_font(12), 0);
-  pBack->action = back_callback;
-  pBack->key = SDLK_ESCAPE;
-  set_wstate(pBack, FC_WS_NORMAL);
-  add_to_gui_list(ID_OPTIONS_BACK_BUTTON, pBack);
-  
-  area.w += pBack->size.w + adj_size(10);
-  
-  pOption_Dlg->pBeginCoreOptionsWidgetList = pBack;
+  add_to_gui_list(ID_OPTIONS_BACK_BUTTON, pCloseButton);
+
+  pOption_Dlg->pBeginCoreOptionsWidgetList = pCloseButton;
   /* ------------------------------------------------------ */
   
   area.w = MAX(area.w, (adj_size(360) - (pWindow->size.w - pWindow->area.w)));
@@ -2222,29 +2211,11 @@ void popup_optiondlg(void)
   widget_set_position(pWindow,
     (Main.screen->w - pWindow->size.w) / 2,
     (Main.screen->h - pWindow->size.h) / 2);
-  
-  if(aconnection.established) {
-    widget_set_position(pDisconnect,
-                        area.x + (area.w - pDisconnect->size.w) / 2,
-                        area.y + area.h - pDisconnect->size.h - adj_size(10));
-    
-    widget_set_position(pBack,
-                        pDisconnect->size.x - adj_size(10) - pBack->size.w,
-                        area.y + area.h - pBack->size.h - adj_size(10));
-    
-    widget_set_position(pQuit,
-                        pDisconnect->size.x + pDisconnect->size.w + adj_size(10),
-                        area.y + area.h - pQuit->size.h - adj_size(10));
-  } else {
-    widget_set_position(pBack,
-                        area.x + adj_size(10),
-                        area.y + area.h - pBack->size.h - adj_size(10));
-    
-    widget_set_position(pQuit,
-                        area.x + area.w - pQuit->size.w - adj_size(10),
-                        area.y + area.h - pQuit->size.h - adj_size(10));
-  }
-      
+
+  widget_set_position(pCloseButton,
+                      area.x + area.w - pCloseButton->size.w - 1,
+                      pWindow->size.y + adj_size(2));
+        
   /* ============================================================= */
 
   /* create video button widget */
@@ -2252,7 +2223,7 @@ void popup_optiondlg(void)
 			pWindow->dst, _("Video options"), adj_font(12), 0);
   pTmp_GUI->action = video_callback;
   set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(60));
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(30));
   longest = MAX(longest, pTmp_GUI->size.w);
 
   add_to_gui_list(ID_OPTIONS_VIDEO_BUTTON, pTmp_GUI);
@@ -2262,7 +2233,7 @@ void popup_optiondlg(void)
 				pWindow->dst, _("Sound options"), adj_font(12), 0);
   pTmp_GUI->action = sound_callback;
   /* set_wstate( pTmp_GUI, FC_WS_NORMAL ); */
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(90));
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(60));
   longest = MAX(longest, pTmp_GUI->size.w);
 
   add_to_gui_list(ID_OPTIONS_SOUND_BUTTON, pTmp_GUI);
@@ -2274,7 +2245,7 @@ void popup_optiondlg(void)
 				      _("Game options"), adj_font(12), 0);
   pTmp_GUI->action = local_setting_callback;
   set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(120));
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(90));
   longest = MAX(longest, pTmp_GUI->size.w);
 
   add_to_gui_list(ID_OPTIONS_LOCAL_BUTTON, pTmp_GUI);
@@ -2284,7 +2255,7 @@ void popup_optiondlg(void)
 				  pWindow->dst, _("Map options"), adj_font(12), 0);
   pTmp_GUI->action = map_setting_callback;
   set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(150));
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(120));
   longest = MAX(longest, pTmp_GUI->size.w);
 
   add_to_gui_list(ID_OPTIONS_MAP_BUTTON, pTmp_GUI);
@@ -2299,10 +2270,52 @@ void popup_optiondlg(void)
     set_wstate(pTmp_GUI, FC_WS_NORMAL);
   }
 
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(180));
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(150));
   longest = MAX(longest, pTmp_GUI->size.w);
 
   add_to_gui_list(ID_OPTIONS_WORKLIST_BUTTON, pTmp_GUI);
+
+  /* create save game widget */
+  pTmp_GUI = create_icon_button_from_chars(NULL, 
+                                pWindow->dst, _("Save Game"), adj_font(12), 0);
+  pTmp_GUI->action = save_game_callback;
+  
+  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    set_wstate(pTmp_GUI, FC_WS_NORMAL);
+  }
+
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(200));
+  longest = MAX(longest, pTmp_GUI->size.w);
+
+  add_to_gui_list(ID_OPTIONS_SAVE_GAME_BUTTON, pTmp_GUI);
+
+  /* create leave game widget */
+  pTmp_GUI = create_icon_button_from_chars(NULL, 
+                                pWindow->dst, _("Leave Game"), adj_font(12), 0);
+  pTmp_GUI->action = disconnect_callback;
+  pTmp_GUI->key = SDLK_q;
+    
+  if(aconnection.established) {
+    set_wstate(pTmp_GUI, FC_WS_NORMAL);
+  }
+
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(230));
+  longest = MAX(longest, pTmp_GUI->size.w);
+
+  add_to_gui_list(ID_OPTIONS_DISC_BUTTON, pTmp_GUI);
+
+  /* create quit widget */
+  pTmp_GUI = create_icon_button_from_chars(NULL, 
+                                pWindow->dst, _("Quit"), adj_font(12), 0);
+  pTmp_GUI->action = exit_callback;
+  pTmp_GUI->key = SDLK_q;
+    
+  set_wstate(pTmp_GUI, FC_WS_NORMAL);
+
+  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(260));
+  longest = MAX(longest, pTmp_GUI->size.w);
+
+  add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pTmp_GUI);
 
   pOption_Dlg->pBeginOptionsWidgetList = pTmp_GUI;
   pOption_Dlg->pBeginMainOptionsWidgetList = pTmp_GUI;
