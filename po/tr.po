@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-18 15:08+0300\n"
+"PO-Revision-Date: 2007-10-19 11:09+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6588,14 +6588,14 @@ msgstr "%s birimi %s tarafındaki %s birimine yenildi."
 #: server/unittools.c:1705
 #, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
-msgstr ""
+msgstr "%s birimi, %s tarafındaki %s birimi %s tarafının %s birimine saldırırken kaybedildi."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from John's Destroyer."
 #: server/unittools.c:1720
 #, c-format
 msgid "%s (and %s) lost to an attack from %s's %s."
-msgstr ""
+msgstr "%s (ve %s), %s tarafındaki %s birimine yenildi."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from John's Destroyer." (only happens
@@ -6604,7 +6604,7 @@ msgstr ""
 #, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
-msgstr[0] ""
+msgstr[0] "%s ve %d diğer birim %s tarafının %s birimine yenildi."
 
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
@@ -6613,7 +6613,7 @@ msgstr[0] ""
 #, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
-msgstr[0] ""
+msgstr[0] "%d birim %s tarafının %s biriminin %s tarafının %s birimine saldırması sonucu kaybedildi."
 
 #: server/unittools.c:2008
 #, c-format
@@ -6669,7 +6669,7 @@ msgstr "Bu birin %s içine atlayış yapamaz."
 #: server/unittools.c:2160
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr ""
+msgstr "Hedefe olan mesafe (%i) birimin menzili (%i) dışında kalıyor."
 
 #: server/unittools.c:2171
 #, c-format
@@ -6684,7 +6684,7 @@ msgstr "%s biriminiz paraşütle atlarken düşman tarafından vuruldu."
 #: server/unittools.c:2206
 #, c-format
 msgid "You found %d gold."
-msgstr "Hazinesi buldunuz (%d altın)."
+msgstr "Hazine buldunuz (%d altın)."
 
 #: server/unittools.c:2223
 #, c-format
@@ -6791,12 +6791,12 @@ msgstr "Üretici %d kullanılıyor."
 
 #: server/generator/mapgen.c:2002
 msgid "Generator 3 didn't place all big islands."
-msgstr ""
+msgstr "Üretici 3 bütün büyük adaları yerleştirmedi."
 
 #: server/generator/mapgen.c:2031
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
-msgstr ""
+msgstr "Üretici 3 %li kara parçasını yapamadı."
 
 #: server/generator/startpos.c:381
 #, c-format
@@ -7597,7 +7597,7 @@ msgstr ""
 
 #: client/connectdlg_common.c:481
 msgid "We have control of the server (command access level hack)"
-msgstr ""
+msgstr "Sunucu bizim kontrolümüzde (komut erişim seviyesi)"
 
 #: client/connectdlg_common.c:486
 msgid "We can't take control of server, attempting to kill it."
@@ -11735,11 +11735,11 @@ msgstr "_Giriş"
 
 #: client/gui-gtk-2.0/pages.c:865
 msgid "Pass_word:"
-msgstr "_Şifre:"
+msgstr "_Parola:"
 
 #: client/gui-gtk-2.0/pages.c:883
 msgid "Conf_irm Password:"
-msgstr "Şifre _Tekrar:"
+msgstr "Parolayı _Doğrula:"
 
 #: client/gui-gtk-2.0/pages.c:908
 msgid "C_onnect"
@@ -12165,7 +12165,7 @@ msgstr "Sıra"
 
 #: client/gui-gtk-2.0/wldlg.c:1149
 msgid "Source _Tasks:"
-msgstr "Kaynak _Gelişimleri:"
+msgstr "Kaynak _Görevler:"
 
 #: client/gui-gtk-2.0/wldlg.c:1154
 msgid "Show _Future Targets"
@@ -15576,7 +15576,7 @@ msgstr ""
 "\n"
 "  http://www.freeciv.org/wiki/Translations\n"
 "\n"
-"freeciv-i18n e-posta listesinde bu konudaki soru sorabilirsiniz:\n"
+"Bu konudaki sorularınızı freeciv-i18n e-posta listesinde sorabilirsiniz:\n"
 "\n"
 "  freeciv-i18n@gna.org"
 
@@ -22543,7 +22543,7 @@ msgstr "Birleşik Krallık (orta/klasik)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
-msgstr ""
+msgstr "Klasik tarzda 85x80 Britanya Adaları"
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
@@ -22551,7 +22551,7 @@ msgstr "Dünya (klasik, büyük)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
-msgstr ""
+msgstr "Klasik tarzda 160x90 Dünya senaryosu"
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
@@ -22559,7 +22559,7 @@ msgstr "Dünya (klasik, küçük)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
-msgstr ""
+msgstr "Klasik tarzda 80x50 Dünya senaryosu."
 
 #: data/scenario/europe-200x100-v2.sav:3
 msgid "Europe (giant/classic)"
@@ -22567,7 +22567,7 @@ msgstr "Avrupa (kocaman/klasik)"
 
 #: data/scenario/europe-200x100-v2.sav:4
 msgid "Very large classic-style map of Europe."
-msgstr ""
+msgstr "Çok büyük klasik tarzda Avrupa haritası."
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
@@ -22575,7 +22575,7 @@ msgstr "Dünya (klasik, orta)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
-msgstr ""
+msgstr "Klasik tarzda 120x60 Dünya senaryosu."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
@@ -22585,7 +22585,7 @@ msgstr "İber Yarımadası (klasik/büyük)"
 msgid ""
 "Large classic-style map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
-msgstr ""
+msgstr "Büyük klasik tarzda İberya Yarımadası (günümüzün İspanya ve Portekiz'i)"
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
@@ -22603,6 +22603,11 @@ msgid ""
 "and using your settlers to find a good place to build\n"
 "a city.  Use the number pad to move units around."
 msgstr ""
+"Freeciv'e hoş geldiniz.  Bir ulusu yönetiyorsunuz.  Göreviniz\n"
+"dünyayı ele geçirmek!  Gezgininizi kullanarak etrafınızdaki\n"
+"bölgeyi dolaşmakla başlamalısınız. Göçmenlere de\n"
+"yerleşebilecekleri güzel bir yer bulmalısınız.  Numerik\n"
+"klavyeyi kullanarak birimlerinizi ilerletebilirsiniz."
 
 #: data/scenario/tutorial.sav:34
 msgid ""
@@ -22613,6 +22618,11 @@ msgid ""
 "is the most important resource for any city.  Grassland and plains\n"
 "provide plenty of food."
 msgstr ""
+"Burası şehir kurmak için güzel bir yer.  Bu birimin hareket puanı\n"
+"olduğu zaman (b) tuşuna basarak şehir yapabilirsiniz.\n"
+"Genellikle şehirleri deniz kenarındaki açık alanlara yapmak isteyeceksiniz.\n"
+"Gıda bir şehrin en önemli kaynağıdır.  Otlaklar ve ovalardan\n"
+"sağlanan gıda yeterli olacaktır."
 
 #: data/scenario/tutorial.sav:49
 msgid ""
@@ -22628,6 +22638,17 @@ msgid ""
 "dialog.  If all goes well the city should display the settler\n"
 "production on the map view."
 msgstr ""
+"İlk şehrinizi kurdunuz.  Şehir penceresi otomatik olarak açılmış olmalı\n"
+"Açılmadıysa şehrin üzerine tıklayarak açın.  Şehirler Freeciv'in\n"
+"en önemli konusudur, bu yüzden pencerede nelerin olduğuna bakarak\n"
+"kendinizi alıştırmanız iyi olacaktır.  Daha fazlası için yardım\n"
+"menüsüne bakın. \n"
+"\n"
+"Öncelikle medeniyetinizi genişletmek için  biraz göçmen yapmak\n"
+"isteyebilirsiniz.  Üretim sekmesine tıklayın, mümkün olan görevler\n"
+"listesinden göçmeni seçin ve Üretimi Değiştir düğmesine\n"
+"basın.  İşiniz bitince şehir penceresini kapatın.  Her şey yolundaysa\n"
+"haritadan şehrin göçmen yaptığını görebileceksiniz."
 
 #: data/scenario/tutorial.sav:62
 msgid ""
@@ -22636,6 +22657,10 @@ msgid ""
 "because of the terrain around it.  You probably want to build\n"
 "settlers here too."
 msgstr ""
+"Tebrikler, ikinci şehrinizi kurdunuz.  Bu şehir ilkiyle hemen hemen\n"
+"aynı şekilde davranacaktır. Fakat etrafındaki arazi nedeniyle\n"
+"tamamen farklı bir şehir olacaktır.  Burada da göçmen yaptırmak\n"
+"isteyebilirsiniz."
 
 #: data/scenario/tutorial.sav:68
 msgid ""
