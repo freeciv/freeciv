@@ -27,6 +27,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* common */
 #include "game.h"
@@ -35,6 +36,7 @@
 /* client */
 #include "civclient.h"
 #include "clinet.h"
+#include "connectdlg_common.h"
 
 /* gui-sdl */
 #include "colors.h"
@@ -46,6 +48,7 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "messagewin.h"
+#include "pages.h"
 #include "themespec.h"
 #include "unistring.h"
 #include "widget.h"
@@ -59,8 +62,11 @@ struct CONNLIST {
   struct ADVANCED_DLG *pChat_Dlg;
   struct widget *pBeginWidgetList;
   struct widget *pEndWidgetList;
-  struct widget *pStart;
+  struct widget *pStartButton;
+  struct widget *pSelectNationButton;
+  struct widget *pLoadGameButton;
   struct widget *pConfigure;
+  struct widget *pBackButton;
   struct widget *pEdit;
   int text_width;
   int active;
@@ -68,6 +74,289 @@ struct CONNLIST {
 
 static void popup_conn_list_dialog(void);
 static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc);
+
+/**************************************************************************
+                                  LOAD GAME
+**************************************************************************/
+
+struct ADVANCED_DLG *pLoadDialog;
+
+static int move_load_game_dlg_callback(struct widget *pWindow)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pLoadDialog->pBeginWidgetList, pWindow);
+  }
+  return -1;
+}
+
+void popdown_load_game_dialog(void)
+{
+  if (pLoadDialog) {
+    popdown_window_group_dialog(pLoadDialog->pBeginWidgetList, pLoadDialog->pEndWidgetList);
+    FC_FREE(pLoadDialog->pScroll);
+    FC_FREE(pLoadDialog);
+
+    /* enable buttons */  
+    set_wstate(pConnDlg->pBackButton, FC_WS_NORMAL);
+    widget_redraw(pConnDlg->pBackButton);
+    widget_mark_dirty(pConnDlg->pBackButton);
+    set_wstate(pConnDlg->pLoadGameButton, FC_WS_NORMAL);
+    widget_redraw(pConnDlg->pLoadGameButton);
+    widget_mark_dirty(pConnDlg->pLoadGameButton);
+    set_wstate(pConnDlg->pStartButton, FC_WS_NORMAL);
+    widget_redraw(pConnDlg->pStartButton);
+    widget_mark_dirty(pConnDlg->pStartButton);
+
+    flush_dirty();
+  }
+}
+
+static int exit_load_dlg_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (get_client_page() == PAGE_LOAD) {
+      set_client_page(PAGE_START);
+    } else {
+      popdown_load_game_dialog();
+    }
+  }
+  return -1;
+}
+
+static int load_selected_game_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *filename = (char*)pWidget->data.ptr;
+
+    if (is_server_running()) {
+      char message[MAX_LEN_MSG];
+
+      my_snprintf(message, sizeof(message), "/load %s", filename);
+      send_chat(message);
+      
+      if (get_client_page() == PAGE_LOAD) {
+        set_client_page(PAGE_START);
+      } else if (get_client_page() == PAGE_START) {
+        popdown_load_game_dialog();
+      }
+    } else {
+      set_client_page(PAGE_MAIN);
+    }
+  }
+  return -1;
+}
+
+static void popup_load_game_dialog(void)
+{
+  struct widget *pWindow;
+  struct widget *pCloseButton;
+  struct widget *pFilenameLabel = NULL;
+  struct widget *pFirstLabel = NULL;
+  struct widget *pLastLabel = NULL;
+  struct widget *pNextLabel = NULL; 
+  SDL_String16 *pTitle, *pFilename;
+  SDL_Rect area;
+  struct datafile_list *files;
+  int count = 0;
+  int scrollbar_width = 0;
+  int max_label_width = 0;
+  
+  if (pLoadDialog) {
+    return;
+  }
+
+  /* disable buttons */  
+  set_wstate(pConnDlg->pBackButton, FC_WS_DISABLED);
+  widget_redraw(pConnDlg->pBackButton);
+  widget_mark_dirty(pConnDlg->pBackButton);
+  set_wstate(pConnDlg->pLoadGameButton, FC_WS_DISABLED);
+  widget_redraw(pConnDlg->pLoadGameButton);
+  widget_mark_dirty(pConnDlg->pLoadGameButton);
+  set_wstate(pConnDlg->pSelectNationButton, FC_WS_DISABLED);
+  widget_redraw(pConnDlg->pSelectNationButton);
+  widget_mark_dirty(pConnDlg->pSelectNationButton);
+  set_wstate(pConnDlg->pStartButton, FC_WS_DISABLED);
+  widget_redraw(pConnDlg->pStartButton);
+  widget_mark_dirty(pConnDlg->pStartButton);
+  
+  /* create dialog */
+  pLoadDialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+
+  pTitle = create_str16_from_char(_("Choose Saved Game to Load"), adj_font(12));
+  pTitle->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window_skeleton(NULL, pTitle, 0);
+  pWindow->action = move_load_game_dlg_callback; 
+  set_wstate(pWindow, FC_WS_NORMAL);
+  
+  add_to_gui_list(ID_WINDOW, pWindow);
+
+  pLoadDialog->pEndWidgetList = pWindow;
+
+  area = pWindow->area;
+  
+  /* close button */
+  pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+                                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pCloseButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+  pCloseButton->action = exit_load_dlg_callback;
+  set_wstate(pCloseButton, FC_WS_NORMAL);
+  pCloseButton->key = SDLK_ESCAPE;
+  
+  add_to_gui_list(ID_BUTTON, pCloseButton);
+
+  area.w += pCloseButton->size.w;
+
+  pLoadDialog->pBeginWidgetList = pCloseButton;
+
+  /* create scrollbar */
+  scrollbar_width = create_vertical_scrollbar(pLoadDialog, 1, 20, TRUE, TRUE);
+  hide_scrollbar(pLoadDialog->pScroll);
+
+  /* search for user saved games. */
+  files = datafilelist_infix("saves", ".sav", FALSE);
+  datafile_list_iterate(files, pfile) {
+    
+    count++;
+    
+    pFilename = create_str16_from_char(pfile->name, adj_font(13));
+    pFilename->style |= SF_CENTER;
+    pFilenameLabel = create_iconlabel(NULL, pWindow->dst, pFilename,
+      (WF_FREE_DATA | WF_SELLECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
+     
+    /* store filename */
+    pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
+    mystrlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
+    
+    pFilenameLabel->action = load_selected_game_callback;
+     
+    set_wstate(pFilenameLabel, FC_WS_NORMAL);
+    
+    /* FIXME: this was supposed to be add_widget_to_vertical_scroll_widget_list(), but
+     * add_widget_to_vertical_scroll_widget_list() needs the scrollbar area to be defined
+     * for updating the scrollbar position, but the area is not known yet (depends on
+     * maximum label width) */ 
+    add_to_gui_list(ID_LABEL, pFilenameLabel);
+
+    if (count == 1) {
+      pFirstLabel = pFilenameLabel;
+    }
+
+    max_label_width = MAX(max_label_width, pFilenameLabel->size.w);
+        
+    free(pfile->name);
+    free(pfile->fullname);
+    free(pfile);
+  } datafile_list_iterate_end;
+
+  datafile_list_unlink_all(files);
+  datafile_list_free(files);
+
+  files = datafilelist_infix(NULL, ".sav", FALSE);
+  datafile_list_iterate(files, pfile) {
+    
+    count++;
+    
+    pFilename = create_str16_from_char(pfile->name, adj_font(13));
+    pFilename->style |= SF_CENTER;
+    pFilenameLabel = create_iconlabel(NULL, pWindow->dst, pFilename,
+      (WF_FREE_DATA | WF_SELLECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
+     
+    /* store filename */
+    pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
+    mystrlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
+    
+    pFilenameLabel->action = load_selected_game_callback;
+     
+    set_wstate(pFilenameLabel, FC_WS_NORMAL);
+    
+    /* FIXME: this was supposed to be add_widget_to_vertical_scroll_widget_list(), but
+     * add_widget_to_vertical_scroll_widget_list() needs the scrollbar area to be defined
+     * for updating the scrollbar position, but the area is not known yet (depends on
+     * maximum label width) */ 
+    add_to_gui_list(ID_LABEL, pFilenameLabel);
+
+    if (count == 1) {
+      pFirstLabel = pFilenameLabel;
+    }
+
+    max_label_width = MAX(max_label_width, pFilenameLabel->size.w);
+        
+    free(pfile->name);
+    free(pfile->fullname);
+    free(pfile);
+  } datafile_list_iterate_end;
+
+  datafile_list_unlink_all(files);
+  datafile_list_free(files);
+
+  pLastLabel = pFilenameLabel;
+
+  area.w = MAX(area.w, max_label_width + scrollbar_width + 1);
+  
+  if (count > 0) {
+    area.h = (pLoadDialog->pScroll->active * pFilenameLabel->size.h) + adj_size(5);
+  }
+
+  resize_window(pWindow, theme_get_background(theme, BACKGROUND_LOADGAMEDLG),
+                NULL,
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
+      
+  area = pWindow->area;
+      
+  setup_vertical_scrollbar_area(pLoadDialog->pScroll,
+    area.x + area.w - 1,
+    area.y + 1,
+    area.h - adj_size(2), TRUE);
+
+  /* add filename labels to list */
+  pFilenameLabel = pFirstLabel;
+  while (pFilenameLabel) {
+    pFilenameLabel->size.w = area.w - scrollbar_width - 3;
+
+    pNextLabel = pFilenameLabel->prev;
+
+    del_widget_pointer_from_gui_list(pFilenameLabel);
+    if (pFilenameLabel == pFirstLabel) {
+      add_widget_to_vertical_scroll_widget_list(pLoadDialog,
+          pFilenameLabel, pCloseButton,
+          FALSE,
+          area.x + 1,
+          area.y + adj_size(2));
+    } else {
+      add_widget_to_vertical_scroll_widget_list(pLoadDialog,
+          pFilenameLabel,
+          pLoadDialog->pBeginActiveWidgetList,
+          FALSE,
+          area.x + 1,
+          area.y + adj_size(2));
+    }
+    
+    if (pFilenameLabel == pLastLabel) {
+      break;
+    }
+         
+    pFilenameLabel = pNextLabel;
+  }
+
+  widget_set_position(pWindow,
+                      (Main.screen->w - pWindow->size.w) / 2,
+                      (Main.screen->h - pWindow->size.h) / 2);
+
+  widget_set_position(pCloseButton,
+                      area.x + area.w - pCloseButton->size.w - 1,
+                      pWindow->size.y + adj_size(2));
+
+  /* FIXME: the scrollbar already got a background saved in
+   * add_widget_to_vertical_scroll_widget_list(), but the window
+   * is not drawn yet, so this saved background is wrong.
+   * Deleting it here as a workaround. */
+  FREESURFACE(pLoadDialog->pScroll->pScrollBar->gfx);
+
+  redraw_group(pLoadDialog->pBeginWidgetList, pWindow, 1);
+  flush_dirty();
+}
 
 /**************************************************************************
   Sent msg/command from imput dlg to server
@@ -277,15 +566,6 @@ static int start_game_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
- ...
-**************************************************************************/
-static int server_config_callback(struct widget *pWidget)
-{
-
-  return -1;
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 static int select_nation_callback(struct widget *pWidget)
@@ -296,6 +576,31 @@ static int select_nation_callback(struct widget *pWidget)
   return -1;
 }
 
+/* not implemented yet */
+#if 0
+/**************************************************************************
+ ...
+**************************************************************************/
+static int server_config_callback(struct widget *pWidget)
+{
+
+  return -1;
+}
+#endif
+
+/**************************************************************************
+...
+**************************************************************************/
+static int load_game_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+//    set_wstate(pConnDlg->pLoadGameButton, FC_WS_NORMAL);
+//    widget_redraw(pConnDlg->pLoadGameButton);        
+//    flush_dirty();
+    popup_load_game_dialog();
+  }  
+  return -1;
+}
 
 /**************************************************************************
  Update the connected users list at pregame state.
@@ -385,6 +690,11 @@ void update_conn_list_dialog(void)
     } else {
       popup_conn_list_dialog();
     }
+    
+    /* PAGE_LOAD -> the server was started from the main page to load a game */
+    if ((get_client_page() == PAGE_LOAD)) {
+      popup_load_game_dialog();
+    }
   } else {
     if (popdown_conn_list_dialog()) {
       flush_dirty();
@@ -403,7 +713,7 @@ static void popup_conn_list_dialog(void)
   struct widget* pBackButton = NULL;
   struct widget *pStartGameButton = NULL;
   struct widget *pSelectNationButton = NULL;
-  struct widget *pServerSettingsButton = NULL;
+/*  struct widget *pServerSettingsButton = NULL;*/
 
   SDL_String16 *pStr = NULL;
   int n;
@@ -522,6 +832,7 @@ static void popup_conn_list_dialog(void)
   				_("Back"), adj_font(12), 0);
   pBuf->size.x = adj_size(10);
   pBuf->size.y = pWindow->size.h - adj_size(10) - pBuf->size.h;
+  pConnDlg->pBackButton = pBuf;
   pBuf->action = disconnect_conn_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -532,7 +843,7 @@ static void popup_conn_list_dialog(void)
   				_("Start"), adj_font(12), 0);
   pBuf->size.x = pWindow->size.w - adj_size(10) - pBuf->size.w;
   pBuf->size.y = pBackButton->size.y;
-  pConnDlg->pStart = pBuf;
+  pConnDlg->pStartButton = pBuf;
   pBuf->action = start_game_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
@@ -543,12 +854,24 @@ static void popup_conn_list_dialog(void)
   pBuf->size.h = pStartGameButton->size.h;
   pBuf->size.x = pStartGameButton->size.x - adj_size(10) - pBuf->size.w;
   pBuf->size.y = pStartGameButton->size.y;
-
+  pConnDlg->pSelectNationButton = pBuf;
   pBuf->action = select_nation_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
   pSelectNationButton = pBuf;
-  
+
+  pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
+                                _("Load Game"), adj_font(12), 0);
+  pBuf->size.h = pSelectNationButton->size.h;
+  pBuf->size.x = pSelectNationButton->size.x - adj_size(10) - pBuf->size.w;
+  pBuf->size.y = pSelectNationButton->size.y;
+  pConnDlg->pLoadGameButton = pBuf;
+  pBuf->action = load_game_callback;
+  set_wstate(pBuf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, pBuf);
+
+  /* not implemented yet */ 
+#if 0
   pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
   				_("Server Settings"), adj_font(12), 0);
   pBuf->size.h = pSelectNationButton->size.h;
@@ -559,7 +882,9 @@ static void popup_conn_list_dialog(void)
   set_wstate(pBuf, FC_WS_DISABLED);  
   add_to_gui_list(ID_BUTTON, pBuf);
   pServerSettingsButton = pBuf;
-  
+#endif 
+ 
+  /* not implemented yet */
 #if 0  
   pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst->surface,
   				"?", adj_font(12), 0);

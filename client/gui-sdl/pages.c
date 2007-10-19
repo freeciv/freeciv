@@ -56,6 +56,7 @@ static void popdown_start_menu(void);
 static int start_new_game_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_start_menu();
     if (is_server_running() || client_start_server()) {
       char buf[512];
   
@@ -65,6 +66,17 @@ static int start_new_game_callback(struct widget *pWidget)
       my_snprintf(buf, sizeof(buf), "/%s", ai_level_cmd(AI_LEVEL_DEFAULT));
       send_chat(buf);
     }
+  }
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int load_game_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    set_client_page(PAGE_LOAD);
   }
   return -1;
 }
@@ -173,9 +185,9 @@ static void show_main_page()
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Load Game"),
             adj_font(14),
 	    (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
-  /*pWidget->action = popup_load_game_callback;*/
+  pWidget->action = load_game_callback;
   pWidget->string16->style |= SF_CENTER;
-  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT);
+  set_wstate(pWidget, FC_WS_NORMAL);
   
   add_to_gui_list(ID_LOAD_GAME, pWidget);
   
@@ -312,6 +324,7 @@ static void popdown_start_menu()
     popdown_window_group_dialog(pStartMenu->pBeginWidgetList,
                                 pStartMenu->pEndWidgetList);
     FC_FREE(pStartMenu);
+    flush_dirty();
   }
 }
 
@@ -329,6 +342,9 @@ void set_client_page(enum client_pages page)
     case PAGE_MAIN:
       popdown_start_menu();
       break;
+    case PAGE_LOAD:
+      popdown_load_game_dialog();
+      break;
     case PAGE_NETWORK:
       close_connection_dialog();
       break;
@@ -341,10 +357,13 @@ void set_client_page(enum client_pages page)
     default: 
       break;
   }
-  
+
   switch (page) {
     case PAGE_MAIN:
       show_main_page();
+      break;
+    case PAGE_LOAD:
+      client_start_server();
       break;
     case PAGE_NETWORK:
       popup_join_game_dialog();
