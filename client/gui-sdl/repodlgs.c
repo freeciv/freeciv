@@ -3050,7 +3050,7 @@ static void popup_change_research_goal_dialog()
   
   /* max row - 204 is goal tech widget height */
   max_row = (Main.screen->h - (pWindow->size.h - pWindow->area.h) - adj_size(2)) / adj_size(204);
-  freelog(LOG_NORMAL, "%d, %d, %d", Main.screen->h, pWindow->size.h, pWindow->area.h);
+
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
     max_col--;
@@ -3129,7 +3129,7 @@ static void popup_change_research_goal_dialog()
   
   area.w = MAX(area.w, (col * pBuf->size.w + adj_size(2) + i));
   area.h = MAX(area.h, count * pBuf->size.h + adj_size(2));
-  freelog(LOG_NORMAL, "area.h = %d", area.h);
+
   /* alloca window theme and win background buffer */
   pSurf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
   resize_window(pWindow, pSurf, NULL,
