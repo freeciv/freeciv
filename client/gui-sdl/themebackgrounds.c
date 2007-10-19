@@ -41,6 +41,7 @@ static char *background_names[] = {
   "economydlg",
   "hlpdlg",
   "joingamedlg",
+  "loadgamedlg",
   "mainpage",
   "messagewin",
   "nationdlg",
