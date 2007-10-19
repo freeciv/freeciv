@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-19 19:23+0300\n"
+"PO-Revision-Date: 2007-10-19 22:41+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1039,12 +1039,12 @@ msgstr "hata %d (strerror olmadan derlenmiş)"
 #: ai/aicity.c:1039 server/citytools.c:1901
 #, c-format
 msgid "The %s have stopped building The %s in %s."
-msgstr "%s %s yapımını %s'de durdurdular."
+msgstr "%s %s yapımını %s şehrinde durdurdular."
 
 #: ai/aicity.c:1050 server/citytools.c:1941
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr "%s %s yapımına %s'de başladılar."
+msgstr "%s %s yapımına %s şehrinde başladılar."
 
 #: ai/aicity.c:1374
 #, c-format
@@ -1685,7 +1685,7 @@ msgstr " iş listesinden"
 #: server/citytools.c:1934
 #, c-format
 msgid "%s is building %s%s."
-msgstr "%s şehri %s%s inşa ediyor."
+msgstr "%s şehri %s birimini%s inşa ediyor."
 
 #: server/citytools.c:2179
 #, c-format
@@ -5057,7 +5057,7 @@ msgstr "Oyuncu %d"
 #: server/srv_main.c:1656 server/srv_main.c:1662
 #, c-format
 msgid "%s rules the %s."
-msgstr "%s %s hükmediyor."
+msgstr "%s, %s ulusuna hükmediyor."
 
 #: server/srv_main.c:1826
 msgid ""
@@ -6117,7 +6117,7 @@ msgstr[0] " %d bağlantı:"
 #: server/stdinhand.c:4112
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr ""
+msgstr "  %s, %s adresinden (komut erişim seviyesi %s), tampon=%dkb"
 
 #: server/stdinhand.c:4117
 msgid " (observer mode)"
@@ -7396,7 +7396,7 @@ msgstr ""
 #: client/civclient.c:300
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr ""
+msgstr "Tanınmayan ayar: \"%s\"\n"
 
 #: client/civclient.c:537
 msgid "Game started."
@@ -7404,12 +7404,12 @@ msgstr "Oyun başladı."
 
 #: client/civclient.c:572
 msgid "There was an error while auto connecting; aborting."
-msgstr ""
+msgstr "Otomatik bağlanırken bir hata oluştu, iptal ediliyor."
 
 #: client/climisc.c:176
 #, c-format
 msgid "Changing production of every %s into %s."
-msgstr ""
+msgstr "Her %s üretimi %s olarak değiştirildi."
 
 #: client/climisc.c:214
 msgid "?embassy:Both"
@@ -7451,34 +7451,34 @@ msgstr "%s %s veriyorlar"
 #: client/climisc.c:268
 #, c-format
 msgid "The %s give unknown city."
-msgstr ""
+msgstr "%s bilinmeyen bir şehir verecek."
 
 #: client/climisc.c:273
 #, c-format
 msgid "The %s give %d gold"
-msgstr ""
+msgstr "%s, %d altın verecek"
 
 #: client/climisc.c:278
 #, c-format
 msgid "The %s give their worldmap"
-msgstr ""
+msgstr "%s dünya haritasını verecek"
 
 #: client/climisc.c:282
 #, c-format
 msgid "The %s give their seamap"
-msgstr ""
+msgstr "%s deniz haritasını verecek"
 
 #: client/climisc.c:286
 msgid "The parties agree on a cease-fire"
-msgstr ""
+msgstr "İki taraf da ateşkes yapacak"
 
 #: client/climisc.c:289
 msgid "The parties agree on a peace"
-msgstr ""
+msgstr "İki taraf arasında barış olacak"
 
 #: client/climisc.c:292
 msgid "The parties create an alliance"
-msgstr ""
+msgstr "İki taraf birbirinin müttefiki olacak"
 
 #: client/climisc.c:295
 #, c-format
@@ -7496,7 +7496,7 @@ msgstr ""
 
 #: client/climisc.c:934
 msgid "Exporting output window to civgame.log ..."
-msgstr ""
+msgstr "Çıktı penceresini civgame.log'a aktarıyor ..."
 
 #: client/climisc.c:938
 msgid "Export complete."
@@ -7514,11 +7514,11 @@ msgstr ""
 #: client/climisc.c:1058
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
-msgstr ""
+msgstr "%s size %d altına mal olacak ama sizin %d altınınız var."
 
 #: client/clinet.c:143
 msgid "Lost connection to server!"
-msgstr ""
+msgstr "Sunucuya olan bağlantı kaybedildi!"
 
 #: client/clinet.c:186
 msgid "Failed looking up host."
@@ -7526,7 +7526,7 @@ msgstr ""
 
 #: client/clinet.c:210
 msgid "Connection in progress."
-msgstr ""
+msgstr "Bağlantı sağlanıyor."
 
 #: client/clinet.c:284
 msgid "Disconnected from server."
@@ -7585,7 +7585,7 @@ msgstr "Sunucu başlatılamadı."
 
 #: client/connectdlg_common.c:329 client/connectdlg_common.c:362
 msgid "You'll have to start one manually. Sorry..."
-msgstr ""
+msgstr "Elle bir tane açmanız gerekecek. Üzgünüm..."
 
 #: client/connectdlg_common.c:360
 msgid "Couldn't connect to the server."
@@ -7593,7 +7593,7 @@ msgstr "Sunucuya bağlanılamadı."
 
 #: client/connectdlg_common.c:361
 msgid "We probably couldn't start it from here."
-msgstr ""
+msgstr "Galiba buradan başlatamadık."
 
 #: client/connectdlg_common.c:481
 msgid "We have control of the server (command access level hack)"
@@ -7697,12 +7697,12 @@ msgstr "%s yapma imkanı sağlar (%s ile)."
 #. TRANS: preserve single space at beginning
 #: client/helpdata.c:411
 msgid " Rivers"
-msgstr " Nehirler"
+msgstr " Nehir"
 
 #: client/helpdata.c:569
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
-msgstr ""
+msgstr "Üzgünüm, %s için yardım yok.\n"
 
 #: client/helpdata.c:573
 #, c-format
@@ -8252,7 +8252,7 @@ msgstr ""
 #: client/helpdata.c:1482
 #, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
-msgstr ""
+msgstr "bilim/vergi/lüks oranlarında sınır yoktur.\n"
 
 #: client/helpdata.c:1487
 #, c-format
@@ -8283,12 +8283,12 @@ msgstr ""
 #: client/helpdata.c:1509
 #, c-format
 msgid "* Your units cannot be bribed.\n"
-msgstr "* Birimlerin rüşvet kabul etmezler.\n"
+msgstr "* Birimleriniz rüşvet kabul etmezler.\n"
 
 #: client/helpdata.c:1512
 #, c-format
 msgid "* Your cities cannot be incited.\n"
-msgstr ""
+msgstr "* Şehirlerinizde ayaklanma çıkartılamaz.\n"
 
 #: client/helpdata.c:1515
 #, c-format
@@ -8831,7 +8831,7 @@ msgstr "bitirdi"
 #: client/plrdlg_common.c:206 client/gui-sdl/plrdlg.c:650
 #: client/gui-win32/plrdlg.c:157 client/gui-xaw/plrdlg.c:240
 msgid "moving"
-msgstr "hareket ediyor"
+msgstr "oynuyor"
 
 #: client/plrdlg_common.c:249
 msgid "?Player:Name"
@@ -9562,7 +9562,7 @@ msgstr ""
 "\n"
 "Vatandaş (W/E/S/T): %s\n"
 "Şehir büyümesi: %s\n"
-"Üretim bitiyor: %s"
+"Üretim bitimi: %s"
 
 #: client/agents/cma_fec.c:418
 msgid "?cma:Very happy"
@@ -10494,11 +10494,11 @@ msgstr "_Altın:"
 
 #: client/gui-gtk-2.0/diplodlg.c:583 client/gui-gtk-2.0/diplodlg.c:657
 msgid "_Add Clause..."
-msgstr "Şart _Ekle..."
+msgstr "Madde _Ekle..."
 
 #: client/gui-gtk-2.0/diplodlg.c:702
 msgid "--- This treaty is blank. Please add some clauses. ---"
-msgstr "--- Antlaşma boş. Lütfen şartlar ekle. ---"
+msgstr "--- Antlaşma boş. Lütfen madde ekleyin. ---"
 
 #: client/gui-gtk-2.0/diplodlg.c:908 client/gui-sdl/diplodlg.c:369
 #: client/gui-win32/diplodlg.c:263 client/gui-xaw/diplodlg.c:950
@@ -10723,7 +10723,7 @@ msgstr "Serbest"
 
 #: client/gui-gtk-2.0/gui_main.c:1866
 msgid "Are you sure you want to quit?"
-msgstr "Çıkmak istediğinizden misiniz?"
+msgstr "Çıkmak istediğinizden emin misiniz?"
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 #, c-format
@@ -10977,7 +10977,7 @@ msgstr "Hükümdar:"
 
 #: client/gui-gtk-2.0/inteldlg.c:42
 msgid "Government:"
-msgstr "Hükümet"
+msgstr "Hükümet:"
 
 #: client/gui-gtk-2.0/inteldlg.c:43
 msgid "Capital:"
@@ -11119,7 +11119,7 @@ msgstr "_İş Listeleri"
 #: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
 #: client/gui-gtk-2.0/menu.c:748 client/gui-win32/menu.c:327
 msgid "_Change Government"
-msgstr "Yönetimi _Değiştirme"
+msgstr "Yönetimi _Değiştir"
 
 #: client/gui-gtk-2.0/menu.c:745
 msgid "_Revolution..."
@@ -11331,19 +11331,19 @@ msgstr "Otomatik _Keşif"
 #: client/gui-gtk-2.0/menu.c:853 client/gui-gtk-2.0/menu.c:855
 #: client/gui-gtk-2.0/menu.c:857
 msgid "_Connect"
-msgstr "_Bağlan"
+msgstr "_Bağla"
 
 #: client/gui-gtk-2.0/menu.c:853 client/gui-win32/menu.c:380
 msgid "_Road"
-msgstr "_Yol"
+msgstr "_Yol İle"
 
 #: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:381
 msgid "Rai_l"
-msgstr "_Demiryol"
+msgstr "_Ray İle"
 
 #: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:382
 msgid "_Irrigate"
-msgstr "_Sulama"
+msgstr "_Sulama İle"
 
 #: client/gui-gtk-2.0/menu.c:859
 msgid "Go _to"
@@ -11827,7 +11827,7 @@ msgstr "_YZ Beceri Derecesi:"
 
 #: client/gui-gtk-2.0/pages.c:1453
 msgid "_Ruleset:"
-msgstr "_Kural Tabanı:"
+msgstr "_Kural Seti:"
 
 #: client/gui-gtk-2.0/pages.c:1461
 msgid "More Game _Options..."
@@ -11876,7 +11876,7 @@ msgstr "Senaryo _Seç:"
 #: client/gui-win32/connectdlg.c:998 client/gui-win32/wldlg.c:800
 #: client/gui-win32/wldlg.c:806
 msgid "Type"
-msgstr "Cins"
+msgstr "Tür"
 
 #: client/gui-gtk-2.0/pages.c:2073
 msgid "Choose a _nation to play:"
@@ -11967,11 +11967,11 @@ msgstr "Birim Türü"
 
 #: client/gui-gtk-2.0/repodlgs.c:932 client/gui-win32/repodlgs.c:692
 msgid "U"
-msgstr "B"
+msgstr "G"
 
 #: client/gui-gtk-2.0/repodlgs.c:933 client/gui-win32/repodlgs.c:693
 msgid "In-Prog"
-msgstr "Yapılır"
+msgstr "Yapımda"
 
 #: client/gui-gtk-2.0/repodlgs.c:934 client/gui-win32/repodlgs.c:693
 msgid "Active"
@@ -12175,7 +12175,7 @@ msgstr "Kaynak _Görevler:"
 
 #: client/gui-gtk-2.0/wldlg.c:1154
 msgid "Show _Future Targets"
-msgstr "Geleceğinin İmkanları Göster"
+msgstr "Gelecek _Hedefleri Göster"
 
 #: client/gui-gtk-2.0/wldlg.c:1241
 msgid "Target _Worklist:"
@@ -14915,7 +14915,7 @@ msgstr "Git"
 
 #: client/gui-xaw/menu.c:211
 msgid "Select Same Type"
-msgstr "Aynı Cins Seç"
+msgstr "Aynı Türdekileri Seç"
 
 #: client/gui-xaw/menu.c:225
 msgid "Top Five Cities"
@@ -17908,7 +17908,7 @@ msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
-msgstr "Bu normal bir yapı değildir.  Bir şehrin üretimini kapitülasyon yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
+msgstr "Bu normal bir yapı değildir.  Bir şehrin üretimini Para Basımı yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
 
 #: data/default/nations.ruleset:20
 msgid "?nationgroup:Ancient"
@@ -18112,7 +18112,7 @@ msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
 "(money)."
-msgstr "Bu normal bir yapı değildir.  Bir şehrin üretimini kapitülasyon yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
+msgstr "Bu normal bir yapı değildir.  Bir şehrin üretimini Kapitülasyon yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
 
 #: data/civ1/buildings.ruleset:42
 msgid "Allows a city to grow larger than size 10."
