@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-19 11:09+0300\n"
+"PO-Revision-Date: 2007-10-19 19:23+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -972,7 +972,7 @@ msgstr "MS %d"
 
 #: utility/shared.c:862
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr "FREECIV_PATH atanmış ama boş; bunun yerine varsayılan yol kullanılacak."
+msgstr "FREECIV_PATH atanmış ama boş; bunun yerine öntanımlı yol kullanılacak."
 
 #: utility/shared.c:966
 #, c-format
@@ -1341,12 +1341,12 @@ msgstr "Doğrulama ayarı \"%s\":"
 
 #: server/auth.c:177
 msgid " missing from config file (using default)"
-msgstr " ayar dosyasında yok (varsayılan deper kullanılıyor)"
+msgstr " ayar dosyasında yok (öntanımlı değer kullanılıyor)"
 
 #. TRANS: auth option originates from internal default
 #: server/auth.c:180
 msgid " (default)"
-msgstr " (varsayılan)"
+msgstr " (öntanımlı)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:185
@@ -4010,7 +4010,7 @@ msgstr ""
 "2 = Yarı yarıya yükseklik oluşturucu;                    [3]\n"
 "3 = Ada tabanlı oluşturucu (daha adil ama sıkıcı)  [1]\n"
 "\n"
-"[] içindeki rakamlar başlangıç yerlerinin varsayılan yerleşimidir.  startpos "
+"[] içindeki rakamlar başlangıç yerlerinin öntanımlı yerleşimidir.  startpos "
 "ayarının öntanımlı değeri kullanılırsa oluşturucuya göre bir startpos ayarı "
 "ayarlanacaktır.  Arıca bkz. \"startpos\" ayarı."
 
@@ -5426,11 +5426,11 @@ msgstr ""
 
 #: server/stdinhand.c:1631
 msgid "No explanation for that yet."
-msgstr ""
+msgstr "Henüz bunun bir açıklaması yok."
 
 #: server/stdinhand.c:1634 server/stdinhand.c:2468
 msgid "Ambiguous option name."
-msgstr ""
+msgstr "Birden fazla olabilecek ayar adı."
 
 #: server/stdinhand.c:1654
 #, c-format
@@ -5445,12 +5445,12 @@ msgstr "Oyuncu '%s' YZ derecesi artık '%s'."
 #: server/stdinhand.c:1806
 #, c-format
 msgid "%s is not controlled by the AI."
-msgstr ""
+msgstr "%s YZ tarafından kontrol edilmiyor."
 
 #: server/stdinhand.c:1824
 #, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr ""
+msgstr "Öntanımlı YZ derecesi '%s' olarak ayarlandı."
 
 #: server/stdinhand.c:1839 server/stdinhand.c:2149
 msgid "This command is client only."
@@ -9599,6 +9599,8 @@ msgid ""
 "Bribe unit for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"%d altın rüşvet verilsin mi?\n"
+"Hazinede %d altın var."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:94
 #: client/gui-sdl/diplomat_dialog.c:701 client/gui-sdl/diplomat_dialog.c:1379
@@ -9613,6 +9615,8 @@ msgid ""
 "Bribing the unit costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"Birimi rüşvetle almak %d altın gerekiyor.\n"
+"Hazinede %d altın var."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:102
 #: client/gui-gtk-2.0/diplomat_dialog.c:558
@@ -9620,7 +9624,7 @@ msgstr ""
 #: client/gui-win32/dialogs.c:1382 client/gui-win32/dialogs.c:1566
 #: data/Freeciv.in:2454
 msgid "Traitors Demand Too Much!"
-msgstr ""
+msgstr "Hainler Çok Fazla İstiyor!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:233
 #: client/gui-sdl/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1280
@@ -9717,10 +9721,12 @@ msgid ""
 "Your %s has arrived at %s.\n"
 "What is your command?"
 msgstr ""
+"%s biriminiz %s şehrine geldi.\n"
+"Ne yapmasını istiyorsunuz?"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:625 client/gui-win32/dialogs.c:1608
 msgid " Choose Your Diplomat's Strategy"
-msgstr ""
+msgstr " Diplomatınızın Stratejisini Seçin"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:626
 #: client/gui-gtk-2.0/diplomat_dialog.c:650 client/gui-win32/dialogs.c:1609
@@ -9748,7 +9754,7 @@ msgstr "_Teknoloji Çal"
 #: client/gui-gtk-2.0/diplomat_dialog.c:655 client/gui-win32/dialogs.c:1613
 #: client/gui-win32/dialogs.c:1635
 msgid "Incite a _Revolt"
-msgstr ""
+msgstr "Ayaklanma _Başlat"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:631
 #: client/gui-gtk-2.0/diplomat_dialog.c:656
@@ -9760,7 +9766,7 @@ msgstr "_Devam et"
 #: client/gui-sdl/diplomat_dialog.c:552 client/gui-win32/dialogs.c:1629
 #: data/Freeciv.in:2299
 msgid "Choose Your Spy's Strategy"
-msgstr ""
+msgstr "Casusunuzun Stratejisini Seçin"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:652 client/gui-win32/dialogs.c:1632
 msgid "_Poison City"
@@ -9768,21 +9774,21 @@ msgstr "Şehri _Zehirle"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:653 client/gui-win32/dialogs.c:1633
 msgid "Industrial _Sabotage"
-msgstr "Üretimi _Durdur"
+msgstr "Üretimi _Sabote Et"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:690
 #: client/gui-sdl/diplomat_dialog.c:561 client/gui-win32/dialogs.c:1660
 #: data/Freeciv.in:2430
 msgid "Subvert Enemy Unit"
-msgstr ""
+msgstr "Düşmen Birimini Devir"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-win32/dialogs.c:1662
 msgid "Sir, the diplomat is waiting for your command"
-msgstr ""
+msgstr "Diplomatınız komutunuzu bekliyor efendim"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:693 client/gui-win32/dialogs.c:1663
 msgid "Sir, the spy is waiting for your command"
-msgstr ""
+msgstr "Casusunuz komutunuzu bekliyor efendim"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:694 client/gui-win32/dialogs.c:1664
 msgid "_Bribe Enemy Unit"
@@ -9827,7 +9833,7 @@ msgstr "Markete Gir"
 #: client/gui-gtk-2.0/chatline.c:144 client/gui-win32/chatline.c:134
 #: client/gui-xaw/chatline.c:120
 msgid "Cleared output window."
-msgstr ""
+msgstr "Çıktı penceresi temizlendi."
 
 #: client/gui-gtk-2.0/citydlg.c:578 client/gui-win32/citydlg.c:666
 msgid "Food:"
@@ -9941,7 +9947,7 @@ msgstr "Maliyeci"
 
 #: client/gui-gtk-2.0/citydlg.c:1033 client/gui-win32/citydlg.c:2000
 msgid "Disband if build settler at size 1"
-msgstr ""
+msgstr "Boyut 1 iken göçmen yaparsa terk edilsin"
 
 #: client/gui-gtk-2.0/citydlg.c:1036
 msgid "Overview page"
@@ -11011,11 +11017,11 @@ msgstr "Yeni şehrimizin adı ne olsun?"
 
 #: client/gui-gtk-2.0/mapview.c:147
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
-msgstr ""
+msgstr "Şimdiki lüks/bilim/vergi oranlarını gösterir; geçiş yapmak için tıklayın."
 
 #: client/gui-gtk-2.0/mapview.c:692 client/gui-win32/canvas.c:275
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr ""
+msgstr "Daha iyi sis sadece gerçek renkte çalışır.  Kapatılıyor"
 
 #: client/gui-gtk-2.0/menu.c:248
 msgid "Leaving a local game will end it!"
@@ -11583,7 +11589,7 @@ msgstr "_Güçlendir"
 
 #: client/gui-gtk-2.0/menu.c:1481
 msgid "_Paradrop"
-msgstr ""
+msgstr "_Paraşütle İn"
 
 #: client/gui-gtk-2.0/messagedlg.c:62 client/gui-win32/messagedlg.c:175
 #: client/gui-xaw/menu.c:112 data/Freeciv.in:1254
@@ -11689,7 +11695,7 @@ msgstr "Bir Oyun Sitesine Katıl"
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:300
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
-msgstr ""
+msgstr "Parolalar uyuşmuyor, parolanızı girin."
 
 #: client/gui-gtk-2.0/pages.c:700 client/gui-win32/connectdlg.c:914
 msgid "Server Name"
@@ -11791,25 +11797,25 @@ msgstr "Bağlantıyı kes"
 
 #: client/gui-gtk-2.0/pages.c:1221
 msgid "Aitoggle player"
-msgstr ""
+msgstr "Oyuncuyu YZ yap/yapma"
 
 #: client/gui-gtk-2.0/pages.c:1230
 msgid "Remove player"
-msgstr "Oyuncu kaldir"
+msgstr "Oyuncuyu sil"
 
 #: client/gui-gtk-2.0/pages.c:1241
 msgid "Give info access"
-msgstr ""
+msgstr "Bilgi erişimi ver"
 
 #: client/gui-gtk-2.0/pages.c:1249
 msgid "Give ctrl access"
-msgstr ""
+msgstr "Kontrol erişimi ver"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1310
 #, c-format
 msgid "Put on %s"
-msgstr ""
+msgstr "%s takımına ekle"
 
 #: client/gui-gtk-2.0/pages.c:1414
 msgid "_Number of Players (including AI):"
@@ -11829,11 +11835,11 @@ msgstr "Diğer Oyun Ayarları..."
 
 #: client/gui-gtk-2.0/pages.c:1486
 msgid "Record"
-msgstr ""
+msgstr "Rekor"
 
 #: client/gui-gtk-2.0/pages.c:1491
 msgid "Rating"
-msgstr "Sınıf"
+msgstr "Sıralama"
 
 #: client/gui-gtk-2.0/pages.c:1497
 msgid "Ready"
@@ -11882,7 +11888,7 @@ msgstr "Oyun _Tercihleri..."
 
 #: client/gui-gtk-2.0/pages.c:2259 client/gui-win32/menu.c:579
 msgid "Select Location to Save"
-msgstr ""
+msgstr "Kaydedilecek Yeri Seç"
 
 #: client/gui-gtk-2.0/pages.c:2344
 msgid "Save Game"
@@ -11944,11 +11950,11 @@ msgstr "%s gerçekten satmak istermisin?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
 msgid "Sell Improvements"
-msgstr "Gelişimleri Sat"
+msgstr "Yapıları Sat"
 
 #: client/gui-gtk-2.0/repodlgs.c:824
 msgid "Sell-Off: Results"
-msgstr ""
+msgstr "Satış: Sonuçlar"
 
 #: client/gui-gtk-2.0/repodlgs.c:884
 #, c-format
@@ -11957,11 +11963,11 @@ msgstr "Gelir: %d    Toplam Masraf: %d"
 
 #: client/gui-gtk-2.0/repodlgs.c:931 client/gui-win32/repodlgs.c:692
 msgid "Unit Type"
-msgstr "Birimler"
+msgstr "Birim Türü"
 
 #: client/gui-gtk-2.0/repodlgs.c:932 client/gui-win32/repodlgs.c:692
 msgid "U"
-msgstr ""
+msgstr "B"
 
 #: client/gui-gtk-2.0/repodlgs.c:933 client/gui-win32/repodlgs.c:693
 msgid "In-Prog"
@@ -13063,7 +13069,7 @@ msgstr ""
 
 #: client/gui-sdl/helpdlg.c:212
 msgid "Help : Improvements"
-msgstr "Yardım: Gelişimler"
+msgstr "Yardım: Yapılar"
 
 #: client/gui-sdl/helpdlg.c:601
 msgid "Help : Units"
@@ -13104,7 +13110,7 @@ msgstr " ile )"
 
 #: client/gui-sdl/helpdlg.c:1891
 msgid "Help : Advances Tree"
-msgstr "Help : Gelişim Ağacı"
+msgstr "Yardım : Teknoloji Ağacı"
 
 #: client/gui-sdl/inteldlg.c:218 client/gui-win32/inteldlg.c:85
 #: data/Freeciv.in:173 data/Freeciv.in:223
@@ -13830,7 +13836,7 @@ msgstr ""
 
 #: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
-msgstr "Kullanılabilir bir varsayılan tema bulunamadı, çıkıyor!"
+msgstr "Kullanılabilir bir öntanımlı tema bulunamadı, çıkılıyor!"
 
 #: client/gui-sdl/themespec.c:341
 #, c-format
@@ -14660,11 +14666,11 @@ msgstr "Sil"
 
 #: client/gui-win32/wldlg.c:838
 msgid "Available items"
-msgstr ""
+msgstr "Mümkün olanlar"
 
 #: client/gui-win32/wldlg.c:844
 msgid "Show future targets"
-msgstr "Geleceğinin gelişimleri görüntüle"
+msgstr "Gelecek hedefleri göster"
 
 #: client/gui-win32/wldlg.c:852
 msgid "Undo"
@@ -14749,11 +14755,11 @@ msgstr "Gerçekten %s kaldırmak istermisin?"
 
 #: client/gui-xaw/connectdlg.c:178
 msgid "Pass"
-msgstr ""
+msgstr "Geç"
 
 #: client/gui-xaw/dialogs.c:1471
 msgid "You must select a nation."
-msgstr "Milletin seçsene!"
+msgstr "Bir ulus seçmelisiniz."
 
 #: client/gui-xaw/graphics.c:343
 #, c-format
@@ -14762,7 +14768,7 @@ msgstr "PNG dosyası okunamadı: %s"
 
 #: client/gui-xaw/graphics.c:349 client/gui-xaw/graphics.c:355
 msgid "Failed creating PNG struct"
-msgstr ""
+msgstr "PNG yapısı oluşturulamadı"
 
 #: client/gui-xaw/graphics.c:360
 #, c-format
@@ -14776,7 +14782,7 @@ msgstr ""
 
 #: client/gui-xaw/gui_main.c:323
 msgid "No version number in resources."
-msgstr ""
+msgstr "Kaynaklarda sürüm numarası yok"
 
 #: client/gui-xaw/gui_main.c:324
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
@@ -14841,11 +14847,11 @@ msgstr "Araştırma: Bilimeyen(%d/-)"
 #: client/gui-xaw/inteldlg.c:417
 #, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
-msgstr ""
+msgstr "%s İmparatorluğu için İstihbarat"
 
 #: client/gui-xaw/menu.c:111
 msgid "Local Options"
-msgstr "Yerel Ayarları"
+msgstr "Yerel Ayarlar"
 
 #: client/gui-xaw/menu.c:113
 msgid "Save Settings"
@@ -15015,17 +15021,17 @@ msgstr "Kategori: %s.<br>"
 #: manual/civmanual.c:148
 #, c-format
 msgid "Can only be used in server console. "
-msgstr ""
+msgstr "Sadece sunucu konsolunda kullanılabilir. "
 
 #: manual/civmanual.c:151
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "Sadece oyun sırasında değiştirilebilir. "
 
 #: manual/civmanual.c:153
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "Oyun sırasında <b>değiştirilemez.</b> "
 
 #: manual/civmanual.c:158
 #, c-format
@@ -15033,6 +15039,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Asgari: 0, Öntanımlı: %d, Azami: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:162 manual/civmanual.c:172
 #, c-format
