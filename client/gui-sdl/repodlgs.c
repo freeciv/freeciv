@@ -153,7 +153,7 @@ static int cancel_upgrade_unit_callback(struct widget *pWidget)
 static int popup_upgrade_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct unit_type ut1;
+    struct unit_type *ut1;
     struct unit_type *ut2;
     int value;
     char cBuf[128];
@@ -163,12 +163,12 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     SDL_Rect dst;
     SDL_Rect area;
     
-    ut1.index = MAX_ID - pWidget->ID;
+    ut1 = utype_by_number(MAX_ID - pWidget->ID);
     
     if (pUnits_Upg_Dlg) {
       return 1;
     }
-    CHECK_UNIT_TYPE(&ut1);
+    CHECK_UNIT_TYPE(ut1);
     
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
@@ -177,13 +177,13 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     
     pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
-    ut2 = can_upgrade_unittype(game.player_ptr, &ut1);
-    value = unit_upgrade_price(game.player_ptr, &ut1, ut2);
+    ut2 = can_upgrade_unittype(game.player_ptr, ut1);
+    value = unit_upgrade_price(game.player_ptr, ut1, ut2);
     
     my_snprintf(cBuf, sizeof(cBuf),
           _("Upgrade as many %s to %s as possible for %d gold each?\n"
             "Treasury contains %d gold."),
-          utype_name_translation(&ut1),
+          utype_name_translation(ut1),
           utype_name_translation(ut2),
           value, game.player_ptr->economic.gold);
    
@@ -876,7 +876,7 @@ void activeunits_report_dialog_update(void)
       pBuf = pWidget;
       if ((units[i->index].active_count > 0) || (units[i->index].building_count > 0)) {
         if (i->index == MAX_ID - pBuf->ID) {
-UPD:	  upgrade = can_upgrade_unittype(game.player_ptr, i)->index;
+UPD:	  upgrade = (can_upgrade_unittype(game.player_ptr, i) != NULL);
 	  pBuf = pBuf->prev;
 	  if(upgrade) {
 	    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
@@ -3043,7 +3043,7 @@ static void popup_change_research_goal_dialog()
   
   /* max row - 204 is goal tech widget height */
   max_row = (Main.screen->h - (pWindow->size.h - pWindow->area.h) - adj_size(2)) / adj_size(204);
-  freelog(LOG_NORMAL, "%d, %d, %d", Main.screen->h, pWindow->size.h, pWindow->area.h);
+
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
     max_col--;
@@ -3121,7 +3121,7 @@ static void popup_change_research_goal_dialog()
   
   area.w = MAX(area.w, (col * pBuf->size.w + adj_size(2) + i));
   area.h = MAX(area.h, count * pBuf->size.h + adj_size(2));
-  freelog(LOG_NORMAL, "area.h = %d", area.h);
+
   /* alloca window theme and win background buffer */
   pSurf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
   resize_window(pWindow, pSurf, NULL,
