@@ -219,6 +219,15 @@ Server:
 
   Sedan är spelet i gång!
 
+Lägg märke till att i denna version av Freeciv har GTK- samt SDL-
+klienterna förmågan att automatiskt starta en civserver-session i
+bakgrunden när spelaren väljer att starta ett nytt spel från
+huvudmenyn. Tack vare detta har det blivit mycket enklare att
+komma igång med att spela Freeciv. Å andra sidan innebär det att
+i det fall klienten krashar, drar den med sig servern i fallet och
+det pågående spelet går förlorat. P.g.a. detta är det fortfarande
+rekommenderat att starta civserver separat från civclient.
+
 
 Tillkännage spelet:
 ===================
@@ -429,12 +438,11 @@ För "civserver.c" visas endast avlusningsmeddelanden mellan raderna
 med DEBUG.
 
 
-Programfel:
-===========
+Buggar:
+=======
 
-Vi vill gärna bli underrättade om programfel så att vi kan åtgärda dem. Se
-filen BUGS.sv för en lista över kända programfel i denna utgåva samt
-information om att anmäla programfel.
+Vi vill gärna bli underrättade om buggar så att vi kan åtgärda dem.
+Se filen BUGS.sv för instruktioner om hur man rapporterar buggar.
 
 
 Diskussionslistor:
@@ -443,10 +451,9 @@ Diskussionslistor:
 Vi har fyra diskussionslistor:
 
   freeciv-announce Kungörelser av allmänt intresse.
-                   Denna lista kan endast läsas och sprider mycket få
-                   meddelanden. Man kan alltså inte skicka brev till
-                   listan utan bara ta emot. Kungörelser som skickas
-                   hit skickas även till sändlistan freeciv.
+                   Denna lista kan endast läsas och har låg aktivitet.
+                   Man kan alltså inte skicka mail till
+                   listan utan bara ta emot.
   freeciv-i18n     Översättning av Freeciv.
                    Samtal om översättning av Freecivkoden,
                    dokumentation och websida till andra språk än 
@@ -457,7 +464,7 @@ Vi har fyra diskussionslistor:
                    automatiska meddelanden. Man kan alltså inte skicka
                    brev till listan utan endast ta emot.
 
-Alla listor är öppna för allmänheten och alla är välkomna att anmäla sig.
+Alla listor är öppna för allmänheten och alla är välkomna att prenumerera.
 
 Listorna tillhandahålls av gna.org. För mer information hur du kan
 läsa och prenumerera, se https://gna.org/mail/?group=freeciv
