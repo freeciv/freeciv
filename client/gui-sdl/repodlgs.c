@@ -1997,20 +1997,17 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* ---- */
   
-  my_snprintf(cBuf, sizeof(cBuf), _("Cancel"));
+  my_snprintf(cBuf, sizeof(cBuf), _("Close Dialog (Esc)"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
-  pBuf = create_themeicon_button(pTheme->Small_CANCEL_Icon, pWindow->dst, pStr, 0);
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+                                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->string16 = pStr;
   pBuf->action = exit_economy_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_CANCEL_BUTTON, pBuf);
   
-  /* make both buttons have the same width */
-  pBuf->size.w = MAX(pBuf->size.w , pBuf->next->size.w);
-  pBuf->next->size.w = pBuf->size.w;
-  
-  w2 = MAX(w2 , adj_size(10) + pBuf->size.w + adj_size(10) + pBuf->size.w + adj_size(10));
   h += adj_size(5);
   
   /* ------------------------- */
@@ -2198,7 +2195,7 @@ void popup_economy_report_dialog(bool make_modal)
   dst.y = area.y;
   dst.w = area.w;
   dst.h = h + adj_size(15);
-  h = dst.y + dst.h;
+  h = dst.h;
   
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
   
@@ -2292,26 +2289,25 @@ void popup_economy_report_dialog(bool make_modal)
 
   /* update */
   pBuf = pBuf->prev;
-  pBuf->size.x = area.x + adj_size(10) + w +
-	(area.w - (w + adj_size(10)) - (2 * pBuf->size.w + adj_size(10))) / 2;
+  pBuf->size.x = dst.x + (dst.w - pBuf->size.w) / 2;
   pBuf->size.y = dst.y + dst.h + adj_size(3);
     
   /* cancel */
   pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = dst.y + dst.h + adj_size(3); 
+  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
+  pBuf->size.y = pWindow->size.y + adj_size(2); 
   /* ------------------------------- */
   
   if (entries_used > 0) {
     setup_vertical_widgets_position(TARGETS_COL,
 	area.x,
-	h,
+	area.y + h,
 	  0, 0, pEconomyDlg->pBeginActiveWidgetList,
 			  pEconomyDlg->pEndActiveWidgetList);
     if (pEconomyDlg->pScroll) {
       setup_vertical_scrollbar_area(pEconomyDlg->pScroll,
 	area.x + area.w - 1,
-    	h,
+    	area.y + h,
     	area.h - h - 1, TRUE);
     }
   }
