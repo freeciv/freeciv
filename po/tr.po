@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-19 22:41+0300\n"
+"PO-Revision-Date: 2007-10-20 09:34+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4032,7 +4032,8 @@ msgid ""
 msgstr ""
 "0 = Oluşturucunun istediği gibi.  Bunu seçerseniz\n"
 "    oluşturucunun türüne göre öntanımlı bir değer atanacaktır.\n"
-"    Ayrıca bkz. \"oluşturucu\" ayarı.1 = Her kıtaya bir oyuncu koymaya "
+"    Ayrıca bkz. \"oluşturucu\" ayarı.\n"
+"1 = Her kıtaya bir oyuncu koymaya "
 "çalış.\n"
 "2 = Her kıtaya iki oyuncu koymaya çalış.\n"
 "3 = Her oyuncuyu tek bir kıtaya koymaya çalış.\n"
@@ -7413,19 +7414,19 @@ msgstr "Her %s üretimi %s olarak değiştirildi."
 
 #: client/climisc.c:214
 msgid "?embassy:Both"
-msgstr "?embassy:İkimiz"
+msgstr "İkimizde de"
 
 #: client/climisc.c:216
 msgid "?embassy:Yes"
-msgstr "?embassy:Evet"
+msgstr "Onlarda"
 
 #: client/climisc.c:219
 msgid "?embassy:With Us"
-msgstr "?embassy:Bizde"
+msgstr "Bizim tarafta"
 
 #: client/climisc.c:222
 msgid "?embassy:Contact"
-msgstr "?embassy:Karşılaştık"
+msgstr "Karşılaştık"
 
 #: client/climisc.c:224
 msgid "?embassy:No Contact"
@@ -7433,15 +7434,15 @@ msgstr "?embassy:Karşılaşmadık"
 
 #: client/climisc.c:236
 msgid "?vision:Both"
-msgstr "?vision:İkimiz"
+msgstr "İkimizde de"
 
 #: client/climisc.c:238
 msgid "?vision:To Them"
-msgstr "?vision:Onlara"
+msgstr "Onlara"
 
 #: client/climisc.c:241
 msgid "?vision:To Us"
-msgstr "?vision:Bize"
+msgstr "Bize"
 
 #: client/climisc.c:257 client/climisc.c:264
 #, c-format
@@ -8765,7 +8766,7 @@ msgstr "Ev dizininiz bulunamadı"
 
 #: client/options.c:583
 msgid "Save failed, cannot find a filename."
-msgstr ""
+msgstr "Kayıt başarısız, dosya adı bulunamadı."
 
 #: client/options.c:642
 msgid "If you add a preset by hand, also update \"number_of_presets\""
@@ -8779,12 +8780,12 @@ msgstr ""
 #: client/options.c:656
 #, c-format
 msgid "Saved settings to file %s"
-msgstr ""
+msgstr "Ayarlar %s dosyasına yazıldı"
 
 #: client/packhand.c:200
 #, c-format
 msgid "You were rejected from the game: %s"
-msgstr ""
+msgstr "Oyuna kabul edilmediniz: %s"
 
 #: client/packhand.c:215
 #, c-format
@@ -8799,7 +8800,7 @@ msgstr ""
 #: client/packhand.c:842
 #, c-format
 msgid "Start of turn %d"
-msgstr ""
+msgstr "%d. sıranın başlangıcı"
 
 #: client/packhand.c:1589
 #, c-format
@@ -8911,26 +8912,26 @@ msgstr "Hiçbir %s satılamadı."
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:369
 msgid "You cannot disband units."
-msgstr ""
+msgstr "Birimleri terhis edemezsiniz."
 
 #: client/repodlgs_common.c:374
 #, c-format
 msgid "%s cannot be disbanded."
-msgstr ""
+msgstr "%s terhis edilemedi."
 
 #: client/repodlgs_common.c:395
 #, c-format
 msgid "Disbanded %d %s."
-msgstr ""
+msgstr "%d %s terhis edildi."
 
 #: client/repodlgs_common.c:399
 #, c-format
 msgid "No %s could be disbanded."
-msgstr ""
+msgstr "Hiçbir %s terhis edilemedi."
 
 #: client/servers.c:345
 msgid "Could not open temp file."
-msgstr ""
+msgstr "Geçici dosya açılamadı."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -9362,7 +9363,7 @@ msgstr "Kirlilik oranı: %%%d"
 #: client/text.c:898
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
-msgstr ""
+msgstr "Her tur için küresel ısınma olasılığı: %%%d"
 
 #: client/text.c:914
 msgid "Shows the progress of nuclear winter:"
@@ -9376,7 +9377,7 @@ msgstr "Serpinti oranı: %%%d"
 #: client/text.c:917
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
-msgstr ""
+msgstr "Her tur için nükleer kış olasılığı: %%%d"
 
 #: client/text.c:932
 msgid "Shows your current government:"
@@ -9422,7 +9423,7 @@ msgstr "Seyahat süresi:     YOK     "
 #: client/text.c:981
 #, c-format
 msgid "Success prob.:   %5d %%"
-msgstr "Başarı olaslğı.: %% %5d"
+msgstr "Başarı olasılığı: %% %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:985
@@ -9437,37 +9438,37 @@ msgstr "süre sınırı yok"
 #: client/text.c:1029
 #, c-format
 msgid "?seconds:%02ds"
-msgstr "?seconds:%02ds"
+msgstr "%02ds"
 
 #: client/text.c:1031
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
-msgstr "?mins/secs:%02dd %02ds"
+msgstr "%02dd %02ds"
 
 #: client/text.c:1033
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
-msgstr "?hrs/mns:%02ds %02dd"
+msgstr "%02ds %02dd"
 
 #: client/text.c:1035
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
-msgstr "?dys/hrs:%02dg %02ds"
+msgstr "%02dg %02ds"
 
 #: client/text.c:1038
 msgid "?duration:overflow"
-msgstr ""
+msgstr "zaman aşımı"
 
 #: client/text.c:1059
 #, c-format
 msgid "%6d.%02d ms"
-msgstr ""
+msgstr "%6d.%02d ms"
 
 #. TRANS: "Republic of the Polish"
 #: client/text.c:1102
 #, c-format
 msgid "%s of the %s"
-msgstr ""
+msgstr "%s yönetimindeki %s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1112
@@ -9521,14 +9522,14 @@ msgstr ""
 msgid ""
 "The citizen governor can't fulfill the requirements for %s. Passing back "
 "control."
-msgstr ""
+msgstr "%s valisi şartları yerine getiremiyor. Kontrol geri verildi."
 
 #: client/agents/cma_core.c:407 client/agents/cma_core.c:427
 #, c-format
 msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
 "have a look."
-msgstr ""
+msgstr "%s valisi işini yapamıyor.  Bir bakın isterseniz."
 
 #: client/agents/cma_fec.c:218 client/gui-gtk-2.0/cityrep.c:546
 #: client/gui-gtk-2.0/cityrep.c:565 client/gui-sdl/citydlg.c:2003
@@ -9560,7 +9561,7 @@ msgstr ""
 "Üretim: %10s Lüks: %10s\n"
 "Ticaret: %10s Fen: %10s\n"
 "\n"
-"Vatandaş (W/E/S/T): %s\n"
+"Vatandaş (İ/S/B/M): %s\n"
 "Şehir büyümesi: %s\n"
 "Üretim bitimi: %s"
 
@@ -11904,12 +11905,12 @@ msgstr "_Dosya Adı:"
 
 #: client/gui-gtk-2.0/repodlgs.c:293 client/gui-win32/repodlgs.c:281
 msgid "Researching"
-msgstr "Araştırılıyor"
+msgstr "Şimdi Araştırılan"
 
 #: client/gui-gtk-2.0/repodlgs.c:314 client/gui-win32/repodlgs.c:291
 #: data/Freeciv.in:1429
 msgid "Goal"
-msgstr "Amaç"
+msgstr "Hedef"
 
 #: client/gui-gtk-2.0/repodlgs.c:633
 msgid "?Building:Name"
@@ -16806,7 +16807,7 @@ msgstr " Arazi Düzenlemeleri"
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
-msgstr ""
+msgstr "Göçmen ve Mühendis birimleri araziyi çeşitli şekillerde değiştirebilirler."
 
 #: data/helpdata.txt:1240
 msgid ""
@@ -16816,13 +16817,13 @@ msgid ""
 "west.  Irrigating a square causes it to produce some extra food each turn.  "
 "In addition, given sufficient technology, you may irrigate a square a second "
 "time, turning it into even more productive Farmland."
-msgstr ""
+msgstr "Uygun arazilerde sulama yapılabilir.  Bunun için yakınlarda bir su kaynağı olmalıdır: Okyanus Nehir veya sulama yapılmış başka bir yer, sulama yapılacak yerin bitişiğinde olmalıdır yani sadece güney, kuzey, doğu, batı yönlerinde bulunanlar kullanılabilir.  Bir arazi sulanınca her tur fazladan gıda kazandırır.  Ek olarak gerekli teknolojiye sahip olduğunuzda bir araziyi iki kez sulayabilirsiniz ve daha üretken olan Tarla'ya çevirebilirsiniz."
 
 #: data/helpdata.txt:1248
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
-msgstr ""
+msgstr "Bazı arazilerde maden yapılabilir, böylece orada üretilen kaynak (kalkan) miktarı artar."
 
 #: data/helpdata.txt:1251
 msgid ""
@@ -16830,41 +16831,41 @@ msgid ""
 "road or railroad on a River square, though, you must know Bridge Building.)  "
 "Roads and railroads allow your units to move more quickly, and they increase "
 "the resources produced in cities."
-msgstr ""
+msgstr "Okyanus dışındaki her araziye yol ve ray yapılabilir.  (Nehir olan bölgeye yol veya ray yapabilmek için öncelikle Köprü Yapımı bilinmelidir.)  Yollar ve raylar birimlerin hareket etmesini hızlandırır ve şehirlerdeki üretimi arttırır."
 
 #: data/helpdata.txt:1256
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
-msgstr ""
+msgstr " - Gidilecek bitişik karede ve bulunulan karede yol varsa, birimler hareket puanının sadece üçte birini harcar."
 
 #: data/helpdata.txt:1259
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
-msgstr ""
+msgstr " - Ray boyunca giden birimlerin hareket puanı harcanmaz. Bir rayda sonsuz olarak ilerleyebilirsiniz."
 
 #: data/helpdata.txt:1262
 msgid " - A road may increase the trade resources produced by some types of terrain."
-msgstr ""
+msgstr " - Yollar bazı arazi türlerinde ticaret gelirini arttırır."
 
 #: data/helpdata.txt:1265
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
-msgstr ""
+msgstr " - Raylar arazide üretilen kalkan miktarını %%50 oranında arttırır.  (Sunucu ayarlarına göre raylar gıda ve ticaret kaynaklarını da arttırabilir, %%50'den fazla bir değer de verilebilir.)"
 
 #: data/helpdata.txt:1270
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
 "destroyed one at a time.  See the Combat help section for further details."
-msgstr ""
+msgstr "Göçmenler ve Mühendisler kale de yapabilirler.  Bir kalenin içindeki birimlerin savunma gücü ikiye katlanır, ayrıca kaledeki birimler teker teker yok edilebilir.  Ayrıntılı bilgi için Savaş bölümüne bakınız."
 
 #: data/helpdata.txt:1275
 msgid "You may also build Airbases, at which your air units may land and refuel."
-msgstr ""
+msgstr "Ayrıca hava birimlerinizin konup yakıt alabileceği hava üsleri de yapabilirsiniz."
 
 #: data/helpdata.txt:1278
 msgid ""
@@ -17159,7 +17160,7 @@ msgstr "Su kemeri"
 msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
-msgstr ""
+msgstr "Şehrin 8'den büyük olmasına izin verir.  12'den büyük olabilmesi için de Kanalizasyon gereklidir."
 
 #: data/default/buildings.ruleset:91 data/civ2/buildings.ruleset:74
 #: data/civ1/buildings.ruleset:47
@@ -17172,7 +17173,7 @@ msgstr "Banka"
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
-msgstr ""
+msgstr "Market ile birlikte Banka, şehrin lüks ve vergi üretimini %%100 oranında arttırır."
 
 #: data/default/buildings.ruleset:128 data/default/buildings.ruleset:152
 #: data/default/buildings.ruleset:175 data/civ2/buildings.ruleset:110
@@ -17182,7 +17183,7 @@ msgid ""
 "Veteran status, which means that its attack and defence strengths are "
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
-msgstr ""
+msgstr "Kışlası olan bir şehirde yapılan askeri birimler kıdemli olurlar, yani saldırı ve savunma güçleri %%50 oranında artar.  Ayrıca şehirde bir sıra boyunca duran hasarlı birimler tamamen iyileşir."
 
 #: data/default/buildings.ruleset:137 data/civ2/buildings.ruleset:119
 #: data/civ1/buildings.ruleset:92
@@ -17206,7 +17207,7 @@ msgid ""
 "of a Cathedral, making an additional unhappy citizen content.  The discovery "
 "of Communism lessens the effect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
-msgstr ""
+msgstr "Katedral şehirdeki 3 mutsuz vatandaşı memnun eder.  Tanrı Biliminin keşfi Katedralin etkisini arttırır, bir tane daha mutsuz vatandaşı memnun eder.  Komünizmin keşfi Katedralin etkisini azaltır, memnun edilen vatandaş sayısını bir azaltır."
 
 #: data/default/buildings.ruleset:224 data/civ2/buildings.ruleset:204
 msgid ""
@@ -17215,7 +17216,7 @@ msgid ""
 "are ineffective against airborne and sea units as well as Howitzers.  City "
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
-msgstr ""
+msgstr "Surlar şehir savunmasını kolaylaştırır.  Şehirdeki birimlerin kara, deniz ve helikopter birimlerine karşı savunma gücünü üçe katlar.  Hava ve deniz birimlerine, aynı zamanda havan toplarına karşı etkisi yoktur.  Surlar aynı zamanda şehirdeki birimlerden biri kara savaşında yenilince nüfusun azalmasını önler."
 
 #: data/default/buildings.ruleset:233 data/civ2/buildings.ruleset:213
 msgid "Coastal Defense"
@@ -17225,7 +17226,7 @@ msgstr "Sahil Güvenlik"
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
-msgstr ""
+msgstr "Bulunduğu şehirde, Düşman gemilerinin yaptığı saldırılara karşı savunma gücünü ikiye katlar."
 
 #: data/default/buildings.ruleset:254 data/civ2/buildings.ruleset:234
 #: data/civ1/buildings.ruleset:182
@@ -17236,7 +17237,7 @@ msgstr "Açık tiyatro"
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
-msgstr ""
+msgstr "Şehirdeki vatandaşları eğlendirir. 3 mutsuz vatandaş memnun olur.  (Elektrik keşfedilince dört.)"
 
 #: data/default/buildings.ruleset:276 data/civ2/buildings.ruleset:254
 #: data/civ1/buildings.ruleset:201
@@ -17248,7 +17249,7 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
-msgstr ""
+msgstr "Şehirdeki yolsuzluğu %%50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda ayaklanma fiyatını 4 kat arttırır."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -17260,7 +17261,7 @@ msgstr "Fabrika"
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
-msgstr ""
+msgstr "Şehirdeki kalkan üretimini %%50 arttırır.  Bu yüzden kirliliğe yol açar."
 
 #: data/default/buildings.ruleset:331 data/civ2/buildings.ruleset:310
 #: data/civ1/buildings.ruleset:257
@@ -17268,7 +17269,7 @@ msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
-msgstr ""
+msgstr "Ambarı olan bir şehir büyüdüğünde veya küçüldüğünde yiyecek stoğunun yarısı dolacaktır. Böylece şehir daha hızlı büyüyebilir ve kıtlığın etkisi azalır."
 
 #: data/default/buildings.ruleset:341 data/civ2/buildings.ruleset:320
 msgid "Harbour"
@@ -17278,7 +17279,7 @@ msgstr "Liman"
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
-msgstr ""
+msgstr "Bütün okyanus bölgeleri fazladan bir gıda üretir.  Bunu yapabilmek için şehrin kıyıda olması gereklidir."
 
 #: data/default/buildings.ruleset:362 data/civ2/buildings.ruleset:341
 #: data/civ1/buildings.ruleset:267
@@ -17306,7 +17307,7 @@ msgstr "Kütüphane"
 #: data/default/buildings.ruleset:412
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
-msgstr ""
+msgstr "Şehirdeki bilim üretimini %%100 arttırır."
 
 #: data/default/buildings.ruleset:417 data/civ2/buildings.ruleset:393
 #: data/civ1/buildings.ruleset:317
@@ -17317,7 +17318,7 @@ msgstr "Market"
 #: data/civ1/buildings.ruleset:332
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
-msgstr ""
+msgstr "Şehirdeki lüks ve vergi üretimini %%50 arttırır."
 
 #: data/default/buildings.ruleset:437 data/civ2/buildings.ruleset:413
 #: data/civ1/buildings.ruleset:337
@@ -17329,7 +17330,7 @@ msgstr "Toplu Taşıma"
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
-msgstr ""
+msgstr "Nüfustan doğan kirliliği sıfırlar.  Yani nüfusun kirliliğe hiçbir etkisi kalmaz."
 
 #: data/default/buildings.ruleset:458 data/civ2/buildings.ruleset:434
 #: data/civ1/buildings.ruleset:358
@@ -17342,7 +17343,7 @@ msgstr "İmalathane"
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
-msgstr ""
+msgstr "Fabrika ile birlikte şehrin kalkan üretimini %%100 arttırır."
 
 #: data/default/buildings.ruleset:480 data/civ2/buildings.ruleset:456
 #: data/civ1/buildings.ruleset:380
@@ -17362,13 +17363,13 @@ msgstr ""
 
 #: data/default/buildings.ruleset:515 data/civ2/buildings.ruleset:488
 msgid "Offshore Platform"
-msgstr "Petrol platformu"
+msgstr "Petrol Platformu"
 
 #: data/default/buildings.ruleset:530 data/civ2/buildings.ruleset:503
 msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
-msgstr ""
+msgstr "Şehir sınırlarındaki tüm okyanus bölgelerinde fazladan 1 kalkan üretimi ekler.  Bunun yapılabilmesi için şehir kıyıda olmalıdır."
 
 #: data/default/buildings.ruleset:536 data/civ2/buildings.ruleset:509
 #: data/civ1/buildings.ruleset:410
@@ -17401,7 +17402,7 @@ msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
-msgstr ""
+msgstr "Şehir dışındaki askeri birimlerden doğan mutsuzluğu Demokraside 2 Cumhuriyette 1 azaltır.  Diğer yönetim biçimlerinde hiç etkisi yoktur."
 
 #: data/default/buildings.ruleset:593 data/civ2/buildings.ruleset:559
 msgid "Port Facility"
@@ -17411,7 +17412,7 @@ msgstr "Tersane"
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
-msgstr ""
+msgstr "Şehirde kıdemli deniz birimi yapmayı sağlar.  Ayrıca şehirde bir sıra boyunca duran deniz birimleri tamamen iyileşir."
 
 #: data/default/buildings.ruleset:615 data/civ2/buildings.ruleset:581
 #: data/civ1/buildings.ruleset:439
@@ -17440,7 +17441,7 @@ msgstr "Geri Dönüşüm Merkezi"
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
-msgstr ""
+msgstr "Geri Dönüşüm Merkezi üretimden doğan kirliliği %%66 oranında azaltır."
 
 #: data/default/buildings.ruleset:667 data/civ2/buildings.ruleset:629
 msgid "Research Lab"
@@ -17461,7 +17462,7 @@ msgstr "Hava Savunması"
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
-msgstr ""
+msgstr "Nükleer olmayan hava birimleri saldırırken şehir içindeki birimlerin savunmasını ikiye katlar."
 
 #: data/default/buildings.ruleset:710 data/civ2/buildings.ruleset:672
 #: data/civ1/buildings.ruleset:487
@@ -17474,7 +17475,7 @@ msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
 "missiles."
-msgstr ""
+msgstr "Şehri nükleer saldırılardan korur.  Yani nükleer saldırılar şehir üzerinde hiçbir etki yapmaz.  Ayrıca nükleer olmayan füzelere karşı savunmayı da ikiye katlar."
 
 #: data/default/buildings.ruleset:733 data/civ2/buildings.ruleset:695
 msgid "Sewer System"
@@ -17484,7 +17485,7 @@ msgstr "Kanalizasyon"
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
-msgstr ""
+msgstr "Şehrin 12'den daha büyük boyutlara çıkmasına izin verir.  Daha önce şehrin 8'den yukarı çıkması için Su Kemeri gereklidir."
 
 #: data/default/buildings.ruleset:754 data/civ2/buildings.ruleset:746
 #: data/civ1/buildings.ruleset:510
@@ -17552,7 +17553,7 @@ msgstr "Borsa"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr ""
+msgstr "Bir Market ve Banka ile birlikte Borsa, şehirdeki vergi ve lüks üretimini %%150 oranında arttırır."
 
 #: data/default/buildings.ruleset:860 data/civ2/buildings.ruleset:849
 msgid "Super Highways"
@@ -17561,7 +17562,7 @@ msgstr "Otoban"
 #: data/default/buildings.ruleset:875 data/civ2/buildings.ruleset:864
 #, no-c-format
 msgid "Increases trade resources by 50% on all squares with roads or railroads."
-msgstr ""
+msgstr "Yol ve ray olan arazilerdeki ticaret gelirini %%50 arttırır."
 
 #: data/default/buildings.ruleset:883 data/civ2/buildings.ruleset:870
 msgid "Supermarket"
@@ -17573,7 +17574,7 @@ msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
 "used around the city.  Farmland squares are those which have been irrigated "
 "a second time."
-msgstr ""
+msgstr "Şehrin etrafındaki tarlalardan elde edilen gıdayı %%50 arttırır.  İkinci kez sulama yapılan topraklar tarla olur."
 
 #: data/default/buildings.ruleset:905 data/civ2/buildings.ruleset:892
 #: data/civ1/buildings.ruleset:591
@@ -17586,7 +17587,7 @@ msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
 "citizens are made content."
-msgstr ""
+msgstr "Mutsuz bir vatandaşı memnun eder.  Tasavvuf ve Kehanet ile birlikte 4 vatandaşı memnun eder."
 
 #: data/default/buildings.ruleset:926 data/civ2/buildings.ruleset:913
 #: data/civ1/buildings.ruleset:612 data/default/techs.ruleset:742
@@ -17599,7 +17600,7 @@ msgstr "Üniversite"
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 250%."
-msgstr ""
+msgstr "Kütüphane ile birlikte şehrin bilim üretimini %%250 arttırır."
 
 #: data/default/buildings.ruleset:948 data/civ2/buildings.ruleset:935
 #: data/civ1/buildings.ruleset:634
@@ -17611,7 +17612,7 @@ msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
 "necessary technologies)."
-msgstr ""
+msgstr "Buna sahip olan oyuncu bütün haritayı görebilir.  Bütün oyuncuların uzay gemisi yapabilmesini sağlar (tabi gerekli teknolojileri keşfetmişlerse)."
 
 #: data/default/buildings.ruleset:969 data/civ2/buildings.ruleset:956
 msgid "A.Smith's Trading Co."
@@ -17621,7 +17622,7 @@ msgstr "A.Smith Tic. Şti."
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
-msgstr ""
+msgstr "Bütün şehirlerde 1 bakım gerektiren yapıların bakımı ücretsiz olur."
 
 #: data/default/buildings.ruleset:989 data/civ2/buildings.ruleset:976
 #: data/civ1/buildings.ruleset:653
@@ -17633,7 +17634,7 @@ msgstr "Büyük Heykel"
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
-msgstr ""
+msgstr "Bu harikanın yapıldığı şehirde zaten ticaret geliri getiren her bölge bir tane fazladan gelir getirir."
 
 #: data/default/buildings.ruleset:1009 data/civ2/buildings.ruleset:996
 #: data/civ1/buildings.ruleset:673
@@ -17644,7 +17645,7 @@ msgstr "Kopernik'in Gözlemevi"
 #: data/civ1/buildings.ruleset:837
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
-msgstr ""
+msgstr "Yapıldığı şehirdeki bilim üretimini %%100 arttırır."
 
 #: data/default/buildings.ruleset:1029 data/civ2/buildings.ruleset:1016
 #: data/civ1/buildings.ruleset:693
@@ -17655,7 +17656,7 @@ msgstr "Kansere Çare"
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
-msgstr ""
+msgstr "Bu harika buluş bütün şehirlerinizde bir mutsuz vatandaşı memnun eder."
 
 #: data/default/buildings.ruleset:1051 data/civ2/buildings.ruleset:1036
 #: data/civ1/buildings.ruleset:713
@@ -17668,7 +17669,7 @@ msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
 "technology advances."
-msgstr ""
+msgstr "Charles Darwin'in yolculuğu evrim teorisinin oluşmasını sağlamıştır ve bilime ilham vermiştir. Bittiği anda iki tane teknoloji verir."
 
 #: data/default/buildings.ruleset:1072 data/civ2/buildings.ruleset:1057
 msgid "Eiffel Tower"
@@ -17680,7 +17681,7 @@ msgid ""
 "Your reputation and goodwill among other nations is increased while you "
 "possess this wonder.  Reputation is recovered twice as fast as it would "
 "otherwise."
-msgstr ""
+msgstr "Bu harika sizde kaldıkça diğer milletlerin size karşı olan tutumu daha iyiye gidecektir.  İtibarınız normalden iki kat daha hızlı düzelecektir."
 
 #: data/default/buildings.ruleset:1094 data/civ2/buildings.ruleset:1080
 #: data/civ1/buildings.ruleset:734
@@ -17692,7 +17693,7 @@ msgstr "Büyük Kütüphane"
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
-msgstr ""
+msgstr "Büyük Kütüphanesi olan ulus, en az iki milletin bildiği teknolojileri hemen öğrenir."
 
 #: data/default/buildings.ruleset:1114 data/civ2/buildings.ruleset:1100
 #: data/civ1/buildings.ruleset:754
@@ -17701,7 +17702,7 @@ msgstr "Büyük Duvar"
 
 #: data/default/buildings.ruleset:1128
 msgid "Works as a City Wall in all your cities."
-msgstr ""
+msgstr "Bütün şehirlerinizde surlar varmış gibi olur."
 
 #: data/default/buildings.ruleset:1136 data/civ2/buildings.ruleset:1121
 #: data/civ1/buildings.ruleset:775
@@ -17739,7 +17740,7 @@ msgstr "Newton'un Koleji"
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
-msgstr ""
+msgstr "Üniversitesi olan şehirlerinizdeki bilim üretimini %%100 arttırır."
 
 #: data/default/buildings.ruleset:1200 data/civ2/buildings.ruleset:1184
 #: data/civ1/buildings.ruleset:842
@@ -17758,7 +17759,7 @@ msgstr "Haçlı Seferleri"
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
-msgstr ""
+msgstr "Yapıldığı şehirdeki her bölgeye fazladan bir kalkan üretimi ekler."
 
 #: data/default/buildings.ruleset:1239 data/civ2/buildings.ruleset:1223
 msgid "Leonardo's Workshop"
@@ -17766,7 +17767,7 @@ msgstr "Leonardo'nun Atölyesi"
 
 #: data/default/buildings.ruleset:1253 data/civ2/buildings.ruleset:1237
 msgid "Upgrades one obsolete unit per game turn."
-msgstr ""
+msgstr "Her sırada bir eski birimi yeniler."
 
 #: data/default/buildings.ruleset:1258 data/civ2/buildings.ruleset:1242
 #: data/civ1/buildings.ruleset:862
@@ -17778,7 +17779,7 @@ msgid ""
 "Gives all your sea units 1 additional movement point and eliminates the risk "
 "of losing Triremes on the high seas.  Makes all your new sea units veterans "
 "(for all your cities)."
-msgstr ""
+msgstr "Bütün deniz birimlerinize bir tane fazladan hareket puanı verir ve açık denizde Kadırgaların kaybolmasını engeller.  Bütün yeni deniz birimleriniz kıdemli olur (her şehirde)."
 
 #: data/default/buildings.ruleset:1279 data/civ2/buildings.ruleset:1263
 #: data/civ1/buildings.ruleset:885
@@ -17787,7 +17788,7 @@ msgstr "Macellan'ın Yolculuğu"
 
 #: data/default/buildings.ruleset:1293
 msgid "Gives all your sea units 2 additional movement points."
-msgstr ""
+msgstr "Deniz birimlerinize 2 hareket puanı ekler."
 
 #: data/default/buildings.ruleset:1298 data/civ2/buildings.ruleset:1282
 #: data/civ1/buildings.ruleset:904
@@ -17800,7 +17801,7 @@ msgstr "Marko Polo'nun Elçiliği"
 
 #: data/default/buildings.ruleset:1330 data/civ2/buildings.ruleset:1314
 msgid "The player who owns it gets an embassy with all players."
-msgstr ""
+msgstr "Buna sahip olan kullanıcı bütün oyuncularda elçilik sahibi olur."
 
 #: data/default/buildings.ruleset:1335 data/civ2/buildings.ruleset:1319
 #: data/civ1/buildings.ruleset:922
@@ -17814,7 +17815,7 @@ msgid ""
 "effect of a Cathedral, making an additional unhappy citizen content.  The "
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
-msgstr ""
+msgstr "Her şehirde Katedral varmış gibi olur.  Her şehirde 3 mutsuz vatandaşı memnun eder.  Tanrı Biliminin keşfi Katedralin etkisini arttırır, bir tane daha mutsuz vatandaşı memnun eder.  Komünizmin keşfi Katedralin etkisini azaltır, memnun edilen vatandaş sayısını bir azaltır."
 
 #: data/default/buildings.ruleset:1359 data/civ2/buildings.ruleset:1343
 #: data/civ1/buildings.ruleset:941
@@ -17823,7 +17824,7 @@ msgstr "Kehanet"
 
 #: data/default/buildings.ruleset:1373
 msgid "Makes two of your unhappy citizens content in every city with a temple."
-msgstr ""
+msgstr "Tapınağı olan her şehirde iki mutsuz vatandaşı memnun eder."
 
 #: data/default/buildings.ruleset:1378 data/civ2/buildings.ruleset:1362
 #: data/civ1/buildings.ruleset:960
@@ -17844,7 +17845,7 @@ msgstr "SETI Programı"
 
 #: data/default/buildings.ruleset:1413
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr ""
+msgstr "Araştırma Laboratuvarı olan şehirlerdeki bilim üretimini %%100 arttırır. "
 
 #: data/default/buildings.ruleset:1418 data/civ2/buildings.ruleset:1401
 #: data/civ1/buildings.ruleset:1001
@@ -17854,7 +17855,7 @@ msgstr "Şekspir'in Tiyatrosu"
 #: data/default/buildings.ruleset:1432 data/civ2/buildings.ruleset:1415
 #: data/civ1/buildings.ruleset:1015
 msgid "Makes all unhappy citizens content, in the city where it is located."
-msgstr ""
+msgstr "Yapıldığı şehirdeki tüm mutsuz vatandaşları memnun eder."
 
 #: data/default/buildings.ruleset:1437 data/civ2/buildings.ruleset:1420
 msgid "Statue of Liberty"
@@ -17866,7 +17867,7 @@ msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
 "Anarchy."
-msgstr ""
+msgstr "Henüz keşfedilmemiş olanlar dahil tüm yönetim biçimlerine anarşi olmadan geçiş yapabilmenizi sağlar."
 
 #: data/default/buildings.ruleset:1458 data/civ2/buildings.ruleset:1441
 msgid "Sun Tzu's War Academy"
@@ -17885,7 +17886,7 @@ msgstr "Birleşmiş Milletler"
 
 #: data/default/buildings.ruleset:1493
 msgid "All your units regain two extra hitpoints per turn."
-msgstr ""
+msgstr "Birimlerinizin hepsi her tur fazladan iki sağlık kazanır."
 
 #: data/default/buildings.ruleset:1506 data/civ2/buildings.ruleset:1489
 #: data/civ1/buildings.ruleset:1046
@@ -17901,14 +17902,14 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1531
 msgid "Coinage"
-msgstr "Para basımı"
+msgstr "Para Basımı"
 
 #: data/default/buildings.ruleset:1552
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
-msgstr "Bu normal bir yapı değildir.  Bir şehrin üretimini Para Basımı yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
+msgstr "Bu normal bir yapı değildir.  Bir şehirde Para Basımı yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
 
 #: data/default/nations.ruleset:20
 msgid "?nationgroup:Ancient"
@@ -17950,7 +17951,7 @@ msgstr "Fantastik"
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
-msgstr ""
+msgstr "Şehirdeki vatandaşları eğlendirir. 3 mutsuz vatandaş memnun olur.  (Elektronik keşfedilince dört.)"
 
 #: data/civ2/buildings.ruleset:268
 msgid ""
@@ -18112,7 +18113,7 @@ msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
 "(money)."
-msgstr "Bu normal bir yapı değildir.  Bir şehrin üretimini Kapitülasyon yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
+msgstr "Bu normal bir yapı değildir.  Bir şehirde Kapitülasyon yaparsanız şehirdeki kalkan üretimi vergiye (para) dönüştürülür."
 
 #: data/civ1/buildings.ruleset:42
 msgid "Allows a city to grow larger than size 10."
@@ -19347,9 +19348,9 @@ msgstr ""
 "\n"
 " - Şehri ilk yapan oyuncu siz olmalısınız.\n"
 "\n"
-" - Komunizm ve Barut teknolojilerine sahip olmalısınız.\n"
+" - Komünizm ve Barut teknolojilerine sahip olmalısınız.\n"
 "\n"
-" - Yönetim biçimi olarak Demokrasi veya Komunizm kullanıyor olmalısınız."
+" - Yönetim biçimi olarak Demokrasi veya Komünizm kullanıyor olmalısınız."
 
 #: data/default/units.ruleset:553 data/civ2/units.ruleset:440
 msgid "Alpine Troops"
