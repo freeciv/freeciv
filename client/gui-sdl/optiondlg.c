@@ -357,14 +357,6 @@ static int work_lists_callback(struct widget *pWidget)
     pOption_Dlg->pADlg->pBeginWidgetList = pBuf;    
     pOption_Dlg->pADlg->pBeginActiveWidgetList = pOption_Dlg->pADlg->pBeginWidgetList;
     
-/* FIXME: this can probably be removed */
-#if 0
-    pOption_Dlg->pADlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
-    pOption_Dlg->pADlg->pScroll->count = count;
-    pOption_Dlg->pADlg->pScroll->active = 13;
-    pOption_Dlg->pADlg->pScroll->step = 1;
-#endif
-    
     scrollbar_width = create_vertical_scrollbar(pOption_Dlg->pADlg,
                                                 1, 13, TRUE, TRUE);
     setup_vertical_scrollbar_area(pOption_Dlg->pADlg->pScroll,

@@ -627,12 +627,6 @@ void update_conn_list_dialog(void)
         pConnDlg->pUsers_Dlg->pEndWidgetList = pConnDlg->pBeginWidgetList;
         pConnDlg->pUsers_Dlg->pBeginWidgetList = pConnDlg->pBeginWidgetList;
 
-/* FIXME: this can probably be removed */
-#if 0
-        pConnDlg->pUsers_Dlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
-        pConnDlg->pUsers_Dlg->pScroll->count = 0;
-#endif
-        
         create_vertical_scrollbar(pConnDlg->pUsers_Dlg, 1,
 					pConnDlg->active, TRUE, TRUE);	
         pConnDlg->pUsers_Dlg->pEndWidgetList =
@@ -794,12 +788,6 @@ static void popup_conn_list_dialog(void)
   pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pConnDlg->pChat_Dlg->pBeginWidgetList;
   pConnDlg->pChat_Dlg->pEndActiveWidgetList = pConnDlg->pChat_Dlg->pEndWidgetList;
 
-/* FIXME: this can probably be removed */
-#if 0
-  pConnDlg->pChat_Dlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
-  pConnDlg->pChat_Dlg->pScroll->count = 1;
-#endif
-  
   n = (pWindow->size.h - adj_size(44) - adj_size(40)) / pLabel->size.h;
   pConnDlg->active = n;
   

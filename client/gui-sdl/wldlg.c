@@ -1286,14 +1286,6 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       if(count > 6) {
         pEditor->pGlobal->pActiveWidgetList = pEditor->pGlobal->pEndActiveWidgetList;
 
-/* FIXME: this can probably be removed */
-#if 0
-        pEditor->pGlobal->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
-        pEditor->pGlobal->pScroll->count = count;
-        pEditor->pGlobal->pScroll->active = 4;
-        pEditor->pGlobal->pScroll->step = 1;
-#endif
-      	
         create_vertical_scrollbar(pEditor->pGlobal, 1,
                              pEditor->pGlobal->pScroll->active, FALSE, TRUE);
 	pEditor->pGlobal->pScroll->pUp_Left_Button->size.w = adj_size(122);
