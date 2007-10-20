@@ -26,6 +26,7 @@ Pots trobar una versió traduïda d'aquest fitxer, així com d'altres parts
 de la documentació de Freeciv, als següents llocs:
 
 	Anglès			./doc
+	Català			./doc/ca
 	Holandès		./doc/nl
 	Francès			./doc/fr
 	Alemany			./doc/de
@@ -241,6 +242,17 @@ Servidor:
 
 I la partida està en marxa!
 
+NOTA: En aquesta versió de Freeciv, els clients GTK i SDL tenen la
+capacitat d'engegar una sessió de servidor "automàgicament" quan
+l'usuari selecciona "Començar Partida Nova" des del menú principal.
+Això redueix els passos que calen per engegar una partida de Freeciv.
+Per l'altre banda, també vol dir que si el client peta per algun motiu
+o no està disponible, la sessió de civserver també es perdrà. Per tant,
+engegar una sessió de civserver separada i després connectar-s'hi amb
+el client és en general el mètode recomanat.
+
+(Nota del traductor: Però és molt còmode deixar que l'engegui ell!)
+
 
 Anunciar la partida:
 ====================
@@ -344,12 +356,14 @@ a la wiki també en català:
 Final de la partida:
 ====================
 
-Hi ha tres maneres d'acabar la partida:
+Hi ha quatre maneres d'acabar la partida:
 
-1) Només queda una nació.
+1) Només queda una nació o un equip, o tots els altres jugadors de tots
+  els altres equips han concedit la partida (/surrender).
 2) S'ha arribat a l'últim any.
 3) Un jugador construeix i llança una nau espacial, que arriba a
    Alpha Centauri primer.
+4) L'operador del servidor fa servir la comanda /endgame.
 
 Es mostrarà un marcador de punts en tots els casos. Pista: l'operador
 del servidor pot fixar l'any final mentre el joc encara dura
@@ -478,7 +492,6 @@ Mantenim 4 llistes de correu:
   freeciv-announce Anuncis d'interès general.
                    És una llista de "Només Lectura", amb missatges escassos.
                    En altres paraules, no pots enviar-hi correus, només llegir-la.
-                   (Els anuncis que s'hi envien també s'envien a freeciv).
   freeciv-i18n     Traducció del Freeciv. 
                    Totes les discussions relacionades amb la traducció del codi
                    de Freeciv, la documentació i el web, cap a llenguatges diferents
