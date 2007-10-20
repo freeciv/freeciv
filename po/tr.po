@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-20 09:34+0300\n"
+"PO-Revision-Date: 2007-10-20 19:25+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6407,12 +6407,12 @@ msgstr "Taşınan bir birim hedef karedeki tüm birimlerle veya şehirlerle itti
 #: server/unithand.c:1240
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
-msgstr "%sın %s yapımında yardım eder (%s şehrinde; kalan %d)."
+msgstr "%s birimi %s yapımına %s şehrinde yardım eder (%d kalıyor)."
 
 #: server/unithand.c:1242
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
-msgstr "%s %s yapmaya %s şehrinde yardım eder (fazlası %d)."
+msgstr "%s birimi %s yapımına %s şehrinde yardım eder (%d artıyor)."
 
 #: server/unithand.c:1286
 #, c-format
@@ -9433,7 +9433,7 @@ msgstr "Varış yılı:      %8s"
 
 #: client/text.c:1005
 msgid "?timeout:off"
-msgstr "süre sınırı yok"
+msgstr "sınırsız süre"
 
 #: client/text.c:1029
 #, c-format
@@ -15283,10 +15283,12 @@ msgid ""
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
 msgstr ""
+"Out = Çıktı penceresi, Mes = Mesaj penceresi,\n"
+"Pop = Yeni pencerede"
 
 #: data/Freeciv.in:1276
 msgid " Out Mes Pop"
-msgstr ""
+msgstr " Out Mes Pop"
 
 #: data/Freeciv.in:1287
 msgid "Rates"
@@ -15594,7 +15596,7 @@ msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5556 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
-msgstr ""
+msgstr "Oyun başlamadan önce herkes adresi ve port numarasını (öntanımlı olarak 5556) vererek oyuna katılabilir. Sunucu -m ile başlatılmışsa metasunucuya rapor verecektir."
 
 #: data/helpdata.txt:410
 msgid ""
@@ -15607,6 +15609,11 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
+"İstemci de bu sayfayı görebilir: bağlantı penceresindeki Metasunucu  düğmesini kullanın.  Eğer hiçbir sonuç göremiyorsanız İnternet gezgininizin HTTP proxy kullanıp kullanmadığına bakın ve freeciv'i de $http_proxy çevre değişkenini\n"
+"\n"
+"  http://proxyadresi:proxyportnumarası/\n"
+"\n"
+"olacak şekilde değiştirerek aynı şekilde ayarlayın."
 
 #: data/helpdata.txt:419
 msgid ""
@@ -15616,7 +15623,7 @@ msgid ""
 "you lose connection early in the game and reconnect, use the name you chose "
 "for your ruler, not your original nickname!  If the server is reporting on "
 "the metaserver, the player names can be found there."
-msgstr ""
+msgstr "Oyun başladıktan sonra YZ oyuncular dahil bağlanan herkes bir oyuncuyla ilişkilendirilir.  Bir YZ oyuncuya bağlanmak onu kontrol etmek için yeterli değildir, bu tamamen sunucunun ayarlarına bağlıdır.  Oyunun başında bağlantınızı kaybedip tekrar bağlanırsanız kendi takma adınızı değil hükümdarınızın adını kullanın!  Oyun metasunucuya rapor veriyorsa bu ismi oradan alabilirsiniz."
 
 #: data/helpdata.txt:431
 msgid ""
@@ -15663,6 +15670,48 @@ msgid ""
 "Shift-Ctrl-L: Connect current and target tile with rai(L)\n"
 "Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n"
 msgstr ""
+"Birim Komutları:\n"
+"============\n"
+"    a: oto-göçmen  (göçmen/işçi birimleri)\n"
+"    b: şehir kur  (göçmen birimleri)\n"
+"    b: harika yapımına yardım et  (kervan birimleri)\n"
+"    C: birim birleştir  (hedefin üzerine sol tıklayın)\n"
+"    d: (d)iplomat/casus işleri  (diplomat/casus birimleri)\n"
+"    D: Birimi terhis et\n"
+"    e: hava üssü yap  (hava üssü birimleri)\n"
+"    f: birimi güçlendir  (askeri birimler)\n"
+"    f: kale yap  (göçmen/işçi birimleri)\n"
+"    g: (g)it  (hedefin üzerine sol tıklayın)\n"
+"    g: (g)itmek için yol imi koy (git modundayken)\n"
+"    G: en yakın şehre (G)it/dön\n"
+"    h: memleketi yap  (o an bulunduğu şehri)\n"
+"    i: sulama yap veya araziyi değiştir (göçmen/işçi birimleri)\n"
+"    l: gemiye bin\n"
+"    L: şehre git/uç\n"
+"    m: (maden) yap veya araziyi değiştir (göçmen/işçi birimleri)\n"
+"    n: (n)ükleer serpintiyi temizle\n"
+"    N: (N)uclear bomba at\n"
+"    o: araziyi değiştir (mühendis birimi)\n"
+"    p: kirliliği temizle  (göçmen/işçi birimleri)\n"
+"    p: (p)araşütle in  (paraşütçü birimler)\n"
+"    P: arazi gelişimlerini yağmala\n"
+"    q: volta at  (hedefin üzerine sol tıklayın)\n"
+"    q: volta yer imi ekle (volta modundayken)\n"
+"    r: yol/(r)ay yap  (göçmen/işçi birimleri)\n"
+"    r: tica(r)et yolu yap  (kervan birimleri)\n"
+"    s: nöbet tut\n"
+"    u: araçtan indir\n"
+"    U: bütün birimleri araçtan indir\n"
+"    W: arazideki diğer birimleri uyandır\n"
+"    x: oto-kâşif\n"
+"    y: Seçili birimin türündeki tüm boş birimleri seç\n"
+"boşluk: olduğun yerde kal\n"
+"\n"
+"      Ctrl-U: birimi geliştir\n"
+"Shift-Ctrl-B: Git ve hedefe şehir kur\n"
+"Shift-Ctrl-R: Şimdiki araziyi ve hedefi yol ile bi(R)leştir\n"
+"Shift-Ctrl-L: Şimdiki araziyi ve hedefi ray ile bir(l)eştir\n"
+"Shift-Ctrl-I:  Şimdiki araziyi ve hedefi sulama ile birleştir\n\n"
 
 #: data/helpdata.txt:474
 msgid ""
@@ -15709,6 +15758,16 @@ msgid ""
 "        Ctrl-P: show city production on/off\n"
 "             t: show city workers (mouse over or near city)\n"
 msgstr ""
+"Ana Harita (Tuşlar):\n"
+"================\n"
+"    Shift-home: başkente git\n"
+"   Shift-oklar: haritayı kaydır\n"
+"        Ctrl-G: ızgarayı göster/gizle\n"
+"        Ctrl-B: devlet sınırlarını göster/gizle\n"
+"        Ctrl-N: şehir isimlerini göster/gizle\n"
+"        Ctrl-R: şehir büyümesini göster/gizle\n"
+"        Ctrl-P: şehir üretimini göster/gizle\n"
+"             t: şehir işçilerini göster (şehir yanına fareyi getir)\n"
 
 #: data/helpdata.txt:500
 msgid ""
@@ -15736,6 +15795,29 @@ msgid ""
 "  The cities that become highlighted on the map,\n"
 "  will also be highlighted in the City Report."
 msgstr ""
+"Ana Harita (Fare):\n"
+"=================\n"
+"  Şehre sağ tıklama:        Şehir penceresini aç\n"
+"  Birime sağ tıklama:        Birimi seç\n"
+"  Birimi sürükle bırak:     Birim için git komutu\n"
+"  Orta tıklama:               Arazi bilgisini göster\n"
+"  Sağ tıklama:               Görüntüyü ortala\n"
+"\n"
+"  Shift-sağ tıklama:         Üretimi kopyala (GTK)\n"
+"  Şehre shift-sağ tıklama:  Üretimi yapıştır (GTK)\n"
+"\n"
+"  Shift-Ctrl-tıklama:         Şehir işçilerini ayarla\n"
+"  Ctrl-orta tıklama:          Nöbetteki birimleri uyandır\n"
+"\n"
+"  Alan Seçimi modu (GTK):\n"
+"  ==========================\n"
+"  Sağ tıkla ve sürükle: Alan Seçimi moduna gir\n"
+"  Sol tıkla:               Kare belirginleştirmeyi aç/kapa\n"
+"  Shift-sağ tıkla:        Üretimi seçili şehirlere yapıştır\n"
+"  Sağ tıkla:              Alan Seçimi mounu iptal et\n"
+"\n"
+"  Haritada seçilen şehirler aynı zamanda\n"
+"  Şehir Raporunda da seçilirler."
 
 #: data/helpdata.txt:524
 msgid ""
@@ -15783,20 +15865,20 @@ msgstr ""
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
-msgstr ""
+msgstr "İstemcide çok basit bir sohbet arayüzü vardır.  Şu durumlar haricinde yazdıklarınız tüm oyunculara gönderilir:"
 
 #: data/helpdata.txt:551
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
-msgstr ""
+msgstr "  - '/' ile başlayan mesajlar eğer yetkiniz varsa sunucu komutları olarak işletilirler."
 
 #: data/helpdata.txt:554
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
-msgstr ""
+msgstr "  - 'Ahmet' ile başlayan mesajlar 'Ahmet'e özel olarak gönderilir. İsimler kısaltılarak verilebilir. Sunucu 'Ahmet' isimli oyuncuları arar, bulamazsa 'Ahmetcan' gibi 'Ahmet' ile başlayan bir oyuncuya gönderir."
 
 #: data/helpdata.txt:559
 msgid ""
@@ -16462,37 +16544,37 @@ msgstr ""
 
 #: data/helpdata.txt:994
 msgid "First, the attacker's strength is modified."
-msgstr ""
+msgstr "Önce, saldıranın gücü değiştirilir."
 
 #: data/helpdata.txt:996
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
-msgstr ""
+msgstr " - Saldıran kıdemli ise, gücü 1,5 ile çarpılır."
 
 #: data/helpdata.txt:998
 msgid "Next, the defender's strength is modified."
-msgstr ""
+msgstr "Sonra, savunan kişinin gücü değiştirilir."
 
 #: data/helpdata.txt:1000
 msgid " - If the defender is a veteran, then its strength is multiplied by 1.5."
-msgstr ""
+msgstr " - Savunan kıdemli ise gücü 1.5 ile çarpılır."
 
 #: data/helpdata.txt:1003
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
-msgstr ""
+msgstr " - Sonra, savunanın gücü bulunduğu arazinin savunma çarpanıyla çarpılır."
 
 #: data/helpdata.txt:1006
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
-msgstr ""
+msgstr " - Sonra, savunan atlı birime karşı bir mızraklı ise gücü iki katına çıkar."
 
 #: data/helpdata.txt:1009
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
-msgstr ""
+msgstr " - Savunan hava birimine (füze ve helikopterler dahil) karşı bir AEGIS Kruvazörü ise gücü dört katına çıkar."
 
 #: data/helpdata.txt:1013
 msgid ""
@@ -16978,13 +17060,13 @@ msgid ""
 "capital (palace).  Up to half of your cities will rebel and declare "
 "allegiance to a new (AI) leader, who will loot half of your treasury and "
 "retain all of your scientific advances."
-msgstr ""
+msgstr "Sivil savaş her imparatorluğun korkulu rüyasıdır.  Başkent (saray) kaybedildiğinde gerçekleşir.  Gerçekleştiğinde şehirlerinizin en fazla yarısı yeni bir (YZ) lider önderliğinde bir ülke kurarlar. Sonuçta bütün bilimsel gelişmelerinizin ve hazinenizin yarısı onlara geçer."
 
 #: data/helpdata.txt:1368
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
-msgstr ""
+msgstr "Sivil savaş bir sıra boyunca sürer ve ondan sonra yönetim anarşiye dönüşür."
 
 #: data/helpdata.txt:1371
 msgid ""
@@ -17392,6 +17474,11 @@ msgid ""
 "Under Despotism the palace gives you a +75% production bonus, and under "
 "Monarchy a +50% production bonus."
 msgstr ""
+"Şehri hükümetinizin merkezi, yani başkent yapar.  Demokrasi ve Komünizm dışındaki yönetimlerde diğer şehirlerdeki yolsuzluk başkentten uzaklaştıkça artar.  (Bütün yönetimlerde) şehirlerde ayaklanma çıkarılma fiyatı da başkentten uzaklığına bağlıdır.\n"
+"\n"
+"Sivil savaştan korunmak için başkentinize dikkat edin. Sarayınızı kaybederseniz varsa uzay geminiz de boşa gidecektir.\n"
+"\n"
+"Saray, Despotlukta %%75, Monarşide %%50 üretim artışı sağlar."
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:538
 msgid "Police Station"
@@ -17417,7 +17504,7 @@ msgstr "Şehirde kıdemli deniz birimi yapmayı sağlar.  Ayrıca şehirde bir s
 #: data/default/buildings.ruleset:615 data/civ2/buildings.ruleset:581
 #: data/civ1/buildings.ruleset:439
 msgid "Power Plant"
-msgstr "Elektrik Santrali"
+msgstr "Termik Santral"
 
 #: data/default/buildings.ruleset:631
 #, no-c-format
@@ -17543,6 +17630,9 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Uzay Gemisi İskelesi geminizin temelini oluşturur.  Bütün diğer uzay gemisi parçaları birbirine bunlarla bağlanmalıdır.  En fazla 32 Uzay Gemisi İskelesi yapabilirsiniz.\n"
+"\n"
+"Uzay gemisi parçalarını yapmadan önce herhangi bir oyuncunun Apollo Programı harikasını yapmış olması gereklidir."
 
 #: data/default/buildings.ruleset:838 data/civ2/buildings.ruleset:827
 msgid "Stock Exchange"
@@ -17656,7 +17746,7 @@ msgstr "Kansere Çare"
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
-msgstr "Bu harika buluş bütün şehirlerinizde bir mutsuz vatandaşı memnun eder."
+msgstr "Bu harika buluş, bütün şehirlerinizde bir mutsuz vatandaşı memnun eder."
 
 #: data/default/buildings.ruleset:1051 data/civ2/buildings.ruleset:1036
 #: data/civ1/buildings.ruleset:713
@@ -17717,7 +17807,7 @@ msgid ""
 "of 3).  In the unlikely event where there are no content citizens to get the "
 "effect of Hanging Gardens, the wonder applies to unhappy citizens (making "
 "them content instead)."
-msgstr ""
+msgstr "Her şehirde bir memnun vatandaşı mutlu yapar. Yapıldığı şehirde iki tane daha memnun vatandaşı mutlu yapar (toplam 3).  Memnun vatandaşların kalmadığı seyrek durum gerçekleşirse bu etki mutsuz vatandaşlara geçer (onları memnun eder)."
 
 #: data/default/buildings.ruleset:1159 data/civ2/buildings.ruleset:1144
 #: data/civ1/buildings.ruleset:798
@@ -17836,7 +17926,7 @@ msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
-msgstr ""
+msgstr "Şehirlerinizden birinin boyutu arttığında veya küçüldüğünde stoğunaki gıdanın kaybı %%25 oranında azalır.  Böylece şehirler daha çabuk büyür ve kıtlık riski azalır.  Ambar ile birlikte etkisi artar."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -17877,7 +17967,7 @@ msgstr "Sun Tzu'nun Savaş Akademisi"
 msgid ""
 "All your new ground units start at the first veteran level. The  chance of a "
 "unit getting the next veteran level after a battle  increases by half."
-msgstr ""
+msgstr "Bütün yeni kara birimleri kıdemli olarak başlarlar. Savaş sonucunda sonraki kıdem seviyesine geçme şansları da yarı yarıya artar."
 
 #: data/default/buildings.ruleset:1479 data/civ2/buildings.ruleset:1462
 #: data/civ1/buildings.ruleset:1020
@@ -17898,7 +17988,7 @@ msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
 "under Republic.  This wonder has no effect under other governments.)"
-msgstr ""
+msgstr "Bütün şehirlerde Karakol varmış gibi olur.  (Yani şehir dışındaki askeri birimlerden doğan mutsuzluğu Demokraside 2 Cumhuriyette 1 azaltır.  Diğer yönetim biçimlerinde hiç etkisi yoktur.)"
 
 #: data/default/buildings.ruleset:1531
 msgid "Coinage"
@@ -17958,7 +18048,7 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
-msgstr ""
+msgstr "Şehirdeki yolsuzluğu %%50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda başkente olan uzaklığın ayaklanma fiyatına etkisini yarıya indirir."
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
 msgid ""
@@ -17972,6 +18062,9 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
+"Şehirde üretimden doğan kirliliği %%50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %%100 üretim artışı, İmalathaneyle birlikte %%150 üretim artışı sağlar.\n"
+"\n"
+"Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral.  Hidroelektrik Santrali, sadece bitişiğinde veya bulunduğu yerde dağ veya nehir bulunan şehirlere yapılabilir."
 
 #: data/civ2/buildings.ruleset:388 data/civ1/buildings.ruleset:312
 #, no-c-format
@@ -17988,6 +18081,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Şehirde üretimden doğan kirliliği %%50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %%100 üretim artışı, İmalathaneyle birlikte %%150 üretim artışı sağlar.\n"
+"\n"
+"Bir şehirde şunlardan sadece biri bulunabilir: Güneş Enerjisi Santrali, Hidroelektrik Santrali, Termik Santral, Nükleer Santral"
 
 #: data/civ2/buildings.ruleset:524 data/civ1/buildings.ruleset:425
 msgid ""
@@ -18001,6 +18097,9 @@ msgid ""
 "plunging into civil war. Losing your current palace also results in losing "
 "whatever spaceship you might have."
 msgstr ""
+"Şehri hükümetinizin merkezi, yani başkent yapar.  Demokrasi ve Komünizm dışındaki yönetimlerde diğer şehirlerdeki yolsuzluk başkentten uzaklaştıkça artar.  (Bütün yönetimlerde) şehirlerde ayaklanma çıkarılma fiyatı da başkentten uzaklığına bağlıdır.\n"
+"\n"
+"Sivil savaştan korunmak için başkentinize dikkat edin. Sarayınızı kaybederseniz varsa uzay geminiz de boşa gidecektir."
 
 #: data/civ2/buildings.ruleset:596 data/civ1/buildings.ruleset:454
 #, no-c-format
@@ -18018,7 +18117,7 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
-msgstr ""
+msgstr "Araştırma Laboratuvarı, bir kütüphaneyle birlikte şehrin bilim üretimini %%100 arttırır. Bir Kütüphane ve bir Üniversite ile birlikte bilim üretimini %%150 arttırır."
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
@@ -18035,19 +18134,22 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
+"Şehirde üretimden doğan kirliliği önler.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %%100 üretim artışı, İmalathaneyle birlikte %%150 üretim artışı sağlar.\n"
+"\n"
+"Bir şehirde şunlardan sadece biri bulunabilir: Güneş Enerjisi Santrali, Hidroelektrik Santrali, Termik Santral, Nükleer Santral"
 
 #: data/civ2/buildings.ruleset:929 data/civ1/buildings.ruleset:628
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
-msgstr ""
+msgstr "Univesite, bir kütüphaneyle birlikte şehrin bilim üretimini %%100 arttırır."
 
 #: data/civ2/buildings.ruleset:970
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
-msgstr ""
+msgstr "Bütün şehirlerde 1 bakım gerektiren yapıların bakımı ücretsiz olur."
 
 #: data/civ2/buildings.ruleset:1011 data/civ1/buildings.ruleset:688
 #, no-c-format
@@ -18058,12 +18160,12 @@ msgstr "Yapıldığı şehrin bilim üretimini %%50 oranında arttırır."
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
-msgstr ""
+msgstr "Bu harika buluş, bütün şehirlerde bir mutsuz vatandaşı memnun eder."
 
 #: data/civ2/buildings.ruleset:1072
 #, no-c-format
 msgid "When built, every civilization's attitude toward you is improved by 25%."
-msgstr ""
+msgstr "Yapıldığında diğer medeniyetlerin size karşı tavrı %%25 iyileşir."
 
 #: data/civ2/buildings.ruleset:1114 data/civ1/buildings.ruleset:768
 msgid "Works as a City Wall in all cities."
@@ -18092,13 +18194,13 @@ msgstr "Bütün şehirlerinde ambar olduğunu gibi sağlar."
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
-msgstr ""
+msgstr "Kütüphanesi olan her şehirde bilim üretimini %%50 arttırır.  (Bütün şehirlerde Araştırma Laboratuvarı varmış gibi olur.)"
 
 #: data/civ2/buildings.ruleset:1455
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
-msgstr ""
+msgstr "Bütün yeni kara birimleri kıdemli olur (bütün şehirlerde).  Savaştan sonra birimin kıdeminin artma şansı %%50'den %%100'e kadar çıkar."
 
 #: data/civ2/buildings.ruleset:1476
 msgid "Units regain two extra hitpoints per turn."
@@ -18308,6 +18410,9 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
+"Despotlukta yönetimin bütün kontrolü sizin elinizdedir.  Vatandaşlarınızın kontolü genellikle zor kullanarak sağlanır.\n"
+"\n"
+"Despotluk, yolsuzluğun en yüksek olduğu yönetim biçimidir."
 
 #: data/default/governments.ruleset:92 data/civ2/governments.ruleset:90
 #: data/civ1/governments.ruleset:92 data/default/techs.ruleset:481
@@ -18338,6 +18443,9 @@ msgid ""
 "\n"
 "Monarchy suffers the same small amount of corruption that the Republic does."
 msgstr ""
+"Monarşide bir kral veya kraliçe ülkeyi yönetir.\n"
+"\n"
+"Cumhuriyette olduğu gibi biraz yolsuzluk yaşanır."
 
 #: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
 #: data/civ1/governments.ruleset:114 data/default/techs.ruleset:175
@@ -18364,6 +18472,9 @@ msgid ""
 "Under Communism, corruption does not vary by distance from the capital; all "
 "cities (including the capital) have a modest amount of corruption."
 msgstr ""
+"Komünizm bütün insanların eşit olması ilkesine dayanır.  Özel mülk yoktur, bütün mülkler devlete aittir.  Komünizm, savaşçıl ve parasal yönetim biçimleri arasında bir denge kurar.\n"
+"\n"
+"Komünizmde yolsuzluk, başkentten uzaklığa göre dağılmaz, bunun yerine (başkent dahil) bütün şehirlerde eşit miktarda yolsuzluk yaşanır."
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -18388,7 +18499,7 @@ msgid ""
 "popular to remain in control, citizens are given a greater degree of "
 "freedom.  Citizens under the Republic become unhappy easily, but the self-"
 "sufficiency of your citizens allows high levels of trade."
-msgstr ""
+msgstr "Cumhuriyette halk kendi yöneticisini kendi seçer. Bu yüzden Cumhuriyet halkın kendi kendini yönetmesidir denebilir.  Cumhuriyetle yönetilen halk kolayca mutsuz olabilir; buna karşın sağlanan özgürlük ortamı ticaret gelirlerini arttırır."
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:216
@@ -18423,7 +18534,7 @@ msgid ""
 "offers the highest possible level of trade, but also offers the most "
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
-msgstr ""
+msgstr "Demokraside halk oy kullanarak yönetime katılır. Bu yönetim biçimi ticaretin olabilecek en yüksek seviyeye gelmesini sağlayabilir ama mutsuzluğun oluşması oldukça kolaydır.  Demokraside yolsuzluk hiç olmaz.  Buna karşın şavaş sırasında halk aşırı derecede mutsuz olur."
 
 #: data/civ2/governments.ruleset:57
 msgid ""
@@ -18434,6 +18545,9 @@ msgid ""
 "Anarchy offers slightly less corruption and waste than Despotism, but "
 "slightly more unhappiness."
 msgstr ""
+"Anarşi, halk tarafından tanınan tek bir hükümetin bulunmamasıdır. Halk düzensiz bir şekilde bütün gelirlerini kendi içinde harcar ve bilime katkı sağlamaz.\n"
+"\n"
+"Anarşide DEspotluğa göre daha az yolsuzluk olur fakat buna oranla oldukça fazla mutsuzluk yaşanır."
 
 #: data/civ2/governments.ruleset:79
 msgid ""
@@ -18443,6 +18557,9 @@ msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
 msgstr ""
+"Despotlukta yönetimin bütün kontrolü sizin elinizdedir.  Vatandaşlarınızın kontolü genellikle zor kullanarak sağlanır.\n"
+"\n"
+"Despotluk, yolsuzluğun en yüksek olduğu yönetim biçimidir."
 
 #: data/civ2/governments.ruleset:101
 msgid ""
@@ -18452,6 +18569,9 @@ msgid ""
 "Monarchy suffers the same small amount of corruption and waste that the "
 "Republic does."
 msgstr ""
+"Monarşide, bir kral veya kraliçe ülkeyi yönetir.\n"
+"\n"
+"Cumhuriyette olduğu gibi biraz yolsuzluk yaşanır."
 
 #: data/civ2/governments.ruleset:122
 msgid ""
@@ -18463,6 +18583,9 @@ msgid ""
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
 msgstr ""
+"Komünizm bütün insanların eşit olması ilkesine dayanır.  Özel mülk yoktur, bütün mülkler devlete aittir.  Komünizm, savaşçıl ve parasal yönetim biçimleri arasında bir denge kurar.\n"
+"\n"
+"Komünizmde yolsuzluk, başkentten uzaklığa göre dağılmaz, bunun yerine (başkent dahil) bütün şehirlerde eşit miktarda yolsuzluk yaşanır."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:297
 #: data/civ2/techs.ruleset:284 data/civ1/techs.ruleset:282
@@ -20386,7 +20509,7 @@ msgstr "Diktatör"
 
 #: data/nation/brazilian.ruleset:22 data/nation/roman.ruleset:39
 msgid "Dictatrix"
-msgstr ""
+msgstr "Diktatör"
 
 #: data/nation/brazilian.ruleset:23 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
@@ -20396,7 +20519,7 @@ msgstr "İmparator"
 #: data/nation/brazilian.ruleset:23 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperatrix"
-msgstr ""
+msgstr "İmparatoriçe"
 
 #: data/nation/brazilian.ruleset:25 data/nation/chinese.ruleset:32
 msgid "Chairman"
@@ -20404,11 +20527,11 @@ msgstr "Başkan"
 
 #: data/nation/brazilian.ruleset:25 data/nation/chinese.ruleset:32
 msgid "Chairperson"
-msgstr ""
+msgstr "Başkan"
 
 #: data/nation/brazilian.ruleset:26 data/nation/romanian.ruleset:37
 msgid "Director-President"
-msgstr ""
+msgstr "Yönetici Başkan"
 
 #: data/nation/british.ruleset:3
 msgid "British"
@@ -20446,7 +20569,7 @@ msgstr "Çar"
 
 #: data/nation/bulgarian.ruleset:31
 msgid "Tzaritza"
-msgstr ""
+msgstr "Çar"
 
 #: data/nation/bulgarian.ruleset:34
 msgid "Drugariat"
@@ -20558,11 +20681,11 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:22
 msgid "Primer Ministre"
-msgstr ""
+msgstr "Başbakan"
 
 #: data/nation/catalan.ruleset:22
 msgid "Primera Ministre"
-msgstr ""
+msgstr "Diktatör"
 
 #: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
@@ -20572,7 +20695,7 @@ msgstr "Diktatör"
 #: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:29
 msgid "Dictadora"
-msgstr ""
+msgstr "Diktatör"
 
 #: data/nation/catalan.ruleset:24 data/nation/galician.ruleset:24
 msgid "Rei"
@@ -20600,11 +20723,11 @@ msgstr "Şilililer"
 
 #: data/nation/chilean.ruleset:6
 msgid "Chile is located on the south-western coast of South America."
-msgstr ""
+msgstr "Şili Güney Amerika'nın güneybatı sahilinde yer alır."
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr ""
+msgstr "Kaptan General"
 
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:27
 #: data/nation/german.ruleset:35 data/nation/irish.ruleset:46
