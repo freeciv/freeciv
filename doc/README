@@ -23,6 +23,7 @@ Translations:
 You may find a translated version of this file, as well as of other parts
 of the Freeciv documentation, in the following places:
 
+	Catalan			./doc/ca
 	Dutch			./doc/nl
 	French			./doc/fr
 	German			./doc/de
@@ -227,6 +228,15 @@ Server:
 
 And the game is on!
 
+  NOTE: In this version of Freeciv, the GTK and SDL clients have the
+  capability to automagically start a civserver session when the user
+  selects "Start New Game" from the main menu. This reduces the steps
+  needed to get started playing a game of Freeciv. On the other hand,
+  it also means that if the client crashes for some reason or becomes
+  unavailable, the civserver session will also be lost. So starting a
+  separate civserver session and then connect to it with the client is
+  generally the recommended method.
+
 
 Announcing the game:
 ====================
@@ -327,12 +337,14 @@ at the wiki:
 Ending the game:
 ================
 
-There are three ways in which a game can end:
+There are four ways in which a game can end:
 
-1) Only one nation is left.
+1) Only one nation or one team is left, or all other players of all
+   other teams have ceded the game (/surrender).
 2) The final year is reached.
 3) A player builds and launches a spaceship, which reaches Alpha
    Centauri first.
+4) The server operator uses the /endgame command.
 
 A score-table will be shown in all cases.  Hint: The server operator
 can set the final year while the game is still going by changing the
@@ -456,7 +468,6 @@ We maintain 4 mailing lists:
   freeciv-announce Announcements of general interest.
                    This is a "Read Only" list, with infrequent messages.
                    In other words you can't mail this list, just read it.
-                   (Announcements sent to this are also sent to freeciv.)
   freeciv-i18n     Freeciv translation.
                    All discussions related to translating the Freeciv code,
                    documentation, and website, into other languages than
