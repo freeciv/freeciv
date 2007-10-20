@@ -5,6 +5,7 @@ SUBDIRS = man ca de fr it ja nl sv
 EXTRA_DIST =			\
 	BUGS			\
 	CodingStyle		\
+	FAQ			\
 	HACKING			\
 	INSTALL.Cygwin		\
 	HOWTOPLAY		\
