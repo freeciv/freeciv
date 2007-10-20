@@ -535,7 +535,7 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
     case A_LAST:
       return SDL_DisplayFormatAlpha(pNone_Tech_Icon);
     case A_FUTURE:
-      return pFuture_Tech_Icon;
+      return SDL_DisplayFormatAlpha(pFuture_Tech_Icon);
     default:
       if (get_tech_sprite(tileset, tech)) {
         return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
