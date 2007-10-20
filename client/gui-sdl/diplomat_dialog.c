@@ -1064,13 +1064,12 @@ static int incite_dlg_window_callback(struct widget *pWindow)
 static int diplomat_incite_yes_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_incite_dialog();
-  
     if (game_find_unit_by_number(pIncite_Dlg->diplomat_id)
        && game_find_city_by_number(pIncite_Dlg->diplomat_target_id)) {  
       request_diplomat_action(DIPLOMAT_INCITE, pIncite_Dlg->diplomat_id,
                                          pIncite_Dlg->diplomat_target_id, 0);       
     }
+    popdown_incite_dialog();
   }  
   return -1;
 }
@@ -1309,13 +1308,12 @@ static int bribe_dlg_window_callback(struct widget *pWindow)
 static int diplomat_bribe_yes_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_bribe_dialog();
-    
-    if (game_find_unit_by_number(pIncite_Dlg->diplomat_id)
-       && game_find_city_by_number(pIncite_Dlg->diplomat_target_id)) {  
+    if (game_find_unit_by_number(pBribe_Dlg->diplomat_id)
+       && game_find_unit_by_number(pBribe_Dlg->diplomat_target_id)) {  
        request_diplomat_action(DIPLOMAT_BRIBE, pBribe_Dlg->diplomat_id,
                                           pBribe_Dlg->diplomat_target_id, 0);       
     }
+    popdown_bribe_dialog();
   }  
   return -1;
 }
