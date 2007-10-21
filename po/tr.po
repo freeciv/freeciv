@@ -4,12 +4,13 @@
 #
 # Roman Neumüller <email@katpatuka.org>, 2007.
 # Uğur Çetin <jnmbk@users.sourceforge.net>, 2007.
+# hayalperest <zayitk@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-21 14:40+0300\n"
+"PO-Revision-Date: 2007-10-21 18:14+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -191,11 +192,11 @@ msgstr "Uyg: Kirlilik"
 
 #: common/events.c:67
 msgid "Civ: Revolt Ended"
-msgstr "Uyg: İhtilal Sonuçlandı"
+msgstr "Uyg: İsyan sona erdi"
 
 #: common/events.c:68
 msgid "Civ: Revolt Started"
-msgstr "Uyg: İhtilal Başladı"
+msgstr "Uyg: İsyan Başladı"
 
 #: common/events.c:69
 msgid "Civ: Spaceship Events"
@@ -323,7 +324,7 @@ msgstr "Kulübe: Kulübedeki Barbarlar Ayaklandı"
 
 #: common/events.c:100
 msgid "Hut: City Founded from Hut"
-msgstr "Kullübe: Kulübeden Şehir Kuruldu"
+msgstr "Kulübe: Kulübeden Şehir Kuruldu"
 
 #: common/events.c:101
 msgid "Hut: Gold Found in Hut"
@@ -755,7 +756,7 @@ msgstr ""
 
 #: common/unit.c:1593
 msgid "You can only upgrade units in your cities."
-msgstr "Birimlerin yükseltmesi sadece şehirdeken yapılabilir."
+msgstr "Birimlerin yükseltmesi sadece şehirdeyken yapılabilir."
 
 #: common/unit.c:1597
 #, c-format
@@ -996,7 +997,7 @@ msgstr "\"%s\" dosyası gerekli ... durduruluyor!"
 #: utility/shared.c:1395
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr "%s: Koca Hata: beni root olarak çalıştırma!\n"
+msgstr "%s: Büyük Hata: beni root olarak çalıştırma!\n"
 
 #: utility/shared.c:1397
 msgid "Use a non-privileged account instead.\n"
@@ -1071,7 +1072,7 @@ msgstr "*%s (YZ)* Önce ateşkes yapalım, %s."
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
-msgstr "*%s (YZ)* Ateşkesi daha yeni yaptık, biraz böyle kalalım sonra bakarız, %s."
+msgstr "*%s (YZ)* Öncelikle yaptığımız ateşkesi biraz uzunca tutacağını umuyorum, %s."
 
 #: ai/advdiplomacy.c:327
 #, c-format
@@ -1289,9 +1290,7 @@ msgstr ""
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
 "s. Why do I need to remind you of your promises?"
-msgstr ""
-"*%s (YZ)* Selam kanka, hâlâ düşmanımız %s ile savaşa başlamadın... Yoksa sen "
-"beni beğenmiyor musun?"
+msgstr "*%s (YZ)* Merhaba müttefikimiz, hâlâ düşmanımız %s ile savaşa başlamadın. Tuttuğun sözü hatırlatmama neden gerek var?"
 
 #: ai/advdiplomacy.c:1519
 #, c-format
@@ -1329,9 +1328,7 @@ msgstr ""
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 "Honour our glorious alliance and your name will never be forgotten!"
-msgstr ""
-"*%s (YZ)* %s bize arkadan vurdular! Yardıma ihtiyacımız var. Yardım edersen "
-"vallahi hiç unutmayacağız!"
+msgstr "*%s (YZ)* %s bize arkadan vurdular! Yardıma ihtiyacımız var. Yardım edersen, birlikteliğimizi onurlandıracaksın ve seni asla unutmayacağız!"
 
 #. TRANS: Further information about option will follow.
 #: server/auth.c:164
@@ -1380,7 +1377,7 @@ msgstr "Üzgünüm, bu sunucuya misafir olarak girilmez."
 #: server/auth.c:381
 #, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s red edildi: Misafir kabul edilmiyor."
+msgstr "%s reddedildi: Misafir kabul edilmiyor."
 
 #: server/auth.c:400
 #, c-format
@@ -1402,7 +1399,7 @@ msgstr ""
 #: server/auth.c:409
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr "%s red edildi: Veritabanı hatası ve misafirlere izin verilmiyor."
+msgstr "%s reddedildi: Veritabanı hatası ve misafirlere izin verilmiyor."
 
 #: server/auth.c:416
 #, c-format
@@ -1420,7 +1417,7 @@ msgstr "Üzgünüm, bu sunucuya sade önceden kayıt yaptıranlar girebilir."
 #: server/auth.c:433
 #, c-format
 msgid "%s was rejected: Only preregister users allowed."
-msgstr "%s red edildi: Sadece önceden kayıt yaptıranlar izinli."
+msgstr "%s reddedildi: Sadece önceden kayıt yaptıranlar izinli."
 
 #: server/auth.c:461 server/auth.c:519
 msgid "Sorry, too many wrong tries..."
@@ -1429,7 +1426,7 @@ msgstr "Üzgünüm, çok fazla hatalı deneme..."
 #: server/auth.c:462
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr "%s red edildi: Yeni bir kullanıcı için çok fazla yanlış parola."
+msgstr "%s reddedildi: Yeni bir kullanıcı için çok fazla yanlış parola."
 
 #: server/auth.c:478
 msgid ""
@@ -1442,7 +1439,7 @@ msgstr ""
 #: server/auth.c:521
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s red edildi: Çok fazla hatalı parola denemesi."
+msgstr "%s reddedildi: Çok fazla hatalı parola denemesi."
 
 #: server/auth.c:530
 msgid "Your password is incorrect. Try again."
@@ -1455,7 +1452,7 @@ msgstr "Üzgünüm, bağlantınız zaman aşımına uğradı..."
 #: server/auth.c:542
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr "%s red edildi: Parola beklerken bağlantı zaman aşımına uğradı."
+msgstr "%s reddedildi: Parola beklerken bağlantı zaman aşımına uğradı."
 
 #: server/auth.c:607
 #, c-format
@@ -1685,7 +1682,7 @@ msgstr " iş listesinden"
 #: server/citytools.c:1934
 #, c-format
 msgid "%s is building %s%s."
-msgstr "%s şehri %s birimini%s inşa ediyor."
+msgstr "%s şehri %s birimini %s inşa ediyor."
 
 #: server/citytools.c:2179
 #, c-format
@@ -1949,7 +1946,7 @@ msgstr "Uyarı: %s seçeneği eskidi. Metasunucuyu aktif yapmak için -m kullan�
 #: server/civserver.c:189
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr "Hata: bilimeyen seçenek '%s'\n"
+msgstr "Hata: bilinmeyen seçenek '%s'\n"
 
 #: server/civserver.c:200
 #, c-format
@@ -1967,8 +1964,8 @@ msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
-"Kullanım: %s [ayar ...]\n"
-"Geçerli ayarlar:\n"
+"Kullanım: %s [seçenek ...]\n"
+"Geçerli seçenekler:\n"
 
 #: server/civserver.c:208
 msgid ""
@@ -2172,7 +2169,7 @@ msgstr ""
 
 #: server/commands.c:85
 msgid "Explain server options."
-msgstr "Ad, komut veya oyun kurumu üzerinde bilgi gösterir"
+msgstr "Sunucu seçeneklerini açıkla."
 
 #: server/commands.c:86
 msgid ""
@@ -2242,7 +2239,7 @@ msgid ""
 "for it, or fail immediately if at least half of the players vote against "
 "it.  If one full turn elapses the vote may pass in any case if nobody votes "
 "against it."
-msgstr ""
+msgstr "Bir oyuncu, bilgi seviyesinde giriş yayınlama, bir denetleme seviyesi komutunu bir yeni oy ile başlatır. /vote komutunu \"yes\" veya \"no\" takip eder, ve isteğe bağlı olarak bir oy sayısı sizin oyunuzu verir. Eğer bir oy numarası girmezseniz, oyunuz belirtilen en son komuta göre verilir. Her defasında sadece bir oy verebilirsiniz. Eğer oyuncuların yarısından fazlası olumlu oy vermişse oyunuz kendiliğinden geçerli olur, veya yarısından daha azı karşı oy kullandıysa geçersiz oy kabul edilir. Eğer bir tam sıra geçilirse, ve hiç kimse karşı oy kullanmamış ise oyunuz geçerli olabilir."
 
 #: server/commands.c:122
 msgid ""
@@ -2260,7 +2257,7 @@ msgstr "Verilen kişi için YZ hata ayıklamasını açıp kapar."
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
-msgstr ""
+msgstr "Verilen kişi ile ilgili YZ hata bilgisini yazdır ve bu durumla ilgili devam eden hata ayıklama çıktılarını aç veya kapat."
 
 #: server/commands.c:129
 msgid "set <option-name> <value>"
@@ -2284,7 +2281,7 @@ msgid ""
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
-msgstr ""
+msgstr "Oyuncuyu takımın bir üyesi olarak ayarlar. Eğer takım belirli değilse, takımsız olarak ayarlanır. Eğer isim boşluk içeriyorsa \"\" kullan. Bir takım, oyuncuların müttefik olarak başladığı, paylaşılmış görüş alanları ve elçilikler verilmiş, aynı zamanda takımın kazanması için birlikte savaşılan ekiptir."
 
 #: server/commands.c:142
 msgid "rulesetdir <directory>"
@@ -2309,7 +2306,7 @@ msgstr "metainfo <özet-satırı>"
 
 #: server/commands.c:151
 msgid "Set metaserver info line."
-msgstr ""
+msgstr "Metasunucu bilgi satırını ayarla."
 
 #: server/commands.c:152
 msgid ""
@@ -2318,6 +2315,10 @@ msgid ""
 "user defined metamessage will be used instead of automatically\n"
 "generated messages, if it is available."
 msgstr ""
+"Kullanıcı tanımlı metasunucu bilgi satırını ayarla. Eğer değiştirge atlandıysa, \n"
+"önceden ayarlanmış metamesajı kaldırılacaktır. Çoğunlukla \n"
+"kullanıcı tanımlı metamesajı kendiliğinden oluşturulan mesajlar \n"
+"yerine kullanılmaktadır. (mümkünse)"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:159
@@ -2338,6 +2339,9 @@ msgid ""
 "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
 "'metaconnection up' or 'metac u' brings the metaserver connection up."
 msgstr ""
+"'metaconnection ?' raporu meta sunucuya bağlantı durumunu verir. \n"
+"'metaconnection down' veya 'metac d' meta sunucunun bağlantısının koptuğunu belirtir. \n"
+"'metaconnection up' veya 'metac u' meta sunucunun bağlantısının olduğunu belirtir."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:173
@@ -2346,7 +2350,7 @@ msgstr "metaserver <adres>"
 
 #: server/commands.c:174
 msgid "Set address (URL) for metaserver to report to."
-msgstr ""
+msgstr "Meta sunucu için (URL) adres ayarla (raporlamak için)"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:178
@@ -2364,7 +2368,7 @@ msgstr "take [bağlantı-adı] <oyuncu-adı>"
 
 #: server/commands.c:184
 msgid "Take over a player's place in the game."
-msgstr ""
+msgstr "Oyundaki bir oyuncunun yerlerini kontrol altına al."
 
 #: server/commands.c:185
 msgid ""
@@ -2373,7 +2377,7 @@ msgid ""
 "<player-name> argument is allowed.  If '-' is given for the player name and "
 "the connection does not already control a player, one is created and "
 "assigned to the connection."
-msgstr ""
+msgstr "Bir oyuncuyu kontrol edebilmek için, sadece konsol ve cmdlevel 'hack' ile bağlanmak diğer bağlantıları zorla elde eder. Eğer bunlardan biri değilseniz, sadece <oyuncu-adı> argümentine izin verilir. Eğer oyuncu adı için '-' verilmişse ve bağlantı o anda oyuncuyu kontrol etmiyorsa, bir tane oluşturulmuş ve bağlantı yapmış demektir."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:193
@@ -2391,7 +2395,7 @@ msgid ""
 "[player-name] argument is allowed. If the console gives no player-name or "
 "the connection uses no arguments, then the connection is attached to a "
 "global observer."
-msgstr ""
+msgstr "Sadece konsol ve cmdlevel 'hack' ile bağlanmak diğer bağlantıların üzerine çıkıp bir oyuncunun gözlemlenmesini sağlar. Eğer bunlardan biri değilseniz, sadece <oyuncu-adı> argümentine izin verilir. Eğer konsol oyuncu adı vermemişse veya bağlantı herhangi bir argüment kullanmamışsa, bağlantı küresel gözlemciye (global observer) aktarılır."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:203
@@ -2406,7 +2410,7 @@ msgstr "bir oyuncuyla olan bağlantıyı kopar"
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to detach from a player."
-msgstr ""
+msgstr "Sadece konsol ve cmdlevel 'hack' ile bağlanmak diğer bağlantıların oyuncudan ayrılmasını sağlar."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:210
@@ -2419,7 +2423,7 @@ msgstr "Verilen isimde bir YZ oyuncusu oluşturur."
 
 #: server/commands.c:212
 msgid "The 'create' command is only available before the game has been started."
-msgstr ""
+msgstr "'create' komutu sadece oyun başlamadan önce geçerlidir."
 
 #: server/commands.c:216
 msgid ""
@@ -2448,14 +2452,14 @@ msgstr ""
 
 #: server/commands.c:225
 msgid "Set one or all AI players to 'novice'."
-msgstr ""
+msgstr "Bir ya da birden fazla YZ oyuncusunu 'acemi' seviyesine ayarla."
 
 #: server/commands.c:226
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'.  With an argument, sets "
 "the skill level for that player only."
-msgstr ""
+msgstr "Argümansız, tüm YZ oyuncu seviyelerini ve öntanımlı yani başlayan YZ seviyelerini 'acemi' ayarlar. Argümanlı, sadece o oyuncu için seviyesini ayarlar."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:232
@@ -2468,14 +2472,14 @@ msgstr ""
 
 #: server/commands.c:234
 msgid "Set one or all AI players to 'easy'."
-msgstr ""
+msgstr "Bir ya da tüm YZ oyuncularını 'kolay' seviyesine ayarla."
 
 #: server/commands.c:235
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
 "skill level for that player only."
-msgstr ""
+msgstr "Argümansız, tüm YZ oyuncu seviyelerini ve öntanımlı yani başlayan YZ seviyelerini 'kolay' ayarlar. Argümanlı, sadece o oyuncu için seviyesini ayarlar."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:241
@@ -2488,14 +2492,14 @@ msgstr ""
 
 #: server/commands.c:243
 msgid "Set one or all AI players to 'normal'."
-msgstr ""
+msgstr "Bir ya da tüm YZ oyuncularını 'normal' seviyesine ayarla."
 
 #: server/commands.c:244
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
 "the skill level for that player only."
-msgstr ""
+msgstr "Argümansız, tüm YZ oyuncu seviyelerini ve öntanımlı yani başlayan YZ seviyelerini 'normal' ayarlar. Argümanlı, sadece o oyuncu için seviyesini ayarlar."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:250
@@ -2508,14 +2512,14 @@ msgstr ""
 
 #: server/commands.c:252
 msgid "Set one or all AI players to 'hard'."
-msgstr ""
+msgstr "Bir ya da tüm YZ oyuncularını 'zor' seviyesine ayarla."
 
 #: server/commands.c:253
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
 "skill level for that player only."
-msgstr ""
+msgstr "Argümansız, tüm YZ oyuncu seviyelerini ve öntanımlı yani başlayan YZ seviyelerini 'zor' ayarlar. Argümanlı, sadece o oyuncu için seviyesini ayarlar."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:259
@@ -2528,7 +2532,7 @@ msgstr ""
 
 #: server/commands.c:261
 msgid "Set one or all AI players to 'experimental'."
-msgstr ""
+msgstr "Bir ya da tüm YZ oyuncularını 'tecrübeli' seviyesine ayarla."
 
 #: server/commands.c:262
 msgid ""
@@ -2537,6 +2541,8 @@ msgid ""
 "skill level for that player only. THIS IS ONLY FOR TESTING OF NEW AI "
 "FEATURES! For ordinary servers, this option has no effect."
 msgstr ""
+"Argümansız, tüm YZ oyuncu seviyelerini ve öntanımlı yani başlayan YZ seviyelerini 'tecrübeli' ayarlar. Argümanlı, sadece o oyuncu için seviyesini ayarlar. "
+"BU ÖZELLİK SADECE YENİ YZ ÖZELLİKLERİNİ TEST ETMEK İÇİNDİR! Sıradan sunucular için etkisi yoktur."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:270
@@ -2555,7 +2561,7 @@ msgstr ""
 
 #: server/commands.c:275
 msgid "Query or set command access level access."
-msgstr ""
+msgstr "Sorgu veya ayar komut giriş seviyesi girişi."
 
 #: server/commands.c:276
 msgid ""
@@ -2578,10 +2584,24 @@ msgid ""
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
 msgstr ""
+"Komut giriş seviyesi oyuncular için kullanılabilen sunucu komutlarını \n"
+"istemci sohbet bölümü aracılığıyla kontrol eder. Kullanılabilir seviyeler: \n"
+"    none  -  komut yok\n"
+"    info  -  sadece bilgi komutları\n"
+"    ctrl  -  Oyunu ve oyuncuları etkileyen komutlar\n"
+"    hack  -  *tüm* komutlar- DİKKAT!\n"
+"Argümansız, kullanılabilir hali hazırdaki komut giriş seviyeleri raporlanır. \n"
+"Tek argümanlı, seviye mevcut tüm bağlantılar için ayarlanır, \n"
+"ve gelecekteki bağlantılara öntanımlı seçilir. \n"
+"Eğer 'new' belirtilmişse, seviye yeni bağlanan istemciler için ayarlanır.\n"
+"Eğer 'first come' belirtilmişse, 'first come' seviyesi ayarlıdır,\n"
+"ve ilk gelen istemciye verilir, veya ilk istemciye ilk komutu yayınlama hakkını verir. \n"
+"Eğer bağlantı adı belli ise, seviye sadece bu bağlantı için ayarlanır. \n"
+"Eğer istemci bağlantısı koparsa komut giriş seviyeleri devam etmez, çünkü güvenilir olmayan kişiler aynı adla bağlanabilirler. Bu komutun bağlantı adlarını aldığını, oyuncu adlarını almadığını not edin."
 
 #: server/commands.c:297
 msgid "If there is none, become the game organizer with increased permissions."
-msgstr ""
+msgstr "Hiç kimse yoksa, artırılmış yetkilerle oyun kurucusu olun."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:302
@@ -2605,7 +2625,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:310
 msgid "endgame"
-msgstr "endgame"
+msgstr "oyunu bitir"
 
 #: server/commands.c:311
 msgid "End the game immediately in a draw."
@@ -2614,7 +2634,7 @@ msgstr "Oyunu berabere olarak bitir."
 #. TRANS: translate text between <> only
 #: server/commands.c:315
 msgid "surrender"
-msgstr "surrender"
+msgstr "teslim olan"
 
 #: server/commands.c:316
 msgid "Concede the game."
@@ -2624,7 +2644,7 @@ msgstr "Yenilgiyi kabul ederek bitir."
 msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
-msgstr ""
+msgstr "Bu oyunu bıraktığınızı gösterir, ve eğer tüm ama tek (veya tek takım) oyuncu teslim olursa bu durumda oyun biter."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:323
@@ -2665,6 +2685,10 @@ msgid ""
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
+"Mevcut oyunu <dosya-adı> dosyasına kaydet. Eğer dosya adı verilmezse \" < otokayıt ad öneki > < yıl >m.sav[.gz]\".\n"
+"'Kayıt' ile kaydedilmiş oyunu açmak için, sunucuyu komut satırı argümanı ile çalıştırın: \n"
+"     --file <dosyaadı> \n"
+"ve bir kez tekrar bağlandığında 'start' komutunu kullanın. "
 
 #. TRANS: translate text between <> only
 #: server/commands.c:342
@@ -2707,7 +2731,7 @@ msgstr "Şimdiki ayarları sunucu komutları olarak dosyaya yaz."
 
 #: server/commands.c:360
 msgid "Switch server output between 'RFC-style' and normal style."
-msgstr ""
+msgstr "'RFC-style' ve normal biçim arasında sunucu çıktılarını değiştir."
 
 #: server/commands.c:364
 msgid "Simply returns the id of the server."
@@ -3094,7 +3118,7 @@ msgstr "%s biriminiz ayaklanma çıkartırken yakalandı!"
 #: server/diplomats.c:715
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
-msgstr ""
+msgstr "%s şehrini ele geçirdin, %s %s içinde ayaklanma çıkarmaya çalışıyor!"
 
 #: server/diplomats.c:738
 #, c-format
@@ -3270,7 +3294,7 @@ msgstr "Sıra zaman aşımı sıfırdan düşük, sıfır yapılıyor."
 
 #: server/ggzserver.c:207 client/ggzclient.c:109
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
-msgstr ""
+msgstr "Sadece GGZ istemcisi civistemcisini ggz modda çağırmak zorundadır!\n"
 
 #: server/handchat.c:66
 #, c-format
