@@ -1566,7 +1566,7 @@ void popup_minimap_window() {
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = end_turn_callback;
   pWidget->key = SDLK_RETURN;
-  pWidget->mod = KMOD_LCTRL;
+  pWidget->mod = KMOD_SHIFT;
 
   add_to_gui_list(ID_NEW_TURN, pWidget);
 
@@ -2250,175 +2250,210 @@ bool map_event_handler(SDL_keysym Key)
 {
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     switch (Key.sym) {
+    
+      /* cancel action */
+      case SDLK_ESCAPE:
+        key_cancel_action();
+        draw_goto_patrol_lines = FALSE;
+        update_mouse_cursor(CURSOR_DEFAULT);
+        return FALSE;
+  
+      /* *** unit movement *** */
       
-    case SDLK_ESCAPE:
-      key_cancel_action();
-      draw_goto_patrol_lines = FALSE;
-      update_mouse_cursor(CURSOR_DEFAULT);
-    return FALSE;
-
-    case SDLK_UP:
-    case SDLK_KP8:
-      if(!is_unit_move_blocked) {
-	key_unit_move(DIR8_NORTH);
-      }
-    return FALSE;
-
-    case SDLK_PAGEUP:
-    case SDLK_KP9:
-      if(!is_unit_move_blocked) {
-        key_unit_move(DIR8_NORTHEAST);
-      }
-    return FALSE;
-
-    case SDLK_RIGHT:
-    case SDLK_KP6:
-      if(!is_unit_move_blocked) {
-        key_unit_move(DIR8_EAST);
-      }
-    return FALSE;
-
-    case SDLK_PAGEDOWN:
-    case SDLK_KP3:
-      if(!is_unit_move_blocked) {
-        key_unit_move(DIR8_SOUTHEAST);
-      }
-    return FALSE;
-
-    case SDLK_DOWN:
-    case SDLK_KP2:
-      if(!is_unit_move_blocked) {
-        key_unit_move(DIR8_SOUTH);
-      }
-    return FALSE;
-
-    case SDLK_END:
-    case SDLK_KP1:
-      if(!is_unit_move_blocked) {
-        key_unit_move(DIR8_SOUTHWEST);
-      }
-    return FALSE;
-
-    case SDLK_LEFT:
-    case SDLK_KP4:
-      if(!is_unit_move_blocked) {
-        key_unit_move(DIR8_WEST);
-      }
-    return FALSE;
-
-    case SDLK_HOME:
-    case SDLK_KP7:
-      if(!is_unit_move_blocked) {
-        key_unit_move(DIR8_NORTHWEST);
-      }
-    return FALSE;
-
-    case SDLK_KP5:
-      key_recall_previous_focus_unit();
-    return FALSE;
+      /* move north */
+      case SDLK_UP:
+      case SDLK_KP8:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_NORTH);
+        }
+        return FALSE;
+  
+      /* move northeast */
+      case SDLK_PAGEUP:
+      case SDLK_KP9:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_NORTHEAST);
+        }
+        return FALSE;
+  
+      /* move east */
+      case SDLK_RIGHT:
+      case SDLK_KP6:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_EAST);
+        }
+        return FALSE;
+  
+      /* move southeast */
+      case SDLK_PAGEDOWN:
+      case SDLK_KP3:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_SOUTHEAST);
+        }
+        return FALSE;
+  
+      /* move south */
+      case SDLK_DOWN:
+      case SDLK_KP2:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_SOUTH);
+        }
+        return FALSE;
+  
+      /* move southwest */    
+      case SDLK_END:
+      case SDLK_KP1:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_SOUTHWEST);
+        }
+        return FALSE;
+  
+      /* move west */
+      case SDLK_LEFT:
+      case SDLK_KP4:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_WEST);
+        }
+        return FALSE;
+  
+      /* move northwest */
+      case SDLK_HOME:
+      case SDLK_KP7:
+        if(!is_unit_move_blocked) {
+          key_unit_move(DIR8_NORTHWEST);
+        }
+        return FALSE;
+  
+      case SDLK_KP5:
+        key_recall_previous_focus_unit();
+        return FALSE;
+  
+      /* *** map view settings *** */
+  
+      /* show city outlines - Ctrl+y */
+      case SDLK_y:
+        if(LCTRL || RCTRL) {
+          key_city_outlines_toggle();
+        }
+        return FALSE;
       
-    case SDLK_g:
-      if(LCTRL || RCTRL) {
-        request_toggle_map_grid();
-      }
-      return FALSE;
-
-    case SDLK_b:
-      if(LCTRL || RCTRL) {
-        request_toggle_map_borders();
-      }
-      return FALSE;
-
-    case SDLK_n:
-      if ((LCTRL || RCTRL) && can_client_change_view()) {
-        draw_city_names ^= 1;
-        if(draw_city_names||draw_city_productions) {
-          update_city_descriptions();
+      /* show map grid - Ctrl+g */
+      case SDLK_g:
+        if(LCTRL || RCTRL) {
+          key_map_grid_toggle();
         }
-        dirty_all();
-      }
-      return FALSE;
-
-    case SDLK_p:
-      if ((LCTRL || RCTRL) && can_client_change_view()) {
-        draw_city_productions ^= 1;
-        if(draw_city_names||draw_city_productions) {
-          update_city_descriptions();
+        return FALSE;
+  
+      /* show national borders - Ctrl+b */
+      case SDLK_b:
+        if(LCTRL || RCTRL) {
+          key_map_borders_toggle();
         }
-        dirty_all();
-      }
-      return FALSE;
+        return FALSE;
+  
+      /* show city names - Ctrl+n */
+      case SDLK_n:
+        if (LCTRL || RCTRL) {
+          key_city_names_toggle();
+        }
+        return FALSE;
+  
+      /* show city growth Ctrl+r */
+      case SDLK_r:
+        if (LCTRL || RCTRL) {
+          key_city_growth_toggle();
+        }
+        return FALSE;
+  
+      /* show city productions - Ctrl+p */
+      case SDLK_p:
+        if (LCTRL || RCTRL) {
+          key_city_productions_toggle();
+        }
+        return FALSE;
 
-    case SDLK_t:
-      if (LCTRL || RCTRL) {
-        request_toggle_terrain();
-      }
-      return FALSE;
+      /* *** some additional shortcuts that work in the SDL client only *** */
+        
+      /* show terrain - Ctrl+t */ 
+      case SDLK_t:
+        if (LCTRL || RCTRL) {
+          key_terrain_toggle();
+        }
+        return FALSE;
+  
+      /* (show coastline) */
+        
+      /* (show roads and rails) */
+        
+      /* show irrigation - Ctrl+i */
+      case SDLK_i:
+        if (LCTRL || RCTRL) {
+          key_irrigation_toggle();
+        }
+        return FALSE;
+  
+      /* show mines - Ctrl+m */
+      case SDLK_m:
+        if (LCTRL || RCTRL) {
+          key_mines_toggle();
+        }
+        return FALSE;
+  
+      /* show fortresses and airbases - Ctrl+f */
+      case SDLK_f:
+        if (LCTRL || RCTRL) {
+          request_toggle_fortress_airbase();
+        }
+        return FALSE;
+  
+      /* show specials - Ctrl+s */
+      case SDLK_s:
+        if (LCTRL || RCTRL) {
+          key_specials_toggle();
+        }
+        return FALSE;
+  
+      /* show pollution - Ctrl+o */
+      case SDLK_o:
+        if (LCTRL || RCTRL) {
+          key_pollution_toggle();
+        }
+        return FALSE;
+  
+      /* show cities - Ctrl+c */
+      case SDLK_c:
+        if (LCTRL || RCTRL) {
+          request_toggle_cities();
+        } else {
+  	 request_center_focus_unit();
+        }
+        return FALSE;
 
-    case SDLK_r:
-      if (LCTRL || RCTRL) {
-        request_toggle_roads_rails();
-      }
-      return FALSE;
-
-    case SDLK_i:
-      if (LCTRL || RCTRL) {
-        request_toggle_irrigation();
-      }
-      return FALSE;
-
-    case SDLK_m:
-      if (LCTRL || RCTRL) {
-        request_toggle_mines();
-      }
-      return FALSE;
-
-    case SDLK_f:
-      if (LCTRL || RCTRL) {
-        request_toggle_fortress_airbase();
-      }
-      return FALSE;
-
-    case SDLK_s:
-      if (LCTRL || RCTRL) {
-        request_toggle_specials();
-      }
-      return FALSE;
-
-    case SDLK_o:
-      if (LCTRL || RCTRL) {
-        request_toggle_pollution();
-      }
-      return FALSE;
-
-    case SDLK_c:
-      if (LCTRL || RCTRL) {
-        request_toggle_cities();
-      } else {
-	 request_center_focus_unit();
-      }
-      return FALSE;
-
-    case SDLK_u:
-      if (LCTRL || RCTRL) {
-        request_toggle_units();
-      }
-      return FALSE;
-
-    case SDLK_w:
-      if (LCTRL || RCTRL) {
-        request_toggle_fog_of_war();
-      }
-      return FALSE;
-
-    case SDLK_BACKSLASH:
-      if (LSHIFT || RSHIFT) {
-        toggle_minimap_mode_callback(NULL);
-      }
-      return FALSE;
-            
-    default:
-      break;
+      /* show units - Ctrl+u */
+      case SDLK_u:
+        if (LCTRL || RCTRL) {
+          key_units_toggle();
+        }
+        return FALSE;
+  
+      /* (show focus unit) */
+      
+      /* show fog of war - Ctrl+w */
+      case SDLK_w:
+        if (LCTRL || RCTRL) {
+          key_fog_of_war_toggle();
+        }
+        return FALSE;
+  
+      /* toggle minimap mode - currently without effect */
+      case SDLK_BACKSLASH:
+        if (LSHIFT || RSHIFT) {
+          toggle_minimap_mode_callback(NULL);
+        }
+        return FALSE;
+              
+      default:
+        break;
     }
   }
 
