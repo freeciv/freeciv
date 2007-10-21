@@ -139,14 +139,26 @@ static int unit_order_callback(struct widget *pOrder_Widget)
     case ID_UNIT_ORDER_HOMECITY:
       key_unit_homecity();
       break;
-    case ID_UNIT_ORDER_UNLOAD:
+    case ID_UNIT_ORDER_UNLOAD_TRANSPORTER:
       key_unit_unload_all();
+      break;
+    case ID_UNIT_ORDER_LOAD:
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_load(punit, NULL);
+      } unit_list_iterate_end;
+      break;
+    case ID_UNIT_ORDER_UNLOAD:
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_unload(punit);
+      } unit_list_iterate_end;
       break;
     case ID_UNIT_ORDER_WAKEUP_OTHERS:
       key_unit_wakeup_others();
       break;
-    case ID_UNIT_ORDER_AUTOMATION:
-      request_unit_autosettlers(pUnit);
+    case ID_UNIT_ORDER_AUTO_SETTLER:
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_autosettlers(punit);
+      } unit_list_iterate_end;
       break;
     case ID_UNIT_ORDER_AUTO_EXPLORE:
       key_unit_auto_explore();
@@ -173,7 +185,9 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       popup_airlift_dialog();
       break;
     case ID_UNIT_ORDER_RETURN:
-      request_unit_return(pUnit);
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_return(punit);
+      } unit_list_iterate_end;
       break;
     case ID_UNIT_ORDER_UPGRADE:
       popup_unit_upgrade_dlg(pUnit, FALSE);
@@ -420,7 +434,7 @@ void create_units_order_widgets(void)
   /* --------- */  
 
   /* Upgrade */
-  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Upgrade"), "Shift+U");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Upgrade"), "Ctrl+U");
   pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -428,7 +442,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_u;
-  pBuf->mod = KMOD_SHIFT;
+  pBuf->mod = KMOD_CTRL;
   add_to_gui_list(ID_UNIT_ORDER_UPGRADE, pBuf);
   /* --------- */
 
@@ -446,25 +460,27 @@ void create_units_order_widgets(void)
   /* --------- */
   
   /* Goto City */
-  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Goto City"), "L");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Goto City"), "Ctrl+G");
   pBuf = create_themeicon(pTheme->OGotoCity_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->mod = KMOD_CTRL;
   pBuf->key = SDLK_l;
   add_to_gui_list(ID_UNIT_ORDER_GOTO_CITY, pBuf);
   /* --------- */
 
   /* Airlift */
-  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Airlift"), "L");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Airlift"), "Shift+L");
   pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->mod = KMOD_SHIFT;
   pBuf->key = SDLK_l;
   add_to_gui_list(ID_UNIT_ORDER_AIRLIFT, pBuf);
   /* --------- */
@@ -494,7 +510,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect irrigation */
-  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect irrigation"), "Shift+I");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect irrigation"), "Ctrl+Shift+I");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -502,12 +518,12 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_i;
-  pBuf->mod = KMOD_SHIFT;
+  pBuf->mod = KMOD_CTRL | KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_CONNECT_IRRIGATE, pBuf);
   /* --------- */
 
   /* Connect road */
-  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect road"), "Shift+R");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect road"), "Ctrl+Shift+R");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -515,12 +531,12 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_r;
-  pBuf->mod = KMOD_SHIFT;
+  pBuf->mod = KMOD_CTRL | KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_CONNECT_ROAD, pBuf);
   /* --------- */
 
   /* Connect railroad */
-  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect railroad"), "Shift+L");
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect railroad"), "Ctrl+Shift+L");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
@@ -528,7 +544,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_l;
-  pBuf->mod = KMOD_SHIFT;
+  pBuf->mod = KMOD_CTRL | KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_CONNECT_RAILROAD, pBuf);
   /* --------- */
 
@@ -561,7 +577,7 @@ void create_units_order_widgets(void)
   convertcopy_to_utf16(unibuf, len, cBuf);
   pBuf->string16 = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_a;
-  add_to_gui_list(ID_UNIT_ORDER_AUTOMATION, pBuf);
+  add_to_gui_list(ID_UNIT_ORDER_AUTO_SETTLER, pBuf);
   
   pOrder_Automate_Unit_Button = pBuf;
   /* --------- */    
@@ -577,6 +593,31 @@ void create_units_order_widgets(void)
   pBuf->key = SDLK_w;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_WAKEUP_OTHERS, pBuf);
+  /* --------- */
+
+  /* Unload */
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Unload Transporter"), "Shift+U");
+  pBuf = create_themeicon(pTheme->OUnload_Icon, Main.gui,
+			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
+			   WF_WIDGET_HAS_INFO_LABEL));
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = unit_order_callback;
+  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->mod = KMOD_SHIFT;
+  pBuf->key = SDLK_u;
+  add_to_gui_list(ID_UNIT_ORDER_UNLOAD_TRANSPORTER, pBuf);
+  /* --------- */
+
+  /* Load */
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Load"), "L");
+  pBuf = create_themeicon(pTheme->OLoad_Icon, Main.gui,
+			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
+			   WF_WIDGET_HAS_INFO_LABEL));
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = unit_order_callback;
+  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->key = SDLK_l;
+  add_to_gui_list(ID_UNIT_ORDER_LOAD, pBuf);
   /* --------- */
 
   /* Unload */
@@ -833,7 +874,7 @@ void delete_units_order_widgets(void)
 /**************************************************************************
   ...
 **************************************************************************/
-void update_order_widget(void)
+void update_order_widgets(void)
 {
   set_new_order_widget_start_pos();
   redraw_order_widgets();
@@ -889,6 +930,7 @@ void free_bcgd_order_widgets(void)
 void update_menus(void)
 {
   static Uint16 counter = 0;
+  struct unit_list *punits = NULL;
   struct unit *pUnit = NULL;
   static char cBuf[128];
   
@@ -953,7 +995,8 @@ void update_menus(void)
       counter = 0;
     }
 
-    pUnit = unit_list_get(get_units_in_focus(), 0);
+    punits = get_units_in_focus();
+    pUnit = unit_list_get(punits, 0);
 
     if (pUnit && !pUnit->ai.control) {
       struct city *pHomecity;
@@ -973,9 +1016,9 @@ void update_menus(void)
 
       if (can_unit_add_or_build_city(pUnit)) {
 	if(pTile->city) {
-	  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Add to City"), " (B)");
+	  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Add to City"), "B");
 	} else {
-	  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build New City"), " (B)");
+	  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build New City"), "B");
 	}
 	copy_chars_to_string16(pOrder_Build_AddTo_City_Button->string16, cBuf);
 	clear_wflag(pOrder_Build_AddTo_City_Button, WF_HIDDEN);
@@ -993,14 +1036,14 @@ void update_menus(void)
       if (can_unit_do_activity(pUnit, ACTIVITY_ROAD) || time) {
 	if(time) {
 	  time = tile_activity_time(ACTIVITY_RAILROAD, pUnit->tile);
-	  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
-			_("Build Railroad"), " (R)", time , 
+	  my_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+			_("Build Railroad"), "R", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORailRoad_Icon;
 	} else {
 	  time = tile_activity_time(ACTIVITY_ROAD, pUnit->tile);
-	  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
-			_("Build Road"), " (R)", time , 
+	  my_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+			_("Build Road"), "R", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORoad_Icon;
 	}
@@ -1038,21 +1081,21 @@ void update_menus(void)
         if (!strcmp(terrain_rule_name(pTile->terrain), "Forest") ||
           !strcmp(terrain_rule_name(pTile->terrain), "Jungle")) {
 	  /* set Crop Forest Icon */
-	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
+	  my_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
 			_("Cut Down to"),
                 terrain_name_translation(pTile->terrain->irrigation_result)
-			," (I)", time , PL_("turn", "turns", time));
+			,"I", time , PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->theme = pTheme->OCutDownForest_Icon;
         }	else if (!strcmp(terrain_rule_name(pTile->terrain), "Swamp")) {
-	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
+	  my_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
 			_("Irrigate to"),
                 terrain_name_translation(pTile->terrain->irrigation_result)
-			," (I)", time , PL_("turn", "turns", time));
+			,"I", time , PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
         } else {
 	  /* set Irrigation Icon */
-	  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
-			_("Build Irrigation"), " (I)", time , 
+	  my_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+			_("Build Irrigation"), "I", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
 	}
@@ -1069,25 +1112,25 @@ void update_menus(void)
 	/* FIXME: THIS CODE IS WRONG */
    if (!strcmp(terrain_rule_name(pTile->terrain), "Forest")) {  
 	  /* set Irrigate Icon -> make swamp */
-	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
+	  my_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
 			_("Irrigate to"),
 			terrain_name_translation(pTile->terrain->mining_result)
-			," (M)", time , PL_("turn", "turns", time));
+			,"M", time , PL_("turn", "turns", time));
 	  pOrder_Mine_Button->theme = pTheme->OIrrigation_Icon;
    } else if (!strcmp(terrain_rule_name(pTile->terrain), "Jungle") ||
               !strcmp(terrain_rule_name(pTile->terrain), "Plains") ||
               !strcmp(terrain_rule_name(pTile->terrain), "Grassland") ||
               !strcmp(terrain_rule_name(pTile->terrain), "Swamp")) {
 	  /* set Forest Icon -> plant Forrest*/
-	  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
-			_("Plant Forest"), " (M)", time , 
+	  my_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+			_("Plant Forest"), "M", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Mine_Button->theme = pTheme->OPlantForest_Icon;
    
    } else {
 	  /* set Mining Icon */
-	  my_snprintf(cBuf, sizeof(cBuf),"%s%s %d %s",
-			_("Build Mine"), " (M)", time , 
+	  my_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+			_("Build Mine"), "M", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Mine_Button->theme = pTheme->OMine_Icon;
 	}
@@ -1100,10 +1143,10 @@ void update_menus(void)
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
 	time = tile_activity_time(ACTIVITY_TRANSFORM, pUnit->tile);
-	my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
+	my_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
 	  _("Transform to"),
 	  terrain_name_translation(pTile->terrain->transform_result),
-			" (M)", time , 
+			"M", time , 
 			PL_("turn", "turns", time));
 	copy_chars_to_string16(pOrder_Transform_Button->string16, cBuf);
 	clear_wflag(pOrder_Transform_Button, WF_HIDDEN);
@@ -1167,11 +1210,23 @@ void update_menus(void)
       }
 
       if (pUnit->occupy && get_transporter_occupancy(pUnit) > 0) {
-	local_show(ID_UNIT_ORDER_UNLOAD);
+	local_show(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
       } else {
-	local_hide(ID_UNIT_ORDER_UNLOAD);
+	local_hide(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
       }
 
+      if (units_can_load(punits)) {
+        local_show(ID_UNIT_ORDER_LOAD);
+      } else {
+        local_hide(ID_UNIT_ORDER_LOAD);
+      }
+
+      if (units_can_unload(punits)) {
+        local_show(ID_UNIT_ORDER_UNLOAD);
+      } else {
+        local_hide(ID_UNIT_ORDER_UNLOAD);
+      }
+      
       if (is_unit_activity_on_tile(ACTIVITY_SENTRY, pUnit->tile)) {
 	local_show(ID_UNIT_ORDER_WAKEUP_OTHERS);
       } else {
@@ -1181,13 +1236,13 @@ void update_menus(void)
       if (can_unit_do_autosettlers(pUnit)) {
 	if (unit_has_type_flag(pUnit, F_SETTLERS)) {
 	  if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoSett_Icon) {
-	    my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Auto-Settler"), " (A)");
+	    my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto-Settler"), "A");
 	    pOrder_Automate_Unit_Button->theme = pTheme->OAutoSett_Icon;
 	    copy_chars_to_string16(pOrder_Automate_Unit_Button->string16, cBuf);
 	  }
 	} else {
 	  if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoAtt_Icon) {
-	    my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Auto-Attack"), " (A)");
+	    my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto-Attack"), "A");
 	    pOrder_Automate_Unit_Button->theme = pTheme->OAutoAtt_Icon;
 	    copy_chars_to_string16(pOrder_Automate_Unit_Button->string16, cBuf);
 	  }

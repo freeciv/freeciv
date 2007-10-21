@@ -479,7 +479,7 @@ static int change_mode_callback(struct widget *pWidget)
       update_info_label();
       update_unit_info_label(get_units_in_focus());
       center_on_something();/* with redrawing full map */
-      update_order_widget();
+      update_order_widgets();
       redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
                               pOption_Dlg->pEndOptionsWidgetList, 0);
   
