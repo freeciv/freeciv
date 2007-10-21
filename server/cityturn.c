@@ -1124,7 +1124,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 }
 
 /**************************************************************************
-...
+  Returns FALSE when the city is removed, TRUE otherwise.
 **************************************************************************/
 static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
@@ -1140,6 +1140,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     pcity->before_change_shields = 0;
     pcity->shield_stock = 0;
     choose_build_target(pplayer, pcity);
+    return TRUE;
   }
   upgrade_building_prod(pcity);
 
@@ -1337,8 +1338,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-return 0 if the city is removed
-return 1 otherwise
+  Returns FALSE when the city is removed, TRUE otherwise.
 **************************************************************************/
 static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 {
