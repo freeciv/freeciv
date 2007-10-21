@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-21 10:30+0300\n"
+"PO-Revision-Date: 2007-10-21 14:40+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16486,7 +16486,7 @@ msgid ""
 "Land units with zero attack strength are non-military units: they require no "
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
-msgstr ""
+msgstr "Kara birimleri, karada hareket ederler; bunu yaparken arazilerin hareket engellerinden etkilenirler fakat yollar ve raylardan da faydalanırlar.  Bir Nakliyat gemisine binmedikleri sürece suda gidemezler.  Gemideyken saldırı veya savunma yapamazlar.  Kara birimleri, Kontrol Bölgeleri kuralına tabi tutulan birim türüdür.  Güçlendirme yaptıkları sürece %50 daha fazla savunma gücü edinirler.  Şehir içindeyken durumuna bakılmadan bu artıştan paylarını alırlar. Surları olmayan bir şehre saldırıp kazandıklarında şehrin boyutu bir azalır.  Sıfır saldırı gücü olan kara birimleri sivil birimlerdir: hiçbir bakım ücreti gerektirmezler, mutsuzluk etkileri yoktur ve düşmanlara saldırıp şehirleri alamazlar."
 
 #: data/helpdata.txt:934
 msgid ""
@@ -16648,19 +16648,19 @@ msgstr "Saldıran tarafın saldırı gücü de değişebilir."
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
-msgstr ""
+msgstr " - Savunan taraf şehir içindeki bir gemiyse saldıranın gücü ikiye katlanır ve savunanın gücü 1 yapılır."
 
 #: data/helpdata.txt:1042
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
-msgstr ""
+msgstr " - Bir Avcı Helikoptere saldırıyorsa Helikopterin savunma gücü 1 yapılır."
 
 #: data/helpdata.txt:1045
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
-msgstr ""
+msgstr " - Bir gemi kara birimine saldırıyorsa iki tarafın da gücü 1 yapılır."
 
 #: data/helpdata.txt:1048
 msgid ""
@@ -16956,7 +16956,7 @@ msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
 "resources, or may increase shield resources by an amount other than 50%.)"
-msgstr " - Raylar arazide üretilen kalkan miktarını %%50 oranında arttırır.  (Sunucu ayarlarına göre raylar gıda ve ticaret kaynaklarını da arttırabilir, %%50'den fazla bir değer de verilebilir.)"
+msgstr " - Raylar arazide üretilen kalkan miktarını %50 oranında arttırır.  (Sunucu ayarlarına göre raylar gıda ve ticaret kaynaklarını da arttırabilir, %50'den fazla bir değer de verilebilir.)"
 
 #: data/helpdata.txt:1270
 msgid ""
@@ -17282,7 +17282,7 @@ msgstr "Banka"
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
-msgstr "Market ile birlikte Banka, şehrin lüks ve vergi üretimini %%100 oranında arttırır."
+msgstr "Market ile birlikte Banka, şehrin lüks ve vergi üretimini %100 oranında arttırır."
 
 #: data/default/buildings.ruleset:128 data/default/buildings.ruleset:152
 #: data/default/buildings.ruleset:175 data/civ2/buildings.ruleset:110
@@ -17292,7 +17292,7 @@ msgid ""
 "Veteran status, which means that its attack and defence strengths are "
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
-msgstr "Kışlası olan bir şehirde yapılan askeri birimler kıdemli olurlar, yani saldırı ve savunma güçleri %%50 oranında artar.  Ayrıca şehirde bir sıra boyunca duran hasarlı birimler tamamen iyileşir."
+msgstr "Kışlası olan bir şehirde yapılan askeri birimler kıdemli olurlar, yani saldırı ve savunma güçleri %50 oranında artar.  Ayrıca şehirde bir sıra boyunca duran hasarlı birimler tamamen iyileşir."
 
 #: data/default/buildings.ruleset:137 data/civ2/buildings.ruleset:119
 #: data/civ1/buildings.ruleset:92
@@ -17358,7 +17358,7 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
-msgstr "Şehirdeki yolsuzluğu %%50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda ayaklanma fiyatını 4 kat arttırır."
+msgstr "Şehirdeki yolsuzluğu %50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda ayaklanma fiyatını 4 kat arttırır."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -17370,7 +17370,7 @@ msgstr "Fabrika"
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
-msgstr "Şehirdeki kalkan üretimini %%50 arttırır.  Bu yüzden kirliliğe yol açar."
+msgstr "Şehirdeki kalkan üretimini %50 arttırır.  Bu yüzden kirliliğe yol açar."
 
 #: data/default/buildings.ruleset:331 data/civ2/buildings.ruleset:310
 #: data/civ1/buildings.ruleset:257
@@ -17416,7 +17416,7 @@ msgstr "Kütüphane"
 #: data/default/buildings.ruleset:412
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
-msgstr "Şehirdeki bilim üretimini %%100 arttırır."
+msgstr "Şehirdeki bilim üretimini %100 arttırır."
 
 #: data/default/buildings.ruleset:417 data/civ2/buildings.ruleset:393
 #: data/civ1/buildings.ruleset:317
@@ -17427,7 +17427,7 @@ msgstr "Market"
 #: data/civ1/buildings.ruleset:332
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
-msgstr "Şehirdeki lüks ve vergi üretimini %%50 arttırır."
+msgstr "Şehirdeki lüks ve vergi üretimini %50 arttırır."
 
 #: data/default/buildings.ruleset:437 data/civ2/buildings.ruleset:413
 #: data/civ1/buildings.ruleset:337
@@ -17452,7 +17452,7 @@ msgstr "İmalathane"
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
-msgstr "Fabrika ile birlikte şehrin kalkan üretimini %%100 arttırır."
+msgstr "Fabrika ile birlikte şehrin kalkan üretimini %100 arttırır."
 
 #: data/default/buildings.ruleset:480 data/civ2/buildings.ruleset:456
 #: data/civ1/buildings.ruleset:380
@@ -17505,7 +17505,7 @@ msgstr ""
 "\n"
 "Sivil savaştan korunmak için başkentinize dikkat edin. Sarayınızı kaybederseniz varsa uzay geminiz de boşa gidecektir.\n"
 "\n"
-"Saray, Despotlukta %%75, Monarşide %%50 üretim artışı sağlar."
+"Saray, Despotlukta %%75, Monarşide %50 üretim artışı sağlar."
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:538
 msgid "Police Station"
@@ -17555,7 +17555,7 @@ msgstr "Geri Dönüşüm Merkezi"
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
-msgstr "Geri Dönüşüm Merkezi üretimden doğan kirliliği %%66 oranında azaltır."
+msgstr "Geri Dönüşüm Merkezi üretimden doğan kirliliği %66 oranında azaltır."
 
 #: data/default/buildings.ruleset:667 data/civ2/buildings.ruleset:629
 msgid "Research Lab"
@@ -17670,7 +17670,7 @@ msgstr "Borsa"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr "Bir Market ve Banka ile birlikte Borsa, şehirdeki vergi ve lüks üretimini %%150 oranında arttırır."
+msgstr "Bir Market ve Banka ile birlikte Borsa, şehirdeki vergi ve lüks üretimini %150 oranında arttırır."
 
 #: data/default/buildings.ruleset:860 data/civ2/buildings.ruleset:849
 msgid "Super Highways"
@@ -17679,7 +17679,7 @@ msgstr "Otoban"
 #: data/default/buildings.ruleset:875 data/civ2/buildings.ruleset:864
 #, no-c-format
 msgid "Increases trade resources by 50% on all squares with roads or railroads."
-msgstr "Yol ve ray olan arazilerdeki ticaret gelirini %%50 arttırır."
+msgstr "Yol ve ray olan arazilerdeki ticaret gelirini %50 arttırır."
 
 #: data/default/buildings.ruleset:883 data/civ2/buildings.ruleset:870
 msgid "Supermarket"
@@ -17691,7 +17691,7 @@ msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
 "used around the city.  Farmland squares are those which have been irrigated "
 "a second time."
-msgstr "Şehrin etrafındaki tarlalardan elde edilen gıdayı %%50 arttırır.  İkinci kez sulama yapılan topraklar tarla olur."
+msgstr "Şehrin etrafındaki tarlalardan elde edilen gıdayı %50 arttırır.  İkinci kez sulama yapılan topraklar tarla olur."
 
 #: data/default/buildings.ruleset:905 data/civ2/buildings.ruleset:892
 #: data/civ1/buildings.ruleset:591
@@ -17762,7 +17762,7 @@ msgstr "Kopernik'in Gözlemevi"
 #: data/civ1/buildings.ruleset:837
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
-msgstr "Yapıldığı şehirdeki bilim üretimini %%100 arttırır."
+msgstr "Yapıldığı şehirdeki bilim üretimini %100 arttırır."
 
 #: data/default/buildings.ruleset:1029 data/civ2/buildings.ruleset:1016
 #: data/civ1/buildings.ruleset:693
@@ -17857,7 +17857,7 @@ msgstr "Newton'un Koleji"
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
-msgstr "Üniversitesi olan şehirlerinizdeki bilim üretimini %%100 arttırır."
+msgstr "Üniversitesi olan şehirlerinizdeki bilim üretimini %100 arttırır."
 
 #: data/default/buildings.ruleset:1200 data/civ2/buildings.ruleset:1184
 #: data/civ1/buildings.ruleset:842
@@ -17962,7 +17962,7 @@ msgstr "SETI Programı"
 
 #: data/default/buildings.ruleset:1413
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr "Araştırma Laboratuvarı olan şehirlerdeki bilim üretimini %%100 arttırır. "
+msgstr "Araştırma Laboratuvarı olan şehirlerdeki bilim üretimini %100 arttırır. "
 
 #: data/default/buildings.ruleset:1418 data/civ2/buildings.ruleset:1401
 #: data/civ1/buildings.ruleset:1001
@@ -18075,7 +18075,7 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
-msgstr "Şehirdeki yolsuzluğu %%50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda başkente olan uzaklığın ayaklanma fiyatına etkisini yarıya indirir."
+msgstr "Şehirdeki yolsuzluğu %50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda başkente olan uzaklığın ayaklanma fiyatına etkisini yarıya indirir."
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
 msgid ""
@@ -18089,14 +18089,14 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
-"Şehirde üretimden doğan kirliliği %%50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %%100 üretim artışı, İmalathaneyle birlikte %%150 üretim artışı sağlar.\n"
+"Şehirde üretimden doğan kirliliği %50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %100 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.\n"
 "\n"
 "Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral.  Hidroelektrik Santrali, sadece bitişiğinde veya bulunduğu yerde dağ veya nehir bulunan şehirlere yapılabilir."
 
 #: data/civ2/buildings.ruleset:388 data/civ1/buildings.ruleset:312
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
-msgstr "Bir şehrin bilim üretimini %%50 oranında arttırır."
+msgstr "Bir şehrin bilim üretimini %50 oranında arttırır."
 
 #: data/civ2/buildings.ruleset:470 data/civ1/buildings.ruleset:394
 msgid ""
@@ -18108,7 +18108,7 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Şehirde üretimden doğan kirliliği %%50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %%100 üretim artışı, İmalathaneyle birlikte %%150 üretim artışı sağlar.\n"
+"Şehirde üretimden doğan kirliliği %50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %100 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.\n"
 "\n"
 "Bir şehirde şunlardan sadece biri bulunabilir: Güneş Enerjisi Santrali, Hidroelektrik Santrali, Termik Santral, Nükleer Santral"
 
@@ -18144,7 +18144,7 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
-msgstr "Araştırma Laboratuvarı, bir kütüphaneyle birlikte şehrin bilim üretimini %%100 arttırır. Bir Kütüphane ve bir Üniversite ile birlikte bilim üretimini %%150 arttırır."
+msgstr "Araştırma Laboratuvarı, bir kütüphaneyle birlikte şehrin bilim üretimini %100 arttırır. Bir Kütüphane ve bir Üniversite ile birlikte bilim üretimini %150 arttırır."
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
@@ -18161,7 +18161,7 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Şehirde üretimden doğan kirliliği önler.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %%100 üretim artışı, İmalathaneyle birlikte %%150 üretim artışı sağlar.\n"
+"Şehirde üretimden doğan kirliliği önler.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %100 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.\n"
 "\n"
 "Bir şehirde şunlardan sadece biri bulunabilir: Güneş Enerjisi Santrali, Hidroelektrik Santrali, Termik Santral, Nükleer Santral"
 
@@ -18170,7 +18170,7 @@ msgstr ""
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
-msgstr "Univesite, bir kütüphaneyle birlikte şehrin bilim üretimini %%100 arttırır."
+msgstr "Univesite, bir kütüphaneyle birlikte şehrin bilim üretimini %100 arttırır."
 
 #: data/civ2/buildings.ruleset:970
 msgid ""
@@ -18181,7 +18181,7 @@ msgstr "Bütün şehirlerde 1 bakım gerektiren yapıların bakımı ücretsiz o
 #: data/civ2/buildings.ruleset:1011 data/civ1/buildings.ruleset:688
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
-msgstr "Yapıldığı şehrin bilim üretimini %%50 oranında arttırır."
+msgstr "Yapıldığı şehrin bilim üretimini %50 oranında arttırır."
 
 #: data/civ2/buildings.ruleset:1030 data/civ1/buildings.ruleset:707
 msgid ""
@@ -18221,13 +18221,13 @@ msgstr "Bütün şehirlerinde ambar olduğunu gibi sağlar."
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
-msgstr "Kütüphanesi olan her şehirde bilim üretimini %%50 arttırır.  (Bütün şehirlerde Araştırma Laboratuvarı varmış gibi olur.)"
+msgstr "Kütüphanesi olan her şehirde bilim üretimini %50 arttırır.  (Bütün şehirlerde Araştırma Laboratuvarı varmış gibi olur.)"
 
 #: data/civ2/buildings.ruleset:1455
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
-msgstr "Bütün yeni kara birimleri kıdemli olur (bütün şehirlerde).  Savaştan sonra birimin kıdeminin artma şansı %%50'den %%100'e kadar çıkar."
+msgstr "Bütün yeni kara birimleri kıdemli olur (bütün şehirlerde).  Savaştan sonra birimin kıdeminin artma şansı %50'den %100'e kadar çıkar."
 
 #: data/civ2/buildings.ruleset:1476
 msgid "Units regain two extra hitpoints per turn."
@@ -18281,7 +18281,7 @@ msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
-msgstr "Şehirdeki yolsuzluğu %%50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda ayaklanma zararı hesaplanırken başkente olan uzaklığı yarı yarıya azaltır."
+msgstr "Şehirdeki yolsuzluğu %50 oranında azaltır.  Demokrasilerde bir mutsuz vatandaşı mutlu eder.  Aynı zamanda ayaklanma zararı hesaplanırken başkente olan uzaklığı yarı yarıya azaltır."
 
 #: data/civ1/buildings.ruleset:646
 msgid ""
@@ -22837,6 +22837,17 @@ msgid ""
 "append it to the worklist.  As soon as the Barracks are complete the\n"
 "city will automatically switch over to producing the unit."
 msgstr ""
+"Üçüncü şehrinizi kurdunuz!  Medeniyetiniz büyümeye devam\n"
+"ediyor.  Artık bir ordu yapmayı düşünmeye başlamak gerek.\n"
+"Üretimi iyi olan şehrinizi seçin ve orayı askeri üs olarak belirleyin.\n"
+"Önce bir Kışla yapın ve bittiğinde bir askeri birim yaptırın. Mümkün\n"
+"olan en iyi askeri birimi seçin - oyunun başında Savaşçı tek\n"
+"seçeneğiniz olabilir fakat yakında pek çok seçeneğiniz olacaktır.\n"
+"\n"
+"Şehir penceresindeki iş listesini kullanmak da iyi bir fikir olabilir.\n"
+"Önce listeden Kışla'ya tıklayıp Üretimi Değiştir'e basın ve ardından\n"
+"listeden bir askeri birime çift tıklayın.  Böylece Kışla bittiği anda\n"
+"asker üretimine başlanacaktır."
 
 #: data/scenario/tutorial.sav:83
 msgid ""
@@ -22852,6 +22863,16 @@ msgid ""
 "will take; it also shows how long the city will take to grow to the\n"
 "next largest size."
 msgstr ""
+"Bir şehir daha!  Alışmaya başladınız.  Artık yeni şehirlerinizi\n"
+"nasıl kullanacağınızı biliyor olmalısınız.  Haritada şehrinizin altındaki\n"
+"çubuğa bir bakın.  Burada şehriniz hakkında faydalı bilgiler vardır.\n"
+"Bayrak ve renk şehrin hangi ulusa ait olduğunu bildirir (bu özellik\n"
+"diğer uluslarla karşılaşınca daha faydalı olur).  Üstteki çubuk\n"
+"şehrin ismini ve büyüklüğünü gösterir, ayrıca şehir içinde birimler\n"
+"varsa onların da kaç tane olduğunu gösterir. Alttaki çubukta ise\n"
+"şehirde neyin üretildiği ve üretimin kaç sıra süreceği, bunun\n"
+"yanında da bir sonraki büyümeye veya küçülmeye kaç sıra\n"
+"kaldığı gösterilir."
 
 #: data/scenario/tutorial.sav:96
 msgid ""
@@ -22864,6 +22885,14 @@ msgid ""
 "from this report.  The full power of the city report is beyond the\n"
 "scope of this tutorial, however."
 msgstr ""
+"Şehirleriniz çoğaldıkça onları tek tek yönetmeniz zorlaşacaktır.\n"
+"Bu durumda Şehir Raporu imdadınıza yetişir.  Onu getirmek için\n"
+"F1 tuşuna basın.  Bu raporda her biri hakkında istatistiklerle\n"
+"birlikte şehirlerinizin bir listesi vardır.  İsterseniz bununla biraz oynayın\n"
+"(daha sonra Harita sekmesine tıklayarak haritaya dönebilirsiniz).\n"
+"Bu rapora alıştıktan sonra şehirlerle ilgili her şeyi buradan da\n"
+"yapabileceğinizi göreceksiniz.  Neyse, şehir raporunun yetenekleri\n"
+"şimdilik konumuz dışında kalıyor."
 
 #: data/scenario/tutorial.sav:115
 msgid ""
@@ -22877,6 +22906,13 @@ msgid ""
 "in gold (if you have enough of it) to instantly complete the\n"
 "production."
 msgstr ""
+"Şehriniz genişledi!  Bir şehir büyüdükçe şehirde çalıştırabileceğiniz\n"
+"vatandaşların sayısı artar.  Büyüklüğü iki veya daha fazla olan\n"
+"şehirlerde bir nüfus gerektiren Göçmen birimini yapabilirsiniz.\n"
+"\n"
+"Şehriniz Göçmen yapıyorsa şimdi satın almayı düşünebilirsiniz.\n"
+"Şehir penceresini açın ve Satın Al düğmesini tıklayın.  Bunu\n"
+"yaptığınızda yeterli altınınız varsa üretim hemen tamamlanacaktır."
 
 #: data/scenario/tutorial.sav:127
 msgid ""
@@ -22896,6 +22932,20 @@ msgid ""
 "specialists - right now they are all entertainers which provide\n"
 "only luxuries (which will not be useful until later)."
 msgstr ""
+"Şehriniz yine büyüdü!  Artık üç vatandaşla yapabileceğiniz çeşitli\n"
+"durumlar bulunuyor.  Bunları farklı bölgelerde çalıştırarak şehirdeki\n"
+"üretimi belli bir alana çekebilirsiniz.  Üç nüfusu olan bir şehir\n"
+"merkez bölge dışında üç değişik bölgede çalışabilir.  Şehir\n"
+"penceresindeki harita hangi bölgelerde çalışıldığını ve buralardan\n"
+"ne kadar gıda, kalkan ve ticaret elde edildiğini gösterir.  Gıda,\n"
+"şehrinizin büyümesinde, kalkanlar binaların yapımında, ticaret\n"
+"ise bilim, altın veya lükse çevrilebilen para gelirinde kullanılır.\n"
+"\n"
+"Üzerinde çalışılan bir bölgeye tıklayarak oradaki vatandaşı\n"
+"boşa alabilirsiniz.  Daha sonra boş bir bölgeye tıklayarak vatandaşı\n"
+"orada çalıştırabilirsiniz.  Tabi ki şu an en fazla üç vatandaş\n"
+"yerleştirebilirsiniz.  Boşta duran vatandaşlar devlet memuru\n"
+"olurlar - şimdi bunların hepsi lüks getiren sanatçılardır (bir süre boyunca buna ihtiyacınız olmayacak)."
 
 #: data/scenario/tutorial.sav:145
 #, c-format
@@ -22933,6 +22983,8 @@ msgid ""
 "it larger, however, you will need to build a Sewer System.  This\n"
 "requires the Sanitation technology."
 msgstr ""
+"Şehrinizin boyutu on ikiye ulaştı.  Daha da büyüyebilmesi için\n"
+"Sağlık Teşkilatı teknolojisine ve Kanalizasyon yapısına ihtiyaç vardır."
 
 #: data/scenario/tutorial.sav:178
 msgid ""
@@ -23059,6 +23111,16 @@ msgid ""
 "to worry about picking a new research target each time you finish\n"
 "researching a technology."
 msgstr ""
+"İkinci teknolojinizi buldunuz.  Şimdi tekrar bilim penceresine (F6)\n"
+"gidin ve ilerlemenize bakın.  Eğer hedefinizi Cumhuriyet olarak belirlerseniz\n"
+"bir sonraki teknoloji otomatik olarak seçilecektir.  Bir hedef belirlemezseniz\n"
+"sıranız geçene kadar herhangi bir otomatik seçim yapılmaz.\n"
+"\n"
+"Sıranız geldiğinde araştırmanız bitmişse araştırılacak yeni bir şey\n"
+"seçebilirsiniz.  Bir araştırma bitmeden diğerine geçerseniz\n"
+"yarım kalan araştırmaya harcanan emek boşa gidecektir.\n"
+"Teknoloji hedefinizi akıllıca seçerseniz her seferinde neyin\n"
+"araştırılacağını belirlemenize gerek kalmayacaktır."
 
 #: data/scenario/tutorial.sav:338
 msgid ""
@@ -23078,6 +23140,20 @@ msgid ""
 "However Republic is a substantially better form of government\n"
 "than Despotism so the investment will soon pay off."
 msgstr ""
+"Başarılı bir şekilde Cumhuriyet'i buldunuz.  Bu teknoloji yeni bir\n"
+"yönetim biçimini beraberinde getirdiği için oldukça kullanışlıdır.\n"
+"Gelişiminizi belirlerken yönetim biçiminizin önemli bir rolü vardır.\n"
+"Başlangıçta sorunların çok olduğu bir yönetim biçimi olan Despotlukla\n"
+"başlarsınız.  Zaman geçtikçe savaşçı bir medeniyet mi yoksa barışçıl,\n"
+"ticaretle geçinen bir medeniyet mi olacağınıza karar verip uygun\n"
+"bir yönetim biçimi seçersiniz. Hepsinin kendi faydaları vardır.\n"
+"\n"
+"Şimdilik galiba direkt olarak Cumhuriyet'e geçmek isteyeceksiniz.\n"
+"Hükümet menüsünden Yönetim Biçimini Değiştir'e girin ve Cumhuriyet'i\n"
+"seçin.  Evet devrim istiyorsunuz!  Hükümeti değiştirmek için birkaç sıra\n"
+"boyunca anarşi yaşanmalıdır, yani bu işler o kadar da kolay değildir.\n"
+"Yine de Cumhuriyet, Despotluktan çok daha iyi bir yönetim biçimi\n"
+"olduğu için bu yatırımın faydalarını yakında göreceksiniz."
 
 #: data/scenario/tutorial.sav:365
 msgid ""
@@ -23091,6 +23167,13 @@ msgid ""
 "unit instantly.  On average, it is beneficial to search out and enter\n"
 "any huts you find as soon as possible."
 msgstr ""
+"Biriminiz bir Kulübe buldu.  Bunlar etrafa yayılmış küçük köylerdir.\n"
+"Birimlerinizden biri bunlara girerse birkaç durum gerçekleşebilir.\n"
+"En olası durum bir miktar altın kaynağı bulmanızdır.  Bazen de teknoloji\n"
+"veya paralı asker de bulabilirsiniz.  Bazı kulübelerde size katılmak\n"
+"isteyen yerli göçmenler bulunur.  Bazen de biriminizi hemen\n"
+"öldürecek kadar kötü barbarlar bulunur.  Genelde bu kulübeleri\n"
+"bulup en kısa zamanda girmeniz yararınıza olacaktır."
 
 #: data/scenario/tutorial.sav:380
 msgid "Loading tutorial events."
