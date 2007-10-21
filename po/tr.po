@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-20 19:25+0300\n"
+"PO-Revision-Date: 2007-10-21 10:30+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15878,13 +15878,13 @@ msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
-msgstr "  - 'Ahmet' ile başlayan mesajlar 'Ahmet'e özel olarak gönderilir. İsimler kısaltılarak verilebilir. Sunucu 'Ahmet' isimli oyuncuları arar, bulamazsa 'Ahmetcan' gibi 'Ahmet' ile başlayan bir oyuncuya gönderir."
+msgstr "  - 'Ali' ile başlayan mesajlar 'Ali'ye özel olarak gönderilir. İsimler kısaltılarak verilebilir. Sunucu 'Ali' isimli oyuncuları arar, bulamazsa 'Alican' gibi 'Ali' ile başlayan bir oyuncuya gönderir."
 
 #: data/helpdata.txt:559
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
-msgstr ""
+msgstr "  - 'Ali::' ile başlayan mesajlar yukarıdaki gibi özel mesajlardır fakat sadece 'Ali' isimli kullanıcılara (oyunculara değil) gönderilir.  Hâlâ 'Alican' olarak tamlanabilir."
 
 #: data/helpdata.txt:563
 msgid "  - Messages starting with '.' will be sent only to all your allies."
@@ -15899,20 +15899,22 @@ msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
 "specifying what to build in the turns to come."
-msgstr ""
+msgstr "İş listesi düzenleyicisi (şehir penceresinden) her şehrin iş listesini ve küresel iş listelerini düzenleyebilir. Bu düzenleyiciyi kullanarak sırayla yapılacak işleri belirleyen listeler oluşturabilirsiniz."
 
 #: data/helpdata.txt:573
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
 "selected item. Pressing Help with no item selected will display this page."
-msgstr ""
+msgstr "İş listesine bir iş eklemek için mümkün olan işler listesinden istediğiniz birine çift tıklayın. Seçili iş hakkında bilgi almak için Yardım düğmesine tıklayabilirsiniz. Hiçbir şey seçili değilken Yardım'a basarsanız bu sayfa gösterilecektir."
 
 #: data/helpdata.txt:577
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
 msgstr ""
+"İş listesinden bir işi çıkarmak için işin üzerine çift tıklamanız yeterlidir. "
+"İşleri aşağı/yukarı taşımak için listenin altındaki düğmeleri kullanın."
 
 #: data/helpdata.txt:580
 msgid ""
@@ -15921,13 +15923,13 @@ msgid ""
 "list, PageUp/Down to move items up/down in the worklist, Insert to insert "
 "items from the available list into the worklist and Delete to delete the "
 "selected item from the worklist."
-msgstr ""
+msgstr "Klavye kısayolları: Home iş listesine odaklanır, End mümkün olanlar listesine odaklanır, Yukarı/Aşağı oklar listedeki seçimi değiştirir, PageUp/PageDown iş listesindeki seçili işi yukarı/aşağı taşır, Insert seçili olan işi listeye ekler, Delete seçili işi listeden siler."
 
 #: data/helpdata.txt:586
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
-msgstr ""
+msgstr "Listedeki ilk birimi satın almak istiyorsanız bunu Şehir Özeti penceresinden yapabilirsiniz."
 
 #: data/helpdata.txt:592
 msgid "Strategy and tactics"
@@ -16306,14 +16308,14 @@ msgid ""
 "note: any units in the field and supported by that city are also transferred "
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
-msgstr ""
+msgstr "     Tabi ki şehrin sahibi istediği takdirde şehrini size verebilir. Bu durumda şehrin etrafındaki bölge haritanızda görünecektir.  Önemli bir nokta da şehir sınırları içinde bulunan ve memleketi o şehir olan birimlerin de aktarılacağıdır.  Bu nedenle sandığınızdan daha fazla şeyler vermemeye dikkat edin."
 
 #: data/helpdata.txt:778
 msgid ""
 "     There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the default state, while the "
 "others can be achieved by signing diplomatic treaties."
-msgstr ""
+msgstr "     Oyuncular arasında 5 farklı diplomatik durum yaşanabilir: Savaş, Ateşkes, Mütareke, Barış ve İttifak. İlki öntanımlı durumdur, diğerleri ise diplomatik antlaşmalarla sağlanabilir."
 
 #: data/helpdata.txt:782
 msgid ""
@@ -16323,14 +16325,14 @@ msgid ""
 "player, or vice versa. Unless you establish an embassy with that player, you "
 "may again lose contact with them after a set number of turns without direct "
 "physical contact."
-msgstr ""
+msgstr "     Diğer oyuncularla diplomatik görüşme yapmak için öncelikle bu oyuncuyla bağlantı kurmalısınız. Bunu da bir biriminizi o oyuncunun birimlerinin veya şehirlerinin görüş alanına götürerek sağlayabilirsiniz (ya da onlar size gelebilir). Oyuncuya elçilik kurmazsanız birkaç sıra sonra temas kaybedilecektir."
 
 #: data/helpdata.txt:789
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move you units inside enemy territory and attack their units and "
 "cities at will."
-msgstr ""
+msgstr "     Oyuncular arasındaki öntanımlı durum savaştır. Savaş durumunda birimlerinizi düşman topraklarında gezdirebilir ve onların birimlerine saldırabilirsiniz."
 
 #: data/helpdata.txt:793
 msgid ""
@@ -16338,7 +16340,7 @@ msgid ""
 "on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
 "lead back to War. Upon first contact with an AI player, it will "
 "automatically offer you a Cease-fire treaty."
-msgstr ""
+msgstr "     İki oyuncu savaşı bitirmek istiyorlarsa ateşkes antlaşması imzalayabilirler. Birkaç sıra geçtikten sonra anltaşma otomatik olarak sona erecektir. YZ oyuncuları ilk karşılaştığınızda hemen ateşkes isteyeceklerdir."
 
 #: data/helpdata.txt:798
 msgid ""
@@ -16346,7 +16348,7 @@ msgid ""
 "player, you may enter an Armistice, that after another set number of turns "
 "will turn into a permanent Peace treaty. Breaking an Armistice will drop you "
 "directly back to War."
-msgstr ""
+msgstr "     Bir oyuncuyla daha kalıcı barış istiyorsanız Mütareke imzalamalısınız, bu antlaşma birkaç sıra sonra yerini Barış antlaşmasına bırakacaktır. Mütarekeyi bozduğunuz zaman tekrar savaşa dönersiniz."
 
 #: data/helpdata.txt:803
 msgid ""
@@ -16356,7 +16358,7 @@ msgid ""
 "this, you may not move units into the other's territory until you either "
 "declare War, or forge an Alliance. Breaking a Peace treaty will drop you "
 "directly back to War."
-msgstr ""
+msgstr "     İki oyuncu Barış durumuna geçince birimleri birbirinin sınırlarına giremez. Kuralı ihlal eden birimler terhis edilir. Bundan sonra karşı tarafa Savaş açmadan veya İttifak kurmadan sınır ihlali yapılamaz. Barış antlaşması bozulduğunda Savaş durumuna geçilir."
 
 #: data/helpdata.txt:810
 msgid ""
@@ -16367,7 +16369,7 @@ msgid ""
 "technologies and cities. The only drawback with an alliance, is that it will "
 "draw you into to any wars your ally enters against other players. Breaking "
 "an Alliance will drop you to an Armistice treaty."
-msgstr ""
+msgstr "     İttifak iki oyuncu arasında olabilecek en iyi diplomatik ilişki türüdür. Bu durumdayken oyuncuların birimleri birbirlerinin bölgelerini sınırsız olarak paylaşabilirler. YZ oyuncular ittifak kurdukları zaman dünya haritalarını ve görüş alanı paylaşımı da verecektir. Müttefikler birbiri arasında şehir ve teknoloji paylaşımı yapabilirler. İttifakın tek kötü yanı bir müttefikiniz savaşa girdiğinde sizin de savaşa girmek zorunda olmanızdır. İttifak bozulduğu zaman bir Mütareke imzalanır."
 
 #: data/helpdata.txt:822
 msgid ""
@@ -16413,6 +16415,24 @@ msgid ""
 "hints, some background information, and some preset examples in the file "
 "README.cma, included with Freeciv.\n"
 msgstr ""
+"Valiler (eskiden CMA denirdi) şehirleri yönetmenizi kolaylaştırırlar. "
+"Şehrin etrafındaki boş bölgelere işçileri yerleştirerek iş gücünün en verimli şekilde kullanılmasını sağlar. Şartlar olgunlaştığında işçileri bilim adamı, maliyeci ve sanatçı olarak atayabilir. Valinin diğer bir görevi de mümkün olduğu sürece halkın memnun kalmasını sağlamaktır.\n"
+"\n"
+"Valiye nasıl çalışması gerektiğini söylemenin pek çok yolu vardır. Şehir penceresini açıp Vali sekmesini tıklayın. İki tür kaydırma çubuğu göreceksiniz: Sol tarafta her üretim için Asgari Fazlalık belirlenir; ör. Altın = +3 şehrin yapıların bakımına olan harcamalarından 3 adet fazla altın sağlaması demektir. Sağdaki kaydırma çubukları hangi kaynağın daha çok üretilmesini istediğinizi belirler; bilimi 3 yapmak bir ampülü üç kalkana (veya altına, ticarete,...) tercih ettiğinizi belirtir. İhtiyacınıza göre her üretim biçimi için farklı çarpanlar belirleyebilirsiniz.\n"
+"\n"
+"Eğer gerçekleşmesi mümkün olmayan Asgari Fazlalık değerleri vermişseniz vali atanamayacaktır. Yine zamanla valinin bunları gerçekleştirmesi mümkün olmadığında istifa edecektir. Bu yüzden çok büyük bir fazlalık belirlemeyin; bunun yerine çarpanları kullanarak amacınıza ulaşmaya çalışın\n"
+"\n"
+"Kutlama işareti şehrinizde kutlama yapılmasına izin verir. Bu ancak yüksek lüks oranında gerçekleşebilir. Ayrıntılı bilgi için 'Mutluluk' hakkındaki yardıma bakınız.\n"
+"\n"
+"'Şehri Kontrol Et'e tıklarsanız kontrol valiye geçecek, 'Şehri Serbest Bırak'a tıklarsanız kontrol yine size geçecektir.\n"
+"\n"
+"Kullanım kolaylığı sağlamak için kaydırma çubuklarının durumunu bir şablon olarak kaydedebilirsiniz. "
+"'Şablon Ekle'ye tıklayarak ayarlar için bir ad girin. "
+"Şablonları sadece üzerlerine tıklayarak kullanabilirsiniz. Şehir kontrolünü şehir raporu penceresinden de yönetebilirsiniz. Şablon olarak kaydedince bu ayarları 'değiştir' --> 'Şehir Valisi' diyerek değiştirebilirsiniz.\n"
+"\n"
+"Şablonlarınızı sürekli olarak kaydetmek için 'Oyun' --> 'Ayarları Kaydet'i kullanın.\n"
+"\n"
+"Dikkatli olun: Bazı şehirlerinizde vali kullanıp bazılarında kullanmazsanız bazı sorunlar yaşayabilirsiniz. Bu yüzden aynı kıtada bulunan şehirlerin ya hepsinde kullanın ya da hiçbirinde vali kullanmayın. Daha fazla arka plan bilgisi ve bazı şablon örnekleri için Freeciv ile brlikte gelen README.cma dosyasına bakın.\n"
 
 #: data/helpdata.txt:871
 msgid "City Improvements"
@@ -16424,33 +16444,33 @@ msgid ""
 "science production, etc.  Most improvements require you to pay an upkeep "
 "every turn.  If you can't afford the upkeep for a building, then it'll be "
 "automatically sold."
-msgstr ""
+msgstr "Şehir yapıları ticaret gelirini, bilim üretimini vb. geliştirmeye yararlar.  Yapıların çoğu her sırada bakım parası ödemeyi gerektirir.  Bir binanın bakımı ödenemezse otomatik olarak satılacaktır."
 
 #: data/helpdata.txt:889
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
-msgstr ""
+msgstr "Teknoloji araştırmaları medeniyetinizin yeni ordu birimleri ve şehir yapıları yapabilmesi için gereklidir."
 
 #: data/helpdata.txt:900
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
-msgstr ""
+msgstr "Her harikanın medeniyetinize sağladığı farklı nimetler vardır. Harikalar birer tane olabilir ve sadece yapıldıkları şehirde bulunabilir."
 
 #: data/helpdata.txt:911
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
 "unit's strength in attack and defense, and its ability to move."
-msgstr ""
+msgstr "Birimler üç amaç için kullanılabilirler: saldırı, savunma ve keşif.  Bir birimin bu amaçlardan hangisine uygun olduğu; birimin saldırı ve savunma gücüne, hareket puanına göre değişir."
 
 #: data/helpdata.txt:916
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
-msgstr ""
+msgstr "Birimler dört türe ayrılırlar: Kara, Deniz, Hava ve Helikopter.  (Helikopterler diğer hava birimlerinden o kadar değişiktir ki başka gruptaymış gibi düşünmek daha iyidir.)"
 
 #: data/helpdata.txt:921
 #, no-c-format
@@ -16540,7 +16560,7 @@ msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
-msgstr ""
+msgstr "Bir birim diğerine saldırdığında ya saldıran ya da savunan yok edilir -- saldıran bir füze değilse ikisi birden yok olmaz.  Sonuç şans dahil pek çok şeye bağlıdır."
 
 #: data/helpdata.txt:994
 msgid "First, the attacker's strength is modified."
@@ -16581,48 +16601,48 @@ msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
 "missile."
-msgstr ""
+msgstr " - Şehirde SAM Bataryası varsa ve saldıran taraf bir hava birimi (helikopter dışında) veya füzeyse savunanın gücü ikiye katlanır."
 
 #: data/helpdata.txt:1017
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
-msgstr ""
+msgstr " - SDI Savunması, füze saldırılarına karşı savunmayı ikiye katlar."
 
 #: data/helpdata.txt:1020
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
-msgstr ""
+msgstr " - Saldıran taraf bir gemiyse ve şehirde Sahil Güvenlik varsa savunanın gücü ikiye katlanır."
 
 #: data/helpdata.txt:1023
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
-msgstr ""
+msgstr " - Havan Topu dışındaki kara birimleri ve Helikopterler, Surları olan bir şehre saldırırken savunanın gücü üçe katlanır."
 
 #: data/helpdata.txt:1027
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
-msgstr ""
+msgstr " - Savunan bir kalenin içindeyse (şehir değil), gücü ikiye katlanır."
 
 #: data/helpdata.txt:1030
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
-msgstr ""
+msgstr " - Son olarak, savunan taraf güçlendiriliyorsa veya bir şehirdeyse gücü 1,5 ile çarpılır."
 
 #: data/helpdata.txt:1033
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
 "defender loses."
-msgstr ""
+msgstr "Eğer bu hesaplamalardan sonra saldıran tarafın gücü 0 kalırsa hemen kaybeder.  Eğer savunanın gücü 0 kalırsa saldıran kazanır."
 
 #: data/helpdata.txt:1037
 msgid "The firepower of the attacker and defender are also modified."
-msgstr ""
+msgstr "Saldıran tarafın saldırı gücü de değişebilir."
 
 #: data/helpdata.txt:1039
 msgid ""
@@ -16696,7 +16716,7 @@ msgstr ""
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
-msgstr ""
+msgstr " - killstack. (öntanımlı: 1) 0 olarak ayarlanırsa savunan taraf yenildiğinde birimlerin hepsi birden yok edilmez. "
 
 #: data/helpdata.txt:1090
 msgid " Combat example 1"
@@ -16978,7 +16998,7 @@ msgid ""
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
 "Depending upon server settings, you may be given a choice of which terrain "
 "alteration to pillage, or they will be pillaged in the following order:"
-msgstr ""
+msgstr "Bütün kara birimleri arazi düzenlemelerini yağmalayabilirler.  Yağmalama her birim için her sırada bir gelişimi yok edecektir.  Sunucu ayarlarına göre hangi gelişimi yapmalayacağınızı belirlemeniz mümkün olabilir, veya şu sırada yağmalanırlar:"
 
 #: data/helpdata.txt:1302
 msgid ""
@@ -16990,6 +17010,13 @@ msgid ""
 " - a railroad\n"
 " - a road"
 msgstr ""
+" - tarla\n"
+" - sulama\n"
+" - maden\n"
+" - kale\n"
+" - hava üssü\n"
+" - ray\n"
+" - yol"
 
 #: data/helpdata.txt:1310
 msgid ""
@@ -17005,7 +17032,7 @@ msgstr ""
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
-msgstr ""
+msgstr "Yönetim biçiminiz şehirlerinizin üretim ve gelirini, vatandaşlarınızın mutluluğunu ve diğer oyun etkenlerini etkiler."
 
 #: data/helpdata.txt:1325
 msgid ""
@@ -17074,14 +17101,14 @@ msgid ""
 "treated your people with kindness, you are more likely to retain their "
 "loyalty.  Each city that is celebrating reduces the chance of civil war, "
 "while each revolting city increases the likelihood."
-msgstr ""
+msgstr "Başkentinizin ele geçirilmesi her zaman sivil savaşa sebep olmaz.  Eğer insanlarınıza nazik davranırsanız onların sadakatini kazanırsınız.  Kutlama yapılan her şehir sivil savaş riskini azaltır ve ayaklanma çıkan şehirler de bu riski arttırır."
 
 #: data/helpdata.txt:1377
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
 "revolt than those more despotic in nature."
-msgstr ""
+msgstr "Ek olarak yönetim biçimi sivil savaş ihtimaline direkt olarak etki eder.  Halka yönetime katılma hakkı veren hükümetlerde sivil savaş riski daha azdır."
 
 #: data/helpdata.txt:1381
 msgid ""
