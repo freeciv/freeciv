@@ -346,7 +346,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
     }
     
     if (get_num_units_in_focus() > 0) {
-      update_order_widget();
+      update_order_widgets();
     }
   
     flush_dirty();
@@ -481,7 +481,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
     }
   
     if (pFocus) {
-      update_order_widget();
+      update_order_widgets();
     }
   
     flush_dirty();
