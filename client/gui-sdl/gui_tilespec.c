@@ -352,6 +352,7 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(pBuf, OWakeUp_Icon, "theme.order_wakeup");
   load_order_theme_surface(pBuf, OReturn_Icon, "theme.order_return");
   load_order_theme_surface(pBuf, OAirLift_Icon, "theme.order_airlift");
+  load_order_theme_surface(pBuf, OLoad_Icon, "theme.order_load");
   
   /* ------------------------------ */
     
@@ -464,6 +465,7 @@ void tilespec_free_theme(void)
   FREESURFACE(pTheme->OWakeUp_Icon);
   FREESURFACE(pTheme->OReturn_Icon);
   FREESURFACE(pTheme->OAirLift_Icon);
+  FREESURFACE(pTheme->OLoad_Icon);
 
   FC_FREE(pTheme);
   return;

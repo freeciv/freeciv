@@ -136,6 +136,7 @@ struct Theme {
   SDL_Surface *OWakeUp_Icon;
   SDL_Surface *OReturn_Icon;
   SDL_Surface *OAirLift_Icon;
+  SDL_Surface *OLoad_Icon;
 			
 };
 

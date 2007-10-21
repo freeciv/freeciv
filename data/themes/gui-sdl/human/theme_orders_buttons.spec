@@ -11,6 +11,8 @@ artists = "
    Rafal Bursig <bursig@poczta.fm>
    Adam Szwajnoch <pamash@poczta.onet.pl>
    Jukka Liukkonen <pilkku@iki.fi>
+   Kohsuke Kawaguchi <kk@kohsuke.org> (http://sourceforge.jp/projects/freetrain/)
+   Daniel Markstedt <markstedt@gmail.com>
 "
 
 [file]
@@ -63,7 +65,7 @@ tiles = { "row", "column","tag"
   33,   0,  "theme.order_wakeup"
   34,   0,  "theme.order_return"
   35,   0,  "theme.order_airlift"
-; 36,   0,  "theme.order_"
+  36,   0,  "theme.order_load"
 ; 37,   0,  "theme.order_"
 ; 38,   0,  "theme.order_"
   39,   0,  "theme.order_empty"
