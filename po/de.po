@@ -5724,11 +5724,11 @@ msgstr "Warnung: Client %s ist zu alt und wurde abgewiesen"
 
 #: server/srv_main.c:1082
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen SieFreeciv "
-"Version 2.0 oder neuer."
+"Version 2.2 oder neuer."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/srv_main.c:1171

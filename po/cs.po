@@ -5651,11 +5651,11 @@ msgstr "Upozornění: odmítnut starý klient %s"
 #: server/srv_main.c:1082
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Váš klient je příliš starý. Pro použití tohoto serveru, prosím aktualizujte "
-"klienta na CVS verzi novější než 2003-11-28 nebo Freeciv 1.15.0 nebo novější."
+"klienta na CVS verzi novější než 2003-11-28 nebo Freeciv 2.2 nebo novější."
 
 #: server/srv_main.c:1171
 #, c-format

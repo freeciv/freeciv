@@ -5494,11 +5494,11 @@ msgstr "警告： 拒绝旧的客户端 %s "
 
 #: server/srv_main.c:1082
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "您的客户端太旧了。要使用此服务器请升级您的客户端为晚于2003-11-28的CVS版本或 "
-"Freeciv 2.0 或更高。"
+"Freeciv 2.2 或更高。"
 
 #: server/srv_main.c:1171
 #, c-format

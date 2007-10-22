@@ -5834,11 +5834,11 @@ msgstr "Aviso: rechazando cliente antiguo %s"
 #: server/srv_main.c:1082
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Tu cliente es muy antiguo. Para usar este servidor actualiza tu cliente a la "
-"version CVS posterior 28-11-2003 or a Freeciv 1.15.0 o posterior."
+"version CVS posterior 28-11-2003 or a Freeciv 2.2 o posterior."
 
 #: server/srv_main.c:1171
 #, c-format

@@ -1075,7 +1075,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     unsigned char buffer[4096];
     struct data_out dout;
 
-    freelog(LOG_ERROR,
+    freelog(LOG_NORMAL,
 	    _("Warning: rejecting old client %s"), conn_description(pconn));
 
     dio_output_init(&dout, buffer, sizeof(buffer));
@@ -1085,9 +1085,9 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     dio_put_uint8(&dout, 1);
 
     dio_put_bool32(&dout, FALSE);
-    dio_put_string(&dout, _("Your client is too old. To use this server "
+    dio_put_string(&dout, _("Your client is too old. To use this server, "
 			    "please upgrade your client to a "
-			    "Freeciv 2.0 or later."));
+			    "Freeciv 2.2 or later."));
     dio_put_string(&dout, "");
 
     {

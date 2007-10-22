@@ -5297,12 +5297,12 @@ msgstr "Dėmesio: atmetamas senas klientas %s"
 #: server/srv_main.c:1082
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Jūsų klientas yra per senas. Kad galėtumėte prisijungti prie šio serverio, "
 "prašome atsinaujinti savo klientą iš CVS į naujesnį nei 2003-11-28 arba "
-"Freeciv 2.0 ir naujesnį."
+"Freeciv 2.2 ir naujesnį."
 
 #: server/srv_main.c:1171
 #, c-format

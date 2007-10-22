@@ -5488,11 +5488,11 @@ msgstr "تحذير: جاري رفض عميل قديم %s"
 #: server/srv_main.c:1082
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "عميلك قديم جدا. لاستخدام هذا الخادم الرجاء التطوير العميل إلى اصدار CVS بعد "
-"2003-11-28 أو Freeciv 2.0 وبعد."
+"2003-11-28 أو Freeciv 2.2 وبعد."
 
 #: server/srv_main.c:1171
 #, c-format
