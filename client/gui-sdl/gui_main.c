@@ -359,14 +359,16 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
   button_behavior.counting = FALSE;
   button_behavior.button_down_ticks = 0;  
   
-#ifdef UNDER_CE
   is_map_scrolling = FALSE;
-#endif
   
   return ID_ERROR;
 }
 
-#define SCROLL_MAP_AREA		8
+#ifdef UNDER_CE
+  #define SCROLL_MAP_AREA       8
+#else
+  #define SCROLL_MAP_AREA       1 
+#endif
 
 /**************************************************************************
 ...
@@ -389,7 +391,13 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   if(draw_goto_patrol_lines) {
     update_line(pMotionEvent->x, pMotionEvent->y);
   }
-      
+
+#ifndef UNDER_CE
+  if (gui_sdl_fullscreen) {
+    check_scroll_area(pMotionEvent->x, pMotionEvent->y);
+  }
+#endif          
+
   if ((pWidget = MainWidgetListScaner(pMotionEvent->x, pMotionEvent->y)) != NULL) {
     update_mouse_cursor(CURSOR_DEFAULT);
     widget_sellected_action(pWidget);
@@ -399,9 +407,6 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
     } else {
       if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
         handle_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
-#ifndef UNDER_CE
-        check_scroll_area(pMotionEvent->x, pMotionEvent->y);
-#endif          
       }
     }
   }
@@ -442,45 +447,38 @@ static void update_button_hold_state(void)
 }
 
 static int check_scroll_area(int x, int y) {
-  static SDL_Rect rect;
-          
-  rect.x = rect.y = 0;
-  rect.w = SCROLL_MAP_AREA;
-  rect.h = Main.map->h;
-
-  if (is_in_rect_area(x, y, rect)) {
+  
+  SDL_Rect rect_north = {0, 0, Main.map->w, SCROLL_MAP_AREA};
+  SDL_Rect rect_east = {Main.map->w - SCROLL_MAP_AREA, 0, SCROLL_MAP_AREA, Main.map->h};
+  SDL_Rect rect_south = {0, Main.map->h - SCROLL_MAP_AREA, Main.map->w, SCROLL_MAP_AREA};
+  SDL_Rect rect_west = {0, 0, SCROLL_MAP_AREA, Main.map->h};
+  
+  if (is_in_rect_area(x, y, rect_north)) {
     is_map_scrolling = TRUE;
-    if (scroll_dir != DIR8_WEST) {
-      scroll_dir = DIR8_WEST;
-    }
-  } else {
-    rect.x = Main.map->w - SCROLL_MAP_AREA;
-    if (is_in_rect_area(x, y, rect)) {
-      is_map_scrolling = TRUE;
-      if (scroll_dir != DIR8_EAST) {
-        scroll_dir = DIR8_EAST;
-      }
+    if (is_in_rect_area(x, y, rect_west)) {
+      scroll_dir = DIR8_NORTHWEST;
+    } else if (is_in_rect_area(x, y, rect_east)) {
+      scroll_dir = DIR8_NORTHEAST;
     } else {
-      rect.x = rect.y = 0;
-      rect.w = Main.map->w;
-      rect.h = SCROLL_MAP_AREA;
-      if (is_in_rect_area(x, y, rect)) {
-        is_map_scrolling = TRUE;
-        if (scroll_dir != DIR8_NORTH) {
-          scroll_dir = DIR8_NORTH;
-        }
-      } else {
-        rect.y = Main.map->h - SCROLL_MAP_AREA;
-        if (is_in_rect_area(x, y, rect)) {
-          is_map_scrolling = TRUE;
-   	  if (scroll_dir != DIR8_SOUTH) {
-            scroll_dir = DIR8_SOUTH;
-  	  }
-        } else {
-	  is_map_scrolling = FALSE;
-	}
-      } 
+      scroll_dir = DIR8_NORTH;
     }
+  } else if (is_in_rect_area(x, y, rect_south)) {
+    is_map_scrolling = TRUE;
+    if (is_in_rect_area(x, y, rect_west)) {
+      scroll_dir = DIR8_SOUTHWEST;
+    } else if (is_in_rect_area(x, y, rect_east)) {
+      scroll_dir = DIR8_SOUTHEAST;
+    } else {
+      scroll_dir = DIR8_SOUTH;
+    }
+  } else if (is_in_rect_area(x, y, rect_east)) {
+    is_map_scrolling = TRUE;
+    scroll_dir = DIR8_EAST;
+  } else if (is_in_rect_area(x, y, rect_west)) {
+    is_map_scrolling = TRUE;
+    scroll_dir = DIR8_WEST;
+  } else {
+    is_map_scrolling = FALSE;
   }
   
   return is_map_scrolling;
@@ -535,13 +533,13 @@ Uint16 gui_event_loop(void *pData,
   Uint16 ID;
   static struct timeval tv;
   static fd_set civfdset;
-  Uint32 t1, t2, t3;
+  Uint32 t_current, t_last_unit_anim, t_last_map_scrolling;
   Uint32 real_timer_next_call;
   static int result, schot_nr = 0;
   static char schot[32];
 
   ID = ID_ERROR;
-  t3 = t1 = real_timer_next_call = SDL_GetTicks();
+  t_last_map_scrolling = t_last_unit_anim = real_timer_next_call = SDL_GetTicks();
   while (ID == ID_ERROR) {
     /* ========================================= */
     /* net check with 10ms delay event loop */
@@ -580,13 +578,13 @@ Uint16 gui_event_loop(void *pData,
     }
     /* ========================================= */
     
-    t2 = SDL_GetTicks();
+    t_current = SDL_GetTicks();
     
-    if (t2 > real_timer_next_call) {
-      real_timer_next_call = t2 + (real_timer_callback() * 1000);
+    if (t_current > real_timer_next_call) {
+      real_timer_next_call = t_current + (real_timer_callback() * 1000);
     }
     
-    if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
+    if ((t_current - t_last_unit_anim) > UNITS_TIMER_INTERVAL) {
       if (autoconnect) {
         widget_info_counter++;
         SDL_PushEvent(pAnim_User_Event);
@@ -594,14 +592,18 @@ Uint16 gui_event_loop(void *pData,
         SDL_PushEvent(pAnim_User_Event);
       }
             
-      if (is_map_scrolling && (t2 - t3) > MAP_SCROLL_TIMER_INTERVAL) {
-	SDL_PushEvent(pMap_Scroll_User_Event);
-	t3 = SDL_GetTicks();
-      }
-      
-      t1 = SDL_GetTicks();
+      t_last_unit_anim = SDL_GetTicks();
     }
 
+    if (is_map_scrolling) {
+      if ((t_current - t_last_map_scrolling) > MAP_SCROLL_TIMER_INTERVAL) {
+        SDL_PushEvent(pMap_Scroll_User_Event);
+        t_last_map_scrolling = SDL_GetTicks();
+      }
+    } else {
+      t_last_map_scrolling = SDL_GetTicks();
+    }
+    
     if (widget_info_counter > 0) {
       SDL_PushEvent(pInfo_User_Event);
       widget_info_counter = 0;
