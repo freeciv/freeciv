@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-21 18:14+0300\n"
+"PO-Revision-Date: 2007-10-22 20:08+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12747,7 +12747,7 @@ msgstr "Paraşütle atla"
 #: client/gui-sdl/dialogs.c:1395 client/gui-sdl/dialogs.c:1511
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Etkinleştir %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1413 client/gui-sdl/dialogs.c:1538
 #, c-format
@@ -12947,36 +12947,36 @@ msgstr "%s dosyasındaki resim %d biçimine dönüştürülemedi."
 #: client/gui-sdl/graphics.c:344
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-msgstr ""
+msgstr "%d x %d %d bit resim (yüzey) %d biçiminde oluşturulamadı"
 
 #: client/gui-sdl/graphics.c:1012
 #, c-format
 msgid "Unable to initialize SDL library: %s"
-msgstr ""
+msgstr "SDL kitaplığı hazırlanamadı: %s"
 
 #: client/gui-sdl/graphics.c:1021
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
-msgstr ""
+msgstr "SDL_ttf kitaplığı hazırlanamadı: %s"
 
 #: client/gui-sdl/graphics.c:1058
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
-msgstr ""
+msgstr "Bu çözünürlük kullanılamıyor: %d x %d %d bpp"
 
 #: client/gui-sdl/graphics.c:1061
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
-msgstr ""
+msgstr "Öntanımlı çözünürlüğü ayarlıyor : 640 x 480 16 bpp SW"
 
 #: client/gui-sdl/graphics.c:1068
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
-msgstr ""
+msgstr "Çözünürlük ayarlanamadı: %d x %d %d bpp %s"
 
 #: client/gui-sdl/graphics.c:1075
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
-msgstr ""
+msgstr "Çözünürlük %d x %d %d bpp olarak ayarlanıyor"
 
 #: client/gui-sdl/gui_main.c:150
 msgid "Full Screen"
@@ -12984,7 +12984,7 @@ msgstr "Tam Ekran"
 
 #: client/gui-sdl/gui_main.c:151
 msgid "If this option is set the client will use the whole screen area for drawing"
-msgstr ""
+msgstr "Bu ayar açıksa istemcinin tüm ekranı kullanılacaktır"
 
 #: client/gui-sdl/gui_main.c:154
 msgid "Screen width"
@@ -12992,7 +12992,7 @@ msgstr "Ekran genişliği"
 
 #: client/gui-sdl/gui_main.c:155
 msgid "This option saves the width of the selected screen resolution"
-msgstr ""
+msgstr "Bu ayar seçili ekran çözünürlüğünün genişliğini saklar"
 
 #: client/gui-sdl/gui_main.c:158
 msgid "Screen height"
@@ -13000,7 +13000,7 @@ msgstr "Ekran yüksekliği"
 
 #: client/gui-sdl/gui_main.c:159
 msgid "This option saves the height of the selected screen resolution"
-msgstr ""
+msgstr "Bu ayar seçili ekran çözünürlüğünün yüksekliğini saklar"
 
 #: client/gui-sdl/gui_main.c:163
 msgid ""
@@ -13090,7 +13090,7 @@ msgstr ""
 #. TRANS: Future Technology
 #: client/gui-sdl/gui_tilespec.c:504
 msgid "FT"
-msgstr ""
+msgstr "GT"
 
 #: client/gui-sdl/helpdlg.c:212
 msgid "Help : Improvements"
@@ -13145,13 +13145,13 @@ msgstr "İstihbarat Raporu"
 #: client/gui-sdl/inteldlg.c:257
 #, c-format
 msgid "Intelligence Information about the %s Spaceship"
-msgstr ""
+msgstr "%s tarafının Uzay Gemisi hakkında İstihbarat"
 
 #: client/gui-sdl/inteldlg.c:265 client/gui-win32/inteldlg.c:94
 #: client/gui-xaw/inteldlg.c:182
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr ""
+msgstr "%s İmparatorluğu hakkında İstihbarat"
 
 #: client/gui-sdl/inteldlg.c:284
 #, c-format
@@ -13181,7 +13181,7 @@ msgstr ""
 
 #: client/gui-sdl/inteldlg.c:356
 msgid "Their techs that we don't have :"
-msgstr ""
+msgstr "Bide olmayan teknolojileri :"
 
 #: client/gui-sdl/mapctrl.c:274
 msgid "Show Unit Info Window"
@@ -13269,6 +13269,9 @@ msgid ""
 "as a result.  If you see this message often, please\n"
 "report it at %s. Thank you."
 msgstr ""
+"SDL olay tamponu dolu; bunun sonucunda çizim hataları\n"
+"görebilirsiniz.  Bu mesajı sıkça görüyorsanız lütfen\n"
+"%s adresine rapor verin. Teşekkürler."
 
 #: client/gui-sdl/mapview.c:404
 #, c-format
@@ -13615,7 +13618,7 @@ msgstr "Şehir planının çızgıları çız"
 
 #: client/gui-sdl/optiondlg.c:1726
 msgid "Draw city worker map grid"
-msgstr ""
+msgstr "Şehir çalışanlarını harita ızgarasında göster"
 
 #: client/gui-sdl/optiondlg.c:1753
 msgid "Special Resources"
@@ -13748,6 +13751,9 @@ msgid ""
 "(total value is : %d)\n"
 "We can sell %d of them for %d gold."
 msgstr ""
+"Bizde %d tane %s var\n"
+"(toplam değeri : %d)\n"
+"Bunlardan %d tanesini %d altına satabiliriz."
 
 #: client/gui-sdl/repodlgs.c:1496
 #, c-format
@@ -13814,7 +13820,7 @@ msgstr[0] "adım"
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
-msgstr[0] ""
+msgstr[0] "%2d: %s tarafının hükümdarı %s, %d puan yaptı\n"
 
 #: client/gui-sdl/repodlgs.c:3370 client/gui-win32/repodlgs.c:764
 #: client/gui-xaw/repodlgs.c:1159
@@ -13849,6 +13855,10 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"%s dosyası uyumsuz görünüyor:\n"
+"dosya: \"%s\"\n"
+"dosya ayarları: %s\n"
+"desteklenen ayarlar: %s"
 
 #: client/gui-sdl/themespec.c:259
 #, c-format
@@ -13858,6 +13868,10 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"%s dosyasında desteklenmeyen ayarlar var:\n"
+"dosya: \"%s\"\n"
+"dosya ayarları: %s\n"
+"desteklenen ayarlar: %s"
 
 #: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
@@ -13877,17 +13891,17 @@ msgstr "\"%s\" açılmıyor."
 #: client/gui-sdl/themespec.c:504
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
-msgstr ""
+msgstr "%s tanım dosyası için resim yüklenemedi"
 
 #: client/gui-sdl/themespec.c:671
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
-msgstr ""
+msgstr "%s için desteklenen resim dosyası uzantısı bulunamadı"
 
 #: client/gui-sdl/themespec.c:818
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
-msgstr ""
+msgstr "Resim dosyası %s, %s resmi için yüklenemedi"
 
 #: client/gui-sdl/themespec.c:969
 #, c-format
@@ -14382,6 +14396,11 @@ msgid ""
 "and\n"
 "The %s %s %s"
 msgstr ""
+"Bu Süresiz Antlaşma\n"
+"şu iki tarafın arasındaki diplomasiyi belgeler niteliktedir\n"
+"%s %s %s\n"
+"ve\n"
+"%s %s %s"
 
 #: client/gui-win32/diplodlg.c:639 client/gui-win32/diplodlg.c:645
 #: client/gui-xaw/diplodlg.c:578 client/gui-xaw/diplodlg.c:590
@@ -14399,7 +14418,7 @@ msgstr "Şehir Seçin:"
 
 #: client/gui-win32/gui_main.c:116
 msgid "Enable alpha blending"
-msgstr ""
+msgstr "Saydamlık karıştırmayı etkinleştir"
 
 #: client/gui-win32/gui_main.c:117
 msgid ""
@@ -14560,21 +14579,23 @@ msgstr "Oto-Saldırı"
 
 #: client/gui-win32/messagedlg.c:138 client/gui-win32/messagedlg.c:142
 msgid "Out:"
-msgstr ""
+msgstr "Çık:"
 
 #: client/gui-win32/messagedlg.c:139 client/gui-win32/messagedlg.c:143
 msgid "Mes:"
-msgstr ""
+msgstr "Mes:"
 
 #: client/gui-win32/messagedlg.c:140 client/gui-win32/messagedlg.c:144
 msgid "Pop:"
-msgstr "Nüf:"
+msgstr "Yen:"
 
 #: client/gui-win32/messagedlg.c:184
 msgid ""
 "Where to Display Messages\n"
 "Out = Output window, Mes = Messages window, Pop = Popup individual window"
 msgstr ""
+"İletilerin Nerede Gösterileceği\n"
+"Çık = Çıktı penceresi, Mes = Mesajlar penceresi, Açı = Yeni pencerede"
 
 #: client/gui-win32/messagedlg.c:215 client/gui-win32/ratesdlg.c:327
 #: client/gui-win32/wldlg.c:854 client/gui-xaw/inputdlg.c:103
@@ -14589,13 +14610,13 @@ msgstr "Şehre Odaklan"
 
 #: client/gui-win32/plrdlg.c:72 client/gui-xaw/plrdlg.c:361
 msgid "You need an embassy to establish a diplomatic meeting."
-msgstr ""
+msgstr "Diplomatik buluşma yapmak için elçiliğiniz olmalı."
 
 #: client/gui-win32/plrdlg.c:169 client/gui-xaw/plrdlg.c:227
 #, c-format
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
-msgstr[0] ""
+msgstr[0] "(%d sıra boşta)"
 
 #: client/gui-win32/plrdlg.c:337 data/Freeciv.in:88
 msgid "Host"
@@ -14607,7 +14628,7 @@ msgstr "İstihbarat"
 
 #: client/gui-win32/plrdlg.c:353 data/Freeciv.in:3238
 msgid "Meet"
-msgstr ""
+msgstr "Buluşma"
 
 #: client/gui-win32/plrdlg.c:357 client/gui-xaw/menu.c:228
 #: data/Freeciv.in:3262
@@ -14631,7 +14652,7 @@ msgstr "Gelir:%6d    Toplam Masraf: %6d"
 
 #: client/gui-win32/repodlgs.c:378 client/gui-xaw/repodlgs.c:753
 msgid "Sell-Off:"
-msgstr ""
+msgstr "Satış:"
 
 #: client/gui-win32/repodlgs.c:436
 msgid "Trade Report"
@@ -14647,7 +14668,7 @@ msgstr "Hepsini Sat"
 
 #: client/gui-win32/repodlgs.c:457
 msgid "Building Name"
-msgstr ""
+msgstr "Bina Adı"
 
 #: client/gui-win32/repodlgs.c:665
 msgid "Totals"
@@ -14798,12 +14819,12 @@ msgstr "PNG yapısı oluşturulamadı"
 #: client/gui-xaw/graphics.c:360
 #, c-format
 msgid "Failed while reading PNG file: %s"
-msgstr ""
+msgstr "PNG dosyası okunamadı: %s"
 
 #: client/gui-xaw/graphics.c:397
 #, c-format
 msgid "PNG file has no palette: %s"
-msgstr ""
+msgstr "PNG dosyasında palet yok: %s"
 
 #: client/gui-xaw/gui_main.c:323
 msgid "No version number in resources."
