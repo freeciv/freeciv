@@ -5722,11 +5722,11 @@ msgstr "Waarschuwing: weiger oude client %s"
 #: server/srv_main.c:1066
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Uw client is te oud. Waardeer uw client op tot CVS versie 2003-11-28 of "
-"later of Freeciv 1.15.0 of later om deze server te gebruiken."
+"later of Freeciv 2.2 of later om deze server te gebruiken."
 
 #: server/srv_main.c:1155
 #, c-format

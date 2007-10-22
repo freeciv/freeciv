@@ -5706,11 +5706,11 @@ msgstr "Ostrzeżenie: Odrzucam przestarzałego klienta %s"
 #: server/srv_main.c:1066
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Twój klient jest zbyt stary. Aby wejść na ten serwer musisz używać klienta w "
-"wersji co najmniej 1.15.0. (Lub z CVS'a po 18.11.2003)."
+"wersji co najmniej 2.2."
 
 #: server/srv_main.c:1155
 #, c-format

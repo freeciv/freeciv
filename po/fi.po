@@ -5778,11 +5778,11 @@ msgstr "Peli: Nälänhädän vaara kaupungissa %s."
 #: server/srv_main.c:1066
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi joko "
-"vähintään Freeciv-versioon 1.15.0 tai CVS-versioon, joka ei ole 28.11.2003:a "
+"vähintään Freeciv-versioon 2.2 tai CVS-versioon, joka ei ole 28.11.2003:a "
 "vanhempi."
 
 #: server/srv_main.c:1155

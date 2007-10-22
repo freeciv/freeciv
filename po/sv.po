@@ -5718,11 +5718,11 @@ msgstr "Varning: avvisar gammal klient %s"
 #: server/srv_main.c:1075
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Din klient är för gammal. Uppgradera den till en CVS-version nyare än 2003-"
-"11-28 eller Freeciv 1.15.0 eller senare för att använda denna server."
+"11-28 eller Freeciv 2.2 eller senare för att använda denna server."
 
 #: server/srv_main.c:1164
 #, c-format

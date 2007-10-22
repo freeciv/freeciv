@@ -5763,11 +5763,11 @@ msgstr "Внимание: отказываем старому клиенту (%s)"
 #: server/srv_main.c:1075
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Ваш клиент слишком стар. Если Вы хотите использовать этот сервер, обновите "
-"ваш клиент до CVS версии после 28/11/2003, либо до Freeciv версии 2.0 или "
+"ваш клиент до CVS версии после 28/11/2003, либо до Freeciv версии 2.2 или "
 "выше."
 
 #: server/srv_main.c:1164

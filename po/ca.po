@@ -5620,11 +5620,11 @@ msgstr "Avís: rebutjant client antic %s"
 
 #: server/srv_main.c:1081
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "El teu client és massa antic. Per utilitzar aquest servidor actualitza si us "
-"plau el teu client a Freeciv 2.0 o posterior."
+"plau el teu client a Freeciv 2.2 o posterior."
 
 #: server/srv_main.c:1170
 #, c-format

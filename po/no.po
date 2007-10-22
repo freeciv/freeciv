@@ -5635,11 +5635,11 @@ msgstr "Advarsel: forkastet gammel klient %s"
 #: server/srv_main.c:1066
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Din klient er for gammel. For å bruke denne serveren må du oppdatere din "
-"klient til en CVS versjon etter 2003-11-28 eller Freeciv 1.15.0 eller senere."
+"klient til en CVS versjon etter 2003-11-28 eller Freeciv 2.2 eller senere."
 
 #: server/srv_main.c:1155
 #, c-format

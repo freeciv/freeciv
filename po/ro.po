@@ -5337,8 +5337,8 @@ msgstr "Avertisment: refuz o versiune veche de client %s"
 
 #: server/srv_main.c:1075
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 
 #: server/srv_main.c:1164

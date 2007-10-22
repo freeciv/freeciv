@@ -5538,11 +5538,11 @@ msgstr "Застереження: заборонено доступ застар╕лого кл╕╓нта %s"
 #: server/srv_main.c:1075
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Ваш кл╕╓нт застарий. Щоб використовувати цей сервер, будь ласка, онов╕ть ваш "
-"кл╕╓нт до CVS верс╕╖ яка п╕зн╕ша за 2003-11-28, або до Freeciv 2.0 чи нов╕ше."
+"кл╕╓нт до CVS верс╕╖ яка п╕зн╕ша за 2003-11-28, або до Freeciv 2.2 чи нов╕ше."
 
 #: server/srv_main.c:1164
 #, c-format

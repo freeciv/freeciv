@@ -5518,12 +5518,12 @@ msgstr "Προειδοποίηση: απορρίπτεται ο παλιός πελάτης %s"
 #: server/srv_main.c:1066
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.2 or later."
 msgstr ""
 "Η εκδοσή σου είναι πολύ παλία. Για να χρησιμοποιήσεις αυτόν τον εξυπηρετητή "
 "παρακαλώ αναβάθμισε τον πελάτη σου σε μια CVS έκδοση ύστερη από 2003-11-28 ή "
-"Freeciv 1.15.0 ή μετά."
+"Freeciv 2.2 ή μετά."
 
 #: server/srv_main.c:1155
 #, c-format
