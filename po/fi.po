@@ -5550,11 +5550,11 @@ msgstr "Varoitus: hylättiin vanha asiakasohjelma %s\""
 #: server/srv_main.c:1053
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.1 or later."
 msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi joko "
-"vähintään Freeciv-versioon 2.0 tai CVS-versioon, joka ei ole 28.11.2003:a "
+"vähintään Freeciv-versioon 2.1 tai CVS-versioon, joka ei ole 28.11.2003:a "
 "vanhempi."
 
 #: server/srv_main.c:1137

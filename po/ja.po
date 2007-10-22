@@ -5807,10 +5807,10 @@ msgstr "警告: 旧型のクライアント%sを拒否しました"
 # clefs
 #: server/srv_main.c:1053
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.1 or later."
 msgstr ""
-"あなたのクライアントは古すぎます。このサーバでプレイするには，Freeciv 2.0以降"
+"あなたのクライアントは古すぎます。このサーバでプレイするには，Freeciv 2.1以降"
 "のクライアントにアップグレードしてください。クライアントのアップグレードには "
 "1 クライアントあたり 0 円が必要です。"
 

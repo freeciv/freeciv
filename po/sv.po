@@ -5460,11 +5460,11 @@ msgstr "Varning: avvisar föråldrad klient %s"
 
 #: server/srv_main.c:1053
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.1 or later."
 msgstr ""
 "Din klient är för gammal. För att använda denna server måste du uppgradera "
-"till Freeciv 2.0 eller senare."
+"till Freeciv 2.1 eller senare."
 
 #: server/srv_main.c:1137
 #, c-format

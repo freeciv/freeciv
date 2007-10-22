@@ -5361,11 +5361,11 @@ msgstr "Hoiatus: ei luba sisse vana klienti %s"
 
 #: server/srv_main.c:1053
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.1 or later."
 msgstr ""
 "Su klient on liiga vana. Et seda serverit kasutada, pead uuendama oma "
-"kliendi versioonile Freeciv 2.0 või hilisemale."
+"kliendi versioonile Freeciv 2.1 või hilisemale."
 
 #: server/srv_main.c:1137
 #, c-format

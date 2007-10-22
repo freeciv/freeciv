@@ -5524,12 +5524,12 @@ msgstr "Avertisment: refuz o versiune veche de client %s"
 #: server/srv_main.c:1053
 #, fuzzy
 msgid ""
-"Your client is too old. To use this server please upgrade your client to a "
-"Freeciv 2.0 or later."
+"Your client is too old. To use this server, please upgrade your client to a "
+"Freeciv 2.1 or later."
 msgstr ""
 "Versiunea clientului dumneavoastră este prea veche. Pentru a folosi acest "
 "server vă rugăm actualizaţi-vă clientul la o versiune de CVS ulterioară "
-"datei 2003-11-28 sau Freeciv 2.0 sau altă versiune ulterioară."
+"datei 2003-11-28 sau Freeciv 2.1 sau altă versiune ulterioară."
 
 #: server/srv_main.c:1137
 #, c-format
