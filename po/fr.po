@@ -6,7 +6,7 @@
 # Anthony Ferrand, 2001-2002.
 # Freeciv french team <freeciv-fr@egroups.fr>, 2000.
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
-# Pepeto _ <pepeto69@hotmail.fr>
+# Pepeto _ <pepeto69@hotmail.fr>, 2007
 # Frederic Rodrigo <f.rodrigo free.fr>, 2005-2007.
 #
 #
@@ -1391,39 +1391,43 @@ msgstr ""
 
 #. TRANS: Further information about option will follow.
 #: server/auth.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "Auth option \"%s\":"
-msgstr "Toutes les options"
+msgstr "Option d'authentification \"%s\" :"
 
 #: server/auth.c:177
 msgid " missing from config file (using default)"
 msgstr ""
+" manquant dans le fichier de configuration (utilisation de la valeur par "
+"défaut)"
 
 #. TRANS: auth option originates from internal default
 #: server/auth.c:180
 msgid " (default)"
-msgstr ""
+msgstr " (défaut)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:185
 msgid " (config)"
-msgstr ""
+msgstr " (configuré)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:189
-#, fuzzy
 msgid " (set)"
-msgstr " (vétéran)"
+msgstr " (positionné)"
 
 #: server/auth.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "Auth config filename \"%s\" not allowed!"
-msgstr "Ce nom n'est pas autorisé."
+msgstr ""
+"Nom de fichier de configuration de l'authentification \"%s\" non autorisé !"
 
 #: server/auth.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load auth config file \"%s\"!"
-msgstr "Impossible de trouver le fichier audio %s"
+msgstr ""
+"Impossible de charger le fichier de configuration de l'authentification \"%s"
+"\" !"
 
 #: server/auth.c:373
 #, c-format
@@ -2061,11 +2065,12 @@ msgstr ""
 "Les options valides sont:\n"
 
 #: server/civserver.c:208
-#, fuzzy
 msgid ""
 "  -a  --auth FILE\tEnable server authentication with configuration from "
 "FILE.\n"
-msgstr "  -a  --auth\t\tActive l'authentification serveur.\n"
+msgstr ""
+"  -a  --auth FICH\tActive l'authentification serveur avec la configuration "
+"depuis FICH.\n"
 
 #: server/civserver.c:210
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
@@ -5629,6 +5634,8 @@ msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
+"Ce civserveur a un support d'authentification des joueurs, mais il est "
+"actuellement desactivé."
 
 #: server/srv_main.c:1877
 #, c-format
@@ -8331,67 +8338,49 @@ msgstr ""
 "terrain.)"
 
 #: client/helpdata.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s technology.\n"
-msgstr ""
-"Nécessite la technologie %s.\n"
-"\n"
+msgstr "Nécessite la technologie %s.\n"
 
 #: client/helpdata.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s government.\n"
-msgstr ""
-"Nécessite le gouvernement %s.\n"
-"\n"
+msgstr "Nécessite le gouvernement %s.\n"
 
 #: client/helpdata.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s building.\n"
-msgstr ""
-"Nécessite le bâtiment %s.\n"
-"\n"
+msgstr "Nécessite le bâtiment %s.\n"
 
 #: client/helpdata.c:178
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain special.\n"
-msgstr ""
-"Nécessite la ressource spéciale %s.\n"
-"\n"
+msgstr "Nécessite la ressource spéciale %s.\n"
 
 #: client/helpdata.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain.\n"
-msgstr ""
-"Nécessite le terrain %s.\n"
-"\n"
+msgstr "Nécessite le terrain %s.\n"
 
 #: client/helpdata.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s nation.\n"
-msgstr ""
-"Nécessite la nation %s.\n"
-"\n"
+msgstr "Nécessite la nation %s.\n"
 
 #: client/helpdata.c:190 client/helpdata.c:194 client/helpdata.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Only applies to %s units.\n"
-msgstr ""
-"S'applique seulement à l'unité %s.\n"
-"\n"
+msgstr "S'applique seulement à l'unité %s.\n"
 
 #: client/helpdata.c:202 client/helpdata.c:206
-#, fuzzy, c-format
+#, c-format
 msgid "Applies only to %s.\n"
-msgstr ""
-"S'applique seulement à %s.\n"
-"\n"
+msgstr "S'applique seulement à %s.\n"
 
 #: client/helpdata.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "Requires a minimum size of %d.\n"
-msgstr ""
-"Nécessite une taille minimum de %d.\n"
-"\n"
+msgstr "Nécessite une taille minimum de %d.\n"
 
 # AR
 #: client/helpdata.c:256
@@ -8426,13 +8415,10 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:672
-#, fuzzy
 msgid ""
 "Requires: Nothing\n"
 "\n"
-msgstr ""
-"Nécessite le bâtiment %s.\n"
-"\n"
+msgstr "Nécessite : rien\n"
 
 #: client/helpdata.c:677
 #, c-format
@@ -8908,18 +8894,18 @@ msgstr "Caractéristiques :\n"
 #. *        last two elements
 #: client/helpdata.c:1393
 msgid "?outputlist: or "
-msgstr ""
+msgstr " ou "
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
 #: client/helpdata.c:1397
 msgid "?outputlist: and "
-msgstr ""
+msgstr " et "
 
 #. TRANS: Empty output type list, should never happen.
 #: client/helpdata.c:1404 client/helpdata.c:1405
 msgid "?outputlist: Nothing "
-msgstr ""
+msgstr " vide "
 
 #: client/helpdata.c:1412
 #, c-format
@@ -8959,14 +8945,14 @@ msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr "* Vous payez %d fois l'entretien normal pour vos unités.\n"
 
 #: client/helpdata.c:1438
-#, fuzzy, c-format
+#, c-format
 msgid "* You pay no %s upkeep for your units.\n"
-msgstr "* Vous payez %d fois l'entretien normal pour vos unités.\n"
+msgstr "* Vous ne payez pas %s pour l'entretien de vos unités.\n"
 
 #: client/helpdata.c:1443
-#, fuzzy, c-format
+#, c-format
 msgid "* You pay no upkeep for your units.\n"
-msgstr "* Vous payez %d fois l'entretien normal pour vos unités.\n"
+msgstr "* Vous ne payez pas l'entretien de vos unités.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'. There
 #. * is currently no way to control the singular/plural version of
@@ -9127,26 +9113,26 @@ msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1564
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it when "
 "celebrating.\n"
 msgstr ""
-"* Chaque case travaillée avec au moins 1 %s rendra %d %s supplémentaire "
+"* Chaque case travaillée avec au moins 1 %s en rendra %d supplémentaires "
 "quand la ville est en extase.\n"
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1570
-#, fuzzy, c-format
+#, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
-"* Chaque case travaillée avec au moins 1 %s rendra %d %s supplémentaire.\n"
+"* Chaque case travaillée avec au moins 1 %s en rendra %d supplémentaires.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1577
-#, fuzzy, c-format
+#, c-format
 msgid "* %s production is increased %d%%.\n"
-msgstr "* La production de %s sera grandement sujette au gaspillage.\n"
+msgstr "* La production de %s est augmenté de %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1583
@@ -10147,7 +10133,7 @@ msgstr[1] "%d unités"
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:690 client/gui-sdl/mapview.c:558
 msgid "?goto:Unreachable"
-msgstr ""
+msgstr "Inatteignable"
 
 #: client/text.c:692 client/gui-sdl/mapview.c:560
 #, c-format
@@ -13135,7 +13121,6 @@ msgid "Server Settings"
 msgstr "Paramètres du serveur"
 
 #: client/gui-sdl/citydlg.c:417
-#, fuzzy
 msgid "Unit commands"
 msgstr "Commandes des unités"
 
@@ -13201,19 +13186,16 @@ msgstr ""
 "si construits à taille de 1"
 
 #: client/gui-sdl/citydlg.c:1163
-#, fuzzy
 msgid "Sorry, you have already bought here in this turn."
-msgstr "Désolé, vous avez déjà acheté ici ce tour ci"
+msgstr "Désolé, vous avez déjà acheté ici ce tour ci."
 
 #: client/gui-sdl/citydlg.c:1166
-#, fuzzy
 msgid "Sorry, you can't buy here in this turn."
-msgstr "Désolé, vous ne pouvez pas acheté ici ce tour ci"
+msgstr "Désolé, vous ne pouvez pas acheté ici ce tour ci."
 
 #: client/gui-sdl/citydlg.c:1170
-#, fuzzy
 msgid "Buy it?"
-msgstr "Acheter ?"
+msgstr "L'acheter ?"
 
 #: client/gui-sdl/citydlg.c:1196 client/gui-sdl/cma_fe.c:325
 #: client/gui-sdl/diplodlg.c:1328 client/gui-sdl/diplomat_dialog.c:1212
@@ -13247,28 +13229,26 @@ msgid "Yes"
 msgstr "Oui"
 
 #: client/gui-sdl/citydlg.c:1385
-#, fuzzy
 msgid "Sell it?"
-msgstr "Vendre ?"
+msgstr "Le vendre ?"
 
 #: client/gui-sdl/citydlg.c:1418 client/gui-win32/citydlg.c:791
 msgid "Sell"
 msgstr "Vendre"
 
 #: client/gui-sdl/citydlg.c:1728 client/gui-sdl/citydlg.c:3756
-#, fuzzy
 msgid "City options"
 msgstr "Options de la ville"
 
 #: client/gui-sdl/citydlg.c:1773
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units: %d"
-msgstr "Unités supportées %d"
+msgstr "Unités supportées : %d"
 
 #: client/gui-sdl/citydlg.c:1831
-#, fuzzy, c-format
+#, c-format
 msgid "Present units: %d"
-msgstr "Unités présentes %d"
+msgstr "Unités présentes : %d"
 
 #: client/gui-sdl/citydlg.c:1880 client/gui-sdl/citydlg.c:3723
 #: client/gui-win32/citydlg.c:782
@@ -13299,7 +13279,6 @@ msgstr "Citoyens"
 
 # AR
 #: client/gui-sdl/citydlg.c:2545
-#, fuzzy
 msgid "City improvements"
 msgstr "Bâtiments"
 
@@ -13425,19 +13404,17 @@ msgstr " - sous le contôle d'un Gouverneur."
 #: client/gui-sdl/repodlgs.c:2843 client/gui-sdl/repodlgs.c:3032
 #: client/gui-sdl/repodlgs.c:3296 client/gui-sdl/spaceshipdlg.c:162
 msgid "Close Dialog (Esc)"
-msgstr ""
+msgstr "Fermer le dialogue (Esc)"
 
 #: client/gui-sdl/citydlg.c:3688
-#, fuzzy
 msgid "Present units"
-msgstr "Unités présentes %d"
+msgstr "Unités présentes"
 
 #: client/gui-sdl/citydlg.c:3699 client/gui-win32/citydlg.c:811
 msgid "Supported units"
 msgstr "Unités supportées"
 
 #: client/gui-sdl/citydlg.c:3770
-#, fuzzy
 msgid "Change production"
 msgstr "Changer la production"
 
@@ -13446,13 +13423,12 @@ msgid "Hurry production"
 msgstr "Production urgente"
 
 #: client/gui-sdl/citydlg.c:3815
-#, fuzzy
 msgid "Previous city"
-msgstr "Ville préc."
+msgstr "Ville précédente"
 
 #: client/gui-sdl/citydlg.c:3830
 msgid "Next city"
-msgstr "Ville suiv."
+msgstr "Ville suivante"
 
 #: client/gui-sdl/cityrep.c:160
 msgid "size"
@@ -13472,7 +13448,7 @@ msgstr "Rapport sur les villes"
 
 #: client/gui-sdl/cityrep.c:201
 msgid "Close Dialog"
-msgstr ""
+msgstr "Fermer le dialogue"
 
 #: client/gui-sdl/cityrep.c:215
 msgid "Information Report"
@@ -13495,11 +13471,12 @@ msgid "worklist"
 msgstr "liste de travail"
 
 #: client/gui-sdl/cityrep.c:518
-#, fuzzy
 msgid ""
 "\n"
 "finished"
-msgstr "terminé"
+msgstr ""
+"\n"
+"terminé"
 
 #: client/gui-sdl/cma_fe.c:450 client/gui-win32/cma_fe.c:458
 msgid "Presets"
@@ -16559,7 +16536,6 @@ msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv est couvert par la licence GPL, incluse ici en anglais: "
 
 #: data/helpdata.txt:380
-#, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -16586,12 +16562,15 @@ msgstr ""
 "Si vous voulez ajouter une localisation (traduction) pour votre langue, "
 "voyez les instructions à :\n"
 "\n"
-"  http://www.freeciv.org/index.php/Localization\n"
+"  http://www.freeciv.org/wiki/Localization\n"
 "\n"
-"Vérifiez d'abord qu'une traduction n'est pas déjà en cours pour ce langage.\n"
+"Vérifiez d'abord qu'une traduction n'est pas déjà en cours pour cette "
+"langue.\n"
 "\n"
-"N'hésitez pas à poser des questions à la liste freeciv-i18n :\n"
-"  freeciv-i18n@freeciv.org"
+"  http://www.freeciv.org/wiki/Translations\n"
+"\n"
+"N'hésitez pas à poser des questions sur la liste freeciv-i18n :\n"
+"  freeciv-i18n@gna.org"
 
 #: data/helpdata.txt:403
 msgid ""
@@ -25773,9 +25752,8 @@ msgstr ""
 "aussitôt que possible."
 
 #: data/scenario/tutorial.sav:380
-#, fuzzy
 msgid "Loading tutorial events."
-msgstr "Chargement des jeux de règles"
+msgstr "Chargement des évènements de tutoriel."
 
 # AR
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
@@ -25970,9 +25948,8 @@ msgstr "Équipe 32"
 
 # AR
 #: data/default/game.ruleset:129
-#, fuzzy
 msgid "Team 0"
-msgstr "Équipe 10"
+msgstr "Équipe 0"
 
 msgid "Cleared output window.\n"
 msgstr "Effacement de la fenêtre de sortie.\n"
@@ -27046,12 +27023,11 @@ msgstr ""
 "* Chacune de vos villes évitera autant de mécontents que la taille de la "
 "ville, qui serait autrement causé par les unités.\n"
 
-#, fuzzy
 msgid ""
 "* Each of your cities will avoid paying for as much %s upkeep as their city "
 "size.\n"
 msgstr ""
-"* Chacune de vos villes évitera de payer %s que la taille de la ville pour "
+"* Chacune de vos villes évitera de payer %s la taille de la ville pour "
 "l'entretien.\n"
 
 msgid "* Military units cause %d times normal unhappiness.\n"
@@ -27915,9 +27891,8 @@ msgstr "Déplacement de votre %s suite à la transformation du terrain en mer."
 msgid "Embarked your %s due to changing land to sea."
 msgstr "Embarquement de votre %s suite à la transformation du terrain en mer."
 
-#, fuzzy
 msgid "Docked your %s due to changing sea to land."
-msgstr "Déplacement de %s suite à la transformation du terrain en mer."
+msgstr "Déchargement de %s suite à la transformation de la mer en terrain."
 
 msgid "Disbanded your %s due to changing sea to land."
 msgstr "Démantèlement de votre %s suite à la transformation du terrain en mer."
