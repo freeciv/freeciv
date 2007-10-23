@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-23 18:43+0300\n"
+"PO-Revision-Date: 2007-10-23 21:34+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9268,7 +9268,7 @@ msgstr "Nüfus: %s"
 #: client/text.c:575
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr "Yıl: %s (T%d)"
+msgstr "Yıl: %s (%d. S)"
 
 #: client/text.c:578
 #, c-format
@@ -13048,7 +13048,7 @@ msgstr "Bu ayar seçili ekran çözünürlüğünün yüksekliğini saklar"
 msgid ""
 "By changing this option you change the active theme. This is the same as "
 "using the -- --theme command-line parameter."
-msgstr ""
+msgstr "Bu ayarla kullanılan temayı değiştirebilirsiniz. Aynen komut satırı parametresi olarak --theme kullanılmış gibi olur."
 
 #: client/gui-sdl/gui_main.c:204
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
@@ -13058,7 +13058,7 @@ msgstr "  -f  --fullscreen\tİstemciyi tam ekran olarak başlat\n"
 msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
-msgstr ""
+msgstr "  -e,  --eventthread\tOlay alt sistemini farklı threadde başlat(sadece Linux ve BeOS)\n"
 
 #: client/gui-sdl/gui_main.c:207
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
@@ -13072,7 +13072,7 @@ msgstr "Ekran görüntüsü alınıyor: fc_%05d.bmp"
 #: client/gui-sdl/gui_main.c:792
 #, c-format
 msgid "Using Video Output: %s"
-msgstr ""
+msgstr "Kullanılan Video Çıktısı: %s"
 
 #: client/gui-sdl/gui_main.c:845
 msgid "Initializing Client"
@@ -13089,7 +13089,7 @@ msgstr ""
 #: client/gui-sdl/gui_string.c:225
 #, c-format
 msgid "Couldn't blit text to display: %s"
-msgstr ""
+msgstr "Yazı ekrana sığdırılamıyor: %s"
 
 #: client/gui-sdl/gui_string.c:263
 #, c-format
@@ -14874,7 +14874,7 @@ msgstr "Kaynaklarda sürüm numarası yok"
 
 #: client/gui-xaw/gui_main.c:324
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
-msgstr ""
+msgstr "Bir yerlerde eski bir (circa V1.0) Freeciv kaynak dosyanız var gibi görünüyor."
 
 #: client/gui-xaw/gui_main.c:332
 msgid "Game version does not match Resource version."
@@ -16587,7 +16587,7 @@ msgid ""
 "advance of Nuclear Power.  Most sea units can attack units on the coast and "
 "in coastal cities, but they cannot enter an enemy city to capture it, even "
 "if the city is undefended."
-msgstr ""
+msgstr "Deniz birimleri denizlerde ve denize komşu olan şehirlerde ilerleyebilirler.  Sadece deniz komşuluğu olan şehirlerde üretilebilirler.  Bazı harikalar (Deniz Feneri, Macellan'ın Yolculuğu) ve Nükleer Enerji'nin keşfi hareket puanlarını arttırabilir.  Deniz birimlerinin çoğu sahilde duran düşman birimlerine ve şehirlerine saldırabilirler. Fakat tamamen savunmasız olsa bile bir düşman şehrini işgal edemezler."
 
 #: data/helpdata.txt:941
 msgid ""
@@ -16601,7 +16601,7 @@ msgid ""
 "attacked by Fighters (or Stealth Fighters).  Air units cannot be used to "
 "explore villages; depending upon server options, an overflown village may "
 "disband."
-msgstr ""
+msgstr "Hava birimleri düşman birimi veya şehri olmayan her yerde ilerleyebilir.  Sağlık puanının azalması hareket puanlarını düşürmez.  Hava birimleri her sıranın sonunda bir şehre, Hava Üssüne veya Uçak Gemisine (füzeyse Denizaltıya) inip yakıt almak zorundadır.  Hava biriminin yakıtsız kalabilme gücü birimin türüne göre değişir.  Deniz birimleri gibi düşman şehirlerini işgal edemezler.  Şehir dışındayken hava birimlerine sadece Avcı (veya Görünmez Avcı) saldırabilir.  Hava birimleri köylere bakamaz, sunucu ayarlarına göre bu bakmanın sonucu köyün yok olması olabilir."
 
 #: data/helpdata.txt:953
 msgid ""
@@ -16611,7 +16611,7 @@ msgid ""
 "health for every turn not spent in a city or an Airbase, unless you have the "
 "United Nations wonder.  Unlike other air units, Helicopters can capture "
 "enemy cities."
-msgstr ""
+msgstr "Hava birimlerinde olduğu gibi Helikopterler de  düşman birimi veya şehri olmayan her yerde ilerleyebilir.  Sağlık puanının azalması hareket puanlarını düşürmez.  Helikopterler yakıt harcamazlar bunun yerine eğer Birleşmiş Milletler harikasına sahip değilseniz havada kaldıkları her tur sağlığı azalır.  Diğer hava birimlerinden farklı olarak Helikopterler şehirleri işgal edebilirler."
 
 #: data/helpdata.txt:960
 msgid ""
@@ -20353,7 +20353,7 @@ msgstr "Faslılar"
 msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
-msgstr ""
+msgstr "Fas, Kuzey Afrika'da yer alan bir Arap ülkesidir."
 
 #: data/nation/american.ruleset:3
 msgid "American"
@@ -20387,7 +20387,7 @@ msgstr "Antarktikalılar"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "Bağımsız Güney Kutbu halkı, penguenlerin vatanı."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -20399,7 +20399,7 @@ msgstr "Araplar"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
-msgstr ""
+msgstr "Arap/İslam uygarlığı MS 622-1495."
 
 #: data/nation/arab.ruleset:20
 msgid "Caliph"
@@ -20417,7 +20417,7 @@ msgstr "Aramlar"
 msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
-msgstr ""
+msgstr "Efsaneye göre Aramlar Nuh'un torunlarıdırlar."
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
@@ -20444,7 +20444,7 @@ msgstr "Asurlular"
 
 #: data/nation/assyrian.ruleset:6
 msgid "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
-msgstr ""
+msgstr "Asur, başkenti Asur olan ve kuzey Mezopotamya'da yaşamış bir devlettir."
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malka"
@@ -20486,7 +20486,7 @@ msgstr "Avustralyalılar"
 msgid ""
 "Australia was founded as a British penal colony in 1788AD. It is the only "
 "country on earth to occupy an entire continent."
-msgstr ""
+msgstr "Avustralya MS 1788 yılında bir İngiliz kolonisi olarak kurulmuştur. Dünyada bir kıtayı tamamen kaplayan tek ülkedir."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -20803,7 +20803,7 @@ msgstr "Kanadalılar"
 msgid ""
 "Canada is the geographically northernmost country in world: The Magnetic "
 "North Pole currently lies on Canadian territory."
-msgstr ""
+msgstr "Kanada coğrafi olarak dünyanın en kuzey ülkesidir. Manyetik Kuzey Kutbu bu ülkenin topraklarındadır."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -21028,7 +21028,7 @@ msgstr "Çekler"
 msgid ""
 "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been "
 "until 1918 part of the Austro-Hungarian Empire."
-msgstr ""
+msgstr "Günümüzün Çek Cumhuriyeti 1993 yılında kurulmuştur. Bundan önce 1918'de Avusturya-Macaristan İmparatorluğu'ndan ayrılan Çekoslovakya'nın bir parçasıydı."
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
@@ -21362,7 +21362,7 @@ msgstr "Macarlar"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
-msgstr ""
+msgstr "Efsaneye göre Macaristan 9. yüzyılda Arpadlar tarafından kurulmuştur."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -21644,11 +21644,11 @@ msgstr ""
 
 #: data/nation/kampuchean.ruleset:21
 msgid "Brother"
-msgstr ""
+msgstr "Kardeş"
 
 #: data/nation/kampuchean.ruleset:21
 msgid "Sister"
-msgstr ""
+msgstr "Kardeş"
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
@@ -21660,7 +21660,7 @@ msgstr "Kenyalılar"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr ""
+msgstr "Kenya, Aralık 1963'de İngiltere'den ayrılıp bağımsızlığını ilan etmiştir."
 
 #: data/nation/kenyan.ruleset:18
 msgid "Nabongo"
@@ -21890,7 +21890,7 @@ msgstr "Marslılar"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr ""
+msgstr "Marslılar, MÖ 4000 yılında dünyaya yerleşmişlerdir!"
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
