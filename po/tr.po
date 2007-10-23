@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-22 20:08+0300\n"
+"PO-Revision-Date: 2007-10-23 05:54+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3812,7 +3812,7 @@ msgid ""
 "The save file contains incomplete map data.  This can happen with old saved "
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
-msgstr ""
+msgstr "Kayıt dosyası tamamlanmamış harita verisi içeriyor. Bu durum eski kayıtlı oyunlar, veya geçersiz kayıt edilmiş oyun sebebiyle olabilir. Riski göze alma sorumluluğu size aittir."
 
 #. TRANS: Error message.
 #: server/savegame.c:162
@@ -3838,7 +3838,7 @@ msgstr "Bu kayıtlı oyun artık desteklenmeyen klasik arazi kural setini kullan
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
-msgstr ""
+msgstr "Dikkat: Farklı kural seti dizinleri ('%s' ve '%s') artık desteklenmemektedir. '%s' kullanılmaktadır."
 
 #: server/savegame.c:4012
 #, c-format
@@ -3901,12 +3901,16 @@ msgid ""
 "Allowed take string contains invalid\n"
 "characters.  Try \"help allowtake\"."
 msgstr ""
+"İzin verilen dizge geçersiz karakterler içermektedir. \n"
+" \"help allowtake\" deneyin"
 
 #: server/settings.c:134
 msgid ""
 "Starting units string contains invalid\n"
 "characters.  Try \"help startunits\"."
 msgstr ""
+"Başlayan birimlerin dizgeleri \n"
+"geçersiz karakterler içermektedir. \"help startunits\" deneyin"
 
 #: server/settings.c:140
 msgid ""
@@ -3914,6 +3918,9 @@ msgid ""
 "at least one city founder.  Try \n"
 "\"help startunits\"."
 msgstr ""
+"Başlayan birim dizgesi \n"
+"en az bir şehir kurucu içermemektedir.\n"
+"\"help startunits\" deneyin"
 
 #: server/settings.c:157
 msgid "Cannot set endyear earlier than current year."
@@ -3921,7 +3928,7 @@ msgstr "Bitiş yılı başlama yılından erken olamaz."
 
 #: server/settings.c:173
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "GGZ modda en fazla oyuncu seçeneğini değiştiremezsiniz"
 
 #: server/settings.c:178
 msgid "Number of players is higher than requested value; Keeping old value."
@@ -4180,7 +4187,7 @@ msgstr "Oyunun rastgele sayısı"
 msgid ""
 "For zero (the default) a seed will be chosen based on the time. This setting "
 "is usually only of interest while debugging the game"
-msgstr ""
+msgstr "Sıfır için (öntanımlı olan) zaman temel alınarak bir kaynak seçilecektir. Bu ayarlar sadece oyun hatalarını düzeltmede kullanılır"
 
 #: server/settings.c:394
 msgid "Amount of \"special\" resource squares"
@@ -4190,7 +4197,7 @@ msgstr "\"Özel\" kaynaklı kare miktarı"
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
-msgstr ""
+msgstr "Özel kaynaklar bulunduklar temel arazi özelliklerini arttırırlar. Sunucu değişebilir ölçeği biner basamaklıdır."
 
 #: server/settings.c:402
 msgid "Amount of huts (minor tribe villages)"
@@ -4200,7 +4207,7 @@ msgstr "Kulübe sayısı (ufak yerel köyler)"
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investiged by units."
-msgstr ""
+msgstr "Bu ayarlar, tüm haritadaki kulübelerin tam sayısını verir. Kulübeler birimler tarafından incelenebilen küçük köylerdir."
 
 #: server/settings.c:416
 msgid "Minimum number of players"
@@ -4210,7 +4217,7 @@ msgstr "En az oyuncu sayısı"
 msgid ""
 "There must be at least this many players (connected human players or AI "
 "players) before the game can start."
-msgstr ""
+msgstr "Oyun başlamadan önce asgari sayıda oyuncu (bağlı insan veya YZ oyuncuları) olmalıdır. "
 
 #: server/settings.c:424
 msgid "Maximum number of players"
@@ -4221,23 +4228,23 @@ msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
 "try to connect will be rejected."
-msgstr ""
+msgstr "Oyunda olabilecek insan ve YZ oyuncularının en fazla sayısı. Bu sayıdaki oyuncu oyundan önce toplanırsa, sonradan bağlanmaya çalışanlar alınmayacaktır."
 
 #: server/settings.c:433
 msgid "Total number of players (including AI players)"
 msgstr "Toplam oyuncu sayısı (YZ oyuncular dahil)"
 
-#: server/settings.c:434
+#: server/settings.c:434YZ oyuncuları
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount."
-msgstr ""
+msgstr "Eğer pozitif değer ayarlanırsa, o miktarı koruyacak şekilde YZ oyuncuları kendiliğinden oluşturulur veya kaldırılır ."
 
 #: server/settings.c:446
 msgid "List of players' initial units"
 msgstr "Başlangıçtaki birim listesi"
 
-#: server/settings.c:447
+#		: server/settings.c:447
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. "
 "There must be at least one city founder in the string. The characters and "
@@ -4252,6 +4259,17 @@ msgid ""
 "    a   = Fast attack unit (eg., Horsemen)\n"
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
+"Bu, her biri bir birimin rolünü belirten, karakter dizgesi olmalıdır. "
+"Dizgenin içinde en az bir şehir kurucu olmak zorundadır. Karakter ve anlamaları: \n"
+"    c     =Şehir kurucu (ör., Göçmenler)\n"
+"    w     =Arazi çalışanı(ör.,Mühendisler)\n"
+"    x      =Kaşif (ör.,Kaşif)\n"
+"    k      =Oyunkaybettirici (ör.,Kral)\n"
+"     s     =Diplomat (ör.,Diplomat)\n"
+"     d     =Makbul savunma birimi (ör., Savaşçılar)\n"
+"     D    =İyi savunma birimi (ör.,Kalkanlı)\n"
+"     a     =Hızlı saldırı birimi (ör.,Atlı)\n"
+"     A     =Kuvvetli saldırı birimi (ör., Mancınık)\n"
 
 #: server/settings.c:464
 msgid "Area where initial units are located"
@@ -4259,7 +4277,7 @@ msgstr "Başlangıçtaki birimlerin yerleştirileceği alan"
 
 #: server/settings.c:465
 msgid "This is the radius within which the initial units are dispersed."
-msgstr ""
+msgstr "Bu, başlangıç birimlerinin dağıldığı yarıçaptır"
 
 #: server/settings.c:471
 msgid "Starting gold per player"
@@ -4267,7 +4285,7 @@ msgstr "Başlangıçta oyunculara verilen altın miktarı"
 
 #: server/settings.c:472
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr ""
+msgstr "Bu miktarda altın, her bir oyuncuya oyun başlangıcında verilmektedir."
 
 #: server/settings.c:478
 msgid "Number of initial techs per player"
@@ -4279,7 +4297,7 @@ msgid ""
 "The technologies chosen are random for each player. Depending on the value "
 "of tech_cost_style in the ruleset, a big value for techlevel can make the "
 "next techs really expensive."
-msgstr ""
+msgstr "Bu seviyedeki teknoloji her bir oyuncuya oyun başlangıcında verilmektedir. Seçilen teknolojiler her bir oyuncu için rastgeledir. Kural setindeki tech_cost_style (teknolojimasrafbiçimi) değerine bağlı olarak, teknoloji seviyesinin büyüklüğü gelecek teknolojileri aşırı pahalı yapabilir."
 
 #: server/settings.c:488
 msgid "Technology cost multiplier percentage"
@@ -4290,7 +4308,7 @@ msgid ""
 "This affects how quickly players can research new technology. All tech costs "
 "are multiplied by this amount (as a percentage). The base tech costs are "
 "determined by the ruleset or other game settings."
-msgstr ""
+msgstr "Bu, oyuncuların ne kadar hızlı teknoloji geliştirebileceklerini etkiler. Tüm teknoloji bedelleri bu miktar ile çarpılır (yüzde olarak). Temel teknoloji bedelleri kural setleri veya diğer oyun ayarları ile belirlenir."
 
 #: server/settings.c:498
 msgid "Percentage penalty when changing tech"
@@ -4301,7 +4319,7 @@ msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
 "does not apply if you have just gained a technology this turn."
-msgstr ""
+msgstr "Halihazırdaki araştırma teknolojisini değiştirirsen, ve pozitif araştırma puanların varsa, bunları yüzde olarak kaybedersin.  Bu yeni sırada henüz geliştirdiğin teknoloji için geçerli değildir."
 
 #: server/settings.c:508
 msgid "Penalty when getting tech or gold from treaty"
@@ -4313,7 +4331,7 @@ msgid ""
 "points equal to this percentage of the cost to research a new technology. "
 "You can end up with negative research points if this is non-zero. Also "
 "applies to gold transfers in diplomatic treaties."
-msgstr ""
+msgstr "Diplomatik antlaşma ile kazandığınız her bir teknoloji için, yeni teknoloji masrafına eşit miktarda yüzde olarak araştırma puanınızdan düşme olur. Eğer bu değer sıfır değilse, negatif araştırma puanı ile sonlanabilir. Aynı zamanda diplomatik antlaşmalarda altın alışverişine uygulanır."
 
 #: server/settings.c:518
 msgid "Penalty when getting tech from conquering"
@@ -4324,7 +4342,7 @@ msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. "
 "You can end up with negative research points if this is non-zero."
-msgstr ""
+msgstr "Düşman fethi ile kazandığınız her bir teknoloji için, yeni teknoloji masrafına eşit miktarda yüzde olarak araştırma puanınızdan düşme olur. Eğer bu değer sıfır değilse, negatif araştırma puanı ile sonlanabilir. "
 
 #: server/settings.c:528
 msgid "Penalty when getting a free tech"
@@ -4336,7 +4354,7 @@ msgid ""
 "conquercost: specifically, from huts or from Great Library effects), you "
 "lose research points equal to this percentage of the cost to research a new "
 "technology. You can end up with negative research points if this is non-zero."
-msgstr ""
+msgstr "\"for free\" (diplomat veya fethi masrafı haricinde: özellikle, kulübelerden veya Büyük Kütüphane etkisinden) olarak kazandığınız her bir teknoloji için, yeni teknoloji masrafına eşit miktarda yüzde olarak araştırma puanınızdan düşme olur. Eğer bu değer sıfır değilse, negatif araştırma puanı ile sonlanabilir. "
 
 #: server/settings.c:540
 msgid "Food required for a city to grow"
@@ -4347,7 +4365,7 @@ msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
-msgstr ""
+msgstr "Bu, şehrin büyümesi için temel alınan yiyecek miktarıdır. Bu değer, kural setlerinden gelen faktörle çarpılır ve şehrin büyüklüğüne göre değişir."
 
 #: server/settings.c:549
 msgid "Percentage food lost when need aqueduct"
@@ -4358,7 +4376,7 @@ msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
 "has a Granary)."
-msgstr ""
+msgstr "Eğer bir şehrin büyümesi gerekiyor ancak Su Kemeri olmaması sebebiyle büyüyemiyorsa (veya Lağım Sistemi), yiyeceklerini belirtilen yüzde ile kaybeder ( Tahıl ambarı varsa o miktarın yarısı kadar)."
 
 #: server/settings.c:559
 msgid "Multiplier percentage for production costs"
@@ -4368,7 +4386,7 @@ msgstr "Üretim fiyatları çarpanı yüzdesi"
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
-msgstr ""
+msgstr "Bu, birimlerin ve binaların ne kadar hızlı büyüyebileceğini etkiler. Temel fiyatlar bu değer ile çarpılır (yüzde olarak)."
 
 #: server/settings.c:574
 msgid "Minimum city size to get full trade"
@@ -4380,7 +4398,7 @@ msgid ""
 "100% (no trade at all) for sizes up to notradesize, and decreases gradually "
 "to 0% (no penalty except the normal corruption) for size=fulltradesize. See "
 "also notradesize."
-msgstr ""
+msgstr "Bundan daha küçük tüm şehirler için ticaret cezası mevcuttur. Ceza, ticaretyokbüyüklüğüne kadar (hiçbirinde ticaret yok) %100, bu seviyeden tamticaretbüyüklüğüne doğru derece derece azalarak %0 (normal bozulma haricinde ceza yok) olur. Ticaretyokbüyüklüğüne bakınız."
 
 #: server/settings.c:585
 msgid "Maximum size of a city without trade"
@@ -4391,7 +4409,7 @@ msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
 "notradesize and smaller than fulltradesize. See also fulltradesize."
-msgstr ""
+msgstr "Şehirler bu değerden büyük olmadıkça ticaret yapmazlar. Ticaret oranı şehirlerin boyutları ticaretyokbüyüklüğü ile tamticaretbüyüklüğüne doğru değiştikçe derece derece artar. Tamticaretbüyüklüğüne bakınız."
 
 #: server/settings.c:595
 msgid "City size before people become unhappy"
@@ -4401,11 +4419,11 @@ msgstr "İnsanların mutsuz olmaya başlayacağı şehir boyutu"
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy. See also cityfactor."
-msgstr ""
+msgstr "Diğer ayarlamalardan önce, şehirdeki ilk mutsuzlukseviyesi vatandaşları memnun, sıradakiler mutsuzdur. Şehirfaktörüne bakın."
 
 #: server/settings.c:604
 msgid "Number of cities for higher unhappiness"
-msgstr "Mutsuzluğu arttıracak şehir sayısı"
+msgstr "Mutsuzluğu arttıracak şehir sayısıkile"
 
 #: server/settings.c:605
 msgid ""
@@ -4413,7 +4431,7 @@ msgid ""
 "extra citizen is unhappy before other adjustments; see also unhappysize. "
 "This assumes a Democracy; for other governments the effect occurs at smaller "
 "numbers of cities."
-msgstr ""
+msgstr "Eğer oyuncu, şehir faktöründen daha büyük değerde şehir sayısına sahipse, diğer ayarlamalardan önce bir fazladan vatandaş mutsuz olur; mutsuzlukseviyesine bakınız. Bu bir Demokrasiyi varsaymaktadır; diğer yönetim biçimlerinde şehir sayısı daha da azalır."
 
 #: server/settings.c:614
 msgid "Minimum distance between cities"
@@ -4425,7 +4443,7 @@ msgid ""
 "citymindist distance. For example, if citymindist is 3, there have to be at "
 "least two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
-msgstr ""
+msgstr "Bir oyuncu bir şehir kurduğunda, yakın (minşehirmesafesi) mesafede başka şehir olup olmadığı kontrol edilir. Örneğin, eğer minşehirmesafesi 3 ise, bu durumda 2 şehir arasında her yönde en az 2 boş arazi olmalıdır. Eğer 0 ayarlanırsa (öntanımlı), kural seti değeri kullanılacaktır."
 
 #: server/settings.c:626
 msgid "Number of turns between rapture effect"
@@ -4435,7 +4453,7 @@ msgstr "Kendinden geçme etkisi için sıra sayısı"
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
-msgstr ""
+msgstr "Şehrin kendinden geçerek büyüme etkisi için sıra sayısını ayarlar. Eğer n a ayarlanırsa, kutlamalar n+1 sıra geçtikten sonra şehir büyüyecektir."
 
 #: server/settings.c:636
 msgid "Chance for conquered building destruction"
@@ -4445,7 +4463,7 @@ msgstr "Fetih sırasında yapıların yıkılması şansı"
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
-msgstr ""
+msgstr "Bir oyuncu bir şehri fethettiğinde, her bir şehir ilerlemesi bu yüzde değeri kadar yıkılma ihtimaline sahiptir."
 
 #: server/settings.c:643
 msgid "Chance of moving into tile after attack"
@@ -4459,6 +4477,8 @@ msgid ""
 "value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
 msgstr ""
+"Eğer 0 ayarlıysa, savaş Civ 1/2-biçimi (saldırdığında, yerinde kalmak). "
+"Eğer 100 ayarlıysa, saldıran birimler savaşı kazanırlarsa her zaman saldırdıkları bölgeye hareket ederler (ve o bölgede düşman birimi kalmazsa). Eğer değer 0 ile 100 arasında olursa, bu yüzde biçiminde bölgeyi ele geçirme \"occupying\" ihtimali olarak kullanılır."
 
 #: server/settings.c:655
 msgid "Turn on/off server-side autoattack"
@@ -4468,7 +4488,7 @@ msgstr "Sunucu taraflı otomatik saldırıyı aç/kapa"
 msgid ""
 "If set to on, units with move left will automatically consider attacking "
 "enemy units that move adjacent to them."
-msgstr ""
+msgstr "Eğer on olarak ayarlanırsa, sola hareket alan birimler bitişiğine gelen düşmana kendiliğinden saldırıyı düşünecek."
 
 #: server/settings.c:662
 msgid "Reduce city population after attack"
@@ -4483,6 +4503,11 @@ msgid ""
 "  4 = heli\n"
 "  8 = air"
 msgstr ""
+"Bu bayrak, düşman birimlerinin başarılı saldırısında, hareket biçimine bağlı olarak şehir nüfusun azalmasını gösterir. (OR-ed):\n"
+"  1 = kara\n"
+"  2 = deniz\n"
+"  3 = helikopter\n"
+"  4 = hava"
 
 #: server/settings.c:675
 msgid "National borders radius"
@@ -4493,7 +4518,7 @@ msgid ""
 "If this is set to greater than 0, then any land tiles within the given "
 "radius of a city will be owned by that nation. Special rules apply for ocean "
 "tiles or tiles within range of more than one nation's cities."
-msgstr ""
+msgstr "Eğer bu 0'dan yukarı bir değer seçilirse, takiben bir şehrin verilen yarıçapı içerisindeki tüm yer yapıları o ulusa ait olur. Deniz yapıları veya birden fazla ulus şehrinin mesafesi içine giren yer yapıları için özel kurallar geçerli olur."
 
 #: server/settings.c:686
 msgid "Units inside borders cause no unhappiness"
@@ -4503,7 +4528,7 @@ msgstr "Sınır içindeki birimler mutsuzluk yaratmaz"
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
-msgstr ""
+msgstr "Eğer bu ayarlıysa, birimler kendi sınırları içerisinde mutsuzluğa yol açmaz."
 
 #: server/settings.c:693
 msgid "Ability to do diplomacy with other players"
@@ -4517,6 +4542,11 @@ msgid ""
 "3 = diplomacy is restricted to teams.\n"
 "4 = diplomacy is disabled for everyone."
 msgstr ""
+"0 = öntanımlı; diplomasi herkese uyarlanmıştır.\n"
+"1 = diploması sadece insan oyuncular arasında yapılabilir.\n"
+"2 = diploması sadece YZ oyuncuları arasında yapılabilir.\n"
+"3 = diploması takımlar için engellenmiştir\n"
+"4 = diplomasi herkese engellenmiştir."
 
 #: server/settings.c:703
 msgid "Allowed city names"
@@ -4536,6 +4566,13 @@ msgid ""
 "3 = Like setting 2, but a player isn't allowed to use a default city name of "
 "another nations unless it is a default for their nation also."
 msgstr ""
+"0 = Kısıtlama yoktur: oyuncular aynı isimde birden fazla şehre sahip olabilirler.\n"
+"\n"
+"1 = Şehir isimleri bir oyuncu için benzersiz olmalıdır: bir oyuncu aynı isimde birden fazla şehre sahip olamaz.\n"
+"\n"
+"2 = Şehir isimleri herkes için benzersiz olmalıdır: oyun içindeki tüm şehirler farklı isimde olmalıdır.\n"
+"\n"
+"3 = Ayar 2 gibi, ancak bir oyuncu başka bir ulusun öntanımlı şehir ismini, kendisi için de öntanımlı değilse değiştiremez."
 
 #: server/settings.c:732
 msgid "Barbarian appearance frequency"
@@ -4549,6 +4586,11 @@ msgid ""
 "3 = frequent barbarian uprising \n"
 "4 = raging hordes, lots of barbarians"
 msgstr ""
+"0 = Barbarlar mevcut değil \n"
+"1 = Barbarlar sadece kulübe içinde \n"
+"2 = Barbarların ortaya çıkması için norma oran \n"
+"3 = Barbarların sık sık ayaklanması \n"
+"4 = Aşırı büyük barbar topluluğu ve yaygarası"
 
 #: server/settings.c:743
 msgid "Barbarian onset year"
@@ -4566,7 +4608,7 @@ msgstr "Devrim için gerekli sıra miktarı"
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-6 turns."
-msgstr ""
+msgstr "Rejimi değiştirdiğinizde, bir kaç sıra sürecek olan anarşi dönemi yaşanır. Bu değeri 0'a ayarlamak 1-6 arasında rastgele uzunluğu verir. "
 
 #: server/settings.c:760
 msgid "Whether to enable fog of war"
@@ -4596,7 +4638,7 @@ msgstr "Uzay yarışı izinli"
 
 #: server/settings.c:779
 msgid "If this option is set to 1, players can build spaceships."
-msgstr ""
+msgstr "Eğer bu seçenek 1 olarak seçilirse, oyuncular uzay gemileri yapabilir."
 
 #: server/settings.c:785
 msgid "Minimum number of cities for civil war"
@@ -4688,7 +4730,7 @@ msgstr "Bağlantı durumuna göre YZ devreye girsin/devreden çıksın"
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
-msgstr ""
+msgstr "Eğer bu 1 seçilirse, YZ oyuncu bağlanınca devreden çıkar, ayrılınca devreye girer."
 
 #: server/settings.c:874
 msgid "Year the game ends"
@@ -4696,7 +4738,7 @@ msgstr "Oyunun bitiş yılı"
 
 #: server/settings.c:875
 msgid "The game will end at the end of the given year."
-msgstr ""
+msgstr "Oyun belirtilen senenin sonunda biter."
 
 #: server/settings.c:881
 msgid "Maximum seconds per turn"
@@ -4768,7 +4810,7 @@ msgstr "İstemciyi oyundan atma süresi"
 
 #: server/settings.c:938
 msgid "If a client doesn't reply to a PING in this time the client is disconnected."
-msgstr ""
+msgstr "Eğer bir istemci PING'e cevap vermiyorsa, bu durumda istemci bağlantısı kopmuştur."
 
 #: server/settings.c:944
 msgid "Turn-blocking game play mode"
@@ -4778,7 +4820,7 @@ msgstr "Sırayı bitirmeyen oyun modu"
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
-msgstr ""
+msgstr "Eğer bu değer 1 ayarlanmışsa, bağlantıyı koparmış oyuncular dahil sıralarını geçirmeden oyun ilerlemez."
 
 #: server/settings.c:952
 msgid "Fixed-length turns play mode"
@@ -4788,7 +4830,7 @@ msgstr "Sabit uzunlukta sıralı oyun modu"
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, even if all players have clicked on \"Turn Done\"."
-msgstr ""
+msgstr "Eğer bu değer 1 ayarlanmışsa, tüm oyuncular \"Sırayı Geçir\" tuşuna bassa dahi oyun zaman dolana kadar ilerlemez, "
 
 #: server/settings.c:960
 msgid "What is in the Demographics report"
@@ -4824,7 +4866,7 @@ msgstr "Oto-kayıt için sıra sayısı"
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
-msgstr ""
+msgstr "Oyun bu sayı değerindeki her periyotta kendiliğinden kayıt edilecektir. Sıfır asla kendiliğinden kaydetme demektir."
 
 #: server/settings.c:996 server/settings.c:1007
 msgid "Savegame compression level"
@@ -4835,7 +4877,7 @@ msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format). Larger "
 "values will give better compression but take longer. If the maximum is zero "
 "this server was not compiled to use zlib."
-msgstr ""
+msgstr "Eğer sıfır değilse, kayıtlı oyunlar zlib (gzip) biçimi kullanılarak sıkıştırılacaktır. Daha büyük değerler daha iyi sıkıştırma verir, ancak zamanı uzatır. Eğer en yüksek sıfır ise, bu sunucu zlib kullanacak şekilde derlenmemiştir."
 
 #: server/settings.c:1019
 msgid "Auto-save name prefix"
@@ -4845,7 +4887,7 @@ msgstr "Oto-kayıt isim öneki"
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\". This "
 "setting sets the <prefix> part."
-msgstr ""
+msgstr "Kendiliğinden kaydolan oyunların adları \"<önek><yıl>.sav\" şeklinde olur. Bu ayar <önek> kısmı içindir."
 
 #: server/settings.c:1027
 msgid "Whether to log player statistics"
@@ -4856,16 +4898,16 @@ msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn. These statistics can be used to create power graphs after "
 "the game."
-msgstr ""
+msgstr "Eğer bu değer 1 olarak ayarlanırsa, oyuncu istatistikleri her sırada \"civscore.log\" dosyasına eklenecektir. Bu istatistikler oyundan sonra güç grafiğini oluşturmak için kullanılabilir."
 
 #: server/sernet.c:147
 msgid "Server cannot read standard input. Ignoring input."
-msgstr ""
+msgstr "Sunucu standart girdileri okuyamaz. Girdileri değerlendirmiyor."
 
 #: server/sernet.c:911
 #, c-format
 msgid "Server: bad address: [%s:%d]."
-msgstr ""
+msgstr "Sunucu: geçersiz adres: [%s:%d]."
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
@@ -4884,27 +4926,27 @@ msgstr "Uzay gemisini henüz fırlatamazsın!"
 msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
-msgstr ""
+msgstr "%s bir uzay gemisi fırlattı! %s zamanında Alpha Centauri'ye varacağı tahmin ediliyor."
 
 #: server/spacerace.c:204
 msgid "Spaceship action received, but you don't have a spaceship!"
-msgstr ""
+msgstr "Uzay gemisi hareketi alındı, ancak uzay gemisine sahip değilsiniz!"
 
 #: server/spacerace.c:210
 msgid "You can't modify your spaceship after launch!"
-msgstr ""
+msgstr "Fırlatmadan sonra uzay gemisinde değişiklik yapamazsınız!"
 
 #: server/spacerace.c:219
 msgid "You don't have any unplaced Space Structurals!"
-msgstr ""
+msgstr "Yerleştirilmemiş Uzay Gemisi İskelesi bulunmamaktadır!"
 
 #: server/spacerace.c:224
 msgid "That Space Structural would not be connected!"
-msgstr ""
+msgstr "Bu Uzay Gemisi İskelesi bağlanamayacaktır!"
 
 #: server/spacerace.c:239 server/spacerace.c:260
 msgid "You don't have any unplaced Space Components!"
-msgstr ""
+msgstr "Yerleştirilmemiş Uzay Bileşeniniz bulunmamaktadır!"
 
 #: server/spacerace.c:245
 msgid "Your spaceship already has the maximum number of Fuel Components!"
@@ -6714,12 +6756,12 @@ msgstr "Hazine buldunuz (%d altın)."
 #: server/unittools.c:2223
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr "Eski yazılarından %s teknolojisini öğrendiniz."
+msgstr "Antik yazıtlardan %s teknolojisini öğrendiniz."
 
 #: server/unittools.c:2230
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
-msgstr "%s eski yazılarından %s öğrenmişler."
+msgstr "%s antik yazıtlardan %s öğrenmişler."
 
 #: server/unittools.c:2244
 msgid "A band of friendly mercenaries joins your cause."
@@ -7594,7 +7636,7 @@ msgstr "normal"
 
 #: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1262
 msgid "hard"
-msgstr "sert"
+msgstr "zor"
 
 #: client/connectdlg_common.c:82
 msgid "experimental"
@@ -8199,14 +8241,14 @@ msgstr " Hiç "
 msgid ""
 "* Military units away from home and field units will cause one citizen to "
 "become unhappy.\n"
-msgstr ""
+msgstr "* Sınır dışında bulunan her birim bir vatandaşı mutsuz eder.\n"
 
 #: client/helpdata.c:1415
 #, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr ""
+msgstr "* Sınır dışında bulunan her birim %d vatandaşı mutsuz eder.\n"
 
 #: client/helpdata.c:1422
 #, c-format
@@ -8218,12 +8260,12 @@ msgstr ""
 #: client/helpdata.c:1430
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
-msgstr ""
+msgstr "* %d kat daha fazla %s bakımı ödersiniz.\n"
 
 #: client/helpdata.c:1433
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
-msgstr ""
+msgstr "%d kat daha fazla birim bakımı ücreti ödersiniz.\n"
 
 #: client/helpdata.c:1438
 #, c-format
@@ -8233,7 +8275,7 @@ msgstr ""
 #: client/helpdata.c:1443
 #, c-format
 msgid "* You pay no upkeep for your units.\n"
-msgstr ""
+msgstr "* Birimleriniz için hiç bakım ücreti ödemezsiniz.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'. There
 #. * is currently no way to control the singular/plural version of
@@ -8253,14 +8295,14 @@ msgstr ""
 #: client/helpdata.c:1462
 #, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-msgstr ""
+msgstr "* Başkentinizi kaybederseniz sivil savaşın çıkma olasılığı %%%d olur.\n"
 
 #: client/helpdata.c:1466
 #, c-format
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
 "appear when you have %d cities.\n"
-msgstr ""
+msgstr "* %d şehriniz olduğunda ülke boyutundan kaynaklanan mutsuz vatandaşlar çıkmaya başlayacaktır.\n"
 
 #: client/helpdata.c:1471
 #, c-format
@@ -8272,7 +8314,7 @@ msgstr ""
 #: client/helpdata.c:1478
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr ""
+msgstr "Bilim, altın ve lüks için ayarlayabileceğiniz en fazla oran %%%d olur.\n"
 
 #: client/helpdata.c:1482
 #, c-format
@@ -8296,7 +8338,7 @@ msgstr ""
 #: client/helpdata.c:1498
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr ""
+msgstr "* Bir şehirdeki azami %d birim sıkıyönetim yapabilir.\n"
 
 #: client/helpdata.c:1503
 #, c-format
@@ -8325,24 +8367,24 @@ msgstr ""
 #: client/helpdata.c:1520
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Senato, savaş kararını veto edebilir.\n"
 
 #: client/helpdata.c:1524
 #, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr ""
+msgstr "* Şehri düşmanlar alınca partizan oluşturur.\n"
 
 #: client/helpdata.c:1528
 #, c-format
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
-msgstr ""
+msgstr "* Mutsuzluğu engelleyen binalar altın verir.\n"
 
 #: client/helpdata.c:1532
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
-msgstr ""
+msgstr "* Müfritler için bakım ücreti ödenmez.\n"
 
 #: client/helpdata.c:1535
 #, c-format
@@ -8385,7 +8427,7 @@ msgstr ""
 #: client/helpdata.c:1577
 #, c-format
 msgid "* %s production is increased %d%%.\n"
-msgstr ""
+msgstr "* %s üretimi %%%d oranında artar.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:1583
@@ -15717,7 +15759,7 @@ msgid ""
 msgstr ""
 "Birim Komutları:\n"
 "============\n"
-"    a: oto-göçmen  (göçmen/işçi birimleri)\n"
+"    a: oto-işçi  (göçmen/işçi birimleri)\n"
 "    b: şehir kur  (göçmen birimleri)\n"
 "    b: harika yapımına yardım et  (kervan birimleri)\n"
 "    C: birim birleştir  (hedefin üzerine sol tıklayın)\n"
@@ -17762,7 +17804,7 @@ msgstr "Üniversite"
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 250%."
-msgstr "Kütüphane ile birlikte şehrin bilim üretimini %%250 arttırır."
+msgstr "Kütüphane ile birlikte şehrin bilim üretimini %250 arttırır."
 
 #: data/default/buildings.ruleset:948 data/civ2/buildings.ruleset:935
 #: data/civ1/buildings.ruleset:634
@@ -17998,7 +18040,7 @@ msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
-msgstr "Şehirlerinizden birinin boyutu arttığında veya küçüldüğünde stoğunaki gıdanın kaybı %%25 oranında azalır.  Böylece şehirler daha çabuk büyür ve kıtlık riski azalır.  Ambar ile birlikte etkisi artar."
+msgstr "Şehirlerinizden birinin boyutu arttığında veya küçüldüğünde stoğunaki gıdanın kaybı %25 oranında azalır.  Böylece şehirler daha çabuk büyür ve kıtlık riski azalır.  Ambar ile birlikte etkisi artar."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -18237,7 +18279,7 @@ msgstr "Bu harika buluş, bütün şehirlerde bir mutsuz vatandaşı memnun eder
 #: data/civ2/buildings.ruleset:1072
 #, no-c-format
 msgid "When built, every civilization's attitude toward you is improved by 25%."
-msgstr "Yapıldığında diğer medeniyetlerin size karşı tavrı %%25 iyileşir."
+msgstr "Yapıldığında diğer medeniyetlerin size karşı tavrı %25 iyileşir."
 
 #: data/civ2/buildings.ruleset:1114 data/civ1/buildings.ruleset:768
 msgid "Works as a City Wall in all cities."
