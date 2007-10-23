@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-23 05:54+0300\n"
+"PO-Revision-Date: 2007-10-23 18:43+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13052,7 +13052,7 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:204
 msgid "  -f,  --fullscreen\tStart Client in Fullscreen mode\n"
-msgstr ""
+msgstr "  -f  --fullscreen\tİstemciyi tam ekran olarak başlat\n"
 
 #: client/gui-sdl/gui_main.c:205
 msgid ""
@@ -13062,12 +13062,12 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:207
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
-msgstr ""
+msgstr "  -t,  --theme TEMA\tTEMA arayüz temasını kullan\n"
 
 #: client/gui-sdl/gui_main.c:659
 #, c-format
 msgid "Making screenshot fc_%05d.bmp"
-msgstr ""
+msgstr "Ekran görüntüsü alınıyor: fc_%05d.bmp"
 
 #: client/gui-sdl/gui_main.c:792
 #, c-format
@@ -13076,11 +13076,11 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:845
 msgid "Initializing Client"
-msgstr ""
+msgstr "İstemci hazırlanıyor"
 
 #: client/gui-sdl/gui_main.c:856
 msgid "Waiting for the beginning of the game"
-msgstr ""
+msgstr "Oyunun başlaması bekleniyor"
 
 #: client/gui-sdl/gui_string.c:173
 msgid "Error in create_string16: Aborting ..."
@@ -14878,38 +14878,38 @@ msgstr ""
 
 #: client/gui-xaw/gui_main.c:332
 msgid "Game version does not match Resource version."
-msgstr ""
+msgstr "Oyun sürümü Kaynak sürümüyle uyuşmuyor."
 
 #: client/gui-xaw/gui_main.c:333
 #, c-format
 msgid "Game version: %s - Resource version: %s"
-msgstr ""
+msgstr "Oyun sürümü: %s - Kaynak sürümü: %s"
 
 #: client/gui-xaw/gui_main.c:335
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr ""
+msgstr "/usr/lib/X11/app-defaults altında eski bir Freeciv kaynak dosyanız kalmış olabilir"
 
 #: client/gui-xaw/gui_main.c:341
 msgid "Using fallback resources - which is OK"
-msgstr ""
+msgstr "Düzgün olan yedek kaynaklar kullanılıyor"
 
 #: client/gui-xaw/gui_main.c:352
 msgid "Only color displays are supported for now..."
-msgstr ""
+msgstr "Tek renkli ekranlar şimdilik destekleniyor..."
 
 #: client/gui-xaw/gui_main.c:375 client/gui-xaw/gui_main.c:396
 #, c-format
 msgid "Unable to open fontset: %s"
-msgstr ""
+msgstr "Yazıtipi seti açılamadı: %s"
 
 #: client/gui-xaw/gui_main.c:378 client/gui-xaw/gui_main.c:399
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "'xset fp rehash' yapmak sorunu geçici olarak çözebilir."
 
 #: client/gui-xaw/gui_main.c:382 client/gui-xaw/gui_main.c:403
 #, c-format
 msgid "Font for charset %s is lacking"
-msgstr ""
+msgstr "Yazıtipi karakter seti eksik: %s"
 
 #: client/gui-xaw/helpdlg.c:915 client/gui-xaw/helpdlg.c:926
 #: client/gui-xaw/helpdlg.c:933
@@ -15085,7 +15085,7 @@ msgstr "Toplam:                     %9d%9d%9d%9d"
 #: manual/civmanual.c:120
 #, c-format
 msgid "Could not write manual file %s."
-msgstr ""
+msgstr "Kılavuz dosyası yazılamadı: %s"
 
 #: manual/civmanual.c:128
 #, c-format
@@ -15136,6 +15136,8 @@ msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Değer %d olarak ayarlandı</p>\n"
+"\n"
 
 #: manual/civmanual.c:167
 #, c-format
@@ -15161,6 +15163,8 @@ msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Değer %s olarak ayarlandı</p>\n"
+"\n"
 
 #: manual/civmanual.c:189
 #, c-format
@@ -17494,6 +17498,9 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
+"Şehirde üretimden doğan kirliliği %50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %75 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.\n"
+"\n"
+"Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral.  Hidroelektrik Santrali, sadece bitişiğinde veya bulunduğu yerde dağ veya nehir olan şehirlere yapılabilir."
 
 #: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:373
 #: data/civ1/buildings.ruleset:297
@@ -17556,6 +17563,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Şehirde üretimden doğan kirliliği %50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %75 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.\n"
+"\n"
+"Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral"
 
 #: data/default/buildings.ruleset:515 data/civ2/buildings.ruleset:488
 msgid "Offshore Platform"
@@ -17630,6 +17640,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %75 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.  Fazla üretim şehirdeki kirlilik seviyesini arttırabilir.\n"
+"\n"
+"Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral"
 
 #: data/default/buildings.ruleset:646 data/civ2/buildings.ruleset:608
 #: data/civ1/buildings.ruleset:466
@@ -17653,7 +17666,7 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 200%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 450%."
-msgstr ""
+msgstr "Araştırma Laboratuvarı, bir kütüphaneyle birlikte şehrin bilim üretimini %200 arttırır. Bir Kütüphane ve bir Üniversite ile birlikte bilim üretimini %450 arttırır."
 
 #: data/default/buildings.ruleset:690 data/civ2/buildings.ruleset:652
 msgid "SAM Battery"
@@ -18178,7 +18191,7 @@ msgid ""
 msgstr ""
 "Şehirde üretimden doğan kirliliği %50 azaltır.  Ayrıca şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %100 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.\n"
 "\n"
-"Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral.  Hidroelektrik Santrali, sadece bitişiğinde veya bulunduğu yerde dağ veya nehir bulunan şehirlere yapılabilir."
+"Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral.  Hidroelektrik Santrali, sadece bitişiğinde veya bulunduğu yerde dağ veya nehir olan şehirlere yapılabilir."
 
 #: data/civ2/buildings.ruleset:388 data/civ1/buildings.ruleset:312
 #, no-c-format
@@ -18225,6 +18238,9 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"Şehirdeki Fabrika ve İmalathanenin kalkan üretimini arttırır: Fabrikayla birlikte %100 üretim artışı, İmalathaneyle birlikte %150 üretim artışı sağlar.  Fazla üretim şehirdeki kirlilik seviyesini arttırabilir.\n"
+"\n"
+"Bir şehirde şunlardan sadece biri bulunabilir: Hidroelektrik Santrali, Termik Santral, Nükleer Santral"
 
 #: data/civ2/buildings.ruleset:644
 msgid ""
@@ -18342,7 +18358,7 @@ msgid ""
 "Veteran status, which means that its attack and defence strengths are "
 "increased by 50%.  Also, damaged units which stay in town for one full turn "
 "without moving are completely restored."
-msgstr ""
+msgstr "Kışla ile, yeni yetiştirilen her birim Kıdemli olur, yani saldırı ve savunma güçleri %50 artar.  Ayrıca şehirde bir sıra boyunca bekleyen hasarlı birimler tamamen iyileşirler."
 
 #: data/civ1/buildings.ruleset:152
 msgid ""
@@ -18408,7 +18424,7 @@ msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
 "Democracy, aggressive units cause only 1 unhappy citizen each."
-msgstr ""
+msgstr "Bütün şehirlerde birimlerden dolayı oluşan mutsuzluk 1 azalır. Bu da Cumhuriyette birimlerin mutsuzluk oluşturmaması ve Demokraside birimlerin sadece bir mutsuz vatandaş yapması demektir."
 
 #: data/default/cities.ruleset:29 data/civ2/cities.ruleset:29
 msgid "elvis"
@@ -18498,6 +18514,9 @@ msgid ""
 "Anarchy offers slightly less corruption than Despotism, but slightly more "
 "unhappiness."
 msgstr ""
+"Anarşi, halk tarafından tanınan tek bir hükümetin bulunmamasıdır. Halk düzensiz bir şekilde bütün gelirlerini kendi içinde harcar ve bilime katkı sağlamaz.\n"
+"\n"
+"Anarşide Despotluğa göre daha az yolsuzluk olur fakat buna oranla oldukça fazla mutsuzluk yaşanır."
 
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
@@ -18648,7 +18667,7 @@ msgid ""
 "offers the highest possible level of trade, but also offers the most "
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
-msgstr "Demokraside halk oy kullanarak yönetime katılır. Bu yönetim biçimi ticaretin olabilecek en yüksek seviyeye gelmesini sağlayabilir ama mutsuzluğun oluşması oldukça kolaydır.  Demokraside yolsuzluk hiç olmaz.  Buna karşın şavaş sırasında halk aşırı derecede mutsuz olur."
+msgstr "Demokraside halk oy kullanarak yönetime katılır. Bu yönetim biçimi ticaretin olabilecek en yüksek seviyeye gelmesini sağlayabilir ama mutsuzluğun oluşması oldukça kolaydır.  Demokraside yolsuzluk hiç olmaz.  Buna karşın savaş sırasında halk aşırı derecede mutsuz olur."
 
 #: data/civ2/governments.ruleset:57
 msgid ""
@@ -18661,7 +18680,7 @@ msgid ""
 msgstr ""
 "Anarşi, halk tarafından tanınan tek bir hükümetin bulunmamasıdır. Halk düzensiz bir şekilde bütün gelirlerini kendi içinde harcar ve bilime katkı sağlamaz.\n"
 "\n"
-"Anarşide DEspotluğa göre daha az yolsuzluk olur fakat buna oranla oldukça fazla mutsuzluk yaşanır."
+"Anarşide Despotluğa göre daha az yolsuzluk olur fakat buna oranla oldukça fazla mutsuzluk yaşanır."
 
 #: data/civ2/governments.ruleset:79
 msgid ""
@@ -18704,15 +18723,15 @@ msgstr ""
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:297
 #: data/civ2/techs.ruleset:284 data/civ1/techs.ruleset:282
 msgid "Fundamentalism"
-msgstr "Fundamentalizm"
+msgstr "Şeriat"
 
 #: data/civ2/governments.ruleset:143
 msgid "High Priest"
-msgstr "Rahip"
+msgstr "Halife"
 
 #: data/civ2/governments.ruleset:144
 msgid "High Priestess"
-msgstr "Rahibe"
+msgstr "Halife"
 
 #: data/civ2/governments.ruleset:146
 msgid ""
@@ -18727,6 +18746,11 @@ msgid ""
 "produces `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
+"Şeriat, dinsel inançlara dayalı bir yönetim biçimidir. Şeriatta yöneticiler ve halk için önceden belirlenmiş katı kurallar vardır.\n"
+"\n"
+"Şeriatla yönetilen bir ulusun halkı ve lideri dine sıkı sıkıya bağlıdır. İnançları uğruna kendilerini feda etmeye hazırdırlar.\n"
+"\n"
+"Normalde mutsuz insanları memnun eden yapılar bu yönetim biçiminde altın üretirler ve bakım gerektirmezler."
 
 #: data/civ2/governments.ruleset:196
 msgid ""
@@ -18740,6 +18764,9 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"Demokraside halk oy kullanarak yönetime katılır. Bu yönetim biçimi ticaretin olabilecek en yüksek seviyeye gelmesini sağlayabilir ama mutsuzluğun oluşması oldukça kolaydır.  Demokraside yolsuzluk hiç olmaz.  Buna karşın savaş sırasında halk aşırı derecede mutsuz olur.\n"
+"\n"
+"Demokrasinin (mutlu) insanları hükümete gönülden inandıkları için oldukça sadıktırlar.  Demokratik birimler rüşvetle alınamaz; düşman Diplomatlar ve Casuslar şehirlerde ayaklanma çıkartamazlar."
 
 #: data/civ1/governments.ruleset:170
 msgid ""
@@ -18753,6 +18780,9 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"Demokraside halk oy kullanarak yönetime katılır. Bu yönetim biçimi ticaretin olabilecek en yüksek seviyeye gelmesini sağlayabilir ama mutsuzluğun oluşması oldukça kolaydır.  Demokraside yolsuzluk hiç olmaz.  Buna karşın savaş sırasında halk aşırı derecede mutsuz olur.\n"
+"\n"
+"Demokrasinin (mutlu) insanları hükümete gönülden inandıkları için oldukça sadıktırlar.  Demokratik birimler rüşvetle alınamaz; düşman Diplomatlar ve Casuslar şehirlerde ayaklanma çıkartamazlar."
 
 #: data/default/techs.ruleset:55 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -19458,6 +19488,9 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
+"Göçmenler oyunun en önemli birimlerindendir.  Şehir kurmak, toprağı sulamak, yol yapmak, ray yapmak, kale ve maden inşa etmek, kirliliği ve nükleer serpintileri temizlemek gibi işlerde çalışabilirler.  Bakımı için hem gıda hem de kalkan gereklidir, memleketinde yiyecek kalmazsa göçmenler ölür.\n"
+"\n"
+"Göçmenler ve Mühendisler, uzun sürecek işleri birlikte yaparak kısa zamanda bitirebilirler.  Aynı karede ve aynı iş üzerinde çalışan işçilerin gücü toplanacaktır.  Aynı işte çok fazla işçi çalıştırırken bir kısmının emeğinin boşa gitmemesine dikkat edin.  Grup halindeki işçiler düşman saldırılarına karşı oldukça savunmasızdırlar."
 
 #: data/default/units.ruleset:264
 msgid ""
@@ -19473,6 +19506,9 @@ msgid ""
 "and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
 "enemy attacks."
 msgstr ""
+"İşçiler oyunun en önemli birimlerindendir.  Şehir kurmak, toprağı sulamak, yol yapmak, ray yapmak, kale ve maden inşa etmek, kirliliği ve nükleer serpintileri temizlemek gibi işlerde çalışabilirler.  Bakımı için hem gıda hem de kalkan gereklidir, memleketinde yiyecek kalmazsa göçmenler ölür.\n"
+"\n"
+"İşçiler, Göçmenler ve Mühendisler, uzun sürecek işleri birlikte yaparak kısa zamanda bitirebilirler.  Aynı karede ve aynı iş üzerinde çalışan işçilerin gücü toplanacaktır.  Aynı işte çok fazla işçi çalıştırırken bir kısmının emeğinin boşa gitmemesine dikkat edin.  Grup halindeki işçiler düşman saldırılarına karşı oldukça savunmasızdırlar."
 
 #: data/default/units.ruleset:279 data/civ2/units.ruleset:133
 msgid "Engineers"
@@ -19492,6 +19528,11 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
 "upgraded for free."
 msgstr ""
+"Mühendisler, İşçilere çok benzerler.  Onlardan iki kat daha hızlı çalışırlar ve yol alırlar.  Ayrıca mühendisler İşçilerin yapamadıkları zor arazi dönüşümü işlerini de yapabilirler (Tundrayı Çöle çevirmek gibi) .\n"
+"\n"
+"İpucu 1:  Mühendisler işçilerle aynı kaynakları tükettiği için mümkün olduğunda İşçilerinizi Mühendise yükseltmek size fayda sağlayacaktır.\n"
+"\n"
+"İpucu 2:  Eğer Leonardo'nun Atölyesi'ni inşa etmişeniz bunun etkisi geçmeden Patlayıcılar'ı keşfedin.  Bu yolla İşçilerinizi ücretsiz olarak yükseltebilirsiniz."
 
 #: data/default/units.ruleset:320 data/civ2/units.ruleset:174
 msgid "Warriors"
