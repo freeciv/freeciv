@@ -30,6 +30,7 @@ artists = "
     Vodvakov
     Eleazar / J. W. Bjerk <www.jwbjerk.com>
     qwm
+    FiftyNine
 "
 
 [file]
@@ -55,7 +56,7 @@ tiles = { "row", "column", "tag"
   0,  8, "u.horsemen"
   0,  9, "u.chariot"
   0, 10, "u.cruiser"
-  0, 11, "u.diplomat", "u.barbarian_leader"
+  0, 11, "u.diplomat"
   0, 12, "u.fighter"
   0, 13, "u.frigate"
   0, 14, "u.ironclad"
@@ -98,6 +99,7 @@ tiles = { "row", "column", "tag"
   2, 13, "u.awacs"
   2, 14, "u.worker"
   2, 15, "u.leader"
+  2, 16, "u.barbarian_leader"	; [FiftyNine]
 ;  2, 17, "u.refugee"
 ;  3, 15, "u.train"
 
