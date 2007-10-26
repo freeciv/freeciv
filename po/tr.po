@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-23 21:34+0300\n"
+"PO-Revision-Date: 2007-10-26 21:33+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8538,7 +8538,7 @@ msgstr ""
 
 #: client/options.c:110
 msgid "Server port"
-msgstr "Sunucu port"
+msgstr "Sunucu portu"
 
 #: client/options.c:111
 msgid ""
@@ -8788,7 +8788,7 @@ msgstr ""
 
 #: client/options.c:243
 msgid "Terrain relief map layer"
-msgstr ""
+msgstr "Arazi türü katmanı"
 
 #: client/options.c:244
 msgid "The relief layer shows all terrains on the map."
@@ -11669,9 +11669,9 @@ msgid ""
 "<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual "
 "window"
 msgstr ""
-"Mesajları nasıl gösterilecek?\n"
-"<b>Out</b>put penceresinde ; <b>Mes</b>saj penceresinde ; <b>Pop</b>up "
-"penceresinde"
+"Mesajlar nerede gösterilsin?\n"
+"<b>Çık</b>tı penceresinde ; <b>Mes</b>ajlar penceresinde; <b>Açıl</b>ır "
+"pencerede"
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -11679,7 +11679,7 @@ msgstr "Olay"
 
 #: client/gui-gtk-2.0/messagedlg.c:127
 msgid "Out"
-msgstr "Out"
+msgstr "Çık"
 
 #: client/gui-gtk-2.0/messagedlg.c:134
 msgid "Mes"
@@ -11687,7 +11687,7 @@ msgstr "Mes"
 
 #: client/gui-gtk-2.0/messagedlg.c:141
 msgid "Pop"
-msgstr "Pop"
+msgstr "Açıl"
 
 #: client/gui-gtk-2.0/messagewin.c:155 client/gui-sdl/messagewin.c:247
 #: client/gui-win32/messagewin.c:132 client/gui-xaw/menu.c:226
@@ -13416,7 +13416,7 @@ msgstr "Sıra Sonu"
 
 #: client/gui-sdl/mapview.c:1074
 msgid "Press"
-msgstr "Bas"
+msgstr "Basın"
 
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:359
@@ -16629,14 +16629,14 @@ msgid ""
 "points (or gain two hit points less than they otherwise would) each turn "
 "that they do not end in a city.  Damaged units in Sentry mode will wake up "
 "when they have regained all of their hit points."
-msgstr ""
+msgstr "Savaşta yaralanan birimler hareket etmedikleri her sırada sağlık puanı kazanırlar.  Normalde hareket etmemiş bir birim sadece bir sağlık puanı kazanır.  Kışlada bekleyen kara birimi,  Tersanede bekleyen deniz birimi, Havalimanında bekleyen hava birimi bir sıra boyunca hareket etmezse sağlığını tamamen doldurur.  Bu yapıların olmadığı bir şehirde ise sağlık puanının üçte birini kazanır.  Güçlendirme yapan birimler fazladan bir sağlık puanı kazanırlar.  Eğer oyuncu Birleşmiş Milletler harikasına sahipse bütün birimler her sıra sonunda iki sağlık puanı kazanır.  Helikopter birimleri sıranın sonunda bir şehirde durmazlarsa iki sağlık puanı kaybederler, şehirde durduklarında ise iki sağlık puanı kazanırlar.  Nöbet tutan hasarlı birimler, bütün sağlık puanlarını yeniden kazandıklarında uyanırlar."
 
 #: data/helpdata.txt:977
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
 "attack."
-msgstr ""
+msgstr "Sunucu ayarlarına göre değişmekle birlikte, Surları olmayan bir şehre başarılı olarak saldırılmışsa, şehrin nüfusu bir birim azalır."
 
 #: data/helpdata.txt:988
 msgid ""
@@ -16762,7 +16762,7 @@ msgid ""
 "defender loses hit points equal to the attacker's firepower.  Otherwise, the "
 "attacker loses hit points equal to the defender's firepower. The first unit "
 "to reach 0 hit points (or negative hit points) loses. "
-msgstr ""
+msgstr "Bütün bu ön hesaplamalardan sonra iki taraf da hayatta kalıyorsa (yani sağlık puanı 0'dan büyük olursa) savaş başlar.  Her turda 1 ve saldıran ve savunan tarafların güçlerinin toplamı arasında rastgele bir sayı üretilir.  Eğer bu sayı savunanın gücünden büyükse, savunan taraf saldıran tarafın saldırı puanı kadar sağlık puanı kaybeder.  Küçükse, saldıran taraf savunan tarafın saldırı gücü kadar sağlık puanı kaybeder.  Sağlığı 0 olan veya 0'ın altına düşen ilk taraf savaşı kaybeder."
 
 #: data/helpdata.txt:1063
 #, no-c-format
@@ -17716,6 +17716,9 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Uzay Gemisi Parçaları, İticiler ve Yakıt Tankları olarak ikiye ayrılırlar.  Bunlar uzay geminizin yolculuk zamanını kısaltırlar.  Bunlardan en fazla 8'er tane yapılabilir.\n"
+"\n"
+"Bir uzay gemisi yapmaya başlamadan önce mutlaka Apollo Programı harikasının herhangi bir oyuncu tarafından yapılmış olması gereklidir."
 
 #: data/default/buildings.ruleset:779 data/civ2/buildings.ruleset:770
 #: data/civ1/buildings.ruleset:534
@@ -17741,6 +17744,17 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"Uzay Gemisi Modülleri en pahalı parçalardır.  Üç tür modül vardır:\n"
+"\n"
+"- Yaşam Modülü: 10.000 kişi için yaşama alanı sağlar.\n"
+"\n"
+"- Yaşam Destek Modülü: Yaşam modülündeki insanlar için su ve yiyecek sağlar.\n"
+"\n"
+"- Güneş Panelleri: Diğer modüllerin çalışması için gerekli enerjiyi sağlar.\n"
+"\n"
+"Bu modüllerden en fazla dörder tane yapabilirsiniz.\n"
+"\n"
+"Bir uzay gemisi yapmaya başlamadan önce mutlaka Apollo Programı harikasının herhangi bir oyuncu tarafından yapılmış olması gereklidir."
 
 #: data/default/buildings.ruleset:813 data/civ2/buildings.ruleset:803
 #: data/civ1/buildings.ruleset:567
@@ -20076,6 +20090,9 @@ msgid ""
 "into a city where you have started to build a wonder, and finish it in only "
 "one turn!"
 msgstr ""
+"Kervanlar harika yapılan bir şehre geldiklerinde üretime 50 kalkan katkıda bulunabilirler.\n"
+"\n"
+"İpucu:  Kervanları biriktirip hepsini bir seferde kullanarak harika yapımını bir turda bitirebilirsiniz."
 
 #: data/default/units.ruleset:1801 data/civ2/units.ruleset:1752
 msgid "Freight"
@@ -20143,6 +20160,16 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
+"Göçmenler oyundaki en önemli birimlerdendir.  Yeni şehirler inşa etmede, "
+"sulamada, yol ve ray yapımında, kale ve maden yapımında, kirlilik ve "
+"radyoaktif atıkları temizlemede kullanılabilirler.  Göçmenlerin bakımı için "
+"hem gıda hem de üretim harcanır.  Bakımını yapan şehirde yiyecek kalmazsa "
+"göçmenler ölebilir.\n"
+"\n"
+"Uzun sürecek işlerde Göçmenler ve Mühendisler birlikte çalışarak zamandan "
+"kazanabilirler.  Yine de aynı işe çok fazla Göçmen atadığınızda bazılarının "
+"emeği boşa gidecektir.  Ayrıca aynı arazide duran birkaç işçinin düşman "
+"saldırılarına karşı oldukça savunmasız olabileceğini unutmayın."
 
 #: data/civ2/units.ruleset:159
 msgid ""
@@ -20158,6 +20185,11 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
 msgstr ""
+"Mühendisler, Göçmenlere çok benzerler.  Onlardan iki kat daha hızlı çalışırlar ve yol alırlar.  Ayrıca mühendisler Göçmenlerin yapamadıkları zor arazi dönüşümü işlerini de yapabilirler (Tundrayı Çöle çevirmek gibi) .\n"
+"\n"
+"İpucu 1:  Mühendisler işçilerle aynı kaynakları tükettiği için mümkün olduğunda Göçmenlerinizi Mühendise yükseltmek size fayda sağlayacaktır.\n"
+"\n"
+"İpucu 2:  Eğer Leonardo'nun Atölyesi'ni inşa etmişeniz bunun etkisi geçmeden Patlayıcılar'ı keşfedin.  Bu yolla Göçmenlerinizi ücretsiz olarak yükseltebilirsiniz."
 
 #: data/civ2/units.ruleset:367
 msgid "Fanatics"
@@ -20276,7 +20308,7 @@ msgstr ""
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
-msgstr ""
+msgstr "Bir barbar lideri tek başınayken ele geçirilirse 100 altın fidye kazanılır (sadece kara birimleri ele geçirebilir)."
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
@@ -23093,6 +23125,17 @@ msgid ""
 "citizen).  Building a marketplace enhances the benefit from this\n"
 "by providing +50%% luxuries to the city."
 msgstr ""
+"Şehrinizin boyutu beş oldu.  Şehirler büyüdükçe itaatsizlik sorunu\n"
+"oluşmaya başlar.  Bu büyüklükteki bir şehirde eğer durumu iyileştirici\n"
+"yapılar yoksa genellikle bir mutsuz vatandaş olacaktır.  Bu durumda\n"
+"vatandaşlarınız memnun tutmak için şehre bir memur atamanız gerekebilir.\n"
+"\n"
+"Bu konuda yapılabilecek pek çok şey vardır.  Kolay bir çözüm\n"
+"olarak şehre bir Tapınak (veya başka kültürel bina) yapmayı\n"
+"düşünebilirsiniz (Yapıların mutsuzluğa etkisi için yardıma bakın).\n"
+"Daha çok büyük şehirleriniz olunca vergi oranlarını değiştirip bir\n"
+"kısmını lükse ayırarak da mutsuzluğu önleyebilirsiniz.  Market\n"
+"yapısı lüksü %%50 arttırarak bunun etkisini güçlendirir."
 
 #: data/scenario/tutorial.sav:162
 msgid ""
@@ -23104,6 +23147,12 @@ msgid ""
 "going to continue to grow you should start building one soon.  Building\n"
 "an aqueduct requires the Construction technology."
 msgstr ""
+"Bir şehriniz sekiz boyutuna ulaştı.  Bu boyuttaki bir şehir, gerekli\n"
+"tedbirleri alıp halkın memnuniyetini sağladığınız sürece gayet\n"
+"iyi bir gelir sağlayacaktır.\n"
+"\n"
+"Şehri bundan daha büyük yapabilmek için bir Su Kemeri gereklidir.\n"
+"Su Kemeri yapabilmek içinde İnşaat teknolojisini bilmeniz gereklidir."
 
 #: data/scenario/tutorial.sav:172
 msgid ""
