@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-26 21:33+0300\n"
+"PO-Revision-Date: 2007-10-26 21:46+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4950,32 +4950,32 @@ msgstr "Yerleştirilmemiş Uzay Bileşeniniz bulunmamaktadır!"
 
 #: server/spacerace.c:245
 msgid "Your spaceship already has the maximum number of Fuel Components!"
-msgstr ""
+msgstr "Uzay geminizde azami sayıda Yakıt Deposu bulunuyor!"
 
 #: server/spacerace.c:266
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
-msgstr ""
+msgstr "Uzay geminizde azami sayıda İtici bulunuyor!"
 
 #: server/spacerace.c:282 server/spacerace.c:304 server/spacerace.c:326
 msgid "You don't have any unplaced Space Modules!"
-msgstr ""
+msgstr "Yerleştirilmemiş bir Uzay Modülünüz yok!"
 
 #: server/spacerace.c:288
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
-msgstr ""
+msgstr "Uzay geminizde azami sayıda Yaşam Modülü bulunuyor!"
 
 #: server/spacerace.c:310
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
-msgstr ""
+msgstr "Uzay geminizde azami sayıda Yaşam Destek Modülü bulunuyor!"
 
 #: server/spacerace.c:332
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr ""
+msgstr "Uzay geminizde azami sayıda Güneş Paneli Modülü bulunuyor!"
 
 #: server/spacerace.c:351
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
-msgstr ""
+msgstr "Başkentin yönlendirmesi olmadığı için %s tarafının uzay gemisi kayboldu."
 
 #: server/srv_main.c:225
 msgid "Game ended in a draw as end year exceeded"
@@ -5135,7 +5135,7 @@ msgstr ""
 #: server/srv_main.c:1877
 #, c-format
 msgid "Sending info to metaserver [%s]"
-msgstr ""
+msgstr "Bilgiler metasunucuya gönderiliyor [%s]"
 
 #: server/srv_main.c:1906
 msgid "The game is over..."
@@ -5179,7 +5179,7 @@ msgstr ""
 #: server/stdinhand.c:466
 #, c-format
 msgid "No player by the name of '%s'."
-msgstr ""
+msgstr "'%s' isimli bir oyuncu yok."
 
 #: server/stdinhand.c:470 server/stdinhand.c:505
 #, c-format
@@ -5188,11 +5188,11 @@ msgstr ""
 
 #: server/stdinhand.c:489
 msgid "Name is empty, so cannot be a connection."
-msgstr ""
+msgstr "İsim boş olduğu için bağlantı kurulamaz."
 
 #: server/stdinhand.c:493
 msgid "Name is too long, so cannot be a connection."
-msgstr ""
+msgstr "İsim çok uzun olduğu için bağlantı kurulamaz."
 
 #: server/stdinhand.c:497
 #, c-format
@@ -5266,50 +5266,50 @@ msgstr "Server id: %s"
 
 #: server/stdinhand.c:753
 msgid "You cannot save games manually on this server."
-msgstr ""
+msgstr "Bu sunucuda elle oyun kaydedemezsiniz."
 
 #: server/stdinhand.c:770
 msgid "Cannot toggle a barbarian player."
-msgstr ""
+msgstr "Barbara dönüştürülemez."
 
 #: server/stdinhand.c:777
 #, c-format
 msgid "%s is now under AI control."
-msgstr ""
+msgstr "%s artık YZ kontrolünde."
 
 #: server/stdinhand.c:796
 #, c-format
 msgid "%s is now under human control."
-msgstr ""
+msgstr "%s artık insan kontrolünde."
 
 #: server/stdinhand.c:841
 msgid "Can't add AI players once the game has begun."
-msgstr ""
+msgstr "Oyun başladıktan sonra YZ oyuncu eklenemez."
 
 #: server/stdinhand.c:860
 msgid "Can't add more players, server is full."
-msgstr ""
+msgstr "Daha fazla oyuncu eklenemez, sunucu dolu."
 
 #: server/stdinhand.c:867
 msgid "Can't use an empty name."
-msgstr ""
+msgstr "Boş isim kullanılamaz."
 
 #: server/stdinhand.c:874
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
-msgstr ""
+msgstr "İsim %d karakter sınırını aşıyor."
 
 #: server/stdinhand.c:880
 msgid "That name is not allowed."
-msgstr ""
+msgstr "İsime izin verilmiyor."
 
 #: server/stdinhand.c:886
 msgid "A player already exists by that name."
-msgstr ""
+msgstr "Bu isimde bir oyuncu zaten var."
 
 #: server/stdinhand.c:892
 msgid "A user already exists by that name."
-msgstr ""
+msgstr "Bu isimde bir kullanıcı zaten var."
 
 #: server/stdinhand.c:918
 #, c-format
@@ -5529,7 +5529,7 @@ msgstr "Kullanımı: away"
 
 #: server/stdinhand.c:1847
 msgid "Only players may use the away command."
-msgstr ""
+msgstr "Sadece oyuncular away komutunu kullanabilir."
 
 #: server/stdinhand.c:1851
 #, c-format
@@ -5544,7 +5544,7 @@ msgstr "%s oyuna geri döndü."
 #: server/stdinhand.c:1901
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr ""
+msgstr "Üzgünüm, '%s' ayarına bakmaya yetkiniz yok."
 
 #: server/stdinhand.c:1907
 #, c-format
@@ -5573,11 +5573,11 @@ msgstr "Nadiren kullanacak seçenekler"
 
 #: server/stdinhand.c:1947
 msgid "+ means you may change the option"
-msgstr ""
+msgstr "+ ayarı değiştirmişsiniz demektir"
 
 #: server/stdinhand.c:1948
 msgid "= means the option is on its default value"
-msgstr ""
+msgstr "= ayar öntanımlı değerinde demektir"
 
 #: server/stdinhand.c:1951
 #, c-format
@@ -5702,11 +5702,11 @@ msgstr ""
 
 #: server/stdinhand.c:2344 server/stdinhand.c:2374
 msgid "Bad map coordinates."
-msgstr ""
+msgstr "Yanlış koordinat."
 
 #: server/stdinhand.c:2349
 msgid "No city at this coordinate."
-msgstr ""
+msgstr "Bu koordinatlarda şehir yok."
 
 #: server/stdinhand.c:2354
 #, c-format
@@ -5742,7 +5742,7 @@ msgstr ""
 
 #: server/stdinhand.c:2478
 msgid "This setting can't be modified after the game has started."
-msgstr ""
+msgstr "Bu ayar oyun başladıktan sonra değiştirilemez."
 
 #: server/stdinhand.c:2490 server/stdinhand.c:2529
 msgid "Value must be an integer."
@@ -5755,7 +5755,7 @@ msgstr ""
 
 #: server/stdinhand.c:2507
 msgid "Value out of range (minimum: 0, maximum: 1)."
-msgstr ""
+msgstr "Değer sınırların dışında (asgari: 0, azami: 1)."
 
 #: server/stdinhand.c:2520 server/stdinhand.c:2560
 #, c-format
@@ -5770,7 +5770,7 @@ msgstr ""
 #: server/stdinhand.c:2547
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
-msgstr ""
+msgstr "Değer sınırların dışında (asgari: %d, azami: %d)."
 
 #: server/stdinhand.c:2570
 msgid "String value too long.  Usage: set <option> <value>."
