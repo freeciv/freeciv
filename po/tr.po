@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-26 21:46+0300\n"
+"PO-Revision-Date: 2007-10-26 22:25+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6054,11 +6054,11 @@ msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
 #: server/stdinhand.c:3732
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
-msgstr ""
+msgstr "Oyun başlatılamıyor: bütün istemcilerin çıkması bekleniyor."
 
 #: server/stdinhand.c:3739
 msgid "Cannot start the game: it is already running."
-msgstr ""
+msgstr "Oyun başlatılamıyor: zaten başlatılmış"
 
 #: server/stdinhand.c:3768
 #, c-format
@@ -6904,7 +6904,7 @@ msgstr ""
 
 #: client/audio.c:191 client/audio.c:249 client/audio.c:260
 msgid "Proceeding with sound support disabled"
-msgstr ""
+msgstr "Ses desteği olmadan devam ediliyor"
 
 #: client/audio.c:197
 msgid "No real audio plugin present, proceeding with sound support disabled"
@@ -6938,7 +6938,7 @@ msgstr ""
 
 #: client/audio.c:217
 msgid "Will continue with disabled sounds."
-msgstr ""
+msgstr "Sesler iptal edilerek devam edilecek."
 
 #: client/audio.c:222
 #, c-format
@@ -7400,7 +7400,7 @@ msgstr "Uzmanlar"
 
 #: client/civclient.c:217
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
-msgstr ""
+msgstr "  -a, --autoconnect\tBağlantı penceresini atla\n"
 
 #: client/civclient.c:227
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
@@ -7606,7 +7606,7 @@ msgstr ""
 
 #: client/clinet.c:481 client/clinet.c:483
 msgid "Connection to server refused. Please start the server."
-msgstr ""
+msgstr "Sunucu bağlantısı kabul edilmedi. Lütfen sunucuyu başlatın."
 
 #: client/clinet.c:492 client/clinet.c:520
 #, c-format
@@ -7778,22 +7778,27 @@ msgid ""
 "This page was auto-generated.\n"
 "\n"
 msgstr ""
+"Üzgünüm %s için yardım başlığı yok.\n"
+"Bu sayfa otomatik üretildi.\n"
+"\n"
 
 #: client/helpdata.c:672
 msgid ""
 "Requires: Nothing\n"
 "\n"
 msgstr ""
+"Hiçbirşey gerektirmez\n"
+"\n"
 
 #: client/helpdata.c:677
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
-msgstr ""
+msgstr "* %s teknolojisi %s harikasını geçersiz kılacak.\n"
 
 #: client/helpdata.c:696
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
-msgstr ""
+msgstr "* %s teknolojisisi bilen bütün oyuncuların %s birimleri yapabilmesini sağlar.\n"
 
 #: client/helpdata.c:708
 #, c-format
@@ -7808,55 +7813,55 @@ msgstr "* %s sağlar.\n"
 #: client/helpdata.c:779
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
-msgstr ""
+msgstr "* Sadece %s olan şehirlerde yapılabilir.\n"
 
 #: client/helpdata.c:785
 #, c-format
 msgid "* Can only be built with %s as government.\n"
-msgstr ""
+msgstr "* Sadece yönetim biçimi %s iken yapılabilir.\n"
 
 #: client/helpdata.c:791
 #, c-format
 msgid "* May not be built in cities.\n"
-msgstr ""
+msgstr "* Şehirlerde yapılamaz.\n"
 
 #: client/helpdata.c:794
 #, c-format
 msgid "* Never has a home city.\n"
-msgstr ""
+msgstr "* Memleketi yoktur.\n"
 
 #: client/helpdata.c:798
 #, c-format
 msgid "* Losing this unit will lose you the game!\n"
-msgstr ""
+msgstr "* Bunu kaybederseniz oyunu da kaybedersiniz!\n"
 
 #: client/helpdata.c:802
 #, c-format
 msgid "* Each player may only have one of this type of unit.\n"
-msgstr ""
+msgstr "* Bütün oyuncularda bu birimden sadece bir tane olabilir.\n"
 
 #: client/helpdata.c:805
 #, c-format
 msgid "* Requires %d population to build.\n"
-msgstr ""
+msgstr "* Yapılması için %d nüfus gerekir.\n"
 
 #: client/helpdata.c:811
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
-msgstr[0] ""
+msgstr[0] "* %d hava birimini taşıyıp yakıt verebilir.\n"
 
 #: client/helpdata.c:816
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
-msgstr[0] ""
+msgstr[0] "* %d füzeyi taşıyıp yakıt verebilir.\n"
 
 #: client/helpdata.c:821
 #, c-format
 msgid "* Can carry %d ground unit across water.\n"
 msgid_plural "* Can carry %d ground units across water.\n"
-msgstr[0] ""
+msgstr[0] "* %d kara birimini denizde taşıyabilir.\n"
 
 #. TRANS: "Manhattan" distance is the distance along gridlines, with
 #. * no diagonals allowed.
@@ -7865,7 +7870,7 @@ msgstr[0] ""
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
-msgstr ""
+msgstr "* Ticaret yolları yapabilir (memleketinden asgari 9 kare [manhattan ölçeğiyle] uzaktaki bir şehre gitmelidir).\n"
 
 #: client/helpdata.c:836
 #, c-format
@@ -7875,179 +7880,179 @@ msgstr "* Harika yapımına yardım edebilir (%d üretim ekler).\n"
 #: client/helpdata.c:840
 #, c-format
 msgid "* May not be disbanded.\n"
-msgstr ""
+msgstr "* Terhis edilemez.\n"
 
 #: client/helpdata.c:842
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
-msgstr ""
+msgstr "* Bir şehirde terhis edilerek üretiminin %%50'sini geri kazandırabilir.\n"
 
 #: client/helpdata.c:846
 #, c-format
 msgid "* Can build new cities.\n"
-msgstr ""
+msgstr "* Yeni şehir kurabilir.\n"
 
 #: client/helpdata.c:849
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
-msgstr ""
+msgstr "* Şehre %d nüfus ekleyebilir (%d büyüklüğünden az yerlerde).\n"
 
 #: client/helpdata.c:858
 #, c-format
 msgid "* Can build roads and railroads.\n"
-msgstr ""
+msgstr "* Yol ve ray yapabilir.\n"
 
 #: client/helpdata.c:859
 #, c-format
 msgid "* Can build mines on tiles.\n"
-msgstr ""
+msgstr "* Maden yapabilir.\n"
 
 #: client/helpdata.c:860
 #, c-format
 msgid "* Can build irrigation on tiles.\n"
-msgstr ""
+msgstr "* Sulama yapabilir.\n"
 
 #: client/helpdata.c:865
 #, c-format
 msgid "* Can build farmland.\n"
-msgstr ""
+msgstr "* Tarla yapabilir.\n"
 
 #: client/helpdata.c:869
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
-msgstr ""
+msgstr "* Tarla yapabilir (%s biliniyorsa).\n"
 
 #: client/helpdata.c:873
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
-msgstr ""
+msgstr "* Tarla yapabilir (şunlardan biri biliniyorsa: %s).\n"
 
 #: client/helpdata.c:881
 #, c-format
 msgid "* Can build fortresses.\n"
-msgstr ""
+msgstr "* Kale yapabilir.\n"
 
 #: client/helpdata.c:885
 #, c-format
 msgid "* Can build fortresses (if %s is known).\n"
-msgstr ""
+msgstr "* Kale yapabilir (%s biliniyorsa).\n"
 
 #: client/helpdata.c:889
 #, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
-msgstr ""
+msgstr "* Kale yapabilir (şunlardan biri biliniyorsa: %s).\n"
 
 #: client/helpdata.c:895
 #, c-format
 msgid "* Can clean pollution from tiles.\n"
-msgstr ""
+msgstr "* Kirliliği temizleyebilir.\n"
 
 #: client/helpdata.c:897
 #, c-format
 msgid "* Can clean nuclear fallout from tiles.\n"
-msgstr ""
+msgstr "* Nükleer serpintiyi temizleyebilir.\n"
 
 #: client/helpdata.c:900
 #, c-format
 msgid "* Can transform tiles.\n"
-msgstr ""
+msgstr "* Araziyi dönüştürebilir.\n"
 
 #: client/helpdata.c:903
 #, c-format
 msgid "* Can build airbases.\n"
-msgstr "* Hava üssüler yapabilir.\n"
+msgstr "* Hava üsleri yapabilir.\n"
 
 #: client/helpdata.c:907
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr ""
+msgstr "* Kendini güçlendirip savunma puanını, %%50 arttırabilir.\n"
 
 #: client/helpdata.c:911
 #, c-format
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr ""
+msgstr "* Araziyi yağmalayıp geliştirmeleri yok edebilir.\n"
 
 #: client/helpdata.c:915
 #, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
-msgstr ""
+msgstr "* Diplomatik işleri ve casus işlerini yapabilir.\n"
 
 #: client/helpdata.c:918
 #, c-format
 msgid "* Can perform diplomatic actions.\n"
-msgstr ""
+msgstr "* Diplomatik işler yapabilir.\n"
 
 #: client/helpdata.c:922
 #, c-format
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
-msgstr ""
+msgstr "* Diplomatla yapılan bir savaşı asla kaybetmez.\n"
 
 #: client/helpdata.c:926
 #, c-format
 msgid "* May not be bribed.\n"
-msgstr ""
+msgstr "* Rüşvet kabul etmez.\n"
 
 #: client/helpdata.c:929
 #, c-format
 msgid "* Can attack enemy air units.\n"
-msgstr ""
+msgstr "* Düşman hava birimlerine saldırabilir.\n"
 
 #: client/helpdata.c:932
 #, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
-msgstr ""
+msgstr "* Düşman şehri veya birimi yanında olmadıkça görülemez.\n"
 
 #: client/helpdata.c:936
 #, c-format
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
-msgstr ""
+msgstr "* Sadece denizdeki birimlere saldırabilir (kara saldırısı yok).\n"
 
 #: client/helpdata.c:941
 #, c-format
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
-msgstr ""
+msgstr "* Denizdeki birimlerden düşman şehirlerine veya topraklarına saldırabilir.\n"
 
 #: client/helpdata.c:946
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
-msgstr ""
+msgstr "* Dost şehirlerden paraşütle atlatılabilir (Menzil: %d).\n"
 
 #: client/helpdata.c:950
 #, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
-msgstr ""
+msgstr "* 'atlı' sınıfındaki birimlere karşı savunmasını ikiye katlar.\n"
 
 #: client/helpdata.c:955
 #, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
-msgstr ""
+msgstr "* Bazı savunuculara karşı 'atlı' olarak sayılır.\n"
 
 #: client/helpdata.c:959
 #, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
-msgstr ""
+msgstr "* Füze birimi: saldırdıktan sonra kaybolur.\n"
 
 #: client/helpdata.c:962
 #, c-format
 msgid "* Making an attack ends this unit's turn.\n"
-msgstr ""
+msgstr "* Saldırı yapınca sırası geçer.\n"
 
 #: client/helpdata.c:966
 #, c-format
 msgid "* This unit's attack causes a nuclear explosion!\n"
-msgstr ""
+msgstr "* Bu birimin saldırısı nükleer patlamaya yol açar!\n"
 
 #: client/helpdata.c:970
 #, c-format
 msgid "* Gets double firepower when attacking cities.\n"
-msgstr ""
+msgstr "* Şehirlere saldırırken gücü ikiye katlanır.\n"
 
 #: client/helpdata.c:973
 #, c-format
 msgid "* Ignores the effects of city walls.\n"
-msgstr ""
+msgstr "* Surlardan etkilenmez.\n"
 
 #: client/helpdata.c:977
 #, c-format
@@ -8069,7 +8074,7 @@ msgstr ""
 #: client/helpdata.c:990
 #, c-format
 msgid "* Ignores zones of control.\n"
-msgstr ""
+msgstr "* Kontrol bölgeleri kuralına uymaz.\n"
 
 #: client/helpdata.c:993
 #, c-format
@@ -8084,19 +8089,19 @@ msgstr ""
 #: client/helpdata.c:1002
 #, c-format
 msgid "* Will never achieve veteran status.\n"
-msgstr ""
+msgstr "* Kıdemli olamaz.\n"
 
 #: client/helpdata.c:1005
 #, c-format
 msgid "* May become veteran through training or combat.\n"
-msgstr ""
+msgstr "* Eğitimle veya savaşla kıdemli olabilir.\n"
 
 #: client/helpdata.c:1011
 #, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea.\n"
-msgstr ""
+msgstr "* Sıranın sonunda bir şehirde veya kıyıda olmalıdır, yoksa %%50 ihtimalle kaybolur.\n"
 
 #: client/helpdata.c:1015
 #, c-format
@@ -8270,7 +8275,7 @@ msgstr "%d kat daha fazla birim bakımı ücreti ödersiniz.\n"
 #: client/helpdata.c:1438
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
-msgstr ""
+msgstr "* Birimleriniz için hiç %s bakımı ödemezsiniz.\n"
 
 #: client/helpdata.c:1443
 #, c-format
