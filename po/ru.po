@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Freeciv-2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-18 13:02+0400\n"
+"PO-Revision-Date: 2007-10-26 18:01+0400\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -208,7 +208,6 @@ msgid "Diplomat Action: Bribe"
 msgstr "Действие дипломата: подкуп"
 
 #: common/events.c:71
-#, fuzzy
 msgid "Diplomat Action: Caused Incident"
 msgstr "Действие дипломата: вызван инцидент"
 
@@ -225,9 +224,8 @@ msgid "Diplomat Action: Failed"
 msgstr "Действие дипломата: провал"
 
 #: common/events.c:75
-#, fuzzy
 msgid "Diplomat Action: Incite"
-msgstr "Действие дипломата: бунт"
+msgstr "Действие дипломата: подстрекательство к бунту"
 
 #: common/events.c:76
 msgid "Diplomat Action: Poison"
@@ -254,9 +252,8 @@ msgid "Enemy Diplomat: Failed"
 msgstr "Вражеский дипломат: провал"
 
 #: common/events.c:82
-#, fuzzy
 msgid "Enemy Diplomat: Incite"
-msgstr "Вражеский дипломат: бунт"
+msgstr "Вражеский дипломат: подстрекатеьство к бунту"
 
 #: common/events.c:83
 msgid "Enemy Diplomat: Poison"
@@ -296,7 +293,6 @@ msgid "Message from Server Operator"
 msgstr "Сообщение от оператора сервера"
 
 #: common/events.c:92
-#, fuzzy
 msgid "Nation Selected"
 msgstr "Народ выбран"
 
@@ -319,12 +315,14 @@ msgid "Year Advance"
 msgstr "Открытия"
 
 #: common/events.c:97
+#, fuzzy
 msgid "Global: Eco-Disaster"
-msgstr ""
+msgstr "Глобально: Экологическая катастрофа"
 
 #: common/events.c:98
+#, fuzzy
 msgid "Global: Nuke Detonated"
-msgstr ""
+msgstr "Глобально: взрыв атомного оружия"
 
 #: common/events.c:99
 #, fuzzy
@@ -3169,8 +3167,14 @@ msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
 msgstr[0] ""
+"Вы договорились о перемирии с %s. Через %d ход оно преобразуется в мирный "
+"договор. Выведите свои войска с территории, принадлежащей %s."
 msgstr[1] ""
+"Вы договорились о перемирии с %s. Через %d хода оно преобразуется в мирный "
+"договор. Выведите свои войска с территории, принадлежащей %s."
 msgstr[2] ""
+"Вы договорились о перемирии с %s. Через %d ходов оно преобразуется в мирный "
+"договор. Выведите свои войска с территории, принадлежащей %s."
 
 #: server/diplhand.c:500 server/diplhand.c:503
 #, c-format
@@ -17143,7 +17147,6 @@ msgstr ""
 "связаться с другими игроками."
 
 #: data/helpdata.txt:735
-#, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -17159,12 +17162,11 @@ msgstr ""
 "    Если Вы недавно контактировали (или установили посольство) с другим "
 "игроком, то Вы можете устроить дипломатическую встречу. Это делается так: "
 "заходите в меню 'Отчёты', выбираете 'Игроки', щёлкаете на игроке, с которым "
-"Вы хотите встретиться, выбираете 'Встретить' в меню 'Игрок'. Если поле под "
-"столбцом посольства не пустое, и другой игрок подключен (или управляется "
-"компьютером), тогда Вы увидите меню дипломатии."
+"Вы хотите встретиться, и нажимаете находящуюся ниже кнопку 'Встретить'. Если "
+"поле под столбцом посольства не пустое, и другой игрок подключен (или "
+"управляется компьютером), тогда Вы увидите меню дипломатии."
 
 #: data/helpdata.txt:745
-#, fuzzy
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -17190,7 +17192,11 @@ msgstr ""
 "\n"
 "   - Обменяться городами,\n"
 "\n"
-"   - и Дать золото."
+"   - Обменяться общим зрением,\n"
+"\n"
+"   - Обменяться посольствами\n"
+"\n"
+"   - и дать золото."
 
 #: data/helpdata.txt:761
 msgid ""
@@ -17449,10 +17455,10 @@ msgstr ""
 "Наземные войска двигаются по земле, и скорость их движения зависит от "
 "рельефа, помогают двигаться дороги и железные дороги. Наземные войска не "
 "могут двигаться по океанским квадратам, кроме как на борту соответствующего "
-"морского соединения. Когда в море, они не могут нападать или защищаться "
+"морского соединения. Находясь в море, они не могут нападать или защищаться "
 "сами, но передвигаются вместе с морским соединением, несущем их. Наземные "
 "соединения - единственные соединения, подчинённые зонам контроля. На земле, "
-"наземные соединения могут укрепиться, чтобы получить защитную премию в 50 %; "
+"наземные соединения могут укрепиться, чтобы получить защитную премию в 50%; "
 "наземные соединения в городах автоматически получают эту премию, укреплённые "
 "или нет. Когда наземное соединение успешно атакует город без Городских Стен, "
 "население города уменьшается на единицу. Наземные соединения с атакой 0 - "
@@ -19695,8 +19701,8 @@ msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
 msgstr ""
-"Это невероятное открытие делает одного недовольного гражданина нейтральным в "
-"каждом городе."
+"Это ошеломляющее открытие делает одного недовольного гражданина нейтральным "
+"в каждом городе."
 
 #: data/civ2/buildings.ruleset:1072
 #, no-c-format
@@ -19979,9 +19985,8 @@ msgstr "Вождь"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
-#, fuzzy
 msgid "?female:Chief"
-msgstr "?женск:Товарищ"
+msgstr "?женск:Вождь"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -20231,7 +20236,6 @@ msgstr ""
 "могли бы преобразовать, и не требуют поддержки."
 
 #: data/civ2/governments.ruleset:196
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -20247,9 +20251,13 @@ msgstr ""
 "голосованием по вопросам. Демократия даёт высочайший уровень торговли, но "
 "также даёт и наибольшее потенциальное несчастье.  При Демократии нет "
 "коррупции, но жители очень часто теряют спокойствие во время войн.\n"
+"\n"
+"Поскольку (счастливые) граждане демократических государств верят своему "
+"правительсту, их лояльность непоколебима. Военные соединения демократических "
+"цивилизаций не могут быть подкуплены, а города не могут подстрекаться "
+"к бунту вражескими дипломатами или шпионами."
 
 #: data/civ1/governments.ruleset:170
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -20265,6 +20273,11 @@ msgstr ""
 "голосованием по вопросам. Демократия даёт высочайший уровень торговли, но "
 "также даёт и наибольшее потенциальное несчастье.  При Демократии нет "
 "коррупции, но жители очень часто теряют спокойствие во время войн."
+"\n"
+"Поскольку (счастливые) граждане демократических государств верят своему "
+"правительсту, их лояльность непоколебима. Военные соединения демократических "
+"цивилизаций не могут быть подкуплены, а города не могут подстрекаться "
+"к бунту вражескими дипломатами."
 
 #: data/default/techs.ruleset:55 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -21080,7 +21093,7 @@ msgstr "Фаланга"
 #: data/default/units.ruleset:378 data/civ2/units.ruleset:232
 #: data/civ1/units.ruleset:199
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr ""
+msgstr "Фаланга - бронированная пехота, подходящая для защиты ваших городов."
 
 #: data/default/units.ruleset:383 data/civ2/units.ruleset:237
 msgid "Archers"
@@ -24269,7 +24282,7 @@ msgstr "Шведы"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "?plural:Шведы"
+msgstr "Шведы"
 
 #: data/nation/swedish.ruleset:6
 msgid ""
