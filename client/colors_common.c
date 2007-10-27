@@ -148,15 +148,15 @@ struct color_system *color_system_read(struct section_file *file)
     struct rgbcolor *rgb;
     char *key;
 
-    if (!section_file_lookup(file, "colors.terrains%d.r", i)) {
+    if (!section_file_lookup(file, "colors.tiles%d.r", i)) {
       break;
     }
     rgb = fc_malloc(sizeof(*rgb));
-    rgb->r = secfile_lookup_int(file, "colors.terrains%d.r", i);
-    rgb->g = secfile_lookup_int(file, "colors.terrains%d.g", i);
-    rgb->b = secfile_lookup_int(file, "colors.terrains%d.b", i);
+    rgb->r = secfile_lookup_int(file, "colors.tiles%d.r", i);
+    rgb->g = secfile_lookup_int(file, "colors.tiles%d.g", i);
+    rgb->b = secfile_lookup_int(file, "colors.tiles%d.b", i);
     rgb->color = NULL;
-    key = secfile_lookup_str(file, "colors.terrains%d.terrain", i);
+    key = secfile_lookup_str(file, "colors.tiles%d.tag", i);
 
     if (!hash_insert(colors->terrain_hash, mystrdup(key), rgb)) {
       freelog(LOG_ERROR, "warning: already have a color for %s", key);
@@ -170,15 +170,17 @@ struct color_system *color_system_read(struct section_file *file)
   Called when terrain info is received from the server.
 ****************************************************************************/
 void color_system_setup_terrain(struct color_system *colors,
-				const struct terrain *pterrain)
+				const struct terrain *pterrain,
+				const char *tag)
 {
   struct rgbcolor *rgb
-    = hash_lookup_data(colors->terrain_hash, terrain_rule_name(pterrain));
+    = hash_lookup_data(colors->terrain_hash, tag);
 
   if (rgb) {
     colors->terrain_colors[terrain_index(pterrain)] = *rgb;
   } else {
-    freelog(LOG_ERROR, "No color for terrain '%s'", terrain_rule_name(pterrain));
+    freelog(LOG_ERROR, "[colors] missing [tile_%s] for \"%s\".",
+            tag, terrain_rule_name(pterrain));
     /* Fallback: the color remains black. */
   }
 }

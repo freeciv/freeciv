@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec4.2007.Jul.13"
+options = "+tilespec4+2007.Oct.26"
 
 ; A simple name for the tileset specified by this file:
 name = "isophex"
