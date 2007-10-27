@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-12 21:49+0900\n"
-"PO-Revision-Date: 2007-10-26 22:25+0300\n"
+"PO-Revision-Date: 2007-10-27 03:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7793,7 +7793,7 @@ msgstr ""
 #: client/helpdata.c:677
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
-msgstr "* %s teknolojisi %s harikasını geçersiz kılacak.\n"
+msgstr "* %s teknolojisi %s yapısını geçersiz kılar.\n"
 
 #: client/helpdata.c:696
 #, c-format
@@ -8130,14 +8130,14 @@ msgstr[0] ""
 #: client/helpdata.c:1121
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
-msgstr ""
+msgstr "Şimdi %s ile başlarsak %d ampül gerekecek."
 
 #: client/helpdata.c:1126
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
 "will require %d bulbs to complete."
-msgstr ""
+msgstr "%s teknolojisine ulaşmak için önce %d tane teknoloji öğrenmeliyiz. Tüm projenin bitmesi için %d ampül gerekecek."
 
 #: client/helpdata.c:1134
 #, c-format
@@ -8152,12 +8152,12 @@ msgstr ""
 #: client/helpdata.c:1149
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
-msgstr ""
+msgstr "* %s teknolojisini bulan ilk oyuncu başka bir teknolojiyi hemen öğrenir.\n"
 
 #: client/helpdata.c:1154
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-msgstr ""
+msgstr "* Açık denizde gemilerin kaybolma riskini %%25 azaltır.\n"
 
 #: client/helpdata.c:1157
 #, c-format
