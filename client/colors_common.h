@@ -74,7 +74,8 @@ struct color *get_terrain_color(const struct tileset *t,
 /* Functions used by the tileset to allocate the color system. */
 struct color_system *color_system_read(struct section_file *file);
 void color_system_setup_terrain(struct color_system *colors,
-				const struct terrain *pterrain);
+				const struct terrain *pterrain,
+				const char *tag);
 void color_system_free(struct color_system *colors);
 
 #endif /* FC__COLORS_COMMON_H */

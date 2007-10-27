@@ -59,7 +59,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+tilespec4.2007.Jul.13 duplicates_ok"
+#define TILESPEC_CAPSTR "+tilespec4+2007.Oct.26 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -1281,6 +1281,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   char *file_capstr;
   bool duplicates_ok, is_hex;
   enum direction8 dir;
+  const int spl = strlen(TILE_SECTION_PREFIX);
   struct tileset *t = tileset_new();
 
   fname = tilespec_fullname(tileset_name);
@@ -1477,7 +1478,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     char *sprite_type;
     int l;
 
-    draw->name = mystrdup(sections[i] + strlen(TILE_SECTION_PREFIX));
+    draw->name = mystrdup(sections[i] + spl);
     draw->blending = secfile_lookup_int_default(file, 0,
 						"%s.is_blended",
 						sections[i]);
@@ -3016,7 +3017,7 @@ void tileset_setup_tile_type(struct tileset *t,
 
   t->sprites.drawing[terrain_index(pterrain)] = draw;
 
-  color_system_setup_terrain(t->color_system, pterrain);
+  color_system_setup_terrain(t->color_system, pterrain, draw->name);
 }
 
 /**********************************************************************
