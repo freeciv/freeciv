@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-12 21:49+0900\n"
+"POT-Creation-Date: 2007-10-27 11:07+0900\n"
 "PO-Revision-Date: 2007-08-12 15:47+0300\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
@@ -49,7 +49,7 @@ msgid "Luxury"
 msgstr "Lusso"
 
 #: common/city.c:58 server/plrhand.c:215 client/gui-gtk-2.0/gamedlgs.c:282
-#: client/gui-gtk-2.0/repodlgs.c:281 client/gui-sdl/repodlgs.c:3235
+#: client/gui-gtk-2.0/repodlgs.c:281 client/gui-sdl/repodlgs.c:3259
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:92
 #: client/gui-xaw/menu.c:222 client/gui-xaw/repodlgs.c:273
 #: client/gui-xaw/repodlgs.c:483 data/Freeciv.in:1366
@@ -624,7 +624,7 @@ msgstr "Ricerca della Tecnologia Futura %d"
 #. TRANS: "None" tech
 #: common/tech.c:770 common/tech.c:774 server/settings.c:40
 #: client/gui-gtk-2.0/helpdlg.c:110 client/gui-sdl/citydlg.c:714
-#: client/gui-sdl/gui_tilespec.c:480 client/gui-sdl/helpdlg.c:371
+#: client/gui-sdl/gui_tilespec.c:482 client/gui-sdl/helpdlg.c:371
 #: client/gui-sdl/helpdlg.c:403 client/gui-sdl/helpdlg.c:792
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:946
 #: client/gui-win32/helpdlg.c:165 client/gui-win32/helpdlg.c:545
@@ -653,7 +653,7 @@ msgid "Road"
 msgstr "Strada"
 
 #: common/terrain.c:380 common/terrain.c:568 common/unit.c:554
-#: client/gui-gtk-2.0/menu.c:780 client/gui-sdl/optiondlg.c:1913
+#: client/gui-gtk-2.0/menu.c:780 client/gui-sdl/optiondlg.c:1906
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
@@ -670,7 +670,7 @@ msgid "Mine"
 msgstr "Miniera"
 
 #: common/terrain.c:383 common/unit.c:548 server/report.c:123
-#: client/cityrepdata.c:519 client/gui-sdl/optiondlg.c:1780
+#: client/cityrepdata.c:519 client/gui-sdl/optiondlg.c:1773
 msgid "Pollution"
 msgstr "Inquinamento"
 
@@ -712,11 +712,11 @@ msgstr "Fortificazione in corso"
 msgid "Fortified"
 msgstr "Fortificato"
 
-#: common/unit.c:562 client/gui-sdl/menu.c:620 client/gui-xaw/menu.c:184
+#: common/unit.c:562 client/gui-sdl/menu.c:661 client/gui-xaw/menu.c:184
 msgid "Sentry"
 msgstr "Sentinella"
 
-#: common/unit.c:566 client/gui-gtk-2.0/menu.c:833 client/gui-sdl/menu.c:607
+#: common/unit.c:566 client/gui-gtk-2.0/menu.c:833 client/gui-sdl/menu.c:648
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
 msgid "Pillage"
 msgstr "Saccheggio"
@@ -1901,91 +1901,91 @@ msgstr "Gioco: %s non può mantenere %s, unità congedata."
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Gioco: Cittadini di %s muoiono dato che non riescono a mantenere %s!"
 
-#: server/cityturn.c:1073 server/cityturn.c:1192
+#: server/cityturn.c:1075 server/cityturn.c:1194
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "Gioco: %s sta costruendo %s, che non è più disponibile."
 
-#: server/cityturn.c:1114
+#: server/cityturn.c:1116
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Gioco: gli %s hanno finito di costruire %s a %s."
 
-#: server/cityturn.c:1124
+#: server/cityturn.c:1126
 #, c-format
 msgid "%s has finished building %s."
 msgstr "Gioco: %s ha finito di costruire %s."
 
-#: server/cityturn.c:1140
+#: server/cityturn.c:1142
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "Gioco: %s accelera la ricerca, ottenete subito %d tecnologia."
 msgstr[1] "Gioco: %s accelera la ricerca, ottenete subito %d tecnologie."
 
-#: server/cityturn.c:1150 server/techtools.c:176
+#: server/cityturn.c:1152 server/techtools.c:176
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "Gioco: gli %s hanno acquisito %s dagli %s."
 
-#: server/cityturn.c:1158
+#: server/cityturn.c:1160
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "Gioco: gli %s hanno iniziato a costruire un'astronave!"
 
-#: server/cityturn.c:1217
+#: server/cityturn.c:1219
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "Gioco: %s non può ancora costruire %s."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1250
+#: server/cityturn.c:1252
 #, c-format
 msgid "%s is finished building %s."
 msgstr "Gioco: %s ha finito di costruire %s."
 
-#: server/cityturn.c:1293
+#: server/cityturn.c:1294
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Gioco: non potete permettervi la manutenzione di %s a %s, edificio venduto!"
 
-#: server/cityturn.c:1329
+#: server/cityturn.c:1330
 #, c-format
 msgid "Pollution near %s."
 msgstr "Gioco: inquinamento nei dintorni di %s."
 
-#: server/cityturn.c:1476
+#: server/cityturn.c:1477
 #, c-format
 msgid "We Love The %s Day celebrated in %s."
 msgstr "Gioco: è stata celebrata la festa in onore del %s a %s."
 
-#: server/cityturn.c:1483
+#: server/cityturn.c:1484
 #, c-format
 msgid "We Love The %s Day canceled in %s."
 msgstr "Gioco: è stata cancellata la festa in onore del %s a %s."
 
-#: server/cityturn.c:1512
+#: server/cityturn.c:1513
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Gioco: sommossa a %s."
 
-#: server/cityturn.c:1515
+#: server/cityturn.c:1516
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "Gioco: CONTINUA LA SOMMOSSA a %s."
 
-#: server/cityturn.c:1521
+#: server/cityturn.c:1522
 #, c-format
 msgid "Order restored in %s."
 msgstr "Gioco: sommossa sedata a %s."
 
-#: server/cityturn.c:1530
+#: server/cityturn.c:1531
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Gioco: il popolo ha rovesciato il vostro %s, la nazione è in rivolta."
 
-#: server/cityturn.c:1555
+#: server/cityturn.c:1556
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -1993,7 +1993,7 @@ msgstr ""
 "unica città."
 
 #. TRANS: Settler production leads to disbanded city.
-#: server/cityturn.c:1579
+#: server/cityturn.c:1580
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "Gioco: %s è stata abbandonata e i suoi abitanti hanno formato un %s."
@@ -3942,7 +3942,7 @@ msgstr "%s è stata DISTRUTTA\n"
 msgid "(building %s in %s (%s))\n"
 msgstr "(costruendo %s a %s (%s))\n"
 
-#: server/report.c:327 client/gui-xaw/menu.c:224 data/helpdata.txt:899
+#: server/report.c:327 client/gui-xaw/menu.c:224 data/helpdata.txt:898
 msgid "Wonders of the World"
 msgstr "Meraviglie del Mondo"
 
@@ -5536,8 +5536,8 @@ msgid ""
 msgstr ""
 "Il tuo client è troppo vecchio. Per utilizzare questo server per favore "
 "passa ad una versione più recente del client. Sono compatibili le versioni "
-"ottenute dal CVS dopo il 28 novembre 2003 oppure la versione 2.1 di "
-"Freeciv o successiva."
+"ottenute dal CVS dopo il 28 novembre 2003 oppure la versione 2.1 di Freeciv "
+"o successiva."
 
 #: server/srv_main.c:1137
 #, c-format
@@ -7611,8 +7611,8 @@ msgstr[1] "%3d turni"
 #: client/citydlg_common.c:244 client/citydlg_common.c:366 client/text.c:552
 #: client/agents/cma_fec.c:249 client/agents/cma_fec.c:283
 #: client/gui-gtk-2.0/citydlg.c:1417 client/gui-sdl/cityrep.c:529
-#: client/gui-sdl/cityrep.c:1053 client/gui-sdl/wldlg.c:1358
-#: client/gui-sdl/wldlg.c:1363 client/gui-win32/citydlg.c:455
+#: client/gui-sdl/cityrep.c:1053 client/gui-sdl/wldlg.c:1350
+#: client/gui-sdl/wldlg.c:1355 client/gui-win32/citydlg.c:455
 msgid "never"
 msgstr "mai"
 
@@ -7639,12 +7639,12 @@ msgstr[0] "%s (%d) %d turno"
 msgstr[1] "%s (%d) %d turni"
 
 #: client/citydlg_common.c:331 client/citydlg_common.c:344
-#: client/gui-sdl/wldlg.c:1334
+#: client/gui-sdl/wldlg.c:1326
 msgid "Obsolete"
 msgstr "Obsoleta"
 
 #: client/citydlg_common.c:333 client/citydlg_common.c:341
-#: client/gui-sdl/repodlgs.c:2005 client/gui-sdl/wldlg.c:1338
+#: client/gui-sdl/repodlgs.c:2030 client/gui-sdl/wldlg.c:1330
 msgid "Built"
 msgstr "Costruita"
 
@@ -7824,12 +7824,12 @@ msgstr "La migliore unità di difesa"
 #: client/gui-gtk-2.0/cityrep.c:1248 client/gui-gtk-2.0/cityrep.c:1267
 #: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/repodlgs.c:958
 #: client/gui-sdl/helpdlg.c:688 client/gui-sdl/mapctrl.c:1603
-#: client/gui-sdl/optiondlg.c:1834 client/gui-sdl/repodlgs.c:355
+#: client/gui-sdl/optiondlg.c:1827 client/gui-sdl/repodlgs.c:355
 #: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:614
 #: client/gui-win32/repodlgs.c:699 client/gui-win32/repodlgs.c:708
 #: client/gui-xaw/menu.c:157 client/gui-xaw/menu.c:219
 #: client/gui-xaw/menu.c:240 client/gui-xaw/repodlgs.c:879
-#: client/gui-xaw/repodlgs.c:1067 data/Freeciv.in:1895 data/helpdata.txt:910
+#: client/gui-xaw/repodlgs.c:1067 data/Freeciv.in:1895 data/helpdata.txt:909
 msgid "Units"
 msgstr "Unità"
 
@@ -8006,7 +8006,7 @@ msgstr "Governatore"
 #: client/cityrepdata.c:521 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-sdl/citydlg.c:3799
 #: client/gui-sdl/cma_fe.c:855 client/gui-win32/citydlg.c:730
-#: data/Freeciv.in:1459 data/helpdata.txt:821
+#: data/Freeciv.in:1459 data/helpdata.txt:820
 #, fuzzy
 msgid "Citizen Governor"
 msgstr "Governatore"
@@ -9312,7 +9312,7 @@ msgid ""
 "solid background color instead of the flag backdrop."
 msgstr ""
 
-#: client/options.c:152 client/gui-sdl/optiondlg.c:967
+#: client/options.c:152 client/gui-sdl/optiondlg.c:960
 msgid "Sound bell at new turn"
 msgstr "Suona un bip al nuovo turno"
 
@@ -9344,7 +9344,7 @@ msgid ""
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:171 client/gui-sdl/optiondlg.c:1021
+#: client/options.c:171 client/gui-sdl/optiondlg.c:1014
 msgid "Show combat animation"
 msgstr "Mostra l'animazione del combattimento"
 
@@ -9395,7 +9395,7 @@ msgid ""
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:198 client/gui-sdl/optiondlg.c:1128
+#: client/options.c:198 client/gui-sdl/optiondlg.c:1121
 msgid "Auto Center on Units"
 msgstr "Centrare automaticamente sulle unità"
 
@@ -9405,7 +9405,7 @@ msgid ""
 "focus changes."
 msgstr ""
 
-#: client/options.c:202 client/gui-sdl/optiondlg.c:1154
+#: client/options.c:202 client/gui-sdl/optiondlg.c:1147
 msgid "Auto Center on Combat"
 msgstr "Centrare automaticamente sui combattimenti"
 
@@ -9416,7 +9416,7 @@ msgid ""
 "entirely."
 msgstr ""
 
-#: client/options.c:208 client/gui-sdl/optiondlg.c:1181
+#: client/options.c:208 client/gui-sdl/optiondlg.c:1174
 msgid "Focus on Awakened Units"
 msgstr "Selezionare le unità attive"
 
@@ -9454,7 +9454,7 @@ msgid ""
 "be more compact."
 msgstr ""
 
-#: client/options.c:225 client/gui-sdl/optiondlg.c:1259
+#: client/options.c:225 client/gui-sdl/optiondlg.c:1252
 msgid "End Turn when done moving"
 msgstr "Fine Turno alla fine dei movimenti"
 
@@ -9464,7 +9464,7 @@ msgid ""
 "are done moving."
 msgstr ""
 
-#: client/options.c:229 client/gui-sdl/optiondlg.c:1233
+#: client/options.c:229 client/gui-sdl/optiondlg.c:1226
 msgid "Prompt for city names"
 msgstr "Richiedi nomi delle città"
 
@@ -9474,7 +9474,7 @@ msgid ""
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:233 client/gui-sdl/optiondlg.c:1207
+#: client/options.c:233 client/gui-sdl/optiondlg.c:1200
 msgid "Pop up city dialog for new cities"
 msgstr "Apri finestra città per le nuove città"
 
@@ -9636,7 +9636,7 @@ msgstr "Bandiera"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
 #: client/gui-gtk-2.0/pages.c:1508 client/gui-gtk-2.0/pages.c:2059
-#: client/gui-sdl/repodlgs.c:2037 client/gui-win32/connectdlg.c:988
+#: client/gui-sdl/repodlgs.c:2062 client/gui-win32/connectdlg.c:988
 #: client/gui-win32/dialogs.c:542 client/gui-win32/plrdlg.c:335
 msgid "Nation"
 msgstr "Nazione"
@@ -10430,7 +10430,7 @@ msgid "This unit cannot be bribed!"
 msgstr "Questa unità non può essere corrotta!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:92
-#: client/gui-sdl/diplomat_dialog.c:1397 client/gui-win32/dialogs.c:1370
+#: client/gui-sdl/diplomat_dialog.c:1395 client/gui-win32/dialogs.c:1370
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -10440,13 +10440,13 @@ msgstr ""
 "Il tesoro contiene %d auri."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:94
-#: client/gui-sdl/diplomat_dialog.c:701 client/gui-sdl/diplomat_dialog.c:1379
+#: client/gui-sdl/diplomat_dialog.c:701 client/gui-sdl/diplomat_dialog.c:1377
 #: client/gui-win32/dialogs.c:1372 data/Freeciv.in:2419 data/Freeciv.in:2432
 msgid "Bribe Enemy Unit"
 msgstr "Corrompi unità nemica"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:100
-#: client/gui-sdl/diplomat_dialog.c:1444 client/gui-win32/dialogs.c:1378
+#: client/gui-sdl/diplomat_dialog.c:1442 client/gui-win32/dialogs.c:1378
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -10457,7 +10457,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:102
 #: client/gui-gtk-2.0/diplomat_dialog.c:558
-#: client/gui-sdl/diplomat_dialog.c:1251 client/gui-sdl/diplomat_dialog.c:1457
+#: client/gui-sdl/diplomat_dialog.c:1250 client/gui-sdl/diplomat_dialog.c:1455
 #: client/gui-win32/dialogs.c:1382 client/gui-win32/dialogs.c:1566
 #: data/Freeciv.in:2454
 msgid "Traitors Demand Too Much!"
@@ -10510,24 +10510,24 @@ msgid "_Improvements:"
 msgstr "_Strutture cittadine"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:430
-#: client/gui-sdl/diplomat_dialog.c:874 client/gui-sdl/optiondlg.c:1590
+#: client/gui-sdl/diplomat_dialog.c:874 client/gui-sdl/optiondlg.c:1583
 #: client/gui-win32/dialogs.c:1395
 msgid "City Production"
 msgstr "Produzione della città"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:540
-#: client/gui-sdl/diplomat_dialog.c:1168 client/gui-win32/dialogs.c:1549
+#: client/gui-sdl/diplomat_dialog.c:1167 client/gui-win32/dialogs.c:1549
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Non puoi incitare una rivolta a %s."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:542
-#: client/gui-sdl/diplomat_dialog.c:1179 client/gui-win32/dialogs.c:1551
+#: client/gui-sdl/diplomat_dialog.c:1178 client/gui-win32/dialogs.c:1551
 msgid "City can't be incited!"
 msgstr "La città non può essere incitata alla rivolta!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:548
-#: client/gui-sdl/diplomat_dialog.c:1188 client/gui-win32/dialogs.c:1555
+#: client/gui-sdl/diplomat_dialog.c:1187 client/gui-win32/dialogs.c:1555
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -10537,13 +10537,13 @@ msgstr ""
 "Il tesoro contiene %d auri."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:550
-#: client/gui-sdl/diplomat_dialog.c:1137 client/gui-win32/dialogs.c:1558
+#: client/gui-sdl/diplomat_dialog.c:1136 client/gui-win32/dialogs.c:1558
 #: data/Freeciv.in:2443
 msgid "Incite a Revolt!"
 msgstr "Incita una rivolta!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:556
-#: client/gui-sdl/diplomat_dialog.c:1237 client/gui-win32/dialogs.c:1563
+#: client/gui-sdl/diplomat_dialog.c:1236 client/gui-win32/dialogs.c:1563
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -10987,7 +10987,7 @@ msgid "S_how"
 msgstr "_Mostra"
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
-#: client/gui-sdl/diplodlg.c:685 client/gui-sdl/optiondlg.c:1807
+#: client/gui-sdl/diplodlg.c:685 client/gui-sdl/optiondlg.c:1800
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
 #: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
 #: client/gui-xaw/cityrep.c:533 client/gui-xaw/menu.c:156
@@ -11216,7 +11216,7 @@ msgstr "_Nazioni:"
 msgid "What Nation Will You Be?"
 msgstr "Che nazione volete essere?"
 
-#: client/gui-gtk-2.0/dialogs.c:764 client/gui-sdl/chatline.c:542
+#: client/gui-gtk-2.0/dialogs.c:764 client/gui-sdl/chatline.c:841
 #: client/gui-win32/connectdlg.c:1036 data/Freeciv.in:3371
 #, fuzzy
 msgid "Pick Nation"
@@ -11364,8 +11364,8 @@ msgid "Select tax, luxury and science rates"
 msgstr "Scegliete il tasso di imposte, lusso e scienza"
 
 #: client/gui-gtk-2.0/gamedlgs.c:259 client/gui-gtk-2.0/gamedlgs.c:279
-#: client/gui-gtk-2.0/gamedlgs.c:299 client/gui-sdl/repodlgs.c:1865
-#: client/gui-sdl/repodlgs.c:1911 client/gui-win32/ratesdlg.c:312
+#: client/gui-gtk-2.0/gamedlgs.c:299 client/gui-sdl/repodlgs.c:1893
+#: client/gui-sdl/repodlgs.c:1939 client/gui-win32/ratesdlg.c:312
 #: client/gui-win32/ratesdlg.c:318 client/gui-win32/ratesdlg.c:324
 #: data/Freeciv.in:1311 data/Freeciv.in:1329 data/Freeciv.in:1348
 msgid "Lock"
@@ -11474,7 +11474,7 @@ msgid "Turn Done"
 msgstr "Fine Turno"
 
 #: client/gui-gtk-2.0/gui_main.c:1059 client/gui-sdl/mapctrl.c:1565
-#: client/gui-sdl/mapview.c:1074
+#: client/gui-sdl/mapview.c:1066
 msgid "Shift+Return"
 msgstr ""
 
@@ -11594,7 +11594,7 @@ msgstr "Ctrl+W"
 #: client/gui-gtk-2.0/happiness.c:122 client/gui-sdl/citydlg.c:2036
 #: client/gui-sdl/citydlg.c:3711 client/gui-win32/citydlg.c:730
 #: client/gui-win32/happiness.c:94 client/gui-xaw/menu.c:247
-#: data/helpdata.txt:1392
+#: data/helpdata.txt:1391
 msgid "Happiness"
 msgstr "Benessere"
 
@@ -11859,13 +11859,13 @@ msgstr "_Tecnologie"
 msgid "Foreign Intelligence: %s Empire"
 msgstr "Spionaggio: Impero %s"
 
-#: client/gui-gtk-2.0/mapctrl.c:195 client/gui-sdl/mapctrl.c:2528
-#: client/gui-sdl/menu.c:798 client/gui-sdl/menu.c:978
+#: client/gui-gtk-2.0/mapctrl.c:195 client/gui-sdl/mapctrl.c:2563
+#: client/gui-sdl/menu.c:839 client/gui-sdl/menu.c:1021
 #: client/gui-win32/mapctrl.c:357
 msgid "Build New City"
 msgstr "Costruzione nuova città"
 
-#: client/gui-gtk-2.0/mapctrl.c:196 client/gui-sdl/mapctrl.c:2557
+#: client/gui-gtk-2.0/mapctrl.c:196 client/gui-sdl/mapctrl.c:2592
 #: client/gui-win32/mapctrl.c:358 client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
 msgstr "Come dobbiamo chiamare la nostra nuova città?"
@@ -11960,7 +11960,7 @@ msgstr "_Governo"
 #: client/gui-gtk-2.0/menu.c:735 client/gui-gtk-2.0/menu.c:737
 #: client/gui-gtk-2.0/menu.c:739 client/gui-gtk-2.0/menu.c:741
 #: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
-#: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1321
+#: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1320
 msgid "Government"
 msgstr "Governo"
 
@@ -12036,9 +12036,9 @@ msgstr "_Crescita Città"
 msgid "City _Productions"
 msgstr "_Produzione delle città"
 
-#: client/gui-gtk-2.0/menu.c:770 client/gui-sdl/optiondlg.c:1642
+#: client/gui-gtk-2.0/menu.c:770 client/gui-sdl/optiondlg.c:1635
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:148
-#: client/gui-xaw/menu.c:244 manual/civmanual.c:220 data/helpdata.txt:1221
+#: client/gui-xaw/menu.c:244 manual/civmanual.c:220 data/helpdata.txt:1220
 msgid "Terrain"
 msgstr "Terreno"
 
@@ -12051,7 +12051,7 @@ msgstr "Linea costiera"
 msgid "Roads & Rails"
 msgstr "Strade & ferrovie"
 
-#: client/gui-gtk-2.0/menu.c:782 client/gui-sdl/optiondlg.c:1940
+#: client/gui-gtk-2.0/menu.c:782 client/gui-sdl/optiondlg.c:1933
 #: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:152
 msgid "Mines"
 msgstr "Miniere"
@@ -12075,7 +12075,7 @@ msgstr "Inquinamento & fallout"
 msgid "Focus Unit"
 msgstr "Unità attiva"
 
-#: client/gui-gtk-2.0/menu.c:796 client/gui-sdl/optiondlg.c:1861
+#: client/gui-gtk-2.0/menu.c:796 client/gui-sdl/optiondlg.c:1854
 #: client/gui-win32/menu.c:353 client/gui-xaw/menu.c:159
 msgid "Fog of War"
 msgstr "Nebbia di guerra"
@@ -12229,7 +12229,7 @@ msgstr "_Vai a"
 msgid "Go\\/Airlift to City"
 msgstr "Vai\\/Aereotrasporta in una città"
 
-#: client/gui-gtk-2.0/menu.c:867 client/gui-sdl/menu.c:436
+#: client/gui-gtk-2.0/menu.c:867 client/gui-sdl/menu.c:450
 #: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
 msgstr "Ritorna alla città più vicina"
@@ -12248,7 +12248,7 @@ msgstr "Aggiorna unità"
 msgid "Diplomat\\/Spy Actions"
 msgstr "Azioni diplomatiche\\/di spionaggio"
 
-#: client/gui-gtk-2.0/menu.c:877 client/gui-sdl/menu.c:385
+#: client/gui-gtk-2.0/menu.c:877 client/gui-sdl/menu.c:399
 #: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
 msgstr "Esplosione nucleare"
@@ -12729,7 +12729,7 @@ msgstr "Tutti pronti"
 msgid "Leader"
 msgstr "Capo"
 
-#: client/gui-gtk-2.0/pages.c:1632
+#: client/gui-gtk-2.0/pages.c:1632 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "Scegli la partita salvata da caricata"
 
@@ -12769,7 +12769,7 @@ msgstr "_Opzioni Gioco..."
 msgid "Select Location to Save"
 msgstr "Scegliete una nazione ed un nome"
 
-#: client/gui-gtk-2.0/pages.c:2344
+#: client/gui-gtk-2.0/pages.c:2344 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "Salva partita"
 
@@ -12806,7 +12806,7 @@ msgstr "Numero"
 msgid "Cost"
 msgstr "Costo"
 
-#: client/gui-gtk-2.0/repodlgs.c:636 client/gui-sdl/repodlgs.c:2005
+#: client/gui-gtk-2.0/repodlgs.c:636 client/gui-sdl/repodlgs.c:2030
 #: client/gui-win32/repodlgs.c:466
 msgid "U Total"
 msgstr "Costo totale"
@@ -13092,22 +13092,45 @@ msgstr "Aiuta a costruire la meraviglia"
 msgid "Keep moving"
 msgstr "Continua a muoverti"
 
-#: client/gui-sdl/chatline.c:468
+#: client/gui-sdl/chatline.c:201 client/gui-sdl/citydlg.c:3675
+#: client/gui-sdl/cma_fe.c:467 client/gui-sdl/cma_fe.c:873
+#: client/gui-sdl/dialogs.c:280 client/gui-sdl/dialogs.c:645
+#: client/gui-sdl/dialogs.c:879 client/gui-sdl/dialogs.c:1207
+#: client/gui-sdl/dialogs.c:1761 client/gui-sdl/diplomat_dialog.c:268
+#: client/gui-sdl/diplomat_dialog.c:864 client/gui-sdl/diplomat_dialog.c:1157
+#: client/gui-sdl/diplomat_dialog.c:1225 client/gui-sdl/diplomat_dialog.c:1431
+#: client/gui-sdl/finddlg.c:146 client/gui-sdl/gotodlg.c:251
+#: client/gui-sdl/helpdlg.c:229 client/gui-sdl/helpdlg.c:619
+#: client/gui-sdl/helpdlg.c:1910 client/gui-sdl/inteldlg.c:236
+#: client/gui-sdl/optiondlg.c:2181 client/gui-sdl/plrdlg.c:344
+#: client/gui-sdl/plrdlg.c:624 client/gui-sdl/repodlgs.c:379
+#: client/gui-sdl/repodlgs.c:1990 client/gui-sdl/repodlgs.c:2867
+#: client/gui-sdl/repodlgs.c:3056 client/gui-sdl/repodlgs.c:3320
+#: client/gui-sdl/spaceshipdlg.c:162
+#, fuzzy
+msgid "Close Dialog (Esc)"
+msgstr "Chiudi dialogo"
+
+#: client/gui-sdl/chatline.c:772
 #, c-format
 msgid "Total users logged in : %d"
 msgstr ""
 
-#: client/gui-sdl/chatline.c:522 client/gui-sdl/optiondlg.c:2199
-#: client/gui-win32/connectdlg.c:1094
+#: client/gui-sdl/chatline.c:820 client/gui-win32/connectdlg.c:1094
 msgid "Back"
 msgstr "Indietro"
 
-#: client/gui-sdl/chatline.c:532 data/Freeciv.in:3379
+#: client/gui-sdl/chatline.c:831 data/Freeciv.in:3379
 #, fuzzy
 msgid "Start"
 msgstr "_Inizia"
 
-#: client/gui-sdl/chatline.c:553
+#: client/gui-sdl/chatline.c:852 client/gui-sdl/pages.c:185
+#: client/gui-win32/connectdlg.c:775
+msgid "Load Game"
+msgstr "Carica partita"
+
+#: client/gui-sdl/chatline.c:864
 #, fuzzy
 msgid "Server Settings"
 msgstr "Salva impostazioni"
@@ -13146,19 +13169,19 @@ msgstr "Rendi città d'origine"
 #: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
 #: client/gui-sdl/dialogs.c:452 client/gui-sdl/dialogs.c:2095
 #: client/gui-sdl/dialogs.c:2891 client/gui-sdl/diplomat_dialog.c:731
-#: client/gui-sdl/mapctrl.c:2548 client/gui-sdl/repodlgs.c:1962
-#: client/gui-win32/citydlg.c:1080 client/gui-win32/cityrep.c:753
-#: client/gui-win32/connectdlg.c:1039 client/gui-win32/dialogs.c:1773
-#: client/gui-win32/finddlg.c:128 client/gui-win32/gotodlg.c:171
-#: client/gui-win32/inputdlg.c:146 client/gui-win32/messagedlg.c:216
-#: client/gui-win32/ratesdlg.c:328 client/gui-win32/repodlgs.c:981
-#: client/gui-win32/wldlg.c:855 client/gui-xaw/inputdlg.c:110
-#: data/Freeciv.in:1092 data/Freeciv.in:1148 data/Freeciv.in:1190
-#: data/Freeciv.in:1210 data/Freeciv.in:1247 data/Freeciv.in:1280
-#: data/Freeciv.in:1358 data/Freeciv.in:1553 data/Freeciv.in:1808
-#: data/Freeciv.in:2095 data/Freeciv.in:2176 data/Freeciv.in:2293
-#: data/Freeciv.in:2328 data/Freeciv.in:2437 data/Freeciv.in:2505
-#: data/Freeciv.in:2515 data/Freeciv.in:3364 data/Freeciv.in:3422
+#: client/gui-sdl/mapctrl.c:2583 client/gui-win32/citydlg.c:1080
+#: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:1039
+#: client/gui-win32/dialogs.c:1773 client/gui-win32/finddlg.c:128
+#: client/gui-win32/gotodlg.c:171 client/gui-win32/inputdlg.c:146
+#: client/gui-win32/messagedlg.c:216 client/gui-win32/ratesdlg.c:328
+#: client/gui-win32/repodlgs.c:981 client/gui-win32/wldlg.c:855
+#: client/gui-xaw/inputdlg.c:110 data/Freeciv.in:1092 data/Freeciv.in:1148
+#: data/Freeciv.in:1190 data/Freeciv.in:1210 data/Freeciv.in:1247
+#: data/Freeciv.in:1280 data/Freeciv.in:1358 data/Freeciv.in:1553
+#: data/Freeciv.in:1808 data/Freeciv.in:2095 data/Freeciv.in:2176
+#: data/Freeciv.in:2293 data/Freeciv.in:2328 data/Freeciv.in:2437
+#: data/Freeciv.in:2505 data/Freeciv.in:2515 data/Freeciv.in:3364
+#: data/Freeciv.in:3422
 msgid "Cancel"
 msgstr "Cancella"
 
@@ -13192,9 +13215,9 @@ msgid "Buy it?"
 msgstr "Compra!"
 
 #: client/gui-sdl/citydlg.c:1196 client/gui-sdl/cma_fe.c:325
-#: client/gui-sdl/diplodlg.c:1328 client/gui-sdl/diplomat_dialog.c:1212
-#: client/gui-sdl/diplomat_dialog.c:1419 client/gui-sdl/plrdlg.c:222
-#: client/gui-sdl/repodlgs.c:220 client/gui-sdl/repodlgs.c:1530
+#: client/gui-sdl/diplodlg.c:1328 client/gui-sdl/diplomat_dialog.c:1211
+#: client/gui-sdl/diplomat_dialog.c:1417 client/gui-sdl/plrdlg.c:222
+#: client/gui-sdl/repodlgs.c:220 client/gui-sdl/repodlgs.c:1558
 #: client/gui-win32/repodlgs.c:578 client/gui-xaw/citydlg.c:2430
 #: client/gui-xaw/cityrep.c:666 client/gui-xaw/cma_fe.c:327
 #: client/gui-xaw/cma_fe.c:511 client/gui-xaw/cma_fe.c:765
@@ -13208,8 +13231,8 @@ msgid "No"
 msgstr "No"
 
 #: client/gui-sdl/citydlg.c:1207 client/gui-sdl/cma_fe.c:316
-#: client/gui-sdl/diplodlg.c:1338 client/gui-sdl/diplomat_dialog.c:1201
-#: client/gui-sdl/diplomat_dialog.c:1409 client/gui-sdl/plrdlg.c:222
+#: client/gui-sdl/diplodlg.c:1338 client/gui-sdl/diplomat_dialog.c:1200
+#: client/gui-sdl/diplomat_dialog.c:1407 client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:231 client/gui-win32/repodlgs.c:576
 #: client/gui-xaw/citydlg.c:2430 client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
@@ -13346,16 +13369,16 @@ msgstr "Città: %s (%s)"
 
 #: client/gui-sdl/citydlg.c:2971 client/gui-sdl/citydlg.c:2975
 #: client/gui-sdl/citydlg.c:3295 client/gui-sdl/cityrep.c:532
-#: client/gui-sdl/cityrep.c:1056 client/gui-sdl/menu.c:761
-#: client/gui-sdl/menu.c:765 client/gui-sdl/menu.c:998
-#: client/gui-sdl/menu.c:1004 client/gui-sdl/menu.c:1044
-#: client/gui-sdl/menu.c:1050 client/gui-sdl/menu.c:1056
-#: client/gui-sdl/menu.c:1074 client/gui-sdl/menu.c:1083
-#: client/gui-sdl/menu.c:1090 client/gui-sdl/menu.c:1106
-#: client/gui-sdl/plrdlg.c:661 client/gui-sdl/repodlgs.c:550
-#: client/gui-sdl/repodlgs.c:909 client/gui-sdl/wldlg.c:902
-#: client/gui-sdl/wldlg.c:1076 client/gui-sdl/wldlg.c:1372
-#: client/gui-sdl/wldlg.c:1378 client/gui-sdl/wldlg.c:1492
+#: client/gui-sdl/cityrep.c:1056 client/gui-sdl/menu.c:802
+#: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1041
+#: client/gui-sdl/menu.c:1047 client/gui-sdl/menu.c:1087
+#: client/gui-sdl/menu.c:1093 client/gui-sdl/menu.c:1099
+#: client/gui-sdl/menu.c:1117 client/gui-sdl/menu.c:1126
+#: client/gui-sdl/menu.c:1133 client/gui-sdl/menu.c:1149
+#: client/gui-sdl/plrdlg.c:661 client/gui-sdl/repodlgs.c:551
+#: client/gui-sdl/repodlgs.c:927 client/gui-sdl/wldlg.c:902
+#: client/gui-sdl/wldlg.c:1076 client/gui-sdl/wldlg.c:1364
+#: client/gui-sdl/wldlg.c:1370 client/gui-sdl/wldlg.c:1484
 #, fuzzy
 msgid "turn"
 msgid_plural "turns"
@@ -13390,23 +13413,6 @@ msgstr ""
 #, fuzzy
 msgid " - under Citizen Governor control."
 msgstr "%s ora è controllato da una IA."
-
-#: client/gui-sdl/citydlg.c:3675 client/gui-sdl/cma_fe.c:467
-#: client/gui-sdl/cma_fe.c:873 client/gui-sdl/dialogs.c:280
-#: client/gui-sdl/dialogs.c:645 client/gui-sdl/dialogs.c:879
-#: client/gui-sdl/dialogs.c:1207 client/gui-sdl/dialogs.c:1761
-#: client/gui-sdl/diplomat_dialog.c:268 client/gui-sdl/diplomat_dialog.c:864
-#: client/gui-sdl/diplomat_dialog.c:1158 client/gui-sdl/diplomat_dialog.c:1226
-#: client/gui-sdl/diplomat_dialog.c:1433 client/gui-sdl/finddlg.c:146
-#: client/gui-sdl/gotodlg.c:251 client/gui-sdl/helpdlg.c:229
-#: client/gui-sdl/helpdlg.c:619 client/gui-sdl/helpdlg.c:1910
-#: client/gui-sdl/inteldlg.c:236 client/gui-sdl/plrdlg.c:344
-#: client/gui-sdl/plrdlg.c:624 client/gui-sdl/repodlgs.c:379
-#: client/gui-sdl/repodlgs.c:2843 client/gui-sdl/repodlgs.c:3032
-#: client/gui-sdl/repodlgs.c:3296 client/gui-sdl/spaceshipdlg.c:162
-#, fuzzy
-msgid "Close Dialog (Esc)"
-msgstr "Chiudi dialogo"
 
 #: client/gui-sdl/citydlg.c:3688
 #, fuzzy
@@ -13569,7 +13575,7 @@ msgstr "Collega"
 msgid "Next"
 msgstr "Successivo"
 
-#: client/gui-sdl/dialogs.c:463 client/gui-sdl/menu.c:423
+#: client/gui-sdl/dialogs.c:463 client/gui-sdl/menu.c:437
 #: client/gui-win32/repodlgs.c:716 data/Freeciv.in:1951
 msgid "Upgrade"
 msgstr "Aggiorna"
@@ -13688,7 +13694,7 @@ msgid "Male"
 msgstr "Maschio"
 
 #: client/gui-sdl/dialogs.c:2477 client/gui-sdl/dialogs.c:2900
-#: client/gui-sdl/mapctrl.c:2538 client/gui-win32/dialogs.c:593
+#: client/gui-sdl/mapctrl.c:2573 client/gui-win32/dialogs.c:593
 #: client/gui-win32/inputdlg.c:145 client/gui-win32/repodlgs.c:980
 msgid "OK"
 msgstr "OK"
@@ -13929,21 +13935,21 @@ msgstr ""
 msgid "  -t,  --theme THEME\tUse GUI theme THEME\n"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:659
+#: client/gui-sdl/gui_main.c:660
 #, c-format
 msgid "Making screenshot fc_%05d.bmp"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:792
+#: client/gui-sdl/gui_main.c:793
 #, c-format
 msgid "Using Video Output: %s"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:845
+#: client/gui-sdl/gui_main.c:846
 msgid "Initializing Client"
 msgstr ""
 
-#: client/gui-sdl/gui_main.c:856
+#: client/gui-sdl/gui_main.c:857
 msgid "Waiting for the beginning of the game"
 msgstr ""
 
@@ -13997,7 +14003,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: Future Technology
-#: client/gui-sdl/gui_tilespec.c:504
+#: client/gui-sdl/gui_tilespec.c:506
 msgid "FT"
 msgstr ""
 
@@ -14012,11 +14018,11 @@ msgid "Help : Units"
 msgstr "Selezione unità"
 
 #: client/gui-sdl/helpdlg.c:736 client/gui-sdl/helpdlg.c:749
-#: client/gui-sdl/wldlg.c:1356 client/gui-sdl/wldlg.c:1362
-#: client/gui-sdl/wldlg.c:1370 client/gui-sdl/wldlg.c:1376
-#: client/gui-sdl/wldlg.c:1392 client/gui-sdl/wldlg.c:1397
-#: client/gui-sdl/wldlg.c:1484 client/gui-sdl/wldlg.c:1491
-#: client/gui-sdl/wldlg.c:1500
+#: client/gui-sdl/wldlg.c:1348 client/gui-sdl/wldlg.c:1354
+#: client/gui-sdl/wldlg.c:1362 client/gui-sdl/wldlg.c:1368
+#: client/gui-sdl/wldlg.c:1384 client/gui-sdl/wldlg.c:1389
+#: client/gui-sdl/wldlg.c:1476 client/gui-sdl/wldlg.c:1483
+#: client/gui-sdl/wldlg.c:1492
 #, fuzzy
 msgid "shield"
 msgid_plural "shields"
@@ -14176,8 +14182,8 @@ msgstr "Messaggi"
 msgid "Toggle Minimap Mode"
 msgstr "_Cambia Modalità IA"
 
-#: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2164
-#: client/gui-sdl/pages.c:229 data/Freeciv.in:1217
+#: client/gui-sdl/mapctrl.c:1635 client/gui-sdl/optiondlg.c:2166
+#: client/gui-sdl/pages.c:241 data/Freeciv.in:1217
 msgid "Options"
 msgstr "Opzioni"
 
@@ -14281,358 +14287,362 @@ msgid ""
 "Food/Prod/Trade: %s"
 msgstr "Cibo/Prod/Comm: %s"
 
-#: client/gui-sdl/mapview.c:1074
+#: client/gui-sdl/mapview.c:1066
 msgid "End of Turn"
 msgstr ""
 
-#: client/gui-sdl/mapview.c:1074
+#: client/gui-sdl/mapview.c:1066
 #, fuzzy
 msgid "Press"
 msgstr "Preselezioni"
 
 #. TRANS: keyboard
-#: client/gui-sdl/menu.c:359
+#: client/gui-sdl/menu.c:373
 #, fuzzy
 msgid "No orders"
 msgstr "Confini nazionali"
 
-#: client/gui-sdl/menu.c:359
+#: client/gui-sdl/menu.c:373
 #, fuzzy
 msgid "Space"
 msgstr "Spezie"
 
-#: client/gui-sdl/menu.c:373 client/gui-xaw/menu.c:212
+#: client/gui-sdl/menu.c:387 client/gui-xaw/menu.c:212
 msgid "Wait"
 msgstr "Attendi"
 
-#: client/gui-sdl/menu.c:398
+#: client/gui-sdl/menu.c:412
 msgid "Diplomat|Spy Actions"
 msgstr "Azioni diplomatiche|spionaggio"
 
-#: client/gui-sdl/menu.c:410
+#: client/gui-sdl/menu.c:424
 msgid "Disband"
 msgstr "Congeda"
 
-#: client/gui-sdl/menu.c:449
+#: client/gui-sdl/menu.c:463
 #, fuzzy
 msgid "Goto City"
 msgstr "Controlla città"
 
-#: client/gui-sdl/menu.c:461 client/gui-win32/gotodlg.c:167
+#: client/gui-sdl/menu.c:476 client/gui-win32/gotodlg.c:167
 #: data/Freeciv.in:1130
 msgid "Airlift"
 msgstr "Aereotrasporta"
 
-#: client/gui-sdl/menu.c:473 client/gui-win32/messagewin.c:149
+#: client/gui-sdl/menu.c:489 client/gui-win32/messagewin.c:149
 #: data/Freeciv.in:3314
 msgid "Goto location"
 msgstr "Vai alla posizione"
 
-#: client/gui-sdl/menu.c:485 client/gui-win32/menu.c:384
+#: client/gui-sdl/menu.c:501 client/gui-win32/menu.c:384
 #: client/gui-xaw/menu.c:200
 msgid "Patrol"
 msgstr "Pattugliamento"
 
-#: client/gui-sdl/menu.c:497
+#: client/gui-sdl/menu.c:513
 #, fuzzy
 msgid "Connect irrigation"
 msgstr "Irrigazione/Irrigazione"
 
-#: client/gui-sdl/menu.c:510
+#: client/gui-sdl/menu.c:526
 #, fuzzy
 msgid "Connect road"
 msgstr "Collega/Strada"
 
-#: client/gui-sdl/menu.c:523
+#: client/gui-sdl/menu.c:539
 #, fuzzy
 msgid "Connect railroad"
 msgstr "Collega/Strada"
 
-#: client/gui-sdl/menu.c:536
+#: client/gui-sdl/menu.c:552
 #, fuzzy
 msgid "Auto-Explore"
 msgstr "Esplora automaticamente"
 
-#: client/gui-sdl/menu.c:549 client/gui-sdl/menu.c:1189
+#: client/gui-sdl/menu.c:565 client/gui-sdl/menu.c:1244
 #, fuzzy
 msgid "Auto-Attack"
 msgstr "Attacca automaticamente"
 
-#: client/gui-sdl/menu.c:551 client/gui-sdl/menu.c:1183
+#: client/gui-sdl/menu.c:567 client/gui-sdl/menu.c:1238
 #, fuzzy
 msgid "Auto-Settler"
 msgstr "Colonizza automaticamente"
 
-#: client/gui-sdl/menu.c:570
+#: client/gui-sdl/menu.c:586
 #, fuzzy
 msgid "Wake Up Others"
 msgstr "Sveglia gli altri"
 
-#: client/gui-sdl/menu.c:583 client/gui-xaw/menu.c:191
+#: client/gui-sdl/menu.c:599 client/gui-xaw/menu.c:188
+msgid "Unload Transporter"
+msgstr "Scerica cargo"
+
+#: client/gui-sdl/menu.c:612 client/gui-xaw/menu.c:190
+msgid "Load"
+msgstr "Carica"
+
+#: client/gui-sdl/menu.c:624 client/gui-xaw/menu.c:191
 msgid "Unload"
 msgstr "Scarica"
 
-#: client/gui-sdl/menu.c:595
+#: client/gui-sdl/menu.c:636
 #, fuzzy
 msgid "Find Homecity"
 msgstr "Cerca città"
 
-#: client/gui-sdl/menu.c:632 client/gui-xaw/menu.c:181
+#: client/gui-sdl/menu.c:673 client/gui-xaw/menu.c:181
 msgid "Clean Nuclear Fallout"
 msgstr "Pulisci ricaduta radioattiva"
 
-#: client/gui-sdl/menu.c:644 client/gui-win32/menu.c:1255
+#: client/gui-sdl/menu.c:685 client/gui-win32/menu.c:1255
 #: client/gui-xaw/menu.c:180
 msgid "Paradrop"
 msgstr "Paracadutare"
 
-#: client/gui-sdl/menu.c:656 client/gui-win32/menu.c:1257
+#: client/gui-sdl/menu.c:697 client/gui-win32/menu.c:1257
 #: client/gui-xaw/menu.c:179
 msgid "Clean Pollution"
 msgstr "Pulisci inquinamento"
 
-#: client/gui-sdl/menu.c:668 client/gui-xaw/menu.c:178
+#: client/gui-sdl/menu.c:709 client/gui-xaw/menu.c:178
 msgid "Build Airbase"
 msgstr "Costruisci base aerea"
 
-#: client/gui-sdl/menu.c:680 client/gui-win32/menu.c:1248
+#: client/gui-sdl/menu.c:721 client/gui-win32/menu.c:1248
 #: client/gui-xaw/menu.c:183
 msgid "Fortify"
 msgstr "Fortifica"
 
-#: client/gui-sdl/menu.c:692 client/gui-win32/menu.c:1250
+#: client/gui-sdl/menu.c:733 client/gui-win32/menu.c:1250
 #: client/gui-xaw/menu.c:177
 msgid "Build Fortress"
 msgstr "Costruisci fortezza"
 
-#: client/gui-sdl/menu.c:704
+#: client/gui-sdl/menu.c:745
 #, fuzzy
 msgid "Transform Tile"
 msgstr "Trasforma"
 
-#: client/gui-sdl/menu.c:717 client/gui-sdl/menu.c:1089
+#: client/gui-sdl/menu.c:758 client/gui-sdl/menu.c:1132
 #: client/gui-win32/menu.c:1115 client/gui-xaw/menu.c:173
 msgid "Build Mine"
 msgstr "Costruisci miniera"
 
-#: client/gui-sdl/menu.c:731 client/gui-sdl/menu.c:1055
+#: client/gui-sdl/menu.c:772 client/gui-sdl/menu.c:1098
 #: client/gui-win32/menu.c:1114 client/gui-xaw/menu.c:170
 msgid "Build Irrigation"
 msgstr "Costruisci irrigazione"
 
-#: client/gui-sdl/menu.c:745
+#: client/gui-sdl/menu.c:786
 #, fuzzy
 msgid "Form Traderoute"
 msgstr "Rotte commerciali"
 
-#: client/gui-sdl/menu.c:760 client/gui-sdl/menu.c:997
+#: client/gui-sdl/menu.c:801 client/gui-sdl/menu.c:1040
 #: client/gui-win32/menu.c:1206 client/gui-xaw/menu.c:169
 msgid "Build Railroad"
 msgstr "Costruisci ferrovia"
 
-#: client/gui-sdl/menu.c:764 client/gui-sdl/menu.c:1003
+#: client/gui-sdl/menu.c:805 client/gui-sdl/menu.c:1046
 #: client/gui-win32/menu.c:1209 client/gui-win32/menu.c:1214
 #: client/gui-xaw/menu.c:168
 msgid "Build Road"
 msgstr "Costruisci strada"
 
-#: client/gui-sdl/menu.c:784 client/gui-win32/menu.c:1188
+#: client/gui-sdl/menu.c:825 client/gui-win32/menu.c:1188
 #: client/gui-xaw/menu.c:206
 msgid "Help Build Wonder"
 msgstr "Aiuta a costruire la meraviglia"
 
-#: client/gui-sdl/menu.c:796 client/gui-sdl/menu.c:976
+#: client/gui-sdl/menu.c:837 client/gui-sdl/menu.c:1019
 #: client/gui-win32/menu.c:1192 client/gui-xaw/menu.c:167
 msgid "Add to City"
 msgstr "Aggiugi alla città"
 
-#: client/gui-sdl/menu.c:1021
+#: client/gui-sdl/menu.c:1064
 #, c-format
 msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
 msgstr ""
 
-#: client/gui-sdl/menu.c:1027
+#: client/gui-sdl/menu.c:1070
 #, c-format
 msgid "Trade with %s ( %d R&G bonus ) (R)"
 msgstr ""
 
-#: client/gui-sdl/menu.c:1042
+#: client/gui-sdl/menu.c:1085
 #, fuzzy
 msgid "Cut Down to"
 msgstr "Chiusura del collegamento %s."
 
-#: client/gui-sdl/menu.c:1048 client/gui-sdl/menu.c:1072
+#: client/gui-sdl/menu.c:1091 client/gui-sdl/menu.c:1115
 #, fuzzy
 msgid "Irrigate to"
 msgstr "_Irriga"
 
-#: client/gui-sdl/menu.c:1082
+#: client/gui-sdl/menu.c:1125
 #, fuzzy
 msgid "Plant Forest"
 msgstr "Foresta"
 
-#: client/gui-sdl/menu.c:1103
+#: client/gui-sdl/menu.c:1146
 #, fuzzy
 msgid "Transform to"
 msgstr "Trasforma in %s"
 
-#: client/gui-sdl/optiondlg.c:214 client/gui-win32/wldlg.c:325
+#: client/gui-sdl/optiondlg.c:215 client/gui-win32/wldlg.c:325
 #: client/gui-xaw/wldlg.c:676
 msgid "empty worklist"
 msgstr "lista vuota"
 
-#: client/gui-sdl/optiondlg.c:337
+#: client/gui-sdl/optiondlg.c:338
 #, fuzzy
 msgid "Add new worklist"
 msgstr "Rinomina lista lavori"
 
-#: client/gui-sdl/optiondlg.c:447 client/gui-sdl/optiondlg.c:632
+#: client/gui-sdl/optiondlg.c:440 client/gui-sdl/optiondlg.c:625
 #, c-format
 msgid ""
 "Current Setup\n"
 "Fullscreen %dx%d"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:450 client/gui-sdl/optiondlg.c:635
+#: client/gui-sdl/optiondlg.c:443 client/gui-sdl/optiondlg.c:628
 #, c-format
 msgid ""
 "Current Setup\n"
 "%dx%d"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:611
+#: client/gui-sdl/optiondlg.c:604
 #, fuzzy
 msgid "No modes available!"
 msgstr "Nessuna meraviglia disponibile"
 
-#: client/gui-sdl/optiondlg.c:617
+#: client/gui-sdl/optiondlg.c:610
 msgid "All resolutions available."
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:653
+#: client/gui-sdl/optiondlg.c:646
 #, fuzzy
 msgid "Fullscreen Mode"
 msgstr "Modalità a pieno schermo"
 
-#: client/gui-sdl/optiondlg.c:994
+#: client/gui-sdl/optiondlg.c:987
 msgid "Smooth unit move steps"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1048
+#: client/gui-sdl/optiondlg.c:1041
 #, fuzzy
 msgid "Show focus animation"
 msgstr "Mostra l'animazione del combattimento"
 
-#: client/gui-sdl/optiondlg.c:1075
+#: client/gui-sdl/optiondlg.c:1068
 #, fuzzy
 msgid "Show cursors animation"
 msgstr "Mostra l'animazione del combattimento"
 
-#: client/gui-sdl/optiondlg.c:1102
+#: client/gui-sdl/optiondlg.c:1095
 msgid "Use color cursors"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1564 client/gui-xaw/menu.c:143
+#: client/gui-sdl/optiondlg.c:1557 client/gui-xaw/menu.c:143
 msgid "City Names"
 msgstr "Nomi delle città"
 
-#: client/gui-sdl/optiondlg.c:1616 client/gui-xaw/menu.c:141
+#: client/gui-sdl/optiondlg.c:1609 client/gui-xaw/menu.c:141
 msgid "National Borders"
 msgstr "Confini nazionali"
 
-#: client/gui-sdl/optiondlg.c:1668 client/gui-xaw/menu.c:140
+#: client/gui-sdl/optiondlg.c:1661 client/gui-xaw/menu.c:140
 msgid "Map Grid"
 msgstr "Griglia sulla mappa"
 
-#: client/gui-sdl/optiondlg.c:1696
+#: client/gui-sdl/optiondlg.c:1689
 msgid "Draw city map grid"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1726
+#: client/gui-sdl/optiondlg.c:1719
 msgid "Draw city worker map grid"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:1753
+#: client/gui-sdl/optiondlg.c:1746
 #, fuzzy
 msgid "Special Resources"
 msgstr "Pianura (Scudo)"
 
-#: client/gui-sdl/optiondlg.c:1887 client/gui-xaw/menu.c:150
+#: client/gui-sdl/optiondlg.c:1880 client/gui-xaw/menu.c:150
 msgid "Roads and Rails"
 msgstr "Strade e ferrovie"
 
-#: client/gui-sdl/optiondlg.c:1966 client/gui-xaw/menu.c:153
+#: client/gui-sdl/optiondlg.c:1959 client/gui-xaw/menu.c:153
 msgid "Fortress and Airbase"
 msgstr "Fortezza e base aerea"
 
-#: client/gui-sdl/optiondlg.c:1994
+#: client/gui-sdl/optiondlg.c:1987
 msgid "Civ3 city text style"
 msgstr ""
 
-#: client/gui-sdl/optiondlg.c:2178 client/gui-sdl/pages.c:243
+#: client/gui-sdl/optiondlg.c:2216
+#, fuzzy
+msgid "Video options"
+msgstr "Opzione vitale"
+
+#: client/gui-sdl/optiondlg.c:2226
+#, fuzzy
+msgid "Sound options"
+msgstr "Plugin sonoro predefinito"
+
+#: client/gui-sdl/optiondlg.c:2238
+#, fuzzy
+msgid "Game options"
+msgstr "Opzioni gioco"
+
+#: client/gui-sdl/optiondlg.c:2248
+#, fuzzy
+msgid "Map options"
+msgstr "Opzione vitale"
+
+#: client/gui-sdl/optiondlg.c:2259 client/gui-xaw/menu.c:129
+#: data/Freeciv.in:1971
+msgid "Worklists"
+msgstr "Liste lavori"
+
+#: client/gui-sdl/optiondlg.c:2287
+#, fuzzy
+msgid "Leave Game"
+msgstr "Salva partita"
+
+#: client/gui-sdl/optiondlg.c:2302 client/gui-sdl/pages.c:255
 #: client/gui-win32/connectdlg.c:1098 client/gui-xaw/menu.c:121
 #: data/Freeciv.in:115 data/Freeciv.in:3180
 msgid "Quit"
 msgstr "Abbandona"
 
-#: client/gui-sdl/optiondlg.c:2189 client/gui-xaw/menu.c:120
-#: data/Freeciv.in:3178
-msgid "Disconnect"
-msgstr "Disconnettersi"
-
-#: client/gui-sdl/optiondlg.c:2253
-#, fuzzy
-msgid "Video options"
-msgstr "Opzione vitale"
-
-#: client/gui-sdl/optiondlg.c:2263
-#, fuzzy
-msgid "Sound options"
-msgstr "Plugin sonoro predefinito"
-
-#: client/gui-sdl/optiondlg.c:2275
-#, fuzzy
-msgid "Game options"
-msgstr "Opzioni gioco"
-
-#: client/gui-sdl/optiondlg.c:2285
-#, fuzzy
-msgid "Map options"
-msgstr "Opzione vitale"
-
-#: client/gui-sdl/optiondlg.c:2296 client/gui-xaw/menu.c:129
-#: data/Freeciv.in:1971
-msgid "Worklists"
-msgstr "Liste lavori"
-
-#: client/gui-sdl/pages.c:158 client/gui-win32/connectdlg.c:963
+#: client/gui-sdl/pages.c:170 client/gui-win32/connectdlg.c:963
 msgid "Start New Game"
 msgstr "Inizia nuova partita"
 
-#: client/gui-sdl/pages.c:173 client/gui-win32/connectdlg.c:775
-msgid "Load Game"
-msgstr "Carica partita"
-
-#: client/gui-sdl/pages.c:187
+#: client/gui-sdl/pages.c:199
 #, fuzzy
 msgid "Join Game"
 msgstr "Carica partita"
 
-#: client/gui-sdl/pages.c:201
+#: client/gui-sdl/pages.c:213
 #, fuzzy
 msgid "Join Pubserver"
 msgstr " (osservatore)"
 
-#: client/gui-sdl/pages.c:215
+#: client/gui-sdl/pages.c:227
 #, fuzzy
 msgid "Join LAN Server"
 msgstr "Server di rete locale"
 
-#: client/gui-sdl/pages.c:296
+#: client/gui-sdl/pages.c:308
 msgid "SDLClient welcomes you..."
 msgstr ""
 
-#: client/gui-sdl/pages.c:297
+#: client/gui-sdl/pages.c:309
 #, fuzzy
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
@@ -14642,11 +14652,11 @@ msgstr ""
 "è benvenuta a certe condizioni; vedete la voce \"Licenza\" nel menù Aiuto.\n"
 "Ora... spediteli all'inferno!"
 
-#: client/gui-sdl/pages.c:300
+#: client/gui-sdl/pages.c:312
 msgid "See the \"Copying\" item on the Help menu."
 msgstr ""
 
-#: client/gui-sdl/pages.c:302
+#: client/gui-sdl/pages.c:314
 msgid "Now.. Go give'em hell!"
 msgstr ""
 
@@ -14689,7 +14699,7 @@ msgstr "Totali"
 msgid "Units Report"
 msgstr "Rapporto sulle città"
 
-#: client/gui-sdl/repodlgs.c:1489
+#: client/gui-sdl/repodlgs.c:1517
 #, c-format
 msgid ""
 "We have %d of %s\n"
@@ -14697,77 +14707,77 @@ msgid ""
 "We can sell %d of them for %d gold."
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1496
+#: client/gui-sdl/repodlgs.c:1524
 #, c-format
 msgid "We can't sell any %s in this turn."
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1501
+#: client/gui-sdl/repodlgs.c:1529
 #, fuzzy
 msgid "Sell It?"
 msgstr "Vendi!"
 
-#: client/gui-sdl/repodlgs.c:1732
+#: client/gui-sdl/repodlgs.c:1760
 #, fuzzy
 msgid "Economy Report"
 msgstr "Economia: Auri"
 
-#: client/gui-sdl/repodlgs.c:1747
+#: client/gui-sdl/repodlgs.c:1775
 #, fuzzy
 msgid "Treasury: "
 msgstr "Trattato: pace"
 
-#: client/gui-sdl/repodlgs.c:1769
+#: client/gui-sdl/repodlgs.c:1797
 #, fuzzy
 msgid "Tax Rate: "
 msgstr "Livello dei tassi"
 
-#: client/gui-sdl/repodlgs.c:1790
+#: client/gui-sdl/repodlgs.c:1818
 #, fuzzy
 msgid "Total Income: "
 msgstr "Costo totale:"
 
-#: client/gui-sdl/repodlgs.c:1810
+#: client/gui-sdl/repodlgs.c:1838
 #, fuzzy
 msgid "Total Cost: "
 msgstr "Costo totale:"
 
-#: client/gui-sdl/repodlgs.c:1829
+#: client/gui-sdl/repodlgs.c:1857
 msgid "Net Income: "
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1853
+#: client/gui-sdl/repodlgs.c:1881
 #, fuzzy, c-format
 msgid "%s max rate : %d%%"
 msgstr "Tasso massimo per %s: %d%%"
 
-#: client/gui-sdl/repodlgs.c:1952 client/gui-win32/connectdlg.c:1081
+#: client/gui-sdl/repodlgs.c:1980 client/gui-win32/connectdlg.c:1081
 #: client/gui-win32/connectdlg.c:1089 data/Freeciv.in:155
 msgid "Update"
 msgstr "Aggiorna"
 
-#: client/gui-sdl/repodlgs.c:2039 client/gui-sdl/wldlg.c:1340
+#: client/gui-sdl/repodlgs.c:2064 client/gui-sdl/wldlg.c:1332
 msgid "Wonder"
 msgstr "Meraviglia"
 
-#: client/gui-sdl/repodlgs.c:2827
+#: client/gui-sdl/repodlgs.c:2851
 #, fuzzy
 msgid "What should we focus on now?"
 msgstr "Come dobbiamo chiamare la nostra nuova città?"
 
-#: client/gui-sdl/repodlgs.c:3016
+#: client/gui-sdl/repodlgs.c:3040
 #, fuzzy
 msgid "Select target :"
 msgstr "Scegliete una città:"
 
-#: client/gui-sdl/repodlgs.c:3083
+#: client/gui-sdl/repodlgs.c:3107
 #, fuzzy
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "(%d passo)"
 msgstr[1] "(%d passi)"
 
-#: client/gui-sdl/repodlgs.c:3362 client/gui-win32/repodlgs.c:756
+#: client/gui-sdl/repodlgs.c:3386 client/gui-win32/repodlgs.c:756
 #: client/gui-xaw/repodlgs.c:1151
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
@@ -14775,12 +14785,12 @@ msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%1$2d: %3$s dei %2$s ha totalizzato %4$d punto\n"
 msgstr[1] "%1$2d: %3$s dei %2$s ha totalizzato %4$d punti\n"
 
-#: client/gui-sdl/repodlgs.c:3370 client/gui-win32/repodlgs.c:764
+#: client/gui-sdl/repodlgs.c:3394 client/gui-win32/repodlgs.c:764
 #: client/gui-xaw/repodlgs.c:1159
 msgid "Final Report:"
 msgstr "Rapporto Finale:"
 
-#: client/gui-sdl/repodlgs.c:3371 client/gui-win32/repodlgs.c:765
+#: client/gui-sdl/repodlgs.c:3395 client/gui-win32/repodlgs.c:765
 #: client/gui-xaw/repodlgs.c:1160
 msgid "The Greatest Civilizations in the world."
 msgstr "Le Civiltà più Grandi nel mondo."
@@ -14853,12 +14863,12 @@ msgstr "Impossibile caricare il file con l'immagine per il file spec %s"
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Impossibile trovare un'estensione supportata per il file grafico %s"
 
-#: client/gui-sdl/themespec.c:818
+#: client/gui-sdl/themespec.c:822
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Impossibile caricare il file grafico %s per gli sprite %s"
 
-#: client/gui-sdl/themespec.c:969
+#: client/gui-sdl/themespec.c:973
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Non ci sono i tag grafici %s o %s per %s %s"
@@ -14903,7 +14913,7 @@ msgid ""
 "%s"
 msgstr "Liste lavori"
 
-#: client/gui-sdl/wldlg.c:1353
+#: client/gui-sdl/wldlg.c:1345
 #, fuzzy, c-format
 msgid ""
 "(%s)\n"
@@ -14911,14 +14921,14 @@ msgid ""
 "%s"
 msgstr "%3d/%3d %s"
 
-#: client/gui-sdl/wldlg.c:1360
+#: client/gui-sdl/wldlg.c:1352
 #, fuzzy, c-format
 msgid ""
 "%d/%d %s\n"
 "%s"
 msgstr "%3d/%3d %s"
 
-#: client/gui-sdl/wldlg.c:1367
+#: client/gui-sdl/wldlg.c:1359
 #, fuzzy, c-format
 msgid ""
 "(%s)\n"
@@ -14926,35 +14936,35 @@ msgid ""
 "%d %s"
 msgstr "%d/%d %d turni"
 
-#: client/gui-sdl/wldlg.c:1374
+#: client/gui-sdl/wldlg.c:1366
 #, fuzzy, c-format
 msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr "%d/%d %d turni"
 
-#: client/gui-sdl/wldlg.c:1383
+#: client/gui-sdl/wldlg.c:1375
 #, fuzzy, c-format
 msgid "%d gold per turn"
 msgstr "%3d auri per turno"
 
-#: client/gui-sdl/wldlg.c:1390
+#: client/gui-sdl/wldlg.c:1382
 #, fuzzy, c-format
 msgid ""
 "(%s)\n"
 "%d %s"
 msgstr "%3d/%3d %s"
 
-#: client/gui-sdl/wldlg.c:1395
+#: client/gui-sdl/wldlg.c:1387
 #, fuzzy, c-format
 msgid "%d %s"
 msgstr "%3d/%3d %s"
 
-#: client/gui-sdl/wldlg.c:1401
+#: client/gui-sdl/wldlg.c:1393
 msgid "shields into gold"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1480
+#: client/gui-sdl/wldlg.c:1472
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -14962,7 +14972,7 @@ msgid ""
 "never"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1487
+#: client/gui-sdl/wldlg.c:1479
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -14970,7 +14980,7 @@ msgid ""
 "%d %s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1496
+#: client/gui-sdl/wldlg.c:1488
 #, fuzzy, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -15856,6 +15866,10 @@ msgstr "Salva finestra messaggi"
 msgid "Clear Log"
 msgstr "Cancella finestra messaggi"
 
+#: client/gui-xaw/menu.c:120 data/Freeciv.in:3178
+msgid "Disconnect"
+msgstr "Disconnettersi"
+
 #: client/gui-xaw/menu.c:144
 msgid "City Growth"
 msgstr "Crescita città"
@@ -15867,14 +15881,6 @@ msgstr "Produzione delle città"
 #: client/gui-xaw/menu.c:187
 msgid "Make Homecity"
 msgstr "Rendi città d'origine"
-
-#: client/gui-xaw/menu.c:188
-msgid "Unload Transporter"
-msgstr "Scerica cargo"
-
-#: client/gui-xaw/menu.c:190
-msgid "Load"
-msgstr "Carica"
 
 #: client/gui-xaw/menu.c:192
 msgid "Wake up others"
@@ -15913,19 +15919,19 @@ msgstr "Le cinque città più importanti"
 msgid "Demographics"
 msgstr "Demografia"
 
-#: client/gui-xaw/menu.c:233 data/helpdata.txt:379
+#: client/gui-xaw/menu.c:233 data/helpdata.txt:378
 msgid "Languages"
 msgstr "Lingue"
 
-#: client/gui-xaw/menu.c:234 data/helpdata.txt:402
+#: client/gui-xaw/menu.c:234 data/helpdata.txt:401
 msgid "Connecting"
 msgstr "Collegamento"
 
-#: client/gui-xaw/menu.c:235 data/helpdata.txt:430
+#: client/gui-xaw/menu.c:235 data/helpdata.txt:429
 msgid "Controls"
 msgstr "Controlli"
 
-#: client/gui-xaw/menu.c:236 data/helpdata.txt:547
+#: client/gui-xaw/menu.c:236 data/helpdata.txt:546
 msgid "Chatline"
 msgstr "Linea di chat"
 
@@ -15933,7 +15939,7 @@ msgstr "Linea di chat"
 msgid "Playing"
 msgstr "Giocare"
 
-#: client/gui-xaw/menu.c:241 data/helpdata.txt:987
+#: client/gui-xaw/menu.c:241 data/helpdata.txt:986
 msgid "Combat"
 msgstr "Combattimento"
 
@@ -15941,15 +15947,15 @@ msgstr "Combattimento"
 msgid "ZOC"
 msgstr "ZDC"
 
-#: client/gui-xaw/menu.c:243 data/helpdata.txt:888
+#: client/gui-xaw/menu.c:243 data/helpdata.txt:887
 msgid "Technology"
 msgstr "Tecnologia"
 
-#: client/gui-xaw/menu.c:248 data/helpdata.txt:1465
+#: client/gui-xaw/menu.c:248 data/helpdata.txt:1464
 msgid "Space Race"
 msgstr "Corsa allo spazio"
 
-#: client/gui-xaw/menu.c:250 data/helpdata.txt:77
+#: client/gui-xaw/menu.c:250 data/helpdata.txt:76
 msgid "Copying"
 msgstr "Licenza"
 
@@ -16516,7 +16522,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Amministratori attuali: "
 
-#: data/helpdata.txt:56
+#: data/helpdata.txt:55
 #, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
@@ -16529,7 +16535,7 @@ msgstr ""
 "\n"
 "  http://bugs.freeciv.org/"
 
-#: data/helpdata.txt:61
+#: data/helpdata.txt:60
 msgid ""
 "For more information about submitting bug reports see the file BUGS in the "
 "Freeciv distribution.  For more information in general, visit the Freeciv "
@@ -16539,11 +16545,11 @@ msgstr ""
 "nella distribuzione di Freeciv.  Per altre informazioni in generale, "
 "visitate il sito di Freeciv, a:"
 
-#: data/helpdata.txt:78
+#: data/helpdata.txt:77
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv è coperto dalla licenza GPL, inclusa qui in inglese: "
 
-#: data/helpdata.txt:380
+#: data/helpdata.txt:379
 #, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
@@ -16580,7 +16586,7 @@ msgstr ""
 "\n"
 "  freeciv-dev@freeciv.org"
 
-#: data/helpdata.txt:403
+#: data/helpdata.txt:402
 #, fuzzy
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
@@ -16591,7 +16597,7 @@ msgstr ""
 "il suo indirizzo e numero di porta (quello predefinito è 5555). Se il server "
 "è avviato con l'opzione -m, sarà elencato sul metaserver,"
 
-#: data/helpdata.txt:410
+#: data/helpdata.txt:409
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check if your WWW browser "
@@ -16612,7 +16618,7 @@ msgstr ""
 "\n"
 "prima di far partire civclient."
 
-#: data/helpdata.txt:419
+#: data/helpdata.txt:418
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -16630,7 +16636,7 @@ msgstr ""
 "server è collegato al metaserver, i nomi dei giocatori possono essere "
 "trovati qui."
 
-#: data/helpdata.txt:431
+#: data/helpdata.txt:430
 #, fuzzy
 msgid ""
 "Unit Orders:\n"
@@ -16740,7 +16746,7 @@ msgstr ""
 "    invio: fine turno           Control-p: produzione città visibile/non "
 "visibile\n"
 
-#: data/helpdata.txt:474
+#: data/helpdata.txt:473
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -16758,7 +16764,7 @@ msgid ""
 "  c: center view on unit\n"
 msgstr ""
 
-#: data/helpdata.txt:489
+#: data/helpdata.txt:488
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -16772,7 +16778,7 @@ msgid ""
 "             t: show city workers (mouse over or near city)\n"
 msgstr ""
 
-#: data/helpdata.txt:500
+#: data/helpdata.txt:499
 #, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
@@ -16824,7 +16830,7 @@ msgstr ""
 "  Le città che diventano evidenziate sulla mappa,\n"
 "  saranno anche evidenziate nella finestra di elenco città."
 
-#: data/helpdata.txt:524
+#: data/helpdata.txt:523
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -16847,7 +16853,7 @@ msgid ""
 "Shift-Return: Turn done"
 msgstr ""
 
-#: data/helpdata.txt:548
+#: data/helpdata.txt:547
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -16855,7 +16861,7 @@ msgstr ""
 "Il client ha un'interfaccia per il chat alquanto primitiva. Ciò che scrivete "
 "viene inviato agli altri giocatori, tranne:"
 
-#: data/helpdata.txt:551
+#: data/helpdata.txt:550
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
@@ -16864,7 +16870,7 @@ msgstr ""
 "server (se il server è abbastanza recente; ad esempio la versione 1.8.0 non "
 "funziona) e vengono eseguiti nel caso abbiate i diritti d'accesso richiesti."
 
-#: data/helpdata.txt:554
+#: data/helpdata.txt:553
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
@@ -16875,7 +16881,7 @@ msgstr ""
 "se non ne sono presenti, cerca corrispondenze con nomi che iniziano per "
 "'John' (as esempio 'Johnathan')."
 
-#: data/helpdata.txt:559
+#: data/helpdata.txt:558
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -16884,17 +16890,17 @@ msgstr ""
 "sopra esposti, ma la corrispondenza si avrà solo con gli utenti (non per i "
 "giocatori) di nome 'John'. 'Johnathan' potrà comunque corrispondere."
 
-#: data/helpdata.txt:563
+#: data/helpdata.txt:562
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr ""
 "  - I messaggi che cominciano con '.' verranno spediti solo a tutti i tuoi "
 "alleati."
 
-#: data/helpdata.txt:568
+#: data/helpdata.txt:567
 msgid "Worklist Editor"
 msgstr "Modificatore lista lavori"
 
-#: data/helpdata.txt:569
+#: data/helpdata.txt:568
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
@@ -16905,7 +16911,7 @@ msgstr ""
 "Utilizza questo modificatore e potrai creare liste specificando cosa "
 "costruire nei turni a venire."
 
-#: data/helpdata.txt:573
+#: data/helpdata.txt:572
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -16916,7 +16922,7 @@ msgstr ""
 "tasto Aiuto per ottenere un aiuto sull'oggetto selezionato. Premendo il "
 "tasto Aiuto senza oggetti selezionati verrà mostrata questa pagina."
 
-#: data/helpdata.txt:577
+#: data/helpdata.txt:576
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -16925,7 +16931,7 @@ msgstr ""
 "sull'oggetto da rimuovere. Utilizza i bottoni sotto la lista lavori per "
 "spostare su e/o giù gli oggetti nella lista."
 
-#: data/helpdata.txt:580
+#: data/helpdata.txt:579
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -16941,7 +16947,7 @@ msgstr ""
 "nella lista lavori e Delete per cancellare l'oggetto selezionato dalla lista "
 "lavori."
 
-#: data/helpdata.txt:586
+#: data/helpdata.txt:585
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
@@ -16949,11 +16955,11 @@ msgstr ""
 "Se vuoi comprare la prima unità nella lista, puoi farlo dalla finestra di "
 "descrizione della città."
 
-#: data/helpdata.txt:592
+#: data/helpdata.txt:591
 msgid "Strategy and tactics"
 msgstr "Strategie e tattiche"
 
-#: data/helpdata.txt:593
+#: data/helpdata.txt:592
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -16961,7 +16967,7 @@ msgstr ""
 "Ogni gioco può essere anche molto differente ma ci sono delle strategie di "
 "base seguite da molti giocatori, specialmente all'inizio della partita."
 
-#: data/helpdata.txt:596
+#: data/helpdata.txt:595
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
@@ -16969,7 +16975,7 @@ msgstr ""
 "Questi passi possono variare a seconda delle impostazioni del server ma in "
 "generale possono essere: "
 
-#: data/helpdata.txt:599
+#: data/helpdata.txt:598
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -16995,7 +17001,7 @@ msgstr ""
 " 9. Pensare la vostra strategia per il gioco.\n"
 "10. Interagire con gli altri giocatori (Diplomazia).\n"
 
-#: data/helpdata.txt:611
+#: data/helpdata.txt:610
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -17017,7 +17023,7 @@ msgstr ""
 "capitale! L'idea è di bilanciare la qualità del sito trovato contro la "
 "possibilità di avere prima possibile la vostra città."
 
-#: data/helpdata.txt:622
+#: data/helpdata.txt:621
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -17037,7 +17043,7 @@ msgstr ""
 "successive per l'esplorazione. Se avete cominciato il gioco con un "
 "Esploratore usatelo, ovviamente, per esplorare."
 
-#: data/helpdata.txt:631
+#: data/helpdata.txt:630
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -17056,7 +17062,7 @@ msgstr ""
 "per la difesa sono (in ordine crescente di forza): Guerrieri, Falange, "
 "Alabardieri, Moschettieri e Fucilieri."
 
-#: data/helpdata.txt:641
+#: data/helpdata.txt:640
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -17072,7 +17078,7 @@ msgstr ""
 "comincia automanticamente a produrre l'unità disponibile con la maggiore "
 "capacità difensiva fra quelle della lista di cui sopra."
 
-#: data/helpdata.txt:648
+#: data/helpdata.txt:647
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -17092,7 +17098,7 @@ msgstr ""
 "viceversa. Ricordate che una maggiore popolazione accresce sia la "
 "produttività che il tasso di ricerca della vostra civiltà."
 
-#: data/helpdata.txt:659
+#: data/helpdata.txt:658
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -17108,7 +17114,7 @@ msgstr ""
 "produzioni possono essere aiutate usando i Coloni per migliorare le fattorie "
 "con strade, irrigazioni, miniere e altro."
 
-#: data/helpdata.txt:667
+#: data/helpdata.txt:666
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -17128,7 +17134,7 @@ msgstr ""
 "tipo ma ricordate che per i vostri avversari sarà più difficile trovare le "
 "vostre città se non le costruite vicine al mare."
 
-#: data/helpdata.txt:676
+#: data/helpdata.txt:675
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -17149,7 +17155,7 @@ msgstr ""
 "cittadini siano tutti impegnati in modo da poter massimizzare la crescita, "
 "il commercio e la produzione."
 
-#: data/helpdata.txt:686
+#: data/helpdata.txt:685
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -17159,7 +17165,7 @@ msgstr ""
 "fattorie cliccando su un quadrante occupato da una fattoria; in tal modo il "
 "cittadino verrà traferito agli altri compiti su menzionati."
 
-#: data/helpdata.txt:691
+#: data/helpdata.txt:690
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -17170,7 +17176,7 @@ msgstr ""
 "cittadini verrano risistemati in modo da ottenere la massima produzione di "
 "cibo."
 
-#: data/helpdata.txt:697
+#: data/helpdata.txt:696
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -17183,7 +17189,7 @@ msgstr ""
 "questo non succeda a nessuna delle vostre città poiché i cittadini scontenti "
 "non producono niente e presto arriveranno a rivoltarsi."
 
-#: data/helpdata.txt:703
+#: data/helpdata.txt:702
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -17204,7 +17210,7 @@ msgstr ""
 "scambiarvi le tecnologie che avete raggiunto; in questo caso le unità "
 "diplomatiche sono veramente utili e VERRANNO RIPAGATE dopo."
 
-#: data/helpdata.txt:713
+#: data/helpdata.txt:712
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -17227,7 +17233,7 @@ msgstr ""
 "  - Alcune meraviglie vengono rese obsolete dalla scoperta di certe "
 "tecnologie."
 
-#: data/helpdata.txt:724
+#: data/helpdata.txt:723
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -17249,7 +17255,7 @@ msgstr ""
 "Troverete molti consigli per il gioco e altri dettagli per contattare altri "
 "giocatori."
 
-#: data/helpdata.txt:735
+#: data/helpdata.txt:734
 #, fuzzy
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
@@ -17271,7 +17277,7 @@ msgstr ""
 "l'altro giocatore è connesso (o è un giocatore controllato dalla IA) allora "
 "il menu della diplomazia apparirà."
 
-#: data/helpdata.txt:745
+#: data/helpdata.txt:744
 #, fuzzy
 msgid ""
 "    In this menu you can choose to:\n"
@@ -17300,7 +17306,7 @@ msgstr ""
 "\n"
 "   - Scambiare auri."
 
-#: data/helpdata.txt:761
+#: data/helpdata.txt:760
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can consider this buying and selling."
@@ -17309,7 +17315,7 @@ msgstr ""
 "scambio di una tecnologia per una città o per auri - come fosse una "
 "compravendita."
 
-#: data/helpdata.txt:765
+#: data/helpdata.txt:764
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -17323,7 +17329,7 @@ msgstr ""
 "\n"
 "   - Se una città non appare nella vostra mappa non potete richiederla."
 
-#: data/helpdata.txt:771
+#: data/helpdata.txt:770
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -17338,14 +17344,14 @@ msgstr ""
 "non si trovino in altre città). Per cui state bene attenti che l'altro "
 "giocatore non stia ottenendo molto di più di quel che sembra."
 
-#: data/helpdata.txt:778
+#: data/helpdata.txt:777
 msgid ""
 "     There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the default state, while the "
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
 
-#: data/helpdata.txt:782
+#: data/helpdata.txt:781
 msgid ""
 "     To have a diplomatic relationship with another player, you must fist "
 "establish first contact with that player. To establish first contact, you "
@@ -17355,14 +17361,14 @@ msgid ""
 "physical contact."
 msgstr ""
 
-#: data/helpdata.txt:789
+#: data/helpdata.txt:788
 msgid ""
 "     The diplomatic state between players defaults to War. During War, you "
 "can freely move you units inside enemy territory and attack their units and "
 "cities at will."
 msgstr ""
 
-#: data/helpdata.txt:793
+#: data/helpdata.txt:792
 msgid ""
 "     When two players decide to end hostilities between them, they can agree "
 "on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
@@ -17370,7 +17376,7 @@ msgid ""
 "automatically offer you a Cease-fire treaty."
 msgstr ""
 
-#: data/helpdata.txt:798
+#: data/helpdata.txt:797
 msgid ""
 "     If you wish for a more permanent peaceful coexistence with another "
 "player, you may enter an Armistice, that after another set number of turns "
@@ -17378,7 +17384,7 @@ msgid ""
 "directly back to War."
 msgstr ""
 
-#: data/helpdata.txt:803
+#: data/helpdata.txt:802
 msgid ""
 "     At the moment two players enter into the diplomatic state of Peace, all "
 "units belonging to either player that happen to be within the other's "
@@ -17388,7 +17394,7 @@ msgid ""
 "directly back to War."
 msgstr ""
 
-#: data/helpdata.txt:810
+#: data/helpdata.txt:809
 msgid ""
 "     An Alliance is the ultimate diplomatic relationship between two "
 "players. In this state, you may move units into each other's cities and your "
@@ -17399,7 +17405,7 @@ msgid ""
 "an Alliance will drop you to an Armistice treaty."
 msgstr ""
 
-#: data/helpdata.txt:822
+#: data/helpdata.txt:821
 #, fuzzy
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
@@ -17492,11 +17498,11 @@ msgstr ""
 "alcuni esempi di preselezioni nel file doc/README.cma.it, incluso con "
 "Freeciv.\n"
 
-#: data/helpdata.txt:871
+#: data/helpdata.txt:870
 msgid "City Improvements"
 msgstr "Strutture cittadine"
 
-#: data/helpdata.txt:872
+#: data/helpdata.txt:871
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -17508,7 +17514,7 @@ msgstr ""
 "un costo di mantenimento da pagare ogni turno; se non potete continuare a "
 "pagare questo costo allora la struttura viene automaticamente venduta."
 
-#: data/helpdata.txt:889
+#: data/helpdata.txt:888
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -17516,7 +17522,7 @@ msgstr ""
 "La ricerca teconologica è necessaria per migliorare la capacità della vostra "
 "civiltà di sviluppare nuove unità militari e strutture nelle città."
 
-#: data/helpdata.txt:900
+#: data/helpdata.txt:899
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -17524,7 +17530,7 @@ msgstr ""
 "Ogni meraviglia porta particolari benefici per la vostra civiltà, è unica ed "
 "è piazzata nella città dove viene costruita."
 
-#: data/helpdata.txt:911
+#: data/helpdata.txt:910
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -17535,7 +17541,7 @@ msgstr ""
 "dipende dalla sua particolare forza in attacco e in difesa e dalla sua "
 "capacità di movimento."
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:915
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
@@ -17545,7 +17551,7 @@ msgstr ""
 "Elicotteri (quest'ultimi sono talmente differenti dalle altre unità aeree "
 "che conviene considerarli a sé stanti)."
 
-#: data/helpdata.txt:921
+#: data/helpdata.txt:920
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -17574,7 +17580,7 @@ msgstr ""
 "soddisfazione dei cittadini e non possono attaccare unità nemiche né "
 "catturare città."
 
-#: data/helpdata.txt:934
+#: data/helpdata.txt:933
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -17590,7 +17596,7 @@ msgstr ""
 "le unità che si trovano sulla costa e nelle città costiere ma non possono "
 "conquistare una città nemica entrandoci anche se questa non è difesa."
 
-#: data/helpdata.txt:941
+#: data/helpdata.txt:940
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -17616,7 +17622,7 @@ msgstr ""
 "seconda delle impostazioni del vostro server quando un villaggio viene "
 "sorvolato può essere abbandonato dai nativi."
 
-#: data/helpdata.txt:953
+#: data/helpdata.txt:952
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -17633,7 +17639,7 @@ msgstr ""
 "la Meraviglia Nazioni Unite. Diversamente dalle unità aeree possono "
 "conquistare le città nemiche."
 
-#: data/helpdata.txt:960
+#: data/helpdata.txt:959
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -17664,7 +17670,7 @@ msgstr ""
 "che trascorrono al di fuori di una città. Le unità danneggiate nello stato "
 "Sentinella si risvegliano quando hanno riacquisito tutti i loro punti vita."
 
-#: data/helpdata.txt:977
+#: data/helpdata.txt:976
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -17674,7 +17680,7 @@ msgstr ""
 "ridurre la popolazione di un punto di una città senza Cinta Muraria dopo "
 "ogni attacco riuscito."
 
-#: data/helpdata.txt:988
+#: data/helpdata.txt:987
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
@@ -17682,7 +17688,7 @@ msgstr ""
 "Regole di combattimento di default\n"
 "----------------------------------"
 
-#: data/helpdata.txt:989
+#: data/helpdata.txt:988
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -17692,25 +17698,25 @@ msgstr ""
 "possono essere distrutti ma mai entrambi (a meno che l'attaccante non sia un "
 "missile). Il risultato dipende da molti fattori, compresa la fortuna."
 
-#: data/helpdata.txt:994
+#: data/helpdata.txt:993
 msgid "First, the attacker's strength is modified."
 msgstr "Innanzitutto la forza dell'attaccante viene modificata."
 
-#: data/helpdata.txt:996
+#: data/helpdata.txt:995
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr ""
 " - Se l'attaccante è veterano, la sua forza viene moltiplicata per 1,5."
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:997
 msgid "Next, the defender's strength is modified."
 msgstr "Successivamente viene modificata la forza del difensore."
 
-#: data/helpdata.txt:1000
+#: data/helpdata.txt:999
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - Se il difensore è veterano la sua forza viene moltiplicata per 1,5."
 
-#: data/helpdata.txt:1003
+#: data/helpdata.txt:1002
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
@@ -17718,7 +17724,7 @@ msgstr ""
 " - Successivamente la forza del difensore viene moltiplicata per il fattore "
 "difensivo del terreno in cui si trova."
 
-#: data/helpdata.txt:1006
+#: data/helpdata.txt:1005
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
@@ -17726,7 +17732,7 @@ msgstr ""
 " - Successivamente la forza del difensore viene raddoppiata se questi è un "
 "Alabardiere che si difende contro un'unità a cavallo."
 
-#: data/helpdata.txt:1009
+#: data/helpdata.txt:1008
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -17734,7 +17740,7 @@ msgstr ""
 " - Se invece il difensore è un incrociatore AEGIS contro unità aeree "
 "(inclusi missili ed elicotteri) la forza viene quintuplicata."
 
-#: data/helpdata.txt:1013
+#: data/helpdata.txt:1012
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -17744,14 +17750,14 @@ msgstr ""
 "con una matteria di missili SAM e se l'attaccante è un'unità aerea (tranne "
 "un elicottero) o un missile."
 
-#: data/helpdata.txt:1017
+#: data/helpdata.txt:1016
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
 msgstr ""
 " - Una difesa SDI raddoppia ancora la forza dei difensori contro i missili."
 
-#: data/helpdata.txt:1020
+#: data/helpdata.txt:1019
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -17759,7 +17765,7 @@ msgstr ""
 " - Se l'attaccante è a bordo di una nave e la città del difensore è dotata "
 "della Fortezza Costiera la forza del difensore è raddoppiata."
 
-#: data/helpdata.txt:1023
+#: data/helpdata.txt:1022
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -17768,7 +17774,7 @@ msgstr ""
 "Elicotteri, la forza dei difensori di una città dotata di Cinta Muraria è "
 "triplicata."
 
-#: data/helpdata.txt:1027
+#: data/helpdata.txt:1026
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
@@ -17776,7 +17782,7 @@ msgstr ""
 " - Se il difensore è all'interno di una fortezza (e non in una città), la "
 "sua forza è raddoppiata."
 
-#: data/helpdata.txt:1030
+#: data/helpdata.txt:1029
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
@@ -17784,7 +17790,7 @@ msgstr ""
 " - Alla fine, se il difensore è un'unità terrestre ed è fortificata oppure "
 "si trova all'interno di una città, la sua forza è moltiplicata per 1,5."
 
-#: data/helpdata.txt:1033
+#: data/helpdata.txt:1032
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -17794,12 +17800,12 @@ msgstr ""
 "perde. Se invece è il difensore ad avere una forza pari a 0 allora perde "
 "questi."
 
-#: data/helpdata.txt:1037
+#: data/helpdata.txt:1036
 msgid "The firepower of the attacker and defender are also modified."
 msgstr ""
 "La capacità di fuoco dell'attaccante e del difensore sono anche modificate."
 
-#: data/helpdata.txt:1039
+#: data/helpdata.txt:1038
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -17808,7 +17814,7 @@ msgstr ""
 "fuoco dell'attaccante è raddoppiata e la capacità di fuoco della nave viene "
 "portata a 1."
 
-#: data/helpdata.txt:1042
+#: data/helpdata.txt:1041
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
@@ -17816,7 +17822,7 @@ msgstr ""
 " - Se un Caccia sta attaccando un Elicottero la capacità di fuoco "
 "dell'Elicottero viene portata a 1."
 
-#: data/helpdata.txt:1045
+#: data/helpdata.txt:1044
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
@@ -17824,7 +17830,7 @@ msgstr ""
 " - Se una nave sta attaccando una unità terrestre sulla terra la capacità di "
 "fuoco di entrambe viene portata a 1."
 
-#: data/helpdata.txt:1048
+#: data/helpdata.txt:1047
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -17843,7 +17849,7 @@ msgstr ""
 "alla capacità di fuoco del difensore. La prima unità che termina i propri "
 "punti vita (o che raggiunge un numero negativo) perde."
 
-#: data/helpdata.txt:1063
+#: data/helpdata.txt:1062
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -17856,7 +17862,7 @@ msgstr ""
 "possiede la Meraviglia Accademia di Guerra di Sun Tzu (e se questa non è "
 "ormai obsoleta) l'unità lo diventerà sicuramente."
 
-#: data/helpdata.txt:1069
+#: data/helpdata.txt:1068
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -17865,7 +17871,7 @@ msgstr ""
 "trovava in una città non dotata di Cinta Muraria, la dimensione della città "
 "viene ridotta di 1."
 
-#: data/helpdata.txt:1072
+#: data/helpdata.txt:1071
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -17874,11 +17880,11 @@ msgstr ""
 "fortezza tutte le altre unità presenti nel suo stesso quadrante vengono "
 "distrutte insieme."
 
-#: data/helpdata.txt:1079
+#: data/helpdata.txt:1078
 msgid " Modifying Combat Rules"
 msgstr " Modifica alle regole di combattimento"
 
-#: data/helpdata.txt:1080
+#: data/helpdata.txt:1079
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
@@ -17886,7 +17892,7 @@ msgstr ""
 "Modifica alle regole di combattimento\n"
 "-------------------------------------"
 
-#: data/helpdata.txt:1081
+#: data/helpdata.txt:1080
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
@@ -17895,7 +17901,7 @@ msgstr ""
 "cambiando i seguenti modificatori nel file game.ruleset, sezione "
 "combat_rules: "
 
-#: data/helpdata.txt:1084
+#: data/helpdata.txt:1083
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
@@ -17903,11 +17909,11 @@ msgstr ""
 " - killstack. (default: 1) Se posto a 0, le unità nello stesso quadrante di "
 "un difensore sconfitto non sono distrutte."
 
-#: data/helpdata.txt:1090
+#: data/helpdata.txt:1089
 msgid " Combat example 1"
 msgstr " Esempio di combattimento 1"
 
-#: data/helpdata.txt:1091
+#: data/helpdata.txt:1090
 #, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
@@ -17919,7 +17925,7 @@ msgstr ""
 "non veterano all'interno di una città con la Cinta Muraria costruita in un "
 "quadrante Foresta."
 
-#: data/helpdata.txt:1095
+#: data/helpdata.txt:1094
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -17931,7 +17937,7 @@ msgstr ""
 "viene ancora triplicata diventando 13,5; infine è un'unità terrestre "
 "all'interno di una città e così la sua forza viene aumentata fino a 20,25."
 
-#: data/helpdata.txt:1100
+#: data/helpdata.txt:1099
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -17941,11 +17947,11 @@ msgstr ""
 "eliminando eventuali decimali e così la forza dell'attaccante è 80 e quella "
 "del difensore 202."
 
-#: data/helpdata.txt:1104
+#: data/helpdata.txt:1103
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "Entrambe le unità mantengono la loro capacità di fuoco immutata a 1."
 
-#: data/helpdata.txt:1107
+#: data/helpdata.txt:1106
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -17957,7 +17963,7 @@ msgstr ""
 "difensore perde 1 punto vita, altrimenti (il restante 72%) lo perde "
 "l'attaccante."
 
-#: data/helpdata.txt:1118
+#: data/helpdata.txt:1117
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -17973,11 +17979,11 @@ msgstr ""
 "illeso, o perdere molti dei suoi punti vita, o può addirittura perdere la "
 "battaglia."
 
-#: data/helpdata.txt:1128
+#: data/helpdata.txt:1127
 msgid " Combat example 2"
 msgstr " Esempio di combattimento 2"
 
-#: data/helpdata.txt:1129
+#: data/helpdata.txt:1128
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -17988,12 +17994,12 @@ msgstr ""
 "all'interno di una città costruita su un quadrante Prateria e con Cinta "
 "Muraria e Fortezza Costiera."
 
-#: data/helpdata.txt:1134
+#: data/helpdata.txt:1133
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr ""
 "La forza dell'attaccante è 12, che diventa 18 per lo stato di veterana."
 
-#: data/helpdata.txt:1137
+#: data/helpdata.txt:1136
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -18007,7 +18013,7 @@ msgstr ""
 "effetto contro attacchi di unità marine). Il difensore è un'unità terrestre "
 "all'interno di una città e così il conto finale è 22,5."
 
-#: data/helpdata.txt:1143
+#: data/helpdata.txt:1142
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
@@ -18015,11 +18021,11 @@ msgstr ""
 "Internamente al gioco i valori usati per l'attaccante e il difensore sono "
 "rispettivamente 180 e 225."
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1145
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "La capacità di fuoco della Nave da Guerra viene portata da 2 a 1."
 
-#: data/helpdata.txt:1149
+#: data/helpdata.txt:1148
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -18030,7 +18036,7 @@ msgstr ""
 "225 (circa il 44% di possibilità) il difensore perde 1 punto vita. "
 "Altrimenti l'attaccante perde 1 punto vita."
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1159
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -18045,11 +18051,11 @@ msgstr ""
 "perdere il 60% dei punti durante il combattimento e di non avere punti "
 "movimento residui."
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1168
 msgid "Zones of Control"
 msgstr "Zone di Controllo"
 
-#: data/helpdata.txt:1170
+#: data/helpdata.txt:1169
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -18058,7 +18064,7 @@ msgstr ""
 "impedisce il libero movimento in zone controllate (anche parzialmente) dalle "
 "forze nemiche."
 
-#: data/helpdata.txt:1174
+#: data/helpdata.txt:1173
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -18072,7 +18078,7 @@ msgstr ""
 "sul quale si trova una unità nemica e adiacente significa uno degli otto "
 "quadranti intorno."
 
-#: data/helpdata.txt:1180
+#: data/helpdata.txt:1179
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -18089,7 +18095,7 @@ msgstr ""
 "- una unità che ignora esplicitamente le ZDC, come ad esempio i Diplomatici "
 "e le Spie."
 
-#: data/helpdata.txt:1186
+#: data/helpdata.txt:1185
 msgid ""
 "Notes:\n"
 "\n"
@@ -18130,7 +18136,7 @@ msgstr ""
 "un quadrante oceanico (salendo su un'imbarcazione) è permesso dal caso "
 "speciale di movimento verso una unità amica (l''imbarcazione)."
 
-#: data/helpdata.txt:1206
+#: data/helpdata.txt:1205
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -18144,7 +18150,7 @@ msgstr ""
 "(ed eventualmente lasciando alcune unità indetro per mantenere i quadranti "
 "occupati) è possibile ricavare una \"strada\" nel territorio nemico."
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1212
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -18156,7 +18162,7 @@ msgstr ""
 "- Le città nemiche senza unità al loro interno non impongono più le ZDC;\n"
 "- Il caso speciale del salire su un'imbarcazione è nuovo."
 
-#: data/helpdata.txt:1222
+#: data/helpdata.txt:1221
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -18167,7 +18173,7 @@ msgstr ""
 "quandranti che producono cibo intorno per supportare la crescita della "
 "popolazione."
 
-#: data/helpdata.txt:1227
+#: data/helpdata.txt:1226
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
@@ -18175,11 +18181,11 @@ msgstr ""
 "La produzione netta di un quadrante delle città dipende sia dal tipo di "
 "governo sia dalle strutture che dalle meraviglie."
 
-#: data/helpdata.txt:1236
+#: data/helpdata.txt:1235
 msgid " Terrain Alterations"
 msgstr " Modifiche del Terreno"
 
-#: data/helpdata.txt:1237
+#: data/helpdata.txt:1236
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
@@ -18187,7 +18193,7 @@ msgstr ""
 "I Coloni e gli Ingegneri hanno la capacità di modificare i quadranti i molti "
 "modi."
 
-#: data/helpdata.txt:1240
+#: data/helpdata.txt:1239
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -18204,7 +18210,7 @@ msgstr ""
 "irrigarlo una seconda volta producendo così in una Fattoria, ancora più "
 "produttiva."
 
-#: data/helpdata.txt:1248
+#: data/helpdata.txt:1247
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -18212,7 +18218,7 @@ msgstr ""
 "Alcuni tipi di terreni possono ospitare delle miniere, che aumentano la "
 "produzione di risorse (scudi) del quadrante."
 
-#: data/helpdata.txt:1251
+#: data/helpdata.txt:1250
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -18225,7 +18231,7 @@ msgstr ""
 "permettono alle vostre unità di muoversi più velocemente e aumentano le "
 "risorse prodotte nelle città."
 
-#: data/helpdata.txt:1256
+#: data/helpdata.txt:1255
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -18233,7 +18239,7 @@ msgstr ""
 " - le unità usano solo un terzo dei movimenti andando da un quadrante ad una "
 "altro collegati da una strada."
 
-#: data/helpdata.txt:1259
+#: data/helpdata.txt:1258
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -18241,14 +18247,14 @@ msgstr ""
 " - le unità non comsumano movimenti muovendosi lungo le ferrovie. Diventa "
 "perciò possibile muoversi continuamente lungo le ferrovie."
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1261
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 " - Una strada può aumentare la produzione commerciale di alcuni tipi di "
 "terreno."
 
-#: data/helpdata.txt:1265
+#: data/helpdata.txt:1264
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -18259,7 +18265,7 @@ msgstr ""
 "aumentare anche la produzione di cibo e commercio, oppure aumentare le "
 "risorse di un fattore diverso del 50%)."
 
-#: data/helpdata.txt:1270
+#: data/helpdata.txt:1269
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -18270,14 +18276,14 @@ msgstr ""
 "essere distrutte solo una per volta. Vedete la sezione Combattimento "
 "dell'aiuto per ulteriori dettagli."
 
-#: data/helpdata.txt:1275
+#: data/helpdata.txt:1274
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 "È possibile anche costruire le Basi Aeree, nelle quali le unità aeree "
 "possono atterrare e rifornirsi."
 
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1277
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -18289,7 +18295,7 @@ msgstr ""
 "gli Ingegneri e possono essere ulteriormente ridotti accumulando più Coloni "
 "o Ingegneri per un lavoro di gruppo."
 
-#: data/helpdata.txt:1285
+#: data/helpdata.txt:1284
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -18308,11 +18314,11 @@ msgstr ""
 "centro città può avere un minimo (dipendente dal ruleset) fornito di cibo, "
 "scudi e commercio."
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1294
 msgid "  Pillaging"
 msgstr "  Saccheggio"
 
-#: data/helpdata.txt:1296
+#: data/helpdata.txt:1295
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -18325,7 +18331,7 @@ msgstr ""
 "scegliere quale modifica saccheggiare oppure verranno saccheggiate con il "
 "seguente ordine:"
 
-#: data/helpdata.txt:1302
+#: data/helpdata.txt:1301
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -18343,7 +18349,7 @@ msgstr ""
 " - una ferrovia\n"
 " - una strada"
 
-#: data/helpdata.txt:1310
+#: data/helpdata.txt:1309
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -18359,7 +18365,7 @@ msgstr ""
 "pianura, saccheggiandola non la trasformerà in foresta. Per effettuare "
 "questa trasformazione dovete usare un Colono o un Ingegnere."
 
-#: data/helpdata.txt:1322
+#: data/helpdata.txt:1321
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -18367,7 +18373,7 @@ msgstr ""
 "Il tipo di governo influenza la produttività e il commercio delle vostre "
 "città, il benessere dei cittadini e molti altri fattori del gioco."
 
-#: data/helpdata.txt:1325
+#: data/helpdata.txt:1324
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -18381,7 +18387,7 @@ msgstr ""
 "che causerà un periodo di Anarchia (della durata da 1 a 5 turni), alla fine "
 "del quale sarà possibile scegliere la nuova forma di governo."
 
-#: data/helpdata.txt:1332
+#: data/helpdata.txt:1331
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -18396,7 +18402,7 @@ msgstr ""
 "un alto livello di corruzione). Un tribunale ridurrà il livello di "
 "corruzione in una città."
 
-#: data/helpdata.txt:1339
+#: data/helpdata.txt:1338
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -18410,7 +18416,7 @@ msgstr ""
 "capitale le vostre città soffriranno tutte di un alto livello di spreco). Un "
 "tribunale ridurrà il livello di spreco in una città."
 
-#: data/helpdata.txt:1346
+#: data/helpdata.txt:1345
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -18422,7 +18428,7 @@ msgstr ""
 "molti lussi per mantenerli contenti. Quando intendete conquistare altre "
 "civiltà può essere utile cambiare a governi di tipo più militante."
 
-#: data/helpdata.txt:1352
+#: data/helpdata.txt:1351
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -18435,11 +18441,11 @@ msgstr ""
 "possibile la Repubblica; guadagnare tecnologie avanzate presto nel gioco vi "
 "mette in vantaggio."
 
-#: data/helpdata.txt:1361
+#: data/helpdata.txt:1360
 msgid " Civil War"
 msgstr " Guerra civile"
 
-#: data/helpdata.txt:1362
+#: data/helpdata.txt:1361
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -18452,7 +18458,7 @@ msgstr ""
 "un'IA), il quale si prenderà la metà del vostro tesoro e tutte le vostre "
 "scoperte scientifiche."
 
-#: data/helpdata.txt:1368
+#: data/helpdata.txt:1367
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
@@ -18460,7 +18466,7 @@ msgstr ""
 "I giocatori possono rimanere nello stato di guerra civile per solo un turno, "
 "dopo il quale l'impero rimane in uno stato di anarchia."
 
-#: data/helpdata.txt:1371
+#: data/helpdata.txt:1370
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -18473,7 +18479,7 @@ msgstr ""
 "festeggiando riduce la possibilità di guerra civile, mentre ogni città in "
 "sommossa l'aumenta."
 
-#: data/helpdata.txt:1377
+#: data/helpdata.txt:1376
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -18483,7 +18489,7 @@ msgstr ""
 "possibilità di una guerra civile. Governi con diritti universali hanno "
 "minori probabilità di subire rivolte dei governi di natura dispotica."
 
-#: data/helpdata.txt:1381
+#: data/helpdata.txt:1380
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -18495,7 +18501,7 @@ msgstr ""
 "città ne sono immuni. Comunque questa è un'impostazione del server è può "
 "essere variata da un minimo di 6."
 
-#: data/helpdata.txt:1393
+#: data/helpdata.txt:1392
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -18510,7 +18516,7 @@ msgstr ""
 "produzione), mentre quando i vostri cittadini sono contenti le vostre città "
 "celebreranno e la vostra produzione aumenterà moltissimo."
 
-#: data/helpdata.txt:1400
+#: data/helpdata.txt:1399
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -18524,7 +18530,7 @@ msgstr ""
 "e Spie nemiche. Disordini prolungati durante la Democrazia possono portare a "
 "rivoluzioni spontanee rovesciando il vostro governo."
 
-#: data/helpdata.txt:1407
+#: data/helpdata.txt:1406
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -18538,7 +18544,7 @@ msgstr ""
 "il termine \"Entusiasmo\" nel Rapporto Città. L'effetto della celebrazione "
 "cambia a seconda del tipo di governo:"
 
-#: data/helpdata.txt:1414
+#: data/helpdata.txt:1413
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -18548,7 +18554,7 @@ msgstr ""
 "quadranti che producono più di 2 unità per ogni risorsa (cibo, commercio o "
 "produzione)."
 
-#: data/helpdata.txt:1418
+#: data/helpdata.txt:1417
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -18558,7 +18564,7 @@ msgstr ""
 "di commercio dei governi Repubblicano o Democratico; 1 bonus di commercio "
 "per ogni quadrante che già produce almeno un'unità di commercio."
 
-#: data/helpdata.txt:1422
+#: data/helpdata.txt:1421
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -18569,7 +18575,7 @@ msgstr ""
 "fino a quando il numero di cittadini contenti non è più sufficiente a "
 "mantenere la celebrazione"
 
-#: data/helpdata.txt:1427
+#: data/helpdata.txt:1426
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -18586,7 +18592,7 @@ msgstr ""
 "dell'opzione cityfactor del server) il limite per creare cittadini "
 "soddisfatti è ridotto a 3."
 
-#: data/helpdata.txt:1437
+#: data/helpdata.txt:1436
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -18607,7 +18613,7 @@ msgstr ""
 "scontenti. Alcune meraviglie del Mondo possono avere effetto sulla "
 "soddisfazione dei cittadini (vedete le sezioni appropriate per i dettagli)."
 
-#: data/helpdata.txt:1447
+#: data/helpdata.txt:1446
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -18636,7 +18642,7 @@ msgstr ""
 "Cattedrali a seconda del ruleset in uso), oppure convertendo parte del "
 "vostro commercio in lusso."
 
-#: data/helpdata.txt:1466
+#: data/helpdata.txt:1465
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -18648,7 +18654,7 @@ msgstr ""
 "delle altre su Alpha Centauri il gioco è finito e voi avete vinto. (È "
 "possibile comunque disabilitare questa possibilità dal server.)"
 
-#: data/helpdata.txt:1472
+#: data/helpdata.txt:1471
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -18665,7 +18671,7 @@ msgstr ""
 "disponibili è probabile che il server a cui siete connessi abbia "
 "disabilitata l'opzione Corsa allo Spazio.)"
 
-#: data/helpdata.txt:1480
+#: data/helpdata.txt:1479
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -18676,7 +18682,7 @@ msgstr ""
 "astronavi degli altri giocatori selezionate il giocatore nella finestra di "
 "dialogo Giocatori e cliccate su \"Astronave\"."
 
-#: data/helpdata.txt:1485
+#: data/helpdata.txt:1484
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -18686,7 +18692,7 @@ msgstr ""
 "della nave potrebbe non sopravvivere al viaggio. Questo riduce il punteggio "
 "dato dall'astronave ma vale ugualmente la vittoria."
 
-#: data/helpdata.txt:1489
+#: data/helpdata.txt:1488
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -18695,7 +18701,7 @@ msgstr ""
 "lanciate da questa vengono perse, perciò è bene difendere con cura la "
 "propria capitale!"
 
-#: data/helpdata.txt:1492
+#: data/helpdata.txt:1491
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -23843,11 +23849,11 @@ msgid ""
 msgstr ""
 
 #: data/nation/malaysian.ruleset:22 data/nation/singaporean.ruleset:31
-#: data/nation/turk.ruleset:24
+#: data/nation/turk.ruleset:23
 msgid "Sultan"
 msgstr "Sultano"
 
-#: data/nation/malaysian.ruleset:22 data/nation/turk.ruleset:24
+#: data/nation/malaysian.ruleset:22 data/nation/turk.ruleset:23
 #, fuzzy
 msgid "Sultana"
 msgstr "Sultano"
@@ -24056,22 +24062,22 @@ msgid ""
 "aftermath of WWI."
 msgstr ""
 
-#: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:28
+#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
 #, fuzzy
 msgid "Bey"
 msgstr "Compra"
 
-#: data/nation/ottoman.ruleset:27
+#: data/nation/ottoman.ruleset:28
 #, fuzzy
 msgid "Hakan"
 msgstr "maggio"
 
-#: data/nation/ottoman.ruleset:28
+#: data/nation/ottoman.ruleset:29
 #, fuzzy
 msgid "Padisah"
 msgstr "Partigiani"
 
-#: data/nation/ottoman.ruleset:29
+#: data/nation/ottoman.ruleset:30
 #, fuzzy
 msgid "Imparator"
 msgstr "Imperatore"
@@ -25348,200 +25354,200 @@ msgid "Loading tutorial events."
 msgstr "Caricamento ruleset"
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
+#: data/default/game.ruleset:129
+#, fuzzy
+msgid "Team 0"
+msgstr "Squadra"
+
+#: data/civ1/game.ruleset:102 data/civ2/game.ruleset:102
 #: data/default/game.ruleset:130
 #, fuzzy
 msgid "Team 1"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:102 data/civ2/game.ruleset:102
+#: data/civ1/game.ruleset:103 data/civ2/game.ruleset:103
 #: data/default/game.ruleset:131
 #, fuzzy
 msgid "Team 2"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:103 data/civ2/game.ruleset:103
+#: data/civ1/game.ruleset:104 data/civ2/game.ruleset:104
 #: data/default/game.ruleset:132
 #, fuzzy
 msgid "Team 3"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:104 data/civ2/game.ruleset:104
+#: data/civ1/game.ruleset:105 data/civ2/game.ruleset:105
 #: data/default/game.ruleset:133
 #, fuzzy
 msgid "Team 4"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:105 data/civ2/game.ruleset:105
+#: data/civ1/game.ruleset:106 data/civ2/game.ruleset:106
 #: data/default/game.ruleset:134
 #, fuzzy
 msgid "Team 5"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:106 data/civ2/game.ruleset:106
+#: data/civ1/game.ruleset:107 data/civ2/game.ruleset:107
 #: data/default/game.ruleset:135
 #, fuzzy
 msgid "Team 6"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:107 data/civ2/game.ruleset:107
+#: data/civ1/game.ruleset:108 data/civ2/game.ruleset:108
 #: data/default/game.ruleset:136
 #, fuzzy
 msgid "Team 7"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:108 data/civ2/game.ruleset:108
+#: data/civ1/game.ruleset:109 data/civ2/game.ruleset:109
 #: data/default/game.ruleset:137
 #, fuzzy
 msgid "Team 8"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:109 data/civ2/game.ruleset:109
+#: data/civ1/game.ruleset:110 data/civ2/game.ruleset:110
 #: data/default/game.ruleset:138
 #, fuzzy
 msgid "Team 9"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:110 data/civ2/game.ruleset:110
+#: data/civ1/game.ruleset:111 data/civ2/game.ruleset:111
 #: data/default/game.ruleset:139
 #, fuzzy
 msgid "Team 10"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:111 data/civ2/game.ruleset:111
+#: data/civ1/game.ruleset:112 data/civ2/game.ruleset:112
 #: data/default/game.ruleset:140
 #, fuzzy
 msgid "Team 11"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:112 data/civ2/game.ruleset:112
+#: data/civ1/game.ruleset:113 data/civ2/game.ruleset:113
 #: data/default/game.ruleset:141
 #, fuzzy
 msgid "Team 12"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:113 data/civ2/game.ruleset:113
+#: data/civ1/game.ruleset:114 data/civ2/game.ruleset:114
 #: data/default/game.ruleset:142
 #, fuzzy
 msgid "Team 13"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:114 data/civ2/game.ruleset:114
+#: data/civ1/game.ruleset:115 data/civ2/game.ruleset:115
 #: data/default/game.ruleset:143
 #, fuzzy
 msgid "Team 14"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:115 data/civ2/game.ruleset:115
+#: data/civ1/game.ruleset:116 data/civ2/game.ruleset:116
 #: data/default/game.ruleset:144
 #, fuzzy
 msgid "Team 15"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:116 data/civ2/game.ruleset:116
+#: data/civ1/game.ruleset:117 data/civ2/game.ruleset:117
 #: data/default/game.ruleset:145
 #, fuzzy
 msgid "Team 16"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:117 data/civ2/game.ruleset:117
+#: data/civ1/game.ruleset:118 data/civ2/game.ruleset:118
 #: data/default/game.ruleset:146
 #, fuzzy
 msgid "Team 17"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:118 data/civ2/game.ruleset:118
+#: data/civ1/game.ruleset:119 data/civ2/game.ruleset:119
 #: data/default/game.ruleset:147
 #, fuzzy
 msgid "Team 18"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:119 data/civ2/game.ruleset:119
+#: data/civ1/game.ruleset:120 data/civ2/game.ruleset:120
 #: data/default/game.ruleset:148
 #, fuzzy
 msgid "Team 19"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:120 data/civ2/game.ruleset:120
+#: data/civ1/game.ruleset:121 data/civ2/game.ruleset:121
 #: data/default/game.ruleset:149
 #, fuzzy
 msgid "Team 20"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:121 data/civ2/game.ruleset:121
+#: data/civ1/game.ruleset:122 data/civ2/game.ruleset:122
 #: data/default/game.ruleset:150
 #, fuzzy
 msgid "Team 21"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:122 data/civ2/game.ruleset:122
+#: data/civ1/game.ruleset:123 data/civ2/game.ruleset:123
 #: data/default/game.ruleset:151
 #, fuzzy
 msgid "Team 22"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:123 data/civ2/game.ruleset:123
+#: data/civ1/game.ruleset:124 data/civ2/game.ruleset:124
 #: data/default/game.ruleset:152
 #, fuzzy
 msgid "Team 23"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:124 data/civ2/game.ruleset:124
+#: data/civ1/game.ruleset:125 data/civ2/game.ruleset:125
 #: data/default/game.ruleset:153
 #, fuzzy
 msgid "Team 24"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:125 data/civ2/game.ruleset:125
+#: data/civ1/game.ruleset:126 data/civ2/game.ruleset:126
 #: data/default/game.ruleset:154
 #, fuzzy
 msgid "Team 25"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:126 data/civ2/game.ruleset:126
+#: data/civ1/game.ruleset:127 data/civ2/game.ruleset:127
 #: data/default/game.ruleset:155
 #, fuzzy
 msgid "Team 26"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:127 data/civ2/game.ruleset:127
+#: data/civ1/game.ruleset:128 data/civ2/game.ruleset:128
 #: data/default/game.ruleset:156
 #, fuzzy
 msgid "Team 27"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:128 data/civ2/game.ruleset:128
+#: data/civ1/game.ruleset:129 data/civ2/game.ruleset:129
 #: data/default/game.ruleset:157
 #, fuzzy
 msgid "Team 28"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:129 data/civ2/game.ruleset:129
+#: data/civ1/game.ruleset:130 data/civ2/game.ruleset:130
 #: data/default/game.ruleset:158
 #, fuzzy
 msgid "Team 29"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:130 data/civ2/game.ruleset:130
+#: data/civ1/game.ruleset:131 data/civ2/game.ruleset:131
 #: data/default/game.ruleset:159
 #, fuzzy
 msgid "Team 30"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:131 data/civ2/game.ruleset:131
+#: data/civ1/game.ruleset:132 data/civ2/game.ruleset:132
 #: data/default/game.ruleset:160
 #, fuzzy
 msgid "Team 31"
 msgstr "Squadra"
 
-#: data/civ1/game.ruleset:132 data/civ2/game.ruleset:132
 #, fuzzy
-msgid "Team 32"
-msgstr "Squadra"
-
-#: data/default/game.ruleset:129
-#, fuzzy
-msgid "Team 0"
-msgstr "Squadra"
+#~ msgid "Team 32"
+#~ msgstr "Squadra"
 
 #~ msgid "Cleared output window.\n"
 #~ msgstr "Finestra messaggi cancellata.\n"
