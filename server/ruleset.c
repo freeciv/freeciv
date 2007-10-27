@@ -62,13 +62,27 @@
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define RESOURCE_SECTION_PREFIX "resource_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
+#define TERRAIN_CAPABILITY "+1.9+2007.Oct.26"
 #define TERRAIN_SECTION_PREFIX "terrain_"
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
 
+/* savegame conversion: resource identifiers */
+char *update22one = NULL;
+char *update22two = NULL;
+
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, name_too_long))
-#define name_strlcpy(dst, src) ((void) sz_loud_strlcpy(dst, src, name_too_long))
+#define name_strlcpy(dst, src) \
+	((void) sz_loud_strlcpy(dst, src, name_too_long))
+
+/* avoid re-reading files */
+#define MAX_SECTION_LABEL 64
+#define section_strlcpy(dst, src) \
+	(void) loud_strlcpy(dst, src, MAX_SECTION_LABEL, name_too_long)
+static char *resource_sections = NULL;
+static char *terrain_sections = NULL;
+
 
 static void openload_ruleset_file(struct section_file *file,
 				  const char *whichset);
@@ -87,9 +101,6 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
 					  const char *entry, bool required,
 					  const char *filename,
 					  const char *description);
-static char *lookup_helptext(struct section_file *file, char *prefix);
-
-static struct terrain *lookup_terrain(char *name, struct terrain *tthis);
 
 static void load_tech_names(struct section_file *file);
 static void load_unit_names(struct section_file *file);
@@ -601,33 +612,68 @@ static char *lookup_string(struct section_file *file, const char *prefix,
 /**************************************************************************
   Lookup optional helptext, returning allocated memory or NULL.
 **************************************************************************/
-static char *lookup_helptext(struct section_file *file, char *prefix)
+static char *lookup_helptext(struct section_file *file, const char *prefix)
 {
   return lookup_string(file, prefix, "helptext");
 }
 
 /**************************************************************************
-  Look up the terrain (untranslated) rule name and return its pointer.
+  Look up the resource section name and return its pointer.
 **************************************************************************/
-static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
+static struct resource *lookup_resource(const char *filename,
+					const char *name,
+					const char *jsection)
 {
-  if (*name == '\0' || (0 == strcmp(name, "none")) 
+  resource_type_iterate(presource) {
+    const int i = resource_index(presource);
+    const char *isection = &resource_sections[i * MAX_SECTION_LABEL];
+    if (0 == mystrcasecmp(isection, name)) {
+      return presource;
+    }
+  } resource_type_iterate_end;
+
+  ruleset_error(FALSE,
+                "\"%s\" [%s] has unknown \"%s\".",
+                filename,
+                jsection,
+                name);
+  return NULL;
+}
+
+/**************************************************************************
+  Look up the terrain section name and return its pointer.
+**************************************************************************/
+static struct terrain *lookup_terrain(struct section_file *file,
+				      const char *item,
+				      struct terrain *pthis)
+{
+  const int j = terrain_index(pthis);
+  const char *jsection = &terrain_sections[j * MAX_SECTION_LABEL];
+  char *name = secfile_lookup_str(file, "%s.%s", jsection, item);
+
+  if (NULL == name
+      || *name == '\0'
+      || (0 == strcmp(name, "none"))
       || (0 == strcmp(name, "no"))) {
     return T_NONE;
-  } else if (0 == strcmp(name, "yes")) {
-    return (tthis);
+  }
+  if (0 == strcmp(name, "yes")) {
+    return pthis;
   }
 
-  /* find_terrain_by_rule_name plus error */
   terrain_type_iterate(pterrain) {
-    if (0 == strcmp(name, terrain_rule_name(pterrain))) {
+    const int i = terrain_index(pterrain);
+    const char *isection = &terrain_sections[i * MAX_SECTION_LABEL];
+    if (0 == mystrcasecmp(isection, name)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
 
-  freelog(LOG_ERROR, "\"%s\" has unknown terrain \"%s\".",
-          terrain_rule_name(tthis),
-          name);
+  ruleset_error(FALSE,
+                "\"%s\" [%s] has unknown \"%s\".",
+                secfile_filename(file),
+                jsection,
+                name);
   return T_NONE;
 }
 
@@ -1484,15 +1530,23 @@ static void load_terrain_names(struct section_file *file)
   }
   game.control.terrain_count = nval;
 
+  /* avoid re-reading files */
+  if (terrain_sections) {
+    free(terrain_sections);
+  }
+  terrain_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
   terrain_type_iterate(pterrain) {
-    char *name = secfile_lookup_str(file, "%s.name",
-				    sec[terrain_index(pterrain)]);
+    const int i = terrain_index(pterrain);
+    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
     name_strlcpy(pterrain->name.vernacular, name);
     if (0 == strcmp(pterrain->name.vernacular, "unused")) {
       pterrain->name.vernacular[0] = '\0';
     }
     pterrain->name.translated = NULL;
+
+    section_strlcpy(&terrain_sections[i * MAX_SECTION_LABEL], sec[i]);
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1508,15 +1562,33 @@ static void load_terrain_names(struct section_file *file)
   }
   game.control.resource_count = nval;
 
+  if (update22one) {
+    free(update22one);
+  }
+  update22one = fc_calloc(nval, sizeof(char));
+
+  if (update22two) {
+    free(update22two);
+  }
+  update22two = fc_calloc(nval, sizeof(char));
+
+  /* avoid re-reading files */
+  if (resource_sections) {
+    free(resource_sections);
+  }
+  resource_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
   resource_type_iterate(presource) {
-    char *name = secfile_lookup_str(file, "%s.name",
-				    sec[resource_index(presource)]);
+    const int i = resource_index(presource);
+    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
     name_strlcpy(presource->name.vernacular, name);
     if (0 == strcmp(presource->name.vernacular, "unused")) {
       presource->name.vernacular[0] = '\0';
     }
     presource->name.translated = NULL;
+
+    section_strlcpy(&resource_sections[i * MAX_SECTION_LABEL], sec[i]);
   } resource_type_iterate_end;
 
   free(sec);
@@ -1563,14 +1635,12 @@ static void load_terrain_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_terrain(struct section_file *file)
 {
-  char *datafile_options;
   int nval;
-  char **tsec, **rsec, **res;
   int j;
+  char **res;
   const char *filename = secfile_filename(file);
-
-  datafile_options =
-    check_ruleset_capabilities(file, "+1.9", filename);
+  /* char *datafile_options = */ (void)
+    check_ruleset_capabilities(file, TERRAIN_CAPABILITY, filename);
 
   /* options */
   terrain_control.may_road =
@@ -1585,11 +1655,11 @@ static void load_ruleset_terrain(struct section_file *file)
   /* parameters */
 
   terrain_control.ocean_reclaim_requirement_pct
-    = secfile_lookup_int_default(file, 9,
-				 "parameters.ocean_reclaim_requirement_pct");
+    = secfile_lookup_int_default(file, 101,
+				 "parameters.ocean_reclaim_requirement");
   terrain_control.land_channel_requirement_pct
-    = secfile_lookup_int_default(file, 9,
-				 "parameters.land_channel_requirement_pct");
+    = secfile_lookup_int_default(file, 101,
+				 "parameters.land_channel_requirement");
   terrain_control.river_move_mode =
     secfile_lookup_int_default(file, RMV_FAST_STRICT, "parameters.river_move_mode");
   terrain_control.river_defense_bonus =
@@ -1622,106 +1692,94 @@ static void load_ruleset_terrain(struct section_file *file)
 
   /* terrain details */
 
-  tsec = secfile_get_secnames_prefix(file, TERRAIN_SECTION_PREFIX, &nval);
-
   terrain_type_iterate(pterrain) {
     char **slist;
     const int i = terrain_index(pterrain);
+    const char *tsection = &terrain_sections[i * MAX_SECTION_LABEL];
 
     sz_strlcpy(pterrain->graphic_str,
-	       secfile_lookup_str(file,"%s.graphic", tsec[i]));
+	       secfile_lookup_str(file,"%s.graphic", tsection));
     sz_strlcpy(pterrain->graphic_alt,
-	       secfile_lookup_str(file,"%s.graphic_alt", tsec[i]));
+	       secfile_lookup_str(file,"%s.graphic_alt", tsection));
 
     pterrain->identifier
-      = secfile_lookup_str(file, "%s.identifier", tsec[i])[0];
+      = secfile_lookup_str(file, "%s.identifier", tsection)[0];
     if ('\0' == pterrain->identifier) {
-      ruleset_error(TRUE, "\"%s\" [%s] missing identifier.",
-                    filename, tsec[i]);
+      ruleset_error(TRUE, "\"%s\" [%s] identifier missing value.",
+                    filename, tsection);
     }
     if (TERRAIN_UNKNOWN_IDENTIFIER == pterrain->identifier) {
       ruleset_error(TRUE,
                     "\"%s\" [%s] cannot use '%c' as an identifier;"
                     " it is reserved.",
-                    filename, tsec[i], pterrain->identifier);
+                    filename, tsection, pterrain->identifier);
     }
     for (j = T_FIRST; j < i; j++) {
       if (pterrain->identifier == terrain_by_number(j)->identifier) {
-        ruleset_error(TRUE, "\"%s\" [%s] has the same identifier as \"%s\".",
+        ruleset_error(TRUE, "\"%s\" [%s] has the same identifier as [%s].",
                       filename,
-                      tsec[i],
-                      terrain_rule_name(terrain_by_number(j)));
+                      tsection,
+                      &terrain_sections[j * MAX_SECTION_LABEL]);
       }
     }
 
     pterrain->movement_cost
-      = secfile_lookup_int(file, "%s.movement_cost", tsec[i]);
+      = secfile_lookup_int(file, "%s.movement_cost", tsection);
     pterrain->defense_bonus
-      = secfile_lookup_int(file, "%s.defense_bonus", tsec[i]);
+      = secfile_lookup_int(file, "%s.defense_bonus", tsection);
 
     output_type_iterate(o) {
       pterrain->output[o]
-	= secfile_lookup_int_default(file, 0, "%s.%s", tsec[i],
+	= secfile_lookup_int_default(file, 0, "%s.%s", tsection,
 				     get_output_identifier(o));
     } output_type_iterate_end;
 
-    res = secfile_lookup_str_vec (file, &nval, "%s.resources", tsec[i]);
+    res = secfile_lookup_str_vec(file, &nval, "%s.resources", tsection);
     pterrain->resources = fc_calloc(nval + 1, sizeof(*pterrain->resources));
     for (j = 0; j < nval; j++) {
-      pterrain->resources[j] = find_resource_by_rule_name(res[j]);
-      if (!pterrain->resources[j]) {
-	ruleset_error(TRUE, "\"%s\" [%s] could not find resource \"%s\".",
-                      filename, tsec[i], res[j]);
-      }
+      pterrain->resources[j] = lookup_resource(filename, res[j], tsection);
     }
     pterrain->resources[nval] = NULL;
 
     pterrain->road_trade_incr
-      = secfile_lookup_int(file, "%s.road_trade_incr", tsec[i]);
-    pterrain->road_time = secfile_lookup_int(file, "%s.road_time", tsec[i]);
+      = secfile_lookup_int(file, "%s.road_trade_incr", tsection);
+    pterrain->road_time = secfile_lookup_int(file, "%s.road_time", tsection);
 
     pterrain->irrigation_result
-      = lookup_terrain(secfile_lookup_str(file, "%s.irrigation_result",
-					  tsec[i]), pterrain);
+      = lookup_terrain(file, "irrigation_result", pterrain);
     pterrain->irrigation_food_incr
-      = secfile_lookup_int(file, "%s.irrigation_food_incr", tsec[i]);
+      = secfile_lookup_int(file, "%s.irrigation_food_incr", tsection);
     pterrain->irrigation_time
-      = secfile_lookup_int(file, "%s.irrigation_time", tsec[i]);
+      = secfile_lookup_int(file, "%s.irrigation_time", tsection);
 
     pterrain->mining_result
-      = lookup_terrain(secfile_lookup_str(file, "%s.mining_result",
-					  tsec[i]), pterrain);
+      = lookup_terrain(file, "mining_result", pterrain);
     pterrain->mining_shield_incr
-      = secfile_lookup_int(file, "%s.mining_shield_incr", tsec[i]);
+      = secfile_lookup_int(file, "%s.mining_shield_incr", tsection);
     pterrain->mining_time
-      = secfile_lookup_int(file, "%s.mining_time", tsec[i]);
+      = secfile_lookup_int(file, "%s.mining_time", tsection);
 
     pterrain->transform_result
-      = lookup_terrain(secfile_lookup_str(file, "%s.transform_result",
-                                          tsec[i]), pterrain);
+      = lookup_terrain(file, "transform_result", pterrain);
     pterrain->transform_time
-      = secfile_lookup_int(file, "%s.transform_time", tsec[i]);
+      = secfile_lookup_int(file, "%s.transform_time", tsection);
     pterrain->rail_time
-      = secfile_lookup_int_default(file, 3, "%s.rail_time", tsec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.rail_time", tsection);
     pterrain->clean_pollution_time
-      = secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", tsec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", tsection);
     pterrain->clean_fallout_time
-      = secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", tsec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", tsection);
 
     pterrain->warmer_wetter_result
-      = lookup_terrain(secfile_lookup_str(file, "%s.warmer_wetter_result",
-					  tsec[i]), pterrain);
+      = lookup_terrain(file, "warmer_wetter_result", pterrain);
     pterrain->warmer_drier_result
-      = lookup_terrain(secfile_lookup_str(file, "%s.warmer_drier_result",
-					  tsec[i]), pterrain);
+      = lookup_terrain(file, "warmer_drier_result", pterrain);
     pterrain->cooler_wetter_result
-      = lookup_terrain(secfile_lookup_str(file, "%s.cooler_wetter_result",
-					  tsec[i]), pterrain);
+      = lookup_terrain(file, "cooler_wetter_result", pterrain);
     pterrain->cooler_drier_result
-      = lookup_terrain(secfile_lookup_str(file, "%s.cooler_drier_result",
-					  tsec[i]), pterrain);
+      = lookup_terrain(file, "cooler_drier_result", pterrain);
 
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", tsec[i]);
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", tsection);
     BV_CLR_ALL(pterrain->flags);
     for (j = 0; j < nval; j++) {
       const char *sval = slist[j];
@@ -1729,7 +1787,7 @@ static void load_ruleset_terrain(struct section_file *file)
 
       if (flag == TER_LAST) {
         ruleset_error(TRUE, "\"%s\" [%s] has unknown flag \"%s\".",
-                      filename, tsec[i], sval);
+                      filename, tsection, sval);
       } else {
 	BV_SET(pterrain->flags, flag);
       }
@@ -1746,77 +1804,102 @@ static void load_ruleset_terrain(struct section_file *file)
 
       pterrain->property[j] = secfile_lookup_int_default(file, 0,
 							 "%s.property_%s",
-							 tsec[i], mg_names[j]);
+							 tsection, mg_names[j]);
     }
 
-    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", tsec[i]);
+    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", tsection);
     BV_CLR_ALL(pterrain->native_to);
     for (j = 0; j < nval; j++) {
       struct unit_class *class = find_unit_class_by_rule_name(slist[j]);
 
       if (!class) {
         ruleset_error(TRUE, "\"%s\" [%s] is native to unknown unit class \"%s\".",
-                      filename, tsec[i], slist[j]);
+                      filename, tsection, slist[j]);
       } else if (is_ocean(pterrain) && class->move_type == LAND_MOVING) {
         ruleset_error(TRUE, "\"%s\" oceanic [%s] is native to land units.",
-                      filename, tsec[i]);
+                      filename, tsection);
       } else if (!is_ocean(pterrain) && class->move_type == SEA_MOVING) {
         ruleset_error(TRUE, "\"%s\" non-oceanic [%s] is native to sea units.",
-                      filename, tsec[i]);
+                      filename, tsection);
       } else {
         BV_SET(pterrain->native_to, uclass_index(class));
       }
     }
     free(slist);
 
-    pterrain->helptext = lookup_helptext(file, tsec[i]);
+    pterrain->helptext = lookup_helptext(file, tsection);
   } terrain_type_iterate_end;
-  free(tsec);
 
   /* resource details */
 
-  rsec = secfile_get_secnames_prefix(file, RESOURCE_SECTION_PREFIX, &nval);
-
   resource_type_iterate(presource) {
+    char identifier[MAX_LEN_NAME];
     const int i = resource_index(presource);
+    const char *rsection = &resource_sections[i * MAX_SECTION_LABEL];
 
     output_type_iterate (o) {
       presource->output[o] =
-	  secfile_lookup_int_default(file, 0, "%s.%s", rsec[i],
+	  secfile_lookup_int_default(file, 0, "%s.%s", rsection,
 				       get_output_identifier(o));
     } output_type_iterate_end;
     sz_strlcpy(presource->graphic_str,
-	       secfile_lookup_str(file,"%s.graphic", rsec[i]));
+	       secfile_lookup_str(file,"%s.graphic", rsection));
     sz_strlcpy(presource->graphic_alt,
-	       secfile_lookup_str(file,"%s.graphic_alt", rsec[i]));
+	       secfile_lookup_str(file,"%s.graphic_alt", rsection));
 
-    presource->identifier
-      = secfile_lookup_str(file, "%s.identifier", rsec[i])[0];
-    if ('\0' == presource->identifier) {
-      ruleset_error(TRUE, "\"%s\" [%s] missing identifier.",
-                    filename, rsec[i]);
-    }
+    sz_strlcpy(identifier,
+	       secfile_lookup_str(file,"%s.identifier", rsection));
+    presource->identifier = identifier[0];
     if (RESOURCE_NULL_IDENTIFIER == presource->identifier) {
+      ruleset_error(TRUE, "\"%s\" [%s] identifier missing value.",
+                    filename, rsection);
+    }
+    if (RESOURCE_NONE_IDENTIFIER == presource->identifier) {
       ruleset_error(TRUE, "\"%s\" [%s] cannot use '%c' as an identifier;"
                     " it is reserved.",
-                    filename, rsec[i], presource->identifier);
+                    filename, rsection, presource->identifier);
     }
     for (j = 0; j < i; j++) {
       if (presource->identifier == resource_by_number(j)->identifier) {
-        ruleset_error(TRUE, "\"%s\" [%s] has the same identifier as \"%s\".",
+        ruleset_error(TRUE, "\"%s\" [%s] has the same identifier as [%s].",
                       filename,
-                      rsec[i],
-                      resource_rule_name(resource_by_number(j)));
+                      rsection,
+                      &resource_sections[j * MAX_SECTION_LABEL]);
       }
     }
+
+    update22one[i]
+      = secfile_lookup_str_default(file, identifier,
+                                   "%s.update22one", rsection)[0];
+    if (RESOURCE_NULL_IDENTIFIER == update22one[i]) {
+      ruleset_error(FALSE, "\"%s\" [%s] update22one missing value.",
+                    filename, rsection);
+    }
+    if (RESOURCE_NONE_IDENTIFIER == update22one[i]) {
+      ruleset_error(FALSE, "\"%s\" [%s] cannot use '%c' as an identifier;"
+                    " it is reserved.",
+                    filename, rsection, update22one[i]);
+    }
+
+    update22two[i]
+      = secfile_lookup_str_default(file, identifier,
+                                   "%s.update22two", rsection)[0];
+    if (RESOURCE_NULL_IDENTIFIER == update22two[i]) {
+      ruleset_error(FALSE, "\"%s\" [%s] update22two missing value.",
+                    filename, rsection);
+    }
+    if (RESOURCE_NONE_IDENTIFIER == update22two[i]) {
+      ruleset_error(FALSE, "\"%s\" [%s] cannot use '%c' as an identifier;"
+                    " it is reserved.",
+                    filename, rsection, update22two[i]);
+    }
   } resource_type_iterate_end;
-  free(rsec);
 
   /* base details */
 
   base_type_iterate(pbase) {
-    char **slist;
     int j;
+    char **slist;
     char *section;
     struct requirement_vector *reqs;
     char *gui_str;
@@ -2112,7 +2195,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
   int value;
 
   /* First we read the strings from the section file (above). */
-  char **cities = secfile_lookup_str_vec(file, &dim, "%s%s",
+  char **cities = secfile_lookup_str_vec(file, &dim, "%s.%s",
                                          secfile_str1, secfile_str2);
 
   /*
@@ -2153,11 +2236,12 @@ static struct city_name* load_city_name_list(struct section_file *file,
        */
       char *next = strchr(name + 1, ')');
       if (!next) {
-	freelog(LOG_FATAL,
-	        "Badly formed city name %s in city name "
-	        "ruleset \"%s%s\": unmatched parenthesis.",
-	        cities[j], secfile_str1, secfile_str2);
-	assert(FALSE);
+	ruleset_error(FALSE,
+		      "\"%s\" [%s] %s: city name \"%s\" unmatched parenthesis.",
+		      secfile_filename(file),
+		      secfile_str1,
+		      secfile_str2,
+		      cities[j]);
       } else { /* if (!next) */
         name[0] = next[0] = '\0';
         name++;
@@ -2188,25 +2272,34 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	  } else {
 	    /* "handled" tracks whether we find a match (for error handling) */
 	    bool handled = FALSE;
+	    int l = strlen(name);
+
+	    if (l > 0  && 's' == my_tolower(name[l-1])) {
+	      /* remove frequent trailing 's' */
+	      name[--l] = '\0';
+	    }
 
 	    terrain_type_iterate(pterrain) {
+	      const int i = terrain_index(pterrain);
+	      const char *isection = &terrain_sections[i * MAX_SECTION_LABEL];
               /*
-               * Note that at this point, the name fields contain an
-               * untranslated string.  Note that name of T_RIVER_UNUSED is "".
-               * However, this is not a problem -- we don't use the translated
-               * name for comparison, and handle rivers separately.
+               * Note that the section name is unique (by definition).
+               * The sub-strings are carefully crafted for this function.
                */
-	      if (0 == mystrcasecmp(terrain_rule_name(pterrain), name)) {
-	        city_names[j].terrain[terrain_index(pterrain)] = setting;
+	      if (NULL != strcasestr(isection, name)) {
+	        city_names[j].terrain[i] = setting;
 	        handled = TRUE;
 		break;
 	      }
 	    } terrain_type_iterate_end;
 	    if (!handled) {
-	      freelog(LOG_FATAL, "Unreadable terrain description %s "
-	              "in city name ruleset \"%s%s\" - skipping it.",
-	    	      name, secfile_str1, secfile_str2);
-	      assert(FALSE); /* FIXME, not skipped! */
+	      ruleset_error(FALSE,
+			    "\"%s\" [%s] %s: terrain \"%s\" not found;"
+			    " skipping it.",
+			    secfile_filename(file),
+			    secfile_str1,
+			    secfile_str2,
+			    name);
 	    }
 	  }
 	  name = next ? next + 1 : NULL;
@@ -2218,10 +2311,13 @@ static struct city_name* load_city_name_list(struct section_file *file,
     if (check_name(city_names[j].name)) {
       /* The ruleset contains a name that is too long.  This shouldn't
 	 happen - if it does, the author should get immediate feedback */
-      freelog(LOG_FATAL, "City name %s in ruleset for %s%s is too long "
-	      "- shortening it.",
-              city_names[j].name, secfile_str1, secfile_str2);
-      assert(FALSE); /* FIXME, not shortened! */
+      ruleset_error(FALSE, 
+		    "\"%s\" [%s] %s: city name \"%s\" is too long;"
+		    " shortening it.",
+		    secfile_filename(file),
+		    secfile_str1,
+		    secfile_str2,
+		    city_names[j].name);
       city_names[j].name[MAX_LEN_NAME - 1] = '\0';
     }
   }
@@ -2511,7 +2607,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     /* read "normal" city names */
 
-    pl->city_names = load_city_name_list(file, sec[i], ".cities");
+    pl->city_names = load_city_name_list(file, sec[i], "cities");
 
     pl->legend = mystrdup(secfile_lookup_str(file, "%s.legend", sec[i]));
     if (check_strlen(pl->legend, MAX_LEN_MSG, "Legend '%s' is too long")) {
@@ -3461,6 +3557,15 @@ void load_rulesets(void)
   sanity_check_ruleset_data();
 
   precalc_tech_data();
+
+  if (resource_sections) {
+    free(resource_sections);
+    resource_sections = NULL;
+  }
+  if (terrain_sections) {
+    free(terrain_sections);
+    terrain_sections = NULL;
+  }
 
   script_free();
 

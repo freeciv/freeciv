@@ -75,7 +75,8 @@ struct resource {
   char graphic_alt[MAX_LEN_NAME];
 
   char identifier; /* Single-character identifier used in savegames. */
-#define RESOURCE_NULL_IDENTIFIER ' '
+#define RESOURCE_NULL_IDENTIFIER '\0'
+#define RESOURCE_NONE_IDENTIFIER ' '
 
   int output[O_MAX]; /* Amount added by this resource. */
 };
@@ -145,7 +146,7 @@ struct terrain {
   int item_number;
   struct name_translation name;
   char graphic_str[MAX_LEN_NAME];	/* add tile_ prefix */
-  char graphic_alt[MAX_LEN_NAME];	/* TODO: retire, never used! */
+  char graphic_alt[MAX_LEN_NAME];
 
   char identifier; /* Single-character identifier used in savegames. */
 #define TERRAIN_WATER_IDENTIFIER ' '
@@ -259,6 +260,7 @@ Resource_type_id resource_index(const struct resource *presource);
 Resource_type_id resource_number(const struct resource *presource);
 
 struct resource *resource_by_number(const Resource_type_id id);
+struct resource *find_resource_by_identifier(const char identifier);
 struct resource *find_resource_by_rule_name(const char *name);
 
 const char *resource_rule_name(const struct resource *presource);

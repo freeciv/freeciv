@@ -741,6 +741,7 @@ static char get_savegame_special(bv_special specials,
 
   return hex_chars[bin];
 }
+
 /****************************************************************************
   Complicated helper function for reading resources from a savegame.
   This reads resources saved in the specials bitvector.
@@ -768,19 +769,41 @@ static void set_savegame_old_resource(struct resource **r,
 }
 
 /****************************************************************************
+  Convert an older resource into the current value.
+****************************************************************************/
+static struct resource *update22_resource(char c)
+{
+  /* Different rulesets had different resources. */
+  if (strcmp(game.rulesetdir, "civ1") == 0) {
+    resource_type_iterate(presource) {
+      if (update22one[resource_index(presource)] == c) {
+        return presource;
+      }
+    } resource_type_iterate_end;
+  } else {
+    resource_type_iterate(presource) {
+      if (update22two[resource_index(presource)] == c) {
+        return presource;
+      }
+    } resource_type_iterate_end;
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Return the resource for the given identifier.
 ****************************************************************************/
 static struct resource *identifier_to_resource(char c)
 {
-  if (c == RESOURCE_NULL_IDENTIFIER) {
+  /* speed common values */
+  if (c == RESOURCE_NULL_IDENTIFIER
+   || c == RESOURCE_NONE_IDENTIFIER) {
     return NULL;
   }
-  resource_type_iterate (r) {
-    if (r->identifier == c) {
-      return r;
-    }
-  } resource_type_iterate_end;
-  return NULL;
+  if (20200 > game.version) {
+    return update22_resource(c);
+  }
+  return find_resource_by_identifier(c);
 }
 
 /****************************************************************************
@@ -788,7 +811,7 @@ static struct resource *identifier_to_resource(char c)
 ****************************************************************************/
 static char resource_to_identifier(const struct resource *presource)
 {
-  return presource ? presource->identifier : RESOURCE_NULL_IDENTIFIER;
+  return presource ? presource->identifier : RESOURCE_NONE_IDENTIFIER;
 }
 
 /***************************************************************
@@ -850,9 +873,17 @@ static void map_load(struct section_file *file,
 
   /* after the resources are loaded, indicate those currently valid */
   whole_map_iterate(ptile) {
-    if (NULL != ptile->terrain
-     && NULL != ptile->resource
-     && terrain_has_resource(ptile->terrain, ptile->resource)) {
+    if (NULL == ptile->resource
+     || NULL == ptile->terrain) {
+      continue;
+    }
+    if ('x' == ptile->resource->identifier
+     && 'd' == ptile->terrain->identifier
+     && 20200 > game.version) {
+      /* for compatibility with civ2 split of desert oil */
+      ptile->resource = find_resource_by_identifier('X');
+    }
+    if (terrain_has_resource(ptile->terrain, ptile->resource)) {
       /* cannot use set_special() for internal values */
       BV_SET(ptile->special, S_RESOURCE_VALID);
     }
