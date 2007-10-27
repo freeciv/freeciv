@@ -1,3 +1,6 @@
+NOTE: This file has not been updated for this version of Freeciv.
+      It might contain outdated information.
+
 De Freeciv spel HOWTO
 
   Oorspronkelijk door Michael Hohensee (alias Zarchon)
