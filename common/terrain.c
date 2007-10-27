@@ -140,6 +140,18 @@ Terrain_type_id terrain_number(const struct terrain *pterrain)
 }
 
 /****************************************************************************
+  Return the terrain for the given terrain index.
+****************************************************************************/
+struct terrain *terrain_by_number(const Terrain_type_id type)
+{
+  if (type < 0 || type >= game.control.terrain_count) {
+    /* This isn't an error; some T_UNKNOWN callers depend on it. */
+    return NULL;
+  }
+  return &civ_terrains[type];
+}
+
+/****************************************************************************
   Return the terrain type matching the identifier, or T_UNKNOWN if none matches.
 ****************************************************************************/
 struct terrain *find_terrain_by_identifier(const char identifier)
@@ -154,18 +166,6 @@ struct terrain *find_terrain_by_identifier(const char identifier)
   } terrain_type_iterate_end;
 
   return T_UNKNOWN;
-}
-
-/****************************************************************************
-  Return the terrain for the given terrain index.
-****************************************************************************/
-struct terrain *terrain_by_number(const Terrain_type_id type)
-{
-  if (type < 0 || type >= game.control.terrain_count) {
-    /* This isn't an error; some T_UNKNOWN callers depend on it. */
-    return NULL;
-  }
-  return &civ_terrains[type];
 }
 
 /****************************************************************************
@@ -336,14 +336,28 @@ struct resource *resource_by_number(const Resource_type_id type)
 }
 
 /****************************************************************************
-  Return the resource type matching the name, or T_UNKNOWN if none matches.
+  Return the resource type matching the identifier, or NULL when none matches.
+****************************************************************************/
+struct resource *find_resource_by_identifier(const char identifier)
+{
+  resource_type_iterate(presource) {
+    if (presource->identifier == identifier) {
+      return presource;
+    }
+  } resource_type_iterate_end;
+
+  return NULL;
+}
+
+/****************************************************************************
+  Return the resource type matching the name, or NULL when none matches.
 ****************************************************************************/
 struct resource *find_resource_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
   resource_type_iterate(presource) {
-    if (0 == strcmp(resource_rule_name(presource), qname)) {
+    if (0 == mystrcasecmp(resource_rule_name(presource), qname)) {
       return presource;
     }
   } resource_type_iterate_end;

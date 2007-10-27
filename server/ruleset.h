@@ -15,6 +15,11 @@
 
 struct conn_list;
 
+/* savegame conversion: resource identifiers */
+extern char *update22one;
+extern char *update22two;
+
+/* functions */
 void load_rulesets(void);
 void send_rulesets(struct conn_list *dest);
 
