@@ -24099,7 +24099,7 @@ msgid ""
 msgstr ""
 
 #: data/nation/turk.ruleset:3
-msgid "Turk"
+msgid "Turkish"
 msgstr ""
 
 #: data/nation/turk.ruleset:4

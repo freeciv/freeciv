@@ -34,7 +34,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "turk", "tocharian"
+civilwar_nations = "turkish", "tocharian"
 
 cities =
  "Ürümqi",

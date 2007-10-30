@@ -27270,7 +27270,8 @@ msgstr ""
 "Turkmenistan va obtenir la independència de la Unió Soviètica el 1991."
 
 #: data/nation/turk.ruleset:3
-msgid "Turk"
+#, fuzzy
+msgid "Turkish"
 msgstr "Turc"
 
 #: data/nation/turk.ruleset:4
