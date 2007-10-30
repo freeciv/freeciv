@@ -35,7 +35,7 @@ init_units=""
 
 ; Byzantium was a successor-empire of the Hellenic culture
 conflicts_with = "greek"
-civilwar_nations = "greek", "italian", "turk", "arab"
+civilwar_nations = "greek", "italian", "turkish", "arab"
 
 cities =
  "Konstantinoupolis (ocean)",	; Constantinople / Istanbul
