@@ -360,7 +360,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 static int toggle_map_window_callback(struct widget *pMap_Button)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct unit *pFocus = unit_list_get(get_units_in_focus(), 0);
+    struct unit *pFocus = head_of_units_in_focus();
     struct widget *pWidget;
       
     /* make new map icon */

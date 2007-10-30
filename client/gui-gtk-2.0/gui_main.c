@@ -894,7 +894,7 @@ void reset_unit_table(void)
   gtk_widget_hide(more_arrow_pixmap);
   set_unit_icons_more_arrow(FALSE);
   if (get_num_units_in_focus() == 1) {
-    set_unit_icon(-1, unit_list_get(get_units_in_focus(), 0));
+    set_unit_icon(-1, head_of_units_in_focus());
   } else {
     set_unit_icon(-1, NULL);
   }

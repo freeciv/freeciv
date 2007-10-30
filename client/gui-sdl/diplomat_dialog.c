@@ -823,7 +823,7 @@ void popup_sabotage_dialog(struct city *pCity)
 {
   struct widget *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
-  struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
+  struct unit *pUnit = head_of_units_in_focus();
   SDL_String16 *pStr;
   SDL_Rect area, area2;
   int n, w = 0, h, imp_h = 0;
@@ -1119,7 +1119,7 @@ void popup_incite_dialog(struct city *pCity, int cost)
   }
   
   /* ugly hack */
-  pUnit = unit_list_get(get_units_in_focus(), 0);
+  pUnit = head_of_units_in_focus();
   
   if (!pUnit || !is_diplomat_unit(pUnit)) {
     return;
@@ -1360,7 +1360,7 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
   }
     
   /* ugly hack */
-  pDiplomatUnit = unit_list_get(get_units_in_focus(), 0);
+  pDiplomatUnit = head_of_units_in_focus();
   
   if (!pDiplomatUnit || !is_diplomat_unit(pDiplomatUnit)) {
     return;

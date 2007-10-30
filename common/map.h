@@ -18,10 +18,7 @@
 
 #include "fc_types.h"
 
-#include "player.h"
-#include "terrain.h"
 #include "tile.h"
-#include "unit.h"
 
 /*
  * The value of MOVE_COST_FOR_VALID_SEA_STEP has no particular
@@ -436,13 +433,6 @@ extern struct terrain_misc terrain_control;
 }
 
 BV_DEFINE(dir_vector, 8);
-
-struct unit_order {
-  enum unit_orders order;
-  enum direction8 dir;		/* Only valid for ORDER_MOVE. */
-  enum unit_activity activity;	/* Only valid for ORDER_ACTIVITY. */
-  enum base_type_id base;       /* Only valid for activity ACTVITY_BASE */
-};
 
 /* return the reverse of the direction */
 #define DIR_REVERSE(dir) (7 - (dir))

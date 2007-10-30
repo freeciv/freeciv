@@ -430,7 +430,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     add_line(_("Unit: %s(%s%s)"), utype_name_translation(ptype),
 	     nation_name_translation(nation_of_unit(punit)), tmp);
     if (player_number(punit->owner) != game.info.player_idx) {
-      struct unit *apunit = unit_list_get(get_units_in_focus(), 0);
+      struct unit *apunit = head_of_units_in_focus();  /* FIXME, need best in stack */
 
       if (apunit) {
 	/* chance to win when active unit is attacking the selected unit */

@@ -14,7 +14,7 @@
 #ifndef FC__CLIMAP_H
 #define FC__CLIMAP_H
 
-#include "map.h"                /* enum direction8 */
+#include "fc_types.h"           /* enum direction8, struct tile */
 #include "terrain.h"            /* enum known_type */
 
 #define map_exists() (map.tiles != NULL)

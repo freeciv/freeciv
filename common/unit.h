@@ -18,8 +18,6 @@
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
 
-struct unit_order;
-
 #define BARBARIAN_LIFE    5
 
 /* Changing this enum will break network compatability. */
@@ -122,6 +120,13 @@ struct unit_ai {
   int target; /* target we hunt */
   int hunted; /* if a player is hunting us, set by that player */
   bool done;  /* we are done controlling this unit this turn */
+};
+
+struct unit_order {
+  enum unit_orders order;
+  enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
+  enum base_type_id base;       /* Only valid for activity ACTIVITY_BASE */
+  enum direction8 dir;          /* Only valid for ORDER_MOVE. */
 };
 
 struct unit {

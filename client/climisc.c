@@ -411,7 +411,7 @@ void center_on_something(void)
 
   can_slide = FALSE;
   if (get_num_units_in_focus() > 0) {
-    center_tile_mapcanvas(unit_list_get(get_units_in_focus(), 0)->tile);
+    center_tile_mapcanvas(head_of_units_in_focus()->tile);
   } else if (game.player_ptr && (pcity = find_palace(game.player_ptr))) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->tile);

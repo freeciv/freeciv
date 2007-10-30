@@ -82,7 +82,7 @@ static int goto_city_callback(struct widget *pWidget)
     struct city *pDestcity = game_find_city_by_number(MAX_ID - pWidget->ID);
   
     if (pDestcity) {
-      struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
+      struct unit *pUnit = head_of_units_in_focus();
       if (pUnit) {
         if(GOTO) {
           send_goto_tile(pUnit, pDestcity->tile);
@@ -358,7 +358,7 @@ static void popup_goto_airlift_dialog(void)
 **************************************************************************/
 void popup_goto_dialog(void)
 {
-  if (!can_client_issue_orders() || !unit_list_get(get_units_in_focus(), 0)) {
+  if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
   all_players = (1u << (player_index(game.player_ptr)));
@@ -370,7 +370,7 @@ void popup_goto_dialog(void)
 **************************************************************************/
 void popup_airlift_dialog(void)
 {
-  if (!can_client_issue_orders() || !unit_list_get(get_units_in_focus(), 0)) {
+  if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
   all_players = (1u << (player_index(game.player_ptr)));

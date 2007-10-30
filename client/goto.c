@@ -38,20 +38,6 @@
 #define PATH_LOG_LEVEL          LOG_DEBUG
 #define PACKET_LOG_LEVEL        LOG_DEBUG
 
-/*
- * The whole path is separated by waypoints into parts.  Each part has its
- * own starting position and requires its own map.  When the unit is unable
- * to move, end_tile equals start_tile.
- */
-struct part {
-  int start_moves_left, start_fuel_left;
-  struct tile *start_tile, *end_tile;
-  int end_moves_left, end_fuel_left;
-  int time;
-  struct pf_path *path;
-  struct pf_map *map;
-};
-
 /* For each tile and each direction we store the number of lines going out 
  * of the tile in this direction.  Since each line is undirected, we only 
  * store the 4 lower-numbered directions for each tile; the 4 upper-numbered
@@ -67,10 +53,24 @@ struct goto_tiles {
 };
 static struct goto_tiles *tiles = NULL;
 
+/*
+ * The whole path is separated by waypoints into parts.  Each part has its
+ * own starting position and requires its own map.  When the unit is unable
+ * to move, end_tile equals start_tile.
+ */
+struct part {
+  int start_moves_left, start_fuel_left;
+  struct tile *start_tile, *end_tile;
+  int end_moves_left, end_fuel_left;
+  int time;
+  struct pf_path *path;
+  struct pf_map *map;
+};
+
 struct goto_map {
+  struct unit *focus;
   struct part *parts;
   int num_parts;
-  int unit_id;                  /* One of the hover_units */
   int connect_initial;
   int connect_speed;
   struct pf_parameter template;
@@ -80,23 +80,17 @@ struct goto_map {
 #define SPECLIST_TAG goto_map
 #define SPECLIST_TYPE struct goto_map
 #include "speclist.h"
-#define goto_map_list_iterate(gotolist, pgoto)				    \
+#define goto_map_list_iterate(gotolist, pgoto)				\
   TYPED_LIST_ITERATE(struct goto_map, gotolist, pgoto)
-#define goto_map_list_iterate_end					    \
+#define goto_map_list_iterate_end					\
   LIST_ITERATE_END
 
-/* Iterate over goto maps, filtering out dead units. */
-#define goto_map_iterate(gotolist, pgoto, punit)			    \
-  goto_map_list_iterate(gotolist, pgoto) {				    \
-    struct unit *punit = game_find_unit_by_number(pgoto->unit_id);	    \
-									    \
-    if (punit) {							    \
-      assert(unit_is_in_focus(punit));					    \
-      {
+/* Iterate over goto maps, assumes no dead units. */
+#define goto_map_unit_iterate(gotolist, pgoto, punit)			\
+  goto_map_list_iterate(gotolist, pgoto) {				\
+    struct unit *punit = pgoto->focus;
 
-#define goto_map_iterate_end						    \
-      }									    \
-    }									    \
+#define goto_map_unit_iterate_end					\
   } goto_map_list_iterate_end;
 
 static struct goto_map_list *goto_maps = NULL;
@@ -106,6 +100,7 @@ static struct goto_map_list *goto_maps = NULL;
 static void increment_drawn(struct tile *src_tile, enum direction8 dir);
 static void decrement_drawn(struct tile *src_tile, enum direction8 dir);
 static void reset_last_part(struct goto_map *goto_map);
+static void remove_last_part(struct goto_map *goto_map);
 
 
 /**************************************************************************
@@ -120,7 +115,7 @@ static struct goto_map *goto_map_new(void)
 {
   struct goto_map *goto_map = fc_malloc(sizeof(*goto_map));
 
-  goto_map->unit_id = -1;
+  goto_map->focus = NULL;
   goto_map->parts = NULL;
   goto_map->num_parts = 0;
   goto_map->connect_initial = 0;
@@ -134,7 +129,10 @@ static struct goto_map *goto_map_new(void)
 ****************************************************************************/
 static void goto_map_free(struct goto_map *goto_map)
 {
-  if (goto_map->parts) {
+  if (NULL != goto_map->parts) {
+    while (goto_map->num_parts > 0) {
+      remove_last_part(goto_map);
+    }
     free(goto_map->parts);
   }
   free(goto_map);
@@ -296,7 +294,7 @@ static void add_part(struct goto_map *goto_map)
 {
   struct part *p;
   struct pf_parameter parameter = goto_map->template;
-  struct unit *punit = game_find_unit_by_number(goto_map->unit_id);
+  struct unit *punit = goto_map->focus;
 
   if (!punit) {
     return;
@@ -360,7 +358,7 @@ bool goto_add_waypoint(void)
     return FALSE;
   }
 
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_list_iterate(goto_maps, goto_map) {
     struct part *first_part = &goto_map->parts[0];
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
@@ -373,11 +371,11 @@ bool goto_add_waypoint(void)
       /* Scattered group (not all in same location). */
       return FALSE;
     }
-  } goto_map_iterate_end;
+  } goto_map_list_iterate_end;
 
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_list_iterate(goto_maps, goto_map) {
     add_part(goto_map);
-  } goto_map_iterate_end;
+  } goto_map_list_iterate_end;
   return TRUE;
 }
 
@@ -390,7 +388,7 @@ bool goto_pop_waypoint(void)
   bool popped = FALSE;
 
   assert(goto_is_active());
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_list_iterate(goto_maps, goto_map) {
     struct part *p = &goto_map->parts[goto_map->num_parts - 1];
     struct tile *end_tile = p->end_tile;
 
@@ -408,7 +406,7 @@ bool goto_pop_waypoint(void)
      * the mouse position. 
      */
     update_last_part(goto_map, end_tile);
-  } goto_map_iterate_end;
+  } goto_map_list_iterate_end;
   return popped;
 }
 
@@ -812,7 +810,7 @@ void enter_goto_state(struct unit_list *punits)
   unit_list_iterate(punits, punit) {
     struct goto_map *goto_map = goto_map_new();
 
-    goto_map->unit_id = punit->id;
+    goto_map->focus = punit;
 
     fill_client_goto_parameter(punit, &goto_map->template,
                                &goto_map->connect_initial,
@@ -834,14 +832,32 @@ void exit_goto_state(void)
   }
 
   goto_map_list_iterate(goto_maps, goto_map) {
-    while (goto_map->num_parts > 0) {
-      remove_last_part(goto_map);
-    }
     goto_map_free(goto_map);
   } goto_map_list_iterate_end;
   goto_map_list_unlink_all(goto_maps);
 
   goto_destination = NULL;
+}
+
+/********************************************************************** 
+  Called from control_unit_killed() in control.c
+***********************************************************************/
+void goto_unit_killed(struct unit *punit)
+{
+  if (!goto_is_active()) {
+    return;
+  }
+
+  goto_map_unit_iterate(goto_maps, goto_map, ptest) {
+    if (ptest == punit) {
+      goto_map_free(goto_map);
+      /* Still safe using goto_map pointer, as it is not used for 
+       * dereferencing, only as value. */
+      goto_map_list_unlink(goto_maps, goto_map);
+      /* stop now, links are gone! */
+      break;
+    }
+  } goto_map_unit_iterate_end;
 }
 
 /********************************************************************** 
@@ -872,7 +888,7 @@ bool goto_get_turns(int *min, int *max)
     return FALSE;
   }
 
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_list_iterate(goto_maps, goto_map) {
     int i, time = 0;
 
     for (i = 0; i < goto_map->num_parts; i++) {
@@ -885,7 +901,7 @@ bool goto_get_turns(int *min, int *max)
     if (max) {
       *max = MAX(*max, time);
     }
-  } goto_map_iterate_end;
+  } goto_map_list_iterate_end;
   return TRUE;
 }
 
@@ -904,11 +920,11 @@ bool is_valid_goto_draw_line(struct tile *dest_tile)
   /* assume valid destination */
   goto_destination = dest_tile;
 
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_list_iterate(goto_maps, goto_map) {
     if (!update_last_part(goto_map, dest_tile)) {
       goto_destination = NULL;
     }
-  } goto_map_iterate_end;
+  } goto_map_list_iterate_end;
 
   /* Update goto data in info label. */
   update_unit_info_label(get_units_in_focus());
@@ -1047,7 +1063,7 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
 void send_patrol_route(void)
 {
   assert(goto_is_active());
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct pf_map *map;
     struct pf_path *return_path;
@@ -1080,7 +1096,7 @@ void send_patrol_route(void)
     send_path_orders(punit, path, TRUE, TRUE, NULL);
 
     pf_destroy_path(path);
-  } goto_map_iterate_end;
+  } goto_map_unit_iterate_end;
 }
 
 /**************************************************************************
@@ -1090,7 +1106,7 @@ void send_patrol_route(void)
 void send_connect_route(enum unit_activity activity)
 {
   assert(goto_is_active());
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct packet_unit_orders p;
     struct tile *old_tile;
@@ -1166,7 +1182,7 @@ void send_connect_route(enum unit_activity activity)
     p.dest_y = old_tile->y;
 
     send_packet_unit_orders(&aconnection, &p);
-  } goto_map_iterate_end;
+  } goto_map_unit_iterate_end;
 }
 
 /**************************************************************************
@@ -1177,7 +1193,7 @@ void send_connect_route(enum unit_activity activity)
 void send_goto_route(void)
 {
   assert(goto_is_active());
-  goto_map_iterate(goto_maps, goto_map, punit) {
+  goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct pf_path *path = NULL;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
@@ -1200,7 +1216,7 @@ void send_goto_route(void)
       send_goto_path(punit, path, &order);
     }
     pf_destroy_path(path);
-  } goto_map_iterate_end;
+  } goto_map_unit_iterate_end;
 }
 
 /* ================= drawn functions ============================ */

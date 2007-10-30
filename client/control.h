@@ -118,6 +118,7 @@ void wakeup_sentried_units(struct tile *ptile);
 
 bool unit_is_in_focus(const struct unit *punit);
 struct unit *get_focus_unit_on_tile(const struct tile *ptile);
+struct unit *head_of_units_in_focus(void);
 void auto_center_on_focus_unit(void);
 void advance_unit_focus(void);
 struct unit_list *get_units_in_focus(void);
