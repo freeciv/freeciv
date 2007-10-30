@@ -259,7 +259,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
             } else {              
               struct unit *pUnit;
               struct city *pCity;
-              if((pUnit = unit_list_get(get_units_in_focus(), 0)) != NULL && 
+              if (NULL != (pUnit = head_of_units_in_focus()) && 
                 (pCity = pUnit->tile->city) != NULL &&
                 city_owner(pCity) == game.player_ptr) {
                 popup_city_dialog(pCity);

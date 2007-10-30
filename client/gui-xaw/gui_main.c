@@ -1008,7 +1008,7 @@ void reset_unit_below_pixmaps(void)
 
   set_unit_icons_more_arrow(FALSE);
   if (get_num_units_in_focus() == 1) {
-    set_unit_icon(-1, unit_list_get(get_units_in_focus(), 0));
+    set_unit_icon(-1, head_of_units_in_focus());
   } else {
     set_unit_icon(-1, NULL);
   }
@@ -1040,7 +1040,7 @@ void add_unit_to_battlegroup(int battlegroup)
   if (game.player_ptr && can_client_issue_orders()) {
     struct unit *punit;
 
-    punit = unit_list_get(get_units_in_focus(), 0);
+    punit = head_of_units_in_focus();
     if (punit && punit->battlegroup == battlegroup) {
       /* If top unit already in the same battlegroup, detach it */
       unit_change_battlegroup(punit, BATTLEGROUP_NONE);

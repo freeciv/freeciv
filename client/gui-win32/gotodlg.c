@@ -80,8 +80,8 @@ static LONG CALLBACK goto_dialog_proc(HWND dlg,UINT message,
       switch(LOWORD(wParam))
 	{
 	case ID_LIST:
-	  if((pdestcity=get_selected_city())) {
-	    struct unit *punit=unit_list_get(get_units_in_focus(), 0);
+	  if (NULL != (pdestcity=get_selected_city())) {
+	    struct unit *punit = head_of_units_in_focus();
 	    center_tile_mapcanvas(pdestcity->tile);
 	    if(punit && unit_can_airlift_to(punit, pdestcity)) {
 	      EnableWindow(GetDlgItem(dlg,ID_AIRLIFT),TRUE);

@@ -19,8 +19,11 @@
 
 void init_client_goto(void);
 void free_client_goto(void);
+
 void enter_goto_state(struct unit_list *punits);
 void exit_goto_state(void);
+
+void goto_unit_killed(struct unit *punit);
 
 bool goto_is_active(void);
 bool goto_get_turns(int *min, int *max);

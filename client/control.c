@@ -88,7 +88,7 @@ static struct unit *quickselect(struct tile *ptile,
                         enum quickselect_type qtype);
 
 /**************************************************************************
-...
+  Called only by main() in client/civclient.c.
 **************************************************************************/
 void control_init(void)
 {
@@ -104,7 +104,7 @@ void control_init(void)
 }
 
 /**************************************************************************
-...
+  Called only by client_exit() in client/civclient.c.
 **************************************************************************/
 void control_done(void)
 {
@@ -126,6 +126,7 @@ void control_unit_killed(struct unit *punit)
 {
   int i;
 
+  goto_unit_killed(punit);
   unit_list_unlink(get_units_in_focus(), punit);
   if (get_num_units_in_focus() < 1) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
@@ -211,16 +212,24 @@ struct unit *get_focus_unit_on_tile(const struct tile *ptile)
 }
 
 /****************************************************************************
+  Return head of focus units list.
+****************************************************************************/
+struct unit *head_of_units_in_focus(void)
+{
+  return unit_list_get(pfocus_units, 0);
+}
+
+/****************************************************************************
   Finds a single focus unit that we can center on.  May return NULL.
 ****************************************************************************/
 static struct tile *find_a_focus_unit_tile_to_center_on(void)
 {
   struct unit *punit;
 
-  if ((punit = get_focus_unit_on_tile(get_center_tile_mapcanvas()))) {
+  if (NULL != (punit = get_focus_unit_on_tile(get_center_tile_mapcanvas()))) {
     return punit->tile;
   } else if (get_num_units_in_focus() > 0) {
-    return unit_list_get(get_units_in_focus(), 0)->tile;
+    return head_of_units_in_focus()->tile;
   } else {
     return NULL;
   }
@@ -260,7 +269,7 @@ void set_unit_focus(struct unit *punit)
    * battlegroup twice in a row will store the focus erronously.  The only
    * solution would be a set_units_focus() */
   if (!(get_num_units_in_focus() == 1
-	&& punit == unit_list_get(get_units_in_focus(), 0))) {
+	&& punit == head_of_units_in_focus())) {
     store_focus();
     focus_changed = TRUE;
   }
@@ -498,7 +507,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   }
 
   if (!get_focus_unit_on_tile(ptile)) {
-    struct unit *pfirst = unit_list_get(get_units_in_focus(), 0);
+    struct unit *pfirst = head_of_units_in_focus();
 
     if (pfirst) {
       ptile = pfirst->tile;
