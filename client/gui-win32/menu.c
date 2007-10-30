@@ -1103,7 +1103,7 @@ update_menus(void)
       return;
     }
 
-    if ((punit = unit_list_get(get_units_in_focus(), 0))) {
+    if (NULL != (punit = head_of_units_in_focus())) {
       const char *irrfmt = _("Change to %s");
       const char *minfmt = _("Change to %s");
       const char *transfmt = _("Transform to %s");

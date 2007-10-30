@@ -607,7 +607,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 {
   struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
-  struct unit *pUnit = NULL, *pFocus = unit_list_get(get_units_in_focus(), 0);
+  struct unit *pUnit = NULL, *pFocus = head_of_units_in_focus();
   struct unit_type *pUnitType;
   char cBuf[255];  
   int i, w = 0, n;
@@ -1078,7 +1078,7 @@ static int goto_here_callback(struct widget *pWidget)
     popdown_advanced_terrain_dialog();
     
     /* may not work */
-    send_goto_tile(unit_list_get(get_units_in_focus(), 0), map_pos_to_tile(x, y));
+    send_goto_tile(head_of_units_in_focus(), map_pos_to_tile(x, y));
   }
   return -1;
 }
@@ -1094,7 +1094,7 @@ static int patrol_here_callback(struct widget *pWidget)
 #if 0    
     int x = pWidget->data.cont->id0;
     int y = pWidget->data.cont->id1;
-    struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
+    struct unit *pUnit = head_of_units_in_focus();
 #endif
 
     popdown_advanced_terrain_dialog();
@@ -1170,7 +1170,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   
   pCity = ptile->city;
   n = unit_list_size(ptile->units);
-  pFocus_Unit = unit_list_get(get_units_in_focus(), 0);
+  pFocus_Unit = head_of_units_in_focus();
   
   if (!n && !pCity && !pFocus_Unit)
   {
