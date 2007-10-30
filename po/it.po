@@ -27565,7 +27565,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/turk.ruleset:3
-msgid "Turk"
+#, fuzzy
+msgid "Turkish"
 msgstr "Turco"
 
 #: data/nation/turk.ruleset:4

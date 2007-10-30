@@ -27173,7 +27173,8 @@ msgstr ""
 "Туркмен╕стан отримав незалежн╕сть в╕д Радянського Союзу у 1991."
 
 #: data/nation/turk.ruleset:3
-msgid "Turk"
+#, fuzzy
+msgid "Turkish"
 msgstr "Турки"
 
 #: data/nation/turk.ruleset:4
