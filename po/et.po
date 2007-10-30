@@ -39,7 +39,7 @@ msgstr "Kaubandus"
 #: data/default/terrain.ruleset:672 data/civ2/terrain.ruleset:603
 #: data/civ1/terrain.ruleset:542
 msgid "Gold"
-msgstr "Raha"
+msgstr "Kuld"
 
 #: common/city.c:57 server/plrhand.c:213 client/gui-gtk-2.0/gamedlgs.c:262
 #: client/gui-win32/ratesdlg.c:315
