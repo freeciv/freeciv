@@ -142,29 +142,28 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 
 /* Iterate over all known tiles in the city.  This iteration follows the
  * painter's algorithm and can be used for drawing. */
-#define citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y)   \
-{									    \
-  int _my_gui_x0, _my_gui_y0;						    \
-  struct city *_pcity = (pcity);					    \
-  const int _my_width = get_citydlg_canvas_width();			    \
-  const int _my_height = get_citydlg_canvas_height();			    \
-  									    \
-  map_to_gui_vector(tileset, &_my_gui_x0, &_my_gui_y0,			    \
-		    _pcity->tile->x, _pcity->tile->y);			    \
-  _my_gui_x0 -= (_my_width - tileset_tile_width(tileset)) / 2;		    \
-  _my_gui_y0 -= (_my_height - tileset_tile_height(tileset)) / 2;	    \
-  freelog(LOG_DEBUG, "citydlg: %d,%d + %dx%d",				    \
-	  _my_gui_x0, _my_gui_y0, _my_width, _my_height);		    \
-									    \
-  gui_rect_iterate(_my_gui_x0, _my_gui_y0, _my_width, _my_height,	    \
-		   ptile, pedge, pcorner, _gui_x, _gui_y) {		    \
-    const int canvas_x = _gui_x - _my_gui_x0;				    \
-    const int canvas_y = _gui_y - _my_gui_y0;				    \
+#define citydlg_iterate(pcity, ptile, pedge, pcorner, _x, _y)		\
+{									\
+  int _x##_0, _y##_0;							\
+  const int _x##_w = get_citydlg_canvas_width();			\
+  const int _y##_h = get_citydlg_canvas_height();			\
+									\
+  map_to_gui_vector(tileset, &_x##_0, &_y##_0,				\
+		    (pcity)->tile->x, (pcity)->tile->y);		\
+  _x##_0 -= (_x##_w - tileset_tile_width(tileset)) / 2;			\
+  _y##_0 -= (_y##_h - tileset_tile_height(tileset)) / 2;		\
+  freelog(LOG_DEBUG, "citydlg: %d,%d + %dx%d",				\
+	  _x##_0, _y##_0, _x##_w, _y##_h);				\
+									\
+  gui_rect_iterate(_x##_0, _y##_0, _x##_w, _y##_h,			\
+		   ptile, pedge, pcorner, _x##_g, _y##_g) {		\
+    const int _x = _x##_g - _x##_0;					\
+    const int _y = _y##_g - _y##_0;					\
     {
 
-#define citydlg_iterate_end						    \
-    }                                                                       \
-  } gui_rect_iterate_end;						    \
+#define citydlg_iterate_end						\
+    }									\
+  } gui_rect_iterate_end;						\
 }
 
 /****************************************************************************

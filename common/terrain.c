@@ -394,23 +394,23 @@ const char *resource_rule_name(const struct resource *presource)
   This iterator behaves like adjc_iterate or cardinal_adjc_iterate depending
   on the value of card_only.
 ****************************************************************************/
-#define variable_adjc_iterate(center_tile, itr_tile, card_only)		    \
-{									    \
-  enum direction8 *_dirlist;						    \
-  int _total;								    \
-  									    \
-  if (card_only) {							    \
-    _dirlist = map.cardinal_dirs;					    \
-    _total = map.num_cardinal_dirs;					    \
-  } else {								    \
-    _dirlist = map.valid_dirs;						    \
-    _total = map.num_valid_dirs;					    \
-  }									    \
-  									    \
-  adjc_dirlist_iterate(center_tile, itr_tile, _dir, _dirlist, _total) {
+#define variable_adjc_iterate(center_tile, _tile, card_only)		\
+{									\
+  enum direction8 *_tile##_list;					\
+  int _tile##_count;							\
+									\
+  if (card_only) {							\
+    _tile##_list = map.cardinal_dirs;					\
+    _tile##_count = map.num_cardinal_dirs;				\
+  } else {								\
+    _tile##_list = map.valid_dirs;					\
+    _tile##_count = map.num_valid_dirs;					\
+  }									\
+  adjc_dirlist_iterate(center_tile, _tile, _tile##_dir,			\
+		       _tile##_list, _tile##_count) {
 
-#define variable_adjc_iterate_end		                            \
-  } adjc_dirlist_iterate_end;						    \
+#define variable_adjc_iterate_end					\
+  } adjc_dirlist_iterate_end;						\
 }
 
 

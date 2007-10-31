@@ -69,17 +69,20 @@
 
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
-#define city_range_iterate(city_here, list, range, city)            \
-{                                                                   \
-  Continent_id continent = tile_get_continent(city_here->tile);	    \
-  city_list_iterate(list, city) {                                   \
-    if ((range == REQ_RANGE_CITY && city == city_here)              \
-        || (range == REQ_RANGE_LOCAL && city == city_here)          \
-        || (range == REQ_RANGE_CONTINENT                            \
-            && tile_get_continent(city->tile) == continent)	    \
-        || (range == REQ_RANGE_PLAYER)) {
-#define city_range_iterate_end \
-  } } city_list_iterate_end; }
+#define city_range_iterate(city_here, list, range, city)		\
+{									\
+  city_list_iterate(list, city) {					\
+    if (range == REQ_RANGE_PLAYER					\
+     || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)		\
+      && city == city_here)						\
+     || (range == REQ_RANGE_CONTINENT					\
+      && tile_get_continent(city->tile) ==				\
+	 tile_get_continent(city_here->tile))) {
+
+#define city_range_iterate_end						\
+    }									\
+  } city_list_iterate_end;						\
+}
 
 #define CITY_EMERGENCY(pcity)                        \
  (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)   \
