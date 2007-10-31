@@ -78,13 +78,13 @@ static struct {
   int apply_result_ignored, apply_result_applied, refresh_forced;
 } stats;
 
-#define my_city_map_iterate(pcity, cx, cy) {                           \
-  city_map_checked_iterate(pcity->tile, cx, cy, _ptile) { \
+#define my_city_map_iterate(pcity, cx, cy) {				\
+  city_map_checked_iterate(pcity->tile, cx, cy, cx##cy##_ptile) {	\
     if (!is_free_worked_tile(cx, cy)) {
 
-#define my_city_map_iterate_end \
-    }                                \
-  } city_map_checked_iterate_end;    \
+#define my_city_map_iterate_end						\
+    }									\
+  } city_map_checked_iterate_end;					\
 }
 
 

@@ -33,44 +33,45 @@
 }
 
 /***************************************************************************
- iterate axe iterate on selected axe ( x if Xaxe is TRUE) over a intervale
- of -dist to dist arround the tile indexed by index0
- this iterator create 2 vars:
- index : the map index of the iterate pointed tile
- i : the position in the intervale of iteration (from -dist to dist)
- index0, dist, Xaxe are side effect safe.
+ iterate on selected axe (x if is_X_axis is TRUE) over a interval of -dist
+ to dist around the center_tile
+ _index : the position in the interval of iteration (from -dist to dist)
+ _tile : the tile pointer
  ***************************************************************************/
-#define iterate_axe(iter_tile, i, center_tile, dist, Xaxe)		\
-  {									\
-    const int ___dist = (dist);						\
-    const struct tile *_center_tile = (center_tile);			\
-    const bool ___Xaxe = (Xaxe);					\
-    int i, ___x, ___y;							\
-    struct tile *iter_tile;						\
+#define axis_iterate(center_tile, _tile, _index, dist, is_X_axis)	\
+{									\
+  int _tile##_x, _tile##_y;						\
+  struct tile *_tile;							\
+  const struct tile *_tile##_center = (center_tile);			\
+  const bool _index##_axis = (is_X_axis);				\
+  const int _index##_d = (dist);					\
+  int _index = -(_index##_d);						\
 									\
-    for (i = -___dist; i <= ___dist; i++) {				\
-      ___x = _center_tile->nat_x + (___Xaxe ? i : 0);			\
-      ___y = _center_tile->nat_y + (___Xaxe ? 0 : i);			\
-      iter_tile = native_pos_to_tile(___x, ___y);			\
-      if (!iter_tile) {							\
-	continue;							\
-      }
+  for (; _index <= _index##_d; _index++) {				\
+    _tile##_x = _tile##_center->nat_x + (_index##_axis ? _index : 0);	\
+    _tile##_y = _tile##_center->nat_y + (_index##_axis ? 0 : _index);	\
+    _tile = native_pos_to_tile(_tile##_x, _tile##_y);			\
+    if (NULL != _tile) {
 
-#define iterate_axe_end \
-    } \
+#define axis_iterate_end						\
+    }									\
+  }									\
 } 
-#define whole_map_iterate_filtered(ptile, pdata, pfilter)                   \
-{									    \
-  bool (*_filter)(const struct tile *ptile, const void *data) = (pfilter);  \
-  const void *_data = (pdata);						    \
-									    \
-  whole_map_iterate(ptile) {                                                \
-    if (_filter && !(_filter)(ptile, _data)) {				    \
-      continue;                                                             \
-    }
 
-#define whole_map_iterate_filtered_end					    \
-  } whole_map_iterate_end						    \
+/***************************************************************************
+ pdata or pfilter can be NULL!
+***************************************************************************/
+#define whole_map_iterate_filtered(_tile, pdata, pfilter)		\
+{									\
+  bool (*_tile##_filter)(const struct tile *vtile, const void *vdata) = (pfilter);\
+  const void *_tile##_data = (pdata);					\
+									\
+  whole_map_iterate(_tile) {						\
+    if (NULL == _tile##_filter || (_tile##_filter)(_tile, _tile##_data)) {
+
+#define whole_map_iterate_filtered_end					\
+    }									\
+  } whole_map_iterate_end;						\
 }
 
 bool is_normal_nat_pos(int x, int y);

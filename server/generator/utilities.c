@@ -184,10 +184,10 @@ bool is_normal_nat_pos(int x, int y)
     whole_map_iterate(ptile) {
       int  N = 0, D = 0;
 
-      iterate_axe(tile1, i, ptile, 2, axe) {
+      axis_iterate(ptile, pnear, i, 2, axe) {
 	D += weight[i + 2];
-	N += weight[i + 2] * source_map[tile1->index];
-      } iterate_axe_end;
+	N += weight[i + 2] * source_map[pnear->index];
+      } axis_iterate_end;
       if(zeroes_at_edges) {
 	D = total_weight;
       }

@@ -94,18 +94,14 @@ bool is_on_unit_upgrade_path(const struct unit_type *test,
 
 void update_simple_ai_types(void);
 
-#define simple_ai_unit_type_iterate(m_i)                                    \
-{                                                                           \
-  int m_c;                                                                  \
-  for (m_c = 0;; m_c++) {                                                   \
-    struct unit_type * m_i = simple_ai_types[m_c];			    \
-									    \
-    if (!m_i) {								    \
-      break;                                                                \
-    }
+#define simple_ai_unit_type_iterate(_ut)				\
+{									\
+  struct unit_type *_ut;						\
+  int _ut##_index = 0;							\
+  while (NULL != (_ut = simple_ai_types[_ut##_index++])) {
 
-#define simple_ai_unit_type_iterate_end                                     \
- }                                                                          \
+#define simple_ai_unit_type_iterate_end					\
+  }									\
 }
 
 #endif  /* FC__AIUNIT_H */
