@@ -27,25 +27,30 @@
     TYPED_LIST_ITERATE(struct unit, unitlist, punit)
 #define unit_list_iterate_end  LIST_ITERATE_END
 
-#define unit_list_iterate_safe(unitlist, punit)				    \
-{									    \
-  int _size = unit_list_size(unitlist);					    \
-									    \
-  if (_size > 0) {							    \
-    int _ids[_size], _i = 0;						    \
-									    \
-    unit_list_iterate(unitlist, punit) {				    \
-      _ids[_i++] = punit->id;						    \
-    } unit_list_iterate_end;						    \
-    for (_i = 0; _i < _size; _i++) {					    \
-      struct unit *punit = game_find_unit_by_number(_ids[_i]);		    \
-									    \
-      if (punit) {
+#define unit_list_iterate_safe(unitlist, _unit)				\
+{									\
+  int _unit##_size = unit_list_size(unitlist);				\
+									\
+  if (_unit##_size > 0) {						\
+    int _unit##_numbers[_unit##_size];					\
+    int _unit##_index = 0;						\
+									\
+    unit_list_iterate(unitlist, _unit) {				\
+      _unit##_numbers[_unit##_index++] = _unit->id;			\
+    } unit_list_iterate_end;						\
+									\
+    for (_unit##_index = 0;						\
+	 _unit##_index < _unit##_size;					\
+	 _unit##_index++) {						\
+      struct unit *_unit =						\
+	game_find_unit_by_number(_unit##_numbers[_unit##_index]);	\
+									\
+      if (NULL != _unit) {
 
-#define unit_list_iterate_safe_end					    \
-      }									    \
-    }									    \
-  }									    \
+#define unit_list_iterate_safe_end					\
+      }									\
+    }									\
+  }									\
 }
 
 struct unit *unit_list_find(const struct unit_list *punitlist, int unit_id);
