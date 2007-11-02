@@ -793,7 +793,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
   struct impr_type *ptarget;
   int count, which;
-  const char *prod;
   /* Twice as difficult if target is specified. */
   int success_prob = (improvement >= B_LAST ? game.info.diplchance 
                       : game.info.diplchance / 2); 
@@ -938,17 +937,14 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Now, the fun stuff!  Do the sabotage! */
   if (NULL == ptarget) {
-    /* Sabotage current production. */
+     char prod[256];
 
     /* Do it. */
     pcity->shield_stock = 0;
     nullify_prechange_production(pcity); /* Make it impossible to recover */
 
     /* Report it. */
-    if (VUT_UTYPE == pcity->production.kind)
-      prod = utype_name_translation(pcity->production.value.utype);
-    else
-      prod = improvement_name_translation(pcity->production.value.building);
+    universal_name_translation(&pcity->production, prod, sizeof(prod));
 
     notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s succeeded in destroying"

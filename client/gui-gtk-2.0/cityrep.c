@@ -976,11 +976,11 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if ( (which == TYPE_UNIT && VUT_UTYPE == pcity->production.kind)
-         || (which == TYPE_NORMAL_IMPROVEMENT
+    if ( (which == PCT_UNIT && VUT_UTYPE == pcity->production.kind)
+         || (which == PCT_NORMAL_IMPROVEMENT
              && VUT_IMPROVEMENT == pcity->production.kind
              && !is_wonder(pcity->production.value.building))
-         || (which == TYPE_WONDER
+         || (which == PCT_WONDER
              && VUT_IMPROVEMENT == pcity->production.kind
              && is_wonder(pcity->production.value.building)) ) {
       itree_select(city_selection, &it);
@@ -1406,19 +1406,19 @@ static void create_select_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate",
   		   G_CALLBACK(city_select_building_callback),
-		   GINT_TO_POINTER(TYPE_UNIT));
+		   GINT_TO_POINTER(PCT_UNIT));
 
   item = gtk_menu_item_new_with_label( _("Building Improvements"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate",
   		   G_CALLBACK(city_select_building_callback),
-		   GINT_TO_POINTER(TYPE_NORMAL_IMPROVEMENT));
+		   GINT_TO_POINTER(PCT_NORMAL_IMPROVEMENT));
 
   item = gtk_menu_item_new_with_label(_("Building Wonders"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate",
   		   G_CALLBACK(city_select_building_callback),
-		   GINT_TO_POINTER(TYPE_WONDER));
+		   GINT_TO_POINTER(PCT_WONDER));
 
 
   item = gtk_separator_menu_item_new();

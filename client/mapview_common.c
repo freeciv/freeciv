@@ -1912,35 +1912,23 @@ struct city *find_city_near_tile(const struct tile *ptile)
 void get_city_mapview_production(struct city *pcity,
                                  char *buffer, size_t buffer_len)
 {
-  int turns = city_production_turns_to_build(pcity, TRUE);
-  /* FIXME: rewrite with universal_name_translation and concatenation */
-				
-  if (VUT_UTYPE == pcity->production.kind) {
-    struct unit_type *punit_type = pcity->production.value.utype;
-    if (turns < 999) {
-      my_snprintf(buffer, buffer_len, "%s %d",
-                  utype_name_translation(punit_type),
-                  turns);
-    } else {
-      my_snprintf(buffer, buffer_len, "%s -",
-                  utype_name_translation(punit_type));
-    }
+  int turns;
+
+  universal_name_translation(&pcity->production, buffer, buffer_len);
+
+  if (city_production_has_flag(pcity, IF_GOLD)) {
+    return;
+  }
+  turns = city_production_turns_to_build(pcity, TRUE);
+
+  if (999 < turns) {
+    cat_snprintf(buffer, buffer_len, " -");
   } else {
-    struct impr_type *pimprove = pcity->production.value.building;
-    if (improvement_has_flag(pimprove, IF_GOLD)) {
-      my_snprintf(buffer, buffer_len, "%s",
-		  improvement_name_translation(pimprove));
-    } else if (turns < 999) {
-      my_snprintf(buffer, buffer_len, "%s %d",
-		  improvement_name_translation(pimprove),
-		  turns);
-    } else {
-      my_snprintf(buffer, buffer_len, "%s -",
-		  improvement_name_translation(pimprove));
-    }
+    cat_snprintf(buffer, buffer_len, " %d", turns);
   }
 }
 
+/***************************************************************************/
 static enum update_type needed_updates = UPDATE_NONE;
 static bool callback_queued = FALSE;
 

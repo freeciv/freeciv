@@ -94,8 +94,6 @@ void adjust_choice(int value, struct ai_choice *choice);
 void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best);
 
 bool is_unit_choice_type(enum choice_type type);
-void city_production_from_ai_choice(struct universal *product,
-				    struct ai_choice *choice);
 
 bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
                          struct ai_choice *choice, enum choice_type type,

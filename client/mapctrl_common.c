@@ -364,6 +364,7 @@ void key_city_overlay(int canvas_x, int canvas_y)
 **************************************************************************/
 void clipboard_copy_production(struct tile *ptile)
 {
+  char buffer[256];
   struct city *pcity = ptile->city;
 
   if (!can_client_issue_orders()) {
@@ -393,9 +394,7 @@ void clipboard_copy_production(struct tile *ptile)
 
   create_event(ptile, E_CITY_PRODUCTION_CHANGED, /* ? */
 	       _("Copy %s to clipboard."),
-	       VUT_UTYPE == clipboard.kind
-	       ? utype_name_translation(clipboard.value.utype)
-	       : improvement_name_translation(clipboard.value.building));
+	       universal_name_translation(&clipboard, buffer, sizeof(buffer)));
 }
 
 /**************************************************************************
@@ -439,8 +438,8 @@ static void clipboard_send_production_packet(struct city *pcity)
   }
 
   dsend_packet_city_change(&aconnection, pcity->id,
-			   universal_number(&clipboard),
-			   VUT_UTYPE == clipboard.kind);
+			   clipboard.kind,
+			   universal_number(&clipboard));
 }
 
 /**************************************************************************

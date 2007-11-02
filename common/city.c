@@ -381,16 +381,16 @@ const char *city_improvement_name_translation(const struct city *pcity,
 **************************************************************************/
 const char *city_production_name_translation(const struct city *pcity)
 {
+  static char buffer[256];
+
   switch (pcity->production.kind) {
   case VUT_IMPROVEMENT:
     return city_improvement_name_translation(pcity, pcity->production.value.building);
-  case VUT_UTYPE:
-    return utype_name_translation(pcity->production.value.utype);
   default:
-    /* FIXME: use universal_name_translation() */
+    /* fallthru */
     break;
-  }
-  return _("(unknown)");
+  };
+  return universal_name_translation(&pcity->production, buffer, sizeof(buffer));
 }
 
 /**************************************************************************
@@ -427,7 +427,7 @@ int city_production_buy_gold_cost(const struct city *pcity)
 			       build);
   default:
     break;
-  }
+  };
   return FC_INFINITY;
 }
 
@@ -580,11 +580,15 @@ bool can_city_build_unit_later(const struct city *pcity,
 bool can_city_build_direct(const struct city *pcity,
 			   struct universal target)
 {
-  if (VUT_UTYPE == target.kind) {
+  switch (target.kind) {
+  case VUT_UTYPE:
     return can_city_build_unit_direct(pcity, target.value.utype);
-  } else {
+  case VUT_IMPROVEMENT:
     return can_city_build_improvement_direct(pcity, target.value.building);
-  }
+  default:
+    break;
+  };
+  return FALSE;
 }
 
 /**************************************************************************
@@ -593,11 +597,15 @@ bool can_city_build_direct(const struct city *pcity,
 bool can_city_build_now(const struct city *pcity,
 			struct universal target)
 {
-  if (VUT_UTYPE == target.kind) {
+  switch (target.kind) {
+  case VUT_UTYPE:
     return can_city_build_unit_now(pcity, target.value.utype);
-  } else {
+  case VUT_IMPROVEMENT:
     return can_city_build_improvement_now(pcity, target.value.building);
-  }
+  default:
+    break;
+  };
+  return FALSE;
 }
 
 /**************************************************************************
@@ -606,11 +614,15 @@ bool can_city_build_now(const struct city *pcity,
 bool can_city_build_later(const struct city *pcity,
 			  struct universal target)
 {
-  if (VUT_UTYPE == target.kind) {
+  switch (target.kind) {
+  case VUT_UTYPE:
     return can_city_build_unit_later(pcity, target.value.utype);
-  } else {
+  case VUT_IMPROVEMENT:
     return can_city_build_improvement_later(pcity, target.value.building);
-  }
+  default:
+    break;
+  };
+  return FALSE;
 }
 
 /****************************************************************************
@@ -1260,7 +1272,7 @@ bool city_style_has_requirements(const struct citystyle *style)
 
 /**************************************************************************
  Compute and optionally apply the change-production penalty for the given
- production change (to target,is_unit) in the given city (pcity).
+ production change (to target) in the given city (pcity).
  Always returns the number of shields which would be in the stock if
  the penalty had been applied.
 
@@ -1277,24 +1289,41 @@ int city_change_production_penalty(const struct city *pcity,
   enum production_class_type new_class;
   int unpenalized_shields = 0, penalized_shields = 0;
 
-  if (VUT_UTYPE == pcity->changed_from.kind) {
-    orig_class = TYPE_UNIT;
-  } else if (is_wonder(pcity->changed_from.value.building)) {
-    orig_class = TYPE_WONDER;
-  } else {
-    orig_class = TYPE_NORMAL_IMPROVEMENT;
-  }
+  switch (pcity->changed_from.kind) {
+  case VUT_IMPROVEMENT:
+    if (is_wonder(pcity->changed_from.value.building)) {
+      orig_class = PCT_WONDER;
+    } else {
+      orig_class = PCT_NORMAL_IMPROVEMENT;
+    }
+    break;
+  case VUT_UTYPE:
+    orig_class = PCT_UNIT;
+    break;
+  default:
+    orig_class = PCT_LAST;
+    break;
+  };
 
-  if (VUT_UTYPE == target.kind) {
-    new_class = TYPE_UNIT;
-  } else if (is_wonder(target.value.building)) {
-    new_class = TYPE_WONDER;
-  } else {
-    new_class = TYPE_NORMAL_IMPROVEMENT;
-  }
+  switch (target.kind) {
+  case VUT_IMPROVEMENT:
+    if (is_wonder(pcity->changed_from.value.building)) {
+      new_class = PCT_WONDER;
+    } else {
+      new_class = PCT_NORMAL_IMPROVEMENT;
+    }
+    break;
+  case VUT_UTYPE:
+    new_class = PCT_UNIT;
+    break;
+  default:
+    new_class = PCT_LAST;
+    break;
+  };
 
   /* Changing production is penalized under certain circumstances. */
-  if (orig_class == new_class) {
+  if (orig_class == new_class
+   || orig_class == PCT_LAST) {
     /* There's never a penalty for building something of the same class. */
     unpenalized_shields = pcity->before_change_shields;
   } else if (city_built_last_turn(pcity)) {
@@ -1315,7 +1344,7 @@ int city_change_production_penalty(const struct city *pcity,
 
   /* Caravan shields are penalized (just as if you disbanded the caravan)
    * if you're not building a wonder. */
-  if (new_class == TYPE_WONDER) {
+  if (new_class == PCT_WONDER) {
     unpenalized_shields += pcity->caravan_shields;
   } else {
     penalized_shields += pcity->caravan_shields;

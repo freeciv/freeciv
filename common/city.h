@@ -20,11 +20,16 @@
 #include "worklist.h"
 
 enum production_class_type {
-  TYPE_UNIT, TYPE_NORMAL_IMPROVEMENT, TYPE_WONDER
+  PCT_UNIT,
+  PCT_NORMAL_IMPROVEMENT,
+  PCT_WONDER,
+  PCT_LAST
 };
 
 enum city_tile_type {
-  C_TILE_EMPTY, C_TILE_WORKER, C_TILE_UNAVAILABLE
+  C_TILE_EMPTY,
+  C_TILE_WORKER,
+  C_TILE_UNAVAILABLE
 };
 
 /* Various city options.  These are stored by the server and can be

@@ -575,8 +575,8 @@ end
 
 PACKET_CITY_CHANGE=25;cs,dsend
   CITY city_id;
-  UINT8 build_id;
-  BOOL is_build_id_unit_id;
+  UINT8 production_kind;
+  UINT8 production_value;
 end
 
 PACKET_CITY_WORKLIST=26;cs,dsend
@@ -861,7 +861,7 @@ end
 
 PACKET_UNIT_DIPLOMAT_QUERY=66;cs,handle-per-conn,dsend
   UNIT diplomat_id;
-  UNIT target_id;   # city_id or unit_id target_id;
+  UNIT target_id;   # city_id or unit_id
   SINT16 value;
   DIPLOMAT_ACTION action_type;
 end
@@ -874,14 +874,14 @@ end
 
 PACKET_UNIT_DIPLOMAT_ACTION=70;cs,dsend
   UNIT diplomat_id;
-  UNIT target_id;   # city_id or unit_id target_id;
+  UNIT target_id;   # city_id or unit_id
   SINT16 value;
   DIPLOMAT_ACTION action_type;
 end
 
 PACKET_UNIT_DIPLOMAT_ANSWER=71;sc,dsend,lsend
   UNIT diplomat_id;
-  UNIT target_id;   # city_id or unit_id target_id;
+  UNIT target_id;   # city_id or unit_id
   GOLD cost;
   DIPLOMAT_ACTION action_type;
 end
