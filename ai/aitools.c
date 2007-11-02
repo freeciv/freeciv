@@ -1156,21 +1156,6 @@ bool is_unit_choice_type(enum choice_type type)
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-void city_production_from_ai_choice(struct universal *product,
-				    struct ai_choice *choice)
-{
-  if (is_unit_choice_type(choice->type)) {
-    product->kind = VUT_UTYPE;
-    product->value.utype = choice->value.utype;
-  } else {
-    product->kind = VUT_IMPROVEMENT;
-    product->value.building = choice->value.building;
-  }
-}
-
-/**************************************************************************
   Calls ai_wants_role_unit to choose the best unit with the given role and 
   set tech wants.  Sets choice->value.utype when we can build something.
 **************************************************************************/

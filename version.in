@@ -5,7 +5,7 @@
 MAJOR_VERSION="2"
 MINOR_VERSION="2"
 PATCH_VERSION="99"
-VERSION_LABEL="-devel"
+VERSION_LABEL="-test"
 
 IS_DEVEL_VERSION=1
 IS_BETA_VERSION=0
@@ -23,4 +23,4 @@ RELEASE_MONTH=1
 #   - Avoid adding a new mandatory capbility to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-NETWORK_CAPSTRING="+Freeciv.Devel.2007.Sep.08"
+NETWORK_CAPSTRING="+Freeciv.Devel.2007.Nov.01"

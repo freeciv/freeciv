@@ -575,8 +575,8 @@ end
 
 PACKET_CITY_CHANGE=25;cs,dsend
   CITY city_id;
-  UINT8 build_id;
-  BOOL is_build_id_unit_id;
+  UINT8 production_kind;
+  UINT8 production_value;
 end
 
 PACKET_CITY_WORKLIST=26;cs,dsend

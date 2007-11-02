@@ -426,14 +426,17 @@ void handle_city_info(struct packet_city_info *packet)
   }
 
   if (packet->production_kind < VUT_NONE || packet->production_kind >= VUT_LAST) {
-    freelog(LOG_ERROR, "handle_city_info() bad production_kind %d.",
+    freelog(LOG_ERROR, "handle_city_info()"
+            " bad production_kind %d.",
             packet->production_kind);
     product.kind = VUT_NONE;
   } else {
     product = universal_by_number(packet->production_kind,
-                                     packet->production_value);
-    if (product.kind < VUT_NONE ||  product.kind >= VUT_LAST) {
-      freelog(LOG_ERROR, "handle_city_info() bad production_value %d.",
+                                  packet->production_value);
+    if (product.kind < VUT_NONE || product.kind >= VUT_LAST) {
+      freelog(LOG_ERROR, "handle_city_info()"
+              " production_kind %d with bad production_value %d.",
+              packet->production_kind,
               packet->production_value);
       product.kind = VUT_NONE;
     }

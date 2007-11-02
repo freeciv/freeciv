@@ -1491,13 +1491,24 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   if (choice->want <= 0) {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor has no advice");
-  } else if (is_unit_choice_type(choice->type)) {
-    CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             utype_rule_name(choice->value.utype),
-             choice->want);
   } else {
+    const char *name = "(unknown)";
+
+    switch (pcity->ai.choice.type) {
+    case CT_CIVILIAN:
+    case CT_ATTACKER:
+    case CT_DEFENDER:
+      name = utype_rule_name(choice->value.utype);
+      break;
+    case CT_BUILDING:
+      name = improvement_rule_name(choice->value.building);
+      break;
+    case CT_NONE:
+    case CT_LAST:
+      break;
+    };
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             improvement_rule_name(choice->value.building),
+             name,
              choice->want);
   }
 }

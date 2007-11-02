@@ -156,7 +156,7 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
 {
   /* The caller had better check this! */
   if (!cmr->found_a_valid) {
-    freelog(LOG_ERROR, "apply_cmresult_to_city() called with non-valid "
+    freelog(LOG_FATAL, "apply_cmresult_to_city() called with invalid "
             "cm_result");
     assert(0);
     return;
@@ -669,6 +669,7 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
 static bool worklist_change_build_target(struct player *pplayer,
 					 struct city *pcity)
 {
+  struct universal target;
   bool success = FALSE;
   int i;
 
@@ -677,25 +678,21 @@ static bool worklist_change_build_target(struct player *pplayer,
     return FALSE;
 
   i = 0;
-  while (TRUE) {
-    struct universal target;
+  while (!success && worklist_peek_ith(&pcity->worklist, &target, i++)) {
+    success = can_city_build_now(pcity, target);
+    if (success) {
+      break; /* while */
+    }
 
-    /* What's the next item in the worklist? */
-    if (!worklist_peek_ith(&pcity->worklist, &target, i))
-      /* Nothing more in the worklist.  Ah, well. */
-      break;
-
-    i++;
-
-    /* Sanity checks */
-    if (VUT_UTYPE == target.kind &&
-	!can_city_build_unit_now(pcity, target.value.utype)) {
+    switch (target.kind) {
+    case VUT_UTYPE:
+    {
       struct unit_type *ptarget = target.value.utype;
       struct unit_type *pupdate = unit_upgrades_to(pcity, ptarget);
 
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (U_NOT_OBSOLETED == pupdate) {
-	/* Nope, we're stuck.  Dump this item from the worklist. */
+	/* Nope, we're stuck.  Skip this item from the worklist. */
 	notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("%s can't build %s from the worklist; "
 			   "tech not yet available.  Postponing..."),
@@ -705,8 +702,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
 			   API_TYPE_STRING, "need_tech");
-	continue;
-      } else if (!can_city_build_unit_later(pcity, pupdate)) {
+	break;
+      }
+      success = can_city_build_unit_later(pcity, pupdate);
+      if (!success) {
 	/* If the city can never build this unit or its descendants,
 	 * drop it. */
 	notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -722,11 +721,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   API_TYPE_CITY, pcity,
 			   API_TYPE_STRING, "never");
 	/* Purge this worklist item. */
-	worklist_remove(&pcity->worklist, i-1);
-	/* Reset i to index to the now-next element. */
-	i--;
-	
-	continue;
+	worklist_remove(&pcity->worklist, --i);
       } else {
 	/* Yep, we can go after pupdate instead.  Joy! */
 	notify_player(pplayer, pcity->tile, E_WORKLIST,
@@ -736,13 +731,16 @@ static bool worklist_change_build_target(struct player *pplayer,
 			 pcity->name);
 	target.value.utype = pupdate;
       }
-    } else if (VUT_IMPROVEMENT == target.kind
-	       && !can_city_build_improvement_now(pcity, target.value.building)) {
+      break;
+    }
+    case VUT_IMPROVEMENT:
+    {
       struct impr_type *ptarget = target.value.building;
       struct impr_type *pupdate = building_upgrades_to(pcity, ptarget);
 
       /* If the city can never build this improvement, drop it. */
-      if (!can_city_build_improvement_later(pcity, pupdate)) {
+      success = can_city_build_improvement_later(pcity, pupdate);
+      if (!success) {
 	/* Nope, never in a million years. */
 	notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("%s can't build %s from the worklist.  "
@@ -755,13 +753,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   API_TYPE_STRING, "never");
 
 	/* Purge this worklist item. */
-	worklist_remove(&pcity->worklist, i-1);
-	/* Reset i to index to the now-next element. */
-	i--;
-	
-	continue;
+	worklist_remove(&pcity->worklist, --i);
+	break;
       }
-
 
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
@@ -850,14 +844,6 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_nation");
 	      break;
-	    case VUT_UTYPE:
-	    case VUT_UTFLAG:
-	    case VUT_UCLASS:
-	    case VUT_UCFLAG:
-	    case VUT_OTYPE:
-	    case VUT_SPECIALIST:
-	      /* Will only happen with a bogus ruleset. */
-	      break;
 	    case VUT_MINSIZE:
 	      notify_player(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
@@ -897,12 +883,24 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_terrainclass");
 	      break;
+	    case VUT_UTYPE:
+	    case VUT_UTFLAG:
+	    case VUT_UCLASS:
+	    case VUT_UCFLAG:
+	    case VUT_OTYPE:
+	    case VUT_SPECIALIST:
+	      /* Will only happen with a bogus ruleset. */
+	      freelog(LOG_ERROR, "worklist_change_build_target()"
+	      	      " has bogus preq");
+	      break;
 	    case VUT_NONE:
 	    case VUT_LAST:
 	    default:
+	      freelog(LOG_FATAL, "worklist_change_build_target()"
+	      	      " called with invalid preq");
 	      assert(0);
 	      break;
-	    }
+	    };
 	    break;
 	  }
 	} requirement_vector_iterate_end;
@@ -915,7 +913,6 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   pcity->name,
 			   city_improvement_name_translation(pcity, ptarget));
 	}
-	continue;
       } else {
 	/* Hey, we can upgrade the improvement!  */
 	notify_player(pplayer, pcity->tile, E_WORKLIST,
@@ -924,17 +921,23 @@ static bool worklist_change_build_target(struct player *pplayer,
 			 city_improvement_name_translation(pcity, pupdate),
 			 pcity->name);
 	target.value.building = pupdate;
+	success = TRUE;
       }
+      break;
     }
+    default:
+      /* skip useless target */
+      freelog(LOG_ERROR, "worklist_change_build_target()"
+	      " has unrecognized target kind (%d)",
+	      target.kind);
+      break;
+    };
+  } /* while */
 
+  if (success) {
     /* All okay.  Switch targets. */
     change_build_target(pplayer, pcity, target, E_WORKLIST);
 
-    success = TRUE;
-    break;
-  }
-
-  if (success) {
     /* i is the index immediately _after_ the item we're changing to.
        Remove the (i-1)th item from the worklist. */
     worklist_remove(&pcity->worklist, i-1);
@@ -966,15 +969,23 @@ static void choose_build_target(struct player *pplayer,
 
   /* Try building the same thing again.  Repeat building doesn't require a
    * call to change_build_target, so just return. */
-  if (VUT_UTYPE == pcity->production.kind) {
+  switch (pcity->production.kind) {
+  case VUT_UTYPE:
     /* We can build a unit again unless it's unique. */
     if (!utype_has_flag(pcity->production.value.utype, F_UNIQUE)) {
       return;
     }
-  } else if (can_city_build_improvement_now(pcity, pcity->production.value.building)) {
-    /* We can build space and coinage again, and possibly others. */
-    return;
-  }
+    break;
+  case VUT_IMPROVEMENT:
+    if (can_city_build_improvement_now(pcity, pcity->production.value.building)) {
+      /* We can build space and coinage again, and possibly others. */
+      return;
+    }
+    break;
+  default:
+    /* fallthru */
+    break;
+  };
 
   /* Find *something* to do! */
   freelog(LOG_DEBUG, "Trying advisor_choose_build.");
@@ -1355,6 +1366,7 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
   case VUT_UTYPE:
     return city_build_unit(pplayer, pcity);
   default:
+    /* must never happen! */
     assert(0);
     break;
   };

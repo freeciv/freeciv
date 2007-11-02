@@ -1156,7 +1156,7 @@ const char *universal_rule_name(const struct universal *psource)
 {
   switch (psource->kind) {
   case VUT_NONE:
-    return "(none)";
+    return N_("(none)");
   case VUT_ADVANCE:
     return advance_rule_name(psource->value.advance);
   case VUT_GOVERNMENT:
@@ -1182,7 +1182,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_SPECIALIST:
     return specialist_rule_name(psource->value.specialist);
   case VUT_MINSIZE:
-    return "Size %d";
+    return N_("Size %d");
   case VUT_AI_LEVEL:
     return ai_level_name(psource->value.ai_level);
   case VUT_TERRAINCLASS:
@@ -1258,10 +1258,11 @@ const char *universal_name_translation(const struct universal *psource,
     cat_snprintf(buf, bufsz, _("%s AI"),
                  ai_level_name(psource->value.ai_level)); /* FIXME */
     break;
-   case VUT_TERRAINCLASS:
-     cat_snprintf(buf, bufsz, _("%s terrain"),
-                  terrain_class_name_translation(psource->value.terrainclass));
-     break;
+  case VUT_TERRAINCLASS:
+    /* TRANS: "Land terrain" */
+    cat_snprintf(buf, bufsz, _("%s terrain"),
+                 terrain_class_name_translation(psource->value.terrainclass));
+    break;
   case VUT_LAST:
     assert(0);
     break;

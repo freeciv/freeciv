@@ -89,8 +89,8 @@
   || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
 #define LOG_BUY LOG_DEBUG
 
-static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
 static void ai_sell_obsolete_buildings(struct city *pcity);
+static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
 
 /**************************************************************************
   Return the number of "luxury specialists".  This is the number of
@@ -1382,41 +1382,67 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     }
   }
 
-  if (pcity->ai.choice.want != 0) { 
+  if (pcity->ai.choice.want != 0) {
+    const char *name = "(unknown)";
     ASSERT_CHOICE(pcity->ai.choice);
 
+    switch (pcity->ai.choice.type) {
+    case CT_CIVILIAN:
+    case CT_ATTACKER:
+    case CT_DEFENDER:
+      name = utype_rule_name(pcity->ai.choice.value.utype);
+      break;
+    case CT_BUILDING:
+      name = improvement_rule_name(pcity->ai.choice.value.building);
+      break;
+    case CT_NONE:
+    case CT_LAST:
+      break;
+    };
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
-	     is_unit_choice_type(pcity->ai.choice.type)
-	     ? utype_rule_name(pcity->ai.choice.value.utype)
-	     : improvement_rule_name(pcity->ai.choice.value.building),
+	     name,
 	     pcity->ai.choice.want);
     
+    /* parallel to citytools change_build_target() */
     if (VUT_IMPROVEMENT == pcity->production.kind
      && is_great_wonder(pcity->production.value.building)
-     && (is_unit_choice_type(pcity->ai.choice.type)
+     && (CT_BUILDING != pcity->ai.choice.type
       || pcity->ai.choice.value.building != pcity->production.value.building)) {
       notify_player(NULL, pcity->tile, E_WONDER_STOPPED,
-		       _("The %s have stopped building The %s in %s."),
-		       nation_plural_for_player(pplayer),
-		       city_improvement_name_translation(pcity, pcity->production.value.building),
-		       pcity->name);
+		    _("The %s have stopped building The %s in %s."),
+		    nation_plural_for_player(pplayer),
+		    city_production_name_translation(pcity),
+		    pcity->name);
     }
-    if (pcity->ai.choice.type == CT_BUILDING 
-	&& is_wonder(pcity->ai.choice.value.building)
-	&& (VUT_UTYPE == pcity->production.kind 
-	    || pcity->production.value.building != pcity->ai.choice.value.building)) {
-      if (is_great_wonder(pcity->ai.choice.value.building)) {
-	notify_player(NULL, pcity->tile, E_WONDER_STARTED,
-			 _("The %s have started building The %s in %s."),
-			 nation_plural_translation(nation_of_city(pcity)),
-			 city_improvement_name_translation(pcity, pcity->ai.choice.value.building),
-			 pcity->name);
-      }
-      city_production_from_ai_choice(&pcity->production, &pcity->ai.choice);
-    } else {
-      /* FIXME: same code twice (zero want values?) */
-      city_production_from_ai_choice(&pcity->production, &pcity->ai.choice);
+    if (CT_BUILDING == pcity->ai.choice.type
+      && is_great_wonder(pcity->ai.choice.value.building)
+      && (VUT_IMPROVEMENT != pcity->production.kind
+       || pcity->production.value.building != pcity->ai.choice.value.building)) {
+      notify_player(NULL, pcity->tile, E_WONDER_STARTED,
+		    _("The %s have started building The %s in %s."),
+		    nation_plural_translation(nation_of_city(pcity)),
+		    city_improvement_name_translation(pcity, pcity->ai.choice.value.building),
+		    pcity->name);
     }
+
+    switch (pcity->ai.choice.type) {
+    case CT_CIVILIAN:
+    case CT_ATTACKER:
+    case CT_DEFENDER:
+      pcity->production.kind = VUT_UTYPE;
+      pcity->production.value.utype = pcity->ai.choice.value.utype;
+      break;
+    case CT_BUILDING:
+      pcity->production.kind = VUT_IMPROVEMENT;
+      pcity->production.value.building = pcity->ai.choice.value.building;
+      break;
+    case CT_NONE:
+      pcity->production.kind = VUT_NONE;
+      break;
+    case CT_LAST:
+      pcity->production.kind = VUT_LAST;
+      break;
+    };
   }
 }
 
@@ -1511,10 +1537,11 @@ static void ai_spend_gold(struct player *pplayer)
   } city_list_iterate_end;
   
   do {
-    int limit = cached_limit; /* cached_limit is our gold reserve */
-    struct city *pcity = NULL;
     bool expensive; /* don't buy when it costs x2 unless we must */
     int buycost;
+    int limit = cached_limit; /* cached_limit is our gold reserve */
+    struct city *pcity = NULL;
+    const char *name = "(unknown)";
 
     /* Find highest wanted item on the buy list */
     init_choice(&bestchoice);
@@ -1565,7 +1592,7 @@ static void ai_spend_gold(struct player *pplayer)
       continue; /* Already completed */
     }
 
-    if (bestchoice.type != CT_BUILDING
+    if (is_unit_choice_type(bestchoice.type)
         && utype_has_flag(bestchoice.value.utype, F_CITIES)) {
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
           && pcity->size == 1
@@ -1600,6 +1627,20 @@ static void ai_spend_gold(struct player *pplayer)
        continue;
     }
 
+    switch (bestchoice.type) {
+    case CT_CIVILIAN:
+    case CT_ATTACKER:
+    case CT_DEFENDER:
+      name = utype_rule_name(bestchoice.value.utype);
+      break;
+    case CT_BUILDING:
+      name = improvement_rule_name(bestchoice.value.building);
+      break;
+    case CT_NONE:
+    case CT_LAST:
+      break;
+    };
+
     /* FIXME: Here Syela wanted some code to check if
      * pcity was doomed, and we should therefore attempt
      * to sell everything in it of non-military value */
@@ -1610,9 +1651,7 @@ static void ai_spend_gold(struct player *pplayer)
             || (bestchoice.want > 200 && pcity->ai.urgency > 1))) {
       /* Buy stuff */
       CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
-               bestchoice.type != CT_BUILDING
-	       ? utype_rule_name(bestchoice.value.utype)
-               : improvement_rule_name(bestchoice.value.building),
+               name,
                buycost,
                bestchoice.want);
       really_handle_city_buy(pplayer, pcity);
@@ -1621,7 +1660,7 @@ static void ai_spend_gold(struct player *pplayer)
                && assess_defense(pcity) == 0) {
       /* We have no gold but MUST have a defender */
       CITY_LOG(LOG_BUY, pcity, "must have %s but can't afford it (%d < %d)!",
-	       utype_rule_name(bestchoice.value.utype),
+	       name,
 	       pplayer->economic.gold, buycost);
       try_to_sell_stuff(pplayer, pcity);
       if (pplayer->economic.gold - pplayer->ai.est_upkeep >= buycost) {

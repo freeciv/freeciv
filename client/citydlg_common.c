@@ -259,29 +259,33 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 				     struct universal target,
 				     struct city *pcity)
 {
-  if (VUT_IMPROVEMENT == target.kind
-   && improvement_has_flag(target.value.building, IF_GOLD)) {
-    my_snprintf(buffer, buffer_len, _("%s (XX) %d/turn"),
-		city_improvement_name_translation(pcity, target.value.building),
-		MAX(0, pcity->surplus[O_SHIELD]));
+  int turns = city_turns_to_build(pcity, target, TRUE);
+  int cost = universal_build_shield_cost(&target);
+
+  switch (target.kind) {
+  case VUT_IMPROVEMENT:
+    my_snprintf(buffer, buffer_len,
+                city_improvement_name_translation(pcity, target.value.building));
+
+    if (improvement_has_flag(target.value.building, IF_GOLD)) {
+      cat_snprintf(buffer, buffer_len, " (--) ");
+      cat_snprintf(buffer, buffer_len, _("%d/turn"),
+		   MAX(0, pcity->surplus[O_SHIELD]));
+      return;
+    }
+    break;
+  default:
+    universal_name_translation(&target, buffer, buffer_len);
+    break;
+  };
+  cat_snprintf(buffer, buffer_len, " (%d) ", cost);
+
+  if (turns < FC_INFINITY) {
+    cat_snprintf(buffer, buffer_len,
+		 PL_("%d turn", "%d turns", turns),
+		 turns);
   } else {
-    const char *name;
-    int turns = city_turns_to_build(pcity, target, TRUE);
-    int cost= universal_build_shield_cost(&target);
-
-    if (VUT_UTYPE == target.kind) {
-      name = utype_values_translation(target.value.utype);
-    } else {
-      name = city_improvement_name_translation(pcity, target.value.building);
-    }
-
-    if (turns < FC_INFINITY) {
-      my_snprintf(buffer, buffer_len,
-		  PL_("%s (%d) %d turn", "%s (%d) %d turns", turns),
-		  name, cost, turns);
-    } else {
-      my_snprintf(buffer, buffer_len, "%s (%d) never", name, cost);
-    }
+    cat_snprintf(buffer, buffer_len, "never");
   }
 }
 
@@ -294,24 +298,27 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 				    struct universal target,
 				    struct city *pcity)
 {
-  if (VUT_UTYPE == target.kind) {
+  universal_name_translation(&target, buf[0], column_size);
+
+  switch (target.kind) {
+  case VUT_UTYPE:
+  {
     struct unit_type *ptype = target.value.utype;
 
-    my_snprintf(buf[0], column_size, utype_name_translation(ptype));
     my_snprintf(buf[1], column_size, utype_values_string(ptype));
     my_snprintf(buf[2], column_size, "(%d)", utype_build_shield_cost(ptype));
-  } else {
+    break;
+  }
+  case VUT_IMPROVEMENT:
+  {
     struct player *pplayer = pcity ? pcity->owner : game.player_ptr;
     struct impr_type *pimprove = target.value.building;
 
     /* Total & turns left meaningless on capitalization */
-    if (improvement_has_flag(target.value.building, IF_GOLD)) {
-      my_snprintf(buf[0], column_size, improvement_name_translation(pimprove));
+    if (improvement_has_flag(pimprove, IF_GOLD)) {
       buf[1][0] = '\0';
       my_snprintf(buf[2], column_size, "---");
     } else {
-      my_snprintf(buf[0], column_size, improvement_name_translation(pimprove));
-
       /* from city.c city_improvement_name_translation() */
       if (pcity && is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
 	my_snprintf(buf[1], column_size, "*");
@@ -335,13 +342,19 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
             state = _("Small Wonder");
           }
 	}
-	my_snprintf(buf[1], column_size, "%s", state);
+	my_snprintf(buf[1], column_size, state);
       }
 
       my_snprintf(buf[2], column_size, "%d",
 		  impr_build_shield_cost(pimprove));
     }
+    break;
   }
+  default:
+    buf[1][0] = '\0';
+    buf[2][0] = '\0';
+    break;
+  };
 
   /* Add the turns-to-build entry in the 4th position */
   if (pcity) {
@@ -355,7 +368,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
       if (turns < FC_INFINITY) {
 	my_snprintf(buf[3], column_size, "%d", turns);
       } else {
-	my_snprintf(buf[3], column_size, "%s", _("never"));
+	my_snprintf(buf[3], column_size, _("never"));
       }
     }
   } else {
@@ -587,8 +600,8 @@ void activate_all_units(struct tile *ptile)
 int city_change_production(struct city *pcity, struct universal target)
 {
   return dsend_packet_city_change(&aconnection, pcity->id,
-				  universal_number(&target),
-				  VUT_UTYPE == target.kind);
+				  target.kind,
+				  universal_number(&target));
 }
 
 /**************************************************************************

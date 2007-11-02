@@ -1913,7 +1913,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
     notify_player(NULL, pcity->tile, E_WONDER_STOPPED,
 		     _("The %s have stopped building The %s in %s."),
 		     nation_plural_for_player(pplayer),
-		     city_improvement_name_translation(pcity, pcity->production.value.building),
+		     city_production_name_translation(pcity),
 		     pcity->name);
   }
 
@@ -1925,11 +1925,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   pcity->production = target;
 
   /* What's the name of the target? */
-  if (VUT_UTYPE == target.kind) {
-    name = utype_name_translation(pcity->production.value.utype);
-  } else {
-    name = improvement_name_translation(pcity->production.value.building);
-  }
+  name = city_production_name_translation(pcity);
 
   switch (event) {
     case E_WORKLIST: source = _(" from the worklist"); break;
@@ -1943,19 +1939,19 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   /* FIXME: this may give bad grammar when translated if the 'source'
    * string can have multiple values. */
   notify_player(pplayer, pcity->tile, event,
-		   /* TRANS: "<city> is building <production><source>." */
-		   _("%s is building %s%s."),
-		   pcity->name, name, source);
+		/* TRANS: "<city> is building <production><source>." */
+		_("%s is building %s%s."),
+		pcity->name, name, source);
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */
   if (VUT_IMPROVEMENT == pcity->production.kind
    && is_great_wonder(pcity->production.value.building)) {
     notify_player(NULL, pcity->tile, E_WONDER_STARTED,
-		     _("The %s have started building The %s in %s."),
-		     nation_plural_for_player(pplayer),
-		     city_improvement_name_translation(pcity, pcity->production.value.building),
-		     pcity->name);
+		  _("The %s have started building The %s in %s."),
+		  nation_plural_for_player(pplayer),
+		  name,
+		  pcity->name);
   }
 }
 
