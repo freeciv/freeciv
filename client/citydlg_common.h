@@ -19,22 +19,10 @@
 #include "shared.h"		/* bool type */
 #include "fc_types.h"
 
+#include "city.h"
+
 struct canvas;
 struct worklist;
-
-enum citizen_category {
-  CITIZEN_HAPPY,
-  CITIZEN_CONTENT,
-  CITIZEN_UNHAPPY,
-  CITIZEN_ANGRY,
-  CITIZEN_SPECIALIST,		/* assumed to be final category */
-  CITIZEN_LAST
-};
-
-struct citizen_type {
-  enum citizen_category type;
-  Specialist_type_id spec_type;
-};
 
 int get_citydlg_canvas_width(void);
 int get_citydlg_canvas_height(void);
@@ -62,8 +50,8 @@ void get_city_dialog_output_text(const struct city *pcity,
 void get_city_dialog_pollution_text(const struct city *pcity,
 				    char *buffer, size_t bufsz);
 
-void get_city_citizen_types(struct city *pcity, int index,
-			    struct citizen_type *citizens);
+int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
+			   enum citizen_category *citizens);
 void city_rotate_specialist(struct city *pcity, int citizen_index);
 
 void activate_all_units(struct tile *ptile);

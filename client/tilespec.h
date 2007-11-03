@@ -20,7 +20,7 @@
 
 #include "fc_types.h"
 
-#include "citydlg_common.h"	/* enum citizen_type */
+#include "city.h"		/* enum citizen_category */
 #include "options.h"
 
 struct sprite;			/* opaque; gui-dep */
@@ -215,7 +215,7 @@ struct citybar_sprites {
 struct sprite *get_spaceship_sprite(const struct tileset *t,
 				    enum spaceship_part part);
 struct sprite *get_citizen_sprite(const struct tileset *t,
-				  struct citizen_type type,
+				  enum citizen_category type,
 				  int citizen_index,
 				  const struct city *pcity);
 struct sprite *get_city_flag_sprite(const struct tileset *t,

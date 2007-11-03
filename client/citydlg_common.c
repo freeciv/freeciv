@@ -512,33 +512,39 @@ void get_city_dialog_pollution_text(const struct city *pcity,
   happiness).  "citizens" should be an array large enough to hold all
   citizens (use MAX_CITY_SIZE to be on the safe side).
 **************************************************************************/
-void get_city_citizen_types(struct city *pcity, int index,
-			    struct citizen_type *citizens)
+int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
+			   enum citizen_category *citizens)
 {
   int i = 0, n;
-  assert(index >= 0 && index < 5);
+  assert(index >= 0 && index < FEELING_LAST);
 
-  for (n = 0; n < pcity->ppl_happy[index]; n++, i++) {
-    citizens[i].type = CITIZEN_HAPPY;
+  for (n = 0; n < pcity->feel[CITIZEN_HAPPY][index]; n++, i++) {
+    citizens[i] = CITIZEN_HAPPY;
   }
-  for (n = 0; n < pcity->ppl_content[index]; n++, i++) {
-    citizens[i].type = CITIZEN_CONTENT;
+  for (n = 0; n < pcity->feel[CITIZEN_CONTENT][index]; n++, i++) {
+    citizens[i] = CITIZEN_CONTENT;
   }
-  for (n = 0; n < pcity->ppl_unhappy[index]; n++, i++) {
-    citizens[i].type = CITIZEN_UNHAPPY;
+  for (n = 0; n < pcity->feel[CITIZEN_UNHAPPY][index]; n++, i++) {
+    citizens[i] = CITIZEN_UNHAPPY;
   }
-  for (n = 0; n < pcity->ppl_angry[index]; n++, i++) {
-    citizens[i].type = CITIZEN_ANGRY;
+  for (n = 0; n < pcity->feel[CITIZEN_ANGRY][index]; n++, i++) {
+    citizens[i] = CITIZEN_ANGRY;
   }
 
   specialist_type_iterate(sp) {
     for (n = 0; n < pcity->specialists[sp]; n++, i++) {
-      citizens[i].type = CITIZEN_SPECIALIST;
-      citizens[i].spec_type = sp;
+      citizens[i] = CITIZEN_SPECIALIST + sp;
     }
   } specialist_type_iterate_end;
 
-  assert(i == pcity->size);
+  if (pcity->size != i) {
+    freelog(LOG_ERROR, "get_city_citizen_types()"
+            " %d citizens not equal %d city size in \"%s\".",
+            i,
+            pcity->size,
+            pcity->name);
+  }
+  return i;
 }
 
 /**************************************************************************
@@ -546,19 +552,15 @@ void get_city_citizen_types(struct city *pcity, int index,
 **************************************************************************/
 void city_rotate_specialist(struct city *pcity, int citizen_index)
 {
-  struct citizen_type citizens[MAX_CITY_SIZE];
+  enum citizen_category citizens[MAX_CITY_SIZE];
   Specialist_type_id from, to;
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
 
-  if (citizen_index < 0 || citizen_index >= pcity->size) {
+  if (citizen_index < 0 || citizen_index >= num_citizens
+   || citizens[citizen_index] < CITIZEN_SPECIALIST) {
     return;
   }
-
-  get_city_citizen_types(pcity, 4, citizens);
-
-  if (citizens[citizen_index].type != CITIZEN_SPECIALIST) {
-    return;
-  }
-  from = citizens[citizen_index].spec_type;
+  from = citizens[citizen_index] - CITIZEN_SPECIALIST;
 
   /* Loop through all specialists in order until we find a usable one
    * (or run out of choices). */

@@ -258,7 +258,7 @@ Pixmap get_thumb_pixmap(int onoff)
 /**************************************************************************
 ...
 **************************************************************************/
-Pixmap get_citizen_pixmap(struct citizen_type type, int cnum,
+Pixmap get_citizen_pixmap(enum citizen_category type, int cnum,
 			  struct city *pcity)
 {
   return get_citizen_sprite(tileset, type, cnum, pcity)->pixmap;

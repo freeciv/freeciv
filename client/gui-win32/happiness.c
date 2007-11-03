@@ -35,7 +35,7 @@
 
 #define HAPPINESS_PIX_WIDTH 23
 
-#define NUM_HAPPINESS_MODIFIERS 5
+#define NUM_HAPPINESS_MODIFIERS FEELING_LAST
 enum { CITIES, LUXURIES, BUILDINGS, UNITS, WONDERS };
 
 struct happiness_dlg {
@@ -57,7 +57,8 @@ static void happiness_dialog_update_units(struct happiness_dlg
 static void happiness_dialog_update_wonders(struct happiness_dlg
                                             *pdialog);
 static void refresh_happiness_bitmap(HBITMAP bmp,
-				     struct city *pcity, int index);
+				     struct city *pcity,
+				     enum citizen_feeling index);
 
 /**************************************************************************
 ...
@@ -286,26 +287,24 @@ static void happiness_dialog_update_wonders(struct happiness_dlg
 ...
 **************************************************************************/
 static void refresh_happiness_bitmap(HBITMAP bmp,
-				     struct city *pcity, int index)
+				     struct city *pcity,
+				     enum citizen_feeling index)
 {
-  HDC hdc;
-  HBITMAP old;
+  enum citizen_category citizens[MAX_CITY_SIZE];
   RECT rc;
   int i;
-  struct citizen_type citizens[MAX_CITY_SIZE];
-  int num_citizens = pcity->size;
+  int num_citizens = get_city_citizen_types(pcity, index, citizens);
   int pix_width = HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset);
   int offset = MIN(tileset_small_sprite_width(tileset), pix_width / num_citizens);
   /* int true_pix_width = (num_citizens - 1) * offset + tileset_small_sprite_width(tileset); */
-  hdc=CreateCompatibleDC(NULL);
-  old=SelectObject(hdc,bmp);
+  HDC hdc = CreateCompatibleDC(NULL);
+  HBITMAP old=SelectObject(hdc,bmp);
+
   rc.left=0;
   rc.top=0;
   rc.right=pix_width;
   rc.bottom=tileset_small_sprite_height(tileset);
   FillRect(hdc,&rc,(HBRUSH)GetClassLong(root_window,GCL_HBRBACKGROUND));
-
-  get_city_citizen_types(pcity, index, citizens);
 
   for (i = 0; i < num_citizens; i++) {
     draw_sprite(get_citizen_sprite(tileset, citizens[i], i, pcity),

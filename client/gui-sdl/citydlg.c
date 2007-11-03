@@ -2060,8 +2060,8 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
 
-  count = (pCity->ppl_happy[4] + pCity->ppl_content[4]
-	   + pCity->ppl_unhappy[4] + pCity->ppl_angry[4]
+  count = (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]
+	   + pCity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_ANGRY][FEELING_FINAL]
 	   + pCity->specialists[SP_ELVIS] + pCity->specialists[SP_SCIENTIST]
 	   + pCity->specialists[SP_TAXMAN]);
 
@@ -2071,11 +2071,11 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
     step = pIcons->pMale_Happy->w;
   }
 
-  for (j = 0; j < 5; j++) {
-    if (j == 0 || pCity->ppl_happy[j - 1] != pCity->ppl_happy[j]
-	|| pCity->ppl_content[j - 1] != pCity->ppl_content[j]
-	|| pCity->ppl_unhappy[j - 1] != pCity->ppl_unhappy[j]
-	|| pCity->ppl_angry[j - 1] != pCity->ppl_angry[j]) {
+  for (j = 0; j < FEELING_LAST; j++) {
+    if (j == 0 || pCity->feel[CITIZEN_HAPPY][j - 1] != pCity->feel[CITIZEN_HAPPY][j]
+	|| pCity->feel[CITIZEN_CONTENT][j - 1] != pCity->feel[CITIZEN_CONTENT][j]
+	|| pCity->feel[CITIZEN_UNHAPPY][j - 1] != pCity->feel[CITIZEN_UNHAPPY][j]
+	|| pCity->feel[CITIZEN_ANGRY][j - 1] != pCity->feel[CITIZEN_ANGRY][j]) {
 
       if (j != 0) {
 	putline(pCityWindow->dst->surface, dest.x, dest.y, dest.x + adj_size(176), dest.y,
@@ -2083,9 +2083,9 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	dest.y += adj_size(5);
       }
 
-      if (pCity->ppl_happy[j]) {
+      if (pCity->feel[CITIZEN_HAPPY][j]) {
 	pSurf = pIcons->pMale_Happy;
-	for (i = 0; i < pCity->ppl_happy[j]; i++) {
+	for (i = 0; i < pCity->feel[CITIZEN_HAPPY][j]; i++) {
 	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Happy) {
@@ -2096,9 +2096,9 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	}
       }
 
-      if (pCity->ppl_content[j]) {
+      if (pCity->feel[CITIZEN_CONTENT][j]) {
 	pSurf = pIcons->pMale_Content;
-	for (i = 0; i < pCity->ppl_content[j]; i++) {
+	for (i = 0; i < pCity->feel[CITIZEN_CONTENT][j]; i++) {
 	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Content) {
@@ -2109,9 +2109,9 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	}
       }
 
-      if (pCity->ppl_unhappy[j]) {
+      if (pCity->feel[CITIZEN_UNHAPPY][j]) {
 	pSurf = pIcons->pMale_Unhappy;
-	for (i = 0; i < pCity->ppl_unhappy[j]; i++) {
+	for (i = 0; i < pCity->feel[CITIZEN_UNHAPPY][j]; i++) {
 	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Unhappy) {
@@ -2122,9 +2122,9 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	}
       }
 
-      if (pCity->ppl_angry[j]) {
+      if (pCity->feel[CITIZEN_ANGRY][j]) {
 	pSurf = pIcons->pMale_Angry;
-	for (i = 0; i < pCity->ppl_angry[j]; i++) {
+	for (i = 0; i < pCity->feel[CITIZEN_ANGRY][j]; i++) {
 	  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Angry) {
@@ -3349,8 +3349,8 @@ static void redraw_city_dialog(struct city *pCity)
   /* count != 0 */
   /* ==================================================== */
   /* Draw Citizens */
-  count = (pCity->ppl_happy[4] + pCity->ppl_content[4]
-	   + pCity->ppl_unhappy[4] + pCity->ppl_angry[4]
+  count = (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]
+	   + pCity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_ANGRY][FEELING_FINAL]
 	   + pCity->specialists[SP_ELVIS] + pCity->specialists[SP_SCIENTIST]
 	   + pCity->specialists[SP_TAXMAN]);
 
@@ -3367,8 +3367,8 @@ static void redraw_city_dialog(struct city *pCity)
 
   FREESURFACE(pBuf);
   
-  if (pCity->ppl_happy[4]) {
-    for (i = 0; i < pCity->ppl_happy[4]; i++) {
+  if (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL]) {
+    for (i = 0; i < pCity->feel[CITIZEN_HAPPY][FEELING_FINAL]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_HAPPY, i));
       
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
@@ -3377,8 +3377,8 @@ static void redraw_city_dialog(struct city *pCity)
     }
   }
 
-  if (pCity->ppl_content[4]) {
-    for (i = 0; i < pCity->ppl_content[4]; i++) {
+  if (pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]) {
+    for (i = 0; i < pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_CONTENT, i));
       
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
@@ -3387,8 +3387,8 @@ static void redraw_city_dialog(struct city *pCity)
     }
   }
 
-  if (pCity->ppl_unhappy[4]) {
-    for (i = 0; i < pCity->ppl_unhappy[4]; i++) {
+  if (pCity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]) {
+    for (i = 0; i < pCity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, i));
       
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
@@ -3397,8 +3397,8 @@ static void redraw_city_dialog(struct city *pCity)
     }
   }
 
-  if (pCity->ppl_angry[4]) {
-    for (i = 0; i < pCity->ppl_angry[4]; i++) {
+  if (pCity->feel[CITIZEN_ANGRY][FEELING_FINAL]) {
+    for (i = 0; i < pCity->feel[CITIZEN_ANGRY][FEELING_FINAL]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_ANGRY, i));
       alphablit(pBuf, NULL, pWindow->dst->surface, &dest);
       dest.x += step;

@@ -515,19 +515,15 @@ void city_dialog_update_map(HDC hdc, struct city_dialog *pdialog)
 
 void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
 {
-  HDC hdcsrc;
+  enum citizen_category citizens[MAX_CITY_SIZE];
   int i;
-  struct city *pcity=pdialog->pcity;
   RECT rc;
-  HBITMAP oldbit;
-  struct citizen_type citizens[MAX_CITY_SIZE];
+  struct city *pcity=pdialog->pcity;
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
+  HDC hdcsrc = CreateCompatibleDC(NULL);
+  HBITMAP oldbit = SelectObject(hdcsrc,pdialog->citizen_bmp);
 
-  hdcsrc = CreateCompatibleDC(NULL);
-  oldbit=SelectObject(hdcsrc,pdialog->citizen_bmp);
-
-  get_city_citizen_types(pcity, 4, citizens);
-
-  for (i = 0; i < pcity->size && i < NUM_CITIZENS_SHOWN; i++) {
+  for (i = 0; i < num_citizens && i < NUM_CITIZENS_SHOWN; i++) {
       draw_sprite(get_citizen_sprite(tileset, citizens[i], i, pcity), hdcsrc,
 		  tileset_small_sprite_width(tileset) * i, 0);
   }

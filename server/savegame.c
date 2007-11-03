@@ -2185,12 +2185,13 @@ static void player_load(struct player *plr, int plrno,
 
   for (i = 0; i < ncities; i++) { /* read the cities */
     struct city *pcity;
+    const char *kind;
+    const char *name;
+    int id, k;
+    int citizens = 0;
     int nat_x = secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     int nat_y = secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
     struct tile *ptile = native_pos_to_tile(nat_x, nat_y);
-    const char* kind;
-    const char* name;
-    int id, k;
 
     pcity = create_city_virtual(plr, ptile,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
@@ -2214,6 +2215,7 @@ static void player_load(struct player *plr, int plrno,
     pcity->steal=secfile_lookup_int(file, "player%d.c%d.steal", plrno, i);
 
     specialist_type_iterate(sp) {
+      citizens +=
       pcity->specialists[sp]
 	= secfile_lookup_int(file, "player%d.c%d.n%s", plrno, i,
 			     specialist_rule_name(specialist_by_number(sp)));
@@ -2419,35 +2421,59 @@ static void player_load(struct player *plr, int plrno,
     p=secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
     for(y=0; y<CITY_MAP_SIZE; y++) {
       for(x=0; x<CITY_MAP_SIZE; x++) {
-	pcity->city_map[x][y] =
-	    is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
+        bool valid = is_valid_city_coords(x, y);
+	pcity->city_map[x][y] = valid ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
+
 	if (*p == '0') {
-	  set_worker_city(pcity, x, y,
-			  city_map_to_map(pcity, x, y) ?
-			  C_TILE_EMPTY : C_TILE_UNAVAILABLE);
+	  if (!valid) {
+	    /* oops, inconsistent savegame; minimal fix: */
+	    freelog(LOG_VERBOSE, "Invalid workers '%c' for %s (%d,%d), "
+		    "ignoring", *p, pcity->name, x, y);
+	  } else {
+	    set_worker_city(pcity, x, y,
+			    NULL != city_map_to_map(pcity, x, y)
+			    ? C_TILE_EMPTY : C_TILE_UNAVAILABLE);
+	  }
 	} else if (*p=='1') {
 	  struct tile *ptile;
-
-	  ptile = city_map_to_map(pcity, x, y);
-
-	  if (ptile->worked) {
+	  if (!valid) {
+	    /* oops, inconsistent savegame; minimal fix: */
+	    freelog(LOG_VERBOSE, "Invalid workers '%c' for %s (%d,%d), "
+		    "ignoring", *p, pcity->name, x, y);
+	  } else if (NULL == (ptile = city_map_to_map(pcity, x, y))
+		  || ptile->worked) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
 		    "converting to specialist", pcity->name, x, y);
 	    pcity->specialists[DEFAULT_SPECIALIST]++;
 	    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+	    citizens++;
 	  } else {
 	    set_worker_city(pcity, x, y, C_TILE_WORKER);
+	    citizens++;
 	  }
-	} else {
-	  assert(*p == '2');
-	  if (is_valid_city_coords(x, y)) {
+	} else if (*p == '2') {
+	  if (valid) {
 	    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	  }
 	  assert(pcity->city_map[x][y] == C_TILE_UNAVAILABLE);
+	} else {
+	   freelog(LOG_VERBOSE, "Invalid workers '%c' for %s (%d,%d), "
+		   "ignoring", *p, pcity->name, x, y);
 	}
         p++;
       }
+    }
+    /* center tile worker isn't counted in city size */
+    if (citizens > 1) {
+      citizens--;
+    }
+    if (citizens != pcity->size) {
+      freelog(LOG_ERROR, "player_load()"
+              " %d citizens not equal %d city size in \"%s\".",
+              citizens,
+              pcity->size,
+              pcity->name);
     }
 
     /* Initialise list of improvements with City- and Building-wide
@@ -3467,18 +3493,20 @@ static void check_city(struct city *pcity)
     case C_TILE_EMPTY:
       if (!res) {
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
-	freelog(LOG_DEBUG, "unavailable tile marked as empty!");
+	freelog(LOG_VERBOSE, "Unavailable tile marked as empty"
+		" for %s (%d,%d)",
+		pcity->name, x, y);
       }
       break;
     case C_TILE_WORKER:
       if (!res) {
-	struct tile *ptile;
+	struct tile *ptile= city_map_to_map(pcity, x, y);
 
 	pcity->specialists[DEFAULT_SPECIALIST]++;
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
-	freelog(LOG_DEBUG, "Worked tile was unavailable!");
-
-	ptile = city_map_to_map(pcity, x, y);
+	freelog(LOG_VERBOSE, "Worked tile was unavailable"
+		" for %s (%d,%d)",
+		pcity->name, x, y);
 
 	map_city_radius_iterate(ptile, tile2) {
 	  struct city *pcity2 = tile_get_city(tile2);
@@ -3490,7 +3518,9 @@ static void check_city(struct city *pcity)
     case C_TILE_UNAVAILABLE:
       if (res) {
 	set_worker_city(pcity, x, y, C_TILE_EMPTY);
-	freelog(LOG_DEBUG, "Empty tile Marked as unavailable!");
+	freelog(LOG_VERBOSE, "Empty tile marked as unavailable"
+		" for %s (%d,%d)",
+		pcity->name, x, y);
       }
       break;
     }

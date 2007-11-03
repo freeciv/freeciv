@@ -1635,13 +1635,13 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   sz_strlcpy(packet->name, pcity->name);
 
   packet->size=pcity->size;
-  for (i=0;i<5;i++) {
-    packet->ppl_happy[i]=pcity->ppl_happy[i];
-    packet->ppl_content[i]=pcity->ppl_content[i];
-    packet->ppl_unhappy[i]=pcity->ppl_unhappy[i];
-    packet->ppl_angry[i]=pcity->ppl_angry[i];
+  for (i = 0; i < FEELING_LAST; i++) {
+    packet->ppl_happy[i] = pcity->feel[CITIZEN_HAPPY][i];
+    packet->ppl_content[i] = pcity->feel[CITIZEN_CONTENT][i];
+    packet->ppl_unhappy[i] = pcity->feel[CITIZEN_UNHAPPY][i];
+    packet->ppl_angry[i] = pcity->feel[CITIZEN_ANGRY][i];
   }
-  /* The number of data in specilists[] array */
+  /* The number of data in specialists[] array */
   packet->specialists_size = specialist_count();
   specialist_type_iterate(sp) {
     packet->specialists[sp] = pcity->specialists[sp];

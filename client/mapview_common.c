@@ -35,6 +35,7 @@
 #include "climap.h"
 #include "control.h"
 #include "goto.h"
+#include "citydlg_common.h"
 #include "mapview_common.h"
 #include "overview_common.h"
 #include "tilespec.h"

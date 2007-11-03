@@ -1426,7 +1426,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   } /* ok, don't need to defend */
 
   if (pcity->surplus[O_SHIELD] <= 0 
-      || pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]
+      || pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] > pcity->feel[CITIZEN_UNHAPPY][FEELING_EFFECT]
       || pcity->id == ai->wonder_city) {
     /* Things we consider below are not life-saving so we don't want to 
      * build them if our populace doesn't feel like it */

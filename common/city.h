@@ -229,6 +229,26 @@ struct ai_city {
   int next_recalc;
 };
 
+enum citizen_category {
+  CITIZEN_HAPPY,
+  CITIZEN_CONTENT,
+  CITIZEN_UNHAPPY,
+  CITIZEN_ANGRY,
+  CITIZEN_LAST,
+  CITIZEN_SPECIALIST = CITIZEN_LAST,
+};
+
+/* changing this order will break network compatibility,
+ * and clients that don't use the symbols. */
+enum citizen_feeling {
+  FEELING_BASE,		/* before any of the modifiers below */
+  FEELING_LUXURY,	/* after luxury */
+  FEELING_EFFECT,	/* after building effects */
+  FEELING_MARTIAL,	/* after units enforce martial order */
+  FEELING_FINAL,	/* after wonders (final result) */
+  FEELING_LAST
+};
+
 struct city {
   int id;
   struct player *owner; /* Cannot be NULL. */
@@ -238,22 +258,16 @@ struct city {
   /* the people */
   int size;
 
-  /* Tile output, regardless of if the tile is actually worked. */
-  unsigned char tile_output[CITY_MAP_SIZE][CITY_MAP_SIZE][O_MAX];
-
-  /* How the citizens feel:
-     ppl_*[0] is distribution before any of the modifiers below.
-     ppl_*[1] is distribution after luxury.
-     ppl_*[2] is distribution after after building effects.
-     ppl_*[3] is distribution after units enfored martial order.
-     ppl_*[4] is distribution after wonders. (final result.) */
-  int ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
+  int feel[CITIZEN_LAST][FEELING_LAST];
 
   /* Specialists */
   int specialists[SP_MAX];
 
   /* trade routes */
   int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];
+
+  /* Tile output, regardless of if the tile is actually worked. */
+  unsigned char tile_output[CITY_MAP_SIZE][CITY_MAP_SIZE][O_MAX];
 
   /* the productions */
   int surplus[O_MAX]; /* Final surplus in each category. */
