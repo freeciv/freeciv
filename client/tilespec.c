@@ -57,6 +57,7 @@
 #include "options.h"		/* for fill_xxx */
 #include "themes_common.h"
 
+#include "citydlg_common.h"	/* for generate_citydlg_dimensions() */
 #include "tilespec.h"
 
 #define TILESPEC_CAPSTR "+tilespec4+2007.Oct.26 duplicates_ok"
@@ -84,7 +85,6 @@
 #define MAX_INDEX_HALF                  16
 #define MAX_INDEX_VALID			256
 
-#define NUM_TILES_CITIZEN CITIZEN_LAST
 #define NUM_TILES_HP_BAR 11
 #define NUM_TILES_DIGITS 10
 #define NUM_TILES_SELECT 4
@@ -186,7 +186,7 @@ struct named_sprites {
      * sprites, as defined by the tileset. */
     int count;
     struct sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
-  } citizen[NUM_TILES_CITIZEN], specialist[SP_MAX];
+  } citizen[CITIZEN_LAST], specialist[SP_MAX];
   struct sprite *spaceship[SPACESHIP_COUNT];
   struct {
     int hot_x, hot_y;
@@ -996,7 +996,7 @@ void tilespec_reread(const char *new_tileset_name)
   tileset_changed();
   can_slide = FALSE;
   center_tile_mapcanvas(center_tile);
-  /* update_map_cavnas_visible forces a full redraw.  Otherwise with fast
+  /* update_map_canvas_visible forces a full redraw.  Otherwise with fast
    * drawing we might not get one.  Of course this is slower. */
   update_map_canvas_visible();
   can_slide = TRUE;
@@ -1706,13 +1706,11 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 /**********************************************************************
   Returns a text name for the citizen, as used in the tileset.
 ***********************************************************************/
-static const char *get_citizen_name(struct citizen_type citizen)
+static const char *citizen_rule_name(enum citizen_category citizen)
 {
   /* These strings are used in reading the tileset.  Do not
    * translate. */
-  switch (citizen.type) {
-  case CITIZEN_SPECIALIST:
-    return specialist_rule_name(specialist_by_number(citizen.spec_type));
+  switch (citizen) {
   case CITIZEN_HAPPY:
     return "happy";
   case CITIZEN_CONTENT:
@@ -1721,10 +1719,10 @@ static const char *get_citizen_name(struct citizen_type citizen)
     return "unhappy";
   case CITIZEN_ANGRY:
     return "angry";
-  case CITIZEN_LAST:
+  default:
     break;
   }
-  die("unknown citizen type %d", (int) citizen.type);
+  die("unknown citizen type %d", (int) citizen);
   return NULL;
 }
 
@@ -1917,13 +1915,9 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   /* Load the specialist sprite graphics. */
   char buffer[512];
   int j;
-  struct citizen_type c = {
-    .type = CITIZEN_SPECIALIST,
-    .spec_type = id
-  };
-  const char *name = get_citizen_name(c);
+  const char *name = specialist_rule_name(specialist_by_number(id));
 
-  for (j = 0; j < NUM_TILES_CITIZEN; j++) {
+  for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
     my_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
     t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer);
     if (!t->sprites.specialist[id].sprite[j]) {
@@ -1946,11 +1940,10 @@ static void tileset_setup_citizen_types(struct tileset *t)
   char buffer[512];
 
   /* Load the citizen sprite graphics, no specialist. */
-  for (i = 0; i < CITIZEN_SPECIALIST; i++) {
-    struct citizen_type c = {.type = i};
-    const char *name = get_citizen_name(c);
+  for (i = 0; i < CITIZEN_LAST; i++) {
+    const char *name = citizen_rule_name(i);
 
-    for (j = 0; j < NUM_TILES_CITIZEN; j++) {
+    for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
       my_snprintf(buffer, sizeof(buffer), "citizen.%s_%d", name, j);
       t->sprites.citizen[i].sprite[j] = load_sprite(t, buffer);
       if (!t->sprites.citizen[i].sprite[j]) {
@@ -4725,16 +4718,18 @@ struct sprite *get_spaceship_sprite(const struct tileset *t,
   used as a picture).
 **************************************************************************/
 struct sprite *get_citizen_sprite(const struct tileset *t,
-				  struct citizen_type type,
+				  enum citizen_category type,
 				  int citizen_index,
 				  const struct city *pcity)
 {
   const struct citizen_graphic *graphic;
 
-  if (type.type == CITIZEN_SPECIALIST) {
-    graphic = &t->sprites.specialist[type.spec_type];
+  if (type < CITIZEN_SPECIALIST) {
+    assert(type >= 0);
+    graphic = &t->sprites.citizen[type];
   } else {
-    graphic = &t->sprites.citizen[type.type];
+    assert(type < (CITIZEN_SPECIALIST + SP_MAX));
+    graphic = &t->sprites.specialist[type - CITIZEN_SPECIALIST];
   }
 
   return graphic->sprite[citizen_index % graphic->count];

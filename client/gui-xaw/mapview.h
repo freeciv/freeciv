@@ -24,7 +24,7 @@
 #include "graphics.h"
 
 Pixmap get_thumb_pixmap(int onoff);
-Pixmap get_citizen_pixmap(struct citizen_type type, int cnum,
+Pixmap get_citizen_pixmap(enum citizen_category type, int cnum,
 			  struct city *pcity);
 
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm,

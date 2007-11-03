@@ -495,10 +495,7 @@ struct city_dialog *create_city_dialog(struct city *pcity)
   Dimension widthNext, borderNext, internalNext, spaceNext;
   Dimension widthPrev, borderPrev, internalPrev, spacePrev;
   Widget relative;
-  struct citizen_type c = {
-    .type = CITIZEN_SPECIALIST,
-    .spec_type = DEFAULT_SPECIALIST
-  };
+  enum citizen_category c = CITIZEN_SPECIALIST + DEFAULT_SPECIALIST;
 
   if (tileset_tile_height(tileset)<45) dummy_improvement_list[5]=0;
 
@@ -1535,13 +1532,12 @@ static void citizen_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
+  enum citizen_category citizens[MAX_CITY_SIZE];
   int i;
   struct city *pcity=pdialog->pcity;
-  struct citizen_type citizens[MAX_CITY_SIZE];
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
 
-  get_city_citizen_types(pcity, 4, citizens);
-
-  for (i = 0; i < pcity->size && i < pdialog->num_citizens_shown; i++) {
+  for (i = 0; i < num_citizens && i < pdialog->num_citizens_shown; i++) {
     xaw_set_bitmap(pdialog->citizen_labels[i],
 		   get_citizen_pixmap(citizens[i], i, pcity));
 
@@ -1552,7 +1548,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     XtSetSensitive(pdialog->citizen_labels[i], TRUE);
   }
 
-  if (i >= pdialog->num_citizens_shown && i < pcity->size) {
+  if (i >= pdialog->num_citizens_shown && i < num_citizens) {
     i = pdialog->num_citizens_shown - 1;
     /* FIXME: what about the mask? */
     xaw_set_bitmap(pdialog->citizen_labels[i],

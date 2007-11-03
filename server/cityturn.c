@@ -1491,9 +1491,9 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   size = MAX(1, pcity->size
-                + pcity->ppl_happy[4]
-                - pcity->ppl_unhappy[4]
-                - pcity->ppl_angry[4] * 3);
+                + pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]
+                - pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]
+                - pcity->feel[CITIZEN_ANGRY][FEELING_FINAL] * 3);
   cost *= size;
   cost *= game.info.incite_total_factor;
   cost = cost / (dist + 3);

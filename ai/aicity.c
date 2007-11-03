@@ -131,9 +131,9 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
            + pcity->prod[O_LUXURY] * ai->luxury_priority
            + pcity->prod[O_GOLD] * ai->gold_priority
            + pcity->prod[O_SCIENCE] * ai->science_priority
-           + pcity->ppl_happy[4] * ai->happy_priority
-           - pcity->ppl_unhappy[4] * ai->unhappy_priority
-           - pcity->ppl_angry[4] * ai->angry_priority
+           + pcity->feel[CITIZEN_HAPPY][FEELING_FINAL] * ai->happy_priority
+           - pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] * ai->unhappy_priority
+           - pcity->feel[CITIZEN_ANGRY][FEELING_FINAL] * ai->angry_priority
            - pcity->pollution * ai->pollution_priority);
 
   if (pcity->surplus[O_FOOD] < 0 || pcity->surplus[O_SHIELD] < 0) {
@@ -302,11 +302,11 @@ static int content_effect_value(const struct player *pplayer,
 
   if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
     int i;
-    int max_converted = pcity->ppl_unhappy[4];
+    int max_converted = pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL];
 
     /* See if some step of happiness calculation gets capped */
-    for (i = happiness_step; i < 4; i++) {
-      max_converted = MIN(max_converted, pcity->ppl_unhappy[i]);
+    for (i = happiness_step; i < FEELING_FINAL; i++) {
+      max_converted = MIN(max_converted, pcity->feel[CITIZEN_UNHAPPY][i]);
     }
 
     v = MIN(amount, max_converted + get_entertainers(pcity)) * 35;
@@ -383,7 +383,7 @@ static int improvement_effect_value(struct player *pplayer,
     v += c * amount / 100;
     break;
   case EFT_MAKE_HAPPY:
-    v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;
+    v += (get_entertainers(pcity) + pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]) * 5 * amount;
     if (city_list_size(pplayer->cities)
 	> get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
       v += c * amount; /* offset large empire size */
@@ -394,24 +394,24 @@ static int improvement_effect_value(struct player *pplayer,
     /* TODO */
     break;
   case EFT_NO_UNHAPPY:
-    v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 30;
+    v += (get_entertainers(pcity) + pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]) * 30;
     break;
   case EFT_FORCE_CONTENT:
-    v += content_effect_value(pplayer, pcity, amount, c, 4);
+    v += content_effect_value(pplayer, pcity, amount, c, FEELING_FINAL);
     break;
   case EFT_MAKE_CONTENT:
-    v += content_effect_value(pplayer, pcity, amount, c, 2);
+    v += content_effect_value(pplayer, pcity, amount, c, FEELING_EFFECT);
     break;
   case EFT_MAKE_CONTENT_MIL_PER:
     if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
-      v += MIN(pcity->ppl_unhappy[4] + get_entertainers(pcity),
+      v += MIN(pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + get_entertainers(pcity),
 	       amount) * 25;
       v += MIN(amount, 5) * c;
     }
     break;
   case EFT_MAKE_CONTENT_MIL:
     if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
-      v += pcity->ppl_unhappy[4] * amount
+      v += pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] * amount
         * MAX(unit_list_size(pcity->units_supported), 0) * 2;
       v += c * MAX(amount + 2, 1);
     }
@@ -1807,8 +1807,10 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
   freelog(LOG_EMERGENCY,
           "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
           pcity->name, city_unhappy(pcity) ? "unhappy" : "content",
-          pcity->ppl_angry[4], pcity->ppl_unhappy[4],
-          pcity->surplus[O_FOOD], pcity->surplus[O_SHIELD]);
+          pcity->feel[CITIZEN_ANGRY][FEELING_FINAL],
+          pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
+          pcity->surplus[O_FOOD],
+          pcity->surplus[O_SHIELD]);
 
   minilist = city_list_new();
   map_city_radius_iterate(pcity->tile, ptile) {

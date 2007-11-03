@@ -406,18 +406,17 @@ void handle_game_state(int value)
 ****************************************************************************/
 void handle_city_info(struct packet_city_info *packet)
 {
-  int i;
   struct universal product;
-  bool city_is_new, city_has_changed_owner = FALSE;
+  int caravan_city_id;
+  int i;
+  bool city_is_new = FALSE;
+  bool city_has_changed_owner = FALSE;
   bool need_units_dialog_update = FALSE;
-  struct city *pcity;
   bool popup, update_descriptions = FALSE, name_changed = FALSE;
   bool shield_stock_changed = FALSE;
   bool production_changed = FALSE;
   struct unit_list *pfocus_units = get_units_in_focus();
-  int caravan_city_id;
-
-  pcity=game_find_city_by_number(packet->id);
+  struct city *pcity = game_find_city_by_number(packet->id);
 
   if (pcity && (player_number(pcity->owner) != packet->owner)) {
     client_remove_city(pcity);
@@ -451,8 +450,6 @@ void handle_city_info(struct packet_city_info *packet)
     idex_register_city(pcity);
     update_descriptions = TRUE;
   } else {
-    city_is_new = FALSE;
-
     name_changed = (strcmp(pcity->name, packet->name) != 0);
 
     /* Check if city desciptions should be updated */
@@ -477,16 +474,30 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->tile = map_pos_to_tile(packet->x, packet->y);
   sz_strlcpy(pcity->name, packet->name);
   
-  pcity->size = packet->size;
-  for (i = 0; i < 5; i++) {
-    pcity->ppl_happy[i] = packet->ppl_happy[i];
-    pcity->ppl_content[i] = packet->ppl_content[i];
-    pcity->ppl_unhappy[i] = packet->ppl_unhappy[i];
-    pcity->ppl_angry[i] = packet->ppl_angry[i];
+  /* check data */
+  pcity->size = 0;
+  for (i = 0; i < FEELING_LAST; i++) {
+    pcity->feel[CITIZEN_HAPPY][i] = packet->ppl_happy[i];
+    pcity->feel[CITIZEN_CONTENT][i] = packet->ppl_content[i];
+    pcity->feel[CITIZEN_UNHAPPY][i] = packet->ppl_unhappy[i];
+    pcity->feel[CITIZEN_ANGRY][i] = packet->ppl_angry[i];
+  }
+  for (i = 0; i < CITIZEN_LAST; i++) {
+    pcity->size += pcity->feel[i][FEELING_FINAL];
   }
   specialist_type_iterate(sp) {
+    pcity->size +=
     pcity->specialists[sp] = packet->specialists[sp];
   } specialist_type_iterate_end;
+
+  if (pcity->size != packet->size) {
+    freelog(LOG_ERROR, "handle_city_info()"
+            " %d citizens not equal %d city size in \"%s\".",
+            pcity->size,
+            packet->size,
+            pcity->name);
+    pcity->size = packet->size;
+  }
 
   pcity->city_options = packet->city_options;
 
@@ -709,11 +720,10 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 ****************************************************************************/
 void handle_city_short_info(struct packet_city_short_info *packet)
 {
-  struct city *pcity;
-  bool city_is_new, city_has_changed_owner = FALSE;
+  bool city_has_changed_owner = FALSE;
+  bool city_is_new = FALSE;
   bool update_descriptions = FALSE;
-
-  pcity=game_find_city_by_number(packet->id);
+  struct city *pcity = game_find_city_by_number(packet->id);
 
   if (pcity && (player_number(pcity->owner) != packet->owner)) {
     client_remove_city(pcity);
@@ -721,17 +731,14 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     city_has_changed_owner = TRUE;
   }
 
-  if(!pcity) {
+  if (!pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(player_by_number(packet->owner),
 				map_pos_to_tile(packet->x, packet->y),
 				packet->name);
     pcity->id=packet->id;
     idex_register_city(pcity);
-  }
-  else {
-    city_is_new = FALSE;
-
+  } else {
     /* Check if city desciptions should be updated */
     if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
       update_descriptions = TRUE;
@@ -741,9 +748,12 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     sz_strlcpy(pcity->name, packet->name);
     
     assert(pcity->id == packet->id);
+
+    memset(pcity->feel, 0, sizeof(pcity->feel));
+    memset(pcity->specialists, 0, sizeof(pcity->specialists));
   }
-  
-  pcity->size=packet->size;
+  pcity->specialists[DEFAULT_SPECIALIST] =
+  pcity->size = packet->size;
 
   /* HACK: special case for trade routes */
   pcity->citizen_base[O_TRADE] = packet->tile_trade;
@@ -753,18 +763,6 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   pcity->client.occupied = packet->occupied;
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
-
-  pcity->ppl_happy[4] = 0;
-  pcity->ppl_content[4] = 0;
-  pcity->ppl_unhappy[4] = 0;
-  pcity->ppl_angry[4] = 0;
-  if (packet->happy) {
-    pcity->ppl_happy[4] = pcity->size;
-  } else if (packet->unhappy) {
-    pcity->ppl_unhappy[4] = pcity->size;
-  } else {
-    pcity->ppl_content[4] = pcity->size;
-  }
 
   if (city_is_new) {
     int i;
@@ -785,9 +783,6 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     int i;
     int x, y;
 
-    specialist_type_iterate(sp) {
-      pcity->specialists[sp] = 0;
-    } specialist_type_iterate_end;
     for (i = 0; i < NUM_TRADEROUTES; i++) {
       pcity->trade[i] = 0;
       pcity->trade_value[i] = 0;

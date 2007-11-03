@@ -358,9 +358,7 @@ struct sprite *client_government_sprite(void)
   } else {
     /* HACK: the UNHAPPY citizen is used for the government
      * when we don't know any better. */
-    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-
-    return get_citizen_sprite(tileset, c, 0, NULL);
+    return get_citizen_sprite(tileset, CITIZEN_UNHAPPY, 0, NULL);
   }
 }
 

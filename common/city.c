@@ -1084,10 +1084,10 @@ bool city_got_defense_effect(const struct city *pcity,
 **************************************************************************/
 bool city_happy(const struct city *pcity)
 {
-  return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2
-	  && pcity->ppl_unhappy[4] == 0
-          && pcity->ppl_angry[4] == 0
-          && pcity->size >= game.info.celebratesize);
+  return (pcity->size >= game.info.celebratesize
+	  && pcity->feel[CITIZEN_ANGRY][FEELING_FINAL] == 0
+	  && pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] == 0
+	  && pcity->feel[CITIZEN_HAPPY][FEELING_FINAL] >= (pcity->size + 1) / 2);
 }
 
 /**************************************************************************
@@ -1096,8 +1096,9 @@ bool city_happy(const struct city *pcity)
 **************************************************************************/
 bool city_unhappy(const struct city *pcity)
 {
-  return (pcity->ppl_happy[4] <
-	  pcity->ppl_unhappy[4] + 2 * pcity->ppl_angry[4]);
+  return (pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]
+	< pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]
+	  + 2 * pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
 }
 
 /**************************************************************************
@@ -1715,14 +1716,14 @@ static void set_surpluses(struct city *pcity)
 }
 
 /**************************************************************************
-  Copy the happyness array in the city from index i to index i+1.
+  Copy the happyness array in the city to index i from index i-1.
 **************************************************************************/
-static void happy_copy(struct city *pcity, int i)
+static void happy_copy(struct city *pcity, enum citizen_feeling i)
 {
-  pcity->ppl_angry[i + 1] = pcity->ppl_angry[i];
-  pcity->ppl_unhappy[i + 1] = pcity->ppl_unhappy[i];
-  pcity->ppl_content[i + 1] = pcity->ppl_content[i];
-  pcity->ppl_happy[i + 1] = pcity->ppl_happy[i];
+  int c = 0;
+  for (; c < CITIZEN_LAST; c++) {
+    pcity->feel[c][i] = pcity->feel[c][i - 1];
+  }
 }
 
 /**************************************************************************
@@ -1745,10 +1746,15 @@ static inline int make_citizens_happy(int *from, int *to, int count)
 /**************************************************************************
   Create content, unhappy and angry citizens.
 **************************************************************************/
-static void citizen_base_mood(struct player *pplayer, int specialists,
-			      int *happy, int *content,
-			      int *unhappy, int *angry, int size)
+static void citizen_base_mood(struct player *pplayer, struct city *pcity,
+			      int specialists)
 {
+  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_BASE];
+  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_BASE];
+  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_BASE];
+  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_BASE];
+  int size = pcity->size;
+
   /* This is the number of citizens that may start out content, depending
    * on empire size and game's city unhappysize. This may be bigger than
    * the size of the city, since this is a potential. */
@@ -1780,10 +1786,13 @@ static void citizen_base_mood(struct player *pplayer, int specialists,
    * then content are made happy, then unhappy content, etc.
    * each conversions costs 2 or 4 luxuries.
 **************************************************************************/
-static inline void citizen_luxury_happy(const struct city *pcity, int *luxuries,
-                                        int *angry, int *unhappy, int *happy, 
-                                        int *content)
+static inline void citizen_luxury_happy(struct city *pcity, int *luxuries)
 {
+  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_LUXURY];
+  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_LUXURY];
+  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_LUXURY];
+  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_LUXURY];
+
   while (*luxuries >= game.info.happy_cost && *angry > 0) {
     /* Upgrade angry to unhappy: costs HAPPY_COST each. */
     (*angry)--;
@@ -1818,18 +1827,17 @@ static inline void citizen_happy_luxury(struct city *pcity)
 {
   int x = pcity->prod[O_LUXURY];
 
-  happy_copy(pcity, 0);
-
-  citizen_luxury_happy(pcity, &x, &pcity->ppl_angry[1], &pcity->ppl_unhappy[1], 
-                       &pcity->ppl_happy[1], &pcity->ppl_content[1]);
+  citizen_luxury_happy(pcity, &x);
 }
 
 /**************************************************************************
   Make citizens content due to city improvements.
 **************************************************************************/
-static inline void citizen_content_buildings(struct city *pcity, int *content,
-                                             int *unhappy, int *angry)
+static inline void citizen_content_buildings(struct city *pcity)
 {
+  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_EFFECT];
+  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_EFFECT];
+  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_EFFECT];
   int faces = get_city_bonus(pcity, EFT_MAKE_CONTENT);
 
   /* make people content (but not happy):
@@ -1852,14 +1860,16 @@ static inline void citizen_content_buildings(struct city *pcity, int *content,
   This function requires that pcity->martial_law and
   pcity->unit_happy_cost have already been set in city_support().
 **************************************************************************/
-static inline void citizen_happy_units(struct city *pcity, int *happy,
-                                       int *content, int *unhappy,
-                                       int *angry)
+static inline void citizen_happy_units(struct city *pcity)
 {
+  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_MARTIAL];
+  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_MARTIAL];
+  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_MARTIAL];
+  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_MARTIAL];
   int amt = pcity->martial_law;
 
   /* Pacify discontent citizens through martial law.  First convert
-   * angry->unhappy and then unhappy->content. */
+   * angry => unhappy, then unhappy => content. */
   while (amt > 0 && *angry > 0) {
     (*angry)--;
     (*unhappy)++;
@@ -1872,8 +1882,8 @@ static inline void citizen_happy_units(struct city *pcity, int *happy,
   }
 
   /* Now make citizens unhappier because of military units away from home.
-   * First make content people unhappy, then happy people unhappy,
-   * then happy people content. */
+   * First make content => unhappy, then happy => unhappy,
+   * then happy => content. */
   amt = pcity->unit_happy_upkeep;
   while (amt > 0 && *content > 0) {
     (*content)--;
@@ -1898,13 +1908,15 @@ static inline void citizen_happy_units(struct city *pcity, int *happy,
 /**************************************************************************
   Make citizens happy due to wonders.
 **************************************************************************/
-static inline void citizen_happy_wonders(struct city *pcity, int *happy,
-                                         int *content, int *unhappy, 
-                                         int *angry)
+static inline void citizen_happy_wonders(struct city *pcity)
 {
+  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_FINAL];
+  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_FINAL];
+  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL];
+  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_FINAL];
   int bonus = get_city_bonus(pcity, EFT_MAKE_HAPPY);
 
-  /* First create happy citizens from content then from unhappy
+  /* First create happy citizens from content, then from unhappy
    * citizens; we cannot help angry citizens here. */
   while (bonus > 0 && *content > 0) {
     (*content)--;
@@ -2206,24 +2218,23 @@ void generic_city_refresh(struct city *pcity, bool full_refresh)
   add_specialist_output(pcity, pcity->citizen_base);
 
   set_city_production(pcity);
-  citizen_base_mood(pplayer, city_specialists(pcity), &pcity->ppl_happy[0], 
-                    &pcity->ppl_content[0], &pcity->ppl_unhappy[0], 
-                    &pcity->ppl_angry[0], pcity->size);
+  citizen_base_mood(pplayer, pcity, city_specialists(pcity));
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
+
+  happy_copy(pcity, FEELING_LUXURY);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
-  happy_copy(pcity, 1);
-  citizen_content_buildings(pcity, &pcity->ppl_content[2], 
-                            &pcity->ppl_unhappy[2], &pcity->ppl_angry[2]);
-  happy_copy(pcity, 2);
+
+  happy_copy(pcity, FEELING_EFFECT);
+  citizen_content_buildings(pcity);
+
   /* Martial law & unrest from units */
-  citizen_happy_units(pcity, &pcity->ppl_happy[3],
-                      &pcity->ppl_content[3], &pcity->ppl_unhappy[3], 
-                      &pcity->ppl_angry[3]);
-  happy_copy(pcity, 3);
+  happy_copy(pcity, FEELING_MARTIAL);
+  citizen_happy_units(pcity);
+
   /* Building (including wonder) happiness effects */
-  citizen_happy_wonders(pcity, &pcity->ppl_happy[4],
-                      &pcity->ppl_content[4], &pcity->ppl_unhappy[4],
-                      &pcity->ppl_angry[4]);
+  happy_copy(pcity, FEELING_FINAL);
+  citizen_happy_wonders(pcity);
+
   unhappy_city_check(pcity);
   set_surpluses(pcity);
 }
@@ -2408,25 +2419,19 @@ struct city *create_city_virtual(struct player *pplayer,
 		                 struct tile *ptile, const char *name)
 {
   int i;
-  struct city *pcity;
-
-  pcity = fc_calloc(1, sizeof(*pcity));
+  struct city *pcity = fc_calloc(1, sizeof(*pcity));
 
   pcity->id = 0;
   assert(pplayer != NULL); /* No unowned cities! */
+  pcity->original = pplayer;
   pcity->owner = pplayer;
   pcity->tile = ptile;
   sz_strlcpy(pcity->name, name);
-  pcity->size = 1;
+#if 0
+  /* some zero variables not compiled, but left for searching */
+  memset(pcity->feel, 0, sizeof(pcity->feel));
+  memset(pcity->specialists, 0, sizeof(pcity->specialists));
   memset(pcity->tile_output, 0, sizeof(pcity->tile_output));
-  specialist_type_iterate(sp) {
-    pcity->specialists[sp] = 0;
-  } specialist_type_iterate_end;
-  pcity->specialists[DEFAULT_SPECIALIST] = 1;
-  pcity->ppl_happy[4] = 0;
-  pcity->ppl_content[4] = 1;
-  pcity->ppl_unhappy[4] = 0;
-  pcity->ppl_angry[4] = 0;
   pcity->was_happy = FALSE;
   pcity->steal = 0;
   for (i = 0; i < NUM_TRADEROUTES; i++) {
@@ -2434,7 +2439,9 @@ struct city *create_city_virtual(struct player *pplayer,
   }
   pcity->food_stock = 0;
   pcity->shield_stock = 0;
-  pcity->original = pplayer;
+#endif
+  pcity->specialists[DEFAULT_SPECIALIST] =
+  pcity->size = 1;
 
   /* Initialise improvements list */
   for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
@@ -2507,6 +2514,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->ai.founder_want = 0; /* calculating this is really expensive */
   pcity->ai.next_founder_want_recalc = 0; /* turns to recalc found_want */
   pcity->ai.trade_want = 1; /* we always want some */
+#if 0
+  /* some zero variables not compiled, but left for searching */
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
   pcity->ai.danger = 0;
   pcity->ai.urgency = 0;
@@ -2525,6 +2534,7 @@ struct city *create_city_virtual(struct player *pplayer,
 	 O_COUNT * sizeof(*pcity->unhappy_penalty));
   memset(pcity->prod, 0, O_COUNT * sizeof(*pcity->prod));
   memset(pcity->citizen_base, 0, O_COUNT * sizeof(*pcity->citizen_base));
+#endif
   output_type_iterate(o) {
     pcity->bonus[o] = 100;
   } output_type_iterate_end;
