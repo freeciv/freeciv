@@ -80,9 +80,11 @@ static const char *cr_entry_workers(const struct city *pcity,
 				    const void *data)
 {
   static char buf[32];
-  my_snprintf(buf, sizeof(buf), "%d/%d/%d/%d", pcity->ppl_happy[4],
-	      pcity->ppl_content[4], pcity->ppl_unhappy[4],
-	      pcity->ppl_angry[4]);
+  my_snprintf(buf, sizeof(buf), "%d/%d/%d/%d",
+	      pcity->feel[CITIZEN_HAPPY][FEELING_FINAL],
+	      pcity->feel[CITIZEN_CONTENT][FEELING_FINAL],
+	      pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
+	      pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
   return buf;
 }
 
@@ -90,7 +92,7 @@ static const char *cr_entry_happy(const struct city *pcity,
 				  const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_happy[4]);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]);
   return buf;
 }
 
@@ -98,7 +100,7 @@ static const char *cr_entry_content(const struct city *pcity,
 				    const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_content[4]);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]);
   return buf;
 }
 
@@ -106,7 +108,7 @@ static const char *cr_entry_unhappy(const struct city *pcity,
 				    const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_unhappy[4]);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]);
   return buf;
 }
 
@@ -114,7 +116,7 @@ static const char *cr_entry_angry(const struct city *pcity,
 				  const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_angry[4]);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
   return buf;
 }
 

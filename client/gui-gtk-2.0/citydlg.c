@@ -1340,19 +1340,20 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
+  enum citizen_category citizens[MAX_CITY_SIZE];
   int i, width;
   struct city *pcity = pdialog->pcity;
-  struct citizen_type citizens[MAX_CITY_SIZE];
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
 
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
   /* last icon is always drawn in full, and so has reserved                */
-  /* tileset_small_sprite_width(tileset) pixels.                                              */
+  /* tileset_small_sprite_width(tileset) pixels.                           */
 
-  if (pcity->size > 1) {
+  if (num_citizens > 1) {
     width = MIN(tileset_small_sprite_width(tileset),
 		((NUM_CITIZENS_SHOWN - 1) * tileset_small_sprite_width(tileset)) /
-		(pcity->size - 1));
+		(num_citizens - 1));
   } else {
     width = tileset_small_sprite_width(tileset);
   }
@@ -1361,9 +1362,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->citizen_pixmap));
   gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap));
 
-  get_city_citizen_types(pcity, 4, citizens);
-
-  for (i = 0; i < pcity->size; i++) {
+  for (i = 0; i < num_citizens; i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
 		       get_citizen_sprite(tileset, citizens[i], i, pcity),
 		       i * width, 0);

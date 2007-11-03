@@ -335,9 +335,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
     /* not sure what to do here */
     /* HACK: the UNHAPPY citizen is used for the government
      * when we don't know any better. */
-    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-
-    gov_sprite = get_citizen_sprite(tileset, c, 0, NULL);
+    gov_sprite = get_citizen_sprite(tileset, CITIZEN_UNHAPPY, 0, NULL);
   }
   else
   {

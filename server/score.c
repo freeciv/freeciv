@@ -259,10 +259,10 @@ void calc_civ_score(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     int bonus;
 
-    pplayer->score.happy += pcity->ppl_happy[4];
-    pplayer->score.content += pcity->ppl_content[4];
-    pplayer->score.unhappy += pcity->ppl_unhappy[4];
-    pplayer->score.angry += pcity->ppl_angry[4];
+    pplayer->score.happy += pcity->feel[CITIZEN_HAPPY][FEELING_FINAL];
+    pplayer->score.content += pcity->feel[CITIZEN_CONTENT][FEELING_FINAL];
+    pplayer->score.unhappy += pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL];
+    pplayer->score.angry += pcity->feel[CITIZEN_ANGRY][FEELING_FINAL];
     specialist_type_iterate(sp) {
       pplayer->score.specialists[sp] += pcity->specialists[sp];
     } specialist_type_iterate_end;

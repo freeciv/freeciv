@@ -1627,17 +1627,18 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   sz_strlcpy(packet->name, pcity->name);
 
   packet->size=pcity->size;
-  for (i=0;i<5;i++) {
-    packet->ppl_happy[i]=pcity->ppl_happy[i];
-    packet->ppl_content[i]=pcity->ppl_content[i];
-    packet->ppl_unhappy[i]=pcity->ppl_unhappy[i];
-    packet->ppl_angry[i]=pcity->ppl_angry[i];
+  for (i = 0; i < FEELING_LAST; i++) {
+    packet->ppl_happy[i] = pcity->feel[CITIZEN_HAPPY][i];
+    packet->ppl_content[i] = pcity->feel[CITIZEN_CONTENT][i];
+    packet->ppl_unhappy[i] = pcity->feel[CITIZEN_UNHAPPY][i];
+    packet->ppl_angry[i] = pcity->feel[CITIZEN_ANGRY][i];
   }
-  /* The number of data in specilists[] array */
+  /* The number of data in specialists[] array */
   packet->specialists_size = SP_COUNT;
   specialist_type_iterate(sp) {
     packet->specialists[sp] = pcity->specialists[sp];
   } specialist_type_iterate_end;
+
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     packet->trade[i]=pcity->trade[i];
     packet->trade_value[i]=pcity->trade_value[i];
@@ -1662,8 +1663,10 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->turn_last_built=pcity->turn_last_built;
   packet->turn_founded = pcity->turn_founded;
+
   packet->changed_from_id = pcity->changed_from.value;
   packet->changed_from_is_unit = pcity->changed_from.is_unit;
+
   packet->before_change_shields=pcity->before_change_shields;
   packet->disbanded_shields=pcity->disbanded_shields;
   packet->caravan_shields=pcity->caravan_shields;

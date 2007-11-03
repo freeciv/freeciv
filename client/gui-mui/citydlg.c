@@ -1841,9 +1841,10 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
+  enum citizen_category citizens[MAX_CITY_SIZE];
   int i;
   struct city *pcity = pdialog->pcity;
-  struct citizen_type citizens[MAX_CITY_SIZE];
+  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
 
   DoMethod(pdialog->citizen_group, MUIM_Group_InitChange);
   if (pdialog->citizen2_group)
@@ -1855,9 +1856,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   pdialog->citizen2_group = HGroup, GroupSpacing(0), End;
 
   /* Get a list of the citizens. */
-  get_city_citizen_types(pcity, 4, citizens);
-
-  for (i = 0; i < pcity->size; i++) {
+  for (i = 0; i < num_citizens; i++) {
     Object *o = MakeSprite(get_citizen_sprite(tileset, citizens[i], i, pcity));
 
     if (o) {
@@ -2256,16 +2255,14 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
 	  get_happiness_wonders(pcity));
 
   /* the citizen's */
-  for(i=0;i<5;i++)
+  for (i = 0; i < FEELING_LAST; i++)
   {
+    enum citizen_category citizens[MAX_CITY_SIZE];
     int j;
-    int num_citizens = pcity->size;
-    struct citizen_type citizens[MAX_CITY_SIZE];
+    int num_citizens = get_city_citizen_types(pcity, i, citizens);;
 
     DoMethod(pdialog->happiness_citizen_group[i],MUIM_Group_InitChange);
     DisposeAllChilds(pdialog->happiness_citizen_group[i]);
-
-    get_city_citizen_types(pcity, i, citizens);
 
     for (j = 0; j < num_citizens; j++) {
       Object *obj;

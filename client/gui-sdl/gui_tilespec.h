@@ -216,9 +216,7 @@ SDL_Color * get_tech_color(Tech_type_id tech_id);
 static inline SDL_Surface *get_citizen_surface(enum citizen_category type,
                                                int citizen_index)
 {
-  struct citizen_type ctype = {.type = type};
-
-  return GET_SURF(get_citizen_sprite(tileset, ctype, 0, NULL));
+  return GET_SURF(get_citizen_sprite(tileset, type, 0, NULL));
 }
 
 static inline SDL_Surface *get_nation_flag_surface(const struct nation_type *pnation)

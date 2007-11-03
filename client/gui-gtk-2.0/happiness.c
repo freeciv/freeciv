@@ -156,14 +156,13 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity, int index)
+static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity,
+			    enum citizen_feeling index)
 {
+  enum citizen_category citizens[MAX_CITY_SIZE];
   int i;
-  struct citizen_type citizens[MAX_CITY_SIZE];
-  int num_citizens = pcity->size;
+  int num_citizens = get_city_citizen_types(pcity, index, citizens);
   int offset = MIN(tileset_small_sprite_width(tileset), PIXCOMM_WIDTH / num_citizens);
-
-  get_city_citizen_types(pcity, index, citizens);
 
   gtk_pixcomm_freeze(dst);
   gtk_pixcomm_clear(dst);
@@ -182,10 +181,9 @@ static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity, int index)
 void refresh_happiness_dialog(struct city *pcity)
 {
   int i;
-
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
-  for (i = 0; i < 5; i++) {
+  for (i = 0; i < FEELING_LAST; i++) {
     refresh_pixcomm(GTK_PIXCOMM(pdialog->hpixmaps[i]), pdialog->pcity, i);
   }
 
