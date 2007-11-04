@@ -473,17 +473,18 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->player;
-    enum tile_special_type spe;
 
     if (!pplayer && !pconn->observer) {
       continue;
     }
     if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       info.known = TILE_KNOWN;
-      info.type = ptile->terrain->index;
-      for (spe = 0; spe < S_LAST; spe++) {
+      info.type = ptile->terrain ? ptile->terrain->index : -1;
+
+      tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(ptile->special, spe);
-      }
+      } tile_special_type_iterate_end;
+
       info.resource = ptile->resource ? ptile->resource->index : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
@@ -492,10 +493,12 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
       info.known = TILE_KNOWN_FOGGED;
-      info.type = plrtile->terrain->index;
-      for (spe = 0; spe < S_LAST; spe++) {
+      info.type = plrtile->terrain ? plrtile->terrain->index : -1;
+
+      tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
-      }
+      } tile_special_type_iterate_end;
+
       info.resource = plrtile->resource ? plrtile->resource->index : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
@@ -1379,9 +1382,9 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 			   _("Moved your %s due to changing terrain."),
 			   unit_name_translation(punit));
 	  unit_alive = move_unit(punit, ptile2, 0);
-          if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
-            handle_unit_activity_request(punit, ACTIVITY_IDLE);
-          }
+	  if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
+	    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	  }
 	  break;
 	}
       } adjc_iterate_end;
@@ -1551,7 +1554,7 @@ static int tile_border_range(struct tile *ptile)
   more land to sources in range, unless there are enemy units within
   this range.
 *************************************************************************/
-void map_calculate_borders()
+void map_calculate_borders(void)
 {
   struct city_list *cities_to_refresh = NULL;
 
