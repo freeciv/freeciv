@@ -496,14 +496,13 @@ static const char *tile_special_type_names[] =
 ****************************************************************************/
 enum tile_special_type find_special_by_rule_name(const char *name)
 {
-  enum tile_special_type i;
-
   assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
-  for (i = 0; i < S_LAST; i++) {
+
+  tile_special_type_iterate(i) {
     if (0 == strcmp(tile_special_type_names[i], name)) {
       return i;
     }
-  }
+  } tile_special_type_iterate_end;
 
   return S_LAST;
 }
