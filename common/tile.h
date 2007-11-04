@@ -20,6 +20,13 @@
 #include "terrain.h"
 #include "unitlist.h"
 
+/* network, order dependent */
+enum known_type {
+ TILE_UNKNOWN = 0,
+ TILE_KNOWN_FOGGED = 1,
+ TILE_KNOWN = 2,
+};
+
 /* Convenience macro for accessing tile coordinates.  This should only be
  * used for debugging. */
 #define TILE_XY(ptile) ((ptile) ? (ptile)->x : -1), \

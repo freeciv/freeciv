@@ -2018,17 +2018,33 @@ This was once very ugly...
 **************************************************************************/
 void handle_tile_info(struct packet_tile_info *packet)
 {
-  struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
-  enum known_type old_known = client_tile_get_known(ptile);
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
-  enum tile_special_type spe;
+  struct terrain *pterrain = terrain_by_number(packet->type);
+  struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
+  enum known_type old_known = client_tile_get_known(ptile);
 
   if (!ptile->terrain || terrain_number(ptile->terrain) != packet->type) {
     tile_changed = TRUE;
-    ptile->terrain = terrain_by_number(packet->type);
+    switch (old_known) {
+    case TILE_UNKNOWN:
+      ptile->terrain = pterrain;
+      break;
+    case TILE_KNOWN_FOGGED:
+    case TILE_KNOWN:
+      if (pterrain || TILE_UNKNOWN == packet->known) {
+        ptile->terrain = pterrain;
+      } else {
+        tile_changed = FALSE;
+        freelog(LOG_ERROR,
+                "handle_tile_info() unknown terrain (%d,%d).",
+                packet->x,
+                packet->y);
+      }
+      break;
+    };
   }
-  for (spe = 0; spe < S_LAST; spe++) {
+  tile_special_type_iterate(spe) {
     if (packet->special[spe]) {
       if (!tile_has_special(ptile, spe)) {
 	tile_set_special(ptile, spe);
@@ -2040,7 +2056,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 	tile_changed = TRUE;
       }
     }
-  }
+  } tile_special_type_iterate_end;
 
   if (NULL != ptile->resource) {
     tile_changed = (resource_number(ptile->resource) != packet->resource);
@@ -2072,6 +2088,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     vision_layer_iterate(v) {
       BV_CLR(ptile->tile_seen[v], game.info.player_idx);
     } vision_layer_iterate_end;
+
     switch (packet->known) {
     case TILE_KNOWN:
       BV_SET(ptile->tile_known, game.info.player_idx);
@@ -2086,10 +2103,10 @@ void handle_tile_info(struct packet_tile_info *packet)
       break;
     default:
       freelog(LOG_ERROR,
-              "handle_tile_info() unknown tile value %d.",
+              "handle_tile_info() invalid known (%d).",
               packet->known);
       break;
-    }
+    };
   }
 
   if (packet->spec_sprite[0] != '\0') {

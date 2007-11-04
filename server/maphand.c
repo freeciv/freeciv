@@ -614,17 +614,18 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->player;
-    enum tile_special_type spe;
 
     if (!pplayer && !pconn->observer) {
       continue;
     }
     if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       info.known = TILE_KNOWN;
-      info.type = terrain_number(ptile->terrain);
-      for (spe = 0; spe < S_LAST; spe++) {
+      info.type = ptile->terrain ? terrain_number(ptile->terrain) : -1;
+
+      tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(ptile->special, spe);
-      }
+      } tile_special_type_iterate_end;
+
       info.resource = ptile->resource ? resource_number(ptile->resource) : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
@@ -633,19 +634,23 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
       info.known = TILE_KNOWN_FOGGED;
-      info.type = terrain_number(plrtile->terrain);
-      for (spe = 0; spe < S_LAST; spe++) {
+      info.type = plrtile->terrain ? terrain_number(plrtile->terrain) : -1;
+
+      tile_special_type_iterate(spe) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
-      }
+      } tile_special_type_iterate_end;
+
       info.resource = plrtile->resource ? resource_number(plrtile->resource) : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     } else if (send_unknown) {
       info.known = TILE_UNKNOWN;
       info.type  = -1;
-      for (spe = 0; spe < S_LAST; spe++) {
+
+      tile_special_type_iterate(spe) {
         info.special[spe] = FALSE;
-      }
+      } tile_special_type_iterate_end;
+
       info.resource  = -1;
       info.continent = 0;
       send_packet_tile_info(pconn, &info);

@@ -55,12 +55,10 @@ extern enum tile_special_type infrastructure_specials[];
 
 BV_DEFINE(bv_special, S_LAST_PLUS);
 
-/* currently only used in edithand.c */
 #define tile_special_type_iterate(special)				    \
 {									    \
-  enum tile_special_type special;					    \
-									    \
-  for (special = 0; special < S_LAST; special++) {
+  enum tile_special_type special = 0;					    \
+  for (; special < S_LAST; special++) {
 
 #define tile_special_type_iterate_end					    \
   }									    \
@@ -113,10 +111,6 @@ enum terrain_flag_id {
 #define TER_FIRST (TER_NO_BARBS)
 #define TER_COUNT (TER_LAST)
 #define TER_MAX 64 /* Changing this breaks network compatability. */
-
-enum known_type {
- TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
-};
 
 BV_DEFINE(bv_terrain_flags, TER_MAX);
 
