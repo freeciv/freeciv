@@ -2499,7 +2499,8 @@ void update_simple_ai_types(void)
   int i = 0;
 
   unit_type_iterate(punittype) {
-    if (!utype_has_flag(punittype, F_CIVILIAN)
+    if (A_NEVER != punittype->require_advance
+	&& !utype_has_flag(punittype, F_CIVILIAN)
 	&& !uclass_has_flag(utype_class(punittype), UCF_MISSILE)
 	&& !utype_has_flag(punittype, F_NO_LAND_ATTACK)
         && utype_move_type(punittype) != AIR_MOVING

@@ -59,9 +59,10 @@
 #include "aitools.h"
 
 /**************************************************************************
-  Return a string describing a unit's AI role.
+  Return the (untranslated) rule name of the ai_unit_task.
+  You don't have to free the return pointer.
 **************************************************************************/
-const char *get_ai_role_str(enum ai_unit_task task)
+const char *ai_unit_task_rule_name(const enum ai_unit_task task)
 {
   switch(task) {
    case AIUNIT_NONE:
@@ -83,6 +84,30 @@ const char *get_ai_role_str(enum ai_unit_task task)
    case AIUNIT_HUNTER:
      return "Hunter";
   }
+  /* no default, ensure all types handled somehow */
+  assert(FALSE);
+  return NULL;
+}
+
+/**************************************************************************
+  Return the (untranslated) rule name of the ai_choice.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *ai_choice_rule_name(const struct ai_choice *choice)
+{
+  switch (choice->type) {
+  case CT_NONE:
+    return "(nothing)";
+  case CT_BUILDING:
+    return improvement_rule_name(choice->value.building);
+  case CT_CIVILIAN:
+  case CT_ATTACKER:
+  case CT_DEFENDER:
+    return utype_rule_name(choice->value.utype);
+  case CT_LAST:
+    return "(unknown)";
+  };
+  /* no default, ensure all types handled somehow */
   assert(FALSE);
   return NULL;
 }
@@ -806,7 +831,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   assert(!unit_has_orders(punit));
 
   UNIT_LOG(LOG_DEBUG, punit, "changing role from %s to %s",
-           get_ai_role_str(punit->ai.ai_role), get_ai_role_str(task));
+           ai_unit_task_rule_name(punit->ai.ai_role),
+           ai_unit_task_rule_name(task));
 
   /* Free our ferry.  Most likely it has been done already. */
   if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {

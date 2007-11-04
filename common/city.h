@@ -166,13 +166,13 @@ enum choice_type {
 #define ASSERT_CHOICE(c)                                                 \
   do {                                                                   \
     if ((c).want > 0) {                                                  \
-      assert((c).type >= 0 && (c).type < CT_LAST && (c).type != CT_NONE);\
+      assert((c).type > CT_NONE && (c).type < CT_LAST);                  \
       if ((c).type == CT_BUILDING) {                                     \
         int _iindex = improvement_index((c).value.building);             \
-        assert(_iindex >= 0 && _iindex < game.control.num_impr_types);   \
+        assert(_iindex >= 0 && _iindex < improvement_count());           \
       } else {                                                           \
         int _uindex = utype_index((c).value.utype);                      \
-        assert(_uindex >= 0 && _uindex < game.control.num_unit_types);   \
+        assert(_uindex >= 0 && _uindex < utype_count());                 \
       }                                                                  \
     }                                                                    \
   } while(0);

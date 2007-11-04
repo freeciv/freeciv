@@ -720,8 +720,8 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
   memset(tech_desire, 0, sizeof(tech_desire));
   
   simple_ai_unit_type_iterate(punittype) {
-    int move_type = utype_move_type(punittype);
     int desire; /* How much we want the unit? */
+    int move_type = utype_move_type(punittype);
 
     /* Only consider proper defenders - otherwise waste CPU and
      * bump tech want needlessly. */
@@ -885,15 +885,9 @@ static void process_attacker_want(struct city *pcity,
   }
 
   simple_ai_unit_type_iterate(punittype) {
-    Tech_type_id tech_req;
-    int tech_dist;
+    Tech_type_id tech_req = advance_number(punittype->require_advance);
+    int tech_dist = num_unknown_techs_for_goal(pplayer, tech_req);
     int move_type = utype_move_type(punittype);
-    
-    if (A_NEVER == punittype->require_advance) {
-      continue;
-    }
-    tech_req = advance_number(punittype->require_advance);
-    tech_dist = num_unknown_techs_for_goal(pplayer, tech_req);
 
     if ((move_type == LAND_MOVING || (move_type == SEA_MOVING && shore))
         && (tech_dist > 0 
@@ -913,8 +907,7 @@ static void process_attacker_want(struct city *pcity,
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
-      int tech_cost = total_bulbs_required_for_goal(pplayer,
-                        advance_number(punittype->require_advance)) / 4
+      int tech_cost = total_bulbs_required_for_goal(pplayer, tech_req) / 4
                       / city_list_size(pplayer->cities);
       int move_rate = punittype->move_rate;
       int bcost_balanced = build_cost_balanced(punittype);
@@ -923,7 +916,6 @@ static void process_attacker_want(struct city *pcity,
       int attack = unittype_att_rating(punittype, will_be_veteran,
                                        SINGLE_MOVE,
                                        punittype->hp);
-      struct impr_type *impr_req = punittype->need_improvement;
       
       /* Take into account reinforcements strength */
       if (acity) attack += acity->ai.attack;
@@ -1012,6 +1004,8 @@ static void process_attacker_want(struct city *pcity,
                    (acity ? acity->name : utype_rule_name(victim_unit_type)),
                    TILE_XY(ptile));
         } else if (want > best_choice->want) {
+          struct impr_type *impr_req = punittype->need_improvement;
+
           if (can_city_build_unit_now(pcity, punittype)) {
             /* This is a real unit and we really want it */
 
@@ -1026,11 +1020,14 @@ static void process_attacker_want(struct city *pcity,
             best_choice->value.utype = punittype;
             best_choice->want = want;
             best_choice->type = CT_ATTACKER;
+          } else if (NULL == impr_req) {
+            CITY_LOG(LOG_DEBUG, pcity, "cannot build unit %s",
+                     utype_rule_name(punittype));
           } else if (can_city_build_improvement_now(pcity, impr_req)) {
 	    /* Building this unit requires a specific type of improvement.
 	     * So we build this improvement instead.  This may not be the
 	     * best behavior. */
-            CITY_LOG(LOG_DEBUG, pcity, "building %s to build %s",
+            CITY_LOG(LOG_DEBUG, pcity, "building %s to build unit %s",
                      improvement_rule_name(impr_req),
                      utype_rule_name(punittype));
             best_choice->value.building = impr_req;
@@ -1038,13 +1035,9 @@ static void process_attacker_want(struct city *pcity,
             best_choice->type = CT_BUILDING;
           } else {
 	    /* This should never happen? */
-            /* FIXME: Restore this when bug causing it to crash is fixed.
-             *        Commented out just as a critical fix to avoid crash. */
-#if 0
-            CITY_LOG(LOG_DEBUG, pcity, "cannot build %s or %s",
+            CITY_LOG(LOG_DEBUG, pcity, "cannot build %s or unit %s",
                      improvement_rule_name(impr_req),
                      utype_rule_name(punittype));
-#endif
 	  }
         }
       }
@@ -1492,23 +1485,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   if (choice->want <= 0) {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor has no advice");
   } else {
-    const char *name = "(unknown)";
-
-    switch (pcity->ai.choice.type) {
-    case CT_CIVILIAN:
-    case CT_ATTACKER:
-    case CT_DEFENDER:
-      name = utype_rule_name(choice->value.utype);
-      break;
-    case CT_BUILDING:
-      name = improvement_rule_name(choice->value.building);
-      break;
-    case CT_NONE:
-    case CT_LAST:
-      break;
-    };
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             name,
+             ai_choice_rule_name(choice),
              choice->want);
   }
 }

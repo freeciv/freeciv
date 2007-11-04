@@ -1383,24 +1383,10 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   }
 
   if (pcity->ai.choice.want != 0) {
-    const char *name = "(unknown)";
     ASSERT_CHOICE(pcity->ai.choice);
 
-    switch (pcity->ai.choice.type) {
-    case CT_CIVILIAN:
-    case CT_ATTACKER:
-    case CT_DEFENDER:
-      name = utype_rule_name(pcity->ai.choice.value.utype);
-      break;
-    case CT_BUILDING:
-      name = improvement_rule_name(pcity->ai.choice.value.building);
-      break;
-    case CT_NONE:
-    case CT_LAST:
-      break;
-    };
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
-	     name,
+	     ai_choice_rule_name(&pcity->ai.choice),
 	     pcity->ai.choice.want);
     
     /* parallel to citytools change_build_target() */
@@ -1541,7 +1527,6 @@ static void ai_spend_gold(struct player *pplayer)
     int buycost;
     int limit = cached_limit; /* cached_limit is our gold reserve */
     struct city *pcity = NULL;
-    const char *name = "(unknown)";
 
     /* Find highest wanted item on the buy list */
     init_choice(&bestchoice);
@@ -1627,20 +1612,6 @@ static void ai_spend_gold(struct player *pplayer)
        continue;
     }
 
-    switch (bestchoice.type) {
-    case CT_CIVILIAN:
-    case CT_ATTACKER:
-    case CT_DEFENDER:
-      name = utype_rule_name(bestchoice.value.utype);
-      break;
-    case CT_BUILDING:
-      name = improvement_rule_name(bestchoice.value.building);
-      break;
-    case CT_NONE:
-    case CT_LAST:
-      break;
-    };
-
     /* FIXME: Here Syela wanted some code to check if
      * pcity was doomed, and we should therefore attempt
      * to sell everything in it of non-military value */
@@ -1651,7 +1622,7 @@ static void ai_spend_gold(struct player *pplayer)
             || (bestchoice.want > 200 && pcity->ai.urgency > 1))) {
       /* Buy stuff */
       CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
-               name,
+               ai_choice_rule_name(&bestchoice),
                buycost,
                bestchoice.want);
       really_handle_city_buy(pplayer, pcity);
@@ -1660,8 +1631,9 @@ static void ai_spend_gold(struct player *pplayer)
                && assess_defense(pcity) == 0) {
       /* We have no gold but MUST have a defender */
       CITY_LOG(LOG_BUY, pcity, "must have %s but can't afford it (%d < %d)!",
-	       name,
-	       pplayer->economic.gold, buycost);
+               ai_choice_rule_name(&bestchoice),
+               pplayer->economic.gold,
+               buycost);
       try_to_sell_stuff(pplayer, pcity);
       if (pplayer->economic.gold - pplayer->ai.est_upkeep >= buycost) {
         CITY_LOG(LOG_BUY, pcity, "now we can afford it (sold something)");

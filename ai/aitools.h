@@ -51,7 +51,8 @@ struct ai_risk_cost
   double enemy_zoc_cost;
 };
 
-const char *get_ai_role_str(enum ai_unit_task task);
+const char *ai_unit_task_rule_name(const enum ai_unit_task task);
+const char *ai_choice_rule_name(const struct ai_choice *choice);
 
 int military_amortize(struct player *pplayer, struct city *pcity, 
                       int value, int delay, int build_cost);
