@@ -1093,10 +1093,10 @@ static void map_save(struct section_file *file)
         char token[TOKEN_SIZE];
         struct tile *ptile = native_pos_to_tile(x, y);
 
-        if (ptile->owner == NULL) {
+        if (tile_owner(ptile) == NULL) {
           strcpy(token, "-");
         } else {
-          my_snprintf(token, sizeof(token), "%d", player_number(ptile->owner));
+          my_snprintf(token, sizeof(token), "%d", player_number(tile_owner(ptile)));
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {
@@ -1742,7 +1742,7 @@ static void load_player_units(struct player *plr, int plrno,
     }
 
     /* allocate the unit's contribution to fog of war */
-    punit->server.vision = vision_new(punit->owner, punit->tile);
+    punit->server.vision = vision_new(unit_owner(punit), punit->tile);
     unit_refresh_vision(punit);
     /* NOTE: There used to be some map_set_known calls here.  These were
      * unneeded since unfogging the tile when the unit sees it will
@@ -2196,7 +2196,7 @@ static void player_load(struct player *plr, int plrno,
     pcity = create_city_virtual(plr, ptile,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
     ptile->owner_source = pcity->tile;
-    tile_set_owner(ptile, pcity->owner);
+    tile_set_owner(ptile, city_owner(pcity));
 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
@@ -2404,7 +2404,7 @@ static void player_load(struct player *plr, int plrno,
     }
     
     /* adding the cities contribution to fog-of-war */
-    pcity->server.vision = vision_new(pcity->owner, pcity->tile);
+    pcity->server.vision = vision_new(city_owner(pcity), pcity->tile);
     vision_reveal_tiles(pcity->server.vision, game.info.city_reveal_tiles);
     city_refresh_vision(pcity);
 
@@ -2707,20 +2707,27 @@ static void player_map_load(struct player *plr, int plrno,
 
     {
       int j;
-      struct dumb_city *pdcity;
       i = secfile_lookup_int(file, "player%d.total_ncities", plrno);
       for (j = 0; j < i; j++) {
 	int nat_x, nat_y;
-	struct tile *ptile;
 	int k, id;
 	const char *p;
+	struct tile *ptile;
+	struct vision_base *pdcity = fc_calloc(1, sizeof(*pdcity));
+
+	pdcity->identity = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
+	if (VISION_BASE_RUIN >= pdcity->identity) {
+	  freelog(LOG_ERROR, "[player%d] dc%d has invalid id (%d); skipping.",
+		  plrno, j, pdcity->identity);
+	  free(pdcity);
+	  continue;
+	}
 
 	nat_x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
 	nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
 	ptile = native_pos_to_tile(nat_x, nat_y);
+	pdcity->location = ptile;
 
-	pdcity = fc_malloc(sizeof(*pdcity));
-	pdcity->id = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
 	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
 	pdcity->occupied = secfile_lookup_bool_default(file, FALSE,
@@ -2731,8 +2738,15 @@ static void player_map_load(struct player *plr, int plrno,
 					"player%d.dc%d.happy", plrno, j);
 	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.unhappy", plrno, j);
+
 	id = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
 	pdcity->owner = player_by_number(id);
+	if (NULL == pdcity->owner) {
+	  freelog(LOG_ERROR, "[player%d] dc%d has invalid owner (%d); skipping.",
+		  plrno, j, id);
+	  free(pdcity);
+	  continue;
+	}
 
 	/* Initialise list of improvements */
 	BV_CLR_ALL(pdcity->improvements);
@@ -2753,8 +2767,8 @@ static void player_map_load(struct player *plr, int plrno,
 	  }
 	}
 
-	map_get_player_tile(ptile, plr)->city = pdcity;
-	alloc_id(pdcity->id);
+	map_get_player_tile(ptile, plr)->vision_source = pdcity;
+	alloc_id(pdcity->identity);
       }
     }
 
@@ -3310,16 +3324,17 @@ static void player_save(struct player *plr, int plrno,
 			 bin2ascii_hex(map_get_player_tile
 				       (ptile, plr)->last_updated, 3));
 
-    if (TRUE) {
-      struct dumb_city *pdcity;
+    {
+      struct vision_base *pdcity;
       char impr_buf[MAX_NUM_ITEMS + 1];
 
       i = 0;
       
       whole_map_iterate(ptile) {
-	if ((pdcity = map_get_player_tile(ptile, plr)->city)) {
-	  secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno,
-			     i);
+	if (NULL != (pdcity = map_get_player_base(ptile, plr))
+	 && VISION_BASE_RUIN < pdcity->identity) {
+	  secfile_insert_int(file, pdcity->identity, "player%d.dc%d.id",
+			     plrno, i);
 	  secfile_insert_int(file, ptile->nat_x,
 			     "player%d.dc%d.x", plrno, i);
 	  secfile_insert_int(file, ptile->nat_y,
@@ -3328,8 +3343,6 @@ static void player_save(struct player *plr, int plrno,
 			     plrno, i);
 	  secfile_insert_int(file, pdcity->size, "player%d.dc%d.size",
 			     plrno, i);
-	  secfile_insert_bool(file, FALSE,
-			      "player%d.dc%d.has_walls", plrno, i);
 	  secfile_insert_bool(file, pdcity->occupied,
 			      "player%d.dc%d.occupied", plrno, i);
           secfile_insert_bool(file, pdcity->walls,
@@ -4257,13 +4270,12 @@ void game_save(struct section_file *file, const char *save_reason)
   }
   {
     const char **modname;
-    enum tile_special_type j;
 
     /* Save specials order */
     modname = fc_calloc(S_LAST, sizeof(*modname));
-    for (j = 0; j < S_LAST; j++) {
+    tile_special_type_iterate(j) {
       modname[j] = special_rule_name(j);
-    }
+    } tile_special_type_iterate_end;
     secfile_insert_str_vec(file, modname, S_LAST,
 			   "savefile.specials");
     free(modname);

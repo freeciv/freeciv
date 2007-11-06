@@ -150,7 +150,7 @@ bool maybe_make_veteran(struct unit *punit)
       || unit_has_type_flag(punit, F_NO_VETERAN)) {
     return FALSE;
   } else {
-    int mod = 100 + get_unittype_bonus(punit->owner, punit->tile,
+    int mod = 100 + get_unittype_bonus(unit_owner(punit), punit->tile,
 				       unit_type(punit), EFT_VETERAN_COMBAT);
 
     /* The modification is tacked on as a multiplier to the base chance.
@@ -709,7 +709,7 @@ static void update_unit_activity(struct unit *punit)
       } unit_list_iterate_end;
       update_tile_knowledge(ptile);
       
-      ai_incident_pillage(unit_owner(punit), ptile->owner);
+      ai_incident_pillage(unit_owner(punit), tile_owner(ptile));
       
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
@@ -951,13 +951,13 @@ static bool find_a_good_partisan_spot(struct city *pcity,
     if (is_ocean(ptile->terrain)) {
       continue;
     }
-    if (ptile->city)
+    if (tile_get_city(ptile))
       continue;
     if (unit_list_size(ptile->units) > 0)
       continue;
 
     /* City has not changed hands yet; see place_partisans(). */
-    value = get_virtual_defense_power(NULL, u_type, pcity->owner,
+    value = get_virtual_defense_power(NULL, u_type, city_owner(pcity),
 				      ptile, FALSE, 0);
     value *= 10;
 
@@ -1009,7 +1009,7 @@ void make_partisans(struct city *pcity)
   int partisans;
 
   if (num_role_units(L_PARTISAN) <= 0
-      || pcity->original != pcity->owner
+      || pcity->original != city_owner(pcity)
       || get_city_bonus(pcity, EFT_INSPIRE_PARTISANS) <= 0) {
     return;
   }
@@ -1032,7 +1032,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
 {
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_get_city(ptile);
 
   if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
       && !is_non_allied_unit_tile(ptile, pplayer)) {
@@ -1078,7 +1078,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 {
   struct tile *src_tile = punit->tile, *dst_tile = pcity->tile;
 
-  if (pcity->owner == punit->owner){
+  if (city_owner(pcity) == unit_owner(punit)){
     freelog(LOG_VERBOSE, "Teleported %s's %s from (%d, %d) to %s",
 	    unit_owner(punit)->name,
 	    unit_rule_name(punit),
@@ -1134,8 +1134,9 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
 {
   unit_list_iterate_safe(pplayer->units, punit) {
     struct tile *ptile = punit->tile;
+    struct city *pcity = tile_get_city(ptile);
 
-    if (ptile->city && !pplayers_allied(city_owner(ptile->city), pplayer)) {
+    if (NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer)) {
       bounce_unit(punit, verbose);
     }
   } unit_list_iterate_safe_end;    
@@ -1612,59 +1613,59 @@ void wipe_unit(struct unit *punit)
 **************************************************************************/
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 {
-  struct player *pplayer   = unit_owner(punit);
-  struct player *destroyer = unit_owner(pkiller);
-  const char *loc_str = get_location_str_in(pplayer, punit->tile);
+  struct player *pvictim = unit_owner(punit);
+  struct player *pvictor = unit_owner(pkiller);
+  const char *loc_str = get_location_str_in(pvictim, punit->tile);
   int ransom, unitcount = 0;
   
   /* barbarian leader ransom hack */
-  if( is_barbarian(pplayer) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
+  if( is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
       && (unit_list_size(punit->tile->units) == 1)
       && uclass_has_flag(unit_class(pkiller), UCF_COLLECT_RANSOM)) {
     /* Occupying units can collect ransom if leader is alone in the tile */
-    ransom = (pplayer->economic.gold >= game.info.ransom_gold) 
-             ? game.info.ransom_gold : pplayer->economic.gold;
-    notify_player(destroyer, pkiller->tile, E_UNIT_WIN_ATT,
+    ransom = (pvictim->economic.gold >= game.info.ransom_gold) 
+             ? game.info.ransom_gold : pvictim->economic.gold;
+    notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
 		     _("Barbarian leader captured, %d gold ransom paid."),
                      ransom);
-    destroyer->economic.gold += ransom;
-    pplayer->economic.gold -= ransom;
-    send_player_info(destroyer, NULL);   /* let me see my new gold :-) */
+    pvictor->economic.gold += ransom;
+    pvictim->economic.gold -= ransom;
+    send_player_info(pvictor, NULL);   /* let me see my new gold :-) */
     unitcount = 1;
   }
 
   if (unitcount == 0) {
     unit_list_iterate(punit->tile->units, vunit)
-      if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit)))
+      if (pplayers_at_war(pvictor, unit_owner(vunit)))
 	unitcount++;
     unit_list_iterate_end;
   }
 
   if (!is_stack_vulnerable(punit->tile) || unitcount == 1) {
     if (vet) {
-      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
 		    _("Your attacking %s succeeded"
 		      " against %s's %s%s and became more experienced!"),
 		    unit_name_translation(pkiller),
-		    unit_owner(punit)->name,
+		    pvictim->name,
 		    unit_name_translation(punit),
-		    get_location_str_at(unit_owner(pkiller),
+		    get_location_str_at(pvictor,
 					punit->tile));
     } else {
-      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
 		    _("Your attacking %s succeeded against %s's %s%s!"),
 		    unit_name_translation(pkiller),
-		    unit_owner(punit)->name,
+		    pvictim->name,
 		    unit_name_translation(punit),
-		    get_location_str_at(unit_owner(pkiller),
+		    get_location_str_at(pvictor,
 					punit->tile));
     }
-    notify_player(pplayer, punit->tile, E_UNIT_LOST,
-		     _("%s lost to an attack by %s's %s%s."),
-		     unit_name_translation(punit),
-		     destroyer->name,
-		     unit_name_translation(pkiller),
-		     loc_str);
+    notify_player(pvictim, punit->tile, E_UNIT_LOST,
+		  _("%s lost to an attack by %s's %s%s."),
+		  unit_name_translation(punit),
+		  pvictor->name,
+		  unit_name_translation(pkiller),
+		  loc_str);
 
     wipe_unit(punit);
   } else { /* unitcount > 1 */
@@ -1682,40 +1683,41 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
     /* count killed units */
     unit_list_iterate(punit->tile->units, vunit) {
-      if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit))) {
-	num_killed[player_index(vunit->owner)]++;
+      struct player *vplayer = unit_owner(vunit);
+      if (pplayers_at_war(pvictor, vplayer)) {
+	num_killed[player_index(vplayer)]++;
 	if (vunit != punit) {
-	  other_killed[player_index(vunit->owner)] = vunit;
-	  other_killed[player_index(destroyer)] = vunit;
+	  other_killed[player_index(vplayer)] = vunit;
+	  other_killed[player_index(pvictor)] = vunit;
 	}
       }
     } unit_list_iterate_end;
 
     /* Inform the destroyer: lots of different cases here! */
     if (vet) {
-      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
 		    PL_("Your attacking %s succeeded against %s's %s "
 			"(and %d other unit)%s and became more experienced!",
 			"Your attacking %s succeeded against %s's %s "
 			"(and %d other units)%s and became more experienced!",
 			unitcount - 1),
 		    unit_name_translation(pkiller),
-		    unit_owner(punit)->name,
+		    pvictim->name,
 		    unit_name_translation(punit),
 		    unitcount - 1,
-		    get_location_str_at(unit_owner(pkiller),
+		    get_location_str_at(pvictor,
 					punit->tile));
     } else {
-      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+      notify_player(pvictor, pkiller->tile, E_UNIT_WIN_ATT,
 		    PL_("Your attacking %s succeeded against %s's %s "
 			"(and %d other unit)%s!",
 			"Your attacking %s succeeded against %s's %s "
 			"(and %d other units)%s!", unitcount - 1),
 		    unit_name_translation(pkiller),
-		    unit_owner(punit)->name,
+		    pvictim->name,
 		    unit_name_translation(punit),
 		    unitcount - 1,
-		    get_location_str_at(unit_owner(pkiller),
+		    get_location_str_at(pvictor,
 					punit->tile));
     }
 
@@ -1727,14 +1729,14 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      * they all are. */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i] == 1) {
-	if (i == player_index(punit->owner)) {
+	if (i == player_index(pvictim)) {
 	  assert(other_killed[i] == NULL);
 	  notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
 			/* TRANS: "Cannon lost to an attack from John's
 			 * Destroyer." */
 			_("%s lost to an attack from %s's %s."),
 			unit_name_translation(punit),
-			destroyer->name,
+			pvictor->name,
 			unit_name_translation(pkiller));
 	} else {
 	  assert(other_killed[i] != punit);
@@ -1743,13 +1745,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			 * attacked Mark's Musketeers." */
 			_("%s lost when %s's %s attacked %s's %s."),
 			unit_name_translation(other_killed[i]),
-			destroyer->name,
+			pvictor->name,
 			unit_name_translation(pkiller),
-			punit->owner->name,
+			pvictim->name,
 			unit_name_translation(punit));
 	}
       } else if (num_killed[i] > 1) {
-	if (i == player_index(punit->owner)) {
+	if (i == player_index(pvictim)) {
 	  int others = num_killed[i] - 1;
 
 	  if (others == 1) {
@@ -1759,7 +1761,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			  _("%s (and %s) lost to an attack from %s's %s."),
 			  unit_name_translation(punit),
 			  unit_name_translation(other_killed[i]),
-			  destroyer->name,
+			  pvictor->name,
 			  unit_name_translation(pkiller));
 	  } else {
 	    notify_player(player_by_number(i), punit->tile, E_UNIT_LOST,
@@ -1772,7 +1774,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			      "from %s's %s.", others),
 			  unit_name_translation(punit),
 			  others,
-			  destroyer->name,
+			  pvictor->name,
 			  unit_name_translation(pkiller));
 	  }
 	} else {
@@ -1784,9 +1786,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			    "%d units lost when %s's %s attacked %s's %s.",
 			    num_killed[i]),
 			num_killed[i],
-			destroyer->name,
+			pvictor->name,
 			unit_name_translation(pkiller),
-			punit->owner->name,
+			pvictim->name,
 			unit_name_translation(punit));
 	}
       }
@@ -1794,7 +1796,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
     /* remove the units */
     unit_list_iterate_safe(punit->tile->units, punit2) {
-      if (pplayers_at_war(unit_owner(pkiller), unit_owner(punit2))) {
+      if (pplayers_at_war(pvictor, unit_owner(punit2))) {
 	wipe_unit(punit2);
       }
     } unit_list_iterate_safe_end;
@@ -1808,7 +1810,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   packet->id = punit->id;
-  packet->owner = player_number(punit->owner);
+  packet->owner = player_number(unit_owner(punit));
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->homecity = punit->homecity;
@@ -1887,7 +1889,7 @@ void package_short_unit(struct unit *punit,
   packet->info_city_id = info_city_id;
 
   packet->id = punit->id;
-  packet->owner = player_number(punit->owner);
+  packet->owner = player_number(unit_owner(punit));
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->veteran = punit->veteran;
@@ -1961,7 +1963,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
     struct player *pplayer = pconn->player;
 
     /* Be careful to consider all cases where pplayer is NULL... */
-    if ((!pplayer && pconn->observer) || pplayer == punit->owner) {
+    if ((!pplayer && pconn->observer) || pplayer == unit_owner(punit)) {
       send_packet_unit_info(pconn, &info);
     } else if (pplayer) {
       bool see_in_old;
@@ -2092,10 +2094,10 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 **************************************************************************/
 void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 {
-  if (ptile->owner) {
-    ai_incident_nuclear(pplayer, ptile->owner);
-  } else if (ptile->city) {
-    ai_incident_nuclear(pplayer, city_owner(ptile->city));
+  if (tile_owner(ptile)) {
+    ai_incident_nuclear(pplayer, tile_owner(ptile));
+  } else if (tile_get_city(ptile)) {
+    ai_incident_nuclear(pplayer, city_owner(tile_get_city(ptile)));
   } else {
     ai_incident_nuclear(pplayer, NULL);
   }
@@ -2182,8 +2184,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)
-      && ((ptile->city
-	  && pplayers_non_attack(pplayer, city_owner(ptile->city)))
+      && ((tile_get_city(ptile)
+	  && pplayers_non_attack(pplayer, city_owner(tile_get_city(ptile))))
       || is_non_attack_unit_tile(ptile, pplayer))) {
     notify_player(pplayer, ptile, E_BAD_COMMAND,
                      _("Cannot attack unless you declare war first."));
@@ -2214,7 +2216,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return TRUE;
   }
 
-  if ((ptile->city && pplayers_non_attack(pplayer, city_owner(ptile->city)))
+  if ((tile_get_city(ptile) && pplayers_non_attack(pplayer, city_owner(tile_get_city(ptile))))
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
@@ -2413,7 +2415,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     double threshold = 0.25;
     struct tile *ptile = penemy->tile;
 
-    if (ptile->city && unit_list_size(ptile->units) == 1) {
+    if (tile_get_city(ptile) && unit_list_size(ptile->units) == 1) {
       /* Don't leave city defenseless */
       threshold = 0.90;
     }
@@ -2511,7 +2513,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 	  && ppatrol->orders.vigilant) {
 	if (maybe_cancel_patrol_due_to_enemy(ppatrol)) {
 	  cancel_orders(ppatrol, "  stopping because of nearby enemy");
-	  notify_player(ppatrol->owner, ppatrol->tile, E_UNIT_ORDERS,
+	  notify_player(unit_owner(ppatrol), ppatrol->tile, E_UNIT_ORDERS,
 			_("Orders for %s aborted after enemy movement was "
 			  "spotted."),
 			unit_name_translation(ppatrol));
@@ -2556,7 +2558,7 @@ static void handle_unit_move_consequences(struct unit *punit,
     tocity = tile_get_city(dst_tile);
 
     if (tocity) { /* entering a city */
-      if (tocity->owner == punit->owner) {
+      if (city_owner(tocity) == unit_owner(punit)) {
 	if (tocity != homecity) {
 	  city_refresh(tocity);
 	  send_city_info(pplayer, tocity);
@@ -2571,7 +2573,7 @@ static void handle_unit_move_consequences(struct unit *punit,
       if (homecity) {
 	refresh_homecity = TRUE;
       }
-      if (fromcity != homecity && fromcity->owner == punit->owner) {
+      if (fromcity != homecity && city_owner(fromcity) == unit_owner(punit)) {
 	city_refresh(fromcity);
 	send_city_info(pplayer, fromcity);
       }
@@ -2579,7 +2581,7 @@ static void handle_unit_move_consequences(struct unit *punit,
 
     /* entering/leaving a fortress or friendly territory */
     if (homecity) {
-      if ((game.info.happyborders > 0 && src_tile->owner != dst_tile->owner)
+      if ((game.info.happyborders > 0 && tile_owner(src_tile) != tile_owner(dst_tile))
           ||
 	  (tile_has_base_flag_for_unit(dst_tile,
                                        unit_type(punit),
@@ -2677,7 +2679,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
       struct vision *old_vision = pcargo->server.vision;
-      struct vision *new_vision = vision_new(pcargo->owner, pdesttile);
+      struct vision *new_vision = vision_new(unit_owner(pcargo), pdesttile);
 
       pcargo->server.vision = new_vision;
       vision_layer_iterate(v) {
@@ -2712,7 +2714,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
      move */
 
   /* Enhance vision if unit steps into a fortress */
-  new_vision = vision_new(punit->owner, pdesttile);
+  new_vision = vision_new(unit_owner(punit), pdesttile);
   punit->server.vision = new_vision;
   vision_layer_iterate(v) {
     vision_change_sight(new_vision, v,
@@ -2724,7 +2726,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   /* Claim ownership of fortress? */
   if (tile_has_base_flag_for_unit(pdesttile, unit_type(punit),
                                   BF_CLAIM_TERRITORY)
-      && (!pdesttile->owner || pplayers_at_war(pdesttile->owner, pplayer))) {
+      && (!tile_owner(pdesttile) || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
     map_claim_ownership(pdesttile, pplayer, pdesttile);
   }
 
@@ -2879,8 +2881,8 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 static bool maybe_cancel_goto_due_to_enemy(struct unit *punit, 
                                            struct tile *ptile)
 {
-  return (is_non_allied_unit_tile(ptile, punit->owner) 
-	  || is_non_allied_city_tile(ptile, punit->owner));
+  return (is_non_allied_unit_tile(ptile, unit_owner(punit)) 
+	  || is_non_allied_city_tile(ptile, unit_owner(punit)));
 }
 
 /**************************************************************************
@@ -2896,12 +2898,11 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
 
   circle_iterate(punit->tile, radius_sq, ptile) {
-    struct unit *penemy =
-	is_non_allied_unit_tile(ptile, pplayer);
-    struct dumb_city *pdcity = map_get_player_tile(ptile, pplayer)->city;
+    struct unit *penemy = is_non_allied_unit_tile(ptile, pplayer);
+    struct vision_base *pdcity = map_get_player_base(ptile, pplayer);
 
     if ((penemy && can_player_see_unit(pplayer, penemy))
-	|| (pdcity && !pplayers_allied(pplayer, pdcity->owner)
+	|| (pdcity && !pplayers_allied(pplayer, vision_owner(pdcity))
 	    && pdcity->occupied)) {
       cancel = TRUE;
       break;
@@ -3196,7 +3197,7 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
 		       enum vision_layer vlayer)
 {
   const int base = (unit_type(punit)->vision_radius_sq
-		    + get_unittype_bonus(punit->owner, ptile, unit_type(punit),
+		    + get_unittype_bonus(unit_owner(punit), ptile, unit_type(punit),
 					 EFT_UNIT_VISION_RADIUS_SQ));
   switch (vlayer) {
   case V_MAIN:

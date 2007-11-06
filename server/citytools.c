@@ -483,7 +483,7 @@ int do_make_unit_veteran(struct city *pcity,
     return 0;
   }
 
-  if (get_unittype_bonus(pcity->owner, pcity->tile, punittype,
+  if (get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
 			 EFT_VETERAN_BUILD) > 0) {
     return 1;
   }
@@ -1380,22 +1380,17 @@ static bool player_has_traderoute_with_city(struct player *pplayer,
 }
 
 /**************************************************************************
-This fills out a package from a players dumb_city.
+  This fills out a package from a player's vision_base.
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 			      struct packet_city_short_info *packet)
 {
-  struct player_tile *pdtile = map_get_player_tile(ptile, pplayer);
-  struct dumb_city *pdcity = pdtile->city;
+  struct vision_base *pdcity = map_get_player_base(ptile, pplayer);
   struct city *pcity = tile_get_city(ptile);
 
-  packet->id = pdcity->id;
-  if (ptile->owner) {
-    /* Use tile owner information not city owner information. */
-    packet->owner = player_number(ptile->owner);
-  } else {
-    packet->owner = player_number(pdcity->owner);
-  }
+  packet->id = pdcity->identity;
+  packet->owner = player_number(vision_owner(pdcity));
+
   packet->x = ptile->x;
   packet->y = ptile->y;
   sz_strlcpy(packet->name, pdcity->name);
@@ -1452,14 +1447,14 @@ void refresh_dumb_city(struct city *pcity)
 **************************************************************************/
 static void broadcast_city_info(struct city *pcity)
 {
-  struct player *powner = city_owner(pcity);
   struct packet_city_info packet;
   struct packet_city_short_info sc_pack;
+  struct player *powner = city_owner(pcity);
 
   /* Send to everyone who can see the city. */
   players_iterate(pplayer) {
     if (can_player_see_city_internals(pplayer, pcity)) {
-      if (!nocity_send || pplayer != city_owner(pcity)) {
+      if (!nocity_send || pplayer != powner) {
 	update_dumb_city(powner, pcity);
 	package_city(pcity, &packet, FALSE);
 	lsend_packet_city_info(powner->connections, &packet);
@@ -1499,7 +1494,7 @@ void send_all_known_cities(struct conn_list *dest)
       continue;
     }
     whole_map_iterate(ptile) {
-      if (!pplayer || map_get_player_tile(ptile, pplayer)->city) {
+      if (!pplayer || NULL != map_get_player_city(ptile, pplayer)) {
 	send_city_info_at_tile(pplayer, pconn->self, NULL, ptile);
       }
     } whole_map_iterate_end;
@@ -1569,16 +1564,16 @@ automatically when a tile becomes visible.
 void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 			    struct city *pcity, struct tile *ptile)
 {
-  struct player *powner = NULL;
   struct packet_city_info packet;
   struct packet_city_short_info sc_pack;
-  struct dumb_city *pdcity;
+  struct player *powner = NULL;
 
-  if (!pcity)
+  if (!pcity) {
     pcity = tile_get_city(ptile);
-  if (pcity)
+  }
+  if (pcity) {
     powner = city_owner(pcity);
-
+  }
   if (powner && powner == pviewer) {
     /* send info to owner */
     /* This case implies powner non-NULL which means pcity non-NULL */
@@ -1590,8 +1585,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       package_city(pcity, &packet, FALSE);
       lsend_packet_city_info(dest, &packet);
     }
-  }
-  else {
+  } else {
     /* send info to non-owner */
     if (!pviewer) {	/* observer */
       if (pcity) {
@@ -1610,8 +1604,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	  lsend_packet_city_short_info(dest, &sc_pack);
 	}
       } else {			/* not seen; send old info */
-	pdcity = map_get_player_tile(ptile, pviewer)->city;
-	if (pdcity) {
+	if (NULL != map_get_player_base(ptile, pviewer)) {
 	  package_dumb_city(pviewer, ptile, &sc_pack);
 	  lsend_packet_city_short_info(dest, &sc_pack);
 	}
@@ -1629,7 +1622,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   int x, y, i;
 
   packet->id=pcity->id;
-  packet->owner = player_number(pcity->owner);
+  packet->owner = player_number(city_owner(pcity));
   packet->x = pcity->tile->x;
   packet->y = pcity->tile->y;
   sz_strlcpy(packet->name, pcity->name);
@@ -1715,16 +1708,15 @@ broadcast regardless.
 **************************************************************************/
 bool update_dumb_city(struct player *pplayer, struct city *pcity)
 {
-  struct player_tile *plrtile = map_get_player_tile(pcity->tile,
-						    pplayer);
-  struct dumb_city *pdcity = plrtile->city;
+  bv_imprs improvements;
+  struct player_tile *plrtile = map_get_player_tile(pcity->tile, pplayer);
+  struct vision_base *pdcity = plrtile->vision_source;
   /* pcity->occupied isn't used at the server, so we go straight to the
    * unit list to check the occupied status. */
-  bool occupied =
-    (unit_list_size(pcity->tile->units) > 0);
+  bool occupied = (unit_list_size(pcity->tile->units) > 0);
   bool walls = city_got_citywalls(pcity);
-  bool happy = city_happy(pcity), unhappy = city_unhappy(pcity);
-  bv_imprs improvements;
+  bool happy = city_happy(pcity);
+  bool unhappy = city_unhappy(pcity);
 
   BV_CLR_ALL(improvements);
   improvement_iterate(pimprove) {
@@ -1735,27 +1727,27 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   } improvement_iterate_end;
 
   if (pdcity
-      && pdcity->id == pcity->id
+      && pdcity->identity == pcity->id
       && strcmp(pdcity->name, pcity->name) == 0
       && pdcity->size == pcity->size
       && pdcity->occupied == occupied
       && pdcity->walls == walls
       && pdcity->happy == happy
       && pdcity->unhappy == unhappy
-      && pdcity->owner == pcity->owner
+      && pdcity->owner == city_owner(pcity)
       && BV_ARE_EQUAL(pdcity->improvements, improvements)) {
     return FALSE;
   }
 
-  if (!plrtile->city) {
-    pdcity = plrtile->city = fc_malloc(sizeof(*pdcity));
-    plrtile->city->id = pcity->id;
+  if (NULL == pdcity) {
+    pdcity = plrtile->vision_source = fc_calloc(1, sizeof(*pdcity));
+    pdcity->identity = pcity->id;
   }
-  if (pdcity->id != pcity->id) {
+  if (pdcity->identity != pcity->id) {
     freelog(LOG_ERROR, "Trying to update old city (wrong ID)"
 	    " at %i,%i for player %s",
 	    pcity->tile->x, pcity->tile->y, pplayer->name);
-    pdcity->id = pcity->id;   /* ?? */
+    pdcity->identity = pcity->id;   /* ?? */
   }
   sz_strlcpy(pdcity->name, pcity->name);
   pdcity->size = pcity->size;
@@ -1763,7 +1755,8 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   pdcity->walls = walls;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;
-  pdcity->owner = pcity->owner;
+  pdcity->owner = city_owner(pcity);
+  pdcity->location = pcity->tile;
   pdcity->improvements = improvements;
 
   return TRUE;
@@ -1774,15 +1767,15 @@ Removes outdated (nonexistant) cities from a player
 **************************************************************************/
 void reality_check_city(struct player *pplayer,struct tile *ptile)
 {
-  struct city *pcity;
-  struct dumb_city *pdcity = map_get_player_tile(ptile, pplayer)->city;
+  struct city *pcity = tile_get_city(ptile);
+  struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
+  struct vision_base *pdcity = playtile->vision_source;
 
   if (pdcity) {
-    pcity = ptile->city;
-    if (!pcity || (pcity && pcity->id != pdcity->id)) {
-      dlsend_packet_city_remove(pplayer->connections, pdcity->id);
+    if (!pcity || pcity->id != pdcity->identity) {
+      dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
+      playtile->vision_source = NULL;
       free(pdcity);
-      map_get_player_tile(ptile, pplayer)->city = NULL;
     }
   }
 }
@@ -1990,7 +1983,7 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
     return FALSE;
   }
 
-  if (ptile->owner && ptile->owner != pcity->owner) {
+  if (tile_owner(ptile) && tile_owner(ptile) != city_owner(pcity)) {
     return FALSE;
   }
 
