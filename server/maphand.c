@@ -464,7 +464,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 
   info.x = ptile->x;
   info.y = ptile->y;
-  info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
+  info.owner = tile_owner(ptile) ? tile_owner(ptile)->player_no : MAP_TILE_OWNER_NULL;
   if (ptile->spec_sprite) {
     sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
   } else {
@@ -949,8 +949,8 @@ void player_map_free(struct player *pplayer)
   whole_map_iterate(ptile) {
     struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
-    if (plrtile->city) {
-      free(plrtile->city);
+    if (plrtile->vision_source) {
+      free(plrtile->vision_source);
     }
   } whole_map_iterate_end;
 
@@ -959,18 +959,17 @@ void player_map_free(struct player *pplayer)
 }
 
 /***************************************************************
-We need to use use fogofwar_old here, so the player's tiles get
-in the same state as the other players' tiles.
+  We need to use fogofwar_old here, so the player's tiles get
+  in the same state as the other players' tiles.
 ***************************************************************/
 static void player_tile_init(struct tile *ptile, struct player *pplayer)
 {
-  struct player_tile *plrtile =
-    map_get_player_tile(ptile, pplayer);
+  struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
   plrtile->terrain = T_UNKNOWN;
   clear_all_specials(&plrtile->special);
   plrtile->resource = NULL;
-  plrtile->city = NULL;
+  plrtile->vision_source = NULL;
 
   vision_layer_iterate(v) {
     plrtile->seen_count[v] = 0;
@@ -987,6 +986,30 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   vision_layer_iterate(v) {
     plrtile->own_seen[v] = plrtile->seen_count[v];
   } vision_layer_iterate_end;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+struct vision_base *map_get_player_base(const struct tile *ptile,
+					const struct player *pplayer)
+{
+  return map_get_player_tile(ptile, pplayer)->vision_source;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+struct vision_base *map_get_player_city(const struct tile *ptile,
+					const struct player *pplayer)
+{
+  struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
+  struct vision_base *vision_source = playtile->vision_source;
+
+  if (vision_source && ptile == vision_source->location) {
+    return vision_source;
+  }
+  return NULL;
 }
 
 /****************************************************************************
@@ -1093,23 +1116,25 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	
       /* update and send city knowledge */
       /* remove outdated cities */
-      if (dest_tile->city) {
-	if (!from_tile->city) {
+      if (dest_tile->vision_source) {
+	if (!from_tile->vision_source) {
 	  /* As the city was gone on the newer from_tile
 	     it will be removed by this function */
 	  reality_check_city(pdest, ptile);
 	} else /* We have a dest_city. update */
-	  if (from_tile->city->id != dest_tile->city->id)
+	  if (from_tile->vision_source->identity
+	   != dest_tile->vision_source->identity)
 	    /* As the city was gone on the newer from_tile
 	       it will be removed by this function */
 	    reality_check_city(pdest, ptile);
       }
       /* Set and send new city info */
-      if (from_tile->city) {
-	if (!dest_tile->city) {
-	  dest_tile->city = fc_malloc(sizeof(*dest_tile->city));
+      if (from_tile->vision_source) {
+	if (!dest_tile->vision_source) {
+	  dest_tile->vision_source = fc_calloc(1, sizeof(*dest_tile->vision_source));
 	}
-	*dest_tile->city = *from_tile->city;
+	/* struct assignment copy */
+	*dest_tile->vision_source = *from_tile->vision_source;
 	send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
       }
 
@@ -1568,9 +1593,9 @@ void map_calculate_borders(void)
 
   /* First transfer ownership for sources that have changed hands. */
   whole_map_iterate(ptile) {
-    if (ptile->owner 
+    if (tile_owner(ptile) 
         && ptile->owner_source
-        && ptile->owner_source->owner != ptile->owner
+        && ptile->owner_source->owner != tile_owner(ptile)
         && (ptile->owner_source->city
             || tile_has_special(ptile->owner_source, S_FORTRESS))) {
       /* Claim ownership of tiles previously owned by someone else */
@@ -1582,8 +1607,8 @@ void map_calculate_borders(void)
   /* Second transfer ownership to city closer than current source 
    * but with the same owner. */
   whole_map_iterate(ptile) {
-    if (ptile->owner) {
-      city_list_iterate(ptile->owner->cities, pcity) {
+    if (tile_owner(ptile)) {
+      city_list_iterate(tile_owner(ptile)->cities, pcity) {
         int r_curr, r_city = sq_map_distance(ptile, pcity->tile);
         int max_range = tile_border_range(pcity->tile);
 
@@ -1597,7 +1622,7 @@ void map_calculate_borders(void)
         /* Transfer tile to city if closer than current source */
         if (r_curr > r_city && max_range >= r_city) {
           freelog(LOG_DEBUG, "%s's %s(%d,%d) acquired tile (%d,%d) from "
-                  "(%d,%d)", ptile->owner->name, pcity->name, pcity->tile->x, 
+                  "(%d,%d)", tile_owner(ptile)->name, pcity->name, pcity->tile->x, 
                   pcity->tile->y, ptile->x, ptile->y, ptile->owner_source->x, 
                   ptile->owner_source->y);
           ptile->owner_source = pcity->tile;
@@ -1608,8 +1633,8 @@ void map_calculate_borders(void)
 
   /* Third remove undue ownership. */
   whole_map_iterate(ptile) {
-    if (ptile->owner
-        && (ptile->owner != ptile->owner_source->owner
+    if (tile_owner(ptile)
+        && (tile_owner(ptile) != ptile->owner_source->owner
             || (!ptile->owner_source->city
                 && !tile_has_special(ptile->owner_source, S_FORTRESS)))) {
       /* Ownership source gone */
@@ -1621,7 +1646,7 @@ void map_calculate_borders(void)
    * grab one circle each turn as long as we have range left
    * to better visually display expansion. */
   whole_map_iterate(ptile) {
-    if (ptile->owner
+    if (tile_owner(ptile)
         && (ptile->city || tile_has_special(ptile, S_FORTRESS))) {
       /* We have an ownership source */
       int expand_range = 99;
@@ -1635,7 +1660,7 @@ void map_calculate_borders(void)
       circle_dxyr_iterate(ptile, range, atile, dx, dy, dist) {
         if (expand_range > dist) {
           unit_list_iterate(atile->units, punit) {
-            if (!pplayers_allied(unit_owner(punit), ptile->owner)) {
+            if (!pplayers_allied(unit_owner(punit), tile_owner(ptile))) {
               /* We cannot expand borders further when enemy units are
                * standing in the way. */
               expand_range = dist - 1;
@@ -1643,8 +1668,8 @@ void map_calculate_borders(void)
           } unit_list_iterate_end;
         }
         if (found_unclaimed > dist
-            && atile->owner == NULL
-            && map_is_known(atile, ptile->owner)
+            && tile_owner(atile) == NULL
+            && map_is_known(atile, tile_owner(ptile))
             && (!is_ocean(atile->terrain)
                 || is_claimable_ocean(atile, ptile))) {
           found_unclaimed = dist;
@@ -1657,13 +1682,13 @@ void map_calculate_borders(void)
         if (dist > expand_range || dist > found_unclaimed) {
           continue; /* only expand one extra circle radius each turn */
         }
-        if (map_is_known(atile, ptile->owner)
-            && atile->owner == NULL
+        if (map_is_known(atile, tile_owner(ptile))
+            && tile_owner(atile) == NULL
             && ((!is_ocean(atile->terrain) 
                  && atile->continent == ptile->continent)
                 || (is_ocean(atile->terrain)
                     && is_claimable_ocean(atile, ptile)))) {
-          map_claim_ownership(atile, ptile->owner, ptile);
+          map_claim_ownership(atile, tile_owner(ptile), ptile);
           atile->owner_source = ptile;
           if (game.info.happyborders > 0) {
             add_unique_homecities(cities_to_refresh, atile);
