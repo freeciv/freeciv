@@ -25,31 +25,38 @@
 struct section_file;
 struct conn_list;
 
-struct dumb_city{
-  /* Values in this struct are copied using a memcpy, so don't put any
-   * pointers in here. */
-  int id;
+/* This is copied in really_give_tile_info_from_player_to_player(),
+ * so be careful with pointers!
+ */
+#define VISION_BASE_RUIN (0)
+
+struct vision_base {
+  struct tile *location;		/* Cannot be NULL */
+  struct player *owner;			/* May be NULL, always check! */
+
+  int identity;				/* city/unit >= 100 */
   bool occupied;
   bool walls;
   bool happy, unhappy;
-  char name[MAX_LEN_NAME];
   unsigned short size;
-  struct player *owner; /* City owner - cannot be NULL. */
 
   bv_imprs improvements;
+  char name[MAX_LEN_NAME];
 };
 
+
 struct player_tile {
-  struct terrain *terrain; /* May be NULL for unknown tiles. */
+  struct vision_base *vision_source;	/* NULL for no base */
+  struct resource *resource;		/* NULL for no resource */
+  struct terrain *terrain;		/* NULL for unknown tiles */
   bv_special special;
-  struct resource *resource;
-  unsigned short seen_count[V_COUNT];
-  unsigned short own_seen[V_COUNT];
+
   /* If you build a city with an unknown square within city radius
      the square stays unknown. However, we still have to keep count
      of the seen points, so they are kept in here. When the tile
      then becomes known they are moved to seen. */
-  struct dumb_city* city;
+  unsigned short own_seen[V_COUNT];
+  unsigned short seen_count[V_COUNT];
   short last_updated;
 };
 
@@ -85,6 +92,13 @@ void show_map_to_all(void);
 
 void player_map_allocate(struct player *pplayer);
 void player_map_free(struct player *pplayer);
+
+#define tile_owner(v) (v)->owner
+#define vision_owner(v) (v)->owner
+struct vision_base *map_get_player_base(const struct tile *ptile,
+					const struct player *pplayer);
+struct vision_base *map_get_player_city(const struct tile *ptile,
+					const struct player *pplayer);
 struct player_tile *map_get_player_tile(const struct tile *ptile,
 					const struct player *pplayer);
 bool update_player_tile_knowledge(struct player *pplayer,struct tile *ptile);
@@ -140,7 +154,7 @@ int get_ocean_size(Continent_id id);
   visible.  For instance to move a unit:
 
     old_vision = punit->server.vision;
-    punit->server.vision = vision_new(punit->owner, dest_tile);
+    punit->server.vision = vision_new(unit_owner(punit), dest_tile);
     vision_change_sight(punit->server.vision,
                         get_unit_vision_at(punit, dest_tile));
 
