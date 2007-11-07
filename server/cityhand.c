@@ -344,8 +344,8 @@ void handle_city_change(struct player *pplayer, int city_id,
               production_kind,
               production_value);
       prod.kind = VUT_NONE;
+      return;
     }
-    return;
   }
 
   if (!pcity) {
