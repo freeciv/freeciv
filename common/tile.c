@@ -25,7 +25,7 @@
 /****************************************************************************
   Return the player who owns this tile (or NULL if none).
 ****************************************************************************/
-struct player *tile_get_owner(const struct tile *ptile)
+struct player *tile_owner(const struct tile *ptile)
 {
   return ptile->owner;
 }

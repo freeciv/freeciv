@@ -93,8 +93,7 @@ void show_map_to_all(void);
 void player_map_allocate(struct player *pplayer);
 void player_map_free(struct player *pplayer);
 
-#define tile_owner(v) (v)->owner
-#define vision_owner(v) (v)->owner
+#define vision_owner(v) ((v)->owner)
 struct vision_base *map_get_player_base(const struct tile *ptile,
 					const struct player *pplayer);
 struct vision_base *map_get_player_city(const struct tile *ptile,

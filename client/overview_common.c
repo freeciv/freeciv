@@ -112,7 +112,7 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct city *pcity = tile_get_city(ptile);
 
     if (pcity) {
-      if (!game.player_ptr || pcity->owner == game.player_ptr) {
+      if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
 	return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
       } else if (pplayers_allied(city_owner(pcity), game.player_ptr)) {
 	/* Includes teams. */
@@ -126,7 +126,7 @@ static struct color *overview_tile_color(struct tile *ptile)
     struct unit *punit = find_visible_unit(ptile);
 
     if (punit) {
-      if (!game.player_ptr || punit->owner == game.player_ptr) {
+      if (!game.player_ptr || unit_owner(punit) == game.player_ptr) {
 	return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
       } else if (pplayers_allied(unit_owner(punit), game.player_ptr)) {
 	/* Includes teams. */
@@ -137,7 +137,7 @@ static struct color *overview_tile_color(struct tile *ptile)
     }
   }
   if (overview.layers[OLAYER_BORDERS]) {
-    struct player *owner = ptile->owner;
+    struct player *owner = tile_owner(ptile);
 
     if (owner) {
       return get_player_color(tileset, owner);

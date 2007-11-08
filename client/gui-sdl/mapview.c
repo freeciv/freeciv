@@ -550,23 +550,23 @@ void redraw_unit_info_label(struct unit_list *punitlist)
      			"" /* unused, DS_CEASEFIRE*/,
      			Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
      			Q_("?nation:Mysterious")};
-            if (pTile->owner == game.player_ptr) {
+            if (tile_owner(pTile) == game.player_ptr) {
               cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
             } else {
-	      if (pTile->owner) {
-                if (game.player_ptr->diplstates[player_index(pTile->owner)].type==DS_CEASEFIRE){
-		  int turns = game.player_ptr->diplstates[player_index(pTile->owner)].turns_left;
+	      if (tile_owner(pTile)) {
+                if (game.player_ptr->diplstates[player_index(tile_owner(pTile))].type==DS_CEASEFIRE){
+		  int turns = game.player_ptr->diplstates[player_index(tile_owner(pTile))].turns_left;
 		  cat_snprintf(buffer, sizeof(buffer),
 		  	PL_("\n%s territory (%d turn ceasefire)",
 				"\n%s territory (%d turn ceasefire)", turns),
-		 		nation_name_for_player(pTile->owner), turns);
+		 		nation_name_for_player(tile_owner(pTile)), turns);
                 } else {
 	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
 		    diplo_nation_plural_adjectives[
-		  	game.player_ptr->diplstates[player_index(pTile->owner)].type],
-		    		nation_plural_for_player(pTile->owner));
+		  	game.player_ptr->diplstates[player_index(tile_owner(pTile))].type],
+		    		nation_plural_for_player(tile_owner(pTile)));
                 }
-              } else { /* !pTile->owner */
+              } else { /* !tile_owner(pTile) */
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
               }
 	    }

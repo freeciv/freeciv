@@ -228,7 +228,7 @@ bool unleash_barbarians(struct tile *ptile)
 
   if (land_cnt >= 3) {           /* enough land, scatter guys around */
     unit_list_iterate((ptile)->units, punit2) {
-      if (punit2->owner == barbarians) {
+      if (unit_owner(punit2) == barbarians) {
         send_unit_info(NULL, punit2);
 	do {
 	  do {
@@ -246,7 +246,7 @@ bool unleash_barbarians(struct tile *ptile)
       /* FIXME: If anyone knows what this code is supposed to do, rewrite
        * this comment to explain it. */
       unit_list_iterate((ptile)->units, punit2) {
-        if (punit2->owner == barbarians) {
+        if (unit_owner(punit2) == barbarians) {
           send_unit_info(NULL, punit2);
           while(TRUE) {
 	    utile = rand_neighbour(ptile);
@@ -269,7 +269,7 @@ bool unleash_barbarians(struct tile *ptile)
       } unit_list_iterate_end;
     } else {             /* The village is surrounded! Kill the explorer. */
       unit_list_iterate_safe((ptile)->units, punit2) {
-        if (punit2->owner != barbarians) {
+        if (unit_owner(punit2) != barbarians) {
           wipe_unit(punit2);
           alive = FALSE;
         } else {

@@ -1472,7 +1472,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* Buy back is cheap, conquered cities are also cheap */
-  if (pcity->owner != pcity->original) {
+  if (city_owner(pcity) != pcity->original) {
     if (pplayer == pcity->original) {
       cost /= 2;            /* buy back: 50% price reduction */
     } else {

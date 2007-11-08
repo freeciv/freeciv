@@ -868,7 +868,7 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
     return FALSE;
   }
 
-  if (punit && ptile->owner && ptile->owner != punit->owner) {
+  if (punit && tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)) {
     /* Cannot steal borders by settling. This has to be settled by
      * force of arms. */
     return FALSE;
@@ -899,7 +899,7 @@ bool can_cities_trade(const struct city *pc1, const struct city *pc2)
   /* If you change the logic here, make sure to update the help in
    * helptext_unit(). */
   return (pc1 && pc2 && pc1 != pc2
-          && (pc1->owner != pc2->owner
+          && (city_owner(pc1) != city_owner(pc2)
 	      || map_distance(pc1->tile, pc2->tile) > 8));
 }
 
@@ -978,7 +978,7 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
     bonus = real_map_distance(pc1->tile, pc2->tile) + pc1->size + pc2->size;
     bonus /= 8;
 
-    if (pc1->owner == pc2->owner) {
+    if (city_owner(pc1) == city_owner(pc2)) {
       bonus /= 2;
     }
   }
@@ -1072,7 +1072,7 @@ bool city_got_defense_effect(const struct city *pcity,
     return get_city_bonus(pcity, EFT_DEFEND_BONUS) > 0;
   }
 
-  return get_unittype_bonus(pcity->owner, pcity->tile, attacker,
+  return get_unittype_bonus(city_owner(pcity), pcity->tile, attacker,
                             EFT_DEFEND_BONUS) > 0;
 }
 
@@ -2089,7 +2089,7 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 {
   struct city *pcity = game_find_city_by_number(punit->homecity);
   struct unit_type *ut = unit_type(punit);
-  struct player *plr = punit->owner;
+  struct player *plr = unit_owner(punit);
   int happy_cost = utype_happy_cost(ut, plr);
 
   if (!punit || !pcity || !free_unhappy || happy_cost <= 0) {
@@ -2119,7 +2119,7 @@ void city_unit_upkeep(struct unit *punit, int *outputs, int *free_upkeep)
 {
   struct city *pcity = game_find_city_by_number(punit->homecity);
   struct unit_type *ut = unit_type(punit);
-  struct player *plr = punit->owner;
+  struct player *plr = unit_owner(punit);
 
   assert(punit != NULL && pcity != NULL && ut != NULL 
          && free_upkeep != NULL && outputs != NULL);
@@ -2176,7 +2176,7 @@ static inline void city_support(struct city *pcity)
     unit_list_iterate(pcity->tile->units, punit) {
       if ((pcity->martial_law < max || max == 0)
 	  && is_military_unit(punit)
-	  && punit->owner == pcity->owner) {
+	  && unit_owner(punit) == city_owner(pcity)) {
 	pcity->martial_law++;
       }
     } unit_list_iterate_end;

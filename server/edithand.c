@@ -427,14 +427,14 @@ void handle_edit_vision(struct connection *pc, int plr_no, int x, int y,
   if (remove_knowledge) {
     struct city *pcity = tile_get_city(ptile);
 
-    if (pcity && pcity->owner == pplayer) {
+    if (pcity && city_owner(pcity) == pplayer) {
       notify_conn(pc->self, NULL, E_BAD_COMMAND,
                   _("Cannot remove knowledge about own city."));
       return;
     }
 
     unit_list_iterate(ptile->units, punit) {
-      if (punit->owner == pplayer) {
+      if (unit_owner(punit) == pplayer) {
         notify_conn(pc->self, NULL, E_BAD_COMMAND,
                     _("Cannot remove knowledge about own unit."));
         return;

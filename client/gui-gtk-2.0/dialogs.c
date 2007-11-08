@@ -456,7 +456,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
       struct unit *pmyunit = NULL;
 
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_ptr == punit->owner) {
+        if (game.player_ptr == unit_owner(punit)) {
           pmyunit = punit;
 
           /* Activate this unit. */
@@ -481,7 +481,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
   case SELECT_UNIT_SENTRY:
     {
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_ptr == punit->owner) {
+        if (game.player_ptr == unit_owner(punit)) {
           if ((punit->activity == ACTIVITY_IDLE) &&
               !punit->ai.control &&
               can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
@@ -495,7 +495,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
   case SELECT_UNIT_ALL:
     {
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_ptr == punit->owner) {
+        if (game.player_ptr == unit_owner(punit)) {
           if (punit->activity == ACTIVITY_IDLE &&
               !punit->ai.control) {
             /* Give focus to it */

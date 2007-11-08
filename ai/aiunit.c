@@ -480,18 +480,18 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 
   square_iterate(pdef->tile, 1, ptile) {
     unit_list_iterate(ptile->units, aunit) {
-      if (aunit == punit || aunit->owner != punit->owner)
+      if (aunit == punit || unit_owner(aunit) != unit_owner(punit))
 	continue;
       if (!can_unit_attack_all_at_tile(aunit, pdef->tile))
 	continue;
-      d = get_virtual_defense_power(unit_type(aunit), unit_type(pdef), pdef->owner,
-				    pdef->tile,
+      d = get_virtual_defense_power(unit_type(aunit), unit_type(pdef),
+				    unit_owner(pdef), pdef->tile,
 				    FALSE, 0);
       if (d == 0)
 	return TRUE;		/* Thanks, Markus -- Syela */
       cur = unit_att_rating_now(aunit) *
 	  get_virtual_defense_power(unit_type(punit), unit_type(pdef),
-				    pdef->owner, pdef->tile,
+				    unit_owner(pdef), pdef->tile,
 				    FALSE, 0) / d;
       if (cur > val && ai_fuzzy(unit_owner(punit), TRUE))
 	return FALSE;
@@ -710,7 +710,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   CHECK_UNIT(punit);
   CHECK_GUARD(punit);
 
-  if (aunit && aunit->owner == punit->owner) {
+  if (aunit && unit_owner(aunit) == unit_owner(punit)) {
     /* protect a unit */
     /* FIXME: different behaviour for sailing units is silly;
      * should choose behaviour based on relative positions and
@@ -720,7 +720,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     } else {
       ptile = aunit->tile;
     }
-  } else if (acity && acity->owner == punit->owner) {
+  } else if (acity && city_owner(acity) == unit_owner(punit)) {
     /* protect a city */
     ptile = acity->tile;
   } else {
@@ -960,7 +960,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
      * or the unit we should protect is still alive... */
     if ((aunit && (aiguard_has_guard(aunit) || aiguard_wanted(aunit))
          && unit_def_rating_basic(punit) > unit_def_rating_basic(aunit)) 
-        || (acity && acity->owner == punit->owner && acity->ai.urgency != 0 
+        || (acity && city_owner(acity) == unit_owner(punit) && acity->ai.urgency != 0 
             && acity->ai.danger > assess_defense_quadratic(acity))) {
       return; /* Yep! */
     } else {
@@ -1019,7 +1019,7 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  if (!pcity || pcity->owner != pplayer) {
+  if (!pcity || city_owner(pcity) != pplayer) {
     pcity = punit->tile->city;
     /* Do not stay defending an allied city forever */
     aiguard_clear_charge(punit);
@@ -1401,7 +1401,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
         if (def_type) {
           int v = unittype_def_rating_sq(unit_type(punit), def_type,
-                                         acity->owner, acity->tile, FALSE,
+                                         city_owner(acity), acity->tile, FALSE,
                                          do_make_unit_veteran(acity, def_type));
           if (v > vuln) {
             /* They can build a better defender! */ 
@@ -1618,7 +1618,7 @@ struct city *find_nearest_safe_city(struct unit *punit)
           cur = WARMAP_SEACOST(pcity->tile);
         }
 	/* Note the "player" here is the unit owner NOT the city owner. */
-	if (get_unittype_bonus(punit->owner, pcity->tile, unit_type(punit),
+	if (get_unittype_bonus(unit_owner(punit), pcity->tile, unit_type(punit),
 			       EFT_HP_REGEN) > 0) {
 	  cur /= 3;
 	}
@@ -1860,7 +1860,7 @@ static void caravan_optimize_callback(const struct caravan_result *result,
   const struct unit *caravan = data;
 
   freelog(LOG_CARAVAN2, "%s caravan %d(%s): %s %s worth %g",
-	  caravan->owner->name, caravan->id, result->src->name,
+	  unit_owner(caravan)->name, caravan->id, result->src->name,
 	  result->help_wonder ? "wonder in" : "trade to",
 	  result->dest->name, result->value);
 }
@@ -2246,7 +2246,7 @@ static void ai_set_defenders(struct player *pplayer)
       unit_list_iterate(pcity->tile->units, punit) {
        if ((punit->ai.ai_role == AIUNIT_NONE || emergency)
            && punit->ai.ai_role != AIUNIT_DEFEND_HOME
-           && punit->owner == pplayer) {
+           && unit_owner(punit) == pplayer) {
           int want = assess_defense_unit(pcity, punit, FALSE);
 
           if (want > best_want) {
