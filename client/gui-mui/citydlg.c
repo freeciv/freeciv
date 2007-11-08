@@ -371,7 +371,7 @@ void refresh_city_dialog(struct city *pcity)
       struct city_dialog *pdialog = (struct city_dialog *) ITERATOR_PTR(myiter);
 
       refresh_this_city_dialog(pdialog);
-      if (pcity->owner != game.player_idx)
+      if (city_owner(pcity) != game.player_idx)
       {
 	/* Set the buttons we do not want live while a Diplomat investigates */
 	set(pdialog->buy_button, MUIA_Disabled, TRUE);
@@ -387,7 +387,7 @@ void refresh_city_dialog(struct city *pcity)
     }
   }
 
-  if (pcity->owner == game.player_idx)
+  if (city_owner(pcity) == game.player_idx)
   {
     city_report_dialog_update_city(pcity);
     economy_report_dialog_update();
@@ -861,7 +861,7 @@ static void cancel_city_worklist(void *data)
 **************************************************************************/
 static void city_browse(struct city_browse_msg *msg)
 {
-  struct player *pplayer = get_player(msg->pdialog->pcity->owner);
+  struct player *pplayer = get_player(msg->city_owner(pdialog->pcity));
   struct city *pcity_new;
   struct MinList list;
   struct city_node *node;
@@ -1382,7 +1382,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->imprv_disphook.h_Entry = (HOOKFUNC) city_imprv_display;
   pdialog->imprv_disphook.h_Data = pdialog;
 
-  if (pcity->owner == game.player_idx)
+  if (city_owner(pcity) == game.player_idx)
   {
     prev_button = MakeButton("_<");
     next_button = MakeButton("_>");
@@ -1898,7 +1898,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   DoMethod(pdialog->supported_group, MUIM_Group_InitChange);
   DoMethod(pdialog->supported_group, MUIM_AutoGroup_DisposeChilds);
 
-  if(pdialog->pcity->owner != game.player_idx) {
+  if(city_owner(pdialog->pcity) != game.player_idx) {
     plist = &(pdialog->pcity->info_units_supported);
   } else {
     plist = &(pdialog->pcity->units_supported);
@@ -1923,7 +1923,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   DoMethod(pdialog->units_supported_group, MUIM_Group_InitChange);
   DoMethod(pdialog->units_supported_group, MUIM_AutoGroup_DisposeChilds);
 
-  if(pdialog->pcity->owner != game.player_idx) {
+  if(city_owner(pdialog->pcity) != game.player_idx) {
     plist = &(pdialog->pcity->info_units_supported);
   } else {
     plist = &(pdialog->pcity->units_supported);
@@ -1958,7 +1958,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
   DoMethod(pdialog->present_group, MUIM_Group_InitChange);
   DoMethod(pdialog->present_group, MUIM_AutoGroup_DisposeChilds); 
 
-  if(pdialog->pcity->owner != game.player_idx) {
+  if(city_owner(pdialog->pcity) != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
     plist = &(map_get_tile(pdialog->pcity->tile)->units);
@@ -1984,7 +1984,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
   DoMethod(pdialog->units_present_group, MUIM_Group_InitChange);
   DoMethod(pdialog->units_present_group, MUIM_AutoGroup_DisposeChilds); 
 
-  if(pdialog->pcity->owner != game.player_idx) {
+  if(city_owner(pdialog->pcity) != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
     plist = &(map_get_tile(pdialog->pcity->tile)->units);
@@ -2178,7 +2178,7 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
   int i;
 
   struct city *pcity = pdialog->pcity;
-  struct player *pplayer = &game.players[pcity->owner];
+  struct player *pplayer = &game.players[city_owner(pcity)];
   struct government *g = government_of_city(pcity);
   int cities = city_list_size(&pplayer->cities);
   int content = game.info.unhappysize;

@@ -868,7 +868,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
       unit_list_iterate(punit->tile->units, missile) {
         if (missile->ai.ai_role != AIUNIT_ESCORT
             && missile->transported_by == -1
-            && missile->owner == punit->owner
+            && unit_owner(missile) == unit_owner(punit)
             && unit_has_type_flag(missile, F_MISSILE)
             && can_unit_load(missile, punit)) {
           UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
@@ -887,7 +887,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
 {
   CHECK_UNIT(punit);
-  assert(punit->owner == pcity->owner);
+  assert(unit_owner(punit) == city_owner(pcity));
 
   if (punit->homecity == 0 && !unit_has_type_role(punit, L_EXPLORER)) {
     /* This unit doesn't pay any upkeep while it doesn't have a homecity,

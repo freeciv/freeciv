@@ -776,7 +776,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   if (wonder_city == NULL) {
     return;
   }
-  if (wonder_city->owner != pplayer) {
+  if (city_owner(wonder_city) != pplayer) {
     ai->wonder_city = 0;
     return;
   }
@@ -819,7 +819,7 @@ void ai_manage_buildings(struct player *pplayer)
   struct ai_data *ai = ai_data_get(pplayer);
   struct city *wonder_city = find_city_by_id(ai->wonder_city);
 
-  if (wonder_city && wonder_city->owner != pplayer) {
+  if (wonder_city && city_owner(wonder_city) != pplayer) {
     /* We lost it to the enemy! */
     ai->wonder_city = 0;
     wonder_city = NULL;
@@ -1421,7 +1421,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     int city_map_x, city_map_y;
     bool is_valid;
 
-    if (acity && acity != pcity && acity->owner == pcity->owner)  {
+    if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
       freelog(LOG_DEBUG, "%s taking over %s's square in (%d, %d)",
               pcity->name, acity->name, ptile->x, ptile->y);
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);

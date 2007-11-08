@@ -267,20 +267,22 @@ void map_init_topology(bool set_sizes)
 ***************************************************************/
 static void tile_init(struct tile *ptile)
 {
-  ptile->terrain  = T_UNKNOWN;
-  tile_clear_all_specials (ptile);
+  ptile->continent = 0;
+
   BV_CLR_ALL(ptile->tile_known);
   vision_layer_iterate(v) {
     BV_CLR_ALL(ptile->tile_seen[v]);
   } vision_layer_iterate_end;
-  ptile->continent = 0;
+
+  tile_clear_all_specials (ptile);
+  ptile->resource = NULL;
+  ptile->terrain  = T_UNKNOWN;
   ptile->city     = NULL;
   ptile->units    = unit_list_new();
   ptile->worked   = NULL; /* pointer to city working tile */
   ptile->owner    = NULL; /* Tile not claimed by any nation. */
-  ptile->spec_sprite = NULL;
   ptile->owner_source = NULL;
-  ptile->resource = NULL;
+  ptile->spec_sprite = NULL;
 }
 
 /****************************************************************************

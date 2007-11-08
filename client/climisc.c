@@ -1008,7 +1008,7 @@ struct city *get_nearest_city(const struct unit *punit, int *sq_dist)
         int dist = sq_map_distance(pcity_current->tile, punit->tile);
         if (pcity_near_dist == -1 || dist < pcity_near_dist
 	    || (dist == pcity_near_dist
-		&& punit->owner == pcity_current->owner)) {
+		&& unit_owner(punit) == city_owner(pcity_current))) {
           pcity_near = pcity_current;
           pcity_near_dist = dist;
         }
@@ -1041,7 +1041,7 @@ void cityrep_buy(struct city *pcity)
     return;
   }
 
-  if (pcity->owner->economic.gold >= value) {
+  if (city_owner(pcity)->economic.gold >= value) {
     city_buy_production(pcity);
   } else {
     const char *name;
@@ -1054,7 +1054,7 @@ void cityrep_buy(struct city *pcity)
 
     create_event(NULL, E_BAD_COMMAND,
 		 _("%s costs %d gold and you only have %d gold."),
-		 name, value, pcity->owner->economic.gold);
+		 name, value, city_owner(pcity)->economic.gold);
   }
 }
 

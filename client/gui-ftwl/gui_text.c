@@ -425,7 +425,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     char tmp[64] = { 0 };
     struct unit_type *ptype = unit_type(punit);
 
-    if (punit->owner->player_no == game.info.player_idx) {
+    if (unit_owner(punit)->player_no == game.info.player_idx) {
       struct city *pcity =
 	  player_find_city_by_id(game.player_ptr, punit->homecity);
 
@@ -435,7 +435,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     }
     add_line(_("Unit: %s(%s%s)"), utype_name_translation(ptype),
 	     nation_name_translation(nation_of_unit(punit)), tmp);
-    if (punit->owner->player_no != game.info.player_idx) {
+    if (unit_owner(punit)->player_no != game.info.player_idx) {
       struct unit *apunit = head_of_units_in_focus();  /* FIXME, need best in stack */
 
       if (apunit) {

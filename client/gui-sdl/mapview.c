@@ -577,7 +577,7 @@ static const char *gui_sdl_get_unit_info_label_text2(struct unit_list *punits)
   if (count == 1) {
     struct unit *punit = unit_list_get(punits, 0);
     struct city *pcity =
-  player_find_city_by_id(punit->owner, punit->homecity);
+  player_find_city_by_id(unit_owner(punit), punit->homecity);
     int infracount;
     bv_special infrastructure =
       get_tile_infrastructure_set(punit->tile, &infracount);
@@ -744,23 +744,23 @@ void redraw_unit_info_label(struct unit_list *punitlist)
      			"" /* unused, DS_CEASEFIRE*/,
      			Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
      			Q_("?nation:Mysterious")};
-            if (pTile->owner == game.player_ptr) {
+            if (tile_owner(pTile) == game.player_ptr) {
               cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
             } else {
-	      if (pTile->owner) {
-                if (game.player_ptr->diplstates[pTile->owner->player_no].type==DS_CEASEFIRE){
-		  int turns = game.player_ptr->diplstates[pTile->owner->player_no].turns_left;
+	      if (tile_owner(pTile)) {
+                if (game.player_ptr->diplstates[tile_owner(pTile)->player_no].type==DS_CEASEFIRE){
+		  int turns = game.player_ptr->diplstates[tile_owner(pTile)->player_no].turns_left;
 		  cat_snprintf(buffer, sizeof(buffer),
 		  	PL_("\n%s territory (%d turn ceasefire)",
 				"\n%s territory (%d turn ceasefire)", turns),
-		 		nation_name_for_player(pTile->owner), turns);
+		 		nation_name_for_player(tile_owner(pTile)), turns);
                 } else {
 	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
 		    diplo_nation_plural_adjectives[
-		  	game.player_ptr->diplstates[pTile->owner->player_no].type],
-		    		nation_plural_for_player(pTile->owner));
+		  	game.player_ptr->diplstates[tile_owner(pTile)->player_no].type],
+		    		nation_plural_for_player(tile_owner(pTile)));
                 }
-              } else { /* !pTile->owner */
+              } else { /* !tile_owner(pTile) */
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
               }
 	    }

@@ -1691,7 +1691,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
     return TRUE;
 
   punit = find_unit_by_id(unit_ids[i]);
-  if (punit && punit->owner == game.player_ptr) {
+  if (punit && unit_owner(punit) == game.player_ptr) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
     set_unit_focus(punit);
   }

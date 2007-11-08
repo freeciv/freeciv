@@ -63,7 +63,7 @@ struct unit_type *ai_choose_defender_versus(struct city *pcity,
     if (can_build_unit(pcity, punittype)
 	&& (move_type == LAND_MOVING || move_type == SEA_MOVING)) {
       const int defense = get_virtual_defense_power(v, punittype,
-						    pcity->owner,
+						    city_owner(pcity),
 						    pcity->tile,
 						    FALSE, FALSE);
 
@@ -342,7 +342,7 @@ static unsigned int assess_danger_unit(struct city *pcity, struct unit *punit)
   }
 
   danger = unit_att_rating(punit);
-  mod = 100 + get_unittype_bonus(pcity->owner, pcity->tile,
+  mod = 100 + get_unittype_bonus(city_owner(pcity), pcity->tile,
 				 unit_type(punit), EFT_DEFEND_BONUS);
   danger = danger * 100 / MAX(mod, 1);
 
@@ -1125,10 +1125,10 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                                     go_by_boat, ferryboat, boattype);
 
     def_type = ai_choose_defender_versus(acity, unit_type(myunit));
-    def_owner = acity->owner;
+    def_owner = city_owner(acity);
     if (move_time > 1 && def_type) {
       def_vet = do_make_unit_veteran(acity, def_type);
-      vuln = unittype_def_rating_sq(unit_type(myunit), def_type, acity->owner,
+      vuln = unittype_def_rating_sq(unit_type(myunit), def_type, city_owner(acity),
                                     ptile, FALSE, def_vet);
       benefit = unit_build_shield_cost(def_type);
     } else {
@@ -1139,14 +1139,14 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     pdef = get_defender(myunit, ptile);
     if (pdef) {
-      int m = unittype_def_rating_sq(unit_type(myunit), unit_type(pdef), acity->owner,
+      int m = unittype_def_rating_sq(unit_type(myunit), unit_type(pdef), city_owner(acity),
                                      ptile, FALSE, pdef->veteran);
       if (vuln < m) {
         vuln = m;
         benefit = unit_build_shield_cost(unit_type(pdef));
         def_vet = pdef->veteran;
         def_type = unit_type(pdef); 
-	def_owner = pdef->owner;
+	def_owner = unit_owner(pdef);
       }
     }
     if (COULD_OCCUPY(myunit) || TEST_BIT(acity->ai.invasion, 0)) {
@@ -1168,7 +1168,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     def_type = unit_type(pdef);
     def_vet = pdef->veteran;
-    def_owner = pdef->owner;
+    def_owner = unit_owner(pdef);
     /* end dealing with units */
   }
   

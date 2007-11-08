@@ -920,7 +920,7 @@ static int find_a_direction(struct unit *punit,
 			    struct tile *dest_tile)
 {
 #define UNIT_DEFENSE(punit, ptile, defence_multiplier) \
-  ((get_virtual_defense_power(NULL, unit_type(punit), (punit)->owner, \
+  ((get_virtual_defense_power(NULL, unit_type(punit), unit_owner(punit), \
 			      (ptile), FALSE, 0) *		   \
     (defence_multiplier)) / 2)
 

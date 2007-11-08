@@ -241,7 +241,7 @@ void ai_hunter_choice(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 bool ai_hunter_qualify(struct player *pplayer, struct unit *punit)
 {
-  if (is_barbarian(pplayer) || punit->owner != pplayer) {
+  if (is_barbarian(pplayer) || unit_owner(punit) != pplayer) {
     return FALSE;
   }
   if (unit_has_type_role(punit, L_HUNTER)) {
@@ -266,7 +266,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
   unit_list_iterate(punit->tile->units, missile) {
     struct unit *sucker = NULL;
 
-    if (missile->owner == pplayer && unit_has_type_flag(missile, F_MISSILE)) {
+    if (unit_owner(missile) == pplayer && unit_has_type_flag(missile, F_MISSILE)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
       map = pf_create_map(&parameter);

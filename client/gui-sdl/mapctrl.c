@@ -2175,7 +2175,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
                                                    button_behavior->event->y);
             } else {
               if(((pCity = ptile->city) != NULL) &&
-                (pCity->owner == game.player_ptr)) {
+                (city_owner(pCity) == game.player_ptr)) {
                 if(LCTRL) {
                   popup_worklist_editor(pCity, &(pCity->worklist));
                 } else {

@@ -162,9 +162,9 @@ static void check_map(void)
     CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
 
     if (ptile->city) {
-      SANITY_TILE(ptile, ptile->owner != NULL);
+      SANITY_TILE(ptile, tile_owner(ptile) != NULL);
     }
-    if (ptile->owner != NULL) {
+    if (tile_owner(ptile) != NULL) {
       SANITY_TILE(ptile, ptile->owner_source != NULL);
     }
 
@@ -221,8 +221,8 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   SANITY_CITY(pcity, pcity->size >= 1);
   SANITY_CITY(pcity, !terrain_has_flag(tile_get_terrain(pcity->tile),
                                        TER_NO_CITIES));
-  SANITY_CITY(pcity, pcity->tile->owner == NULL
-                     || pcity->tile->owner == pplayer);
+  SANITY_CITY(pcity, tile_owner(pcity->tile) == NULL
+                     || tile_owner(pcity->tile) == pplayer);
 
   unit_list_iterate(pcity->units_supported, punit) {
     SANITY_CITY(pcity, punit->homecity == pcity->id);
@@ -243,7 +243,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
     struct tile *ptile;
 
     if ((ptile = city_map_to_map(pcity, x, y))) {
-      struct player *owner = tile_get_owner(ptile);
+      struct player *owner = tile_owner(ptile);
 
       switch (get_worker_city(pcity, x, y)) {
       case C_TILE_EMPTY:
@@ -258,7 +258,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  "empty but occupied by an enemy unit!",
 		  pcity->name, TILE_XY(ptile));
 	}
-	if (game.info.borders > 0 && owner && owner != pcity->owner) {
+	if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "empty but in enemy territory!",
 		  pcity->name, TILE_XY(ptile));
@@ -281,7 +281,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  "worked but occupied by an enemy unit!",
 		  pcity->name, TILE_XY(ptile));
 	}
-	if (game.info.borders > 0 && owner && owner != pcity->owner) {
+	if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "worked but in enemy territory!",
 		  pcity->name, TILE_XY(ptile));
@@ -420,7 +420,7 @@ static void check_units(void) {
 	SANITY_CHECK(transporter2 != NULL);
 
         /* Also in the list of owner? */
-        SANITY_CHECK(player_find_unit_by_id(transporter->owner,
+        SANITY_CHECK(player_find_unit_by_id(unit_owner(transporter),
 				      punit->transported_by) != NULL);
         SANITY_CHECK(same_pos(ptile, transporter->tile));
 

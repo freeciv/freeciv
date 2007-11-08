@@ -1725,7 +1725,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
       && pdcity->walls == walls
       && pdcity->happy == happy
       && pdcity->unhappy == unhappy
-      && pdcity->owner == city_owner(pcity)
+      && vision_owner(pdcity) == city_owner(pcity)
       && BV_ARE_EQUAL(pdcity->improvements, improvements)) {
     return FALSE;
   }

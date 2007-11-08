@@ -155,7 +155,7 @@ bool player_has_embassy(const struct player *pplayer,
 ****************************************************************************/
 bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 {
-  return (pcity && pplayer && pcity->owner == pplayer);
+  return (pcity && pplayer && city_owner(pcity) == pplayer);
 }
 
 /***************************************************************
@@ -462,7 +462,7 @@ struct unit *player_find_unit_by_id(const struct player *pplayer,
     return NULL;
   }
 
-  if (!pplayer || (punit->owner == pplayer)) {
+  if (!pplayer || (unit_owner(punit) == pplayer)) {
     /* Correct owner */
     return punit;
   }
@@ -479,7 +479,7 @@ bool player_in_city_radius(const struct player *pplayer,
   map_city_radius_iterate(ptile, ptile1) {
     struct city *pcity = tile_get_city(ptile1);
 
-    if (pcity && pcity->owner == pplayer) {
+    if (pcity && city_owner(pcity) == pplayer) {
       return TRUE;
     }
   } map_city_radius_iterate_end;
@@ -843,7 +843,7 @@ int player_in_territory(const struct player *pplayer,
    * to see if they're owned by the enemy. */
   unit_list_iterate(pplayer2->units, punit) {
     /* Get the owner of the tile/territory. */
-    struct player *owner = tile_get_owner(punit->tile);
+    struct player *owner = tile_owner(punit->tile);
 
     if (owner == pplayer && can_player_see_unit(pplayer, punit)) {
       /* Found one! */

@@ -156,7 +156,7 @@ static LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
   {
     if ((punit = find_visible_unit(ptile)))
     {
-      if (punit->owner == game.player_idx)
+      if (unit_owner(punit) == game.player_idx)
       {
 	return data->pen_meunit;
       }
@@ -169,7 +169,7 @@ static LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
     {
       if ((pcity = tile_get_city(x, y)))
       {
-	if (pcity->owner == game.player_idx)
+	if (city_owner(pcity) == game.player_idx)
 	{
 	  return data->pen_mecity;
 	}

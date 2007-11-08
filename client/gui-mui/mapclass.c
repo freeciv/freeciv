@@ -139,7 +139,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	char cn[64];
 	struct unit_type *ptype = unit_type(punit);
 	cn[0] = '\0';
-	if (punit->owner == game.player_idx)
+	if (unit_owner(punit) == game.player_idx)
 	{
 	  struct city *pcity;
 	  pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
@@ -154,7 +154,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 	DoMethod(group, OM_ADDMEMBER, text_obj);
 
-	if (punit->owner == game.player_idx)
+	if (unit_owner(punit) == game.player_idx)
 	{
 	  char uc[64] = "";
 	  if (unit_list_size(&ptile->units) >= 2)
@@ -483,7 +483,7 @@ static void Map_Priv_ShowCityDesc(Object *o, struct Map_Data *data)
 
     pix = TextLength(rp,buffer,strlen(buffer));
 
-    if (draw_city_growth && pcity->owner == game.player_idx) {
+    if (draw_city_growth && city_owner(pcity) == game.player_idx) {
       pix += TextLength(rp,buffer2,strlen(buffer2)) + 5;
     }
 
@@ -495,7 +495,7 @@ static void Map_Priv_ShowCityDesc(Object *o, struct Map_Data *data)
     Move(rp, _mleft(o) + x, _mtop(o) + y + 1);
     Text(rp, buffer, strlen(buffer));
 
-    if (draw_city_growth && pcity->owner == game.player_idx)
+    if (draw_city_growth && city_owner(pcity) == game.player_idx)
     {
     	Move(rp, rp->cp_x + 5, rp->cp_y - 1);
 	Text(rp, buffer2, strlen(buffer2));
@@ -505,7 +505,7 @@ static void Map_Priv_ShowCityDesc(Object *o, struct Map_Data *data)
   }
 
 
-  if (draw_city_productions && (pcity->owner==game.player_idx)) {
+  if (draw_city_productions && (city_owner(pcity)==game.player_idx)) {
     get_city_mapview_production(pcity, buffer, sizeof(buffer));
 
     x = canvas_x - TextLength(rp,buffer,strlen(buffer))/2;
@@ -1648,13 +1648,13 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	{
 	  BOOL need_barlabel = FALSE;
 
-	  if (pcity && pcity->owner == game.player_idx)
+	  if (pcity && city_owner(pcity) == game.player_idx)
 	  {
 	    Map_MakeContextItem(menu_title, _("Popup City"), PACK_CITY_USERDATA(pcity, CITY_POPUP));
 	    need_barlabel = TRUE;
 	  } else
 	  {
-	    if (punit && punit->owner == game.player_idx)
+	    if (punit && unit_owner(punit) == game.player_idx)
 	    {
 	      struct Command_List list;
 	      NewList((struct List *) &list);

@@ -139,17 +139,17 @@ static void update_goto_dialog(void)
       pStr = create_str16_from_char(cBuf, adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
    
-      if(pCity->owner != owner) {
-        pLogo = get_nation_flag_surface(nation_of_player(get_player(pCity->owner->player_no)));
+      if(city_owner(pCity) != owner) {
+        pLogo = get_nation_flag_surface(nation_of_player(get_player(city_owner(pCity)->player_no)));
         pLogo = crop_visible_part_from_surface(pLogo);
       }
       
       pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pStr, 
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
-      if(pCity->owner != owner) {
+      if(city_owner(pCity) != owner) {
         set_wflag(pBuf, WF_FREE_THEME);
-        owner = pCity->owner;
+        owner = city_owner(pCity);
       }
       
       pBuf->string16->fgcol =

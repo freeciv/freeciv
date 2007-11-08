@@ -309,7 +309,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     my_snprintf(buf[1], column_size, utype_values_string(ptype));
     my_snprintf(buf[2], column_size, "(%d)", unit_build_shield_cost(ptype));
   } else {
-    struct player *pplayer = pcity ? pcity->owner : game.player_ptr;
+    struct player *pplayer = pcity ? city_owner(pcity) : game.player_ptr;
 
     /* Total & turns left meaningless on capitalization */
     if (improvement_has_flag(target.value, IF_GOLD)) {
@@ -578,7 +578,7 @@ void activate_all_units(struct tile *ptile)
   struct unit *pmyunit = NULL;
 
   unit_list_iterate(punit_list, punit) {
-    if (game.player_ptr == punit->owner) {
+    if (game.player_ptr == unit_owner(punit)) {
       /* Activate this unit. */
       pmyunit = punit;
       request_new_unit_activity(punit, ACTIVITY_IDLE);
@@ -802,7 +802,7 @@ bool city_can_buy(const struct city *pcity)
    * buying; that's handled separately (and with an error message). */
   return (can_client_issue_orders()
 	  && pcity
-	  && pcity->owner == game.player_ptr
+	  && city_owner(pcity) == game.player_ptr
 	  && pcity->turn_founded != game.info.turn
 	  && !pcity->did_buy
 	  && (pcity->production.is_unit || !improvement_has_flag(pcity->production.value, IF_GOLD))

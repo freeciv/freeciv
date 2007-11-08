@@ -2724,7 +2724,7 @@ static void player_map_load(struct player *plr, int plrno,
 
 	id = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
 	pdcity->owner = get_player(id);
-	if (NULL == pdcity->owner) {
+	if (NULL == vision_owner(pdcity)) {
 	  freelog(LOG_ERROR, "[player%d] dc%d has invalid owner (%d); skipping.",
 		  plrno, j, id);
 	  free(pdcity);
@@ -3344,7 +3344,7 @@ static void player_save(struct player *plr, int plrno,
 			      "player%d.dc%d.happy", plrno, i);
 	  secfile_insert_bool(file, pdcity->unhappy,
 			      "player%d.dc%d.unhappy", plrno, i);
-	  secfile_insert_int(file, pdcity->owner->player_no,
+	  secfile_insert_int(file, vision_owner(pdcity)->player_no,
 			     "player%d.dc%d.owner", plrno, i);
 
 	  /* Save improvement list as bitvector. Note that improvement order
