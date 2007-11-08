@@ -39,8 +39,8 @@ struct tile {
   Continent_id continent;
   bv_player tile_known, tile_seen[V_COUNT];
   bv_special special;
-  struct resource *resource; /* available resource, or NULL */
-  struct terrain *terrain; /* May be NULL for unknown tiles. */
+  struct resource *resource;		/* NULL for no resource */
+  struct terrain *terrain;		/* NULL for unknown tiles */
   struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
   struct city *worked;      /* city working tile, or NULL if none */
@@ -59,7 +59,7 @@ struct tile {
 #define tile_list_iterate_end  LIST_ITERATE_END
 
 /* Tile accessor functions. */
-struct player *tile_get_owner(const struct tile *ptile);
+struct player *tile_owner(const struct tile *ptile);
 void tile_set_owner(struct tile *ptile, struct player *pplayer);
 
 struct city *tile_get_city(const struct tile *ptile);

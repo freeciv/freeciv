@@ -523,7 +523,7 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
     return;
   punit=game_find_unit_by_number(unit_ids[i]);
   if(punit) { /* should always be true at this point */
-    if (punit->owner == game.player_ptr) {
+    if (unit_owner(punit) == game.player_ptr) {
       /* may be non-true if alliance */
       set_unit_focus(punit);
     }

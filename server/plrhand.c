@@ -174,7 +174,7 @@ void kill_player(struct player *pplayer)
 
   /* Remove ownership of tiles */
   whole_map_iterate(ptile) {
-    if (ptile->owner == pplayer) {
+    if (tile_owner(ptile) == pplayer) {
       map_claim_ownership(ptile, NULL, NULL);
     }
   } whole_map_iterate_end;

@@ -105,7 +105,7 @@ const char *popup_info_text(struct tile *ptile)
     astr_add_line(&str, _("Minor Tribe Village"));
   }
   if (game.info.borders > 0 && !pcity) {
-    struct player *owner = tile_get_owner(ptile);
+    struct player *owner = tile_owner(ptile);
 
     if (game.player_ptr && owner == game.player_ptr){
       astr_add_line(&str, _("Our Territory"));
@@ -265,7 +265,7 @@ const char *popup_info_text(struct tile *ptile)
       bool found = FALSE;
 
       unit_list_iterate(ptile->units, tile_unit) {
-	if (tile_unit->owner != pfocus_unit->owner) {
+	if (unit_owner(tile_unit) != unit_owner(pfocus_unit)) {
 	  int att = unit_win_chance(pfocus_unit, tile_unit) * 100;
 	  int def = (1.0 - unit_win_chance(tile_unit, pfocus_unit)) * 100;
 
@@ -377,7 +377,7 @@ const char *unit_description(struct unit *punit)
 {
   int pcity_near_dist;
   struct city *pcity =
-      player_find_city_by_id(punit->owner, punit->homecity);
+      player_find_city_by_id(unit_owner(punit), punit->homecity);
   struct city *pcity_near = get_nearest_city(punit, &pcity_near_dist);
   struct unit_type *ptype = unit_type(punit);
   static struct astring str = ASTRING_INIT;
@@ -726,7 +726,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
   if (count == 1) {
     struct unit *punit = unit_list_get(punits, 0);
     struct city *pcity =
-	player_find_city_by_id(punit->owner, punit->homecity);
+	player_find_city_by_id(unit_owner(punit), punit->homecity);
     int infracount;
     bv_special infrastructure =
       get_tile_infrastructure_set(punit->tile, &infracount);
@@ -839,12 +839,12 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
     int min_upgrade_cost = FC_INFINITY;
 
     unit_list_iterate(punits, punit) {
-      if (punit->owner == game.player_ptr
+      if (unit_owner(punit) == game.player_ptr
 	  && test_unit_upgrade(punit, FALSE) == UR_OK) {
 	struct unit_type *from_unittype = unit_type(punit);
 	struct unit_type *to_unittype = can_upgrade_unittype(game.player_ptr,
 							     unit_type(punit));
-	int cost = unit_upgrade_price(punit->owner,
+	int cost = unit_upgrade_price(unit_owner(punit),
 					   from_unittype, to_unittype);
 
 	num_upgraded++;

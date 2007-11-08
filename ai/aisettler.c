@@ -419,7 +419,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
   }
 
   /* If (x, y) is an existing city, consider immigration */
-  if (pcity && pcity->owner == pplayer) {
+  if (pcity && city_owner(pcity) == pplayer) {
     return;
   }
 
@@ -463,11 +463,11 @@ void ai_settler_init(struct player *pplayer)
 static bool settler_map_iterate(struct pf_parameter *parameter,
 				struct unit *punit,
 				struct cityresult *best,
-				struct player *pplayer, 
 				int boat_cost)
 {
   struct cityresult result;
   int best_turn = 0; /* Which turn we found the best fit */
+  struct player *pplayer = unit_owner(punit);
   struct ai_data *ai = ai_data_get(pplayer);
   struct pf_map *map;
   bool found = FALSE; /* The return value */
@@ -486,12 +486,14 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
        * likelihood go away next turn, or even in a few nanoseconds. */
       continue;
     }
-    if (game.info.borders > 0
-        && ptile->owner != NULL
-        && ptile->owner != pplayer
-        && pplayers_in_peace(ptile->owner, pplayer)) {
-      /* Land theft does not make for good neighbours. */
-      continue;
+    if (game.info.borders > 0) {
+      struct player *powner = tile_owner(ptile);
+      if (NULL != powner
+       && powner != pplayer
+       && pplayers_in_peace(powner, pplayer)) {
+        /* Land theft does not make for good neighbours. */
+        continue;
+      }
     }
 
     /* Calculate worth */
@@ -549,8 +551,8 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
 void find_best_city_placement(struct unit *punit, struct cityresult *best,
 			      bool look_for_boat, bool use_virt_boat)
 {
-  struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
+  struct player *pplayer = unit_owner(punit);
   struct unit *ferry = NULL;
   struct unit_class *ferry_class = NULL;
 
@@ -567,7 +569,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   /* Phase 1: Consider building cities on our continent */
 
   pft_fill_unit_parameter(&parameter, punit);
-  (void) settler_map_iterate(&parameter, punit, best, pplayer, 0);
+  (void) settler_map_iterate(&parameter, punit, best, 0);
 
   if (best->result > RESULT_IS_ENOUGH) {
     return;
@@ -617,7 +619,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
      * We shouldn't make the penalty for building a new boat too high though.
      * Building a new boat is like a war against a weaker enemy -- 
      * good for the economy. (c) Bush family */
-    if (settler_map_iterate(&parameter, punit, best, pplayer, 
+    if (settler_map_iterate(&parameter, punit, best,
 			    unit_build_shield_cost(ferry))) {
       best->overseas = TRUE;
       best->virt_boat = (ferry->id == 0);

@@ -151,13 +151,13 @@ static void define_tiles_within_rectangle(void)
 
       /*  Tile passed all tests; process it.
        */
-      if (ptile->city && ptile->city->owner == game.player_ptr) {
+      if (ptile->city && city_owner(ptile->city) == game.player_ptr) {
 	/* FIXME: handle rectangle_append */
         map_deco[ptile->index].hilite = HILITE_CITY;
         tiles_hilited_cities = TRUE;
       }
       unit_list_iterate(ptile->units, punit) {
-	if (punit->owner == game.player_ptr) {
+	if (unit_owner(punit) == game.player_ptr) {
 	  if (units == 0 && !rectangle_append) {
 	    set_unit_focus(punit);
 	  } else {
@@ -327,7 +327,7 @@ void toggle_tile_hilite(struct tile *ptile)
       toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     }
   }
-  else if (pcity && pcity->owner == game.player_ptr) {
+  else if (pcity && city_owner(pcity) == game.player_ptr) {
     map_deco[ptile->index].hilite = HILITE_CITY;
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
@@ -372,7 +372,7 @@ void clipboard_copy_production(struct tile *ptile)
   }
 
   if (pcity) {
-    if (pcity->owner != game.player_ptr)  {
+    if (city_owner(pcity) != game.player_ptr)  {
       return;
     }
     clipboard = pcity->production;
@@ -411,7 +411,7 @@ void clipboard_paste_production(struct city *pcity)
     return;
   }
   if (!tiles_hilited_cities) {
-    if (pcity && pcity->owner == game.player_ptr) {
+    if (pcity && city_owner(pcity) == game.player_ptr) {
       clipboard_send_production_packet(pcity);
     }
     return;

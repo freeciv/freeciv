@@ -250,7 +250,7 @@ static int one_city_trade_benefit(const struct city *pcity,
 
   /* if the city is owned by someone else, we don't benefit from the
      new trade (but we might still lose from a broken trade route) */
-  if (pcity->owner != pplayer) {
+  if (city_owner(pcity) != pplayer) {
     newtrade = 0;
   }
 
@@ -264,13 +264,13 @@ static int one_city_trade_benefit(const struct city *pcity,
 
     /* if we own the city, the trade benefit is only by how much
        better we are than the old trade route */
-    if (pcity->owner == pplayer) {
+    if (city_owner(pcity) == pplayer) {
       newtrade -= oldtrade;
     }
 
     /* if the city that lost a trade route is one of ours, and if we
        care about accounting for the lost trade, count it. */
-    if (countloser && losercity->owner == pplayer) {
+    if (countloser && city_owner(losercity) == pplayer) {
       losttrade = oldtrade;
     }
   }
@@ -325,7 +325,7 @@ static double wonder_benefit(const struct unit *caravan, int arrival_time,
   int shields_at_arrival;
 
   if (!param->consider_wonders
-      || caravan->owner != dest->owner
+      || unit_owner(caravan) != city_owner(dest)
       || VUT_UTYPE == dest->production.kind
       || !is_wonder(dest->production.value.building)) {
     return 0;
@@ -389,12 +389,12 @@ static void get_discounted_reward(const struct unit *caravan,
   double discount = parameter->discount;
 
   /* if no foreign trade is allowed, just quit. */
-  if (!parameter->allow_foreign_trade && src->owner != dest->owner) {
+  if (!parameter->allow_foreign_trade && city_owner(src) != city_owner(dest)) {
     caravan_result_init_zero(result);
     return;
   }
 
-  trade = trade_benefit(src->owner, src, dest, parameter);
+  trade = trade_benefit(city_owner(src), src, dest, parameter);
   windfall = windfall_benefit(src, dest, parameter);
   wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
 
@@ -604,7 +604,7 @@ static void caravan_optimize_notransit(const struct unit *caravan,
                                        const struct caravan_parameter *param,
                                        struct caravan_result *best)
 {
-  struct player *player = caravan->owner;
+  struct player *player = unit_owner(caravan);
 
   /* Iterate over all cities we own (since the caravan could change its
    * home city); iterate over all cities we know about (places the caravan
@@ -652,7 +652,7 @@ static bool cowt_callback(void *vdata, const struct city *pcity,
   }
 
   /* next, try changing home city (if we're allowed to) */
-  if (pcity->owner == caravan->owner) {
+  if (city_owner(pcity) == unit_owner(caravan)) {
     caravan_find_best_destination_withtransit(
         caravan, data->param, pcity, arrival_time, moves_left, &current);
     if (caravan_result_compare(&current, data->best) > 0) {

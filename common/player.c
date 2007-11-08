@@ -550,7 +550,7 @@ struct unit *player_find_unit_by_id(const struct player *pplayer,
     return NULL;
   }
 
-  if (!pplayer || (punit->owner == pplayer)) {
+  if (!pplayer || (unit_owner(punit) == pplayer)) {
     /* Correct owner */
     return punit;
   }
@@ -931,7 +931,7 @@ int player_in_territory(const struct player *pplayer,
    * to see if they're owned by the enemy. */
   unit_list_iterate(pplayer2->units, punit) {
     /* Get the owner of the tile/territory. */
-    struct player *owner = tile_get_owner(punit->tile);
+    struct player *owner = tile_owner(punit->tile);
 
     if (owner == pplayer && can_player_see_unit(pplayer, punit)) {
       /* Found one! */

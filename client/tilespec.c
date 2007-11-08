@@ -4041,9 +4041,9 @@ static int fill_grid_sprite_array(const struct tileset *t,
     struct unit_list *pfocus_units = get_units_in_focus();
 
     for (i = 0; i < NUM_EDGE_TILES; i++) {
-      const struct tile *tile = pedge->tile[i];
-      struct player *powner = tile ? tile_get_owner(tile) : NULL;
       int dummy_x, dummy_y;
+      const struct tile *tile = pedge->tile[i];
+      struct player *powner = tile ? tile_owner(tile) : NULL;
 
       known[i] = tile && client_tile_get_known(tile) != TILE_UNKNOWN;
       unit[i] = FALSE;
@@ -4119,8 +4119,8 @@ static int fill_grid_sprite_array(const struct tileset *t,
     }
 
     if (draw_borders && game.info.borders > 0 && known[0] && known[1]) {
-      struct player *owner0 = tile_get_owner(pedge->tile[0]);
-      struct player *owner1 = tile_get_owner(pedge->tile[1]);
+      struct player *owner0 = tile_owner(pedge->tile[0]);
+      struct player *owner1 = tile_owner(pedge->tile[1]);
 
       if (owner0 != owner1) {
 	if (owner0) {
@@ -4588,7 +4588,7 @@ struct unit *get_drawable_unit(const struct tileset *t,
   if (!punit)
     return NULL;
 
-  if (citymode && punit->owner == citymode->owner)
+  if (citymode && unit_owner(punit) == city_owner(citymode))
     return NULL;
 
   if (!unit_is_in_focus(punit)

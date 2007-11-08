@@ -85,7 +85,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
   }
 
   if (pcity) {
-    if (pcity->owner != pdiplomat->owner
+    if (city_owner(pcity) != unit_owner(pdiplomat)
        && real_map_distance(pdiplomat->tile, pcity->tile) <= 1) {
       if(action==DIPLOMAT_SABOTAGE)
 	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
@@ -149,7 +149,7 @@ bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity)
   if (punit->tile->city == pcity) {
     return FALSE;
   }
-  if (punit->tile->city->owner != pcity->owner) {
+  if (city_owner(punit->tile->city) != city_owner(pcity)) {
     return FALSE;
   }
   if (!punit->tile->city->airlift || !pcity->airlift) {
@@ -182,7 +182,7 @@ bool unit_can_help_build_wonder(const struct unit *punit,
   }
 
   return (unit_has_type_flag(punit, F_HELP_WONDER)
-	  && punit->owner == pcity->owner
+	  && unit_owner(punit) == city_owner(pcity)
 	  && VUT_IMPROVEMENT == pcity->production.kind
 	  && is_wonder(pcity->production.value.building)
 	  && (pcity->shield_stock
@@ -380,7 +380,7 @@ enum add_build_city_result test_unit_add_or_build_city(const struct unit *
 
   if (new_pop > game.info.add_to_size_limit)
     return AB_TOO_BIG;
-  if (pcity->owner != punit->owner)
+  if (city_owner(pcity) != unit_owner(punit))
     return AB_NOT_OWNER;
   if (!city_can_grow_to(pcity, new_pop))
     return AB_NO_SPACE;
@@ -403,7 +403,7 @@ bool can_unit_change_homecity_to(const struct unit *punit,
   return (punit && pcity
 	  && punit->homecity > 0
 	  && punit->tile->city
-	  && punit->tile->city->owner == punit->owner
+	  && city_owner(punit->tile->city) == unit_owner(punit)
 	  && punit->homecity != punit->tile->city->id);
 }
 
@@ -1257,7 +1257,7 @@ bool unit_being_aggressive(const struct unit *punit)
   }
   if (game.info.borders > 0
       && game.info.happyborders
-      && tile_get_owner(punit->tile) == unit_owner(punit)) {
+      && tile_owner(punit->tile) == unit_owner(punit)) {
     return FALSE;
   }
   if (is_ground_unit(punit) &&

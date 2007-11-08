@@ -159,7 +159,7 @@ static enum cursor_type editor_unit(struct tile *ptile, bool testing)
     packet.delete = FALSE;
 
     packet.id = selected_unit->id;
-    packet.owner = player_number(selected_unit->owner);
+    packet.owner = player_number(unit_owner(selected_unit));
 
     packet.x = ptile->x;
     packet.y = ptile->y;
@@ -193,7 +193,7 @@ static enum cursor_type editor_city(struct tile *ptile, bool testing)
    * cursor can be set properly. */
   if (!testing) {
     struct packet_edit_create_city packet = {
-      .owner = player_number(selected_city->owner),
+      .owner = player_number(city_owner(selected_city)),
       .x = ptile->x,
       .y = ptile->y
     };

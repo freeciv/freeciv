@@ -266,7 +266,7 @@ void get_modified_firepower(const struct unit *attacker,
   }
 
   if (unit_has_type_flag(attacker, F_BADWALLATTACKER)
-      && get_unittype_bonus(defender->owner, defender->tile, unit_type(attacker),
+      && get_unittype_bonus(unit_owner(defender), defender->tile, unit_type(attacker),
 			    EFT_DEFEND_BONUS) > 0) {
     *att_fp = 1;
   }
@@ -515,7 +515,7 @@ int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender)
 {
   return defense_multiplication(unit_type(attacker), unit_type(defender),
-				defender->owner,
+				unit_owner(defender),
 				defender->tile,
 				get_defense_power(defender),
 				defender->activity == ACTIVITY_FORTIFIED);

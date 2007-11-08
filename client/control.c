@@ -260,7 +260,7 @@ void set_unit_focus(struct unit *punit)
 {
   bool focus_changed = FALSE;
 
-  if (punit && game.player_ptr && punit->owner != game.player_ptr) {
+  if (punit && game.player_ptr && unit_owner(punit) != game.player_ptr) {
     /* Callers should make sure this never happens. */
     return;
   }
@@ -321,7 +321,7 @@ void set_unit_focus(struct unit *punit)
 **************************************************************************/
 void add_unit_focus(struct unit *punit)
 {
-  if (punit && game.player_ptr && punit->owner != game.player_ptr) {
+  if (punit && game.player_ptr && unit_owner(punit) != game.player_ptr) {
     /* Callers should make sure this never happens. */
     return;
   }
@@ -517,7 +517,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   iterate_outward(ptile, FC_INFINITY, ptile2) {
     unit_list_iterate(ptile2->units, punit) {
       if ((!unit_is_in_focus(punit) || accept_current)
-	  && punit->owner == game.player_ptr
+	  && unit_owner(punit) == game.player_ptr
 	  && punit->focus_status == FOCUS_AVAIL
 	  && punit->activity == ACTIVITY_IDLE
 	  && !unit_has_orders(punit)
@@ -777,7 +777,7 @@ void process_caravan_arrival(struct unit *punit)
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
 	&& (!game.player_ptr
-	    || (game.player_ptr == punit->owner
+	    || (game.player_ptr == unit_owner(punit)
 		&& !game.player_ptr->ai.control))) {
       struct city *pcity_dest = tile_get_city(punit->tile);
       struct city *pcity_homecity = game_find_city_by_number(punit->homecity);
@@ -929,7 +929,7 @@ void handle_mouse_cursor(struct tile *ptile)
   case HOVER_NONE:
     if (can_do_editor_click(ptile)) {
       mouse_cursor_type = editor_test_click(ptile);
-    } else if (punit && game.player_ptr == punit->owner) {
+    } else if (punit && game.player_ptr == unit_owner(punit)) {
       /* Set mouse cursor to select a unit.  */
       mouse_cursor_type = CURSOR_SELECT;
     } else if (pcity
@@ -1093,7 +1093,7 @@ void request_unit_unload_all(struct unit *punit)
 	request_new_unit_activity(pcargo, ACTIVITY_IDLE);
       }
 
-      if (pcargo->owner == punit->owner) {
+      if (unit_owner(pcargo) == unit_owner(punit)) {
 	plast = pcargo;
       }
     }
@@ -1231,7 +1231,7 @@ void wakeup_sentried_units(struct tile *ptile)
   }
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_SENTRY
-	&& game.player_ptr == punit->owner) {
+	&& game.player_ptr == unit_owner(punit)) {
       request_new_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
@@ -1536,21 +1536,20 @@ void request_unit_fortify(struct unit *punit)
 **************************************************************************/
 void request_unit_pillage(struct unit *punit)
 {
-  struct tile *ptile = punit->tile;
-  bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
-  bv_special psworking = get_unit_tile_pillage_set(punit->tile);
   bv_special pspossible;
-  struct base_type *pbase = tile_get_base(punit->tile);
+  struct tile *ptile = punit->tile;
+  struct base_type *pbase = tile_get_base(ptile);
+  bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
+  bv_special psworking = get_unit_tile_pillage_set(ptile);
   int count = 0;
-  enum tile_special_type spe;
 
   BV_CLR_ALL(pspossible);
-  for (spe = 0; spe < S_LAST; spe++) {
+  tile_special_type_iterate(spe) {
     if (BV_ISSET(pspresent, spe) && !BV_ISSET(psworking, spe)) {
       BV_SET(pspossible, spe);
       count++;
     }
-  }
+  } tile_special_type_iterate_end;
 
   if (count > 1 || pbase) {
     popup_pillage_dialog(punit, pspossible, pbase);
@@ -1856,7 +1855,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   unit_list_unlink(src_tile->units, punit);
 
-  if (game.player_ptr == punit->owner
+  if (game.player_ptr == unit_owner(punit)
       && auto_center_on_unit
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
@@ -1983,7 +1982,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       && !unit_list_get(ptile->units, 0)->occupy) {
     struct unit *punit=unit_list_get(ptile->units, 0);
 
-    if (game.player_ptr == punit->owner) {
+    if (game.player_ptr == unit_owner(punit)) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
         maybe_goto = keyboardless_goto;
 	if (qtype == SELECT_APPEND) {
@@ -2033,7 +2032,7 @@ static struct unit *quickselect(struct tile *ptile,
     return NULL;
   } else if (listsize == 1) {
     struct unit *punit = unit_list_get(ptile->units, 0);
-    return (game.player_ptr == punit->owner) ? punit : NULL;
+    return (game.player_ptr == unit_owner(punit)) ? punit : NULL;
   }
 
   /*  Quickselect priorities. Units with moves left
@@ -2050,7 +2049,7 @@ static struct unit *quickselect(struct tile *ptile,
    */
 
   unit_list_iterate(ptile->units, punit)  {
-    if (game.player_ptr != punit->owner || unit_is_in_focus(punit)) {
+    if (game.player_ptr != unit_owner(punit) || unit_is_in_focus(punit)) {
       continue;
     }
   if (qtype == SELECT_SEA) {

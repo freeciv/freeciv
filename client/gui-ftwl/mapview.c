@@ -387,7 +387,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
   line1_b = ct_string_clone4(style->growth_template, buffer2,
 			    enum_color_to_be_color(color));
 
-  if (draw_city_productions && (pcity->owner == game.player_idx)) {
+  if (draw_city_productions && (city_owner(pcity) == game.player_idx)) {
     get_city_mapview_production(pcity, buffer, sizeof(buffer));
     line2 =
 	ct_string_clone4(style->prod_template, buffer,
@@ -671,7 +671,7 @@ static void update_focus_tile_list2(void)
 
   ptile = get_focus_tile();
   unit_list_iterate(ptile->units, aunit) {
-    if (game.info.player_idx == player_number(aunit->owner)) {
+    if (game.info.player_idx == player_number(unit_owner(aunit))) {
       set_unit_focus(aunit);
       break;
     }

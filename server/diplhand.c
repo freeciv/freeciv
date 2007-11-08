@@ -185,7 +185,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			    "you can't accept treaty."));
 	    return;
 	  }
-	  if (pcity->owner != pplayer) {
+	  if (city_owner(pcity) != pplayer) {
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You are not owner of %s, you can't accept treaty."),
 			  pcity->name);
@@ -282,7 +282,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  nation_plural_for_player(pother));
 	    goto cleanup;
 	  }
-	  if (pcity->owner != pother) {
+	  if (city_owner(pcity) != pother) {
 	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),

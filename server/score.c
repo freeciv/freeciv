@@ -150,7 +150,7 @@ static void build_landarea_map(struct claim_map *pcmap)
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       map_city_radius_iterate(pcity->tile, tile1) {
-	BV_SET(claims[tile1->index], player_index(pcity->owner));
+	BV_SET(claims[tile1->index], player_index(city_owner(pcity)));
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
@@ -162,14 +162,14 @@ static void build_landarea_map(struct claim_map *pcmap)
     if (is_ocean(ptile->terrain)) {
       /* Nothing. */
     } else if (ptile->city) {
-      owner = ptile->city->owner;
+      owner = city_owner(ptile->city);
       pcmap->player[player_index(owner)].settledarea++;
     } else if (ptile->worked) {
-      owner = ptile->worked->owner;
+      owner = city_owner(ptile->worked);
       pcmap->player[player_index(owner)].settledarea++;
     } else if (unit_list_size(ptile->units) > 0) {
       /* Because of allied stacking these calculations are a bit off. */
-      owner = (unit_list_get(ptile->units, 0))->owner;
+      owner = unit_owner(unit_list_get(ptile->units, 0));
       if (BV_ISSET(*pclaim, player_index(owner))) {
 	pcmap->player[player_index(owner)].settledarea++;
       }
@@ -178,7 +178,7 @@ static void build_landarea_map(struct claim_map *pcmap)
     if (game.info.borders > 0) {
       /* If borders are enabled, use owner information directly from the
        * map.  Otherwise use the calculations above. */
-      owner = ptile->owner;
+      owner = tile_owner(ptile);
     }
     if (owner) {
       pcmap->player[player_index(owner)].landarea++;

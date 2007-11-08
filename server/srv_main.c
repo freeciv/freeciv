@@ -429,7 +429,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
 {
   /* Remove illegal units */
   unit_list_iterate_safe(plr1->units, punit) {
-    if (punit->tile->owner == plr2
+    if (tile_owner(punit->tile) == plr2
         && is_military_unit(punit)) {
       notify_player(plr1, NULL, E_DIPLOMACY, _("Your %s unit %s was "
                     "disbanded in accordance with your peace treaty with "
@@ -441,7 +441,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
     }
   } unit_list_iterate_safe_end;
   unit_list_iterate_safe(plr2->units, punit) {
-    if (punit->tile->owner == plr1
+    if (tile_owner(punit->tile) == plr1
         && is_military_unit(punit)) {
       notify_player(plr2, NULL, E_DIPLOMACY, _("Your %s unit %s was "
                     "disbanded in accordance with your peace treaty with "

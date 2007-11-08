@@ -205,7 +205,7 @@ static void aiferry_request_boat(struct unit *punit)
 **************************************************************************/
 static void aiferry_psngr_meet_boat(struct unit *punit, struct unit *pferry)
 {
-  assert(punit->owner == pferry->owner);
+  assert(unit_owner(punit) == unit_owner(pferry));
 
   /* First delete the unit from the list of passengers and 
    * release its previous ferry */
@@ -345,7 +345,7 @@ bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 
   return (can_unit_transport(boat, punit)
 	  && !unit_has_orders(boat)
-	  && boat->owner == punit->owner
+	  && unit_owner(boat) == unit_owner(punit)
 	  && (boat->ai.passenger == FERRY_AVAILABLE
 	      || boat->ai.passenger == punit->id)
 	  && (get_transporter_capacity(boat) 
@@ -796,7 +796,7 @@ static bool aiferry_findcargo(struct unit *pferry)
     pf_next_get_position(map, &pos);
     
     unit_list_iterate(pos.tile->units, aunit) {
-      if (pferry->owner == aunit->owner 
+      if (unit_owner(pferry) == unit_owner(aunit) 
 	  && (aunit->ai.ferryboat == FERRY_WANTED
 	      || aunit->ai.ferryboat == pferry->id)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, 
@@ -867,7 +867,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
 
     pcity = tile_get_city(pos.tile);
     
-    if (pcity && pcity->owner == pferry->owner
+    if (pcity && city_owner(pcity) == unit_owner(pferry)
         && (pcity->ai.choice.need_boat 
             || (VUT_UTYPE == pcity->production.kind
 		&& utype_has_role(pcity->production.value.utype,
@@ -893,7 +893,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
       }
 
       unit_list_iterate(pos.tile->units, aunit) {
-	if (aunit != pferry && aunit->owner == pferry->owner
+	if (aunit != pferry && unit_owner(aunit) == unit_owner(pferry)
             && unit_has_type_role(aunit, L_FERRYBOAT)) {
 
           UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "

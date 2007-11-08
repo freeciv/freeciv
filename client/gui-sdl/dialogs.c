@@ -656,7 +656,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     pUnit = unit_list_get(ptile->units, i);
     pUnitType = unit_type(pUnit);
         
-    if(pUnit->owner == game.player_ptr) {
+    if(unit_owner(pUnit) == game.player_ptr) {
       my_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
@@ -692,7 +692,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
-    if(pUnit->owner == game.player_ptr) {
+    if(unit_owner(pUnit) == game.player_ptr) {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
     
@@ -1056,7 +1056,7 @@ static int adv_unit_sentry_idle_callback(struct widget *pWidget)
     if (pUnit) {
       struct tile *ptile = pUnit->tile;
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_ptr == punit->owner && (punit->activity == ACTIVITY_IDLE)
+        if (game.player_ptr == unit_owner(punit) && (punit->activity == ACTIVITY_IDLE)
            && !punit->ai.control && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
           request_new_unit_activity(punit, ACTIVITY_SENTRY);
         }
@@ -1232,7 +1232,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   area.h += pBuf->size.h;
 
   /* ---------- */  
-  if (pCity && pCity->owner == game.player_ptr)
+  if (pCity && city_owner(pCity) == game.player_ptr)
   {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
@@ -1390,7 +1390,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  continue;
 	}
         pUnitType = unit_type(pUnit);
-        if(pUnit->owner == game.player_ptr) {
+        if(unit_owner(pUnit) == game.player_ptr) {
           my_snprintf(cBuf, sizeof(cBuf),
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
@@ -1504,8 +1504,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       pUnit = unit_list_get(ptile->units, 0);
       pUnitType = unit_type(pUnit);
       if (pUnit != pFocus_Unit) {
-        if ((pCity && pCity->owner == game.player_ptr) ||
-	   (pUnit->owner == game.player_ptr))
+        if ((pCity && city_owner(pCity) == game.player_ptr) ||
+	   (unit_owner(pUnit) == game.player_ptr))
         {
           my_snprintf(cBuf, sizeof(cBuf),
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),

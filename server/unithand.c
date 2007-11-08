@@ -689,13 +689,13 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
     if (map_is_known_and_seen(pattacker->tile, other_player, V_MAIN)
 	|| map_is_known_and_seen(pdefender->tile, other_player, V_MAIN)) {
       if (!can_player_see_unit(other_player, pattacker)) {
-	assert(other_player != pattacker->owner);
+	assert(other_player != unit_owner(pattacker));
 	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_att_short_packet);
       }
 
       if (!can_player_see_unit(other_player, pdefender)) {
-	assert(other_player != pdefender->owner);
+	assert(other_player != unit_owner(pdefender));
 	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_def_short_packet);
       }
@@ -1041,7 +1041,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
   } else if (reason == MR_PEACE) {
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
                    _("Cannot invade unless you break peace with "
-                     "%s first."), dest_tile->owner->name);
+                     "%s first."), tile_owner(dest_tile)->name);
   }
 
   return FALSE;
@@ -1687,7 +1687,7 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
 
   /* You are allowed to unload a unit if it is yours or if the transporter
    * is yours. */
-  if (pcargo->owner != pplayer && ptrans->owner != pplayer) {
+  if (unit_owner(pcargo) != pplayer && unit_owner(ptrans) != pplayer) {
     return;
   }
 

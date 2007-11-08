@@ -1520,7 +1520,7 @@ void update_menus(void)
 		      get_tile_change_menu_text(punit->tile,
 						ACTIVITY_IRRIGATE));
 	} else if (tile_has_special(punit->tile, S_IRRIGATION)
-		   && player_knows_techs_with_flag(punit->owner,
+		   && player_knows_techs_with_flag(unit_owner(punit),
 						   TF_FARMLAND)) {
 	  sz_strlcpy(irrtext, _("Bu_ild Farmland"));
 	}

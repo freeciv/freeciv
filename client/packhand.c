@@ -298,7 +298,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	tile_visible_mapcanvas(punit1->tile)) {
       show_combat = TRUE;
     } else if (auto_center_on_combat) {
-      if (punit0->owner == game.player_ptr)
+      if (unit_owner(punit0) == game.player_ptr)
 	center_tile_mapcanvas(punit0->tile);
       else
 	center_tile_mapcanvas(punit1->tile);
@@ -418,7 +418,7 @@ void handle_city_info(struct packet_city_info *packet)
   struct unit_list *pfocus_units = get_units_in_focus();
   struct city *pcity = game_find_city_by_number(packet->id);
 
-  if (pcity && (player_number(pcity->owner) != packet->owner)) {
+  if (pcity && (player_number(city_owner(pcity)) != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
@@ -602,7 +602,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->client.unhappy = city_unhappy(pcity);
 
   popup = (city_is_new && can_client_change_view()
-           && pcity->owner == game.player_ptr && popup_new_cities)
+           && city_owner(pcity) == game.player_ptr && popup_new_cities)
           || packet->diplomat_investigate;
 
   if (city_is_new && !city_has_changed_owner) {
@@ -661,7 +661,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     pcity->info_units_present = unit_list_new();
     city_list_prepend(city_owner(pcity)->cities, pcity);
     tile_set_city(pcity->tile, pcity);
-    if (pcity->owner == game.player_ptr) {
+    if (city_owner(pcity) == game.player_ptr) {
       city_report_dialog_update();
     }
 
@@ -672,7 +672,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
       unit_list_iterate_end;
     } players_iterate_end;
   } else {
-    if (pcity->owner == game.player_ptr) {
+    if (city_owner(pcity) == game.player_ptr) {
       city_report_dialog_update_city(pcity);
     }
   }
@@ -725,7 +725,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   bool update_descriptions = FALSE;
   struct city *pcity = game_find_city_by_number(packet->id);
 
-  if (pcity && (player_number(pcity->owner) != packet->owner)) {
+  if (pcity && (player_number(city_owner(pcity)) != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
@@ -1058,7 +1058,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool moved = FALSE;
   bool ret = FALSE;
   
-  punit = player_find_unit_by_id(packet_unit->owner, packet_unit->id);
+  punit = player_find_unit_by_id(unit_owner(packet_unit), packet_unit->id);
   if (!punit && game_find_unit_by_number(packet_unit->id)) {
     /* This means unit has changed owner. We deal with this here
      * by simply deleting the old one and creating a new one. */
@@ -1106,7 +1106,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       if (wakeup_focus 
 	  && game.player_ptr
           && !game.player_ptr->ai.control
-          && punit->owner == game.player_ptr
+          && unit_owner(punit) == game.player_ptr
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
 	  && is_player_phase(game.player_ptr, game.info.phase)
@@ -1149,7 +1149,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->orders.list = packet_unit->orders.list;
       packet_unit->orders.list = NULL;
 
-      if (!game.player_ptr || punit->owner == game.player_ptr) {
+      if (!game.player_ptr || unit_owner(punit) == game.player_ptr) {
         refresh_unit_city_dialogs(punit);
       }
     } /*** End of Change in activity or activity's target. ***/
@@ -1249,7 +1249,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         if((unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER))
 	   && game.player_ptr
 	   && !game.player_ptr->ai.control
-	   && punit->owner == game.player_ptr
+	   && unit_owner(punit) == game.player_ptr
 	   && !unit_has_orders(punit)
 	   && can_client_issue_orders()
 	   && (unit_can_help_build_wonder_here(punit)
@@ -1289,7 +1289,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     punit = packet_unit;
     idex_register_unit(punit);
 
-    unit_list_prepend(punit->owner->units, punit);
+    unit_list_prepend(unit_owner(punit)->units, punit);
     unit_list_prepend(punit->tile->units, punit);
 
     unit_register_battlegroup(punit);
@@ -1588,7 +1588,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       && pinfo->diplstates[player_index(game.player_ptr)].type
       == DS_ARMISTICE) {
     unit_list_iterate(game.player_ptr->units, punit) {
-      if (!punit->tile->owner || punit->tile->owner != pplayer) {
+      if (!tile_owner(punit->tile) || tile_owner(punit->tile) != pplayer) {
         continue;
       }
       if (punit->focus_status == FOCUS_WAIT) {
@@ -2075,15 +2075,15 @@ void handle_tile_info(struct packet_tile_info *packet)
   tile_set_resource(ptile, resource_by_number(packet->resource));
 
   if (packet->owner == MAP_TILE_OWNER_NULL) {
-    if (ptile->owner) {
-      ptile->owner = NULL;
+    if (tile_owner(ptile)) {
+      tile_set_owner(ptile, NULL);
       tile_changed = TRUE;
     }
   } else {
     struct player *newowner = player_by_number(packet->owner);
 
-    if (ptile->owner != newowner) {
-      ptile->owner = newowner;
+    if (tile_owner(ptile) != newowner) {
+      tile_set_owner(ptile, newowner);
       tile_changed = TRUE;
     }
   }
