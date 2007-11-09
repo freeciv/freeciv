@@ -758,7 +758,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
       set_wflag(pBuf, WF_HIDDEN);
     }
   
-    if (pCityDlg->city_owner(pCity) == game.player_ptr) {    
+    if (city_owner(pCityDlg->pCity) == game.player_ptr) {    
       set_wstate(pBuf, FC_WS_NORMAL);
     }
     
@@ -1614,7 +1614,7 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
     struct city **array;
   
     assert(size >= 1);
-    assert(pCityDlg->city_owner(pCity) == game.player_ptr);
+    assert(city_owner(pCityDlg->pCity) == game.player_ptr);
   
     if (size == 1) {
       return -1;
@@ -1771,7 +1771,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
   struct unit_list *pList;
   int size;
 
-  if (pCityDlg->city_owner(pCity) != game.player_ptr) {
+  if (city_owner(pCityDlg->pCity) != game.player_ptr) {
     pList = (pCityDlg->pCity->info_units_supported);
   } else {
     pList = (pCityDlg->pCity->units_supported);
@@ -1829,7 +1829,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
 
   int size;
 
-  if (pCityDlg->city_owner(pCity) != game.player_ptr) {
+  if (city_owner(pCityDlg->pCity) != game.player_ptr) {
     pList = pCityDlg->pCity->info_units_present;
   } else {
     pList = pCityDlg->pCity->tile->units;
