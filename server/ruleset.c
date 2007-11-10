@@ -2286,7 +2286,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
                * Note that the section name is unique (by definition).
                * The sub-strings are carefully crafted for this function.
                */
-	      if (NULL != strcasestr(isection, name)) {
+	      if (NULL != mystrcasestr(isection, name)) {
 	        city_names[j].terrain[i] = setting;
 	        handled = TRUE;
 		break;
