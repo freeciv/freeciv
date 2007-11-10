@@ -50,13 +50,16 @@
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
-/* unit_focus points to the current unit in focus */
-static struct unit_list *pfocus_units;
+/* current_focus points to the current unit(s) in focus */
+static struct unit_list *current_focus;
 
-/* The previously focused unit.  Focus can generally be recalled on this
- * unit with keypad 5.  FIXME: this is not reset when the client
- * disconnects. */
+/* The previously focused unit(s).  Focus can generally be recalled
+ * with keypad 5 (or the equivalent). 
+ * FIXME: this is not reset when the client disconnects. */
 static struct unit_list *previous_focus;
+
+/* The priority unit(s) for advance_unit_focus(). */
+static struct unit_list *urgent_focus_queue;
 
 /* These should be set via set_hover_state() */
 enum cursor_hover_state hover_state = HOVER_NONE;
@@ -83,9 +86,8 @@ bool non_ai_unit_focus;
 /*************************************************************************/
 
 static struct unit *find_best_focus_candidate(bool accept_current);
-static void store_focus(void);
 static struct unit *quickselect(struct tile *ptile,
-                        enum quickselect_type qtype);
+                                enum quickselect_type qtype);
 
 /**************************************************************************
   Called only by main() in client/civclient.c.
@@ -96,8 +98,11 @@ void control_init(void)
 
   caravan_arrival_queue = genlist_new();
   diplomat_arrival_queue = genlist_new();
-  pfocus_units = unit_list_new();
+
+  current_focus = unit_list_new();
   previous_focus = unit_list_new();
+  urgent_focus_queue = unit_list_new();
+
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     battlegroups[i] = unit_list_new();
   }
@@ -112,11 +117,52 @@ void control_done(void)
 
   genlist_free(caravan_arrival_queue);
   genlist_free(diplomat_arrival_queue);
-  unit_list_free(pfocus_units);
+
+  unit_list_free(current_focus);
   unit_list_free(previous_focus);
+  unit_list_free(urgent_focus_queue);
+
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     unit_list_free(battlegroups[i]);
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct unit_list *get_units_in_focus(void)
+{
+  return current_focus;
+}
+
+/****************************************************************************
+  Return the number of units currently in focus (0 or more).
+****************************************************************************/
+int get_num_units_in_focus(void)
+{
+  return unit_list_size(current_focus);
+}
+
+/**************************************************************************
+  Store the focus unit(s).  This is used so that we can return to the
+  previously focused unit with an appropriate keypress.
+**************************************************************************/
+static void store_previous_focus(void)
+{
+  if (get_num_units_in_focus() > 0) {
+    unit_list_unlink_all(previous_focus);
+    unit_list_iterate(get_units_in_focus(), punit) {
+      unit_list_append(previous_focus, punit);
+    } unit_list_iterate_end;
+  }
+}
+
+/****************************************************************************
+  Store a priority focus unit.
+****************************************************************************/
+void urgent_unit_focus(struct unit *punit)
+{
+  unit_list_append(urgent_focus_queue, punit);
 }
 
 /**************************************************************************
@@ -127,12 +173,16 @@ void control_unit_killed(struct unit *punit)
   int i;
 
   goto_unit_killed(punit);
+
   unit_list_unlink(get_units_in_focus(), punit);
   if (get_num_units_in_focus() < 1) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
   update_unit_info_label(get_units_in_focus());
+
   unit_list_unlink(previous_focus, punit);
+  unit_list_unlink(urgent_focus_queue, punit);
+
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     unit_list_unlink(battlegroups[i], punit);
   }
@@ -216,7 +266,7 @@ struct unit *get_focus_unit_on_tile(const struct tile *ptile)
 ****************************************************************************/
 struct unit *head_of_units_in_focus(void)
 {
-  return unit_list_get(pfocus_units, 0);
+  return unit_list_get(current_focus, 0);
 }
 
 /****************************************************************************
@@ -249,6 +299,28 @@ void auto_center_on_focus_unit(void)
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static void current_focus_append(struct unit *punit)
+{
+  unit_list_append(current_focus, punit);
+
+  punit->focus_status = FOCUS_AVAIL;
+  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+
+  if (unit_has_orders(punit)) {
+    /* Clear the focus unit's orders. */
+    request_orders_cleared(punit);
+  }
+
+  if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
+    punit->ai.control = FALSE;
+    refresh_unit_city_dialogs(punit);
+    request_new_unit_activity(punit, ACTIVITY_IDLE);
+  }
+}
+
+/**************************************************************************
   Sets the focus unit directly.  The unit given will be given the
   focus; if NULL the focus will be cleared.
 
@@ -270,19 +342,16 @@ void set_unit_focus(struct unit *punit)
    * solution would be a set_units_focus() */
   if (!(get_num_units_in_focus() == 1
 	&& punit == head_of_units_in_focus())) {
-    store_focus();
+    store_previous_focus();
     focus_changed = TRUE;
   }
 
   /* Redraw the old focus unit (to fix blinking or remove the selection
    * circle). */
-  unit_list_iterate(pfocus_units, punit_old) {
+  unit_list_iterate(current_focus, punit_old) {
     refresh_unit_mapcanvas(punit_old, punit_old->tile, TRUE, FALSE);
   } unit_list_iterate_end;
-  unit_list_unlink_all(pfocus_units);
-  if (punit) {
-    unit_list_append(pfocus_units, punit);
-  }
+  unit_list_unlink_all(current_focus);
 
   if (!can_client_change_view()) {
     /* This function can be called to set the focus to NULL when
@@ -291,28 +360,16 @@ void set_unit_focus(struct unit *punit)
     return;
   }
 
-  if(punit) {
+  if (NULL != punit) {
     auto_center_on_focus_unit();
-
-    punit->focus_status=FOCUS_AVAIL;
-    refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
-
-    if (unit_has_orders(punit)) {
-      /* Clear the focus unit's orders. */
-      request_orders_cleared(punit);
-    }
-    if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
-      punit->ai.control = FALSE;
-      refresh_unit_city_dialogs(punit);
-      request_new_unit_activity(punit, ACTIVITY_IDLE);
-    }
+    current_focus_append(punit);
   }
 
   if (focus_changed) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
 
-  update_unit_info_label(pfocus_units);
+  update_unit_info_label(current_focus);
   update_menus();
 }
 
@@ -338,19 +395,8 @@ void add_unit_focus(struct unit *punit)
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
 
-  unit_list_append(pfocus_units, punit);
-  punit->focus_status = FOCUS_AVAIL;
-  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
-  if (unit_has_orders(punit)) {
-    /* Clear the focus unit's orders. */
-    request_orders_cleared(punit);
-  }
-  if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
-    punit->ai.control = FALSE;
-    refresh_unit_city_dialogs(punit);
-    request_new_unit_activity(punit, ACTIVITY_IDLE);
-  }
-  update_unit_info_label(pfocus_units);
+  current_focus_append(punit);
+  update_unit_info_label(current_focus);
   update_menus();
 }
 
@@ -362,20 +408,6 @@ void set_unit_focus_and_select(struct unit *punit)
   set_unit_focus(punit);
   if (punit) {
     put_cross_overlay_tile(punit->tile);
-  }
-}
-
-/**************************************************************************
-  Store the focus unit.  This is used so that we can return to the
-  previously focused unit with an appropriate keypress.
-**************************************************************************/
-static void store_focus(void)
-{
-  if (get_num_units_in_focus() > 0) {
-    unit_list_unlink_all(previous_focus);
-    unit_list_iterate(get_units_in_focus(), punit) {
-      unit_list_append(previous_focus, punit);
-    } unit_list_iterate_end;
   }
 }
 
@@ -415,22 +447,6 @@ void update_unit_focus(void)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-struct unit_list *get_units_in_focus(void)
-{
-  return pfocus_units;
-}
-
-/****************************************************************************
-  Return the number of units currently in focus (0 or more).
-****************************************************************************/
-int get_num_units_in_focus(void)
-{
-  return unit_list_size(pfocus_units);
-}
-
-/**************************************************************************
  This function may be called from packhand.c, via update_unit_focus(),
  as a result of packets indicating change in activity for a unit. Also
  called when user press the "Wait" command.
@@ -439,10 +455,12 @@ int get_num_units_in_focus(void)
 **************************************************************************/
 void advance_unit_focus(void)
 {
+  struct unit *candidate = NULL;
   const int num_units_in_old_focus = get_num_units_in_focus();
-  struct unit *candidate = find_best_focus_candidate(FALSE);
 
-  if (!game.player_ptr || !can_client_change_view()) {
+  if (!game.player_ptr
+      || !is_player_phase(game.player_ptr, game.info.phase)
+      || !can_client_change_view()) {
     set_unit_focus(NULL);
     return;
   }
@@ -460,19 +478,44 @@ void advance_unit_focus(void)
     }
   } unit_list_iterate_end;
 
-  if(!candidate) {
-    /* First try for "waiting" units. */
-    unit_list_iterate(game.player_ptr->units, punit) {
-      if(punit->focus_status == FOCUS_WAIT) {
-        punit->focus_status = FOCUS_AVAIL;
-      }
-    } unit_list_iterate_end;
-    candidate = find_best_focus_candidate(FALSE);
-  }
+  if (unit_list_size(urgent_focus_queue) > 0) {
+    /* Try top of the urgent list. */
+    candidate = unit_list_get(urgent_focus_queue, 0);
 
-  /* Accept current focus unit as last resort. */
-  if (!candidate) {
-    candidate = find_best_focus_candidate(TRUE);
+    if (get_num_units_in_focus() > 0) {
+      /* Rarely, more than one unit on the same tile will be in the list. */
+      unit_list_iterate(urgent_focus_queue, punit) {
+        if (head_of_units_in_focus()->tile == punit->tile) {
+          /* Use the first one found */
+          candidate = punit;
+          break;
+        }
+      } unit_list_iterate_end;
+    }
+    unit_list_unlink(urgent_focus_queue, candidate);
+
+    /* Autocenter on Wakeup, regardless of the local option 
+     * "auto_center_on_unit". */
+    if (!tile_visible_and_not_on_border_mapcanvas(candidate->tile)) {
+      center_tile_mapcanvas(candidate->tile);
+    }
+  } else {
+    candidate = find_best_focus_candidate(FALSE);
+
+    if (!candidate) {
+      /* Try for "waiting" units. */
+      unit_list_iterate(game.player_ptr->units, punit) {
+        if(punit->focus_status == FOCUS_WAIT) {
+          punit->focus_status = FOCUS_AVAIL;
+        }
+      } unit_list_iterate_end;
+      candidate = find_best_focus_candidate(FALSE);
+
+      if (!candidate) {
+        /* Accept current focus unit as last resort. */
+        candidate = find_best_focus_candidate(TRUE);
+      }
+    }
   }
 
   set_unit_focus(candidate);
@@ -499,12 +542,6 @@ void advance_unit_focus(void)
 static struct unit *find_best_focus_candidate(bool accept_current)
 {
   struct tile *ptile = get_center_tile_mapcanvas();
-
-  if (!game.player_ptr
-      || !is_player_phase(game.player_ptr, game.info.phase)) {
-    /* No focus unit wanted. */
-    return NULL;
-  }
 
   if (!get_focus_unit_on_tile(ptile)) {
     struct unit *pfirst = head_of_units_in_focus();
@@ -1147,6 +1184,23 @@ void request_unit_return(struct unit *punit)
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+void wakeup_sentried_units(struct tile *ptile)
+{
+  if (!can_client_issue_orders()) {
+    return;
+  }
+  unit_list_iterate(ptile->units, punit) {
+    if (punit->activity == ACTIVITY_SENTRY
+	&& game.player_ptr == unit_owner(punit)) {
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+    }
+  }
+  unit_list_iterate_end;
+}
+
+/**************************************************************************
 (RP:) un-sentry all my own sentried units on punit's tile
 **************************************************************************/
 void request_unit_wakeup(struct unit *punit)
@@ -1205,20 +1259,6 @@ void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value)
 {
   dsend_packet_unit_diplomat_action(&aconnection, dipl_id,action,target_id,value);
-}
-
-void wakeup_sentried_units(struct tile *ptile)
-{
-  if (!can_client_issue_orders()) {
-    return;
-  }
-  unit_list_iterate(ptile->units, punit) {
-    if (punit->activity == ACTIVITY_SENTRY
-	&& game.player_ptr == unit_owner(punit)) {
-      request_new_unit_activity(punit, ACTIVITY_IDLE);
-    }
-  }
-  unit_list_iterate_end;
 }
 
 /**************************************************************************
@@ -2001,7 +2041,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
  convenient, and can be tactically important in furious multiplayer games.
 **************************************************************************/
 static struct unit *quickselect(struct tile *ptile,
-                          enum quickselect_type qtype)
+                                enum quickselect_type qtype)
 {
   int listsize = unit_list_size(ptile->units);
   struct unit *panytransporter = NULL,
@@ -2230,7 +2270,7 @@ void key_end_turn(void)
 }
 
 /**************************************************************************
-  Recall the previous focus unit and focus on it.  See store_focus().
+  Recall the previous focus unit(s).  See store_previous_focus().
 **************************************************************************/
 void key_recall_previous_focus_unit(void)
 {

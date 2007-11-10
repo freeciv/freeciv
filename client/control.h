@@ -117,19 +117,23 @@ void wakeup_sentried_units(struct tile *ptile);
 bool unit_is_in_focus(const struct unit *punit);
 struct unit *get_focus_unit_on_tile(const struct tile *ptile);
 struct unit *head_of_units_in_focus(void);
-void auto_center_on_focus_unit(void);
-void advance_unit_focus(void);
 struct unit_list *get_units_in_focus(void);
 int get_num_units_in_focus(void);
+
 void set_unit_focus(struct unit *punit);
-void add_unit_focus(struct unit *punit);
 void set_unit_focus_and_select(struct unit *punit);
+void add_unit_focus(struct unit *punit);
+void urgent_unit_focus(struct unit *punit);
+
+void advance_unit_focus(void);
+void auto_center_on_focus_unit(void);
 void update_unit_focus(void);
+void update_unit_pix_label(struct unit_list *punitlist);
+
 struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 double blink_active_unit(void);
 double blink_turn_done_button(void);
-void update_unit_pix_label(struct unit_list *punitlist);
 
 void process_caravan_arrival(struct unit *punit);
 void process_diplomat_arrival(struct unit *pdiplomat, int victim_id);

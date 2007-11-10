@@ -1109,17 +1109,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           && unit_owner(punit) == game.player_ptr
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
-	  && is_player_phase(game.player_ptr, game.info.phase)
-              /* only 1 wakeup focus per tile is useful */
-          && !get_focus_unit_on_tile(packet_unit->tile)) {
-        set_unit_focus(punit);
+	  && is_player_phase(game.player_ptr, game.info.phase)) {
+        /* many wakeup units per tile are handled */
+        urgent_unit_focus(punit);
         check_focus = FALSE; /* and keep it */
-
-        /* Autocenter on Wakeup, regardless of the local option 
-         * "auto_center_on_unit". */
-        if (!tile_visible_and_not_on_border_mapcanvas(punit->tile)) {
-          center_tile_mapcanvas(punit->tile);
-        }
       }
 
       punit->activity = packet_unit->activity;
