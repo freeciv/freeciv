@@ -605,10 +605,9 @@ AC_FUNC_VSNPRINTF
 AC_CHECK_FUNCS([vsnprintf])
 fi
 
-AC_CHECK_FUNCS([fileno ftime gethostname getpwuid inet_aton \
-		select snooze strerror strcasecmp strncasecmp \
-		strlcat strlcpy strstr usleep uname flock \
-		gethostbyname connect bind])
+AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
+		getpwuid inet_aton select snooze strcasecmp strcasestr \
+		strerror strlcat strlcpy strncasecmp strstr uname usleep])
 
 AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY, 1,

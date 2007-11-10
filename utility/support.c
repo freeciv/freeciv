@@ -156,6 +156,40 @@ int mystrncasequotecmp(const char *str0, const char *str1, size_t n)
 }
 
 /***************************************************************
+  Return the needle in the haystack (or NULL).
+  Naive implementation.
+***************************************************************/
+char *mystrcasestr(const char *haystack, const char *needle)
+{
+#ifdef HAVE_STRCASESTR
+  return strcasestr(haystack, needle);
+#else
+  size_t haystacks;
+  size_t needles;
+  const char *p;
+
+  if (NULL == needle || '\0' == *needle) {
+    return (char *)haystack;
+  }
+  if (NULL == haystack || '\0' == *haystack) {
+    return NULL;
+  }
+  haystacks = strlen(haystack);
+  needles = strlen(needle);
+  if (haystacks < needles) {
+    return NULL;
+  }
+
+  for (p = haystack; p <= &haystack[haystacks - needles]; p++) {
+    if (0 == mystrncasecmp(p, needle, needles)) {
+      return (char *)p;
+    }
+  }
+  return NULL;
+#endif
+}
+
+/***************************************************************
   Return a string which describes a given error (errno-style.)
 ***************************************************************/
 const char *mystrerror(void)
