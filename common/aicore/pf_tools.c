@@ -546,31 +546,32 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
                                   enum known_type known,
                                   struct pf_parameter *param)
 {
-  struct base_type *pbase;
+  struct base_type *pbase = tile_get_base(ptile);
   int moves = SINGLE_MOVE * real_map_distance(param->start_tile, ptile);
-  int fuel = param->fuel_left_initially - 1;
+  int fuel = param->move_rate * param->fuel_left_initially;
 
-  if (is_allied_city_tile(ptile, param->owner)) {
+  if (fuel < moves) {
+    /* not enough fuel. */
+    return TRUE;
+  }
+
+  if (fuel >= moves * 2) {
+    /* has enough fuel for round trip. */
     return FALSE;
   }
 
-  pbase = tile_get_base(ptile);
-
-  if (pbase && is_native_base_to_uclass(pbase, param->uclass)) {
+  if (fuel >= moves
+   && (is_allied_city_tile(ptile, param->owner)
+    || (pbase && is_native_base_to_uclass(pbase, param->uclass)))) {
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;
   }
 
-  if (param->moves_left_initially + param->move_rate * fuel >= moves * 2) {
-    if (param->fuel_left_initially > 1
-        || ((param->fuel_left_initially > 2 
-             || !BV_ISSET(param->unit_flags, F_ONEATTACK))
-            && (is_enemy_unit_tile(ptile, param->owner)
-                || (ptile->city && is_enemy_city_tile(ptile, param->owner))))) {
-      /* allow movement if fuelled, and attacks, even suicidal ones */
-      return FALSE; 
-    }
+  if (is_enemy_unit_tile(ptile, param->owner)
+   || is_enemy_city_tile(ptile, param->owner)) {
+    /* allow attacks, even suicidal ones */
+    return FALSE;
   }
 
   /* Carriers are ignored since they are likely to move. */
@@ -629,7 +630,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     parameter->get_MC = single_airmove;
     break;
   default:
-    freelog(LOG_ERROR, "Impossible move type to pft_fill_unit_parameter()!");
+    freelog(LOG_ERROR, "pft_fill_unit_parameter() impossible move type!");
     break;
   }
 
@@ -670,7 +671,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     parameter->get_MC = single_airmove; /* very crude */
     break;
   default:
-    freelog(LOG_ERROR, "Impossible move type to pft_fill_unit_overlap_param()!");
+    freelog(LOG_ERROR, "pft_fill_unit_overlap_param() impossible move type!");
     break;
   }
 
@@ -701,7 +702,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
     parameter->get_MC = single_airmove; /* very crude */
     break;
   default:
-    freelog(LOG_ERROR, "Impossible move type to pft_fill_unit_attack_param()!");
+    freelog(LOG_ERROR, "pft_fill_unit_attack_param() impossible move type!");
     break;
   }
 
@@ -754,8 +755,8 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 					    struct unit *punit)
 {
   parameter->turn_mode = TM_CAPPED;
-
   parameter->unknown_MC = SINGLE_MOVE;
+
   if (uclass_has_flag(unit_class(punit), UCF_TERRAIN_SPEED)) {
     /* Unit is subject to terrain movement costs */
     struct unit_type *punittype = unit_type(punit);
