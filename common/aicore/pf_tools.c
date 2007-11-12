@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "log.h"
 #include "mem.h"
 
 #include "game.h"
@@ -531,32 +532,35 @@ static bool trireme_is_pos_dangerous(const struct tile *ptile,
 /****************************************************************************
   Position-dangerous callback for air units.
 ****************************************************************************/
-static bool air_is_pos_dangerous(const struct tile *ptile,
-				 enum known_type known,
-				 struct pf_parameter *param)
+static bool is_pos_dangerous_fuel(const struct tile *ptile,
+                                  enum known_type known,
+                                  struct pf_parameter *param)
 {
   int moves = SINGLE_MOVE * real_map_distance(param->start_tile, ptile);
-  int fuel = param->fuel_left_initially - 1;
+  int fuel = param->move_rate * param->fuel_left_initially;
 
-  if (is_allied_city_tile(ptile, param->owner)) {
+  if (fuel < moves) {
+    /* not enough fuel. */
+    return TRUE;
+  }
+
+  if (fuel >= moves * 2) {
+    /* has enough fuel for round trip. */
     return FALSE;
   }
 
-  if (tile_has_special(ptile, S_AIRBASE)) {
+  if (fuel >= moves
+   && (is_allied_city_tile(ptile, param->owner)
+    || tile_has_special(ptile, S_AIRBASE))) {
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;
   }
 
-  if (param->moves_left_initially + param->move_rate * fuel >= moves * 2) {
-    if (param->fuel_left_initially > 1
-        || ((param->fuel_left_initially > 2
-             || !BV_ISSET(param->unit_flags, F_ONEATTACK))
-            && (is_enemy_unit_tile(ptile, param->owner)
-                || (ptile->city && is_enemy_city_tile(ptile, param->owner))))) {
-      /* allow movement if fuelled, and attacks, even suicidal ones */
-      return FALSE;
-    }
+  if (is_enemy_unit_tile(ptile, param->owner)
+   || is_enemy_city_tile(ptile, param->owner)) {
+    /* allow attacks, even suicidal ones */
+    return FALSE;
   }
 
   /* Carriers are ignored since they are likely to move. */
@@ -629,16 +633,16 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     }
     break;
   case SEA_MOVING:
-    if (unit_has_type_flag(punit, F_NO_LAND_ATTACK)) {
-      parameter->get_MC = seamove_no_bombard;
-    } else {
+    if (!unit_has_type_flag(punit, F_NO_LAND_ATTACK)) {
       parameter->get_MC = seamove;
+    } else {
+      parameter->get_MC = seamove_no_bombard;
     }
     break;
   case AIR_MOVING:
     parameter->get_MC = single_airmove;
     if (unit_type(punit)->fuel > 0) {
-      parameter->is_pos_dangerous = air_is_pos_dangerous;
+      parameter->is_pos_dangerous = is_pos_dangerous_fuel;
     } else {
       parameter->is_pos_dangerous = NULL;
     }
@@ -653,9 +657,12 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
       parameter->is_pos_dangerous = NULL;
     } else {
       /* Otherwise, don't risk fuel loss. */
-      parameter->is_pos_dangerous = air_is_pos_dangerous;
+      parameter->is_pos_dangerous = is_pos_dangerous_fuel;
       parameter->turn_mode = TM_WORST_TIME;
     }
+    break;
+  default:
+    freelog(LOG_ERROR, "pft_fill_unit_parameter() impossible move type!");
     break;
   }
 
@@ -714,6 +721,9 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     assert(!danger && !trireme_danger);
     parameter->get_MC = single_airmove; /* very crude */
     break;
+  default:
+    freelog(LOG_ERROR, "pft_fill_unit_overlap_param() impossible move type!");
+    break;
   }
 
   parameter->get_zoc = NULL;
@@ -737,6 +747,9 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   case AIR_MOVING:
   case HELI_MOVING:
     parameter->get_MC = single_airmove; /* very crude */
+    break;
+  default:
+    freelog(LOG_ERROR, "pft_fill_unit_attack_param() impossible move type!");
     break;
   }
 
@@ -790,19 +803,29 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 					    struct unit *punit)
 {
   parameter->turn_mode = TM_CAPPED;
-  if (is_air_unit(punit) || is_heli_unit(punit)) {
-    parameter->unknown_MC = SINGLE_MOVE;
-  } else if (is_sailing_unit(punit)) {
-    parameter->unknown_MC = 2 * SINGLE_MOVE;
-  } else {
-    assert(is_ground_unit(punit));
-    parameter->unknown_MC = SINGLE_MOVE;
+  parameter->unknown_MC = SINGLE_MOVE;
+
+  switch (unit_type(punit)->move_type) {
+  case AIR_MOVING:
+  case HELI_MOVING:
+    /* no change */;
+    break;
+  case SEA_MOVING:
+    /* Sailing units explore less? */
+    parameter->unknown_MC *= 2;
+    break;
+  case LAND_MOVING:
     terrain_type_iterate(pterrain) {
       int mr = 2 * pterrain->movement_cost;
 
       parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
     } terrain_type_iterate_end;
+    break;
+  default:
+    freelog(LOG_ERROR, "pft_fill_unit_default_parameter() impossible move type!");
+    break;
   }
+
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;
