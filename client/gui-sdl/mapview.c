@@ -39,6 +39,7 @@
 #include "unitlist.h"
 
 /* client */
+#include "citydlg_common.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "overview_common.h"
