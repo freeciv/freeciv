@@ -529,6 +529,18 @@ static bool trireme_is_pos_dangerous(const struct tile *ptile,
 	  && (terrain_has_flag(ptile->terrain, TER_UNSAFE) 
 	      || (is_ocean(ptile->terrain) && !is_safe_ocean(ptile))));
 }
+
+/****************************************************************************
+  Refueling base for air units.
+****************************************************************************/
+static bool is_possible_base_fuel(const struct tile *ptile,
+                                  struct pf_parameter *param)
+{
+  /* All airbases are considered possible, simply attack enemies. */
+  return (is_allied_city_tile(ptile, param->owner)
+       || tile_has_special(ptile, S_AIRBASE));
+}
+
 /****************************************************************************
   Position-dangerous callback for air units.
 ****************************************************************************/
@@ -537,29 +549,30 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
                                   struct pf_parameter *param)
 {
   int moves = SINGLE_MOVE * real_map_distance(param->start_tile, ptile);
-  int fuel = param->move_rate * param->fuel_left_initially;
+  int have = get_moves_left_initially(param);
 
-  if (fuel < moves) {
+  if (have < moves) {
     /* not enough fuel. */
     return TRUE;
   }
 
-  if (fuel >= moves * 2) {
+  if (have >= moves * 2
+   && (is_possible_base_fuel(param->start_tile, param)
+    || !param->owner->ai.control)) {
     /* has enough fuel for round trip. */
     return FALSE;
   }
 
-  if (fuel >= moves
-   && (is_allied_city_tile(ptile, param->owner)
-    || tile_has_special(ptile, S_AIRBASE))) {
-    /* All airbases are considered non-dangerous, although non-allied ones
-     * are inaccessible. */
+  if (TILE_UNKNOWN != known
+   && (is_possible_base_fuel(ptile, param)
+    || is_enemy_city_tile(ptile, param->owner))) {
+    /* allow attacks, even suicidal ones */
     return FALSE;
   }
 
-  if (is_enemy_unit_tile(ptile, param->owner)
-   || is_enemy_city_tile(ptile, param->owner)) {
-    /* allow attacks, even suicidal ones */
+  if (TILE_KNOWN == known
+   && is_enemy_unit_tile(ptile, param->owner)) {
+    /* don't reveal unknown units */
     return FALSE;
   }
 

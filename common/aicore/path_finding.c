@@ -121,7 +121,7 @@ static struct pf_path *danger_get_path(struct pf_map *pf_map,
   turn.  Thus the rest of the PF code doesn't actually know that the unit
   has fuel, it just thinks it has that many more MP.
 ****************************************************************************/
-static int get_moves_left_initially(const struct pf_parameter *param)
+int get_moves_left_initially(const struct pf_parameter *param)
 {
   return (param->moves_left_initially
 	  + (param->fuel_left_initially - 1) * param->move_rate);
