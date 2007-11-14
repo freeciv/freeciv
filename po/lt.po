@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-01 21:46+0300\n"
-"PO-Revision-Date: 2007-11-09 23:56+0300\n"
+"PO-Revision-Date: 2007-11-14 16:34+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -136,9 +136,8 @@ msgid "City"
 msgstr "Miestas"
 
 #: common/events.c:44
-#, fuzzy
 msgid "Building Unavailable Item"
-msgstr "Miestas: Stato neprieinamą dalinį ar patobulinimą"
+msgstr "Statomas neprieinamas elementas"
 
 #: common/events.c:45
 msgid "Captured/Destroyed"
@@ -150,7 +149,7 @@ msgstr "Švenčia"
 
 #: common/events.c:47
 msgid "Civil Disorder"
-msgstr "Civilinė netvarka"
+msgstr "Neramumai"
 
 #: common/events.c:48
 msgid "Famine"
@@ -245,9 +244,8 @@ msgid "First Contact"
 msgstr "Pirmasis kontaktas"
 
 #: common/events.c:66
-#, fuzzy
 msgid "Learned New Government"
-msgstr "Atrasta nauja valdymo forma"
+msgstr "Išmokta nauja valdymo forma"
 
 #: common/events.c:67
 msgid "Low Funds"
@@ -271,9 +269,8 @@ msgid "Revolt Started"
 msgstr "Prasidėjo sukilimas "
 
 #: common/events.c:71
-#, fuzzy
 msgid "Spaceship Events"
-msgstr "Civ: Erdvėlaivio įvykiai"
+msgstr "Erdvėlaivio įvykiai"
 
 #: common/events.c:72
 #: common/events.c:73
@@ -426,44 +423,36 @@ msgid "Hut"
 msgstr "Namelis"
 
 #: common/events.c:101
-#, fuzzy
 msgid "Barbarians in a Hut Roused"
-msgstr "Namelis: Pažadinti namelyje gyvenantys barbarai"
+msgstr "Pažadinti namelyje gyvenantys barbarai"
 
 #: common/events.c:102
-#, fuzzy
 msgid "City Founded from Hut"
-msgstr "Namelis: Iš namelio gyventojų įkurtas miestas"
+msgstr "Iš namelio gyventojų įkurtas miestas"
 
 #: common/events.c:103
-#, fuzzy
 msgid "Gold Found in Hut"
-msgstr "Namelis: Namelyje rastas auksas"
+msgstr "Namelyje rasta aukso"
 
 #: common/events.c:104
-#, fuzzy
 msgid "Killed by Barbarians in a Hut"
-msgstr "Namelis: Nužudytas namelyje buvusių barbarų"
+msgstr "Nužudytas namelyje buvusių barbarų"
 
 #: common/events.c:105
-#, fuzzy
 msgid "Mercenaries Found in Hut"
-msgstr "Namelis: Namelyje aptikti samdiniai"
+msgstr "Namelyje aptikti samdiniai"
 
 #: common/events.c:106
-#, fuzzy
 msgid "Settler Found in Hut"
-msgstr "Namelis: Namelyje aptikti naujakuriai"
+msgstr "Namelyje aptikti naujakuriai"
 
 #: common/events.c:107
-#, fuzzy
 msgid "Tech Found in Hut"
-msgstr "Namelis: Namelyje aptikta technologija"
+msgstr "Namelyje aptikta technologija"
 
 #: common/events.c:108
-#, fuzzy
 msgid "Unit Spared by Barbarians"
-msgstr "Namelis: Barbarai pasigailėjo dalinio"
+msgstr "Barbarai pasigailėjo dalinio"
 
 #: common/events.c:109
 #: common/events.c:110
@@ -589,7 +578,7 @@ msgstr "Gavo daugiau veterano taškų"
 
 #: common/events.c:129
 msgid "Production Upgraded"
-msgstr "Produkcija modernizuota"
+msgstr "Gamyba modernizuota"
 
 #: common/events.c:130
 msgid "Relocated"
@@ -3299,7 +3288,7 @@ msgstr ""
 #: server/diplomats.c:1129
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
-msgstr ""
+msgstr "Jūsų %s sunaikino besiginantis %s."
 
 #: server/diplomats.c:1137
 #, c-format
@@ -3764,7 +3753,7 @@ msgstr "Raštingumas"
 #: client/gui-mui/citydlg.c:1395
 #: client/gui-sdl/cityrep.c:174
 msgid "Production"
-msgstr "Produkcija"
+msgstr "Gamyba"
 
 #: server/report.c:121
 #: data/default/techs.ruleset:222
@@ -10673,7 +10662,7 @@ msgstr "_Ypatybės"
 
 #: client/gui-gtk-2.0/dialogs.c:856
 msgid "_Leader:"
-msgstr "_Vadovas"
+msgstr "_Valdovas"
 
 #: client/gui-gtk-2.0/dialogs.c:863
 msgid "_Female"
@@ -12583,7 +12572,7 @@ msgstr "Pasiruošęs"
 #: data/default/units.ruleset:1963
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
-msgstr "Vadas"
+msgstr "Valdovas"
 
 #: client/gui-gtk-2.0/pages.c:1646
 msgid "Choose Saved Game to Load"
@@ -12751,7 +12740,7 @@ msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
 msgstr ""
-"patobulinti kiek įmanoma daugiau %s į %s po %d aukso?\n"
+"Patobulinti kiek įmanoma daugiau %s į %s po %d aukso?\n"
 "Ižde yra %d aukso."
 
 #: client/gui-gtk-2.0/repodlgs.c:1297
@@ -12775,12 +12764,16 @@ msgid ""
 "Trade\n"
 "(M goods)"
 msgstr ""
+"Prekyba\n"
+"(M prekių)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1324
 msgid ""
 "Production\n"
 "(M tons)"
 msgstr ""
+"Gamyba\n"
+"(M tonų)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1325
 msgid "Cities\n"
@@ -12866,7 +12859,7 @@ msgstr "_Paleisti"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
-msgstr ""
+msgstr "Siūloma tema"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
 msgid "Load theme"
@@ -12945,7 +12938,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:1245
 msgid "Chan_ge Production"
-msgstr "_Keisti produkciją"
+msgstr "_Keisti gamybą"
 
 #: client/gui-mui/chatline.c:79
 msgid "Cleared output window.\n"
@@ -13011,7 +13004,7 @@ msgstr ""
 
 #: client/gui-mui/citydlg.c:1168
 msgid "Freeciv - Cityproduction"
-msgstr "Freeciv - Miesto produkcija"
+msgstr "Freeciv - Miesto gamyba"
 
 #: client/gui-mui/citydlg.c:1183
 #: client/gui-mui/cityrep.c:282
@@ -13135,7 +13128,7 @@ msgstr "Miestas auga:"
 
 #: client/gui-mui/citydlg.c:1523
 msgid "Production completed:"
-msgstr ""
+msgstr "Gamyba baigta:"
 
 #: client/gui-mui/citydlg.c:1564
 msgid "_Change"
@@ -13481,7 +13474,7 @@ msgstr "Freeciv - pasirinkite tautą"
 
 #: client/gui-mui/dialogs.c:1641
 msgid "_Leader Name"
-msgstr "_Vado vardas"
+msgstr "_Valdovo vardas"
 
 #: client/gui-mui/dialogs.c:1656
 #: client/gui-mui/dialogs.c:1657
@@ -14627,14 +14620,12 @@ msgstr ""
 "kolonistą, esant dydžio 1"
 
 #: client/gui-sdl/citydlg.c:1169
-#, fuzzy
 msgid "Sorry, You have already bought here in this turn."
-msgstr "Apgailestaujame, čia jau pirkai šį ėjimą"
+msgstr "Apgailestaujame, jūs jau čia pirkote šiame ėjime."
 
 #: client/gui-sdl/citydlg.c:1172
-#, fuzzy
 msgid "Sorry, You can't buy here in this turn."
-msgstr "Apgailestaujame, čia jau pirkai šį ėjimą"
+msgstr "Apgailestaujame, jūs negalite čia pirkti šiame ėjime."
 
 #: client/gui-sdl/citydlg.c:1176
 msgid "Buy It?"
@@ -14710,9 +14701,9 @@ msgid "Food: %d per turn"
 msgstr "Maistas: %d per ėjimą"
 
 #: client/gui-sdl/citydlg.c:2607
-#, fuzzy, c-format
+#, c-format
 msgid "?food:Surplus: %d"
-msgstr "Perteklius: %d"
+msgstr "?food:Perteklius: %d"
 
 #: client/gui-sdl/citydlg.c:2655
 #, c-format
@@ -15644,6 +15635,8 @@ msgid ""
 "\n"
 "Food/Prod/Trade: %s"
 msgstr ""
+"\n"
+"Maistas/Gamyba/Prekyba: %s"
 
 #: client/gui-sdl/mapview.c:1078
 msgid "End of Turn"
@@ -15685,19 +15678,16 @@ msgid "Goto location"
 msgstr "Eiti į vietą"
 
 #: client/gui-sdl/menu.c:497
-#, fuzzy
 msgid "Connect irrigation"
-msgstr "Sujungti/Drėkinimas"
+msgstr "Prijungti drėkinimą"
 
 #: client/gui-sdl/menu.c:510
-#, fuzzy
 msgid "Connect road"
-msgstr "Sujungti/Kelias"
+msgstr "Prijungti kelią"
 
 #: client/gui-sdl/menu.c:523
-#, fuzzy
 msgid "Connect railroad"
-msgstr "Sujungti/Kelias"
+msgstr "Prijungti geležinkelį"
 
 #: client/gui-sdl/menu.c:536
 msgid "Auto-Explore"
@@ -15888,12 +15878,8 @@ msgid "SDLClient welcomes you..."
 msgstr ""
 
 #: client/gui-sdl/pages.c:298
-#, fuzzy
 msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
-msgstr ""
-"Freeciv yra nemokama programa ir jūs galite platinti ją\n"
-"pagal tam tikras sąlygas; Žiūrėk punktą „Kopijavimas“ pagalbos menu.\n"
-"Dabar.. Eikite ir duokite jiems velnių!"
+msgstr "Freeciv yra laisva programa ir jūs kviečiami platinti jos kopijas pagal tam tikras sąlygas;"
 
 #: client/gui-sdl/pages.c:301
 msgid "See the \"Copying\" item on the Help menu."
@@ -15945,9 +15931,9 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/repodlgs.c:1508
-#, fuzzy, c-format
+#, c-format
 msgid "We can't sell any %s in this turn."
-msgstr "Mes negalime parduoti %s šiuo ėjimu"
+msgstr "Mes negalime parduoti jokių %s šiuo ėjimu."
 
 #: client/gui-sdl/repodlgs.c:1744
 msgid "Economy Report"
@@ -16482,7 +16468,7 @@ msgstr "Eiti į ir uždaryti"
 
 #: client/gui-win32/dialogs.c:556
 msgid "Leader:"
-msgstr "Vadas:"
+msgstr "Valdovas:"
 
 #: client/gui-win32/dialogs.c:576
 msgid "City Style:"
@@ -21948,14 +21934,12 @@ msgid "Bavaria, before national unification in 1870AD, was one of the largest of
 msgstr "Bavarija, prieš nacionalinį suvienijimą 1870 m., buvo viena didžiausių Vokietijos karalysčių."
 
 #: data/nation/belarusian.ruleset:3
-#, fuzzy
 msgid "Belarusian"
-msgstr "Bulgarijos"
+msgstr "Baltarusijos"
 
 #: data/nation/belarusian.ruleset:4
-#, fuzzy
 msgid "?plural:Belarusians"
-msgstr "?plural:Bulgarai"
+msgstr "?plural:Baltarusiai"
 
 #: data/nation/belarusian.ruleset:6
 msgid "Belarus was part of the ancient Slavic state of Kievan Rus', then subsequently Lithuania, Rzeczpospolita, the Russian Empire and the Soviet Union. Belarus became independent in 1991 with the dissolution of the Soviet Union."
@@ -23347,12 +23331,11 @@ msgstr "Maorių"
 
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
-msgstr ""
+msgstr "Kazachų"
 
 #: data/nation/kazakh.ruleset:4
-#, fuzzy
 msgid "?plural:Kazakhs"
-msgstr "?plural:Majai"
+msgstr "?plural:Kazakai"
 
 #: data/nation/kazakh.ruleset:6
 msgid "Kazakhs are descendants of Turkic and Mongolian nomadic tribes. Conquered by Russia in the 18th century, Kazahstan became independent in 1991 with the dissolution of the Soviet Union. It is one of ten largest states in the world by area."
@@ -23393,9 +23376,8 @@ msgid "Khorezmshah"
 msgstr ""
 
 #: data/nation/kongo.ruleset:3
-#, fuzzy
 msgid "Kongo"
-msgstr "Mongolijos"
+msgstr "Kongo"
 
 #: data/nation/kongo.ruleset:4
 #, fuzzy
@@ -23441,12 +23423,11 @@ msgstr ""
 
 #: data/nation/kyrgyz.ruleset:3
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Kirgizų"
 
 #: data/nation/kyrgyz.ruleset:4
-#, fuzzy
 msgid "?plural:Kyrgyzs"
-msgstr "?plural:Aimarai"
+msgstr "?plural:Kirgizai"
 
 #: data/nation/kyrgyz.ruleset:6
 msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, Kyrgyzstan got independence from the Soviet Union in 1991."
@@ -23774,7 +23755,7 @@ msgstr "Meksikos vardas kilęs nuo meksikiečių, kito actekų pavadinimo."
 
 #: data/nation/moldovan.ruleset:3
 msgid "Moldovan"
-msgstr ""
+msgstr "Moldovos"
 
 #: data/nation/moldovan.ruleset:4
 #, fuzzy
@@ -23986,14 +23967,12 @@ msgid "Imparator"
 msgstr "Imperatorius"
 
 #: data/nation/pakistani.ruleset:3
-#, fuzzy
 msgid "Pakistani"
-msgstr "Partizanai"
+msgstr "Pakistano"
 
 #: data/nation/pakistani.ruleset:4
-#, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "?plural:Rumunai"
+msgstr "?plural:Pakistaniečiai"
 
 #: data/nation/pakistani.ruleset:6
 msgid "The Federation of Pakistan was formed from the predominantly Muslim regions of British India in 1947."
@@ -24028,14 +24007,12 @@ msgid "The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; the sec
 msgstr "Pirmoji Persijos (Achaemenidų) imperija truko nuo 550 m. pr. Kr. iki 330 m. pr. Kr.; antroji (Sasanidų) nuo 226 m. po Kristaus iki 642 m. po Kristaus."
 
 #: data/nation/peruvian.ruleset:3
-#, fuzzy
 msgid "Peruvian"
-msgstr "Persijos"
+msgstr "Peru"
 
 #: data/nation/peruvian.ruleset:4
-#, fuzzy
 msgid "?plural:Peruvians"
-msgstr "?plural:Persai"
+msgstr "?plural:Perujiečiai"
 
 #: data/nation/peruvian.ruleset:6
 msgid "Peru was the cradle of the Inca Empire and civilization. It is still today a major center of indigenous South American culture."
@@ -24072,14 +24049,12 @@ msgid "Suffet"
 msgstr ""
 
 #: data/nation/pirate.ruleset:3
-#, fuzzy
 msgid "Pirate"
-msgstr "Oro bazė"
+msgstr "Piratų"
 
 #: data/nation/pirate.ruleset:4
-#, fuzzy
 msgid "?plural:Pirates"
-msgstr "?plural:Portugalai"
+msgstr "?plural:Piratai"
 
 #: data/nation/pirate.ruleset:5
 msgid "As long as honest men have sailed the seas, pirates have been a scourge of them and of all coastal dwelling peoples."
@@ -24181,9 +24156,8 @@ msgid "Duchess"
 msgstr "Kunigaikštienė"
 
 #: data/nation/prussian.ruleset:27
-#, fuzzy
 msgid "Elector"
-msgstr "Elektra"
+msgstr ""
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
@@ -24270,19 +24244,16 @@ msgid "Tsaritsa"
 msgstr "Carienė"
 
 #: data/nation/rwandan.ruleset:3
-#, fuzzy
 msgid "Rwandan"
-msgstr "Kanados"
+msgstr "Ruandos"
 
 #: data/nation/rwandan.ruleset:4
-#, fuzzy
 msgid "?plural:Rwandans"
-msgstr "?plural:Kanadiečiai"
+msgstr "?plural:Ruandiečiai"
 
 #: data/nation/rwandan.ruleset:5
-#, fuzzy
 msgid "African"
-msgstr "Amerikos"
+msgstr "Afrikos"
 
 #: data/nation/rwandan.ruleset:6
 msgid "Rwanda is a hilly and very fertile country in the Great Lakes region of eastern Africa. It supports the densest population of the continent."
@@ -24436,7 +24407,7 @@ msgstr "Slovakija yra šalis Europos širdyje. Anksčiau dalis Čekoslovakijos, 
 
 #: data/nation/slovakian.ruleset:26
 msgid "?female:Leader"
-msgstr "?female:Vadė"
+msgstr "?female:Valdovė"
 
 #: data/nation/slovakian.ruleset:29
 msgid "Priestess"
@@ -24497,11 +24468,11 @@ msgstr "Tarybų sąjungos istorija prasidėjo 1917 metų lapkritį, kai Rusijoje
 
 #: data/nation/soviet.ruleset:28
 msgid "Great Leader"
-msgstr "Didysis vadas"
+msgstr "Didysis valdovas"
 
 #: data/nation/soviet.ruleset:28
 msgid "?female:Great Leader"
-msgstr "?female:Didžioji vadė"
+msgstr "?female:Didžioji valdovė"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -25062,7 +25033,6 @@ msgid "?plural:Westphalians"
 msgstr "?plural:Vestfaliečiai"
 
 #: data/nation/westphalian.ruleset:6
-#, fuzzy
 msgid "Westphalia, before becoming a Prussian province, was the western region of the duchy of Saxony. Present-day it consists of the Northern part of the largest German federal state, North Rhine-Westphalia."
 msgstr "Vestfalija, prieš tapdama Prūsijos provinsija, buvo vakarinė Saksonijos kunigaikštystės dalis. Šiuo metu regionas yra šiaurinė didžiausios Vokietijos federacinės žemės, Šiaurės Reino-Vestfalijos, dalis."
 
@@ -25448,9 +25418,8 @@ msgid ""
 msgstr ""
 
 #: data/scenario/tutorial.sav:380
-#, fuzzy
 msgid "Loading tutorial events."
-msgstr "Įkeliamos taisyklės"
+msgstr "Įkeliami apmokymo įvykiai."
 
 #: data/civ1/game.ruleset:98
 #: data/civ2/game.ruleset:98
@@ -25646,233 +25615,4 @@ msgstr "Komanda 32"
 #: data/default/game.ruleset:126
 msgid "Team 0"
 msgstr "Komanda 0"
-
-#~ msgid ""
-#~ "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
-#~ "diplomatic efforts providing the Ambassador is reputable."
-#~ msgstr ""
-#~ "Dėl iškilusių šnipinėjimo įtarimų Jūsų %s buvo atlikta egzekucija mieste %"
-#~ "s.  %s sveikina atieties diplomatines pastangas vildamiesi, kad būsimasis "
-#~ "ambasadorius bus garbingas."
-#~ msgid "City: Celebrating"
-#~ msgstr "Miestas: Šventė"
-#~ msgid "City: Growth"
-#~ msgstr "Miestas: Augimas"
-#~ msgid "City: Normal"
-#~ msgstr "Miestas: Normalus"
-#~ msgid "City: Nuked"
-#~ msgstr "Miestas: Branduolinė ataka"
-#~ msgid "City: Transfer"
-#~ msgstr "Miestas: Perkelta"
-#~ msgid "Civ: Civil War"
-#~ msgstr "Civ: Pilietinis karas"
-#~ msgid "Civ: Pollution"
-#~ msgstr "Civ: Tarša"
-#~ msgid "Diplomat Action: Bribe"
-#~ msgstr "Diplomatinis veiksmas: Papirko"
-#~ msgid "Diplomat Action: Caused Incident"
-#~ msgstr "Diplomatinis veiksmas: Sukėlė incidentą"
-#~ msgid "Diplomat Action: Escape"
-#~ msgstr "Diplomatinis veiksmas: Pabėgo"
-#~ msgid "Diplomat Action: Embassy"
-#~ msgstr "Diplomatinis veiksmas: Ambasada"
-#~ msgid "Diplomat Action: Failed"
-#~ msgstr "Diplomatinis veiksmas: Nepavyko"
-#~ msgid "Diplomat Action: Incite"
-#~ msgstr "Diplomatinis veiksmas: Sukilimas"
-#~ msgid "Diplomat Action: Poison"
-#~ msgstr "Diplomatinis veiksmas: Užteršė"
-#~ msgid "Diplomat Action: Sabotage"
-#~ msgstr "Diplomatinis veiksmas: Sabotažas"
-#~ msgid "Diplomat Action: Theft"
-#~ msgstr "Diplomatinis veiksmas: Vagystė"
-#~ msgid "Enemy Diplomat: Embassy"
-#~ msgstr "Priešo diplomatas: Ambasada"
-#~ msgid "Enemy Diplomat: Failed"
-#~ msgstr "Priešo diplomatas: Nepavyko"
-#~ msgid "Enemy Diplomat: Incite"
-#~ msgstr "Priešo diplomatas: Sukilimas"
-#~ msgid "Enemy Diplomat: Poison"
-#~ msgstr "Priešo diplomatas: Teršimas"
-#~ msgid "Enemy Diplomat: Sabotage"
-#~ msgstr "Priešo diplomatas: Sabotažas"
-#~ msgid "Enemy Diplomat: Theft"
-#~ msgstr "Priešo diplomatas: Vagystė"
-#~ msgid "Improvement: Bought"
-#~ msgstr "Patobulinimas: Nupirktas"
-#~ msgid "Improvement: Built"
-#~ msgstr "Patobulinimas: Pastatytas"
-#~ msgid "Improvement: Sold"
-#~ msgstr "Patobulinimas: Parduotas"
-#~ msgid "Treaty: Broken"
-#~ msgstr "Sutartis: Nutraukta"
-#~ msgid "Treaty: Peace"
-#~ msgstr "Sutartis: Taika"
-#~ msgid "Treaty: Shared Vision"
-#~ msgstr "Sutartis: Bendra regėjimo laukas"
-#~ msgid "Unit: Built"
-#~ msgstr "Dalinys: Pastatytas"
-#~ msgid "Wonder: Finished"
-#~ msgstr "Stebuklas: Pastatytas"
-#~ msgid "Wonder: Made Obsolete"
-#~ msgstr "Stebuklas: Paseno"
-#~ msgid "Wonder: Started"
-#~ msgstr "Stebuklas: Pradėta statyba"
-#~ msgid "Treaty: Embassy"
-#~ msgstr "Sutartis: Ambasada"
-#~ msgid "tech \"%s\": requires itself"
-#~ msgstr "technologija „%s“: reikalauja savęs"
-#~ msgid "%s's %s tried to build %s, which is not available."
-#~ msgstr "%s %s bandė statyti %s, kuris neprieinamas."
-#~ msgid "Sea moving start units are not yet supported, %s not created."
-#~ msgstr "Jūriniai daliniai dar nepalaikomi, nes %s nesukurtas."
-#~ msgid "Unknown terrain %s in entry %s."
-#~ msgstr "Nežinomas reljefas %s įraše %s."
-#~ msgid "Terrain %s has unknown flag %s"
-#~ msgstr "Reljefas %s turi nežinomą žymą %s"
-#~ msgid "Terrain %s is native to unknown unit class %s"
-#~ msgstr "Reljefas %s yra gimtasis nežinomai dalinių klasei %s"
-#~ msgid "Oceanic terrain %s is native to land units."
-#~ msgstr "Oceanic terrain %s is native to land units."
-#~ msgid "Warning: Unknown nation %s for starting position no %d"
-#~ msgstr "Įspėjimas: Nežinoma tauta %s startinei pozicijai %d"
-#~ msgid "Wrong unit type id value (%d)"
-#~ msgstr "Bloga dalinio identifikacinė reikšmė  (%d)"
-#~ msgid "Wrong improvement type id value (%d)"
-#~ msgstr "Bloga patobulinimo identifikacinė reikšmė  (%d)"
-#~ msgid "Wrong tech type id value (%d)"
-#~ msgstr "Bloga technologijos identifikacinė reikšmė  (%d)"
-#~ msgid "Unknown technology (%s)"
-#~ msgstr "Nežinoma technologija (%s)"
-#~ msgid "Wrong government type id value (%d)"
-#~ msgstr "Bloga valdymo formos identifikacinė reikšmė  (%d)"
-#~ msgid "Savegame error: invalid unit orders."
-#~ msgstr "Klaida išsaugant žaidimą dėl blogų nurodymų daliniui."
-#~ msgid "Unsupported government found (%s)"
-#~ msgstr "Rasta nepalaikoma valdymo forma (%s)"
-#~ msgid "Your %s has been lost on the high seas."
-#~ msgstr "Jūsų %s buvo prarastas plačiosiose jūrose."
-#~ msgid "Your %s survived on the high seas and became more experienced!"
-#~ msgstr "Jūsų %s buvo išgyveno plačiosiose jūrose ir įgavo patirties."
-#~ msgid "Your %s has been lost on unsafe terrain."
-#~ msgstr "Jūsų %s buvo prarastas, nes atsidūrė ant nesaugaus reljefo."
-
-#, fuzzy
-#~ msgid "?trade_routes:n"
-#~ msgstr "p"
-
-#, fuzzy
-#~ msgid "?trade_routes:T"
-#~ msgstr "Prekybos maršrutai: "
-#~ msgid "Food Stock"
-#~ msgstr "Maisto atsargos"
-#~ msgid "?corruption:Cor"
-#~ msgstr "?corruption:Kor"
-
-#, fuzzy
-#~ msgid "?waste:Was"
-#~ msgstr "Atliekos:"
-#~ msgid "* Can build fortresses (if %s is known).\n"
-#~ msgstr "* Gali statyti fortus (jei %s yra žinomas).\n"
-#~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
-#~ msgstr "* Gali statyti fortus (jei bent 1 iš šių yra žinomas: %s).\n"
-#~ msgid "* Can build airbases.\n"
-#~ msgstr "* Gali statyti oro bazes.\n"
-#~ msgid "* Defends very badly agains fighter type units.\n"
-#~ msgstr "* Labai prastai ginasi prieš kovotojo tipo dalinius.\n"
-#~ msgid "* The discovery of %s reduces the risk to 25%%.\n"
-#~ msgstr "* %s atradimas sumažina riziką iki 25%%.\n"
-#~ msgid "* %s reduces the risk to 12%%.\n"
-#~ msgstr "* %s sumažina riziką iki 12%%.\n"
-#~ msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-#~ msgstr "* Sumažina riziką iki 25%%.\n"
-#~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-#~ msgstr "* Sumažina riziką iki 12%%.\n"
-#~ msgid "* Allows %s to build fortresses.\n"
-#~ msgstr "* Leidžia %s statyti fortus.\n"
-#~ msgid "* Allows %s to build airbases.\n"
-#~ msgstr "* Leidžia %s statyti oro bazes.\n"
-#~ msgid "* This terrain is unsafe for units to travel on."
-#~ msgstr "* Šis reljefas nesaugus keliauti daliniams."
-#~ msgid " with "
-#~ msgstr " su "
-#~ msgid "Can't find tileset \"%s\"."
-#~ msgstr "Negaliu rasti laukelių rinkinio \"%s\"."
-
-#, fuzzy
-#~ msgid "Can't find spec file \"%s\"."
-#~ msgstr "Negaliu rasti audio failo %s"
-#~ msgid "Moves Left"
-#~ msgstr "Likę ėjimai"
-#~ msgid "<AI>"
-#~ msgstr "<DI>"
-#~ msgid "<Novice AI>"
-#~ msgstr "<Pradedantysis DI>"
-#~ msgid "<Normal AI>"
-#~ msgstr "<Vidutinis DI>"
-#~ msgid "<Hard AI>"
-#~ msgstr "<Sunkus DI>"
-#~ msgid ""
-#~ "Start\n"
-#~ "Game"
-#~ msgstr ""
-#~ "Pradėti\n"
-#~ "žaidimą"
-#~ msgid ""
-#~ "Select\n"
-#~ "Nation"
-#~ msgstr ""
-#~ "Išsirinkite\n"
-#~ "tautą"
-#~ msgid " - under CMA control."
-#~ msgstr "- kontroliuojamas GVA."
-#~ msgid "Citizen Management Agent"
-#~ msgstr "Piliečių valdymo agentas"
-#~ msgid "Change C.M.A Settings"
-#~ msgstr "Pakeisti P.V.A. nustatymus"
-#~ msgid "Economy (F5)"
-#~ msgstr "Ekonomika (F5)"
-#~ msgid "Research (F6)"
-#~ msgstr "Tyrimai (F6)"
-#~ msgid "Revolution (Shift + R)"
-#~ msgstr "Revoliucija (Shift + R)"
-#~ msgid "End Turn (Enter)"
-#~ msgstr "Ėjimo pabaiga (Enter)"
-#~ msgid "Players (F3)"
-#~ msgstr "Žaidėjai (F3)"
-#~ msgid "Units (F2)"
-#~ msgstr "Daliniai (F2)"
-#~ msgid ""
-#~ "Revolution (Shift + R)\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Revoliucija (Shift + R)\n"
-#~ "%s"
-#~ msgid ""
-#~ "Research (F6)\n"
-#~ "%s (%d/%d)"
-#~ msgstr ""
-#~ "Tyrimai (F6)\n"
-#~ "%s (%d/%d)"
-#~ msgid "Log"
-#~ msgstr "Žurnalas"
-#~ msgid ""
-#~ "%s%s  -  %s%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "%s%s  -  %s%s\n"
-#~ "\n"
-#~ msgid ""
-#~ "The Gauls were a Celtic people occupying what is now France and Belgium."
-#~ msgstr ""
-#~ "Galai yra keltų tauta, įsikūrusi šiuolaikinės Prancūzijos ir Belgijos "
-#~ "teritorijoje."
-#~ msgid "?title:Inca"
-#~ msgstr "?title:Inkų karalius"
-#~ msgid ""
-#~ "Phoenicia was an ancient civilization, based in what is now the coastal "
-#~ "regions of Lebanon and Syria."
-#~ msgstr ""
-#~ "Finikija buvo senovės civilizacija gyvavusi ant dabartinių Libano ir "
-#~ "Sirijos krantų."
 
