@@ -17,6 +17,7 @@
 
 #include "improvement.h"
 #include "unitlist.h"
+#include "vision.h"
 #include "worklist.h"
 
 enum production_class_type {
@@ -340,7 +341,7 @@ struct city {
      * set inside auto_arrange_workers. */
     bool needs_arrange;
 
-    struct vision *vision; /* See explanation in maphand.h. */
+    struct vision *vision;
   } server;
 
   int turn_founded;		/* In which turn was the city founded? */

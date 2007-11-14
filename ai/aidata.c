@@ -255,7 +255,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
      * enough to warrant city walls. Concentrate instead on 
      * coastal fortresses and hunting down enemy transports. */
     city_list_iterate(aplayer->cities, acity) {
-      Continent_id continent = tile_get_continent(acity->tile);
+      Continent_id continent = tile_continent(acity->tile);
       ai->threats.continent[continent] = TRUE;
     } city_list_iterate_end;
 
@@ -281,13 +281,13 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
         if (unit_type(punit)->attack_strength > 1) {
-	  if (is_ocean(tile_get_terrain(punit->tile))) {
-	    Continent_id continent = tile_get_continent(punit->tile);
+	  if (is_ocean_tile(punit->tile)) {
+	    Continent_id continent = tile_continent(punit->tile);
 	    ai->threats.ocean[-continent] = TRUE;
 	  } else {
 	    adjc_iterate(punit->tile, tile2) {
-	      if (is_ocean(tile_get_terrain(tile2))) {
-	        Continent_id continent = tile_get_continent(tile2);
+	      if (is_ocean_tile(tile2)) {
+	        Continent_id continent = tile_continent(tile2);
 	        ai->threats.ocean[-continent] = TRUE;
 	      }
 	    } adjc_iterate_end;
@@ -329,14 +329,14 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     if (pplayers_allied(pplayer, aplayer)) {
       city_list_iterate(aplayer->cities, pcity) {
         adjc_iterate(pcity->tile, tile1) {
-          if (is_ocean(tile1->terrain)) {
+          if (is_ocean_tile(tile1)) {
             adjc_iterate(pcity->tile, tile2) {
-              if (is_ocean(tile2->terrain) 
-                  && tile_get_continent(tile1) != tile_get_continent(tile2)) {
-                ai->channels[(-tile1->continent) * ai->num_oceans
-                             + (-tile2->continent)] = TRUE;
-                ai->channels[(-tile2->continent) * ai->num_oceans
-                             + (-tile1->continent)] = TRUE;
+              if (is_ocean_tile(tile2) 
+                  && tile_continent(tile1) != tile_continent(tile2)) {
+                ai->channels[(-tile_continent(tile1)) * ai->num_oceans
+                             + (-tile_continent(tile2))] = TRUE;
+                ai->channels[(-tile_continent(tile2)) * ai->num_oceans
+                             + (-tile_continent(tile1))] = TRUE;
               }
             } adjc_iterate_end;
           }
@@ -375,9 +375,9 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->explore.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
   ai->explore.ocean = fc_calloc(ai->num_oceans + 1, sizeof(bool));
   whole_map_iterate(ptile) {
-    Continent_id continent = tile_get_continent(ptile);
+    Continent_id continent = tile_continent(ptile);
 
-    if (is_ocean(ptile->terrain)) {
+    if (is_ocean_tile(ptile)) {
       if (ai->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
           && !map_is_known(ptile, pplayer)) {
 	/* We're not done there. */
@@ -387,7 +387,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       /* skip rest, which is land only */
       continue;
     }
-    if (ai->explore.continent[ptile->continent]) {
+    if (ai->explore.continent[tile_continent(ptile)]) {
       /* we don't need more explaining, we got the point */
       continue;
     }
@@ -411,7 +411,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
   ai->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
-    ai->stats.cities[(int)tile_get_continent(pcity->tile)]++;
+    ai->stats.cities[(int)tile_continent(pcity->tile)]++;
     ai->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
   ai->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
@@ -419,12 +419,12 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = punit->tile;
 
-    if (!is_ocean(ptile->terrain) && unit_has_type_flag(punit, F_SETTLERS)) {
-      ai->stats.workers[(int)tile_get_continent(punit->tile)]++;
+    if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, F_SETTLERS)) {
+      ai->stats.workers[(int)tile_continent(punit->tile)]++;
     }
     if (unit_has_type_flag(punit, F_DIPLOMAT) && punit->ai.ai_role == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
-      struct city *pcity = tile_get_city(punit->goto_tile);
+      struct city *pcity = tile_city(punit->goto_tile);
 
       if (pcity) {
         BV_SET(ai->stats.diplomat_reservations, pcity->id);

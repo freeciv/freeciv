@@ -150,19 +150,19 @@ static void build_landarea_map(struct claim_map *pcmap)
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       map_city_radius_iterate(pcity->tile, tile1) {
-	BV_SET(claims[tile1->index], player_index(city_owner(pcity)));
+	BV_SET(claims[tile_index(tile1)], player_index(city_owner(pcity)));
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 
   whole_map_iterate(ptile) {
     struct player *owner = NULL;
-    bv_player *pclaim = &claims[ptile->index];
+    bv_player *pclaim = &claims[tile_index(ptile)];
 
-    if (is_ocean(ptile->terrain)) {
+    if (is_ocean_tile(ptile)) {
       /* Nothing. */
-    } else if (ptile->city) {
-      owner = city_owner(ptile->city);
+    } else if (tile_city(ptile)) {
+      owner = tile_owner(ptile);
       pcmap->player[player_index(owner)].settledarea++;
     } else if (ptile->worked) {
       owner = city_owner(ptile->worked);
@@ -420,11 +420,11 @@ void save_ppm(void)
        int *color;
 
        /* color for cities first, then units, then land */
-       if (ptile->city) {
-         color = col[player_index(city_owner(ptile->city))];
+       if (tile_city(ptile)) {
+         color = col[player_index(tile_owner(ptile))];
        } else if (unit_list_size(ptile->units) > 0) {
          color = col[player_index(unit_owner(unit_list_get(ptile->units, 0)))];
-       } else if (is_ocean(ptile->terrain)) {
+       } else if (is_ocean_tile(ptile)) {
          color = watercol;
        } else {
          color = landcol;

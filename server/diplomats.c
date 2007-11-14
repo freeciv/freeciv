@@ -1053,8 +1053,8 @@ static bool diplomat_success_vs_defender (struct unit *pattacker,
   chance += 15 * pattacker->veteran;
   chance -= 15 * pdefender->veteran;
 
-  if (pdefender_tile->city) {
-    chance -= chance * get_city_bonus(pdefender_tile->city,
+  if (tile_city(pdefender_tile)) {
+    chance -= chance * get_city_bonus(tile_city(pdefender_tile),
                                       EFT_SPY_RESISTANT) / 100;
   } else {
     if (tile_has_base_flag_for_unit(pdefender_tile, unit_type(pdefender),
@@ -1079,7 +1079,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 			             struct unit *pdiplomat,
 				     struct tile *ptile)
 {
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
 
   /* We don't need a _safe iterate since no transporters should be
    * destroyed. */

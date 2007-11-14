@@ -1067,7 +1067,7 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
   if (client_tile_get_known(ptile) != TILE_UNKNOWN) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL,
 		    get_drawable_unit(tileset, ptile, citymode),
-		    ptile->city, canvas_x, canvas_y, citymode);
+		    tile_city(ptile), canvas_x, canvas_y, citymode);
   }
 }
 
@@ -1518,9 +1518,9 @@ void show_city_descriptions(int canvas_x, int canvas_y,
     const int canvas_x = gui_x - mapview.gui_x0;
     const int canvas_y = gui_y - mapview.gui_y0;
 
-    if (ptile && ptile->city) {
+    if (ptile && tile_city(ptile)) {
       int width = 0, height = 0;
-      struct city *pcity = ptile->city;
+      struct city *pcity = tile_city(ptile);
 
       show_city_desc(mapview.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
@@ -1840,7 +1840,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   closest_city = NULL;
 
   city_map_checked_iterate(ptile, city_x, city_y, tile1) {
-    pcity = tile_get_city(tile1);
+    pcity = tile_city(tile1);
     if (pcity
 	&& (!game.player_ptr || city_owner(pcity) == game.player_ptr)
 	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
@@ -1852,7 +1852,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
        * causing it to be marked as C_TILE_UNAVAILABLE.
        */
       
-      if (map_deco[pcity->tile->index].hilite == HILITE_CITY) {
+      if (map_deco[tile_index(pcity->tile)].hilite == HILITE_CITY) {
 	/* rule c */
 	return pcity;
       }
@@ -2245,8 +2245,8 @@ void init_mapview_decorations(void)
 
   map_deco = fc_realloc(map_deco, MAP_INDEX_SIZE * sizeof(*map_deco));
   whole_map_iterate(ptile) {
-    map_deco[ptile->index].hilite = HILITE_NONE;
-    map_deco[ptile->index].crosshair = 0;
+    map_deco[tile_index(ptile)].hilite = HILITE_NONE;
+    map_deco[tile_index(ptile)].crosshair = 0;
   } whole_map_iterate_end;
 }
 

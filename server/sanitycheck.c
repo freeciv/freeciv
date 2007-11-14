@@ -47,9 +47,11 @@
 #define SANITY_TILE(ptile, check)					\
   do {									\
     if (!(check)) {							\
+      struct city *pcity = tile_city(ptile);				\
       freelog(LOG_ERROR, "Failed sanity check at %s (%d, %d): "		\
-              "%s (%s:%d)", ptile->city ? ptile->city->name 		\
-              : ptile->terrain->name.vernacular, ptile->x, ptile->y, 	\
+              "%s (%s:%d)", pcity ? pcity->name				\
+              : tile_terrain(ptile)->name.vernacular,			\
+              ptile->x, ptile->y,					\
               #check, __FILE__,__LINE__);				\
     }									\
   } while(0)
@@ -70,8 +72,8 @@
 static void check_specials(void)
 {
   whole_map_iterate(ptile) {
-    const struct terrain *pterrain = tile_get_terrain(ptile);
-    bv_special special = tile_get_special(ptile);
+    const struct terrain *pterrain = tile_terrain(ptile);
+    bv_special special = tile_specials(ptile);
 
     if (contains_special(special, S_RAILROAD))
       SANITY_TILE(ptile, contains_special(special, S_ROAD));
@@ -154,38 +156,38 @@ static void check_misc(void)
 static void check_map(void)
 {
   whole_map_iterate(ptile) {
-    struct city *pcity = tile_get_city(ptile);
-    int cont = tile_get_continent(ptile), x, y;
+    struct city *pcity = tile_city(ptile);
+    int cont = tile_continent(ptile), x, y;
 
-    CHECK_INDEX(ptile->index);
+    CHECK_INDEX(tile_index(ptile));
     CHECK_MAP_POS(ptile->x, ptile->y);
     CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
 
-    if (ptile->city) {
+    if (tile_city(ptile)) {
       SANITY_TILE(ptile, tile_owner(ptile) != NULL);
     }
     if (tile_owner(ptile) != NULL) {
       SANITY_TILE(ptile, ptile->owner_source != NULL);
     }
 
-    index_to_map_pos(&x, &y, ptile->index);
+    index_to_map_pos(&x, &y, tile_index(ptile));
     SANITY_TILE(ptile, x == ptile->x && y == ptile->y);
 
-    index_to_native_pos(&x, &y, ptile->index);
+    index_to_native_pos(&x, &y, tile_index(ptile));
     SANITY_TILE(ptile, x == ptile->nat_x && y == ptile->nat_y);
 
-    if (is_ocean(tile_get_terrain(ptile))) {
+    if (is_ocean_tile(ptile)) {
       SANITY_TILE(ptile, cont < 0);
       adjc_iterate(ptile, tile1) {
-	if (is_ocean(tile_get_terrain(tile1))) {
-	  SANITY_TILE(ptile, tile_get_continent(tile1) == cont);
+	if (is_ocean_tile(tile1)) {
+	  SANITY_TILE(ptile, tile_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     } else {
       SANITY_TILE(ptile, cont > 0);
       adjc_iterate(ptile, tile1) {
-	if (!is_ocean(tile_get_terrain(tile1))) {
-	  SANITY_TILE(ptile, tile_get_continent(tile1) == cont);
+	if (!is_ocean_tile(tile1)) {
+	  SANITY_TILE(ptile, tile_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     }
@@ -219,7 +221,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   struct player *pplayer = city_owner(pcity);
 
   SANITY_CITY(pcity, pcity->size >= 1);
-  SANITY_CITY(pcity, !terrain_has_flag(tile_get_terrain(pcity->tile),
+  SANITY_CITY(pcity, !terrain_has_flag(tile_terrain(pcity->tile),
                                        TER_NO_CITIES));
   SANITY_CITY(pcity, tile_owner(pcity->tile) == NULL
                      || tile_owner(pcity->tile) == pplayer);
@@ -408,7 +410,7 @@ static void check_units(void) {
 		get_activity_text(punit->activity));
       }
 
-      pcity = tile_get_city(ptile);
+      pcity = tile_city(ptile);
       if (pcity) {
 	SANITY_CHECK(pplayers_allied(city_owner(pcity), pplayer));
       }

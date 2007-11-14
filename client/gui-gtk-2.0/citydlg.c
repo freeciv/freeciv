@@ -405,7 +405,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup = game_find_city_by_number(punit->homecity);
-  pcity_pre = tile_get_city(punit->tile);
+  pcity_pre = tile_city(punit->tile);
 
   if (pcity_sup && (pdialog = get_city_dialog(pcity_sup)))
     city_dialog_update_supported_units(pdialog);
@@ -2037,7 +2037,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
   GtkWidget *menu, *item;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)) &&
-      (pcity = tile_get_city(punit->tile)) &&
+      (pcity = tile_city(punit->tile)) &&
       (pdialog = get_city_dialog(pcity))) {
 
     if (ev->type != GDK_BUTTON_PRESS || ev->button == 2 || ev->button == 3
@@ -2149,7 +2149,7 @@ static gboolean present_unit_middle_callback(GtkWidget * w,
   struct city_dialog *pdialog;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)) &&
-      (pcity = tile_get_city(punit->tile)) &&
+      (pcity = tile_city(punit->tile)) &&
       (pdialog = get_city_dialog(pcity)) && can_client_issue_orders() && 
       (ev->button == 2 || ev->button == 3)) {
     set_unit_focus(punit);
@@ -2237,7 +2237,7 @@ static void present_unit_activate_close_callback(GtkWidget * w,
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     set_unit_focus(punit);
-    if ((pcity = tile_get_city(punit->tile)))
+    if ((pcity = tile_city(punit->tile)))
       if ((pdialog = get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
   }

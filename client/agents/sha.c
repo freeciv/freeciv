@@ -43,10 +43,10 @@ static struct unit_list *previous_units;
 static void sha_tile_update(struct tile *ptile)
 {
   freelog(LOG_DEBUG, "sha got tile: %d ~= (%d, %d)",
-	  ptile->index, TILE_XY(ptile));
+	  tile_index(ptile), TILE_XY(ptile));
 
 #if 0
-  previous_tiles[ptile->index] = *ptile;
+  previous_tiles[tile_index(ptile)] = *ptile;
 #endif
 }
 
@@ -134,7 +134,7 @@ Public interface
 **************************************************************************/
 struct tile *sha_tile_recall(struct tile *ptile)
 {
-  return &previous_tiles[ptile->index];
+  return &previous_tiles[tile_index(ptile)];
 }
 
 /**************************************************************************

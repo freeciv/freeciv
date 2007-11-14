@@ -77,7 +77,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 				  enum diplomat_actions action, 
 				  const struct tile *ptile)
 {
-  struct city *pcity=tile_get_city(ptile);
+  struct city *pcity=tile_city(ptile);
 
   if (action != DIPLOMAT_MOVE
       && !can_unit_exist_at_tile(pdiplomat, pdiplomat->tile)) {
@@ -141,18 +141,20 @@ FIXME: Maybe we should allow airlifts between allies
 **************************************************************************/
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity)
 {
+  struct city *acity = tile_city(punit->tile);
+
   if(punit->moves_left == 0)
     return FALSE;
-  if (!punit->tile->city) {
+  if (!acity) {
     return FALSE;
   }
-  if (punit->tile->city == pcity) {
+  if (acity == pcity) {
     return FALSE;
   }
-  if (city_owner(punit->tile->city) != city_owner(pcity)) {
+  if (city_owner(acity) != city_owner(pcity)) {
     return FALSE;
   }
-  if (!punit->tile->city->airlift || !pcity->airlift) {
+  if (!acity->airlift || !pcity->airlift) {
     return FALSE;
   }
   if (!is_ground_unit(punit))
@@ -196,7 +198,7 @@ bool unit_can_help_build_wonder(const struct unit *punit,
 **************************************************************************/
 bool unit_can_help_build_wonder_here(const struct unit *punit)
 {
-  struct city *pcity = tile_get_city(punit->tile);
+  struct city *pcity = tile_city(punit->tile);
 
   return pcity && unit_can_help_build_wonder(punit, pcity);
 }
@@ -211,7 +213,7 @@ bool unit_can_est_traderoute_here(const struct unit *punit)
   struct city *phomecity, *pdestcity;
 
   return (unit_has_type_flag(punit, F_TRADE_ROUTE)
-	  && (pdestcity = tile_get_city(punit->tile))
+	  && (pdestcity = tile_city(punit->tile))
 	  && (phomecity = game_find_city_by_number(punit->homecity))
 	  && can_cities_trade(phomecity, pdestcity));
 }
@@ -351,7 +353,7 @@ bool can_unit_add_or_build_city(const struct unit *punit)
 enum add_build_city_result test_unit_add_or_build_city(const struct unit *
 						       punit)
 {
-  struct city *pcity = tile_get_city(punit->tile);
+  struct city *pcity = tile_city(punit->tile);
   bool is_build = unit_has_type_flag(punit, F_CITIES);
   bool is_add = unit_has_type_flag(punit, F_ADD_TO_CITY);
   int new_pop;
@@ -393,18 +395,20 @@ enum add_build_city_result test_unit_add_or_build_city(const struct unit *
 bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity)
 {
+  struct city *acity = tile_city(punit->tile);
+
   /* Requirements to change homecity:
    *
-   * 1. Homeless cities can't change homecity (this is a feature since
+   * 1. Homeless units can't change homecity (this is a feature since
    *    being homeless is a big benefit).
    * 2. The unit must be inside the city it is rehoming to.
    * 3. Of course you can only have your own cities as homecity.
    * 4. You can't rehome to the current homecity. */
   return (punit && pcity
 	  && punit->homecity > 0
-	  && punit->tile->city
-	  && city_owner(punit->tile->city) == unit_owner(punit)
-	  && punit->homecity != punit->tile->city->id);
+	  && acity
+	  && city_owner(acity) == unit_owner(punit)
+	  && punit->homecity != acity->id);
 }
 
 /**************************************************************************
@@ -412,7 +416,7 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 **************************************************************************/
 bool can_unit_change_homecity(const struct unit *punit)
 {
-  return can_unit_change_homecity_to(punit, punit->tile->city);
+  return can_unit_change_homecity_to(punit, tile_city(punit->tile));
 }
 
 /**************************************************************************
@@ -668,7 +672,7 @@ bool can_unit_paradrop(const struct unit *punit)
     return TRUE;
   }
 
-  if (!tile_get_city(punit->tile)) {
+  if (!tile_city(punit->tile)) {
     return FALSE;
   }
 
@@ -769,7 +773,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                       enum base_type_id base)
 {
   struct player *pplayer = unit_owner(punit);
-  struct terrain *pterrain = ptile->terrain;
+  struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
   struct base_type *old_base;
   struct base_type *pbase = base_by_number(base);
@@ -800,18 +804,18 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
      * *Do* allow it if they're transforming - the mine may survive */
     if (terrain_control.may_mine
 	&& unit_has_type_flag(punit, F_SETTLERS)
-	&& ((ptile->terrain == pterrain->mining_result
+	&& ((pterrain == pterrain->mining_result
 	     && !tile_has_special(ptile, S_MINE))
-	    || (ptile->terrain != pterrain->mining_result
+	    || (pterrain != pterrain->mining_result
 		&& pterrain->mining_result != T_NONE
-		&& (!is_ocean(ptile->terrain)
+		&& (!is_ocean(pterrain)
 		    || is_ocean(pterrain->mining_result)
 		    || can_reclaim_ocean(ptile))
-		&& (is_ocean(ptile->terrain)
+		&& (is_ocean(pterrain)
 		    || !is_ocean(pterrain->mining_result)
 		    || can_channel_land(ptile))
 		&& (!is_ocean(pterrain->mining_result)
-		    || !tile_get_city(ptile))))) {
+		    || !tile_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_IRRIGATE) {
 	  return FALSE;
@@ -830,18 +834,18 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	&& (!tile_has_special(ptile, S_IRRIGATION)
 	    || (!tile_has_special(ptile, S_FARMLAND)
 		&& player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
-	&& ((ptile->terrain == pterrain->irrigation_result
+	&& ((pterrain == pterrain->irrigation_result
 	     && is_water_adjacent_to_tile(ptile))
-	    || (ptile->terrain != pterrain->irrigation_result
+	    || (pterrain != pterrain->irrigation_result
 		&& pterrain->irrigation_result != T_NONE
-		&& (!is_ocean(ptile->terrain)
+		&& (!is_ocean(pterrain)
 		    || is_ocean(pterrain->irrigation_result)
 		    || can_reclaim_ocean(ptile))
-		&& (is_ocean(ptile->terrain)
+		&& (is_ocean(pterrain)
 		    || !is_ocean(pterrain->irrigation_result)
 		    || can_channel_land(ptile))
 		&& (!is_ocean(pterrain->irrigation_result)
-		    || !tile_get_city(ptile))))) {
+		    || !tile_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_MINE) {
 	  return FALSE;
@@ -856,7 +860,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
 	    && punit->activity != ACTIVITY_FORTIFIED
 	    && !unit_has_type_flag(punit, F_SETTLERS)
-	    && (!is_ocean(ptile->terrain) || ptile->city));
+	    && (!is_ocean(pterrain) || tile_city(ptile)));
 
   case ACTIVITY_FORTIFIED:
     return FALSE;
@@ -892,7 +896,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	bv_special psworking;
 	int i;
 
-	if (ptile->city && (target == S_ROAD || target == S_RAILROAD)) {
+	if (tile_city(ptile) && (target == S_ROAD || target == S_RAILROAD)) {
 	  return FALSE;
 	}
 	psworking = get_unit_tile_pillage_set(ptile);
@@ -900,7 +904,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
 	    enum tile_special_type spe = infrastructure_specials[i];
 
-	    if (ptile->city && (spe == S_ROAD || spe == S_RAILROAD)) {
+	    if (tile_city(ptile) && (spe == S_ROAD || spe == S_RAILROAD)) {
 	      /* Can't pillage this. */
 	      continue;
 	    }
@@ -931,15 +935,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_TRANSFORM:
     return (terrain_control.may_transform
 	    && pterrain->transform_result != T_NONE
-	    && ptile->terrain != pterrain->transform_result
-	    && (!is_ocean(ptile->terrain)
+	    && pterrain != pterrain->transform_result
+	    && (!is_ocean(pterrain)
 		|| is_ocean(pterrain->transform_result)
 		|| can_reclaim_ocean(ptile))
-	    && (is_ocean(ptile->terrain)
+	    && (is_ocean(pterrain)
 		|| !is_ocean(pterrain->transform_result)
 		|| can_channel_land(ptile))
 	    && (!terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
-		|| !(tile_get_city(ptile)))
+		|| !(tile_city(ptile)))
 	    && unit_has_type_flag(punit, F_TRANSFORM));
 
   case ACTIVITY_FORTRESS:
@@ -1206,7 +1210,7 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
 bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 {
   square_iterate(ptile0, 1, ptile) {
-    if (is_ocean(ptile->terrain)) {
+    if (is_ocean_tile(ptile)) {
       continue;
     }
     if (is_non_allied_unit_tile(ptile, pplayer)) {
@@ -1252,7 +1256,7 @@ bool unit_being_aggressive(const struct unit *punit)
   if (!is_attack_unit(punit)) {
     return FALSE;
   }
-  if (tile_get_city(punit->tile)) {
+  if (tile_city(punit->tile)) {
     return FALSE;
   }
   if (game.info.borders > 0
@@ -1434,7 +1438,7 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
       return UR_NO_MONEY;
     }
 
-    pcity = tile_get_city(punit->tile);
+    pcity = tile_city(punit->tile);
     if (!pcity) {
       return UR_NOT_IN_CITY;
     }

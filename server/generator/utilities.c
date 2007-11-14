@@ -54,7 +54,7 @@ void destroy_placed_map(void)
 
 
 
-#define pmap(ptile) (placed_map[(ptile)->index])
+#define pmap(_tile) (placed_map[tile_index(_tile)])
 
 /* Checks if land has not yet been placed on pmap at (x, y) */
 bool not_placed(const struct tile *ptile)
@@ -79,7 +79,7 @@ void map_unset_placed(struct tile *ptile)
 void set_all_ocean_tiles_placed(void) 
 {
   whole_map_iterate(ptile) {
-    if (ptile->terrain != T_UNKNOWN && is_ocean(tile_get_terrain(ptile))) {
+    if (is_ocean_tile(ptile)) {
       map_set_placed(ptile);
     }
   } whole_map_iterate_end;
@@ -113,11 +113,11 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
   /* Determine minimum and maximum value. */
   whole_map_iterate_filtered(ptile, data, filter) {
     if (first) {
-      minval = int_map[ptile->index];
-      maxval = int_map[ptile->index];
+      minval = int_map[tile_index(ptile)];
+      maxval = int_map[tile_index(ptile)];
     } else {
-      maxval = MAX(maxval, int_map[ptile->index]);
-      minval = MIN(minval, int_map[ptile->index]);
+      maxval = MAX(maxval, int_map[tile_index(ptile)]);
+      minval = MIN(minval, int_map[tile_index(ptile)]);
     }
     first = FALSE;
     total++;
@@ -137,8 +137,8 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
        and count the number of occurencies of all values to initialize the 
        frequencies[] */
     whole_map_iterate_filtered(ptile, data, filter) {
-      int_map[ptile->index] -= minval;
-      frequencies[int_map[ptile->index]]++;
+      int_map[tile_index(ptile)] -= minval;
+      frequencies[int_map[tile_index(ptile)]]++;
     } whole_map_iterate_filtered_end;
 
     /* create the linearize function as "incremental" frequencies */
@@ -149,7 +149,7 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
 
     /* apply the linearize function */
     whole_map_iterate_filtered(ptile, data, filter) {
-      int_map[ptile->index] = frequencies[int_map[ptile->index]];
+      int_map[tile_index(ptile)] = frequencies[int_map[tile_index(ptile)]];
     } whole_map_iterate_filtered_end;
   }
 }
@@ -186,12 +186,12 @@ bool is_normal_nat_pos(int x, int y)
 
       axis_iterate(ptile, pnear, i, 2, axe) {
 	D += weight[i + 2];
-	N += weight[i + 2] * source_map[pnear->index];
+	N += weight[i + 2] * source_map[tile_index(pnear)];
       } axis_iterate_end;
       if(zeroes_at_edges) {
 	D = total_weight;
       }
-      target_map[ptile->index] = N / D;
+      target_map[tile_index(ptile)] = N / D;
     } whole_map_iterate_end;
 
     if (MAP_IS_ISOMETRIC) {

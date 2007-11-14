@@ -157,7 +157,7 @@ static void notify_goto_response(GtkWidget *w, gint response)
     center_tile_mapcanvas(ptile);
     break;
   case 2:
-    pcity = tile_get_city(ptile);
+    pcity = tile_city(ptile);
 
     if (center_when_popup_city) {
       center_tile_mapcanvas(ptile);
@@ -212,7 +212,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   } else {
     struct city *pcity;
 
-    pcity = tile_get_city(ptile);
+    pcity = tile_city(ptile);
     gtk_widget_set_sensitive(popcity_command,
       (pcity && city_owner(pcity) == game.player_ptr));
   }

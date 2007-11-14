@@ -17,6 +17,7 @@
 #include "base.h"
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
+#include "vision.h"
 
 #define BARBARIAN_LIFE    5
 
@@ -180,7 +181,7 @@ struct unit {
     int color_index;
   } client;
   struct {
-    struct vision *vision; /* See explanation in maphand.h. */
+    struct vision *vision;
   } server;
 
   bool has_orders;

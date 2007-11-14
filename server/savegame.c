@@ -959,31 +959,31 @@ static void map_load(struct section_file *file,
     /* get 4-bit segments of the first half of the 32-bit "known" field */
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.a%03d", nat_y),
-		  known[ptile->index] = ascii_hex2bin(ch, 0));
+		  known[tile_index(ptile)] = ascii_hex2bin(ch, 0));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.b%03d", nat_y),
-		  known[ptile->index] |= ascii_hex2bin(ch, 1));
+		  known[tile_index(ptile)] |= ascii_hex2bin(ch, 1));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.c%03d", nat_y),
-		  known[ptile->index] |= ascii_hex2bin(ch, 2));
+		  known[tile_index(ptile)] |= ascii_hex2bin(ch, 2));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.d%03d", nat_y),
-		  known[ptile->index] |= ascii_hex2bin(ch, 3));
+		  known[tile_index(ptile)] |= ascii_hex2bin(ch, 3));
 
     if (has_capability("known32fix", savefile_options)) {
       /* get 4-bit segments of the second half of the 32-bit "known" field */
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.e%03d", nat_y),
-		    known[ptile->index] |= ascii_hex2bin(ch, 4));
+		    known[tile_index(ptile)] |= ascii_hex2bin(ch, 4));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.g%03d", nat_y),
-		    known[ptile->index] |= ascii_hex2bin(ch, 5));
+		    known[tile_index(ptile)] |= ascii_hex2bin(ch, 5));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.h%03d", nat_y),
-		    known[ptile->index] |= ascii_hex2bin(ch, 6));
+		    known[tile_index(ptile)] |= ascii_hex2bin(ch, 6));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.i%03d", nat_y),
-		    known[ptile->index] |= ascii_hex2bin(ch, 7));
+		    known[tile_index(ptile)] |= ascii_hex2bin(ch, 7));
     }
 
     /* HACK: we read the known data from hex into a 32-bit integer, and
@@ -991,7 +991,7 @@ static void map_load(struct section_file *file,
     whole_map_iterate(ptile) {
       BV_CLR_ALL(ptile->tile_known);
       players_iterate(pplayer) {
-	if (known[ptile->index] & (1u << player_index(pplayer))) {
+	if (known[tile_index(ptile)] & (1u << player_index(pplayer))) {
 	  BV_SET(ptile->tile_known, player_index(pplayer));
 	}
       } players_iterate_end;
@@ -1116,7 +1116,7 @@ static void map_save(struct section_file *file)
         if (ptile->owner_source == NULL) {
           strcpy(token, "-");
         } else {
-          my_snprintf(token, sizeof(token), "%d", ptile->owner_source->index);
+          my_snprintf(token, sizeof(token), "%d", tile_index(ptile->owner_source));
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {
@@ -1137,28 +1137,28 @@ static void map_save(struct section_file *file)
     whole_map_iterate(ptile) {
       players_iterate(pplayer) {
 	if (map_is_known(ptile, pplayer)) {
-	  known[ptile->index] |= (1u << player_index(pplayer));
+	  known[tile_index(ptile)] |= (1u << player_index(pplayer));
 	}
       } players_iterate_end;
     } whole_map_iterate_end;
 
     /* put 4-bit segments of the 32-bit "known" field */
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.a%03d",
-			 bin2ascii_hex(known[ptile->index], 0));
+			 bin2ascii_hex(known[tile_index(ptile)], 0));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.b%03d",
-			 bin2ascii_hex(known[ptile->index], 1));
+			 bin2ascii_hex(known[tile_index(ptile)], 1));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.c%03d",
-			 bin2ascii_hex(known[ptile->index], 2));
+			 bin2ascii_hex(known[tile_index(ptile)], 2));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.d%03d",
-			 bin2ascii_hex(known[ptile->index], 3));
+			 bin2ascii_hex(known[tile_index(ptile)], 3));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.e%03d",
-			 bin2ascii_hex(known[ptile->index], 4));
+			 bin2ascii_hex(known[tile_index(ptile)], 4));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.g%03d",
-			 bin2ascii_hex(known[ptile->index], 5));
+			 bin2ascii_hex(known[tile_index(ptile)], 5));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.h%03d",
-			 bin2ascii_hex(known[ptile->index], 6));
+			 bin2ascii_hex(known[tile_index(ptile)], 6));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.i%03d",
-			 bin2ascii_hex(known[ptile->index], 7));
+			 bin2ascii_hex(known[tile_index(ptile)], 7));
   }
 }
 
@@ -2713,10 +2713,10 @@ static void player_map_load(struct player *plr, int plrno,
 	int k, id;
 	const char *p;
 	struct tile *ptile;
-	struct vision_base *pdcity = fc_calloc(1, sizeof(*pdcity));
+	struct vision_site *pdcity = fc_calloc(1, sizeof(*pdcity));
 
 	pdcity->identity = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
-	if (VISION_BASE_RUIN >= pdcity->identity) {
+	if (VISION_SITE_RUIN >= pdcity->identity) {
 	  freelog(LOG_ERROR, "[player%d] dc%d has invalid id (%d); skipping.",
 		  plrno, j, pdcity->identity);
 	  free(pdcity);
@@ -2767,7 +2767,7 @@ static void player_map_load(struct player *plr, int plrno,
 	  }
 	}
 
-	map_get_player_tile(ptile, plr)->vision_source = pdcity;
+	map_get_player_tile(ptile, plr)->site = pdcity;
 	alloc_id(pdcity->identity);
       }
     }
@@ -2778,8 +2778,8 @@ static void player_map_load(struct player *plr, int plrno,
       if (map_is_known_and_seen(ptile, plr, V_MAIN)) {
 	update_player_tile_knowledge(plr, ptile);
 	reality_check_city(plr, ptile);
-	if (tile_get_city(ptile)) {
-	  update_dumb_city(plr, tile_get_city(ptile));
+	if (tile_city(ptile)) {
+	  update_dumb_city(plr, tile_city(ptile));
 	}
       }
     } whole_map_iterate_end;
@@ -2790,7 +2790,7 @@ static void player_map_load(struct player *plr, int plrno,
        without fog of war */
     whole_map_iterate(ptile) {
       if (map_is_known(ptile, plr)) {
-	struct city *pcity = tile_get_city(ptile);
+	struct city *pcity = tile_city(ptile);
 	update_player_tile_last_seen(plr, ptile);
 	update_player_tile_knowledge(plr, ptile);
 	if (pcity)
@@ -3325,14 +3325,13 @@ static void player_save(struct player *plr, int plrno,
 				       (ptile, plr)->last_updated, 3));
 
     {
-      struct vision_base *pdcity;
+      struct vision_site *pdcity;
       char impr_buf[MAX_NUM_ITEMS + 1];
 
       i = 0;
       
       whole_map_iterate(ptile) {
-	if (NULL != (pdcity = map_get_player_base(ptile, plr))
-	 && VISION_BASE_RUIN < pdcity->identity) {
+	if (NULL != (pdcity = map_get_player_city(ptile, plr))) {
 	  secfile_insert_int(file, pdcity->identity, "player%d.dc%d.id",
 			     plrno, i);
 	  secfile_insert_int(file, ptile->nat_x,
@@ -3522,7 +3521,7 @@ static void check_city(struct city *pcity)
 		pcity->name, x, y);
 
 	map_city_radius_iterate(ptile, tile2) {
-	  struct city *pcity2 = tile_get_city(tile2);
+	  struct city *pcity2 = tile_city(tile2);
 	  if (pcity2)
 	    check_city(pcity2);
 	} map_city_radius_iterate_end;

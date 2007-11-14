@@ -544,7 +544,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	
         if (pInfo_Window->size.h > 
             2 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h))|| right) {
-	  if (game.info.borders > 0 && !pTile->city) {
+          struct city *pCity = tile_city(pTile);
+
+	  if (game.info.borders > 0 && !pCity) {
 	    const char *diplo_nation_plural_adjectives[DS_LAST] =
                         {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      			"" /* unused, DS_CEASEFIRE*/,
@@ -570,12 +572,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
               }
 	    }
-          } /* game.info.borders > 0 && !pTile->city */
+          } /* game.info.borders > 0 && !pCity */
           
-          if (pTile->city) {
+          if (pCity) {
             /* Look at city owner, not tile owner (the two should be the same, if
              * borders are in use). */
-            struct player *pOwner = city_owner(pTile->city);
+            struct player *pOwner = city_owner(pCity);
             bool citywall;
 /*            bool barrack = FALSE, airport = FALSE, port = FALSE;*/
 	    const char *diplo_city_adjectives[DS_LAST] =
@@ -583,18 +585,18 @@ void redraw_unit_info_label(struct unit_list *punitlist)
      			  "" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
 			  Q_("?city:Friendly"), Q_("?city:Mysterious")};
 			  
-	    cat_snprintf(buffer, sizeof(buffer), _("\nCity of %s"), pTile->city->name);
+	    cat_snprintf(buffer, sizeof(buffer), _("\nCity of %s"), pCity->name);
             	  
-	    citywall = pTile->city->client.walls;
+	    citywall = pCity->client.walls;
                           
 #if 0       
             /* This has hardcoded assumption that EFT_LAND_REGEN is always
              * provided by *building* named *Barracks*. Similar assumptions for
              * other effects. */     
 	    if (pplayers_allied(game.player_ptr, pOwner)) {
-	      barrack = (get_city_bonus(pTile->city, EFT_LAND_REGEN) > 0);
-	      airport = (get_city_bonus(pTile->city, EFT_AIR_VETERAN) > 0);
-	      port = (get_city_bonus(pTile->city, EFT_SEA_VETERAN) > 0);
+	      barrack = (get_city_bonus(pCity, EFT_LAND_REGEN) > 0);
+	      airport = (get_city_bonus(pCity, EFT_AIR_VETERAN) > 0);
+	      port = (get_city_bonus(pCity, EFT_SEA_VETERAN) > 0);
 	    }
 
 	    if (citywall || barrack || airport || port) {

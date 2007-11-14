@@ -264,7 +264,7 @@ static enum cursor_type editor_paint(struct tile *ptile, bool testing)
     /* Replace tile resource with new one */
     if (selected_resource) {
       tile_set_resource(&tile, selected_resource);
-    } else if (tile_get_resource(&tile)) {
+    } else if (tile_resource(&tile)) {
       tile_set_resource(&tile, NULL);
     } else {
       return CURSOR_INVALID;
@@ -309,7 +309,7 @@ static enum cursor_type editor_click(struct tile *ptile, bool testing)
   case ETOOL_UNIT:
     return editor_unit(ptile, testing);
   case ETOOL_CITY:
-    if (ptile->city) {
+    if (tile_city(ptile)) {
       if (!testing) {
         do_map_click(ptile, SELECT_POPUP);
       }

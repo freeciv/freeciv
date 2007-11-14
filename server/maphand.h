@@ -15,38 +15,19 @@
 
 #include "fc_types.h"
 
-#include "improvement.h"		/* bv_imprs */
 #include "map.h"
 #include "packets.h"
 #include "terrain.h"
+#include "vision.h"
 
 #include "hand_gen.h"
 
 struct section_file;
 struct conn_list;
 
-/* This is copied in really_give_tile_info_from_player_to_player(),
- * so be careful with pointers!
- */
-#define VISION_BASE_RUIN (0)
-
-struct vision_base {
-  struct tile *location;		/* Cannot be NULL */
-  struct player *owner;			/* May be NULL, always check! */
-
-  int identity;				/* city/unit >= 100 */
-  bool occupied;
-  bool walls;
-  bool happy, unhappy;
-  unsigned short size;
-
-  bv_imprs improvements;
-  char name[MAX_LEN_NAME];
-};
-
 
 struct player_tile {
-  struct vision_base *vision_source;	/* NULL for no base */
+  struct vision_site *site;		/* NULL for no vision site */
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   bv_special special;
@@ -93,10 +74,11 @@ void show_map_to_all(void);
 void player_map_allocate(struct player *pplayer);
 void player_map_free(struct player *pplayer);
 
-#define vision_owner(v) ((v)->owner)
-struct vision_base *map_get_player_base(const struct tile *ptile,
+struct vision_site *map_get_player_base(const struct tile *ptile,
 					const struct player *pplayer);
-struct vision_base *map_get_player_city(const struct tile *ptile,
+struct vision_site *map_get_player_city(const struct tile *ptile,
+					const struct player *pplayer);
+struct vision_site *map_get_player_site(const struct tile *ptile,
 					const struct player *pplayer);
 struct player_tile *map_get_player_tile(const struct tile *ptile,
 					const struct player *pplayer);
@@ -112,82 +94,14 @@ void disable_fog_of_war(void);
 
 void map_calculate_borders(void);
 void map_claim_ownership(struct tile *ptile, struct player *owner,
-                         struct tile *source);
+                         struct tile *place);
 
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
 
-/****************************************************************************
-  Vision for units and cities:
-
-  A vision source has a fixed owner and tile; it changes only in range.
-  Vision range is given in radius squared; most such values will come from
-  the ruleset.  All vision is circular.
-
-  A vision source is created using vision_new; this creates the source
-  without any sight points.  Call vision_change_sight to change the sight
-  points of a vision source (generally called from city_refresh_vision
-  and unit_refresh vision; this can be called liberally to do updates after
-  an effect may have changed the source's vision range).  Clear the sight
-  using vision_clear_sight before freeing it with vision_free.
-
-  vision_get_sight returns the sight points of the source.  This should
-  only rarely be necessary since all fogging and unfogging operations
-  are taken care of internally.
-
-  vision_reveal_tiles() controls whether the vision source can discover
-  new (unknown) tiles or simply maintain vision on already-known tiles.
-  By default, cities should pass FALSE for this since they cannot
-  discover new tiles.
-
-  ***** IMPORTANT *****
-  To change any of the parameters given to vision_new - that is, to change
-  the vision source's position (tile) or owner - you must create a new
-  vision and then clear and free the old vision.  Order is very important
-  here since you do not want to fog tiles intermediately.  You must store
-  a copy of the old vision source, then create and attach and fill out the
-  sight for a new vision source, and only then may you clear and free the
-  old vision source.  In most operations you'll want to stick some other
-  code in between so that for the bulk of the operation all tiles are
-  visible.  For instance to move a unit:
-
-    old_vision = punit->server.vision;
-    punit->server.vision = vision_new(unit_owner(punit), dest_tile);
-    vision_change_sight(punit->server.vision,
-                        get_unit_vision_at(punit, dest_tile));
-
-    ...then do all the work of moving the unit...
-
-    vision_clear_sight(old_vision);
-    vision_free(old_vision);
-
-  note that for all the code in the middle both the new and the old
-  vision sources are active.  The same process applies when transferring
-  a unit or city between players, etc.
-****************************************************************************/
-
-struct vision {
-  /* These values cannot be changed after initialization. */
-  struct player *player;
-  struct tile *tile;
-  bool can_reveal_tiles;
-
-  /* The radius of the vision source. */
-  int radius_sq[V_COUNT];
-};
-
-struct vision *vision_new(struct player *pplayer, struct tile *ptile);
-bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
-int vision_get_sight(const struct vision *vision, enum vision_layer vlayer);
 void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 			 int radius_sq);
 void vision_clear_sight(struct vision *vision);
-void vision_free(struct vision *vision);
-
-#define ASSERT_VISION(v)                                                  \
- do {                                                                     \
-   assert((v)->radius_sq[V_MAIN] >= (v)->radius_sq[V_INVIS]);             \
- } while(FALSE);
 
 #endif  /* FC__MAPHAND_H */

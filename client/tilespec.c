@@ -3119,16 +3119,16 @@ static void build_tile_data(const struct tile *ptile,
 {
   enum direction8 dir;
 
-  *tspecial = tile_get_special(ptile);
-  *tterrain = tile_get_terrain(ptile);
+  *tspecial = tile_specials(ptile);
+  *tterrain = tile_terrain(ptile);
 
   /* Loop over all adjacent tiles.  We should have an iterator for this. */
   for (dir = 0; dir < 8; dir++) {
     struct tile *tile1 = mapstep(ptile, dir);
 
     if (tile1 && client_tile_get_known(tile1) != TILE_UNKNOWN) {
-      tterrain_near[dir] = tile_get_terrain(tile1);
-      tspecial_near[dir] = tile_get_special(tile1);
+      tterrain_near[dir] = tile_terrain(tile1);
+      tspecial_near[dir] = tile_specials(tile1);
     } else {
       /* We draw the edges of the (known) map as if the same terrain just
        * continued off the edge of the map. */
@@ -3672,7 +3672,7 @@ static int fill_terrain_sprite_blending(const struct tileset *t,
 				      struct terrain **tterrain_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  struct terrain *pterrain = tile_get_terrain(ptile);
+  struct terrain *pterrain = tile_terrain(ptile);
   const int W = t->normal_tile_width, H = t->normal_tile_height;
   const int offsets[4][2] = {
     {W/2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
@@ -3765,7 +3765,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 				     struct terrain **tterrain_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  struct terrain *pterrain = tile_get_terrain(ptile);
+  struct terrain *pterrain = tile_terrain(ptile);
   struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
   struct drawing_layer *dlp = &draw->layer[l];
   int this = dlp->match_index[0];
@@ -3794,7 +3794,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
 
 	    assert(count < SMALL_PRIME);
 	    assert((int)(LARGE_PRIME * MAP_INDEX_SIZE) > 0);
-	    count = ((ptile->index * LARGE_PRIME) % SMALL_PRIME) % count;
+	    count = ((tile_index(ptile) * LARGE_PRIME) % SMALL_PRIME) % count;
 
 	    if (dlp->is_tall) {
 	      ox += FULL_TILE_X_OFFSET;
@@ -3985,7 +3985,7 @@ static int fill_terrain_sprite_layer(struct tileset *t,
 {
   struct drawn_sprite *saved_sprs = sprs;
   struct sprite *sprite;
-  struct terrain *pterrain = tile_get_terrain(ptile);
+  struct terrain *pterrain = tile_terrain(ptile);
   struct drawing_data *draw = t->sprites.drawing[terrain_index(pterrain)];
   const int l = (draw->is_reversed
 		 ? (draw->num_layers - layer_num - 1) : layer_num);
@@ -4091,15 +4091,15 @@ static int fill_grid_sprite_array(const struct tileset *t,
     }
 
     if ((pedge->tile[0]
-	 && map_deco[pedge->tile[0]->index].hilite == HILITE_CITY)
+	 && map_deco[tile_index(pedge->tile[0])].hilite == HILITE_CITY)
 	|| (pedge->tile[1]
-	    && map_deco[pedge->tile[1]->index].hilite == HILITE_CITY)) {
+	    && map_deco[tile_index(pedge->tile[1])].hilite == HILITE_CITY)) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.selected[pedge->type]);
     } else if (!draw_terrain && draw_coastline
 	       && pedge->tile[0] && pedge->tile[1]
 	       && known[0] && known[1]
-	       && (is_ocean(pedge->tile[0]->terrain)
-		   ^ is_ocean(pedge->tile[1]->terrain))) {
+	       && (is_ocean_tile(pedge->tile[0])
+		   ^ is_ocean_tile(pedge->tile[1]))) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.coastline[pedge->type]);
     } else if (draw_map_grid) {
       if (worked[0] || worked[1]) {
@@ -4200,7 +4200,7 @@ static int fill_goto_sprite_array(const struct tileset *t,
   generally be get_drawable_unit(); otherwise it can be any unit.
 
   pcity, if specified, gives the city.  For tile drawing this should
-  generally be ptile->city; otherwise it can be any city.
+  generally be tile_city(ptile); otherwise it can be any city.
 
   citymode specifies whether this is part of a citydlg.  If so some drawing
   is done differently.
@@ -4307,7 +4307,8 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_WATER:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
-      if (draw_terrain && !solid_bg && is_ocean(pterrain)) {
+      if (draw_terrain && !solid_bg
+       && terrain_has_flag(pterrain, TER_OCEANIC)) {
 	for (dir = 0; dir < 4; dir++) {
 	  if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
 	    ADD_SPRITE_SIMPLE(t->sprites.tx.river_outlet[dir]);
@@ -4327,7 +4328,7 @@ int fill_sprite_array(struct tileset *t,
 	  enum direction8 dir = t->cardinal_tileset_dirs[i];
 
 	  if (contains_special(tspecial_near[dir], S_RIVER)
-	      || is_ocean(tterrain_near[dir])) {
+	      || terrain_has_flag(tterrain_near[dir], TER_OCEANIC)) {
 	    tileno |= 1 << i;
 	  }
 	}
@@ -4347,7 +4348,7 @@ int fill_sprite_array(struct tileset *t,
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_specials) {
 	if (tile_resource_is_valid(ptile)) {
-	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(tile_get_resource(ptile))]);
+	  ADD_SPRITE_SIMPLE(t->sprites.resource[resource_index(tile_resource(ptile))]);
 	}
       }
 
@@ -4472,7 +4473,7 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_OVERLAYS:
     sprs += fill_city_overlays_sprite_array(t, sprs, ptile, citymode);
-    if (ptile && map_deco[ptile->index].crosshair > 0) {
+    if (ptile && map_deco[tile_index(ptile)].crosshair > 0) {
       ADD_SPRITE_SIMPLE(t->sprites.user.attention);
     }
     break;

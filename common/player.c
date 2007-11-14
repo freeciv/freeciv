@@ -31,6 +31,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"
+#include "vision.h"
 
 #include "player.h"
 
@@ -429,7 +430,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   }
 
   /* Units in cities may be hidden. */
-  pcity = tile_get_city(ptile);
+  pcity = tile_city(ptile);
   if (pcity && !can_player_see_units_in_city(pplayer, pcity)) {
     return FALSE;
   }
@@ -565,7 +566,7 @@ bool player_in_city_radius(const struct player *pplayer,
 			   const struct tile *ptile)
 {
   map_city_radius_iterate(ptile, ptile1) {
-    struct city *pcity = tile_get_city(ptile1);
+    struct city *pcity = tile_city(ptile1);
 
     if (pcity && city_owner(pcity) == pplayer) {
       return TRUE;

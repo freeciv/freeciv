@@ -38,7 +38,7 @@
 
 
 /* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
-#define rmap(ptile) (river_map[ptile->index])
+#define rmap(ptile) (river_map[tile_index(ptile)])
 
 static void make_huts(int number);
 static void add_resources(int prob);
@@ -403,9 +403,10 @@ static bool ok_for_separate_poles(struct tile *ptile)
     return TRUE;
   }
   adjc_iterate(ptile, tile1) {
-    if (tile1->terrain != T_UNKNOWN
-	&& !is_ocean(tile_get_terrain(tile1))
-        && tile_get_continent(tile1) != 0) {
+    const struct terrain *pterrain1 = tile_terrain(tile1);
+    if (T_UNKNOWN != pterrain1
+        && !terrain_has_flag(pterrain1, TER_OCEANIC)
+        && tile_continent(tile1) != 0) {
       return FALSE;
     }
   } adjc_iterate_end;
@@ -616,7 +617,7 @@ static int river_test_rivergrid(struct tile *ptile)
 *********************************************************************/
 static int river_test_highlands(struct tile *ptile)
 {
-  return ptile->terrain->property[MG_MOUNTAINOUS];
+  return tile_terrain(ptile)->property[MG_MOUNTAINOUS];
 }
 
 /*********************************************************************
@@ -643,7 +644,7 @@ static int river_test_adjacent_highlands(struct tile *ptile)
   int sum = 0;
 
   adjc_iterate(ptile, ptile2) {
-    sum += ptile2->terrain->property[MG_MOUNTAINOUS];
+    sum += tile_terrain(ptile2)->property[MG_MOUNTAINOUS];
   } adjc_iterate_end;
 
   return sum;
@@ -654,7 +655,7 @@ static int river_test_adjacent_highlands(struct tile *ptile)
 *********************************************************************/
 static int river_test_swamp(struct tile *ptile)
 {
-  return FC_INFINITY - ptile->terrain->property[MG_WET];
+  return FC_INFINITY - tile_terrain(ptile)->property[MG_WET];
 }
 
 /*********************************************************************
@@ -665,7 +666,7 @@ static int river_test_adjacent_swamp(struct tile *ptile)
   int sum = 0;
 
   adjc_iterate(ptile, ptile2) {
-    sum += ptile2->terrain->property[MG_WET];
+    sum += tile_terrain(ptile2)->property[MG_WET];
   } adjc_iterate_end;
 
   return FC_INFINITY - sum;
@@ -824,7 +825,7 @@ static bool make_river(struct tile *ptile)
     /* We arbitrarily make rivers end at the poles. */
     if (count_special_near_tile(ptile, TRUE, TRUE, S_RIVER) > 0
 	|| count_ocean_near_tile(ptile, TRUE, TRUE) > 0
-        || (ptile->terrain->property[MG_FROZEN] > 0
+        || (tile_terrain(ptile)->property[MG_FROZEN] > 0
 	    && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) { 
 
       freelog(LOG_DEBUG,
@@ -919,6 +920,7 @@ static bool make_river(struct tile *ptile)
 static void make_rivers(void)
 {
   struct tile *ptile;
+  struct terrain *pterrain;
 
   /* Formula to make the river density similar om different sized maps. Avoids
      too few rivers on large maps and too many rivers on small maps. */
@@ -954,12 +956,13 @@ static void make_rivers(void)
 					      MC_NLOW))) {
 	break; /* mo more spring places */
     }
+    pterrain = tile_terrain(ptile);
 
     /* Check if it is suitable to start a river on the current tile.
      */
     if (
 	/* Don't start a river on ocean. */
-	!is_ocean(tile_get_terrain(ptile))
+	!is_ocean(pterrain)
 
 	/* Don't start a river on river. */
 	&& !tile_has_special(ptile, S_RIVER)
@@ -978,17 +981,17 @@ static void make_rivers(void)
 
 	/* Don't start a river on hills unless it is hard to find
 	   somewhere else to start it. */
-	&& (ptile->terrain->property[MG_MOUNTAINOUS] == 0
+	&& (pterrain->property[MG_MOUNTAINOUS] == 0
 	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 6)
 
 	/* Don't start a river on arctic unless it is hard to find
 	   somewhere else to start it. */
-	&& (ptile->terrain->property[MG_FROZEN] == 0
+	&& (pterrain->property[MG_FROZEN] == 0
 	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 8)
 
 	/* Don't start a river on desert unless it is hard to find
 	   somewhere else to start it. */
-	&& (ptile->terrain->property[MG_DRY] == 0
+	&& (pterrain->property[MG_DRY] == 0
 	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 9)) {
 
       /* Reset river_map before making a new river. */
@@ -1003,7 +1006,7 @@ static void make_rivers(void)
       if (make_river(ptile)) {
 	whole_map_iterate(tile1) {
 	  if (TEST_BIT(rmap(tile1), RS_RIVER)) {
-	    struct terrain *pterrain = tile_get_terrain(tile1);
+	    struct terrain *pterrain = tile_terrain(tile1);
 
 	    if (!terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER)) {
 	      /* We have to change the terrain to put a river here. */
@@ -1079,7 +1082,7 @@ static void make_land(void)
 **************************************************************************/
 static bool is_tiny_island(struct tile *ptile) 
 {
-  struct terrain *pterrain = tile_get_terrain(ptile);
+  struct terrain *pterrain = tile_terrain(ptile);
 
   if (is_ocean(pterrain) || pterrain->property[MG_FROZEN] > 0) {
     /* The arctic check is needed for iso-maps: the poles may not have
@@ -1088,7 +1091,7 @@ static bool is_tiny_island(struct tile *ptile)
   }
 
   cardinal_adjc_iterate(ptile, tile1) {
-    if (!is_ocean(tile_get_terrain(tile1))) {
+    if (!is_ocean_tile(tile1)) {
       return FALSE;
     }
   } cardinal_adjc_iterate_end;
@@ -1128,7 +1131,7 @@ static void print_mapgen_map(void)
   } terrain_type_iterate_end;
 
   whole_map_iterate(ptile) {
-    struct terrain *pterrain = tile_get_terrain(ptile);
+    struct terrain *pterrain = tile_terrain(ptile);
 
     terrain_counts[terrain_index(pterrain)]++;
     if (!is_ocean(pterrain)) {
@@ -1323,7 +1326,7 @@ static void adjust_terrain_param(void)
 static bool near_safe_tiles(struct tile *ptile)
 {
   square_iterate(ptile, 1, tile1) {
-    if (!terrain_has_flag(tile_get_terrain(tile1), TER_UNSAFE_COAST)) {
+    if (!terrain_has_flag(tile_terrain(tile1), TER_UNSAFE_COAST)) {
       return TRUE;
     }	
   } square_iterate_end;
@@ -1347,7 +1350,7 @@ static void make_huts(int number)
     /* Add a hut.  But not on a polar area, on an ocean, or too close to
      * another hut. */
     if ((ptile = rand_map_pos_characteristic(WC_ALL, TT_NFROZEN, MC_NONE))) {
-      if (is_ocean(tile_get_terrain(ptile))) {
+      if (is_ocean_tile(ptile)) {
 	map_set_placed(ptile); /* not good for a hut */
       } else {
 	number--;
@@ -1366,7 +1369,7 @@ static void make_huts(int number)
 static bool is_resource_close(const struct tile *ptile)
 {
   square_iterate(ptile, 1, tile1) {
-    if (tile1->resource) {
+    if (NULL != tile_resource(tile1)) {
       return TRUE;
     }
   } square_iterate_end;
@@ -1380,7 +1383,7 @@ static bool is_resource_close(const struct tile *ptile)
 static void add_resources(int prob)
 {
   whole_map_iterate(ptile)  {
-    const struct terrain *pterrain = tile_get_terrain(ptile);
+    const struct terrain *pterrain = tile_terrain(ptile);
 
     if (is_resource_close (ptile) || myrand (1000) > prob) {
       continue;
@@ -1465,7 +1468,7 @@ static void fill_island(int coast, long int *bucket,
   while (i > 0 && (failsafe--) > 0) {
     struct tile *ptile =  get_random_map_position_from_state(pstate);
 
-    if (tile_get_continent(ptile) == pstate->isleindex &&
+    if (tile_continent(ptile) == pstate->isleindex &&
 	not_placed(ptile)) {
 
       /* the first condition helps make terrain more contiguous,
@@ -1520,7 +1523,7 @@ static void fill_island_rivers(int coast, long int *bucket,
 
   while (i > 0 && (failsafe--) > 0) {
     struct tile *ptile = get_random_map_position_from_state(pstate);
-    if (tile_get_continent(ptile) == pstate->isleindex
+    if (tile_continent(ptile) == pstate->isleindex
 	&& not_placed(ptile)) {
 
       /* the first condition helps make terrain more contiguous,
@@ -1548,8 +1551,9 @@ static bool is_near_land(struct tile *ptile)
 {
   /* Note this function may sometimes be called on land tiles. */
   adjc_iterate(ptile, tile1) {
-    if (tile1->terrain != T_UNKNOWN
-	&& !is_ocean(tile_get_terrain(tile1))) {
+    const struct terrain *pterrain1 = tile_terrain(tile1);
+    if (T_UNKNOWN != pterrain1
+        && !terrain_has_flag(pterrain1, TER_OCEANIC)) {
       return TRUE;
     }
   } adjc_iterate_end;

@@ -1224,7 +1224,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 void maybe_make_contact(struct tile *ptile, struct player *pplayer)
 {
   square_iterate(ptile, 1, tile1) {
-    struct city *pcity = tile1->city;
+    struct city *pcity = tile_city(tile1);
     if (pcity) {
       make_contact(pplayer, city_owner(pcity), ptile);
     }

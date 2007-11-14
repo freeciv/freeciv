@@ -44,14 +44,14 @@ static int likely_ocean(struct tile *ptile, struct player *pplayer)
   /* We do not check H_MAP here, it should be done by map_is_known() */
   if (map_is_known(ptile, pplayer)) {
     /* we've seen the tile already. */
-    return (is_ocean(tile_get_terrain(ptile)) ? 100 : 0);
+    return (is_ocean_tile(ptile) ? 100 : 0);
   }
 
   /* The central tile is likely to be the same as the
    * nearby tiles. */
   adjc_dir_iterate(ptile, ptile1, dir) {
     if (map_is_known(ptile1, pplayer)) {
-      if(is_ocean(tile_get_terrain(ptile1))) {
+      if (is_ocean_tile(ptile1)) {
         ocean++;
       } else {
         land++;
@@ -118,7 +118,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
    * is a city on the tile, or if the tile is not accessible, or if the 
    * tile is on a different continent, or if we're a barbarian and
    * the tile has a hut, don't go there. */
-  if (tile_get_city(ptile)
+  if (tile_city(ptile)
       || (is_barbarian(pplayer) && tile_has_special(ptile, S_HUT))) {
     return 0;
   }

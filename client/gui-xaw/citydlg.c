@@ -400,7 +400,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup=player_find_city_by_id(game.player_ptr, punit->homecity);
-  pcity_pre=tile_get_city(punit->tile);
+  pcity_pre=tile_city(punit->tile);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
     city_dialog_update_supported_units(pdialog, 0);
@@ -1146,7 +1146,7 @@ static void present_units_activate_callback(Widget w, XtPointer client_data,
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
     set_unit_focus(punit);
-    if((pcity=tile_get_city(punit->tile)))
+    if((pcity=tile_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
 	city_dialog_update_present_units(pdialog, 0);
   }
@@ -1167,7 +1167,7 @@ static void supported_units_activate_callback(Widget w, XtPointer client_data,
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
     set_unit_focus(punit);
-    if((pcity=tile_get_city(punit->tile)))
+    if((pcity=tile_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
 	city_dialog_update_supported_units(pdialog, 0);
   }
@@ -1191,7 +1191,7 @@ static void present_units_activate_close_callback(Widget w,
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
     set_unit_focus(punit);
-    if((pcity=tile_get_city(punit->tile)))
+    if((pcity=tile_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
   }
@@ -1304,7 +1304,7 @@ void present_units_callback(Widget w, XtPointer client_data,
   if (((punit = player_find_unit_by_id(game.player_ptr, (size_t)client_data))
        || (can_conn_edit(&aconnection) && !game.player_ptr
 	   && (punit = game_find_unit_by_number((size_t)client_data))))
-      && (pcity = tile_get_city(punit->tile))
+      && (pcity = tile_city(punit->tile))
       && (pdialog = get_city_dialog(pcity))) {
     
     if(e->type==ButtonRelease && e->xbutton.button==Button2)  {

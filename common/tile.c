@@ -22,6 +22,16 @@
 
 #include "tile.h"
 
+#ifndef tile_index
+/****************************************************************************
+  Return the tile index.
+****************************************************************************/
+int tile_index(const struct tile *ptile)
+{
+  return ptile->index;
+}
+#endif
+
 /****************************************************************************
   Return the player who owns this tile (or NULL if none).
 ****************************************************************************/
@@ -41,7 +51,7 @@ void tile_set_owner(struct tile *ptile, struct player *owner)
 /****************************************************************************
   Return the city on this tile (or NULL if none).
 ****************************************************************************/
-struct city *tile_get_city(const struct tile *ptile)
+struct city *tile_city(const struct tile *ptile)
 {
   return ptile->city;
 }
@@ -54,17 +64,18 @@ void tile_set_city(struct tile *ptile, struct city *pcity)
   ptile->city = pcity;
 }
 
+#ifndef tile_terrain
 /****************************************************************************
-  Return the terrain ID of the tile.  Terrains are defined in the ruleset
-  (see terrain.h).
+  Return the terrain at the specified tile.
 ****************************************************************************/
-struct terrain *tile_get_terrain(const struct tile *ptile)
+struct terrain *tile_terrain(const struct tile *ptile)
 {
   return ptile->terrain;
 }
+#endif
 
 /****************************************************************************
-  Set the terrain ID of the tile.  See tile_get_terrain.
+  Set the given terrain at the specified tile.
 ****************************************************************************/
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 {
@@ -85,7 +96,7 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
   Note that this returns a mask of _all_ the specials on the tile.  To
   check a specific special use tile_has_special.
 ****************************************************************************/
-bv_special tile_get_special(const struct tile *ptile)
+bv_special tile_specials(const struct tile *ptile)
 {
   return ptile->special;
 }
@@ -219,13 +230,15 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe)
   set_special(&ptile->special, spe);
 }
 
+#ifndef tile_resource
 /****************************************************************************
   Return the resource at the specified tile.
 ****************************************************************************/
-const struct resource *tile_get_resource(const struct tile *ptile)
+const struct resource *tile_resource(const struct tile *ptile)
 {
   return ptile->resource;
 }
+#endif
 
 /****************************************************************************
   Set the given resource at the specified tile.
@@ -262,18 +275,20 @@ void tile_clear_all_specials(struct tile *ptile)
   clear_all_specials(&ptile->special);
 }
 
+#ifndef tile_continent
 /****************************************************************************
   Return the continent ID of the tile.  Typically land has a positive
   continent number and ocean has a negative number; no tile should have
   a 0 continent number.
 ****************************************************************************/
-Continent_id tile_get_continent(const struct tile *ptile)
+Continent_id tile_continent(const struct tile *ptile)
 {
   return ptile->continent;
 }
+#endif
 
 /****************************************************************************
-  Set the continent ID of the tile.  See tile_get_continent.
+  Set the continent ID of the tile.  See tile_continent.
 ****************************************************************************/
 void tile_set_continent(struct tile *ptile, Continent_id val)
 {
@@ -302,6 +317,8 @@ enum known_type tile_get_known(const struct tile *ptile,
 ****************************************************************************/
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 {
+  struct terrain *pterrain = tile_terrain(ptile);
+
   /* Make sure nobody uses old activities */
   assert(activity != ACTIVITY_FORTRESS && activity != ACTIVITY_AIRBASE);
 
@@ -310,19 +327,19 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 
   switch (activity) {
   case ACTIVITY_POLLUTION:
-    return ptile->terrain->clean_pollution_time * ACTIVITY_FACTOR;
+    return pterrain->clean_pollution_time * ACTIVITY_FACTOR;
   case ACTIVITY_ROAD:
-    return ptile->terrain->road_time * ACTIVITY_FACTOR;
+    return pterrain->road_time * ACTIVITY_FACTOR;
   case ACTIVITY_MINE:
-    return ptile->terrain->mining_time * ACTIVITY_FACTOR;
+    return pterrain->mining_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
-    return ptile->terrain->irrigation_time * ACTIVITY_FACTOR;
+    return pterrain->irrigation_time * ACTIVITY_FACTOR;
   case ACTIVITY_RAILROAD:
-    return ptile->terrain->rail_time * ACTIVITY_FACTOR;
+    return pterrain->rail_time * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSFORM:
-    return ptile->terrain->transform_time * ACTIVITY_FACTOR;
+    return pterrain->transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:
-    return ptile->terrain->clean_fallout_time * ACTIVITY_FACTOR;
+    return pterrain->clean_fallout_time * ACTIVITY_FACTOR;
   default:
     return 0;
   }
@@ -465,14 +482,16 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 ****************************************************************************/
 static void tile_irrigate(struct tile *ptile)
 {
-  if (ptile->terrain == ptile->terrain->irrigation_result) {
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  if (pterrain == pterrain->irrigation_result) {
     if (tile_has_special(ptile, S_IRRIGATION)) {
       tile_add_special(ptile, S_FARMLAND);
     } else {
       tile_add_special(ptile, S_IRRIGATION);
     }
-  } else if (ptile->terrain->irrigation_result) {
-    tile_change_terrain(ptile, ptile->terrain->irrigation_result);
+  } else if (pterrain->irrigation_result) {
+    tile_change_terrain(ptile, pterrain->irrigation_result);
   }
 }
 
@@ -482,12 +501,14 @@ static void tile_irrigate(struct tile *ptile)
 ****************************************************************************/
 static void tile_mine(struct tile *ptile)
 {
-  if (ptile->terrain == ptile->terrain->mining_result) {
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  if (pterrain == pterrain->mining_result) {
     tile_set_special(ptile, S_MINE);
     tile_clear_special(ptile, S_FARMLAND);
     tile_clear_special(ptile, S_IRRIGATION);
-  } else if (ptile->terrain->mining_result) {
-    tile_change_terrain(ptile, ptile->terrain->mining_result);
+  } else if (pterrain->mining_result) {
+    tile_change_terrain(ptile, pterrain->mining_result);
   }
 }
 
@@ -497,8 +518,10 @@ static void tile_mine(struct tile *ptile)
 ****************************************************************************/
 static void tile_transform(struct tile *ptile)
 {
-  if (ptile->terrain->transform_result != T_NONE) {
-    tile_change_terrain(ptile, ptile->terrain->transform_result);
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  if (pterrain->transform_result != T_NONE) {
+    tile_change_terrain(ptile, pterrain->transform_result);
   }
 }
 
@@ -526,7 +549,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
     return TRUE;
 
   case ACTIVITY_ROAD: 
-    if (!is_ocean(ptile->terrain)
+    if (!is_ocean_tile(ptile)
 	&& !tile_has_special(ptile, S_ROAD)) {
       tile_set_special(ptile, S_ROAD);
       return TRUE;
@@ -534,7 +557,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
     return FALSE;
 
   case ACTIVITY_RAILROAD:
-    if (!is_ocean(ptile->terrain)
+    if (!is_ocean_tile(ptile)
 	&& !tile_has_special(ptile, S_RAILROAD)
 	&& tile_has_special(ptile, S_ROAD)) {
       tile_set_special(ptile, S_RAILROAD);
@@ -613,7 +636,7 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
   bool lb = FALSE;
   int bufsz = sizeof(s);
 
-  sz_strlcpy(s, terrain_name_translation(ptile->terrain));
+  sz_strlcpy(s, terrain_name_translation(tile_terrain(ptile)));
   if (linebreaks & TILE_LB_TERRAIN_RIVER) {
     /* Linebreak needed before next text */
     lb = TRUE;

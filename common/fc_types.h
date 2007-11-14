@@ -70,14 +70,6 @@ enum sset_class {
   SSET_LAST
 };
 
-/* Invariants: V_MAIN vision ranges must always be more than V_INVIS
- * ranges. */
-enum vision_layer {
-  V_MAIN,
-  V_INVIS,
-  V_COUNT
-};
-
 enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };

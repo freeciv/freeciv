@@ -294,10 +294,10 @@ static int combined_land_sea_move(const struct tile *src_tile,
 {
   int move_cost;
 
-  if (is_ocean(tgt_tile->terrain)) {
+  if (is_ocean_tile(tgt_tile)) {
     /* Any-to-Sea */
     move_cost = 0;
-  } else if (is_ocean(src_tile->terrain)) {
+  } else if (is_ocean_tile(src_tile)) {
     /* Sea-to-Land */
     move_cost = PF_IMPOSSIBLE_MC;
   } else {
@@ -315,7 +315,7 @@ static int combined_land_sea_move(const struct tile *src_tile,
 static int sea_move(const struct tile *ptile, enum known_type known,
                     struct pf_parameter *param)
 {
-  if (is_ocean(ptile->terrain)) {
+  if (is_ocean_tile(ptile)) {
     /* Approximately TURN_FACTOR / average ferry move rate 
      * we can pass a better guess of the move rate through param->data
      * but we don't know which boat we will find out there */
@@ -425,7 +425,7 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
    /* Should this be !can_unit_exist_at_tile() instead of is_ocean() some day?
     * That would allow special units to wade in shallow coast waters to meet
     * ferry where deep sea starts. */
-    int radius = (is_ocean(pos.tile->terrain) ? 1 : 0);
+    int radius = (is_ocean_tile(pos.tile) ? 1 : 0);
 
     if (pos.turn + pos.total_EC/PF_TURN_FACTOR > best_turns) {
       /* Won't find anything better */
@@ -554,7 +554,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
 
       pft_advance_path(path, passenger->tile);
       next_tile = path->positions[1].tile;
-      if (!is_ocean(next_tile->terrain)) {
+      if (!is_ocean_tile(next_tile)) {
 	UNIT_LOG(LOG_DEBUG, passenger, "Our boat has arrived "
 		 "[%d](moves left: %d)", ferry->id, ferry->moves_left);
 	UNIT_LOG(LOG_DEBUG, passenger, "Disembarking to (%d,%d)",
@@ -865,7 +865,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
       break;
     }
 
-    pcity = tile_get_city(pos.tile);
+    pcity = tile_city(pos.tile);
     
     if (pcity && city_owner(pcity) == unit_owner(pferry)
         && (pcity->ai.choice.need_boat 
@@ -936,7 +936,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   /* Try to recover hitpoints if we are in a city, before we do anything */
   if (punit->hp < unit_type(punit)->hp 
-      && (pcity = tile_get_city(punit->tile))) {
+      && (pcity = tile_city(punit->tile))) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "waiting in %s to recover hitpoints", 
              pcity->name);
     punit->ai.done = TRUE;

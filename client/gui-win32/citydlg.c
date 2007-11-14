@@ -1333,7 +1333,7 @@ static void present_units_activate_close_callback(HWND w, void * data)
  
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
     set_unit_focus(punit);
-    if((pcity=tile_get_city(punit->tile)))
+    if((pcity=tile_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
        CityDlgClose(pdialog);
   }
@@ -1462,7 +1462,7 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
   HWND wd;
   if((punit=player_find_unit_by_id(game.player_ptr, 
 				   pdialog->present_unit_ids[n])) &&
-     (pcity=tile_get_city(punit->tile)) &&
+     (pcity=tile_city(punit->tile)) &&
      (pdialog=get_city_dialog(pcity))) {   
      wd=popup_message_dialog(NULL,
                            /*"presentunitsdialog"*/_("Unit Commands"),
@@ -1900,7 +1900,7 @@ refresh_unit_city_dialogs(struct unit *punit)
   struct city *pcity_sup, *pcity_pre;
   struct city_dialog *pdialog;      
   pcity_sup=player_find_city_by_id(game.player_ptr, punit->homecity);
-  pcity_pre=tile_get_city(punit->tile);     
+  pcity_pre=tile_city(punit->tile);     
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))     
     {

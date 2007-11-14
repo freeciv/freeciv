@@ -34,6 +34,6 @@ void contemplate_terrain_improvements(struct city *pcity);
 void contemplate_new_city(struct city *pcity);
 
 extern signed int *minimap;
-#define MINIMAP(ptile) minimap[(ptile)->index]
+#define MINIMAP(_tile) minimap[tile_index(_tile)]
 
 #endif   /* FC__SETTLERS_H */

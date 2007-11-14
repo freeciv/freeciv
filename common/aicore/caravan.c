@@ -193,7 +193,7 @@ static void caravan_search_from(const struct unit *caravan,
       break;
     }
 
-    pcity = tile_get_city(p.tile);
+    pcity = tile_city(p.tile);
     if (pcity) {
       bool stop = callback(callback_data, pcity, turns_before + p.turn,
                            p.moves_left);

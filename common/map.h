@@ -255,16 +255,6 @@ extern struct civ_map map;
 
 extern struct terrain_misc terrain_control;
 
-#define vision_layer_iterate(vision)					    \
-  {									    \
-    enum vision_layer vision;						    \
-									    \
-  for (vision = 0; vision < V_COUNT; vision++) {
-
-#define vision_layer_iterate_end					    \
-  }									    \
-}
-
 /* This iterates outwards from the starting point. Every tile within max_dist
  * will show up exactly once, in an outward (based on real map distance)
  * order.  The returned values are always real and are normalized.  The

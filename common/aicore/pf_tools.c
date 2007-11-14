@@ -38,7 +38,7 @@ static inline int single_move_cost(const struct pf_parameter *param,
                                    const struct tile *src_tile,
                                    const struct tile *dest_tile)
 {
-  if (!dest_tile->city
+  if (!tile_city(dest_tile)
       && BV_ISSET(param->unit_flags, F_TRIREME)
       && !is_safe_ocean(dest_tile)) {
     return PF_IMPOSSIBLE_MC;
@@ -61,7 +61,7 @@ static int seamove(const struct tile *ptile, enum direction8 dir,
 {
   if (is_native_tile_to_class(param->uclass, ptile1)) {
     return single_move_cost(param, ptile, ptile1);
-  } else if (ptile1->city
+  } else if (tile_city(ptile1)
              || is_non_allied_unit_tile(ptile1, param->owner)) {
     /* Entering port or shore bombardment */
     return SINGLE_MOVE;
@@ -77,7 +77,7 @@ static int single_airmove(const struct tile *ptile, enum direction8 dir,
 			  const struct tile *ptile1,
 			  struct pf_parameter *param)
 {
-  if (!ptile->city && !is_native_tile_to_class(param->uclass, ptile1)) {
+  if (!tile_city(ptile) && !is_native_tile_to_class(param->uclass, ptile1)) {
     return PF_IMPOSSIBLE_MC;
   } else if (!is_native_tile_to_class(param->uclass, ptile1)) {
     return SINGLE_MOVE;
@@ -204,7 +204,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
     /* Sea-to-Land. */
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
         && !is_non_allied_city_tile(tgt_tile, param->owner)) {
-      move_cost = tgt_tile->terrain->movement_cost * SINGLE_MOVE;
+      move_cost = tile_terrain(tgt_tile)->movement_cost * SINGLE_MOVE;
     } else if (BV_ISSET(param->unit_flags, F_MARINES)) {
       /* Can attack!! */
       move_cost = single_move_cost(param, src_tile, tgt_tile);
@@ -413,7 +413,7 @@ static int afraid_of_dark_forest(const struct tile *ptile,
 				 enum known_type known,
 				 struct pf_parameter *param)
 {
-  if (terrain_number(ptile->terrain) == T_FOREST) {
+  if (terrain_number(tile_terrain(ptile)) == T_FOREST) {
     /* Willing to spend extra 2 turns to go around a forest tile */
     return PF_TURN_FACTOR * 2;
   }

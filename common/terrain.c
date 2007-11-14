@@ -421,7 +421,7 @@ bool is_terrain_near_tile(const struct tile *ptile,
 			  const struct terrain *pterrain)
 {
   adjc_iterate(ptile, adjc_tile) {
-    if (pterrain && adjc_tile->terrain == pterrain) {
+    if (pterrain && tile_terrain(adjc_tile) == pterrain) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -439,7 +439,7 @@ int count_terrain_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (pterrain && tile_get_terrain(adjc_tile) == pterrain) {
+    if (pterrain && tile_terrain(adjc_tile) == pterrain) {
       count++;
     }
     total++;
@@ -461,7 +461,8 @@ int count_terrain_property_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (adjc_tile->terrain->property[prop] > 0) {
+    struct terrain *pterrain = tile_terrain(adjc_tile);
+    if (pterrain->property[prop] > 0) {
       count++;
     }
     total++;
@@ -614,12 +615,9 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag)
 {
   adjc_iterate(ptile, adjc_tile) {
-    struct terrain* pterrain = tile_get_terrain(adjc_tile);
-    if (pterrain == NULL) {
-      continue;
-    }
-    
-    if (terrain_has_flag(pterrain, flag)) {
+    struct terrain* pterrain = tile_terrain(adjc_tile);
+    if (T_UNKNOWN != pterrain
+	&& terrain_has_flag(pterrain, flag)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -637,8 +635,9 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (adjc_tile->terrain != T_UNKNOWN
-	&& terrain_has_flag(adjc_tile->terrain, flag)) {
+    struct terrain *pterrain = tile_terrain(adjc_tile);
+    if (T_UNKNOWN != pterrain
+	&& terrain_has_flag(pterrain, flag)) {
       count++;
     }
     total++;
@@ -766,12 +765,12 @@ bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class cla
   switch(class) {
    case TC_LAND:
      adjc_iterate(ptile, adjc_tile) {
-       struct terrain* pterrain = tile_get_terrain(adjc_tile);
-       if (pterrain == NULL) {
+       struct terrain* pterrain = tile_terrain(adjc_tile);
+
+       if (T_UNKNOWN == pterrain) {
          continue;
        }
-    
-       if (!is_ocean(pterrain)) {
+       if (!terrain_has_flag(pterrain, TER_OCEANIC)) {
          return TRUE;
        }
      } adjc_iterate_end;

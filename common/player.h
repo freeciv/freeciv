@@ -22,6 +22,7 @@
 #include "spaceship.h"
 #include "tech.h"
 #include "unitlist.h"
+#include "vision.h"
 
 #define PLAYER_DEFAULT_TAX_RATE 0
 #define PLAYER_DEFAULT_SCIENCE_RATE 100

@@ -53,7 +53,7 @@ static void ai_choose_help_wonder(struct city *pcity,
                                   struct ai_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
-  Continent_id continent = tile_get_continent(pcity->tile);
+  Continent_id continent = tile_continent(pcity->tile);
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;
@@ -79,7 +79,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_has_type_flag(punit, F_HELP_WONDER)
-        && tile_get_continent(punit->tile) == continent)
+        && tile_continent(punit->tile) == continent)
       caravans++;
   } unit_list_iterate_end;
 
@@ -87,7 +87,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   city_list_iterate(pplayer->cities, acity) {
     if (VUT_UTYPE == acity->production.kind
         && utype_has_flag(acity->production.value.utype, F_HELP_WONDER)
-        && tile_get_continent(acity->tile) == continent) {
+        && tile_continent(acity->tile) == continent) {
       caravans++;
     }
   } city_list_iterate_end;
@@ -145,7 +145,7 @@ static void ai_choose_trade_route(struct city *pcity,
   int want;
   int income, bonus;
   int trade_routes;
-  Continent_id continent = tile_get_continent(pcity->tile);
+  Continent_id continent = tile_continent(pcity->tile);
   bool dest_city_found = FALSE;
 
   if (city_list_size(pplayer->cities) < 5) {
@@ -161,7 +161,7 @@ static void ai_choose_trade_route(struct city *pcity,
 
   /* Look for proper destination city at the same continent. */
   city_list_iterate(pplayer->cities, acity) {
-    if (can_cities_trade(pcity, acity) && tile_get_continent(acity->tile) == continent) {
+    if (can_cities_trade(pcity, acity) && tile_continent(acity->tile) == continent) {
       dest_city_found = TRUE;
       break;
     }

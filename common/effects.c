@@ -925,7 +925,7 @@ int get_unittype_bonus(const struct player *pplayer,
 
   assert(pplayer != NULL && ptile != NULL && punittype != NULL);
   return get_target_bonus_effects(NULL,
-                                 pplayer, ptile->city, NULL, ptile,
+                                 pplayer, tile_city(ptile), NULL, ptile,
                                  punittype, NULL, NULL, effect_type);
 }
 
@@ -941,7 +941,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
   assert(punit != NULL);
   return get_target_bonus_effects(NULL,
 				  unit_owner(punit),
-				  punit->tile ? punit->tile->city : NULL,
+				  punit->tile ? tile_city(punit->tile) : NULL,
 				  NULL, punit->tile,
 				  unit_type(punit), NULL, NULL,
 				  effect_type);

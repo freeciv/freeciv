@@ -538,7 +538,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   }
   
   is_unit_move_blocked = TRUE;
-  pCity = tile_get_city(ptile);
+  pCity = tile_city(ptile);
   spy = unit_has_type_flag(pUnit, F_SPY);
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));

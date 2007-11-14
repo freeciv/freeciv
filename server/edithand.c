@@ -78,7 +78,7 @@ void handle_edit_tile(struct connection *pc, int x, int y,
     return;
   }
 
-  old_terrain = ptile->terrain;
+  old_terrain = tile_terrain(ptile);
 
   tile_special_type_iterate(s) {
     if (contains_special(special, s) && !tile_has_special(ptile, s)) {
@@ -125,14 +125,14 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
       = player_find_city_by_id(pplayer, packet->homecity);
 
     if (is_non_allied_unit_tile(ptile, pplayer)
-        || (ptile->city
-            && !pplayers_allied(pplayer, city_owner(ptile->city)))) {
+        || (tile_city(ptile)
+            && !pplayers_allied(pplayer, tile_owner(ptile)))) {
       notify_player(pplayer, ptile, E_BAD_COMMAND,
                     _("Cannot create unit on enemy tile."));
       return;
     }
     /* FIXME: should use can_unit_exist_at_tile here. */
-    if (!(ptile->city
+    if (!(tile_city(ptile)
 	  && !(is_sailing_unittype(punittype)
 	       && !is_ocean_near_tile(ptile)))
 	&& !is_native_tile(punittype, ptile)) {
@@ -202,7 +202,7 @@ void handle_edit_create_city(struct connection *pc,
 
   /* new city */
   create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
-  pcity = tile_get_city(ptile);
+  pcity = tile_city(ptile);
 
   if (!pcity) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND,
@@ -231,7 +231,7 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
     return;
   }
 
-  pcity = tile_get_city(ptile);
+  pcity = tile_city(ptile);
   if (!pcity) {
     if (!city_can_be_built_here(ptile, NULL)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND,
@@ -241,7 +241,7 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
 
     /* new city */
     create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
-    pcity = tile_get_city(ptile);
+    pcity = tile_city(ptile);
 
     if (!pcity) {
       notify_player(pplayer, ptile, E_BAD_COMMAND,
@@ -427,7 +427,7 @@ void handle_edit_vision(struct connection *pc, int plr_no, int x, int y,
   }
 
   if (remove_knowledge) {
-    struct city *pcity = tile_get_city(ptile);
+    struct city *pcity = tile_city(ptile);
 
     if (pcity && city_owner(pcity) == pplayer) {
       notify_conn(pc->self, NULL, E_BAD_COMMAND,

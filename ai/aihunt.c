@@ -292,7 +292,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
         if (pos.total_MC > missile->moves_left / SINGLE_MOVE) {
           break;
         }
-        if (tile_get_city(pos.tile)
+        if (tile_city(pos.tile)
             || !can_unit_attack_tile(punit, pos.tile)) {
           continue;
         }
@@ -418,7 +418,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       if (!is_player_dangerous(pplayer, aplayer)) {
         continue;
       }
-      if (pos.tile->city
+      if (tile_city(pos.tile)
           || !can_unit_attack_tile(punit, pos.tile)
           || TEST_BIT(target->ai.hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning

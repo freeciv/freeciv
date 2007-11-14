@@ -1194,7 +1194,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
     strcat(buf, "\n");
   }
   if (terrain_has_flag(pterrain, TER_UNSAFE_COAST)
-      && !is_ocean(pterrain)) {
+      && !terrain_has_flag(pterrain, TER_OCEANIC)) {
     sprintf(buf + strlen(buf),
 	    _("* The coastline of this terrain is unsafe."));
     strcat(buf, "\n");
