@@ -1415,7 +1415,7 @@ static void check_pollution(struct city *pcity)
 	continue;
       }
 
-      if (!terrain_has_flag(tile_get_terrain(ptile), TER_NO_POLLUTION)
+      if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)
 	  && !tile_has_special(ptile, S_POLLUTION)) {
 	tile_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);

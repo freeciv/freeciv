@@ -183,7 +183,7 @@ void city_dialog_redraw_map(struct city *pcity,
     citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y) {
       struct unit *punit
 	= ptile ? get_drawable_unit(tileset, ptile, pcity) : NULL;
-      struct city *pcity_draw = ptile ? ptile->city : NULL;
+      struct city *pcity_draw = ptile ? tile_city(ptile) : NULL;
 
       put_one_element(pcanvas, layer, ptile, pedge, pcorner,
 		      punit, pcity_draw, canvas_x, canvas_y, pcity);

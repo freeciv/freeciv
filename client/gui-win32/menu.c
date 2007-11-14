@@ -1186,7 +1186,7 @@ update_menus(void)
 	my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Help Build Wonder")
 		       "\tB");
       } else if (unit_has_type_flag(punit, F_CITIES)) {
-	if (tile_get_city(punit->tile)) {
+	if (tile_city(punit->tile)) {
 	  my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Add to City")
 			 "\tB");
 	} else {
@@ -1212,7 +1212,7 @@ update_menus(void)
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Build Road") "\tR");
       }
 
-      pterrain = punit->tile->terrain;
+      pterrain = tile_terrain(punit->tile);
       if (pterrain->irrigation_result != T_NONE
 	  && pterrain->irrigation_result != pterrain) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,

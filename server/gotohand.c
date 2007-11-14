@@ -219,12 +219,12 @@ static void init_warmap(struct tile *orig_tile, enum unit_move_type move_type)
   case AIR_MOVING:
     assert(sizeof(*warmap.cost) == sizeof(char));
     memset(warmap.cost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
-    warmap.cost[orig_tile->index] = 0;
+    warmap.cost[tile_index(orig_tile)] = 0;
     break;
   case SEA_MOVING:
     assert(sizeof(*warmap.seacost) == sizeof(char));
     memset(warmap.seacost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
-    warmap.seacost[orig_tile->index] = 0;
+    warmap.seacost[tile_index(orig_tile)] = 0;
     break;
   default:
     freelog(LOG_ERROR, "Bad move_type in init_warmap().");
@@ -322,6 +322,8 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
 			  ? WARMAP_SEACOST(ptile) : WARMAP_COST(ptile));
 
     adjc_dir_iterate(ptile, tile1, dir) {
+      struct terrain *pterrain1 = tile_terrain(tile1);
+
       if ((move_type == LAND_MOVING && WARMAP_COST(tile1) <= cost)
           || (move_type == SEA_MOVING && WARMAP_SEACOST(tile1) <= cost)) {
         continue; /* No need for calculations */
@@ -351,8 +353,8 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
           }
         } else {
           /* No punit. Crude guess */
-          if ((move_type == SEA_MOVING && !is_ocean(tile1->terrain))
-              || (move_type == LAND_MOVING && is_ocean(tile1->terrain))) {
+          if ((move_type == SEA_MOVING && !is_ocean(pterrain1))
+              || (move_type == LAND_MOVING && is_ocean(pterrain1))) {
             /* Can't enter tile */
             continue;
           }
@@ -386,8 +388,8 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
             /* can_exist_at_tile(), but !is_native_tile() -> entering port */
             move_cost = SINGLE_MOVE;
           }
-        } else if ((move_type == LAND_MOVING && is_ocean(tile1->terrain))
-                   || (move_type == SEA_MOVING && !is_ocean(tile1->terrain))) {
+        } else if ((move_type == LAND_MOVING && is_ocean(pterrain1))
+                   || (move_type == SEA_MOVING && !is_ocean(pterrain1))) {
           continue;     /* City warmap ignores possible transports */
         } else {
           move_cost = map_move_cost(ptile, tile1);
@@ -398,7 +400,7 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
  
       if (move_type != SEA_MOVING) {
         if (WARMAP_COST(tile1) > move_cost && move_cost < maxcost) {
-          warmap.cost[tile1->index] = move_cost;
+          warmap.cost[tile_index(tile1)] = move_cost;
           add_to_mapqueue(move_cost, tile1);
         }
       } else if (move_type == SEA_MOVING) {
@@ -406,9 +408,9 @@ static void really_generate_warmap(struct city *pcity, struct unit *punit,
           /* by adding the move_cost to the warmap regardless if we
            * can move between we allow for shore bombardment/transport
            * to inland positions/etc. */
-          warmap.seacost[tile1->index] = move_cost;
+          warmap.seacost[tile_index(tile1)] = move_cost;
           if ((punit && can_unit_exist_at_tile(punit, tile1))
-              || (!punit && (is_ocean(tile1->terrain) || tile1->city))) {
+              || (!punit && (is_ocean(pterrain1) || tile_city(tile1)))) {
             /* Unit can actually move to tile */
             add_to_mapqueue(move_cost, tile1);
   	  }
@@ -507,9 +509,9 @@ static int straightest_direction(struct tile *src_tile,
 bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
 {  
   struct player *pplayer = unit_owner(punit);
-  struct city *pcity = tile_get_city(ptile);
-  Continent_id my_cont = tile_get_continent(punit->tile);
-  Continent_id target_cont = tile_get_continent(ptile);
+  struct city *pcity = tile_city(ptile);
+  Continent_id my_cont = tile_continent(punit->tile);
+  Continent_id target_cont = tile_continent(ptile);
 
   if (same_pos(punit->tile, ptile)) {
     return TRUE;
@@ -523,13 +525,13 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
   switch (uclass_move_type(unit_class(punit))) {
 
   case LAND_MOVING:
-    if (is_ocean(tile_get_terrain(ptile))) {
+    if (is_ocean_tile(ptile)) {
       /* Going to a sea tile, the target should be next to our continent 
        * and with a boat */
       if (unit_class_transporter_capacity(ptile, pplayer,
                                           unit_class(punit)) > 0) {
         adjc_iterate(ptile, tmp_tile) {
-          if (tile_get_continent(tmp_tile) == my_cont) {
+          if (tile_continent(tmp_tile) == my_cont) {
             /* The target is adjacent to our continent! */
             return TRUE;
           }
@@ -543,7 +545,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
         /* Well, it's not our continent, but maybe we are on a boat
          * adjacent to the target continent? */
 	adjc_iterate(punit->tile, tmp_tile) {
-	  if (tile_get_continent(tmp_tile) == target_cont) {
+	  if (tile_continent(tmp_tile) == target_cont) {
 	    return TRUE;
           }
 	} adjc_iterate_end;
@@ -553,18 +555,18 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     return FALSE;
 
   case SEA_MOVING:
-    if (!is_ocean(tile_get_terrain(punit->tile))) {
+    if (!is_ocean_tile(punit->tile)) {
       /* Oops, we are not in the open waters.  Pick an ocean that we have
        * access to.  We can assume we are in a city, and any oceans adjacent
        * are connected, so it does not matter which one we pick. */
       adjc_iterate(punit->tile, tmp_tile) {
-        if (is_ocean(tile_get_terrain(tmp_tile))) {
-          my_cont = tile_get_continent(tmp_tile);
+        if (is_ocean_tile(tmp_tile)) {
+          my_cont = tile_continent(tmp_tile);
           break;
         }
       } adjc_iterate_end;
     }
-    if (is_ocean(tile_get_terrain(ptile))) {
+    if (is_ocean_tile(ptile)) {
       if (ai_channel(pplayer, target_cont, my_cont)) {
         return TRUE; /* Ocean -> Ocean travel ok. */
       }
@@ -573,8 +575,8 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
       /* Not ocean, but allied city or can bombard, checking if there is
        * good ocean adjacent */
       adjc_iterate(ptile, tmp_tile) {
-        if (is_ocean(tile_get_terrain(tmp_tile))
-            && ai_channel(pplayer, my_cont, tile_get_continent(tmp_tile))) {
+        if (is_ocean_tile(tmp_tile)
+            && ai_channel(pplayer, my_cont, tile_continent(tmp_tile))) {
           return TRUE;
         }
       } adjc_iterate_end;
@@ -735,7 +737,7 @@ int air_can_move_between(int moves, struct tile *src_tile,
       if (airspace_looks_safe(tile1, pplayer)) {
 	int cost = WARMAP_COST(ptile) + 1;
 
-	warmap.cost[tile1->index] = cost;
+	warmap.cost[tile_index(tile1)] = cost;
 
 	/* Now for A* we find the minimum total cost. */
 	cost += real_map_distance(tile1, dest_tile);

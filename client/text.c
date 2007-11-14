@@ -77,7 +77,7 @@ const char *get_tile_output_text(const struct tile *ptile)
 const char *popup_info_text(struct tile *ptile)
 {
   const char *activity_text;
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
   struct unit *punit = find_visible_unit(ptile);
   const char *diplo_nation_plural_adjectives[DS_LAST] =
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
@@ -96,7 +96,7 @@ const char *popup_info_text(struct tile *ptile)
   astr_clear(&str);
 #ifdef DEBUG
   astr_add_line(&str, _("Location: (%d, %d) [%d]"), 
-		ptile->x, ptile->y, ptile->continent); 
+		ptile->x, ptile->y, tile_continent(ptile)); 
 #endif /*DEBUG*/
   astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile, 0));
   astr_add_line(&str, _("Food/Prod/Trade: %s"),

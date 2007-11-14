@@ -2337,7 +2337,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
       goto cleanup;
     }
-    pcity = ptile->city;
+    pcity = tile_city(ptile);
     if (!pcity) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("No city at this coordinate."));
       goto cleanup;

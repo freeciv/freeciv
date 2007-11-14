@@ -1470,7 +1470,7 @@ void update_menus(void)
         /* FIXME: this overloading doesn't work well with multiple focus
          * units. */
         unit_list_iterate(punits, punit) {
-          if (punit->tile->city) {
+          if (tile_city(punit->tile)) {
             city_on_tile = TRUE;
             break;
           }
@@ -1513,7 +1513,7 @@ void update_menus(void)
       if (unit_list_size(punits) == 1) {
 	struct unit *punit = unit_list_get(punits, 0);
 
-	pterrain = punit->tile->terrain;
+	pterrain = tile_terrain(punit->tile);
 	if (pterrain->irrigation_result != T_NONE
 	    && pterrain->irrigation_result != pterrain) {
 	  my_snprintf(irrtext, sizeof(irrtext), irrfmt,

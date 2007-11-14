@@ -368,7 +368,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     return;
   }
 
-  pcity = tile_get_city(punit->tile);
+  pcity = tile_city(punit->tile);
   if (pcity) {
     /* If you disband inside a city, it gives some shields to that city.
      *
@@ -411,7 +411,7 @@ static void city_add_or_build_error(struct player *pplayer,
 {
   /* Given that res came from test_unit_add_or_build_city, pcity will
      be non-null for all required status values. */
-  struct city *pcity = tile_get_city(punit->tile);
+  struct city *pcity = tile_city(punit->tile);
 
   switch (res) {
   case AB_NOT_BUILD_LOC:
@@ -490,7 +490,7 @@ static void city_add_or_build_error(struct player *pplayer,
 **************************************************************************/
 static void city_add_unit(struct player *pplayer, struct unit *punit)
 {
-  struct city *pcity = tile_get_city(punit->tile);
+  struct city *pcity = tile_city(punit->tile);
 
   assert(unit_pop_value(punit) > 0);
   pcity->size += unit_pop_value(punit);
@@ -713,7 +713,7 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
 static bool unit_bombard(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
-  struct city *pcity = tile_get_city(ptile);
+  struct city *pcity = tile_city(ptile);
   int old_unit_vet;
 
   freelog(LOG_DEBUG, "Start bombard: %s's %s to %d, %d.",
@@ -851,7 +851,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   }
 
   if (punit->hp > 0
-      && (pcity = tile_get_city(def_tile))
+      && (pcity = tile_city(def_tile))
       && pcity->size > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) == 0
       && kills_citizen_after_attack(punit)) {
@@ -1025,7 +1025,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
                               bool igzoc, bool move_diplomat_city)
 {
   struct player *pplayer = unit_owner(punit);
-  struct city *pcity = pdesttile->city;
+  struct city *pcity = tile_city(pdesttile);
 
   /*** Phase 1: Basic checks ***/
 
@@ -1096,7 +1096,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
         } else {
           notify_player(pplayer, punit->tile, E_BAD_COMMAND,
                         _("Unit cannot perform diplomatic action from %s."),
-                          terrain_name_translation(punit->tile->terrain));
+                          terrain_name_translation(tile_terrain(punit->tile)));
         }
         return FALSE;
       }
@@ -1123,7 +1123,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
     if (unit_has_type_flag(punit, F_BOMBARDER)) {
       /* Only land can be bombarded, if the target is on ocean, fall
        * through to attack. */
-      if (!is_ocean(tile_get_terrain(pdesttile))) {
+      if (!is_ocean_tile(pdesttile)) {
 	if (can_unit_bombard(punit)) {
 	  unit_bombard(punit, pdesttile);
 	  return TRUE;
@@ -1214,7 +1214,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   if (!punit || !unit_has_type_flag(punit, F_HELP_WONDER)) {
     return;
   }
-  pcity_dest = tile_get_city(punit->tile);
+  pcity_dest = tile_city(punit->tile);
   
   if (!pcity_dest || !unit_can_help_build_wonder(punit, pcity_dest)) {
     return;
@@ -1261,7 +1261,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   /* if no destination city is passed in,
    *  check whether the unit is already in the city */
   if (!pcity_dest) { 
-    pcity_dest = tile_get_city(punit->tile);
+    pcity_dest = tile_city(punit->tile);
   }
 
   if (!pcity_dest) {

@@ -41,7 +41,7 @@
 bool can_player_attack_tile(const struct player *pplayer,
 			    const struct tile *ptile)
 {
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
   
   /* 1. Is there anyone there at all? */
   if (!pcity && unit_list_size((ptile->units)) == 0) {
@@ -97,7 +97,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
 				  const struct unit *pdefender,
                                   const struct tile *dest_tile)
 {
-  struct city *pcity = dest_tile->city;
+  struct city *pcity = tile_city(dest_tile);
 
   /* 1. Can we attack _anything_ ? */
   if (!is_military_unit(punit) || !is_attack_unit(punit)) {
@@ -255,7 +255,7 @@ void get_modified_firepower(const struct unit *attacker,
 			    const struct unit *defender,
 			    int *att_fp, int *def_fp)
 {
-  struct city *pcity = tile_get_city(defender->tile);
+  struct city *pcity = tile_city(defender->tile);
 
   *att_fp = unit_type(attacker)->firepower;
   *def_fp = unit_type(defender)->firepower;
@@ -274,7 +274,7 @@ void get_modified_firepower(const struct unit *attacker,
   /* pearl harbour - defender's firepower is reduced to one, 
    *                 attacker's is multiplied by two         */
   if (unit_has_type_flag(defender, F_BADCITYDEFENDER)
-      && tile_get_city(defender->tile)) {
+      && tile_city(defender->tile)) {
     *att_fp *= 2;
     *def_fp = 1;
   }
@@ -289,7 +289,7 @@ void get_modified_firepower(const struct unit *attacker,
 
   /* In land bombardment both units have their firepower reduced to 1 */
   if (is_sailing_unit(attacker)
-      && !is_ocean(tile_get_terrain(defender->tile))
+      && !is_ocean_tile(defender->tile)
       && is_ground_unit(defender)) {
     *att_fp = 1;
     *def_fp = 1;
@@ -344,7 +344,7 @@ struct city *sdi_try_defend(const struct player *owner,
 			       const struct tile *ptile)
 {
   square_iterate(ptile, 2, ptile1) {
-    struct city *pcity = tile_get_city(ptile1);
+    struct city *pcity = tile_city(ptile1);
     if (pcity && (!pplayers_allied(city_owner(pcity), owner))
 	&& myrand(100) < get_city_bonus(pcity, EFT_NUKE_PROOF)) {
       return pcity;
@@ -395,7 +395,7 @@ int get_defense_power(const struct unit *punit)
   int db, power = base_get_defense_power(punit);
 
   if (is_ground_unit(punit)) {
-    db = 10 + punit->tile->terrain->defense_bonus / 10;
+    db = 10 + tile_terrain(punit->tile)->defense_bonus / 10;
     if (tile_has_special(punit->tile, S_RIVER)) {
       db += (db * terrain_control.river_defense_bonus) / 100;
     }
@@ -433,7 +433,7 @@ static int defense_multiplication(const struct unit_type *att_type,
 				  const struct tile *ptile,
 				  int defensepower, bool fortified)
 {
-  struct city *pcity = tile_get_city(ptile);
+  struct city *pcity = tile_city(ptile);
   int mod;
 
   CHECK_UNIT_TYPE(def_type);
@@ -489,12 +489,12 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   int db;
 
   if (utype_move_type(def_type) == LAND_MOVING
-      && is_ocean(ptile->terrain)) {
+      && is_ocean_tile(ptile)) {
     /* Ground units on ship doesn't defend. */
     return 0;
   }
 
-  db = 10 + ptile->terrain->defense_bonus / 10;
+  db = 10 + tile_terrain(ptile)->defense_bonus / 10;
   if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
@@ -612,7 +612,7 @@ struct unit *get_defender(const struct unit *attacker,
             unit_owner(punit)->name,
             unit_rule_name(punit),
             unit_list_size(ptile->units), 
-            terrain_rule_name(ptile->terrain),
+            terrain_rule_name(tile_terrain(ptile)),
             ptile->x,
             ptile->y);
   }
@@ -655,7 +655,7 @@ struct unit *get_attacker(const struct unit *defender,
 **************************************************************************/
 bool is_stack_vulnerable(const struct tile *ptile)
 {
-  return !(ptile->city != NULL
-           || tile_has_base_flag(ptile, BF_NO_STACK_DEATH)
-           || !game.info.killstack);
+  return (game.info.killstack
+          && !tile_has_base_flag(ptile, BF_NO_STACK_DEATH)
+          && NULL == tile_city(ptile));
 }

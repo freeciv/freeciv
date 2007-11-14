@@ -163,7 +163,7 @@ bool can_unit_exist_at_tile(const struct unit *punit,
                             const struct tile *ptile)
 {
   /* Cities are safe havens except for sea units without ocean access. */
-  if (ptile->city
+  if (tile_city(ptile)
       && !(is_sailing_unit(punit) && !is_ocean_near_tile(ptile))) {
     return TRUE;
   }
@@ -184,7 +184,7 @@ bool can_unit_exist_at_tile(const struct unit *punit,
 bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile)
 {
-  return is_native_to_class(utype_class(punittype), ptile->terrain,
+  return is_native_to_class(utype_class(punittype), tile_terrain(ptile),
                             ptile->special);
 }
 
@@ -209,7 +209,7 @@ bool is_native_terrain(const struct unit_type *punittype,
 bool is_native_tile_to_class(const struct unit_class *punitclass,
                              const struct tile *ptile)
 {
-  return is_native_to_class(punitclass, ptile->terrain, ptile->special);
+  return is_native_to_class(punitclass, tile_terrain(ptile), tile_specials(ptile));
 }
 
 /****************************************************************************
@@ -267,7 +267,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return FALSE;
   }
 
-  if (tile_get_city(ptile)) {
+  if (tile_city(ptile)) {
     return TRUE;
   }
 
@@ -313,11 +313,11 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
   if (is_allied_unit_tile(dst_tile, unit_owner)) {
     return TRUE;
   }
-  if (tile_get_city(src_tile) || tile_get_city(dst_tile)) {
+  if (tile_city(src_tile) || tile_city(dst_tile)) {
     return TRUE;
   }
-  if (is_ocean(tile_get_terrain(src_tile))
-      || is_ocean(tile_get_terrain(dst_tile))) {
+  if (is_ocean_tile(src_tile)
+      || is_ocean_tile(dst_tile)) {
     return TRUE;
   }
   return (is_my_zoc(unit_owner, src_tile)
@@ -425,7 +425,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   if (utype_move_type(punittype) == LAND_MOVING) {
 
     /* Moving from ocean */
-    if (is_ocean(src_tile->terrain)) {
+    if (is_ocean_tile(src_tile)) {
       /* 5) */
       if (!utype_has_flag(punittype, F_MARINES)
 	  && is_enemy_city_tile(dst_tile, unit_owner)) {
@@ -447,7 +447,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
   }
 
   /* 7) */
-  pcity = dst_tile->city;
+  pcity = tile_city(dst_tile);
   if (pcity && pplayers_non_attack(city_owner(pcity), unit_owner)) {
     /* You can't move into an empty city of a civilization you're at
      * peace with - you must first either declare war or make alliance. */

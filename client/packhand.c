@@ -1176,7 +1176,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->utype != unit_type(packet_unit)) {
       /* Unit type has changed (been upgraded) */
-      struct city *pcity = tile_get_city(punit->tile);
+      struct city *pcity = tile_city(punit->tile);
       
       punit->utype = unit_type(packet_unit);
       repaint_unit = TRUE;
@@ -1198,7 +1198,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (!same_pos(punit->tile, packet_unit->tile)) { 
       /*** Change position ***/
-      struct city *pcity = tile_get_city(punit->tile);
+      struct city *pcity = tile_city(punit->tile);
 
       old_tile = punit->tile;
       moved = TRUE;
@@ -1225,7 +1225,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  refresh_city_dialog(pcity);
       }
       
-      if((pcity=tile_get_city(punit->tile)))  {
+      if((pcity=tile_city(punit->tile)))  {
 	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
 	  /* Unit moved into a city - obviously it's occupied. */
 	  if (!pcity->client.occupied) {
@@ -1259,9 +1259,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       if((pcity=game_find_city_by_number(punit->homecity))) {
 	refresh_city_dialog(pcity);
       }
-      if (repaint_unit && punit->tile->city && punit->tile->city != pcity) {
+      if (repaint_unit && tile_city(punit->tile) && tile_city(punit->tile) != pcity) {
 	/* Refresh the city we're occupying too. */
-	refresh_city_dialog(punit->tile->city);
+	refresh_city_dialog(tile_city(punit->tile));
       }
     }
 
@@ -1303,7 +1303,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
 
-    if ((pcity = tile_get_city(punit->tile))) {
+    if ((pcity = tile_city(punit->tile))) {
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
     }
@@ -2017,16 +2017,17 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   enum known_type old_known = client_tile_get_known(ptile);
 
-  if (!ptile->terrain || terrain_number(ptile->terrain) != packet->type) {
+  if (NULL == tile_terrain(ptile)
+   || terrain_number(tile_terrain(ptile)) != packet->type) {
     tile_changed = TRUE;
     switch (old_known) {
     case TILE_UNKNOWN:
-      ptile->terrain = pterrain;
+      tile_set_terrain(ptile, pterrain);
       break;
     case TILE_KNOWN_FOGGED:
     case TILE_KNOWN:
       if (pterrain || TILE_UNKNOWN == packet->known) {
-        ptile->terrain = pterrain;
+        tile_set_terrain(ptile, pterrain);
       } else {
         tile_changed = FALSE;
         freelog(LOG_ERROR,
@@ -2051,8 +2052,8 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   } tile_special_type_iterate_end;
 
-  if (NULL != ptile->resource) {
-    tile_changed = (resource_number(ptile->resource) != packet->resource);
+  if (NULL != tile_resource(ptile)) {
+    tile_changed = (resource_number(tile_resource(ptile)) != packet->resource);
   } else {
     tile_changed = (-1 != packet->resource);
   }

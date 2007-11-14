@@ -128,11 +128,11 @@ static void popit(GdkEventButton *event, struct tile *ptile)
     is_orders = show_unit_orders(punit);
 
     if (punit && punit->goto_tile) {
-      map_deco[punit->goto_tile->index].crosshair++;
+      map_deco[tile_index(punit->goto_tile)].crosshair++;
       *cross_head = punit->goto_tile;
       cross_head++;
     }
-    map_deco[ptile->index].crosshair++;
+    map_deco[tile_index(ptile)].crosshair++;
     *cross_head = ptile;
     cross_head++;
 
@@ -168,7 +168,7 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
   /* We could just remove the crosshairs that we placed earlier, but
    * this is easier. */
   whole_map_iterate(ptile) {
-    map_deco[ptile->index].crosshair = 0;
+    map_deco[tile_index(ptile)].crosshair = 0;
   } whole_map_iterate_end;
 
   update_map_canvas_visible();
@@ -240,7 +240,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   gtk_widget_grab_focus(map_canvas);
   ptile = canvas_pos_to_tile(ev->x, ev->y);
-  pcity = ptile ? ptile->city : NULL;
+  pcity = ptile ? tile_city(ptile) : NULL;
 
   switch (ev->button) {
 

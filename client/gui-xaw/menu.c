@@ -447,8 +447,8 @@ void update_menus(void)
 	break;
       } unit_list_iterate_end;
 
-      tinfo = ptile->terrain;
-      can_build = !(ptile->city);
+      tinfo = tile_terrain(ptile);
+      can_build = !(tile_city(ptile));
 
       if (units_have_flag(punits, F_CITIES, TRUE)) {
 	if (!can_build) {

@@ -103,7 +103,7 @@ const char *base_rule_name(const struct base_type *pbase)
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                     const struct tile *ptile)
 {
-  if (tile_get_city(ptile)) {
+  if (tile_city(ptile)) {
     /* Bases cannot be built inside cities */
     return FALSE;
   }

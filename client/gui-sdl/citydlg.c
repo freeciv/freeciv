@@ -3923,7 +3923,7 @@ void refresh_unit_city_dialogs(struct unit *pUnit)
 {
 
   struct city *pCity_sup = game_find_city_by_number(pUnit->homecity);
-  struct city *pCity_pre = tile_get_city(pUnit->tile);
+  struct city *pCity_pre = tile_city(pUnit->tile);
 
   if (pCityDlg && ((pCityDlg->pCity == pCity_sup)
 		   || (pCityDlg->pCity == pCity_pre))) {

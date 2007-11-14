@@ -97,7 +97,7 @@ void client_remove_unit(struct unit *punit)
     update_unit_info_label(get_units_in_focus());
   }
 
-  pcity = tile_get_city(ptile);
+  pcity = tile_city(ptile);
   if (pcity) {
     if (can_player_see_units_in_city(game.player_ptr, pcity)) {
       pcity->client.occupied =
@@ -960,7 +960,7 @@ struct city *get_nearest_city(const struct unit *punit, int *sq_dist)
   struct city *pcity_near;
   int pcity_near_dist;
 
-  if ((pcity_near = tile_get_city(punit->tile))) {
+  if ((pcity_near = tile_city(punit->tile))) {
     pcity_near_dist = 0;
   } else {
     pcity_near = NULL;

@@ -76,8 +76,8 @@
      || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)		\
       && city == city_here)						\
      || (range == REQ_RANGE_CONTINENT					\
-      && tile_get_continent(city->tile) ==				\
-	 tile_get_continent(city_here->tile))) {
+      && tile_continent(city->tile) ==				\
+	 tile_continent(city_here->tile))) {
 
 #define city_range_iterate_end						\
     }									\
@@ -582,13 +582,13 @@ static int improvement_effect_value(struct player *pplayer,
     if (ai_handicap(pplayer, H_DEFENSIVE)) {
       v += amount / 10; /* make AI slow */
     }
-    if (is_ocean(tile_get_terrain(pcity->tile))) {
-      v += ai->threats.ocean[-tile_get_continent(pcity->tile)]
+    if (is_ocean_tile(pcity->tile)) {
+      v += ai->threats.ocean[-tile_continent(pcity->tile)]
 	? amount/5 : amount/20;
     } else {
       adjc_iterate(pcity->tile, tile2) {
-	if (is_ocean(tile_get_terrain(tile2))) {
-	  if (ai->threats.ocean[-tile_get_continent(tile2)]) {
+	if (is_ocean_tile(tile2)) {
+	  if (ai->threats.ocean[-tile_continent(tile2)]) {
 	    v += amount/5;
 	    break;
 	  }
@@ -596,11 +596,11 @@ static int improvement_effect_value(struct player *pplayer,
       } adjc_iterate_end;
     }
     v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
-    if (ai->threats.continent[pcity->tile->continent]
+    if (ai->threats.continent[tile_continent(pcity->tile)]
 	|| capital
 	|| (ai->threats.invasions
 	    && is_water_adjacent_to_tile(pcity->tile))) {
-      if (ai->threats.continent[pcity->tile->continent]) {
+      if (ai->threats.continent[tile_continent(pcity->tile)]) {
 	v += amount;
       } else {
 	v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
@@ -836,7 +836,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
   cities[REQ_RANGE_PLAYER] = city_list_size(pplayer->cities);
   cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_PLAYER]; /* kludge. */
 
-  cities[REQ_RANGE_CONTINENT] = ai->stats.cities[pcity->tile->continent];
+  cities[REQ_RANGE_CONTINENT] = ai->stats.cities[tile_continent(pcity->tile)];
 
   cities[REQ_RANGE_CITY] = 1;
   cities[REQ_RANGE_LOCAL] = 0;
@@ -1007,7 +1007,7 @@ static void calculate_city_clusters(struct player *pplayer)
     map = pf_create_map(&parameter);
 
     pf_iterator(map, pos) {
-      struct city *acity = tile_get_city(pos.tile);
+      struct city *acity = tile_city(pos.tile);
 
       if (pos.total_MC > range) {
         break;
@@ -1062,7 +1062,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   map = pf_create_map(&parameter);
 
   pf_iterator(map, pos) {
-    struct city *acity = tile_get_city(pos.tile);
+    struct city *acity = tile_city(pos.tile);
 
     if (pos.total_MC > maxrange) {
       break;
@@ -1228,6 +1228,7 @@ void ai_manage_buildings(struct player *pplayer)
 
     city_list_iterate(pplayer->cities, pcity) {
       int value = pcity->surplus[O_SHIELD];
+      Continent_id place = tile_continent(pcity->tile);
 
       if (pcity->ai.grave_danger > 0) {
         continue;
@@ -1240,16 +1241,16 @@ void ai_manage_buildings(struct player *pplayer)
        * continent. */
       if (first_role_unit_for_player(pplayer, F_HELP_WONDER)) {
         value += pcity->ai.downtown;
-        value += ai->stats.cities[pcity->tile->continent] / 8;
+        value += ai->stats.cities[place] / 8;
       }
-      if (ai->threats.continent[pcity->tile->continent] > 0) {
+      if (ai->threats.continent[place] > 0) {
         /* We have threatening neighbours: -25% */
         value -= value / 4;
       }
       /* Require that there is at least some neighbors for wonder helpers,
        * if ruleset supports it. */
       if (value > best_candidate_value
-          && (!has_help || ai->stats.cities[pcity->tile->continent] > 5)
+          && (!has_help || ai->stats.cities[place] > 5)
           && (!has_help || pcity->ai.downtown > 3)) {
         best_candidate = pcity;
         best_candidate_value = value;

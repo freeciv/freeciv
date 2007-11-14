@@ -801,7 +801,7 @@ static int exit_terrain_info_dialog_callback(struct widget *pButton)
 const char *sdl_get_tile_defense_info_text(struct tile *ptile)
 {
   static char buffer[64];
-  int bonus = (ptile->terrain->defense_bonus - 10) * 10;    
+  int bonus = (tile_terrain(ptile)->defense_bonus - 10) * 10;    
   
   if(tile_has_special(ptile, S_RIVER)) {
     bonus += terrain_control.river_defense_bonus;
@@ -1168,7 +1168,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     return;
   }
   
-  pCity = ptile->city;
+  pCity = tile_city(ptile);
   n = unit_list_size(ptile->units);
   pFocus_Unit = head_of_units_in_focus();
   
@@ -1338,8 +1338,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 #endif
 
     if(can_unit_paradrop(pFocus_Unit) && client_tile_get_known(ptile) &&
-      !(is_ocean(ptile->terrain) && is_ground_unit(pFocus_Unit)) &&
-      !(is_sailing_unit(pFocus_Unit) && (!is_ocean(ptile->terrain) || !pCity)) &&
+      !(is_ocean_tile(ptile) && is_ground_unit(pFocus_Unit)) &&
+      !(is_sailing_unit(pFocus_Unit) && (!is_ocean_tile(ptile) || !pCity)) &&
       !(((pCity && pplayers_non_attack(game.player_ptr, city_owner(pCity))) 
       || is_non_attack_unit_tile(ptile, game.player_ptr))) &&
       (unit_type(pFocus_Unit)->paratroopers_range >=

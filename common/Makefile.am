@@ -68,6 +68,8 @@ libcivcommon_a_SOURCES = \
 		unitlist.h	\
 		unittype.c	\
 		unittype.h	\
+		vision.c	\
+		vision.h	\
 		worklist.c	\
 		worklist.h	\
 		version.c	\

@@ -103,10 +103,10 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   const struct start_filter_data *pdata = dataptr;
   int i;
   struct islands_data_type *island;
-  int cont_size, cont = tile_get_continent(ptile);
+  int cont_size, cont = tile_continent(ptile);
 
   /* Only start on certain terrain types. */  
-  if (pdata->value[ptile->index] < pdata->min_value) {
+  if (pdata->value[tile_index(ptile)] < pdata->min_value) {
       return FALSE;
   } 
 
@@ -139,7 +139,7 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   for (i = 0; i < pdata->count; i++) {
     struct tile *tile1 = map.start_positions[i].tile;
 
-    if ((tile_get_continent(ptile) == tile_get_continent(tile1)
+    if ((tile_continent(ptile) == tile_continent(tile1)
 	 && (real_map_distance(ptile, tile1) * 1000 / pdata->min_value
 	     <= (sqrt(cont_size / island->total))))
 	|| (real_map_distance(ptile, tile1) * 1000 / pdata->min_value < 5)) {
@@ -185,7 +185,7 @@ static void initialize_isle_data(void)
 ****************************************************************************/
 static bool filter_starters(const struct tile *ptile, const void *data)
 {
-  return terrain_has_flag(tile_get_terrain(ptile), TER_STARTER);
+  return terrain_has_flag(tile_terrain(ptile), TER_STARTER);
 }
 
 /**************************************************************************
@@ -230,25 +230,25 @@ bool create_start_positions(enum start_mode mode,
 
   /* get the tile value */
   whole_map_iterate(ptile) {
-    tile_value_aux[ptile->index] = get_tile_value(ptile);
+    tile_value_aux[tile_index(ptile)] = get_tile_value(ptile);
   } whole_map_iterate_end;
 
   /* select the best tiles */
   whole_map_iterate(ptile) {
-    int this_tile_value = tile_value_aux[ptile->index];
+    int this_tile_value = tile_value_aux[tile_index(ptile)];
     int lcount = 0, bcount = 0;
 
     map_city_radius_iterate(ptile, ptile1) {
-      if (this_tile_value > tile_value_aux[ptile1->index]) {
+      if (this_tile_value > tile_value_aux[tile_index(ptile1)]) {
 	lcount++;
-      } else if (this_tile_value < tile_value_aux[ptile1->index]) {
+      } else if (this_tile_value < tile_value_aux[tile_index(ptile1)]) {
 	bcount++;
       }
     } map_city_radius_iterate_end;
     if (lcount <= bcount) {
       this_tile_value = 0;
     }
-    tile_value[ptile->index] = 100 * this_tile_value;
+    tile_value[tile_index(ptile)] = 100 * this_tile_value;
   } whole_map_iterate_end;
   /* get an average value */
   smooth_int_map(tile_value, TRUE);
@@ -258,10 +258,10 @@ bool create_start_positions(enum start_mode mode,
   /* oceans are not good for starters; discard them */
   whole_map_iterate(ptile) {
     if (!filter_starters(ptile, NULL)) {
-      tile_value[ptile->index] = 0;
+      tile_value[tile_index(ptile)] = 0;
     } else {
-      islands[tile_get_continent(ptile)].goodies += tile_value[ptile->index];
-      total_goodies += tile_value[ptile->index];
+      islands[tile_continent(ptile)].goodies += tile_value[tile_index(ptile)];
+      total_goodies += tile_value[tile_index(ptile)];
     }
   } whole_map_iterate_end;
 
@@ -369,13 +369,13 @@ bool create_start_positions(enum start_mode mode,
 				   * sizeof(*map.start_positions));
   while (data.count < player_count()) {
     if ((ptile = rand_map_pos_filtered(&data, is_valid_start_pos))) {
-      islands[islands_index[(int) tile_get_continent(ptile)]].starters--;
+      islands[islands_index[(int) tile_continent(ptile)]].starters--;
       map.start_positions[data.count].tile = ptile;
       map.start_positions[data.count].nation = NO_NATION_SELECTED;
       freelog(LOG_DEBUG,
 	      "Adding %d,%d as starting position %d, %d goodies on islands.",
 	      TILE_XY(ptile), data.count,
-	      islands[islands_index[(int) tile_get_continent(ptile)]].goodies);
+	      islands[islands_index[(int) tile_continent(ptile)]].goodies);
       data.count++;
 
     } else {

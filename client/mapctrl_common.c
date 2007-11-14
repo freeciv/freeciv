@@ -151,9 +151,9 @@ static void define_tiles_within_rectangle(void)
 
       /*  Tile passed all tests; process it.
        */
-      if (ptile->city && city_owner(ptile->city) == game.player_ptr) {
+      if (tile_city(ptile) && tile_owner(ptile) == game.player_ptr) {
 	/* FIXME: handle rectangle_append */
-        map_deco[ptile->index].hilite = HILITE_CITY;
+        map_deco[tile_index(ptile)].hilite = HILITE_CITY;
         tiles_hilited_cities = TRUE;
       }
       unit_list_iterate(ptile->units, punit) {
@@ -279,7 +279,7 @@ void cancel_selection_rectangle(void)
 **************************************************************************/
 bool is_city_hilited(struct city *pcity)
 {
-  return map_deco[pcity->tile->index].hilite == HILITE_CITY;
+  return map_deco[tile_index(pcity->tile)].hilite == HILITE_CITY;
 }
 
 /**************************************************************************
@@ -291,7 +291,7 @@ void cancel_tile_hiliting(void)
     tiles_hilited_cities = FALSE;
 
     whole_map_iterate(ptile) {
-      map_deco[ptile->index].hilite = HILITE_NONE;
+      map_deco[tile_index(ptile)].hilite = HILITE_NONE;
     } whole_map_iterate_end;
 
     update_map_canvas_visible();
@@ -319,16 +319,16 @@ void release_right_button(int canvas_x, int canvas_y)
 **************************************************************************/
 void toggle_tile_hilite(struct tile *ptile)
 {
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
 
-  if (map_deco[ptile->index].hilite == HILITE_CITY) {
-    map_deco[ptile->index].hilite = HILITE_NONE;
+  if (map_deco[tile_index(ptile)].hilite == HILITE_CITY) {
+    map_deco[tile_index(ptile)].hilite = HILITE_NONE;
     if (pcity) {
       toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     }
   }
   else if (pcity && city_owner(pcity) == game.player_ptr) {
-    map_deco[ptile->index].hilite = HILITE_CITY;
+    map_deco[tile_index(ptile)].hilite = HILITE_CITY;
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
   }
@@ -365,7 +365,7 @@ void key_city_overlay(int canvas_x, int canvas_y)
 void clipboard_copy_production(struct tile *ptile)
 {
   char buffer[256];
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
 
   if (!can_client_issue_orders()) {
     return;

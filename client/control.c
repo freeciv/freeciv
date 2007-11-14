@@ -602,7 +602,7 @@ struct unit *find_visible_unit(struct tile *ptile)
   }
 
   /* If a city is here, return nothing (unit hidden by city). */
-  if (ptile->city) {
+  if (tile_city(ptile)) {
     return NULL;
   }
 
@@ -816,7 +816,7 @@ void process_caravan_arrival(struct unit *punit)
 	&& (!game.player_ptr
 	    || (game.player_ptr == unit_owner(punit)
 		&& !game.player_ptr->ai.control))) {
-      struct city *pcity_dest = tile_get_city(punit->tile);
+      struct city *pcity_dest = tile_city(punit->tile);
       struct city *pcity_homecity = game_find_city_by_number(punit->homecity);
 
       if (pcity_dest && pcity_homecity) {
@@ -960,7 +960,7 @@ void handle_mouse_cursor(struct tile *ptile)
   }
 
   punit = find_visible_unit(ptile);
-  pcity = ptile ? ptile->city : NULL;
+  pcity = ptile ? tile_city(ptile) : NULL;
 
   switch (hover_state) {
   case HOVER_NONE:
@@ -1044,7 +1044,7 @@ static bool is_activity_on_tile(struct tile *ptile,
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity) 
 {
   struct player *pplayer = unit_owner(punit);
-  struct terrain *pterrain = tile_get_terrain(punit->tile);
+  struct terrain *pterrain = tile_terrain(punit->tile);
 
   /* HACK: This code duplicates that in
    * can_unit_do_activity_targeted_at(). The general logic here is that
@@ -1359,7 +1359,7 @@ void request_unit_disband(struct unit *punit)
 **************************************************************************/
 void request_unit_change_homecity(struct unit *punit)
 {
-  struct city *pcity=tile_get_city(punit->tile);
+  struct city *pcity=tile_city(punit->tile);
   
   if (pcity) {
     dsend_packet_unit_change_homecity(&aconnection, punit->id, pcity->id);
@@ -1371,7 +1371,7 @@ void request_unit_change_homecity(struct unit *punit)
 **************************************************************************/
 void request_unit_upgrade(struct unit *punit)
 {
-  struct city *pcity=tile_get_city(punit->tile);
+  struct city *pcity=tile_city(punit->tile);
 
   if (pcity) {
     dsend_packet_unit_upgrade(&aconnection, punit->id);
@@ -1439,7 +1439,7 @@ void request_unit_unload(struct unit *pcargo)
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 {
-  if (!tile_get_city(punit->tile)) {
+  if (!tile_city(punit->tile)) {
     return;
   }
 
@@ -1915,13 +1915,13 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   /* With the "full" citybar we have to update the citybar when units move
    * into or out of a city.  For foreign cities this is handled separately,
    * via the occupied field of the short-city packet. */
-  if (src_tile->city
-      && can_player_see_units_in_city(game.player_ptr, src_tile->city)) {
-    update_city_description(src_tile->city);
+  if (tile_city(src_tile)
+      && can_player_see_units_in_city(game.player_ptr, tile_city(src_tile))) {
+    update_city_description(tile_city(src_tile));
   }
-  if (dst_tile->city
-      && can_player_see_units_in_city(game.player_ptr, dst_tile->city)) {
-    update_city_description(dst_tile->city);
+  if (tile_city(dst_tile)
+      && can_player_see_units_in_city(game.player_ptr, tile_city(dst_tile))) {
+    update_city_description(tile_city(dst_tile));
   }
 
   if (unit_is_in_focus(punit)) {
@@ -1934,7 +1934,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 **************************************************************************/
 void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 {
-  struct city *pcity = tile_get_city(ptile);
+  struct city *pcity = tile_city(ptile);
   struct unit_list *punits = get_units_in_focus();
   bool maybe_goto = FALSE;
   bool possible = FALSE;
@@ -2340,7 +2340,7 @@ void key_unit_diplomat_actions(void)
   struct city *pcity;		/* need pcity->id */
   unit_list_iterate(get_units_in_focus(), punit) {
     if (is_diplomat_unit(punit)
-	&& (pcity = tile_get_city(punit->tile))
+	&& (pcity = tile_city(punit->tile))
 	&& diplomat_handled_in_diplomat_dialog() != -1    /* confusing otherwise? */
 	&& diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
 				  punit->tile)) {

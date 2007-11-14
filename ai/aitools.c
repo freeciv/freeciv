@@ -258,7 +258,7 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
       danger += unit_att_rating(aunit);
     }
   } unit_list_iterate_end;
-  dcity = tile_get_city(dest_tile);
+  dcity = tile_city(dest_tile);
   if (dcity && HOSTILE_PLAYER(pplayer, ai, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
     struct unit_type *d_type = ai_choose_defender_versus(dcity, punit);
@@ -536,10 +536,10 @@ static double chance_killed_at(const struct tile *ptile,
    * If we don't do this, the amphibious movement code has too strong a
    * desire to minimise the length of the path,
    * leading to poor choice for landing beaches */
-  double p = is_ocean(ptile->terrain)? 0.05: 0.15;
+  double p = is_ocean_tile(ptile)? 0.05: 0.15;
 
   /* If we are on defensive terrain, we are more likely to survive */
-  db = 10 + ptile->terrain->defense_bonus / 10;
+  db = 10 + tile_terrain(ptile)->defense_bonus / 10;
   if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
@@ -574,7 +574,7 @@ static int stack_risk(const struct tile *ptile,
   const double p_killed = chance_killed_at(ptile, risk_cost, param);
   double danger = value * p_killed;
 
-  if (is_ocean(ptile->terrain) && !is_safe_ocean(ptile)) {
+  if (is_ocean_tile(ptile) && !is_safe_ocean(ptile)) {
     danger += risk_cost->ocean_cost;
   }
 
@@ -861,8 +861,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
   aiguard_clear_charge(punit);
   /* Record the city to defend; our goto may be to transport. */
-  if (task == AIUNIT_DEFEND_HOME && ptile && ptile->city) {
-    aiguard_assign_guard_city(ptile->city, punit);
+  if (task == AIUNIT_DEFEND_HOME && ptile && tile_city(ptile)) {
+    aiguard_assign_guard_city(tile_city(ptile), punit);
   }
 
   punit->ai.ai_role = task;
@@ -876,7 +876,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   }
 
   /* Reserve city spot, _unless_ we want to add ourselves to a city. */
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY && !tile_get_city(ptile)) {
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY && !tile_city(ptile)) {
     citymap_reserve_city_spot(ptile, punit->id);
   }
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
@@ -1067,7 +1067,7 @@ struct city *dist_nearest_city(struct player *pplayer, struct tile *ptile,
 { 
   struct city *pc=NULL;
   int best_dist = -1;
-  Continent_id con = tile_get_continent(ptile);
+  Continent_id con = tile_continent(ptile);
 
   players_iterate(pplay) {
     /* If "enemy" is set, only consider cities whose owner we're at
@@ -1083,7 +1083,7 @@ struct city *dist_nearest_city(struct player *pplayer, struct tile *ptile,
        * continent. */
       if ((best_dist == -1 || city_dist < best_dist)
 	  && (everywhere || con == 0
-	      || con == tile_get_continent(pcity->tile))
+	      || con == tile_continent(pcity->tile))
 	  && (!pplayer || map_is_known(pcity->tile, pplayer))) {
 	best_dist = city_dist;
         pc = pcity;

@@ -399,16 +399,16 @@ void map_allocate(void)
 	  (void *)map.tiles, map.xsize, map.ysize);
 
   assert(map.tiles == NULL);
-  map.tiles = fc_malloc(MAP_INDEX_SIZE * sizeof(*map.tiles));
+  map.tiles = fc_calloc(MAP_INDEX_SIZE, sizeof(*map.tiles));
 
   /* Note this use of whole_map_iterate may be a bit sketchy, since the
    * tile values (ptile->index, etc.) haven't been set yet.  It might be
    * better to do a manual loop here. */
   whole_map_iterate(ptile) {
     ptile->index = ptile - map.tiles;
-    index_to_map_pos(&ptile->x, &ptile->y, ptile->index);
-    index_to_native_pos(&ptile->nat_x, &ptile->nat_y, ptile->index);
-    CHECK_INDEX(ptile->index);
+    index_to_map_pos(&ptile->x, &ptile->y, tile_index(ptile));
+    index_to_native_pos(&ptile->nat_x, &ptile->nat_y, tile_index(ptile));
+    CHECK_INDEX(tile_index(ptile));
     CHECK_MAP_POS(ptile->x, ptile->y);
     CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
 
@@ -556,8 +556,8 @@ bool is_cardinally_adj_to_ocean(const struct tile *ptile)
 bool is_safe_ocean(const struct tile *ptile)
 {
   adjc_iterate(ptile, adjc_tile) {
-    if (adjc_tile->terrain != T_UNKNOWN
-        && !terrain_has_flag(adjc_tile->terrain, TER_UNSAFE_COAST)) {
+    if (tile_terrain(adjc_tile) != T_UNKNOWN
+        && !terrain_has_flag(tile_terrain(adjc_tile), TER_UNSAFE_COAST)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -569,18 +569,22 @@ bool is_safe_ocean(const struct tile *ptile)
 ***************************************************************/
 bool is_water_adjacent_to_tile(const struct tile *ptile)
 {
-  if (ptile->terrain != T_UNKNOWN
-      && (is_ocean(ptile->terrain)
-	  || tile_has_special(ptile, S_RIVER)
-	  || tile_has_special(ptile, S_IRRIGATION))) {
+  struct terrain* pterrain = tile_terrain(ptile);
+
+  if (T_UNKNOWN == pterrain) {
+    return FALSE;
+  }
+
+  if (tile_has_special(ptile, S_RIVER)
+   || tile_has_special(ptile, S_IRRIGATION)
+   || terrain_has_flag(pterrain, TER_OCEANIC)) {
     return TRUE;
   }
 
   cardinal_adjc_iterate(ptile, tile1) {
-    if (ptile->terrain != T_UNKNOWN
-	&& (is_ocean(tile1->terrain)
-	    || tile_has_special(tile1, S_RIVER)
-	    || tile_has_special(tile1, S_IRRIGATION))) {
+    if (tile_has_special(tile1, S_RIVER)
+     || tile_has_special(tile1, S_IRRIGATION)
+     || is_ocean_tile(tile1)) {
       return TRUE;
     }
   } cardinal_adjc_iterate_end;
@@ -636,8 +640,8 @@ static int tile_move_cost_ptrs(struct unit *punit,
   if (game.info.slow_invasions
       && punit 
       && is_ground_unit(punit) 
-      && is_ocean(t1->terrain)
-      && !is_ocean(t2->terrain)) {
+      && is_ocean_tile(t1)
+      && !is_ocean_tile(t2)) {
     /* Ground units moving from sea to land lose all their movement
      * if "slowinvasions" server option is turned on. */
     return punit->moves_left;
@@ -687,7 +691,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
     }
   }
 
-  return t2->terrain->movement_cost * SINGLE_MOVE;
+  return tile_terrain(t2)->movement_cost * SINGLE_MOVE;
 }
 
 /****************************************************************************
@@ -708,28 +712,29 @@ int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
   const int maxcost = 72; /* Arbitrary. */
 
   assert(!is_server()
-	 || (tile0->terrain != T_UNKNOWN && tile1->terrain != T_UNKNOWN));
+	 || (tile_terrain(tile0) != T_UNKNOWN 
+	  && tile_terrain(tile1) != T_UNKNOWN));
 
   /* A ship can take the step if:
    * - both tiles are ocean or
    * - one of the tiles is ocean and the other is a city or is unknown
    *
    * Note tileX->terrain will only be T_UNKNOWN at the client. */
-  if (is_ocean(tile0->terrain) && is_ocean(tile1->terrain)) {
+  if (is_ocean_tile(tile0) && is_ocean_tile(tile1)) {
     return MOVE_COST_FOR_VALID_SEA_STEP;
   }
 
-  if (is_ocean(tile0->terrain)
-      && (tile1->city || tile1->terrain == T_UNKNOWN)) {
+  if (is_ocean_tile(tile0)
+      && (tile_city(tile1) || tile_terrain(tile1) == T_UNKNOWN)) {
     return MOVE_COST_FOR_VALID_SEA_STEP;
   }
 
-  if (is_ocean(tile1->terrain)
-      && (tile0->city || tile0->terrain == T_UNKNOWN)) {
+  if (is_ocean_tile(tile1)
+      && (tile_city(tile0) || tile_terrain(tile0) == T_UNKNOWN)) {
     return MOVE_COST_FOR_VALID_SEA_STEP;
   }
 
-  if (is_ocean(tile0->terrain) || is_ocean(tile1->terrain)) {
+  if (is_ocean_tile(tile0) || is_ocean_tile(tile1)) {
     /* FIXME: Shouldn't this return MOVE_COST_FOR_VALID_AIR_STEP?
      * Note that MOVE_COST_FOR_VALID_AIR_STEP is currently equal to
      * MOVE_COST_FOR_VALID_SEA_STEP. */
@@ -978,7 +983,7 @@ struct tile *rand_map_pos_filtered(void *data,
 
     whole_map_iterate(ptile) {
       if (filter(ptile, data)) {
-	positions[count] = ptile->index;
+	positions[count] = tile_index(ptile);
 	count++;
       }
     } whole_map_iterate_end;

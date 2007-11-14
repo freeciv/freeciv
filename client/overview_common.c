@@ -109,7 +109,7 @@ static void gui_to_overview_pos(const struct tileset *t,
 static struct color *overview_tile_color(struct tile *ptile)
 {
   if (overview.layers[OLAYER_CITIES]) {
-    struct city *pcity = tile_get_city(ptile);
+    struct city *pcity = tile_city(ptile);
 
     if (pcity) {
       if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
@@ -143,11 +143,11 @@ static struct color *overview_tile_color(struct tile *ptile)
       return get_player_color(tileset, owner);
     }
   }
-  if (overview.layers[OLAYER_RELIEF] && ptile->terrain != T_UNKNOWN) {
-    return get_terrain_color(tileset, ptile->terrain);
+  if (overview.layers[OLAYER_RELIEF] && tile_terrain(ptile) != T_UNKNOWN) {
+    return get_terrain_color(tileset, tile_terrain(ptile));
   }
-  if (overview.layers[OLAYER_BACKGROUND] && ptile->terrain != T_UNKNOWN) {
-    if (is_ocean(ptile->terrain)) {
+  if (overview.layers[OLAYER_BACKGROUND] && tile_terrain(ptile) != T_UNKNOWN) {
+    if (is_ocean_tile(ptile)) {
       return get_color(tileset, COLOR_OVERVIEW_OCEAN);
     } else {
       return get_color(tileset, COLOR_OVERVIEW_LAND);

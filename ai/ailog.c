@@ -169,7 +169,7 @@ void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
   } else {
     /* Are we a virtual unit evaluated in a debug city?. */
     if (punit->id == 0) {
-      struct city *pcity = tile_get_city(punit->tile);
+      struct city *pcity = tile_city(punit->tile);
 
       if (pcity && pcity->debug) {
         minlevel = LOG_NORMAL;

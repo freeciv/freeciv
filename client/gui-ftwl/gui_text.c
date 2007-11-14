@@ -143,7 +143,7 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
 
 #ifdef DEBUG
   add_line(_("Location: (%d, %d) [%d]"),
-	   ptile->x, ptile->y, ptile->continent);
+	   ptile->x, ptile->y, tile_continent(ptile));
 #endif
   add_line("%s", tile_get_info_text(ptile, 0));
   if (count > 0) {
@@ -296,7 +296,7 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
     add_line(_("Effect: the computer performs settler activities"));
   } else {
 #if 0
-  ttype = punit->tile->terrain;
+  ttype = tile_terrain(punit->tile);
   tinfo = terrain_by_number(ttype);
   if ((tinfo->irrigation_result != T_LAST)
       && (tinfo->irrigation_result != ttype)) {

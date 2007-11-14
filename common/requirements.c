@@ -592,7 +592,7 @@ static int num_continent_buildings(const struct player *pplayer,
     const struct city *pcity;
 
     pcity = player_find_city_from_wonder(pplayer, building);
-    if (pcity && tile_get_continent(pcity->tile) == continent) {
+    if (pcity && tile_continent(pcity->tile) == continent) {
       return 1;
     }
   } else {
@@ -661,7 +661,7 @@ static int count_buildings_in_range(const struct player *target_player,
     return target_player ? num_player_buildings(target_player, source) : 0;
   case REQ_RANGE_CONTINENT:
     if (target_player && target_city) {
-      int continent = tile_get_continent(target_city->tile);
+      int continent = tile_continent(target_city->tile);
 
       return num_continent_buildings(target_player, continent, source);
     } else {
@@ -751,7 +751,7 @@ static bool is_terrain_in_range(const struct tile *target_tile,
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain. */
-    return pterrain && target_tile->terrain == pterrain;
+    return pterrain && tile_terrain(target_tile) == pterrain;
   case REQ_RANGE_ADJACENT:
     return pterrain && is_terrain_near_tile(target_tile, pterrain);
   case REQ_RANGE_CITY:
@@ -780,7 +780,7 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain of correct class. */
-    return terrain_belongs_to_class(target_tile->terrain, class);
+    return terrain_belongs_to_class(tile_terrain(target_tile), class);
   case REQ_RANGE_ADJACENT:
     return is_terrain_class_near_tile(target_tile, class);
   case REQ_RANGE_CITY:

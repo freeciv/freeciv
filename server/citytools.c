@@ -512,7 +512,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 		    tocity->name);
     }
   } else {
-    struct city *in_city = tile_get_city(punit->tile);
+    struct city *in_city = tile_city(punit->tile);
     if (in_city) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_rule_name(punit),
@@ -601,7 +601,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   /* Any units supported by the city are either given new home
      cities or maybe destroyed */
   unit_list_iterate_safe(units, vunit) {
-    struct city *new_home_city = tile_get_city(vunit->tile);
+    struct city *new_home_city = tile_city(vunit->tile);
     if (new_home_city && new_home_city != exclude_city
 	&& city_owner(new_home_city) == unit_owner(vunit)) {
       /* unit is in another city: make that the new homecity,
@@ -1101,7 +1101,7 @@ void remove_city(struct city *pcity)
 
   /* Rehome units in other cities */
   unit_list_iterate_safe(pcity->units_supported, punit) {
-    struct city *new_home_city = tile_get_city(punit->tile);
+    struct city *new_home_city = tile_city(punit->tile);
 
     if (new_home_city
 	&& new_home_city != pcity
@@ -1131,7 +1131,7 @@ void remove_city(struct city *pcity)
                             "since it cannot stay on %s."),
                           unit_name_translation(punit),
                           pcity->name,
-                          terrain_name_translation(tile_get_terrain(ptile)));
+                          terrain_name_translation(tile_terrain(ptile)));
             break;
 	  }
 	}
@@ -1194,7 +1194,7 @@ void remove_city(struct city *pcity)
     /* For every tile the city could have used. */
     map_city_radius_iterate(tile1, tile2) {
       /* We see what cities are inside reach of the tile. */
-      struct city *pcity = tile_get_city(tile2);
+      struct city *pcity = tile_city(tile2);
       if (pcity) {
 	update_city_tile_status_map(pcity, tile1);
       }
@@ -1380,13 +1380,13 @@ static bool player_has_traderoute_with_city(struct player *pplayer,
 }
 
 /**************************************************************************
-  This fills out a package from a player's vision_base.
+  This fills out a package from a player's vision_site.
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 			      struct packet_city_short_info *packet)
 {
-  struct vision_base *pdcity = map_get_player_base(ptile, pplayer);
-  struct city *pcity = tile_get_city(ptile);
+  struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
+  struct city *pcity = tile_city(ptile);
 
   packet->id = pdcity->identity;
   packet->owner = player_number(vision_owner(pdcity));
@@ -1494,7 +1494,7 @@ void send_all_known_cities(struct conn_list *dest)
       continue;
     }
     whole_map_iterate(ptile) {
-      if (!pplayer || NULL != map_get_player_city(ptile, pplayer)) {
+      if (!pplayer || NULL != map_get_player_base(ptile, pplayer)) {
 	send_city_info_at_tile(pplayer, pconn->self, NULL, ptile);
       }
     } whole_map_iterate_end;
@@ -1550,8 +1550,8 @@ If (pviewer == NULL) this is for observers, who see everything (?)
 For this function dest may not be NULL.  See send_city_info() and
 broadcast_city_info().
 
-If pcity is non-NULL it should be same as tile_get_city(x,y); if pcity
-is NULL, this function calls tile_get_city(x,y) (it is ok if this
+If pcity is non-NULL it should be same as tile_city(x,y); if pcity
+is NULL, this function calls tile_city(x,y) (it is ok if this
 returns NULL).
 
 Sometimes a player's map contain a city that doesn't actually exist. Use
@@ -1569,7 +1569,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   struct player *powner = NULL;
 
   if (!pcity) {
-    pcity = tile_get_city(ptile);
+    pcity = tile_city(ptile);
   }
   if (pcity) {
     powner = city_owner(pcity);
@@ -1604,7 +1604,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	  lsend_packet_city_short_info(dest, &sc_pack);
 	}
       } else {			/* not seen; send old info */
-	if (NULL != map_get_player_base(ptile, pviewer)) {
+	if (NULL != map_get_player_site(ptile, pviewer)) {
 	  package_dumb_city(pviewer, ptile, &sc_pack);
 	  lsend_packet_city_short_info(dest, &sc_pack);
 	}
@@ -1710,7 +1710,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
 {
   bv_imprs improvements;
   struct player_tile *plrtile = map_get_player_tile(pcity->tile, pplayer);
-  struct vision_base *pdcity = plrtile->vision_source;
+  struct vision_site *pdcity = map_get_player_city(pcity->tile, pplayer);
   /* pcity->occupied isn't used at the server, so we go straight to the
    * unit list to check the occupied status. */
   bool occupied = (unit_list_size(pcity->tile->units) > 0);
@@ -1740,7 +1740,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   }
 
   if (NULL == pdcity) {
-    pdcity = plrtile->vision_source = fc_calloc(1, sizeof(*pdcity));
+    pdcity = plrtile->site = fc_calloc(1, sizeof(*pdcity));
     pdcity->identity = pcity->id;
   }
   if (pdcity->identity != pcity->id) {
@@ -1767,14 +1767,14 @@ Removes outdated (nonexistant) cities from a player
 **************************************************************************/
 void reality_check_city(struct player *pplayer,struct tile *ptile)
 {
-  struct city *pcity = tile_get_city(ptile);
+  struct city *pcity = tile_city(ptile);
   struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
-  struct vision_base *pdcity = playtile->vision_source;
+  struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
 
   if (pdcity) {
     if (!pcity || pcity->id != pdcity->identity) {
       dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
-      playtile->vision_source = NULL;
+      playtile->site = NULL;
       free(pdcity);
     }
   }
@@ -2018,7 +2018,7 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
     struct tile *ptile = city_map_to_map(pcity, city_x, city_y);
 
     map_city_radius_iterate(ptile, tile1) {
-      struct city *pcity2 = tile_get_city(tile1);
+      struct city *pcity2 = tile_city(tile1);
       if (pcity2 && pcity2 != pcity) {
 	int city_x2, city_y2;
 	bool is_valid;
@@ -2161,7 +2161,7 @@ void check_city_workers(struct player *pplayer)
 void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 {
   adjc_iterate(ptile, tile1) {
-    struct city *pcity = tile_get_city(tile1);
+    struct city *pcity = tile_city(tile1);
 
     if (pcity && !is_ocean_near_tile(tile1)) {
       struct player *pplayer = city_owner(pcity);

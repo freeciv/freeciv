@@ -193,8 +193,8 @@ static struct tile *find_dispersed_position(struct player *pplayer,
     y = p->tile->y + myrand(2 * game.info.dispersion + 1)
         - game.info.dispersion;
   } while (!((ptile = map_pos_to_tile(x, y))
-             && tile_get_continent(p->tile) == tile_get_continent(ptile)
-             && !is_ocean(tile_get_terrain(ptile))
+             && tile_continent(p->tile) == tile_continent(ptile)
+             && !is_ocean_tile(ptile)
              && !is_non_allied_unit_tile(ptile, pplayer)));
 
   return ptile;

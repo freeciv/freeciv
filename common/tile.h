@@ -59,16 +59,29 @@ struct tile {
 #define tile_list_iterate_end  LIST_ITERATE_END
 
 /* Tile accessor functions. */
+int tile_index(const struct tile *ptile);
+
+struct city *tile_city(const struct tile *ptile);
+void tile_set_city(struct tile *ptile, struct city *pcity);
+
+#define tile_continent(_tile) ((_tile)->continent)
+/*Continent_id tile_continent(const struct tile *ptile);*/
+void tile_set_continent(struct tile *ptile, Continent_id val);
+
 struct player *tile_owner(const struct tile *ptile);
 void tile_set_owner(struct tile *ptile, struct player *pplayer);
 
-struct city *tile_get_city(const struct tile *ptile);
-void tile_set_city(struct tile *ptile, struct city *pcity);
+#define tile_resource(_tile) ((_tile)->resource)
+#define tile_resource_is_valid(_tile) BV_ISSET((_tile)->special, S_RESOURCE_VALID)
+/*const struct resource *tile_resource(const struct tile *ptile);*/
+void tile_set_resource(struct tile *ptile, struct resource *presource);
 
-struct terrain *tile_get_terrain(const struct tile *ptile);
+#define tile_terrain(_tile) ((_tile)->terrain)
+/*struct terrain *tile_terrain(const struct tile *ptile);*/
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
 
-bv_special tile_get_special(const struct tile *ptile);
+/* Specials are a bit different */
+bv_special tile_specials(const struct tile *ptile);
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
 bool tile_has_any_specials(const struct tile *ptile);
@@ -76,13 +89,7 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 
-#define tile_resource_is_valid(vtile) BV_ISSET(vtile->special, S_RESOURCE_VALID)
-const struct resource *tile_get_resource(const struct tile *ptile);
-void tile_set_resource(struct tile *ptile, struct resource *presource);
-
-Continent_id tile_get_continent(const struct tile *ptile);
-void tile_set_continent(struct tile *ptile, Continent_id val);
-
+/* Bases map onto specials */
 struct base_type *tile_get_base(const struct tile *ptile);
 void tile_add_base(struct tile *ptile, const struct base_type *pbase);
 void tile_remove_base(struct tile *ptile);
@@ -93,6 +100,7 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
 bool tile_has_native_base(const struct tile *ptile,
                           const struct unit_type *punittype);
 
+/* Vision related */
 enum known_type tile_get_known(const struct tile *ptile,
 			      const struct player *pplayer);
 

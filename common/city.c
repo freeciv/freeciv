@@ -702,7 +702,7 @@ static int base_get_output_tile(const struct tile *ptile,
 {
   struct tile tile;
   int prod;
-  struct terrain *pterrain = tile_get_terrain(ptile);
+  struct terrain *pterrain = tile_terrain(ptile);
 
   assert(otype >= 0 && otype < O_LAST);
 
@@ -714,12 +714,12 @@ static int base_get_output_tile(const struct tile *ptile,
 
   prod = pterrain->output[otype];
   if (tile_resource_is_valid(ptile)) {
-    prod += tile_get_resource(ptile)->output[otype];
+    prod += tile_resource(ptile)->output[otype];
   }
 
   /* create dummy tile which has the city center bonuses. */
   tile.terrain = pterrain;
-  tile.special = tile_get_special(ptile);
+  tile.special = tile_specials(ptile);
 
   if (pcity && is_city_center(city_x, city_y)
       && pterrain == pterrain->irrigation_result
@@ -857,7 +857,7 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
 {
   int citymindist;
 
-  if (terrain_has_flag(ptile->terrain, TER_NO_CITIES)) {
+  if (terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
     /* No cities on this terrain. */
     return FALSE;
   }
@@ -880,7 +880,7 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
     citymindist = game.info.min_dist_bw_cities;
   }
   square_iterate(ptile, citymindist - 1, ptile1) {
-    if (ptile1->city) {
+    if (tile_city(ptile1)) {
       return FALSE;
     }
   } square_iterate_end;
@@ -1414,7 +1414,7 @@ bool city_can_grow_to(const struct city *pcity, int pop_size)
 struct city *is_enemy_city_tile(const struct tile *ptile,
 				const struct player *pplayer)
 {
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
 
   if (pcity && pplayers_at_war(pplayer, city_owner(pcity)))
     return pcity;
@@ -1428,7 +1428,7 @@ struct city *is_enemy_city_tile(const struct tile *ptile,
 struct city *is_allied_city_tile(const struct tile *ptile,
 				 const struct player *pplayer)
 {
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
 
   if (pcity && pplayers_allied(pplayer, city_owner(pcity)))
     return pcity;
@@ -1442,7 +1442,7 @@ struct city *is_allied_city_tile(const struct tile *ptile,
 struct city *is_non_attack_city_tile(const struct tile *ptile,
 				     const struct player *pplayer)
 {
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
 
   if (pcity && pplayers_non_attack(pplayer, city_owner(pcity)))
     return pcity;
@@ -1456,7 +1456,7 @@ struct city *is_non_attack_city_tile(const struct tile *ptile,
 struct city *is_non_allied_city_tile(const struct tile *ptile,
 				     const struct player *pplayer)
 {
-  struct city *pcity = ptile->city;
+  struct city *pcity = tile_city(ptile);
 
   if (pcity && !pplayers_allied(pplayer, city_owner(pcity)))
     return pcity;
@@ -1481,7 +1481,7 @@ bool is_friendly_city_near(const struct player *owner,
 			   const struct tile *ptile)
 {
   square_iterate(ptile, 3, ptile1) {
-    struct city * pcity = ptile1->city;
+    struct city *pcity = tile_city(ptile1);
     if (pcity && pplayers_allied(owner, city_owner(pcity))) {
       return TRUE;
     }
@@ -1499,7 +1499,7 @@ bool city_exists_within_city_radius(const struct tile *ptile,
 {
   map_city_radius_iterate(ptile, ptile1) {
     if (may_be_on_center || !same_pos(ptile, ptile1)) {
-      if (ptile1->city) {
+      if (tile_city(ptile1)) {
 	return TRUE;
       }
     }

@@ -95,7 +95,7 @@ struct goto_map {
 
 static struct goto_map_list *goto_maps = NULL;
 
-#define DRAWN(ptile, dir) (tiles[(ptile)->index].drawn[dir])
+#define DRAWN(_tile, dir) (tiles[tile_index(_tile)].drawn[dir])
 
 static void increment_drawn(struct tile *src_tile, enum direction8 dir);
 static void decrement_drawn(struct tile *src_tile, enum direction8 dir);
@@ -472,7 +472,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
 static int get_activity_time(const struct tile *ptile,
 			     struct player *pplayer)
 {
-  struct terrain *pterrain = ptile->terrain;
+  struct terrain *pterrain = tile_terrain(ptile);
   int activity_mc = 0;
 
   assert(hover_state == HOVER_CONNECT);
