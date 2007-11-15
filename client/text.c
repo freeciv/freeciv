@@ -95,17 +95,15 @@ const char *popup_info_text(struct tile *ptile)
   static struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
-  if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
-    /* TRANS: This text is shown on middle-click of an unknown tile */
-    astr_add(&str, _("Unknown tile:\n"
-		     "you must explore this tile to\n"
-		     "gain information about it."));
-    return str.str;
-  }
 #ifdef DEBUG
   astr_add_line(&str, _("Location: (%d, %d) [%d]"), 
 		ptile->x, ptile->y, tile_continent(ptile)); 
 #endif /*DEBUG*/
+
+  if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
+    astr_add(&str, _("Unknown"));
+    return str.str;
+  }
   astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile, 0));
   astr_add_line(&str, _("Food/Prod/Trade: %s"),
 		get_tile_output_text(ptile));
