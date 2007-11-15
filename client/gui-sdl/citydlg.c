@@ -3522,6 +3522,8 @@ static void rebuild_imprm_list(struct city *pCity)
 				       pCityDlg->pImprv->pEndWidgetList);
     pCityDlg->pImprv->pEndWidgetList = NULL;
     pCityDlg->pImprv->pBeginWidgetList = NULL;
+    pCityDlg->pImprv->pEndActiveWidgetList = NULL;
+    pCityDlg->pImprv->pBeginActiveWidgetList = NULL;
     pCityDlg->pImprv->pActiveWidgetList = NULL;
     FC_FREE(pCityDlg->pImprv->pScroll);
   } 
