@@ -328,7 +328,9 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
 {
   static struct widget *pWidget;
   if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
-    return widget_pressed_action(pWidget);
+    if (!(get_wstate(pWidget) == FC_WS_DISABLED)) {
+      return widget_pressed_action(pWidget);
+    }
   } else {
 #ifdef UNDER_CE
     if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
@@ -400,7 +402,9 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 
   if ((pWidget = MainWidgetListScaner(pMotionEvent->x, pMotionEvent->y)) != NULL) {
     update_mouse_cursor(CURSOR_DEFAULT);
-    widget_sellected_action(pWidget);
+    if (!(get_wstate(pWidget) == FC_WS_DISABLED)) {
+      widget_sellected_action(pWidget);
+    }
   } else {
     if (pSellected_Widget) {
       unsellect_widget_action();
