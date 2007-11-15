@@ -220,9 +220,17 @@ static int city_dlg_callback(struct widget *pWindow)
       
     }
     
-    if(!pCityDlg->lock &&
-          sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
-      widget_flush(pWindow);
+    if (!pCityDlg->lock) {
+      if (pCityDlg->pPanel) {      
+        sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow);
+        sellect_window_group_dialog(pCityDlg->pPanel->pBeginWidgetList,
+                                    pCityDlg->pPanel->pEndWidgetList);
+        widget_flush(pWindow);
+      } else {
+        if (sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
+          widget_flush(pWindow);
+        }
+      }
     }      
   }
   return -1;

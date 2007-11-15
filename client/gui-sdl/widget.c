@@ -231,8 +231,7 @@ struct widget * WidgetListScaner(const struct widget *pGUI_List, int x, int y)
     area.w = pGUI_List->size.w;
     area.h = pGUI_List->size.h;
     if (is_in_rect_area(x, y, area)
-       && !((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
-	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
+       && !((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN)) {
       return (struct widget *) pGUI_List;
     }
     pGUI_List = pGUI_List->next;
