@@ -540,40 +540,62 @@ static enum tile_behavior amphibious_behaviour(const struct tile *ptile,
 /* =====================  Postion Dangerous Callbacks ================ */
 
 /****************************************************************************
+  Refueling base for air units.
+****************************************************************************/
+static bool is_possible_base_fuel(const struct tile *ptile,
+                                  struct pf_parameter *param)
+{
+  struct base_type *pbase = tile_get_base(ptile);
+
+  /* All airbases are considered possible, simply attack enemies. */
+  return (is_allied_city_tile(ptile, param->owner)
+       || (pbase && is_native_base_to_uclass(pbase, param->uclass)));
+}
+
+/****************************************************************************
   Position-dangerous callback for air units.
 ****************************************************************************/
 static bool is_pos_dangerous_fuel(const struct tile *ptile,
                                   enum known_type known,
                                   struct pf_parameter *param)
 {
-  struct base_type *pbase = tile_get_base(ptile);
   int moves = SINGLE_MOVE * real_map_distance(param->start_tile, ptile);
-  int fuel = param->move_rate * param->fuel_left_initially;
+  int have = get_moves_left_initially(param);
+  int left = have - moves;
 
-  if (fuel < moves) {
+  if (left < 0) {
     /* not enough fuel. */
     return TRUE;
   }
 
-  if (fuel >= moves * 2) {
+  if (have >= moves * 2
+   && (is_possible_base_fuel(param->start_tile, param)
+    || !param->owner->ai.control)) {
     /* has enough fuel for round trip. */
     return FALSE;
   }
 
-  if (fuel >= moves
-   && (is_allied_city_tile(ptile, param->owner)
-    || (pbase && is_native_base_to_uclass(pbase, param->uclass)))) {
-    /* All airbases are considered non-dangerous, although non-allied ones
-     * are inaccessible. */
-    return FALSE;
-  }
-
-  if (is_enemy_unit_tile(ptile, param->owner)
-   || is_enemy_city_tile(ptile, param->owner)) {
+  if (TILE_UNKNOWN != known
+   && (is_possible_base_fuel(ptile, param)
+    || is_enemy_city_tile(ptile, param->owner))) {
     /* allow attacks, even suicidal ones */
     return FALSE;
   }
 
+  if (TILE_KNOWN == known
+   && is_enemy_unit_tile(ptile, param->owner)) {
+    /* don't reveal unknown units */
+    return FALSE;
+  }
+
+  /* similar to find_nearest_airbase() */
+  iterate_outward(ptile, left / SINGLE_MOVE, atile) {
+    if (TILE_UNKNOWN != tile_get_known(atile, param->owner)
+     && is_possible_base_fuel(atile, param)) {
+      return FALSE;
+    }
+  } iterate_outward_end;
+  
   /* Carriers are ignored since they are likely to move. */
   return TRUE;
 }
