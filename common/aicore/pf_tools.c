@@ -550,8 +550,9 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
 {
   int moves = SINGLE_MOVE * real_map_distance(param->start_tile, ptile);
   int have = get_moves_left_initially(param);
+  int left = have - moves;
 
-  if (have < moves) {
+  if (left < 0) {
     /* not enough fuel. */
     return TRUE;
   }
@@ -576,6 +577,14 @@ static bool is_pos_dangerous_fuel(const struct tile *ptile,
     return FALSE;
   }
 
+  /* similar to find_nearest_airbase() */
+  iterate_outward(ptile, left / SINGLE_MOVE, atile) {
+    if (TILE_UNKNOWN != tile_get_known(atile, param->owner)
+     && is_possible_base_fuel(atile, param)) {
+      return FALSE;
+    }
+  } iterate_outward_end;
+  
   /* Carriers are ignored since they are likely to move. */
   return TRUE;
 }
