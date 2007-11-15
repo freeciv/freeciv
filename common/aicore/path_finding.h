@@ -398,7 +398,7 @@ struct pf_parameter {
 /* The map itself.  Opaque type. */
 struct pf_map;
 
-/* ==================== Functions =================================== */
+/* ==================== Map/Path Functions ========================== */
 
 /* Returns a map which can be used to query for paths or to iterate
  * over all paths. Does not perform any computations itself, just sets
@@ -449,5 +449,9 @@ struct pf_position *pf_last_position(struct pf_path *path);
 
 /* Return the current parameters for the given map. */
 struct pf_parameter *pf_get_parameter(struct pf_map *map);
+
+/* ==================== Parameter Functions ========================= */
+
+int get_moves_left_initially(const struct pf_parameter *param);
 
 #endif
