@@ -37,6 +37,7 @@
 #include "game.h"
 
 /* client */
+#include "citydlg_common.h"
 #include "civclient.h"		/* for get_client_state() */
 
 /* gui-sdl */
