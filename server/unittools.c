@@ -2161,7 +2161,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
   if (get_transporter_occupancy(punit) > 0) {
     notify_player(pplayer, punit->tile, E_BAD_COMMAND,
-		     _("You cannot paradrop a transporter unit."));
+		     _("You cannot paradrop a unit that is "
+		       "transporting other units."));
   }
 
   if (!map_is_known(ptile, pplayer)) {
