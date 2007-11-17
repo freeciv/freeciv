@@ -56,7 +56,7 @@ char default_sound_set_name[512] = "stdsounds";
 char default_sound_plugin_name[512] = "\0";
 
 bool save_options_on_exit = TRUE;
-bool fullscreen_mode = TRUE;
+bool fullscreen_mode = FALSE;
 
 /** Local Options: **/
 
