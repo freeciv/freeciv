@@ -24,7 +24,6 @@
 
 #include "map.h"
 #include "movement.h"
-#include "unitlist.h"
 
 #include "audio.h"
 #include "chatline_g.h"
@@ -43,6 +42,7 @@
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
+#include "unitlist.h"
 
 #include "control.h"
 
@@ -85,7 +85,6 @@ bool non_ai_unit_focus;
 
 /*************************************************************************/
 
-static struct unit *find_best_focus_candidate(bool accept_current);
 static struct unit *quickselect(struct tile *ptile,
                                 enum quickselect_type qtype);
 
@@ -361,8 +360,8 @@ void set_unit_focus(struct unit *punit)
   }
 
   if (NULL != punit) {
-    auto_center_on_focus_unit();
     current_focus_append(punit);
+    auto_center_on_focus_unit();
   }
 
   if (focus_changed) {
@@ -412,38 +411,38 @@ void set_unit_focus_and_select(struct unit *punit)
 }
 
 /**************************************************************************
-If there is no unit currently in focus, or if the current unit in
-focus should not be in focus, then get a new focus unit.
-We let GOTO-ing units stay in focus, so that if they have moves left
-at the end of the goto, then they are still in focus.
+ Find the nearest available unit for focus, excluding any current unit
+ in focus unless "accept_current" is TRUE.  If the current focus unit
+ is the only possible unit, or if there is no possible unit, returns NULL.
 **************************************************************************/
-void update_unit_focus(void)
+static struct unit *find_best_focus_candidate(bool accept_current)
 {
-  if (!game.player_ptr || !can_client_change_view()) {
-    return;
-  }
-  if (get_num_units_in_focus() == 0) {
-    advance_unit_focus();
-  } else {
-    bool alldone = TRUE;
+  struct tile *ptile = get_center_tile_mapcanvas();
 
-    unit_list_iterate(get_units_in_focus(), punit) {
-      if ((punit->activity != ACTIVITY_IDLE
-	   && !unit_has_orders(punit)
-	   && punit->activity != ACTIVITY_GOTO)
-	  || punit->done_moving
-	  || punit->moves_left == 0 
-	  || punit->ai.control) {
+  if (!get_focus_unit_on_tile(ptile)) {
+    struct unit *pfirst = head_of_units_in_focus();
 
-      } else {
-	alldone = FALSE;
-	break;
-      }
-    } unit_list_iterate_end;
-    if (alldone) {
-      advance_unit_focus();
+    if (pfirst) {
+      ptile = pfirst->tile;
     }
   }
+
+  iterate_outward(ptile, FC_INFINITY, ptile2) {
+    unit_list_iterate(ptile2->units, punit) {
+      if ((!unit_is_in_focus(punit) || accept_current)
+	  && unit_owner(punit) == game.player_ptr
+	  && punit->focus_status == FOCUS_AVAIL
+	  && punit->activity == ACTIVITY_IDLE
+	  && !unit_has_orders(punit)
+	  && punit->moves_left > 0
+	  && !punit->done_moving
+	  && !punit->ai.control) {
+	return punit;
+      }
+    } unit_list_iterate_end;
+  } iterate_outward_end;
+
+  return NULL;
 }
 
 /**************************************************************************
@@ -535,38 +534,31 @@ void advance_unit_focus(void)
 }
 
 /**************************************************************************
- Find the nearest available unit for focus, excluding any current unit
- in focus unless "accept_current" is TRUE.  If the current focus unit
- is the only possible unit, or if there is no possible unit, returns NULL.
+ If there is no unit currently in focus, or if the current unit in
+ focus should not be in focus, then get a new focus unit.
+ We let GOTO-ing units stay in focus, so that if they have moves left
+ at the end of the goto, then they are still in focus.
 **************************************************************************/
-static struct unit *find_best_focus_candidate(bool accept_current)
+void update_unit_focus(void)
 {
-  struct tile *ptile = get_center_tile_mapcanvas();
-
-  if (!get_focus_unit_on_tile(ptile)) {
-    struct unit *pfirst = head_of_units_in_focus();
-
-    if (pfirst) {
-      ptile = pfirst->tile;
-    }
+  if (!game.player_ptr || !can_client_change_view()) {
+    return;
   }
 
-  iterate_outward(ptile, FC_INFINITY, ptile2) {
-    unit_list_iterate(ptile2->units, punit) {
-      if ((!unit_is_in_focus(punit) || accept_current)
-	  && unit_owner(punit) == game.player_ptr
-	  && punit->focus_status == FOCUS_AVAIL
-	  && punit->activity == ACTIVITY_IDLE
-	  && !unit_has_orders(punit)
-	  && punit->moves_left > 0
-	  && !punit->done_moving
-	  && !punit->ai.control) {
-	return punit;
-      }
-    } unit_list_iterate_end;
-  } iterate_outward_end;
+  /* iterate zero times for no units in focus,
+   * otherwise quit for any of the conditions. */
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if ((punit->activity == ACTIVITY_IDLE
+	 || punit->activity == ACTIVITY_GOTO
+	 || unit_has_orders(punit))
+	&& punit->moves_left > 0 
+	&& !punit->done_moving
+	&& !punit->ai.control) {
+      return;
+    }
+  } unit_list_iterate_end;
 
-  return NULL;
+  advance_unit_focus();
 }
 
 /**************************************************************************
@@ -956,19 +948,21 @@ void handle_mouse_cursor(struct tile *ptile)
   punit = find_visible_unit(ptile);
   pcity = ptile ? ptile->city : NULL;
 
-  if (hover_state == HOVER_NONE) {
+  switch (hover_state) {
+  case HOVER_NONE:
     if (punit && game.player_ptr == unit_owner(punit)) {
       /* Set mouse cursor to select a unit.  */
       action_state = CURSOR_ACTION_SELECT;
-    } else if (pcity && can_player_see_city_internals(game.player_ptr, pcity)) {
+    } else if (pcity
+	       && can_player_see_city_internals(game.player_ptr, pcity)) {
       /* Set mouse cursor to select a city. */
       action_state = CURSOR_ACTION_SELECT;
     } else {
       /* Set default mouse cursor, because nothing selectable found. */
       action_state = CURSOR_ACTION_DEFAULT;
     }
-
-  } else if (hover_state == HOVER_GOTO) {
+    break;
+  case HOVER_GOTO:
     /* Determine if the goto is valid, invalid or will attack. */
     if (is_valid_goto_destination(ptile)) {
       if (can_units_attack_at(active_units, ptile)) {
@@ -983,13 +977,20 @@ void handle_mouse_cursor(struct tile *ptile)
     } else {
       action_state = CURSOR_ACTION_INVALID;
     }
-  } else if (hover_state == HOVER_PATROL || hover_state == HOVER_CONNECT) {
+    break;
+  case HOVER_PATROL:
+  case HOVER_CONNECT:
     if (is_valid_goto_destination(ptile)) {
       action_state = CURSOR_ACTION_GOTO;
     } else {
       action_state = CURSOR_ACTION_INVALID;
     }
-  }
+    break;
+  case HOVER_NUKE:
+  case HOVER_PARADROP:
+    /* FIXME */
+    break;
+  };
 
   update_unit_info_label(active_units);
 }
@@ -1401,7 +1402,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
   } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
     dsend_packet_unit_help_build_wonder(&aconnection, punit->id);
   } else {
-    freelog(LOG_ERROR, "Bad action (%d) in request_unit_caravan_action",
+    freelog(LOG_ERROR, "request_unit_caravan_action() Bad action (%d)",
 	    action);
   }
 }
