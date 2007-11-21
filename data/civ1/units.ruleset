@@ -1075,11 +1075,11 @@ If an enemy unit is alone on a tile, you may attempt to bribe it\
  become yours.\
 \n\n\
 The diplomat can also perform a number of actions in another player's\
- city:\n
+ city:\n\
 - \"Investigate\" Reveal detailed information about the city.\n\
 - \"Establish Embassy\" Get permanent intelligence on the player.\n\
 - \"Sabotage\" Ruin any production in the city.\n\
-- \"Steal Technology\" Acquire an advance from the city's owner.
+- \"Steal Technology\" Acquire an advance from the city's owner.\
 - \"Incite a Revolt\" Make a city your own by paying a sum of gold.\
  Note that you cannot incite a revolt in a capital city.\
 \n\n\
