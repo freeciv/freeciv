@@ -769,8 +769,8 @@ uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast"
 helptext      = _("\
-Elephants are towering animals trained for war,\
- but are easily dispersed if caught off guard.\
+Elephants are towering animals trained for war that are often used as\
+ powerful shock troops, but defend poorly against most other units.\
 ")
 
 [unit_crusaders]
