@@ -1601,7 +1601,7 @@ reqs	=
       "Building", "Darwin's Voyage", "Player"
     }
 
-[effect_eiffel_tower_0]
+[effect_eiffel_tower]
 name	= "Gain_AI_Love"
 value	= 20
 reqs	=

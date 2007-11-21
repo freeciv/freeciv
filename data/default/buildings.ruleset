@@ -1117,9 +1117,8 @@ sound		= "w_eiffel_tower"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Your reputation and goodwill among other nations is increased\
- while you possess this wonder.  Reputation is recovered twice\
- as fast as it would otherwise.\
+Your reputation and goodwill among other nations is recovered twice\
+ as fast.\
 ")
 
 [building_great_library]
