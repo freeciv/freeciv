@@ -1072,11 +1072,9 @@ sound		= "w_eiffel_tower"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-When built, every civilization's attitude toward you is improved\
- by 25%.\
+Your reputation and goodwill among other nations is recovered four times\
+ as fast.\
 ")
-; NOTE:
-; Not implemented.
 
 [building_great_library]
 name		= _("Great Library")

@@ -1638,6 +1638,14 @@ reqs	=
       "Building", "Darwin's Voyage", "Player"
     }
 
+[effect_eiffel_tower]
+name	= "Gain_AI_Love"
+value	= 40
+reqs	=
+    { "type", "name", "range"
+      "Building", "Eiffel Tower", "Player"
+    }
+
 [effect_great_library]
 name	= "Tech_Parasite"
 value	= 2
