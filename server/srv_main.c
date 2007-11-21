@@ -2114,13 +2114,22 @@ void server_game_free(void)
   /* Free all the treaties that were left open when game finished. */
   free_treaties();
 
+  /* Free the vision data, without sending updates. */
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
+      /* don't bother using vision_clear_sight() */
+      vision_layer_iterate(v) {
+        punit->server.vision->radius_sq[v] = -1;
+      } vision_layer_iterate_end;
       vision_free(punit->server.vision);
       punit->server.vision = NULL;
     } unit_list_iterate_end;
 
     city_list_iterate(pplayer->cities, pcity) {
+      /* don't bother using vision_clear_sight() */
+      vision_layer_iterate(v) {
+        pcity->server.vision->radius_sq[v] = -1;
+      } vision_layer_iterate_end;
       vision_free(pcity->server.vision);
       pcity->server.vision = NULL;
     } city_list_iterate_end;

@@ -140,46 +140,40 @@
  * we let any map data type to be empty, and just print an
  * informative warning message about it.
  */
-#define LOAD_MAP_DATA(ch, nat_y, ptile,					    \
-		      SECFILE_LOOKUP_LINE, SET_XY_CHAR)                     \
-{                                                                           \
-  int _nat_x, _nat_y;							    \
-                                                                            \
-  bool _warning_printed = FALSE;                                            \
-  for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			    \
-    const int nat_y = _nat_y;						    \
-    const char *_line = (SECFILE_LOOKUP_LINE);                              \
-                                                                            \
-    if (!_line || strlen(_line) != map.xsize) {                             \
-      if (!_warning_printed) {                                              \
-        /* TRANS: Error message. */                                         \
-        freelog(LOG_ERROR, _("The save file contains incomplete "           \
-                "map data.  This can happen with old saved "                \
-                "games, or it may indicate an invalid saved "               \
-                "game file.  Proceed at your own risk."));                  \
-        if(!_line) {                                                        \
-          /* TRANS: Error message. */                                       \
-          freelog(LOG_ERROR, _("Reason: line not found"));                  \
-        } else {                                                            \
-          /* TRANS: Error message. */                                       \
-          freelog(LOG_ERROR, _("Reason: line too short "                    \
-                  "(expected %d got %lu"), map.xsize,                       \
-                  (unsigned long) strlen(_line));                           \
-        }                                                                   \
-        /* Do not translate.. */                                            \
-        freelog(LOG_ERROR, "secfile_lookup_line='%s'",                      \
-                #SECFILE_LOOKUP_LINE);                                      \
-        _warning_printed = TRUE;                                            \
-      }                                                                     \
-      continue;                                                             \
-    }                                                                       \
-    for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			    \
-      const char ch = _line[_nat_x];                                        \
-      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		    \
-                                                                            \
-      (SET_XY_CHAR);                                                        \
-    }                                                                       \
-  }                                                                         \
+#define LOAD_MAP_DATA(ch, nat_y, ptile,					\
+		      SECFILE_LOOKUP_LINE, SET_XY_CHAR)			\
+{									\
+  int _nat_x, _nat_y;							\
+  bool _printed_warning = FALSE;					\
+  for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			\
+    const int nat_y = _nat_y;						\
+    const char *_line = (SECFILE_LOOKUP_LINE);				\
+    if (NULL == _line) {						\
+      freelog(LOG_VERBOSE, "Line not found='%s'",			\
+              #SECFILE_LOOKUP_LINE);					\
+      _printed_warning = TRUE;						\
+      continue;								\
+    } else if (strlen(_line) != map.xsize) {				\
+      freelog(LOG_VERBOSE, "Line too short (expected %d got %lu)='%s'",	\
+	      map.xsize, (unsigned long) strlen(_line),			\
+              #SECFILE_LOOKUP_LINE);					\
+      _printed_warning = TRUE;						\
+      continue;								\
+    }									\
+    for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			\
+      const char ch = _line[_nat_x];					\
+      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		\
+									\
+      (SET_XY_CHAR);							\
+    }									\
+  }									\
+  if (_printed_warning) {						\
+    /* TRANS: Minor error message. */					\
+    freelog(LOG_ERROR,							\
+	    _("Saved game contains incomplete map data.  This can"	\
+	    " happen with old saved games, or it may indicate an"	\
+	    " invalid saved game file.  Proceed at your own risk."));	\
+  }									\
 }
 
 /* Iterate on the specials half-bytes */
@@ -2169,8 +2163,7 @@ static void player_load(struct player *plr, int plrno,
 
     pcity = create_city_virtual(plr, ptile,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
-    ptile->owner_source = pcity->tile;
-    tile_set_owner(ptile, city_owner(pcity));
+    tile_set_owner(ptile, plr);
 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
@@ -2513,8 +2506,8 @@ static void player_load(struct player *plr, int plrno,
 				(pcity->ai.founder_want < 0), 
 				"player%d.c%d.ai.founder_boat", plrno, i);
 
+    /* do after all the set_worker_city() are done. */
     tile_set_city(pcity->tile, pcity);
-
     city_list_append(plr->cities, pcity);
   }
 
@@ -3525,11 +3518,13 @@ void game_load(struct section_file *file)
   int technology_order_size = 0;
   int civstyle = 0;
 
-  game.version = secfile_lookup_int_default(file, 0, "game.version");
-  tmp_server_state = (enum server_states)
-    secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
-
+  /* [savefile] */
   savefile_options = secfile_lookup_str(file, "savefile.options");
+
+  /* We don't need savefile.reason, but read it anyway to avoid
+   * warnings about unread secfile entries. */
+  secfile_lookup_str_default(file, "None", "savefile.reason");
+
   if (has_capability("improvement_order", savefile_options)) {
     improvement_order = secfile_lookup_str_vec(file, &improvement_order_size,
                                                "savefile.improvement_order");
@@ -3557,16 +3552,19 @@ void game_load(struct section_file *file)
     }
   }
 
+  /* [game] */
+  game.version = secfile_lookup_int_default(file, 0, "game.version");
+
   /* we require at least version 1.9.0 */
   if (10900 > game.version) {
+    /* TRANS: Fatal error message. */
     freelog(LOG_FATAL,
-	    _("Savegame too old, at least version 1.9.0 required."));
+	    _("Saved game is too old, at least version 1.9.0 required."));
     exit(EXIT_FAILURE);
   }
 
-  /* We don't need savefile.reason, but read it anyway to avoid
-   * warnings about unread secfile entries. */
-  secfile_lookup_str_default(file, "None", "savefile.reason");
+  tmp_server_state = (enum server_states)
+    secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
   {
     set_meta_patches_string(secfile_lookup_str_default(file, 
@@ -3651,42 +3649,45 @@ void game_load(struct section_file *file)
     game.info.heating = secfile_lookup_int_default(file, 0, "game.heating");
     game.info.globalwarming = secfile_lookup_int(file, "game.globalwarming");
     game.info.warminglevel  = secfile_lookup_int(file, "game.warminglevel");
-    game.info.cooling = secfile_lookup_int_default(file, 0, "game.cooling");
     game.info.nuclearwinter = secfile_lookup_int_default(file, 0, "game.nuclearwinter");
-    game.info.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
-    game.info.notradesize   = secfile_lookup_int_default(file, 0, "game.notradesize");
-    game.info.fulltradesize = secfile_lookup_int_default(file, 1, "game.fulltradesize");
-    game.info.angrycitizen  = secfile_lookup_bool_default(file, FALSE, "game.angrycitizen");
+    game.info.cooling = secfile_lookup_int_default(file, 0, "game.cooling");
+    game.info.coolinglevel = secfile_lookup_int_default(file, 8, "game.coolinglevel");
+    game.info.notradesize =
+      secfile_lookup_int_default(file, GAME_DEFAULT_NOTRADESIZE, "game.notradesize");
+    game.info.fulltradesize =
+      secfile_lookup_int_default(file, GAME_DEFAULT_FULLTRADESIZE, "game.fulltradesize");
+    game.info.angrycitizen =
+      secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN, "game.angrycitizen");
+    game.info.citymindist =
+      secfile_lookup_int_default(file, GAME_DEFAULT_CITYMINDIST, "game.citymindist");
+    game.info.rapturedelay =
+      secfile_lookup_int_default(file, GAME_DEFAULT_RAPTUREDELAY, "game.rapturedelay");
+    game.info.diplcost =
+      secfile_lookup_int_default(file, GAME_DEFAULT_DIPLCOST, "game.diplcost");
+    game.info.freecost =
+      secfile_lookup_int_default(file, GAME_DEFAULT_FREECOST, "game.freecost");
+    game.info.conquercost =
+      secfile_lookup_int_default(file, GAME_DEFAULT_CONQUERCOST, "game.conquercost");
 
-    if (game.version >= 10100) {
-      game.info.diplcost    = secfile_lookup_int(file, "game.diplcost");
-      game.info.freecost    = secfile_lookup_int(file, "game.freecost");
-      game.info.conquercost = secfile_lookup_int(file, "game.conquercost");
-      game.info.foodbox
-	= secfile_lookup_int_default(file, 0, "game.box_food");
-      if (game.info.foodbox == 0) {
-	/* foodbox was used for 2.0 and earlier servers. */
-	game.info.foodbox = 10 * secfile_lookup_int(file, "game.foodbox");
-      }
-      game.info.techpenalty = secfile_lookup_int(file, "game.techpenalty");
-      game.info.razechance  = secfile_lookup_int(file, "game.razechance");
-
-      /* suppress warnings about unused entries in old savegames: */
-      (void) section_file_lookup(file, "game.rail_food");
-      (void) section_file_lookup(file, "game.rail_prod");
-      (void) section_file_lookup(file, "game.rail_trade");
-      (void) section_file_lookup(file, "game.farmfood");
+    game.info.foodbox = secfile_lookup_int_default(file, 0, "game.box_food");
+    if (game.info.foodbox == 0) {
+      /* foodbox was used for 2.0 and earlier servers. */
+      game.info.foodbox = 10 * secfile_lookup_int_default(file, 100, "game.foodbox");
     }
-    if (game.version >= 10300) {
-      civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
-      game.info.save_nturns = secfile_lookup_int(file, "game.save_nturns");
-    }
+    game.info.techpenalty =
+      secfile_lookup_int_default(file, GAME_DEFAULT_TECHPENALTY, "game.techpenalty");
+    game.info.razechance =
+      secfile_lookup_int_default(file, GAME_DEFAULT_RAZECHANCE, "game.razechance");
 
-    game.info.citymindist  = secfile_lookup_int_default(file,
-      GAME_DEFAULT_CITYMINDIST, "game.citymindist");
+    civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
+    game.info.save_nturns =
+      secfile_lookup_int_default(file, GAME_DEFAULT_SAVETURNS, "game.save_nturns");
 
-    game.info.rapturedelay  = secfile_lookup_int_default(file,
-      GAME_DEFAULT_RAPTUREDELAY, "game.rapturedelay");
+    /* suppress warnings about unused entries in old savegames: */
+    (void) section_file_lookup(file, "game.rail_food");
+    (void) section_file_lookup(file, "game.rail_prod");
+    (void) section_file_lookup(file, "game.rail_trade");
+    (void) section_file_lookup(file, "game.farmfood");
 
     /* National borders setting. */
     game.info.borders = secfile_lookup_int_default(file, 0, "game.borders");
@@ -3777,8 +3778,9 @@ void game_load(struct section_file *file)
       if (strcmp("classic",
 		 secfile_lookup_str_default(file, "default",
 					    "game.info.t.terrain")) == 0) {
-	freelog(LOG_FATAL, _("The savegame uses the classic terrain "
-			     "ruleset which is no longer supported."));
+	/* TRANS: Fatal error message. */
+	freelog(LOG_FATAL, _("Saved game uses the \"classic\" terrain"
+			     " ruleset, and is no longer supported."));
 	exit(EXIT_FAILURE);
       }
 
@@ -3831,7 +3833,7 @@ void game_load(struct section_file *file)
   script_state_load(file);
 
   {
-    if (game.version >= 10300) {
+    {
       {
 	if (!has_capability("startunits", savefile_options)) {
 	  int settlers = secfile_lookup_int(file, "game.settlers");
@@ -3952,7 +3954,10 @@ void game_load(struct section_file *file)
 
   map_load(file, special_order);
 
-  if (!game.info.is_new_game) {
+  if (game.info.is_new_game) {
+    /* override previous load */
+    game.info.nplayers = 0;
+  } else {
     /* destroyed wonders: */
     string = secfile_lookup_str_default(file, NULL,
                                         "game.destroyed_wonders_new");
@@ -4002,13 +4007,16 @@ void game_load(struct section_file *file)
 		  improvement_order_size, technology_order,
 		  technology_order_size);
     } players_iterate_end;
+
+    /* Some players may have invalid nations in the ruleset.  Once all 
+     * players are loaded, pick one of the remaining nations for them.
+     */
     players_iterate(pplayer) {
-      /* Some players may have invalid nations in the ruleset.  Pick new
-       * nations for them. */
       if (pplayer->nation == NO_NATION_SELECTED) {
 	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
                                                  NOT_A_BARBARIAN));
-	freelog(LOG_ERROR, "%s had invalid nation; changing to %s.",
+	/* TRANS: Minor error message. */
+	freelog(LOG_ERROR, _("%s had invalid nation; changing to %s."),
 		pplayer->name,
 		nation_rule_name(nation_of_player(pplayer)));
       }
@@ -4029,6 +4037,7 @@ void game_load(struct section_file *file)
             && pplayers_allied(plr, aplayer)
             && pplayer_can_make_treaty(plr, aplayer, DS_ALLIANCE) 
                == DIPL_ALLIANCE_PROBLEM) {
+          /* TRANS: Minor error message. */
           freelog(LOG_ERROR, _("Illegal alliance structure detected: "
                   "%s's alliance to %s reduced to peace treaty."),
                   plr->name, aplayer->name);
@@ -4059,6 +4068,7 @@ void game_load(struct section_file *file)
       pplayer->really_gives_vision = 0;
       pplayer->gives_shared_vision = 0;
     } players_iterate_end;
+
     players_iterate(pplayer) {
       char *vision;
       int plrno = player_number(pplayer);
@@ -4091,8 +4101,6 @@ void game_load(struct section_file *file)
 	check_city(pcity);
       } city_list_iterate_end;
     } players_iterate_end;
-  } else {
-    game.info.nplayers = 0;
   }
 
   if (secfile_lookup_int_default(file, -1,
@@ -4173,25 +4181,7 @@ void game_save(struct section_file *file, const char *save_reason)
   char temp[B_LAST+1];
   const char *user_message;
 
-  version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
-  secfile_insert_int(file, version, "game.version");
-
-  /* Game state: once the game is no longer a new game (ie, has been
-   * started the first time), it should always be considered a running
-   * game for savegame purposes:
-   */
-  secfile_insert_int(file, (int) (game.info.is_new_game ? server_state :
-				  RUN_GAME_STATE), "game.server_state");
-  
-  secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
-  secfile_insert_bool(file, game.meta_info.user_message_set,
-                      "game.user_metamessage");
-  user_message = get_user_meta_message_string();
-  if (user_message != NULL) {
-    secfile_insert_str(file, user_message, "game.metamessage");
-  }
-  secfile_insert_str(file, meta_addr_port(), "game.metaserver");
-  
+  /* [savefile] */
   sz_strlcpy(options, SAVEFILE_OPTIONS);
   if (game.info.is_new_game) {
     if (map.num_start_positions>0) {
@@ -4206,6 +4196,7 @@ void game_save(struct section_file *file, const char *save_reason)
   }
   secfile_insert_str(file, options, "savefile.options");
   secfile_insert_str(file, save_reason, "savefile.reason");
+
   /* Save improvement order in savegame, so we are not dependent on
    * ruleset order.
    * If the game isn't started improvements aren't loaded
@@ -4247,6 +4238,26 @@ void game_save(struct section_file *file, const char *save_reason)
     free(modname);
   }
 
+  /* [game] */
+  version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
+  secfile_insert_int(file, version, "game.version");
+
+  /* Game state: once the game is no longer a new game (ie, has been
+   * started the first time), it should always be considered a running
+   * game for savegame purposes:
+   */
+  secfile_insert_int(file, (int) (game.info.is_new_game ? server_state :
+				  RUN_GAME_STATE), "game.server_state");
+  
+  secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
+  secfile_insert_bool(file, game.meta_info.user_message_set,
+                      "game.user_metamessage");
+  user_message = get_user_meta_message_string();
+  if (user_message != NULL) {
+    secfile_insert_str(file, user_message, "game.metamessage");
+  }
+  secfile_insert_str(file, meta_addr_port(), "game.metaserver");
+  
   
   secfile_insert_int(file, game.info.gold, "game.gold");
   secfile_insert_int(file, game.info.tech, "game.tech");
@@ -4325,18 +4336,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.diplomacy, "game.diplomacy");
   secfile_insert_int(file, game.info.allowed_city_names, "game.allowed_city_names");
 
-  /* old (1.14.1) servers need to have these server variables.  The values
-   * don't matter, though. */
-  secfile_insert_int(file, 2, "game.settlers");
-  secfile_insert_int(file, 1, "game.explorer");
-  secfile_insert_int(file, 30, "map.mountains");
-  secfile_insert_int(file, 35, "map.grass");
-  secfile_insert_int(file, 5, "map.swampsize");
-  secfile_insert_int(file, 5, "map.deserts");
-  secfile_insert_int(file, 5, "map.riverlength");
-  secfile_insert_int(file, 20, "map.forestsize");
-
-  if (TRUE) {
+  {
     /* Now always save these, so the server options reflect the
      * actual values used at the start of the game.
      * The first two used to be saved as "map.xsize" and "map.ysize"
