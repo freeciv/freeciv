@@ -1792,20 +1792,20 @@ A Diplomat is an official that carries your dispatches and\
  also undertake various covert operations with the intent of\
  harming your opponents.\
 \n\n\
-- A Diplomat can establish embassies with other civilizations\
- by moving into another player's city.\
+If an enemy unit is alone on a tile, you may attempt to bribe it\
+ with your diplomat. By paying a sum of gold the unit will immediately\
+ become yours.\
 \n\n\
-- Diplomats can also try to sabotage enemy production, or steal\
- an advance from an enemy city.  (An advance can only be stolen\
- once per city).\
+The diplomat can also perform a number of actions in another player's\
+ city:\n
+- \"Investigate\" Reveal detailed information about the city.\n\
+- \"Establish Embassy\" Get permanent intelligence on the player.\n\
+- \"Sabotage\" Ruin any production in the city.\n\
+- \"Steal Technology\" Acquire an advance from the city's owner.
+- \"Incite a Revolt\" Make a city your own by paying a sum of gold.\
+ Note that you cannot incite a revolt in a capital city.\
 \n\n\
-- A Diplomat can also bribe an enemy unit, if that unit is the only\
- unit on its square.\
-\n\n\
-- Diplomats can even start a revolution in an enemy city and turn\
- it into your own, if you have the money!\
-\n\n\
-- In some game strategies, hordes of Diplomats can be used to wreak\
+In some game strategies, hordes of Diplomats can be used to wreak\
  havoc on the enemy.  Little wonder that Diplomats are often\
  viewed with suspicion and fear!\
 ")
@@ -1838,14 +1838,10 @@ uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
 roles         = "Diplomat"
 helptext      = _("\
-A Spy is a full time professional and as such is much more\
- skilled in the arts of espionage than her Diplomat predecessor.\
+A Spy is more skilled in the arts of espionage than her Diplomat predecessor.\
 \n\n\
-The most inoffensive skills in a Spy's repertoire are her ability\
- to investigate cities - revealing detailed information, and\
- the establishment of embassies.  However, if your Spy has gained\
- herself a reputation for clandestine behaviour she will be\
- executed if she tries to establish an embassy.\
+She can perform all the functions of the Diplomat, but with a higher rate of\
+ success. Refer to the Diplomat entry for an outline.\
 \n\n\
 She can also be used to: poison the water supply of an enemy city\
  (reducing the population); steal specific technology; and sabotage\
