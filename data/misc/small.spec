@@ -11,6 +11,7 @@ artists = "
     Jeff Mallatt <jjm@codewell.com> (cooling flakes)
     Davide Pagnin <nightmare@freeciv.it> (angry citizens)
     Enrico Bini <e.bini@sssup.it> (fundamentalism icon)
+    Hogne Håskjold <haskjold@gmail.com> (gold coin)
 "
 
 [file]
