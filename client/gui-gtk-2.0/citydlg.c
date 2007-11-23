@@ -896,7 +896,7 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
 *****************************************************************/
 static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
-  const char *tab_title = _("Pro_duction");
+  const char *tab_title = _("_Production");
   GtkWidget *label = gtk_label_new_with_mnemonic(tab_title);
   GtkWidget *page, *hbox, *editor, *bar;
 

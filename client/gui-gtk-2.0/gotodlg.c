@@ -126,7 +126,7 @@ static void create_goto_dialog(void)
     GTK_RESPONSE_CANCEL,
     _("Air_lift"),
     CMD_AIRLIFT,
-    ("_Goto"),
+    _("_Goto"),
     CMD_GOTO,
     NULL);
   setup_dialog(dshell, toplevel);
