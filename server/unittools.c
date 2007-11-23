@@ -2128,7 +2128,7 @@ bool do_airline(struct unit *punit, struct city *city2)
   city2->airlift = FALSE;
 
   notify_player(unit_owner(punit), city2->tile, E_UNIT_RELOCATED,
-		   _("%s transported succesfully."),
+		   _("%s transported successfully."),
 		   unit_name_translation(punit));
 
   move_unit(punit, city2->tile, punit->moves_left);
