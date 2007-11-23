@@ -127,7 +127,7 @@ bool audio_select_plugin(const char *const name)
   }
 
   selected_plugin = i;
-  freelog(LOG_VERBOSE, _("Plugin '%s' is now selected"),
+  freelog(LOG_VERBOSE, "Plugin '%s' is now selected",
 	  plugins[selected_plugin].name);
   return TRUE;
 }
@@ -188,18 +188,16 @@ void audio_real_init(const char *const spec_name,
 
   if (strcmp(prefered_plugin_name, "none") == 0) {
     /* We explicitly choose none plugin, silently skip the code below */
-    freelog(LOG_VERBOSE, _("Proceeding with sound support disabled"));
+    freelog(LOG_VERBOSE, "Proceeding with sound support disabled");
     tagfile = NULL;
     return;
   }
   if (num_plugins_used == 1) {
     /* We only have the dummy plugin, skip the code but issue an advertise */
-    freelog(LOG_NORMAL, _("No real audio plugin present, "
-      "proceeding with sound support disabled"));
-    freelog(LOG_NORMAL,
-      _("For sound support, install SDL_mixer"));
-    freelog(LOG_NORMAL, _("http://www.libsdl.org/"
-      "projects/SDL_mixer/index.html"));
+    freelog(LOG_NORMAL, _("No real audio plugin present."));
+    freelog(LOG_NORMAL, _("Proceeding with sound support disabled"));
+    freelog(LOG_NORMAL, _("For sound support, install SDL_mixer"));
+    freelog(LOG_NORMAL, "http://www.libsdl.org/projects/SDL_mixer/index.html");
     tagfile = NULL;
     return;
   }
@@ -211,10 +209,10 @@ void audio_real_init(const char *const spec_name,
   filename = soundspec_fullname(spec_name);
   if (!filename) {
     freelog(LOG_ERROR, _("Cannot find sound spec-file \"%s\"."), spec_name);
-    freelog(LOG_ERROR, _("To get sound you need to download a sound set!"));
-    freelog(LOG_ERROR, _("Get sound sets from <%s>."),
+    freelog(LOG_NORMAL, _("To get sound you need to download a sound set!"));
+    freelog(LOG_NORMAL, _("Get sound sets from <%s>."),
 	    "ftp://ftp.freeciv.org/freeciv/contrib/audio/soundsets");
-    freelog(LOG_ERROR, _("Will continue with disabled sounds."));
+    freelog(LOG_NORMAL, _("Proceeding with sound support disabled"));
     tagfile = NULL;
     return;
   }
@@ -225,18 +223,18 @@ void audio_real_init(const char *const spec_name,
 
   file_capstr = secfile_lookup_str(tagfile, "soundspec.options");
   if (!has_capabilities(us_capstr, file_capstr)) {
-    freelog(LOG_FATAL, _("sound spec-file appears incompatible:"));
-    freelog(LOG_FATAL, _("file: \"%s\""), filename);
-    freelog(LOG_FATAL, _("file options: %s"), file_capstr);
-    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
+    freelog(LOG_FATAL, "sound spec-file appears incompatible:");
+    freelog(LOG_FATAL, "  file: \"%s\"", filename);
+    freelog(LOG_FATAL, "  file options: %s", file_capstr);
+    freelog(LOG_FATAL, "  supported options: %s", us_capstr);
     exit(EXIT_FAILURE);
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
-    freelog(LOG_FATAL, _("sound spec-file claims required option(s)"
-			 " which we don't support:"));
-    freelog(LOG_FATAL, _("file: \"%s\""), filename);
-    freelog(LOG_FATAL, _("file options: %s"), file_capstr);
-    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
+    freelog(LOG_FATAL, "sound spec-file claims required option(s)"
+			 " which we don't support:");
+    freelog(LOG_FATAL, "  file: \"%s\"", filename);
+    freelog(LOG_FATAL, "  file options: %s", file_capstr);
+    freelog(LOG_FATAL, "  supported options: %s", us_capstr);
     exit(EXIT_FAILURE);
   }
 
@@ -253,10 +251,10 @@ void audio_real_init(const char *const spec_name,
 #ifdef AUDIO_SDL
   if (audio_select_plugin("sdl")) return; 
 #endif
-  freelog(LOG_ERROR,
+  freelog(LOG_NORMAL,
     _("No real audio subsystem managed to initialize!"));
-  freelog(LOG_ERROR,
-    _("Perhaps there is some misconfigurationg or bad permissions"));
+  freelog(LOG_NORMAL,
+    _("Perhaps there is some misconfiguration or bad permissions"));
   freelog(LOG_NORMAL, _("Proceeding with sound support disabled"));
 }
 

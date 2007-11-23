@@ -7409,7 +7409,7 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Nem sikerült inicializálni egyetlen valódi hang-alrendszert sem!"
 
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr ""
 "Lehet hogy valami rosszul van beállítva, vagy nem megfelelõek a jogosultságok"
 

@@ -7092,7 +7092,7 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "未能初始化任何实际的声音子系统！"
 
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "可能有一些错误配置或错误的许可权限"
 
 #: client/audio.c:282

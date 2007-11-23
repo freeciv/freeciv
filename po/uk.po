@@ -7272,7 +7272,7 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Нема╓ real audio п╕дсистеми для ╕н╕ц╕ал╕зац╕╖!"
 
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "З причини нев╕рно╖ конф╕гурац╕╖ або нев╕рних прав доступу"
 
 #: client/audio.c:282

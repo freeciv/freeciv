@@ -7472,7 +7472,7 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "No s'ha aconseguit inicialitzar cap subsistema de so !"
 
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "Potser hi ha quelcom mal configurat o permisos incorrectes"
 
 #: client/audio.c:282

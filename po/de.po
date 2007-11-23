@@ -7519,7 +7519,7 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Es konnte kein Audiosystem gestartet werden!"
 
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr ""
 "Vielleicht ist etwas falsch konfiguriert oder mit falschen Zugriffsrechten "
 "versehen."

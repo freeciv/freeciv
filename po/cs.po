@@ -7395,7 +7395,7 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "Nepodařilo se inicializovat žádný ze zvukových subsystémů!"
 
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "Je možné, že příčinou je špatná konfigurace nebo oprávnění"
 
 #: client/audio.c:282

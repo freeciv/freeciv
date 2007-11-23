@@ -7894,7 +7894,7 @@ msgstr "初期化するオーディオ・サブシステムがみつかりませ
 
 # clefs
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "設定かパーミションに何か間違いはありませんか？"
 
 #: client/audio.c:282

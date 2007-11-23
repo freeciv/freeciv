@@ -7558,7 +7558,7 @@ msgid "No real audio subsystem managed to initialize!"
 msgstr "'Real audio' -alijärjestelmät epäonnistuivat valmisteluissaan!"
 
 #: client/audio.c:259
-msgid "Perhaps there is some misconfigurationg or bad permissions"
+msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "Kenties asetuksissa tai käyttöoikeuksissa on vikaa"
 
 #: client/audio.c:282
