@@ -288,11 +288,11 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     my_snprintf(buf, bufsiz, _("The parties create an alliance"));
     break;
   case CLAUSE_VISION:
-    my_snprintf(buf, bufsiz, _("The %s gives shared vision"),
+    my_snprintf(buf, bufsiz, _("The %s give shared vision"),
 		nation_plural_translation(pclause->from->nation));
     break;
   case CLAUSE_EMBASSY:
-    my_snprintf(buf, bufsiz, _("The %s gives an embassy"),
+    my_snprintf(buf, bufsiz, _("The %s give an embassy"),
                 nation_plural_translation(pclause->from->nation));
     break;
   default:
