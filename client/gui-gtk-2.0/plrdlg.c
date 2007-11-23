@@ -492,7 +492,7 @@ void create_players_dialog(void)
   gtk_box_set_child_packing(GTK_BOX(players_dialog_shell->action_area), 
       vbox, FALSE, FALSE, 0, GTK_PACK_END);
 
-  item = gtk_menu_item_new_with_mnemonic(_("S_how"));
+  item = gtk_menu_item_new_with_mnemonic(_("_Display"));
   menu = create_show_menu();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);

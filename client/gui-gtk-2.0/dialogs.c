@@ -194,12 +194,12 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_widget_show(label);
   
   goto_command = gtk_stockbutton_new(GTK_STOCK_JUMP_TO,
-	_("_Goto location"));
+	_("Goto _Location"));
   gtk_dialog_add_action_widget(GTK_DIALOG(shell), goto_command, 1);
   gtk_widget_show(goto_command);
 
   popcity_command = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN,
-	_("_Popup City"));
+	_("_Update City"));
   gtk_dialog_add_action_widget(GTK_DIALOG(shell), popcity_command, 2);
   gtk_widget_show(popcity_command);
 
