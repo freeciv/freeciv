@@ -6828,7 +6828,7 @@ msgstr "%s 引爆了核弹！"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%s 运输成功。"
 
 #: server/unittools.c:2118
@@ -7672,12 +7672,12 @@ msgstr "与会者建立同盟"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s 提供共享视野"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s 提供使馆"
 
 #: client/climisc.c:904

@@ -7605,7 +7605,7 @@ msgstr "%sは核を爆発させました！"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%sは首尾よく輸送しました。"
 
 #: server/unittools.c:2118
@@ -8507,12 +8507,12 @@ msgstr "同盟に合意する"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%sは共有視野を与える"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%sは大使館の開設を許可する"
 
 #: client/climisc.c:904

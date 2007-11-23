@@ -7123,7 +7123,7 @@ msgstr "%s odpálili atomovou zbraň."
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "Jednotka %s byla úspěšně transportována."
 
 #: server/unittools.c:2118
@@ -7996,12 +7996,12 @@ msgstr "Jednající vytvořili alianci"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s dovolí nahlížet do svých map"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s dají ambasádu"
 
 #: client/climisc.c:904

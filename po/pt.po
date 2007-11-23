@@ -7040,7 +7040,7 @@ msgstr "Jogo: %s detonou uma arma nuclear!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "Jogo: %s transportado com sucesso."
 
 #: server/unittools.c:2118
@@ -7912,12 +7912,12 @@ msgstr "As partes forjam uma aliança"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "Os %s dão visão partilhada"
 
 #: client/climisc.c:299
 #, fuzzy, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "Os %s dão %s"
 
 #: client/climisc.c:904

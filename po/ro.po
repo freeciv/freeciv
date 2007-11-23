@@ -7251,7 +7251,7 @@ msgstr "%si au explodat o bombă nucleară!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%s a fost transportat cu succes."
 
 #: server/unittools.c:2118
@@ -8149,12 +8149,12 @@ msgstr "Părţile se înţeleg să facă o alianţă"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s ne dăruieşte vedere comună"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s dăruieşte o ambasadă"
 
 #: client/climisc.c:904

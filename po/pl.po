@@ -7247,7 +7247,7 @@ msgstr "%s użył(a) broni jądrowej!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "Jednostka %s bezpiecznie przetransportowana."
 
 #: server/unittools.c:2118
@@ -8139,12 +8139,12 @@ msgstr "Strony przyjęły sojusz"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s dają widok dzielony"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s dają ambasadę"
 
 #: client/climisc.c:904

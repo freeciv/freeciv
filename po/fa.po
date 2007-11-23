@@ -6442,7 +6442,7 @@ msgstr ""
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr ""
 
 #: server/unittools.c:2118
@@ -7297,12 +7297,12 @@ msgstr "دو طرف به اتحاد راضی هستند."
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s دید مشترک می‌دهند"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s یک سفارت می‌دهند"
 
 #: client/climisc.c:904

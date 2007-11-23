@@ -7287,7 +7287,7 @@ msgstr "%s räjäytti ydinohjuksen!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%s on turvallisesti siirretty kohteeseensa."
 
 #: server/unittools.c:2118
@@ -8161,12 +8161,12 @@ msgstr "Osapuolet muodostavat liiton"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s jakavat näkymänsä"
 
 #: client/climisc.c:299
 #, fuzzy, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s antavat %s"
 
 #: client/climisc.c:904

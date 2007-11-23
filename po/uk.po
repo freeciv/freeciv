@@ -7007,7 +7007,7 @@ msgstr "Гра: %s атакував атомною бомбою!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "Гра: %s вдало транспортовано."
 
 #: server/unittools.c:2118
@@ -7879,12 +7879,12 @@ msgstr "Сторони створили альянс"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s да╓ сп╕льне бачення"
 
 #: client/climisc.c:299
 #, fuzzy, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s да╓ %s"
 
 #: client/climisc.c:904

@@ -6263,7 +6263,7 @@ msgstr "%s susprogdino branduolinę bombą!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%s sėkmingai transportuotas."
 
 #: server/unittools.c:2118
@@ -7155,12 +7155,12 @@ msgstr "Šalys susitaria dėl sąjungos"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s duoda mums bendrą regėjimo lauką"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s duoda ambasadą"
 
 #: client/climisc.c:904

@@ -7199,7 +7199,7 @@ msgstr "%s ha detonat una arma nuclear!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "S'ha transportat a %s satisfactòriament"
 
 #: server/unittools.c:2118
@@ -8060,12 +8060,12 @@ msgstr "Les parts creen una aliança."
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "Els %s donen visió compartida"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "Els %s donen una ambaixada"
 
 #: client/climisc.c:904

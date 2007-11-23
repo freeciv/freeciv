@@ -6841,7 +6841,7 @@ msgstr "فجر %s سلاحا نوويا!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "تم نقل %s بنجاح."
 
 #: server/unittools.c:2118
@@ -7700,12 +7700,12 @@ msgstr "يوافق الأطراف على التحالف"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "يعطي %s رؤية مشتركة"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "يعطي %s سفارة"
 
 #: client/climisc.c:904

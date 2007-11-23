@@ -7143,7 +7143,7 @@ msgstr "%s heeft een kernraket tot ontploffing gebracht."
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%s succesvol overgeplaatst."
 
 #: server/unittools.c:2118
@@ -8016,12 +8016,12 @@ msgstr "De partijen sluiten een alliantie"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "De %s geven gedeelde waarneming"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "De %s geven een amassade"
 
 #: client/climisc.c:904

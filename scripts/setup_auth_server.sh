@@ -296,7 +296,7 @@ do
 
   # Try to connect using that database
   if make_query "exit" ; then
-    echo "Database succesfully selected."
+    echo "Database successfully selected."
     DATABASE_SELECTED=yes
   else
     echo -e "\nCannot select that database."

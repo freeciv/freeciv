@@ -6974,7 +6974,7 @@ msgstr "%s bir nükleer bomba patlattı!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%s başarıyla taşındı."
 
 #: server/unittools.c:2118
@@ -7813,12 +7813,12 @@ msgstr "İki taraf birbirinin müttefiki olacak"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "%s görüş sahasını paylaşıyor"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "%s büyükelçilik veriyorlar."
 
 #: client/climisc.c:904

@@ -7244,7 +7244,7 @@ msgstr "%s hat eine Atombombe gezündet."
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "%s transportiert."
 
 #: server/unittools.c:2118
@@ -8109,12 +8109,12 @@ msgstr "Die Verhandlungspartner schließen eine Allianz"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "Die %s erlauben uns ihre Karte einzusehen"
 
 #: client/climisc.c:299
 #, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "Die %s gestatten, eine Botschaft zu eröffnen"
 
 #: client/climisc.c:904

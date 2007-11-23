@@ -7130,7 +7130,7 @@ msgstr "Játék: %s atombombát robbantott!"
 
 #: server/unittools.c:2095
 #, c-format
-msgid "%s transported succesfully."
+msgid "%s transported successfully."
 msgstr "Játék: A(z) %s átszállítása sikerült."
 
 #: server/unittools.c:2118
@@ -8040,12 +8040,12 @@ msgstr "A felek szövetséget kötnek"
 
 #: client/climisc.c:295
 #, c-format
-msgid "The %s gives shared vision"
+msgid "The %s give shared vision"
 msgstr "A(z) %s közös látványt adnak"
 
 #: client/climisc.c:299
 #, fuzzy, c-format
-msgid "The %s gives an embassy"
+msgid "The %s give an embassy"
 msgstr "A(z) %s odaadják a(z) %s tudományt"
 
 #: client/climisc.c:904
