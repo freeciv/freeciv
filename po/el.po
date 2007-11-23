@@ -10273,7 +10273,8 @@ msgid "_Buy"
 msgstr "_Αγόρασε"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-msgid "Pro_duction"
+#, fuzzy
+msgid "_Production"
 msgstr "_Παραγωγή"
 
 #: client/gui-gtk-2.0/citydlg.c:949
@@ -10501,7 +10502,8 @@ msgid "_Select"
 msgstr "Επέλε_ξε"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-msgid "S_how"
+#, fuzzy
+msgid "_Display"
 msgstr "Εμ_φάνισε"
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
@@ -10515,7 +10517,8 @@ msgid "Cities"
 msgstr "Πόλεις"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Popup"
+#, fuzzy
+msgid "_Update"
 msgstr "¶_νοιξε"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -10674,11 +10677,12 @@ msgid "Remove this preset?"
 msgstr "Να αφαιρεθεί αυτός ο κυβερνητικός στόχος;"
 
 #: client/gui-gtk-2.0/dialogs.c:195
-msgid "_Goto location"
+msgid "Goto _Location"
 msgstr "_Πήγαινε στην τοποθεσία"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Popup City"
+#, fuzzy
+msgid "_Update City"
 msgstr "_¶νοιξε πόλη"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085

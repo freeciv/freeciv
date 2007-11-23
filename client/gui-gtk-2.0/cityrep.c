@@ -676,7 +676,7 @@ static GtkWidget *create_city_report_menubar(void)
   menubar = gtk_menu_bar_new();
   gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 0);
   
-  item = gtk_menu_item_new_with_mnemonic(_("Pro_duction"));
+  item = gtk_menu_item_new_with_mnemonic(_("_Production"));
   city_production_command = item;
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
 
@@ -703,7 +703,7 @@ static GtkWidget *create_city_report_menubar(void)
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   create_select_menu(item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("S_how"));
+  item = gtk_menu_item_new_with_mnemonic(_("_Display"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   update_view_menu(item);
   return vbox;
@@ -801,7 +801,7 @@ static void create_city_report_dialog(bool make_modal)
   city_center_command = w;
 
   w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_ZOOM_IN,
-      _("_Popup"), CITY_POPUP);
+      _("_Update"), CITY_POPUP);
   city_popup_command = w;
 
   w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_EXECUTE,

@@ -9757,7 +9757,8 @@ msgid "_Buy"
 msgstr "_קנה"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-msgid "Pro_duction"
+#, fuzzy
+msgid "_Production"
 msgstr "_ייצור"
 
 #: client/gui-gtk-2.0/citydlg.c:949
@@ -9985,7 +9986,8 @@ msgid "_Select"
 msgstr "_בחר"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-msgid "S_how"
+#, fuzzy
+msgid "_Display"
 msgstr "ה_צג"
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
@@ -9999,7 +10001,8 @@ msgid "Cities"
 msgstr "ערים"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Popup"
+#, fuzzy
+msgid "_Update"
 msgstr "חלון _צץ"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -10157,11 +10160,13 @@ msgid "Remove this preset?"
 msgstr "הסר ערך קבוע זה?"
 
 #: client/gui-gtk-2.0/dialogs.c:195
-msgid "_Goto location"
-msgstr "_לך למקום"
+#, fuzzy
+msgid "Goto _Location"
+msgstr "לך ל_מקום"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Popup City"
+#, fuzzy
+msgid "_Update City"
 msgstr "_הקפץ עיר"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085

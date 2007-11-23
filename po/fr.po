@@ -10785,7 +10785,8 @@ msgid "_Buy"
 msgstr "A_cheter"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-msgid "Pro_duction"
+#, fuzzy
+msgid "_Production"
 msgstr "Pro_duction"
 
 #: client/gui-gtk-2.0/citydlg.c:949
@@ -11013,7 +11014,8 @@ msgid "_Select"
 msgstr "_Sélectionner"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-msgid "S_how"
+#, fuzzy
+msgid "_Display"
 msgstr "_Montrer"
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
@@ -11027,7 +11029,8 @@ msgid "Cities"
 msgstr "Villes"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Popup"
+#, fuzzy
+msgid "_Update"
 msgstr "D_ialogues"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -11188,11 +11191,13 @@ msgid "Remove this preset?"
 msgstr "Supprimer ce pré-réglage ?"
 
 #: client/gui-gtk-2.0/dialogs.c:195
-msgid "_Goto location"
-msgstr "_Aller vers"
+#, fuzzy
+msgid "Goto _Location"
+msgstr "A_ller vers"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Popup City"
+#, fuzzy
+msgid "_Update City"
 msgstr "Fenêtre _ville"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085

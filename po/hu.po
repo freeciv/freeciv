@@ -10599,7 +10599,8 @@ msgstr "Meg_vétel"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
 #, fuzzy
-msgid "Pro_duction"
+#, fuzzy
+msgid "_Production"
 msgstr "Termelés"
 
 #: client/gui-gtk-2.0/citydlg.c:949
@@ -10844,7 +10845,8 @@ msgstr "Kiválasztás"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
 #, fuzzy
-msgid "S_how"
+#, fuzzy
+msgid "_Display"
 msgstr "_Megjelenítés..."
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
@@ -10858,7 +10860,8 @@ msgid "Cities"
 msgstr "Városok"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Popup"
+#, fuzzy
+msgid "_Update"
 msgstr "Meg_nyitás"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -11014,11 +11017,12 @@ msgid "Remove this preset?"
 msgstr "Töröljem ezt a mintát?"
 
 #: client/gui-gtk-2.0/dialogs.c:195
-msgid "_Goto location"
-msgstr "Menj (_G)"
+msgid "Goto _Location"
+msgstr "Menj (_L)"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Popup City"
+#, fuzzy
+msgid "_Update City"
 msgstr "_Városablak felnyitása"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085

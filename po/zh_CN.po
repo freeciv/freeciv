@@ -10136,8 +10136,9 @@ msgid "_Buy"
 msgstr "购买(_B)"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-msgid "Pro_duction"
-msgstr "生产(_D)"
+#, fuzzy
+msgid "_Production"
+msgstr "生产(_P)"
 
 #: client/gui-gtk-2.0/citydlg.c:949
 msgid "_Happiness"
@@ -10366,8 +10367,9 @@ msgid "_Select"
 msgstr "选择(_S)"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-msgid "S_how"
-msgstr "显示(_H)"
+#, fuzzy
+msgid "_Display"
+msgstr "显示(_D)"
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
 #: client/gui-sdl/diplodlg.c:685 client/gui-sdl/optiondlg.c:1800
@@ -10380,8 +10382,9 @@ msgid "Cities"
 msgstr "城市"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Popup"
-msgstr "弹出(_P)"
+#, fuzzy
+msgid "_Update"
+msgstr "弹出(_U)"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -10541,12 +10544,14 @@ msgid "Remove this preset?"
 msgstr "删除此预设？"
 
 #: client/gui-gtk-2.0/dialogs.c:195
-msgid "_Goto location"
-msgstr "前往地点(_G)"
+#, fuzzy
+msgid "Goto _Location"
+msgstr "前往地点(_L)"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Popup City"
-msgstr "弹出城市对话框(_P)"
+#, fuzzy
+msgid "_Update City"
+msgstr "弹出城市对话框(_U)"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -11856,6 +11861,7 @@ msgid "Messages"
 msgstr "消息"
 
 #: client/gui-gtk-2.0/messagewin.c:186
+#, fuzzy
 msgid "Goto _location"
 msgstr "前往位置(_L)"
 

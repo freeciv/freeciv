@@ -11268,8 +11268,9 @@ msgid "_Buy"
 msgstr "買う(_B)"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-msgid "Pro_duction"
-msgstr "生産物(_D)"
+#, fuzzy
+msgid "_Production"
+msgstr "生産物(_P)"
 
 #: client/gui-gtk-2.0/citydlg.c:949
 msgid "_Happiness"
@@ -11504,8 +11505,9 @@ msgid "_Select"
 msgstr "都市の選択(_S)"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-msgid "S_how"
-msgstr "表示設定(_H)..."
+#, fuzzy
+msgid "_Display"
+msgstr "表示設定(_D)..."
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
 #: client/gui-sdl/diplodlg.c:685 client/gui-sdl/optiondlg.c:1800
@@ -11518,8 +11520,9 @@ msgid "Cities"
 msgstr "都市"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Popup"
-msgstr "ポップ(_P)"
+#, fuzzy
+msgid "_Update"
+msgstr "ポップ(_U)"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -11679,12 +11682,13 @@ msgid "Remove this preset?"
 msgstr "このプリセットを削除していいですか?"
 
 #: client/gui-gtk-2.0/dialogs.c:195
-msgid "_Goto location"
-msgstr "現場へ移動(_G)"
+msgid "Goto _Location"
+msgstr "現場へ移動(_L)"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Popup City"
-msgstr "都市をポップアップ(_P)"
+#, fuzzy
+msgid "_Update City"
+msgstr "都市をポップアップ(_U)"
 
 # XXX J.Lennonのもじりだが…
 # 「カクメイしたいんだって？」
