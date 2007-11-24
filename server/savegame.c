@@ -3339,16 +3339,17 @@ static void player_save(struct player *plr, int plrno,
    * Note that the "quoted" format is a multiple of 3.
    */
 #define PART_SIZE (3*256)
+#define PART_ADJUST (3)
   if (plr->attribute_block.data) {
+    char part[PART_SIZE + PART_ADJUST];
+    int parts;
+    int current_part_nr;
     char *quoted = quote_block(plr->attribute_block.data,
 			       plr->attribute_block.length);
     char *quoted_at = strchr(quoted, ':');
     size_t bytes_left = strlen(quoted);
     size_t bytes_at_colon = 1 + (quoted_at - quoted);
-    size_t bytes_adjust = bytes_at_colon % 3;
-    int current_part_nr;
-    int parts;
-    char part[PART_SIZE + 1];
+    size_t bytes_adjust = bytes_at_colon % PART_ADJUST;
 
     secfile_insert_int(file, plr->attribute_block.length,
 		       "player%d.attribute_v2_block_length", plrno);
@@ -3389,8 +3390,6 @@ static void player_save(struct player *plr, int plrno,
     for (; current_part_nr < parts; current_part_nr++) {
       size_t size_of_current_part = MIN(bytes_left, PART_SIZE);
 
-      assert(bytes_left);
-
       memcpy(part, quoted_at, size_of_current_part);
       part[size_of_current_part] = '\0';
       secfile_insert_str(file, part,
@@ -3403,6 +3402,7 @@ static void player_save(struct player *plr, int plrno,
     assert(bytes_left == 0);
     free(quoted);
   }
+#undef PART_ADJUST
 #undef PART_SIZE
 }
 
