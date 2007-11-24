@@ -3786,7 +3786,7 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr ""
 
 #: server/settings.c:178
-msgid "Number of players is higher than requested value; Keeping old value."
+msgid "Number of players is higher than requested value;\nKeeping old value."
 msgstr ""
 
 #: server/settings.c:234
@@ -3988,7 +3988,7 @@ msgstr ""
 #: server/settings.c:403
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
-"entire map. Huts are small tribal villages that may be investiged by units."
+"entire map. Huts are small tribal villages that may be investigated by units."
 msgstr ""
 
 #: server/settings.c:416
@@ -4089,7 +4089,7 @@ msgstr ""
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
-"does not apply if you have just gained a technology this turn."
+"does not apply when you have just gained a technology this turn."
 msgstr ""
 
 #: server/settings.c:508
@@ -4100,7 +4100,7 @@ msgstr ""
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lost research "
 "points equal to this percentage of the cost to research a new technology. "
-"You can end up with negative research points if this is non-zero. Also "
+"If this is non-zero, you can end up with negative research points. Also "
 "applies to gold transfers in diplomatic treaties."
 msgstr ""
 
@@ -4112,7 +4112,7 @@ msgstr ""
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. "
-"You can end up with negative research points if this is non-zero."
+"If this is non-zero, you can end up with negative research points."
 msgstr ""
 
 #: server/settings.c:528
@@ -4124,7 +4124,7 @@ msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
 "lose research points equal to this percentage of the cost to research a new "
-"technology. You can end up with negative research points if this is non-zero."
+"technology. If this is non-zero, you can end up with negative research points."
 msgstr ""
 
 #: server/settings.c:540
@@ -4139,14 +4139,14 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:549
-msgid "Percentage food lost when need aqueduct"
+msgid "Percentage food lost when building needed"
 msgstr ""
 
 #: server/settings.c:550
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
-"System), it loses this percentage of its foodbox (or half that amount if it "
-"has a Granary)."
+"System), it loses this percentage of its foodbox (or half that amount when "
+"it has a Granary)."
 msgstr ""
 
 #: server/settings.c:559
@@ -4210,8 +4210,8 @@ msgstr ""
 
 #: server/settings.c:615
 msgid ""
-"When a player founds a new city, it is checked if there is no other city in "
-"citymindist distance. For example, if citymindist is 3, there have to be at "
+"When a player attempts to found a new city, there may be no other city in "
+"this distance. For example, when this value is 3, there have to be at "
 "least two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
 msgstr ""
@@ -4244,8 +4244,8 @@ msgstr ""
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
-"if they win the combat (and no enemy units remain in the tile). If set to a "
-"value between 0 and 100, this will be used as the percent chance of "
+"when they win the combat (and no enemy units remain in the tile). If set to "
+"a value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
 msgstr ""
 
@@ -4265,8 +4265,8 @@ msgstr ""
 
 #: server/settings.c:663
 msgid ""
-"This flag indicates if city population is reduced after successful attack of "
-"enemy unit, depending on its movement type (OR-ed):\n"
+"This flag indicates whether city population is reduced after successful "
+"attack of enemy unit, depending on its movement type (OR-ed):\n"
 "  1 = land\n"
 "  2 = sea\n"
 "  4 = heli\n"
@@ -4393,7 +4393,7 @@ msgstr ""
 
 #: server/settings.c:786
 msgid ""
-"A civil war is triggered if a player has at least this many cities and the "
+"A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
 "civil wars are turned off altogether."
 msgstr ""
@@ -4405,17 +4405,17 @@ msgstr ""
 #: server/settings.c:796
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
-"last met, even if they do not have an embassy. If set to zero then players "
+"last met, even when they do not have an embassy. If set to zero, then players "
 "cannot meet unless they have an embassy."
 msgstr ""
 
 #: server/settings.c:806
-msgid "Rebuild palace if capital is conquered"
+msgid "Rebuild palace whenever capital is conquered"
 msgstr ""
 
 #: server/settings.c:807
 msgid ""
-"If this is set to 1, then when the capital is conquered the palace is "
+"If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
@@ -4456,7 +4456,7 @@ msgid ""
 "allow or restrict the manner of connection:\n"
 "\n"
 "(none) = Controller allowed, observers allowed, can displace connections. "
-"(Displacing a connection means that you may take over a player, even if "
+"(Displacing a connection means that you may take over a player, even when "
 "another user already controls that player.)\n"
 "\n"
 "1 = Controller allowed, observers allowed, can't displace connections;\n"
@@ -4505,8 +4505,8 @@ msgstr ""
 
 #: server/settings.c:893
 msgid ""
-"Any time a unit moves when in sight of an enemy player, the remaining "
-"timeout is set to this value if it was lower."
+"Any time a unit moves while in sight of an enemy player, the remaining "
+"timeout is increased to this value."
 msgstr ""
 
 #: server/settings.c:902
@@ -4515,7 +4515,7 @@ msgstr ""
 
 #: server/settings.c:903
 msgid ""
-"If true, all players' movement phases will occur simultaneously; if false "
+"If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
 msgstr ""
 
@@ -4577,7 +4577,7 @@ msgstr ""
 #: server/settings.c:953
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
-"expired, even if all players have clicked on \"Turn Done\"."
+"expired, even after all players have clicked on \"Turn Done\"."
 msgstr ""
 
 #: server/settings.c:960

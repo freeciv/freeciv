@@ -4060,7 +4060,7 @@ msgstr ""
 
 #: server/settings.c:178
 #, fuzzy
-msgid "Number of players is higher than requested value; Keeping old value."
+msgid "Number of players is higher than requested value;\nKeeping old value."
 msgstr ""
 "Número de jogadores é mais elevado que o valor pedido, a manter valor antigo"
 
@@ -4277,7 +4277,7 @@ msgstr "Quant. de cabanas (aldeias de tribos menores)"
 #: server/settings.c:403
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
-"entire map. Huts are small tribal villages that may be investiged by units."
+"entire map. Huts are small tribal villages that may be investigated by units."
 msgstr ""
 
 #: server/settings.c:416
@@ -4396,7 +4396,7 @@ msgstr "Percentagem de penalização por mudar de tecnologia"
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
-"does not apply if you have just gained a technology this turn."
+"does not apply when you have just gained a technology this turn."
 msgstr ""
 "Se mudar a tecn. que está a pesquisar, e tiver um nº positivo de pontos de "
 "pesquisa, perderá esta percentagem desses pontos de pesquisa.  Não se aplica "
@@ -4412,7 +4412,7 @@ msgstr "Penalização por obter tecn. por tratado"
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lost research "
 "points equal to this percentage of the cost to research a new technology. "
-"You can end up with negative research points if this is non-zero. Also "
+"If this is non-zero, you can end up with negative research points. Also "
 "applies to gold transfers in diplomatic treaties."
 msgstr ""
 "Para cada avanço que ganhar por tratado, perderá um nº de pontos de pesquisa "
@@ -4428,7 +4428,7 @@ msgstr "Penalização por obter tecn. por conquista"
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. "
-"You can end up with negative research points if this is non-zero."
+"If this is non-zero, you can end up with negative research points."
 msgstr ""
 "Para cada avanço que ganhar por conquista de uma cidade, perderá um nº de "
 "pontos de pesquisa igual a esta percentagem do custo para pesquisar um novo "
@@ -4445,7 +4445,7 @@ msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
 "lose research points equal to this percentage of the cost to research a new "
-"technology. You can end up with negative research points if this is non-zero."
+"technology. If this is non-zero, you can end up with negative research points."
 msgstr ""
 "Para cada avanço que ganhar \"gratuitamente\" (excepto os cobertos pelas "
 "variáveis diplcost ou conquercost: por exemplo, de cabanas ou da Grande "
@@ -4465,14 +4465,15 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:549
-msgid "Percentage food lost when need aqueduct"
+#, fuzzy
+msgid "Percentage food lost when building needed"
 msgstr "Percentagem de comida perdida por necessitar de aqueduto"
 
 #: server/settings.c:550
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
-"System), it loses this percentage of its foodbox (or half that amount if it "
-"has a Granary)."
+"System), it loses this percentage of its foodbox (or half that amount when "
+"it has a Granary)."
 msgstr ""
 "Se uma cidade se iria expandir, mas não pode porque necessita de um Aqueduto "
 "(ou Sistema de Esgotos), ela perderá esta percentagem da sua comida (ou "
@@ -4559,8 +4560,8 @@ msgstr "Distância mínima entre cidades (distância de movimento)"
 #: server/settings.c:615
 #, fuzzy
 msgid ""
-"When a player founds a new city, it is checked if there is no other city in "
-"citymindist distance. For example, if citymindist is 3, there have to be at "
+"When a player attempts to found a new city, there may be no other city in "
+"this distance. For example, when this value is 3, there have to be at "
 "least two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
 msgstr ""
@@ -4605,8 +4606,8 @@ msgstr "Hip. de se mover para uma casa após atacá-la"
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
-"if they win the combat (and no enemy units remain in the tile). If set to a "
-"value between 0 and 100, this will be used as the percent chance of "
+"when they win the combat (and no enemy units remain in the tile). If set to "
+"a value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
 msgstr ""
 "Se definido como 0, o combate é estilo Civ1/2 (quando ataca, fica onde "
@@ -4631,8 +4632,8 @@ msgstr "Reduz a população de uma cidade após um ataque"
 
 #: server/settings.c:663
 msgid ""
-"This flag indicates if city population is reduced after successful attack of "
-"enemy unit, depending on its movement type (OR-ed):\n"
+"This flag indicates whether city population is reduced after successful "
+"attack of enemy unit, depending on its movement type (OR-ed):\n"
 "  1 = land\n"
 "  2 = sea\n"
 "  4 = heli\n"
@@ -4787,7 +4788,7 @@ msgstr "Número mínimo de cidades para guerra civil"
 #: server/settings.c:786
 #, fuzzy
 msgid ""
-"A civil war is triggered if a player has at least this many cities and the "
+"A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
 "civil wars are turned off altogether."
 msgstr ""
@@ -4803,7 +4804,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
-"last met, even if they do not have an embassy. If set to zero then players "
+"last met, even when they do not have an embassy. If set to zero, then players "
 "cannot meet unless they have an embassy."
 msgstr ""
 "Jogadores podem ter encontros diplomáticos este número de turnos após as "
@@ -4811,13 +4812,14 @@ msgstr ""
 "desactivar completamente esta funcionalidade."
 
 #: server/settings.c:806
-msgid "Rebuild palace if capital is conquered"
+#, fuzzy
+msgid "Rebuild palace whenever capital is conquered"
 msgstr "Reconstruir palácio se a capital for conquistada"
 
 #: server/settings.c:807
 #, fuzzy
 msgid ""
-"If this is set to 1, then when the capital is conquered the palace is "
+"If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
@@ -4864,7 +4866,7 @@ msgid ""
 "allow or restrict the manner of connection:\n"
 "\n"
 "(none) = Controller allowed, observers allowed, can displace connections. "
-"(Displacing a connection means that you may take over a player, even if "
+"(Displacing a connection means that you may take over a player, even when "
 "another user already controls that player.)\n"
 "\n"
 "1 = Controller allowed, observers allowed, can't displace connections;\n"
@@ -4943,8 +4945,8 @@ msgstr ""
 
 #: server/settings.c:893
 msgid ""
-"Any time a unit moves when in sight of an enemy player, the remaining "
-"timeout is set to this value if it was lower."
+"Any time a unit moves while in sight of an enemy player, the remaining "
+"timeout is increased to this value."
 msgstr ""
 
 #: server/settings.c:902
@@ -4954,7 +4956,7 @@ msgstr "Se registar estatísticas dos jogadores"
 
 #: server/settings.c:903
 msgid ""
-"If true, all players' movement phases will occur simultaneously; if false "
+"If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
 msgstr ""
 
@@ -5034,7 +5036,7 @@ msgstr "Modo de jogo de turnos de duração fixa"
 #, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
-"expired, even if all players have clicked on \"Turn Done\"."
+"expired, even after all players have clicked on \"Turn Done\"."
 msgstr ""
 "Se definido como 1 o turno de joho não avança até que o prazo tenha "
 "expirado, independentemente dos jogadores terem primido \"Turno Terminado\"."
@@ -10481,7 +10483,6 @@ msgid "_Buy"
 msgstr "_Comprar"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-#, fuzzy
 #, fuzzy
 msgid "_Production"
 msgstr "Produção"

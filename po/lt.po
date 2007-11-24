@@ -3741,7 +3741,8 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr "GGZ režime negalima keisti maksimalaus žaidėjų skaičiaus."
 
 #: server/settings.c:178
-msgid "Number of players is higher than requested value; Keeping old value."
+#, fuzzy
+msgid "Number of players is higher than requested value;\nKeeping old value."
 msgstr "Žaidėjų skaičius yra didesnis nei reikalaujama reikšmė, todėl paliekama senoji reikšmė."
 
 #: server/settings.c:234
@@ -3919,7 +3920,7 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "Namelių (mažų genčių kaimelių) kiekis"
 
 #: server/settings.c:403
-msgid "This setting gives the exact number of huts that will be placed on the entire map. Huts are small tribal villages that may be investiged by units."
+msgid "This setting gives the exact number of huts that will be placed on the entire map. Huts are small tribal villages that may be investigated by units."
 msgstr ""
 
 #: server/settings.c:416
@@ -4001,7 +4002,7 @@ msgid "Percentage penalty when changing tech"
 msgstr ""
 
 #: server/settings.c:499
-msgid "If you change your current research technology, and you have positive research points, you lose this percentage of those research points. This does not apply if you have just gained a technology this turn."
+msgid "If you change your current research technology, and you have positive research points, you lose this percentage of those research points. This does not apply when you have just gained a technology this turn."
 msgstr ""
 
 #: server/settings.c:508
@@ -4009,7 +4010,7 @@ msgid "Penalty when getting tech or gold from treaty"
 msgstr ""
 
 #: server/settings.c:509
-msgid "For each technology you gain from a diplomatic treaty, you lost research points equal to this percentage of the cost to research a new technology. You can end up with negative research points if this is non-zero. Also applies to gold transfers in diplomatic treaties."
+msgid "For each technology you gain from a diplomatic treaty, you lost research points equal to this percentage of the cost to research a new technology. If this is non-zero, you can end up with negative research points. Also applies to gold transfers in diplomatic treaties."
 msgstr ""
 
 #: server/settings.c:518
@@ -4017,7 +4018,7 @@ msgid "Penalty when getting tech from conquering"
 msgstr ""
 
 #: server/settings.c:519
-msgid "For each technology you gain by conquering an enemy city, you lose research points equal to this percentage of the cost to research a new technology. You can end up with negative research points if this is non-zero."
+msgid "For each technology you gain by conquering an enemy city, you lose research points equal to this percentage of the cost to research a new technology. If this is non-zero, you can end up with negative research points."
 msgstr ""
 
 #: server/settings.c:528
@@ -4025,7 +4026,7 @@ msgid "Penalty when getting a free tech"
 msgstr "Bauda gaunant nemokamą technologiją"
 
 #: server/settings.c:529
-msgid "For each technology you gain \"for free\" (other than covered by diplcost or conquercost: specifically, from huts or from Great Library effects), you lose research points equal to this percentage of the cost to research a new technology. You can end up with negative research points if this is non-zero."
+msgid "For each technology you gain \"for free\" (other than covered by diplcost or conquercost: specifically, from huts or from Great Library effects), you lose research points equal to this percentage of the cost to research a new technology. If this is non-zero, you can end up with negative research points."
 msgstr ""
 
 #: server/settings.c:540
@@ -4037,7 +4038,7 @@ msgid "This is the base amount of food required to grow a city. This value is mu
 msgstr ""
 
 #: server/settings.c:549
-msgid "Percentage food lost when need aqueduct"
+msgid "Percentage food lost when building needed"
 msgstr ""
 
 #: server/settings.c:550
@@ -4252,7 +4253,8 @@ msgid "Players may meet for diplomacy this number of turns after their units hav
 msgstr ""
 
 #: server/settings.c:806
-msgid "Rebuild palace if capital is conquered"
+#, fuzzy
+msgid "Rebuild palace whenever capital is conquered"
 msgstr "Perstatyti rūmus, jei sostinė užgrobta"
 
 #: server/settings.c:807
@@ -4283,7 +4285,7 @@ msgid ""
 "\n"
 "Each character above may be followed by one of the following numbers to allow or restrict the manner of connection:\n"
 "\n"
-"(none) = Controller allowed, observers allowed, can displace connections. (Displacing a connection means that you may take over a player, even if another user already controls that player.)\n"
+"(none) = Controller allowed, observers allowed, can displace connections. (Displacing a connection means that you may take over a player, even when another user already controls that player.)\n"
 "\n"
 "1 = Controller allowed, observers allowed, can't displace connections;\n"
 "\n"

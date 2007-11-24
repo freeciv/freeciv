@@ -3989,7 +3989,8 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr "لا يمكن تغيير الحد الأعلى من اللاعبيين في نمط GGZ."
 
 #: server/settings.c:178
-msgid "Number of players is higher than requested value; Keeping old value."
+#, fuzzy
+msgid "Number of players is higher than requested value;\nKeeping old value."
 msgstr "عدد اللاعبين أكبر من القيمة المطلوبة، سيتم الحفاظ على القيمة القديمة."
 
 #: server/settings.c:234
@@ -4242,7 +4243,7 @@ msgstr "كمية الأكواخ (قرى قبائل الأقليات)"
 #: server/settings.c:403
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
-"entire map. Huts are small tribal villages that may be investiged by units."
+"entire map. Huts are small tribal villages that may be investigated by units."
 msgstr ""
 "يعطي هذا الاعداد عدد الأكواخ بالضبط التي ستوضع على الخريطة. الأكواخ هي قرى "
 "قبائل صغيرة الممكن التحقق منها من قبل الوحدات."
@@ -4365,7 +4366,7 @@ msgstr "نسبة الجزاء المئوية عند تغيير التكنولو�
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points. This "
-"does not apply if you have just gained a technology this turn."
+"does not apply when you have just gained a technology this turn."
 msgstr "إذا هذا دوران."
 
 #: server/settings.c:508
@@ -4378,7 +4379,7 @@ msgstr "الجزاء عند أخذ التكنولوجيا عن طريق معاه
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lost research "
 "points equal to this percentage of the cost to research a new technology. "
-"You can end up with negative research points if this is non-zero. Also "
+"If this is non-zero, you can end up with negative research points. Also "
 "applies to gold transfers in diplomatic treaties."
 msgstr "لـ جديد أنت مع."
 
@@ -4391,7 +4392,7 @@ msgstr "الجزاء عند أخذ التكنولوجيا عن طريق الاح
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research a new technology. "
-"You can end up with negative research points if this is non-zero."
+"If this is non-zero, you can end up with negative research points."
 msgstr "لـ جديد أنت مع."
 
 #: server/settings.c:528
@@ -4404,7 +4405,7 @@ msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
 "lose research points equal to this percentage of the cost to research a new "
-"technology. You can end up with negative research points if this is non-zero."
+"technology. If this is non-zero, you can end up with negative research points."
 msgstr "لـ رائع مكتبة جديد أنت مع."
 
 #: server/settings.c:540
@@ -4420,15 +4421,16 @@ msgid ""
 msgstr "هذا الطعام هذا الحجم."
 
 #: server/settings.c:549
-msgid "Percentage food lost when need aqueduct"
+#, fuzzy
+msgid "Percentage food lost when building needed"
 msgstr "نسبة الطعام المئوية المفقودة عند الحاجة لقناة مائية"
 
 #: server/settings.c:550
 #, fuzzy
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
-"System), it loses this percentage of its foodbox (or half that amount if it "
-"has a Granary)."
+"System), it loses this percentage of its foodbox (or half that amount when "
+"it has a Granary)."
 msgstr "إذا قناة مائية البالوعة النظام مخزن الحبوب."
 
 #: server/settings.c:559
@@ -4498,8 +4500,8 @@ msgstr "أقل مسافة بين مدينتين"
 #: server/settings.c:615
 #, fuzzy
 msgid ""
-"When a player founds a new city, it is checked if there is no other city in "
-"citymindist distance. For example, if citymindist is 3, there have to be at "
+"When a player attempts to found a new city, there may be no other city in "
+"this distance. For example, when this value is 3, there have to be at "
 "least two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
 msgstr "متى جديد لـ فارغ إذا."
@@ -4536,8 +4538,8 @@ msgstr "فرصة التحرك إلى بلاطة بعد الهجوم"
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
-"if they win the combat (and no enemy units remain in the tile). If set to a "
-"value between 0 and 100, this will be used as the percent chance of "
+"when they win the combat (and no enemy units remain in the tile). If set to "
+"a value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
 msgstr "إذا الهجوم إذا إذا."
 
@@ -4560,8 +4562,8 @@ msgstr "تقليل عدد سكان مدينة بعد أي هجوم"
 #: server/settings.c:663
 #, fuzzy
 msgid ""
-"This flag indicates if city population is reduced after successful attack of "
-"enemy unit, depending on its movement type (OR-ed):\n"
+"This flag indicates whether city population is reduced after successful "
+"attack of enemy unit, depending on its movement type (OR-ed):\n"
 "  1 = land\n"
 "  2 = sea\n"
 "  4 = heli\n"
@@ -4710,7 +4712,7 @@ msgstr "أقل عدد مدن للحرب الأهلية"
 #: server/settings.c:786
 #, fuzzy
 msgid ""
-"A civil war is triggered if a player has at least this many cities and the "
+"A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
 "civil wars are turned off altogether."
 msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة إذا."
@@ -4723,18 +4725,19 @@ msgstr "عدد الأدوار حتى يفقد الاتصال بلاعب"
 #, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
-"last met, even if they do not have an embassy. If set to zero then players "
+"last met, even when they do not have an embassy. If set to zero, then players "
 "cannot meet unless they have an embassy."
 msgstr "اللاعبين أدوار إذا."
 
 #: server/settings.c:806
-msgid "Rebuild palace if capital is conquered"
+#, fuzzy
+msgid "Rebuild palace whenever capital is conquered"
 msgstr "إعادة بناء القصر إذا تم احتلال العاصمة"
 
 #: server/settings.c:807
 #, fuzzy
 msgid ""
-"If this is set to 1, then when the capital is conquered the palace is "
+"If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
@@ -4777,7 +4780,7 @@ msgid ""
 "allow or restrict the manner of connection:\n"
 "\n"
 "(none) = Controller allowed, observers allowed, can displace connections. "
-"(Displacing a connection means that you may take over a player, even if "
+"(Displacing a connection means that you may take over a player, even when "
 "another user already controls that player.)\n"
 "\n"
 "1 = Controller allowed, observers allowed, can't displace connections;\n"
@@ -4838,8 +4841,8 @@ msgstr "وقت الخروج على الأقل ن ثواني عند تحرك ال
 #: server/settings.c:893
 #, fuzzy
 msgid ""
-"Any time a unit moves when in sight of an enemy player, the remaining "
-"timeout is set to this value if it was lower."
+"Any time a unit moves while in sight of an enemy player, the remaining "
+"timeout is increased to this value."
 msgstr "أيّ وحدات."
 
 #: server/settings.c:902
@@ -4849,7 +4852,7 @@ msgstr "السماح بوجود مراحل متزامنة للاعبين."
 #: server/settings.c:903
 #, fuzzy
 msgid ""
-"If true, all players' movement phases will occur simultaneously; if false "
+"If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
 msgstr "إذا صحيح خطأ."
 
@@ -4918,7 +4921,7 @@ msgstr "نمط لعب ادوار المدة المحددة"
 #, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
-"expired, even if all players have clicked on \"Turn Done\"."
+"expired, even after all players have clicked on \"Turn Done\"."
 msgstr "إذا دوران الدور انتهى."
 
 #: server/settings.c:960
@@ -10521,7 +10524,6 @@ msgstr "المدن"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-#, fuzzy
 msgid "_Update"
 msgstr "قافزة"
 
@@ -10681,7 +10683,6 @@ msgid "Goto _Location"
 msgstr "الذهاب إلى ال_موقع"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-#, fuzzy
 #, fuzzy
 msgid "_Update City"
 msgstr "قافزة المدينة"
