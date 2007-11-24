@@ -1,7 +1,7 @@
 # GGZ client game description file for Freeciv
 
 [ModuleInfo]
-Author = See http://www.freeciv.org/people.phtml
+Author = See http://www.freeciv.org/wiki/People
 CommandLine = @prefix@/bin/civclient
 Frontend = any
 Homepage = http://www.freeciv.org/

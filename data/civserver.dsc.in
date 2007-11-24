@@ -1,7 +1,7 @@
 # GGZ Server game description file for Freeciv
 
 [GameInfo]
-Author = See http://www.freeciv.org/people.phtml
+Author = See http://www.freeciv.org/wiki/People
 Description = Freeciv strategy game
 Homepage = http://www.freeciv.org/
 Name = Freeciv
