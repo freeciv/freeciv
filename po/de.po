@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-24 23:30+0900\n"
+"POT-Creation-Date: 2007-11-24 19:47+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -4048,7 +4048,6 @@ msgstr "Lade Regelsätze"
 
 #. TRANS: Minor error message.
 #: server/savegame.c:173
-#, fuzzy
 msgid ""
 "Saved game contains incomplete map data.  This can happen with old saved "
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
@@ -4059,17 +4058,15 @@ msgstr ""
 "beschädigt ist. Wenn Sie weitermachen wollen: Auf eigene Gefahr!"
 
 #: server/savegame.c:3589
-#, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3814
-#, fuzzy
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
-"Das abgespeicherte Spiel verwendet Gelände-Regeln, die nicht mehr "
+"Das abgespeicherte Spiel verwendet alte Gelände-Regeln, die nicht mehr "
 "unterstützt werden."
 
 #: server/savegame.c:3823
@@ -4085,7 +4082,7 @@ msgstr ""
 #: server/savegame.c:4043
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "%s ist eine ungültige Nation und wird geändert auf %s."
 
 # CK: TECHNICAL
 #. TRANS: Minor error message.
@@ -4181,7 +4178,6 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr "Die Spielerzahl kann im GGZ-Modus nicht geändert werden."
 
 #: server/settings.c:178
-#, fuzzy
 msgid ""
 "Number of players is higher than requested value;\n"
 "Keeping old value."
@@ -4608,7 +4604,6 @@ msgid "Penalty when getting tech or gold from treaty"
 msgstr "Abzug für Forschungsergebnisse oder Gold aus Abkommen"
 
 #: server/settings.c:509
-#, fuzzy
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4665,9 +4660,9 @@ msgstr ""
 "der Stadtgröße ab."
 
 #: server/settings.c:551
-#, fuzzy
 msgid "Percentage food lost when building needed"
-msgstr "Nahrungsverluste (%) bei fehlendem Aquädukt"
+msgstr 
+"Nahrungsverluste in Prozent, wenn eine Stadterweiterung benötigt wird."
 
 #: server/settings.c:552
 msgid ""
@@ -4753,7 +4748,6 @@ msgid "Minimum distance between cities"
 msgstr "Mindestentfernung zwischen Städten"
 
 #: server/settings.c:617
-#, fuzzy
 msgid ""
 "When a player attempts to found a new city, there may be no other city in "
 "this distance. For example, when this value is 3, there have to be at least "
@@ -5018,7 +5012,6 @@ msgstr ""
 "abgeschaltet."
 
 #: server/settings.c:808
-#, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "Ewiger Palast"
 
@@ -5155,7 +5148,6 @@ msgstr ""
 "Wartezeit bis Rundenende nach dem letzten Zug eines Spielers (Sekunden)"
 
 #: server/settings.c:894
-#, fuzzy
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
@@ -5243,7 +5235,6 @@ msgid "Fixed-length turns play mode"
 msgstr "Spielzüge mit vorgegebener Zeit"
 
 #: server/settings.c:954
-#, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, even after all players have clicked on \"Turn Done\"."
@@ -7260,7 +7251,6 @@ msgid "This unit type can not be paradropped."
 msgstr "Diese Einheit kann nicht fallschirmspringen."
 
 #: server/unittools.c:2130
-#, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Ein Transporter kann nicht fallschirmspringen."
 
@@ -7452,7 +7442,7 @@ msgstr "Soundset '%s' nicht gefunden, versuche '%s'."
 
 #: client/audio.c:197
 msgid "No real audio plugin present."
-msgstr ""
+msgstr "Kein RealAudio Plugin vorhanden."
 
 #: client/audio.c:198 client/audio.c:215 client/audio.c:247 client/audio.c:258
 msgid "Proceeding with sound support disabled"
@@ -10646,7 +10636,6 @@ msgid "_Buy"
 msgstr "_Kaufen"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-#, fuzzy
 msgid "_Production"
 msgstr "_Produktion"
 
@@ -10875,9 +10864,8 @@ msgid "_Select"
 msgstr "_Wählen"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-#, fuzzy
 msgid "_Display"
-msgstr "_Anzeigen"
+msgstr "_Anzeige"
 
 #: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
 #: client/gui-sdl/diplodlg.c:685 client/gui-sdl/optiondlg.c:1800
@@ -10890,9 +10878,8 @@ msgid "Cities"
 msgstr "Städte"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-#, fuzzy
 msgid "_Update"
-msgstr "_Stadt zeigen"
+msgstr "_Aktualisieren"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -11057,9 +11044,8 @@ msgid "Goto _Location"
 msgstr "_Gehe nach"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-#, fuzzy
 msgid "_Update City"
-msgstr "_Stadtschirm anzeigen"
+msgstr "_Stadt aktualisieren"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -11286,7 +11272,6 @@ msgid "Air_lift"
 msgstr "_Lufttransport"
 
 #: client/gui-gtk-2.0/gotodlg.c:129
-#, fuzzy
 msgid "_Goto"
 msgstr "_Gehe nach"
 
@@ -19192,13 +19177,12 @@ msgid "Eiffel Tower"
 msgstr "den Eiffelturm"
 
 #: data/default/buildings.ruleset:1087
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
-"Deine Reputation und deine Anerkennung bei anderen Nationen steigt, solange "
-"du dieses Wunder besitzt. Deine Reputation wird doppelt so schnell "
-"wiederhergestellt als sonst."
+"Deine Reputation und deine Anerkennung bei anderen Nationen wird doppelt so "
+"schnell wiederhergestellt als sonst."
 
 #: data/default/buildings.ruleset:1093 data/civ2/buildings.ruleset:1078
 #: data/civ1/buildings.ruleset:734
@@ -19656,14 +19640,13 @@ msgid ""
 msgstr "Macht in jeder Stadt einen Unzufriedenen zufrieden."
 
 #: data/civ2/buildings.ruleset:1072
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
 "fast."
 msgstr ""
-"Deine Reputation und deine Anerkennung bei anderen Nationen steigt, solange "
-"du dieses Wunder besitzt. Deine Reputation wird doppelt so schnell "
-"wiederhergestellt als sonst."
+"Deine Reputation und deine Anerkennung bei anderen Nationen wird viermal so "
+"schnell wiederhergestellt als sonst."
 
 #: data/civ2/buildings.ruleset:1112 data/civ1/buildings.ruleset:768
 msgid "Works as a City Wall in all cities."
@@ -21591,13 +21574,33 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"Ein Diplomat ist ein offizieller Vertreter, der Deine Anweisungen ausführt "
+"und für Verhandlungen autorisiert ist. Er kann außerdem verschiedene "
+"verdeckte Operationen übernehmen, um Deinen Gegnern Schaden zuzufügen.\n"
+"\n"
+"Wenn eine feindliche Einheit allein auf einem Feld steht, kannst Du "
+"versuchen, sie mit deinem Diplomaten zu bestechen. Wenn Du eine Summe Gold "
+"bezahlst, geht sie sofort zu Dir über.\n"
+"\n"
+"Ein Diplomat kann außerdem verschiedene Aktionen in Städten anderer Spieler "
+"durchführen:\n"
+" - 'Auskundschaften' - Informationen über die Stadt erhalten\n"
+" - 'Eine Botschaft eröffnen' - Ständige Aufklärung des Gegners\n"
+" - 'Sabotieren' - die Produktion einer Stadt vernichten\n"
+" - 'Technologie stehlen' - einen Fortschritt vom Eigentümer der Stadt "
+"erhalten\n"
+" - 'Zur Revolte anstiften' - Eine Stadt gegen eine Summe Gold inBesitz "
+"bringen. Nicht möglich in einer Hauptstadt.\n"
+"\n"
+"Manchmal werden Horden von Diplomaten strategisch benutzt, um dem Feind "
+"schweren Schaden zuzufügen. Daher werden Diplomaten oft mit Angst und "
+"Mißtrauen betrachtet."
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"
 msgstr "Spion"
 
 #: data/default/units.ruleset:1749 data/civ2/units.ruleset:1700
-#, fuzzy
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat "
 "predecessor.\n"
@@ -21616,17 +21619,18 @@ msgid ""
 msgstr ""
 "Ein Spion ist im Gegensatz zu einem Diplomaten ein Profi.\n"
 "\n"
-"Er kann\n"
-" - Städte auskundschaften.\n"
-" - Botschaften einrichten.\n"
-" - das Wasser vergiften (und so die Bevölkerung vermindern).\n"
-" - ein bestimmtes Forschungsergebnis stehlen.\n"
-" - bestimmte Stadterweiterungen sabotieren.\n"
-" - eine Revolte auslösen und die Stadt übernehmen.\n"
-" - feindliche Einheiten bestechen oder sabotieren.\n"
+"Er kann alle Funktionen eines Diplomaten erfüllen, aber mit höheren "
+"Erfolgschancen. Dies ist unter 'Diplomat' beschrieben.\n"
 "\n"
-"Spione mit gewissen Ruf werden hingerichtet, wenn sie versuchen, eine "
-"Botschaft einzurichten."
+"Außerdem kann er benutzt werden, um die Wasserversorgung einer Stadt zu "
+"vergiften (und so die Bevölkerung zu vermindern), ein bestimmtes "
+"Forschungsergebnis zu stehlen, bestimmte Stadterweiterungen zu sabotieren "
+"(Sabotage in einer Hauptstadt, sowie Sabotage von Stadtmauern ist mit "
+"erhöhtem Risiko verbunden). Ein Spion kann außerdem eine Stadt infiltrieren "
+"und eine Revolte auslösen.\n"
+"\n"
+"Ein Spion kann außerdem auf dem Schlachtfeld nützlich sein - um feindliche "
+"Einheiten zu sabotieren oder zu bestechen."
 
 #: data/default/units.ruleset:1766 data/civ2/units.ruleset:1717
 #: data/civ1/units.ruleset:1018
@@ -21771,11 +21775,13 @@ msgid "Elephants"
 msgstr "Elefanten"
 
 #: data/civ2/units.ruleset:694
-#, fuzzy
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
-msgstr "Elefanten sind hochragende, für den Krieg trainierte Tiere."
+msgstr ""
+"Elefanten sind hochragende, für den Krieg trainierte Tiere, die oft als "
+"starke Angriffstruppen genutzt werden, sich gegen die meisten anderen "
+"Einheiten aber nur schlecht verteidigen können."
 
 #: data/civ2/units.ruleset:700
 msgid "Crusaders"
@@ -25586,120 +25592,3 @@ msgstr "Team 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Team 31"
-
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#~ msgid "Reason: line not found"
-#~ msgstr "Reason: line not found"
-
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#~ msgid "Reason: line too short (expected %d got %lu"
-#~ msgstr "Reason: line too short (expected %d got %lu"
-
-#~ msgid "Plugin '%s' is now selected"
-#~ msgstr "Plugin '%s' ausgewählt"
-
-#~ msgid "No real audio plugin present, proceeding with sound support disabled"
-#~ msgstr "Kein Audio-Plugin vorhanden, Sound wird abgeschaltet"
-
-#~ msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
-#~ msgstr "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
-
-#~ msgid "Will continue with disabled sounds."
-#~ msgstr "Audio abgeschaltet. Weiter."
-
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#~ msgid "sound spec-file appears incompatible:"
-#~ msgstr "soundspec file appears incompatible:"
-
-#~ msgid "file: \"%s\""
-#~ msgstr "Datei: '%s'"
-
-#~ msgid "file options: %s"
-#~ msgstr "Dateioptionen: %s"
-
-#~ msgid "supported options: %s"
-#~ msgstr "unterstützte Optionen: %s"
-
-# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#~ msgid "sound spec-file claims required option(s) which we don't support:"
-#~ msgstr "soundspec file claims required option(s) which we don't support:"
-
-#~ msgid "Goto _location"
-#~ msgstr "_Gehe nach"
-
-# CK: TECHNICAL
-#~ msgid "Error in create_string16: Aborting ..."
-#~ msgstr "Error in create_string16: Aborting ..."
-
-# CK: TECHNICAL
-#~ msgid "Couldn't blit text to display: %s"
-#~ msgstr "Couldn't blit text to display: %s"
-
-# CK: TECHNICAL
-#~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
-#~ "s"
-#~ msgstr ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
-#~ "s"
-
-# CK: TECHNICAL
-#~ msgid ""
-#~ "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-#~ msgstr ""
-#~ "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-
-# CK: TECHNICAL
-#~ msgid "SDL_create_str16_surf: String is %d lenght"
-#~ msgstr "SDL_create_str16_surf: String is %d lenght"
-
-# CK: TECHNICAL
-#~ msgid "Error in change_ptsize: Change ptsize failed"
-#~ msgstr "Error in change_ptsize: Change ptsize failed"
-
-# CK: TECHNICAL
-#~ msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-#~ msgstr "Error in load_font: Couldn't load %d pt font from %s: %s"
-
-# CK: TECHNICAL
-#~ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-#~ msgstr "Error in unload_font: Trying unload from empty Font ARRAY"
-
-# CK: TECHNICAL
-#~ msgid ""
-#~ "Error in unload_font: Trying unload Font which is not include in Font "
-#~ "ARRAY"
-#~ msgstr ""
-#~ "Error in unload_font: Trying unload Font which is not include in Font "
-#~ "ARRAY"
-
-# CK: Not implemented
-#~ msgid ""
-#~ "When built, every civilization's attitude toward you is improved by 25%."
-#~ msgstr ""
-#~ "Verbessert die Einstellung aller Zivilisationen dir gegenüber um 25 %."
-
-#~ msgid ""
-#~ "- A Diplomat can establish embassies with other civilizations by moving "
-#~ "into another player's city.\n"
-#~ "\n"
-#~ "- Diplomats can also try to sabotage enemy production, or steal an "
-#~ "advance from an enemy city.  (An advance can only be stolen once per "
-#~ "city).\n"
-#~ "\n"
-#~ "- A Diplomat can also bribe an enemy unit, if that unit is the only unit "
-#~ "on its square.\n"
-#~ "\n"
-#~ "- Diplomats can even start a revolution in an enemy city and turn it into "
-#~ "your own, if you have the money!\n"
-#~ "\n"
-#~ "- In some game strategies, hordes of Diplomats can be used to wreak havoc "
-#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
-#~ "suspicion and fear!"
-#~ msgstr ""
-#~ "Diplomaten können\n"
-#~ " - Botschaften einrichten.\n"
-#~ " - die feindliche Produktion sabotieren.\n"
-#~ " - (irgendein) Forschungsergebnisse stehlen (einmal pro Stadt).\n"
-#~ " - feindliche Einheiten bestechen.\n"
-#~ " - eine Revolte auslösen und die Stadt übernehmen."
