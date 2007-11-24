@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-24 10:00+0900\n"
+"POT-Creation-Date: 2007-11-24 23:30+0900\n"
 "PO-Revision-Date: 2007-09-05 04:15+0300\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -4139,7 +4139,9 @@ msgstr "Kan inte justera högsta tillåtna antal spelare i GGZ-läge."
 
 #: server/settings.c:178
 #, fuzzy
-msgid "Number of players is higher than requested value;\nKeeping old value."
+msgid ""
+"Number of players is higher than requested value;\n"
+"Keeping old value."
 msgstr "Antal spelare är högre än efterfrågat värde; Behåller tidigare värde"
 
 #: server/settings.c:234
@@ -4557,42 +4559,44 @@ msgid "Penalty when getting tech or gold from treaty"
 msgstr "Avgift vid anskaffning av teknologi eller guld genom avtal"
 
 #: server/settings.c:509
+#, fuzzy
 msgid ""
-"For each technology you gain from a diplomatic treaty, you lost research "
-"points equal to this percentage of the cost to research a new technology. "
-"If this is non-zero, you can end up with negative research points. Also "
-"applies to gold transfers in diplomatic treaties."
+"For each technology you gain from a diplomatic treaty, you lose research "
+"points equal to this percentage of the cost to research a new technology. If "
+"this is non-zero, you can end up with negative research points. Also applies "
+"to gold transfers in diplomatic treaties."
 msgstr ""
 "För varje framsteg man får genom ett diplomatiskt avtal, förlorar man en del "
 "av sitt forskningsvärde motsvarande så här många procent av kostnaden att "
 "forska fram ett nytt framsteg. Forskningsvärdet kan bli negativ efter detta "
 "i fall att kostnaden är nollskild. Gäller även guld."
 
-#: server/settings.c:518
+#: server/settings.c:519
 msgid "Penalty when getting tech from conquering"
 msgstr "Straffavgift vid anskaffning av teknologi genom erövring"
 
-#: server/settings.c:519
+#: server/settings.c:520
 msgid ""
 "For each technology you gain by conquering an enemy city, you lose research "
-"points equal to this percentage of the cost to research a new technology. "
-"If this is non-zero, you can end up with negative research points."
+"points equal to this percentage of the cost to research a new technology. If "
+"this is non-zero, you can end up with negative research points."
 msgstr ""
 "För varje framsteg man får genom ett att erövra en fientlig stad, förlorar "
 "man en del av sitt forskningsvärde motsvarande så här många procent av "
 "kostnaden att forska fram ett nytt framsteg. Forskningsvärdet kan bli "
 "negativ efter detta i fall att kostnaden är nollskild."
 
-#: server/settings.c:528
+#: server/settings.c:530
 msgid "Penalty when getting a free tech"
 msgstr "Straffavgift vid erhållande av gratis teknologi"
 
-#: server/settings.c:529
+#: server/settings.c:531
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from Great Library effects), you "
 "lose research points equal to this percentage of the cost to research a new "
-"technology. If this is non-zero, you can end up with negative research points."
+"technology. If this is non-zero, you can end up with negative research "
+"points."
 msgstr ""
 "För varje framsteg man får \"gratis\" (utöver de fall som täcks av diplcost "
 "eller conquercost: d.v.s. från hyddor eller via Stora Biblioteket), förlorar "
@@ -4600,11 +4604,11 @@ msgstr ""
 "kostnaden att forska fram ett nytt framsteg. Forskningsvärdet kan bli "
 "negativt efter detta i fall att kostnaden är nollskild."
 
-#: server/settings.c:540
+#: server/settings.c:542
 msgid "Food required for a city to grow"
 msgstr "Mat som krävs för att en stad skall växa"
 
-#: server/settings.c:541
+#: server/settings.c:543
 msgid ""
 "This is the base amount of food required to grow a city. This value is "
 "multiplied by another factor that comes from the ruleset and is dependent on "
@@ -4614,12 +4618,12 @@ msgstr ""
 "multipliceras med en faktor som bestäms i reglerna och hänger samman med "
 "stadens storlek."
 
-#: server/settings.c:549
+#: server/settings.c:551
 #, fuzzy
 msgid "Percentage food lost when building needed"
 msgstr "Procent mat som går till spillo när vattenledning behövs"
 
-#: server/settings.c:550
+#: server/settings.c:552
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when "
@@ -4629,11 +4633,11 @@ msgstr ""
 "(eller ett avloppssystem), förlorar den så här många procent av sitt "
 "matförråd (eller hälften så mycket om den har sädeslager)."
 
-#: server/settings.c:559
+#: server/settings.c:561
 msgid "Multiplier percentage for production costs"
 msgstr "Procentfaktor för produktionskostnad"
 
-#: server/settings.c:560
+#: server/settings.c:562
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
@@ -4641,13 +4645,13 @@ msgstr ""
 "Detta påverkar hur snabbt enheter och byggnades produceras. Grundkostnaden "
 "multipliceras med detta procentvärde."
 
-#: server/settings.c:574
+#: server/settings.c:576
 msgid "Minimum city size to get full trade"
 msgstr "Minsta stadsstorlek för full handel"
 
 # DM> Ändrade "mutning" till "korruption" här och på flera andra ställen - 
 # Onödigt otydlig försvenskning!
-#: server/settings.c:575
+#: server/settings.c:577
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to notradesize, and decreases gradually "
@@ -4659,11 +4663,11 @@ msgstr ""
 "och minskar gradvis till 0% (ingen begränsning förutom vanlig korruption) "
 "för städer med storlek=fulltradesize. Se även notradesize."
 
-#: server/settings.c:585
+#: server/settings.c:587
 msgid "Maximum size of a city without trade"
 msgstr "Största storleken för en stad utan handel"
 
-#: server/settings.c:586
+#: server/settings.c:588
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
@@ -4673,11 +4677,11 @@ msgstr ""
 "Handeln ökar gradvis för städer större än notradesize och mindre än "
 "fulltradesize. Se även fulltradesize."
 
-#: server/settings.c:595
+#: server/settings.c:597
 msgid "City size before people become unhappy"
 msgstr "Stadsstorlek innan befolkningen blir missnöjd"
 
-#: server/settings.c:596
+#: server/settings.c:598
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy. See also cityfactor."
@@ -4686,11 +4690,11 @@ msgstr ""
 "stad nöjda, och de efterföljande medborgarna är missnöjda. Se även "
 "cityfactor."
 
-#: server/settings.c:604
+#: server/settings.c:606
 msgid "Number of cities for higher unhappiness"
 msgstr "Antal städer för högre missnöjdhet"
 
-#: server/settings.c:605
+#: server/settings.c:607
 msgid ""
 "When the number of cities a player owns is greater than cityfactor, one "
 "extra citizen is unhappy before other adjustments; see also unhappysize. "
@@ -4702,16 +4706,16 @@ msgstr ""
 "unhappysize. Detta förutsätter folkstyre; för andra statsskick sker detta "
 "redan vid lägre antal städer."
 
-#: server/settings.c:614
+#: server/settings.c:616
 msgid "Minimum distance between cities"
 msgstr "Minsta avståndet mellan städer"
 
-#: server/settings.c:615
+#: server/settings.c:617
 #, fuzzy
 msgid ""
 "When a player attempts to found a new city, there may be no other city in "
-"this distance. For example, when this value is 3, there have to be at "
-"least two empty fields between two cities in every direction. If set to 0 "
+"this distance. For example, when this value is 3, there have to be at least "
+"two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
 msgstr ""
 "När en spelare försöker grunda en ny stad kontrolleras det att det inte "
@@ -4719,11 +4723,11 @@ msgstr ""
 "exempel är 3 så måste det vara minst 2 tomma rutor mellan varje stad. Om det "
 "är satt till 0 (standard) så används värdet i reglerna i stället."
 
-#: server/settings.c:626
+#: server/settings.c:628
 msgid "Number of turns between rapture effect"
 msgstr "Antal omgångar mellan effekt av firande"
 
-#: server/settings.c:627
+#: server/settings.c:629
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
@@ -4731,11 +4735,11 @@ msgstr ""
 "Sätter antalet omgångar mellan stadstillväxt orsakad av firande. Om satt "
 "till n så växer staden efter att ha firat i n+1 omgång(ar)."
 
-#: server/settings.c:636
+#: server/settings.c:638
 msgid "Chance for conquered building destruction"
 msgstr "Sannolikhet att erövrad byggnad förstörs"
 
-#: server/settings.c:637
+#: server/settings.c:639
 msgid ""
 "When a player conquers a city, each city improvement has this percentage "
 "chance to be destroyed."
@@ -4743,11 +4747,11 @@ msgstr ""
 "När en spelare erövrar en stad har varje stadsförbättring denna sannolikhet "
 "att bli förstörd."
 
-#: server/settings.c:643
+#: server/settings.c:645
 msgid "Chance of moving into tile after attack"
 msgstr "Sannolikhet att flytta sig till ruta efter angrepp"
 
-#: server/settings.c:644
+#: server/settings.c:646
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -4760,11 +4764,11 @@ msgstr ""
 "rutan om de vinner över den sista fientliga enheten där. Värden mellan 0 och "
 "100 ger varierande sannolikhet att områdets \"besätts\"."
 
-#: server/settings.c:655
+#: server/settings.c:657
 msgid "Turn on/off server-side autoattack"
 msgstr "Slå av eller på autoattack"
 
-#: server/settings.c:656
+#: server/settings.c:658
 msgid ""
 "If set to on, units with move left will automatically consider attacking "
 "enemy units that move adjacent to them."
@@ -4772,11 +4776,11 @@ msgstr ""
 "Om påslaget kan enheter med drag kvar vid omgångens slut attackera "
 "fiendeenheter som flyttar till en angränsande ruta."
 
-#: server/settings.c:662
+#: server/settings.c:664
 msgid "Reduce city population after attack"
 msgstr "Minska stads storlek efter lyckat angrepp"
 
-#: server/settings.c:663
+#: server/settings.c:665
 msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type (OR-ed):\n"
@@ -4792,11 +4796,11 @@ msgstr ""
 "  4 = heli\n"
 "  8 = luft"
 
-#: server/settings.c:675
+#: server/settings.c:677
 msgid "National borders radius"
 msgstr "Nationsgränsers räckvidd"
 
-#: server/settings.c:676
+#: server/settings.c:678
 msgid ""
 "If this is set to greater than 0, then any land tiles within the given "
 "radius of a city will be owned by that nation. Special rules apply for ocean "
@@ -4806,22 +4810,22 @@ msgstr ""
 "ägare. Särskilda regler gäller havsrutor samt rutor inom radien av fler än "
 "ett folks stad."
 
-#: server/settings.c:686
+#: server/settings.c:688
 msgid "Units inside borders cause no unhappiness"
 msgstr "Enheter inom ens gränser orsakar ej missnöjdhet"
 
-#: server/settings.c:687
+#: server/settings.c:689
 msgid ""
 "If this is set, units will not cause unhappiness when inside your own "
 "borders."
 msgstr ""
 "Enheter orsakar inte missnöjdhet när de befinner sig inom våra egna gränser."
 
-#: server/settings.c:693
+#: server/settings.c:695
 msgid "Ability to do diplomacy with other players"
 msgstr "Förmågan att utöva diplomati med andra spelare"
 
-#: server/settings.c:694
+#: server/settings.c:696
 msgid ""
 "0 = default; diplomacy is enabled for everyone.\n"
 "1 = diplomacy is only allowed between human players.\n"
@@ -4835,11 +4839,11 @@ msgstr ""
 "3 = diplomati är endast tillåtet inom lag.\n"
 "4 = diplomati är inte tillåtet för någon."
 
-#: server/settings.c:703
+#: server/settings.c:705
 msgid "Allowed city names"
 msgstr "Accepterade stadsnamn"
 
-#: server/settings.c:704
+#: server/settings.c:706
 msgid ""
 "0 = There are no restrictions: players can have multiple cities with the "
 "same names.\n"
@@ -4863,11 +4867,11 @@ msgstr ""
 "3 = En spelare får inte välja ett namn som finns uppräknat i ett annat folks "
 "stadslista."
 
-#: server/settings.c:732
+#: server/settings.c:734
 msgid "Barbarian appearance frequency"
 msgstr "Barbarfrekvens"
 
-#: server/settings.c:733
+#: server/settings.c:735
 msgid ""
 "0 = no barbarians \n"
 "1 = barbarians only in huts \n"
@@ -4881,19 +4885,19 @@ msgstr ""
 "3 = hög barbarfrekvens \n"
 "4 = rasande horder, massor av barbarer"
 
-#: server/settings.c:743
+#: server/settings.c:745
 msgid "Barbarian onset year"
 msgstr "Barbarernas inträdesår"
 
-#: server/settings.c:744
+#: server/settings.c:746
 msgid "Barbarians will not appear before this year."
 msgstr "Barbarer dyker inte upp före detta år."
 
-#: server/settings.c:750
+#: server/settings.c:752
 msgid "Length in turns of revolution"
 msgstr "Revolutionslängd"
 
-#: server/settings.c:751
+#: server/settings.c:753
 msgid ""
 "When changing governments, a period of anarchy lasting this many turns will "
 "occur. Setting this value to 0 will give a random length of 1-6 turns."
@@ -4901,11 +4905,11 @@ msgstr ""
 "Vid byte av statsskick infaller detta antal omgångar anarki. Värdet noll "
 "innebär ett slumpmässigt antal mellan 1-6."
 
-#: server/settings.c:760
+#: server/settings.c:762
 msgid "Whether to enable fog of war"
 msgstr "Aktiverar krigsdimma"
 
-#: server/settings.c:761
+#: server/settings.c:763
 msgid ""
 "If this is set to 1, only those units and cities within the vision range of "
 "your own units and cities will be revealed to you. You will not see new "
@@ -4915,11 +4919,11 @@ msgstr ""
 "ens egna enheter och städer. Man kan inte se nya städer, om städer har växt "
 "eller landskapsförändringar som skett ytanför synfältet."
 
-#: server/settings.c:769
+#: server/settings.c:771
 msgid "Base chance for diplomats and spies to succeed."
 msgstr "Grundläggande sannolikhet att budbärare och spioner lyckas."
 
-#: server/settings.c:771
+#: server/settings.c:773
 #, no-c-format
 msgid ""
 "The chance of a spy returning from a successful mission and the base chance "
@@ -4928,19 +4932,19 @@ msgstr ""
 "Sannolikheten att en spion återvänder från ett lyckat uppdrag samt den "
 "grundläggande chansen för budbärare och spioner att lyckas med dessa."
 
-#: server/settings.c:778
+#: server/settings.c:780
 msgid "Whether to allow space race"
 msgstr "Tillåt rymdkapplöpning"
 
-#: server/settings.c:779
+#: server/settings.c:781
 msgid "If this option is set to 1, players can build spaceships."
 msgstr "Möjliggör spelare att bygga rymdskepp."
 
-#: server/settings.c:785
+#: server/settings.c:787
 msgid "Minimum number of cities for civil war"
 msgstr "Minsta antal städer för inbördeskrig"
 
-#: server/settings.c:786
+#: server/settings.c:788
 msgid ""
 "A civil war is triggered when a player has at least this many cities and the "
 "player's capital is captured. If this option is set to the maximum value, "
@@ -4950,26 +4954,26 @@ msgstr ""
 "dennes huvudstad faller. Om detta tillval är satt till sitt största värde är "
 "inbördeskrig helt avstängt."
 
-#: server/settings.c:795
+#: server/settings.c:797
 msgid "Turns until player contact is lost"
 msgstr "Omgångar innan kontakt tappas"
 
-#: server/settings.c:796
+#: server/settings.c:798
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
-"last met, even when they do not have an embassy. If set to zero, then players "
-"cannot meet unless they have an embassy."
+"last met, even when they do not have an embassy. If set to zero, then "
+"players cannot meet unless they have an embassy."
 msgstr ""
 "Spelare kan ha diplomatiska möten så här många omgångar efter att deras "
 "enheter senast möttes, även om de ej har beskickningar hos varandra. Sätt "
 "detta till 0 för att förhindra möte utan beskickning."
 
-#: server/settings.c:806
+#: server/settings.c:808
 #, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "Bygg nytt slott om huvudstad förloras"
 
-#: server/settings.c:807
+#: server/settings.c:809
 msgid ""
 "If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
@@ -4981,21 +4985,21 @@ msgstr ""
 "städer man har kvar. Detta är viktigt eftersom du inte behöver kunskap om "
 "relevant teknologi för att få ett nytt palats."
 
-#: server/settings.c:817
+#: server/settings.c:818
 msgid "Whether to use natural city names"
 msgstr "Naturliga stadsnamn"
 
-#: server/settings.c:818
+#: server/settings.c:819
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr "Om detta är valt avgörs stadsnamnen efter det omgivande landskapet."
 
-#: server/settings.c:831
+#: server/settings.c:832
 msgid "Players that users are allowed to take"
 msgstr "Spelare som användare tillåts ta"
 
-#: server/settings.c:832
+#: server/settings.c:833
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player). Clients will only be permitted to take or "
@@ -5062,11 +5066,11 @@ msgstr ""
 "4 = Styrande anslutning ej tillåten, iakttagare tillåtna;\n"
 "\n"
 
-#: server/settings.c:867
+#: server/settings.c:868
 msgid "Whether AI-status toggles with connection"
 msgstr "Växla datorstyrningsläge för anslutning"
 
-#: server/settings.c:868
+#: server/settings.c:869
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
@@ -5074,19 +5078,19 @@ msgstr ""
 "Om detta är satt till 1 stängs datorstyrning av när en spelare ansluter och "
 "sätts på när en spelare kopplar från."
 
-#: server/settings.c:874
+#: server/settings.c:875
 msgid "Year the game ends"
 msgstr "Spelets slutår"
 
-#: server/settings.c:875
+#: server/settings.c:876
 msgid "The game will end at the end of the given year."
 msgstr "Spelet avgörs detta år."
 
-#: server/settings.c:881
+#: server/settings.c:882
 msgid "Maximum seconds per turn"
 msgstr "Högsta möjliga antalet sekunder per omgång"
 
-#: server/settings.c:882
+#: server/settings.c:883
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -5099,11 +5103,11 @@ msgstr ""
 "självständigt. Använd detta med \"timeoutincrease\" för att ha en "
 "självförändrande tidsgräns."
 
-#: server/settings.c:892
+#: server/settings.c:893
 msgid "Timeout at least n seconds when enemy moved"
 msgstr "Timeout i åtminstone n sekunder efter fienden flyttat"
 
-#: server/settings.c:893
+#: server/settings.c:894
 #, fuzzy
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
@@ -5112,11 +5116,11 @@ msgstr ""
 "Då en enhet flyttar medan inom synhåll för fiendespelare, sätts den "
 "återstående timeouten till detta värde i de fall det är lägre."
 
-#: server/settings.c:902
+#: server/settings.c:903
 msgid "Whether to have simultaneous player phases."
 msgstr "Simultana spelarfaser."
 
-#: server/settings.c:903
+#: server/settings.c:904
 msgid ""
 "If true, all players' movement phases will occur simultaneously; if false, "
 "then players will alternate movement."
@@ -5124,11 +5128,11 @@ msgstr ""
 "Om aktiverat sker alla spelares drag simultant; om deaktiverat turas spelare "
 "åt om dragen."
 
-#: server/settings.c:910
+#: server/settings.c:911
 msgid "Seconds to let a client's network connection block"
 msgstr "Sekunder att låta en klientanslutning blockera ett spel"
 
-#: server/settings.c:911
+#: server/settings.c:912
 msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
@@ -5138,11 +5142,11 @@ msgstr ""
 "stängs den ned. Noll betyder att det inte finns någon tidsgräns (även om "
 "anslutningar ändå stängs ned så småningom)."
 
-#: server/settings.c:920
+#: server/settings.c:921
 msgid "Max seconds for network buffers to drain"
 msgstr "Max antal sekunder för tömning av nätverksbuffer"
 
-#: server/settings.c:921
+#: server/settings.c:922
 msgid ""
 "The server will wait for up to the value of this parameter in seconds, for "
 "all client connection network buffers to unblock. Zero means the server will "
@@ -5152,33 +5156,33 @@ msgstr ""
 "att alla klientanslutningars nätverksbuffrar svarar. Noll betyter att "
 "servern inte kommer att vänta alls."
 
-#: server/settings.c:929
+#: server/settings.c:930
 msgid "Seconds between PINGs"
 msgstr "Sekunder mellan PING:ar"
 
-#: server/settings.c:930
+#: server/settings.c:931
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses."
 msgstr ""
 "civserver kommer att kontakta klienterna med en PING-förfrågning så här ofta."
 
-#: server/settings.c:937
+#: server/settings.c:938
 msgid "Time to cut a client"
 msgstr "Tid för att koppla bort en klient"
 
-#: server/settings.c:938
+#: server/settings.c:939
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
 "Om en klient inte svarar på ett PING inom detta antal sekunder kopplas "
 "klienten bort."
 
-#: server/settings.c:944
+#: server/settings.c:945
 msgid "Turn-blocking game play mode"
 msgstr "Vänta på alla spelare"
 
-#: server/settings.c:945
+#: server/settings.c:946
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -5186,11 +5190,11 @@ msgstr ""
 "Om detta sätts till 1 avslutas aldrig en omgång förrän alla spelare har "
 "gjort sitt drag, inklusive frånkopplade spelare."
 
-#: server/settings.c:952
+#: server/settings.c:953
 msgid "Fixed-length turns play mode"
 msgstr "Omgångar med fast längd"
 
-#: server/settings.c:953
+#: server/settings.c:954
 #, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
@@ -5199,11 +5203,11 @@ msgstr ""
 "Om detta är satt till 1 avslutas aldrig en omgång förrän tiden har löpt ut "
 "oavsett om samtliga spelare har tryckt på \"Avsluta omgång\"."
 
-#: server/settings.c:960
+#: server/settings.c:961
 msgid "What is in the Demographics report"
 msgstr "Vad som finns i demografiredogörelsen"
 
-#: server/settings.c:961
+#: server/settings.c:962
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -5241,11 +5245,11 @@ msgstr ""
 "    b = visa kolumnen \"bästa stat\"\n"
 "Skiftläge har betydelse men inte tecknens ordning."
 
-#: server/settings.c:985
+#: server/settings.c:986
 msgid "Turns per auto-save"
 msgstr "Omgångar mellan autospar"
 
-#: server/settings.c:986
+#: server/settings.c:987
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
@@ -5253,11 +5257,11 @@ msgstr ""
 "Spelet kommer att autosparas varje gång detta antal rundor har passerat. "
 "Noll innebär att spelet aldrig sparas automatiskt."
 
-#: server/settings.c:996 server/settings.c:1007
+#: server/settings.c:997 server/settings.c:1008
 msgid "Savegame compression level"
 msgstr "Packningsgrad för sparade spel"
 
-#: server/settings.c:997 server/settings.c:1008
+#: server/settings.c:998 server/settings.c:1009
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format). Larger "
 "values will give better compression but take longer. If the maximum is zero "
@@ -5267,11 +5271,11 @@ msgstr ""
 "ger bättre packning men tar längre tid. Om det högsta tillåtna värdet är "
 "noll, kompilerades servern inte med zlib."
 
-#: server/settings.c:1019
+#: server/settings.c:1020
 msgid "Auto-save name prefix"
 msgstr "Prefix vid autospar"
 
-#: server/settings.c:1020
+#: server/settings.c:1021
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\". This "
 "setting sets the <prefix> part."
@@ -5279,11 +5283,11 @@ msgstr ""
 "Automatiskt sparade spel kommer att få namnet \"<prefix><år>.sav\".Denna "
 "inställning bestämmer prefixet."
 
-#: server/settings.c:1027
+#: server/settings.c:1028
 msgid "Whether to log player statistics"
 msgstr "Logga spelarstatistik"
 
-#: server/settings.c:1028
+#: server/settings.c:1029
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn. These statistics can be used to create power graphs after "
@@ -24711,9 +24715,9 @@ msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for it's \"larger than life\" cowboy mentality."
 msgstr ""
-"\"I nuvarande Texas anlades det första nybygget 1685 af La Salle, i Lavaca vid "
-"kusten. Långt tidigare hade emellertid spanska upptäcktsfarare, t. ex. De "
-"Veca och Coronado, färdats genom landet. Af spanjorerna upprättades "
+"\"I nuvarande Texas anlades det första nybygget 1685 af La Salle, i Lavaca "
+"vid kusten. Långt tidigare hade emellertid spanska upptäcktsfarare, t. ex. "
+"De Veca och Coronado, färdats genom landet. Af spanjorerna upprättades "
 "åtskilliga missionsstationer i olika delar af Texas, som fått sitt namn "
 "efter en sammanslutning af indianstammar, hvilka benämnde sig \"Tejas\" och "
 "omkr. 1690 kommo i beröring med spanska missionen. Denna fick 1718 ett "
