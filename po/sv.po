@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-21 22:23+0900\n"
+"POT-Creation-Date: 2007-11-24 10:00+0900\n"
 "PO-Revision-Date: 2007-09-05 04:15+0300\n"
 "Last-Translator: Daniel Markstedt <markstedt@gmail.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -947,8 +947,8 @@ msgstr "Loggningsläget %d är inte tillåtet i \"%s\".\n"
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
 msgstr ""
-"Freeciv måste kompileras med DEBUG-flaggan för att köras i "
-"avlusningsläge %d.\n"
+"Freeciv måste kompileras med DEBUG-flaggan för att köras i avlusningsläge %"
+"d.\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
 #, c-format
@@ -4015,9 +4015,8 @@ msgid ""
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
 msgstr ""
-"Sparspelet innehåller ofullständig kartdata. Detta kan "
-"inträffa med gamla sparade spel eller tyda på ogiltiga spelfiler. "
-"Fortsätt på egen risk."
+"Sparspelet innehåller ofullständig kartdata. Detta kan inträffa med gamla "
+"sparade spel eller tyda på ogiltiga spelfiler. Fortsätt på egen risk."
 
 #: server/savegame.c:3589
 msgid "Saved game is too old, at least version 1.9.0 required."
@@ -4037,8 +4036,8 @@ msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 msgstr ""
-"Varning: Skilda regelkataloger ('%s' och '%s') stöds ej längre. "
-"Använder '%s'."
+"Varning: Skilda regelkataloger ('%s' och '%s') stöds ej längre. Använder '%"
+"s'."
 
 #. TRANS: Minor error message.
 #: server/savegame.c:4043
@@ -7347,91 +7346,55 @@ msgstr "Insticksprogrammet \"%s\" är inte tillgängligt. %s är tillgängligt."
 msgid "Plugin %s found but can't be initialized."
 msgstr "Insticksprogrammet %s finns men kan inte köras."
 
-#: client/audio.c:130
-#, c-format
-msgid "Plugin '%s' is now selected"
-msgstr "Du valde insticksprogram '%s'"
-
 #: client/audio.c:174
 #, c-format
 msgid "Couldn't find soundset \"%s\" trying \"%s\"."
 msgstr "Kunde inte hitta ljuduppsättningen \"%s\". Försöker med \"%s\"."
 
-#: client/audio.c:191 client/audio.c:249 client/audio.c:260
-msgid "Proceeding with sound support disabled"
-msgstr "Fortsätter med avstängt ljudstöd"
-
 #: client/audio.c:197
-msgid "No real audio plugin present, proceeding with sound support disabled"
-msgstr "Insticksprogram för ljud saknas; fortsätter med ljudet avstängt."
+msgid "No real audio plugin present."
+msgstr "Ett riktigt insticksprogram för ljud saknas."
 
-#: client/audio.c:200
+#: client/audio.c:198 client/audio.c:215 client/audio.c:247 client/audio.c:258
+msgid "Proceeding with sound support disabled"
+msgstr "Fortsätter med ljuded avstängt"
+
+#: client/audio.c:199
 msgid "For sound support, install SDL_mixer"
 msgstr "För ljudstöd, installera SDL_mixer"
 
-#: client/audio.c:201
-msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
-msgstr "http://www.libsdl.org/projects/SDL_mixer/index.html"
-
-#: client/audio.c:207
+#: client/audio.c:205
 msgid "No sound spec-file given!"
 msgstr "Ingen ljudupplysningsfil angiven!"
 
-#: client/audio.c:213
+#: client/audio.c:211
 #, c-format
 msgid "Cannot find sound spec-file \"%s\"."
 msgstr "Kan inte finna ljudupplysningsfilen \"%s\"."
 
-#: client/audio.c:214
+#: client/audio.c:212
 msgid "To get sound you need to download a sound set!"
 msgstr "Man måste hämta hem en ljuduppsättning för att få ljud!"
 
-#: client/audio.c:215
+#: client/audio.c:213
 #, c-format
 msgid "Get sound sets from <%s>."
 msgstr "Hämta ljuduppsättningar från <%s>."
 
-#: client/audio.c:217
-msgid "Will continue with disabled sounds."
-msgstr "Fortsätter utan ljud."
-
-#: client/audio.c:222
+#: client/audio.c:220
 #, c-format
 msgid "Could not load sound spec-file: %s"
 msgstr "Kunde inte öppna ljudupplyslingsfil: %s"
 
-#: client/audio.c:228
-msgid "sound spec-file appears incompatible:"
-msgstr "ljudupplysningsfilen verkar inte passa:"
-
-#: client/audio.c:229 client/audio.c:237
-#, c-format
-msgid "file: \"%s\""
-msgstr "fil: \"%s\""
-
-#: client/audio.c:230 client/audio.c:238
-#, c-format
-msgid "file options: %s"
-msgstr "filtillval: %s"
-
-#: client/audio.c:231 client/audio.c:239
-#, c-format
-msgid "supported options: %s"
-msgstr "tillhandahållna tillval: %s"
-
-#: client/audio.c:235
-msgid "sound spec-file claims required option(s) which we don't support:"
-msgstr "ljudupplysningsfilen fordrar tillval som inte stöds:"
-
-#: client/audio.c:257
+#: client/audio.c:255
 msgid "No real audio subsystem managed to initialize!"
 msgstr "Inget ljudsystem kunde köras!"
 
-#: client/audio.c:259
+#: client/audio.c:257
 msgid "Perhaps there is some misconfiguration or bad permissions"
 msgstr "Någonting kanske är felinställt eller har felaktiga rättigheter"
 
-#: client/audio.c:282
+#: client/audio.c:280
 #, c-format
 msgid "Cannot find audio file %s"
 msgstr "Kan inte finna ljudfilen %s"
@@ -10586,7 +10549,6 @@ msgid "_Buy"
 msgstr "_Köp"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-#, fuzzy
 msgid "_Production"
 msgstr "T_illverkning"
 
@@ -10816,7 +10778,6 @@ msgid "_Select"
 msgstr "_Välj"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-#, fuzzy
 msgid "_Display"
 msgstr "Vi_sa"
 
@@ -10831,9 +10792,8 @@ msgid "Cities"
 msgstr "Städer"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-#, fuzzy
 msgid "_Update"
-msgstr "Ö_ppna"
+msgstr "_Uppdatera"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -10989,14 +10949,13 @@ msgstr "Vad ska vi kalla det förvalda värdet?"
 msgid "Remove this preset?"
 msgstr "Tag bort detta förvalda värde?"
 
-#: client/gui-gtk-2.0/dialogs.c:195
+#: client/gui-gtk-2.0/dialogs.c:195 client/gui-gtk-2.0/messagewin.c:186
 msgid "Goto _Location"
 msgstr "_Gå till plats"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-#, fuzzy
 msgid "_Update City"
-msgstr "Ö_ppna stad"
+msgstr "_Uppdatera stad"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -11221,6 +11180,10 @@ msgstr "Gå till/Flygfrakta enhet"
 #: client/gui-gtk-2.0/gotodlg.c:127
 msgid "Air_lift"
 msgstr "F_lyg"
+
+#: client/gui-gtk-2.0/gotodlg.c:129
+msgid "_Goto"
+msgstr "_Gå till"
 
 #: client/gui-gtk-2.0/gotodlg.c:140 client/gui-sdl/gotodlg.c:234
 msgid "Select destination"
@@ -12314,10 +12277,6 @@ msgstr "Öpp"
 #: data/Freeciv.in:3273 data/Freeciv.in:3274 data/Freeciv.in:3283
 msgid "Messages"
 msgstr "Meddelanden"
-
-#: client/gui-gtk-2.0/messagewin.c:186
-msgid "Goto _location"
-msgstr "Gå till plats"
 
 #: client/gui-gtk-2.0/plrdlg.c:329
 msgid "?show:Dead Players"
@@ -13718,38 +13677,6 @@ msgstr "Startar klienten"
 msgid "Waiting for the beginning of the game"
 msgstr "Väntar på att spelet ska börja"
 
-#: client/gui-sdl/gui_string.c:173
-msgid "Error in create_string16: Aborting ..."
-msgstr "Fel i create_string16: Avbryter..."
-
-#: client/gui-sdl/gui_string.c:225
-#, c-format
-msgid "Couldn't blit text to display: %s"
-msgstr "Kunde inte blitta text till skärmen: %s"
-
-#: client/gui-sdl/gui_string.c:263
-#, c-format
-msgid ""
-"Error in SDL_create_str16_surf: Couldn't convert text to display format: %s"
-msgstr ""
-"Fel i SDL_create_str16_surf: Kunde inte konvertera text till skärmformat: %s"
-
-#: client/gui-sdl/gui_string.c:280
-#, c-format
-msgid "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-msgstr ""
-"SDL_create_str16_surf: Typsnitt är vanligtvis %d stor, medan sträng är %hd "
-"stor"
-
-#: client/gui-sdl/gui_string.c:282
-#, c-format
-msgid "SDL_create_str16_surf: String is %d lenght"
-msgstr "SDL_create_str16_surf: Sträng är %d lång"
-
-#: client/gui-sdl/gui_string.c:572
-msgid "Error in change_ptsize: Change ptsize failed"
-msgstr "Fel i change_ptsize: Ändra ptsize misslyckades"
-
 #: client/gui-sdl/gui_string.c:608
 msgid ""
 "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font to "
@@ -13757,22 +13684,6 @@ msgid ""
 msgstr ""
 "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font to "
 "data dir as stdfont.ttf"
-
-#: client/gui-sdl/gui_string.c:620
-#, c-format
-msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-msgstr "Fel i load_font: Kunde inte ladda %d pt typsnitt från %s: %s"
-
-#: client/gui-sdl/gui_string.c:661
-msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-msgstr "Fel i unload_font: Försöker lossa från tom typsnitts-ARRAY"
-
-#: client/gui-sdl/gui_string.c:675
-msgid ""
-"Error in unload_font: Trying unload Font which is not include in Font ARRAY"
-msgstr ""
-"Fel i unload_font: Försöker lossa typsnitt som inte är inkluderad i "
-"typsnitts-ARRAY"
 
 #. TRANS: Future Technology
 #: client/gui-sdl/gui_tilespec.c:506
@@ -21735,32 +21646,32 @@ msgid ""
 "- \"Investigate\" Reveal detailed information about the city.\n"
 "- \"Establish Embassy\" Get permanent intelligence on the player.\n"
 "- \"Sabotage\" Ruin any production in the city.\n"
-"- \"Steal Technology\" Acquire an advance from the city's owner.- \"Incite a "
-"Revolt\" Make a city your own by paying a sum of gold. Note that you cannot "
-"incite a revolt in a capital city.\n"
+"- \"Steal Technology\" Acquire an advance from the city's owner.\n"
+"- \"Incite a Revolt\" Make a city your own by paying a sum of gold. Note "
+"that you cannot incite a revolt in a capital city.\n"
 "\n"
 "In some game strategies, hordes of Diplomats can be used to wreak havoc on "
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
-"Budbäraren har uppdrag att föra din talan hos främmande härskare. Han "
-"kan dessutom utföra spionage eller sabotera för dina motståndare.\n"
+"Budbäraren har uppdrag att föra din talan hos främmande härskare. Han kan "
+"dessutom utföra spionage eller sabotera för dina motståndare.\n"
 "\n"
-"En budbärare kan även muta en fientlig enhet om det är den enda enheten "
-"på sin ruta. Genom att betala en summa guld tar du omedelbart kontroll "
-"över enheten.\n"
+"En budbärare kan även muta en fientlig enhet om det är den enda enheten på "
+"sin ruta. Genom att betala en summa guld tar du omedelbart kontroll över "
+"enheten.\n"
 "\n"
 "Budbäraren kan även utföra ett antal handlingar i främmande städer:\n"
-"- \"Investigate\" Avslöjar detaljerad information om staden.\n"
-"- \"Establish Embassy\" Get permanenta underrättelser om spelaren.\n"
-"- \"Sabotage\" Förstör tillverkningen i staden.\n"
-"- \"Steal Technology\" Erhåll ett framsteg från spelaren.\n"
-"- \"Incite a Revolt\" Gör staden din egen genom att betala guld.\n"
+"- \"Undersök\" Avslöjar detaljerad information om staden.\n"
+"- \"Inrätta beskickning\" Get permanenta underrättelser om spelaren.\n"
+"- \"Sabotera\" Förstör tillverkningen i staden.\n"
+"- \"Stjäl teknologi\" Erhåll ett framsteg från spelaren.\n"
+"- \"Anstifta uppror\" Gör staden din egen genom att betala guld.\n"
 " Lägg märke till att man inte kan muta en huvudstad.\n"
 "\n"
-"I vissa spelstrategier används horder av budbärare för att ställa till "
-"det för fienden. Inget under att budbärare ofta ses med misstänksamhet "
-"och fruktan!"
+"I vissa spelstrategier används horder av budbärare för att ställa till det "
+"för fienden. Inget under att budbärare ofta ses med misstänksamhet och "
+"fruktan!"
 
 # DM> Tidigare "spejare" (lämpligt eftersom de kommer ganska sent i spelet)
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
@@ -21786,8 +21697,8 @@ msgid ""
 msgstr ""
 "En spion är mycket skickligare på spioneri än sin föregångare, budbäraren.\n"
 "\n"
-"Hon kan göra allt vad diplomaten kan göra, fast med större chans att "
-"lyckas. See hjälpen om diplomaten för en översikt.\n"
+"Hon kan göra allt vad diplomaten kan göra, fast med större chans att lyckas. "
+"See hjälpen om diplomaten för en översikt.\n"
 "\n"
 "Spionen kan även användas för att förgifta vattenförsörjningen för en "
 "fientlig stad (vilket minskar befolkningen); stjäla särskilda teknologier; "
@@ -21952,8 +21863,8 @@ msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
 msgstr ""
-"Elefanter är mäktiga djur tränade för strid och potenta chocktrupper. "
-"Å andra sidan försvarar de sig inte väl om de attackeras själva."
+"Elefanter är mäktiga djur tränade för strid och potenta chocktrupper. Å "
+"andra sidan försvarar de sig inte väl om de attackeras själva."
 
 #: data/civ2/units.ruleset:700
 msgid "Crusaders"
@@ -23413,7 +23324,7 @@ msgstr ""
 "Indien samlades, relativt sent, i Manus lagbok (se Manu), och litteraturen "
 "på sanskritspråket fick en rik blomstring.\"\n"
 "\n"
-"Källa: Nordisk familjebok \"uggleupplagan\""
+"Ur Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
@@ -23507,10 +23418,10 @@ msgid ""
 "planters and is now part of the United Kingdom."
 msgstr ""
 "Irland höll ut mot romarna och vikingarna, men erövrades av normanderna år "
-"1171. Under Engelskt styre till 1922 då större delen av landet erhöll "
-"begränsad självständighet, som blev republik 1949. Norra Irland bosattes "
-"under 1600-talet av skotska och engelska bönder och är idag en del av "
-"Storbritannien."
+"1171. Det var under engelskt styre till 1922 då större delen av landet "
+"erhöll begränsad självständighet, samt blev en republik 1949. Norra Irland "
+"bosattes under 1600-talet av skotska och engelska bönder och är idag en del "
+"av Storbritannien."
 
 #: data/nation/irish.ruleset:45
 msgid "High King"
@@ -23598,8 +23509,8 @@ msgid ""
 "the WWII victors."
 msgstr ""
 "Italien enades år 1870 efter årtionden av påtryckningar från nationalister. "
-"Det var en monarki under Savoy till 1922, sedan en fascistisk stat till "
-"1945, då demokrati inrättades av segrarna i andra världskriget."
+"Det var en monarki under furstehuset Savojen till 1922, sedan en fascistisk "
+"stat till 1945, då demokrati inrättades av segrarna i andra världskriget."
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -23716,7 +23627,7 @@ msgstr ""
 "jättestora, af sten huggna buddhabilder och flere andra minnen bära vittne."
 "\"\n"
 "\n"
-"Källa: Nordisk familjebok \"uggleupplagan\""
+"Ur Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
@@ -23758,7 +23669,7 @@ msgstr ""
 "invandring. Letterna utgöra dock alltjämt omkr. 73 proc. af befolkningen, "
 "hvadan Lettland i stort sedt är att anse som en lettisk nationalstat.\"\n"
 "\n"
-"Källa: Nordisk familjebok \"uggleupplagan\""
+"Ur Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -23777,7 +23688,7 @@ msgid ""
 msgstr ""
 "Dagens Libyen var under romartiden koloni under Rom, tills dess regionen "
 "erövrades av araberna på 600-talet. År 1912 blev landet koloni under Italien "
-"fram tills självständighet erhölls efter andra världskriget."
+"fram tills dess självständighet erhölls efter andra världskriget."
 
 #: data/nation/libyan.ruleset:23
 msgid "Dey"
@@ -23841,7 +23752,7 @@ msgstr ""
 "och England för att undervisas i tekniska yrken, förbjöd slafhandeln och "
 "tillät missionärer att inkomma (1820).\"\n"
 "\n"
-"Källa: Nordisk familjebok \"uggleupplagan\""
+"Ur Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
@@ -24036,7 +23947,7 @@ msgstr "nigerianerna"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr "Nigeria erhöllo fullständig självständighet från britterna år 1960."
+msgstr "Nigeria erhöll fullständig självständighet från britterna år 1960."
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
@@ -24794,7 +24705,7 @@ msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for it's \"larger than life\" cowboy mentality."
 msgstr ""
-"I nuvarande Texas anlades det första nybygget 1685 af La Salle, i Lavaca vid "
+"\"I nuvarande Texas anlades det första nybygget 1685 af La Salle, i Lavaca vid "
 "kusten. Långt tidigare hade emellertid spanska upptäcktsfarare, t. ex. De "
 "Veca och Coronado, färdats genom landet. Af spanjorerna upprättades "
 "åtskilliga missionsstationer i olika delar af Texas, som fått sitt namn "
@@ -24813,9 +24724,9 @@ msgstr ""
 "Förenta staterna. 1836-45 var Texas en oberoende republik. I dec. 1845 "
 "upptogs det som stat i unionen, trots Mexicos protester. Ett krig mellan "
 "detta land och unionen följde omedelbart och slutade 2 febr. 1848 genom "
-"freden i Guadalupe Hidalgo.\n"
+"freden i Guadalupe Hidalgo.\"\n"
 "\n"
-"Källa: Nordisk familjebok \"uggleupplagan\""
+"Ur Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -24893,7 +24804,7 @@ msgstr ""
 "kartagerna och vasallkonungarna i Numidien, och punernas språk och "
 "civilisation gåfvo vika för romarnas.\n"
 "\n"
-"Källa: Nordisk familjebok \"uggleupplagan\""
+"Ur Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -25819,27 +25730,3 @@ msgstr "Lag 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Lag 31"
-
-#~ msgid "Reason: line not found"
-#~ msgstr "Anledning: fann ej rad"
-
-#~ msgid "Reason: line too short (expected %d got %lu"
-#~ msgstr "Anledning: rad för kort (förväntade %d, fick %lu"
-
-#~ msgid ""
-#~ "When built, every civilization's attitude toward you is improved by 25%."
-#~ msgstr ""
-#~ "När det färdigställs förbättras varje civilisations inställning till oss "
-#~ "med 25%."
-
-
-
-#~ msgid "Team 32"
-#~ msgstr "Lag 32"
-
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr ""
-#~ "\n"
-#~ "färdig"
