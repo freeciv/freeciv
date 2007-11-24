@@ -4138,11 +4138,11 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr "Kan inte justera högsta tillåtna antal spelare i GGZ-läge."
 
 #: server/settings.c:178
-#, fuzzy
 msgid ""
 "Number of players is higher than requested value;\n"
 "Keeping old value."
-msgstr "Antal spelare är högre än efterfrågat värde; Behåller tidigare värde"
+msgstr "Antal spelare är högre än efterfrågat värde;\n"
+"Behåller tidigare värde"
 
 #: server/settings.c:234
 msgid "Map size (in thousands of tiles)"
@@ -4559,7 +4559,6 @@ msgid "Penalty when getting tech or gold from treaty"
 msgstr "Avgift vid anskaffning av teknologi eller guld genom avtal"
 
 #: server/settings.c:509
-#, fuzzy
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
@@ -4619,9 +4618,8 @@ msgstr ""
 "stadens storlek."
 
 #: server/settings.c:551
-#, fuzzy
 msgid "Percentage food lost when building needed"
-msgstr "Procent mat som går till spillo när vattenledning behövs"
+msgstr "Procent mat som går till spillo när byggnad behövs"
 
 #: server/settings.c:552
 msgid ""
@@ -4711,7 +4709,6 @@ msgid "Minimum distance between cities"
 msgstr "Minsta avståndet mellan städer"
 
 #: server/settings.c:617
-#, fuzzy
 msgid ""
 "When a player attempts to found a new city, there may be no other city in "
 "this distance. For example, when this value is 3, there have to be at least "
@@ -4969,7 +4966,6 @@ msgstr ""
 "detta till 0 för att förhindra möte utan beskickning."
 
 #: server/settings.c:808
-#, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "Bygg nytt slott om huvudstad förloras"
 
@@ -5108,7 +5104,6 @@ msgid "Timeout at least n seconds when enemy moved"
 msgstr "Timeout i åtminstone n sekunder efter fienden flyttat"
 
 #: server/settings.c:894
-#, fuzzy
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
@@ -5195,12 +5190,11 @@ msgid "Fixed-length turns play mode"
 msgstr "Omgångar med fast längd"
 
 #: server/settings.c:954
-#, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, even after all players have clicked on \"Turn Done\"."
 msgstr ""
-"Om detta är satt till 1 avslutas aldrig en omgång förrän tiden har löpt ut "
+"Om detta är satt till 1 avslutas aldrig en omgång förrän tiden har löpt ut, "
 "oavsett om samtliga spelare har tryckt på \"Avsluta omgång\"."
 
 #: server/settings.c:961
