@@ -126,6 +126,12 @@ struct vision_site {
 };
 
 #define vision_owner(v) ((v)->owner)
+void free_vision_site(struct vision_site *psite);
+struct vision_site *create_vision_site(int identity, struct tile *location,
+				       struct player *owner);
+struct vision_site *create_vision_site_from_city(const struct city *pcity);
+struct vision_site *update_vision_site_from_city(struct vision_site *psite,
+						 const struct city *pcity);
 
 /* get 'struct site_list' and related functions: */
 #define SPECLIST_TAG site

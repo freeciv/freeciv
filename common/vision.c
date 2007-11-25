@@ -71,3 +71,51 @@ int vision_get_sight(const struct vision *vision, enum vision_layer vlayer)
 {
   return vision->radius_sq[vlayer];
 }
+
+/****************************************************************************
+  ...
+****************************************************************************/
+void free_vision_site(struct vision_site *psite)
+{
+  free(psite);
+}
+
+/****************************************************************************
+  Returns the basic structure.
+****************************************************************************/
+struct vision_site *create_vision_site(int identity, struct tile *location,
+				       struct player *owner)
+{
+  struct vision_site *psite = fc_calloc(1, sizeof(*psite));
+
+  psite->identity = identity;
+  psite->location = location;
+  psite->owner = owner;
+  return psite;
+}
+
+/****************************************************************************
+  Returns the basic structure filled with initial elements.
+****************************************************************************/
+struct vision_site *create_vision_site_from_city(const struct city *pcity)
+{
+  struct vision_site *psite = create_vision_site(pcity->id, pcity->tile,
+						 city_owner(pcity));
+
+  psite->size = pcity->size;
+  sz_strlcpy(psite->name, pcity->name);
+  return psite;
+}
+
+/****************************************************************************
+  Returns the basic structure filled with current elements.
+****************************************************************************/
+struct vision_site *update_vision_site_from_city(struct vision_site *psite,
+						 const struct city *pcity)
+{
+  psite->identity = pcity->id;
+  psite->owner = pcity->owner;
+  psite->size = pcity->size;
+  sz_strlcpy(psite->name, pcity->name);
+  return psite;
+}

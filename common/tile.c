@@ -53,7 +53,12 @@ void tile_set_owner(struct tile *ptile, struct player *owner)
 ****************************************************************************/
 struct city *tile_city(const struct tile *ptile)
 {
-  return ptile->city;
+  struct city *pcity = ptile->worked;
+
+  if (NULL != pcity && ptile == pcity->tile) {
+    return pcity;
+  }
+  return NULL;
 }
 
 /****************************************************************************
@@ -61,7 +66,7 @@ struct city *tile_city(const struct tile *ptile)
 ****************************************************************************/
 void tile_set_city(struct tile *ptile, struct city *pcity)
 {
-  ptile->city = pcity;
+  ptile->worked = pcity;		/* probably duplicate effort */
 }
 
 #ifndef tile_terrain

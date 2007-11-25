@@ -167,7 +167,7 @@ static void check_map(void)
       SANITY_TILE(ptile, tile_owner(ptile) != NULL);
     }
     if (tile_owner(ptile) != NULL) {
-      SANITY_TILE(ptile, ptile->owner_source != NULL);
+      SANITY_TILE(ptile, map_get_player_site(ptile, tile_owner(ptile)) != NULL);
     }
 
     index_to_map_pos(&x, &y, tile_index(ptile));

@@ -277,11 +277,9 @@ static void tile_init(struct tile *ptile)
   tile_clear_all_specials (ptile);
   ptile->resource = NULL;
   ptile->terrain  = T_UNKNOWN;
-  ptile->city     = NULL;
   ptile->units    = unit_list_new();
-  ptile->worked   = NULL; /* pointer to city working tile */
-  ptile->owner    = NULL; /* Tile not claimed by any nation. */
-  ptile->owner_source = NULL;
+  ptile->owner    = NULL; /* Not claimed by any player. */
+  ptile->worked   = NULL; /* No city working here. */
   ptile->spec_sprite = NULL;
 }
 
@@ -582,9 +580,15 @@ bool is_water_adjacent_to_tile(const struct tile *ptile)
   }
 
   cardinal_adjc_iterate(ptile, tile1) {
+    struct terrain* pterrain1 = tile_terrain(tile1);
+
+    if (T_UNKNOWN == pterrain1) {
+      continue;
+    }
+
     if (tile_has_special(tile1, S_RIVER)
      || tile_has_special(tile1, S_IRRIGATION)
-     || is_ocean_tile(tile1)) {
+     || terrain_has_flag(pterrain1, TER_OCEANIC)) {
       return TRUE;
     }
   } cardinal_adjc_iterate_end;

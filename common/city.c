@@ -446,6 +446,7 @@ int city_production_turns_to_build(const struct city *pcity,
 **************************************************************************/
 struct player *city_owner(const struct city *pcity)
 {
+  assert(NULL != pcity->owner);
   return pcity->owner;
 }
 

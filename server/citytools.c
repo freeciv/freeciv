@@ -838,6 +838,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   city_list_unlink(pgiver->cities, pcity);
   pcity->owner = ptaker;
   map_claim_ownership(pcity->tile, ptaker, pcity->tile);
+  map_claim_border(pcity->tile, ptaker);
   city_list_prepend(ptaker->cities, pcity);
 
   transfer_city_units(ptaker, pgiver, old_city_units,
@@ -946,31 +947,13 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 void create_city(struct player *pplayer, struct tile *ptile,
 		 const char *name)
 {
-  struct city *pcity;
   int x_itr, y_itr;
   struct nation_type *nation = nation_of_player(pplayer);
-  struct base_type *pbase;
+  struct base_type *pbase = tile_get_base(ptile);
+  struct city *pcity = create_city_virtual(pplayer, ptile, name);
 
   freelog(LOG_DEBUG, "Creating city %s", name);
 
-  /* Ensure that we claim the ground we stand on */
-  map_claim_ownership(ptile, pplayer, ptile);
-
-  if (terrain_control.may_road) {
-    tile_set_special(ptile, S_ROAD);
-    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
-      tile_set_special(ptile, S_RAILROAD);
-      update_tile_knowledge(ptile);
-    }
-  }
-
-  /* It is possible that update_tile_knowledge() already sent tile information
-   * to some players, but we don't want to make any special handling for
-   * those cases.  The network code may prevent asecond packet from being
-   * sent anyway. */
-  send_tile_info(NULL, ptile, FALSE);
-
-  pcity = create_city_virtual(pplayer, ptile, name);
   pcity->ai.trade_want = TRADE_WEIGHTING;
   pcity->id = get_next_id_number();
   idex_register_city(pcity);
@@ -1007,8 +990,25 @@ void create_city(struct player *pplayer, struct tile *ptile,
   city_refresh_vision(pcity);
 
   tile_set_city(ptile, pcity);
-
   city_list_prepend(pplayer->cities, pcity);
+
+  /* Claim the ground we stand on */
+  map_claim_ownership(ptile, pplayer, ptile);
+  map_claim_border(ptile, pplayer);
+
+  if (terrain_control.may_road) {
+    tile_set_special(ptile, S_ROAD);
+    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
+      tile_set_special(ptile, S_RAILROAD);
+      update_tile_knowledge(ptile);
+    }
+  }
+
+  /* It is possible that update_tile_knowledge() already sent tile information
+   * to some players, but we don't want to make any special handling for
+   * those cases.  The network code may prevent a second packet from being
+   * sent anyway. */
+  send_tile_info(NULL, ptile, FALSE);
 
   /* it is possible to build a city on a tile that is already worked
    * this will displace the worker on the newly-built city's tile -- Syela */
@@ -1041,8 +1041,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   city_refresh(pcity);
   auto_arrange_workers(pcity);
 
-  /* Put vision back to normal, if base acted as a watchtower */
-  pbase = tile_get_base(ptile);
+  /* If base acted as a watchtower, put vision back to normal */
   if (pbase) {
     tile_remove_base(ptile);
     unit_list_refresh_vision(ptile->units);
@@ -1709,7 +1708,6 @@ broadcast regardless.
 bool update_dumb_city(struct player *pplayer, struct city *pcity)
 {
   bv_imprs improvements;
-  struct player_tile *plrtile = map_get_player_tile(pcity->tile, pplayer);
   struct vision_site *pdcity = map_get_player_city(pcity->tile, pplayer);
   /* pcity->occupied isn't used at the server, so we go straight to the
    * unit list to check the occupied status. */
@@ -1726,37 +1724,31 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
     }
   } improvement_iterate_end;
 
-  if (pdcity
-      && pdcity->identity == pcity->id
-      && strcmp(pdcity->name, pcity->name) == 0
-      && pdcity->size == pcity->size
-      && pdcity->occupied == occupied
-      && pdcity->walls == walls
-      && pdcity->happy == happy
-      && pdcity->unhappy == unhappy
-      && vision_owner(pdcity) == city_owner(pcity)
-      && BV_ARE_EQUAL(pdcity->improvements, improvements)) {
+  if (NULL == pdcity) {
+    pdcity = create_vision_site_from_city(pcity);
+    map_get_player_tile(pcity->tile, pplayer)->site = pdcity;
+  } else if (pdcity->identity == pcity->id
+	  && vision_owner(pdcity) == city_owner(pcity)
+	  && pdcity->size == pcity->size
+	  && 0 == strcmp(pdcity->name, pcity->name)
+	  && pdcity->occupied == occupied
+	  && pdcity->walls == walls
+	  && pdcity->happy == happy
+	  && pdcity->unhappy == unhappy
+	  && BV_ARE_EQUAL(pdcity->improvements, improvements)) {
     return FALSE;
   }
 
-  if (NULL == pdcity) {
-    pdcity = plrtile->site = fc_calloc(1, sizeof(*pdcity));
-    pdcity->identity = pcity->id;
-  }
   if (pdcity->identity != pcity->id) {
     freelog(LOG_ERROR, "Trying to update old city (wrong ID)"
 	    " at %i,%i for player %s",
-	    pcity->tile->x, pcity->tile->y, pplayer->name);
+	    TILE_XY(pcity->tile), pplayer->name);
     pdcity->identity = pcity->id;   /* ?? */
   }
-  sz_strlcpy(pdcity->name, pcity->name);
-  pdcity->size = pcity->size;
   pdcity->occupied = occupied;
   pdcity->walls = walls;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;
-  pdcity->owner = city_owner(pcity);
-  pdcity->location = pcity->tile;
   pdcity->improvements = improvements;
 
   return TRUE;
