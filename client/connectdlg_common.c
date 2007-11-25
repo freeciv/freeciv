@@ -243,9 +243,9 @@ bool client_start_server(void)
     fclose(stdout);
     fclose(stderr);
 
-    /* include the port to avoid duplication */
+    /* FIXME: include the port to avoid duplication? */
     if (logfile) {
-      fd = open(logfile, O_WRONLY | O_CREAT);
+      fd = open(logfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 
       if (fd != 1) {
         dup2(fd, 1);
