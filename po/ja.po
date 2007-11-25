@@ -22230,6 +22230,7 @@ msgstr "外交官"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
+#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -22250,6 +22251,20 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"- 外交官は他のプレイヤーの都市に移動することで，他の文明に大使館を設立でき"
+"ます。\n"
+"\n"
+"- 外交官は敵の生産物を破壊したり，敵の都市から科学を盗んだりもできます。"
+"(科学は1都市につき1回だけ盗めます。)\n"
+"\n"
+"- 外交官は敵の部隊に賄賂を贈ることもできます。(相手部隊のいる土地に，他の"
+"部隊がいない場合に限ります)\n"
+"\n"
+"- 外交官は敵の都市で叛乱を起こし，あなたに帰属させることさえできます。それ"
+"なりの資金があればですが。\n"
+"\n"
+"- ある戦略では，外交官の大群を用いて敵に大損害を与えることもあります。外交"
+"官が疑いと怖れの目で見られるのは驚くほどのことではありません!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"

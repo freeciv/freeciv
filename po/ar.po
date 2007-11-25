@@ -20392,6 +20392,7 @@ msgstr "دبلوماسي"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
+#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -20412,6 +20413,9 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دبلوماسي مع متحرك الدبلوماسيون "
+"أداة تعريف أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دبلوماسي وحدات وحدات "
+"وحدات الدبلوماسيون دوران في الدبلوماسيون قليلا الدبلوماسيون مع!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"

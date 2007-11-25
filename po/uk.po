@@ -21294,6 +21294,7 @@ msgstr "Д╕пломат"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
+#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -21314,6 +21315,22 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"- Д╕пломат може засновувати амбасаду з ╕ншими цив╕л╕зац╕ями рухаючись у "
+"м╕ста ╕нш╕х гравц╕в.\n"
+"\n"
+"- Д╕пломати також можуть спробувати саботувати вороже виробництво, або "
+"вкрасти знання з ворожого м╕ста. (Знання може бути вкрадено лише одного "
+"разу на м╕сто).\n"
+"\n"
+"- Д╕пломат також може п╕дкупити ворожий заг╕н, якщо цей заг╕н лише один "
+"на кл╕тинц╕.\n"
+"\n"
+"- Д╕пломати також можуть розпочати революц╕ю у ворожому м╕ст╕ та зробити "
+"його Ваш╕м, якщо вистачить грошей!\n"
+"\n"
+"- У деяк╕х стратег╕ях гри, велика к╕льк╕сть Д╕пломат╕в може бути "
+"використана аби викликати спустошення у ворога. Невелике диво, що на "
+"Д╕пломат╕в дивляться ╕з острахом та п╕дозрою!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"

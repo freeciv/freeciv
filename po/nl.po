@@ -21532,6 +21532,7 @@ msgstr "Diplomaat"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
+#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -21552,6 +21553,22 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"- Een Diplomaat kan een ambassade in een andere beschaving vestigen door "
+"in een stad van een tegenspeler te gaan.\n"
+"\n"
+"- Diplomaten kunnen ook proberen de vijandelijke productie te saboteren, "
+"of een vooruitgang te stelen van een stad. (Een vooruitgang kan maar "
+"eenmaal per stad worden gestolen).\n"
+"\n"
+"- Diplomaten kunnen ook een vijandelijke eenheid overhalen over te lopen "
+"indien die eenheid de enige is op zijn vlak.\n"
+"\n"
+"- Diplomaten kunnen zelfs een revolutie starten in een vijandelijke stad "
+"en deze omzetten in uw eigen stad, als u genoeg geld hebt!\n"
+"\n"
+"- In sommige spelstrategieën kunnen hordes Diplomaten worden gebruikt om "
+"de vijand in wanhoop te brengen. Geen wonder dat Diplomaten vaak met "
+"argwaan en angst worden bekeken!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"

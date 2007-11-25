@@ -21720,6 +21720,7 @@ msgstr "Diplomático"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
+#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -21740,6 +21741,19 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"- Un Diplomático puede establecer embajadas con otras civilizaciones "
+"entrando en la ciudad de otro jugador.\n"
+"\n"
+"- Los Diplomáticos también pueden intentar sabotear la producción "
+"enemiga, o robar un avance de una ciudad enemiga (sólo se puede robar un "
+"avance de cada ciudad).\n"
+"\n"
+"- ¡Un Diplomático puede incluso provocar una sublevación en una ciudad "
+"enemiga, y hacer que pase a ser tuya, si tienes suficiente oro!\n"
+"\n"
+"- En algunas estrategias de juego, se puede usar hordas de Diplomáticos "
+"para debilitar al enemigo.  ¡No es de extrañar que a menudo se mire a los "
+"Diplomáticos con sospecha y temor!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"

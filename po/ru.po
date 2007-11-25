@@ -21501,6 +21501,7 @@ msgstr "Дипломат"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
+#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -21521,6 +21522,22 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"- Дипломат может создать посольство у другой цивилизации, входя в город "
+"этой цивилизации.\n"
+"\n"
+"- Дипломаты также могут попытаться саботировать вражеское производство, "
+"или украсть технологию из вражеского города. (Из каждого города можно "
+"украсть только одну технологию).\n"
+"\n"
+"- Дипломат может подкупить вражеское соединение, если соединение только "
+"одно на данном квадрате.\n"
+"\n"
+"- Дипломат может начать революцию во вражеском городе, и превратить его в "
+"Ваш, если у Вас есть деньги!\n"
+"\n"
+"- В определённых стратегиях, орды димпломатов могут использоваться для "
+"насенения серьёзного вреда противнику. Неудивительно, что к дипломатам "
+"часто относятся с подозрением и страхом."
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"

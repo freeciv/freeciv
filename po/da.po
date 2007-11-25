@@ -21421,6 +21421,7 @@ msgstr "Diplomat"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
+#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -21441,6 +21442,22 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"- En diplomat kan oprette ambassader hos andre civilisationer ved at "
+"flytte ind i en anden spillers by.\n"
+"\n"
+"- Diplomater kan også sabotere fjendens produktion, eller stjæle et "
+"fremskridt fra en fjendtlig by. (Kun et fremskridt kan stjæles fra en "
+"by).\n"
+"\n"
+"- En diplomat kan også bestikke en fjendtlig enhed, hvis den enhed er den "
+"eneste enhed på sit felt.\n"
+"\n"
+"- Diplomater kan også starte en revolution i en fjendtlig by og gøre den "
+"til din egen, hvis du kan betale!\n"
+"\n"
+"- I visse spilstrategier kan horder af diplomater bruges til at overtage "
+"mange byer på meget kort tid. Ikke mærkeligt at diplomater ofte bliver "
+"set på med mistænksomhed og frygt!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
 msgid "Spy"
