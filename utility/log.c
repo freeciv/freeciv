@@ -183,7 +183,7 @@ void log_init(const char *filename, int initial_level,
     log_filename = NULL;
   }
   if (filename && strlen(filename) > 0) {
-    log_filename = strdup(filename);
+    log_filename = mystrdup(filename);
   } else {
     log_filename = NULL;
   }
