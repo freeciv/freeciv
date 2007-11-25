@@ -22,7 +22,7 @@ leader_sex = "Male", "Female", "Male", "Female", "Male", "Male", "Female",
 
 flag="australia"
 flag_alt = "-"
-city_style = "Tropical"
+city_style = "European"
 
 ruler_titles = { "government",      "male_title",        "female_title"
                 "Democracy", _("Prime Minister"), _("?female:Prime Minister")
