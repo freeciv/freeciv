@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-24 23:30+0900\n"
+"POT-Creation-Date: 2007-11-26 08:46+0900\n"
 "PO-Revision-Date: 2007-08-12 15:15+0300\n"
 "Last-Translator: Chen Levy <contrib@chenlevy.com>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -7094,7 +7094,7 @@ msgstr "?סנא: מושל"
 
 #: client/cityrepdata.c:523 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-sdl/citydlg.c:3809
-#: client/gui-sdl/cma_fe.c:855 client/gui-win32/citydlg.c:726
+#: client/gui-sdl/cma_fe.c:857 client/gui-win32/citydlg.c:726
 #: data/Freeciv.in:1459 data/helpdata.txt:820
 msgid "Citizen Governor"
 msgstr "מושל אזרחים"
@@ -10079,17 +10079,17 @@ msgstr "_ערכים קבועים:"
 msgid "Results"
 msgstr "קבוצת כללים"
 
-#: client/gui-gtk-2.0/cma_fe.c:316 client/gui-sdl/cma_fe.c:884
+#: client/gui-gtk-2.0/cma_fe.c:316 client/gui-sdl/cma_fe.c:886
 #: client/gui-win32/cma_fe.c:215
 msgid "Minimal Surplus"
 msgstr "עודף מזערי"
 
-#: client/gui-gtk-2.0/cma_fe.c:319 client/gui-sdl/cma_fe.c:887
+#: client/gui-gtk-2.0/cma_fe.c:319 client/gui-sdl/cma_fe.c:889
 #: client/gui-win32/cma_fe.c:216
 msgid "Factor"
 msgstr "פקטור"
 
-#: client/gui-gtk-2.0/cma_fe.c:354 client/gui-sdl/cma_fe.c:934
+#: client/gui-gtk-2.0/cma_fe.c:354 client/gui-sdl/cma_fe.c:936
 #: client/gui-win32/cma_fe.c:220 client/gui-xaw/cma_fe.c:179
 #: client/gui-xaw/cma_fe.c:221
 msgid "Celebrate"
@@ -10103,18 +10103,18 @@ msgstr "מושל _אופשר"
 msgid "Governor Disabl_ed"
 msgstr "מושל _בוטל"
 
-#: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:234
-#: client/gui-sdl/cma_fe.c:306 client/gui-win32/cma_fe.c:385
+#: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:236
+#: client/gui-sdl/cma_fe.c:308 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
 msgstr "ערך קבוע חדש"
 
-#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:279
+#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:281
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
 msgstr "תן שם לערך קבוע"
 
-#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:295
+#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:297
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
 msgstr "איזה שם לתת לערך קבוע זה?"
@@ -12019,7 +12019,7 @@ msgid "Keep moving"
 msgstr "המשך לנוע"
 
 #: client/gui-sdl/chatline.c:201 client/gui-sdl/citydlg.c:3685
-#: client/gui-sdl/cma_fe.c:467 client/gui-sdl/cma_fe.c:873
+#: client/gui-sdl/cma_fe.c:469 client/gui-sdl/cma_fe.c:875
 #: client/gui-sdl/dialogs.c:280 client/gui-sdl/dialogs.c:645
 #: client/gui-sdl/dialogs.c:879 client/gui-sdl/dialogs.c:1207
 #: client/gui-sdl/dialogs.c:1761 client/gui-sdl/diplomat_dialog.c:268
@@ -12134,7 +12134,7 @@ msgstr "כבר קנית בתור הזה."
 msgid "Buy it?"
 msgstr "קנה את זה?"
 
-#: client/gui-sdl/citydlg.c:1204 client/gui-sdl/cma_fe.c:325
+#: client/gui-sdl/citydlg.c:1204 client/gui-sdl/cma_fe.c:327
 #: client/gui-sdl/diplodlg.c:1328 client/gui-sdl/diplomat_dialog.c:1211
 #: client/gui-sdl/diplomat_dialog.c:1417 client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:220 client/gui-sdl/repodlgs.c:1558
@@ -12150,7 +12150,7 @@ msgstr "קנה את זה?"
 msgid "No"
 msgstr "לא"
 
-#: client/gui-sdl/citydlg.c:1215 client/gui-sdl/cma_fe.c:316
+#: client/gui-sdl/citydlg.c:1215 client/gui-sdl/cma_fe.c:318
 #: client/gui-sdl/diplodlg.c:1338 client/gui-sdl/diplomat_dialog.c:1200
 #: client/gui-sdl/diplomat_dialog.c:1407 client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:231 client/gui-win32/repodlgs.c:576
@@ -12402,37 +12402,37 @@ msgid ""
 "finished"
 msgstr "הסתיים"
 
-#: client/gui-sdl/cma_fe.c:450 client/gui-win32/cma_fe.c:458
+#: client/gui-sdl/cma_fe.c:452 client/gui-win32/cma_fe.c:458
 msgid "Presets"
 msgstr "נוכח"
 
-#: client/gui-sdl/cma_fe.c:853
+#: client/gui-sdl/cma_fe.c:855
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
 msgstr "היער %s (אוכלוסייה %s אזרחים) : %s"
 
-#: client/gui-sdl/cma_fe.c:969
+#: client/gui-sdl/cma_fe.c:971
 msgid "Save settings as..."
 msgstr "שמור מהגדרות בשם..."
 
-#: client/gui-sdl/cma_fe.c:978
+#: client/gui-sdl/cma_fe.c:980
 msgid "Load settings"
 msgstr "טען הגדרות"
 
-#: client/gui-sdl/cma_fe.c:987
+#: client/gui-sdl/cma_fe.c:989
 msgid "Delete settings"
 msgstr "מחק הגדרות"
 
-#: client/gui-sdl/cma_fe.c:996 client/gui-win32/cma_fe.c:490
+#: client/gui-sdl/cma_fe.c:998 client/gui-win32/cma_fe.c:490
 msgid "Control city"
 msgstr "שלוט בעיר"
 
-#: client/gui-sdl/cma_fe.c:1005 client/gui-win32/cma_fe.c:488
+#: client/gui-sdl/cma_fe.c:1007 client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
 msgid "Apply once"
 msgstr "החל הפעם"
 
-#: client/gui-sdl/cma_fe.c:1014 client/gui-win32/cma_fe.c:492
+#: client/gui-sdl/cma_fe.c:1016 client/gui-win32/cma_fe.c:492
 msgid "Release city"
 msgstr "שחרר עיר"
 

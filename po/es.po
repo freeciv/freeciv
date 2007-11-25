@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-24 23:30+0900\n"
+"POT-Creation-Date: 2007-11-26 08:46+0900\n"
 "PO-Revision-Date: 2007-08-11 01:51+0300\n"
 "Last-Translator: Claudio M. Camacho <claudiomkd@gmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
@@ -7945,7 +7945,7 @@ msgstr "Gobernador"
 
 #: client/cityrepdata.c:523 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-sdl/citydlg.c:3809
-#: client/gui-sdl/cma_fe.c:855 client/gui-win32/citydlg.c:726
+#: client/gui-sdl/cma_fe.c:857 client/gui-win32/citydlg.c:726
 #: data/Freeciv.in:1459 data/helpdata.txt:820
 msgid "Citizen Governor"
 msgstr "Gobernador del Pueblo"
@@ -11116,17 +11116,17 @@ msgstr "Valores por _defecto:"
 msgid "Results"
 msgstr "Resultados"
 
-#: client/gui-gtk-2.0/cma_fe.c:316 client/gui-sdl/cma_fe.c:884
+#: client/gui-gtk-2.0/cma_fe.c:316 client/gui-sdl/cma_fe.c:886
 #: client/gui-win32/cma_fe.c:215
 msgid "Minimal Surplus"
 msgstr "Superávit mínimo"
 
-#: client/gui-gtk-2.0/cma_fe.c:319 client/gui-sdl/cma_fe.c:887
+#: client/gui-gtk-2.0/cma_fe.c:319 client/gui-sdl/cma_fe.c:889
 #: client/gui-win32/cma_fe.c:216
 msgid "Factor"
 msgstr "Prioridad"
 
-#: client/gui-gtk-2.0/cma_fe.c:354 client/gui-sdl/cma_fe.c:934
+#: client/gui-gtk-2.0/cma_fe.c:354 client/gui-sdl/cma_fe.c:936
 #: client/gui-win32/cma_fe.c:220 client/gui-xaw/cma_fe.c:179
 #: client/gui-xaw/cma_fe.c:221
 msgid "Celebrate"
@@ -11140,18 +11140,18 @@ msgstr "Gobernador Activa_do"
 msgid "Governor Disabl_ed"
 msgstr "CMA Deshabilita_do"
 
-#: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:234
-#: client/gui-sdl/cma_fe.c:306 client/gui-win32/cma_fe.c:385
+#: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:236
+#: client/gui-sdl/cma_fe.c:308 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
 msgstr "nueva configuración"
 
-#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:279
+#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:281
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
 msgstr "Nombre de la nueva configuración"
 
-#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:295
+#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:297
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
 msgstr "¿Como se llamará la nueva configuración?"
@@ -13073,7 +13073,7 @@ msgid "Keep moving"
 msgstr "Seguir moviéndose"
 
 #: client/gui-sdl/chatline.c:201 client/gui-sdl/citydlg.c:3685
-#: client/gui-sdl/cma_fe.c:467 client/gui-sdl/cma_fe.c:873
+#: client/gui-sdl/cma_fe.c:469 client/gui-sdl/cma_fe.c:875
 #: client/gui-sdl/dialogs.c:280 client/gui-sdl/dialogs.c:645
 #: client/gui-sdl/dialogs.c:879 client/gui-sdl/dialogs.c:1207
 #: client/gui-sdl/dialogs.c:1761 client/gui-sdl/diplomat_dialog.c:268
@@ -13197,7 +13197,7 @@ msgstr "Lo siento, ya has comprado durante este turno."
 msgid "Buy it?"
 msgstr "¿Comprarlo?"
 
-#: client/gui-sdl/citydlg.c:1204 client/gui-sdl/cma_fe.c:325
+#: client/gui-sdl/citydlg.c:1204 client/gui-sdl/cma_fe.c:327
 #: client/gui-sdl/diplodlg.c:1328 client/gui-sdl/diplomat_dialog.c:1211
 #: client/gui-sdl/diplomat_dialog.c:1417 client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:220 client/gui-sdl/repodlgs.c:1558
@@ -13213,7 +13213,7 @@ msgstr "¿Comprarlo?"
 msgid "No"
 msgstr "No"
 
-#: client/gui-sdl/citydlg.c:1215 client/gui-sdl/cma_fe.c:316
+#: client/gui-sdl/citydlg.c:1215 client/gui-sdl/cma_fe.c:318
 #: client/gui-sdl/diplodlg.c:1338 client/gui-sdl/diplomat_dialog.c:1200
 #: client/gui-sdl/diplomat_dialog.c:1407 client/gui-sdl/plrdlg.c:222
 #: client/gui-sdl/repodlgs.c:231 client/gui-win32/repodlgs.c:576
@@ -13467,37 +13467,37 @@ msgid ""
 "finished"
 msgstr "acabado"
 
-#: client/gui-sdl/cma_fe.c:450 client/gui-win32/cma_fe.c:458
+#: client/gui-sdl/cma_fe.c:452 client/gui-win32/cma_fe.c:458
 msgid "Presets"
 msgstr "Configuraciones"
 
-#: client/gui-sdl/cma_fe.c:853
+#: client/gui-sdl/cma_fe.c:855
 #, c-format
 msgid "City of %s (Population %s citizens) : %s"
 msgstr "Ciudad de %s (Población: %s ciudadanos) : %s"
 
-#: client/gui-sdl/cma_fe.c:969
+#: client/gui-sdl/cma_fe.c:971
 msgid "Save settings as..."
 msgstr "Guardar configuración en..."
 
-#: client/gui-sdl/cma_fe.c:978
+#: client/gui-sdl/cma_fe.c:980
 msgid "Load settings"
 msgstr "Cargar configuración"
 
-#: client/gui-sdl/cma_fe.c:987
+#: client/gui-sdl/cma_fe.c:989
 msgid "Delete settings"
 msgstr "Borrar configuración"
 
-#: client/gui-sdl/cma_fe.c:996 client/gui-win32/cma_fe.c:490
+#: client/gui-sdl/cma_fe.c:998 client/gui-win32/cma_fe.c:490
 msgid "Control city"
 msgstr "Controlar la ciudad"
 
-#: client/gui-sdl/cma_fe.c:1005 client/gui-win32/cma_fe.c:488
+#: client/gui-sdl/cma_fe.c:1007 client/gui-win32/cma_fe.c:488
 #: data/Freeciv.in:1470
 msgid "Apply once"
 msgstr "Aplicar una vez"
 
-#: client/gui-sdl/cma_fe.c:1014 client/gui-win32/cma_fe.c:492
+#: client/gui-sdl/cma_fe.c:1016 client/gui-win32/cma_fe.c:492
 msgid "Release city"
 msgstr "Dejar la ciudad"
 
@@ -21744,15 +21744,15 @@ msgstr ""
 "- Un Diplomático puede establecer embajadas con otras civilizaciones "
 "entrando en la ciudad de otro jugador.\n"
 "\n"
-"- Los Diplomáticos también pueden intentar sabotear la producción "
-"enemiga, o robar un avance de una ciudad enemiga (sólo se puede robar un "
-"avance de cada ciudad).\n"
+"- Los Diplomáticos también pueden intentar sabotear la producción enemiga, o "
+"robar un avance de una ciudad enemiga (sólo se puede robar un avance de cada "
+"ciudad).\n"
 "\n"
 "- ¡Un Diplomático puede incluso provocar una sublevación en una ciudad "
 "enemiga, y hacer que pase a ser tuya, si tienes suficiente oro!\n"
 "\n"
-"- En algunas estrategias de juego, se puede usar hordas de Diplomáticos "
-"para debilitar al enemigo.  ¡No es de extrañar que a menudo se mire a los "
+"- En algunas estrategias de juego, se puede usar hordas de Diplomáticos para "
+"debilitar al enemigo.  ¡No es de extrañar que a menudo se mire a los "
 "Diplomáticos con sospecha y temor!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
