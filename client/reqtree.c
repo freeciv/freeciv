@@ -905,6 +905,8 @@ static enum color_std node_color(struct tree_node *node)
 static enum reqtree_edge_type get_edge_type(struct tree_node *node, 
                                             struct tree_node *dest_node)
 {
+  struct player_research* research;
+
   if (dest_node == NULL) {
     /* assume node is a dummy */
     dest_node = node;
@@ -919,9 +921,10 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
   /* find destination advance by recursing in dest_node->provide[]
    * watch out: recursion */
   if (dest_node->is_dummy) {
-    assert(dest_node->nprovide > 0);
     enum reqtree_edge_type sum_type = REQTREE_EDGE;
     int i;
+
+    assert(dest_node->nprovide > 0);
     for (i = 0; i < dest_node->nprovide; ++i) {
       enum reqtree_edge_type type = get_edge_type(node, dest_node->provide[i]);
       switch (type) {
@@ -940,7 +943,7 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     return sum_type;
   }
 
-  struct player_research* research = get_player_research(game.player_ptr);
+  research = get_player_research(game.player_ptr);
 
   if (!game.player_ptr || !research) {
     return REQTREE_KNOWN_EDGE; /* Global observer case */
