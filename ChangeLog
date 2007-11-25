@@ -1,4 +1,1022 @@
 
+Sun, 25 Nov 2007 15:14:19 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.1.
+
+
+Sun, 25 Nov 2007 15:01:37 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/reqtree.c
+
+	Don't declare new variables mid-function.
+
+	Patch by me in PR#39905.
+
+
+Sun, 25 Nov 2007 14:55:51 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/m4/ggz.m4
+
+	New ggz.m4 borrowed from ggz svn. See PR#39611.
+
+
+Sun, 25 Nov 2007 14:37:43 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	Slight correction
+
+
+Sun, 25 Nov 2007 14:33:26 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/utility/log.c
+
+	Use mystrdup instead of strdup. Patch by Jason Dorje Short in PR#39904.
+
+
+Sun, 25 Nov 2007 14:12:06 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/nation/australian.ruleset
+
+	Change Australian city style to European, as requested by Karl Goetz <kamping_kaiser@internode.on.net> in PR#39887.
+
+
+Sun, 25 Nov 2007 10:42:45 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#39541) [Bug] Unit help claims that only spy can investigate cities -- hand built fuzzy translations
+
+
+Sun, 25 Nov 2007 04:27:32 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3870 translated, 434 untranslated messages
+
+
+Sun, 25 Nov 2007 04:18:54 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/connectdlg_common.c
+
+	(PR#39901) Patch: Fix permission on open() call -- reported by Brian Pepple
+
+
+Sun, 25 Nov 2007 03:23:33 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3828 translated, 476 untranslated
+
+
+Sat, 24 Nov 2007 20:42:36 -0800  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/cma_fe.c
+
+	Fix slider movement in the city governor dialog. Reported by <dergringo@gmail.com> in PR#39859, patch by me.
+
+
+Sat, 24 Nov 2007 14:56:23 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	4304 translated messages
+
+
+Sat, 24 Nov 2007 09:53:26 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	update
+	4304 translated messages.
+
+
+Sat, 24 Nov 2007 07:05:47 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4304 translated messages.
+
+
+Sat, 24 Nov 2007 06:55:35 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Commit changes after update-po
+
+
+Sat, 24 Nov 2007 04:56:04 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/server/settings.c
+
+	(PR#39723) Typo in server/settings.c -- reported by Joan Creus, revised po keys by me
+
+
+Sat, 24 Nov 2007 04:47:21 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/flags/unknown-shield.png
+	   M /branches/S2_1/data/flags/unknown.png
+	   M /branches/S2_1/data/flags/unknown.svg
+
+	Fix Inkscape crash.
+
+
+Sat, 24 Nov 2007 03:56:55 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/flags/rome-shield.png
+	   M /branches/S2_1/data/flags/rome.png
+	   M /branches/S2_1/data/flags/rome.svg
+
+	Fix Inkscape crash.
+
+
+Sat, 24 Nov 2007 03:31:55 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/server/savegame.c
+
+	(PR#39898) Buffer overflow during autosave -- reported by loganjerry@gmail.com
+
+
+Sat, 24 Nov 2007 02:27:04 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/flags/constantine-shield.png
+	   M /branches/S2_1/data/flags/constantine.png
+	   M /branches/S2_1/data/flags/constantine.svg
+
+	Fix Inkscape crash.
+
+
+Fri, 23 Nov 2007 19:10:50 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/civclient.dsc.in
+	   M /branches/S2_1/data/civserver.dsc.in
+
+	Update URL
+
+
+Fri, 23 Nov 2007 17:53:48 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4304 translated messages.
+
+
+Fri, 23 Nov 2007 14:59:14 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/climisc.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/scripts/setup_auth_server.sh
+	   M /branches/S2_1/server/unittools.c
+
+	(PR#39818) 2.1.0 multiple bugs: "gives" -> "give"
+	  reported by Christoph Petschnig <christoph@petschnig.cc>
+
+	(PR#39884) Typo "succesfully" in English airlift message
+	  reported by Jacob Nevins <jacobn+freecivrt@chiark.greenend.org.uk>
+
+
+Fri, 23 Nov 2007 14:04:24 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/audio.c
+	   M /branches/S2_1/client/gui-sdl/gui_string.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#39725) Various typos in client, remove log translation
+
+
+Fri, 23 Nov 2007 12:40:57 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/citydlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gotodlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
+	   M /branches/S2_1/client/gui-gtk-2.0/plrdlg.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#23078) 2.1.0 (F1) City & (F3) Player - (Alt-H) S_how conflicts with _Help
+
+
+Fri, 23 Nov 2007 06:20:53 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4321 translated messages.
+
+
+Wed, 21 Nov 2007 15:00:38 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/misc/small.png
+	   M /branches/S2_1/data/misc/small.spec
+
+	Replace dollar symbol with more universal gold coin. Reported by Ronny Standtke <Ronny.Standtke@gmx.net> in PR#39838. Graphics by Hogne Haskjold.
+
+
+Wed, 21 Nov 2007 06:23:26 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ1/units.ruleset
+	   M /branches/S2_1/data/civ2/units.ruleset
+	   M /branches/S2_1/data/default/units.ruleset
+
+	Add missing newline.
+
+
+Wed, 21 Nov 2007 05:24:27 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ1/units.ruleset
+	   M /branches/S2_1/data/civ2/units.ruleset
+	   M /branches/S2_1/data/default/units.ruleset
+
+	Fix gettext warnings.
+
+
+Wed, 21 Nov 2007 04:48:40 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/server/unittools.c
+
+	Backport paradrop message fix. Reported by Chris Knoke with patch by Jason Dorje in PR#9347.
+
+
+Wed, 21 Nov 2007 04:43:18 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ2/buildings.ruleset
+	   M /branches/S2_1/data/civ2/effects.ruleset
+
+	Add effect to civ2 ruleset Eiffel Tower and update helptext. PR#39874
+
+
+Wed, 21 Nov 2007 04:40:14 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/default/buildings.ruleset
+	   M /branches/S2_1/data/default/effects.ruleset
+
+	Reword Eiffel Tower helptext to reflect new rules. Reported by eadleofice in PR#39826.
+
+
+Wed, 21 Nov 2007 04:31:53 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ2/units.ruleset
+
+	Improve elephant helptext. Reported by Chris Knoke in PR#39748.
+
+
+Wed, 21 Nov 2007 04:28:04 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ1/units.ruleset
+	   M /branches/S2_1/data/civ2/units.ruleset
+	   M /branches/S2_1/data/default/units.ruleset
+
+	Improve diplomat and spy helptexts. Reported by Marko Lindqvist in PR#39541; patch by me.
+
+
+Tue, 20 Nov 2007 16:47:56 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/srv_main.c
+
+	(PR#39876) fix soft restart; load game freelog translation; re-order early load
+
+
+Sun, 18 Nov 2007 05:08:57 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/packhand.c
+
+	(PR#39868) unit woken up from sentry not properly deselected
+
+
+Sat, 17 Nov 2007 21:59:22 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/control.c
+
+	(PR#39873) harmonize 2.1 and 2.2 control.c somewhat
+
+
+Sat, 17 Nov 2007 05:35:06 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/client/options.c
+
+	Turn off fullscreen mode by default. See PR#12119
+
+
+Fri, 16 Nov 2007 03:18:00 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/bootstrap/mkinstalldirs
+	   M /branches/S2_1/data/fonts/COPYING.Vera
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/gtkrc
+	   M /branches/S2_1/data/themes/gui-sdl/human/COPYING.DejaVu
+	   M /branches/S2_1/data/themes/gui-sdl/human/COPYING.UnDotum
+	   M /branches/S2_1/data/themes/gui-sdl/human/COPYING.fireflysung
+	   M /branches/S2_1/data/themes/gui-sdl/human/COPYING.sazanami
+	   M /branches/S2_1/data/themes/gui-sdl/human/backgrounds.themespec
+	   M /branches/S2_1/data/themes/gui-sdl/human/colors.themespec
+	   M /branches/S2_1/data/themes/gui-sdl/human/theme.themespec
+	   M /branches/S2_1/scripts/freeciv.supp
+
+	Set svn:eol-style to native on a number of additional text files.
+
+
+Fri, 16 Nov 2007 03:11:27 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/data/hex2t.tilespec
+
+	Fix buggy newlines in hex2t file, and set eol-style to native.
+
+
+Fri, 16 Nov 2007 03:07:34 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/menubar.rc
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/panel.rc
+	   M /branches/S2_1/m4/ggz.m4
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/win32/clienticon.rc
+	   M /branches/S2_1/win32/servericon.rc
+
+	Set svn:eol-style to native on a number of additional text files.
+
+
+Fri, 16 Nov 2007 02:09:11 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/data/hex2t/grid.spec
+	   M /branches/S2_1/data/hex2t/items.spec
+	   M /branches/S2_1/data/hex2t/overlays.spec
+	   M /branches/S2_1/data/hex2t/select.spec
+	   M /branches/S2_1/data/hex2t/tiles.spec
+	   M /branches/S2_1/po/statistics.sh
+	   M /branches/S2_1/scripts/setup_auth_server.sh
+
+	* Fix line endings on overlays.spec to be native.
+	* Change *.sh and *.spec files to have native svn:eol-style.
+
+
+Fri, 16 Nov 2007 01:59:52 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/data/hex2t/tiles.spec
+
+	* Fix line endings to be native.
+	* Change svn:eol-style to native.
+
+
+Fri, 16 Nov 2007 01:51:57 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/data/amplio/buildings.spec
+	   M /branches/S2_1/data/amplio/wonders.spec
+	   M /branches/S2_1/data/hex2t/select.spec
+
+	Set svn:eol-style (svn property) to native for *.spec files.
+
+
+Fri, 16 Nov 2007 01:45:02 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/bootstrap/freeciv-server.desktop.in
+	   M /branches/S2_1/client/gui-gtk-2.0/theme_dlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/tileset_dlg.c
+	   M /branches/S2_1/data/buildings/Makefile.am
+	   M /branches/S2_1/data/flags/antarctica.svg
+	   M /branches/S2_1/data/flags/aram.svg
+	   M /branches/S2_1/data/flags/aztec.svg
+	   M /branches/S2_1/data/flags/babylon.svg
+	   M /branches/S2_1/data/flags/bangladesh.svg
+	   M /branches/S2_1/data/flags/cartago.svg
+	   M /branches/S2_1/data/flags/egypt_ancient.svg
+	   M /branches/S2_1/data/flags/france_old.svg
+	   M /branches/S2_1/data/flags/gaul.svg
+	   M /branches/S2_1/data/flags/georgia.svg
+	   M /branches/S2_1/data/flags/greece_ancient.svg
+	   M /branches/S2_1/data/flags/hittite.svg
+	   M /branches/S2_1/data/flags/illyria.svg
+	   M /branches/S2_1/data/flags/inca.svg
+	   M /branches/S2_1/data/flags/iran_ancient.svg
+	   M /branches/S2_1/data/flags/madagascar.svg
+	   M /branches/S2_1/data/flags/mali.svg
+	   M /branches/S2_1/data/flags/maya.svg
+	   M /branches/S2_1/data/flags/myanmar.svg
+	   M /branches/S2_1/data/flags/ottoman.svg
+	   M /branches/S2_1/data/flags/palmyra.svg
+	   M /branches/S2_1/data/flags/papua_newguinea.svg
+	   M /branches/S2_1/data/flags/southern_cross.svg
+	   M /branches/S2_1/data/flags/swaziland.svg
+	   M /branches/S2_1/data/flags/texas.svg
+	   M /branches/S2_1/data/flags/uyghur.svg
+	   M /branches/S2_1/data/flags/viking.svg
+	   M /branches/S2_1/data/flags/westphalia.svg
+	   M /branches/S2_1/data/flags/zulu.svg
+	   M /branches/S2_1/data/hex2t/Makefile.am
+	   M /branches/S2_1/data/icons/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Arrows/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Buttons/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Check-Radio/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Combo/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Frame-Gap/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Handles/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Lines/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/ListHeaders/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Menu-Menubar/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Others/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Panel/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/ProgressBar/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Range/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Scrollbars/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Shadows/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Spin/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Tabs/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Toolbar/Makefile.am
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Makefile.am
+	   M /branches/S2_1/data/wonders/Makefile.am
+	   M /branches/S2_1/doc/ca/Makefile.am
+
+	Set svn:eol-style (svn property) to native for *.c, *.h, *.am, *.in, and
+	*.svg files.
+
+
+Thu, 15 Nov 2007 08:26:23 -0800  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+	   M /branches/S2_1/client/gui-sdl/gui_main.c
+	   M /branches/S2_1/client/gui-sdl/widget.c
+
+	Fix selectability of present/supported units in the city dialog. Reported by Erik Johansson <erjohan@gmail.com> in PR#39825, patch by me.
+
+
+Thu, 15 Nov 2007 08:09:42 -0800  cproc:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+
+	Fix a potential crash after disbanding a unit from the city dialog. Reported by Weston Hanners <me@westonhanners.com> in PR#39825, patch by me.
+
+
+Thu, 15 Nov 2007 06:09:30 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/common/aicore/pf_tools.c
+
+	(PR#39852) BUG: path finding incorrect air destination calculations -- try finding airbase
+
+
+Wed, 14 Nov 2007 16:26:09 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/text.c
+
+	(PR#39858) middle click on unexplored territory causes SDL crash -- reverted/revised
+
+
+Wed, 14 Nov 2007 13:34:55 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/text.c
+
+	Fix crash when tile info is taken on an unknown tile.
+
+	Patch by me in PR#39858.
+
+
+Wed, 14 Nov 2007 06:47:13 -0800  stikonas:
+
+	Changed paths:
+	   M /branches/S2_1/po/lt.po
+
+	More translations.
+
+
+Tue, 13 Nov 2007 15:07:34 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/mapview.c
+	   M /branches/S2_1/client/gui-sdl/themespec.c
+
+	Add missing includes (needed for compilation).
+
+
+Tue, 13 Nov 2007 06:50:40 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/common/aicore/path_finding.c
+	   M /branches/S2_1/common/aicore/path_finding.h
+	   M /branches/S2_1/common/aicore/pf_tools.c
+
+	(PR#39852) BUG: path finding incorrect air destination calculations -- revised after comments
+
+
+Mon, 12 Nov 2007 08:37:12 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/common/aicore/pf_tools.c
+
+	(PR#39852) BUG: path finding incorrect air destination calculations
+
+
+Sat, 10 Nov 2007 00:40:02 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/control.c
+	   M /branches/S2_1/client/control.h
+	   M /branches/S2_1/client/packhand.c
+
+	(PR#39817) goto interrupted by sentry
+
+
+Fri, 09 Nov 2007 14:22:17 -0800  stikonas:
+
+	Changed paths:
+	   M /branches/S2_1/po/lt.po
+
+	More translations.
+
+
+Fri, 09 Nov 2007 10:28:01 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/data/icons
+	   M /branches/S2_1/data/themes/gui-gtk-2.0
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Arrows
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Buttons
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Check-Radio
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Combo
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Frame-Gap
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Handles
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Lines
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/ListHeaders
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Menu-Menubar
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Others
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Panel
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/ProgressBar
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Range
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Scrollbars
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Shadows
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Spin
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Tabs
+	   M /branches/S2_1/data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Toolbar
+	   M /branches/S2_1/doc/ca
+	   M /branches/S2_1/server
+
+	Fix svn:ignore for various directories.
+
+
+Fri, 09 Nov 2007 02:59:24 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+
+	(PR#39848) SDL client city_owner() compile error
+
+
+Thu, 08 Nov 2007 09:03:34 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/ai/advdiplomacy.c
+	   M /branches/S2_1/ai/advmilitary.c
+	   M /branches/S2_1/ai/aicity.c
+	   M /branches/S2_1/ai/aiferry.c
+	   M /branches/S2_1/ai/aihunt.c
+	   M /branches/S2_1/ai/aisettler.c
+	   M /branches/S2_1/ai/aitools.c
+	   M /branches/S2_1/ai/aitools.h
+	   M /branches/S2_1/ai/aiunit.c
+	   M /branches/S2_1/client/agents/sha.c
+	   M /branches/S2_1/client/citydlg_common.c
+	   M /branches/S2_1/client/climisc.c
+	   M /branches/S2_1/client/control.c
+	   M /branches/S2_1/client/goto.c
+	   M /branches/S2_1/client/gui-ftwl/gui_text.c
+	   M /branches/S2_1/client/gui-ftwl/mapview.c
+	   M /branches/S2_1/client/gui-gtk-2.0/citydlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/happiness.c
+	   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+	   M /branches/S2_1/client/gui-mui/citydlg.c
+	   M /branches/S2_1/client/gui-mui/dialogs.c
+	   M /branches/S2_1/client/gui-mui/mapclass.c
+	   M /branches/S2_1/client/gui-mui/overviewclass.c
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+	   M /branches/S2_1/client/gui-sdl/dialogs.c
+	   M /branches/S2_1/client/gui-sdl/finddlg.c
+	   M /branches/S2_1/client/gui-sdl/gotodlg.c
+	   M /branches/S2_1/client/gui-sdl/mapctrl.c
+	   M /branches/S2_1/client/gui-sdl/mapview.c
+	   M /branches/S2_1/client/gui-win32/citydlg.c
+	   M /branches/S2_1/client/gui-win32/dialogs.c
+	   M /branches/S2_1/client/gui-win32/happiness.c
+	   M /branches/S2_1/client/gui-xaw/gui_main.c
+	   M /branches/S2_1/client/mapctrl_common.c
+	   M /branches/S2_1/client/mapview_common.c
+	   M /branches/S2_1/client/overview_common.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/client/text.c
+	   M /branches/S2_1/client/tilespec.c
+	   M /branches/S2_1/common/aicore/caravan.c
+	   M /branches/S2_1/common/aicore/cm.c
+	   M /branches/S2_1/common/city.c
+	   M /branches/S2_1/common/combat.c
+	   M /branches/S2_1/common/map.c
+	   M /branches/S2_1/common/movement.c
+	   M /branches/S2_1/common/player.c
+	   M /branches/S2_1/common/tile.c
+	   M /branches/S2_1/common/tile.h
+	   M /branches/S2_1/common/unit.c
+	   M /branches/S2_1/server/barbarian.c
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/cityturn.c
+	   M /branches/S2_1/server/diplhand.c
+	   M /branches/S2_1/server/gotohand.c
+	   M /branches/S2_1/server/maphand.h
+	   M /branches/S2_1/server/sanitycheck.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/score.c
+	   M /branches/S2_1/server/settlers.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/unithand.c
+
+	Cleanup city, unit, and tile accessor functions for *_owner (and others)
+
+
+Tue, 06 Nov 2007 11:50:53 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/maphand.c
+	   M /branches/S2_1/server/maphand.h
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/unittools.c
+
+	(PR#39830) 2.1.0 border expansion acquires destroyed city
+
+	Fix primary bug, apparently deliberate code that breaks upon border
+	expansion, that had the truthful (unhelpful) comment:
+
+	  /* Use tile owner information not city owner information. */
+
+	Now, although the defunct city still appears inside the border, it
+	won't appear in the player's list of cities.
+
+	Revise the dumb_city code, now uses struct vision_base.
+
+	Use city, unit, and tile accessor functions for *_owner (and others).
+
+	Add tile_special_type_iterate() in passing.
+
+
+Sun, 04 Nov 2007 10:31:38 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/climap.h
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/aicore/path_finding.h
+	   M /branches/S2_1/common/terrain.c
+	   M /branches/S2_1/common/terrain.h
+	   M /branches/S2_1/common/tile.h
+	   M /branches/S2_1/server/maphand.c
+
+	(PR#39828) 2.1.0 crash shared vision in send_tile_info()
+
+	Treat terrain just like resources: when the pointer is NULL, send -1.
+
+	Add some terrain validity checking to the client.
+
+	Move enum known_type from terrain.h to tile.h, and adjust other #includes.
+
+	Add tile_special_type_iterate() in passing.
+
+
+Sat, 03 Nov 2007 08:58:41 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/ai/advmilitary.c
+	   M /branches/S2_1/ai/aicity.c
+	   M /branches/S2_1/client/citydlg_common.c
+	   M /branches/S2_1/client/citydlg_common.h
+	   M /branches/S2_1/client/cityrepdata.c
+	   M /branches/S2_1/client/climisc.c
+	   M /branches/S2_1/client/gui-gtk-2.0/citydlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/happiness.c
+	   M /branches/S2_1/client/gui-mui/citydlg.c
+	   M /branches/S2_1/client/gui-mui/gui_main.c
+	   M /branches/S2_1/client/gui-mui/mapview.c
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+	   M /branches/S2_1/client/gui-sdl/gui_tilespec.h
+	   M /branches/S2_1/client/gui-win32/citydlg.c
+	   M /branches/S2_1/client/gui-win32/happiness.c
+	   M /branches/S2_1/client/gui-xaw/citydlg.c
+	   M /branches/S2_1/client/gui-xaw/mapview.c
+	   M /branches/S2_1/client/gui-xaw/mapview.h
+	   M /branches/S2_1/client/mapview_common.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/client/tilespec.c
+	   M /branches/S2_1/client/tilespec.h
+	   M /branches/S2_1/common/city.c
+	   M /branches/S2_1/common/city.h
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/cityturn.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/score.c
+
+	(PR#39829) 2.1.0 assert bad city size
+
+	Fix city dialog popup assert() for city_short_info (virtual) cities.
+	Replace assert() with LOG_ERROR, and return the actual number of
+	citizens found to allow the sprite routines to function.
+
+	The discovered problem was packhand.c handle_city_short_info() setting
+	the city->size in the final citizen feeling entry -- immediately wiped
+	by the city.c generic_city_refresh().  The solution was to set the
+	default specialist instead.
+
+	On the way to finding the cause, add more city error checking to
+	packhand.c and savegame.c, use enums to replace numeric constants for
+	arrays of citizen feelings, and harmonize specialist handling with S2_2
+	and trunk to allow easier comparison and parallel testing.
+
+
+Tue, 30 Oct 2007 16:30:40 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aicity.c
+	   M /branches/S2_1/ai/aiunit.h
+	   M /branches/S2_1/client/agents/cma_core.c
+	   M /branches/S2_1/client/citydlg_common.c
+	   M /branches/S2_1/client/mapview_common.h
+	   M /branches/S2_1/common/terrain.c
+	   M /branches/S2_1/common/unitlist.h
+	   M /branches/S2_1/server/generator/utilities.c
+	   M /branches/S2_1/server/generator/utilities.h
+
+	BUG: oddball iterators
+
+
+Tue, 30 Oct 2007 05:07:44 -0800  elmo:
+
+	Changed paths:
+	   M /branches/S2_1/po/et.po
+
+	"Gold" was ambiguous and I mistranslated it as money, not the natural resource.
+
+
+Tue, 30 Oct 2007 01:13:34 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/climap.h
+	   M /branches/S2_1/client/climisc.c
+	   M /branches/S2_1/client/control.c
+	   M /branches/S2_1/client/control.h
+	   M /branches/S2_1/client/goto.c
+	   M /branches/S2_1/client/goto.h
+	   M /branches/S2_1/client/gui-ftwl/gotodlg.c
+	   M /branches/S2_1/client/gui-ftwl/gui_text.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-sdl/dialogs.c
+	   M /branches/S2_1/client/gui-sdl/diplomat_dialog.c
+	   M /branches/S2_1/client/gui-sdl/gotodlg.c
+	   M /branches/S2_1/client/gui-sdl/gui_main.c
+	   M /branches/S2_1/client/gui-sdl/mapctrl.c
+	   M /branches/S2_1/client/gui-sdl/menu.c
+	   M /branches/S2_1/client/gui-win32/gotodlg.c
+	   M /branches/S2_1/client/gui-win32/menu.c
+	   M /branches/S2_1/client/gui-xaw/gui_main.c
+	   M /branches/S2_1/common/map.h
+	   M /branches/S2_1/common/unit.h
+
+	(PR#39801) harmonize goto_map_list with focus_units
+
+	Added goto_unit_killed() to keep them synchronized whenever a unit is killed.
+
+	Fixed memory leak that occurred upon freeing at the end of every client goto
+	-- the pf structures in the part weren't freed.
+
+	New head_of_units_in_focus() -- all that was needed was the head of the
+	list.  These probably need more examination (several already had FIXMEs).
+
+	Also, swapped the struct unit_order out of map.h into unit.h, where it
+	more properly belongs (where its enums are also).
+
+
+Sat, 27 Oct 2007 03:34:37 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump to version 2.1.0+.
+
+
+Fri, 26 Oct 2007 21:03:32 -0700  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	ChangeLog for 2.1.0 + encoding cleanup
+
+
 Fri, 26 Oct 2007 20:09:36 -0700  dmarks:
 
 	Changed paths:
