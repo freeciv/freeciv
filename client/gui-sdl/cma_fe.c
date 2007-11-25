@@ -91,6 +91,8 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
   struct hmove *pMotion = (struct hmove *)pData;
   char cBuf[4];
   
+  pMotionEvent->x -= pMotion->pScrollBar->dst->dest_rect.x;
+  
   if (pMotion && pMotionEvent->xrel &&
     (pMotionEvent->x >= pMotion->min) && (pMotionEvent->x <= pMotion->max)) {
 
