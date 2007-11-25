@@ -41,11 +41,9 @@ struct tile {
   bv_special special;
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
-  struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
-  struct city *worked;      /* city working tile, or NULL if none */
-  struct player *owner;     /* Player owning this tile, or NULL. */
-  struct tile *owner_source; /* what makes it owned by owner */
+  struct player *owner;			/* NULL for not owned */
+  struct city *worked;			/* NULL for not worked */
   char *spec_sprite;
 };
 

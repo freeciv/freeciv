@@ -744,6 +744,7 @@ static void update_unit_activity(struct unit *punit)
       /* Claim base if it has "ClaimTerritory" flag */
       if (tile_has_base_flag(ptile, BF_CLAIM_TERRITORY)) {
         map_claim_ownership(ptile, unit_owner(punit), ptile);
+        map_claim_border(ptile, unit_owner(punit));
       }
 
       unit_activity_done = TRUE;
@@ -2727,6 +2728,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
                                   BF_CLAIM_TERRITORY)
       && (!tile_owner(pdesttile) || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
     map_claim_ownership(pdesttile, pplayer, pdesttile);
+    map_claim_border(pdesttile, pplayer);
   }
 
   unit_list_unlink(psrctile->units, punit);

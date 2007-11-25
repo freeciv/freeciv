@@ -188,13 +188,18 @@ void player_init(struct player *plr)
   plr->nation = NO_NATION_SELECTED;
   plr->team = NULL;
   plr->is_ready = FALSE;
+
   plr->revolution_finishes = -1;
   plr->capital = FALSE;
-  plr->units = unit_list_new();
+  plr->city_style=0;            /* should be first basic style */
   plr->cities = city_list_new();
+  plr->sites = site_list_new();
+  plr->units = unit_list_new();
+
   plr->connections = conn_list_new();
   plr->current_conn = NULL;
   plr->is_connected = FALSE;
+
   plr->was_created = FALSE;
   plr->is_alive=TRUE;
   plr->is_dying = FALSE;
@@ -205,7 +210,6 @@ void player_init(struct player *plr)
     plr->diplstates[i].has_reason_to_cancel = 0;
     plr->diplstates[i].contact_turns_left = 0;
   }
-  plr->city_style=0;            /* should be first basic style */
   plr->ai.control=FALSE;
   plr->ai.handicap = 0;
   plr->ai.skill_level = 0;

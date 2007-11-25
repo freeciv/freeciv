@@ -766,11 +766,8 @@ bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class cla
    case TC_LAND:
      adjc_iterate(ptile, adjc_tile) {
        struct terrain* pterrain = tile_terrain(adjc_tile);
-
-       if (T_UNKNOWN == pterrain) {
-         continue;
-       }
-       if (!terrain_has_flag(pterrain, TER_OCEANIC)) {
+       if (T_UNKNOWN != pterrain
+           && !terrain_has_flag(pterrain, TER_OCEANIC)) {
          return TRUE;
        }
      } adjc_iterate_end;

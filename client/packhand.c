@@ -655,12 +655,14 @@ void handle_city_info(struct packet_city_info *packet)
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate)
 {
-  if(is_new) {
+  if (is_new) {
     pcity->units_supported = unit_list_new();
     pcity->info_units_supported = unit_list_new();
     pcity->info_units_present = unit_list_new();
-    city_list_prepend(city_owner(pcity)->cities, pcity);
+
     tile_set_city(pcity->tile, pcity);
+    city_list_prepend(city_owner(pcity)->cities, pcity);
+
     if (city_owner(pcity) == game.player_ptr) {
       city_report_dialog_update();
     }
@@ -676,7 +678,6 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
       city_report_dialog_update_city(pcity);
     }
   }
-
 
   if (can_client_change_view()) {
     refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
@@ -2019,14 +2020,21 @@ This was once very ugly...
 **************************************************************************/
 void handle_tile_info(struct packet_tile_info *packet)
 {
-  bool tile_changed = FALSE;
+  enum known_type old_known;
   bool known_changed = FALSE;
+  bool tile_changed = FALSE;
   struct terrain *pterrain = terrain_by_number(packet->type);
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
-  enum known_type old_known = client_tile_get_known(ptile);
+  
+  if (NULL == ptile) {
+    freelog(LOG_ERROR,
+            "handle_tile_info() invalid tile (%d,%d).",
+            TILE_XY(packet));
+    return;
+  }
+  old_known = client_tile_get_known(ptile);
 
-  if (NULL == tile_terrain(ptile)
-   || terrain_number(tile_terrain(ptile)) != packet->type) {
+  if (NULL == tile_terrain(ptile) || pterrain != tile_terrain(ptile)) {
     tile_changed = TRUE;
     switch (old_known) {
     case TILE_UNKNOWN:
@@ -2034,14 +2042,13 @@ void handle_tile_info(struct packet_tile_info *packet)
       break;
     case TILE_KNOWN_FOGGED:
     case TILE_KNOWN:
-      if (pterrain || TILE_UNKNOWN == packet->known) {
+      if (NULL != pterrain || TILE_UNKNOWN == packet->known) {
         tile_set_terrain(ptile, pterrain);
       } else {
         tile_changed = FALSE;
         freelog(LOG_ERROR,
                 "handle_tile_info() unknown terrain (%d,%d).",
-                packet->x,
-                packet->y);
+                TILE_XY(packet));
       }
       break;
     };

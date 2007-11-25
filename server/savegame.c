@@ -883,6 +883,7 @@ static void map_load(struct section_file *file,
     }
   } whole_map_iterate_end;
 
+#ifdef OWNER_SOURCE
   /* Owner and ownership source are stored as plain numbers */
   if (has_capability("new_owner_map", savefile_options)) {
     int x, y;
@@ -946,6 +947,7 @@ static void map_load(struct section_file *file,
       }
     }
   }
+#endif
 
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
     int known[MAP_INDEX_SIZE];
@@ -1075,6 +1077,7 @@ static void map_save(struct section_file *file)
 			 get_savegame_special(ptile->special, mod));
   } special_halfbyte_iterate_end;
 
+#ifdef OWNER_SOURCE
   /* Store owner and ownership source as plain numbers */
   {
     int x, y;
@@ -1120,6 +1123,7 @@ static void map_save(struct section_file *file)
       secfile_insert_str(file, line, "map.source%03d", y);
     }
   }
+#endif
 
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
@@ -1745,6 +1749,15 @@ static void load_player_units(struct player *plr, int plrno,
     unit_list_append(plr->units, punit);
 
     unit_list_prepend(punit->tile->units, punit);
+
+    /* Claim ownership of fortress? */
+    if (tile_has_base_flag_for_unit(punit->tile, unit_type(punit),
+                                    BF_CLAIM_TERRITORY)
+     && (!tile_owner(punit->tile)
+      || pplayers_at_war(tile_owner(punit->tile), plr))) {
+      map_claim_ownership(punit->tile, plr, punit->tile);
+      map_claim_border(punit->tile, plr);
+    }
   }
 }
 
@@ -1835,7 +1848,7 @@ static void player_load(struct player *plr, int plrno,
 
     if ((is_sea_barbarian(plr) && nat_barb_type != SEA_BARBARIAN)
         || (is_land_barbarian(plr) && nat_barb_type != LAND_BARBARIAN)) {
-      freelog(LOG_ERROR, "Reassigning barbarian nation for %s", plr->name);
+      freelog(LOG_VERBOSE, "Reassigning barbarian nation for %s", plr->name);
       plr->nation = NO_NATION_SELECTED;
     } else {
       player_set_nation(plr, pnation);
@@ -2532,9 +2545,13 @@ static void player_load(struct player *plr, int plrno,
 				(pcity->ai.founder_want < 0), 
 				"player%d.c%d.ai.founder_boat", plrno, i);
 
-    /* do after all the set_worker_city() are done. */
+    /* After all the set_worker_city() are done. */
     tile_set_city(pcity->tile, pcity);
     city_list_append(plr->cities, pcity);
+
+    /* After all the set_worker_city() are done. */
+    map_claim_ownership(ptile, plr, ptile);
+    map_claim_border(ptile, plr);
   }
 
   load_player_units(plr, plrno, file);
@@ -3324,7 +3341,8 @@ static void player_save(struct player *plr, int plrno,
       i = 0;
       
       whole_map_iterate(ptile) {
-	if (NULL != (pdcity = map_get_player_city(ptile, plr))) {
+	if (NULL != (pdcity = map_get_player_city(ptile, plr))
+	 && plr != vision_owner(pdcity)) {
 	  secfile_insert_int(file, pdcity->identity, "player%d.dc%d.id",
 			     plrno, i);
 	  secfile_insert_int(file, ptile->nat_x,
@@ -3550,6 +3568,7 @@ void game_load(struct section_file *file)
   enum tile_special_type *special_order = NULL;
   int technology_order_size = 0;
   int civstyle = 0;
+  bool was_send_tile_suppressed = send_tile_suppression(TRUE);
 
   /* [savefile] */
   savefile_options = secfile_lookup_str(file, "savefile.options");
@@ -4201,6 +4220,8 @@ void game_load(struct section_file *file)
   if (!game.info.is_new_game) {
     set_myrand_state(rstate);
   }
+
+  send_tile_suppression(was_send_tile_suppressed);
 }
 
 /***************************************************************

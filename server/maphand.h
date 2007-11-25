@@ -46,14 +46,18 @@ void map_regenerate_water(void);
 
 void global_warming(int effect);
 void nuclear_winter(int effect);
+void upgrade_city_rails(struct player *pplayer, bool discovery);
+
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct conn_list *dest);
+
+bool send_tile_suppression(bool now);
 void send_tile_info(struct conn_list *dest, struct tile *ptile,
                     bool send_unknown);
-void upgrade_city_rails(struct player *pplayer, bool discovery);
+
 void send_map_info(struct conn_list *dest);
 
 void map_show_tile(struct player *pplayer, struct tile *ptile);
@@ -93,8 +97,9 @@ void enable_fog_of_war(void);
 void disable_fog_of_war(void);
 
 void map_calculate_borders(void);
-void map_claim_ownership(struct tile *ptile, struct player *owner,
-                         struct tile *place);
+void map_claim_border(struct tile *ptile, struct player *powner);
+void map_claim_ownership(struct tile *ptile, struct player *powner,
+                         struct tile *psource);
 
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 int get_continent_size(Continent_id id);
