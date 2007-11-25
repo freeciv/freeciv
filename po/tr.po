@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-24 23:30+0900\n"
-"PO-Revision-Date: 2007-11-25 13:21+0200\n"
+"PO-Revision-Date: 2007-11-25 13:48+0200\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3908,7 +3908,7 @@ msgstr ""
 #: server/savegame.c:4043
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "%s geçersiz bir millete sahip; %s olarak değiştiriliyor."
 
 #. TRANS: Minor error message.
 #: server/savegame.c:4065
@@ -5245,7 +5245,7 @@ msgstr "Uyarı: eski istemci %s reddedildi"
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.1 or later."
-msgstr ""
+msgstr "İstemciniz çok eski. Bu sunucuyu kullanmak için lütfen istemcinizi Freeciv 2.1 veya üstü bir sürüme yükseltin."
 
 #: server/srv_main.c:1137
 #, c-format
@@ -5398,19 +5398,19 @@ msgstr ""
 
 #: server/stdinhand.c:549
 msgid "Metaserver connection is open."
-msgstr ""
+msgstr "Metasunucu bağlantısı açık."
 
 #: server/stdinhand.c:552
 msgid "Metaserver connection is closed."
-msgstr ""
+msgstr "Metasunucu bağlantısı kapalı."
 
 #: server/stdinhand.c:562
 msgid "Metaserver connection is already open."
-msgstr ""
+msgstr "Metasunucu bağlantısı zaten açık."
 
 #: server/stdinhand.c:573
 msgid "Metaserver connection is already closed."
-msgstr ""
+msgstr "Metasunucu bağlantısı zaten kapalı."
 
 #: server/stdinhand.c:578
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
@@ -5439,7 +5439,7 @@ msgstr ""
 #: server/stdinhand.c:646
 #, c-format
 msgid "Metaserver is now [%s]."
-msgstr ""
+msgstr "Metasunucu artık [%s]."
 
 #: server/stdinhand.c:656
 #, c-format
@@ -5496,26 +5496,26 @@ msgstr "Bu isimde bir kullanıcı zaten var."
 #: server/stdinhand.c:918
 #, c-format
 msgid "%s has been added as an AI-controlled player."
-msgstr ""
+msgstr "%s YZ kontrolündeki bir oyuncu olarak eklendi."
 
 #: server/stdinhand.c:925
 #, c-format
 msgid "Error creating new AI player: %s."
-msgstr ""
+msgstr "Yeni YZ oyuncusu oluşturulurken hata: %s"
 
 #: server/stdinhand.c:958
 msgid "Players cannot be removed once the game has started."
-msgstr ""
+msgstr "Oyun başladıktan sonra oyuncuları çıkartamazsınız."
 
 #: server/stdinhand.c:969
 #, c-format
 msgid "Removed player %s from the game."
-msgstr ""
+msgstr "Oyuncu %s oyundan çıkartıldı."
 
 #: server/stdinhand.c:1008 server/stdinhand.c:3220
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "\"%s\" ismi güvenlik nedeniyle yasaklanmıştır."
 
 #: server/stdinhand.c:1021
 #, c-format
@@ -5525,7 +5525,7 @@ msgstr ""
 #: server/stdinhand.c:1029
 #, c-format
 msgid "Loading script file: %s"
-msgstr ""
+msgstr "Betik dosyası yükleniyor: %s"
 
 #: server/stdinhand.c:1044
 #, c-format
@@ -5535,7 +5535,7 @@ msgstr ""
 #: server/stdinhand.c:1046
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr ""
+msgstr "Betik dosyası '%s' okunamadı."
 
 #: server/stdinhand.c:1138
 #, c-format
@@ -5703,7 +5703,7 @@ msgstr "Öntanımlı YZ derecesi '%s' olarak ayarlandı."
 
 #: server/stdinhand.c:1839 server/stdinhand.c:2149
 msgid "This command is client only."
-msgstr ""
+msgstr "Bu komut sadece istemci tarafında verilebilir."
 
 #: server/stdinhand.c:1842
 msgid "Usage: away"
@@ -5836,17 +5836,17 @@ msgstr "Değer bir tamsayı olmalı"
 #: server/stdinhand.c:2212
 #, c-format
 msgid "No such vote (%d)."
-msgstr ""
+msgstr "Böyle bir oy yok (%d)."
 
 #: server/stdinhand.c:2216
 #, c-format
 msgid "You voted for \"%s\""
-msgstr ""
+msgstr "\"%s\" lehinde oy kullandınız"
 
 #: server/stdinhand.c:2220
 #, c-format
 msgid "You voted against \"%s\""
-msgstr ""
+msgstr "\"%s\" aleyhinde oy kullandınız"
 
 #: server/stdinhand.c:2247
 msgid ""
@@ -5861,12 +5861,12 @@ msgstr "Bu komut oyun başladıktan sonra kullanılabilir."
 #: server/stdinhand.c:2282
 #, c-format
 msgid "%s diplomacy no longer debugged"
-msgstr ""
+msgstr "%s diplomasisinde hata ayıklanmıyor"
 
 #: server/stdinhand.c:2286
 #, c-format
 msgid "%s diplomacy debugged"
-msgstr ""
+msgstr "%s diplomasisinde hata ayıklanıyor"
 
 #: server/stdinhand.c:2305
 #, c-format
@@ -5907,7 +5907,7 @@ msgstr ""
 
 #: server/stdinhand.c:2401
 msgid "Value 2 must be integer."
-msgstr ""
+msgstr "Değer 2 bir tamsayı olmalıdır."
 
 #: server/stdinhand.c:2405
 #, c-format
@@ -5920,7 +5920,7 @@ msgstr ""
 
 #: server/stdinhand.c:2473
 msgid "You are not allowed to set this option."
-msgstr ""
+msgstr "Bu ayarı değiştirmenize izin verilmiyor."
 
 #: server/stdinhand.c:2478
 msgid "This setting can't be modified after the game has started."
@@ -6063,7 +6063,7 @@ msgstr ";Kullanım: take [bağlantı-adı] <oyuncu-adı>"
 #: server/stdinhand.c:2936
 #, c-format
 msgid "%s already controls %s"
-msgstr ""
+msgstr "%s zaten %s tarafını kontrol ediyor"
 
 #: server/stdinhand.c:2966
 #, c-format
@@ -7083,7 +7083,7 @@ msgstr ""
 
 #: client/attribute.c:363
 msgid "There has been a CMA error.  Your citizen governor settings may be broken."
-msgstr ""
+msgstr "CMA hatası oluştu.  Şehir valisi ayarlarınız bozuk olabilir."
 
 #: client/attribute.c:367
 msgid "Old attributes detected and removed."
@@ -7114,7 +7114,7 @@ msgstr "Ses desteği olmadan devam ediliyor"
 
 #: client/audio.c:199
 msgid "For sound support, install SDL_mixer"
-msgstr ""
+msgstr "Ses desteği için SDL_mixer yükleyin"
 
 #: client/audio.c:205
 msgid "No sound spec-file given!"
@@ -8254,12 +8254,12 @@ msgstr "* Kontrol bölgeleri kuralına uymaz.\n"
 #: client/helpdata.c:993
 #, c-format
 msgid "* A non-military unit (cannot attack; no martial law).\n"
-msgstr ""
+msgstr "* Sivil bir birimdir (saldırı yapamaz; sıkıyönetimi etkilemez).\n"
 
 #: client/helpdata.c:997
 #, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
-msgstr ""
+msgstr "* Alan birimi: saldırgan değilken bile bir mutsuzluk oluşturur.\n"
 
 #: client/helpdata.c:1002
 #, c-format
@@ -8283,12 +8283,12 @@ msgstr ""
 #: client/helpdata.c:1015
 #, c-format
 msgid "* The discovery of %s reduces the risk to 25%%.\n"
-msgstr ""
+msgstr "* %s keşfi riski %%25 azaltır.\n"
 
 #: client/helpdata.c:1020
 #, c-format
 msgid "* %s reduces the risk to 12%%.\n"
-msgstr ""
+msgstr "* %s riski %%12'ye düşürür.\n"
 
 #: client/helpdata.c:1069
 msgid " or "
@@ -8326,7 +8326,7 @@ msgstr "Bu teknolojiyi araştıramazsınız."
 #: client/helpdata.c:1138
 #, c-format
 msgid " This number may vary depending on what other players will research.\n"
-msgstr ""
+msgstr " Bu sayı, diğer oyuncuların neyi araştıracağına bağlı olarak değişebilir.\n"
 
 #: client/helpdata.c:1149
 #, c-format
@@ -8341,62 +8341,62 @@ msgstr "* Açık denizde gemilerin kaybolma riskini %%25 azaltır.\n"
 #: client/helpdata.c:1157
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-msgstr ""
+msgstr "* Açık denizde gemilerin kaybolma riskini %%12'ye düşürür.\n"
 
 #: client/helpdata.c:1160
 #, c-format
 msgid "* Increases the pollution generated by the population.\n"
-msgstr ""
+msgstr "* Nüfustan doğan kirliliği arttırır.\n"
 
 #: client/helpdata.c:1165
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
-msgstr ""
+msgstr "* %s biriminin ırmak üzerinde yol yapabilmesine imkân sağlar.\n"
 
 #: client/helpdata.c:1172
 #, c-format
 msgid "* Allows %s to build fortresses.\n"
-msgstr ""
+msgstr "* %s biriminin kale yapmasına imkân sağlar.\n"
 
 #: client/helpdata.c:1180
 #, c-format
 msgid "* Allows %s to build airbases.\n"
-msgstr ""
+msgstr "* %s biriminin hava üssü yapmasına imkân sağlar.\n"
 
 #: client/helpdata.c:1189
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
-msgstr ""
+msgstr "* %s biriminin yolları raya çevirmesine izin verir.\n"
 
 #: client/helpdata.c:1196
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr ""
+msgstr "* %s biriminin sulamayı tarla olarak değiştirmesine izin verir.\n"
 
 #: client/helpdata.c:1228
 #, c-format
 msgid "* Pollution cannot be generated on this terrain."
-msgstr ""
+msgstr "* Bu arazide kirlilik oluşturulamaz."
 
 #: client/helpdata.c:1233
 #, c-format
 msgid "* You cannot build cities on this terrain."
-msgstr ""
+msgstr "* Bu arazide şehir yapılamaz."
 
 #: client/helpdata.c:1239
 #, c-format
 msgid "* The coastline of this terrain is unsafe."
-msgstr ""
+msgstr "* Bu arazinin sahili güvenli değildir."
 
 #: client/helpdata.c:1244
 #, c-format
 msgid "* This terrain is unsafe for units to travel on."
-msgstr ""
+msgstr "* Bu arazi birimlerin dolaşması için güvenli değildir."
 
 #: client/helpdata.c:1249
 #, c-format
 msgid "* Land units cannot travel on oceanic terrains."
-msgstr ""
+msgstr "* Kara birimleri denizde gidemezler."
 
 #: client/helpdata.c:1298
 #, c-format
