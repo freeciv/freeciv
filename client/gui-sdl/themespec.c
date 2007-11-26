@@ -690,6 +690,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   char *file_capstr;
   bool duplicates_ok;
   struct theme *t = theme_new();
+  char *langname;
 
   fname = themespec_fullname(theme_name);
   if (!fname) {
@@ -722,7 +723,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   sz_strlcpy(t->name, theme_name);
   t->priority = secfile_lookup_int(file, "themespec.priority");
   
-  char *langname = get_langname();
+  langname = get_langname();
   if (langname) {
     if (strstr(langname, "zh_CN") != NULL) {
       c = secfile_lookup_str(file, "themespec.font_file_zh_CN");

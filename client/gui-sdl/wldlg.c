@@ -363,8 +363,9 @@ static void add_target_to_production(struct widget *pTarget)
 /* Get Help Info about target */
 static void get_target_help_data(struct widget *pTarget)
 {
-  assert(pTarget != NULL);
   struct city_production prod;
+
+  assert(pTarget != NULL);
   
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
@@ -993,6 +994,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   bool advanced_tech;
   bool can_build, can_eventually_build;
   SDL_Rect area;
+  struct worklist *worklist;
   
   if(pEditor) {
     return;
@@ -1178,7 +1180,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 
   count = 0;
   
-  struct worklist *worklist = pWorkList;
+  worklist = pWorkList;
     
   worklist_iterate(worklist, prod) {
 
