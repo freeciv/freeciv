@@ -712,6 +712,7 @@ static void popup_conn_list_dialog(void)
   SDL_String16 *pStr = NULL;
   int n;
   SDL_Rect area;
+  SDL_Surface *pSurf;
     
   if (pConnDlg || !aconnection.established) {
     return;
@@ -732,7 +733,7 @@ static void popup_conn_list_dialog(void)
   widget_set_position(pWindow, 0, 0);
 
   /* create window background */
-  SDL_Surface *pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
+  pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
   if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
     FREESURFACE(pSurf);
   }
