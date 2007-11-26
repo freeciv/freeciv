@@ -229,6 +229,7 @@ static int redraw_tibutton(struct widget *pTIButton)
 {
   int iRet = 0;
   SDL_Surface *pIcon;
+  SDL_Surface *pCopy_Of_Icon_Theme;
 
   iRet = (*baseclass_redraw)(pTIButton);
   if (iRet != 0) {
@@ -236,7 +237,7 @@ static int redraw_tibutton(struct widget *pTIButton)
   }
   
   pIcon = create_icon_from_theme(pTIButton->theme2, get_wstate(pTIButton));
-  SDL_Surface *pCopy_Of_Icon_Theme = pTIButton->theme2;
+  pCopy_Of_Icon_Theme = pTIButton->theme2;
 
   pTIButton->theme2 = pIcon;
 

@@ -1575,9 +1575,7 @@ SDL_Surface *get_scaled_city_map(struct city *pCity)
                      (float)adj_size(249) / pBuf->w
                    : (float)adj_size(159) / pBuf->h);
   
-  SDL_Surface *pRet = zoomSurface(pBuf, city_map_zoom, city_map_zoom, 1);
-  
-  return pRet;
+  return zoomSurface(pBuf, city_map_zoom, city_map_zoom, 1);
 }
 
 /**************************************************************************

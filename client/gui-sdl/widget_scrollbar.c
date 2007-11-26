@@ -138,15 +138,16 @@ static int redraw_vert(struct widget *pVert)
 {
   int ret;
   SDL_Rect dest = pVert->size;
+  SDL_Surface *pVert_Surf;
 
   ret = (*baseclass_redraw)(pVert);
   if (ret != 0) {
     return ret;
   }
   
-  SDL_Surface *pVert_Surf = create_vertical_surface(pVert->theme,
-						    get_wstate(pVert),
-						    pVert->size.h);
+  pVert_Surf = create_vertical_surface(pVert->theme,
+				       get_wstate(pVert),
+				       pVert->size.h);
   ret =
       blit_entire_src(pVert_Surf, pVert->dst->surface, dest.x, dest.y);
   
@@ -278,15 +279,16 @@ static int redraw_horiz(struct widget *pHoriz)
 {
   int ret;
   SDL_Rect dest = pHoriz->size;
+  SDL_Surface *pHoriz_Surf;
 
   ret = (*baseclass_redraw)(pHoriz);
   if (ret != 0) {
     return ret;
   }
   
-  SDL_Surface *pHoriz_Surf = create_horizontal_surface(pHoriz->theme,
-						       get_wstate(pHoriz),
-						       pHoriz->size.w);
+  pHoriz_Surf = create_horizontal_surface(pHoriz->theme,
+					  get_wstate(pHoriz),
+					  pHoriz->size.w);
   ret = blit_entire_src(pHoriz_Surf, pHoriz->dst->surface, dest.x, dest.y);
   
   FREESURFACE(pHoriz_Surf);

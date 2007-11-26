@@ -2673,7 +2673,8 @@ void popup_races_dialog(struct player *pplayer)
   float zoom;
   struct NAT *pSetup;
   SDL_Rect area;
-    
+  int i;
+
   #define TARGETS_ROW 5
   #define TARGETS_COL 1
   
@@ -2842,7 +2843,7 @@ void popup_races_dialog(struct player *pplayer)
   add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pWidget);
 
   /* ---------------------------------------------------------- */
-  int i = 0;
+  i = 0;
   zoom = DEFAULT_ZOOM * 1.0;
   while (i < game.control.styles_count) {
     if (!city_style_has_requirements(&city_styles[i])) {

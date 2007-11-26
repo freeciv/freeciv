@@ -3689,11 +3689,11 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
                               Uint16 new_width, Uint16 new_height, int smooth,
                               bool scale_up, bool absolute_dimensions)
 {
+  SDL_Surface *tmpSurface, *result;
+
   if (pSrc == NULL) {
     return NULL;
   }
-
-  SDL_Surface *tmpSurface, *result;
 
   if (!((scale_up == FALSE) && ((new_width >= pSrc->w) && (new_height >= pSrc->h)))) {
     if ((new_width - pSrc->w) <= (new_height - pSrc->h)) {
@@ -3717,12 +3717,12 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
   }
   
   if (absolute_dimensions) {
-    result = create_surf_alpha(new_width, new_height, SDL_SWSURFACE);
     SDL_Rect area = {
       (new_width - tmpSurface->w) / 2,
       (new_height - tmpSurface->h) / 2,
       0, 0
     };
+    result = create_surf_alpha(new_width, new_height, SDL_SWSURFACE);
     alphablit(tmpSurface, NULL, result, &area);
     FREESURFACE(tmpSurface);
   } else {

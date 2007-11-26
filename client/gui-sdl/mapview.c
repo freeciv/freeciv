@@ -381,18 +381,22 @@ void update_info_label(void)
 
   SDL_Surface *pTmp = NULL;
   char buffer[512];
+#ifdef SMALL_SCREEN
+  SDL_Rect area = {0, 0, 0, 0};
+#else
+  SDL_Rect area = {0, 3, 0, 0};
+#endif
+  SDL_String16 *pText;
 
   if (get_client_page() != PAGE_GAME) {
     return;
   }
   
-  #ifdef SMALL_SCREEN
-  SDL_Rect area = {0, 0, 0, 0};
-  SDL_String16 *pText = create_string16(NULL, 0, 8);
-  #else
-  SDL_Rect area = {0, 3, 0, 0};
-  SDL_String16 *pText = create_string16(NULL, 0, 10);
-  #endif
+#ifdef SMALL_SCREEN
+  pText = create_string16(NULL, 0, 8);
+#else
+  pText = create_string16(NULL, 0, 10);
+#endif
 
   /* set text settings */
   pText->style |= TTF_STYLE_BOLD;

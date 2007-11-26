@@ -188,6 +188,7 @@ static void server_scan_error(struct server_scan *scan,
 static struct server_list *sdl_create_server_list(bool lan)
 {
   struct server_list *server_list = NULL;
+  int i;
     
   if (lan) {
     pServer_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);      
@@ -201,7 +202,6 @@ static struct server_list *sdl_create_server_list(bool lan)
   
   SDL_Delay(5000);
     
-  int i;
   for (i = 0; i < 100; i++) {
     server_list = server_scan_get_servers(pServer_scan);
     if (server_list) {
