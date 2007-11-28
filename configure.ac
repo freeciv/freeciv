@@ -164,6 +164,9 @@ AC_ARG_WITH(efence,
 	WITH_EFENCE=1
 )
 
+dnl Check for GNU libc
+AC_GNU_SOURCE
+
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
