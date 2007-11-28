@@ -171,9 +171,9 @@ static void print_auth_option(int loglevel, enum show_source_type show_source,
     switch(target->source) {
      case AOS_DEFAULT:
        if (show_source == SST_DEFAULT) {
-         /* TRANS: After 'Auth option "user":'. Option value may have been inserted
-          * between these. */
          cat_snprintf(buffer, sizeof(buffer),
+		      /* TRANS: After 'Auth option "user":'. Option value
+			 may have been inserted between these. */
                       _(" missing from config file (using default)"));
        } else {
          /* TRANS: auth option originates from internal default */
