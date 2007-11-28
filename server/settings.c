@@ -195,28 +195,49 @@ static bool aifill_callback(int value, const char **error_string)
   return TRUE;
 }
 
+
+/************************************************************************/
+#if defined(HAVE_LIBBZ2)
+#define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
+#define GAME_MAX_COMPRESS_TYPE FZ_BZIP2
+#define GAME_DEFAULT_COMPRESS_TYPE FZ_BZIP2
+
+#elif defined(HAVE_LIBZ)
+#define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
+#define GAME_MAX_COMPRESS_TYPE FZ_ZLIB
+#define GAME_DEFAULT_COMPRESS_TYPE FZ_ZLIB
+
+#else
+#define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
+#define GAME_MAX_COMPRESS_TYPE FZ_PLAIN
+#define GAME_DEFAULT_COMPRESS_TYPE FZ_PLAIN
+
+#endif
+
+/************************************************************************/
+
 #define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,	\
-		 short_help, extra_help, func, default)			\
+		 short_help, extra_help, func, _default)		\
   {name, sclass, to_client, short_help, extra_help, SSET_BOOL,		\
-      scateg, slevel, &value, default, func,				\
+      scateg, slevel, &value, _default, func,				\
       NULL, 0, NULL, 0, 0,						\
       NULL, NULL, NULL, 0},
 
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,		\
-		short_help, extra_help, func, min, max, default)	\
+		short_help, extra_help, func, _min, _max, _default)	\
   {name, sclass, to_client, short_help, extra_help, SSET_INT,		\
       scateg, slevel,							\
       NULL, FALSE, NULL,						\
-      &value, default, func, min, max,					\
+      &value, _default, func, _min, _max,				\
       NULL, NULL, NULL, 0},
 
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,	\
-		   short_help, extra_help, func, default)		\
+		   short_help, extra_help, func, _default)		\
   {name, sclass, to_client, short_help, extra_help, SSET_STRING,	\
       scateg, slevel,							\
       NULL, FALSE, NULL,						\
       NULL, 0, NULL, 0, 0,						\
-      value, default, func, sizeof(value)},
+      value, _default, func, sizeof(value)},
 
 #define GEN_END							\
   {NULL, SSET_LAST, SSET_SERVER_ONLY, NULL, NULL, SSET_INT,	\
@@ -976,7 +997,6 @@ struct settings_s settings[] = {
 	  N_("If non-zero, saved games will be compressed using zlib "
 	     "(gzip format) or bzip2. Larger values will give better "
 	     "compression but take longer."), NULL,
-
 	  GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
 	  GAME_DEFAULT_COMPRESS_LEVEL)
 
@@ -988,13 +1008,8 @@ struct settings_s settings[] = {
              " 1 - zlib (gzip format)\n"
              " 2 - bzip2\n"
              "Not all servers support all compression methods."), NULL,
-#if !defined(HAVE_LIBBZ2) && !defined(HAVE_LIBZ)
-          FZ_PLAIN, FZ_PLAIN, FZ_PLAIN)
-#elif !defined(HAVE_LIBBZ2) && defined(HAVE_LIBZ)
-          FZ_PLAIN, FZ_ZLIB, FZ_ZLIB)
-#else
-          FZ_PLAIN, FZ_BZIP2, FZ_BZIP2)
-#endif
+	  GAME_MIN_COMPRESS_TYPE, GAME_MAX_COMPRESS_TYPE,
+	  GAME_DEFAULT_COMPRESS_TYPE)
 
   GEN_STRING("savename", game.save_name,
 	     SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
