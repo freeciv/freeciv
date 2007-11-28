@@ -8,6 +8,7 @@ AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_HOST
+AC_GNU_SOURCE
 
 PACKAGE=freeciv
 
@@ -163,9 +164,6 @@ AC_ARG_WITH(efence,
 	[  --with-efence           use Electric Fence, malloc debugger ],
 	WITH_EFENCE=1
 )
-
-dnl Check for GNU libc
-AC_GNU_SOURCE
 
 dnl Checks for programs.
 AC_PROG_AWK
