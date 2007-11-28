@@ -999,6 +999,7 @@ AC_DEFUN([AC_GGZ_CHECK_SERVER],
       AC_GGZ_GGZDMOD([ggz_server="yes"], [ggz_server="no"])
     fi
     if test "$ggz_server" = "yes"; then
+      AC_GGZ_SERVER
       AC_DEFINE(GGZ_SERVER, 1, [Server support for GGZ])
     else
       if test "$try_ggz_server" = "yes"; then

@@ -85,8 +85,8 @@ endif
 
 if GGZ_SERVER
 ggzroom_DATA = civserver.room
-ggzroomdir = ${prefix}/etc/ggzd/rooms/
+ggzroomdir = $(ggzdconfdir)/rooms/
 
 ggzgame_DATA = civserver.dsc
-ggzgamedir = ${prefix}/etc/ggzd/games/
+ggzgamedir = $(ggzdconfdir)/games/
 endif
