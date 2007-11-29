@@ -331,7 +331,7 @@ static void create_players_dialog(void)
 	    Child, player_close_button = MakeButton(_("_Close")),
 	    Child, player_intelligence_button = MakeButton(_("_Intelligence")),
 	    Child, player_meet_button = MakeButton(_("_Meet")),
-	    Child, player_war_button = MakeButton(_("_Cancel Treaty")),
+	    Child, player_war_button = MakeButton(_("Cancel _Treaty")),
             Child, player_vision_button = MakeButton(_("_Withdraw vision")),
 	    Child, player_spaceship_button = MakeButton(_("_Spaceship")),
 	    End,

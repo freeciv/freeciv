@@ -11865,7 +11865,8 @@ msgid "_Meet"
 msgstr "会议(_M)"
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-msgid "_Cancel Treaty"
+#, fuzzy
+msgid "Cancel _Treaty"
 msgstr "取消协定(_C)"
 
 #: client/gui-gtk-2.0/plrdlg.c:462

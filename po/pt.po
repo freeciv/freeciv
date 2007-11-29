@@ -12251,7 +12251,8 @@ msgid "_Meet"
 msgstr "E_ncontrar"
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-msgid "_Cancel Treaty"
+#, fuzzy
+msgid "Cancel _Treaty"
 msgstr "_Cancelar Tratado"
 
 #: client/gui-gtk-2.0/plrdlg.c:462

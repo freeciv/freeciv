@@ -12184,7 +12184,8 @@ msgid "_Meet"
 msgstr "Kohta"
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-msgid "_Cancel Treaty"
+#, fuzzy
+msgid "Cancel _Treaty"
 msgstr "Katkesta leping"
 
 #: client/gui-gtk-2.0/plrdlg.c:462

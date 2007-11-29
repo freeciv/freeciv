@@ -11410,7 +11410,7 @@ msgid "_Meet"
 msgstr ""
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-msgid "_Cancel Treaty"
+msgid "Cancel _Treaty"
 msgstr ""
 
 #: client/gui-gtk-2.0/plrdlg.c:462

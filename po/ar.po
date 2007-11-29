@@ -12007,7 +12007,8 @@ msgid "_Meet"
 msgstr "ا_جتماع"
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-msgid "_Cancel Treaty"
+#, fuzzy
+msgid "Cancel _Treaty"
 msgstr "ال_غاء المعاهدة"
 
 #: client/gui-gtk-2.0/plrdlg.c:462

@@ -12389,7 +12389,8 @@ msgid "_Meet"
 msgstr "_Találkozó"
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-msgid "_Cancel Treaty"
+#, fuzzy
+msgid "Cancel _Treaty"
 msgstr "Egyezmény _Felbontása"
 
 #: client/gui-gtk-2.0/plrdlg.c:462
