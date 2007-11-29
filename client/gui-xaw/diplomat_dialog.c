@@ -776,8 +776,8 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       
       Widget shl;
       const char *message = !unit_has_type_flag(punit, F_SPY)
-	? _("Sir, the diplomat is waiting for your command")
-	: _("Sir, the spy is waiting for your command");
+	? _("The diplomat is waiting for your command")
+	: _("The spy is waiting for your command");
       
       diplomat_target_id=ptunit->id;
 
