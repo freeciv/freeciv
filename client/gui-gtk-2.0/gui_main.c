@@ -457,7 +457,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     return FALSE;
   }
 
-
   if ((ev->state & GDK_SHIFT_MASK)) {
     switch (ev->keyval) {
     case GDK_Left:
@@ -498,7 +497,24 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     default:
       break;
     }
+  } else {
+    switch (ev->keyval) {
+
+    case GDK_apostrophe:
+      /* FIXME: should find the correct window, even when detached, from any
+       * other window; should scroll to the bottom automatically showing the
+       * latest text from other players; MUST NOT make spurious text windows
+       * at the bottom of other dialogs.
+       */
+      gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
+      gtk_widget_grab_focus(inputline);
+      return TRUE;
+
+    default:
+      break;
+    };
   }
+
   /* Return here if observer */
   if (client_is_observer()) {
     return FALSE;
@@ -1243,7 +1259,7 @@ static void setup_widgets(void)
   gtk_widget_set_size_request(sw, 600, 100);
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
-  label = gtk_label_new_with_mnemonic(_("_Chat"));
+  label = gtk_label_new(_("Chat"));
   gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), vbox, label);
 
   text = gtk_text_view_new_with_buffer(message_buffer);

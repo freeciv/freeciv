@@ -727,38 +727,44 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Branch>"	},
   { "/" N_("Game") "/tearoff1",				NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Game") "/" N_("Local _Options"),		NULL,
+  { "/" N_("Game") "/" N_("_Chat"),			NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Game") "/" N_("_Chat") "/" N_("_Clear Log"),		NULL,
+	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
+  { "/" N_("Game") "/" N_("_Chat") "/" N_("_Write Log"),		NULL,
+	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
+  { "/" N_("Game") "/" N_("_Government"),		NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Game") "/" N_("_Government") "/" N_("_Tax Rates"),		"<shift>t",
+	government_menu_callback,	MENU_GOVERNMENT_TAX_RATE			},
+  { "/" N_("Game") "/" N_("_Government") "/" N_("_Revolution..."),	"<shift>r",
+	government_menu_callback,	MENU_GOVERNMENT_REVOLUTION			},
+  { "/" N_("Game") "/" N_("_Government") "/sep1", NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("_Options"),			NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Game") "/" N_("_Options") "/" N_("_Local Client"),		NULL,
 	game_menu_callback,	MENU_GAME_OPTIONS					},
-  { "/" N_("Game") "/" N_("_Message Options"),		NULL,
+  { "/" N_("Game") "/" N_("_Options") "/" N_("_Message"),	NULL,
 	game_menu_callback,	MENU_GAME_MSG_OPTIONS					},
-  { "/" N_("Game") "/sep1",				NULL,
+  { "/" N_("Game") "/" N_("_Options") "/" N_("_Remote Server"),	NULL,
+	game_menu_callback,	MENU_GAME_SERVER_OPTIONS},
+  { "/" N_("Game") "/" N_("_Options") "/" N_("Save Options _Now"),		NULL,
+	game_menu_callback,	MENU_GAME_SAVE_OPTIONS					},
+  { "/" N_("Game") "/" N_("_Options") "/" N_("Save Options on _Exit"),	NULL,
+	game_menu_callback,	MENU_GAME_SAVE_OPTIONS_ON_EXIT,		"<CheckItem>"	},
+  { "/" N_("Game") "/sep4",				NULL,
 	NULL,			0,					"<Separator>"	},
 #ifdef DEBUG
   { "/" N_("Game") "/" N_("_Reload Tileset"), "<ctrl><alt>r",
     game_menu_callback, MENU_GAME_RELOAD_TILESET },
 #endif
-  { "/" N_("Game") "/" N_("Save Options on _Exit"),	NULL,
-	game_menu_callback,	MENU_GAME_SAVE_OPTIONS_ON_EXIT,		"<CheckItem>"	},
-  { "/" N_("Game") "/" N_("Sa_ve Options"),		NULL,
-	game_menu_callback,	MENU_GAME_SAVE_OPTIONS					},
-  { "/" N_("Game") "/sep2",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("Server O_ptions"),	NULL,
-    game_menu_callback,	MENU_GAME_SERVER_OPTIONS},
-  { "/" N_("Game") "/sep3",				NULL,
-	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Save Game"),		NULL,
 	game_menu_callback,	MENU_GAME_SAVE_QUICK, 			"<StockItem>",
 	GTK_STOCK_SAVE									},
   { "/" N_("Game") "/" N_("Save Game _As..."),		NULL,
 	game_menu_callback,	MENU_GAME_SAVE_GAME,			"<StockItem>",
 	GTK_STOCK_SAVE_AS								},
-  { "/" N_("Game") "/sep4",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("E_xport Log"),		NULL,
-	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
-  { "/" N_("Game") "/" N_("_Clear Log"),		NULL,
-	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
   { "/" N_("Game") "/sep6",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Leave"),			NULL,
@@ -766,28 +772,27 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Game") "/" N_("_Quit"),			NULL,
 	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
 	GTK_STOCK_QUIT									},
-  /* Government menu ... */
-  { "/" N_("Gover_nment"),					NULL,
+  /* was Government menu ... */
+  { "/" N_("_Edit"),					NULL,
 	NULL,			0,					"<Branch>"	},
-  { "/" N_("Government") "/tearoff1",			NULL,
+  { "/" N_("_Edit") "/tearoff1",			NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Government") "/" N_("_Tax Rates"),		"<shift>t",
-	government_menu_callback,	MENU_GOVERNMENT_TAX_RATE			},
-  { "/" N_("Government") "/sep1",				NULL,
-	NULL,			0,					"<Separator>"	},
-  { "/" N_("Government") "/" N_("_Find City"),		"<shift>f",
+  { "/" N_("_Edit") "/" N_("_Find City"),		"<shift>f",
 	government_menu_callback,	MENU_GOVERNMENT_FIND_CITY			},
-  { "/" N_("Government") "/" N_("_Worklists"),		"<control>l",
+  { "/" N_("_Edit") "/" N_("_Worklists"),		"<control>l",
 	government_menu_callback,	MENU_GOVERNMENT_WORKLISTS			},
-  { "/" N_("Government") "/sep2",				NULL,
+  { "/" N_("_Edit") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Government") "/" N_("_Change Government"),           NULL,
-	NULL,			0,					"<Branch>"	},
-  { "/" N_("Government") "/" N_("_Change Government") "/" N_("_Revolution..."),
-                                                        "<shift>r",
-	government_menu_callback,	MENU_GOVERNMENT_REVOLUTION			},
-  { "/" N_("_Government") "/" N_("_Change Government") "/sep1", NULL,
-	NULL,			0,					"<Separator>"	},
+  /* was Editor menu */
+  { "/" N_("_Edit") "/" N_("Editing _Mode"), NULL,
+	editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
+  { "/" N_("_Edit") "/" N_("Editing _Tools"), NULL,
+	editor_menu_callback, MENU_EDITOR_TOOLS },
+  { "/" N_("_Edit") "/" N_("Recalculate _Borders"), NULL,
+	editor_menu_callback, MENU_EDITOR_RECALCULATE_BORDERS },
+  { "/" N_("_Edit") "/" N_("Regenerate _Water"), NULL,
+	editor_menu_callback, MENU_EDITOR_REGENERATE_WATER },
+
   /* View menu ... */
   { "/" N_("_View"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -954,18 +959,6 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
   { "/" N_("Reports") "/" N_("S_paceship"),		"F12",
 	reports_menu_callback,	MENU_REPORT_SPACESHIP					},
-
-  /* Editor menu */
-  { "/" N_("_Editor"), NULL, NULL, 0, "<Branch>" },
-  { "/" N_("_Editor") "/tearoff1", NULL, NULL, 0, "<Tearoff>" },
-  { "/" N_("_Editor") "/" N_("_Editing Mode"), NULL,
-    editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
-  { "/" N_("_Editor") "/" N_("_Tools"), NULL,
-    editor_menu_callback, MENU_EDITOR_TOOLS },
-  { "/" N_("_Editor") "/" N_("Recalculate _Borders"), NULL,
-    editor_menu_callback, MENU_EDITOR_RECALCULATE_BORDERS },
-  { "/" N_("_Editor") "/" N_("Regenerate _Water"), NULL,
-    editor_menu_callback, MENU_EDITOR_REGENERATE_WATER },
 
   /* Help menu ... */
   { "/" N_("_Help"),					NULL,
@@ -1256,26 +1249,28 @@ void update_menus(void)
     return;
   }
 
-  menus_set_active("<main>/_Game/Save Options on _Exit", save_options_on_exit);
+  menus_set_active("<main>/_Game/_Options/Save Options on _Exit",
+		   save_options_on_exit);
+  menus_set_sensitive("<main>/_Game/_Options/_Remote Server", 
+		      aconnection.established);
 
   menus_set_sensitive("<main>/_Game/Save Game _As...",
 		      can_client_access_hack()
 		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/_Save Game", can_client_access_hack()
+  menus_set_sensitive("<main>/_Game/_Save Game",
+		      can_client_access_hack()
 		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/Server O_ptions", 
+  menus_set_sensitive("<main>/_Game/_Leave",
 		      aconnection.established);
-  menus_set_sensitive("<main>/_Game/L_eave", aconnection.established);
 
   if (!can_client_change_view()) {
-    menus_set_sensitive("<main>/_Reports", FALSE);
-    menus_set_sensitive("<main>/_Government", FALSE);
+    menus_set_sensitive("<main>/_Edit", FALSE);
     menus_set_sensitive("<main>/_View", FALSE);
     menus_set_sensitive("<main>/_Orders", FALSE);
-    menus_set_sensitive("<main>/_Editor", FALSE);
+    menus_set_sensitive("<main>/_Reports", FALSE);
   } else {
     const char *path =
-      menu_path_remove_uline("<main>/_Government/_Change Government");
+      menu_path_remove_uline("<main>/_Game/_Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
     bool attached_to_player = (game.player_ptr != NULL);
 
@@ -1320,17 +1315,31 @@ void update_menus(void)
     }
 
     menus_set_sensitive("<main>/_Reports", TRUE);
-    menus_set_sensitive("<main>/_Government", TRUE);
+    menus_set_sensitive("<main>/_Edit", TRUE);
     menus_set_sensitive("<main>/_View", TRUE);
     menus_set_sensitive("<main>/_Orders", can_client_issue_orders());
 
-    menus_set_sensitive("<main>/_Government/_Tax Rates",
+    menus_set_sensitive("<main>/_Game/_Government",
+			can_client_issue_orders());
+    menus_set_sensitive("<main>/_Game/_Government/Tax Rates",
 			game.info.changable_tax
                         && can_client_issue_orders());
-    menus_set_sensitive("<main>/_Government/_Worklists",
+
+    menus_set_sensitive("<main>/_Edit/Worklists",
 			can_client_issue_orders());
-    menus_set_sensitive("<main>/_Government/_Change Government",
-			can_client_issue_orders());
+
+    menu_updating = TRUE;
+
+    menus_set_active("<main>/_Edit/Editing _Mode",
+		     can_conn_enable_editing(&aconnection));
+    menus_set_sensitive("<main>/_Edit/Editing _Tools",
+			can_conn_edit(&aconnection));
+    menus_set_sensitive("<main>/_Edit/Recalculate _Borders",
+			can_conn_edit(&aconnection));
+    menus_set_sensitive("<main>/_Edit/Regenerate _Water",
+			can_conn_edit(&aconnection));
+
+    menu_updating = FALSE;
 
     /* If the client is not attached to a player these reports are
      * disabled. */
@@ -1367,19 +1376,6 @@ void update_menus(void)
     menus_set_active("<main>/_View/Fog of War", draw_fog_of_war);
 
     menus_set_active("<main>/_View/_Full Screen", fullscreen_mode);
-
-    menu_updating = TRUE;
-
-    menus_set_sensitive("<main>/_Editor",
-			can_conn_enable_editing(&aconnection));
-    menus_set_sensitive("<main>/_Editor/_Tools",
-			can_conn_edit(&aconnection));
-    menus_set_sensitive("<main>/_Editor/_Recalculate Borders",
-			can_conn_edit(&aconnection));
-    menus_set_active("<main>/_Editor/Editing Mode",
-		     can_conn_edit(&aconnection));
-
-    menu_updating = FALSE;
 
     /* Remaining part of this function: Update Orders menu */
 
