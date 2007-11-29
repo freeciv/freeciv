@@ -459,7 +459,7 @@ void create_players_dialog(void)
   gtk_size_group_add_widget(players_dialog_shell->gui_button, 
       players_meet_command);
 
-  players_war_command = gtk_button_new_with_mnemonic(_("_Cancel Treaty"));
+  players_war_command = gtk_button_new_with_mnemonic(_("Cancel _Treaty"));
   g_signal_connect(players_war_command, "clicked",
       G_CALLBACK(players_war_callback), NULL);
   gui_dialog_add_widget(players_dialog_shell, players_war_command);  
