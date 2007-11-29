@@ -10428,11 +10428,13 @@ msgid "Subvert Enemy Unit"
 msgstr "Ellenséges egység átállítása"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-win32/dialogs.c:1662
-msgid "Sir, the diplomat is waiting for your command"
+#, fuzzy
+msgid "The diplomat is waiting for your command"
 msgstr "Uram, a diplomata a parancsára vár"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:693 client/gui-win32/dialogs.c:1663
-msgid "Sir, the spy is waiting for your command"
+#, fuzzy
+msgid "The spy is waiting for your command"
 msgstr "Uram, a kém a parancsára vár"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:694 client/gui-win32/dialogs.c:1664

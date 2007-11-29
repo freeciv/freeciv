@@ -785,7 +785,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       msg_dlg[i].label = NULL;
 
       popup_message_dialog_args(main_wnd, _("Choose Your Diplomat's Strategy"),
-                                _("Sir, the diplomat is waiting for your command"),
+                                _("The diplomat is waiting for your command"),
                                 msg_dlg);
     } else
     {
@@ -852,7 +852,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       msg_dlg[i].label = NULL;
 
       popup_message_dialog_args(main_wnd, _("Choose Your Spy's Strategy"),
-                                _("Sir, the spy is waiting for your command"),
+                                _("The spy is waiting for your command"),
                                 msg_dlg);
 
     }
@@ -888,8 +888,8 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       popup_message_dialog_args(main_wnd, _("Subvert Enemy Unit"),
                                (!unit_has_type_flag(punit, F_SPY))?
-                                _("Sir, the diplomat is waiting for your command"):
-                                _("Sir, the spy is waiting for your command"),
+                                _("The diplomat is waiting for your command"):
+                                _("The spy is waiting for your command"),
                                 msg_dlg);
 
     }
