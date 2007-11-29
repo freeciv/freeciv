@@ -10472,8 +10472,8 @@ msgstr "Cidades"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
-msgstr "Visuali_zar"
+msgid "_Inspect"
+msgstr "_Visualizar"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -10637,8 +10637,8 @@ msgstr "_Ir para localização"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
-msgid "_Update City"
-msgstr "Visuali_zar Cidade"
+msgid "Inspect _City"
+msgstr "Visualizar _Cidade"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -10978,6 +10978,10 @@ msgstr "_Mapa"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_Chat"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "Chat"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
@@ -11450,7 +11454,7 @@ msgstr "Jogo gravado como %s"
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
 #, fuzzy
-msgid "E_xport Log"
+msgid "_Write Log"
 msgstr "Comando"
 
 #: client/gui-gtk-2.0/menu.c:719

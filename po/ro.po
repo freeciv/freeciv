@@ -10998,8 +10998,8 @@ msgstr "Oraşe"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
-msgstr "Pop_up"
+msgid "_Inspect"
+msgstr "Afişează oraşul"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -11162,7 +11162,7 @@ msgstr "Mergi la _locul"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
-msgid "_Update City"
+msgid "Inspect _City"
 msgstr "Afişează oraşul"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
@@ -11502,6 +11502,10 @@ msgstr "_Hărtă"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "Dis_cuţie"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "Discuţie"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
@@ -11939,7 +11943,8 @@ msgid "Save Game _As..."
 msgstr "Salvează jocukl c_a"
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+#, fuzzy
+msgid "_Write Log"
 msgstr "E_xportă jurnalul"
 
 #: client/gui-gtk-2.0/menu.c:719

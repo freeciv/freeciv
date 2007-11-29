@@ -9969,7 +9969,7 @@ msgstr "شهرها"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
+msgid "_Inspect"
 msgstr "باز کردن"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -10127,8 +10127,9 @@ msgid "Goto _Location"
 msgstr "برو به مکان"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Update City"
-msgstr ""
+#, fuzzy
+msgid "Inspect _City"
+msgstr "باز کردن"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -10452,6 +10453,10 @@ msgstr "نقشه"
 
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
+msgstr "گفتگو"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
 msgstr "گفتگو"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
@@ -10887,7 +10892,8 @@ msgid "Save Game _As..."
 msgstr "ذخیره بازی یه نام ..."
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+#, fuzzy
+msgid "_Write Log"
 msgstr "صدور سیاهه"
 
 #: client/gui-gtk-2.0/menu.c:719

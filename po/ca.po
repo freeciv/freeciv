@@ -10859,7 +10859,8 @@ msgid "Cities"
 msgstr "Ciutats"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Update"
+#, fuzzy
+msgid "_Inspect"
 msgstr "_Actualitzar"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -11021,8 +11022,9 @@ msgid "Goto _Location"
 msgstr "Anar a _lloc"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Update City"
-msgstr "_Actualitzar Ciutat"
+#, fuzzy
+msgid "Inspect _City"
+msgstr "Actualitzar _Ciutat"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -11362,6 +11364,10 @@ msgstr "_Mapa"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_Xat"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "Xat"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
@@ -11797,7 +11803,8 @@ msgid "Save Game _As..."
 msgstr "Desar Partida _Com..."
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+#, fuzzy
+msgid "_Write Log"
 msgstr "E_xportar la llista de missatges"
 
 #: client/gui-gtk-2.0/menu.c:719

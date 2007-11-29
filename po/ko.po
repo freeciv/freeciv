@@ -9903,7 +9903,7 @@ msgid "Cities"
 msgstr "도시"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Update"
+msgid "_Inspect"
 msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -10061,7 +10061,7 @@ msgid "Goto _Location"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Update City"
+msgid "Inspect _City"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
@@ -10386,6 +10386,10 @@ msgstr "지도(_M)"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "대화(_C)"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "대화"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
@@ -10817,7 +10821,7 @@ msgid "Save Game _As..."
 msgstr "다른 이름으로 게임 저장(_A)"
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+msgid "_Write Log"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:719

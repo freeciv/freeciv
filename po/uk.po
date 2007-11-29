@@ -10680,7 +10680,7 @@ msgstr "М╕ста"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
+msgid "_Inspect"
 msgstr "Показати"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -10846,7 +10846,7 @@ msgstr "Йти до"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
-msgid "_Update City"
+msgid "Inspect _City"
 msgstr "В╕дкрити м╕сто"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
@@ -11644,7 +11644,7 @@ msgstr "Зберегти гру"
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
 #, fuzzy
-msgid "E_xport Log"
+msgid "_Write Log"
 msgstr "Експортувати журнал"
 
 #: client/gui-gtk-2.0/menu.c:719

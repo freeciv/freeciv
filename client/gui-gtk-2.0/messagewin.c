@@ -187,7 +187,7 @@ static void create_meswin_dialog(void)
   gtk_widget_set_sensitive(cmd, FALSE);
   
   cmd = gui_dialog_add_stockbutton(meswin_shell, GTK_STOCK_ZOOM_IN,
-      _("_Update City"), CMD_POPCITY);
+      _("Inspect _City"), CMD_POPCITY);
   gtk_widget_set_sensitive(cmd, FALSE);
 
   gui_dialog_add_button(meswin_shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);

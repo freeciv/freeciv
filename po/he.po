@@ -9966,7 +9966,7 @@ msgstr "ערים"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
+msgid "_Inspect"
 msgstr "חלון _צץ"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -10130,7 +10130,7 @@ msgstr "לך ל_מקום"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
-msgid "_Update City"
+msgid "Inspect _City"
 msgstr "_הקפץ עיר"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
@@ -10456,6 +10456,10 @@ msgstr "_מפה"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_שיחה"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "שיחה"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
@@ -10890,7 +10894,8 @@ msgid "Save Game _As..."
 msgstr "שמור משחק _בשם..."
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+#, fuzzy
+msgid "_Write Log"
 msgstr "י_צא יומן־רישום"
 
 #: client/gui-gtk-2.0/menu.c:719

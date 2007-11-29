@@ -11004,7 +11004,7 @@ msgstr "Ciudades"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
+msgid "_Inspect"
 msgstr "_Ventana"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -11167,8 +11167,8 @@ msgstr "Ir a _lugar"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
-msgid "_Update City"
-msgstr "_Ventana de ciudad"
+msgid "Inspect _City"
+msgstr "Ventana de _ciudad"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -11505,6 +11505,10 @@ msgstr "_Mapa"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_Charla"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "Charla"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
@@ -11942,7 +11946,8 @@ msgid "Save Game _As..."
 msgstr "Grabar p_artida como..."
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+#, fuzzy
+msgid "_Write Log"
 msgstr "E_xportar registro"
 
 #: client/gui-gtk-2.0/menu.c:719

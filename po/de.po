@@ -10877,7 +10877,8 @@ msgid "Cities"
 msgstr "Städte"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-msgid "_Update"
+#, fuzzy
+msgid "_Inspect"
 msgstr "_Stadtfenster"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -11043,7 +11044,8 @@ msgid "Goto _Location"
 msgstr "_Gehe nach"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-msgid "_Update City"
+#, fuzzy
+msgid "Inspect _City"
 msgstr "_Stadt aktualisieren"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
@@ -11380,6 +11382,10 @@ msgstr "_Karte"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "_Chat"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "Chat"
 
 #: client/gui-gtk-2.0/gui_main.c:1188 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
@@ -11818,7 +11824,8 @@ msgid "Save Game _As..."
 msgstr "Spiel speichern _als..."
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+#, fuzzy
+msgid "_Write Log"
 msgstr "_Textfenster speichern"
 
 #: client/gui-gtk-2.0/menu.c:719

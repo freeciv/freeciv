@@ -11494,8 +11494,8 @@ msgstr "都市"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
-msgstr "ポップ(_U)"
+msgid "_Inspect"
+msgstr "ポップ(_I)"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -11660,8 +11660,8 @@ msgstr "現場へ移動(_L)"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
-msgid "_Update City"
-msgstr "都市をポップアップ(_U)"
+msgid "Inspect _City"
+msgstr "都市をポップアップ(_C)"
 
 # XXX J.Lennonのもじりだが…
 # 「カクメイしたいんだって？」
@@ -12017,6 +12017,10 @@ msgstr "地図(_M)"
 #: client/gui-gtk-2.0/gui_main.c:1172
 msgid "_Chat"
 msgstr "チャット(_C)"
+
+#: client/gui-gtk-2.0/gui_main.c:1172
+msgid "Chat"
+msgstr "チャット"
 
 # ama, clefs
 # was "さぁ、地獄へ落ちろ!"
@@ -12475,7 +12479,8 @@ msgid "Save Game _As..."
 msgstr "ゲームを別名で保存(_A)..."
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-msgid "E_xport Log"
+#, fuzzy
+msgid "_Write Log"
 msgstr "ログの保存(_X)"
 
 #: client/gui-gtk-2.0/menu.c:719

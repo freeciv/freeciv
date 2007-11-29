@@ -10701,7 +10701,7 @@ msgstr "Cidades"
 
 #: client/gui-gtk-2.0/cityrep.c:804
 #, fuzzy
-msgid "_Update"
+msgid "_Inspect"
 msgstr "_Visualizar"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
@@ -10867,8 +10867,8 @@ msgstr "_Ir para localização"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #, fuzzy
-msgid "_Update City"
-msgstr "_Visualizar Cidade"
+msgid "Inspect _City"
+msgstr "Visualizar _Cidade"
 
 #: client/gui-gtk-2.0/dialogs.c:256 client/gui-sdl/dialogs.c:2085
 #: client/gui-win32/dialogs.c:976 client/gui-xaw/dialogs.c:513
@@ -11663,7 +11663,7 @@ msgstr "Gravar Jogo"
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
 #, fuzzy
-msgid "E_xport Log"
+msgid "_Write Log"
 msgstr "Exportar Registo"
 
 #: client/gui-gtk-2.0/menu.c:719
