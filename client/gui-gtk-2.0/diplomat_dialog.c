@@ -670,8 +670,8 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_("Subvert Enemy Unit"),
 	(!unit_has_type_flag(punit, F_SPY))?
-	_("Sir, the diplomat is waiting for your command"):
-	_("Sir, the spy is waiting for your command"),
+	_("The diplomat is waiting for your command"):
+	_("The spy is waiting for your command"),
 	_("_Bribe Enemy Unit"), diplomat_bribe_callback, NULL,
 	_("_Sabotage Enemy Unit"), spy_sabotage_unit_callback, NULL,
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
