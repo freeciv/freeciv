@@ -809,7 +809,7 @@ static void create_city_report_dialog(bool make_modal)
   city_center_command = w;
 
   w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_ZOOM_IN,
-      _("_Update"), CITY_POPUP);
+      _("_Inspect"), CITY_POPUP);
   city_popup_command = w;
 
   w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_EXECUTE,
