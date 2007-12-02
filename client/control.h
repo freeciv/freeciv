@@ -161,7 +161,6 @@ void key_end_turn(void);
 void key_city_outlines_toggle(void);
 void key_map_grid_toggle(void);
 void key_map_borders_toggle(void);
-void key_quickselect(enum quickselect_type qtype);
 void key_recall_previous_focus_unit(void);
 void key_unit_move(enum direction8 gui_dir);
 void key_unit_airbase(void);
