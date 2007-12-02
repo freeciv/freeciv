@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-29 12:42+0100\n"
+"POT-Creation-Date: 2007-12-02 13:17+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -10506,14 +10506,12 @@ msgid "Subvert Enemy Unit"
 msgstr "Feindliche Einheit unterwandern"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-win32/dialogs.c:1662
-#, fuzzy
 msgid "The diplomat is waiting for your command"
-msgstr "Der Diplomat erwartet seine Anweisungen"
+msgstr "Der Diplomat erwartet deine Anweisungen"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:693 client/gui-win32/dialogs.c:1663
-#, fuzzy
 msgid "The spy is waiting for your command"
-msgstr "Der Spion erwartet seine Anweisungen"
+msgstr "Die Spionin erwartet deine Anweisungen"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:694 client/gui-win32/dialogs.c:1664
 msgid "_Bribe Enemy Unit"
@@ -12398,7 +12396,6 @@ msgid "_Meet"
 msgstr "_Konferenz"
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-#, fuzzy
 msgid "Cancel _Treaty"
 msgstr "_Abkommen aufkündigen"
 
