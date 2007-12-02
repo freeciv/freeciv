@@ -2029,8 +2029,8 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 
 /**************************************************************************
  Quickselecting a unit is normally done with <control> left, right click,
- or keypad / * for the current tile. Bypassing the stack popup is quite
- convenient, and can be tactically important in furious multiplayer games.
+ for the current tile. Bypassing the stack popup is quite convenient, 
+ and can be tactically important in furious multiplayer games.
 **************************************************************************/
 static struct unit *quickselect(struct tile *ptile,
                                 enum quickselect_type qtype)
@@ -2814,18 +2814,6 @@ void key_focus_unit_toggle(void)
 void key_fog_of_war_toggle(void)
 {
   request_toggle_fog_of_war();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_quickselect(enum quickselect_type qtype)
-{
-  unit_list_iterate(get_units_in_focus(), punit) {
-    struct unit *punit2 = quickselect(punit->tile, qtype);
-
-    set_unit_focus_and_select(punit2);
-  } unit_list_iterate_end;
 }
 
 /**************************************************************************
