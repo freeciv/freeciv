@@ -420,7 +420,8 @@ msgid "Unit: Defender Survived"
 msgstr "Unitate: Apărătorul a supravieţuit"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "Unitate: A devenit mai experimentată"
 
 #: common/events.c:126

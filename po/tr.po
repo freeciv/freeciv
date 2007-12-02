@@ -423,7 +423,8 @@ msgid "Unit: Defender Survived"
 msgstr "Birim: Savunma Hayatta Kaldı"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "Birim: Kıdemi Arttı"
 
 #: common/events.c:126

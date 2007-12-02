@@ -432,7 +432,8 @@ msgid "Unit: Defender Survived"
 msgstr "部队： 防御者幸存"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "部队： 变得更有经验"
 
 #: common/events.c:126

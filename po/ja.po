@@ -564,7 +564,8 @@ msgstr "部隊: 防御側切り抜け"
 
 # clefs
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "部隊: ベテラン化"
 
 #: common/events.c:126

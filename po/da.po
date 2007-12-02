@@ -429,7 +429,8 @@ msgid "Unit: Defender Survived"
 msgstr "Enhed: Forsvarer overlevede"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "Enhed: Fik mere erfaring"
 
 #: common/events.c:126
