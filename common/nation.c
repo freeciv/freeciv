@@ -46,18 +46,18 @@ static bool bounds_check_nation(const struct nation_type *pnation,
 				int loglevel, const char *func_name)
 {
   if (0 == nation_count()) {
-    freelog(loglevel, "%s before nations setup", func_name);
+    freelog(loglevel, "%s() called before nations setup", func_name);
     return FALSE;
   }
   if (NULL == pnation) {
-    freelog(loglevel, "%s has NULL nation", func_name);
+    freelog(loglevel, "%s() has NULL nation", func_name);
     return FALSE;
   }
   if (pnation->item_number < 0
       || pnation->item_number >= nation_count()
       || &nations[nation_index(pnation)] != pnation) {
-    freelog(loglevel, "Bad nation id %d (count %d) in %s",
-	    pnation->item_number, nation_count(), func_name);
+    freelog(loglevel, "%s() has bad nation number %d (count %d)",
+	    func_name, pnation->item_number, nation_count());
     return FALSE;
   }
   return TRUE;
@@ -170,7 +170,7 @@ const char *nation_plural_for_player(const struct player *pplayer)
 bool is_nation_playable(const struct nation_type *nation)
 {
   if (!bounds_check_nation(nation, LOG_FATAL, "is_nation_playable")) {
-    die("wrong nation %d", nation->item_number);
+    die("bad nation");
   }
   return nation->is_playable;
 }
@@ -183,7 +183,7 @@ bool is_nation_playable(const struct nation_type *nation)
 enum barbarian_type nation_barbarian_type(const struct nation_type *nation)
 {
   if (!bounds_check_nation(nation, LOG_FATAL, "nation_barbarian_type")) {
-    die("wrong nation %d", nation->item_number);
+    die("bad nation");
   }
   return nation->barb_type;
 }
@@ -195,7 +195,7 @@ sets dim to number of leaders.
 struct leader *get_nation_leaders(const struct nation_type *nation, int *dim)
 {
   if (!bounds_check_nation(nation, LOG_FATAL, "get_nation_leader_names")) {
-    die("wrong nation %d", nation->item_number);
+    die("bad nation");
   }
   *dim = nation->leader_count;
   return nation->leaders;
@@ -255,7 +255,7 @@ struct nation_type *nation_of_player(const struct player *plr)
 {
   assert(plr != NULL);
   if (!bounds_check_nation(plr->nation, LOG_FATAL, "nation_of_player")) {
-    die("wrong nation %d", plr->nation->item_number);
+    die("bad nation");
   }
   return plr->nation;
 }
@@ -449,7 +449,7 @@ Returns nation's city style
 int city_style_of_nation(const struct nation_type *pnation)
 {
   if (!bounds_check_nation(pnation, LOG_FATAL, "city_style_of_nation")) {
-    die("wrong nation %d", pnation->item_number);
+    die("bad nation");
   }
   return pnation->city_style;
 }
