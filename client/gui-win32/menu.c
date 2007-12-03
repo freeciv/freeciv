@@ -1010,12 +1010,12 @@ update_menus(void)
 
   my_enable_menu(menu, IDM_GAME_SAVE_GAME,
 		 can_client_access_hack()
-		 && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+		 && C_S_RUNNING <= client_state());
   my_enable_menu(menu, IDM_GAME_SAVE_QUICK,
 		 can_client_access_hack()
-		 && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+		 && C_S_RUNNING <= client_state());
   my_enable_menu(menu, IDM_GAME_SERVER_OPTIONS,
-		 get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+		 C_S_RUNNING <= client_state());
   my_enable_menu(menu, IDM_GAME_DISCONNECT,
 		 aconnection.established);
 

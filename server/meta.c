@@ -225,17 +225,17 @@ static bool send_to_metaserver(enum meta_flag flag)
     return FALSE;
   }
 
-  switch(server_state) {
-  case PRE_GAME_STATE:
+  switch(server_state()) {
+  case S_S_INITIAL:
     sz_strlcpy(state, "Pregame");
     break;
-  case RUN_GAME_STATE:
+  case S_S_RUNNING:
     sz_strlcpy(state, "Running");
     break;
-  case GAME_OVER_STATE:
+  case S_S_OVER:
     sz_strlcpy(state, "Game Ended");
     break;
-  default:
+  case S_S_GENERATING_WAITING_UNUSED:
     sz_strlcpy(state, "Unknown");
     break;
   }

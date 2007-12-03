@@ -249,7 +249,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
       popup_input_line();
     } else {
       if (map_event_handler(Key)
-		&& get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+		&& C_S_RUNNING == client_state()) {
         switch (Key.sym) {
 	  case SDLK_RETURN:
 	  case SDLK_KP_ENTER:
@@ -409,7 +409,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
     if (pSellected_Widget) {
       unsellect_widget_action();
     } else {
-      if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+      if (C_S_RUNNING == client_state()) {
         handle_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
       }
     }
@@ -995,7 +995,7 @@ void ui_main(int argc, char *argv[])
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();    
   
-  set_client_state(CLIENT_PRE_GAME_STATE);
+  set_client_state(C_S_PREPARING);
 
   /* Main game loop */
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,

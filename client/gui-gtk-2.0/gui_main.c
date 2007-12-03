@@ -1503,7 +1503,7 @@ void ui_main(int argc, char **argv)
 
   init_mapcanvas_and_overview();
 
-  set_client_state(CLIENT_PRE_GAME_STATE);
+  set_client_state(C_S_PREPARING);
   
   tileset_use_prefered_theme(tileset);
 
@@ -1579,7 +1579,7 @@ void update_conn_list_dialog(void)
   gtk_tree_view_column_set_visible(record_col, (with_ggz || in_ggz));
   gtk_tree_view_column_set_visible(rating_col, (with_ggz || in_ggz));
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING != client_state()) {
     bool is_ready;
     const char *nation, *leader, *team;
     char name[MAX_LEN_NAME + 4], rating_text[128], record_text[128];

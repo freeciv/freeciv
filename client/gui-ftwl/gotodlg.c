@@ -27,7 +27,7 @@
 **************************************************************************/
 void popup_goto_dialog(void)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING != client_state()) {
     return;
   }
   if (0 == get_num_units_in_focus()) {

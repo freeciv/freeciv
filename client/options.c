@@ -558,7 +558,7 @@ void load_general_options(void)
 /****************************************************************
  this loads from the rc file any options which need to know what the 
  current ruleset is. It's called the first time client goes into
- CLIENT_GAME_RUNNING_STATE
+ C_S_RUNNING
 *****************************************************************/
 void load_ruleset_specific_options(void)
 {

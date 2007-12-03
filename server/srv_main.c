@@ -112,13 +112,12 @@
 
 static void end_turn(void);
 static void announce_player(struct player *pplayer);
-static void srv_loop(void);
 
 /* command-line arguments to server */
 struct server_arguments srvarg;
 
 /* server state information */
-enum server_states server_state = PRE_GAME_STATE;
+static enum server_states civserver_state = S_S_INITIAL;
 bool nocity_send = FALSE;
 
 /* this global is checked deep down the netcode. 
@@ -201,10 +200,26 @@ void srv_init(void)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+enum server_states server_state(void)
+{
+  return civserver_state;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void set_server_state(enum server_states newstate)
+{
+  civserver_state = newstate;
+}
+
+/**************************************************************************
   Returns TRUE if any one game end condition is fulfilled, FALSE otherwise.
 
-  This function will notify players but will not set the server_state. The
-  caller must set the server state to GAME_OVER_STATE if the function
+  This function will notify players but will not set the server_state(). The
+  caller must set the server state to S_S_OVER if the function
   returns TRUE.
 **************************************************************************/
 bool check_for_game_over(void)
@@ -940,7 +955,7 @@ void save_game_auto(const char *save_reason)
 **************************************************************************/
 void start_game(void)
 {
-  if(server_state!=PRE_GAME_STATE) {
+  if (S_S_INITIAL != server_state()) {
     con_puts(C_SYNTAX, _("The game is already running."));
     return;
   }
@@ -958,7 +973,7 @@ void start_game(void)
 
   con_puts(C_OK, _("Starting game."));
 
-  server_state = RUN_GAME_STATE; /* loaded ??? */
+  set_server_state(S_S_RUNNING); /* loaded ??? */
   force_end_of_sniff = TRUE;
   send_server_settings(NULL);
 }
@@ -968,7 +983,7 @@ void start_game(void)
 **************************************************************************/
 void server_quit(void)
 {
-  server_state = GAME_OVER_STATE;
+  set_server_state(S_S_OVER);
   server_game_free();
   diplhand_free();
 #ifdef HAVE_AUTH
@@ -989,7 +1004,7 @@ void handle_report_req(struct connection *pconn, enum report_type type)
 {
   struct conn_list *dest = pconn->self;
   
-  if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE) {
+  if (S_S_RUNNING != server_state() && S_S_OVER != server_state()) {
     freelog(LOG_ERROR, "Got a report request %d before game start", type);
     return;
   }
@@ -1153,19 +1168,19 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
 
-  if (server_state != RUN_GAME_STATE
+  if (S_S_RUNNING != server_state()
       && type != PACKET_NATION_SELECT_REQ
       && type != PACKET_PLAYER_READY
       && type != PACKET_CONN_PONG
       && type != PACKET_REPORT_REQ) {
-    if (server_state == GAME_OVER_STATE) {
+    if (S_S_OVER == server_state()) {
       /* This can happen by accident, so we don't want to print
 	 out lots of error messages. Ie, we use LOG_DEBUG. */
       freelog(LOG_DEBUG, "got a packet of type %d "
-			  "in GAME_OVER_STATE", type);
+			  "in S_S_OVER", type);
     } else {
       freelog(LOG_ERROR, "got a packet of type %d "
-	                 "outside RUN_GAME_STATE", type);
+	                 "outside S_S_RUNNING", type);
     }
     return TRUE;
   }
@@ -1187,13 +1202,13 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 	    type, conn_description(pconn));
   }
 
-  if (server_state == RUN_GAME_STATE
+  if (S_S_RUNNING == server_state()
       && type != PACKET_PLAYER_READY) {
-    /* HACK: the player-ready packet puts the server into RUN_GAME_STATE
+    /* HACK: the player_ready packet puts the server into S_S_RUNNING
      * but doesn't actually start the game.  The game isn't started until
      * the main loop is re-entered, so kill_dying_players would think
      * all players are dead.  This should be solved by adding a new
-     * game state GAME_GENERATION_STATE. */
+     * game state S_S_GENERATING. */
     kill_dying_players();
   }
 
@@ -1472,8 +1487,7 @@ void handle_player_ready(struct player *requestor,
   struct player *pplayer = player_by_number(player_no);
   bool old_ready;
 
-  if (server_state != PRE_GAME_STATE
-      || !pplayer) {
+  if (NULL == pplayer || S_S_INITIAL != server_state()) {
     return;
   }
 
@@ -1525,7 +1539,7 @@ void aifill(int amount)
 {
   int remove, filled = 0;
 
-  if (server_state != PRE_GAME_STATE || !game.info.is_new_game) {
+  if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
     return;
   }
 
@@ -1709,9 +1723,9 @@ static void announce_player (struct player *pplayer)
 }
 
 /**************************************************************************
-Play the game! Returns when server_state == GAME_OVER_STATE.
+  Play the game! Returns when S_S_RUNNING != server_state().
 **************************************************************************/
-static void main_loop(void)
+static void srv_running(void)
 {
   struct timer *eot_timer;	/* time server processing at end-of-turn */
   int save_counter = 0;
@@ -1730,8 +1744,8 @@ static void main_loop(void)
    */
   lsend_packet_freeze_client(game.est_connections);
 
-  assert(server_state == RUN_GAME_STATE);
-  while (server_state == RUN_GAME_STATE) {
+  assert(S_S_RUNNING == server_state());
+  while (S_S_RUNNING == server_state()) {
     /* The beginning of a turn.
      *
      * We have to initialize data as well as do some actions.  However when
@@ -1764,7 +1778,7 @@ static void main_loop(void)
       freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
 	      read_timer_seconds(eot_timer));
 
-      /* Do auto-saves just before starting sniff_packets(), so that
+      /* Do auto-saves just before starting server_sniff_all_input(), so that
        * autosave happens effectively "at the same time" as manual
        * saves, from the point of view of restarting and AI players.
        * Post-increment so we don't count the first loop.
@@ -1779,7 +1793,7 @@ static void main_loop(void)
 
       freelog(LOG_DEBUG, "sniffingpackets");
       check_for_full_turn_done(); /* HACK: don't wait during AI phases */
-      while (sniff_packets() == 1) {
+      while (server_sniff_all_input() == S_E_OTHERWISE) {
 	/* nothing */
       }
 
@@ -1799,7 +1813,7 @@ static void main_loop(void)
 
       conn_list_do_unbuffer(game.est_connections);
 
-      if (server_state == GAME_OVER_STATE) {
+      if (S_S_OVER == server_state()) {
 	break;
       }
     }
@@ -1807,8 +1821,8 @@ static void main_loop(void)
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     (void) send_server_info_to_metaserver(META_REFRESH);
 
-    if (server_state != GAME_OVER_STATE && check_for_game_over()) {
-      server_state = GAME_OVER_STATE;
+    if (S_S_OVER != server_state() && check_for_game_over()) {
+      set_server_state(S_S_OVER);
       /* this goes here, because we don't rank users after an /endgame */
       rank_users();
     }
@@ -1823,7 +1837,7 @@ static void main_loop(void)
 /**************************************************************************
   Server initialization.
 **************************************************************************/
-void srv_main(void)
+static void srv_prepare(void)
 {
 #ifdef HAVE_AUTH
   if (!srvarg.auth_enabled) {
@@ -1887,53 +1901,37 @@ void srv_main(void)
   (void) send_server_info_to_metaserver(META_INFO);
 
   /* accept new players, wait for serverop to start..*/
-  server_state = PRE_GAME_STATE;
+  set_server_state(S_S_INITIAL);
 
   /* load a script file */
   if (srvarg.script_filename
       && !read_init_script(NULL, srvarg.script_filename, TRUE)) {
     exit(EXIT_FAILURE);
   }
+}
 
-  /* Run server loop */
-  while (TRUE) {
-    srv_loop();
+/**************************************************************************
+  Score calculation.
+**************************************************************************/
+static void srv_scores(void)
+{
+  /* Recalculate the scores in case of a spaceship victory */
+  players_iterate(pplayer) {
+    calc_civ_score(pplayer);
+  } players_iterate_end;
 
-    /* Recalculate the scores in case of a spaceship victory */
-    players_iterate(pplayer) {
-      calc_civ_score(pplayer);
-    } players_iterate_end;
+  send_game_state(game.est_connections, C_S_OVER);
+  report_final_scores();
+  show_map_to_all();
+  notify_player(NULL, NULL, E_GAME_END, _("The game is over..."));
+  send_server_info_to_metaserver(META_INFO);
 
-    send_game_state(game.est_connections, CLIENT_GAME_OVER_STATE);
-    report_final_scores();
-    show_map_to_all();
-    notify_player(NULL, NULL, E_GAME_END, _("The game is over..."));
-    send_server_info_to_metaserver(META_INFO);
-    if (game.info.save_nturns > 0
-	&& conn_list_size(game.est_connections) > 0) {
-      /* Save game on game-over, but not when the gameover was caused by
-       * the -q parameter. */
-      save_game_auto("Game over");
-    }
-
-    /* Remain in GAME_OVER_STATE until players log out */
-    while (conn_list_size(game.est_connections) > 0) {
-      (void) sniff_packets();
-    }
-
-    if (game.info.timeout == -1 || srvarg.exit_on_end) {
-      /* For autogames or if the -e option is specified, exit the server. */
-      server_quit();
-    }
-
-    /* Reset server */
-    server_game_free();
-    server_game_init();
-    game.info.is_new_game = TRUE;
-    server_state = PRE_GAME_STATE;
+  if (game.info.save_nturns > 0
+      && conn_list_size(game.est_connections) > 0) {
+    /* Save game on game_over, but not when the gameover was caused by
+     * the -q parameter. */
+    save_game_auto("Game over");
   }
-
-  /* Technically, we won't ever get here. We exit via server_quit. */
 }
 
 /**************************************************************************
@@ -1957,15 +1955,10 @@ static void final_ruleset_adjustments()
 }
 
 /**************************************************************************
-  Server loop, run to set up one game.
+  Set up one game.
 **************************************************************************/
-static void srv_loop(void)
+static void srv_ready(void)
 {
-  freelog(LOG_NORMAL, _("Now accepting new client connections."));
-  while(server_state == PRE_GAME_STATE) {
-    sniff_packets(); /* Accepting commands. */
-  }
-
   (void) send_server_info_to_metaserver(META_INFO);
 
   if (game.info.auto_ai_toggle) {
@@ -2001,11 +1994,11 @@ static void srv_loop(void)
 
   /* start the game */
 
-  server_state = RUN_GAME_STATE;
+  set_server_state(S_S_RUNNING);
   (void) send_server_info_to_metaserver(META_INFO);
   send_server_settings(NULL);
 
-  if(game.info.is_new_game) {
+  if (game.info.is_new_game) {
     /* Before the player map is allocated (and initiailized)! */
     game.fogofwar_old = game.info.fogofwar;
 
@@ -2040,32 +2033,31 @@ static void srv_loop(void)
         give_random_initial_tech(pplayer);
       }
     } players_iterate_end;
-    
-    
-    if(game.info.is_new_game) {
+
+    assert(game.info.is_new_game); { /* FIXME: inexplicable test */
       /* If we're starting a new game, reset the rules.max_players to be the
        * number of players currently in the game.  But when loading a game
        * we don't want to change it. */
       game.info.max_players = game.info.nplayers;
     }
-  }
 
-  /* Set up alliances based on team selections */
-  if (game.info.is_new_game) {
-   players_iterate(pplayer) {
-     players_iterate(pdest) {
-      if (players_on_same_team(pplayer, pdest)
-          && player_number(pplayer) != player_number(pdest)) {
-        pplayer->diplstates[player_index(pdest)].type = DS_TEAM;
-        give_shared_vision(pplayer, pdest);
-      }
+    /* Set up alliances based on team selections */
+    assert(game.info.is_new_game); /* FIXME: inexplicable test */
+    players_iterate(pplayer) {
+      players_iterate(pdest) {
+        if (players_on_same_team(pplayer, pdest)
+            && player_number(pplayer) != player_number(pdest)) {
+          pplayer->diplstates[player_index(pdest)].type = DS_TEAM;
+          give_shared_vision(pplayer, pdest);
+        }
+      } players_iterate_end;
     } players_iterate_end;
-   } players_iterate_end;
   }
   
   players_iterate(pplayer) {
     ai_data_analyze_rulesets(pplayer);
   } players_iterate_end;
+
   if (!game.info.is_new_game) {
     players_iterate(pplayer) {
       if (pplayer->ai.control) {
@@ -2082,14 +2074,11 @@ static void srv_loop(void)
   send_all_info(game.est_connections);
   lsend_packet_thaw_hint(game.est_connections);
   
-  if(game.info.is_new_game) {
+  if (game.info.is_new_game) {
     init_new_game();
   }
 
-  send_game_state(game.est_connections, CLIENT_GAME_RUNNING_STATE);
-
-  /*** Where the action is. ***/
-  main_loop();
+  send_game_state(game.est_connections, C_S_RUNNING);
 }
 
 /**************************************************************************
@@ -2136,5 +2125,44 @@ void server_game_free(void)
 
     player_map_free(pplayer);
   } players_iterate_end;
+
   game_free();
+}
+
+/**************************************************************************
+  Server main loop.
+**************************************************************************/
+void srv_main(void)
+{
+  srv_prepare();
+
+  /* Run server loop */
+  do {
+    freelog(LOG_NORMAL, _("Now accepting new client connections."));
+    while (S_S_INITIAL == server_state()) {
+      server_sniff_all_input(); /* Accepting commands. */
+    }
+
+    srv_ready();
+    srv_running();
+    srv_scores();
+
+    /* Remain in S_S_OVER until players log out */
+    while (conn_list_size(game.est_connections) > 0) {
+      server_sniff_all_input();
+    }
+
+    if (game.info.timeout == -1 || srvarg.exit_on_end) {
+      /* For autogames or if the -e option is specified, exit the server. */
+      server_quit();
+    }
+
+    /* Reset server */
+    server_game_free();
+    server_game_init();
+    game.info.is_new_game = TRUE;
+    set_server_state(S_S_INITIAL);
+  } while (TRUE);
+
+  /* Technically, we won't ever get here. We exit via server_quit. */
 }

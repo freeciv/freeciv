@@ -279,7 +279,7 @@ static void cut_lagging_connection(struct connection *pconn)
      * it wouldn't help the game progress.  For other connections
      * the best thing to do when they lag too much is to be
      * disconnected and reconnect. */
-    freelog(LOG_NORMAL, "cut connection %s due to lagging player",
+    freelog(LOG_ERROR, "connection (%s) cut due to lagging player",
 	    conn_description(pconn));
     close_socket_callback(pconn);
   }
@@ -331,7 +331,7 @@ void flush_packets(void)
       struct connection *pconn = &connections[i];
       if(pconn->used) {
         if(FD_ISSET(pconn->sock, &exceptfs)) {
-	  freelog(LOG_NORMAL, "cut connection %s due to exception data",
+	  freelog(LOG_ERROR, "connection (%s) cut due to exception data",
 		  conn_description(pconn));
 	  close_socket_callback(pconn);
         } else {
@@ -399,7 +399,7 @@ static void handle_incoming_client_packets(struct connection *pconn)
     connection_do_unbuffer(pconn);
 
 #if PROCESSING_TIME_STATISTICS
-    freelog(LOG_NORMAL,
+    freelog(LOG_VERBOSE,
             "processed request %d in %gms", request_id, 
             read_timer_seconds(request_time) * 1000.0);
 #endif
@@ -420,20 +420,16 @@ Get and handle:
 - new connections,
 - input from connections,
 - input from server operator in stdin
-Returns:
-  0 if went past end-of-turn timeout
-  2 if force_end_of_sniff found to be set
-  1 otherwise (got and processed something?)
+
 This function also handles prompt printing, via the con_prompt_*
 functions.  That is, other functions should not need to do so.  --dwp
 *****************************************************************************/
-int sniff_packets(void)
+enum server_events server_sniff_all_input(void)
 {
   int i;
   int max_desc;
   fd_set readfs, writefs, exceptfs;
   struct timeval tv;
-  static int year;
 #ifdef SOCKET_ZERO_ISNT_STDIN
   char *bufptr;    
 #endif
@@ -468,19 +464,13 @@ int sniff_packets(void)
   }
 #endif /* HAVE_LIBREADLINE */
 
-  if (year != game.info.year) {
-    if (server_state == RUN_GAME_STATE) {
-      year = game.info.year;
-    }
-  }
-  
   while (TRUE) {
     con_prompt_on();		/* accepting new input */
     
     if (force_end_of_sniff) {
       force_end_of_sniff = FALSE;
       con_prompt_off();
-      return 2;
+      return S_E_FORCE_END_OF_SNIFF;
     }
 
     get_lanserver_announcement();
@@ -502,7 +492,7 @@ int sniff_packets(void)
 	    freelog(LOG_NORMAL, get_meta_message_string());
 	    (void) send_server_info_to_metaserver(META_INFO);
 
-            server_state = GAME_OVER_STATE;
+            set_server_state(S_S_OVER);
             force_end_of_sniff = TRUE;
             conn_list_iterate(game.est_connections, pconn) {
               lost_connection_to_client(pconn);
@@ -545,11 +535,11 @@ int sniff_packets(void)
             || pconn->ping_time > game.info.pingtimeout) {
 	  /* cut mute players, except for hack-level ones */
 	  if (pconn->access_level == ALLOW_HACK) {
-	    freelog(LOG_NORMAL,
-		    "ignoring ping timeout to hack-level connection %s",
+	    freelog(LOG_ERROR,
+		    "connection (%s) [hack-level] ping timeout ignored",
 		    conn_description(pconn));
 	  } else {
-	    freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
+	    freelog(LOG_ERROR, "connection (%s) cut due to ping timeout",
 		    conn_description(pconn));
 	    close_socket_callback(pconn);
 	  }
@@ -568,9 +558,9 @@ int sniff_packets(void)
     } conn_list_iterate_end
 
     /* Don't wait if timeout == -1 (i.e. on auto games) */
-    if (server_state != PRE_GAME_STATE && game.info.timeout == -1) {
+    if (S_S_INITIAL != server_state() && game.info.timeout == -1) {
       (void) send_server_info_to_metaserver(META_REFRESH);
-      return 0;
+      return S_E_END_OF_TURN_TIMEOUT;
     }
 
     tv.tv_sec = 1;
@@ -619,12 +609,12 @@ int sniff_packets(void)
       /* timeout */
       (void) send_server_info_to_metaserver(META_REFRESH);
       if (game.info.timeout > 0
-	  && server_state == RUN_GAME_STATE
+	  && S_S_RUNNING == server_state()
 	  && game.phase_timer
 	  && (read_timer_seconds(game.phase_timer)
 	      > game.info.seconds_to_phasedone)) {
 	con_prompt_off();
-	return 0;
+	return S_E_END_OF_TURN_TIMEOUT;
       }
 
       if (!no_input) {
@@ -674,7 +664,7 @@ int sniff_packets(void)
       struct connection *pconn = &connections[i];
 
       if (pconn->used && FD_ISSET(pconn->sock, &exceptfs)) {
- 	freelog(LOG_ERROR, "cut connection %s due to exception data",
+ 	freelog(LOG_ERROR, "connection (%s) cut due to exception data",
 		conn_description(pconn));
 	close_socket_callback(pconn);
       }
@@ -763,12 +753,12 @@ int sniff_packets(void)
   con_prompt_off();
 
   if (game.info.timeout > 0
-      && server_state == RUN_GAME_STATE
+      && S_S_RUNNING == server_state()
       && game.phase_timer
       && read_timer_seconds(game.phase_timer) > game.info.seconds_to_phasedone) {
-    return 0;
+    return S_E_END_OF_TURN_TIMEOUT;
   }
-  return 1;
+  return S_E_OTHERWISE;
 }
 
 /********************************************************************
@@ -1176,17 +1166,17 @@ static void send_lanserver_response(void)
   my_snprintf(version, sizeof(version), "%d.%d.%d%s",
               MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL);
 
-  switch (server_state) {
-  case PRE_GAME_STATE:
+  switch (server_state()) {
+  case S_S_INITIAL:
     my_snprintf(status, sizeof(status), "Pregame");
     break;
-  case RUN_GAME_STATE:
+  case S_S_RUNNING:
     my_snprintf(status, sizeof(status), "Running");
     break;
-  case GAME_OVER_STATE:
+  case S_S_OVER:
     my_snprintf(status, sizeof(status), "Game over");
     break;
-  default:
+  case S_S_GENERATING_WAITING_UNUSED:
     my_snprintf(status, sizeof(status), "Waiting");
   }
 

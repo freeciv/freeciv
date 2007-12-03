@@ -774,7 +774,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     cancel_all_meetings(pplayer);
     /* The following is sometimes necessary to avoid using
        uninitialized data... */
-    if (server_state == RUN_GAME_STATE) {
+    if (S_S_RUNNING == server_state()) {
       assess_danger_player(pplayer);
     }
     /* In case this was last player who has not pressed turn done. */
@@ -823,7 +823,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   PlayerNameStatus PNameStatus;
   bool ai_player_should_be_removed = FALSE;
    
-  if (server_state!=PRE_GAME_STATE)
+  if (S_S_INITIAL != server_state())
   {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
 	      _("Can't add AI players once the game has begun."));
@@ -941,7 +941,7 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  if (!(game.info.is_new_game && server_state == PRE_GAME_STATE)) {
+  if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
     cmd_reply(CMD_REMOVE, caller, C_FAIL,
 	      _("Players cannot be removed once the game has started."));
     return FALSE;
@@ -2068,7 +2068,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   bool res = FALSE;
   struct team *pteam;
 
-  if (server_state != PRE_GAME_STATE || !game.info.is_new_game) {
+  if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
               _("Cannot change teams once game has begun."));
     return FALSE;
@@ -2144,7 +2144,7 @@ static bool vote_command(struct connection *caller, char *str,
   } else if (caller->observer) {
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("Observers cannot vote."));
     return FALSE;
-  } else if (server_state != RUN_GAME_STATE) {
+  } else if (S_S_RUNNING != server_state()) {
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("You can only vote in a "
               "running game.  Use 'first' to become the game organizer "
               "if there currently is none."));
@@ -2600,10 +2600,10 @@ static bool set_command(struct connection *caller, char *str, bool check)
     send_server_info_to_metaserver(META_INFO);
     /* 
      * send any modified game parameters to the clients -- if sent
-     * before RUN_GAME_STATE, triggers a popdown_races_dialog() call
+     * before S_S_RUNNING, triggers a popdown_races_dialog() call
      * in client/packhand.c#handle_game_info() 
      */
-    if (server_state == RUN_GAME_STATE) {
+    if (S_S_RUNNING == server_state()) {
       send_game_info(NULL);
     }
   }
@@ -2633,7 +2633,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     }
   } else if (!pplayer && !will_obs) {
     /* Auto-taking a new player */
-    return game.info.is_new_game && server_state == PRE_GAME_STATE;
+    return game.info.is_new_game && (S_S_INITIAL == server_state());
   } else if (is_barbarian(pplayer)) {
     if (!(allow = strchr(game.allow_take, 'b'))) {
       if (will_obs) {
@@ -2712,7 +2712,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];  
-  bool is_newgame = server_state == PRE_GAME_STATE && game.info.is_new_game;
+  bool is_newgame = game.info.is_new_game && (S_S_INITIAL == server_state());
   enum m_pre_result result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
@@ -2841,10 +2841,10 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   }
   send_conn_info(pconn->self, game.est_connections);
 
-  if (server_state == RUN_GAME_STATE) {
+  if (S_S_RUNNING == server_state()) {
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self);
-    send_game_state(pconn->self, CLIENT_GAME_RUNNING_STATE);
+    send_game_state(pconn->self, C_S_RUNNING);
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
@@ -2880,7 +2880,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];
-  bool is_newgame = server_state == PRE_GAME_STATE && game.info.is_new_game;
+  bool is_newgame = game.info.is_new_game && (S_S_INITIAL == server_state());
   enum m_pre_result match_result;
   struct connection *pconn = caller;
   struct player *pplayer = NULL;
@@ -2946,8 +2946,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   /* if we want to switch players, reset the client if the game is running */
-  if (server_state == RUN_GAME_STATE) {
-    send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
+  if (S_S_RUNNING == server_state()) {
+    send_game_state(pconn->self, C_S_PREPARING);
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
     send_player_info_c(NULL, pconn->self);
@@ -2959,8 +2959,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
   if (pplayer) {
     conn_list_iterate(pplayer->connections, aconn) {
       if (!aconn->observer) {
-	if (server_state == RUN_GAME_STATE) {
-	  send_game_state(aconn->self, CLIENT_PRE_GAME_STATE);
+	if (S_S_RUNNING == server_state()) {
+	  send_game_state(aconn->self, C_S_PREPARING);
 	  send_rulesets(aconn->self);
 	  send_server_settings(aconn->self);
 	}
@@ -3010,10 +3010,10 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
 
-  if (server_state == RUN_GAME_STATE) {
+  if (S_S_RUNNING == server_state()) {
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self);
-    send_game_state(pconn->self, CLIENT_GAME_RUNNING_STATE);
+    send_game_state(pconn->self, C_S_RUNNING);
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
@@ -3053,7 +3053,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   enum m_pre_result match_result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
-  bool is_newgame = server_state == PRE_GAME_STATE && game.info.is_new_game;
+  bool is_newgame = game.info.is_new_game && (S_S_INITIAL == server_state());
   bool res = FALSE;
 
   sz_strlcpy(buf, str);
@@ -3100,8 +3100,8 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   }
 
   /* if we want to detach while the game is running, reset the client */
-  if (server_state == RUN_GAME_STATE) {
-    send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
+  if (S_S_RUNNING == server_state()) {
+    send_game_state(pconn->self, C_S_PREPARING);
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
     send_game_info(pconn->self);
@@ -3249,7 +3249,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
     }
   }
 
-  if (server_state != PRE_GAME_STATE) {
+  if (S_S_INITIAL != server_state()) {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Cannot load a game while another "
                                           "is running."));
     send_load_game_info(FALSE);
@@ -3465,7 +3465,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return FALSE;
   }
 
-  if (server_state != PRE_GAME_STATE
+  if (S_S_INITIAL != server_state()
       && caller
       && caller->player
       && !caller->observer /* don't allow observers to ask votes */
@@ -3630,13 +3630,13 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
 **************************************************************************/
 static bool end_command(struct connection *caller, char *str, bool check)
 {
-  if (server_state == RUN_GAME_STATE) {
+  if (S_S_RUNNING == server_state()) {
     if (check) {
       return TRUE;
     }
     notify_conn(game.est_connections, NULL, E_GAME_END,
                    _("Game ended in a draw."));
-    server_state = GAME_OVER_STATE;
+    set_server_state(S_S_OVER);
     force_end_of_sniff = TRUE;
     cmd_reply(CMD_END_GAME, caller, C_OK,
               _("Ending the game. The server will restart once all clients "
@@ -3655,7 +3655,7 @@ static bool end_command(struct connection *caller, char *str, bool check)
 **************************************************************************/
 static bool surrender_command(struct connection *caller, char *str, bool check)
 {
-  if (server_state == RUN_GAME_STATE && caller && caller->player) {
+  if (S_S_RUNNING == server_state() && caller && caller->player) {
     if (check) {
       return TRUE;
     }
@@ -3675,8 +3675,8 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
 **************************************************************************/
 static bool start_command(struct connection *caller, char *name, bool check)
 {
-  switch (server_state) {
-  case PRE_GAME_STATE:
+  switch (server_state()) {
+  case S_S_INITIAL:
     /* Sanity check scenario */
     if (game.info.is_new_game && !check) {
       if (map.num_start_positions > 0
@@ -3725,14 +3725,14 @@ static bool start_command(struct connection *caller, char *name, bool check)
       handle_player_ready(caller->player, player_number(caller->player), TRUE);
       return TRUE;
     }
-  case GAME_OVER_STATE:
+  case S_S_OVER:
     /* TRANS: given when /start is invoked during gameover. */
     cmd_reply(CMD_START_GAME, caller, C_FAIL,
               _("Cannot start the game: the game is waiting for all clients "
               "to disconnect."));
     return FALSE;
-  case RUN_GAME_STATE:
-  case UNUSED_STATE:
+  case S_S_RUNNING:
+  case S_S_GENERATING_WAITING_UNUSED:
     /* TRANS: given when /start is invoked while the game is running. */
     cmd_reply(CMD_START_GAME, caller, C_FAIL,
               _("Cannot start the game: it is already running."));
@@ -4090,7 +4090,7 @@ void show_players(struct connection *caller)
       }
       cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
 		   team_name_translation(pplayer->team));
-      if (server_state == PRE_GAME_STATE && pplayer->is_connected) {
+      if (S_S_INITIAL == server_state() && pplayer->is_connected) {
 	if (pplayer->is_ready) {
 	  cat_snprintf(buf2, sizeof(buf2), _(", ready"));
 	} else {

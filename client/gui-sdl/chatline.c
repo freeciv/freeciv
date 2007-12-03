@@ -607,7 +607,7 @@ static int load_game_callback(struct widget *pWidget)
 **************************************************************************/
 void update_conn_list_dialog(void)
 {
-  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
+  if (C_S_PREPARING == client_state()) {
     if (pConnDlg) {
       struct widget *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
       SDL_String16 *pStr = create_string16(NULL, 0, adj_font(12));

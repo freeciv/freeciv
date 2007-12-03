@@ -3583,7 +3583,7 @@ void game_load(struct section_file *file)
   }
 
   tmp_server_state = (enum server_states)
-    secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
+    secfile_lookup_int_default(file, S_S_RUNNING, "game.server_state()");
 
   {
     set_meta_patches_string(secfile_lookup_str_default(file, 
@@ -3908,12 +3908,12 @@ void game_load(struct section_file *file)
 	map.xsize = secfile_lookup_int(file, "map.width");
 	map.ysize = secfile_lookup_int(file, "map.height");
       } else {
-	/* old versions saved with these names in PRE_GAME_STATE: */
+	/* old versions saved with these names in S_S_INITIAL: */
 	map.xsize = secfile_lookup_int(file, "map.xsize");
 	map.ysize = secfile_lookup_int(file, "map.ysize");
       }
 
-      if (tmp_server_state==PRE_GAME_STATE && map.generator == 0) {
+      if (S_S_INITIAL == tmp_server_state && 0 == map.generator) {
 	/* generator 0 = map done with map editor */
 	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
@@ -3931,7 +3931,7 @@ void game_load(struct section_file *file)
 	return;
       }
     }
-    if(tmp_server_state==PRE_GAME_STATE) {
+    if (S_S_INITIAL == tmp_server_state) {
       return;
     }
   }
@@ -3961,7 +3961,7 @@ void game_load(struct section_file *file)
     /* We're loading a running game without a seed (which is okay, if it's
      * a scenario).  We need to generate the game seed now because it will
      * be needed later during the load. */
-    if (tmp_server_state == RUN_GAME_STATE) {
+    if (S_S_RUNNING == tmp_server_state) {
       init_game_seed();
       rstate = get_myrand_state();
     }
@@ -4267,8 +4267,8 @@ void game_save(struct section_file *file, const char *save_reason)
    * started the first time), it should always be considered a running
    * game for savegame purposes:
    */
-  secfile_insert_int(file, (int) (game.info.is_new_game ? server_state :
-				  RUN_GAME_STATE), "game.server_state");
+  secfile_insert_int(file, (int) (game.info.is_new_game ? server_state() :
+				  S_S_RUNNING), "game.server_state()");
   
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
   secfile_insert_bool(file, game.meta_info.user_message_set,
@@ -4361,7 +4361,7 @@ void game_save(struct section_file *file, const char *save_reason)
     /* Now always save these, so the server options reflect the
      * actual values used at the start of the game.
      * The first two used to be saved as "map.xsize" and "map.ysize"
-     * when PRE_GAME_STATE, but I'm standardizing on width,height --dwp
+     * when S_S_INITIAL, but I'm standardizing on width,height --dwp
      */
     secfile_insert_int(file, map.topology_id, "map.topology_id");
     secfile_insert_int(file, map.size, "map.size");
@@ -4417,7 +4417,7 @@ void game_save(struct section_file *file, const char *save_reason)
   
   script_state_save(file);
 
-  if ((server_state == PRE_GAME_STATE) && game.info.is_new_game) {
+  if (game.info.is_new_game && (S_S_INITIAL == server_state())) {
     return; /* want to save scenarios as well */
   }
 

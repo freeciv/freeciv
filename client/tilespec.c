@@ -50,7 +50,7 @@
 #include "mapview_g.h"		/* for update_map_canvas_visible */
 #include "themes_g.h"
 
-#include "civclient.h"		/* for get_client_state() */
+#include "civclient.h"		/* for client_state() */
 #include "climap.h"		/* for client_tile_get_known() */
 #include "control.h"		/* for fill_xxx */
 #include "goto.h"
@@ -895,7 +895,7 @@ void tilespec_reread(const char *new_tileset_name)
 {
   int id;
   struct tile *center_tile;
-  enum client_states state = get_client_state();
+  enum client_states state = client_state();
   const char *name = new_tileset_name ? new_tileset_name : tileset->name;
   char tileset_name[strlen(name) + 1], old_name[strlen(tileset->name) + 1];
 
@@ -946,7 +946,7 @@ void tilespec_reread(const char *new_tileset_name)
    * doesn't mess up too badly if we change tilesets while not connected
    * to a server.
    */
-  if (state < CLIENT_GAME_RUNNING_STATE) {
+  if (state < C_S_RUNNING) {
     /* The ruleset data is not sent until this point. */
     return;
   }
@@ -986,11 +986,6 @@ void tilespec_reread(const char *new_tileset_name)
    *
    * Do any necessary redraws.
    */
-  if (state < CLIENT_GAME_RUNNING_STATE) {
-    /* Unless the client state is playing a game or in gameover,
-       we don't want/need to redraw. */
-    return;
-  }
   popdown_all_game_dialogs();
   generate_citydlg_dimensions();
   tileset_changed();

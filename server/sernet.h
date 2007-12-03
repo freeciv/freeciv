@@ -22,9 +22,16 @@ struct connection;
 #define SERVER_LAN_TTL 1
 #define SERVER_LAN_VERSION 1
 
+enum server_events {
+  S_E_END_OF_TURN_TIMEOUT,
+  S_E_OTHERWISE,
+  S_E_FORCE_END_OF_SNIFF,
+};
+
+enum server_events server_sniff_all_input(void);
+
 int server_open_socket(void);
 void flush_packets(void);
-int sniff_packets(void);
 void close_connections_and_socket(void);
 void init_connections(void);
 int server_make_connection(int new_sock,
