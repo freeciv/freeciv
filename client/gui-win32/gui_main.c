@@ -754,7 +754,7 @@ ui_main(int argc, char *argv[])
 
   freecivaccel=my_create_menu_acceltable();
  
-  set_client_state(CLIENT_PRE_GAME_STATE);
+  set_client_state(C_S_PREPARING);
 
   callbacks = callback_list_new();
 

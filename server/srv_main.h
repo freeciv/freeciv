@@ -56,6 +56,9 @@ void srv_main(void);
 void server_quit(void);
 void save_game_auto(const char *save_reason);
 
+enum server_states server_state(void);
+void set_server_state(enum server_states newstate);
+
 bool check_for_game_over(void);
 
 bool handle_packet_input(struct connection *pconn, void *packet, int type);
@@ -76,7 +79,6 @@ void aifill(int amount);
 
 extern struct server_arguments srvarg;
 
-extern enum server_states server_state;
 extern bool nocity_send;
 
 extern bool force_end_of_sniff;

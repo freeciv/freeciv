@@ -197,7 +197,7 @@ void update_start_page(void)
   if (!start_page_shell) {
     return;
   }
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING != client_state()) {
     bool is_ready;
     const char *name, *nation, *leader;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];

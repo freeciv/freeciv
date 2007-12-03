@@ -170,7 +170,7 @@ void popdown_all_game_dialogs(void)
   popdown_help_dialog();
   
   /* clear gui buffer */
-  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
+  if (C_S_PREPARING == client_state()) {
     clear_surface(Main.gui->surface, NULL);
   }
 }

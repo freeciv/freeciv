@@ -112,12 +112,12 @@ void establish_new_connection(struct connection *pconn)
   if ((pplayer = find_player_by_user(pconn->username))) {
     attach_connection_to_player(pconn, pplayer);
 
-    if (server_state == RUN_GAME_STATE) {
+    if (S_S_RUNNING == server_state()) {
       /* Player and other info is only updated when the game is running.
        * See the comment in lost_connection_to_client(). */
       send_packet_freeze_hint(pconn);
       send_all_info(dest);
-      send_game_state(dest, CLIENT_GAME_RUNNING_STATE);
+      send_game_state(dest, C_S_RUNNING);
       send_player_info(NULL,NULL);
       send_diplomatic_meetings(pconn);
       send_packet_thaw_hint(pconn);
@@ -131,7 +131,7 @@ void establish_new_connection(struct connection *pconn)
       toggle_ai_player_direct(NULL, pplayer);
     }
 
-  } else if (server_state == PRE_GAME_STATE && game.info.is_new_game) {
+  } else if (S_S_INITIAL == server_state() && game.info.is_new_game) {
     if (!attach_connection_to_player(pconn, NULL)) {
       notify_conn(dest, NULL, E_CONNECTION,
 		  _("Couldn't attach your connection to new player."));
@@ -158,7 +158,7 @@ void establish_new_connection(struct connection *pconn)
   }
 
   /* if need be, tell who we're waiting on to end the game.info.turn */
-  if (server_state == RUN_GAME_STATE && game.info.turnblock) {
+  if (S_S_RUNNING == server_state() && game.info.turnblock) {
     players_iterate(cplayer) {
       if (cplayer->is_alive
           && !cplayer->ai.control
@@ -173,7 +173,7 @@ void establish_new_connection(struct connection *pconn)
   }
 
   /* if the game is running, players can just view the Players menu? --dwp */
-  if (server_state != RUN_GAME_STATE) {
+  if (S_S_RUNNING != server_state()) {
     show_players(pconn);
   }
 
@@ -319,7 +319,7 @@ void lost_connection_to_client(struct connection *pconn)
   unattach_connection_from_player(pconn);
 
   send_conn_info_remove(pconn->self, game.est_connections);
-  if (server_state == RUN_GAME_STATE) {
+  if (S_S_RUNNING == server_state()) {
     /* Player info is only updated when the game is running; this must be
      * done consistently or the client will end up with inconsistent errors.
      * At other times, the conn info (send_conn_info) is used by the client
@@ -331,7 +331,7 @@ void lost_connection_to_client(struct connection *pconn)
   if (game.info.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */
       && !pplayer->ai.control    /* eg created AI player */
-      && server_state == PRE_GAME_STATE) {
+      && S_S_INITIAL == server_state()) {
     server_remove_player(pplayer);
   } else {
     if (game.info.auto_ai_toggle

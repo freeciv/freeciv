@@ -1188,7 +1188,7 @@ static const char *info_get_value(const char *id)
 {
   static char buffer[100];
 
-  if (get_client_state() < CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING > client_state()) {
     return "pregame";
   }
 

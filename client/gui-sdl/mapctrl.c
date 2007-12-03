@@ -535,7 +535,7 @@ int resize_minimap(void)
   overview_start_x = (overview_w - overview.width)/2;
   overview_start_y = (overview_h - overview.height)/2;
 
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     popdown_minimap_window();
     popup_minimap_window();
     refresh_overview();
@@ -940,7 +940,7 @@ int resize_unit_info(void)
     Remake_UnitInfo(w, h);
   }
   
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     update_menus();
   }
   update_unit_info_label(get_units_in_focus());
@@ -1959,7 +1959,7 @@ static void disable_unitinfo_widgets()
 
 void disable_main_widgets(void)
 {
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     disable_minimap_widgets();
     disable_unitinfo_widgets();
     
@@ -2033,7 +2033,7 @@ static void enable_unitinfo_widgets()
 
 void enable_main_widgets(void)
 {
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
 
     enable_minimap_widgets();
     enable_unitinfo_widgets();
@@ -2090,7 +2090,7 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
 {
   struct tile *ptile;
   
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING != client_state()) {
     return;
   }
   
@@ -2158,7 +2158,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
   struct tile *ptile;
   struct city *pCity;
     
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING != client_state()) {
     return;
   }
   
@@ -2248,7 +2248,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
 **************************************************************************/
 bool map_event_handler(SDL_keysym Key)
 {
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     switch (Key.sym) {
     
       /* cancel action */
@@ -2680,7 +2680,7 @@ void popdown_newcity_dialog(void)
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     if (state) {
       set_wstate(pNew_Turn_Button, FC_WS_NORMAL);
     } else {

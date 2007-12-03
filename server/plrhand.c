@@ -196,7 +196,7 @@ void handle_player_rates(struct player *pplayer,
 {
   int maxrate;
 
-  if (server_state != RUN_GAME_STATE) {
+  if (S_S_RUNNING != server_state()) {
     freelog(LOG_ERROR, "received player_rates packet from %s before start",
 	    pplayer->name);
     notify_player(pplayer, NULL, E_BAD_COMMAND,
@@ -684,14 +684,14 @@ void vnotify_conn(struct conn_list *dest, struct tile *ptile,
   genmsg.conn_id = -1;
 
   conn_list_iterate(dest, pconn) {
-    if (server_state >= RUN_GAME_STATE
+    if (S_S_RUNNING <= server_state()
 	&& ptile /* special case, see above */
 	&& ((!pconn->player && pconn->observer)
 	    || (pconn->player && map_is_known(ptile, pconn->player)))) {
       genmsg.x = ptile->x;
       genmsg.y = ptile->y;
     } else {
-      assert(server_state < RUN_GAME_STATE || !is_normal_map_pos(-1, -1));
+      assert(S_S_RUNNING > server_state() || !is_normal_map_pos(-1, -1));
       genmsg.x = -1;
       genmsg.y = -1;
     }
@@ -1050,7 +1050,7 @@ static void package_player_info(struct player *plr,
    * This may be an odd time to check these values but we can be sure
    * to have a consistent state here.
    */
-  assert(server_state != RUN_GAME_STATE
+  assert(S_S_RUNNING != server_state()
          || A_UNSET == research->researching
 	 || is_future_tech(research->researching)
 	 || (A_NONE != research->researching
@@ -1066,7 +1066,7 @@ static void package_player_info(struct player *plr,
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver)
 {
-  if (server_state < RUN_GAME_STATE) {
+  if (S_S_RUNNING > server_state()) {
     return INFO_MINIMUM;
   }
   if (plr == receiver) {
@@ -1122,7 +1122,7 @@ void server_player_init(struct player *pplayer,
 void server_remove_player(struct player *pplayer)
 {
   /* Not allowed after a game has started */
-  if (!(game.info.is_new_game && server_state == PRE_GAME_STATE)) {
+  if (!game.info.is_new_game || (S_S_INITIAL != server_state())) {
     die("You can't remove players after the game has started!");
   }
 
@@ -1451,7 +1451,7 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
 ****************************************************************************/
 void reset_all_start_commands(void)
 {
-  if (server_state != PRE_GAME_STATE) {
+  if (S_S_INITIAL != server_state()) {
     return;
   }
   players_iterate(pplayer) {

@@ -1334,7 +1334,7 @@ static int apply_taxrates_callback(struct widget *pButton)
     struct widget *pBuf;
     int science, luxury, tax;
   
-    if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    if (C_S_RUNNING != client_state()) {
       return -1;
     }
   

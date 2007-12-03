@@ -790,7 +790,7 @@ static void create_races_dialog(struct player *pplayer)
   int i;
   char *title;
 
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     title = _("Edit Nation");
   } else if (pplayer && pplayer == game.player_ptr) {
     title = _("What Nation Will You Be?");
@@ -971,7 +971,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_dialog_set_response_sensitive(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT,
                                     FALSE);                                          
   /* You can't assign NO_NATION during a running game. */
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     gtk_dialog_set_response_sensitive(GTK_DIALOG(shell), GTK_RESPONSE_NO,
                                       FALSE);
   }

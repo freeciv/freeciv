@@ -1525,7 +1525,7 @@ void send_city_info(struct player *dest, struct city *pcity)
 {
   assert(pcity != NULL);
 
-  if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE)
+  if (S_S_RUNNING != server_state() && S_S_OVER != server_state())
     return;
 
   if (dest == city_owner(pcity) && nocity_send)

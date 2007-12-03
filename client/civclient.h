@@ -35,7 +35,7 @@ void send_turn_done(void);
 void user_ended_turn(void);
 
 void set_client_state(enum client_states newstate);
-enum client_states get_client_state(void);
+enum client_states client_state(void);
 void set_server_busy(bool busy);
 bool is_server_busy(void);
 

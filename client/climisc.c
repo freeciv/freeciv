@@ -882,7 +882,7 @@ void handle_event(char *message, struct tile *ptile,
   }
 
   if (BOOL_VAL(where & MW_OUTPUT)
-      || get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+      || C_S_RUNNING != client_state()) {
     /* When the game isn't running, the messages dialog isn't present and
      * we want to send all messages to the chatline.  There shouldn't be
      * any problem with server spam in pregame anyway. */

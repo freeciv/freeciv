@@ -34,18 +34,19 @@ enum debug_globals {
 };
 
 enum server_states { 
-  PRE_GAME_STATE, 
-  UNUSED_STATE, /* Have to keep this around for savegame compatibility. */
-  RUN_GAME_STATE,
-  GAME_OVER_STATE
+  S_S_INITIAL = 0, 
+  S_S_GENERATING_WAITING_UNUSED = 1,	/* For savegame compatibility. */
+  S_S_RUNNING = 2,
+  S_S_OVER = 3,
 };
 
+/* used in network values */
 enum client_states { 
-  CLIENT_BOOT_STATE,
-  CLIENT_PRE_GAME_STATE,
-  CLIENT_WAITING_FOR_GAME_START_STATE,
-  CLIENT_GAME_RUNNING_STATE,
-  CLIENT_GAME_OVER_STATE
+  C_S_INITIAL = 0,
+  C_S_PREPARING = 1,
+  C_S_STARTING = 2,
+  C_S_RUNNING = 3,
+  C_S_OVER = 4,
 };
 
 #define CONTAMINATION_POLLUTION 1

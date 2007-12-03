@@ -106,7 +106,7 @@ void flush_rect(SDL_Rect rect, bool force_flush)
     if (correct_rect_region(&rect)) {
       static int i = 0;
       dst = rect;
-      if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {     
+      if (C_S_RUNNING == client_state()) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
       alphablit(Main.map, &rect, Main.screen, &dst);
@@ -214,7 +214,7 @@ void flush_dirty(void)
 
   if(Main.rects_count >= RECT_LIMIT) {
     
-    if ((get_client_state() == CLIENT_GAME_RUNNING_STATE) &&
+    if ((C_S_RUNNING == client_state()) &&
         (get_client_page() == PAGE_GAME)) {
       flush_mapcanvas(0, 0, Main.screen->w, Main.screen->h);
       refresh_overview();
@@ -239,7 +239,7 @@ void flush_dirty(void)
     for(i = 0; i<Main.rects_count; i++) {
       
       dst = Main.rects[i];
-      if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {     
+      if (C_S_RUNNING == client_state()) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
       alphablit(Main.map, &Main.rects[i], Main.screen, &dst);
@@ -277,7 +277,7 @@ void flush_dirty(void)
 **************************************************************************/
 void gui_flush(void)
 {
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     refresh_overview();
   }    
 }
@@ -944,7 +944,7 @@ void set_unit_icons_more_arrow(bool onoff)
 **************************************************************************/
 void update_unit_info_label(struct unit_list *punitlist)
 {
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING != client_state()) {
     return;
   }
   

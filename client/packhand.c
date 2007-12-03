@@ -359,16 +359,16 @@ static void update_improvement_from_packet(struct city *pcity,
 ****************************************************************************/
 void handle_game_state(int value)
 {
-  bool changed = (get_client_state() != value);
+  bool changed = (client_state() != value);
 
-  if (get_client_state() == CLIENT_PRE_GAME_STATE
-      && value == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_PREPARING == client_state()
+      && C_S_RUNNING == value) {
     popdown_races_dialog();
   }
   
   set_client_state(value);
 
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     refresh_overview_canvas();
 
     update_info_label();	/* get initial population right */
@@ -382,7 +382,7 @@ void handle_game_state(int value)
     agents_game_start();
   }
 
-  if (get_client_state() == CLIENT_GAME_OVER_STATE) {
+  if (C_S_OVER == client_state()) {
     refresh_overview_canvas();
 
     update_info_label();
@@ -1463,7 +1463,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.government_when_anarchy
     = government_by_number(game.info.government_when_anarchy_id);
   game.player_ptr = player_by_number(game.info.player_idx);
-  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
+  if (C_S_PREPARING == client_state()) {
     popdown_races_dialog();
   }
   boot_help = (can_client_change_view()

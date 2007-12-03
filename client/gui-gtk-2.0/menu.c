@@ -772,6 +772,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Game") "/" N_("_Quit"),			NULL,
 	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
 	GTK_STOCK_QUIT									},
+
   /* was Government menu ... */
   { "/" N_("_Edit"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -1256,10 +1257,10 @@ void update_menus(void)
 
   menus_set_sensitive("<main>/_Game/Save Game _As...",
 		      can_client_access_hack()
-		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+		      && C_S_RUNNING <= client_state());
   menus_set_sensitive("<main>/_Game/_Save Game",
 		      can_client_access_hack()
-		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+		      && C_S_RUNNING <= client_state());
   menus_set_sensitive("<main>/_Game/_Leave",
 		      aconnection.established);
 
