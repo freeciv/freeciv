@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-02 13:17+0100\n"
+"POT-Creation-Date: 2007-12-03 11:52+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -450,7 +450,7 @@ msgid "Unit: Defender Survived"
 msgstr "Einheit: Verteidiger überlebt"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+msgid "Unit: Promoted to Veteran"
 msgstr "Einheit: Erfahrungszuwachs"
 
 #: common/events.c:126
@@ -11360,30 +11360,30 @@ msgstr ""
 "Es gibt keine GUI-bezogenen Kommandozeilenoptionen.\n"
 "\n"
 
-#: client/gui-gtk-2.0/gui_main.c:703 client/gui-gtk-2.0/gui_main.c:1325
+#: client/gui-gtk-2.0/gui_main.c:695 client/gui-gtk-2.0/gui_main.c:1317
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1068 client/gui-gtk-2.0/gui_main.c:1075
+#: client/gui-gtk-2.0/gui_main.c:1060 client/gui-gtk-2.0/gui_main.c:1067
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:482
 #: data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk-2.0/gui_main.c:1075 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1067 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:1071
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
-#: client/gui-gtk-2.0/gui_main.c:1107
+#: client/gui-gtk-2.0/gui_main.c:1099
 msgid "_Map"
 msgstr "_Karte"
 
-#: client/gui-gtk-2.0/gui_main.c:1188
+#: client/gui-gtk-2.0/gui_main.c:1180
 msgid "Chat"
 msgstr "Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:1204 client/gui-win32/gui_main.c:538
+#: client/gui-gtk-2.0/gui_main.c:1196 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11395,72 +11395,72 @@ msgstr ""
 "Siehe unter 'Lizenz' im Hilfemenü.\n"
 "Und nun ... mach' ihnen die Hölle heiß!"
 
-#: client/gui-gtk-2.0/gui_main.c:1469
+#: client/gui-gtk-2.0/gui_main.c:1461
 msgid "Not _ready"
 msgstr "Nicht _bereit"
 
-#: client/gui-gtk-2.0/gui_main.c:1480 client/gui-gtk-2.0/pages.c:1577
+#: client/gui-gtk-2.0/gui_main.c:1472 client/gui-gtk-2.0/pages.c:1577
 msgid "_Ready"
 msgstr "_Bereit"
 
-#: client/gui-gtk-2.0/gui_main.c:1484 client/gui-gtk-2.0/gui_main.c:1490
+#: client/gui-gtk-2.0/gui_main.c:1476 client/gui-gtk-2.0/gui_main.c:1482
 #: client/gui-gtk-2.0/pages.c:2104
 msgid "_Start"
 msgstr "_Start"
 
-#: client/gui-gtk-2.0/gui_main.c:1495 client/gui-gtk-2.0/pages.c:1567
+#: client/gui-gtk-2.0/gui_main.c:1487 client/gui-gtk-2.0/pages.c:1567
 msgid "Pick _Nation"
 msgstr "Wähle _Nation"
 
-#: client/gui-gtk-2.0/gui_main.c:1497
+#: client/gui-gtk-2.0/gui_main.c:1489
 msgid "Create _player"
 msgstr "Spieler _hinzufügen"
 
-#: client/gui-gtk-2.0/gui_main.c:1502
+#: client/gui-gtk-2.0/gui_main.c:1494
 msgid "_Release player"
 msgstr "Spieler _freigeben"
 
-#: client/gui-gtk-2.0/gui_main.c:1504 client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/gui_main.c:1496 client/gui-gtk-2.0/pages.c:1572
 msgid "_Observe"
 msgstr "Be_obachten"
 
-#: client/gui-gtk-2.0/gui_main.c:1506
+#: client/gui-gtk-2.0/gui_main.c:1498
 msgid "_Do not observe"
 msgstr "_Nicht beobachten"
 
-#: client/gui-gtk-2.0/gui_main.c:1528
+#: client/gui-gtk-2.0/gui_main.c:1520
 msgid "<AI>"
 msgstr "<KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1531
+#: client/gui-gtk-2.0/gui_main.c:1523
 msgid "<Novice AI>"
 msgstr "<Anfänger-KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1534
+#: client/gui-gtk-2.0/gui_main.c:1526
 msgid "<Easy AI>"
 msgstr "<Leichte KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1537
+#: client/gui-gtk-2.0/gui_main.c:1529
 msgid "<Normal AI>"
 msgstr "<Normale KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1540
+#: client/gui-gtk-2.0/gui_main.c:1532
 msgid "<Hard AI>"
 msgstr "<Schwere KI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1550 client/gui-win32/dialogs.c:594
+#: client/gui-gtk-2.0/gui_main.c:1542 client/gui-win32/dialogs.c:594
 msgid "Random"
 msgstr "Zufällig"
 
-#: client/gui-gtk-2.0/gui_main.c:1612
+#: client/gui-gtk-2.0/gui_main.c:1604
 msgid "Observer"
 msgstr "Beobachter"
 
-#: client/gui-gtk-2.0/gui_main.c:1612
+#: client/gui-gtk-2.0/gui_main.c:1604
 msgid "Detached"
 msgstr "Nicht verbunden"
 
-#: client/gui-gtk-2.0/gui_main.c:1882
+#: client/gui-gtk-2.0/gui_main.c:1874
 msgid "Are you sure you want to quit?"
 msgstr "Wollen Sie das Programm wirklich beenden?"
 
