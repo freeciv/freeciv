@@ -3479,7 +3479,7 @@ msgstr "%s 和 %s 之间的外交状态现在为 %s。"
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr "%s 取消了外交协定！ %s 和 %s 间的外交状态现在为 %s。"
 
@@ -6135,7 +6135,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "未知的命令。试用“%shelp”。"
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "您的新投票取消了您以前的投票。"
 
 #: server/stdinhand.c:3488

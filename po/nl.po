@@ -418,7 +418,8 @@ msgid "Unit: Defender Survived"
 msgstr "Eenheid: Verdediger overleefde"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "Eenheid: Werd meer veteraan"
 
 #: common/events.c:126
@@ -3639,7 +3640,7 @@ msgstr "De diplomatieke toestand tussen de %s en de %s is nu %s."
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 "%s beëindigde de politieke overeenkomst! De diplomatieke toestand tussen de %"
@@ -6421,7 +6422,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Onbekende opdracht. Probeer '%shelp'."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Uw nieuwe stem annuleerde uw vorige stem."
 
 #: server/stdinhand.c:3488

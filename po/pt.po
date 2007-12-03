@@ -3585,7 +3585,7 @@ msgstr "Jogo: O estado diplomático entre os %s e os %s é agora de %s."
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 "Jogo:  %s cancelam o acordo diplomático! O estado diplomático entre os %s e "
@@ -6318,7 +6318,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Comando desconhecido.  Consulte '%shelp'."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr ""
 
 #: server/stdinhand.c:3488

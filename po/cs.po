@@ -467,7 +467,7 @@ msgid "Unit: Defender Survived"
 msgstr ""
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+msgid "Unit: Promoted to Veteran"
 msgstr ""
 
 #: common/events.c:126
@@ -3648,7 +3648,7 @@ msgstr "Diplomatický stav mezi %s a %s je nyní %s."
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 " %s zrušili diplomatické dohody! Diplomatický stav mezi %s a %s je nyní %s."
@@ -6400,7 +6400,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Neznamý příkaz.  Zkuste '%shelp'."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Váš nový hlas zrušil vaše předchozí hlasování."
 
 #: server/stdinhand.c:3488

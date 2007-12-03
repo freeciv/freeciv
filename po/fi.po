@@ -3707,7 +3707,7 @@ msgstr "%s ja %s ovat puhuneet; valtioiden välillä on nyt %s."
 #: server/plrhand.c:617
 #, fuzzy, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 "%s peruutti diplomaattisen sopimuksen - %s ja %s toteavat, että kansojen "
@@ -6553,7 +6553,7 @@ msgstr "Tuntematon käsky. Ks. '%shelp'."
 
 #: server/stdinhand.c:3479
 #, fuzzy
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Uusi äänesi peruutti edellisen äänesi."
 
 #: server/stdinhand.c:3488

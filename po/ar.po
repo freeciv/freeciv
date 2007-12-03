@@ -418,7 +418,8 @@ msgid "Unit: Defender Survived"
 msgstr "الوحدة: تم نجاة المدافع"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "الوحدة: أصبح أكثر خبرة"
 
 #: common/events.c:126
@@ -3522,7 +3523,7 @@ msgstr "الحالة الدبلوماسية بين ال %s و ال %s هي اﻵ
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 "الغى  %s الاتفاقية الدبلوماسية! الحالة الدبلوماسية بين ال %s و ال %s هي اﻵن %"
@@ -6139,7 +6140,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "الأمر مجهول.  حاول '%shelp'."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "الغى تصويتك القديم تصويتك السابق."
 
 #: server/stdinhand.c:3488

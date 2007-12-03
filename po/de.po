@@ -3708,7 +3708,7 @@ msgstr "Die %s und die %s haben jetzt %s."
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 "Die %s haben das Abkommen gekündigt! Zwischen den %s und den %s herrscht nun "
@@ -6505,7 +6505,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Unbekannter Befehl. '%shelp' gibt nähere Informationen."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Deine Wahl wurde abgeändert."
 
 #: server/stdinhand.c:3488

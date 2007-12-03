@@ -422,7 +422,8 @@ msgid "Unit: Defender Survived"
 msgstr "Μονάδα:"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "Μονάδα:"
 
 #: common/events.c:126
@@ -3473,7 +3474,7 @@ msgstr "Η διπλωματική κατάσταση ανάμεσα σε %s και σε %s είναι τώρα %s."
 #: server/plrhand.c:617
 #, fuzzy, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 " %s ακύρωσε τη διπλωματική συμφωνία! Πλέον η διπλωματική κατάσταση ανάμεσα "
@@ -6235,7 +6236,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr ""
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr ""
 
 #: server/stdinhand.c:3488

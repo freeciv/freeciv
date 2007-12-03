@@ -418,7 +418,8 @@ msgid "Unit: Defender Survived"
 msgstr "Dalinys: Gynėjas išgyveno"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "Dalinys: Gavo daugiau veterano taškų"
 
 #: common/events.c:126
@@ -3508,7 +3509,7 @@ msgstr "Diplomatinė būsena tarp %s ir %s dabar yra %s."
 #: server/plrhand.c:617
 #, fuzzy, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 " %s atšaukė diplomatinį susitarimą! Diplomatinė būsena tarp %s ir %s dabar "
@@ -5963,7 +5964,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Nežinoma komanda. Bandykite '%shelp'."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Jūsų naujas balsas panaikino ankstesnį jūsų balsą."
 
 #: server/stdinhand.c:3488

@@ -3592,7 +3592,7 @@ msgstr " %s ja %s diplomaatiline suhe on nüüd %s."
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr " %s lõpetasid leppe! %s ja %s diplomaatiline suhe on nüüd %s."
 
@@ -6343,7 +6343,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Tundmatu käsk.  Vaata '%shelp'"
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Sinu uus hääletus anulleeris su eelmise hääletuse."
 
 #: server/stdinhand.c:3488

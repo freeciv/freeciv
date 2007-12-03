@@ -3954,7 +3954,7 @@ msgstr "%sと%sの外交状態はいま%sです。"
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr "%sは外交条約を破棄しました! %sと%sの外交状態はいま%sです。"
 
@@ -6871,7 +6871,7 @@ msgstr "不明なコマンドです。'%shelp'を見て下さい。"
 
 # clefs
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "再投票したので，前回の票は無効になります。"
 
 # clefs

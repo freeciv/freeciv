@@ -3656,7 +3656,7 @@ msgstr "L'estat diplomàtic entre %s i %s ara és %s."
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 " %s ha cancel·lat el tractat diplomàtic! L'estat diplomàtic entre %s i %s "
@@ -6459,7 +6459,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Comanda desconeguda.  Prova '%shelp'."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "El teu nou vot ha cancel·lat l'anterior."
 
 #: server/stdinhand.c:3488

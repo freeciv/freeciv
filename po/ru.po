@@ -432,7 +432,8 @@ msgid "Unit: Defender Survived"
 msgstr "Соедининение: защитник выжил"
 
 #: common/events.c:125
-msgid "Unit: Became More Veteran"
+#, fuzzy
+msgid "Unit: Promoted to Veteran"
 msgstr "Соединение: получен новый ветеранский уровень"
 
 #: common/events.c:126
@@ -3707,7 +3708,7 @@ msgstr "Дипломатическое состояние между %s и %s с
 #: server/plrhand.c:617
 #, c-format
 msgid ""
-" %s cancelled the diplomatic agreement! The diplomatic state between the %s "
+" %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
 "%s разорвали договор! Дипломатическое состояние между %s и %s сейчас %s."
@@ -6521,7 +6522,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Неизвестная команда. Попробуйте '%shelp'."
 
 #: server/stdinhand.c:3479
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Ваше новое голосование отменяет предыдущее голосование."
 
 #: server/stdinhand.c:3488
