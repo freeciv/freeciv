@@ -993,7 +993,7 @@ bool read_init_script(struct connection *caller, char *script_filename,
   if (is_restricted(caller) && !from_cmdline) {
     if (!is_safe_filename(serv_filename)) {
       cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
-                _("Name \"%s\" disallowed for security reasons."), 
+                _("Name \"%s\" disallowed for security reasons."),
                 serv_filename);
       return FALSE;
     }
@@ -1129,8 +1129,9 @@ static void write_init_script(char *script_filename)
 static bool write_command(struct connection *caller, char *arg, bool check)
 {
   if (is_restricted(caller)) {
-    cmd_reply(CMD_WRITE_SCRIPT, caller, C_OK, _("You cannot use the write "
-              "command on this server for security reasons."));
+    cmd_reply(CMD_WRITE_SCRIPT, caller, C_FAIL,
+              _("You cannot use the write command on this server"
+              " for security reasons."));
     return FALSE;
   } else if (!check) {
     write_init_script(arg);
@@ -3218,9 +3219,16 @@ bool load_command(struct connection *caller, char *filename, bool check)
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <game name>"));
     return FALSE;
   }
+  if (S_S_INITIAL != server_state()) {
+    cmd_reply(CMD_LOAD, caller, C_FAIL,
+              _("Cannot load a game while another is running."));
+    send_load_game_info(FALSE);
+    return FALSE;
+  }
   if (!is_safe_filename(filename) && is_restricted(caller)) {
-    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Name \"%s\" disallowed for "
-              "security reasons."), filename);
+    cmd_reply(CMD_LOAD, caller, C_FAIL,
+              _("Name \"%s\" disallowed for security reasons."),
+              filename);
     return FALSE;
   }
   {
@@ -3247,13 +3255,6 @@ bool load_command(struct connection *caller, char *filename, bool check)
     } else {
       sz_strlcpy(arg, filename);
     }
-  }
-
-  if (S_S_INITIAL != server_state()) {
-    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Cannot load a game while another "
-                                          "is running."));
-    send_load_game_info(FALSE);
-    return FALSE;
   }
 
   /* attempt to parse the file */
@@ -3316,7 +3317,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
   Load rulesets from a given ruleset directory.
 
   Security: There are some rudimentary checks in load_rulesets() to see
-  if this directory realls is a viable ruleset directory. For public
+  if this directory really is a viable ruleset directory. For public
   servers, we check against directory redirection (is_safe_filename) and
   other bad stuff in the directory name, and will only use directories
   inside the data directories.
@@ -3329,13 +3330,19 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
              _("Current ruleset directory is \"%s\""), game.rulesetdir);
     return FALSE;
   }
+  if (S_S_INITIAL != server_state()) {
+    cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
+              _("This setting can't be modified after the game has started."));
+    return FALSE;
+  }
   if (is_restricted(caller)
       && (!is_safe_filename(str) || strchr(str, '.'))) {
     cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
-             _("Ruleset directory name \"%s\" disallowed for security "
-               "reasons."), str);
+              _("Name \"%s\" disallowed for security reasons."),
+              str);
     return FALSE;
   }  
+
   my_snprintf(filename, sizeof(filename), "%s", str);
   pfilename = datafilename(filename);
   if (!pfilename) {
@@ -3478,8 +3485,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
      * vote command. You can only have one vote at a time. */
     if (votes[idx].command[0] != '\0') {
       cmd_reply(CMD_VOTE, caller, C_COMMENT,
-		_("Your new vote canceled your "
-		  "previous vote."));
+		_("Your new vote canceled your previous vote."));
       votes[idx].command[0] = '\0';
     }
 
@@ -3496,8 +3502,9 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       check_vote(&votes[idx]); /* update vote numbers, maybe auto-accept */
       return TRUE;
     } else {
-      cmd_reply(CMD_VOTE, caller, C_FAIL, "Your new vote (\"%s\") was not "
-                "legal or was not recognized.", full_command);
+      cmd_reply(CMD_VOTE, caller, C_FAIL,
+                _("Your new vote (\"%s\") was not legal or was not recognized."),
+                full_command);
       return FALSE;
     }
   }
