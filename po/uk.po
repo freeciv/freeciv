@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-02 22:23+0200\n"
-"PO-Revision-Date: 2007-12-03 22:10+0200\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"POT-Creation-Date: 2007-12-03 22:27+0200\n"
+"PO-Revision-Date: 2007-12-03 23:03+0200\n"
+"Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-U\n"
@@ -860,7 +860,7 @@ msgstr "Шлях"
 #: common/terrain.c:483
 #: common/terrain.c:677
 #: common/unit.c:514
-#: client/gui-gtk-2.0/menu.c:826
+#: client/gui-gtk-2.0/menu.c:827
 #: client/gui-sdl/optiondlg.c:1905
 #: client/gui-win32/menu.c:344
 #: client/gui-xaw/menu.c:151
@@ -933,7 +933,7 @@ msgid "Sentry"
 msgstr "Охороня╓"
 
 #: common/unit.c:526
-#: client/gui-gtk-2.0/menu.c:879
+#: client/gui-gtk-2.0/menu.c:880
 #: client/gui-sdl/menu.c:648
 #: client/gui-win32/menu.c:370
 #: client/gui-xaw/menu.c:185
@@ -3515,12 +3515,12 @@ msgstr ""
 "Населення з рад╕стю д╕зналося, що Ваш╕ вчен╕ досл╕дили та в╕дкрили буд╕вництво зал╕зниць.\n"
 "      Прац╕вники з╕бралися та побудували в ус╕х м╕стах зал╕зниц╕."
 
-#: server/maphand.c:1614
+#: server/maphand.c:1615
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Перем╕щено Ваш %s з причини зм╕ни м╕сцевост╕."
 
-#: server/maphand.c:1632
+#: server/maphand.c:1633
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Розпущено Ваш %s з причини зм╕ни м╕сцевост╕."
@@ -4847,7 +4847,7 @@ msgstr "Якщо 1, статистика гравця дода╓ться до файлу \"civscore.log\" кожного хо
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Сервер не може прочитати стандартний вв╕д. ╤гнорую його."
 
-#: server/sernet.c:911
+#: server/sernet.c:901
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Сервер: погана адреса: [%s:%d]."
@@ -4921,169 +4921,169 @@ msgstr "Ваш косм╕чний корабель вже ма╓ максимальну к╕льк╕сть соняшних панелей!"
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Без керування з╕ столиц╕, косм╕чний корабель %s загублено!"
 
-#: server/srv_main.c:218
+#: server/srv_main.c:233
 msgid "Game ended in a draw as end year exceeded"
 msgstr "Гру зак╕нченно по досягненн╕ к╕нцевого року"
 
-#: server/srv_main.c:252
+#: server/srv_main.c:267
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Косм╕чний корабель %s досяг Альфа Центавра."
 
-#: server/srv_main.c:265
-#: server/srv_main.c:298
+#: server/srv_main.c:280
+#: server/srv_main.c:313
 #, c-format
 msgid "Team victory to %s"
 msgstr "Командна перемога %s"
 
-#: server/srv_main.c:274
-#: server/srv_main.c:313
+#: server/srv_main.c:289
+#: server/srv_main.c:328
 #, c-format
 msgid "Game ended in victory for %s"
 msgstr "Гру зак╕нчено перемогою %s"
 
-#: server/srv_main.c:319
+#: server/srv_main.c:334
 msgid "Game ended in a draw"
 msgstr "Гру зак╕нчено"
 
-#: server/srv_main.c:434
-#: server/srv_main.c:446
+#: server/srv_main.c:449
+#: server/srv_main.c:461
 #, c-format
 msgid "Your %s unit %s was disbanded in accordance with your peace treaty with the %s."
 msgstr "Ваш %s п╕дрозд╕л %s було розформовано зг╕дно ╕з мирною угодою ╕з %s."
 
-#: server/srv_main.c:486
-#: server/srv_main.c:489
+#: server/srv_main.c:501
+#: server/srv_main.c:504
 #, c-format
 msgid "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Схвильован╕ громадяни нагадують що замирення з %s незабаром завершу╓ться."
 
-#: server/srv_main.c:493
-#: server/srv_main.c:497
+#: server/srv_main.c:508
+#: server/srv_main.c:512
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "Припинення вогню з %s завершено. Тепер Ви нейтральн╕ з %s."
 
-#: server/srv_main.c:514
+#: server/srv_main.c:529
 #, c-format
 msgid "Ceasefire between %s and %s has run out. They are at war. You cancel your alliance with both."
 msgstr "Припинення вогню м╕ж %s та %s ск╕нчилося. Зараз вони у стан╕ в╕йни. Ви розрива╓те альянс з обома."
 
-#: server/srv_main.c:912
+#: server/srv_main.c:927
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Помилка збереження гри у %s"
 
-#: server/srv_main.c:914
+#: server/srv_main.c:929
 #, c-format
 msgid "Game saved as %s"
 msgstr "Гру збережено у %s"
 
-#: server/srv_main.c:944
+#: server/srv_main.c:959
 msgid "The game is already running."
 msgstr "Гра вже запущена."
 
-#: server/srv_main.c:952
+#: server/srv_main.c:967
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr "%s встратив керування cmdlevel на початку гри.  В╕дтепер використовуйте голосування."
 
-#: server/srv_main.c:959
+#: server/srv_main.c:974
 msgid "Starting game."
 msgstr "Стартую гру."
 
-#: server/srv_main.c:1016
+#: server/srv_main.c:1031
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "запит на нев╕домий зв╕т (тип %d)"
 
-#: server/srv_main.c:1078
+#: server/srv_main.c:1093
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Застереження: заборонено доступ застар╕лого кл╕╓нта %s"
 
-#: server/srv_main.c:1087
+#: server/srv_main.c:1102
 #, fuzzy
 msgid "Your client is too old. To use this server, please upgrade your client to a Freeciv 2.2 or later."
 msgstr "Ваш кл╕╓нт застарий. Щоб використовувати цей сервер, будь ласка, онов╕ть ваш кл╕╓нт до CVS верс╕╖ яка п╕зн╕ша за 2003-11-28, або до Freeciv 2.2 чи нов╕ше."
 
-#: server/srv_main.c:1177
+#: server/srv_main.c:1192
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Отримано пакет типу %d в╕д мертвого гравця або наглядача"
 
-#: server/srv_main.c:1278
+#: server/srv_main.c:1293
 msgid "Please choose a non-blank name."
 msgstr "Обер╕ть не пусте ╕м'я."
 
-#: server/srv_main.c:1294
+#: server/srv_main.c:1309
 msgid "That nation is already in use."
 msgstr "Ця нац╕я вже обрана."
 
-#: server/srv_main.c:1310
+#: server/srv_main.c:1325
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "╤нш╕й гравець вже обрав ╕м'я '%s'. Обер╕ть ╕нше."
 
-#: server/srv_main.c:1331
+#: server/srv_main.c:1346
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Будь ласка, обер╕ть ╕м'я, яке м╕стить т╕льк╕ ASCII символи."
 
-#: server/srv_main.c:1428
+#: server/srv_main.c:1443
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Нац╕я %s не доступна у цьому сценар╕╖."
 
-#: server/srv_main.c:1434
+#: server/srv_main.c:1449
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Нац╕я %s вже обрана."
 
-#: server/srv_main.c:1452
+#: server/srv_main.c:1467
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s ╓ %s л╕дером нац╕╖ %s."
 
-#: server/srv_main.c:1510
+#: server/srv_main.c:1524
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Оч╕кую на початок гри: %d ╕з %d гравц╕в готов╕ до початку."
 
-#: server/srv_main.c:1515
+#: server/srv_main.c:1529
 msgid "All players are ready; starting game."
 msgstr "Ус╕ гравц╕ готов╕; розпочинаю гру."
 
-#: server/srv_main.c:1557
-#: server/srv_main.c:1561
+#: server/srv_main.c:1571
+#: server/srv_main.c:1575
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s додано як гравця, контрольованого Ш╤ %s р╕вня."
 
-#: server/srv_main.c:1689
+#: server/srv_main.c:1703
 #, c-format
 msgid "Player %d"
 msgstr "Гравець %d"
 
-#: server/srv_main.c:1700
-#: server/srv_main.c:1706
+#: server/srv_main.c:1714
+#: server/srv_main.c:1720
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s голову╓ над %s."
 
-#: server/srv_main.c:1830
+#: server/srv_main.c:1844
 msgid "This civserver program has player authentication support, but it's currently not in use."
 msgstr ""
 
-#: server/srv_main.c:1881
+#: server/srv_main.c:1895
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "В╕дправляю ╕нфо на метасервер [%s]"
 
-#: server/srv_main.c:1910
+#: server/srv_main.c:1926
 msgid "The game is over..."
 msgstr "Гру зак╕нчено..."
 
-#: server/srv_main.c:1964
+#: server/srv_main.c:2141
 msgid "Now accepting new client connections."
 msgstr "Тепер прийма╓мо нов╕ з'╓днання."
 
@@ -7112,7 +7112,7 @@ msgstr "Найкращ╕ захисн╕ загони"
 #: client/gui-gtk-2.0/cityrep.c:1239
 #: client/gui-gtk-2.0/cityrep.c:1258
 #: client/gui-gtk-2.0/cityrep.c:1277
-#: client/gui-gtk-2.0/menu.c:838
+#: client/gui-gtk-2.0/menu.c:839
 #: client/gui-gtk-2.0/repodlgs.c:983
 #: client/gui-sdl/helpdlg.c:687
 #: client/gui-sdl/mapctrl.c:1603
@@ -9530,22 +9530,22 @@ msgstr "Не знайдено фон╕в по замовчуванню, перериваюся! "
 msgid "Loading tileset \"%s\"."
 msgstr "Завантажую правила"
 
-#: client/tilespec.c:1339
+#: client/tilespec.c:1334
 #, fuzzy
 msgid "Client does not support isometric tilesets."
 msgstr "Кл╕╓нт не п╕дтриму╓ ╕зометричн╕ фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:1340
-#: client/tilespec.c:1349
+#: client/tilespec.c:1335
+#: client/tilespec.c:1344
 msgid "Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:1348
+#: client/tilespec.c:1343
 #, fuzzy
 msgid "Client does not support overhead view tilesets."
 msgstr "Кл╕╓нт не п╕дтриму╓ гор╕шн╕ фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:4173
+#: client/tilespec.c:4168
 #, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
@@ -10336,7 +10336,7 @@ msgid "_Display"
 msgstr "Дипломат╕я"
 
 #: client/gui-gtk-2.0/cityrep.c:795
-#: client/gui-gtk-2.0/menu.c:836
+#: client/gui-gtk-2.0/menu.c:837
 #: client/gui-sdl/diplodlg.c:652
 #: client/gui-sdl/optiondlg.c:1799
 #: client/gui-win32/diplodlg.c:611
@@ -10361,12 +10361,12 @@ msgstr "Вставити"
 #: client/gui-gtk-2.0/cityrep.c:1241
 #: client/gui-gtk-2.0/cityrep.c:1260
 #: client/gui-gtk-2.0/cityrep.c:1279
-#: client/gui-gtk-2.0/menu.c:820
-#: client/gui-gtk-2.0/menu.c:822
-#: client/gui-gtk-2.0/menu.c:824
-#: client/gui-gtk-2.0/menu.c:826
-#: client/gui-gtk-2.0/menu.c:828
-#: client/gui-gtk-2.0/menu.c:830
+#: client/gui-gtk-2.0/menu.c:821
+#: client/gui-gtk-2.0/menu.c:823
+#: client/gui-gtk-2.0/menu.c:825
+#: client/gui-gtk-2.0/menu.c:827
+#: client/gui-gtk-2.0/menu.c:829
+#: client/gui-gtk-2.0/menu.c:831
 #: client/gui-sdl/helpdlg.c:297
 #: client/gui-win32/menu.c:342
 #: client/gui-xaw/menu.c:245
@@ -10716,7 +10716,7 @@ msgid "_Advances"
 msgstr "Технолог╕╖"
 
 #: client/gui-gtk-2.0/diplodlg.c:322
-#: client/gui-gtk-2.0/menu.c:940
+#: client/gui-gtk-2.0/menu.c:941
 #: client/gui-win32/menu.c:399
 msgid "_Cities"
 msgstr "М╕ста"
@@ -11492,7 +11492,7 @@ msgstr "Експортувати Журнал"
 #: client/gui-gtk-2.0/menu.c:738
 #: client/gui-gtk-2.0/menu.c:740
 #: client/gui-gtk-2.0/menu.c:742
-#: client/gui-gtk-2.0/menu.c:998
+#: client/gui-gtk-2.0/menu.c:999
 #: client/gui-win32/menu.c:327
 #: client/gui-win32/menu.c:429
 msgid "_Government"
@@ -11564,113 +11564,113 @@ msgstr "Вийти"
 msgid "_Quit"
 msgstr "Вих╕д"
 
-#: client/gui-gtk-2.0/menu.c:776
-#: client/gui-gtk-2.0/menu.c:778
-#: client/gui-gtk-2.0/menu.c:780
-#: client/gui-gtk-2.0/menu.c:782
-#: client/gui-gtk-2.0/menu.c:784
-#: client/gui-gtk-2.0/menu.c:787
-#: client/gui-gtk-2.0/menu.c:789
-#: client/gui-gtk-2.0/menu.c:791
-#: client/gui-gtk-2.0/menu.c:793
+#: client/gui-gtk-2.0/menu.c:777
+#: client/gui-gtk-2.0/menu.c:779
+#: client/gui-gtk-2.0/menu.c:781
+#: client/gui-gtk-2.0/menu.c:783
+#: client/gui-gtk-2.0/menu.c:785
+#: client/gui-gtk-2.0/menu.c:788
+#: client/gui-gtk-2.0/menu.c:790
+#: client/gui-gtk-2.0/menu.c:792
+#: client/gui-gtk-2.0/menu.c:794
 #: client/gui-win32/menu.c:321
 msgid "_Edit"
 msgstr "Редагувати"
 
-#: client/gui-gtk-2.0/menu.c:780
+#: client/gui-gtk-2.0/menu.c:781
 #: client/gui-win32/menu.c:324
 msgid "_Find City"
 msgstr "Знайти м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:782
+#: client/gui-gtk-2.0/menu.c:783
 #: client/gui-win32/menu.c:325
 msgid "_Worklists"
 msgstr "Плани Буд╕вництва"
 
-#: client/gui-gtk-2.0/menu.c:787
+#: client/gui-gtk-2.0/menu.c:788
 #, fuzzy
 msgid "Editing _Mode"
 msgstr "Режим Редагування"
 
-#: client/gui-gtk-2.0/menu.c:789
+#: client/gui-gtk-2.0/menu.c:790
 #, fuzzy
 msgid "Editing _Tools"
 msgstr "╤нструменти редагування"
 
-#: client/gui-gtk-2.0/menu.c:791
+#: client/gui-gtk-2.0/menu.c:792
 #, fuzzy
 msgid "Recalculate _Borders"
 msgstr "Перерахувати Кордони"
 
-#: client/gui-gtk-2.0/menu.c:793
+#: client/gui-gtk-2.0/menu.c:794
 msgid "Regenerate _Water"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:797
+#: client/gui-gtk-2.0/menu.c:798
 #: client/gui-win32/menu.c:334
 msgid "_View"
 msgstr "Дивитись"
 
-#: client/gui-gtk-2.0/menu.c:799
-#: client/gui-gtk-2.0/menu.c:801
-#: client/gui-gtk-2.0/menu.c:803
-#: client/gui-gtk-2.0/menu.c:805
-#: client/gui-gtk-2.0/menu.c:807
-#: client/gui-gtk-2.0/menu.c:809
-#: client/gui-gtk-2.0/menu.c:812
-#: client/gui-gtk-2.0/menu.c:814
-#: client/gui-gtk-2.0/menu.c:816
-#: client/gui-gtk-2.0/menu.c:818
-#: client/gui-gtk-2.0/menu.c:820
-#: client/gui-gtk-2.0/menu.c:822
-#: client/gui-gtk-2.0/menu.c:824
-#: client/gui-gtk-2.0/menu.c:826
-#: client/gui-gtk-2.0/menu.c:828
-#: client/gui-gtk-2.0/menu.c:830
-#: client/gui-gtk-2.0/menu.c:832
-#: client/gui-gtk-2.0/menu.c:834
-#: client/gui-gtk-2.0/menu.c:836
-#: client/gui-gtk-2.0/menu.c:838
-#: client/gui-gtk-2.0/menu.c:840
-#: client/gui-gtk-2.0/menu.c:842
-#: client/gui-gtk-2.0/menu.c:844
-#: client/gui-gtk-2.0/menu.c:846
-#: client/gui-gtk-2.0/menu.c:848
-#: client/gui-gtk-2.0/menu.c:850
+#: client/gui-gtk-2.0/menu.c:800
+#: client/gui-gtk-2.0/menu.c:802
+#: client/gui-gtk-2.0/menu.c:804
+#: client/gui-gtk-2.0/menu.c:806
+#: client/gui-gtk-2.0/menu.c:808
+#: client/gui-gtk-2.0/menu.c:810
+#: client/gui-gtk-2.0/menu.c:813
+#: client/gui-gtk-2.0/menu.c:815
+#: client/gui-gtk-2.0/menu.c:817
+#: client/gui-gtk-2.0/menu.c:819
+#: client/gui-gtk-2.0/menu.c:821
+#: client/gui-gtk-2.0/menu.c:823
+#: client/gui-gtk-2.0/menu.c:825
+#: client/gui-gtk-2.0/menu.c:827
+#: client/gui-gtk-2.0/menu.c:829
+#: client/gui-gtk-2.0/menu.c:831
+#: client/gui-gtk-2.0/menu.c:833
+#: client/gui-gtk-2.0/menu.c:835
+#: client/gui-gtk-2.0/menu.c:837
+#: client/gui-gtk-2.0/menu.c:839
+#: client/gui-gtk-2.0/menu.c:841
+#: client/gui-gtk-2.0/menu.c:843
+#: client/gui-gtk-2.0/menu.c:845
+#: client/gui-gtk-2.0/menu.c:847
+#: client/gui-gtk-2.0/menu.c:849
+#: client/gui-gtk-2.0/menu.c:851
 #: data/Freeciv.in:2028
 msgid "View"
 msgstr "Дивитись"
 
-#: client/gui-gtk-2.0/menu.c:801
+#: client/gui-gtk-2.0/menu.c:802
 msgid "City Outlines"
 msgstr "Обриси М╕ста"
 
-#: client/gui-gtk-2.0/menu.c:803
+#: client/gui-gtk-2.0/menu.c:804
 #: client/gui-win32/menu.c:335
 msgid "Map _Grid"
 msgstr "С╕тка"
 
-#: client/gui-gtk-2.0/menu.c:805
+#: client/gui-gtk-2.0/menu.c:806
 #: client/gui-win32/menu.c:336
 msgid "National _Borders"
 msgstr "Нац╕ональн╕_Кордони"
 
-#: client/gui-gtk-2.0/menu.c:807
+#: client/gui-gtk-2.0/menu.c:808
 #: client/gui-win32/menu.c:337
 msgid "City _Names"
 msgstr "Назви м╕ст"
 
-#: client/gui-gtk-2.0/menu.c:809
+#: client/gui-gtk-2.0/menu.c:810
 #: client/gui-win32/menu.c:338
 msgid "City G_rowth"
 msgstr "Р╕ст М╕ста"
 
-#: client/gui-gtk-2.0/menu.c:812
+#: client/gui-gtk-2.0/menu.c:813
 #: client/gui-win32/menu.c:339
 msgid "City _Productions"
 msgstr "Виробництво"
 
-#: client/gui-gtk-2.0/menu.c:816
+#: client/gui-gtk-2.0/menu.c:817
 #: client/gui-sdl/optiondlg.c:1634
 #: client/gui-win32/menu.c:340
 #: client/gui-xaw/menu.c:148
@@ -11680,388 +11680,388 @@ msgstr "Виробництво"
 msgid "Terrain"
 msgstr "Тер╕тор╕я"
 
-#: client/gui-gtk-2.0/menu.c:818
+#: client/gui-gtk-2.0/menu.c:819
 #: client/gui-win32/menu.c:341
 #: client/gui-xaw/menu.c:149
 msgid "Coastline"
 msgstr "Узбер╕жжя"
 
-#: client/gui-gtk-2.0/menu.c:824
+#: client/gui-gtk-2.0/menu.c:825
 #: client/gui-win32/menu.c:343
 msgid "Roads & Rails"
 msgstr "Шляхи та Зал╕зниц╕"
 
-#: client/gui-gtk-2.0/menu.c:828
+#: client/gui-gtk-2.0/menu.c:829
 #: client/gui-sdl/optiondlg.c:1932
 #: client/gui-win32/menu.c:345
 #: client/gui-xaw/menu.c:152
 msgid "Mines"
 msgstr "Шахти"
 
-#: client/gui-gtk-2.0/menu.c:830
+#: client/gui-gtk-2.0/menu.c:831
 #: client/gui-win32/menu.c:346
 msgid "Fortress & Airbase"
 msgstr "Укр╕плення та Ав╕абази"
 
-#: client/gui-gtk-2.0/menu.c:832
+#: client/gui-gtk-2.0/menu.c:833
 #: client/gui-win32/menu.c:348
 #: client/gui-xaw/menu.c:154
 msgid "Specials"
 msgstr "Спец╕альне"
 
-#: client/gui-gtk-2.0/menu.c:834
+#: client/gui-gtk-2.0/menu.c:835
 #: client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:155
 msgid "Pollution & Fallout"
 msgstr "Забруднення та Катастрофи"
 
-#: client/gui-gtk-2.0/menu.c:840
+#: client/gui-gtk-2.0/menu.c:841
 #: client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:158
 msgid "Focus Unit"
 msgstr "Фокусувати п╕дрозд╕л"
 
-#: client/gui-gtk-2.0/menu.c:842
+#: client/gui-gtk-2.0/menu.c:843
 #: client/gui-sdl/optiondlg.c:1853
 #: client/gui-win32/menu.c:353
 #: client/gui-xaw/menu.c:159
 msgid "Fog of War"
 msgstr "Мара в╕йни"
 
-#: client/gui-gtk-2.0/menu.c:846
+#: client/gui-gtk-2.0/menu.c:847
 msgid "_Full Screen"
 msgstr "Повний Екран"
 
-#: client/gui-gtk-2.0/menu.c:850
+#: client/gui-gtk-2.0/menu.c:851
 msgid "_Center View"
 msgstr "Центрувати"
 
-#: client/gui-gtk-2.0/menu.c:853
+#: client/gui-gtk-2.0/menu.c:854
 #: client/gui-win32/menu.c:358
 msgid "_Orders"
 msgstr "Наказ"
 
-#: client/gui-gtk-2.0/menu.c:855
-#: client/gui-gtk-2.0/menu.c:857
-#: client/gui-gtk-2.0/menu.c:859
-#: client/gui-gtk-2.0/menu.c:861
-#: client/gui-gtk-2.0/menu.c:863
-#: client/gui-gtk-2.0/menu.c:865
-#: client/gui-gtk-2.0/menu.c:867
-#: client/gui-gtk-2.0/menu.c:869
-#: client/gui-gtk-2.0/menu.c:871
-#: client/gui-gtk-2.0/menu.c:873
-#: client/gui-gtk-2.0/menu.c:875
-#: client/gui-gtk-2.0/menu.c:877
-#: client/gui-gtk-2.0/menu.c:879
-#: client/gui-gtk-2.0/menu.c:881
-#: client/gui-gtk-2.0/menu.c:883
-#: client/gui-gtk-2.0/menu.c:885
-#: client/gui-gtk-2.0/menu.c:887
-#: client/gui-gtk-2.0/menu.c:889
-#: client/gui-gtk-2.0/menu.c:891
-#: client/gui-gtk-2.0/menu.c:893
-#: client/gui-gtk-2.0/menu.c:895
-#: client/gui-gtk-2.0/menu.c:897
-#: client/gui-gtk-2.0/menu.c:899
-#: client/gui-gtk-2.0/menu.c:901
-#: client/gui-gtk-2.0/menu.c:903
-#: client/gui-gtk-2.0/menu.c:905
-#: client/gui-gtk-2.0/menu.c:907
-#: client/gui-gtk-2.0/menu.c:909
-#: client/gui-gtk-2.0/menu.c:911
-#: client/gui-gtk-2.0/menu.c:913
-#: client/gui-gtk-2.0/menu.c:915
-#: client/gui-gtk-2.0/menu.c:917
-#: client/gui-gtk-2.0/menu.c:919
-#: client/gui-gtk-2.0/menu.c:921
-#: client/gui-gtk-2.0/menu.c:923
-#: client/gui-gtk-2.0/menu.c:925
-#: client/gui-gtk-2.0/menu.c:927
-#: client/gui-gtk-2.0/menu.c:929
-#: client/gui-gtk-2.0/menu.c:931
-#: client/gui-gtk-2.0/menu.c:933
+#: client/gui-gtk-2.0/menu.c:856
+#: client/gui-gtk-2.0/menu.c:858
+#: client/gui-gtk-2.0/menu.c:860
+#: client/gui-gtk-2.0/menu.c:862
+#: client/gui-gtk-2.0/menu.c:864
+#: client/gui-gtk-2.0/menu.c:866
+#: client/gui-gtk-2.0/menu.c:868
+#: client/gui-gtk-2.0/menu.c:870
+#: client/gui-gtk-2.0/menu.c:872
+#: client/gui-gtk-2.0/menu.c:874
+#: client/gui-gtk-2.0/menu.c:876
+#: client/gui-gtk-2.0/menu.c:878
+#: client/gui-gtk-2.0/menu.c:880
+#: client/gui-gtk-2.0/menu.c:882
+#: client/gui-gtk-2.0/menu.c:884
+#: client/gui-gtk-2.0/menu.c:886
+#: client/gui-gtk-2.0/menu.c:888
+#: client/gui-gtk-2.0/menu.c:890
+#: client/gui-gtk-2.0/menu.c:892
+#: client/gui-gtk-2.0/menu.c:894
+#: client/gui-gtk-2.0/menu.c:896
+#: client/gui-gtk-2.0/menu.c:898
+#: client/gui-gtk-2.0/menu.c:900
+#: client/gui-gtk-2.0/menu.c:902
+#: client/gui-gtk-2.0/menu.c:904
+#: client/gui-gtk-2.0/menu.c:906
+#: client/gui-gtk-2.0/menu.c:908
+#: client/gui-gtk-2.0/menu.c:910
+#: client/gui-gtk-2.0/menu.c:912
+#: client/gui-gtk-2.0/menu.c:914
+#: client/gui-gtk-2.0/menu.c:916
+#: client/gui-gtk-2.0/menu.c:918
+#: client/gui-gtk-2.0/menu.c:920
+#: client/gui-gtk-2.0/menu.c:922
+#: client/gui-gtk-2.0/menu.c:924
+#: client/gui-gtk-2.0/menu.c:926
+#: client/gui-gtk-2.0/menu.c:928
+#: client/gui-gtk-2.0/menu.c:930
+#: client/gui-gtk-2.0/menu.c:932
+#: client/gui-gtk-2.0/menu.c:934
 #: data/Freeciv.in:2029
 msgid "Orders"
 msgstr "Наказ"
 
-#: client/gui-gtk-2.0/menu.c:857
-#: client/gui-gtk-2.0/menu.c:1479
+#: client/gui-gtk-2.0/menu.c:858
+#: client/gui-gtk-2.0/menu.c:1480
 #: client/gui-win32/menu.c:359
 msgid "_Build City"
 msgstr "Будувати м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:859
-#: client/gui-gtk-2.0/menu.c:1501
-#: client/gui-gtk-2.0/menu.c:1507
+#: client/gui-gtk-2.0/menu.c:860
+#: client/gui-gtk-2.0/menu.c:1502
+#: client/gui-gtk-2.0/menu.c:1508
 #: client/gui-win32/menu.c:360
 msgid "Build _Road"
 msgstr "Будувати шлях"
 
-#: client/gui-gtk-2.0/menu.c:861
-#: client/gui-gtk-2.0/menu.c:1395
+#: client/gui-gtk-2.0/menu.c:862
+#: client/gui-gtk-2.0/menu.c:1396
 #: client/gui-win32/menu.c:361
 msgid "Build _Irrigation"
 msgstr "Будувати зрошення"
 
-#: client/gui-gtk-2.0/menu.c:863
-#: client/gui-gtk-2.0/menu.c:1396
+#: client/gui-gtk-2.0/menu.c:864
+#: client/gui-gtk-2.0/menu.c:1397
 #: client/gui-win32/menu.c:362
 msgid "Build _Mine"
 msgstr "Будувати шахту"
 
-#: client/gui-gtk-2.0/menu.c:865
-#: client/gui-gtk-2.0/menu.c:1397
+#: client/gui-gtk-2.0/menu.c:866
+#: client/gui-gtk-2.0/menu.c:1398
 msgid "Transf_orm Terrain"
 msgstr "Зм╕нити тер╕тор╕ю"
 
-#: client/gui-gtk-2.0/menu.c:867
-#: client/gui-gtk-2.0/menu.c:1543
+#: client/gui-gtk-2.0/menu.c:868
+#: client/gui-gtk-2.0/menu.c:1544
 #: client/gui-win32/menu.c:364
 msgid "Build _Fortress"
 msgstr "Будувати укр╕плення"
 
-#: client/gui-gtk-2.0/menu.c:869
+#: client/gui-gtk-2.0/menu.c:870
 #: client/gui-win32/menu.c:365
 msgid "Build Airbas_e"
 msgstr "Будувати ав╕абазу"
 
-#: client/gui-gtk-2.0/menu.c:871
-#: client/gui-gtk-2.0/menu.c:1549
+#: client/gui-gtk-2.0/menu.c:872
+#: client/gui-gtk-2.0/menu.c:1550
 #: client/gui-win32/menu.c:366
 msgid "Clean _Pollution"
 msgstr "Л╕кв╕дувати забруднення"
 
-#: client/gui-gtk-2.0/menu.c:873
+#: client/gui-gtk-2.0/menu.c:874
 #: client/gui-win32/menu.c:367
 msgid "Clean _Nuclear Fallout"
 msgstr "Л╕кв╕дувати рад╕ац╕ю"
 
-#: client/gui-gtk-2.0/menu.c:877
+#: client/gui-gtk-2.0/menu.c:878
 #: client/gui-win32/menu.c:369
 msgid "_Sentry"
 msgstr "Охороняти"
 
-#: client/gui-gtk-2.0/menu.c:883
+#: client/gui-gtk-2.0/menu.c:884
 #: client/gui-win32/menu.c:372
 msgid "Make _Homecity"
 msgstr "Зм╕нити дом╕вку"
 
-#: client/gui-gtk-2.0/menu.c:885
+#: client/gui-gtk-2.0/menu.c:886
 #: client/gui-win32/menu.c:373
 msgid "_Load"
 msgstr "Завантажити"
 
-#: client/gui-gtk-2.0/menu.c:887
+#: client/gui-gtk-2.0/menu.c:888
 msgid "_Unload Transporter"
 msgstr "Вивантажити Транспорт"
 
-#: client/gui-gtk-2.0/menu.c:889
+#: client/gui-gtk-2.0/menu.c:890
 #: client/gui-win32/menu.c:374
 msgid "_Unload"
 msgstr "Вивантажити"
 
-#: client/gui-gtk-2.0/menu.c:891
+#: client/gui-gtk-2.0/menu.c:892
 #: client/gui-win32/menu.c:375
 msgid "Wake up o_thers"
 msgstr "Пробудити вс╕х"
 
-#: client/gui-gtk-2.0/menu.c:895
+#: client/gui-gtk-2.0/menu.c:896
 msgid "_Auto Settler"
 msgstr "Автоколон╕зувати"
 
-#: client/gui-gtk-2.0/menu.c:897
+#: client/gui-gtk-2.0/menu.c:898
 #: client/gui-win32/menu.c:378
 msgid "Auto E_xplore"
 msgstr "Автодосл╕джувати"
 
-#: client/gui-gtk-2.0/menu.c:899
-#: client/gui-gtk-2.0/menu.c:901
-#: client/gui-gtk-2.0/menu.c:903
+#: client/gui-gtk-2.0/menu.c:900
+#: client/gui-gtk-2.0/menu.c:902
+#: client/gui-gtk-2.0/menu.c:904
 msgid "_Connect"
 msgstr "З'╓днатися"
 
-#: client/gui-gtk-2.0/menu.c:899
+#: client/gui-gtk-2.0/menu.c:900
 #: client/gui-win32/menu.c:380
 msgid "_Road"
 msgstr "Шлях"
 
-#: client/gui-gtk-2.0/menu.c:901
+#: client/gui-gtk-2.0/menu.c:902
 #: client/gui-win32/menu.c:381
 msgid "Rai_l"
 msgstr "Зал╕зниця"
 
-#: client/gui-gtk-2.0/menu.c:903
+#: client/gui-gtk-2.0/menu.c:904
 #: client/gui-win32/menu.c:382
 msgid "_Irrigate"
 msgstr "Зрошувати"
 
-#: client/gui-gtk-2.0/menu.c:905
+#: client/gui-gtk-2.0/menu.c:906
 msgid "Go _to"
 msgstr "Йти до"
 
-#: client/gui-gtk-2.0/menu.c:905
+#: client/gui-gtk-2.0/menu.c:906
 msgid "_Build city"
 msgstr "Будувати м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:907
+#: client/gui-gtk-2.0/menu.c:908
 msgid "Patrol (_Q)"
 msgstr "Патрулувати (_Q)"
 
-#: client/gui-gtk-2.0/menu.c:909
+#: client/gui-gtk-2.0/menu.c:910
 #: client/gui-win32/menu.c:385
 msgid "_Go to"
 msgstr "Йти (_G)"
 
-#: client/gui-gtk-2.0/menu.c:911
+#: client/gui-gtk-2.0/menu.c:912
 msgid "Go\\/Airlift to City"
 msgstr "Йти\\/Перел╕т╕ти до м╕ста"
 
-#: client/gui-gtk-2.0/menu.c:913
+#: client/gui-gtk-2.0/menu.c:914
 #: client/gui-sdl/menu.c:450
 #: client/gui-win32/menu.c:387
 #: client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
 msgstr "Повернутися до найближчого м╕ста"
 
-#: client/gui-gtk-2.0/menu.c:917
+#: client/gui-gtk-2.0/menu.c:918
 #: client/gui-win32/menu.c:389
 #: client/gui-xaw/menu.c:205
 msgid "Disband Unit"
 msgstr "Розформувати п╕дрозд╕л"
 
-#: client/gui-gtk-2.0/menu.c:919
+#: client/gui-gtk-2.0/menu.c:920
 #: client/gui-sdl/citydlg.c:532
 #: data/Freeciv.in:1186
 msgid "Upgrade unit"
 msgstr "Модерн╕зувати п╕дрозд╕л"
 
-#: client/gui-gtk-2.0/menu.c:921
+#: client/gui-gtk-2.0/menu.c:922
 msgid "Diplomat\\/Spy Actions"
 msgstr "Д╕пломатичн╕/Шпигунськ╕ д╕╖"
 
-#: client/gui-gtk-2.0/menu.c:923
+#: client/gui-gtk-2.0/menu.c:924
 #: client/gui-sdl/menu.c:399
 #: client/gui-win32/menu.c:391
 #: client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
 msgstr "П╕д╕рвати атомну бомбу"
 
-#: client/gui-gtk-2.0/menu.c:927
+#: client/gui-gtk-2.0/menu.c:928
 msgid "Select same type"
 msgstr "Ус╕ такого ж типу"
 
-#: client/gui-gtk-2.0/menu.c:929
+#: client/gui-gtk-2.0/menu.c:930
 #, fuzzy
 msgid "Select same type in tile"
 msgstr "Ус╕ такого ж типу"
 
-#: client/gui-gtk-2.0/menu.c:931
+#: client/gui-gtk-2.0/menu.c:932
 #: client/gui-win32/menu.c:393
 msgid "_Wait"
 msgstr "Чекати (_W)"
 
-#: client/gui-gtk-2.0/menu.c:933
+#: client/gui-gtk-2.0/menu.c:934
 #: client/gui-win32/menu.c:394
 #: client/gui-xaw/menu.c:213
 msgid "Done"
 msgstr "Завершено"
 
-#: client/gui-gtk-2.0/menu.c:936
+#: client/gui-gtk-2.0/menu.c:937
 #: client/gui-win32/menu.c:398
 msgid "_Reports"
 msgstr "Зв╕ти"
 
-#: client/gui-gtk-2.0/menu.c:938
-#: client/gui-gtk-2.0/menu.c:940
-#: client/gui-gtk-2.0/menu.c:942
-#: client/gui-gtk-2.0/menu.c:944
-#: client/gui-gtk-2.0/menu.c:946
-#: client/gui-gtk-2.0/menu.c:948
-#: client/gui-gtk-2.0/menu.c:950
-#: client/gui-gtk-2.0/menu.c:952
-#: client/gui-gtk-2.0/menu.c:954
-#: client/gui-gtk-2.0/menu.c:956
-#: client/gui-gtk-2.0/menu.c:958
-#: client/gui-gtk-2.0/menu.c:960
+#: client/gui-gtk-2.0/menu.c:939
+#: client/gui-gtk-2.0/menu.c:941
+#: client/gui-gtk-2.0/menu.c:943
+#: client/gui-gtk-2.0/menu.c:945
+#: client/gui-gtk-2.0/menu.c:947
+#: client/gui-gtk-2.0/menu.c:949
+#: client/gui-gtk-2.0/menu.c:951
+#: client/gui-gtk-2.0/menu.c:953
+#: client/gui-gtk-2.0/menu.c:955
+#: client/gui-gtk-2.0/menu.c:957
+#: client/gui-gtk-2.0/menu.c:959
+#: client/gui-gtk-2.0/menu.c:961
 #: data/Freeciv.in:2030
 msgid "Reports"
 msgstr "Зв╕ти"
 
-#: client/gui-gtk-2.0/menu.c:942
-#: client/gui-gtk-2.0/menu.c:986
+#: client/gui-gtk-2.0/menu.c:943
+#: client/gui-gtk-2.0/menu.c:987
 #: client/gui-win32/menu.c:400
 #: client/gui-win32/menu.c:423
 msgid "_Units"
 msgstr "П╕дрозд╕ли"
 
-#: client/gui-gtk-2.0/menu.c:944
+#: client/gui-gtk-2.0/menu.c:945
 #: client/gui-win32/menu.c:401
 msgid "_Players"
 msgstr "Гравц╕"
 
-#: client/gui-gtk-2.0/menu.c:946
+#: client/gui-gtk-2.0/menu.c:947
 #: client/gui-win32/menu.c:402
 msgid "_Economy"
 msgstr "Економ╕ка"
 
-#: client/gui-gtk-2.0/menu.c:948
+#: client/gui-gtk-2.0/menu.c:949
 #: client/gui-win32/menu.c:403
 msgid "_Science"
 msgstr "Наука"
 
-#: client/gui-gtk-2.0/menu.c:952
+#: client/gui-gtk-2.0/menu.c:953
 #: client/gui-win32/menu.c:405
 msgid "_Wonders of the World"
 msgstr "Дива св╕ту"
 
-#: client/gui-gtk-2.0/menu.c:954
+#: client/gui-gtk-2.0/menu.c:955
 #: client/gui-win32/menu.c:406
 msgid "_Top Five Cities"
 msgstr "Найвизначн╕ши м╕ста"
 
-#: client/gui-gtk-2.0/menu.c:956
+#: client/gui-gtk-2.0/menu.c:957
 #: client/gui-win32/menu.c:407
 msgid "_Messages"
 msgstr "Пов╕домлення"
 
-#: client/gui-gtk-2.0/menu.c:958
+#: client/gui-gtk-2.0/menu.c:959
 #: client/gui-win32/menu.c:408
 msgid "_Demographics"
 msgstr "Демограф╕я"
 
-#: client/gui-gtk-2.0/menu.c:960
+#: client/gui-gtk-2.0/menu.c:961
 #: client/gui-win32/menu.c:409
 msgid "S_paceship"
 msgstr "Косм╕чний корабель"
 
-#: client/gui-gtk-2.0/menu.c:964
+#: client/gui-gtk-2.0/menu.c:965
 #: client/gui-win32/menu.c:413
 msgid "_Help"
 msgstr "Допомога"
 
-#: client/gui-gtk-2.0/menu.c:966
-#: client/gui-gtk-2.0/menu.c:968
-#: client/gui-gtk-2.0/menu.c:970
-#: client/gui-gtk-2.0/menu.c:972
-#: client/gui-gtk-2.0/menu.c:974
-#: client/gui-gtk-2.0/menu.c:976
-#: client/gui-gtk-2.0/menu.c:978
-#: client/gui-gtk-2.0/menu.c:980
-#: client/gui-gtk-2.0/menu.c:982
-#: client/gui-gtk-2.0/menu.c:984
-#: client/gui-gtk-2.0/menu.c:986
-#: client/gui-gtk-2.0/menu.c:988
-#: client/gui-gtk-2.0/menu.c:990
-#: client/gui-gtk-2.0/menu.c:992
-#: client/gui-gtk-2.0/menu.c:994
-#: client/gui-gtk-2.0/menu.c:996
-#: client/gui-gtk-2.0/menu.c:998
-#: client/gui-gtk-2.0/menu.c:1000
-#: client/gui-gtk-2.0/menu.c:1002
-#: client/gui-gtk-2.0/menu.c:1004
-#: client/gui-gtk-2.0/menu.c:1006
-#: client/gui-gtk-2.0/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:967
+#: client/gui-gtk-2.0/menu.c:969
+#: client/gui-gtk-2.0/menu.c:971
+#: client/gui-gtk-2.0/menu.c:973
+#: client/gui-gtk-2.0/menu.c:975
+#: client/gui-gtk-2.0/menu.c:977
+#: client/gui-gtk-2.0/menu.c:979
+#: client/gui-gtk-2.0/menu.c:981
+#: client/gui-gtk-2.0/menu.c:983
+#: client/gui-gtk-2.0/menu.c:985
+#: client/gui-gtk-2.0/menu.c:987
+#: client/gui-gtk-2.0/menu.c:989
+#: client/gui-gtk-2.0/menu.c:991
+#: client/gui-gtk-2.0/menu.c:993
+#: client/gui-gtk-2.0/menu.c:995
+#: client/gui-gtk-2.0/menu.c:997
+#: client/gui-gtk-2.0/menu.c:999
+#: client/gui-gtk-2.0/menu.c:1001
+#: client/gui-gtk-2.0/menu.c:1003
+#: client/gui-gtk-2.0/menu.c:1005
+#: client/gui-gtk-2.0/menu.c:1007
+#: client/gui-gtk-2.0/menu.c:1009
 #: client/gui-gtk-2.0/repodlgs.c:325
 #: client/gui-win32/citydlg.c:1082
 #: client/gui-win32/repodlgs.c:285
@@ -12074,136 +12074,136 @@ msgstr "Допомога"
 msgid "Help"
 msgstr "Допомога"
 
-#: client/gui-gtk-2.0/menu.c:968
+#: client/gui-gtk-2.0/menu.c:969
 #: client/gui-win32/menu.c:414
 msgid "Language_s"
 msgstr "Мова"
 
-#: client/gui-gtk-2.0/menu.c:970
+#: client/gui-gtk-2.0/menu.c:971
 #: client/gui-win32/menu.c:415
 msgid "Co_nnecting"
 msgstr "З'╓днуюсь"
 
-#: client/gui-gtk-2.0/menu.c:972
+#: client/gui-gtk-2.0/menu.c:973
 #: client/gui-win32/menu.c:416
 msgid "C_ontrols"
 msgstr "Управл╕ння"
 
-#: client/gui-gtk-2.0/menu.c:974
+#: client/gui-gtk-2.0/menu.c:975
 #: client/gui-win32/menu.c:417
 msgid "C_hatline"
 msgstr "Чат"
 
-#: client/gui-gtk-2.0/menu.c:976
+#: client/gui-gtk-2.0/menu.c:977
 #: client/gui-win32/menu.c:418
 msgid "_Worklist Editor"
 msgstr "Редактор план╕в буд╕вництва "
 
-#: client/gui-gtk-2.0/menu.c:978
+#: client/gui-gtk-2.0/menu.c:979
 #: client/gui-win32/menu.c:419
 msgid "Citizen _Management"
 msgstr "Управл╕ння городянами"
 
-#: client/gui-gtk-2.0/menu.c:980
+#: client/gui-gtk-2.0/menu.c:981
 #: client/gui-win32/menu.c:420
 msgid "_Playing"
 msgstr "Гра"
 
-#: client/gui-gtk-2.0/menu.c:984
+#: client/gui-gtk-2.0/menu.c:985
 #: client/gui-win32/menu.c:422
 msgid "City _Improvements"
 msgstr "Буд╕вл╕ м╕ста"
 
-#: client/gui-gtk-2.0/menu.c:988
+#: client/gui-gtk-2.0/menu.c:989
 #: client/gui-win32/menu.c:424
 msgid "Com_bat"
 msgstr "Битва"
 
-#: client/gui-gtk-2.0/menu.c:990
+#: client/gui-gtk-2.0/menu.c:991
 #: client/gui-win32/menu.c:425
 msgid "_ZOC"
 msgstr "Зони контролю"
 
-#: client/gui-gtk-2.0/menu.c:992
+#: client/gui-gtk-2.0/menu.c:993
 #: client/gui-win32/menu.c:426
 msgid "Techno_logy"
 msgstr "Технолог╕╖"
 
-#: client/gui-gtk-2.0/menu.c:994
+#: client/gui-gtk-2.0/menu.c:995
 #: client/gui-win32/menu.c:427
 msgid "_Terrain"
 msgstr "Тер╕тор╕╖"
 
-#: client/gui-gtk-2.0/menu.c:996
+#: client/gui-gtk-2.0/menu.c:997
 #: client/gui-win32/menu.c:428
 msgid "Won_ders"
 msgstr "Дива"
 
-#: client/gui-gtk-2.0/menu.c:1000
+#: client/gui-gtk-2.0/menu.c:1001
 #: client/gui-win32/menu.c:430
 msgid "Happin_ess"
 msgstr "Щастя"
 
-#: client/gui-gtk-2.0/menu.c:1002
+#: client/gui-gtk-2.0/menu.c:1003
 #: client/gui-win32/menu.c:431
 msgid "Space _Race"
 msgstr "Косм╕чна гонка"
 
-#: client/gui-gtk-2.0/menu.c:1006
+#: client/gui-gtk-2.0/menu.c:1007
 #: client/gui-win32/menu.c:433
 msgid "_Copying"
 msgstr "Коп╕ювання"
 
-#: client/gui-gtk-2.0/menu.c:1008
+#: client/gui-gtk-2.0/menu.c:1009
 #: client/gui-win32/menu.c:434
 msgid "_About"
 msgstr "Про програму"
 
-#: client/gui-gtk-2.0/menu.c:1294
+#: client/gui-gtk-2.0/menu.c:1295
 #, c-format
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:1387
+#: client/gui-gtk-2.0/menu.c:1388
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Зм╕нити на %s (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1388
+#: client/gui-gtk-2.0/menu.c:1389
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Зм╕нити на %s (_М)"
 
-#: client/gui-gtk-2.0/menu.c:1389
+#: client/gui-gtk-2.0/menu.c:1390
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Зм╕нити на %s"
 
-#: client/gui-gtk-2.0/menu.c:1462
+#: client/gui-gtk-2.0/menu.c:1463
 msgid "Help _Build Wonder"
 msgstr "Допомогти будувати диво"
 
-#: client/gui-gtk-2.0/menu.c:1476
+#: client/gui-gtk-2.0/menu.c:1477
 msgid "Add to City (_B)"
 msgstr "Додати до м╕ста (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1484
+#: client/gui-gtk-2.0/menu.c:1485
 msgid "Make Trade _Route"
 msgstr "Встановити торговий шлях"
 
-#: client/gui-gtk-2.0/menu.c:1498
+#: client/gui-gtk-2.0/menu.c:1499
 msgid "Build _Railroad"
 msgstr "Будувати зал╕зницю"
 
-#: client/gui-gtk-2.0/menu.c:1521
+#: client/gui-gtk-2.0/menu.c:1522
 msgid "Bu_ild Farmland"
 msgstr "Будувати ферму"
 
-#: client/gui-gtk-2.0/menu.c:1541
+#: client/gui-gtk-2.0/menu.c:1542
 msgid "_Fortify"
 msgstr "Укр╕пити"
 
-#: client/gui-gtk-2.0/menu.c:1547
+#: client/gui-gtk-2.0/menu.c:1548
 msgid "_Paradrop"
 msgstr "Парашутувати"
 
@@ -14709,29 +14709,29 @@ msgstr "Не знайдено теми по замовчуванню, перериваюся! "
 msgid "Trying \"%s\" theme."
 msgstr "Пробую тему \"%s\"."
 
-#: client/gui-sdl/themespec.c:491
-#: client/gui-sdl/themespec.c:525
-#: client/gui-sdl/themespec.c:703
+#: client/gui-sdl/themespec.c:486
+#: client/gui-sdl/themespec.c:520
+#: client/gui-sdl/themespec.c:698
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Не можу в╕дкрити \"%s\"."
 
-#: client/gui-sdl/themespec.c:505
+#: client/gui-sdl/themespec.c:500
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Не можу завантажити gfx файл для spec файлу %s"
 
-#: client/gui-sdl/themespec.c:672
+#: client/gui-sdl/themespec.c:667
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Не знайдено п╕дтримуваного розширення файлу gfx для %s"
 
-#: client/gui-sdl/themespec.c:824
+#: client/gui-sdl/themespec.c:819
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Не можу завантажити gfx файл %s для спрайту %s"
 
-#: client/gui-sdl/themespec.c:975
+#: client/gui-sdl/themespec.c:970
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Не ма╓ граф╕чних тег╕в %s або %s для %s %s"
@@ -22864,7 +22864,7 @@ msgstr "Казахи"
 
 #: data/nation/kazakh.ruleset:6
 msgid "Kazakhs are descendants of Turkic and Mongolian nomadic tribes. Conquered by Russia in the 18th century, Kazahstan became independent in 1991 with the dissolution of the Soviet Union. It is one of ten largest states in the world by area."
-msgstr "Казахи нащадки тюркських та монгольских кочовик╕в, Захоплений Росс╕╓ю у 18-му строр╕чч╕, Казахстан став незалежним ╕з розпадом Радянського Союзу у 1991 роц╕. Казахстан ╓ одн╕╓ю ╕з десяти найб╕льших за розмром кра╖н."
+msgstr "Казахи нащадки тюркських та монгольских кочовик╕в, Захоплений Рос╕╓ю у 18-му строр╕чч╕, Казахстан став незалежним ╕з розпадом Радянського Союзу у 1991 роц╕. Казахстан ╓ одн╕╓ю ╕з десяти найб╕льших за розмром кра╖н."
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
@@ -23602,7 +23602,7 @@ msgstr "Ляхи"
 
 #: data/nation/polish.ruleset:6
 msgid "The Polish state was formed about a millennium ago, and reached its Golden Age near the end of the 16th century."
-msgstr "Польська держава була заснована близько тисяч╕ рок╕в тому, та досягла Золотого В╕ку близько к╕нця 16 стор╕ччя."
+msgstr "Польська держава була заснована близько тисяч╕ рок╕в тому, та досягла Золотого В╕ку наприк╕нц╕ 16 стор╕ччя."
 
 #. TRANS: Dyktator/Dyktatorka = Dictator
 #: data/nation/polish.ruleset:27
@@ -23806,7 +23806,7 @@ msgstr "Сам╕"
 
 #: data/nation/sami.ruleset:6
 msgid "The Sami are a people of northern Scandinavia. Their nation spans over the northernmost regions of the Scandinavian countries and northwestern Russia."
-msgstr "Саами - народ п╕вн╕чно╖ Скандинав╕╖. ╤х нац╕я под╕лена м╕ж п╕вн╕чними рег╕онами скандинавських стран та п╕н╕чно-зах╕дною Росс╕╓ю."
+msgstr "Саами - народ п╕вн╕чно╖ Скандинав╕╖. ╤х нац╕я под╕лена м╕ж п╕вн╕чними рег╕онами скандинавських кра╖н та п╕н╕чно-зах╕дною Рос╕╓ю."
 
 #. TRANS: Noaydde = Shaman
 #: data/nation/sami.ruleset:22
@@ -23859,7 +23859,7 @@ msgstr "Серби"
 
 #: data/nation/serbian.ruleset:6
 msgid "Serbia is part of the region of the Southern Slavs that was conquered by the Ottomans after the collapse of the Byzantine Empire.  During most of the 20th century it was part of the Yugoslav Federation."
-msgstr "Серб╕я це частина рег╕ону П╕вденних Словян що була захоплена Отоманською ╕мпер╕╓ю п╕сля розпаду В╕зант╕╖. Напротяз╕ б╕льшост╕ часу 20 стор╕ччя це була частина Югославсько╖ Федерац╕╖."
+msgstr "Серб╕я це частина рег╕ону П╕вденних Словян що була захоплена Отоманською ╕мпер╕╓ю п╕сля розпаду В╕зант╕╖. Напротяз╕ зачно╖ частини 20 стор╕ччя це була частина Югославсько╖ Федерац╕╖."
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -23977,7 +23977,7 @@ msgstr "Радяньск╕"
 
 #: data/nation/soviet.ruleset:6
 msgid "Soviet Union's history starts in November 1917, when under Lenin's leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet republics integrated into one country. Soviet Union became one of most powerful states in the 20th century. But by the end of 1991 due to many social shocks it disintegrated into fifteen independent countries"
-msgstr "╤стор╕я Радянського Союзу розпочалася у Листопад╕ 1917 року, коли п╕д кер╕вництвом Лен╕на в╕дбулася третя рос╕йська революц╕я (друга за той р╕к). 31 грудня 1922 року чотири радянськ╕ республ╕ки об'╓дналися у ╓дину кра╖ну. Радянський Союз став одною ╕з найб╕льш могутн╕х держав 20-го стор╕чча. Проте у к╕нц╕ 1991 року п╕сля багатьох соц╕альних негаразд╕в в╕н розпався на пятнадцять незалежних кра╖н."
+msgstr "╤стор╕я Радянського Союзу розпочалася у Листопад╕ 1917 року, коли п╕д кер╕вництвом Лен╕на в╕дбулася третя рос╕йська революц╕я (друга за той р╕к). 31 грудня 1922 року чотири радянськ╕ республ╕ки об'╓дналися у ╓дину кра╖ну. Радянський Союз став одною ╕з найб╕льш могутн╕х держав 20-го стор╕ччя. Проте у к╕нц╕ 1991 року п╕сля багатьох соц╕альних негаразд╕в в╕н розпався на пятнадцять незалежних кра╖н."
 
 #: data/nation/soviet.ruleset:28
 msgid "Great Leader"
@@ -24045,11 +24045,11 @@ msgstr "У 1820 Судан п╕дпав п╕д египетську, та пот╕м п╕д британьску владу. Судан
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "Шумерц╕"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
-msgstr "Шумерц╕"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:6
 msgid "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets of Sumerian writing some 5500 years old have been found, pre-dating every other writing in history."
@@ -24100,7 +24100,7 @@ msgstr "Шведи"
 
 #: data/nation/swedish.ruleset:6
 msgid "The Kingdom of Sweden was christianized and consolidated as a political entity by the 12th century AD. The country rose to prominence as one of the great powers of Europe in the 17th century, following substantial military conquests by the so called Warrior Kings. However, due to a worsening economy and several disastrous defeats to Russia, Sweden soon lost most of its gained territory. The country has not been involved in an armed conflict since 1814."
-msgstr "Корол╕вство Швец╕╖ було христиан╕зовано та об'╓днано як пол╕тична одиниця к 12-му стор╕ччу. Кра╖на набула могутност╕ як одна ╕з найб╕льших сил у ╢вроп╕ у 17-му стор╕чч╕, як результат пост╕йний в╕йскових захопленнь так званими королями-во╖нами. Проте, через пог╕ршення економ╕чного становища та дек╕лькох катастроф╕чних поразок в╕д Рос╕╖, Швец╕я швидко втратила б╕кьш╕сть ╕з захоплених територ╕й. Кра╖на не приймала участ╕ у в╕йскових д╕ях ╕з 1814 року."
+msgstr "Корол╕вство Швец╕╖ було христиан╕зоване та об'╓днане як пол╕тична одиниця до 12-го стор╕ччя. Кра╖на набула могутност╕ як одна ╕з найб╕льших сил у ╢вроп╕ у 17-му стор╕чч╕, як результат пост╕йний в╕йскових захопленнь так званими королями-во╖нами. Проте, через пог╕ршення економ╕чного становища та дек╕лькох катастроф╕чних поразок в╕д Рос╕╖, Швец╕я швидко втратила б╕льш╕сть ╕з захоплених територ╕й. Кра╖на не брала участ╕ у в╕йскових д╕ях ╕з 1814 року."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -24488,7 +24488,7 @@ msgstr "?plural:Венесуельц╕"
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
 #: data/nation/venezuelan.ruleset:9
 msgid "Venezuela is the most northern country in South America. Having been a Spanish colony since the 16th century, the country gained independence on July 5th 1811 under the leadership of El Libertador Simon Bolivar - The Liberator."
-msgstr "Венесуела ╓ самою п╕вн╕чною кра╖ною п╕вденно╖ Америки. Вона була ╕спанською колон╕╓ю с 16-го стор╕чча, кра╖на набула незалежност╕ 5 липня 1811 року п╕д кер╕вництвом Ель Л╕бертадор С╕мона Бол╕вара - Визволителя."
+msgstr "Венесуела ╓ самою п╕вн╕чною кра╖ною п╕вденно╖ Америки. Вона була ╕спанською колон╕╓ю с 16-го стор╕ччя, кра╖на набула незалежност╕ 5 липня 1811 року п╕д кер╕вництвом Ель Л╕бертадор С╕мона Бол╕вара - Визволителя."
 
 #. TRANS: Terrateniente = Junker
 #: data/nation/venezuelan.ruleset:29
