@@ -437,10 +437,11 @@ static void orders_menu_callback(gpointer callback_data,
     unit_list_iterate(get_units_in_focus(), punit) {
       /* FIXME: this can provide different actions for different units...
        * not good! */
-      if (can_unit_do_activity(punit, ACTIVITY_FORTRESS))
+      if (can_unit_do_activity(punit, ACTIVITY_FORTRESS)) {
 	key_unit_fortress();
-      else
+      } else {
 	key_unit_fortify();
+      }
     } unit_list_iterate_end;
     break;
    case MENU_ORDER_AIRBASE:
@@ -725,6 +726,7 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("Game") "/" N_("_Quit"),			NULL,
 	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
 	GTK_STOCK_QUIT									},
+
   /* Government menu ... */
   { "/" N_("Gov_ernment"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -747,6 +749,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	government_menu_callback,	MENU_GOVERNMENT_REVOLUTION			},
   { "/" N_("_Government") "/" N_("_Change Government") "/sep1", NULL,
 	NULL,			0,					"<Separator>"	},
+
   /* View menu ... */
   { "/" N_("_View"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -911,6 +914,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
   { "/" N_("Reports") "/" N_("S_paceship"),		"F12",
 	reports_menu_callback,	MENU_REPORT_SPACESHIP					},
+
   /* Help menu ... */
   { "/" N_("_Help"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -1204,9 +1208,10 @@ void update_menus(void)
 
   menus_set_sensitive("<main>/_Game/Save Game _As...",
 		      can_client_access_hack()
-		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/_Save Game", can_client_access_hack()
-		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+		      && C_S_RUNNING <= client_state());
+  menus_set_sensitive("<main>/_Game/_Save Game",
+		      can_client_access_hack()
+		      && C_S_RUNNING <= client_state());
   menus_set_sensitive("<main>/_Game/Server O_ptions", 
 		      aconnection.established);
   menus_set_sensitive("<main>/_Game/L_eave", aconnection.established);

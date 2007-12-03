@@ -1253,8 +1253,9 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
     unbuffer_shared_vision(pplayer);
   } players_iterate_end;
 
-  if (server_state == RUN_GAME_STATE)
+  if (S_S_RUNNING == server_state()) {
     send_player_info(pfrom, NULL);
+  }
 }
 
 /***************************************************************
@@ -1304,7 +1305,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
     unbuffer_shared_vision(pplayer);
   } players_iterate_end;
 
-  if (server_state == RUN_GAME_STATE) {
+  if (S_S_RUNNING == server_state()) {
     send_player_info(pfrom, NULL);
   }
 }
@@ -1797,7 +1798,7 @@ void vision_clear_sight(struct vision *vision)
 ****************************************************************************/
 void vision_free(struct vision *vision)
 {
-  assert(server_state != RUN_GAME_STATE || vision->radius_sq[V_MAIN] < 0);
-  assert(server_state != RUN_GAME_STATE || vision->radius_sq[V_INVIS] < 0);
+  assert(S_S_RUNNING != server_state() || vision->radius_sq[V_MAIN] < 0);
+  assert(S_S_RUNNING != server_state() || vision->radius_sq[V_INVIS] < 0);
   free(vision);
 }

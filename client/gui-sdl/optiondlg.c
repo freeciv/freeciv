@@ -448,7 +448,7 @@ static int change_mode_callback(struct widget *pWidget)
 
     center_optiondlg();
 
-    if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    if (C_S_RUNNING == client_state()) {
       /* move units window to botton-right corrner */
       set_new_unitinfo_window_pos();
       /* move minimap window to botton-left corrner */
@@ -468,7 +468,7 @@ static int change_mode_callback(struct widget *pWidget)
     /* Options Dlg Window */
     pTmpWidget = pOption_Dlg->pEndOptionsWidgetList;
     
-    if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    if (C_S_RUNNING != client_state()) {
       draw_intro_gfx();
       if (get_wflags(pWidget) & WF_RESTORE_BACKGROUND) {
         refresh_widget_background(pTmpWidget);
@@ -2259,7 +2259,7 @@ void popup_optiondlg(void)
   				pWindow->dst, _("Worklists"), adj_font(12), 0);
   pTmp_GUI->action = work_lists_callback;
   
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     set_wstate(pTmp_GUI, FC_WS_NORMAL);
   }
 
@@ -2273,7 +2273,7 @@ void popup_optiondlg(void)
                                 pWindow->dst, _("Save Game"), adj_font(12), 0);
   pTmp_GUI->action = save_game_callback;
   
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING == client_state()) {
     set_wstate(pTmp_GUI, FC_WS_NORMAL);
   }
 

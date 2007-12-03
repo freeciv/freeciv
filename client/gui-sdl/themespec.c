@@ -38,7 +38,7 @@
 
 /* client */
 #include "citydlg_common.h"
-#include "civclient.h"		/* for get_client_state() */
+#include "civclient.h"		/* for client_state() */
 
 /* gui-sdl */
 #include "dialogs.h"
@@ -358,7 +358,7 @@ void themespec_try_read(const char *theme_name)
 void themespec_reread(const char *new_theme_name)
 {
   struct tile *center_tile;
-  enum client_states state = get_client_state();
+  enum client_states state = client_state();
   const char *name = new_theme_name ? new_theme_name : theme->name;
   char theme_name[strlen(name) + 1], old_name[strlen(theme->name) + 1];
 
@@ -408,7 +408,7 @@ void themespec_reread(const char *new_theme_name)
    * doesn't mess up too badly if we change themes while not connected
    * to a server.
    */
-  if (state < CLIENT_GAME_RUNNING_STATE) {
+  if (state < C_S_RUNNING) {
     /* The ruleset data is not sent until this point. */
     return;
   }
@@ -417,11 +417,6 @@ void themespec_reread(const char *new_theme_name)
    *
    * Do any necessary redraws.
    */
-  if (state < CLIENT_GAME_RUNNING_STATE) {
-    /* Unless the client state is playing a game or in gameover,
-       we don't want/need to redraw. */
-    return;
-  }
   popdown_all_game_dialogs();
   generate_citydlg_dimensions();
 /*  theme_changed();*/

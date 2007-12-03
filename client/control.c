@@ -714,7 +714,7 @@ void update_unit_pix_label(struct unit_list *punitlist)
   /* Check for any change in the unit's state.  This assumes that a unit's
    * orders cannot be changed directly but must be removed and then reset. */
   if (punitlist && unit_list_size(punitlist) > 0
-      && get_client_state() != CLIENT_GAME_OVER_STATE) {
+      && C_S_OVER != client_state()) {
     /* There used to be a complicated and bug-prone check here to see if
      * the unit had actually changed.  This was misguided since the stacked
      * units (below) are redrawn in any case.  Unless we write a general

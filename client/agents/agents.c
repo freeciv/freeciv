@@ -277,7 +277,7 @@ static void thaw(void)
   }
   frozen_level--;
   assert(frozen_level >= 0);
-  if (frozen_level == 0 && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (0 == frozen_level && C_S_RUNNING == client_state()) {
     call_handle_methods();
   }
 }

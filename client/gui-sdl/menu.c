@@ -33,7 +33,7 @@
 #include "unitlist.h"
 
 /* client */
-#include "civclient.h" /* get_client_state */
+#include "civclient.h" /* client_state */
 #include "control.h"
 
 /* gui-sdl */
@@ -934,7 +934,7 @@ void update_menus(void)
   struct unit *pUnit = NULL;
   static char cBuf[128];
   
-  if ((get_client_state() != CLIENT_GAME_RUNNING_STATE) ||
+  if ((C_S_RUNNING != client_state()) ||
       (get_client_page() != PAGE_GAME)) {
 
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;

@@ -95,7 +95,7 @@ int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
 bool in_ggz = FALSE;
 
-static enum client_states client_state = CLIENT_BOOT_STATE;
+static enum client_states civclient_state = C_S_INITIAL;
 
 /* TRUE if an end turn request is blocked by busy agents */
 bool waiting_for_end_turn = FALSE;
@@ -499,11 +499,11 @@ void client_game_free()
 **************************************************************************/
 void set_client_state(enum client_states newstate)
 {
-  bool connect_error = (client_state == CLIENT_PRE_GAME_STATE)
-      && (newstate == CLIENT_PRE_GAME_STATE);
-  enum client_states oldstate = client_state;
+  bool connect_error = (C_S_PREPARING == civclient_state)
+      && (C_S_PREPARING == newstate);
+  enum client_states oldstate = civclient_state;
 
-  if (newstate == CLIENT_GAME_OVER_STATE) {
+  if (C_S_OVER == newstate) {
     /*
      * Extra kludge for end-game handling of the CMA.
      */
@@ -519,19 +519,19 @@ void set_client_state(enum client_states newstate)
     set_unit_focus(NULL);
   }
 
-  if (client_state != newstate) {
+  if (civclient_state != newstate) {
 
     /* If changing from pre-game state to _either_ select race
        or running state, then we have finished getting ruleset data.
     */
-    if (client_state==CLIENT_PRE_GAME_STATE
-	&& newstate == CLIENT_GAME_RUNNING_STATE) {
+    if (C_S_PREPARING == civclient_state
+	&& C_S_RUNNING == newstate) {
       audio_stop();		/* stop intro sound loop */
     }
       
-    client_state=newstate;
+    civclient_state = newstate;
 
-    if (client_state == CLIENT_GAME_RUNNING_STATE) {
+    if (C_S_RUNNING == civclient_state) {
       init_city_report_game_data();
       load_ruleset_specific_options();
       create_event(NULL, E_GAME_START, _("Game started."));
@@ -546,13 +546,13 @@ void set_client_state(enum client_states newstate)
       can_slide = TRUE;
       set_client_page(PAGE_GAME);
     }
-    else if (client_state == CLIENT_PRE_GAME_STATE) {
+    else if (C_S_PREPARING == civclient_state) {
       popdown_all_city_dialogs();
       close_all_diplomacy_dialogs();
       popdown_all_game_dialogs();
       set_unit_focus(NULL);
       clear_notify_window();
-      if (oldstate != CLIENT_BOOT_STATE) {
+      if (C_S_INITIAL != oldstate) {
 	client_game_free();
       }
       client_game_init();
@@ -564,7 +564,7 @@ void set_client_state(enum client_states newstate)
     }
     update_menus();
   }
-  if (!aconnection.established && client_state == CLIENT_PRE_GAME_STATE) {
+  if (!aconnection.established && C_S_PREPARING == civclient_state) {
     gui_server_connect();
     if (auto_connect) {
       if (connect_error) {
@@ -585,9 +585,9 @@ void set_client_state(enum client_states newstate)
 /**************************************************************************
 ...
 **************************************************************************/
-enum client_states get_client_state(void)
+enum client_states client_state(void)
 {
-  return client_state;
+  return civclient_state;
 }
 
 /**************************************************************************
@@ -698,7 +698,7 @@ double real_timer_callback(void)
     time_until_next_call = MIN(time_until_next_call, autoconnect_time);
   }
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+  if (C_S_RUNNING != client_state()) {
     return time_until_next_call;
   }
 
@@ -743,7 +743,7 @@ bool can_client_issue_orders(void)
 {
   return (game.player_ptr
 	  && !client_is_observer()
-	  && get_client_state() == CLIENT_GAME_RUNNING_STATE);
+	  && C_S_RUNNING == client_state());
 }
 
 /**************************************************************************
@@ -776,8 +776,8 @@ bool can_intel_with_player(const struct player *pplayer)
 bool can_client_change_view(void)
 {
   return ((game.player_ptr || client_is_observer())
-	  && (get_client_state() == CLIENT_GAME_RUNNING_STATE
-	      || get_client_state() == CLIENT_GAME_OVER_STATE));
+	  && (C_S_RUNNING == client_state()
+	      || C_S_OVER == client_state()));
 }
 
 /**************************************************************************
