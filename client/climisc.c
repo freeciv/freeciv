@@ -428,7 +428,7 @@ cid cid_encode_unit(struct unit_type *punittype)
 {
   struct universal target = {
     .kind = VUT_UTYPE,
-    .value.utype = punittype};
+    .value = {.utype = punittype}};
 
   return cid_encode(target);
 }
@@ -440,7 +440,7 @@ cid cid_encode_building(struct impr_type *pimprove)
 {
   struct universal target = {
     .kind = VUT_IMPROVEMENT,
-    .value.building = pimprove
+    .value = {.building = pimprove}
   };
 
   return cid_encode(target);

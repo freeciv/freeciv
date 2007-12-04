@@ -539,7 +539,7 @@ bool building_has_effect(const struct impr_type *pimprove,
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
     /* just to bamboozle the annoying compiler warning */
-    .value.building = improvement_by_number(improvement_number(pimprove))
+    .value = {.building = improvement_by_number(improvement_number(pimprove))}
   };
   struct effect_list *plist = get_req_source_effects(&source);
 
@@ -694,7 +694,7 @@ bool is_building_replaced(const struct city *pcity,
   struct effect_list *plist;
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
-    .value.building = pimprove
+    .value = {.building = pimprove}
   };
 
   /* A capitalization production is never redundant. */
@@ -1011,7 +1011,7 @@ int get_current_construction_bonus(const struct city *pcity,
     struct impr_type *building = pcity->production.value.building;
     struct universal source = {
       .kind = VUT_IMPROVEMENT,
-      .value.building = building
+      .value = {.building = building}
     };
     struct effect_list *plist = get_req_source_effects(&source);
     int power = 0;

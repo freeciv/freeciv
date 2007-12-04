@@ -657,7 +657,7 @@ char *helptext_building(char *buf, size_t bufsz,
 {
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
-    .value.building = pimprove
+    .value = {.building = pimprove}
   };
 
   assert(buf);
@@ -1084,7 +1084,7 @@ void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
   struct advance *vap = valid_advance_by_number(i);
   struct universal source = {
     .kind = VUT_ADVANCE,
-    .value.advance = vap
+    .value = {.advance = vap}
   };
 
   assert(buf&&user_text);
@@ -1173,7 +1173,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
 {
   struct universal source = {
     .kind = VUT_TERRAIN,
-    .value.terrain = pterrain
+    .value = {.terrain = pterrain}
   };
   buf[0] = '\0';
   
@@ -1229,7 +1229,7 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
 {
   struct universal source = {
     .kind = VUT_GOVERNMENT,
-    .value.govern = gov
+    .value = {.govern = gov}
   };
 
   buf[0] = '\0';

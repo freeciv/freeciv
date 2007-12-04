@@ -793,7 +793,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
   struct government *gov = government_of_player(pplayer);
   struct universal source = {
     .kind = VUT_IMPROVEMENT,
-    .value.building = pimprove
+    .value = {.building = pimprove}
   };
   const bool is_coinage = improvement_has_flag(pimprove, IF_GOLD);
 

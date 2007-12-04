@@ -638,7 +638,7 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
   if (valid_improvement(choice.value.building)) {
     struct universal target = {
       .kind = VUT_IMPROVEMENT,
-      .value.building = choice.value.building
+      .value = {.building = choice.value.building}
     };
 
     change_build_target(pplayer, pcity, target, E_IMP_AUTO);
@@ -651,7 +651,7 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
 	&& !building_has_effect(pimprove, EFT_CAPITAL_CITY)) {
       struct universal target = {
         .kind = VUT_IMPROVEMENT,
-        .value.building = pimprove
+        .value = {.building = pimprove}
       };
 
       change_build_target(pplayer, pcity, target, E_IMP_AUTO);
