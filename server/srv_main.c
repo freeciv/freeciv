@@ -836,11 +836,11 @@ static void end_turn(void)
   freelog(LOG_DEBUG, "Updatetimeout");
   update_timeout();
 
-  freelog(LOG_DEBUG, "Sendplayerinfo");
-  send_player_info(NULL, NULL);
-
   freelog(LOG_DEBUG, "Sendgameinfo");
   send_game_info(NULL);
+
+  freelog(LOG_DEBUG, "Sendplayerinfo");
+  send_player_info(NULL, NULL);
 
   freelog(LOG_DEBUG, "Sendyeartoclients");
   send_year_to_clients(game.info.year);
@@ -974,9 +974,10 @@ void start_game(void)
 
   con_puts(C_OK, _("Starting game."));
 
-  set_server_state(S_S_RUNNING); /* loaded ??? */
+  set_server_state(S_S_GENERATING_WAITING); /* loaded ??? */
   force_end_of_sniff = TRUE;
   send_server_settings(NULL);
+  /* There's no stateful packet set to client until srv_ready(). */
 }
 
 /**************************************************************************
@@ -1205,11 +1206,10 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 
   if (S_S_RUNNING == server_state()
       && type != PACKET_PLAYER_READY) {
-    /* HACK: the player_ready packet puts the server into S_S_RUNNING
-     * but doesn't actually start the game.  The game isn't started until
-     * the main loop is re-entered, so kill_dying_players would think
+    /* handle_player_ready() calls start_game(), but the game isn't started
+     * until the main loop is re-entered, so kill_dying_players would think
      * all players are dead.  This should be solved by adding a new
-     * game state S_S_GENERATING. */
+     * game state (now S_S_GENERATING_WAITING). */
     kill_dying_players();
   }
 

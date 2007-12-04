@@ -503,11 +503,11 @@ void handle_edit_player_tech(struct connection *pc,
     research->tech_goal = A_UNSET;
   }
 
-  /* send update back to client */
-  send_player_info(NULL, pplayer);
-
   /* Inform everybody about global advances */
   send_game_info(NULL);
+
+  /* send update back to client */
+  send_player_info(NULL, pplayer);
 }
 
 /****************************************************************************

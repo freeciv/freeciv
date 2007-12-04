@@ -374,6 +374,10 @@ void send_game_state(struct conn_list *dest, int state)
 /**************************************************************************
   Send game_info packet; some server options and various stuff...
   dest==NULL means game.est_connections
+
+  It may be sent at any time. It MUST be sent before any player info, 
+  as it contains the number of players.  To avoid inconsistency, it
+  SHOULD be sent after rulesets and any other server settings.
 **************************************************************************/
 void send_game_info(struct conn_list *dest)
 {

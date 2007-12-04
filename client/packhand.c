@@ -1463,7 +1463,9 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.government_when_anarchy
     = government_by_number(game.info.government_when_anarchy_id);
   game.player_ptr = player_by_number(game.info.player_idx);
+
   if (C_S_PREPARING == client_state()) {
+    /* FIXME: only for change in nations */
     popdown_races_dialog();
   }
   boot_help = (can_client_change_view()
