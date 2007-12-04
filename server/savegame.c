@@ -3583,7 +3583,7 @@ void game_load(struct section_file *file)
   }
 
   tmp_server_state = (enum server_states)
-    secfile_lookup_int_default(file, S_S_RUNNING, "game.server_state()");
+    secfile_lookup_int_default(file, S_S_RUNNING, "game.server_state");
 
   {
     set_meta_patches_string(secfile_lookup_str_default(file, 
@@ -4268,7 +4268,7 @@ void game_save(struct section_file *file, const char *save_reason)
    * game for savegame purposes:
    */
   secfile_insert_int(file, (int) (game.info.is_new_game ? server_state() :
-				  S_S_RUNNING), "game.server_state()");
+				  S_S_RUNNING), "game.server_state");
   
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
   secfile_insert_bool(file, game.meta_info.user_message_set,

@@ -33,9 +33,10 @@ enum debug_globals {
   DEBUG_LAST
 };
 
+/* used in savegame values */
 enum server_states { 
   S_S_INITIAL = 0, 
-  S_S_GENERATING_WAITING_UNUSED = 1,	/* For savegame compatibility. */
+  S_S_GENERATING_WAITING = 1,
   S_S_RUNNING = 2,
   S_S_OVER = 3,
 };
@@ -44,7 +45,7 @@ enum server_states {
 enum client_states { 
   C_S_INITIAL = 0,
   C_S_PREPARING = 1,
-  C_S_STARTING = 2,
+  C_S_STARTING_UNUSED = 2,
   C_S_RUNNING = 3,
   C_S_OVER = 4,
 };

@@ -1176,7 +1176,7 @@ static void send_lanserver_response(void)
   case S_S_OVER:
     my_snprintf(status, sizeof(status), "Game over");
     break;
-  case S_S_GENERATING_WAITING_UNUSED:
+  case S_S_GENERATING_WAITING:
     my_snprintf(status, sizeof(status), "Waiting");
   }
 
