@@ -4214,6 +4214,7 @@ int fill_sprite_array(struct tileset *t,
   struct drawn_sprite *save_sprs = sprs;
   struct player *owner = NULL;
   struct base_type *pbase = NULL;
+  bool do_draw_unit, solid_bg;
 
   if (ptile != NULL) {
     pbase = tile_get_base(ptile);
@@ -4221,13 +4222,13 @@ int fill_sprite_array(struct tileset *t,
 
   /* Unit drawing is disabled if the view options is turned off, but only
    * if we're drawing on the mapview. */
-  bool do_draw_unit = (punit && (draw_units || !ptile
-				 || (draw_focus_unit
-				     && unit_is_in_focus(punit))));
-  bool solid_bg = (solid_color_behind_units
-		   && (do_draw_unit
-		       || (pcity && draw_cities)
-		       || (ptile && !draw_terrain)));
+  do_draw_unit = (punit && (draw_units || !ptile
+			    || (draw_focus_unit
+				&& unit_is_in_focus(punit))));
+  solid_bg = (solid_color_behind_units
+	      && (do_draw_unit
+		  || (pcity && draw_cities)
+		  || (ptile && !draw_terrain)));
 
   if (citymode) {
     int count = 0, i, cx, cy;
