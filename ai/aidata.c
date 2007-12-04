@@ -66,7 +66,7 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
   improvement_iterate(pimprove) {
     struct universal source = {
       .kind = VUT_IMPROVEMENT,
-      .value.building = pimprove
+      .value = {.building = pimprove}
     };
 
     ai->impr_calc[improvement_index(pimprove)] = AI_IMPR_ESTIMATE;

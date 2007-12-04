@@ -60,7 +60,7 @@ bool tiles_hilited_cities = FALSE;
 /* The mapcanvas clipboard */
 struct universal clipboard =
 { .kind = VUT_NONE,
-  .value.building = NULL
+  .value = {.building = NULL}
 };
 
 /* Goto with drag and drop. */
