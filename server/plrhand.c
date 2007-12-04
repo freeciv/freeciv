@@ -1574,9 +1574,6 @@ static struct player *split_player(struct player *pplayer)
     assess_danger_player(pplayer);
   }
 
-  send_game_info(NULL);
-  send_player_info(cplayer, NULL);
-
   return cplayer;
 }
 
@@ -1671,7 +1668,7 @@ void civil_war(struct player *pplayer)
 
   cplayer = split_player(pplayer);
 
-  /* So that clients get the correct game.info.nplayers: */
+  /* So that clients get the correct number of players */
   send_game_info(NULL);
   
   /* Before units, cities, so clients know name of new nation

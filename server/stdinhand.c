@@ -2594,17 +2594,14 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   if (!check && do_update) {
     send_server_setting(NULL, cmd);
-    send_game_info(NULL);
-    reset_all_start_commands();
-    send_server_info_to_metaserver(META_INFO);
     /* 
      * send any modified game parameters to the clients -- if sent
      * before S_S_RUNNING, triggers a popdown_races_dialog() call
      * in client/packhand.c#handle_game_info() 
      */
-    if (S_S_RUNNING == server_state()) {
-      send_game_info(NULL);
-    }
+    send_game_info(NULL);
+    reset_all_start_commands();
+    send_server_info_to_metaserver(META_INFO);
   }
   return TRUE;
 }
@@ -3288,8 +3285,8 @@ bool load_command(struct connection *caller, char *filename, bool check)
 
   sanity_check();
   
-  send_game_info(game.est_connections);
   send_rulesets(game.est_connections);
+  send_game_info(game.est_connections);
 
   /* Everything seemed to load ok; spread the good news. */
   send_load_game_info(TRUE);
@@ -3740,7 +3737,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
               "to disconnect."));
     return FALSE;
   case S_S_RUNNING:
-  case S_S_GENERATING_WAITING_UNUSED:
+  case S_S_GENERATING_WAITING:
     /* TRANS: given when /start is invoked while the game is running. */
     cmd_reply(CMD_START_GAME, caller, C_FAIL,
               _("Cannot start the game: it is already running."));
