@@ -3000,8 +3000,9 @@ static void player_save(struct player *plr, int plrno,
 
   i = -1;
   unit_list_iterate(plr->units, punit) {
-    i++;
     int activity;
+
+    i++;
 
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
     secfile_insert_int(file, punit->tile->nat_x, "player%d.u%d.x", plrno, i);
