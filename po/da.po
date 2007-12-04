@@ -3637,7 +3637,7 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Den diplomatiske status mellem %s og %s er nu %s."
 
 #: server/plrhand.c:617
-#, c-format
+#, c-format,fuzzy
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
@@ -6415,6 +6415,7 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Ukendt kommando. Prøv '%shelp'."
 
 #: server/stdinhand.c:3479
+#, fuzzy
 msgid "Your new vote canceled your previous vote."
 msgstr "Din nye stemmeafgivning afløser din tidligere. "
 
@@ -26229,13 +26230,6 @@ msgstr "Hold 31"
 #~ "Forskningstempo : %d %s/fremskridt\n"
 #~ "%s"
 
-#~ msgid ""
-#~ " %s canceled the diplomatic agreement! The diplomatic state between the %"
-#~ "s and the %s is now %s."
-#~ msgstr ""
-#~ "Spil: Folkeslaget %s afbrød den diplomatiske aftale! Det diplomatiske "
-#~ "forhold mellem %s og %s er nu %s."
-
 #~ msgid "Unit %s has unknown unit class %s as cargo."
 #~ msgstr "Ened %s har ukendt enhedsklasse %s som last."
 
@@ -26253,9 +26247,6 @@ msgstr "Hold 31"
 
 #~ msgid "Vote \"%s\" failed with %d against, %d for and %d blanke."
 #~ msgstr "Afstemning \"%s\" faldt med %d mod %d for og %d imod."
-
-#~ msgid "Your new vote canceled your previous vote."
-#~ msgstr "Din nye stemmeafgivning afløser din tidligere stemme."
 
 #~ msgid "Unit cannot perform diplomatic action from %s."
 #~ msgstr "Enhed kan ikke udføre diplomatiske handlinger fra %s."
