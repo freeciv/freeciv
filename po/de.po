@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-03 11:52+0100\n"
+"POT-Creation-Date: 2007-12-05 12:44+0100\n"
 "PO-Revision-Date: 2007-08-11 01:23+0300\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -669,7 +669,7 @@ msgid "Road"
 msgstr "Straße"
 
 #: common/terrain.c:380 common/terrain.c:567 common/unit.c:554
-#: client/gui-gtk-2.0/menu.c:780 client/gui-sdl/optiondlg.c:1906
+#: client/gui-gtk-2.0/menu.c:783 client/gui-sdl/optiondlg.c:1906
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
@@ -732,7 +732,7 @@ msgstr "Befestigt"
 msgid "Sentry"
 msgstr "Bewachen"
 
-#: common/unit.c:566 client/gui-gtk-2.0/menu.c:833 client/gui-sdl/menu.c:648
+#: common/unit.c:566 client/gui-gtk-2.0/menu.c:836 client/gui-sdl/menu.c:648
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
 msgid "Pillage"
 msgstr "Brandschatzen"
@@ -3494,13 +3494,13 @@ msgstr ""
 msgid "Year: %s"
 msgstr "Jahr: %s"
 
-#: server/gamehand.c:384
+#: server/gamehand.c:388
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr ""
 "Die zulässige Rundenzeit hat das Maximum überschritten, sie wird auf den "
 "Maximalwert gesetzt."
 
-#: server/gamehand.c:392
+#: server/gamehand.c:396
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Die zulässige Rundenzeit ist negativ, sie wird auf Null gesetzt."
 
@@ -3588,12 +3588,12 @@ msgstr ""
 "Wissenschaftler.\n"
 "       Spontan haben sie alle Städte damit ausgestattet."
 
-#: server/maphand.c:1407
+#: server/maphand.c:1408
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Deine %s wurde wegen Veränderung des Geländes verschoben."
 
-#: server/maphand.c:1425
+#: server/maphand.c:1426
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Deine %s wurde wegen Veränderung des Geländes aufgelöst."
@@ -3758,12 +3758,12 @@ msgstr ""
 "%s und %s treffen aufeinander und beginnen sofort einen Krieg. Du beendest  "
 "deine Allianz mit beiden."
 
-#: server/plrhand.c:1667
+#: server/plrhand.c:1664
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Bürgerkrieg der %s ist nicht möglich - zu viele Spieler"
 
-#: server/plrhand.c:1689
+#: server/plrhand.c:1686
 #, c-format
 msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
@@ -3772,12 +3772,12 @@ msgstr ""
 "Die Nation wird vom Bürgerkrieg gespalten. %s ist der Anführer der "
 "revoltierenden Provinzen."
 
-#: server/plrhand.c:1709
+#: server/plrhand.c:1706
 #, c-format
 msgid "%s declares allegiance to %s."
 msgstr "%s erklärt ihre Loyalität zu %s."
 
-#: server/plrhand.c:1723
+#: server/plrhand.c:1720
 #, c-format
 msgid ""
 "The capture of %s's capital and the destruction of the empire's "
@@ -5344,7 +5344,7 @@ msgstr ""
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Server cannot read standard input. Ignoring input."
 
-#: server/sernet.c:911
+#: server/sernet.c:901
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Server: Die Adresse [%s:%d] ist ungültig."
@@ -5419,30 +5419,30 @@ msgstr "Höchstzulässige Menge an Solarzellen bereits vorhanden!"
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Ohne Leitung aus der Hauptstadt ist das %s Raumschiff verloren!"
 
-#: server/srv_main.c:225
+#: server/srv_main.c:240
 msgid "Game ended in a draw as end year exceeded"
 msgstr "Spiel endete im letzten Jahr unentschieden"
 
-#: server/srv_main.c:259
+#: server/srv_main.c:274
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Das %s Raumschiff hat Alpha Centauri erreicht."
 
-#: server/srv_main.c:272 server/srv_main.c:305
+#: server/srv_main.c:287 server/srv_main.c:320
 #, c-format
 msgid "Team victory to %s"
 msgstr "Teamsieg für %s"
 
-#: server/srv_main.c:281 server/srv_main.c:320
+#: server/srv_main.c:296 server/srv_main.c:335
 #, c-format
 msgid "Game ended in victory for %s"
 msgstr "Spiel endete mit einem Sieg von %s"
 
-#: server/srv_main.c:326
+#: server/srv_main.c:341
 msgid "Game ended in a draw"
 msgstr "Spiel endete unentschieden"
 
-#: server/srv_main.c:441 server/srv_main.c:453
+#: server/srv_main.c:456 server/srv_main.c:468
 #, c-format
 msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
@@ -5451,21 +5451,21 @@ msgstr ""
 "Die %s %s wurde aufgelöst, in Übereinstimmung mit dem Friedensvertrag mit "
 "den %s."
 
-#: server/srv_main.c:494 server/srv_main.c:497
+#: server/srv_main.c:509 server/srv_main.c:512
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
 "Besorgte Bürger weisen darauf hin, daß die Feuerpause mit %s bald endet."
 
-#: server/srv_main.c:501 server/srv_main.c:505
+#: server/srv_main.c:516 server/srv_main.c:520
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 "Die Feuerpause mit %s ist beendet. Du befindest dich jetzt im Krieg mit den %"
 "s."
 
-#: server/srv_main.c:522
+#: server/srv_main.c:537
 #, c-format
 msgid ""
 "Ceasefire between %s and %s has run out. They are at war. You cancel your "
@@ -5474,43 +5474,43 @@ msgstr ""
 "Der Waffenstillstand zwischen den %s und den %s ist ausgelaufen. Sie "
 "befinden sich im Krieg. Du beendest deine Allianz mit beiden."
 
-#: server/srv_main.c:878
+#: server/srv_main.c:893
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Konnte das Spiel nicht in der Datei '%s' speichern"
 
-#: server/srv_main.c:880
+#: server/srv_main.c:895
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spiel gespeichert als '%s'"
 
-#: server/srv_main.c:910
+#: server/srv_main.c:925
 msgid "The game is already running."
 msgstr "Das Spiel hat bereits angefangen."
 
-#: server/srv_main.c:918
+#: server/srv_main.c:933
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s hat seit Spielbeginn nicht mehr die Kontrollgewalt. Bitte von jetzt an "
 "Abstimmungen verwenden."
 
-#: server/srv_main.c:925
+#: server/srv_main.c:940
 msgid "Starting game."
 msgstr "Spiel begonnen."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:982
+#: server/srv_main.c:998
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "request for unknown report (type %d)"
 
-#: server/srv_main.c:1044
+#: server/srv_main.c:1060
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Warnung: Client %s ist zu alt und wurde abgewiesen"
 
-#: server/srv_main.c:1053
+#: server/srv_main.c:1069
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.1 or later."
@@ -5519,70 +5519,70 @@ msgstr ""
 "Version 2.1 oder neuer."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:1137
+#: server/srv_main.c:1153
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Got a packet of type %d from a dead or observer player"
 
-#: server/srv_main.c:1238
+#: server/srv_main.c:1253
 msgid "Please choose a non-blank name."
 msgstr "Es muß ein Name gewählt werden."
 
-#: server/srv_main.c:1254
+#: server/srv_main.c:1269
 msgid "That nation is already in use."
 msgstr "Diese Nation ist bereits vergeben."
 
-#: server/srv_main.c:1270
+#: server/srv_main.c:1285
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. Bitte "
 "wählen Sie einen anderen Namen."
 
-#: server/srv_main.c:1291
+#: server/srv_main.c:1306
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Bitte wählen Sie einen Namen, der nur ASCII-Zeichen enthält."
 
-#: server/srv_main.c:1385
+#: server/srv_main.c:1405
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Die Nation der %s ist in diesem Szenario nicht verfügbar."
 
-#: server/srv_main.c:1391
+#: server/srv_main.c:1411
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Die Nation der %s ist bereits vergeben."
 
-#: server/srv_main.c:1409
+#: server/srv_main.c:1429
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s ist der %se Herrscher %s."
 
-#: server/srv_main.c:1467
+#: server/srv_main.c:1486
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Warten auf Spielstart: %d von %d Spielern sind bereit zu starten."
 
-#: server/srv_main.c:1472
+#: server/srv_main.c:1491
 msgid "All players are ready; starting game."
 msgstr "Alle Spieler sind bereit, das Spiel wird gestartet."
 
-#: server/srv_main.c:1514 server/srv_main.c:1518
+#: server/srv_main.c:1533 server/srv_main.c:1537
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s ist als KI-Spieler mit dem Level '%s' dazu gekommen."
 
-#: server/srv_main.c:1645
+#: server/srv_main.c:1664
 #, c-format
 msgid "Player %d"
 msgstr "Spieler %d"
 
-#: server/srv_main.c:1656 server/srv_main.c:1662
+#: server/srv_main.c:1675 server/srv_main.c:1681
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s beherrscht die %s."
 
-#: server/srv_main.c:1826
+#: server/srv_main.c:1845
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
@@ -5590,16 +5590,16 @@ msgstr ""
 "Unterstützung für Spieler-Authentifizierung verfügbar, wird aber nicht "
 "verwendet."
 
-#: server/srv_main.c:1877
+#: server/srv_main.c:1896
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sende Informationen an den Metaserver [%s]"
 
-#: server/srv_main.c:1906
+#: server/srv_main.c:1927
 msgid "The game is over..."
 msgstr "Das Spiel ist vorbei..."
 
-#: server/srv_main.c:1960
+#: server/srv_main.c:2140
 msgid "Now accepting new client connections."
 msgstr "Warte auf Spieler..."
 
@@ -5797,7 +5797,7 @@ msgstr "Spieler können nach Spielstart nicht mehr entfernt werden."
 msgid "Removed player %s from the game."
 msgstr "Spieler %s aus dem Spiel entfernt."
 
-#: server/stdinhand.c:1008 server/stdinhand.c:3220
+#: server/stdinhand.c:1008 server/stdinhand.c:3225 server/stdinhand.c:3336
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Der Name \"%s\" ist aus Sicherheitsgründen nicht erlaubt."
@@ -5827,13 +5827,13 @@ msgstr "Kann die Skriptdatei '%s' nicht lesen."
 msgid "Could not write script file '%s'."
 msgstr "Kann die Skriptdatei '%s' nicht schreiben."
 
-#: server/stdinhand.c:1149
+#: server/stdinhand.c:1150
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
 "Auf diesem Server ist das Kommando 'write' aus Sicherheitsgründen nicht "
 "verfügbar."
 
-#: server/stdinhand.c:1177
+#: server/stdinhand.c:1178
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -5842,7 +5842,7 @@ msgstr ""
 "Die Zugangsberechtigung '%s' für '%s' wird nicht beschränkt;\n"
 "da Sie selbst nur Zugangsberechtigung '%s' haben."
 
-#: server/stdinhand.c:1232
+#: server/stdinhand.c:1233
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
@@ -5850,28 +5850,28 @@ msgstr ""
 "Ein beliebiger Spieler hat nun die Möglichkeit, durch Eingabe des Befehls "
 "'first' Spielleiter mit der Zugriffsberechtigung '%s' zu werden."
 
-#: server/stdinhand.c:1265
+#: server/stdinhand.c:1266
 msgid "Command access levels in effect:"
 msgstr "Vorhandene Zugangsberechtigungen:"
 
-#: server/stdinhand.c:1273
+#: server/stdinhand.c:1274
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Zugangsberechtigung für neue Verbindungen: %s"
 
-#: server/stdinhand.c:1276
+#: server/stdinhand.c:1277
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Zugangsberechtigung für den ersten Spieler: %s"
 
-#: server/stdinhand.c:1285
+#: server/stdinhand.c:1286
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Fehler: Es gibt nur die Zugangsberechtigungen\n"
 "        'none', 'info', 'ctrl' und 'hack'."
 
-#: server/stdinhand.c:1290
+#: server/stdinhand.c:1291
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
@@ -5879,200 +5879,200 @@ msgstr ""
 "Die Zugangsberechtigung kann nicht auf '%s' erhöht werden,\n"
 "da die eigene Zugangsberechtigung nur '%s' ist."
 
-#: server/stdinhand.c:1317 server/stdinhand.c:1365
+#: server/stdinhand.c:1318 server/stdinhand.c:1366
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "%2$s erhält Zugangsberechtigung '%1$s'."
 
-#: server/stdinhand.c:1321 server/stdinhand.c:1369
+#: server/stdinhand.c:1322 server/stdinhand.c:1370
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Zugangsberechtigung für %2$s konnte nicht auf '%1$s' gesetzt werden."
 
-#: server/stdinhand.c:1331 server/stdinhand.c:1341 server/stdinhand.c:1358
+#: server/stdinhand.c:1332 server/stdinhand.c:1342 server/stdinhand.c:1359
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Neue Spieler erhalten die Zugangsberechtigung '%s'."
 
-#: server/stdinhand.c:1335 server/stdinhand.c:1346 server/stdinhand.c:1353
+#: server/stdinhand.c:1336 server/stdinhand.c:1347 server/stdinhand.c:1354
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Zugangsberechtigung für den ersten Spieler: %s"
 
-#: server/stdinhand.c:1391
+#: server/stdinhand.c:1392
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "Es ist sinnlos, den 'first'-Befehl über die Serverkonsole zu erteilen."
 
-#: server/stdinhand.c:1395
+#: server/stdinhand.c:1396
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Sie haben bereits die Zugangsberechtigung '%s' oder besser."
 
-#: server/stdinhand.c:1400
+#: server/stdinhand.c:1401
 msgid "Someone else already is game organizer."
 msgstr "Jemand anders ist bereits Spielleiter."
 
-#: server/stdinhand.c:1405
+#: server/stdinhand.c:1406
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "Verbindung %s hat sich den Spielleiter-Status gewählt."
 
-#: server/stdinhand.c:1456
+#: server/stdinhand.c:1457
 #, c-format
 msgid "Invalid argument %d."
 msgstr "%d ist unzulässig."
 
-#: server/stdinhand.c:1463
+#: server/stdinhand.c:1464
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "Syntax: timeoutincrease <n1> <n2> <n3> <n4>"
 
-#: server/stdinhand.c:1471
+#: server/stdinhand.c:1472
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Der dynamische Timer wurde auf %d %d %d %d gestellt."
 
-#: server/stdinhand.c:1531 server/stdinhand.c:1534
+#: server/stdinhand.c:1532 server/stdinhand.c:1535
 msgid "Option:"
 msgstr "Option:"
 
-#: server/stdinhand.c:1544 server/stdinhand.c:3846
+#: server/stdinhand.c:1545 server/stdinhand.c:3850
 msgid "Description:"
 msgstr "Beschreibung:"
 
-#: server/stdinhand.c:1549
+#: server/stdinhand.c:1550
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: server/stdinhand.c:1550
+#: server/stdinhand.c:1551
 msgid "changeable"
 msgstr "veränderbar"
 
-#: server/stdinhand.c:1550
+#: server/stdinhand.c:1551
 msgid "fixed"
 msgstr "fest"
 
-#: server/stdinhand.c:1556
+#: server/stdinhand.c:1557
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Wert: %d, Standard: %d, zulässig: 0 oder 1"
 
-#: server/stdinhand.c:1561
+#: server/stdinhand.c:1562
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Wert: %d, Minimum: %d, Standard: %d, Maximum: %d"
 
-#: server/stdinhand.c:1567
+#: server/stdinhand.c:1568
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Wert: '%s', Standard: '%s'"
 
-#: server/stdinhand.c:1586
+#: server/stdinhand.c:1587
 msgid "Explanations are available for the following server options:"
 msgstr "Erläuterungen sind für folgende Serveroptionen verfügbar:"
 
-#: server/stdinhand.c:1631
+#: server/stdinhand.c:1632
 msgid "No explanation for that yet."
 msgstr "Dafür gibt es noch keine Erklärung."
 
-#: server/stdinhand.c:1634 server/stdinhand.c:2468
+#: server/stdinhand.c:1635 server/stdinhand.c:2469
 msgid "Ambiguous option name."
 msgstr "Mehrdeutige Optionsbezeichnung."
 
-#: server/stdinhand.c:1654
+#: server/stdinhand.c:1655
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Server Operator: %s"
 
-#: server/stdinhand.c:1776 server/stdinhand.c:1802 server/stdinhand.c:1818
+#: server/stdinhand.c:1777 server/stdinhand.c:1803 server/stdinhand.c:1819
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Der Spieler '%s' hat jetzt die KI-Spielstärke '%s'."
 
-#: server/stdinhand.c:1806
+#: server/stdinhand.c:1807
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s wird nicht von der KI kontrolliert."
 
-#: server/stdinhand.c:1824
+#: server/stdinhand.c:1825
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Die standardmäßige KI-Spielstärke ist '%s'."
 
-#: server/stdinhand.c:1839 server/stdinhand.c:2149
+#: server/stdinhand.c:1840 server/stdinhand.c:2150
 msgid "This command is client only."
 msgstr "Dieser Befehl kann nur im Client gegeben werden."
 
-#: server/stdinhand.c:1842
+#: server/stdinhand.c:1843
 msgid "Usage: away"
 msgstr "Syntax: away"
 
-#: server/stdinhand.c:1847
+#: server/stdinhand.c:1848
 msgid "Only players may use the away command."
 msgstr "Der Befehl 'away' kann nur von Spielern gegeben werden."
 
-#: server/stdinhand.c:1851
+#: server/stdinhand.c:1852
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s wurde auf Abwesenheitsmodus geschaltet."
 
-#: server/stdinhand.c:1859
+#: server/stdinhand.c:1860
 #, c-format
 msgid "%s returned to game."
 msgstr "%s ist zum Spiel zurückgekehrt."
 
-#: server/stdinhand.c:1901
+#: server/stdinhand.c:1902
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Keine Berechtigung, Einstellung '%s' einzusehen!"
 
-#: server/stdinhand.c:1907
+#: server/stdinhand.c:1908
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Unbekannte Option '%s'."
 
-#: server/stdinhand.c:1932
+#: server/stdinhand.c:1933
 msgid "All options with non-default values"
 msgstr "Alle Optionen, die vom Standardwert abweichen"
 
-#: server/stdinhand.c:1935
+#: server/stdinhand.c:1936
 msgid "All options"
 msgstr "Alle Optionen"
 
-#: server/stdinhand.c:1938
+#: server/stdinhand.c:1939
 msgid "Vital options"
 msgstr "Wichtige Optionen"
 
-#: server/stdinhand.c:1941
+#: server/stdinhand.c:1942
 msgid "Situational options"
 msgstr "Interessante Optionen"
 
-#: server/stdinhand.c:1944
+#: server/stdinhand.c:1945
 msgid "Rarely used options"
 msgstr "Seltene Optionen"
 
-#: server/stdinhand.c:1947
+#: server/stdinhand.c:1948
 msgid "+ means you may change the option"
 msgstr "+ heißt, daß diese Einstellung geändert werden kann"
 
-#: server/stdinhand.c:1948
+#: server/stdinhand.c:1949
 msgid "= means the option is on its default value"
 msgstr "= heißt, daß dies die Standardeinstellung ist"
 
-#: server/stdinhand.c:1951
+#: server/stdinhand.c:1952
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s Wert    (min,max)      "
 
-#: server/stdinhand.c:1951
+#: server/stdinhand.c:1952
 msgid "Option"
 msgstr "Option"
 
-#: server/stdinhand.c:1954
+#: server/stdinhand.c:1955
 msgid "description"
 msgstr "Beschreibung"
 
-#: server/stdinhand.c:2029
+#: server/stdinhand.c:2030
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
@@ -6080,39 +6080,39 @@ msgstr ""
 "Weitere Optionen mit 'show situational' oder 'show rare'\n"
 "Geänderte Optionen mit 'show changed'."
 
-#: server/stdinhand.c:2079
+#: server/stdinhand.c:2080
 msgid "Cannot change teams once game has begun."
 msgstr "Nach Spielbeginn können Teams nicht mehr geändert werden."
 
-#: server/stdinhand.c:2089
+#: server/stdinhand.c:2090
 msgid "Undefined argument.  Usage: team <player> <team>."
 msgstr "Falscher Parameter. Anwendung: team <Spieler> <Team>."
 
-#: server/stdinhand.c:2109
+#: server/stdinhand.c:2110
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
 "Ein Team %s gibt es nicht. Bitte gib einen gültigen Teamnamen oder -nummer "
 "an."
 
-#: server/stdinhand.c:2116
+#: server/stdinhand.c:2117
 msgid "Cannot team a barbarian."
 msgstr "Barbaren können kein Team bilden."
 
-#: server/stdinhand.c:2122
+#: server/stdinhand.c:2123
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Spieler %s gehört zu Team %s."
 
-#: server/stdinhand.c:2143
+#: server/stdinhand.c:2144
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Befehl unvollständig. Anwendung: vote yes|no [Wahlnummer]."
 
-#: server/stdinhand.c:2152
+#: server/stdinhand.c:2153
 msgid "Observers cannot vote."
 msgstr "Beobachter können nicht abstimmen."
 
-#: server/stdinhand.c:2155
+#: server/stdinhand.c:2156
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
@@ -6120,39 +6120,39 @@ msgstr ""
 "Es kann nur in einem laufenden Spiel abgestimmt werden. Benutze den Befehl "
 "'first', um Spielleiter zu werden, falls es noch keinen gibt."
 
-#: server/stdinhand.c:2168
+#: server/stdinhand.c:2169
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "Abstimmung %d über den Befehl '%s': %d dafür, %d dagegen"
 
-#: server/stdinhand.c:2175
+#: server/stdinhand.c:2176
 msgid "There are no votes going on."
 msgstr "Keine laufenden Abstimmungen."
 
-#: server/stdinhand.c:2196
+#: server/stdinhand.c:2197
 msgid "No legal last vote."
 msgstr "Die letzte Abstimmung war ungültig."
 
-#: server/stdinhand.c:2201
+#: server/stdinhand.c:2202
 msgid "Value must be integer."
 msgstr "Wert muß ganzzahlig sein."
 
-#: server/stdinhand.c:2212
+#: server/stdinhand.c:2213
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Keine Abstimmung mit der Nummer %d vorhanden."
 
-#: server/stdinhand.c:2216
+#: server/stdinhand.c:2217
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Sie haben für '%s' gestimmt."
 
-#: server/stdinhand.c:2220
+#: server/stdinhand.c:2221
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Sie haben gegen '%s' gestimmt."
 
-#: server/stdinhand.c:2247
+#: server/stdinhand.c:2248
 msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
@@ -6160,412 +6160,412 @@ msgstr ""
 "Fehlende Parameter. Anwendung: debug diplomacy <Spieler> | city <x> <y> | "
 "units <x> <y> | unit <id> | tech <Spieler> | timing | info."
 
-#: server/stdinhand.c:2253
+#: server/stdinhand.c:2254
 msgid "Can only use this command once game has begun."
 msgstr "Befehl kann nur nach Spielbeginn verwendet werden."
 
-#: server/stdinhand.c:2282
+#: server/stdinhand.c:2283
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "Fehlersuche für Diplomatie der %s ausgeschaltet."
 
-#: server/stdinhand.c:2286
+#: server/stdinhand.c:2287
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "Fehlersuche für Diplomatie der %s eingeschaltet."
 
-#: server/stdinhand.c:2305
+#: server/stdinhand.c:2306
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "Fehlersuche für Forschung der %s ausgeschaltet."
 
-#: server/stdinhand.c:2309
+#: server/stdinhand.c:2310
 #, c-format
 msgid "%s tech debugged"
 msgstr "Fehlersuche für Forschung der %s eingeschaltet."
 
-#: server/stdinhand.c:2340 server/stdinhand.c:2370
+#: server/stdinhand.c:2341 server/stdinhand.c:2371
 msgid "Value 2 & 3 must be integer."
 msgstr "Werte 2 und 3 müssen ganzzahlig sein."
 
-#: server/stdinhand.c:2344 server/stdinhand.c:2374
+#: server/stdinhand.c:2345 server/stdinhand.c:2375
 msgid "Bad map coordinates."
 msgstr "Falsche Koordinaten."
 
-#: server/stdinhand.c:2349
+#: server/stdinhand.c:2350
 msgid "No city at this coordinate."
 msgstr "Keine Stadt an diesen Koordinaten."
 
-#: server/stdinhand.c:2354
+#: server/stdinhand.c:2355
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Fehlersuche für %s ausgeschaltet."
 
-#: server/stdinhand.c:2380 server/stdinhand.c:2410
+#: server/stdinhand.c:2381 server/stdinhand.c:2411
 #, c-format
 msgid "%s's %s no longer debugged."
 msgstr "Fehlersuche für %ss %s ausgeschaltet."
 
-#: server/stdinhand.c:2385 server/stdinhand.c:2415
+#: server/stdinhand.c:2386 server/stdinhand.c:2416
 #, c-format
 msgid "%s's %s debugged."
 msgstr "Fehlersuche für %ss %s eingeschaltet."
 
-#: server/stdinhand.c:2401
+#: server/stdinhand.c:2402
 msgid "Value 2 must be integer."
 msgstr "Wert 2 muß ganzzahlig sein."
 
-#: server/stdinhand.c:2405
+#: server/stdinhand.c:2406
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Einheit %d existiert nicht."
 
-#: server/stdinhand.c:2463
+#: server/stdinhand.c:2464
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Falsche oder fehlende Option. Anwendung: set <Option> <Wert>"
 
-#: server/stdinhand.c:2473
+#: server/stdinhand.c:2474
 msgid "You are not allowed to set this option."
 msgstr "Keine Berechtigung zur Änderung dieser Einstellung."
 
-#: server/stdinhand.c:2478
+#: server/stdinhand.c:2479 server/stdinhand.c:3330
 msgid "This setting can't be modified after the game has started."
 msgstr "Diese Einstellung kann nach Spielstart nicht mehr geändert werden."
 
-#: server/stdinhand.c:2490 server/stdinhand.c:2529
+#: server/stdinhand.c:2491 server/stdinhand.c:2530
 msgid "Value must be an integer."
 msgstr "Wert muß ganzzahlig sein."
 
-#: server/stdinhand.c:2500
+#: server/stdinhand.c:2501
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
 msgstr "Der Parameter %s darf nur die Ziffern 0 und 1 enthalten."
 
-#: server/stdinhand.c:2507
+#: server/stdinhand.c:2508
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Unzulässiger Wert (zulässig: 0 oder 1)."
 
-#: server/stdinhand.c:2520 server/stdinhand.c:2560
+#: server/stdinhand.c:2521 server/stdinhand.c:2561
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "%s auf %d gesetzt."
 
-#: server/stdinhand.c:2540
+#: server/stdinhand.c:2541
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr "Der Parameter %s darf nur die Ziffern 0 bis 9 sowie +- enthalten."
 
-#: server/stdinhand.c:2547
+#: server/stdinhand.c:2548
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Unzulässiger Wert (Minimum: %d, Maximum: %d)."
 
-#: server/stdinhand.c:2570
+#: server/stdinhand.c:2571
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Unzulässiger Wert. Anwendung: set <Option> <Wert>"
 
-#: server/stdinhand.c:2582
+#: server/stdinhand.c:2583
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "%s auf '%s' gesetzt."
 
-#: server/stdinhand.c:2623
+#: server/stdinhand.c:2621
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Globale Beobachter sind in diesem Spiel nicht erlaubt."
 
-#: server/stdinhand.c:2626
+#: server/stdinhand.c:2624
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr ""
 "Ein globaler Beobachter kann nicht übernommen, sondern nur beobachtet werden."
 
-#: server/stdinhand.c:2638
+#: server/stdinhand.c:2636
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Die Beobachtung von Barbaren ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2641
+#: server/stdinhand.c:2639
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Das Übernehmen von Barbaren ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2649
+#: server/stdinhand.c:2647
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Die Beobachtung gestorbener Spieler ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2652
+#: server/stdinhand.c:2650
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Das Übernehmen gestorbener Spieler ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2660
+#: server/stdinhand.c:2658
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Die Beobachtung von KI-Spielern ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2663
+#: server/stdinhand.c:2661
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Das Übernehmen von KI-Spielern ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2672
+#: server/stdinhand.c:2670
 msgid "Sorry, one can't observe human players in this game."
 msgstr ""
 "Die Beobachtung von menschlichen Spielern ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2675
+#: server/stdinhand.c:2673
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 "Das Übernehmen von menschlichen Spielern ist in diesem Spiel nicht möglich."
 
-#: server/stdinhand.c:2685
+#: server/stdinhand.c:2683
 msgid "Sorry, one can't observe in this game."
 msgstr "Beobachten ist in diesem Spiel nicht erlaubt."
 
-#: server/stdinhand.c:2690
+#: server/stdinhand.c:2688
 msgid "Sorry, one can't take players in this game."
 msgstr "Das Übernehmen von Spielern ist in diesem Spiel nicht erlaubt."
 
-#: server/stdinhand.c:2696
+#: server/stdinhand.c:2694
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 "Das Übernehmen von verbundenen Spielern ist in diesem Spiel nicht erlaubt."
 
-#: server/stdinhand.c:2727
+#: server/stdinhand.c:2725
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "Syntax: observe [Verbindung [Spieler]]"
 
-#: server/stdinhand.c:2733
+#: server/stdinhand.c:2731
 msgid "Usage: observe [player-name]"
 msgstr "Syntax: observe [Spieler]"
 
-#: server/stdinhand.c:2783
+#: server/stdinhand.c:2781
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s kontrolliert %s bereits; beobachten von %s daher sinnlos."
 
-#: server/stdinhand.c:2792
+#: server/stdinhand.c:2790
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s beobachtet %s bereits."
 
-#: server/stdinhand.c:2796
+#: server/stdinhand.c:2794
 #, c-format
 msgid "%s is already observing."
 msgstr "%s beobachtet bereits."
 
-#: server/stdinhand.c:2853
+#: server/stdinhand.c:2851
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s beobachtet jetzt den Spieler %s"
 
-#: server/stdinhand.c:2856
+#: server/stdinhand.c:2854
 #, c-format
 msgid "%s now observes"
 msgstr "%s beobachtet jetzt"
 
-#: server/stdinhand.c:2895
+#: server/stdinhand.c:2893
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "Anwendung: take <Verbindungsname> <Spieler>"
 
-#: server/stdinhand.c:2900
+#: server/stdinhand.c:2898
 msgid "Usage: take <player-name>"
 msgstr "Anwendung: take <Spieler>"
 
-#: server/stdinhand.c:2906
+#: server/stdinhand.c:2904
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "Anwendung: take [Verbindungsname] <Spieler>"
 
-#: server/stdinhand.c:2936
+#: server/stdinhand.c:2934
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s kontrolliert %s bereits."
 
-#: server/stdinhand.c:2966
+#: server/stdinhand.c:2964
 #, c-format
 msgid "being detached from %s."
 msgstr "Die Verbindung zu Spieler %s wird getrennt."
 
-#: server/stdinhand.c:3026
+#: server/stdinhand.c:3024
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s hat den Spieler %s (%s, %s) übernommen"
 
-#: server/stdinhand.c:3028 server/stdinhand.c:4075
+#: server/stdinhand.c:3026 server/stdinhand.c:4079
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "barbarisch"
 
-#: server/stdinhand.c:3029 server/stdinhand.c:4077 client/plrdlg_common.c:256
+#: server/stdinhand.c:3027 server/stdinhand.c:4081 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2002 client/gui-sdl/plrdlg.c:644
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "KI"
 
-#: server/stdinhand.c:3029 server/stdinhand.c:4079
+#: server/stdinhand.c:3027 server/stdinhand.c:4083
 #: client/gui-gtk-2.0/pages.c:2002 client/gui-gtk-2.0/pages.c:2025
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
 msgstr "menschlich"
 
-#: server/stdinhand.c:3029 client/gui-gtk-2.0/pages.c:2001
+#: server/stdinhand.c:3027 client/gui-gtk-2.0/pages.c:2001
 #: client/gui-gtk-2.0/pages.c:2024 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
 msgstr "Lebend"
 
-#: server/stdinhand.c:3029 client/gui-gtk-2.0/pages.c:2001
+#: server/stdinhand.c:3027 client/gui-gtk-2.0/pages.c:2001
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
 msgstr "Tot"
 
-#: server/stdinhand.c:3062
+#: server/stdinhand.c:3060
 msgid "Usage: detach <connection-name>"
 msgstr "Syntax: detach <Verbindungsname>"
 
-#: server/stdinhand.c:3082
+#: server/stdinhand.c:3080
 msgid "You can not detach other users."
 msgstr "Sie können nicht fremde Verbindungen zu Spielern lösen."
 
-#: server/stdinhand.c:3091
+#: server/stdinhand.c:3089
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s ist mit nicht mit einem Spieler verbunden."
 
-#: server/stdinhand.c:3114
+#: server/stdinhand.c:3112
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s löst die Verbindung zu %s."
 
-#: server/stdinhand.c:3118
+#: server/stdinhand.c:3116
 #, c-format
 msgid "%s no longer observing."
 msgstr "%s beobachtet nicht mehr."
 
-#: server/stdinhand.c:3134
+#: server/stdinhand.c:3132
 #, c-format
 msgid "detaching from %s."
 msgstr "Löse Verbindung zu %s."
 
-#: server/stdinhand.c:3216
+#: server/stdinhand.c:3214
 msgid "Usage: load <game name>"
 msgstr "Anwendung: load <Spielname>"
 
-#: server/stdinhand.c:3236
+#: server/stdinhand.c:3219
+msgid "Cannot load a game while another is running."
+msgstr "Solange ein Spiel läuft, kann kein weiteres geladen werden."
+
+#: server/stdinhand.c:3241
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "Kann keinen Spielstand oder Szenario mit dem Namen \"%s\" finden."
 
-#: server/stdinhand.c:3251
-msgid "Cannot load a game while another is running."
-msgstr "Solange ein Spiel läuft, kann kein weiteres geladen werden."
-
-#: server/stdinhand.c:3260
+#: server/stdinhand.c:3258
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Kann Spielstand '%s' nicht laden."
 
-#: server/stdinhand.c:3327
+#: server/stdinhand.c:3325
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Derzeitiges Verzeichnis für Regelsätze: '%s'"
 
-#: server/stdinhand.c:3333
-#, c-format
-msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-msgstr "Ruleset-Verzeichnis '%s' aus Sicherheitsgründen nicht erlaubt."
-
-#: server/stdinhand.c:3341
+#: server/stdinhand.c:3345
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Ruleset-Verzeichnis '%s' nicht gefunden"
 
-#: server/stdinhand.c:3347
+#: server/stdinhand.c:3351
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Ruleset-Verzeichnis ist bereits '%s'"
 
-#: server/stdinhand.c:3351
+#: server/stdinhand.c:3355
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Ruleset-Verzeichnis ist jetzt '%s'"
 
-#: server/stdinhand.c:3390
+#: server/stdinhand.c:3394
 msgid "Goodbye."
 msgstr "Auf Wiedersehen!"
 
-#: server/stdinhand.c:3421
+#: server/stdinhand.c:3425
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Keine Berechtigung zur Erteilung von Serverbefehlen."
 
-#: server/stdinhand.c:3457
+#: server/stdinhand.c:3461
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Warnung: '%s' wurde (obwohl es mehrdeutig ist) als '%s' ausgelegt.\n"
 "         '%shelp' gibt nähere Informationen."
 
-#: server/stdinhand.c:3462
+#: server/stdinhand.c:3466
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Unbekannter Befehl. '%shelp' gibt nähere Informationen."
 
-#: server/stdinhand.c:3479
+#: server/stdinhand.c:3483
 msgid "Your new vote canceled your previous vote."
 msgstr "Deine Wahl wurde abgeändert."
 
-#: server/stdinhand.c:3488
+#: server/stdinhand.c:3491
 #, c-format
 msgid "New vote (number %d) by %s: %s."
 msgstr "Neue Abstimmung (Nr. %d) von %s über den Befehl: %s"
 
-#: server/stdinhand.c:3507
+#: server/stdinhand.c:3501
+#, c-format
+msgid "Your new vote (\"%s\") was not legal or was not recognized."
+msgstr "Dein neues Votum ('%s') war nicht gültig oder wurde nicht erkannt."
+
+#: server/stdinhand.c:3511
 msgid "You are not allowed to use this command."
 msgstr "Keine Berechtigung zur Erteilung dieses Befehls."
 
-#: server/stdinhand.c:3532
+#: server/stdinhand.c:3536
 msgid "(server prompt)"
 msgstr "Serverbefehl"
 
-#: server/stdinhand.c:3639
+#: server/stdinhand.c:3643
 msgid "Game ended in a draw."
 msgstr "Spiel endete unentschieden."
 
-#: server/stdinhand.c:3643
+#: server/stdinhand.c:3647
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Spiel wird beendet. Der Server startet neu, wenn sich alle Clients "
 "abgemeldet haben."
 
-#: server/stdinhand.c:3648
+#: server/stdinhand.c:3652
 msgid "Cannot end the game: no game running."
 msgstr "Spiel kann nicht beendet werden, da kein Spiel läuft."
 
-#: server/stdinhand.c:3664
+#: server/stdinhand.c:3668
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s hat das Spiel aufgegeben und kann nicht mehr gewinnen."
 
-#: server/stdinhand.c:3669
+#: server/stdinhand.c:3673
 msgid "You cannot surrender now."
 msgstr "Du kannst jetzt nicht aufgeben."
 
-#: server/stdinhand.c:3715
+#: server/stdinhand.c:3719
 msgid "Not enough players, game will not start."
 msgstr "Zu wenige Mitspieler, Spiel wird nicht gestartet."
 
-#: server/stdinhand.c:3732
+#: server/stdinhand.c:3736
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "Kann Spiel nicht starten: es wird gewartet, daß alle Spieler die Verbindung "
 "beenden."
 
-#: server/stdinhand.c:3739
+#: server/stdinhand.c:3743
 msgid "Cannot start the game: it is already running."
 msgstr "Spiel kann nicht gestartet werden: es läuft bereits."
 
-#: server/stdinhand.c:3768
+#: server/stdinhand.c:3772
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Verbindung zu %s wird beendet."
 
-#: server/stdinhand.c:3787
+#: server/stdinhand.c:3791
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6603,125 +6603,125 @@ msgstr ""
 "   save   - Spiel speichern\n"
 "   quit   - Server herunterfahren."
 
-#: server/stdinhand.c:3822 server/stdinhand.c:3825
+#: server/stdinhand.c:3826 server/stdinhand.c:3829
 msgid "Command:"
 msgstr "Befehl:"
 
-#: server/stdinhand.c:3829
+#: server/stdinhand.c:3833
 msgid "Synopsis: "
 msgstr "Übersicht: "
 
-#: server/stdinhand.c:3838
+#: server/stdinhand.c:3842
 #, c-format
 msgid "Level: %s"
 msgstr "Zugriff während des Spiels: %s"
 
-#: server/stdinhand.c:3863
+#: server/stdinhand.c:3867
 msgid "The following server commands are available:"
 msgstr "Es gibt folgende Serverbefehle:"
 
-#: server/stdinhand.c:3938
+#: server/stdinhand.c:3942
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Argument '%s' des 'help'-Befehls ist mehrdeutig."
 
-#: server/stdinhand.c:3943
+#: server/stdinhand.c:3947
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Keine Hilfe zu '%s' vorhanden."
 
-#: server/stdinhand.c:4009
+#: server/stdinhand.c:4013
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Unzulässiges Argument zu 'list': '%s'. Versuchen Sie '%shelp list'."
 
-#: server/stdinhand.c:4049
+#: server/stdinhand.c:4053
 msgid "List of players:"
 msgstr "Spieler:"
 
-#: server/stdinhand.c:4054
+#: server/stdinhand.c:4058
 msgid "<no players>"
 msgstr "<keine>"
 
-#: server/stdinhand.c:4071
+#: server/stdinhand.c:4075
 #, c-format
 msgid "user %s, "
 msgstr "Benutzername %s, "
 
-#: server/stdinhand.c:4082
+#: server/stdinhand.c:4086
 msgid ", Dead"
 msgstr ", Tot"
 
-#: server/stdinhand.c:4085
+#: server/stdinhand.c:4089
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", Schwierigkeitsgrad %s"
 
-#: server/stdinhand.c:4089
+#: server/stdinhand.c:4093
 #, c-format
 msgid ", nation %s"
 msgstr ", Nation %s"
 
-#: server/stdinhand.c:4092
+#: server/stdinhand.c:4096
 #, c-format
 msgid ", team %s"
 msgstr ", Team %s"
 
-#: server/stdinhand.c:4096
+#: server/stdinhand.c:4100
 msgid ", ready"
 msgstr ", bereit"
 
-#: server/stdinhand.c:4098
+#: server/stdinhand.c:4102
 msgid ", not ready"
 msgstr ", nicht fertig"
 
-#: server/stdinhand.c:4106
+#: server/stdinhand.c:4110
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " 1 Verbindung:"
 msgstr[1] " %d Verbindungen:"
 
-#: server/stdinhand.c:4112
+#: server/stdinhand.c:4116
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr " %s von %s (Zugriffsberechtigung %s, %d kB Puffer)"
 
-#: server/stdinhand.c:4117
+#: server/stdinhand.c:4121
 msgid " (observer mode)"
 msgstr " (Beobachtermodus)"
 
-#: server/stdinhand.c:4135
+#: server/stdinhand.c:4139
 msgid "List of teams:"
 msgstr "Liste der Teams:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4145
+#: server/stdinhand.c:4149
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : '%s' : %d Spieler"
 msgstr[1] "%2d : '%s' : %d Spieler"
 
-#: server/stdinhand.c:4165
+#: server/stdinhand.c:4169
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : 1 Spieler : %s"
 
-#: server/stdinhand.c:4171
+#: server/stdinhand.c:4175
 #, c-format
 msgid "Empty team: %s"
 msgstr "Team %s ist leer."
 
-#: server/stdinhand.c:4182
+#: server/stdinhand.c:4186
 msgid "List of connections to server:"
 msgstr "Liste der Verbindungen zum Server:"
 
-#: server/stdinhand.c:4186
+#: server/stdinhand.c:4190
 msgid "<no connections>"
 msgstr "<keine Verbindungen>"
 
-#: server/stdinhand.c:4210
+#: server/stdinhand.c:4214
 msgid "List of scenarios available:"
 msgstr "Liste der verfügbaren Szenarios:"
 
@@ -7719,7 +7719,7 @@ msgstr "Bester Verteidiger"
 #: client/cityrepdata.c:474 client/cityrepdata.c:478
 #: client/gui-gtk-2.0/cityrep.c:1215 client/gui-gtk-2.0/cityrep.c:1236
 #: client/gui-gtk-2.0/cityrep.c:1255 client/gui-gtk-2.0/cityrep.c:1274
-#: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/repodlgs.c:958
+#: client/gui-gtk-2.0/menu.c:795 client/gui-gtk-2.0/repodlgs.c:958
 #: client/gui-sdl/helpdlg.c:688 client/gui-sdl/mapctrl.c:1603
 #: client/gui-sdl/optiondlg.c:1827 client/gui-sdl/repodlgs.c:355
 #: client/gui-win32/menu.c:351 client/gui-win32/repodlgs.c:614
@@ -9494,16 +9494,16 @@ msgstr "Server capability string: %s"
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:1577
+#: client/packhand.c:1579
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1578
+#: client/packhand.c:1580
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1578
+#: client/packhand.c:1580
 msgid "OFF"
 msgstr "AUS"
 
@@ -10212,14 +10212,14 @@ msgid "No usable default tileset found, aborting!"
 msgstr "No usable default tileset found, aborting!"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:1343
+#: client/tilespec.c:1338
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "Client does not support isometric tilesets. Using default tileset instead."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/tilespec.c:1352
+#: client/tilespec.c:1347
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
@@ -10227,7 +10227,7 @@ msgstr ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
 
-#: client/tilespec.c:3972
+#: client/tilespec.c:3967
 #, c-format
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
@@ -10868,7 +10868,7 @@ msgstr "_Auswählen"
 msgid "_Display"
 msgstr "_Anzeige"
 
-#: client/gui-gtk-2.0/cityrep.c:794 client/gui-gtk-2.0/menu.c:790
+#: client/gui-gtk-2.0/cityrep.c:794 client/gui-gtk-2.0/menu.c:793
 #: client/gui-sdl/diplodlg.c:685 client/gui-sdl/optiondlg.c:1800
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
 #: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
@@ -10884,9 +10884,9 @@ msgstr "_Stadt ansehen"
 
 #: client/gui-gtk-2.0/cityrep.c:1217 client/gui-gtk-2.0/cityrep.c:1238
 #: client/gui-gtk-2.0/cityrep.c:1257 client/gui-gtk-2.0/cityrep.c:1276
-#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
-#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:780
-#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:784
+#: client/gui-gtk-2.0/menu.c:777 client/gui-gtk-2.0/menu.c:779
+#: client/gui-gtk-2.0/menu.c:781 client/gui-gtk-2.0/menu.c:783
+#: client/gui-gtk-2.0/menu.c:785 client/gui-gtk-2.0/menu.c:787
 #: client/gui-sdl/helpdlg.c:297 client/gui-win32/menu.c:342
 #: client/gui-xaw/menu.c:239
 msgid "Improvements"
@@ -11179,7 +11179,7 @@ msgstr "_Karten"
 msgid "_Advances"
 msgstr "_Forschungsergebnisse:"
 
-#: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:892
+#: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:895
 #: client/gui-win32/menu.c:399
 msgid "_Cities"
 msgstr "_Städte"
@@ -11770,442 +11770,441 @@ msgstr ""
 msgid "Leaving a local game will end it!"
 msgstr "Wenn Sie das lokale Spiel verlassen, wird es beendet!"
 
-#: client/gui-gtk-2.0/menu.c:685 client/gui-win32/menu.c:303
+#: client/gui-gtk-2.0/menu.c:686 client/gui-win32/menu.c:303
 msgid "_Game"
 msgstr "_Spiel"
 
-#: client/gui-gtk-2.0/menu.c:687 client/gui-gtk-2.0/menu.c:689
-#: client/gui-gtk-2.0/menu.c:691 client/gui-gtk-2.0/menu.c:693
-#: client/gui-gtk-2.0/menu.c:695 client/gui-gtk-2.0/menu.c:697
-#: client/gui-gtk-2.0/menu.c:699 client/gui-gtk-2.0/menu.c:702
-#: client/gui-gtk-2.0/menu.c:705 client/gui-gtk-2.0/menu.c:707
-#: client/gui-gtk-2.0/menu.c:709 client/gui-gtk-2.0/menu.c:711
-#: client/gui-gtk-2.0/menu.c:713 client/gui-gtk-2.0/menu.c:715
-#: client/gui-gtk-2.0/menu.c:718 client/gui-gtk-2.0/menu.c:721
-#: client/gui-gtk-2.0/menu.c:723 client/gui-gtk-2.0/menu.c:725
+#: client/gui-gtk-2.0/menu.c:688 client/gui-gtk-2.0/menu.c:690
+#: client/gui-gtk-2.0/menu.c:692 client/gui-gtk-2.0/menu.c:694
+#: client/gui-gtk-2.0/menu.c:696 client/gui-gtk-2.0/menu.c:698
+#: client/gui-gtk-2.0/menu.c:700 client/gui-gtk-2.0/menu.c:703
+#: client/gui-gtk-2.0/menu.c:706 client/gui-gtk-2.0/menu.c:708
+#: client/gui-gtk-2.0/menu.c:710 client/gui-gtk-2.0/menu.c:712
+#: client/gui-gtk-2.0/menu.c:714 client/gui-gtk-2.0/menu.c:716
+#: client/gui-gtk-2.0/menu.c:719 client/gui-gtk-2.0/menu.c:722
+#: client/gui-gtk-2.0/menu.c:724 client/gui-gtk-2.0/menu.c:726
 #: data/Freeciv.in:2026
 msgid "Game"
 msgstr "Spiel"
 
-#: client/gui-gtk-2.0/menu.c:689 client/gui-gtk-2.0/menu.c:691
-#: client/gui-gtk-2.0/menu.c:693
+#: client/gui-gtk-2.0/menu.c:690 client/gui-gtk-2.0/menu.c:692
+#: client/gui-gtk-2.0/menu.c:694
 msgid "_Chat"
 msgstr "_Chat"
 
-#: client/gui-gtk-2.0/menu.c:691 client/gui-win32/menu.c:314
+#: client/gui-gtk-2.0/menu.c:692 client/gui-win32/menu.c:314
 msgid "_Clear Log"
 msgstr "Textfenster _löschen"
 
-#: client/gui-gtk-2.0/menu.c:693 client/gui-win32/menu.c:313
+#: client/gui-gtk-2.0/menu.c:694 client/gui-win32/menu.c:313
 msgid "_Write Log"
 msgstr "_Textfenster speichern"
 
-#: client/gui-gtk-2.0/menu.c:695 client/gui-win32/menu.c:304
+#: client/gui-gtk-2.0/menu.c:696 client/gui-win32/menu.c:304
 msgid "Local _Options"
 msgstr "_Lokale Optionen"
 
-#: client/gui-gtk-2.0/menu.c:697 client/gui-win32/menu.c:305
+#: client/gui-gtk-2.0/menu.c:698 client/gui-win32/menu.c:305
 msgid "_Message Options"
 msgstr "_Nachrichtendarstellung"
 
-#: client/gui-gtk-2.0/menu.c:702
+#: client/gui-gtk-2.0/menu.c:703
 msgid "_Reload Tileset"
 msgstr "_Feldergrafik neu laden"
 
-#: client/gui-gtk-2.0/menu.c:705
+#: client/gui-gtk-2.0/menu.c:706
 msgid "Save Options on _Exit"
 msgstr "Option_en beim Verlassen speichern"
 
-#: client/gui-gtk-2.0/menu.c:707
+#: client/gui-gtk-2.0/menu.c:708
 msgid "Sa_ve Options"
 msgstr "Opt_ionen sichern"
 
-#: client/gui-gtk-2.0/menu.c:711 client/gui-win32/menu.c:308
+#: client/gui-gtk-2.0/menu.c:712 client/gui-win32/menu.c:308
 msgid "Server O_ptions"
 msgstr "Server_optionen"
 
-#: client/gui-gtk-2.0/menu.c:715 client/gui-win32/menu.c:310
+#: client/gui-gtk-2.0/menu.c:716 client/gui-win32/menu.c:310
 msgid "_Save Game"
 msgstr "_Spiel speichern"
 
-#: client/gui-gtk-2.0/menu.c:718 client/gui-win32/menu.c:311
+#: client/gui-gtk-2.0/menu.c:719 client/gui-win32/menu.c:311
 msgid "Save Game _As..."
 msgstr "Spiel speichern _als..."
 
-#: client/gui-gtk-2.0/menu.c:723
+#: client/gui-gtk-2.0/menu.c:724
 msgid "_Leave"
 msgstr "Spiel _verlassen"
 
-#: client/gui-gtk-2.0/menu.c:725 client/gui-win32/menu.c:317
+#: client/gui-gtk-2.0/menu.c:726 client/gui-win32/menu.c:317
 msgid "_Quit"
 msgstr "_Beenden"
 
-#: client/gui-gtk-2.0/menu.c:729 client/gui-win32/menu.c:321
+#: client/gui-gtk-2.0/menu.c:731 client/gui-win32/menu.c:321
 msgid "Gov_ernment"
 msgstr "_Regierungsformen"
 
-#: client/gui-gtk-2.0/menu.c:731 client/gui-gtk-2.0/menu.c:733
-#: client/gui-gtk-2.0/menu.c:735 client/gui-gtk-2.0/menu.c:737
-#: client/gui-gtk-2.0/menu.c:739 client/gui-gtk-2.0/menu.c:741
-#: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
+#: client/gui-gtk-2.0/menu.c:733 client/gui-gtk-2.0/menu.c:735
+#: client/gui-gtk-2.0/menu.c:737 client/gui-gtk-2.0/menu.c:739
+#: client/gui-gtk-2.0/menu.c:741 client/gui-gtk-2.0/menu.c:743
+#: client/gui-gtk-2.0/menu.c:745 client/gui-gtk-2.0/menu.c:747
 #: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1320
 msgid "Government"
 msgstr "Regierungsformen"
 
-#: client/gui-gtk-2.0/menu.c:733 client/gui-win32/menu.c:322
+#: client/gui-gtk-2.0/menu.c:735 client/gui-win32/menu.c:322
 msgid "_Tax Rates"
 msgstr "Steuer_quote"
 
-#: client/gui-gtk-2.0/menu.c:737 client/gui-win32/menu.c:324
+#: client/gui-gtk-2.0/menu.c:739 client/gui-win32/menu.c:324
 msgid "_Find City"
 msgstr "Stadt _suchen"
 
-#: client/gui-gtk-2.0/menu.c:739 client/gui-win32/menu.c:325
+#: client/gui-gtk-2.0/menu.c:741 client/gui-win32/menu.c:325
 msgid "_Worklists"
 msgstr "_Arbeitslisten"
 
-#: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
-#: client/gui-gtk-2.0/menu.c:748 client/gui-win32/menu.c:327
+#: client/gui-gtk-2.0/menu.c:745 client/gui-gtk-2.0/menu.c:747
+#: client/gui-gtk-2.0/menu.c:750 client/gui-win32/menu.c:327
 msgid "_Change Government"
 msgstr "_Regierung ändern"
 
-#: client/gui-gtk-2.0/menu.c:745
+#: client/gui-gtk-2.0/menu.c:747
 msgid "_Revolution..."
 msgstr "_Revolution..."
 
-#: client/gui-gtk-2.0/menu.c:748 client/gui-gtk-2.0/menu.c:949
+#: client/gui-gtk-2.0/menu.c:750 client/gui-gtk-2.0/menu.c:953
 #: client/gui-win32/menu.c:429
 msgid "_Government"
 msgstr "_Regierungsformen"
 
-#: client/gui-gtk-2.0/menu.c:751 client/gui-win32/menu.c:334
+#: client/gui-gtk-2.0/menu.c:754 client/gui-win32/menu.c:334
 msgid "_View"
 msgstr "_Ansicht"
 
-#: client/gui-gtk-2.0/menu.c:753 client/gui-gtk-2.0/menu.c:755
-#: client/gui-gtk-2.0/menu.c:757 client/gui-gtk-2.0/menu.c:759
-#: client/gui-gtk-2.0/menu.c:761 client/gui-gtk-2.0/menu.c:763
-#: client/gui-gtk-2.0/menu.c:766 client/gui-gtk-2.0/menu.c:768
-#: client/gui-gtk-2.0/menu.c:770 client/gui-gtk-2.0/menu.c:772
-#: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
-#: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:780
-#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:784
-#: client/gui-gtk-2.0/menu.c:786 client/gui-gtk-2.0/menu.c:788
-#: client/gui-gtk-2.0/menu.c:790 client/gui-gtk-2.0/menu.c:792
-#: client/gui-gtk-2.0/menu.c:794 client/gui-gtk-2.0/menu.c:796
-#: client/gui-gtk-2.0/menu.c:798 client/gui-gtk-2.0/menu.c:800
-#: client/gui-gtk-2.0/menu.c:802 client/gui-gtk-2.0/menu.c:804
+#: client/gui-gtk-2.0/menu.c:756 client/gui-gtk-2.0/menu.c:758
+#: client/gui-gtk-2.0/menu.c:760 client/gui-gtk-2.0/menu.c:762
+#: client/gui-gtk-2.0/menu.c:764 client/gui-gtk-2.0/menu.c:766
+#: client/gui-gtk-2.0/menu.c:769 client/gui-gtk-2.0/menu.c:771
+#: client/gui-gtk-2.0/menu.c:773 client/gui-gtk-2.0/menu.c:775
+#: client/gui-gtk-2.0/menu.c:777 client/gui-gtk-2.0/menu.c:779
+#: client/gui-gtk-2.0/menu.c:781 client/gui-gtk-2.0/menu.c:783
+#: client/gui-gtk-2.0/menu.c:785 client/gui-gtk-2.0/menu.c:787
+#: client/gui-gtk-2.0/menu.c:789 client/gui-gtk-2.0/menu.c:791
+#: client/gui-gtk-2.0/menu.c:793 client/gui-gtk-2.0/menu.c:795
+#: client/gui-gtk-2.0/menu.c:797 client/gui-gtk-2.0/menu.c:799
+#: client/gui-gtk-2.0/menu.c:801 client/gui-gtk-2.0/menu.c:803
+#: client/gui-gtk-2.0/menu.c:805 client/gui-gtk-2.0/menu.c:807
 #: data/Freeciv.in:2028
 msgid "View"
 msgstr "Ansicht"
 
-#: client/gui-gtk-2.0/menu.c:755
+#: client/gui-gtk-2.0/menu.c:758
 msgid "City Outlines"
 msgstr "Stadtgrenzen"
 
-#: client/gui-gtk-2.0/menu.c:757 client/gui-win32/menu.c:335
+#: client/gui-gtk-2.0/menu.c:760 client/gui-win32/menu.c:335
 msgid "Map _Grid"
 msgstr "_Gitterlinien"
 
-#: client/gui-gtk-2.0/menu.c:759 client/gui-win32/menu.c:336
+#: client/gui-gtk-2.0/menu.c:762 client/gui-win32/menu.c:336
 msgid "National _Borders"
 msgstr "Nationale _Grenzen"
 
-#: client/gui-gtk-2.0/menu.c:761 client/gui-win32/menu.c:337
+#: client/gui-gtk-2.0/menu.c:764 client/gui-win32/menu.c:337
 msgid "City _Names"
 msgstr "Städte_namen"
 
-#: client/gui-gtk-2.0/menu.c:763 client/gui-win32/menu.c:338
+#: client/gui-gtk-2.0/menu.c:766 client/gui-win32/menu.c:338
 msgid "City G_rowth"
 msgstr "Städte_wachstum"
 
-#: client/gui-gtk-2.0/menu.c:766 client/gui-win32/menu.c:339
+#: client/gui-gtk-2.0/menu.c:769 client/gui-win32/menu.c:339
 msgid "City _Productions"
 msgstr "städtische _Erzeugnisse"
 
-#: client/gui-gtk-2.0/menu.c:770 client/gui-sdl/optiondlg.c:1635
+#: client/gui-gtk-2.0/menu.c:773 client/gui-sdl/optiondlg.c:1635
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:148
 #: client/gui-xaw/menu.c:244 manual/civmanual.c:220 data/helpdata.txt:1220
 msgid "Terrain"
 msgstr "Geländeformen"
 
-#: client/gui-gtk-2.0/menu.c:772 client/gui-win32/menu.c:341
+#: client/gui-gtk-2.0/menu.c:775 client/gui-win32/menu.c:341
 #: client/gui-xaw/menu.c:149
 msgid "Coastline"
 msgstr "Küstenverlauf"
 
-#: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:343
+#: client/gui-gtk-2.0/menu.c:781 client/gui-win32/menu.c:343
 msgid "Roads & Rails"
 msgstr "Straßen & Eisenbahnen"
 
-#: client/gui-gtk-2.0/menu.c:782 client/gui-sdl/optiondlg.c:1933
+#: client/gui-gtk-2.0/menu.c:785 client/gui-sdl/optiondlg.c:1933
 #: client/gui-win32/menu.c:345 client/gui-xaw/menu.c:152
 msgid "Mines"
 msgstr "Bergwerke"
 
-#: client/gui-gtk-2.0/menu.c:784 client/gui-win32/menu.c:346
+#: client/gui-gtk-2.0/menu.c:787 client/gui-win32/menu.c:346
 msgid "Fortress & Airbase"
 msgstr "Befestigungen und Fliegerhorste"
 
-#: client/gui-gtk-2.0/menu.c:786 client/gui-win32/menu.c:348
+#: client/gui-gtk-2.0/menu.c:789 client/gui-win32/menu.c:348
 #: client/gui-xaw/menu.c:154
 msgid "Specials"
 msgstr "Extras"
 
-#: client/gui-gtk-2.0/menu.c:788 client/gui-win32/menu.c:349
+#: client/gui-gtk-2.0/menu.c:791 client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:155
 msgid "Pollution & Fallout"
 msgstr "Verschmutzung & Fallout"
 
-#: client/gui-gtk-2.0/menu.c:794 client/gui-win32/menu.c:352
+#: client/gui-gtk-2.0/menu.c:797 client/gui-win32/menu.c:352
 #: client/gui-xaw/menu.c:158
 msgid "Focus Unit"
 msgstr "auf Einheit zentrieren"
 
-#: client/gui-gtk-2.0/menu.c:796 client/gui-sdl/optiondlg.c:1854
+#: client/gui-gtk-2.0/menu.c:799 client/gui-sdl/optiondlg.c:1854
 #: client/gui-win32/menu.c:353 client/gui-xaw/menu.c:159
 msgid "Fog of War"
 msgstr "Nebel des Krieges"
 
-#: client/gui-gtk-2.0/menu.c:800
+#: client/gui-gtk-2.0/menu.c:803
 msgid "_Full Screen"
 msgstr "_Vollbildmodus"
 
-#: client/gui-gtk-2.0/menu.c:804
+#: client/gui-gtk-2.0/menu.c:807
 msgid "_Center View"
 msgstr "_Zentrieren"
 
-#: client/gui-gtk-2.0/menu.c:807 client/gui-win32/menu.c:358
+#: client/gui-gtk-2.0/menu.c:810 client/gui-win32/menu.c:358
 msgid "_Orders"
 msgstr "_Befehle"
 
-#: client/gui-gtk-2.0/menu.c:809 client/gui-gtk-2.0/menu.c:811
-#: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:815
-#: client/gui-gtk-2.0/menu.c:817 client/gui-gtk-2.0/menu.c:819
-#: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:823
-#: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:827
-#: client/gui-gtk-2.0/menu.c:829 client/gui-gtk-2.0/menu.c:831
-#: client/gui-gtk-2.0/menu.c:833 client/gui-gtk-2.0/menu.c:835
-#: client/gui-gtk-2.0/menu.c:837 client/gui-gtk-2.0/menu.c:839
-#: client/gui-gtk-2.0/menu.c:841 client/gui-gtk-2.0/menu.c:843
-#: client/gui-gtk-2.0/menu.c:845 client/gui-gtk-2.0/menu.c:847
-#: client/gui-gtk-2.0/menu.c:849 client/gui-gtk-2.0/menu.c:851
-#: client/gui-gtk-2.0/menu.c:853 client/gui-gtk-2.0/menu.c:855
-#: client/gui-gtk-2.0/menu.c:857 client/gui-gtk-2.0/menu.c:859
-#: client/gui-gtk-2.0/menu.c:861 client/gui-gtk-2.0/menu.c:863
-#: client/gui-gtk-2.0/menu.c:865 client/gui-gtk-2.0/menu.c:867
-#: client/gui-gtk-2.0/menu.c:869 client/gui-gtk-2.0/menu.c:871
-#: client/gui-gtk-2.0/menu.c:873 client/gui-gtk-2.0/menu.c:875
-#: client/gui-gtk-2.0/menu.c:877 client/gui-gtk-2.0/menu.c:879
-#: client/gui-gtk-2.0/menu.c:881 client/gui-gtk-2.0/menu.c:883
-#: client/gui-gtk-2.0/menu.c:885 data/Freeciv.in:2029
+#: client/gui-gtk-2.0/menu.c:812 client/gui-gtk-2.0/menu.c:814
+#: client/gui-gtk-2.0/menu.c:816 client/gui-gtk-2.0/menu.c:818
+#: client/gui-gtk-2.0/menu.c:820 client/gui-gtk-2.0/menu.c:822
+#: client/gui-gtk-2.0/menu.c:824 client/gui-gtk-2.0/menu.c:826
+#: client/gui-gtk-2.0/menu.c:828 client/gui-gtk-2.0/menu.c:830
+#: client/gui-gtk-2.0/menu.c:832 client/gui-gtk-2.0/menu.c:834
+#: client/gui-gtk-2.0/menu.c:836 client/gui-gtk-2.0/menu.c:838
+#: client/gui-gtk-2.0/menu.c:840 client/gui-gtk-2.0/menu.c:842
+#: client/gui-gtk-2.0/menu.c:844 client/gui-gtk-2.0/menu.c:846
+#: client/gui-gtk-2.0/menu.c:848 client/gui-gtk-2.0/menu.c:850
+#: client/gui-gtk-2.0/menu.c:852 client/gui-gtk-2.0/menu.c:854
+#: client/gui-gtk-2.0/menu.c:856 client/gui-gtk-2.0/menu.c:858
+#: client/gui-gtk-2.0/menu.c:860 client/gui-gtk-2.0/menu.c:862
+#: client/gui-gtk-2.0/menu.c:864 client/gui-gtk-2.0/menu.c:866
+#: client/gui-gtk-2.0/menu.c:868 client/gui-gtk-2.0/menu.c:870
+#: client/gui-gtk-2.0/menu.c:872 client/gui-gtk-2.0/menu.c:874
+#: client/gui-gtk-2.0/menu.c:876 client/gui-gtk-2.0/menu.c:878
+#: client/gui-gtk-2.0/menu.c:880 client/gui-gtk-2.0/menu.c:882
+#: client/gui-gtk-2.0/menu.c:884 client/gui-gtk-2.0/menu.c:886
+#: client/gui-gtk-2.0/menu.c:888 data/Freeciv.in:2029
 msgid "Orders"
 msgstr "Befehle"
 
-#: client/gui-gtk-2.0/menu.c:811 client/gui-gtk-2.0/menu.c:1413
+#: client/gui-gtk-2.0/menu.c:814 client/gui-gtk-2.0/menu.c:1418
 #: client/gui-win32/menu.c:359
 msgid "_Build City"
 msgstr "Stadt gründen (_B)"
 
-#: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:1435
-#: client/gui-gtk-2.0/menu.c:1441 client/gui-win32/menu.c:360
+#: client/gui-gtk-2.0/menu.c:816 client/gui-gtk-2.0/menu.c:1440
+#: client/gui-gtk-2.0/menu.c:1446 client/gui-win32/menu.c:360
 msgid "Build _Road"
 msgstr "St_raße bauen"
 
-#: client/gui-gtk-2.0/menu.c:815 client/gui-gtk-2.0/menu.c:1329
+#: client/gui-gtk-2.0/menu.c:818 client/gui-gtk-2.0/menu.c:1334
 #: client/gui-win32/menu.c:361
 msgid "Build _Irrigation"
 msgstr "Bewässerungssystem anlegen (_I)"
 
-#: client/gui-gtk-2.0/menu.c:817 client/gui-gtk-2.0/menu.c:1330
+#: client/gui-gtk-2.0/menu.c:820 client/gui-gtk-2.0/menu.c:1335
 #: client/gui-win32/menu.c:362
 msgid "Build _Mine"
 msgstr "Bergwerk bauen (_M)"
 
-#: client/gui-gtk-2.0/menu.c:819 client/gui-gtk-2.0/menu.c:1331
+#: client/gui-gtk-2.0/menu.c:822 client/gui-gtk-2.0/menu.c:1336
 msgid "Transf_orm Terrain"
 msgstr "Landschaft verändern (_O)"
 
-#: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:1477
+#: client/gui-gtk-2.0/menu.c:824 client/gui-gtk-2.0/menu.c:1482
 #: client/gui-win32/menu.c:364
 msgid "Build _Fortress"
 msgstr "Be_festigung errichten"
 
-#: client/gui-gtk-2.0/menu.c:823 client/gui-win32/menu.c:365
+#: client/gui-gtk-2.0/menu.c:826 client/gui-win32/menu.c:365
 msgid "Build Airbas_e"
 msgstr "Fli_egerhorst bauen"
 
-#: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:1483
+#: client/gui-gtk-2.0/menu.c:828 client/gui-gtk-2.0/menu.c:1488
 #: client/gui-win32/menu.c:366
 msgid "Clean _Pollution"
 msgstr "Umweltverschmutzung beseitigen (_P)"
 
-#: client/gui-gtk-2.0/menu.c:827 client/gui-win32/menu.c:367
+#: client/gui-gtk-2.0/menu.c:830 client/gui-win32/menu.c:367
 msgid "Clean _Nuclear Fallout"
 msgstr "Fallout beseitige_n"
 
-#: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:369
+#: client/gui-gtk-2.0/menu.c:834 client/gui-win32/menu.c:369
 msgid "_Sentry"
 msgstr "Bewachen (_S)"
 
-#: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:372
+#: client/gui-gtk-2.0/menu.c:840 client/gui-win32/menu.c:372
 msgid "Make _Homecity"
 msgstr "Standort zur neuen _Heimatstadt machen"
 
-#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:373
+#: client/gui-gtk-2.0/menu.c:842 client/gui-win32/menu.c:373
 msgid "_Load"
 msgstr "Einschiffen (_L)"
 
-#: client/gui-gtk-2.0/menu.c:841
+#: client/gui-gtk-2.0/menu.c:844
 msgid "_Unload Transporter"
 msgstr "Schiff entladen (_U)"
 
-#: client/gui-gtk-2.0/menu.c:843 client/gui-win32/menu.c:374
+#: client/gui-gtk-2.0/menu.c:846 client/gui-win32/menu.c:374
 msgid "_Unload"
 msgstr "A_usschiffen"
 
-#: client/gui-gtk-2.0/menu.c:845 client/gui-win32/menu.c:375
+#: client/gui-gtk-2.0/menu.c:848 client/gui-win32/menu.c:375
 msgid "Wake up o_thers"
 msgstr "Andere alarmieren (_T)"
 
-#: client/gui-gtk-2.0/menu.c:849
+#: client/gui-gtk-2.0/menu.c:852
 msgid "_Auto Settler"
 msgstr "Siedler _automatisieren"
 
-#: client/gui-gtk-2.0/menu.c:851 client/gui-win32/menu.c:378
+#: client/gui-gtk-2.0/menu.c:854 client/gui-win32/menu.c:378
 msgid "Auto E_xplore"
 msgstr "Automatisch erkunden (_X)"
 
-#: client/gui-gtk-2.0/menu.c:853 client/gui-gtk-2.0/menu.c:855
-#: client/gui-gtk-2.0/menu.c:857
+#: client/gui-gtk-2.0/menu.c:856 client/gui-gtk-2.0/menu.c:858
+#: client/gui-gtk-2.0/menu.c:860
 msgid "_Connect"
 msgstr "_Verbinden"
 
-#: client/gui-gtk-2.0/menu.c:853 client/gui-win32/menu.c:380
+#: client/gui-gtk-2.0/menu.c:856 client/gui-win32/menu.c:380
 msgid "_Road"
 msgstr "_Straße"
 
-#: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:381
+#: client/gui-gtk-2.0/menu.c:858 client/gui-win32/menu.c:381
 msgid "Rai_l"
 msgstr "_Eisenbahn"
 
-#: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:382
+#: client/gui-gtk-2.0/menu.c:860 client/gui-win32/menu.c:382
 msgid "_Irrigate"
 msgstr "_Bewässern"
 
-#: client/gui-gtk-2.0/menu.c:859
+#: client/gui-gtk-2.0/menu.c:862
 msgid "Go _to"
 msgstr "_Gehe nach"
 
-#: client/gui-gtk-2.0/menu.c:859
+#: client/gui-gtk-2.0/menu.c:862
 msgid "_Build city"
 msgstr "Stadt gründen (_B)"
 
-#: client/gui-gtk-2.0/menu.c:861
+#: client/gui-gtk-2.0/menu.c:864
 msgid "Patrol (_Q)"
 msgstr "Patrouillieren (_Q)"
 
-#: client/gui-gtk-2.0/menu.c:863 client/gui-win32/menu.c:385
+#: client/gui-gtk-2.0/menu.c:866 client/gui-win32/menu.c:385
 msgid "_Go to"
 msgstr "_Gehe nach"
 
-#: client/gui-gtk-2.0/menu.c:865
+#: client/gui-gtk-2.0/menu.c:868
 msgid "Go\\/Airlift to City"
 msgstr "Gehe\\/fliege nach Stadt"
 
-#: client/gui-gtk-2.0/menu.c:867 client/gui-sdl/menu.c:450
+#: client/gui-gtk-2.0/menu.c:870 client/gui-sdl/menu.c:450
 #: client/gui-win32/menu.c:387 client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
 msgstr "Rückkehr zur nächsten Stadt"
 
-#: client/gui-gtk-2.0/menu.c:871 client/gui-win32/menu.c:389
+#: client/gui-gtk-2.0/menu.c:874 client/gui-win32/menu.c:389
 #: client/gui-xaw/menu.c:205
 msgid "Disband Unit"
 msgstr "Einheit auflösen"
 
-#: client/gui-gtk-2.0/menu.c:873 client/gui-sdl/citydlg.c:532
+#: client/gui-gtk-2.0/menu.c:876 client/gui-sdl/citydlg.c:532
 #: data/Freeciv.in:1186
 msgid "Upgrade unit"
 msgstr "Einheit modernisieren"
 
-#: client/gui-gtk-2.0/menu.c:875
+#: client/gui-gtk-2.0/menu.c:878
 msgid "Diplomat\\/Spy Actions"
 msgstr "Aktionen für Diplomaten\\/Spione"
 
-#: client/gui-gtk-2.0/menu.c:877 client/gui-sdl/menu.c:399
+#: client/gui-gtk-2.0/menu.c:880 client/gui-sdl/menu.c:399
 #: client/gui-win32/menu.c:391 client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
 msgstr "Atombombe zünden"
 
-#: client/gui-gtk-2.0/menu.c:881
+#: client/gui-gtk-2.0/menu.c:884
 msgid "Select same type"
 msgstr "Einheiten gleichen Typs auswählen"
 
-#: client/gui-gtk-2.0/menu.c:883 client/gui-win32/menu.c:393
+#: client/gui-gtk-2.0/menu.c:886 client/gui-win32/menu.c:393
 msgid "_Wait"
 msgstr "_Warten"
 
-#: client/gui-gtk-2.0/menu.c:885 client/gui-win32/menu.c:394
+#: client/gui-gtk-2.0/menu.c:888 client/gui-win32/menu.c:394
 #: client/gui-xaw/menu.c:213
 msgid "Done"
 msgstr "Fertig"
 
-#: client/gui-gtk-2.0/menu.c:888 client/gui-win32/menu.c:398
+#: client/gui-gtk-2.0/menu.c:891 client/gui-win32/menu.c:398
 msgid "_Reports"
 msgstr "Ber_ichte"
 
-#: client/gui-gtk-2.0/menu.c:890 client/gui-gtk-2.0/menu.c:892
-#: client/gui-gtk-2.0/menu.c:894 client/gui-gtk-2.0/menu.c:896
-#: client/gui-gtk-2.0/menu.c:898 client/gui-gtk-2.0/menu.c:900
-#: client/gui-gtk-2.0/menu.c:902 client/gui-gtk-2.0/menu.c:904
-#: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:908
-#: client/gui-gtk-2.0/menu.c:910 client/gui-gtk-2.0/menu.c:912
+#: client/gui-gtk-2.0/menu.c:893 client/gui-gtk-2.0/menu.c:895
+#: client/gui-gtk-2.0/menu.c:897 client/gui-gtk-2.0/menu.c:899
+#: client/gui-gtk-2.0/menu.c:901 client/gui-gtk-2.0/menu.c:903
+#: client/gui-gtk-2.0/menu.c:905 client/gui-gtk-2.0/menu.c:907
+#: client/gui-gtk-2.0/menu.c:909 client/gui-gtk-2.0/menu.c:911
+#: client/gui-gtk-2.0/menu.c:913 client/gui-gtk-2.0/menu.c:915
 #: data/Freeciv.in:2030
 msgid "Reports"
 msgstr "Berichte"
 
-#: client/gui-gtk-2.0/menu.c:894 client/gui-gtk-2.0/menu.c:937
+#: client/gui-gtk-2.0/menu.c:897 client/gui-gtk-2.0/menu.c:941
 #: client/gui-win32/menu.c:400 client/gui-win32/menu.c:423
 msgid "_Units"
 msgstr "_Einheiten"
 
-#: client/gui-gtk-2.0/menu.c:896 client/gui-win32/menu.c:401
+#: client/gui-gtk-2.0/menu.c:899 client/gui-win32/menu.c:401
 msgid "_Players"
 msgstr "S_pieler"
 
-#: client/gui-gtk-2.0/menu.c:898 client/gui-win32/menu.c:402
+#: client/gui-gtk-2.0/menu.c:901 client/gui-win32/menu.c:402
 msgid "_Economy"
 msgstr "_Wirtschaft"
 
-#: client/gui-gtk-2.0/menu.c:900 client/gui-win32/menu.c:403
+#: client/gui-gtk-2.0/menu.c:903 client/gui-win32/menu.c:403
 msgid "_Science"
 msgstr "_Forschung"
 
-#: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:405
+#: client/gui-gtk-2.0/menu.c:907 client/gui-win32/menu.c:405
 msgid "_Wonders of the World"
 msgstr "Weltw_under"
 
-#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:406
+#: client/gui-gtk-2.0/menu.c:909 client/gui-win32/menu.c:406
 msgid "_Top Five Cities"
 msgstr "_Die besten 5 Städte"
 
-#: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:407
+#: client/gui-gtk-2.0/menu.c:911 client/gui-win32/menu.c:407
 msgid "_Messages"
 msgstr "_Nachrichten"
 
-#: client/gui-gtk-2.0/menu.c:910 client/gui-win32/menu.c:408
+#: client/gui-gtk-2.0/menu.c:913 client/gui-win32/menu.c:408
 msgid "_Demographics"
 msgstr "_Bericht zur Lage der Nation"
 
-#: client/gui-gtk-2.0/menu.c:912 client/gui-win32/menu.c:409
+#: client/gui-gtk-2.0/menu.c:915 client/gui-win32/menu.c:409
 msgid "S_paceship"
 msgstr "_Raumschiff"
 
-#: client/gui-gtk-2.0/menu.c:915 client/gui-win32/menu.c:413
+#: client/gui-gtk-2.0/menu.c:919 client/gui-win32/menu.c:413
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: client/gui-gtk-2.0/menu.c:917 client/gui-gtk-2.0/menu.c:919
 #: client/gui-gtk-2.0/menu.c:921 client/gui-gtk-2.0/menu.c:923
 #: client/gui-gtk-2.0/menu.c:925 client/gui-gtk-2.0/menu.c:927
 #: client/gui-gtk-2.0/menu.c:929 client/gui-gtk-2.0/menu.c:931
@@ -12216,6 +12215,7 @@ msgstr "_Hilfe"
 #: client/gui-gtk-2.0/menu.c:949 client/gui-gtk-2.0/menu.c:951
 #: client/gui-gtk-2.0/menu.c:953 client/gui-gtk-2.0/menu.c:955
 #: client/gui-gtk-2.0/menu.c:957 client/gui-gtk-2.0/menu.c:959
+#: client/gui-gtk-2.0/menu.c:961 client/gui-gtk-2.0/menu.c:963
 #: client/gui-gtk-2.0/repodlgs.c:311 client/gui-win32/citydlg.c:1078
 #: client/gui-win32/repodlgs.c:287 client/gui-win32/wldlg.c:846
 #: data/Freeciv.in:1466 data/Freeciv.in:2031 data/Freeciv.in:2101
@@ -12223,119 +12223,119 @@ msgstr "_Hilfe"
 msgid "Help"
 msgstr "Hilfe"
 
-#: client/gui-gtk-2.0/menu.c:919 client/gui-win32/menu.c:414
+#: client/gui-gtk-2.0/menu.c:923 client/gui-win32/menu.c:414
 msgid "Language_s"
 msgstr "_Deutsche Übersetzung"
 
-#: client/gui-gtk-2.0/menu.c:921 client/gui-win32/menu.c:415
+#: client/gui-gtk-2.0/menu.c:925 client/gui-win32/menu.c:415
 msgid "Co_nnecting"
 msgstr "_Verbindungsaufbau"
 
-#: client/gui-gtk-2.0/menu.c:923 client/gui-win32/menu.c:416
+#: client/gui-gtk-2.0/menu.c:927 client/gui-win32/menu.c:416
 msgid "C_ontrols"
 msgstr "_Bedienungselemente"
 
-#: client/gui-gtk-2.0/menu.c:925 client/gui-win32/menu.c:417
+#: client/gui-gtk-2.0/menu.c:929 client/gui-win32/menu.c:417
 msgid "C_hatline"
 msgstr "_Chatten"
 
-#: client/gui-gtk-2.0/menu.c:927 client/gui-win32/menu.c:418
+#: client/gui-gtk-2.0/menu.c:931 client/gui-win32/menu.c:418
 msgid "_Worklist Editor"
 msgstr "_Arbeitsliste bearbeiten"
 
-#: client/gui-gtk-2.0/menu.c:929 client/gui-win32/menu.c:419
+#: client/gui-gtk-2.0/menu.c:933 client/gui-win32/menu.c:419
 msgid "Citizen _Management"
 msgstr "_Bürgermeister"
 
-#: client/gui-gtk-2.0/menu.c:931 client/gui-win32/menu.c:420
+#: client/gui-gtk-2.0/menu.c:935 client/gui-win32/menu.c:420
 msgid "_Playing"
 msgstr "_Spiel"
 
-#: client/gui-gtk-2.0/menu.c:935 client/gui-win32/menu.c:422
+#: client/gui-gtk-2.0/menu.c:939 client/gui-win32/menu.c:422
 msgid "City _Improvements"
 msgstr "_Stadterweiterungen"
 
-#: client/gui-gtk-2.0/menu.c:939 client/gui-win32/menu.c:424
+#: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:424
 msgid "Com_bat"
 msgstr "_Kampf"
 
-#: client/gui-gtk-2.0/menu.c:941 client/gui-win32/menu.c:425
+#: client/gui-gtk-2.0/menu.c:945 client/gui-win32/menu.c:425
 msgid "_ZOC"
 msgstr "_Kontrollzonen"
 
-#: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:426
+#: client/gui-gtk-2.0/menu.c:947 client/gui-win32/menu.c:426
 msgid "Techno_logy"
 msgstr "_Forschung"
 
-#: client/gui-gtk-2.0/menu.c:945 client/gui-win32/menu.c:427
+#: client/gui-gtk-2.0/menu.c:949 client/gui-win32/menu.c:427
 msgid "_Terrain"
 msgstr "_Geländeformen"
 
-#: client/gui-gtk-2.0/menu.c:947 client/gui-win32/menu.c:428
+#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:428
 msgid "Won_ders"
 msgstr "_Weltwunder"
 
-#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:430
+#: client/gui-gtk-2.0/menu.c:955 client/gui-win32/menu.c:430
 msgid "Happin_ess"
 msgstr "_Zufriedenheit"
 
-#: client/gui-gtk-2.0/menu.c:953 client/gui-win32/menu.c:431
+#: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:431
 msgid "Space _Race"
 msgstr "_Weltraum"
 
-#: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:433
+#: client/gui-gtk-2.0/menu.c:961 client/gui-win32/menu.c:433
 msgid "_Copying"
 msgstr "_Lizenz"
 
-#: client/gui-gtk-2.0/menu.c:959 client/gui-win32/menu.c:434
+#: client/gui-gtk-2.0/menu.c:963 client/gui-win32/menu.c:434
 msgid "_About"
 msgstr "_Über"
 
-#: client/gui-gtk-2.0/menu.c:1242
+#: client/gui-gtk-2.0/menu.c:1247
 #, c-format
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:1321
+#: client/gui-gtk-2.0/menu.c:1326
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Zu %s verändern (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1322
+#: client/gui-gtk-2.0/menu.c:1327
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Zu %s verändern (_M)"
 
-#: client/gui-gtk-2.0/menu.c:1323
+#: client/gui-gtk-2.0/menu.c:1328
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Zu %s verändern (_O)"
 
-#: client/gui-gtk-2.0/menu.c:1396
+#: client/gui-gtk-2.0/menu.c:1401
 msgid "Help _Build Wonder"
 msgstr "Zum _Bau eines Weltwunder beitragen"
 
-#: client/gui-gtk-2.0/menu.c:1410
+#: client/gui-gtk-2.0/menu.c:1415
 msgid "Add to City (_B)"
 msgstr "Zur Stadt hinzufügen (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1418
+#: client/gui-gtk-2.0/menu.c:1423
 msgid "Make Trade _Route"
 msgstr "Handelsweg ein_richten"
 
-#: client/gui-gtk-2.0/menu.c:1432
+#: client/gui-gtk-2.0/menu.c:1437
 msgid "Build _Railroad"
 msgstr "Schienen verlegen (_R)"
 
-#: client/gui-gtk-2.0/menu.c:1455
+#: client/gui-gtk-2.0/menu.c:1460
 msgid "Bu_ild Farmland"
 msgstr "Erzeuge Ackerland (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1475
+#: client/gui-gtk-2.0/menu.c:1480
 msgid "_Fortify"
 msgstr "Eingraben (_F)"
 
-#: client/gui-gtk-2.0/menu.c:1481
+#: client/gui-gtk-2.0/menu.c:1486
 msgid "_Paradrop"
 msgstr "Fallschirms_pringen"
 
@@ -14599,32 +14599,32 @@ msgstr "No usable default theme found, aborting!"
 msgid "Trying \"%s\" theme."
 msgstr "Verwende '%s' Thema."
 
-#: client/gui-sdl/themespec.c:491 client/gui-sdl/themespec.c:525
-#: client/gui-sdl/themespec.c:703
+#: client/gui-sdl/themespec.c:486 client/gui-sdl/themespec.c:520
+#: client/gui-sdl/themespec.c:698
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "'%s' konnte nicht geöffnet werden."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-sdl/themespec.c:505
+#: client/gui-sdl/themespec.c:500
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Couldn't load gfx file for the spec file %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-sdl/themespec.c:672
+#: client/gui-sdl/themespec.c:667
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Couldn't find a supported gfx file extension for %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-sdl/themespec.c:824
+#: client/gui-sdl/themespec.c:819
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Couldn't load gfx file %s for sprite %s"
 
 # CK: TECHNICAL
-#: client/gui-sdl/themespec.c:975
+#: client/gui-sdl/themespec.c:970
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Don't have graphics tags %s or %s for %s %s"
