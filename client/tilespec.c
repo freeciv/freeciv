@@ -4208,27 +4208,23 @@ int fill_sprite_array(struct tileset *t,
 		      const struct unit *punit, const struct city *pcity,
 		      const struct city *citymode)
 {
-  struct terrain *pterrain = NULL, *tterrain_near[8];
-  bv_special tspecial, tspecial_near[8];
   int tileno, dir;
+  bv_special tspecial;
+  bv_special tspecial_near[8];
+  struct terrain *tterrain_near[8];
+  struct terrain *pterrain = NULL;
   struct drawn_sprite *save_sprs = sprs;
   struct player *owner = NULL;
-  struct base_type *pbase = NULL;
-  bool do_draw_unit, solid_bg;
-
-  if (ptile != NULL) {
-    pbase = tile_get_base(ptile);
-  }
-
-  /* Unit drawing is disabled if the view options is turned off, but only
-   * if we're drawing on the mapview. */
-  do_draw_unit = (punit && (draw_units || !ptile
-			    || (draw_focus_unit
-				&& unit_is_in_focus(punit))));
-  solid_bg = (solid_color_behind_units
-	      && (do_draw_unit
-		  || (pcity && draw_cities)
-		  || (ptile && !draw_terrain)));
+  struct base_type *pbase = (ptile ? tile_get_base(ptile) : NULL);
+  /* Unit drawing is disabled when the view options are turned off,
+   * but only where we're drawing on the mapview. */
+  bool do_draw_unit = (punit && (draw_units || !ptile
+				 || (draw_focus_unit
+				     && unit_is_in_focus(punit))));
+  bool solid_bg = (solid_color_behind_units
+		   && (do_draw_unit
+		       || (pcity && draw_cities)
+		       || (ptile && !draw_terrain)));
 
   if (citymode) {
     int count = 0, i, cx, cy;
