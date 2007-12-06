@@ -73,8 +73,6 @@ bool can_client_change_view(void);
 bool can_meet_with_player(const struct player *pplayer);
 bool can_intel_with_player(const struct player *pplayer);
 
-void client_game_init(void);
-void client_game_free(void);
 void client_exit(void);
 
 /* Set in GUI code. */
