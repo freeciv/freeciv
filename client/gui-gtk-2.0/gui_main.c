@@ -680,7 +680,6 @@ Mouse/touchpad scrolling over the mapview
 static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
 {
   int scroll_x, scroll_y, xstep, ystep;
-  struct tile *ptile = NULL;
 
   if (!can_client_change_view()) {
     return FALSE;
@@ -720,9 +719,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
     maybe_activate_keyboardless_goto(cur_x, cur_y);
   }
 
-  ptile = canvas_pos_to_tile(cur_x, cur_y);
-  handle_mouse_cursor(ptile);
-  hover_tile = ptile;
+  control_mouse_cursor(canvas_pos_to_tile(cur_x, cur_y));
 
   return TRUE;
 }

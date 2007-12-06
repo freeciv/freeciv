@@ -63,10 +63,10 @@ static struct unit_list *urgent_focus_queue;
 
 /* These should be set via set_hover_state() */
 enum cursor_hover_state hover_state = HOVER_NONE;
-struct tile *hover_tile = NULL;
 enum unit_activity connect_activity;
 enum unit_orders goto_last_order; /* Last order for goto */
 
+static struct tile *hover_tile = NULL;
 static struct unit_list *battlegroups[MAX_NUM_BATTLEGROUPS];
 
 /* units involved in current combat */
@@ -89,7 +89,7 @@ static struct unit *quickselect(struct tile *ptile,
                                 enum quickselect_type qtype);
 
 /**************************************************************************
-  Called only by main() in client/civclient.c.
+  Called only by client_game_init() in client/civclient.c
 **************************************************************************/
 void control_init(void)
 {
@@ -105,10 +105,11 @@ void control_init(void)
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     battlegroups[i] = unit_list_new();
   }
+  hover_tile = NULL;
 }
 
 /**************************************************************************
-  Called only by client_exit() in client/civclient.c.
+  Called only by client_game_free() in client/civclient.c
 **************************************************************************/
 void control_done(void)
 {
@@ -124,6 +125,7 @@ void control_done(void)
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     unit_list_free(battlegroups[i]);
   }
+  free_client_goto();
 }
 
 /**************************************************************************
@@ -896,7 +898,7 @@ void request_unit_goto(enum unit_orders last_order)
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
-    handle_mouse_cursor(NULL);
+    control_mouse_cursor(NULL);
   } else {
     assert(goto_is_active());
     goto_add_waypoint();
@@ -923,7 +925,7 @@ static bool can_units_attack_at(struct unit_list *punits,
   and the information gathered from the tile which is under the mouse 
   cursor (ptile).
 **************************************************************************/
-void handle_mouse_cursor(struct tile *ptile)
+void control_mouse_cursor(struct tile *ptile)
 {
   struct unit *punit = NULL;
   struct city *pcity = NULL;
@@ -943,12 +945,14 @@ void handle_mouse_cursor(struct tile *ptile)
 
   if (!ptile) {
     if (hover_tile) {
-      /* hover_tile is the tile which is currently under the mouse cursor. */
+      /* hover_tile is the tile that was previously under the mouse cursor. */
       ptile = hover_tile;
     } else {
-      update_mouse_cursor(mouse_cursor_type);
+      update_mouse_cursor(CURSOR_DEFAULT);
       return;
     }
+  } else {
+    hover_tile = ptile;
   }
 
   punit = find_visible_unit(ptile);
@@ -1093,7 +1097,7 @@ void request_unit_connect(enum unit_activity activity)
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
-    handle_mouse_cursor(NULL);
+    control_mouse_cursor(NULL);
   } else {
     assert(goto_is_active());
     goto_add_waypoint();

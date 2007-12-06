@@ -61,7 +61,6 @@
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
 #include "ggzclient.h"
-#include "goto.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
 #include "mapctrl_g.h"
@@ -172,6 +171,29 @@ static void at_exit(void)
 {
   client_kill_server(TRUE);
   my_shutdown_network();
+}
+
+/**************************************************************************
+  Called only by set_client_state() below.
+**************************************************************************/
+static void client_game_init(void)
+{
+  game_init();
+  attribute_init();
+  agents_init();
+  control_init();
+}
+
+/**************************************************************************
+  Called by set_client_state() and client_exit() below.
+**************************************************************************/
+static void client_game_free(void)
+{
+  control_done();
+  free_help_texts();
+  attribute_free();
+  agents_free();
+  game_free();
 }
 
 /**************************************************************************
@@ -365,7 +387,6 @@ int main(int argc, char *argv[])
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */
   mysrand(time(NULL));
-  control_init();
   helpdata_init();
   boot_help_texts();
 
@@ -402,7 +423,6 @@ void client_exit(void)
   
   ui_exit();
   
-  control_done();
   chatline_common_done();
   message_options_free();
   client_game_free();
@@ -473,29 +493,6 @@ void send_report_request(enum report_type type)
 }
 
 /**************************************************************************
- called whenever client is changed to pre-game state.
-**************************************************************************/
-void client_game_init()
-{
-  game_init();
-  attribute_init();
-  agents_init();
-  hover_tile = NULL;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void client_game_free()
-{
-  free_client_goto();
-  free_help_texts();
-  attribute_free();
-  agents_free();
-  game_free();
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void set_client_state(enum client_states newstate)
@@ -532,7 +529,8 @@ void set_client_state(enum client_states newstate)
       
     civclient_state = newstate;
 
-    if (C_S_RUNNING == civclient_state) {
+    switch (civclient_state) {
+    case C_S_RUNNING:
       init_city_report_game_data();
       load_ruleset_specific_options();
       create_event(NULL, E_GAME_START, _("Game started."));
@@ -546,23 +544,26 @@ void set_client_state(enum client_states newstate)
       update_unit_focus();
       can_slide = TRUE;
       set_client_page(PAGE_GAME);
-    }
-    else if (C_S_PREPARING == civclient_state) {
+      break;
+    case C_S_PREPARING:
       popdown_all_city_dialogs();
       close_all_diplomacy_dialogs();
       popdown_all_game_dialogs();
-      set_unit_focus(NULL);
       clear_notify_window();
       if (C_S_INITIAL != oldstate) {
 	client_game_free();
       }
       client_game_init();
+      set_unit_focus(NULL);
       if (!aconnection.established && !with_ggz) {
 	set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
       } else {
 	set_client_page(PAGE_START);
       }
-    }
+      break;
+    default:
+      break;
+    };
     update_menus();
   }
   if (!aconnection.established && C_S_PREPARING == civclient_state) {
@@ -792,7 +793,7 @@ void set_server_busy(bool busy)
     server_busy = busy;
 
     /* This may mean that we have to change from or to wait cursor */
-    handle_mouse_cursor(NULL);
+    control_mouse_cursor(NULL);
   }
 }
 

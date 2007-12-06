@@ -634,7 +634,7 @@ void update_turn_done_button_state()
   turn_done_state = new_state;
 
   set_turn_done_button_state(turn_done_state);
-  handle_mouse_cursor(NULL);
+  control_mouse_cursor(NULL);
 
   if (turn_done_state) {
     if (waiting_for_end_turn

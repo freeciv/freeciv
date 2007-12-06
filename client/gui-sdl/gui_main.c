@@ -409,9 +409,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
     if (pSellected_Widget) {
       unsellect_widget_action();
     } else {
-      if (C_S_RUNNING == client_state()) {
-        handle_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
-      }
+      control_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
     }
   }
 

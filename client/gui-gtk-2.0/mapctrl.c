@@ -370,8 +370,6 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
-  struct tile *ptile = NULL;
-
   if (!GTK_WIDGET_HAS_FOCUS(map_canvas)) {
     gtk_widget_grab_focus(map_canvas);
   }
@@ -383,9 +381,7 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
     maybe_activate_keyboardless_goto(ev->x, ev->y);
   }
-  ptile = canvas_pos_to_tile(ev->x, ev->y);
-  handle_mouse_cursor(ptile);
-  hover_tile = ptile;
+  control_mouse_cursor(canvas_pos_to_tile(ev->x, ev->y));
 
   return TRUE;
 }
@@ -411,7 +407,7 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
   if (map_exists()
       && canvas_x >= 0 && canvas_y >= 0
       && canvas_x < mapview.width && canvas_y < mapview.height) {
-    handle_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));
+    control_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));
   } else {
     update_mouse_cursor(CURSOR_DEFAULT);
   }
