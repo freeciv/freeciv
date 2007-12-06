@@ -61,13 +61,9 @@ static bool popit_is_orders;
 *************************************************************************/
 void map_handle_move(int window_x, int window_y)
 {
-  struct tile *ptile = NULL;
-
   update_line(window_x, window_y);
 
-  ptile = canvas_pos_to_tile(window_x, window_y);
-  handle_mouse_cursor(ptile);
-  hover_tile = ptile;
+  control_mouse_cursor(canvas_pos_to_tile(window_x, window_y));
 }
 
 /*************************************************************************

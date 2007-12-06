@@ -178,7 +178,7 @@ static gint anim_cursor_cb(gpointer data)
 
   gdk_window_set_cursor(root_window,
                 fc_cursors[cursor_type][cursor_frame]);
-  handle_mouse_cursor(NULL);
+  control_mouse_cursor(NULL);
   return TRUE;
 }
 

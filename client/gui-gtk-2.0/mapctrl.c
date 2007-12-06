@@ -370,8 +370,6 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
-  struct tile *ptile = NULL;
-
   if (!GTK_WIDGET_HAS_FOCUS(map_canvas)) {
     gtk_widget_grab_focus(map_canvas);
   }
@@ -383,9 +381,7 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
     maybe_activate_keyboardless_goto(ev->x, ev->y);
   }
-  ptile = canvas_pos_to_tile(ev->x, ev->y);
-  handle_mouse_cursor(ptile);
-  hover_tile = ptile;
+  control_mouse_cursor(canvas_pos_to_tile(ev->x, ev->y));
 
   return TRUE;
 }
@@ -396,9 +392,13 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
 {
   int canvas_x, canvas_y;
-  bool map_is_topmost = 
-       (gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))
-       == gtk_notebook_page_num(GTK_NOTEBOOK(top_notebook), map_widget));
+
+  if (gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))
+      != gtk_notebook_page_num(GTK_NOTEBOOK(top_notebook), map_widget)) {
+    /* Map is not currently topmost tab. Do not use tile specific cursors. */
+    action_state = CURSOR_ACTION_DEFAULT;
+    return TRUE;
+  }
   
   /* Bizarrely, this function can be called even when we don't "leave"
    * the map canvas, for instance, it gets called any time the mouse is
@@ -406,14 +406,13 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
   gdk_window_get_pointer(map_canvas->window, &canvas_x, &canvas_y, NULL);
   if (map_exists()
       && canvas_x >= 0 && canvas_y >= 0
-      && canvas_x < mapview.width && canvas_y < mapview.height
-      && map_is_topmost) {
-    handle_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));
-    /* update_unit_info_label is handled inside handle_mouse_cursor. */
+      && canvas_x < mapview.width && canvas_y < mapview.height) {
+    control_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));
   } else {
     action_state = CURSOR_ACTION_DEFAULT;
-    update_unit_info_label(get_units_in_focus());
   }
+
+  update_unit_info_label(get_units_in_focus());
   return TRUE;
 }
 

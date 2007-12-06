@@ -151,7 +151,7 @@ void init_client_goto(void)
 }
 
 /********************************************************************** 
-  Called above, and by client_game_free() in client/civclient.c.
+  Called above, and by control_done() in client/control.c.
 ***********************************************************************/
 void free_client_goto(void)
 {
@@ -840,7 +840,7 @@ void exit_goto_state(void)
 }
 
 /********************************************************************** 
-  Called from control_unit_killed() in control.c
+  Called from control_unit_killed() in client/control.c
 ***********************************************************************/
 void goto_unit_killed(struct unit *punit)
 {
