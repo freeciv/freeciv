@@ -20,8 +20,6 @@ struct conn_list;
 void init_new_game(void);
 void send_year_to_clients(int year);
 void send_game_info(struct conn_list *dest);
-void send_game_state(struct conn_list *dest, int state);
-void send_start_phase_to_clients(void);
 
 struct unit_type *crole_to_unit_type(char crole,struct player *pplayer);
 

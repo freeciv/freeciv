@@ -25,6 +25,7 @@
 #include "city.h"
 #include "game.h"
 #include "map.h"
+#include "specialist.h"
 #include "unitlist.h"
 
 #include "cma_fec.h"

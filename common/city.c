@@ -32,6 +32,7 @@
 #include "mem.h"
 #include "movement.h"
 #include "packets.h"
+#include "specialist.h"
 #include "unit.h"
 
 #include "cm.h"

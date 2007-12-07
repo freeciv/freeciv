@@ -15,7 +15,6 @@
 
 #include "shared.h"		/* MAX_LEN_NAME */
 
-#include "game.h"		/* enum client_states */
 #include "packets.h"		/* enum report_type */
 #include "worklist.h"
 
@@ -25,6 +24,14 @@
  * also updates the timeout info.
  */
 #define TIMER_INTERVAL (int)(real_timer_callback() * 1000)
+
+/* independent parallel of server_states */
+enum client_states { 
+  C_S_INITIAL,
+  C_S_PREPARING,
+  C_S_RUNNING,
+  C_S_OVER,
+};
 
 void handle_packet_input(void *packet, int type);
 

@@ -32,6 +32,7 @@
 #include "packets.h"
 #include "player.h"
 #include "spaceship.h"
+#include "specialist.h"
 #include "support.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -354,10 +355,9 @@ static void update_improvement_from_packet(struct city *pcity,
 }
 
 /****************************************************************************
-  Handles a game-state packet from the server.  The server sends these to
-  us regularly to inform the client of state changes.
+  Updates the client_state due to packets from the server.
 ****************************************************************************/
-void handle_game_state(int value)
+static void update_client_state(enum client_states value)
 {
   bool changed = (client_state() != value);
 
@@ -898,6 +898,8 @@ void handle_start_phase(int phase)
     return;
   }
 
+  update_client_state(C_S_RUNNING);
+
   game.info.phase = phase;
 
   if (game.player_ptr && is_player_phase(game.player_ptr, phase)) {
@@ -936,6 +938,9 @@ void handle_start_phase(int phase)
 void handle_begin_turn(void)
 {
   freelog(LOG_DEBUG, "handle_begin_turn()");
+
+  /* probably duplicate insurance */
+  update_client_state(C_S_RUNNING);
 
   /* Possibly replace wait cursor with something else */
   set_server_busy(FALSE);
@@ -2209,6 +2214,8 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
   int i;
 
+  update_client_state(C_S_PREPARING);
+
   ruleset_data_free();
 
   ruleset_cache_init();
@@ -2876,6 +2883,8 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
 **************************************************************************/
 void handle_endgame_report(struct packet_endgame_report *packet)
 {
+  update_client_state(C_S_OVER);
+
   popup_endgame_report_dialog(packet);
 }
 

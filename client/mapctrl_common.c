@@ -23,6 +23,7 @@
 #include "support.h"
 
 #include "combat.h"
+#include "game.h"
 #include "unitlist.h"
 
 #include "agents.h"

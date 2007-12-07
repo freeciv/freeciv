@@ -23,6 +23,7 @@
 #include "support.h"
 #include "timing.h"
 
+#include "game.h"
 #include "map.h"
 #include "unitlist.h"
 

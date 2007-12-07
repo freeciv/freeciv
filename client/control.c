@@ -22,6 +22,7 @@
 #include "mem.h"
 #include "timing.h"
 
+#include "game.h"
 #include "map.h"
 #include "movement.h"
 

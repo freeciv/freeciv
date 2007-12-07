@@ -24,6 +24,8 @@
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
+#include "specialist.h"
+
 #include "requirements.h"
 
 /* Names of source types.  These must correspond to enum universals_n in

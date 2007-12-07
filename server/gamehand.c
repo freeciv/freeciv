@@ -330,16 +330,6 @@ void init_new_game(void)
 }
 
 /**************************************************************************
-  This is called once at the start of each phase to alert the clients to
-  the new phase.  game.info.phase should be incremented before calling it.
-**************************************************************************/
-void send_start_phase_to_clients(void)
-{
-  /* This function is so simple it could probably be dropped... */
-  dlsend_packet_start_phase(game.est_connections, game.info.phase);
-}
-
-/**************************************************************************
   Tell clients the year, and also update turn_done and nturns_idle fields
   for all players.
 **************************************************************************/
@@ -359,17 +349,6 @@ void send_year_to_clients(int year)
   notify_conn(game.est_connections, NULL, E_NEXT_YEAR, _("Year: %s"),
 		 textyear(year));
 }
-
-
-/**************************************************************************
-  Send specified state; should be a CLIENT_GAME_*_STATE ?
-  (But note client also changes state from other events.)
-**************************************************************************/
-void send_game_state(struct conn_list *dest, int state)
-{
-  dlsend_packet_game_state(dest, state);
-}
-
 
 /**************************************************************************
   Send game_info packet; some server options and various stuff...

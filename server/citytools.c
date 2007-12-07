@@ -37,6 +37,7 @@
 #include "movement.h"
 #include "player.h"
 #include "requirements.h"
+#include "specialist.h"
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"

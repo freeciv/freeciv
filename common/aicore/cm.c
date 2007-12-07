@@ -29,6 +29,7 @@
 #include "map.h"
 #include "mem.h"
 #include "shared.h"
+#include "specialist.h"
 #include "support.h"
 #include "timing.h"
 

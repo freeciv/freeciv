@@ -22,6 +22,8 @@
 #include "support.h"
 
 #include "city.h"
+#include "game.h"
+#include "specialist.h"
 #include "unitlist.h"
 
 #include "citydlg_g.h"

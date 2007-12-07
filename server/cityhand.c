@@ -29,6 +29,7 @@
 #include "map.h"
 #include "player.h"
 #include "rand.h"
+#include "specialist.h"
 #include "support.h"
 #include "unit.h"
 #include "worklist.h"

@@ -25,12 +25,14 @@
 #include "dataio.h"
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "government.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
 #include "shared.h"		/* for MIN() */
+#include "specialist.h"
 #include "support.h"
 #include "timing.h"
 

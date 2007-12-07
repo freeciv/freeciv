@@ -720,8 +720,8 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 /**************************************************************************
   ...
 **************************************************************************/
-void post_receive_packet_game_state(struct connection *pc,
-				    struct packet_game_state *packet)
+void post_receive_packet_ruleset_control(struct connection *pc,
+					 struct packet_ruleset_control *packet)
 {
   conn_clear_packet_cache(pc);
 }
@@ -729,8 +729,8 @@ void post_receive_packet_game_state(struct connection *pc,
 /**************************************************************************
   ...
 **************************************************************************/
-void post_send_packet_game_state(struct connection *pc,
-				 const struct packet_game_state *packet)
+void post_send_packet_ruleset_control(struct connection *pc,
+				      const struct packet_ruleset_control *packet)
 {
   conn_clear_packet_cache(pc);
 }

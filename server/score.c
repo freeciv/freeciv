@@ -26,6 +26,7 @@
 #include "improvement.h"
 #include "map.h"
 #include "player.h"
+#include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
 

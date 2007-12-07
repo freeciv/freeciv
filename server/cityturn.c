@@ -33,6 +33,7 @@
 #include "government.h"
 #include "map.h"
 #include "player.h"
+#include "specialist.h"
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"
