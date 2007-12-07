@@ -36,6 +36,7 @@
 #include "registry.h"
 #include "requirements.h"
 #include "shared.h"
+#include "specialist.h"
 #include "support.h"
 #include "tech.h"
 #include "unit.h"

@@ -38,6 +38,7 @@
 #include "packets.h"
 #include "registry.h"
 #include "requirements.h"
+#include "specialist.h"
 #include "support.h"
 #include "unit.h"
 

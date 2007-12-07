@@ -27,6 +27,7 @@
 #include "game.h"
 #include "log.h"
 #include "mem.h"
+#include "specialist.h"
 #include "support.h"
 
 #include "agents.h"

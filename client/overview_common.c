@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include "game.h"
 #include "log.h"
 
 #include "civclient.h" /* can_client_change_view() */

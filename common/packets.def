@@ -316,9 +316,7 @@ PACKET_PLAYER_READY=116;cs,dsend
   BOOL is_ready;
 end
 
-PACKET_GAME_STATE=12;post-send,post-recv,sc,dsend,lsend
-  UINT32 value;
-end
+# 12 removed in 2.2
 
 PACKET_ENDGAME_REPORT=13;sc,lsend
   UINT8 nscores;
@@ -1306,15 +1304,13 @@ PACKET_RULESET_BASE=120;sc,lsend
   BV_BASE_FLAGS flags;
 end
 
-/*********************************************************
-  Ruleset control values: single values, some of which are
-  needed before sending other ruleset data (eg,
-  num_unit_types, government_count).  This is only sent
-  once at the start of the game, eg unlike game_info which
-  is sent again each turn.  (Terrain ruleset has enough
-  info for its own "control" packet, done separately.)
-*********************************************************/
-PACKET_RULESET_CONTROL=106;sc,lsend
+/**************************************************************************
+  Ruleset control values: single values, all of which are needed before
+  sending other ruleset data.  After sending this packet, resend every
+  other part of the rulesets.  (Terrain ruleset has enough info for its
+  own "control" packet, done separately.)
+**************************************************************************/
+PACKET_RULESET_CONTROL=106; sc, post-send, post-recv, lsend
   UINT8 num_unit_classes;
   UINT8 num_unit_types;
   UINT8 num_impr_types;

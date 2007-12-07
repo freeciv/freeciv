@@ -31,8 +31,9 @@
 #include "government.h"
 #include "packets.h"
 #include "player.h"
-#include "version.h"
+#include "specialist.h"
 #include "unitlist.h"
+#include "version.h"
 
 #include "citytools.h"
 #include "report.h"
@@ -1074,6 +1075,7 @@ void make_history_report(void)
 
 /**************************************************************************
   Inform clients about player scores and statistics when the game ends.
+  Called only from server/srv_main.c srv_scores()
 **************************************************************************/
 void report_final_scores(void)
 {

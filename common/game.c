@@ -34,6 +34,7 @@
 #include "player.h"
 #include "shared.h"
 #include "spaceship.h"
+#include "specialist.h"
 #include "support.h"
 #include "tech.h"
 #include "unit.h"

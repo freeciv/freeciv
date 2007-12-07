@@ -40,6 +40,7 @@
 #include "player.h"
 #include "registry.h"
 #include "shared.h"
+#include "specialist.h"
 #include "support.h"
 #include "unit.h"
 #include "unitlist.h"

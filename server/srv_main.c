@@ -640,7 +640,7 @@ static void begin_phase(bool is_new_phase)
   } phase_players_iterate_end;
   send_player_info(NULL, NULL);
 
-  send_start_phase_to_clients();
+  dlsend_packet_start_phase(game.est_connections, game.info.phase);
 
   if (is_new_phase) {
     /* Unit "end of turn" activities - of course these actually go at
@@ -1921,7 +1921,6 @@ static void srv_scores(void)
     calc_civ_score(pplayer);
   } players_iterate_end;
 
-  send_game_state(game.est_connections, C_S_OVER);
   report_final_scores();
   show_map_to_all();
   notify_player(NULL, NULL, E_GAME_END, _("The game is over..."));
@@ -2079,8 +2078,6 @@ static void srv_ready(void)
   if (game.info.is_new_game) {
     init_new_game();
   }
-
-  send_game_state(game.est_connections, C_S_RUNNING);
 }
 
 /**************************************************************************

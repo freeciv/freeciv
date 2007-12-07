@@ -25,6 +25,7 @@
 #include "support.h"
 
 #include "combat.h"
+#include "game.h"
 #include "government.h"
 #include "map.h"
 #include "unitlist.h"

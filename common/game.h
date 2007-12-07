@@ -26,7 +26,6 @@
 #include "fc_types.h"
 #include "player.h"
 #include "packets.h"
-#include "specialist.h"
 
 enum debug_globals {
   DEBUG_FERRIES,
@@ -39,15 +38,6 @@ enum server_states {
   S_S_GENERATING_WAITING = 1,
   S_S_RUNNING = 2,
   S_S_OVER = 3,
-};
-
-/* used in network values */
-enum client_states { 
-  C_S_INITIAL = 0,
-  C_S_PREPARING = 1,
-  C_S_STARTING_UNUSED = 2,
-  C_S_RUNNING = 3,
-  C_S_OVER = 4,
 };
 
 #define CONTAMINATION_POLLUTION 1
