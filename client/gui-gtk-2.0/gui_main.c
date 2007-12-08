@@ -450,15 +450,11 @@ static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
+static gboolean keyboard_map_canvas(GtkWidget *w, GdkEventKey *ev, gpointer data)
 {
-  /* inputline history code */
-  if (!GTK_WIDGET_MAPPED(top_vbox) || GTK_WIDGET_HAS_FOCUS(inputline)) {
-    return FALSE;
-  }
-
   if ((ev->state & GDK_SHIFT_MASK)) {
     switch (ev->keyval) {
+
     case GDK_Left:
       scroll_mapview(DIR8_WEST);
       return TRUE;
@@ -479,11 +475,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
       key_center_capital();
       return TRUE;
 
-    case GDK_Return:
-    case GDK_KP_Enter:
-      key_end_turn();
-      return TRUE;
-
     case GDK_Page_Up:
       g_signal_emit_by_name(main_message_area, "move_cursor",
 	                          GTK_MOVEMENT_PAGES, -1, FALSE);
@@ -496,22 +487,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 
     default:
       break;
-    }
-  } else {
-    switch (ev->keyval) {
-
-    case GDK_apostrophe:
-      /* FIXME: should find the correct window, even when detached, from any
-       * other window; should scroll to the bottom automatically showing the
-       * latest text from other players; MUST NOT make spurious text windows
-       * at the bottom of other dialogs.
-       */
-      gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
-      gtk_widget_grab_focus(inputline);
-      return TRUE;
-
-    default:
-      break;
     };
   }
 
@@ -520,158 +495,181 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     return FALSE;
   }
 
-  if (GTK_WIDGET_HAS_FOCUS(map_canvas)) {
-    switch (ev->keyval) {
-    case GDK_Up:
-      key_unit_move(DIR8_NORTH);
-      return TRUE;
-
-    case GDK_Page_Up:
-      key_unit_move(DIR8_NORTHEAST);
-      return TRUE;
-
-    case GDK_Right:
-      key_unit_move(DIR8_EAST);
-      return TRUE;
-
-    case GDK_Page_Down:
-      key_unit_move(DIR8_SOUTHEAST);
-      return TRUE;
-
-    case GDK_Down:
-      key_unit_move(DIR8_SOUTH);
-      return TRUE;
-
-    case GDK_End:
-      key_unit_move(DIR8_SOUTHWEST);
-      return TRUE;
-  
-    case GDK_Left:
-      key_unit_move(DIR8_WEST);
-      return TRUE;
-
-    case GDK_Home:		
-      key_unit_move(DIR8_NORTHWEST);
-      return TRUE;
-
-    default:
-      break;
-    }
-  }
-
   assert(MAX_NUM_BATTLEGROUPS == 4);
-#define BATTLEGROUP_CASE(num)						    \
-  if (ev->state & GDK_CONTROL_MASK) {					    \
-    key_unit_assign_battlegroup((num), (ev->state & GDK_SHIFT_MASK) != 0);  \
-  } else {								    \
-    key_unit_select_battlegroup((num), (ev->state & GDK_SHIFT_MASK) != 0);  \
-  }
 #define BATTLEGROUP_SHIFT_CASE(num)					    \
   if (ev->state & GDK_CONTROL_MASK) {					    \
     key_unit_assign_battlegroup((num), TRUE);				    \
   } else {								    \
-    key_unit_select_battlegroup((num), TRUE);				    \
+    key_unit_select_battlegroup((num), FALSE);				    \
   }
   
+  if ((ev->state & GDK_CONTROL_MASK)) {
+    switch (ev->keyval) {
+
+    case GDK_1:
+      key_unit_assign_battlegroup(0, FALSE);
+      return TRUE;
+
+    case GDK_2:
+      key_unit_assign_battlegroup(1, FALSE);
+      return TRUE;
+
+    case GDK_3:
+      key_unit_assign_battlegroup(2, FALSE);
+      return TRUE;
+
+    case GDK_4:
+      key_unit_assign_battlegroup(3, FALSE);
+      return TRUE;
+
+    default:
+      break;
+    };
+  }
+
   switch (ev->keyval) {
-  case GDK_1:
-    BATTLEGROUP_CASE(0);
-    break;
-
-  case GDK_2:
-    BATTLEGROUP_CASE(1);
-    break;
-
-  case GDK_3:
-    BATTLEGROUP_CASE(2);
-    break;
-
-  case GDK_4:
-    BATTLEGROUP_CASE(3);
-    break;
 
   case GDK_exclam:
     /* Shift + 1 */
     BATTLEGROUP_SHIFT_CASE(0);
-    break;
+    return TRUE;
 
   case GDK_at:
     /* Shift + 2 */
     BATTLEGROUP_SHIFT_CASE(1);
-    break;
+    return TRUE;
 
   case GDK_numbersign:
     /* Shift + 3 */
     BATTLEGROUP_SHIFT_CASE(2);
-    break;
+    return TRUE;
 
   case GDK_dollar:
     /* Shift + 4 */
     BATTLEGROUP_SHIFT_CASE(3);
-    break;
+    return TRUE;
 
   case GDK_KP_Up:
-  case GDK_8:
   case GDK_KP_8:
+  case GDK_Up:
+  case GDK_8:
     key_unit_move(DIR8_NORTH);
-    break;
+    return TRUE;
 
   case GDK_KP_Page_Up:
-  case GDK_9:
   case GDK_KP_9:
+  case GDK_Page_Up:
+  case GDK_9:
     key_unit_move(DIR8_NORTHEAST);
-    break;
+    return TRUE;
 
   case GDK_KP_Right:
-  case GDK_6:
   case GDK_KP_6:
+  case GDK_Right:
+  case GDK_6:
     key_unit_move(DIR8_EAST);
-    break;
+    return TRUE;
 
   case GDK_KP_Page_Down:
   case GDK_KP_3:
+  case GDK_Page_Down:
+  case GDK_3:
     key_unit_move(DIR8_SOUTHEAST);
-    break;
+    return TRUE;
 
   case GDK_KP_Down:
   case GDK_KP_2:
+  case GDK_Down:
+  case GDK_2:
     key_unit_move(DIR8_SOUTH);
-    break;
+    return TRUE;
 
   case GDK_KP_End:
   case GDK_KP_1:
+  case GDK_End:
+  case GDK_1:
     key_unit_move(DIR8_SOUTHWEST);
-    break;
+    return TRUE;
 
   case GDK_KP_Left:
   case GDK_KP_4:
+  case GDK_Left:
+  case GDK_4:
     key_unit_move(DIR8_WEST);
-    break;
+    return TRUE;
 
-  case GDK_KP_Home:		
-  case GDK_7:
+  case GDK_KP_Home:
   case GDK_KP_7:
+  case GDK_Home:
+  case GDK_7:
     key_unit_move(DIR8_NORTHWEST);
-    break;
+    return TRUE;
 
-  case GDK_5:
-  case GDK_KP_5: 
   case GDK_KP_Begin:
+  case GDK_KP_5: 
+  case GDK_5:
     key_recall_previous_focus_unit(); 
-    break;
+    return TRUE;
 
   case GDK_Escape:
     key_cancel_action();
-    break;
+    return TRUE;
 
   case GDK_t:
     key_city_workers(w, ev);
-    break;
+    return TRUE;
 
   default:
+    break;
+  };
+
+  return FALSE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
+{
+  /* inputline history code */
+  if (!GTK_WIDGET_MAPPED(top_vbox) || GTK_WIDGET_HAS_FOCUS(inputline)) {
     return FALSE;
   }
-  return TRUE;
+
+  if ((ev->state & GDK_SHIFT_MASK)) {
+    switch (ev->keyval) {
+
+    case GDK_Return:
+    case GDK_KP_Enter:
+      key_end_turn();
+      return TRUE;
+
+    default:
+      break;
+    };
+  }
+
+  switch (ev->keyval) {
+
+  case GDK_apostrophe:
+    /* FIXME: should find the correct window, even when detached, from any
+     * other window; should scroll to the bottom automatically showing the
+     * latest text from other players; MUST NOT make spurious text windows
+     * at the bottom of other dialogs.
+     */
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
+    gtk_widget_grab_focus(inputline);
+    return TRUE;
+
+  default:
+    break;
+  };
+
+  if (GTK_WIDGET_HAS_FOCUS(map_canvas)) {
+    return keyboard_map_canvas(w, ev, data);
+  }
+
+  return FALSE;
 }
 
 /**************************************************************************
