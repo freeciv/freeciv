@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-01 21:46+0300\n"
-"PO-Revision-Date: 2007-11-14 16:34+0300\n"
+"PO-Revision-Date: 2007-12-08 19:06+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -1159,7 +1159,7 @@ msgstr ""
 #: utility/fciconv.c:205
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr "Negaliu konvertuoti tekstinio failo iš %s į %s: %s"
+msgstr "Negaliu konvertuoti teksto iš %s į %s: %s"
 
 #: utility/ioz.c:503
 #: client/gui-sdl/dialogs.c:2479
@@ -1212,7 +1212,7 @@ msgstr "Duomenų klaida"
 
 #: utility/ioz.c:533
 msgid "Not bzip2 file"
-msgstr "Ne bzip2 byla"
+msgstr "Ne bzip2 failas"
 
 #: utility/ioz.c:536
 msgid "IO error"
@@ -1220,7 +1220,7 @@ msgstr "IO klaida"
 
 #: utility/ioz.c:539
 msgid "Unexpected EOF"
-msgstr "Netikėta bylos pabaiga"
+msgstr "Netikėta failo pabaiga"
 
 #: utility/ioz.c:542
 msgid "Output buffer full"
@@ -1268,12 +1268,12 @@ msgstr "Ne sveikasis skaičius: '%s'\n"
 #: utility/log.c:150
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
-msgstr "Nenurodytas failo vardas tarp registravimo lygio parametro \"%s\".\n"
+msgstr "Nenurodytas failo pavadinimas registravimo lygio parametre \"%s\".\n"
 
 #: utility/log.c:276
-#, c-format
+#, fuzzy, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr "Nepavyko atidaryti registravimo failo: %s rašymo teisėmis \"%s\".\n"
+msgstr "Nepavyko atverti registravimo failo: %s rašymo teisėmis \"%s\".\n"
 
 #: utility/log.c:290
 #: utility/log.c:309
@@ -1698,9 +1698,9 @@ msgid "The password must have at least %d capital letters, %d numbers, and be at
 msgstr "Slaptažodis mažiausiai turi turėti %d didžiųjų raidžių, %d skaičių ir būti minimaliai %d (spausdinamų) simbolių ilgio. Pabandykite dar kartą."
 
 #: server/barbarian.c:153
-#, fuzzy, c-format
+#, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
-msgstr "Barbarai gauna vadą vardu %s. Pavojingi laikai gali laukti priešaky."
+msgstr "%s gauna vadą vardu %s. Pavojingi laikai gali laukti priešaky."
 
 #: server/barbarian.c:445
 #, c-format
@@ -2644,11 +2644,12 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:259
-#, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
-msgstr "create <žaidėjo-vardas>"
+msgstr ""
+"cheating\n"
+"cheating <žaidėjo-vardas>"
 
 #: server/commands.c:261
 msgid "Set one or all AI players to 'cheating'."
@@ -2772,11 +2773,11 @@ msgid ""
 "save <file-name>"
 msgstr ""
 "save\n"
-"save <bylos-pavadinimas>"
+"save <failo-pavadinimas>"
 
 #: server/commands.c:341
 msgid "Save game to file."
-msgstr "Išsaugo žaidimą į bylą."
+msgstr "Išsaugo žaidimą į failą."
 
 #: server/commands.c:342
 msgid ""
@@ -2793,7 +2794,7 @@ msgid ""
 "load <file-name>"
 msgstr ""
 "load\n"
-"load <bylos-pavadinimas>"
+"load <failo-pavadinimas>"
 
 #: server/commands.c:353
 msgid "Load game from file."
@@ -5174,7 +5175,7 @@ msgstr ""
 #: server/stdinhand.c:1017
 #, c-format
 msgid "Loading script file: %s"
-msgstr "Įkeliama scenarijaus byla: %s"
+msgstr "Įkeliamas scenarijaus failas: %s"
 
 #: server/stdinhand.c:1032
 #, c-format
@@ -5184,12 +5185,12 @@ msgstr ""
 #: server/stdinhand.c:1034
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr "Negalima perskaityti scenarijaus bylos „%s“."
+msgstr "Negalima perskaityti scenarijaus failo „%s“."
 
 #: server/stdinhand.c:1121
 #, c-format
 msgid "Could not write script file '%s'."
-msgstr "Negalima įrašyti scenarijaus bylos „%s“."
+msgstr "Negalima įrašyti scenarijaus failo „%s“."
 
 #: server/stdinhand.c:1132
 msgid "You cannot use the write command on this server for security reasons."
@@ -6768,7 +6769,7 @@ msgstr ""
 #: client/audio.c:237
 #, c-format
 msgid "file: \"%s\""
-msgstr "byla: „%s“"
+msgstr "failas: „%s“"
 
 #: client/audio.c:230
 #: client/audio.c:238
@@ -7250,9 +7251,8 @@ msgid "Citizen Governor"
 msgstr "Piliečių valdytojas"
 
 #: client/cityrepdata.c:515
-#, fuzzy
 msgid "Turns/Buy"
-msgstr "Ėjimai"
+msgstr "Ėjimai/Pirkti"
 
 #: client/cityrepdata.c:519
 #: client/cityrepdata.c:521
@@ -8627,7 +8627,7 @@ msgstr "Negaliu surasti Jūsų namų direktorijos"
 
 #: client/options.c:608
 msgid "Save failed, cannot find a filename."
-msgstr "Bandymas išsaugoti žaidimą nepavyko, nes negaliu surasti tokio bylos vardo."
+msgstr "Išsaugoti nepavyko, negaliu surasti failo pavadinimo."
 
 #: client/options.c:665
 msgid "If you add a preset by hand, also update \"number_of_presets\""
@@ -8808,7 +8808,7 @@ msgstr "Joks %s negali būti išformuotas."
 
 #: client/servers.c:345
 msgid "Could not open temp file."
-msgstr "Negalima atverti laikinos bylos."
+msgstr "Negalima atverti laikino failo."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -15111,12 +15111,12 @@ msgid "Foreign Minister"
 msgstr "Užsienio reikalų ministras"
 
 #: client/gui-sdl/diplodlg.c:1440
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
 "What are your wishes?"
 msgstr ""
-"Pone!, Atvyko %s ambasadorius\n"
+"Pone! Atvyko %s ambasadorius\n"
 "Kokie jūsų norai?"
 
 #: client/gui-sdl/diplodlg.c:1456
@@ -15192,7 +15192,7 @@ msgstr ""
 #: client/gui-sdl/graphics.c:319
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
-msgstr "Negalima paversti paveiksliuko iš bylos %s į formatą %d."
+msgstr "Negalima paversti paveiksliuko iš failo %s į formatą %d."
 
 #: client/gui-sdl/graphics.c:344
 #, c-format
@@ -24725,9 +24725,8 @@ msgid "?plural:Texans"
 msgstr "?plural:Teksasiečiai"
 
 #: data/nation/texan.ruleset:6
-#, fuzzy
 msgid "Texas is second largest and second most populous state of the USA, famous for its \"larger than life\" cowboy mentality."
-msgstr "Teksasas yra antra pagal dydį ir gyventojų skaičių Amerikos valstija, garsi dėl savo kaubojiškų tradicijų."
+msgstr "Teksasas yra antra pagal dydį ir gyventojų skaičių Amerikos valstija, garsi dėl savo „didesnių nei gyvenimas“ kaubojiškų tradicijų."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
