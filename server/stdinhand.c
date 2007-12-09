@@ -2946,8 +2946,9 @@ static bool take_command(struct connection *caller, char *str, bool check)
   if (S_S_RUNNING == server_state()) {
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
+    send_game_info(pconn->self);
     send_player_info_c(NULL, pconn->self);
-    send_conn_info(game.est_connections,  pconn->self);
+    send_conn_info(game.est_connections, pconn->self);
   }
 
   /* if we're taking another player with a user attached, 
@@ -3272,7 +3273,6 @@ bool load_command(struct connection *caller, char *filename, bool check)
   sz_strlcpy(srvarg.load_filename, arg);
 
   game_load(&file);
-  send_server_settings(NULL);
   section_file_check_unused(&file, arg);
   section_file_free(&file);
 
@@ -3282,7 +3282,9 @@ bool load_command(struct connection *caller, char *filename, bool check)
 
   sanity_check();
   
+  freelog(LOG_VERBOSE, "load_command() does send_rulesets()");
   send_rulesets(game.est_connections);
+  send_server_settings(game.est_connections);
   send_game_info(game.est_connections);
 
   /* Everything seemed to load ok; spread the good news. */
@@ -3350,8 +3352,17 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
     }
     cmd_reply(CMD_RULESETDIR, caller, C_OK, 
               _("Ruleset directory set to \"%s\""), str);
-    sz_strlcpy(game.rulesetdir, str);    
+
+    freelog(LOG_VERBOSE, "set_rulesetdir() does load_rulesets() with \"%s\"",
+	    str);
+    sz_strlcpy(game.rulesetdir, str);
     load_rulesets();
+
+    if (game.est_connections) {
+      /* Now that the rulesets are loaded we immediately send updates to any
+       * connected clients. */
+      send_rulesets(game.est_connections);
+    }
   }
   return TRUE;
 }

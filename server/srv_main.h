@@ -61,7 +61,7 @@ void set_server_state(enum server_states newstate);
 
 bool check_for_game_over(void);
 
-bool handle_packet_input(struct connection *pconn, void *packet, int type);
+bool server_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);
 void save_game(char *orig_filename, const char *save_reason);
 void pick_random_player_name(const struct nation_type *pnation,

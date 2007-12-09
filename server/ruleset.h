@@ -23,6 +23,4 @@ extern char *update22two;
 void load_rulesets(void);
 void send_rulesets(struct conn_list *dest);
 
-void send_ruleset_nations(struct conn_list *dest);
-
 #endif  /* FC__RULESET_H */

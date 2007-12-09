@@ -47,7 +47,7 @@
   has started.  If pconn is NULL, is an AI, else a client.
 
   N.B. this only attachs a connection to a player if 
-       pconn->name == player->username
+       pconn->username == player->username
 **************************************************************************/
 void establish_new_connection(struct connection *pconn)
 {
@@ -59,7 +59,7 @@ void establish_new_connection(struct connection *pconn)
   /* zero out the password */
   memset(pconn->server.password, 0, sizeof(pconn->server.password));
 
-  /* send off login_replay packet */
+  /* send join_reply packet */
   packet.you_can_join = TRUE;
   sz_strlcpy(packet.capability, our_capability);
   my_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
@@ -316,8 +316,8 @@ void lost_connection_to_client(struct connection *pconn)
   }
 
   unattach_connection_from_player(pconn);
-
   send_conn_info_remove(pconn->self, game.est_connections);
+
   if (S_S_RUNNING == server_state()) {
     /* Player info is only updated when the game is running; this must be
      * done consistently or the client will end up with inconsistent errors.
@@ -413,7 +413,7 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
   If pplayer is NULL, take the next available player that is not already 
   associated.
   Note "observer" connections do not count for is_connected. You must set
-       pconn->obserber to TRUE before attaching!
+       pconn->observer to TRUE before attaching!
 **************************************************************************/
 bool attach_connection_to_player(struct connection *pconn,
                                  struct player *pplayer)

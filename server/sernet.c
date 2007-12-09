@@ -371,7 +371,7 @@ static bool get_packet(struct connection *pconn,
   Precondition - we have read_socket_data.
   Postcondition - there are no more packets to handle on this connection.
 *****************************************************************************/
-static void handle_incoming_client_packets(struct connection *pconn) 
+static void incoming_client_packets(struct connection *pconn) 
 {
   struct packet_to_handle packet;
 #if PROCESSING_TIME_STATISTICS
@@ -392,7 +392,7 @@ static void handle_incoming_client_packets(struct connection *pconn)
     connection_do_buffer(pconn);
     start_processing_request(pconn, pconn->server.last_request_id_seen);
 
-    command_ok = handle_packet_input(pconn, packet.data, packet.type);
+    command_ok = server_packet_input(pconn, packet.data, packet.type);
     free(packet.data);
 
     finish_processing_request(pconn);
@@ -728,7 +728,7 @@ enum server_events server_sniff_all_input(void)
 
         if (read_socket_data(pconn->sock, pconn->buffer) >= 0) {
           /* We read packets; now handle them. */
-          handle_incoming_client_packets(pconn);
+          incoming_client_packets(pconn);
 	} else {
           /* Read failure; the connection is closed. */
 	  close_socket_callback(pconn);

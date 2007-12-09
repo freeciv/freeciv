@@ -120,7 +120,6 @@ static void load_ruleset_buildings(struct section_file *file);
 static void load_ruleset_governments(struct section_file *file);
 static void load_ruleset_terrain(struct section_file *file);
 static void load_ruleset_cities(struct section_file *file);
-static void load_ruleset_nations(struct section_file *file);
 static void load_ruleset_effects(struct section_file *file);
 
 static void load_ruleset_game(void);
@@ -3381,7 +3380,7 @@ static void send_ruleset_governments(struct conn_list *dest)
   Send the nations ruleset information (info on each nation) to the
   specified connections.
 **************************************************************************/
-void send_ruleset_nations(struct conn_list *dest)
+static void send_ruleset_nations(struct conn_list *dest)
 {
   struct packet_ruleset_nation packet;
   struct packet_ruleset_nation_groups groups_packet;
@@ -3572,12 +3571,6 @@ void load_rulesets(void)
 
   script_init();
   openload_script_file("script");
-
-  if (game.all_connections) {
-    /* Now that the rulesets are loaded we immediately send updates to any
-     * connected clients. */
-    send_rulesets(game.all_connections);
-  }
 
   /* Build AI unit class cache corresponding to loaded rulesets */
   unit_class_ai_init();
