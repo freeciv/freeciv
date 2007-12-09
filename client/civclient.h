@@ -33,7 +33,7 @@ enum client_states {
   C_S_OVER,
 };
 
-void handle_packet_input(void *packet, int type);
+void client_packet_input(void *packet, int type);
 
 void send_report_request(enum report_type type);
 void send_attribute_block_request(void);

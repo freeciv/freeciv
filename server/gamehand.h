@@ -28,6 +28,4 @@ void increase_timeout_because_unit_moved(void);
 
 const char *new_challenge_filename(struct connection *pc);
 
-struct packet_single_want_hack_req;
-
 #endif  /* FC__GAMEHAND_H */

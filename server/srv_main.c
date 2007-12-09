@@ -975,7 +975,6 @@ void start_game(void)
 
   set_server_state(S_S_GENERATING_WAITING); /* loaded ??? */
   force_end_of_sniff = TRUE;
-  send_server_settings(NULL);
   /* There's no stateful packet set to client until srv_ready(). */
 }
 
@@ -1072,7 +1071,7 @@ int get_next_id_number(void)
 Returns 0 if connection should be closed (because the clients was
 rejected). Returns 1 else.
 **************************************************************************/
-bool handle_packet_input(struct connection *pconn, void *packet, int type)
+bool server_packet_input(struct connection *pconn, void *packet, int type)
 {
   struct player *pplayer;
 
@@ -1501,8 +1500,7 @@ void handle_player_ready(struct player *requestor,
   send_player_info(pplayer, NULL);
 
   /* Note this is called even if the player has pressed /start once
-   * before.  This is a good thing given that no other code supports
-   * is_started yet.  For instance if a player leaves everyone left
+   * before.  For instance, when a player leaves everyone remaining
    * might have pressed /start already but the start won't happen
    * until someone presses it again.  Also you can press start more
    * than once to remind other people to start (which is a good thing
@@ -1995,10 +1993,17 @@ static void srv_ready(void)
 
   set_server_state(S_S_RUNNING);
   (void) send_server_info_to_metaserver(META_INFO);
+
+  freelog(LOG_VERBOSE, "srv_ready() mostly redundant send_server_settings()");
   send_server_settings(NULL);
 
   if (game.info.is_new_game) {
-    /* Before the player map is allocated (and initiailized)! */
+    /* If we're starting a new game, reset the max_players to be the
+     * number of players currently in the game.
+     */
+    game.info.max_players = game.info.nplayers;
+
+    /* Before the player map is allocated (and initialized)! */
     game.fogofwar_old = game.info.fogofwar;
 
     players_iterate(pplayer) {
@@ -2033,15 +2038,7 @@ static void srv_ready(void)
       }
     } players_iterate_end;
 
-    assert(game.info.is_new_game); { /* FIXME: inexplicable test */
-      /* If we're starting a new game, reset the rules.max_players to be the
-       * number of players currently in the game.  But when loading a game
-       * we don't want to change it. */
-      game.info.max_players = game.info.nplayers;
-    }
-
     /* Set up alliances based on team selections */
-    assert(game.info.is_new_game); /* FIXME: inexplicable test */
     players_iterate(pplayer) {
       players_iterate(pdest) {
         if (players_on_same_team(pplayer, pdest)
@@ -2052,7 +2049,8 @@ static void srv_ready(void)
       } players_iterate_end;
     } players_iterate_end;
   }
-  
+
+  /* FIXME: can this be moved? */
   players_iterate(pplayer) {
     ai_data_analyze_rulesets(pplayer);
   } players_iterate_end;

@@ -3522,7 +3522,8 @@ static void check_city(struct city *pcity)
 }
 
 /***************************************************************
-...
+  Called only in server/stdinhand.c load_command()
+  Entire ruleset is always sent afterward.
 ***************************************************************/
 void game_load(struct section_file *file)
 {
@@ -4016,13 +4017,8 @@ void game_load(struct section_file *file)
     /* Initialize nations we loaded from rulesets. This has to be after
      * map loading and before we seek nations for players */
     init_available_nations();
-    if (game.est_connections) {
-      /* Update client knowledge about available nations after
-       * init_available_nations() may have marked some of them unavailable
-       * in this scenario */
-      send_ruleset_nations(game.est_connections);
-    }
 
+    /* Now, load the players. */
     players_iterate(pplayer) {
       player_load(pplayer, player_number(pplayer), file, improvement_order,
 		  improvement_order_size, technology_order,

@@ -515,12 +515,6 @@ static void send_ruleset_choices(struct connection *pc)
   static char **rulesets = NULL;
   int i;
 
-  if (pc->access_level != ALLOW_HACK) {
-    freelog(LOG_ERROR, "Trying to send ruleset choices to "
-	    "unprivileged client.");
-    return;
-  }
-
   if (!rulesets) {
     /* This is only read once per server invocation.  Add a new ruleset
      * and you have to restart the server. */
