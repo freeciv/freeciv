@@ -458,7 +458,7 @@ void center_on_unit(void)
 /**************************************************************************
   Draws the on the map the tiles the given city is using
 **************************************************************************/
-void key_city_workers(GtkWidget *w, GdkEventKey *ev)
+void key_city_workers(void)
 {
   int x, y;
   

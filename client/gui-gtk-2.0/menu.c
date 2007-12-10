@@ -100,6 +100,7 @@ enum MenuID {
   MENU_VIEW_SHOW_CITY_NAMES,
   MENU_VIEW_SHOW_CITY_GROWTH_TURNS,
   MENU_VIEW_SHOW_CITY_PRODUCTIONS,
+  MENU_VIEW_SHOW_CITY_WORKERS,
   MENU_VIEW_SHOW_TERRAIN,
   MENU_VIEW_SHOW_COASTLINE,
   MENU_VIEW_SHOW_ROADS_RAILS,
@@ -320,6 +321,9 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
     if (draw_city_productions ^ GTK_CHECK_MENU_ITEM(widget)->active)
       key_city_productions_toggle();
+    break;
+  case MENU_VIEW_SHOW_CITY_WORKERS:
+    key_city_workers();
     break;
   case MENU_VIEW_SHOW_TERRAIN:
     if (draw_terrain ^ GTK_CHECK_MENU_ITEM(widget)->active) {
@@ -764,10 +768,11 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("View") "/" N_("City _Names"),		"<control>n",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_NAMES,		"<CheckItem>"	},
   { "/" N_("View") "/" N_("City G_rowth"),		"<control>r",
-	view_menu_callback,	MENU_VIEW_SHOW_CITY_GROWTH_TURNS,
-	"<CheckItem>"	},
+	view_menu_callback,	MENU_VIEW_SHOW_CITY_GROWTH_TURNS,	"<CheckItem>"	},
   { "/" N_("View") "/" N_("City _Productions"),		"<control>p",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Draw city worker map grid"),	"t",
+        view_menu_callback,     MENU_VIEW_SHOW_CITY_WORKERS				},
   { "/" N_("View") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("View") "/" N_("Terrain"),                   NULL,
