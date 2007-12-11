@@ -24,7 +24,7 @@
  */
 #define TIMER_INTERVAL (int)(real_timer_callback() * 1000)
 
-void handle_packet_input(void *packet, int type);
+void client_packet_input(void *packet, int type);
 
 void send_report_request(enum report_type type);
 void send_attribute_block_request(void);

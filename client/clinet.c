@@ -379,7 +379,7 @@ void input_from_server(int fd)
 
       if (result) {
 	assert(packet != NULL);
-	handle_packet_input(packet, type);
+	client_packet_input(packet, type);
 	free(packet);
       } else {
 	assert(packet == NULL);
@@ -393,7 +393,7 @@ void input_from_server(int fd)
 
 /**************************************************************************
  This function will sniff at the given fd, get the packet and call
- handle_packet_input. It will return if there is a network error or if
+ client_packet_input. It will return if there is a network error or if
  the PACKET_PROCESSING_FINISHED packet for the given request is
  received.
 **************************************************************************/
@@ -421,7 +421,7 @@ void input_from_server_till_request_got_processed(int fd,
 	}
 
 	assert(packet != NULL);
-	handle_packet_input(packet, type);
+	client_packet_input(packet, type);
 	free(packet);
 
 	if (type == PACKET_PROCESSING_FINISHED) {

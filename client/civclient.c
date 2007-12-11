@@ -437,7 +437,7 @@ void client_exit(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_packet_input(void *packet, int type)
+void client_packet_input(void *packet, int type)
 {
   if (!client_handle_packet(type, packet)) {
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!",
