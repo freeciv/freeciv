@@ -50,12 +50,9 @@ void report_dialogs_force_thaw(void);
 bool is_report_dialogs_frozen(void);
 
 struct options_settable {
-  char *name;
-  char *short_help;
-  char *extra_help;
-  enum sset_type type;
-  enum sset_class class;
-  unsigned char category;
+  enum sset_type stype;
+  enum sset_class sclass;
+  unsigned char scategory;
   bool is_visible;
 
   int val;
@@ -65,6 +62,10 @@ struct options_settable {
 
   char *strval;
   char *default_strval;
+
+  char *name;
+  char *short_help;
+  char *extra_help;
 };
 
 extern struct options_settable *settable_options;

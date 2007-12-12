@@ -1269,9 +1269,10 @@ void create_settable_options_dialog(void)
   for (i = 0; i < num_settable_options; i++) {
     char buf[256];
     size_t len;
+    struct options_settable *o = &settable_options[i];
 
-    my_snprintf(buf, sizeof(buf), "%s: %s", settable_options[i].name,
-		_(settable_options[i].short_help));
+    my_snprintf(buf, sizeof(buf), "%s: %s", o->name,
+		_(o->short_help));
     len = strlen(buf);
 
     /* 
@@ -1311,9 +1312,11 @@ void create_settable_options_dialog(void)
   XtVaSetValues(settable_options_label, XtNwidth, width + 15, NULL);
 
   for (i = 0; i < num_settable_options; i++) {
-    if (setting_class_is_changeable(settable_options[i].class)
-	&& settable_options[i].is_visible) {
-      switch (settable_options[i].type) {
+    struct options_settable *o = &settable_options[i];
+
+    if (setting_class_is_changeable(o->sclass)
+	&& o->is_visible) {
+      switch (o->stype) {
       case SSET_BOOL:
 	if (settable_options_widgets[i]) {
 	  prev_widget =
@@ -1408,36 +1411,38 @@ void update_settable_options_dialog(void)
     int i;
 
     for (i = 0; i < num_settable_options; i++) {
-      if (setting_class_is_changeable(settable_options[i].class)
-	  && settable_options[i].is_visible) {
-	switch (settable_options[i].type) {
+      struct options_settable *o = &settable_options[i];
+
+      if (setting_class_is_changeable(o->sclass)
+	  && o->is_visible) {
+	switch (o->stype) {
 	case SSET_BOOL:
 	  XtVaSetValues(settable_options_widgets[i],
-			XtNstate, settable_options[i].val ? True : False,
+			XtNstate, o->val ? True : False,
 			XtNlabel,
-			settable_options[i].val ? _("Yes") : _("No"), NULL);
+			o->val ? _("Yes") : _("No"), NULL);
 	  break;
 	case SSET_INT:
-	  my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
+	  my_snprintf(buf, sizeof(buf), "%d", o->val);
 	  XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
 	  break;
 	case SSET_STRING:
-	  my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
+	  my_snprintf(buf, sizeof(buf), "%s", o->strval);
 	  XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
 	  break;
 	}
       } else {
-	if (settable_options[i].is_visible) {
-	  switch (settable_options[i].type) {
+	if (o->is_visible) {
+	  switch (o->stype) {
 	  case SSET_BOOL:
 	    my_snprintf(buf, sizeof(buf), "%s",
-	      settable_options[i].val != 0 ? _("true") : _("false"));
+	      o->val != 0 ? _("true") : _("false"));
 	    break;
 	  case SSET_INT:
-	    my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
+	    my_snprintf(buf, sizeof(buf), "%d", o->val);
 	    break;
 	  case SSET_STRING:
-	    my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
+	    my_snprintf(buf, sizeof(buf), "%s", o->strval);
 	    break;
 	  }
 	} else {
@@ -1474,34 +1479,36 @@ void settable_options_ok_callback(Widget w, XtPointer client_data,
     XtPointer dp;
 
     for (i = 0; i < num_settable_options; i++) {
-      if (setting_class_is_changeable(settable_options[i].class)
-	  && settable_options[i].is_visible) {
+      struct options_settable *o = &settable_options[i];
+
+      if (setting_class_is_changeable(o->sclass)
+	  && o->is_visible) {
 	char buffer[MAX_LEN_MSG];
 
-	switch (settable_options[i].type) {
+	switch (o->stype) {
 	case SSET_BOOL:
-	  old_b = settable_options[i].val ? True: False;
+	  old_b = o->val ? True: False;
 	  XtVaGetValues(settable_options_widgets[i], XtNstate, &b, NULL);
 	  if (b != old_b) {
 	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
-			settable_options[i].name, b ? "1" : "0");
+			o->name, b ? "1" : "0");
 	    send_chat(buffer);
 	  }
 	  break;
 	case SSET_INT:
 	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
 	  sscanf(dp, "%d", &val);
-	  if (val != settable_options[i].val) {
+	  if (val != o->val) {
 	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
-			settable_options[i].name, val);
+			o->name, val);
 	    send_chat(buffer);
 	  }
 	  break;
 	case SSET_STRING:
 	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
-	  if (strcmp(settable_options[i].strval, dp)) {
+	  if (strcmp(o->strval, dp)) {
 	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
-			settable_options[i].name, (char *)dp);
+			o->name, (char *)dp);
 	    send_chat(buffer);
 	  }
 	  break;

@@ -1480,11 +1480,7 @@ static void create_settable_options_dialog(void)
   bool *used;
   int i;
 
-  used = fc_malloc(num_options_categories * sizeof(bool));
-
-  for(i = 0; i < num_options_categories; i++){
-    used[i] = FALSE;
-  }
+  used = fc_calloc(num_options_categories, sizeof(*used));
 
   tips = gtk_tooltips_new();
   settable_options_dialog_shell = gtk_dialog_new_with_buttons(_("Game Settings"),
@@ -1504,7 +1500,7 @@ static void create_settable_options_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(win)->vbox), book, FALSE, FALSE, 2);
 
   /* create a number of notebook pages for each category */
-  vbox = fc_malloc(num_options_categories * sizeof(GtkWidget *));
+  vbox = fc_calloc(num_options_categories, sizeof(*vbox));
 
   for (i = 0; i < num_options_categories; i++) {
     vbox[i] = gtk_vbox_new(FALSE, 2);
@@ -1516,42 +1512,41 @@ static void create_settable_options_dialog(void)
   /* fill each category */
   for (i = 0; i < num_settable_options; i++) {
     GtkWidget *ebox, *hbox, *ent = NULL;
+    struct options_settable *o = &settable_options[i];
 
     /* create a box for the new option and insert it in the correct page */
     hbox = gtk_hbox_new(FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox[settable_options[i].category]), 
-                       hbox, FALSE, FALSE, 0);
-    used[settable_options[i].category] = TRUE;
+    gtk_box_pack_start(GTK_BOX(vbox[o->scategory]), hbox, FALSE, FALSE, 0);
+    used[o->scategory] = TRUE;
 
     /* create an event box for the option label */
     ebox = gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 5);
 
     /* insert the option short help as the label into the event box */
-    label = gtk_label_new(_(settable_options[i].short_help));
+    label = gtk_label_new(_(o->short_help));
     gtk_container_add(GTK_CONTAINER(ebox), label);
 
     /* if we have extra help, use that as a tooltip */
-    if (settable_options[i].extra_help[0] != '\0') {
+    if ('\0' != o->extra_help[0]) {
       char buf[4096];
 
       my_snprintf(buf, sizeof(buf), "%s\n\n%s",
-		  settable_options[i].name,
-		  _(settable_options[i].extra_help));
+		  o->name,
+		  _(o->extra_help));
       gtk_tooltips_set_tip(tips, ebox, buf, NULL);
     }
 
-    if (setting_class_is_changeable(settable_options[i].class)
-	&& settable_options[i].is_visible) {
+    if (setting_class_is_changeable(o->sclass)
+	&& o->is_visible) {
       double step, max, min;
 
       /* create the proper entry method depending on the type */
-      switch (settable_options[i].type) {
+      switch (o->stype) {
       case SSET_BOOL:
 	/* boolean */
 	ent = gtk_check_button_new();
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent),
-				     settable_options[i].val);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent), o->val);
 
 	g_signal_connect(ent, "toggled", 
 			 G_CALLBACK(option_changed_callback), NULL);
@@ -1560,8 +1555,8 @@ static void create_settable_options_dialog(void)
       case SSET_INT:
 	/* integer */
 
-	min = settable_options[i].min;
-	max = settable_options[i].max;
+	min = o->min;
+	max = o->max;
  
 	/* pick a reasonable step size */
 	step = ceil((max - min) / 100.0);
@@ -1571,7 +1566,7 @@ static void create_settable_options_dialog(void)
 	}
 
 	ent = gtk_spin_button_new_with_range(min, max, step);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent), settable_options[i].val);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent), o->val);
 
 	g_signal_connect(ent, "changed", 
 			 G_CALLBACK(option_changed_callback), NULL);
@@ -1579,7 +1574,7 @@ static void create_settable_options_dialog(void)
       case SSET_STRING:
 	/* string */
 	ent = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(ent), settable_options[i].strval);
+	gtk_entry_set_text(GTK_ENTRY(ent), o->strval);
 
 	g_signal_connect(ent, "changed", 
 			 G_CALLBACK(option_changed_callback), NULL);
@@ -1588,17 +1583,17 @@ static void create_settable_options_dialog(void)
     } else {
       char buf[1024];
 
-      if (settable_options[i].is_visible) {
-	switch (settable_options[i].type) {
+      if (o->is_visible) {
+	switch (o->stype) {
 	case SSET_BOOL:
 	  my_snprintf(buf, sizeof(buf), "%s",
-		      settable_options[i].val != 0 ? _("true") : _("false"));
+		      o->val != 0 ? _("true") : _("false"));
 	  break;
 	case SSET_INT:
-	  my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
+	  my_snprintf(buf, sizeof(buf), "%d", o->val);
 	  break;
 	case SSET_STRING:
-	  my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
+	  my_snprintf(buf, sizeof(buf), "%s", o->strval);
 	  break;
 	}
       } else {
@@ -1609,7 +1604,7 @@ static void create_settable_options_dialog(void)
     gtk_box_pack_end(GTK_BOX(hbox), ent, FALSE, FALSE, 0);
 
     /* set up a linked list so we can work our way through the widgets */
-    gtk_widget_set_name(ent, settable_options[i].name);
+    gtk_widget_set_name(ent, o->name);
     g_object_set_data(G_OBJECT(ent), "prev", prev_widget);
     g_object_set_data(G_OBJECT(ent), "changed", FALSE);
     prev_widget = ent;

@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "mem.h"		/* free */
 #include "support.h"		/* my_snprintf */
 
@@ -214,20 +215,22 @@ void settable_options_free(void)
   int i;
 
   for (i = 0; i < num_settable_options; i++) {
-    if (settable_options[i].name) {
-      free(settable_options[i].name);
+    struct options_settable *o = &settable_options[i];
+
+    if (o->name) {
+      free(o->name);
     }
-    if (settable_options[i].short_help) {
-      free(settable_options[i].short_help);
+    if (o->short_help) {
+      free(o->short_help);
     }
-    if (settable_options[i].extra_help) {
-      free(settable_options[i].extra_help);
+    if (o->extra_help) {
+      free(o->extra_help);
     }
-    if (settable_options[i].strval) {
-      free(settable_options[i].strval);
+    if (o->strval) {
+      free(o->strval);
     }
-    if (settable_options[i].default_strval) {
-      free(settable_options[i].default_strval);
+    if (o->default_strval) {
+      free(o->default_strval);
     }
   }
   free(settable_options);
@@ -241,7 +244,7 @@ void settable_options_free(void)
 }
 
 /******************************************************************
- reinitialize the options_settable struct: allocate enough
+ reinitialize the struct options_settable: allocate enough
  space for all the options that the server is going to send us.
 *******************************************************************/
 void handle_options_settable_control(
@@ -251,6 +254,12 @@ void handle_options_settable_control(
 
   settable_options_free();
 
+  /* avoid a malloc of size 0 warning */
+  if (0 == packet->num_categories
+   || 0 == packet->num_settings) {
+    return;
+  }
+
   options_categories = fc_calloc(packet->num_categories,
 				 sizeof(*options_categories));
   num_options_categories = packet->num_categories;
@@ -259,65 +268,75 @@ void handle_options_settable_control(
     options_categories[i] = mystrdup(packet->category_names[i]);
   }
 
-  /* avoid a malloc of size 0 warning */
-  if (packet->num_settings == 0) {
-    return;
-  }
-
   settable_options = fc_calloc(packet->num_settings,
 			       sizeof(*settable_options));
   num_settable_options = packet->num_settings;
-
-  for (i = 0; i < num_settable_options; i++) {
-    settable_options[i].name = NULL;
-    settable_options[i].short_help = NULL;
-    settable_options[i].extra_help = NULL;
-    settable_options[i].strval = NULL;
-    settable_options[i].default_strval = NULL;
-  }
 }
 
 /******************************************************************
  Fill the settable_options array with an option.
- If we've filled the last option, popup the dialog.
 *******************************************************************/
 void handle_options_settable(struct packet_options_settable *packet)
 {
+  struct options_settable *o;
   int i = packet->id;
 
-  assert(i >= 0);
-
-  settable_options[i].name = mystrdup(packet->name);
-  settable_options[i].short_help = mystrdup(packet->short_help);
-  settable_options[i].extra_help = mystrdup(packet->extra_help);
-
-  settable_options[i].type = packet->type;
-  settable_options[i].class = packet->class;
-  settable_options[i].category = packet->category;
-  settable_options[i].is_visible = packet->is_visible;
-
-  switch (settable_options[i].type) {
-  case SSET_BOOL:
-    settable_options[i].val = packet->val;
-    settable_options[i].min = FALSE;
-    settable_options[i].max = TRUE;
-    settable_options[i].strval = NULL;
-    settable_options[i].default_strval = NULL;
-    return;
-  case SSET_INT:
-    settable_options[i].val = packet->val;
-    settable_options[i].min = packet->min;
-    settable_options[i].max = packet->max;
-    settable_options[i].strval = NULL;
-    settable_options[i].default_strval = NULL;
-    return;
-  case SSET_STRING:
-    settable_options[i].strval = mystrdup(packet->strval);
-    settable_options[i].default_strval = mystrdup(packet->default_strval);
+  if (i < 0 || i > num_settable_options) {
+    freelog(LOG_ERROR,
+	    "handle_options_settable() bad id %d.",
+	    packet->id);
     return;
   }
+  o = &settable_options[i];
 
-  assert(0);
+  o->stype = packet->stype;
+  o->scategory = packet->scategory;
+  o->sclass = packet->sclass;
+
+  switch (o->stype) {
+  case SSET_BOOL:
+    o->val = packet->val;
+    o->default_val = packet->default_val;
+    o->min = FALSE;
+    o->max = TRUE;				/* server sent FALSE */
+    o->strval = NULL;
+    o->default_strval = NULL;
+    break;
+  case SSET_INT:
+    o->val = packet->val;
+    o->default_val = packet->default_val;
+    o->min = packet->min;
+    o->max = packet->max;
+    o->strval = NULL;
+    o->default_strval = NULL;
+    break;
+  case SSET_STRING:
+    o->val = packet->val;
+    o->default_val = packet->default_val;
+    o->min = packet->min;
+    o->max = packet->max;
+    o->strval = mystrdup(packet->strval);
+    o->default_strval = mystrdup(packet->default_strval);
+    break;
+  default:
+    /* ensure string fields are NULL for free */
+    o->name = NULL;
+    o->short_help = NULL;
+    o->extra_help = NULL;
+    o->strval = NULL;
+    o->default_strval = NULL;
+
+    freelog(LOG_ERROR,
+	    "handle_options_settable() bad type %d.",
+	    packet->stype);
+    return;
+  };
+
+  /* only set for valid type */
+  o->is_visible = packet->is_visible;
+  o->name = mystrdup(packet->name);
+  o->short_help = mystrdup(packet->short_help);
+  o->extra_help = mystrdup(packet->extra_help);
 }
 
 /****************************************************************************
