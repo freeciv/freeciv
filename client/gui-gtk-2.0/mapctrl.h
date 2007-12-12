@@ -19,8 +19,6 @@
 
 #include "mapctrl_g.h"
 
-void key_city_workers(GtkWidget *w, GdkEventKey *ev);
-
 gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -29,6 +27,8 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event);
 gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);
 
 void center_on_unit(void);
+void overlay_workers_at_city(void);
+
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data);
 
 #endif  /* FC__MAPCTRL_H */

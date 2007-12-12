@@ -615,10 +615,6 @@ static gboolean keyboard_map_canvas(GtkWidget *w, GdkEventKey *ev, gpointer data
     key_cancel_action();
     return TRUE;
 
-  case GDK_t:
-    key_city_workers(w, ev);
-    return TRUE;
-
   default:
     break;
   };
