@@ -815,37 +815,39 @@ static LONG CALLBACK OptionsWndProc(HWND hWnd,
       if (LOWORD(wParam) == IDOK) {
 	int i, tab;
         for (i = 0; i < num_settable_options; i++) {
-	  tab = categories[settable_options[i].category];
-	  if (settable_options[i].type == 0) {
+	  struct options_settable *o = &settable_options[i];
+
+	  tab = categories[o->scategory];
+	  if (SSET_BOOL == o->stype) {
 	    /* checkbox */
 	    int val = Button_GetState(GetDlgItem(tab_wnds[tab],
 				      ID_OPTIONS_BASE + i)) == BST_CHECKED;
-	    if (val != settable_options[i].val) {
+	    if (val != o->val) {
 	      char buffer[MAX_LEN_MSG];
 	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
-			  settable_options[i].name, val);
+			  o->name, val);
 	      send_chat(buffer);
 	    }
-	  } else if (settable_options[i].type == 1) {
+	  } else if (SSET_INT == o->stype) {
 	    char buf[512];
 	    int val;
 	    Edit_GetText(GetDlgItem(tab_wnds[tab], ID_OPTIONS_BASE + i), buf,
 				    512);
 	    val = atoi(buf);
-	    if (val != settable_options[i].val) {
+	    if (val != o->val) {
 	      char buffer[MAX_LEN_MSG];
 	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
-			  settable_options[i].name, val);
+			  o->name, val);
 	      send_chat(buffer);
 	    }	    
 	  } else {
 	    char strval[512];
 	    Edit_GetText(GetDlgItem(tab_wnds[tab], ID_OPTIONS_BASE + i),
 			 strval, 512);
-	    if (strcmp(strval, settable_options[i].strval) != 0) {
+	    if (strcmp(strval, o->strval) != 0) {
 	      char buffer[MAX_LEN_MSG];
 	      my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
-			  settable_options[i].name, strval);
+			  o->name, strval);
 	      send_chat(buffer);
 	    }
 	  }
@@ -904,15 +906,11 @@ static void create_settable_options_dialog(void)
 
   num_tabs = 0;
 
-  used = fc_malloc(num_options_categories * sizeof(bool));
-  categories = fc_malloc(num_options_categories * sizeof(int));
-
-  for(i = 0; i < num_options_categories; i++) {
-    used[i] = FALSE;
-  }
+  used = fc_calloc(num_options_categories, sizeof(*used));
+  categories = fc_calloc(num_options_categories, sizeof(*categories));
 
   for (i = 0; i < num_settable_options; i++) {
-    used[settable_options[i].category] = TRUE;
+    used[settable_options[i].scategory] = TRUE;
   }
 
   for(i = 0; i < num_options_categories; i++) {
@@ -956,36 +954,38 @@ static void create_settable_options_dialog(void)
   }
 
   for (i = 0; i < num_settable_options; i++) {
-    j = categories[settable_options[i].category];
+    struct options_settable *o = &settable_options[i];
+
+    j = categories[o->scategory];
     hbox = fcwin_hbox_new(tab_wnds[j], FALSE);
-    fcwin_box_add_static(hbox, _(settable_options[i].short_help),
+    fcwin_box_add_static(hbox, _(o->short_help),
 			 0, 0, FALSE, TRUE, 5);
     fcwin_box_add_static(hbox, "", 0, 0, TRUE, TRUE, 0);
-    if (settable_options[i].type == 0) {
+    if (SSET_BOOL == o->stype) {
       HWND check;
       /* boolean */
       check = fcwin_box_add_checkbox(hbox, "", ID_OPTIONS_BASE + i, 0, FALSE,
 				     TRUE, 5);
       Button_SetCheck(check,
-		      settable_options[i].val ? BST_CHECKED : BST_UNCHECKED);
-    } else if (settable_options[i].type == 1) {
+		      o->val ? BST_CHECKED : BST_UNCHECKED);
+    } else if (SSET_INT == o->stype) {
       /* integer */
       char buf[80];
       int length;
-      my_snprintf(buf, 80, "%d", settable_options[i].max);
+      my_snprintf(buf, 80, "%d", o->max);
       buf[79] = 0;
       length = strlen(buf);
-      my_snprintf(buf, 80, "%d", settable_options[i].min);
+      my_snprintf(buf, 80, "%d", o->min);
       buf[79] = 0;
       if (length < strlen(buf)) {
         length = strlen(buf);
       }
-      my_snprintf(buf, 80, "%d", settable_options[i].val);
+      my_snprintf(buf, 80, "%d", o->val);
       fcwin_box_add_edit(hbox, buf, length, ID_OPTIONS_BASE + i, 0, FALSE,
 			 TRUE, 5);
     } else {
       /* string */
-      fcwin_box_add_edit(hbox, settable_options[i].strval, 40,
+      fcwin_box_add_edit(hbox, o->strval, 40,
 			 ID_OPTIONS_BASE + i, 0, FALSE, TRUE, 5);
     }
     fcwin_box_add_box(tab_boxes[j], hbox, FALSE, TRUE, 5);

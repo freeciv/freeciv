@@ -1365,8 +1365,8 @@ PACKET_OPTIONS_SETTABLE=113;sc,lsend
   STRING short_help[MAX_LEN_PACKET];
   STRING extra_help[MAX_LEN_PACKET];
 
-  SSET_TYPE type;
-  SSET_CLASS class;
+  SSET_TYPE stype;
+  SSET_CLASS sclass;
   BOOL is_visible;
 
   SINT32 val;					/* value for bool or int */
@@ -1377,7 +1377,7 @@ PACKET_OPTIONS_SETTABLE=113;sc,lsend
   STRING strval[MAX_LEN_PACKET];		/* space for string */
   STRING default_strval[MAX_LEN_PACKET];	/* space for string */
 
-  UINT8 category;				/* which category this is in */
+  UINT8 scategory;
 end
 
 /************** Effects hash packets **********************/

@@ -1097,13 +1097,13 @@ static void write_init_script(char *script_filename)
     for (i=0;settings[i].name;i++) {
       struct settings_s *op = &settings[i];
 
-      switch (op->type) {
-      case SSET_INT:
-	fprintf(script_file, "set %s %i\n", op->name, *op->int_value);
-	break;
+      switch (op->stype) {
       case SSET_BOOL:
 	fprintf(script_file, "set %s %i\n", op->name,
 		(*op->bool_value) ? 1 : 0);
+	break;
+      case SSET_INT:
+	fprintf(script_file, "set %s %i\n", op->name, *op->int_value);
 	break;
       case SSET_STRING:
 	fprintf(script_file, "set %s %s\n", op->name, op->string_value);
@@ -1534,7 +1534,7 @@ static void show_help_option(struct connection *caller,
 				  ? _("changeable") : _("fixed")));
   
   if (may_view_option(caller, id)) {
-    switch (op->type) {
+    switch (op->stype) {
     case SSET_BOOL:
       cmd_reply(help_cmd, caller, C_COMMENT,
 		_("Value: %d, Minimum: 0, Default: %d, Maximum: 1"),
@@ -1661,19 +1661,17 @@ static void send_server_setting(struct conn_list *dest, int setting_id)
     sz_strlcpy(packet.short_help, setting->short_help);
     sz_strlcpy(packet.extra_help, setting->extra_help);
 
-    packet.category = setting->category;
-    packet.type = setting->type;
-    packet.class = setting->sclass;
+    packet.stype = setting->stype;
+    packet.scategory = setting->scategory;
+    packet.sclass = setting->sclass;
     packet.is_visible = (sset_is_to_client(setting_id)
 			 || pconn->access_level == ALLOW_HACK);
 
     if (packet.is_visible) {
-      switch (setting->type) {
-      case SSET_STRING:
-	strcpy(packet.strval, setting->string_value);
-	strcpy(packet.default_strval, setting->string_default_value);
-	break;
+      switch (setting->stype) {
       case SSET_BOOL:
+	packet.min = FALSE;
+	packet.max = TRUE;
 	packet.val = *(setting->bool_value);
 	packet.default_val = setting->bool_default_value;
 	break;
@@ -1683,7 +1681,11 @@ static void send_server_setting(struct conn_list *dest, int setting_id)
 	packet.val = *(setting->int_value);
 	packet.default_val = setting->int_default_value;
 	break;
-      }
+      case SSET_STRING:
+	strcpy(packet.strval, setting->string_value);
+	strcpy(packet.default_strval, setting->string_default_value);
+	break;
+      };
     }
 
     send_packet_options_settable(pconn, &packet);
@@ -1962,13 +1964,11 @@ static bool show_command(struct connection *caller, char *str, bool check)
       int len = 0;
 
  
-   if ((level == SSET_ALL || op->level == level || cmd >= 0 
+   if ((level == SSET_ALL || op->slevel == level || cmd >= 0 
      || level == SSET_CHANGED))  {
-   switch (op->type) {
+   switch (op->stype) {
         case SSET_BOOL: 
-	  if (*op->bool_value != op->bool_default_value) {
-	    is_changed = TRUE;
-	  }
+	  is_changed = (*op->bool_value != op->bool_default_value);
 	  len = my_snprintf(buf, sizeof(buf),
 			    "%-*s %c%c%-5d (0,1)", OPTION_NAME_SPACE, op->name,
 			    may_set_option_now(caller, i) ? '+' : ' ',
@@ -1978,9 +1978,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 	  break;
 
         case SSET_INT: 
-	  if (*op->int_value != op->int_default_value) {
-	    is_changed = TRUE;
-	  }
+	  is_changed = (*op->int_value != op->int_default_value);
 	  len = my_snprintf(buf, sizeof(buf),
 			    "%-*s %c%c%-5d (%d,%d)", OPTION_NAME_SPACE,
 			    op->name, may_set_option_now(caller,
@@ -1992,9 +1990,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 	  break;
 
         case SSET_STRING:
-	  if (strcmp(op->string_value, op->string_default_value) != 0) {
-	    is_changed = TRUE; 
-	  }
+	  is_changed = (0 != strcmp(op->string_value, op->string_default_value));
 	  len = my_snprintf(buf, sizeof(buf),
 			    "%-*s %c%c\"%s\"", OPTION_NAME_SPACE, op->name,
 			    may_set_option_now(caller, i) ? '+' : ' ',
@@ -2487,7 +2483,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   do_update = FALSE;
   buffer[0] = '\0';
 
-  switch (op->type) {
+  switch (op->stype) {
   case SSET_BOOL:
     if (sscanf(arg, "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
