@@ -352,7 +352,8 @@ void send_all_info(struct conn_list *dest)
 
   send_game_info(dest);
   send_map_info(dest);
-  send_player_info_c(NULL, dest);
+  /* avoid redundancy, send to everybody */
+  send_player_info_c(NULL, game.est_connections);
   send_conn_info(game.est_connections, dest);
   send_spaceship_info(NULL, dest);
   send_all_known_tiles(dest);

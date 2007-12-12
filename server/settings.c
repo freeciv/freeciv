@@ -23,6 +23,7 @@
 #include "map.h"
 
 #include "ggzserver.h"
+#include "plrhand.h"
 #include "report.h"
 #include "settings.h"
 #include "srv_main.h"
@@ -60,6 +61,7 @@ static bool autotoggle_callback(bool value, const char **reject_message)
   players_iterate(pplayer) {
     if (!pplayer->ai.control && !pplayer->is_connected) {
       toggle_ai_player_direct(NULL, pplayer);
+      send_player_info_c(pplayer, game.est_connections);
     }
   } players_iterate_end;
 
