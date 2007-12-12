@@ -59,6 +59,7 @@ void save_game_auto(const char *save_reason);
 enum server_states server_state(void);
 void set_server_state(enum server_states newstate);
 
+void check_for_full_turn_done(void);
 bool check_for_game_over(void);
 
 bool server_packet_input(struct connection *pconn, void *packet, int type);
@@ -67,14 +68,12 @@ void save_game(char *orig_filename, const char *save_reason);
 void pick_random_player_name(const struct nation_type *pnation,
 			     char *newname);
 void send_all_info(struct conn_list *dest);
-void check_for_full_turn_done(void);
 
 void dealloc_id(int id);
 void alloc_id(int id);
 int get_next_id_number(void);
 void server_game_init(void);
 void server_game_free(void);
-void check_for_full_turn_done(void);
 void aifill(int amount);
 
 extern struct server_arguments srvarg;

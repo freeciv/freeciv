@@ -791,14 +791,12 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
      * new meeting */
     cancel_all_meetings(pplayer);
   }
-
-  send_player_info(pplayer, NULL);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static bool toggle_ai_player(struct connection *caller, char *arg, bool check)
+static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -810,6 +808,7 @@ static bool toggle_ai_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   } else if (!check) {
     toggle_ai_player_direct(caller, pplayer);
+    send_player_info_c(pplayer, game.est_connections);
   }
   return TRUE;
 }
@@ -2833,16 +2832,21 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   } else {
     unattach_connection_from_player(pconn);
   }
-  send_conn_info(pconn->self, game.est_connections);
 
   if (S_S_RUNNING == server_state()) {
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self);
-    send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
+  } else {
+    /* send changed player connection to everybody */
+    send_game_info(game.est_connections);
+    send_player_info_c(pplayer, game.est_connections);
+    /* we already know existing connections */
   }
+  /* redundant self to self cannot be avoided */
+  send_conn_info(pconn->self, game.est_connections);
 
   if (pplayer) {
     cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
@@ -2938,13 +2942,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  /* if we want to switch players, reset the client if the game is running */
+  /* if we want to take while the game is running, reset the client */
   if (S_S_RUNNING == server_state()) {
     send_rulesets(pconn->self);
     send_server_settings(pconn->self);
-    send_game_info(pconn->self);
-    send_player_info_c(NULL, pconn->self);
-    send_conn_info(game.est_connections, pconn->self);
+    /* others are sent below */
   }
 
   /* if we're taking another player with a user attached, 
@@ -2993,7 +2995,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* now attach to new player */
   pconn->observer = FALSE; /* do this before attach! */
   attach_connection_to_player(pconn, pplayer);
-  send_conn_info(pconn->self, game.est_connections);
   pplayer = pconn->player; /* In case pplayer was NULL. */
  
   /* if pplayer wasn't /created, and we're still in pregame, change its name */
@@ -3001,20 +3002,25 @@ static bool take_command(struct connection *caller, char *str, bool check)
     sz_strlcpy(pplayer->name, pconn->username);
   }
 
+  /* aitoggle the player back to human as necessary. */
+  if (pplayer->ai.control && game.info.auto_ai_toggle) {
+    toggle_ai_player_direct(NULL, pplayer);
+  }
 
   if (S_S_RUNNING == server_state()) {
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self);
-    send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.info.phase);
+  } else {
+    /* send changed player connection to everybody */
+    send_game_info(game.est_connections);
+    send_player_info_c(pplayer, game.est_connections);
+    /* we already know existing connections */
   }
-
-  /* aitoggle the player back to human if necessary. */
-  if (pplayer->ai.control && game.info.auto_ai_toggle) {
-    toggle_ai_player_direct(NULL, pplayer);
-  }
+  /* redundant self to self cannot be avoided */
+  send_conn_info(pconn->self, game.est_connections);
 
   cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"), 
             pconn->username, pplayer->name, 
@@ -3109,6 +3115,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     cmd_reply(CMD_DETACH, caller, C_COMMENT,
 	      _("%s no longer observing."), pconn->username);
   }
+  /* useful self to self cannot be avoided */
   send_conn_info(pconn->self, game.est_connections);
 
   /* only remove the player if the game is new and in pregame, 
@@ -3120,10 +3127,14 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     /* detach any observers */
     conn_list_iterate(pplayer->connections, aconn) {
       if (aconn->observer) {
-        unattach_connection_from_player(aconn);
-        send_conn_info(aconn->self, game.est_connections);
+	if (S_S_RUNNING == server_state()) {
+	  send_rulesets(aconn->self);
+	  send_server_settings(aconn->self);
+	}
         notify_conn(aconn->self, NULL, E_CONNECTION,
 		    _("detaching from %s."), pplayer->name);
+        unattach_connection_from_player(aconn);
+        send_conn_info(aconn->self, game.est_connections);
       }
     } conn_list_iterate_end;
 
@@ -3137,6 +3148,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     /* aitoggle the player if no longer connected. */
     if (game.info.auto_ai_toggle && !pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
+      send_player_info_c(pplayer, game.est_connections);
     }
     /* reset username if in pregame. */
     if (is_newgame) {
@@ -3296,6 +3308,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
     players_iterate(pplayer) {
       if (strcmp(pconn->username, pplayer->username) == 0) {
         attach_connection_to_player(pconn, pplayer);
+        send_player_info_c(pplayer, game.est_connections);
         break;
       }
     } players_iterate_end;
@@ -3562,7 +3575,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   case CMD_LIST:
     return show_list(caller, arg);
   case CMD_AITOGGLE:
-    return toggle_ai_player(caller, arg, check);
+    return toggle_ai_command(caller, arg, check);
   case CMD_TAKE:
     return take_command(caller, arg, check);
   case CMD_OBSERVE:

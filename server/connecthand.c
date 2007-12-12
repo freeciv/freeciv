@@ -112,33 +112,50 @@ void establish_new_connection(struct connection *pconn)
   if ((pplayer = find_player_by_user(pconn->username))) {
     attach_connection_to_player(pconn, pplayer);
 
+    if (game.info.auto_ai_toggle && pplayer->ai.control) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
+
     if (S_S_RUNNING == server_state()) {
       /* Player and other info is only updated when the game is running.
        * See the comment in lost_connection_to_client(). */
       send_packet_freeze_hint(pconn);
       send_all_info(dest);
-      send_player_info(NULL,NULL);
       send_diplomatic_meetings(pconn);
       send_packet_thaw_hint(pconn);
       dsend_packet_start_phase(pconn, game.info.phase);
-    }
-
-    /* This must be done after the above info is sent, because it will
-     * generate a player-packet which can't be sent until (at least)
-     * rulesets are sent. */
-    if (game.info.auto_ai_toggle && pplayer->ai.control) {
-      toggle_ai_player_direct(NULL, pplayer);
-    }
-
-  } else if (S_S_INITIAL == server_state() && game.info.is_new_game) {
-    if (!attach_connection_to_player(pconn, NULL)) {
-      notify_conn(dest, NULL, E_CONNECTION,
-		  _("Couldn't attach your connection to new player."));
-      freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
     } else {
-      sz_strlcpy(pconn->player->name, pconn->username);
+      /* send new player connection to everybody */
+      send_game_info(game.est_connections);
+      send_player_info_c(NULL, game.est_connections);
+      send_conn_info(game.est_connections, dest);
     }
+  } else {
+    if (S_S_INITIAL == server_state() && game.info.is_new_game) {
+      if (attach_connection_to_player(pconn, NULL)) {
+        sz_strlcpy(pconn->player->name, pconn->username);
+
+        /* send new player connection to everybody */
+        send_game_info(game.est_connections);
+        send_player_info_c(NULL, game.est_connections);
+      } else {
+        notify_conn(dest, NULL, E_CONNECTION,
+                    _("Couldn't attach your connection to new player."));
+        freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
+
+        /* send old player connections to self */
+        send_game_info(dest);
+        send_player_info_c(NULL, dest);
+      }
+    } else {
+      /* send old player connections to self */
+      send_game_info(dest);
+      send_player_info_c(NULL, dest);
+    }
+    send_conn_info(game.est_connections, dest);
   }
+  /* redundant self to self cannot be avoided */
+  send_conn_info(dest, game.est_connections);
 
   /* remind the connection who he is */
   if (!pconn->player) {
@@ -176,10 +193,6 @@ void establish_new_connection(struct connection *pconn)
     show_players(pconn);
   }
 
-  send_conn_info(dest, game.est_connections);
-  send_conn_info(game.est_connections, dest);
-  send_game_info(dest);
-  send_player_info_c(NULL, dest);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
 }
@@ -289,7 +302,7 @@ bool handle_login_request(struct connection *pconn,
 /**************************************************************************
   High-level server stuff when connection to client is closed or lost.
   Reports loss to log, and to other players if the connection was a
-  player.  Also removes player if in pregame, applies auto_toggle, and
+  player.  Also removes player in pregame, applies auto_toggle, and
   does check for turn done (since can depend on connection/ai status).
   Note caller should also call close_connection() after this, to do
   lower-level close stuff.
@@ -317,14 +330,6 @@ void lost_connection_to_client(struct connection *pconn)
 
   unattach_connection_from_player(pconn);
   send_conn_info_remove(pconn->self, game.est_connections);
-
-  if (S_S_RUNNING == server_state()) {
-    /* Player info is only updated when the game is running; this must be
-     * done consistently or the client will end up with inconsistent errors.
-     * At other times, the conn info (send_conn_info) is used by the client
-     * to display player information.  See establish_new_connection(). */
-    send_player_info(pplayer, NULL);
-  }
   notify_if_first_access_level_is_available();
 
   if (game.info.is_new_game
@@ -341,6 +346,15 @@ void lost_connection_to_client(struct connection *pconn)
 
     check_for_full_turn_done();
   }
+  /* send_player_info() was formerly updated by toggle_ai_player_direct(),
+   * so it must be safe to send here now?
+   *
+   * At other times, data from send_conn_info() is used by the client to
+   * display player information.  See establish_new_connection().
+   */
+  freelog(LOG_VERBOSE, "lost_connection_to_client() calls send_player_info_c()");
+  send_player_info_c(pplayer, game.est_connections);
+
   reset_all_start_commands();
 
   delayed_disconnect--;
@@ -427,6 +441,7 @@ bool attach_connection_to_player(struct connection *pconn,
       pplayer = &game.players[game.info.nplayers];
       server_player_init(pplayer, FALSE, TRUE);
       game.info.nplayers++;
+      send_game_info(game.est_connections);
     }
   }
 
@@ -438,9 +453,6 @@ bool attach_connection_to_player(struct connection *pconn,
 
   pconn->player = pplayer;
   conn_list_append(pplayer->connections, pconn);
-
-  send_game_info(NULL);
-  send_player_info(pplayer, NULL);
 
   aifill(game.info.aifill);
 
