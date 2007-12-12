@@ -141,9 +141,9 @@ static bool manual_command(void)
           fprintf(doc, "<pre>%s</pre>\n\n", abuf.str);
         }
         fprintf(doc, "<p class=\"misc\">");
-        fprintf(doc, _("Level: %s.<br>"), _(sset_level_names[op->level]));
+        fprintf(doc, _("Level: %s.<br>"), _(sset_level_names[op->slevel]));
         fprintf(doc, _("Category: %s.<br>"),
-                _(sset_category_names[op->category]));
+                _(sset_category_names[op->scategory]));
         if (op->to_client == SSET_SERVER_ONLY) {
           fprintf(doc, _("Can only be used in server console. "));
         }
@@ -153,7 +153,7 @@ static bool manual_command(void)
           fprintf(doc, _("Can <b>not</b> be changed during a game. "));
         }
         fprintf(doc, "</p>\n\n");
-        switch (op->type) {
+        switch (op->stype) {
         case SSET_BOOL:
           fprintf(doc, _("<p class=\"bounds\">Minimum: 0, Default: %d, "
                          "Maximum: 1</p>\n\n"),

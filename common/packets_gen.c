@@ -27338,7 +27338,7 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->type = readin;
+      real_packet->stype = readin;
     }
   }
   if (BV_ISSET(fields, 5)) {
@@ -27346,7 +27346,7 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->class = readin;
+      real_packet->sclass = readin;
     }
   }
   real_packet->is_visible = BV_ISSET(fields, 6);
@@ -27393,7 +27393,7 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->category = readin;
+      real_packet->scategory = readin;
     }
   }
 
@@ -27446,11 +27446,11 @@ static int send_packet_options_settable_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (old->type != real_packet->type);
+  differ = (old->stype != real_packet->stype);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->class != real_packet->class);
+  differ = (old->sclass != real_packet->sclass);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
@@ -27482,7 +27482,7 @@ static int send_packet_options_settable_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
 
-  differ = (old->category != real_packet->category);
+  differ = (old->scategory != real_packet->scategory);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
@@ -27505,10 +27505,10 @@ static int send_packet_options_settable_100(struct connection *pc, const struct 
     dio_put_string(&dout, real_packet->extra_help);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint8(&dout, real_packet->type);
+    dio_put_uint8(&dout, real_packet->stype);
   }
   if (BV_ISSET(fields, 5)) {
-    dio_put_uint8(&dout, real_packet->class);
+    dio_put_uint8(&dout, real_packet->sclass);
   }
   /* field 6 is folded into the header */
   if (BV_ISSET(fields, 7)) {
@@ -27530,7 +27530,7 @@ static int send_packet_options_settable_100(struct connection *pc, const struct 
     dio_put_string(&dout, real_packet->default_strval);
   }
   if (BV_ISSET(fields, 13)) {
-    dio_put_uint8(&dout, real_packet->category);
+    dio_put_uint8(&dout, real_packet->scategory);
   }
 
 

@@ -1010,8 +1010,8 @@ struct packet_options_settable {
   char name[MAX_LEN_NAME];
   char short_help[MAX_LEN_PACKET];
   char extra_help[MAX_LEN_PACKET];
-  enum sset_type type;
-  enum sset_class class;
+  enum sset_type stype;
+  enum sset_class sclass;
   bool is_visible;
   int val;
   int default_val;
@@ -1019,7 +1019,7 @@ struct packet_options_settable {
   int max;
   char strval[MAX_LEN_PACKET];
   char default_strval[MAX_LEN_PACKET];
-  int category;
+  int scategory;
 };
 
 struct packet_ruleset_effect {

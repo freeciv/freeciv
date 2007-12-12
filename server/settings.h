@@ -71,9 +71,9 @@ struct settings_s {
    * etc, and should end with a "."
    */
   const char *extra_help;
-  enum sset_type type;
-  enum sset_category category;
-  enum sset_level level;
+  enum sset_type stype;
+  enum sset_category scategory;
+  enum sset_level slevel;
 
   /* 
    * About the *_validate functions: If the function is non-NULL, it
