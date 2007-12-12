@@ -290,14 +290,22 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   case 3: /* RIGHT mouse button */
 
+    /* <SHIFT> + <CONTROL> + RMB : Show/hide workers. */
+    if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)) {
+      if (NULL != pcity) {
+        overlay_workers_at_city();
+      }
+    }
     /* <CONTROL> + RMB : Quickselect a land unit. */
-    if (ev->state & GDK_CONTROL_MASK) {
+    else if (ev->state & GDK_CONTROL_MASK) {
       action_button_pressed(ev->x, ev->y, SELECT_LAND);
     }
     /* <SHIFT> + RMB: Paste Production. */
-    else if ((ev->state & GDK_SHIFT_MASK) && pcity) {
-      clipboard_paste_production(pcity);
-      cancel_tile_hiliting();
+    else if ((ev->state & GDK_SHIFT_MASK)) {
+      if (NULL != pcity) {
+        clipboard_paste_production(pcity);
+        cancel_tile_hiliting();
+      }
     }
     /* Plain RMB click. */
     else {
@@ -448,7 +456,7 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
 }
 
 /**************************************************************************
-  Draws the on the map the tiles the given city is using
+  Best effort to center the map on the currently selected unit(s)
 **************************************************************************/
 void center_on_unit(void)
 {
@@ -456,9 +464,9 @@ void center_on_unit(void)
 }
 
 /**************************************************************************
-  Draws the on the map the tiles the given city is using
+  Shows/hides overlay on the map for the city at this location
 **************************************************************************/
-void key_city_workers(GtkWidget *w, GdkEventKey *ev)
+void overlay_workers_at_city(void)
 {
   int x, y;
   
