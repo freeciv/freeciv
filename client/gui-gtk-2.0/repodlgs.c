@@ -27,6 +27,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "log.h"
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
@@ -1277,7 +1278,7 @@ void activeunits_report_dialog_update(void)
 	k++;
 	unittotals.active_count += unitarray[uti].active_count;
 	output_type_iterate(o) {
-	  unittotals.upkeep[o] += unitarray[uti].upkeep[o];	  
+	  unittotals.upkeep[o] += unitarray[uti].upkeep[o];
 	} output_type_iterate_end;
 	unittotals.building_count += unitarray[uti].building_count;
       }
@@ -1425,37 +1426,59 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
 *************************************************************************/
 static void option_changed_callback(GtkWidget *widget, gpointer data) 
 {
-  g_object_set_data(G_OBJECT(widget), "changed", (gpointer)TRUE); 
+  /* pass along the pointer to the changed option */
+  g_object_set_data(G_OBJECT(widget), "changed", data); 
 }
 
 /*************************************************************************
   helper function for server options dialog
 *************************************************************************/
-static void set_options(GtkWidget *w)
+static void settable_options_processing(GtkWidget *final)
 {
-  GtkWidget *tmp;
+  char buffer[MAX_LEN_MSG];
+  const char *desired_string;
+  GtkWidget *w = final;
 
-  /* if the entry has been changed, then send the changes to the server */
-  if (g_object_get_data(G_OBJECT(w), "changed")) {
-    char buffer[MAX_LEN_MSG];
+  while (NULL != w) {
+    struct options_settable *o =
+      (struct options_settable *)g_object_get_data(G_OBJECT(w), "changed");
 
-    /* append the name of the option */
-    my_snprintf(buffer, MAX_LEN_MSG, "/set %s ", gtk_widget_get_name(w));
+    /* if the entry has been changed, then send the changes to the server */
+    if (NULL != o) {
+      /* append the name of the option */
+      my_snprintf(buffer, sizeof(buffer), "/set %s ", gtk_widget_get_name(w));
 
-    /* append the setting */
-    if (GTK_IS_ENTRY(w)) {
-      sz_strlcat(buffer, gtk_entry_get_text(GTK_ENTRY(w)));
-    } else {
-      bool active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
-      sz_strlcat(buffer, active ? "1" : "0");
+      /* append the setting */
+      switch (o->stype) {
+      case SSET_BOOL:
+        o->desired_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w));
+        sz_strlcat(buffer, o->desired_val ? "1" : "0");
+        break;
+      case SSET_INT:
+        o->desired_val = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w));
+        sz_strlcat(buffer, gtk_entry_get_text(GTK_ENTRY(w)));
+        break;
+      case SSET_STRING:
+        desired_string = gtk_entry_get_text(GTK_ENTRY(w));
+        if (NULL != desired_string) {
+          if (NULL != o->desired_strval) {
+            free(o->desired_strval);
+          }
+          o->desired_strval = mystrdup(desired_string);
+          sz_strlcat(buffer, desired_string);
+        }
+        break;
+      default:
+        freelog(LOG_ERROR,
+                "settable_options_processing() bad type %d.",
+                o->stype);
+        break;
+      };
+      send_chat(buffer);
     }
-    send_chat(buffer);
-  }
 
-  /* using the linked list, work backwards and check the previous widget */
-  tmp = (GtkWidget *)g_object_get_data(G_OBJECT(w), "prev");
-  if (tmp) {
-    set_options(tmp);
+    /* using the linked list, work backwards and check the previous widget */
+    w = (GtkWidget *)g_object_get_data(G_OBJECT(w), "prev");
   }
 }
 
@@ -1465,7 +1488,7 @@ static void set_options(GtkWidget *w)
 static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
 {
   if (rid == GTK_RESPONSE_OK) {
-    set_options(w);
+    settable_options_processing(w);
   }
   gtk_widget_destroy(win);
 }
@@ -1475,15 +1498,14 @@ static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
 *************************************************************************/
 static void create_settable_options_dialog(void)
 {
-  GtkWidget *win, *book, **vbox, *label, *prev_widget = NULL;
-  GtkTooltips *tips;
-  bool *used;
   int i;
+  GtkWidget *win, *book, **vbox, *label;
+  GtkWidget *prev_widget = NULL;
+  GtkTooltips *tips = gtk_tooltips_new();
+  bool *used = fc_calloc(num_options_categories, sizeof(*used));
 
-  used = fc_calloc(num_options_categories, sizeof(*used));
-
-  tips = gtk_tooltips_new();
-  settable_options_dialog_shell = gtk_dialog_new_with_buttons(_("Game Settings"),
+  settable_options_dialog_shell =
+    gtk_dialog_new_with_buttons(_("Game Settings"),
       NULL, 0,
       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
       GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -1549,7 +1571,7 @@ static void create_settable_options_dialog(void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent), o->val);
 
 	g_signal_connect(ent, "toggled", 
-			 G_CALLBACK(option_changed_callback), NULL);
+			 G_CALLBACK(option_changed_callback), o);
 	break;
 
       case SSET_INT:
@@ -1569,7 +1591,7 @@ static void create_settable_options_dialog(void)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent), o->val);
 
 	g_signal_connect(ent, "changed", 
-			 G_CALLBACK(option_changed_callback), NULL);
+			 G_CALLBACK(option_changed_callback), o);
 	break;
       case SSET_STRING:
 	/* string */
@@ -1577,7 +1599,7 @@ static void create_settable_options_dialog(void)
 	gtk_entry_set_text(GTK_ENTRY(ent), o->strval);
 
 	g_signal_connect(ent, "changed", 
-			 G_CALLBACK(option_changed_callback), NULL);
+			 G_CALLBACK(option_changed_callback), o);
 	break;
       }
     } else {
@@ -1606,7 +1628,7 @@ static void create_settable_options_dialog(void)
     /* set up a linked list so we can work our way through the widgets */
     gtk_widget_set_name(ent, o->name);
     g_object_set_data(G_OBJECT(ent), "prev", prev_widget);
-    g_object_set_data(G_OBJECT(ent), "changed", FALSE);
+    g_object_set_data(G_OBJECT(ent), "changed", NULL);
     prev_widget = ent;
   }
 

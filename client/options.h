@@ -194,6 +194,7 @@ void message_options_free(void);
 
 void load_general_options(void);
 void load_ruleset_specific_options(void);
+void load_settable_options(bool send_it);
 void save_options(void);
 
 /* Callback functions for changing options. */
