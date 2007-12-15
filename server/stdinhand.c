@@ -1681,8 +1681,8 @@ static void send_server_setting(struct conn_list *dest, int setting_id)
 	packet.default_val = setting->int_default_value;
 	break;
       case SSET_STRING:
-	strcpy(packet.strval, setting->string_value);
-	strcpy(packet.default_strval, setting->string_default_value);
+	sz_strlcpy(packet.strval, setting->string_value);
+	sz_strlcpy(packet.default_strval, setting->string_default_value);
 	break;
       };
     }

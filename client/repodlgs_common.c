@@ -30,14 +30,19 @@
 
 #include "civclient.h"		/* can_client_issue_orders */
 #include "control.h"
+#include "options.h"
 #include "repodlgs_common.h"
 #include "packhand_gen.h"
 
-struct options_settable *settable_options;
-int num_settable_options;
 
-char **options_categories;
-int num_options_categories;
+char **options_categories = NULL;
+struct options_settable *settable_options = NULL;
+
+int num_options_categories = 0;
+int num_settable_options = 0;
+
+static bool settable_options_loaded = FALSE;	/* desired options from file */
+
 
 /****************************************************************
   Fills out the array of struct improvement_entry given by
@@ -200,11 +205,40 @@ bool is_report_dialogs_frozen(void)
 *******************************************************************/
 void settable_options_init(void)
 {
+  settable_options_loaded = FALSE;
+
   settable_options = NULL;
   num_settable_options = 0;
 
   options_categories = NULL;
   num_options_categories = 0;
+}
+
+/******************************************************************
+ free and clear all settable_option packet strings
+*******************************************************************/
+static void settable_option_strings_free(struct options_settable *o)
+{
+  if (NULL != o->name) {
+    free(o->name);
+    o->name = NULL;
+  }
+  if (NULL != o->short_help) {
+    free(o->short_help);
+    o->short_help = NULL;
+  }
+  if (NULL != o->extra_help) {
+    free(o->extra_help);
+    o->extra_help = NULL;
+  }
+  if (NULL != o->strval) {
+    free(o->strval);
+    o->strval = NULL;
+  }
+  if (NULL != o->default_strval) {
+    free(o->default_strval);
+    o->default_strval = NULL;
+  }
 }
 
 /******************************************************************
@@ -216,21 +250,12 @@ void settable_options_free(void)
 
   for (i = 0; i < num_settable_options; i++) {
     struct options_settable *o = &settable_options[i];
+    settable_option_strings_free(o);
 
-    if (o->name) {
-      free(o->name);
-    }
-    if (o->short_help) {
-      free(o->short_help);
-    }
-    if (o->extra_help) {
-      free(o->extra_help);
-    }
-    if (o->strval) {
-      free(o->strval);
-    }
-    if (o->default_strval) {
-      free(o->default_strval);
+    /* special handling for non-packet strings */
+    if (NULL != o->desired_strval) {
+      free(o->desired_strval);
+      o->desired_strval = NULL;
     }
   }
   free(settable_options);
@@ -293,39 +318,31 @@ void handle_options_settable(struct packet_options_settable *packet)
   o->scategory = packet->scategory;
   o->sclass = packet->sclass;
 
+  o->val = packet->val;
+  o->default_val = packet->default_val;
+  if (!settable_options_loaded) {
+    o->desired_val = packet->default_val;
+    /* desired_val is loaded later */
+  }
+  o->min = packet->min;
+  o->max = packet->max;
+
+  /* ensure packet string fields are NULL for repeat calls */
+  settable_option_strings_free(o);
+
   switch (o->stype) {
   case SSET_BOOL:
-    o->val = packet->val;
-    o->default_val = packet->default_val;
     o->min = FALSE;
     o->max = TRUE;				/* server sent FALSE */
-    o->strval = NULL;
-    o->default_strval = NULL;
     break;
   case SSET_INT:
-    o->val = packet->val;
-    o->default_val = packet->default_val;
-    o->min = packet->min;
-    o->max = packet->max;
-    o->strval = NULL;
-    o->default_strval = NULL;
     break;
   case SSET_STRING:
-    o->val = packet->val;
-    o->default_val = packet->default_val;
-    o->min = packet->min;
-    o->max = packet->max;
     o->strval = mystrdup(packet->strval);
     o->default_strval = mystrdup(packet->default_strval);
+    /* desired_strval is loaded later */
     break;
   default:
-    /* ensure string fields are NULL for free */
-    o->name = NULL;
-    o->short_help = NULL;
-    o->extra_help = NULL;
-    o->strval = NULL;
-    o->default_strval = NULL;
-
     freelog(LOG_ERROR,
 	    "handle_options_settable() bad type %d.",
 	    packet->stype);
@@ -337,6 +354,12 @@ void handle_options_settable(struct packet_options_settable *packet)
   o->name = mystrdup(packet->name);
   o->short_help = mystrdup(packet->short_help);
   o->extra_help = mystrdup(packet->extra_help);
+
+  /* have no proper final packet, test for the last instead */
+  if (i == (num_settable_options - 1) && !settable_options_loaded) {
+    load_settable_options(TRUE);
+    settable_options_loaded = TRUE;
+  }
 }
 
 /****************************************************************************
