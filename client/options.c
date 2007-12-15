@@ -39,9 +39,16 @@
 #include "options.h"
 #include "overview_common.h"
 #include "plrdlg_common.h"
+#include "repodlgs_common.h"
 #include "servers.h"
 #include "themes_common.h"
 #include "tilespec.h"
+
+/****************************************************************
+ The "options" file handles actual "options", and also view options,
+ message options, dialog/report settings, cma settings, server settings,
+ and global worklists.
+*****************************************************************/
 
 /** Defaults for options normally on command line **/
 
@@ -266,8 +273,8 @@ static client_option common_options[] = {
 #undef GEN_BOOL_OPTION
 #undef GEN_STR_OPTION
 
-int num_options;
-client_option *options;
+static client_option *fc_options;
+static int num_options;
 
 /** View Options: **/
 
@@ -326,6 +333,29 @@ view_option view_options[] = {
 /** Message Options: **/
 
 unsigned int messages_where[E_LAST];
+
+
+/**************************************************************************
+  Return the first item of fc_options.
+**************************************************************************/
+struct client_option *client_option_array_first(void)
+{
+  if (num_options > 0) {
+    return fc_options;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of fc_options.
+**************************************************************************/
+const struct client_option *client_option_array_last(void)
+{
+  if (num_options > 0) {
+    return &fc_options[num_options - 1];
+  }
+  return NULL;
+}
 
 /****************************************************************
   These could be a static table initialisation, except
@@ -397,16 +427,70 @@ static void message_options_save(struct section_file *file, const char *prefix)
 }
 
 
-static void save_cma_preset(struct section_file *file, char *name,
-			    const struct cm_parameter *const pparam,
-			    int inx);
-static void load_cma_preset(struct section_file *file, int inx);
+/****************************************************************
+ Does heavy lifting for looking up a preset.
+*****************************************************************/
+static void load_cma_preset(struct section_file *file, int i)
+{
+  struct cm_parameter parameter;
+  const char *name =
+    secfile_lookup_str_default(file, "preset",
+                               "cma.preset%d.name", i);
+
+  output_type_iterate(o) {
+    parameter.minimal_surplus[o] =
+        secfile_lookup_int_default(file, 0, "cma.preset%d.minsurp%d", i, o);
+    parameter.factor[o] =
+        secfile_lookup_int_default(file, 0, "cma.preset%d.factor%d", i, o);
+  } output_type_iterate_end;
+  parameter.require_happy =
+      secfile_lookup_bool_default(file, FALSE, "cma.preset%d.reqhappy", i);
+  parameter.happy_factor =
+      secfile_lookup_int_default(file, 0, "cma.preset%d.happyfactor", i);
+  parameter.allow_disorder = FALSE;
+  parameter.allow_specialists = TRUE;
+
+  cmafec_preset_add(name, &parameter);
+}
 
 /****************************************************************
- The "options" file handles actual "options", and also view options,
- message options, city report settings, cma settings, and 
- saved global worklists
+ Does heavy lifting for inserting a preset.
 *****************************************************************/
+static void save_cma_preset(struct section_file *file, int i)
+{
+  const struct cm_parameter *const pparam = cmafec_preset_get_parameter(i);
+  char *name = cmafec_preset_get_descr(i);
+
+  secfile_insert_str(file, name, "cma.preset%d.name", i);
+
+  output_type_iterate(o) {
+    secfile_insert_int(file, pparam->minimal_surplus[o],
+                       "cma.preset%d.minsurp%d", i, o);
+    secfile_insert_int(file, pparam->factor[o],
+                       "cma.preset%d.factor%d", i, o);
+  } output_type_iterate_end;
+  secfile_insert_bool(file, pparam->require_happy,
+                      "cma.preset%d.reqhappy", i);
+  secfile_insert_int(file, pparam->happy_factor,
+                     "cma.preset%d.happyfactor", i);
+}
+
+/****************************************************************
+ Insert all cma presets.
+*****************************************************************/
+static void save_cma_presets(struct section_file *file)
+{
+  int i;
+
+  secfile_insert_int_comment(file, cmafec_preset_num(),
+                             _("If you add a preset by hand,"
+                               " also update \"number_of_presets\""),
+                             "cma.number_of_presets");
+  for (i = 0; i < cmafec_preset_num(); i++) {
+    save_cma_preset(file, i);
+  }
+}
+
 
 /****************************************************************
  Returns pointer to static memory containing name of option file.
@@ -427,7 +511,7 @@ static char *option_file_name(void)
 #ifndef OPTION_FILE_NAME
     name = user_home_dir();
     if (!name) {
-      append_output_window(_("Cannot find your home directory"));
+      freelog(LOG_ERROR, _("Cannot find your home directory"));
       return NULL;
     }
     mystrlcpy(name_buffer, name, 231);
@@ -439,34 +523,162 @@ static char *option_file_name(void)
   freelog(LOG_VERBOSE, "settings file is %s", name_buffer);
   return name_buffer;
 }
-  
-/****************************************************************
- this loads from the rc file any options which are not ruleset specific 
- it is called on client init.
-*****************************************************************/
-void load_general_options(void)
-{
-  struct section_file sf;
-  const char * const prefix = "client";
-  char *name;
-  int i, num;
-  view_option *v;
 
-  assert(options == NULL);
-  num_options = ARRAY_SIZE(common_options) + num_gui_options;
-  options = fc_malloc(num_options * sizeof(*options));
-  memcpy(options, common_options, sizeof(common_options));
-  memcpy(options + ARRAY_SIZE(common_options), gui_options,
-	 num_gui_options * sizeof(*options));
+
+/****************************************************************
+ Load settable per connection/server options.
+*****************************************************************/
+void load_settable_options(bool send_it)
+{
+  char buffer[MAX_LEN_MSG];
+  struct section_file sf;
+  char *name;
+  char *desired_string;
+  int i = 0;
 
   name = option_file_name();
   if (!name) {
     /* fail silently */
     return;
   }
+  if (!section_file_load(&sf, name))
+    return;
+
+  for (; i < num_settable_options; i++) {
+    struct options_settable *o = &settable_options[i];
+    bool changed = FALSE;
+
+    my_snprintf(buffer, sizeof(buffer), "/set %s ", o->name);
+
+    switch (o->stype) {
+    case SSET_BOOL:
+      o->desired_val = secfile_lookup_bool_default(&sf, o->default_val,
+                                                   "server.%s", o->name);
+      changed = (o->desired_val != o->default_val
+              && o->desired_val != o->val);
+      if (changed) {
+        sz_strlcat(buffer, o->desired_val ? "1" : "0");
+      }
+      break;
+    case SSET_INT:
+      o->desired_val = secfile_lookup_int_default(&sf, o->default_val,
+                                                  "server.%s", o->name);
+      changed = (o->desired_val != o->default_val
+              && o->desired_val != o->val);
+      if (changed) {
+        cat_snprintf(buffer, sizeof(buffer), "%d", o->desired_val);
+      }
+      break;
+    case SSET_STRING:
+      desired_string = secfile_lookup_str_default(&sf, o->default_strval,
+                                                  "server.%s", o->name);
+      if (NULL != desired_string) {
+        if (NULL != o->desired_strval) {
+          free(o->desired_strval);
+        }
+        o->desired_strval = mystrdup(desired_string);
+        changed = (0 != strcmp(desired_string, o->default_strval)
+                && 0 != strcmp(desired_string, o->strval));
+        if (changed) {
+          sz_strlcat(buffer, desired_string);
+        }
+      }
+      break;
+    default:
+      freelog(LOG_ERROR,
+              "load_settable_options() bad type %d.",
+              o->stype);
+      break;
+    };
+
+    if (changed && send_it) {
+      send_chat(buffer);
+    }
+  }
+
+  section_file_free(&sf);
+}
+
+/****************************************************************
+ Save settable per connection/server options.
+*****************************************************************/
+static void save_settable_options(struct section_file *sf)
+{
+  int i = 0;
+
+  for (; i < num_settable_options; i++) {
+    struct options_settable *o = &settable_options[i];
+
+    switch (o->stype) {
+    case SSET_BOOL:
+      if (o->desired_val != o->default_val) {
+        secfile_insert_bool(sf, o->desired_val, "server.%s", o->name);
+      }
+      break;
+    case SSET_INT:
+      if (o->desired_val != o->default_val) {
+        secfile_insert_int(sf, o->desired_val, "server.%s",  o->name);
+      }
+      break;
+    case SSET_STRING:
+      if (NULL != o->desired_strval
+       && 0 != strcmp(o->desired_strval, o->default_strval)) {
+        secfile_insert_str(sf, o->desired_strval, "server.%s", o->name);
+      }
+      break;
+    default:
+      freelog(LOG_ERROR,
+              "save_settable_options() bad type %d.",
+              o->stype);
+      break;
+    };
+  }
+}
+
+
+/****************************************************************
+ Load from the rc file any options that are not ruleset specific.
+ It is called after ui_init(), yet before ui_main().
+ Unfortunately, this means that some clients cannot display.
+ Instead, use freelog().
+*****************************************************************/
+void load_general_options(void)
+{
+  struct section_file sf;
+  int i, num;
+  view_option *v;
+  char *name;
+  const char * const prefix = "client";
+
+  assert(fc_options == NULL);
+  num_options = ARRAY_SIZE(common_options) + num_gui_options;
+  fc_options = fc_calloc(num_options, sizeof(*fc_options));
+  memcpy(fc_options, common_options, sizeof(common_options));
+  memcpy(fc_options + ARRAY_SIZE(common_options), gui_options,
+	 num_gui_options * sizeof(*fc_options));
+
+  name = option_file_name();
+  if (!name) {
+    /* FIXME: need better messages */
+    freelog(LOG_ERROR, _("Save failed, cannot find a filename."));
+    return;
+  }
   if (!section_file_load(&sf, name)) {
+    /* try to create the rc file */
+    section_file_init(&sf);
+    secfile_insert_str(&sf, VERSION_STRING, "client.version");
+
     create_default_cma_presets();
-    return;  
+    save_cma_presets(&sf);
+
+    /* FIXME: need better messages */
+    if (!section_file_save(&sf, name, 0)) {
+      freelog(LOG_ERROR, _("Save failed, cannot write to file %s"), name);
+    } else {
+      freelog(LOG_NORMAL, _("Saved settings to file %s"), name);
+    }
+    section_file_free(&sf);
+    return;
   }
 
   /* a "secret" option for the lazy. TODO: make this saveable */
@@ -481,7 +693,7 @@ void load_general_options(void)
 				"%s.fullscreen_mode", prefix);
 
   for (i = 0; i < num_options; i++) {
-    client_option *o = options + i;
+    client_option *o = fc_options + i;
 
     switch (o->type) {
     case COT_BOOL:
@@ -538,10 +750,9 @@ void load_general_options(void)
 void load_ruleset_specific_options(void)
 {
   struct section_file sf;
-  char *name;
   int i;
+  char *name = option_file_name();
 
-  name = option_file_name();
   if (!name) {
     /* fail silently */
     return;
@@ -574,10 +785,10 @@ void load_ruleset_specific_options(void)
 void save_options(void)
 {
   struct section_file sf;
-  char *name = option_file_name();
   char output_buffer[256];
-  view_option *v;
   int i;
+  view_option *v;
+  char *name = option_file_name();
 
   if(!name) {
     append_output_window(_("Save failed, cannot find a filename."));
@@ -591,7 +802,7 @@ void save_options(void)
   secfile_insert_bool(&sf, fullscreen_mode, "client.fullscreen_mode");
 
   for (i = 0; i < num_options; i++) {
-    client_option *o = options + i;
+    client_option *o = fc_options + i;
 
     switch (o->type) {
     case COT_BOOL:
@@ -624,7 +835,11 @@ void save_options(void)
                         "client.player_dlg_%s",
                         player_dlg_columns[i].tagname);
   }
-  
+
+  /* server settings */
+  save_cma_presets(&sf);
+  save_settable_options(&sf);
+
   /* insert global worklists */
   if (game.player_ptr) {
     for(i = 0; i < MAX_NUM_WORKLISTS; i++){
@@ -636,17 +851,6 @@ void save_options(void)
     }
   }
 
-
-  /* insert cma presets */
-  secfile_insert_int_comment(&sf, cmafec_preset_num(),
-			     _("If you add a preset by "
-			       "hand, also update \"number_of_presets\""),
-			     "cma.number_of_presets");
-  for (i = 0; i < cmafec_preset_num(); i++) {
-    save_cma_preset(&sf, cmafec_preset_get_descr(i),
-		    cmafec_preset_get_parameter(i), i);
-  }
-
   /* save to disk */
   if (!section_file_save(&sf, name, 0)) {
     my_snprintf(output_buffer, sizeof(output_buffer),
@@ -655,55 +859,8 @@ void save_options(void)
     my_snprintf(output_buffer, sizeof(output_buffer),
 		_("Saved settings to file %s"), name);
   }
-
   append_output_window(output_buffer);
   section_file_free(&sf);
-}
-
-/****************************************************************
- Does heavy lifting for looking up a preset.
-*****************************************************************/
-static void load_cma_preset(struct section_file *file, int inx)
-{
-  struct cm_parameter parameter;
-  const char *name;
-
-  name = secfile_lookup_str_default(file, "preset", 
-				    "cma.preset%d.name", inx);
-  output_type_iterate(i) {
-    parameter.minimal_surplus[i] =
-	secfile_lookup_int_default(file, 0, "cma.preset%d.minsurp%d", inx, i);
-    parameter.factor[i] =
-	secfile_lookup_int_default(file, 0, "cma.preset%d.factor%d", inx, i);
-  } output_type_iterate_end;
-  parameter.require_happy =
-      secfile_lookup_bool_default(file, FALSE, "cma.preset%d.reqhappy", inx);
-  parameter.happy_factor =
-      secfile_lookup_int_default(file, 0, "cma.preset%d.happyfactor", inx);
-  parameter.allow_disorder = FALSE;
-  parameter.allow_specialists = TRUE;
-
-  cmafec_preset_add(name, &parameter);
-}
-
-/****************************************************************
- Does heavy lifting for inserting a preset.
-*****************************************************************/
-static void save_cma_preset(struct section_file *file, char *name,
-			    const struct cm_parameter *const pparam,
-			    int inx)
-{
-  secfile_insert_str(file, name, "cma.preset%d.name", inx);
-  output_type_iterate(i) {
-    secfile_insert_int(file, pparam->minimal_surplus[i],
-		       "cma.preset%d.minsurp%d", inx, i);
-    secfile_insert_int(file, pparam->factor[i],
-		       "cma.preset%d.factor%d", inx, i);
-  } output_type_iterate_end;
-  secfile_insert_bool(file, pparam->require_happy,
-		      "cma.preset%d.reqhappy", inx);
-  secfile_insert_int(file, pparam->happy_factor,
-		     "cma.preset%d.happyfactor", inx);
 }
 
 /****************************************************************************

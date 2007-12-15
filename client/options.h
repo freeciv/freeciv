@@ -90,7 +90,6 @@ typedef struct client_option {
   /* volatile */
   void *p_gui_data;
 } client_option;
-extern client_option *options;
 
 #define GEN_INT_OPTION(oname, desc, help, category)			    \
   { #oname, desc, help, category, COT_INT,				    \
@@ -104,18 +103,19 @@ extern client_option *options;
   { #oname, desc, help, category, COT_STR,			    \
       NULL, NULL, oname, sizeof(oname), callback, str_defaults, NULL }
 
-extern int num_options;
+/* Initialization and iteration */
+struct client_option *client_option_array_first(void);
+const struct client_option *client_option_array_last(void);
 
-#define client_options_iterate(o)                                           \
-{                                                                           \
-  int _i;                                                                   \
-  for (_i = 0; _i < num_options; _i++) {                                    \
-    client_option *o = options + _i;                                        \
-    {
+#define client_options_iterate(_p)					\
+{									\
+  struct client_option *_p = client_option_array_first();		\
+  if (NULL != _p) {							\
+    for (; _p <= client_option_array_last(); _p++) {
 
-#define client_options_iterate_end                                          \
-    }                                                                       \
-  }                                                                         \
+#define client_options_iterate_end					\
+    }									\
+  }									\
 }
 
 /* GUI-specific options declared in gui-xxx but handled by common code. */
@@ -176,6 +176,7 @@ void message_options_free(void);
 
 void load_general_options(void);
 void load_ruleset_specific_options(void);
+void load_settable_options(bool send_it);
 void save_options(void);
 
 /* Callback functions for changing options. */
