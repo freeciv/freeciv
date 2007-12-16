@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-26 08:46+0900\n"
-"PO-Revision-Date: 2007-12-02 17:48+0200\n"
+"PO-Revision-Date: 2007-12-16 12:12+0200\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6186,12 +6186,12 @@ msgstr "Üzgünüm, sunucu komutları kullanma izniniz yok."
 #: server/stdinhand.c:3457
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
-msgstr ""
+msgstr "Uyarı: '%s' komutu '%s' olarak çalıştırıldı, komutlar hakkında yardım almak için '%shelp' yazın."
 
 #: server/stdinhand.c:3462
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
-msgstr ""
+msgstr "Bilinmeyen komut.  '%shelp' yazmayı deneyin."
 
 #: server/stdinhand.c:3479
 msgid "Your new vote canceled your previous vote."
@@ -7088,7 +7088,7 @@ msgstr "CMA hatası oluştu.  Şehir valisi ayarlarınız bozuk olabilir."
 
 #: client/attribute.c:367
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "Eski parametreler bulundu ve silindi."
 
 #: client/audio.c:119
 #, c-format
@@ -7128,12 +7128,12 @@ msgstr ""
 
 #: client/audio.c:212
 msgid "To get sound you need to download a sound set!"
-msgstr ""
+msgstr "Ses alabilmek için bir ses seti indirmelisiniz!"
 
 #: client/audio.c:213
 #, c-format
 msgid "Get sound sets from <%s>."
-msgstr ""
+msgstr "Ses setlerini buradan alabilirsiniz <%s>."
 
 #: client/audio.c:220
 #, c-format
@@ -8236,16 +8236,18 @@ msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender but has no risk to the attacker.\n"
 msgstr ""
+"* Bombalama saldırısı yapar (her sıra %d tane).  Bu saldırılar sadece "
+"savunan tarafı etkiler ve asla öldürmez.\n"
 
 #: client/helpdata.c:983
 #, c-format
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
-msgstr ""
+msgstr "* Füze ve uçaklara karşı savunmayı beş kat arttırır.\n"
 
 #: client/helpdata.c:987
 #, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
-msgstr ""
+msgstr "* Arazi etkilerinden muaftır (bütün karelere yol gibi davranır).\n"
 
 #: client/helpdata.c:990
 #, c-format
@@ -8303,7 +8305,7 @@ msgstr ", "
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
-msgstr[0] ""
+msgstr[0] "* Birim %2$d sıra sonunda bir şehir veya %1$s karesinde olmalıdır.\n"
 
 #: client/helpdata.c:1121
 #, c-format
@@ -10621,11 +10623,9 @@ msgid "_Sentry idle"
 msgstr "_Boştakiler nöbet tutsun"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Uluslar:"
+msgstr "Ulus _Grupları:"
 
-#, fuzzy
 msgid "_Nations"
 msgstr "_Uluslar"
 
@@ -10639,9 +10639,8 @@ msgid "Pick Nation"
 msgstr "Ulus Seçimi"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Rastgele Ulus"
+msgstr "_Rastgele Ulus"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -10664,14 +10663,12 @@ msgid "_Male"
 msgstr "_Erkek"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-#, fuzzy
 msgid "City _Styles:"
-msgstr "_Şehir Tarzı:"
+msgstr "Şehir _Tarzları:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-#, fuzzy
 msgid "_Description"
-msgstr "_Hikâyesi"
+msgstr "_Tanıtım"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
@@ -10956,7 +10953,6 @@ msgid "_Observe"
 msgstr "İ_zle"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-#, fuzzy
 msgid "Do not _observe"
 msgstr "İ_zleme"
 
@@ -12085,19 +12081,16 @@ msgid "Put on %s"
 msgstr "%s takımına ekle"
 
 #: client/gui-gtk-2.0/pages.c:1414
-#, fuzzy
 msgid "Number of _Players (including AI):"
-msgstr "_Oyuncu sayısı (YZ dahil):"
+msgstr "_Oyuncu Sayısı (YZ dahil):"
 
 #: client/gui-gtk-2.0/pages.c:1437
-#, fuzzy
 msgid "AI Skill _Level:"
-msgstr "_YZ Beceri Derecesi:"
+msgstr "YZ Beceri _Derecesi:"
 
 #: client/gui-gtk-2.0/pages.c:1453
-#, fuzzy
 msgid "Ruleset _Version:"
-msgstr "_Kural Seti:"
+msgstr "_Kural Seti Sürümü:"
 
 #: client/gui-gtk-2.0/pages.c:1461
 msgid "_More Game Options..."
@@ -13454,7 +13447,6 @@ msgstr "Yükseklik"
 msgid "Research"
 msgstr "Araştırma"
 
-#, fuzzy
 msgid "_Research"
 msgstr "_Araştırma"
 
