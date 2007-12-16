@@ -83,7 +83,7 @@ msgstr "välfärd"
 #: client/gui-xaw/repodlgs.c:273 client/gui-xaw/repodlgs.c:483
 #: data/Freeciv.in:1366
 msgid "Science"
-msgstr "forskning"
+msgstr "Forskning"
 
 #: common/city.c:349
 msgid "?obsolete:O"
@@ -452,7 +452,6 @@ msgid "Unit: Defender Survived"
 msgstr "Enhet: Försvarare överlevde"
 
 #: common/events.c:125
-#, fuzzy
 msgid "Unit: Promoted to Veteran"
 msgstr "Enhet: Blev mer erfaren"
 
@@ -1156,7 +1155,7 @@ msgstr "*%s (datorstyrd)* Ja, fred i vår tid!"
 #: ai/advdiplomacy.c:586
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "*%s (datorstyrd)* Låt gå. Inga fler fientligheter, %s"
+msgstr "*%s (datorstyrd)* Avgjort. Inga fler fientligheter, %s"
 
 #: ai/advdiplomacy.c:799
 #, c-format
@@ -6320,30 +6319,30 @@ msgstr "%s styr nu %s (%s, %s)"
 #: server/stdinhand.c:3029 server/stdinhand.c:4099
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
-msgstr "Barbar"
+msgstr "barbar"
 
 #: server/stdinhand.c:3030 server/stdinhand.c:4101 client/plrdlg_common.c:256
 #: client/gui-gtk-2.0/pages.c:2004 client/gui-sdl/plrdlg.c:644
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/plrdlg.c:335
 msgid "AI"
-msgstr "Datorstyrd"
+msgstr "datorstyrd"
 
 #: server/stdinhand.c:3030 server/stdinhand.c:4103
 #: client/gui-gtk-2.0/pages.c:2004 client/gui-gtk-2.0/pages.c:2027
 #: client/gui-win32/connectdlg.c:201 client/gui-win32/connectdlg.c:213
 msgid "Human"
-msgstr "Mänsklig"
+msgstr "mänsklig"
 
 #: server/stdinhand.c:3030 client/gui-gtk-2.0/pages.c:2003
 #: client/gui-gtk-2.0/pages.c:2026 client/gui-win32/connectdlg.c:200
 #: client/gui-win32/connectdlg.c:212
 msgid "Alive"
-msgstr "Verksam"
+msgstr "verksam"
 
 #: server/stdinhand.c:3030 client/gui-gtk-2.0/pages.c:2003
 #: client/gui-win32/connectdlg.c:200
 msgid "Dead"
-msgstr "Besegrad"
+msgstr "besegrad"
 
 #: server/stdinhand.c:3063
 msgid "Usage: detach <connection-name>"
@@ -6441,7 +6440,7 @@ msgstr "Ny röst (nr. %d) av %s: %s."
 #: server/stdinhand.c:3521
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
-msgstr ""
+msgstr "Din nya röst (\"%s\") var ogiltig och antogs ej."
 
 #: server/stdinhand.c:3531
 msgid "You are not allowed to use this command."
@@ -11009,9 +11008,8 @@ msgid "_Sentry idle"
 msgstr "_Sätt overksamma på vakt"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Folkstammar:"
+msgstr "_Grupper:"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11023,9 +11021,8 @@ msgid "Pick Nation"
 msgstr "Välj folkslag"
 
 #: client/gui-gtk-2.0/dialogs.c:772
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Slumpvalt folkslag"
+msgstr "Sl_umpvalt folkslag"
 
 #: client/gui-gtk-2.0/dialogs.c:784 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -11048,14 +11045,12 @@ msgid "_Male"
 msgstr "_Man"
 
 #: client/gui-gtk-2.0/dialogs.c:861
-#, fuzzy
 msgid "City _Styles:"
 msgstr "_Stadstyper:"
 
 #: client/gui-gtk-2.0/dialogs.c:900
-#, fuzzy
 msgid "_Description"
-msgstr "F_örklaring"
+msgstr "_Beskrivning"
 
 #: client/gui-gtk-2.0/dialogs.c:1242 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
@@ -11325,8 +11320,8 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"Freeciv är fri programvara och du är välkommen att sprida kopior av det "
-"under särskilda villkor; Se \"Kopiering\" under hjälpmenyn.\n"
+"Freeciv är fri programvara och du är välkommen att kopiera och distribuera "
+"den under särskilda villkor; Se \"Kopiering\" under hjälpmenyn.\n"
 "Nu får du ge dem vad de tål!"
 
 #: client/gui-gtk-2.0/gui_main.c:1477
@@ -11351,7 +11346,6 @@ msgid "_Observe"
 msgstr "_Iakttag"
 
 #: client/gui-gtk-2.0/gui_main.c:1510
-#, fuzzy
 msgid "Do not _observe"
 msgstr "_Iakttag ej"
 
@@ -11769,7 +11763,7 @@ msgstr "_Avsluta"
 
 #: client/gui-gtk-2.0/menu.c:739 client/gui-win32/menu.c:321
 msgid "Gov_ernment"
-msgstr "Statsskick (_E)"
+msgstr "R_egering"
 
 #: client/gui-gtk-2.0/menu.c:741 client/gui-gtk-2.0/menu.c:743
 #: client/gui-gtk-2.0/menu.c:745 client/gui-gtk-2.0/menu.c:747
@@ -12086,18 +12080,16 @@ msgid "_Units"
 msgstr "_Enheter"
 
 #: client/gui-gtk-2.0/menu.c:908
-#, fuzzy
 msgid "_Nations"
-msgstr "_Folkstammar"
+msgstr "Folksta_mmar"
 
 #: client/gui-gtk-2.0/menu.c:912 client/gui-win32/menu.c:402
 msgid "_Economy"
 msgstr "_Ekonomi"
 
 #: client/gui-gtk-2.0/menu.c:914
-#, fuzzy
 msgid "_Research"
-msgstr "_Forskning"
+msgstr "Fo_rskning"
 
 #: client/gui-gtk-2.0/menu.c:918 client/gui-win32/menu.c:405
 msgid "_Wonders of the World"
@@ -12478,17 +12470,14 @@ msgid "Put on %s"
 msgstr "Gör till medlem i %s"
 
 #: client/gui-gtk-2.0/pages.c:1416
-#, fuzzy
 msgid "Number of _Players (including AI):"
-msgstr "Antal spelare att (inklusive datorstyrda):"
+msgstr "A_ntal spelare (inklusive datorstyrda):"
 
 #: client/gui-gtk-2.0/pages.c:1439
-#, fuzzy
 msgid "AI Skill _Level:"
-msgstr "Datorspelarens färdighetsnivå"
+msgstr "Datorspe_larens färdighetsnivå"
 
 #: client/gui-gtk-2.0/pages.c:1455
-#, fuzzy
 msgid "Ruleset _Version:"
 msgstr "_Regler:"
 
@@ -12496,7 +12485,7 @@ msgstr "_Regler:"
 msgid "_More Game Options..."
 msgstr "_Fler spelinställningar..."
 
-# ?
+# ? FIXME
 #: client/gui-gtk-2.0/pages.c:1488
 msgid "Record"
 msgstr "Rekord"
@@ -14321,8 +14310,8 @@ msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv är fri programvara och du är välkommen att sprida kopior av det "
-"under särskilda villkor;"
+"Freeciv är fri programvara och du är välkommen att kopiera och distribuera "
+"den under särskilda villkor;"
 
 #: client/gui-sdl/pages.c:312
 msgid "See the \"Copying\" item on the Help menu."
@@ -25735,18 +25724,3 @@ msgstr "Lag 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Lag 31"
-
-#~ msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-#~ msgstr "Fick ej tillgång till regelkatalogen \"%s\""
-
-#~ msgid "_Map"
-#~ msgstr "_Karta"
-
-#~ msgid "Create _player"
-#~ msgstr "Lägg till s_pelare"
-
-#~ msgid "_Release player"
-#~ msgstr "Avlägsna spela_re"
-
-#~ msgid "Game _Options..."
-#~ msgstr "Spelinställningar"
