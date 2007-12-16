@@ -999,6 +999,7 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
     popup_races_dialog(game.player_ptr);
   } else if (game.info.is_new_game) {
     send_chat("/take -");
+    popup_races_dialog(game.player_ptr);
   }
 }
 
@@ -1018,6 +1019,7 @@ static void take_callback(GtkWidget *w, gpointer data)
       send_chat(buf);
     }
     send_chat("/detach");
+    send_chat("/observe");
   } else if (!aconnection.observer) {
     send_chat("/observe");
   } else {
@@ -1420,7 +1422,7 @@ GtkWidget *create_start_page(void)
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
 		       "mnemonic-widget", spin,
-                       "label", _("_Number of Players (including AI):"),
+                       "label", _("Number of _Players (including AI):"),
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
@@ -1447,7 +1449,7 @@ GtkWidget *create_start_page(void)
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
 		       "mnemonic-widget", option,
-                       "label", _("_AI Skill Level:"),
+                       "label", _("AI Skill _Level:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
@@ -1464,7 +1466,7 @@ GtkWidget *create_start_page(void)
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
 		       "mnemonic-widget", GTK_COMBO(ruleset_combo)->entry,
-                       "label", _("_Ruleset:"),
+                       "label", _("Ruleset _Version:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
@@ -1472,7 +1474,7 @@ GtkWidget *create_start_page(void)
 
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
   button = gtk_stockbutton_new(GTK_STOCK_PREFERENCES,
-      _("More Game _Options..."));
+      _("_More Game Options..."));
   g_signal_connect(button, "clicked",
       G_CALLBACK(game_options_callback), NULL);
   gtk_container_add(GTK_CONTAINER(align), button);
@@ -2104,7 +2106,7 @@ GtkWidget *create_nation_page(void)
   gtk_box_pack_start(GTK_BOX(box), bbox, FALSE, FALSE, 0);
 
   button = gtk_stockbutton_new(GTK_STOCK_PREFERENCES,
-      _("Game _Options..."));
+      _("_More Game Options..."));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",

@@ -95,7 +95,7 @@ next largest size."))
       notify.event(city.owner, city.tile, E.TUTORIAL,
 _("As the number of cities in your empire grows, it becomes harder to\n\
 manage individual cities.  This is where the city report becomes\n\
-useful.  Press F1 to bring it up.  This report shows a list of cities\n\
+useful.  Press F4 to bring it up.  This report shows a list of cities\n\
 with various statistics about each.  Play around with it a bit if you\n\
 like (return to the map view by clicking on the Map tab).  With a bit\n\
 of practice it is possible to control almost every aspect of the cities\n\

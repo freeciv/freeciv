@@ -156,6 +156,7 @@ enum MenuID {
   MENU_REPORT_CITIES,
   MENU_REPORT_UNITS,
   MENU_REPORT_PLAYERS,
+  MENU_REPORT_MAP_VIEW,
   MENU_REPORT_ECONOMY,
   MENU_REPORT_SCIENCE,
   MENU_REPORT_WOW,
@@ -573,6 +574,9 @@ static void reports_menu_callback(gpointer callback_data,
   case MENU_REPORT_PLAYERS:
     popup_players_dialog(TRUE);
     break;
+  case MENU_REPORT_MAP_VIEW:
+    map_canvas_focus();
+    break;
    case MENU_REPORT_ECONOMY:
     popup_economy_report_dialog(TRUE);
     break;
@@ -940,15 +944,17 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Branch>"	},
   { "/" N_("Reports") "/tearoff1",			NULL,
 	NULL,			0,					"<Tearoff>"	},
-  { "/" N_("Reports") "/" N_("_Cities"),		"F1",
-	reports_menu_callback,	MENU_REPORT_CITIES					},
+  { "/" N_("Reports") "/" N_("_View"),			"F1",
+	reports_menu_callback,	MENU_REPORT_MAP_VIEW					},
   { "/" N_("Reports") "/" N_("_Units"),			"F2",
 	reports_menu_callback,	MENU_REPORT_UNITS					},
-  { "/" N_("Reports") "/" N_("_Players"),		"F3",
+  { "/" N_("Reports") "/" N_("_Nations"),		"F3",
 	reports_menu_callback,	MENU_REPORT_PLAYERS					},
+  { "/" N_("Reports") "/" N_("_Cities"),		"F4",
+	reports_menu_callback,	MENU_REPORT_CITIES					},
   { "/" N_("Reports") "/" N_("_Economy"),		"F5",
 	reports_menu_callback,	MENU_REPORT_ECONOMY					},
-  { "/" N_("Reports") "/" N_("_Science"),		"F6",
+  { "/" N_("Reports") "/" N_("_Research"),		"F6",
 	reports_menu_callback,	MENU_REPORT_SCIENCE					},
   { "/" N_("Reports") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
@@ -960,7 +966,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_MESSAGES					},
   { "/" N_("Reports") "/" N_("_Demographics"),		"F11",
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
-  { "/" N_("Reports") "/" N_("S_paceship"),		"F12",
+  { "/" N_("Reports") "/" N_("_Spaceship"),		"F12",
 	reports_menu_callback,	MENU_REPORT_SPACESHIP					},
 
   /* Help menu ... */
@@ -1349,9 +1355,9 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Reports/_Cities", attached_to_player);
     menus_set_sensitive("<main>/_Reports/_Units", attached_to_player);
     menus_set_sensitive("<main>/_Reports/_Economy", attached_to_player);
-    menus_set_sensitive("<main>/_Reports/_Science", attached_to_player);
+    menus_set_sensitive("<main>/_Reports/_Research", attached_to_player);
     menus_set_sensitive("<main>/_Reports/_Demographics", attached_to_player);
-    menus_set_sensitive("<main>/_Reports/S_paceship",
+    menus_set_sensitive("<main>/_Reports/_Spaceship",
 			(game.player_ptr
 			 && game.player_ptr->spaceship.state != SSHIP_NONE));
 
