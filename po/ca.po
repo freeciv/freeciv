@@ -11073,8 +11073,13 @@ msgid "_Sentry idle"
 msgstr "_Sentinella inactives"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
 msgstr "_Nacions:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_Nacions"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11086,7 +11091,8 @@ msgid "Pick Nation"
 msgstr "Tria Nació"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+#, fuzzy
+msgid "_Random Nation"
 msgstr "Nació Aleatòria"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -11110,11 +11116,13 @@ msgid "_Male"
 msgstr "_Home"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+#, fuzzy
+msgid "City _Styles:"
 msgstr "_Estil de les ciutats:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "Ll_egenda"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -11413,8 +11421,9 @@ msgid "_Observe"
 msgstr "_Observar"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
-msgstr "No O_bservar"
+#, fuzzy
+msgid "Do not _observe"
+msgstr "No _Observar"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
@@ -12545,19 +12554,22 @@ msgid "Put on %s"
 msgstr "Posar a %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+#, fuzzy
+msgid "Number of _Players (including AI):"
 msgstr "Nombre de _Jugadors (comptant els IA):"
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+#, fuzzy
+msgid "AI Skill _Level:"
 msgstr "Nivell de _Dificultat dels IA:"
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+#, fuzzy
+msgid "Ruleset _Version:"
 msgstr "Joc de _Regles:"
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "Més _Opcions de Joc..."
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -13923,6 +13935,10 @@ msgstr "Alçada"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "Recerca"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_Recerca"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

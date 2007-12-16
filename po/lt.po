@@ -10164,8 +10164,13 @@ msgid "_Sentry idle"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
 msgstr "_Tautos:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_Tautos"
 
 #: client/gui-gtk-2.0/dialogs.c:762
 #: data/Freeciv.in:3128
@@ -10180,7 +10185,8 @@ msgid "Pick Nation"
 msgstr "Pasirink tautą"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+#, fuzzy
+msgid "_Random Nation"
 msgstr "Atsitiktinė tauta"
 
 #: client/gui-gtk-2.0/dialogs.c:785
@@ -10205,11 +10211,13 @@ msgid "_Male"
 msgstr "_Vyras"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+#, fuzzy
+msgid "City _Styles:"
 msgstr "_Miestų stilius"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "_Legenda"
 
 #: client/gui-gtk-2.0/dialogs.c:1231
@@ -10527,7 +10535,8 @@ msgid "_Observe"
 msgstr "_Stebėti"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
+#, fuzzy
+msgid "Do not _observe"
 msgstr "_Nebestebėti"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
@@ -11909,19 +11918,21 @@ msgid "Put on %s"
 msgstr "Priimti į %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+#, fuzzy
+msgid "Number of _Players (including AI):"
 msgstr "_Žaidėjų skaičius (įskaitant DI):"
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+#, fuzzy
+msgid "AI Skill _Level:"
 msgstr "_DI meistriškumo lygis:"
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+msgid "Ruleset _Version:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "Daugiau žaidimo _nustatymų"
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -13472,6 +13483,10 @@ msgstr "Aukštis"
 #: client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "Tyrinėjimai"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_Tyrinėjimai"
 
 #: client/gui-sdl/mapctrl.c:1424
 #: client/gui-sdl/mapview.c:312

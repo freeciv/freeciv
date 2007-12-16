@@ -10573,7 +10573,12 @@ msgid "_Sentry idle"
 msgstr "空闲部队放哨(_S)"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
+msgstr "民族(_G)："
+
+#, fuzzy
+msgid "_Nations"
 msgstr "民族(_N)："
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
@@ -10587,8 +10592,9 @@ msgid "Pick Nation"
 msgstr "警察局"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
-msgstr "随机民族"
+#, fuzzy
+msgid "_Random Nation"
+msgstr "随机民族 (_R)"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -10611,12 +10617,14 @@ msgid "_Male"
 msgstr "男(_M)"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
-msgstr "城市风格(_C)："
+#, fuzzy
+msgid "City _Styles:"
+msgstr "城市风格(_S)："
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
-msgstr "历史(_E)"
+#, fuzzy
+msgid "_Description"
+msgstr "历史(_D)"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
@@ -10902,8 +10910,8 @@ msgstr "旁观(_O)"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
 #, fuzzy
-msgid "_Do not observe"
-msgstr "%s 现在旁观"
+msgid "Do not _observe"
+msgstr "现在旁观(_O)"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
@@ -12033,20 +12041,23 @@ msgid "Put on %s"
 msgstr "人口：%s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
-msgstr "玩家数目（包括AI）(_N)："
+#, fuzzy
+msgid "Number of _Players (including AI):"
+msgstr "玩家数目（包括AI）(_P)："
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
-msgstr "AI技能级别(_A)："
+#, fuzzy
+msgid "AI Skill _Level:"
+msgstr "AI技能级别(_L)："
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
-msgstr "规则集（_R)："
+#, fuzzy
+msgid "Ruleset _Version:"
+msgstr "规则集（(_V)："
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
-msgstr "更多游戏选项(_O)..."
+msgid "_More Game Options..."
+msgstr "更多游戏选项(_M)..."
 
 #: client/gui-gtk-2.0/pages.c:1486
 #, fuzzy
@@ -13445,6 +13456,10 @@ msgstr "货车"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 #, fuzzy
 msgid "Research"
+msgstr "研究"
+
+#, fuzzy
+msgid "_Research"
 msgstr "研究(_R)"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312

@@ -10896,8 +10896,13 @@ msgid "_Sentry idle"
 msgstr "Приспати безд╕яльн╕ п╕дрозд╕ли"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
-msgstr "Нац╕╖:"
+#, fuzzy
+msgid "Nation _Groups:"
+msgstr "_Нац╕╖:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_Нац╕╖"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -10911,7 +10916,7 @@ msgstr "В╕дд╕л м╕л╕ц╕╖"
 
 #: client/gui-gtk-2.0/dialogs.c:773
 #, fuzzy
-msgid "Random Nation"
+msgid "_Random Nation"
 msgstr "Об'╓днанн╕ нац╕╖"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -10935,11 +10940,13 @@ msgid "_Male"
 msgstr "Чолов╕к"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+#, fuzzy
+msgid "City _Styles:"
 msgstr "Стиль м╕ст:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "Легенда"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -11231,8 +11238,8 @@ msgstr " (спостер╕гач)"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
 #, fuzzy
-msgid "_Do not observe"
-msgstr "%s тепер контролю╓ться %s."
+msgid "Do not _observe"
+msgstr "тепер контролю╓ться"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
 #, fuzzy
@@ -12413,21 +12420,21 @@ msgstr "Населення: %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
 #, fuzzy
-msgid "_Number of Players (including AI):"
+msgid "Number of _Players (including AI):"
 msgstr "К╕льк╕сть комп'ютерних гравц╕в."
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+msgid "AI Skill _Level:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1453
 #, fuzzy
-msgid "_Ruleset:"
+msgid "Ruleset _Version:"
 msgstr "Предустановки:"
 
 #: client/gui-gtk-2.0/pages.c:1461
 #, fuzzy
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "Опц╕╖ пов╕домлень..."
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -13854,6 +13861,10 @@ msgstr "Дальноб╕йник"
 #, fuzzy
 msgid "Research"
 msgstr "Досл╕дження"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_Досл╕дження"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

@@ -76,6 +76,8 @@ extern GtkTreeStore *conn_model;
 
 void enable_menus(bool enable);
 
+gboolean map_canvas_focus(void);
+
 gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev);
 
 void reset_unit_table(void);

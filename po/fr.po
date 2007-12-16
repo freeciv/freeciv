@@ -11221,8 +11221,13 @@ msgid "_Sentry idle"
 msgstr "Veiller les unité_s inactives"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
 msgstr "_Nations :"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_Nations"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11234,7 +11239,8 @@ msgid "Pick Nation"
 msgstr "Prendre un nation"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+#, fuzzy
+msgid "_Random Nation"
 msgstr "Nation aléatoire"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -11258,11 +11264,13 @@ msgid "_Male"
 msgstr "Ho_mme"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
-msgstr "Styles des villes (_c) :"
+#, fuzzy
+msgid "City _Styles:"
+msgstr "Styles des _villes:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "Lég_ende"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -11550,7 +11558,7 @@ msgstr "Prendre une _nation"
 
 #: client/gui-gtk-2.0/gui_main.c:1481
 msgid "Create _player"
-msgstr "Créer un joueur (_p)"
+msgstr "Créer une _nation"
 
 #: client/gui-gtk-2.0/gui_main.c:1486
 msgid "_Release player"
@@ -11561,8 +11569,8 @@ msgid "_Observe"
 msgstr "_Observateur"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
-msgstr "Ne pas observer (_d)"
+msgid "Do not _observe"
+msgstr "Ne pas _observer"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
@@ -12696,19 +12704,22 @@ msgid "Put on %s"
 msgstr "Ajouté dans %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+#, fuzzy
+msgid "Number of _Players (including AI):"
 msgstr "Nombre de _joueurs (y compris IA) :"
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+#, fuzzy
+msgid "AI Skill _Level:"
 msgstr "Niveau de l'I_A :"
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+#, fuzzy
+msgid "Ruleset _Version:"
 msgstr "Jeu de _règles :"
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "Plus d'_options..."
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -14076,6 +14087,10 @@ msgstr "Hauteur"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "Recherche"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_Recherche"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

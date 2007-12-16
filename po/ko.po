@@ -10108,7 +10108,12 @@ msgid "_Sentry idle"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
+msgstr "민족:(_G)"
+
+#, fuzzy
+msgid "_Nations"
 msgstr "민족:(_N)"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
@@ -10121,8 +10126,9 @@ msgid "Pick Nation"
 msgstr "민족을 선택"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
-msgstr "무작위의 민족"
+#, fuzzy
+msgid "_Random Nation"
+msgstr "무작위의 민족 (_R)"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -10145,12 +10151,14 @@ msgid "_Male"
 msgstr "남(_M)"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
-msgstr "도시형:(_C)"
+#, fuzzy
+msgid "City _Styles:"
+msgstr "도시형:(_S)"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
-msgstr "전설(_E)"
+#, fuzzy
+msgid "_Description"
+msgstr "전설(_D)"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
@@ -10429,8 +10437,9 @@ msgid "_Observe"
 msgstr "관찰하다(_O)"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
-msgstr "관찰을 취소하다(_D)"
+#, fuzzy
+msgid "Do not _observe"
+msgstr "관찰을 취소하다(_O)"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
@@ -11555,19 +11564,19 @@ msgid "Put on %s"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+msgid "Number of _Players (including AI):"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+msgid "AI Skill _Level:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+msgid "Ruleset _Version:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -12900,6 +12909,10 @@ msgstr ""
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "연구"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_연구"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

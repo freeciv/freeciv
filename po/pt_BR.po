@@ -10687,8 +10687,13 @@ msgid "_Sentry idle"
 msgstr "_Sentinela das inativas"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
 msgstr "_Nações:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_Nações"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 #, fuzzy
@@ -10702,7 +10707,8 @@ msgid "Pick Nation"
 msgstr "Seleccione uma nação"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+#, fuzzy
+msgid "_Random Nation"
 msgstr "Nação Aleatória"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -10726,11 +10732,13 @@ msgid "_Male"
 msgstr "_Masculino"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+#, fuzzy
+msgid "City _Styles:"
 msgstr "_Estilo das Cidades:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "L_egenda"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -11032,8 +11040,9 @@ msgid "_Observe"
 msgstr "_Observar"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
-msgstr "_Não observar"
+#, fuzzy
+msgid "Do not _observe"
+msgstr "Não _observar"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
 msgid "<AI>"
@@ -12243,22 +12252,22 @@ msgid "Put on %s"
 msgstr "Debconf em %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+msgid "Number of _Players (including AI):"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1437
 #, fuzzy
-msgid "_AI Skill Level:"
-msgstr "Nível de depuração \"%s\" incorrecto.\n"
+msgid "AI Skill _Level:"
+msgstr "Nível de _depuração:"
 
 #: client/gui-gtk-2.0/pages.c:1453
 #, fuzzy
-msgid "_Ruleset:"
-msgstr "Escolha o seu sexo"
+msgid "Ruleset _Version:"
+msgstr "Escolha o seu _sexo"
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
-msgstr "Mais _Opções..."
+msgid "_More Game Options..."
+msgstr "_Mais Opções..."
 
 #: client/gui-gtk-2.0/pages.c:1486
 msgid "Record"
@@ -13647,6 +13656,10 @@ msgstr "Altura"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 #, fuzzy
 msgid "Research"
+msgstr "Pesquisar"
+
+#, fuzzy
+msgid "_Research"
 msgstr "_Pesquisar"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312

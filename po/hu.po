@@ -11039,8 +11039,12 @@ msgstr "A tétlen egységek õrködjenek (_s)"
 
 #: client/gui-gtk-2.0/dialogs.c:717
 #, fuzzy
-msgid "_Nations:"
-msgstr "Nép:"
+msgid "Nation _Groups:"
+msgstr "_Nép:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_Nép"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11054,7 +11058,7 @@ msgstr "Rendõrállomás"
 
 #: client/gui-gtk-2.0/dialogs.c:773
 #, fuzzy
-msgid "Random Nation"
+msgid "_Random Nation"
 msgstr "Egyesült Nemzetek"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -11084,12 +11088,12 @@ msgstr "Fiú"
 
 #: client/gui-gtk-2.0/dialogs.c:862
 #, fuzzy
-msgid "_City Styles:"
+msgid "City _Styles:"
 msgstr "_Városstílus"
 
 #: client/gui-gtk-2.0/dialogs.c:901
 #, fuzzy
-msgid "L_egend"
+msgid "_Description"
 msgstr "Légió"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -11391,7 +11395,7 @@ msgstr " (megfigyelõ)"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
 #, fuzzy
-msgid "_Do not observe"
+msgid "Do not _observe"
 msgstr "Játék: %1$s mostantól %3$s államformában irányítja a(z) %2$s népét."
 
 #: client/gui-gtk-2.0/gui_main.c:1512
@@ -12572,21 +12576,21 @@ msgstr "Népesség: %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
 #, fuzzy
-msgid "_Number of Players (including AI):"
+msgid "Number of _Players (including AI):"
 msgstr "Ennyire egészítsék ki a játékosok számát az MI játékosok"
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+msgid "AI Skill _Level:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1453
 #, fuzzy
-msgid "_Ruleset:"
+msgid "Ruleset _Version:"
 msgstr "CMA _kikapcsolása"
 
 #: client/gui-gtk-2.0/pages.c:1461
 #, fuzzy
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "Üzenetbeállítások..."
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -14008,6 +14012,10 @@ msgstr "Áruszállító"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 #, fuzzy
 msgid "Research"
+msgstr "Kutatás"
+
+#, fuzzy
+msgid "_Research"
 msgstr "_Kutatás"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312

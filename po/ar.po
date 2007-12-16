@@ -10702,8 +10702,13 @@ msgid "_Sentry idle"
 msgstr "تعطيل ال_حراسة"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
 msgstr "الأ_مم:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_الأمم"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -10715,7 +10720,8 @@ msgid "Pick Nation"
 msgstr "اختيار الأمة"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+#, fuzzy
+msgid "_Random Nation"
 msgstr "أمة عشوائية"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -10739,11 +10745,13 @@ msgid "_Male"
 msgstr "_ذكر"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+#, fuzzy
+msgid "City _Styles:"
 msgstr "أساليب ال_مدينة:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "ال_مفتاح"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -11037,7 +11045,8 @@ msgid "_Observe"
 msgstr "_مراقبة"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
+#, fuzzy
+msgid "Do not _observe"
 msgstr "_لا تراقب"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
@@ -12174,19 +12183,22 @@ msgid "Put on %s"
 msgstr "وضع على %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+#, fuzzy
+msgid "Number of _Players (including AI):"
 msgstr "عدد اللاعبين (مع ذ.ا):"
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+#, fuzzy
+msgid "AI Skill _Level:"
 msgstr "مستوى مهارة ال _ذ.ا:"
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+#, fuzzy
+msgid "Ruleset _Version:"
 msgstr "مجموعة ال_قواعد:"
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "خيارات اللعبة أكثر..."
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -13585,6 +13597,10 @@ msgstr "الطول"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 #, fuzzy
 msgid "Research"
+msgstr "بحث علمي"
+
+#, fuzzy
+msgid "_Research"
 msgstr "_بحث علمي"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312

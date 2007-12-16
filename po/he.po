@@ -10178,8 +10178,13 @@ msgid "_Sentry idle"
 msgstr "_זקיף חסר־מעש"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+#, fuzzy
+msgid "Nation _Groups:"
 msgstr "_אומות:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_אומות"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -10191,7 +10196,8 @@ msgid "Pick Nation"
 msgstr "בחר אומה"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+#, fuzzy
+msgid "_Random Nation"
 msgstr "אומה אקראית"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -10215,11 +10221,13 @@ msgid "_Male"
 msgstr "_זכר"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+#, fuzzy
+msgid "City _Styles:"
 msgstr "_סגנון עיר:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "_נרטיב לאומי"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -10503,7 +10511,8 @@ msgid "_Observe"
 msgstr "_השקף"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
+#, fuzzy
+msgid "Do not _observe"
 msgstr "_אל תשקיף"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
@@ -11633,19 +11642,22 @@ msgid "Put on %s"
 msgstr "שים על %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+#, fuzzy
+msgid "Number of _Players (including AI):"
 msgstr "_מספר שחקים (כולל א\"מ):"
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+#, fuzzy
+msgid "AI Skill _Level:"
 msgstr "רמת ה_מיומנות של א\"מ:"
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+#, fuzzy
+msgid "Ruleset _Version:"
 msgstr "_קבוצת כללים:"
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "_אפשרויות משחק נספות..."
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -12991,6 +13003,10 @@ msgstr "גובה"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "מחקר"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_מחקר"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

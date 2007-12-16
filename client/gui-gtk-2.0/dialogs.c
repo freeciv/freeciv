@@ -714,7 +714,7 @@ static GtkWidget* create_nation_selection_list(void)
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
       "mnemonic-widget", nation_list,
-      "label", _("_Nations:"),
+      "label", _("Nation _Groups:"),
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
@@ -764,17 +764,16 @@ static void create_races_dialog(struct player *pplayer)
     title = _("Pick Nation");
   }
 
-  shell =
-    gtk_dialog_new_with_buttons(title,
-				NULL,
-				0,
-				GTK_STOCK_CANCEL,
-				GTK_RESPONSE_CANCEL,
-				_("Random Nation"),
-				GTK_RESPONSE_NO,
-				GTK_STOCK_OK,
-				GTK_RESPONSE_ACCEPT,
-				NULL);
+  shell = gtk_dialog_new_with_buttons(title,
+				      NULL,
+				      0,
+				      GTK_STOCK_CANCEL,
+				      GTK_RESPONSE_CANCEL,
+				      _("_Random Nation"),
+				      GTK_RESPONSE_NO, /* arbitrary */
+				      GTK_STOCK_OK,
+				      GTK_RESPONSE_ACCEPT,
+				      NULL);
   races_shell = shell;
   races_player = pplayer;
   setup_dialog(shell, toplevel);
@@ -859,7 +858,7 @@ static void create_races_dialog(struct player *pplayer)
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
       "mnemonic-widget", list,
-      "label", _("_City Styles:"),
+      "label", _("City _Styles:"),
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
@@ -898,7 +897,7 @@ static void create_races_dialog(struct player *pplayer)
   }
 
   /* Legend pane. */
-  label = gtk_label_new_with_mnemonic(_("L_egend"));
+  label = gtk_label_new_with_mnemonic(_("_Description"));
 
   vbox = gtk_vbox_new(FALSE, 6);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 6);
@@ -932,7 +931,16 @@ static void create_races_dialog(struct player *pplayer)
   selected_nation = -1;
 
   /* Finish up. */
-  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CANCEL);
+
+  /* Don't allow ok without a selection */
+  gtk_dialog_set_response_sensitive(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT,
+                                    FALSE);                                          
+  /* You can't assign NO_NATION during a running game. */
+  if (C_S_RUNNING == client_state()) {
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(shell), GTK_RESPONSE_NO,
+                                      FALSE);
+  }
 
   gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
 }
@@ -1151,6 +1159,9 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
       gtk_text_buffer_set_text(races_text, nation->legend , -1);
     }
 
+    /* Once we've made a selection, allow user to ok */
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(races_shell), 
+                                      GTK_RESPONSE_ACCEPT, TRUE);
   } else {
     selected_nation = -1;
   }

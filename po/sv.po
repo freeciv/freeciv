@@ -11009,8 +11009,13 @@ msgid "_Sentry idle"
 msgstr "_Sätt overksamma på vakt"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
-msgstr "Folksta_mmar:"
+#, fuzzy
+msgid "Nation _Groups:"
+msgstr "_Folkstammar:"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "_Folkstammar"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11022,7 +11027,8 @@ msgid "Pick Nation"
 msgstr "Välj folkslag"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+#, fuzzy
+msgid "_Random Nation"
 msgstr "Slumpvalt folkslag"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -11046,11 +11052,13 @@ msgid "_Male"
 msgstr "_Man"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+#, fuzzy
+msgid "City _Styles:"
 msgstr "_Stadstyper:"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+#, fuzzy
+msgid "_Description"
 msgstr "F_örklaring"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -11341,8 +11349,9 @@ msgid "_Observe"
 msgstr "_Iakttag"
 
 #: client/gui-gtk-2.0/gui_main.c:1506
-msgid "_Do not observe"
-msgstr "Iakttag ej (_d)"
+#, fuzzy
+msgid "Do not _observe"
+msgstr "_Iakttag ej"
 
 #: client/gui-gtk-2.0/gui_main.c:1528
 msgid "<AI>"
@@ -12477,19 +12486,22 @@ msgid "Put on %s"
 msgstr "Gör till medlem i %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+#, fuzzy
+msgid "Number of _Players (including AI):"
 msgstr "Antal spelare att (inklusive datorstyrda):"
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+#, fuzzy
+msgid "AI Skill _Level:"
 msgstr "Datorspelarens färdighetsnivå"
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+#, fuzzy
+msgid "Ruleset _Version:"
 msgstr "_Regler:"
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "_Fler spelinställningar..."
 
 # ?
@@ -13857,6 +13869,10 @@ msgstr "Höjd"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "Forskning"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_Forskning"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

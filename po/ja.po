@@ -11712,8 +11712,13 @@ msgid "_Sentry idle"
 msgstr "手空き部隊を見張り番へ(_S)"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
-msgstr "民族(_N):"
+#, fuzzy
+msgid "Nation _Groups:"
+msgstr "民族(_G):"
+
+#, fuzzy
+msgid "_Nations"
+msgstr "民族(_N)"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11726,8 +11731,9 @@ msgstr "民族選択"
 
 # clefs
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
-msgstr "ランダムな民族"
+#, fuzzy
+msgid "_Random Nation"
+msgstr "ランダムな民族 (_R)"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -11752,12 +11758,14 @@ msgid "_Male"
 msgstr "男(_M)"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
-msgstr "都市スタイル(_C):"
+#, fuzzy
+msgid "City _Styles:"
+msgstr "都市スタイル(_S):"
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
-msgstr "伝説(_E)"
+#, fuzzy
+msgid "_Description"
+msgstr "伝説(_D)"
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
@@ -12061,7 +12069,7 @@ msgstr "民族を選択する(_N)"
 # clefs
 #: client/gui-gtk-2.0/gui_main.c:1481
 msgid "Create _player"
-msgstr "プレイヤーを作成(_P)"
+msgstr "プレイヤーを作成(_N)"
 
 # clefs
 #: client/gui-gtk-2.0/gui_main.c:1486
@@ -12074,8 +12082,9 @@ msgid "_Observe"
 msgstr "観察する(_O)"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
-msgstr "観察を取り止める(_D)"
+#, fuzzy
+msgid "Do not _observe"
+msgstr "観察を取り止める(_O)"
 
 # 訳さない方がわかりやすい場合もあるものです (clefs)
 #: client/gui-gtk-2.0/gui_main.c:1512
@@ -13259,21 +13268,24 @@ msgstr "%s に加える"
 
 # Daniel
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
-msgstr "プレイヤーの数(AIも含む)(_N):"
+#, fuzzy
+msgid "Number of _Players (including AI):"
+msgstr "プレイヤーの数(AIも含む)(_P):"
 
 # Daniel
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+#, fuzzy
+msgid "AI Skill _Level:"
 msgstr "_AIのレベル:"
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
-msgstr "ルールセット(_R):"
+#, fuzzy
+msgid "Ruleset _Version:"
+msgstr "ルールセット(_V):"
 
 # clefs
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr "詳細なゲーム設定..."
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -14662,6 +14674,10 @@ msgstr "貨物運送車"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "研究"
+
+#, fuzzy
+msgid "_Research"
+msgstr "_研究"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

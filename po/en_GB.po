@@ -10130,7 +10130,10 @@ msgid "_Sentry idle"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:717
-msgid "_Nations:"
+msgid "Nation _Groups:"
+msgstr ""
+
+msgid "_Nations"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
@@ -10143,7 +10146,7 @@ msgid "Pick Nation"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:773
-msgid "Random Nation"
+msgid "_Random Nation"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
@@ -10167,11 +10170,11 @@ msgid "_Male"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:862
-msgid "_City Styles:"
+msgid "City _Styles:"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:901
-msgid "L_egend"
+msgid "_Description"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:1231 client/gui-xaw/dialogs.c:1476
@@ -10451,7 +10454,7 @@ msgid "_Observe"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-msgid "_Do not observe"
+msgid "Do not _observe"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1512
@@ -11575,19 +11578,19 @@ msgid "Put on %s"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1414
-msgid "_Number of Players (including AI):"
+msgid "Number of _Players (including AI):"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1437
-msgid "_AI Skill Level:"
+msgid "AI Skill _Level:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1453
-msgid "_Ruleset:"
+msgid "Ruleset _Version:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1461
-msgid "More Game _Options..."
+msgid "_More Game Options..."
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1486
@@ -12902,6 +12905,9 @@ msgstr ""
 #: client/gui-sdl/mapctrl.c:1412 client/gui-sdl/mapview.c:332
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
+msgstr ""
+
+msgid "_Research"
 msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
