@@ -26078,9 +26078,6 @@ msgstr "Equipo 31"
 #~ msgid "_Goal"
 #~ msgstr "_Meta"
 
-#~ msgid "_Research"
-#~ msgstr "_Investigar"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Consejero de comercio"
 

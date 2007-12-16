@@ -24486,9 +24486,6 @@ msgstr "الفريق 31"
 #~ msgid "_Goal"
 #~ msgstr "ال_هدف"
 
-#~ msgid "_Research"
-#~ msgstr "_بحث علمي"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "مستشار التجارة"
 

@@ -25159,9 +25159,6 @@ msgstr "Time 31"
 #~ msgid "_Goal"
 #~ msgstr "Ob_jetivo"
 
-#~ msgid "_Research"
-#~ msgstr "_Pesquisar"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Conselheiro do Comércio"
 

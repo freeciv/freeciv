@@ -26445,9 +26445,6 @@ msgstr "Équipe 31"
 #~ msgid "_Goal"
 #~ msgstr "But (_g)"
 
-#~ msgid "_Research"
-#~ msgstr "_Recherche"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Conseiller commercial"
 

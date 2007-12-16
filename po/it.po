@@ -26000,9 +26000,6 @@ msgstr "Squadra"
 #~ msgid "_Goal"
 #~ msgstr "Obiettivo"
 
-#~ msgid "_Research"
-#~ msgstr "_Ricerca"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Consigliere per il commercio"
 

@@ -25893,9 +25893,6 @@ msgstr "Team 31"
 #~ msgid "_Goal"
 #~ msgstr "_Doel"
 
-#~ msgid "_Research"
-#~ msgstr "_Onderzoek"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Handels Adviseur"
 

@@ -25535,9 +25535,6 @@ msgstr "Meeskond 31"
 #~ msgid "_Goal"
 #~ msgstr "Eesmärk"
 
-#~ msgid "_Research"
-#~ msgstr "_Teadus"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Kaubanduse nõunik"
 

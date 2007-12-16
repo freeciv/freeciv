@@ -25957,9 +25957,6 @@ msgstr "Hold 31"
 #~ msgid "_Goal"
 #~ msgstr "Mål"
 
-#~ msgid "_Research"
-#~ msgstr "Forsker på"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Handelsrådgiver"
 

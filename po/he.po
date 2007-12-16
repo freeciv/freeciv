@@ -23085,9 +23085,6 @@ msgstr "צוות 31"
 #~ msgid "_Goal"
 #~ msgstr "_יעד"
 
-#~ msgid "_Research"
-#~ msgstr "_מחקר"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "יועץ סחר"
 

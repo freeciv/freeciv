@@ -26842,9 +26842,6 @@ msgstr "チーム31"
 #~ msgid "_Goal"
 #~ msgstr "目標(_G)"
 
-#~ msgid "_Research"
-#~ msgstr "研究(_R)"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "商業顧問"
 

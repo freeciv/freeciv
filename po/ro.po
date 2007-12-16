@@ -24850,9 +24850,6 @@ msgstr "Echipa 31"
 #~ msgid "_Goal"
 #~ msgstr "Ţin_tă"
 
-#~ msgid "_Research"
-#~ msgstr "_Cercetează"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Consilier pentru comerţ"
 

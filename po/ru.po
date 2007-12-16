@@ -25608,9 +25608,6 @@ msgstr "Команда 31"
 #~ msgid "_Goal"
 #~ msgstr "Цель"
 
-#~ msgid "_Research"
-#~ msgstr "Исследование"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Торговый советник"
 

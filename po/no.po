@@ -25619,9 +25619,6 @@ msgstr "Lag"
 #~ msgid "_Goal"
 #~ msgstr "Må_l"
 
-#~ msgid "_Research"
-#~ msgstr "Fors_ker på"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Handelsrådgiver"
 

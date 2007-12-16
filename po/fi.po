@@ -25992,9 +25992,6 @@ msgstr "Joukkue 31"
 #~ msgid "_Goal"
 #~ msgstr "Tavoite"
 
-#~ msgid "_Research"
-#~ msgstr "Tutki"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Kaupan neuvonantaja"
 

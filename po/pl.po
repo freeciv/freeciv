@@ -25793,9 +25793,6 @@ msgstr "Zespół"
 #~ msgid "_Goal"
 #~ msgstr "Cel"
 
-#~ msgid "_Research"
-#~ msgstr "Badania"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Doradca handlowy"
 

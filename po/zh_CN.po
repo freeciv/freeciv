@@ -24551,9 +24551,6 @@ msgstr "团队"
 #~ msgid "_Goal"
 #~ msgstr "目的(_G)"
 
-#~ msgid "_Research"
-#~ msgstr "研究(_R)"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "贸易顾问"
 

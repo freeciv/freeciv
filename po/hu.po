@@ -24939,9 +24939,6 @@ msgstr "Templom"
 #~ msgid "_Goal"
 #~ msgstr "_Célkitûzés"
 
-#~ msgid "_Research"
-#~ msgstr "_Kutatás"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Kereskedelmi Tanácsadó"
 

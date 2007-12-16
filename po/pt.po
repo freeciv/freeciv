@@ -25724,9 +25724,6 @@ msgstr "Equipa"
 #~ msgid "_Goal"
 #~ msgstr "Ob_jectivo"
 
-#~ msgid "_Research"
-#~ msgstr "_Pesquisar"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Conselheiro do Comércio"
 

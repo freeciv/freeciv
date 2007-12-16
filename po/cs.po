@@ -25497,9 +25497,6 @@ msgstr "Tým"
 #~ msgid "_Goal"
 #~ msgstr "_Cíl"
 
-#~ msgid "_Research"
-#~ msgstr "_Výzkum"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Ministr obchodu"
 

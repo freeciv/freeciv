@@ -25550,9 +25550,6 @@ msgstr "Команда"
 #~ msgid "_Goal"
 #~ msgstr "Мета"
 
-#~ msgid "_Research"
-#~ msgstr "Досл╕дження"
-
 #~ msgid "Trade Advisor"
 #~ msgstr "Торговий наглядач"
 

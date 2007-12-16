@@ -22885,9 +22885,6 @@ msgstr "تیم ۳۱"
 #~ msgid "_Goal"
 #~ msgstr "هدف"
 
-#~ msgid "_Research"
-#~ msgstr "پژوهش"
-
 #~ msgid "Military Report"
 #~ msgstr "گزارش نظامی"
 
