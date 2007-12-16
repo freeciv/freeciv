@@ -385,6 +385,17 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
 /**************************************************************************
 ...
 **************************************************************************/
+gboolean map_canvas_focus(void)
+{
+  gtk_window_present(GTK_WINDOW(toplevel));
+  gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);
+  gtk_widget_grab_focus(map_canvas);
+  return TRUE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
 {
   void *data = NULL;
@@ -496,30 +507,46 @@ static gboolean keyboard_map_canvas(GtkWidget *w, GdkEventKey *ev, gpointer data
   }
 
   assert(MAX_NUM_BATTLEGROUPS == 4);
-#define BATTLEGROUP_SHIFT_CASE(num)					    \
-  if (ev->state & GDK_CONTROL_MASK) {					    \
-    key_unit_assign_battlegroup((num), TRUE);				    \
-  } else {								    \
-    key_unit_select_battlegroup((num), FALSE);				    \
-  }
   
   if ((ev->state & GDK_CONTROL_MASK)) {
     switch (ev->keyval) {
 
-    case GDK_1:
-      key_unit_assign_battlegroup(0, FALSE);
+    case GDK_F1:
+      key_unit_assign_battlegroup(0, (ev->state & GDK_SHIFT_MASK));
       return TRUE;
 
-    case GDK_2:
-      key_unit_assign_battlegroup(1, FALSE);
+    case GDK_F2:
+      key_unit_assign_battlegroup(1, (ev->state & GDK_SHIFT_MASK));
       return TRUE;
 
-    case GDK_3:
-      key_unit_assign_battlegroup(2, FALSE);
+    case GDK_F3:
+      key_unit_assign_battlegroup(2, (ev->state & GDK_SHIFT_MASK));
       return TRUE;
 
-    case GDK_4:
-      key_unit_assign_battlegroup(3, FALSE);
+    case GDK_F4:
+      key_unit_assign_battlegroup(3, (ev->state & GDK_SHIFT_MASK));
+      return TRUE;
+
+    default:
+      break;
+    };
+  } else if ((ev->state & GDK_SHIFT_MASK)) {
+    switch (ev->keyval) {
+
+    case GDK_F1:
+      key_unit_select_battlegroup(0, FALSE);
+      return TRUE;
+
+    case GDK_F2:
+      key_unit_select_battlegroup(1, FALSE);
+      return TRUE;
+
+    case GDK_F3:
+      key_unit_select_battlegroup(2, FALSE);
+      return TRUE;
+
+    case GDK_F4:
+      key_unit_select_battlegroup(3, FALSE);
       return TRUE;
 
     default:
@@ -528,26 +555,6 @@ static gboolean keyboard_map_canvas(GtkWidget *w, GdkEventKey *ev, gpointer data
   }
 
   switch (ev->keyval) {
-
-  case GDK_exclam:
-    /* Shift + 1 */
-    BATTLEGROUP_SHIFT_CASE(0);
-    return TRUE;
-
-  case GDK_at:
-    /* Shift + 2 */
-    BATTLEGROUP_SHIFT_CASE(1);
-    return TRUE;
-
-  case GDK_numbersign:
-    /* Shift + 3 */
-    BATTLEGROUP_SHIFT_CASE(2);
-    return TRUE;
-
-  case GDK_dollar:
-    /* Shift + 4 */
-    BATTLEGROUP_SHIFT_CASE(3);
-    return TRUE;
 
   case GDK_KP_Up:
   case GDK_KP_8:
@@ -643,6 +650,7 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     default:
       break;
     };
+  } else {
   }
 
   switch (ev->keyval) {
@@ -664,6 +672,23 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
   if (GTK_WIDGET_HAS_FOCUS(map_canvas)) {
     return keyboard_map_canvas(w, ev, data);
   }
+
+#if 0
+  /* We are focused some other dialog, tab, or widget. */
+  if ((ev->state & GDK_CONTROL_MASK)) {
+  } else if ((ev->state & GDK_SHIFT_MASK)) {
+  } else {
+    switch (ev->keyval) {
+
+    case GDK_F4:
+      map_canvas_focus();
+      return TRUE;
+
+    default:
+      break;
+    };
+  }
+#endif
 
   return FALSE;
 }
@@ -1161,7 +1186,7 @@ static void setup_widgets(void)
 
   map_widget = gtk_table_new(2, 2, FALSE);
 
-  label = gtk_label_new_with_mnemonic(_("_Map"));
+  label = gtk_label_new(_("View"));
   gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), map_widget, label);
 
   frame = gtk_frame_new(NULL);
@@ -1552,19 +1577,15 @@ void update_conn_list_dialog(void)
   }
   gtk_widget_set_sensitive(ready_button, (game.player_ptr != NULL));
 
-  if (aconnection.player) {
-    gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
-  } else {
-    gtk_stockbutton_set_label(nation_button, _("Create _player"));
+  gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
+  if (!aconnection.player) {
     gtk_widget_set_sensitive(nation_button, game.info.is_new_game);
   }
 
-  if (aconnection.player) {
-    gtk_stockbutton_set_label(take_button, _("_Release player"));
-  } else if (!aconnection.observer) {
+  if (aconnection.player || !aconnection.observer) {
     gtk_stockbutton_set_label(take_button, _("_Observe"));
   } else {
-    gtk_stockbutton_set_label(take_button, _("_Do not observe"));
+    gtk_stockbutton_set_label(take_button, _("Do not _observe"));
   }
 
   gtk_tree_view_column_set_visible(record_col, (with_ggz || in_ggz));

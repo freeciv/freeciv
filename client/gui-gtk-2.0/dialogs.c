@@ -746,7 +746,7 @@ static GtkWidget* create_nation_selection_list(void)
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
       "mnemonic-widget", nation_list,
-      "label", _("_Nations:"),
+      "label", _("Nation _Groups:"),
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
@@ -803,7 +803,7 @@ static void create_races_dialog(struct player *pplayer)
 				      0,
 				      GTK_STOCK_CANCEL,
 				      GTK_RESPONSE_CANCEL,
-				      _("Random Nation"),
+				      _("_Random Nation"),
 				      GTK_RESPONSE_NO, /* arbitrary */
 				      GTK_STOCK_OK,
 				      GTK_RESPONSE_ACCEPT,
@@ -892,7 +892,7 @@ static void create_races_dialog(struct player *pplayer)
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
       "mnemonic-widget", list,
-      "label", _("_City Styles:"),
+      "label", _("City _Styles:"),
       "xalign", 0.0,
       "yalign", 0.5,
       NULL);
@@ -931,7 +931,7 @@ static void create_races_dialog(struct player *pplayer)
   }
 
   /* Legend pane. */
-  label = gtk_label_new_with_mnemonic(_("L_egend"));
+  label = gtk_label_new_with_mnemonic(_("_Description"));
 
   vbox = gtk_vbox_new(FALSE, 6);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 6);

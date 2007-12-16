@@ -495,7 +495,6 @@ Main Map (Keys):\n\
         Ctrl-N: show city names on/off\n\
         Ctrl-R: show city growth on/off\n\
         Ctrl-P: show city production on/off\n\
-             t: show city workers (mouse over or near city)\n\
 "), _("\
 Main Map (Mouse):\n\
 =================\n\
@@ -510,6 +509,7 @@ Main Map (Mouse):\n\
 \n\
   Shift-Control-Left-click:    Adjust city workers\n\
   Control-Center-click:        Wake up sentried units\n\
+  Shift-Control-Right-click:   Show city workers (mouse over or near city)\n\
 \n\
   Area Selection mode (GTK):\n\
   ==========================\n\
@@ -523,11 +523,12 @@ Main Map (Mouse):\n\
 "), _("\
 Dialogs and Reports:\n\
 ====================\n\
-     F1: open City Report\n\
+     F1: show Map View\n\
      F2: open Unit Report\n\
-     F3: open Players dialog\n\
+     F3: open Nations Report\n\
+     F4: open City Report\n\
      F5: open Economy Report\n\
-     F6: open Science Report\n\
+     F6: open Research Report\n\
      F7: open World Wonders\n\
      F8: open Top Five Cities\n\
      F9: open Messages dialog\n\
