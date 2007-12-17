@@ -1194,7 +1194,7 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                      "%2d: The %s ruler %s scored %d points\n",
                      packet->score[i]),
                  i + 1,
-                 nation_name_for_player(player_by_number(packet->id[i])),
+                 nation_adjective_for_player(player_by_number(packet->id[i])),
                  player_by_number(packet->id[i])->name,
                  packet->score[i]);
   }

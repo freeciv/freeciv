@@ -408,7 +408,7 @@ void update_info_label(void)
     my_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d "),
-                nation_name_for_player(game.player_ptr),
+                nation_adjective_for_player(game.player_ptr),
                 population_to_text(civ_population(game.player_ptr)),
                 textyear(game.info.year),
                 game.player_ptr->economic.gold);
@@ -416,7 +416,7 @@ void update_info_label(void)
     my_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
-                nation_name_for_player(game.player_ptr),
+                nation_adjective_for_player(game.player_ptr),
                 population_to_text(civ_population(game.player_ptr)),
                 textyear(game.info.year),
                 game.player_ptr->economic.gold,
@@ -480,6 +480,7 @@ static int fucus_units_info_callback(struct widget *pWidget)
 
 /**************************************************************************
   Read Function Name :)
+  FIXME: should use same method as client/text.c popup_info_text()
 **************************************************************************/
 void redraw_unit_info_label(struct unit_list *punitlist)
 {
@@ -566,7 +567,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 		  cat_snprintf(buffer, sizeof(buffer),
 		  	PL_("\n%s territory (%d turn ceasefire)",
 				"\n%s territory (%d turn ceasefire)", turns),
-		 		nation_name_for_player(tile_owner(pTile)), turns);
+		 		nation_adjective_for_player(tile_owner(pTile)), turns);
                 } else {
 	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
 		    diplo_nation_plural_adjectives[
@@ -635,7 +636,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    if (pOwner && pOwner != game.player_ptr) {
               /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
-		  nation_name_for_player(pOwner),
+		  nation_adjective_for_player(pOwner),
 		  diplo_city_adjectives[game.player_ptr->
 				   diplstates[player_index(pOwner)].type]);
 	    }

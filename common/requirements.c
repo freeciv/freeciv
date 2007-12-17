@@ -1226,7 +1226,7 @@ const char *universal_name_translation(const struct universal *psource,
     mystrlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
     break;
   case VUT_NATION:
-    mystrlcat(buf, nation_name_translation(psource->value.nation), bufsz);
+    mystrlcat(buf, nation_adjective_translation(psource->value.nation), bufsz);
     break;
   case VUT_UTYPE:
     mystrlcat(buf, utype_name_translation(psource->value.utype), bufsz);

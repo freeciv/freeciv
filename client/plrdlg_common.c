@@ -89,7 +89,7 @@ static const char *col_username(const struct player *player)
 *******************************************************************/
 static const char *col_nation(const struct player *player)
 {
-  return nation_name_for_player(player);
+  return nation_adjective_for_player(player);
 }
 
 /******************************************************************

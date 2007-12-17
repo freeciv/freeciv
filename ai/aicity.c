@@ -1408,7 +1408,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
        || pcity->production.value.building != pcity->ai.choice.value.building)) {
       notify_player(NULL, pcity->tile, E_WONDER_STARTED,
 		    _("The %s have started building The %s in %s."),
-		    nation_plural_translation(nation_of_city(pcity)),
+		    nation_plural_for_player(city_owner(pcity)),
 		    city_improvement_name_translation(pcity, pcity->ai.choice.value.building),
 		    pcity->name);
     }

@@ -716,7 +716,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
 		     _("You caught %s %s attempting"
 		       " to incite a revolt in %s!"),
-		     nation_name_for_player(pplayer),
+		     nation_adjective_for_player(pplayer),
 		     unit_name_translation(pdiplomat),
 		     pcity->name);
     wipe_unit(pdiplomat);
@@ -742,7 +742,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_INCITE,
 		   _("%s has revolted, %s influence suspected."),
 		   pcity->name,
-		   nation_name_for_player(pplayer));
+		   nation_adjective_for_player(pplayer));
 
   pcity->shield_stock = 0;
   nullify_prechange_production(pcity);
@@ -827,7 +827,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("You caught %s %s attempting"
 		       " sabotage in %s!"),
-		     nation_name_for_player(pplayer),
+		     nation_adjective_for_player(pplayer),
 		     unit_name_translation(pdiplomat),
 		     pcity->name);
     wipe_unit(pdiplomat);
@@ -979,7 +979,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       E_ENEMY_DIPLOMAT_FAILED,
 		       _("You caught %s %s attempting"
 			 " to sabotage the %s in %s!"),
-		       nation_name_for_player(pplayer),
+		       nation_adjective_for_player(pplayer),
 		       unit_name_translation(pdiplomat),
 		       improvement_name_translation(ptarget),
 		       pcity->name);
@@ -996,7 +996,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		     pcity->name);
     notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_SABOTAGE,
 		     _("The %s destroyed the %s in %s."),
-		     nation_name_for_player(pplayer),
+		     nation_plural_for_player(pplayer),
 		     improvement_name_translation(ptarget),
 		     pcity->name);
     freelog (LOG_DEBUG, "sabotage: sabotaged improvement: %d (%s)",
@@ -1110,51 +1110,31 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         send_unit_info(pplayer, pdiplomat);
         return FALSE;
       } else {
-	/* Check to see if defending unit became more experienced */
-	bool vet = maybe_make_veteran(punit);
-	
 	/* Attacking Spy/Diplomat dies. */
-
 	notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED,
 			 _("Your %s was eliminated"
 			   " by a defending %s."),
 			 unit_name_translation(pdiplomat),
 			 unit_name_translation(punit));
-	if (vet) {
-	  if (pcity) {
-	    notify_player(cplayer, ptile,
-			     E_ENEMY_DIPLOMAT_FAILED,
-			     _("Eliminated %s %s while infiltrating "
-			       "%s. The defender became more experienced."),
-			     nation_name_for_player(pplayer),
-			     unit_name_translation(pdiplomat),
-			     pcity->name);
-	  } else {
-	    notify_player(cplayer, ptile,
-			     E_ENEMY_DIPLOMAT_FAILED,
-			     _("Eliminated %s %s while infiltrating "
-			       "our troops. The defender became more "
-			       "experienced."),
-			     nation_name_for_player(pplayer),
-			     unit_name_translation(pdiplomat));
-          }
-        } else {
-	  if (pcity) {
-	    notify_player(cplayer, ptile,
-			     E_ENEMY_DIPLOMAT_FAILED,
-			     _("Eliminated %s %s while infiltrating "
-			       "%s."),
-			     nation_name_for_player(pplayer),
-			     unit_name_translation(pdiplomat),
-			     pcity->name);
-	  } else {
-	    notify_player(cplayer, ptile,
-			     E_ENEMY_DIPLOMAT_FAILED,
-			     _("Eliminated %s %s while infiltrating "
-			       "our troops."),
-			     nation_name_for_player(pplayer),
-			     unit_name_translation(pdiplomat));
-	  }
+
+	if (pcity) {
+	  notify_player(cplayer, ptile,
+			E_ENEMY_DIPLOMAT_FAILED,
+			_("Eliminated %s %s while infiltrating %s."),
+			nation_adjective_for_player(pplayer),
+			unit_name_translation(pdiplomat),
+			pcity->name);
+	} else {
+	  notify_player(cplayer, ptile,
+			E_ENEMY_DIPLOMAT_FAILED,
+			_("Eliminated %s %s while infiltrating our troops."),
+			nation_adjective_for_player(pplayer),
+			unit_name_translation(pdiplomat));
+	}
+
+	/* Defending unit became more experienced? */
+	if (maybe_make_veteran(punit)) {
+	  notify_unit_experience(punit);
 	}
 	wipe_unit(pdiplomat);
 	return FALSE;

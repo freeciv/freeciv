@@ -92,7 +92,7 @@ static void intel_create_dialog(struct player *p)
 
   my_snprintf(buf, sizeof(buf),
               _("Intelligence Information for the %s Empire"), 
-              nation_name_for_player(p));
+              nation_adjective_for_player(p));
   fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
   hbox=fcwin_hbox_new(intel_dialog,FALSE);
   

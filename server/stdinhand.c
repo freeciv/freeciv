@@ -4104,10 +4104,12 @@ void show_players(struct connection *caller)
                      ai_level_name(pplayer->ai.skill_level));
       }
       if (!game.info.is_new_game) {
-	cat_snprintf(buf2, sizeof(buf2), _(", nation %s"),
-		     nation_name_for_player(pplayer));
+	/* TRANS: just in case comma is not the separator of choice. */
+	cat_snprintf(buf2, sizeof(buf2), _(", %s"),
+		     nation_adjective_for_player(pplayer));
       }
-      cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
+      /* TRANS: just in case comma is not the separator of choice. */
+      cat_snprintf(buf2, sizeof(buf2), _(", %s"),
 		   team_name_translation(pplayer->team));
       if (S_S_INITIAL == server_state() && pplayer->is_connected) {
 	if (pplayer->is_ready) {

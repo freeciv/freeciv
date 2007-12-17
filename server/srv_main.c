@@ -265,7 +265,7 @@ bool check_for_game_over(void)
  
     notify_player(NULL, NULL, E_SPACESHIP,
                   _("The %s spaceship has arrived at Alpha Centauri."),
-                  nation_name_for_player(victor));
+                  nation_adjective_for_player(victor));
 
     /* this guy has won, now check if anybody else wins with him */
     players_iterate(pplayer) {
@@ -1442,13 +1442,13 @@ void handle_nation_select_req(struct connection *pc,
     if (!new_nation->is_available) {
       notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
 		  _("%s nation is not available in this scenario."),
-		  nation_name_translation(new_nation));
+		  nation_adjective_translation(new_nation));
       return;
     }
     if (new_nation->player && new_nation->player != pplayer) {
       notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
 		  _("%s nation is already in use."),
-		  nation_name_translation(new_nation));
+		  nation_adjective_translation(new_nation));
       return;
     }
 
@@ -1467,7 +1467,7 @@ void handle_nation_select_req(struct connection *pc,
     notify_conn(NULL, NULL, E_NATION_SELECTED,
 		_("%s is the %s ruler %s."),
 		pplayer->username,
-		nation_name_translation(new_nation),
+		nation_adjective_translation(new_nation),
 		pplayer->name);
 
     pplayer->is_male = is_male;

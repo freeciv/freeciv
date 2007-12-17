@@ -650,12 +650,12 @@ void popup_players_nations_dialog(void)
      
       if(pDS->type == DS_CEASEFIRE) {
 	my_snprintf(cBuf, sizeof(cBuf), "%s(%s) - %d %s",
-                    nation_name_for_player(pPlayer),
+                    nation_adjective_for_player(pPlayer),
                     state,
 		pDS->turns_left, PL_("turn", "turns", pDS->turns_left));
       } else {
 	my_snprintf(cBuf, sizeof(cBuf), "%s(%s)",
-                    nation_name_for_player(pPlayer),
+                    nation_adjective_for_player(pPlayer),
                     state);
       }
       

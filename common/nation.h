@@ -69,8 +69,8 @@ struct nation_group {
 /* Pointer values are allocated on load then freed in free_nations(). */
 struct nation_type {
   Nation_type_id item_number;
-  struct name_translation name_single;
-  struct name_translation name_plural;
+  struct name_translation adjective;
+  struct name_translation noun_plural;
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;
@@ -124,8 +124,8 @@ struct nation_type *find_nation_by_translated_name(const char *name);
 
 const char *nation_rule_name(const struct nation_type *pnation);
 
-const char *nation_name_translation(struct nation_type *pnation);
-const char *nation_name_for_player(const struct player *pplayer);
+const char *nation_adjective_translation(struct nation_type *pnation);
+const char *nation_adjective_for_player(const struct player *pplayer);
 const char *nation_plural_translation(struct nation_type *pnation);
 const char *nation_plural_for_player(const struct player *pplayer);
 

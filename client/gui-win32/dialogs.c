@@ -482,8 +482,9 @@ static void populate_nation_listview(struct nation_group* group, HWND listview)
       continue;
     }
 
-    /* FIXME: Casting const away!!! */
-    strings[0] = (char *) nation_name_translation(pnation);
+    /* FIXME: fcwin_listview_add_row() should be fixed to handle
+     *        const strings. Now we just cast const away */
+    strings[0] = (char *) nation_adjective_translation(pnation);
 
     fcwin_listview_add_row(listview, nation_index(pnation), 1, strings);
     visible_nations[n++] = nation_index(pnation);
