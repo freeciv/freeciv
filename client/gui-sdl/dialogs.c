@@ -669,7 +669,7 @@ void popup_unit_select_dialog(struct tile *ptile)
       int att_chance, def_chance;
       
       my_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            nation_name_translation(nation_of_unit(pUnit)),
+            nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
@@ -1411,7 +1411,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  int att_chance, def_chance;
 	  
           my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            nation_name_translation(nation_of_unit(pUnit)),
+            nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,
@@ -1536,7 +1536,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  int att_chance, def_chance;
 	
           my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
-            nation_name_translation(nation_of_unit(pUnit)),
+            nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
             pUnitType->attack_strength,

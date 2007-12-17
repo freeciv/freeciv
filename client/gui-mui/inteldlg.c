@@ -136,7 +136,7 @@ static void intel_create_dialog(struct player *p)
     int i;
 
     settextf(title_text, _("Intelligence Information for the %s Empire"),
-             nation_name_for_player(p));
+             nation_adjective_for_player(p));
     settextf(ruler_text, _("Ruler: %s %s"),
              ruler_title_translation(p);
     settextf(government_text, _("Government: %s"),

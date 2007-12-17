@@ -6425,7 +6425,7 @@ msgstr ""
 
 #: server/unittools.c:2074
 #, c-format
-msgid "%s detonated a nuke!"
+msgid "The %s detonated a nuke!"
 msgstr ""
 
 #: server/unittools.c:2097
@@ -8768,10 +8768,10 @@ msgstr ""
 msgid "Our Territory"
 msgstr ""
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
 #, c-format
-msgid "Territory of the %s"
+msgid "%s territory"
 msgstr ""
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
@@ -8784,7 +8784,7 @@ msgstr[1] ""
 
 #: client/text.c:139
 #, c-format
-msgid "Territory of the %s %s"
+msgid "%s territory (%s)"
 msgstr ""
 
 #: client/text.c:144
@@ -8831,10 +8831,10 @@ msgstr ""
 msgid "Activity: %s"
 msgstr ""
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
 #, c-format
-msgid "Unit: %s (%s%s)"
+msgid "Unit: %s (%s)"
 msgstr ""
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
@@ -13492,8 +13492,8 @@ msgid "The Greatest Civilizations in the world."
 msgstr ""
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, c-format
-msgid "%s's SpaceShip"
+#, fuzzy, c-format
+msgid "The %s Spaceship"
 msgstr "%s의 우주선"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

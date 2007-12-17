@@ -6831,8 +6831,8 @@ msgid "You nuked %s."
 msgstr "您以核武器攻击 %s。"
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "%s 引爆了核弹！"
 
 #: server/unittools.c:2097
@@ -9205,10 +9205,10 @@ msgstr "小型部落村庄"
 msgid "Our Territory"
 msgstr "本国领土"
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
-#, c-format
-msgid "Territory of the %s"
+#, fuzzy, c-format
+msgid "%s territory"
 msgstr "%s 的领土"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
@@ -9219,8 +9219,8 @@ msgid_plural "%s territory (%d turn cease-fire)"
 msgstr[0] "%s 领土（停火 %d 回合）"
 
 #: client/text.c:139
-#, c-format
-msgid "Territory of the %s %s"
+#, fuzzy, c-format
+msgid "%s territory (%s)"
 msgstr "%s 的 %s 的领土"
 
 #: client/text.c:144
@@ -9266,11 +9266,11 @@ msgstr "基础设施：%s"
 msgid "Activity: %s"
 msgstr "活动：%s"
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
-#, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "部队：%s（%s%s）"
+#, fuzzy, c-format
+msgid "Unit: %s (%s)"
+msgstr "部队：%s（%s）"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -14095,7 +14095,7 @@ msgstr "世界上最伟大的文明。"
 
 #: client/gui-sdl/spaceshipdlg.c:142
 #, fuzzy, c-format
-msgid "%s's SpaceShip"
+msgid "The %s Spaceship"
 msgstr "宇宙飞船"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

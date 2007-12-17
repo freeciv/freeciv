@@ -7610,8 +7610,8 @@ msgid "You nuked %s."
 msgstr "%sを核攻撃しました。"
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "%sは核を爆発させました！"
 
 #: server/unittools.c:2097
@@ -10267,10 +10267,10 @@ msgstr "少数部族の村"
 msgid "Our Territory"
 msgstr "我が国の領域"
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
-#, c-format
-msgid "Territory of the %s"
+#, fuzzy, c-format
+msgid "%s territory"
 msgstr "%sの領域"
 
 # clefs
@@ -10282,8 +10282,8 @@ msgid_plural "%s territory (%d turn cease-fire)"
 msgstr[0] "%sの領域 (%dターンの停戦中)"
 
 #: client/text.c:139
-#, c-format
-msgid "Territory of the %s %s"
+#, fuzzy, c-format
+msgid "%s territory (%s)"
 msgstr "%2$s(%1$s)の領域"
 
 # ntaka
@@ -10331,11 +10331,11 @@ msgstr "インフラ: %s"
 msgid "Activity: %s"
 msgstr "活動: %s"
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
-#, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "部隊: %s (%s%s)"
+#, fuzzy, c-format
+msgid "Unit: %s (%s)"
+msgstr "部隊: %s (%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -15286,8 +15286,8 @@ msgid "The Greatest Civilizations in the world."
 msgstr "世界の偉大な文明。"
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, c-format
-msgid "%s's SpaceShip"
+#, fuzzy, c-format
+msgid "The %s Spaceship"
 msgstr "%sの宇宙船"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

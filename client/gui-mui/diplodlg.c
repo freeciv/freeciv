@@ -645,21 +645,21 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     }
 
     settextf(plr0_text,_("The %s offerings"),
-             nation_name_for_player(plr0));
+             nation_adjective_for_player(plr0));
     settextf(plr1_text,_("The %s offerings"),
-             nation_name_for_player(plr1));
+             nation_adjective_for_player(plr1));
     settextf(plr0_gold_text, _("Gold(max %d)"), plr0->economic.gold);
     settextf(plr1_gold_text, _("Gold(max %d)"), plr1->economic.gold);
     settextf(plr0_view_text, _("%s view:"),
-             nation_name_for_player(plr0));
+             nation_adjective_for_player(plr0));
     settextf(plr1_view_text, _("%s view:"),
-             nation_name_for_player(plr1));
+             nation_adjective_for_player(plr1));
 
     settextf(diplo_text, _("This Eternal Treaty\nmarks the results\nof the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s"),
-             nation_name_for_player(plr0),
+             nation_adjective_for_player(plr0),
              ruler_title_translation(plr0),
              plr0->name,
-             nation_name_for_player(plr1),
+             nation_adjective_for_player(plr1),
              ruler_title_translation(plr1),
              plr1->name);
 

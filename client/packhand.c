@@ -2520,7 +2520,7 @@ void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
   for (i = 0; i < packet->ngroups; i++) {
     struct nation_group *group = add_new_nation_group(packet->groups[i]);
 
-    assert(group != NULL && group->index == i);
+    assert(group != NULL && nation_group_index(group) == i);
   }
 }
 
@@ -2530,20 +2530,19 @@ void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
 void handle_ruleset_nation(struct packet_ruleset_nation *p)
 {
   int i;
-  struct nation_type *pl;
+  struct nation_type *pl = nation_by_number(p->id);
 
-  if (p->id < 0 || p->id >= game.control.nation_count) {
+  if (!pl) {
     freelog(LOG_ERROR,
 	    "handle_ruleset_nation() bad nation %d.",
 	    p->id);
     return;
   }
-  pl = nation_by_number(p->id);
 
-  sz_strlcpy(pl->name_single.vernacular, p->name);
-  pl->name_single.translated = NULL;
-  sz_strlcpy(pl->name_plural.vernacular, p->name_plural);
-  pl->name_plural.translated = NULL;
+  sz_strlcpy(pl->adjective.vernacular, p->adjective);
+  pl->adjective.translated = NULL;
+  sz_strlcpy(pl->noun_plural.vernacular, p->noun_plural);
+  pl->noun_plural.translated = NULL;
   sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
   sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;

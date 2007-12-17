@@ -1879,37 +1879,37 @@ static char *check_leader_names(Nation_type_id nation)
 static void load_nation_names(struct section_file *file)
 {
   char **sec;
-  int i, j;
+  int j;
 
   (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   sec = secfile_get_secnames_prefix(file, NATION_SECTION_PREFIX, &game.control.nation_count);
   nations_alloc(game.control.nation_count);
 
-  for (i = 0; i < game.control.nation_count; i++) {
-    char *name        = secfile_lookup_str(file, "%s.name", sec[i]);
-    char *name_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
-    struct nation_type *pl = nation_by_number(i);
+  nations_iterate(pl) {
+    const int i = nation_index(pl);
+    char *adjective   = secfile_lookup_str(file, "%s.name", sec[i]);
+    char *noun_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
 
-    name_strlcpy(pl->name_single.vernacular, name);
-    pl->name_single.translated = NULL;
-    name_strlcpy(pl->name_plural.vernacular, name_plural);
-    pl->name_plural.translated = NULL;
+    name_strlcpy(pl->adjective.vernacular, adjective);
+    pl->adjective.translated = NULL;
+    name_strlcpy(pl->noun_plural.vernacular, noun_plural);
+    pl->noun_plural.translated = NULL;
 
     /* Check if nation name is already defined. */
     for(j = 0; j < i; j++) {
       struct nation_type *n2 = nation_by_number(j);
 
-      if (0 == strcmp(n2->name_single.vernacular, pl->name_single.vernacular)
-	|| 0 == strcmp(n2->name_plural.vernacular, pl->name_plural.vernacular)) {
+      if (0 == strcmp(n2->adjective.vernacular, pl->adjective.vernacular)
+	|| 0 == strcmp(n2->noun_plural.vernacular, pl->noun_plural.vernacular)) {
         freelog(LOG_FATAL,
-		"Nation %s (the %s) defined twice; "
+		"%s nation (the %s) defined twice; "
 		"in section nation%d and section nation%d",
-		name, name_plural, j, i);
+		adjective, noun_plural, j, i);
         exit(EXIT_FAILURE);
       }
     }
-  }
+  } nations_iterate_end;
   free(sec);
 }
 
@@ -2052,7 +2052,6 @@ Load nations.ruleset file
 static void load_ruleset_nations(struct section_file *file)
 {
   char *bad_leader, *govern;
-  struct nation_type *pl;
   struct government *gov;
   int dim, i, j, k, nval, numgroups;
   char temp_name[MAX_LEN_NAME];
@@ -2074,11 +2073,10 @@ static void load_ruleset_nations(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, NATION_SECTION_PREFIX, &nval);
 
-  for (i = 0; i < game.control.nation_count; i++) {
+  nations_iterate(pl) {
+    const int i = nation_index(pl);
     char tmp[200] = "\0";
 
-    pl = nation_by_number(i);
-    
     groups = secfile_lookup_str_vec(file, &dim, "%s.groups", sec[i]);
     pl->num_groups = dim;
     pl->groups = fc_calloc(dim + 1, sizeof(*(pl->groups)));
@@ -2110,7 +2108,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader", sec[i]);
     if (dim > MAX_NUM_LEADERS) {
-      freelog(LOG_ERROR, "Nation %s: too many leaders; only using %d of %d",
+      freelog(LOG_ERROR, "Nation %s: Too many leaders; using %d of %d",
 	      nation_rule_name(pl),
 	      MAX_NUM_LEADERS,
 	      dim);
@@ -2313,11 +2311,11 @@ static void load_ruleset_nations(struct section_file *file)
     }
 
     pl->player = NULL;
-  }
+  } nations_iterate_end;
 
   /* Calculate parent nations.  O(n^2) algorithm. */
   nations_iterate(pl) {
-    struct nation_type *parents[game.control.nation_count];
+    struct nation_type *parents[nation_count()];
     int count = 0;
 
     nations_iterate(p2) {
@@ -3022,22 +3020,21 @@ static void send_ruleset_nations(struct conn_list *dest)
   struct packet_ruleset_nation packet;
   struct packet_ruleset_nation_groups groups_packet;
   struct nation_type *n;
-  int i, k;
+  int i;
 
-  groups_packet.ngroups = get_nation_groups_count();
+  groups_packet.ngroups = nation_group_count();
   nation_groups_iterate(pgroup) {
-    sz_strlcpy(groups_packet.groups[pgroup->index], pgroup->name);
+    sz_strlcpy(groups_packet.groups[nation_group_index(pgroup)], pgroup->name);
   } nation_groups_iterate_end;
   lsend_packet_ruleset_nation_groups(dest, &groups_packet);
 
   assert(sizeof(packet.init_techs) == sizeof(n->init_techs));
   assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
 
-  for( k=0; k<game.control.nation_count; k++) {
-    n = nation_by_number(k);
-    packet.id = k;
-    sz_strlcpy(packet.name, n->name_single.vernacular);
-    sz_strlcpy(packet.name_plural, n->name_plural.vernacular);
+  nations_iterate(n) {
+    packet.id = nation_number(n);
+    sz_strlcpy(packet.adjective, n->adjective.vernacular);
+    sz_strlcpy(packet.noun_plural, n->noun_plural.vernacular);
     sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
     sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
     packet.leader_count = n->leader_count;
@@ -3061,11 +3058,11 @@ static void send_ruleset_nations(struct conn_list *dest)
      /* client needs only the names */
      packet.ngroups = n->num_groups;
      for (i = 0; i < n->num_groups; i++) {
-       packet.groups[i] = n->groups[i]->index;
+       packet.groups[i] = nation_group_number(n->groups[i]);
      }
 
     lsend_packet_ruleset_nation(dest, &packet);
-  }
+  } nations_iterate_end;
 }
 
 /**************************************************************************
@@ -3449,7 +3446,7 @@ static bool sanity_check_ruleset_data(void)
         exit(EXIT_FAILURE);
       }
     }
-  } players_iterate_end;
+  } nations_iterate_end;
 
   /* Check against unit upgrade loops */
   num_utypes = game.control.num_unit_types;

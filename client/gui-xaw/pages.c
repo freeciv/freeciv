@@ -217,7 +217,7 @@ void update_start_page(void)
 	nation = _("Random");
 	leader = "";
       } else {
-	nation = nation_name_for_player(pplayer);
+	nation = nation_adjective_for_player(pplayer);
 	leader = pplayer->name;
       }
 

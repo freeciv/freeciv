@@ -184,7 +184,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_NATION:
     cat_snprintf(buf, bufsz, _("Requires the %s nation.\n"),
-		 nation_name_translation(req->source.value.nation));
+		 nation_adjective_translation(req->source.value.nation));
     return;
   case REQ_UNITTYPE:
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n"),

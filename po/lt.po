@@ -6261,8 +6261,8 @@ msgid "You nuked %s."
 msgstr "Jūs numetėte branduolinę bombą ant %s."
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "%s susprogdino branduolinę bombą!"
 
 #: server/unittools.c:2097
@@ -8627,10 +8627,10 @@ msgstr ""
 msgid "Our Territory"
 msgstr "Mūsų teritorija"
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
-#, c-format
-msgid "Territory of the %s"
+#, fuzzy, c-format
+msgid "%s territory"
 msgstr "%s teritorija"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
@@ -8643,8 +8643,8 @@ msgstr[1] "%s teritorija (%d ėjimų paliaubos)"
 msgstr[2] "%s teritorija (%d ėjimų paliaubos)"
 
 #: client/text.c:139
-#, c-format
-msgid "Territory of the %s %s"
+#, fuzzy, c-format
+msgid "%s territory (%s)"
 msgstr "%s %s teritorija"
 
 #: client/text.c:144
@@ -8693,11 +8693,11 @@ msgstr "Infrastruktūra: %s"
 msgid "Activity: %s"
 msgstr ""
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
-#, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "Dalinys: %s (%s%s)"
+#, fuzzy, c-format
+msgid "Unit: %s (%s)"
+msgstr "Dalinys: %s (%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -14135,8 +14135,8 @@ msgid "The Greatest Civilizations in the world."
 msgstr "Didžiausios pasaulio civilizacijos."
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, c-format
-msgid "%s's SpaceShip"
+#, fuzzy, c-format
+msgid "The %s Spaceship"
 msgstr "%s Erdvėlaivis"
 
 #: client/gui-sdl/spaceshipdlg.c:172

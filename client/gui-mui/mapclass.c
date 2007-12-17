@@ -113,7 +113,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
       {
 	my_snprintf(s, sizeof(s), _("City: %s(%s)"),
 		    pcity->name,
-		    nation_name_translation(nation_of_city(pcity)));
+		    nation_adjective_for_player(city_owner(pcity)));
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 
 	if(text_obj)
@@ -148,7 +148,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	}
 	my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"),
 		    utype_name_translation(ptype),
-		    nation_name_translation(nation_of_unit(punit)),
+		    nation_adjective_for_player(unit_owner(punit)),
 		    cn);
 
 	text_obj = TextObject, MUIA_Text_Contents, s, End;

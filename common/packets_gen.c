@@ -24208,10 +24208,10 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
   }
 
   if (BV_ISSET(fields, 0)) {
-    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+    dio_get_string(&din, real_packet->adjective, sizeof(real_packet->adjective));
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_string(&din, real_packet->name_plural, sizeof(real_packet->name_plural));
+    dio_get_string(&din, real_packet->noun_plural, sizeof(real_packet->noun_plural));
   }
   if (BV_ISSET(fields, 2)) {
     dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
@@ -24371,11 +24371,11 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (strcmp(old->name, real_packet->name) != 0);
+  differ = (strcmp(old->adjective, real_packet->adjective) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (strcmp(old->name_plural, real_packet->name_plural) != 0);
+  differ = (strcmp(old->noun_plural, real_packet->noun_plural) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
@@ -24523,10 +24523,10 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
   dio_put_sint16(&dout, real_packet->id);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_string(&dout, real_packet->name);
+    dio_put_string(&dout, real_packet->adjective);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_string(&dout, real_packet->name_plural);
+    dio_put_string(&dout, real_packet->noun_plural);
   }
   if (BV_ISSET(fields, 2)) {
     dio_put_string(&dout, real_packet->graphic_str);

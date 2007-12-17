@@ -297,7 +297,7 @@ void update_intel_dialog(struct player *p)
     /* window title. */
     my_snprintf(buf, sizeof(buf),
 	_("Foreign Intelligence: %s Empire"),
-	nation_name_for_player(p));
+	nation_adjective_for_player(p));
     gtk_window_set_title(GTK_WINDOW(pdialog->shell), buf);
 
     /* diplomacy tab. */

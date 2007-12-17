@@ -192,7 +192,7 @@ void handle_game_load(struct packet_game_load *packet)
     if (pnation == NO_NATION_SELECTED) {
       nation_name = "";
     } else {
-      nation_name = nation_name_translation(pnation);
+      nation_name = nation_adjective_translation(pnation);
     }
 
     row[0] = packet->name[i];

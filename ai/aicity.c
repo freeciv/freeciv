@@ -1051,7 +1051,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       if (is_great_wonder(pcity->ai.choice.choice)) {
 	notify_player(NULL, pcity->tile, E_WONDER_STARTED,
 			 _("The %s have started building The %s in %s."),
-			 nation_plural_translation(nation_of_city(pcity)),
+			 nation_plural_for_player(city_owner(pcity)),
 			 get_impr_name_ex(pcity, pcity->ai.choice.choice),
 			 pcity->name);
       }

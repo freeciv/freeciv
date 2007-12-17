@@ -350,7 +350,7 @@ void spaceship_lost(struct player *pplayer)
   notify_player(NULL, NULL, E_SPACESHIP,
 		   _("Without guidance from the capital, the %s "
 		     "spaceship is lost!"),
-		   nation_name_for_player(pplayer));
+		   nation_adjective_for_player(pplayer));
   spaceship_init(&pplayer->spaceship);
   send_spaceship_info(pplayer, NULL);
 }

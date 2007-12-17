@@ -152,7 +152,7 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
 		reputation_text(game.players[i].reputation));
 
     *array++ = namebuf;
-    *array++ = nation_name_translation(game.players[i].nation);
+    *array++ = nation_adjective_for_player(&game.players[i]);
     *array++ = get_embassy_status(game.player_ptr, &game.players[i]);
     *array++ = dsbuf;
     *array++ = get_vision_status(game.player_ptr, &game.players[i]);

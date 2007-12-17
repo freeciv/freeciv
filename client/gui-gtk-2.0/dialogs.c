@@ -687,7 +687,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     }
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, nation_name_translation(pnation));
+    g_value_set_static_string(&value, nation_adjective_translation(pnation));
     gtk_list_store_set_value(store, &it, 3, &value);
     g_value_unset(&value);
   } nations_iterate_end;
@@ -724,7 +724,7 @@ static GtkWidget* create_nation_selection_list(void)
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
   gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
   
-  for (i = 0; i <= get_nation_groups_count(); i++) {
+  for (i = 0; i <= nation_group_count(); i++) {
     struct nation_group* group = (i == 0 ? NULL: nation_group_by_number(i - 1));
     nation_list = create_list_of_nations_in_group(group, i);
     group_name_label = gtk_label_new(group ? Q_(group->name) : _("All"));
@@ -1055,7 +1055,7 @@ void races_toggles_set_sensitive(void)
     return;
   }
 
-  for (i = 0; i <= get_nation_groups_count(); i++) {
+  for (i = 0; i <= nation_group_count(); i++) {
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));
     if (gtk_tree_model_get_iter_first(model, &it)) {
       do {
@@ -1074,7 +1074,7 @@ void races_toggles_set_sensitive(void)
   }
   
   changed = false;
-  for (i = 0; i <= get_nation_groups_count(); i++) {
+  for (i = 0; i <= nation_group_count(); i++) {
     gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list[i]), &path, NULL);
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));    
     if (path) {
@@ -1116,7 +1116,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
        * This can set selected_nation to -1, so we have to copy it
        */
       int selected_nation_copy = selected_nation;      
-      for (i = 0; i <= get_nation_groups_count(); i++) {
+      for (i = 0; i <= nation_group_count(); i++) {
         gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list[i]), &path, NULL);
         model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));    
         if (path) {

@@ -1671,7 +1671,7 @@ void popup_races_dialog(void)
     {
       DoMethod(nations_nation_listview, MUIM_List_Clear);
       for(i=0;i<game.control.playable_nation_count && i<64;i++)
-	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, nation_name_translation(/*FIXME*/i), MUIV_List_Insert_Sorted);
+	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, nation_adjective_translation(/*FIXME*/i), MUIV_List_Insert_Sorted);
 
       DoMethod(nations_nation_listview, MUIM_Notify, MUIA_List_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, nations_nation_active);
       DoMethod(nations_ok_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &civstandard_hook, nations_ok);

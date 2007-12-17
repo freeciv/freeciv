@@ -7256,8 +7256,8 @@ msgid "You nuked %s."
 msgstr "Aţi bombardat nuclear%s."
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "%si au explodat o bombă nucleară!"
 
 #: server/unittools.c:2097
@@ -9822,10 +9822,10 @@ msgstr "Sat mic tribal"
 msgid "Our Territory"
 msgstr "Teritoriul nostru"
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
-#, c-format
-msgid "Territory of the %s"
+#, fuzzy, c-format
+msgid "%s territory"
 msgstr "Teritoriul %slor"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
@@ -9837,8 +9837,8 @@ msgstr[0] "teritoriu %s (%d rundă de încetarea focului)"
 msgstr[1] "teritoriu %s (%d runde de încetarea focului)"
 
 #: client/text.c:139
-#, c-format
-msgid "Territory of the %s %s"
+#, fuzzy, c-format
+msgid "%s territory (%s)"
 msgstr "teritoriul %s %s"
 
 #: client/text.c:144
@@ -9885,11 +9885,11 @@ msgstr "Infrastructură:  %s"
 msgid "Activity: %s"
 msgstr "Activitate: %s"
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
-#, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "Unitate: %s(%s%s)"
+#, fuzzy, c-format
+msgid "Unit: %s (%s)"
+msgstr "Unitate: %s(%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -14715,8 +14715,8 @@ msgid "The Greatest Civilizations in the world."
 msgstr "Cele Mai Mari Civilizaţii În Lume."
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, c-format
-msgid "%s's SpaceShip"
+#, fuzzy, c-format
+msgid "The %s Spaceship"
 msgstr "Navă spaţială a lui %s"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

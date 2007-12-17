@@ -882,8 +882,8 @@ struct packet_ruleset_nation_groups {
 
 struct packet_ruleset_nation {
   Nation_type_id id;
-  char name[MAX_LEN_NAME];
-  char name_plural[MAX_LEN_NAME];
+  char adjective[MAX_LEN_NAME];
+  char noun_plural[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char legend[MAX_LEN_MSG];

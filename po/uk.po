@@ -7006,8 +7006,8 @@ msgid "You nuked %s."
 msgstr "Гра: Вами атаковано атомною бомбою %s."
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "Гра: %s атакував атомною бомбою!"
 
 #: server/unittools.c:2097
@@ -9460,11 +9460,11 @@ msgstr "Хут╕р маленького роду"
 msgid "Our Territory"
 msgstr ""
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
 #, fuzzy, c-format
-msgid "Territory of the %s"
-msgstr "%s з %s"
+msgid "%s territory"
+msgstr "%s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:129
@@ -9477,7 +9477,7 @@ msgstr[2] "П╕дрозд╕л: %s(%s%s)"
 
 #: client/text.c:139
 #, fuzzy, c-format
-msgid "Territory of the %s %s"
+msgid "%s territory (%s)"
 msgstr "%s з %s"
 
 #: client/text.c:144
@@ -9526,11 +9526,11 @@ msgstr "╤фраструктура:"
 msgid "Activity: %s"
 msgstr "Активн╕сть:"
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
 #, fuzzy, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "П╕дрозд╕л: %s(%s%s)"
+msgid "Unit: %s (%s)"
+msgstr "П╕дрозд╕л: %s(%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -14504,7 +14504,7 @@ msgstr "Найвеличн╕ш╕ цив╕л╕зац╕╖ в св╕т╕."
 
 #: client/gui-sdl/spaceshipdlg.c:142
 #, fuzzy, c-format
-msgid "%s's SpaceShip"
+msgid "The %s Spaceship"
 msgstr "Косм╕чний човен"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

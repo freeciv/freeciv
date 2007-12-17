@@ -482,7 +482,7 @@ static void populate_nation_listview(struct nation_group* group, HWND listview)
 
     /* FIXME: fcwin_listview_add_row() should be fixed to handle
      *        const strings. Now we just cast const away */
-    strings[0] = (char *) nation_name_translation(pnation);
+    strings[0] = (char *) nation_adjective_translation(pnation);
 
     fcwin_listview_add_row(listview, pnation->index, 1, strings);
     visible_nations[n++] = pnation->index;
@@ -527,7 +527,7 @@ static void create_races_dialog(struct player *pplayer)
   button_column = fcwin_vbox_new(shell, FALSE);
   fcwin_box_add_box(left_column, button_column, FALSE, FALSE, 5);
 
-  for (i = 0; i <= get_nation_groups_count(); i++) {
+  for (i = 0; i <= nation_group_count(); i++) {
     struct nation_group* group = (i == 0 ? NULL: nation_group_by_number(i - 1));
     fcwin_box_add_button(button_column, group ? _(group->name) : _("All"), ID_RACESDLG_NATION_TYPE_BASE + i, WS_GROUP, TRUE, TRUE, 0);
   }

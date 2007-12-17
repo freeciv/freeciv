@@ -7129,8 +7129,8 @@ msgid "You nuked %s."
 msgstr "Játék: Atombombát dobtál le %s városára."
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "Játék: %s atombombát robbantott!"
 
 #: server/unittools.c:2097
@@ -9633,11 +9633,11 @@ msgstr "Apró törzsi falu"
 msgid "Our Territory"
 msgstr ""
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
 #, fuzzy, c-format
-msgid "Territory of the %s"
-msgstr "A(z) %2$s   (Államforma: %1$s)"
+msgid "%s territory"
+msgstr "A(z) %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:129
@@ -9648,7 +9648,7 @@ msgstr[0] "Egység: %s(%s%s)"
 
 #: client/text.c:139
 #, fuzzy, c-format
-msgid "Territory of the %s %s"
+msgid "%s territory (%s)"
 msgstr "A(z) %2$s   (Államforma: %1$s)"
 
 #: client/text.c:144
@@ -9695,11 +9695,11 @@ msgstr "Infrastruktúra: "
 msgid "Activity: %s"
 msgstr "Tevékenység: "
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
 #, fuzzy, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "Egység: %s(%s%s)"
+msgid "Unit: %s (%s)"
+msgstr "Egység: %s(%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -14650,7 +14650,7 @@ msgstr "A világ legnagyobb civilizációi."
 
 #: client/gui-sdl/spaceshipdlg.c:142
 #, fuzzy, c-format
-msgid "%s's SpaceShip"
+msgid "The %s Spaceship"
 msgstr "Ûrhajók"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

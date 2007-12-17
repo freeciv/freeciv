@@ -271,7 +271,7 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.terrain->index;
     return;
   case REQ_NATION:
-    *value = source->value.nation->index;
+    *value = nation_number(source->value.nation);
     return;
   case REQ_UNITTYPE:
     *value = source->value.unittype->index;
@@ -1028,7 +1028,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
     break;
   case REQ_NATION:
-    mystrlcat(buf, nation_name_translation(psource->value.nation), bufsz);
+    mystrlcat(buf, nation_adjective_translation(psource->value.nation), bufsz);
     break;
   case REQ_UNITTYPE:
     mystrlcat(buf, utype_name_translation(psource->value.unittype), bufsz);

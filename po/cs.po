@@ -7125,8 +7125,8 @@ msgid "You nuked %s."
 msgstr "Při atomovém útoku jste ozářil(a) město %s."
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "%s odpálili atomovou zbraň."
 
 #: server/unittools.c:2097
@@ -9555,11 +9555,11 @@ msgstr "Vesnice malého kmene"
 msgid "Our Territory"
 msgstr "Naše území"
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
 #, fuzzy, c-format
-msgid "Territory of the %s"
-msgstr "Území %s %s"
+msgid "%s territory"
+msgstr "Území %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:129
@@ -9571,8 +9571,8 @@ msgstr[1] "%s území (%d tahy příměří)"
 msgstr[2] "%s území (%d tahů příměří)"
 
 #: client/text.c:139
-#, c-format
-msgid "Territory of the %s %s"
+#, fuzzy, c-format
+msgid "%s territory (%s)"
 msgstr "Území %s %s"
 
 #: client/text.c:144
@@ -9621,11 +9621,11 @@ msgstr "Infrastruktura: %s"
 msgid "Activity: %s"
 msgstr "Aktivita: %s"
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
-#, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "Jednotka: %s(%s%s)"
+#, fuzzy, c-format
+msgid "Unit: %s (%s)"
+msgstr "Jednotka: %s(%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -14541,7 +14541,7 @@ msgstr "Největší civilizace světa"
 
 #: client/gui-sdl/spaceshipdlg.c:142
 #, fuzzy, c-format
-msgid "%s's SpaceShip"
+msgid "The %s Spaceship"
 msgstr "Kosmická loď"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

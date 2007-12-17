@@ -45,7 +45,7 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
 static bool bounds_check_nation(const struct nation_type *pnation,
 				int loglevel, const char *func_name)
 {
-  if (game.control.nation_count == 0) {
+  if (0 == nation_count()) {
     freelog(loglevel, "%s() called before nations setup", func_name);
     return FALSE;
   }
@@ -54,10 +54,10 @@ static bool bounds_check_nation(const struct nation_type *pnation,
     return FALSE;
   }
   if (pnation->index < 0
-      || pnation->index >= game.control.nation_count
-      || &nations[pnation->index] != pnation) {
-    freelog(loglevel, "%s() has bad nation index %d (count %d)",
-	    func_name, pnation->index, game.control.nation_count);
+      || pnation->index >= nation_count()
+      || &nations[nation_index(pnation)] != pnation) {
+    freelog(loglevel, "%s() has bad nation number %d (count %d)",
+	    func_name, pnation->index, nation_count());
     return FALSE;
   }
   return TRUE;
@@ -70,7 +70,7 @@ static bool bounds_check_nation(const struct nation_type *pnation,
 struct nation_type *find_nation_by_translated_name(const char *name)
 {
   nations_iterate(pnation) {
-    if (0 == strcmp(nation_name_translation(pnation), name)) {
+    if (0 == strcmp(nation_adjective_translation(pnation), name)) {
       return pnation;
     }
   } nations_iterate_end;
@@ -96,7 +96,7 @@ struct nation_type *find_nation_by_rule_name(const char *name)
 }
 
 /****************************************************************************
-  Return the (untranslated) rule name of the nation.
+  Return the (untranslated) rule name of the nation (adjective form).
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_rule_name(const struct nation_type *pnation)
@@ -104,29 +104,29 @@ const char *nation_rule_name(const struct nation_type *pnation)
   if (!bounds_check_nation(pnation, LOG_ERROR, "nation_rule_name")) {
     return "";
   }
-  return Qn_(pnation->name_single.vernacular);
+  return Qn_(pnation->adjective.vernacular);
 }
 
 /****************************************************************************
-  Return the (translated) name of the given nation. 
+  Return the (translated) adjective for the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *nation_name_translation(struct nation_type *pnation)
+const char *nation_adjective_translation(struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_ERROR, "nation_name_translation")) {
+  if (!bounds_check_nation(pnation, LOG_ERROR, "nation_adjective_translation")) {
     return "";
   }
-  if (NULL == pnation->name_single.translated) {
+  if (NULL == pnation->adjective.translated) {
     /* delayed (unified) translation */
-    pnation->name_single.translated = ('\0' == pnation->name_single.vernacular[0])
-				      ? pnation->name_single.vernacular
-				      : Q_(pnation->name_single.vernacular);
+    pnation->adjective.translated = ('\0' == pnation->adjective.vernacular[0])
+				    ? pnation->adjective.vernacular
+				    : Q_(pnation->adjective.vernacular);
   }
-  return pnation->name_single.translated;
+  return pnation->adjective.translated;
 }
 
 /****************************************************************************
-  Return the (translated) plural name of the given nation. 
+  Return the (translated) plural noun of the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_plural_translation(struct nation_type *pnation)
@@ -134,26 +134,26 @@ const char *nation_plural_translation(struct nation_type *pnation)
   if (!bounds_check_nation(pnation, LOG_ERROR, "nation_plural_translation")) {
     return "";
   }
-  if (NULL == pnation->name_plural.translated) {
+  if (NULL == pnation->noun_plural.translated) {
     /* delayed (unified) translation */
-    pnation->name_plural.translated = ('\0' == pnation->name_plural.vernacular[0])
-				      ? pnation->name_plural.vernacular
-				      : Q_(pnation->name_plural.vernacular);
+    pnation->noun_plural.translated = ('\0' == pnation->noun_plural.vernacular[0])
+				      ? pnation->noun_plural.vernacular
+				      : Q_(pnation->noun_plural.vernacular);
   }
-  return pnation->name_plural.translated;
+  return pnation->noun_plural.translated;
 }
 
 /****************************************************************************
-  Return the (translated) name of the given nation of a player. 
+  Return the (translated) adjective for the given nation of a player. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *nation_name_for_player(const struct player *pplayer)
+const char *nation_adjective_for_player(const struct player *pplayer)
 {
-  return nation_name_translation(nation_of_player(pplayer));
+  return nation_adjective_translation(nation_of_player(pplayer));
 }
 
 /****************************************************************************
-  Return the (translated) plural name of the given nation of a player. 
+  Return the (translated) plural noun of the given nation of a player. 
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_plural_for_player(const struct player *pplayer)
@@ -291,6 +291,57 @@ struct nation_type *nation_by_number(const Nation_type_id nation)
     return NULL;
   }
   return &nations[nation];
+}
+
+/**************************************************************************
+  Return the nation index.
+**************************************************************************/
+Nation_type_id nation_number(const struct nation_type *pnation)
+{
+  assert(pnation);
+  return pnation->index;
+}
+
+/**************************************************************************
+  Return the nation index.
+
+  Currently same as nation_number(), paired with nation_count()
+  indicates use as an array index.
+**************************************************************************/
+Nation_type_id nation_index(const struct nation_type *pnation)
+{
+  assert(pnation);
+  return pnation - nations;
+}
+
+/****************************************************************************
+  Return the number of nations.
+****************************************************************************/
+Nation_type_id nation_count(void)
+{
+  return game.control.nation_count;
+}
+
+/**************************************************************************
+  Return the last item of nations.
+**************************************************************************/
+const struct nation_type *nation_array_last(void)
+{
+  if (game.control.nation_count > 0) {
+    return &nations[game.control.nation_count - 1];
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the first item of nations.
+**************************************************************************/
+struct nation_type *nation_array_first(void)
+{
+  if (game.control.nation_count > 0) {
+    return nations;
+  }
+  return NULL;
 }
 
 /***************************************************************
@@ -431,7 +482,7 @@ struct nation_group *add_new_nation_group(const char *name)
   }
 
   group = nation_groups + num_nation_groups;
-  group->index = num_nation_groups;
+  group->item_number = num_nation_groups;
   sz_strlcpy(group->name, name);
   group->match = 0;
 
@@ -443,13 +494,31 @@ struct nation_group *add_new_nation_group(const char *name)
 /****************************************************************************
   Return the number of nation groups.
 ****************************************************************************/
-int get_nation_groups_count(void)
+int nation_group_count(void)
 {
   return num_nation_groups;
 }
 
+/**************************************************************************
+  Return the nation group index.
+**************************************************************************/
+int nation_group_index(const struct nation_group *pgroup)
+{
+  assert(pgroup);
+  return pgroup - nation_groups;
+}
+
+/**************************************************************************
+  Return the nation group index.
+**************************************************************************/
+int nation_group_number(const struct nation_group *pgroup)
+{
+  assert(pgroup);
+  return pgroup->item_number;
+}
+
 /****************************************************************************
-  Return the government with the given index.
+  Return the nation group with the given index.
 
   This function returns NULL for an out-of-range index (some callers
   rely on this).
@@ -494,6 +563,28 @@ bool is_nation_in_group(struct nation_type *nation,
     }
   }
   return FALSE;
+}
+
+/**************************************************************************
+  Return the first item of nation groups.
+**************************************************************************/
+struct nation_group *nation_group_array_first(void)
+{
+  if (num_nation_groups > 0) {
+    return nation_groups;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return the last item of nation groups.
+**************************************************************************/
+const struct nation_group *nation_group_array_last(void)
+{
+  if (num_nation_groups > 0) {
+    return &nation_groups[num_nation_groups - 1];
+  }
+  return NULL;
 }
 
 /****************************************************************************

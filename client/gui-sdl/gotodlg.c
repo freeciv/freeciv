@@ -279,7 +279,7 @@ static void popup_goto_airlift_dialog(void)
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
     
     pBuf->string16 = create_str16_from_char(
-    			nation_name_translation(game.players[i].nation),
+    			nation_adjective_for_player(&game.players[i]),
     			adj_font(12));
     pBuf->string16->style &= ~SF_CENTER;
     set_wstate(pBuf, FC_WS_NORMAL);

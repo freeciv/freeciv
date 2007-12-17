@@ -270,7 +270,7 @@ void update_players_dialog(void)
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
 	      "%-16s %-12s %-8s %-15s %-8s %-6s   %-15s%s", 
 	      namebuf,
-	      nation_name_translation(game.players[i].nation), 
+	      nation_adjective_for_player(&game.players[i]), 
 	      get_embassy_status(game.player_ptr, &game.players[i]),
 	      dsbuf,
 	      get_vision_status(game.player_ptr, &game.players[i]),

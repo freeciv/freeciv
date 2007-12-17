@@ -6842,8 +6842,8 @@ msgid "You nuked %s."
 msgstr "لقد قصفت %s بالسلاح النووي."
 
 #: server/unittools.c:2074
-#, c-format
-msgid "%s detonated a nuke!"
+#, fuzzy, c-format
+msgid "The %s detonated a nuke!"
 msgstr "فجر %s سلاحا نوويا!"
 
 #: server/unittools.c:2097
@@ -9311,10 +9311,10 @@ msgstr "قرية قبيلة أقلية"
 msgid "Our Territory"
 msgstr "أرضنا"
 
-#. TRANS: "Territory of the Polish"
+#. TRANS: "Polish territory"
 #: client/text.c:120
-#, c-format
-msgid "Territory of the %s"
+#, fuzzy, c-format
+msgid "%s territory"
 msgstr "أرض ال %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
@@ -9327,8 +9327,8 @@ msgstr[1] "دوران"
 msgstr[2] "دوران"
 
 #: client/text.c:139
-#, c-format
-msgid "Territory of the %s %s"
+#, fuzzy, c-format
+msgid "%s territory (%s)"
 msgstr "أرض ال %s %s"
 
 #: client/text.c:144
@@ -9377,11 +9377,11 @@ msgstr "البنية التحتية: %s"
 msgid "Activity: %s"
 msgstr "النشاط: %s"
 
-#. TRANS: "Unit: Musketeers (Polish/Warsaw)"
+#. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
-#, c-format
-msgid "Unit: %s (%s%s)"
-msgstr "الوحدة: %s (%s%s)"
+#, fuzzy, c-format
+msgid "Unit: %s (%s)"
+msgstr "الوحدة: %s (%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:240
@@ -14209,8 +14209,8 @@ msgid "The Greatest Civilizations in the world."
 msgstr "أعظم حضارات في العالم."
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, c-format
-msgid "%s's SpaceShip"
+#, fuzzy, c-format
+msgid "The %s Spaceship"
 msgstr "سفينة فضائية الخاصة ب %s"
 
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:240

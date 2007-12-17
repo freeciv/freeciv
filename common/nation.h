@@ -16,7 +16,7 @@
 #include "shared.h"		/* MAX_LEN_NAME */
 
 #include "fc_types.h"
-#include "terrain.h"		/* T_COUNT */
+#include "terrain.h"            /* MAX_NUM_TERRAINS */
 
 #define MAX_NUM_TECH_GOALS 10
 
@@ -58,7 +58,7 @@ struct leader {
 };
 
 struct nation_group {
-  int index;
+  int item_number;
 
   char name[MAX_LEN_NAME];
   
@@ -66,11 +66,11 @@ struct nation_group {
   int match;
 };
 
+/* Pointer values are allocated on load then freed in free_nations(). */
 struct nation_type {
-  int index;
-  /* Pointer values are allocated on load then freed in free_nations(). */
-  struct name_translation name_single;
-  struct name_translation name_plural;
+  Nation_type_id index;
+  struct name_translation adjective;
+  struct name_translation noun_plural;
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;
@@ -109,20 +109,24 @@ struct nation_type {
 };
 
 /* General nation accessor functions. */
+Nation_type_id nation_count(void);
+Nation_type_id nation_index(const struct nation_type *pnation);
+Nation_type_id nation_number(const struct nation_type *pnation);
+
 struct nation_type *nation_by_number(const Nation_type_id nation);
 struct nation_type *nation_of_player(const struct player *pplayer);
 struct nation_type *nation_of_city(const struct city *pcity);
 struct nation_type *nation_of_unit(const struct unit *punit);
 
-const char *nation_rule_name(const struct nation_type *pnation);
-
-const char *nation_name_translation(struct nation_type *pnation);
-const char *nation_name_for_player(const struct player *pplayer);
-const char *nation_plural_translation(struct nation_type *pnation);
-const char *nation_plural_for_player(const struct player *pplayer);
-
 struct nation_type *find_nation_by_rule_name(const char *name);
 struct nation_type *find_nation_by_translated_name(const char *name);
+
+const char *nation_rule_name(const struct nation_type *pnation);
+
+const char *nation_adjective_translation(struct nation_type *pnation);
+const char *nation_adjective_for_player(const struct player *pplayer);
+const char *nation_plural_translation(struct nation_type *pnation);
+const char *nation_plural_for_player(const struct player *pplayer);
 
 int city_style_of_nation(const struct nation_type *nation);
 
@@ -141,6 +145,10 @@ bool check_nation_leader_name(const struct nation_type *nation,
 			      const char *name);
 
 /* General nation group accessor routines */
+int nation_group_count(void);
+int nation_group_index(const struct nation_group *pgroup);
+int nation_group_number(const struct nation_group *pgroup);
+
 struct nation_group *nation_group_by_number(int id);
 struct nation_group *find_nation_group_by_rule_name(const char *name);
 
@@ -148,20 +156,21 @@ bool is_nation_in_group(struct nation_type *nation,
 			struct nation_group *group);
 
 /* Initialization and iteration */
-struct nation_group *add_new_nation_group(const char *name);
-int get_nation_groups_count(void);
-
 void nation_groups_free(void);
+struct nation_group *add_new_nation_group(const char *name);
 
-#define nation_groups_iterate(pgroup)					    \
-{									    \
-  int _index;								    \
-									    \
-  for (_index = 0; _index < get_nation_groups_count(); _index++) {	    \
-    struct nation_group *pgroup = nation_group_by_number(_index);
+struct nation_group *nation_group_array_first(void);
+const struct nation_group *nation_group_array_last(void);
 
-#define nation_groups_iterate_end					    \
-  }									    \
+#define nation_groups_iterate(_p)					\
+{									\
+  struct nation_group *_p = nation_group_array_first();			\
+  if (NULL != _p) {							\
+    for (; _p <= nation_group_array_last(); _p++) {
+
+#define nation_groups_iterate_end					\
+    }									\
+  }									\
 }
 
 /* Initialization and iteration */
@@ -169,19 +178,20 @@ void nations_alloc(int num);
 void nations_free(void);
 void nation_city_names_free(struct city_name *city_names);
 
+struct nation_type *nation_array_first(void);
+const struct nation_type *nation_array_last(void);
+
 /* Iterate over nations.  This iterates over all nations, including
  * unplayable ones (use is_nation_playable to filter if necessary). */
-#define nations_iterate(pnation)					    \
-{									    \
-  int NI_index;								    \
-									    \
-  for (NI_index = 0;							    \
-       NI_index < game.control.nation_count;				    \
-       NI_index++) {							    \
-    struct nation_type *pnation = nation_by_number(NI_index);
+#define nations_iterate(_p)						\
+{									\
+  struct nation_type *_p = nation_array_first();			\
+  if (NULL != _p) {							\
+    for (; _p <= nation_array_last(); _p++) {
 
-#define nations_iterate_end						    \
-  }									    \
+#define nations_iterate_end						\
+    }									\
+  }									\
 }
 
 #endif  /* FC__NATION_H */

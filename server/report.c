@@ -31,8 +31,9 @@
 #include "government.h"
 #include "packets.h"
 #include "player.h"
-#include "version.h"
+#include "specialist.h"
 #include "unitlist.h"
+#include "version.h"
 
 #include "citytools.h"
 #include "report.h"
@@ -267,7 +268,7 @@ void report_top_five_cities(struct conn_list *dest)
 
     cat_snprintf(buffer, sizeof(buffer),
 		 _("%2d: The %s City of %s of size %d, "), i + 1,
-		 nation_name_translation(nation_of_city(size[i].city)),
+		 nation_adjective_for_player(city_owner(size[i].city)),
 		 size[i].city->name, size[i].city->size);
 
     wonders = nr_wonders(size[i].city);
@@ -299,8 +300,8 @@ void report_wonders_of_the_world(struct conn_list *dest)
       if (pcity) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
 		     get_impr_name_ex(pcity, i), pcity->name,
-		     nation_name_translation(nation_of_city(pcity)));
-      } else if(great_wonder_was_built(i)) {
+		     nation_adjective_for_player(city_owner(pcity)));
+      } else if (great_wonder_was_built(i)) {
 	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
 		     improvement_name_translation(i));
       }
@@ -316,7 +317,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 			 _("(building %s in %s (%s))\n"),
 			 improvement_name_translation(i),
 			 pcity->name,
-			 nation_name_for_player(pplayer));
+			 nation_adjective_for_player(pplayer));
 	  }
 	} city_list_iterate_end;
       } players_iterate_end;
