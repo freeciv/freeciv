@@ -49,7 +49,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Banking", "Player"
-; Should require Marketplace?  I do not think so...
+      "Building", "Marketplace", "City"
     }
 graphic		= "b.bank"
 graphic_alt	= "-"
@@ -274,8 +274,8 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
-      "Terrain", "Mountains", "Adjacent"
       "Special", "River", "Adjacent"
+      "Building", "Factory", "City"
     }
 graphic		= "b.hydro_plant"
 graphic_alt	= "-"
@@ -366,7 +366,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Robotics", "Player"
-; Should require Factory?  I don''t think so...
+      "Building", "Factory", "City"
     }
 graphic		= "b.mfg_plant"
 graphic_alt	= "-"
@@ -388,6 +388,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Nuclear Power", "Player"
+      "Building", "Factory", "City"
     }
 graphic		= "b.nuclear_plant"
 graphic_alt	= "-"
@@ -448,6 +449,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Refining", "Player"
+      "Building", "Factory", "City"
     }
 graphic		= "b.power_plant"
 graphic_alt	= "-"
@@ -621,7 +623,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "University", "Player"
-; Should require Library?  I don''t think so...
+      "Building", "Library", "City"
     }
 graphic		= "b.university"
 graphic_alt	= "-"
@@ -807,8 +809,6 @@ genus           = "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
-      "Terrain", "Mountains", "Adjacent"
-      "Special", "River", "Adjacent"
     }
 graphic		= "b.hoover_dam"
 graphic_alt	= "-"

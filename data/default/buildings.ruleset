@@ -1192,6 +1192,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
+      "Special", "River", "Adjacent"
     }
 graphic	= "b.hoover_dam"
 graphic_alt	= "-"
@@ -1291,6 +1292,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Map Making", "Player"
+      "Terrain", "Ocean", "Adjacent"
     }
 graphic	= "b.lighthouse"
 graphic_alt	= "-"
@@ -1311,6 +1313,7 @@ genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Navigation", "Player"
+      "Terrain", "Ocean", "Adjacent"
     }
 graphic	= "b.magellans_expedition"
 graphic_alt	= "-"
