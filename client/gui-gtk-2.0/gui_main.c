@@ -1620,7 +1620,7 @@ void update_conn_list_dialog(void)
 	nation = _("Random");
 	leader = "";
       } else {
-	nation = nation_name_for_player(pplayer);
+	nation = nation_adjective_for_player(pplayer);
 	leader = pplayer->name;
       }
       team = pplayer->team ? team_name_translation(pplayer->team) : "";

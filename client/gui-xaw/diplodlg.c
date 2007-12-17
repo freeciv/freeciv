@@ -356,7 +356,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 					       NULL);
   
   my_snprintf(buf, sizeof(buf), _("The %s offerings"),
-	      nation_name_for_player(plr0));
+	      nation_adjective_for_player(plr0));
   pdialog->dip_headline0=XtVaCreateManagedWidget("dipheadline0", 
 						 labelWidgetClass, 
 						 pdialog->dip_form0, 
@@ -364,7 +364,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 NULL);   
 
   my_snprintf(buf, sizeof(buf), _("The %s offerings"),
-	      nation_name_for_player(plr1));
+	      nation_adjective_for_player(plr1));
   pdialog->dip_headline1=XtVaCreateManagedWidget("dipheadline1", 
 						 labelWidgetClass, 
 						 pdialog->dip_form1, 
@@ -540,10 +540,10 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	      _("This Eternal Treaty\n"
 		 "marks the results of the diplomatic work between\n"
 		 "The %s %s %s\nand\nThe %s %s %s"),
-	  nation_name_for_player(plr0),
+	  nation_adjective_for_player(plr0),
 	  ruler_title_translation(plr0),
 	  plr0->name,
-	  nation_name_for_player(plr1),
+	  nation_adjective_for_player(plr1),
 	  ruler_title_translation(plr1),
 	  plr1->name);
   
@@ -578,7 +578,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtVaSetValues(pdialog->dip_clauselist, XtNwidth, width, NULL); 
 
   my_snprintf(buf, sizeof(buf), _("%s view:"),
-              nation_name_for_player(plr0));
+              nation_adjective_for_player(plr0));
   pdialog->dip_acceptlabel0=XtVaCreateManagedWidget("dipacceptlabel0",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 
@@ -590,7 +590,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						    XtNbitmap, get_thumb_pixmap(0),
 						    NULL);
   my_snprintf(buf, sizeof(buf), _("%s view:"),
-              nation_name_for_player(plr1));
+              nation_adjective_for_player(plr1));
   pdialog->dip_acceptlabel1=XtVaCreateManagedWidget("dipacceptlabel1",
 						    labelWidgetClass, 
 						    pdialog->dip_formm, 

@@ -719,7 +719,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     }
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, nation_name_translation(pnation));
+    g_value_set_static_string(&value, nation_adjective_translation(pnation));
     gtk_list_store_set_value(store, &it, 3, &value);
     g_value_unset(&value);
   } nations_iterate_end;

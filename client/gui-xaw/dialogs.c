@@ -909,7 +909,7 @@ void create_races_dialog(struct player *pplayer)
   maxracelen = 0;
   nations_iterate(pnation) {
     if (is_nation_playable(pnation)) {
-      len = strlen(nation_name_translation(pnation));
+      len = strlen(nation_adjective_translation(pnation));
       maxracelen = MAX(maxracelen, len);
     }
   } nations_iterate_end;
@@ -1231,7 +1231,7 @@ void create_races_dialog(struct player *pplayer)
     if (races_toggles[i]) {
       XtVaSetValues(races_toggles[i],
 		    XtNlabel,
-		      (XtArgVal)nation_name_translation(races_toggles_to_nations[i]),
+		      (XtArgVal)nation_adjective_translation(races_toggles_to_nations[i]),
 		    NULL);
     }
   }
@@ -1465,8 +1465,8 @@ int races_indirect_compare(const void *first, const void *second)
   struct nation_type *first_nation = *(struct nation_type **)first;
   struct nation_type *second_nation = *(struct nation_type **)second;
 
-  first_string = nation_name_translation(first_nation);
-  second_string = nation_name_translation(second_nation);
+  first_string = nation_adjective_translation(first_nation);
+  second_string = nation_adjective_translation(second_nation);
 
   return mystrcasecmp(first_string, second_string);
 }

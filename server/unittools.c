@@ -616,6 +616,16 @@ static bool maybe_settler_become_veteran(struct unit *punit)
 }
 
 /**************************************************************************
+  common notification for all experience levels.
+**************************************************************************/
+void notify_unit_experience(struct unit *punit)
+{
+  notify_player(unit_owner(punit), punit->tile, E_UNIT_BECAME_VET,
+  		_("Your %s became more experienced!"),
+  		unit_name_translation(punit));
+}
+
+/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -638,11 +648,8 @@ static void update_unit_activity(struct unit *punit)
     /* settler may become veteran when doing something useful */
     if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY
        && maybe_settler_become_veteran(punit)) {
-      notify_player(pplayer, ptile, E_UNIT_BECAME_VET,
-	_("Your %s became more experienced!"),
-	unit_name_translation(punit));
+      notify_unit_experience(punit);
     }
-    
   }
 
   unit_restore_movepoints(pplayer, punit);
@@ -2106,7 +2113,8 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
   } square_iterate_end;
 
   notify_conn(NULL, ptile, E_NUKE,
-		 _("%s detonated a nuke!"), pplayer->name);
+	      _("The %s detonated a nuke!"),
+	      nation_plural_for_player(pplayer));
 }
 
 /**************************************************************************

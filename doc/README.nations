@@ -191,9 +191,9 @@ Nation naming
 =============
 
 The default name of the nation should be the name of the people, 
-country or empire in English, adjective form. For example, the nations 
+country, or empire in English adjective form. For example, the nation 
 of ancient Babylon is called "Babylonian" in Freeciv. The plural form 
-should be standard English as well, for example plural for the Polish 
+should be standard English as well. For example, plural for the Polish 
 nation is "Poles" in Freeciv. Use only English ascii for nation names.
 
 

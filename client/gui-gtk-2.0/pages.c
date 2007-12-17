@@ -2007,7 +2007,7 @@ static void update_nation_page(struct packet_game_load *packet)
     if (pnation == NO_NATION_SELECTED) {
       nation_name = "";
     } else {
-      nation_name = nation_name_translation(pnation);
+      nation_name = nation_adjective_translation(pnation);
     }
 
     gtk_list_store_append(nation_store, &iter);

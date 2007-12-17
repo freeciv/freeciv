@@ -222,7 +222,7 @@ void popup_races_dialog(struct player *pplayer)
 
     string = ct_string_create(STYLE_NORMAL, 14,
 			      ct_extend_std_color(COLOR_STD_BLACK),
-			      COLOR_EXT_GRAY, nation_name_translation(nation));
+			      COLOR_EXT_GRAY, nation_adjective_translation(nation));
     label = sw_label_create_text(root_window, string);
     sw_list_set_item(nations_list, 1, i, label);
 

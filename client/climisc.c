@@ -223,32 +223,32 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   switch(pclause->type) {
   case CLAUSE_ADVANCE:
     my_snprintf(buf, bufsiz, _("The %s give %s"),
-		nation_plural_translation(pclause->from->nation),
+		nation_plural_for_player(pclause->from),
 		advance_name_for_player(game.player_ptr, pclause->value));
     break;
   case CLAUSE_CITY:
     pcity = game_find_city_by_number(pclause->value);
     if (pcity) {
       my_snprintf(buf, bufsiz, _("The %s give %s"),
-                  nation_plural_translation(pclause->from->nation),
+                  nation_plural_for_player(pclause->from),
 		  pcity->name);
     } else {
       my_snprintf(buf, bufsiz,_("The %s give unknown city."),
-                  nation_plural_translation(pclause->from->nation));
+                  nation_plural_for_player(pclause->from));
     }
     break;
   case CLAUSE_GOLD:
     my_snprintf(buf, bufsiz, _("The %s give %d gold"),
-		nation_plural_translation(pclause->from->nation),
+		nation_plural_for_player(pclause->from),
 		pclause->value);
     break;
   case CLAUSE_MAP:
     my_snprintf(buf, bufsiz, _("The %s give their worldmap"),
-		nation_plural_translation(pclause->from->nation));
+		nation_plural_for_player(pclause->from));
     break;
   case CLAUSE_SEAMAP:
     my_snprintf(buf, bufsiz, _("The %s give their seamap"),
-		nation_plural_translation(pclause->from->nation));
+		nation_plural_for_player(pclause->from));
     break;
   case CLAUSE_CEASEFIRE:
     my_snprintf(buf, bufsiz, _("The parties agree on a cease-fire"));
@@ -261,7 +261,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     break;
   case CLAUSE_VISION:
     my_snprintf(buf, bufsiz, _("The %s give shared vision"),
-		nation_plural_translation(pclause->from->nation));
+		nation_plural_for_player(pclause->from));
     break;
   default:
     assert(FALSE);

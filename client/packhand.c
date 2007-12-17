@@ -2671,10 +2671,10 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
     return;
   }
 
-  sz_strlcpy(pl->name_single.vernacular, p->name);
-  pl->name_single.translated = NULL;
-  sz_strlcpy(pl->name_plural.vernacular, p->name_plural);
-  pl->name_plural.translated = NULL;
+  sz_strlcpy(pl->adjective.vernacular, p->adjective);
+  pl->adjective.translated = NULL;
+  sz_strlcpy(pl->noun_plural.vernacular, p->noun_plural);
+  pl->noun_plural.translated = NULL;
   sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
   sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;

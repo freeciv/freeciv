@@ -147,15 +147,15 @@ const char *api_methods_nation_type_rule_name(Nation_Type *pnation)
 }
 
 /**************************************************************************
-  Return translated name for Nation_Type
+  Return translated adjective for Nation_Type
 **************************************************************************/
 const char *api_methods_nation_type_name_translation(Nation_Type *pnation)
 {
-  return nation_name_translation(pnation);
+  return nation_adjective_translation(pnation);
 }
 
 /**************************************************************************
-  Return translated plural name for Nation_Type
+  Return translated plural noun for Nation_Type
 **************************************************************************/
 const char *api_methods_nation_type_plural_translation(Nation_Type *pnation)
 {

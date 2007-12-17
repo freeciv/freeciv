@@ -139,8 +139,8 @@ void popup_spaceship_dialog(struct player *pPlayer)
   
     pSpaceShp = fc_calloc(1, sizeof(struct SMALL_DLG));
     
-    my_snprintf(cBuf, sizeof(cBuf), _("%s's SpaceShip"),
-				    nation_name_for_player(pPlayer));
+    my_snprintf(cBuf, sizeof(cBuf), _("The %s Spaceship"),
+				    nation_adjective_for_player(pPlayer));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
   

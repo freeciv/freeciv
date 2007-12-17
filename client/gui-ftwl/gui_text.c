@@ -374,7 +374,7 @@ const char *mapview_get_city_info_text(struct city *pcity)
   INIT;
 
   add_line(_("City: %s (%s)"), pcity->name,
-	   nation_name_translation(nation_of_city(pcity)));
+	   nation_adjective_for_player(city_owner(pcity)));
   if (city_got_citywalls(pcity)) {
     add(_(" with City Walls"));
   }
@@ -405,6 +405,7 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
 
 /****************************************************************************
   Get a longer tooltip for a unit.
+  FIXME: should use same method as client/text.c popup_info_text()
 ****************************************************************************/
 const char *mapview_get_unit_info_text(struct unit *punit)
 {
@@ -416,21 +417,31 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     add_line(_("Activity: %s"), activity_text);
   }
   if (punit) {
-    char tmp[64] = { 0 };
+    struct player *owner = unit_owner(punit);
     struct unit_type *ptype = unit_type(punit);
 
-    if (player_number(unit_owner(punit)) == game.info.player_idx) {
-      struct city *pcity =
-	  player_find_city_by_id(game.player_ptr, punit->homecity);
+    if (owner == game.player_ptr) {
+      struct city *pcity = player_find_city_by_id(owner, punit->homecity);
 
       if (pcity){
-	my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
+	/* TRANS: "Unit: Musketeers (Polish, Warsaw)" */
+	add_line(&str, _("Unit: %s (%s, %s)"),
+		 utype_name_translation(ptype),
+		 nation_adjective_for_player(owner),
+		 pcity->name);
+      } else {
+	/* TRANS: "Unit: Musketeers (Polish)" */
+	add_line(&str, _("Unit: %s (%s)"),
+		 utype_name_translation(ptype),
+		 nation_adjective_for_player(owner));
       }
-    }
-    add_line(_("Unit: %s(%s%s)"), utype_name_translation(ptype),
-	     nation_name_translation(nation_of_unit(punit)), tmp);
-    if (player_number(unit_owner(punit)) != game.info.player_idx) {
+    } else {
       struct unit *apunit = head_of_units_in_focus();  /* FIXME, need best in stack */
+
+      /* TRANS: "Unit: Musketeers (Polish)" */
+      add_line(&str, _("Unit: %s (%s)"),
+               utype_name_translation(ptype),
+               nation_adjective_for_player(owner));
 
       if (apunit) {
 	/* chance to win when active unit is attacking the selected unit */

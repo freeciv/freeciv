@@ -115,11 +115,11 @@ const char *popup_info_text(struct tile *ptile)
     struct player *owner = tile_owner(ptile);
 
     if (game.player_ptr && owner == game.player_ptr){
-      astr_add_line(&str, _("Our Territory"));
+      astr_add_line(&str, _("Our territory"));
     } else if (owner && !game.player_ptr) {
-      /* TRANS: "Territory of the Polish" */
-      astr_add_line(&str, _("Territory of the %s"),
-		    nation_plural_for_player(owner));
+      /* TRANS: "Polish territory" */
+      astr_add_line(&str, _("%s territory"),
+		    nation_adjective_for_player(owner));
     } else if (owner) {
       struct player_diplstate *ds = game.player_ptr->diplstates;
 
@@ -130,16 +130,15 @@ const char *popup_info_text(struct tile *ptile)
 	astr_add_line(&str, PL_("%s territory (%d turn cease-fire)",
 				"%s territory (%d turn cease-fire)",
 				turns),
-		      nation_name_for_player(owner),
+		      nation_adjective_for_player(owner),
 		      turns);
       } else {
-	/* TRANS: "Territory of the friendly Polish".  See the
-	 * ?nation adjectives. */
 	int type = ds[player_index(owner)].type;
 
-	astr_add_line(&str, _("Territory of the %s %s"),
-		      diplo_nation_plural_adjectives[type],
-		      nation_plural_for_player(owner));
+	/* TRANS: "Polish territory (friendly)" */
+	astr_add_line(&str, _("%s territory (%s)"),
+		      nation_adjective_for_player(owner),
+		      diplo_nation_plural_adjectives[type]);
       }
     } else {
       astr_add_line(&str, _("Unclaimed territory"));
@@ -156,7 +155,7 @@ const char *popup_info_text(struct tile *ptile)
       /* TRANS: "City: Warsaw (Polish)" */
       astr_add_line(&str, _("City: %s (%s)"), 
 		    pcity->name,
-		    nation_name_for_player(owner));
+		    nation_adjective_for_player(owner));
     } else {
       struct player_diplstate *ds = game.player_ptr->diplstates;
 
@@ -168,13 +167,13 @@ const char *popup_info_text(struct tile *ptile)
 				"City: %s (%s, %d turn cease-fire)",
 				turns),
 		      pcity->name,
-		      nation_name_for_player(owner),
+		      nation_adjective_for_player(owner),
 		      turns);
       } else {
         /* TRANS: "City: Warsaw (Polish,friendly)" */
         astr_add_line(&str, _("City: %s (%s, %s)"),
 		      pcity->name,
-		      nation_name_for_player(owner),
+		      nation_adjective_for_player(owner),
 		      diplo_city_adjectives[ds[player_index(owner)].type]);
       }
     }
@@ -231,18 +230,20 @@ const char *popup_info_text(struct tile *ptile)
     struct unit_type *ptype = unit_type(punit);
 
     if (!game.player_ptr || owner == game.player_ptr){
-      struct city *pcity;
-      char tmp[64] = {0};
+      struct city *pcity = player_find_city_by_id(owner, punit->homecity);
 
-      pcity = player_find_city_by_id(owner, punit->homecity);
       if (pcity) {
-	my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
+	/* TRANS: "Unit: Musketeers (Polish, Warsaw)" */
+	astr_add_line(&str, _("Unit: %s (%s, %s)"),
+		      utype_name_translation(ptype),
+		      nation_adjective_for_player(owner),
+		      pcity->name);
+      } else {
+	/* TRANS: "Unit: Musketeers (Polish)" */
+	astr_add_line(&str, _("Unit: %s (%s)"),
+		      utype_name_translation(ptype),
+		      nation_adjective_for_player(owner));
       }
-      /* TRANS: "Unit: Musketeers (Polish/Warsaw)" */
-      astr_add_line(&str, _("Unit: %s (%s%s)"),
-		    utype_name_translation(ptype),
-		    nation_name_for_player(owner),
-		    tmp);
     } else if (owner) {
       struct player_diplstate *ds = game.player_ptr->diplstates;
 
@@ -256,13 +257,13 @@ const char *popup_info_text(struct tile *ptile)
 				"Unit: %s (%s, %d turn cease-fire)",
 				turns),
 		      utype_name_translation(ptype),
-		      nation_name_for_player(owner),
+		      nation_adjective_for_player(owner),
 		      turns);
       } else {
 	/* TRANS: "Unit: Musketeers (Polish,friendly)" */
 	astr_add_line(&str, _("Unit: %s (%s, %s)"),
 		      utype_name_translation(ptype),
-		      nation_name_for_player(owner),
+		      nation_adjective_for_player(owner),
 		      diplo_city_adjectives[ds[player_index(owner)].type]);
       }
     }
@@ -1122,7 +1123,7 @@ const char *get_report_title(const char *report_name)
   astr_add_line(&str, "%s", report_name);
 
   if (game.player_ptr) {
-    /* TRANS: "Republic of the Polish" */
+    /* TRANS: "Republic of the Poles" */
     astr_add_line(&str, _("%s of the %s"),
 		  government_name_for_player(game.player_ptr),
 		  nation_plural_for_player(game.player_ptr));

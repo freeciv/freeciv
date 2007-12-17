@@ -256,7 +256,7 @@ void update_intel_dialog(struct player *p)
     pBuf->data.player = p;
     my_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information about the %s Spaceship"), 
-                nation_name_for_player(p));
+                nation_adjective_for_player(p));
     pBuf->string16 = create_str16_from_char(cBuf, adj_font(12));
           
     add_to_gui_list(ID_ICON, pBuf);
@@ -264,7 +264,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     my_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information for the %s Empire"), 
-                nation_name_for_player(p));
+                nation_adjective_for_player(p));
     
     pStr = create_str16_from_char(cBuf, adj_font(14));
     pStr->style |= TTF_STYLE_BOLD;

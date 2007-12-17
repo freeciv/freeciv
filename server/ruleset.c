@@ -143,6 +143,36 @@ static void ruleset_error(bool fatal, const char *format, ...)
                           fc__attribute((__format__ (__printf__, 2, 3)));
 
 /**************************************************************************
+  Notifications about ruleset errors to clients. Especially important in
+  case of internal server crashing.
+**************************************************************************/
+static void ruleset_error(bool fatal, const char *format, ...)
+{
+  va_list args;
+
+  va_start(args, format);
+
+  if (fatal) {
+    /* Make sure that message is not left to buffers when server dies */
+    conn_list_iterate(game.est_connections, pconn) {
+      pconn->send_buffer->do_buffer_sends = 0;
+      pconn->compression.frozen_level = 0;
+    } conn_list_iterate_end;
+
+    vreal_freelog(LOG_FATAL, format, args);
+    notify_conn(NULL, NULL, E_MESSAGE_WALL, _("Fatal ruleset error. Server dies!"));
+  } else {
+    vreal_freelog(LOG_ERROR, format, args);
+  }
+
+  va_end(args);
+
+  if (fatal) {
+    exit(EXIT_FAILURE);
+  }
+}
+
+/**************************************************************************
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
 **************************************************************************/
@@ -2157,24 +2187,24 @@ static void load_nation_names(struct section_file *file)
 
   nations_iterate(pl) {
     const int i = nation_index(pl);
-    char *name        = secfile_lookup_str(file, "%s.name", sec[i]);
-    char *name_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
+    char *adjective   = secfile_lookup_str(file, "%s.name", sec[i]);
+    char *noun_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
 
-    name_strlcpy(pl->name_single.vernacular, name);
-    pl->name_single.translated = NULL;
-    name_strlcpy(pl->name_plural.vernacular, name_plural);
-    pl->name_plural.translated = NULL;
+    name_strlcpy(pl->adjective.vernacular, adjective);
+    pl->adjective.translated = NULL;
+    name_strlcpy(pl->noun_plural.vernacular, noun_plural);
+    pl->noun_plural.translated = NULL;
 
     /* Check if nation name is already defined. */
     for(j = 0; j < i; j++) {
       struct nation_type *n2 = nation_by_number(j);
 
-      if (0 == strcmp(n2->name_single.vernacular, pl->name_single.vernacular)
-	|| 0 == strcmp(n2->name_plural.vernacular, pl->name_plural.vernacular)) {
+      if (0 == strcmp(n2->adjective.vernacular, pl->adjective.vernacular)
+	|| 0 == strcmp(n2->noun_plural.vernacular, pl->noun_plural.vernacular)) {
         ruleset_error(TRUE,
-                      "Nation %s (the %s) defined twice; "
+                      "%s nation (the %s) defined twice; "
                       "in section nation%d and section nation%d",
-                      name, name_plural, j, i);
+                      adjective, noun_plural, j, i);
       }
     }
   } nations_iterate_end;
@@ -3398,8 +3428,8 @@ static void send_ruleset_nations(struct conn_list *dest)
 
   nations_iterate(n) {
     packet.id = nation_number(n);
-    sz_strlcpy(packet.name, n->name_single.vernacular);
-    sz_strlcpy(packet.name_plural, n->name_plural.vernacular);
+    sz_strlcpy(packet.adjective, n->adjective.vernacular);
+    sz_strlcpy(packet.noun_plural, n->noun_plural.vernacular);
     sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
     sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
     packet.leader_count = n->leader_count;
@@ -3830,7 +3860,7 @@ static bool sanity_check_ruleset_data(void)
                       nation_rule_name(pnation));
       }
     }
-  } players_iterate_end;
+  } nations_iterate_end;
 
   /* Check against unit upgrade loops */
   num_utypes = game.control.num_unit_types;
@@ -3860,34 +3890,4 @@ static bool sanity_check_ruleset_data(void)
    *       (and sanity checking) use requirement_list. */
 
   return TRUE;
-}
-
-/**************************************************************************
-  Notifications about ruleset errors to clients. Especially important in
-  case of internal server crashing.
-**************************************************************************/
-static void ruleset_error(bool fatal, const char *format, ...)
-{
-  va_list args;
-
-  va_start(args, format);
-
-  if (fatal) {
-    /* Make sure that message is not left to buffers when server dies */
-    conn_list_iterate(game.est_connections, pconn) {
-      pconn->send_buffer->do_buffer_sends = 0;
-      pconn->compression.frozen_level = 0;
-    } conn_list_iterate_end;
-
-    vreal_freelog(LOG_FATAL, format, args);
-    notify_conn(NULL, NULL, E_MESSAGE_WALL, _("Fatal ruleset error. Server dies!"));
-  } else {
-    vreal_freelog(LOG_ERROR, format, args);
-  }
-
-  va_end(args);
-
-  if (fatal) {
-    exit(EXIT_FAILURE);
-  }
 }

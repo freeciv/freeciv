@@ -405,7 +405,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pCont->id0 = player_number(pPlayer0);
   pCont->id1 = player_number(pPlayer1);
   
-  pStr = create_str16_from_char(nation_name_for_player(pPlayer0), adj_font(12));
+  pStr = create_str16_from_char(nation_adjective_for_player(pPlayer0), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window_skeleton(NULL, pStr, WF_FREE_DATA);
@@ -805,7 +805,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 
     /* ============================================================= */
   
-    pStr = create_str16_from_char(nation_name_for_player(pPlayer0), adj_font(12));
+    pStr = create_str16_from_char(nation_adjective_for_player(pPlayer0), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     
@@ -822,7 +822,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     add_to_gui_list(ID_ICON, pBuf);
     
-    pStr = create_str16_from_char(nation_name_for_player(pPlayer1), adj_font(12));
+    pStr = create_str16_from_char(nation_adjective_for_player(pPlayer1), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     
@@ -1262,7 +1262,7 @@ static void popup_war_dialog(struct player *pPlayer)
       
     
   my_snprintf(cBuf, sizeof(cBuf),
-       _("%s incident !"), nation_name_for_player(pPlayer));
+       _("%s incident !"), nation_adjective_for_player(pPlayer));
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1408,7 +1408,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     /* label */
     my_snprintf(cBuf, sizeof(cBuf), _("Sir!, the %s ambassador has arrived\n"
     		"What are your wishes?"),
-    		nation_name_for_player(pPlayer));
+    		nation_adjective_for_player(pPlayer));
   
     pStr = create_str16_from_char(cBuf, adj_font(14));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);

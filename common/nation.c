@@ -70,7 +70,7 @@ static bool bounds_check_nation(const struct nation_type *pnation,
 struct nation_type *find_nation_by_translated_name(const char *name)
 {
   nations_iterate(pnation) {
-    if (0 == strcmp(nation_name_translation(pnation), name)) {
+    if (0 == strcmp(nation_adjective_translation(pnation), name)) {
       return pnation;
     }
   } nations_iterate_end;
@@ -96,7 +96,7 @@ struct nation_type *find_nation_by_rule_name(const char *name)
 }
 
 /****************************************************************************
-  Return the (untranslated) rule name of the nation.
+  Return the (untranslated) rule name of the nation (adjective form).
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_rule_name(const struct nation_type *pnation)
@@ -104,29 +104,29 @@ const char *nation_rule_name(const struct nation_type *pnation)
   if (!bounds_check_nation(pnation, LOG_ERROR, "nation_rule_name")) {
     return "";
   }
-  return Qn_(pnation->name_single.vernacular);
+  return Qn_(pnation->adjective.vernacular);
 }
 
 /****************************************************************************
-  Return the (translated) name of the given nation. 
+  Return the (translated) adjective for the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *nation_name_translation(struct nation_type *pnation)
+const char *nation_adjective_translation(struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_ERROR, "nation_name_translation")) {
+  if (!bounds_check_nation(pnation, LOG_ERROR, "nation_adjective_translation")) {
     return "";
   }
-  if (NULL == pnation->name_single.translated) {
+  if (NULL == pnation->adjective.translated) {
     /* delayed (unified) translation */
-    pnation->name_single.translated = ('\0' == pnation->name_single.vernacular[0])
-				      ? pnation->name_single.vernacular
-				      : Q_(pnation->name_single.vernacular);
+    pnation->adjective.translated = ('\0' == pnation->adjective.vernacular[0])
+				    ? pnation->adjective.vernacular
+				    : Q_(pnation->adjective.vernacular);
   }
-  return pnation->name_single.translated;
+  return pnation->adjective.translated;
 }
 
 /****************************************************************************
-  Return the (translated) plural name of the given nation. 
+  Return the (translated) plural noun of the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_plural_translation(struct nation_type *pnation)
@@ -134,26 +134,26 @@ const char *nation_plural_translation(struct nation_type *pnation)
   if (!bounds_check_nation(pnation, LOG_ERROR, "nation_plural_translation")) {
     return "";
   }
-  if (NULL == pnation->name_plural.translated) {
+  if (NULL == pnation->noun_plural.translated) {
     /* delayed (unified) translation */
-    pnation->name_plural.translated = ('\0' == pnation->name_plural.vernacular[0])
-				      ? pnation->name_plural.vernacular
-				      : Q_(pnation->name_plural.vernacular);
+    pnation->noun_plural.translated = ('\0' == pnation->noun_plural.vernacular[0])
+				      ? pnation->noun_plural.vernacular
+				      : Q_(pnation->noun_plural.vernacular);
   }
-  return pnation->name_plural.translated;
+  return pnation->noun_plural.translated;
 }
 
 /****************************************************************************
-  Return the (translated) name of the given nation of a player. 
+  Return the (translated) adjective for the given nation of a player. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *nation_name_for_player(const struct player *pplayer)
+const char *nation_adjective_for_player(const struct player *pplayer)
 {
-  return nation_name_translation(nation_of_player(pplayer));
+  return nation_adjective_translation(nation_of_player(pplayer));
 }
 
 /****************************************************************************
-  Return the (translated) plural name of the given nation of a player. 
+  Return the (translated) plural noun of the given nation of a player. 
   You don't have to free the return pointer.
 ****************************************************************************/
 const char *nation_plural_for_player(const struct player *pplayer)

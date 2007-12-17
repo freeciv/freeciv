@@ -180,7 +180,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 
   my_snprintf(buf, sizeof(buf),
 	      _("Intelligence Information for the %s Empire"),
-	      nation_name_for_player(pdialog->pplayer));
+	      nation_adjective_for_player(pdialog->pplayer));
 
   pdialog->intel_label = I_L(XtVaCreateManagedWidget("inteltitlelabel",
 						     labelWidgetClass,
@@ -416,7 +416,7 @@ void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise)
 
   my_snprintf(buf, sizeof(buf),
 	      _("Intelligence Diplomacy Information for the %s Empire"),
-	      nation_name_for_player(pdialog->pplayer));
+	      nation_adjective_for_player(pdialog->pplayer));
 
   pdialog->intel_diplo_label =
     I_L(XtVaCreateManagedWidget("inteldiplolabel",
@@ -480,7 +480,7 @@ void update_intel_diplo_dialog(struct intel_dialog *pdialog)
       my_snprintf(namelist_text[i], sizeof(namelist_text[i]),
 		  "%-32s %-16s %-16s",
 		  other->name,
-		  nation_name_for_player(other),
+		  nation_adjective_for_player(other),
 		  diplstate_text(state->type));
       namelist_ptrs[i] = namelist_text[i];
       i++;
