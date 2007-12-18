@@ -14677,7 +14677,7 @@ msgstr "研究"
 
 #, fuzzy
 msgid "_Research"
-msgstr "_研究"
+msgstr "研究(_R)"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131

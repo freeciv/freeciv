@@ -398,15 +398,17 @@ static struct my_menu main_menu[] = {
   {N_("_Reports"),				IDM_SUBMENU},
   {N_("_Cities")		"\tF1",		IDM_REPORTS_CITIES},
   {N_("_Units")			"\tF2",		IDM_REPORTS_UNITS},
-  {N_("_Players")		"\tF3",		IDM_REPORTS_PLAYERS},
+  /* TRANS: Nations report action */
+  {N_("_Nations")		"\tF3",		IDM_REPORTS_PLAYERS},
   {N_("_Economy")		"\tF5",		IDM_REPORTS_ECONOMY},
-  {N_("_Science")		"\tF6",		IDM_REPORTS_SCIENCE},
+  /* TRANS: Research report action */
+  {N_("_Research")		"\tF6",		IDM_REPORTS_SCIENCE},
   {"", IDM_SEPARATOR},
   {N_("_Wonders of the World")	"\tF7",		IDM_REPORTS_WONDERS},
   {N_("_Top Five Cities")	"\tF8",		IDM_REPORTS_TOP_CITIES},
   {N_("_Messages")		"\tF10",	IDM_REPORTS_MESSAGES},
   {N_("_Demographics")		"\tF11",	IDM_REPORTS_DEMOGRAPHICS},
-  {N_("S_paceship")		"\tF12",	IDM_REPORTS_SPACESHIP},
+  {N_("_Spaceship")		"\tF12",	IDM_REPORTS_SPACESHIP},
   {NULL, 0},
 
 

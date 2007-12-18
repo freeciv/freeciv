@@ -13880,11 +13880,11 @@ msgstr "Frakt"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 #, fuzzy
 msgid "Research"
-msgstr "Fors_ker på"
+msgstr "Forsker på"
 
 #, fuzzy
 msgid "_Research"
-msgstr "_Fors_ker på"
+msgstr "_Forsker på"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131
