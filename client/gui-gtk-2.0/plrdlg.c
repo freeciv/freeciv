@@ -352,6 +352,7 @@ void create_players_dialog(void)
   enum ai_level level;
 
   gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
+  /* TRANS: Nations report title */
   gui_dialog_set_title(players_dialog_shell, _("Nations"));
 
   gui_dialog_add_button(players_dialog_shell,

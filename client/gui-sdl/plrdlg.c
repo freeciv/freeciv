@@ -600,6 +600,7 @@ void popup_players_nations_dialog(void)
      
   pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
+  /* TRANS: Nations report title */
   pStr = create_str16_from_char(_("Nations") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   

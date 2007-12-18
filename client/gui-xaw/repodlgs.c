@@ -272,7 +272,8 @@ void create_science_dialog(bool make_modal)
 					   science_dialog_shell,
 					   NULL);
     my_snprintf(rate_text, sizeof(rate_text), "\ntext not set yet");
-    report_title = get_report_title_plus(_("Science"), rate_text);
+    /* TRANS: Research report title */
+    report_title = get_report_title_plus(_("Research"), rate_text);
     science_label = XtVaCreateManagedWidget("sciencelabel",
 					    labelWidgetClass,
 					    science_form,
@@ -494,7 +495,8 @@ void science_dialog_update(void)
     const char *report_title;
     struct player_research* research = get_player_research(game.player_ptr);
     
-    report_title = get_report_title_plus(_("Science"), science_dialog_text());
+    /* TRANS: Research report title */
+    report_title = get_report_title_plus(_("Research"), science_dialog_text());
     xaw_set_label(science_label, report_title);
     free((void *) report_title);
 

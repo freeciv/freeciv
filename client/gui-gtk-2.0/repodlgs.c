@@ -293,6 +293,7 @@ void create_science_dialog(bool make_modal)
   GtkWidget *science_diagram;
 
   gui_dialog_new(&science_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
+  /* TRANS: Research report title */
   gui_dialog_set_title(science_dialog_shell, _("Research"));
 
   gui_dialog_add_button(science_dialog_shell,

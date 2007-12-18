@@ -1363,7 +1363,7 @@ Freeciv*ratescancelcommand.fromHoriz:  ratesokcommand
 !
 ! Science report dialog
 !
-Freeciv*sciencepopup.title:   _("Science")
+Freeciv*sciencepopup.title:   _("Research")
 Freeciv*sciencepopup.allowShellResize: True
 Freeciv*scienceform.resizable: True
 
@@ -3196,8 +3196,8 @@ Freeciv*racespopup.racesform.racessexform.?.translations: #override\n\
 !
 ! players dialog
 !
-Freeciv*playerspopup.title:  _("Players")
-Freeciv*playerspopup.iconName:   _("Players")
+Freeciv*playerspopup.title:  _("Nations")
+Freeciv*playerspopup.iconName:   _("Nations")
 Freeciv*playerspopup.allowShellResize: True
 
 Freeciv*playersform.resizable:           true

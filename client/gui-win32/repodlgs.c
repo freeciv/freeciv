@@ -89,7 +89,8 @@ science_dialog_update(void)
   int hist, id, steps;
 
   if (!science_dlg) return;            
-  sz_strlcpy(text, get_report_title(_("Science")));
+  /* TRANS: Research report title */
+  sz_strlcpy(text, get_report_title(_("Research")));
   sz_strlcat(text, science_dialog_text());
 
   SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_TOP), text);
@@ -266,7 +267,8 @@ popup_science_dialog(bool raise)
       struct fcwin_box *vbox;
       struct fcwin_box *hbox;
       science_dlg=fcwin_create_layouted_window(science_proc,
-					       _("Science Report"),
+					       /* TRANS: Research report title */
+					       _("Research"),
 					       WS_OVERLAPPEDWINDOW,
 					       CW_USEDEFAULT,CW_USEDEFAULT,
 					       root_window,
