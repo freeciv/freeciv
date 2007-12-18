@@ -217,9 +217,11 @@ static struct MenuEntry order_menu_entries[]={
 static struct MenuEntry reports_menu_entries[]={
     { { N_("Cities"), 0               },    "F1", MENU_REPORT_CITIES, 0 },
     { { N_("Units"), 0                },    "F2", MENU_REPORT_UNITS, 0 },
-    { { N_("Players"), 0              },    "F3", MENU_REPORT_PLAYERS, 0 },
+    /* TRANS: Nations report action */
+    { { N_("Nations"), 0              },    "F3", MENU_REPORT_PLAYERS, 0 },
     { { N_("Economy"), 0              },    "F5", MENU_REPORT_ECONOMY, 0 },
-    { { N_("Science"), 0              },    "F6", MENU_REPORT_SCIENCE, 0 },
+    /* TRANS: Research report action */
+    { { N_("Research"), 0             },    "F6", MENU_REPORT_SCIENCE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Wonders of the World"), 0 },    "F7", MENU_REPORT_WOW, 0 },
     { { N_("Top Five Cities"), 0      },    "F8", MENU_REPORT_TOP_CITIES, 0 },

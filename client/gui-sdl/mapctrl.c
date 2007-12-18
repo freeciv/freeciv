@@ -1409,6 +1409,7 @@ void popup_unitinfo_window() {
   /* research button */
   pWidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())), pUnits_Info_Window->dst, WF_FREE_GFX
 		       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
+  /* TRANS: Research report action */
   my_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");                       
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = research_callback;
@@ -1575,7 +1576,8 @@ void popup_minimap_window() {
   /* players button */
   pWidget = create_themeicon(pTheme->PLAYERS_Icon, pMiniMap_Window->dst,
 			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Players"), "F3");
+  /* TRANS: Nations report action */
+  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Nations"), "F3");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = players_action_callback;
   pWidget->key = SDLK_F3;

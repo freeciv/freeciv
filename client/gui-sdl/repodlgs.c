@@ -3261,7 +3261,8 @@ void popup_science_dialog(bool raise)
   
   pScienceDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
-  pStr = create_str16_from_char(_("Science"), adj_font(12));
+  /* TRANS: Research report title */
+  pStr = create_str16_from_char(_("Research"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
 #ifdef SMALL_SCREEN

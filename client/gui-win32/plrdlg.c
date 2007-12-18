@@ -338,7 +338,10 @@ static void create_players_dialog(void)
     };
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
-  players_dialog=fcwin_create_layouted_window(players_proc,_("Players"),
+
+  players_dialog=fcwin_create_layouted_window(players_proc,
+					      /* TRANS: Nations report title */
+					      _("Nations"),
 					      WS_OVERLAPPEDWINDOW,
 					      CW_USEDEFAULT,CW_USEDEFAULT,
 					      root_window,NULL,
