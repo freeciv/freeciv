@@ -429,9 +429,8 @@ msgid "Unit: Defender Survived"
 msgstr "Enhed: Forsvarer overlevede"
 
 #: common/events.c:125
-#, fuzzy
 msgid "Unit: Promoted to Veteran"
-msgstr "Enhed: Fik mere erfaring"
+msgstr "Enhed: Forfremmet til veteran"
 
 #: common/events.c:126
 msgid "Unit: Production Upgraded"
@@ -3637,12 +3636,12 @@ msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Den diplomatiske status mellem %s og %s er nu %s."
 
 #: server/plrhand.c:617
-#, c-format,fuzzy
+#, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
-"Folkeslaget %s afbrød den diplomatiske aftale! Det diplomatiske forhold "
+" Folkeslaget %s afbrød den diplomatiske aftale! Det diplomatiske forhold "
 "mellem %s og %s er nu %s."
 
 #: server/plrhand.c:634
@@ -3979,28 +3978,25 @@ msgstr "Indlæser regelsæt"
 
 #. TRANS: Minor error message.
 #: server/savegame.c:173
-#, fuzzy
 msgid ""
 "Saved game contains incomplete map data.  This can happen with old saved "
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
 msgstr ""
-"Den gemte fil indeholder fejl med kortdata. Dette kan ske med gamle gemte "
-"spil, eller det kan tyde på fejl ved selve filen. Fortsæt på eget ansvar."
+"Den gemte fil indeholder fejl med kortdata.  Dette kan ske med gamle gemte "
+"spil, eller det kan tyde på fejl ved selve filen.  Fortsæt på eget ansvar."
 
 #: server/savegame.c:3589
-#, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr ""
 "Den gemte fil er for gammel, versioner fra og med 1.9.0 er understøttet."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3814
-#, fuzzy
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
-"Den gemte fil bruger den klassiske terræn-regelopsætning som ikke længere er "
+"Den gemte fil bruger den \"klassiske\" terræn-regelopsætning, som ikke længere er "
 "understøttet."
 
 #: server/savegame.c:3823
@@ -4016,7 +4012,7 @@ msgstr ""
 #: server/savegame.c:4043
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "%s havde ugyldit nation; ændrer til %s."
 
 #. TRANS: Minor error message.
 #: server/savegame.c:4065
@@ -4112,11 +4108,12 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr "Kan ikke ændre det maksimale antal spillere i GGZ mode."
 
 #: server/settings.c:178
-#, fuzzy
 msgid ""
 "Number of players is higher than requested value;\n"
 "Keeping old value."
-msgstr "Antal spillere er højere end den ønskede værdi, beholder gammel værdi"
+msgstr ""
+"Antal spillere er højere end den ønskede værdi;\n"
+"beholder gammel værdi."
 
 #: server/settings.c:234
 msgid "Map size (in thousands of tiles)"
@@ -4538,17 +4535,16 @@ msgid "Penalty when getting tech or gold from treaty"
 msgstr "Tab ved anskaffelse af teknologi eller guld via en traktat"
 
 #: server/settings.c:509
-#, fuzzy
 msgid ""
 "For each technology you gain from a diplomatic treaty, you lose research "
 "points equal to this percentage of the cost to research a new technology. If "
 "this is non-zero, you can end up with negative research points. Also applies "
 "to gold transfers in diplomatic treaties."
 msgstr ""
-"For hver teknologi du får gennem diplomatiske aftaler mister du en del af "
-"din forskningsværdi svarende til dette antal procentpoint af omkostningen "
-"for at forske på en ny teknologi. Forskningsværdien kan dermed blive negativ "
-"hvis dette er forskellig fra nul. Gælder også ved guldoverførsler i "
+"For hver teknologi du får gennem diplomatiske aftaler, mister du en del af "
+"din forskningsværdi svarende til antal procentpoint af omkostningen "
+"for at forske på en ny teknologi. Hvis denne er forskellig fra nul, kan du "
+"ende med at have negativ forskningsværdi. Gælder også ved guldoverførsler i "
 "diplomatiske aftaler."
 
 #: server/settings.c:519
@@ -4594,14 +4590,13 @@ msgid ""
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
 msgstr ""
-"Dette er det antal madproduktion der kræves for at en by kan vokse. Denne "
+"Dette er det antal madproduktion, der kræves, for at en by kan vokse. Denne "
 "værdi ganges med en anden faktor som kommer fra regelsættet og er afhængig "
 "af størrelsen på byen."
 
 #: server/settings.c:551
-#, fuzzy
 msgid "Percentage food lost when building needed"
-msgstr "Procentandel mad som går tabt, når det er behov for en akvædukt"
+msgstr "Procentandel mad som går tabt, når bygning er krævet"
 
 #: server/settings.c:552
 msgid ""
@@ -4688,16 +4683,15 @@ msgid "Minimum distance between cities"
 msgstr "Mindste afstand mellem byer"
 
 #: server/settings.c:617
-#, fuzzy
 msgid ""
 "When a player attempts to found a new city, there may be no other city in "
 "this distance. For example, when this value is 3, there have to be at least "
 "two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
 msgstr ""
-"Når en spiller grundlægger en ny by, kontrolleres det om der findes en by i "
-"afstand citymindist. For eksempel hvis citymindist er 3 så skal der være "
-"mindst 2 tomme felter mellem 2 byer i alle retninger. Hvis det er sat til 0 "
+"Når en spiller forsøger at grundlægge en ny by, må der ikke være en anden "
+"by indenfor denne distance. For eksempel hvis denne værdi er 3 så skal der være "
+"mindst 2 tomme felter mellem 2 byer i alle retninger. Hvis den er sat til 0 "
 "(standard) så benyttes værdien i regelsættet i stedet."
 
 #: server/settings.c:628
@@ -4950,9 +4944,8 @@ msgstr ""
 "0 kan spillere ikke mødes uden at de har en ambassade."
 
 #: server/settings.c:808
-#, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
-msgstr "Byg nyt palads hvis hovedstaden er erobret"
+msgstr "Genopbyg palads hvis hovedstaden erobres"
 
 #: server/settings.c:809
 msgid ""
@@ -5087,13 +5080,12 @@ msgid "Timeout at least n seconds when enemy moved"
 msgstr "Tidsbegrænsning på mindst n sekunder når fjenden har flyttet sig"
 
 #: server/settings.c:894
-#, fuzzy
 msgid ""
 "Any time a unit moves while in sight of an enemy player, the remaining "
 "timeout is increased to this value."
 msgstr ""
-"Når en enhed flytter indenfor synsfelt af en fjendtlig spiller sættes den "
-"tilbageværende tidsbegrænsning til denne værdi hvis den var lavere."
+"Når en enhed flytter indenfor synsfelt af en fjendtlig spiller, sættes den "
+"tilbageværende tidsbegrænsning til denne værdi."
 
 #: server/settings.c:903
 msgid "Whether to have simultaneous player phases."
@@ -5175,13 +5167,12 @@ msgid "Fixed-length turns play mode"
 msgstr "Fast-længde runder-spiltilstand"
 
 #: server/settings.c:954
-#, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, even after all players have clicked on \"Turn Done\"."
 msgstr ""
-"Hvis denne er sat til 1, så går spil-runden ikke videre før tiden er løbet "
-"ud, uanset spillernes klikning på \"Runde færdig\"."
+"Hvis denne er sat til 1, så går spilrunden ikke videre, før tiden er løbet "
+"ud, uanset at spillerne alle har klikket på \"Runde færdig\"."
 
 #: server/settings.c:961
 msgid "What is in the Demographics report"
@@ -6415,9 +6406,8 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Ukendt kommando. Prøv '%shelp'."
 
 #: server/stdinhand.c:3479
-#, fuzzy
 msgid "Your new vote canceled your previous vote."
-msgstr "Din nye stemmeafgivning afløser din tidligere. "
+msgstr "Din nye stemmeafgivning afløser din tidligere."
 
 #: server/stdinhand.c:3488
 #, c-format
@@ -7144,7 +7134,7 @@ msgid "You nuked %s."
 msgstr "Du udførte et atomangreb mod %s."
 
 #: server/unittools.c:2074
-#, fuzzy, c-format
+#, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s detonerede en atombombe!"
 
@@ -7158,7 +7148,6 @@ msgid "This unit type can not be paradropped."
 msgstr "Denne enhed kan ikke lave faldskærmsudspring."
 
 #: server/unittools.c:2130
-#, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Du kan ikke foretage faldskærmudspring med en transportenhed."
 
@@ -7345,7 +7334,7 @@ msgstr "Kunne ikke finde lydsættet \"%s\" forsøger \"%s\"."
 
 #: client/audio.c:197
 msgid "No real audio plugin present."
-msgstr ""
+msgstr "Intet lydudvidelsesmodul tilgængeligt."
 
 #: client/audio.c:198 client/audio.c:215 client/audio.c:247 client/audio.c:258
 msgid "Proceeding with sound support disabled"
@@ -9612,7 +9601,7 @@ msgstr "Vores territorium"
 # bedre bliver det vist ikke
 #. TRANS: "Polish territory"
 #: client/text.c:120
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory"
 msgstr "Territorium tilhørende %s"
 
@@ -9626,9 +9615,9 @@ msgstr[1] "%s territorium (%d runde våbenhvile)"
 
 # bedre bliver det vist ikke
 #: client/text.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%s)"
-msgstr "Territorium tilhørende %s %s"
+msgstr "Territorium tilhørende %s (%s)"
 
 #: client/text.c:144
 msgid "Unclaimed territory"
@@ -9676,7 +9665,7 @@ msgstr "Aktivitet: %s"
 
 #. TRANS: "Unit: Musketeers (Polish)"
 #: client/text.c:227
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s)"
 msgstr "Enhed: %s (%s)"
 
@@ -10405,14 +10394,12 @@ msgid "Subvert Enemy Unit"
 msgstr "Omvend fjendtlig enhed"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-win32/dialogs.c:1662
-#, fuzzy
 msgid "The diplomat is waiting for your command"
-msgstr "Deres højhed, diplomaten afventer Deres ordre"
+msgstr "Diplomaten afventer din ordre"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:693 client/gui-win32/dialogs.c:1663
-#, fuzzy
 msgid "The spy is waiting for your command"
-msgstr "Deres højhed, spionen afventer Deres ordre"
+msgstr "Spionen afventer din ordre"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:694 client/gui-win32/dialogs.c:1664
 msgid "_Bribe Enemy Unit"
@@ -10540,7 +10527,6 @@ msgid "_Buy"
 msgstr "_Køb"
 
 #: client/gui-gtk-2.0/citydlg.c:898 client/gui-gtk-2.0/cityrep.c:679
-#, fuzzy
 msgid "_Production"
 msgstr "_Produktion"
 
@@ -10769,7 +10755,6 @@ msgid "_Select"
 msgstr "Vælg _S"
 
 #: client/gui-gtk-2.0/cityrep.c:706 client/gui-gtk-2.0/plrdlg.c:488
-#, fuzzy
 msgid "_Display"
 msgstr "Vis _h"
 
@@ -10784,9 +10769,8 @@ msgid "Cities"
 msgstr "Byer"
 
 #: client/gui-gtk-2.0/cityrep.c:804
-#, fuzzy
 msgid "_Inspect"
-msgstr "Vis _By"
+msgstr "_Inspeksér"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
@@ -10943,12 +10927,10 @@ msgid "Remove this preset?"
 msgstr "Fjern dette forhåndsvalg?"
 
 #: client/gui-gtk-2.0/dialogs.c:195 client/gui-gtk-2.0/messagewin.c:186
-#, fuzzy
 msgid "Goto _Location"
 msgstr "Gå ti_l"
 
 #: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
-#, fuzzy
 msgid "Inspect _City"
 msgstr "_Vis by"
 
@@ -10996,13 +10978,8 @@ msgid "_Sentry idle"
 msgstr "Hold _stand inaktive"
 
 #: client/gui-gtk-2.0/dialogs.c:717
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Nationer:"
-
-#, fuzzy
-msgid "_Nations"
-msgstr "_Nationer"
+msgstr "Nation_grupper:"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11014,9 +10991,8 @@ msgid "Pick Nation"
 msgstr "Vælg nation"
 
 #: client/gui-gtk-2.0/dialogs.c:773
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Tilfældig nation"
+msgstr "_Tilfældig nation"
 
 #: client/gui-gtk-2.0/dialogs.c:785 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
@@ -11039,13 +11015,11 @@ msgid "_Male"
 msgstr "_Hankøn"
 
 #: client/gui-gtk-2.0/dialogs.c:862
-#, fuzzy
 msgid "City _Styles:"
 msgstr "_Bystil:"
 
 # RETMIG: rigtigt?
 #: client/gui-gtk-2.0/dialogs.c:901
-#, fuzzy
 msgid "_Description"
 msgstr "_Legende"
 
@@ -11186,7 +11160,6 @@ msgid "Air_lift"
 msgstr "Fly_transport"
 
 #: client/gui-gtk-2.0/gotodlg.c:129
-#, fuzzy
 msgid "_Goto"
 msgstr "_Gå til"
 
@@ -11346,7 +11319,6 @@ msgid "_Observe"
 msgstr "_Observer"
 
 #: client/gui-gtk-2.0/gui_main.c:1490
-#, fuzzy
 msgid "Do not _observe"
 msgstr "Undlad at _observere"
 
@@ -11748,9 +11720,8 @@ msgid "Save Game _As..."
 msgstr "Gem spil som..."
 
 #: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:313
-#, fuzzy
 msgid "_Write Log"
-msgstr "Eksportér log"
+msgstr "_Eksportér log"
 
 #: client/gui-gtk-2.0/menu.c:719
 msgid "_Clear Log"
@@ -12320,7 +12291,6 @@ msgid "_Meet"
 msgstr "_Møde"
 
 #: client/gui-gtk-2.0/plrdlg.c:455
-#, fuzzy
 msgid "Cancel _Treaty"
 msgstr "_Afbryd traktat"
 
@@ -12486,17 +12456,14 @@ msgid "Put on %s"
 msgstr "Brug %s"
 
 #: client/gui-gtk-2.0/pages.c:1414
-#, fuzzy
 msgid "Number of _Players (including AI):"
 msgstr "_Antal spillere (inklusiv AI):"
 
 #: client/gui-gtk-2.0/pages.c:1437
-#, fuzzy
 msgid "AI Skill _Level:"
 msgstr "_AI niveau:"
 
 #: client/gui-gtk-2.0/pages.c:1453
-#, fuzzy
 msgid "Ruleset _Version:"
 msgstr "_Regelsæt:"
 
@@ -13162,8 +13129,8 @@ msgstr "Byen formindskes: %d %s"
 #: client/gui-sdl/wldlg.c:1370 client/gui-sdl/wldlg.c:1484
 msgid "turn"
 msgid_plural "turns"
-msgstr[0] "Runde"
-msgstr[1] "Runder"
+msgstr[0] "runde"
+msgstr[1] "runder"
 
 #: client/gui-sdl/citydlg.c:2982
 #, c-format
@@ -13357,7 +13324,7 @@ msgstr "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
 #: client/gui-sdl/dialogs.c:1550
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr "Sejrschance: A:%d%% F:%d%%"
+msgstr " Sejrschance: A:%d%% F:%d%%"
 
 #: client/gui-sdl/dialogs.c:837 client/gui-sdl/dialogs.c:1216
 msgid "Terrain Info"
@@ -13731,8 +13698,8 @@ msgstr "Hjælp : Enheder"
 #: client/gui-sdl/wldlg.c:1492
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] "Skjold"
-msgstr[1] "Skjolde"
+msgstr[0] "skjold"
+msgstr[1] "skjolde"
 
 #: client/gui-sdl/helpdlg.c:741 client/gui-sdl/helpdlg.c:764
 msgid "citizen"
@@ -13743,14 +13710,14 @@ msgstr[1] "borgere"
 #: client/gui-sdl/helpdlg.c:754
 msgid "food"
 msgid_plural "foods"
-msgstr[0] "Mad"
-msgstr[1] "Mad"
+msgstr[0] "mad"
+msgstr[1] "mad"
 
 #: client/gui-sdl/helpdlg.c:759
 msgid "gold"
 msgid_plural "golds"
-msgstr[0] "Guld"
-msgstr[1] "Guld"
+msgstr[0] "guld"
+msgstr[1] "guld"
 
 #: client/gui-sdl/helpdlg.c:1000
 msgid "( with "
@@ -13866,10 +13833,6 @@ msgstr "Højde"
 #: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:340
 msgid "Research"
 msgstr "Forskning"
-
-#, fuzzy
-msgid "_Research"
-msgstr "_Forskning"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:312
 #: client/gui-sdl/mapview.c:315 client/gui-xaw/menu.c:131
@@ -14300,9 +14263,8 @@ msgid "Worklists"
 msgstr "Arbejdslister"
 
 #: client/gui-sdl/optiondlg.c:2287
-#, fuzzy
 msgid "Leave Game"
-msgstr "Gem spil"
+msgstr "Forlad spil"
 
 #: client/gui-sdl/optiondlg.c:2302 client/gui-sdl/pages.c:255
 #: client/gui-win32/connectdlg.c:1098 client/gui-xaw/menu.c:121
@@ -14473,7 +14435,7 @@ msgid "The Greatest Civilizations in the world."
 msgstr "De mest fantastiske civilisationer i verden."
 
 #: client/gui-sdl/spaceshipdlg.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "The %s Spaceship"
 msgstr "%ss rumskib"
 
@@ -16973,7 +16935,7 @@ msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
-"9. Lav din egen strategi for spillet.\n"
+" 9. Lav din egen strategi for spillet.\n"
 "\n"
 "    Disse basale begreber lader dig spille spillet ganske godt, specielt i "
 "begyndelsen af spillet. Men for at blive bedre skal du studere de "
@@ -19087,12 +19049,12 @@ msgid "Eiffel Tower"
 msgstr "Eiffeltårnet"
 
 #: data/default/buildings.ruleset:1087
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
-"Dit omdømme og goodwill blandt de andre nationer øges mens du ejer dette "
-"vidunder. Omdømme forbedres dobbelt så hurtigt som det ellers ville."
+"Dit omdømme og goodwill blandt de andre nationer forbedres dobbelt så hurtigt "
+"som det ellers ville."
 
 #: data/default/buildings.ruleset:1093 data/civ2/buildings.ruleset:1078
 #: data/civ1/buildings.ruleset:734
@@ -19278,7 +19240,7 @@ msgstr "SETI-programmet"
 
 #: data/default/buildings.ruleset:1412
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr "Øger forskningen i hver by der har et forskningslaboratorium med 100%."
+msgstr "Øger forskningen i hver by der har et forskningslaboratorium med 100 %. "
 
 #: data/default/buildings.ruleset:1417 data/civ2/buildings.ruleset:1399
 #: data/civ1/buildings.ruleset:1001
@@ -19554,13 +19516,13 @@ msgstr ""
 "alle byer."
 
 #: data/civ2/buildings.ruleset:1072
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
 "fast."
 msgstr ""
-"Dit omdømme og goodwill blandt de andre nationer øges mens du ejer dette "
-"vidunder. Omdømme forbedres dobbelt så hurtigt som det ellers ville."
+"Dit omdømme og goodwill blandt de andre nationer forbedres fire gange så hurtigt "
+"som det ellers ville."
 
 #: data/civ2/buildings.ruleset:1112 data/civ1/buildings.ruleset:768
 msgid "Works as a City Wall in all cities."
@@ -21447,7 +21409,6 @@ msgstr "Diplomat"
 
 #: data/default/units.ruleset:1698 data/civ2/units.ruleset:1649
 #: data/civ1/units.ruleset:993
-#, fuzzy
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -21468,20 +21429,24 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
-"- En diplomat kan oprette ambassader hos andre civilisationer ved at flytte "
-"ind i en anden spillers by.\n"
+"En diplomat er en offentlig repræsentant som overbringer dine beskeder og "
+"har mandat til at forhandle med fremmede magter. Han kan også udføre "
+"forskellige hemmelige missioner med det formål at skade dine modstandere.\n"
 "\n"
-"- Diplomater kan også sabotere fjendens produktion, eller stjæle et "
-"fremskridt fra en fjendtlig by. (Kun et fremskridt kan stjæles fra en by).\n"
+"Hvis en fjendtlig enhed er alene på et felt, kan du forsøge at bestikke den "
+"med din diplomat. Ved betalig af et beløb i guld bliver enheden øjeblikkelig "
+"din.\n"
 "\n"
-"- En diplomat kan også bestikke en fjendtlig enhed, hvis den enhed er den "
-"eneste enhed på sit felt.\n"
+"Diplomaten kan også udføre en række handlinger i en anden spillers by:\n"
+"- \"Undersøge\" Afslør detaljerede informationer vedrørende byen.\n"
+"- \"Etablere ambassade\" Få løbende efterretninger om spilleren.\n"
+"- \"Sabotage\" Ødelæg produktionen i en by.\n"
+"- \"Stjæl teknologi\" Stjæl et teknologisk fremskridt fra byens ejer.\n"
+"- \"Anspor et oprør\" Gør byen til din egen ved at betale en sum penge. "
+"Bemærk at du ikke kan anspore et oprør i en hovedstad.\n"
 "\n"
-"- Diplomater kan også starte en revolution i en fjendtlig by og gøre den til "
-"din egen, hvis du kan betale!\n"
-"\n"
-"- I visse spilstrategier kan horder af diplomater bruges til at overtage "
-"mange byer på meget kort tid. Ikke mærkeligt at diplomater ofte bliver set "
+"I visse spilstrategier kan horder af diplomater bruges til at overtage "
+"mange byer på meget kort tid.  Ikke mærkeligt at diplomater ofte bliver set "
 "på med mistænksomhed og frygt!"
 
 #: data/default/units.ruleset:1723 data/civ2/units.ruleset:1674
@@ -21489,7 +21454,6 @@ msgid "Spy"
 msgstr "Spion"
 
 #: data/default/units.ruleset:1749 data/civ2/units.ruleset:1700
-#, fuzzy
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat "
 "predecessor.\n"
@@ -21509,16 +21473,14 @@ msgstr ""
 "En spion er professionel og er bedre til at drive spionage end sin "
 "forgænger, diplomaten.\n"
 "\n"
-"Den fredeligste evne for en spion er at undersøge byer; finde detaljeret "
-"information om byen, og at oprette ambassader. Men hvis spionen har fået et "
-"rygte på sig for at gøre ting i smug, bliver den henrettet hvis den forøger "
-"at oprette en ambassade.\n"
+"Spionen kan udføre alle de funktioner som diplomaten også kan, men med en "
+"højere succesrate. Se diplomatartiklen for en oversigt.\n"
 "\n"
-"Spionen kan også bruges til at forgifte vandforsyningen for en fjendtlig by "
+"Spionen kan også bruges til: forgifte vandforsyningen for en fjendtlig by "
 "(som mindsker indbyggertallet); stjæle teknologier; sabotere mål i byen "
 "(bemærk: sabotage på byforbedringer i hovedstaden eller at sabotere bymure "
 "øger chancen for at blive opdaget). En spion kan også infiltrere en by og "
-"gøre oprør.\n"
+"anspore et oprør.\n"
 "\n"
 "En spion kan også hjælpe til på slagmarken - sabotere fjendtlige enheder "
 "såvel som bestikke dem til at skifte lederskab."
@@ -21664,7 +21626,6 @@ msgid "Elephants"
 msgstr "Elefanter"
 
 #: data/civ2/units.ruleset:694
-#, fuzzy
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
