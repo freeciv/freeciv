@@ -173,13 +173,19 @@ void handle_server_join_reply(bool you_can_join, char *message,
                               int conn_id)
 {
   char msg[MAX_LEN_MSG];
-  char *s_capability = aconnection.capability;
 
-  sz_strlcpy(aconnection.capability, capability);
+  /* Never assume network data is valid and printable!
+   * Is there something that could be checked in message?
+   * In any case, check capability.
+   */
+  sz_strlcpy(aconnection.capability,
+             ('\0' == capability[0] || is_ascii_name(capability))
+             ? capability
+             : "?");
   close_connection_dialog();
 
   if (you_can_join) {
-    freelog(LOG_VERBOSE, "join game accept:%s", message);
+    freelog(LOG_VERBOSE, "join game accept: %s", message);
     aconnection.established = TRUE;
     aconnection.id = conn_id;
     agents_game_joined();
@@ -187,17 +193,22 @@ void handle_server_join_reply(bool you_can_join, char *message,
 
     set_server_busy(FALSE);
     
-    if (get_client_page() == PAGE_MAIN
-	|| get_client_page() == PAGE_NETWORK
-	|| get_client_page() == PAGE_GGZ) {
+    switch (get_client_page()) {
+    case PAGE_MAIN:
+    case PAGE_NETWORK:
+    case PAGE_GGZ:
       set_client_page(PAGE_START);
-    }
+      break;
+    default:
+      /* no change */
+      break;
+    };
 
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);
   } else {
     my_snprintf(msg, sizeof(msg),
-		_("You were rejected from the game: %s"), message);
+		_("You were rejected from the game: %s"), Q_(message));
     append_output_window(msg);
     aconnection.id = 0;
     if (auto_connect) {
@@ -208,14 +219,14 @@ void handle_server_join_reply(bool you_can_join, char *message,
       set_client_page(in_ggz ? PAGE_MAIN : PAGE_GGZ);
     }
   }
-  if (strcmp(s_capability, our_capability) == 0) {
+  if (0 == strcmp(aconnection.capability, our_capability)) {
     return;
   }
   my_snprintf(msg, sizeof(msg),
 	      _("Client capability string: %s"), our_capability);
   append_output_window(msg);
   my_snprintf(msg, sizeof(msg),
-	      _("Server capability string: %s"), s_capability);
+	      _("Server capability string: %s"), aconnection.capability);
   append_output_window(msg);
 }
 

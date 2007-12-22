@@ -42,9 +42,10 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
-#include "rand.h"
 #include "registry.h"
+#include "shared.h"
 #include "support.h"
+
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -392,21 +393,6 @@ bool client_start_server(void)
 }
 
 /*************************************************************************
-  generate a random string.
-*************************************************************************/
-static void randomize_string(char *str, size_t n)
-{
-  const char chars[] =
-    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  int i;
-
-  for (i = 0; i < n - 1; i++) {
-    str[i] = chars[myrand(sizeof(chars) - 1)];
-  }
-  str[i] = '\0';
-}
-
-/*************************************************************************
   returns TRUE if a filename is safe (i.e. doesn't have path components).
 *************************************************************************/
 static bool is_filename_safe(const char *filename)
@@ -448,7 +434,7 @@ void send_client_wants_hack(const char *filename)
     sz_strlcat(challenge_fullname, filename);
 
     /* generate an authentication token */ 
-    randomize_string(req.token, sizeof(req.token));
+    randomize_base64url_string(req.token, sizeof(req.token));
 
     section_file_init(&file);
     secfile_insert_str(&file, req.token, "challenge.token");
@@ -464,7 +450,7 @@ void send_client_wants_hack(const char *filename)
 }
 
 /**************************************************************** 
-handle response (by the server) if the client has got hack or not.
+  client has hack (or not).
 *****************************************************************/ 
 void handle_single_want_hack_reply(bool you_have_hack)
 {

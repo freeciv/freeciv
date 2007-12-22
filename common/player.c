@@ -861,9 +861,8 @@ int player_in_territory(const struct player *pplayer,
 ****************************************************************************/
 bool is_valid_username(const char *name)
 {
-  return (strlen(name) > 0
+  return (is_ascii_name(name)
 	  && !my_isdigit(name[0])
-	  && is_ascii_name(name)
 	  && mystrcasecmp(name, ANON_USER_NAME) != 0);
 }
 

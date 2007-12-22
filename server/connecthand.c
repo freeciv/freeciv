@@ -201,70 +201,95 @@ void establish_new_connection(struct connection *pconn)
 /**************************************************************************
   send the rejection packet to the client.
 **************************************************************************/
-void reject_new_connection(const char *msg, struct connection *pconn)
+void reject_new_connection(struct connection *pconn, const char *message)
 {
   struct packet_server_join_reply packet;
 
   /* zero out the password */
   memset(pconn->server.password, 0, sizeof(pconn->server.password));
 
+  /* now send join_reply packet */
+  memset(&packet, 0, sizeof(packet));
   packet.you_can_join = FALSE;
+  sz_strlcpy(packet.message, message);
   sz_strlcpy(packet.capability, our_capability);
-  sz_strlcpy(packet.message, msg);
   packet.challenge_file[0] = '\0';
   packet.conn_id = -1;
+
   send_packet_server_join_reply(pconn, &packet);
   freelog(LOG_NORMAL, _("Client rejected: %s."), conn_description(pconn));
   flush_connection_send_buffer_all(pconn);
 }
 
 /**************************************************************************
- Returns FALSE if the clients gets rejected and the connection should be
- closed. Returns TRUE if the client get accepted.
+ Returns FALSE when the clients are rejected and the connection should be
+ closed. Returns TRUE otherwise.
 **************************************************************************/
-bool handle_login_request(struct connection *pconn, 
-                          struct packet_server_join_req *req)
+bool server_join_request(struct connection *pconn, void *packet)
 {
   char msg[MAX_LEN_MSG];
+  char username[MAX_LEN_NAME];
+#define req ((struct packet_server_join_req *)packet)
   
+  /* Never assume network data is valid and printable! */
+  sz_strlcpy(username,
+             is_valid_username(req->username)
+             ? req->username
+             : "?");
   freelog(LOG_NORMAL, _("Connection request from %s from %s"),
-          req->username, pconn->addr);
-  
-  /* print server and client capabilities to console */
-  freelog(LOG_NORMAL, _("%s has client version %d.%d.%d%s"),
-          pconn->username, req->major_version, req->minor_version,
-          req->patch_version, req->version_label);
-  freelog(LOG_VERBOSE, "Client caps: %s", req->capability);
-  freelog(LOG_VERBOSE, "Server caps: %s", our_capability);
-  sz_strlcpy(pconn->capability, req->capability);
-  
+          username,
+          pconn->addr);
+
+  /* log client and server capabilities */
+  freelog(LOG_VERBOSE, "%s: client version %d.%d.%d%s",
+          pconn->addr,
+          req->major_version,
+          req->minor_version,
+          req->patch_version,
+          ('\0' == req->version_label[0] || is_ascii_name(req->version_label))
+          ? req->version_label
+          : "?");
+
+  sz_strlcpy(pconn->capability,
+             ('\0' == req->capability[0] || is_ascii_name(req->capability))
+             ? req->capability
+             : "?");
+  freelog(LOG_VERBOSE, "Client: %s", pconn->capability);
+  freelog(LOG_VERBOSE, "Server: %s", our_capability);
+
   /* Make sure the server has every capability the client needs */
-  if (!has_capabilities(our_capability, req->capability)) {
+  if (!has_capabilities(our_capability, pconn->capability)) {
     my_snprintf(msg, sizeof(msg),
                 _("The client is missing a capability that this server needs.\n"
                    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
                    "  Upgrading may help!"),
                 MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
                 req->major_version, req->minor_version,
-                req->patch_version, req->version_label);
-    reject_new_connection(msg, pconn);
+                req->patch_version,
+                ('\0' == req->version_label[0] || is_ascii_name(req->version_label))
+                ? req->version_label
+                : "?");
+    reject_new_connection(pconn, msg);
     freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
-            req->username);
+            username);
     return FALSE;
   }
 
   /* Make sure the client has every capability the server needs */
-  if (!has_capabilities(req->capability, our_capability)) {
+  if (!has_capabilities(pconn->capability, our_capability)) {
     my_snprintf(msg, sizeof(msg),
                 _("The server is missing a capability that the client needs.\n"
                    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
                    "  Upgrading may help!"),
                 MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
                 req->major_version, req->minor_version,
-                req->patch_version, req->version_label);
-    reject_new_connection(msg, pconn);
+                req->patch_version,
+                ('\0' == req->version_label[0] || is_ascii_name(req->version_label))
+                ? req->version_label
+                : "?");
+    reject_new_connection(pconn, msg);
     freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
-            req->username);
+            username);
     return FALSE;
   }
 
@@ -272,10 +297,10 @@ bool handle_login_request(struct connection *pconn,
 
   /* Name-sanity check: could add more checks? */
   if (!is_valid_username(req->username)) {
-    my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
-    reject_new_connection(msg, pconn);
+    my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), username);
+    reject_new_connection(pconn, msg);
     freelog(LOG_NORMAL, _("%s was rejected: Invalid name [%s]."),
-            req->username, pconn->addr);
+            username, pconn->addr);
     return FALSE;
   } 
 
@@ -284,9 +309,9 @@ bool handle_login_request(struct connection *pconn,
     if (mystrcasecmp(req->username, aconn->username) == 0) { 
       my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
                   req->username);
-      reject_new_connection(msg, pconn);
+      reject_new_connection(pconn, msg);
       freelog(LOG_NORMAL, _("%s was rejected: Duplicate login name [%s]."),
-              req->username, pconn->addr);
+              username, pconn->addr);
       return FALSE;
     }
   } conn_list_iterate_end;

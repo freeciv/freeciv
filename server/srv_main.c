@@ -1046,13 +1046,16 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   if (!packet)
     return TRUE;
 
+  /* These packets may appear before the connection is "established" */
+  switch (type) {
+  case PACKET_PROCESSING_STARTED:
   /* 
    * Old pre-delta clients (before 2003-11-28) send a
    * PACKET_LOGIN_REQUEST (type 0) to the server. We catch this and
    * reply with an old reject packet. Since there is no struct for
    * this old packet anymore we build it by hand.
    */
-  if (type == 0) {
+  {
     unsigned char buffer[4096];
     struct data_out dout;
 
@@ -1063,12 +1066,10 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     dio_put_uint16(&dout, 0);
 
     /* 1 == PACKET_LOGIN_REPLY in the old client */
-    dio_put_uint8(&dout, 1);
+    dio_put_uint8(&dout, PACKET_PROCESSING_FINISHED);
 
     dio_put_bool32(&dout, FALSE);
-    dio_put_string(&dout, _("Your client is too old. To use this server, "
-			    "please upgrade your client to a "
-			    "Freeciv 2.1 or later."));
+    dio_put_string(&dout, "Freeciv " VERSION_STRING);
     dio_put_string(&dout, "");
 
     {
@@ -1086,22 +1087,21 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     return FALSE;
   }
 
-  if (type == PACKET_SERVER_JOIN_REQ) {
-    return handle_login_request(pconn,
-				(struct packet_server_join_req *) packet);
-  }
+  case PACKET_SERVER_JOIN_REQ:
+    return server_join_request(pconn, packet);
 
-  /* May be received on a non-established connection. */
-  if (type == PACKET_AUTHENTICATION_REPLY) {
+  case PACKET_AUTHENTICATION_REPLY:
     return handle_authentication_reply(pconn,
 				((struct packet_authentication_reply *)
 				 packet)->password);
-  }
 
-  if (type == PACKET_CONN_PONG) {
+  case PACKET_CONN_PONG:
     handle_conn_pong(pconn);
     return TRUE;
-  }
+
+  default:
+    break;
+  };
 
   if (!pconn->established) {
     freelog(LOG_ERROR, "Received game packet from unaccepted connection %s",
@@ -1110,15 +1110,18 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   }
   
   /* valid packets from established connections but non-players */
-  if (type == PACKET_CHAT_MSG_REQ
-      || type == PACKET_SINGLE_WANT_HACK_REQ
-      || type == PACKET_REPORT_REQ) {
+  switch (type) {
+  case PACKET_CHAT_MSG_REQ:
+  case PACKET_SINGLE_WANT_HACK_REQ:
+  case PACKET_REPORT_REQ:
     if (!server_handle_packet(type, packet, NULL, pconn)) {
       freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	      type, conn_description(pconn));
     }
     return TRUE;
-  }
+  default:
+    break;
+  };
 
   pplayer = pconn->player;
 
@@ -1129,22 +1132,31 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
 
-  if (S_S_RUNNING != server_state()
-      && type != PACKET_NATION_SELECT_REQ
-      && type != PACKET_PLAYER_READY
-      && type != PACKET_CONN_PONG
-      && type != PACKET_REPORT_REQ) {
-    if (S_S_OVER == server_state()) {
+  switch (type) {
+  case PACKET_NATION_SELECT_REQ:
+  case PACKET_PLAYER_READY:
+  case PACKET_CONN_PONG:
+  case PACKET_REPORT_REQ:
+    /* FIXME: appear anytime? */
+    break;
+  default:
+    switch (server_state()) {
+    case S_S_RUNNING:
+      /* OK */
+      break;
+    case S_S_OVER:
       /* This can happen by accident, so we don't want to print
 	 out lots of error messages. Ie, we use LOG_DEBUG. */
       freelog(LOG_DEBUG, "got a packet of type %d "
 			  "in S_S_OVER", type);
-    } else {
+      return TRUE;
+    default:
       freelog(LOG_ERROR, "got a packet of type %d "
 	                 "outside S_S_RUNNING", type);
-    }
-    return TRUE;
-  }
+      return TRUE;
+    };
+    break;
+  };
 
   pplayer->nturns_idle=0;
 
@@ -2038,7 +2050,7 @@ static void srv_ready(void)
       }
     } players_iterate_end;
 
-  /* Set up alliances based on team selections */
+    /* Set up alliances based on team selections */
     players_iterate(pplayer) {
       players_iterate(pdest) {
         if (players_on_same_team(pplayer, pdest)
