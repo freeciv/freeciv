@@ -1,4 +1,1003 @@
 
+Sun, 23 Dec 2007 02:00:03 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump to 2.1.2
+
+
+Sun, 23 Dec 2007 01:20:30 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Run 'make update-po'
+
+
+Sat, 22 Dec 2007 17:45:01 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/fi.po
+
+	3632 translated messages, 406 fuzzy translations, 255 untranslated messages. Translation by Timo Jyrinki <timo.jyrinki@iki.fi> and Sini Ruohomaa <sini.ruohomaa@iki.fi> PR#39981
+
+
+Sat, 22 Dec 2007 09:53:59 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/connectdlg_common.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/player.c
+	   M /branches/S2_1/server/auth.c
+	   M /branches/S2_1/server/connecthand.c
+	   M /branches/S2_1/server/connecthand.h
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/utility/shared.c
+	   M /branches/S2_1/utility/shared.h
+
+	(PR#39980) BUG: failure to verify network packet strings before display/logging
+
+
+Sat, 22 Dec 2007 02:40:26 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4293 translated messages.
+
+
+Sat, 22 Dec 2007 02:01:34 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/fi.po
+
+	3264 translated messages, 707 fuzzy translations, 326 untranslated messages. Translation by Timo Jyrinki <timo.jyrinki@iki.fi> PR#39975
+
+
+Thu, 20 Dec 2007 07:04:17 -0800  jcreus:
+
+	Changed paths:
+	   M /branches/S2_1/po/ca.po
+
+	Updating Catalan translation
+
+
+Wed, 19 Dec 2007 10:43:32 -0800  joedalton:
+
+	Changed paths:
+	   M /branches/S2_1/po/da.po
+
+	New translated strings
+
+
+Tue, 18 Dec 2007 04:41:11 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/plrdlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+	   M /branches/S2_1/client/gui-sdl/mapctrl.c
+	   M /branches/S2_1/client/gui-sdl/mapview.c
+	   M /branches/S2_1/client/gui-sdl/plrdlg.c
+	   M /branches/S2_1/client/gui-sdl/repodlgs.c
+	   M /branches/S2_1/client/gui-win32/menu.c
+	   M /branches/S2_1/client/gui-win32/plrdlg.c
+	   M /branches/S2_1/client/gui-win32/repodlgs.c
+	   M /branches/S2_1/client/gui-xaw/menu.c
+	   M /branches/S2_1/client/gui-xaw/repodlgs.c
+	   M /branches/S2_1/data/Freeciv.in
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/no.po
+
+	(PR#39977) Cleanup: gui-xaw, gui-win32, etc: menu reports
+
+
+Mon, 17 Dec 2007 14:44:25 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/data/civ1/buildings.ruleset
+	   M /branches/S2_1/data/civ2/buildings.ruleset
+	   M /branches/S2_1/data/default/buildings.ruleset
+
+	Add realistic terrain reqs for three default wonders, as well a number of missing ones to civ1 and civ2. PR#39944
+
+
+Mon, 17 Dec 2007 14:15:24 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ko.po
+
+	1961 translated messages, 22 fuzzy translations, 2314 untranslated messages. Translation by Jungho Lee <junghoya@gmail.com>
+
+
+Mon, 17 Dec 2007 02:00:26 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	update
+	4297 translated messages.
+
+
+Mon, 17 Dec 2007 00:39:59 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/ai/aicity.c
+	   M /branches/S2_1/client/climisc.c
+	   M /branches/S2_1/client/gui-ftwl/dialogs.c
+	   M /branches/S2_1/client/gui-ftwl/gui_text.c
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/inteldlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/mapview.c
+	   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+	   M /branches/S2_1/client/gui-mui/dialogs.c
+	   M /branches/S2_1/client/gui-mui/diplodlg.c
+	   M /branches/S2_1/client/gui-mui/inteldlg.c
+	   M /branches/S2_1/client/gui-mui/mapclass.c
+	   M /branches/S2_1/client/gui-mui/plrdlg.c
+	   M /branches/S2_1/client/gui-mui/repodlgs.c
+	   M /branches/S2_1/client/gui-sdl/dialogs.c
+	   M /branches/S2_1/client/gui-sdl/diplodlg.c
+	   M /branches/S2_1/client/gui-sdl/gotodlg.c
+	   M /branches/S2_1/client/gui-sdl/inteldlg.c
+	   M /branches/S2_1/client/gui-sdl/mapview.c
+	   M /branches/S2_1/client/gui-sdl/plrdlg.c
+	   M /branches/S2_1/client/gui-sdl/repodlgs.c
+	   M /branches/S2_1/client/gui-sdl/spaceshipdlg.c
+	   M /branches/S2_1/client/gui-win32/connectdlg.c
+	   M /branches/S2_1/client/gui-win32/dialogs.c
+	   M /branches/S2_1/client/gui-win32/diplodlg.c
+	   M /branches/S2_1/client/gui-win32/inteldlg.c
+	   M /branches/S2_1/client/gui-win32/mapview.c
+	   M /branches/S2_1/client/gui-win32/plrdlg.c
+	   M /branches/S2_1/client/gui-win32/repodlgs.c
+	   M /branches/S2_1/client/gui-xaw/dialogs.c
+	   M /branches/S2_1/client/gui-xaw/diplodlg.c
+	   M /branches/S2_1/client/gui-xaw/inteldlg.c
+	   M /branches/S2_1/client/gui-xaw/pages.c
+	   M /branches/S2_1/client/gui-xaw/plrdlg.c
+	   M /branches/S2_1/client/gui-xaw/repodlgs.c
+	   M /branches/S2_1/client/helpdata.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/client/plrdlg_common.c
+	   M /branches/S2_1/client/text.c
+	   M /branches/S2_1/common/nation.c
+	   M /branches/S2_1/common/nation.h
+	   M /branches/S2_1/common/packets.def
+	   M /branches/S2_1/common/packets_gen.c
+	   M /branches/S2_1/common/packets_gen.h
+	   M /branches/S2_1/common/requirements.c
+	   M /branches/S2_1/doc/README.nations
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/server/diplomats.c
+	   M /branches/S2_1/server/report.c
+	   M /branches/S2_1/server/ruleset.c
+	   M /branches/S2_1/server/spacerace.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/stdinhand.c
+	   M /branches/S2_1/server/unittools.c
+	   M /branches/S2_1/server/unittools.h
+
+	(PR#39974) nation_name_* renamed nation_adjective_*
+
+
+Sun, 16 Dec 2007 02:38:36 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3888 translated, 419 untranslated messages
+
+
+Sun, 16 Dec 2007 02:21:08 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4300 translated messages.
+
+
+Sun, 16 Dec 2007 01:49:59 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Fix gettext errors caused by duplicate message definitions.
+
+
+Sat, 15 Dec 2007 23:12:08 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.h
+	   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+	   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+	   M /branches/S2_1/client/gui-gtk-2.0/plrdlg.c
+	   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#39749) [Bug] battle groups keys don't work (Belgium and French)
+	(PR#39927) consistent UI - Map - shortcut F4 in 2.1 - F1 in 2.2
+	(PR#39966) BUG: GTK2 new game screen, _Ruleset conflicts with _Ready
+	           (and Not _ready) and _Release player, etc.
+	(PR#39967) BUG: GTK2 menu _Reports: _Players conflicts with S_paceship
+
+	Also, backport some 2.2 nations button bug fixes (found comparing files).
+
+
+Sat, 15 Dec 2007 00:45:03 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/clinet.c
+	   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+	   M /branches/S2_1/client/options.c
+	   M /branches/S2_1/client/options.h
+	   M /branches/S2_1/client/repodlgs_common.c
+	   M /branches/S2_1/client/repodlgs_common.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#39959) BUG: options/settings changes lost when Leaving & (re)Loading
+
+	The save_options_on_exit menu option didn't work for Leave, only Quit.
+
+	The settable options weren't saved.  Keeping track of the settings that are
+	different from default, and only saving and sending those.
+
+	Fixes an outstanding client memory leak, for every single settings string
+	packet after the first groups -- the old strings weren't freed.
+
+	Fixes an append_output_window() problem with GTK2 early error reporting.
+	Replaced them with freelog().
+
+	So far, only done for GTK2....
+
+
+Wed, 12 Dec 2007 10:41:15 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/server/connecthand.c
+	   M /branches/S2_1/server/settings.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/srv_main.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#39960) reducing the number of *_info messages sent to client (pass 1)
+
+	Because send_player_info() is hidden inside certain functions, remove and
+	scatter to various code branches instead to reveal code flow.  This also
+	fixes several potential bugs.
+
+	Moreover, in most places that send_all_info() was called, it was immediately
+	followed by send_player_info(NULL, NULL), duplicated to the connection!
+
+	Generally, send_conn_info() after send_game_info() and send_player_info()
+	because of player number.  This also fixes several potential bugs.
+
+	server/connecthand.c
+	   establish_new_connection()
+	     repeat calls in various code branches to avoid sending redundant packets.
+	     bug fix: send_conn_info() after send_game_info() and send_player_info()
+
+	   attach_connection_to_player()
+	     remove redundant calls, scatter to various code branches instead:
+	       send_game_info(NULL)
+	       send_player_info(pplayer, NULL)
+
+	   lost_connection_to_client()
+	     send_player_info(pplayer, NULL) was only sent in S_S_RUNNING,
+	     but also sent sometimes by toggle_ai_player_direct();
+	     now always send for consistency.
+
+	server/srv_main.c
+	   send_all_info()
+	     remove redundant call after each call, include within function:
+	       send_player_info(NULL, NULL)
+
+	server/stdinhand.c
+	   toggle_ai_player_direct()
+	     remove redundant call, scatter to various code branches instead:
+	       send_player_info(pplayer, NULL)
+	     (allows the calls to be moved ahead of sending *_info)
+
+	   detach_command()
+	     bug fix? detaching observer should be sent rulesets (like /take)?
+
+
+Wed, 12 Dec 2007 04:08:31 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/repodlgs.c
+	   M /branches/S2_1/client/gui-win32/repodlgs.c
+	   M /branches/S2_1/client/gui-xaw/repodlgs.c
+	   M /branches/S2_1/client/repodlgs_common.c
+	   M /branches/S2_1/client/repodlgs_common.h
+	   M /branches/S2_1/common/packets.def
+	   M /branches/S2_1/common/packets_gen.c
+	   M /branches/S2_1/common/packets_gen.h
+	   M /branches/S2_1/manual/civmanual.c
+	   M /branches/S2_1/server/settings.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#39964) BUG: server settable options uninitialized and bad values
+
+
+Mon, 10 Dec 2007 16:20:13 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/civclient.c
+	   M /branches/S2_1/client/civclient.h
+	   M /branches/S2_1/client/clinet.c
+	   M /branches/S2_1/client/repodlgs_common.c
+	   M /branches/S2_1/server/connecthand.c
+	   M /branches/S2_1/server/gamehand.c
+	   M /branches/S2_1/server/ruleset.c
+	   M /branches/S2_1/server/ruleset.h
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/sernet.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/srv_main.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#39956) reducing the number of rulesets sent to client (pass 1)
+
+	server/ruleset.c
+	   load_rulesets()
+	     remove redundant send_rulesets(), usually sent later after game_load(),
+	     instead send only after explicit server/stdinhand.c set_rulesetdir()
+
+	     In addition, this fixes a bug sending rulesets to game.all_connections
+	     instead of the correct game.est_connections (established).
+
+	server/savegame.c
+	   game_load()
+	     remove redundant send_ruleset_nations(), sent later with send_rulesets()
+
+	server/srv_main.c
+	   start_game()
+	     remove redundant send_server_settings()
+
+	Generally, send_server_settings() after send_rulesets() for delta
+	compression of the redundancy and updates.
+
+	client/repodlgs_common.c
+	   calloc instead of malloc
+
+	Also, the server and client had identically named handle_packet_input()
+	routines, yet were not the generated packet handler names.  Renamed to
+	avoid confusion with each other, and with packets.def handlers.
+
+
+Mon, 10 Dec 2007 15:24:13 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/mapctrl.c
+	   M /branches/S2_1/client/gui-gtk-2.0/mapctrl.h
+	   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+
+	(PR#12188) Alt-t key does not work
+
+
+Sat, 08 Dec 2007 09:56:04 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+
+	(PR#39924) BUG: escape doesn't cancel dialogs nor much of anything else
+
+
+Sat, 08 Dec 2007 09:06:47 -0800  stikonas:
+
+	Changed paths:
+	   M /branches/S2_1/po/lt.po
+
+	More translations
+
+
+Wed, 05 Dec 2007 18:18:05 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/civclient.c
+	   M /branches/S2_1/client/civclient.h
+	   M /branches/S2_1/client/control.c
+	   M /branches/S2_1/client/control.h
+	   M /branches/S2_1/client/goto.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/mapctrl.c
+	   M /branches/S2_1/client/gui-gtk-2.0/mapview.c
+	   M /branches/S2_1/client/gui-sdl/gui_main.c
+	   M /branches/S2_1/client/gui-win32/mapctrl.c
+
+	(PR#39850) missing control re-initialization for second game
+
+
+Wed, 05 Dec 2007 03:12:11 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	update
+	4302 translated messages.
+
+
+Tue, 04 Dec 2007 09:33:34 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/common/game.h
+	   M /branches/S2_1/server/gamehand.c
+	   M /branches/S2_1/server/meta.c
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/sernet.c
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#39946) [cleanup] send_game_info()
+
+	Fix bad parameters in savegame (from PR#39940).
+
+	The number of players is in game.info, so send_game_info() MUST be called
+	before send_player_info().  Fixed several potential bugs.
+
+	Fix old hack by using S_S_GENERATING_WAITING, so named because previous code
+	called it GAME_GENERATION_STATE, "Waiting", UNUSED_STATE, and "Unknown".
+
+	Removed duplicate sends in server/plrhand.c split_player()
+	Removed duplicate sends in server/stdinhand.c set_command()
+
+	Since this is a cleanup, not affecting user visible features, leave the
+	popdown_races_dialog(), but flag it with a FIXME!
+
+
+Tue, 04 Dec 2007 00:46:03 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/po/da.po
+
+	Quick fix for Danish translation compile error.
+
+
+Mon, 03 Dec 2007 15:20:55 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/common/nation.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#39842) rulesetdir in already started game and bounds_check_nation
+	 -- reported by "Egor Vyscrebentsov" <evyscr@murom.net>
+
+	Don't allow changing ruleset after game has started.  Also, changed test
+	order in debug and load commands.
+
+	Don't use nation pointer immediately after determining that it is invalid!
+
+	(PR#39943) 'more veteran' is broken english
+	Fixed more msgids.
+
+	And, while comparing stdinhand between branches, discovered translation errors
+	that had already been fixed in 2.2/trunk: canceled, and a missing _().
+	Backported.
+
+
+Mon, 03 Dec 2007 04:41:34 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/agents/agents.c
+	   M /branches/S2_1/client/civclient.c
+	   M /branches/S2_1/client/civclient.h
+	   M /branches/S2_1/client/climisc.c
+	   M /branches/S2_1/client/clinet.c
+	   M /branches/S2_1/client/control.c
+	   M /branches/S2_1/client/gui-ftwl/gotodlg.c
+	   M /branches/S2_1/client/gui-ftwl/gui_main.c
+	   M /branches/S2_1/client/gui-ftwl/mapview.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+	   M /branches/S2_1/client/gui-sdl/chatline.c
+	   M /branches/S2_1/client/gui-sdl/dialogs.c
+	   M /branches/S2_1/client/gui-sdl/gui_main.c
+	   M /branches/S2_1/client/gui-sdl/mapctrl.c
+	   M /branches/S2_1/client/gui-sdl/mapview.c
+	   M /branches/S2_1/client/gui-sdl/menu.c
+	   M /branches/S2_1/client/gui-sdl/optiondlg.c
+	   M /branches/S2_1/client/gui-sdl/repodlgs.c
+	   M /branches/S2_1/client/gui-sdl/themespec.c
+	   M /branches/S2_1/client/gui-stub/gotodlg.c
+	   M /branches/S2_1/client/gui-win32/gui_main.c
+	   M /branches/S2_1/client/gui-win32/menu.c
+	   M /branches/S2_1/client/gui-xaw/gui_main.c
+	   M /branches/S2_1/client/gui-xaw/pages.c
+	   M /branches/S2_1/client/options.c
+	   M /branches/S2_1/client/packhand.c
+	   M /branches/S2_1/client/tilespec.c
+	   M /branches/S2_1/common/game.h
+	   M /branches/S2_1/server/citytools.c
+	   M /branches/S2_1/server/connecthand.c
+	   M /branches/S2_1/server/maphand.c
+	   M /branches/S2_1/server/meta.c
+	   M /branches/S2_1/server/plrhand.c
+	   M /branches/S2_1/server/savegame.c
+	   M /branches/S2_1/server/sernet.c
+	   M /branches/S2_1/server/sernet.h
+	   M /branches/S2_1/server/srv_main.c
+	   M /branches/S2_1/server/srv_main.h
+	   M /branches/S2_1/server/stdinhand.c
+
+	(PR#39940) [cleanup] client/server state symbols
+
+
+Mon, 03 Dec 2007 02:36:27 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	update
+	4302 translated messages.
+
+
+Sun, 02 Dec 2007 07:58:12 -0800  jnmbk:
+
+	Changed paths:
+	   M /branches/S2_1/po/tr.po
+
+	3877 translated, 428 untranslated messages
+
+
+Sun, 02 Dec 2007 07:28:56 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/common/events.c
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#39943) more veteran is broken english -- reported by Karl Goetz <kamping_kaiser@internode.on.net>
+
+
+Sun, 02 Dec 2007 06:57:53 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/control.c
+	   M /branches/S2_1/client/control.h
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+
+	(PR#39602) quickselect doesn't like the selection of many units -- patches rejected -- rarely used keys deleted
+
+
+Sun, 02 Dec 2007 03:27:31 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/sv.po
+
+	4302 translated messages.
+
+
+Sun, 02 Dec 2007 03:00:19 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	update
+	4302 translated messages.
+
+
+Thu, 29 Nov 2007 08:56:33 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/plrdlg.c
+	   M /branches/S2_1/client/gui-mui/plrdlg.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#39929) GTK2 (F3) Players (Alt-C) _Cancel Treaty conflicts with Chat, City
+
+
+Thu, 29 Nov 2007 06:48:11 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/diplomat_dialog.c
+	   M /branches/S2_1/client/gui-mui/dialogs.c
+	   M /branches/S2_1/client/gui-win32/dialogs.c
+	   M /branches/S2_1/client/gui-xaw/diplomat_dialog.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#39909) BUG: leader gender ignored in diplomat/spy dialog
+
+
+Thu, 29 Nov 2007 03:03:28 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	update
+	4302 translated messages.
+
+
+Wed, 28 Nov 2007 21:10:19 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
+	   M /branches/S2_1/client/gui-gtk-2.0/dialogs.c
+	   M /branches/S2_1/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+	   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
+	   M /branches/S2_1/client/gui-win32/menu.c
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	(PR#39900) _Update button in city report to _Inspect
+	(PR#39912) consistent UI - Chat - use apostrophe for shortcut
+
+	Remove related gui-gtk2 menu and tab shortcut conflicts.
+
+	Similar changes to gui-win32 (incomplete and untested).
+
+
+Wed, 28 Nov 2007 13:40:02 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/doc/README
+
+	Simple typo fix.
+
+
+Wed, 28 Nov 2007 00:21:51 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/server/auth.c
+
+	Fix out-of-place TRANS comment.
+
+	Reported by Christian Knoke in PR#39747.
+
+
+Wed, 28 Nov 2007 00:02:42 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/data/Makefile.am
+	   M /branches/S2_1/m4/ggz.m4
+
+	Install ggzd game and room files in the configure-detected directory.
+
+	See PR#39808.
+
+
+Mon, 26 Nov 2007 19:34:56 -0800  wsimpson:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/menu.c
+	   M /branches/S2_1/client/gui-win32/menu.c
+
+	(PR#39913) consistent UI - Government -- compromise for 2.1
+
+
+Mon, 26 Nov 2007 14:48:37 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-gtk-2.0/cityrep.c
+
+	Avoid triggering a gcc 4.1/4.2 bug that breaks city report CMA control.
+
+	Report and patch by Castanier Carl <woodswolf@gmail.com> in PR#39722 with
+	changes by me.
+
+
+Mon, 26 Nov 2007 01:45:18 -0800  chrisk:
+
+	Changed paths:
+	   M /branches/S2_1/po/de.po
+
+	changes
+	4304 translated messages.
+
+
+Sun, 25 Nov 2007 16:54:43 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_1/client/gui-sdl/chatline.c
+	   M /branches/S2_1/client/gui-sdl/citydlg.c
+	   M /branches/S2_1/client/gui-sdl/colors.h
+	   M /branches/S2_1/client/gui-sdl/connectdlg.c
+	   M /branches/S2_1/client/gui-sdl/dialogs.c
+	   M /branches/S2_1/client/gui-sdl/graphics.c
+	   M /branches/S2_1/client/gui-sdl/inteldlg.c
+	   M /branches/S2_1/client/gui-sdl/mapview.c
+	   M /branches/S2_1/client/gui-sdl/themespec.c
+	   M /branches/S2_1/client/gui-sdl/widget_button.c
+	   M /branches/S2_1/client/gui-sdl/widget_checkbox.c
+	   M /branches/S2_1/client/gui-sdl/widget_scrollbar.c
+	   M /branches/S2_1/client/gui-sdl/wldlg.c
+
+	Fix various reported compiler errors from gcc 2.95 on beos.
+
+	Patch by me in PR#39906.
+
+
+Sun, 25 Nov 2007 16:06:51 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/version.in
+
+	Bump version to 2.1.1+
+
+
+Sun, 25 Nov 2007 15:51:46 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/po/ar.po
+	   M /branches/S2_1/po/ca.po
+	   M /branches/S2_1/po/cs.po
+	   M /branches/S2_1/po/da.po
+	   M /branches/S2_1/po/de.po
+	   M /branches/S2_1/po/el.po
+	   M /branches/S2_1/po/en_GB.po
+	   M /branches/S2_1/po/es.po
+	   M /branches/S2_1/po/et.po
+	   M /branches/S2_1/po/fa.po
+	   M /branches/S2_1/po/fi.po
+	   M /branches/S2_1/po/fr.po
+	   M /branches/S2_1/po/he.po
+	   M /branches/S2_1/po/hu.po
+	   M /branches/S2_1/po/it.po
+	   M /branches/S2_1/po/ja.po
+	   M /branches/S2_1/po/ko.po
+	   M /branches/S2_1/po/lt.po
+	   M /branches/S2_1/po/nl.po
+	   M /branches/S2_1/po/no.po
+	   M /branches/S2_1/po/pl.po
+	   M /branches/S2_1/po/pt.po
+	   M /branches/S2_1/po/pt_BR.po
+	   M /branches/S2_1/po/ro.po
+	   M /branches/S2_1/po/ru.po
+	   M /branches/S2_1/po/sv.po
+	   M /branches/S2_1/po/tr.po
+	   M /branches/S2_1/po/uk.po
+	   M /branches/S2_1/po/zh_CN.po
+
+	Commit changes after running make uupdate-po.
+
+
+Sun, 25 Nov 2007 15:46:32 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_1/ChangeLog
+
+	Update ChangeLog for 2.1.1.
+
+
 Sun, 25 Nov 2007 15:14:19 -0800  dmarks:
 
 	Changed paths:
