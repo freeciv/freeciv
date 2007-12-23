@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-23 18:10+0900\n"
-"PO-Revision-Date: 2007-12-08 19:06+0300\n"
+"PO-Revision-Date: 2007-12-16 11:12+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -7171,7 +7171,6 @@ msgid "City Name"
 msgstr "Miesto pavadinimas"
 
 #: client/cityrepdata.c:495
-#, fuzzy
 msgid "Surplus"
 msgstr "Perteklius"
 
@@ -10408,9 +10407,8 @@ msgid "_Sentry idle"
 msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:717
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Tautos:"
+msgstr "Tautų _grupės:"
 
 #: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -10419,7 +10417,7 @@ msgstr "Kokia tauta Jūs būsite?"
 #: client/gui-gtk-2.0/dialogs.c:764 client/gui-sdl/chatline.c:842
 #: client/gui-win32/connectdlg.c:1036 data/Freeciv.in:3371
 msgid "Pick Nation"
-msgstr "Pasirink tautą"
+msgstr "Pasirinkite tautą"
 
 #: client/gui-gtk-2.0/dialogs.c:772
 #, fuzzy
@@ -10428,7 +10426,7 @@ msgstr "Atsitiktinė tauta"
 
 #: client/gui-gtk-2.0/dialogs.c:784 client/gui-win32/dialogs.c:517
 msgid "Select a nation"
-msgstr "Išsirink tautą"
+msgstr "Išsirinkite tautą"
 
 #: client/gui-gtk-2.0/dialogs.c:802
 msgid "_Properties"
