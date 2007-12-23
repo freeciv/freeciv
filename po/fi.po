@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-22 19:39+0900\n"
+"POT-Creation-Date: 2007-12-23 18:10+0900\n"
 "PO-Revision-Date: 2007-12-22 13:30+0200\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -985,84 +985,84 @@ msgid_plural " (total %d repeats)"
 msgstr[0] " (%d toisto kaikkiaan)"
 msgstr[1] " (%d toistoa kaikkiaan)"
 
-#: utility/shared.c:171
+#: utility/shared.c:176
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "\"%s\": tyhjä argumentti.\n"
 
-#: utility/shared.c:175
+#: utility/shared.c:180
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "\"%s\": argumentti puuttuu.\n"
 
 # *** Darn, I forgot 1) if eaa should have a period after it and 2) what jKr
 # is replaced with (question of Christian counting (eKr) vs scientific counting).
-#: utility/shared.c:463
+#: utility/shared.c:500
 #, c-format
 msgid "%d BC"
 msgstr "%d eKr."
 
-#: utility/shared.c:465
+#: utility/shared.c:502
 #, c-format
 msgid "%d AD"
 msgstr "%d jKr."
 
-#: utility/shared.c:862
+#: utility/shared.c:899
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH on asetettu tyhjäksi, käytän oletuspolkua."
 
-#: utility/shared.c:966
+#: utility/shared.c:1003
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Datahakemiston %s lukeminen epäonnistui: %s."
 
-#: utility/shared.c:1217
+#: utility/shared.c:1254
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "Data-hakemistopolun voi asettaa FREECIV_PATH-ympäristömuuttujalla."
 
-#: utility/shared.c:1219
+#: utility/shared.c:1256
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Tämänhetkinen data-hakemistopolku on: \"%s\""
 
-#: utility/shared.c:1221
+#: utility/shared.c:1258
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Tiedosto \"%s\" vaaditaan ... keskeytän!"
 
-#: utility/shared.c:1395
+#: utility/shared.c:1432
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Vakava virhe: root-käyttäjän ei sovi ajaa minua!\n"
 
-#: utility/shared.c:1397
+#: utility/shared.c:1434
 msgid "Use a non-privileged account instead.\n"
 msgstr "Käytä mieluummin tavallista käyttäjätiliä.\n"
 
 # *** Hmm, where is this used? This ended up sounding more like 'bullseye'. ***
-#: utility/shared.c:1413
+#: utility/shared.c:1450
 msgid "exact match"
 msgstr "täysosuma"
 
-#: utility/shared.c:1414
+#: utility/shared.c:1451
 msgid "only match"
 msgstr "ainoa osuma"
 
 # *** 'non-clear' ***
-#: utility/shared.c:1415
+#: utility/shared.c:1452
 msgid "ambiguous"
 msgstr "epäselvä"
 
-#: utility/shared.c:1416
+#: utility/shared.c:1453
 msgid "empty"
 msgstr "tyhjä"
 
-#: utility/shared.c:1417
+#: utility/shared.c:1454
 msgid "too long"
 msgstr "liian pitkä"
 
 # *** Urmh. ***
-#: utility/shared.c:1418
+#: utility/shared.c:1455
 msgid "non-match"
 msgstr "huti"
 
@@ -1456,16 +1456,16 @@ msgstr "En löydä äänitiedostoa %s"
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "Varoitus: vierailijanimi '%s' on varattu, vaihdan käyttäjänimeen '%s'."
 
-#: server/auth.c:379
+#: server/auth.c:380
 msgid "Guests are not allowed on this server. Sorry."
 msgstr "Vierailijoita ei sallita tällä palvelimella, pahoittelen."
 
-#: server/auth.c:381
+#: server/auth.c:382
 #, c-format
 msgid "%s was rejected: Guests not allowed."
 msgstr "%s jätetty ulkopuolelle: vierailijoita ei sallita."
 
-#: server/auth.c:400
+#: server/auth.c:401
 #, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
@@ -1473,7 +1473,7 @@ msgid ""
 msgstr ""
 "Käyttäjätietokannan luku epäonnistui, kirjaudun sisään vierailijana '%s'."
 
-#: server/auth.c:405
+#: server/auth.c:407
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
@@ -1481,42 +1481,42 @@ msgstr ""
 "Käyttäjätietokannan lukeminen epäonnistui, ja vierailijakirjautumisia ei "
 "sallita. Pahoittelen"
 
-#: server/auth.c:409
+#: server/auth.c:410
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
 msgstr ""
 "%s jätettiin ulkopuolelle: Tietokantavirhe, ja vierailijoita ei sallita."
 
-#: server/auth.c:416
+#: server/auth.c:417
 #, c-format
 msgid "Enter password for %s:"
 msgstr "Anna käyttäjän %s salasana:"
 
-#: server/auth.c:425
+#: server/auth.c:426
 msgid "Enter a new password (and remember it)."
 msgstr "Anna uusi salasana (ja muista se)."
 
-#: server/auth.c:430
+#: server/auth.c:432
 msgid "This server allows only preregistered users. Sorry."
 msgstr "Pahoittelen, palvelin sallii vain ennalta rekisteröityjä käyttäjiä."
 
-#: server/auth.c:433
+#: server/auth.c:435
 #, c-format
 msgid "%s was rejected: Only preregister users allowed."
 msgstr ""
 "%s jätettiin ulkopuolelle: Vain ennalta rekisteröidyt käyttäjät sallittu."
 
-#: server/auth.c:461 server/auth.c:519
+#: server/auth.c:464 server/auth.c:523
 msgid "Sorry, too many wrong tries..."
 msgstr "Pahoittelen, liian monta yritystä meni vikaan..."
 
-#: server/auth.c:462
+#: server/auth.c:465
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
 "%s jätetty ulkopuolelle: Liian monta salasanavahvistusta uudelle käyttäjälle."
 
-#: server/auth.c:478
+#: server/auth.c:481
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -1524,30 +1524,30 @@ msgstr ""
 "Varoitus: Virhe tallentaessa tietokantaan. Jatkan, mutta tietosi eivät "
 "tallennu."
 
-#: server/auth.c:521
+#: server/auth.c:525
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
 msgstr "%s jätetty ulkopuolelle: Liian monta epäonnistunutta salasanayritystä."
 
-#: server/auth.c:530
+#: server/auth.c:534
 msgid "Your password is incorrect. Try again."
 msgstr "Annoit väärän salasanan, yritä uudelleen."
 
-#: server/auth.c:540
+#: server/auth.c:545
 msgid "Sorry, your connection timed out..."
 msgstr "Pahoittelen, yhteytesi aikakatkaistiin..."
 
-#: server/auth.c:542
+#: server/auth.c:547
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
 msgstr "%s jätettiin ulkopuolelle: Yhteyden aikakatkaisu salasanaa odottaessa."
 
-#: server/auth.c:607
+#: server/auth.c:612
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "Salasanasi on liian lyhyt, alaraja on %d merkkiä. Anna uusi salasana."
 
-#: server/auth.c:613
+#: server/auth.c:618
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -2954,22 +2954,17 @@ msgstr "Olet kirjautunut sisään nimellä '%s', yhteydessä pelaajaan %s."
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "%s ei ole valmis vuoronsa kanssa, peli odottaa..."
 
-#: server/connecthand.c:217
+#: server/connecthand.c:220
 #, c-format
 msgid "Client rejected: %s."
 msgstr "Client-ohjelma torjuttu: %s."
 
-#: server/connecthand.c:230
+#: server/connecthand.c:239
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "%s osoitteesta %s lähettää yhteyspyynnön"
 
-#: server/connecthand.c:234
-#, c-format
-msgid "%s has client version %d.%d.%d%s"
-msgstr "Pelaajalla %s on client-versio %d.%d.%d%s"
-
-#: server/connecthand.c:244
+#: server/connecthand.c:263
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2980,12 +2975,12 @@ msgstr ""
 "Päivittäminen voi auttaa!"
 
 # Unliteral translation.
-#: server/connecthand.c:251 server/connecthand.c:266
+#: server/connecthand.c:273 server/connecthand.c:291
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s jätetty ulkopuolelle: epäyhteensopivat ohjelmistot."
 
-#: server/connecthand.c:259
+#: server/connecthand.c:281
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2995,29 +2990,29 @@ msgstr ""
 "Palvelimen versio: %d.%d.%d%s Client-ohjelman versio: %d.%d.%d%s.\n"
 "Päivittäminen saattaa auttaa!"
 
-#: server/connecthand.c:275
+#: server/connecthand.c:300
 #, c-format
 msgid "Invalid username '%s'"
 msgstr "Kelvoton käyttäjätunnus '%s'"
 
 # Unliteral translation.
-#: server/connecthand.c:277
+#: server/connecthand.c:302
 #, fuzzy, c-format
 msgid "%s was rejected: Invalid name [%s]."
 msgstr "%s jätetty ulkopuolelle: epäyhteensopivat ohjelmistot."
 
-#: server/connecthand.c:285
+#: server/connecthand.c:310
 #, c-format
 msgid "'%s' already connected."
 msgstr "'%s' on jo yhteydessä palvelimeen."
 
 # Unliteral translation.
-#: server/connecthand.c:288
+#: server/connecthand.c:313
 #, fuzzy, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr "%s jätetty ulkopuolelle: epäyhteensopivat ohjelmistot."
 
-#: server/connecthand.c:316 server/connecthand.c:325
+#: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Yhteys katkesi: %s."
@@ -5493,101 +5488,91 @@ msgstr "Aloitan pelin."
 msgid "request for unknown report (type %d)"
 msgstr "tuntemattoman raporttityypin pyyntö (tyyppi %d)"
 
-#: server/srv_main.c:1060
+#: server/srv_main.c:1063
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Varoitus: hylättiin vanha asiakasohjelma %s\""
 
-#: server/srv_main.c:1069
-#, fuzzy
-msgid ""
-"Your client is too old. To use this server, please upgrade your client to a "
-"Freeciv 2.1 or later."
-msgstr ""
-"Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi joko "
-"vähintään Freeciv-versioon 2.1 tai CVS-versioon, joka ei ole 28.11.2003:a "
-"vanhempi."
-
-#: server/srv_main.c:1153
+#: server/srv_main.c:1165
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Kuollut pelaaja tai sivustakatsoja lähetti tyypin %d paketin"
 
-#: server/srv_main.c:1253
+#: server/srv_main.c:1265
 msgid "Please choose a non-blank name."
 msgstr "Ole hyvä ja valitse nimi joka ei ole tyhjä."
 
-#: server/srv_main.c:1269
+#: server/srv_main.c:1281
 msgid "That nation is already in use."
 msgstr "Valitsemasi kansakunta on jo käytössä."
 
-#: server/srv_main.c:1285
+#: server/srv_main.c:1297
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Samanniminen ('%s') pelaaja on jo liittynyt peliin. Ole hyvä ja valitse "
 "toinen nimi."
 
-#: server/srv_main.c:1306
+#: server/srv_main.c:1318
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Ole hyvä ja valitse nimi jossa on vain ASCII-kirjaimia."
 
-#: server/srv_main.c:1405
+#: server/srv_main.c:1417
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Kansakunta (%s) ei ole saatavilla tässä skenaariossa."
 
-#: server/srv_main.c:1411
+#: server/srv_main.c:1423
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Kansakunta (%s) on jo käytössä."
 
 # Johndoe on suomalaisten hallitsija Tarja Halonen.
-#: server/srv_main.c:1429
+#: server/srv_main.c:1441
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s on %s hallitsija %s."
 
-#: server/srv_main.c:1485
+#: server/srv_main.c:1497
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Odotetaan pelin alkamista: %d / %d pelaajaa valmiina aloittamaan."
 
-#: server/srv_main.c:1490
+#: server/srv_main.c:1502
 msgid "All players are ready; starting game."
 msgstr "Pelaajat ovat valmiina; aloitetaan peli."
 
-#: server/srv_main.c:1532 server/srv_main.c:1536
+#: server/srv_main.c:1544 server/srv_main.c:1548
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi."
 
-#: server/srv_main.c:1663
+#: server/srv_main.c:1675
 #, c-format
 msgid "Player %d"
 msgstr "Pelaaja %d"
 
-#: server/srv_main.c:1674 server/srv_main.c:1680
+#: server/srv_main.c:1686 server/srv_main.c:1692
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s sai johtaakseen %s."
 
-#: server/srv_main.c:1844
+#: server/srv_main.c:1856
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:1895
+#: server/srv_main.c:1907
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Lähetän tietoa metapalvelimelle [%s]"
 
-#: server/srv_main.c:1926
+#: server/srv_main.c:1938
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:2139
+#: server/srv_main.c:2151
 msgid "Now accepting new client connections."
 msgstr "Vastaanotan nyt uusia client-yhteydenottoja."
 
@@ -8147,51 +8132,51 @@ msgstr ""
 "Automaattinen yhdistäminen palvelimeen \"%s\", portti %d, nimellä \"%s\" %d.%"
 "d sekunnin välein %d kertaa"
 
-#: client/connectdlg_common.c:78 client/gui-gtk-2.0/pages.c:1263
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1263
 msgid "novice"
 msgstr "aloittelija"
 
-#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1263
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1263
 msgid "easy"
 msgstr "helppo"
 
-#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1264
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1264
 msgid "normal"
 msgstr "tavallinen"
 
-#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1264
+#: client/connectdlg_common.c:82 client/gui-gtk-2.0/pages.c:1264
 msgid "hard"
 msgstr "vaikea"
 
-#: client/connectdlg_common.c:82
+#: client/connectdlg_common.c:83
 msgid "experimental"
 msgstr "kokeellinen"
 
-#: client/connectdlg_common.c:211
+#: client/connectdlg_common.c:212
 msgid "Starting server..."
 msgstr "Käynnistän palvelimen..."
 
-#: client/connectdlg_common.c:328
+#: client/connectdlg_common.c:329
 msgid "Couldn't start the server."
 msgstr "Palvelimen käynnistys epäonnistui."
 
-#: client/connectdlg_common.c:329 client/connectdlg_common.c:362
+#: client/connectdlg_common.c:330 client/connectdlg_common.c:363
 msgid "You'll have to start one manually. Sorry..."
 msgstr "Sinun pitää käynnistää palvelin käsin. Pahoittelen."
 
-#: client/connectdlg_common.c:360
+#: client/connectdlg_common.c:361
 msgid "Couldn't connect to the server."
 msgstr "Palvelimeen yhdistäminen epäonnistui."
 
-#: client/connectdlg_common.c:361
+#: client/connectdlg_common.c:362
 msgid "We probably couldn't start it from here."
 msgstr "Sen käynnistäminen täältä käsin ei todennäköisesti onnistunut."
 
-#: client/connectdlg_common.c:481
+#: client/connectdlg_common.c:467
 msgid "We have control of the server (command access level hack)"
 msgstr "Me hallitsemme palvelinta (komentotaso hack)."
 
-#: client/connectdlg_common.c:486
+#: client/connectdlg_common.c:472
 msgid "We can't take control of server, attempting to kill it."
 msgstr "Palvelinta ei saada hallintaan, yritetään tappaa prosessi pois."
 
@@ -9515,36 +9500,36 @@ msgstr "Tallennus epäonnistui, tiedostoon %s ei voi kirjoittaa"
 msgid "Saved settings to file %s"
 msgstr "Asetukset tallennettu tiedostoon %s"
 
-#: client/packhand.c:200
+#: client/packhand.c:211
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "Sinut poistettiin pelistä: %s"
 
-#: client/packhand.c:215
+#: client/packhand.c:226
 #, c-format
 msgid "Client capability string: %s"
 msgstr "Asiakasohjelman toimintomuuttuja: %s"
 
-#: client/packhand.c:218
+#: client/packhand.c:229
 #, c-format
 msgid "Server capability string: %s"
 msgstr "Palvelimen toimintomuuttuja: %s"
 
-#: client/packhand.c:836
+#: client/packhand.c:847
 #, c-format
 msgid "Start of turn %d"
 msgstr "Vuoron %d alku"
 
-#: client/packhand.c:1579
+#: client/packhand.c:1590
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "AI-moodi on nyt %s."
 
-#: client/packhand.c:1580
+#: client/packhand.c:1591
 msgid "ON"
 msgstr "päällä"
 
-#: client/packhand.c:1580
+#: client/packhand.c:1591
 msgid "OFF"
 msgstr "pois päältä"
 
@@ -25206,6 +25191,18 @@ msgstr "Joukkue 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Joukkue 31"
+
+#~ msgid "%s has client version %d.%d.%d%s"
+#~ msgstr "Pelaajalla %s on client-versio %d.%d.%d%s"
+
+#, fuzzy
+#~ msgid ""
+#~ "Your client is too old. To use this server, please upgrade your client to "
+#~ "a Freeciv 2.1 or later."
+#~ msgstr ""
+#~ "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi joko "
+#~ "vähintään Freeciv-versioon 2.1 tai CVS-versioon, joka ei ole 28.11.2003:a "
+#~ "vanhempi."
 
 #~ msgid "_Players"
 #~ msgstr "Pelaajat"
