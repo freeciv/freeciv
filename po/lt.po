@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-01 21:46+0300\n"
-"PO-Revision-Date: 2007-12-08 19:06+0300\n"
+"PO-Revision-Date: 2007-12-23 22:12+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -2760,7 +2760,7 @@ msgstr "remove <žaidėjo-vardas>"
 
 #: server/commands.c:333
 msgid "Fully remove player from game."
-msgstr ""
+msgstr "Visiškai pašalina žaidėją iš žaidimo."
 
 #: server/commands.c:334
 msgid "This *completely* removes a player from the game, including all cities and units etc.  Use with care!"
@@ -10645,7 +10645,7 @@ msgstr "Kokia tauta Jūs būsite?"
 #: client/gui-win32/connectdlg.c:1042
 #: data/Freeciv.in:3378
 msgid "Pick Nation"
-msgstr "Pasirink tautą"
+msgstr "Pasirinkite tautą"
 
 #: client/gui-gtk-2.0/dialogs.c:806
 msgid "Random Nation"
@@ -10654,7 +10654,7 @@ msgstr "Atsitiktinė tauta"
 #: client/gui-gtk-2.0/dialogs.c:818
 #: client/gui-win32/dialogs.c:518
 msgid "Select a nation"
-msgstr "Išsirink tautą"
+msgstr "Išsirinkite tautą"
 
 #: client/gui-gtk-2.0/dialogs.c:836
 msgid "_Properties"
