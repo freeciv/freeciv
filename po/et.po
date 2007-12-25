@@ -2837,9 +2837,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "Tere tulemast %s serverisse pordil %d."
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s ühines aadressilt %s."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s ühines aadressilt %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2876,54 +2876,46 @@ msgid "Client rejected: %s."
 msgstr "Klient tagasi lükatud: %s."
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "Kasutaja %s proovib ühenduda aadressilt %s"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) Kasutaja %s proovib ühenduda aadressilt %s"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"Sellel kliendil pole kõiki võimalusi, mida server vajab.\n"
-"Serveri versioon: %d.%d.%d%s Kliendi versioon: %d.%d.%d%s.  Versiooniuuendus "
-"aitaks (võibolla)!"
+"Sellel kliendil pole kõiki võimalusi, mida server vajab."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s saadeti ära: Kokkusobimatud võimed"
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s saadeti ära: Kokkusobimatud võimed"
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"Serveril pole kõiki võimalusi, mida see klient vajab.\n"
-"Serveri versioon: %d.%d.%d%s Kliendi versioon: %d.%d.%d%s.  Versiooniuuendus "
-"aitaks (võibolla)!"
+"Serveril pole kõiki võimalusi, mida see klient vajab."
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Vigane nimi '%s'"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Vigane nimi"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s saadeti kukele, nimi [%s] on invaliidne."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s saadeti kukele, nimi [%s] on invaliidne."
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "'%s' on juba ühendatud"
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "on juba ühendatud"
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s saadeti kukele: selline loginanimi ([%s]) on juba olemas."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s saadeti kukele: selline loginanimi ([%s]) on juba olemas."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9242,9 +9234,9 @@ msgid "Saved settings to file %s"
 msgstr "Seaded salvestatud faili %s"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Sind ei võetud mängu: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Sind ei võetud mängu:"
 
 #: client/packhand.c:226
 #, c-format

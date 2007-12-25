@@ -2864,9 +2864,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "Benvingut al servidor %s al port %d."
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s s'ha connectat des de %s."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s s'ha connectat des de %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2903,54 +2903,46 @@ msgid "Client rejected: %s."
 msgstr "Client refusat: %s."
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "Petició de connexió de %s des de %s"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) Petició de connexió de %s des de %s"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"El client no té una capacitat que necessita aquest servidor.\n"
-"Versió del servidor: %d.%d.%d%s Versió del client: %d.%d.%d%s.  Actualitzar "
-"pot ajudar!"
+"El client no té una capacitat que necessita aquest servidor."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s s'ha refusat. Capacitats no coincidents."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s s'ha refusat. Capacitats no coincidents."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"El servidor no té una capacitat que necessita el client.\n"
-"Versió del servidor: %d.%d.%d%s Versió del client: %d.%d.%d%s.  Actualitzar "
-"pot ajudar!"
+"El servidor no té una capacitat que necessita el client."
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Nom d'usuari invàlid '%s'"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Nom d'usuari invàlid"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s s'ha refusat. Nom invàlid [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s s'ha refusat. Nom invàlid [%s]."
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "'%s' ja està connectat."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "ja està connectat."
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s s'ha refusat. Nom de login duplicat [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s s'ha refusat. Nom de login duplicat [%s]."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9332,9 +9324,9 @@ msgid "Saved settings to file %s"
 msgstr "S'ha desat la configuració al fitxer %s"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Has estat refusat de la partida: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Has estat refusat de la partida:"
 
 #: client/packhand.c:226
 #, c-format

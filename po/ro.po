@@ -2909,9 +2909,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "Bun venit pe Server-ul %s care aşteaptă conexiuni pe portul %d."
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s s-a conectat de la %s."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s s-a conectat de la %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2948,54 +2948,46 @@ msgid "Client rejected: %s."
 msgstr "Client respins: %s."
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "Cerere de conectare de la %s de la %s"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) Cerere de conectare de la %s de la %s"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"Clientul nu are o capabilitate de care are nevoie server-ul.\n"
-"Versiunea server-ului: %d.%d.%d%s Versiunea clientului: %d.%d.%d%s.  Ar fi "
-"bine să actualizaţi!"
+"Clientul nu are o capabilitate de care are nevoie server-ul."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s a fost respins: Capabilităţi incompatibile."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s a fost respins: Capabilităţi incompatibile."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"Server-ul nu are o capabilitate de care are nevoie clientul.\n"
-"Versiunea server-ului: %d.%d.%d%s Versiunea clientului: %d.%d.%d%s.  Ar fi "
-"bine să actualizaţi!"
+"Server-ul nu are o capabilitate de care are nevoie clientul."
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Nume de jucător invalid '%s'"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Nume de jucător invalid"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s a fost respins: Nume invalid [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s a fost respins: Nume invalid [%s]."
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "'%s' este deja conectat."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "este deja conectat."
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s a fost respins: Nume de înregistrare dupicat [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s a fost respins: Nume de înregistrare dupicat [%s]."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9551,9 +9543,9 @@ msgid "Saved settings to file %s"
 msgstr "S-au salvat setările în fişierul %s"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Aţi fost refuzat de la joc: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Aţi fost refuzat de la joc:"
 
 #: client/packhand.c:226
 #, c-format

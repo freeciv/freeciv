@@ -2836,8 +2836,8 @@ msgstr "Üdvözöl a %s Szerver (port: %d)."
 
 #: server/connecthand.c:98
 #, fuzzy, c-format
-msgid "%s has connected from %s."
-msgstr "Játék: %s játékossal nem áll fenn a kapcsolat."
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) Játék: %s játékossal nem áll fenn a kapcsolat %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2877,55 +2877,47 @@ msgid "Client rejected: %s."
 msgstr ""
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "%s csatlakozni szeretne a(z) %s címrõl"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) %s csatlakozni szeretne a(z) %s címrõl"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"A kliensbõl hiányzik egy képesség, amit a szerver megkövetel.\n"
-"A szerver verziója %d.%d.%d%s, a kliens verziója %d.%d.%d%s.  Egy újabb "
-"verzióra való áttérés talán segíthet."
+"A kliensbõl hiányzik egy képesség, amit a szerver megkövetel."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
 msgstr ""
-"%s visszautasítva: A szerver és a kliens képességei nem kompatibilisek."
+"(%d) %s visszautasítva: A szerver és a kliens képességei nem kompatibilisek."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"A szerverbõl hiányzik egy képesség, amit a kliens megkövetel.\n"
-"A szerver verziója %d.%d.%d%s, a kliens verziója: %d.%d.%d%s.  Egy újabb "
-"verzióra való áttérés talán segíthet."
+"A szerverbõl hiányzik egy képesség, amit a kliens megkövetel."
 
 #: server/connecthand.c:300
-#, fuzzy, c-format
-msgid "Invalid username '%s'"
-msgstr "A(z) '%s' érvénytelen név"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "A(z) érvénytelen név"
 
 #: server/connecthand.c:302
 #, fuzzy, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s visszautasítva: A játék már fut, és a(z) %s ismeretlen név."
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s visszautasítva: A játék már fut, és a(z) %s ismeretlen név."
 
 #: server/connecthand.c:310
-#, fuzzy, c-format
-msgid "'%s' already connected."
-msgstr "Sajnálom, %s már kapcsolódott."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "Sajnálom, már kapcsolódott."
 
 #: server/connecthand.c:313
 #, fuzzy, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s visszautasítva: A játék már fut, és a(z) %s ismeretlen név."
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s visszautasítva: A játék már fut, és a(z) %s ismeretlen név."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9353,9 +9345,9 @@ msgid "Saved settings to file %s"
 msgstr "Beállítások elmentve a(z) %s fájlba"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Kiutasítottak a játékból: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Kiutasítottak a játékból:"
 
 #: client/packhand.c:226
 #, c-format

@@ -2604,7 +2604,7 @@ msgstr ""
 
 #: server/connecthand.c:98
 #, c-format
-msgid "%s has connected from %s."
+msgid "(%d) %s: connected [%s]"
 msgstr ""
 
 #: server/connecthand.c:103
@@ -2643,46 +2643,38 @@ msgstr ""
 
 #: server/connecthand.c:239
 #, c-format
-msgid "Connection request from %s from %s"
+msgid "(%d) %s: connection request [%s]"
 msgstr ""
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgid "The client is missing a capability that this server needs."
 msgstr ""
 
 #: server/connecthand.c:273 server/connecthand.c:291
 #, c-format
-msgid "%s was rejected: Mismatched capabilities."
+msgid "(%d) %s rejected: mismatched capabilities!"
 msgstr ""
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgid "This server is missing a capability that the client needs."
 msgstr ""
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
+msgid "The username is invalid!"
 msgstr ""
 
 #: server/connecthand.c:302
 #, c-format
-msgid "%s was rejected: Invalid name [%s]."
+msgid "(%d) %s rejected: invalid username [%s]"
 msgstr ""
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
+msgid "Your username is already connected!"
 msgstr ""
 
 #: server/connecthand.c:313
 #, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
+msgid "(%d) %s rejected: duplicate username [%s]"
 msgstr ""
 
 #: server/connecthand.c:341 server/connecthand.c:350
@@ -8531,8 +8523,7 @@ msgid "Saved settings to file %s"
 msgstr ""
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
+msgid "You were rejected from the game...."
 msgstr ""
 
 #: client/packhand.c:226

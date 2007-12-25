@@ -2930,9 +2930,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "Bienvenue sur le serveur %s, port %d."
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s s'est connecté depuis %s."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s s'est connecté depuis %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2969,54 +2969,46 @@ msgid "Client rejected: %s."
 msgstr "Client rejeté: %s."
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "Connexion demandée par %s depuis %s"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) Connexion demandée par %s depuis %s"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"Il manque au client une fonctionnalité nécessaire à ce serveur.\n"
-"Serveur en version %d.%d.%d%s ; client en version %d.%d.%d%s. Une mise à "
-"jour peut sans doute aider !"
+"Il manque au client une fonctionnalité nécessaire à ce serveur."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s a été rejeté : non correspondance des fonctionnalités."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s a été rejeté : non correspondance des fonctionnalités."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"Il manque au serveur une fonctionnalité nécessaire à ce client.\n"
-"Serveur en version %d.%d.%d%s ; client en version %d.%d.%d%s. Une mise à "
-"jour peut sans doute aider !"
+"Il manque au serveur une fonctionnalité nécessaire à ce client."
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Nom d'utilisateur invalide \"%s\""
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Nom d'utilisateur invalide"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s a été rejeté : nom invalide [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s a été rejeté : nom invalide [%s]."
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "\"%s\" déjà connecté."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "déjà connecté."
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s a été rejeté : login redondant [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s a été rejeté : login redondant [%s]."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9559,9 +9551,9 @@ msgid "Saved settings to file %s"
 msgstr "Les options sont sauvegardées dans %s"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Vous avez été rejeté de la partie: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Vous avez été rejeté de la partie:"
 
 #: client/packhand.c:226
 #, c-format

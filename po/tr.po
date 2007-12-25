@@ -2837,9 +2837,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "%s Sunucusuna hoş geldiniz (%d portunda çalışıyor)."
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s, %s adresinden bağlandı."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s, %s adresinden bağlandı."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2876,54 +2876,46 @@ msgid "Client rejected: %s."
 msgstr "Oyuncu reddetti: %s."
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "Bağlantı isteği: %s (%s)"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) Bağlantı isteği: %s (%s)"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"İstemci, sunucunun gerektirdiği bir yeteneğe sahip değil.\n"
-"Sunucu sürümü: %d.%d.%d%s İstemci sürümü: %d.%d.%d%s.  Güncellemek işe "
-"yarayabilir!"
+"İstemci, sunucunun gerektirdiği bir yeteneğe sahip değil."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s reddedildi: Yetenekler uyuşmuyor."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s reddedildi: Yetenekler uyuşmuyor."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"Sunucu, istemcinin gerektirdiği bir yeteneğe sahip değil.\n"
-"Sunucu sürümü: %d.%d.%d%s İstemci sürümü: %d.%d.%d%s.  Güncellemek işe "
-"yarayabilir!"
+"Sunucu, istemcinin gerektirdiği bir yeteneğe sahip değil."
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Geçersiz kullanıcı adı '%s'"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Geçersiz kullanıcı adı"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s reddedildi: Geçersiz isim [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s reddedildi: Geçersiz isim [%s]."
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "'%s' zaten bağlı."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "zaten bağlı."
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s reddedildi: Tekrarlayan giriş adı [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s reddedildi: Tekrarlayan giriş adı [%s]."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9078,9 +9070,9 @@ msgid "Saved settings to file %s"
 msgstr "Ayarlar %s dosyasına yazıldı"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Oyuna kabul edilmediniz: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Oyuna kabul edilmediniz:"
 
 #: client/packhand.c:226
 #, c-format

@@ -62,8 +62,7 @@ void establish_new_connection(struct connection *pconn)
   /* send join_reply packet */
   packet.you_can_join = TRUE;
   sz_strlcpy(packet.capability, our_capability);
-  my_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
-              pconn->username);
+  sz_strlcpy(packet.message, pconn->username);
   sz_strlcpy(packet.challenge_file, new_challenge_filename(pconn));
   packet.conn_id = pconn->id;
   send_packet_server_join_reply(pconn, &packet);
@@ -94,9 +93,11 @@ void establish_new_connection(struct connection *pconn)
   /* FIXME: this (getting messages about others logging on) should be a 
    * message option for the client with event */
 
-  /* notify the console and other established connections that you're here */
-  freelog(LOG_NORMAL, _("%s has connected from %s."),
-          pconn->username, pconn->addr);
+  /* TRANS: (connection) identifier: ... [network address] */
+  freelog(LOG_NORMAL, _("(%d) %s: connected [%s]"),
+          pconn->id, pconn->username, pconn->addr);
+
+  /* notify the other established connections that you're here */
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
       notify_conn(aconn->self, NULL, E_CONNECTION,
@@ -217,7 +218,6 @@ void reject_new_connection(struct connection *pconn, const char *message)
   packet.conn_id = -1;
 
   send_packet_server_join_reply(pconn, &packet);
-  freelog(LOG_NORMAL, _("Client rejected: %s."), conn_description(pconn));
   flush_connection_send_buffer_all(pconn);
 }
 
@@ -227,22 +227,24 @@ void reject_new_connection(struct connection *pconn, const char *message)
 **************************************************************************/
 bool server_join_request(struct connection *pconn, void *packet)
 {
-  char msg[MAX_LEN_MSG];
   char username[MAX_LEN_NAME];
 #define req ((struct packet_server_join_req *)packet)
-  
+
   /* Never assume network data is valid and printable! */
   sz_strlcpy(username,
              is_valid_username(req->username)
              ? req->username
              : "?");
-  freelog(LOG_NORMAL, _("Connection request from %s from %s"),
+  /* TRANS: (connection) identifier: ... [network address] */
+  freelog(LOG_NORMAL, _("(%d) %s: connection request [%s]"),
+          pconn->id,
           username,
           pconn->addr);
 
   /* log client and server capabilities */
-  freelog(LOG_VERBOSE, "%s: client version %d.%d.%d%s",
-          pconn->addr,
+  freelog(LOG_VERBOSE, "(%d) %s: client version %d.%d.%d%s",
+          pconn->id,
+          username,
           req->major_version,
           req->minor_version,
           req->patch_version,
@@ -259,36 +261,22 @@ bool server_join_request(struct connection *pconn, void *packet)
 
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, pconn->capability)) {
-    my_snprintf(msg, sizeof(msg),
-                _("The client is missing a capability that this server needs.\n"
-                   "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
-                   "  Upgrading may help!"),
-                MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
-                req->major_version, req->minor_version,
-                req->patch_version,
-                ('\0' == req->version_label[0] || is_ascii_name(req->version_label))
-                ? req->version_label
-                : "?");
-    reject_new_connection(pconn, msg);
-    freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
+    reject_new_connection(pconn,
+                          N_("The client is missing a capability"
+                             " that this server needs."));
+    freelog(LOG_NORMAL, _("(%d) %s rejected: mismatched capabilities!"),
+            pconn->id,
             username);
     return FALSE;
   }
 
   /* Make sure the client has every capability the server needs */
   if (!has_capabilities(pconn->capability, our_capability)) {
-    my_snprintf(msg, sizeof(msg),
-                _("The server is missing a capability that the client needs.\n"
-                   "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
-                   "  Upgrading may help!"),
-                MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
-                req->major_version, req->minor_version,
-                req->patch_version,
-                ('\0' == req->version_label[0] || is_ascii_name(req->version_label))
-                ? req->version_label
-                : "?");
-    reject_new_connection(pconn, msg);
-    freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
+    reject_new_connection(pconn,
+                          N_("This server is missing a capability"
+                             " that the client needs."));
+    freelog(LOG_NORMAL, _("(%d) %s rejected: mismatched capabilities!"),
+            pconn->id,
             username);
     return FALSE;
   }
@@ -297,21 +285,26 @@ bool server_join_request(struct connection *pconn, void *packet)
 
   /* Name-sanity check: could add more checks? */
   if (!is_valid_username(req->username)) {
-    my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), username);
-    reject_new_connection(pconn, msg);
-    freelog(LOG_NORMAL, _("%s was rejected: Invalid name [%s]."),
-            username, pconn->addr);
+    reject_new_connection(pconn,
+                          N_("The username is invalid!"));
+    /* TRANS: (connection) identifier: ... [network address] */
+    freelog(LOG_NORMAL, _("(%d) %s rejected: invalid username [%s]"),
+            pconn->id,
+            username,
+            pconn->addr);
     return FALSE;
   } 
 
   /* don't allow duplicate logins */
   conn_list_iterate(game.all_connections, aconn) {
     if (mystrcasecmp(req->username, aconn->username) == 0) { 
-      my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
-                  req->username);
-      reject_new_connection(pconn, msg);
-      freelog(LOG_NORMAL, _("%s was rejected: Duplicate login name [%s]."),
-              username, pconn->addr);
+      reject_new_connection(pconn,
+                            N_("Your username is already connected!"));
+      /* TRANS: (connection) identifier: ... [network address] */
+      freelog(LOG_NORMAL, _("(%d) %s rejected: duplicate username [%s]"),
+              pconn->id,
+              username,
+              pconn->addr);
       return FALSE;
     }
   } conn_list_iterate_end;

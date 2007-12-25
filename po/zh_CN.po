@@ -2751,9 +2751,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "欢迎来到运行于端口 %2$d 的服务器 %1$s。"
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s 已从 %s 连入。"
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s 已从 %s 连入。"
 
 #: server/connecthand.c:103
 #, c-format
@@ -2790,52 +2790,46 @@ msgid "Client rejected: %s."
 msgstr "客户端被拒绝： %s 。"
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "来自来自 %2$s 的 %1$s 的连接请求"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) 来自来自 %2$s 的 %1$s 的连接请求"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"客户端缺少此服务器需要的一项功能。\n"
-"服务器版本： %d.%d.%d%s 客户端版本： %d.%d.%d%s 。 升级可能有帮助！"
+"客户端缺少此服务器需要的一项功能。"
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s 被拒绝：不匹配的功能。"
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s 被拒绝：不匹配的功能。"
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"服务器缺少客户端需要的一项功能。\n"
-"服务器版本： %d.%d.%d%s 客户端版本： %d.%d.%d%s 。 升级可能有帮助！"
+"服务器缺少客户端需要的一项功能。"
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "无效的名字“%s”"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "无效的名字"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s 被拒绝：无效的名字 [%s]。"
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s 被拒绝：无效的名字 [%s]。"
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "“%s” 已经连入了。"
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "已经连入了。"
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s 被拒绝：重复的登录名 [%s]。"
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s 被拒绝：重复的登录名 [%s]。"
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -8944,9 +8938,9 @@ msgid "Saved settings to file %s"
 msgstr "设置已保存到文件 %s 中"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "你被游戏拒绝：%s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "你被游戏拒绝："
 
 #: client/packhand.c:226
 #, c-format

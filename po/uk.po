@@ -2823,9 +2823,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "Ради бачити на сервер╕ %s, що запущений на порту %d."
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s при╓днався з %s."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s при╓днався з %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2862,54 +2862,46 @@ msgid "Client rejected: %s."
 msgstr ""
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "Запит на з'╓днання в╕д %s з %s"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) Запит на з'╓днання в╕д %s з %s"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"Кл╕╓нт не сум╕сний з сервером.\n"
-"Сервер верс╕╖: %d.%d.%d%s Кл╕ент верс╕╖: %d.%d.%d%s. Встановлення ново╖ "
-"верс╕╖ ма╓ допомогти!"
+"Кл╕╓нт не сум╕сний з сервером."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "В╕дкинуто %s: несп╕впадають можливост╕."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) В╕дкинуто %s: несп╕впадають можливост╕."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"Сервер не ╓ сум╕сний з кл╕╓нтом.\n"
-"Сервер верс╕╖: %d.%d.%d%s Кл╕ент верс╕╖: %d.%d.%d%s. Встановлення ново╖ "
-"верс╕╖ ма╓ допомогти!"
+"Сервер не ╓ сум╕сний з кл╕╓нтом."
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Нев╕рне ╕м'я '%s'"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Нев╕рне ╕м'я"
 
 #: server/connecthand.c:302
 #, fuzzy, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "В╕дкинуто %s: несп╕впадають можливост╕."
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) В╕дкинуто %s: несп╕впадають можливост╕. [%s]"
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "'%s' вже на з'╓днанн╕."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "вже на з'╓днанн╕."
 
 #: server/connecthand.c:313
 #, fuzzy, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "В╕дкинуто %s: несп╕впадають можливост╕."
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) В╕дкинуто %s: несп╕впадають можливост╕. [%s]"
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9186,9 +9178,9 @@ msgid "Saved settings to file %s"
 msgstr "Збережено опц╕╖ у файл %s"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Вам в╕дмовлено у гр╕: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Вам в╕дмовлено у гр╕:"
 
 #: client/packhand.c:226
 #, c-format

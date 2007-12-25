@@ -2879,9 +2879,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "Velkommen til serveren %s på port %d."
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s har tilsluttet sig fra %s."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s har tilsluttet sig fra %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2918,54 +2918,46 @@ msgid "Client rejected: %s."
 msgstr "Klient afvist: %s."
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "Tilkoblingsforespørgsel fra %s fra %s"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) Tilkoblingsforespørgsel fra %s fra %s"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"Klienten mangler en egenskab som denne server behøver.\n"
-"Serverversion: %d.%d.%d%s  Klientversion: %d.%d.%d%s. Opgradering hjælper "
-"muligvis!"
+"Klienten mangler en egenskab som denne server behøver."
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s blev afvist: uforenelige egenskaber."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s blev afvist: uforenelige egenskaber."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"Serveren mangler en egenskab som denne klient behøver.\n"
-"Serverversion: %d.%d.%d%s Klientversion: %d.%d.%d%s.\n"
-"En opgradering kan hjælpe!"
+"Serveren mangler en egenskab som denne klient behøver."
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Ugyldigt brugernavn '%s'"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Ugyldigt brugernavn"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s blev afvist: Ugyldigt navn [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s blev afvist: Ugyldigt navn [%s]."
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "'%s' er allerede tilsluttet."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "er allerede tilsluttet."
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s blev afvist: Ens login navn [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s blev afvist: Ens login navn [%s]."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9333,9 +9325,9 @@ msgid "Saved settings to file %s"
 msgstr "Gemte opsætning i filen %s"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Du blev afvist fra spillet: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Du blev afvist fra spillet:"
 
 #: client/packhand.c:226
 #, c-format

@@ -2766,9 +2766,9 @@ msgid "Welcome to the %s Server at port %d."
 msgstr "Sveiki atvykę į %s serverį, prievadas %d"
 
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s prisijungė iš %s."
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s prisijungė iš %s."
 
 #: server/connecthand.c:103
 #, c-format
@@ -2806,48 +2806,42 @@ msgstr "Klientas atmestas: %s."
 
 #: server/connecthand.c:239
 #, c-format
-msgid "Connection request from %s from %s"
+msgid "(%d) %s: connection request [%s]"
 msgstr ""
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgid "The client is missing a capability that this server needs."
 msgstr ""
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s buvo atmestas dėl nesuderinamų galimybių."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s buvo atmestas dėl nesuderinamų galimybių."
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgid "This server is missing a capability that the client needs."
 msgstr ""
 
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "Netinkamas vartotojo vardas „%s“"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "Netinkamas vartotojo vardas"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s buvo atmestas: Neleistinas vardas [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s buvo atmestas: Neleistinas vardas [%s]."
 
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "„%s“ jau prisijungęs."
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "jau prisijungęs."
 
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
 msgstr ""
-"%sbuvo atmestas: antrąkart jungiamasi tuo pačiu prisijungimo vardu[%s]."
+"(%d) %sbuvo atmestas: antrąkart jungiamasi tuo pačiu prisijungimo vardu[%s]."
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -8793,9 +8787,9 @@ msgid "Saved settings to file %s"
 msgstr "Išsaugoti nustatymus į failą %s"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "Jūs buvote nepriimtas į žaidimą: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "Jūs buvote nepriimtas į žaidimą:"
 
 #: client/packhand.c:226
 #, c-format

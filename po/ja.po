@@ -3118,9 +3118,9 @@ msgstr "ようこそ %s サーバ(ポート %d)へ。"
 
 # clefs
 #: server/connecthand.c:98
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s は %s から接続しています。"
+#, fuzzy, c-format
+msgid "(%d) %s: connected [%s]"
+msgstr "(%d) %s は %s から接続しています。"
 
 # clefs
 #: server/connecthand.c:103
@@ -3167,57 +3167,49 @@ msgid "Client rejected: %s."
 msgstr "拒否されたクライアント: %s"
 
 #: server/connecthand.c:239
-#, c-format
-msgid "Connection request from %s from %s"
-msgstr "%2$s の %1$s から接続要請"
+#, fuzzy, c-format
+msgid "(%d) %s: connection request [%s]"
+msgstr "(%d) %2$s の %1$s から接続要請"
 
 #: server/connecthand.c:263
-#, c-format
-msgid ""
-"The client is missing a capability that this server needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "The client is missing a capability that this server needs."
 msgstr ""
-"クライアンドはサーバの要求する機能を理解できません。\n"
-"サーバのバージョン: %d.%d.%d%s クライアントのバージョン: %d.%d.%d%s.  "
-"Upgrading may help!"
+"クライアンドはサーバの要求する機能を理解できません。"
 
 #: server/connecthand.c:273 server/connecthand.c:291
-#, c-format
-msgid "%s was rejected: Mismatched capabilities."
-msgstr "%s は拒絶されました: 機能の不一致です。"
+#, fuzzy, c-format
+msgid "(%d) %s rejected: mismatched capabilities!"
+msgstr "(%d) %s は拒絶されました: 機能の不一致です。"
 
 #: server/connecthand.c:281
-#, c-format
-msgid ""
-"The server is missing a capability that the client needs.\n"
-"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+#, fuzzy
+msgid "This server is missing a capability that the client needs."
 msgstr ""
-"サーバはクライアントの要求する機能を理解できません。\n"
-"サーバのバージョン: %d.%d.%d%s クライアントのバージョン: %d.%d.%d%s. バージョ"
-"ンアップで解決するかもしれません。"
+"サーバはクライアントの要求する機能を理解できません。"
 
 # Daniel
 #: server/connecthand.c:300
-#, c-format
-msgid "Invalid username '%s'"
-msgstr "無効な名前 '%s'"
+#, fuzzy
+msgid "The username is invalid!"
+msgstr "無効な名前"
 
 #: server/connecthand.c:302
-#, c-format
-msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s は拒絶されました: 無効な名前です [%s]。"
+#, fuzzy, c-format
+msgid "(%d) %s rejected: invalid username [%s]"
+msgstr "(%d) %s は拒絶されました: 無効な名前です [%s]。"
 
 # Daniel
 #: server/connecthand.c:310
-#, c-format
-msgid "'%s' already connected."
-msgstr "%sは既に接続されています。"
+#, fuzzy
+msgid "Your username is already connected!"
+msgstr "は既に接続されています。"
 
 # clefs
 #: server/connecthand.c:313
-#, c-format
-msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s は拒絶されました: ログイン名が重複しています [%s]。"
+#, fuzzy, c-format
+msgid "(%d) %s rejected: duplicate username [%s]"
+msgstr "(%d) %s は拒絶されました: ログイン名が重複しています [%s]。"
 
 #: server/connecthand.c:341 server/connecthand.c:350
 #, c-format
@@ -9986,9 +9978,9 @@ msgid "Saved settings to file %s"
 msgstr "設定をファイル %s へ保存しました。"
 
 #: client/packhand.c:211
-#, c-format
-msgid "You were rejected from the game: %s"
-msgstr "接続を拒絶されました: %s"
+#, fuzzy
+msgid "You were rejected from the game...."
+msgstr "接続を拒絶されました:"
 
 #: client/packhand.c:226
 #, c-format

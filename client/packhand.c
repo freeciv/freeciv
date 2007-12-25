@@ -207,12 +207,12 @@ void handle_server_join_reply(bool you_can_join, char *message,
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);
   } else {
-    my_snprintf(msg, sizeof(msg),
-		_("You were rejected from the game: %s"), Q_(message));
-    append_output_window(msg);
+    append_output_window(_("You were rejected from the game...."));
+    append_output_window(Q_(message));
     aconnection.id = 0;
     if (auto_connect) {
-      freelog(LOG_NORMAL, "%s", msg);
+      freelog(LOG_NORMAL, _("You were rejected from the game...."));
+      freelog(LOG_NORMAL, Q_(message));
     }
     gui_server_connect();
     if (!with_ggz) {
