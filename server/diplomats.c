@@ -391,7 +391,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   struct tile *victim_tile;
   int bribe_cost;
   int diplomat_id;
-  bool vet = FALSE;
   struct unit *gained_unit = NULL;
   
   /* Fetch target unit's player.  Sanity checks. */
@@ -450,28 +449,20 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Inform owner about less than full fuel */
   send_unit_info(pplayer, gained_unit);
 
-  /* Check if the unit gained veteran level */
-  vet = maybe_make_veteran(pdiplomat);
-  
   /* Notify everybody involved. */
-  if (vet) {
-    notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_BRIBE,
-		     _("Your %s succeeded in bribing %s's %s"
-		        " and became more experienced."),
-		     unit_name_translation(pdiplomat),
-		     unit_owner(pvictim)->name,
-		     unit_name_translation(pvictim));
-  } else {
-    notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_BRIBE,
-		     _("Your %s succeeded in bribing %s's %s."),
-		     unit_name_translation(pdiplomat),
-		     unit_owner(pvictim)->name,
-		     unit_name_translation(pvictim));
+  notify_player(pplayer, pvictim->tile, E_MY_DIPLOMAT_BRIBE,
+		/* TRANS: <diplomat> ... <unit> */
+		_("Your %s succeeded in bribing the %s."),
+		unit_name_translation(pdiplomat),
+		unit_name_translation(pvictim));
+  if (maybe_make_veteran(pdiplomat)) {
+    notify_unit_experience(pdiplomat, TRUE);
   }
   notify_player(uplayer, pvictim->tile, E_ENEMY_DIPLOMAT_BRIBE,
-		   _("Your %s was bribed by %s."),
-		   unit_name_translation(pvictim),
-		   pplayer->name);
+		/* TRANS: <unit> ... <Poles> */
+		_("Your %s was bribed by the %s."),
+		unit_name_translation(pvictim),
+		nation_plural_for_player(pplayer));
 
   /* This costs! */
   pplayer->economic.gold -= bribe_cost;
@@ -1093,17 +1084,28 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
       if (diplomat_success_vs_defender(pdiplomat, punit, ptile) 
           && !unit_has_type_flag(punit, F_SUPERSPY)) {
 	/* Defending Spy/Diplomat dies. */
-
-	notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED,
-			 _("Your %s has been eliminated defending %s"
-			   " against a %s."),
-			 unit_name_translation(punit),
-			 (pcity ? pcity->name : ""),
-			 unit_name_translation(pdiplomat));
 	notify_player(pplayer, ptile, E_ENEMY_DIPLOMAT_FAILED,
-		 _("An enemy %s has been eliminated defending %s."),
-		unit_name_translation(punit),
-		(pcity ? pcity->name : ""));
+		      /* TRANS: <unit> ... <diplomat> */
+		      _("An enemy %s has been eliminated by your %s."),
+		      unit_name_translation(punit),
+		      unit_name_translation(pdiplomat));
+
+	if (pcity) {
+	  notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED,
+			/* TRANS: <unit> ... <city> ... <diplomat> */
+			_("Your %s has been eliminated defending %s"
+			  " against a %s."),
+			unit_name_translation(punit),
+			pcity->name,
+			unit_name_translation(pdiplomat));
+	} else {
+	  notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED,
+			/* TRANS: <unit> ... <diplomat> */
+			_("Your %s has been eliminated defending"
+			  " against a %s."),
+			unit_name_translation(punit),
+			unit_name_translation(pdiplomat));
+	}
 
 	wipe_unit(punit);
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
@@ -1134,7 +1136,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 
 	/* Defending unit became more experienced? */
 	if (maybe_make_veteran(punit)) {
-	  notify_unit_experience(punit);
+	  notify_unit_experience(punit, FALSE);
 	}
 	wipe_unit(pdiplomat);
 	return FALSE;
@@ -1160,7 +1162,6 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
 {
   struct tile *ptile;
   int escapechance;
-  bool vet;
   struct city *spyhome;
 
   escapechance = game.info.diplchance + pdiplomat->veteran * 5;
@@ -1178,22 +1179,13 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
       && unit_has_type_flag(pdiplomat, F_SPY)
       && (myrand (100) < escapechance || unit_has_type_flag(pdiplomat, F_SUPERSPY))) {
     /* Attacking Spy/Diplomat survives. */
-
-    /* may become a veteran */
-    vet = maybe_make_veteran(pdiplomat);
-    if (vet) {
-      notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE,
-		       _("Your %s has successfully completed"
-			 " her mission and returned unharmed to %s"
-			 " and has become more experienced."),
-		       unit_name_translation(pdiplomat),
-		       spyhome->name);
-    } else {
-      notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE,
-		       _("Your %s has successfully completed"
-			 " her mission and returned unharmed to %s."),
-		       unit_name_translation(pdiplomat),
-		       spyhome->name);
+    notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE,
+		  _("Your %s has successfully completed"
+		    " her mission and returned unharmed to %s."),
+		  unit_name_translation(pdiplomat),
+		  spyhome->name);
+    if (maybe_make_veteran(pdiplomat)) {
+      notify_unit_experience(pdiplomat, TRUE);
     }
 
     /* being teleported costs all movement */
